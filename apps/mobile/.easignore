@@ -1,0 +1,41 @@
+# EAS заменяет .gitignore — нужны все паттерны из .gitignore + монорепо-исключения
+
+node_modules/
+.expo/
+dist/
+apps/mobile/dist
+web-build/
+expo-env.d.ts
+.kotlin/
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+.metro-health-check*
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+.DS_Store
+*.pem
+.env*.local
+server/.env
+server/.env.local
+*.tsbuildinfo
+scripts/_medvedev_extract_raw.txt
+/ios
+/android
+
+# Ускоряет загрузку
+server/node_modules
+server/data
+.git
+
+# Монорепо на pnpm — npm lock ломает install (workspace:*)
+package-lock.json
+server/package-lock.json
+../../package-lock.json
+../../apps/web/package-lock.json
+../../apps/web/packages/clinical-uterus/package-lock.json
+../../packages/nosology/package-lock.json

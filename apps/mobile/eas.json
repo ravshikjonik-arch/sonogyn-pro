@@ -1,0 +1,36 @@
+{
+  "cli": {
+    "version": ">=16.28.0",
+    "appVersionSource": "local"
+  },
+  "build": {
+    "preview": {
+      "distribution": "internal",
+      "channel": "preview",
+      "pnpm": "10.6.5",
+      "env": {
+        "NODE_OPTIONS": "--max-old-space-size=8192",
+        "GRADLE_OPTS": "-Xmx4096m -XX:MaxMetaspaceSize=1024m -Dorg.gradle.jvmargs=-Xmx4096m -XX:MaxMetaspaceSize=1024m"
+      },
+      "android": {
+        "buildType": "apk"
+      },
+      "ios": {
+        "simulator": false
+      }
+    },
+    "production": {
+      "channel": "production",
+      "pnpm": "10.6.5",
+      "android": {
+        "buildType": "app-bundle"
+      },
+      "ios": {
+        "resourceClass": "m-medium"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}

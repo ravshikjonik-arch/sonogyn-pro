@@ -1,0 +1,9 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "resolveJsonModule": true
+  },
+  "include": ["**/*.ts", "**/*.tsx", "src/react-three-fiber.d.ts", "src/expo-modules.d.ts"],
+  "exclude": ["**/*.test.ts", "**/*.test.tsx"]
+}

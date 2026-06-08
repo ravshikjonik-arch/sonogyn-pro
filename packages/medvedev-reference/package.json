@@ -1,0 +1,22 @@
+{
+  "name": "@repo/medvedev-reference",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Медведев М.В. Пренатальная эхография, 2016 — перцентили и учебный слой FMF",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "sideEffects": false,
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test src/*.test.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "tsx": "^4.19.4",
+    "typescript": "^5.9.2"
+  }
+}

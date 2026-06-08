@@ -1,0 +1,294 @@
+{
+  "system": "orads",
+  "version": "ACR O-RADS US (локальный ruleset для UI; не замена официального документа)",
+  "options": {
+    "examQuality": [
+      { "value": "complete", "label": "Полное / адекватное" },
+      { "value": "incomplete", "label": "Неполное / ограниченное" }
+    ],
+    "ovarianFinding": [
+      { "value": "normal", "label": "Норма / без очаговой патологии" },
+      { "value": "lesion", "label": "Образование / очаг" }
+    ],
+    "reproductiveStatus": [
+      { "value": "unknown", "label": "Не указан" },
+      { "value": "premenopausal_regular", "label": "Пременопауза, регулярный цикл" },
+      { "value": "premenopausal_irregular", "label": "Пременопауза, нерегулярный цикл" },
+      { "value": "postmenopausal", "label": "Постменопауза" }
+    ],
+    "lesionType": [
+      { "value": "cystic", "label": "Преимущественно кистозное" },
+      { "value": "mixed", "label": "Смешанное (кистозно-солидное)" },
+      { "value": "solid", "label": "Преимущественно солидное" }
+    ],
+    "locularity": [
+      { "value": "unilocular", "label": "Однокамерное" },
+      { "value": "multilocular", "label": "Многокамерное" }
+    ],
+    "innerWall": [
+      { "value": "smooth", "label": "Гладкая стенка" },
+      { "value": "irregular", "label": "Неровная / утолщённая стенка" }
+    ],
+    "papillaryProjections": [
+      { "value": "0", "label": "Нет (0)" },
+      { "value": "1to3", "label": "1–3" },
+      { "value": "4plus", "label": "≥ 4" }
+    ],
+    "solidComponent": [
+      { "value": "none", "label": "Нет выраженного солидного компонента" },
+      { "value": "present", "label": "Есть солидный компонент" }
+    ],
+    "externalContour": [
+      { "value": "smooth", "label": "Ровный контур" },
+      { "value": "irregular", "label": "Неровный контур" }
+    ],
+    "acousticShadow": [
+      { "value": "absent", "label": "Тени нет" },
+      { "value": "present", "label": "Акустическая тень (позитивная)" }
+    ],
+    "colorScore": [
+      { "value": "1", "label": "1" },
+      { "value": "2", "label": "2" },
+      { "value": "3", "label": "3" },
+      { "value": "4", "label": "4" }
+    ],
+    "ascites": [
+      { "value": "no", "label": "Нет" },
+      { "value": "yes", "label": "Есть (асцит / подозрение на импланты)" }
+    ],
+    "classicBenignType": [
+      { "value": "none", "label": "Нет типичного паттерна O-RADS 2" },
+      { "value": "hemorrhagic", "label": "Геморрагическая киста (типичный паттерн)" },
+      { "value": "dermoid", "label": "Дермоид / зрелая тератома (типичный паттерн)" },
+      { "value": "endometrioma", "label": "Эндометриома (типичный паттерн)" },
+      { "value": "paraovarian", "label": "Параовариальная киста (типичный паттерн)" },
+      { "value": "hydrosalpinx", "label": "Гидросальпинкс (типичный паттерн)" }
+    ]
+  },
+  "rules": [
+    {
+      "id": "orads-1-normal-ovary",
+      "category": "O-RADS 1",
+      "riskRange": "< 1%",
+      "description": "Нормальная овариальная морфология без описываемого очага.",
+      "impression": "Клинически значимая очаговая патология по описанным признакам не выделена. Ведение по клинике.",
+      "when": { "ovarianFinding": "normal" }
+    },
+    {
+      "id": "orads-2-classic-benign-pattern",
+      "category": "O-RADS 2",
+      "riskRange": "< 1%",
+      "description": "Типичный доброкачественный ультразвуковой паттерн (как в UI: «типичный O-RADS 2»).",
+      "impression": "Паттерн, соответствующий высоковероятно доброкачественному процессу при типичной картине. Наблюдение/ведение по клинике; при нетипичности — повтор/экспертиза.",
+      "when": { "ovarianFinding": "lesion", "classicBenignType": ["hemorrhagic", "dermoid", "endometrioma", "paraovarian", "hydrosalpinx"] }
+    },
+    {
+      "id": "orads-5-ascites-or-implants-flag",
+      "category": "O-RADS 5",
+      "riskRange": ">= 50%",
+      "description": "Дополнительные признаки распространения / тяжёлого сопутствующего процесса (в UI: асцит/импланты).",
+      "impression": "Высокая настороженность. Срочный/ускоренный онкогинекологический маршрут и дообследование (МРТ/лаборатория) по клинике.",
+      "when": { "ovarianFinding": "lesion", "ascites": "yes" }
+    },
+    {
+      "id": "orads-5-solid-high-flow-irregular-no-shadow",
+      "category": "O-RADS 5",
+      "riskRange": ">= 50%",
+      "description": "Солидное/преимущественно солидное образование с выраженной васкуляризацией и неровным контуром без «доброкачественной» тени.",
+      "impression": "Комбинация признаков высокого риска. Рекомендован ускоренный онкомаршрут и экспертная верификация.",
+      "when": {
+        "ovarianFinding": "lesion",
+        "lesionType": "solid",
+        "solidPresent": "yes",
+        "csHigh": "yes",
+        "contourIrregular": "yes",
+        "shadowPresent": "no"
+      }
+    },
+    {
+      "id": "orads-5-many-papillations-irregular-contour",
+      "category": "O-RADS 5",
+      "riskRange": ">= 50%",
+      "description": "Множественные папиллярные компоненты на фоне неровного наружного контура.",
+      "impression": "Высокая настороженность по морфологии. Рекомендован ускоренный онкомаршрут.",
+      "when": { "ovarianFinding": "lesion", "pap4plus": "yes", "contourIrregular": "yes" }
+    },
+    {
+      "id": "orads-4-demo-mixed-multilocular-complex",
+      "category": "O-RADS 4",
+      "riskRange": "10% - < 50%",
+      "description": "Смешанное многокамерное образование с неровной стенкой, солидным компонентом и умеренной/высокой васкуляризацией (как «Демо O-RADS» в приложении).",
+      "impression": "Промежуточный/повышенный риск. Рекомендована консультация онкогинеколога/экспертное УЗИ; при сомнениях — МРТ малого таза.",
+      "when": {
+        "ovarianFinding": "lesion",
+        "lesionType": "mixed",
+        "locularity": "multilocular",
+        "wallIrregular": "yes",
+        "solidPresent": "yes",
+        "pap1to3": "yes",
+        "csHigh": "yes"
+      }
+    },
+    {
+      "id": "orads-4-solid-high-flow-or-irregular",
+      "category": "O-RADS 4",
+      "riskRange": "10% - < 50%",
+      "description": "Солидный компонент с повышенной васкуляризацией и/или неровным контуром (но без полной комбинации «максимального» риска).",
+      "impression": "Повышенная настороженность. Рекомендовано ускоренное дообследование и консультация профильного специалиста.",
+      "when": {
+        "ovarianFinding": "lesion",
+        "lesionType": "solid",
+        "solidPresent": "yes",
+        "csHigh": "yes",
+        "contourIrregular": "yes",
+        "shadowPresent": "yes"
+      }
+    },
+    {
+      "id": "orads-4-solid-moderate-complexity",
+      "category": "O-RADS 4",
+      "riskRange": "10% - < 50%",
+      "description": "Преимущественно солидное образование с выраженной васкуляризацией или неровным контуром.",
+      "impression": "Промежуточный риск. Рекомендовано дообследование в короткие сроки и онкогинекологическая консультация при сохранении подозрений.",
+      "when": {
+        "ovarianFinding": "lesion",
+        "lesionType": "solid",
+        "solidPresent": "yes",
+        "csHigh": "yes",
+        "contourIrregular": "no"
+      }
+    },
+    {
+      "id": "orads-4-mixed-multilocular-solid-or-pap",
+      "category": "O-RADS 4",
+      "riskRange": "10% - < 50%",
+      "description": "Смешанное многокамерное образование с морфологической сложностью (солидный компонент и/или множественные папилляции).",
+      "impression": "Повышенная сложность морфологии. Рекомендована экспертная оценка и тщательная клиническая корреляция.",
+      "when": {
+        "ovarianFinding": "lesion",
+        "lesionType": "mixed",
+        "locularity": "multilocular",
+        "solidPresent": "yes",
+        "pap4plus": "yes"
+      }
+    },
+    {
+      "id": "orads-3-large-simple-cyst",
+      "category": "O-RADS 3",
+      "riskRange": "1% - < 10%",
+      "description": "Простая кистозная структура большого размера (≥ 10 см) без дополнительных высокорисковых признаков в чеклисте.",
+      "impression": "Низкий, но не «нулевой» риск при очень больших размерах. Рекомендовано наблюдение/консультация; при симптомах — хирургический маршрут по клинике.",
+      "when": {
+        "ovarianFinding": "lesion",
+        "lesionType": "cystic",
+        "locularity": "unilocular",
+        "innerWall": "smooth",
+        "solidPresent": "no",
+        "pap0": "yes",
+        "sizeGe10": "yes"
+      }
+    },
+    {
+      "id": "orads-2-small-simple-cyst",
+      "category": "O-RADS 2",
+      "riskRange": "< 1%",
+      "description": "Простая однокамерная киста без солидного компонента и без папиллярных разрастаний (в чеклисте).",
+      "impression": "Преимущественно доброкачественный паттерн. Наблюдение по клинике.",
+      "when": {
+        "ovarianFinding": "lesion",
+        "lesionType": "cystic",
+        "locularity": "unilocular",
+        "innerWall": "smooth",
+        "solidPresent": "no",
+        "pap0": "yes",
+        "sizeGe10": "no"
+      }
+    },
+    {
+      "id": "orads-3-multilocular-without-solid",
+      "category": "O-RADS 3",
+      "riskRange": "1% - < 10%",
+      "description": "Многокамерная кистозная структура без выраженного солидного компонента (ограниченная подозрительность).",
+      "impression": "Низкий/умеренный риск в зависимости от клиники. Рекомендовано динамическое наблюдение и/или второе мнение при сомнениях.",
+      "when": {
+        "ovarianFinding": "lesion",
+        "lesionType": "cystic",
+        "locularity": "multilocular",
+        "solidPresent": "no"
+      }
+    },
+    {
+      "id": "orads-3-irregular-wall-without-solid",
+      "category": "O-RADS 3",
+      "riskRange": "1% - < 10%",
+      "description": "Кистозное образование с неровной стенкой без солидного компонента (по чеклисту).",
+      "impression": "Требуется аккуратная верификация (экспертное УЗИ/МРТ) и клиническая корреляция.",
+      "when": {
+        "ovarianFinding": "lesion",
+        "lesionType": "cystic",
+        "wallIrregular": "yes",
+        "solidPresent": "no",
+        "pap0": "yes"
+      }
+    },
+    {
+      "id": "orads-3-cystic-mild-papillations",
+      "category": "O-RADS 3",
+      "riskRange": "1% - < 10%",
+      "description": "Ограниченные папиллярные компоненты без солидного компонента (по чеклисту).",
+      "impression": "Низкий/промежуточный риск в зависимости от размеров и клиники. Рекомендовано дообследование/наблюдение.",
+      "when": { "ovarianFinding": "lesion", "lesionType": "cystic", "solidPresent": "no", "pap1to3": "yes" }
+    },
+    {
+      "id": "orads-4-cystic-with-solid-or-many-pap",
+      "category": "O-RADS 4",
+      "riskRange": "10% - < 50%",
+      "description": "Кистозное образование с солидным компонентом и/или множественными папиллярными разрастаниями.",
+      "impression": "Повышенная настороженность. Рекомендовано ускоренное дообследование и консультация онкогинеколога при сохранении подозрений.",
+      "when": {
+        "ovarianFinding": "lesion",
+        "lesionType": "cystic",
+        "solidPresent": "yes",
+        "pap4plus": "yes"
+      }
+    },
+    {
+      "id": "orads-4-cystic-solid-or-pap4",
+      "category": "O-RADS 4",
+      "riskRange": "10% - < 50%",
+      "description": "Кистозное образование с солидным компонентом или множественными папиллярными разрастаниями.",
+      "impression": "Промежуточный риск. Рекомендована экспертная оценка и клинический онкомаршрут при показаниях.",
+      "when": { "ovarianFinding": "lesion", "lesionType": "cystic", "solidPresent": "yes" }
+    },
+    {
+      "id": "orads-4-cystic-pap4plus",
+      "category": "O-RADS 4",
+      "riskRange": "10% - < 50%",
+      "description": "Кистозное образование с множественными папиллярными разрастаниями (по чеклисту).",
+      "impression": "Повышенная настороженность. Рекомендовано ускоренное дообследование.",
+      "when": { "ovarianFinding": "lesion", "lesionType": "cystic", "pap4plus": "yes" }
+    },
+    {
+      "id": "orads-4-mixed-default-complex",
+      "category": "O-RADS 4",
+      "riskRange": "10% - < 50%",
+      "description": "Смешанное образование (кистозно-солидное) — по умолчанию трактуется как повышенная сложность до уточнения.",
+      "impression": "Повышенная сложность. Рекомендована экспертная верификация и клиническая корреляция.",
+      "when": { "ovarianFinding": "lesion", "lesionType": "mixed" }
+    },
+    {
+      "id": "orads-4-solid-default",
+      "category": "O-RADS 4",
+      "riskRange": "10% - < 50%",
+      "description": "Преимущественно солидное образование — по умолчанию промежуточная категория до уточнения морфологии и васкуляризации.",
+      "impression": "Промежуточный риск. Рекомендовано дообследование и консультация специалиста.",
+      "when": { "ovarianFinding": "lesion", "lesionType": "solid" }
+    }
+  ],
+  "fallback": {
+    "category": "O-RADS 4",
+    "riskRange": "10% - < 50%",
+    "description": "Комбинация признаков не попала в явные «низкорисковые» правила ruleset — интерпретация осторожная.",
+    "impression": "Промежуточная настороженность. Рекомендована экспертная оценка, клиническая корреляция и дообследование по показаниям."
+  }
+}

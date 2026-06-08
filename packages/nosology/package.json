@@ -1,0 +1,25 @@
+{
+  "name": "@repo/nosology",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Clinical nosology reference store (IndexedDB + search + protocol templates)",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./seed": "./src/data/nosologies.seed.json"
+  },
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "sideEffects": false,
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test src/*.test.ts"
+  },
+  "dependencies": {
+    "idb": "^8.0.3"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.4",
+    "typescript": "^5.9.2"
+  }
+}

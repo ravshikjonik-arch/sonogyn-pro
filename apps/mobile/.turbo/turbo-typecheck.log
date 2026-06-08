@@ -1,0 +1,11 @@
+
+> @repo/mobile@0.2.0 typecheck /Users/yakrav7700/Desktop/05-04-2026_11-45-39/apps/mobile
+> tsc --noEmit
+
+src/features/oradsPro/screens/ORADSProScreen.tsx(356,7): error TS2657: JSX expressions must have one parent element.
+src/features/oradsPro/screens/ORADSProScreen.tsx(659,7): error TS1005: ')' expected.
+src/features/oradsPro/screens/ORADSProScreen.tsx(659,9): error TS1003: Identifier expected.
+src/features/oradsPro/screens/ORADSProScreen.tsx(661,5): error TS1128: Declaration or statement expected.
+src/features/oradsPro/screens/ORADSProScreen.tsx(662,3): error TS1109: Expression expected.
+src/features/oradsPro/screens/ORADSProScreen.tsx(663,1): error TS1128: Declaration or statement expected.
+ ELIFECYCLE  Command failed with exit code 2.

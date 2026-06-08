@@ -1,0 +1,27 @@
+{
+  "name": "@clinical/uterus",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Shared React Three Fiber uterus anatomy workspace (ported from us-risk-calc).",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "sideEffects": false,
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test src/figoClassifier.test.ts"
+  },
+  "peerDependencies": {
+    "@react-three/drei": ">=10",
+    "@react-three/fiber": ">=9",
+    "react": ">=18",
+    "react-dom": ">=18",
+    "three": ">=0.170"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.4",
+    "typescript": "^5.9.2"
+  }
+}

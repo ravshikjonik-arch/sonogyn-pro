@@ -1,0 +1,19 @@
+{
+  "name": "Medical Ultrasound Platform",
+  "short_name": "Ultrasound",
+  "description": "Medical ultrasound clinical platform with Supabase auth and protected workspace.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#1d6fd8",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

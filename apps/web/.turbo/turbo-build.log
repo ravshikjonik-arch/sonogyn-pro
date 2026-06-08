@@ -1,0 +1,79 @@
+
+> @repo/web@0.2.0 build /Users/yakrav7700/Desktop/05-04-2026_11-45-39/apps/web
+> next build --webpack
+
+▲ Next.js 16.2.5 (webpack)
+- Environments: .env.local
+- Experiments (use with caution):
+  · optimizePackageImports
+
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+  Creating an optimized production build ...
+ ✓ (pwa) Compiling for server...
+ ✓ (pwa) Compiling for server...
+ ✓ (pwa) Compiling for client (static)...
+ ○ (pwa) Service worker: /Users/yakrav7700/Desktop/05-04-2026_11-45-39/apps/web/public/sw.js
+ ○ (pwa)   URL: /sw.js
+ ○ (pwa)   Scope: /
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (101kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (231kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+✓ Compiled successfully in 6.8s
+  Running TypeScript ...
+
+  We detected TypeScript in your project and reconfigured your tsconfig.json file for you.
+  The following suggested values were added to your tsconfig.json. These values can be changed to fit your project's needs:
+
+  	- include was updated to add '.next/types/**/*.ts'
+  	- include was updated to add '.next/dev/types/**/*.ts'
+
+  Finished TypeScript in 2.3s ...
+  Collecting page data using 9 workers ...
+  Generating static pages using 9 workers (0/29) ...
+  Generating static pages using 9 workers (7/29) 
+  Generating static pages using 9 workers (14/29) 
+  Generating static pages using 9 workers (21/29) 
+✓ Generating static pages using 9 workers (29/29) in 488ms
+  Finalizing page optimization ...
+  Collecting build traces ...
+
+Route (app)
+┌ ƒ /
+├ ○ /_not-found
+├ ƒ /admin
+├ ƒ /api/ai/analyze
+├ ƒ /api/ai/analyze/[jobId]
+├ ƒ /api/ai/structured-report
+├ ƒ /api/copilot/images/register
+├ ƒ /api/copilot/studies
+├ ƒ /api/copilot/studies/[studyId]/cds-preview
+├ ƒ /api/copilot/studies/[studyId]/series
+├ ƒ /api/profile
+├ ƒ /api/stripe/create-checkout
+├ ƒ /api/stripe/restore
+├ ƒ /api/stripe/webhook
+├ ○ /app
+├ ƒ /auth/callback
+├ ○ /calculators
+├ ƒ /calculators/[slug]
+├ ○ /cases
+├ ƒ /cases/[caseId]
+├ ○ /cases/new
+├ ○ /dashboard
+├ ○ /icon.png
+├ ○ /landing
+├ ○ /library
+├ ○ /login
+├ ○ /manifest.webmanifest
+├ ○ /paywall
+├ ƒ /profile
+├ ○ /register
+├ ○ /uterus-3d
+├ ƒ /workspace
+└ ƒ /workspace/[studyId]
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

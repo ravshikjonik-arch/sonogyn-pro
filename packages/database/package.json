@@ -1,0 +1,10 @@
+{
+  "name": "@repo/database",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Authoritative Supabase SQL migrations — apply via Supabase CLI or SQL Editor.",
+  "scripts": {
+    "lint": "echo \"skip\"",
+    "typecheck": "echo \"skip\""
+  }
+}

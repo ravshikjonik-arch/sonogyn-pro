@@ -1,0 +1,23 @@
+# dependencies
+node_modules/
+node_modules*/
+
+# Expo / build output
+.expo/
+dist/
+web-build/
+
+# env & secrets
+.env
+.env.local
+.env*.local
+!/.env.example
+
+# OS / IDE
+.DS_Store
+*.pem
+
+# logs
+npm-debug.*
+yarn-debug.*
+yarn-error.*

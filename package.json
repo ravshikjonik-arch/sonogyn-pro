@@ -1,0 +1,29 @@
+{
+  "name": "ultrasound-saas-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "packageManager": "pnpm@10.6.5",
+  "description": "HIPAA-ready ultrasound education & CDS platform — Next.js PWA + Expo + Supabase + Stripe.",
+  "scripts": {
+    "install:deps": "CI=1 npx --yes pnpm@10.6.5 install --config.confirmModulesPurge=false --no-frozen-lockfile",
+    "dev:web": "npx --yes pnpm@10.6.5 --filter @repo/web dev",
+    "dev:mobile": "env -u CI npx --yes pnpm@10.6.5 --filter @repo/mobile start",
+    "dev:mobile:clear": "env -u CI npx --yes pnpm@10.6.5 --filter @repo/mobile start:clear",
+    "expo": "bash scripts/expo-start.sh",
+    "start:mobile": "bash scripts/expo-start.sh",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "typecheck": "turbo typecheck",
+    "clean": "turbo clean && rm -rf node_modules"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.4",
+    "typescript": "^5.9.2"
+  },
+  "pnpm": {
+    "overrides": {
+      "@babel/plugin-transform-regenerator": "7.28.4",
+      "@eslint/config-array": "0.23.5"
+    }
+  }
+}
