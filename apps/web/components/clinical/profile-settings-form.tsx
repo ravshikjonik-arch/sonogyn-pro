@@ -5,6 +5,12 @@ import { useRouter } from "next/navigation";
 
 import { useAuth, useSupabase } from "@/app/providers";
 import { Button } from "@/components/ui/button";
+import {
+  buildFioAbbreviation,
+  normalizeRussianFio,
+  PRODUCT_OWNER_FIO,
+  PRODUCT_OWNER_FIO_SHORT,
+} from "@/lib/auth/doctor-display";
 import { uploadClinicalAvatar } from "@/lib/supabase/medical-storage";
 
 type Props = {
@@ -90,13 +96,24 @@ export function ProfileSettingsForm({ initial }: Props) {
     <form className="mt-8 space-y-6" onSubmit={(ev) => void onSubmit(ev)}>
       <div className="grid gap-5 sm:grid-cols-2">
         <label className="block sm:col-span-2">
-          <span className="text-sm font-medium text-slate-700 dark:text-slate-200">Полное имя</span>
+          <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
+            Фамилия, имя, отчество
+          </span>
           <input
             className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-950 outline-none transition focus:border-[var(--clinical-primary)] focus:ring-4 focus:ring-[var(--clinical-ring)] dark:bg-slate-950 dark:text-white"
             value={full_name}
             onChange={(ev) => setFullName(ev.target.value)}
+            placeholder={PRODUCT_OWNER_FIO}
             required
           />
+          <p className="mt-1 text-xs text-slate-500">
+            В кабинете:{" "}
+            <span className="font-semibold text-[var(--clinical-primary-deep)]">
+              {full_name.trim()
+                ? buildFioAbbreviation(normalizeRussianFio(full_name)) ?? "—"
+                : PRODUCT_OWNER_FIO_SHORT}
+            </span>
+          </p>
         </label>
         <label className="block">
           <span className="text-sm font-medium text-slate-700 dark:text-slate-200">Специализация</span>

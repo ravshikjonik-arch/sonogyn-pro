@@ -3,14 +3,21 @@
   "version": "1.0.0",
   "private": true,
   "exports": {
-    ".": "./src/index.tsx"
+    ".": "./src/index.tsx",
+    "./auth": "./src/auth/AuthButtons.tsx"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "lint": "echo \"skip\""
   },
   "peerDependencies": {
-    "react": ">=18.0.0"
+    "react": ">=18.0.0",
+    "react-native": ">=0.74.0"
+  },
+  "peerDependenciesMeta": {
+    "react-native": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@types/react": "^19.1.0",

@@ -41,6 +41,10 @@ export async function POST(req: Request) {
     typeof body === "object" && body !== null && "institution" in body
       ? String((body as { institution: unknown }).institution).trim()
       : "";
+  const preferred_locale =
+    typeof body === "object" && body !== null && "preferred_locale" in body
+      ? String((body as { preferred_locale: unknown }).preferred_locale).trim()
+      : "";
 
   if (!email || !password) {
     return NextResponse.json({ error: "Укажите email и пароль." }, { status: 400 });
@@ -59,6 +63,7 @@ export async function POST(req: Request) {
           full_name,
           ...(specialization ? { specialization } : {}),
           ...(institution ? { institution } : {}),
+          ...(preferred_locale ? { preferred_locale } : {}),
         },
       },
     });

@@ -1,11 +1,26 @@
 import Link from "next/link";
 
 import { TelegramChannelLink } from "@/components/clinical/TelegramChannelLink";
+import { BasicCourseWidget } from "@/components/education/BasicCourseWidget";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 const sections = [
+  {
+    title: "ISUOG — базовый курс",
+    description:
+      "Basic Training: презентации ISUOG. Сейчас — лекция 6: ранняя беременность 4–10 нед (одно- и многоплодная).",
+    href: "/library/basic-course",
+    primary: true,
+  },
+  {
+    title: "Помощник врача",
+    description:
+      "Помощник врача-гинеколога: маршрут обследования, УЗИ, красные флаги, протокол. Поиск + голос.",
+    href: "/assistant",
+    primary: true,
+  },
   {
     title: "Нозологии",
     description:
@@ -47,6 +62,8 @@ export default function LibraryPage() {
         </header>
 
         <TelegramChannelLink className="max-w-xl" />
+
+        <BasicCourseWidget variant="compact" className="max-w-xl" />
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {sections.map((section) => (

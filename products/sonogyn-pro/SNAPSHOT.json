@@ -1,0 +1,13 @@
+{
+  "product": "SonoGyn Pro",
+  "brandShort": "SonoGyn",
+  "savedAt": "2026-05-30",
+  "gitBranch": "feature/pwa-web-platform",
+  "canonicalSource": "apps/mobile",
+  "snapshotPath": "products/sonogyn-pro/app",
+  "appVersion": "0.2.0",
+  "expoSlug": "us-risk-calc",
+  "androidPackage": "com.yakrav7700.usriskcalc",
+  "platformPriority": "android",
+  "startUrlWeb": "http://localhost:19001/start"
+}

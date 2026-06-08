@@ -1,5 +1,8 @@
 import type { ReactNode } from "react";
 
+export type { AuthProvider, AuthButtonsVariant } from "./auth/types";
+export { AuthButtons } from "./auth/AuthButtons";
+
 export type SectionHeadingProps = {
   /** Eyebrow / kicker line above the title */
   kicker?: string;

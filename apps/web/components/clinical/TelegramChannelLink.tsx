@@ -18,7 +18,7 @@ export function TelegramChannelLink({ className, compact }: Props) {
         "group flex items-start gap-3 rounded-xl border border-[#229ED9]/35 bg-[#229ED9]/10 p-3 transition-colors hover:border-[#229ED9]/60 hover:bg-[#229ED9]/15",
         className,
       )}
-      title={`Открыть ${TELEGRAM_CHANNEL.name} в Telegram`}
+      title={`Открыть ${TELEGRAM_CHANNEL.name} в Telegram (в РФ может потребоваться VPN)`}
     >
       <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#229ED9] text-white">
         <Send className="h-4 w-4" />
@@ -33,6 +33,9 @@ export function TelegramChannelLink({ className, compact }: Props) {
           </span>
         ) : null}
         <span className="mt-1 block text-xs font-medium text-[#229ED9]">{TELEGRAM_CHANNEL.handle}</span>
+        <span className="mt-1 block text-[11px] leading-snug text-[var(--clinical-foreground-muted)]">
+          {TELEGRAM_CHANNEL.vpnHintRu}
+        </span>
       </span>
     </a>
   );

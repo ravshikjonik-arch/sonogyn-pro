@@ -1,5 +1,6 @@
 "use client";
 
+import { MessageCircle } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
@@ -29,6 +30,7 @@ export function CaseFeed() {
   const [userId, setUserId] = useState<string | null>(null);
   const [liked, setLiked] = useState<Record<string, boolean>>({});
   const [bookmarked, setBookmarked] = useState<Record<string, boolean>>({});
+  const [commentCounts, setCommentCounts] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState(true);
 
   const refresh = useMemo(
@@ -55,7 +57,23 @@ export function CaseFeed() {
         return;
       }
 
-      setCases(((rows ?? []) as TeachingGalleryCaseRow[]));
+      const list = (rows ?? []) as TeachingGalleryCaseRow[];
+      setCases(list);
+
+      if (rows?.length) {
+        const ids = rows.map((r) => r.id);
+        const { data: commentRows } = await supabase
+          .from("teaching_case_comments")
+          .select("case_id")
+          .in("case_id", ids);
+        const counts: Record<string, number> = {};
+        commentRows?.forEach((row: { case_id: string }) => {
+          counts[row.case_id] = (counts[row.case_id] ?? 0) + 1;
+        });
+        setCommentCounts(counts);
+      } else {
+        setCommentCounts({});
+      }
 
       if (uid && rows?.length) {
         const ids = rows.map((r) => r.id);
@@ -87,12 +105,11 @@ export function CaseFeed() {
   useEffect(() => {
     const channel = supabase
       .channel("teaching_cases_feed")
+      .on("postgres_changes", { event: "*", schema: "public", table: "cases" }, () => void refresh())
       .on(
         "postgres_changes",
-        { event: "*", schema: "public", table: "cases" },
-        () => {
-          void refresh();
-        },
+        { event: "INSERT", schema: "public", table: "teaching_case_comments" },
+        () => void refresh(),
       )
       .subscribe();
 
@@ -163,10 +180,10 @@ export function CaseFeed() {
     <div className="space-y-4">
       <div className="flex flex-wrap gap-3">
         <Button size="sm" type="button" asChild variant="default">
-          <Link href="/cases/new">Новый кейс</Link>
+          <Link href="/cases/new">Новый кейс для обсуждения</Link>
         </Button>
         <Button size="sm" type="button" onClick={() => void seedDemoCase()}>
-          Добавить демо в галерею
+          Демо-кейс в ленту
         </Button>
         <Button size="sm" variant="secondary" type="button" onClick={() => void refresh()}>
           Обновить
@@ -176,11 +193,9 @@ export function CaseFeed() {
       {cases.length === 0 ? (
         <Card>
           <CardHeader>
-            <CardTitle>Кейсов пока нет</CardTitle>
+            <CardTitle>Лента пуста — начните обсуждение</CardTitle>
             <CardDescription>
-              Примените миграции из{" "}
-              <code className="rounded bg-slate-100 px-1 font-mono text-xs">supabase/migrations</code>, затем создайте
-              кейс или нажмите «Добавить демо».
+              Создайте первый кейс с фото УЗИ или нажмите «Демо-кейс». Нужны миграции Supabase и вход врача.
             </CardDescription>
           </CardHeader>
         </Card>
@@ -200,6 +215,12 @@ export function CaseFeed() {
                     <Badge variant="outline">{c.anatomy ?? "анатомия не указана"}</Badge>
                     <Badge variant="outline">{c.status}</Badge>
                     {c.user_id === userId ? <Badge variant="outline">мой кейс</Badge> : null}
+                    {(commentCounts[c.id] ?? 0) > 0 ? (
+                      <Badge variant="outline" className="gap-1">
+                        <MessageCircle className="h-3 w-3" />
+                        {commentCounts[c.id]} сообщ.
+                      </Badge>
+                    ) : null}
                     <span className="text-xs text-slate-400">{new Date(c.created_at).toLocaleString()}</span>
                   </div>
                 </div>
@@ -219,7 +240,7 @@ export function CaseFeed() {
               </CardHeader>
               <CardContent>
                 <Button variant="ghost" size="sm" asChild>
-                  <Link href={`/cases/${c.id}`}>Открыть карточку →</Link>
+                  <Link href={`/cases/${c.id}`}>Открыть обсуждение →</Link>
                 </Button>
               </CardContent>
             </Card>

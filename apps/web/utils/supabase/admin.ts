@@ -13,3 +13,6 @@ export function createServiceRoleClient() {
     auth: { persistSession: false, autoRefreshToken: false },
   });
 }
+
+/** Alias for server routes (Telegram auth, admin flows). */
+export const createAdminClient = createServiceRoleClient;

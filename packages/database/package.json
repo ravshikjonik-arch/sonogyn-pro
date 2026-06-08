@@ -5,6 +5,7 @@
   "description": "Authoritative Supabase SQL migrations — apply via Supabase CLI or SQL Editor.",
   "scripts": {
     "lint": "echo \"skip\"",
-    "typecheck": "echo \"skip\""
+    "typecheck": "echo \"skip\"",
+    "sync-from-web": "cp ../apps/web/supabase/migrations/*.sql supabase/migrations/"
   }
 }

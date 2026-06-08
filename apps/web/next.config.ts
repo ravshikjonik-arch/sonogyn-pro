@@ -1,4 +1,9 @@
+import path from "node:path";
+import { createRequire } from "node:module";
+
 import type { NextConfig } from "next";
+
+const requireFromWeb = createRequire(path.join(__dirname, "package.json"));
 
 /**
  * Не импортируем `@ducanh2912/next-pwa` на верхнем уровне: при `next dev` Next
@@ -19,9 +24,20 @@ function supabaseConnectOriginExtra(): string {
 }
 
 const nextConfig: NextConfig = {
-  transpilePackages: ["three", "@clinical/uterus", "@repo/ui"],
+  transpilePackages: ["three", "@clinical/uterus", "@repo/ui", "@repo/clinical-3d"],
   experimental: {
     optimizePackageImports: ["lucide-react", "@react-three/drei"],
+  },
+  webpack: (config) => {
+    // pnpm hoists jay-peg at repo root; @react-pdf/image resolves from apps/web
+    try {
+      const jayPeg = requireFromWeb.resolve("jay-peg");
+      config.resolve ??= {};
+      config.resolve.alias = { ...config.resolve.alias, "jay-peg": jayPeg };
+    } catch {
+      /* optional peer of @react-pdf — pages without PDF export still work */
+    }
+    return config;
   },
   async headers() {
     return [
@@ -34,7 +50,7 @@ const nextConfig: NextConfig = {
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
           {
             key: "Permissions-Policy",
-            value: "camera=(), microphone=(), geolocation=()",
+            value: "camera=(), microphone=(self), geolocation=()",
           },
           {
             key: "Content-Security-Policy-Report-Only",

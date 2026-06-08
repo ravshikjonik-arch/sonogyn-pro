@@ -51,6 +51,9 @@ export default async function PatientDetailPage(props: { params: Promise<Params>
         <Button asChild variant="secondary" size="sm">
           <Link href={`/workspace?patientId=${patientId}`}>Новое исследование</Link>
         </Button>
+        <Button asChild variant="outline" size="sm">
+          <Link href={`/assistant/gynecology?patientId=${patientId}`}>Помощник → протокол</Link>
+        </Button>
       </div>
 
       <PatientForm
@@ -61,6 +64,21 @@ export default async function PatientDetailPage(props: { params: Promise<Params>
           meta: (patient.meta ?? {}) as Record<string, string>,
         }}
       />
+
+      {(() => {
+        const meta = (patient.meta ?? {}) as { assistant_protocol_draft?: string };
+        const draft = meta.assistant_protocol_draft?.trim();
+        if (!draft) return null;
+        return (
+          <section className="mt-8 rounded-xl border border-emerald-200 bg-emerald-50/60 p-4">
+            <h2 className="text-sm font-black text-emerald-900">Черновик маршрута помощника</h2>
+            <p className="mt-2 whitespace-pre-wrap text-xs leading-relaxed text-emerald-950">{draft.slice(0, 800)}{draft.length > 800 ? "…" : ""}</p>
+            <p className="mt-2 text-xs text-emerald-800">
+              При следующем исследовании сохраните снова из помощника — попадёт в протокол УЗИ.
+            </p>
+          </section>
+        );
+      })()}
 
       <section className="mt-10">
         <h2 className="text-lg font-bold">История визитов / исследований</h2>

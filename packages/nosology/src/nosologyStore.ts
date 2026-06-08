@@ -21,6 +21,7 @@ interface NosologyDB extends DBSchema {
 }
 
 let dbPromise: Promise<IDBPDatabase<NosologyDB>> | null = null;
+let initPromise: Promise<void> | null = null;
 
 function isBrowser(): boolean {
   return typeof window !== "undefined" && typeof indexedDB !== "undefined";
@@ -63,8 +64,7 @@ function validateNosology(raw: unknown): Nosology {
   };
 }
 
-/** Первичная загрузка из JSON, если БД пуста или сменилась версия сида */
-export async function initNosologyStore(): Promise<void> {
+async function seedNosologyStoreIfNeeded(): Promise<void> {
   const db = await getDb();
   const meta = (await db.get(META_STORE, "main")) as NosologyStoreMeta | undefined;
   const count = await db.count(STORE);
@@ -77,14 +77,23 @@ export async function initNosologyStore(): Promise<void> {
   const nosStore = tx.objectStore(STORE);
   await nosStore.clear();
   const seed = (seedData as Nosology[]).map(validateNosology);
-  for (const n of seed) {
-    await nosStore.put(n);
-  }
+  await Promise.all(seed.map((n) => nosStore.put(n)));
   await tx.objectStore(META_STORE).put(
     { seedVersion: SEED_VERSION, lastImportAt: new Date().toISOString() },
     "main",
   );
   await tx.done;
+}
+
+/** Первичная загрузка из JSON, если БД пуста или сменилась версия сида */
+export async function initNosologyStore(): Promise<void> {
+  if (!initPromise) {
+    initPromise = seedNosologyStoreIfNeeded().catch((e) => {
+      initPromise = null;
+      throw e;
+    });
+  }
+  return initPromise;
 }
 
 export async function getAllNosologies(): Promise<Nosology[]> {

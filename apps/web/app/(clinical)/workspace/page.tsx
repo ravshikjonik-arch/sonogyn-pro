@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { CreateStudyForm } from "@/components/copilot/CreateStudyForm";
+import { isDevSkipAuthEnabled } from "@/lib/auth/dev-account";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function WorkspacePage() {
@@ -9,17 +10,22 @@ export default async function WorkspacePage() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) {
-    redirect("/login");
+  if (!user && !isDevSkipAuthEnabled()) {
+    redirect("/login?redirectedFrom=/workspace");
   }
 
-  const { data: studies, error } = await supabase
-    .from("studies")
-    .select("id,title,study_type,status,created_at")
-    .order("created_at", { ascending: false })
-    .limit(50);
+  let rows: { id: string; title: string; study_type: string; status: string; created_at: string }[] = [];
+  let error: { message: string } | null = null;
 
-  const rows = studies ?? [];
+  if (user) {
+    const result = await supabase
+      .from("studies")
+      .select("id,title,study_type,status,created_at")
+      .order("created_at", { ascending: false })
+      .limit(50);
+    rows = result.data ?? [];
+    error = result.error;
+  }
 
   return (
     <main className="px-4 py-10">

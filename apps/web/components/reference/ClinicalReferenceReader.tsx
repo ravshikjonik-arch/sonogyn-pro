@@ -47,6 +47,10 @@ export function ClinicalReferenceReader() {
             <Link href="/nosologies" className="font-medium text-[var(--clinical-primary)] underline">
               Справочник нозологий →
             </Link>
+            {" · "}
+            <Link href="/reference/norms" className="font-medium text-[var(--clinical-primary)] underline">
+              Нормы по сроку (Медведев) →
+            </Link>
           </p>
           <div className="relative mt-2">
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-[var(--clinical-foreground-muted)]" />

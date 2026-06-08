@@ -9,7 +9,6 @@ import {
   formatGestationalAge,
   gaDaysFromCrlMm,
   gaDaysFromLmp,
-  growthPercentile,
   interpretAfiRu,
   screeningHintsRu,
   toMillimetres,
@@ -20,6 +19,7 @@ import {
   type BiometryKind,
   type LengthUnit,
 } from "@repo/medical-calculations";
+import { calcPercentile } from "@repo/medvedev-reference";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
@@ -29,7 +29,8 @@ import { UterusVisualizationModal } from "@/components/uterus/UterusVisualizatio
 import { getSeedNosologies, searchNosologies } from "@repo/nosology";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { buildStudyReportHtml } from "@/lib/reporting/generateStudyPdf";
+import { studyProtocolToDocumentSpec } from "@/lib/reporting/document-spec-builders";
+import { DocumentExportToolbar } from "@/components/reporting/DocumentExportToolbar";
 import { encryptJson } from "@/lib/security/encryptedStorage";
 import { cn } from "@/lib/utils/cn";
 
@@ -234,30 +235,24 @@ export function UltrasoundProtocolForm({
     toast.success("Черновик зашифрован локально");
   }
 
-  function printPdf() {
-    const html = buildStudyReportHtml({
-      clinicName: "Клиника УЗИ (логотип)",
-      patientLabel,
-      studyTitle,
-      studyDate: protocol.study_date,
-      physicianName,
-      protocol: {
-        ...protocol,
-        ga_days: computedGaDays ?? undefined,
-        efw_grams: computedEfw?.grams,
-        efw_formula: computedEfw?.label,
-      },
-    });
-    const w = window.open("", "_blank");
-    if (!w) {
-      toast.error("Разрешите всплывающие окна для печати PDF");
-      return;
-    }
-    w.document.write(html);
-    w.document.close();
-    w.focus();
-    setTimeout(() => w.print(), 400);
-  }
+  const exportSpec = useMemo(
+    () =>
+      studyProtocolToDocumentSpec({
+        clinicName: "SonoGyn Pro",
+        patientLabel,
+        studyTitle,
+        studyDate: protocol.study_date,
+        physicianName,
+        protocol: {
+          ...protocol,
+          ga_days: computedGaDays ?? undefined,
+          efw_grams: computedEfw?.grams,
+          efw_formula: computedEfw?.label,
+        },
+      }),
+    [patientLabel, studyTitle, protocol, computedGaDays, computedEfw, physicianName],
+  );
+
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -291,6 +286,8 @@ export function UltrasoundProtocolForm({
   }
 
   const gaWeeks = computedGaDays != null ? computedGaDays / 7 : null;
+  const gaWeeksInt = computedGaDays != null ? Math.floor(computedGaDays / 7) : undefined;
+  const gaDaysRem = computedGaDays != null ? computedGaDays % 7 : undefined;
 
   return (
     <div className="space-y-6">
@@ -306,14 +303,13 @@ export function UltrasoundProtocolForm({
           <Button type="button" size="sm" variant="secondary" onClick={() => void saveEncryptedDraft()}>
             Черновик (шифр.)
           </Button>
-          <Button type="button" size="sm" variant="secondary" onClick={printPdf}>
-            PDF / Печать
-          </Button>
           <Button type="button" size="sm" onClick={() => void save()} disabled={saving}>
             {saving ? "Сохранение…" : "Сохранить"}
           </Button>
         </div>
       </div>
+
+      <DocumentExportToolbar spec={exportSpec} compact />
 
       {warnings.length > 0 ? (
         <ul className="space-y-1 rounded-xl border border-amber-500/40 bg-amber-500/10 p-3 text-sm">
@@ -338,7 +334,7 @@ export function UltrasoundProtocolForm({
         <label className="block text-sm">
           <span className="flex items-center gap-1 font-semibold">
             ПМП
-            <FieldHelpPopover fieldName="lmp" label="ПМП / расчёт срока" />
+            <FieldHelpPopover fieldName="lmp" label="ПМП / расчёт срока" gaWeeks={gaWeeksInt} gaDays={gaDaysRem} />
           </span>
           <Input
             type="date"
@@ -358,7 +354,7 @@ export function UltrasoundProtocolForm({
             <label key={f.key} className="block text-sm">
               <span className="flex items-center gap-1 font-medium">
                 {f.label}
-                <FieldHelpPopover fieldName={f.key} label={f.label} />
+                <FieldHelpPopover fieldName={f.key} label={f.label} gaWeeks={gaWeeksInt} gaDays={gaDaysRem} />
               </span>
               <Input
                 inputMode="decimal"
@@ -379,29 +375,29 @@ export function UltrasoundProtocolForm({
               <strong>EFW:</strong> {computedEfw.grams} г — {computedEfw.label}
             </p>
           ) : null}
-          {gaWeeks != null && protocol.biometry.bpd_mm ? (
+          {gaWeeksInt != null && protocol.biometry.bpd_mm ? (
             <p>
-              <strong>БПР перцентиль:</strong> ~{growthPercentile("bpd", protocol.biometry.bpd_mm, gaWeeks)}%
+              <strong>БПР перцентиль:</strong> ~{calcPercentile("bpd", protocol.biometry.bpd_mm, gaWeeksInt, gaDaysRem, "strict") ?? "—"}%
             </p>
           ) : null}
-          {gaWeeks != null && protocol.biometry.hc_mm ? (
+          {gaWeeksInt != null && protocol.biometry.hc_mm ? (
             <p>
-              <strong>ОГ перцентиль:</strong> ~{growthPercentile("hc", protocol.biometry.hc_mm, gaWeeks)}%
+              <strong>ОГ перцентиль:</strong> ~{calcPercentile("hc", protocol.biometry.hc_mm, gaWeeksInt, gaDaysRem, "strict") ?? "—"}%
             </p>
           ) : null}
-          {gaWeeks != null && protocol.biometry.ac_mm ? (
+          {gaWeeksInt != null && protocol.biometry.ac_mm ? (
             <p>
-              <strong>ОЖ перцентиль:</strong> ~{growthPercentile("ac", protocol.biometry.ac_mm, gaWeeks)}%
+              <strong>ОЖ перцентиль:</strong> ~{calcPercentile("ac", protocol.biometry.ac_mm, gaWeeksInt, gaDaysRem, "strict") ?? "—"}%
             </p>
           ) : null}
-          {gaWeeks != null && protocol.biometry.fl_mm ? (
+          {gaWeeksInt != null && protocol.biometry.fl_mm ? (
             <p>
-              <strong>ДБ перцентиль:</strong> ~{growthPercentile("fl", protocol.biometry.fl_mm, gaWeeks)}%
+              <strong>ДБ перцентиль:</strong> ~{calcPercentile("fl", protocol.biometry.fl_mm, gaWeeksInt, gaDaysRem, "strict") ?? "—"}%
             </p>
           ) : null}
-          {gaWeeks != null && computedEfw ? (
+          {gaWeeksInt != null && computedEfw ? (
             <p>
-              <strong>EFW перцентиль:</strong> ~{growthPercentile("efw", computedEfw.grams, gaWeeks)}%
+              <strong>EFW перцентиль:</strong> ~{calcPercentile("efw", computedEfw.grams, gaWeeksInt, gaDaysRem, "strict") ?? "—"}%
             </p>
           ) : null}
         </div>

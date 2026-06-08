@@ -1,0 +1,17 @@
+{
+  "syncedAt": "2026-06-03T21:12:33.977Z",
+  "source": "https://cr.minzdrav.gov.ru/",
+  "api": "https://apicr.minzdrav.gov.ru/api.ashx",
+  "total": 91,
+  "bySpecialty": {
+    "obgyn": 47,
+    "obstetrics": 41,
+    "mammology": 3
+  },
+  "chapters": [
+    "N00-N99",
+    "O00-O99",
+    "C00-D48",
+    "Z00-Z99"
+  ]
+}

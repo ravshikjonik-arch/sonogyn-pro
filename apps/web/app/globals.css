@@ -1,22 +1,29 @@
 @import "tailwindcss";
 
 :root {
-  --clinical-canvas: #eef2f8;
-  --clinical-card: #ffffff;
-  --clinical-card-shadow: 0 25px 65px rgba(15, 23, 42, 0.08);
-  --clinical-header: #ffffff;
-  --clinical-sidebar: #f8fafc;
-  --clinical-border: #dbe3f0;
-  --clinical-muted: #f1f5fb;
-  --clinical-foreground: #0f172a;
-  --clinical-foreground-muted: #64748b;
-  --clinical-primary: #1d6fd8;
-  --clinical-primary-hover: #155ec0;
-  --clinical-primary-muted: #dbeafe;
-  --clinical-primary-deep: #0f4fbc;
-  --clinical-ring: rgba(29, 111, 216, 0.35);
-  --background: #eef2f8;
-  --foreground: #0f172a;
+  /* Единая сине-бирюзовая рабочая зона (ocean workspace) */
+  --clinical-canvas: #dceef7;
+  --clinical-card: rgba(255, 255, 255, 0.92);
+  --clinical-card-shadow: 0 22px 55px rgba(8, 70, 94, 0.12);
+  --clinical-header: rgba(255, 255, 255, 0.88);
+  --clinical-sidebar: rgba(236, 254, 255, 0.94);
+  --clinical-border: rgba(14, 116, 144, 0.22);
+  --clinical-muted: rgba(224, 242, 254, 0.85);
+  --clinical-foreground: #0c3347;
+  --clinical-foreground-muted: #47657a;
+  --clinical-primary: #0e7490;
+  --clinical-primary-hover: #0c6b84;
+  --clinical-primary-muted: rgba(14, 165, 233, 0.22);
+  --clinical-primary-deep: #0c4a6e;
+  --clinical-ring: rgba(14, 165, 233, 0.4);
+  --clinical-accent-teal: #14b8a6;
+  --mesh-1: rgba(14, 165, 233, 0.24);
+  --mesh-2: rgba(20, 184, 166, 0.2);
+  --mesh-3: rgba(6, 182, 212, 0.16);
+  --mesh-base-start: #e8f6fc;
+  --mesh-base-end: #d9f5ef;
+  --background: var(--clinical-canvas);
+  --foreground: var(--clinical-foreground);
 }
 
 @theme inline {
@@ -28,63 +35,81 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme-forced="light"]) {
-    --clinical-canvas: #0b1120;
-    --clinical-card: #111827;
-    --clinical-card-shadow: 0 25px 65px rgba(0, 0, 0, 0.55);
-    --clinical-header: rgba(17, 24, 39, 0.92);
-    --clinical-sidebar: #0f172a;
-    --clinical-border: #1f2937;
-    --clinical-muted: #1e293b;
-    --clinical-foreground: #f8fafc;
-    --clinical-foreground-muted: #94a3b8;
-    --clinical-primary: #38bdf8;
-    --clinical-primary-hover: #0ea5e9;
-    --clinical-primary-muted: rgba(56, 189, 248, 0.15);
-    --clinical-primary-deep: #bae6fd;
-    --clinical-ring: rgba(56, 189, 248, 0.45);
-    --background: #0b1120;
-    --foreground: #f8fafc;
+    --clinical-canvas: #071a2e;
+    --clinical-card: rgba(12, 48, 68, 0.9);
+    --clinical-card-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+    --clinical-header: rgba(10, 42, 60, 0.92);
+    --clinical-sidebar: rgba(8, 36, 52, 0.96);
+    --clinical-border: rgba(45, 212, 191, 0.18);
+    --clinical-muted: rgba(15, 55, 75, 0.65);
+    --clinical-foreground: #e8f7fc;
+    --clinical-foreground-muted: #8eb4c9;
+    --clinical-primary: #2dd4bf;
+    --clinical-primary-hover: #14b8a6;
+    --clinical-primary-muted: rgba(45, 212, 191, 0.18);
+    --clinical-primary-deep: #99f6e4;
+    --clinical-ring: rgba(45, 212, 191, 0.45);
+    --clinical-accent-teal: #5eead4;
+    --mesh-1: rgba(45, 212, 191, 0.16);
+    --mesh-2: rgba(34, 211, 238, 0.14);
+    --mesh-3: rgba(14, 165, 233, 0.12);
+    --mesh-base-start: #071a2e;
+    --mesh-base-end: #0a2840;
+    --background: var(--clinical-canvas);
+    --foreground: var(--clinical-foreground);
   }
 }
 
 html[data-theme="dark"],
 html[data-theme-forced="dark"] {
-  --clinical-canvas: #0b1120;
-  --clinical-card: #111827;
-  --clinical-card-shadow: 0 25px 65px rgba(0, 0, 0, 0.55);
-  --clinical-header: rgba(17, 24, 39, 0.92);
-  --clinical-sidebar: #0f172a;
-  --clinical-border: #1f2937;
-  --clinical-muted: #1e293b;
-  --clinical-foreground: #f8fafc;
-  --clinical-foreground-muted: #94a3b8;
-  --clinical-primary: #38bdf8;
-  --clinical-primary-hover: #0ea5e9;
-  --clinical-primary-muted: rgba(56, 189, 248, 0.15);
-  --clinical-primary-deep: #bae6fd;
-  --clinical-ring: rgba(56, 189, 248, 0.45);
-  --background: #0b1120;
-  --foreground: #f8fafc;
+  --clinical-canvas: #071a2e;
+  --clinical-card: rgba(12, 48, 68, 0.9);
+  --clinical-card-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+  --clinical-header: rgba(10, 42, 60, 0.92);
+  --clinical-sidebar: rgba(8, 36, 52, 0.96);
+  --clinical-border: rgba(45, 212, 191, 0.18);
+  --clinical-muted: rgba(15, 55, 75, 0.65);
+  --clinical-foreground: #e8f7fc;
+  --clinical-foreground-muted: #8eb4c9;
+  --clinical-primary: #2dd4bf;
+  --clinical-primary-hover: #14b8a6;
+  --clinical-primary-muted: rgba(45, 212, 191, 0.18);
+  --clinical-primary-deep: #99f6e4;
+  --clinical-ring: rgba(45, 212, 191, 0.45);
+  --clinical-accent-teal: #5eead4;
+  --mesh-1: rgba(45, 212, 191, 0.16);
+  --mesh-2: rgba(34, 211, 238, 0.14);
+  --mesh-3: rgba(14, 165, 233, 0.12);
+  --mesh-base-start: #071a2e;
+  --mesh-base-end: #0a2840;
+  --background: var(--clinical-canvas);
+  --foreground: var(--clinical-foreground);
 }
 
 html[data-theme="light"],
 html[data-theme-forced="light"] {
-  --clinical-canvas: #eef2f8;
-  --clinical-card: #ffffff;
-  --clinical-card-shadow: 0 25px 65px rgba(15, 23, 42, 0.08);
-  --clinical-header: #ffffff;
-  --clinical-sidebar: #f8fafc;
-  --clinical-border: #dbe3f0;
-  --clinical-muted: #f1f5fb;
-  --clinical-foreground: #0f172a;
-  --clinical-foreground-muted: #64748b;
-  --clinical-primary: #1d6fd8;
-  --clinical-primary-hover: #155ec0;
-  --clinical-primary-muted: #dbeafe;
-  --clinical-primary-deep: #0f4fbc;
-  --clinical-ring: rgba(29, 111, 216, 0.35);
-  --background: #eef2f8;
-  --foreground: #0f172a;
+  --clinical-canvas: #dceef7;
+  --clinical-card: rgba(255, 255, 255, 0.92);
+  --clinical-card-shadow: 0 22px 55px rgba(8, 70, 94, 0.12);
+  --clinical-header: rgba(255, 255, 255, 0.88);
+  --clinical-sidebar: rgba(236, 254, 255, 0.94);
+  --clinical-border: rgba(14, 116, 144, 0.22);
+  --clinical-muted: rgba(224, 242, 254, 0.85);
+  --clinical-foreground: #0c3347;
+  --clinical-foreground-muted: #47657a;
+  --clinical-primary: #0e7490;
+  --clinical-primary-hover: #0c6b84;
+  --clinical-primary-muted: rgba(14, 165, 233, 0.22);
+  --clinical-primary-deep: #0c4a6e;
+  --clinical-ring: rgba(14, 165, 233, 0.4);
+  --clinical-accent-teal: #14b8a6;
+  --mesh-1: rgba(14, 165, 233, 0.24);
+  --mesh-2: rgba(20, 184, 166, 0.2);
+  --mesh-3: rgba(6, 182, 212, 0.16);
+  --mesh-base-start: #e8f6fc;
+  --mesh-base-end: #d9f5ef;
+  --background: var(--clinical-canvas);
+  --foreground: var(--clinical-foreground);
 }
 
 body {
@@ -103,4 +128,225 @@ mark {
 html[data-theme="dark"] mark,
 html[data-theme-forced="dark"] mark {
   background: rgba(250, 204, 21, 0.35);
+}
+
+/* ─── SonoGyn Pro design layer ─────────────────────────────────────────── */
+.sonogyn-mesh-bg {
+  background-color: var(--clinical-canvas);
+  background-image:
+    radial-gradient(ellipse 85% 65% at 8% -8%, var(--mesh-1), transparent 58%),
+    radial-gradient(ellipse 75% 55% at 98% 2%, var(--mesh-2), transparent 52%),
+    radial-gradient(ellipse 65% 45% at 50% 100%, var(--mesh-3), transparent 55%),
+    linear-gradient(165deg, var(--mesh-base-start) 0%, var(--mesh-base-end) 100%);
+  background-attachment: fixed;
+}
+
+.sonogyn-brand-mark {
+  display: flex;
+  height: 2.5rem;
+  width: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75rem;
+  background: linear-gradient(135deg, var(--clinical-primary), var(--clinical-accent-teal));
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(14, 165, 233, 0.35);
+}
+
+.sonogyn-brand-pulse {
+  animation: sonogyn-pulse-ring 3s ease-in-out infinite;
+}
+
+.sonogyn-gradient-text {
+  background: linear-gradient(
+    120deg,
+    var(--clinical-foreground) 0%,
+    var(--clinical-primary-deep) 45%,
+    var(--clinical-accent-teal) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.sonogyn-pill {
+  border-radius: 9999px;
+  border: 1px solid var(--clinical-border);
+  background: var(--clinical-card);
+  padding: 0.35rem 0.85rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--clinical-primary-deep);
+  box-shadow: 0 4px 14px rgba(8, 70, 94, 0.08);
+  backdrop-filter: blur(8px);
+}
+
+.sonogyn-glass-card {
+  border: 1px solid var(--clinical-border);
+  background: var(--clinical-card);
+  backdrop-filter: blur(16px);
+  box-shadow: var(--clinical-card-shadow);
+}
+
+.sonogyn-stat-chip {
+  border-radius: 1rem;
+  border: 1px solid var(--clinical-border);
+  background: var(--clinical-card);
+  padding: 0.75rem;
+  backdrop-filter: blur(6px);
+}
+
+.sonogyn-step-card {
+  display: flex;
+  gap: 0.75rem;
+  border-radius: 1rem;
+  border: 1px solid var(--clinical-border);
+  background: var(--clinical-card);
+  padding: 1rem;
+}
+
+.sonogyn-step-num {
+  display: flex;
+  height: 2.25rem;
+  width: 2.25rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, var(--clinical-primary), var(--clinical-accent-teal));
+  font-size: 0.875rem;
+  font-weight: 900;
+  color: #fff;
+}
+
+.sonogyn-tile-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.sonogyn-tile-hover:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--clinical-card-shadow);
+  border-color: var(--clinical-primary-muted);
+}
+
+.sonogyn-cta-glow {
+  box-shadow: 0 10px 30px rgba(14, 165, 233, 0.35);
+}
+
+/* Карточки калькуляторов и протоколов — всегда на клиническом фоне */
+.clinical-surface {
+  border: 1px solid var(--clinical-border);
+  background: var(--clinical-card);
+  color: var(--clinical-foreground);
+}
+
+.clinical-surface-muted {
+  border: 1px solid var(--clinical-border);
+  background: var(--clinical-muted);
+  color: var(--clinical-foreground);
+}
+
+.clinical-pre {
+  border: 1px solid var(--clinical-border);
+  background: var(--clinical-muted);
+  color: var(--clinical-foreground);
+}
+
+.sonogyn-auth-shell {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  overflow: hidden;
+}
+
+.sonogyn-auth-shell::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(circle at 20% 30%, var(--mesh-1), transparent 45%),
+    radial-gradient(circle at 80% 20%, var(--mesh-2), transparent 40%),
+    radial-gradient(circle at 50% 90%, var(--mesh-3), transparent 45%);
+  animation: sonogyn-drift 18s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes sonogyn-drift {
+  from { transform: translate(0, 0) scale(1); }
+  to { transform: translate(2%, -2%) scale(1.04); }
+}
+
+@keyframes sonogyn-rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes sonogyn-shimmer {
+  0% { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
+@keyframes sonogyn-pulse-ring {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(29, 111, 216, 0.35); }
+  50% { box-shadow: 0 0 0 8px rgba(29, 111, 216, 0); }
+}
+
+.sonogyn-enter {
+  animation: sonogyn-rise 0.55s ease-out both;
+}
+
+.sonogyn-enter-delay-1 { animation-delay: 0.08s; }
+.sonogyn-enter-delay-2 { animation-delay: 0.16s; }
+.sonogyn-enter-delay-3 { animation-delay: 0.24s; }
+
+.sonogyn-shimmer-bar {
+  background: linear-gradient(
+    90deg,
+    var(--clinical-primary) 0%,
+    #38bdf8 25%,
+    #a78bfa 50%,
+    #38bdf8 75%,
+    var(--clinical-primary) 100%
+  );
+  background-size: 200% auto;
+  animation: sonogyn-shimmer 4s linear infinite;
+}
+
+.sonogyn-live-dot {
+  display: inline-block;
+  height: 0.5rem;
+  width: 0.5rem;
+  border-radius: 9999px;
+  background: #22c55e;
+  animation: sonogyn-pulse-ring 2s ease-in-out infinite;
+}
+
+.sonogyn-nav-active {
+  border-left: 3px solid var(--clinical-primary);
+  background: linear-gradient(90deg, var(--clinical-primary-muted), transparent);
+  font-weight: 700;
+  color: var(--clinical-primary-deep);
+}
+
+.sonogyn-hero-orbs {
+  position: relative;
+}
+
+.sonogyn-hero-orbs::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: -10% -5% auto auto;
+  width: min(420px, 55vw);
+  height: min(420px, 55vw);
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.22), transparent 68%);
+  filter: blur(2px);
+  animation: sonogyn-drift 14s ease-in-out infinite alternate;
 }

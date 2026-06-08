@@ -175,6 +175,7 @@ export const ProductAnalyticsEventSchema = z.enum([
   "ai_used",
   "paywall_opened",
   "subscription_started",
+  "elastography_config_error",
 ]);
 export type ProductAnalyticsEvent = z.infer<typeof ProductAnalyticsEventSchema>;
 

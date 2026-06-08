@@ -3,10 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "packageManager": "pnpm@10.6.5",
-  "description": "HIPAA-ready ultrasound education & CDS platform — Next.js PWA + Expo + Supabase + Stripe.",
+  "description": "SonoGyn Pro — ultrasound & OBGYN clinical platform. Foundation app: Expo Android + PWA; Next.js web in apps/web.",
   "scripts": {
     "install:deps": "CI=1 npx --yes pnpm@10.6.5 install --config.confirmModulesPurge=false --no-frozen-lockfile",
+    "import:petra": "python3 scripts/import-petra-assistant.py",
     "dev:web": "npx --yes pnpm@10.6.5 --filter @repo/web dev",
+    "dev:web:lan": "npx --yes pnpm@10.6.5 --filter @repo/web dev:lan",
+    "terminal:info": "bash scripts/terminal-info.sh",
     "dev:mobile": "env -u CI npx --yes pnpm@10.6.5 --filter @repo/mobile start",
     "dev:mobile:clear": "env -u CI npx --yes pnpm@10.6.5 --filter @repo/mobile start:clear",
     "expo": "bash scripts/expo-start.sh",
@@ -14,7 +17,8 @@
     "build": "turbo build",
     "lint": "turbo lint",
     "typecheck": "turbo typecheck",
-    "clean": "turbo clean && rm -rf node_modules"
+    "clean": "turbo clean && rm -rf node_modules",
+    "sync:guidelines": "npx --yes pnpm@10.6.5 --filter @repo/clinical-guidelines sync"
   },
   "devDependencies": {
     "turbo": "^2.5.4",

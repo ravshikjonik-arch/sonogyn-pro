@@ -1,0 +1,1730 @@
+[
+  {
+    "id": "kr-mz-rf-644-v2",
+    "title": "Аменорея и олигоменорея",
+    "summary": "МКБ: N91, N91.0 , N91.1 , N91.2, N91.3 , N91.4 , N91.5, N92.5, Е28.8. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/644_2",
+    "tags": [
+      "N91",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-820-v1",
+    "title": "Аномалии объема  амниотической жидкости (многоводие, маловодие)",
+    "summary": "МКБ: O40, O41, O41.0, O41.8, O41.9. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/820_1",
+    "tags": [
+      "O40",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-822-v1",
+    "title": "Аномалии родовой деятельности",
+    "summary": "МКБ: O62, O63, O75.8. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/822_1",
+    "tags": [
+      "O62",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-645-v2",
+    "title": "Аномальные маточные кровотечения",
+    "summary": "МКБ: N92, N93, N95. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/645_2",
+    "tags": [
+      "N92",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-550-v3",
+    "title": "Атипичный гемолитико-уремический синдром",
+    "summary": "МКБ: N08.2/D59.3/M31.1/N17.0/N17.1. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/550_3",
+    "tags": [
+      "N08.2",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-206-v2",
+    "title": "Бактериальный вагиноз",
+    "summary": "МКБ: N89. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/206_2",
+    "tags": [
+      "N89",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-928-v1",
+    "title": "Баланопостит",
+    "summary": "МКБ: N48.1/N51.2. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/928_1",
+    "tags": [
+      "N48.1",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-765-v1",
+    "title": "Болезни бартолиновой железы",
+    "summary": "МКБ: N75. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/765_1",
+    "tags": [
+      "N75",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-723-v2",
+    "title": "Венозные осложнения во время беременности и послеродовом периоде. Акушерская тромбоэмболия",
+    "summary": "МКБ: O22.0/O22.1/O22.2/O22.3/O22.4/O22.5/O22.8/O22.9/O87.1/O87.8/O87.9/O88.2/O88.8/O87.2/O87.3. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/723_2",
+    "tags": [
+      "O22.0",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-717-v2",
+    "title": "ВИЧ-инфекция у беременных",
+    "summary": "МКБ: B20/B21/B22/B23/B24/Z21/F02.4/R75/O98.7/Z11.4/Z20.6/Z21/Z71.7/Z83.0. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/717_2",
+    "tags": [
+      "O98.7",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-642-v2",
+    "title": "Внематочная (эктопическая) беременность",
+    "summary": "МКБ: O00/O08. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/642_2",
+    "tags": [
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-986-v1",
+    "title": "Внутриматочные синехии",
+    "summary": "МКБ: N85.6/N85.8. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/986_1",
+    "tags": [
+      "N85.6",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-289-v2",
+    "title": "Внутрипеченочный холестаз при беременности",
+    "summary": "МКБ: O26.6. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/289_2",
+    "tags": [
+      "O26.6",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-643-v2",
+    "title": "Воспалительные болезни женских тазовых органов",
+    "summary": "МКБ: N70, N71, N73. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/643_2",
+    "tags": [
+      "N70",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-1007-v1",
+    "title": "Воспалительные болезни органов мошонки",
+    "summary": "МКБ: N45.0/N45.9/N49.2. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/1007_1",
+    "tags": [
+      "N45.0",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-989-v1",
+    "title": "Воспалительные болезни шейки матки, влагалища и вульвы",
+    "summary": "МКБ: N72/N76/N77.1/T19.2. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/989_1",
+    "tags": [
+      "N72",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-858-v1",
+    "title": "Воспалительные заболевания молочных желез",
+    "summary": "МКБ: N61/N64.0/P39.0/O91/O91.0/O91.1/O91.2/O92.1. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/858_1",
+    "tags": [
+      "O91",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-918-v1",
+    "title": "Вульварные интраэпителиальные неоплазии",
+    "summary": "МКБ: N90.0/N90.1/N90.2/N90.3/N90.4/N90.6/N90.7/N90.8/N84.3. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/918_1",
+    "tags": [
+      "N84.3",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-670-v2",
+    "title": "Выкидыш (самопроизвольный аборт)",
+    "summary": "МКБ: O02/O02.0/O02.1/O02.8/O02.9/O03/O03.0/O03.1/O03.3/O03.4/O03.5/O03.6/O03.8/O03.9/O05/O05.0/O05.1/O05.3/O05.4/O05.5/O05.6/O05.8/O05.9/O20/O20.0/O20.8/O20.9/N85.3/N85.7. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/670_2",
+    "tags": [
+      "O02",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-647-v2",
+    "title": "Выпадение женских половых органов",
+    "summary": "МКБ: N81.0, N81.1, N81.2, N81.3, N81.4, N81.5, N81.6, N81.8, N81.9, N99.3. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/647_2",
+    "tags": [
+      "N99.3",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-841-v1",
+    "title": "Гестационный сахарный диабет",
+    "summary": "МКБ: O24.0/O24.1/O24.3/O24.4/O24.9. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/841_1",
+    "tags": [
+      "O24.0",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-17-v2",
+    "title": "Гидронефроз",
+    "summary": "МКБ: N13.0, N13.1, Q62.0. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/17_2",
+    "tags": [
+      "N13.0",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-993-v1",
+    "title": "Гидроцеле",
+    "summary": "МКБ: N43.0/N43.1/N43.2/N43.3. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/993_1",
+    "tags": [
+      "N43.0",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-947-v1",
+    "title": "Гиперплазия эндометрия",
+    "summary": "МКБ: N85.0/N85.1. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/947_1",
+    "tags": [
+      "N85.0",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-894-v1",
+    "title": "Гломерулярные болезни:  иммуноглобулин А-нефропатия",
+    "summary": "МКБ: N00.1/N00.3/N00.4/N00.7/N00.8/N01.1/N01.3/N01.4/N01.7/N01.8/N02.1/N02.3/N02.4/N02.7/N02.8/N03.1/N03.3/N03.4/N03.7/N03.8/N04.1/N04.3/N04.4/N04.7/N04.8/N06.1/N06.3/N06.4/N06.7/N06.8/N08.2/N18.1/N18.2/N18.3/N18.4/N18.5/N18.9. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/894_1",
+    "tags": [
+      "N00.1",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-816-v1",
+    "title": "Гломерулярные болезни: фокально-сегментарный гломерулосклероз",
+    "summary": "МКБ: N00.1/N01.1/N02.1/N03.1/N04.1/N05.1/N06.1/N07.1 с указанием стадии ХБП N18.1/N18.2/N18.3/N18.4/N18.5/N18.9. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/816_1",
+    "tags": [
+      "N00.1",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-1008-v1",
+    "title": "Дилатационная кардиомиопатия",
+    "summary": "МКБ: I42.0/I42.6/I42.7/I42.8/I42.9/I43.0/I43.1/I43.2/I43.8/O90.3. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/1008_1",
+    "tags": [
+      "O90.3",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-833-v1",
+    "title": "Дисменорея",
+    "summary": "МКБ: N94.0  N94.4  N94.5  N94.6  N94.8. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/833_1",
+    "tags": [
+      "N94.0",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-6-v2",
+    "title": "Доброкачественная гиперплазия предстательной железы",
+    "summary": "МКБ: N40. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/6_2",
+    "tags": [
+      "N40",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-598-v3",
+    "title": "Доброкачественная дисплазия молочной железы",
+    "summary": "МКБ: N60.0, N60.1, N60.2, N60.3, N60.4, N60.8, N60.9, N62, N63, N64.4. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "mammology",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/598_3",
+    "tags": [
+      "N62",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-984-v1",
+    "title": "Доброкачественные новообразования яичников",
+    "summary": "МКБ: D27/N83/Q50.1/Q50.5. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/984_1",
+    "tags": [
+      "N83",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-669-v2",
+    "title": "Железодефицитная анемия",
+    "summary": "МКБ: D50, D50.0, D50.1, D50.8, D50.9, E61.1, O99.0, D53.8, D62. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/669_2",
+    "tags": [
+      "O99.0",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-641-v2",
+    "title": "Женское бесплодие",
+    "summary": "МКБ: N97 (N97.0, N97.1, N97.2, N97.3, N97.4, N97.8, N97.9), N98.0, N98.2, N98.3, N98.8, N98.9, Z31.1, Z31.2, Z31.3, Z31.4, Z31.5, Z31.6, Z31.8. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/641_2",
+    "tags": [
+      "Z31.1",
+      "Z00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-595-v3",
+    "title": "Затрудненные роды [дистоция] вследствие предлежания плечика. Дистоция плечиков",
+    "summary": "МКБ: O66.0. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/595_3",
+    "tags": [
+      "O66.0",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-1011-v1",
+    "title": "Избыточная крайняя плоть, фимоз и парафимоз",
+    "summary": "МКБ: N47. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/1011_1",
+    "tags": [
+      "N47",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-776-v1",
+    "title": "Инфекции амниотической полости и плодных оболочек (хориоамнионит)",
+    "summary": "МКБ: O41.1. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/776_1",
+    "tags": [
+      "O41.1",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-719-v2",
+    "title": "Инфекция мочевых путей при беременности",
+    "summary": "МКБ: O23/O23.0/O23.1/O23.2/O23.3/O23.4/O23.9/O86.2/O86.3. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/719_2",
+    "tags": [
+      "O23",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-785-v1",
+    "title": "Искусственный аборт (медицинский аборт)",
+    "summary": "МКБ: O04, O06, O07, O35. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/785_1",
+    "tags": [
+      "O04",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-671-v2",
+    "title": "Истмико-цервикальная недостаточность",
+    "summary": "МКБ: O34.3. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/671_2",
+    "tags": [
+      "O34.3",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-886-v1",
+    "title": "Камни нижних отделов мочевых путей",
+    "summary": "МКБ: N21.0/N21.1/N21.8/N21.9. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/886_1",
+    "tags": [
+      "N21.0",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-887-v1",
+    "title": "Киста почки",
+    "summary": "МКБ: N28.1/Q61.0/Q61.8. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/887_1",
+    "tags": [
+      "N28.1",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-766-v1",
+    "title": "Медицинская помощь матери при установленном или предполагаемом несоответствии размеров таза и плода.  Лицевое, лобное или подбородочное предлежание плода, требующее предоставления медицинской помощи матери",
+    "summary": "МКБ: O33 (O33.0, O33.1, O33.2, O33.3, O33.4, O33.5, O33.6, O33.8, O33.9), O65 (O65.0, O65.1, O65.2, O65.3, O65.4, O65.5, O65.8, O65.9), O32.3, O64.2, O64.3. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/766_1",
+    "tags": [
+      "O33",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-823-v1",
+    "title": "Медицинская помощь матери при установленных или предполагаемых аномалиях и повреждениях плода, и антенатальной гибели плода",
+    "summary": "МКБ: O35, O36.4, O83.4. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/823_1",
+    "tags": [
+      "O35",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-117-v3",
+    "title": "Менопауза и климактерическое состояние у женщины",
+    "summary": "МКБ: N95.1/N95.2/N95.3/N95.8/N95.9. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/117_3",
+    "tags": [
+      "N95.1",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-257-v2",
+    "title": "Миома матки",
+    "summary": "МКБ: D25, D26, O34.1, D39.0. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/257_2",
+    "tags": [
+      "O34.1",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-638-v2",
+    "title": "Многоплодная беременность",
+    "summary": "МКБ: O30, O30.0, O30.1, O30.2, O30.8, O30.9, О31, О31.0, O31.1, O31.2, O31.8, O32.5, O33.7, О43.0, O63.2, O84, O84.0, O84.1, О84.2, O84.8, O84.9. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/638_2",
+    "tags": [
+      "O30",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-7-v2",
+    "title": "Мочекаменная болезнь",
+    "summary": "МКБ: N20, N20.0, N20.1, N20.2, N20.9. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/7_2",
+    "tags": [
+      "N20",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-5-v3",
+    "title": "Мужское бесплодие",
+    "summary": "МКБ: N46/Z31.6. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/5_3",
+    "tags": [
+      "Z31.6",
+      "Z00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-796-v1",
+    "title": "Негонококковый (неспецифический) уретрит у мужчин",
+    "summary": "МКБ: N34.1, A56.0, A59.0, A60, A63.8, A49.3, B37.4, B96.8. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/796_1",
+    "tags": [
+      "N34.1",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-8-v2",
+    "title": "Недержание мочи",
+    "summary": "МКБ: N39.3, N39.4, N39.8, N39.9, R32. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/8_2",
+    "tags": [
+      "N39.3",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-722-v2",
+    "title": "Недостаточный рост плода, требующий предоставления медицинской помощи матери (задержка роста плода)",
+    "summary": "МКБ: O36.5/P05/P07/O43. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/722_2",
+    "tags": [
+      "O43",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-588-v3",
+    "title": "Нейрогенная дисфункция нижних мочевыводящих путей",
+    "summary": "МКБ: N31.0/N31.1/N31.2/N31.8/N31.9/G83.4/G95.8. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/588_3",
+    "tags": [
+      "N31.0",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-610-v2",
+    "title": "Нейроэндокринные опухоли",
+    "summary": "МКБ: C15/C16/C17/C18/C21/C23/C24/C25/C34/C19/C20/C37/C73/C26.0/C26.8/C26.9/C44/C50/C51/C52/C53/C54/C55/C56/C57/C64/C65/C66/C67/C68/C10/C11/C14/C22/C33/C38/C39/C48.8/C61/C74.1/C74.9/C75/C78/C80/C97. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "mammology",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/610_2",
+    "tags": [
+      "C50",
+      "C00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-288-v2",
+    "title": "Нормальная беременность",
+    "summary": "МКБ: Z32, Z33, Z34, Z35, Z36. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/288_2",
+    "tags": [
+      "Z32",
+      "Z00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-636-v2",
+    "title": "Нормальные роды (роды одноплодные, самопроизвольное родоразрешение в затылочном предлежании)",
+    "summary": "МКБ: O80.0, O80.9, O47.1, O47.9. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/636_2",
+    "tags": [
+      "O47.1",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-799-v1",
+    "title": "Нормальный послеродовый период (послеродовая помощь и обследование)",
+    "summary": "МКБ: Z39.0, Z39.1, Z39.2; O73.0, O73.1; O92.0, O92.2, O92.3, O92.4, O92.5, O92.6, O92.7. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/799_1",
+    "tags": [
+      "Z39.0",
+      "Z00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-775-v1",
+    "title": "Оперативные влагалищные роды (Роды одноплодные, родоразрешение с наложением щипцов или с применением вакуум-экстрактора)",
+    "summary": "МКБ: O66.5, O81, O81.0,  O81.1,  O81.2 ,  O81.3,  O81.4,  O81.5. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/775_1",
+    "tags": [
+      "O81",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-9-v3",
+    "title": "Острый пиелонефрит",
+    "summary": "МКБ: N10/N13.6/N15.1/N39.0. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/9_3",
+    "tags": [
+      "N10",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-767-v1",
+    "title": "Патологическое прикрепление плаценты (предлежание и врастание плаценты)",
+    "summary": "МКБ: O43.0, O43.1, O43.2, O44.0, O44.1. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/767_1",
+    "tags": [
+      "O43.0",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-640-v2",
+    "title": "Подготовка шейки матки к родам и родовозбуждение",
+    "summary": "МКБ: O61 (O61.0, O61.1, O61.8), O48, О75.5, О75.6. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/640_2",
+    "tags": [
+      "O48",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-985-v1",
+    "title": "Полип шейки матки",
+    "summary": "МКБ: N84.1. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/985_1",
+    "tags": [
+      "N84.1",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-764-v1",
+    "title": "Полипы эндометрия",
+    "summary": "МКБ: N84.0. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/764_1",
+    "tags": [
+      "N84.0",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-635-v2",
+    "title": "Послеоперационный рубец на матке, требующий предоставления медицинской помощи матери во время беременности, родов и в послеродовом периоде",
+    "summary": "МКБ: О34.2, О75.7. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/635_2",
+    "tags": [
+      "O34.2",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-119-v3",
+    "title": "Послеродовое кровотечение",
+    "summary": "МКБ: O67/O72. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/119_3",
+    "tags": [
+      "O67",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-791-v1",
+    "title": "Послеродовые инфекционные осложнения",
+    "summary": "МКБ: O08.0/O75.3/O85/O86.0/O86.1/O86.8/O90.0/O90.1/O90.2/O90.8/O90.9/O91.1/O99.5/O86.4. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/791_1",
+    "tags": [
+      "O85",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-587-v2",
+    "title": "Почечная колика",
+    "summary": "МКБ: N23, N13.2. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/587_2",
+    "tags": [
+      "N23",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-797-v1",
+    "title": "Предменструальный синдром",
+    "summary": "МКБ: N94.3. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/797_1",
+    "tags": [
+      "N94.3",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-800-v1",
+    "title": "Преждевременная отслойка плаценты",
+    "summary": "МКБ: O45, O46. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/800_1",
+    "tags": [
+      "O45",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-331-v2",
+    "title": "Преждевременные роды",
+    "summary": "МКБ: O60 (O60.0, O60.1, O60.2, O60.3), O47.0, O42. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/331_2",
+    "tags": [
+      "O42",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-637-v2",
+    "title": "Преэклампсия. Эклампсия. Отеки, протеинурия и гипертензивные расстройства во время беременности, в родах и послеродовом периоде.",
+    "summary": "МКБ: О10 (O10.0, О10.1, О10.2, О10.3, О10.4, О10.9), О11, О12 (О12.0, О12.1, О12.2), О13, О14 (О14.0, О14.1, О14.2, О14.9), О15 (О15.0, О.15.1, О15.2, О15.9), О16. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/637_2",
+    "tags": [
+      "O10",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-721-v2",
+    "title": "Привычный выкидыш",
+    "summary": "МКБ: O26.2/N96. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/721_2",
+    "tags": [
+      "O26.2",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-774-v1",
+    "title": "Признаки внутриутробной гипоксии плода, требующие предоставления медицинской помощи матери",
+    "summary": "МКБ: O36.3; O36.8; O36.9; O68.0; O68.1; O68.2,  O68.3,  O68.8, O68.9; O69.0, O69.1, O69.2, O69.3, O69.4, O69.5, O69.8, O69.9; P20.0, P20.1, P20.9. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/774_1",
+    "tags": [
+      "O36.3",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-768-v1",
+    "title": "Разрывы промежности при родоразрешении и другие акушерские травмы (акушерский травматизм)",
+    "summary": "МКБ: O70, O71, O26.7. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/768_1",
+    "tags": [
+      "O70",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-379-v4",
+    "title": "Рак молочной железы",
+    "summary": "МКБ: D05, C50. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "mammology",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/379_4",
+    "tags": [
+      "C50",
+      "C00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-596-v3",
+    "title": "Резус-изоиммунизация. Гемолитическая болезнь плода",
+    "summary": "МКБ: O36.0, O36.1, P55.0, P55.8, P55.9, P56.0, P56.9. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/596_3",
+    "tags": [
+      "O36.0",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-187-v3",
+    "title": "Ректовагинальный свищ",
+    "summary": "МКБ: N82.3. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/187_3",
+    "tags": [
+      "N82.3",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-188-v3",
+    "title": "Ректоцеле",
+    "summary": "МКБ: N81.6. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/188_3",
+    "tags": [
+      "N81.6",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-639-v2",
+    "title": "Роды одноплодные, родоразрешение путем кесарева сечения",
+    "summary": "МКБ: O82; O82.0; O82.1; O82.2; O82.8; O82.9; О32.0; O32.2;О32.4; О32.8; О34.0; О34.4. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/639_2",
+    "tags": [
+      "O82",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-665-v2",
+    "title": "Синдром гиперстимуляции яичников",
+    "summary": "МКБ: N98.1. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/665_2",
+    "tags": [
+      "N98.1",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-990-v1",
+    "title": "Сперматоцеле",
+    "summary": "МКБ: N43.4/D29.3. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/990_1",
+    "tags": [
+      "N43.4",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-651-v2",
+    "title": "Стриктура уретры",
+    "summary": "МКБ: N35.0, N35.1, N35.8, N35.9, N99.1, N32.0. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/651_2",
+    "tags": [
+      "N99.1",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-626-v2",
+    "title": "Тазовое предлежание плода",
+    "summary": "МКБ: O32.1, O32.6, O64.1, O64.5, O64.8, O80.1, O80.8, O83.0, O83.1, O83.2, O32.0, O32.2. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/626_2",
+    "tags": [
+      "O32.0",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-786-v1",
+    "title": "Урогенитальные свищи",
+    "summary": "МКБ: N82, N82.0, N82.1, N82.9, N36.0, N32.1, N 32.2. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/786_1",
+    "tags": [
+      "N82",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-668-v2",
+    "title": "Флебит и тромбофлебит поверхностных сосудов",
+    "summary": "МКБ: I80.0, I80.8, I82.1, O22.2, O87.0. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/668_2",
+    "tags": [
+      "O22.2",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-469-v3",
+    "title": "Хроническая болезнь почек (ХБП)",
+    "summary": "МКБ: N18.1, N18.2, N18.3, N18.4, N18.5, N18.9, N15.9, N19 с кодами осложнений и ассоциированных состояний (при наличии) Z49.0, Z49.1, Z49.2, D63.8*, E87.2, E87.5, E21.1, E83.3, E83.5, E83.8, N25.0, E89.2, E43, E44. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/469_3",
+    "tags": [
+      "N19",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-597-v3",
+    "title": "Цервикальная интраэпителиальная неоплазия, эрозия и эктропион шейки матки",
+    "summary": "МКБ: N86, N87, N88.0, N88.1, N88.2, N88.4, N88.8. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/597_3",
+    "tags": [
+      "N86",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-14-v3",
+    "title": "Цистит у женщин",
+    "summary": "МКБ: N30.0, N30.1, N30.2. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/14_3",
+    "tags": [
+      "N30.0",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-802-v1",
+    "title": "Чрезмерная рвота беременных",
+    "summary": "МКБ: O21 (O21.0; O21.1; O21.2; O21.8; O21.9). Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/802_1",
+    "tags": [
+      "O21",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-720-v2",
+    "title": "Эмболия амниотической жидкостью",
+    "summary": "МКБ: O75.1/O88.1/O88.8. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obstetrics",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/720_2",
+    "tags": [
+      "O75.1",
+      "O00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-259-v2",
+    "title": "Эндометриоз",
+    "summary": "МКБ: N80. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/259_2",
+    "tags": [
+      "N80",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  },
+  {
+    "id": "kr-mz-rf-15-v3",
+    "title": "Эректильная дисфункция",
+    "summary": "МКБ: N48.4/F52.2. Клинические рекомендации Минздрава РФ.",
+    "shelf": "kr_mz_rf",
+    "documentKind": "clinical_recommendation",
+    "issuer": "mz_rf",
+    "specialty": "obgyn",
+    "year": 2026,
+    "status": "active",
+    "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/15_3",
+    "tags": [
+      "N48.4",
+      "N00",
+      "КР МЗ РФ",
+      "рубрикатор"
+    ],
+    "revisedAt": "2026-06-03"
+  }
+]

@@ -30,8 +30,8 @@ const quickLinks = [
     icon: Brain,
   },
   {
-    title: "Case collaboration",
-    description: "Teaching gallery with discussion threads.",
+    title: "Чат врачей",
+    description: "Общий чат, фото/видео УЗИ, кейсы и обсуждения.",
     href: "/cases",
     icon: Activity,
   },

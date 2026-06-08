@@ -1,0 +1,209 @@
+{
+  "system": "birads",
+  "version": "BI-RADS US — локальный ruleset (метод. основа: Е.П. Фисенко + ACR BI-RADS US; не замена официального атласа)",
+  "options": {
+    "findingType": [
+      { "value": "mass", "label": "Очаговое образование (mass)" },
+      { "value": "non_mass", "label": "Non-mass изменение" }
+    ],
+    "shape": [
+      { "value": "oval", "label": "Овальная" },
+      { "value": "round", "label": "Круглая" },
+      { "value": "irregular", "label": "Неправильная форма" }
+    ],
+    "orientation": [
+      { "value": "parallel", "label": "Параллельная коже (ширина больше высоты)" },
+      { "value": "non_parallel", "label": "Непараллельная (высота больше ширины или круглая)" }
+    ],
+    "margin": [
+      { "value": "circumscribed", "label": "Чёткий ровный контур" },
+      { "value": "indistinct", "label": "Нечёткий контур" },
+      { "value": "angular", "label": "Угловатый контур" },
+      { "value": "microlobulated", "label": "Микродольчатый контур" },
+      { "value": "spiculated", "label": "Спикулярный контур" }
+    ],
+    "echoPattern": [
+      { "value": "anechoic", "label": "Анэхогенная (киста)" },
+      { "value": "hypoechoic", "label": "Гипоэхогенная" },
+      { "value": "isoechoic", "label": "Изоэхогенная" },
+      { "value": "hyperechoic", "label": "Гиперэхогенная" },
+      { "value": "heterogeneous", "label": "Неоднородная" },
+      { "value": "complex_cystic_solid", "label": "Смешанная кистозно-солидная" }
+    ],
+    "posteriorFeatures": [
+      { "value": "none", "label": "Признаков позади очагового образования нет" },
+      { "value": "enhancement", "label": "Усиление позади очагового образования" },
+      { "value": "shadowing", "label": "Акустическая тень позади очагового образования" }
+    ],
+    "nonMassEchogenicity": [
+      { "value": "not_applicable", "label": "Не применимо" },
+      { "value": "hypoechoic_area", "label": "Гипоэхогенная зона" },
+      { "value": "heterogeneous_area", "label": "Неоднородная зона" },
+      { "value": "architectural_distortion", "label": "Архитектурная деформация без чёткой массы" },
+      { "value": "ductal_change", "label": "Протоковые изменения" }
+    ],
+    "nonMassDistribution": [
+      { "value": "not_applicable", "label": "Не применимо" },
+      { "value": "focal", "label": "Фокальное" },
+      { "value": "linear_segmental", "label": "Линейное / сегментарное" },
+      { "value": "regional", "label": "Регионарное" },
+      { "value": "multiple", "label": "Множественные участки" }
+    ],
+    "nonMassAssociatedFeatures": [
+      { "value": "not_applicable", "label": "Не применимо" },
+      { "value": "none", "label": "Нет" },
+      { "value": "duct_changes", "label": "Изменения протоков" },
+      { "value": "calcifications", "label": "Кальцинаты / эхогенные включения" },
+      { "value": "skin_edema", "label": "Отёк или утолщение кожи" },
+      { "value": "architectural_distortion", "label": "Архитектурная деформация" }
+    ],
+    "vascularity": [
+      { "value": "none", "label": "Нет кровотока (0)" },
+      { "value": "mild", "label": "Умеренный / внутренний (1–2)" },
+      { "value": "marked", "label": "Выраженный (3–4)" }
+    ]
+  },
+  "rules": [
+    {
+      "id": "birads-5-spiculated",
+      "category": "BI-RADS 5",
+      "riskRange": "> 95%",
+      "description": "Спикулярный контур — высокоспецифичный признак злокачественности (BI-RADS US).",
+      "impression": "Категория высокого подозрения. Срочный онкомаршрут, биопсия/верификация.",
+      "when": { "margin": "spiculated" }
+    },
+    {
+      "id": "birads-5-nonparallel-irregular",
+      "category": "BI-RADS 5",
+      "riskRange": "> 95%",
+      "description": "Непараллельная ориентация (высота больше ширины или круглая форма) на фоне неправильной формы.",
+      "impression": "Сочетание высокого риска по BI-RADS US. Биопсия и онкологическое ведение.",
+      "when": { "nonParallel": "yes", "shape": "irregular" }
+    },
+    {
+      "id": "birads-5-nonparallel-indistinct",
+      "category": "BI-RADS 5",
+      "riskRange": "> 95%",
+      "description": "Непараллельная ориентация и нечёткий контур.",
+      "impression": "Высокая подозрительность. Биопсия, ускоренная диагностика.",
+      "when": { "nonParallel": "yes", "margin": "indistinct" }
+    },
+    {
+      "id": "birads-5-nonparallel-marked-flow",
+      "category": "BI-RADS 5",
+      "riskRange": "> 95%",
+      "description": "Непараллельная ориентация и выраженная васкуляризация.",
+      "impression": "Высокий риск по сочетанию признаков. Биопсия и онкомаршрут.",
+      "when": { "nonParallel": "yes", "markedFlow": "yes" }
+    },
+    {
+      "id": "birads-5-marked-flow-irregular",
+      "category": "BI-RADS 5",
+      "riskRange": "> 95%",
+      "description": "Неправильная форма и выраженный кровоток по допплеру.",
+      "impression": "Очень высокая вероятность злокачественности. Срочная верификация.",
+      "when": { "markedFlow": "yes", "shape": "irregular" }
+    },
+    {
+      "id": "birads-4c-angular",
+      "category": "BI-RADS 4C",
+      "riskRange": "~ 50–95%",
+      "description": "Угловатый контур — подозрительный дескриптор (BI-RADS US).",
+      "impression": "Биопсия обоснована. Степень подозрительности ближе к верхней границе 4-й категории.",
+      "when": { "margin": "angular" }
+    },
+    {
+      "id": "birads-4b-microlobulated",
+      "category": "BI-RADS 4B",
+      "riskRange": "~ 10–50%",
+      "description": "Микродольчатый контур — промежуточная подозрительность.",
+      "impression": "Рекомендована биопсия или тесное дообследование по протоколу клиники.",
+      "when": { "margin": "microlobulated" }
+    },
+    {
+      "id": "birads-4b-complex-cystic-solid",
+      "category": "BI-RADS 4B",
+      "riskRange": "~ 10–50%",
+      "description": "Смешанное кистозно-солидное образование — требует морфологической оценки.",
+      "impression": "Биопсия/аспирация или углубленное визуальное дообследование по показаниям.",
+      "when": { "echoPattern": "complex_cystic_solid" }
+    },
+    {
+      "id": "birads-4c-indistinct-solid-shadow",
+      "category": "BI-RADS 4C",
+      "riskRange": "~ 50–95%",
+      "description": "Нечёткий контур солидного типа с акустической тенью сзади.",
+      "impression": "Высокая подозрительность. Биопсия и онкогинекологический/маммологический маршрут.",
+      "when": { "margin": "indistinct", "solidish": "yes", "postShadow": "yes" }
+    },
+    {
+      "id": "birads-4b-indistinct-solid",
+      "category": "BI-RADS 4B",
+      "riskRange": "~ 10–50%",
+      "description": "Нечёткий контур при солидной эхоструктуре.",
+      "impression": "Подозрительное образование. Биопсия или короткий интервал контроля по протоколу.",
+      "when": { "margin": "indistinct", "solidish": "yes" }
+    },
+    {
+      "id": "birads-3-hypoechoic-shadow-benign-pattern",
+      "category": "BI-RADS 3",
+      "riskRange": "< 2%",
+      "description": "Вероятно доброкачественный солидный паттерн (овальная/округлая, чёткий контур, гипоэхогенность, тень сзади).",
+      "impression": "Краткосрочный контроль (часто 6 месяцев) при отсутствии более тревожных признаков.",
+      "when": { "probablyBenignHypoechoic": "yes", "postShadow": "yes" }
+    },
+    {
+      "id": "birads-3-probably-benign-hypoechoic",
+      "category": "BI-RADS 3",
+      "riskRange": "< 2%",
+      "description": "Вероятно доброкачественное солидное образование (типичный фиброаденомоподобный паттерн на УЗИ).",
+      "impression": "Краткосрочный контроль УЗИ/маммографии по возрасту и протоколу.",
+      "when": { "probablyBenignHypoechoic": "yes" }
+    },
+    {
+      "id": "birads-2-simple-cyst",
+      "category": "BI-RADS 2",
+      "riskRange": "~0%",
+      "description": "Простая киста: овальная/круглая, чёткий контур, анэхогенность, параллельная ориентация.",
+      "impression": "Доброкачественно (BI-RADS 2). Рутинное наблюдение по скринингу.",
+      "when": { "simpleCystCandidate": "yes" }
+    },
+    {
+      "id": "birads-2-hyperechoic-benign",
+      "category": "BI-RADS 2",
+      "riskRange": "~0%",
+      "description": "Гиперэхогенное образование с чётким контуром (жировой/фиброзный доброкачественный паттерн в типичной картине).",
+      "impression": "Доброкачественная интерпретация при типичности картины. Ведение по клинике.",
+      "when": { "benignHyperechoicPattern": "yes" }
+    },
+    {
+      "id": "birads-4a-indistinct-alone",
+      "category": "BI-RADS 4A",
+      "riskRange": "~ 2–10%",
+      "description": "Нечёткий контур без полного набора признаков высшей подозрительности.",
+      "impression": "Низкая сторона подозрительности. Дообследование/биопсия по клиническому контексту.",
+      "when": { "margin": "indistinct" }
+    },
+    {
+      "id": "birads-3-circumscribed-oval-round-mild-doppler",
+      "category": "BI-RADS 3",
+      "riskRange": "< 2%",
+      "description": "Ограниченно подозрительные признаки: чёткий контур, овальная/круглая форма, без неоднородности/смешанного типа, слабый допплер.",
+      "impression": "Вероятно доброкачественно. Короткий интервал наблюдения при сомнениях.",
+      "when": {
+        "shape": ["oval", "round"],
+        "margin": "circumscribed",
+        "markedFlow": "no",
+        "nonParallel": "no",
+        "lowSuspicionEcho": "yes",
+        "vascularity": ["none", "mild"]
+      }
+    }
+  ],
+  "fallback": {
+    "category": "BI-RADS 0",
+    "riskRange": "Недостаточно данных / нестандартная комбинация",
+    "description": "Комбинация дескрипторов не попала в явные правила ruleset или требует дополнительных проекций/методов.",
+    "impression": "Рекомендовано дообследование (дополнительные проекции УЗИ, маммография, МРТ по показаниям) и клиническая корреляция."
+  }
+}

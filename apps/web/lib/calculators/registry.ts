@@ -3,47 +3,58 @@ export type CalculatorDefinition = {
   code: string;
   title: string;
   subtitle: string;
+  /** Если задан — карточка ведёт на этот URL вместо /calculators/[slug] */
+  externalHref?: string;
   /** Keys stored in payload JSON */
   fields: { key: string; label: string; type: "select" | "number" | "text"; options?: string[] }[];
 };
 
 export const CALCULATORS: CalculatorDefinition[] = [
   {
+    slug: "elastography",
+    code: "ELASTOGRAPHY",
+    title: "Эластография",
+    subtitle: "Strain / SWE — шейка, миометрий, яичники, МЖ",
+    fields: [],
+  },
+  {
     slug: "o-rads",
     code: "O_RADS",
-    title: "O-RADS",
-    subtitle: "Ovarian-Adnexal Reporting and Data System",
-    fields: [
-      {
-        key: "category",
-        label: "Category",
-        type: "select",
-        options: ["0", "1", "2", "3", "4", "5"],
-      },
-      { key: "maxDiameterMm", label: "Largest lesion diameter (mm)", type: "number" },
-      { key: "notes", label: "Impression / follow-up", type: "text" },
-    ],
+    title: "O-RADS Pro",
+    subtitle: "O-RADS US v2022 + IOTA 2026 — полный калькулятор яичника",
+    externalHref: "/calculators/o-rads",
+    fields: [],
   },
   {
     slug: "bi-rads",
     code: "BI_RADS_US",
-    title: "BI-RADS — Ultrasound",
-    subtitle: "Breast imaging reporting",
-    fields: [
-      {
-        key: "assessment",
-        label: "Assessment",
-        type: "select",
-        options: ["0", "1", "2", "3", "4A", "4B", "4C", "5", "6"],
-      },
-      { key: "notes", label: "Recommendations", type: "text" },
-    ],
+    title: "BI-RADS US — алгоритм v2025",
+    subtitle: "8 шагов по брошюре Солнцевой И.А. + локализация МЖ",
+    externalHref: "/calculators/bi-rads",
+    fields: [],
+  },
+  {
+    slug: "endometrium",
+    code: "ENDOMETRIUM_ISUOG",
+    title: "Эндометрий · ISUOG / КР РФ",
+    subtitle: "M-эхо, пороги, очаг, тамоксифен — протокол и экспорт",
+    externalHref: "/calculators/endometrium",
+    fields: [],
+  },
+  {
+    slug: "cervical-length",
+    code: "CERVICAL_LENGTH",
+    title: "Длина шейки матки (CL)",
+    subtitle: "Скрининг 16–24 нед, воронка T/Y/V/U, sludge",
+    externalHref: "/calculators/cervical-length",
+    fields: [],
   },
   {
     slug: "figo",
     code: "FIGO_FIBROID",
     title: "FIGO fibroid typing",
     subtitle: "Morphology / mural mapping",
+    externalHref: "/uterus-3d",
     fields: [
       {
         key: "figoType",
@@ -99,13 +110,10 @@ export const CALCULATORS: CalculatorDefinition[] = [
   {
     slug: "fmf",
     code: "FMF_FIRST_TRIMESTER",
-    title: "FMF first-trimester",
-    subtitle: "Risk calculation placeholders",
-    fields: [
-      { key: "crlMm", label: "CRL (mm)", type: "number" },
-      { key: "ntMm", label: "NT (mm)", type: "number" },
-      { key: "notes", label: "Serum / demographics", type: "text" },
-    ],
+    title: "FMF · малый срок и I скрининг",
+    subtitle: "Малый срок · I/II/III · допплер · шейка · рубец",
+    externalHref: "/assistant/fmf",
+    fields: [],
   },
 ];
 

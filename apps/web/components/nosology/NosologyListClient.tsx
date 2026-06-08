@@ -11,13 +11,13 @@ import { Input } from "@/components/ui/input";
 import { useNosologyList } from "@/hooks/useNosologies";
 import { cn } from "@/lib/utils/cn";
 
-const ZONE_ORDER: NosologyZone[] = ["uterus", "endometrium", "ovaries", "tubes", "cervix", "other"];
+const ZONE_ORDER: NosologyZone[] = ["obstetrics", "uterus", "endometrium", "ovaries", "tubes", "cervix", "other"];
 
 function NosologyCard({ n, studyId }: { n: Nosology; studyId?: string | null }) {
   const href = studyId ? `/nosologies/${n.id}?studyId=${studyId}` : `/nosologies/${n.id}`;
   return (
-    <Link href={href}>
-      <Card className="h-full border-[var(--clinical-border)] bg-[var(--clinical-card)] transition-shadow hover:shadow-md">
+    <Link href={href} prefetch className="block h-full rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--clinical-primary)]">
+      <Card className="h-full cursor-pointer border-[var(--clinical-border)] bg-[var(--clinical-card)] transition-shadow hover:shadow-md active:scale-[0.99]">
         <CardHeader className="pb-2">
           <div className="flex items-start justify-between gap-2">
             <CardTitle className="text-base leading-snug">{n.title}</CardTitle>

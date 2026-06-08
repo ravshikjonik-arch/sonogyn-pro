@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 56" fill="none">
+  <rect width="80" height="56" rx="6" fill="#f5f3ff"/>
+  <ellipse cx="40" cy="30" rx="22" ry="18" stroke="#5b21b6" stroke-width="1.2" fill="#ede9fe"/>
+  <path d="M28 22 Q40 14 52 22" stroke="#5b21b6" stroke-width="0.8" fill="none"/>
+  <path d="M28 38 Q40 46 52 38" stroke="#5b21b6" stroke-width="0.8" fill="none"/>
+  <path d="M22 30 L58 30" stroke="#5b21b6" stroke-width="0.8"/>
+  <text x="40" y="52" text-anchor="middle" font-family="system-ui,sans-serif" font-size="5" fill="#5b21b6">4 камеры</text>
+</svg>

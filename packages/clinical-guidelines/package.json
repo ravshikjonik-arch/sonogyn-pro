@@ -1,0 +1,18 @@
+{
+  "name": "@repo/clinical-guidelines",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "sync": "node scripts/sync-rubricator-kr.mjs",
+    "typecheck": "tsc --noEmit",
+    "lint": "echo \"skip\""
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2"
+  }
+}

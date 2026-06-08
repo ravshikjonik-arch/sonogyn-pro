@@ -10,3 +10,4 @@ export * from "./amnioticFluid";
 export * from "./doppler";
 export * from "./validation";
 export * from "./percentiles";
+export * from "./elastography";

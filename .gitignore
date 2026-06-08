@@ -17,6 +17,9 @@ web-build/
 .DS_Store
 *.pem
 
+# turbo cache
+.turbo/
+
 # logs
 npm-debug.*
 yarn-debug.*

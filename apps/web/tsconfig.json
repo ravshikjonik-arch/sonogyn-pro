@@ -37,6 +37,9 @@
       ],
       "@repo/nosology": [
         "../../packages/nosology/src/index.ts"
+      ],
+      "@repo/clinical-3d": [
+        "../../packages/clinical-3d/src/index.ts"
       ]
     }
   },
