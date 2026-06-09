@@ -16,6 +16,8 @@ type WithPWAFactory = (options: {
   disable?: boolean;
   register?: boolean;
   workboxOptions?: {
+    navigateFallback?: string;
+    navigateFallbackDenylist?: RegExp[];
     runtimeCaching?: Array<{
       urlPattern: (ctx: { url: URL }) => boolean;
       handler: string;
