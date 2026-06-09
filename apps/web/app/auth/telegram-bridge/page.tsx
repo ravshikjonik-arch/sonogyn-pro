@@ -26,18 +26,17 @@ function TelegramBridgeInner() {
       const payload = (await res.json().catch(() => null)) as {
         ok?: boolean;
         error?: string;
-        session?: { access_token: string; refresh_token: string };
+        exchangeCode?: string;
       } | null;
 
-      if (!res.ok || !payload?.ok || !payload.session) {
+      if (!res.ok || !payload?.ok || !payload.exchangeCode) {
         setMessage(payload?.error ?? "Не удалось войти через Telegram.");
         return;
       }
 
       if (redirect) {
         const url = new URL(redirect);
-        url.searchParams.set("access_token", payload.session.access_token);
-        url.searchParams.set("refresh_token", payload.session.refresh_token);
+        url.searchParams.set("exchange_code", payload.exchangeCode);
         window.location.href = url.toString();
         return;
       }
@@ -60,7 +59,11 @@ function TelegramBridgeInner() {
         <div className="mt-6">
           <TelegramLoginButton botUsername={botUsername} onAuth={onAuth} onError={setMessage} />
         </div>
-        {message ? <div className="mt-4"><AuthMessage message={message} /></div> : null}
+        {message ? (
+          <div className="mt-4">
+            <AuthMessage message={message} />
+          </div>
+        ) : null}
       </section>
     </main>
   );

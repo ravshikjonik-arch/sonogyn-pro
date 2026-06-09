@@ -11,6 +11,7 @@ import {
   type ReactNode,
 } from "react";
 
+import { fetchAuthSession } from "@/lib/auth/client-auth-api";
 import { createClient } from "@/utils/supabase/client";
 
 const SupabaseContext = createContext<SupabaseClient | null>(null);
@@ -18,12 +19,17 @@ const SupabaseContext = createContext<SupabaseClient | null>(null);
 type AuthContextValue = {
   session: Session | null;
   user: User | null;
-  /** False until first `getSession` / auth event resolves (use for global splash). */
+  /** False until first session resolve (use for global splash). */
   ready: boolean;
   refresh: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextValue | null>(null);
+
+function mapServerUser(raw: Record<string, unknown> | null): User | null {
+  if (!raw?.id || typeof raw.id !== "string") return null;
+  return raw as unknown as User;
+}
 
 function SupabaseEnvMissing() {
   return (
@@ -56,27 +62,36 @@ function SupabaseEnvMissing() {
 
 function AuthStateInner({ children }: { children: ReactNode }) {
   const supabase = useSupabase();
-  const [session, setSession] = useState<Session | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [ready, setReady] = useState(false);
 
   const refresh = useCallback(async () => {
-    const { data } = await supabase.auth.getSession();
-    setSession(data.session);
+    const { user: serverUser } = await fetchAuthSession();
+    const mapped = mapServerUser(serverUser);
+    setUser(mapped);
+
+    if (mapped) {
+      const { data } = await supabase.auth.getSession();
+      if (data.session) return;
+    }
   }, [supabase]);
 
   useEffect(() => {
     let mounted = true;
 
-    void supabase.auth.getSession().then(({ data }) => {
+    async function load() {
+      const { user: serverUser } = await fetchAuthSession();
       if (!mounted) return;
-      setSession(data.session);
+      setUser(mapServerUser(serverUser));
       setReady(true);
-    });
+    }
+
+    void load();
 
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, next) => {
-      setSession(next);
+      setUser(next?.user ?? null);
       setReady(true);
     });
 
@@ -86,14 +101,19 @@ function AuthStateInner({ children }: { children: ReactNode }) {
     };
   }, [supabase]);
 
+  const session = useMemo<Session | null>(() => {
+    if (!user) return null;
+    return { user } as Session;
+  }, [user]);
+
   const value = useMemo<AuthContextValue>(
     () => ({
       session,
-      user: session?.user ?? null,
+      user,
       ready,
       refresh,
     }),
-    [session, ready, refresh],
+    [session, user, ready, refresh],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

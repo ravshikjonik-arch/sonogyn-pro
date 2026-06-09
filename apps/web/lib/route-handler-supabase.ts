@@ -2,6 +2,8 @@ import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
+import { supabaseCookieOptions, withSecureCookieOptions } from "@/utils/supabase/cookie-options";
+
 export type RouteHandlerAuthCookie = {
   name: string;
   value: string;
@@ -25,6 +27,7 @@ export async function createSupabaseRouteHandlerClient() {
   const cookiesToSet: RouteHandlerAuthCookie[] = [];
 
   const supabase = createServerClient(url, anonKey, {
+    cookieOptions: supabaseCookieOptions(),
     cookies: {
       getAll() {
         return cookieStore.getAll();
@@ -45,7 +48,7 @@ export function nextJsonWithAuthCookies(
 ) {
   const res = NextResponse.json(body, { status });
   cookiesToSet.forEach(({ name, value, options }) => {
-    res.cookies.set(name, value, options);
+    res.cookies.set(name, value, withSecureCookieOptions(options));
   });
   return res;
 }

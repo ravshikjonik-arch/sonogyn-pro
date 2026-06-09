@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 
+import { fetchAuthSession } from "@/lib/auth/client-auth-api";
 import { useSupabase } from "@/app/providers";
 import { markSessionAnchorNow, readSessionAnchor } from "@/lib/security/session-anchor";
 import { wipeWebClinicalLocalData } from "@/lib/security/wipe-clinical-local";
@@ -78,12 +79,9 @@ export function useSessionRevalidation(enabled: boolean): void {
           return;
         }
 
-        const {
-          data: { user },
-          error,
-        } = await supabase.auth.getUser();
+        const { user: serverUser } = await fetchAuthSession();
 
-        if (error || !user) {
+        if (!serverUser) {
           await forceClinicalSignOut(supabase, router, "session-expired");
           return;
         }

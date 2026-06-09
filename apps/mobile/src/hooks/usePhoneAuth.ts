@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 
+import { sendPhoneOtpViaApi, verifyPhoneOtpViaApi } from "../lib/auth/emailAuthApi";
 import { supabaseMobile } from "../lib/supabase/mobileClient";
 
 function normalizePhone(raw: string): string {
@@ -10,22 +11,15 @@ function normalizePhone(raw: string): string {
   return raw.trim();
 }
 
-function translatePhoneError(message: string): string {
-  if (/invalid otp|otp_expired/i.test(message)) return "Неверный или просроченный код.";
-  if (/phone.*invalid/i.test(message)) return "Неверный формат номера. Используйте +79001234567.";
-  if (/too many requests|rate/i.test(message)) return "Слишком много попыток. Подождите.";
-  if (/user not found|invalid login credentials/i.test(message)) return "Неверные учётные данные.";
-  return "Не удалось выполнить вход по телефону. Проверьте номер и попробуйте снова.";
-}
-
 export function usePhoneAuth() {
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [requiresCaptcha, setRequiresCaptcha] = useState(false);
 
-  const sendOtp = useCallback(async (createUser = false) => {
+  const sendOtp = useCallback(async (createUser = false, turnstileToken?: string) => {
     if (!supabaseMobile) {
       setError("Supabase не настроен (EXPO_PUBLIC_SUPABASE_URL / ANON_KEY).");
       return false;
@@ -35,12 +29,10 @@ export function usePhoneAuth() {
     setError(null);
     try {
       const normalized = normalizePhone(phone);
-      const { error: otpError } = await supabaseMobile.auth.signInWithOtp({
-        phone: normalized,
-        options: createUser ? { shouldCreateUser: true } : undefined,
-      });
-      if (otpError) {
-        setError(translatePhoneError(otpError.message));
+      const result = await sendPhoneOtpViaApi(normalized, createUser, turnstileToken);
+      if (!result.ok) {
+        setRequiresCaptcha(Boolean(result.requiresCaptcha));
+        setError(result.error);
         return false;
       }
       setOtpSent(true);
@@ -60,14 +52,13 @@ export function usePhoneAuth() {
     setError(null);
     try {
       const normalized = normalizePhone(phone);
-      const { error: verifyError } = await supabaseMobile.auth.verifyOtp({
-        phone: normalized,
-        token: otp.trim(),
-        type: "sms",
-      });
-      if (verifyError) {
-        setError(translatePhoneError(verifyError.message));
+      const result = await verifyPhoneOtpViaApi(normalized, otp.trim());
+      if (!result.ok) {
+        setError(result.error);
         return false;
+      }
+      if (result.session) {
+        await supabaseMobile.auth.setSession(result.session);
       }
       return true;
     } finally {
@@ -85,6 +76,7 @@ export function usePhoneAuth() {
     busy,
     error,
     setError,
+    requiresCaptcha,
     sendOtp,
     verifyOtp,
   };

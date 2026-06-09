@@ -43,7 +43,7 @@ export async function POST(req: Request) {
     );
   }
 
-  if (isCaptchaRequired(failKey)) {
+  if (await isCaptchaRequired(failKey)) {
     const ok = await verifyTurnstileToken(body.turnstileToken);
     if (!ok) {
       return NextResponse.json(
@@ -92,18 +92,18 @@ export async function POST(req: Request) {
     });
 
     if (error) {
-      recordAuthFailure(failKey);
+      const failCount = await recordAuthFailure(failKey);
       const net = isLikelySupabaseNetworkError(error.message);
       return NextResponse.json(
         {
           error: toSafeAuthErrorMessage(error.message, "sign-up"),
-          requiresCaptcha: isCaptchaRequired(failKey),
+          requiresCaptcha: failCount >= 3,
         },
         { status: net ? 502 : 400 },
       );
     }
 
-    clearAuthFailures(failKey);
+    await clearAuthFailures(failKey);
 
     if (wantsMobileSession && data.session) {
       return NextResponse.json({
@@ -126,10 +126,13 @@ export async function POST(req: Request) {
     );
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);
-    recordAuthFailure(failKey);
+    await recordAuthFailure(failKey);
     const net = isLikelySupabaseNetworkError(msg);
     return NextResponse.json(
-      { error: toSafeAuthErrorMessage(msg, "sign-up"), requiresCaptcha: isCaptchaRequired(failKey) },
+      {
+        error: toSafeAuthErrorMessage(msg, "sign-up"),
+        requiresCaptcha: await isCaptchaRequired(failKey),
+      },
       { status: net ? 502 : 400 },
     );
   }

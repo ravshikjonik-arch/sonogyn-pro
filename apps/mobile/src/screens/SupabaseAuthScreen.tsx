@@ -25,7 +25,7 @@ import {
 import { useOAuthSignIn } from "../hooks/useOAuthSignIn";
 import { usePhoneAuth } from "../hooks/usePhoneAuth";
 import { changeLanguage, isAppLanguage, type AppLanguage } from "../i18n";
-import { signInViaApi, signUpViaApi } from "../lib/auth/emailAuthApi";
+import { signInViaApi, signUpViaApi, verifyMfaViaApi, exchangeMobileSessionCode } from "../lib/auth/emailAuthApi";
 import { isTurnstileConfiguredOnMobile, obtainTurnstileToken } from "../lib/auth/turnstileMobile";
 import { markSessionAnchorNow } from "../lib/security/sessionAnchor";
 import { supabaseMobile } from "../lib/supabase/mobileClient";
@@ -60,6 +60,12 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
   const [requiresCaptcha, setRequiresCaptcha] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState<string | undefined>();
   const [captchaBusy, setCaptchaBusy] = useState(false);
+  const [mfaRequired, setMfaRequired] = useState(false);
+  const [mfaFactorId, setMfaFactorId] = useState<string | null>(null);
+  const [mfaCode, setMfaCode] = useState("");
+  const [mfaPendingSession, setMfaPendingSession] = useState<
+    { access_token: string; refresh_token: string } | undefined
+  >();
 
   const localeOptions = useMemo(
     (): Array<{ code: AuthLocale; label: string }> => [
@@ -132,6 +138,27 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
     return () => sub.remove();
   }, [completeTelegramNonce]);
 
+  async function submitMfa() {
+    if (!supabaseMobile || !mfaFactorId) return;
+    setBusy(true);
+    try {
+      const result = await verifyMfaViaApi(mfaFactorId, mfaCode.trim(), mfaPendingSession);
+      if (!result.ok) {
+        Alert.alert("MFA", translateAuthError(result.error));
+        return;
+      }
+      if (!result.session) {
+        Alert.alert("MFA", "Неверный или просроченный код.");
+        return;
+      }
+      await supabaseMobile.auth.setSession(result.session);
+      setMfaRequired(false);
+      await finishAuth();
+    } finally {
+      setBusy(false);
+    }
+  }
+
   async function submitEmail() {
     if (!supabaseMobile) {
       Alert.alert("Supabase", "Задайте EXPO_PUBLIC_SUPABASE_URL и EXPO_PUBLIC_SUPABASE_ANON_KEY.");
@@ -173,6 +200,13 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
           setRequiresCaptcha(Boolean(result.requiresCaptcha));
           if (result.requiresCaptcha) setTurnstileToken(undefined);
           Alert.alert("Ошибка", translateAuthError(result.error));
+          return;
+        }
+        if (result.needsMfa && result.factorId) {
+          setMfaRequired(true);
+          setMfaFactorId(result.factorId);
+          setMfaPendingSession(result.session);
+          Alert.alert("MFA", "Введите код из приложения аутентификатора.");
           return;
         }
         if (!result.session) {
@@ -229,16 +263,16 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
         const result = await WebBrowser.openAuthSessionAsync(bridgeUrl, redirectTo);
         if (result.type === "success" && result.url) {
           const parsed = Linking.parse(result.url);
-          const access = parsed.queryParams?.access_token;
-          const refresh = parsed.queryParams?.refresh_token;
-          if (
-            typeof access === "string" &&
-            typeof refresh === "string" &&
-            supabaseMobile
-          ) {
-            await supabaseMobile.auth.setSession({ access_token: access, refresh_token: refresh });
-            await finishAuth();
-            return;
+          const exchangeRaw = parsed.queryParams?.exchange_code;
+          const exchangeCode =
+            typeof exchangeRaw === "string" ? exchangeRaw : Array.isArray(exchangeRaw) ? exchangeRaw[0] : null;
+          if (exchangeCode && supabaseMobile) {
+            const exchanged = await exchangeMobileSessionCode(exchangeCode);
+            if (exchanged.ok) {
+              await supabaseMobile.auth.setSession(exchanged.session);
+              await finishAuth();
+              return;
+            }
           }
         }
       }
@@ -330,6 +364,31 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
               </View>
             </View>
           ) : null}
+          {mfaRequired ? (
+            <>
+              <TextInput
+                keyboardType="number-pad"
+                placeholder="Код TOTP"
+                accessibilityLabel="Код TOTP"
+                style={styles.input}
+                value={mfaCode}
+                onChangeText={setMfaCode}
+              />
+              <Pressable
+                style={[styles.primary, loading && styles.primaryDisabled]}
+                disabled={loading}
+                onPress={() => void submitMfa()}
+                accessibilityLabel="Подтвердить MFA"
+              >
+                {loading ? (
+                  <ActivityIndicator color="#fff" />
+                ) : (
+                  <Text style={styles.primaryText}>Подтвердить MFA</Text>
+                )}
+              </Pressable>
+            </>
+          ) : (
+            <>
           <TextInput
             autoCapitalize="none"
             keyboardType="email-address"
@@ -376,6 +435,8 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
           >
             {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.primaryText}>{mode === "sign-in" ? "Войти" : "Зарегистрация"}</Text>}
           </Pressable>
+            </>
+          )}
         </View>
       ) : null}
 

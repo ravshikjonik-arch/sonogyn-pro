@@ -1,5 +1,5 @@
 export type AuthApiResult =
-  | { ok: true; needsEmailConfirmation?: boolean }
+  | { ok: true; needsEmailConfirmation?: boolean; needsMfa?: boolean; factorId?: string }
   | { ok: false; error: string; requiresCaptcha?: boolean };
 
 export async function postSignIn(params: {
@@ -25,6 +25,8 @@ export async function postSignIn(params: {
     ok?: boolean;
     error?: string;
     requiresCaptcha?: boolean;
+    needsMfa?: boolean;
+    factorId?: string;
     session?: { access_token: string; refresh_token: string };
   } | null;
 
@@ -34,6 +36,38 @@ export async function postSignIn(params: {
       error: payload?.error ?? "Неверные учётные данные.",
       requiresCaptcha: payload?.requiresCaptcha,
     };
+  }
+
+  return {
+    ok: true,
+    needsMfa: payload.needsMfa,
+    factorId: payload.factorId,
+    session: payload.session,
+  };
+}
+
+export async function postMfaVerifyLogin(params: {
+  factorId: string;
+  code: string;
+  mobile?: boolean;
+}): Promise<AuthApiResult & { session?: { access_token: string; refresh_token: string } }> {
+  const res = await fetch("/api/auth/mfa/verify-login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...(params.mobile ? { "x-sonogyn-client": "mobile" } : {}),
+    },
+    credentials: "same-origin",
+    body: JSON.stringify({ factorId: params.factorId, code: params.code }),
+  });
+  const payload = (await res.json().catch(() => null)) as {
+    ok?: boolean;
+    error?: string;
+    session?: { access_token: string; refresh_token: string };
+  } | null;
+
+  if (!res.ok || !payload?.ok) {
+    return { ok: false, error: payload?.error ?? "Неверный или просроченный код." };
   }
   return { ok: true, session: payload.session };
 }
@@ -77,4 +111,68 @@ export async function postSignUp(params: {
     needsEmailConfirmation: payload.needsEmailConfirmation,
     session: payload.session,
   };
+}
+
+export async function postPhoneSendOtp(params: {
+  phone: string;
+  createUser?: boolean;
+  turnstileToken?: string;
+  mobile?: boolean;
+}): Promise<{ ok: true; message?: string } | { ok: false; error: string; requiresCaptcha?: boolean }> {
+  const res = await fetch("/api/auth/phone/send-otp", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...(params.mobile ? { "x-sonogyn-client": "mobile" } : {}),
+    },
+    credentials: "same-origin",
+    body: JSON.stringify(params),
+  });
+  const payload = (await res.json().catch(() => null)) as {
+    ok?: boolean;
+    error?: string;
+    message?: string;
+    requiresCaptcha?: boolean;
+  } | null;
+
+  if (!res.ok || !payload?.ok) {
+    return {
+      ok: false,
+      error: payload?.error ?? "Не удалось отправить код.",
+      requiresCaptcha: payload?.requiresCaptcha,
+    };
+  }
+  return { ok: true, message: payload.message };
+}
+
+export async function postPhoneVerifyOtp(params: {
+  phone: string;
+  token: string;
+  mobile?: boolean;
+}): Promise<AuthApiResult & { session?: { access_token: string; refresh_token: string } }> {
+  const res = await fetch("/api/auth/phone/verify-otp", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...(params.mobile ? { "x-sonogyn-client": "mobile" } : {}),
+    },
+    credentials: "same-origin",
+    body: JSON.stringify({ phone: params.phone, token: params.token }),
+  });
+  const payload = (await res.json().catch(() => null)) as {
+    ok?: boolean;
+    error?: string;
+    session?: { access_token: string; refresh_token: string };
+  } | null;
+
+  if (!res.ok || !payload?.ok) {
+    return { ok: false, error: payload?.error ?? "Неверный или просроченный код." };
+  }
+  return { ok: true, session: payload.session };
+}
+
+export async function fetchAuthSession(): Promise<{ user: Record<string, unknown> | null }> {
+  const res = await fetch("/api/auth/session", { credentials: "same-origin", cache: "no-store" });
+  const payload = (await res.json().catch(() => null)) as { user?: Record<string, unknown> | null } | null;
+  return { user: payload?.user ?? null };
 }

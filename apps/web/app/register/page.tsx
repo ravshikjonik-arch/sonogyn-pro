@@ -14,7 +14,7 @@ import { buildOAuthRedirect, normalizePhone, oauthProviderToSupabase } from "@/l
 import { APP_LOCALES, readAppLocale, saveAppLocale, type AppLocale } from "@/lib/i18n/locale";
 import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
 import { CAPTCHA_FAILURE_THRESHOLD } from "@/lib/auth/auth-attempts";
-import { postSignUp } from "@/lib/auth/client-auth-api";
+import { postSignUp, postPhoneSendOtp, postPhoneVerifyOtp } from "@/lib/auth/client-auth-api";
 import { markSessionAnchorNow } from "@/lib/security/session-anchor";
 import { SIGN_UP_GENERIC_MSG, requireOnlineForAuth, translateAuthError } from "@/lib/auth/translate-auth-error";
 import {
@@ -108,16 +108,18 @@ function RegisterForm() {
     const normalized = normalizePhone(phone);
     setLoading(true);
     try {
-      const { error } = await supabase.auth.signInWithOtp({
+      const result = await postPhoneSendOtp({
         phone: normalized,
-        options: { shouldCreateUser: true },
+        createUser: true,
+        turnstileToken,
       });
-      if (error) {
-        setMessage(translateAuthError(error.message, "otp"));
+      if (!result.ok) {
+        setRequiresCaptcha(Boolean(result.requiresCaptcha));
+        setMessage(result.error);
         return;
       }
       setOtpSent(true);
-      setMessage("Если номер подходит, код отправлен по SMS.");
+      setMessage(result.message ?? "Если номер подходит, код отправлен по SMS.");
     } finally {
       setLoading(false);
     }
@@ -131,13 +133,9 @@ function RegisterForm() {
     const normalized = normalizePhone(phone);
     setLoading(true);
     try {
-      const { error } = await supabase.auth.verifyOtp({
-        phone: normalized,
-        token: otp.trim(),
-        type: "sms",
-      });
-      if (error) {
-        setMessage(translateAuthError(error.message, "otp"));
+      const result = await postPhoneVerifyOtp({ phone: normalized, token: otp.trim() });
+      if (!result.ok) {
+        setMessage(result.error);
         return;
       }
       markSessionAnchorNow();

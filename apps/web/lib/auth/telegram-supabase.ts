@@ -6,6 +6,7 @@ import {
   createSupabaseRouteHandlerClient,
   nextJsonWithAuthCookies,
 } from "@/lib/route-handler-supabase";
+import { createMobileSessionExchange } from "@/lib/auth/mobile-session-exchange";
 import { isInternalAuthSecretConfigured } from "@/lib/security/production-secrets";
 import { createServiceRoleClient } from "@/utils/supabase/admin";
 
@@ -119,13 +120,14 @@ export async function establishTelegramSession(email: string, request: Request) 
   const wantsMobileSession = request.headers.get("x-sonogyn-client") === "mobile";
 
   if (wantsMobileSession && sessionData.session) {
+    const exchangeCode = await createMobileSessionExchange({
+      access_token: sessionData.session.access_token,
+      refresh_token: sessionData.session.refresh_token,
+    });
     return NextResponse.json({
       ok: true,
       email,
-      session: {
-        access_token: sessionData.session.access_token,
-        refresh_token: sessionData.session.refresh_token,
-      },
+      exchangeCode,
     });
   }
 

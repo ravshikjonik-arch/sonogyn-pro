@@ -39,7 +39,7 @@ export async function POST(req: Request) {
     );
   }
 
-  if (isCaptchaRequired(failKey)) {
+  if (await isCaptchaRequired(failKey)) {
     const ok = await verifyTurnstileToken(body.turnstileToken);
     if (!ok) {
       return NextResponse.json(
@@ -69,7 +69,7 @@ export async function POST(req: Request) {
     const { error } = await supabase.auth.signInWithPassword({ email, password });
 
     if (error) {
-      const failCount = recordAuthFailure(failKey);
+      const failCount = await recordAuthFailure(failKey);
       const net = isLikelySupabaseNetworkError(error.message);
       return NextResponse.json(
         {
@@ -81,15 +81,46 @@ export async function POST(req: Request) {
     }
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);
-    recordAuthFailure(failKey);
+    await recordAuthFailure(failKey);
     const net = isLikelySupabaseNetworkError(msg);
     return NextResponse.json(
-      { error: toSafeAuthErrorMessage(msg, "sign-in"), requiresCaptcha: isCaptchaRequired(failKey) },
+      {
+        error: toSafeAuthErrorMessage(msg, "sign-in"),
+        requiresCaptcha: await isCaptchaRequired(failKey),
+      },
       { status: net ? 502 : 401 },
     );
   }
 
-  clearAuthFailures(failKey);
+  const { data: aalData, error: aalError } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+  if (!aalError && aalData?.nextLevel === "aal2" && aalData.currentLevel !== "aal2") {
+    const { data: factorsData, error: factorsError } = await supabase.auth.mfa.listFactors();
+    if (!factorsError) {
+      const totp = (factorsData?.totp ?? []).find((f) => f.status === "verified");
+      if (totp) {
+        if (wantsMobileSession) {
+          const { data: sessionData } = await supabase.auth.getSession();
+          return NextResponse.json({
+            ok: true,
+            needsMfa: true,
+            factorId: totp.id,
+            session: sessionData.session
+              ? {
+                  access_token: sessionData.session.access_token,
+                  refresh_token: sessionData.session.refresh_token,
+                }
+              : undefined,
+          });
+        }
+        return nextJsonWithAuthCookies(
+          { ok: true, needsMfa: true, factorId: totp.id },
+          cookiesToSet,
+        );
+      }
+    }
+  }
+
+  await clearAuthFailures(failKey);
 
   if (wantsMobileSession) {
     const { data: sessionData } = await supabase.auth.getSession();

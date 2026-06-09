@@ -6,20 +6,19 @@ import { FormEvent, Suspense, useCallback, useState } from "react";
 import type { AuthProvider } from "@repo/ui";
 import { AuthButtons } from "@repo/ui";
 
-import { useSupabase } from "@/app/providers";
+import { useAuth, useSupabase } from "@/app/providers";
 import { AuthMessage, AuthScreenShell, authInputClass } from "@/components/auth/AuthScreenShell";
 import { TelegramLoginButton } from "@/components/auth/TelegramLoginButton";
 import { Button } from "@/components/ui/button";
 import { buildOAuthRedirect, normalizePhone, oauthProviderToSupabase } from "@/lib/auth/oauth-providers";
 import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
-import { postSignIn } from "@/lib/auth/client-auth-api";
+import { postSignIn, postMfaVerifyLogin, postPhoneSendOtp, postPhoneVerifyOtp } from "@/lib/auth/client-auth-api";
 import { CAPTCHA_FAILURE_THRESHOLD } from "@/lib/auth/auth-attempts";
 import { markSessionAnchorNow } from "@/lib/security/session-anchor";
 import {
   PASSWORD_RESET_GENERIC_MSG,
   requireOnlineForAuth,
   translateAuthError,
-  translateOtpError,
 } from "@/lib/auth/translate-auth-error";
 import { safeInternalPath } from "@/lib/nav/safe-redirect";
 
@@ -27,6 +26,7 @@ function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const supabase = useSupabase();
+  const { refresh } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,6 +39,9 @@ function LoginForm() {
   const [failedAttempts, setFailedAttempts] = useState(0);
   const [requiresCaptcha, setRequiresCaptcha] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState<string | undefined>();
+  const [mfaRequired, setMfaRequired] = useState(false);
+  const [mfaFactorId, setMfaFactorId] = useState<string | null>(null);
+  const [mfaCode, setMfaCode] = useState("");
 
   const nextPath = safeInternalPath(searchParams.get("redirectedFrom"), "/app");
   const showCaptcha =
@@ -73,8 +76,37 @@ function LoginForm() {
         setTurnstileToken(undefined);
         return;
       }
+      if (result.needsMfa && result.factorId) {
+        setMfaRequired(true);
+        setMfaFactorId(result.factorId);
+        setMessage("Введите код из приложения аутентификатора.");
+        return;
+      }
       setFailedAttempts(0);
       markSessionAnchorNow();
+      await refresh();
+      router.push(nextPath);
+      router.refresh();
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function onMfaLogin(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setMessage("");
+    if (!mfaFactorId || !guardOnline()) return;
+
+    setLoading(true);
+    try {
+      const result = await postMfaVerifyLogin({ factorId: mfaFactorId, code: mfaCode.trim() });
+      if (!result.ok) {
+        setMessage(result.error);
+        return;
+      }
+      setMfaRequired(false);
+      markSessionAnchorNow();
+      await refresh();
       router.push(nextPath);
       router.refresh();
     } finally {
@@ -89,13 +121,18 @@ function LoginForm() {
     const normalized = normalizePhone(phone);
     setLoading(true);
     try {
-      const { error } = await supabase.auth.signInWithOtp({ phone: normalized });
-      if (error) {
-        setMessage(translateOtpError(error.message));
+      const result = await postPhoneSendOtp({
+        phone: normalized,
+        turnstileToken,
+      });
+      if (!result.ok) {
+        setRequiresCaptcha(Boolean(result.requiresCaptcha));
+        setMessage(result.error);
+        setTurnstileToken(undefined);
         return;
       }
       setOtpSent(true);
-      setMessage("Код отправлен по SMS.");
+      setMessage(result.message ?? "Если номер подходит, код отправлен по SMS.");
     } finally {
       setLoading(false);
     }
@@ -109,15 +146,13 @@ function LoginForm() {
     const normalized = normalizePhone(phone);
     setLoading(true);
     try {
-      const { error } = await supabase.auth.verifyOtp({
-        phone: normalized,
-        token: otp.trim(),
-        type: "sms",
-      });
-      if (error) {
-        setMessage(translateOtpError(error.message));
+      const result = await postPhoneVerifyOtp({ phone: normalized, token: otp.trim() });
+      if (!result.ok) {
+        setMessage(result.error);
         return;
       }
+      markSessionAnchorNow();
+      await refresh();
       router.push(nextPath);
       router.refresh();
     } finally {
@@ -202,6 +237,29 @@ function LoginForm() {
       title="Вход"
       subtitle="Email, телефон или соцсети — один аккаунт для web и mobile."
       emailTab={
+        mfaRequired ? (
+          <form className="space-y-4" onSubmit={(e) => void onMfaLogin(e)}>
+            <p className="text-sm text-[var(--clinical-foreground-muted)]">
+              Двухфакторная аутентификация включена. Введите 6-значный код.
+            </p>
+            <label className="block">
+              <span className="text-sm font-medium text-slate-700 dark:text-slate-200">Код TOTP</span>
+              <input
+                className={authInputClass}
+                inputMode="numeric"
+                value={mfaCode}
+                onChange={(e) => setMfaCode(e.target.value)}
+                placeholder="000000"
+                required
+                aria-label="Код TOTP"
+              />
+            </label>
+            {message ? <AuthMessage message={message} tone="error" /> : null}
+            <Button className="w-full rounded-2xl py-6" type="submit" disabled={loading} aria-label="Подтвердить MFA">
+              {loading ? "Проверяем…" : "Подтвердить"}
+            </Button>
+          </form>
+        ) : (
         <form className="space-y-4" onSubmit={(e) => void onEmailLogin(e)}>
           <label className="block">
             <span className="text-sm font-medium text-slate-700 dark:text-slate-200">Email</span>
@@ -243,6 +301,7 @@ function LoginForm() {
             Забыли пароль?
           </button>
         </form>
+        )
       }
       phoneTab={
         <form className="space-y-4" onSubmit={(e) => void onVerifyOtp(e)}>
