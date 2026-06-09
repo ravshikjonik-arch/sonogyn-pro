@@ -61,6 +61,8 @@ Use this as the human-facing gate before exposing the platform to clinicians or 
 
 - [ ] GitHub Actions workflow passes: install → typecheck → lint → web build (see `.github/workflows/ci.yml`).
 - [ ] Vercel Git integration: preview deployments per PR; production pinned to `main`.
+- [ ] Vercel **Root Directory** = `apps/web` (не корень репо). Включить *Include source files outside of the Root Directory*.
+- [ ] Vercel install = `pnpm` (см. `apps/web/vercel.json`), не `npm install` / `turbo run build` из авто-детекта.
 - [ ] Branch protections require green CI.
 
 ## Legal & compliance UX
