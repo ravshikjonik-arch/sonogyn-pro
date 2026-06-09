@@ -7,8 +7,6 @@ import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { LmpDateField } from "@/components/clinical/LmpDateField";
-import { RuDateInput } from "@/components/ui/ru-date-input";
 
 type Props = {
   patientId?: string;
@@ -91,10 +89,22 @@ export function PatientForm({ patientId, initial }: Props) {
       </label>
       <label className="block text-sm">
         Дата рождения
-        <RuDateInput className="mt-1" value={dob} onChange={(iso) => setDob(iso ?? "")} />
-        <span className="mt-1 block text-xs text-[var(--clinical-foreground-muted)]">дд.мм.гггг — точки подставятся сами</span>
+        <Input
+          type="date"
+          className="mt-1"
+          value={dob}
+          onChange={(e) => setDob(e.target.value)}
+        />
       </label>
-      <LmpDateField value={lmp} onChange={(iso) => setLmp(iso ?? "")} />
+      <label className="block text-sm">
+        ПМП
+        <Input
+          type="date"
+          className="mt-1"
+          value={lmp}
+          onChange={(e) => setLmp(e.target.value)}
+        />
+      </label>
       <label className="block text-sm">
         Телефон
         <Input
