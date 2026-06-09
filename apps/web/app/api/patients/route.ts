@@ -1,6 +1,7 @@
 import { CreatePatientBodySchema, escapeLikePattern } from "@repo/types";
 import { NextResponse } from "next/server";
 
+import { rejectIfRateLimited } from "@/lib/security/api-rate-limit";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
 import { safeLog } from "@/lib/security/safeLog";
@@ -71,6 +72,9 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+  const limited = await rejectIfRateLimited(request, "patients-create", 30, 60_000);
+  if (limited) return limited;
+
   const supabase = await createClient();
   const {
     data: { user },

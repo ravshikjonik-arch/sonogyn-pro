@@ -2,6 +2,8 @@
  * Rate limiting: Upstash Redis in production multi-instance; in-memory fallback for local dev.
  */
 
+import { isProductionRateLimitReady } from "./production-secrets";
+
 type Bucket = { count: number; resetAt: number };
 
 const memoryStore = new Map<string, Bucket>();
@@ -67,8 +69,15 @@ export async function consumeRateLimit(
   limit: number,
   windowMs: number,
 ): Promise<RateLimitResult> {
+  if (!isProductionRateLimitReady()) {
+    return { ok: false, retryAfterSec: 120 };
+  }
+
   const upstash = getUpstashLimiter(windowMs, limit);
   if (!upstash) {
+    if (process.env.NODE_ENV === "production") {
+      return { ok: false, retryAfterSec: 120 };
+    }
     return consumeMemoryRateLimit(key, limit, windowMs);
   }
 
@@ -78,6 +87,9 @@ export async function consumeRateLimit(
     const retryAfterSec = Math.max(1, Math.ceil((result.reset - Date.now()) / 1000));
     return { ok: false, retryAfterSec };
   } catch {
+    if (process.env.NODE_ENV === "production") {
+      return { ok: false, retryAfterSec: 60 };
+    }
     return consumeMemoryRateLimit(key, limit, windowMs);
   }
 }

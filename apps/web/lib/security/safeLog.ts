@@ -1,4 +1,17 @@
-/** Never log PHI — strip common patient identifiers from diagnostic messages. */
+/** Never log PHI or secrets — strip identifiers and credential fields from diagnostics. */
+
+const SECRET_KEY_FRAGMENTS = [
+  "secret",
+  "token",
+  "password",
+  "authorization",
+  "api_key",
+  "apikey",
+  "bearer",
+  "credential",
+  "private_key",
+  "service_role",
+];
 
 const PHI_KEYS = [
   "display_label",
@@ -22,8 +35,13 @@ const PHI_KEYS = [
   "report_text",
 ];
 
+function isSecretKey(key: string): boolean {
+  const k = key.toLowerCase();
+  return SECRET_KEY_FRAGMENTS.some((p) => k.includes(p));
+}
+
 function redactValue(key: string, value: unknown): unknown {
-  if (PHI_KEYS.some((p) => key.toLowerCase().includes(p))) {
+  if (isSecretKey(key) || PHI_KEYS.some((p) => key.toLowerCase().includes(p))) {
     return "[redacted]";
   }
   if (value && typeof value === "object" && !Array.isArray(value)) {

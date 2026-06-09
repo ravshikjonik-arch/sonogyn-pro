@@ -26,8 +26,15 @@ const JWT_SECRET =
   (isProduction
     ? null
     : "dev-only-change-in-production");
+const JWT_EXPIRES = process.env.JWT_EXPIRES || "7d";
+const JWT_EXPIRES = process.env.JWT_EXPIRES || "7d";
+const MIN_JWT_SECRET_LEN = 32;
 if (!JWT_SECRET) {
   console.error("Refusing to start: set JWT_SECRET in production (NODE_ENV=production).");
+  process.exit(1);
+}
+if (isProduction && JWT_SECRET.length < MIN_JWT_SECRET_LEN) {
+  console.error(`Refusing to start: JWT_SECRET must be at least ${MIN_JWT_SECRET_LEN} chars in production.`);
   process.exit(1);
 }
 const ADMIN_EMAIL = String(process.env.ADMIN_EMAIL || "").trim().toLowerCase();
@@ -61,9 +68,28 @@ function normalizeStoreShape() {
     isBlocked: Boolean(u.isBlocked),
     blockedReason: String(u.blockedReason || ""),
     blockedUntil: u.blockedUntil || null,
+    tokenVersion: Number.isFinite(u.tokenVersion) ? u.tokenVersion : 0,
   }));
   store.cases = store.cases || [];
   store.audit = store.audit || [];
+}
+
+function signUserToken(user) {
+  return jwt.sign(
+    {
+      sub: user.id,
+      email: user.email,
+      name: user.displayName,
+      role: user.role,
+      tv: user.tokenVersion ?? 0,
+    },
+    JWT_SECRET,
+    { expiresIn: JWT_EXPIRES },
+  );
+}
+
+function bumpTokenVersion(user) {
+  user.tokenVersion = (user.tokenVersion ?? 0) + 1;
 }
 
 function addAudit(action, actorId, details = {}) {
@@ -178,6 +204,9 @@ function authMiddleware(req, res, next) {
     req.userRole = payload.role === "admin" ? "admin" : "doctor";
     const user = store.users.find((u) => u.id === req.userId);
     if (!user) return res.status(401).json({ error: "Пользователь не найден" });
+    if ((payload.tv ?? 0) !== (user.tokenVersion ?? 0)) {
+      return res.status(401).json({ error: "Сессия отозвана" });
+    }
     if (isActiveBlock(user)) {
       return res.status(403).json({
         error: "Аккаунт заблокирован",
@@ -220,19 +249,14 @@ app.post("/auth/register", authLimiter, async (req, res) => {
     isBlocked: false,
     blockedReason: "",
     blockedUntil: null,
+    tokenVersion: 0,
     createdAt: new Date().toISOString(),
   };
   store.users.push(user);
   refreshAdminRoleForUser(user);
   addAudit("user_registered", user.id, { email: user.email, role: user.role });
   saveStore(store);
-  const token = jwt.sign(
-    { sub: user.id, email: user.email, name: user.displayName, role: user.role },
-    JWT_SECRET,
-    {
-      expiresIn: "30d",
-    }
-  );
+  const token = signUserToken(user);
   res.json({
     token,
     user: userPublicDto(user),
@@ -254,13 +278,7 @@ app.post("/auth/login", authLimiter, async (req, res) => {
     });
   }
   refreshAdminRoleForUser(user);
-  const token = jwt.sign(
-    { sub: user.id, email: user.email, name: user.displayName, role: user.role },
-    JWT_SECRET,
-    {
-      expiresIn: "30d",
-    }
-  );
+  const token = signUserToken(user);
   res.json({
     token,
     user: userPublicDto(user),
@@ -397,6 +415,7 @@ app.patch("/admin/users/:id/block", authMiddleware, adminOnly, (req, res) => {
   target.isBlocked = true;
   target.blockedReason = reason || "Нарушение правил сообщества";
   target.blockedUntil = blockedUntilRaw || null;
+  bumpTokenVersion(target);
   addAudit("user_blocked", req.userId, {
     targetUserId: target.id,
     reason: target.blockedReason,
@@ -415,6 +434,15 @@ app.patch("/admin/users/:id/unblock", authMiddleware, adminOnly, (req, res) => {
   addAudit("user_unblocked", req.userId, { targetUserId: target.id });
   saveStore(store);
   res.json({ user: userPublicDto(target) });
+});
+
+app.post("/admin/users/:id/revoke-sessions", authMiddleware, adminOnly, (req, res) => {
+  const target = store.users.find((u) => u.id === req.params.id);
+  if (!target) return res.status(404).json({ error: "Пользователь не найден" });
+  bumpTokenVersion(target);
+  addAudit("user_sessions_revoked", req.userId, { targetUserId: target.id, tokenVersion: target.tokenVersion });
+  saveStore(store);
+  res.json({ ok: true, tokenVersion: target.tokenVersion });
 });
 
 app.delete("/admin/cases/:id", authMiddleware, adminOnly, (req, res) => {

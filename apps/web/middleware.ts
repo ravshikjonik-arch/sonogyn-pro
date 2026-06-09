@@ -39,8 +39,23 @@ function isPublicWithinProtected(pathname: string): boolean {
 }
 
 export default async function middleware(request: NextRequest) {
-  const { supabase, response } = await updateSession(request);
   const pathname = request.nextUrl.pathname;
+
+  if (pathname.startsWith("/api/")) {
+    if (process.env.NODE_ENV === "production") {
+      if (pathname.startsWith("/api/debug") || pathname.startsWith("/api/auth/dev-login")) {
+        return NextResponse.json({ error: "Not found" }, { status: 404 });
+      }
+    }
+
+    const { response } = await updateSession(request);
+    response.headers.set("Cache-Control", "no-store, no-cache, must-revalidate");
+    response.headers.set("Pragma", "no-cache");
+    response.headers.set("X-Content-Type-Options", "nosniff");
+    return response;
+  }
+
+  const { supabase, response } = await updateSession(request);
 
   const isProtectedRoute = roots.some((root) => pathname === root || pathname.startsWith(`${root}/`));
 
@@ -92,6 +107,7 @@ export default async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
+    "/api/:path*",
     "/app",
     "/app/:path*",
     "/calculators",

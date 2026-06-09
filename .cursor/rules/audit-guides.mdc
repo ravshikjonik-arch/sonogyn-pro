@@ -1,0 +1,31 @@
+---
+description: По запросу «аудит» — выдавать структурированные гайды для проверки sonogyn-pro
+alwaysApply: true
+---
+
+# Аудит sonogyn-pro
+
+Когда пользователь пишет **«аудит»** (или просит гайд по аудиту) — дать **пошаговые гайды** для самостоятельной проверки, без лишних вопросов «продолжить?».
+
+## Что включать в гайды
+
+1. **Безопасность (web)** — XSS (`highlightText`, PDF snapshot), ILIKE escape, upload magic bytes, Zod на API.
+2. **Клинические данные** — даты ISO, телефон, СНИЛС, полис ОМС, протокол УЗИ.
+3. **Auth / IDOR / RBAC** — сессия, доступ к patient/study, rate limit.
+4. **Deploy / infra** — Vercel env, Supabase migration `20260608120000_security_hardening.sql`, production URL.
+5. **Mobile / offline** — известные gaps (upload без magic bytes, SecureStore).
+
+## Формат ответа
+
+- Короткий план 1-2-3-4.
+- Чеклист «что проверить / как / ожидаемый результат».
+- Команды (`typecheck`, `build`, curl smoke) и пути к файлам.
+- Таблица «закрыто / открыто / вне scope».
+
+## Контекст проекта
+
+- Production: `https://sonogyn-pro-web-ravshan-s-projects3.vercel.app`
+- Ветка: `feature/pwa-web-platform`
+- Security batch: коммиты `c28feba`, `e5eb83b`
+
+Не учить медицине с нуля; классификации — только по гайдлайнам и КР.

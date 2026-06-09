@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import { rejectIfRateLimited } from "@/lib/security/api-rate-limit";
 import { translateAuthError } from "@/lib/auth/translate-auth-error";
 import {
   ensureTelegramUser,
@@ -10,6 +11,9 @@ import {
 
 /** Доверенный вход через Telegram-бота (без Login Widget hash). Только server-to-server. */
 export async function POST(request: Request) {
+  const limited = await rejectIfRateLimited(request, "auth-telegram-bot", 20, 15 * 60_000);
+  if (limited) return limited;
+
   if (!readInternalAuthSecret(request)) {
     return NextResponse.json({ error: "Недостаточно прав." }, { status: 403 });
   }

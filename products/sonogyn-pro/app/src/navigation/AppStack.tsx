@@ -1,6 +1,7 @@
 import { NavigationContainer, type LinkingOptions } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
+import type { Session } from "@supabase/supabase-js";
 import { Platform } from "react-native";
 import CaseScreen from "../screens/CaseScreen";
 import LandingScreen from "../screens/LandingScreen";
@@ -31,6 +32,9 @@ import MainTabs from "./MainTabs";
 import type { RootStackParamList } from "./paramLists";
 import type { PageType } from "../navigationTypes";
 import { hasValidConsent } from "../legal/consentStorage";
+import { supabaseMobile } from "../lib/supabase/mobileClient";
+import { wipeMobileClinicalLocalData } from "../lib/security/wipeClinicalLocal";
+import { useSessionRevalidation } from "../hooks/useSessionRevalidation";
 import { AppGateContext } from "./AppGateContext";
 
 export type { MainTabParamList, RootStackParamList } from "./paramLists";
@@ -106,6 +110,30 @@ export default function AppStack() {
   const [checked, setChecked] = useState(false);
   const [consentOk, setConsentOk] = useState(false);
   const [banned, setBanned] = useState(false);
+  const [supabaseSession, setSupabaseSession] = useState<Session | null>(null);
+
+  const refreshSupabaseSession = useCallback(async () => {
+    if (!supabaseMobile) {
+      setSupabaseSession(null);
+      return;
+    }
+    const { data } = await supabaseMobile.auth.getSession();
+    setSupabaseSession(data.session);
+  }, []);
+
+  useEffect(() => {
+    void refreshSupabaseSession();
+    if (!supabaseMobile) return;
+    const { data: sub } = supabaseMobile.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_OUT") {
+        void wipeMobileClinicalLocalData();
+      }
+      setSupabaseSession(session);
+    });
+    return () => sub.subscription.unsubscribe();
+  }, [refreshSupabaseSession]);
+
+  useSessionRevalidation(Boolean(supabaseSession));
 
   useEffect(() => {
     const STARTUP_MS = 10_000;

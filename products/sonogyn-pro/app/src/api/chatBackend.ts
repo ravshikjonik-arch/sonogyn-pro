@@ -166,6 +166,17 @@ export async function apiAdminSetBlocked(
   if (!res.ok) throw new Error(data.error || `Ошибка ${res.status}`);
 }
 
+export async function apiAdminRevokeChatSessions(token: string, userId: string): Promise<void> {
+  const base = getChatApiBase();
+  if (!base) throw new Error("API не настроен");
+  const res = await fetch(`${base}/admin/users/${encodeURIComponent(userId)}/revoke-sessions`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || `Ошибка ${res.status}`);
+}
+
 export async function apiAdminDeleteCase(token: string, caseId: string): Promise<void> {
   const base = getChatApiBase();
   if (!base) throw new Error("API не настроен");

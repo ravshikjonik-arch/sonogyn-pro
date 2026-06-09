@@ -8,6 +8,7 @@ import {
 } from "@/lib/route-handler-supabase";
 import { createMobileSessionExchange } from "@/lib/auth/mobile-session-exchange";
 import { isInternalAuthSecretConfigured } from "@/lib/security/production-secrets";
+import { timingSafeEqual } from "@/lib/security/timing-safe";
 import { createServiceRoleClient } from "@/utils/supabase/admin";
 
 export type TelegramPayload = {
@@ -33,7 +34,7 @@ export function verifyTelegramWidgetHash(body: TelegramPayload, botToken: string
 
   const secretKey = crypto.createHash("sha256").update(botToken).digest();
   const computedHash = crypto.createHmac("sha256", secretKey).update(checkString).digest("hex");
-  return computedHash === hash;
+  return timingSafeEqual(computedHash, hash);
 }
 
 export async function findUserByTelegramId(
@@ -137,5 +138,6 @@ export async function establishTelegramSession(email: string, request: Request) 
 export function readInternalAuthSecret(request: Request): boolean {
   if (!isInternalAuthSecretConfigured()) return false;
   const expected = process.env.SONOGYN_AUTH_INTERNAL_SECRET!.trim();
-  return request.headers.get("x-sonogyn-internal-secret") === expected;
+  const received = request.headers.get("x-sonogyn-internal-secret") ?? "";
+  return timingSafeEqual(expected, received);
 }

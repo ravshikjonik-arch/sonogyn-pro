@@ -1,14 +1,22 @@
 import { UltrasoundProtocolPayloadSchema } from "@repo/types";
 import { NextResponse } from "next/server";
 
+import { rejectIfRateLimited } from "@/lib/security/api-rate-limit";
+import { isUuid } from "@/lib/security/uuid";
 import { safeLog } from "@/lib/security/safeLog";
 import { assertStudyOwnedByUser } from "@/lib/security/assert-study-owner";
 import { createClient } from "@/utils/supabase/server";
 
 type Params = { studyId: string };
 
-export async function GET(_request: Request, context: { params: Promise<Params> }) {
+export async function GET(request: Request, context: { params: Promise<Params> }) {
+  const limited = await rejectIfRateLimited(request, "protocol-read", 120, 60_000);
+  if (limited) return limited;
+
   const { studyId } = await context.params;
+  if (!isUuid(studyId)) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
   const supabase = await createClient();
   const {
     data: { user },
@@ -40,7 +48,13 @@ export async function GET(_request: Request, context: { params: Promise<Params> 
 }
 
 export async function PUT(request: Request, context: { params: Promise<Params> }) {
+  const limited = await rejectIfRateLimited(request, "protocol-write", 60, 60_000);
+  if (limited) return limited;
+
   const { studyId } = await context.params;
+  if (!isUuid(studyId)) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
   const supabase = await createClient();
   const {
     data: { user },
