@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { recordAuditEvent } from "@/lib/copilot/audit";
 import { validateRegisteredImagePath } from "@/lib/copilot/storage-path";
+import { validateRegisteredContentType } from "@/lib/security/file-validation";
 import { ULTRASOUND_MEDIA_BUCKET } from "@/lib/copilot/types";
 import { assertStudyOwnedByUser } from "@/lib/security/assert-study-owner";
 import { createClient } from "@/utils/supabase/server";
@@ -48,6 +49,11 @@ export async function POST(request: Request) {
     storagePath,
   })) {
     return NextResponse.json({ error: "Invalid storage path" }, { status: 400 });
+  }
+
+  const typeCheck = validateRegisteredContentType(contentType, byteSize);
+  if (!typeCheck.ok) {
+    return NextResponse.json({ error: typeCheck.error }, { status: 400 });
   }
 
   const studyOwned = await assertStudyOwnedByUser(supabase, studyId, user.id);

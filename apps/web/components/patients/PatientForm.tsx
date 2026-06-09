@@ -7,6 +7,8 @@ import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { LmpDateField } from "@/components/clinical/LmpDateField";
+import { RuDateInput } from "@/components/ui/ru-date-input";
 
 type Props = {
   patientId?: string;
@@ -24,6 +26,8 @@ export function PatientForm({ patientId, initial }: Props) {
   const [dob, setDob] = useState(initial?.meta?.date_of_birth ?? "");
   const [lmp, setLmp] = useState(initial?.meta?.lmp ?? "");
   const [phone, setPhone] = useState(initial?.meta?.phone ?? "");
+  const [snils, setSnils] = useState(initial?.meta?.snils ?? "");
+  const [omsPolicy, setOmsPolicy] = useState(initial?.meta?.oms_policy ?? "");
   const [notes, setNotes] = useState(initial?.meta?.notes ?? "");
   const [busy, setBusy] = useState(false);
 
@@ -41,7 +45,9 @@ export function PatientForm({ patientId, initial }: Props) {
         meta: {
           date_of_birth: dob || undefined,
           lmp: lmp || undefined,
-          phone: phone || undefined,
+          phone: phone.trim() || undefined,
+          snils: snils.replace(/\D/g, "") || undefined,
+          oms_policy: omsPolicy.replace(/\D/g, "") || undefined,
           notes: notes || undefined,
         },
       };
@@ -53,7 +59,14 @@ export function PatientForm({ patientId, initial }: Props) {
         body: JSON.stringify(body),
       });
       if (!res.ok) {
-        toast.error("Ошибка сохранения");
+        const err = (await res.json().catch(() => null)) as { error?: unknown } | null;
+        const msg =
+          typeof err?.error === "string"
+            ? err.error
+            : err?.error && typeof err.error === "object"
+              ? "Проверьте поля формы"
+              : "Ошибка сохранения";
+        toast.error(msg);
         return;
       }
       const json = (await res.json()) as { patient: { id: string } };
@@ -78,15 +91,39 @@ export function PatientForm({ patientId, initial }: Props) {
       </label>
       <label className="block text-sm">
         Дата рождения
-        <Input type="date" className="mt-1" value={dob} onChange={(e) => setDob(e.target.value)} />
+        <RuDateInput className="mt-1" value={dob} onChange={(iso) => setDob(iso ?? "")} />
+        <span className="mt-1 block text-xs text-[var(--clinical-foreground-muted)]">дд.мм.гггг — точки подставятся сами</span>
       </label>
-      <label className="block text-sm">
-        ПМП
-        <Input type="date" className="mt-1" value={lmp} onChange={(e) => setLmp(e.target.value)} />
-      </label>
+      <LmpDateField value={lmp} onChange={(iso) => setLmp(iso ?? "")} />
       <label className="block text-sm">
         Телефон
-        <Input className="mt-1" value={phone} onChange={(e) => setPhone(e.target.value)} />
+        <Input
+          className="mt-1"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          placeholder="+79001234567"
+        />
+      </label>
+      <label className="block text-sm">
+        СНИЛС
+        <Input
+          className="mt-1 font-mono"
+          value={snils}
+          onChange={(e) => setSnils(e.target.value.replace(/[^\d-]/g, "").slice(0, 14))}
+          placeholder="12345678901"
+          inputMode="numeric"
+        />
+        <span className="mt-1 block text-xs text-[var(--clinical-foreground-muted)]">11 цифр, проверка контрольной суммы на сервере</span>
+      </label>
+      <label className="block text-sm">
+        Полис ОМС
+        <Input
+          className="mt-1 font-mono"
+          value={omsPolicy}
+          onChange={(e) => setOmsPolicy(e.target.value.replace(/\D/g, "").slice(0, 16))}
+          placeholder="16 цифр"
+          inputMode="numeric"
+        />
       </label>
       <label className="block text-sm">
         Заметки

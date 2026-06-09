@@ -51,7 +51,17 @@ export function getFieldHelp(fieldName: string): FieldHelpSnippet | null {
 }
 
 export function highlightText(text: string, query: string): string {
-  if (!query.trim()) return text;
+  const safe = escapeHtmlForHighlight(text);
+  if (!query.trim()) return safe;
   const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  return text.replace(new RegExp(`(${escaped})`, "gi"), "<mark>$1</mark>");
+  return safe.replace(new RegExp(`(${escaped})`, "gi"), "<mark>$1</mark>");
+}
+
+function escapeHtmlForHighlight(text: string): string {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }

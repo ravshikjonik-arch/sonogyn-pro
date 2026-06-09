@@ -1,4 +1,5 @@
 import type { UltrasoundProtocolPayload } from "@repo/types";
+import { isSafeClinicalImageDataUrl } from "@repo/types";
 
 export type PdfReportInput = {
   clinicName: string;
@@ -41,9 +42,11 @@ export function buildStudyReportHtml(input: PdfReportInput): string {
     )
     .join("");
 
-  const uterusSnapshot = protocol.uterus_visualization?.snapshotDataUrl
-    ? `<h2 style="font-size:15px;margin:20px 0 8px">Схема матки (3D)</h2><img src="${protocol.uterus_visualization.snapshotDataUrl}" alt="Схема матки" style="max-width:100%;max-height:320px;border:1px solid #cbd5e1;border-radius:8px"/>`
-    : "";
+  const uterusSnapshot =
+    protocol.uterus_visualization?.snapshotDataUrl &&
+    isSafeClinicalImageDataUrl(protocol.uterus_visualization.snapshotDataUrl)
+      ? `<h2 style="font-size:15px;margin:20px 0 8px">Схема матки (3D)</h2><img src="${protocol.uterus_visualization.snapshotDataUrl}" alt="Схема матки" style="max-width:100%;max-height:320px;border:1px solid #cbd5e1;border-radius:8px"/>`
+      : "";
 
   return `<!DOCTYPE html>
 <html lang="ru">

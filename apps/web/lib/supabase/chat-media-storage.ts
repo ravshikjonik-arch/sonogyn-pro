@@ -1,5 +1,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 
+import { validateChatMediaUpload } from "@/lib/security/file-validation";
+
 export const DOCTOR_CHAT_MEDIA_BUCKET = "doctor-chat-media";
 
 export type ChatMediaType = "image" | "video";
@@ -30,6 +32,9 @@ export async function uploadChatMedia(
     file: File;
   },
 ): Promise<{ storagePath: string; mediaType: ChatMediaType } | { error: string }> {
+  const sig = await validateChatMediaUpload(params.file);
+  if (!sig.ok) return { error: sig.error };
+
   const mediaType = chatMediaTypeFromFile(params.file);
   if (!mediaType) return { error: "Нужен файл изображения или видео" };
 

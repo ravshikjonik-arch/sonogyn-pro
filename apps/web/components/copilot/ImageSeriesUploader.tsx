@@ -7,6 +7,7 @@ import {
   buildImageStoragePath,
   inferModalityHint,
 } from "@/lib/copilot/storage-path";
+import { validateClinicalImageUpload } from "@/lib/security/file-validation";
 import { ULTRASOUND_MEDIA_BUCKET } from "@/lib/copilot/types";
 
 type SeriesRow = {
@@ -109,6 +110,11 @@ export function ImageSeriesUploader(props: {
       for (let i = 0; i < fileList.length; i += 1) {
         const file = fileList.item(i);
         if (!file) continue;
+
+        const sig = await validateClinicalImageUpload(file);
+        if (!sig.ok) {
+          throw new Error(sig.error);
+        }
 
         const { bucket, path } = buildImageStoragePath({
           userId: user.id,

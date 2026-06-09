@@ -1,4 +1,4 @@
-import { CreatePatientBodySchema } from "@repo/types";
+import { CreatePatientBodySchema, escapeLikePattern } from "@repo/types";
 import { NextResponse } from "next/server";
 
 import { consumeRateLimit } from "@/lib/security/rate-limit";
@@ -44,7 +44,7 @@ export async function GET(request: Request) {
     .limit(limit + 1);
 
   if (q.length > 0) {
-    query = query.ilike("display_label", `%${q}%`);
+    query = query.ilike("display_label", `%${escapeLikePattern(q)}%`);
   }
 
   if (cursor) {

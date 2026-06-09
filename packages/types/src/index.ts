@@ -4,6 +4,42 @@
  */
 import { z } from "zod";
 
+import {
+  ClinicalPhoneSchema,
+  clinicalPlainText,
+  ExternalMrnSchema,
+  ExternalRefSchema,
+  IsoDateStringSchema,
+  OmsPolicyNumberSchema,
+  OptionalIsoDateStringSchema,
+  SafeSnapshotDataUrlSchema,
+  SnilsSchema,
+  escapeHtmlText,
+  escapeLikePattern,
+  isSafeClinicalImageDataUrl,
+  isValidIsoCalendarDate,
+  validateSnilsChecksum,
+  isPlainClinicalText,
+} from "./clinical-validation";
+
+export {
+  ClinicalPhoneSchema,
+  clinicalPlainText,
+  ExternalMrnSchema,
+  ExternalRefSchema,
+  IsoDateStringSchema,
+  OmsPolicyNumberSchema,
+  OptionalIsoDateStringSchema,
+  SafeSnapshotDataUrlSchema,
+  SnilsSchema,
+  escapeHtmlText,
+  escapeLikePattern,
+  isPlainClinicalText,
+  isSafeClinicalImageDataUrl,
+  isValidIsoCalendarDate,
+  validateSnilsChecksum,
+};
+
 // --- RBAC & profiles ------------------------------------------------------------
 
 export const UserRoleSchema = z.enum(["user", "moderator", "admin"]);
@@ -185,12 +221,14 @@ export const PatientSexSchema = z.enum(["female", "male", "other", "unknown"]);
 export type PatientSex = z.infer<typeof PatientSexSchema>;
 
 export const PatientMetaSchema = z.object({
-  date_of_birth: z.string().optional(),
-  lmp: z.string().optional(),
-  phone: z.string().max(32).optional(),
+  date_of_birth: OptionalIsoDateStringSchema,
+  lmp: OptionalIsoDateStringSchema,
+  phone: ClinicalPhoneSchema,
   email: z.string().email().optional(),
-  notes: z.string().max(4000).optional(),
-  external_mrn: z.string().max(64).optional(),
+  notes: clinicalPlainText(4000).optional(),
+  external_mrn: ExternalMrnSchema,
+  snils: SnilsSchema,
+  oms_policy: OmsPolicyNumberSchema,
 });
 export type PatientMeta = z.infer<typeof PatientMetaSchema>;
 
@@ -206,8 +244,12 @@ export const PatientRowSchema = z.object({
 export type PatientRow = z.infer<typeof PatientRowSchema>;
 
 export const CreatePatientBodySchema = z.object({
-  display_label: z.string().min(1).max(240),
-  external_ref: z.string().max(120).optional(),
+  display_label: z
+    .string()
+    .min(1)
+    .max(240)
+    .refine(isPlainClinicalText, "Недопустимые символы в имени"),
+  external_ref: ExternalRefSchema,
   meta: PatientMetaSchema.optional(),
 });
 export type CreatePatientBody = z.infer<typeof CreatePatientBodySchema>;
@@ -246,7 +288,7 @@ export const PathologyAnnotationSchema = z.object({
     width: z.number().positive(),
     depth: z.number().nonnegative(),
   }),
-  comment: z.string().max(500).optional(),
+  comment: clinicalPlainText(500).optional(),
   pedunculated: z.boolean().optional(),
   figoType: z.number().int().min(0).max(8).optional(),
   figoOverride: z.number().int().min(0).max(8).nullable().optional(),
@@ -257,7 +299,7 @@ export const PathologyAnnotationSchema = z.object({
 export const UterusVisualizationSchema = z.object({
   modelScale: z.number().min(0.5).max(2),
   annotations: z.array(PathologyAnnotationSchema).default([]),
-  snapshotDataUrl: z.string().max(2_000_000).optional(),
+  snapshotDataUrl: SafeSnapshotDataUrlSchema.optional(),
 });
 export type UterusVisualization = z.infer<typeof UterusVisualizationSchema>;
 
@@ -271,24 +313,24 @@ export const AmnioticFluidSchema = z.object({
 export type AmnioticFluid = z.infer<typeof AmnioticFluidSchema>;
 
 export const UltrasoundProtocolPayloadSchema = z.object({
-  study_date: z.string(),
-  lmp: z.string().optional(),
+  study_date: IsoDateStringSchema,
+  lmp: OptionalIsoDateStringSchema,
   ga_days: z.number().int().min(0).optional(),
   biometry: FetusBiometrySchema.default({}),
   doppler: DopplerMeasurementsSchema.default({}),
   amniotic: AmnioticFluidSchema.default({}),
   organs: z
     .object({
-      uterus: z.string().max(2000).optional(),
-      ovaries: z.string().max(2000).optional(),
-      cervix: z.string().max(2000).optional(),
-      placenta: z.string().max(2000).optional(),
-      fetus: z.string().max(2000).optional(),
-      bladder: z.string().max(2000).optional(),
+      uterus: clinicalPlainText(2000).optional(),
+      ovaries: clinicalPlainText(2000).optional(),
+      cervix: clinicalPlainText(2000).optional(),
+      placenta: clinicalPlainText(2000).optional(),
+      fetus: clinicalPlainText(2000).optional(),
+      bladder: clinicalPlainText(2000).optional(),
     })
     .default({}),
-  diagnosis: z.string().max(2000).optional(),
-  conclusion: z.string().max(8000).optional(),
+  diagnosis: clinicalPlainText(2000).optional(),
+  conclusion: clinicalPlainText(8000).optional(),
   efw_grams: z.number().int().positive().optional(),
   efw_formula: z.string().optional(),
   uterus_visualization: UterusVisualizationSchema.optional(),
