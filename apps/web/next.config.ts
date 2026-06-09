@@ -11,7 +11,18 @@ const requireFromWeb = createRequire(path.join(__dirname, "package.json"));
  * pnpm часто сыпется MODULE_NOT_FOUND (`preset-modules`, `regenerator/visit.js`, …).
  * В development отдаём чистый nextConfig; PWA подключаем только для production build.
  */
-type WithPWAFactory = (options: { dest: string; disable?: boolean; register?: boolean }) => (config: NextConfig) => NextConfig;
+type WithPWAFactory = (options: {
+  dest: string;
+  disable?: boolean;
+  register?: boolean;
+  workboxOptions?: {
+    runtimeCaching?: Array<{
+      urlPattern: (ctx: { url: URL }) => boolean;
+      handler: string;
+      options?: { cacheName?: string };
+    }>;
+  };
+}) => (config: NextConfig) => NextConfig;
 
 function supabaseConnectOriginExtra(): string {
   const raw = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
@@ -29,10 +40,17 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ["lucide-react", "@react-three/drei"],
   },
   webpack: (config) => {
+    const clinical3dSrc = path.join(__dirname, "../../packages/clinical-3d/src");
+    config.resolve ??= {};
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      // Явные subpath для Vercel/webpack (wildcard exports из package.json не всегда резолвятся)
+      "@repo/clinical-3d/organs/ovary": path.join(clinical3dSrc, "organs/ovary/index.ts"),
+      "@repo/clinical-3d/shared/locale": path.join(clinical3dSrc, "shared/locale.ts"),
+    };
     // pnpm hoists jay-peg at repo root; @react-pdf/image resolves from apps/web
     try {
       const jayPeg = requireFromWeb.resolve("jay-peg");
-      config.resolve ??= {};
       config.resolve.alias = { ...config.resolve.alias, "jay-peg": jayPeg };
     } catch {
       /* optional peer of @react-pdf — pages without PDF export still work */
@@ -53,7 +71,7 @@ const nextConfig: NextConfig = {
             value: "camera=(), microphone=(self), geolocation=()",
           },
           {
-            key: "Content-Security-Policy-Report-Only",
+            key: "Content-Security-Policy",
             value:
               `default-src 'self'; img-src 'self' data: https://*.supabase.co blob:; connect-src 'self' https://*.supabase.co wss://*.supabase.co${supabaseConnectOriginExtra()} https://*.google-analytics.com https://*.firebaseio.com https://firebasestorage.googleapis.com https://*.ingest.sentry.io; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com; frame-src https://js.stripe.com;`,
           },
@@ -74,6 +92,15 @@ export default ((): NextConfig => {
     dest: "public",
     disable: false,
     register: true,
+    workboxOptions: {
+      runtimeCaching: [
+        {
+          urlPattern: ({ url }: { url: URL }) => url.pathname.startsWith("/api/"),
+          handler: "NetworkOnly",
+          options: { cacheName: "api-no-cache" },
+        },
+      ],
+    },
   });
   return withPWA(nextConfig);
 })();

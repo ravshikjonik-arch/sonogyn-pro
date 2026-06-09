@@ -6,6 +6,8 @@
   "types": "./src/index.ts",
   "exports": {
     ".": "./src/index.ts",
+    "./organs/ovary": "./src/organs/ovary/index.ts",
+    "./shared/locale": "./src/shared/locale.ts",
     "./organs/*": "./src/organs/*/index.ts",
     "./shared/*": "./src/shared/*"
   },
