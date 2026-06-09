@@ -32,6 +32,7 @@ export async function GET(_request: Request, context: { params: Promise<Params> 
     .from("studies")
     .select("id,title,study_type,status,created_at")
     .eq("patient_id", patientId)
+    .eq("created_by", user.id)
     .order("created_at", { ascending: false });
 
   return NextResponse.json({ patient, studies: studies ?? [] });

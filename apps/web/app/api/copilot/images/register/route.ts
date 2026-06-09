@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { recordAuditEvent } from "@/lib/copilot/audit";
 import { validateRegisteredImagePath } from "@/lib/copilot/storage-path";
 import { ULTRASOUND_MEDIA_BUCKET } from "@/lib/copilot/types";
+import { assertStudyOwnedByUser } from "@/lib/security/assert-study-owner";
 import { createClient } from "@/utils/supabase/server";
 
 export async function POST(request: Request) {
@@ -40,15 +41,18 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
   }
 
-  if (
-    !validateRegisteredImagePath({
-      userId: user.id,
-      studyId,
-      seriesId,
-      storagePath,
-    })
-  ) {
+  if (!validateRegisteredImagePath({
+    userId: user.id,
+    studyId,
+    seriesId,
+    storagePath,
+  })) {
     return NextResponse.json({ error: "Invalid storage path" }, { status: 400 });
+  }
+
+  const studyOwned = await assertStudyOwnedByUser(supabase, studyId, user.id);
+  if (!studyOwned) {
+    return NextResponse.json({ error: "Study not found" }, { status: 404 });
   }
 
   const { data: series, error: seriesError } = await supabase

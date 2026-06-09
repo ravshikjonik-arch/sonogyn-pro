@@ -33,7 +33,7 @@ export async function POST(request: Request) {
   const auth = await requireSupabaseUser(supabase);
   if (!auth.ok) return auth.response;
 
-  const rl = consumeRateLimit(`ai-analyze:${auth.userId}`, 30, 3_600_000);
+  const rl = await consumeRateLimit(`ai-analyze:${auth.userId}`, 30, 3_600_000);
   if (!rl.ok) {
     return NextResponse.json({ error: "Too many requests" }, { status: 429, headers: { "Retry-After": String(rl.retryAfterSec) } });
   }

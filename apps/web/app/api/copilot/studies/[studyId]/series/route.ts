@@ -22,6 +22,7 @@ export async function POST(
     .from("studies")
     .select("id")
     .eq("id", studyId)
+    .eq("created_by", user.id)
     .maybeSingle();
 
   if (studyError || !study) {

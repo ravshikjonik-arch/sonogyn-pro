@@ -37,6 +37,7 @@ export default async function PatientDetailPage(props: { params: Promise<Params>
     .from("studies")
     .select("id,title,study_type,status,created_at")
     .eq("patient_id", patientId)
+    .eq("created_by", user.id)
     .order("created_at", { ascending: false });
 
   return (

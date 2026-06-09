@@ -2,6 +2,7 @@ import { UltrasoundProtocolPayloadSchema } from "@repo/types";
 import { NextResponse } from "next/server";
 
 import { safeLog } from "@/lib/security/safeLog";
+import { assertStudyOwnedByUser } from "@/lib/security/assert-study-owner";
 import { createClient } from "@/utils/supabase/server";
 
 type Params = { studyId: string };
@@ -15,6 +16,11 @@ export async function GET(_request: Request, context: { params: Promise<Params> 
 
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const owned = await assertStudyOwnedByUser(supabase, studyId, user.id);
+  if (!owned) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
   const { data, error } = await supabase
@@ -42,6 +48,11 @@ export async function PUT(request: Request, context: { params: Promise<Params> }
 
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const owned = await assertStudyOwnedByUser(supabase, studyId, user.id);
+  if (!owned) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
   const json = await request.json().catch(() => null);

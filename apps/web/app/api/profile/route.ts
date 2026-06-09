@@ -28,7 +28,7 @@ export async function PATCH(request: Request) {
   const auth = await requireSupabaseUser(supabase);
   if (!auth.ok) return auth.response;
 
-  const rl = consumeRateLimit(`profile-patch:${auth.userId}`, 60, 300_000);
+  const rl = await consumeRateLimit(`profile-patch:${auth.userId}`, 60, 300_000);
   if (!rl.ok) {
     return NextResponse.json(
       { error: "Too many requests" },

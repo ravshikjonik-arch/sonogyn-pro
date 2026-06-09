@@ -5,16 +5,20 @@ import {
   type NosologyAiAssistInput,
 } from "@/lib/ai/nosology-ultrasound-assist";
 import { isDevSkipAuthEnabled } from "@/lib/auth/dev-account";
+import { consumeRateLimit } from "@/lib/security/rate-limit";
+import { requireSupabaseUser } from "@/lib/security/require-user";
 import { createClient } from "@/utils/supabase/server";
 
 export async function POST(request: Request) {
   const supabase = await createClient();
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+  const auth = await requireSupabaseUser(supabase);
+  if (!auth.ok && !isDevSkipAuthEnabled()) {
+    return auth.response;
+  }
 
-  if (!session && !isDevSkipAuthEnabled()) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const rl = await consumeRateLimit(`ai-nosology:${auth.ok ? auth.userId : "dev"}`, 40, 60_000);
+  if (!rl.ok) {
+    return NextResponse.json({ error: "Too many requests" }, { status: 429, headers: { "Retry-After": String(rl.retryAfterSec) } });
   }
 
   let body: NosologyAiAssistInput;

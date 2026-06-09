@@ -54,6 +54,7 @@ export async function saveAssistantRouteToPatient(input: {
       .from("studies")
       .select("id")
       .eq("patient_id", input.patientId)
+      .eq("created_by", user.id)
       .order("created_at", { ascending: false })
       .limit(1)
       .maybeSingle();
@@ -61,7 +62,12 @@ export async function saveAssistantRouteToPatient(input: {
   }
 
   if (studyId) {
-    const { data: study } = await supabase.from("studies").select("id,patient_id").eq("id", studyId).maybeSingle();
+    const { data: study } = await supabase
+      .from("studies")
+      .select("id,patient_id")
+      .eq("id", studyId)
+      .eq("created_by", user.id)
+      .maybeSingle();
     if (!study || study.patient_id !== input.patientId) {
       return { ok: false, message: "Исследование не привязано к этой пациентке" };
     }

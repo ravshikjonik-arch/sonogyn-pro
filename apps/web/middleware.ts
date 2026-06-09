@@ -2,6 +2,7 @@ import { type NextRequest, NextResponse } from "next/server";
 import { updateSession } from "@/utils/supabase/middleware";
 import { isDevSkipAuthEnabled } from "@/lib/auth/dev-account";
 import { assertProductionSecretsConfigured } from "@/lib/security/production-secrets";
+import { getClinicalRole, roleMeetsMinimum } from "@/lib/security/require-clinical-role";
 
 assertProductionSecretsConfigured();
 
@@ -61,6 +62,19 @@ export default async function middleware(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   if (user) {
+    if (pathname === "/admin" || pathname.startsWith("/admin/")) {
+      const role = await getClinicalRole(supabase, user.id);
+      if (!role || !roleMeetsMinimum(role, "admin")) {
+        const denyUrl = request.nextUrl.clone();
+        denyUrl.pathname = "/app";
+        denyUrl.search = "";
+        const denyResponse = NextResponse.redirect(denyUrl);
+        response.cookies.getAll().forEach((cookie) => {
+          denyResponse.cookies.set(cookie);
+        });
+        return denyResponse;
+      }
+    }
     return response;
   }
 

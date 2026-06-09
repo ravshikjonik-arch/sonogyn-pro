@@ -1,50 +1,48 @@
-import Constants from "expo-constants";
 import type { OradsInput } from "../types";
 import { enqueueAIRequest, loadAIQueue, saveAIQueue } from "../storage/oradsStorage";
+import { getWebApiBase } from "../../../api/chatBackend";
+import { supabaseMobile } from "../../../lib/supabase/mobileClient";
 
 export type AIResult = {
   text: string;
 };
 export type AIQueueStatus = { size: number; nextRetryInSec: number | null; lastError: string | null };
 
-const API_URL =
-  (process.env.EXPO_PUBLIC_OPENROUTER_URL as string | undefined) ||
-  (Constants.expoConfig?.extra?.openRouterUrl as string | undefined);
-const API_KEY =
-  (process.env.EXPO_PUBLIC_OPENROUTER_KEY as string | undefined) ||
-  (Constants.expoConfig?.extra?.openRouterKey as string | undefined);
-
-function buildPrompt(payload: OradsInput): string {
-  return `Ты радиолог. Оцени O-RADS по признакам и дай краткий ответ.
-Формат: "AI предполагает O-RADS [X] с уверенностью [Y]%. Основание: [кратко]".
-Данные: ${JSON.stringify(payload)}`;
+function buildOfflineMock(): AIResult {
+  return {
+    text: "AI предполагает O-RADS 3 с уверенностью 72%. Основание: офлайн — подключите интернет и войдите для серверного AI.",
+  };
 }
 
+async function authHeaders(): Promise<Record<string, string>> {
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  if (!supabaseMobile) return headers;
+  const { data } = await supabaseMobile.auth.getSession();
+  const token = data.session?.access_token;
+  if (token) headers.Authorization = `Bearer ${token}`;
+  return headers;
+}
+
+/** Серверный прокси SonoGyn (ключ OpenRouter только на backend). */
 export async function requestAI(payload: OradsInput): Promise<AIResult> {
-  if (!API_URL || !API_KEY) {
-    return { text: "AI предполагает O-RADS 3 с уверенностью 72%. Основание: мок-режим без API ключа." };
+  const base = getWebApiBase();
+  if (!base) {
+    return buildOfflineMock();
   }
 
-  const res = await fetch(API_URL, {
+  const res = await fetch(`${base}/api/ai/orads`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${API_KEY}`,
-    },
-    body: JSON.stringify({
-      model: "gpt-4o-mini",
-      messages: [
-        { role: "system", content: "Ты медицинский ассистент по O-RADS. Ответ краткий." },
-        { role: "user", content: buildPrompt(payload) },
-      ],
-    }),
+    headers: await authHeaders(),
+    body: JSON.stringify({ payload }),
   });
 
-  if (!res.ok) throw new Error(`AI API error ${res.status}`);
-  const json = await res.json();
-  const text = json?.choices?.[0]?.message?.content as string | undefined;
-  if (!text) throw new Error("AI API empty response");
-  return { text };
+  if (!res.ok) {
+    throw new Error(`AI API error ${res.status}`);
+  }
+
+  const json = (await res.json()) as { text?: string };
+  if (!json.text) throw new Error("AI API empty response");
+  return { text: json.text };
 }
 
 export async function requestAIOrQueue(payload: OradsInput): Promise<{ queued: boolean; result?: AIResult }> {

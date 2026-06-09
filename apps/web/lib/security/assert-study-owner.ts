@@ -15,3 +15,19 @@ export async function assertStudyOwnedByUser(
 
   return !error && !!data;
 }
+
+/** Defense-in-depth: verify patient chart belongs to current clinician. */
+export async function assertPatientOwnedByUser(
+  supabase: SupabaseClient,
+  patientId: string,
+  userId: string,
+): Promise<boolean> {
+  const { data, error } = await supabase
+    .from("patients")
+    .select("id")
+    .eq("id", patientId)
+    .eq("created_by", userId)
+    .maybeSingle();
+
+  return !error && !!data;
+}

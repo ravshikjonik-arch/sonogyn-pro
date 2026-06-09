@@ -194,3 +194,58 @@ export async function apiAdminDeleteComment(
   const data = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(data.error || `Ошибка ${res.status}`);
 }
+
+export type TelegramAuthStart = {
+  nonce: string;
+  botUrl: string;
+  deepLink: string;
+};
+
+export type TelegramAuthPoll =
+  | { status: "pending" }
+  | { status: "ok"; payload: Record<string, unknown>; nonce?: string }
+  | { status: "expired" };
+
+export async function apiTelegramAuthStart(): Promise<TelegramAuthStart> {
+  const base = getChatApiBase();
+  if (!base) throw new Error("Telegram auth API не настроен (EXPO_PUBLIC_CHAT_API_URL).");
+  const res = await fetch(`${base}/auth/telegram/start`, { method: "POST" });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || `Ошибка ${res.status}`);
+  return data as TelegramAuthStart;
+}
+
+export async function apiTelegramAuthPoll(nonce: string): Promise<TelegramAuthPoll> {
+  const base = getChatApiBase();
+  if (!base) throw new Error("Telegram auth API не настроен.");
+  const res = await fetch(`${base}/auth/telegram/poll/${encodeURIComponent(nonce)}`);
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || `Ошибка ${res.status}`);
+  return data as TelegramAuthPoll;
+}
+
+export function getWebApiBase(): string {
+  const configured = (process.env.EXPO_PUBLIC_API_BASE_URL || "").replace(/\/$/, "");
+  if (configured) return configured;
+  if (typeof __DEV__ !== "undefined" && __DEV__) return "http://localhost:3000";
+  return "";
+}
+
+export async function apiTelegramSupabaseSession(nonce: string): Promise<{
+  access_token: string;
+  refresh_token: string;
+  email?: string;
+}> {
+  const base = getChatApiBase();
+  if (!base) throw new Error("EXPO_PUBLIC_CHAT_API_URL не задан (chat-server).");
+  const res = await fetch(`${base}/auth/telegram/session`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ nonce }),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok || !data.session) {
+    throw new Error(data.error || `Ошибка ${res.status}`);
+  }
+  return data.session as { access_token: string; refresh_token: string; email?: string };
+}

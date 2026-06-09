@@ -4,6 +4,7 @@ import { CreateCheckoutBodySchema } from "@repo/types";
 
 import { logProductAnalyticsWeb } from "@/lib/analytics/firebase-web";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
+import { isAllowedAppRedirectUrl } from "@/lib/security/request-client";
 import { requireSupabaseUser } from "@/lib/security/require-user";
 import { getStripe } from "@/lib/stripe/server";
 import { createClient } from "@/utils/supabase/server";
@@ -31,7 +32,7 @@ export async function POST(request: Request) {
   const auth = await requireSupabaseUser(supabase);
   if (!auth.ok) return auth.response;
 
-  const rl = consumeRateLimit(`stripe-checkout:${auth.userId}`, 10, 60_000);
+  const rl = await consumeRateLimit(`stripe-checkout:${auth.userId}`, 10, 60_000);
   if (!rl.ok) {
     return NextResponse.json({ error: "Too many requests" }, { status: 429, headers: { "Retry-After": String(rl.retryAfterSec) } });
   }
@@ -39,6 +40,10 @@ export async function POST(request: Request) {
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
   const successUrl = parsed.data.successUrl ?? `${appUrl}/profile?checkout=success`;
   const cancelUrl = parsed.data.cancelUrl ?? `${appUrl}/paywall?checkout=cancel`;
+
+  if (!isAllowedAppRedirectUrl(successUrl, appUrl) || !isAllowedAppRedirectUrl(cancelUrl, appUrl)) {
+    return NextResponse.json({ error: "Redirect URL must belong to this application" }, { status: 400 });
+  }
 
   const {
     data: { user },

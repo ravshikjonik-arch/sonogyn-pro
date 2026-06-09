@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { recordAuditEvent } from "@/lib/copilot/audit";
 import type { StudyType } from "@/lib/copilot/types";
+import { consumeRateLimit } from "@/lib/security/rate-limit";
+import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
 import { createClient } from "@/utils/supabase/server";
 
 const STUDY_TYPES = new Set<string>([
@@ -16,7 +18,7 @@ const STUDY_TYPES = new Set<string>([
   "other",
 ]);
 
-export async function GET() {
+export async function GET(request: Request) {
   const supabase = await createClient();
   const {
     data: { user },
@@ -26,9 +28,18 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  const rl = await consumeRateLimit(rateLimitKeyFromRequest(request, "copilot-studies-list"), 120, 60_000);
+  if (!rl.ok) {
+    return NextResponse.json(
+      { error: "Слишком много запросов. Подождите." },
+      { status: 429, headers: { "Retry-After": String(rl.retryAfterSec) } },
+    );
+  }
+
   const { data, error } = await supabase
     .from("studies")
     .select("id,title,study_type,status,created_at,patient_id")
+    .eq("created_by", user.id)
     .order("created_at", { ascending: false })
     .limit(100);
 

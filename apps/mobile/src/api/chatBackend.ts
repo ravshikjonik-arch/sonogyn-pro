@@ -225,7 +225,10 @@ export async function apiTelegramAuthPoll(nonce: string): Promise<TelegramAuthPo
 }
 
 export function getWebApiBase(): string {
-  return (process.env.EXPO_PUBLIC_API_BASE_URL || "").replace(/\/$/, "");
+  const configured = (process.env.EXPO_PUBLIC_API_BASE_URL || "").replace(/\/$/, "");
+  if (configured) return configured;
+  if (typeof __DEV__ !== "undefined" && __DEV__) return "http://localhost:3000";
+  return "";
 }
 
 export async function apiTelegramSupabaseSession(nonce: string): Promise<{

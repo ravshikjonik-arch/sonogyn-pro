@@ -29,6 +29,8 @@ const COMMUNITY_ONLY = [
   "20260605200000_doctor_presence.sql",
 ];
 
+const SECURITY_ONLY = ["20260608120000_security_hardening.sql"];
+
 function loadEnv(filePath) {
   if (!fs.existsSync(filePath)) return {};
   const out = {};
@@ -112,20 +114,27 @@ async function applyWithPg(dbUrl, files) {
 }
 
 const bundleOnly = process.argv.includes("--bundle-only");
+const securityOnly = process.argv.includes("--security-only");
 const files = listMigrations();
 const bundle = buildBundle(files);
 fs.writeFileSync(bundlePath, bundle, "utf8");
 const communityFiles = files.filter((f) => COMMUNITY_ONLY.includes(f));
 fs.writeFileSync(communityBundlePath, buildBundle(communityFiles), "utf8");
+const securityBundlePath = path.join(webRoot, "supabase", "BUNDLE_SECURITY_ONLY.sql");
+fs.writeFileSync(securityBundlePath, buildBundle(files.filter((f) => SECURITY_ONLY.includes(f))), "utf8");
 console.log(`📄 Полный bundle: ${bundlePath} (${files.length} файлов)`);
 console.log(`📄 Только чат: ${communityBundlePath} (${communityFiles.length} файлов)`);
+console.log(`📄 Только security: ${securityBundlePath} (${SECURITY_ONLY.length} файлов)`);
 
 if (bundleOnly) {
   console.log("\nSQL Editor → Run:");
+  console.log("  • BUNDLE_SECURITY_ONLY.sql — только security fix (рекомендуется сейчас)");
   console.log("  • BUNDLE_COMMUNITY_CHAT_ONLY.sql — если база уже была");
   console.log("  • BUNDLE_FOR_SQL_EDITOR.sql — полная установка");
   process.exit(0);
 }
+
+const migrateFiles = securityOnly ? SECURITY_ONLY : files;
 
 const env = loadEnv(envPath);
 const dbUrl = env.SUPABASE_DB_URL || env.DATABASE_URL;
@@ -146,8 +155,8 @@ if (!dbUrl) {
 }
 
 try {
-  await applyWithPg(dbUrl, files);
-  console.log("\n✅ Все миграции применены.");
+  await applyWithPg(dbUrl, migrateFiles);
+  console.log("\n✅ Миграции применены.");
 } catch {
   process.exit(1);
 }

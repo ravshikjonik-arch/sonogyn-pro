@@ -9,9 +9,7 @@ const ParamsSchema = z.object({
   jobId: z.string().uuid(),
 });
 
-/**
- * Poll-friendly status endpoint for AI jobs (RLS ensures case ownership).
- */
+/** Poll-friendly status endpoint — app-level case ownership check (defense-in-depth). */
 export async function GET(_request: Request, context: { params: Promise<{ jobId: string }> }) {
   const params = ParamsSchema.safeParse(await context.params);
   if (!params.success) {
@@ -28,7 +26,7 @@ export async function GET(_request: Request, context: { params: Promise<{ jobId:
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { data, error } = await supabase
+  const { data: analysis, error } = await supabase
     .from("ai_analyses")
     .select("id, case_id, status, results, error_message, requested_at, completed_at")
     .eq("id", params.data.jobId)
@@ -38,9 +36,20 @@ export async function GET(_request: Request, context: { params: Promise<{ jobId:
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  if (!data) {
+  if (!analysis) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
-  return NextResponse.json({ analysis: data });
+  const { data: ownedCase } = await supabase
+    .from("cases")
+    .select("id")
+    .eq("id", analysis.case_id)
+    .eq("user_id", user.id)
+    .maybeSingle();
+
+  if (!ownedCase) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+
+  return NextResponse.json({ analysis });
 }

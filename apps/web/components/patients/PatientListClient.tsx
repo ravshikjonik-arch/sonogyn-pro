@@ -7,20 +7,36 @@ import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
+type ListResponse = {
+  patients: PatientRow[];
+  nextCursor: string | null;
+  hasMore: boolean;
+};
+
 export function PatientListClient() {
   const [patients, setPatients] = useState<PatientRow[]>([]);
   const [q, setQ] = useState("");
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [nextCursor, setNextCursor] = useState<string | null>(null);
+  const [hasMore, setHasMore] = useState(false);
 
-  const load = useCallback(async (query: string) => {
-    setLoading(true);
+  const load = useCallback(async (query: string, cursor?: string | null, append = false) => {
+    if (append) setLoadingMore(true);
+    else setLoading(true);
     try {
-      const url = query ? `/api/patients?q=${encodeURIComponent(query)}` : "/api/patients";
-      const res = await fetch(url);
-      const json = (await res.json()) as { patients: PatientRow[] };
-      setPatients(json.patients ?? []);
+      const params = new URLSearchParams();
+      if (query) params.set("q", query);
+      if (cursor) params.set("cursor", cursor);
+      params.set("limit", "50");
+      const res = await fetch(`/api/patients?${params.toString()}`);
+      const json = (await res.json()) as ListResponse;
+      setPatients((prev) => (append ? [...prev, ...(json.patients ?? [])] : (json.patients ?? [])));
+      setNextCursor(json.nextCursor ?? null);
+      setHasMore(Boolean(json.hasMore));
     } finally {
       setLoading(false);
+      setLoadingMore(false);
     }
   }, []);
 
@@ -58,22 +74,34 @@ export function PatientListClient() {
           Пациенты не найдены. Создайте первую карту.
         </p>
       ) : (
-        <ul className="mt-6 divide-y divide-[var(--clinical-border)] rounded-2xl border border-[var(--clinical-border)] bg-[var(--clinical-card)]">
+        <ul className="mt-6 divide-y divide-[var(--clinical-border)] rounded-xl border border-[var(--clinical-border)] bg-[var(--clinical-card)]">
           {patients.map((p) => (
             <li key={p.id}>
               <Link
                 href={`/patients/${p.id}`}
-                className="flex flex-wrap items-center justify-between gap-2 px-5 py-4 transition hover:bg-[var(--clinical-muted)]"
+                className="flex flex-wrap items-center justify-between gap-2 px-4 py-3 hover:bg-[var(--clinical-muted)]"
               >
-                <span className="font-semibold">{p.display_label}</span>
-                <span className="text-xs text-[var(--clinical-foreground-muted)]">
-                  {new Date(p.updated_at).toLocaleDateString("ru-RU")}
-                </span>
+                <span className="font-semibold text-[var(--clinical-foreground)]">{p.display_label}</span>
+                {p.external_ref ? (
+                  <span className="text-xs text-[var(--clinical-foreground-muted)]">{p.external_ref}</span>
+                ) : null}
               </Link>
             </li>
           ))}
         </ul>
       )}
+
+      {hasMore && !loading ? (
+        <div className="mt-4 flex justify-center">
+          <Button
+            variant="outline"
+            disabled={loadingMore}
+            onClick={() => void load(q, nextCursor, true)}
+          >
+            {loadingMore ? "Загрузка…" : "Показать ещё"}
+          </Button>
+        </div>
+      ) : null}
     </div>
   );
 }

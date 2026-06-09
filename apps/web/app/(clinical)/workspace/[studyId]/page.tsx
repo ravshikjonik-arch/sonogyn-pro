@@ -32,6 +32,7 @@ export default async function StudyWorkspacePage(props: {
     .from("studies")
     .select("id,title,study_type,status,created_at,patient_id")
     .eq("id", studyId)
+    .eq("created_by", user.id)
     .maybeSingle();
 
   let patientLabel = "Пациент";

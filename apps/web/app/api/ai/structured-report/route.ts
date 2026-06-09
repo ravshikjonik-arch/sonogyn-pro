@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 
 import { buildDemoStructuredReport, type StructuredUltrasoundReport } from "@/lib/ai/structured-report";
+import { isDevSkipAuthEnabled } from "@/lib/auth/dev-account";
+import { consumeRateLimit } from "@/lib/security/rate-limit";
+import { requireSupabaseUser } from "@/lib/security/require-user";
 import { createClient } from "@/utils/supabase/server";
 
 type Body = {
@@ -10,12 +13,14 @@ type Body = {
 
 export async function POST(request: Request) {
   const supabase = await createClient();
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+  const auth = await requireSupabaseUser(supabase);
+  if (!auth.ok && !isDevSkipAuthEnabled()) {
+    return auth.response;
+  }
 
-  if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const rl = await consumeRateLimit(`ai-structured:${auth.ok ? auth.userId : "dev"}`, 30, 60_000);
+  if (!rl.ok) {
+    return NextResponse.json({ error: "Too many requests" }, { status: 429, headers: { "Retry-After": String(rl.retryAfterSec) } });
   }
 
   let body: Body = {};
@@ -44,7 +49,7 @@ export async function POST(request: Request) {
   return NextResponse.json({
     report,
     meta: {
-      userId: session.user.id,
+      userId: auth.ok ? auth.userId : "dev",
       calculatorOutputs: body.calculatorOutputs ?? {},
       aiPipeline: "deterministic-demo",
     },

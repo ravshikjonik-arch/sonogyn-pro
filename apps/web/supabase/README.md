@@ -33,6 +33,8 @@ Supabase Dashboard → **SQL** → вставить → **Run**.
 | `20260605120000_teaching_case_media_storage.sql` | Bucket снимков кейсов |
 | `20260605130000_doctor_chat.sql` | Каналы чата + сообщения + медиа в тредах |
 | `20260605140000_community_realtime.sql` | Realtime для cases, comments, chat |
+| `20260605200000_doctor_presence.sql` | Online roster |
+| `20260608120000_security_hardening.sql` | **RLS: copilot series/images, profiles RPC, chat media** |
 
 ## После применения
 
