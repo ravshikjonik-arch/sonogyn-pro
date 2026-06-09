@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 
+import { MfaSettingsPanel } from "@/components/clinical/MfaSettingsPanel";
 import { ProfileSettingsForm } from "@/components/clinical/profile-settings-form";
 import { CLINICAL_AVATARS_BUCKET } from "@/lib/supabase/medical-storage";
 import { createClient } from "@/utils/supabase/server";
@@ -116,6 +117,7 @@ export default async function ProfilePage() {
             specialization: doctor?.specialization ?? profile?.specialization ?? "",
           }}
         />
+        <MfaSettingsPanel />
       </section>
     </main>
   );

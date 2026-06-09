@@ -6,6 +6,7 @@ import {
   createSupabaseRouteHandlerClient,
   nextJsonWithAuthCookies,
 } from "@/lib/route-handler-supabase";
+import { isInternalAuthSecretConfigured } from "@/lib/security/production-secrets";
 import { createServiceRoleClient } from "@/utils/supabase/admin";
 
 export type TelegramPayload = {
@@ -132,7 +133,7 @@ export async function establishTelegramSession(email: string, request: Request) 
 }
 
 export function readInternalAuthSecret(request: Request): boolean {
-  const expected = process.env.SONOGYN_AUTH_INTERNAL_SECRET?.trim();
-  if (!expected) return false;
+  if (!isInternalAuthSecretConfigured()) return false;
+  const expected = process.env.SONOGYN_AUTH_INTERNAL_SECRET!.trim();
   return request.headers.get("x-sonogyn-internal-secret") === expected;
 }

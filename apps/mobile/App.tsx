@@ -2,6 +2,7 @@ import { Component, type ErrorInfo, type ReactNode, useEffect } from "react";
 import { Platform, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { getConfig } from "./src/modules/elastography/constants";
+import { migrateOradsToSecureStore } from "./src/features/oradsPro/storage/oradsStorage";
 import { migrateHistoryToSecureStore } from "./src/modules/elastography/utils/historyStorage";
 import AppStack from "./src/navigation/AppStack";
 import { registerPwaRuntime } from "./src/web/pwa";
@@ -69,11 +70,16 @@ export default function App() {
     });
   }, []);
 
-  /** Миграция истории эластографии в SecureStore (один раз после обновления) */
+  /** Миграция локальной клиники в SecureStore (один раз после обновления) */
   useEffect(() => {
-    migrateHistoryToSecureStore().then((migrated) => {
+    void migrateHistoryToSecureStore().then((migrated) => {
       if (migrated) {
         console.log("[Elastography] История перенесена в защищённое хранилище");
+      }
+    });
+    void migrateOradsToSecureStore().then((migrated) => {
+      if (migrated) {
+        console.log("[O-RADS] Данные перенесены в защищённое хранилище");
       }
     });
   }, []);

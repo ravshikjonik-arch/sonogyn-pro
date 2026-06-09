@@ -25,6 +25,9 @@ import {
 import { useOAuthSignIn } from "../hooks/useOAuthSignIn";
 import { usePhoneAuth } from "../hooks/usePhoneAuth";
 import { changeLanguage, isAppLanguage, type AppLanguage } from "../i18n";
+import { signInViaApi, signUpViaApi } from "../lib/auth/emailAuthApi";
+import { isTurnstileConfiguredOnMobile, obtainTurnstileToken } from "../lib/auth/turnstileMobile";
+import { markSessionAnchorNow } from "../lib/security/sessionAnchor";
 import { supabaseMobile } from "../lib/supabase/mobileClient";
 import type { RootStackParamList } from "../navigation/paramLists";
 import { useAppGate } from "../navigation/AppGateContext";
@@ -35,10 +38,12 @@ type Tab = "email" | "phone" | "social";
 WebBrowser.maybeCompleteAuthSession();
 
 function translateAuthError(message: string): string {
-  if (/invalid login credentials/i.test(message)) return "Неверный email или пароль.";
-  if (/user already registered/i.test(message)) return "Email уже зарегистрирован.";
+  if (/invalid login credentials/i.test(message)) return "Неверные учётные данные.";
+  if (/user already registered/i.test(message)) return "Если аккаунт можно создать, вы получите письмо с инструкциями.";
   if (/network request failed|failed to fetch/i.test(message)) return "Нет сети. Требуется интернет для входа.";
-  return message;
+  if (/captcha|turnstile/i.test(message)) return "Подтвердите, что вы не робот (CAPTCHA).";
+  if (/too many attempts|rate/i.test(message)) return "Слишком много попыток. Подождите и попробуйте снова.";
+  return "Неверные учётные данные.";
 }
 
 type AuthLocale = Clinical3dLocale | "es";
@@ -52,6 +57,9 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
   const [busy, setBusy] = useState(false);
   const [oauthLoading, setOauthLoading] = useState<AuthProvider | null>(null);
   const [locale, setLocale] = useState<AuthLocale>(DEFAULT_CLINICAL_3D_LOCALE);
+  const [requiresCaptcha, setRequiresCaptcha] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | undefined>();
+  const [captchaBusy, setCaptchaBusy] = useState(false);
 
   const localeOptions = useMemo(
     (): Array<{ code: AuthLocale; label: string }> => [
@@ -65,9 +73,29 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
   const { signIn: signInOAuth } = useOAuthSignIn();
 
   const finishAuth = useCallback(async () => {
+    await markSessionAnchorNow();
     await refreshSupabaseSession();
     navigation.navigate("Main");
   }, [navigation, refreshSupabaseSession]);
+
+  async function runTurnstileChallenge() {
+    if (!isTurnstileConfiguredOnMobile()) {
+      Alert.alert("CAPTCHA", "Turnstile не настроен (EXPO_PUBLIC_TURNSTILE_SITE_KEY / API base).");
+      return;
+    }
+    setCaptchaBusy(true);
+    try {
+      const token = await obtainTurnstileToken();
+      if (!token) {
+        Alert.alert("CAPTCHA", "Подтверждение отменено или не удалось.");
+        return;
+      }
+      setTurnstileToken(token);
+      setRequiresCaptcha(false);
+    } finally {
+      setCaptchaBusy(false);
+    }
+  }
 
   const completeTelegramNonce = useCallback(
     async (nonce: string) => {
@@ -112,27 +140,46 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
 
     setBusy(true);
     try {
+      if (requiresCaptcha && !turnstileToken) {
+        Alert.alert("CAPTCHA", "Подтвердите, что вы не робот, затем повторите вход.");
+        return;
+      }
       if (mode === "sign-up") {
-        const { error } = await supabaseMobile.auth.signUp({
-          email: email.trim(),
-          password,
-          options: {
-            data: {
-              preferred_locale: locale,
-            },
-          },
+        const result = await signUpViaApi(email.trim(), password, email.trim().split("@")[0] ?? "User", {
+          preferred_locale: locale,
+          turnstileToken,
         });
-        if (error) throw error;
+        if (!result.ok) {
+          setRequiresCaptcha(Boolean(result.requiresCaptcha));
+          if (result.requiresCaptcha) setTurnstileToken(undefined);
+          Alert.alert("Ошибка", translateAuthError(result.error));
+          return;
+        }
         if (isAppLanguage(locale)) {
           await changeLanguage(locale as AppLanguage);
         }
-        Alert.alert("Готово", "Аккаунт создан. Если нужно — подтвердите email и войдите.");
+        if (result.session) {
+          await supabaseMobile.auth.setSession(result.session);
+          await finishAuth();
+          return;
+        }
+        Alert.alert(
+          "Готово",
+          "Если аккаунт можно создать, вы получите письмо с инструкциями.",
+        );
       } else {
-        const { error } = await supabaseMobile.auth.signInWithPassword({
-          email: email.trim(),
-          password,
-        });
-        if (error) throw error;
+        const result = await signInViaApi(email.trim(), password, turnstileToken);
+        if (!result.ok) {
+          setRequiresCaptcha(Boolean(result.requiresCaptcha));
+          if (result.requiresCaptcha) setTurnstileToken(undefined);
+          Alert.alert("Ошибка", translateAuthError(result.error));
+          return;
+        }
+        if (!result.session) {
+          Alert.alert("Ошибка", "Неверные учётные данные.");
+          return;
+        }
+        await supabaseMobile.auth.setSession(result.session);
         await finishAuth();
       }
     } catch (e) {
@@ -300,6 +347,27 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
             value={password}
             onChangeText={setPassword}
           />
+          {requiresCaptcha ? (
+            <View style={styles.captchaBlock}>
+              <Text style={styles.captchaHint}>
+                {turnstileToken ? "CAPTCHA пройдена." : "После нескольких ошибок нужна CAPTCHA."}
+              </Text>
+              {!turnstileToken ? (
+                <Pressable
+                  style={[styles.secondaryBtn, (loading || captchaBusy) && styles.primaryDisabled]}
+                  disabled={loading || captchaBusy}
+                  onPress={() => void runTurnstileChallenge()}
+                  accessibilityLabel="Пройти CAPTCHA"
+                >
+                  {captchaBusy ? (
+                    <ActivityIndicator color="#005CB9" />
+                  ) : (
+                    <Text style={styles.secondaryBtnText}>Подтвердить CAPTCHA</Text>
+                  )}
+                </Pressable>
+              ) : null}
+            </View>
+          ) : null}
           <Pressable
             style={[styles.primary, loading && styles.primaryDisabled]}
             disabled={loading}
@@ -409,6 +477,17 @@ const styles = StyleSheet.create({
   },
   primaryDisabled: { opacity: 0.6 },
   primaryText: { color: "#fff", fontWeight: "900", fontSize: 16 },
+  secondaryBtn: {
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: "#005CB9",
+    paddingVertical: 12,
+    alignItems: "center",
+    backgroundColor: "#fff",
+  },
+  secondaryBtnText: { color: "#005CB9", fontWeight: "800", fontSize: 14 },
+  captchaBlock: { gap: 8 },
+  captchaHint: { fontSize: 13, color: "#475569", fontWeight: "600" },
   secondary: { paddingVertical: 8, alignItems: "center" },
   secondaryText: { color: "#005CB9", fontWeight: "800" },
   error: { color: "#B91C1C", fontSize: 13, fontWeight: "600" },

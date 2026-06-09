@@ -1,7 +1,7 @@
 import { NavigationContainer, type LinkingOptions } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import type { Session } from "@supabase/supabase-js";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, type ComponentType } from "react";
 import { Platform } from "react-native";
 import CaseScreen from "../screens/CaseScreen";
 import LandingScreen from "../screens/LandingScreen";
@@ -31,17 +31,34 @@ import SplashScreen, { SplashLoadingView } from "../screens/SplashScreen";
 import SupabaseAuthScreen from "../screens/SupabaseAuthScreen";
 import ClinicalGuidelineDetailScreen from "../modules/clinicalGuidelines/screens/ClinicalGuidelineDetailScreen";
 import ElastographyScreen from "../modules/elastography/screens/ElastographyScreen";
+import { ClinicalPhiGate } from "../components/ClinicalPhiGate";
 import MainTabs from "./MainTabs";
 import type { RootStackParamList } from "./paramLists";
 import type { PageType } from "../navigationTypes";
 import { hasValidConsent } from "../legal/consentStorage";
 import { supabaseMobile } from "../lib/supabase/mobileClient";
+import { wipeMobileClinicalLocalData } from "../lib/security/wipeClinicalLocal";
 import { useAuthDeepLinks } from "../hooks/useAuthDeepLinks";
+import { useSessionRevalidation } from "../hooks/useSessionRevalidation";
 import { AppGateContext } from "./AppGateContext";
 
 export type { MainTabParamList, RootStackParamList } from "./paramLists";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
+
+function withClinicalPhiGate<P extends object>(Screen: ComponentType<P>) {
+  return function GuardedScreen(props: P) {
+    return (
+      <ClinicalPhiGate>
+        <Screen {...props} />
+      </ClinicalPhiGate>
+    );
+  };
+}
+
+const GuardedORADSPro = withClinicalPhiGate(ORADSProScreen);
+const GuardedORADSHistory = withClinicalPhiGate(ORADSHistoryScreen);
+const GuardedORADSHistoryDetails = withClinicalPhiGate(ORADSHistoryDetailsScreen);
 
 function parseGynecologyInitialPage(segment?: string): PageType {
   if (!segment) return "gyn_hub";
@@ -132,7 +149,10 @@ export default function AppStack() {
   useEffect(() => {
     void refreshSupabaseSession();
     if (!supabaseMobile) return;
-    const { data: sub } = supabaseMobile.auth.onAuthStateChange((_event, session) => {
+    const { data: sub } = supabaseMobile.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_OUT") {
+        void wipeMobileClinicalLocalData();
+      }
       setSupabaseSession(session);
       setSupabaseReady(true);
     });
@@ -142,6 +162,8 @@ export default function AppStack() {
   useAuthDeepLinks(() => {
     void refreshSupabaseSession();
   });
+
+  useSessionRevalidation(Boolean(supabaseSession));
 
   useEffect(() => {
     const STARTUP_MS = 10_000;
@@ -235,9 +257,9 @@ export default function AppStack() {
           <Stack.Screen name="SupabaseAuth" component={SupabaseAuthScreen} />
           <Stack.Screen name="Language" component={LanguageScreen} />
           <Stack.Screen name="ORADSFlow" component={ORADSFlowScreen} />
-          <Stack.Screen name="ORADSPro" component={ORADSProScreen} />
-          <Stack.Screen name="ORADSHistory" component={ORADSHistoryScreen} />
-          <Stack.Screen name="ORADSHistoryDetails" component={ORADSHistoryDetailsScreen} />
+          <Stack.Screen name="ORADSPro" component={GuardedORADSPro} />
+          <Stack.Screen name="ORADSHistory" component={GuardedORADSHistory} />
+          <Stack.Screen name="ORADSHistoryDetails" component={GuardedORADSHistoryDetails} />
           <Stack.Screen name="FMFAssistant" component={FMFAssistantScreen} />
           <Stack.Screen name="Prolapse" component={ProlapseScreen} />
           <Stack.Screen name="GynecologyCalc" component={GynecologyCalcScreen} />

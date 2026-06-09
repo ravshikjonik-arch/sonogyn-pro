@@ -1,28 +1,83 @@
 /**
- * Token-bucket style fixed-window counter for lightweight edge-compatible rate limiting.
- * Replace with Upstash / Vercel KV in production multi-instance deployments.
+ * Rate limiting: Upstash Redis in production multi-instance; in-memory fallback for local dev.
  */
 
 type Bucket = { count: number; resetAt: number };
 
-const store = new Map<string, Bucket>();
+const memoryStore = new Map<string, Bucket>();
 
 export type RateLimitResult = { ok: true } | { ok: false; retryAfterSec: number };
 
-/**
- * @param key — Stable identifier (user id, IP hash, or composite route key).
- * @param limit — Max hits allowed within the window.
- * @param windowMs — Sliding window duration in milliseconds.
- */
-export function consumeRateLimit(key: string, limit: number, windowMs: number): RateLimitResult {
+function consumeMemoryRateLimit(key: string, limit: number, windowMs: number): RateLimitResult {
   const now = Date.now();
-  let bucket = store.get(key);
+  let bucket = memoryStore.get(key);
   if (!bucket || now >= bucket.resetAt) {
     bucket = { count: 0, resetAt: now + windowMs };
-    store.set(key, bucket);
+    memoryStore.set(key, bucket);
   }
   bucket.count += 1;
   if (bucket.count <= limit) return { ok: true };
   const retryAfterSec = Math.max(1, Math.ceil((bucket.resetAt - now) / 1000));
   return { ok: false, retryAfterSec };
+}
+
+type UpstashLimiter = {
+  limit: (key: string) => Promise<{ success: boolean; reset: number }>;
+};
+
+let upstashLimiter: UpstashLimiter | null | undefined;
+
+function getUpstashLimiter(windowMs: number, limit: number): UpstashLimiter | null {
+  if (upstashLimiter !== undefined) return upstashLimiter;
+
+  const url = process.env.UPSTASH_REDIS_REST_URL?.trim();
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN?.trim();
+  if (!url || !token) {
+    upstashLimiter = null;
+    return null;
+  }
+
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const { Ratelimit } = require("@upstash/ratelimit") as typeof import("@upstash/ratelimit");
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const { Redis } = require("@upstash/redis") as typeof import("@upstash/redis");
+
+    const redis = new Redis({ url, token });
+    const windowSec = Math.max(1, Math.ceil(windowMs / 1000));
+    upstashLimiter = new Ratelimit({
+      redis,
+      limiter: Ratelimit.slidingWindow(limit, `${windowSec} s`),
+      prefix: "sonogyn-rl",
+    });
+    return upstashLimiter;
+  } catch {
+    upstashLimiter = null;
+    return null;
+  }
+}
+
+/**
+ * @param key — Stable identifier (user id, IP hash, or composite route key).
+ * @param limit — Max hits allowed within the window.
+ * @param windowMs — Window duration in milliseconds.
+ */
+export async function consumeRateLimit(
+  key: string,
+  limit: number,
+  windowMs: number,
+): Promise<RateLimitResult> {
+  const upstash = getUpstashLimiter(windowMs, limit);
+  if (!upstash) {
+    return consumeMemoryRateLimit(key, limit, windowMs);
+  }
+
+  try {
+    const result = await upstash.limit(key);
+    if (result.success) return { ok: true };
+    const retryAfterSec = Math.max(1, Math.ceil((result.reset - Date.now()) / 1000));
+    return { ok: false, retryAfterSec };
+  } catch {
+    return consumeMemoryRateLimit(key, limit, windowMs);
+  }
 }

@@ -11,7 +11,16 @@ import { AuthMessage, AuthScreenShell, authInputClass } from "@/components/auth/
 import { TelegramLoginButton } from "@/components/auth/TelegramLoginButton";
 import { Button } from "@/components/ui/button";
 import { buildOAuthRedirect, normalizePhone, oauthProviderToSupabase } from "@/lib/auth/oauth-providers";
-import { requireOnlineForAuth, translateAuthError } from "@/lib/auth/translate-auth-error";
+import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
+import { postSignIn } from "@/lib/auth/client-auth-api";
+import { CAPTCHA_FAILURE_THRESHOLD } from "@/lib/auth/auth-attempts";
+import { markSessionAnchorNow } from "@/lib/security/session-anchor";
+import {
+  PASSWORD_RESET_GENERIC_MSG,
+  requireOnlineForAuth,
+  translateAuthError,
+  translateOtpError,
+} from "@/lib/auth/translate-auth-error";
 import { safeInternalPath } from "@/lib/nav/safe-redirect";
 
 function LoginForm() {
@@ -27,8 +36,14 @@ function LoginForm() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [oauthLoading, setOauthLoading] = useState<AuthProvider | null>(null);
+  const [failedAttempts, setFailedAttempts] = useState(0);
+  const [requiresCaptcha, setRequiresCaptcha] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | undefined>();
 
   const nextPath = safeInternalPath(searchParams.get("redirectedFrom"), "/app");
+  const showCaptcha =
+    Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY) &&
+    (requiresCaptcha || failedAttempts >= CAPTCHA_FAILURE_THRESHOLD);
 
   const guardOnline = useCallback(() => {
     const offline = requireOnlineForAuth();
@@ -46,14 +61,20 @@ function LoginForm() {
 
     setLoading(true);
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const result = await postSignIn({
         email: email.trim(),
         password,
+        turnstileToken,
       });
-      if (error) {
-        setMessage(translateAuthError(error.message));
+      if (!result.ok) {
+        setFailedAttempts((n) => n + 1);
+        setRequiresCaptcha(Boolean(result.requiresCaptcha));
+        setMessage(result.error);
+        setTurnstileToken(undefined);
         return;
       }
+      setFailedAttempts(0);
+      markSessionAnchorNow();
       router.push(nextPath);
       router.refresh();
     } finally {
@@ -70,7 +91,7 @@ function LoginForm() {
     try {
       const { error } = await supabase.auth.signInWithOtp({ phone: normalized });
       if (error) {
-        setMessage(translateAuthError(error.message));
+        setMessage(translateOtpError(error.message));
         return;
       }
       setOtpSent(true);
@@ -94,7 +115,7 @@ function LoginForm() {
         type: "sms",
       });
       if (error) {
-        setMessage(translateAuthError(error.message));
+        setMessage(translateOtpError(error.message));
         return;
       }
       router.push(nextPath);
@@ -119,10 +140,10 @@ function LoginForm() {
         redirectTo: `${origin}/auth/callback?next=/profile`,
       });
       if (error) {
-        setMessage(translateAuthError(error.message));
+        setMessage(PASSWORD_RESET_GENERIC_MSG);
         return;
       }
-      setMessage("Письмо для сброса пароля отправлено на указанный email.");
+      setMessage(PASSWORD_RESET_GENERIC_MSG);
     } finally {
       setLoading(false);
     }
@@ -206,7 +227,10 @@ function LoginForm() {
               aria-label="Пароль"
             />
           </label>
-          {message ? <AuthMessage message={message} tone={message.includes("отправлен") ? "success" : "error"} /> : null}
+          {message ? <AuthMessage message={message} tone="error" /> : null}
+          {showCaptcha ? (
+            <TurnstileWidget onToken={(t) => setTurnstileToken(t)} onExpire={() => setTurnstileToken(undefined)} />
+          ) : null}
           <Button className="w-full rounded-2xl py-6" type="submit" disabled={loading} aria-label="Войти">
             {loading ? "Входим…" : "Войти"}
           </Button>

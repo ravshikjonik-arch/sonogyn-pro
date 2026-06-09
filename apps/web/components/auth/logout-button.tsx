@@ -11,8 +11,15 @@ export function LogoutButton() {
 
   async function onLogout() {
     setLoading(true);
-    await supabase.auth.signOut();
-    router.push("/login");
+    try {
+      const { wipeWebClinicalLocalData } = await import("@/lib/security/wipe-clinical-local");
+      wipeWebClinicalLocalData();
+      await fetch("/api/auth/sign-out", { method: "POST", credentials: "same-origin" });
+      await supabase.auth.signOut();
+      router.push("/login");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (

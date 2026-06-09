@@ -2,6 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useMemo } from "react";
 import { Platform } from "react-native";
+import { ClinicalPhiGate } from "../components/ClinicalPhiGate";
 import { branding } from "../config/branding";
 import { useCases } from "../hooks/useCases";
 import CasesScreen from "../screens/CasesScreen";
@@ -36,6 +37,14 @@ const labels: Record<keyof MainTabParamList, string> = {
 };
 
 export default function MainTabs() {
+  return (
+    <ClinicalPhiGate>
+      <MainTabsInner />
+    </ClinicalPhiGate>
+  );
+}
+
+function MainTabsInner() {
   const { cases } = useCases();
   const casesCommentBadge = useMemo(() => {
     const n = cases.reduce((acc, c) => acc + (c.commentsCount ?? 0), 0);

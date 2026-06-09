@@ -24,7 +24,10 @@ function translateOAuthError(message: string): string {
   if (/provider.*not enabled|oauth/i.test(message)) {
     return "Провайдер не включён в Supabase Dashboard.";
   }
-  return message;
+  if (/invalid login credentials|user not found/i.test(message)) {
+    return "Неверные учётные данные.";
+  }
+  return "Не удалось войти. Попробуйте снова или используйте email.";
 }
 
 export function useVkAuth() {

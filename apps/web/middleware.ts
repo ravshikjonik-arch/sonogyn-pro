@@ -1,6 +1,9 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { updateSession } from "@/utils/supabase/middleware";
 import { isDevSkipAuthEnabled } from "@/lib/auth/dev-account";
+import { assertProductionSecretsConfigured } from "@/lib/security/production-secrets";
+
+assertProductionSecretsConfigured();
 
 const roots = [
   "/app",
@@ -22,6 +25,7 @@ const roots = [
   "/nosologies",
   "/guidelines",
   "/assistant",
+  "/idea-deep-endometriosis",
 ];
 
 /** Как раньше `/elastography` — калькулятор доступен без Supabase-логина. */
@@ -38,6 +42,11 @@ export default async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   const isProtectedRoute = roots.some((root) => pathname === root || pathname.startsWith(`${root}/`));
+
+  if (isProtectedRoute) {
+    response.headers.set("Cache-Control", "private, no-store, max-age=0");
+    response.headers.set("Pragma", "no-cache");
+  }
 
   if (!isProtectedRoute || isPublicWithinProtected(pathname)) {
     return response;
@@ -75,6 +84,7 @@ export const config = {
     "/calculators/:path*",
     "/cases",
     "/community",
+    "/community/:path*",
     "/cases/:path*",
     "/library",
     "/library/:path*",
@@ -106,5 +116,7 @@ export const config = {
     "/guidelines/:path*",
     "/assistant",
     "/assistant/:path*",
+    "/idea-deep-endometriosis",
+    "/idea-deep-endometriosis/:path*",
   ],
 };

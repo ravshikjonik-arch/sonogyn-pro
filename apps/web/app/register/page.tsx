@@ -12,7 +12,11 @@ import { TelegramLoginButton } from "@/components/auth/TelegramLoginButton";
 import { Button } from "@/components/ui/button";
 import { buildOAuthRedirect, normalizePhone, oauthProviderToSupabase } from "@/lib/auth/oauth-providers";
 import { APP_LOCALES, readAppLocale, saveAppLocale, type AppLocale } from "@/lib/i18n/locale";
-import { requireOnlineForAuth, translateAuthError } from "@/lib/auth/translate-auth-error";
+import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
+import { CAPTCHA_FAILURE_THRESHOLD } from "@/lib/auth/auth-attempts";
+import { postSignUp } from "@/lib/auth/client-auth-api";
+import { markSessionAnchorNow } from "@/lib/security/session-anchor";
+import { SIGN_UP_GENERIC_MSG, requireOnlineForAuth, translateAuthError } from "@/lib/auth/translate-auth-error";
 import {
   buildFioAbbreviation,
   normalizeRussianFio,
@@ -36,8 +40,14 @@ function RegisterForm() {
   const [loading, setLoading] = useState(false);
   const [oauthLoading, setOauthLoading] = useState<AuthProvider | null>(null);
   const [locale, setLocale] = useState<AppLocale>(() => readAppLocale());
+  const [failedAttempts, setFailedAttempts] = useState(0);
+  const [requiresCaptcha, setRequiresCaptcha] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | undefined>();
 
   const afterAuthPath = safeInternalPath(searchParams.get("next"), "/app");
+  const showCaptcha =
+    Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY) &&
+    (requiresCaptcha || failedAttempts >= CAPTCHA_FAILURE_THRESHOLD);
 
   const guardOnline = useCallback(() => {
     const offline = requireOnlineForAuth();
@@ -63,33 +73,29 @@ function RegisterForm() {
 
     setLoading(true);
     try {
-      const res = await fetch("/api/auth/sign-up", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "same-origin",
-        body: JSON.stringify({
-          email: email.trim(),
-          password,
-          full_name: trimmedName,
-          preferred_locale: locale,
-        }),
+      const result = await postSignUp({
+        email: email.trim(),
+        password,
+        full_name: trimmedName,
+        preferred_locale: locale,
+        turnstileToken,
       });
-      const payload = (await res.json().catch(() => null)) as {
-        ok?: boolean;
-        needsEmailConfirmation?: boolean;
-        error?: string;
-      } | null;
-      if (!res.ok || !payload?.ok) {
-        setMessage(payload?.error ?? "Не удалось создать аккаунт.");
+      if (!result.ok) {
+        setFailedAttempts((n) => n + 1);
+        setRequiresCaptcha(Boolean(result.requiresCaptcha));
+        setMessage(result.error);
+        setTurnstileToken(undefined);
         return;
       }
       saveAppLocale(locale);
-      if (!payload.needsEmailConfirmation) {
+      setFailedAttempts(0);
+      if (!result.needsEmailConfirmation) {
+        markSessionAnchorNow();
         router.push(afterAuthPath);
         router.refresh();
         return;
       }
-      setMessage("Аккаунт создан. Если включено подтверждение email — проверьте почту, затем войдите.");
+      setMessage(SIGN_UP_GENERIC_MSG);
     } finally {
       setLoading(false);
     }
@@ -107,11 +113,11 @@ function RegisterForm() {
         options: { shouldCreateUser: true },
       });
       if (error) {
-        setMessage(translateAuthError(error.message));
+        setMessage(translateAuthError(error.message, "otp"));
         return;
       }
       setOtpSent(true);
-      setMessage("Код отправлен по SMS.");
+      setMessage("Если номер подходит, код отправлен по SMS.");
     } finally {
       setLoading(false);
     }
@@ -131,9 +137,10 @@ function RegisterForm() {
         type: "sms",
       });
       if (error) {
-        setMessage(translateAuthError(error.message));
+        setMessage(translateAuthError(error.message, "otp"));
         return;
       }
+      markSessionAnchorNow();
       router.push(afterAuthPath);
       router.refresh();
     } finally {
@@ -257,7 +264,15 @@ function RegisterForm() {
               aria-label="Пароль"
             />
           </label>
-          {message ? <AuthMessage message={message} tone={message.includes("создан") ? "success" : "error"} /> : null}
+          {message ? (
+            <AuthMessage
+              message={message}
+              tone={message === SIGN_UP_GENERIC_MSG ? "success" : "error"}
+            />
+          ) : null}
+          {showCaptcha ? (
+            <TurnstileWidget onToken={(t) => setTurnstileToken(t)} onExpire={() => setTurnstileToken(undefined)} />
+          ) : null}
           <Button className="w-full rounded-2xl py-6" type="submit" disabled={loading} aria-label="Зарегистрироваться">
             {loading ? "Создаём…" : "Зарегистрироваться"}
           </Button>

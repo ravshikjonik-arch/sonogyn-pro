@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 
 import { translateAuthError } from "@/lib/auth/translate-auth-error";
+import { consumeRateLimit } from "@/lib/security/rate-limit";
+import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
 import {
   ensureTelegramUser,
   establishTelegramSession,
@@ -9,6 +11,14 @@ import {
 } from "@/lib/auth/telegram-supabase";
 
 export async function POST(request: Request) {
+  const rl = await consumeRateLimit(rateLimitKeyFromRequest(request, "auth-telegram"), 30, 15 * 60_000);
+  if (!rl.ok) {
+    return NextResponse.json(
+      { error: "Слишком много попыток входа." },
+      { status: 429, headers: { "Retry-After": String(rl.retryAfterSec) } },
+    );
+  }
+
   const botToken = process.env.TELEGRAM_BOT_TOKEN?.trim();
   if (!botToken) {
     return NextResponse.json({ error: "TELEGRAM_BOT_TOKEN не задан на сервере." }, { status: 503 });

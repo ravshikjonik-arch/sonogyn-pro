@@ -14,7 +14,8 @@ function translatePhoneError(message: string): string {
   if (/invalid otp|otp_expired/i.test(message)) return "Неверный или просроченный код.";
   if (/phone.*invalid/i.test(message)) return "Неверный формат номера. Используйте +79001234567.";
   if (/too many requests|rate/i.test(message)) return "Слишком много попыток. Подождите.";
-  return message;
+  if (/user not found|invalid login credentials/i.test(message)) return "Неверные учётные данные.";
+  return "Не удалось выполнить вход по телефону. Проверьте номер и попробуйте снова.";
 }
 
 export function usePhoneAuth() {
