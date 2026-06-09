@@ -24,3 +24,7 @@ web-build/
 npm-debug.*
 yarn-debug.*
 yarn-error.*
+.vercel
+
+# Локальные симлинки на скан книги (не для деплоя)
+apps/web/public/books/umarov-2021/
