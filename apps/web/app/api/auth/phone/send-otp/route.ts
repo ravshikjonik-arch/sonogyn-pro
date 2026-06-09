@@ -8,7 +8,7 @@ import {
   recordAuthFailure,
 } from "@/lib/auth/auth-attempts";
 import { toSafeAuthErrorMessage, CAPTCHA_REQUIRED_MSG } from "@/lib/auth/safe-auth-messages";
-import { verifyTurnstileToken } from "@/lib/auth/verify-turnstile";
+import { verifyTurnstileIfConfigured } from "@/lib/auth/verify-turnstile";
 import { normalizePhone } from "@/lib/auth/oauth-providers";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
@@ -39,7 +39,7 @@ export async function POST(req: Request) {
   }
 
   if (await isCaptchaRequired(failKey)) {
-    const ok = await verifyTurnstileToken(body.turnstileToken);
+    const ok = await verifyTurnstileIfConfigured(body.turnstileToken);
     if (!ok) {
       return NextResponse.json(
         { error: CAPTCHA_REQUIRED_MSG, requiresCaptcha: true },

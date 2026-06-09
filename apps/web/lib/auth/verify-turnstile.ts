@@ -30,3 +30,11 @@ export function isTurnstileConfigured(): boolean {
     process.env.TURNSTILE_SECRET_KEY?.trim() && process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim(),
   );
 }
+
+/** Skip CAPTCHA gate when Turnstile keys are not deployed yet (rate limit still applies). */
+export async function verifyTurnstileIfConfigured(
+  token: string | undefined | null,
+): Promise<boolean> {
+  if (!isTurnstileConfigured()) return true;
+  return verifyTurnstileToken(token);
+}
