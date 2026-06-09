@@ -3,7 +3,7 @@ import {
   type OvaryMarkerKind,
   type OvaryMorphologyPreset,
   type OvaryTopographyMarker,
-} from "@repo/clinical-3d";
+} from "@repo/clinical-3d/organs/ovary/ovaryTopography";
 
 export type OvaryImageMetrics = {
   width: number;
