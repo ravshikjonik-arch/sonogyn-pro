@@ -1,4 +1,4 @@
-import { CLINICAL_3D_LOCALES, DEFAULT_CLINICAL_3D_LOCALE, type Clinical3dLocale } from "@repo/clinical-3d";
+import { CLINICAL_3D_LOCALES, DEFAULT_CLINICAL_3D_LOCALE, type Clinical3dLocale } from "@repo/clinical-3d/shared/locale";
 
 export const APP_LOCALE_STORAGE_KEY = "sonogyn_app_locale";
 

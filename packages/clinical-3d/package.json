@@ -7,7 +7,7 @@
   "exports": {
     ".": "./src/index.ts",
     "./organs/*": "./src/organs/*/index.ts",
-    "./shared/*": "./src/shared/*.tsx"
+    "./shared/*": "./src/shared/*"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
