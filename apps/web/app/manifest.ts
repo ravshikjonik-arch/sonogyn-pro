@@ -7,7 +7,7 @@ export default function manifest(): MetadataRoute.Manifest {
     short_name: "Ultrasound Edu",
     description:
       "Cloud ultrasound imaging education and clinical decision-support workspace for training cohorts.",
-    start_url: "/app",
+    start_url: "/landing",
     display: "standalone",
     orientation: "portrait-primary",
     background_color: "#f8fafc",

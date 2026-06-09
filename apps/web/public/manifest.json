@@ -2,7 +2,7 @@
   "name": "Medical Ultrasound Platform",
   "short_name": "Ultrasound",
   "description": "Medical ultrasound clinical platform with Supabase auth and protected workspace.",
-  "start_url": "/",
+  "start_url": "/landing",
   "scope": "/",
   "display": "standalone",
   "background_color": "#f8fafc",

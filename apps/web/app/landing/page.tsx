@@ -146,9 +146,11 @@ export default function LandingPage() {
               </p>
               <h2 className="mt-2 text-2xl font-bold text-slate-950 dark:text-white">4 шага до первого кейса</h2>
             </div>
-            <Button variant="outline" asChild>
-              <Link href="/app">Открыть кабинет (dev)</Link>
-            </Button>
+            {process.env.NODE_ENV === "development" ? (
+              <Button variant="outline" asChild>
+                <Link href="/app">Открыть кабинет (dev)</Link>
+              </Button>
+            ) : null}
           </div>
           <ol className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {[

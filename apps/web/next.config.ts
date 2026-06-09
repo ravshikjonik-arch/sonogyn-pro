@@ -93,6 +93,8 @@ export default ((): NextConfig => {
     disable: false,
     register: true,
     workboxOptions: {
+      navigateFallback: "/landing",
+      navigateFallbackDenylist: [/^\/api\//, /^\/_next\//, /^\/auth\//],
       runtimeCaching: [
         {
           urlPattern: ({ url }: { url: URL }) => url.pathname.startsWith("/api/"),
