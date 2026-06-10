@@ -97,4 +97,19 @@ for (const key of FROM_LOCAL) {
   upsertEnv(key, value, targets);
 }
 
-console.log("\nDone. Run Redeploy on Vercel to apply new env vars.");
+const REQUIRED_FOR_PRODUCTION_SECURITY = [
+  "SONOGYN_AUTH_INTERNAL_SECRET",
+  "UPSTASH_REDIS_REST_URL",
+  "UPSTASH_REDIS_REST_TOKEN",
+  "SUPABASE_SERVICE_ROLE_KEY",
+];
+
+console.log("\n--- Production security checklist ---");
+for (const key of REQUIRED_FOR_PRODUCTION_SECURITY) {
+  const localOk = Boolean(local[key]?.trim());
+  const vercelOk = envExists(key, "production");
+  const status = localOk && vercelOk ? "ok" : localOk ? "local only" : vercelOk ? "vercel only" : "MISSING";
+  console.log(`${status === "ok" ? "✓" : "○"} ${key}: ${status}`);
+}
+
+console.log("\nDone. After all keys are on Vercel: Redeploy → Promote to Production.");
