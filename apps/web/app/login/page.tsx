@@ -11,7 +11,9 @@ import { AuthMessage, AuthScreenShell, authInputClass } from "@/components/auth/
 import { TelegramLoginButton } from "@/components/auth/TelegramLoginButton";
 import { Button } from "@/components/ui/button";
 import { buildOAuthRedirect, normalizePhone, oauthProviderToSupabase } from "@/lib/auth/oauth-providers";
+import { PhoneAuthSetupHint } from "@/components/auth/PhoneAuthSetupHint";
 import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
+import { looksLikePhoneInput, USE_PHONE_TAB_MSG } from "@/lib/auth/auth-error-text";
 import { postSignIn, postMfaVerifyLogin, postPhoneSendOtp, postPhoneVerifyOtp } from "@/lib/auth/client-auth-api";
 import { CAPTCHA_FAILURE_THRESHOLD } from "@/lib/auth/auth-attempts";
 import { markSessionAnchorNow } from "@/lib/security/session-anchor";
@@ -47,6 +49,7 @@ function LoginForm() {
   const [mfaCode, setMfaCode] = useState("");
   const [needsEmailConfirmation, setNeedsEmailConfirmation] = useState(false);
   const [needsPhoneRegistration, setNeedsPhoneRegistration] = useState(false);
+  const [smsNotConfigured, setSmsNotConfigured] = useState(false);
 
   const defaultTab = useMemo(
     () => parseRegistrationMethod(searchParams.get("method")),
@@ -90,12 +93,18 @@ function LoginForm() {
     setTurnstileToken(undefined);
     setNeedsEmailConfirmation(false);
     setNeedsPhoneRegistration(false);
+    setSmsNotConfigured(false);
   }
 
   async function onEmailLogin(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setMessage("");
     if (!guardOnline()) return;
+
+    if (looksLikePhoneInput(email)) {
+      setMessage(USE_PHONE_TAB_MSG);
+      return;
+    }
 
     setLoading(true);
     try {
@@ -165,11 +174,13 @@ function LoginForm() {
         setRequiresCaptcha(Boolean(result.requiresCaptcha));
         setFailedAttempts((n) => n + 1);
         setNeedsPhoneRegistration(Boolean(result.needsRegistration));
+        setSmsNotConfigured(Boolean(result.smsNotConfigured));
         setMessage(result.error);
         setTurnstileToken(undefined);
         return;
       }
       setNeedsPhoneRegistration(false);
+      setSmsNotConfigured(false);
       setFailedAttempts(0);
       setOtpSent(true);
       setMessage(result.message ?? PHONE_OTP_SENT_MSG);
@@ -189,10 +200,12 @@ function LoginForm() {
       const result = await postPhoneVerifyOtp({ phone: normalized, token: otp.trim() });
       if (!result.ok) {
         setNeedsPhoneRegistration(Boolean(result.needsRegistration));
+        setSmsNotConfigured(Boolean(result.smsNotConfigured));
         setMessage(result.error);
         return;
       }
       setNeedsPhoneRegistration(false);
+      setSmsNotConfigured(false);
       markSessionAnchorNow();
       await refresh();
       router.push(nextPath);
@@ -358,6 +371,7 @@ function LoginForm() {
       }
       phoneTab={
         <form className="space-y-4" onSubmit={(e) => void onVerifyOtp(e)}>
+          <PhoneAuthSetupHint visible={smsNotConfigured} />
           <label className="block">
             <span className="text-sm font-medium text-slate-700 dark:text-slate-200">Телефон</span>
             <input

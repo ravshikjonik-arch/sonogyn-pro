@@ -8,6 +8,7 @@ import { AuthButtons } from "@repo/ui";
 
 import { useSupabase } from "@/app/providers";
 import { AuthMessage, AuthScreenShell, authInputClass } from "@/components/auth/AuthScreenShell";
+import { PhoneAuthSetupHint } from "@/components/auth/PhoneAuthSetupHint";
 import { DoctorRegistrationFields } from "@/components/auth/DoctorRegistrationFields";
 import { TelegramLoginButton } from "@/components/auth/TelegramLoginButton";
 import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
@@ -23,6 +24,7 @@ import {
   PRODUCT_OWNER_FIO,
   PRODUCT_OWNER_FIO_SHORT,
 } from "@/lib/auth/doctor-display";
+import { looksLikePhoneInput, USE_PHONE_TAB_MSG } from "@/lib/auth/auth-error-text";
 import { buildOAuthRedirect, normalizePhone, oauthProviderToSupabase } from "@/lib/auth/oauth-providers";
 import { parseRegistrationMethod, type AuthRegistrationMethod } from "@/lib/auth/registration-methods";
 import {
@@ -61,6 +63,7 @@ function RegisterForm() {
   const [requiresCaptcha, setRequiresCaptcha] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState<string | undefined>();
   const [pendingEmailConfirmation, setPendingEmailConfirmation] = useState(false);
+  const [smsNotConfigured, setSmsNotConfigured] = useState(false);
 
   const afterAuthPath = safeInternalPath(searchParams.get("next"), "/app");
 
@@ -96,6 +99,7 @@ function RegisterForm() {
     setActiveTab(tab);
     setMessage("");
     setPendingEmailConfirmation(false);
+    setSmsNotConfigured(false);
     setOtpSent(false);
     setOtp("");
     setTurnstileToken(undefined);
@@ -108,6 +112,11 @@ function RegisterForm() {
 
     const trimmedName = validateDoctorName();
     if (!trimmedName) return;
+
+    if (looksLikePhoneInput(email)) {
+      setMessage(USE_PHONE_TAB_MSG);
+      return;
+    }
 
     setLoading(true);
     try {
@@ -185,10 +194,12 @@ function RegisterForm() {
       if (!result.ok) {
         setFailedAttempts((n) => n + 1);
         setRequiresCaptcha(Boolean(result.requiresCaptcha));
+        setSmsNotConfigured(Boolean(result.smsNotConfigured));
         setMessage(result.error);
         setTurnstileToken(undefined);
         return;
       }
+      setSmsNotConfigured(false);
       setFailedAttempts(0);
       setOtpSent(true);
       setMessage(result.message ?? PHONE_OTP_SENT_MSG);
@@ -216,6 +227,7 @@ function RegisterForm() {
         preferred_locale: locale,
       });
       if (!result.ok) {
+        setSmsNotConfigured(Boolean(result.smsNotConfigured));
         setMessage(result.error);
         return;
       }
@@ -356,6 +368,7 @@ function RegisterForm() {
       }
       phoneTab={
         <form className="space-y-4" onSubmit={(e) => void onVerifyOtp(e)}>
+          <PhoneAuthSetupHint visible={smsNotConfigured} />
           <DoctorRegistrationFields
             fullName={fullName}
             onFullNameChange={setFullName}

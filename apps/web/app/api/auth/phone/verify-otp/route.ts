@@ -5,7 +5,8 @@ import {
   clearAuthFailures,
   recordAuthFailure,
 } from "@/lib/auth/auth-attempts";
-import { translatePhoneAuthError, phoneAuthNeedsRegistration } from "@/lib/auth/phone-auth-errors";
+import { formatSupabaseAuthError } from "@/lib/auth/auth-error-text";
+import { translatePhoneAuthError } from "@/lib/auth/phone-auth-errors";
 import { normalizePhone } from "@/lib/auth/oauth-providers";
 import {
   applyRegistrationMetadata,
@@ -84,10 +85,15 @@ export async function POST(req: Request) {
     if (error) {
       await recordAuthFailure(failKey);
       const net = isLikelySupabaseNetworkError(error.message);
+      const mapped = translatePhoneAuthError(
+        formatSupabaseAuthError(error),
+        isRegistration ? "register" : "login",
+      );
       return NextResponse.json(
         {
-          error: translatePhoneAuthError(error.message, isRegistration ? "register" : "login"),
-          needsRegistration: !isRegistration && phoneAuthNeedsRegistration(error.message),
+          error: mapped.message,
+          needsRegistration: mapped.needsRegistration,
+          smsNotConfigured: mapped.smsNotConfigured,
         },
         { status: net ? 502 : 401 },
       );
@@ -100,7 +106,11 @@ export async function POST(req: Request) {
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);
     await recordAuthFailure(failKey);
-    return NextResponse.json({ error: translatePhoneAuthError(msg, isRegistration ? "register" : "login") }, { status: 502 });
+    const mapped = translatePhoneAuthError(msg, isRegistration ? "register" : "login");
+    return NextResponse.json(
+      { error: mapped.message, smsNotConfigured: mapped.smsNotConfigured },
+      { status: 502 },
+    );
   }
 
   await clearAuthFailures(failKey);

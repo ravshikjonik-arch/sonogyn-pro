@@ -1,6 +1,6 @@
 export type AuthApiResult =
   | { ok: true; needsEmailConfirmation?: boolean; needsMfa?: boolean; factorId?: string; message?: string }
-  | { ok: false; error: string; requiresCaptcha?: boolean; needsEmailConfirmation?: boolean; needsRegistration?: boolean };
+  | { ok: false; error: string; requiresCaptcha?: boolean; needsEmailConfirmation?: boolean; needsRegistration?: boolean; smsNotConfigured?: boolean };
 
 export async function postSignIn(params: {
   email: string;
@@ -155,7 +155,7 @@ export async function postPhoneSendOtp(params: {
   mobile?: boolean;
 }): Promise<
   | { ok: true; message?: string }
-  | { ok: false; error: string; requiresCaptcha?: boolean; needsRegistration?: boolean }
+  | { ok: false; error: string; requiresCaptcha?: boolean; needsRegistration?: boolean; smsNotConfigured?: boolean }
 > {
   const res = await fetch("/api/auth/phone/send-otp", {
     method: "POST",
@@ -172,6 +172,7 @@ export async function postPhoneSendOtp(params: {
     message?: string;
     requiresCaptcha?: boolean;
     needsRegistration?: boolean;
+    smsNotConfigured?: boolean;
   } | null;
 
   if (!res.ok || !payload?.ok) {
@@ -180,6 +181,7 @@ export async function postPhoneSendOtp(params: {
       error: payload?.error ?? "Не удалось отправить код.",
       requiresCaptcha: payload?.requiresCaptcha,
       needsRegistration: payload?.needsRegistration,
+      smsNotConfigured: payload?.smsNotConfigured,
     };
   }
   return { ok: true, message: payload.message };
@@ -216,6 +218,7 @@ export async function postPhoneVerifyOtp(params: {
     ok?: boolean;
     error?: string;
     needsRegistration?: boolean;
+    smsNotConfigured?: boolean;
     session?: { access_token: string; refresh_token: string };
   } | null;
 
@@ -224,6 +227,7 @@ export async function postPhoneVerifyOtp(params: {
       ok: false,
       error: payload?.error ?? "Неверный или просроченный код.",
       needsRegistration: payload?.needsRegistration,
+      smsNotConfigured: payload?.smsNotConfigured,
     };
   }
   return { ok: true, session: payload.session };

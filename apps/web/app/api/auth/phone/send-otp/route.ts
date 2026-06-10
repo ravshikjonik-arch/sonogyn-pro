@@ -8,6 +8,7 @@ import {
   recordAuthFailure,
 } from "@/lib/auth/auth-attempts";
 import { CAPTCHA_REQUIRED_MSG, PHONE_OTP_SENT_MSG } from "@/lib/auth/safe-auth-messages";
+import { formatSupabaseAuthError } from "@/lib/auth/auth-error-text";
 import { translatePhoneAuthError, phoneAuthNeedsRegistration } from "@/lib/auth/phone-auth-errors";
 import { verifyTurnstileIfConfigured } from "@/lib/auth/verify-turnstile";
 import { normalizePhone } from "@/lib/auth/oauth-providers";
@@ -103,10 +104,15 @@ export async function POST(req: Request) {
       await recordAuthFailure(failKey);
       const failCount = await getAuthFailureCount(failKey);
       const net = isLikelySupabaseNetworkError(error.message);
+      const mapped = translatePhoneAuthError(
+        formatSupabaseAuthError(error),
+        isRegistration ? "register" : "login",
+      );
       return NextResponse.json(
         {
-          error: translatePhoneAuthError(error.message, isRegistration ? "register" : "login"),
-          needsRegistration: !isRegistration && phoneAuthNeedsRegistration(error.message),
+          error: mapped.message,
+          needsRegistration: mapped.needsRegistration ?? (!isRegistration && phoneAuthNeedsRegistration(error.message)),
+          smsNotConfigured: mapped.smsNotConfigured,
           requiresCaptcha: failCount >= 3,
         },
         { status: net ? 502 : 400 },
@@ -115,10 +121,12 @@ export async function POST(req: Request) {
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);
     await recordAuthFailure(failKey);
+    const mapped = translatePhoneAuthError(msg, isRegistration ? "register" : "login");
     return NextResponse.json(
       {
-        error: translatePhoneAuthError(msg, isRegistration ? "register" : "login"),
-        needsRegistration: !isRegistration && phoneAuthNeedsRegistration(msg),
+        error: mapped.message,
+        needsRegistration: mapped.needsRegistration ?? (!isRegistration && phoneAuthNeedsRegistration(msg)),
+        smsNotConfigured: mapped.smsNotConfigured,
         requiresCaptcha: await isCaptchaRequired(failKey),
       },
       { status: 502 },
