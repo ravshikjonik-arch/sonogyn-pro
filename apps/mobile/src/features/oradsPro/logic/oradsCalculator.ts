@@ -23,11 +23,34 @@ function bumpRisk(category: number): 1 | 2 | 3 | 4 | 5 {
   return (category + 1) as 2 | 3 | 4;
 }
 
-export function calculateORADS(input: OradsInput): OradsResult {
-  const maxCm = Math.max(toCm(input.lengthMm) ?? 0, toCm(input.widthMm) ?? 0, toCm(input.heightMm) ?? 0);
-  const volumeMl = calcVolumeMl(input.lengthMm, input.widthMm, input.heightMm);
+/**
+ * O-RADS US v2022: неполная перегородка во 2-й плоскости → однокамерное (не многокамерное).
+ */
+function applyOradsUsStructure(input: OradsInput): { input: OradsInput; structureReclassified: boolean } {
+  if (!input.incompleteSeptum || input.structure !== "multilocular" || input.solidComponent) {
+    return { input, structureReclassified: false };
+  }
 
-  if (input.localization === "extraovarian") {
+  const inferredSubtype =
+    input.unilocularSubtype ??
+    (input.septaThickness === "thin" || input.septaThickness === undefined ? "simple_cyst" : "other");
+
+  return {
+    input: {
+      ...input,
+      structure: "unilocular",
+      unilocularSubtype: inferredSubtype,
+    },
+    structureReclassified: true,
+  };
+}
+
+export function calculateORADS(input: OradsInput): OradsResult {
+  const { input: norm, structureReclassified } = applyOradsUsStructure(input);
+  const maxCm = Math.max(toCm(norm.lengthMm) ?? 0, toCm(norm.widthMm) ?? 0, toCm(norm.heightMm) ?? 0);
+  const volumeMl = calcVolumeMl(norm.lengthMm, norm.widthMm, norm.heightMm);
+
+  if (norm.localization === "extraovarian") {
     return {
       category: 2,
       riskText: "Низкий риск",
@@ -40,9 +63,9 @@ export function calculateORADS(input: OradsInput): OradsResult {
 
   // O-RADS 1: физиологическое у пременопаузы <= 3 см
   if (
-    input.menopause === "pre" &&
-    input.lesionKind === "physiological" &&
-    (input.physiologicalType === "follicle" || input.physiologicalType === "corpus_luteum") &&
+    norm.menopause === "pre" &&
+    norm.lesionKind === "physiological" &&
+    (norm.physiologicalType === "follicle" || norm.physiologicalType === "corpus_luteum") &&
     maxCm > 0 &&
     maxCm <= 3
   ) {
@@ -58,10 +81,10 @@ export function calculateORADS(input: OradsInput): OradsResult {
   let category: 1 | 2 | 3 | 4 | 5 = 3;
   let rationale = "Промежуточный паттерн, требуется клинико-инструментальная корреляция.";
 
-  if (input.lesionKind === "nonphysiological") {
-    if (input.structure === "unilocular") {
-      if (input.unilocularSubtype === "simple_cyst") {
-        if (input.menopause === "post" && maxCm > 5) {
+  if (norm.lesionKind === "nonphysiological") {
+    if (norm.structure === "unilocular") {
+      if (norm.unilocularSubtype === "simple_cyst") {
+        if (norm.menopause === "post" && maxCm > 5) {
           category = 3;
           rationale = "Однокамерная простая киста >5 см в постменопаузе.";
         } else {
@@ -69,11 +92,11 @@ export function calculateORADS(input: OradsInput): OradsResult {
           rationale = "Типичная однокамерная простая киста.";
         }
       } else if (
-        input.unilocularSubtype === "hemorrhagic" ||
-        input.unilocularSubtype === "dermoid" ||
-        input.unilocularSubtype === "endometrioma"
+        norm.unilocularSubtype === "hemorrhagic" ||
+        norm.unilocularSubtype === "dermoid" ||
+        norm.unilocularSubtype === "endometrioma"
       ) {
-        if (input.solidComponent || bloodAtLeast(input.bloodFlow, "moderate")) {
+        if (norm.solidComponent || bloodAtLeast(norm.bloodFlow, "moderate")) {
           category = 3;
           rationale = "Геморрагическая/дермоидная/эндометриома с атипичными признаками.";
         } else {
@@ -86,8 +109,8 @@ export function calculateORADS(input: OradsInput): OradsResult {
       }
     }
 
-    if (input.structure === "multilocular") {
-      if (!input.solidComponent && input.septaThickness === "thin") {
+    if (norm.structure === "multilocular") {
+      if (!norm.solidComponent && norm.septaThickness === "thin") {
         if (maxCm >= 10) {
           category = 3;
           rationale = "Многокамерная киста без солидного компонента, тонкие перегородки, размер ≥10 см.";
@@ -95,14 +118,14 @@ export function calculateORADS(input: OradsInput): OradsResult {
           category = 2;
           rationale = "Многокамерная киста без солидного компонента, тонкие перегородки, размер <10 см.";
         }
-      } else if (input.solidComponent && (input.solidType === "irregular" || bloodAtLeast(input.bloodFlow, "moderate"))) {
+      } else if (norm.solidComponent && (norm.solidType === "irregular" || bloodAtLeast(norm.bloodFlow, "moderate"))) {
         category = 4;
         rationale = "Многокамерная киста с солидным компонентом и подозрительными признаками.";
       }
     }
 
-    if (input.structure === "solid") {
-      if (input.solidType === "irregular" && bloodAtLeast(input.bloodFlow, "marked")) {
+    if (norm.structure === "solid") {
+      if (norm.solidType === "irregular" && bloodAtLeast(norm.bloodFlow, "marked")) {
         category = 5;
         rationale = "Солидное образование с неровным контуром и выраженным кровотоком.";
       } else {
@@ -111,25 +134,25 @@ export function calculateORADS(input: OradsInput): OradsResult {
       }
     }
 
-    if (input.solidType === "papillary" && input.solidComponent) {
+    if (norm.solidType === "papillary" && norm.solidComponent) {
       category = Math.max(category, 4) as 4 | 5;
       rationale = "Папиллярные разрастания ≥3 мм.";
     }
   }
 
   // Override rules
-  if (input.ascites) {
+  if (norm.ascites) {
     category = Math.max(category, 4) as 4 | 5;
     rationale = "Асцит повышает категорию минимум до O-RADS 4.";
   }
-  if (input.peritonealNodules && input.ascites) {
+  if (norm.peritonealNodules && norm.ascites) {
     category = 5;
     rationale = "Асцит + перитонеальные высыпания при подозрительном компоненте.";
   }
-  if (input.solidComponent && bloodAtLeast(input.bloodFlow, "minimal")) {
+  if (norm.solidComponent && bloodAtLeast(norm.bloodFlow, "minimal")) {
     category = Math.max(category, 3) as 3 | 4 | 5;
   }
-  if (input.menopause === "post" && maxCm > 10) {
+  if (norm.menopause === "post" && maxCm > 10) {
     category = bumpRisk(category);
     rationale = `${rationale} Размер >10 см в постменопаузе повышает риск на 1 ступень (до O-RADS 4).`;
   }
@@ -150,12 +173,17 @@ export function calculateORADS(input: OradsInput): OradsResult {
     5: "Срочная консультация онкогинеколога и стадирование.",
   };
 
+  const reclassNote =
+    "O-RADS US v2022: неполная перегородка во 2-й плоскости — пересчёт как однокамерное.";
+
   return {
     category,
     riskText: riskTextByCategory[category],
     recommendation: recommendationByCategory[category],
-    rationale,
+    rationale: structureReclassified ? `${reclassNote} ${rationale}` : rationale,
     volumeMl,
+    structureReclassified: structureReclassified || undefined,
+    warning: structureReclassified ? reclassNote : undefined,
   };
 }
 

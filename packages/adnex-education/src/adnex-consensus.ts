@@ -250,7 +250,7 @@ export function evaluateAdnexTriangulation(
   if (input.incompleteSeptum && input.structure === "multilocular" && !input.solidComponent) {
     suggestedStructure = "unilocular";
     suggestedOradsNote =
-      "При переклассификации в однокамерное по O-RADS US категория может быть ниже — пересчитайте.";
+      "O-RADS US v2022: категория пересчитана как для однокамерного (неполная перегородка во 2-й плоскости).";
   }
 
   const cat = Math.min(5, Math.max(1, oradsCategory)) as 1 | 2 | 3 | 4 | 5;

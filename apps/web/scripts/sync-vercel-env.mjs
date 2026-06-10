@@ -125,4 +125,17 @@ const upstashStatus =
   upstashLocal && upstashVercel ? "ok" : upstashVercel ? "vercel only" : upstashLocal ? "local only" : "MISSING";
 console.log(`${upstashStatus === "ok" ? "✓" : "○"} Upstash REST (UPSTASH_* or KV_REST_API_*): ${upstashStatus}`);
 
+const FORBIDDEN_IN_PRODUCTION = ["DEV_SKIP_AUTH", "DEV_AUTO_LOGIN"];
+for (const key of FORBIDDEN_IN_PRODUCTION) {
+  const onVercel = envExists(key, "production");
+  const inLocal = Boolean(local[key]?.trim() === "true");
+  if (onVercel) {
+    console.log(`✗ ${key}: SET ON VERCEL — remove immediately (npx vercel env rm ${key} production)`);
+  } else if (inLocal) {
+    console.log(`○ ${key}: local only (ok for dev)`);
+  } else {
+    console.log(`✓ ${key}: not on production`);
+  }
+}
+
 console.log("\nDone. After all keys are on Vercel: Redeploy → Promote to Production.");

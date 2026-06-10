@@ -68,6 +68,8 @@ export type OradsResult = {
   rationale: string;
   volumeMl: number | null;
   warning?: string;
+  /** O-RADS US v2022: неполная перегородка → пересчёт как однокамерное. */
+  structureReclassified?: boolean;
 };
 
 export type AIQueueItem = {

@@ -68,6 +68,36 @@ function run() {
     ascites: true,
   });
   expectEq("OVERRIDE_ASCITES", r6.category, 4);
+
+  const r7a = calculateORADS({
+    localization: "ovarian",
+    menopause: "pre",
+    lesionKind: "nonphysiological",
+    structure: "multilocular",
+    septaThickness: "thin",
+    solidComponent: false,
+    lengthMm: 110,
+    widthMm: 100,
+    heightMm: 90,
+  });
+  expectEq("MULTILOCULAR_LARGE", r7a.category, 3);
+
+  const r7b = calculateORADS({
+    localization: "ovarian",
+    menopause: "pre",
+    lesionKind: "nonphysiological",
+    structure: "multilocular",
+    septaThickness: "thin",
+    solidComponent: false,
+    incompleteSeptum: true,
+    lengthMm: 110,
+    widthMm: 100,
+    heightMm: 90,
+  });
+  expectEq("INCOMPLETE_SEPTUM_RECLASS", r7b.category, 2);
+  if (!r7b.structureReclassified) {
+    throw new Error("INCOMPLETE_SEPTUM_RECLASS: expected structureReclassified");
+  }
 }
 
 run();
