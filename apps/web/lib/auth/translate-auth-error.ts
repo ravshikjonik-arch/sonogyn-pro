@@ -56,7 +56,7 @@ export function translateSignUpSuccess(): string {
   return SIGN_UP_GENERIC_MSG;
 }
 
-export { INVALID_CREDENTIALS_MSG, PASSWORD_RESET_GENERIC_MSG, SIGN_UP_GENERIC_MSG, RESEND_CONFIRMATION_MSG, EMAIL_NOT_CONFIRMED_MSG };
+export { INVALID_CREDENTIALS_MSG, PASSWORD_RESET_GENERIC_MSG, SIGN_UP_GENERIC_MSG, RESEND_CONFIRMATION_MSG, EMAIL_NOT_CONFIRMED_MSG, PHONE_OTP_SENT_MSG } from "./safe-auth-messages";
 
 export function requireOnlineForAuth(): string | null {
   if (typeof navigator !== "undefined" && !navigator.onLine) {

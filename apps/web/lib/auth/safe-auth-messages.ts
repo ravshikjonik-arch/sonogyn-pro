@@ -10,6 +10,7 @@ export const EMAIL_NOT_CONFIRMED_MSG =
 export const PASSWORD_RESET_GENERIC_MSG =
   "Если аккаунт с таким email существует, на него отправлено письмо для сброса пароля.";
 export const OTP_INVALID_MSG = "Неверный или просроченный код.";
+export const PHONE_OTP_SENT_MSG = "Если номер подходит, код отправлен по SMS. Проверьте сообщения.";
 export const CAPTCHA_REQUIRED_MSG = "Подтвердите, что вы не робот (CAPTCHA).";
 export const TOO_MANY_ATTEMPTS_MSG = "Слишком много попыток. Подождите и попробуйте снова.";
 

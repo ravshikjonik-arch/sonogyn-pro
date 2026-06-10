@@ -148,6 +148,10 @@ export async function postPhoneSendOtp(params: {
   phone: string;
   createUser?: boolean;
   turnstileToken?: string;
+  full_name?: string;
+  preferred_locale?: string;
+  specialization?: string;
+  institution?: string;
   mobile?: boolean;
 }): Promise<{ ok: true; message?: string } | { ok: false; error: string; requiresCaptcha?: boolean }> {
   const res = await fetch("/api/auth/phone/send-otp", {
@@ -179,6 +183,10 @@ export async function postPhoneSendOtp(params: {
 export async function postPhoneVerifyOtp(params: {
   phone: string;
   token: string;
+  full_name?: string;
+  preferred_locale?: string;
+  specialization?: string;
+  institution?: string;
   mobile?: boolean;
 }): Promise<AuthApiResult & { session?: { access_token: string; refresh_token: string } }> {
   const res = await fetch("/api/auth/phone/verify-otp", {
@@ -188,7 +196,14 @@ export async function postPhoneVerifyOtp(params: {
       ...(params.mobile ? { "x-sonogyn-client": "mobile" } : {}),
     },
     credentials: "same-origin",
-    body: JSON.stringify({ phone: params.phone, token: params.token }),
+    body: JSON.stringify({
+      phone: params.phone,
+      token: params.token,
+      full_name: params.full_name,
+      preferred_locale: params.preferred_locale,
+      specialization: params.specialization,
+      institution: params.institution,
+    }),
   });
   const payload = (await res.json().catch(() => null)) as {
     ok?: boolean;

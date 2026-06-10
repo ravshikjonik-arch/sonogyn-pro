@@ -2,34 +2,51 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { FormEvent, Suspense, useCallback, useState } from "react";
+import { FormEvent, Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import type { AuthProvider } from "@repo/ui";
 import { AuthButtons } from "@repo/ui";
 
 import { useSupabase } from "@/app/providers";
 import { AuthMessage, AuthScreenShell, authInputClass } from "@/components/auth/AuthScreenShell";
+import { DoctorRegistrationFields } from "@/components/auth/DoctorRegistrationFields";
 import { TelegramLoginButton } from "@/components/auth/TelegramLoginButton";
-import { Button } from "@/components/ui/button";
-import { buildOAuthRedirect, normalizePhone, oauthProviderToSupabase } from "@/lib/auth/oauth-providers";
-import { APP_LOCALES, readAppLocale, saveAppLocale, type AppLocale } from "@/lib/i18n/locale";
 import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
+import { Button } from "@/components/ui/button";
 import { CAPTCHA_FAILURE_THRESHOLD } from "@/lib/auth/auth-attempts";
-import { markSessionAnchorNow } from "@/lib/security/session-anchor";
-import { postSignUp, postPhoneSendOtp, postPhoneVerifyOtp, postResendConfirmation } from "@/lib/auth/client-auth-api";
-import { RESEND_CONFIRMATION_MSG, SIGN_UP_GENERIC_MSG, requireOnlineForAuth, translateAuthError } from "@/lib/auth/translate-auth-error";
 import {
-  buildFioAbbreviation,
-  normalizeRussianFio,
+  postPhoneSendOtp,
+  postPhoneVerifyOtp,
+  postResendConfirmation,
+  postSignUp,
+} from "@/lib/auth/client-auth-api";
+import {
   PRODUCT_OWNER_FIO,
   PRODUCT_OWNER_FIO_SHORT,
 } from "@/lib/auth/doctor-display";
+import { buildOAuthRedirect, normalizePhone, oauthProviderToSupabase } from "@/lib/auth/oauth-providers";
+import { parseRegistrationMethod, type AuthRegistrationMethod } from "@/lib/auth/registration-methods";
+import {
+  PHONE_OTP_SENT_MSG,
+  requireOnlineForAuth,
+  RESEND_CONFIRMATION_MSG,
+  SIGN_UP_GENERIC_MSG,
+  translateAuthError,
+} from "@/lib/auth/translate-auth-error";
+import { readAppLocale, saveAppLocale, type AppLocale } from "@/lib/i18n/locale";
 import { safeInternalPath } from "@/lib/nav/safe-redirect";
+import { markSessionAnchorNow } from "@/lib/security/session-anchor";
 
 function RegisterForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const supabase = useSupabase();
 
+  const defaultTab = useMemo(
+    () => parseRegistrationMethod(searchParams.get("method")),
+    [searchParams],
+  );
+
+  const [activeTab, setActiveTab] = useState<AuthRegistrationMethod>(defaultTab);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -46,6 +63,11 @@ function RegisterForm() {
   const [pendingEmailConfirmation, setPendingEmailConfirmation] = useState(false);
 
   const afterAuthPath = safeInternalPath(searchParams.get("next"), "/app");
+
+  useEffect(() => {
+    setActiveTab(defaultTab);
+  }, [defaultTab]);
+
   const showCaptcha =
     Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY) &&
     (requiresCaptcha || failedAttempts >= CAPTCHA_FAILURE_THRESHOLD);
@@ -59,18 +81,33 @@ function RegisterForm() {
     return true;
   }, []);
 
-  async function onEmailRegister(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setMessage("");
-    if (!guardOnline()) return;
-
+  const validateDoctorName = useCallback(() => {
     const trimmedName = fullName.trim();
     if (!trimmedName) {
       setMessage(
         `Укажите ФИО: сначала фамилия — например, ${PRODUCT_OWNER_FIO} → в кабинете «${PRODUCT_OWNER_FIO_SHORT}».`,
       );
-      return;
+      return null;
     }
+    return trimmedName;
+  }, [fullName]);
+
+  function onTabChange(tab: AuthRegistrationMethod) {
+    setActiveTab(tab);
+    setMessage("");
+    setPendingEmailConfirmation(false);
+    setOtpSent(false);
+    setOtp("");
+    setTurnstileToken(undefined);
+  }
+
+  async function onEmailRegister(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setMessage("");
+    if (!guardOnline()) return;
+
+    const trimmedName = validateDoctorName();
+    if (!trimmedName) return;
 
     setLoading(true);
     try {
@@ -132,21 +169,29 @@ function RegisterForm() {
     setMessage("");
     if (!guardOnline()) return;
 
+    const trimmedName = validateDoctorName();
+    if (!trimmedName) return;
+
     const normalized = normalizePhone(phone);
     setLoading(true);
     try {
       const result = await postPhoneSendOtp({
         phone: normalized,
         createUser: true,
+        full_name: trimmedName,
+        preferred_locale: locale,
         turnstileToken,
       });
       if (!result.ok) {
+        setFailedAttempts((n) => n + 1);
         setRequiresCaptcha(Boolean(result.requiresCaptcha));
         setMessage(result.error);
+        setTurnstileToken(undefined);
         return;
       }
+      setFailedAttempts(0);
       setOtpSent(true);
-      setMessage(result.message ?? "Если номер подходит, код отправлен по SMS.");
+      setMessage(result.message ?? PHONE_OTP_SENT_MSG);
     } finally {
       setLoading(false);
     }
@@ -157,14 +202,23 @@ function RegisterForm() {
     setMessage("");
     if (!guardOnline()) return;
 
+    const trimmedName = validateDoctorName();
+    if (!trimmedName) return;
+
     const normalized = normalizePhone(phone);
     setLoading(true);
     try {
-      const result = await postPhoneVerifyOtp({ phone: normalized, token: otp.trim() });
+      const result = await postPhoneVerifyOtp({
+        phone: normalized,
+        token: otp.trim(),
+        full_name: trimmedName,
+        preferred_locale: locale,
+      });
       if (!result.ok) {
         setMessage(result.error);
         return;
       }
+      saveAppLocale(locale);
       markSessionAnchorNow();
       router.push(afterAuthPath);
       router.refresh();
@@ -220,50 +274,27 @@ function RegisterForm() {
   }
 
   const botUsername = process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME ?? "";
+  const isSuccessMessage =
+    message === SIGN_UP_GENERIC_MSG ||
+    message === RESEND_CONFIRMATION_MSG ||
+    message === PHONE_OTP_SENT_MSG ||
+    message.includes("отправлен");
 
   return (
     <AuthScreenShell
       title="Регистрация"
-      subtitle="Создайте аккаунт врача для web и mobile SonoGyn Pro."
+      subtitle="Выберите удобный способ: email, SMS или соцсеть. Все пути ведут в один кабинет врача."
+      defaultTab={defaultTab}
+      onTabChange={onTabChange}
+      showMethodHints
       emailTab={
         <form className="space-y-4" onSubmit={(e) => void onEmailRegister(e)}>
-          <label className="block">
-            <span className="text-sm font-medium text-slate-700 dark:text-slate-200">Язык интерфейса</span>
-            <select
-              className={authInputClass}
-              value={locale}
-              onChange={(e) => setLocale(e.target.value as AppLocale)}
-              aria-label="Язык интерфейса"
-            >
-              {APP_LOCALES.map((opt) => (
-                <option key={opt.code} value={opt.code}>
-                  {opt.label}
-                </option>
-              ))}
-            </select>
-            <p className="mt-1 text-xs text-slate-500">Базовый язык — русский. Можно сменить позже в профиле.</p>
-          </label>
-          <label className="block">
-            <span className="text-sm font-medium text-slate-700 dark:text-slate-200">ФИО врача</span>
-            <input
-              className={authInputClass}
-              type="text"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              placeholder={PRODUCT_OWNER_FIO}
-              required
-              autoComplete="name"
-              aria-label="ФИО врача"
-            />
-            <p className="mt-1 text-xs text-slate-500">
-              Сначала фамилия. В кабинете:{" "}
-              <span className="font-semibold text-[var(--clinical-primary-deep)]">
-                {fullName.trim()
-                  ? buildFioAbbreviation(normalizeRussianFio(fullName)) ?? "—"
-                  : PRODUCT_OWNER_FIO_SHORT}
-              </span>
-            </p>
-          </label>
+          <DoctorRegistrationFields
+            fullName={fullName}
+            onFullNameChange={setFullName}
+            locale={locale}
+            onLocaleChange={setLocale}
+          />
           <label className="block">
             <span className="text-sm font-medium text-slate-700 dark:text-slate-200">Email</span>
             <input
@@ -273,6 +304,7 @@ function RegisterForm() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="doctor@example.com"
               required
+              autoComplete="email"
               aria-label="Email"
             />
           </label>
@@ -286,24 +318,21 @@ function RegisterForm() {
               placeholder="••••••••"
               required
               minLength={6}
+              autoComplete="new-password"
               aria-label="Пароль"
             />
           </label>
-          {message ? (
-            <AuthMessage
-              message={message}
-              tone={
-                message === SIGN_UP_GENERIC_MSG || message === RESEND_CONFIRMATION_MSG ? "success" : "error"
-              }
-            />
+          {message && activeTab === "email" ? (
+            <AuthMessage message={message} tone={isSuccessMessage ? "success" : "error"} />
           ) : null}
-          {pendingEmailConfirmation ? (
+          {pendingEmailConfirmation && activeTab === "email" ? (
             <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-900 dark:border-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-100">
               <p className="font-medium">Подтвердите email</p>
               <p className="mt-1 text-emerald-800 dark:text-emerald-200">
-                Откройте письмо от Supabase и перейдите по ссылке. Ссылка ведёт на{" "}
-                <span className="font-mono text-xs">{typeof window !== "undefined" ? window.location.origin : "…"}</span>
-                , не на localhost.
+                Откройте письмо и перейдите по ссылке. Адрес приложения:{" "}
+                <span className="font-mono text-xs">
+                  {typeof window !== "undefined" ? window.location.origin : "…"}
+                </span>
               </p>
               <Button
                 type="button"
@@ -316,16 +345,22 @@ function RegisterForm() {
               </Button>
             </div>
           ) : null}
-          {showCaptcha ? (
+          {showCaptcha && activeTab === "email" ? (
             <TurnstileWidget onToken={(t) => setTurnstileToken(t)} onExpire={() => setTurnstileToken(undefined)} />
           ) : null}
           <Button className="w-full rounded-2xl py-6" type="submit" disabled={loading} aria-label="Зарегистрироваться">
-            {loading ? "Создаём…" : "Зарегистрироваться"}
+            {loading ? "Создаём…" : "Зарегистрироваться по email"}
           </Button>
         </form>
       }
       phoneTab={
         <form className="space-y-4" onSubmit={(e) => void onVerifyOtp(e)}>
+          <DoctorRegistrationFields
+            fullName={fullName}
+            onFullNameChange={setFullName}
+            locale={locale}
+            onLocaleChange={setLocale}
+          />
           <label className="block">
             <span className="text-sm font-medium text-slate-700 dark:text-slate-200">Телефон</span>
             <input
@@ -335,8 +370,10 @@ function RegisterForm() {
               onChange={(e) => setPhone(e.target.value)}
               placeholder="+79001234567"
               required
+              autoComplete="tel"
               aria-label="Номер телефона"
             />
+            <p className="mt-1 text-xs text-slate-500">Формат: +7 и 10 цифр. SMS приходит за ~30 секунд.</p>
           </label>
           {!otpSent ? (
             <Button
@@ -346,7 +383,7 @@ function RegisterForm() {
               onClick={() => void onSendOtp()}
               aria-label="Получить код"
             >
-              {loading ? "Отправляем…" : "Получить код"}
+              {loading ? "Отправляем…" : "Получить SMS-код"}
             </Button>
           ) : (
             <>
@@ -355,6 +392,7 @@ function RegisterForm() {
                 <input
                   className={authInputClass}
                   inputMode="numeric"
+                  autoComplete="one-time-code"
                   value={otp}
                   onChange={(e) => setOtp(e.target.value)}
                   placeholder="123456"
@@ -363,15 +401,32 @@ function RegisterForm() {
                 />
               </label>
               <Button className="w-full rounded-2xl py-6" type="submit" disabled={loading} aria-label="Подтвердить">
-                {loading ? "Проверяем…" : "Подтвердить"}
+                {loading ? "Проверяем…" : "Подтвердить и войти"}
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full rounded-2xl"
+                disabled={loading}
+                onClick={() => void onSendOtp()}
+              >
+                {loading ? "Отправляем…" : "Отправить код повторно"}
               </Button>
             </>
           )}
-          {message ? <AuthMessage message={message} tone={message.includes("отправлен") ? "success" : "error"} /> : null}
+          {message && activeTab === "phone" ? (
+            <AuthMessage message={message} tone={isSuccessMessage ? "success" : "error"} />
+          ) : null}
+          {showCaptcha && activeTab === "phone" ? (
+            <TurnstileWidget onToken={(t) => setTurnstileToken(t)} onExpire={() => setTurnstileToken(undefined)} />
+          ) : null}
         </form>
       }
       socialTab={
         <div className="space-y-4">
+          <p className="text-sm text-[var(--clinical-foreground-muted)]">
+            ФИО подтянется из Google или Telegram. При необходимости отредактируйте в профиле после входа.
+          </p>
           <AuthButtons onProviderPress={(p) => void onOAuth(p)} loading={oauthLoading} variant="register" />
           <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900">
             <p className="mb-3 text-center text-sm font-medium text-slate-700 dark:text-slate-200">Telegram Login Widget</p>
@@ -381,11 +436,31 @@ function RegisterForm() {
               onError={setMessage}
             />
           </div>
-          {message ? <AuthMessage message={message} /> : null}
+          {message && activeTab === "social" ? <AuthMessage message={message} /> : null}
         </div>
       }
       footer={
         <>
+          <div className="mt-4 flex flex-wrap justify-center gap-2 text-xs">
+            <Link
+              href="/register?method=email"
+              className={`rounded-full px-3 py-1 ${activeTab === "email" ? "bg-[var(--clinical-primary-deep)] text-white" : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"}`}
+            >
+              Email
+            </Link>
+            <Link
+              href="/register?method=phone"
+              className={`rounded-full px-3 py-1 ${activeTab === "phone" ? "bg-[var(--clinical-primary-deep)] text-white" : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"}`}
+            >
+              SMS
+            </Link>
+            <Link
+              href="/register?method=social"
+              className={`rounded-full px-3 py-1 ${activeTab === "social" ? "bg-[var(--clinical-primary-deep)] text-white" : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"}`}
+            >
+              Соцсети
+            </Link>
+          </div>
           <p className="mt-6 text-center text-sm text-[var(--clinical-foreground-muted)]">
             Уже есть аккаунт?{" "}
             <Link className="font-bold text-[var(--clinical-primary-deep)] hover:underline" href="/login">

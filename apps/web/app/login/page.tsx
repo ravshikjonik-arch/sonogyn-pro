@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { FormEvent, Suspense, useCallback, useEffect, useState } from "react";
+import { FormEvent, Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import type { AuthProvider } from "@repo/ui";
 import { AuthButtons } from "@repo/ui";
 
@@ -15,9 +15,11 @@ import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
 import { postSignIn, postMfaVerifyLogin, postPhoneSendOtp, postPhoneVerifyOtp } from "@/lib/auth/client-auth-api";
 import { CAPTCHA_FAILURE_THRESHOLD } from "@/lib/auth/auth-attempts";
 import { markSessionAnchorNow } from "@/lib/security/session-anchor";
+import { parseRegistrationMethod, type AuthRegistrationMethod } from "@/lib/auth/registration-methods";
 import {
   EMAIL_NOT_CONFIRMED_MSG,
   PASSWORD_RESET_GENERIC_MSG,
+  PHONE_OTP_SENT_MSG,
   requireOnlineForAuth,
   translateAuthError,
 } from "@/lib/auth/translate-auth-error";
@@ -45,6 +47,12 @@ function LoginForm() {
   const [mfaCode, setMfaCode] = useState("");
   const [needsEmailConfirmation, setNeedsEmailConfirmation] = useState(false);
 
+  const defaultTab = useMemo(
+    () => parseRegistrationMethod(searchParams.get("method")),
+    [searchParams],
+  );
+  const [activeTab, setActiveTab] = useState<AuthRegistrationMethod>(defaultTab);
+
   const nextPath = safeInternalPath(searchParams.get("redirectedFrom"), "/app");
   const authCallbackError = searchParams.get("error") === "auth_callback";
 
@@ -55,6 +63,11 @@ function LoginForm() {
       );
     }
   }, [authCallbackError]);
+
+  useEffect(() => {
+    setActiveTab(defaultTab);
+  }, [defaultTab]);
+
   const showCaptcha =
     Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY) &&
     (requiresCaptcha || failedAttempts >= CAPTCHA_FAILURE_THRESHOLD);
@@ -67,6 +80,15 @@ function LoginForm() {
     }
     return true;
   }, []);
+
+  function onTabChange(tab: AuthRegistrationMethod) {
+    setActiveTab(tab);
+    setMessage("");
+    setOtpSent(false);
+    setOtp("");
+    setTurnstileToken(undefined);
+    setNeedsEmailConfirmation(false);
+  }
 
   async function onEmailLogin(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -139,12 +161,14 @@ function LoginForm() {
       });
       if (!result.ok) {
         setRequiresCaptcha(Boolean(result.requiresCaptcha));
+        setFailedAttempts((n) => n + 1);
         setMessage(result.error);
         setTurnstileToken(undefined);
         return;
       }
+      setFailedAttempts(0);
       setOtpSent(true);
-      setMessage(result.message ?? "Если номер подходит, код отправлен по SMS.");
+      setMessage(result.message ?? PHONE_OTP_SENT_MSG);
     } finally {
       setLoading(false);
     }
@@ -248,6 +272,9 @@ function LoginForm() {
     <AuthScreenShell
       title="Вход"
       subtitle="Email, телефон или соцсети — один аккаунт для web и mobile."
+      defaultTab={defaultTab}
+      onTabChange={onTabChange}
+      showMethodHints
       emailTab={
         mfaRequired ? (
           <form className="space-y-4" onSubmit={(e) => void onMfaLogin(e)}>
@@ -334,8 +361,14 @@ function LoginForm() {
               onChange={(e) => setPhone(e.target.value)}
               placeholder="+79001234567"
               required
+              autoComplete="tel"
               aria-label="Номер телефона"
             />
+            <p className="mt-1 text-xs text-slate-500">Нет аккаунта?{" "}
+              <Link href="/register?method=phone" className="font-semibold text-[var(--clinical-primary-deep)] hover:underline">
+                Регистрация по SMS
+              </Link>
+            </p>
           </label>
           {!otpSent ? (
             <Button
@@ -345,7 +378,7 @@ function LoginForm() {
               onClick={() => void onSendOtp()}
               aria-label="Получить код"
             >
-              {loading ? "Отправляем…" : "Получить код"}
+              {loading ? "Отправляем…" : "Получить SMS-код"}
             </Button>
           ) : (
             <>
@@ -354,6 +387,7 @@ function LoginForm() {
                 <input
                   className={authInputClass}
                   inputMode="numeric"
+                  autoComplete="one-time-code"
                   value={otp}
                   onChange={(e) => setOtp(e.target.value)}
                   placeholder="123456"
@@ -362,10 +396,28 @@ function LoginForm() {
                 />
               </label>
               <Button className="w-full rounded-2xl py-6" type="submit" disabled={loading} aria-label="Подтвердить код">
-                {loading ? "Проверяем…" : "Подтвердить"}
+                {loading ? "Проверяем…" : "Войти"}
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full rounded-2xl"
+                disabled={loading}
+                onClick={() => void onSendOtp()}
+              >
+                {loading ? "Отправляем…" : "Отправить код повторно"}
               </Button>
             </>
           )}
+          {message && activeTab === "phone" ? (
+            <AuthMessage
+              message={message}
+              tone={message === PHONE_OTP_SENT_MSG || message.includes("отправлен") ? "success" : "error"}
+            />
+          ) : null}
+          {showCaptcha && activeTab === "phone" ? (
+            <TurnstileWidget onToken={(t) => setTurnstileToken(t)} onExpire={() => setTurnstileToken(undefined)} />
+          ) : null}
         </form>
       }
       socialTab={
@@ -390,6 +442,17 @@ function LoginForm() {
               Зарегистрироваться
             </Link>
           </p>
+          <div className="mt-3 flex flex-wrap justify-center gap-2 text-xs">
+            <Link href="/login?method=email" className="rounded-full bg-slate-100 px-3 py-1 text-slate-600 hover:underline dark:bg-slate-800 dark:text-slate-300">
+              Email
+            </Link>
+            <Link href="/login?method=phone" className="rounded-full bg-slate-100 px-3 py-1 text-slate-600 hover:underline dark:bg-slate-800 dark:text-slate-300">
+              SMS
+            </Link>
+            <Link href="/register?method=social" className="rounded-full bg-slate-100 px-3 py-1 text-slate-600 hover:underline dark:bg-slate-800 dark:text-slate-300">
+              Регистрация через соцсети
+            </Link>
+          </div>
           <p className="mt-4 text-center text-xs text-slate-400">
             <Link href="/landing" className="hover:underline">
               ← Главная страница

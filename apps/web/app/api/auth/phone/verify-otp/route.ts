@@ -7,6 +7,11 @@ import {
 } from "@/lib/auth/auth-attempts";
 import { toSafeAuthErrorMessage } from "@/lib/auth/safe-auth-messages";
 import { normalizePhone } from "@/lib/auth/oauth-providers";
+import {
+  applyRegistrationMetadata,
+  isValidPhoneE164,
+  parseRegistrationMetadata,
+} from "@/lib/auth/registration-metadata";
 import { consumeAuthRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
@@ -18,6 +23,10 @@ import {
 type Body = {
   phone?: string;
   token?: string;
+  full_name?: string;
+  preferred_locale?: string;
+  specialization?: string;
+  institution?: string;
 };
 
 export async function POST(req: Request) {
@@ -49,15 +58,22 @@ export async function POST(req: Request) {
 
   const phone = typeof body.phone === "string" ? normalizePhone(body.phone) : "";
   const token = typeof body.token === "string" ? body.token.trim() : "";
+  const registrationMeta = parseRegistrationMetadata(body);
 
   if (!phone || !token) {
     return NextResponse.json({ error: "Укажите телефон и код." }, { status: 400 });
+  }
+  if (!isValidPhoneE164(phone)) {
+    return NextResponse.json(
+      { error: "Неверный формат номера. Используйте +79001234567." },
+      { status: 400 },
+    );
   }
 
   const wantsMobileSession = req.headers.get("x-sonogyn-client") === "mobile";
 
   try {
-    const { error } = await client.supabase.auth.verifyOtp({
+    const { data, error } = await client.supabase.auth.verifyOtp({
       phone,
       token,
       type: "sms",
@@ -70,6 +86,11 @@ export async function POST(req: Request) {
         { error: toSafeAuthErrorMessage(error.message, "otp") },
         { status: net ? 502 : 401 },
       );
+    }
+
+    const userId = data.user?.id;
+    if (userId && registrationMeta.full_name) {
+      await applyRegistrationMetadata(client.supabase, userId, registrationMeta);
     }
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);

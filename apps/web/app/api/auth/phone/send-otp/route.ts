@@ -7,10 +7,15 @@ import {
   isCaptchaRequired,
   recordAuthFailure,
 } from "@/lib/auth/auth-attempts";
-import { CAPTCHA_REQUIRED_MSG } from "@/lib/auth/safe-auth-messages";
+import { CAPTCHA_REQUIRED_MSG, PHONE_OTP_SENT_MSG } from "@/lib/auth/safe-auth-messages";
 import { translateAuthError } from "@/lib/auth/translate-auth-error";
 import { verifyTurnstileIfConfigured } from "@/lib/auth/verify-turnstile";
 import { normalizePhone } from "@/lib/auth/oauth-providers";
+import {
+  isValidPhoneE164,
+  parseRegistrationMetadata,
+  registrationMetadataToUserData,
+} from "@/lib/auth/registration-metadata";
 import { consumeAuthRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
@@ -20,6 +25,10 @@ type Body = {
   phone?: string;
   createUser?: boolean;
   turnstileToken?: string;
+  full_name?: string;
+  preferred_locale?: string;
+  specialization?: string;
+  institution?: string;
 };
 
 export async function POST(req: Request) {
@@ -63,11 +72,30 @@ export async function POST(req: Request) {
   if (!phone) {
     return NextResponse.json({ error: "Укажите номер телефона." }, { status: 400 });
   }
+  if (!isValidPhoneE164(phone)) {
+    return NextResponse.json(
+      { error: "Неверный формат номера. Используйте +79001234567." },
+      { status: 400 },
+    );
+  }
+
+  const registrationMeta = parseRegistrationMetadata(body);
+  if (body.createUser && !registrationMeta.full_name) {
+    return NextResponse.json(
+      { error: "Укажите имя и фамилию (полное имя специалиста)." },
+      { status: 400 },
+    );
+  }
+
+  const userData = registrationMetadataToUserData(registrationMeta);
 
   try {
     const { error } = await client.supabase.auth.signInWithOtp({
       phone,
-      options: body.createUser ? { shouldCreateUser: true } : undefined,
+      options: {
+        ...(body.createUser ? { shouldCreateUser: true } : {}),
+        ...(Object.keys(userData).length > 0 ? { data: userData } : {}),
+      },
     });
 
     if (error) {
@@ -92,5 +120,5 @@ export async function POST(req: Request) {
   }
 
   await clearAuthFailures(failKey);
-  return NextResponse.json({ ok: true, message: "Если номер подходит, код отправлен по SMS." });
+  return NextResponse.json({ ok: true, message: PHONE_OTP_SENT_MSG });
 }
