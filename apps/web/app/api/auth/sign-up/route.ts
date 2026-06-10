@@ -11,6 +11,8 @@ import {
   resendSignupConfirmation,
   resolveEmailConfirmRedirect,
 } from "@/lib/auth/email-confirmation";
+import { tryAutoConfirmRegistration, shouldAutoConfirmEmail } from "@/lib/auth/auto-confirm-email";
+import { createServiceRoleClient } from "@/utils/supabase/admin";
 import { SIGN_UP_GENERIC_MSG, CAPTCHA_REQUIRED_MSG, RESEND_CONFIRMATION_MSG } from "@/lib/auth/safe-auth-messages";
 import { translateAuthError } from "@/lib/auth/translate-auth-error";
 import { verifyTurnstileIfConfigured } from "@/lib/auth/verify-turnstile";
@@ -32,6 +34,43 @@ type SignUpBody = {
   preferred_locale?: string;
   turnstileToken?: string;
 };
+
+async function findUserIdByEmail(email: string): Promise<string | null> {
+  const admin = createServiceRoleClient();
+  const normalized = email.trim().toLowerCase();
+  let page = 1;
+
+  while (page <= 10) {
+    const { data, error } = await admin.auth.admin.listUsers({ page, perPage: 200 });
+    if (error || !data.users.length) break;
+    const hit = data.users.find((u) => u.email?.toLowerCase() === normalized);
+    if (hit) return hit.id;
+    if (data.users.length < 200) break;
+    page += 1;
+  }
+
+  return null;
+}
+
+async function finishSignUpResponse(params: {
+  wantsMobileSession: boolean;
+  needsEmailConfirmation: boolean;
+  autoConfirmed?: boolean;
+  message?: string;
+  cookiesToSet: Parameters<typeof nextJsonWithAuthCookies>[1];
+  session?: { access_token: string; refresh_token: string };
+}) {
+  const payload = {
+    ok: true as const,
+    needsEmailConfirmation: params.needsEmailConfirmation,
+    autoConfirmed: params.autoConfirmed,
+    message: params.message,
+    ...(params.session ? { session: params.session } : {}),
+  };
+
+  if (params.wantsMobileSession) return NextResponse.json(payload);
+  return nextJsonWithAuthCookies(payload, params.cookiesToSet);
+}
 
 export async function POST(req: Request) {
   const failKey = rateLimitKeyFromRequest(req, "auth-fail-signup");
@@ -122,18 +161,66 @@ export async function POST(req: Request) {
 
     const duplicate = isDuplicateEmailSignUp(data.user);
     if (duplicate) {
+      if (shouldAutoConfirmEmail()) {
+        const existingId = await findUserIdByEmail(email);
+        if (
+          existingId &&
+          (await tryAutoConfirmRegistration({ supabase, userId: existingId, email, password }))
+        ) {
+          const { data: sessionData } = await supabase.auth.getSession();
+          return finishSignUpResponse({
+            wantsMobileSession,
+            needsEmailConfirmation: false,
+            autoConfirmed: true,
+            message: "Аккаунт подтверждён. Вход выполнен.",
+            cookiesToSet,
+            session: sessionData.session
+              ? {
+                  access_token: sessionData.session.access_token,
+                  refresh_token: sessionData.session.refresh_token,
+                }
+              : undefined,
+          });
+        }
+      }
+
       await resendSignupConfirmation(supabase, email, emailRedirectTo);
-      const payload = {
-        ok: true as const,
+      return finishSignUpResponse({
+        wantsMobileSession,
         needsEmailConfirmation: true,
-        duplicateRegistration: true,
         message: RESEND_CONFIRMATION_MSG,
-      };
-      if (wantsMobileSession) return NextResponse.json(payload);
-      return nextJsonWithAuthCookies(payload, cookiesToSet);
+        cookiesToSet,
+      });
     }
 
-    const needsEmailConfirmation = !data.session;
+    let needsEmailConfirmation = !data.session;
+
+    if (needsEmailConfirmation && data.user?.id && shouldAutoConfirmEmail()) {
+      const autoOk = await tryAutoConfirmRegistration({
+        supabase,
+        userId: data.user.id,
+        email,
+        password,
+      });
+      if (autoOk) {
+        needsEmailConfirmation = false;
+        const { data: sessionData } = await supabase.auth.getSession();
+        return finishSignUpResponse({
+          wantsMobileSession,
+          needsEmailConfirmation: false,
+          autoConfirmed: true,
+          message: "Регистрация завершена. Можно работать в кабинете.",
+          cookiesToSet,
+          session: sessionData.session
+            ? {
+                access_token: sessionData.session.access_token,
+                refresh_token: sessionData.session.refresh_token,
+              }
+            : undefined,
+        });
+      }
+    }
+
     if (wantsMobileSession && data.session) {
       return NextResponse.json({
         ok: true,

@@ -6,8 +6,9 @@ import { FormEvent, Suspense, useCallback, useEffect, useMemo, useState } from "
 import type { AuthProvider } from "@repo/ui";
 import { AuthButtons } from "@repo/ui";
 
-import { useSupabase } from "@/app/providers";
+import { useSupabase, useAuth } from "@/app/providers";
 import { AuthMessage, AuthScreenShell, authInputClass } from "@/components/auth/AuthScreenShell";
+import { AuthSetupBanner } from "@/components/auth/AuthSetupBanner";
 import { PhoneAuthSetupHint } from "@/components/auth/PhoneAuthSetupHint";
 import { DoctorRegistrationFields } from "@/components/auth/DoctorRegistrationFields";
 import { TelegramLoginButton } from "@/components/auth/TelegramLoginButton";
@@ -42,6 +43,7 @@ function RegisterForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const supabase = useSupabase();
+  const { refresh } = useAuth();
 
   const defaultTab = useMemo(
     () => parseRegistrationMethod(searchParams.get("method")),
@@ -136,8 +138,9 @@ function RegisterForm() {
       }
       saveAppLocale(locale);
       setFailedAttempts(0);
-      if (!result.needsEmailConfirmation) {
+      if (!result.needsEmailConfirmation || result.autoConfirmed) {
         markSessionAnchorNow();
+        await refresh();
         router.push(afterAuthPath);
         router.refresh();
         return;
@@ -233,6 +236,7 @@ function RegisterForm() {
       }
       saveAppLocale(locale);
       markSessionAnchorNow();
+      await refresh();
       router.push(afterAuthPath);
       router.refresh();
     } finally {
@@ -301,6 +305,8 @@ function RegisterForm() {
       onTabChange={onTabChange}
       showMethodHints
       emailTab={
+        <>
+          <AuthSetupBanner />
         <form className="space-y-4" onSubmit={(e) => void onEmailRegister(e)}>
           <DoctorRegistrationFields
             fullName={fullName}
@@ -365,6 +371,7 @@ function RegisterForm() {
             {loading ? "Создаём…" : "Зарегистрироваться по email"}
           </Button>
         </form>
+        </>
       }
       phoneTab={
         <form className="space-y-4" onSubmit={(e) => void onVerifyOtp(e)}>

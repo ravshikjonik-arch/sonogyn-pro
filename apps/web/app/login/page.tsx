@@ -11,6 +11,7 @@ import { AuthMessage, AuthScreenShell, authInputClass } from "@/components/auth/
 import { TelegramLoginButton } from "@/components/auth/TelegramLoginButton";
 import { Button } from "@/components/ui/button";
 import { buildOAuthRedirect, normalizePhone, oauthProviderToSupabase } from "@/lib/auth/oauth-providers";
+import { AuthSetupBanner } from "@/components/auth/AuthSetupBanner";
 import { PhoneAuthSetupHint } from "@/components/auth/PhoneAuthSetupHint";
 import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
 import { looksLikePhoneInput, USE_PHONE_TAB_MSG } from "@/lib/auth/auth-error-text";
@@ -318,6 +319,8 @@ function LoginForm() {
             </Button>
           </form>
         ) : (
+        <>
+          <AuthSetupBanner />
         <form className="space-y-4" onSubmit={(e) => void onEmailLogin(e)}>
           <label className="block">
             <span className="text-sm font-medium text-slate-700 dark:text-slate-200">Email</span>
@@ -367,6 +370,7 @@ function LoginForm() {
             Забыли пароль?
           </button>
         </form>
+        </>
         )
       }
       phoneTab={

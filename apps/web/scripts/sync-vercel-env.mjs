@@ -115,6 +115,12 @@ for (const key of REQUIRED_FOR_PRODUCTION_SECURITY) {
   console.log(`${status === "ok" ? "✓" : "○"} ${key}: ${status}`);
 }
 
+if (!envExists("TELEGRAM_BOT_TOKEN", "production")) {
+  console.log("○ TELEGRAM_BOT_TOKEN: MISSING on Vercel — Telegram Login не работает");
+} else {
+  console.log("✓ TELEGRAM_BOT_TOKEN: production");
+}
+
 const upstashVercel = UPSTASH_ENV_ANY.some(([urlKey, tokenKey]) =>
   envExists(urlKey, "production") && envExists(tokenKey, "production"),
 );

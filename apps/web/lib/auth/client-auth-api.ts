@@ -1,5 +1,5 @@
 export type AuthApiResult =
-  | { ok: true; needsEmailConfirmation?: boolean; needsMfa?: boolean; factorId?: string; message?: string }
+  | { ok: true; needsEmailConfirmation?: boolean; needsMfa?: boolean; factorId?: string; message?: string; autoConfirmed?: boolean }
   | { ok: false; error: string; requiresCaptcha?: boolean; needsEmailConfirmation?: boolean; needsRegistration?: boolean; smsNotConfigured?: boolean };
 
 export async function postSignIn(params: {
@@ -99,6 +99,7 @@ export async function postSignUp(params: {
     requiresCaptcha?: boolean;
     needsEmailConfirmation?: boolean;
     message?: string;
+    autoConfirmed?: boolean;
     session?: { access_token: string; refresh_token: string };
   } | null;
 
@@ -113,6 +114,7 @@ export async function postSignUp(params: {
     ok: true,
     needsEmailConfirmation: payload.needsEmailConfirmation,
     message: payload.message,
+    autoConfirmed: payload.autoConfirmed,
     session: payload.session,
   };
 }
