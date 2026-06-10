@@ -99,9 +99,12 @@ for (const key of FROM_LOCAL) {
 
 const REQUIRED_FOR_PRODUCTION_SECURITY = [
   "SONOGYN_AUTH_INTERNAL_SECRET",
-  "UPSTASH_REDIS_REST_URL",
-  "UPSTASH_REDIS_REST_TOKEN",
   "SUPABASE_SERVICE_ROLE_KEY",
+];
+
+const UPSTASH_ENV_ANY = [
+  ["UPSTASH_REDIS_REST_URL", "UPSTASH_REDIS_REST_TOKEN"],
+  ["KV_REST_API_URL", "KV_REST_API_TOKEN"],
 ];
 
 console.log("\n--- Production security checklist ---");
@@ -111,5 +114,15 @@ for (const key of REQUIRED_FOR_PRODUCTION_SECURITY) {
   const status = localOk && vercelOk ? "ok" : localOk ? "local only" : vercelOk ? "vercel only" : "MISSING";
   console.log(`${status === "ok" ? "✓" : "○"} ${key}: ${status}`);
 }
+
+const upstashVercel = UPSTASH_ENV_ANY.some(([urlKey, tokenKey]) =>
+  envExists(urlKey, "production") && envExists(tokenKey, "production"),
+);
+const upstashLocal = UPSTASH_ENV_ANY.some(([urlKey, tokenKey]) =>
+  Boolean(local[urlKey]?.trim()) && Boolean(local[tokenKey]?.trim()),
+);
+const upstashStatus =
+  upstashLocal && upstashVercel ? "ok" : upstashVercel ? "vercel only" : upstashLocal ? "local only" : "MISSING";
+console.log(`${upstashStatus === "ok" ? "✓" : "○"} Upstash REST (UPSTASH_* or KV_REST_API_*): ${upstashStatus}`);
 
 console.log("\nDone. After all keys are on Vercel: Redeploy → Promote to Production.");

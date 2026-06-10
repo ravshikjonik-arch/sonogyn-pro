@@ -1,3 +1,5 @@
+import { isUpstashRestConfigured } from "./upstash-env";
+
 const INSECURE_INTERNAL_SECRETS = new Set([
   "dev-internal-auth-secret-change-me",
   "change-me",
@@ -15,9 +17,7 @@ function isWeakInternalSecret(value: string | undefined): boolean {
 }
 
 function isUpstashConfigured(): boolean {
-  return Boolean(
-    process.env.UPSTASH_REDIS_REST_URL?.trim() && process.env.UPSTASH_REDIS_REST_TOKEN?.trim(),
-  );
+  return isUpstashRestConfigured();
 }
 
 /** Violations that must be fixed before production deploy. */
@@ -34,7 +34,7 @@ export function getProductionSecretViolations(): string[] {
 
   if (!isUpstashConfigured()) {
     violations.push(
-      "UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN are required in production for distributed rate limiting",
+      "Upstash Redis REST credentials required (UPSTASH_REDIS_REST_* or KV_REST_API_URL + KV_REST_API_TOKEN)",
     );
   }
 

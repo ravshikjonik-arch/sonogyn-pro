@@ -3,6 +3,7 @@
  */
 
 import { isProductionRateLimitReady } from "./production-secrets";
+import { getUpstashRestCredentials } from "./upstash-env";
 
 type Bucket = { count: number; resetAt: number };
 
@@ -32,9 +33,8 @@ let upstashLimiter: UpstashLimiter | null | undefined;
 function getUpstashLimiter(windowMs: number, limit: number): UpstashLimiter | null {
   if (upstashLimiter !== undefined) return upstashLimiter;
 
-  const url = process.env.UPSTASH_REDIS_REST_URL?.trim();
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN?.trim();
-  if (!url || !token) {
+  const creds = getUpstashRestCredentials();
+  if (!creds) {
     upstashLimiter = null;
     return null;
   }
@@ -45,7 +45,7 @@ function getUpstashLimiter(windowMs: number, limit: number): UpstashLimiter | nu
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     const { Redis } = require("@upstash/redis") as typeof import("@upstash/redis");
 
-    const redis = new Redis({ url, token });
+    const redis = new Redis({ url: creds.url, token: creds.token });
     const windowSec = Math.max(1, Math.ceil(windowMs / 1000));
     upstashLimiter = new Ratelimit({
       redis,
