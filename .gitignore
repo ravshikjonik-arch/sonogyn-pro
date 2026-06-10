@@ -28,3 +28,14 @@ yarn-error.*
 
 # Локальные симлинки на скан книги (не для деплоя)
 apps/web/public/books/umarov-2021/
+
+# PWA build artifacts (не коммитить дубликаты)
+apps/web/public/workbox-*.js
+apps/web/public/sw *.js
+
+# Локальные сэмплы OCR/аудита (реген через scripts/import-*)
+scripts/ozerskaya-samples/
+scripts/atlas-obstetrics-samples/
+scripts/atlas-obstetrics-audit.json
+
+.env*

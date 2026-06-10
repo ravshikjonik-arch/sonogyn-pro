@@ -8,7 +8,7 @@ import {
 } from "@/lib/auth/auth-attempts";
 import { toSafeAuthErrorMessage, CAPTCHA_REQUIRED_MSG } from "@/lib/auth/safe-auth-messages";
 import { verifyTurnstileIfConfigured } from "@/lib/auth/verify-turnstile";
-import { consumeRateLimit } from "@/lib/security/rate-limit";
+import { consumeAuthRateLimit } from "@/lib/security/rate-limit";
 import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
 import {
   createSupabaseRouteHandlerClient,
@@ -31,7 +31,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Некорректное тело запроса." }, { status: 400 });
   }
 
-  const rl = await consumeRateLimit(rateLimitKeyFromRequest(req, "auth-sign-in"), 20, 15 * 60_000);
+  const rl = await consumeAuthRateLimit(rateLimitKeyFromRequest(req, "auth-sign-in"), 20, 15 * 60_000);
   if (!rl.ok) {
     return NextResponse.json(
       { error: "Слишком много попыток входа. Подождите и попробуйте снова.", requiresCaptcha: true },

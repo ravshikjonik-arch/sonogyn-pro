@@ -17,8 +17,17 @@ export function translateAuthError(message: string, context: "sign-in" | "sign-u
   if (/email signups are disabled/i.test(message)) {
     return explainAuthNetworkFailure(message);
   }
-  if (/oauth|provider.*not enabled/i.test(message)) {
-    return "Провайдер входа не включён в Supabase Dashboard → Authentication → Providers.";
+  if (/phone_provider_disabled|unsupported phone provider/i.test(message)) {
+    return (
+      "Вход по SMS не настроен в Supabase. Dashboard → Authentication → Providers → Phone: " +
+      "включите провайдер и подключите SMS (Twilio / MessageBird и т.п.)."
+    );
+  }
+  if (/oauth|provider.*not enabled|unsupported provider|could not be found/i.test(message)) {
+    return (
+      "Провайдер входа не включён в Supabase (Dashboard → Authentication → Providers). " +
+      "Для Google — включите Google OAuth. ВКонтакте и Яндекс ID в Supabase по умолчанию недоступны — используйте Google, email или Telegram."
+    );
   }
   return toSafeAuthErrorMessage(message, context);
 }

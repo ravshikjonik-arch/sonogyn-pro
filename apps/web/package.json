@@ -39,6 +39,8 @@
     "@repo/clinical-reference": "workspace:*",
     "@repo/medical-calculations": "workspace:*",
     "@repo/medvedev-reference": "workspace:*",
+    "@repo/adnex-education": "workspace:*",
+    "@repo/obstetric-atlas": "workspace:*",
     "@repo/nosology": "workspace:*",
     "@repo/types": "workspace:*",
     "@repo/ui": "workspace:*",

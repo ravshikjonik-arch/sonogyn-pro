@@ -57,6 +57,8 @@ export type OradsInput = {
   acousticShadows?: boolean;
   iotaColorScore?: IotaColorScore;
   iotaCenterType?: IotaCenterType;
+  /** O-RADS US: неполная перегородка во 2-й плоскости. */
+  incompleteSeptum?: boolean;
 };
 
 export type OradsResult = {

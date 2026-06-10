@@ -2,6 +2,8 @@
 
 import { useMemo, useState } from "react";
 
+import { buildAdnexTriangulationReport, evaluateAdnexTriangulation } from "@repo/adnex-education";
+
 import {
   buildIotaConsensusReportText,
   buildReportText,
@@ -53,6 +55,7 @@ export function useOradsProForm() {
   const [acousticShadows, setAcousticShadows] = useState<boolean | undefined>();
   const [iotaColorScore, setIotaColorScore] = useState<IotaColorScore | undefined>();
   const [iotaCenterType, setIotaCenterType] = useState<IotaCenterType | undefined>();
+  const [incompleteSeptum, setIncompleteSeptum] = useState(false);
 
   const input = useMemo<OradsInput>(
     () => ({
@@ -82,6 +85,7 @@ export function useOradsProForm() {
       acousticShadows,
       iotaColorScore,
       iotaCenterType,
+      incompleteSeptum: incompleteSeptum || undefined,
     }),
     [
       localization,
@@ -110,15 +114,23 @@ export function useOradsProForm() {
       acousticShadows,
       iotaColorScore,
       iotaCenterType,
+      incompleteSeptum,
     ],
   );
 
   const result = useMemo(() => calculateORADS(input), [input]);
   const iotaConsensus = useMemo(() => evaluateIotaConsensus2026(input, result), [input, result]);
-  const reportText = useMemo(
-    () => `${buildReportText(input, result)}\n\n${buildIotaConsensusReportText(iotaConsensus)}`,
-    [input, result, iotaConsensus],
+  const triangulation = useMemo(
+    () => evaluateAdnexTriangulation(input, result.category),
+    [input, result.category],
   );
+  const reportText = useMemo(() => {
+    return [
+      buildReportText(input, result),
+      buildAdnexTriangulationReport(triangulation),
+      buildIotaConsensusReportText(iotaConsensus),
+    ].join("\n\n");
+  }, [input, result, triangulation, iotaConsensus]);
 
   function reset() {
     setLocalization("ovarian");
@@ -147,12 +159,14 @@ export function useOradsProForm() {
     setAcousticShadows(undefined);
     setIotaColorScore(undefined);
     setIotaCenterType(undefined);
+    setIncompleteSeptum(false);
   }
 
   return {
     input,
     result,
     iotaConsensus,
+    triangulation,
     reportText,
     reset,
     localization,
@@ -207,6 +221,8 @@ export function useOradsProForm() {
     setIotaColorScore,
     iotaCenterType,
     setIotaCenterType,
+    incompleteSeptum,
+    setIncompleteSeptum,
   };
 }
 

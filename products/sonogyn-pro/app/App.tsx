@@ -1,6 +1,8 @@
 import { Component, type ErrorInfo, type ReactNode, useEffect } from "react";
 import { Platform, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { migrateOradsToSecureStore } from "./src/features/oradsPro/storage/oradsStorage";
+import { migrateHistoryToSecureStore } from "./src/modules/elastography/utils/historyStorage";
 import AppStack from "./src/navigation/AppStack";
 import { registerPwaRuntime } from "./src/web/pwa";
 
@@ -58,6 +60,15 @@ const boundaryStyles = StyleSheet.create({
 export default function App() {
   useEffect(() => {
     registerPwaRuntime();
+  }, []);
+
+  useEffect(() => {
+    void migrateHistoryToSecureStore().then((migrated) => {
+      if (migrated) console.log("[Elastography] История перенесена в защищённое хранилище");
+    });
+    void migrateOradsToSecureStore().then((migrated) => {
+      if (migrated) console.log("[O-RADS] Данные перенесены в защищённое хранилище");
+    });
   }, []);
 
   useEffect(() => {

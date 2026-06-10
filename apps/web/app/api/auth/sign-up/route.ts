@@ -6,9 +6,10 @@ import {
   isCaptchaRequired,
   recordAuthFailure,
 } from "@/lib/auth/auth-attempts";
-import { SIGN_UP_GENERIC_MSG, toSafeAuthErrorMessage, CAPTCHA_REQUIRED_MSG } from "@/lib/auth/safe-auth-messages";
+import { SIGN_UP_GENERIC_MSG, CAPTCHA_REQUIRED_MSG } from "@/lib/auth/safe-auth-messages";
+import { translateAuthError } from "@/lib/auth/translate-auth-error";
 import { verifyTurnstileIfConfigured } from "@/lib/auth/verify-turnstile";
-import { consumeRateLimit } from "@/lib/security/rate-limit";
+import { consumeAuthRateLimit } from "@/lib/security/rate-limit";
 import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
 import {
   createSupabaseRouteHandlerClient,
@@ -35,7 +36,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Некорректное тело запроса." }, { status: 400 });
   }
 
-  const rl = await consumeRateLimit(rateLimitKeyFromRequest(req, "auth-sign-up"), 10, 60 * 60_000);
+  const rl = await consumeAuthRateLimit(rateLimitKeyFromRequest(req, "auth-sign-up"), 10, 60 * 60_000);
   if (!rl.ok) {
     return NextResponse.json(
       { error: "Слишком много попыток регистрации. Попробуйте позже.", requiresCaptcha: true },
@@ -96,7 +97,7 @@ export async function POST(req: Request) {
       const net = isLikelySupabaseNetworkError(error.message);
       return NextResponse.json(
         {
-          error: toSafeAuthErrorMessage(error.message, "sign-up"),
+          error: translateAuthError(error.message, "sign-up"),
           requiresCaptcha: failCount >= 3,
         },
         { status: net ? 502 : 400 },
@@ -130,7 +131,7 @@ export async function POST(req: Request) {
     const net = isLikelySupabaseNetworkError(msg);
     return NextResponse.json(
       {
-        error: toSafeAuthErrorMessage(msg, "sign-up"),
+        error: translateAuthError(msg, "sign-up"),
         requiresCaptcha: await isCaptchaRequired(failKey),
       },
       { status: net ? 502 : 400 },

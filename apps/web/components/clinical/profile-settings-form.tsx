@@ -12,6 +12,7 @@ import {
   PRODUCT_OWNER_FIO_SHORT,
 } from "@/lib/auth/doctor-display";
 import { uploadClinicalAvatar } from "@/lib/supabase/medical-storage";
+import { wipeWebClinicalLocalData } from "@/lib/security/wipe-clinical-local";
 
 type Props = {
   initial: {
@@ -30,6 +31,7 @@ export function ProfileSettingsForm({ initial }: Props) {
   const [specialization, setSpecialization] = useState(initial.specialization ?? "");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [revoking, setRevoking] = useState(false);
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -61,6 +63,35 @@ export function ProfileSettingsForm({ initial }: Props) {
       router.refresh();
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function onRevokeAllSessions() {
+    const confirmed = window.confirm(
+      "Выйти на всех устройствах? Текущая сессия тоже завершится. Используйте, если потеряли телефон или подозреваете доступ посторонних.",
+    );
+    if (!confirmed) return;
+
+    setMessage("");
+    setRevoking(true);
+    try {
+      const res = await fetch("/api/auth/revoke-all-sessions", {
+        method: "POST",
+        credentials: "same-origin",
+      });
+      const payload = (await res.json().catch(() => null)) as { error?: string } | null;
+      if (!res.ok) {
+        setMessage(payload?.error ?? `HTTP ${res.status}`);
+        return;
+      }
+
+      wipeWebClinicalLocalData();
+      await fetch("/api/auth/sign-out", { method: "POST", credentials: "same-origin" }).catch(() => undefined);
+      await supabase.auth.signOut();
+      router.replace("/login?reason=all-devices-signed-out");
+      router.refresh();
+    } finally {
+      setRevoking(false);
     }
   }
 
@@ -166,9 +197,26 @@ export function ProfileSettingsForm({ initial }: Props) {
         </p>
       ) : null}
 
-      <Button type="submit" className="rounded-2xl px-8" disabled={loading}>
+      <Button type="submit" className="rounded-2xl px-8" disabled={loading || revoking}>
         {loading ? "Сохранение…" : "Сохранить профиль"}
       </Button>
+
+      <div className="rounded-2xl border border-amber-200 bg-amber-50/80 p-5 dark:border-amber-900/50 dark:bg-amber-950/20">
+        <p className="text-sm font-semibold text-amber-950 dark:text-amber-100">Безопасность сессии</p>
+        <p className="mt-1 text-xs text-amber-900/80 dark:text-amber-200/80">
+          Сбросит вход на всех телефонах и браузерах. Офлайн-устройство выйдет при следующей синхронизации с
+          сервером (или через 24 ч без сети).
+        </p>
+        <Button
+          type="button"
+          variant="outline"
+          className="mt-4 rounded-2xl border-amber-300 text-amber-950 hover:bg-amber-100 dark:border-amber-700 dark:text-amber-100"
+          disabled={loading || revoking}
+          onClick={() => void onRevokeAllSessions()}
+        >
+          {revoking ? "Выход…" : "Выйти на всех устройствах"}
+        </Button>
+      </div>
     </form>
   );
 }

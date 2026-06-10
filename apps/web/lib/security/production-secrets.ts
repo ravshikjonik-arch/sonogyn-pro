@@ -42,6 +42,14 @@ export function getProductionSecretViolations(): string[] {
     violations.push("SUPABASE_SERVICE_ROLE_KEY is required in production for admin auth flows");
   }
 
+  if (process.env.DEV_SKIP_AUTH === "true") {
+    violations.push("DEV_SKIP_AUTH must not be true in production (remove from Vercel env)");
+  }
+
+  if (process.env.DEV_AUTO_LOGIN === "true") {
+    violations.push("DEV_AUTO_LOGIN must not be true in production (remove from Vercel env)");
+  }
+
   return violations;
 }
 

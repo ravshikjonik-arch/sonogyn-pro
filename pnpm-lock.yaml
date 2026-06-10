@@ -238,6 +238,9 @@ importers:
       '@react-three/fiber':
         specifier: ^9.6.1
         version: 9.6.1(e3bc8eef0c755b7340efb4a23f0dada7)
+      '@repo/adnex-education':
+        specifier: workspace:*
+        version: link:../../packages/adnex-education
       '@repo/clinical-3d':
         specifier: workspace:*
         version: link:../../packages/clinical-3d
@@ -256,6 +259,9 @@ importers:
       '@repo/nosology':
         specifier: workspace:*
         version: link:../../packages/nosology
+      '@repo/obstetric-atlas':
+        specifier: workspace:*
+        version: link:../../packages/obstetric-atlas
       '@repo/types':
         specifier: workspace:*
         version: link:../../packages/types
@@ -363,6 +369,18 @@ importers:
         specifier: ^5
         version: 5.9.3
 
+  packages/adnex-education:
+    devDependencies:
+      '@types/node':
+        specifier: ^20
+        version: 20.19.40
+      tsx:
+        specifier: ^4.19.4
+        version: 4.21.0
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.3
+
   packages/clinical-3d:
     dependencies:
       '@react-three/drei':
@@ -432,6 +450,18 @@ importers:
         specifier: ^8.0.3
         version: 8.0.3
     devDependencies:
+      tsx:
+        specifier: ^4.19.4
+        version: 4.21.0
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.3
+
+  packages/obstetric-atlas:
+    devDependencies:
+      '@types/node':
+        specifier: ^20
+        version: 20.19.40
       tsx:
         specifier: ^4.19.4
         version: 4.21.0

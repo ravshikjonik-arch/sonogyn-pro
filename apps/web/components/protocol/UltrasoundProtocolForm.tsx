@@ -29,9 +29,12 @@ import { UterusVisualizationModal } from "@/components/uterus/UterusVisualizatio
 import { getSeedNosologies, searchNosologies } from "@repo/nosology";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { RuDateInput } from "@/components/ui/ru-date-input";
+import { GestationalAgeSummary } from "@/components/clinical/GestationalAgeSummary";
+import { LmpDateField } from "@/components/clinical/LmpDateField";
 import { studyProtocolToDocumentSpec } from "@/lib/reporting/document-spec-builders";
 import { DocumentExportToolbar } from "@/components/reporting/DocumentExportToolbar";
-import { encryptJson } from "@/lib/security/encryptedStorage";
+import { encryptJson, decryptJson } from "@/lib/security/encryptedStorage";
 import { cn } from "@/lib/utils/cn";
 
 const BIOMETRY_FIELDS: { key: keyof UltrasoundProtocolPayload["biometry"]; label: string; kind: BiometryKind | "CRL" }[] = [
@@ -83,11 +86,20 @@ export function UltrasoundProtocolForm({
       const json = (await res.json()) as { protocol: UltrasoundProtocolPayload | null };
       if (json.protocol) {
         setProtocol({ ...emptyProtocol(), ...json.protocol });
+      } else {
+        const raw = localStorage.getItem(`protocol-draft-${studyId}`);
+        if (raw) {
+          const draft = await decryptJson<UltrasoundProtocolPayload>(sessionSeed, raw);
+          if (draft) {
+            setProtocol({ ...emptyProtocol(), ...draft });
+            toast.message("Восстановлен локальный черновик протокола");
+          }
+        }
       }
     } finally {
       setLoading(false);
     }
-  }, [studyId]);
+  }, [studyId, sessionSeed]);
 
   useEffect(() => {
     void loadProtocol();
@@ -324,26 +336,24 @@ export function UltrasoundProtocolForm({
       <section className="grid gap-4 md:grid-cols-2">
         <label className="block text-sm">
           <span className="font-semibold">Дата исследования</span>
-          <Input
-            type="date"
-            className="mt-1"
+          <RuDateInput
+            className="mt-1 text-base"
             value={protocol.study_date}
-            onChange={(e) => setProtocol((p) => ({ ...p, study_date: e.target.value }))}
+            onChange={(iso) => setProtocol((p) => ({ ...p, study_date: iso ?? "" }))}
           />
         </label>
-        <label className="block text-sm">
-          <span className="flex items-center gap-1 font-semibold">
-            ПМП
-            <FieldHelpPopover fieldName="lmp" label="ПМП / расчёт срока" gaWeeks={gaWeeksInt} gaDays={gaDaysRem} />
-          </span>
-          <Input
-            type="date"
-            className="mt-1"
-            value={protocol.lmp ?? ""}
-            onChange={(e) => setProtocol((p) => ({ ...p, lmp: e.target.value || undefined }))}
-          />
-        </label>
+        <LmpDateField
+          label="ПМП"
+          value={protocol.lmp}
+          referenceIso={protocol.study_date}
+          onChange={(iso) => setProtocol((p) => ({ ...p, lmp: iso }))}
+          showSummary={false}
+        />
       </section>
+
+      {protocol.lmp ? (
+        <GestationalAgeSummary lmpIso={protocol.lmp} referenceIso={protocol.study_date} />
+      ) : null}
 
       <section>
         <h3 className="mb-3 text-sm font-bold uppercase tracking-wider text-[var(--clinical-foreground-muted)]">

@@ -51,6 +51,36 @@ Use this as the human-facing gate before exposing the platform to clinicians or 
 - [ ] EAS Build profiles sign Android `.aab` / future iOS IPA.
 - [ ] EAS Update channels (`preview`, `production`) aligned with Git branches.
 
+### EAS Secrets (перед store build — не коммитить в репо)
+
+Задайте через `eas secret:create` или Expo dashboard → **Project → Secrets** (профили `preview` / `production`).
+
+| Secret | Назначение | В APK/IPA? |
+|--------|------------|------------|
+| `EXPO_PUBLIC_SUPABASE_URL` | Supabase project URL | Да (ожидаемо; RLS) |
+| `EXPO_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon JWT | Да (ожидаемо; RLS) |
+| `EXPO_PUBLIC_API_BASE_URL` | Production Next.js API | Да (URL) |
+| `EXPO_PUBLIC_FIREBASE_API_KEY` | Firebase Analytics | Да (public) |
+| `EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN` | Firebase | Да |
+| `EXPO_PUBLIC_FIREBASE_PROJECT_ID` | Firebase | Да |
+| `EXPO_PUBLIC_FIREBASE_APP_ID` | Firebase | Да |
+| `EXPO_PUBLIC_REVENUECAT_API_KEY_IOS` | RevenueCat SDK (iOS) | Да (public SDK key) |
+| `EXPO_PUBLIC_REVENUECAT_API_KEY_ANDROID` | RevenueCat SDK (Android) | Да (public SDK key) |
+| `EXPO_PUBLIC_TURNSTILE_SITE_KEY` | CAPTCHA site key | Да (public) |
+| `EXPO_PUBLIC_AUTH_REDIRECT_SCHEME` | Deep link scheme | Да |
+
+**Никогда в `EXPO_PUBLIC_*` / EAS client secrets:** `SUPABASE_SERVICE_ROLE_KEY`, `STRIPE_SECRET_KEY`, `OPENROUTER_API_KEY`, `TELEGRAM_BOT_TOKEN`, `JWT_SECRET`, `SONOGYN_AUTH_INTERNAL_SECRET`.
+
+Чеклист перед загрузкой в Store:
+
+- [ ] Все `EXPO_PUBLIC_*` из `apps/mobile/.env.example` заданы в EAS для `production`.
+- [ ] Локальный `.env` / `.env.development` не в git (`apps/mobile/.gitignore`).
+- [ ] `eas build --profile production` без секретов в `eas.json` (только ссылки на EAS Secrets).
+- [ ] После сборки: декомпиляция/smoke — нет service role / Stripe secret / OpenRouter в бандле.
+- [ ] RevenueCat: ограничения по bundle id / package name в dashboard.
+- [ ] Firebase: ограничить API key по Android package + iOS bundle id + SHA-1 (Play App Signing).
+- [ ] Supabase: RLS включён на всех PHI-таблицах; anon key не даёт обхода политик.
+
 ## Observability & analytics
 
 - [ ] Firebase Analytics measurement IDs differ between web GA4 property vs mobile property.

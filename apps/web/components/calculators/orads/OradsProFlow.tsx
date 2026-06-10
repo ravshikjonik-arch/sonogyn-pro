@@ -7,6 +7,13 @@ import { OradsCategoryAtlas } from "@/components/calculators/orads/OradsCategory
 import { OradsOvaryHero } from "@/components/calculators/orads/OradsOvaryHero";
 import { OradsProCalculator } from "@/components/calculators/orads/OradsProCalculator";
 import { Button } from "@/components/ui/button";
+import {
+  ORADS_ECHOGRAMS_LIBRARY_PATH,
+  ORADS_US_CLINICAL_BULLETS,
+  ORADS_US_PRIMARY_SOURCES,
+  SUPPLEMENTARY_READING,
+} from "@repo/adnex-education";
+
 import { ORADS_GOVERNING_BULLETS, ORADS_VERSION_LABEL } from "@/lib/orads-pro";
 import { cn } from "@/lib/utils/cn";
 
@@ -29,7 +36,10 @@ export function OradsProFlow() {
           <Link href="/calculators">← Каталог</Link>
         </Button>
         <OradsOvaryHero onContinue={() => setPhase("calc")} />
-        <div className="mx-auto mt-4 flex max-w-3xl justify-center">
+        <div className="mx-auto mt-4 flex max-w-3xl flex-wrap justify-center gap-2">
+          <Button variant="outline" size="sm" asChild>
+            <Link href={ORADS_ECHOGRAMS_LIBRARY_PATH}>Эхограммы и случаи O-RADS →</Link>
+          </Button>
           <Button variant="outline" size="sm" asChild>
             <Link href="/ovary-atlas">Макет яичника · фолликулы и ИИ по снимку →</Link>
           </Button>
@@ -105,7 +115,7 @@ export function OradsProFlow() {
           <div className="clinical-surface max-h-[85vh] w-full max-w-2xl overflow-hidden rounded-2xl shadow-2xl">
             <div className="flex items-center justify-between border-b border-[var(--clinical-border)] px-4 py-3">
               <h2 className="font-black text-[var(--clinical-primary-deep)]">
-                {panel === "tables" ? "Таблицы · разбор случаев" : "Ресурсы · O-RADS US"}
+                {panel === "tables" ? "Таблицы · разбор случаев" : "Справка · O-RADS US"}
               </h2>
               <Button type="button" variant="ghost" size="sm" onClick={() => setPanel(null)}>
                 Закрыть
@@ -115,16 +125,59 @@ export function OradsProFlow() {
               {panel === "tables" ? (
                 <OradsCategoryAtlas />
               ) : (
-                <div className="space-y-4 text-sm">
-                  <p className="font-bold">{ORADS_VERSION_LABEL}</p>
-                  <ul className="list-inside list-disc space-y-2 text-xs leading-relaxed">
-                    {ORADS_GOVERNING_BULLETS.map((b) => (
-                      <li key={b}>{b}</li>
-                    ))}
-                  </ul>
+                <div className="space-y-5 text-sm">
+                  <section>
+                    <p className="font-bold">{ORADS_VERSION_LABEL}</p>
+                    <p className="mt-1 text-xs text-[var(--clinical-foreground-muted)]">
+                      Международный протокол стратификации риска аднексальных образований.
+                    </p>
+                    <ul className="mt-2 list-inside list-disc space-y-2 text-xs leading-relaxed">
+                      {ORADS_GOVERNING_BULLETS.map((b) => (
+                        <li key={b}>{b}</li>
+                      ))}
+                    </ul>
+                  </section>
+
+                  <section>
+                    <p className="font-bold">Источники</p>
+                    <ul className="mt-2 list-inside list-disc space-y-1 text-xs leading-relaxed text-[var(--clinical-foreground-muted)]">
+                      {ORADS_US_PRIMARY_SOURCES.map((s) => (
+                        <li key={s}>{s}</li>
+                      ))}
+                    </ul>
+                  </section>
+
+                  <section>
+                    <p className="font-bold">Клинические уточнения O-RADS US / IOTA</p>
+                    <ul className="mt-2 list-inside list-disc space-y-2 text-xs leading-relaxed">
+                      {ORADS_US_CLINICAL_BULLETS.map((b) => (
+                        <li key={b}>{b}</li>
+                      ))}
+                    </ul>
+                  </section>
+
+                  <section className="rounded-xl border border-slate-200 bg-slate-50/80 p-3 dark:border-slate-700 dark:bg-slate-900/40">
+                    <p className="font-bold text-slate-700 dark:text-slate-200">Дополнительная литература</p>
+                    <p className="mt-1 text-xs text-[var(--clinical-foreground-muted)]">
+                      Для углубления и разбора эхограмм — не заменяет ACR O-RADS US.
+                    </p>
+                    <ul className="mt-3 space-y-3 text-xs">
+                      {SUPPLEMENTARY_READING.map((r) => (
+                        <li key={r.id}>
+                          <p className="font-medium text-[var(--clinical-foreground)]">{r.citation}</p>
+                          <p className="mt-0.5 text-[var(--clinical-foreground-muted)]">{r.note}</p>
+                          {r.href ? (
+                            <Button variant="outline" size="sm" asChild className="mt-2">
+                              <Link href={r.href}>Открыть с эхограммами →</Link>
+                            </Button>
+                          ) : null}
+                        </li>
+                      ))}
+                    </ul>
+                  </section>
+
                   <p className="text-xs text-[var(--clinical-foreground-muted)]">
-                    IOTA ADNEX / консенсус 2026 — в шаге 7 калькулятора, когда заполнены признаки образования.
-                    Не является диагнозом.
+                    IOTA ADNEX / консенсус 2026 — в шаге 7 калькулятора. Не является диагнозом.
                   </p>
                 </div>
               )}

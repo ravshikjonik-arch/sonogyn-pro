@@ -43,6 +43,18 @@
       ],
       "@repo/clinical-3d/*": [
         "../../packages/clinical-3d/src/*"
+      ],
+      "@repo/obstetric-atlas": [
+        "../../packages/obstetric-atlas/src/index.ts"
+      ],
+      "@repo/obstetric-atlas/*": [
+        "../../packages/obstetric-atlas/src/*"
+      ],
+      "@repo/adnex-education": [
+        "../../packages/adnex-education/src/index.ts"
+      ],
+      "@repo/adnex-education/*": [
+        "../../packages/adnex-education/src/*"
       ]
     }
   },

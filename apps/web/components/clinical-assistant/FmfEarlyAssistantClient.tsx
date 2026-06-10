@@ -2,7 +2,7 @@
 
 import { AlertTriangle, ArrowRight, ClipboardList, GraduationCap, Sparkles } from "lucide-react";
 import Link from "next/link";
-import { useMemo, useState, type Dispatch, type ReactNode, type SetStateAction } from "react";
+import { useEffect, useMemo, useState, type Dispatch, type ReactNode, type SetStateAction } from "react";
 import { toast } from "sonner";
 
 import { BasicCourseLinkPanel } from "@/components/education/BasicCourseLinkPanel";
@@ -15,7 +15,11 @@ import { FetalSliceAtlasPanel } from "@/components/clinical-assistant/FetalSlice
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { GestationalAgeSummary } from "@/components/clinical/GestationalAgeSummary";
+import { LmpDateField } from "@/components/clinical/LmpDateField";
 import { Input } from "@/components/ui/input";
+import { parseIsoDate } from "@/lib/utils/ru-date";
+import { gaDaysFromLmp, splitGaDays } from "@repo/medical-calculations";
 import {
   buildCervixProtocol,
   buildDopplerProtocol,
@@ -150,6 +154,17 @@ export function FmfAssistantClient({ initialSection = "early" }: Props) {
   const dopplerOut = useMemo(() => analyzeDoppler(doppler), [doppler]);
   const cervixOut = useMemo(() => analyzeCervix(cervix), [cervix]);
   const scarOut = useMemo(() => analyzeScar(scar), [scar]);
+
+  useEffect(() => {
+    if (!early.lmpDate) return;
+    const lmp = parseIsoDate(early.lmpDate);
+    if (!lmp) return;
+    const total = gaDaysFromLmp(lmp, new Date());
+    if (total < 0) return;
+    const { weeks, days } = splitGaDays(total);
+    setSecondThird((p) => ({ ...p, gaWeeksByLmp: weeks, gaDaysByLmp: days }));
+    setDoppler((p) => ({ ...p, gaWeeks: weeks, gaDays: days }));
+  }, [early.lmpDate]);
 
   const out: AssistantOutput =
     section === "early"
@@ -295,6 +310,24 @@ export function FmfAssistantClient({ initialSection = "early" }: Props) {
         ))}
       </nav>
 
+      <Card className="border-[var(--clinical-primary)]/30 bg-[var(--clinical-primary-muted)]/40">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-base">ДПМ — один раз для всех разделов</CardTitle>
+          <CardDescription>
+            Введите первый день последних месячных (например 20.03.2026). Срок подставится в II–III скрининг и допплер.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <LmpDateField
+            label="ДПМ"
+            value={early.lmpDate}
+            onChange={(iso) => setEarly((p) => ({ ...p, lmpDate: iso }))}
+            showSummary={false}
+          />
+          <GestationalAgeSummary lmpIso={early.lmpDate} />
+        </CardContent>
+      </Card>
+
       {teachMode ? (
         <Card className="border-amber-200/60 bg-amber-50/30 dark:border-amber-900/30 dark:bg-amber-950/10">
           <CardHeader className="pb-2">
@@ -362,9 +395,17 @@ export function FmfAssistantClient({ initialSection = "early" }: Props) {
               <FirstForm first={first} setFirst={setFirst} gaText={firstGa} screeningWindow={screeningWindow} />
             ) : null}
             {section === "second" || section === "third" ? (
-              <SecondThirdForm secondThird={secondThird} setSecondThird={setSecondThird} showAnatomy={section === "second"} />
+              <SecondThirdForm
+                lmpDate={early.lmpDate}
+                onLmpChange={(iso) => setEarly((p) => ({ ...p, lmpDate: iso }))}
+                secondThird={secondThird}
+                setSecondThird={setSecondThird}
+                showAnatomy={section === "second"}
+              />
             ) : null}
-            {section === "doppler" ? <DopplerForm doppler={doppler} setDoppler={setDoppler} /> : null}
+            {section === "doppler" ? (
+              <DopplerForm lmpDate={early.lmpDate} onLmpChange={(iso) => setEarly((p) => ({ ...p, lmpDate: iso }))} doppler={doppler} setDoppler={setDoppler} />
+            ) : null}
             {section === "cervix" ? <CervixForm cervix={cervix} setCervix={setCervix} /> : null}
             {section === "scar" ? <ScarForm scar={scar} setScar={setScar} /> : null}
           </CardContent>
@@ -468,13 +509,6 @@ function EarlyForm({
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2">
-        <FieldBlock label="ДПМ">
-          <Input
-            type="date"
-            value={early.lmpDate ?? ""}
-            onChange={(e) => setEarly((p) => ({ ...p, lmpDate: e.target.value || undefined }))}
-          />
-        </FieldBlock>
         <FieldBlock label="β-ХГЧ, МЕ/мл">
           <Input
             inputMode="decimal"
@@ -734,10 +768,14 @@ function FirstForm({
 }
 
 function SecondThirdForm({
+  lmpDate,
+  onLmpChange,
   secondThird,
   setSecondThird,
   showAnatomy,
 }: {
+  lmpDate?: string;
+  onLmpChange: (iso: string | undefined) => void;
   secondThird: SecondThirdInput;
   setSecondThird: Dispatch<SetStateAction<SecondThirdInput>>;
   showAnatomy?: boolean;
@@ -789,10 +827,16 @@ function SecondThirdForm({
         />
       </FieldGroup>
 
-      <div className="grid gap-3 sm:grid-cols-2">
-        <NumField label="Срок по ДПМ, нед" value={secondThird.gaWeeksByLmp} onChange={setNum("gaWeeksByLmp")} />
-        <NumField label="Срок по ДПМ, дни" value={secondThird.gaDaysByLmp} onChange={setNum("gaDaysByLmp")} />
-      </div>
+      {!lmpDate ? (
+        <LmpDateField
+          label="ДПМ — срок для перцентилей"
+          value={lmpDate}
+          onChange={onLmpChange}
+          showSummary={false}
+        />
+      ) : (
+        <GestationalAgeSummary lmpIso={lmpDate} compact />
+      )}
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <NumField label="BPD, мм" value={secondThird.bpd} onChange={setNum("bpd")} />
@@ -871,13 +915,20 @@ function SecondThirdForm({
 }
 
 function DopplerForm({
+  lmpDate,
+  onLmpChange,
   doppler,
   setDoppler,
 }: {
+  lmpDate?: string;
+  onLmpChange: (iso: string | undefined) => void;
   doppler: DopplerInput;
   setDoppler: Dispatch<SetStateAction<DopplerInput>>;
 }) {
   const setNum = (key: keyof DopplerInput) => (value?: number) => setDoppler((p) => ({ ...p, [key]: value }));
+
+  const gaLabel =
+    doppler.gaWeeks !== undefined ? `${doppler.gaWeeks} нед ${doppler.gaDays ?? 0} д` : null;
 
   const liveDoppler = useMemo(
     () =>
@@ -896,24 +947,12 @@ function DopplerForm({
 
   return (
     <div className="space-y-4">
-      <div className="grid gap-3 sm:grid-cols-2">
-        <FieldBlock label="Срок, нед">
-          <Input
-            inputMode="numeric"
-            placeholder="11"
-            value={doppler.gaWeeks != null ? String(doppler.gaWeeks) : ""}
-            onChange={(e) => setDoppler((p) => ({ ...p, gaWeeks: parseNum(e.target.value) }))}
-          />
-        </FieldBlock>
-        <FieldBlock label="Срок, дни">
-          <Input
-            inputMode="numeric"
-            placeholder="0–6"
-            value={doppler.gaDays != null ? String(doppler.gaDays) : ""}
-            onChange={(e) => setDoppler((p) => ({ ...p, gaDays: parseNum(e.target.value) }))}
-          />
-        </FieldBlock>
-      </div>
+      {gaLabel ? <Badge variant="outline">Срок: {gaLabel}</Badge> : null}
+      {!lmpDate ? (
+        <LmpDateField label="ДПМ — срок для допплера" value={lmpDate} onChange={onLmpChange} showSummary={false} />
+      ) : (
+        <GestationalAgeSummary lmpIso={lmpDate} compact />
+      )}
 
       {doppler.gaWeeks !== undefined && liveDoppler.length ? (
         <MedvedevReferencePanel title="Допплер · Прил. 36 / 37 / 38 / 39 / 41" doppler={liveDoppler} compact />

@@ -64,6 +64,20 @@ function getUpstashLimiter(windowMs: number, limit: number): UpstashLimiter | nu
  * @param limit — Max hits allowed within the window.
  * @param windowMs — Window duration in milliseconds.
  */
+/** Временно отключить лимиты на /api/auth/* (Vercel: AUTH_RATE_LIMIT_RELAXED=true). */
+export function isAuthRateLimitRelaxed(): boolean {
+  return process.env.AUTH_RATE_LIMIT_RELAXED === "true";
+}
+
+export async function consumeAuthRateLimit(
+  key: string,
+  limit: number,
+  windowMs: number,
+): Promise<RateLimitResult> {
+  if (isAuthRateLimitRelaxed()) return { ok: true };
+  return consumeRateLimit(key, limit, windowMs);
+}
+
 export async function consumeRateLimit(
   key: string,
   limit: number,

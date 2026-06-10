@@ -7,10 +7,11 @@ import {
   isCaptchaRequired,
   recordAuthFailure,
 } from "@/lib/auth/auth-attempts";
-import { toSafeAuthErrorMessage, CAPTCHA_REQUIRED_MSG } from "@/lib/auth/safe-auth-messages";
+import { CAPTCHA_REQUIRED_MSG } from "@/lib/auth/safe-auth-messages";
+import { translateAuthError } from "@/lib/auth/translate-auth-error";
 import { verifyTurnstileIfConfigured } from "@/lib/auth/verify-turnstile";
 import { normalizePhone } from "@/lib/auth/oauth-providers";
-import { consumeRateLimit } from "@/lib/security/rate-limit";
+import { consumeAuthRateLimit } from "@/lib/security/rate-limit";
 import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
 import { createSupabaseRouteHandlerClient } from "@/lib/route-handler-supabase";
 
@@ -30,7 +31,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Некорректное тело запроса." }, { status: 400 });
   }
 
-  const rl = await consumeRateLimit(rateLimitKeyFromRequest(req, "auth-phone-send"), 10, 15 * 60_000);
+  const rl = await consumeAuthRateLimit(rateLimitKeyFromRequest(req, "auth-phone-send"), 10, 15 * 60_000);
   if (!rl.ok) {
     return NextResponse.json(
       { error: "Слишком много попыток. Подождите и попробуйте снова.", requiresCaptcha: true },
@@ -70,7 +71,7 @@ export async function POST(req: Request) {
       const net = isLikelySupabaseNetworkError(error.message);
       return NextResponse.json(
         {
-          error: toSafeAuthErrorMessage(error.message, "otp"),
+          error: translateAuthError(error.message, "otp"),
           requiresCaptcha: failCount >= 3,
         },
         { status: net ? 502 : 400 },
@@ -80,7 +81,7 @@ export async function POST(req: Request) {
     const msg = e instanceof Error ? e.message : String(e);
     await recordAuthFailure(failKey);
     return NextResponse.json(
-      { error: toSafeAuthErrorMessage(msg, "otp"), requiresCaptcha: await isCaptchaRequired(failKey) },
+      { error: translateAuthError(msg, "otp"), requiresCaptcha: await isCaptchaRequired(failKey) },
       { status: 502 },
     );
   }

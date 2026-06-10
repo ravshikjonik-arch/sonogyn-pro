@@ -1,0 +1,23 @@
+{
+  "name": "@repo/adnex-education",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Методичка Озерской И.А. — IOTA, O-RADS US, учебный слой и простые правила",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./data/pages.json": "./data/pages.json"
+  },
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "sideEffects": false,
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test src/**/*.test.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "tsx": "^4.19.4",
+    "typescript": "^5.9.2"
+  }
+}

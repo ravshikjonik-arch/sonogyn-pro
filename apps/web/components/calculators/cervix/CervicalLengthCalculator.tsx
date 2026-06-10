@@ -5,6 +5,7 @@ import { useCallback, useMemo, useState, useTransition } from "react";
 import { toast } from "sonner";
 
 import { saveCalculatorEntry } from "@/app/actions/calculator-actions";
+import { LmpDateField } from "@/components/clinical/LmpDateField";
 import { CalcChip, CalcStepCard, CalcSubLabel } from "@/components/calculators/shared/calc-ui";
 import { DocumentExportToolbar } from "@/components/reporting/DocumentExportToolbar";
 import { Badge } from "@/components/ui/badge";
@@ -20,10 +21,13 @@ import {
   type CervicalAssessmentInput,
 } from "@/lib/cervix";
 import { plainTextToDocumentSpec } from "@/lib/reporting/document-spec-builders";
+import { parseIsoDate } from "@/lib/utils/ru-date";
 import { cn } from "@/lib/utils/cn";
+import { gaDaysFromLmp } from "@repo/medical-calculations";
 
 export function CervicalLengthCalculator() {
   const [input, setInput] = useState<CervicalAssessmentInput>({ ...defaultCervicalInput });
+  const [lmp, setLmp] = useState<string>();
   const [pending, startTransition] = useTransition();
 
   const setField = useCallback(<K extends keyof CervicalAssessmentInput>(key: K, value: CervicalAssessmentInput[K]) => {
@@ -80,18 +84,39 @@ export function CervicalLengthCalculator() {
 
       <div className="mx-auto max-w-3xl space-y-4">
         <CalcStepCard title="Измерения">
-          <label className="text-xs">
-            Срок беременности (нед)
-            <Input
-              className="mt-1"
-              inputMode="numeric"
-              value={input.gestationalWeeks ?? ""}
-              onChange={(e) => {
-                const v = parseInt(e.target.value, 10);
-                setField("gestationalWeeks", Number.isFinite(v) ? v : undefined);
-              }}
-            />
-          </label>
+          <LmpDateField
+            label="ПМП — срок для оценки CL"
+            value={lmp}
+            onChange={(iso) => {
+              setLmp(iso);
+              if (!iso) {
+                setField("gestationalWeeks", undefined);
+                return;
+              }
+              const lmpDate = parseIsoDate(iso);
+              if (!lmpDate) return;
+              const total = gaDaysFromLmp(lmpDate, new Date());
+              if (total >= 0) setField("gestationalWeeks", Math.floor(total / 7));
+            }}
+          />
+          {lmp ? (
+            <p className="rounded-lg bg-[var(--clinical-muted)] px-3 py-2 text-xs">
+              Срок для калькулятора: <strong>{input.gestationalWeeks ?? "—"} нед</strong> (из ПМП, вручную не нужно)
+            </p>
+          ) : (
+            <label className="text-xs">
+              Срок беременности (нед) — если ПМП неизвестна
+              <Input
+                className="mt-1"
+                inputMode="numeric"
+                value={input.gestationalWeeks ?? ""}
+                onChange={(e) => {
+                  const v = parseInt(e.target.value, 10);
+                  setField("gestationalWeeks", Number.isFinite(v) ? v : undefined);
+                }}
+              />
+            </label>
+          )}
           <label className="text-xs">
             CL (мм) — линейка перпендикулярно внутреннему зеву
             <Input

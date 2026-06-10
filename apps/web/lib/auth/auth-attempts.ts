@@ -2,7 +2,7 @@
  * Счётчик неудачных попыток входа (per IP). Upstash Redis в production; in-memory fallback.
  */
 
-import { consumeRateLimit } from "@/lib/security/rate-limit";
+import { consumeRateLimit, isAuthRateLimitRelaxed } from "@/lib/security/rate-limit";
 
 export const CAPTCHA_FAILURE_THRESHOLD = 3;
 const WINDOW_MS = 60 * 60_000;
@@ -86,8 +86,10 @@ async function upstashClear(key: string): Promise<void> {
 }
 
 export async function recordAuthFailure(key: string): Promise<number> {
-  const rl = await consumeRateLimit(`auth-fail-hard:${key}`, MAX_FAILURES, WINDOW_MS);
-  if (!rl.ok) return MAX_FAILURES;
+  if (!isAuthRateLimitRelaxed()) {
+    const rl = await consumeRateLimit(`auth-fail-hard:${key}`, MAX_FAILURES, WINDOW_MS);
+    if (!rl.ok) return MAX_FAILURES;
+  }
 
   const upstash = await upstashRecord(key);
   if (upstash !== null) return upstash;

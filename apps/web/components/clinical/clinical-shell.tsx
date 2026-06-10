@@ -127,6 +127,8 @@ export function ClinicalShell({
   async function signOut() {
     setBusy(true);
     try {
+      const { wipeWebClinicalLocalData } = await import("@/lib/security/wipe-clinical-local");
+      wipeWebClinicalLocalData();
       await fetch("/api/auth/sign-out", { method: "POST", credentials: "same-origin" });
       await supabase.auth.signOut();
       router.refresh();

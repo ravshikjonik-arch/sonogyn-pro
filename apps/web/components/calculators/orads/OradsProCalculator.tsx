@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { saveCalculatorEntry } from "@/app/actions/calculator-actions";
 import { CalcChip, CalcStepCard, CalcSubLabel } from "@/components/calculators/shared/calc-ui";
 import { IotaConsensusWebPanel } from "@/components/calculators/orads/IotaConsensusWebPanel";
+import { AdnexConsensusPanel } from "@/components/calculators/orads/AdnexConsensusPanel";
 import { useOradsProForm } from "@/components/calculators/orads/useOradsProForm";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -248,6 +249,23 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
                   <CalcChip label="Тонкие &lt;3 мм" selected={f.septaThickness === "thin"} onClick={() => f.setSeptaThickness("thin")} />
                   <CalcChip label="Толстые ≥3 мм" selected={f.septaThickness === "thick"} onClick={() => f.setSeptaThickness("thick")} />
                 </div>
+                {f.structure === "multilocular" ? (
+                  <>
+                    <CalcSubLabel>O-RADS US: перегородка во 2-й плоскости</CalcSubLabel>
+                    <div className="flex flex-wrap gap-2">
+                      <CalcChip
+                        label="Полные септы"
+                        selected={!f.incompleteSeptum}
+                        onClick={() => f.setIncompleteSeptum(false)}
+                      />
+                      <CalcChip
+                        label="Исчезла → однокамерное"
+                        selected={f.incompleteSeptum}
+                        onClick={() => f.setIncompleteSeptum(true)}
+                      />
+                    </div>
+                  </>
+                ) : null}
                 <CalcSubLabel>Солидный компонент</CalcSubLabel>
                 <div className="flex flex-wrap gap-2">
                   <CalcChip label="Нет" selected={f.solidComponent === false} onClick={() => f.setSolidComponent(false)} />
@@ -367,6 +385,8 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
           </div>
         </CalcStepCard>
 
+        <AdnexConsensusPanel triangulation={f.triangulation} disabled={!iotaReady} />
+
         {iotaReady ? <IotaConsensusWebPanel consensus={f.iotaConsensus} /> : null}
 
         <div className="flex flex-wrap gap-2">
@@ -406,6 +426,18 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
               <p className="text-sm">{f.result.rationale}</p>
               <p className="text-sm font-semibold">Рекомендация: {f.result.recommendation}</p>
               {f.result.warning ? <p className="text-xs font-bold text-red-800">{f.result.warning}</p> : null}
+              {iotaReady ? (
+                <p
+                  className={cn(
+                    "mt-2 text-xs font-bold",
+                    f.triangulation.agreement === "conflict" && "text-rose-900",
+                    f.triangulation.agreement === "partial" && "text-amber-900",
+                    f.triangulation.agreement === "full" && "text-emerald-900",
+                  )}
+                >
+                  {f.triangulation.headline}
+                </p>
+              ) : null}
               {iotaReady && f.iotaConsensus.readiness === "complete" ? (
                 <p className="mt-2 text-xs font-bold text-violet-900">
                   IOTA 2026: {f.iotaConsensus.harmonizedCategory}

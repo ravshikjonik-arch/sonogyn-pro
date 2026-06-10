@@ -4,7 +4,39 @@
  *
  * Версию поднимайте при каждом релизе статики (иначе клиенты держат старый кэш).
  */
-const CACHE_VERSION = "pwa-ag-us-v5";
+const CACHE_VERSION = "pwa-ag-us-v6";
+
+/** Клинические маршруты — не кэшировать (SSR может содержать PHI). */
+const CLINICAL_PATH_PREFIXES = [
+  "/app",
+  "/patients",
+  "/workspace",
+  "/cases",
+  "/profile",
+  "/dashboard",
+  "/library",
+  "/reference",
+  "/nosologies",
+  "/assistant",
+  "/admin",
+  "/idea-deep-endometriosis",
+  "/community",
+  "/paywall",
+  "/calculators",
+  "/uterus-3d",
+  "/breast-3d",
+  "/ovary-atlas",
+  "/mockups",
+  "/guidelines",
+  "/login",
+  "/register",
+];
+
+function isClinicalPath(pathname) {
+  return CLINICAL_PATH_PREFIXES.some(
+    (prefix) => pathname === prefix || pathname.startsWith(prefix + "/"),
+  );
+}
 
 /** Предзагрузка: точки входа и офлайн-фолбэк */
 const APP_SHELL = [
@@ -77,16 +109,20 @@ self.addEventListener("notificationclick", (event) => {
   event.waitUntil(self.clients.openWindow(urlToOpen));
 });
 
-/** Навигация: сеть → кэш → офлайн */
+/** Навигация: сеть → кэш → офлайн (клиника — только сеть, без PHI в Cache Storage) */
 async function networkFirstNavigation(request) {
+  const clinical = isClinicalPath(new URL(request.url).pathname);
   try {
     const response = await fetch(request);
-    if (response && response.ok) {
+    if (response && response.ok && !clinical) {
       const copy = response.clone();
       caches.open(CACHE_VERSION).then((cache) => cache.put(request, copy));
     }
     return response;
   } catch {
+    if (clinical) {
+      return (await caches.match("/offline.html")) || Response.error();
+    }
     const cached = await caches.match(request);
     if (cached) return cached;
     const shell =
@@ -137,6 +173,17 @@ self.addEventListener("fetch", (event) => {
 
   if (isStaticAsset(url)) {
     event.respondWith(staleRefreshStatic(request));
+    return;
+  }
+
+  // Never cache API or auth responses — may contain PHI or session data.
+  if (url.pathname.startsWith("/api/")) {
+    event.respondWith(fetch(request));
+    return;
+  }
+
+  if (isClinicalPath(url.pathname)) {
+    event.respondWith(fetch(request));
     return;
   }
 

@@ -7,6 +7,8 @@
   "scripts": {
     "install:deps": "CI=1 npx --yes pnpm@10.6.5 install --config.confirmModulesPurge=false --no-frozen-lockfile",
     "import:petra": "python3 scripts/import-petra-assistant.py",
+    "import:blinov-atlas": "python3 scripts/import-blinov-atlas.py",
+    "import:ozerskaya-adnex": "python3 scripts/import-ozerskaya-adnex.py",
     "dev:web": "npx --yes pnpm@10.6.5 --filter @repo/web dev",
     "dev:web:lan": "npx --yes pnpm@10.6.5 --filter @repo/web dev:lan",
     "terminal:info": "bash scripts/terminal-info.sh",
