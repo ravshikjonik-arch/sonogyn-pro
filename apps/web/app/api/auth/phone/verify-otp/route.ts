@@ -8,6 +8,7 @@ import {
 import { toSafeAuthErrorMessage } from "@/lib/auth/safe-auth-messages";
 import { normalizePhone } from "@/lib/auth/oauth-providers";
 import { consumeAuthRateLimit } from "@/lib/security/rate-limit";
+import { RL } from "@/lib/security/rate-limit-config";
 import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
 import {
   createSupabaseRouteHandlerClient,
@@ -29,7 +30,11 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Некорректное тело запроса." }, { status: 400 });
   }
 
-  const rl = await consumeAuthRateLimit(rateLimitKeyFromRequest(req, "auth-phone-verify"), 20, 15 * 60_000);
+  const rl = await consumeAuthRateLimit(
+    rateLimitKeyFromRequest(req, "auth-phone-verify"),
+    RL.authPhoneVerify.limit,
+    RL.authPhoneVerify.windowMs,
+  );
   if (!rl.ok) {
     return NextResponse.json(
       { error: "Слишком много попыток. Подождите и попробуйте снова." },

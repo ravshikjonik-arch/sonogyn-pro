@@ -26,6 +26,8 @@ export type AgentArtifact = {
 export type OrchestratorContext = {
   studyId: string;
   locale?: string;
+  /** Optional clinical question for SonoEvidence retrieval. */
+  evidenceQuery?: string;
 };
 
 export type OrchestratorResult = {

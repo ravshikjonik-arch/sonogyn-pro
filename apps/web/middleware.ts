@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { updateSession } from "@/utils/supabase/middleware";
 import { isDevSkipAuthEnabled } from "@/lib/auth/dev-account";
+import { shouldBlockSuspiciousApiBot } from "@/lib/security/bot-detection";
 import { assertProductionSecretsConfigured } from "@/lib/security/production-secrets";
 import { getClinicalRole, roleMeetsMinimum } from "@/lib/security/require-clinical-role";
 
@@ -25,6 +26,7 @@ const roots = [
   "/reference",
   "/nosologies",
   "/guidelines",
+  "/evidence",
   "/assistant",
   "/idea-deep-endometriosis",
 ];
@@ -46,6 +48,10 @@ export default async function middleware(request: NextRequest) {
       if (pathname.startsWith("/api/debug") || pathname.startsWith("/api/auth/dev-login")) {
         return NextResponse.json({ error: "Not found" }, { status: 404 });
       }
+    }
+
+    if (shouldBlockSuspiciousApiBot(request)) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
     const { response } = await updateSession(request);
@@ -144,6 +150,8 @@ export const config = {
     "/nosologies/:path*",
     "/guidelines",
     "/guidelines/:path*",
+    "/evidence",
+    "/evidence/:path*",
     "/assistant",
     "/assistant/:path*",
     "/idea-deep-endometriosis",

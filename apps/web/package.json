@@ -41,6 +41,8 @@
     "@repo/medvedev-reference": "workspace:*",
     "@repo/adnex-education": "workspace:*",
     "@repo/obstetric-atlas": "workspace:*",
+    "@repo/evidence-corpus": "workspace:*",
+    "@repo/evidence-engine": "workspace:*",
     "@repo/nosology": "workspace:*",
     "@repo/types": "workspace:*",
     "@repo/ui": "workspace:*",

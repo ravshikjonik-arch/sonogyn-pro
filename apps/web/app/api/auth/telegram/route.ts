@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { translateAuthError } from "@/lib/auth/translate-auth-error";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
+import { RL } from "@/lib/security/rate-limit-config";
 import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
 import {
   ensureTelegramUser,
@@ -11,7 +12,11 @@ import {
 } from "@/lib/auth/telegram-supabase";
 
 export async function POST(request: Request) {
-  const rl = await consumeRateLimit(rateLimitKeyFromRequest(request, "auth-telegram"), 30, 15 * 60_000);
+  const rl = await consumeRateLimit(
+    rateLimitKeyFromRequest(request, "auth-telegram"),
+    RL.authTelegram.limit,
+    RL.authTelegram.windowMs,
+  );
   if (!rl.ok) {
     return NextResponse.json(
       { error: "Слишком много попыток входа." },

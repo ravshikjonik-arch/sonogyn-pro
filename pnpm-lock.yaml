@@ -250,6 +250,12 @@ importers:
       '@repo/clinical-reference':
         specifier: workspace:*
         version: link:../../packages/clinical-reference
+      '@repo/evidence-corpus':
+        specifier: workspace:*
+        version: link:../../packages/evidence-corpus
+      '@repo/evidence-engine':
+        specifier: workspace:*
+        version: link:../../packages/evidence-engine
       '@repo/medical-calculations':
         specifier: workspace:*
         version: link:../../packages/medical-calculations
@@ -419,6 +425,22 @@ importers:
         version: 5.9.3
 
   packages/database: {}
+
+  packages/evidence-corpus:
+    devDependencies:
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.3
+
+  packages/evidence-engine:
+    dependencies:
+      '@repo/evidence-corpus':
+        specifier: workspace:*
+        version: link:../evidence-corpus
+    devDependencies:
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.3
 
   packages/medical-calculations:
     devDependencies:

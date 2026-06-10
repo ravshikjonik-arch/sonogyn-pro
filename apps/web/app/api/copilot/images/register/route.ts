@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { recordAuditEvent } from "@/lib/copilot/audit";
 import { validateRegisteredImagePath } from "@/lib/copilot/storage-path";
-import { rejectIfRateLimited } from "@/lib/security/api-rate-limit";
+import { rejectIfRateLimitedPreset } from "@/lib/security/api-rate-limit";
+import { RL } from "@/lib/security/rate-limit-config";
 import { validateRegisteredContentType } from "@/lib/security/file-validation";
 import { isUuid } from "@/lib/security/uuid";
 import { ULTRASOUND_MEDIA_BUCKET } from "@/lib/copilot/types";
@@ -9,7 +10,7 @@ import { assertStudyOwnedByUser } from "@/lib/security/assert-study-owner";
 import { createClient } from "@/utils/supabase/server";
 
 export async function POST(request: Request) {
-  const limited = await rejectIfRateLimited(request, "copilot-image-register", 60, 60_000);
+  const limited = await rejectIfRateLimitedPreset(request, "copilot-image-register", RL.copilotImageRegister);
   if (limited) return limited;
 
   const supabase = await createClient();

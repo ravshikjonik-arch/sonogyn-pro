@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import { AiAnalyzeRequestSchema } from "@repo/types";
 
 import { consumeRateLimit } from "@/lib/security/rate-limit";
+import { RL } from "@/lib/security/rate-limit-config";
 import { requireSupabaseUser } from "@/lib/security/require-user";
 import { hasProEntitlement } from "@/lib/subscription/access";
 import { createClient } from "@/utils/supabase/server";
@@ -33,7 +34,11 @@ export async function POST(request: Request) {
   const auth = await requireSupabaseUser(supabase);
   if (!auth.ok) return auth.response;
 
-  const rl = await consumeRateLimit(`ai-analyze:${auth.userId}`, 30, 3_600_000);
+  const rl = await consumeRateLimit(
+    `ai-analyze:${auth.userId}`,
+    RL.aiAnalyze.limit,
+    RL.aiAnalyze.windowMs,
+  );
   if (!rl.ok) {
     return NextResponse.json({ error: "Too many requests" }, { status: 429, headers: { "Retry-After": String(rl.retryAfterSec) } });
   }

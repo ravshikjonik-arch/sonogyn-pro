@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { RestorePurchasesBodySchema } from "@repo/types";
 
 import { consumeRateLimit } from "@/lib/security/rate-limit";
+import { RL } from "@/lib/security/rate-limit-config";
 import { requireSupabaseUser } from "@/lib/security/require-user";
 import { syncStripeSubscriptionToSupabase } from "@/lib/stripe/sync-subscription";
 import { getStripe } from "@/lib/stripe/server";
@@ -31,7 +32,11 @@ export async function POST(request: Request) {
   const auth = await requireSupabaseUser(supabase);
   if (!auth.ok) return auth.response;
 
-  const rl = await consumeRateLimit(`stripe-restore:${auth.userId}`, 20, 300_000);
+  const rl = await consumeRateLimit(
+    `stripe-restore:${auth.userId}`,
+    RL.stripeRestore.limit,
+    RL.stripeRestore.windowMs,
+  );
   if (!rl.ok) {
     return NextResponse.json({ error: "Too many requests" }, { status: 429, headers: { "Retry-After": String(rl.retryAfterSec) } });
   }

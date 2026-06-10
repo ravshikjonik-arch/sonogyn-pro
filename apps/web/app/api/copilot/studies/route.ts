@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { recordAuditEvent } from "@/lib/copilot/audit";
 import type { StudyType } from "@/lib/copilot/types";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
+import { RL } from "@/lib/security/rate-limit-config";
 import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
 import { createClient } from "@/utils/supabase/server";
 
@@ -28,7 +29,11 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const rl = await consumeRateLimit(rateLimitKeyFromRequest(request, "copilot-studies-list"), 120, 60_000);
+  const rl = await consumeRateLimit(
+    rateLimitKeyFromRequest(request, "copilot-studies-list"),
+    RL.copilotStudiesList.limit,
+    RL.copilotStudiesList.windowMs,
+  );
   if (!rl.ok) {
     return NextResponse.json(
       { error: "Слишком много запросов. Подождите." },

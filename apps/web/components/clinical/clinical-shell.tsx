@@ -2,6 +2,7 @@
 
 import {
   MessageCircle,
+  BookMarked,
   Bookmark,
   BookOpen,
   ClipboardList,
@@ -54,6 +55,7 @@ const nav = [
   { href: "/assistant", label: "Помощник врача", icon: HandHeart },
   { href: "/nosologies", label: "Нозологии", icon: ClipboardList },
   { href: "/guidelines", label: "КР и приказы", icon: FileText },
+  { href: "/evidence", label: "УЗИ · база", icon: BookMarked },
   { href: "/reference", label: "Клин. нормы", icon: BookOpen },
   { href: "/library", label: "Библиотека", icon: Library },
   { href: "/idea-deep-endometriosis", label: "IDEA · эндометриоз", icon: ScanLine },

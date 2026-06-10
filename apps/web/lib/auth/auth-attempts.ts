@@ -3,10 +3,11 @@
  */
 
 import { consumeRateLimit, isAuthRateLimitRelaxed } from "@/lib/security/rate-limit";
+import { RL } from "@/lib/security/rate-limit-config";
 
 export const CAPTCHA_FAILURE_THRESHOLD = 3;
-const WINDOW_MS = 60 * 60_000;
-const MAX_FAILURES = 20;
+const WINDOW_MS = RL.authFailHard.windowMs;
+const MAX_FAILURES = RL.authFailHard.limit;
 
 type MemoryBucket = { count: number; resetAt: number };
 const failures = new Map<string, MemoryBucket>();

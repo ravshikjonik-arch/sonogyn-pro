@@ -1,7 +1,8 @@
 import { UltrasoundProtocolPayloadSchema } from "@repo/types";
 import { NextResponse } from "next/server";
 
-import { rejectIfRateLimited } from "@/lib/security/api-rate-limit";
+import { rejectIfRateLimitedPreset } from "@/lib/security/api-rate-limit";
+import { RL } from "@/lib/security/rate-limit-config";
 import { isUuid } from "@/lib/security/uuid";
 import { safeLog } from "@/lib/security/safeLog";
 import { assertStudyOwnedByUser } from "@/lib/security/assert-study-owner";
@@ -10,7 +11,7 @@ import { createClient } from "@/utils/supabase/server";
 type Params = { studyId: string };
 
 export async function GET(request: Request, context: { params: Promise<Params> }) {
-  const limited = await rejectIfRateLimited(request, "protocol-read", 120, 60_000);
+  const limited = await rejectIfRateLimitedPreset(request, "protocol-read", RL.protocolRead);
   if (limited) return limited;
 
   const { studyId } = await context.params;
@@ -48,7 +49,7 @@ export async function GET(request: Request, context: { params: Promise<Params> }
 }
 
 export async function PUT(request: Request, context: { params: Promise<Params> }) {
-  const limited = await rejectIfRateLimited(request, "protocol-write", 60, 60_000);
+  const limited = await rejectIfRateLimitedPreset(request, "protocol-write", RL.protocolWrite);
   if (limited) return limited;
 
   const { studyId } = await context.params;

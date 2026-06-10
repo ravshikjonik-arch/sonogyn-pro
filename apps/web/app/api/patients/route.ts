@@ -1,8 +1,12 @@
 import { CreatePatientBodySchema, escapeLikePattern } from "@repo/types";
 import { NextResponse } from "next/server";
 
-import { rejectIfRateLimited } from "@/lib/security/api-rate-limit";
+import {
+  rejectIfRateLimitedForUser,
+  rejectIfRateLimitedPreset,
+} from "@/lib/security/api-rate-limit";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
+import { RL } from "@/lib/security/rate-limit-config";
 import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
 import { safeLog } from "@/lib/security/safeLog";
 import { createClient } from "@/utils/supabase/server";
@@ -20,13 +24,20 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const rl = await consumeRateLimit(rateLimitKeyFromRequest(request, "patients-list"), 120, 60_000);
-  if (!rl.ok) {
+  const ipRl = await consumeRateLimit(
+    rateLimitKeyFromRequest(request, "patients-list"),
+    RL.patientsListIp.limit,
+    RL.patientsListIp.windowMs,
+  );
+  if (!ipRl.ok) {
     return NextResponse.json(
       { error: "Слишком много запросов. Подождите." },
-      { status: 429, headers: { "Retry-After": String(rl.retryAfterSec) } },
+      { status: 429, headers: { "Retry-After": String(ipRl.retryAfterSec) } },
     );
   }
+
+  const userRl = await rejectIfRateLimitedForUser(user.id, "patients-list", RL.patientsListUser);
+  if (userRl) return userRl;
 
   const { searchParams } = new URL(request.url);
   const q = searchParams.get("q")?.trim() ?? "";
@@ -72,7 +83,7 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  const limited = await rejectIfRateLimited(request, "patients-create", 30, 60_000);
+  const limited = await rejectIfRateLimitedPreset(request, "patients-create", RL.patientsCreate);
   if (limited) return limited;
 
   const supabase = await createClient();

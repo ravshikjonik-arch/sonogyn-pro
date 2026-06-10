@@ -9,7 +9,10 @@ import {
 import { SIGN_UP_GENERIC_MSG, CAPTCHA_REQUIRED_MSG } from "@/lib/auth/safe-auth-messages";
 import { translateAuthError } from "@/lib/auth/translate-auth-error";
 import { verifyTurnstileIfConfigured } from "@/lib/auth/verify-turnstile";
+import { resolveAppOrigin } from "@/lib/auth/app-origin";
+import { buildOAuthRedirect } from "@/lib/auth/oauth-providers";
 import { consumeAuthRateLimit } from "@/lib/security/rate-limit";
+import { RL } from "@/lib/security/rate-limit-config";
 import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
 import {
   createSupabaseRouteHandlerClient,
@@ -36,7 +39,11 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Некорректное тело запроса." }, { status: 400 });
   }
 
-  const rl = await consumeAuthRateLimit(rateLimitKeyFromRequest(req, "auth-sign-up"), 10, 60 * 60_000);
+  const rl = await consumeAuthRateLimit(
+    rateLimitKeyFromRequest(req, "auth-sign-up"),
+    RL.authSignUp.limit,
+    RL.authSignUp.windowMs,
+  );
   if (!rl.ok) {
     return NextResponse.json(
       { error: "Слишком много попыток регистрации. Попробуйте позже.", requiresCaptcha: true },
@@ -77,12 +84,15 @@ export async function POST(req: Request) {
   }
 
   const wantsMobileSession = req.headers.get("x-sonogyn-client") === "mobile";
+  const appOrigin = resolveAppOrigin(req);
+  const emailRedirectTo = buildOAuthRedirect(appOrigin, "/app");
 
   try {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
+        emailRedirectTo,
         data: {
           full_name,
           ...(specialization ? { specialization } : {}),

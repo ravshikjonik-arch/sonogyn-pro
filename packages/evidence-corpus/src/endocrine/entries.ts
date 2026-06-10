@@ -1,0 +1,6 @@
+import { ENDOCRINE_ADDITIONAL_EVIDENCE } from "./endocrine-additions";
+import { ENDOCRINE_CORE_EVIDENCE } from "./endocrine-core";
+
+export const ENDOCRINE_EVIDENCE = [...ENDOCRINE_CORE_EVIDENCE, ...ENDOCRINE_ADDITIONAL_EVIDENCE];
+
+export const ENDOCRINE_TOPIC_COUNT = ENDOCRINE_EVIDENCE.length;

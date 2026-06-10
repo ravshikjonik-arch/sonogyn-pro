@@ -28,14 +28,21 @@ type UpstashLimiter = {
   limit: (key: string) => Promise<{ success: boolean; reset: number }>;
 };
 
-let upstashLimiter: UpstashLimiter | null | undefined;
+const upstashLimiters = new Map<string, UpstashLimiter | null>();
+
+function upstashLimiterCacheKey(limit: number, windowMs: number): string {
+  return `${limit}:${windowMs}`;
+}
 
 function getUpstashLimiter(windowMs: number, limit: number): UpstashLimiter | null {
-  if (upstashLimiter !== undefined) return upstashLimiter;
+  const cacheKey = upstashLimiterCacheKey(limit, windowMs);
+  if (upstashLimiters.has(cacheKey)) {
+    return upstashLimiters.get(cacheKey) ?? null;
+  }
 
   const creds = getUpstashRestCredentials();
   if (!creds) {
-    upstashLimiter = null;
+    upstashLimiters.set(cacheKey, null);
     return null;
   }
 
@@ -47,14 +54,15 @@ function getUpstashLimiter(windowMs: number, limit: number): UpstashLimiter | nu
 
     const redis = new Redis({ url: creds.url, token: creds.token });
     const windowSec = Math.max(1, Math.ceil(windowMs / 1000));
-    upstashLimiter = new Ratelimit({
+    const limiter = new Ratelimit({
       redis,
       limiter: Ratelimit.slidingWindow(limit, `${windowSec} s`),
-      prefix: "sonogyn-rl",
+      prefix: `sonogyn-rl:${limit}:${windowSec}`,
     });
-    return upstashLimiter;
+    upstashLimiters.set(cacheKey, limiter);
+    return limiter;
   } catch {
-    upstashLimiter = null;
+    upstashLimiters.set(cacheKey, null);
     return null;
   }
 }

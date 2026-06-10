@@ -83,6 +83,16 @@ export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
     tags: ["нормы", "ISUOG", "Hadlock"],
   },
   {
+    id: "evidence-us-fmf",
+    shelf: "reference",
+    title: "УЗИ · доказательная база",
+    description: "SonoEvidence v1: 7 полок, 235 тем — FMF, АГ, шейка, BI-RADS, O-RADS, эндокринология, хирургия.",
+    href: "/evidence",
+    tags: ["FMF", "BI-RADS", "O-RADS", "СПКЯ", "TI-RADS", "доказательная медицина"],
+    primary: true,
+    badge: "v1",
+  },
+  {
     id: "guidelines",
     shelf: "reference",
     title: "КР и приказы",

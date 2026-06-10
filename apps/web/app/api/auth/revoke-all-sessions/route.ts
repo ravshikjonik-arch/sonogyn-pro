@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { consumeRateLimit } from "@/lib/security/rate-limit";
+import { RL } from "@/lib/security/rate-limit-config";
 import { requireSupabaseUserFromRequest } from "@/lib/security/require-user";
 import { createServiceRoleClient } from "@/utils/supabase/admin";
 import { createClient } from "@/utils/supabase/server";
@@ -14,7 +15,11 @@ export async function POST(request: Request) {
   const auth = await requireSupabaseUserFromRequest(request, supabase);
   if (!auth.ok) return auth.response;
 
-  const rl = await consumeRateLimit(`revoke-all-sessions:${auth.userId}`, 5, 60_000);
+  const rl = await consumeRateLimit(
+    `revoke-all-sessions:${auth.userId}`,
+    RL.revokeAllSessions.limit,
+    RL.revokeAllSessions.windowMs,
+  );
   if (!rl.ok) {
     return NextResponse.json({ error: "Слишком много запросов. Подождите минуту." }, { status: 429 });
   }

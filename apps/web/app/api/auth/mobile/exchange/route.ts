@@ -2,13 +2,18 @@ import { NextResponse } from "next/server";
 
 import { consumeMobileSessionExchange } from "@/lib/auth/mobile-session-exchange";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
+import { RL } from "@/lib/security/rate-limit-config";
 import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
 
 type Body = { exchangeCode?: string };
 
 /** Обмен одноразового кода на mobile session (без токенов в URL). */
 export async function POST(req: Request) {
-  const rl = await consumeRateLimit(rateLimitKeyFromRequest(req, "auth-mobile-exchange"), 30, 15 * 60_000);
+  const rl = await consumeRateLimit(
+    rateLimitKeyFromRequest(req, "auth-mobile-exchange"),
+    RL.authMobileExchange.limit,
+    RL.authMobileExchange.windowMs,
+  );
   if (!rl.ok) {
     return NextResponse.json(
       { error: "Слишком много попыток." },

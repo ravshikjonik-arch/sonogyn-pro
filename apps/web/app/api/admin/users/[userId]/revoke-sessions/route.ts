@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { consumeRateLimit } from "@/lib/security/rate-limit";
+import { RL } from "@/lib/security/rate-limit-config";
 import { requireAdminRole } from "@/lib/security/require-clinical-role";
 import { createServiceRoleClient } from "@/utils/supabase/admin";
 import { createClient } from "@/utils/supabase/server";
@@ -33,7 +34,11 @@ export async function POST(_request: Request, context: { params: Promise<Params>
   const adminGate = await requireAdminRole(supabase, user.id);
   if (!adminGate.ok) return adminGate.response;
 
-  const rl = await consumeRateLimit(`admin-revoke-sessions:${user.id}`, 30, 60_000);
+  const rl = await consumeRateLimit(
+    `admin-revoke-sessions:${user.id}`,
+    RL.adminRevokeSessions.limit,
+    RL.adminRevokeSessions.windowMs,
+  );
   if (!rl.ok) {
     return NextResponse.json({ error: "Too many requests" }, { status: 429 });
   }

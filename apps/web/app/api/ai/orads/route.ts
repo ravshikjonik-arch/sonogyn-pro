@@ -3,6 +3,7 @@ import { z } from "zod";
 
 import { isDevSkipAuthEnabled } from "@/lib/auth/dev-account";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
+import { RL } from "@/lib/security/rate-limit-config";
 import { requireSupabaseUserFromRequest } from "@/lib/security/require-user";
 import { createClient } from "@/utils/supabase/server";
 
@@ -32,7 +33,18 @@ export async function POST(request: Request) {
   }
 
   const userKey = auth.ok ? auth.userId : "dev";
-  const rl = await consumeRateLimit(`ai-orads:${userKey}`, 40, 60_000);
+  const burstRl = await consumeRateLimit(
+    `ai-orads-burst:${userKey}`,
+    RL.aiOradsBurst.limit,
+    RL.aiOradsBurst.windowMs,
+  );
+  if (!burstRl.ok) {
+    return NextResponse.json(
+      { error: "Too many requests" },
+      { status: 429, headers: { "Retry-After": String(burstRl.retryAfterSec) } },
+    );
+  }
+  const rl = await consumeRateLimit(`ai-orads:${userKey}`, RL.aiOrads.limit, RL.aiOrads.windowMs);
   if (!rl.ok) {
     return NextResponse.json(
       { error: "Too many requests" },

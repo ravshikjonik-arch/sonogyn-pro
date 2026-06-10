@@ -34,8 +34,19 @@ Use this as the human-facing gate before exposing the platform to clinicians or 
 ## AI & quotas
 
 - [ ] `/api/ai/analyze` mocked pipeline completes ~30s delay using `after()` + service-role updates.
-- [ ] Rate limiting swapped from in-memory buckets to Upstash / Vercel KV before horizontal scale.
+- [x] Rate limiting on Upstash / Vercel KV (`UPSTASH_REDIS_REST_*` or `KV_REST_API_*`); per-route presets in `apps/web/lib/security/rate-limit-config.ts`.
+- [ ] Production rate limits tuned via Vercel env (`RATE_LIMIT_*`, see `apps/web/.env.example`).
 - [ ] External FastAPI inference service stub replaced with signed VPC/VPN tunnel design.
+
+## Rate limiting, bots & DDoS (production)
+
+- [ ] Upstash Redis REST credentials on Vercel Production (required — без них API fail-closed).
+- [ ] `AUTH_RATE_LIMIT_RELAXED` **не** задан на Production.
+- [ ] `BOT_DETECTION_ENABLED` не отключён (по умолчанию блокирует scrapers на `/api/*`; allowlist: Stripe webhook, Telegram bot bridge).
+- [ ] Vercel **Firewall** / **Attack Challenge Mode** включены для prod-домена (Dashboard → Project → Security).
+- [ ] Cloudflare (если домен через CF): **Bot Fight Mode** или WAF managed rules для `/api/*`.
+- [ ] Smoke: 429 + `Retry-After` на `/api/auth/sign-in` после лимита; поиск пациентов — dual limit IP + userId.
+- [ ] Mobile offline flush: `flushAIQueue` с паузой 1.5s; burst на `/api/ai/orads` — `RATE_LIMIT_AI_ORADS_BURST` (default 5 / 10s).
 
 ## Web (Next.js)
 

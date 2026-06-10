@@ -12,6 +12,7 @@ import { translateAuthError } from "@/lib/auth/translate-auth-error";
 import { verifyTurnstileIfConfigured } from "@/lib/auth/verify-turnstile";
 import { normalizePhone } from "@/lib/auth/oauth-providers";
 import { consumeAuthRateLimit } from "@/lib/security/rate-limit";
+import { RL } from "@/lib/security/rate-limit-config";
 import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
 import { createSupabaseRouteHandlerClient } from "@/lib/route-handler-supabase";
 
@@ -31,7 +32,11 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Некорректное тело запроса." }, { status: 400 });
   }
 
-  const rl = await consumeAuthRateLimit(rateLimitKeyFromRequest(req, "auth-phone-send"), 10, 15 * 60_000);
+  const rl = await consumeAuthRateLimit(
+    rateLimitKeyFromRequest(req, "auth-phone-send"),
+    RL.authPhoneSend.limit,
+    RL.authPhoneSend.windowMs,
+  );
   if (!rl.ok) {
     return NextResponse.json(
       { error: "Слишком много попыток. Подождите и попробуйте снова.", requiresCaptcha: true },

@@ -4,6 +4,7 @@ import { CreateCheckoutBodySchema } from "@repo/types";
 
 import { logProductAnalyticsWeb } from "@/lib/analytics/firebase-web";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
+import { RL } from "@/lib/security/rate-limit-config";
 import { isAllowedAppRedirectUrl } from "@/lib/security/request-client";
 import { requireSupabaseUser } from "@/lib/security/require-user";
 import { getStripe } from "@/lib/stripe/server";
@@ -32,7 +33,11 @@ export async function POST(request: Request) {
   const auth = await requireSupabaseUser(supabase);
   if (!auth.ok) return auth.response;
 
-  const rl = await consumeRateLimit(`stripe-checkout:${auth.userId}`, 10, 60_000);
+  const rl = await consumeRateLimit(
+    `stripe-checkout:${auth.userId}`,
+    RL.stripeCheckout.limit,
+    RL.stripeCheckout.windowMs,
+  );
   if (!rl.ok) {
     return NextResponse.json({ error: "Too many requests" }, { status: 429, headers: { "Retry-After": String(rl.retryAfterSec) } });
   }

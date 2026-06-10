@@ -1,7 +1,8 @@
 import { UpdatePatientBodySchema } from "@repo/types";
 import { NextResponse } from "next/server";
 
-import { rejectIfRateLimited } from "@/lib/security/api-rate-limit";
+import { rejectIfRateLimitedPreset } from "@/lib/security/api-rate-limit";
+import { RL } from "@/lib/security/rate-limit-config";
 import { safeLog } from "@/lib/security/safeLog";
 import { isUuid } from "@/lib/security/uuid";
 import { createClient } from "@/utils/supabase/server";
@@ -9,7 +10,7 @@ import { createClient } from "@/utils/supabase/server";
 type Params = { patientId: string };
 
 export async function GET(request: Request, context: { params: Promise<Params> }) {
-  const limited = await rejectIfRateLimited(request, "patients-detail", 120, 60_000);
+  const limited = await rejectIfRateLimitedPreset(request, "patients-detail", RL.patientsDetail);
   if (limited) return limited;
 
   const { patientId } = await context.params;
@@ -47,7 +48,7 @@ export async function GET(request: Request, context: { params: Promise<Params> }
 }
 
 export async function PATCH(request: Request, context: { params: Promise<Params> }) {
-  const limited = await rejectIfRateLimited(request, "patients-update", 60, 60_000);
+  const limited = await rejectIfRateLimitedPreset(request, "patients-update", RL.patientsUpdate);
   if (limited) return limited;
 
   const { patientId } = await context.params;
@@ -91,7 +92,7 @@ export async function PATCH(request: Request, context: { params: Promise<Params>
 }
 
 export async function DELETE(request: Request, context: { params: Promise<Params> }) {
-  const limited = await rejectIfRateLimited(request, "patients-delete", 20, 60_000);
+  const limited = await rejectIfRateLimitedPreset(request, "patients-delete", RL.patientsDelete);
   if (limited) return limited;
 
   const { patientId } = await context.params;

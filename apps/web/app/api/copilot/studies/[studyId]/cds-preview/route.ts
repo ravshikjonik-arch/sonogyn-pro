@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { runClinicalCopilotOrchestrator } from "@/lib/ai/orchestrator";
-import { rejectIfRateLimited } from "@/lib/security/api-rate-limit";
+import { rejectIfRateLimitedPreset } from "@/lib/security/api-rate-limit";
+import { RL } from "@/lib/security/rate-limit-config";
 import { isUuid } from "@/lib/security/uuid";
 import { createClient } from "@/utils/supabase/server";
 
@@ -10,7 +11,7 @@ export async function POST(
   request: Request,
   context: { params: Promise<Params> },
 ) {
-  const limited = await rejectIfRateLimited(request, "copilot-cds-preview", 20, 60_000);
+  const limited = await rejectIfRateLimitedPreset(request, "copilot-cds-preview", RL.copilotCdsPreview);
   if (limited) return limited;
 
   const { studyId } = await context.params;

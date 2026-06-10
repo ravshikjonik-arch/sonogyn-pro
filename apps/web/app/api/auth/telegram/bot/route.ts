@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
-import { rejectIfRateLimited } from "@/lib/security/api-rate-limit";
+import { rejectIfRateLimitedPreset } from "@/lib/security/api-rate-limit";
+import { RL } from "@/lib/security/rate-limit-config";
 import { translateAuthError } from "@/lib/auth/translate-auth-error";
 import {
   ensureTelegramUser,
@@ -11,7 +12,7 @@ import {
 
 /** Доверенный вход через Telegram-бота (без Login Widget hash). Только server-to-server. */
 export async function POST(request: Request) {
-  const limited = await rejectIfRateLimited(request, "auth-telegram-bot", 20, 15 * 60_000);
+  const limited = await rejectIfRateLimitedPreset(request, "auth-telegram-bot", RL.authTelegramBot);
   if (limited) return limited;
 
   if (!readInternalAuthSecret(request)) {

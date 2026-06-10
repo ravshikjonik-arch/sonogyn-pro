@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { buildDemoStructuredReport, type StructuredUltrasoundReport } from "@/lib/ai/structured-report";
 import { isDevSkipAuthEnabled } from "@/lib/auth/dev-account";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
+import { RL } from "@/lib/security/rate-limit-config";
 import { requireSupabaseUser } from "@/lib/security/require-user";
 import { createClient } from "@/utils/supabase/server";
 
@@ -18,7 +19,11 @@ export async function POST(request: Request) {
     return auth.response;
   }
 
-  const rl = await consumeRateLimit(`ai-structured:${auth.ok ? auth.userId : "dev"}`, 30, 60_000);
+  const rl = await consumeRateLimit(
+    `ai-structured:${auth.ok ? auth.userId : "dev"}`,
+    RL.aiStructured.limit,
+    RL.aiStructured.windowMs,
+  );
   if (!rl.ok) {
     return NextResponse.json({ error: "Too many requests" }, { status: 429, headers: { "Retry-After": String(rl.retryAfterSec) } });
   }

@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { UpdateProfileBodySchema } from "@repo/types";
 
 import { consumeRateLimit } from "@/lib/security/rate-limit";
+import { RL } from "@/lib/security/rate-limit-config";
 import { requireSupabaseUser } from "@/lib/security/require-user";
 import { createClient } from "@/utils/supabase/server";
 
@@ -28,7 +29,11 @@ export async function PATCH(request: Request) {
   const auth = await requireSupabaseUser(supabase);
   if (!auth.ok) return auth.response;
 
-  const rl = await consumeRateLimit(`profile-patch:${auth.userId}`, 60, 300_000);
+  const rl = await consumeRateLimit(
+    `profile-patch:${auth.userId}`,
+    RL.profilePatch.limit,
+    RL.profilePatch.windowMs,
+  );
   if (!rl.ok) {
     return NextResponse.json(
       { error: "Too many requests" },
