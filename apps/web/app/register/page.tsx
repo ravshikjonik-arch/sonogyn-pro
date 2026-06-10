@@ -14,9 +14,9 @@ import { buildOAuthRedirect, normalizePhone, oauthProviderToSupabase } from "@/l
 import { APP_LOCALES, readAppLocale, saveAppLocale, type AppLocale } from "@/lib/i18n/locale";
 import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
 import { CAPTCHA_FAILURE_THRESHOLD } from "@/lib/auth/auth-attempts";
-import { postSignUp, postPhoneSendOtp, postPhoneVerifyOtp } from "@/lib/auth/client-auth-api";
 import { markSessionAnchorNow } from "@/lib/security/session-anchor";
-import { SIGN_UP_GENERIC_MSG, requireOnlineForAuth, translateAuthError } from "@/lib/auth/translate-auth-error";
+import { postSignUp, postPhoneSendOtp, postPhoneVerifyOtp, postResendConfirmation } from "@/lib/auth/client-auth-api";
+import { RESEND_CONFIRMATION_MSG, SIGN_UP_GENERIC_MSG, requireOnlineForAuth, translateAuthError } from "@/lib/auth/translate-auth-error";
 import {
   buildFioAbbreviation,
   normalizeRussianFio,
@@ -43,6 +43,7 @@ function RegisterForm() {
   const [failedAttempts, setFailedAttempts] = useState(0);
   const [requiresCaptcha, setRequiresCaptcha] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState<string | undefined>();
+  const [pendingEmailConfirmation, setPendingEmailConfirmation] = useState(false);
 
   const afterAuthPath = safeInternalPath(searchParams.get("next"), "/app");
   const showCaptcha =
@@ -95,7 +96,33 @@ function RegisterForm() {
         router.refresh();
         return;
       }
-      setMessage(SIGN_UP_GENERIC_MSG);
+      setPendingEmailConfirmation(true);
+      setMessage(result.message ?? SIGN_UP_GENERIC_MSG);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function onResendConfirmation() {
+    setMessage("");
+    if (!guardOnline()) return;
+    const trimmedEmail = email.trim();
+    if (!trimmedEmail) {
+      setMessage("Укажите email для повторной отправки.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const result = await postResendConfirmation({ email: trimmedEmail, turnstileToken });
+      if (!result.ok) {
+        setRequiresCaptcha(Boolean(result.requiresCaptcha));
+        setMessage(result.error);
+        setTurnstileToken(undefined);
+        return;
+      }
+      setPendingEmailConfirmation(true);
+      setMessage(result.message ?? RESEND_CONFIRMATION_MSG);
     } finally {
       setLoading(false);
     }
@@ -265,8 +292,29 @@ function RegisterForm() {
           {message ? (
             <AuthMessage
               message={message}
-              tone={message === SIGN_UP_GENERIC_MSG ? "success" : "error"}
+              tone={
+                message === SIGN_UP_GENERIC_MSG || message === RESEND_CONFIRMATION_MSG ? "success" : "error"
+              }
             />
+          ) : null}
+          {pendingEmailConfirmation ? (
+            <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-900 dark:border-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-100">
+              <p className="font-medium">Подтвердите email</p>
+              <p className="mt-1 text-emerald-800 dark:text-emerald-200">
+                Откройте письмо от Supabase и перейдите по ссылке. Ссылка ведёт на{" "}
+                <span className="font-mono text-xs">{typeof window !== "undefined" ? window.location.origin : "…"}</span>
+                , не на localhost.
+              </p>
+              <Button
+                type="button"
+                variant="outline"
+                className="mt-3 w-full rounded-2xl"
+                disabled={loading}
+                onClick={() => void onResendConfirmation()}
+              >
+                {loading ? "Отправляем…" : "Отправить письмо повторно"}
+              </Button>
+            </div>
           ) : null}
           {showCaptcha ? (
             <TurnstileWidget onToken={(t) => setTurnstileToken(t)} onExpire={() => setTurnstileToken(undefined)} />

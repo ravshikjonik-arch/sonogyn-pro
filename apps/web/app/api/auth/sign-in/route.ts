@@ -76,10 +76,12 @@ export async function POST(req: Request) {
     if (error) {
       const failCount = await recordAuthFailure(failKey);
       const net = isLikelySupabaseNetworkError(error.message);
+      const needsEmailConfirmation = /email not confirmed/i.test(error.message);
       return NextResponse.json(
         {
           error: toSafeAuthErrorMessage(error.message, "sign-in"),
           requiresCaptcha: failCount >= 3,
+          needsEmailConfirmation,
         },
         { status: net ? 502 : 401 },
       );

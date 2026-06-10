@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { FormEvent, Suspense, useCallback, useState } from "react";
+import { FormEvent, Suspense, useCallback, useEffect, useState } from "react";
 import type { AuthProvider } from "@repo/ui";
 import { AuthButtons } from "@repo/ui";
 
@@ -16,6 +16,7 @@ import { postSignIn, postMfaVerifyLogin, postPhoneSendOtp, postPhoneVerifyOtp } 
 import { CAPTCHA_FAILURE_THRESHOLD } from "@/lib/auth/auth-attempts";
 import { markSessionAnchorNow } from "@/lib/security/session-anchor";
 import {
+  EMAIL_NOT_CONFIRMED_MSG,
   PASSWORD_RESET_GENERIC_MSG,
   requireOnlineForAuth,
   translateAuthError,
@@ -42,8 +43,18 @@ function LoginForm() {
   const [mfaRequired, setMfaRequired] = useState(false);
   const [mfaFactorId, setMfaFactorId] = useState<string | null>(null);
   const [mfaCode, setMfaCode] = useState("");
+  const [needsEmailConfirmation, setNeedsEmailConfirmation] = useState(false);
 
   const nextPath = safeInternalPath(searchParams.get("redirectedFrom"), "/app");
+  const authCallbackError = searchParams.get("error") === "auth_callback";
+
+  useEffect(() => {
+    if (authCallbackError) {
+      setMessage(
+        "Ссылка из письма не сработала. Проверьте, что в Supabase Site URL = ваш production URL, и запросите письмо повторно на странице регистрации.",
+      );
+    }
+  }, [authCallbackError]);
   const showCaptcha =
     Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY) &&
     (requiresCaptcha || failedAttempts >= CAPTCHA_FAILURE_THRESHOLD);
@@ -72,6 +83,7 @@ function LoginForm() {
       if (!result.ok) {
         setFailedAttempts((n) => n + 1);
         setRequiresCaptcha(Boolean(result.requiresCaptcha));
+        setNeedsEmailConfirmation(Boolean(result.needsEmailConfirmation));
         setMessage(result.error);
         setTurnstileToken(undefined);
         return;
@@ -286,6 +298,14 @@ function LoginForm() {
             />
           </label>
           {message ? <AuthMessage message={message} tone="error" /> : null}
+          {needsEmailConfirmation ? (
+            <p className="text-center text-sm text-[var(--clinical-foreground-muted)]">
+              {EMAIL_NOT_CONFIRMED_MSG}{" "}
+              <Link className="font-bold text-[var(--clinical-primary-deep)] hover:underline" href="/register">
+                Отправить письмо повторно
+              </Link>
+            </p>
+          ) : null}
           {showCaptcha ? (
             <TurnstileWidget onToken={(t) => setTurnstileToken(t)} onExpire={() => setTurnstileToken(undefined)} />
           ) : null}

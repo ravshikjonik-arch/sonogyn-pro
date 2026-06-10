@@ -1,6 +1,6 @@
 export type AuthApiResult =
-  | { ok: true; needsEmailConfirmation?: boolean; needsMfa?: boolean; factorId?: string }
-  | { ok: false; error: string; requiresCaptcha?: boolean };
+  | { ok: true; needsEmailConfirmation?: boolean; needsMfa?: boolean; factorId?: string; message?: string }
+  | { ok: false; error: string; requiresCaptcha?: boolean; needsEmailConfirmation?: boolean };
 
 export async function postSignIn(params: {
   email: string;
@@ -26,6 +26,7 @@ export async function postSignIn(params: {
     error?: string;
     requiresCaptcha?: boolean;
     needsMfa?: boolean;
+    needsEmailConfirmation?: boolean;
     factorId?: string;
     session?: { access_token: string; refresh_token: string };
   } | null;
@@ -35,6 +36,7 @@ export async function postSignIn(params: {
       ok: false,
       error: payload?.error ?? "Неверные учётные данные.",
       requiresCaptcha: payload?.requiresCaptcha,
+      needsEmailConfirmation: payload?.needsEmailConfirmation,
     };
   }
 
@@ -96,6 +98,7 @@ export async function postSignUp(params: {
     error?: string;
     requiresCaptcha?: boolean;
     needsEmailConfirmation?: boolean;
+    message?: string;
     session?: { access_token: string; refresh_token: string };
   } | null;
 
@@ -109,8 +112,36 @@ export async function postSignUp(params: {
   return {
     ok: true,
     needsEmailConfirmation: payload.needsEmailConfirmation,
+    message: payload.message,
     session: payload.session,
   };
+}
+
+export async function postResendConfirmation(params: {
+  email: string;
+  turnstileToken?: string;
+}): Promise<{ ok: true; message?: string } | { ok: false; error: string; requiresCaptcha?: boolean }> {
+  const res = await fetch("/api/auth/resend-confirmation", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "same-origin",
+    body: JSON.stringify(params),
+  });
+  const payload = (await res.json().catch(() => null)) as {
+    ok?: boolean;
+    error?: string;
+    message?: string;
+    requiresCaptcha?: boolean;
+  } | null;
+
+  if (!res.ok || !payload?.ok) {
+    return {
+      ok: false,
+      error: payload?.error ?? "Не удалось отправить письмо.",
+      requiresCaptcha: payload?.requiresCaptcha,
+    };
+  }
+  return { ok: true, message: payload.message };
 }
 
 export async function postPhoneSendOtp(params: {

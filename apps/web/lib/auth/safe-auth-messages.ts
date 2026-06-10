@@ -2,7 +2,11 @@
 
 export const INVALID_CREDENTIALS_MSG = "Неверные учётные данные.";
 export const SIGN_UP_GENERIC_MSG =
-  "Если регистрация возможна, на указанный email отправлено письмо с дальнейшими шагами. Проверьте почту или войдите.";
+  "На указанный email отправлено письмо с подтверждением. Проверьте «Входящие» и «Спам», затем перейдите по ссылке.";
+export const RESEND_CONFIRMATION_MSG =
+  "Если аккаунт ещё не подтверждён, отправлено новое письмо. Проверьте «Входящие» и «Спам», или войдите, если уже регистрировались.";
+export const EMAIL_NOT_CONFIRMED_MSG =
+  "Email ещё не подтверждён. Откройте ссылку из письма или запросите повторную отправку на странице регистрации.";
 export const PASSWORD_RESET_GENERIC_MSG =
   "Если аккаунт с таким email существует, на него отправлено письмо для сброса пароля.";
 export const OTP_INVALID_MSG = "Неверный или просроченный код.";
@@ -24,7 +28,7 @@ export function toSafeAuthErrorMessage(message: string, context: "sign-in" | "si
     return "Пароль слишком короткий. Минимум 6 символов.";
   }
   if (/email not confirmed/i.test(message)) {
-    return INVALID_CREDENTIALS_MSG;
+    return EMAIL_NOT_CONFIRMED_MSG;
   }
   if (/too many requests|rate/i.test(message)) {
     return TOO_MANY_ATTEMPTS_MSG;

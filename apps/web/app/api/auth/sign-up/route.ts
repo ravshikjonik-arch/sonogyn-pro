@@ -6,14 +6,18 @@ import {
   isCaptchaRequired,
   recordAuthFailure,
 } from "@/lib/auth/auth-attempts";
-import { SIGN_UP_GENERIC_MSG, CAPTCHA_REQUIRED_MSG } from "@/lib/auth/safe-auth-messages";
+import {
+  isDuplicateEmailSignUp,
+  resendSignupConfirmation,
+  resolveEmailConfirmRedirect,
+} from "@/lib/auth/email-confirmation";
+import { SIGN_UP_GENERIC_MSG, CAPTCHA_REQUIRED_MSG, RESEND_CONFIRMATION_MSG } from "@/lib/auth/safe-auth-messages";
 import { translateAuthError } from "@/lib/auth/translate-auth-error";
 import { verifyTurnstileIfConfigured } from "@/lib/auth/verify-turnstile";
-import { resolveAppOrigin } from "@/lib/auth/app-origin";
-import { buildOAuthRedirect } from "@/lib/auth/oauth-providers";
 import { consumeAuthRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
+import { safeLog } from "@/lib/security/safeLog";
 import {
   createSupabaseRouteHandlerClient,
   nextJsonWithAuthCookies,
@@ -84,8 +88,8 @@ export async function POST(req: Request) {
   }
 
   const wantsMobileSession = req.headers.get("x-sonogyn-client") === "mobile";
-  const appOrigin = resolveAppOrigin(req);
-  const emailRedirectTo = buildOAuthRedirect(appOrigin, "/app");
+  const emailRedirectTo = resolveEmailConfirmRedirect(req, "/app");
+  safeLog("auth:sign-up-redirect", { redirectTo: emailRedirectTo });
 
   try {
     const { data, error } = await supabase.auth.signUp({
@@ -116,10 +120,24 @@ export async function POST(req: Request) {
 
     await clearAuthFailures(failKey);
 
+    const duplicate = isDuplicateEmailSignUp(data.user);
+    if (duplicate) {
+      await resendSignupConfirmation(supabase, email, emailRedirectTo);
+      const payload = {
+        ok: true as const,
+        needsEmailConfirmation: true,
+        duplicateRegistration: true,
+        message: RESEND_CONFIRMATION_MSG,
+      };
+      if (wantsMobileSession) return NextResponse.json(payload);
+      return nextJsonWithAuthCookies(payload, cookiesToSet);
+    }
+
+    const needsEmailConfirmation = !data.session;
     if (wantsMobileSession && data.session) {
       return NextResponse.json({
         ok: true,
-        needsEmailConfirmation: !data.session,
+        needsEmailConfirmation,
         session: {
           access_token: data.session.access_token,
           refresh_token: data.session.refresh_token,
@@ -130,8 +148,8 @@ export async function POST(req: Request) {
     return nextJsonWithAuthCookies(
       {
         ok: true,
-        needsEmailConfirmation: !data.session,
-        message: SIGN_UP_GENERIC_MSG,
+        needsEmailConfirmation,
+        message: needsEmailConfirmation ? SIGN_UP_GENERIC_MSG : undefined,
       },
       cookiesToSet,
     );
