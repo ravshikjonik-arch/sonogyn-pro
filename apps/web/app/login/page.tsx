@@ -46,6 +46,7 @@ function LoginForm() {
   const [mfaFactorId, setMfaFactorId] = useState<string | null>(null);
   const [mfaCode, setMfaCode] = useState("");
   const [needsEmailConfirmation, setNeedsEmailConfirmation] = useState(false);
+  const [needsPhoneRegistration, setNeedsPhoneRegistration] = useState(false);
 
   const defaultTab = useMemo(
     () => parseRegistrationMethod(searchParams.get("method")),
@@ -88,6 +89,7 @@ function LoginForm() {
     setOtp("");
     setTurnstileToken(undefined);
     setNeedsEmailConfirmation(false);
+    setNeedsPhoneRegistration(false);
   }
 
   async function onEmailLogin(event: FormEvent<HTMLFormElement>) {
@@ -162,10 +164,12 @@ function LoginForm() {
       if (!result.ok) {
         setRequiresCaptcha(Boolean(result.requiresCaptcha));
         setFailedAttempts((n) => n + 1);
+        setNeedsPhoneRegistration(Boolean(result.needsRegistration));
         setMessage(result.error);
         setTurnstileToken(undefined);
         return;
       }
+      setNeedsPhoneRegistration(false);
       setFailedAttempts(0);
       setOtpSent(true);
       setMessage(result.message ?? PHONE_OTP_SENT_MSG);
@@ -184,9 +188,11 @@ function LoginForm() {
     try {
       const result = await postPhoneVerifyOtp({ phone: normalized, token: otp.trim() });
       if (!result.ok) {
+        setNeedsPhoneRegistration(Boolean(result.needsRegistration));
         setMessage(result.error);
         return;
       }
+      setNeedsPhoneRegistration(false);
       markSessionAnchorNow();
       await refresh();
       router.push(nextPath);
@@ -414,6 +420,13 @@ function LoginForm() {
               message={message}
               tone={message === PHONE_OTP_SENT_MSG || message.includes("отправлен") ? "success" : "error"}
             />
+          ) : null}
+          {needsPhoneRegistration && activeTab === "phone" ? (
+            <p className="text-center text-sm text-[var(--clinical-foreground-muted)]">
+              <Link className="font-bold text-[var(--clinical-primary-deep)] hover:underline" href="/register?method=phone">
+                Зарегистрироваться по номеру телефона
+              </Link>
+            </p>
           ) : null}
           {showCaptcha && activeTab === "phone" ? (
             <TurnstileWidget onToken={(t) => setTurnstileToken(t)} onExpire={() => setTurnstileToken(undefined)} />

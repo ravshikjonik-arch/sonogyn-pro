@@ -5,7 +5,7 @@ import {
   clearAuthFailures,
   recordAuthFailure,
 } from "@/lib/auth/auth-attempts";
-import { toSafeAuthErrorMessage } from "@/lib/auth/safe-auth-messages";
+import { translatePhoneAuthError, phoneAuthNeedsRegistration } from "@/lib/auth/phone-auth-errors";
 import { normalizePhone } from "@/lib/auth/oauth-providers";
 import {
   applyRegistrationMetadata,
@@ -27,6 +27,7 @@ type Body = {
   preferred_locale?: string;
   specialization?: string;
   institution?: string;
+  createUser?: boolean;
 };
 
 export async function POST(req: Request) {
@@ -71,6 +72,7 @@ export async function POST(req: Request) {
   }
 
   const wantsMobileSession = req.headers.get("x-sonogyn-client") === "mobile";
+  const isRegistration = body.createUser === true || Boolean(registrationMeta.full_name);
 
   try {
     const { data, error } = await client.supabase.auth.verifyOtp({
@@ -83,7 +85,10 @@ export async function POST(req: Request) {
       await recordAuthFailure(failKey);
       const net = isLikelySupabaseNetworkError(error.message);
       return NextResponse.json(
-        { error: toSafeAuthErrorMessage(error.message, "otp") },
+        {
+          error: translatePhoneAuthError(error.message, isRegistration ? "register" : "login"),
+          needsRegistration: !isRegistration && phoneAuthNeedsRegistration(error.message),
+        },
         { status: net ? 502 : 401 },
       );
     }
@@ -95,7 +100,7 @@ export async function POST(req: Request) {
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);
     await recordAuthFailure(failKey);
-    return NextResponse.json({ error: toSafeAuthErrorMessage(msg, "otp") }, { status: 502 });
+    return NextResponse.json({ error: translatePhoneAuthError(msg, isRegistration ? "register" : "login") }, { status: 502 });
   }
 
   await clearAuthFailures(failKey);

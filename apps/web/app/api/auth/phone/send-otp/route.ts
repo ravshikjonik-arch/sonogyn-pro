@@ -8,7 +8,7 @@ import {
   recordAuthFailure,
 } from "@/lib/auth/auth-attempts";
 import { CAPTCHA_REQUIRED_MSG, PHONE_OTP_SENT_MSG } from "@/lib/auth/safe-auth-messages";
-import { translateAuthError } from "@/lib/auth/translate-auth-error";
+import { translatePhoneAuthError, phoneAuthNeedsRegistration } from "@/lib/auth/phone-auth-errors";
 import { verifyTurnstileIfConfigured } from "@/lib/auth/verify-turnstile";
 import { normalizePhone } from "@/lib/auth/oauth-providers";
 import {
@@ -87,13 +87,14 @@ export async function POST(req: Request) {
     );
   }
 
+  const isRegistration = body.createUser === true;
   const userData = registrationMetadataToUserData(registrationMeta);
 
   try {
     const { error } = await client.supabase.auth.signInWithOtp({
       phone,
       options: {
-        ...(body.createUser ? { shouldCreateUser: true } : {}),
+        shouldCreateUser: isRegistration,
         ...(Object.keys(userData).length > 0 ? { data: userData } : {}),
       },
     });
@@ -104,7 +105,8 @@ export async function POST(req: Request) {
       const net = isLikelySupabaseNetworkError(error.message);
       return NextResponse.json(
         {
-          error: translateAuthError(error.message, "otp"),
+          error: translatePhoneAuthError(error.message, isRegistration ? "register" : "login"),
+          needsRegistration: !isRegistration && phoneAuthNeedsRegistration(error.message),
           requiresCaptcha: failCount >= 3,
         },
         { status: net ? 502 : 400 },
@@ -114,7 +116,11 @@ export async function POST(req: Request) {
     const msg = e instanceof Error ? e.message : String(e);
     await recordAuthFailure(failKey);
     return NextResponse.json(
-      { error: translateAuthError(msg, "otp"), requiresCaptcha: await isCaptchaRequired(failKey) },
+      {
+        error: translatePhoneAuthError(msg, isRegistration ? "register" : "login"),
+        needsRegistration: !isRegistration && phoneAuthNeedsRegistration(msg),
+        requiresCaptcha: await isCaptchaRequired(failKey),
+      },
       { status: 502 },
     );
   }

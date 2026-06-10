@@ -1,6 +1,6 @@
 export type AuthApiResult =
   | { ok: true; needsEmailConfirmation?: boolean; needsMfa?: boolean; factorId?: string; message?: string }
-  | { ok: false; error: string; requiresCaptcha?: boolean; needsEmailConfirmation?: boolean };
+  | { ok: false; error: string; requiresCaptcha?: boolean; needsEmailConfirmation?: boolean; needsRegistration?: boolean };
 
 export async function postSignIn(params: {
   email: string;
@@ -153,7 +153,10 @@ export async function postPhoneSendOtp(params: {
   specialization?: string;
   institution?: string;
   mobile?: boolean;
-}): Promise<{ ok: true; message?: string } | { ok: false; error: string; requiresCaptcha?: boolean }> {
+}): Promise<
+  | { ok: true; message?: string }
+  | { ok: false; error: string; requiresCaptcha?: boolean; needsRegistration?: boolean }
+> {
   const res = await fetch("/api/auth/phone/send-otp", {
     method: "POST",
     headers: {
@@ -168,6 +171,7 @@ export async function postPhoneSendOtp(params: {
     error?: string;
     message?: string;
     requiresCaptcha?: boolean;
+    needsRegistration?: boolean;
   } | null;
 
   if (!res.ok || !payload?.ok) {
@@ -175,6 +179,7 @@ export async function postPhoneSendOtp(params: {
       ok: false,
       error: payload?.error ?? "Не удалось отправить код.",
       requiresCaptcha: payload?.requiresCaptcha,
+      needsRegistration: payload?.needsRegistration,
     };
   }
   return { ok: true, message: payload.message };
@@ -183,6 +188,7 @@ export async function postPhoneSendOtp(params: {
 export async function postPhoneVerifyOtp(params: {
   phone: string;
   token: string;
+  createUser?: boolean;
   full_name?: string;
   preferred_locale?: string;
   specialization?: string;
@@ -199,6 +205,7 @@ export async function postPhoneVerifyOtp(params: {
     body: JSON.stringify({
       phone: params.phone,
       token: params.token,
+      createUser: params.createUser,
       full_name: params.full_name,
       preferred_locale: params.preferred_locale,
       specialization: params.specialization,
@@ -208,11 +215,16 @@ export async function postPhoneVerifyOtp(params: {
   const payload = (await res.json().catch(() => null)) as {
     ok?: boolean;
     error?: string;
+    needsRegistration?: boolean;
     session?: { access_token: string; refresh_token: string };
   } | null;
 
   if (!res.ok || !payload?.ok) {
-    return { ok: false, error: payload?.error ?? "Неверный или просроченный код." };
+    return {
+      ok: false,
+      error: payload?.error ?? "Неверный или просроченный код.",
+      needsRegistration: payload?.needsRegistration,
+    };
   }
   return { ok: true, session: payload.session };
 }

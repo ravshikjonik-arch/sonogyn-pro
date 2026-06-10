@@ -211,6 +211,7 @@ function RegisterForm() {
       const result = await postPhoneVerifyOtp({
         phone: normalized,
         token: otp.trim(),
+        createUser: true,
         full_name: trimmedName,
         preferred_locale: locale,
       });
