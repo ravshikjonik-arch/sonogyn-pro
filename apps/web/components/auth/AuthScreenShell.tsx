@@ -103,5 +103,9 @@ export function AuthMessage({ message, tone = "error" }: { message: string; tone
     tone === "success"
       ? "rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-900 dark:border-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-100"
       : "rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700 dark:border-red-900 dark:bg-red-950/40 dark:text-red-200";
-  return <p className={cls}>{message}</p>;
+  return (
+    <p className={cls} data-testid={tone === "error" ? "auth-error-message" : "auth-success-message"}>
+      {message}
+    </p>
+  );
 }

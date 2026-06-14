@@ -154,15 +154,18 @@ export async function postPhoneSendOtp(params: {
   preferred_locale?: string;
   specialization?: string;
   institution?: string;
+  fallbackEmail?: string;
+  idempotencyKey?: string;
   mobile?: boolean;
 }): Promise<
-  | { ok: true; message?: string }
+  | { ok: true; message?: string; fallbackUsed?: boolean; deliveredVia?: string }
   | { ok: false; error: string; requiresCaptcha?: boolean; needsRegistration?: boolean; smsNotConfigured?: boolean }
 > {
   const res = await fetch("/api/auth/phone/send-otp", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      ...(params.idempotencyKey ? { "Idempotency-Key": params.idempotencyKey } : {}),
       ...(params.mobile ? { "x-sonogyn-client": "mobile" } : {}),
     },
     credentials: "same-origin",
@@ -175,6 +178,8 @@ export async function postPhoneSendOtp(params: {
     requiresCaptcha?: boolean;
     needsRegistration?: boolean;
     smsNotConfigured?: boolean;
+    fallbackUsed?: boolean;
+    deliveredVia?: string;
   } | null;
 
   if (!res.ok || !payload?.ok) {
@@ -186,7 +191,55 @@ export async function postPhoneSendOtp(params: {
       smsNotConfigured: payload?.smsNotConfigured,
     };
   }
-  return { ok: true, message: payload.message };
+  return { ok: true, message: payload.message, fallbackUsed: payload.fallbackUsed, deliveredVia: payload.deliveredVia };
+}
+
+export async function postSendCode(params: {
+  method: "email" | "sms" | "telegram";
+  contact: string;
+  purpose?: "register" | "login" | "mfa" | "password_reset";
+  fallbackEmail?: string;
+  turnstileToken?: string;
+  idempotencyKey?: string;
+}): Promise<
+  | { ok: true; message?: string; deliveredVia?: string; fallbackUsed?: boolean }
+  | { ok: false; error: string; errorCode?: string; retryAfterSec?: number; requiresCaptcha?: boolean }
+> {
+  const res = await fetch("/api/auth/send-code", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...(params.idempotencyKey ? { "Idempotency-Key": params.idempotencyKey } : {}),
+    },
+    credentials: "same-origin",
+    body: JSON.stringify(params),
+  });
+  const payload = (await res.json().catch(() => null)) as {
+    ok?: boolean;
+    error?: string;
+    message?: string;
+    deliveredVia?: string;
+    fallbackUsed?: boolean;
+    errorCode?: string;
+    retryAfterSec?: number;
+    requiresCaptcha?: boolean;
+  } | null;
+
+  if (!res.ok || !payload?.ok) {
+    return {
+      ok: false,
+      error: payload?.error ?? "Не удалось отправить код.",
+      errorCode: payload?.errorCode,
+      retryAfterSec: payload?.retryAfterSec,
+      requiresCaptcha: payload?.requiresCaptcha,
+    };
+  }
+  return {
+    ok: true,
+    message: payload.message,
+    deliveredVia: payload.deliveredVia,
+    fallbackUsed: payload.fallbackUsed,
+  };
 }
 
 export async function postPhoneVerifyOtp(params: {

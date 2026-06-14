@@ -128,7 +128,7 @@ export default async function CommandCenterPage() {
                 PRO-ready
               </Badge>
             </div>
-            <h1 className="sonogyn-gradient-text text-3xl font-black tracking-tight sm:text-4xl">
+            <h1 className="sonogyn-gradient-text text-3xl font-black tracking-tight sm:text-4xl" data-testid="app-home">
               {cabinet.doctorLine
                 ? `${cabinet.cabinetTitle} — ${cabinet.doctorLine}`
                 : cabinet.cabinetTitle}

@@ -66,8 +66,18 @@ function RegisterForm() {
   const [turnstileToken, setTurnstileToken] = useState<string | undefined>();
   const [pendingEmailConfirmation, setPendingEmailConfirmation] = useState(false);
   const [smsNotConfigured, setSmsNotConfigured] = useState(false);
+  const [idempotencyKey] = useState(() => crypto.randomUUID());
+  const [sendCooldownSec, setSendCooldownSec] = useState(0);
 
   const afterAuthPath = safeInternalPath(searchParams.get("next"), "/app");
+
+  useEffect(() => {
+    if (sendCooldownSec <= 0) return;
+    const timer = setInterval(() => {
+      setSendCooldownSec((prev) => (prev <= 1 ? 0 : prev - 1));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [sendCooldownSec]);
 
   useEffect(() => {
     setActiveTab(defaultTab);
@@ -194,6 +204,7 @@ function RegisterForm() {
   async function onSendOtp() {
     setMessage("");
     if (!guardOnline()) return;
+    if (sendCooldownSec > 0) return;
 
     const trimmedName = validateDoctorName();
     if (!trimmedName) return;
@@ -207,6 +218,8 @@ function RegisterForm() {
         full_name: trimmedName,
         preferred_locale: locale,
         turnstileToken,
+        idempotencyKey,
+        fallbackEmail: email.trim() || undefined,
       });
       if (!result.ok) {
         setFailedAttempts((n) => n + 1);
@@ -219,6 +232,7 @@ function RegisterForm() {
       setSmsNotConfigured(false);
       setFailedAttempts(0);
       setOtpSent(true);
+      setSendCooldownSec(30);
       setMessage(result.message ?? PHONE_OTP_SENT_MSG);
     } finally {
       setLoading(false);
@@ -388,11 +402,15 @@ function RegisterForm() {
             <Button
               type="button"
               className="w-full rounded-2xl py-6"
-              disabled={loading}
+              disabled={loading || sendCooldownSec > 0}
               onClick={() => void onSendOtp()}
               aria-label="Получить код"
             >
-              {loading ? "Отправляем…" : "Получить SMS-код"}
+              {loading
+                ? "Отправляем…"
+                : sendCooldownSec > 0
+                  ? `Повтор через ${sendCooldownSec} с`
+                  : "Получить SMS-код"}
             </Button>
           ) : (
             <>
@@ -416,10 +434,14 @@ function RegisterForm() {
                 type="button"
                 variant="outline"
                 className="w-full rounded-2xl"
-                disabled={loading}
+                disabled={loading || sendCooldownSec > 0}
                 onClick={() => void onSendOtp()}
               >
-                {loading ? "Отправляем…" : "Отправить код повторно"}
+                {loading
+                  ? "Отправляем…"
+                  : sendCooldownSec > 0
+                    ? `Повтор через ${sendCooldownSec} с`
+                    : "Отправить код повторно"}
               </Button>
             </>
           )}

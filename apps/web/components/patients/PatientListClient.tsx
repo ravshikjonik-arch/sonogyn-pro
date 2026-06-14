@@ -7,6 +7,8 @@ import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
+const e2eFixtures = process.env.NEXT_PUBLIC_E2E_FIXTURES === "true";
+
 type ListResponse = {
   patients: PatientRow[];
   nextCursor: string | null;
@@ -46,7 +48,7 @@ export function PatientListClient() {
   }, [q, load]);
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-8">
+    <div className="mx-auto max-w-5xl px-4 py-8" data-testid="patients-page">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-[var(--clinical-foreground)]">Пациенты</h1>
@@ -65,6 +67,7 @@ export function PatientListClient() {
         value={q}
         onChange={(e) => setQ(e.target.value)}
         autoFocus
+        data-testid="patient-search"
       />
 
       {loading ? (
@@ -76,9 +79,9 @@ export function PatientListClient() {
       ) : (
         <ul className="mt-6 divide-y divide-[var(--clinical-border)] rounded-xl border border-[var(--clinical-border)] bg-[var(--clinical-card)]">
           {patients.map((p) => (
-            <li key={p.id}>
+            <li key={p.id} data-testid="patient-list-item">
               <Link
-                href={`/patients/${p.id}`}
+                href={e2eFixtures ? `/demo/patient-card?id=${p.id}` : `/patients/${p.id}`}
                 className="flex flex-wrap items-center justify-between gap-2 px-4 py-3 hover:bg-[var(--clinical-muted)]"
               >
                 <span className="font-semibold text-[var(--clinical-foreground)]">{p.display_label}</span>

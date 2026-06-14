@@ -1,0 +1,54 @@
+{
+  "doctor": {
+    "email": "e2e.doctor@sonogyn.test",
+    "password": "E2eDoctorPass123!",
+    "fullName": "Якубов Равшан Тест"
+  },
+  "admin": {
+    "email": "e2e.admin@sonogyn.test",
+    "password": "E2eAdminPass123!",
+    "fullName": "Админ Тестовый",
+    "role": "admin"
+  },
+  "patient": {
+    "displayLabel": "Иванова Мария Петровна",
+    "externalRef": "KART-2026-001",
+    "diagnosis": "Миoma uteri, FIGO 5",
+    "notes": "Жалобы на дисменорею. Контроль через 3 мес."
+  },
+  "schedule": {
+    "today": [
+      {
+        "id": "slot-1",
+        "time": "09:00",
+        "patientName": "Иванова Мария Петровна",
+        "complaint": "Контроль УЗИ малого таза"
+      },
+      {
+        "id": "slot-2",
+        "time": "10:30",
+        "patientName": "Петрова Анна Сергеевна",
+        "complaint": "Беременность 12 нед."
+      }
+    ],
+    "tomorrow": [
+      {
+        "id": "slot-3",
+        "time": "11:00",
+        "patientName": "Сидорова Елена",
+        "complaint": "O-RADS контроль"
+      }
+    ]
+  },
+  "appointment": {
+    "time": "14:00",
+    "complaints": "Тазовая боль, нарушение цикла",
+    "anamnesis": "ПМП 12.05.2026, ВМС нет",
+    "plan": "УЗИ органов малого таза, ОАК"
+  },
+  "prescription": {
+    "drug": "Дидrogesteron",
+    "dose": "10 мг",
+    "schedule": "2 раза в сутки, 10 дней"
+  }
+}

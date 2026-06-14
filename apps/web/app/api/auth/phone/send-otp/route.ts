@@ -21,6 +21,10 @@ import { consumeAuthRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
 import { createSupabaseRouteHandlerClient } from "@/lib/route-handler-supabase";
+import { runVerificationFallbackChain } from "@/lib/auth/verification/fallback-handler";
+import { parseEmailContact } from "@/lib/auth/verification/validate-contact";
+import { logVerificationEvent } from "@/lib/auth/verification/safe-verification-log";
+import { checkRateLimit } from "@/lib/auth/verification/verification-rate-limit";
 
 type Body = {
   phone?: string;
@@ -30,6 +34,8 @@ type Body = {
   preferred_locale?: string;
   specialization?: string;
   institution?: string;
+  /** Email для fallback, если SMS не доставлен (см. /api/auth/send-code). */
+  fallbackEmail?: string;
 };
 
 export async function POST(req: Request) {
@@ -80,6 +86,17 @@ export async function POST(req: Request) {
     );
   }
 
+  const phoneContactRl = await checkRateLimit("sms", phone);
+  if (!phoneContactRl.ok) {
+    return NextResponse.json(
+      {
+        error: `Слишком много кодов на этот номер. Повторите через ${phoneContactRl.retryAfterSec} сек.`,
+        retryAfterSec: phoneContactRl.retryAfterSec,
+      },
+      { status: 429, headers: { "Retry-After": String(phoneContactRl.retryAfterSec) } },
+    );
+  }
+
   const registrationMeta = parseRegistrationMetadata(body);
   if (body.createUser && !registrationMeta.full_name) {
     return NextResponse.json(
@@ -108,6 +125,33 @@ export async function POST(req: Request) {
         formatSupabaseAuthError(error),
         isRegistration ? "register" : "login",
       );
+
+      // Fallback chain: Supabase SMS недоступен → наш send-code pipeline на email.
+      const fallbackEmail =
+        typeof body.fallbackEmail === "string" ? parseEmailContact(body.fallbackEmail) : null;
+      if (fallbackEmail && (mapped.smsNotConfigured || net)) {
+        const fb = await runVerificationFallbackChain({
+          primaryMethod: "sms",
+          contact: phone,
+          purpose: isRegistration ? "register" : "login",
+          fallbackEmail,
+          idempotencyKey: req.headers.get("Idempotency-Key"),
+        });
+        if (fb.ok) {
+          logVerificationEvent("supabase_sms_fallback_ok", {
+            purpose: isRegistration ? "register" : "login",
+            fallbackUsed: Boolean(fb.fallbackUsed),
+          });
+          await clearAuthFailures(failKey);
+          return NextResponse.json({
+            ok: true,
+            message: fb.message ?? PHONE_OTP_SENT_MSG,
+            fallbackUsed: fb.fallbackUsed ?? true,
+            deliveredVia: fb.deliveredVia,
+          });
+        }
+      }
+
       return NextResponse.json(
         {
           error: mapped.message,

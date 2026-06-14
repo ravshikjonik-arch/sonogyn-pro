@@ -51,6 +51,8 @@ function LoginForm() {
   const [needsEmailConfirmation, setNeedsEmailConfirmation] = useState(false);
   const [needsPhoneRegistration, setNeedsPhoneRegistration] = useState(false);
   const [smsNotConfigured, setSmsNotConfigured] = useState(false);
+  const [idempotencyKey] = useState(() => crypto.randomUUID());
+  const [sendCooldownSec, setSendCooldownSec] = useState(0);
 
   const defaultTab = useMemo(
     () => parseRegistrationMethod(searchParams.get("method")),
@@ -86,6 +88,14 @@ function LoginForm() {
   useEffect(() => {
     setActiveTab(defaultTab);
   }, [defaultTab]);
+
+  useEffect(() => {
+    if (sendCooldownSec <= 0) return;
+    const timer = setInterval(() => {
+      setSendCooldownSec((prev) => (prev <= 1 ? 0 : prev - 1));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [sendCooldownSec]);
 
   const showCaptcha =
     Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY) &&
@@ -177,6 +187,7 @@ function LoginForm() {
   async function onSendOtp() {
     setMessage("");
     if (!guardOnline()) return;
+    if (sendCooldownSec > 0) return;
 
     const normalized = normalizePhone(phone);
     setLoading(true);
@@ -184,6 +195,8 @@ function LoginForm() {
       const result = await postPhoneSendOtp({
         phone: normalized,
         turnstileToken,
+        idempotencyKey,
+        fallbackEmail: email.trim() || undefined,
       });
       if (!result.ok) {
         setRequiresCaptcha(Boolean(result.requiresCaptcha));
@@ -198,6 +211,7 @@ function LoginForm() {
       setSmsNotConfigured(false);
       setFailedAttempts(0);
       setOtpSent(true);
+      setSendCooldownSec(30);
       setMessage(result.message ?? PHONE_OTP_SENT_MSG);
     } finally {
       setLoading(false);
@@ -315,6 +329,7 @@ function LoginForm() {
               placeholder="doctor@example.com"
               required
               aria-label="Email"
+              data-testid="email-input"
             />
           </label>
           <label className="block">
@@ -327,6 +342,7 @@ function LoginForm() {
               placeholder="••••••••"
               required
               aria-label="Пароль"
+              data-testid="password-input"
             />
           </label>
           {message ? <AuthMessage message={message} tone="error" /> : null}
@@ -341,7 +357,7 @@ function LoginForm() {
           {showCaptcha ? (
             <TurnstileWidget onToken={(t) => setTurnstileToken(t)} onExpire={() => setTurnstileToken(undefined)} />
           ) : null}
-          <Button className="w-full rounded-2xl py-6" type="submit" disabled={loading} aria-label="Войти">
+          <Button className="w-full rounded-2xl py-6" type="submit" disabled={loading} aria-label="Войти" data-testid="login-button">
             {loading ? "Входим…" : "Войти"}
           </Button>
           <button
@@ -381,11 +397,15 @@ function LoginForm() {
             <Button
               type="button"
               className="w-full rounded-2xl py-6"
-              disabled={loading}
+              disabled={loading || sendCooldownSec > 0}
               onClick={() => void onSendOtp()}
               aria-label="Получить код"
             >
-              {loading ? "Отправляем…" : "Получить SMS-код"}
+              {loading
+                ? "Отправляем…"
+                : sendCooldownSec > 0
+                  ? `Повтор через ${sendCooldownSec} с`
+                  : "Получить SMS-код"}
             </Button>
           ) : (
             <>
@@ -409,10 +429,14 @@ function LoginForm() {
                 type="button"
                 variant="outline"
                 className="w-full rounded-2xl"
-                disabled={loading}
+                disabled={loading || sendCooldownSec > 0}
                 onClick={() => void onSendOtp()}
               >
-                {loading ? "Отправляем…" : "Отправить код повторно"}
+                {loading
+                  ? "Отправляем…"
+                  : sendCooldownSec > 0
+                    ? `Повтор через ${sendCooldownSec} с`
+                    : "Отправить код повторно"}
               </Button>
             </>
           )}

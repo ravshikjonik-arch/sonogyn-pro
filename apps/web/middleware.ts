@@ -28,7 +28,9 @@ const roots = [
   "/guidelines",
   "/evidence",
   "/assistant",
+  "/voice-reader",
   "/idea-deep-endometriosis",
+  "/demo",
 ];
 
 /** Как раньше `/elastography` — калькулятор доступен без Supabase-логина. */
@@ -48,6 +50,11 @@ export default async function middleware(request: NextRequest) {
       if (pathname.startsWith("/api/debug") || pathname.startsWith("/api/auth/dev-login")) {
         return NextResponse.json({ error: "Not found" }, { status: 404 });
       }
+    }
+
+    if (pathname.startsWith("/api/auth/send-code") || pathname.startsWith("/api/auth/verify-code")) {
+      // Rate limit в Route Handler + Redis/KV (см. verification-rate-limit.ts).
+      // Edge middleware не держит in-memory counters между cold starts на Vercel.
     }
 
     if (shouldBlockSuspiciousApiBot(request)) {
@@ -154,7 +161,11 @@ export const config = {
     "/evidence/:path*",
     "/assistant",
     "/assistant/:path*",
+    "/voice-reader",
+    "/voice-reader/:path*",
     "/idea-deep-endometriosis",
     "/idea-deep-endometriosis/:path*",
+    "/demo",
+    "/demo/:path*",
   ],
 };

@@ -1,0 +1,56 @@
+import { defineConfig, devices } from "@playwright/test";
+import path from "node:path";
+
+const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? "http://127.0.0.1:3000";
+
+export default defineConfig({
+  testDir: "./tests/e2e",
+  fullyParallel: true,
+  forbidOnly: Boolean(process.env.CI),
+  retries: process.env.CI ? 2 : 0,
+  workers: process.env.CI ? 1 : undefined,
+  reporter: [["list"], ["html", { open: "never" }]],
+  timeout: 60_000,
+  expect: { timeout: 10_000 },
+  use: {
+    baseURL,
+    trace: "on-first-retry",
+    screenshot: "only-on-failure",
+    video: "retain-on-failure",
+    locale: "ru-RU",
+  },
+  projects: [
+    {
+      name: "setup",
+      testMatch: /auth\.setup\.ts/,
+    },
+    {
+      name: "chromium",
+      use: {
+        ...devices["Desktop Chrome"],
+        storageState: path.join(__dirname, "tests/e2e/.auth/doctor.json"),
+      },
+      dependencies: ["setup"],
+      testIgnore: /auth\.spec\.ts/,
+    },
+    {
+      name: "chromium-no-auth",
+      use: { ...devices["Desktop Chrome"] },
+      testMatch: /auth\.spec\.ts/,
+    },
+  ],
+  webServer: {
+    command: "pnpm dev",
+    cwd: __dirname,
+    url: baseURL,
+    reuseExistingServer: !process.env.CI,
+    timeout: 120_000,
+    env: {
+      ...process.env,
+      E2E_FIXTURES: "true",
+      NEXT_PUBLIC_E2E_FIXTURES: "true",
+      DEV_SKIP_AUTH: process.env.E2E_DEV_SKIP_AUTH ?? "true",
+      DEV_AUTO_LOGIN: "false",
+    },
+  },
+});

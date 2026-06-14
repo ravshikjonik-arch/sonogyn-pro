@@ -40,6 +40,11 @@ import { Separator } from "@/components/ui/separator";
 import { MockupNavSection } from "@/components/clinical/MockupNavSection";
 import { TelegramChannelLink } from "@/components/clinical/TelegramChannelLink";
 import { ThemeToggle } from "@/components/clinical/theme-toggle";
+import { ClinicalVoiceDock } from "@/components/voice/ClinicalVoiceDock";
+import {
+  VoiceReaderProvider,
+  VoiceReaderRouteSync,
+} from "@/components/voice/VoiceReaderProvider";
 import {
   buildDoctorCabinetLabel,
   resolveDoctorFullName,
@@ -142,6 +147,7 @@ export function ClinicalShell({
 
   const Sidebar = (
     <aside
+      data-voice-ignore
       className={cn(
         "fixed inset-y-0 left-0 z-40 flex w-72 flex-col border-r border-[var(--clinical-border)] bg-[var(--clinical-sidebar)] lg:static lg:translate-x-0",
         mobileOpen ? "translate-x-0 shadow-2xl" : "-translate-x-full lg:translate-x-0",
@@ -213,6 +219,7 @@ export function ClinicalShell({
           <Link
             href="/admin"
             onClick={() => setMobileOpen(false)}
+            data-testid="nav-admin"
             className={cn(
               "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
               pathname.startsWith("/admin")
@@ -241,7 +248,9 @@ export function ClinicalShell({
   );
 
   return (
-    <div className="flex min-h-screen sonogyn-mesh-bg">
+    <VoiceReaderProvider>
+      <VoiceReaderRouteSync pathname={pathname} />
+      <div className="flex min-h-screen sonogyn-mesh-bg">
       <div
         className={cn(
           "fixed inset-0 z-30 bg-black/40 lg:hidden",
@@ -252,7 +261,10 @@ export function ClinicalShell({
       />
       {Sidebar}
       <div className="flex min-h-screen flex-1 flex-col lg:min-w-0">
-        <header className="sticky top-0 z-20 flex h-14 items-center gap-3 border-b border-[var(--clinical-border)] bg-[var(--clinical-header)]/95 px-4 backdrop-blur-md">
+        <header
+          className="sticky top-0 z-20 flex h-14 items-center gap-3 border-b border-[var(--clinical-border)] bg-[var(--clinical-header)]/95 px-4 backdrop-blur-md"
+          data-voice-ignore
+        >
           <Button
             variant="ghost"
             size="icon"
@@ -272,7 +284,7 @@ export function ClinicalShell({
           <ThemeToggle />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="secondary" size="sm" className="ml-auto gap-2 font-normal">
+              <Button variant="secondary" size="sm" className="ml-auto gap-2 font-normal" data-testid="user-menu-trigger">
                 <span className="hidden max-w-[180px] truncate text-left text-xs font-semibold sm:inline">
                   {headerDisplayName}
                 </span>
@@ -286,15 +298,19 @@ export function ClinicalShell({
               <DropdownMenuSeparator />
               <DropdownMenuItem disabled>{email}</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => void signOut()} disabled={busy}>
+              <DropdownMenuItem onClick={() => void signOut()} disabled={busy} data-testid="logout-button">
                 <LogOut className="mr-2 h-4 w-4" />
                 Sign out
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </header>
-        <main className="flex-1 sonogyn-enter">{children}</main>
+        <main className="flex-1 sonogyn-enter" data-voice-content>
+          {children}
+        </main>
+        <ClinicalVoiceDock />
       </div>
     </div>
+    </VoiceReaderProvider>
   );
 }

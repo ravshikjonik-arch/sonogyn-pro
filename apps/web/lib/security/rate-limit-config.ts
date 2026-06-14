@@ -49,6 +49,14 @@ export const RL = {
     "RATE_LIMIT_AUTH_TELEGRAM_BOT_WINDOW_SEC",
     900,
   ),
+  /** /api/auth/send-code — 3 req/min per IP (Vercel env tunable). */
+  authSendCode: preset("RATE_LIMIT_AUTH_SEND_CODE", 3, "RATE_LIMIT_AUTH_SEND_CODE_WINDOW_SEC", 60),
+  authSendCodeContact: preset(
+    "RATE_LIMIT_AUTH_SEND_CODE_CONTACT",
+    3,
+    "RATE_LIMIT_AUTH_SEND_CODE_CONTACT_WINDOW_SEC",
+    60,
+  ),
   authMobileExchange: preset(
     "RATE_LIMIT_AUTH_MOBILE_EXCHANGE",
     30,

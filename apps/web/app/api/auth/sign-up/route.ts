@@ -12,7 +12,7 @@ import {
   resolveEmailConfirmRedirect,
 } from "@/lib/auth/email-confirmation";
 import { tryAutoConfirmRegistration, shouldAutoConfirmEmail } from "@/lib/auth/auto-confirm-email";
-import { createServiceRoleClient } from "@/utils/supabase/admin";
+import { resolveUserIdByEmail } from "@/lib/auth/resolve-user-by-email";
 import { SIGN_UP_GENERIC_MSG, CAPTCHA_REQUIRED_MSG, RESEND_CONFIRMATION_MSG } from "@/lib/auth/safe-auth-messages";
 import { translateAuthError } from "@/lib/auth/translate-auth-error";
 import { verifyTurnstileIfConfigured } from "@/lib/auth/verify-turnstile";
@@ -34,23 +34,6 @@ type SignUpBody = {
   preferred_locale?: string;
   turnstileToken?: string;
 };
-
-async function findUserIdByEmail(email: string): Promise<string | null> {
-  const admin = createServiceRoleClient();
-  const normalized = email.trim().toLowerCase();
-  let page = 1;
-
-  while (page <= 10) {
-    const { data, error } = await admin.auth.admin.listUsers({ page, perPage: 200 });
-    if (error || !data.users.length) break;
-    const hit = data.users.find((u) => u.email?.toLowerCase() === normalized);
-    if (hit) return hit.id;
-    if (data.users.length < 200) break;
-    page += 1;
-  }
-
-  return null;
-}
 
 async function finishSignUpResponse(params: {
   wantsMobileSession: boolean;
@@ -131,6 +114,10 @@ export async function POST(req: Request) {
   safeLog("auth:sign-up-redirect", { redirectTo: emailRedirectTo });
 
   try {
+    const {
+      data: { user: sessionUser },
+    } = await supabase.auth.getUser();
+
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -162,7 +149,7 @@ export async function POST(req: Request) {
     const duplicate = isDuplicateEmailSignUp(data.user);
     if (duplicate) {
       if (shouldAutoConfirmEmail()) {
-        const existingId = await findUserIdByEmail(email);
+        const existingId = await resolveUserIdByEmail(email, sessionUser);
         if (
           existingId &&
           (await tryAutoConfirmRegistration({ supabase, userId: existingId, email, password }))
