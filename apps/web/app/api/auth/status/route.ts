@@ -48,7 +48,19 @@ export async function GET(req: Request) {
     hints: {
       supabaseSiteUrl: appOrigin,
       supabaseRedirectUrls: [`${appOrigin}/auth/callback`, `${appOrigin}/**`],
-      telegram: "BotFather → /token → TELEGRAM_BOT_TOKEN в Vercel → Redeploy",
+      telegram: [
+        "BotFather → /mybots → ваш бот → API Token → TELEGRAM_BOT_TOKEN в Vercel (Production + Preview)",
+        "BotFather → /setdomain → домен: sonogyn-pro-web-ravshan-s-projects3.vercel.app",
+        "Имя бота (@username) должно совпадать с NEXT_PUBLIC_TELEGRAM_BOT_USERNAME",
+        "После добавления токена — Redeploy на Vercel",
+      ],
+      phoneSms: [
+        "Supabase Dashboard → Authentication → Providers → Phone → Enable",
+        "Enable phone confirmations + Allow phone sign-ups",
+        "SMS provider: Twilio (Account SID, Auth Token, Message Service SID или номер)",
+        "Тест Twilio Trial: только на Verified Caller IDs; для РФ (+7) — отдельное одобрение Twilio",
+        "Формат номера в приложении: +79001234567",
+      ],
       emailDeliverability:
         "mail.ru / gmail: проверьте «Спам». Для надёжной доставки — Supabase → Auth → SMTP.",
     },

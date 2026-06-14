@@ -18,6 +18,8 @@ type Props = {
   onAuth: (user: TelegramUser) => void;
   onError: (message: string) => void;
   buttonSize?: "large" | "medium" | "small";
+  /** Mount widget only when tab/panel is visible (hidden tabs break Telegram iframe clicks). */
+  enabled?: boolean;
 };
 
 declare global {
@@ -26,7 +28,13 @@ declare global {
   }
 }
 
-export function TelegramLoginButton({ botUsername, onAuth, onError, buttonSize = "large" }: Props) {
+export function TelegramLoginButton({
+  botUsername,
+  onAuth,
+  onError,
+  buttonSize = "large",
+  enabled = true,
+}: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -45,7 +53,10 @@ export function TelegramLoginButton({ botUsername, onAuth, onError, buttonSize =
 
   useEffect(() => {
     const el = containerRef.current;
-    if (!el || !botUsername) return;
+    if (!el || !botUsername || !enabled) {
+      if (el) el.innerHTML = "";
+      return;
+    }
 
     el.innerHTML = "";
     const script = document.createElement("script");
@@ -56,8 +67,11 @@ export function TelegramLoginButton({ botUsername, onAuth, onError, buttonSize =
     script.setAttribute("data-radius", "12");
     script.setAttribute("data-request-access", "write");
     script.setAttribute("data-onauth", "TelegramLoginCallback(user)");
+    script.onerror = () => {
+      onError("Не удалось загрузить кнопку Telegram. Обновите страницу или отключите блокировщик рекламы.");
+    };
     el.appendChild(script);
-  }, [botUsername, buttonSize]);
+  }, [botUsername, buttonSize, enabled, onError]);
 
   if (!botUsername) {
     return (
@@ -70,7 +84,11 @@ export function TelegramLoginButton({ botUsername, onAuth, onError, buttonSize =
   return (
     <>
       <Script src="https://telegram.org/js/telegram-widget.js?22" strategy="lazyOnload" />
-      <div ref={containerRef} className="flex justify-center" aria-label="Войти через Telegram" />
+      <div
+        ref={containerRef}
+        className="flex min-h-[44px] justify-center [&>iframe]:pointer-events-auto"
+        aria-label="Войти через Telegram"
+      />
     </>
   );
 }

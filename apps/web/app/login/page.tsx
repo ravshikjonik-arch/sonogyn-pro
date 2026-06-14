@@ -458,6 +458,7 @@ function LoginForm() {
             <p className="mb-3 text-center text-sm font-medium text-slate-700 dark:text-slate-200">Telegram Login Widget</p>
             <TelegramLoginButton
               botUsername={botUsername}
+              enabled={activeTab === "social"}
               onAuth={(user) => void onTelegramAuth(user as unknown as Record<string, unknown>)}
               onError={setMessage}
             />
