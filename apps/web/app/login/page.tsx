@@ -37,6 +37,7 @@ function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
+  const [fallbackEmailPhone, setFallbackEmailPhone] = useState("");
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [message, setMessage] = useState("");
@@ -196,7 +197,7 @@ function LoginForm() {
         phone: normalized,
         turnstileToken,
         idempotencyKey,
-        fallbackEmail: email.trim() || undefined,
+        fallbackEmail: fallbackEmailPhone.trim() || email.trim() || undefined,
       });
       if (!result.ok) {
         setRequiresCaptcha(Boolean(result.requiresCaptcha));
@@ -392,6 +393,22 @@ function LoginForm() {
                 Регистрация по SMS
               </Link>
             </p>
+          </label>
+          <label className="block">
+            <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
+              Email для резервной отправки кода
+            </span>
+            <input
+              className={authInputClass}
+              type="email"
+              value={fallbackEmailPhone}
+              onChange={(e) => setFallbackEmailPhone(e.target.value)}
+              placeholder="doctor@example.com"
+              autoComplete="email"
+              aria-label="Email для резервной отправки кода"
+              data-testid="fallback-email-input"
+            />
+            <p className="mt-1 text-xs text-slate-500">Если SMS недоступен — код придёт на почту.</p>
           </label>
           {!otpSent ? (
             <Button

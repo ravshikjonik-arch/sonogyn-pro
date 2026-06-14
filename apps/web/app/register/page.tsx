@@ -55,6 +55,7 @@ function RegisterForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
+  const [fallbackEmailPhone, setFallbackEmailPhone] = useState("");
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [message, setMessage] = useState("");
@@ -219,7 +220,7 @@ function RegisterForm() {
         preferred_locale: locale,
         turnstileToken,
         idempotencyKey,
-        fallbackEmail: email.trim() || undefined,
+        fallbackEmail: fallbackEmailPhone.trim() || email.trim() || undefined,
       });
       if (!result.ok) {
         setFailedAttempts((n) => n + 1);
@@ -397,6 +398,24 @@ function RegisterForm() {
               aria-label="Номер телефона"
             />
             <p className="mt-1 text-xs text-slate-500">Формат: +7 и 10 цифр. SMS приходит за ~30 секунд.</p>
+          </label>
+          <label className="block">
+            <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
+              Email для резервной отправки кода
+            </span>
+            <input
+              className={authInputClass}
+              type="email"
+              value={fallbackEmailPhone}
+              onChange={(e) => setFallbackEmailPhone(e.target.value)}
+              placeholder="doctor@example.com"
+              autoComplete="email"
+              aria-label="Email для резервной отправки кода"
+              data-testid="fallback-email-input"
+            />
+            <p className="mt-1 text-xs text-slate-500">
+              Если SMS не дойдёт — код уйдёт на эту почту (152-ФЗ: только ваш адрес).
+            </p>
           </label>
           {!otpSent ? (
             <Button
