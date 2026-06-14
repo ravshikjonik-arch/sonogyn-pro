@@ -73,6 +73,20 @@ function RegisterForm() {
     setActiveTab(defaultTab);
   }, [defaultTab]);
 
+  useEffect(() => {
+    const telegramError = searchParams.get("telegram_error");
+    const telegramMessage = searchParams.get("telegram_message");
+    if (!telegramError) return;
+    const labels: Record<string, string> = {
+      hash: "Telegram: неверная подпись. Проверьте /setdomain для sonogyn-pro-web.vercel.app и TELEGRAM_BOT_TOKEN от @Sonogyn_bot.",
+      token: "Telegram не настроен на сервере (TELEGRAM_BOT_TOKEN).",
+      expired: "Сессия Telegram устарела — попробуйте снова.",
+      session: "Не удалось создать сессию после Telegram.",
+      failed: "Не удалось зарегистрироваться через Telegram.",
+    };
+    setMessage(telegramMessage ?? labels[telegramError] ?? "Ошибка Telegram.");
+  }, [searchParams]);
+
   const showCaptcha =
     Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY) &&
     (requiresCaptcha || failedAttempts >= CAPTCHA_FAILURE_THRESHOLD);
@@ -248,11 +262,6 @@ function RegisterForm() {
     setMessage("");
     if (!guardOnline()) return;
 
-    if (provider === "telegram") {
-      setMessage("Используйте кнопку Telegram Login ниже.");
-      return;
-    }
-
     setOauthLoading(provider);
     try {
       const origin = window.location.origin;
@@ -266,31 +275,6 @@ function RegisterForm() {
     }
   }
 
-  async function onTelegramAuth(user: Record<string, unknown>) {
-    setMessage("");
-    if (!guardOnline()) return;
-
-    setOauthLoading("telegram");
-    try {
-      const res = await fetch("/api/auth/telegram", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(user),
-        credentials: "same-origin",
-      });
-      const payload = (await res.json().catch(() => null)) as { ok?: boolean; error?: string } | null;
-      if (!res.ok || !payload?.ok) {
-        setMessage(payload?.error ?? "Не удалось зарегистрироваться через Telegram.");
-        return;
-      }
-      router.push(afterAuthPath);
-      router.refresh();
-    } finally {
-      setOauthLoading(null);
-    }
-  }
-
-  const botUsername = process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME ?? "";
   const isSuccessMessage =
     message === SIGN_UP_GENERIC_MSG ||
     message === RESEND_CONFIRMATION_MSG ||
@@ -307,6 +291,10 @@ function RegisterForm() {
       emailTab={
         <>
           <AuthSetupBanner />
+          <p className="mb-4 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-100">
+            Письмо на почту <strong>не отправляется</strong> — после регистрации вы сразу попадёте в кабинет. Проверьте
+            «Спам», только если включите подтверждение по email позже.
+          </p>
         <form className="space-y-4" onSubmit={(e) => void onEmailRegister(e)}>
           <DoctorRegistrationFields
             fullName={fullName}
@@ -446,15 +434,14 @@ function RegisterForm() {
       socialTab={
         <div className="space-y-4">
           <p className="text-sm text-[var(--clinical-foreground-muted)]">
-            ФИО подтянется из Google или Telegram. При необходимости отредактируйте в профиле после входа.
+            Вход через Google или кнопку Telegram ниже. Telegram откроется в окне — подтвердите вход.
           </p>
           <AuthButtons onProviderPress={(p) => void onOAuth(p)} loading={oauthLoading} variant="register" />
           <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900">
             <p className="mb-3 text-center text-sm font-medium text-slate-700 dark:text-slate-200">Telegram Login Widget</p>
             <TelegramLoginButton
-              botUsername={botUsername}
               enabled={activeTab === "social"}
-              onAuth={(user) => void onTelegramAuth(user as unknown as Record<string, unknown>)}
+              nextPath={afterAuthPath}
               onError={setMessage}
             />
           </div>

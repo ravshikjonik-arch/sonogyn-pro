@@ -57,7 +57,12 @@ function TelegramBridgeInner() {
           После входа вы вернётесь в приложение SonoGyn Pro.
         </p>
         <div className="mt-6">
-          <TelegramLoginButton botUsername={botUsername} onAuth={onAuth} onError={setMessage} />
+          <TelegramLoginButton
+            botUsername={botUsername}
+            mode="callback"
+            onAuth={onAuth}
+            onError={setMessage}
+          />
         </div>
         {message ? (
           <div className="mt-4">

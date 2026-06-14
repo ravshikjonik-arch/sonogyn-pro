@@ -17,7 +17,6 @@ const PROVIDERS: {
   { id: "google", label: "Google", icon: "🔵", color: "#4285F4" },
   { id: "vk", label: "ВКонтакте", icon: "🟦", color: "#0077FF" },
   { id: "yandex", label: "Яндекс ID", icon: "🔴", color: "#FC3F1D" },
-  { id: "telegram", label: "Telegram", icon: "✈️", color: "#26A5E4" },
 ];
 
 export function AuthButtons({ onProviderPress, loading, variant = "login" }: AuthButtonsProps) {

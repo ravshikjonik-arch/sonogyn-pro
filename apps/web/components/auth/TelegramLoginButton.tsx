@@ -1,7 +1,6 @@
 "use client";
 
-import Script from "next/script";
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type TelegramUser = {
   id: number;
@@ -14,12 +13,15 @@ type TelegramUser = {
 };
 
 type Props = {
-  botUsername: string;
-  onAuth: (user: TelegramUser) => void;
-  onError: (message: string) => void;
+  botUsername?: string;
+  onAuth?: (user: TelegramUser) => void;
+  onError?: (message: string) => void;
   buttonSize?: "large" | "medium" | "small";
-  /** Mount widget only when tab/panel is visible (hidden tabs break Telegram iframe clicks). */
+  /** Mount widget only when tab/panel is visible. */
   enabled?: boolean;
+  nextPath?: string;
+  /** redirect = iframe auth_url (works when telegram.org/js is blocked). callback = legacy onAuth. */
+  mode?: "redirect" | "callback";
 };
 
 declare global {
@@ -28,19 +30,50 @@ declare global {
   }
 }
 
+function normalizeBotUsername(value: string): string {
+  return value.trim().replace(/^@/, "");
+}
+
 export function TelegramLoginButton({
-  botUsername,
+  botUsername = "",
   onAuth,
   onError,
   buttonSize = "large",
   enabled = true,
+  nextPath = "/app",
+  mode = "redirect",
 }: Props) {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const [resolvedBot, setResolvedBot] = useState(() => normalizeBotUsername(botUsername));
+  const [origin, setOrigin] = useState("");
 
   useEffect(() => {
+    setOrigin(window.location.origin);
+  }, []);
+
+  useEffect(() => {
+    const normalized = normalizeBotUsername(botUsername);
+    if (normalized) {
+      setResolvedBot(normalized);
+      return;
+    }
+
+    void fetch("/api/auth/status", { cache: "no-store" })
+      .then((r) => r.json())
+      .then((json: { telegramBotUsername?: string }) => {
+        const fromServer = normalizeBotUsername(json.telegramBotUsername ?? "");
+        if (fromServer) setResolvedBot(fromServer);
+      })
+      .catch(() => {
+        onError?.("Не удалось получить имя Telegram-бота с сервера.");
+      });
+  }, [botUsername, onError]);
+
+  useEffect(() => {
+    if (mode !== "callback" || !onAuth) return;
+
     window.TelegramLoginCallback = (user) => {
       if (!user?.hash) {
-        onError("Telegram не вернул подпись авторизации.");
+        onError?.("Telegram не вернул подпись авторизации.");
         return;
       }
       onAuth(user);
@@ -49,46 +82,76 @@ export function TelegramLoginButton({
     return () => {
       delete window.TelegramLoginCallback;
     };
-  }, [onAuth, onError]);
+  }, [mode, onAuth, onError]);
 
   useEffect(() => {
-    const el = containerRef.current;
-    if (!el || !botUsername || !enabled) {
-      if (el) el.innerHTML = "";
-      return;
-    }
+    if (mode !== "callback" || !enabled || !resolvedBot || !onAuth) return;
+
+    const el = document.getElementById("telegram-login-script-host");
+    if (!el) return;
 
     el.innerHTML = "";
     const script = document.createElement("script");
     script.src = "https://telegram.org/js/telegram-widget.js?22";
     script.async = true;
-    script.setAttribute("data-telegram-login", botUsername);
+    script.setAttribute("data-telegram-login", resolvedBot);
     script.setAttribute("data-size", buttonSize);
     script.setAttribute("data-radius", "12");
     script.setAttribute("data-request-access", "write");
     script.setAttribute("data-onauth", "TelegramLoginCallback(user)");
     script.onerror = () => {
-      onError("Не удалось загрузить кнопку Telegram. Обновите страницу или отключите блокировщик рекламы.");
+      onError?.("Не удалось загрузить Telegram. Попробуйте отключить VPN/блокировщик или используйте вход по Email.");
     };
     el.appendChild(script);
-  }, [botUsername, buttonSize, enabled, onError]);
+  }, [mode, resolvedBot, buttonSize, enabled, onAuth, onError]);
 
-  if (!botUsername) {
+  const iframeSrc = useMemo(() => {
+    if (!origin || !resolvedBot || mode !== "redirect") return "";
+    const callbackUrl = `${origin}/auth/telegram/callback?next=${encodeURIComponent(nextPath)}`;
+    const params = new URLSearchParams({
+      origin,
+      size: buttonSize,
+      request_access: "write",
+      auth_url: callbackUrl,
+    });
+    return `https://oauth.telegram.org/embed/${encodeURIComponent(resolvedBot)}?${params.toString()}`;
+  }, [origin, resolvedBot, buttonSize, nextPath, mode]);
+
+  if (!resolvedBot) {
     return (
       <p className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-        Telegram не настроен: задайте NEXT_PUBLIC_TELEGRAM_BOT_USERNAME в .env.local
+        Telegram не настроен: задайте NEXT_PUBLIC_TELEGRAM_BOT_USERNAME на Vercel и сделайте Redeploy.
       </p>
     );
   }
 
-  return (
-    <>
-      <Script src="https://telegram.org/js/telegram-widget.js?22" strategy="lazyOnload" />
+  if (!enabled) {
+    return <div className="min-h-[44px]" aria-hidden />;
+  }
+
+  if (mode === "callback") {
+    return (
       <div
-        ref={containerRef}
+        id="telegram-login-script-host"
         className="flex min-h-[44px] justify-center [&>iframe]:pointer-events-auto"
         aria-label="Войти через Telegram"
       />
-    </>
+    );
+  }
+
+  if (!iframeSrc) {
+    return <div className="min-h-[44px] animate-pulse rounded-xl bg-slate-100 dark:bg-slate-800" />;
+  }
+
+  return (
+    <div className="relative z-10 flex justify-center">
+      <iframe
+        src={iframeSrc}
+        title="Войти через Telegram"
+        className="pointer-events-auto h-11 w-full max-w-[280px] overflow-hidden border-0 bg-transparent"
+        scrolling="no"
+        allow="clipboard-write"
+      />
+    </div>
   );
 }

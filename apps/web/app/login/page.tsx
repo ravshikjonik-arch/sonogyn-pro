@@ -70,6 +70,20 @@ function LoginForm() {
   }, [authCallbackError]);
 
   useEffect(() => {
+    const telegramError = searchParams.get("telegram_error");
+    const telegramMessage = searchParams.get("telegram_message");
+    if (!telegramError) return;
+    const labels: Record<string, string> = {
+      hash: "Telegram: неверная подпись. Проверьте /setdomain для sonogyn-pro-web.vercel.app и TELEGRAM_BOT_TOKEN от @Sonogyn_bot.",
+      token: "Telegram не настроен на сервере (TELEGRAM_BOT_TOKEN).",
+      expired: "Сессия Telegram устарела — попробуйте снова.",
+      session: "Не удалось создать сессию после Telegram.",
+      failed: "Не удалось войти через Telegram.",
+    };
+    setMessage(telegramMessage ?? labels[telegramError] ?? "Ошибка входа через Telegram.");
+  }, [searchParams]);
+
+  useEffect(() => {
     setActiveTab(defaultTab);
   }, [defaultTab]);
 
@@ -244,11 +258,6 @@ function LoginForm() {
     setMessage("");
     if (!guardOnline()) return;
 
-    if (provider === "telegram") {
-      setMessage("Используйте кнопку Telegram Login ниже.");
-      return;
-    }
-
     setOauthLoading(provider);
     try {
       const origin = window.location.origin;
@@ -261,32 +270,6 @@ function LoginForm() {
       setOauthLoading(null);
     }
   }
-
-  async function onTelegramAuth(user: Record<string, unknown>) {
-    setMessage("");
-    if (!guardOnline()) return;
-
-    setOauthLoading("telegram");
-    try {
-      const res = await fetch("/api/auth/telegram", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(user),
-        credentials: "same-origin",
-      });
-      const payload = (await res.json().catch(() => null)) as { ok?: boolean; error?: string } | null;
-      if (!res.ok || !payload?.ok) {
-        setMessage(payload?.error ?? "Не удалось войти через Telegram.");
-        return;
-      }
-      router.push(nextPath);
-      router.refresh();
-    } finally {
-      setOauthLoading(null);
-    }
-  }
-
-  const botUsername = process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME ?? "";
 
   return (
     <AuthScreenShell
@@ -456,12 +439,7 @@ function LoginForm() {
           <AuthButtons onProviderPress={(p) => void onOAuth(p)} loading={oauthLoading} variant="login" />
           <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900">
             <p className="mb-3 text-center text-sm font-medium text-slate-700 dark:text-slate-200">Telegram Login Widget</p>
-            <TelegramLoginButton
-              botUsername={botUsername}
-              enabled={activeTab === "social"}
-              onAuth={(user) => void onTelegramAuth(user as unknown as Record<string, unknown>)}
-              onError={setMessage}
-            />
+            <TelegramLoginButton enabled={activeTab === "social"} nextPath={nextPath} onError={setMessage} />
           </div>
           {message ? <AuthMessage message={message} tone={message.includes("отправлен") ? "success" : "error"} /> : null}
         </div>

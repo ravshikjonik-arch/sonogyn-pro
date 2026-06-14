@@ -37,6 +37,10 @@ export async function GET(req: Request) {
     ok: issues.length === 0,
     appOrigin,
     emailRedirectTo,
+    telegramBotUsername:
+      process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME?.trim() ||
+      process.env.TELEGRAM_BOT_USERNAME?.trim() ||
+      "",
     features: {
       emailAutoConfirm: shouldAutoConfirmEmail(),
       telegramReady: Boolean(
@@ -50,7 +54,7 @@ export async function GET(req: Request) {
       supabaseRedirectUrls: [`${appOrigin}/auth/callback`, `${appOrigin}/**`],
       telegram: [
         "BotFather → /mybots → ваш бот → API Token → TELEGRAM_BOT_TOKEN в Vercel (Production + Preview)",
-        "BotFather → /setdomain → домен: sonogyn-pro-web-ravshan-s-projects3.vercel.app",
+            "BotFather → /setdomain → домен: sonogyn-pro-web.vercel.app",
         "Имя бота (@username) должно совпадать с NEXT_PUBLIC_TELEGRAM_BOT_USERNAME",
         "После добавления токена — Redeploy на Vercel",
       ],
