@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { AppToaster } from "@/components/providers/app-toaster";
 import { ThemeProvider } from "@/lib/theme/theme-provider";
@@ -62,6 +63,7 @@ export default function RootLayout({
             <AppToaster />
           </SessionProvider>
         </ThemeProvider>
+        <SpeedInsights />
       </body>
     </html>
   );
