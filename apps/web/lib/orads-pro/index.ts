@@ -1,5 +1,6 @@
 export {
   buildReportText,
+  buildProtocolOneLiner,
   calculateORADS,
 } from "../../../mobile/src/features/oradsPro/logic/oradsCalculator";
 export {

@@ -96,7 +96,7 @@ export async function POST(req: Request) {
   if (!result.ok) {
     await recordAuthFailure(failKey);
     obsLogVerification("send", method, false, Date.now() - started, {
-      errorCode: result.errorCode,
+      ...(result.errorCode ? { errorCode: result.errorCode } : {}),
       fallbackUsed: false,
     });
     return NextResponse.json(

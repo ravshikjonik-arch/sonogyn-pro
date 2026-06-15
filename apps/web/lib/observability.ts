@@ -12,7 +12,7 @@ export function logVerificationEvent(
   method: VerificationLogMethod,
   success: boolean,
   latencyMs: number,
-  extra?: Record<string, string | number | boolean>,
+  extra?: Record<string, string | number | boolean | undefined>,
 ): void {
   const payload = {
     ts: new Date().toISOString(),
@@ -23,7 +23,9 @@ export function logVerificationEvent(
     success,
     latencyMs: Math.round(latencyMs),
     env: process.env.VERCEL_ENV ?? process.env.NODE_ENV ?? "development",
-    ...extra,
+    ...Object.fromEntries(
+      Object.entries(extra ?? {}).filter(([, value]) => value !== undefined),
+    ),
   };
 
   // Production: JSON для Log Drain. Dev: читаемый формат.

@@ -11,10 +11,11 @@ import { safeInternalPath } from "@/lib/nav/safe-redirect";
 
 export const runtime = "nodejs";
 
-function authFailRedirect(req: Request, code: string) {
+function authFailRedirect(req: Request, code: string, message?: string) {
   const url = new URL("/login", req.url);
   url.searchParams.set("method", "social");
   url.searchParams.set("telegram_error", code);
+  if (message) url.searchParams.set("telegram_message", message.slice(0, 120));
   return NextResponse.redirect(url);
 }
 
@@ -52,9 +53,7 @@ export async function GET(req: Request) {
     const sessionResponse = await establishTelegramSession(email, req);
     if (!sessionResponse.ok) {
       const payload = (await sessionResponse.json().catch(() => null)) as { error?: string } | null;
-      const fail = authFailRedirect(req, "session");
-      if (payload?.error) fail.searchParams.set("telegram_message", payload.error.slice(0, 120));
-      return fail;
+      return authFailRedirect(req, "session", payload?.error);
     }
 
     const redirect = NextResponse.redirect(new URL(next, req.url));
@@ -64,8 +63,6 @@ export async function GET(req: Request) {
     return redirect;
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);
-    const fail = authFailRedirect(req, "failed");
-    fail.searchParams.set("telegram_message", translateAuthError(msg).slice(0, 120));
-    return fail;
+    return authFailRedirect(req, "failed", translateAuthError(msg));
   }
 }

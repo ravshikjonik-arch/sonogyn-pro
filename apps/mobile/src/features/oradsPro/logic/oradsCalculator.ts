@@ -158,19 +158,19 @@ export function calculateORADS(input: OradsInput): OradsResult {
   }
 
   const riskTextByCategory: Record<OradsResult["category"], string> = {
-    1: "Физиологическое",
-    2: "Почти доброкачественное (<1%)",
-    3: "Низко-промежуточный риск (1-10%)",
-    4: "Подозрительный риск (10-50%)",
-    5: "Высокий риск (>50%)",
+    1: "Норма / физиология",
+    2: "Риск ЗНО <1%",
+    3: "Риск ЗНО 1–10%",
+    4: "Риск ЗНО 10–50%",
+    5: "Риск ЗНО ≥50%",
   };
 
   const recommendationByCategory: Record<OradsResult["category"], string> = {
-    1: "Рутинное наблюдение.",
-    2: "Динамическое наблюдение по локальному протоколу.",
-    3: "Контроль и дообследование (экспертное УЗИ/МРТ по показаниям).",
-    4: "Направление к профильному гинекологу/онкогинекологу.",
-    5: "Срочная консультация онкогинеколога и стадирование.",
+    1: "Наблюдение не требуется.",
+    2: "Наблюдение по размеру и менопаузе.",
+    3: "УЗИ-эксперт / МРТ; консультация гинеколога.",
+    4: "Онкогинеколог по протоколу центра.",
+    5: "Срочно онкогинеколог, стадирование.",
   };
 
   const reclassNote =
@@ -185,6 +185,10 @@ export function calculateORADS(input: OradsInput): OradsResult {
     structureReclassified: structureReclassified || undefined,
     warning: structureReclassified ? reclassNote : undefined,
   };
+}
+
+export function buildProtocolOneLiner(result: OradsResult): string {
+  return `O-RADS ${result.category}. ${result.riskText} ${result.recommendation}`;
 }
 
 export function buildReportText(input: OradsInput, result: OradsResult): string {

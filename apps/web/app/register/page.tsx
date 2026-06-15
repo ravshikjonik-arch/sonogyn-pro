@@ -273,7 +273,7 @@ function RegisterForm() {
     }
   }
 
-  async function onOAuth(provider: AuthProvider) {
+  async function onOAuth(provider: Exclude<AuthProvider, "telegram">) {
     setMessage("");
     if (!guardOnline()) return;
 
@@ -477,7 +477,13 @@ function RegisterForm() {
           <p className="text-sm text-[var(--clinical-foreground-muted)]">
             Вход через Google или кнопку Telegram ниже. Telegram откроется в окне — подтвердите вход.
           </p>
-          <AuthButtons onProviderPress={(p) => void onOAuth(p)} loading={oauthLoading} variant="register" />
+          <AuthButtons
+            onProviderPress={(p) => {
+              if (p !== "telegram") void onOAuth(p);
+            }}
+            loading={oauthLoading}
+            variant="register"
+          />
           <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900">
             <p className="mb-3 text-center text-sm font-medium text-slate-700 dark:text-slate-200">Telegram Login Widget</p>
             <TelegramLoginButton

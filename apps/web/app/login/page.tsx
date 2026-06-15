@@ -269,7 +269,7 @@ function LoginForm() {
     }
   }
 
-  async function onOAuth(provider: AuthProvider) {
+  async function onOAuth(provider: Exclude<AuthProvider, "telegram">) {
     setMessage("");
     if (!guardOnline()) return;
 
@@ -477,7 +477,13 @@ function LoginForm() {
       }
       socialTab={
         <div className="space-y-4">
-          <AuthButtons onProviderPress={(p) => void onOAuth(p)} loading={oauthLoading} variant="login" />
+          <AuthButtons
+            onProviderPress={(p) => {
+              if (p !== "telegram") void onOAuth(p);
+            }}
+            loading={oauthLoading}
+            variant="login"
+          />
           <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900">
             <p className="mb-3 text-center text-sm font-medium text-slate-700 dark:text-slate-200">Telegram Login Widget</p>
             <TelegramLoginButton enabled={activeTab === "social"} nextPath={nextPath} onError={setMessage} />

@@ -9,7 +9,6 @@ import { CalcChip, CalcStepCard, CalcSubLabel } from "@/components/calculators/s
 import { IotaConsensusWebPanel } from "@/components/calculators/orads/IotaConsensusWebPanel";
 import { AdnexConsensusPanel } from "@/components/calculators/orads/AdnexConsensusPanel";
 import { useOradsProForm } from "@/components/calculators/orads/useOradsProForm";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { plainTextToDocumentSpec } from "@/lib/reporting/document-spec-builders";
@@ -17,6 +16,7 @@ import { DocumentExportToolbar } from "@/components/reporting/DocumentExportTool
 import { cn } from "@/lib/utils/cn";
 import {
   ORADS_ZERO_OPTIONS,
+  buildProtocolOneLiner,
   type BloodFlow,
   type IotaCenterType,
   type IotaColorScore,
@@ -69,10 +69,21 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
   const zeroMeta = ORADS_ZERO_OPTIONS.find((z) => z.id === oradsZero);
   const iotaReady = Boolean(f.menopause && f.lesionKind && !oradsZero);
 
+  const protocolLine = useMemo(() => {
+    if (oradsZero && zeroMeta) return `${zeroMeta.label}. ${zeroMeta.recommendation}`;
+    return buildProtocolOneLiner(f.result);
+  }, [oradsZero, zeroMeta, f.result]);
+
+  function copyProtocolLine() {
+    void navigator.clipboard.writeText(protocolLine).then(() => toast.success("Строка скопирована в буфер"));
+  }
+
   return (
-    <div className="space-y-6 px-4 py-6 lg:px-10">
-      <div className="mx-auto flex max-w-3xl flex-wrap items-center gap-3">
-        <Badge variant="outline">O_RADS · IOTA 2026</Badge>
+    <div className="space-y-4 px-4 py-4 lg:px-10">
+      <div className="mx-auto flex max-w-3xl items-center justify-between gap-2">
+        <p className="text-sm text-[var(--clinical-foreground-muted)]">
+          Нажимайте чипы по порядку — итог внизу обновляется сразу.
+        </p>
         <Button
           variant="outline"
           size="sm"
@@ -81,70 +92,47 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
             f.reset();
           }}
         >
-          Сбросить
+          Сброс
         </Button>
       </div>
 
-      <div className="mx-auto max-w-3xl space-y-4 pb-40">
-        <CalcStepCard title="Глава 0 — O-RADS 0 / не применимо" required={!oradsZero && !f.localization}>
-          <p className="text-xs text-[var(--clinical-foreground-muted)]">
-            Если яичник не оценён или исследование технически неадекватно — выберите вариант ниже. Иначе — «Перейти к
-            образованию».
-          </p>
-          <div className="flex flex-col gap-2">
-            {ORADS_ZERO_OPTIONS.map((z) => (
+      <div className="mx-auto max-w-3xl space-y-3 pb-44">
+        <details className="rounded-xl border border-[var(--clinical-border)] bg-[var(--clinical-surface-muted)]/40 px-3 py-2">
+          <summary className="cursor-pointer text-sm font-semibold text-[var(--clinical-foreground-muted)]">
+            O-RADS 0 — не оценено / техника
+          </summary>
+          <div className="mt-2 space-y-2">
+            <div className="flex flex-col gap-2">
+              {ORADS_ZERO_OPTIONS.map((z) => (
+                <CalcChip
+                  key={z.id}
+                  label={z.label}
+                  selected={oradsZero === z.id}
+                  onClick={() => {
+                    setOradsZero(z.id);
+                    onCrumb?.(z.label);
+                  }}
+                />
+              ))}
               <CalcChip
-                key={z.id}
-                label={z.label}
-                selected={oradsZero === z.id}
-                onClick={() => {
-                  setOradsZero(z.id);
-                  onCrumb?.(z.label);
-                }}
+                label="Оценить образование (O-RADS 1–5)"
+                selected={oradsZero === null}
+                onClick={() => setOradsZero(null)}
               />
-            ))}
-            <CalcChip
-              label="Перейти к оценке образования (O-RADS 1–5)"
-              selected={oradsZero === null}
-              onClick={() => setOradsZero(null)}
-            />
+            </div>
+            {zeroMeta ? (
+              <p className="rounded-lg bg-white/80 p-2 text-xs dark:bg-slate-900/50">
+                {zeroMeta.detail}
+                <br />
+                <strong>Дальше:</strong> {zeroMeta.recommendation}
+              </p>
+            ) : null}
           </div>
-          {zeroMeta ? (
-            <p className="clinical-surface-muted rounded-lg p-3 text-xs">
-              {zeroMeta.detail}
-              <br />
-              <strong>Рекомендация:</strong> {zeroMeta.recommendation}
-            </p>
-          ) : null}
-        </CalcStepCard>
+        </details>
 
         {!oradsZero ? (
           <>
-        <CalcStepCard title="ШАГ 1 — Локализация" required={!f.localization}>
-          <div className="flex flex-wrap gap-2">
-            <CalcChip
-              label="Овариальное/аднексальное"
-              selected={f.localization === "ovarian"}
-              onClick={() => {
-                f.setLocalization("ovarian");
-                onCrumb?.("Овариальное/аднексальное");
-              }}
-            />
-            <CalcChip
-              label="Экстраовариальное"
-              selected={f.localization === "extraovarian"}
-              onClick={() => {
-                f.setLocalization("extraovarian");
-                onCrumb?.("Экстраовариальное");
-              }}
-            />
-          </div>
-          {f.localization === "extraovarian" ? (
-            <p className="text-xs font-bold text-red-700">Калькулятор только для яичников/придатков.</p>
-          ) : null}
-        </CalcStepCard>
-
-        <CalcStepCard title="ШАГ 2 — Статус" required={!f.menopause}>
+        <CalcStepCard title="1. Менопауза" required={!f.menopause}>
           <div className="flex flex-wrap gap-2">
             <CalcChip
               label="Пременопауза"
@@ -163,13 +151,9 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
               }}
             />
           </div>
-          <p className="text-[10px] text-[var(--clinical-foreground-muted)]">
-            Постменопауза: аменорея ≥1 года; при сомнении и возрасте &gt;50 — как постменопауза.
-          </p>
         </CalcStepCard>
 
-        {f.menopause ? (
-          <CalcStepCard title="ШАГ 3 — Тип образования" required={!f.lesionKind}>
+        <CalcStepCard title="2. Тип" required={!f.lesionKind}>
             <div className="flex flex-wrap gap-2">
               <CalcChip
                 label="Физиологическое"
@@ -180,7 +164,7 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
                 }}
               />
               <CalcChip
-                label="Нефизиологическое (образование)"
+                label="Образование"
                 selected={f.lesionKind === "nonphysiological"}
                 onClick={() => {
                   f.setLesionKind("nonphysiological");
@@ -194,12 +178,11 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
                 <CalcChip label="Желтое тело" selected={f.physType === "corpus_luteum"} onClick={() => f.setPhysType("corpus_luteum")} />
               </div>
             ) : null}
-          </CalcStepCard>
-        ) : null}
+        </CalcStepCard>
 
         {f.lesionKind === "nonphysiological" ? (
           <>
-            <CalcStepCard title="ШАГ 4 — Структура" required={!f.structure}>
+            <CalcStepCard title="3. Структура" required={!f.structure}>
               <div className="flex flex-wrap gap-2">
                 <CalcChip label="Однокамерное" selected={f.structure === "unilocular"} onClick={() => f.setStructure("unilocular")} />
                 <CalcChip label="Многокамерное" selected={f.structure === "multilocular"} onClick={() => f.setStructure("multilocular")} />
@@ -208,7 +191,7 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
             </CalcStepCard>
 
             {f.structure === "unilocular" ? (
-              <CalcStepCard title="ШАГ 5 — Однокамерное" required={!f.unilocularSubtype}>
+              <CalcStepCard title="4. Вид (однокамерное)" required={!f.unilocularSubtype}>
                 <div className="flex flex-wrap gap-2">
                   {(
                     [
@@ -237,7 +220,7 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
             ) : null}
 
             {f.structure === "multilocular" || f.structure === "solid" ? (
-              <CalcStepCard title="ШАГ 5 — Многокамерное / солидное">
+              <CalcStepCard title="4. Детали (многокамерное / солидное)">
                 <CalcSubLabel>Перегородки</CalcSubLabel>
                 <div className="flex flex-wrap gap-2">
                   {(["0", "1-3", ">3"] as SeptaCount[]).map((v) => (
@@ -291,41 +274,53 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
           </>
         ) : null}
 
-        <CalcStepCard title="ШАГ 6 — Размеры и доп. признаки">
-          <div className="grid grid-cols-3 gap-2">
-            <Input placeholder="Длина, мм" value={f.lengthMm} onChange={(e) => f.setLengthMm(e.target.value)} />
-            <Input placeholder="Ширина" value={f.widthMm} onChange={(e) => f.setWidthMm(e.target.value)} />
-            <Input placeholder="Высота" value={f.heightMm} onChange={(e) => f.setHeightMm(e.target.value)} />
-          </div>
-          <CalcSubLabel>Асцит</CalcSubLabel>
-          <div className="flex flex-wrap gap-2">
-            <CalcChip label="Нет" selected={!f.ascites} onClick={() => f.setAscites(false)} />
-            <CalcChip label="Да" selected={f.ascites} onClick={() => f.setAscites(true)} />
-          </div>
-          <CalcSubLabel>Кровоток ЦДК</CalcSubLabel>
-          <div className="flex flex-wrap gap-2">
-            {(
-              [
-                ["none", "Нет"],
-                ["minimal", "Минимальный"],
-                ["moderate", "Умеренный"],
-                ["marked", "Выраженный"],
-              ] as const
-            ).map(([v, label]) => (
-              <CalcChip key={v} label={label} selected={f.bloodFlow === v} onClick={() => f.setBloodFlow(v as BloodFlow)} />
-            ))}
-          </div>
-          <CalcSubLabel>Перитонеальные высыпания</CalcSubLabel>
-          <div className="flex flex-wrap gap-2">
-            <CalcChip label="Нет" selected={!f.peritonealNodules} onClick={() => f.setPeritonealNodules(false)} />
-            <CalcChip label="Да" selected={f.peritonealNodules} onClick={() => f.setPeritonealNodules(true)} />
-          </div>
+        <CalcStepCard title="5. Размер и осложнения (по желанию)">
+          <Input
+            placeholder="Наибольший диаметр, мм"
+            value={f.lengthMm}
+            onChange={(e) => f.setLengthMm(e.target.value)}
+          />
+          <details className="mt-2">
+            <summary className="cursor-pointer text-xs font-semibold text-[var(--clinical-foreground-muted)]">
+              Асцит, кровоток, высыпания
+            </summary>
+            <div className="mt-2 space-y-2">
+              <CalcSubLabel>Асцит</CalcSubLabel>
+              <div className="flex flex-wrap gap-2">
+                <CalcChip label="Нет" selected={!f.ascites} onClick={() => f.setAscites(false)} />
+                <CalcChip label="Да" selected={f.ascites} onClick={() => f.setAscites(true)} />
+              </div>
+              <CalcSubLabel>Кровоток ЦДК</CalcSubLabel>
+              <div className="flex flex-wrap gap-2">
+                {(
+                  [
+                    ["none", "Нет"],
+                    ["minimal", "Мин."],
+                    ["moderate", "Умер."],
+                    ["marked", "Выраж."],
+                  ] as const
+                ).map(([v, label]) => (
+                  <CalcChip key={v} label={label} selected={f.bloodFlow === v} onClick={() => f.setBloodFlow(v as BloodFlow)} />
+                ))}
+              </div>
+              <CalcSubLabel>Перитонеальные высыпания</CalcSubLabel>
+              <div className="flex flex-wrap gap-2">
+                <CalcChip label="Нет" selected={!f.peritonealNodules} onClick={() => f.setPeritonealNodules(false)} />
+                <CalcChip label="Да" selected={f.peritonealNodules} onClick={() => f.setPeritonealNodules(true)} />
+              </div>
+            </div>
+          </details>
         </CalcStepCard>
 
-        <CalcStepCard title="ШАГ 7 — IOTA 2026 / ADNEX" required={!iotaReady}>
+        <details className="rounded-xl border border-[var(--clinical-border)] px-3 py-2">
+          <summary className="cursor-pointer text-sm font-semibold text-[var(--clinical-foreground-muted)]">
+            IOTA / ADNEX — для эксперта (не обязательно)
+          </summary>
+          <div className="mt-3 space-y-4">
+        <CalcStepCard title="IOTA 2026">
           {!iotaReady ? (
-            <p className="text-xs font-bold text-amber-700">
-              Заполните главы 1–3 (локализация, менопауза, тип образования) — затем появится расчёт IOTA ADNEX.
+            <p className="text-xs text-[var(--clinical-foreground-muted)]">
+              Сначала выберите менопаузу и тип образования выше.
             </p>
           ) : null}
           <CalcSubLabel>Тип образования</CalcSubLabel>
@@ -388,63 +383,62 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
         <AdnexConsensusPanel triangulation={f.triangulation} disabled={!iotaReady} />
 
         {iotaReady ? <IotaConsensusWebPanel consensus={f.iotaConsensus} /> : null}
+          </div>
+        </details>
 
-        <div className="flex flex-wrap gap-2">
-          <Button type="button" onClick={() => void navigator.clipboard.writeText(f.reportText)}>
-            Копировать заключение
-          </Button>
+        <div className="flex flex-wrap gap-2 pt-2">
           <Button type="button" variant="secondary" disabled={pending} onClick={onSave}>
-            Сохранить в историю
+            Сохранить
           </Button>
-          <Button variant="outline" asChild>
-            <Link href="/assistant/gynecology">Помощник АГ →</Link>
+          <Button variant="outline" size="sm" asChild>
+            <Link href="/assistant/gynecology">Помощник АГ</Link>
           </Button>
         </div>
 
-        <DocumentExportToolbar spec={exportSpec} compact />
+        <details className="text-sm">
+          <summary className="cursor-pointer font-semibold text-[var(--clinical-foreground-muted)]">Полный текст и PDF</summary>
+          <div className="mt-2 space-y-2">
+            <Button type="button" variant="outline" size="sm" onClick={() => void navigator.clipboard.writeText(f.reportText)}>
+              Копировать полное заключение
+            </Button>
+            <DocumentExportToolbar spec={exportSpec} compact />
+          </div>
+        </details>
           </>
         ) : null}
       </div>
 
       <div
         className={cn(
-          "fixed inset-x-0 bottom-0 z-30 border-t-2 p-4 shadow-2xl lg:left-64",
+          "fixed inset-x-0 bottom-0 z-30 border-t-2 p-3 shadow-2xl lg:left-64",
           oradsZero ? "border-slate-400 bg-slate-100" : categoryColors(f.result.category),
         )}
       >
-        <div className="mx-auto max-w-3xl">
-          {oradsZero && zeroMeta ? (
-            <>
-              <p className="text-3xl font-black">{zeroMeta.label}</p>
-              <p className="text-sm">{zeroMeta.detail}</p>
-              <p className="text-sm font-semibold">Рекомендация: {zeroMeta.recommendation}</p>
-            </>
-          ) : (
-            <>
-              <p className="text-3xl font-black">O-RADS {f.result.category}</p>
-              <p className="font-bold">{f.result.riskText}</p>
-              <p className="text-sm">{f.result.rationale}</p>
-              <p className="text-sm font-semibold">Рекомендация: {f.result.recommendation}</p>
-              {f.result.warning ? <p className="text-xs font-bold text-red-800">{f.result.warning}</p> : null}
-              {iotaReady ? (
-                <p
-                  className={cn(
-                    "mt-2 text-xs font-bold",
-                    f.triangulation.agreement === "conflict" && "text-rose-900",
-                    f.triangulation.agreement === "partial" && "text-amber-900",
-                    f.triangulation.agreement === "full" && "text-emerald-900",
-                  )}
-                >
-                  {f.triangulation.headline}
-                </p>
-              ) : null}
-              {iotaReady && f.iotaConsensus.readiness === "complete" ? (
-                <p className="mt-2 text-xs font-bold text-violet-900">
-                  IOTA 2026: {f.iotaConsensus.harmonizedCategory}
-                </p>
-              ) : null}
-            </>
-          )}
+        <div className="mx-auto flex max-w-3xl flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <div className="min-w-0 flex-1">
+            {oradsZero && zeroMeta ? (
+              <>
+                <p className="text-2xl font-black leading-tight sm:text-3xl">{zeroMeta.label}</p>
+                <p className="text-sm font-semibold">Дальше: {zeroMeta.recommendation}</p>
+              </>
+            ) : (
+              <>
+                <p className="text-2xl font-black leading-tight sm:text-3xl">O-RADS {f.result.category}</p>
+                <p className="font-bold">{f.result.riskText}</p>
+                <p className="text-sm font-semibold">Дальше: {f.result.recommendation}</p>
+                {f.result.warning ? <p className="text-xs font-bold text-red-800">{f.result.warning}</p> : null}
+              </>
+            )}
+            <p className="mt-1 truncate text-xs text-[var(--clinical-foreground-muted)]">{protocolLine}</p>
+          </div>
+          <Button
+            type="button"
+            size="lg"
+            className="shrink-0 rounded-full bg-[var(--clinical-primary)] px-6 font-bold text-white hover:bg-[var(--clinical-primary-hover)]"
+            onClick={copyProtocolLine}
+          >
+            В протокол
+          </Button>
         </div>
       </div>
     </div>
