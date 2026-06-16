@@ -40,6 +40,7 @@ export default function ProlapseScreen({ navigation }: Props) {
   const [tab, setTab] = useState<TabId>("quick");
   const [quickStage, setQuickStage] = useState<QuickStage | null>(null);
   const [popq, setPopq] = useState(emptyPopq);
+  const [uterusPresent, setUterusPresent] = useState(true);
   const [vRest, setVRest] = useState("");
   const [vValsalva, setVValsalva] = useState("");
   const [disclaimerOpen, setDisclaimerOpen] = useState(false);
@@ -71,7 +72,7 @@ export default function ProlapseScreen({ navigation }: Props) {
   const fullTextReport = useMemo(() => {
     const popqLine =
       popqComputed.stageKey !== "na"
-        ? buildPopqProtocolLine(parsedPopq, typeof parsedPopq.D === "number")
+        ? buildPopqProtocolLine(parsedPopq, uterusPresent)
         : null;
     const lines = [
       summaryQuick !== "—" ? summaryQuick : null,
@@ -80,7 +81,7 @@ export default function ProlapseScreen({ navigation }: Props) {
       summaryFn !== "—" ? summaryFn : null,
     ].filter(Boolean) as string[];
     return lines.join("\n");
-  }, [summaryQuick, summaryPopq, summaryFn, popqComputed.stageKey, parsedPopq]);
+  }, [summaryQuick, summaryPopq, summaryFn, popqComputed.stageKey, parsedPopq, uterusPresent]);
 
   const draftResultCategory = useMemo(() => {
     if (popqComputed.stageKey !== "na") return popqStageLabel(popqComputed.stageKey);
@@ -95,8 +96,14 @@ export default function ProlapseScreen({ navigation }: Props) {
   function clearAll() {
     setQuickStage(null);
     setPopq(emptyPopq());
+    setUterusPresent(true);
     setVRest("");
     setVValsalva("");
+  }
+
+  function applyPopqBatch(values: Record<POPQPointKey, string>, uterus: boolean) {
+    setPopq(values);
+    setUterusPresent(uterus);
   }
 
   async function saveAsCase() {
@@ -183,7 +190,13 @@ export default function ProlapseScreen({ navigation }: Props) {
           {tab === "quick" ? (
             <QuickAssessment value={quickStage} onChange={setQuickStage} />
           ) : tab === "popq" ? (
-            <POPQCalculator values={popq} onChange={setPopqField} />
+            <POPQCalculator
+              values={popq}
+              uterusPresent={uterusPresent}
+              onChange={setPopqField}
+              onUterusPresentChange={setUterusPresent}
+              onBatchChange={applyPopqBatch}
+            />
           ) : (
             <FunctionalCalculator
               vRest={vRest}
