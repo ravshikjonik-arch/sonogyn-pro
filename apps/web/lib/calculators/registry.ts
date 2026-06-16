@@ -99,13 +99,9 @@ export const CALCULATORS: CalculatorDefinition[] = [
     slug: "pop-q",
     code: "POP_Q",
     title: "POP-Q",
-    subtitle: "Pelvic organ prolapse grid",
-    fields: [
-      { key: "Aa", label: "Aa", type: "text" },
-      { key: "Ba", label: "Ba", type: "text" },
-      { key: "C", label: "C", type: "text" },
-      { key: "notes", label: "Stage / comments", type: "text" },
-    ],
+    subtitle: "Опущение/выпадение ОМТ · POP-Q по точкам и ведущему отделу",
+    externalHref: "/calculators/pop-q",
+    fields: [],
   },
   {
     slug: "fmf",

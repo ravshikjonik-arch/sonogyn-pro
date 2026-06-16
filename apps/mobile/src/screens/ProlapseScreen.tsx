@@ -20,6 +20,7 @@ import {
   computeFunctionalProlapsePercent,
   computePOPQStage,
   parsePOPQFields,
+  buildPopqProtocolLine,
 } from "../gynecology/prolapseLogic";
 import { popqStageLabel } from "../gynecology/prolapseStageLabel";
 import i18n from "../i18n";
@@ -68,13 +69,18 @@ export default function ProlapseScreen({ navigation }: Props) {
     fnPct == null ? "—" : i18n.t("prolapse_functional_line", { pct: Math.round(fnPct * 10) / 10 });
 
   const fullTextReport = useMemo(() => {
+    const popqLine =
+      popqComputed.stageKey !== "na"
+        ? buildPopqProtocolLine(parsedPopq, typeof parsedPopq.D === "number")
+        : null;
     const lines = [
       summaryQuick !== "—" ? summaryQuick : null,
-      summaryPopq !== "—" ? summaryPopq : null,
+      popqLine,
+      summaryPopq !== "—" && !popqLine ? summaryPopq : null,
       summaryFn !== "—" ? summaryFn : null,
     ].filter(Boolean) as string[];
     return lines.join("\n");
-  }, [summaryQuick, summaryPopq, summaryFn]);
+  }, [summaryQuick, summaryPopq, summaryFn, popqComputed.stageKey, parsedPopq]);
 
   const draftResultCategory = useMemo(() => {
     if (popqComputed.stageKey !== "na") return popqStageLabel(popqComputed.stageKey);

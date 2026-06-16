@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { CALCULATORS } from "@/lib/calculators/registry";
 import { resolveCalculatorHref } from "@/lib/calculators/resolve-calculator-href";
 
-const quickCalcSlugs = ["o-rads", "bi-rads", "endometrium", "cervical-length", "figo", "ti-rads", "elastography"] as const;
+const quickCalcSlugs = ["o-rads", "bi-rads", "pop-q", "endometrium", "cervical-length", "figo", "ti-rads", "elastography"] as const;
 
 export default function CalculatorsPage() {
   const quick = CALCULATORS.filter((c) => quickCalcSlugs.includes(c.slug as (typeof quickCalcSlugs)[number]));

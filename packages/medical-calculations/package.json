@@ -6,7 +6,8 @@
   "types": "./src/index.ts",
   "exports": {
     ".": "./src/index.ts",
-    "./elastography": "./src/elastography/index.ts"
+    "./elastography": "./src/elastography/index.ts",
+    "./popq": "./src/popq/index.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",

@@ -17,6 +17,7 @@ import { cn } from "@/lib/utils/cn";
 function HubInner() {
   const searchParams = useSearchParams();
   const initialTab = searchParams.get("tab") === "cases" ? "cases" : "chat";
+  const caseTopic = searchParams.get("topic") === "prolapse" ? "prolapse" : "all";
   const initialChannel = (searchParams.get("channel") as DoctorChatChannelSlug) || "general";
   const [activeChannel, setActiveChannel] = useState<DoctorChatChannelSlug>(
     DOCTOR_CHAT_CHANNELS.some((c) => c.slug === initialChannel) ? initialChannel : "general",
@@ -71,7 +72,7 @@ function HubInner() {
             <Link href="/cases/new">Новый кейс</Link>
           </Button>
         </div>
-        <CaseFeed />
+        <CaseFeed topic={caseTopic} />
       </TabsContent>
     </Tabs>
   );
@@ -100,6 +101,12 @@ export function DoctorsCommunityHub() {
           <div className="flex flex-wrap gap-3">
             <Button asChild>
               <Link href="/cases/new">Новый кейс для разбора</Link>
+            </Button>
+            <Button variant="outline" asChild>
+              <Link href="/cases?tab=cases&topic=prolapse">Пролапс · разбор</Link>
+            </Button>
+            <Button variant="outline" asChild>
+              <Link href="/calculators/pop-q">POP-Q калькулятор</Link>
             </Button>
             <Button variant="outline" asChild>
               <Link href="/assistant">ИИ-помощник по снимку →</Link>

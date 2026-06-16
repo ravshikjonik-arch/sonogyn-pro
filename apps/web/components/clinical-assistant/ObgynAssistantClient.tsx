@@ -16,6 +16,7 @@ import {
   type ObgynAssistantMode,
 } from "@/lib/clinical-assistant";
 import { nosologyAssistContextForMode } from "@/lib/clinical-assistant/nosology-assist-context";
+import { POP_Q_CALCULATOR_HREF, PROLAPSE_CASES_HREF } from "@/lib/popq";
 
 type Props = {
   mode: ObgynAssistantMode;
@@ -120,6 +121,25 @@ export function ObgynAssistantClient({ mode, initialQuery = "", initialPatientId
               </Button>
             </div>
             <BasicCourseLinkPanel variant="inline" />
+          </div>
+        ) : null}
+
+        {mode === "gynecology" ? (
+          <div className="flex flex-col gap-3 rounded-2xl border border-rose-200/80 bg-rose-50/50 p-4 sm:flex-row sm:items-center sm:justify-between dark:border-rose-900/50 dark:bg-rose-950/20">
+            <div className="space-y-1">
+              <p className="text-sm font-bold text-[var(--clinical-foreground)]">POP-Q · опущение / выпадение ОМТ</p>
+              <p className="text-xs leading-relaxed text-[var(--clinical-foreground-muted)]">
+                Режим приёма: точки POP-Q, стадия, ведущий отдел, строка в протокол и разбор с коллегами.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <Button asChild className="shrink-0">
+                <Link href={POP_Q_CALCULATOR_HREF}>Открыть POP-Q →</Link>
+              </Button>
+              <Button variant="outline" asChild className="shrink-0">
+                <Link href={PROLAPSE_CASES_HREF}>Пролапс · разбор</Link>
+              </Button>
+            </div>
           </div>
         ) : null}
 

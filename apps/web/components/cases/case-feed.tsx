@@ -9,6 +9,7 @@ import { useSupabase } from "@/app/providers";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { isProlapseTeachingCase } from "@/lib/popq";
 
 /** Row from `public.cases` visible under RLS (own drafts + published gallery). */
 export type TeachingGalleryCaseRow = {
@@ -24,7 +25,7 @@ export type TeachingGalleryCaseRow = {
   user_id: string;
 };
 
-export function CaseFeed() {
+export function CaseFeed({ topic }: { topic?: "all" | "prolapse" }) {
   const supabase = useSupabase();
   const [cases, setCases] = useState<TeachingGalleryCaseRow[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
@@ -58,10 +59,11 @@ export function CaseFeed() {
       }
 
       const list = (rows ?? []) as TeachingGalleryCaseRow[];
-      setCases(list);
+      const filtered = topic === "prolapse" ? list.filter(isProlapseTeachingCase) : list;
+      setCases(filtered);
 
-      if (rows?.length) {
-        const ids = rows.map((r) => r.id);
+      if (filtered.length) {
+        const ids = filtered.map((r) => r.id);
         const { data: commentRows } = await supabase
           .from("teaching_case_comments")
           .select("case_id")
@@ -75,8 +77,8 @@ export function CaseFeed() {
         setCommentCounts({});
       }
 
-      if (uid && rows?.length) {
-        const ids = rows.map((r) => r.id);
+      if (uid && filtered.length) {
+        const ids = filtered.map((r) => r.id);
         const [{ data: likes }, { data: marks }] = await Promise.all([
           supabase.from("teaching_case_likes").select("case_id").eq("user_id", uid).in("case_id", ids),
           supabase.from("teaching_case_bookmarks").select("case_id").eq("user_id", uid).in("case_id", ids),
@@ -95,7 +97,7 @@ export function CaseFeed() {
 
       setLoading(false);
     },
-    [supabase],
+    [supabase, topic],
   );
 
   useEffect(() => {
@@ -148,6 +150,30 @@ export function CaseFeed() {
     }
   }
 
+  async function seedProlapseDemoCase() {
+    if (!userId) {
+      toast.error("Войдите, чтобы создать демо-кейс");
+      return;
+    }
+    const { error } = await supabase.from("cases").insert({
+      user_id: userId,
+      title: "POP-Q Stage II · цистоцеле · разбор",
+      description:
+        "Постменопауза, жалобы на «шарик», Ba +1 см, TVL 9 см. Обсудите тактику: наблюдение vs операция (учебный кейс, без PHI).",
+      anatomy: "Тазовое дно / POP-Q",
+      pathology: "POP-Q",
+      difficulty: "intermediate",
+      status: "published",
+      is_public: true,
+    });
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    toast.success("Демо-кейс пролапса добавлен");
+    void refresh();
+  }
+
   async function seedDemoCase() {
     if (!userId) {
       toast.error("Войдите, чтобы создать демо-кейс");
@@ -178,13 +204,24 @@ export function CaseFeed() {
 
   return (
     <div className="space-y-4">
+      {topic === "prolapse" ? (
+        <p className="rounded-xl border border-rose-200 bg-rose-50/80 px-3 py-2 text-xs text-rose-950">
+          Лента «Пролапс · разбор» — кейсы с POP-Q, выпадением и опущением ОМТ. Без PHI.
+        </p>
+      ) : null}
       <div className="flex flex-wrap gap-3">
         <Button size="sm" type="button" asChild variant="default">
           <Link href="/cases/new">Новый кейс для обсуждения</Link>
         </Button>
-        <Button size="sm" type="button" onClick={() => void seedDemoCase()}>
-          Демо-кейс в ленту
-        </Button>
+        {topic === "prolapse" ? (
+          <Button size="sm" type="button" onClick={() => void seedProlapseDemoCase()}>
+            Демо · POP-Q
+          </Button>
+        ) : (
+          <Button size="sm" type="button" onClick={() => void seedDemoCase()}>
+            Демо-кейс в ленту
+          </Button>
+        )}
         <Button size="sm" variant="secondary" type="button" onClick={() => void refresh()}>
           Обновить
         </Button>
@@ -193,11 +230,22 @@ export function CaseFeed() {
       {cases.length === 0 ? (
         <Card>
           <CardHeader>
-            <CardTitle>Лента пуста — начните обсуждение</CardTitle>
+            <CardTitle>
+              {topic === "prolapse" ? "Пока нет кейсов по пролапсу" : "Лента пуста — начните обсуждение"}
+            </CardTitle>
             <CardDescription>
-              Создайте первый кейс с фото УЗИ или нажмите «Демо-кейс». Нужны миграции Supabase и вход врача.
+              {topic === "prolapse"
+                ? "Создайте кейс из калькулятора POP-Q или нажмите «Демо · POP-Q»."
+                : "Создайте первый кейс с фото УЗИ или нажмите «Демо-кейс». Нужны миграции Supabase и вход врача."}
             </CardDescription>
           </CardHeader>
+          {topic === "prolapse" ? (
+            <CardContent>
+              <Button variant="outline" size="sm" asChild>
+                <Link href="/calculators/pop-q">Открыть POP-Q →</Link>
+              </Button>
+            </CardContent>
+          ) : null}
         </Card>
       ) : (
         <div className="space-y-4">
@@ -213,6 +261,7 @@ export function CaseFeed() {
                   <CardDescription className="line-clamp-2">{c.description ?? "—"}</CardDescription>
                   <div className="mt-2 flex flex-wrap gap-2">
                     <Badge variant="outline">{c.anatomy ?? "анатомия не указана"}</Badge>
+                    {c.pathology === "POP-Q" ? <Badge className="bg-rose-600">POP-Q</Badge> : null}
                     <Badge variant="outline">{c.status}</Badge>
                     {c.user_id === userId ? <Badge variant="outline">мой кейс</Badge> : null}
                     {(commentCounts[c.id] ?? 0) > 0 ? (

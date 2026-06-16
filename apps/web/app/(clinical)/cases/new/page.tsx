@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import { useSupabase } from "@/app/providers";
 import { Button } from "@/components/ui/button";
@@ -15,11 +15,21 @@ import { Textarea } from "@/components/ui/textarea";
 export default function NewCasePage() {
   const supabase = useSupabase();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [anatomy, setAnatomy] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const t = searchParams.get("title");
+    const d = searchParams.get("description");
+    const a = searchParams.get("anatomy");
+    if (t) setTitle(t);
+    if (d) setDescription(d);
+    if (a) setAnatomy(a);
+  }, [searchParams]);
 
   async function createDraft(e: React.FormEvent) {
     e.preventDefault();
@@ -41,6 +51,7 @@ export default function NewCasePage() {
         title: title.trim() || "Кейс без названия",
         description: description.trim() || null,
         anatomy: anatomy.trim() || null,
+        pathology: searchParams.get("pathology")?.trim() || null,
         status: "draft",
         is_public: false,
       })

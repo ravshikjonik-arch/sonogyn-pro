@@ -22,6 +22,11 @@ import { Button } from "@/components/ui/button";
 import { buildAssistantProtocolText } from "@/lib/clinical-assistant/build-protocol";
 import type { ObgynNosologyCard } from "@/lib/clinical-assistant";
 import { FMF_EARLY_ASSISTANT_HREF, isEarlyPregnancyAssistantCode } from "@/lib/clinical-assistant/early-pregnancy";
+import {
+  isProlapseNosologyCode,
+  POP_Q_CALCULATOR_HREF,
+  PROLAPSE_CASES_HREF,
+} from "@/lib/popq";
 import { nosologyAssistContextFromCard } from "@/lib/clinical-assistant/nosology-assist-context";
 import { cn } from "@/lib/utils/cn";
 
@@ -287,6 +292,25 @@ h1{font-size:18px}h2{font-size:14px;margin-top:18px;color:#334155}ul{padding-lef
             </Button>
           </div>
           <BasicCourseLinkPanel variant="inline" />
+        </div>
+      ) : null}
+
+      {isProlapseNosologyCode(card.code) ? (
+        <div className="flex flex-col gap-3 rounded-2xl border border-rose-200/80 bg-rose-50/50 p-4 dark:border-rose-900/50 dark:bg-rose-950/20 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-sm font-bold text-rose-950 dark:text-rose-100">POP-Q · пролапс ОМТ</p>
+            <p className="mt-1 text-xs leading-relaxed text-rose-900/80 dark:text-rose-100/80">
+              После осмотра — введите точки POP-Q, сформируйте строку в протокол и при необходимости вынесите кейс на разбор коллегам.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Button size="sm" asChild>
+              <Link href={POP_Q_CALCULATOR_HREF}>Калькулятор POP-Q →</Link>
+            </Button>
+            <Button size="sm" variant="outline" asChild>
+              <Link href={PROLAPSE_CASES_HREF}>Лента разбора</Link>
+            </Button>
+          </div>
         </div>
       ) : null}
 
