@@ -17,10 +17,13 @@ import QuickAssessment from "../components/prolapse/QuickAssessment";
 import type { OrganType } from "../features/case/types";
 import type { POPQPointKey, QuickStage } from "../gynecology/prolapseLogic";
 import {
+  buildClinicalProtocolText,
+  buildPopqProtocolLine,
   computeFunctionalProlapsePercent,
   computePOPQStage,
+  leadingCompartment,
+  leadingPointKey,
   parsePOPQFields,
-  buildPopqProtocolLine,
 } from "../gynecology/prolapseLogic";
 import { popqStageLabel } from "../gynecology/prolapseStageLabel";
 import i18n from "../i18n";
@@ -69,6 +72,19 @@ export default function ProlapseScreen({ navigation }: Props) {
   const summaryFn =
     fnPct == null ? "—" : i18n.t("prolapse_functional_line", { pct: Math.round(fnPct * 10) / 10 });
 
+  const popqClinicalReport = useMemo(() => {
+    if (popqComputed.stageKey === "na") return null;
+    return buildClinicalProtocolText({
+      protocolLine: buildPopqProtocolLine(parsedPopq, uterusPresent),
+      uterusPresent,
+      points: parsedPopq,
+      stageKey: popqComputed.stageKey,
+      leading: leadingCompartment(parsedPopq, uterusPresent),
+      leadingPoint: leadingPointKey(parsedPopq, uterusPresent),
+      maxPoint: popqComputed.maxPoint,
+    });
+  }, [parsedPopq, uterusPresent, popqComputed.stageKey, popqComputed.maxPoint]);
+
   const fullTextReport = useMemo(() => {
     const popqLine =
       popqComputed.stageKey !== "na"
@@ -76,12 +92,13 @@ export default function ProlapseScreen({ navigation }: Props) {
         : null;
     const lines = [
       summaryQuick !== "—" ? summaryQuick : null,
-      popqLine,
-      summaryPopq !== "—" && !popqLine ? summaryPopq : null,
+      popqClinicalReport,
+      popqLine && !popqClinicalReport ? popqLine : null,
+      summaryPopq !== "—" && !popqLine && !popqClinicalReport ? summaryPopq : null,
       summaryFn !== "—" ? summaryFn : null,
     ].filter(Boolean) as string[];
-    return lines.join("\n");
-  }, [summaryQuick, summaryPopq, summaryFn, popqComputed.stageKey, parsedPopq, uterusPresent]);
+    return lines.join("\n\n");
+  }, [summaryQuick, summaryPopq, summaryFn, popqComputed.stageKey, parsedPopq, uterusPresent, popqClinicalReport]);
 
   const draftResultCategory = useMemo(() => {
     if (popqComputed.stageKey !== "na") return popqStageLabel(popqComputed.stageKey);

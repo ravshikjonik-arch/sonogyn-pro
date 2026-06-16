@@ -5,6 +5,7 @@ import {
   compartmentLabel,
   computePopQStage,
   leadingCompartment,
+  leadingPointKey,
   parsePopQField,
   type PopQInput,
   type PopQPointKey,
@@ -20,8 +21,11 @@ export {
   compartmentLabel,
   computePopQStage as computePOPQStage,
   leadingCompartment,
+  leadingPointKey,
   parsePopQField,
 };
+
+export { buildClinicalProtocolText, buildPatientReportText } from "@repo/medical-calculations/popq";
 
 export function parsePOPQFields(raw: Record<POPQPointKey, string>): POPQInput {
   const out: POPQInput = {};

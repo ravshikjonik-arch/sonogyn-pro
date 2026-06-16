@@ -85,29 +85,7 @@ export function buildProtocolLine(input: {
   return `POP-Q: ${stageText}. Ведущий отдел: ${leadText}. TVL: ${tvlText}.`;
 }
 
-export function buildPatientReportText(input: {
-  protocolLine: string;
-  uterusPresent: boolean;
-  points: PopQInput;
-}): string {
-  const lines = [
-    "Результаты осмотра по шкале POP-Q",
-    "",
-    input.protocolLine,
-    "",
-    "Точки (см относительно гимена):",
-    ...(["Aa", "Ba", "Ap", "Bp", "C", "D", "GH", "PB", "TVL"] as PopQPointKey[])
-      .filter((k) => k !== "D" || input.uterusPresent)
-      .map((k) => {
-        const v = input.points[k];
-        return `  ${k}: ${v !== undefined ? `${v} см` : "—"}`;
-      }),
-    "",
-    "Иллюстрация носит обучающий характер и не является точным изображением вашего осмотра.",
-    "Интерпретация и тактика лечения определяются лечащим врачом.",
-  ];
-  return lines.join("\n");
-}
+export { buildClinicalProtocolText, buildPatientReportText } from "./reports";
 
 export {
   NORMAL_ANATOMY,

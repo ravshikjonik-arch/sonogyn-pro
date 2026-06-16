@@ -5,6 +5,8 @@ import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
 import {
   NORMAL_ANATOMY,
   POPQ_PRESETS,
+  buildClinicalProtocolText,
+  buildPatientReportText,
   buildProtocolLine,
   compartmentLabel,
   computePopQStage,
@@ -16,6 +18,7 @@ import {
 } from "@repo/medical-calculations/popq";
 
 import type { POPQPointKey } from "../../gynecology/prolapseLogic";
+import { exportPopqPdf } from "../../gynecology/exportPopqPdf";
 import { popqStageLabel } from "../../gynecology/prolapseStageLabel";
 import SelectChip from "../../features/oradsPro/components/SelectChip";
 import i18n from "../../i18n";
@@ -71,6 +74,40 @@ export default function POPQCalculator({
     [stage.stageKey, lead, input.TVL],
   );
 
+  const patientReport = useMemo(
+    () => buildPatientReportText({ protocolLine, uterusPresent, points: input }),
+    [protocolLine, uterusPresent, input],
+  );
+
+  const clinicalProtocol = useMemo(
+    () =>
+      buildClinicalProtocolText({
+        protocolLine,
+        uterusPresent,
+        points: input,
+        stageKey: stage.stageKey,
+        leading: lead,
+        leadingPoint: leadPoint,
+        maxPoint: stage.maxPoint,
+      }),
+    [protocolLine, uterusPresent, input, stage.stageKey, stage.maxPoint, lead, leadPoint],
+  );
+
+  const exportMeta = useMemo(
+    () => [
+      { label: i18n.t("prolapse_popq_meta_stage"), value: stageLabel(stage.stageKey) },
+      {
+        label: i18n.t("prolapse_popq_meta_leading"),
+        value: lead ? compartmentLabel(lead.key) : "—",
+      },
+      {
+        label: i18n.t("prolapse_popq_meta_context"),
+        value: uterusPresent ? i18n.t("prolapse_popq_uterus_present") : i18n.t("prolapse_popq_hysterectomy"),
+      },
+    ],
+    [stage.stageKey, lead, uterusPresent],
+  );
+
   const stageText = popqStageLabel(stage.stageKey);
   const stageBannerStyle =
     stage.stageKey === "na"
@@ -101,6 +138,47 @@ export default function POPQCalculator({
     }
     await Clipboard.setStringAsync(protocolLine);
     Alert.alert(i18n.t("success"), i18n.t("prolapse_popq_protocol_copied"));
+  }
+
+  async function copyClinicalProtocol() {
+    if (stage.stageKey === "na") {
+      Alert.alert(i18n.t("prolapse_history_empty_title"), i18n.t("prolapse_popq_enter_points"));
+      return;
+    }
+    await Clipboard.setStringAsync(clinicalProtocol);
+    Alert.alert(i18n.t("success"), i18n.t("prolapse_popq_clinical_copied"));
+  }
+
+  async function exportPatientPdf() {
+    if (stage.stageKey === "na") {
+      Alert.alert(i18n.t("prolapse_history_empty_title"), i18n.t("prolapse_popq_enter_points"));
+      return;
+    }
+    const ok = await exportPopqPdf({
+      mode: "patient",
+      title: i18n.t("prolapse_popq_patient_pdf_title"),
+      subtitle: i18n.t("prolapse_popq_patient_pdf_subtitle"),
+      meta: exportMeta,
+      bodyText: patientReport,
+      footer: i18n.t("prolapse_popq_patient_pdf_footer"),
+    });
+    if (!ok) Alert.alert(i18n.t("report_export_pdf"), i18n.t("report_pdf_error"));
+  }
+
+  async function exportClinicalPdf() {
+    if (stage.stageKey === "na") {
+      Alert.alert(i18n.t("prolapse_history_empty_title"), i18n.t("prolapse_popq_enter_points"));
+      return;
+    }
+    const ok = await exportPopqPdf({
+      mode: "clinical",
+      title: i18n.t("prolapse_popq_clinical_pdf_title"),
+      subtitle: i18n.t("prolapse_popq_clinical_pdf_subtitle"),
+      meta: exportMeta,
+      bodyText: clinicalProtocol,
+      footer: i18n.t("prolapse_popq_clinical_pdf_footer"),
+    });
+    if (!ok) Alert.alert(i18n.t("report_export_pdf"), i18n.t("report_pdf_error"));
   }
 
   return (
@@ -182,10 +260,37 @@ export default function POPQCalculator({
         <Text style={styles.resultProtocol} numberOfLines={3}>
           {protocolLine}
         </Text>
-        <Pressable style={({ pressed }) => [styles.copyBtn, pressed && styles.pressed]} onPress={() => void copyProtocol()}>
-          <Text style={styles.copyBtnText}>{i18n.t("prolapse_popq_copy_protocol")}</Text>
-        </Pressable>
+        <View style={styles.actionRow}>
+          <Pressable style={({ pressed }) => [styles.copyBtn, pressed && styles.pressed]} onPress={() => void copyProtocol()}>
+            <Text style={styles.copyBtnText}>{i18n.t("prolapse_popq_copy_protocol")}</Text>
+          </Pressable>
+          <Pressable
+            style={({ pressed }) => [styles.copyBtnOutline, pressed && styles.pressed]}
+            onPress={() => void copyClinicalProtocol()}
+          >
+            <Text style={styles.copyBtnOutlineText}>{i18n.t("prolapse_popq_copy_clinical")}</Text>
+          </Pressable>
+        </View>
       </View>
+
+      <SectionCard title={i18n.t("prolapse_popq_export_section")}>
+        <View style={styles.previewCard}>
+          <Text style={styles.previewLabel}>{i18n.t("prolapse_popq_patient_preview")}</Text>
+          <Text style={styles.previewText}>{patientReport}</Text>
+        </View>
+        <View style={styles.previewCard}>
+          <Text style={styles.previewLabel}>{i18n.t("prolapse_popq_clinical_preview")}</Text>
+          <Text style={styles.previewText}>{clinicalProtocol}</Text>
+        </View>
+        <View style={styles.exportRow}>
+          <Pressable style={({ pressed }) => [styles.exportBtnPatient, pressed && styles.pressed]} onPress={() => void exportPatientPdf()}>
+            <Text style={styles.exportBtnText}>{i18n.t("prolapse_popq_patient_pdf")}</Text>
+          </Pressable>
+          <Pressable style={({ pressed }) => [styles.exportBtnClinical, pressed && styles.pressed]} onPress={() => void exportClinicalPdf()}>
+            <Text style={styles.exportBtnText}>{i18n.t("prolapse_popq_clinical_pdf")}</Text>
+          </Pressable>
+        </View>
+      </SectionCard>
     </View>
   );
 }
@@ -217,14 +322,46 @@ const styles = StyleSheet.create({
   resultStage: { fontSize: 22, fontWeight: "900", color: theme.colors.text },
   resultLead: { fontSize: 14, fontWeight: "700", color: theme.colors.text },
   resultProtocol: { fontSize: 12, color: theme.colors.textSecondary, lineHeight: 17 },
+  actionRow: { flexDirection: "row", flexWrap: "wrap", gap: 8, marginTop: 4 },
   copyBtn: {
-    alignSelf: "flex-start",
-    marginTop: 4,
     backgroundColor: theme.colors.primary,
     borderRadius: 20,
     paddingVertical: 10,
     paddingHorizontal: 16,
   },
   copyBtnText: { color: "#fff", fontWeight: "800", fontSize: 14 },
+  copyBtnOutline: {
+    borderRadius: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderWidth: 1,
+    borderColor: theme.colors.primary,
+    backgroundColor: "#fff",
+  },
+  copyBtnOutlineText: { color: theme.colors.primary, fontWeight: "800", fontSize: 14 },
+  previewCard: {
+    backgroundColor: "#f8fafc",
+    borderRadius: theme.radius.md,
+    borderWidth: 1,
+    borderColor: theme.colors.border,
+    padding: 12,
+    gap: 6,
+  },
+  previewLabel: { fontSize: 11, fontWeight: "800", color: theme.colors.textSecondary, letterSpacing: 0.3 },
+  previewText: { fontSize: 12, color: theme.colors.text, lineHeight: 17 },
+  exportRow: { flexDirection: "column", gap: 10 },
+  exportBtnPatient: {
+    backgroundColor: "#be123c",
+    borderRadius: theme.radius.md,
+    paddingVertical: 14,
+    alignItems: "center",
+  },
+  exportBtnClinical: {
+    backgroundColor: "#1d4ed8",
+    borderRadius: theme.radius.md,
+    paddingVertical: 14,
+    alignItems: "center",
+  },
+  exportBtnText: { color: "#fff", fontWeight: "800", fontSize: 15 },
   pressed: { opacity: 0.9 },
 });

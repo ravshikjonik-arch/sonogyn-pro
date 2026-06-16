@@ -18,6 +18,7 @@ import {
   POPQ_PRESETS,
   buildPatientReportText,
   buildPopQCaseTitle,
+  buildClinicalProtocolText,
   buildProtocolLine,
   compartmentLabel,
   computePopQStage,
@@ -71,6 +72,20 @@ export function PopQFlow() {
     [protocolLine, uterusPresent, input],
   );
 
+  const clinicalProtocol = useMemo(
+    () =>
+      buildClinicalProtocolText({
+        protocolLine,
+        uterusPresent,
+        points: input,
+        stageKey: stage.stageKey,
+        leading: lead,
+        leadingPoint: leadPoint,
+        maxPoint: stage.maxPoint,
+      }),
+    [protocolLine, uterusPresent, input, stage.stageKey, stage.maxPoint, lead, leadPoint],
+  );
+
   const exportSpec = useMemo(
     () =>
       plainTextToDocumentSpec({
@@ -87,6 +102,28 @@ export function PopQFlow() {
         sectionHeading: "Результат осмотра",
       }),
     [stage.stageKey, lead, patientReport],
+  );
+
+  const clinicalExportSpec = useMemo(
+    () =>
+      plainTextToDocumentSpec({
+        filenameBase: `popq-clinical-${stage.stageKey}`,
+        title: "POP-Q · протокол осмотра",
+        meta: [
+          { label: "Стадия", value: stageLabel(stage.stageKey) },
+          {
+            label: "Ведущий отдел",
+            value: lead ? compartmentLabel(lead.key) : "—",
+          },
+          {
+            label: "Контекст",
+            value: uterusPresent ? "Матка сохранена" : "После гистерэктомии",
+          },
+        ],
+        text: clinicalProtocol,
+        sectionHeading: "Протокол для медицинской документации",
+      }),
+    [stage.stageKey, lead, clinicalProtocol, uterusPresent],
   );
 
   function updateField(key: PopQPointKey, value: string) {
@@ -112,6 +149,10 @@ export function PopQFlow() {
 
   function copyProtocol() {
     void navigator.clipboard.writeText(protocolLine).then(() => toast.success("Строка POP-Q скопирована"));
+  }
+
+  function copyClinicalProtocol() {
+    void navigator.clipboard.writeText(clinicalProtocol).then(() => toast.success("Клинический протокол скопирован"));
   }
 
   function saveAsCase() {
@@ -256,6 +297,21 @@ export function PopQFlow() {
           </div>
         </details>
 
+        <details className="rounded-xl border border-[var(--clinical-border)] px-3 py-2 text-sm">
+          <summary className="cursor-pointer font-semibold text-[var(--clinical-foreground-muted)]">
+            Протокол для врача (PDF / печать / в осмотр)
+          </summary>
+          <div className="mt-3 space-y-3">
+            <p className="whitespace-pre-wrap text-xs text-[var(--clinical-foreground-muted)]">{clinicalProtocol}</p>
+            <div className="flex flex-wrap gap-2">
+              <Button type="button" variant="outline" size="sm" onClick={copyClinicalProtocol}>
+                Копировать протокол
+              </Button>
+              <DocumentExportToolbar spec={clinicalExportSpec} compact />
+            </div>
+          </div>
+        </details>
+
         <div className="flex flex-wrap gap-2">
           <Button type="button" variant="secondary" disabled={pending} onClick={saveEntry}>
             Сохранить в историю
@@ -264,7 +320,7 @@ export function PopQFlow() {
             В кейс для разбора
           </Button>
           <Button type="button" variant="outline" onClick={copyProtocol}>
-            В протокол
+            В протокол (строка)
           </Button>
         </div>
       </div>
