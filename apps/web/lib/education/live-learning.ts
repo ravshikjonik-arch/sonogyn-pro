@@ -13,6 +13,18 @@ export const TRAINING_LANGUAGE_LABELS: Record<TrainingLanguage, string> = {
 
 export type TrainingSessionStatus = "registration" | "planned" | "recorded";
 export type TrainingSessionFormat = "live" | "recording" | "course";
+export type TrainingSessionLevel = "Базовый" | "Продвинутый" | "Разбор случаев";
+export type TrainingMeetingProvider = "Zoom/Meet" | "Встроенный класс" | "Запись" | "Курс";
+
+export const TRAINING_SESSION_STATUSES = ["registration", "planned", "recorded"] as const;
+export const TRAINING_SESSION_FORMATS = ["live", "recording", "course"] as const;
+export const TRAINING_SESSION_LEVELS = ["Базовый", "Продвинутый", "Разбор случаев"] as const;
+export const TRAINING_MEETING_PROVIDERS = [
+  "Zoom/Meet",
+  "Встроенный класс",
+  "Запись",
+  "Курс",
+] as const;
 
 export type TrainingSession = {
   id: string;
@@ -23,17 +35,18 @@ export type TrainingSession = {
   startsAt: string | null;
   durationMinutes: number | null;
   instructor: string;
-  level: "Базовый" | "Продвинутый" | "Разбор случаев";
+  level: TrainingSessionLevel;
   primaryLanguage: TrainingLanguage;
   subtitleLanguages: TrainingLanguage[];
   translationPlan: string;
-  meetingProvider: "Zoom/Meet" | "Встроенный класс" | "Запись" | "Курс";
+  meetingProvider: TrainingMeetingProvider;
   meetingUrl?: string;
   href?: string;
   materials: string[];
   tags: string[];
   agenda: string[];
   outcomes: string[];
+  sortOrder?: number;
 };
 
 export type LearningTrack = {
@@ -213,4 +226,57 @@ export function formatTrainingDateRu(startsAt: string | null): string {
 
 export function getTrainingSessionById(id: string): TrainingSession | undefined {
   return TRAINING_SESSIONS.find((session) => session.id === id);
+}
+
+export type EducationSessionRow = {
+  id: string;
+  title: string;
+  description: string;
+  format: TrainingSessionFormat;
+  status: TrainingSessionStatus;
+  starts_at: string | null;
+  duration_minutes: number | null;
+  instructor: string;
+  level: TrainingSessionLevel;
+  primary_language: TrainingLanguage;
+  subtitle_languages: TrainingLanguage[];
+  translation_plan: string;
+  meeting_provider: TrainingMeetingProvider;
+  meeting_url: string | null;
+  href: string | null;
+  materials: string[];
+  tags: string[];
+  agenda: string[];
+  outcomes: string[];
+  sort_order: number;
+};
+
+function stringArray(value: unknown): string[] {
+  if (!Array.isArray(value)) return [];
+  return value.filter((item): item is string => typeof item === "string");
+}
+
+export function trainingSessionFromRow(row: EducationSessionRow): TrainingSession {
+  return {
+    id: row.id,
+    title: row.title,
+    description: row.description,
+    format: row.format,
+    status: row.status,
+    startsAt: row.starts_at,
+    durationMinutes: row.duration_minutes,
+    instructor: row.instructor,
+    level: row.level,
+    primaryLanguage: row.primary_language,
+    subtitleLanguages: stringArray(row.subtitle_languages) as TrainingLanguage[],
+    translationPlan: row.translation_plan,
+    meetingProvider: row.meeting_provider,
+    meetingUrl: row.meeting_url ?? undefined,
+    href: row.href ?? undefined,
+    materials: stringArray(row.materials),
+    tags: stringArray(row.tags),
+    agenda: stringArray(row.agenda),
+    outcomes: stringArray(row.outcomes),
+    sortOrder: row.sort_order,
+  };
 }

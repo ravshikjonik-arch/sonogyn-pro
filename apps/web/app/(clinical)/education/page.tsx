@@ -21,9 +21,10 @@ import {
   formatTrainingDateRu,
   LEARNING_TRACKS,
   TRAINING_LANGUAGE_LABELS,
-  TRAINING_SESSIONS,
   type TrainingSession,
 } from "@/lib/education/live-learning";
+import { loadTrainingSessions } from "@/lib/education/session-store";
+import { createClient } from "@/utils/supabase/server";
 
 const formatLabel: Record<TrainingSession["format"], string> = {
   live: "Онлайн-занятие",
@@ -37,7 +38,10 @@ const statusLabel: Record<TrainingSession["status"], string> = {
   recorded: "Доступно",
 };
 
-export default function EducationPage() {
+export default async function EducationPage() {
+  const supabase = await createClient();
+  const { sessions, source, error } = await loadTrainingSessions(supabase);
+
   return (
     <div className="px-4 py-10 lg:px-10">
       <div className="mx-auto max-w-6xl space-y-10">
@@ -128,8 +132,15 @@ export default function EducationPage() {
             <TelegramChannelLink compact className="w-full max-w-sm" />
           </div>
 
+          {source === "fallback" && error ? (
+            <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm leading-relaxed text-amber-900">
+              Сейчас показано MVP-расписание из кода. Для редактирования через админку примените миграцию{" "}
+              <code>20260617072000_education_sessions_broadcasts.sql</code>.
+            </div>
+          ) : null}
+
           <div className="grid gap-4 lg:grid-cols-2">
-            {TRAINING_SESSIONS.map((session) => (
+            {sessions.map((session) => (
               <TrainingSessionCard key={session.id} session={session} />
             ))}
           </div>

@@ -17,22 +17,19 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   formatTrainingDateRu,
-  getTrainingSessionById,
   TRAINING_LANGUAGE_LABELS,
-  TRAINING_SESSIONS,
 } from "@/lib/education/live-learning";
+import { loadTrainingSessionById } from "@/lib/education/session-store";
+import { createClient } from "@/utils/supabase/server";
 
 type Props = {
   params: Promise<{ sessionId: string }>;
 };
 
-export function generateStaticParams() {
-  return TRAINING_SESSIONS.map((session) => ({ sessionId: session.id }));
-}
-
 export default async function EducationSessionPage({ params }: Props) {
   const { sessionId } = await params;
-  const session = getTrainingSessionById(sessionId);
+  const supabase = await createClient();
+  const { session } = await loadTrainingSessionById(supabase, sessionId);
   if (!session) notFound();
 
   return (

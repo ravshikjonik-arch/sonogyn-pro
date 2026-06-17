@@ -126,4 +126,16 @@ export const RL = {
     "RATE_LIMIT_ADMIN_EDUCATION_REGISTRATIONS_WINDOW_SEC",
     60,
   ),
+  adminEducationSessions: preset(
+    "RATE_LIMIT_ADMIN_EDUCATION_SESSIONS",
+    60,
+    "RATE_LIMIT_ADMIN_EDUCATION_SESSIONS_WINDOW_SEC",
+    60,
+  ),
+  adminEducationBroadcasts: preset(
+    "RATE_LIMIT_ADMIN_EDUCATION_BROADCASTS",
+    20,
+    "RATE_LIMIT_ADMIN_EDUCATION_BROADCASTS_WINDOW_SEC",
+    300,
+  ),
 } as const;

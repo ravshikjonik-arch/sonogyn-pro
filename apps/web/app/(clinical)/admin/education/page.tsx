@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 
 import { EducationAdminClient } from "@/components/education/EducationAdminClient";
 import { educationRegistrationFromRow } from "@/lib/education/registrations";
+import { loadTrainingSessions } from "@/lib/education/session-store";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function AdminEducationPage() {
@@ -28,8 +29,13 @@ export default async function AdminEducationPage() {
     .order("created_at", { ascending: false })
     .limit(200);
 
+  const sessionsResult = await loadTrainingSessions(supabase);
+
   return (
     <EducationAdminClient
+      initialSessions={sessionsResult.sessions}
+      sessionsSource={sessionsResult.source}
+      sessionsError={sessionsResult.error}
       initialRegistrations={(registrationRows ?? []).map((row) => educationRegistrationFromRow(row))}
       registrationsError={registrationsError?.message ?? null}
     />
