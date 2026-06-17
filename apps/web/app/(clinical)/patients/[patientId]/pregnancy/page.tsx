@@ -38,7 +38,7 @@ export default async function PregnancyPage(props: { params: Promise<Params> }) 
     .eq("created_by", user.id);
 
   const studyIds = (studies ?? []).map((s) => s.id);
-  let growthPoints: { week: number; grams: number }[] = [];
+  const growthPoints: { week: number; grams: number }[] = [];
 
   if (studyIds.length > 0) {
     const { data: measurements } = await supabase
@@ -93,6 +93,17 @@ export default async function PregnancyPage(props: { params: Promise<Params> }) 
         </p>
         <Button asChild variant="outline" size="sm" className="mt-3">
           <Link href="/calculators/cervical-length">Калькулятор CL →</Link>
+        </Button>
+      </section>
+
+      <section className="mt-6 rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
+        <h2 className="font-semibold text-slate-950">Рубец после КС / беременность в рубце</h2>
+        <p className="mt-1 text-sm leading-relaxed text-slate-700">
+          Сагиттальный и фронтальный срезы: RMT, ниша/истмоцеле, расстояние от внутреннего зева и локализация
+          плодного яйца относительно рубца.
+        </p>
+        <Button asChild variant="secondary" size="sm" className="mt-3">
+          <Link href="/scar-niche">Открыть схему рубца →</Link>
         </Button>
       </section>
 

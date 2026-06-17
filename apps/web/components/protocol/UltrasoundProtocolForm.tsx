@@ -26,6 +26,7 @@ import { toast } from "sonner";
 import { NosologyPickerModal, type NosologyProtocolInsert } from "@/components/nosology/NosologyPickerModal";
 import { FieldHelpPopover } from "@/components/reference/FieldHelpPopover";
 import { UterusVisualizationModal } from "@/components/uterus/UterusVisualizationModal";
+import { ScarNicheWorkspace } from "@/components/scar/ScarNicheWorkspace";
 import { getSeedNosologies, searchNosologies } from "@repo/nosology";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -77,6 +78,7 @@ export function UltrasoundProtocolForm({
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [uterus3dOpen, setUterus3dOpen] = useState(false);
+  const [scarOpen, setScarOpen] = useState(false);
   const [nosologyOpen, setNosologyOpen] = useState(false);
   const [diagnosisSuggest, setDiagnosisSuggest] = useState<string[]>([]);
   const loadProtocol = useCallback(async () => {
@@ -102,29 +104,35 @@ export function UltrasoundProtocolForm({
   }, [studyId, sessionSeed]);
 
   useEffect(() => {
-    void loadProtocol();
+    const timeout = window.setTimeout(() => {
+      void loadProtocol();
+    }, 0);
+    return () => window.clearTimeout(timeout);
   }, [loadProtocol]);
 
   useEffect(() => {
     if (loading) return;
-    try {
-      const raw = sessionStorage.getItem("nosology-pending-apply");
-      if (!raw) return;
-      const pending = JSON.parse(raw) as NosologyProtocolInsert;
-      sessionStorage.removeItem("nosology-pending-apply");
-      setProtocol((p) => ({
-        ...p,
-        diagnosis: p.diagnosis?.trim()
-          ? `${p.diagnosis}\n${pending.diagnosis}`
-          : pending.diagnosis,
-        conclusion: p.conclusion?.trim()
-          ? `${p.conclusion}\n\n${pending.conclusion}`
-          : pending.conclusion,
-      }));
-      toast.success("Текст из справочника нозологий добавлен в протокол");
-    } catch {
-      /* ignore malformed */
-    }
+    const timeout = window.setTimeout(() => {
+      try {
+        const raw = sessionStorage.getItem("nosology-pending-apply");
+        if (!raw) return;
+        const pending = JSON.parse(raw) as NosologyProtocolInsert;
+        sessionStorage.removeItem("nosology-pending-apply");
+        setProtocol((p) => ({
+          ...p,
+          diagnosis: p.diagnosis?.trim()
+            ? `${p.diagnosis}\n${pending.diagnosis}`
+            : pending.diagnosis,
+          conclusion: p.conclusion?.trim()
+            ? `${p.conclusion}\n\n${pending.conclusion}`
+            : pending.conclusion,
+        }));
+        toast.success("Текст из справочника нозологий добавлен в протокол");
+      } catch {
+        /* ignore malformed */
+      }
+    }, 0);
+    return () => window.clearTimeout(timeout);
   }, [loading]);
 
   const onNosologyInsert = useCallback((payload: NosologyProtocolInsert) => {
@@ -297,7 +305,6 @@ export function UltrasoundProtocolForm({
     return <p className="text-sm text-[var(--clinical-foreground-muted)]">Загрузка протокола…</p>;
   }
 
-  const gaWeeks = computedGaDays != null ? computedGaDays / 7 : null;
   const gaWeeksInt = computedGaDays != null ? Math.floor(computedGaDays / 7) : undefined;
   const gaDaysRem = computedGaDays != null ? computedGaDays % 7 : undefined;
 
@@ -488,14 +495,24 @@ export function UltrasoundProtocolForm({
               <span className="flex flex-wrap items-center gap-2 font-medium">
                 {label}
                 {key === "uterus" ? (
-                  <Button
-                    type="button"
-                    size="sm"
-                    variant="secondary"
-                    onClick={() => setUterus3dOpen(true)}
-                  >
-                    Срез матки
-                  </Button>
+                  <>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="secondary"
+                      onClick={() => setUterus3dOpen(true)}
+                    >
+                      Срез матки
+                    </Button>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => setScarOpen(true)}
+                    >
+                      Рубец / CSP
+                    </Button>
+                  </>
                 ) : null}
               </span>
               <textarea
@@ -610,6 +627,37 @@ export function UltrasoundProtocolForm({
           });
         }}
       />
+
+      {scarOpen ? (
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-[var(--clinical-background)]">
+          <header className="sticky top-0 z-10 flex flex-wrap items-center gap-3 border-b border-[var(--clinical-border)] bg-[var(--clinical-background)] px-4 py-3">
+            <div className="flex-1">
+              <h2 className="text-lg font-bold">Рубец после КС / ниша / CSP</h2>
+              <p className="text-xs text-[var(--clinical-foreground-muted)]">
+                Сагиттальный и фронтальный срезы, RMT, ниша, плодное яйцо относительно рубца.
+              </p>
+            </div>
+            <Button type="button" variant="ghost" onClick={() => setScarOpen(false)}>
+              Закрыть
+            </Button>
+          </header>
+          <div className="mx-auto max-w-7xl p-4">
+            <ScarNicheWorkspace
+              onApply={(protocolText) => {
+                setProtocol((p) => {
+                  const prev = p.organs.uterus?.trim();
+                  const merged = prev ? `${prev}\n\n${protocolText}` : protocolText;
+                  return {
+                    ...p,
+                    organs: { ...p.organs, uterus: merged },
+                  };
+                });
+                setScarOpen(false);
+              }}
+            />
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
