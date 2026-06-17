@@ -65,6 +65,18 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  const rl = await consumeRateLimit(
+    rateLimitKeyFromRequest(request, "copilot-studies-create"),
+    RL.copilotStudiesCreate.limit,
+    RL.copilotStudiesCreate.windowMs,
+  );
+  if (!rl.ok) {
+    return NextResponse.json(
+      { error: "Слишком много запросов. Подождите." },
+      { status: 429, headers: { "Retry-After": String(rl.retryAfterSec) } },
+    );
+  }
+
   const body = (await request.json().catch(() => null)) as Record<
     string,
     unknown
