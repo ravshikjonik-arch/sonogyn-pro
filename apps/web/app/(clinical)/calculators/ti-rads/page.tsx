@@ -1,4 +1,5 @@
 import { TiradsRuFlow } from "@/components/calculators/tirads-ru/TiradsRuFlow";
+import { CalculatorLiteraturePanel } from "@/components/pubmed/CalculatorLiteraturePanel";
 
 export const metadata = {
   title: "TI-RADS ЩЖ · SonoGyn",
@@ -6,5 +7,12 @@ export const metadata = {
 };
 
 export default function TiradsRuPage() {
-  return <TiradsRuFlow />;
+  return (
+    <>
+      <TiradsRuFlow />
+      <div className="mx-auto max-w-4xl px-4 pb-10">
+        <CalculatorLiteraturePanel slug="ti-rads" />
+      </div>
+    </>
+  );
 }

@@ -101,6 +101,17 @@ export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
     tags: ["КР", "ДЗМ", "гайдлайны"],
   },
   {
+    id: "orads-guide",
+    shelf: "courses",
+    title: "O-RADS US · руководство",
+    description:
+      "Учебный реферат: алгоритм ACR v2022, 10 клинических случаев с эхограммами, таблица категорий 0–5.",
+    href: "/library/orads-guide",
+    tags: ["O-RADS", "ACR", "реферат", "алгоритм", "обучение"],
+    primary: true,
+    badge: "v2022",
+  },
+  {
     id: "orads-echograms",
     shelf: "courses",
     title: "O-RADS · эхограммы и случаи",

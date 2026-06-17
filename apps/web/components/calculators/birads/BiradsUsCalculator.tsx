@@ -8,6 +8,7 @@ import { saveCalculatorEntry } from "@/app/actions/calculator-actions";
 import { BreastTopographyAtlas } from "@/components/breast/BreastTopographyAtlas";
 import { CalcChip, CalcStepCard, CalcSubLabel } from "@/components/calculators/shared/calc-ui";
 import { DocumentExportToolbar } from "@/components/reporting/DocumentExportToolbar";
+import { CalculatorLiteraturePanel } from "@/components/pubmed/CalculatorLiteraturePanel";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -431,6 +432,8 @@ export function BiradsUsCalculator() {
         </div>
 
         <DocumentExportToolbar spec={exportSpec} />
+
+        <CalculatorLiteraturePanel slug="bi-rads" />
       </div>
 
       <div className="fixed inset-x-0 bottom-0 z-30 border-t border-rose-200 bg-rose-50/95 p-3 shadow-lg lg:left-64">

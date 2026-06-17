@@ -5,6 +5,7 @@ import { useCallback, useState } from "react";
 
 import { OradsCategoryAtlas } from "@/components/calculators/orads/OradsCategoryAtlas";
 import { OradsProCalculator } from "@/components/calculators/orads/OradsProCalculator";
+import { CalculatorLiteraturePanel } from "@/components/pubmed/CalculatorLiteraturePanel";
 import { Button } from "@/components/ui/button";
 import {
   ORADS_ECHOGRAMS_LIBRARY_PATH,
@@ -85,6 +86,7 @@ export function OradsProFlow() {
                   <p className="text-xs text-[var(--clinical-foreground-muted)]">
                     Не является диагнозом. Интерпретация — лечащий специалист.
                   </p>
+                  <CalculatorLiteraturePanel slug="o-rads" compact />
                 </div>
               )}
             </div>

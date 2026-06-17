@@ -1,12 +1,16 @@
 import type { CookieOptions } from "@supabase/ssr";
 
+import { getAuthSessionMaxAgeSec } from "@/lib/auth/dev-auth-mode";
+
 /** HttpOnly session cookies — refresh token недоступен JS (XSS). */
 export function supabaseCookieOptions(): CookieOptions {
+  const maxAge = getAuthSessionMaxAgeSec();
   return {
     path: "/",
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
     httpOnly: true,
+    ...(maxAge !== undefined ? { maxAge } : {}),
   };
 }
 

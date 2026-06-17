@@ -91,9 +91,25 @@ export const CALCULATORS: CalculatorDefinition[] = [
   {
     slug: "pop-q",
     code: "POP_Q",
-    title: "POP-Q",
-    subtitle: "Опущение/выпадение ОМТ · POP-Q по точкам и ведущему отделу",
+    title: "POP-Q · русская версия",
+    subtitle: "Золотой стандарт стадирования пролапса по точкам Aa/Ba/C/D/Ap/Bp/TVL",
     externalHref: "/calculators/pop-q",
+    fields: [],
+  },
+  {
+    slug: "colposcopy",
+    code: "COLOPOSCOPY_SWEDE",
+    title: "Кольпоскопия · Swede Score",
+    subtitle: "Протокол по бланку, 5 признаков IFCPC, риск CIN 2+, PDF",
+    externalHref: "/calculators/colposcopy",
+    fields: [],
+  },
+  {
+    slug: "ob-calc",
+    code: "OB_CALC",
+    title: "Калькулятор расчёта срока беременности",
+    subtitle: "ПМП, УЗИ, КТР, ЭКО, фетометрия, декрет",
+    externalHref: "/calculators/ob",
     fields: [],
   },
   {

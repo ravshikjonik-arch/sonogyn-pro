@@ -29,6 +29,7 @@ import { buildGrTeamInviteMessage } from "../utils/grInviteText";
 import { revokeAllSessions } from "../lib/auth/sessionApi";
 import { wipeMobileClinicalLocalData } from "../lib/security/wipeClinicalLocal";
 import { supabaseMobile } from "../lib/supabase/mobileClient";
+import { DoctorRoleSettings } from "../components/clinical/DoctorRoleSettings";
 
 type Props = CompositeScreenProps<
   BottomTabScreenProps<MainTabParamList, "ProfileTab">,
@@ -192,6 +193,8 @@ export default function ProfileScreen({ navigation }: Props) {
         >
           <Text style={styles.langBtnText}>{i18n.t("language")}</Text>
         </Pressable>
+
+        <DoctorRoleSettings />
 
         {supabaseLoggedIn ? (
           <View style={styles.securityBox}>

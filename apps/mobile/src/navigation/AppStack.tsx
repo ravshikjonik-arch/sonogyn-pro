@@ -18,6 +18,8 @@ import { isUserBanned } from "../services/firebase/reportService";
 import ORADSFlowScreen from "../screens/ORADSFlowScreen";
 import ProlapseScreen from "../screens/ProlapseScreen";
 import ORADSProScreen from "../features/oradsPro/screens/ORADSProScreen";
+import OradsWizardScreen from "../features/oradsWizard/OradsWizardScreen";
+import OradsGuideScreen from "../features/oradsGuide/OradsGuideScreen";
 import ORADSHistoryScreen from "../features/oradsPro/screens/ORADSHistoryScreen";
 import ORADSHistoryDetailsScreen from "../features/oradsPro/screens/ORADSHistoryDetailsScreen";
 import FMFAssistantScreen from "../features/fmf/screens/FMFAssistantScreen";
@@ -25,6 +27,8 @@ import GynecologyCalcScreen from "../screens/GynecologyCalcScreen";
 import BiRadsAssistantScreen from "../screens/BiRadsAssistantScreen";
 import Breast3DScreen from "../screens/Breast3DScreen";
 import TiRadsAssistantScreen from "../features/tirads/screens/TiRadsAssistantScreen";
+import EndometriumScreen from "../screens/EndometriumScreen";
+import CervicalLengthScreen from "../screens/CervicalLengthScreen";
 import ClinicalReferenceScreen from "../screens/ClinicalReferenceScreen";
 import NosologyScreen from "../screens/NosologyScreen";
 import SplashScreen, { SplashLoadingView } from "../screens/SplashScreen";
@@ -57,6 +61,7 @@ function withClinicalPhiGate<P extends object>(Screen: ComponentType<P>) {
 }
 
 const GuardedORADSPro = withClinicalPhiGate(ORADSProScreen);
+const GuardedORADSWizard = withClinicalPhiGate(OradsWizardScreen);
 const GuardedORADSHistory = withClinicalPhiGate(ORADSHistoryScreen);
 const GuardedORADSHistoryDetails = withClinicalPhiGate(ORADSHistoryDetailsScreen);
 
@@ -106,6 +111,14 @@ const linking: LinkingOptions<RootStackParamList> = {
       SupabaseAuth: "auth/supabase",
       Language: "language",
       ORADSFlow: "orads-basic",
+      ORADSWizard: "orads-wizard",
+      ORADSGuide: {
+        path: "library/orads-guide",
+        parse: {
+          sectionId: (value?: string) => value,
+          caseId: (value?: string) => value,
+        },
+      },
       ORADSPro: "orads",
       ORADSHistory: "orads/history",
       ORADSHistoryDetails: "orads/history/:caseId",
@@ -257,6 +270,8 @@ export default function AppStack() {
           <Stack.Screen name="SupabaseAuth" component={SupabaseAuthScreen} />
           <Stack.Screen name="Language" component={LanguageScreen} />
           <Stack.Screen name="ORADSFlow" component={ORADSFlowScreen} />
+          <Stack.Screen name="ORADSWizard" component={GuardedORADSWizard} />
+          <Stack.Screen name="ORADSGuide" component={OradsGuideScreen} />
           <Stack.Screen name="ORADSPro" component={GuardedORADSPro} />
           <Stack.Screen name="ORADSHistory" component={GuardedORADSHistory} />
           <Stack.Screen name="ORADSHistoryDetails" component={GuardedORADSHistoryDetails} />
@@ -266,6 +281,8 @@ export default function AppStack() {
           <Stack.Screen name="BiRadsAssistant" component={BiRadsAssistantScreen} />
           <Stack.Screen name="Breast3D" component={Breast3DScreen} />
           <Stack.Screen name="TiRadsAssistant" component={TiRadsAssistantScreen} />
+          <Stack.Screen name="EndometriumCalc" component={EndometriumScreen} />
+          <Stack.Screen name="CervicalLengthCalc" component={CervicalLengthScreen} />
           <Stack.Screen name="ClinicalReference" component={ClinicalReferenceScreen} />
           <Stack.Screen name="Nosology" component={NosologyScreen} />
           <Stack.Screen name="ElastographyCalc" component={ElastographyScreen} />

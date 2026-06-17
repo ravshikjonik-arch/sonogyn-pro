@@ -19,7 +19,7 @@ import {
 import type { GuidelineFilter } from "../types";
 
 export type GuidelinesTabScreenProps = CompositeScreenProps<
-  BottomTabScreenProps<MainTabParamList, "GuidelinesTab">,
+  BottomTabScreenProps<MainTabParamList, "KnowledgeTab">,
   NativeStackScreenProps<RootStackParamList>
 >;
 

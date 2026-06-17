@@ -1,0 +1,274 @@
+{
+  "meta": {
+    "title": "Классификация O-RADS US",
+    "subtitle": "Ovarian-Adnexal Reporting and Data System · ACR v2022",
+    "version": "O-RADS US v2022",
+    "disclaimer": "Учебный материал. Не заменяет официальное приложение ACR Guidance и клиническое заключение врача.",
+    "source": "American College of Radiology (ACR). O-RADS US Risk Stratification and Management System, version 2022.",
+    "logoImage": "/clinical-atlas/orads-referat/acr-logo.png"
+  },
+  "sections": [
+    {
+      "id": "intro",
+      "title": "1. Введение",
+      "paragraphs": [
+        "Система O-RADS US разработана Американским колледжем радиологии (ACR) и представляет собой стандартизированную классификацию для описания и стратификации риска малигнизации образований яичников и придатков матки на УЗИ. Версия v2022 (2022) — продолжение серии RADS (BI-RADS, LI-RADS, LU-RADS и др.) в разделе Reporting and Data Systems приложения ACR Guidance.",
+        "Главная цель O-RADS US — унификация терминологии, снижение межэкспертной вариабельности и чёткий алгоритм тактики: наблюдение, консультация специалиста или направление к онкогинекологу."
+      ],
+      "image": "/clinical-atlas/orads-referat/acr-logo.png",
+      "imageCaption": "Калькулятор O-RADS US (ACR Guidance)"
+    },
+    {
+      "id": "acr-guidance",
+      "title": "1.1. Структура ACR Guidance",
+      "paragraphs": [
+        "Приложение ACR Guidance объединяет клинические рекомендации:"
+      ],
+      "bullets": [
+        "Contrast Reaction — реакции на контраст;",
+        "Reporting and Data Systems (RADS) — в т.ч. O-RADS US;",
+        "Incidental Findings (IF) — случайные находки при лучевой диагностике."
+      ],
+      "image": "/clinical-atlas/orads-referat/acr-guidance-home.png",
+      "imageCaption": "Главный экран GUIDANCE: Contrast Reaction, RADS, Incidental Findings"
+    },
+    {
+      "id": "principles",
+      "title": "2. Принципы оценки",
+      "paragraphs": [
+        "Алгоритм O-RADS US — последовательный дихотомический выбор: локализация → тип содержимого → морфология стенки/перегородок → солидный компонент → color score (IOTA). В ACR Guidance это breadcrumb: Ovarian/Adnexal или Extraovarian → Lesion → детализация."
+      ],
+      "image": "/clinical-atlas/orads-referat/acr-guidance-rads.png"
+    },
+    {
+      "id": "localization",
+      "title": "2.1. Локализация",
+      "paragraphs": [
+        "Первый шаг: яичниковое (овариальное) vs экстраовариальное (паратубарная киста, гидросальпинкс, перитонеальное включение и др.). Для экстраовариальных — отдельная ветка риска."
+      ],
+      "wizardNodeIds": ["step1_localization", "step1_extraovarian"]
+    },
+    {
+      "id": "ovarian-content",
+      "title": "2.2. Тип содержимого",
+      "paragraphs": [
+        "Для яичникового образования: simple (анэхогенное, без внутренних структур) vs non-simple (перегородки, солидный компонент, неоднородное содержимое). На этом этапе — ЦДК для оценки васкуляризации."
+      ],
+      "wizardNodeIds": ["step2_menopause", "step2_lesion_class", "step2_physiological_size"]
+    },
+    {
+      "id": "lesion-morphology",
+      "title": "3. Морфология (Lesion)",
+      "paragraphs": [
+        "Классификация по внутренней стенке и перегородкам: simple vs non-simple."
+      ],
+      "wizardNodeIds": ["step3_locularity", "step3_simple_wall", "step3_simple_size"]
+    },
+    {
+      "id": "simple-cyst",
+      "title": "3.1. Простые кисты (Simple)",
+      "paragraphs": [
+        "Unilocular, анэхогенное, smooth wall, без solid и без кровотока при ЦДК. У женщин репродуктивного возраста — O-RADS 2 независимо от размера (с учётом менопаузы и порогов v2022 в калькуляторе)."
+      ],
+      "wizardNodeIds": ["step3_simple_wall", "step3_simple_size"]
+    },
+    {
+      "id": "nonsimple-cyst",
+      "title": "3.2. Non-simple кисты",
+      "paragraphs": [
+        "Внутренние эхосигналы (геморрагический компонент) и/или incomplete septation — тонкие неполные перегородки."
+      ],
+      "wizardNodeIds": ["step2_lesion_class"]
+    },
+    {
+      "id": "wall-septa",
+      "title": "3.3. Стенка и перегородки",
+      "paragraphs": [
+        "Для non-simple: smooth vs irregular inner wall/septum. Критический порог узловых утолщений — <3 мм vs ≥3 мм (solid / papillary projection)."
+      ],
+      "wizardNodeIds": [
+        "step3_unilocular_wall",
+        "step3_unilocular_irregular_nodule",
+        "step3_bilocular_wall",
+        "step3_multilocular_wall"
+      ]
+    },
+    {
+      "id": "solid-vascularity",
+      "title": "4. Солидный компонент и ЦДК",
+      "paragraphs": [
+        "Solid component повышает категорию риска. Оцениваются контур (smooth/irregular), эхогенность и color score (IOTA 1–4): от отсутствия кровотока до выраженной васкуляризации."
+      ],
+      "wizardNodeIds": [
+        "step4_solid_presence",
+        "step4_solid_height",
+        "step4_papillary_count",
+        "step4_solid_contour",
+        "step5_cystic_solid_cs",
+        "step5_multilocular_solid_cs",
+        "step5_dominant_solid_cs"
+      ]
+    },
+    {
+      "id": "categories",
+      "title": "5. Категории O-RADS 0–5",
+      "paragraphs": [
+        "Итог алгоритма — категория риска с диапазоном вероятности малигнизации (ROM) и рекомендацией по тактике."
+      ],
+      "wizardNodeIds": ["step0_technical", "step_modifier_ascites"]
+    },
+    {
+      "id": "categories-clinical",
+      "title": "5.1. Клиническое значение",
+      "paragraphs": [
+        "O-RADS 1–2 — как правило без онкологического наблюдения: физиология, simple cyst, classic benign (типичный дермоид, эндометриома, геморрагическая киста).",
+        "O-RADS 3 — низкий риск: динамика или консультация гинеколога (тонкие перегородки без выраженного кровотока).",
+        "O-RADS 4 — промежуточный риск: solid с кровотоком → онкогинеколог.",
+        "O-RADS 5 — высокий риск (≥50%): multilocular-solid с папиллями, выраженная васкуляризация, асцит/перитонеальные узелки."
+      ]
+    },
+    {
+      "id": "conclusion",
+      "title": "6. Заключение",
+      "paragraphs": [
+        "O-RADS US — стандартизированный инструмент для структурированного описания и количественной оценки риска. Последовательный алгоритм от локализации до ЦДК обеспечивает воспроизводимость между специалистами.",
+        "Интерактивный калькулятор с эталонными эхограммами облегчает применение в практике врача УЗД и акушера-гинеколога. В Sonogyn Pro: Wizard O-RADS US v2022 + данный учебный реферат."
+      ]
+    }
+  ],
+  "cases": [
+    {
+      "id": "case-01",
+      "number": 1,
+      "title": "Экстраовариальные кистозные образования",
+      "caption": "Однокамерные анэхогенные структуры у яичника — паратубарная киста, гидросальпинкс.",
+      "image": "/clinical-atlas/orads-referat/case-01.png",
+      "sectionId": "localization",
+      "wizardNodeIds": ["step1_extraovarian"]
+    },
+    {
+      "id": "case-02",
+      "number": 2,
+      "title": "Гидро-/гематосальпинкс",
+      "caption": "Тонкая стенка, неоднородное содержимое в просвете трубы.",
+      "image": "/clinical-atlas/orads-referat/case-02.png",
+      "sectionId": "localization",
+      "wizardNodeIds": ["step1_extraovarian"]
+    },
+    {
+      "id": "case-03",
+      "number": 3,
+      "title": "«Шестерёнчатый» признак",
+      "caption": "Трубчатая экстраовариальная структура со складчатым внутренним контуром.",
+      "image": "/clinical-atlas/orads-referat/case-03.png",
+      "sectionId": "localization"
+    },
+    {
+      "id": "case-04",
+      "number": 4,
+      "title": "Simple cyst + ЦДК",
+      "caption": "Простая однокамерная киста, кровоток в стенке/перегородках, измерения.",
+      "image": "/clinical-atlas/orads-referat/case-04.png",
+      "sectionId": "ovarian-content",
+      "wizardNodeIds": ["step2_lesion_class", "step3_simple_wall"]
+    },
+    {
+      "id": "case-05",
+      "number": 5,
+      "title": "Simple vs non-simple",
+      "caption": "Сравнение: simple; non-simple с эхосигналами; non-simple с incomplete septation и ЦДК.",
+      "image": "/clinical-atlas/orads-referat/case-05.png",
+      "sectionId": "nonsimple-cyst"
+    },
+    {
+      "id": "case-06",
+      "number": 6,
+      "title": "Типы внутренней стенки",
+      "caption": "Smooth; smooth с перегородками; irregular <3 мм; irregular с перегородками.",
+      "image": "/clinical-atlas/orads-referat/case-06.png",
+      "sectionId": "wall-septa",
+      "wizardNodeIds": ["step3_unilocular_wall", "step4_solid_height"]
+    },
+    {
+      "id": "case-07",
+      "number": 7,
+      "title": "Выраженная васкуляризация",
+      "caption": "Периферический и внутренний кровоток — паттерны O-RADS 4–5.",
+      "image": "/clinical-atlas/orads-referat/case-07.png",
+      "sectionId": "solid-vascularity",
+      "wizardNodeIds": ["step5_cystic_solid_cs"]
+    },
+    {
+      "id": "case-08",
+      "number": 8,
+      "title": "Утолщённая стенка + кровоток",
+      "caption": "Неоднородная стенка, периферический кровоток — оценка solid component.",
+      "image": "/clinical-atlas/orads-referat/case-08.png",
+      "sectionId": "solid-vascularity"
+    },
+    {
+      "id": "case-09",
+      "number": 9,
+      "title": "Irregular unilocular",
+      "caption": "Кистозно-солидное с неровным контуром — переходная категория риска.",
+      "image": "/clinical-atlas/orads-referat/case-09.png",
+      "sectionId": "solid-vascularity",
+      "wizardNodeIds": ["step3_unilocular_irregular_nodule"]
+    },
+    {
+      "id": "case-10",
+      "number": 10,
+      "title": "Папиллярные разрастания",
+      "caption": "Multilocular с выраженными papillary projections — O-RADS 5.",
+      "image": "/clinical-atlas/orads-referat/case-10.png",
+      "sectionId": "solid-vascularity",
+      "wizardNodeIds": ["step4_papillary_count"]
+    },
+    {
+      "id": "case-11",
+      "number": 11,
+      "title": "Сложное многокомпонентное образование",
+      "caption": "Solid irregular, неоднородная стенка, внутренние перегородки.",
+      "image": "",
+      "sectionId": "solid-vascularity"
+    }
+  ],
+  "categories": [
+    {
+      "category": "O-RADS 0",
+      "risk": "Не определён",
+      "description": "Неполная / неадекватная визуализация",
+      "management": "Повторное УЗИ, МРТ, другой специалист"
+    },
+    {
+      "category": "O-RADS 1",
+      "risk": "0%",
+      "description": "Норма / физиология (фолликул, жёлтое тело)",
+      "management": "Рутинное наблюдение"
+    },
+    {
+      "category": "O-RADS 2",
+      "risk": "<1%",
+      "description": "Почти наверняка доброкачественное",
+      "management": "Наблюдение по показаниям"
+    },
+    {
+      "category": "O-RADS 3",
+      "risk": "1–<10%",
+      "description": "Низкий риск",
+      "management": "Динамика / гинеколог"
+    },
+    {
+      "category": "O-RADS 4",
+      "risk": "10–<50%",
+      "description": "Промежуточный риск",
+      "management": "Онкогинеколог"
+    },
+    {
+      "category": "O-RADS 5",
+      "risk": "≥50%",
+      "description": "Высокий риск",
+      "management": "Онкогинеколог, стадирование"
+    }
+  ]
+}

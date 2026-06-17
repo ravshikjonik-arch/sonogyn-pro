@@ -54,7 +54,15 @@ export default function RootLayout({
     <html
       lang="ru"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var m=localStorage.getItem("clinical-theme-mode");var d=m==="dark"||(m!=="light"&&window.matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.setAttribute("data-theme",d?"dark":"light");document.documentElement.classList.toggle("dark",d);if(m==="light"||m==="dark")document.documentElement.setAttribute("data-theme-forced",m);}catch(e){}})();`,
+          }}
+        />
+      </head>
       <body className="min-h-full flex flex-col">
         <ThemeProvider>
           <SessionProvider>

@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Синхронизация Tailwind dark: с переключателем темы (data-theme + класс .dark) */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   /* Единая сине-бирюзовая рабочая зона (ocean workspace) */
   --clinical-canvas: #dceef7;

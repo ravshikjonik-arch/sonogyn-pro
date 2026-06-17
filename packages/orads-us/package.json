@@ -1,0 +1,30 @@
+{
+  "name": "@repo/orads-us",
+  "version": "1.0.0",
+  "private": true,
+  "description": "O-RADS US v2022 decision tree, results, and i18n locale bundles (no UI).",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./locales/ru": "./locales/ru.json",
+    "./locales/en": "./locales/en.json",
+    "./locales/es": "./locales/es.json",
+    "./locales/fr": "./locales/fr.json",
+    "./locales/ar": "./locales/ar.json",
+    "./education": "./education/index.ts",
+    "./education/referat.ru": "./education/referat.ru.json",
+    "./education/referat.en": "./education/referat.en.json",
+    "./education/referatImageMap": "./education/referatImageMap.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "echo \"skip\"",
+    "test": "node --import tsx --test src/**/*.test.ts education/**/*.test.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "tsx": "^4.19.4",
+    "typescript": "^5.9.2"
+  }
+}

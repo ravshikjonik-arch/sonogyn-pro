@@ -1,6 +1,6 @@
 -- SonoGyn Pro · все миграции (порядок по имени файла)
 -- Supabase Dashboard → SQL Editor → вставить и Run
--- Сгенерировано: 2026-06-09T06:27:45.590Z
+-- Сгенерировано: 2026-06-17T07:07:17.234Z
 
 -- ========== 20260207180000_clinical_cases.sql ==========
 -- Clinical cases social layer + Supabase Realtime enablement
@@ -1257,6 +1257,185 @@ begin
   end if;
 end $migration$;
 
+-- ========== 20260608120000_security_hardening 2.sql ==========
+-- Security hardening (safe: skips sections if tables not created yet).
+-- Run anytime. After clinical_copilot migration, re-run to apply series/images policies.
+
+-- ========== profiles (only if table exists) ==========
+do $security$
+begin
+  if to_regclass('public.profiles') is not null then
+    execute 'drop policy if exists profiles_select_roster on public.profiles';
+
+    execute $fn$
+      create or replace function public.get_doctor_display_names(p_user_ids uuid[])
+      returns table (id uuid, full_name text)
+      language sql
+      security definer
+      set search_path = public
+      stable
+      as $body$
+        select p.id, coalesce(nullif(trim(p.full_name), ''), 'Врач') as full_name
+        from public.profiles p
+        where p.id = any (p_user_ids)
+          and auth.uid() is not null;
+      $body$;
+    $fn$;
+
+    execute 'revoke all on function public.get_doctor_display_names(uuid[]) from public';
+    execute 'grant execute on function public.get_doctor_display_names(uuid[]) to authenticated';
+  end if;
+end
+$security$;
+
+-- ========== copilot series/images (only if tables exist) ==========
+do $security$
+begin
+  if to_regclass('public.ultrasound_series') is not null then
+    execute 'drop policy if exists series_select_own on public.ultrasound_series';
+    execute 'drop policy if exists series_insert_own on public.ultrasound_series';
+    execute 'drop policy if exists series_update_own on public.ultrasound_series';
+    execute 'drop policy if exists series_delete_own on public.ultrasound_series';
+    execute 'drop policy if exists series_select_own_study on public.ultrasound_series';
+    execute 'drop policy if exists series_insert_own_study on public.ultrasound_series';
+    execute 'drop policy if exists series_update_own_study on public.ultrasound_series';
+    execute 'drop policy if exists series_delete_own_study on public.ultrasound_series';
+
+    execute $pol$
+      create policy series_select_own_study on public.ultrasound_series
+        for select to authenticated
+        using (
+          exists (
+            select 1 from public.studies s
+            where s.id = ultrasound_series.study_id and s.created_by = auth.uid()
+          )
+        )
+    $pol$;
+
+    execute $pol$
+      create policy series_insert_own_study on public.ultrasound_series
+        for insert to authenticated
+        with check (
+          created_by = auth.uid()
+          and exists (
+            select 1 from public.studies s
+            where s.id = study_id and s.created_by = auth.uid()
+          )
+        )
+    $pol$;
+
+    execute $pol$
+      create policy series_update_own_study on public.ultrasound_series
+        for update to authenticated
+        using (
+          exists (
+            select 1 from public.studies s
+            where s.id = ultrasound_series.study_id and s.created_by = auth.uid()
+          )
+        )
+    $pol$;
+
+    execute $pol$
+      create policy series_delete_own_study on public.ultrasound_series
+        for delete to authenticated
+        using (
+          exists (
+            select 1 from public.studies s
+            where s.id = ultrasound_series.study_id and s.created_by = auth.uid()
+          )
+        )
+    $pol$;
+  end if;
+
+  if to_regclass('public.ultrasound_images') is not null then
+    execute 'drop policy if exists images_select_own on public.ultrasound_images';
+    execute 'drop policy if exists images_insert_own on public.ultrasound_images';
+    execute 'drop policy if exists images_update_own on public.ultrasound_images';
+    execute 'drop policy if exists images_delete_own on public.ultrasound_images';
+    execute 'drop policy if exists images_select_own_study on public.ultrasound_images';
+    execute 'drop policy if exists images_insert_own_study on public.ultrasound_images';
+    execute 'drop policy if exists images_update_own_study on public.ultrasound_images';
+    execute 'drop policy if exists images_delete_own_study on public.ultrasound_images';
+
+    execute $pol$
+      create policy images_select_own_study on public.ultrasound_images
+        for select to authenticated
+        using (
+          exists (
+            select 1
+            from public.ultrasound_series ser
+            join public.studies s on s.id = ser.study_id
+            where ser.id = ultrasound_images.series_id and s.created_by = auth.uid()
+          )
+        )
+    $pol$;
+
+    execute $pol$
+      create policy images_insert_own_study on public.ultrasound_images
+        for insert to authenticated
+        with check (
+          created_by = auth.uid()
+          and exists (
+            select 1
+            from public.ultrasound_series ser
+            join public.studies s on s.id = ser.study_id
+            where ser.id = series_id and s.created_by = auth.uid()
+          )
+        )
+    $pol$;
+
+    execute $pol$
+      create policy images_update_own_study on public.ultrasound_images
+        for update to authenticated
+        using (
+          exists (
+            select 1
+            from public.ultrasound_series ser
+            join public.studies s on s.id = ser.study_id
+            where ser.id = ultrasound_images.series_id and s.created_by = auth.uid()
+          )
+        )
+    $pol$;
+
+    execute $pol$
+      create policy images_delete_own_study on public.ultrasound_images
+        for delete to authenticated
+        using (
+          exists (
+            select 1
+            from public.ultrasound_series ser
+            join public.studies s on s.id = ser.study_id
+            where ser.id = ultrasound_images.series_id and s.created_by = auth.uid()
+          )
+        )
+    $pol$;
+  end if;
+end
+$security$;
+
+-- ========== doctor chat media (only if chat table exists) ==========
+do $security$
+begin
+  if to_regclass('public.doctor_chat_messages') is not null then
+    execute 'drop policy if exists doctor_chat_media_select on storage.objects';
+    execute $pol$
+      create policy doctor_chat_media_select on storage.objects
+        for select to authenticated
+        using (
+          bucket_id = 'doctor-chat-media'
+          and (
+            (storage.foldername(name))[1] = auth.uid()::text
+            or exists (
+              select 1 from public.doctor_chat_messages m
+              where m.media_storage_path = name
+            )
+          )
+        )
+    $pol$;
+  end if;
+end
+$security$;
+
 -- ========== 20260608120000_security_hardening.sql ==========
 -- Security hardening (safe: skips sections if tables not created yet).
 -- Run anytime. After clinical_copilot migration, re-run to apply series/images policies.
@@ -1435,3 +1614,130 @@ begin
   end if;
 end
 $security$;
+
+-- ========== 20260614120000_user_metadata_lookup.sql ==========
+-- Быстрый lookup email → user id (замена auth.admin.listUsers в sign-up).
+-- Синхронизация из auth.users через trigger.
+
+CREATE TABLE IF NOT EXISTS public.user_metadata (
+  id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+  email TEXT UNIQUE NOT NULL,
+  phone TEXT UNIQUE,
+  full_name TEXT,
+  specialty TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_user_metadata_email ON public.user_metadata(email);
+CREATE INDEX IF NOT EXISTS idx_user_metadata_phone ON public.user_metadata(phone);
+
+ALTER TABLE public.user_metadata ENABLE ROW LEVEL SECURITY;
+
+-- Только service role / backend (RLS без policies для anon/authenticated).
+REVOKE ALL ON public.user_metadata FROM anon, authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.user_metadata TO service_role;
+
+CREATE OR REPLACE FUNCTION public.handle_auth_user_metadata_sync()
+RETURNS trigger
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+BEGIN
+  IF NEW.email IS NULL OR trim(NEW.email) = '' THEN
+    RETURN NEW;
+  END IF;
+
+  INSERT INTO public.user_metadata (id, email, phone, full_name, specialty, updated_at)
+  VALUES (
+    NEW.id,
+    lower(trim(NEW.email)),
+    NEW.phone,
+    COALESCE(NEW.raw_user_meta_data->>'full_name', ''),
+    COALESCE(NEW.raw_user_meta_data->>'specialization', NEW.raw_user_meta_data->>'specialty', ''),
+    NOW()
+  )
+  ON CONFLICT (id) DO UPDATE SET
+    email = EXCLUDED.email,
+    phone = EXCLUDED.phone,
+    full_name = EXCLUDED.full_name,
+    specialty = EXCLUDED.specialty,
+    updated_at = NOW();
+
+  RETURN NEW;
+END;
+$$;
+
+DROP TRIGGER IF EXISTS on_auth_user_metadata_sync ON auth.users;
+CREATE TRIGGER on_auth_user_metadata_sync
+  AFTER INSERT OR UPDATE OF email, phone, raw_user_meta_data ON auth.users
+  FOR EACH ROW
+  EXECUTE FUNCTION public.handle_auth_user_metadata_sync();
+
+-- Backfill существующих пользователей (идемпотентно).
+INSERT INTO public.user_metadata (id, email, phone, full_name, specialty, updated_at)
+SELECT
+  u.id,
+  lower(trim(u.email)),
+  u.phone,
+  COALESCE(u.raw_user_meta_data->>'full_name', ''),
+  COALESCE(u.raw_user_meta_data->>'specialization', u.raw_user_meta_data->>'specialty', ''),
+  NOW()
+FROM auth.users u
+WHERE u.email IS NOT NULL AND trim(u.email) <> ''
+ON CONFLICT (id) DO UPDATE SET
+  email = EXCLUDED.email,
+  phone = EXCLUDED.phone,
+  full_name = EXCLUDED.full_name,
+  specialty = EXCLUDED.specialty,
+  updated_at = NOW();
+
+-- ========== 20260616120000_profile_birth_year.sql ==========
+-- Год рождения врача (обязательное поле при регистрации / dev-login).
+
+alter table public.profiles
+  add column if not exists birth_year smallint
+  check (birth_year is null or (birth_year >= 1900 and birth_year <= 2100));
+
+alter table public.users
+  add column if not exists birth_year smallint
+  check (birth_year is null or (birth_year >= 1900 and birth_year <= 2100));
+
+create or replace function public.handle_new_user_profile()
+returns trigger language plpgsql security definer set search_path = public as $$
+declare
+  fn text := coalesce(nullif(trim(coalesce(new.raw_user_meta_data->>'full_name', '')), ''), '');
+  sp text := nullif(trim(coalesce(new.raw_user_meta_data->>'specialization', '')), '');
+  ins text := nullif(trim(coalesce(new.raw_user_meta_data->>'institution', '')), '');
+  by_raw text := nullif(trim(coalesce(new.raw_user_meta_data->>'birth_year', '')), '');
+  by_val smallint := null;
+begin
+  if by_raw ~ '^\d{4}$' then
+    by_val := by_raw::smallint;
+  end if;
+
+  insert into public.profiles (id, full_name, specialization, institution, birth_year, trial_ends_at)
+  values (new.id, fn, sp, ins, by_val, now() + interval '7 days')
+  on conflict (id) do nothing;
+
+  insert into public.users (id, email, full_name, specialization, institution, birth_year)
+  values (
+    new.id,
+    coalesce(new.email, ''),
+    fn,
+    sp,
+    ins,
+    by_val
+  )
+  on conflict (id) do update set
+    email = excluded.email,
+    full_name = case when excluded.full_name <> '' then excluded.full_name else public.users.full_name end,
+    specialization = coalesce(excluded.specialization, public.users.specialization),
+    institution = coalesce(excluded.institution, public.users.institution),
+    birth_year = coalesce(excluded.birth_year, public.users.birth_year),
+    updated_at = now();
+
+  return new;
+end;
+$$;

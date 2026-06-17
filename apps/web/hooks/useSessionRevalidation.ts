@@ -5,12 +5,13 @@ import { useEffect, useRef } from "react";
 
 import { fetchAuthSession } from "@/lib/auth/client-auth-api";
 import { useSupabase } from "@/app/providers";
+import { getMaxOfflineSessionMs } from "@/lib/auth/dev-auth-mode";
 import { markSessionAnchorNow, readSessionAnchor } from "@/lib/security/session-anchor";
 import { wipeWebClinicalLocalData } from "@/lib/security/wipe-clinical-local";
 
 const STORAGE_KEY = "sonogyn_last_online_verify_v1";
-/** Мед. данные: принудительная онлайн-проверка раз в 24 ч */
-export const MAX_OFFLINE_SESSION_MS = 24 * 60 * 60 * 1000;
+/** Мед. данные: принудительная онлайн-проверка (24 ч prod, до 90 дней в DEV_AUTH_MODE). */
+export const MAX_OFFLINE_SESSION_MS = getMaxOfflineSessionMs();
 
 function readLastVerified(): number {
   if (typeof window === "undefined") return Date.now();

@@ -11,7 +11,8 @@ import {
   Stethoscope,
 } from "lucide-react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import { patchUrl } from "@/lib/navigation/patch-url";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
@@ -49,7 +50,6 @@ function loadProgress(): Record<string, boolean> {
 }
 
 export function BasicCourseWidget({ variant = "full", className, initialLectureId }: BasicCourseWidgetProps) {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const lectureFromUrl = searchParams.get("lecture") ?? initialLectureId;
   const tabFromUrl = (searchParams.get("tab") as CourseTab | null) ?? "program";
@@ -87,12 +87,9 @@ export function BasicCourseWidget({ variant = "full", className, initialLectureI
     (lectureId: string, tab: CourseTab) => {
       setActiveId(lectureId);
       setActiveTab(tab);
-      router.replace(
-        `/library/basic-course?lecture=${encodeURIComponent(lectureId)}&tab=${tab}`,
-        { scroll: false },
-      );
+      patchUrl("/library/basic-course", { lecture: lectureId, tab });
     },
-    [router],
+    [],
   );
 
   const toggleTopic = useCallback((lectureId: string, topicId: string) => {

@@ -17,6 +17,7 @@ export const ONCO_CORE_EVIDENCE: EvidenceEntry[] = [
       label: "ACR O-RADS US v2022",
       organization: "ACR",
       year: 2022,
+      pmid: "35276085",
     },
     tags: ["O-RADS", "придатки", "яичник", "категория", "risk"],
     relatedLinks: [
@@ -96,7 +97,7 @@ export const ONCO_CORE_EVIDENCE: EvidenceEntry[] = [
     excerpt:
       "IOTA benign simple rules identify low-risk adnexal masses when applied by trained operators.",
     tier: 1,
-    source: { label: "IOTA Simple Rules / consensus 2026", organization: "IOTA", year: 2026 },
+    source: { label: "IOTA Simple Rules / consensus 2026", organization: "IOTA", year: 2026, pmid: "21481708" },
     tags: ["IOTA", "Simple Rules", "B-features", "benign"],
     relatedLinks: [{ label: "O-RADS Pro", href: "/calculators/o-rads" }],
   },
@@ -111,7 +112,7 @@ export const ONCO_CORE_EVIDENCE: EvidenceEntry[] = [
     excerpt:
       "IOTA malignant simple rules identify adnexal masses requiring specialist evaluation.",
     tier: 1,
-    source: { label: "IOTA Simple Rules", organization: "IOTA", year: 2026 },
+    source: { label: "IOTA Simple Rules", organization: "IOTA", year: 2026, pmid: "23896425" },
     tags: ["IOTA", "M-features", "malignant", "papillary", "ascites"],
     relatedLinks: [{ label: "O-RADS Pro", href: "/calculators/o-rads" }],
   },

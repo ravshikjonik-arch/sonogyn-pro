@@ -43,6 +43,12 @@ export default function LibraryScreen({ navigation }: LibraryTabScreenProps) {
       onPress: () => navigation.navigate("GynecologyCalc", { initialPage: "gyn_uterus_clinic" }),
     },
     {
+      id: "orads-guide",
+      title: "O-RADS · руководство",
+      sub: "Реферат ACR v2022: алгоритм и клинические случаи",
+      onPress: () => navigation.navigate("ORADSGuide"),
+    },
+    {
       id: "orads",
       title: "O-RADS Library",
       sub: "Дерево решений и протоколы",

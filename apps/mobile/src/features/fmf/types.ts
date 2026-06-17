@@ -39,20 +39,34 @@ export type FirstTrimesterInput = {
 };
 
 export type SecondThirdInput = {
+  /** Шапка протокола (шаблон Якубова) */
+  patientName?: string;
+  patientAge?: number;
+  examDate?: string;
+  lmpDate?: string;
   gaWeeksByLmp?: number;
   gaDaysByLmp?: number;
+  fetalPositionStable?: boolean;
   fetusPresentation?: "cephalic" | "breech" | "transverse";
   bpd?: number;
   ofd?: number;
   hc?: number;
   ac?: number;
   fl?: number;
+  hlMm?: number;
+  ulMm?: number;
+  tlMm?: number;
+  footLengthMm?: number;
+  fetalLengthCm?: number;
+  efwPercentile?: number;
   fhr?: number;
   lateralVentriclesMm?: number;
   cerebellumMm?: number;
   cisternaMagnaMm?: number;
   nasalBoneSeen?: boolean;
   nasalBoneLengthMm?: number;
+  prenasalThicknessMm?: number;
+  tptNbRatio?: string;
   corpusCallosumLengthMm?: number;
   opticTractThicknessMm?: number;
   cerebellumCrMm?: number;
@@ -63,11 +77,17 @@ export type SecondThirdInput = {
   stomachSeen?: boolean;
   bladderSeen?: boolean;
   placentaDistanceToOsCm?: number;
+  placentaLocation?: "anterior" | "posterior" | "lateral" | "fundal";
   /** Толщина плаценты, мм — Прил. 34. */
   placentaThicknessMm?: number;
   afiCm?: number;
+  maxVerticalPocketCm?: number;
   cervixLengthMm?: number;
   uterinePiMean?: number;
+  uterinePiRight?: number;
+  uterinePiLeft?: number;
+  fetalSex?: "female" | "male" | "uncertain";
+  visualizationQuality?: "satisfactory" | "limited" | "poor";
   uaPi?: number;
   uaRi?: number;
   mcaPi?: number;

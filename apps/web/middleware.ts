@@ -74,6 +74,30 @@ export default async function middleware(request: NextRequest) {
 
   const { supabase, response } = await updateSession(request);
 
+  if (pathname === "/login" || pathname === "/register") {
+    if (!isDevSkipAuthEnabled()) {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (user) {
+        const redirectedFrom = request.nextUrl.searchParams.get("redirectedFrom");
+        const dest =
+          redirectedFrom && redirectedFrom.startsWith("/") && !redirectedFrom.startsWith("//")
+            ? redirectedFrom
+            : "/app";
+        const autoUrl = request.nextUrl.clone();
+        autoUrl.pathname = dest;
+        autoUrl.search = "";
+        const autoResponse = NextResponse.redirect(autoUrl);
+        response.cookies.getAll().forEach((cookie) => {
+          autoResponse.cookies.set(cookie);
+        });
+        return autoResponse;
+      }
+    }
+    return response;
+  }
+
   const isProtectedRoute = roots.some((root) => pathname === root || pathname.startsWith(`${root}/`));
 
   if (isProtectedRoute) {
@@ -125,6 +149,8 @@ export default async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     "/api/:path*",
+    "/login",
+    "/register",
     "/app",
     "/app/:path*",
     "/calculators",

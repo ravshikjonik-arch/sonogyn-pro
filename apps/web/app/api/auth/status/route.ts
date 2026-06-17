@@ -79,6 +79,12 @@ export async function GET(req: Request) {
         "Имя бота (@username) должно совпадать с NEXT_PUBLIC_TELEGRAM_BOT_USERNAME",
         "После добавления токена — Redeploy на Vercel",
       ],
+      googleOAuth: [
+        "Google Cloud Console → APIs & Services → Credentials → OAuth 2.0 Client",
+        "Authorized redirect URI: https://YOUR_PROJECT.supabase.co/auth/v1/callback",
+        "Supabase → Authentication → Providers → Google → включить, вставить Client ID и Secret",
+        "Supabase → URL Configuration: Site URL = NEXT_PUBLIC_APP_URL, Redirect URLs = …/auth/callback",
+      ],
       phoneSms: [
         "РФ: SMS.ru — SMSRU_API_ID в Vercel + SMS_PROVIDER=smsru (без Twilio)",
         "Supabase Phone + Twilio — только если Twilio доступен в вашем регионе",

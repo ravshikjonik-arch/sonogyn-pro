@@ -8,6 +8,7 @@ import {
   ClipboardList,
   Brain,
   Calculator,
+  Baby,
   FileText,
   HeartPulse,
   Library,
@@ -38,6 +39,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
 import { MockupNavSection } from "@/components/clinical/MockupNavSection";
+import { ClinicalToolSearchTrigger } from "@/components/clinical/ClinicalToolSearchDialog";
 import { TelegramChannelLink } from "@/components/clinical/TelegramChannelLink";
 import { ThemeToggle } from "@/components/clinical/theme-toggle";
 import { ClinicalVoiceDock } from "@/components/voice/ClinicalVoiceDock";
@@ -51,22 +53,43 @@ import {
   type DoctorCabinetLabel,
 } from "@/lib/auth/doctor-display";
 
-const nav = [
-  { href: "/app", label: "Рабочий стол", icon: LayoutDashboard },
-  { href: "/cases", label: "Чат врачей", icon: MessageCircle },
-  { href: "/dashboard", label: "Дашборд", icon: HeartPulse },
-  { href: "/patients", label: "Пациенты", icon: Users },
-  { href: "/calculators", label: "Калькуляторы", icon: Calculator },
-  { href: "/assistant", label: "Помощник врача", icon: HandHeart },
-  { href: "/nosologies", label: "Нозологии", icon: ClipboardList },
-  { href: "/guidelines", label: "КР и приказы", icon: FileText },
-  { href: "/evidence", label: "УЗИ · база", icon: BookMarked },
-  { href: "/reference", label: "Клин. нормы", icon: BookOpen },
-  { href: "/library", label: "Библиотека", icon: Library },
-  { href: "/idea-deep-endometriosis", label: "IDEA · эндометриоз", icon: ScanLine },
-  { href: "/workspace", label: "AI-зона", icon: Brain },
-  { href: "/paywall", label: "PRO", icon: Sparkles },
-  { href: "/profile", label: "Профиль", icon: UserRound },
+const navGroups: { title: string; items: { href: string; label: string; icon: typeof MessageCircle }[] }[] = [
+  {
+    title: "Сообщество",
+    items: [
+      { href: "/cases", label: "Чат врачей", icon: MessageCircle },
+      { href: "/app", label: "Рабочий стол", icon: LayoutDashboard },
+    ],
+  },
+  {
+    title: "Приём",
+    items: [
+      { href: "/calculators/ob", label: "Срок беременности", icon: Baby },
+      { href: "/calculators", label: "Калькуляторы", icon: Calculator },
+      { href: "/assistant", label: "Помощник врача", icon: HandHeart },
+      { href: "/nosologies", label: "Нозологии", icon: ClipboardList },
+    ],
+  },
+  {
+    title: "Знания",
+    items: [
+      { href: "/guidelines", label: "КР и приказы", icon: FileText },
+      { href: "/evidence", label: "УЗИ · база", icon: BookMarked },
+      { href: "/reference", label: "Клин. нормы", icon: BookOpen },
+      { href: "/library", label: "Библиотека", icon: Library },
+    ],
+  },
+  {
+    title: "Ещё",
+    items: [
+      { href: "/patients", label: "Пациенты", icon: Users },
+      { href: "/dashboard", label: "Дашборд", icon: HeartPulse },
+      { href: "/idea-deep-endometriosis", label: "IDEA · эндометриоз", icon: ScanLine },
+      { href: "/workspace", label: "AI-зона", icon: Brain },
+      { href: "/paywall", label: "PRO", icon: Sparkles },
+      { href: "/profile", label: "Профиль", icon: UserRound },
+    ],
+  },
 ];
 
 export function ClinicalShell({
@@ -184,35 +207,42 @@ export function ClinicalShell({
         </button>
       </div>
       <Separator />
-      <nav className="flex flex-1 flex-col gap-0.5 overflow-y-auto p-3">
-        {nav.map((item) => {
-          const Icon = item.icon;
-          const active =
-            item.href === "/workspace"
-              ? pathname.startsWith("/workspace")
-              : item.href === "/cases"
-                ? pathname === "/cases" ||
-                  pathname.startsWith("/cases/") ||
-                  pathname === "/community"
-                : pathname === item.href || pathname.startsWith(`${item.href}/`);
+      <nav className="flex flex-1 flex-col gap-3 overflow-y-auto p-3">
+        {navGroups.map((group) => (
+          <div key={group.title} className="space-y-0.5">
+            <p className="px-3 pb-1 text-[10px] font-bold uppercase tracking-wider text-[var(--clinical-foreground-muted)]">
+              {group.title}
+            </p>
+            {group.items.map((item) => {
+              const Icon = item.icon;
+              const active =
+                item.href === "/workspace"
+                  ? pathname.startsWith("/workspace")
+                  : item.href === "/cases"
+                    ? pathname === "/cases" ||
+                      pathname.startsWith("/cases/") ||
+                      pathname === "/community"
+                    : pathname === item.href || pathname.startsWith(`${item.href}/`);
 
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={() => setMobileOpen(false)}
-              className={cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200",
-                active
-                  ? "sonogyn-nav-active text-[var(--clinical-primary-deep)]"
-                  : "text-[var(--clinical-foreground-muted)] hover:bg-black/[0.04] hover:text-[var(--clinical-foreground)]",
-              )}
-            >
-              <Icon className="h-4 w-4 shrink-0 opacity-80" />
-              {item.label}
-            </Link>
-          );
-        })}
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMobileOpen(false)}
+                  className={cn(
+                    "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200",
+                    active
+                      ? "sonogyn-nav-active text-[var(--clinical-primary-deep)]"
+                      : "text-[var(--clinical-foreground-muted)] hover:bg-black/[0.04] hover:text-[var(--clinical-foreground)]",
+                  )}
+                >
+                  <Icon className="h-4 w-4 shrink-0 opacity-80" />
+                  {item.label}
+                </Link>
+              );
+            })}
+          </div>
+        ))}
         <MockupNavSection onNavigate={() => setMobileOpen(false)} />
 
         {showAdmin ? (
@@ -281,6 +311,7 @@ export function ClinicalShell({
               Federated learning opt-out · Audit stream enabled (stub)
             </span>
           </div>
+          <ClinicalToolSearchTrigger className="hidden sm:flex" />
           <ThemeToggle />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

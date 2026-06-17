@@ -1,6 +1,7 @@
 import {
   MessageCircle,
   Brain,
+  Baby,
   Calculator,
   FileText,
   GraduationCap,
@@ -15,6 +16,8 @@ import {
 import Link from "next/link";
 
 import { loadDoctorCabinetLabelForSession } from "@/lib/auth/load-doctor-profile";
+import { AppHomeActions } from "@/components/clinical/AppHomeActions";
+import { ObCalcQuickWidget } from "@/components/calculators/ob/ObCalcQuickWidget";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -35,6 +38,14 @@ const tiles = [
     icon: HandHeart,
     badge: "Маршрут",
     accentBar: "bg-gradient-to-r from-rose-600 to-pink-500",
+  },
+  {
+    title: "Калькулятор расчёта срока беременности",
+    description: "ПМП, УЗИ, КТР, ЭКО, фетометрия, декрет — отдельный модуль. Поиск: срок, ПДР, ПМП.",
+    href: "/calculators/ob",
+    icon: Baby,
+    badge: "Срок",
+    accentBar: "bg-gradient-to-r from-teal-600 to-cyan-500",
   },
   {
     title: "Калькуляторы",
@@ -138,48 +149,25 @@ export default async function CommandCenterPage() {
                 ? "Персональный рабочий стол: калькуляторы, 3D, КР МЗ РФ и кейсы — один клик до инструмента."
                 : "Калькуляторы, 3D, КР МЗ РФ и кейсы — без «каши» в меню. Укажите ФИО в профиле или при регистрации."}
             </p>
-            <div className="flex flex-wrap gap-3 pt-2">
-              <Button asChild className="sonogyn-cta-glow">
-                <Link href="/calculators">Открыть калькуляторы</Link>
-              </Button>
-              <Button variant="secondary" asChild>
-                <Link href="/cases">Новый кейс</Link>
-              </Button>
-            </div>
+            <AppHomeActions />
           </div>
         </header>
 
         <section className="sonogyn-glass-card sonogyn-enter sonogyn-enter-delay-1 flex flex-wrap items-center gap-3 rounded-2xl p-4 sm:gap-4 sm:p-5">
           <div className="flex items-center gap-2 text-sm font-semibold text-[var(--clinical-foreground)]">
             <Zap className="h-4 w-4 text-[var(--clinical-primary)]" />
-            Быстрый старт смены
+            Быстрый старт
           </div>
-          {[
-            { href: "/assistant/gynecology", label: "Помощник АГ" },
-            { href: "/assistant/fmf", label: "FMF · I скрининг" },
-            { href: "/calculators/o-rads", label: "O-RADS Pro" },
-            { href: "/calculators/bi-rads", label: "BI-RADS US" },
-            { href: "/calculators/endometrium", label: "Эндометрий" },
-            { href: "/calculators/cervical-length", label: "CL шейки" },
-            { href: "/calculators/figo", label: "FIGO" },
-            { href: "/calculators/elastography", label: "Эластография" },
-            { href: "/mockups", label: "Макеты" },
-            { href: "/uterus-3d", label: "Макет матки" },
-            { href: "/ovary-atlas", label: "Макет яичника" },
-            { href: "/breast-3d", label: "Макет МЖ" },
-            { href: "/guidelines", label: "КР МЗ РФ" },
-            { href: "/library/basic-course", label: "ISUOG курс" },
-            { href: "/cases/new", label: "Новый кейс" },
-          ].map((link) => (
-            <Button key={link.href} variant="outline" size="sm" className="rounded-full" asChild>
-              <Link href={link.href}>{link.label}</Link>
-            </Button>
-          ))}
+          <p className="text-sm text-[var(--clinical-foreground-muted)]">
+            Нажмите «Поиск» (⌘K) — срок, ПДР, O-RADS, чат…
+          </p>
           <span className="ml-auto hidden items-center gap-2 text-xs text-[var(--clinical-foreground-muted)] sm:flex">
             <span className="sonogyn-live-dot" aria-hidden />
             Модули online · dev
           </span>
         </section>
+
+        <ObCalcQuickWidget compact />
 
         <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {tiles.map((tile, index) => {

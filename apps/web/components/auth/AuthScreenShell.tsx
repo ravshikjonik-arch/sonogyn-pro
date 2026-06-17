@@ -65,7 +65,7 @@ export function AuthScreenShell({
       ) : null}
 
       <Tabs value={tab} onValueChange={handleTabChange} className="w-full">
-        <TabsList className="mb-6 grid w-full grid-cols-3 rounded-2xl bg-slate-100 p-1 dark:bg-slate-900">
+        <TabsList className="mb-6 grid w-full grid-cols-3 rounded-2xl bg-[var(--clinical-muted)] p-1">
           <TabsTrigger value="email" className="rounded-xl text-xs sm:text-sm">
             📧 Почта
           </TabsTrigger>
@@ -96,7 +96,7 @@ export function AuthScreenShell({
 }
 
 export const authInputClass =
-  "mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-950 outline-none transition focus:border-[var(--clinical-primary)] focus:ring-4 focus:ring-[var(--clinical-ring)] dark:bg-slate-950 dark:text-white";
+  "mt-2 w-full rounded-2xl border border-[var(--clinical-border)] bg-[var(--clinical-card)] px-4 py-3 text-[var(--clinical-foreground)] outline-none transition focus:border-[var(--clinical-primary)] focus:ring-4 focus:ring-[var(--clinical-ring)]";
 
 export function AuthMessage({ message, tone = "error" }: { message: string; tone?: "error" | "success" }) {
   const cls =

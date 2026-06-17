@@ -29,6 +29,7 @@ type SignUpBody = {
   email?: string;
   password?: string;
   full_name?: string;
+  birth_year?: number | string;
   specialization?: string;
   institution?: string;
   preferred_locale?: string;
@@ -100,6 +101,13 @@ export async function POST(req: Request) {
   const specialization = typeof body.specialization === "string" ? body.specialization.trim() : "";
   const institution = typeof body.institution === "string" ? body.institution.trim() : "";
   const preferred_locale = typeof body.preferred_locale === "string" ? body.preferred_locale.trim() : "";
+  const birthYearRaw = body.birth_year;
+  let birth_year: number | null = null;
+  if (typeof birthYearRaw === "number" && Number.isFinite(birthYearRaw)) {
+    birth_year = birthYearRaw;
+  } else if (typeof birthYearRaw === "string" && /^\d{4}$/.test(birthYearRaw.trim())) {
+    birth_year = Number.parseInt(birthYearRaw.trim(), 10);
+  }
 
   if (!email || !password) {
     return NextResponse.json({ error: "Укажите email и пароль." }, { status: 400 });
@@ -107,6 +115,14 @@ export async function POST(req: Request) {
 
   if (!full_name) {
     return NextResponse.json({ error: "Укажите имя и фамилию (полное имя специалиста)." }, { status: 400 });
+  }
+
+  if (!specialization) {
+    return NextResponse.json({ error: "Выберите специализацию из списка." }, { status: 400 });
+  }
+
+  if (!birth_year || birth_year < 1900 || birth_year > 2100) {
+    return NextResponse.json({ error: "Укажите год рождения (4 цифры, например 1988)." }, { status: 400 });
   }
 
   const wantsMobileSession = req.headers.get("x-sonogyn-client") === "mobile";
@@ -125,7 +141,8 @@ export async function POST(req: Request) {
         emailRedirectTo,
         data: {
           full_name,
-          ...(specialization ? { specialization } : {}),
+          specialization,
+          birth_year,
           ...(institution ? { institution } : {}),
           ...(preferred_locale ? { preferred_locale } : {}),
         },

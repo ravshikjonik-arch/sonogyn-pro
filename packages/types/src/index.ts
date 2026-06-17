@@ -21,6 +21,16 @@ import {
   validateSnilsChecksum,
   isPlainClinicalText,
 } from "./clinical-validation";
+import { ClinicalPreferencesSchema } from "./clinical-preferences";
+
+export {
+  ClinicalPreferencesSchema,
+  DEFAULT_SECOND_THIRD_PROTOCOL_TEMPLATE,
+  SecondThirdProtocolTemplateIdSchema,
+  parseClinicalPreferences,
+  type ClinicalPreferences,
+  type SecondThirdProtocolTemplateId,
+} from "./clinical-preferences";
 
 export {
   ClinicalPhoneSchema,
@@ -54,6 +64,8 @@ export const ProfileRowSchema = z.object({
   full_name: z.string().nullable(),
   institution: z.string().nullable(),
   specialization: z.string().nullable(),
+  birth_year: z.number().int().nullable().optional(),
+  clinical_preferences: z.record(z.unknown()).default({}),
   subscription_tier: SubscriptionTierSchema.default("free"),
   subscription_expires_at: z.string().datetime().nullable(),
   stripe_customer_id: z.string().nullable(),
@@ -69,8 +81,11 @@ export const UpdateProfileBodySchema = z
     full_name: z.string().max(240).optional(),
     institution: z.string().max(240).optional(),
     specialization: z.string().max(240).optional(),
+    birth_year: z.coerce.number().int().min(1900).max(2100).optional(),
     /** Relative path inside bucket `clinical-avatars`, must start with `{userId}/`. */
     avatar_storage_path: z.string().max(512).optional(),
+    /** Частичное обновление клинических настроек (merge в profiles.clinical_preferences). */
+    clinical_preferences: ClinicalPreferencesSchema.partial().optional(),
   })
   .strict();
 export type UpdateProfileBody = z.infer<typeof UpdateProfileBodySchema>;

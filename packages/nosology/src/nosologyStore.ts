@@ -1,4 +1,4 @@
-import { openDB, type DBSchema, type IDBPDatabase } from "idb";
+import { deleteDB, openDB, type DBSchema, type IDBPDatabase } from "idb";
 
 import seedData from "./data/nosologies.seed.json";
 import { searchNosologies } from "./search";
@@ -7,7 +7,8 @@ import type { Nosology, NosologySearchHit, NosologyStoreMeta } from "./types";
 const DB_NAME = "clinical-nosology-v1";
 const STORE = "nosologies";
 const META_STORE = "meta";
-const SEED_VERSION = "2026-05-20-v1";
+const DB_VERSION = 2;
+const SEED_VERSION = "2026-06-17-pubmed-v1";
 
 interface NosologyDB extends DBSchema {
   nosologies: {
@@ -32,15 +33,29 @@ function getDb(): Promise<IDBPDatabase<NosologyDB>> {
     return Promise.reject(new Error("nosologyStore доступен только в браузере"));
   }
   if (!dbPromise) {
-    dbPromise = openDB<NosologyDB>(DB_NAME, 1, {
-      upgrade(db) {
-        if (!db.objectStoreNames.contains(STORE)) {
-          db.createObjectStore(STORE, { keyPath: "id" });
-        }
-        if (!db.objectStoreNames.contains(META_STORE)) {
-          db.createObjectStore(META_STORE);
-        }
-      },
+    dbPromise = (async () => {
+      const open = () =>
+        openDB<NosologyDB>(DB_NAME, DB_VERSION, {
+          upgrade(db) {
+            if (!db.objectStoreNames.contains(STORE)) {
+              db.createObjectStore(STORE, { keyPath: "id" });
+            }
+            if (!db.objectStoreNames.contains(META_STORE)) {
+              db.createObjectStore(META_STORE);
+            }
+          },
+        });
+
+      let db = await open();
+      if (!db.objectStoreNames.contains(STORE) || !db.objectStoreNames.contains(META_STORE)) {
+        db.close();
+        await deleteDB(DB_NAME);
+        db = await open();
+      }
+      return db;
+    })().catch((err) => {
+      dbPromise = null;
+      throw err;
     });
   }
   return dbPromise;
@@ -97,16 +112,27 @@ export async function initNosologyStore(): Promise<void> {
 }
 
 export async function getAllNosologies(): Promise<Nosology[]> {
-  await initNosologyStore();
-  const db = await getDb();
-  const all = await db.getAll(STORE);
-  return all.sort((a, b) => a.title.localeCompare(b.title, "ru"));
+  try {
+    await initNosologyStore();
+    const db = await getDb();
+    const all = await db.getAll(STORE);
+    if (all.length === 0) return getSeedNosologies();
+    return all.sort((a, b) => a.title.localeCompare(b.title, "ru"));
+  } catch {
+    return getSeedNosologies();
+  }
 }
 
 export async function getNosologyById(id: string): Promise<Nosology | null> {
-  await initNosologyStore();
-  const db = await getDb();
-  return (await db.get(STORE, id)) ?? null;
+  try {
+    await initNosologyStore();
+    const db = await getDb();
+    const row = await db.get(STORE, id);
+    if (row) return row;
+  } catch {
+    /* fallback ниже */
+  }
+  return getSeedNosologies().find((n) => n.id === id) ?? null;
 }
 
 export async function upsertNosology(nosology: Nosology): Promise<Nosology> {

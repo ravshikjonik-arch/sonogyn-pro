@@ -7,27 +7,40 @@ import {
   nextJsonWithAuthCookies,
 } from "@/lib/route-handler-supabase";
 
+function wantsHtmlRedirect(req: Request): boolean {
+  const accept = req.headers.get("accept") ?? "";
+  return accept.includes("text/html");
+}
+
+function devLoginFailureRedirect(origin: string, reason: "service_role" | "failed" = "failed") {
+  return NextResponse.redirect(new URL(`/login?dev_setup=${reason}`, origin));
+}
+
 /**
  * Локальный автовход (только development). Учётные данные — в apps/web/.env.local, не в git.
  */
 export async function GET(req: Request) {
+  const url = new URL(req.url);
+
   if (!isDevAutoLoginEnabled()) {
+    if (wantsHtmlRedirect(req)) return devLoginFailureRedirect(url.origin, "failed");
     return NextResponse.json({ error: "Dev auto-login disabled" }, { status: 404 });
   }
 
   const config = getDevLoginConfig();
   if (!config) {
+    if (wantsHtmlRedirect(req)) return devLoginFailureRedirect(url.origin, "service_role");
     return NextResponse.json(
-      { error: "Задайте DEV_LOGIN_EMAIL, DEV_LOGIN_PASSWORD и DEV_LOGIN_FULL_NAME в .env.local" },
+      { error: "Задайте DEV_LOGIN_EMAIL, DEV_LOGIN_PASSWORD, DEV_LOGIN_FULL_NAME и DEV_LOGIN_BIRTH_YEAR в .env.local" },
       { status: 500 },
     );
   }
 
-  const url = new URL(req.url);
   const nextPath = safeInternalPath(url.searchParams.get("next"));
 
   const client = await createSupabaseRouteHandlerClient();
   if (!client.ok) {
+    if (wantsHtmlRedirect(req)) return devLoginFailureRedirect(url.origin, "failed");
     return NextResponse.json({ error: client.message }, { status: client.status });
   }
 
@@ -50,6 +63,12 @@ export async function GET(req: Request) {
 
     const ensured = await ensureDevUserExists(config);
     if (!ensured.ok) {
+      if (wantsHtmlRedirect(req)) {
+        return devLoginFailureRedirect(
+          url.origin,
+          ensured.message.includes("SUPABASE_SERVICE_ROLE_KEY") ? "service_role" : "failed",
+        );
+      }
       return NextResponse.json(
         {
           error: `Не удалось войти: ${signIn.error.message}. ${viaAdmin.message}`,
@@ -66,9 +85,12 @@ export async function GET(req: Request) {
     if (signIn.error) {
       const retryAdmin = await signInDevUserViaAdminLink(supabase, config);
       if (!retryAdmin.ok) {
+        if (wantsHtmlRedirect(req)) return devLoginFailureRedirect(url.origin, "failed");
         return NextResponse.json({ error: `${signIn.error.message}. ${retryAdmin.message}` }, { status: 401 });
       }
     }
+  } else {
+    await ensureDevUserExists(config);
   }
 
   const redirect = NextResponse.redirect(new URL(nextPath, url.origin));

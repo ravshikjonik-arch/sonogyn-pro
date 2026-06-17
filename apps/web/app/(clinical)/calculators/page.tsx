@@ -1,12 +1,13 @@
 import Link from "next/link";
 
+import { ObCalcQuickWidget } from "@/components/calculators/ob/ObCalcQuickWidget";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CALCULATORS } from "@/lib/calculators/registry";
 import { resolveCalculatorHref } from "@/lib/calculators/resolve-calculator-href";
 
-const quickCalcSlugs = ["o-rads", "bi-rads", "pop-q", "endometrium", "cervical-length", "figo", "ti-rads", "elastography"] as const;
+const quickCalcSlugs = ["ob-calc", "o-rads", "bi-rads", "pop-q", "endometrium", "cervical-length", "figo", "ti-rads", "elastography"] as const;
 
 export default function CalculatorsPage() {
   const quick = CALCULATORS.filter((c) => quickCalcSlugs.includes(c.slug as (typeof quickCalcSlugs)[number]));
@@ -26,6 +27,8 @@ export default function CalculatorsPage() {
           </p>
         </header>
 
+        <ObCalcQuickWidget />
+
         <section className="sonogyn-glass-card space-y-3 rounded-2xl p-5">
           <p className="text-sm font-bold text-[var(--clinical-foreground)]">Быстрые калькуляторы</p>
           <div className="flex flex-wrap gap-2">
@@ -42,7 +45,7 @@ export default function CalculatorsPage() {
 
         <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {CALCULATORS.map((calc) => (
-            <Card key={calc.slug} className="flex flex-col border-slate-200 bg-white dark:bg-slate-900/40">
+            <Card key={calc.slug} className="flex flex-col border-[var(--clinical-border)] bg-[var(--clinical-card)]">
               <CardHeader className="flex flex-row items-start justify-between gap-3 space-y-0">
                 <div>
                   <CardTitle className="text-lg font-semibold">{calc.title}</CardTitle>

@@ -78,7 +78,8 @@ export async function postSignUp(params: {
   email: string;
   password: string;
   full_name: string;
-  specialization?: string;
+  birth_year: number;
+  specialization: string;
   institution?: string;
   preferred_locale?: string;
   turnstileToken?: string;

@@ -13,18 +13,34 @@ export const NORMAL_ANATOMY: PopQInput = {
   TVL: 10,
 };
 
-export const POPQ_VALUE_OPTIONS: number[] = [];
-for (let v = -3; v <= 10; v += 0.5) {
-  POPQ_VALUE_OPTIONS.push(Math.round(v * 10) / 10);
+function range(min: number, max: number, step = 0.5): number[] {
+  const out: number[] = [];
+  for (let v = min; v <= max; v += step) out.push(Math.round(v * 10) / 10);
+  return out;
 }
 
+export const POPQ_VALUE_OPTIONS: number[] = range(-3, 10);
+
+/** Рекомендованные диапазоны для выпадающих списков POP-Q. */
+export const POPQ_VALUE_OPTIONS_BY_POINT: Record<PopQPointKey, number[]> = {
+  Aa: range(-3, 3),
+  Ba: range(-3, 10),
+  Ap: range(-3, 3),
+  Bp: range(-3, 10),
+  C: range(-15, 15),
+  D: range(-15, 15),
+  GH: range(0, 10),
+  PB: range(0, 10),
+  TVL: range(3, 15),
+};
+
 export const POINT_HINTS: Record<PopQPointKey, string> = {
-  Aa: "Передняя стенка, 3 см проксимальнее гимена.",
-  Ba: "Наиболее дистальная часть передней стенки.",
-  Ap: "Задняя стенка, 3 см проксимальнее гимена.",
-  Bp: "Наиболее дистальная часть задней стенки.",
-  C: "Наиболее дистальный край шейки матки или рубца культи.",
-  D: "Задний свод (не применяется после гистерэктомии).",
+  Aa: "Передняя стенка на 3 см от уретры (референс: -3 см).",
+  Ba: "Самая низкая точка передней стенки (референс: -3 см).",
+  Ap: "Задняя стенка на 3 см от гимена (референс: -3 см).",
+  Bp: "Самая низкая точка задней стенки (референс: -3 см).",
+  C: "Шейка матки или культя влагалища.",
+  D: "Задний свод (только при наличии матки).",
   GH: "Промежуток от наружного отверстия уретры до заднего края гимена.",
   PB: "От заднего края гимена до середины анального отверстия.",
   TVL: "Глубина влагалища при репозиции C/D.",

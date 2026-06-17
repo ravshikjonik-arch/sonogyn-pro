@@ -2,7 +2,7 @@ import type { CompartmentKey, PopQInput, PopQPointKey, PopQStageKey } from "./ty
 
 function stageLabel(stage: PopQStageKey): string {
   if (stage === "na") return "—";
-  return `POP-Q Stage ${stage === "0" ? "0" : stage}`;
+  return `Стадия POP-Q ${stage}`;
 }
 
 function compartmentLabel(key: CompartmentKey): string {

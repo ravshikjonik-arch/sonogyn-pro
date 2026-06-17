@@ -11,7 +11,7 @@ const buttonVariants = cva(
       variant: {
         default: "bg-[var(--clinical-primary)] text-white shadow-sm hover:bg-[var(--clinical-primary-hover)]",
         secondary:
-          "border border-[var(--clinical-border)] bg-white text-[var(--clinical-foreground)] hover:bg-[var(--clinical-muted)]",
+          "border border-[var(--clinical-border)] bg-[var(--clinical-card)] text-[var(--clinical-foreground)] hover:bg-[var(--clinical-muted)]",
         ghost: "text-[var(--clinical-foreground-muted)] hover:bg-[var(--clinical-muted)] hover:text-[var(--clinical-foreground)]",
         destructive: "bg-red-600 text-white hover:bg-red-700",
         outline: "border border-[var(--clinical-border)] bg-transparent hover:bg-[var(--clinical-muted)]",

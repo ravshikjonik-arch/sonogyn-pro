@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 
 import { isLikelySupabaseNetworkError } from "@/lib/auth-network-error";
+import { confirmUserEmail, shouldAutoConfirmEmail } from "@/lib/auth/auto-confirm-email";
+import { resolveUserIdByEmail } from "@/lib/auth/resolve-user-by-email";
 import {
   clearAuthFailures,
   isCaptchaRequired,
@@ -71,7 +73,15 @@ export async function POST(req: Request) {
   const wantsMobileSession = req.headers.get("x-sonogyn-client") === "mobile";
 
   try {
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    let { error } = await supabase.auth.signInWithPassword({ email, password });
+
+    if (error && /email not confirmed/i.test(error.message) && shouldAutoConfirmEmail()) {
+      const userId = await resolveUserIdByEmail(email);
+      if (userId && (await confirmUserEmail(userId))) {
+        const retry = await supabase.auth.signInWithPassword({ email, password });
+        error = retry.error;
+      }
+    }
 
     if (error) {
       const failCount = await recordAuthFailure(failKey);

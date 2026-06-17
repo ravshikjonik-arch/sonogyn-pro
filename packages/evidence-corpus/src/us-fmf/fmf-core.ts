@@ -18,6 +18,7 @@ export const US_FMF_CORE_EVIDENCE: EvidenceEntry[] = [
       organization: "FMF · ISUOG",
       year: 2023,
       url: "https://fetalmedicine.org/",
+      pmid: "15723746",
     },
     tags: ["NT", "ТВП", "I скрининг", "КТР", "11 нед", "13 нед", "FMF"],
     relatedLinks: [
@@ -60,6 +61,7 @@ export const US_FMF_CORE_EVIDENCE: EvidenceEntry[] = [
       label: "FMF algorithm notes · pre-eclampsia screening",
       organization: "FMF",
       year: 2022,
+      pmid: "29877929",
     },
     tags: ["PAPP-A", "MoM", "преэклампсия", "ЗРП", "маркер"],
     relatedLinks: [{ label: "FMF · допплер", href: "/assistant/fmf" }],
@@ -197,6 +199,7 @@ export const US_FMF_CORE_EVIDENCE: EvidenceEntry[] = [
       label: "FMF pre-eclampsia screening algorithm",
       organization: "FMF",
       year: 2023,
+      pmid: "29877929",
     },
     tags: ["uterine artery", "PI", "преэклампсия", "допплер", "маточные артерии"],
     relatedLinks: [{ label: "FMF · допплер", href: "/assistant/fmf" }],

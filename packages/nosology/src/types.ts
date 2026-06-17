@@ -26,6 +26,17 @@ export type NosologyBlock = {
   table?: { headers: string[]; rows: string[][] };
 };
 
+/** Статья PubMed, привязанная к нозологии (tier 2 — дополнение к КР). */
+export type NosologyLiteratureItem = {
+  pmid: string;
+  title?: string;
+  journal?: string;
+  year?: number;
+  /** Зачем врачу УЗИ — наша формулировка. */
+  clinicalPearl?: string;
+  tier?: 1 | 2 | 3;
+};
+
 export type Nosology = {
   id: string;
   title: string;
@@ -45,6 +56,10 @@ export type Nosology = {
   pdfKeywords?: string[];
   /** Подсказка страницы PDF (заглушка до подключения книги) */
   pdfPageHint?: number;
+  /** Готовый запрос для PubMed (англ.); иначе собирается из title/keywords. */
+  pubmedQuery?: string;
+  /** Дополнительная литература (PMID), поверх курируемого сида. */
+  literature?: NosologyLiteratureItem[];
   updatedAt?: string;
 };
 

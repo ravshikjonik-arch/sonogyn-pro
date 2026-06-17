@@ -1,12 +1,15 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 
+import { isDevAuthModeEnabled } from "@/lib/auth/dev-auth-mode";
 import { createServiceRoleClient } from "@/utils/supabase/admin";
 import { safeLog } from "@/lib/security/safeLog";
 
-/** Подтверждать email на сервере, если есть service role (обход SMTP Supabase). */
+/** Подтверждать email на сервере, если есть service role (обход SMTP / Confirm email в Dashboard). */
 export function shouldAutoConfirmEmail(): boolean {
   if (process.env.AUTH_AUTO_CONFIRM_EMAIL === "false") return false;
-  return Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY?.trim());
+  const wantsAuto =
+    isDevAuthModeEnabled() || process.env.AUTH_AUTO_CONFIRM_EMAIL === "true";
+  return wantsAuto && Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY?.trim());
 }
 
 export async function confirmUserEmail(userId: string): Promise<boolean> {

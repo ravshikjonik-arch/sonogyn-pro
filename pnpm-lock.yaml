@@ -45,6 +45,9 @@ importers:
       '@react-three/fiber':
         specifier: ^9.6.1
         version: 9.6.1(4117cb34f9e10ab6bbe1a22abb006f43)
+      '@repo/adnex-education':
+        specifier: workspace:*
+        version: link:../../packages/adnex-education
       '@repo/clinical-3d':
         specifier: workspace:*
         version: link:../../packages/clinical-3d
@@ -54,6 +57,9 @@ importers:
       '@repo/clinical-reference':
         specifier: workspace:*
         version: link:../../packages/clinical-reference
+      '@repo/clinical-tools':
+        specifier: workspace:*
+        version: link:../../packages/clinical-tools
       '@repo/medical-calculations':
         specifier: workspace:*
         version: link:../../packages/medical-calculations
@@ -63,6 +69,12 @@ importers:
       '@repo/nosology':
         specifier: workspace:*
         version: link:../../packages/nosology
+      '@repo/orads-us':
+        specifier: workspace:*
+        version: link:../../packages/orads-us
+      '@repo/thyroid-tirads':
+        specifier: workspace:*
+        version: link:../../packages/thyroid-tirads
       '@repo/types':
         specifier: workspace:*
         version: link:../../packages/types
@@ -250,6 +262,9 @@ importers:
       '@repo/clinical-reference':
         specifier: workspace:*
         version: link:../../packages/clinical-reference
+      '@repo/clinical-tools':
+        specifier: workspace:*
+        version: link:../../packages/clinical-tools
       '@repo/evidence-corpus':
         specifier: workspace:*
         version: link:../../packages/evidence-corpus
@@ -268,6 +283,9 @@ importers:
       '@repo/obstetric-atlas':
         specifier: workspace:*
         version: link:../../packages/obstetric-atlas
+      '@repo/orads-us':
+        specifier: workspace:*
+        version: link:../../packages/orads-us
       '@repo/thyroid-tirads':
         specifier: workspace:*
         version: link:../../packages/thyroid-tirads
@@ -430,6 +448,18 @@ importers:
         specifier: ^5.9.2
         version: 5.9.3
 
+  packages/clinical-tools:
+    devDependencies:
+      '@types/node':
+        specifier: ^20
+        version: 20.19.40
+      tsx:
+        specifier: ^4.19.4
+        version: 4.21.0
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.3
+
   packages/database: {}
 
   packages/evidence-corpus:
@@ -486,6 +516,18 @@ importers:
         version: 5.9.3
 
   packages/obstetric-atlas:
+    devDependencies:
+      '@types/node':
+        specifier: ^20
+        version: 20.19.40
+      tsx:
+        specifier: ^4.19.4
+        version: 4.21.0
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.3
+
+  packages/orads-us:
     devDependencies:
       '@types/node':
         specifier: ^20

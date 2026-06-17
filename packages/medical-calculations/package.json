@@ -7,7 +7,8 @@
   "exports": {
     ".": "./src/index.ts",
     "./elastography": "./src/elastography/index.ts",
-    "./popq": "./src/popq/index.ts"
+    "./popq": "./src/popq/index.ts",
+    "./colposcopy": "./src/colposcopy/index.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",

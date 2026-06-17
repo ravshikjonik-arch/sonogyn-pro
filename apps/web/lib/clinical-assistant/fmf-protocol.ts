@@ -20,6 +20,12 @@ import {
   formatMedvedevPlacentaAfiForProtocol,
 } from "@repo/medvedev-reference";
 import { daysBetween, formatGa, gaDaysByCrl, hadlockEfwGrams } from "../../../mobile/src/features/fmf/logic/fmfMath";
+import { buildYakubovSecondThirdProtocol } from "./fmf-protocol-templates";
+import type { SecondThirdProtocolTemplateId } from "@repo/types";
+import { formatProtocolField, presentProtocolText } from "./fmf-protocol-format";
+
+export type { SecondThirdProtocolTemplateId } from "@repo/types";
+export { formatProtocolField, presentProtocolText } from "./fmf-protocol-format";
 
 export type DopplerInput = {
   piRight?: number;
@@ -44,20 +50,6 @@ export type ScarInput = {
   thicknessMm?: number;
   structure?: "homogeneous" | "heterogeneous";
 };
-
-export function formatProtocolField(value: string | number | undefined, suffix = ""): string {
-  if (value === undefined || value === "") return "___";
-  return `${value}${suffix}`;
-}
-
-export function presentProtocolText(
-  value: boolean | undefined,
-  yes = "визуализируется",
-  no = "не визуализируется",
-): string {
-  if (value === undefined) return "___";
-  return value ? yes : no;
-}
 
 export function resolveGestationalAgeText(input: EarlyInput | Pick<FirstTrimesterInput, "crlMm">): string {
   const byCrl = input.crlMm ? gaDaysByCrl(input.crlMm) : null;
@@ -196,6 +188,19 @@ function presentationText(value: SecondThirdInput["fetusPresentation"]): string 
 }
 
 export function buildSecondThirdProtocol(
+  input: SecondThirdInput,
+  trimester: "second" | "third",
+  conclusion: string,
+  recommendations: string[],
+  templateId: SecondThirdProtocolTemplateId = "yakubov-2023",
+): string {
+  if (templateId === "yakubov-2023") {
+    return buildYakubovSecondThirdProtocol(input, trimester, conclusion, recommendations);
+  }
+  return buildSonogynCompactSecondThirdProtocol(input, trimester, conclusion, recommendations);
+}
+
+function buildSonogynCompactSecondThirdProtocol(
   input: SecondThirdInput,
   trimester: "second" | "third",
   conclusion: string,

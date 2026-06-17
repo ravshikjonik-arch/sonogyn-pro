@@ -5,6 +5,7 @@ export type RegistrationMetadata = {
   preferred_locale?: string;
   specialization?: string;
   institution?: string;
+  birth_year?: number;
 };
 
 export function parseRegistrationMetadata(body: Record<string, unknown>): RegistrationMetadata {
@@ -18,23 +19,30 @@ export function parseRegistrationMetadata(body: Record<string, unknown>): Regist
   const preferred_locale = pick("preferred_locale");
   const specialization = pick("specialization");
   const institution = pick("institution");
+  const birthYearRaw = body.birth_year;
 
   if (full_name) meta.full_name = full_name;
   if (preferred_locale) meta.preferred_locale = preferred_locale;
   if (specialization) meta.specialization = specialization;
   if (institution) meta.institution = institution;
+  if (typeof birthYearRaw === "number" && Number.isFinite(birthYearRaw)) {
+    meta.birth_year = birthYearRaw;
+  } else if (typeof birthYearRaw === "string" && /^\d{4}$/.test(birthYearRaw.trim())) {
+    meta.birth_year = Number.parseInt(birthYearRaw.trim(), 10);
+  }
 
   return meta;
 }
 
 export function registrationMetadataToUserData(
   meta: RegistrationMetadata,
-): Record<string, string> {
-  const data: Record<string, string> = {};
+): Record<string, string | number> {
+  const data: Record<string, string | number> = {};
   if (meta.full_name) data.full_name = meta.full_name;
   if (meta.preferred_locale) data.preferred_locale = meta.preferred_locale;
   if (meta.specialization) data.specialization = meta.specialization;
   if (meta.institution) data.institution = meta.institution;
+  if (meta.birth_year) data.birth_year = meta.birth_year;
   return data;
 }
 
@@ -55,10 +63,11 @@ export async function applyRegistrationMetadata(
     await supabase.auth.updateUser({ data: userData });
   }
 
-  const profilePatch: Record<string, string> = {};
+  const profilePatch: Record<string, string | number> = {};
   if (meta.full_name) profilePatch.full_name = meta.full_name;
   if (meta.specialization) profilePatch.specialization = meta.specialization;
   if (meta.institution) profilePatch.institution = meta.institution;
+  if (meta.birth_year) profilePatch.birth_year = meta.birth_year;
 
   if (Object.keys(profilePatch).length === 0) return;
 

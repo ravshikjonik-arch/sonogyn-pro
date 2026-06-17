@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 
-import { UpdateProfileBodySchema } from "@repo/types";
+import {
+  ClinicalPreferencesSchema,
+  UpdateProfileBodySchema,
+  parseClinicalPreferences,
+} from "@repo/types";
 
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
@@ -8,6 +12,52 @@ import { requireSupabaseUser } from "@/lib/security/require-user";
 import { createClient } from "@/utils/supabase/server";
 
 export const runtime = "nodejs";
+
+const PROFILE_SELECT =
+  "id, role, full_name, institution, specialization, birth_year, clinical_preferences, subscription_tier, subscription_expires_at, trial_ends_at, created_at, updated_at";
+
+type ProfileRow = {
+  id: string;
+  role: string;
+  full_name: string | null;
+  institution: string | null;
+  specialization: string | null;
+  birth_year: number | null;
+  clinical_preferences: Record<string, unknown> | null;
+  subscription_tier: string;
+  subscription_expires_at: string | null;
+  trial_ends_at: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+/** Текущий профиль врача (включая clinical_preferences). */
+export async function GET() {
+  const supabase = await createClient();
+  const auth = await requireSupabaseUser(supabase);
+  if (!auth.ok) return auth.response;
+
+  const { data, error } = await supabase
+    .from("profiles")
+    .select(PROFILE_SELECT)
+    .eq("id", auth.userId)
+    .maybeSingle();
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  if (!data) {
+    return NextResponse.json({ error: "Profile not found" }, { status: 404 });
+  }
+
+  return NextResponse.json({
+    profile: {
+      ...data,
+      clinical_preferences: parseClinicalPreferences(data.clinical_preferences),
+    },
+  });
+}
 
 /**
  * Authenticated profile PATCH — updates `profiles` (RBAC/billing) and keeps `public.users` (doctor UI) in sync.
@@ -42,10 +92,33 @@ export async function PATCH(request: Request) {
   }
 
   const d = parsed.data;
-  const profilePatch: Record<string, string> = {};
+  const profilePatch: Record<string, unknown> = {};
   if (d.full_name !== undefined) profilePatch.full_name = d.full_name;
   if (d.institution !== undefined) profilePatch.institution = d.institution;
   if (d.specialization !== undefined) profilePatch.specialization = d.specialization;
+  if (d.birth_year !== undefined) profilePatch.birth_year = d.birth_year;
+
+  if (d.clinical_preferences !== undefined) {
+    const { data: currentRow, error: readError } = await supabase
+      .from("profiles")
+      .select("clinical_preferences")
+      .eq("id", auth.userId)
+      .maybeSingle();
+
+    if (readError) {
+      return NextResponse.json({ error: readError.message }, { status: 500 });
+    }
+
+    const merged = {
+      ...parseClinicalPreferences(currentRow?.clinical_preferences),
+      ...d.clinical_preferences,
+    };
+    const validated = ClinicalPreferencesSchema.safeParse(merged);
+    if (!validated.success) {
+      return NextResponse.json({ error: validated.error.flatten() }, { status: 400 });
+    }
+    profilePatch.clinical_preferences = validated.data;
+  }
 
   if (d.avatar_storage_path !== undefined) {
     const prefix = `${auth.userId}/`;
@@ -66,18 +139,7 @@ export async function PATCH(request: Request) {
 
   const nowIso = new Date().toISOString();
 
-  let profileRow: {
-    id: string;
-    role: string;
-    full_name: string | null;
-    institution: string | null;
-    specialization: string | null;
-    subscription_tier: string;
-    subscription_expires_at: string | null;
-    trial_ends_at: string | null;
-    created_at: string;
-    updated_at: string;
-  };
+  let profileRow: ProfileRow;
 
   if (Object.keys(profilePatch).length > 0) {
     profilePatch.updated_at = nowIso;
@@ -85,28 +147,24 @@ export async function PATCH(request: Request) {
       .from("profiles")
       .update(profilePatch)
       .eq("id", auth.userId)
-      .select(
-        "id, role, full_name, institution, specialization, subscription_tier, subscription_expires_at, trial_ends_at, created_at, updated_at",
-      )
+      .select(PROFILE_SELECT)
       .single();
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
-    profileRow = data;
+    profileRow = data as ProfileRow;
   } else {
     const { data, error } = await supabase
       .from("profiles")
-      .select(
-        "id, role, full_name, institution, specialization, subscription_tier, subscription_expires_at, trial_ends_at, created_at, updated_at",
-      )
+      .select(PROFILE_SELECT)
       .eq("id", auth.userId)
       .single();
 
     if (error || !data) {
       return NextResponse.json({ error: error?.message ?? "Profile not found" }, { status: 404 });
     }
-    profileRow = data;
+    profileRow = data as ProfileRow;
   }
 
   const { data: existingUser } = await supabase
@@ -127,6 +185,7 @@ export async function PATCH(request: Request) {
       full_name: profileRow.full_name ?? "",
       institution: profileRow.institution,
       specialization: profileRow.specialization,
+      birth_year: profileRow.birth_year ?? null,
       avatar_storage_path: avatarPath,
       updated_at: nowIso,
     },
@@ -137,5 +196,10 @@ export async function PATCH(request: Request) {
     return NextResponse.json({ error: userUpsertError.message }, { status: 500 });
   }
 
-  return NextResponse.json({ profile: profileRow });
+  return NextResponse.json({
+    profile: {
+      ...profileRow,
+      clinical_preferences: parseClinicalPreferences(profileRow.clinical_preferences),
+    },
+  });
 }

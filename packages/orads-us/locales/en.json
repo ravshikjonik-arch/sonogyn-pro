@@ -1,0 +1,304 @@
+{
+  "orads": {
+    "meta": {
+      "title": "O-RADS US Calculator",
+      "version": "O-RADS US v2022",
+      "disclaimer": "Decision support tool. Does not replace specialist clinical judgment.",
+      "source": "ACR O-RADS Ultrasound Risk Stratification and Management System (2022)",
+      "rtl": "false"
+    },
+    "step0": {
+      "technical": {
+        "question": "Is the evaluation technically inadequate (O-RADS 0)?",
+        "help": "O-RADS 0 when features cannot be characterized due to size, incomplete visualization, or missing color Doppler.",
+        "option": {
+          "inadequate": "Yes — repeat ultrasound or perform MRI",
+          "adequate": "No — continue assessment"
+        }
+      }
+    },
+    "step1": {
+      "localization": {
+        "question": "Lesion localization",
+        "help": "O-RADS US applies to ovarian/adnexal lesions. Extraovarian lesions use a separate branch.",
+        "option": {
+          "ovarian": "Ovarian / adnexal",
+          "extraovarian": "Extraovarian"
+        }
+      },
+      "extraovarian": {
+        "question": "Extraovarian lesion type",
+        "help": "Typical benign extraovarian lesions are often low risk with classic morphology.",
+        "option": {
+          "paraovarian": "Typical paraovarian cyst",
+          "hydrosalpinx": "Typical hydrosalpinx",
+          "peritoneal_inclusion": "Typical peritoneal inclusion cyst",
+          "atypical": "Other / atypical extraovarian"
+        }
+      }
+    },
+    "step2": {
+      "menopause": {
+        "question": "Menopausal status",
+        "option": {
+          "pre": "Premenopausal",
+          "post": "Postmenopausal"
+        }
+      },
+      "lesion_class": {
+        "question": "Lesion class",
+        "help": "Simple: unilocular, anechoic, smooth wall, no flow. Non-simple: internal echoes and/or incomplete septation.",
+        "option": {
+          "normal": "Normal ovary / no lesion",
+          "physiological": "Physiologic (follicle / corpus luteum)",
+          "simple": "Simple cyst",
+          "nonsimple": "Non-simple cystic",
+          "solid": "Predominantly solid (≥80% tissue)"
+        }
+      },
+      "physiological_size": {
+        "question": "Largest diameter of physiologic lesion",
+        "help": "Follicle / corpus luteum ≤3 cm in premenopause — O-RADS 1.",
+        "option": {
+          "le3cm": "≤ 3 cm",
+          "gt3cm": "> 3 cm"
+        }
+      }
+    },
+    "step3": {
+      "simple_wall": {
+        "question": "Simple cyst wall",
+        "option": {
+          "typical": "Typical: smooth, anechoic, no septa",
+          "atypical": "Atypical (internal echoes / incomplete septation)"
+        }
+      },
+      "simple_size": {
+        "question": "Simple cyst size (largest diameter)",
+        "help": "O-RADS US v2022 size thresholds by menopausal status.",
+        "option": {
+          "pre_le3": "Premenopause: ≤ 3 cm",
+          "pre_gt3_le5": "Premenopause: >3–≤5 cm",
+          "pre_gt5_lt10": "Premenopause: >5–<10 cm",
+          "pre_ge10": "Premenopause: ≥ 10 cm",
+          "post_le3": "Postmenopause: ≤ 3 cm",
+          "post_gt3_le5": "Postmenopause: >3–≤5 cm",
+          "post_gt5": "Postmenopause: > 5 cm"
+        }
+      },
+      "simple_size_pre_le3": {
+        "question": "Context for lesion ≤3 cm",
+        "option": {
+          "cyst": "Incidental simple cyst",
+          "follicle": "Follicle / physiologic"
+        }
+      },
+      "locularity": {
+        "question": "Locularity",
+        "help": "Incomplete septum in a second plane → classify as unilocular (O-RADS US v2022).",
+        "option": {
+          "unilocular": "Unilocular",
+          "bilocular": "Bilocular",
+          "multilocular": "Multilocular"
+        }
+      },
+      "unilocular_wall": {
+        "question": "Wall contour (unilocular)",
+        "option": {
+          "smooth": "Smooth",
+          "irregular": "Irregular"
+        }
+      },
+      "unilocular_classic": {
+        "question": "Classic benign lesion?",
+        "option": {
+          "classic": "Yes (typical dermoid / endometrioma / hemorrhagic)",
+          "non_classic": "No / non-simple"
+        }
+      },
+      "classic_size": {
+        "question": "Size of classic benign lesion",
+        "option": {
+          "lt10": "< 10 cm",
+          "ge10": "≥ 10 cm"
+        }
+      },
+      "unilocular_nonsimple_size": {
+        "question": "Non-simple unilocular size",
+        "option": {
+          "lt10": "< 10 cm",
+          "ge10": "≥ 10 cm"
+        }
+      },
+      "bilocular_wall": {
+        "question": "Wall contour (bilocular)",
+        "option": {
+          "smooth": "Smooth",
+          "irregular": "Irregular"
+        }
+      },
+      "bilocular_size": {
+        "question": "Bilocular cyst size",
+        "option": {
+          "le3": "≤ 3 cm",
+          "gt3_lt10": ">3–<10 cm",
+          "ge10": "≥ 10 cm"
+        }
+      },
+      "multilocular_wall": {
+        "question": "Wall contour (multilocular)",
+        "option": {
+          "smooth": "Smooth",
+          "irregular": "Irregular"
+        }
+      },
+      "multilocular_solid_gate": {
+        "question": "Solid component ≥3 mm?",
+        "option": {
+          "no_solid": "No",
+          "with_solid": "Yes"
+        }
+      },
+      "multilocular_size": {
+        "question": "Size and vascularity (no solid component)",
+        "help": "IOTA color score (CS) 1–4. CS 4 = marked flow.",
+        "option": {
+          "lt10": "<10 cm, CS <4",
+          "ge10_cs_lt4": "≥10 cm, CS <4",
+          "any_cs4": "Any size, CS 4"
+        }
+      }
+    },
+    "step4": {
+      "solid_presence": {
+        "question": "Solid component / papillary projections",
+        "help": "Solid component ≥3 mm; papillary projection (pp) is a separate descriptor.",
+        "option": {
+          "absent": "Absent (<3 mm)",
+          "present": "Present (≥3 mm)"
+        }
+      },
+      "solid_height": {
+        "question": "Solid component / pp height",
+        "help": "3 mm threshold — critical O-RADS US v2022 point.",
+        "option": {
+          "lt3mm": "< 3 mm (not counted as solid/pp)",
+          "ge3mm": "≥ 3 mm"
+        }
+      },
+      "papillary_count": {
+        "question": "Number of papillary projections (≥3 mm)",
+        "help": "≥4 pp in unilocular cyst — O-RADS 5.",
+        "option": {
+          "lt4": "1–3 pp",
+          "ge4": "≥ 4 pp"
+        }
+      },
+      "solid_contour": {
+        "question": "Solid component contour",
+        "option": {
+          "smooth": "Smooth",
+          "irregular": "Irregular"
+        }
+      },
+      "solid_shadowing": {
+        "question": "Acoustic shadowing behind solid component?",
+        "option": {
+          "with": "Yes (shadowing)",
+          "without": "No"
+        }
+      },
+      "solid_dominant_contour": {
+        "question": "Predominantly solid lesion contour",
+        "option": {
+          "smooth": "Smooth",
+          "irregular": "Irregular"
+        }
+      }
+    },
+    "step5": {
+      "color_score": {
+        "question": "Color score (IOTA, 1–4)",
+        "help": "1 = no flow; 2 = minimal; 3 = moderate; 4 = marked.",
+        "option": {
+          "cs1": "CS 1 — no flow",
+          "cs2": "CS 2 — minimal",
+          "cs3": "CS 3 — moderate",
+          "cs4": "CS 4 — marked",
+          "cs12": "CS 1–2 — no / minimal flow",
+          "cs23": "CS 2–3 — minimal / moderate flow",
+          "cs34": "CS 3–4 — moderate / marked flow"
+        }
+      }
+    },
+    "modifier": {
+      "ascites": {
+        "question": "Ascites or peritoneal nodules?",
+        "help": "Ascites ± peritoneal nodules without other cause → O-RADS 5.",
+        "option": {
+          "ascites": "Ascites without nodules",
+          "both": "Ascites + peritoneal nodules"
+        }
+      },
+      "peritoneal": {
+        "question": "Peritoneal nodules?",
+        "option": {
+          "yes": "Yes"
+        }
+      }
+    },
+    "wizard": {
+      "title": "O-RADS US",
+      "step_of": "Step %{current} of %{total}",
+      "back": "Back",
+      "restart": "Start over",
+      "share_colleagues": "Send to colleagues",
+      "share_todo": "Coming soon (Phase 3)",
+      "path_summary": "Selected features",
+      "copy": "Copy",
+      "rom_label": "ROM",
+      "pro_link": "Advanced O-RADS Pro (form + AI + IOTA)",
+      "rtl_layout_note": "RTL: use flexDirection via I18nManager.isRTL — do not hardcode in UI."
+    },
+    "management": {
+      "0": "Repeat ultrasound or MRI (O-RADS MRI) per clinical scenario.",
+      "1": "O-RADS 1 — normal/physiologic; no specific lesion follow-up required.",
+      "3": "O-RADS 3 — low risk (1–<10%); follow-up US at 6 months or MRI / expert US.",
+      "4": "O-RADS 4 — intermediate risk (10–<50%); MRI, expert US, gyn-oncology per protocol.",
+      "5": "O-RADS 5 — high risk (≥50%); gynecologic oncology referral and staging.",
+      "2_simple": "O-RADS 2 — almost certainly benign (<1%); surveillance by size and menopause (6–24 mo).",
+      "2_bilocular": "O-RADS 2 — smooth bilocular cyst; size-based follow-up.",
+      "2_classic": "O-RADS 2 — typical classic benign; surveillance per institutional protocol.",
+      "2_extraovarian": "O-RADS 2 — typical extraovarian benign; clinical correlation.",
+      "3_solid": "O-RADS 3 — solid with low Doppler score; consider MRI or expert US."
+    },
+    "rationale": {
+      "0_inadequate": "Technically inadequate evaluation — O-RADS 0.",
+      "1_normal": "Normal ovary without lesion.",
+      "1_physiologic": "Physiologic follicle / corpus luteum ≤3 cm.",
+      "2_simple_pre": "Typical simple cyst — almost certainly benign.",
+      "2_simple_post_small": "Simple cyst postmenopause ≤5 cm.",
+      "2_bilocular_smooth": "Smooth bilocular cyst without suspicious features.",
+      "2_classic_benign": "Classic benign lesion <10 cm.",
+      "2_extraovarian_typical": "Typical benign extraovarian lesion.",
+      "3_simple_post_large": "Simple cyst >5 cm postmenopause.",
+      "3_unilocular_irregular": "Unilocular cyst with irregular wall — any size.",
+      "3_multilocular_smooth_lt10": "Smooth multilocular <10 cm, CS <4, no solid.",
+      "3_large_smooth_cyst": "Smooth-walled lesion ≥10 cm.",
+      "3_solid_smooth_cs1": "Smooth solid, CS 1.",
+      "3_solid_shadow_cs23": "Solid with shadowing, smooth, CS 2–3.",
+      "3_extraovarian_atypical": "Atypical extraovarian — low/intermediate risk clinically.",
+      "4_bilocular_irregular": "Bilocular cyst with irregular wall.",
+      "4_multilocular_smooth_ge10": "Smooth multilocular ≥10 cm, CS <4.",
+      "4_multilocular_cs4": "Smooth multilocular, CS 4.",
+      "4_multilocular_irregular": "Multilocular with irregular wall.",
+      "4_unilocular_solid_lt4pp": "Unilocular with solid <4 pp.",
+      "4_cystic_solid_cs12": "Cystic with solid, CS 1–2.",
+      "4_solid_smooth_cs23": "Smooth solid without shadowing, CS 2–3.",
+      "5_unilocular_ge4pp": "Unilocular cyst ≥4 pp — high risk.",
+      "5_cystic_solid_cs34": "Cystic with solid, CS 3–4.",
+      "5_solid_irregular": "Solid with irregular contour.",
+      "5_ascites_peritoneal": "Ascites and/or peritoneal nodules."
+    }
+  }
+}

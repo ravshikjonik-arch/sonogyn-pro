@@ -2,8 +2,8 @@
 
 import { Search } from "lucide-react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useMemo, useState } from "react";
 
 import { Input } from "@/components/ui/input";
 import { highlightText } from "@/lib/reference/referenceService";
@@ -12,12 +12,11 @@ import { useClinicalReference } from "@/hooks/useClinicalReference";
 import type { ClinicalTopic } from "@repo/clinical-reference";
 
 export function ClinicalReferenceReader() {
-  const router = useRouter();
   const params = useSearchParams();
   const { index, sections, search, topic } = useClinicalReference();
 
-  const initialTopic = params.get("topic");
-  const [activeId, setActiveId] = useState(initialTopic ?? index.topics[0]?.id ?? "");
+  const topicParam = params.get("topic");
+  const activeId = topicParam ?? index.topics[0]?.id ?? "";
   const [query, setQuery] = useState("");
 
   const active = useMemo(
@@ -26,14 +25,6 @@ export function ClinicalReferenceReader() {
   );
 
   const searchHits = useMemo(() => (query.length >= 2 ? search(query) : []), [query, search]);
-
-  const selectTopic = useCallback(
-    (t: ClinicalTopic) => {
-      setActiveId(t.id);
-      router.replace(`/reference?topic=${t.id}`, { scroll: false });
-    },
-    [router],
-  );
 
   return (
     <div className="flex h-[calc(100vh-3.5rem)] flex-col lg:flex-row">
@@ -67,20 +58,18 @@ export function ClinicalReferenceReader() {
             <ul className="p-2">
               {searchHits.map((hit: { topicId: string; title: string; snippet: string }) => (
                 <li key={hit.topicId}>
-                  <button
-                    type="button"
-                    className="w-full rounded-lg px-3 py-2 text-left text-sm hover:bg-[var(--clinical-muted)]"
-                    onClick={() => {
-                      const t = topic(hit.topicId);
-                      if (t) selectTopic(t);
-                    }}
+                  <Link
+                    key={hit.topicId}
+                    href={`/reference?topic=${hit.topicId}`}
+                    scroll={false}
+                    className="block w-full rounded-lg px-3 py-2 text-left text-sm hover:bg-[var(--clinical-muted)]"
                   >
                     <span className="font-medium">{hit.title}</span>
                     <p
                       className="mt-0.5 text-xs text-[var(--clinical-foreground-muted)]"
                       dangerouslySetInnerHTML={{ __html: highlightText(hit.snippet, query) }}
                     />
-                  </button>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -92,19 +81,19 @@ export function ClinicalReferenceReader() {
                     {section}
                   </p>
                   {topics.map((t: ClinicalTopic) => (
-                    <button
+                    <Link
                       key={t.id}
-                      type="button"
-                      onClick={() => selectTopic(t)}
+                      href={`/reference?topic=${t.id}`}
+                      scroll={false}
                       className={cn(
-                        "w-full rounded-lg px-3 py-2 text-left text-sm transition-colors",
+                        "block w-full rounded-lg px-3 py-2 text-left text-sm transition-colors",
                         active?.id === t.id
                           ? "bg-[var(--clinical-primary-muted)] font-semibold text-[var(--clinical-primary-deep)]"
                           : "hover:bg-[var(--clinical-muted)]",
                       )}
                     >
                       {t.title}
-                    </button>
+                    </Link>
                   ))}
                 </div>
               ))}

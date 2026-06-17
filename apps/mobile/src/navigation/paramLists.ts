@@ -1,13 +1,8 @@
-import type { OradsInput } from "../features/oradsPro/types";
-import type { OrganType } from "../features/case/types";
-import type { PageType } from "../navigationTypes";
-
 export type MainTabParamList = {
-  HomeTab: undefined;
-  CasesTab: undefined;
-  CalculatorsTab: undefined;
-  LibraryTab: undefined;
-  GuidelinesTab: undefined;
+  ChatTab: undefined;
+  ToolsTab: undefined;
+  AssistantTab: undefined;
+  KnowledgeTab: { section?: "guidelines" | "library" } | undefined;
   ProfileTab: undefined;
 };
 
@@ -26,24 +21,28 @@ export type RootStackParamList = {
         /** Открыть мастер сразу на шаге загрузки снимка (новый кейс). */
         startAtImage?: boolean;
         draftDescription?: string;
-        draftOrgan?: OrganType;
+        draftOrgan?: import("../features/case/types").OrganType;
         draftResultCategory?: string;
         draftTimestamp?: number;
-        draftOradsInput?: OradsInput;
+        draftOradsInput?: import("../features/oradsPro/types").OradsInput;
       }
     | undefined;
   Paywall: undefined;
   Language: undefined;
   ORADSFlow: undefined;
-  ORADSPro: { prefill?: OradsInput } | undefined;
+  ORADSWizard: undefined;
+  ORADSGuide: { sectionId?: string; caseId?: string } | undefined;
+  ORADSPro: { prefill?: import("../features/oradsPro/types").OradsInput } | undefined;
   ORADSHistory: undefined;
   ORADSHistoryDetails: { caseId: string };
   FMFAssistant: undefined;
   Prolapse: undefined;
-  GynecologyCalc: { initialPage?: PageType } | undefined;
+  GynecologyCalc: { initialPage?: import("../navigationTypes").PageType } | undefined;
   BiRadsAssistant: undefined;
   Breast3D: undefined;
   TiRadsAssistant: undefined;
+  EndometriumCalc: undefined;
+  CervicalLengthCalc: undefined;
   SupabaseAuth: undefined;
   ClinicalReference: undefined;
   Nosology: undefined;

@@ -50,6 +50,10 @@ export function getProductionSecretViolations(): string[] {
     violations.push("DEV_AUTO_LOGIN must not be true in production (remove from Vercel env)");
   }
 
+  if (process.env.DEV_AUTH_MODE === "true") {
+    violations.push("DEV_AUTH_MODE must not be true in production (remove from Vercel env)");
+  }
+
   return violations;
 }
 

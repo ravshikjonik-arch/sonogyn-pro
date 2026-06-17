@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 
-import { getDevLoginConfig, isDevAutoLoginEnabled, isDevSkipAuthEnabled } from "@/lib/auth/dev-account";
+import { canDevAutoLoginRedirect, getDevLoginConfig, isDevAutoLoginEnabled, isDevSkipAuthEnabled } from "@/lib/auth/dev-account";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function RootPage() {
@@ -17,8 +17,12 @@ export default async function RootPage() {
     redirect("/app");
   }
 
-  if (isDevAutoLoginEnabled() && getDevLoginConfig()) {
+  if (canDevAutoLoginRedirect()) {
     redirect("/api/auth/dev-login?next=/app");
+  }
+
+  if (isDevAutoLoginEnabled() && getDevLoginConfig() && !canDevAutoLoginRedirect()) {
+    redirect("/login?dev_setup=service_role");
   }
 
   redirect("/landing");

@@ -4,12 +4,16 @@ import { BookMarked, ExternalLink, Loader2, Search, Sparkles } from "lucide-reac
 import Link from "next/link";
 import { FormEvent, useCallback, useMemo, useState } from "react";
 
+import { SpeakButton } from "@/components/voice/SpeakButton";
+import { useVoicePageText } from "@/components/voice/VoiceReaderProvider";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils/cn";
 import type { EvidenceCitation } from "@repo/evidence-engine";
+import { pubmedArticleUrl } from "@repo/nosology";
 import {
   EVIDENCE_DISCLAIMER,
   EVIDENCE_ENTRIES,
@@ -132,12 +136,15 @@ function TierBadge({ tier }: { tier: 1 | 2 | 3 }) {
 }
 
 function CitationCard({ c }: { c: EvidenceCitation }) {
+  const speakText = `${c.title}. ${c.summary}. На УЗИ: ${c.clinicalPearl}. ${c.excerpt}`;
+
   return (
     <Card className="border-[var(--clinical-border)]">
       <CardHeader className="pb-2">
         <div className="flex flex-wrap items-center gap-2">
           <TierBadge tier={c.tier} />
           {c.year ? <span className="text-[10px] text-[var(--clinical-foreground-muted)]">{c.year}</span> : null}
+          <SpeakButton text={speakText} label={c.title} className="ml-auto" />
         </div>
         <CardTitle className="text-base">{c.title}</CardTitle>
         <CardDescription className="text-xs leading-relaxed">{c.sourceLabel}</CardDescription>
@@ -170,6 +177,16 @@ function CitationCard({ c }: { c: EvidenceCitation }) {
             Источник <ExternalLink className="h-3 w-3" />
           </a>
         ) : null}
+        {c.pmid ? (
+          <a
+            href={pubmedArticleUrl(c.pmid)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-xs font-medium text-[var(--clinical-primary)] hover:underline"
+          >
+            PubMed · PMID {c.pmid} <ExternalLink className="h-3 w-3" />
+          </a>
+        ) : null}
       </CardContent>
     </Card>
   );
@@ -189,6 +206,19 @@ export function EvidenceWorkspace() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [result, setResult] = useState<AskResponse | null>(null);
+
+  const voicePageText = useMemo(() => {
+    if (!result) return null;
+    const blocks = [
+      result.answerSummary,
+      ...result.citations.map(
+        (c) => `${c.title}. ${c.summary}. На УЗИ: ${c.clinicalPearl}. ${c.excerpt}`,
+      ),
+    ];
+    return blocks.join("\n\n");
+  }, [result]);
+
+  useVoicePageText(voicePageText);
 
   const runSearch = useCallback(
     async (q: string, shelfId: EvidenceShelf = shelf) => {

@@ -61,7 +61,11 @@ export function OradsEchogramsWidget({ initialChapter = "all", initialPageId }: 
           <Link href="/calculators/o-rads" className="font-semibold text-[var(--clinical-primary-deep)] hover:underline">
             калькуляторе O-RADS
           </Link>
-          . Здесь — учебные снимки и разбор; позже добавим живые клинические случаи по нозологиям.
+          . Учебный алгоритм и клинические случаи — в{" "}
+          <Link href="/library/orads-guide" className="font-semibold text-[var(--clinical-primary-deep)] hover:underline">
+            руководстве O-RADS US
+          </Link>
+          . Здесь — атлас эхограмм Озерской; позже добавим живые клинические случаи.
         </p>
         {supplementary ? (
           <p className="text-xs text-slate-500">

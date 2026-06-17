@@ -1,4 +1,4 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
 export type DevLoginConfig = {
   email: string;
@@ -6,7 +6,16 @@ export type DevLoginConfig = {
   full_name: string;
   specialization: string;
   institution: string;
+  birth_year: number;
 };
+
+function parseBirthYear(): number | null {
+  const raw = process.env.DEV_LOGIN_BIRTH_YEAR?.trim();
+  if (!raw || !/^\d{4}$/.test(raw)) return null;
+  const year = Number.parseInt(raw, 10);
+  if (year < 1900 || year > 2100) return null;
+  return year;
+}
 
 export function isDevAutoLoginEnabled(): boolean {
   return process.env.NODE_ENV === "development" && process.env.DEV_AUTO_LOGIN === "true";
@@ -17,7 +26,19 @@ export function isDevSkipAuthEnabled(): boolean {
   return process.env.NODE_ENV === "development" && process.env.DEV_SKIP_AUTH === "true";
 }
 
-export function getDevBypassProfile(): Pick<DevLoginConfig, "email" | "full_name" | "specialization" | "institution"> | null {
+export function hasDevServiceRoleKey(): boolean {
+  return Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY?.trim());
+}
+
+/** Автредирект на /api/auth/dev-login только если есть service role (иначе белый JSON-экран). */
+export function canDevAutoLoginRedirect(): boolean {
+  return isDevAutoLoginEnabled() && Boolean(getDevLoginConfig()) && hasDevServiceRoleKey();
+}
+
+export function getDevBypassProfile(): Pick<
+  DevLoginConfig,
+  "email" | "full_name" | "specialization" | "institution" | "birth_year"
+> | null {
   if (!isDevSkipAuthEnabled()) return null;
   return getDevLoginConfig();
 }
@@ -26,14 +47,16 @@ export function getDevLoginConfig(): DevLoginConfig | null {
   const email = process.env.DEV_LOGIN_EMAIL?.trim();
   const password = process.env.DEV_LOGIN_PASSWORD;
   const full_name = process.env.DEV_LOGIN_FULL_NAME?.trim();
+  const birth_year = parseBirthYear();
 
-  if (!email || !password || !full_name) return null;
+  if (!email || !password || !full_name || birth_year === null) return null;
 
   return {
     email,
     password,
     full_name,
-    specialization: process.env.DEV_LOGIN_SPECIALIZATION?.trim() || "Врач УЗИ",
+    birth_year,
+    specialization: process.env.DEV_LOGIN_SPECIALIZATION?.trim() || "Акушер-гинеколог",
     institution: process.env.DEV_LOGIN_INSTITUTION?.trim() || "",
   };
 }
@@ -44,6 +67,15 @@ function getSupabaseUrl(): string | null {
 
 function getServiceRoleKey(): string | null {
   return process.env.SUPABASE_SERVICE_ROLE_KEY?.trim() || null;
+}
+
+function buildUserMetadata(config: DevLoginConfig): Record<string, string | number> {
+  return {
+    full_name: config.full_name,
+    specialization: config.specialization,
+    birth_year: config.birth_year,
+    ...(config.institution ? { institution: config.institution } : {}),
+  };
 }
 
 type AdminAuthClient = {
@@ -73,6 +105,32 @@ async function findUserIdByEmail(admin: AdminAuthClient, email: string): Promise
   return null;
 }
 
+/** Синхронизирует profiles + users после dev-login (service role). */
+export async function syncDevDoctorProfile(
+  admin: SupabaseClient,
+  userId: string,
+  config: DevLoginConfig,
+): Promise<void> {
+  const nowIso = new Date().toISOString();
+  const row = {
+    full_name: config.full_name,
+    specialization: config.specialization,
+    institution: config.institution || null,
+    birth_year: config.birth_year,
+    updated_at: nowIso,
+  };
+
+  await admin.from("profiles").update(row).eq("id", userId);
+  await admin.from("users").upsert(
+    {
+      id: userId,
+      email: config.email,
+      ...row,
+    },
+    { onConflict: "id" },
+  );
+}
+
 /** Создаёт или обновляет dev-пользователя через service role (обходит «signups disabled»). */
 export async function ensureDevUserExists(config: DevLoginConfig): Promise<{ ok: true } | { ok: false; message: string }> {
   const url = getSupabaseUrl();
@@ -90,11 +148,7 @@ export async function ensureDevUserExists(config: DevLoginConfig): Promise<{ ok:
     auth: { autoRefreshToken: false, persistSession: false },
   });
 
-  const metadata = {
-    full_name: config.full_name,
-    specialization: config.specialization,
-    ...(config.institution ? { institution: config.institution } : {}),
-  };
+  const metadata = buildUserMetadata(config);
 
   try {
     const existingId = await findUserIdByEmail(admin, config.email);
@@ -106,10 +160,11 @@ export async function ensureDevUserExists(config: DevLoginConfig): Promise<{ ok:
         user_metadata: metadata,
       });
       if (error) return { ok: false, message: error.message };
+      await syncDevDoctorProfile(admin, existingId, config);
       return { ok: true };
     }
 
-    const { error } = await admin.auth.admin.createUser({
+    const { data, error } = await admin.auth.admin.createUser({
       email: config.email,
       password: config.password,
       email_confirm: true,
@@ -117,6 +172,7 @@ export async function ensureDevUserExists(config: DevLoginConfig): Promise<{ ok:
     });
 
     if (error) return { ok: false, message: error.message };
+    if (data.user?.id) await syncDevDoctorProfile(admin, data.user.id, config);
     return { ok: true };
   } catch (e) {
     return { ok: false, message: e instanceof Error ? e.message : String(e) };
@@ -151,11 +207,7 @@ export async function signInDevUserViaAdminLink(
     auth: { autoRefreshToken: false, persistSession: false },
   });
 
-  const metadata = {
-    full_name: config.full_name,
-    specialization: config.specialization,
-    ...(config.institution ? { institution: config.institution } : {}),
-  };
+  const metadata = buildUserMetadata(config);
 
   let link = await admin.auth.admin.generateLink({
     type: "signup",

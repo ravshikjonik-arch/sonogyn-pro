@@ -39,11 +39,14 @@ export function NosologyListClient({ studyId }: Props) {
   const { items, loading, error, query, setQuery, hits } = useNosologyList();
 
   const displayItems = useMemo(() => {
-    if (query.trim() && hits.length > 0) {
-      const ids = new Set(hits.map((h) => h.id));
-      return items.filter((n) => ids.has(n.id));
+    if (query.trim()) {
+      const source = items.length > 0 ? items : [];
+      if (hits.length > 0) {
+        const ids = new Set(hits.map((h) => h.id));
+        return source.filter((n) => ids.has(n.id));
+      }
+      return [];
     }
-    if (query.trim()) return [];
     return items;
   }, [items, query, hits]);
 

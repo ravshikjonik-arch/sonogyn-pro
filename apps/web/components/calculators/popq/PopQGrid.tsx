@@ -1,6 +1,6 @@
 "use client";
 
-import { POINT_HINTS, POPQ_VALUE_OPTIONS, type PopQPointKey } from "@/lib/popq";
+import { POINT_HINTS, POPQ_VALUE_OPTIONS_BY_POINT, type PopQPointKey } from "@/lib/popq";
 import { cn } from "@/lib/utils/cn";
 
 type Props = {
@@ -39,7 +39,7 @@ function Cell({
         className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-2 py-2 text-sm font-bold"
       >
         <option value="">—</option>
-        {POPQ_VALUE_OPTIONS.map((n) => (
+        {POPQ_VALUE_OPTIONS_BY_POINT[pointKey].map((n) => (
           <option key={n} value={String(n)}>
             {n} см
           </option>

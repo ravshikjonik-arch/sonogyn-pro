@@ -1,8 +1,10 @@
 import { redirect } from "next/navigation";
 
 import { MfaSettingsPanel } from "@/components/clinical/MfaSettingsPanel";
+import { ProfileClinicalPreferencesSection } from "@/components/clinical/ProfileClinicalPreferencesSection";
 import { ProfileSettingsForm } from "@/components/clinical/profile-settings-form";
 import { CLINICAL_AVATARS_BUCKET } from "@/lib/supabase/medical-storage";
+import { parseClinicalPreferences } from "@repo/types";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function ProfilePage() {
@@ -18,12 +20,12 @@ export default async function ProfilePage() {
   const [{ data: profile, error: profileError }, { data: doctor }] = await Promise.all([
     supabase
       .from("profiles")
-      .select("id, full_name, institution, specialization, role, subscription_tier")
+      .select("id, full_name, institution, specialization, birth_year, role, subscription_tier, clinical_preferences")
       .eq("id", user.id)
       .maybeSingle(),
     supabase
       .from("users")
-      .select("full_name, institution, specialization, avatar_storage_path")
+      .select("full_name, institution, specialization, birth_year, avatar_storage_path")
       .eq("id", user.id)
       .maybeSingle(),
   ]);
@@ -52,6 +54,9 @@ export default async function ProfilePage() {
 
   const specialization =
     doctor?.specialization?.trim() || profile?.specialization?.trim() || null;
+
+  const clinicalPrefs = parseClinicalPreferences(profile?.clinical_preferences);
+  const fmfTemplateId = clinicalPrefs.fmfSecondThirdProtocolTemplate;
 
   return (
     <main className="px-4 py-10">
@@ -115,8 +120,12 @@ export default async function ProfilePage() {
             full_name: doctor?.full_name ?? profile?.full_name ?? "",
             institution: doctor?.institution ?? profile?.institution ?? "",
             specialization: doctor?.specialization ?? profile?.specialization ?? "",
+            birth_year: doctor?.birth_year ?? profile?.birth_year ?? null,
           }}
         />
+
+        <ProfileClinicalPreferencesSection initialTemplateId={fmfTemplateId} />
+
         <MfaSettingsPanel />
       </section>
     </main>

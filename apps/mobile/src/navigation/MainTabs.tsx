@@ -3,14 +3,13 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useMemo } from "react";
 import { Platform } from "react-native";
 import { ClinicalPhiGate } from "../components/ClinicalPhiGate";
-import { branding } from "../config/branding";
 import { useCases } from "../hooks/useCases";
-import CasesScreen from "../screens/CasesScreen";
-import CalculatorsScreen from "../screens/CalculatorsScreen";
-import HomeScreen from "../screens/HomeScreen";
-import GuidelinesTabScreen from "../modules/clinicalGuidelines/screens/GuidelinesTabScreen";
-import LibraryScreen from "../screens/LibraryScreen";
+import CommunityHubScreen from "../screens/CommunityHubScreen";
+import ToolsScreen from "../screens/ToolsScreen";
+import AssistantHubScreen from "../screens/AssistantHubScreen";
+import KnowledgeScreen from "../screens/KnowledgeScreen";
 import ProfileScreen from "../screens/ProfileScreen";
+import { DoctorRoleOnboarding } from "../components/clinical/DoctorRoleOnboarding";
 import type { MainTabParamList } from "./paramLists";
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
@@ -19,26 +18,25 @@ const icons: Record<
   keyof MainTabParamList,
   { focused: keyof typeof Ionicons.glyphMap; outline: keyof typeof Ionicons.glyphMap }
 > = {
-  HomeTab: { focused: "home", outline: "home-outline" },
-  CasesTab: { focused: "layers", outline: "layers-outline" },
-  CalculatorsTab: { focused: "grid", outline: "grid-outline" },
-  LibraryTab: { focused: "book", outline: "book-outline" },
-  GuidelinesTab: { focused: "document-text", outline: "document-text-outline" },
+  ChatTab: { focused: "chatbubbles", outline: "chatbubbles-outline" },
+  ToolsTab: { focused: "medkit", outline: "medkit-outline" },
+  AssistantTab: { focused: "hand-left", outline: "hand-left-outline" },
+  KnowledgeTab: { focused: "book", outline: "book-outline" },
   ProfileTab: { focused: "person", outline: "person-outline" },
 };
 
 const labels: Record<keyof MainTabParamList, string> = {
-  HomeTab: "Главная",
-  CasesTab: "Кейсы",
-  CalculatorsTab: "Калькуляторы",
-  LibraryTab: "Библиотека",
-  GuidelinesTab: "КР",
+  ChatTab: "Чат",
+  ToolsTab: "Инструменты",
+  AssistantTab: "Помощник",
+  KnowledgeTab: "Справочник",
   ProfileTab: "Профиль",
 };
 
 export default function MainTabs() {
   return (
     <ClinicalPhiGate>
+      <DoctorRoleOnboarding />
       <MainTabsInner />
     </ClinicalPhiGate>
   );
@@ -54,10 +52,11 @@ function MainTabsInner() {
 
   return (
     <Tab.Navigator
+      initialRouteName="ChatTab"
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarLabel: labels[route.name as keyof MainTabParamList],
-        tabBarActiveTintColor: "#6D28D9",
+        tabBarActiveTintColor: "#059669",
         tabBarInactiveTintColor: "#94a3b8",
         tabBarLabelStyle: { fontSize: 10, fontWeight: "600", letterSpacing: 0.2 },
         tabBarStyle: {
@@ -75,10 +74,9 @@ function MainTabsInner() {
         },
       })}
     >
-      <Tab.Screen name="HomeTab" component={HomeScreen} />
       <Tab.Screen
-        name="CasesTab"
-        component={CasesScreen}
+        name="ChatTab"
+        component={CommunityHubScreen}
         options={{
           tabBarBadge: casesCommentBadge,
           tabBarBadgeStyle: {
@@ -89,9 +87,9 @@ function MainTabsInner() {
           },
         }}
       />
-      <Tab.Screen name="CalculatorsTab" component={CalculatorsScreen} />
-      <Tab.Screen name="LibraryTab" component={LibraryScreen} />
-      <Tab.Screen name="GuidelinesTab" component={GuidelinesTabScreen} />
+      <Tab.Screen name="ToolsTab" component={ToolsScreen} />
+      <Tab.Screen name="AssistantTab" component={AssistantHubScreen} />
+      <Tab.Screen name="KnowledgeTab" component={KnowledgeScreen} />
       <Tab.Screen name="ProfileTab" component={ProfileScreen} />
     </Tab.Navigator>
   );

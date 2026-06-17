@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { I18n } from "i18n-js";
 import { attachLegalTranslations } from "./legal/i18nLegalBundle";
+import { attachOradsTranslations } from "./features/orads/i18nOradsBundle";
 
 export type AppLanguage = "ru" | "en" | "es" | "fr" | "it" | "ar";
 export const APP_LANGUAGE_KEY = "app_language";
@@ -1177,6 +1178,7 @@ const i18n = new I18n({
 });
 
 attachLegalTranslations(i18n);
+attachOradsTranslations(i18n);
 
 i18n.defaultLocale = "ru";
 i18n.locale = "ru";

@@ -17,6 +17,7 @@ export const MAMMO_CORE_EVIDENCE: EvidenceEntry[] = [
       label: "ACR BI-RADS Ultrasound v2025",
       organization: "ACR",
       year: 2025,
+      pmid: "31797521",
     },
     tags: ["BI-RADS", "категория", "US", "молочная железа", "assessment"],
     relatedLinks: [

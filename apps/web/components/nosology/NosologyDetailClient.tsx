@@ -16,6 +16,7 @@ import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { NosologySectionView } from "@/components/nosology/NosologySectionView";
+import { NosologyLiteraturePanel } from "@/components/nosology/NosologyLiteraturePanel";
 import { PdfSourcePanel } from "@/components/nosology/PdfSourcePanel";
 import { ClinicalAssistStrip } from "@/components/clinical-assistant/ClinicalAssistStrip";
 import { Button } from "@/components/ui/button";
@@ -30,6 +31,7 @@ const TAB_SECTIONS = [
   { id: "dx", label: "Диагностика", key: "diagnostics" as const },
   { id: "tx", label: "Лечение", key: "treatment" as const },
   { id: "guide", label: "Рекомендации", key: "guidelines" as const },
+  { id: "lit", label: "PubMed", key: null },
   { id: "pdf", label: "Первоисточник", key: null },
 ];
 
@@ -215,7 +217,7 @@ export function NosologyDetailClient({ id, isAdmin }: Props) {
         />
       </label>
 
-      <div className="grid gap-8 lg:grid-cols-[1fr_280px]">
+      <div className="grid gap-8 lg:grid-cols-[1fr_300px]">
         <Tabs defaultValue="exam" className="min-w-0">
           <TabsList className="flex h-auto flex-wrap gap-1 bg-[var(--clinical-muted)] p-1">
             {TAB_SECTIONS.map((t) => (
@@ -229,11 +231,15 @@ export function NosologyDetailClient({ id, isAdmin }: Props) {
               <NosologySectionView block={nosology[t.key!]} />
             </TabsContent>
           ))}
+          <TabsContent value="lit" className="mt-4 lg:hidden">
+            <NosologyLiteraturePanel nosology={nosology} />
+          </TabsContent>
           <TabsContent value="pdf" className="mt-4 lg:hidden">
             <PdfSourcePanel nosology={nosology} />
           </TabsContent>
         </Tabs>
-        <div className="hidden lg:block">
+        <div className="hidden space-y-4 lg:block">
+          <NosologyLiteraturePanel nosology={nosology} />
           <PdfSourcePanel nosology={nosology} />
         </div>
       </div>

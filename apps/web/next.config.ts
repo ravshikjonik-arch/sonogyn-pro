@@ -37,7 +37,7 @@ function supabaseConnectOriginExtra(): string {
 }
 
 const nextConfig: NextConfig = {
-  transpilePackages: ["three", "@clinical/uterus", "@repo/ui", "@repo/clinical-3d"],
+  transpilePackages: ["three", "@clinical/uterus", "@repo/ui", "@repo/clinical-3d", "@repo/nosology"],
   experimental: {
     optimizePackageImports: ["lucide-react", "@react-three/drei"],
   },

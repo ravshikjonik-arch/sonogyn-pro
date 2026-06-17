@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import { DOCTOR_SPECIALIZATION_OPTIONS } from "@repo/clinical-tools";
 
 import { useAuth, useSupabase } from "@/app/providers";
 import { Button } from "@/components/ui/button";
@@ -19,6 +20,7 @@ type Props = {
     full_name: string | null;
     institution: string | null;
     specialization: string | null;
+    birth_year: number | null;
   };
 };
 
@@ -29,6 +31,9 @@ export function ProfileSettingsForm({ initial }: Props) {
   const [full_name, setFullName] = useState(initial.full_name ?? "");
   const [institution, setInstitution] = useState(initial.institution ?? "");
   const [specialization, setSpecialization] = useState(initial.specialization ?? "");
+  const [birthYear, setBirthYear] = useState(
+    initial.birth_year != null ? String(initial.birth_year) : "",
+  );
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [revoking, setRevoking] = useState(false);
@@ -46,6 +51,7 @@ export function ProfileSettingsForm({ initial }: Props) {
           full_name: full_name.trim(),
           institution: institution.trim() || undefined,
           specialization: specialization.trim() || undefined,
+          birth_year: birthYear.trim() ? Number.parseInt(birthYear.trim(), 10) : undefined,
         }),
       });
       const payload = (await res.json().catch(() => null)) as { error?: unknown; profile?: unknown } | null;
@@ -147,13 +153,33 @@ export function ProfileSettingsForm({ initial }: Props) {
           </p>
         </label>
         <label className="block">
-          <span className="text-sm font-medium text-slate-700 dark:text-slate-200">Специализация</span>
+          <span className="text-sm font-medium text-slate-700 dark:text-slate-200">Год рождения</span>
           <input
+            className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-950 outline-none transition focus:border-[var(--clinical-primary)] focus:ring-4 focus:ring-[var(--clinical-ring)] dark:bg-slate-950 dark:text-white"
+            type="number"
+            min={1900}
+            max={2100}
+            value={birthYear}
+            onChange={(ev) => setBirthYear(ev.target.value)}
+            placeholder="1988"
+            required
+          />
+        </label>
+        <label className="block">
+          <span className="text-sm font-medium text-slate-700 dark:text-slate-200">Специализация</span>
+          <select
             className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-950 outline-none transition focus:border-[var(--clinical-primary)] focus:ring-4 focus:ring-[var(--clinical-ring)] dark:bg-slate-950 dark:text-white"
             value={specialization}
             onChange={(ev) => setSpecialization(ev.target.value)}
-            placeholder="Напр. акушер-гинеколог"
-          />
+            required
+          >
+            <option value="">Выберите специализацию</option>
+            {DOCTOR_SPECIALIZATION_OPTIONS.map((opt) => (
+              <option key={opt} value={opt}>
+                {opt}
+              </option>
+            ))}
+          </select>
         </label>
         <label className="block">
           <span className="text-sm font-medium text-slate-700 dark:text-slate-200">Учреждение</span>

@@ -307,6 +307,9 @@ export default function ORADSProScreen({ navigation, route }: Props) {
         </Pressable>
         <Text style={styles.title}>O-RADS + IOTA</Text>
         <View style={styles.rightHeader}>
+          <Pressable onPress={() => navigation.navigate("ORADSWizard")}>
+            <Text style={styles.history}>Wizard</Text>
+          </Pressable>
           <Pressable onPress={() => navigation.navigate("ORADSHistory")}>
             <Text style={styles.history}>История</Text>
           </Pressable>

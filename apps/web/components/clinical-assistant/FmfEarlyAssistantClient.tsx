@@ -2,10 +2,12 @@
 
 import { AlertTriangle, ArrowRight, ClipboardList, GraduationCap, Sparkles } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState, type Dispatch, type ReactNode, type SetStateAction } from "react";
 import { toast } from "sonner";
 
 import { BasicCourseLinkPanel } from "@/components/education/BasicCourseLinkPanel";
+import { CalculatorLiteraturePanel } from "@/components/pubmed/CalculatorLiteraturePanel";
 import { ClinicalAssistStrip } from "@/components/clinical-assistant/ClinicalAssistStrip";
 import {
   MedvedevMarkerTeachInline,
@@ -33,6 +35,8 @@ import {
   type DopplerInput,
   type ScarInput,
 } from "@/lib/clinical-assistant/fmf-protocol";
+import { FmfProtocolTemplatePicker } from "@/components/clinical-assistant/FmfProtocolTemplatePicker";
+import { useSecondThirdProtocolTemplate } from "@/lib/clinical-assistant/fmf-protocol-template-prefs";
 import { nosologyAssistContextForFmf } from "@/lib/clinical-assistant/nosology-assist-context";
 import { cn } from "@/lib/utils/cn";
 import {
@@ -137,7 +141,10 @@ function parseNum(value: string): number | undefined {
 }
 
 export function FmfAssistantClient({ initialSection = "early" }: Props) {
-  const [section, setSection] = useState<FmfAssistantSection>(initialSection);
+  const router = useRouter();
+  const section = initialSection;
+  const { templateId, setTemplateId, loading: templateLoading, syncing, syncError, syncedToProfile } =
+    useSecondThirdProtocolTemplate();
   const [calcMode, setCalcMode] = useState<"quick" | "strict">("strict");
   const [teachMode, setTeachMode] = useState(true);
   const [early, setEarly] = useState<EarlyInput>({});
@@ -162,7 +169,7 @@ export function FmfAssistantClient({ initialSection = "early" }: Props) {
     const total = gaDaysFromLmp(lmp, new Date());
     if (total < 0) return;
     const { weeks, days } = splitGaDays(total);
-    setSecondThird((p) => ({ ...p, gaWeeksByLmp: weeks, gaDaysByLmp: days }));
+    setSecondThird((p) => ({ ...p, gaWeeksByLmp: weeks, gaDaysByLmp: days, lmpDate: early.lmpDate }));
     setDoppler((p) => ({ ...p, gaWeeks: weeks, gaDays: days }));
   }, [early.lmpDate]);
 
@@ -203,10 +210,10 @@ export function FmfAssistantClient({ initialSection = "early" }: Props) {
     if (section === "early") return buildEarlyProtocol(early, earlyOut.conclusion, earlyOut.recommendations);
     if (section === "first") return buildFirstTrimesterProtocol(first, firstOut.conclusion, firstOut.recommendations);
     if (section === "second") {
-      return buildSecondThirdProtocol(secondThird, "second", secondOut.conclusion, secondOut.recommendations);
+      return buildSecondThirdProtocol(secondThird, "second", secondOut.conclusion, secondOut.recommendations, templateId);
     }
     if (section === "third") {
-      return buildSecondThirdProtocol(secondThird, "third", thirdOut.conclusion, thirdOut.recommendations);
+      return buildSecondThirdProtocol(secondThird, "third", thirdOut.conclusion, thirdOut.recommendations, templateId);
     }
     if (section === "cervix") {
       return buildCervixProtocol(cervix, cervixOut.conclusion, cervixOut.recommendations);
@@ -230,6 +237,7 @@ export function FmfAssistantClient({ initialSection = "early" }: Props) {
     cervixOut,
     scar,
     scarOut,
+    templateId,
   ]);
 
   function goToFirstWithTransfer() {
@@ -239,7 +247,7 @@ export function FmfAssistantClient({ initialSection = "early" }: Props) {
       fhr: early.fhr ?? prev.fhr,
       betaHcg: early.bHcg ?? prev.betaHcg,
     }));
-    setSection("first");
+    router.replace("/assistant/fmf?section=first", { scroll: false });
   }
 
   return (
@@ -293,10 +301,11 @@ export function FmfAssistantClient({ initialSection = "early" }: Props) {
 
       <nav className="flex flex-wrap gap-2" aria-label="Разделы FMF">
         {SECTIONS.map((item) => (
-          <button
+          <Link
             key={item.id}
-            type="button"
-            onClick={() => setSection(item.id)}
+            href={`/assistant/fmf?section=${item.id}`}
+            scroll={false}
+            prefetch
             className={cn(
               "rounded-2xl border px-4 py-3 text-left transition-colors",
               section === item.id
@@ -306,7 +315,7 @@ export function FmfAssistantClient({ initialSection = "early" }: Props) {
           >
             <p className="text-sm font-bold">{item.label}</p>
             <p className="text-xs text-[var(--clinical-foreground-muted)]">{item.hint}</p>
-          </button>
+          </Link>
         ))}
       </nav>
 
@@ -382,10 +391,20 @@ export function FmfAssistantClient({ initialSection = "early" }: Props) {
           </CardHeader>
           <CardContent className="space-y-4">
             {section === "second" || section === "third" ? (
-              <FieldGroup label="Режим перцентилей">
-                <Chip label="Медведев (Прил. 1)" selected={calcMode === "strict"} onClick={() => setCalcMode("strict")} />
-                <Chip label="Быстрая оценка" selected={calcMode === "quick"} onClick={() => setCalcMode("quick")} />
-              </FieldGroup>
+              <>
+                <FmfProtocolTemplatePicker
+                  value={templateId}
+                  onChange={setTemplateId}
+                  loading={templateLoading}
+                  syncing={syncing}
+                  syncError={syncError}
+                  syncedToProfile={syncedToProfile}
+                />
+                <FieldGroup label="Режим перцентилей">
+                  <Chip label="Медведев (Прил. 1)" selected={calcMode === "strict"} onClick={() => setCalcMode("strict")} />
+                  <Chip label="Быстрая оценка" selected={calcMode === "quick"} onClick={() => setCalcMode("quick")} />
+                </FieldGroup>
+              </>
             ) : null}
 
             {section === "early" ? (
@@ -474,6 +493,8 @@ export function FmfAssistantClient({ initialSection = "early" }: Props) {
           }
         />
       </div>
+
+      <CalculatorLiteraturePanel slug="fmf" />
 
       <p className="text-center text-[10px] text-[var(--clinical-foreground-muted)]">
         Не является диагнозом. Интерпретация и решение — лечащий врач.
@@ -802,6 +823,27 @@ function SecondThirdForm({
     <>
       {gaLabel ? <Badge variant="outline">Срок: {gaLabel}</Badge> : null}
 
+      <p className="text-xs font-bold uppercase tracking-wide text-[var(--clinical-foreground-muted)]">
+        Шапка протокола (шаблон Якубова)
+      </p>
+      <div className="grid gap-3 sm:grid-cols-2">
+        <FieldBlock label="Ф.И.О. пациентки">
+          <Input
+            value={secondThird.patientName ?? ""}
+            onChange={(e) => setSecondThird((p) => ({ ...p, patientName: e.target.value || undefined }))}
+            placeholder="Иванова А.А."
+          />
+        </FieldBlock>
+        <NumField label="Возраст, лет" value={secondThird.patientAge} onChange={setNum("patientAge")} />
+        <FieldBlock label="Дата исследования">
+          <Input
+            type="date"
+            value={secondThird.examDate ?? ""}
+            onChange={(e) => setSecondThird((p) => ({ ...p, examDate: e.target.value || undefined }))}
+          />
+        </FieldBlock>
+      </div>
+
       {secondThird.gaWeeksByLmp !== undefined && liveBiometry.length ? (
         <MedvedevReferencePanel
           title={showAnatomy ? "Перцентили · Прил. 1 + 5–12" : "Перцентили · Прил. 1"}
@@ -826,6 +868,18 @@ function SecondThirdForm({
           onClick={() => setSecondThird((p) => ({ ...p, fetusPresentation: "transverse" }))}
         />
       </FieldGroup>
+      <FieldGroup label="Стабильность положения">
+        <Chip
+          label="Неустойчивое"
+          selected={secondThird.fetalPositionStable === false}
+          onClick={() => setSecondThird((p) => ({ ...p, fetalPositionStable: false }))}
+        />
+        <Chip
+          label="Стабильное"
+          selected={secondThird.fetalPositionStable === true}
+          onClick={() => setSecondThird((p) => ({ ...p, fetalPositionStable: true }))}
+        />
+      </FieldGroup>
 
       {!lmpDate ? (
         <LmpDateField
@@ -844,15 +898,29 @@ function SecondThirdForm({
         <NumField label="HC, мм" value={secondThird.hc} onChange={setNum("hc")} />
         <NumField label="AC, мм" value={secondThird.ac} onChange={setNum("ac")} />
         <NumField label="FL, мм" value={secondThird.fl} onChange={setNum("fl")} />
+        <NumField label="HL, мм" value={secondThird.hlMm} onChange={setNum("hlMm")} />
+        <NumField label="UL, мм" value={secondThird.ulMm} onChange={setNum("ulMm")} />
+        <NumField label="TL, мм" value={secondThird.tlMm} onChange={setNum("tlMm")} />
+        <NumField label="Стопа, мм" value={secondThird.footLengthMm} onChange={setNum("footLengthMm")} />
+        <NumField label="Длина плода, см" value={secondThird.fetalLengthCm} onChange={setNum("fetalLengthCm")} />
+        <NumField label="ПМП, %tile" value={secondThird.efwPercentile} onChange={setNum("efwPercentile")} />
         <NumField label="ЧСС" value={secondThird.fhr} onChange={setNum("fhr")} />
         <NumField label="Лат. желудочки, мм" value={secondThird.lateralVentriclesMm} onChange={setNum("lateralVentriclesMm")} />
         <NumField label="Мозжечок, мм" value={secondThird.cerebellumMm} onChange={setNum("cerebellumMm")} />
         <NumField label="Большая цистерна, мм" value={secondThird.cisternaMagnaMm} onChange={setNum("cisternaMagnaMm")} />
         <NumField label="ИАЖ, см" value={secondThird.afiCm} onChange={setNum("afiCm")} />
+        <NumField label="Макс. карман, см" value={secondThird.maxVerticalPocketCm} onChange={setNum("maxVerticalPocketCm")} />
         <NumField label="Толщина плаценты, мм · Прил. 34" value={secondThird.placentaThicknessMm} onChange={setNum("placentaThicknessMm")} />
         <NumField label="Плацента до ЗВ, см" value={secondThird.placentaDistanceToOsCm} onChange={setNum("placentaDistanceToOsCm")} />
         <NumField label="CL шейки, мм" value={secondThird.cervixLengthMm} onChange={setNum("cervixLengthMm")} />
       </div>
+
+      <FieldGroup label="Локализация плаценты">
+        <Chip label="Передняя" selected={secondThird.placentaLocation === "anterior"} onClick={() => setSecondThird((p) => ({ ...p, placentaLocation: "anterior" }))} />
+        <Chip label="Задняя" selected={secondThird.placentaLocation === "posterior"} onClick={() => setSecondThird((p) => ({ ...p, placentaLocation: "posterior" }))} />
+        <Chip label="Боковая" selected={secondThird.placentaLocation === "lateral"} onClick={() => setSecondThird((p) => ({ ...p, placentaLocation: "lateral" }))} />
+        <Chip label="Дно" selected={secondThird.placentaLocation === "fundal"} onClick={() => setSecondThird((p) => ({ ...p, placentaLocation: "fundal" }))} />
+      </FieldGroup>
 
       {showAnatomy ? (
         <>
@@ -888,13 +956,21 @@ function SecondThirdForm({
       ) : null}
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        <NumField label="PI мат. артерий (ср.)" value={secondThird.uterinePiMean} onChange={setNum("uterinePiMean")} />
+        <NumField label="PI мат. пр." value={secondThird.uterinePiRight} onChange={setNum("uterinePiRight")} />
+        <NumField label="PI мат. сл." value={secondThird.uterinePiLeft} onChange={setNum("uterinePiLeft")} />
+        <NumField label="PI мат. (ср.)" value={secondThird.uterinePiMean} onChange={setNum("uterinePiMean")} />
         <NumField label="PI АП" value={secondThird.uaPi} onChange={setNum("uaPi")} />
         <NumField label="ИР АП (RI) · Прил. 37" value={secondThird.uaRi} onChange={setNum("uaRi")} />
         <NumField label="PI СМА" value={secondThird.mcaPi} onChange={setNum("mcaPi")} />
         <NumField label="PSV СМА · Прил. 38" value={secondThird.mcaPsv} onChange={setNum("mcaPsv")} />
         <NumField label="PI DV" value={secondThird.dvPi} onChange={setNum("dvPi")} />
       </div>
+
+      <FieldGroup label="Пол плода (наружные органы)">
+        <Chip label="Женский" selected={secondThird.fetalSex === "female"} onClick={() => setSecondThird((p) => ({ ...p, fetalSex: "female" }))} />
+        <Chip label="Мужской" selected={secondThird.fetalSex === "male"} onClick={() => setSecondThird((p) => ({ ...p, fetalSex: "male" }))} />
+        <Chip label="Не оценён" selected={secondThird.fetalSex === "uncertain"} onClick={() => setSecondThird((p) => ({ ...p, fetalSex: "uncertain" }))} />
+      </FieldGroup>
 
       <FieldGroup label="Носовые кости">
         <Chip label="Да" selected={secondThird.nasalBoneSeen === true} onClick={() => setSecondThird((p) => ({ ...p, nasalBoneSeen: true }))} />

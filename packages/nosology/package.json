@@ -10,7 +10,10 @@
   },
   "main": "./src/index.ts",
   "types": "./src/index.ts",
-  "sideEffects": false,
+  "sideEffects": [
+    "./src/data/nosologies.seed.json",
+    "./src/nosologyStore.ts"
+  ],
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "node --import tsx --test src/*.test.ts"
