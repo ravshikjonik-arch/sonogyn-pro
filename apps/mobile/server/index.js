@@ -584,7 +584,7 @@ app.get("/auth/telegram/poll/:nonce", (req, res) => {
 });
 
 /** Telegram Bot API webhook: /start login_{nonce} */
-app.post("/auth/telegram/webhook/:secret?", async (req, res) => {
+app.post(["/auth/telegram/webhook", "/auth/telegram/webhook/:secret"], async (req, res) => {
   if (TELEGRAM_WEBHOOK_SECRET && req.params.secret !== TELEGRAM_WEBHOOK_SECRET) {
     return res.status(403).json({ error: "Forbidden" });
   }
