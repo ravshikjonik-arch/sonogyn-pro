@@ -37,6 +37,9 @@ function supabaseConnectOriginExtra(): string {
 }
 
 const nextConfig: NextConfig = {
+  // Playwright/e2e and LAN dev hit the server via 127.0.0.1 / localhost; without this Next 16
+  // blocks cross-origin dev resources (HMR + chunks), which breaks client hydration in tests.
+  allowedDevOrigins: ["127.0.0.1", "localhost"],
   transpilePackages: ["three", "@clinical/uterus", "@repo/ui", "@repo/clinical-3d"],
   experimental: {
     optimizePackageImports: ["lucide-react", "@react-three/drei"],

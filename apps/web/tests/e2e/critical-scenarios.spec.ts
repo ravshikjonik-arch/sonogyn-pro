@@ -12,11 +12,15 @@ test.describe("Критические сценарии", () => {
     await page.getByTestId("appointment-complaints").fill("Черновик при офлайне");
 
     await context.setOffline(true);
+    // Playwright route interception bypasses setOffline, so explicitly fail the save request
+    // to actually simulate a network outage (last-registered route wins over the mock backend).
+    await page.route("**/api/e2e/appointments**", (route) => route.abort());
     const savePromise = page.getByTestId("appointment-save").click();
     await savePromise;
 
     await expect(page.getByTestId("appointment-saved-msg")).toHaveCount(0);
     await context.setOffline(false);
+    await page.unroute("**/api/e2e/appointments**");
   });
 
   test("автосохранение черновика в localStorage", async ({ page }) => {
