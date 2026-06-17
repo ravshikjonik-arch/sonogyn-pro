@@ -63,6 +63,9 @@ importers:
       '@repo/nosology':
         specifier: workspace:*
         version: link:../../packages/nosology
+      '@repo/thyroid-tirads':
+        specifier: workspace:*
+        version: link:../../packages/thyroid-tirads
       '@repo/types':
         specifier: workspace:*
         version: link:../../packages/types
