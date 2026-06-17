@@ -8,6 +8,7 @@ import {
   ClipboardList,
   Brain,
   Calculator,
+  CircleDot,
   FileText,
   HeartPulse,
   Library,
@@ -57,6 +58,7 @@ const nav = [
   { href: "/guidelines", label: "КР и приказы", icon: FileText },
   { href: "/evidence", label: "УЗИ · база", icon: BookMarked },
   { href: "/reference", label: "Клин. нормы", icon: BookOpen },
+  { href: "/figo-myoma", label: "FIGO миомы", icon: CircleDot },
   { href: "/library", label: "Библиотека", icon: Library },
   { href: "/idea-deep-endometriosis", label: "IDEA · эндометриоз", icon: ScanLine },
   { href: "/workspace", label: "AI-зона", icon: Brain },
@@ -95,18 +97,31 @@ export function ClinicalShell({
     (cabinetLabel.doctorLine ?? cabinetLabel.abbrev ?? displayName) || email || "Врач";
 
   useEffect(() => {
+    let cancelled = false;
+    let timeout: number | null = null;
+    const deferCabinetLabel = (label: DoctorCabinetLabel) => {
+      timeout = window.setTimeout(() => {
+        if (!cancelled) setCabinetLabel(label);
+      }, 0);
+    };
+
     if (devProfile?.full_name) {
-      setCabinetLabel(buildDoctorCabinetLabel(devProfile.full_name));
-      return;
+      deferCabinetLabel(buildDoctorCabinetLabel(devProfile.full_name));
+      return () => {
+        cancelled = true;
+        if (timeout) window.clearTimeout(timeout);
+      };
     }
 
     const uid = user?.id;
     if (!uid) {
-      setCabinetLabel(buildDoctorCabinetLabel(null));
-      return;
+      deferCabinetLabel(buildDoctorCabinetLabel(null));
+      return () => {
+        cancelled = true;
+        if (timeout) window.clearTimeout(timeout);
+      };
     }
 
-    let cancelled = false;
     void Promise.all([
       supabase.from("profiles").select("full_name, role").eq("id", uid).maybeSingle(),
       supabase.from("users").select("full_name").eq("id", uid).maybeSingle(),
@@ -123,6 +138,7 @@ export function ClinicalShell({
 
     return () => {
       cancelled = true;
+      if (timeout) window.clearTimeout(timeout);
     };
   }, [supabase, user?.id, user?.email, metaFullName, devProfile?.full_name]);
 
