@@ -157,13 +157,17 @@ export function FmfAssistantClient({ initialSection = "early" }: Props) {
 
   useEffect(() => {
     if (!early.lmpDate) return;
-    const lmp = parseIsoDate(early.lmpDate);
-    if (!lmp) return;
-    const total = gaDaysFromLmp(lmp, new Date());
-    if (total < 0) return;
-    const { weeks, days } = splitGaDays(total);
-    setSecondThird((p) => ({ ...p, gaWeeksByLmp: weeks, gaDaysByLmp: days }));
-    setDoppler((p) => ({ ...p, gaWeeks: weeks, gaDays: days }));
+    const lmpIso = early.lmpDate;
+    const timeout = window.setTimeout(() => {
+      const lmp = parseIsoDate(lmpIso);
+      if (!lmp) return;
+      const total = gaDaysFromLmp(lmp, new Date());
+      if (total < 0) return;
+      const { weeks, days } = splitGaDays(total);
+      setSecondThird((p) => ({ ...p, gaWeeksByLmp: weeks, gaDaysByLmp: days }));
+      setDoppler((p) => ({ ...p, gaWeeks: weeks, gaDays: days }));
+    }, 0);
+    return () => window.clearTimeout(timeout);
   }, [early.lmpDate]);
 
   const out: AssistantOutput =
@@ -852,6 +856,17 @@ function SecondThirdForm({
         <NumField label="Толщина плаценты, мм · Прил. 34" value={secondThird.placentaThicknessMm} onChange={setNum("placentaThicknessMm")} />
         <NumField label="Плацента до ЗВ, см" value={secondThird.placentaDistanceToOsCm} onChange={setNum("placentaDistanceToOsCm")} />
         <NumField label="CL шейки, мм" value={secondThird.cervixLengthMm} onChange={setNum("cervixLengthMm")} />
+      </div>
+
+      <div className="rounded-2xl border border-rose-200 bg-rose-50/70 p-3 text-sm text-rose-950">
+        <p className="font-semibold">Плацента / vasa previa</p>
+        <p className="mt-1 text-xs leading-relaxed text-rose-900/80">
+          Для низкой плацентации, предлежания или подозрения на сосуды в области внутреннего зева используйте 2D-схему
+          с протоколом.
+        </p>
+        <Button asChild variant="secondary" size="sm" className="mt-2">
+          <Link href="/placenta-atlas">Открыть схему плаценты</Link>
+        </Button>
       </div>
 
       {showAnatomy ? (
