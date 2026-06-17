@@ -32,6 +32,7 @@ import {
   OVARIAN_DESCRIPTION_EXAMPLE,
   type OvarianDescriptionFeatures,
 } from "../features/case/ovaryDescription";
+import { validateImageUriUpload } from "../lib/security/fileValidation";
 import i18n from "../i18n";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Case">;
@@ -333,6 +334,19 @@ export default function CaseScreen({ navigation, route }: Props) {
     prevCommentsLenRef.current = comments.length;
   }, [comments.length]);
 
+  async function acceptSelectedImage(uri: string) {
+    try {
+      const validated = await validateImageUriUpload(uri);
+      if (!validated.ok) {
+        Alert.alert("Недопустимый файл", validated.error);
+        return;
+      }
+      setImageUri(uri);
+    } catch {
+      Alert.alert("Недопустимый файл", "Не удалось проверить выбранное изображение");
+    }
+  }
+
   async function pickImage() {
     const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!permission.granted) {
@@ -345,7 +359,7 @@ export default function CaseScreen({ navigation, route }: Props) {
       allowsEditing: true,
     });
     if (!selected.canceled && selected.assets[0]) {
-      setImageUri(selected.assets[0].uri);
+      await acceptSelectedImage(selected.assets[0].uri);
     }
   }
 
@@ -361,7 +375,7 @@ export default function CaseScreen({ navigation, route }: Props) {
       allowsEditing: true,
     });
     if (!shot.canceled && shot.assets[0]) {
-      setImageUri(shot.assets[0].uri);
+      await acceptSelectedImage(shot.assets[0].uri);
     }
   }
 

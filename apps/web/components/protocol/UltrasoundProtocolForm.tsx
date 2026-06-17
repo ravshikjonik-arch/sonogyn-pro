@@ -1,6 +1,6 @@
 "use client";
 
-import type { UltrasoundProtocolPayload } from "@repo/types";
+import { isSafeClinicalImageDataUrl, type UltrasoundProtocolPayload } from "@repo/types";
 import {
   calculateAfi,
   combinedGaDaysFromBiometry,
@@ -102,29 +102,35 @@ export function UltrasoundProtocolForm({
   }, [studyId, sessionSeed]);
 
   useEffect(() => {
-    void loadProtocol();
+    const timeout = window.setTimeout(() => {
+      void loadProtocol();
+    }, 0);
+    return () => window.clearTimeout(timeout);
   }, [loadProtocol]);
 
   useEffect(() => {
     if (loading) return;
-    try {
-      const raw = sessionStorage.getItem("nosology-pending-apply");
-      if (!raw) return;
-      const pending = JSON.parse(raw) as NosologyProtocolInsert;
-      sessionStorage.removeItem("nosology-pending-apply");
-      setProtocol((p) => ({
-        ...p,
-        diagnosis: p.diagnosis?.trim()
-          ? `${p.diagnosis}\n${pending.diagnosis}`
-          : pending.diagnosis,
-        conclusion: p.conclusion?.trim()
-          ? `${p.conclusion}\n\n${pending.conclusion}`
-          : pending.conclusion,
-      }));
-      toast.success("Текст из справочника нозологий добавлен в протокол");
-    } catch {
-      /* ignore malformed */
-    }
+    const timeout = window.setTimeout(() => {
+      try {
+        const raw = sessionStorage.getItem("nosology-pending-apply");
+        if (!raw) return;
+        const pending = JSON.parse(raw) as NosologyProtocolInsert;
+        sessionStorage.removeItem("nosology-pending-apply");
+        setProtocol((p) => ({
+          ...p,
+          diagnosis: p.diagnosis?.trim()
+            ? `${p.diagnosis}\n${pending.diagnosis}`
+            : pending.diagnosis,
+          conclusion: p.conclusion?.trim()
+            ? `${p.conclusion}\n\n${pending.conclusion}`
+            : pending.conclusion,
+        }));
+        toast.success("Текст из справочника нозологий добавлен в протокол");
+      } catch {
+        /* ignore malformed */
+      }
+    }, 0);
+    return () => window.clearTimeout(timeout);
   }, [loading]);
 
   const onNosologyInsert = useCallback((payload: NosologyProtocolInsert) => {
@@ -214,6 +220,11 @@ export function UltrasoundProtocolForm({
   }, [protocol.amniotic]);
 
   const screeningHints = computedGaDays != null ? screeningHintsRu(computedGaDays) : [];
+  const safeUterusSnapshot =
+    protocol.uterus_visualization?.snapshotDataUrl &&
+    isSafeClinicalImageDataUrl(protocol.uterus_visualization.snapshotDataUrl)
+      ? protocol.uterus_visualization.snapshotDataUrl
+      : null;
 
   async function save() {
     setSaving(true);
@@ -297,7 +308,6 @@ export function UltrasoundProtocolForm({
     return <p className="text-sm text-[var(--clinical-foreground-muted)]">Загрузка протокола…</p>;
   }
 
-  const gaWeeks = computedGaDays != null ? computedGaDays / 7 : null;
   const gaWeeksInt = computedGaDays != null ? Math.floor(computedGaDays / 7) : undefined;
   const gaDaysRem = computedGaDays != null ? computedGaDays % 7 : undefined;
 
@@ -573,14 +583,14 @@ export function UltrasoundProtocolForm({
         </section>
       ) : null}
 
-      {protocol.uterus_visualization?.snapshotDataUrl ? (
+      {safeUterusSnapshot ? (
         <section className="rounded-xl border border-[var(--clinical-border)] p-3">
           <p className="mb-2 text-xs font-bold uppercase tracking-wider text-[var(--clinical-foreground-muted)]">
             Схема матки (3D)
           </p>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={protocol.uterus_visualization.snapshotDataUrl}
+            src={safeUterusSnapshot}
             alt="Схема матки"
             className="max-h-48 rounded-lg border border-[var(--clinical-border)] object-contain"
           />

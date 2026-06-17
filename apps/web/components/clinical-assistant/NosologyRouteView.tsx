@@ -13,6 +13,7 @@ import {
 import Link from "next/link";
 import { useCallback, useMemo, useRef, useState, type ComponentType, type ReactNode } from "react";
 import { toast } from "sonner";
+import { escapeHtmlText } from "@repo/types";
 
 import { AssistantProtocolSavePanel } from "@/components/clinical-assistant/AssistantProtocolSavePanel";
 import { ClinicalAssistStrip } from "@/components/clinical-assistant/ClinicalAssistStrip";
@@ -207,15 +208,17 @@ export function NosologyRouteView({ card, initialPatientId, backHref, compact }:
   }, []);
 
   const printRoute = useCallback(() => {
-    const html = `<!DOCTYPE html><html><head><meta charset="utf-8"/><title>${card.title}</title>
+    const e = escapeHtmlText;
+    const list = (items: string[]) => items.map((x) => `<li>${e(x)}</li>`).join("");
+    const html = `<!DOCTYPE html><html><head><meta charset="utf-8"/><title>${e(card.title)}</title>
 <style>body{font-family:system-ui,sans-serif;padding:24px;max-width:800px;line-height:1.45}
 h1{font-size:18px}h2{font-size:14px;margin-top:18px;color:#334155}ul{padding-left:18px}</style></head><body>
-<h1>${card.code} — ${card.title}</h1>
-<p>${card.dailyUse}</p>
-<h2>Лабораторные анализы</h2><ul>${card.laboratoryWorkup.map((x) => `<li>${x}</li>`).join("")}</ul>
-<h2>Инструментально</h2><ul>${card.instrumentalInvestigations.map((x) => `<li>${x}</li>`).join("")}</ul>
-<h2>УЗИ</h2><ul>${card.ultrasoundFocus.map((x) => `<li>${x}</li>`).join("")}</ul>
-<h2>Лечение</h2><ul>${card.treatmentRoute.map((x) => `<li>${x}</li>`).join("")}</ul>
+<h1>${e(card.code)} — ${e(card.title)}</h1>
+<p>${e(card.dailyUse)}</p>
+<h2>Лабораторные анализы</h2><ul>${list(card.laboratoryWorkup)}</ul>
+<h2>Инструментально</h2><ul>${list(card.instrumentalInvestigations)}</ul>
+<h2>УЗИ</h2><ul>${list(card.ultrasoundFocus)}</ul>
+<h2>Лечение</h2><ul>${list(card.treatmentRoute)}</ul>
 <p style="font-size:11px;color:#64748b">Не является диагнозом. Решение принимает лечащий врач.</p>
 </body></html>`;
     const w = window.open("", "_blank");

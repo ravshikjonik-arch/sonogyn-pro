@@ -190,6 +190,21 @@ app.use(commonLimiter);
 
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 12 * 1024 * 1024 } });
 
+function bufferStartsWith(buffer, sig, offset = 0) {
+  if (!buffer || buffer.length < offset + sig.length) return false;
+  return sig.every((b, i) => buffer[offset + i] === b);
+}
+
+function detectImageExtension(buffer) {
+  if (bufferStartsWith(buffer, [0xff, 0xd8, 0xff])) return "jpg";
+  if (bufferStartsWith(buffer, [0x89, 0x50, 0x4e, 0x47])) return "png";
+  if (bufferStartsWith(buffer, [0x47, 0x49, 0x46])) return "gif";
+  if (bufferStartsWith(buffer, [0x52, 0x49, 0x46, 0x46]) && bufferStartsWith(buffer, [0x57, 0x45, 0x42, 0x50], 8)) {
+    return "webp";
+  }
+  return null;
+}
+
 function authMiddleware(req, res, next) {
   const h = req.headers.authorization || "";
   const token = h.startsWith("Bearer ") ? h.slice(7) : null;
@@ -338,7 +353,10 @@ app.post("/cases", authMiddleware, upload.single("image"), (req, res) => {
 
   let imageFilename = null;
   if (req.file && req.file.buffer && req.file.buffer.length) {
-    const ext = (req.file.mimetype || "").includes("png") ? "png" : "jpg";
+    const ext = detectImageExtension(req.file.buffer);
+    if (!ext) {
+      return res.status(400).json({ error: "Допустимы только изображения JPEG, PNG, WebP или GIF" });
+    }
     imageFilename = `${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
     fs.writeFileSync(path.join(UPLOADS_DIR, imageFilename), req.file.buffer);
   }

@@ -14,6 +14,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
+import { escapeHtmlText } from "@repo/types";
 
 import { NosologySectionView } from "@/components/nosology/NosologySectionView";
 import { PdfSourcePanel } from "@/components/nosology/PdfSourcePanel";
@@ -49,11 +50,13 @@ export function NosologyDetailClient({ id, isAdmin }: Props) {
   const [localization, setLocalization] = useState("");
 
   useEffect(() => {
-    if (nosology) {
+    if (!nosology) return;
+    const timeout = window.setTimeout(() => {
       pushRecentNosology(nosology.id);
       setFavorite(isFavoriteNosology(nosology.id));
       setNotes(getNosologyNotes(nosology.id));
-    }
+    }, 0);
+    return () => window.clearTimeout(timeout);
   }, [nosology]);
 
   const persistNotes = useCallback(() => {
@@ -87,13 +90,15 @@ export function NosologyDetailClient({ id, isAdmin }: Props) {
   );
 
   const printMemo = useCallback((n: Nosology) => {
-    const html = `<!DOCTYPE html><html><head><meta charset="utf-8"/><title>${n.title}</title>
+    const e = escapeHtmlText;
+    const list = (items: string[]) => items.map((x) => `<li>${e(x)}</li>`).join("");
+    const html = `<!DOCTYPE html><html><head><meta charset="utf-8"/><title>${e(n.title)}</title>
       <style>body{font-family:system-ui,sans-serif;padding:24px;max-width:720px;line-height:1.5}
       h1{font-size:20px}h2{font-size:14px;margin-top:20px;color:#444}ul{padding-left:20px}</style></head><body>
-      <h1>${n.title}</h1><p>${n.description}</p>
-      <h2>Обследование</h2><ul>${(n.examinationScheme.checklist ?? n.examinationScheme.bullets ?? []).map((x) => `<li>${x}</li>`).join("")}</ul>
-      <h2>Диагностика</h2><ul>${(n.diagnostics.bullets ?? []).map((x) => `<li>${x}</li>`).join("")}</ul>
-      <h2>Лечение</h2><ul>${(n.treatment.bullets ?? []).map((x) => `<li>${x}</li>`).join("")}</ul>
+      <h1>${e(n.title)}</h1><p>${e(n.description)}</p>
+      <h2>Обследование</h2><ul>${list(n.examinationScheme.checklist ?? n.examinationScheme.bullets ?? [])}</ul>
+      <h2>Диагностика</h2><ul>${list(n.diagnostics.bullets ?? [])}</ul>
+      <h2>Лечение</h2><ul>${list(n.treatment.bullets ?? [])}</ul>
       </body></html>`;
     const w = window.open("", "_blank");
     if (!w) return;

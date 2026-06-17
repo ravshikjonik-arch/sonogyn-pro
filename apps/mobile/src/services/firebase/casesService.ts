@@ -16,6 +16,7 @@ import {
   uploadBytes,
 } from "firebase/storage";
 import type { CaseRecord, OrganType, OradsSnapshot } from "../../features/case/types";
+import { validateImageUriUpload } from "../../lib/security/fileValidation";
 import { requireFirestore, requireStorage } from "./firebase";
 
 function db() {
@@ -55,10 +56,12 @@ function stripUndefinedDeep<T>(value: T): T {
 }
 
 async function uploadCaseImage(imageUri: string, caseId: string): Promise<string> {
-  const response = await fetch(imageUri);
-  const blob = await response.blob();
-  const fileRef = ref(st(), `cases/${caseId}/${Date.now()}.jpg`);
-  await uploadBytes(fileRef, blob, { contentType: "image/jpeg" });
+  const validated = await validateImageUriUpload(imageUri);
+  if (!validated.ok) {
+    throw new Error(validated.error);
+  }
+  const fileRef = ref(st(), `cases/${caseId}/${Date.now()}.${validated.extension}`);
+  await uploadBytes(fileRef, validated.blob, { contentType: validated.contentType });
   return getDownloadURL(fileRef);
 }
 

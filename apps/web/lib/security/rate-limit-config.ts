@@ -72,6 +72,12 @@ export const RL = {
     "RATE_LIMIT_COPILOT_STUDIES_LIST_WINDOW_SEC",
     60,
   ),
+  copilotStudiesCreate: preset(
+    "RATE_LIMIT_COPILOT_STUDIES_CREATE",
+    30,
+    "RATE_LIMIT_COPILOT_STUDIES_CREATE_WINDOW_SEC",
+    60,
+  ),
   copilotSeriesCreate: preset(
     "RATE_LIMIT_COPILOT_SERIES",
     40,

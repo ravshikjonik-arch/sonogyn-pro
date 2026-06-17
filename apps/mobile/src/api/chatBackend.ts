@@ -1,3 +1,5 @@
+import { validateImageUriUpload } from "../lib/security/fileValidation";
+
 export function getChatApiBase(): string {
   return (process.env.EXPO_PUBLIC_CHAT_API_URL || "").replace(/\/$/, "");
 }
@@ -105,9 +107,17 @@ export async function apiCreateCase(
   form.append("tags", JSON.stringify(params.tags));
 
   if (params.imageUri) {
-    const name = params.imageUri.split("/").pop() || "photo.jpg";
-    const ext = name.toLowerCase().includes("png") ? "image/png" : "image/jpeg";
-    form.append("image", { uri: params.imageUri, name, type: ext } as unknown as Blob);
+    const validated = await validateImageUriUpload(params.imageUri);
+    if (!validated.ok) {
+      throw new Error(validated.error);
+    }
+    const rawName = params.imageUri.split("/").pop() || "photo";
+    const safeBase = rawName.replace(/\.[a-z0-9]+$/i, "").replace(/[^a-zA-Z0-9._-]/g, "_") || "photo";
+    form.append("image", {
+      uri: params.imageUri,
+      name: `${safeBase}.${validated.extension}`,
+      type: validated.contentType,
+    } as unknown as Blob);
   }
 
   const res = await fetch(`${base}/cases`, {

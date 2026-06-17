@@ -56,9 +56,21 @@ function withClinicalPhiGate<P extends object>(Screen: ComponentType<P>) {
   };
 }
 
+const GuardedCase = withClinicalPhiGate(CaseScreen);
+const GuardedORADSFlow = withClinicalPhiGate(ORADSFlowScreen);
 const GuardedORADSPro = withClinicalPhiGate(ORADSProScreen);
 const GuardedORADSHistory = withClinicalPhiGate(ORADSHistoryScreen);
 const GuardedORADSHistoryDetails = withClinicalPhiGate(ORADSHistoryDetailsScreen);
+const GuardedFMFAssistant = withClinicalPhiGate(FMFAssistantScreen);
+const GuardedProlapse = withClinicalPhiGate(ProlapseScreen);
+const GuardedGynecologyCalc = withClinicalPhiGate(GynecologyCalcScreen);
+const GuardedBiRadsAssistant = withClinicalPhiGate(BiRadsAssistantScreen);
+const GuardedBreast3D = withClinicalPhiGate(Breast3DScreen);
+const GuardedTiRadsAssistant = withClinicalPhiGate(TiRadsAssistantScreen);
+const GuardedClinicalReference = withClinicalPhiGate(ClinicalReferenceScreen);
+const GuardedNosology = withClinicalPhiGate(NosologyScreen);
+const GuardedElastography = withClinicalPhiGate(ElastographyScreen);
+const GuardedClinicalGuidelineDetail = withClinicalPhiGate(ClinicalGuidelineDetailScreen);
 
 function parseGynecologyInitialPage(segment?: string): PageType {
   if (!segment) return "gyn_hub";
@@ -252,24 +264,24 @@ export default function AppStack() {
           <Stack.Screen name="PrivacyPolicy" component={PrivacyScreen} />
           <Stack.Screen name="MedicalDisclaimer" component={DisclaimerScreen} />
           <Stack.Screen name="Main" component={MainTabs} />
-          <Stack.Screen name="Case" component={CaseScreen} />
+          <Stack.Screen name="Case" component={GuardedCase} />
           <Stack.Screen name="Paywall" component={PaywallScreen} />
           <Stack.Screen name="SupabaseAuth" component={SupabaseAuthScreen} />
           <Stack.Screen name="Language" component={LanguageScreen} />
-          <Stack.Screen name="ORADSFlow" component={ORADSFlowScreen} />
+          <Stack.Screen name="ORADSFlow" component={GuardedORADSFlow} />
           <Stack.Screen name="ORADSPro" component={GuardedORADSPro} />
           <Stack.Screen name="ORADSHistory" component={GuardedORADSHistory} />
           <Stack.Screen name="ORADSHistoryDetails" component={GuardedORADSHistoryDetails} />
-          <Stack.Screen name="FMFAssistant" component={FMFAssistantScreen} />
-          <Stack.Screen name="Prolapse" component={ProlapseScreen} />
-          <Stack.Screen name="GynecologyCalc" component={GynecologyCalcScreen} />
-          <Stack.Screen name="BiRadsAssistant" component={BiRadsAssistantScreen} />
-          <Stack.Screen name="Breast3D" component={Breast3DScreen} />
-          <Stack.Screen name="TiRadsAssistant" component={TiRadsAssistantScreen} />
-          <Stack.Screen name="ClinicalReference" component={ClinicalReferenceScreen} />
-          <Stack.Screen name="Nosology" component={NosologyScreen} />
-          <Stack.Screen name="ElastographyCalc" component={ElastographyScreen} />
-          <Stack.Screen name="ClinicalGuidelineDetail" component={ClinicalGuidelineDetailScreen} />
+          <Stack.Screen name="FMFAssistant" component={GuardedFMFAssistant} />
+          <Stack.Screen name="Prolapse" component={GuardedProlapse} />
+          <Stack.Screen name="GynecologyCalc" component={GuardedGynecologyCalc} />
+          <Stack.Screen name="BiRadsAssistant" component={GuardedBiRadsAssistant} />
+          <Stack.Screen name="Breast3D" component={GuardedBreast3D} />
+          <Stack.Screen name="TiRadsAssistant" component={GuardedTiRadsAssistant} />
+          <Stack.Screen name="ClinicalReference" component={GuardedClinicalReference} />
+          <Stack.Screen name="Nosology" component={GuardedNosology} />
+          <Stack.Screen name="ElastographyCalc" component={GuardedElastography} />
+          <Stack.Screen name="ClinicalGuidelineDetail" component={GuardedClinicalGuidelineDetail} />
         </Stack.Navigator>
       </NavigationContainer>
     </AppGateContext.Provider>

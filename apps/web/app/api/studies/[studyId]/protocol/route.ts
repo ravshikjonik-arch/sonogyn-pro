@@ -45,7 +45,17 @@ export async function GET(request: Request, context: { params: Promise<Params> }
     return NextResponse.json({ error: error.message }, { status: 400 });
   }
 
-  return NextResponse.json({ protocol: data?.payload ?? null, measurementId: data?.id ?? null });
+  if (!data?.payload) {
+    return NextResponse.json({ protocol: null, measurementId: null });
+  }
+
+  const parsed = UltrasoundProtocolPayloadSchema.safeParse(data.payload);
+  if (!parsed.success) {
+    safeLog("stored protocol validation failed", { studyId, measurementId: data.id });
+    return NextResponse.json({ protocol: null, measurementId: data.id });
+  }
+
+  return NextResponse.json({ protocol: parsed.data, measurementId: data.id });
 }
 
 export async function PUT(request: Request, context: { params: Promise<Params> }) {
