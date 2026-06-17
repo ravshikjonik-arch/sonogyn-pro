@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 
 import { OTP_INVALID_MSG, toSafeAuthErrorMessage } from "@/lib/auth/safe-auth-messages";
+import { consumeAuthRateLimit } from "@/lib/security/rate-limit";
+import { RL } from "@/lib/security/rate-limit-config";
+import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
 import {
   createSupabaseRouteHandlerClient,
   nextJsonWithAuthCookies,
@@ -26,6 +29,18 @@ export async function POST(req: Request) {
 
   if (!factorId || !code) {
     return NextResponse.json({ error: OTP_INVALID_MSG }, { status: 400 });
+  }
+
+  const rl = await consumeAuthRateLimit(
+    rateLimitKeyFromRequest(req, "auth-mfa-verify"),
+    RL.authMfaVerify.limit,
+    RL.authMfaVerify.windowMs,
+  );
+  if (!rl.ok) {
+    return NextResponse.json(
+      { error: "Слишком много попыток. Подождите." },
+      { status: 429, headers: { "Retry-After": String(rl.retryAfterSec) } },
+    );
   }
 
   const client = await createSupabaseRouteHandlerClient();

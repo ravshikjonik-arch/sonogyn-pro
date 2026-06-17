@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
+import { consumeRateLimit } from "@/lib/security/rate-limit";
+import { RL } from "@/lib/security/rate-limit-config";
 import { createClient } from "@/utils/supabase/server";
 
 export const runtime = "nodejs";
@@ -24,6 +26,18 @@ export async function GET(_request: Request, context: { params: Promise<{ jobId:
 
   if (userErr || !user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const pollRl = await consumeRateLimit(
+    `ai-analyze-poll:${user.id}`,
+    RL.aiAnalyzePoll.limit,
+    RL.aiAnalyzePoll.windowMs,
+  );
+  if (!pollRl.ok) {
+    return NextResponse.json(
+      { error: "Too many requests" },
+      { status: 429, headers: { "Retry-After": String(pollRl.retryAfterSec) } },
+    );
   }
 
   const { data: analysis, error } = await supabase

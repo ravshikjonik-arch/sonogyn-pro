@@ -41,6 +41,7 @@ export async function saveCalculatorEntry(input: {
   revalidatePath("/calculators");
   revalidatePath("/calculators/elastography");
   revalidatePath("/calculators/pop-q");
+  revalidatePath("/calculators/ti-rads");
   revalidatePath(`/calculators/${input.slug}`);
   return { ok: true, id: data.id as string };
 }

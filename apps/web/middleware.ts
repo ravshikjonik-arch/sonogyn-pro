@@ -47,7 +47,11 @@ export default async function middleware(request: NextRequest) {
 
   if (pathname.startsWith("/api/")) {
     if (process.env.NODE_ENV === "production") {
-      if (pathname.startsWith("/api/debug") || pathname.startsWith("/api/auth/dev-login")) {
+      if (
+        pathname.startsWith("/api/debug") ||
+        pathname.startsWith("/api/auth/dev-login") ||
+        pathname.startsWith("/api/e2e")
+      ) {
         return NextResponse.json({ error: "Not found" }, { status: 404 });
       }
     }

@@ -63,6 +63,13 @@ export const RL = {
     "RATE_LIMIT_AUTH_MOBILE_EXCHANGE_WINDOW_SEC",
     900,
   ),
+  authMfaVerify: preset(
+    "RATE_LIMIT_AUTH_MFA_VERIFY",
+    20,
+    "RATE_LIMIT_AUTH_MFA_VERIFY_WINDOW_SEC",
+    900,
+  ),
+  authSession: preset("RATE_LIMIT_AUTH_SESSION", 120, "RATE_LIMIT_AUTH_SESSION_WINDOW_SEC", 60),
   patientsListIp: preset("RATE_LIMIT_PATIENTS_SEARCH", 120, "RATE_LIMIT_PATIENTS_SEARCH_WINDOW_SEC", 60),
   patientsListUser: preset(
     "RATE_LIMIT_PATIENTS_SEARCH_PER_USER",
@@ -78,6 +85,12 @@ export const RL = {
     "RATE_LIMIT_COPILOT_STUDIES_LIST",
     120,
     "RATE_LIMIT_COPILOT_STUDIES_LIST_WINDOW_SEC",
+    60,
+  ),
+  copilotStudyCreate: preset(
+    "RATE_LIMIT_COPILOT_STUDY_CREATE",
+    30,
+    "RATE_LIMIT_COPILOT_STUDY_CREATE_WINDOW_SEC",
     60,
   ),
   copilotSeriesCreate: preset(
@@ -103,6 +116,7 @@ export const RL = {
   aiOrads: preset("RATE_LIMIT_AI_ORADS", 40, "RATE_LIMIT_AI_ORADS_WINDOW_SEC", 60),
   aiOradsBurst: preset("RATE_LIMIT_AI_ORADS_BURST", 5, "RATE_LIMIT_AI_ORADS_BURST_WINDOW_SEC", 10),
   aiAnalyze: preset("RATE_LIMIT_AI_ANALYZE", 30, "RATE_LIMIT_AI_ANALYZE_WINDOW_SEC", 3600),
+  aiAnalyzePoll: preset("RATE_LIMIT_AI_ANALYZE_POLL", 120, "RATE_LIMIT_AI_ANALYZE_POLL_WINDOW_SEC", 60),
   aiStructured: preset("RATE_LIMIT_AI_STRUCTURED", 30, "RATE_LIMIT_AI_STRUCTURED_WINDOW_SEC", 60),
   aiNosology: preset("RATE_LIMIT_AI_NOSOLOGY", 40, "RATE_LIMIT_AI_NOSOLOGY_WINDOW_SEC", 60),
   aiOvary: preset("RATE_LIMIT_AI_OVARY", 40, "RATE_LIMIT_AI_OVARY_WINDOW_SEC", 60),
@@ -122,4 +136,6 @@ export const RL = {
     "RATE_LIMIT_ADMIN_REVOKE_SESSIONS_WINDOW_SEC",
     60,
   ),
+  /** Per-user burst bucket when mobile/web flushes offline write queue (reconnect). */
+  syncBurst: preset("RATE_LIMIT_SYNC_BURST", 30, "RATE_LIMIT_SYNC_BURST_WINDOW_SEC", 60),
 } as const;

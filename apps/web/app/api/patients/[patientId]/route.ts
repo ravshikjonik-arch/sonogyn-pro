@@ -1,7 +1,10 @@
 import { UpdatePatientBodySchema } from "@repo/types";
 import { NextResponse } from "next/server";
 
-import { rejectIfRateLimitedPreset } from "@/lib/security/api-rate-limit";
+import {
+  rejectIfRateLimitedPreset,
+  rejectIfSyncBurstForUser,
+} from "@/lib/security/api-rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { safeLog } from "@/lib/security/safeLog";
 import { isUuid } from "@/lib/security/uuid";
@@ -64,6 +67,9 @@ export async function PATCH(request: Request, context: { params: Promise<Params>
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  const burst = await rejectIfSyncBurstForUser(user.id);
+  if (burst) return burst;
+
   const json = await request.json().catch(() => null);
   const parsed = UpdatePatientBodySchema.safeParse(json);
   if (!parsed.success) {
@@ -107,6 +113,9 @@ export async function DELETE(request: Request, context: { params: Promise<Params
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+
+  const burst = await rejectIfSyncBurstForUser(user.id);
+  if (burst) return burst;
 
   const { error } = await supabase
     .from("patients")

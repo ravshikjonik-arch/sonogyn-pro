@@ -268,6 +268,9 @@ importers:
       '@repo/obstetric-atlas':
         specifier: workspace:*
         version: link:../../packages/obstetric-atlas
+      '@repo/thyroid-tirads':
+        specifier: workspace:*
+        version: link:../../packages/thyroid-tirads
       '@repo/types':
         specifier: workspace:*
         version: link:../../packages/types
@@ -483,6 +486,18 @@ importers:
         version: 5.9.3
 
   packages/obstetric-atlas:
+    devDependencies:
+      '@types/node':
+        specifier: ^20
+        version: 20.19.40
+      tsx:
+        specifier: ^4.19.4
+        version: 4.21.0
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.3
+
+  packages/thyroid-tirads:
     devDependencies:
       '@types/node':
         specifier: ^20

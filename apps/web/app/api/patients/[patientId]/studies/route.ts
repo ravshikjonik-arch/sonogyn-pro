@@ -1,10 +1,15 @@
 import { NextResponse } from "next/server";
 
+import { rejectIfRateLimitedPreset } from "@/lib/security/api-rate-limit";
+import { RL } from "@/lib/security/rate-limit-config";
 import { createClient } from "@/utils/supabase/server";
 
 type Params = { patientId: string };
 
-export async function GET(_request: Request, context: { params: Promise<Params> }) {
+export async function GET(request: Request, context: { params: Promise<Params> }) {
+  const limited = await rejectIfRateLimitedPreset(request, "patients-studies-list", RL.patientsDetail);
+  if (limited) return limited;
+
   const { patientId } = await context.params;
   const supabase = await createClient();
   const {

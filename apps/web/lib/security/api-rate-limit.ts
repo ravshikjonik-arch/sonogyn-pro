@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import type { RateLimitPreset } from "@/lib/security/rate-limit-config";
+import { RL } from "@/lib/security/rate-limit-config";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
 
@@ -40,4 +41,9 @@ export async function rejectIfRateLimitedForUser(
   const rl = await consumeRateLimit(`${routeKey}:user:${userId}`, preset.limit, preset.windowMs);
   if (rl.ok) return null;
   return rateLimitedResponse(rl.retryAfterSec);
+}
+
+/** Shared per-user bucket for PHI write bursts after offline reconnect. */
+export async function rejectIfSyncBurstForUser(userId: string): Promise<NextResponse | null> {
+  return rejectIfRateLimitedForUser(userId, "sync-burst", RL.syncBurst);
 }

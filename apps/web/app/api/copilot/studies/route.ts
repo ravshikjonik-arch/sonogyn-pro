@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import { recordAuditEvent } from "@/lib/copilot/audit";
 import type { StudyType } from "@/lib/copilot/types";
+import {
+  rejectIfRateLimitedPreset,
+  rejectIfSyncBurstForUser,
+} from "@/lib/security/api-rate-limit";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
@@ -56,6 +60,9 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+  const limited = await rejectIfRateLimitedPreset(request, "copilot-study-create", RL.copilotStudyCreate);
+  if (limited) return limited;
+
   const supabase = await createClient();
   const {
     data: { user },
@@ -64,6 +71,9 @@ export async function POST(request: Request) {
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+
+  const burst = await rejectIfSyncBurstForUser(user.id);
+  if (burst) return burst;
 
   const body = (await request.json().catch(() => null)) as Record<
     string,

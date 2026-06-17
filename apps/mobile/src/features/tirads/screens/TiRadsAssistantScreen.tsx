@@ -6,6 +6,7 @@ import * as Clipboard from "expo-clipboard";
 import { branding } from "../../../config/branding";
 import type { RootStackParamList } from "../../../navigation/paramLists";
 import { theme } from "../../../theme";
+import TiradsRuPanel from "../components/TiradsRuPanel";
 import {
   buildTiradsReportText,
   defaultTiradsInput,
@@ -20,6 +21,7 @@ import {
 } from "../logic/tiradsCalculator";
 
 type Props = NativeStackScreenProps<RootStackParamList, "TiRadsAssistant">;
+type System = "ru" | "acr";
 
 type Opt<T extends string> = { value: T; label: string };
 
@@ -90,13 +92,13 @@ function num(v: string): number | undefined {
   return Number.isFinite(n) && n > 0 ? n : undefined;
 }
 
-export default function TiRadsAssistantScreen({ navigation }: Props) {
+function AcrPanel() {
   const [input, setInput] = useState<TiradsInput>({ ...defaultTiradsInput });
   const [sizeText, setSizeText] = useState("");
 
   const inputWithSize = useMemo(
     () => ({ ...input, largestDiameterMm: num(sizeText) }),
-    [input, sizeText]
+    [input, sizeText],
   );
   const result = useMemo(() => evaluateTirads(inputWithSize), [inputWithSize]);
   const reportText = useMemo(() => buildTiradsReportText(inputWithSize, result), [inputWithSize, result]);
@@ -105,9 +107,64 @@ export default function TiRadsAssistantScreen({ navigation }: Props) {
     setInput((p) => ({ ...p, [key]: v }));
   }
 
-  async function onCopy() {
-    await Clipboard.setStringAsync(reportText);
-  }
+  return (
+    <>
+      <Text style={styles.intro}>
+        ACR TI-RADS 2017: подсчёт баллов по пяти признакам, категории TR1–TR5 и ориентиры по ТАБ (размер в мм).
+      </Text>
+
+      <ChipRow title="Композиция" options={COMPOSITION_OPTS} value={input.composition} onChange={(v) => setField("composition", v)} />
+      <ChipRow title="Эхогенность" options={ECHO_OPTS} value={input.echogenicity} onChange={(v) => setField("echogenicity", v)} />
+      <Text style={styles.hint}>Для кистозного или губчатого узла балл за эхогенность в расчёте не добавляется (по ACR).</Text>
+      <ChipRow title="Форма" options={SHAPE_OPTS} value={input.shape} onChange={(v) => setField("shape", v)} />
+      <ChipRow title="Контур" options={MARGIN_OPTS} value={input.margin} onChange={(v) => setField("margin", v)} />
+      <ChipRow title="Эхогенные включения" options={FOCI_OPTS} value={input.echogenicFoci} onChange={(v) => setField("echogenicFoci", v)} />
+
+      <View style={styles.block}>
+        <Text style={styles.blockTitle}>Наибольший размер узла (мм)</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Например, 12"
+          keyboardType="decimal-pad"
+          value={sizeText}
+          onChangeText={setSizeText}
+        />
+      </View>
+
+      <View style={styles.resultCard}>
+        <Text style={styles.pointsLine}>
+          Сумма баллов: <Text style={styles.pointsNum}>{result.points}</Text>
+        </Text>
+        <Text style={styles.resultCat}>
+          {result.category} — {result.categoryLabel}
+        </Text>
+        <Text style={styles.resultBody}>{result.riskNarrative}</Text>
+        <Text style={styles.subImp}>ТАБ / наблюдение</Text>
+        <Text style={styles.resultImp}>{result.fnaRecommendation}</Text>
+        <Text style={styles.resultBody}>{result.surveillanceHint}</Text>
+      </View>
+
+      <View style={styles.actions}>
+        <Pressable
+          style={styles.secondary}
+          onPress={() => {
+            setInput({ ...defaultTiradsInput });
+            setSizeText("");
+          }}
+        >
+          <Text style={styles.secondaryText}>Сброс</Text>
+        </Pressable>
+        <Pressable style={styles.primary} onPress={() => void Clipboard.setStringAsync(reportText)}>
+          <Text style={styles.primaryText}>Копировать заключение</Text>
+        </Pressable>
+      </View>
+    </>
+  );
+}
+
+export default function TiRadsAssistantScreen({ navigation }: Props) {
+  const [system, setSystem] = useState<System>("ru");
+  const [learnMode, setLearnMode] = useState(false);
 
   return (
     <SafeAreaView style={styles.safe} edges={["top", "left", "right"]}>
@@ -118,62 +175,28 @@ export default function TiRadsAssistantScreen({ navigation }: Props) {
         <View style={styles.headerCenter}>
           <Text style={styles.title}>TI-RADS US</Text>
           <Text style={styles.version} numberOfLines={1}>
-            {TI_RADS_VERSION} · щитовидная железа
+            {system === "ru" ? "РФ 2023 · Катрич и др." : `${TI_RADS_VERSION} · ACR`}
           </Text>
         </View>
         <View style={styles.headerSpacer} />
       </View>
 
+      <View style={styles.toggleRow}>
+        <Pressable style={[styles.toggle, system === "ru" && styles.toggleOn]} onPress={() => setSystem("ru")}>
+          <Text style={[styles.toggleText, system === "ru" && styles.toggleTextOn]}>TI-RADS РФ</Text>
+        </Pressable>
+        <Pressable style={[styles.toggle, system === "acr" && styles.toggleOnAcr]} onPress={() => setSystem("acr")}>
+          <Text style={[styles.toggleText, system === "acr" && styles.toggleTextOnAcr]}>ACR 2017</Text>
+        </Pressable>
+        {system === "ru" ? (
+          <Pressable style={[styles.toggle, learnMode && styles.toggleOn]} onPress={() => setLearnMode((v) => !v)}>
+            <Text style={[styles.toggleText, learnMode && styles.toggleTextOn]}>Обучение</Text>
+          </Pressable>
+        ) : null}
+      </View>
+
       <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
-        <Text style={styles.intro}>
-          Скрининговое УЗИ щитовидной железы: подсчёт баллов по пяти признакам и категория TR1–TR5 с ориентирами по ТАБ (размер в мм).
-        </Text>
-
-        <ChipRow title="Композиция" options={COMPOSITION_OPTS} value={input.composition} onChange={(v) => setField("composition", v)} />
-        <ChipRow title="Эхогенность" options={ECHO_OPTS} value={input.echogenicity} onChange={(v) => setField("echogenicity", v)} />
-        <Text style={styles.hint}>Для кистозного или губчатого узла балл за эхогенность в расчёте не добавляется (по ACR).</Text>
-        <ChipRow title="Форма" options={SHAPE_OPTS} value={input.shape} onChange={(v) => setField("shape", v)} />
-        <ChipRow title="Контур" options={MARGIN_OPTS} value={input.margin} onChange={(v) => setField("margin", v)} />
-        <ChipRow title="Эхогенные включения" options={FOCI_OPTS} value={input.echogenicFoci} onChange={(v) => setField("echogenicFoci", v)} />
-
-        <View style={styles.block}>
-          <Text style={styles.blockTitle}>Наибольший размер узла (мм)</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Например, 12"
-            keyboardType="decimal-pad"
-            value={sizeText}
-            onChangeText={setSizeText}
-          />
-        </View>
-
-        <View style={styles.resultCard}>
-          <Text style={styles.pointsLine}>
-            Сумма баллов: <Text style={styles.pointsNum}>{result.points}</Text>
-          </Text>
-          <Text style={styles.resultCat}>
-            {result.category} — {result.categoryLabel}
-          </Text>
-          <Text style={styles.resultBody}>{result.riskNarrative}</Text>
-          <Text style={styles.subImp}>ТАБ / наблюдение</Text>
-          <Text style={styles.resultImp}>{result.fnaRecommendation}</Text>
-          <Text style={styles.resultBody}>{result.surveillanceHint}</Text>
-        </View>
-
-        <View style={styles.actions}>
-          <Pressable
-            style={styles.secondary}
-            onPress={() => {
-              setInput({ ...defaultTiradsInput });
-              setSizeText("");
-            }}
-          >
-            <Text style={styles.secondaryText}>Сброс</Text>
-          </Pressable>
-          <Pressable style={styles.primary} onPress={() => void onCopy()}>
-            <Text style={styles.primaryText}>Копировать заключение</Text>
-          </Pressable>
-        </View>
+        {system === "ru" ? <TiradsRuPanel learnMode={learnMode} /> : <AcrPanel />}
       </ScrollView>
     </SafeAreaView>
   );
@@ -205,6 +228,29 @@ const styles = StyleSheet.create({
   title: { fontSize: 17, fontWeight: "800", color: branding.colors.text },
   version: { fontSize: 10, color: branding.colors.textSecondary, marginTop: 2, paddingHorizontal: 8 },
   headerSpacer: { width: 40 },
+  toggleRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8,
+    paddingHorizontal: theme.spacing.md,
+    paddingVertical: 10,
+    backgroundColor: "#fff",
+    borderBottomWidth: 1,
+    borderBottomColor: "#e8ecf1",
+  },
+  toggle: {
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: "#e2e8f0",
+    backgroundColor: "#fff",
+  },
+  toggleOn: { borderColor: "#0284c7", backgroundColor: "#e0f2fe" },
+  toggleOnAcr: { borderColor: "#0d9488", backgroundColor: "#ecfdf5" },
+  toggleText: { fontSize: 12, fontWeight: "700", color: "#64748b" },
+  toggleTextOn: { color: "#0369a1" },
+  toggleTextOnAcr: { color: "#0f766e" },
   scroll: { padding: theme.spacing.md, paddingBottom: 36 },
   intro: { fontSize: 13, color: branding.colors.textSecondary, lineHeight: 19, marginBottom: 16 },
   hint: { fontSize: 11, color: "#64748b", marginTop: -12, marginBottom: 14, lineHeight: 16 },

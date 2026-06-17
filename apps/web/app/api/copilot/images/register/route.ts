@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { recordAuditEvent } from "@/lib/copilot/audit";
 import { validateRegisteredImagePath } from "@/lib/copilot/storage-path";
-import { rejectIfRateLimitedPreset } from "@/lib/security/api-rate-limit";
+import { rejectIfRateLimitedPreset, rejectIfSyncBurstForUser } from "@/lib/security/api-rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { validateRegisteredContentType } from "@/lib/security/file-validation";
 import { isUuid } from "@/lib/security/uuid";
@@ -21,6 +21,9 @@ export async function POST(request: Request) {
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+
+  const burst = await rejectIfSyncBurstForUser(user.id);
+  if (burst) return burst;
 
   const body = (await request.json().catch(() => null)) as Record<
     string,

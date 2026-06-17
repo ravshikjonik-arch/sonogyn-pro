@@ -63,6 +63,7 @@
     "@repo/clinical-3d": "workspace:*",
     "@repo/clinical-reference": "workspace:*",
     "@repo/medical-calculations": "workspace:*",
+    "@repo/thyroid-tirads": "workspace:*",
     "@repo/medvedev-reference": "workspace:*",
     "@repo/nosology": "workspace:*",
     "@repo/types": "workspace:*",

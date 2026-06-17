@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { runClinicalCopilotOrchestrator } from "@/lib/ai/orchestrator";
-import { rejectIfRateLimitedPreset } from "@/lib/security/api-rate-limit";
+import { rejectIfRateLimitedPreset, rejectIfSyncBurstForUser } from "@/lib/security/api-rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { isUuid } from "@/lib/security/uuid";
 import { createClient } from "@/utils/supabase/server";
@@ -26,6 +26,9 @@ export async function POST(
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+
+  const burst = await rejectIfSyncBurstForUser(user.id);
+  if (burst) return burst;
 
   const { data: study, error } = await supabase
     .from("studies")

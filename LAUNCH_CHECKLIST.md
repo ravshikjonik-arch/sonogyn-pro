@@ -45,8 +45,10 @@ Use this as the human-facing gate before exposing the platform to clinicians or 
 - [ ] `BOT_DETECTION_ENABLED` не отключён (по умолчанию блокирует scrapers на `/api/*`; allowlist: Stripe webhook, Telegram bot bridge).
 - [ ] Vercel **Firewall** / **Attack Challenge Mode** включены для prod-домена (Dashboard → Project → Security).
 - [ ] Cloudflare (если домен через CF): **Bot Fight Mode** или WAF managed rules для `/api/*`.
-- [ ] Smoke: 429 + `Retry-After` на `/api/auth/sign-in` после лимита; поиск пациентов — dual limit IP + userId.
+- [ ] Smoke: 429 + `Retry-After` на `/api/auth/sign-in` после лимита; поиск пациентов — dual limit IP + userId; MFA verify — `RATE_LIMIT_AUTH_MFA_VERIFY`.
 - [ ] Mobile offline flush: `flushAIQueue` с паузой 1.5s; burst на `/api/ai/orads` — `RATE_LIMIT_AI_ORADS_BURST` (default 5 / 10s).
+- [ ] Offline write reconnect: общий bucket `RATE_LIMIT_SYNC_BURST` (default 30 / 60s per user) на PHI write-ручках.
+- [ ] `/api/e2e/*` возвращает 404 в production middleware (дополнительно к `E2E_FIXTURES`).
 
 ## Web (Next.js)
 

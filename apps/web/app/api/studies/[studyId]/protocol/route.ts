@@ -1,7 +1,7 @@
 import { UltrasoundProtocolPayloadSchema } from "@repo/types";
 import { NextResponse } from "next/server";
 
-import { rejectIfRateLimitedPreset } from "@/lib/security/api-rate-limit";
+import { rejectIfRateLimitedPreset, rejectIfSyncBurstForUser } from "@/lib/security/api-rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { isUuid } from "@/lib/security/uuid";
 import { safeLog } from "@/lib/security/safeLog";
@@ -64,6 +64,9 @@ export async function PUT(request: Request, context: { params: Promise<Params> }
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+
+  const burst = await rejectIfSyncBurstForUser(user.id);
+  if (burst) return burst;
 
   const owned = await assertStudyOwnedByUser(supabase, studyId, user.id);
   if (!owned) {

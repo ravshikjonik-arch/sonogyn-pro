@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import {
   rejectIfRateLimitedForUser,
   rejectIfRateLimitedPreset,
+  rejectIfSyncBurstForUser,
 } from "@/lib/security/api-rate-limit";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
@@ -94,6 +95,9 @@ export async function POST(request: Request) {
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+
+  const burst = await rejectIfSyncBurstForUser(user.id);
+  if (burst) return burst;
 
   const json = await request.json().catch(() => null);
   const parsed = CreatePatientBodySchema.safeParse(json);

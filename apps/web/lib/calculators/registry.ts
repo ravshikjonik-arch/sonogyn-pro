@@ -83,17 +83,10 @@ export const CALCULATORS: CalculatorDefinition[] = [
   {
     slug: "ti-rads",
     code: "TI_RADS",
-    title: "TI-RADS",
-    subtitle: "Thyroid nodule risk stratification",
-    fields: [
-      {
-        key: "category",
-        label: "EU-TIRADS–style category",
-        type: "select",
-        options: ["1–2", "3", "4", "5"],
-      },
-      { key: "notes", label: "Size / elastography notes", type: "text" },
-    ],
+    title: "TI-RADS ЩЖ",
+    subtitle: "Российская адаптация TI-RADS 1–5 · ТАБ · TI-MDS · обучение",
+    externalHref: "/calculators/ti-rads",
+    fields: [],
   },
   {
     slug: "pop-q",
