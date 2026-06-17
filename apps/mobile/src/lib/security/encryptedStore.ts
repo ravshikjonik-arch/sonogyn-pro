@@ -7,6 +7,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SecureStore from "expo-secure-store";
 import { Platform } from "react-native";
+import { redactError } from "./piiRedaction";
 
 const IS_MOBILE = Platform.OS === "ios" || Platform.OS === "android";
 const ENCRYPTED_KEY_PREFIX = "elasto_enc_";
@@ -39,7 +40,7 @@ export async function encryptedSet(key: string, value: string): Promise<void> {
         requireAuthentication: false,
       });
     } catch (err) {
-      securityLog(`SecureStore.setItemAsync failed for key "${key}": ${String(err)}`, "error");
+      securityLog(`SecureStore.setItemAsync failed for key "${key}": ${redactError(err)}`, "error");
       throw new Error("Не удалось сохранить данные в защищённом хранилище");
     }
   } else {
@@ -59,7 +60,7 @@ export async function encryptedGet(key: string): Promise<string | null> {
     try {
       return await SecureStore.getItemAsync(storageKey);
     } catch (err) {
-      securityLog(`SecureStore.getItemAsync failed for key "${key}": ${String(err)}`, "error");
+      securityLog(`SecureStore.getItemAsync failed for key "${key}": ${redactError(err)}`, "error");
       return null;
     }
   }
@@ -75,7 +76,7 @@ export async function encryptedRemove(key: string): Promise<void> {
     try {
       await SecureStore.deleteItemAsync(storageKey);
     } catch (err) {
-      securityLog(`SecureStore.deleteItemAsync failed for key "${key}": ${String(err)}`, "error");
+      securityLog(`SecureStore.deleteItemAsync failed for key "${key}": ${redactError(err)}`, "error");
     }
   } else {
     await AsyncStorage.removeItem(storageKey);
@@ -108,7 +109,7 @@ export async function migrateFromAsyncStorage(oldKey: string, newKey: string): P
     securityLog(`Успешно мигрированы данные: "${oldKey}" → "${newKey}"`);
     return true;
   } catch (err) {
-    securityLog(`Ошибка миграции "${oldKey}" → "${newKey}": ${String(err)}`, "error");
+    securityLog(`Ошибка миграции "${oldKey}" → "${newKey}": ${redactError(err)}`, "error");
     return false;
   }
 }

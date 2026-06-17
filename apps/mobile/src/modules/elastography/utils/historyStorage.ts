@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { encryptedGet, encryptedRemove, encryptedSet, migrateFromAsyncStorage } from "../../../lib/security/encryptedStore";
+import { redactError } from "../../../lib/security/piiRedaction";
 import { supabaseMobile } from "../../../lib/supabase/mobileClient";
 import type { ElastographyHistoryEntry } from "../types";
 
@@ -128,7 +129,7 @@ export async function loadElastographyHistory(): Promise<ElastographyHistoryEntr
 
     return await migrateLegacyAsyncKeysIfNeeded(userId);
   } catch (err) {
-    console.warn("[Elastography] Не удалось загрузить историю:", err);
+    console.warn("[Elastography] Не удалось загрузить историю:", redactError(err));
     return [];
   }
 }
@@ -141,7 +142,7 @@ export async function saveElastographyEntry(entry: ElastographyHistoryEntry): Pr
     const next = [entry, ...prev].slice(0, ELASTOGRAPHY_HISTORY_MAX_ENTRIES);
     await persistHistory(userId, next);
   } catch (err) {
-    console.error("[Elastography] Не удалось сохранить запись истории:", err);
+    console.error("[Elastography] Не удалось сохранить запись истории:", redactError(err));
     throw err;
   }
 }

@@ -19,6 +19,7 @@
     "build": "turbo build",
     "lint": "turbo lint",
     "typecheck": "turbo typecheck",
+    "security:deploy-check": "node scripts/security-deploy-check.mjs",
     "clean": "turbo clean && rm -rf node_modules",
     "sync:guidelines": "npx --yes pnpm@10.6.5 --filter @repo/clinical-guidelines sync"
   },
@@ -29,7 +30,19 @@
   "pnpm": {
     "overrides": {
       "@babel/plugin-transform-regenerator": "7.28.4",
-      "@eslint/config-array": "0.23.5"
+      "@babel/core": "7.29.6",
+      "@eslint/config-array": "0.23.5",
+      "@grpc/grpc-js": "1.9.16",
+      "js-yaml": "4.2.0",
+      "postcss": "8.5.10",
+      "protobufjs": "7.6.3",
+      "qs": "6.15.2",
+      "shell-quote": "1.8.4",
+      "tar": "7.5.16",
+      "uuid": "11.1.1",
+      "ws@6": "6.2.4",
+      "ws@7": "7.5.11",
+      "ws@8": "8.21.0"
     }
   }
 }
