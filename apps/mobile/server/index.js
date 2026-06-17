@@ -27,7 +27,6 @@ const JWT_SECRET =
     ? null
     : "dev-only-change-in-production");
 const JWT_EXPIRES = process.env.JWT_EXPIRES || "7d";
-const JWT_EXPIRES = process.env.JWT_EXPIRES || "7d";
 const MIN_JWT_SECRET_LEN = 32;
 if (!JWT_SECRET) {
   console.error("Refusing to start: set JWT_SECRET in production (NODE_ENV=production).");
