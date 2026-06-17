@@ -64,12 +64,24 @@ export const RL = {
   ),
   patientsCreate: preset("RATE_LIMIT_PATIENTS_CREATE", 30, "RATE_LIMIT_PATIENTS_CREATE_WINDOW_SEC", 60),
   patientsDetail: preset("RATE_LIMIT_PATIENTS_DETAIL", 120, "RATE_LIMIT_PATIENTS_DETAIL_WINDOW_SEC", 60),
+  patientStudiesList: preset(
+    "RATE_LIMIT_PATIENT_STUDIES_LIST",
+    120,
+    "RATE_LIMIT_PATIENT_STUDIES_LIST_WINDOW_SEC",
+    60,
+  ),
   patientsUpdate: preset("RATE_LIMIT_PATIENTS_UPDATE", 60, "RATE_LIMIT_PATIENTS_UPDATE_WINDOW_SEC", 60),
   patientsDelete: preset("RATE_LIMIT_PATIENTS_DELETE", 20, "RATE_LIMIT_PATIENTS_DELETE_WINDOW_SEC", 60),
   copilotStudiesList: preset(
     "RATE_LIMIT_COPILOT_STUDIES_LIST",
     120,
     "RATE_LIMIT_COPILOT_STUDIES_LIST_WINDOW_SEC",
+    60,
+  ),
+  copilotStudiesCreate: preset(
+    "RATE_LIMIT_COPILOT_STUDIES_CREATE",
+    30,
+    "RATE_LIMIT_COPILOT_STUDIES_CREATE_WINDOW_SEC",
     60,
   ),
   copilotSeriesCreate: preset(
