@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useMemo, useRef, useState } from "react";
-import { Copy, RotateCcw } from "lucide-react";
+import { Copy, Download, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
 import { UTERUS_SAGITTAL_SLICE_SRC } from "@clinical/uterus";
 import { UTERUS_CORONAL_ANATOMY_SRC } from "@repo/clinical-3d";
@@ -24,6 +24,7 @@ import {
   type ScarStructure,
   type ScarWorkspaceState,
 } from "@/lib/scar/scar-workspace";
+import { generateScarNicheSnapshotDataUrl } from "@/components/scar/scarSnapshot";
 
 type Tool = "scar" | "sac" | "draw_scar";
 type ViewMode = "sagittal" | "coronal";
@@ -31,7 +32,7 @@ type NormPoint = { x: number; y: number };
 
 type Props = {
   compact?: boolean;
-  onApply?: (protocolText: string) => void;
+  onApply?: (result: { protocolText: string; snapshotDataUrl?: string; state: ScarWorkspaceState }) => void;
 };
 
 const SAGITTAL_VIEW = { w: 800, h: 500 };
@@ -131,8 +132,35 @@ export function ScarNicheWorkspace({ compact, onApply }: Props) {
     toast.success("Текст по рубцу скопирован");
   }
 
-  function applyToProtocol() {
-    onApply?.(protocolText);
+  async function createSnapshot() {
+    return generateScarNicheSnapshotDataUrl({ state, scarPoint, sacPoint, scarStroke });
+  }
+
+  async function downloadSnapshot() {
+    try {
+      const dataUrl = await createSnapshot();
+      if (!dataUrl) {
+        toast.error("Не удалось сформировать PNG");
+        return;
+      }
+      const link = document.createElement("a");
+      link.href = dataUrl;
+      link.download = `scar-niche-${new Date().toISOString().slice(0, 10)}.png`;
+      link.click();
+      toast.success("PNG-схема сформирована");
+    } catch {
+      toast.error("Не удалось сформировать PNG");
+    }
+  }
+
+  async function applyToProtocol() {
+    let snapshotDataUrl: string | undefined;
+    try {
+      snapshotDataUrl = await createSnapshot();
+    } catch {
+      toast.warning("Блок рубца добавлен без PNG-снимка");
+    }
+    onApply?.({ protocolText, snapshotDataUrl, state });
     toast.success("Блок рубца добавлен в протокол");
   }
 
@@ -308,6 +336,24 @@ export function ScarNicheWorkspace({ compact, onApply }: Props) {
                   />
                   Васкуляризация вокруг плодного яйца в зоне рубца
                 </label>
+                <div className="space-y-2 rounded-2xl border border-amber-200 bg-amber-50/70 p-3">
+                  <p className="text-sm font-semibold text-amber-950">Чеклист CSP (ТВУЗИ/ЦДК)</p>
+                  {([
+                    ["emptyUterineCavity", "Полость матки пустая"],
+                    ["emptyCervicalCanal", "Цервикальный канал пустой"],
+                    ["sacEmbeddedInScar", "Плодное яйцо имплантировано в зоне рубца/ниши"],
+                    ["thinMyometriumBetweenSacAndBladder", "Тонкий/отсутствующий миометрий к мочевому пузырю"],
+                  ] as const).map(([key, label]) => (
+                    <label key={key} className="flex items-center gap-2 text-xs text-amber-950">
+                      <input
+                        type="checkbox"
+                        checked={Boolean(state[key])}
+                        onChange={(event) => patch({ [key]: event.target.checked })}
+                      />
+                      {label}
+                    </label>
+                  ))}
+                </div>
               </>
             ) : null}
 
@@ -344,8 +390,12 @@ export function ScarNicheWorkspace({ compact, onApply }: Props) {
                 <Copy className="mr-2 h-4 w-4" />
                 Скопировать
               </Button>
+              <Button type="button" variant="outline" className="flex-1" onClick={() => void downloadSnapshot()}>
+                <Download className="mr-2 h-4 w-4" />
+                PNG
+              </Button>
               {onApply ? (
-                <Button type="button" variant="secondary" className="flex-1" onClick={applyToProtocol}>
+                <Button type="button" variant="secondary" className="flex-1" onClick={() => void applyToProtocol()}>
                   В протокол
                 </Button>
               ) : null}

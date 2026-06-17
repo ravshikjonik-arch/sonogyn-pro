@@ -604,6 +604,20 @@ export function UltrasoundProtocolForm({
         </section>
       ) : null}
 
+      {protocol.scar_visualization?.snapshotDataUrl ? (
+        <section className="rounded-xl border border-[var(--clinical-border)] p-3">
+          <p className="mb-2 text-xs font-bold uppercase tracking-wider text-[var(--clinical-foreground-muted)]">
+            Схема рубца / CSP
+          </p>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={protocol.scar_visualization.snapshotDataUrl}
+            alt="Схема рубца / CSP"
+            className="max-h-48 rounded-lg border border-[var(--clinical-border)] object-contain"
+          />
+        </section>
+      ) : null}
+
       <NosologyPickerModal
         open={nosologyOpen}
         onClose={() => setNosologyOpen(false)}
@@ -643,13 +657,25 @@ export function UltrasoundProtocolForm({
           </header>
           <div className="mx-auto max-w-7xl p-4">
             <ScarNicheWorkspace
-              onApply={(protocolText) => {
+              onApply={({ protocolText, snapshotDataUrl, state }) => {
                 setProtocol((p) => {
                   const prev = p.organs.uterus?.trim();
                   const merged = prev ? `${prev}\n\n${protocolText}` : protocolText;
                   return {
                     ...p,
                     organs: { ...p.organs, uterus: merged },
+                    scar_visualization: {
+                      snapshotDataUrl,
+                      payload: {
+                        scenario: state.scenario,
+                        residualMyometriumMm: state.residualMyometriumMm,
+                        nicheDepthMm: state.nicheDepthMm,
+                        nicheLengthMm: state.nicheLengthMm,
+                        nicheWidthMm: state.nicheWidthMm,
+                        distanceFromInternalOsMm: state.distanceFromInternalOsMm,
+                        scarPregnancyRelation: state.scarPregnancyRelation,
+                      },
+                    },
                   };
                 });
                 setScarOpen(false);

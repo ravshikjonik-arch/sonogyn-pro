@@ -13,6 +13,10 @@ export type ScarWorkspaceState = {
   gestationalSacDistanceToInternalOsMm: number;
   scarPregnancyRelation: ScarPregnancyRelation;
   structure: ScarStructure;
+  emptyUterineCavity: boolean;
+  emptyCervicalCanal: boolean;
+  sacEmbeddedInScar: boolean;
+  thinMyometriumBetweenSacAndBladder: boolean;
   vascularityAroundSac: boolean;
   bladderSerosaDistanceMm: number;
   notes: string;
@@ -29,6 +33,10 @@ export const DEFAULT_SCAR_WORKSPACE_STATE: ScarWorkspaceState = {
   gestationalSacDistanceToInternalOsMm: 24,
   scarPregnancyRelation: "not_assessed",
   structure: "fluid_niche",
+  emptyUterineCavity: false,
+  emptyCervicalCanal: false,
+  sacEmbeddedInScar: false,
+  thinMyometriumBetweenSacAndBladder: false,
   vascularityAroundSac: false,
   bladderSerosaDistanceMm: 3,
   notes: "",
@@ -66,7 +74,12 @@ export function scarRiskHint(state: ScarWorkspaceState): string {
 
 export function scarPregnancyHint(state: ScarWorkspaceState): string {
   if (state.scenario !== "early_pregnancy") return "Беременность малого срока не выбрана.";
-  if (state.scarPregnancyRelation === "implanted_in_scar" || state.scarPregnancyRelation === "suspected") {
+  const strongCriteria =
+    state.sacEmbeddedInScar ||
+    state.thinMyometriumBetweenSacAndBladder ||
+    state.scarPregnancyRelation === "implanted_in_scar" ||
+    state.scarPregnancyRelation === "suspected";
+  if (strongCriteria) {
     return "Подозрение на беременность в рубце после КС; нужна целенаправленная ТВУЗИ/ЦДК-оценка, связь с полостью и миометрием к мочевому пузырю.";
   }
   if (state.scarPregnancyRelation === "near_scar" || state.gestationalSacDistanceToScarMm < 5) {
@@ -97,6 +110,11 @@ export function buildScarWorkspaceProtocol(state: ScarWorkspaceState): string {
       `Расстояние плодного яйца до внутреннего зева: ${state.gestationalSacDistanceToInternalOsMm.toFixed(1)} мм.`,
       `Миометрий между плодным яйцом и серозой/мочевым пузырём: ${state.bladderSerosaDistanceMm.toFixed(1)} мм.`,
       `Пери/трофобластическая васкуляризация в зоне рубца: ${state.vascularityAroundSac ? "выражена/есть" : "не отмечена или не оценена"}.`,
+      "Чеклист CSP:",
+      `- Полость матки пустая: ${state.emptyUterineCavity ? "да" : "нет/не оценено"}.`,
+      `- Цервикальный канал пустой: ${state.emptyCervicalCanal ? "да" : "нет/не оценено"}.`,
+      `- Плодное яйцо имплантировано в зоне рубца/ниши: ${state.sacEmbeddedInScar ? "да" : "нет/не оценено"}.`,
+      `- Тонкий/отсутствующий миометрий между плодным яйцом и мочевым пузырём: ${state.thinMyometriumBetweenSacAndBladder ? "да" : "нет/не оценено"}.`,
       scarPregnancyHint(state),
     );
   }

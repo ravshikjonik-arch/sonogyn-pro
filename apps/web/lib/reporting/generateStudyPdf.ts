@@ -48,6 +48,12 @@ export function buildStudyReportHtml(input: PdfReportInput): string {
       ? `<h2 style="font-size:15px;margin:20px 0 8px">Схема матки (3D)</h2><img src="${protocol.uterus_visualization.snapshotDataUrl}" alt="Схема матки" style="max-width:100%;max-height:320px;border:1px solid #cbd5e1;border-radius:8px"/>`
       : "";
 
+  const scarSnapshot =
+    protocol.scar_visualization?.snapshotDataUrl &&
+    isSafeClinicalImageDataUrl(protocol.scar_visualization.snapshotDataUrl)
+      ? `<h2 style="font-size:15px;margin:20px 0 8px">Схема рубца / CSP</h2><img src="${protocol.scar_visualization.snapshotDataUrl}" alt="Схема рубца / CSP" style="max-width:100%;max-height:320px;border:1px solid #cbd5e1;border-radius:8px"/>`
+      : "";
+
   return `<!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -74,6 +80,7 @@ export function buildStudyReportHtml(input: PdfReportInput): string {
   <table>${biometryTable}</table>
   ${organBlocks}
   ${uterusSnapshot}
+  ${scarSnapshot}
   ${protocol.diagnosis?.trim() ? `<div class="conclusion"><strong>Диагноз</strong><p style="margin:8px 0 0;white-space:pre-wrap">${escapeHtml(protocol.diagnosis)}</p></div>` : ""}
   <div class="conclusion">
     <strong>Заключение</strong>
