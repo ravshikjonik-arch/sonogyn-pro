@@ -37,6 +37,16 @@ export const EDUCATION_SHELF_DESCRIPTIONS: Record<EducationShelf, string> = {
 
 export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
   {
+    id: "live-education",
+    shelf: "courses",
+    title: "Расписание обучения",
+    description: "Вебинары, курсы, записи, русские субтитры и план переводов EN/ES.",
+    href: "/education",
+    tags: ["вебинары", "курсы", "субтитры", "перевод"],
+    primary: true,
+    badge: "Live",
+  },
+  {
     id: "isuog-basic",
     shelf: "courses",
     title: "ISUOG — базовый курс",
