@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import {
   PATHOLOGY_LABELS_RU,
   enrichAnnotation,
+  fibroidVolumeMl,
   type PathologyAnnotation,
 } from "@clinical/uterus";
 
@@ -17,6 +18,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils/cn";
 import { UterusSliceAtlas } from "@/components/uterus/UterusSliceAtlas";
+import { FigoMyoma3DPreview } from "@/components/uterus/FigoMyoma3DPreview";
 import { useUterusAnnotations } from "@/components/uterus/useUterusAnnotations";
 
 const FIGO_REFERENCE: Array<{ figo: number; label: string; group: string }> = [
@@ -39,7 +41,7 @@ const FIGO_GROUP_CLASS: Record<string, string> = {
 };
 
 function roundedSize(size: { length: number; width: number; depth: number }) {
-  return `${Math.round(size.length)}x${Math.round(size.width)}x${Math.round(size.depth)} мм`;
+  return `${Math.round(size.length)}×${Math.round(size.width)}×${Math.round(size.depth)} мм`;
 }
 
 function figoLabel(figo?: number | null): string {
@@ -47,9 +49,16 @@ function figoLabel(figo?: number | null): string {
   return `FIGO ${figo}`;
 }
 
+function formatVolume(volumeMl: number): string {
+  if (volumeMl < 0.1) return "<0,1 см³";
+  if (volumeMl < 10) return `${volumeMl.toFixed(1).replace(".", ",")} см³`;
+  return `${Math.round(volumeMl)} см³`;
+}
+
 export function FigoMyomaWorkspace() {
   const ua = useUterusAnnotations();
   const [newPedunculated, setNewPedunculated] = useState(false);
+  const [viewMode, setViewMode] = useState<"2d" | "3d">("2d");
   const selected = ua.selectedEnriched;
   const selectedFigo = selected?.figoOverride ?? selected?.figoType ?? null;
   const selectedReference = FIGO_REFERENCE.find((item) => item.figo === selectedFigo);
@@ -57,6 +66,14 @@ export function FigoMyomaWorkspace() {
   const myomas = useMemo(
     () => ua.annotations.map((a) => enrichAnnotation(a)).filter((a) => a.type === "myoma"),
     [ua.annotations],
+  );
+  const totalVolumeMl = useMemo(
+    () => myomas.reduce((sum, myoma) => sum + fibroidVolumeMl(myoma.sizeMm), 0),
+    [myomas],
+  );
+  const largestMyoma = useMemo(
+    () => [...myomas].sort((a, b) => fibroidVolumeMl(b.sizeMm) - fibroidVolumeMl(a.sizeMm))[0] ?? null,
+    [myomas],
   );
 
   const handleAddLesion = useCallback(
@@ -103,19 +120,55 @@ export function FigoMyomaWorkspace() {
                 и FIGO в правой панели.
               </CardDescription>
             </div>
+            <div className="flex flex-wrap gap-2">
+              <Button type="button" size="sm" variant={viewMode === "2d" ? "default" : "outline"} onClick={() => setViewMode("2d")}>
+                2D срез
+              </Button>
+              <Button type="button" size="sm" variant={viewMode === "3d" ? "default" : "outline"} onClick={() => setViewMode("3d")}>
+                3D preview
+              </Button>
+            </div>
           </CardHeader>
           <CardContent>
-            <UterusSliceAtlas
-              className="mx-auto max-w-5xl"
-              annotations={ua.annotations}
-              selectedId={ua.selectedId}
-              placeMode="myoma"
-              pedunculated={selected?.type === "myoma" ? Boolean(selected.pedunculated) : newPedunculated}
-              onSelect={ua.setSelectedId}
-              onAddLesion={handleAddLesion}
-            />
+            {viewMode === "2d" ? (
+              <UterusSliceAtlas
+                className="mx-auto max-w-5xl"
+                annotations={ua.annotations}
+                selectedId={ua.selectedId}
+                placeMode="myoma"
+                pedunculated={selected?.type === "myoma" ? Boolean(selected.pedunculated) : newPedunculated}
+                onSelect={ua.setSelectedId}
+                onAddLesion={handleAddLesion}
+              />
+            ) : (
+              <div className="space-y-3">
+                <FigoMyoma3DPreview
+                  annotations={ua.annotations}
+                  selectedId={ua.selectedId}
+                  onSelect={ua.setSelectedId}
+                  onPositionCommit={ua.commitPosition}
+                  pedunculated={selected?.type === "myoma" ? Boolean(selected.pedunculated) : newPedunculated}
+                />
+                <p className="text-xs leading-relaxed text-[var(--clinical-foreground-muted)]">
+                  3D preview показывает уже добавленные узлы и позволяет оценить пространственное положение. Основной
+                  клинический ввод пока выполняется на 2D-срезе; 3D — следующий слой для точной сцены.
+                </p>
+              </div>
+            )}
           </CardContent>
         </Card>
+
+        {myomas.length > 1 ? (
+          <Card className="border-violet-200 bg-violet-50/80">
+            <CardHeader>
+              <CardTitle className="text-lg text-violet-950">Множественная миома матки</CardTitle>
+              <CardDescription className="text-violet-900/80">
+                Узлов: {myomas.length}. Суммарный расчётный объём ~{formatVolume(totalVolumeMl)}. Крупнейший узел:{" "}
+                {largestMyoma ? `${roundedSize(largestMyoma.sizeMm)}, ${figoLabel(largestMyoma.figoOverride ?? largestMyoma.figoType)}` : "—"}.
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        ) : null}
 
         <section className="grid gap-3 md:grid-cols-3">
           <WorkflowCard index="1" title="Поставить" text="Точка или кисть на сагиттальном срезе." />
@@ -224,7 +277,8 @@ export function FigoMyomaWorkspace() {
                 <div className="rounded-xl bg-[var(--clinical-muted)] p-3 text-sm">
                   <p className="font-semibold">Итог</p>
                   <p className="mt-1 text-[var(--clinical-foreground-muted)]">
-                    {selected.localizationRu ?? "локализация уточняется"}, размеры {roundedSize(selected.sizeMm)}.
+                    {selected.localizationRu ?? "локализация уточняется"}, размеры {roundedSize(selected.sizeMm)}, объём ~
+                    {formatVolume(fibroidVolumeMl(selected.sizeMm))}.
                   </p>
                   {selectedReference ? (
                     <p className="mt-2 text-xs text-[var(--clinical-foreground-muted)]">{selectedReference.label}</p>
@@ -276,7 +330,8 @@ export function FigoMyomaWorkspace() {
                     Узел {index + 1} · {figoLabel(myoma.figoOverride ?? myoma.figoType)}
                   </span>
                   <span className="mt-1 block text-xs text-[var(--clinical-foreground-muted)]">
-                    {roundedSize(myoma.sizeMm)} · {myoma.localizationRu ?? "локализация уточняется"}
+                    {roundedSize(myoma.sizeMm)} · ~{formatVolume(fibroidVolumeMl(myoma.sizeMm))} ·{" "}
+                    {myoma.localizationRu ?? "локализация уточняется"}
                   </span>
                 </button>
               ))

@@ -12,6 +12,17 @@ function fmtSize(s: { length: number; width: number; depth: number }): string {
   return `${L}×${W} мм`;
 }
 
+export function fibroidVolumeMl(size: { length: number; width: number; depth: number }): number {
+  return (Math.PI / 6) * size.length * size.width * size.depth / 1000;
+}
+
+function fmtVolume(size: { length: number; width: number; depth: number }): string {
+  const volume = fibroidVolumeMl(size);
+  if (volume < 0.1) return "<0,1 см³";
+  if (volume < 10) return `${volume.toFixed(1).replace(".", ",")} см³`;
+  return `${Math.round(volume)} см³`;
+}
+
 function myomaLine(a: PathologyAnnotation): string {
   const local = new Vector3(...a.position);
   const m = computeFibroidClinicalMetrics(local, a.pedunculated ?? false);
@@ -22,7 +33,7 @@ function myomaLine(a: PathologyAnnotation): string {
     : a.sliceShape
     ? ` (контур на срезе ${Math.round(a.sizeMm.length)}×${Math.round(a.sizeMm.width)} мм)`
     : "";
-  return `Миома тела матки (${figo >= 0 && figo <= 8 ? `FIGO ${figo}` : "FIGO ?"}), ${loc}, размеры ${fmtSize(a.sizeMm)}${shapeNote}.`;
+  return `Миома тела матки (${figo >= 0 && figo <= 8 ? `FIGO ${figo}` : "FIGO ?"}), ${loc}, размеры ${fmtSize(a.sizeMm)}, объём ~${fmtVolume(a.sizeMm)}${shapeNote}.`;
 }
 
 function adenomyosisLine(a: PathologyAnnotation): string {
@@ -85,13 +96,34 @@ export function generateProtocolText(annotations: PathologyAnnotation[]): string
   if (annotations.length === 0) {
     return "";
   }
-  return annotations
-    .map((raw) => {
-      const a = enrichAnnotation(raw);
-      const builder = LINE_BUILDERS[a.type];
-      return builder(a);
-    })
-    .join("\n");
+  const enriched = annotations.map((raw) => enrichAnnotation(raw));
+  const myomas = enriched.filter((a) => a.type === "myoma");
+  const other = enriched.filter((a) => a.type !== "myoma");
+  const lines: string[] = [];
+
+  if (myomas.length > 1) {
+    const largest = [...myomas].sort(
+      (a, b) =>
+        b.sizeMm.length * b.sizeMm.width * b.sizeMm.depth -
+        a.sizeMm.length * a.sizeMm.width * a.sizeMm.depth,
+    )[0];
+    const totalVolume = myomas.reduce((sum, item) => sum + fibroidVolumeMl(item.sizeMm), 0);
+    lines.push(
+      `Множественные миоматозные узлы матки (${myomas.length}); крупнейший — ${fmtSize(largest.sizeMm)}, суммарный расчётный объём ~${totalVolume < 10 ? totalVolume.toFixed(1).replace(".", ",") : Math.round(totalVolume)} см³.`,
+    );
+    myomas.forEach((a, index) => {
+      lines.push(`Узел ${index + 1}: ${myomaLine(a)}`);
+    });
+  } else if (myomas.length === 1) {
+    lines.push(myomaLine(myomas[0]));
+  }
+
+  other.forEach((a) => {
+    const builder = LINE_BUILDERS[a.type];
+    lines.push(builder(a));
+  });
+
+  return lines.join("\n");
 }
 
 export function generateAnnotationSummaryList(annotations: PathologyAnnotation[]): string[] {
