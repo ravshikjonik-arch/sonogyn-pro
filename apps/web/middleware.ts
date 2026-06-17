@@ -4,6 +4,7 @@ import { isDevSkipAuthEnabled } from "@/lib/auth/dev-account";
 import { shouldBlockSuspiciousApiBot } from "@/lib/security/bot-detection";
 import { assertProductionSecretsConfigured } from "@/lib/security/production-secrets";
 import { getClinicalRole, roleMeetsMinimum } from "@/lib/security/require-clinical-role";
+import { recordSecurityEvent } from "@/lib/security/security-events";
 
 assertProductionSecretsConfigured();
 
@@ -51,6 +52,11 @@ export default async function middleware(request: NextRequest) {
     }
 
     if (shouldBlockSuspiciousApiBot(request)) {
+      void recordSecurityEvent({
+        event: "api_bot_blocked",
+        severity: "warning",
+        request,
+      });
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 

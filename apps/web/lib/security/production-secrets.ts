@@ -42,12 +42,24 @@ export function getProductionSecretViolations(): string[] {
     violations.push("SUPABASE_SERVICE_ROLE_KEY is required in production for admin auth flows");
   }
 
+  if (!process.env.SECURITY_ALERT_WEBHOOK_URL?.trim()) {
+    violations.push("SECURITY_ALERT_WEBHOOK_URL is required in production for security incident alerting");
+  }
+
   if (process.env.DEV_SKIP_AUTH === "true") {
     violations.push("DEV_SKIP_AUTH must not be true in production (remove from Vercel env)");
   }
 
   if (process.env.DEV_AUTO_LOGIN === "true") {
     violations.push("DEV_AUTO_LOGIN must not be true in production (remove from Vercel env)");
+  }
+
+  if (process.env.AUTH_RATE_LIMIT_RELAXED === "true") {
+    violations.push("AUTH_RATE_LIMIT_RELAXED must not be true in production (remove from Vercel env)");
+  }
+
+  if (process.env.BOT_DETECTION_ENABLED === "false") {
+    violations.push("BOT_DETECTION_ENABLED must not be false in production (remove from Vercel env)");
   }
 
   return violations;

@@ -16,6 +16,7 @@ jobs:
       NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
       NEXT_PUBLIC_SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ci-placeholder
       NEXT_PUBLIC_APP_URL: https://example.com
+      SECURITY_ALERT_WEBHOOK_URL: https://example.com/security-alert-webhook
     steps:
       - uses: actions/checkout@v4
 
@@ -36,6 +37,9 @@ jobs:
 
       - name: Lint
         run: pnpm lint
+
+      - name: Security deploy check
+        run: pnpm security:deploy-check
 
       - name: Build web (webpack + PWA plugin)
         run: pnpm exec turbo build --filter=@repo/web
