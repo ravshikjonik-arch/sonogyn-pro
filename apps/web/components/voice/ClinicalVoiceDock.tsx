@@ -1,8 +1,8 @@
 "use client";
 
 /**
- * Voice dock stub — full TTS/STT feature is not yet implemented.
- * Renders nothing until the voice feature is built out.
+ * ClinicalVoiceDock — placeholder for the voice reader dock UI.
+ * Full implementation pending design sign-off.
  */
 export function ClinicalVoiceDock() {
   return null;

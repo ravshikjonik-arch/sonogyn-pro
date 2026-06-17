@@ -45,7 +45,7 @@ export function depthToComponentPercents(depth01: number): Pick<
   const round = (x: number) => Math.max(0, Math.min(100, Math.round(x)));
   let sm = round((wSm / sum) * 100);
   let im = round((wIm / sum) * 100);
-  let ss = round((wSs / sum) * 100);
+  const ss = round((wSs / sum) * 100);
   const drift = 100 - (sm + im + ss);
   im += drift;
   if (im < 0) {

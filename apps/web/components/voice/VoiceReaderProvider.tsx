@@ -1,13 +1,17 @@
 "use client";
 
 /**
- * Voice reader stub — full TTS/STT feature is not yet implemented.
- * Provider and route-sync are no-ops until the voice feature is built out.
+ * VoiceReaderProvider — placeholder context provider for voice reader feature.
+ * Full implementation pending design sign-off.
  */
 export function VoiceReaderProvider({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
+/**
+ * VoiceReaderRouteSync — placeholder for syncing voice reader state with route.
+ */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function VoiceReaderRouteSync(_props: { pathname: string }) {
   return null;
 }

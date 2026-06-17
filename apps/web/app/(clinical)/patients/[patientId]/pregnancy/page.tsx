@@ -38,7 +38,7 @@ export default async function PregnancyPage(props: { params: Promise<Params> }) 
     .eq("created_by", user.id);
 
   const studyIds = (studies ?? []).map((s) => s.id);
-  let growthPoints: { week: number; grams: number }[] = [];
+  const growthPoints: { week: number; grams: number }[] = [];
 
   if (studyIds.length > 0) {
     const { data: measurements } = await supabase
