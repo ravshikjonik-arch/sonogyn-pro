@@ -303,6 +303,12 @@ export const UterusVisualizationSchema = z.object({
 });
 export type UterusVisualization = z.infer<typeof UterusVisualizationSchema>;
 
+export const ScarVisualizationSchema = z.object({
+  snapshotDataUrl: SafeSnapshotDataUrlSchema.optional(),
+  payload: z.record(z.unknown()).default({}),
+});
+export type ScarVisualization = z.infer<typeof ScarVisualizationSchema>;
+
 export const AmnioticFluidSchema = z.object({
   afi_q1_cm: z.number().min(0).optional(),
   afi_q2_cm: z.number().min(0).optional(),
@@ -334,6 +340,7 @@ export const UltrasoundProtocolPayloadSchema = z.object({
   efw_grams: z.number().int().positive().optional(),
   efw_formula: z.string().optional(),
   uterus_visualization: UterusVisualizationSchema.optional(),
+  scar_visualization: ScarVisualizationSchema.optional(),
 });
 export type UltrasoundProtocolPayload = z.infer<typeof UltrasoundProtocolPayloadSchema>;
 

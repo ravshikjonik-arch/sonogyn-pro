@@ -157,13 +157,17 @@ export function FmfAssistantClient({ initialSection = "early" }: Props) {
 
   useEffect(() => {
     if (!early.lmpDate) return;
-    const lmp = parseIsoDate(early.lmpDate);
-    if (!lmp) return;
-    const total = gaDaysFromLmp(lmp, new Date());
-    if (total < 0) return;
-    const { weeks, days } = splitGaDays(total);
-    setSecondThird((p) => ({ ...p, gaWeeksByLmp: weeks, gaDaysByLmp: days }));
-    setDoppler((p) => ({ ...p, gaWeeks: weeks, gaDays: days }));
+    const lmpIso = early.lmpDate;
+    const timeout = window.setTimeout(() => {
+      const lmp = parseIsoDate(lmpIso);
+      if (!lmp) return;
+      const total = gaDaysFromLmp(lmp, new Date());
+      if (total < 0) return;
+      const { weeks, days } = splitGaDays(total);
+      setSecondThird((p) => ({ ...p, gaWeeksByLmp: weeks, gaDaysByLmp: days }));
+      setDoppler((p) => ({ ...p, gaWeeks: weeks, gaDays: days }));
+    }, 0);
+    return () => window.clearTimeout(timeout);
   }, [early.lmpDate]);
 
   const out: AssistantOutput =
@@ -1029,6 +1033,15 @@ function ScarForm({
           onClick={() => setScar((p) => ({ ...p, structure: "heterogeneous" }))}
         />
       </FieldGroup>
+      <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm dark:border-slate-800 dark:bg-slate-900/40">
+        <p className="font-semibold">Схема рубца / CSP</p>
+        <p className="mt-1 text-xs leading-relaxed text-[var(--clinical-foreground-muted)]">
+          Для ниши, истмоцеле или ранней беременности в зоне рубца откройте сагиттальный и фронтальный workspace.
+        </p>
+        <Button asChild variant="secondary" size="sm" className="mt-2">
+          <Link href="/scar-niche">Открыть схему рубца</Link>
+        </Button>
+      </div>
       {typeof scar.thicknessMm === "number" && scar.thicknessMm < 2.5 ? (
         <p className="rounded-xl border border-amber-300 bg-amber-50 px-3 py-2 text-xs text-amber-950 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-100">
           Толщина &lt;2.5 мм — признак несостоятельности рубца по УЗ-критериям. Нужна клиническая корреляция.

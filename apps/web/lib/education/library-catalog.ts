@@ -112,6 +112,16 @@ export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
     badge: "IOTA",
   },
   {
+    id: "scar-niche-csp",
+    shelf: "atlases",
+    title: "Рубец после КС / CSP",
+    description: "Сагиттальный и фронтальный срезы: ниша, RMT, истмоцеле, плодное яйцо относительно рубца.",
+    href: "/scar-niche",
+    tags: ["рубец", "истмоцеле", "ниша", "CSP", "беременность в рубце", "КС"],
+    primary: true,
+    badge: "КС",
+  },
+  {
     id: "obstetric-atlas",
     shelf: "atlases",
     title: "Атлас I триместра (Блинов)",

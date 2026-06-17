@@ -38,7 +38,15 @@ export default async function PregnancyPage(props: { params: Promise<Params> }) 
     .eq("created_by", user.id);
 
   const studyIds = (studies ?? []).map((s) => s.id);
-  let growthPoints: { week: number; grams: number }[] = [];
+  const growthPoints: { week: number; grams: number }[] = [];
+  const scarPoints: Array<{
+    date: string;
+    rmtMm?: number;
+    nicheDepthMm?: number;
+    distanceFromInternalOsMm?: number;
+    scenario?: string;
+    relation?: string;
+  }> = [];
 
   if (studyIds.length > 0) {
     const { data: measurements } = await supabase
@@ -50,9 +58,32 @@ export default async function PregnancyPage(props: { params: Promise<Params> }) 
       .limit(20);
 
     for (const m of measurements ?? []) {
-      const payload = m.payload as { efw_grams?: number; ga_days?: number };
+      const payload = m.payload as {
+        efw_grams?: number;
+        ga_days?: number;
+        scar_visualization?: {
+          payload?: {
+            scenario?: string;
+            residualMyometriumMm?: number;
+            nicheDepthMm?: number;
+            distanceFromInternalOsMm?: number;
+            scarPregnancyRelation?: string;
+          };
+        };
+      };
       if (payload.efw_grams && payload.ga_days) {
         growthPoints.push({ week: payload.ga_days / 7, grams: payload.efw_grams });
+      }
+      const scar = payload.scar_visualization?.payload;
+      if (scar?.residualMyometriumMm || scar?.nicheDepthMm) {
+        scarPoints.push({
+          date: new Date(m.created_at).toLocaleDateString("ru-RU"),
+          rmtMm: scar.residualMyometriumMm,
+          nicheDepthMm: scar.nicheDepthMm,
+          distanceFromInternalOsMm: scar.distanceFromInternalOsMm,
+          scenario: scar.scenario,
+          relation: scar.scarPregnancyRelation,
+        });
       }
     }
   }
@@ -96,6 +127,49 @@ export default async function PregnancyPage(props: { params: Promise<Params> }) 
         </Button>
       </section>
 
+      <section className="mt-6 rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
+        <h2 className="font-semibold text-slate-950">Рубец после КС / беременность в рубце</h2>
+        <p className="mt-1 text-sm leading-relaxed text-slate-700">
+          Сагиттальный и фронтальный срезы: RMT, ниша/истмоцеле, расстояние от внутреннего зева и локализация
+          плодного яйца относительно рубца.
+        </p>
+        <Button asChild variant="secondary" size="sm" className="mt-3">
+          <Link href="/scar-niche">Открыть схему рубца →</Link>
+        </Button>
+        {scarPoints.length > 0 ? (
+          <div className="mt-4 overflow-x-auto rounded-xl border border-slate-200 bg-white">
+            <table className="min-w-full text-left text-xs">
+              <thead className="bg-slate-100 text-slate-700">
+                <tr>
+                  <th className="px-3 py-2">Дата</th>
+                  <th className="px-3 py-2">RMT</th>
+                  <th className="px-3 py-2">Глубина</th>
+                  <th className="px-3 py-2">До зева</th>
+                  <th className="px-3 py-2">Сценарий</th>
+                  <th className="px-3 py-2">Отношение ПЯ</th>
+                </tr>
+              </thead>
+              <tbody>
+                {scarPoints.map((point, index) => (
+                  <tr key={`${point.date}-${index}`} className="border-t border-slate-100">
+                    <td className="px-3 py-2">{point.date}</td>
+                    <td className="px-3 py-2">{fmtMm(point.rmtMm)}</td>
+                    <td className="px-3 py-2">{fmtMm(point.nicheDepthMm)}</td>
+                    <td className="px-3 py-2">{fmtMm(point.distanceFromInternalOsMm)}</td>
+                    <td className="px-3 py-2">{point.scenario === "early_pregnancy" ? "CSP" : "Рубец"}</td>
+                    <td className="px-3 py-2">{point.relation ?? "—"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <p className="mt-3 text-xs text-slate-600">
+            Динамика появится после сохранения протоколов со схемой рубца.
+          </p>
+        )}
+      </section>
+
       <section className="mt-6 rounded-2xl border border-[var(--clinical-border)] p-4">
         <h2 className="font-semibold">Напоминания о скринингах</h2>
         <ul className="mt-2 list-disc pl-5 text-sm text-[var(--clinical-foreground-muted)]">
@@ -106,4 +180,8 @@ export default async function PregnancyPage(props: { params: Promise<Params> }) 
       </section>
     </main>
   );
+}
+
+function fmtMm(value?: number): string {
+  return typeof value === "number" && Number.isFinite(value) ? `${value.toFixed(1)} мм` : "—";
 }
