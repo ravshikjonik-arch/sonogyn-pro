@@ -120,4 +120,10 @@ export const RL = {
     "RATE_LIMIT_ADMIN_REVOKE_SESSIONS_WINDOW_SEC",
     60,
   ),
+  adminEducationRegistrations: preset(
+    "RATE_LIMIT_ADMIN_EDUCATION_REGISTRATIONS",
+    60,
+    "RATE_LIMIT_ADMIN_EDUCATION_REGISTRATIONS_WINDOW_SEC",
+    60,
+  ),
 } as const;

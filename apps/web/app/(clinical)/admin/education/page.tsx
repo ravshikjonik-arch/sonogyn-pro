@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 
 import { EducationAdminClient } from "@/components/education/EducationAdminClient";
+import { educationRegistrationFromRow } from "@/lib/education/registrations";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function AdminEducationPage() {
@@ -19,5 +20,18 @@ export default async function AdminEducationPage() {
     redirect("/app");
   }
 
-  return <EducationAdminClient />;
+  const { data: registrationRows, error: registrationsError } = await supabase
+    .from("education_registrations")
+    .select(
+      "id,session_id,session_title,user_id,full_name,email,question,preferred_subtitle_language,status,created_at,updated_at",
+    )
+    .order("created_at", { ascending: false })
+    .limit(200);
+
+  return (
+    <EducationAdminClient
+      initialRegistrations={(registrationRows ?? []).map((row) => educationRegistrationFromRow(row))}
+      registrationsError={registrationsError?.message ?? null}
+    />
+  );
 }
