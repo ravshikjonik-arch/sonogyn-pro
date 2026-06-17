@@ -2,7 +2,7 @@
 
 import { useCallback, useMemo, useState } from "react";
 import Link from "next/link";
-import { Copy, RotateCcw, Trash2 } from "lucide-react";
+import { Copy, Download, RotateCcw, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 import {
@@ -19,6 +19,7 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils/cn";
 import { UterusSliceAtlas } from "@/components/uterus/UterusSliceAtlas";
 import { FigoMyoma3DPreview } from "@/components/uterus/FigoMyoma3DPreview";
+import { generateUterusSliceSnapshotDataUrl } from "@/components/uterus/sliceSnapshot";
 import { useUterusAnnotations } from "@/components/uterus/useUterusAnnotations";
 
 const FIGO_REFERENCE: Array<{ figo: number; label: string; group: string }> = [
@@ -95,6 +96,27 @@ export function FigoMyomaWorkspace() {
     }
     await navigator.clipboard.writeText(ua.protocolText);
     toast.success("Текст скопирован");
+  }
+
+  async function downloadSnapshot() {
+    if (ua.annotations.length === 0) {
+      toast.message("Сначала добавьте миому на схему");
+      return;
+    }
+    try {
+      const dataUrl = await generateUterusSliceSnapshotDataUrl(ua.annotations);
+      if (!dataUrl) {
+        toast.error("Не удалось сформировать PNG");
+        return;
+      }
+      const link = document.createElement("a");
+      link.href = dataUrl;
+      link.download = `figo-myoma-${new Date().toISOString().slice(0, 10)}.png`;
+      link.click();
+      toast.success("PNG-схема сформирована");
+    } catch {
+      toast.error("Не удалось сформировать PNG");
+    }
   }
 
   function clearAll() {
@@ -352,6 +374,10 @@ export function FigoMyomaWorkspace() {
               <Button type="button" className="flex-1" onClick={() => void copyProtocol()}>
                 <Copy className="mr-2 h-4 w-4" />
                 Скопировать
+              </Button>
+              <Button type="button" variant="outline" className="flex-1" onClick={() => void downloadSnapshot()}>
+                <Download className="mr-2 h-4 w-4" />
+                PNG
               </Button>
               <Button type="button" variant="secondary" className="flex-1" asChild>
                 <Link href="/workspace">Открыть протокол</Link>

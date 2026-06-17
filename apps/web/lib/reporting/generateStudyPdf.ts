@@ -45,7 +45,7 @@ export function buildStudyReportHtml(input: PdfReportInput): string {
   const uterusSnapshot =
     protocol.uterus_visualization?.snapshotDataUrl &&
     isSafeClinicalImageDataUrl(protocol.uterus_visualization.snapshotDataUrl)
-      ? `<h2 style="font-size:15px;margin:20px 0 8px">Схема матки (3D)</h2><img src="${protocol.uterus_visualization.snapshotDataUrl}" alt="Схема матки" style="max-width:100%;max-height:320px;border:1px solid #cbd5e1;border-radius:8px"/>`
+      ? `<h2 style="font-size:15px;margin:20px 0 8px">FIGO-схема матки</h2><img src="${protocol.uterus_visualization.snapshotDataUrl}" alt="FIGO-схема матки" style="max-width:100%;max-height:320px;border:1px solid #cbd5e1;border-radius:8px"/>`
       : "";
 
   return `<!DOCTYPE html>

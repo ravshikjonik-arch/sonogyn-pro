@@ -588,7 +588,7 @@ export function UltrasoundProtocolForm({
       {protocol.uterus_visualization?.snapshotDataUrl ? (
         <section className="rounded-xl border border-[var(--clinical-border)] p-3">
           <p className="mb-2 text-xs font-bold uppercase tracking-wider text-[var(--clinical-foreground-muted)]">
-            Схема матки (3D)
+            FIGO-схема матки
           </p>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
