@@ -17,9 +17,14 @@ export default function LibraryPage() {
           <p className="max-w-3xl text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
             Всё по полкам: курсы ISUOG, справочники, атласы и калькуляторы. Поиск и быстрый переход к инструменту.
           </p>
-          <Link href="/library/basic-course?tab=program" className="text-sm font-medium text-[var(--clinical-primary)] underline">
-            ISUOG Basic Training → программа · лекция · практика
-          </Link>
+          <div className="flex flex-wrap gap-3 text-sm font-medium">
+            <Link href="/education" className="text-[var(--clinical-primary)] underline">
+              Все курсы и вебинары →
+            </Link>
+            <Link href="/library/basic-course?tab=program" className="text-[var(--clinical-primary)] underline">
+              ISUOG Basic Training → программа · лекция · практика
+            </Link>
+          </div>
         </header>
 
         <TelegramChannelLink className="max-w-xl" />

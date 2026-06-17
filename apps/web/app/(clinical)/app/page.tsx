@@ -53,6 +53,14 @@ const tiles = [
     accentBar: "bg-gradient-to-r from-amber-500 to-orange-400",
   },
   {
+    title: "Обучение",
+    description: "Расписание вебинаров, курсы, записи, русские субтитры и план переводов EN/ES.",
+    href: "/education",
+    icon: GraduationCap,
+    badge: "RU",
+    accentBar: "bg-gradient-to-r from-rose-600 to-amber-400",
+  },
+  {
     title: "Библиотека",
     description: "Протоколы, чеклисты, атласы — образовательный слой.",
     href: "/library",
@@ -168,6 +176,7 @@ export default async function CommandCenterPage() {
             { href: "/ovary-atlas", label: "Макет яичника" },
             { href: "/breast-3d", label: "Макет МЖ" },
             { href: "/guidelines", label: "КР МЗ РФ" },
+            { href: "/education", label: "Расписание обучения" },
             { href: "/library/basic-course", label: "ISUOG курс" },
             { href: "/cases/new", label: "Новый кейс" },
           ].map((link) => (

@@ -39,6 +39,7 @@ export default async function AdminDashboardPage() {
         {[
           { title: "User directory", body: "Invite flows + MFA audit — wire Supabase Auth admin APIs." },
           { title: "Moderation queue", body: "Review flagged teaching cases before publication." },
+          { title: "Education schedule", body: "Вебинары, курсы, записи, субтитры и заявки врачей." },
           { title: "Analytics export", body: "Blend Firebase events with `analytics_events` SQL warehouse." },
         ].map((card) => (
           <div key={card.title} className="rounded-2xl border border-[var(--clinical-border)] bg-white p-5 shadow-sm">
@@ -51,6 +52,9 @@ export default async function AdminDashboardPage() {
       <div className="flex flex-wrap gap-3">
         <Button asChild>
           <Link href="/admin/nosologies">Нозологии (редактор)</Link>
+        </Button>
+        <Button asChild>
+          <Link href="/admin/education">Обучение (расписание)</Link>
         </Button>
         <Button asChild variant="secondary">
           <Link href="/cases">Open cases gallery</Link>

@@ -1,9 +1,10 @@
 import type { CompositeScreenProps } from "@react-navigation/native";
 import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Linking, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { openTelegramChannel } from "../config/community";
 import { TELEGRAM_CHANNEL } from "../config/telegram";
+import { WEB_APP_BASE_URL } from "../config/webApp";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { branding } from "../config/branding";
 import type { MainTabParamList, RootStackParamList } from "../navigation/paramLists";
@@ -17,12 +18,19 @@ export type LibraryTabScreenProps = CompositeScreenProps<
 type Row = { id: string; title: string; sub: string; onPress: () => void };
 
 export default function LibraryScreen({ navigation }: LibraryTabScreenProps) {
+  const openEducation = () => void Linking.openURL(`${WEB_APP_BASE_URL}/education`);
   const rows: Row[] = [
     {
       id: "telegram",
       title: TELEGRAM_CHANNEL.name,
       sub: "Telegram · @UltraGynAnalytics (в РФ — VPN)",
       onPress: () => void openTelegramChannel(),
+    },
+    {
+      id: "education",
+      title: "Обучение",
+      sub: "Расписание занятий, вебинары, курсы и записи на русском",
+      onPress: openEducation,
     },
     {
       id: "nosology",
@@ -56,8 +64,8 @@ export default function LibraryScreen({ navigation }: LibraryTabScreenProps) {
     },
     {
       id: "edu",
-      title: "Educational materials",
-      sub: "FMF prenatal assistant",
+      title: "Учебные материалы",
+      sub: "FMF, скрининги и практические помощники",
       onPress: () => navigation.navigate("FMFAssistant"),
     },
     {
@@ -78,10 +86,18 @@ export default function LibraryScreen({ navigation }: LibraryTabScreenProps) {
     <SafeAreaView style={styles.safe} edges={["top", "left", "right"]}>
       <View style={styles.header}>
         <Text style={styles.kicker}>Знания</Text>
-        <Text style={styles.title}>Library</Text>
-        <Text style={styles.sub}>Справочники без смешения с кейсами</Text>
+        <Text style={styles.title}>Библиотека</Text>
+        <Text style={styles.sub}>Справочники, обучение и материалы без смешения с кейсами</Text>
       </View>
       <ScrollView contentContainerStyle={styles.list} showsVerticalScrollIndicator={false}>
+        <Pressable style={styles.featured} onPress={openEducation}>
+          <Text style={styles.featuredKicker}>ОБУЧЕНИЕ · RU</Text>
+          <Text style={styles.featuredTitle}>Расписание занятий и курсы</Text>
+          <Text style={styles.featuredSub}>
+            Вебинары, записи, материалы, русские субтитры и будущий перевод EN/ES.
+          </Text>
+          <Text style={styles.featuredAction}>Открыть раздел ›</Text>
+        </Pressable>
         {rows.map((r, i) => (
           <Pressable
             key={r.id}
@@ -113,6 +129,22 @@ const styles = StyleSheet.create({
   title: { fontSize: 26, fontWeight: "700", color: branding.colors.text, marginTop: 4 },
   sub: { fontSize: 14, color: branding.colors.textSecondary, marginTop: 4, lineHeight: 20 },
   list: { paddingHorizontal: theme.spacing.md, paddingBottom: 32 },
+  featured: {
+    backgroundColor: "#4f46e5",
+    borderRadius: 22,
+    padding: 20,
+    marginBottom: 14,
+    ...theme.shadow.card,
+  },
+  featuredKicker: {
+    color: "#c7d2fe",
+    fontSize: 11,
+    fontWeight: "800",
+    letterSpacing: 1.1,
+  },
+  featuredTitle: { color: "#fff", fontSize: 22, fontWeight: "800", marginTop: 8 },
+  featuredSub: { color: "#e0e7ff", fontSize: 13, lineHeight: 19, marginTop: 8 },
+  featuredAction: { color: "#fff", fontSize: 14, fontWeight: "800", marginTop: 14 },
   row: {
     flexDirection: "row",
     alignItems: "center",
