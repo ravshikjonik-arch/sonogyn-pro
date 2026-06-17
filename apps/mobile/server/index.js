@@ -12,6 +12,7 @@ import { fileURLToPath } from "url";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import multer from "multer";
+import helmet from "helmet";
 import { rateLimit } from "express-rate-limit";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -167,9 +168,27 @@ applyEnvAdminPromotion();
 saveStore(store);
 
 const app = express();
-app.use(cors());
-app.use(express.json({ limit: "15mb" }));
-app.use("/uploads", express.static(UPLOADS_DIR));
+
+// CORS allowlist. CHAT_CORS_ORIGINS = comma-separated origins.
+// Requests without an Origin header (mobile apps, curl, server-to-server) are always allowed —
+// CORS is a browser-only protection. When no allowlist is configured we keep dev permissive but
+// fail closed for cross-origin browser requests in production.
+const CORS_ALLOWLIST = String(process.env.CHAT_CORS_ORIGINS || "")
+  .split(",")
+  .map((o) => o.trim())
+  .filter(Boolean);
+const corsOriginCheck = (origin, callback) => {
+  if (!origin) return callback(null, true);
+  if (CORS_ALLOWLIST.includes(origin)) return callback(null, true);
+  if (CORS_ALLOWLIST.length === 0 && !isProduction) return callback(null, true);
+  return callback(new Error("Not allowed by CORS"));
+};
+
+app.disable("x-powered-by");
+// Cross-origin resource policy is relaxed so the mobile client can still load /uploads images.
+app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
+app.use(cors({ origin: corsOriginCheck }));
+app.use(express.json({ limit: "2mb" }));
 
 const commonLimiter = rateLimit({
   windowMs: 60 * 1000,
@@ -187,7 +206,27 @@ const authLimiter = rateLimit({
 });
 app.use(commonLimiter);
 
+// Tighter limit for write/upload endpoints (case + comment creation).
+const writeLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  limit: 30,
+  standardHeaders: "draft-7",
+  legacyHeaders: false,
+  message: { error: "Слишком много операций, попробуйте позже" },
+});
+
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 12 * 1024 * 1024 } });
+
+// Max lengths for free-text fields (defense against unbounded payloads).
+const MAX_LEN = { displayName: 120, email: 254, title: 200, description: 5000, commentText: 2000, tagItem: 40, tagCount: 20 };
+
+// Validate real file content by magic bytes (do not trust client MIME/extension).
+function detectImageType(buf) {
+  if (!buf || buf.length < 4) return null;
+  if (buf[0] === 0xff && buf[1] === 0xd8 && buf[2] === 0xff) return "jpg";
+  if (buf[0] === 0x89 && buf[1] === 0x50 && buf[2] === 0x4e && buf[3] === 0x47) return "png";
+  return null;
+}
 
 function authMiddleware(req, res, next) {
   const h = req.headers.authorization || "";
@@ -227,6 +266,28 @@ function adminOnly(req, res, next) {
   next();
 }
 
+// Clinical case images may contain PHI — never serve them as fully public static.
+// Accept the JWT via Authorization header or `?token=` query (so a native <Image> can pass it).
+function uploadsAuth(req, res, next) {
+  const h = req.headers.authorization || "";
+  const headerToken = h.startsWith("Bearer ") ? h.slice(7) : null;
+  const token = headerToken || (typeof req.query.token === "string" ? req.query.token : null);
+  if (!token) return res.status(401).json({ error: "Требуется авторизация" });
+  try {
+    const payload = jwt.verify(token, JWT_SECRET);
+    const user = store.users.find((u) => u.id === payload.sub);
+    if (!user) return res.status(401).json({ error: "Пользователь не найден" });
+    if ((payload.tv ?? 0) !== (user.tokenVersion ?? 0)) {
+      return res.status(401).json({ error: "Сессия отозвана" });
+    }
+    if (isActiveBlock(user)) return res.status(403).json({ error: "Аккаунт заблокирован" });
+    return next();
+  } catch {
+    return res.status(401).json({ error: "Недействительный токен" });
+  }
+}
+app.use("/uploads", uploadsAuth, express.static(UPLOADS_DIR));
+
 app.post("/auth/register", authLimiter, async (req, res) => {
   const { email, password, displayName } = req.body || {};
   const em = String(email || "").trim().toLowerCase();
@@ -234,6 +295,9 @@ app.post("/auth/register", authLimiter, async (req, res) => {
   const pass = String(password || "");
   if (!em || !name || pass.length < 6) {
     return res.status(400).json({ error: "Укажите email, имя и пароль не короче 6 символов" });
+  }
+  if (em.length > MAX_LEN.email || name.length > MAX_LEN.displayName || pass.length > 200) {
+    return res.status(400).json({ error: "Слишком длинные значения полей" });
   }
   if (store.users.some((u) => u.email === em)) {
     return res.status(409).json({ error: "Пользователь с таким email уже есть" });
@@ -318,7 +382,7 @@ app.get("/cases", authMiddleware, (req, res) => {
   res.json({ cases: list });
 });
 
-app.post("/cases", authMiddleware, upload.single("image"), (req, res) => {
+app.post("/cases", authMiddleware, writeLimiter, upload.single("image"), (req, res) => {
   const title = String(req.body.title || "").trim();
   const description = String(req.body.description || "").trim();
   const visibility = req.body.visibility === "private" ? "private" : "public";
@@ -334,11 +398,27 @@ app.post("/cases", authMiddleware, upload.single("image"), (req, res) => {
   if (!title || !description) {
     return res.status(400).json({ error: "Нужны заголовок и описание" });
   }
+  if (title.length > MAX_LEN.title || description.length > MAX_LEN.description) {
+    return res.status(400).json({ error: "Заголовок или описание слишком длинные" });
+  }
+  if (Array.isArray(tags)) {
+    tags = tags
+      .filter((t) => typeof t === "string")
+      .map((t) => t.trim())
+      .filter(Boolean)
+      .slice(0, MAX_LEN.tagCount)
+      .map((t) => t.slice(0, MAX_LEN.tagItem));
+  } else {
+    tags = [];
+  }
 
   let imageFilename = null;
   if (req.file && req.file.buffer && req.file.buffer.length) {
-    const ext = (req.file.mimetype || "").includes("png") ? "png" : "jpg";
-    imageFilename = `${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
+    const detected = detectImageType(req.file.buffer);
+    if (!detected) {
+      return res.status(400).json({ error: "Файл не является изображением JPEG или PNG" });
+    }
+    imageFilename = `${Date.now()}_${Math.random().toString(36).slice(2)}.${detected}`;
     fs.writeFileSync(path.join(UPLOADS_DIR, imageFilename), req.file.buffer);
   }
 
@@ -375,9 +455,12 @@ app.post("/cases", authMiddleware, upload.single("image"), (req, res) => {
   });
 });
 
-app.post("/cases/:id/comments", authMiddleware, (req, res) => {
+app.post("/cases/:id/comments", authMiddleware, writeLimiter, (req, res) => {
   const text = String(req.body.text || "").trim();
   if (!text) return res.status(400).json({ error: "Пустой комментарий" });
+  if (text.length > MAX_LEN.commentText) {
+    return res.status(400).json({ error: "Комментарий слишком длинный" });
+  }
   const c = store.cases.find((x) => x.id === req.params.id);
   if (!c) return res.status(404).json({ error: "Кейс не найден" });
   if (c.visibility === "private" && c.authorId !== req.userId) {
@@ -514,10 +597,16 @@ app.post("/auth/telegram/complete", (req, res) => {
   if (!nonce || !telegramPending.has(nonce)) {
     return res.status(404).json({ error: "Сессия Telegram не найдена" });
   }
+  // Only accept Telegram Login Widget payloads (with a `hash` verified upstream by the web API).
+  // Bot-source payloads must arrive via the Telegram webhook, not this client-facing endpoint —
+  // otherwise anyone knowing a nonce could inject an arbitrary Telegram id for the trusted bot path.
+  if (!hash || !id) {
+    return res.status(400).json({ error: "Требуется подписанный payload Telegram (hash)" });
+  }
   telegramPending.set(nonce, {
     status: "ok",
     createdAt: Date.now(),
-    payload: { id, first_name, last_name, username, photo_url, auth_date, hash, source: hash ? "widget" : "bot" },
+    payload: { id, first_name, last_name, username, photo_url, auth_date, hash, source: "widget" },
   });
   res.json({ ok: true });
 });
