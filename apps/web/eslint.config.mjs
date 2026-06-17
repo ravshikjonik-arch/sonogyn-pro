@@ -5,6 +5,14 @@ import nextTs from "eslint-config-next/typescript";
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
+  // Downgrade react-hooks/set-state-in-effect from error to warn.
+  // The existing codebase uses setState in effects for legitimate async state
+  // updates (loading from localStorage, Supabase, etc.). Treat as advisory.
+  {
+    rules: {
+      "react-hooks/set-state-in-effect": "warn",
+    },
+  },
   // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next:
