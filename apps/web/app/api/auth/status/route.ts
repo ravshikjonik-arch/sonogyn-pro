@@ -1,9 +1,15 @@
 import { NextResponse } from "next/server";
 
 import { shouldAutoConfirmEmail } from "@/lib/auth/auto-confirm-email";
+import {
+  getAuthSessionMaxAgeDays,
+  isDevAuthModeEnabled,
+} from "@/lib/auth/dev-auth-mode";
 import { resolveEmailConfirmRedirect } from "@/lib/auth/email-confirmation";
 import { resolveAppOrigin } from "@/lib/auth/app-origin";
+import { SUPABASE_DEV_AUTH_CHECKLIST } from "@/lib/auth/supabase-dashboard-checklist";
 import { isTurnstileConfigured } from "@/lib/auth/verify-turnstile";
+import { isCustomSmsAuthEnabled, resolveSmsProvider } from "@/lib/auth/sms-providers";
 
 export const runtime = "nodejs";
 
@@ -37,6 +43,11 @@ export async function GET(req: Request) {
     ok: issues.length === 0,
     appOrigin,
     emailRedirectTo,
+    devAuth: {
+      enabled: isDevAuthModeEnabled(),
+      sessionMaxAgeDays: getAuthSessionMaxAgeDays() ?? null,
+      autoLogin: process.env.DEV_AUTO_LOGIN === "true" && process.env.NODE_ENV === "development",
+    },
     telegramBotUsername:
       process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME?.trim() ||
       process.env.TELEGRAM_BOT_USERNAME?.trim() ||
@@ -47,11 +58,21 @@ export async function GET(req: Request) {
         process.env.TELEGRAM_BOT_TOKEN?.trim() && process.env.SUPABASE_SERVICE_ROLE_KEY?.trim(),
       ),
       turnstileConfigured: isTurnstileConfigured(),
+      smsProvider: resolveSmsProvider(),
+      customSmsAuth: isCustomSmsAuthEnabled(),
     },
     issues,
     hints: {
       supabaseSiteUrl: appOrigin,
       supabaseRedirectUrls: [`${appOrigin}/auth/callback`, `${appOrigin}/**`],
+      supabaseDashboard: SUPABASE_DEV_AUTH_CHECKLIST,
+      devAuthEnv: [
+        "DEV_AUTH_MODE=true          # только local npm run dev",
+        "AUTH_SESSION_MAX_AGE_DAYS=90",
+        "AUTH_AUTO_CONFIRM_EMAIL=true",
+        "SUPABASE_SERVICE_ROLE_KEY=… # из Dashboard → API",
+        "DEV_AUTO_LOGIN=true         # опционально: вход без формы при открытии /",
+      ],
       telegram: [
         "BotFather → /mybots → ваш бот → API Token → TELEGRAM_BOT_TOKEN в Vercel (Production + Preview)",
             "BotFather → /setdomain → домен: sonogyn-pro-web.vercel.app",
@@ -59,11 +80,10 @@ export async function GET(req: Request) {
         "После добавления токена — Redeploy на Vercel",
       ],
       phoneSms: [
-        "Supabase Dashboard → Authentication → Providers → Phone → Enable",
-        "Enable phone confirmations + Allow phone sign-ups",
-        "SMS provider: Twilio (Account SID, Auth Token, Message Service SID или номер)",
-        "Тест Twilio Trial: только на Verified Caller IDs; для РФ (+7) — отдельное одобрение Twilio",
-        "Формат номера в приложении: +79001234567",
+        "РФ: SMS.ru — SMSRU_API_ID в Vercel + SMS_PROVIDER=smsru (без Twilio)",
+        "Supabase Phone + Twilio — только если Twilio доступен в вашем регионе",
+        "Формат номера: +79001234567",
+        "Fallback: укажите email на вкладке «Телефон» — код придёт на почту, если SMS не дошло",
       ],
       emailDeliverability:
         "mail.ru / gmail: проверьте «Спам». Для надёжной доставки — Supabase → Auth → SMTP.",

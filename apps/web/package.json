@@ -9,6 +9,8 @@
     "dev:lan:webpack": "next dev --webpack -H 0.0.0.0",
     "dev:3001": "next dev --webpack -p 3001",
     "check:supabase": "node scripts/check-supabase-env.js",
+    "setup:dev-login": "node scripts/setup-dev-login.mjs",
+    "test:auth": "node scripts/auth-smoke-test.mjs",
     "db:bundle": "node scripts/apply-supabase-migrations.mjs --bundle-only",
     "db:migrate": "node scripts/apply-supabase-migrations.mjs",
     "db:migrate:security": "node scripts/apply-supabase-migrations.mjs --security-only",

@@ -32,7 +32,7 @@ function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const supabase = useSupabase();
-  const { refresh } = useAuth();
+  const { refresh, user, ready } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -63,6 +63,25 @@ function LoginForm() {
 
   const nextPath = safeInternalPath(searchParams.get("redirectedFrom"), "/app");
   const authCallbackError = searchParams.get("error") === "auth_callback";
+
+  useEffect(() => {
+    if (!ready || !user) return;
+    router.replace(nextPath);
+    router.refresh();
+  }, [ready, user, router, nextPath]);
+
+  useEffect(() => {
+    if (searchParams.get("dev_setup") === "service_role") {
+      setMessage(
+        "Автовход: добавьте SUPABASE_SERVICE_ROLE_KEY в apps/web/.env.local (Supabase → Settings → API → service_role), затем npm run setup:dev-login. Пока войдите email + пароль вручную.",
+      );
+    }
+    if (searchParams.get("dev_setup") === "failed") {
+      setMessage(
+        "Автовход не удался. Выполните npm run setup:dev-login или войдите вручную: yakubovr564@gmail.com",
+      );
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     if (authCallbackError) {

@@ -25,6 +25,7 @@ import { runVerificationFallbackChain } from "@/lib/auth/verification/fallback-h
 import { parseEmailContact } from "@/lib/auth/verification/validate-contact";
 import { logVerificationEvent } from "@/lib/auth/verification/safe-verification-log";
 import { checkRateLimit } from "@/lib/auth/verification/verification-rate-limit";
+import { isCustomSmsAuthEnabled, resolveSmsProvider } from "@/lib/auth/sms-providers";
 
 type Body = {
   phone?: string;
@@ -107,6 +108,42 @@ export async function POST(req: Request) {
 
   const isRegistration = body.createUser === true;
   const userData = registrationMetadataToUserData(registrationMeta);
+
+  // SMS.ru / Twilio через наш pipeline (без Supabase Phone + Twilio).
+  if (isCustomSmsAuthEnabled()) {
+    const fallbackEmail =
+      typeof body.fallbackEmail === "string" ? parseEmailContact(body.fallbackEmail) : null;
+    const fb = await runVerificationFallbackChain({
+      primaryMethod: "sms",
+      contact: phone,
+      purpose: isRegistration ? "register" : "login",
+      fallbackEmail: fallbackEmail ?? undefined,
+      idempotencyKey: req.headers.get("Idempotency-Key"),
+    });
+    if (fb.ok) {
+      logVerificationEvent("custom_sms_sent", {
+        method: resolveSmsProvider() ?? undefined,
+        purpose: isRegistration ? "register" : "login",
+      });
+      await clearAuthFailures(failKey);
+      return NextResponse.json({
+        ok: true,
+        message: fb.message ?? PHONE_OTP_SENT_MSG,
+        fallbackUsed: fb.fallbackUsed ?? false,
+        deliveredVia: fb.deliveredVia ?? "sms",
+        customSms: true,
+      });
+    }
+    await recordAuthFailure(failKey);
+    return NextResponse.json(
+      {
+        error: fb.message ?? "Не удалось отправить SMS.",
+        smsNotConfigured: fb.errorCode === "sms_not_configured",
+        requiresCaptcha: await isCaptchaRequired(failKey),
+      },
+      { status: 502 },
+    );
+  }
 
   try {
     const { error } = await client.supabase.auth.signInWithOtp({

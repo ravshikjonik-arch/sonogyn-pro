@@ -6,12 +6,23 @@ import Link from "next/link";
 type AuthStatus = {
   ok?: boolean;
   issues?: string[];
+  devAuth?: {
+    enabled?: boolean;
+    sessionMaxAgeDays?: number | null;
+    autoLogin?: boolean;
+  };
   features?: {
     emailAutoConfirm?: boolean;
     telegramReady?: boolean;
   };
   hints?: {
     supabaseSiteUrl?: string;
+    supabaseDashboard?: Array<{
+      area: string;
+      setting: string;
+      recommended: string;
+      why: string;
+    }>;
   };
 };
 
@@ -25,11 +36,39 @@ export function AuthSetupBanner() {
       .catch(() => setStatus(null));
   }, []);
 
-  if (!status || status.ok) return null;
+  if (!status) return null;
 
+  const devOn = status.devAuth?.enabled;
   const issues = status.issues ?? [];
   const showTelegram = issues.some((i) => i.includes("TELEGRAM_BOT_TOKEN"));
-  const showEmailHint = !status.features?.emailAutoConfirm;
+  const showEmailHint = !status.features?.emailAutoConfirm && !devOn;
+
+  if (devOn) {
+    return (
+      <div className="mb-4 rounded-2xl border border-sky-300 bg-sky-50 p-4 text-sm text-sky-950 dark:border-sky-800 dark:bg-sky-950/30 dark:text-sky-100">
+        <p className="font-semibold">Режим разработки (DEV_AUTH_MODE)</p>
+        <ul className="mt-2 list-inside list-disc space-y-1 text-xs">
+          <li>
+            Сессия в cookie: до <strong>{status.devAuth?.sessionMaxAgeDays ?? 90} дней</strong>
+          </li>
+          <li>Email confirm: {status.features?.emailAutoConfirm ? "auto на сервере" : "нужен service role"}</li>
+          {!status.features?.emailAutoConfirm ? (
+            <li className="text-amber-900 dark:text-amber-200">
+              Раскомментируйте <span className="font-mono">SUPABASE_SERVICE_ROLE_KEY</span> в .env.local →{" "}
+              <span className="font-mono">npm run setup:dev-login</span>
+            </li>
+          ) : null}
+          <li>Повторный вход не нужен — cookie сохраняется между перезапусками браузера</li>
+          {status.devAuth?.autoLogin ? <li>DEV_AUTO_LOGIN: вход с / без формы</li> : null}
+        </ul>
+        <Link href="/api/auth/status" className="mt-2 inline-block text-xs font-semibold underline" target="_blank">
+          Чеклист Supabase (JSON)
+        </Link>
+      </div>
+    );
+  }
+
+  if (status.ok) return null;
 
   return (
     <div className="mb-4 rounded-2xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-950 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-100">
@@ -47,8 +86,9 @@ export function AuthSetupBanner() {
       ) : null}
       {showEmailHint ? (
         <p className="mt-2 text-xs">
-          Email: задайте <span className="font-mono">SUPABASE_SERVICE_ROLE_KEY</span> в Vercel для мгновенной
-          регистрации без письма, или настройте SMTP в Supabase.
+          Email: задайте <span className="font-mono">DEV_AUTH_MODE=true</span> +{" "}
+          <span className="font-mono">SUPABASE_SERVICE_ROLE_KEY</span> в <span className="font-mono">.env.local</span>,
+          или отключите Confirm email в Supabase Dashboard.
         </p>
       ) : null}
       {status.features?.emailAutoConfirm ? (

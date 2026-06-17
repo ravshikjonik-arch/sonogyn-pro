@@ -9,8 +9,9 @@ import { AuthButtons } from "@repo/ui";
 import { useSupabase, useAuth } from "@/app/providers";
 import { AuthMessage, AuthScreenShell, authInputClass } from "@/components/auth/AuthScreenShell";
 import { AuthSetupBanner } from "@/components/auth/AuthSetupBanner";
+import { EmailRegistrationHint } from "@/components/auth/EmailRegistrationHint";
 import { PhoneAuthSetupHint } from "@/components/auth/PhoneAuthSetupHint";
-import { DoctorRegistrationFields } from "@/components/auth/DoctorRegistrationFields";
+import { DoctorRegistrationFields, validateDoctorBirthYear } from "@/components/auth/DoctorRegistrationFields";
 import { TelegramLoginButton } from "@/components/auth/TelegramLoginButton";
 import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
 import { Button } from "@/components/ui/button";
@@ -52,6 +53,8 @@ function RegisterForm() {
 
   const [activeTab, setActiveTab] = useState<AuthRegistrationMethod>(defaultTab);
   const [fullName, setFullName] = useState("");
+  const [birthYear, setBirthYear] = useState("");
+  const [specialization, setSpecialization] = useState("Акушер-гинеколог");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
@@ -140,6 +143,17 @@ function RegisterForm() {
     const trimmedName = validateDoctorName();
     if (!trimmedName) return;
 
+    const parsedBirthYear = validateDoctorBirthYear(birthYear);
+    if (!parsedBirthYear) {
+      setMessage("Укажите год рождения (4 цифры, например 1988).");
+      return;
+    }
+
+    if (!specialization.trim()) {
+      setMessage("Выберите специализацию из списка.");
+      return;
+    }
+
     if (looksLikePhoneInput(email)) {
       setMessage(USE_PHONE_TAB_MSG);
       return;
@@ -151,6 +165,8 @@ function RegisterForm() {
         email: email.trim(),
         password,
         full_name: trimmedName,
+        birth_year: parsedBirthYear,
+        specialization: specialization.trim(),
         preferred_locale: locale,
         turnstileToken,
       });
@@ -306,14 +322,15 @@ function RegisterForm() {
       emailTab={
         <>
           <AuthSetupBanner />
-          <p className="mb-4 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-100">
-            Письмо на почту <strong>не отправляется</strong> — после регистрации вы сразу попадёте в кабинет. Проверьте
-            «Спам», только если включите подтверждение по email позже.
-          </p>
+          <EmailRegistrationHint />
         <form className="space-y-4" onSubmit={(e) => void onEmailRegister(e)}>
           <DoctorRegistrationFields
             fullName={fullName}
             onFullNameChange={setFullName}
+            birthYear={birthYear}
+            onBirthYearChange={setBirthYear}
+            specialization={specialization}
+            onSpecializationChange={setSpecialization}
             locale={locale}
             onLocaleChange={setLocale}
           />
@@ -382,6 +399,10 @@ function RegisterForm() {
           <DoctorRegistrationFields
             fullName={fullName}
             onFullNameChange={setFullName}
+            birthYear={birthYear}
+            onBirthYearChange={setBirthYear}
+            specialization={specialization}
+            onSpecializationChange={setSpecialization}
             locale={locale}
             onLocaleChange={setLocale}
           />

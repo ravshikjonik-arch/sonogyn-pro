@@ -20,6 +20,12 @@ import {
   createSupabaseRouteHandlerClient,
   nextJsonWithAuthCookies,
 } from "@/lib/route-handler-supabase";
+import { verifyStoredCode } from "@/lib/auth/verification/code-store";
+import { isCustomSmsAuthEnabled } from "@/lib/auth/sms-providers";
+import {
+  ensurePhoneAuthUser,
+  establishPhoneAuthSession,
+} from "@/lib/auth/phone-custom-auth";
 
 type Body = {
   phone?: string;
@@ -74,6 +80,30 @@ export async function POST(req: Request) {
 
   const wantsMobileSession = req.headers.get("x-sonogyn-client") === "mobile";
   const isRegistration = body.createUser === true || Boolean(registrationMeta.full_name);
+  const purpose = isRegistration ? "register" : "login";
+
+  if (isCustomSmsAuthEnabled()) {
+    const codeOk = await verifyStoredCode({ purpose, contact: phone, code: token });
+    if (!codeOk) {
+      await recordAuthFailure(failKey);
+      return NextResponse.json({ error: "Неверный или просроченный код." }, { status: 401 });
+    }
+
+    const ensured = await ensurePhoneAuthUser({
+      phoneE164: phone,
+      registration: registrationMeta,
+      createUser: isRegistration,
+    });
+    if ("error" in ensured) {
+      return NextResponse.json(
+        { error: ensured.error, needsRegistration: ensured.needsRegistration },
+        { status: ensured.needsRegistration ? 400 : 500 },
+      );
+    }
+
+    await clearAuthFailures(failKey);
+    return establishPhoneAuthSession(ensured.email, req, ensured.userId, registrationMeta);
+  }
 
   try {
     const { data, error } = await client.supabase.auth.verifyOtp({
