@@ -1,4 +1,5 @@
 import {
+  Baby,
   MessageCircle,
   Brain,
   Calculator,
@@ -67,6 +68,14 @@ const tiles = [
     icon: GraduationCap,
     badge: "ISUOG",
     accentBar: "bg-gradient-to-r from-rose-600 to-orange-500",
+  },
+  {
+    title: "Плацента / vasa previa",
+    description: "Нижний край плаценты, внутренний зев, сосуды, пуповина и текст для протокола.",
+    href: "/placenta-atlas",
+    icon: Baby,
+    badge: "OB",
+    accentBar: "bg-gradient-to-r from-rose-600 to-blue-500",
   },
   {
     title: "Макеты УЗИ",
@@ -161,6 +170,7 @@ export default async function CommandCenterPage() {
             { href: "/calculators/bi-rads", label: "BI-RADS US" },
             { href: "/calculators/endometrium", label: "Эндометрий" },
             { href: "/calculators/cervical-length", label: "CL шейки" },
+            { href: "/placenta-atlas", label: "Плацента / vasa" },
             { href: "/calculators/figo", label: "FIGO" },
             { href: "/calculators/elastography", label: "Эластография" },
             { href: "/mockups", label: "Макеты" },

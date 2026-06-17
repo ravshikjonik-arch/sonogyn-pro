@@ -38,7 +38,7 @@ export default async function PregnancyPage(props: { params: Promise<Params> }) 
     .eq("created_by", user.id);
 
   const studyIds = (studies ?? []).map((s) => s.id);
-  let growthPoints: { week: number; grams: number }[] = [];
+  const growthPoints: { week: number; grams: number }[] = [];
 
   if (studyIds.length > 0) {
     const { data: measurements } = await supabase
@@ -94,6 +94,22 @@ export default async function PregnancyPage(props: { params: Promise<Params> }) 
         <Button asChild variant="outline" size="sm" className="mt-3">
           <Link href="/calculators/cervical-length">Калькулятор CL →</Link>
         </Button>
+      </section>
+
+      <section className="mt-6 rounded-2xl border border-rose-200 bg-rose-50/70 p-4">
+        <h2 className="font-semibold text-rose-950">Плацента / предлежание / vasa previa</h2>
+        <p className="mt-1 text-sm leading-relaxed text-rose-900/80">
+          2D-схема нижнего сегмента: край плаценты, внутренний зев, сосуды, прикрепление пуповины и текст для
+          акушерского протокола.
+        </p>
+        <div className="mt-3 flex flex-wrap gap-2">
+          <Button asChild variant="secondary" size="sm">
+            <Link href="/placenta-atlas">Открыть схему плаценты →</Link>
+          </Button>
+          <Button asChild variant="outline" size="sm">
+            <Link href="/assistant/fmf?section=second">FMF II–III скрининг</Link>
+          </Button>
+        </div>
       </section>
 
       <section className="mt-6 rounded-2xl border border-[var(--clinical-border)] p-4">

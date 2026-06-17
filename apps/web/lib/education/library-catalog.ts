@@ -112,6 +112,16 @@ export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
     badge: "IOTA",
   },
   {
+    id: "placenta-vasa-workspace",
+    shelf: "atlases",
+    title: "Плацента · vasa previa",
+    description: "2D-схема нижнего сегмента: край плаценты, внутренний зев, сосуды и текст для протокола.",
+    href: "/placenta-atlas",
+    tags: ["плацента", "vasa previa", "предлежание", "внутренний зев", "ЦДК"],
+    primary: true,
+    badge: "OB",
+  },
+  {
     id: "obstetric-atlas",
     shelf: "atlases",
     title: "Атлас I триместра (Блинов)",
