@@ -85,6 +85,14 @@ const tiles = [
     accentBar: "bg-gradient-to-r from-violet-600 to-purple-500",
   },
   {
+    title: "FIGO миомы",
+    description: "2D-срез матки: поставить узел, L×W×D, FIGO auto/manual, текст в протокол.",
+    href: "/figo-myoma",
+    icon: CircleDot,
+    badge: "FIGO",
+    accentBar: "bg-gradient-to-r from-violet-700 to-rose-500",
+  },
+  {
     title: "Макет матки · FIGO",
     description: "Коронарный разрез или сагиттальный срез — локализация и FIGO в протокол.",
     href: "/uterus-3d",
@@ -164,6 +172,7 @@ export default async function CommandCenterPage() {
             { href: "/calculators/figo", label: "FIGO" },
             { href: "/calculators/elastography", label: "Эластография" },
             { href: "/mockups", label: "Макеты" },
+            { href: "/figo-myoma", label: "FIGO миомы" },
             { href: "/uterus-3d", label: "Макет матки" },
             { href: "/ovary-atlas", label: "Макет яичника" },
             { href: "/breast-3d", label: "Макет МЖ" },

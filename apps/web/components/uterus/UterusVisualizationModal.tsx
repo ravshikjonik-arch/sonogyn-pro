@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils/cn";
 import { UterusSliceAtlas } from "./UterusSliceAtlas";
+import { generateUterusSliceSnapshotDataUrl } from "./sliceSnapshot";
 import { useUterusAnnotations, type UterusVisualizationState } from "./useUterusAnnotations";
 
 type Props = {
@@ -51,8 +52,15 @@ export function UterusVisualizationModal({ open, onClose, initial, onApply }: Pr
     [ua, pickPedunculated],
   );
 
-  const handleApply = useCallback(() => {
-    const state = ua.exportState();
+  const handleApply = useCallback(async () => {
+    let snapshotDataUrl = ua.snapshotDataUrl;
+    try {
+      snapshotDataUrl = await generateUterusSliceSnapshotDataUrl(ua.annotations);
+      if (snapshotDataUrl) ua.setSnapshotDataUrl(snapshotDataUrl);
+    } catch {
+      toast.warning("Схема добавлена без PNG-снимка");
+    }
+    const state = { ...ua.exportState(), snapshotDataUrl };
     onApply({ protocolText: ua.protocolText, state });
     toast.success("Текст добавлен в протокол");
     onClose();
@@ -69,7 +77,7 @@ export function UterusVisualizationModal({ open, onClose, initial, onApply }: Pr
             Статическая схема · «Рука» — сдвиг и pinch · «Кисть» — обвести узел
           </p>
         </div>
-        <Button type="button" onClick={handleApply}>
+        <Button type="button" onClick={() => void handleApply()}>
           В протокол
         </Button>
         <Button type="button" variant="ghost" onClick={onClose}>

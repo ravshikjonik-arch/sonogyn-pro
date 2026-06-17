@@ -1,8 +1,8 @@
 import { analyzeSliceHit, sliceNormToModelPosition, type SliceNorm } from "./sliceAtlas";
 import { figoFromLesionEllipse, sizeMmFromEllipse, type SliceEllipse } from "./sliceLesionShape";
-import type { PathologyAnnotation, SizeMm } from "./pathologyTypes";
+import { defaultPathologyAnnotation, type PathologyAnnotation, type SizeMm } from "./pathologyTypes";
 
-export type SliceEditorTool = "navigate" | "draw";
+export type SliceEditorTool = "navigate" | "point" | "draw";
 
 /** Контур, нарисованный врачом (координаты 0–1 на срезе) */
 export type SliceStroke = {
@@ -132,6 +132,25 @@ export function annotationFromStroke(
     pedunculated: ped,
     figoOverride: null,
     figoType,
+    ...patch,
+  };
+}
+
+export function annotationFromPoint(
+  type: PathologyAnnotation["type"],
+  point: SliceNorm,
+  patch?: Partial<PathologyAnnotation>,
+): PathologyAnnotation {
+  const [nx, ny] = point;
+  const pos = sliceNormToModelPosition(nx, ny);
+  const ped = patch?.pedunculated ?? false;
+  const base = defaultPathologyAnnotation(type, pos, [nx, ny]);
+  const figoType = type === "myoma" ? analyzeSliceHit(nx, ny, ped).figoType : undefined;
+  return {
+    ...base,
+    pedunculated: ped,
+    figoType,
+    figoOverride: null,
     ...patch,
   };
 }

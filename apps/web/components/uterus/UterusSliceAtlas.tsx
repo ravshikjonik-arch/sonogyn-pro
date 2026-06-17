@@ -7,6 +7,7 @@ import {
   PATHOLOGY_LABELS_RU,
   UTERUS_SAGITTAL_SLICE_SRC,
   analyzeSliceHit,
+  annotationFromPoint,
   annotationFromStroke,
   enrichAnnotation,
   isValidStroke,
@@ -120,9 +121,24 @@ export function UterusSliceAtlas({
         strokeRef.current = [normFromClient(e.clientX, e.clientY, rect, zoom, pan.x, pan.y)];
         setDraftStroke([...strokeRef.current]);
         (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+        return;
+      }
+
+      if (tool === "point") {
+        const norm = normFromClient(e.clientX, e.clientY, rect, zoom, pan.x, pan.y);
+        if (norm[0] >= 0 && norm[0] <= 1 && norm[1] >= 0 && norm[1] <= 1) {
+          onAddLesion(
+            enrichAnnotation(
+              annotationFromPoint(placeMode, norm, {
+                pedunculated: placeMode === "myoma" ? pedunculated : false,
+              }),
+              pedunculated,
+            ),
+          );
+        }
       }
     },
-    [tool, zoom, pan],
+    [tool, zoom, pan, placeMode, pedunculated, onAddLesion],
   );
 
   const handlePointerMove = useCallback(
@@ -211,6 +227,14 @@ export function UterusSliceAtlas({
           onClick={() => setTool("draw")}
         >
           Кисть · рисовать
+        </Button>
+        <Button
+          type="button"
+          size="sm"
+          variant={tool === "point" ? "default" : "secondary"}
+          onClick={() => setTool("point")}
+        >
+          Точка · поставить
         </Button>
         <Button type="button" size="sm" variant="ghost" onClick={resetView}>
           Сброс вида

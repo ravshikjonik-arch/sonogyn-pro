@@ -123,6 +123,16 @@ export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
     badge: "Атлас",
   },
   {
+    id: "figo-myoma-workspace",
+    shelf: "calculators",
+    title: "FIGO workspace · миомы",
+    description: "2D-сагиттальный срез: врач ставит узел, вводит L×W×D, подтверждает FIGO и копирует протокол.",
+    href: "/figo-myoma",
+    tags: ["FIGO", "миома", "матка", "2D", "протокол"],
+    primary: true,
+    badge: "FIGO",
+  },
+  {
     id: "uterus-3d",
     shelf: "atlases",
     title: "Срез матки / FIGO",

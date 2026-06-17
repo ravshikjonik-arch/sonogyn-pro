@@ -102,29 +102,35 @@ export function UltrasoundProtocolForm({
   }, [studyId, sessionSeed]);
 
   useEffect(() => {
-    void loadProtocol();
+    const timeout = window.setTimeout(() => {
+      void loadProtocol();
+    }, 0);
+    return () => window.clearTimeout(timeout);
   }, [loadProtocol]);
 
   useEffect(() => {
     if (loading) return;
-    try {
-      const raw = sessionStorage.getItem("nosology-pending-apply");
-      if (!raw) return;
-      const pending = JSON.parse(raw) as NosologyProtocolInsert;
-      sessionStorage.removeItem("nosology-pending-apply");
-      setProtocol((p) => ({
-        ...p,
-        diagnosis: p.diagnosis?.trim()
-          ? `${p.diagnosis}\n${pending.diagnosis}`
-          : pending.diagnosis,
-        conclusion: p.conclusion?.trim()
-          ? `${p.conclusion}\n\n${pending.conclusion}`
-          : pending.conclusion,
-      }));
-      toast.success("Текст из справочника нозологий добавлен в протокол");
-    } catch {
-      /* ignore malformed */
-    }
+    const timeout = window.setTimeout(() => {
+      try {
+        const raw = sessionStorage.getItem("nosology-pending-apply");
+        if (!raw) return;
+        const pending = JSON.parse(raw) as NosologyProtocolInsert;
+        sessionStorage.removeItem("nosology-pending-apply");
+        setProtocol((p) => ({
+          ...p,
+          diagnosis: p.diagnosis?.trim()
+            ? `${p.diagnosis}\n${pending.diagnosis}`
+            : pending.diagnosis,
+          conclusion: p.conclusion?.trim()
+            ? `${p.conclusion}\n\n${pending.conclusion}`
+            : pending.conclusion,
+        }));
+        toast.success("Текст из справочника нозологий добавлен в протокол");
+      } catch {
+        /* ignore malformed */
+      }
+    }, 0);
+    return () => window.clearTimeout(timeout);
   }, [loading]);
 
   const onNosologyInsert = useCallback((payload: NosologyProtocolInsert) => {
@@ -297,7 +303,6 @@ export function UltrasoundProtocolForm({
     return <p className="text-sm text-[var(--clinical-foreground-muted)]">Загрузка протокола…</p>;
   }
 
-  const gaWeeks = computedGaDays != null ? computedGaDays / 7 : null;
   const gaWeeksInt = computedGaDays != null ? Math.floor(computedGaDays / 7) : undefined;
   const gaDaysRem = computedGaDays != null ? computedGaDays % 7 : undefined;
 
@@ -488,14 +493,21 @@ export function UltrasoundProtocolForm({
               <span className="flex flex-wrap items-center gap-2 font-medium">
                 {label}
                 {key === "uterus" ? (
-                  <Button
-                    type="button"
-                    size="sm"
-                    variant="secondary"
-                    onClick={() => setUterus3dOpen(true)}
-                  >
-                    Срез матки
-                  </Button>
+                  <>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="secondary"
+                      onClick={() => setUterus3dOpen(true)}
+                    >
+                      Срез матки
+                    </Button>
+                    <Button type="button" size="sm" variant="ghost" asChild>
+                      <a href="/figo-myoma" target="_blank" rel="noreferrer">
+                        FIGO workspace
+                      </a>
+                    </Button>
+                  </>
                 ) : null}
               </span>
               <textarea
@@ -576,7 +588,7 @@ export function UltrasoundProtocolForm({
       {protocol.uterus_visualization?.snapshotDataUrl ? (
         <section className="rounded-xl border border-[var(--clinical-border)] p-3">
           <p className="mb-2 text-xs font-bold uppercase tracking-wider text-[var(--clinical-foreground-muted)]">
-            Схема матки (3D)
+            FIGO-схема матки
           </p>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img

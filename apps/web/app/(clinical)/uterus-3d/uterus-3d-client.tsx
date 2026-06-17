@@ -31,6 +31,9 @@ export function Uterus3DClientBody() {
           <Button variant={tab === "sagittal" ? "default" : "outline"} onClick={() => setTab("sagittal")}>
             Сагиттальный срез
           </Button>
+          <Button variant="default" size="sm" asChild>
+            <Link href="/figo-myoma">FIGO workspace</Link>
+          </Button>
           <Button variant="ghost" size="sm" asChild>
             <Link href="/mockups">← Все макеты</Link>
           </Button>
