@@ -53,6 +53,7 @@ export function buildStudyReportHtml(input: PdfReportInput): string {
     isSafeClinicalImageDataUrl(protocol.scar_visualization.snapshotDataUrl)
       ? `<h2 style="font-size:15px;margin:20px 0 8px">Схема рубца / CSP</h2><img src="${protocol.scar_visualization.snapshotDataUrl}" alt="Схема рубца / CSP" style="max-width:100%;max-height:320px;border:1px solid #cbd5e1;border-radius:8px"/>`
       : "";
+  const scarTable = buildScarMeasurementsTable(protocol.scar_visualization?.payload);
 
   return `<!DOCTYPE html>
 <html lang="ru">
@@ -81,6 +82,7 @@ export function buildStudyReportHtml(input: PdfReportInput): string {
   ${organBlocks}
   ${uterusSnapshot}
   ${scarSnapshot}
+  ${scarTable}
   ${protocol.diagnosis?.trim() ? `<div class="conclusion"><strong>Диагноз</strong><p style="margin:8px 0 0;white-space:pre-wrap">${escapeHtml(protocol.diagnosis)}</p></div>` : ""}
   <div class="conclusion">
     <strong>Заключение</strong>
@@ -106,6 +108,32 @@ function organLabel(key: string): string {
     bladder: "Мочевой пузырь",
   };
   return map[key] ?? key;
+}
+
+function numberCell(value: unknown): string {
+  return typeof value === "number" && Number.isFinite(value) ? `${value.toFixed(1)} мм` : "—";
+}
+
+function buildScarMeasurementsTable(payload: unknown): string {
+  if (!payload || typeof payload !== "object") return "";
+  const p = payload as Record<string, unknown>;
+  const rows: [string, string][] = [
+    ["Сценарий", p.scenario === "early_pregnancy" ? "Ранняя беременность / CSP" : "Рубец / ниша"],
+    ["RMT", numberCell(p.residualMyometriumMm)],
+    ["Глубина ниши", numberCell(p.nicheDepthMm)],
+    ["Длина ниши", numberCell(p.nicheLengthMm)],
+    ["Ширина ниши", numberCell(p.nicheWidthMm)],
+    ["От внутреннего зева", numberCell(p.distanceFromInternalOsMm)],
+    ["От плодного яйца до рубца", numberCell(p.gestationalSacDistanceToScarMm)],
+    ["Миометрий к серозе/мочевому пузырю", numberCell(p.bladderSerosaDistanceMm)],
+  ];
+  const htmlRows = rows
+    .map(
+      ([k, v]) =>
+        `<tr><td style="padding:6px 12px;border:1px solid #ccc;font-weight:600">${escapeHtml(k)}</td><td style="padding:6px 12px;border:1px solid #ccc">${escapeHtml(v)}</td></tr>`,
+    )
+    .join("");
+  return `<h2 style="font-size:15px;margin:20px 0 8px">Измерения рубца / CSP</h2><table>${htmlRows}</table>`;
 }
 
 function escapeHtml(s: string): string {

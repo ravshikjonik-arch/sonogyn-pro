@@ -25,9 +25,10 @@ import {
   type ScarWorkspaceState,
 } from "@/lib/scar/scar-workspace";
 import { generateScarNicheSnapshotDataUrl } from "@/components/scar/scarSnapshot";
+import { ScarNiche3DPreview } from "@/components/scar/ScarNiche3DPreview";
 
 type Tool = "scar" | "sac" | "draw_scar";
-type ViewMode = "sagittal" | "coronal";
+type ViewMode = "sagittal" | "coronal" | "3d";
 type NormPoint = { x: number; y: number };
 
 type Props = {
@@ -167,6 +168,25 @@ export function ScarNicheWorkspace({ compact, onApply }: Props) {
   const scarPx = px(scarPoint, SAGITTAL_VIEW);
   const sacPx = px(sacPoint, SAGITTAL_VIEW);
   const coronalScarPx = px(scarPoint, CORONAL_VIEW);
+  const scarNiche3d = useMemo(
+    () => ({
+      enabled: true,
+      measurements: {
+        residualMyometriumMm: state.residualMyometriumMm,
+        nicheDepthMm: state.nicheDepthMm,
+        nicheLengthMm: state.nicheLengthMm,
+        nicheWidthMm: state.nicheWidthMm,
+        distanceFromInternalOsMm: state.distanceFromInternalOsMm,
+      },
+    }),
+    [
+      state.distanceFromInternalOsMm,
+      state.nicheDepthMm,
+      state.nicheLengthMm,
+      state.nicheWidthMm,
+      state.residualMyometriumMm,
+    ],
+  );
 
   return (
     <div className={compact ? "grid gap-4 lg:grid-cols-[minmax(0,1fr)_360px]" : "grid gap-6 xl:grid-cols-[minmax(0,1fr)_420px]"}>
@@ -191,6 +211,9 @@ export function ScarNicheWorkspace({ compact, onApply }: Props) {
               </Button>
               <Button type="button" size="sm" variant={viewMode === "coronal" ? "default" : "outline"} onClick={() => setViewMode("coronal")}>
                 Фронтальный / коронарный
+              </Button>
+              <Button type="button" size="sm" variant={viewMode === "3d" ? "default" : "outline"} onClick={() => setViewMode("3d")}>
+                3D overlay
               </Button>
               <Button type="button" size="sm" variant={tool === "scar" ? "default" : "outline"} onClick={() => setTool("scar")}>
                 Рубец
@@ -260,7 +283,7 @@ export function ScarNicheWorkspace({ compact, onApply }: Props) {
                   ) : null}
                 </svg>
               </div>
-            ) : (
+            ) : viewMode === "coronal" ? (
               <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white p-2">
                 <svg
                   viewBox={`0 0 ${CORONAL_VIEW.w} ${CORONAL_VIEW.h}`}
@@ -284,6 +307,14 @@ export function ScarNicheWorkspace({ compact, onApply }: Props) {
                     рубец
                   </text>
                 </svg>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                <ScarNiche3DPreview scarNiche={scarNiche3d} />
+                <p className="text-xs leading-relaxed text-[var(--clinical-foreground-muted)]">
+                  3D overlay синхронизирован с измерениями RMT/глубины/длины/ширины. Основной клинический ввод остаётся
+                  на 2D-срезах; 3D помогает визуально проверить нишу нижнего сегмента.
+                </p>
               </div>
             )}
           </CardContent>
