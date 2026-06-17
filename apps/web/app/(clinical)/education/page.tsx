@@ -241,8 +241,7 @@ function InfoCard({
 }
 
 function TrainingSessionCard({ session }: { session: TrainingSession }) {
-  const hasLiveLink = Boolean(session.meetingUrl);
-  const actionHref = session.href ?? session.meetingUrl;
+  const actionHref = `/education/${session.id}`;
 
   return (
     <Card className="flex flex-col border-[var(--clinical-border)] bg-[var(--clinical-card)]">
@@ -288,15 +287,9 @@ function TrainingSessionCard({ session }: { session: TrainingSession }) {
         </div>
 
         <div className="flex flex-col gap-2 sm:flex-row">
-          {actionHref ? (
-            <Button className="flex-1" asChild>
-              <Link href={actionHref}>{session.format === "live" && hasLiveLink ? "Войти в эфир" : "Открыть"}</Link>
-            </Button>
-          ) : (
-            <Button className="flex-1" disabled>
-              Ссылка появится позже
-            </Button>
-          )}
+          <Button className="flex-1" asChild>
+            <Link href={actionHref}>Подробнее / записаться</Link>
+          </Button>
           <Button variant="secondary" className="flex-1" asChild>
             <a href={TELEGRAM_CHANNEL.url} target="_blank" rel="noopener noreferrer">
               <Send className="mr-2 h-4 w-4" />

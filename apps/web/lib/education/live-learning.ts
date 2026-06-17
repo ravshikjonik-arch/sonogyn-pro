@@ -32,6 +32,8 @@ export type TrainingSession = {
   href?: string;
   materials: string[];
   tags: string[];
+  agenda: string[];
+  outcomes: string[];
 };
 
 export type LearningTrack = {
@@ -62,6 +64,17 @@ export const TRAINING_SESSIONS: TrainingSession[] = [
     meetingProvider: "Zoom/Meet",
     materials: ["чеклист признаков", "шаблон описания", "разбор типичных ошибок"],
     tags: ["O-RADS", "IOTA", "яичники", "вебинар"],
+    agenda: [
+      "Какие признаки обязательно собрать до категории",
+      "Как отделить простое описание от клинического вывода",
+      "Типичные ловушки при папиллярных структурах и солидных компонентах",
+      "Как оформить текст для протокола SonoGyn Pro",
+    ],
+    outcomes: [
+      "Врач быстрее находит нужный O-RADS сценарий",
+      "Описание становится структурированным и проверяемым",
+      "Снижается риск пропустить ключевой признак",
+    ],
   },
   {
     id: "isuog-basic-early-pregnancy",
@@ -81,6 +94,15 @@ export const TRAINING_SESSIONS: TrainingSession[] = [
     href: "/library/basic-course",
     materials: ["программа", "лекция", "практические пункты"],
     tags: ["ISUOG", "I триместр", "КТР", "курс"],
+    agenda: [
+      "Сроки и ориентиры 4–10 недель",
+      "КТР, сердцебиение, многоплодная беременность",
+      "Как не перегружать протокол лишними формулировками",
+    ],
+    outcomes: [
+      "Единый базовый алгоритм ранней беременности",
+      "Понятная структура лекция → практика → протокол",
+    ],
   },
   {
     id: "orads-echograms-cases",
@@ -100,6 +122,15 @@ export const TRAINING_SESSIONS: TrainingSession[] = [
     href: "/library/orads-echograms",
     materials: ["эхограммы", "дерево решений", "клинические комментарии"],
     tags: ["эхограммы", "O-RADS", "случаи"],
+    agenda: [
+      "Самостоятельный просмотр эхограмм",
+      "Сопоставление признаков с IOTA/O-RADS",
+      "Разбор заключений и формулировок",
+    ],
+    outcomes: [
+      "Насмотренность по типовым паттернам",
+      "Быстрый переход от изображения к категории",
+    ],
   },
   {
     id: "birads-breast-us",
@@ -118,6 +149,15 @@ export const TRAINING_SESSIONS: TrainingSession[] = [
     meetingProvider: "Zoom/Meet",
     materials: ["алгоритм осмотра", "шаблон протокола", "BI-RADS подсказки"],
     tags: ["BI-RADS", "молочная железа", "вебинар"],
+    agenda: [
+      "Алгоритм исследования молочных желёз",
+      "Локализация: часы, расстояние, квадрант",
+      "BI-RADS US и структурированное заключение",
+    ],
+    outcomes: [
+      "Единый маршрут осмотра",
+      "Более понятные протоколы для коллег и маршрутизации",
+    ],
   },
 ];
 
@@ -169,4 +209,8 @@ export function formatTrainingDateRu(startsAt: string | null): string {
     minute: "2-digit",
     timeZone: "Europe/Moscow",
   }).format(new Date(startsAt));
+}
+
+export function getTrainingSessionById(id: string): TrainingSession | undefined {
+  return TRAINING_SESSIONS.find((session) => session.id === id);
 }
