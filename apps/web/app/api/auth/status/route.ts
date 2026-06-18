@@ -10,6 +10,8 @@ import { resolveAppOrigin } from "@/lib/auth/app-origin";
 import { SUPABASE_DEV_AUTH_CHECKLIST } from "@/lib/auth/supabase-dashboard-checklist";
 import { isTurnstileConfigured } from "@/lib/auth/verify-turnstile";
 import { isCustomSmsAuthEnabled, resolveSmsProvider } from "@/lib/auth/sms-providers";
+import { supabaseGoogleCallbackUrl, TELEGRAM_LOGIN_DOMAINS } from "@/lib/auth/social-auth-domains";
+import { readTelegramBotUsername } from "@/lib/auth/telegram-bot-config";
 
 export const runtime = "nodejs";
 
@@ -49,6 +51,7 @@ export async function GET(req: Request) {
       autoLogin: process.env.DEV_AUTO_LOGIN === "true" && process.env.NODE_ENV === "development",
     },
     telegramBotUsername:
+      readTelegramBotUsername() ||
       process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME?.trim() ||
       process.env.TELEGRAM_BOT_USERNAME?.trim() ||
       "",
@@ -74,16 +77,17 @@ export async function GET(req: Request) {
         "DEV_AUTO_LOGIN=true         # опционально: вход без формы при открытии /",
       ],
       telegram: [
-        "BotFather → /mybots → ваш бот → API Token → TELEGRAM_BOT_TOKEN в Vercel (Production + Preview)",
-            "BotFather → /setdomain → домен: sonogyn-pro-web.vercel.app",
-        "Имя бота (@username) должно совпадать с NEXT_PUBLIC_TELEGRAM_BOT_USERNAME",
-        "После добавления токена — Redeploy на Vercel",
+        "BotFather → /mybots → API Token → TELEGRAM_BOT_TOKEN в Vercel",
+        `BotFather → /setdomain → домены: ${TELEGRAM_LOGIN_DOMAINS.join(", ")}`,
+        "NEXT_PUBLIC_TELEGRAM_BOT_USERNAME = @username бота (без @)",
+        "SUPABASE_SERVICE_ROLE_KEY обязателен для сессии после Telegram",
+        "После env — Redeploy на Vercel",
       ],
       googleOAuth: [
-        "Google Cloud Console → APIs & Services → Credentials → OAuth 2.0 Client",
-        "Authorized redirect URI: https://YOUR_PROJECT.supabase.co/auth/v1/callback",
-        "Supabase → Authentication → Providers → Google → включить, вставить Client ID и Secret",
-        "Supabase → URL Configuration: Site URL = NEXT_PUBLIC_APP_URL, Redirect URLs = …/auth/callback",
+        "Google Cloud → Credentials → OAuth 2.0 → Authorized redirect URIs:",
+        supabaseGoogleCallbackUrl(process.env.NEXT_PUBLIC_SUPABASE_URL),
+        "Supabase → Providers → Google → Client ID + Secret",
+        "Supabase Site URL: https://sonogyn-pro.ru (не http)",
       ],
       phoneSms: [
         "РФ: SMS.ru — SMSRU_API_ID в Vercel + SMS_PROVIDER=smsru (без Twilio)",

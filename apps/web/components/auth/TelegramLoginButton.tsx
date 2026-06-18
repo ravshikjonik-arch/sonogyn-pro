@@ -1,6 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+
+import { Button } from "@/components/ui/button";
 
 type TelegramUser = {
   id: number;
@@ -119,11 +122,16 @@ export function TelegramLoginButton({
 
   if (!resolvedBot) {
     return (
-      <p className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-        Telegram не настроен: задайте NEXT_PUBLIC_TELEGRAM_BOT_USERNAME на Vercel и сделайте Redeploy.
-      </p>
+      <div className="space-y-3">
+        <p className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-100">
+          Telegram не настроен: задайте NEXT_PUBLIC_TELEGRAM_BOT_USERNAME и TELEGRAM_BOT_TOKEN на Vercel →
+          Redeploy.
+        </p>
+      </div>
     );
   }
+
+  const fallbackHref = `/auth/telegram/start?next=${encodeURIComponent(nextPath)}`;
 
   if (!enabled) {
     return <div className="min-h-[44px]" aria-hidden />;
@@ -144,14 +152,20 @@ export function TelegramLoginButton({
   }
 
   return (
-    <div className="relative z-10 flex justify-center">
+    <div className="relative z-10 flex flex-col items-center gap-3">
       <iframe
         src={iframeSrc}
         title="Войти через Telegram"
-        className="pointer-events-auto h-11 w-full max-w-[280px] overflow-hidden border-0 bg-transparent"
+        className="pointer-events-auto h-[44px] w-full max-w-[280px] overflow-hidden border-0 bg-transparent"
         scrolling="no"
         allow="clipboard-write"
       />
+      <Button variant="outline" className="w-full max-w-[280px] rounded-2xl" asChild>
+        <Link href={fallbackHref}>Войти через Telegram (если кнопка выше неактивна)</Link>
+      </Button>
+      <p className="max-w-[280px] text-center text-[11px] text-[var(--clinical-foreground-muted)]">
+        Если кнопка серая — в BotFather: /setdomain → @{resolvedBot} → {origin || "ваш-домен.ru"}
+      </p>
     </div>
   );
 }

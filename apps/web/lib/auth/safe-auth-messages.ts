@@ -14,9 +14,9 @@ export const PHONE_OTP_SENT_MSG = "Если номер подходит, код 
 export const PHONE_NOT_REGISTERED_MSG =
   "Аккаунт с этим номером не найден. Сначала зарегистрируйтесь через вкладку «Телефон».";
 export const PHONE_SMS_NOT_CONFIGURED_MSG =
-  "SMS не настроен в Supabase — код на телефон не приходит. " +
-  "Пока используйте регистрацию по Email (вкладка «Почта») или Telegram (вкладка «Соцсети»). " +
-  "Для SMS: Supabase Dashboard → Authentication → Providers → Phone → Twilio.";
+  "SMS пока не подключён на сервере — код на телефон не отправляется. " +
+  "Пока используйте Email или Google (вкладки «Почта» / «Соцсети»). " +
+  "Для РФ: SMS.ru — переменные SMS_PROVIDER=smsru и SMSRU_API_ID на Vercel + SUPABASE_SERVICE_ROLE_KEY.";
 export const CAPTCHA_REQUIRED_MSG = "Подтвердите, что вы не робот (CAPTCHA).";
 export const TOO_MANY_ATTEMPTS_MSG = "Слишком много попыток. Подождите и попробуйте снова.";
 

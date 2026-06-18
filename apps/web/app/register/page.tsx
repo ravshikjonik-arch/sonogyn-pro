@@ -11,6 +11,7 @@ import { AuthMessage, AuthScreenShell, authInputClass } from "@/components/auth/
 import { AuthSetupBanner } from "@/components/auth/AuthSetupBanner";
 import { EmailRegistrationHint } from "@/components/auth/EmailRegistrationHint";
 import { PhoneAuthSetupHint } from "@/components/auth/PhoneAuthSetupHint";
+import { SocialAuthSetupHint } from "@/components/auth/SocialAuthSetupHint";
 import { DoctorRegistrationFields, validateDoctorBirthYear } from "@/components/auth/DoctorRegistrationFields";
 import { TelegramLoginButton } from "@/components/auth/TelegramLoginButton";
 import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
@@ -92,10 +93,10 @@ function RegisterForm() {
     const telegramMessage = searchParams.get("telegram_message");
     if (!telegramError) return;
     const labels: Record<string, string> = {
-      hash: "Telegram: неверная подпись. Проверьте /setdomain для sonogyn-pro-web.vercel.app и TELEGRAM_BOT_TOKEN от @Sonogyn_bot.",
-      token: "Telegram не настроен на сервере (TELEGRAM_BOT_TOKEN).",
+      hash: "Telegram: неверная подпись. BotFather → /setdomain → sonogyn-pro.ru и TELEGRAM_BOT_TOKEN.",
+      token: "Telegram не настроен (TELEGRAM_BOT_TOKEN + SUPABASE_SERVICE_ROLE_KEY на Vercel).",
       expired: "Сессия Telegram устарела — попробуйте снова.",
-      session: "Не удалось создать сессию после Telegram.",
+      session: "Не удалось создать сессию (нужен SUPABASE_SERVICE_ROLE_KEY).",
       failed: "Не удалось зарегистрироваться через Telegram.",
     };
     setMessage(telegramMessage ?? labels[telegramError] ?? "Ошибка Telegram.");
@@ -495,6 +496,7 @@ function RegisterForm() {
       }
       socialTab={
         <div className="space-y-4">
+          <SocialAuthSetupHint showTelegram />
           <p className="text-sm text-[var(--clinical-foreground-muted)]">
             Вход через Google или кнопку Telegram ниже. Telegram откроется в окне — подтвердите вход.
           </p>
@@ -508,6 +510,7 @@ function RegisterForm() {
           <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900">
             <p className="mb-3 text-center text-sm font-medium text-slate-700 dark:text-slate-200">Telegram Login Widget</p>
             <TelegramLoginButton
+              botUsername={process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME ?? ""}
               enabled={activeTab === "social"}
               nextPath={afterAuthPath}
               onError={setMessage}

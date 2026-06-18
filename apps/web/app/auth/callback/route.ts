@@ -38,7 +38,10 @@ export async function GET(request: NextRequest) {
 
   if (error) {
     const loginUrl = new URL("/login", url.origin);
+    loginUrl.searchParams.set("method", "social");
     loginUrl.searchParams.set("error", "auth_callback");
+    const desc = error.message?.slice(0, 160);
+    if (desc) loginUrl.searchParams.set("oauth_message", desc);
     return NextResponse.redirect(loginUrl);
   }
 

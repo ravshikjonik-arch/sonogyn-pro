@@ -8,7 +8,7 @@ export const REGISTRATION_METHOD_LABELS: Record<AuthRegistrationMethod, string> 
 
 export const REGISTRATION_METHOD_HINTS: Record<AuthRegistrationMethod, string> = {
   email: "Письмо с подтверждением на почту. Подходит, если SMS не настроен.",
-  phone: "Код в SMS за ~30 сек. Нужен Twilio (или другой SMS) в Supabase.",
+  phone: "Код в SMS за ~30 сек. Для РФ — SMS.ru (без Twilio в Supabase).",
   social: "Быстрый вход через Google или Telegram Login.",
 };
 

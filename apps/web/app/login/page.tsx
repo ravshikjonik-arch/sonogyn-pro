@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { buildOAuthRedirect, normalizePhone, oauthProviderToSupabase } from "@/lib/auth/oauth-providers";
 import { AuthSetupBanner } from "@/components/auth/AuthSetupBanner";
 import { PhoneAuthSetupHint } from "@/components/auth/PhoneAuthSetupHint";
+import { SocialAuthSetupHint } from "@/components/auth/SocialAuthSetupHint";
 import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
 import { looksLikePhoneInput, USE_PHONE_TAB_MSG } from "@/lib/auth/auth-error-text";
 import { postSignIn, postMfaVerifyLogin, postPhoneSendOtp, postPhoneVerifyOtp } from "@/lib/auth/client-auth-api";
@@ -85,21 +86,25 @@ function LoginForm() {
 
   useEffect(() => {
     if (authCallbackError) {
+      const oauthMsg = searchParams.get("oauth_message");
       setMessage(
-        "Ссылка из письма не сработала. Проверьте, что в Supabase Site URL = ваш production URL, и запросите письмо повторно на странице регистрации.",
+        oauthMsg?.includes("redirect") || oauthMsg?.includes("OAuth")
+          ? "Google: ошибка redirect_uri. Добавьте callback Supabase в Google Cloud (см. подсказку ниже)."
+          : oauthMsg ||
+            "OAuth не завершился. Проверьте Google redirect URI и Supabase Site URL (https://sonogyn-pro.ru).",
       );
     }
-  }, [authCallbackError]);
+  }, [authCallbackError, searchParams]);
 
   useEffect(() => {
     const telegramError = searchParams.get("telegram_error");
     const telegramMessage = searchParams.get("telegram_message");
     if (!telegramError) return;
     const labels: Record<string, string> = {
-      hash: "Telegram: неверная подпись. Проверьте /setdomain для sonogyn-pro-web.vercel.app и TELEGRAM_BOT_TOKEN от @Sonogyn_bot.",
-      token: "Telegram не настроен на сервере (TELEGRAM_BOT_TOKEN).",
+      hash: "Telegram: неверная подпись. BotFather → /setdomain → sonogyn-pro.ru и TELEGRAM_BOT_TOKEN от вашего бота.",
+      token: "Telegram не настроен на сервере (TELEGRAM_BOT_TOKEN + SUPABASE_SERVICE_ROLE_KEY на Vercel).",
       expired: "Сессия Telegram устарела — попробуйте снова.",
-      session: "Не удалось создать сессию после Telegram.",
+      session: "Не удалось создать сессию после Telegram (нужен SUPABASE_SERVICE_ROLE_KEY).",
       failed: "Не удалось войти через Telegram.",
     };
     setMessage(telegramMessage ?? labels[telegramError] ?? "Ошибка входа через Telegram.");
@@ -496,6 +501,10 @@ function LoginForm() {
       }
       socialTab={
         <div className="space-y-4">
+          <SocialAuthSetupHint
+            showGoogle={authCallbackError}
+            showTelegram={activeTab === "social"}
+          />
           <AuthButtons
             onProviderPress={(p) => {
               if (p !== "telegram") void onOAuth(p);
@@ -505,7 +514,12 @@ function LoginForm() {
           />
           <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900">
             <p className="mb-3 text-center text-sm font-medium text-slate-700 dark:text-slate-200">Telegram Login Widget</p>
-            <TelegramLoginButton enabled={activeTab === "social"} nextPath={nextPath} onError={setMessage} />
+            <TelegramLoginButton
+              botUsername={process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME ?? ""}
+              enabled={activeTab === "social"}
+              nextPath={nextPath}
+              onError={setMessage}
+            />
           </div>
           {message ? <AuthMessage message={message} tone={message.includes("отправлен") ? "success" : "error"} /> : null}
         </div>
