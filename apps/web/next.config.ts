@@ -16,7 +16,7 @@ type WithPWAFactory = (options: {
   disable?: boolean;
   register?: boolean;
   workboxOptions?: {
-    navigateFallback?: string;
+    navigateFallback?: string | null;
     navigateFallbackDenylist?: RegExp[];
     runtimeCaching?: Array<{
       urlPattern: (ctx: { url: URL }) => boolean;
@@ -104,7 +104,8 @@ export default ((): NextConfig => {
     disable: false,
     register: true,
     workboxOptions: {
-      navigateFallback: "/landing",
+      // App Router: fallback на /landing подменяет HTML для /login, /register и клиники → чёрный экран.
+      navigateFallback: null,
       navigateFallbackDenylist: [/^\/api\//, /^\/_next\//, /^\/auth\//],
       runtimeCaching: [
         {

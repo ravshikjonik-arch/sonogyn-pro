@@ -12,7 +12,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const webRoot = path.join(__dirname, "..");
 const envPath = path.join(webRoot, ".env.local");
 
-const PRODUCTION_APP_URL = "https://sonogyn-pro-web-ravshan-s-projects3.vercel.app";
+const PRODUCTION_APP_URL = "https://sonogyn-pro.ru";
 
 /** Keys to push when present in .env.local */
 const FROM_LOCAL = [
@@ -27,6 +27,15 @@ const FROM_LOCAL = [
   "OPENROUTER_API_KEY",
   "OPENROUTER_API_URL",
   "OPENROUTER_ORADS_MODEL",
+  "OPENROUTER_US_VISION_MODEL",
+  "US_AI_WORKER_URL",
+  "US_AI_WORKER_SECRET",
+  "SMS_PROVIDER",
+  "SMSRU_API_ID",
+  "SMSRU_FROM",
+  "TWILIO_ACCOUNT_SID",
+  "TWILIO_AUTH_TOKEN",
+  "TWILIO_FROM_NUMBER",
   "UPSTASH_REDIS_REST_URL",
   "UPSTASH_REDIS_REST_TOKEN",
   "KV_REST_API_URL",
@@ -107,6 +116,9 @@ const REQUIRED_FOR_PRODUCTION_SECURITY = [
   "SUPABASE_SERVICE_ROLE_KEY",
 ];
 
+const RECOMMENDED_FOR_US_AI = ["US_AI_WORKER_URL", "US_AI_WORKER_SECRET", "OPENROUTER_US_VISION_MODEL"];
+const RECOMMENDED_FOR_SMS = ["SMS_PROVIDER", "SMSRU_API_ID", "SUPABASE_SERVICE_ROLE_KEY"];
+
 const UPSTASH_ENV_ANY = [
   ["UPSTASH_REDIS_REST_URL", "UPSTASH_REDIS_REST_TOKEN"],
   ["KV_REST_API_URL", "KV_REST_API_TOKEN"],
@@ -119,6 +131,30 @@ for (const key of REQUIRED_FOR_PRODUCTION_SECURITY) {
   const status = localOk && vercelOk ? "ok" : localOk ? "local only" : vercelOk ? "vercel only" : "MISSING";
   console.log(`${status === "ok" ? "✓" : "○"} ${key}: ${status}`);
 }
+
+console.log("\n--- US AI Worker (PRO) ---");
+for (const key of RECOMMENDED_FOR_US_AI) {
+  const localOk = Boolean(local[key]?.trim());
+  const vercelOk = envExists(key, "production");
+  const status = localOk && vercelOk ? "ok" : localOk ? "local only" : vercelOk ? "vercel only" : "MISSING";
+  console.log(`${status === "ok" ? "✓" : "○"} ${key}: ${status}`);
+}
+if (!envExists("US_AI_WORKER_URL", "production")) {
+  console.log("  → Deploy worker: services/us-ai-worker/docs/DEPLOYMENT.md");
+}
+
+console.log("\n--- SMS (Phone auth) ---");
+for (const key of RECOMMENDED_FOR_SMS) {
+  const localOk = Boolean(local[key]?.trim());
+  const vercelOk = envExists(key, "production");
+  const status = localOk && vercelOk ? "ok" : localOk ? "local only" : vercelOk ? "vercel only" : "MISSING";
+  console.log(`${status === "ok" ? "✓" : "○"} ${key}: ${status}`);
+}
+if (!envExists("SMSRU_API_ID", "production")) {
+  console.log("  → РФ: SMS.ru API ID + SMS_PROVIDER=smsru");
+}
+
+console.log("\n--- Upstash ---");
 
 if (!envExists("TELEGRAM_BOT_TOKEN", "production")) {
   console.log("○ TELEGRAM_BOT_TOKEN: MISSING on Vercel — Telegram Login не работает");
