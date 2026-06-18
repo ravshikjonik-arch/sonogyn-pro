@@ -101,8 +101,9 @@ export default ((): NextConfig => {
   const withPWAInit = require("@ducanh2912/next-pwa").default as WithPWAFactory;
   const withPWA = withPWAInit({
     dest: "public",
-    disable: false,
-    register: true,
+    // Временно выключено: stale SW + precache ломали CSS после каждого деплоя (чёрный экран).
+    disable: true,
+    register: false,
     workboxOptions: {
       // App Router: fallback на /landing подменяет HTML для /login, /register и клиники → чёрный экран.
       navigateFallback: null,

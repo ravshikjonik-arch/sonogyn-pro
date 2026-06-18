@@ -59,7 +59,18 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
+            __html: `(function(){try{if("serviceWorker"in navigator){navigator.serviceWorker.getRegistrations().then(function(rs){rs.forEach(function(r){r.unregister();});});}if(typeof caches!=="undefined"&&caches.keys){caches.keys().then(function(keys){keys.forEach(function(k){caches.delete(k);});});}}catch(e){}})();`,
+          }}
+        />
+        <script
+          dangerouslySetInnerHTML={{
             __html: `(function(){try{var m=localStorage.getItem("clinical-theme-mode");var d=m==="dark"||(m!=="light"&&window.matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.setAttribute("data-theme",d?"dark":"light");document.documentElement.classList.toggle("dark",d);if(m==="light"||m==="dark")document.documentElement.setAttribute("data-theme-forced",m);}catch(e){}})();`,
+          }}
+        />
+        <style
+          dangerouslySetInnerHTML={{
+            __html:
+              "html,body{min-height:100%;margin:0}html[data-theme=dark],html.dark{background:#071a2e;color:#e8f7fc}html[data-theme=light]{background:#dceef7;color:#0c3347}",
           }}
         />
       </head>
