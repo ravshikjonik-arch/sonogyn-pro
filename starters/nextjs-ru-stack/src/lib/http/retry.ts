@@ -2,8 +2,8 @@ import { getEnv } from "@/lib/env";
 
 export type RetryOptions = {
   attempts?: number;
+  timeoutMs?: number;
   baseDelayMs?: number;
-  /** HTTP-коды, при которых повторяем запрос */
   retryOnStatus?: number[];
 };
 
@@ -14,7 +14,7 @@ function sleep(ms: number): Promise<void> {
 }
 
 /**
- * fetch с экспоненциальным backoff.
+ * fetch с таймаутом и экспоненциальным backoff.
  * Для sms.ru, ЮKassa, Telegram.
  */
 export async function fetchWithRetry(
@@ -24,22 +24,33 @@ export async function fetchWithRetry(
 ): Promise<Response> {
   const env = getEnv();
   const attempts = options.attempts ?? env.HTTP_RETRY_ATTEMPTS;
+  const timeoutMs = options.timeoutMs ?? env.HTTP_FETCH_TIMEOUT_MS;
   const baseDelayMs = options.baseDelayMs ?? env.HTTP_RETRY_BASE_DELAY_MS;
   const retryOnStatus = options.retryOnStatus ?? DEFAULT_RETRY_STATUS;
 
   let lastError: unknown;
 
   for (let attempt = 1; attempt <= attempts; attempt++) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), timeoutMs);
+
     try {
-      const res = await fetch(input, init);
+      const res = await fetch(input, {
+        ...init,
+        signal: init?.signal ?? controller.signal,
+      });
+      clearTimeout(timeout);
+
       if (res.ok || !retryOnStatus.includes(res.status) || attempt === attempts) {
         return res;
       }
       lastError = new Error(`HTTP ${res.status}`);
     } catch (err) {
+      clearTimeout(timeout);
       lastError = err;
       if (attempt === attempts) break;
     }
+
     await sleep(baseDelayMs * 2 ** (attempt - 1));
   }
 

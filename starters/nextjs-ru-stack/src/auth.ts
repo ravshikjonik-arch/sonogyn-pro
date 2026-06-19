@@ -15,7 +15,37 @@ const googleConfigured = Boolean(
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
+  secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
   adapter: PrismaAdapter(prisma),
+  callbacks: {
+    async jwt({ token, user, trigger }) {
+      if (user?.id) token.sub = user.id;
+
+      const userId = token.sub;
+      if (userId && (user || trigger === "update")) {
+        const dbUser = await prisma.user.findUnique({
+          where: { id: userId },
+          select: { phoneVerified: true },
+        });
+        token.phoneVerified = Boolean(dbUser?.phoneVerified);
+      }
+
+      return token;
+    },
+    async session({ session, token }) {
+      if (session.user && token.sub) {
+        session.user.id = token.sub;
+        session.user.phoneVerified = Boolean(token.phoneVerified);
+      }
+      return session;
+    },
+    async signIn({ account }) {
+      if (account?.provider === "google" && !googleConfigured) {
+        return false;
+      }
+      return true;
+    },
+  },
   providers: [
     ...(googleConfigured
       ? [
@@ -58,7 +88,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       async authorize(credentials) {
         const phone = normalizePhoneRu(String(credentials?.phone ?? ""));
         const code = String(credentials?.code ?? "").trim();
-        if (!phone || !code) return null;
+        if (!phone || !/^\d{6}$/.test(code)) return null;
 
         const row = await prisma.sMSVerification.findFirst({
           where: { phone, verifiedAt: null, expiresAt: { gt: new Date() } },
@@ -96,6 +126,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }),
   ],
   events: {
+    async createUser({ user }) {
+      await notifyTelegram({
+        event: "user.created",
+        userId: user.id,
+        payload: { email: user.email ?? "", provider: "oauth_or_register" },
+      });
+    },
     async signIn({ user, account, isNewUser }) {
       if (!isNewUser) return;
       await notifyTelegram({

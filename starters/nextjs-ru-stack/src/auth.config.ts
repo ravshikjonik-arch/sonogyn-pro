@@ -13,6 +13,7 @@ export const authConfig = {
     async session({ session, token }) {
       if (session.user && token.sub) {
         session.user.id = token.sub;
+        session.user.phoneVerified = Boolean(token.phoneVerified);
       }
       return session;
     },
@@ -24,6 +25,18 @@ export const authConfig = {
 
 declare module "next-auth" {
   interface Session {
-    user: { id: string; name?: string | null; email?: string | null; image?: string | null };
+    user: {
+      id: string;
+      name?: string | null;
+      email?: string | null;
+      image?: string | null;
+      phoneVerified?: boolean;
+    };
+  }
+}
+
+declare module "@auth/core/jwt" {
+  interface JWT {
+    phoneVerified?: boolean;
   }
 }
