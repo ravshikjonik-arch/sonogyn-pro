@@ -125,9 +125,11 @@ export async function GET(req: Request) {
       ],
       yookassa: [
         "ЮKassa (РФ): YOOKASSA_SHOP_ID + YOOKASSA_SECRET_KEY на Vercel",
-        "Webhook в кабинете ЮKassa: https://sonogyn-pro.ru/api/yookassa/webhook",
-        "YOOKASSA_PRO_PRICE_RUB=990 (опционально, цена PRO в рублях)",
-        "После env — Redeploy; миграция: 20260617140000_yookassa_payments.sql",
+        "Webhook в кабинете ЮKassa: https://sonogyn-pro.ru/api/payment/webhook",
+        "Событие: payment.succeeded. Проверка IP ЮKassa + повторный запрос статуса в API.",
+        "TELEGRAM_ADMIN_CHAT_ID — уведомление об оплате (опционально)",
+        "YOOKASSA_PRO_PRICE_RUB=990 (опционально)",
+        "Миграции: 20260617140000_yookassa_payments.sql, 20260619130000_payments.sql",
       ],
       emailDeliverability:
         "mail.ru / gmail: проверьте «Спам». Для надёжной доставки — Supabase → Auth → SMTP.",

@@ -2,7 +2,7 @@ import { handlePaymentCreate } from "@/lib/payment/handlers";
 
 export const runtime = "nodejs";
 
-/** @deprecated Используйте POST /api/payment/create */
+/** POST /api/payment/create — создание платежа ЮKassa. */
 export async function POST(req: Request) {
   return handlePaymentCreate(req);
 }

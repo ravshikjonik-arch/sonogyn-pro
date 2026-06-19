@@ -36,6 +36,8 @@ const FROM_LOCAL = [
   "YOOKASSA_SHOP_ID",
   "YOOKASSA_SECRET_KEY",
   "YOOKASSA_PRO_PRICE_RUB",
+  "TELEGRAM_ADMIN_CHAT_ID",
+  "TELEGRAM_PAYMENTS_CHAT_ID",
   "HTTP_RETRY_ATTEMPTS",
   "HTTP_FETCH_TIMEOUT_MS",
   "HTTP_RETRY_BASE_DELAY_MS",
@@ -180,7 +182,7 @@ for (const key of RECOMMENDED_FOR_YOOKASSA) {
   console.log(`${status === "ok" ? "✓" : "○"} ${key}: ${status}`);
 }
 if (!envExists("YOOKASSA_SHOP_ID", "production")) {
-  console.log("  → Webhook: https://sonogyn-pro.ru/api/yookassa/webhook");
+  console.log("  → Webhook: https://sonogyn-pro.ru/api/payment/webhook (payment.succeeded)");
 }
 
 console.log("\n--- Upstash ---");

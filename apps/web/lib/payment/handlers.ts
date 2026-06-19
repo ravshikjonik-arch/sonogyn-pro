@@ -1,0 +1,174 @@
+import { z } from "zod";
+
+import { mapExternalApiError } from "@/lib/http/external-api-errors";
+import { resolveAppOrigin } from "@/lib/auth/app-origin";
+import { createPaymentViaSdk, loadPaymentViaSdk } from "@/lib/payment/yookassa-sdk-client";
+import { isYooKassaConfigured, readDefaultProPriceRub } from "@/lib/payment/config";
+import { fulfillSucceededPayment } from "@/lib/payment/fulfill-payment";
+import { PAYMENT_MESSAGES, paymentError, paymentJson } from "@/lib/payment/responses";
+import { guardYooKassaWebhook } from "@/lib/payment/webhook-middleware";
+import { consumeRateLimit } from "@/lib/security/rate-limit";
+import { RL } from "@/lib/security/rate-limit-config";
+import { requireSupabaseUser } from "@/lib/security/require-user";
+import { createClient } from "@/utils/supabase/server";
+import { createServiceRoleClient } from "@/utils/supabase/admin";
+
+const createBodySchema = z.object({
+  amountRub: z.number().min(1).max(1_000_000).optional(),
+  description: z.string().min(3).max(200).optional(),
+  returnUrl: z.string().url().optional(),
+});
+
+export async function handlePaymentCreate(req: Request) {
+  if (!isYooKassaConfigured()) {
+    return paymentError(PAYMENT_MESSAGES.notConfigured, 503);
+  }
+
+  let json: unknown;
+  try {
+    json = await req.json();
+  } catch {
+    return paymentError(PAYMENT_MESSAGES.invalidInput, 400);
+  }
+
+  const parsed = createBodySchema.safeParse(json);
+  if (!parsed.success) {
+    return paymentError(PAYMENT_MESSAGES.invalidInput, 400);
+  }
+
+  const supabase = await createClient();
+  const auth = await requireSupabaseUser(supabase);
+  if (!auth.ok) return auth.response;
+
+  const rl = await consumeRateLimit(
+    `payment-create:${auth.userId}`,
+    RL.paymentCreate.limit,
+    RL.paymentCreate.windowMs,
+  );
+  if (!rl.ok) {
+    return paymentError(PAYMENT_MESSAGES.tooManyRequests, 429);
+  }
+
+  const appOrigin = resolveAppOrigin(req);
+  const amountRub = parsed.data.amountRub ?? readDefaultProPriceRub();
+  const description = parsed.data.description ?? "SonoGyn Pro — подписка на 30 дней";
+  const returnUrl = parsed.data.returnUrl ?? `${appOrigin}/profile?checkout=success`;
+
+  try {
+    const payment = await createPaymentViaSdk({
+      userId: auth.userId,
+      amountRub,
+      description,
+      returnUrl,
+    });
+
+    const confirmationUrl =
+      payment.confirmation && "confirmation_url" in payment.confirmation
+        ? payment.confirmation.confirmation_url ?? null
+        : null;
+
+    const admin = createServiceRoleClient();
+    const { data: row, error: insertErr } = await admin
+      .from("payments")
+      .insert({
+        user_id: auth.userId,
+        yookassa_id: payment.id,
+        amount: amountRub,
+        status: payment.status,
+        description,
+        confirmation_url: confirmationUrl,
+        metadata: payment.metadata ?? { userId: auth.userId },
+      })
+      .select("id")
+      .single();
+
+    if (insertErr || !row) {
+      console.error("[payment/create] db", insertErr?.message);
+      return paymentError(PAYMENT_MESSAGES.recordFailed, 500);
+    }
+
+    return paymentJson({
+      ok: true,
+      paymentId: row.id,
+      yookassaId: payment.id,
+      confirmationUrl,
+      amountRub,
+      description,
+    });
+  } catch (err) {
+    console.error("[payment/create]", err);
+    return paymentError(mapExternalApiError("yookassa", err), 502);
+  }
+}
+
+export async function handlePaymentWebhook(req: Request, rawBody: string) {
+  if (!isYooKassaConfigured()) {
+    return paymentError(PAYMENT_MESSAGES.notConfigured, 503);
+  }
+
+  const guard = guardYooKassaWebhook(req, rawBody);
+  if (!guard.ok) {
+    return paymentError(guard.message, guard.status);
+  }
+
+  const { event } = guard;
+  const yookassaId = event.object.id;
+
+  try {
+    const remote = await loadPaymentViaSdk(yookassaId);
+    const admin = createServiceRoleClient();
+
+    const { data: row, error: findErr } = await admin
+      .from("payments")
+      .select("id, user_id, status, amount, description")
+      .eq("yookassa_id", yookassaId)
+      .maybeSingle();
+
+    if (findErr) {
+      console.error("[payment/webhook] lookup", findErr.message);
+      return paymentError("Ошибка базы данных.", 500);
+    }
+
+    if (!row) {
+      return paymentJson({ ok: true, message: "Платёж не найден в системе — пропуск." });
+    }
+
+    const metadataUserId = remote.metadata?.userId;
+    if (metadataUserId && metadataUserId !== row.user_id) {
+      console.error("[payment/webhook] userId mismatch", { metadataUserId, rowUserId: row.user_id });
+      return paymentError("Несовпадение metadata платежа.", 403);
+    }
+
+    const remoteAmount = Number.parseFloat(remote.amount?.value ?? "0");
+    const rowAmount = Number(row.amount);
+    if (Number.isFinite(remoteAmount) && Math.abs(remoteAmount - rowAmount) > 0.01) {
+      console.error("[payment/webhook] amount mismatch", { remoteAmount, rowAmount });
+      return paymentError("Сумма платежа не совпадает с заказом.", 403);
+    }
+
+    await admin
+      .from("payments")
+      .update({
+        status: remote.status,
+        metadata: remote.metadata ?? {},
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", row.id);
+
+    if (event.event === "payment.succeeded" && remote.status === "succeeded") {
+      await fulfillSucceededPayment(admin, {
+        paymentRowId: row.id as string,
+        userId: row.user_id as string,
+        yookassaId,
+        amountRub: rowAmount,
+        description: row.description as string | null,
+        previousStatus: row.status as string,
+      });
+    }
+
+    return paymentJson({ ok: true, message: "Уведомление обработано." });
+  } catch (err) {
+    console.error("[payment/webhook]", err);
+    return paymentError(PAYMENT_MESSAGES.webhookFailed, 500);
+  }
+}

@@ -3,6 +3,7 @@ import type { NextRequest } from "next/server";
 /** Webhooks and server-to-server bridges — no browser User-Agent. */
 const API_BOT_ALLOWLIST_PREFIXES = [
   "/api/stripe/webhook",
+  "/api/payment/webhook",
   "/api/yookassa/webhook",
   "/api/auth/telegram/bot",
 ] as const;
