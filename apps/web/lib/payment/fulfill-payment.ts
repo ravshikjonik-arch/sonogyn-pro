@@ -1,6 +1,6 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 
-import { notifyPaymentSucceededTelegram } from "./telegram-notify";
+import { TelegramService } from "@/services/telegram";
 
 /** Обновляет заказ и активирует PRO после payment.succeeded (идемпотентно). */
 export async function fulfillSucceededPayment(
@@ -47,10 +47,10 @@ export async function fulfillSucceededPayment(
     throw profileErr;
   }
 
-  await notifyPaymentSucceededTelegram({
+  await TelegramService.notifyAdmins("payment.succeeded", {
     userId: params.userId,
     yookassaId: params.yookassaId,
     amountRub: params.amountRub,
-    description: params.description,
+    description: params.description ?? undefined,
   });
 }

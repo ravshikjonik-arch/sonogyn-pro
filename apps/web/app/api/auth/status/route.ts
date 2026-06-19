@@ -10,9 +10,10 @@ import { resolveAppOrigin } from "@/lib/auth/app-origin";
 import { SUPABASE_DEV_AUTH_CHECKLIST, SUPABASE_PRODUCTION_AUTH_CHECKLIST } from "@/lib/auth/supabase-dashboard-checklist";
 import { isTurnstileConfigured } from "@/lib/auth/verify-turnstile";
 import { isCustomSmsAuthEnabled, resolveSmsProvider } from "@/lib/auth/sms-providers";
-import { supabaseGoogleCallbackUrl, TELEGRAM_LOGIN_DOMAINS } from "@/lib/auth/social-auth-domains";
+import { supabaseGoogleCallbackUrl } from "@/lib/auth/social-auth-domains";
 import { readTelegramBotUsername } from "@/lib/auth/telegram-bot-config";
 import { isYooKassaConfigured, readYooKassaProPriceRub } from "@/lib/yookassa/config";
+import { TelegramService, readTelegramAdminIds } from "@/services/telegram";
 
 export const runtime = "nodejs";
 
@@ -86,6 +87,8 @@ export async function GET(req: Request) {
       smsReady: customSms && Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY?.trim()),
       yookassaConfigured: isYooKassaConfigured(),
       yookassaProPriceRub: readYooKassaProPriceRub(),
+      telegramNotifyConfigured: TelegramService.isConfigured(),
+      telegramAdminCount: readTelegramAdminIds().length,
     },
     issues: [...issues, ...smsIssues],
     hints: {
@@ -103,11 +106,11 @@ export async function GET(req: Request) {
         "DEV_AUTO_LOGIN=true         # опционально: вход без формы при открытии /",
       ],
       telegram: [
-        "BotFather → /mybots → API Token → TELEGRAM_BOT_TOKEN в Vercel",
-        `BotFather → /setdomain → домены: ${TELEGRAM_LOGIN_DOMAINS.join(", ")}`,
-        "NEXT_PUBLIC_TELEGRAM_BOT_USERNAME = @username бота (без @)",
-        "SUPABASE_SERVICE_ROLE_KEY обязателен для сессии после Telegram",
-        "После env — Redeploy на Vercel",
+        "Admin-уведомления: TELEGRAM_BOT_TOKEN + TELEGRAM_ADMIN_IDS (см. apps/web/services/TELEGRAM_SETUP.md)",
+        "BotFather → /newbot → Token → Vercel env",
+        "chat_id: getUpdates после /start у бота",
+        "РФ: уведомления с сервера Vercel — VPN на телефоне не нужен",
+        "Вход пользователей: вкладки Почта / Телефон / Google на /login (без Telegram Widget)",
       ],
       googleOAuth: [
         "Google Cloud → Credentials → OAuth 2.0 → Authorized redirect URIs:",
@@ -127,7 +130,7 @@ export async function GET(req: Request) {
         "ЮKassa (РФ): YOOKASSA_SHOP_ID + YOOKASSA_SECRET_KEY на Vercel",
         "Webhook в кабинете ЮKassa: https://sonogyn-pro.ru/api/payment/webhook",
         "Событие: payment.succeeded. Проверка IP ЮKassa + повторный запрос статуса в API.",
-        "TELEGRAM_ADMIN_CHAT_ID — уведомление об оплате (опционально)",
+        "TELEGRAM_ADMIN_IDS — уведомления: регистрация, оплата, ошибки SMS/платежа",
         "YOOKASSA_PRO_PRICE_RUB=990 (опционально)",
         "Миграции: 20260617140000_yookassa_payments.sql, 20260619130000_payments.sql",
       ],

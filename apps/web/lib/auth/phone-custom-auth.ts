@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import { TelegramService } from "@/services/telegram";
 import { translateAuthError } from "@/lib/auth/translate-auth-error";
 import { createMobileSessionExchange } from "@/lib/auth/mobile-session-exchange";
 import {
@@ -90,6 +91,14 @@ export async function ensurePhoneAuthUser(params: {
 
   const userId = data.user?.id;
   if (!userId) return { error: "Не удалось создать пользователя." };
+
+  TelegramService.notifyAdminsSafe("user.created", {
+    userId,
+    phone: params.phoneE164,
+    method: "sms",
+    name: meta?.full_name,
+  });
+
   return { email, userId, created: true };
 }
 

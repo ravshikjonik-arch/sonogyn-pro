@@ -7,9 +7,9 @@ export const REGISTRATION_METHOD_LABELS: Record<AuthRegistrationMethod, string> 
 };
 
 export const REGISTRATION_METHOD_HINTS: Record<AuthRegistrationMethod, string> = {
-  email: "Письмо с подтверждением на почту. Подходит, если SMS ещё не подключён.",
-  phone: "Код в SMS за ~30 сек. Для РФ — SMS.ru (ожидаем одобрение регистрации).",
-  social: "Быстрый вход через Google-аккаунт.",
+  email: "Письмо с подтверждением на почту. Работает из РФ без VPN.",
+  phone: "Код по SMS (sms.ru с сервера). VPN не нужен — SMS идёт на ваш номер.",
+  social: "Google OAuth. Если Google недоступен — вкладки «Почта» или «Телефон».",
 };
 
 export function parseRegistrationMethod(raw: string | null): AuthRegistrationMethod {

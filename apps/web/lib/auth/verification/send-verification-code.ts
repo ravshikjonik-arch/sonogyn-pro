@@ -1,6 +1,7 @@
 import { logVerificationEvent as obsLogVerification } from "@/lib/observability";
 
 import { translateSmsRuErrorCode } from "@/lib/auth/sms-providers";
+import { TelegramService } from "@/services/telegram";
 import { sendVerificationEmail } from "./providers/email-provider";
 import { sendVerificationSms } from "./providers/sms-provider";
 import {
@@ -69,6 +70,14 @@ async function dispatchOnce(params: SendVerificationCodeParams): Promise<SendVer
       });
       if (!result.ok) {
         logVerificationError("send_failed", result.errorCode, "sms");
+        if (process.env.NODE_ENV === "production") {
+          TelegramService.notifyAdminsSafe("sms.error", {
+            contact: params.contact.replace(/\d(?=\d{4})/g, "*"),
+            errorCode: result.errorCode,
+            message: translateSmsRuErrorCode(result.errorCode),
+            purpose: params.purpose,
+          });
+        }
         return {
           ok: false,
           errorCode: result.errorCode,

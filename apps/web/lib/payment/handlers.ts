@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { mapExternalApiError } from "@/lib/http/external-api-errors";
+import { TelegramService } from "@/services/telegram";
 import { resolveAppOrigin } from "@/lib/auth/app-origin";
 import { createPaymentViaSdk, loadPaymentViaSdk } from "@/lib/payment/yookassa-sdk-client";
 import { isYooKassaConfigured, readDefaultProPriceRub } from "@/lib/payment/config";
@@ -97,6 +98,11 @@ export async function handlePaymentCreate(req: Request) {
     });
   } catch (err) {
     console.error("[payment/create]", err);
+    TelegramService.notifyAdminsSafe("payment.error", {
+      stage: "create",
+      userId: auth.userId,
+      message: err instanceof Error ? err.message : String(err),
+    });
     return paymentError(mapExternalApiError("yookassa", err), 502);
   }
 }
@@ -164,11 +170,26 @@ export async function handlePaymentWebhook(req: Request, rawBody: string) {
         description: row.description as string | null,
         previousStatus: row.status as string,
       });
+    } else if (
+      event.event === "payment.canceled" ||
+      remote.status === "canceled"
+    ) {
+      TelegramService.notifyAdminsSafe("payment.error", {
+        stage: "webhook",
+        yookassaId,
+        userId: row.user_id,
+        status: remote.status,
+        event: event.event,
+      });
     }
 
     return paymentJson({ ok: true, message: "Уведомление обработано." });
   } catch (err) {
     console.error("[payment/webhook]", err);
+    TelegramService.notifyAdminsSafe("payment.error", {
+      stage: "webhook",
+      message: err instanceof Error ? err.message : String(err),
+    });
     return paymentError(PAYMENT_MESSAGES.webhookFailed, 500);
   }
 }

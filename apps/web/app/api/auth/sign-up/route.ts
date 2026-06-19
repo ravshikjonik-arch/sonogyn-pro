@@ -11,6 +11,7 @@ import {
   resendSignupConfirmation,
   resolveEmailConfirmRedirect,
 } from "@/lib/auth/email-confirmation";
+import { TelegramService } from "@/services/telegram";
 import { tryAutoConfirmRegistration, shouldAutoConfirmEmail } from "@/lib/auth/auto-confirm-email";
 import { resolveUserIdByEmail } from "@/lib/auth/resolve-user-by-email";
 import { SIGN_UP_GENERIC_MSG, CAPTCHA_REQUIRED_MSG, RESEND_CONFIRMATION_MSG } from "@/lib/auth/safe-auth-messages";
@@ -162,6 +163,15 @@ export async function POST(req: Request) {
     }
 
     await clearAuthFailures(failKey);
+
+    if (data.user?.id && !isDuplicateEmailSignUp(data.user)) {
+      TelegramService.notifyAdminsSafe("user.created", {
+        userId: data.user.id,
+        email,
+        method: "email",
+        name: full_name,
+      });
+    }
 
     const duplicate = isDuplicateEmailSignUp(data.user);
     if (duplicate) {
