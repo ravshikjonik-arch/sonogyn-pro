@@ -24,13 +24,6 @@ export async function findUserByPhoneE164(
   const target = e164.replace(/\s/g, "");
   const email = phoneToAuthEmail(target);
 
-  try {
-    const { data, error } = await admin.auth.admin.getUserByEmail(email);
-    if (!error && data.user) return data.user;
-  } catch {
-    /* fallback below */
-  }
-
   let page = 1;
   while (page <= 10) {
     const { data, error } = await admin.auth.admin.listUsers({ page, perPage: 200 });

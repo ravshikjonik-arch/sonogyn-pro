@@ -1,5 +1,6 @@
 import { logVerificationEvent as obsLogVerification } from "@/lib/observability";
 
+import { translateSmsRuErrorCode } from "@/lib/auth/sms-providers";
 import { sendVerificationEmail } from "./providers/email-provider";
 import { sendVerificationSms } from "./providers/sms-provider";
 import {
@@ -71,7 +72,7 @@ async function dispatchOnce(params: SendVerificationCodeParams): Promise<SendVer
         return {
           ok: false,
           errorCode: result.errorCode,
-          message: "SMS временно недоступен. Попробуйте email или Telegram.",
+          message: translateSmsRuErrorCode(result.errorCode),
           suggestAlternateMethod: "email",
         };
       }

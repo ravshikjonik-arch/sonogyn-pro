@@ -1,7 +1,9 @@
 import type { SmsProviderId, SmsSendResult } from "./types";
 import { readSmsRuConfig, sendSmsRu } from "./smsru";
+import { translateSmsRuErrorCode } from "./smsru-errors";
 
 export type { SmsSendResult, SmsProviderId } from "./types";
+export { translateSmsRuErrorCode } from "./smsru-errors";
 
 function readTwilioConfig() {
   const accountSid = process.env.TWILIO_ACCOUNT_SID?.trim();
