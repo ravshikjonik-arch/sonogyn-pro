@@ -57,11 +57,16 @@ export async function runVerificationFallbackChain(
   const idempotency = await checkIdempotency(params.idempotencyKey ?? null, fingerprint);
   if (idempotency === "duplicate") {
     logVerificationEvent("idempotency_duplicate", { method: params.primaryMethod, purpose: params.purpose });
-    return {
+    const dup: FallbackChainResult = {
       ok: true,
       message: GENERIC_OK_MSG,
       codeStored: true,
     };
+    if (process.env.NODE_ENV === "development" && params.primaryMethod === "sms") {
+      const { resolveSmsProvider } = await import("@/lib/auth/sms-providers");
+      if (resolveSmsProvider() === "mock") dup.devOtp = process.env.DEV_SMS_OTP_CODE?.trim() || "123456";
+    }
+    return dup;
   }
 
   const code = generateVerificationCode();
@@ -81,7 +86,15 @@ export async function runVerificationFallbackChain(
   });
 
   if (primary.ok) {
-    return { ...primary, codeStored: true };
+    const out: FallbackChainResult = { ...primary, codeStored: true };
+    if (
+      process.env.NODE_ENV === "development" &&
+      params.primaryMethod === "sms"
+    ) {
+      const { resolveSmsProvider } = await import("@/lib/auth/sms-providers");
+      if (resolveSmsProvider() === "mock") out.devOtp = code;
+    }
+    return out;
   }
 
   // Telegram: бот не начат / TELEGRAM_NOT_READY → email fallback

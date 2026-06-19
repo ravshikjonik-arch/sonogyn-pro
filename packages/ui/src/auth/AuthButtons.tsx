@@ -6,6 +6,8 @@ interface AuthButtonsProps {
   onProviderPress: (provider: AuthProvider) => void;
   loading?: AuthProvider | null;
   variant?: AuthButtonsVariant;
+  /** По умолчанию — все провайдеры из списка. */
+  providers?: AuthProvider[];
 }
 
 const PROVIDERS: {
@@ -19,12 +21,18 @@ const PROVIDERS: {
   { id: "yandex", label: "Яндекс ID", icon: "🔴", color: "#FC3F1D" },
 ];
 
-export function AuthButtons({ onProviderPress, loading, variant = "login" }: AuthButtonsProps) {
+export function AuthButtons({
+  onProviderPress,
+  loading,
+  variant = "login",
+  providers,
+}: AuthButtonsProps) {
   const prefix = variant === "register" ? "Зарегистрироваться через" : "Войти через";
+  const visible = providers?.length ? PROVIDERS.filter((p) => providers.includes(p.id)) : PROVIDERS;
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-      {PROVIDERS.map((p) => (
+      {visible.map((p) => (
         <button
           key={p.id}
           type="button"

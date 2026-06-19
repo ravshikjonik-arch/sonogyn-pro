@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+.env.*
+sononet/SonoNet64.pth
+sononet/SonoNet32.pth
+sononet/SonoNet16.pth
+.git/
+docs/
+streamlit_app.py
+*.md

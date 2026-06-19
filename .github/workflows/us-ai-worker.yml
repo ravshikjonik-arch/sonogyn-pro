@@ -1,0 +1,75 @@
+name: US AI Worker
+
+on:
+  push:
+    branches: [main, feature/pwa-web-platform]
+    paths:
+      - "services/us-ai-worker/**"
+      - ".github/workflows/us-ai-worker.yml"
+  pull_request:
+    paths:
+      - "services/us-ai-worker/**"
+      - ".github/workflows/us-ai-worker.yml"
+
+concurrency:
+  group: us-ai-worker-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  docker-smoke:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: services/us-ai-worker
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t sonogyn-us-ai-worker .
+
+      - name: Smoke test /health
+        run: |
+          docker run -d --name us-ai-worker-ci \
+            -e US_AI_WORKER_SECRET=ci-smoke-secret \
+            -e PORT=8090 \
+            -p 8090:8090 \
+            sonogyn-us-ai-worker
+          for i in $(seq 1 30); do
+            if curl -sf http://127.0.0.1:8090/health; then
+              echo ""
+              echo "health OK"
+              docker stop us-ai-worker-ci
+              exit 0
+            fi
+            sleep 5
+          done
+          docker logs us-ai-worker-ci
+          docker stop us-ai-worker-ci || true
+          exit 1
+
+  deploy-railway:
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/feature/pwa-web-platform')
+    needs: docker-smoke
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: services/us-ai-worker
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli@4.5.4
+
+      - name: Deploy to Railway
+        if: ${{ secrets.RAILWAY_TOKEN != '' && secrets.RAILWAY_SERVICE_ID != '' }}
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_SERVICE_ID: ${{ secrets.RAILWAY_SERVICE_ID }}
+        run: railway redeploy --service "$RAILWAY_SERVICE_ID" --yes
+
+      - name: Deploy skipped (no secrets)
+        if: ${{ secrets.RAILWAY_TOKEN == '' || secrets.RAILWAY_SERVICE_ID == '' }}
+        run: |
+          echo "Railway auto-deploy skipped. Set GitHub Secrets:"
+          echo "  RAILWAY_TOKEN, RAILWAY_SERVICE_ID"
+          echo "First deploy: Railway UI → GitHub → Root Directory services/us-ai-worker"

@@ -80,7 +80,9 @@ export function useSessionRevalidation(enabled: boolean): void {
           return;
         }
 
-        const { user: serverUser } = await fetchAuthSession();
+        const { user: serverUser, rateLimited } = await fetchAuthSession();
+
+        if (rateLimited) return;
 
         if (!serverUser) {
           await forceClinicalSignOut(supabase, router, "session-expired");

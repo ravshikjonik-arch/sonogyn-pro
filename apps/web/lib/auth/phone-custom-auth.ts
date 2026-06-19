@@ -7,7 +7,7 @@ import {
   nextJsonWithAuthCookies,
 } from "@/lib/route-handler-supabase";
 import type { RegistrationMetadata } from "@/lib/auth/registration-metadata";
-import { applyRegistrationMetadata } from "@/lib/auth/registration-metadata";
+import { applyRegistrationMetadataAdmin } from "@/lib/auth/registration-metadata";
 import { createServiceRoleClient } from "@/utils/supabase/admin";
 
 const PHONE_EMAIL_DOMAIN = "phone.sonogyn.app";
@@ -22,6 +22,15 @@ export async function findUserByPhoneE164(
   e164: string,
 ) {
   const target = e164.replace(/\s/g, "");
+  const email = phoneToAuthEmail(target);
+
+  try {
+    const { data, error } = await admin.auth.admin.getUserByEmail(email);
+    if (!error && data.user) return data.user;
+  } catch {
+    /* fallback below */
+  }
+
   let page = 1;
   while (page <= 10) {
     const { data, error } = await admin.auth.admin.listUsers({ page, perPage: 200 });
@@ -49,6 +58,11 @@ export async function ensurePhoneAuthUser(params: {
   const existing = await findUserByPhoneE164(admin, params.phoneE164);
 
   if (existing?.id) {
+    if (params.createUser && params.registration?.full_name) {
+      await applyRegistrationMetadataAdmin(admin, existing.id, params.registration, {
+        phone_e164: params.phoneE164,
+      });
+    }
     return { email: existing.email ?? email, userId: existing.id, created: false };
   }
 
@@ -91,15 +105,12 @@ export async function establishPhoneAuthSession(
   request: Request,
   userId?: string,
   registration?: RegistrationMetadata,
+  phoneE164?: string,
 ) {
   const admin = createServiceRoleClient();
   const client = await createSupabaseRouteHandlerClient();
   if (!client.ok) {
     return NextResponse.json({ error: client.message }, { status: client.status });
-  }
-
-  if (userId && registration?.full_name) {
-    await applyRegistrationMetadata(client.supabase, userId, registration);
   }
 
   const { data: linkData, error: linkError } = await admin.auth.admin.generateLink({
@@ -121,6 +132,15 @@ export async function establishPhoneAuthSession(
 
   if (verifyError) {
     return NextResponse.json({ error: translateAuthError(verifyError.message) }, { status: 401 });
+  }
+
+  if (userId && registration?.full_name) {
+    await applyRegistrationMetadataAdmin(
+      admin,
+      userId,
+      registration,
+      phoneE164 ? { phone_e164: phoneE164 } : undefined,
+    );
   }
 
   const { data: sessionData } = await client.supabase.auth.getSession();

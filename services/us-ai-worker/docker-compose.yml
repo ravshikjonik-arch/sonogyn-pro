@@ -1,0 +1,29 @@
+services:
+  us-ai-worker:
+    build: .
+    ports:
+      - "8090:8090"
+    env_file:
+      - .env
+    environment:
+      US_AI_WORKER_SECRET: ${US_AI_WORKER_SECRET:-dev-local-secret}
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
+      US_VISION_MODEL: ${US_VISION_MODEL:-openai/gpt-4o-mini}
+      US_VISION_BACKEND: ${US_VISION_BACKEND:-auto}
+      OLLAMA_BASE_URL: http://ollama:11434
+      SONOGYN_PRO_DEV_BYPASS: ${SONOGYN_PRO_DEV_BYPASS:-0}
+    volumes:
+      - sononet-weights:/app/sononet
+
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+    profiles:
+      - local-llm
+
+volumes:
+  sononet-weights:
+  ollama-data:

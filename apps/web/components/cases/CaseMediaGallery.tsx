@@ -66,7 +66,13 @@ export function CaseMediaGallery({ caseId, userId, canUpload }: Props) {
         if ("error" in res) {
           toast.error(res.error);
         } else {
-          toast.success(file.type.startsWith("video/") ? "Видео добавлено" : "Снимок добавлен");
+          toast.success(
+            file.type.startsWith("video/")
+              ? "Видео добавлено"
+              : file.name.toLowerCase().endsWith(".dcm")
+                ? "DICOM добавлен"
+                : "Снимок добавлен",
+          );
         }
       }
       await refresh();
@@ -99,6 +105,18 @@ export function CaseMediaGallery({ caseId, userId, canUpload }: Props) {
               <input
                 type="file"
                 accept="video/*"
+                multiple
+                className="sr-only"
+                disabled={uploading}
+                onChange={(e) => void onFiles(e.target.files)}
+              />
+            </label>
+            <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-dashed border-[var(--clinical-primary)] px-3 py-2 text-xs font-semibold hover:bg-[var(--clinical-primary-muted)]">
+              <Upload className="h-4 w-4" />
+              DICOM
+              <input
+                type="file"
+                accept=".dcm,application/dicom"
                 multiple
                 className="sr-only"
                 disabled={uploading}

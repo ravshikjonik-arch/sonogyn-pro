@@ -20,6 +20,7 @@ export function mediaTypeFromFile(file: File): "image" | "video" | "dicom" | nul
   if (file.type.startsWith("image/")) return "image";
   if (file.type.startsWith("video/")) return "video";
   if (file.name.toLowerCase().endsWith(".dcm")) return "dicom";
+  if (file.type === "application/dicom") return "dicom";
   return null;
 }
 
@@ -28,7 +29,7 @@ export async function uploadCaseMedia(
   params: { userId: string; caseId: string; file: File },
 ): Promise<{ row: CaseMediaRow } | { error: string }> {
   const mediaType = mediaTypeFromFile(params.file);
-  if (!mediaType) return { error: "Нужен файл изображения или видео" };
+  if (!mediaType) return { error: "Нужен файл изображения, видео или DICOM (.dcm)" };
 
   const storagePath = caseMediaObjectPath(params.userId, params.caseId, params.file.name);
   const { error: uploadErr } = await supabase.storage

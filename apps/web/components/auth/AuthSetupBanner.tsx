@@ -40,13 +40,13 @@ export function AuthSetupBanner() {
 
   const devOn = status.devAuth?.enabled;
   const issues = status.issues ?? [];
-  const showTelegram = issues.some((i) => i.includes("TELEGRAM_BOT_TOKEN"));
   const showEmailHint = !status.features?.emailAutoConfirm && !devOn;
 
   if (devOn) {
     return (
       <div className="mb-4 rounded-2xl border border-sky-300 bg-sky-50 p-4 text-sm text-sky-950 dark:border-sky-800 dark:bg-sky-950/30 dark:text-sky-100">
-        <p className="font-semibold">Режим разработки (DEV_AUTH_MODE)</p>
+        <p className="font-semibold">Локальная разработка (ваш компьютер)</p>
+        <p className="mt-1 text-xs">Это не «тестовый пациент» — сайт на localhost. На production этого блока не будет.</p>
         <ul className="mt-2 list-inside list-disc space-y-1 text-xs">
           <li>
             Сессия в cookie: до <strong>{status.devAuth?.sessionMaxAgeDays ?? 90} дней</strong>
@@ -78,12 +78,6 @@ export function AuthSetupBanner() {
           <li key={issue}>{issue}</li>
         ))}
       </ul>
-      {showTelegram ? (
-        <p className="mt-2 text-xs">
-          Telegram: BotFather → <span className="font-mono">/token</span> → добавьте{" "}
-          <span className="font-mono">TELEGRAM_BOT_TOKEN</span> в Vercel → Redeploy.
-        </p>
-      ) : null}
       {showEmailHint ? (
         <p className="mt-2 text-xs">
           Email: задайте <span className="font-mono">DEV_AUTH_MODE=true</span> +{" "}

@@ -159,7 +159,7 @@ export async function postPhoneSendOtp(params: {
   idempotencyKey?: string;
   mobile?: boolean;
 }): Promise<
-  | { ok: true; message?: string; fallbackUsed?: boolean; deliveredVia?: string }
+  | { ok: true; message?: string; fallbackUsed?: boolean; deliveredVia?: string; devOtp?: string }
   | { ok: false; error: string; requiresCaptcha?: boolean; needsRegistration?: boolean; smsNotConfigured?: boolean }
 > {
   const res = await fetch("/api/auth/phone/send-otp", {
@@ -181,6 +181,7 @@ export async function postPhoneSendOtp(params: {
     smsNotConfigured?: boolean;
     fallbackUsed?: boolean;
     deliveredVia?: string;
+    devOtp?: string;
   } | null;
 
   if (!res.ok || !payload?.ok) {
@@ -192,7 +193,13 @@ export async function postPhoneSendOtp(params: {
       smsNotConfigured: payload?.smsNotConfigured,
     };
   }
-  return { ok: true, message: payload.message, fallbackUsed: payload.fallbackUsed, deliveredVia: payload.deliveredVia };
+  return {
+    ok: true,
+    message: payload.message,
+    fallbackUsed: payload.fallbackUsed,
+    deliveredVia: payload.deliveredVia,
+    devOtp: payload.devOtp,
+  };
 }
 
 export async function postSendCode(params: {
@@ -289,8 +296,14 @@ export async function postPhoneVerifyOtp(params: {
   return { ok: true, session: payload.session };
 }
 
-export async function fetchAuthSession(): Promise<{ user: Record<string, unknown> | null }> {
+export async function fetchAuthSession(): Promise<{
+  user: Record<string, unknown> | null;
+  rateLimited?: boolean;
+}> {
   const res = await fetch("/api/auth/session", { credentials: "same-origin", cache: "no-store" });
+  if (res.status === 429) {
+    return { user: null, rateLimited: true };
+  }
   const payload = (await res.json().catch(() => null)) as { user?: Record<string, unknown> | null } | null;
   return { user: payload?.user ?? null };
 }

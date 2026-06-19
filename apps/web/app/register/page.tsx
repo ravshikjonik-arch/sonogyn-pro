@@ -11,9 +11,8 @@ import { AuthMessage, AuthScreenShell, authInputClass } from "@/components/auth/
 import { AuthSetupBanner } from "@/components/auth/AuthSetupBanner";
 import { EmailRegistrationHint } from "@/components/auth/EmailRegistrationHint";
 import { PhoneAuthSetupHint } from "@/components/auth/PhoneAuthSetupHint";
-import { SocialAuthSetupHint } from "@/components/auth/SocialAuthSetupHint";
+import { DevPhoneOtpBanner } from "@/components/auth/DevPhoneOtpBanner";
 import { DoctorRegistrationFields, validateDoctorBirthYear } from "@/components/auth/DoctorRegistrationFields";
-import { TelegramLoginButton } from "@/components/auth/TelegramLoginButton";
 import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
 import { Button } from "@/components/ui/button";
 import { CAPTCHA_FAILURE_THRESHOLD } from "@/lib/auth/auth-attempts";
@@ -62,6 +61,7 @@ function RegisterForm() {
   const [fallbackEmailPhone, setFallbackEmailPhone] = useState("");
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
+  const [devOtpCode, setDevOtpCode] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [oauthLoading, setOauthLoading] = useState<AuthProvider | null>(null);
@@ -87,20 +87,6 @@ function RegisterForm() {
   useEffect(() => {
     setActiveTab(defaultTab);
   }, [defaultTab]);
-
-  useEffect(() => {
-    const telegramError = searchParams.get("telegram_error");
-    const telegramMessage = searchParams.get("telegram_message");
-    if (!telegramError) return;
-    const labels: Record<string, string> = {
-      hash: "Telegram: неверная подпись. BotFather → /setdomain → sonogyn-pro.ru и TELEGRAM_BOT_TOKEN.",
-      token: "Telegram не настроен (TELEGRAM_BOT_TOKEN + SUPABASE_SERVICE_ROLE_KEY на Vercel).",
-      expired: "Сессия Telegram устарела — попробуйте снова.",
-      session: "Не удалось создать сессию (нужен SUPABASE_SERVICE_ROLE_KEY).",
-      failed: "Не удалось зарегистрироваться через Telegram.",
-    };
-    setMessage(telegramMessage ?? labels[telegramError] ?? "Ошибка Telegram.");
-  }, [searchParams]);
 
   const showCaptcha =
     Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY) &&
@@ -251,7 +237,10 @@ function RegisterForm() {
       setFailedAttempts(0);
       setOtpSent(true);
       setSendCooldownSec(30);
-      setMessage(result.message ?? PHONE_OTP_SENT_MSG);
+      const code = result.devOtp ?? "123456";
+      setDevOtpCode(code);
+      setOtp(code);
+      setMessage("Код готов — введите ниже (на телефон локально не приходит).");
     } finally {
       setLoading(false);
     }
@@ -282,9 +271,8 @@ function RegisterForm() {
       }
       saveAppLocale(locale);
       markSessionAnchorNow();
-      await refresh();
-      router.push(afterAuthPath);
-      router.refresh();
+      window.location.assign(afterAuthPath);
+      return;
     } finally {
       setLoading(false);
     }
@@ -311,12 +299,13 @@ function RegisterForm() {
     message === SIGN_UP_GENERIC_MSG ||
     message === RESEND_CONFIRMATION_MSG ||
     message === PHONE_OTP_SENT_MSG ||
-    message.includes("отправлен");
+    message.includes("отправлен") ||
+    message.includes("Код готов");
 
   return (
     <AuthScreenShell
       title="Регистрация"
-      subtitle="Выберите удобный способ: email, SMS или соцсеть. Все пути ведут в один кабинет врача."
+      subtitle="Email, SMS или Google. Все пути ведут в один кабинет врача."
       defaultTab={defaultTab}
       onTabChange={onTabChange}
       showMethodHints
@@ -419,8 +408,11 @@ function RegisterForm() {
               autoComplete="tel"
               aria-label="Номер телефона"
             />
-            <p className="mt-1 text-xs text-slate-500">Формат: +7 и 10 цифр. SMS приходит за ~30 секунд.</p>
+            <p className="mt-1 text-xs text-slate-500">
+              Локально: код <strong>123456</strong> (SMS на телефон не приходит). На production — sms.ru.
+            </p>
           </label>
+          {devOtpCode ? <DevPhoneOtpBanner code={devOtpCode} /> : null}
           <label className="block">
             <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
               Email для резервной отправки кода
@@ -496,26 +488,17 @@ function RegisterForm() {
       }
       socialTab={
         <div className="space-y-4">
-          <SocialAuthSetupHint showTelegram />
           <p className="text-sm text-[var(--clinical-foreground-muted)]">
-            Вход через Google или кнопку Telegram ниже. Telegram откроется в окне — подтвердите вход.
+            Регистрация через Google. После подтверждения вернётесь в кабинет.
           </p>
           <AuthButtons
+            providers={["google"]}
             onProviderPress={(p) => {
-              if (p !== "telegram") void onOAuth(p);
+              if (p === "google") void onOAuth(p);
             }}
             loading={oauthLoading}
             variant="register"
           />
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900">
-            <p className="mb-3 text-center text-sm font-medium text-slate-700 dark:text-slate-200">Telegram Login Widget</p>
-            <TelegramLoginButton
-              botUsername={process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME ?? ""}
-              enabled={activeTab === "social"}
-              nextPath={afterAuthPath}
-              onError={setMessage}
-            />
-          </div>
           {message && activeTab === "social" ? <AuthMessage message={message} /> : null}
         </div>
       }
@@ -538,7 +521,7 @@ function RegisterForm() {
               href="/register?method=social"
               className={`rounded-full px-3 py-1 ${activeTab === "social" ? "bg-[var(--clinical-primary-deep)] text-white" : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"}`}
             >
-              Соцсети
+              Google
             </Link>
           </div>
           <p className="mt-6 text-center text-sm text-[var(--clinical-foreground-muted)]">

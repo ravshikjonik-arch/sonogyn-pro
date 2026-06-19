@@ -73,7 +73,7 @@ export function AuthScreenShell({
             📱 Телефон
           </TabsTrigger>
           <TabsTrigger value="social" className="rounded-xl text-xs sm:text-sm">
-            💬 Соцсети
+            🔵 Google
           </TabsTrigger>
         </TabsList>
 

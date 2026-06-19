@@ -63,6 +63,30 @@ export async function applyRegistrationMetadata(
     await supabase.auth.updateUser({ data: userData });
   }
 
+  await syncProfileFromRegistration(supabase, userId, meta);
+}
+
+/** Service role — до/без клиентской сессии (SMS-вход). */
+export async function applyRegistrationMetadataAdmin(
+  admin: SupabaseClient,
+  userId: string,
+  meta: RegistrationMetadata,
+  extraMetadata?: Record<string, string | number>,
+): Promise<void> {
+  const userData = registrationMetadataToUserData(meta);
+  const merged = { ...userData, ...extraMetadata };
+  if (Object.keys(merged).length > 0) {
+    await admin.auth.admin.updateUserById(userId, { user_metadata: merged });
+  }
+
+  await syncProfileFromRegistration(admin, userId, meta);
+}
+
+async function syncProfileFromRegistration(
+  supabase: SupabaseClient,
+  userId: string,
+  meta: RegistrationMetadata,
+): Promise<void> {
   const profilePatch: Record<string, string | number> = {};
   if (meta.full_name) profilePatch.full_name = meta.full_name;
   if (meta.specialization) profilePatch.specialization = meta.specialization;

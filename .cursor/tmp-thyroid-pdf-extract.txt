@@ -1,0 +1,2810 @@
+
+===== PAGE 1 =====
+Федеральное государственное бюджетное образовательное учреждение высшего образования 
+«Кубанский государственный медицинский университет» 
+Министерства здравоохранения Российской Федерации 
+Федеральное государственное бюджетное научное учреждение 
+«Российский научный центр хирургии имени академика Б. В. Петровского» 
+Федеральное государственное бюджетное образовательное учреждение 
+дополнительного профессионального образования 
+«Российская медицинская академия непрерывного профессионального образования» 
+Министерства 
+здравоохранения 
+Российской 
+Федерации 
+А. Н. Катрич, Е. П. Фисенко, Н. Н. Ветшева 
+Применение 
+классификации TI-RADS 
+при ультразвуковой 
+мультипараметрической оценке 
+узлов щитовидной железы 
+Учебно-методическое пособие 
+Москва 
+2023 
+
+
+===== PAGE 2 =====
+,}
+rqrerfelr{ HoHvHsornrr sortd
+ex Hafro KoxJenudrewedelrl4Jqlrdw
+Kosoxdseedrqrd {dr
+S C11a - II uulrcxraQnrrelrll
+eI,IHeHafnf Udg
+
+
+===== PAGE 3 =====
+Anropbr
+A. H. Kaipuv - saeedynt4ufi omdeneuuen yatmpaseyxoeofi duaznocmuxu lBV3 oHayuno-uccaedo- t
+eame,nacxufi uucmumry - Kpaeeaa xauuuqecKas 6orauut4a Ne 7 uuenu npofi. C, B, OqanoecKo?o>,
+doqeum xa@edpar xupyp?uu Ne 7 tDfEOV BO <Ky6lMV> Muntdpaea Poccuu, d. u. n., e. Kpacnodap
+E. II. @uceuro - z.naeuatfi uayvuurfi compydnux ita6opamopuu yntmpasqrcoeofi duazHocmuKu om-
+deaa x.nuuuqecxofi @.usuo.noauu, uHcmpy.MeHmatauofi u .nyueeofi duazuocmuxu @fEHy <<PHQX
+uu. axad. E. B. Ilempoecxoeo>, excnepm HIIKI-I IUT A3M, d. n. n., Mocxea
+H. H. Beruena - npo$eccop xa$edpat yaampaseyxoeoi duaeuocmuxu @fEOy InA PMAH O
+Muuedpaea Poccuu, d. .tt. u., Mocxea
+)
+
+
+===== PAGE 4 =====
+EZOZ
+EsxJoIN
+avgoJolr aoHJahl4vorahl- o H 9a h^
+rqtalfelK l{ouVnsoruln sorred
+exua[o no]IJe hudle hredernrqn{lu
+nosoufsted..rqvd ndu
+s ( w - I I urLII B H r4o r^J J etIH
+ouHeHohrvrdll
+egemJag 'H 'H 'oyHaJnO 'L[ 'g 'nudrey 'H 'V
+"-]
+uuhedaVa6 4o)IJ4t4Jlod BI'lHeHBdxoosedVe eal.cdamnnnq
+<ruueaoeedgo oJoHqrpHor,rf,JeQodu oronarsdaduas BIrt{atrBxe rexcsthu[alt BevJFI,IJ]od)
+ruueaoeedgo o.tourreuouoraQod o.IoltsrarliHrouoV
+auuafxedrui aosqra,leaoeedgo aoulaxrVu g aouuaar^ldeliiro.I aourredala4r
+<oroxraodreg 'g 'g exnvlaVenE I'IHahlI'l r'rn'Idr{dnx dr.nah gnnr'l{eH 4ruJ4I'tJ)od>
+auua[fxadLI aosu{eu aoulaucVug aouHas,rcdeld]o.I aourredalaqr
+uuhedafap go)u4tl]Jod rt HaHudxooaedle esJ,cdemuunq
+<ral.urdesl,IHd 4uucnulIu[em 4IsuuaarldeVi{ror 4uucueg{y>
+nrueaoeedgo olamrHs auHah*adhl aonrra.leaoeudgo aoulaudug aoHHasJ,cdeVrbo.I aourredaEaq
+
+
+===== PAGE 5 =====
+vEK 6 1 6.44 1 -006-07 3.432j9
+6EK 55.694.15
+K29
+llpNr,,renenue xlaccucf uraqzu TI-RADS upu y,nrrpaaeynonofi r.,ry.rbrufiapaMerplrqecrofr oqeuxe ya.non
+ulNroera4nofi xeregrl. Yqe6Ho-MeroAl4rlecKoe noco6ue / A. H. Karpuv, E. II. Ouceuro, H. H. Berue-
+sa - Mocxsa : OOO <tDuppra CTPOM), 2023. - 80 c.: tt.rl
+B yve6no-uero4uvecKoM noco6uu npeAcraBneHbr coBpeMeHHbre B3rnflAbr Ha Mynbr!,rnapaMerpxqecKylo oqeHKy
+u crparuSrxaquo BbtgBneHHbrx npu Y314 npuaHaxoB 3roKaqecrBeHHocrx y3noB u.I4ToBr4AHoi xene3br B coorBer-
+creuu c KnaccuduKaqlaei Tl-RADS.,qaHHoe yve6ro-verogrvecKoe floco6l4e f,Bnqercq pacuupeHHbtM 14 Aonon-
+HeHHblM t4sAaHueM BnepBbte BbtnyqeHHoro B Poco4r4 e 2020 r. MeroAr4qecKoro noco6xe no crparnSnraqur
+ynbrpa3ByKoBbrx npn3HaKoB 3roKaqecrBeHHocrl4 y3noB ult4ToBt4AHof xene3bl.
+PaccMorpeHbt 6aeosHe aHarouo-$uauonortaqecKtae acneKTbr cocrogHua r SyHrquotupoeatun llX; pas6u-
+paorcq Bonpocbt repMuHonoruqecKoi ocHoBbr ont,tcaHnn y3nos ulr4ToBnAHoi xenegut B B-pexhMe, c npuMeHe-
+HheM qBeroxoAxpoBaHHbrx MeroAr4K 14 snacrorpa$uu; npoBoAxrcg no4po6rsti pas6op paanuvtsx BapuaHToB
+enacrorpa$uu, npIMeHreMbrx Ane oqeHKr xecrKocn4 BbrnBneHHbrx ysfloBbx o6pa3oBaHni; pacuupeH paSAen
+no BbtnoflHeHxo nytxquoHHofi 6uonc!,r4 BbrgBneHHbrx o6pa3oBaHufi uluroangHoti xene3bt.,[nF oqeHKt,t ycBoeHxF
+Mareplana noco6ne cogepxur KoHTponbHbte Bonpocbt, TecroBbte saAaHAA vl ct4ryaquoHHble 3aAaq .
+Yqe6Ho-r'.teroA qecxoe noco6ue paspa6oraHo B coorBercrB14t4 c npoQeccuoHanbHbrM14 craHAapraMh Ans Bpa-
+vei ynurpaaayroeoi AlaiHocn4Kr4 (flpuxas MuuracrepcrBa rpyAa u cor.ltaanbHoi saqurH PO or 19 Mapra 2019 r.
+Ns 161H <06 yrBepxAeHx[ npoQeccuoHanbHoro craHAapra "Bpaq ynbrpa3ByKoBoi AuarHocl4Ku">) u xvtpyproa
+(npuKa3 MrHrpyAa Poccru or 26.11.2018 Ne 743H (peA. or 26.12.2018) <06 yreep4qeunr npoQeccuoHanbHoro
+craHAapra "Bpav-xrapypr">) B coorBercrB1414 c Ol-OC BO no cneqIanbHocrr4 (ynbrpa3ByKoBag AuarHocruKa), (xt4-
+pypr!{g) An9 KnuHuqecKnx opAr4HaropoB, a ranxe uoxer 6urrb ucnonb3oBaHo cryAeHTaMu crapurtlx xypcoa neve6-
+Horo, neAfiarpxqecKoro, MeAuKo-npo$unaKTn,{ecxoro Saxynureroe Bbrctxt4x MeAuqxHcKr4x y,]ebHbtx 3aBeAeHhi.
+PeKoMeHAoBaHo K r43AaH!4o UMC OTSOY BO <Ky6FMY) MnH3ApaBa Poccr4u, nporoKon Ne 9 or 10.11 .2022 roaa.
+PeLleH3eHTbr:
+B. B. flonoerxxraH - 3aBeAynqui Ka$eApoi o6qef xupyptuu OTSOy BO (Ky6TMy) MnHqgpaaa Poccun,
+A. M. H., r KpacHoAap
+E. A. 3y6apeea - 3aBeAyoqar raSe4poi ynurpaseyroaoi AharHocrt4xt4 OAflO OfAOy BO PHl4My
+uu. H. V. fllporoBa MuH3ApaBa Poccuu, 4. v. H., Mocxea
+l
+Ht4 oAHa ns ,{acrei oToli KHxrl4 He Moxer 6btTb cr(onxpoBaHa B n|o6oM BttAe (SneKrpoHHoM, MexaHl4.{ecKoM, (pororpacph,]ecKoM, nxcbMeH-
+HoM x Ap.) norrHocrbro lrr14 tracrFrvtlr 6e3 nhcbMeHHoro pa3peueHxt OOO (OxpMa CTPOM).
+O A. H. Karpuv, E. [. @uceHIco, H. H. Berrnena, 2023
+O OOO (<DrpMa CTPOM>, 2023
+rsBN 9 7 B-5 -9000 9 4-69 -4
+
+
+===== PAGE 6 =====
+0s''''' 
+enou.ooonnr."o,trt"d""orr"".;fffX"##Hi:"T:X#
+I vae¤Dd
+LV",' 
+:'1".'.' 
+" "rl¤arrox( 4oxvnso.L[I[
+4uneaoeudgo Y.trlrtottg rennoulednute rEH<IIfoJrroxHoI
+I vae¤Dd
+8t" "' 
+"sovu-IrrrtruxuQurrery
+9 traSeDd
+LE" " ' 
+' ' 'rr¤arrex( [onVlrgoJ.filn gorer( nvHeIIo unde.r.ndx erruoxfaeudlrr4q
+s raeeDd
+trt" " 
+' ' ' 'IqHIros 4oso.tuaVt ru<fedlol;Jere'Z'E'b
+gZ" "' 
+" "rurped.ro.r.rBre seHHo[rradrwo)l 'I't't
+LZ" " ' 
+' uuQedromere awt,lxad s Iqsarax XoHVlrsort4tn aored evu.Lcfida.r.uedey 'g"y
+gZ' ' ' ' ' 
+' ' ' ' 'XY¤/yVI altuxad s Isearex 4oHYI'IeorIaIr sored uvullude ntedey'7'tr
+Ll" "' 
+' ' 'awuxad-g s Isearax 4oHvl,rsornlrI sor¤,{ evl'IJ,rl,Idantedey '1'tr
+Ll" "' 
+" " 'rq¤arer( 4oHYl[soJ.lrln aor¤f
+nnHetltuo EndooJEru rExJeh[JolfoHurddar I'eHllvfl
+, vaeeDd
+SI" "' 
+' ' ' 'rqserax 4oHVfiaolr,rln ruHesoVerJrr,r o.rosov.r(asedrqrf suJoloHxel'¤'E
+SI" "' 
+" " " Tqsar3x 4oHtrt,lsorulfi BI4HesoVeImJI,t oroeovdseedlsr['umYe2'7g
+Vl" " ' 
+' ' 'Issarex XonVuao.utn 4I,IHEsarogEs Evu.r.ron.reuV reaoxr{aeed.lsIL6 '1'g
+Vl' ' ' ' ' 
+' 'rr¤arax 4oHYrlsoruln 4rluusaroges euuutoHJerrtrf
+E vae¤Dd
+ll" "' 
+' 'rl¤erfa}|C goHvusoJ.[h Br{Jorforre[Io u Br{rrlorBrrv
+z trageDd
+tt'
+:"'u" 
+"'BI{JoIfO}IhIOVnu6
+I vaeEDd
+6" " " 
+auHatrasg
+o" " " 
+'' '' 'anaorouYadg
+I'
+t""" 
+"j"" 
+' ' ' ' ' 'tltuxalnedxoc xoruu3
+errHEucdevo3
+
+
+===== PAGE 7 =====
+6 
+llpon"""Hue knaccuQakaqtu TI-RADS pa lnt pa?slraosoi ttynhnunapa ernpuqecxou oqenxe lurcs a4u.mosudgo, ucer&bl
+Pa3AeA 9
+Bapnauru Qopuuporan[s lrroroBoro 3aKrxrrreHur y3ll
+c trprrMeHeHneM Kareroprr TI-RADS. 
+...........56
+3axrrc.reHr.re. 
+.........58
+Konrpolrurre Bo[pocbr. 
+.........59
+Tecrosrre sahatvfl,. 
+......60
+CuryaqzouHue 3aAarru. 
+.........64
+Cnucox aureparypbr. j 
+... . ... ...65
+npanolrceHue 7
+fpynna pncra narlr4eHToB no paKy rrlnroru4nofi xeJresbr. . 
+.........67
+npurro ceHue 2
+TepuunolorurB orrvcanuvry3noB rrlr.rroBr,rAnoft xeresrr. 
+.....67
+npuJtoxtceHae 3
+Kax ue6exarr omn6or flpu npoBeAeHu r,r 3JracroFpaQrar,r / eaacrouerpun
+uluroeu4nofi xeresu (pexoueHAarlrrr WFUMB). 
+..........69
+npanoJrceHue 4
+KaaccuQuxaqraa Bethesda 4Jrs qr,rroJrorun uluronu4nofi xeaesu (2018J
+(The Bethesda System for Reporting Thyroid Cyopatholory) 
+. . . . .70
+Ilpulroacenue 5
+CrparuQuraqna V3-npuanaKoB 3JroKaqecrBeHHocrr4 y3JroB rrlr,rroBr,rAHofi xeresrr. . . . .71
+npulrottceHue 6
+Knaccr,rQu xaqus TI-MDS B yJrbrpa3ByKonofi or4enre pucKa 3noKaqecrBeHHocrr,r
+y3noB rrlr.rroBrr4nofi xereeu 
+.......72
+}
+
+
+===== PAGE 8 =====
+euor rcccen c)euHil - 
+11,\114
+tAvlJouong n oHnnuVen s ev^eeedrcu^ srahedeUe$ ceHdrkrecg - SWnlM
+nocrgo 4rsHsuodrHo)t - xoq-O
+tuels{g e}eq pue Ourpodeg 6ut0eu1 p;olAq1 - SOVU'II
+{qdet6o}sell o^eM leoLls - fMS
+(olleU uterlg) rrhendo$eU ruenhnS$eox - US
+(en4edrc rraQedtorceue) {qdet0olself uler}S - fS
+(=nnS lurod) tqHuoe 4oeolreUc rraQedJorceue BeHhohor - SMSd
+hue)rceuoul4)r - edx/eux
+tAtAJouovtg n euvfiiuVen E ev^eeedrcuA snnedeUe$ sexcf ouodef - gWnSJ=
+erHeeodnrdev eorceodeuuuoU eo)tcohhreldeue - XUe
+eeeuax geHUileornfn - Y1ffi
+eilHeeodnrdex eovceodeuuuoU eoeoreeh - XUh
+erHeeoUoucct4 eoeovfieeedrqu^ - Ut A
+Hondo-t 4nuuodroedrr - JII
+rtAluoug seF{ Hohhx HAU geH I-{ot4h ed r uce Be Hq uol t4o)l Hor - I UVI
+rqeeuox 4ouUreorrln ved - Xfnd
+'- 
+} 
+uraSed.ronor BeHHol4cct4t te-ouuodrneou - IeU
+rnhHereuno)t otqHqueHoLicceSodu - )lU
+e n H ee oUoucc t4 eo)tco h t4l o uoJ-c 14J ol o uoJ-e u - hJ U
+uee{ fuxoohr4J-eSnru - AU
+uraSedloJ-ceue tseH Holtoced u vrtov - Je)l
+euHeeoUeucct4 eodo>rr{eeedrquf eoHHout4c[ ourcedrsov - 14t4fil
+4lrHelredxor xoJrru]
+4nuafnndxo) xo)nu)
+
+
+===== PAGE 9 =====
+Ifpumeneuue xtaccuQt Kqquu TI-RADS npu yrbmpateyxoeoil Mt-nbmunspa]tempuqecxoil oqeuKe yinos uqumoe udnoil trcenezur
+Ilpe4ncnonne
+l-lenun 4arroro yve6no-ueroAuqecKoro noco6ns <flpurr,rerenue KflacchSxKaqun Tl-RADS npra
+ynurpasayroeofi MynbrhnapaMerpnqecxofi oqeHKe y3noB u-l,|roBr4AHof xene3bt) FBrsercs cl4creMarh3a-
+Lll4c cyqecrBypulef nHSopMaqnu, ocBeqeHtae xar6onee BaxHbrx acneKToB ynbrpa3ByKoBofi AnarHocr]4-
+Kx o,{aroBof naronorhh quroan4nofi xere3bt.
+Yve6ro-uerqguvecroe noco6re cocraBreHo B coorBercrB14r,r c npo{eccnotanbHbtMt4 craHAapraMx AnF
+Bpaqei ynbrpa3Byroaoi 4narnocrnxr (flpnras MnucrepcrBa rpyAa r coqnansroi saqrru PO or 19 Mapra
+2019 r Ns 161r <06 yreepx,qernr npoQeccnoHanbHoro craHAapra "Bpav ynbrpa3ByKoBof Ararrocrnru">r),
+xhpyproB (flpnxae Mnrrpyga Pocc[n or 26.'l,1.2018 Ne 743H (peA. ot 26.12.2018) <06 yreepxgernn npo-
+QeccnoHanbHoro cran4apra "Bpav-x14pypr"))), B coorBercrB1414 c OTOC BO (Oe4epanuxuran rocy4apcrBeH-
+nulln o6pasoearerbHbrM14 craHAapraMh Bbrcuero 06pa3oearnn) no cneqranbHocrt4 (ynbrpa3ByxoBaF Al,t-
+arHocrnKa)), (xr4pyprxq) Anq KJ[4Hr4qecKhx opA]rHaropoB, a raoKe Moxer 6urru r4cnons3osaHo cryAeHTa-
+Mn cTapurx Kypcoe neve6uoro, neAIaTphqecKoro, MeAnKo-npoQ]rnaKTh'{ecKoro SaKyflbTeToB Bbtcr-rjt4x Me-
+Ahr.lxHcKr4x yqe6Hbrx eaae4etnft .
+Marepnan 4anxoro'noco6nt HanpaBneH Ha pa3Bhrxe I coBepueHcrBoBaHIe cneAytorqux npoqeccu-
+oHanbHblx KoMnereHqri (nK) Bpa,{ei ynurpaseyxoaoft AnarHocrr4Kr.r ra apavei-xnpyproB B coorBercrBr4t4
+c 3aAaqaMx npo(peccnoHanbHbrx cTaHAapToB:
+- roroBHocrb K onpeAeneHxto y naqheHToB naroflorr4qecKux cocrorHxf, c[MnroMoB, ct4HApoMoB 3a-
+6onegaHt,|i, HoSonorl4qecK]4x QopM B coorBercrB1414 c Mex(AyHapoAHof crarhcrhqecKof Knacch6xKaql4ef
+6oneosei n npo6neu, cBe3aHHbtx co 3AopoBbeM (nK-s);
+- roroBHocrb K npnMeHeHno MeroAoB ynbrpa3ByKoBof AharHocrr,rKr,t t4 r4HTepnperaqnt4 hx pe3ynbra-
+roe (nK-6);
+- 
+roToBHocTb K BeAeHhK) h neqeHIo naqt4eHToB, Hyx(Aaou.l]4xcs B oKa3aHhn xt4pypru,{ecKof MeiqrqxH-
+croi non,loqr (flK-6).
+Yre6xo-uero4nvecxoe noco6ne cocrohr t43 BBeAeHtan, 9 pa3AenoB, 3aKnDqeHuq, KoHTponbHbtx Bon-
+pocoB, TecroBbrx 3aqaHni', cxryaqhoHHbtx 3a4aq, cnxcKa n[Teparypbt t4 uecr]4 npnnoxexufi.
+ornnqnrensxoh oco6errocruo 4aHxoro noco6ns 9Br9eTcg rxxpoKoe rxQoprr,laquotnoe none, o6o6-
+l4eHhe HaKonneHHoi t4HQopMaqxh h3 pa3Hbrx hcrogH14KoB h npaKrnqecKa9 HanpaBneHHocrb, ocHoBaHHaF
+Ha co6crBeHHoM onure. B noco6xr4 hcnoflb3oBaHbr KaK aBTopcKlte phcyHKr4, TaK n plrcyHKt4 ns 6as 4aulurx
+oTKpbrToro Aocryna. 
+)
+
+
+===== PAGE 10 =====
+'o|qHquorl4Huouov t4 0H'14rcoHHa6rcoh
+-e)toue hxeHeudu eFHsoHco o)tguor oH qresrqruh^ oHexouuodu xchhexn(pl,|uont xure I rHexdes I]lxc
+-Ir4ccod Iouoleaoveuccl4 [ouu^dJ [FHHexouuodu h SOVUI]-n3 lHel4des {nvc{euodso 4lcHHeHl4uoqgo
+,sovu-ll ,tr,thernQncceux [oxcHex]tdoytre IHet4de8 [|qHHeusoHgo |cHeso)|hug^uo nulcg tseeeH Iau clcll
+'xB|l|he)thsr4vow xtcHquevro a [rcoHHeercehexoue so)|eHendu-gA 14[hBu^xcue) )l
+hlleHougem hrlr4)toH c soue^ ghHoHsedc ro oum sovu-lL t4xhe)rhQncceuv ehrhseed 'dU t4 solouoHlrd)l
+-oUHe Ihhenhocce foxcHUcuer 'solouoHxdxouHe xr)rcehhH14r.Dr xnherhocce [o)lcHe)l14de]IV 'hxhet4hocce
+loHunoedhr [oxcHe)thdenV 'naJotlo4Yed [oHVhoednr osrcetngo woxcfodo) s |cHeuex Iulc9 14nheVHorro)l
+-ed o|qHgovou nhslctseucoug 'o{r4cdes n}rHoHelrndu I or^}reu eeuog I eHerogedou eu|cg t4eree'l,|rlouoH
+-r4d)ouHe u{osrcetngo }\ltryce^hHedQ eHedgouo eu|qg eHo ) WOZ A 'sorpHxhcuexodx}rr{ et4hl4ueH r |qd^r
+-HOr e|cHs0dOH Oh)treheH 'eue^ BhherHaIdo BeHHosrcHedrcodu BPHque)rrrdaa 'qrcoHHeJoxe BeHHexuHou
+ore :Feeuox 4oHuhsorntn eyed nxeHeudu-t^ eFH¤oHco orelnoehoru)rs '(eHdorreu olo)lcoht4cceu)l> l4l4h
+-uehHov esoHco eH 'le te qleruoH f I 600Z s eHexouvadu eu|cg SOVU-II Bl4hetnQncceux a|c8dou¤
+' r4rcoHerDre {oH Hol4h)lH^u IeH mu [J¤14 rl t4ll4rcoHlextsdau nJ BeJ09
+-eh ,o 4cuol49 eH eouel x|qHcuerxdeotsou edogro oroHcueDrl,|c]Eu{ qcBeshgots wore l4du 'SCVU fhhe)luQ
+-l4cceu)t ehHenhHou h 
+^roged 
+qrhrcodu^ BcrBlredrc [nhe)nQuuon xrcHhuueed Fdorsv 'Bl,lHeHev{hdu xn
+er|quo BuHeuuo)teH Odew ou BCrOrBttEoHgO t4 ttl4lhaeEd llOHHBoIcou e BCIBtroxeH SOVU lcwelc}|C OCE
+.erHeuheu otrHeues fnem4etsuets ou r4hheuHowoxed srexouvedu 4at,ldolore)l c tlnarcrasro
+-oc ¤ t4ncuong 4outonhlt{u enHoHuou|ca uc.lei(gedr evr 'orhdolore)t ot^xoctcs aouog I ccrt4vosedeu ouH
+-esoeedgo r4rcoHHosrcehe)toue soxeHelrdu BhHercedeH h nrcoHHoarcohelodgoV soreHehdu !rdelou eden
+oU [Odorox I 'solouo[Ved noslcelngo nuloHelndaWy e)les oloumodu OhHox e [OHHOxouVedu 'SOVU-|8
+rsuerm fdewnQu ou ccrcodrc |qmolol4c hle ocg dV ll (cHohau) SOVU-l-l '(erarleu) SCVU-n'l '(eeeuox BeH
+-euerercuedu) SOVU-ld '(eeeuex 6eHhouow) SCVU-IS :aoHeido x|cHht4ueed r]4louorBu [oeoleho [oHHou
+-sBtqs nrooHHesrcsheroue soxeHelrdu IhhexnOnredrc tsWorc]4c BcrotcdVaHs BnreuurccoU oxHVeucou s
+chHesoveucct4 sotsorelrr xtqHcuerHewldrcHI xhtno{AdxeIue^ene eorerqur(eed nnhereduderH]r BUbf
+'r4lcoHHearSohevoue e)cnd rnh
+-elnQnredrc r,,| (yg^) rraneeoueuccr,r oioaoyi(eeedrqul xeterquleed eH qcnuee|ceoHco gllvl x tshHeee)lou
+elcnd eodorxe$ h f ouoreee)tou xr4)rcohr4Hr,r.Dr om4t/rrou rcgorh 'oHxes oHqueruxhHt4du nnhedeuo [oH
+-HeuseduoeH r rrceendu exev rexon lt [oHmhu¤r4 ccroB|jsB 'tcdifuri(drc nuu edeneed ro otrl]lcl,lseeoH 'ed
+-ogro oloHHesod[eurenorcrc ee9 Eoue^ xecs gllvf )re)r )er 'wFHcuorEdt4geh qr|cg oHXuoE euHeHuouFs
+oo oH ,eccahodu u{ore I cuod otfHcuedrHoh reedJr (gUVf) Bl4cuohg cEHHohhednuce BeHquol]ro)lHol
+'BIHeheu oromIeHcueu nnnlnol^gedr'14ntP)leHeudu ht{|cHHesrcahe)loue
+nun uwnsquerndeotsou c souel ro tsHs[resdocHox r4rcos oHxoht endoror '|cue^ etqHHasrcohexodgou cll4h
+-t4uro tcgorh 'y{or a rlaolcoc NeA octnoy{ou c )Kffl souel i4xHoho 4oHcueheHosdeu quoh Xln 4hHeeou
+-ogpe o)tr4rcoHleuv I hr4hueou etqsehoLDr [ogoc ee recHedxoc enHeeoUoucct4 eosox^seedrqu1 '(goe 4os
+-ouef) Hr4lrdor I qrBHuvec.go orcHudu XIn BhHe8oepdgo e|caoreho olqHh[ueed xxcoht4H]4u) 'Xm c ul|qH
+-Heeusc oH ,weHxhhdu ou xcnHesoueuccx rdu IwrcHHoxrtdeHgo 'nwBhHaxedou In|cHHosrcehe)odgou 'In
+-tcHmo111ratuCCeg BcIO6UaB h hxUOXeH OtsH[phIUC - (XIn) 1geOUAx {oH[14e6lntn sO[tE^ oalCHhmquog
+alrHoVeug
+anrraQasg
+
+
+===== PAGE 11 =====
+Ifpaneneuue xnuccuQuKa4ua TI-RADS npu ynbmpuzeyxoeoit JayrbmunapsMempuqecKou oqeHne y3Jtos t4umoeuduoil wenelil
+B KnnHhqecrtax pexoMeH,qaq[ex M3 PO or 2O20 r. no 4nQQepenqnpoBaHHoMy pary quroenAxoi
+xene3H peKoMeHAoBaHo oqeHnBarb Bbrf,BreHHbre npu Y3l4 y3nbr l{X no rnaccnQnxaqnu TI-RADS.
+Tl-RADS cBnierca cxcreMoi crparuQnxaqrn npt43HaKoB 3noKaqecrBeHHocrh y naqneHToB c y3floBbrM 30-
+6orr,r u npe4nagraqeHa Anr peueHug aonpocoa or6opa y3noB u.l4ToBr,rgHoi xene3H, BusmeHHux npn V314,
+xa 6noncnp. IlpeAHasHa,{eHa KnaccxQnKaqhe TI-RADS B nepByro oqepeAb Ane Bpaqef nepBxqHoro 3Be-
+Ha, Ho HaxoAr4T aKTr4BHoe nplMeHeHhe B Hauef crpaHe Ha Bcex oranax Me.qhqxHcKoi noMorqr4, no3Borgt
+o6rerrransnpoaarb nofly'.{eHHbre Aasuue Y3lz1, T. K.,qaHHbrf nrero4 san6onee cy6beKThBHbrf ta3 Bcei
+xHcrpyMeHranbHot Br3yafln3r4pyrou{ef A[arHocrr4Kr4, B r. r.r. I e Pocc]4r4. flaurui eapnanr TI-RADS a4an-
+T[poBaH 4nn pa6orur B ycnoBl,lgi Hauero oreqecrBeHHoro 3ApaBooxpaHeHng. Sror eapuarr sau6onee
+6nnaor x eBponeicKoMy, u B nocne4yoqeM, BogMoxHo, npoh3ofAer rx noflHoe cnunHr4e.
+}
+
+
+===== PAGE 12 =====
+4atno{erxu ,rehdorde roHHcn|qeag exxer e '[euou x|cso)rog v{ecoruorJ t4|cHHeu{hoHuo )l xv{htn^Un 'nrlnH
+-xl4H 14 14nr14HXdOa :UUtB,|derde ]4m|cHvh8O-rUln Xy{rcHdeu BmI8ts ccro6ugrcatnlco xln anHexgpHcosod)l
+'nuov rrcoHxdesou otlHcuedereu n otlHcuet4vot/tl'(o{IHquecdov)
+ototHtsee '(ori(Hquedrnee) ototHuodeu rorr(drahnedeQQl4u ovorer e 'FrHor\llec 4nuxdee u 4hHvedc '{l4HXxH
+roBuetslqs olneh Xln 4euou edluldrc s ne^ mrcHHeU lrhtnorlarcolnfc ou ernrvedu [oHsoHusJsou g
+'(t.Z.cnd) cexedr ccraaeuouced 'ex{emodou exrH n nueeou 'nrcen 4orsuedrHoh g 'oHoe [oHHeU a
+ccxhtnoti(erue)tou'4nHeeoeedgo xFsoreho o)|]4rcoHle]4u {oHquehhHodoQ$hv hdu eHXes qHoho olod
+-oro)t Bxhe¤nue^et4a BeHguereu 'Uoeotnuu sexououced t4uov [osau rrcoHxdosou 4eHvee oU (eHes ceH
+-wedc ccHHad!{Fts oHquedereu ceHHoxououced n craderde BeHHoc 6elngo) nom t,ttth^u etsHsdeH-orcxUlcoc
+eFHaoHco rBvoxodu {euou xnago i(drfuso>r lyrosquBdareu oU 'cuou ceHqueunwedhu BeHcuorl4Huouov
+Il4uoxro e)[emadeu ro euloHl4 we)tog oe ou n nexedr rrcoHxdeeou IeHuedeu eH BcxhlnoleJeuouced 'e)l
+-4emedeu u [euots x^eu eu rhorcoc Xlfl hem nhHhu {oHHnfodo ou hhhorux sohHor xnuquesderc aerque
+-nHed)t y{c e-! eH Bcreeleuouced eeeuox BpHtshsoJ.l4tn nrHeodrc lro)rcahhvloreHe vroHsuendol ud;-1
+'IHe)rr [oH
+-Ut4oedxr h)trerco e|cao)tog. n etqHHntsedc exorer e'Xfn BeHh|ceB'E)orodu oJoHhFeBorhln lqrcu) ccr6coH
+-ro nl4H )l chHexououced ee nuuelroHe arcHhr4u¤ed ccqreehseed rfton yfi eeetelondgne xsuHemi{deH
+r,rdg .t gg-g1 ouoyo recuaerooc e)eaouoh o.roucodee I eccen af ott4hllHI$ otr(tdoradlecndrlHs o)lquor
+BElno{ewn 'enenseldo olo)tceheaouoh eeelJ¤x ueHHrdroVHe ceHufdl Be$tec - eeeusx BeHUheorlt|n
+rq te rf ex( 4 o Hvu s orum rf rr J o rf o lr E I'r 0 tr H;Ilrr/JtorE HV
+z uaStDd
+'4hHe8OvOU3
+-ct4 xhtnBorcolodou |/r XFHX^HoH eeg 'xerEdree xFHHoweds I xr4)rcoht4ntoHo)le x|cHquewhHhw xdu eoHle
+-hf qrhsercou oHhor xninoBuoseou 'xxVoren dogUou 4tsusunaedu BcreBuss {ohetsee 4orrerndordu aor
+-cer n 6ovore!r xt4ycohr4rooHleuu BheedgooroHnt fxoue g'4ercoHXotrgos xtqHquBnorahlul$ eo anHodxm
+-ced n Fd/fuedeuue f o)coht4tcoHlphu auHesosrcHomdosoc '4r4JouoHxer h )ll4vorav{ xFaoH ehHesoH)lhH
+-eoa BctecusB oloooro)t nehsrcvouc 'rrocaedJodu nrrycehnHxor-oHhleH oHouatseduo org rcroi(erclam
+-deaoc u ccro{eshdrewcedeu oHHBorcou XIn xBhHeseuogee rdu nrnuer 4o}cehurcoHlehu Fcoduog
+'BhHeuoceH 'cnr 00 ! eH orohced a eeed g' L, e yfi (nornn
+-deyod>rrn re6c ee) ered hlcoyttegl1eBlqs rcod reeodncrr$ee 1 !0OZ ou ] ¤661, c Uo[dou e eedoy e 'den
+-rdueu ,le] .Xfn {nHesoeedgo xnllefdruqueuoH qrco$l¤uueBlqs h rcod Hahotrro'BlHegoEeucct4 |cuorem
+el4tno^dlreIue^¤ne ccro{Iecuouc14 o>rodum evr 'xeHedrc x|crreeed I urcowaessuogee ercod oHoQ eH
+'[nhBEuue)|ou Bcxhtnoehodrcs orceh aouogheH oxrccev I (%9)
+elcew u{-g eH rcorc y1fi rraneaoeedgo sFHHosrcehe)roue euou oro)rcHox hxu A'BuHauoceH 'cFr 001 eH
+ueh[uc ;'16 euhsercoc ''r ,lOZ eH n|qHHeU ou 'l4nhedetsao foxcxl4ccod s Xm {nHeaoeeogo xlcH
+-Hesrcehe)toue qrcoxnaseorcoduced 'seehluc Ogt Zg oun8ercoc Xfn IxHesoeedgoosoH xlqHHearcohe)l
+-oue VmO I xtqHHesgdhlcoHlehu oslcehnuo)l I g rOZ g 'eOUeI xlqsoH ClcI OOe oV IOBUSBIsS UOI 4tsExelt
+VmC s oxsuof xesedrc xeos orluxcohr4uedu (Xha) tseeuax [oHu]4sornln eved 'nhlouoleu 4oHvhoad
+-nr nrcotHasedrcoduced rqrorcer, ercod o rorlsrccuereuh8c '|cuor enHvou3ou s xtcHHoHUoulqa 'InHesou
+-euccr nrerqui(ead eHeldo [xHeseuogee xacs Io %09 oV Ot Io tt ttythcur(uou [elngo a yog oU Z Io Bcleu
+-gauol xredorol qrcoHHeHedrcoduced 'Xlfl nlrunreeoeedgo umrcsouel c xnHquog rcod 4nllow(eu uc
+-reehey{ro Bt,treuhrBcov ohHvoucou ee %09 om|ca reBuaercoc querBee)rou rore xeleho xt,|vcehn]louHe a
+'cutfog lcrsHeuu Br,rHeueceH oroucodes VoOZ-g A ccroEhedrcs |ceouox loHvxsorhln BhHesouoget
+nrrJorfol{hlevnu6
+I ua?tDd
+ll
+I ti?8tDd
+
+
+===== PAGE 13 =====
+I
+12
+Ilpuneueaue xnaccafiuKsqua TI-RADS npu ynbmpateyxoeoil Myilbmr.nopawempavecxoit oqenxe y3no6 t4umoettdnort ueenetot
+flo4uneuvxaf, Kocrb
+Bepxnuri ropraHHblfi HepB
+Bepxnnr tqHToBt4AHaf,
+apTepu9 h BeHa
+O6qan coHHae aprepun
+ll{nroangxufi xpnq
+(neaan nnacrnna)
+BxyrpexHnf, RpeMHae BeHa
+['lepcrxeeuAxufi xperq
+[lupaunganbHac AorF
+flpaaan gonn
+fleaan gonn
+Ilepeuleex
+CpegHnr u{}rroBl4gHaf,
+BEHA
+Hr,rxHRn tquroBl4AHat
+apTepne
+flpaaufi 6nyr6gaoqrafi xepe
+Jleaufr 6nyrygarcqril Hepa
+Epaxnoqe$anunufi crBor
+Bepxxnr nonas BeHa
+Huxxne u{}troBuAHbte BeHbl
+npeg-
+gyA aopru \neaan 6paxraoqeQaflbHaf, BeHa
+x naranpaxe¤nbH He
+Prc. 2.1. AHam!,t[t qnmB[Axoft xenegu rr ocHorxhD( 6Jr[:urexarq[x anaflru[qecKxr( 3orr, 3flaHue Koroplrx Heo6xoa[Mo
+trpr| MynhrunapaMerp['lecKo[rr y3ll ]r3JroB 4uroBr.rAHoft xen¤br (@ Encyclopaedia Britannica, Inc., 2010).
+nepeueeK. Bepxnnn q[ToBxAHaq aprepxs gBfl9ercr nepaoi aerovroi Hap]DKHoi coHHoi apreph[, a Hhx-
+Hcc - 
+gerxoi ult4To[ueiHoro creona, roropurfi B cBoo oqepeAb nBrgerce nepBofi BerBbo nogrnovnvuoi
+aprepnx. Pageerencccu a rrarra 1{X, aprep[h o6pasyor cers co6craernurx aprep]ri. OrroK KpoBt4 or ll]X
+ocyqecrBnrerce no rpeM aeHarr4: Hr4xHefi, aepxuei, cpeAnHHor. Bepxnnn u cpeAHAg BeHbr BnaAaor
+e 6esuunlHyo eeHy. Hnxlnx u.lt4ToBt4AHbrx BeH Moxer 6urrs necxonuxo, oHt4 Bna4aor e 6paxrqeeanu-
+Hbfe BeHbl. Bacxynnpraaqnr rxanr,r l{X galncvr or MHornx $axropoe, ocHoBHbrM }r3 Koropbrx rBrgercg
+ypoBeHb rlrpeoIAHbtx ropMoHo]
+IlnuQoorror ocyqecranner-cn B nIMSartaqecxtae y3nbr, pacnofloxetxure ua 6oxogoi noBepxHocr]4 ue14,
+HaAKrOq14'{Hbre, npeAropraHHbre, 3amoro'.rHbre, nperpaxeanbHbre I naparpaxeanbHbre flhM(parhqecxue
+y3nbr, a TapKe flhMQoy3nbt nepeAHero cpeAocTeHxt.
+l4hroBnAHa9 xere3a - xenesa BHyrpeHnefi cerpeqnr. Ora cocronr r43 Knerox AByx pa3Hbrx Br4AoB:
+(ponnxKynepHblx h napaQonnhKynnpnstx (C-rnerxra). Oonnrxynnprute KnerK[, npoAytl]tpytoqre rnpoKcr4H
+(or xe rerpaio4ruponran - T4) n rpniogrupoanH (T3), +opMt4pyor B xene3e MHoroq[cneHHbre eonnhKy-
+nH, kaxAblr |43 Koropblx cocrot4T t43 qetrpanunoi nonocrh, orpyxelnoft oAHt4M cnoeM ry6oar4nurx enr-
+TerlhanbHblx KneroK. Qornl4Kyabl 3anorHeHbt Konnot,tAoM, rnaeHofi cocraannor4ei xoroporo sgrcercc 6e-
+nox rrpeorno6ynxH. TxpoKct4H qBncercg npeAUecrBeHHnKoM 6rororhqecKh aKThBHoro rooMoHa - 
+Tor4-
+foAThpoH[Ha. B cyrxn a opralu3Me qeroBeKa c[HTe3hpyercq npn6nnourensto 80-100 lrrr rraooKcrHa. fla-
+paQonfl14KynepHble KnerK[ (C-KnerKta) npoAyrl,rpyor 6enxoeHi ropMoH Kanbqllrornn. KanuunronnH chHre-
+3|,1pyercg napasonnnrynnpHbtMr,t KrerxaMta (c-xnerxarvrra), flBngercn aHTaroH14croM naparropMoHa.
+il
+
+
+===== PAGE 14 =====
+'ccreesuhl4ues^ droul
+-exts xn r\lore |/rdu ,6ou^xhuuo6 onHoxcrced )| It4uosndu orh 'euuouuox exHesolcfue¤ rnuoxcuodu euo[
+e)|rercoueH ad].Q.Z.cud) wltcr^HBl|qs n ru{h)rcouu BcrBsoHerc Xfn eo)lou v{oHqueHoxDH^S xdu e 
+^ndo$
+ot^xcohxduHnurh uun o^HcuEso rotewh 'ouhsedu )ret 'n)ratn{ alqHdBu^tt4uuoo }{{fn [rcoHsur)le nhHohl4u
+-ae^ hdu .r4)tw o0g ou gl ro crEsodr4cdes rexohr dreurexu xu xtn xrcoHsxDle nHeuelc Io 9l-t3owl4cIsee s
+,Xfn urHBorcoc oloHcueHolrhlH^S ro rBcltsee |qdelreed x ev{doQ xl4'Xtfl ehnHxve BEHcueHorhxHIO I BeH
+-drful[drc ore - uf)tl4uuoo 'enrBHou ore r{edegeed ercew8 arfeseu 4uAlnuuoQ oo)ler 3x orh ')lerr4
+'eHov{dol oloHuodroedhr
+lleuHbl4us Vou rruoxcxodu qgodt e eoHowdor enHouu^rcou n auHetDl(ogoeolqg ehHouuo)leH x}| rl4lloxcl,l
+-odu oul ,wour4ouuo)t oJoHHeHuouee 'eu^)ruuuos roscodu s ccroru¤edueH ef h tf l4oree 'euuu{gouloadnr
+eur$euor,l eH ernhoodhr e iluoxchodu eI n tf BlrHesoeedgo ccohodu 'y{1 rsrondo.t-1 qmnu wole l4du
+tqHsnDte nrcehrlouor,tg 'trarodnrEo4ndr - eHt,teodt,lrUofhU r eHr4eodnrVoloHolr en '(lrarodrartso4edrer)
+Hncxodr{r Bcroleedgo eHheodhruo{r4v uAreuolrr x^sts eh sorHowdeS xtslsuerrucnxo marH6hus uoll
+'BxhecHouHox BeHquart4u
+-cxlo u etso[ Bhhexn$ Hpldo rnvoxcnodu aaueu'ernhoedl4r 4oHedglrlelr c eHeeBac tsedoro)l '|ceeu]4cro
+-deu ersended oloHanrye otqtnolrrou c gcragusrcolnlco uere 4odorg 'Uo4 4wdruAeuorr s etshUo[
+ohHeuch)to rhtsoxcr4odu euere wodore eH B[hedrHehHo)l n reaxee xh rt4Voxcxodu sornhosdur oHed
+-gu{en {oHqueeeg I F¤eOIV-+)-+ep n erdoucuedr oroHataDre Ftrorct4c v{osrovedgou oul 'Xln )l olqsodx
+ccrot^dr4rdoucHedr cvodoho otosc s |cuuvol4 'sour4tsof elrdoQ s exmx)l 4o)Hor s ccroes|ccecs ovl
+.Ixedr [FHhamD-oHhou^uax I fatnhu c roEulrcou srcetnos xt4)tcsht4HeldoeH h x]l)lcehnHeldo evhs s Uo{
+auere yrosdeu eH uof BcroBusc eoHowdoi xFHtshoedur u{orHeHoumo)t nnsdifuvr(drc n|q}rlhvoxgooH
+'deDtedex {FHriterc}rct4uou rccoH Br4HeHeweh oh)rcehrrouoreu y1ft nrhui($ xunlem
+-[des radu e ,ey{¤rHeldo nerclc BuHehoturgu esg xocs BhHesoduHoxh)tH^Q BUV wl,ruoxgoeH soHontdol xlqH
+-Uuoedur qneeodi{ 4ntsuelldog 'eeoruoue r ur,rhedesnuodu Fccahodu eroler e'qrsoHal4rve ollxcoht4uog
+-erelr xr4 clduu/fued ')torour earcHumqljog 8 eHav{go oroHsoHco euHexdetluou roesxhaucego nHO'|cHeed
+-gooloH4 EoHonrdol x|cHVhoednr rsoreQQg 'rceEHnuofsu g-y] euewdeQ v{e14src{etseos Uou 'eh(Doutll tl
+r4)thou .qHohou )te)t 'xeHeloo xrler a 'nrde$ndau eH HnHodt4rtso4nd-t s eHnclodvtr c[Hesoeedgoodu nerfu
+ucraeersregedne (.un 77-g 1, ouo)to a I) %Og e'XIn {onec s ccrofd[EelHuc (lrw 91 ouo)lo'o l-) eslceh
+-t4uor ole o1og7 ofl t>tw Oe oU 0Z ro recusetcoc etnrodntUolhdl hlr^c e oov{aIdlh^Vodu oercehnuoy
+.[raxrerx-y) rslultodur rqHaheHrogo rrhrevlradr,c 1gg1 x 'ad'erdvrarroQ xIcHVlaaodem eaV - 9
+1g7 x'ad 'evfivtt:voQ xlsnVHaodem eaV'y4fi Iqwodrc rHarnrredQ - e
+:a¤nnJ - dldoxrgoHuhrod ou uyrudyo 'rqtarex( gonVnao.r.nln HIrdxHIrIroO 'Z'Z'cl d
+0t,
+z uaQ¤Dd
+
+
+===== PAGE 15 =====
+14
+Ilpauenenue xnaccuQaKaquu TI-RADS npu ynbmpaseyrcoeofi JrryJtbmunapawempuqecxoil o4enKe ysn06 u4amoeudnofi rcetestr
+Pasde"n 3
+finarH o crrl Ka sa6 o ne B a H vtrr tr1lrro B [rAH o fi ]r(eJr e 3 br
+Cyqecrayor cneAyot4l4e MeroAU nepBxqHoi A[arHocrhKr4 ga6oneeaH[i l!X: anayansxuft n uany-
+anbHbti ocMorp (nanunaqrn) IIX h pen4oHapHbrx ntaM$oysnoB, npe4Bap[renbHag oqeHKa roflocoBof
+Syxxqru (oqelneaercn reu6p n rpoMKocrb ronoca).
+Btoputll sranou BbtnorHtercc c6op araurecruqecKhx AaHHbrx c qenbp rcKnprleH[q SaKTopoB, no-
+sBotltlolLlt4x orHecrr naU[eHTa K rpynne pxcKa no PllX (flpnnoxeH[e 1), cpeA]4 Koropbtx: ceuefirufi arau-
+H¤ Pl{X, o6nyvenne o6nacru ronoBbr 14 uen B aHaMHe3e, HapyueHxe aKTa moraHnn, ochnnocrb nr[
+oxpl4nnocrb rofloca, oqaroBbre HoBooopagoBanrn l{X, cnyvairo o6napyxeHHbte n uera6onuqecxh aKTt4B-
+Hbre npu npoBeAeH[[ no3hrpoHHo-oMrlcd4oHHor roMorpa$[n (fl9T), nnqa Moroxe 20 ne1 rannvne
+B aHaMHeae onepaq[i no noBoAy PIIX.
+Cnegyer nph3Harb, qro, HecMorpg Ha BHeApeH[e B npaKTxKy pa3nhqHbtx MeroAoB Bh3yaflx3aqn14,
+nanbnaqxs ocraercq ocHoBHbrM MeroAoM cKpr4HhHra 3a6oneBaHui l!X. KoHevxo, MeroA MaHyanbHoi
+nanbnaqih le o6na4aer 4ocraroqnoi IHQopMarxBHocrbro, oco6eHHo npn xe6onuurrx pa3Mepax y3noB.
+Oro narnnAto rnnpcrpt4pyerct B pa6orax ptAa aBTopoB, npoBo4r4Burlrx cpaBHeHtle hHQopMarhBHocrt4
+MeroAa nanbnaqnn v y3V1 l{X. Tax, no iqaHHblM P. A. Heprrroaa x coaBr. (2013), eQQexruaHocru nanu-
+naqnh nph pa3Mepax y3ttoB MeHee 10 n,tnt re npeBbruaer 10%. OqeBxAHo, qro, r4MeF Ta1yo Hr43Kyto t4H-
+(popMar[BHocrb, Meroiq He orBeqaer xeo6xo4tniturrrir rpe6oeaHnrlr, npegbnBnreMbtM K MeroAaM nepBhg-
+Hof IharHocrr4Kr4.
+flnn yrovnexrn cocrocHr4e llx cne4yor4rarrl| sranoM naqueHry neo6xo4urvro BbtnonHhrb y3l4 tllx
+n 3oH nhM$oorroKa. MeroAxKa nerKa B hcnonHeHnn, ne rpe6yer npeABapxreflbHof noAroroBKx. Y3tz1 qn-
+ToBrlAHof xene3bt MoxHo BbrnoflHt4Tb Ha ys-cKaHepax np6oro rnacca, Ho npeAnoqr[Terunu npn6opur
+oKcneprHoro Knacca, no3Bor9rotqhe nofly'rxrb BbrcoKoKaqecrBeHHoe n3o6paxeHre. Oqetra 30H perhoHap-
+Horo flhM(poQrroKa nocne 3aBepueH[e y314 IIX eBneercn o6searenuxofi npoqegypof Bo Bc¤x cnyqaex,
+Aaxe nph a6conprro ropruansuoi ys-KaprhHe lLlx.
+Bce gutsenexHute oqaroBbre h3MeHeHhr a rrarn l{X cne4yer oqeHhBarb no KnaccrshKaqrara Tl-RADS
+4nn o16opa o6pa3oBaHnfi, rpe6yrcr4r,rx BbrnonHeHhe TAflE. flyxxqr,roHHyrc 6taonc]4o llX ruoryr aunonrnru
+Bpa'Ju xl4pyprh, gHAoKpl4Honorx, Bpa'rh ynbrpa3ByKoBof A[arHocrr4Kr,r, BraAepu{]4e gannofi ueroAnrofi.
+f1o4po6uo Mero4t4Ka npoBe4eH[e TAflE U{X npqpcraBneHa B pasAene 7 AaHHoro noco6un.
+[1pr o6rapyxenn[ y naqreHra oqaroBoro roaoo6pasoaarne B napeHxxMe l{X Heo6xo4r4Mo Bbtnon-
+Hr,trb onpeAeneHne ypoBHe rhpeorponHoro ropMoHa (TTl-) u ranuqrroHhHa B rpoeu. cne4yer noMHhrb,
+t{To oqeHKa 6asansHoro ypoBHq KanbqxroHhHa nBngercr 6onee oOQeKrnBHblM TecroM B.q[arHocrrKe
+Me4ynnepHoro paxa llX t4 npeBocxo4l4r no nrQopraarnaHocrr4 TAflE.
+3,1. YnsrpaeeyKoBar AnarHocrrra ga6oneeaxri qnroengxoi xeneesr
+bnaroAapt HexHBaSIBHoMy )llpaKTepy MeroAa x Aocraro'1Ho BbrcoKoi 14HQopMar]4BHoc 4, ynbrpa3By-
+KoBoe [ccaeAoBaH[e tBrqerct nepBbrM 14 ocHoBHbrM MeroAoM r4HcrpyMeHTanbHoi ,qnarnocrnru. ,Qonon-
+H[TerbHblMt4 apryMeHTaM]r, o6tncunoqrur nonynflpHocrb uero4a Y314, tB'|9orcq 6esonactocru, Aoc-
+TynHocrb 14 orHoclreflbHo Hr43Kat cror4Mocru. C norlrenra BbrnonHeHtar nepBoro ynbrpa3ByKoBoro hccne-
+AoBaHxq ne 6utno ony6nnroealo H14 oAHoro ua6nn4enrn o xarou-nn6o BpeAHoM BogAefcrBx[ MeroAa
+Ha opraH[sM naq[eHTa. B tacronr{ee BpeMg coBpeMeHHbte ynbrpa3ByKoeue npr6opur no3BonFtor.qt.lo-
+Sepexqrpoearu Krcro3Hbre o6paaoeanrn l{x pa3MepoM or 1 uu r,r contaAHbre o6pasoaannn or 2 MM.
+l4TaK, paccMorp14M n peh MyqecrB" yn"rp"a"y*o"oro MeroAa A14arHocrt4 Kr,t :
+1) npocrora BbtnorHeHtaq xccre4oBaHhq, gKoHoMt4'{Hocrb, Ht43K]4e BpeMeHHbte 3arparbt;
+2) lennaaeratui xapaKTep MeroAa x orcyrcrB[e 6onesHeHnocrta tanr4 HenpnsrHbrx ou1yr.qexrfi, censax-
+Hbrx c ero npoBeAeHneM;
+3) orcyrcrene xeo6xo4ruocrn B noAroroB(e naq[eHTa K hccne4oBaHho;
+
+
+===== PAGE 16 =====
+:(e|csoteho ,atcHe^SShU) fuHaHeller deuedex _
+:qrea|cEE)f onuvoxgoeH y1fi tsnrxnedeu ed{rvfdrc I l4r4HoHoneh rnraueurse nd;-1
+'r4r4gHe)tl n unesetdo [y,lnlno{ex^d)o c y1fi ertemorroollneoa -
+:(crcoHhudrownl4c'qrcoHanoHerHr,r) y1fi rsrarr,rxnedeu enuexgelcoaod>r -
+:(oue[SQUV uur oHque)tou :6eHVodoHUoaH ,6eHUodoHfo) ed^DId]coxe -
+:(¤euex xtgHHotuc t4rcoHHeloxe emtcE - BeHHemtcaou :hm|cW xxlno{ex^d
+-)fo l4rcoHHeJoxe e},/.AH vuw sewnselcouoc - BeHHex[Hou :hm|c$t xrlno{exldlo qrcosge.loxe Bplnotemtcg
+-eou nuu eeuex x|cHHoluc rHexr rlcoHHeloxe EeHhrloueHe - ceHcuewdoH) tqulrxHedeu qtcoHHoloxe -
+:( dU 'Breeuu
+-oul4l '-e 'enHeodrc ¤orehcuoU :Bt4Lt4s¤ed f{uev{oHe ohhnueH 'l4uorHel endoS e - BeHhFao) enrdo$ -
+i(etsrcr,rersdedu 'euxroheH 'enxroh :erqHaodet 'ersueod) ndfusol '|qhIHedl -
+:Xfn y{ecao 'ndaneed -
+:(BnuoDte '6t uoLcuY ,eoHhl4unr) ehHoxouou -
+:rqdreyledeu onlno{IUouc qteshHoho owuuoxgo¤H Xln ilt hdU
+'(y!ten[h) sowtlxed xrcHHeeodr4Uo)toJ.esh nonHeHewhou c
+oHcuoreeBgo 14 orlnxed-g I cllafo8odu oulnEoxgooH l4t^ .(hly\ O,ZL-T'L ¤Ineh) hlnl g! oU g to 4o-r
+-olceh c nxl4hreu elcHfeHhu ro^equouch y1fi rnresoueucal4 hdu oHHor4hl4uedl 'nornuea heuu Uou wtqH
+-Hoxouuou 'fo8ouol 4or^tr,r>roduee c 'aHl4uc eH exeu erHo[heu hnHoxouou e gcrrvoeodu Xm iltA
+tq aauox 4 oHu],|aorxtn Blr H eaououcc Ir oJosox^a rEdrc ur{ cr.touoHxol .t. e
+'anHeuo{u9eH eo)tcehuy{eHnE -
+: gA oroHHo[hedeuoedrHr erHeuosodu -
+:tqulu y{e[Hexououced ee
+cuodrHo)l h|sHque^ehe u nuhlslu ercew edogne etaHeuerceinfco 'g 1vt t4xHeHuoutqs hdu euHoE/eseH -
+:aou¤^ xulcoht4re$wuu xtsudeuohjed suHsotcoc e)tHono -
+:(gUVl_ )t r4[Heeexou et4Heuouoduo) SCVU-II euexm ou aouel x|cHHeuab|cs e)tHeno _
+:}Kln tcdfir)t^d.tc e)tHeho -
+:Xfn xhheucueu gorerqu^eed enternorf -
+:XIn ey{eqgo ersesr,or{ -
+tgeeuax {oHuxaorrtfl ExHEsoueuccx oJoaox^seedrs uI llrretseg .7. g
+ereHy{eHe I fnxd 
+^Uosou 
+ou t4nhedeuo et4ht4ueH _
+:feU xdu etsHHouaBtss or4enluc 't4vcoht4uogetev'r arqHsnr)e'y1fi rnneeoeedgooaoH etgsolpho -
+:aA JeqJAV |c y{oru y{ r4c -
+: )ttBac [osocouol r,uuedeu -
+l 
+:geeHy,leHe I nem h tqaouol elluer,[ugo _
+:eeHWBHe h|cHfewec XInd ou ftcHHoinolBro _
+:soue^ xr4rcehhreQnru xrsr4em eliHehl4uoef -
+:aom eH onHEaoeedgo eoweldrausueu rul4 ooy{eBuagFg oHquer(eue -
+:14eA otnHevesodu ) BhHeee)tou ahlnot^feuc ro{Buaftcg
+' eA v{euodrHo) vou {l4hBu^uhHew xtcHgeheu 14 xel. 'xr4vcehrrcoHrel4u rer BuHoHUou|ca srcorxoweoe (2
+:)loE68c xlqsoSouoJ I e]o-t-tooQwt4u ototdegoured Hot t4xHoho srcotxoweoe (g
+:qrcoHgocouc celno{emedeed relocrse (g
+:f xHesotsoucct4 xtcHredroloHW BnHevesodu
+'fet4louo]eu falno{^8rcl^uoc fouoxBr. c x|cHquog 'fedarelr x In!'y{dor n xntHewedeg 'fereu I evorehl
+chHeHewrdu qrcoHxowaos 'elHol4heu 6uV au|l'5u(tl[Hev{ qrcoHceuoeeg u crcoHvedeeeg uelrouocae (7
+9t,
+t t,'aQt rld
+
+
+===== PAGE 17 =====
+flpumeneuue xnaccuQuKstlrtu TI-RADS npu ynbmpoteyxoeoil M)t-rlbnrunopatv¤tttpttyecKoit oqeHKe y?.ros ulumosu|Hou ;rrce.ire3bt
+Prc. 3.1. tlpore4eune mtro!,terprr[ rq[ToB[AHofi xene36r:
+a-onpeAdneHreulprrHr,rnronrqltHblAonxI{)I(BIIo[IepeqHofinrocKocrlicKaHlpoBaHtt:A-TorullHa,B-utpl4Ha;
+6 - cKaHr4poBaHre B carurrarhHofi flrocKocrt: c - Anr'rHEtlK Aon[ IIIX;
+B - r3MepeHlle neperuefiKa;
+r - cocyAncrbre opleHrrphr narep;L/rbloft rpaur-rrlbr Aonei - ocuoBuofi cocyA[cro-nepruufi nyvor ure[: BtB - BHyrpeHH.ss speM-
+Has BeHa, OcA - o6qafi coHHas aprepr4s.
+pacnonoxeHile/noKanl43aqrfl (no AoneM, cerMeHTaM);
+H an,r r.r n e oq a ro B bt x 14 3 M e H e H il il/H O eOO6 pa30 B aHtth.
+B cnyv ae Bbte BneH ilfl ova roB btx t43M eHeHnitl HoBoo6 pa3o Ba H il ri Heo6xoAt4 Mo yKa3arb :
+- 
+fl oKan vsawe (orHocrrenbHo cerMeHToB, noBepxHocretl, rancynu ll-lx);
+KonrqecrBo (1 , 2,3, MHoxecrBeHHble);
+KO Hryp br (verxocru/He,.{ errocrb) ;
+rpaH hqbr (poeHocrb/Heporyocrb);
+exoreHHocrb (r3o-, ?H-, rilnep-, rilno-);
+- sxocrpyKrypa (oAHopoAHat/HeoAHopoAHaF, sa cver vero);
+- xapaKTep[crxKx KpoBoro(a (nepn-, nnrpatogynnpHbte cocyAbl, xx pacnofloxeHxe, naronorh'{ecKni
+cocy4r4crbrf pIcyHoK).
+* Ilpuueneuue dono,nnume.nauatx Y3-nemodux (e,nacmozpa$ua, KoHmpacmycunennoe Y3U, dp') eaeucum
+om Ko.LtnleKm a4uu ythmpa3eyKoeozo npu6opa.
+flocne BbrnonHeHtaq ocMorpa U-lX npoeog[rcn Y3h sotl peruoHapHoro nnMpoorroKa.
+Paemepsr lLlX oqeH[eaeM Ha crporo nonepeqHbrx (Luraprara n ronqnxa) n crporo npogonuxsrx (pnnr-
+Hr4K) cpe3ax Aonefi IIX (pnc. 3.1).
+B roprrre pa3Mepu lJ.lX aspocnoro qenoBeKa cocraBnepr: tllhphHa Aonh IIX - 13-18 MM, ronqtaHa
+Aonx - 16-18 mr,r, AnhHa Aonefi - 45-60 MM, ronqtaHa nepeuleftxa - 2-5 tttvt.
+I
+!i
+I
+I
+I
+
+
+===== PAGE 18 =====
+'veHqvnseduas - .I lseHcreso :BeHqrr.rsedu - a'.yeHfruoso :IteHqrnaedu - g ;yeuVuaodem :seHcIrv sed[ - e
+:fraxradrc) rqrarra]r( 4onVnao.r,Hln solref endo6' r'V'Jud
+'ceHquheedueH / (BeHUhsodem 'ceHvhoso 'uersueeo) ceHquheedu :( 1'7 'cnd) endo6r o
+enrxed-g s rqeouox 1oHUraort,ttn sou¤rt e)rrcrdauedey '1'9
+'(7 eranexour,rdl) nlrrcrdeoredex xh 14 nxeHeudu eFeo)rr(eeedrqur( eFHquouro Bcropsr4Heho wore udu 'ct4.l
+-onosundor BeHHEsod14hl46hrf rcre[equoucn hnheeruefeu¤ Ioso)rlseed-tcuI xrqHHev c]4Hecuuo BUU
+'14r4louoreu IoHHeusBtqs htt4rcoH
+-lp14ts [oHcuet4hHodaS$nV orcrceh IatnorBUserooc IoHsoHco 6croBUeB e)rt4rohllec ueeor{eeedrsu6,
+Fr¤arolK lroHtrnsorum sor&(
+vvlgieJ rr rr o e rd d o Q.r.enrr rf Ex J o hr{ J o rf o H r{ hr der nE H }r vt
+, vaSEDd
+-oawrnq,ewaop 4onpnocunwe d[utxtdwc oiaeso *:::";"n::::;:t"::;:;;:::'ri"X:::f:::::;:;:
+'(nc) uuou eHr4uv - C '(rrc) huov exndnm - g '(u{c) nuou
+EHxlnuor-V:our'6Lt'OxCxgxy:eufwdoSourorBucr4hFa(uwTrwcen)XIn]4uovt4ac-go
+'r4uoE 4osaun + ruou {ospdun = xinn :ounndoQ ou Bcraesrqrhhcced yfi wee96
+L'
+, raStnd
+
+
+===== PAGE 19 =====
+Ilpuueneuue rcnaccutrtr,Ksquu TI-RADS npa ynbmpuseyrcoeoil tvlnbttilnopailempuqecKou oqeHKe y3nos u4umoeudnoil ilcenesat
+o fpaHlrqbt (puc. 4.2): qerKile/HeLlerKile, pa3Mblrble.
+PUC.4.2. fpaHnIln FJIa IIIX (crpennu): a - 
+qeTKI4e; 6 - He'{erKI4e, pa3Mblrble.
+. KoHTyp (prac. 4.3): poBHHf/HepoBHHfi, nyvncrufi, 6yrpucrufi, MxKpoAonB{arblf, Bo3Moxl{o co'{era-
+nue <rpannqu/roHTypbr> y3na: verxrfi poenuth; verrnfi nepoexuft; leqerxni HepoBHHf.
+Ptc.4.3. Koxrypu pra IIIX (+...+, crpenrt)t a -.rerrue porHbre; 6 -,rerKle HepoBHbIe; B - HeqerKlie HepoBHLIe; t - Jl}^lllc-
+TbIe, cIII,tKyroo6pa3EbIe.
+
+
+===== PAGE 20 =====
+'t'eHHAr¤trOdlIOaH'geHvIts
+-odEm - o ,V :BEHcrey[rdaa - J,s lEeH.rrErso¤ndoJ - g'E:(rrrradrJ) )|(fi Er¤i{ It}rlrErHando BBHHasrtHBdJJodU 't't 'c}ld
+'(ntoHcuouodu eH h
+)te] ,eeodc y{oHhodauou EH )te)t ucqrBueuoduo eHxuov) tseur^dxo/eHvnaodem huu BeHHouoveduooH -
+:(a¤edc v\roHhedeuou eH ccroBueveduo) nrndram emcuog eroclcs :BeHquE)lurdes -
+:(Froclcs emruog elndnm) BeHcuerHoendol -
+:(tr'y 'cud) sxHesoeEdgo sxhErHoudo BPHHasroHedrcodU .
+6t
+? raQ{nd
+
+
+===== PAGE 21 =====
+20 
+npujteHeHue Elaccu.luxaquu TI-RADS npu ln,nrpotgyrioooi ntybmunapn.Mempu.tect oi o4eHxe lttos u4umo6u0Hoti ,Kal8bl
+o exoreHHocrb rKaHil y3na orHocr4renbHo rKaHr ]!X r oKpyxapu{t4x Mbtttlq ueil (prc. 4'5):
+- cHr4xeHa 3HaqilreflbHo (exoreuuocrb Hilxe rKaHn UX n Mbltuq uer);
+- cHhXeHa yMepeHHo (Hraxe TKaHil lIX, Ho He HrXe Mblluq uer);
+- y3en h3oexoreHHulil orHocl4TenbHo oKpyxapqnx TKaHeta IIX;
+- !3efl rrnepoxoreHHutfi orHocilrenbHo oKpyxanu-ll4x rKaueta l!X'
+Pllc. 4.5. 3xoregnocTb TKaHI y3JIa (CrpeJlrr-r): a, 6 - 
+gnaqurersno IIoHlxeHa; B, I - yMepeHHo noHl{xeHa; A - IIOBbIIIIeHa;
+e - v3er I|3ogxoreHHbIi.
+
+
+===== PAGE 22 =====
+'(|qlov{O)l rCOSX) Dleserde [ogoc e¤ ealno^dr]I
+-dod ,cr4Henotu)ts orryds e|gHHojoxedeurr (|cnrdoQ [oH{eHl4u - 
+geehnuc eVBd 8) o|cHhehor cccresodt4h
+-ou rfuolrt [olnoBusercoc {oHrco)rur4x I :xne}Uodoredeu rnrcHHeuc[holoHtrl xFHHeuevro 'grcHedrcodu
+xgHeorcl4)f xt4ruotf cHeho xtsHHOArCsXOHhr gr4 rt4orCgc ercA yogg aouog - 
+(g t cnd) uettr pnwengll -
+roestcg eH u)tcohxl)ledu oeouex {oHvr4go$4ln g rcx)t xFHHt4rcr4 orh'u{or o 6Ht/'lou '(ercnr 6eHuuouuo}) Ht4v{
+-der qreeoequoucr4 oHxoy{ ErHecnuo oro cuts v{c O'! eauog eui$nuuoQ sodev{eed hnHahriues^ rd;-1 '<nrent
+-o)t rcosx) rxe6orde eutnotldxr/ido$ '(euhouuox olorcfu eeuog rsrteruedS) cnHoho{LDls glqHHoloxedeunl
+erluew nndo$ foH[oHt4u ,tut4 onHhehor ccqrcueVeduo r^ion ereecodu xt4 I v{c 0'L roemnsedu oH oH
+-h|qao xu ndenee6 'nuflr,tuuoS erqssednmced-oHeor {x - erHeHouwo} oloHVhuqc eaq h )loHerc x|cHHelTl
+-uor^ eag ,BnHesoeedgo otcHHeloxeHe XI[l I ccohtnoehedlcs orceh - (2'1 'cnd) rtutrxnuuoQodxeyy -
+: hrceHlo oHXOv{ tlt Bu Hesoeeogo vtl lc Heolclry OcICoH uou )l
+.erHaHounor oJoHVrrro5 hrallHevErgoadu J BPH¤orlrr-oHtr[roJ - J :EJHaHouNov oJolt¤or3lrl l1larHeUPugoadu J BeH
+-V[rof,-oH¤orJrl)r - s :spsYodoHvoas neHYrro] - 9 lBestrodosvo sEHtruror - E :[NuIradm) yfi1 ene,{ ed,{.tJ,(drJox¤ '9't 'ctld
+'EeHeorcr4)l -
+:(vrorHeHoumox
+v{'qseHerr m'cHhosercndu c'o{qceses 
+,:1"'#""Jff#il["i:H"i"JiHllllSl';:1"31[?xl.i"1Tii"13ll-
+:erHoHounor oroHUt4uoc wahHetseugoodu c BeHeorcuv-oHv,lugc -
+:(tseHHoroderer'ceHHolomoleH) ceHvodoHuoaH veHlAUoa -
+:(BeHHeronor) BpHvodoHUo beHvhugc -
+:(oor/tuxdetsoc) euei( (9 y cnd) edrfulldrcoxg o
+lz
+, r?Qf.Dd
+
+
+===== PAGE 23 =====
+f
+,l
+{
+;
+I
+I
+{.
+I
+r
+22 
+npuic,e,ue Kraccufruxa1ua TI-RADS npt yi1mpazslkoeoi !1r)'rbmunaphvemlrasecxoi oqetxe yzios tt4umosudtoi x!.enelu
+Plc.4.7.Ma(pooonnnKynBrfcrpe.nxr.rJ:a-D<1,0cM,(I-IcTo3Eo-pacur,rpeHHhlii0oJIJ'II,rKyn;6-D>1,0cM,(KoJIJloI{AHat
+KI4CTa)).
+Pt4c. 4,g. Iy6qarbre y3rbr [cTpenKr] c lrHoxecTBer rbrMn MeJrK[lr,[r Krrcrlo3Hhlulr trpocTpaHcTBa[rtu, pa3AeJIeHHI'Iltt[ lrrHoToq[c-
+JIeHHbIIII{ 3xoreHHh|l,t[ trepelopoAKaMll.
+Pt4o. 4.9. Klrcrosuhlfi (Konno[AHbrfi) Fer IIIX [+.. +, crperKx).
+- Konnoudsait/xucmo3Hbtt ysen (pnc.4.9): axsxorerxae crpyKrypa, nMeer roHKhe neperopoAKt4, Her
+c6nuAHOrO KoMnOHeHTa, B erg npocBere MoXeT 6blTb ToqeqHge (a pn4e Cnyvaee - nhHeiHof QOpMbl)
+r[nepoxoreHHoe cpKoe BKnoqeH]4e, sopMxpyroqee 3a co6or apTeQafi (xBocT KoMeTbl).
+
+
+===== PAGE 24 =====
+J.a{srJrIJJo - r lreHdaHoH
+-sEdas BesHadnmJEd - s tsErf,tstsdad[ n$rHoJ - 9 :nEHsrsdaduaH EExtroJ - E i(txrodJJ] PlIxHEdJ ItEHsntoodY[J '01't 'c]'ld
+..}
+:fo; V'cnd) rrhedrqurSHr noHoe nttn
+-orexfdvo'eHot BeHHoJoxeourl'(<ouex>
+'reAercr/tcro -
+!oudenoneedeFt 4nuHednmced -
+l4nrcretqdedu f il)Hor -
+l4nHendedueu f il>tHor -
+rneUAcoc ilnlsHdsuAUoHltdeu seHHeeodilndo$c 'Xfn uee[ seln
+'eue{ ehrHedl ueusun$odUrl) xoUogo {lqHHoJoXcoul4l o
+tz
+t uaQtod
+
+
+===== PAGE 25 =====
+24 
+Ilpatreneuue xnaccu(pur<u4au TI-RADS npu ynbmpa3elKo\oir .rq'lbmanaponte pu4ecKou o4eHxe y3tto6 ulumosudnoi :neen86l
+. Karf bqx+xKaune (Pt^c. 4 11)i
+- MhKpoKanbquHaTu < 1,0 MM (Menbqafture runepsxoreHHble BKnpqeHnt c aKycTxqecKhMlr TeHFMl4 Unh
+6eS aryCrrVeCXuX TeHef gBnqK)TCq Mt4KpOKanbLll4 Halauy|, Ann nCaMMOMHblMl4 TenbqaMt4' qTO nO .qaHHblM
+Y314 gIQSepeHqIpoBarb He npe,qcraBneercn Bo3MoxHblM);
+_ MaKpoKaIbLl]4HaTb| > 1,0 MM (uolonuruufi rnnepsxoreHHb|i curHan, sopM14py|ouur aKycTl,tqecKyF TeHb);
+- KanbqxHupoBaHHble yqacrKt4 rxann l{x;
+- y3nbt c noIHocTbo KanbqnHnpoBaHHor Kancynor no Trny (ctlt{Hor cKoptlynbl) c HeHapyueHHblM/pa-
+30pBaHHbrM xoHTypoM.
+pttc. 4.11. KarhqnHaTbr (cTperKrr) B IIIXI a - eArinl|tlHr:Ie MltKpoKanbqtsaTbl B ysae IIX; 6 - l4ioxecTBeHHbIe MIrXpOKanbIIll-
+nartr a ye,re IIIX; a - MaKpoKaLlbqrHar B J|3ae IIX; r - xaalqlstpoBaHEbli J/rracror rxantr I{X; A - yseJl c KaIbIlIlHItpoBaH-
+nOi xaUCy.noi nO rlny<rrqsot cKopJtynbI> C HeriapylleHHblM KoHAypOM; e - 
+y3eJI C KaIbI{nHlpoBaHgoi ranCyaofi C napyruengnu/
+pa3opBaHHbIM KOHTypoM.
+
+
+===== PAGE 26 =====
+'I^IO If ¤d hIIq HVI,I TOJ ET
+-vl)t\xe - J lI4hleJEHHlqreY
+ar4HarIVJdoVsaCrr - a lwored lttqu.lloyVux ee eusarucdoVgalu
+es qHeJ ItevJahLIJJdve - 
+g l<<Iqlawov JJosx> - g'e:(nxrad'r,c) - V lrdored rntlcHrolru e¤ qHeJ ltevf,ah
+rcrxaooe anv)ahl,IrrfYv'Zl'V'aud
+'(w|cHvnugc ee - eeeh^uc aEBd s h oH 'hmBt4Hoholu)la
+14r,ucHrco)tvrx o oyquor es) wot4Hesoeedgo ee eueHrrc oJoeo)t^eeedrqu^ ehHauhcloUeecu goHcuecdoU -
+:(qHer Betcehl4r
+-cAe) yteranesoeedgo mtcHrouu t4ur4 woreHt4h3ue)r eg eue nc olosoxlseedrcul ot4Heugeuco eoHcueJdov-
+:oDoq.go rrtouEu{ llore s enr(u oioeo)u(eeedrcul (shHaxedro oloHred}ol
+-onvr) rarahedegdaeed arerqui(eed s {t4lnote]14Heos 'euxouuo) oloHHelnfuc vlolrcer'I nt4)|uom r'llqHHeJoxedou
+-ru ee eurbnuuoS olossednmced-oHeorcr,r) rlrcouou e uc4ntnor(drandoo ueQerde - 
+(lqreno)l rcosx)) -
+:(7y'tr 'cud) rsueSSe erlcannrcAly o
+2 L'aQt.Dd
+9Z
+
+
+===== PAGE 27 =====
+26
+Ifpuueuenue xtaccu(tuKaqurt TI-RADS npu ynbmpa'teyxoeoil -Nr),ltbntr,nspaMempuqecxoti oqeuxe yTxos uqumoe uiuttri 'nt'enetu
+Pr.rc. 4.13. Cocy4ucrErfi plcyHox (crpenKr-r) ysnoB IIIX: a - nepnuogyrapuue (norpaurvnue) cocy4rr ort6alor y3er ro ero rpa-
+uaqe; 6 - unrpanogylapuui nepr.rrlepaqecKrfi Tr,rII KpoBorora a ysre II]X; n - nHTpaHoAyn.f,pHbri l{eHrpanbEbri TI|II KpoBoro-
+Ka B y3ne IIIX; r - [nrpano4yrapnufi cr'.reruaHHbIi TIII KpoBoroKa B y3re IqX.
+4.2. Xaparrepncrl4ra y3noB qnroBr44Hofi xere3br B pexrMe qAK/eEK
+Oco6essocrn uao6paxernn, nonyqeHHoro B ornx pexr4Max, 3aBrcnr or HacrpoeK ynbrpa3ByKoBoro
+o6opy4oaanun, Knacca annaparypbr - oro Heo6xoAr4Mo yr'fl4TbrBarb npu oqeHKe cocyAr4croro pxcyHKa y3na.
+I fleprno4ynnpturi xpoeoror, nephHoAynFpHbre, hnn norpaHhqHbre, cocyAbr, pacnonoxeHHbre no rpa-
+Hhqe y3na (pr4c. 4.13a).
+. 14HrpaHoAynrprulfi xpoaorox: ser/ecru: nepnQepn,{ecKui, qeHrpanbHbri, cMeuaHHbrfi (puc. 4.136-r).
+r flaronornqecxrfi pocyargrurfi phcyHoK y3na (puc.4.14a,6) ruoxer QoprunpoBarbct npu no6otu rune
+KpoBoToKa, qaqe nph cMeuaHHoM nnh qeHTpanbHoM, xapaKTepn3yeTcr Hanhqt4eM xaoThqHo pacnonoxeH-
+Hbrx r43MeHeHHbrx cocy4oB (naeurux, BerBlrcrbrx, HepaBHoMepHo pacuhpeHHbtx, o6py6nexHutx), e r v.
+paAhanbHo BxoArrlr4x B y3en.
+Bacxynspragaqhc ysna tlX Moxer ychnhBarbce no Mepe ero pocra. flnn go6poravecraerrstx o6pa-
+3oBaHxi lJ-lX 6onee xapaKTepeH nepn$epnvecxrafi Tt4n KpoBoroKa, pexe Bcrpeqaerca qeHTpanbHbrf
+h cMeuaHHbtf Tr4nu KpoBoroKa n He xapaKTepHo (popMr4poBaHne naronornqecKoro cocyAr4croro pncyHKa.
+, B EBponeicKr4x peKoMeHAaqncx no crparn$rxaqaa pucta 3floKaqecrBeHHocrt4 ygnoB lLlx y Bpoc-
+nsrx o6o6qen6 cnopHoe orHoueHne K ncnonb3oBaHxo AonnnepoBcKr4x KpxrepheB B AuQSepeHqxanbHoi
+AnarHocrnKe y3noB IIX: qyBcrBurenbHocrb MeroAr4Kr4 saBvicar or ynbrpa3ByKoBoro o6opyAoBaHua n Ha-
+crpoeK, [Meer Hx3Kr4i ypoBeHb AoKa3arerbHocru. npeAnoxeHo [cnoflb3oBarb LlAK Anc 4rQSepenqna-
+qun c6nn4roro u Kr4cro3Horo KoMnoHeHTa, a rao(e onpe4eneHhn rpaHl,tll t43ogxoreHHbtx y3noB.
+It
+!t
+$
+II
+T
+T
+T
+Iu
+:tt-
+r
+
+
+===== PAGE 28 =====
+-eah nn|cHHaueueduo nuu eueym 4odac e ucreexedgoto oHed)re eH 4eHe)r crcoHhl4lceue eeuueHE wElorl4
+oU qHetr eH norl4hteu Bt,lHouseU eucou 14 Bhrexc ots enuxed-g g xnssenIuou 'mv{edloxe xIaU BhHex
+-oueH h nxrogedgo'eet4ueHe llorerqur{eed BcroBuab ev{nedlorceue eH e!4Haxedgoe enHohoucego eoH
+-nlledtodu eoHquBuheuc gcte^ecuouct4 olah 6uV'tqv{vledrorceue evra a Bcreexedgoen aurexc org
+'uHeuerc femcHew s - (ersurouu) erlrcax 'uHeuerc [emcugg I
+scror(dnwdo$eu IHe)r (er,rxtrrru) orcHhr4rceue aguog t4uHexEdgoeu woweehi(uou a 'hrcoHhl4fceue
+xu hHauorg ro l4roowr4cnaee I '{oHeyr tsr4HeahuaeVc ererqu{eed I ht,thewdo$eY rHauo-tc [oHht,tueed 6c
+-roevuou rHe)tr r4rcoHht4rceue Ioso)tEHl4UoeH ee-e HUoa x|qaolnauc wore ndu gcxnfnol6uaBou eeaueHe
+ererqu^eed s ex t4ur4 i$re{d.res pH rosro e rcdifu)ri(drc rnhewdo+av h o{nHelnav'lc ou BcraPsuHeho nHe)r
+qrcoHhl4rceue nwnr'uueedeg o{^rcehee tto ewnxed-g a tauHesodhHelc tloHrdefHerc rdu rv'leda ex or I
+.[Heyr ehtnotex^dyo nur erqssegrcahe)rodgou ner' fdlufdrc qAtrcex eeuog rolot ll4 'ouhsedu )le)l '4xH
+-eeoeedgo xntlestcoheloue oarcHnmquog orh'v{er. eHeusouclgo t4nSedlotceue crcoHsurev'ldoQHL4
+'( qrcoHht4tceue'qrco)lrcex)
+werurcradeuedex wn:AduI ntqaolnsuc xr4 ou feHe)r xr4)uBm IorcoHuodosuoes ouheehue^gl48 qlhm
+-r,Iu^ reruoeeou cnsediorceue 'y{oeedgo ,rnxeI 'feHexr earcfoac eh)rcohuHexen qtnhr{eh qrcoHxov{eoe
+toeu Voraw e r 'emqHew Bcroey{nxc hHe)rr e[)rcox )ret rwede or I 'ol4rexc eomquoq feeslqe|qs ouHeu
+-6eU eoHHoxour4du xgtErr xu>r.rgr,rr g '14hhewdoQaU fo.rr(duI r,rdu o{urexc/ort4HoxBrced ccqrBUauroduoc {eH
+-e)tr xl4)16nr esrc{osc 4ralnorfendeuedex '(erea y1y e>l,leraQ olo)tcfxulHe tuenr ou) elHO{ cu^Uow Bcro
+-uuau nrgedlorceue [osoHco foxcehner4o r4Henade wosqueed e (urcorr'urceue) ntco;rcex xl4 l,lot4HEa
+-od!4rdex y,Icsoresh wnHsanedgotuo 9 feHe)r xr4)uBv'r uhheenuE^ens BhlouoHxor - Br(pedlorceue
+'eHorcotqx er
+hy{ bueresouougcn-|/|Wenede e)tes oloumodu 1l x-OO s Hexouvadu utsg <ru$edlOrceue) Hhtldef
+'|ceeuex 4oHvr4sorl4ln 4xHEsouoget x|cH
+-eorey{nxHedeu h xlceouel nxhrcoHreIU foHsuenhredeQSuU buU'IrcoHrceh I 'erHoHotrt4du ee !llqHXov'l
+-eos reeueg oth 'uHerr r{difu>ri(drc eelnorr{eradauedex 'euHexedgoeu oostcedtsov rcrar{eedgo uu$edlor
+-ceue ndu orh .reeheHeo ore'Uehfu xneoy^eeedrqu^ cnHexedro raaueUeduo bedoro) 'edIDlldrc celcaF
+-t4uoxcodler! rei(drarardoQ i(nrarde>r 4g4 noHhrcgo t4du xe)r etsror'(h)trac lorcnU^coc h eercHedrcodu oloH
+-hotorflxelr 'tcHedgwer! 'loreu>l) eclndren '{eHexr srgf osc xnsdifuv{drc ro rl4cnsee crcoHhl4r3eue
+' 4eHe)ll arc4o8c xl4)lcah
+-nen$ hxHeho [oHHosrcehnuo] t4 {oHHoarcoher wovorov'r '4enSed:orceue - {e[JouoHxer f¤crodr ccPU
+-hreJogo '(forcorfux Br4Hoxr4sv nrHoho eforay{) rar,i$edrodeuuuou t4 (4eHe)r u eoHeido suHah^en oloH
+-quer{ene) rar,r$edloxe eh belntsorcoc 'e)rnrcoHrE14U ceeovlgeedrqu^ cnrneeed ouere woHHot4odEoc eH
+HusedJorceue oy\n4xod s tqrouox r4oHUueorrtn eouefi evnrcndeuede;1 't'V
+.IqVlloJ <orqHHargldgo)r ,arqsHadumJEd oHdar^roHsEdaH 'aIqEflraerEdrluJ 'olqHEatIer{su 'aIqHHexor
+-oII]Ed oshuJopx:yVI r{Ilxad - g tqvlJoJ atqr:rrsras 'alqruaEr,r 'arqHHagohr¤L 'alssHaxorouJed oHhu.Loex:(enlxad_g a ulQed.r
+-ourue 4onmed.luol srhErlr'.rx) ^ 
+oU-q Nuxed - e :XIn sor¤d (I4tradJl) voH,{tl|d -[rsDuVdJoJ 4ltxtahuJororEu 'tl't '3]ld
+f r;?QrDd
+LZ
+
+
+===== PAGE 29 =====
+28 
+pniurcHrE ktaccaQrr.a4uu TI-RADS npa !.i'bn'paeJ)Ko6ou )t Jtb,nunupaien'puqe.Koo o4enKe lino6 qunoruolou rrcenubr
+enacrorpaSrn
+Kovr n pecciloH Hafl onacrorpa$nn
+enacrorpa$rn cABilroaorZ Bon Hbl
+o MexaHnqecKan KoMnpecche
+o l-laeroaoe KaprhpoBaHre onacrnqHocn4
+o OrHoctrrefl bHafl olleHKa onacrhqHocrr
+Tpa xereHrHafl snacror papvtn
+r MexaHnqecrhi cnoco6 nonyqeHhfl cABhroBbrx BonH
+o OrpaHueeHHae o6nacru nphMeHeHhe
+.[ayxvepHar onacrorpa$rn (2D-SWE)
+o SnexrpoHsurri cnoco6 nonyqeHufl cABhroBbrx BonH
+r l-{eeroeoe KaprhpoBaHhe snacrueHocn4
+o OrHocrrenbHae oqeHKa onacrllr{Hocrn no LlBery
+o Kon uqecteeHH ur ri aHanvg ofl acrhq Hocrh : r43MepeH he
+Ha $rarcupyenaori rny6raHe cKopocl4 cgenroeofr BoflHbl
+nnn nonyqeHHe qnQpoeurx 3HaL{eHui ynpyrocrn rranefi
+r O4HoapeMeHHas pa6ora c HecKoflbKHMrl
+KoHTponbHbrM14 obreuau n
+To.'re.{xae onacrorpa$nn (pSWE, ARFI)
+o SnercrpoHHurfr cnoco6 nonyqeHile cABnroBbrx BoflH
+o Pa6ora e B-pexrnne (cepourxanbHoe nso6paxeuue)
+o OrcyrcrBhe r-lBeroBoro KaprhpoBaHr4ff
+o OrHocnrenbHag oqeHKa oflacrhqHocrr B B-pexuue
+o KonrqecraeFrHuri aHanvg oflacrhqHocrh: l43MepeHne
+rny6nHur 14 cKopocrh cABr4roBofi eonFrur
+Pnc. 4.'15. Mero4u yJrbrpa3Byrcosoft oJracrorpaQnn.
+rarau (qaeroeuru Kapr[poBaHneM). flyreM oqeHKu nnorHocrr4 TKaHh xaK UHA[Karopa 3noKaqecrBeHHoc 4
+enacrorpaQun B coqeraHt,th c rpaAnql,toHHbrM MeroAoM Y3lz1 n rrcronorhqecKrM hccreAoBaH]4eM crara
+AonoflHnrerbHbrM 14HcrpyMeHToM 4nr 4uS$eperqhpoBaHhc y3noB qhroBxAHofi xenesu.
+Merogu ynsrpaaeyroeoi oflacrorpaQur4 MoxHo pa3Aennrb Ha ABe pa3nuqHbre Kareropnh: cmamu-
+.recrue, unu Ha ocnoee de$opna4uu, u duuauuqecKue, unu Ha ocHoae ucnonbsoeanug cdeueoeux
+eonn (puc. 4.15).
+9ru uero4ur ornuqaer Apyr or Apyra xapaKTep BHeuHero MexaHrqecKoro Bo3AefcrBr4F Ha rKaHh opra-
+unaua. SnacrorpaSrn ra ocHoae Ae$opMaquta, KoropaF 6onee hgaecrHa no,q Ha3BaHueM (KoMnpecch-
+oHHaq>, 14cnonb3yer Bo3AefcrBt4t, Bbt3btBaou{he cxarre rKaHeri nyreM HaxaruF ynbrpa3ByKoBHM Aarqu-
+KoM hrr4 c noMor4bro gpyrori ruexanrvecxoi crnu (nepegarovxan nynbcaqhs cep4qa xnh KpynHbrx apre-
+pnfi, Ap.). B enacrorpaQur, ucnonusyouleri cAB[roBbre BonHbr, AuarHocrr4qecKaq cucreMa aoa6p6gaer
+cABnroBbre BonHbr BHyrph r(aHef. B o6ovrx uerogax peaKq[r rKaHef Ha pa3Apax[Tenn hcnonb3yercn AnF
+oqeHK[ hx ynpyrxx cBofcrB. b
+Bce uerogur Ha ocHoBe cABrroBbtx BorH no3Bon9toT t43Mepnrb KonhqecrBeHHbti ypoBeHb xecrKocrt4
+(snacrrvuocrn) TKaHef I o6uegnrlnrcrcn noA o6qrru Ha3BaHheM onacroMerp]4n, nooroMy oror repMtaH -
+ct4HoHt4M TepMnHa (gnacrorpaQtan cABuroBoi BoJrHbr).
+4.3.1. KounpecclroHHae 3nacrorpa$tat
+B ocHoBe rounpeccnornoi enacrorpaQnr (KeF) nexnr Bh3yanbHan, KaqecrBeHHac oqeHKa xecrKoc-
+rn rxaneti nph Ao3r4poBaHHofi KoMnpeccur4. Eonee xecrrne rxaHh oKpauuBaprcn npn oroM, Ka( npaBt4ro,
+B xonoAHbre crHt,te roHa, 6onee nlnrxre - 
+B Tenrbte KpacHHe roHa, npoMexyroqHue - 
+B xenro-3eneHbte
+rona (qeeroear uKara 3aBncrr or npota3Bo4urene annaparypbr 14 Moxer 6urru r,rguenena epyvxyro).
+Boguroxsa Bh3yanbHaq oLleHKa no qBeroBoi uxane Tsukuba Elasticity Score, npegnoxeurofi nepao-
+HaqanbHo AnF [ccneAoBaHhF xecrKocrt4 onyxonef Mono.tHoi xere3bt FnoHcKt4M t4ccneAoBarefleM E. Ueno
+
+
+===== PAGE 30 =====
+t ut|I
+-xmed)fo |quxr {-g 14 X-t ror^srccuar¤tun¤c t4rco)rrcex {o)ocrcs O'Q;n-gn'c!ld) Xtfl soleho nrco)rcox
+xyHoho BUV eJocs Arc[self pqnlnsf |cue)rm esoHco eH Fhrorct4c a|cHHesodxhrQt4votr cre8oecuouct4 oH
+-exouuedu (gNnf^ ) unJorloag 14 eHr4hhuo]rr e B)rifueedrquf t4hhedsueo 4ordnnecg xBrhetsHewo)red g 'er
+-eho qrcoyrcox ccreeghnnues^ 'u[Heenmedvo eunr edelrox or,rHerced¤oe oHHosrcr)srooc 'oUr '] 9002 s
+'D?oho oeoHpodoH
+-po o?oxwJa$ nyl*endu ant)ahn$odzowrDr.e :BruEso¤Edgo oJala HaltHesltmedlto nllHl,tf, wrrsarllua.l,un sJ.r.aI¤r.rdauEdEx - ' 
+un.;,
+:DwHaHou$ox ozovwfirc Nan$op7vgoadu t ozono nvorcndu
+anyJahnfiDdzoutcnve
+anyJahnfiDdeowcoue
+HyHATJO ArqHArfer r.r yer 'ar Hr4J yey 4alflo{ehorrxs '.qoddrxddrJ r.roHhr4B¤or^r BJJadt[deJvedex - t IInI
+;nutuauouwox ozoHhnwlDueox?vw wanHDpDngoadu J D?Dho tcdtwv[dw) nw)oHpodoupoau nvvHsndu
+HyHeJro arqHarer r4 yer 'ar4:Hhn ypy 4alnorehorrys 'uod{ryddJJ 4oHhr.rE¤ohr HJrad¤udarvedex - z \nL
+iDeDho tsdfw)tfdwJ
+IoHhnwzDveoxev$ n DHendu any)ahn$DdeouJure l,aarl prcsava¤ q eJeho natlHEsl,tmudro nrqHdartonged sJJad¤ridarvPdex - tr tr||I
+:(8002) IE ra errqsv.l
+ou )gfi guneaosedgo xrssorc,( IlnoEdJorterc ForrHo[rJaduHox xrsHHEV trxHalro rrv I|I'oHhr|.LtErrc ErBxm 'Llj 'r]ld
+'wowntcad wgHgvDymoiloJ o) unHaHaDd\ ou ,(daweod ou oeamnvog 'D?Dho o?oHeodoHpo o?ovwatrc nxpuendu anv)ahnoDd?ow?Dve
+:r,[rD¤hd alsHclrDloo[dau eH lqauHariedr]od JEd J nerrHpsrmedyo Hr.[rul nrqFsu:HarHt wIqHVodoHVo BtradEtdaJyedex - S uru
+io?Dho ozoHpoaoH
+-po o?oxwzalc nxDHendu anxnnnQodeowiDve ivvresoeedgo o.rarg na[Hes[medvo ntgfit nIqHslJHarHLt B]Jad¤tdart¤dex - t [uI
+lDzDho oeoHpodoHpoaH oeoxwxaJc nvDHEndu anxcannoodeowlote:noJasl HIqHara¤ s].Feal{medvo
+crtEh nextal'ndeondau oJa E 'Horash wrHri: g:J,5ug{medvo gxHEso¤edgo s,L3eh EeHqredrHah oJh 't{ar sJJaf¤tdarvPdex - ¤ trI|I
+anvJahnoDdeowtnue
+;otuuauouwox o?oHhntaJDU¤oyzuw wanHopDngoadu J DeDho ndfwxfdtuJ nwJoHpodoupoau nxoH¤ndu
+r4yHarJo erqHalfat r4 ypJ 'eHHr4J xey r4alnorehorrvs 'r1odd.r,xddrJ 4oHhr4P¤ohr HJJedsndalvedex - z uIlL
+lDeDho ndtwxtdwl
+noHhnw2oveoxz5w n:l.D*¤ndu anxrahn$Dd?owJDve ir;ea|l Urs:e.a:rae iI EJeho l^tatHegtlmedxo nlqudat{oHsed slJa{¤tdauEdsx - I ultl
+:(2002) 'tB ra oB
+-sU I ou )ItII [[HBsoeedgo xrraore,( xuoEdJoDBrr¤ XoHHo[Jtedunor xrqHHE[ I Haho f,rY urtoHhurtBlr¤ EIrExm'9!'t'cxd
+'rrHI
+z''rrl
+tr|IrIr
+I ur|I
+T NHI
+Z'','tL
+r mrl
+, taQ¤Dd
+
+
+===== PAGE 31 =====
+30
+flpu.tteneuue xtaccutpuKaquu TI-RADS npu yflbmpazeyxoeofi lwylbmunuplv¤rnpuve('KoLI otlcHKe y3:106 ulttmoruOHoti.>trc.tc.tt,r
+Pt,|c. 4.18. KoM[peccloHHar sJracrorpaous ullToDr.rAnofi xene3hr, pexl|lt AByx noaefi: B-pexuu + pexl|rd K3I:
+a - Ao6po(a.recrBeHHbre MrtKo3JIacrnqsr,re rI{aBI, rqr,troBLIAnoi xeaeou [crpeaxuJ oxparueuu o renJIhle KpacHo-xeJITo-3eJIeHbte
+ToHa -2-i'tLr y3noeoro o6pa:oeauur III}I{ no c. Asteria et al (2008);
+6 - 3roKa'recrBeHsoe uonoo6paaoaanue IIX [crpenKu) c rrHTeHcnBHr,rM crHIrM oKpaul]tBaHrreM Bcero o6pa3oBaHllg - 3racro-
+rpa(bsqecKxe [pn3naru, r{ecrKoro oAHopoAnoro ovara,4-fi rnn y3noBoro o6pa3oBaunq IU)|{ no C. Asteria et al [2008J.
+BaHr4c no I Rago et al. (2007) c vyacrerarerbHocrbo 97%, cneqrQrvrocrbto 100% n 3-h u 4-i runbt oKpa-
+uuBaHnc no C. Asteria et al. (2008) c qyBcrBurenbHo cl'rn 94,1%, cnellu$t4,{Hocrbo 81% (puc. 4.18a, 6).
+.qononrurensrurM KpxrepueM Ann oqeHKn pncKa 3noKaqecrBeHHocrt4 y3na, cornacHo peKoMeHAaqnFM
+WFUMB, paccMarpxBaerca KosQSt4qheHr AeQopMaUhr (SR - Strain Ratio), xapaKrepx3ytoqxf orHoue-
+Hne xecrKocrt4 y3na U.lX K xecrKocrr4 pacnonoxeHHori pgAoM Heh3MeHeHHof Txpeo[AHofi (nnu ustuev-
+uoi) rratn, sBneou]t4icr o6reffiraHUUr, noryKonrqecrBeHHbrM MeroAoM oqesxn. npeAnoxeHHoe noporo-
+Boe 3HaqeHue SR > 3,79 nMeer qyBcrBhrenbHocrb 97,8%, cnequ$nvtocru - 85,7%.
+f¤ BaxHo ! B np o4ecce eblnorHeHut nonyKoJtwrccmeenuoti o4enxu tteecmKocmu yarla (eatuucaenua roeQ-
+$u4ueuma deQopna4uu) neodxoduno ucnotb3oeamb pexun deyx noteii (B-petrun + petrun K3l). Tpaccupoe-
+Ka oqazoeoao o6paaoeanua e peJrcu e Auto u,nu Manual npu nomot4u uHcmpymeHmoo <Kpy?>, <sJrnunc> uJtu
+<<area> (e seeucumocmu om $up.narnpouseodumean o6opydoeauun) do.nxua ocyt4ecmalrnmbcn molbKo
+no uso6pasrceuun, norlyqeHHo.r4y e B-peflcuJre, npu amom nepsbrfi xonmpotanati o6oen (SR1) ycmaHaetueaem-
+ct Ha oqoz u eKntuuaem e ce6s mottxo mKaHb ys,na, emopofi (SR2) ycmaHaertuaaemcs Ha pacnoJroltceHHylo pn-
+don mxaxa UIK uJru Jnbrwubl.
+HeAocrarxu u oco6ennocrr KoMrIpeccrroHHoft s.nacrorpaQux
+Y xounpeccnouHof ainacrorgaQhh ecrb pFA HeAocrarKoB, cBt3aHHbrx co croxHocrbto craHAapru3a-
+t.lt4n MeroAa. FnaaHuti t4g Ht4x 3eKnoqaercg B ToM, qro HeccHo, c KaKoi To.{Hocrbo t4 B Ka(rx cnyqaFx
+B rKaHcx BbrnonHFerce, a B Kaxrx Her npnHqunhanbHoe ycnoBne Soptuynst E = O/¤ - Hanrque HenoA-
+euxHofi reepAof noBepxHocrx, Ha Koropoi npohcxo.qhr KoMnpeccue rraHei. Ee orcyrcrBhe t4flh HeAocra-
+TOqHaF rBepAOCTb npt4BOAgT K rOMy, qTO KOMnpeCCt4e Bbr3brBaeT He CAaBneHre, a cMeu{eHxe TKaHei, ,{ro
+genaer npeo6pa3oBaHhe 6eccuurcnerrurrvr. OrHoueHre E = o/¤ BbrnonHrercf, TonbKo B AocraroqHo orpa-
+HrqeHHoM, TaK Ha3btBaeMoM SracrhqecKoM, A[ana3oHe cAaBnnBaHuF, qTo co3Aaer 3HaquTenbHble TpyA-
+rocrn a asr6ope aAexearHoi, a rent 6onee craHAaprHoi KoMnpeccrn.
+k1 HaKoHeq, Kpocc-KoppennqroH Hbrf aHanh3, ncnonusyeuui Ane oqeHKr crpefHa, MareMarhqecKr
+BecbMa cnoxeH, npu sroM Ka4ufi npo[3BoAhreflb ncnonb3yer oprrnHarbHue Mero4l4Kl4 pacqera crpef-
+Ha. Bce oTo cH XaeT nxSoprr,rarreuocrb MeToAa, yBenhqnBaeT ero cy6uexrnerocTb 14 B KoHeqHoM l4rore
+orpaH14'{hBaeT npaKrn'{ecKoe npIMeHeHne.
+
+
+===== PAGE 32 =====
+, eA t4du )tIhrev BCIOeInAu{OU )lE)| 'HUOa X|qAOJuAVC cUeIeh^UeI eIHOhheU eUeI 9ICOHXdOSOU eH qInICOt IOU
+olxoyl aerngrtu_r {oHHauoveduo eH tcHUoE {osoJt4svc cuHeHedrcoduced qrcodo>tc crndev{eu xe)l oH
+'qrcoji(dur{ om|qa v{er 'cfcodo)|3 ee em|ce
+Neh ,oHquoreaogouC 'FHUos [osolnaYc urcodolc eHcueHorhdouodu ovlrdu crcoi^du^ or'(ew/lx gO'l p)
+eAO)teHt4UO t4)lCOhl4DleOU enelHeldO f eHe)ll Xt4tlBt l qICOHIOUU Orh 'CICOhI t4UC3 'elHC{ qu^Uot/'l 14 t4ICOl^d
+-u^ 4osolrsvc cufiuoy,l c!4dor4eh oHxow 'uHe)ll l4ICeUgO {OHHeuee a |qHuoa nosolusvc {oHHeuvem BnHaH
+-edrcoduced cFodoyc uudeweT 'Fvadc nlcoHrouu >r nrcojr(dui( {o8olt48uc cur(tsov'l cnHamoHro ro {olnBc
+-xsee 'ocrCodo)to 4o.ti(du oluemdeaOC c 14 'tsuuoe 4oeorleeedrcu^ olIHeHedlcOduoed u'toHdBU^)lnUHeudeu
+,xhHeusedueH I BcIeXuaU eHuoa besolIaEC |cHuos cuHeHedrcoduoed otrHeueedueH )l [OHhadeuou 't4lc
+-o)tcouu I rcuox}4odu hnrceh UnHegouol 4odorol tadu 'eHuoe ceHr'edauou ole - eHuos tsesolt4svc
+'lcHuos ro8
+-olr4suc ehHoHedrcoduced h orh'r4r9o)tcouu ex {oI s -tBvoxcnodu hnlceh BuHegeuox 4odoror udu 'eHuoe
+BeHguovodu Ore - tcvedc BnHaxedeed A g4rexJ Hoe BnHesouedeh evha s elIecrgo rhHegeuo)l eHUoS
+'earcehe)l olo)locFs oouog 14
+t4rooHhor 4o)octcs aeuog unheenuer(ene gcteeiutcoU nttct4ec !!ef'u{oxhhreu laHe]r l4t4cceduwol rei(g
+-edr eH cedoroy ,|qHuos 4o8olx8uc unsedlorceue raur '(1369) 6ur6eu1 [1tcnse13 oABM leaqs ehHeseeH
+4rmaur,fuou 
+,tsoror^t Hoxouuodu ursg unsedrorceue foHHot4ccodutlox soxrercoveH BuHeHedlc^ BUbf
+(g65d) nnroa 4osorrsYJ rut[ed'ro.r.rere reurrehoJ
+'EqS-OZ 't{qdet6o7se1e eaen ercqs-17) t<tHuos noeoe
+-nepc anQedeowceue seHdawxtrse n EMsd 'ttqdet^olsele eten ercqs ytod) tcHUos noeoenqpc 6nbed?ow
+-ceue ieHhehout:tcHUoe {o¤olxEuc 14uQedrolceue evus esv lqHedlot/'lcced ri(tsi(g oHgodvou t4149o3ou g
+.(eUr) xcue)tceuounr a foHelr xnre [rco)rcox 614Houeueduo r,r (c7n) [UHi(lec e xed
+-ren e xBHetr s HUoa x|qsoJnauc cnHexnguodu nrcodolc Bt4Houoveduo'e L 'l4t4drav'lorceue 4oHHosrceh
+-t4uo)t chHovoaodu qrcoHXoneos oIHcuerhH^ nlhrcoHrehV 40eollaeedrsu[ Ir'ede recueercotsodu (3 t4H
+-e)r hrcot^du^ eHcueHohhdouodu owEdu 3 srcodorc er.r '.3dg = 3) elHoH Bu^uon 4l4HoHsedA er olosvo
+OhHesOeqUOUCN hrrceh xtcHhodeuou {hHaxhsU nuhed.lonled nOdIcFaPdlqUI UoIen BolasHeWndu'6AH
+-eEOdr4dOHOl euCou 
+^eedc 
+cIt4HehO Xt4 lcgo1h 'OIOI BUU t4 lolex^Iee Odlc|qg lcHuos e|qsolt4strC Bl4HOx
+-t4evodu ee nroodoro e)tHoho [olno{Ifoucou n |qHuoa fosolt4svc hlcoHlnont 4omquog ecqu^uwl4 oloeo)l
+-i(eeedrqui{ ytenslCfeveos Vou xBHe)lI s t4nhEdeHol eH HesoHcO eUoIOt'I BhsICfeV uhhHl4dll 'lqHuos Bl4H
+-oHedrcoduced otnHeusedueH oHd6u^)tr4uHeudou lrore hdu Fuedc hnrceh ohHelnou'tC '(4oeolfeeedrsui(
+4OHSUOUOdU rO ehhuuro 8) 
+^Huos 
+ori(nr'edeuou ol^.tAdui( 4o9oc roBusercuedu eHUOs BeSOlt4suC
+lcHUoa 4osoJl'tsts3 Bl'loEdJOrtetre'z' e't
+.u.r I eEosotnnu ,uexedr uwchHoxneu'4nderde [ouheccufu 'drfuv[drc xtqwer(ueuccu t'iv'lgt
+-coHHegoco eucrh mor s xlqHHausouc^go '8olxe+orde x|qeo}r(eeedrcul t4 sov{^m x|qHHexedFs et4hhueH -
+:etHe!4heu 6xHaIn^Ino alcseuog ldoQwolcnu {lqHxolreoa -
+:suHeHo!\tl4ou4oIcEUgoeusdsxhcceduy'lo)|t4l4HoHuouFsrduuIcoHU^dIoFHHsUeUeduo_
+:UeA eheds erlquo ro rl4chsee
+edew 4otteercelnr{c e rerqui(eed orh )ter 'Bnrexo gttHoueedueH h Fut49 ro erercur(eed qrcotrlvlcrsee -
+:lerelr'r xutnexau oxog^ul pouog{uhewdo+au |cHt4huUes otusemqlonr( )l 'OHqUeIe¤oUauC 'h [OHhgIul c
+tsrHeusev olo)tcehhrerc cHeod^ d'hHexhHc - oureeodr$utdeu )t rt4uosudu orh 'qlco)leBs roley{[ l4lcol
+-^du^ Omt4lrou l4He)tl en)tgehllouottg AsuOroou '4OHt'tgt(uj c cCreemcHeu{i( BUOIoW qlgoHcuelnslCs^h -
+:nteyr nrhelldodeu hdu soueHlxc-oxe nuhBueddov elHomIdeH oHxot/reoa -
+:.v L 14 sohg^d ,soHeldo xuHvecoc hxHedl '[t4Hesoeedgo xlcHlso)lut4x euls s 6l4Hohol$ls e|cHhnueed Iex
+-devoc nrceugo otcr4entseuccr4 ax 
+^u{or 
+)t 'eao)reHhvooH xBl4HousedueH xnsnnueed e IHe)lr qrcoj,(du^ -
+i4ererr osrco.t[duI {oHUodoHvooH t4 olclco)lera c oHeeuac orh '}4Heul
+-ede J-d Lucreee n deuedex flcH{eHnUOH leontl4 lcul4c 4efnol^slcloveos rO hxhewdoQou qlconhcrsee -
+:xcHe)tr XnInotex^dxo h ODleqgo t4olnO{^cadOIHt4 I nhhendoSoV X|qHquOIl4coHIO ehhuUeed oHHea'tCehIuO)
+cregrHeedc oHxou{ o}eHtso 'oHrcoaenoH ecedarsn lrceugo I ruHousev ot4HeuoEodused olh 'olo] el4elc
+-Ueuce elHO{ BuIUonr otctnonrou o rHerr rrco)rlcex 
+^xHaho 
+otr{ssestcennuo)l qrnh^uou qrcoHxolreoaeH -
+: nlrercouoH ehlno^veuc Bcrolot/{tl' olol ewod)l
+{
+l,t
+, LtaQ{.od
+
+
+===== PAGE 33 =====
+32
+Ilpuneuenue xtaccufiuKsTutt TI-RADS npu yrbmpil3eyps6ui JttJ,nbmttnopailemptt.tecKou o.|eHKe J''t.itoq uiumosr,dHoti )tce-lelb.
+Prc. 4.19. Cxepra reHepaqnn cABnroBof BorHbI:
+a - QopuI4poBaHHe c4nuronoft BoJIHbI c rIoMoIIIbIo co3AaHI4s
+Tor{er{Horo AaBlreH:afl n <foma"nrHofi roqme F Ha paccroslp,uuL
+MOrrIHbrM yJIbTpa3ByKOBbIM HMTIyJIbCOM;
+6 - pasr'reuleHHe KoHTpo,[bHoro o6teua B I4HTepecyroulefi o6-
+racTvli cr4HI1'M IIBeTOM BbIAeneHa cABI,IfoBaq BoJIHa, Arq Koro-
+pofi 6y4yr I43MepeHbt rty6uua pa3MeIIIeHI'Is KoHTpoJIbHoro
+o6revra I,I3Har{eHI4e cKopocrl4 c4nlaronofi BoJrHbl Yvtf clanv3Ha-
+r{eHr,re ynpyrocrlz rxaHefi s xPa;
+B - npoBeAeHI,Ie 3JracroMerpvvi Ha SKpaHe oro6paxarorcfl ql4c-
+Jr o B br e 3 Har{ e H I,Is uy6 lr H u pa3 M e ul e H Izfl Ko HTp oJI b H o ro o 6r e u a
+[cna) rz cKopocrl4 c4nlaronofi BoJIHbI (vtlc).
+Ilpuueuauue: dononuumenbHble cdeuzoewe eonHbl Ha pucyHKax
+6 u e unttncmpupyrcm aol.IvloJtcHocmu.Ivlemoda no eny6uue uccne-
+doeauua-doBcu.
+oxuAaF, qro BHyrpb rena no6exnr eonHa. Ho raK He noryqr4Tcn. Bo-nepautx, cABnroBaF BonHa B ocHoB-
+sou no6exur no noBepxHocrt4 Tena, nocKonbKy Koxa xopouro npoBoAxr gTor rnn eonx. Bo-aroputx, cgan-
+roBbte BonHbt 3aryxaor B MgrKhx rKaHFx oqeHb 6urcrpo, ua paccrocHl4x nopFAKa HecKonbKux AnhH BorH
+(1-2 cM), h He Aocrhra|or 6onbHoro opraHa.
+BurxoA cocrorr B hcnonb3oBaHnh paiqhaqxoHHoro AaBneHnF, cogAaBaeMoro yttbrpa3ByKoM. Oso 6utno
+orKpbtro Oapa4eeu er4e e 1831 r. N3BecrHo, qro uHtexchaHui (HenuHefHbtfi) ynbrpa3ByK oKa3blBaer cy|Jlb-
+Hoe AaBneH!4e Ha cpeAy. Ecnx noMecrurb ynurpaseyroaoi x3nyqarenb noA BoAof, MoxHo BU3Barb ee pac-
+nbtneHhe, u HaA noBepxHocrbto BoAbt nonBl4Tcq o6naxo ryuata. Oxo cocronr h3 oqeHb MenKux KaneneK,
+Koropbte Qopurlpyorcf . ra3-3a gaBneHun ynbrpa3ByKa cHn3y Ha noBepxHocrb xt4AKocrt4. TaKof sQQeKT
+u3BecreH BceM - or ncnonuClercn B 6brroBbrx ycrpoficrBax AnF yBnaxHeHhs Bo34yxa B noMel4eHu[.
+Ho napaMeTpbt ynbrpa3ByKoBoro nyqKa, HanpaBneHHoro Ha noBepxHocTb Boiqbl, MoxHo t4sMeHhTb TaK, qTo
+aMecro Apo6neHu9 Ha Merbvafune KanenbKr cSoprvrrapyercn crpyittutfi Bbt6poc xnr SoHralvnr, Ha onpe-
+genennoi aucore pas6psrsruBa|oulnf B cropoHbr Kannr BoAbr. 3HaqrT, paAnaquoHHoe AaBneHxe ynbrpa-
+sayroaoi BonHbt MoxHo nogo6paru raK, qro oHo 6yAer MaKcnManbHbtM B 3a4aHHofi ro.lre Qoryca F (eu-
+cora Sotrana) r craHer hcror{Ht4KoM cAB}rroBbrx eonx (rannu eoAut), nAyqux or Hee B nepneHAuKynspHoM
+HanpaBreHh[. l4glaeHcc napaMeTpbl, ynbTpa3ByKoBylo BOnHy MoAyn[pyOr rax, vrO6st osa 6utna C$orycu-
+pOBaHa Ha nHTepegy16qei rny6nne L, rau, r4e neO6xoAhMo reHepupoBaTb cABnrOBUe Bonlu. Olu, KaK Kpyru
+Ha BoAe or 6poulettoro rautn, 6yAyr pacxoArrbcq B o6nacrr4 Soryca e cropoHbt or och ynbrpagByKoBof
+eonru (prc. 4.19a).
+3areu npn o6srqxot ynbrpa3ByKoBoM cKaHnpoBaHhh a B-pexrue orcnex[Baor npoABuxeHhe cAB]4-
+roBoi BonHbt B cropoHbt or ro.tKt4 QoKyca c noMor4bto KoHTponbHoro o6ueraa (prc.4.196), onpeAennlor
+
+
+===== PAGE 34 =====
+.l4HE)r t4ICO)tICeX neueleep)tou y{rcHHosrcehuuo)r ccIaEUsB |qHUOA BhHeHeoIc
+-Oduced urcodo)tC cuoleee)ou 't4oeedgo uhyel FHuos [OaolhsuC Bt4HoHedrcoduCed qroodorc emlqs wel
+,qHerr cene^Veucc14 ehrcox rltoh '(ggz't 'cnd) xrnerr s rqHuos [oeolt4euc ct4HeHedrcoduced nrcodolc
+gnHeheHe oloHHouct4h ot4Hoqewer vrnHxolreoa Loeueu uolpclJttueno enssrl t4cnol PnyA e)lnUoref{
+.rHerr (4olrcex eeuog) 4othurceue ooHew - hlceugo eFHv{eI'nHe)lt (4o>[cex aoHew) {oHhhlceue
+eeuog ror(arcrealooc t4lceugo elcureec un$edlorceue-13gy radl '@g7'9 'cud) anueueedc aup ewnxed-g e
+nenHer@dgoen C wopad ucweexedgouo 'eCedeuHn eHoe eelnotlauowoguooc 'OnHe,edgoen eoHquev
+-modeC eetnarldnwtUlee4 -eCedewun aHOt nacA Os BcwABdouJsou nncAhnue$rouae CCenodu uowe
+.Bnrexc uHeuerc BhHesnxeucro BUU gcrotlecuoucn tqcqur{utlr elcrBHt4du e
+'cqui(ulln noso)llseedrcu^ ccraeUedeu nHer.L saLexa wV 'Z
+'eceoarHn FHoe e)soHercf 'a!!nxad-¤ e unlexedgoen oloeoeeg ohHeh^uou '!
+:puere xFHsoHco ndr es qrnueEeed oHxoltt ccehodu (am|cs xt4lou
+-OHxer AnHect4uo Wc) ecculuy,lh oiOeo)i(eeedrcun oioHHesodhcr(voS weraerc[eueoe VOU ]4HE)|I dr(rxfidrc
+IhHAfnatrc xtcHcuaucoHlo cl4Hedawen neri(u coreeni(uou enrexedgOen ole pcedorHh |qHOe XOHHeO9
+-|qa hHe)fr hrco)frCe)|( [oHqUernSoHIO (i(nnedlorceue) enuexedgoen aoHquevmodAC eoHHeawcahev Ao9
+-Oc rofUUEerCUO du '6wbew1 anssl qcnot pnlJlA A>tt VoLetN olctnonou C O|qHHohIUoU 'BnHexedgo¤l4
+.(chdreworceue-|lUV.oI^-uo|lecu|luenoenss|]qcnoIIenu|n)hHe)|Il4lcoHhl4I
+-ceue enueHe I|qHHesrcahuuoy h (Brsedlorceue-lluv 'lln - 6ut6erl; enssrl qcnol lenytn) hHe)lI t4lcoH
+-hrrceue euueHe UtqHHosrceher :BhHesououcc14 nne)rhuorotit c!'u(eU eHeuaercvedu llUV st4louoHxef
+'67'y 'cnd) cndreworceue vuu 'tlaq
+-edlorceue cegoyi(eeedrqui( BeHHesrcoht4uo)r enHeseeH unh^uou Voren 
+^v{oreou 
+'14ue)lceuout4)l E Bcrolea
+-nrnhcedeu nuh 
+^tsH^)tec 
+s xedrew 6 BcIOleU|cs nrCo.tfdur( Bue.tege)|ou buHeheHe elqsoucl'lh e']4hHaxeo
+-goen noeolleeedlcul t toHdeWX^8U eH eNec-go o.tosquodlsor o{cfnorlou 3 BCrhtsosenodu lcHuoa 4060l
+-n8ug nrcodolc BnHedsweh BUU elcen dogrsg 'srcouancHsrHh ee qrhHomen oVeH 'IoHUos Ioso)^seedrcuA
+oloweeaeveoc '|qEOa e)lhhHelHoQ nrocne EuHeHeneh BUv xe)l 'mol I qlnHsedc oHxor{ ole u)hr
+-crdauedex xn qrndellen h HUoa xtqaott4auc cnHeh^uou cuU ahHeuseu eol,'[t4uoxgooH ttoccu^uttt4 t/'l|cs
+-olr(eeedrquf u\t|qHlnow yltcsoH qleEeoC {eH 6 exn h e)ll4hleu Io omcuets uuu ex]lug ecr(lO$ [nOe srnr
+-conrc oyeH euugi(u.r Iol^du eH Huoa xtqsorr4sEc suHeFi(uou uult eci$roQ eHoe I eHhg^ul IoHHeveg eH
+o)tquor oH '4erelr nroo.tfduf 90 olnhetldOQHI OdHHeslCehnuol qtnnluou teguoseou llUV cl4JOUoHxof
+eqndrul eJJoI uoIlEIpEU JlFnotV - IIUV et,tHes¤
+-es eunh[uou eCqu{uwr olosOxlseedlcu^ OloHHesodt4c^)loQc o.tOHsut'to BhHeUaeU oloHHouhenUed nOrH
+-esoecuouct4 9 ertuxeo-8 s Huos xlqaolnsvc ctaHeUeOC Bl4loUOHXeI uelel '(e6;'7 'cnd) xuuelceuOurl e
+eHedxe eH rotexedgoro r nrcOjfdui( uu^Vot l s lole¤lqlhhCodeu t4uu 
+^VH^]Oo 
+s XedIeW a qlcodo)lc eO
+'(nnned.r
+-ox¤ I,rJtEh 4ospd[ {asxdos s rcHofasI,Idu EnHaheH¤) rcHros XosoJt|sv] cJJodo]l rl Equgr{IlJ IsHador{¤t 'gfiHeao¤edgo adrHa[ s oJoH
+-Haxorol]Ed .Er^toc,go o.ronqrod.r.llo] Irrf i(uorlEf,unuEnb anssll qJnol IErqlIA) ITrlE J I,IJJOHhI,IJJEII¤ ¤IlrEge 4I'lHHafIIJahnro)I - 9
+:l{HexI [4oyl'aw aarog) 4olrh[r]Pr¤ aaHaI^I - III'Pr9o aIqHI4IaI .ugEyI (4o}Irax aagon) gorlhInIJPu¤ aerog J,otfar,r
+-IOSTOOJ rqnr{EdJOmErr¤-lcuv r,lJ,Jerago glcurea] :(8ur8Eul onssll qJnol tErqJlAJ llHE J I,IIJOHhIlJtEL¤ ¤I,rEge IirIHHasI]ahPv - 
+E
+:lluv n[roroHxal '02'l 'a]rd
+t uaQrnd
+tt
+
+
+===== PAGE 35 =====
+Ii
+I
+I
+34 
+llpuNeneuw Ktaccu(puxa4ut TI-RADS fipa !.nbmpa3q,no6oii rlynhhunapwtempusecxoit o4e*Ke ltnos qumouudnoi rrcetnlt
+Pt,|c., 4.21. CxeMa oopMrrpoDaHnr opoHTa cAB[roBhrx BoJrH B BrrAe KoHyca Maxr.
+fnyxuepnar s.nacrorpaQ[r cAB[roBofi BorrHbr [2D-SWE)
+Ecnr pnrunvro r4sMeHf,Tb Bo BpeMeHx uHTeHchBHocrb ynbrpa3ByKoBof BonHU, SoHTaHqhK 6yAer
+nynbcnpoBaTb, nocneAoBare.nbHo noAHhMancb TO Bb|Lle, To Hhxe n pa36pbt3rhBaF BoAy Ha pa3Hofi Bbt-
+core. flpt4 oflacrorpaQhI cABl4roBof BonHbr Ha pa3Hof rny6hHe c onpeAeneHHof BpeMeHHoli 3aAepxKoi
+oAHa 3a Apyrof co3AatoTcf, cQoKychpoBaHHbre ro'rKr4 MaKchMaflbHoro AaBreHrr F, B pe3ynbTaTe qero
+cABnroBble BotlHbl QopMr4pyoT (ppoHT B BhAe TaK Ha3brBaeMoro KoHyca Maxa. flerxeure oToro QpoHTa
+oTcnexnBaeTcg c noMol4bto cneqhanbHoro ynbTpa3ByKoBoro cKaHhpoBaHh9, npx oToM yqacTKt4 c pa3nxq-
+Hof cKopocrbo cABuroBbrx BonH KoAhpytorct pa3HbrMr4 orreHKaMr ceporo qBera nrh pa3HbtMl4 tlBeraMh
+no uJKane c onpeAeneHHblM KolhqecrBoM tlBeToBbtx t'{eeK, qro AaeT Bo3MoxHocrb Bt4SyanbHo BbttBJtgTb
+3oHbf c pa3Hori onacrh'lHocrbto (ptAc. 4.21).
+TaK, nyreM nonyqeHrg cABhroBbrx BonH h BbtqhcneHug r4x cxopocrei Bo BceM Anana3oHe hccne4ye-
+Mblx rny6hH (no acefi nnoqaAn 3oHbr t4HTepeca) c nocfleAyorqxM qBeroBbtM KaprnpoBaHueM cosAaerct
+AByxMepHoe qBeToBoe h3o6paxeH14e ynpyrocTl4 TKaHei hHrepecy|oqefi o6nacrn - 
+qBeToBaF oracrorpaM-
+lra cgenroaoi BonHbt. O6btqHo KpacHbtM qBeroM MapKxpypr 6onee ynpyrhe, TBepAbte crpyKTypbt, ncnonb-
+3ys ero KaK chrHan nOreHqha'lbHof 3IloKa,{ecrBeHHocTh Ha QoHe ChHe-rony6oro Qota HOpMaflbHbtx TKa-
+He14. LlBeroBy|.o snacrorpaMMy*roxHo npocMarpuBarb B pex{Me peanbHoro BpeMeHh orAenbHo (pt^c.4-22),
+a MoxHo HanoxhTb Ha cepouKanbHoe h3oopaxeHre hn conocTaBhTb prAoM c Hr4M B AByX napannenb-
+Hblx oKHax - pexhMe AByx nonei (pnc. 4.234.24).
+Ilocne nsyvexnn qBeroBbrx enacrorpaMM npoBoAr4Tcc onacroMerphr c noMou.{bo oAHoro nflh HecKonb-
+Kt4x KOHTpOnbHbrX O6beMOB C MhnnnMeTpOBbrM pa3peueHheM, n3MeHceMbtx no pa3MepaM h cBo6oAHo
+nepeMeqaeMblx no AByxMepHoMy t4306paxeHhto. Moxuo Sauepnrb ynpyrooTb rKaHI oAHoro KoHKpeTHO-
+ro yqacrKa r conocraB[Tb ee c noKa3arefleM Apyroro yqacrKa. LluSpoaure gattue uoryr 6uru npeAcraB-
+neHbr B B}rAe noKa3arenei cKopocrt4 cABIroBbrx BonH (B M/c) hnh ynpyrocrl4 rxann (rPa) (pvtc.4.234.24).
+Kpolle roro, IMeercF Bo3MoxHocrb nonyKor14qecrBeHHoro aHarnsa c pacqeroM KogQSxqueHTa AeQop-
+Maqn[ (SR - Strain Ratio), xapaKrepx3yror.qero orHoueHhe xecrkoc 4 y3na IIX K xecrKocr]4 pacnono-
+xeHHor pFAoM Heh3MeHeHHOfi rKaHn.
+l
+r
+ttlI
+It
+
+
+===== PAGE 36 =====
+'ted 4lssdBlrrureu:nJ 16'¤ = ollEl-g,ivts rP l trt6 = uPaug :Eqor alqaax
+-HEdo-oHlEdy a rqHamedyo nyrJeh,{ axrJlax glv\S-OZ anrxed s :r{1r{ 0Z eerog r{odor{¤Pd uwed,{rHov ltwllvrahaH J IroHo¤ 4oHHoJ
+-oxeorrrJ aoHllaxddyo ,{Nedr{JHox [t^usHsodag uwuyrah ] al,tHeao¤ed9o ooqHeJox¤oEl,I oolflr{d)ro sf,JaElravedno awl|xad-g s - 9
+:9os uoFlvr'orrot :fiJll :ed)l / S = uEaurg
+.EHOJ aI-IHrr n ArSgdroJ s sr4HEso¤Edgo arHegrjmEdro aogHaJol^roJ l1v\s-cz aNtxad s lnl^I 0t aarog {odan¤Ed 't{ox?ogo NIqHqIflj00d
+-VrJ rrayHor ,rt^rEdftHo} rrrrcHsod J tcddryldrJoxe 40HVodoHVoas 3IlHPso¤ed9o aogHoJox¤o¤Il sitraElrovadllo awrxad_g a - e
+:glls-qz lu.tx(ad + n[xad-g - 4arou x1(av nru(ad'rsHros 4osoJlsvf, rnoBdJor'Jeve'Ez'l 'avtd
+'pHaqgo oJoHqraodJHor oJovxEv BrY lqHros 4ogoJLIavl trJlodolJ L lqsl4glrJ ICHaVASTdU
+arsoroy IoHHoI,I[EI^rdoQHr-r s BaEd!] iEnec,go xrcHcrodrHox rrdr lqHaxorouled aNLlPdJoJler¤ rosJash eg :glls-OZ l{ltxad - 9
+I)I(II arov IJosEd[ s atHssoEEdgo aoHvr-iIrgJ EJrarroY¤duo :l"Itxad-g - e
+il.rcarax goHvrrsorll[r ol|HEso¤Bdgo ao'JvrrvgJ'ZZ'l'J]ld
+, raQ{.ud
+E
+9t
+/
+
+
+===== PAGE 37 =====
+i-
+36
+flpuneueruue xnaccultuKa\uu TI-RADS npu ynbmpa'teyxoeoil ill,rbmunaps,uempuqecKou o4eHKe y't;ros uqumoeudnoil xcenesu
+Prc. 4,24. 9racrorpar[ua c4rurorofi ronrrbr, pexnM AEyx nonef, - B-pex[M + pexl|M zD.SWE:
+a - 
+B B-pexr,rMe oflpeAenrercs oKpyrnoe t3oaxoreHHoe o6pa3oBaH[e c HeqerKr,rMr,r Mrr(poAoJrLqarbrMn KoHTJ4raMr pa3MepoM rt{e-
+nee 20 MM; B pexrMe 2D-SWE 6onee xecrK{e yqacrro{ oKpaueHbr B xeJrro-3e,leHLre roHa; Emean = 47,1 kPa, SwE-ratio = 4,2;
+IIfll: rlarlrnnqpHhrfi pa(;
+6 - 
+B B-pextMe oflpeAenqerc.fl o6pa3oBaHl-re BeprlKanbHofi [poc"TpaHcrBeHHoi opxeHTaql,tx, c HeqerKt,|Mr{ HepoBHbrMr,r xoHrypa-
+nr, c r,runa:aefi o xancyay II{)li u oKpyr(arcqr4e r(anr, pa3MepoM 6oree 20 r,rM; B pex[Me 2D-SWE xecrKrie yqacrKn oKparrrenbr
+B Kpacso-opasxeBo-xerrLre roHa; Emean = B7,3kPa, SWE-ralio = 2,7; llllli 
+arlunnspHbli paK.
+Bo3MoxHocrb noryqeHun a6cofltorHbtx tluQpoBbrx 3Ha'{enufi ynpyrocru pa3flrriHbrx opraHoB r,r rKaHei
+B HopMe I npu naronornx qBncercq 6onuurnu Aocror4HcrBoM gnacrorpaQhn c4enroaofi BonHbr 14 3Haq[-
+TenbHo noBbtuaeT Bocnpon3Bo,qnMocTb MeToAa.
+IlpelMyrqecrBa pexrrMa zD-SWE:
+o Brgyanngaqns Kon14qecrBeHHbrx pasnntnh B onacrnqHocrr.r rKaHefi yny,luaer oqeHKy Mop$onoru14
+I Heo4HopoAHocr[ nopaxeHur, Koropbre He BtaAHbr Ha o6sr,{Hsrx ynbrpa3ByKoBbrx r4go6paxeH[Fx.
+o Yxnxanurue nocneAoBarenbHocn4 nMnynbcoB c aurcoroi npocrpaHcrBeHHof A[cKperu3aqxefi o6ec-
+ne'lhBaloT pa3peueHxe rhnognacrr4'{ecKhx nopaxeHhf pa3MepoM Ao 3 MM.
+. A[ana3oH cropocrefi c4enroeoi BorHbr Ao 10 rr,rerpoe B ceKyHAy no3Bonrer npoBoAr,rrb To'rHbre
+xSMepeH14fl onacTt4'{HocTt4 Aaxe npn caMbtx xecTKt4x KnIHhqecKh BbtgBfleHHbtx nopaxeHn9x.
+o BbrcoKaq noBTopqeMocrb h Bocnpoh3BoA14Mocrb noBbruJator AocroBepHocrb AnarHocrr4Kr,r.
+o ynyqueHo onpeAefieHne Han6onee no,qxoArqero Mecra Arr 6uoncnu.
+o Oro6paxeHne x3o6paxeH[i c r.lBeroBof KoAr4poBKofi, a raKxe KonhqecrBeHHan oqeHKa Ha ogHoM
+rao6paxenrn o6ecnequsapr npeBocxo4Hyro 116xocru I nHArB[AyanbHocrb.
+o f'lpnMeHeercc Aaxe y naq5Hroe c 6onee eurcoxhrvt NMT.
+llo garnuu WFUMB, a gnSSepexqnanuxofi guarrocrnre 4o6poravecrBeHHbrx ta 3noKaqecrBeHHbrx
+Hoeoo6paaoaaani Lqx Anana3oHorr,| peeynuraroa 2D-SWE aaxHur noKa3arent4 3,65-4,70 ra/c (34,5-66 rPa).
+[1o 4anruu oreqecrBeHHbrx aBTopoB, npr npoBeAeHrh AxSQepeHqranbHoi Al4arHocrt4Kl4 B nonb3y paKa
+lJ.[X noporoauuh sHaqeHhrMr4 naogynr lOnra B. B. Mrruroauu n coaer (2016) npeAnoxeHbr:
+Emean > 48,3 rfla (vyacreurenuxocrt - 
+71,9o/o, cneqrSnvrocru - 55,2%);
+Ernax > 59,6 x[1a (vyecrarrenbHocrb - 75,0%, cnequQnvnocru - 92,9%);
+l4HAeKc xecrKocru > 2,74 (vyecrerarenLnocrt - 
+78,1o/o, cneqn$nvnocru - 90,5%).
+KoM6hH14ooBaHHoe hcnorb3oBaHhe noooroBbrx gxaqennfi Emean n Emax o6ecne.{rgaer noBbrueHhe
+cneqrorqsocrr Ao 96,40/o.5nr43Khe 3HaqeHr4c nonyqeHbr B r4ccneAoBaHnex B. C. llapuura n coaer. (20'14),
+A. H. Karprva n coaar (2017) n gp.
+
+
+===== PAGE 38 =====
+oroHuo lqg brox ol4hhueH)
+leue{ r^dxoe ouex tqFlrfnuol- 4ouderuoHeedeH -
+leueA errudoS geui^dYo -
+I ( rr Henu uxe oloHHoloxeou ill
+eueA qrcoHHaloxe seHdenoneedeFt vut tArcoHHoloxe orHoxl4Hc eouuedernr{ -
+:enrxed-g I olqHuen[uou
+,uleHtndu urcegto rer(ueuc eouef, xtqHquetnHu,loc 8o)leHel4du-t^ x|quew 'x|qHcueluHUouou euu^dl )
+.rcd/fuHo)t en)rehoH u (erstcur.'Iu 'erqrehcuoVod)rt4w 'ersrcrdlr{9) oFHaodeH -
+:aue^ I soreHhhque)lod)lht l et4hnueH -
+:(AHndhm I yieh'Omcuog 
+^HnuV 
+g 'seHcueuuedeuel) eue^ shherHeudo ceHHesroHedrcodu ueHquBlutdae -
+leue,{ rrcolseloxe erHexhHc ooHquoruheHe -
+:ant4xod-g e eFHHor'^uou 'l4reHerdu o]quor hrcoH
+-ro refvauc (nrcolleercer,eloue l4)leHeudu-e  - aouev) yfi ered soxeHehdu-tA xt4mquog euu^dl )l
+'eouer{ x|qHquetnH
+-yioC Buts rleHet4du (enlsuerrluouoV) AIcUew u IIcOHHealCehelOue uleseudu (elcHsoHco) Anmcuog 
+"\<m
+tCUer{ qreehHehO OWuUOXgOeH XlqdOIO)l OCfnOnOU C 'tqUUi(d.t ASU IOIEUOU|qS b}4HeVOUgeH Olo)lCehIuleHhtr
+Vnu uttcttong nxHouesodu o ecoduoe cnHemed BUr xrn 4nueeoeedgo lurcndeuedex-g^ xecs er4
+'ercud nwedoueQ uwt4xcoht4Ht4o c nvud
+-eH 4XHesOeedgooaoH nrcoHHaarcehe)toue ercnd nrhernQrredrc 4oeol,{eeedlcu^ eH Bcc]ea|qsoHco lqH
+-*uougUyl'BhHeee)|oUolh,oHXesoHcuenunhHndU.g|lV]UhHeHUoU|c8_t4[hexnsndes4o)|cehulouo(p
+-dow rawr,,|tnor{gadr,nvleleyeudu ny{tqHHosrcahe)toue u[Jl4 t4t{lqHquelndeouou c eouer{ to 'oHarresd¤cHo}
+nrcoa oHxon erqdotolr,t4xurchdaryedex etcHHeercene)todgots ohlnolov'll4 'nuef qtur'nuro |qgo-th 'u{o] a
+!4OrCOC l/l0^ t4momou hou |qeouex r^4oHvr48ornln Inlouoleu 4osoleho nyHeho IoHcueheuoedeu suefi
+rqsoralK HoHvnsornlfl
+sor¤f nxuelto Hndaludx alqsox^r{geed.rs4l
+I uaStDd
+'gUVI enHeuesodu eH er'ede cresnuehPH eHxuou eV
+-ieog eue^ laHe)tl cICO)ICaX Be)loClqg 'tCdi(Dl^dro 4OHtsOdOHVOeH xeleho s l AC|OL49 tlOHqUOll4O)HOl t4l4H
+-eHUOUtqS ndu orqrcoyrcex [o)toctqs c ecedorHn HOe edoglcs Buu ex)lel e'Auauong Buu soue^ edogro
+erseylfdrctn oloHcuerelou\toucs earcehe)t a qresoequoucl4 oHxov'l olhQedlorceue 'u{oeedgo t/!lt4)lBf
+.rqsexuouodu cr|qa tcHXuoE lceouax [oHvxsoInfn 4nHesouogEe xlqHHoslcohetodgov/xlqHHos19
+-ohe)toue r)thrcoHle14v yonsuerhuedeQsnU e]Hoho ou BhHeaoueuccn 'BecuoH qrexhHc SOVU-ll. ol14ool
+-oter eue^ nrco)trcax rlorent udu n 'eulrxad-g s 1,4eA qruHov{ee eHxuov eH rnQed:orceue (r(6o1ot6 pue
+eurclpar{ ur punoseJ}ln rot sa$olcos Jo uol}eJopel ueedo.rn3) snnslf t4 8t\lnlM ruhetsHomolod oll
+.dU x s|eeuex {oHuhsoLnln rteu eeodgras 'erhfhoodhr untriaeed xdu :sou
+-¤^ xFHvXUgC-OHeOtCt4)t 14 xFHeotcr4y :xFHHnr^dlee oHhl4lceh o9l4u 'xln e)Iomedeu a xFHHexououceo
+,soue^:nc o'0 aeuog 4rueaoeedg0 xtqsouer( xtqlu{dl oxHeho udu esHennnedlo nr$edlorceue srcol
+-Heh BelCeht4rCol.rerfl lOUi(Cuel fOHHeSOdnHnhcUet rOHIOUU C neuei( n nv'leIeHhhqUev nWFHS[4CCeW C
+nurareaoeedgo I qrgsewudu ccre^vHey{oyed eu nnQed:orceue 
+^thvorov'l 
+olh'qlhHntou Ieluouc
+'wetetqur(e
+-ed nFHcuerehhdlooHxou t4 IeI'y{tqHquolt4xououoHxou I }ev ra-LCeendu r^lov'l ' dV u (eorersur(eed xtcu
+-Heercweodu xodl eh hndac olcans roxuou IlcHIBd)loHvo) rruexedgoen olosoleah oloHHeh^uou tsnheI
+-edudersn seHquraeedueH '(4eraccedunol 4oHhol|qgeh c rura llou.t[ vou) elnr'rev oloeor^eeedrqul e]eoFl
+-ercOU BeHdeseH 'eoueQe-rde xnHcuelex|cE Ot4ht4ues dennduel 'nn$edlorceue hnHOHuoulcs t4du t4lcoH
+-medlou Ohrcehnlououoral^ BhHesovoucct4 OloHHeU Bl4HOHuoulca e)lt4uolew l4)lt4l9o env fosoxlseedlqul
+er,ede erHehi(gO BCIoCUaB nn+edlOroeUe BIHaHUOUIqs OlOHHegICOhe)l mOheOUC^ ttlcHCUOIeeBgO
+LT
+c r;aQLnd
+
+
+===== PAGE 39 =====
+38
+IIpu.vettentleK.70ccu4,uKg4ultTI-RADStlpttJ'':lbI,'])
+- Hanl4qhe MaKpoKarbquHaroB B y3ae;
+- 
+aKycrr4LrecKne reHu 3a y3ftoM 6eg tanuqug Kanb[1hHaroB.
+Crparu$rxaqnn phcKa PlLlx B orHoueHnn BbrueyKa3aHHbrx nph3HaKoB ocHoBaHa g 6onuuefi cre-
+neHu Ha oqeHKe cneqhQhqHocrt4 nph3HaKa, Hexen[ ero qyBcrBhrenbHocrr. B cBF3t4 c gtnu sau6onee
+noAo3pxTenbHbrMrir B oTHor.leHut4 PlLlx eBncoTca: 3Ha']hTenbHoe noHhxeHl4e sxoreHHocrr4 rKaHh y3no-
+aoro o6pasoeaxng, Han14qhe roqeqHbtx runepoxoreHHbtx chrHanoB B HeM (M14KpoKanbqhHaroB h ncaMMoM-
+xurx reneq), Bepr[KaflbHan opheHTaqhg y3na, HepoBHbrfi, MuKpoAonbqarbri KoHTyp ysna. l1o AaHHuM
+E. fl. OnceHro (2016), Hah6onee qacro Bcrpeqaou.lhMhcr ynbrpa3ByKoBbrMh nph3HaKaM[ paKa lLlx qB-
+nnorcn: 6yrpucrufi uaxpo-/unrpoAonbqarbrf, cnrxynoo6pasxuti rorryp, HeqerKocrb rpaHuq, cHrxeHhe
+oxoreHHocr14, BeprtaKanbHaF opneHTaqtac, Hannque roqeqHbrx rrnepexoreHHbtx cnrHaroB. CneqnSuruocru
+orhx npn3HaKoB, no AaHHbrM aaropa, npn6nrxaercs x 100%. BurseneHne sTnx nph3HaKoB B y3nax, pa3-
+MepoM npeBb|Llla|ou{nx 1,0 cM, FBnFercF 3HaqrMbrM KpxrepneM Anq noAo3peHre Ha 3floKaqecrBeHHocrb
+y3na u onpeAeneHraq ero Ha TAflE.
+BblAeneHhe rpynnbr Manbrx np[3HaKoB Ane coMH!4TenbHbrx y3noB FBrFercF BaxHbrM, r. x. e 13,4Vo
+cnyqaeB B paxoBbtx onyxongx He yAaercn BbtqBt4Tb Ht4 oAHofo 6onuuloro nphgHaKa gnoKaqecrBeHHocrt4
+(oco6exxo B MeAynnqpHbrx paxax); e 10,1% cnyvaea BbrsBnqerce ronbKo oAr4H 6onbuof nph3HaK paKa;
+e 25,6% cnyqaeB onpeAennercg coqeraH[e oAHoro 6onbuoro npn3HaKa paKa c MarbrMr4 npn3HaKaMn;
+B 13% cnyqaeB yAaercs An$SepeHqhpoBarb ronbKo Manbre npn3HaKh. Baxro orruernru, qro Manbre co-
+MHurerbHbre npt,l3HaKh qaqe Bo3HrKatoT B 06pa3oBaHtasx, npn6nnxaoqnxcn K 2,0 cM. t]yBcrBt,lTenbHocrb
+n cneqn$nvuocrb orrx npn3HaKoa npeasruaer 90%
+OAsaxo o6qenpn3HaHHbrM flBneercfl QaKl qro qyBcrBrrerbHocrb n cneql4QhqHocrb yKa3aHHbrx nph-
+3HaKOB npr r3Ort4poBaHHOM r4X UCnOnb3OBaHUh B KaqeCTBe KphTepneB 3rOKaqeCTBeHHOCTh HeAOCTaTOq-
+Hbr Anq np[MeHerun a pyruHuofi npaKTxKe. Tonuxo coaoxynuocrb AononHurenbHbtx, coMHnrenbHbrx B or-
+HoueHuyr 3noKaqecrBeHHocrt4 ygna, npn3HaKoB nosBonFer onpeAennru teo6xo4ntvtocrb BbtnonHeHIr TAfl6.
+nphMeHeHIe Aonnneporpa(puqecKhx 14 qBeroKoA14poBaHHbrx pexl4MoB 14ccreAoBaHuF oKa3HBaer on-
+peAeneHHyro noMorlb B BbrfBneHuh AononH[TenbHbrx Kp4TepueB 3noKaqecrBeHHocru 06pa30BaHhr. yq14-
+TbtBaorcq cneAyoqne npu3HaKn: cTeneHb BacKyneph3aquI y3na, Thn cocyAr4cToro pncyHKa, Han|,|eue
+HepaBHoMepHoro pacnpeAeneH e cocyAoB B y3ne, a TaKXe QopMr4poBaHhe naTororn'{ecKoro cocyAr4cTo-
+ro phcyHKa. O4taxo prg aBTopoB noAqepKnBapr, rrro ncnonbsoBaHre orl4x nph3HaKoB HeAocrarolrHo
+HalexHo.
+KpoMe Toro, AononHhTenbHyK) ran$oprr,|aqr,ro MoxHo nonyqnTb, BbrnorHgn 3nacTorpaQnlo/onacroMeT-
+pr4ro BbrFBneHHbrx ysnoa lJ.lX. Ecnr qhQpoBbre .qaHHbre Moryr pasH[Tbcq B 3aB[cr4Mocrt4 or rnna Y3-npr-
+6opa n au6pauroro MeroAa, To KaqecrBeHHac oqeHKa no3Bonfler asr6pars 6onee xectxre yqacrKh rKaHn
+ans 6noncnn.
+B KoHeqHoM t4Tore Hanrq|/|e, KonnqecrBo t4 coqeraHne BbtueyKa3aHHbtx npu3HaKoB onpeAentDT noKa-
+saxnn x uopSonorh.{ecKori BepnQuKaqhx y3na c noMor{bro TAf15. lzlcnonssyeMat B onrcaHnx y3noB lLlx
+repMhHonortan npeAcraBneHa a flpnnoxeuun 2.
+Pasden 6
+KraccnQuKarlnn TI- RADS
+laK KaK HU OAnH npX3HaK I3OnhpOBaHHO He MOXeT AOCTOBepHO npeACKa3aTb 3nOKaqeCTBeHHOCTb,
+c qenbo yBennqeHun A[arHocrr4qecKoi qeHHocrr4 V3lr'l noAxoA B oqeHKe ysnoe lJ.lX gonxeH 3aKnpqarbct
+e o6'ue4rnenrn HecxorbKr4x npr3HaKoB (<rcnaccnvecxoe pacno3HaBaHhe narrepHoe>). f'loHrMaHne groro
+no6yArano K pa3BtaTr4o craH4aprn3npoBansofi cucreuu orqerHocrr4 B y3L1, onucaHtarc na6opoa xapaKre-
+pt4cTt4K, cB93aHHbtx C KOHKperHbrM ypOBHeM pXCKa ManhrHh3aqIn.
+
+
+===== PAGE 40 =====
+'(nvradrl) rlxt|rroQodxer^I uru r,$Iur
+-roo grcHsadumtpd-oH¤oJllry - 9 .E :Z S(VU.II rr|dorarE)l '(0t ehrEedJJ pH evHfJ[d arrHa}(Irotrodrl 'Evlri{tlrd orEhBHJ Z'9 '31'ld
+'(e 'vZ g 'cud) rsuer{ (onHtst4ouuox) olqrehgfu -
+:(r 'sz'g ct4d) erHeHouv{o)l oloHtshuoc eeg nuei( olqHeorc}lt -
+:(g'ez'g cud) tsrcnr o|cHvhouuo)l 'lcu^)lt4uuo$odlew -
+:14)tHeho
+4olcenulouo$dorr et4lnoi^ged] et 'unueeoeedgo orqEoreho rqHeIJE6196 |q¤euax IoHVtlsorhtn uHe)|r g
+auneaoeedgo eorrHesrtehexoilgof'Z SOVU-II
+.vol s eed Ht4vo - (l enxexoundl) ercud euur(d.r E etsoJ e8ts s eeed oloHvo atneh eH Feeuex {oHEheor
+-laln gA eoaoHEuu ccro^VHeno)led I SOVU-II nndolerey E'ewHenneu onHe?ea ou nnneQHawoxod
+1eH a¤erfax HoHVusorHIn a HnHeso¤edgoolred 9o xtruueV - g'e:I S11VU-II rndo.ra.r.ey 't'9 'Cl4d
+'[xHeHewex xnsoJeho eeg '( t g 'cnd) osuerr 4orreodrc
+-edeu onelQQrts c eeouex ceHtshsorlln h orqHe)rr {oHHoHenenoH oHrquocge c e¤ouox BeHts,1sornln
+Xm ehluxHedeu s 4nHaHehl¤n xlqsoJeho reH 'l SOVU-II
+'^ovet ngH7nvg) oHHaawJarntwnadu n xigHpnvQx ggadaho
+utailau s nwJoHHaswJahDyove oycnd nxnaho uvp ouanonenxpadu YnhoxnSnttovx TDHHDZ iOHy(Eg S!
+6t
+9 raQtlrd
+
+
+===== PAGE 41 =====
+40 
+llptneaenue Kruccu|uxa4uu TI-RADS pa yn;mparslt<oaou tifibmunryanempaqeclou otplxe y:L,tos lumoauoHot rreeiuht
+Pnc. 6.2 (flpoAonxeHre pucyHKa, Haqano pxcyHKa Ha crpaHurle 39). Kareropnr TI-MDS 2: B, r - (rcro3Hbrii y3en (crperr<u];
+A, e - ry6qarbre y3nbr (crpenKr).
+Ptc. 6.3. Kareropnfl TI-RADS 3. IIpItMeHeHIte pexorMa IIAK Anfl orleHxx BacKyrrpr.Barl[l Kncro3Hrrx 5nnor IIIX: a - 
+a axo-
+reuHoM KoMrroseure rrcrosnoro'ys,ra II{l{ cocyAbr He onpeAer-Ercrca (roarou4ur,rfi ao6); TI-MDS 2; 6 - 
+B gxoreHHoM cdnriAHoM
+KoMrroHeHre y3na I{}K olpeAenqercs KpoBoroK [rraflI|nnspHbrfi paK); TI-MDS 3.
+nphcyrcrBue gxoreHHoro KoMnoHeHTa BHyrph Kr4cro3Horo y3na 'racro Bcrpeqaercq 14 Moxer coorBer-
+cTBOBaTb nn6o crycTKy KonrohAa l4nh +h6pr4Ha, nh6o r4cTr4HHoMy c6nhAHoMy KoMnoHeHTy. flocne4rrai
+Moxer,6brrb AnSSepeHL[4poBaH B pexrMe tlEK (pr4c. 6.3). Ecnu ecrb coMHeHhe B Han[qhr hnh orcyr-
+cTBr4h c6nxAHoro KoMnoHeHTa, cneAyeT nphirrTb peueHne B cropoHy noBbrueHrg pr4cKa (T. e. np[cyTcTBxg
+c6nx,qHoro KoMnoHeHTa) ta BKnror]r4Tb y3en B Karerophto TI-RADS 3, e roropofi npu pa3Mepax Khcro3Ho-
+c6nhAHoro ygna > 2,O cM peKoMeHAoBaHa TAflE c6nhAHoro KoMnoHeHTa.
+Pexoueuda4uu no eedeHun nar,4ueHma. B Karerophr4 TI-RADS 2 pexoraengyerce nnaHoBoe Y3lA uu-
+TOBT4AHOT Xene3br OAI4H pa3 B ABa rOAa. y naqheHTOB B rpynne pxcKa - oAxH pa3 B roA.
+
+
+===== PAGE 42 =====
+'gllVI onHevesodu acro^VHey{oxed - nw 97 eeuog xeue^ t4du .Vol s eed Hxtso Xln !4g  oo)l
+-cehuv'reH14u eoaoHeuu bctelvHanoled g g6yg-11 r, ,rdolerer g'ewHenheu onHaQee ou nnheQHewoxed
+'[EvLadr]) JegqIIcIIEvodvEn IrlqHHeaodt|ro¤Il ')I{m nHexr xoJJEhI rlssHEsodtHrtlqrey - 9 :r{oddrHor nrcHHamId
+-EH¤s J (Isudl'do)tl 4oHhts) duur oll fevrodrJ] XII ra¤I grqHnEsodl|Hr4hsrar orqrJoHrro! - 
+p :¤ SCVU-II rlrdoJarey .g'g .Jxd
+'[er{osaVP resdBr]$InrroQ) ytr/n onnxad s Evorosodx r{onur nnxrohnda(pndau J 'lrnEdl:.son ulqrqssod u ururrar I naEl rrsssaJox¤
+-oEIr - J l[9o¤ {IcsY'rorrox] )l[I aHnxad a E oJosod)t NouuJ nrqHr'remowJ 'rlnpdi{rHo}i linl,lyJah f, 'rqwdoQ 4or.r,{dxo .rer,o 4nuua.r
+-ox¤o¤I{ - s :(Jltvrroadr.u {IcHIrlnr,ItoJ,{E) }rNpdIrHo)I rrNnvJeLaH J '[+- +) Hr{doQ 4on dxo u.relo anuqoJox¤o¤u - 9 :(rrvl,loadr.rJ,
+4nnuIl,tltuo.Lfe) uwedfrHot l,rNlrvreh J '(I,DIIradrJ) rqr{doo qorJldro rJEho arqsHa.roxedaull - e :g 5q!lI{I r[doJarEI .t.g .cl,|d
+' |cUeI arqHunugc-oHeorcr4t.-
+:(es.e .cnd) (,.u^udolc roHh,4c, 
+^ur4r ""(iiff:l'rTfi*:"J,il#lJ#ltlilffi,?iliif :
+:(7'9 cnd) ert4Uhoodr4r orostti(uvlrnor{e euoQ er euonh nor s 'BuHeaoeedgo etqHHoloxeorh '-dauhl -
+:avic|-lo|'i.g Bt4HeHUou|cs eog cnHevo{u9eH oJo)cehIrreHrbi oxlnot^gadr 'unueeoeedgo otcsoue^
+Irr'oHHesl'errExore xJI|d 4rDtErrH .t sovu-ll
+9 uaQtnd
+tv
+ni
+
+
+===== PAGE 43 =====
+42
+flpuueneruue xnaccatpuKaquu TI-RADS npu yflbmpateyxooofr MyrbmunupawempuqecKou oqeHKe ysno6 uqumoauduoil ttenetot
+Peuarb Bonpoc o nepeBo4e y3na UIX a 6onee aurcoryo Kareropno npu AhHaM[qecKou ra6no4exnn
+cneAyer B 3aB[cr4Mocn4 or BbrrBneHnF roeurx VS-npnsxaroa.
+nepeeoj e Kame?oputo TI-RADS 4:
+- 
+B cnyqae u3MeHeHrF Y3-xaparrepncr[K, nosBreHns B HeM Manbrx Y3-npnsnaroe (uapoau4xoi Qop-
+Mbt, rhnogxoreHHbtx BKnto,{eHufi, MaKpoKanbqnHaroB, HepaBHoMepHo yronqeHHoro xano, aKycrr4qecKoi
+TeHu 3a y3noM 6es ranuqnraroB, qeHTpanbHoro r4rr4 naronorh'{ecKoro hHTpaHo.qynrpHoro cocy4r4croro
+pxcyHKa, BbrcoKofi xecrKocrr4 npn snacrorpaQnn);
+- noeBneH[r ge$opr'raqrn Kancynu ysna nlnnn Kancynbr lIX, npe4nexaqefi x ysny;
+Ilepeeod e xameeopun TI-RADS 5: B cnyqae nonBneHnc 6onulur4x np]r3HaKoB 3noKavecreerrocrn (ana-
+qurerbHoe cHrxeHIe gxoreHHocrr.r y3na, Bepr,|KanbHar npocrpaHcrBeHHar opneHTaqnq, HeqerKne, 6yr-
+pt4cTbte, Mn(poAoIbqaTbre, flyq14cTHe KoHTypbr, MxKpoKanbqnHaTbr).
+Peuresne o ganunefiureft TaKThxe BeAeHuF naqheHTa npnH[Maer KnuHhr.14cr.
+Tl-RADS 4. Cpe4nnft pncK 3ror<aqecrBeHrrocrn
+Ysnur lJ.lX, rpe6yor.rlne BbrnonHeHnr TAllS (ner 6onuu.l,rx Y3-npusraroe snora.recraeuocrn):
+- c6nr4xue ysnur d > 1,0 cM yMepeHHo noHnxeHHoi oxoreHHocrr4 (nonuocrso rhnooxoreHHbre rnh xorg
+6sr c o4xr,rrlr runogxoreHHbrM exnoverneu) (pnc. 6.6);
+- c6nr4rue y3nbr HeolHopo4roi crpyrrypur pa3MepoM ) 1,5 crr,r c ManbrMr4 npx3HaxaMh (pr4c. 6.7).
+Pxg. 6.6. Kareropxr TI-RADS 4l
+a - y3en oBanbHoi Qopuu c serrr,rur,r u poBEbrMr norrrypaMra (crpe.nrra), yr'lepenHo rIoHtlxeHHofi axoreHHocru, c xuA(ocrHbrM
+orarcveuneu fr[orur-rl{yrspEas a,qeHort{a]; 6 - y3en uapoBr-rAHoi oopMbr [crpenK[), r-r3ogxoreHEbrfi, c MeJrKlMIl rlrrogxoreHBbrMr,r
+BKrloqeHfirMr,i, c.rerrnMr,r x poBHbrMx KoHTypaMx, oKpyxeHHbti ToHKxr'l xaao [Qoaalxyanpnaa a4euoua); r - yrea oeaaonofi
+OopMbI c,{erKlrMt,t u poBHbIMl KoHT]TaMa fcrpearu], noauureHHoi gxorerrHocrr, c r{IIoaxoreHHrIMI,r Br{JrIoqeHnrMr r MeJIKr4Mu
+xr,rAr(ocrHbrMr Qparr'reurar.'rr (0onn[KynspHa-fl aAeHoMa); r - y3en uapoB[AHofi oopMbr [crpenKa), [oBbrureHHoi 3xoreHHocrr,
+c II-lIIOSXO|.eHHbrMr BKJrKrtreHrrML, C qeTKrMr,r l,r poBHbrMr,r xoHrypar'la [Qoaaaxyanpran ageuoMa].
+r.*&;bt i:,-. 
+-*t
+
+
+===== PAGE 44 =====
+'[o.rox,rar exed eelleJan) r.rwEd,{rHo) unrqHsod r{ rnrvrah J 'rrJcoHHaJox¤ 40HH¤xrHoIl '(uvrodr]l rsndo0 4oHtrrisodEm Lo¤d - a
+:(rEd grsHdsrruIIEII) ed)l l'09 = ueauA :EIr¤{ IJJEh
+4oHqrEdrHah cFoyr:rau( sero:rrqs'EHoJ arsHJEdr g BrEI I.l HE)II ollHeq,Imed)Iodx ooHvodoHVo 'ooHdar{oEapd 'aosrh4oJ]I slrasr
+-aYaduo rgllls-(Z wfixod lur]oHsaJox¤ uoHHamrcsou '[r{EdlJHox I,Inlurah rl^rIqHsod J'(uvradrJ) IswdoQ goqvlraodpm ra¤d - Y
+l(rBd {IcHdEIrrIlIIEIII) rsV,{]ol arsHdBrlvoHedrHr,l <arcHHEsod14JIu.rE) 'arqsVI-lsaredr,IIt] - evorosodx
+ul,lr qrx]ah[Jor/orEl s]rarraveduo UVn ar{[xad s lrir.IEd.{rHo)I []t{)Irah }thtlqEqod J'(tlxradrJJ {rJoEHaJox¤ rraHvad] ra¤I - J
+1(er,roHave seHdBrly[rro0] r,roJeHnicrevodvpr{ :r 'rnoHHaJox¤ IoHr{axtHou oHHadaw,{'(+-+ 'rxradrJ) Hr^Idoo 4oHqlpso reE{ - s
+1(xed 4rsndrr
+-lyur[o0] r9Hr.r hror goEdor,[oHapdaH orEx IrsHH¤xfdro 'r,rJJoHsaJox¤ lroHnaxltHo[ oHHadotr{'[+-+) Kr^Ido(P gosqrEso La¤I - 9
+l[El^roHa?p EEH
+-drrfyr-rrroQ] rrNedd.LHoy rr{rqssod u l{nllyrah J rl,trJoIrHoJox¤ rroHrraxllHorr oHdanossPdoH '(+_ +) Icr^rdo(p raoHvnsodEm ra¤l - B
+:t SqVU-lI trl|doJarey ./.9 .3nd
+t__
+w
+I L-aQr.od
+
+
+===== PAGE 45 =====
+44 
+npu .HeBae ,(laccr(puKouut TI-RADS npu Jtnhmpulrlxocoi nryn;munapa enp .lecxoi o4egke yrns quntosuo*oit nraztbl
+l¤ Baxso! Cnedyem nottnumb, qmo ocHoaHod xapaKmepucmuKofi oqeHKu yalros npu Y3A aeaaemca B-pe-
+ttum. Pexu.r'tbr qIK/AAK u otacmoepa$ue - acnomozamerbHbte. Omqtmcmeue uzneneuufi V3-xapaKmepucmuK
+go ecno,Mo?ameJrbHbLx pexurt(lx cKaHupoeaHug He ommeHgem noHurtaHue ys-KapmuHu o6pasoeaxua, c$oprtu-
+poeaHHofi e B-peJrcume, u He eedem K cHuJ$eHun Kameeopuu TI-RADS, npu amou dononnume.nuuwe dauuue, no-
+nyqeHHbre s peffiutdax IUK/3{K u anacmozpafuu, nosao./rJtnm noebrcumb Kamezopun TI-MDS c.3-fi do 4-fi u Ha-
+npaeumb na4ueHma Ha ebrnorrHeHue TAUE.
+Pexomendaquu no eedeHup na4ueHma. B rareropnn TI-RADS 4 peror,rer4yerce BbrnonHeHhe TAnE
+ysfla lLlx npn pasMepe rhnooxoreHHoro y3na 1 ,0-1,5 cM. nplr orphqarenbHoM t,rrlr HenHSopMarnBHoM pe-
+3ynbrare TA|IE (Bethesda l, ll unn lll - llprnoxenne 4) noaropran nyHKr.14r y3na npoBo4xrct B 6nxxai-
+uue cpoKx. [1pr gayrparnor'a orpr4qarenbHoM unx He[HQopMar]4BHoM p$ynbrare TAnE peKoMeHAyerc9
+AhHaMUqecKoe Ha6noAeHne, noBTopHoe y3N qepe3 2-3 Mec, nplr Heo6xoiqhMocr14 - noBTopHaF 6noncnn.
+Aanee sa6npAeHue pa3 B roA npx noBTopHoM orpr4qarenbHoM pe3ynbrare.
+Peurerne o AanbHefuei TaKTIKe BeAeHnn naq[eHTa npuHhMaer KnhHnqxcr.
+Tl-RADS 5. Bncoxufi pncK 3JroxaqecrBeHHocrx
+C6nn4aue y3nbr c 6onbulrMu Y3-nprsraxaun 3roKaqecrBeHHocrn, rpe6yor.qre aHnonHeH[s TAnE
+(npra srou manure Y3-nprsraKr4 He hMeDT A[arHocrr4qecKoro sravennn):
+- 3Haq[TenbHo noHhxeHHan oxoreHHocrb (puc. 6.8a, 6);
+- BeprnKanbHae npocrpaHcrBeHHae opheHraqr4e o6paaoaarnn (pnc. 6.8e, r);
+- HeqerKrfr HepoBHbnTi KoHryp o6pasoeaHt+: 6yrprcruril, runxpo4onbqarunZ, nyqhcrbril (prc. 6.9);
+- HanilLr4e B onyxonil Mr4KpoKanbllrHaroe (prc. 6.10).
+Prc. 6.8. Kareropfir Tl-RADS 5. naunnrrpaufi par:
+a, 6 - ya,ru (+...+J aHaqrreJrbHo IIoBr4xeHHoi 3xoreHHocrt c HepoBHbIMI-r KoHTypaM[;
+B - y3en [+...+) BeprlKanbHoi flpocrpaHcrBeHHoi op|,teHTaqxx, c qerKrMl,| KoHTypaM lt, 3Haq ltTenbHo cHIrrteHflofi 3xoreHHocrtt;
+r - ysen [+...+) reprn(arbHoi flpocrpaHcrBeHHofi opt-IeHTarlu!r, c HetrerKr,rM[ HepoBHbrMrr KoHTypaMrr,
+,"fl
+,r-i"r.l:, 
+.rlf
+
+
+===== PAGE 46 =====
+'(vEd Irqqdsrrnu
+-EIIJ I|nerEHllhsrE od)Illt{ I|wIcHh,nHr{t/a 'Ianedr{ lox {nllrrahaH r '([xrodrt] urJorruoJox¤ nourraxxsJ oHdor{o'sedes ra¤d - J
+jtroY d,{rHor {IsnxfdeH sfdrNdoOoy .)I(IJI erf3uer r raErJPdvou .rtrErEq14 hsr.eyod
+-ytlir rnt.IHga¤tmaxoHr{ J,urroHgaJox¤ aoHgaxllrron oHgedor{d,llnEdfrgox tir{DlrahaE ],(ruradJl) rsrdoQ ?rog[nsodem ra¤f _ s
+j()ted 4IsHdErL'{tra,{) eIr¤f Jddvoa orEx nrsHqohr.o oHdar,{oHaEdeH ,rnEJPHuhsrEyodyI,w ] ,rnedfrHo'nrqHaodaH
+l'll4ll{vraL J 'IlDoHHaJox¤ !oI{Hax Hl oHqroJIthEH¤ '(Dlradrt) Isr^rdo(p rousruseduan rasd llIruHeeodlJHerrdo oqqr'yurdes _ g
+l(xPd 4IsHdBIrrI4uB[) w^IErPHllhsrerodxrn J'rr{edr{rHoy lll^rls.llnMr ,rnnrtsodett t,t llnllrrohaH ],IirJoH
+'HaJox¤ !oHHet<uH' oHda'{oqsEdaH tqt{doQ 4oHsrlseduoH '(rivradJJ) rlrheruordo noHsegJcHedJ,cod[ 4ogcr'yrrrdos raEd - E
+:S SCVU_II nrdoJarEy .0!.9 .cxd
+'fxed 4uudrrrlueu] !|nEd,{rgor ut{IcrJthllr 'rnrqJehqrosodr[r^r ,rwrqgsodas .unpd,ftHoy llrrrrraha' J .rrf,oH
+_HaJox¤ IloHI{axlHl oHcraJIlheq¤ 'rqt^ldo(P I,lolrqrtsEduas '[rxradrJ] rrtlhErHardo lroHqasr]HEdrJodIr uoHqraprHoErdoJ ra¤d - 9
+j(vEd {Issdslrfvrrrro(P) lrr,IEd,{JHox rr{rsrphqrovodrllr{ ,uwrqHgodas .rwedr{rHoy ,n".rrrahaH ) .nJJ
+-oHHaJox¤ noHI{axusJ oHcrauiheq¤ 'Iqt{doQ YoHcIrllsEdIras '(uxradJ.J) r.ljtrprHando ,,'o,,HasrJHedJJod,, ,noHqr'rrrdas ra¤d - 
+E
+rS S(VU_II 6[dorarB)l .6.9 .rxd
+9 uaQrDd
+9V
+
+
+===== PAGE 47 =====
+46
+Irpuneuenue xtuccuQuKaquu TI-RADS npu ynbmpateyxoeofi iwyrbmanapsMempavecxoil '7enxe yu06 t4umoeur)noil ilce'resor
+r¤ Baxno! Ctedyem no Humb, qmo:
+- c6nuduareyetu d'> 7,0 cn mpe6ypm eblnoJrHeHua TAIE npu Harl,.ruu xoms 6tr odnozo lonbwozo y3-nDusHa-
+xa sloxaqecmeeHHocmu;
+- c6,nuduue ys.nu d < 7,0 ct"t (om 0,s do 7,0 ctt) c 6onawunu y3-npusuaxanu moxaqecmeeHHocmu (puc. 6.11)
+mpe6ynm abInoJIHeHua TAII6 y naquenmoe e zpynne pucKa (ce.netiuttii anannes paxa IIIX; o6ayqeHue aonoebr
+u weu e aHa'MHe3e; nocmoaHnaa ducSaeut; KJruHuqecKue nponeneHus nape3a zortocoeux casaoK - nocmoaHHag
+oucSouua uau Y3-npu3HaKu oepaHuqeuufr nodeutcuocmu eorrocoebrx ceeeox; ysaoeate o6pasoeauua IIllK, cttsnafi-
+Ho eblne,/leHHble u mema6oauqecxu aKmueHble npu no3umpoHHoimuccuonno monozpa$uu @JT); nat4ueHmbr
+uonoltce 20 aem; noeblweHue ypoeun 6asalrauoeo uau cmu yJtupoeaHHozo Kaitb1umo1uHa; e aHq"LrHe3e - one-
+pa4uu no noeody paxa IIIX;
+- c6audnate ysau d < 7,0 cn (om 0,5 do 7,0 cu) c 6oatwutnu Y3-npueuaxanu snoKaqecmeeHHocmu mpe6ynm
+eblnorrHeHufl TAIIE y na4ueumoe npu ebleeteHuu uau nodoepeuuu no daxuutt y3H ua nemacmqmu.rectoe no-
+pa$eHue pezuoHapnatx tun$amwrccKux y3toe;
+- c6au0uue ysabl pa3.Mepa u < 0,5 ut nodnettcam axmueuomy duHamu.rectorty Ha6an0enun qep3 3-6 -Lrec
+y nat4ueHmoe eHe zpynnbr pucKa
+Prc. 6.11. Kareropnfl T|.MDS 8.. y3nbr &< 1,0 cDt:
+a - y3er c BeprrKaJlruoi npocrpdncraeu-trofi oplreHrallrefi (crpenKtl), He,rerrrlMri nJ rrcrbrMr (onrypaMr, HepaBHoMep'o rroHrr -
+rreHHoi exoreHHocrr (qarIt,lnn.spHbri paK);
+6 - lael aenpauarnofi Qopt"tu (+...+), c repruxa$nofi upocrpaHcrBeHHo[ opregTarlrer, c He,rerxltMrl MnrpoAorbqarbrr{ri Korr-
+TypaMI-t, EepaBHoMepno nourxeuuofi exorelrHocrl,tr c MtiKpoKa.nlqtuatauu Inanal,lapuufi paxJ;
+I - yaea oaallnofi Qoprtu [crpe'rIrr'r), uouuxeHnofi exoreuaocrrl, c eArHIrqHhrM Mrrporaar4r,ruaror,l fnafl11nrrpHbri paK);
+r - yeel orpyraofi Qopuu (crpelrn), yt"tepeHEo noql|xeHHofi exoteuuocru, c ueqerKrMr Jryq[crbrMr{ KoHrypaMr.r (OonnrKynsp-
+,brfi p"Kl. 
+.,
+Pexoueudaquu no eedeHul natlueHma. BKarerophr4 TI-RADS 5 peKoMeHAyercq aunonHexhe TAfl6
+y3noB > 1,0 cM, |,r 60flee 0,5 cM y naqneHToB B rpynne pxcKa. BucoKonoAosprr"no"",e na pax ysnur rJ.lx
+MOryT nOTpe60Barb KaK MhH14MyM AByKparHoro npoBeiqeHxg TAnE AO nOflyqeHh, aAeKBarHoro MopQono-
+rh''{ecKoro 3aKJIloqeH}|9. PeueHue o AanbHefuefi TaKTrKe BeAeHrt naqheHTa nphHrMaer kn14Huur4cr.
+. 
+..-nrtfl
+
+
+===== PAGE 48 =====
+'ecadotHt4 tcHos r^dlos sov^coc xFHcoHesod)r Br4Hoxououced BuHaHhor^ BUU )Eh awlxod s ne^
+qrtlHuoulcs ro^Uouc oaueu allxxed-8 I tscr-r/Vosrqa oHcuehBHoadau ¤hHesoeedgo r4)^d foHvogosc wouor
+-ew 
+^d^Uohodu 
+qr6Huourqa eaHgofl')t L Io{^ecuoucr4 aH 'oursedu )re)r '|gdeLueue otcHHouh)tH^u - 
+r4)tuec
+-eH elcHcueuheuc 'e)lolrooQv{}ru oa |cHoe x Xln tscrxcoHro llFdorox )r 'd^r)|^drc xfilnexeu oHrcoHxoosou
+tsubf hly! g'l em|cs {oroJ-oeh c u}r4hreu orcHfaHl4u tscr.o{tsusb guv] BhHeHuoutca 6uV hyltgHquemr4ruo
+'y{euod-LHox hlcsox^seedrcu^ Vou crl4vo8odu oy{r4uoxgoeH gUVf
+'nrhxH^u Bv{eds os oumoDnodu oH oror-e rcgorh 
+^Horuc 
+gr.r4rourodu ¤ed orcuo)tceH bcroeleuvadu IlHe
+-hheu oleh eucou 'oHdoreuqueu ro{BuoUoduo enHesoeedgo ooaoue4 rcd^reuflc^y! [oH4em otaHougeuo
+-ced teeghheucego o-th'{aom Uou norl4ues c urlHaxouou t4ehexou s tsoLruoxeH rHohheu (l4xt4rcoHleuu
+{osoh^u heds louorHo'rd^dt4x {rcHHndxoUHe louoHud}ovHe) BlHeuasodu oe no)ir4uorew 4xlnotoveus'nr
+-coHquehheuc {ogoru heds qlcHuoutca roxot^ rem Eoue^oQrduu xrcHdeHohied uur,r y1fi eoue{ g1y]
+' B14HouorugeH oJoHcuerhH
+-uouof re^gedt aH rHonheu gUVf Bt4Hovasodu eucou ) r 'xsr4souci( xnrdoreulgwe I tscqr6Huou|qs rex
+-oFl BnhBu^uIHevl {woreou oHHev! %gO'O reemrcsedu eH nuhBUIuIHeu{ [t4s.tctraucou xtqHquerpuoxeH
+rHehodu trou¤h ¤ )roebsc xrcsocouor eeedeu o.rosdornesedr A AAUde}.AVedg fetnbuoxedu ner,r{uc ex
+-rer e 'erhUt4oodhr olodrco oloHHonhrsIutcou gt4].ueted lrer'fuc '4rHeeoeedgo xnteorcnl hnhednuce eu
+-cou xulnoletuH6oa 'soccohodu xtqHquernueucoa xndrco uer,fuc o|qHht4Hrue |cHBct4uo ed^ edeltau g
+'(srHegoueuccx orolcoht4louorl4h B14Hoh
+-o{U)lee oloHHououeduoaH orov{oearceeH )er nun erel)|H^u oloHreayeueoH g14Her'^uou crcoHXoweo8) tcd^f
+-ehodu 4oxcehhrcoHle'|V [ore xElHehuHedro go emter e'x6uHaHxouco x|cHxoweog oH 'xr4]Ved 14 B-rox o
+sreeodnwdoQtrodu onuuoxgoer erHouheu gUVf sl4Hofo8odu euehpH ov 
+^wo-teou 
+oHHew14 t4r4h6u^uuH
+-ev{ eHo¤ I crcoHHaHeeuog o{^Hcuexou otf,HHawedsovredr u euef oloHrerder xl.ceugo I erH6uuenoaodr
+'t4hhxH^u ercew I |qwoleniei : rceHto oHxov{ wr4H y 'deuedex f |qHquerou ro{ohtr,t rHo eeer.'i(uc osrcahru
+-ox v{oino{Eugeuou I h 'euBhr oHhotercou hrsr3uoucou x|qHquereuexaH erorceh hl4HoHxouco xtcHeodl
+0914u-xlxex y'ro14-rrseed c oHexbduog oH axHotse8odu ae 'Bdfvehodu resr,urewsedrouew ore - gUVf
+'tcdluehodu cr4Heueeodu ro oloHquog ee)tro -
+:nl4h)rH^u 6t4HoHuouF¤ eHoe a foHe)r xt4)u6y{ 14 r4xo)t BhHesouogee eFHHot4hyeQHu -
+- 
+:t4rcoHst4rewdo$Hu ee em|cs 'r4od^Vahodu c urcHHeetsac 'ycnd eElox 'uer,i(uc er -
+:eeerco!'!el tqnorct4c ct4Hem^deH a|qHHeaoducHoul lo)oU -
+:lcHquev{hHt4w ohHeUosodu ee )r B[HeePxouosnrod;-1 4odi(Uehodu {oeoHeuu Bcra6usc g llVI
+'xB14HotDKedhI x|cHHeeodneuuenheuc s xhHeEfesodu eo
+hdu tcrerqur(eed eumrrfureH reev guvf 'r4]r4vorew 4ore fuorcodu orfsquorncotro eH Bdroy'tcoH 'arcquer
+-emow8 xlqHshLedeuo xnsxi(seH ealcehhuo)r orr,rHemcHewr( r(y'roricuetlFeHe 6deuoJeug qlcoWt40lc oJo
+oul4tt4Hc n egoe o:oeouel o{hHehou )r rcvoxvou our4Hev{¤r4 oHHeErceInIc gUVf er4Hesoecuoucu aoHtnrf6
+'09oe u!o8oue^ hdu t4xt4LcoHleuV 4otsuerahnede$SIV Vorord Ior.codu oHcuol4coHro r ftcHhor oouogheH
+ver r$tuuedu o{I)tcehhHt4tDr orArodxm I eHeduoHs eurcg y{em{eHcueu s e 'll x-O/ oueheH e rcsreenreged
+-red eueheH oHEt4Dte eeuog ''l 9?61, I le le ocuelg-otooetd V U eHechuo e|cadeus ed^tsohodu .nordeu
+-Herc n|clouo¤ BcreBUsB SUVI Xln fhHesouogee wAIcoHJeaV sovorew ewrudo:ue ccnefno{ay{l4 g
+rq¤erox( 4roHvusoruln
+uuHEsoEE dgo yul ong veIgJgtoI{IrEdnIIJE nEHqroJUO]rHOI
+I uaSsnd
+Lct4hnHrU)t -toeul
+-r4Ht4du elHehheu slHoves e)thlyer homnoHcuev o ehHomod ewHenneu onHegee ou nnneQHowoxed
+'XIn Ied Hovxdesruou BnHeaoveucch olo)cohl4lou
+-orr4h fielerqulred oU Xln chHesoeEdgo lAeA vdu ooHed oloHHeusbtcs gUVt eHouosodu IrHe|,heU
+uxrehnJoro0donorrlll aoHHeY)(dasrtrou ,er.rHEsoEedgo eoHHasJrehBxorf¤ .g sovu-lI
+LV
+I 1.'aQf.o{tr
+
+
+===== PAGE 49 =====
+48
+Ilpuneueuue xnaccuQuKaqau TI-RADS npu y.rlbmpazeyxoooil Mynbmanapa.uempuuecxoit otleHKe y3no7 r4umoaudnoil ucenezu
+llpe4eapnrenuuoi4 crepnnusauna AarqrKa ne rpe6yercn. ,Qocrarovno noMecr]rrb ero e narercHuri
+KoHTefHep rnr o6pa6orars aHTncenrhqecKhMh pacrBopaMh. Anc yfly,{ueH[r KoHTaKTa c roxei naqneu-
+Ta MoxHo ncnonb3oBarb crepnnunuti ynbrpa3ByKoBoi renu nn6o Qusnonornvecxni pacreop. BbtnonHe-
+Hrq aHecre3nr npt,l npoBqAeHh[ nyHKr]]rn o6HqHo He rpe6yercn. flo raueuy MHeHl4|o, BBeAeHxe aHecre-
+3l4pyoqero pacrBopa B 3oHy hHTepeca BbrsbrBaer yxyAueHre yflbrpa3ByKoBof Bh3yann3aqt4]4 t4 t43MeHe-
+Hhe Knero'JHoi KaprxHbl nyHKTara, a BbrnonHeH[e uecrroi aHecre3hr Koxt,| no 6oneeHr,, oulyqeH[rM
+conocraBxMo c ol4oncrefi. B cnyvae Hu3Koro nopora 6oneBoi qyBcrB]4TenbHocrn nph xeraHurl naq]reHra
+npoqeAypa MoxeT BbtnoflHgTbci nocre npnMeHeHhc annnIKaqhoHHbtx aHecTeT[KoB.
+Eroncup Moxer BbtnorHcrb oAxH Bpaq, BnaAelou.lnfi MeroAxxaMlr BbtnonHeH[r V3l4 n nynxqrn, vro,
+Ha Hau B3rnrA, npeAnoqr[Tenbnee, nn60 ABa Bpaqa: Bpaq ynbrpa3ByKoBoi ,qxarHocrnrn (4epxr,rr
+ynbrpa3ByKoBof Aarvux, au6upaer y4o6tute cpe3br x Kopphr[pyer nx B MoMeHT BBeAeHxn nrnu) n epav-
+MaHnnynqrop, HenocpeAcrBeHHo BHnonHglou.I,ri BBeAeHt.le urnbt h acna4paqI|o. flonyqeHHoe coAepxuMoe
+noMeqapT Ha npeAMerHoe creKno 14 ornpaBrrsror B na6oparopt4to Afln BbtnorHeHrF tlt4Tonoru'lecKoro nc-
+cneAoBaHh9.
+Paluep rrnu lt unpnqa
+flnn npoeegelnn TAnE Mbt ncnon$yeM rHbeKq[oHHbre t,|rflbt pa3MepoM 0,8 x 40 rr,ru (21 G x 1't) -
+Ha Hau Bsrn9A, [MeHHo raKoi AxaMerp onrlMareH. B nrareparypnurx t4croqHrKax qat4e Bcero peKoMeH-
+AylorcF xrnbl Al4aMerpoM 0,6 t',ttr,t (23 G) - na Hau asrntA, ucnorb3oBaHne rarnx n 6onee roxxnx nrn (ta-
+np[Mep, AuaMerpoM 27 G - 0,4 MM) yMeHburaer Kon]4qecrBo acnrpnpyeuofi KpoBh, Ho qAHoBpeMeHHO
+nphBoAtlr K cHhxeHrlo xalecrBa nyHKTara, B 'racrHocrr4 x yMeHbueHl4o ero KfleroqHoro cocraBa. B cBoto
+o'{epeAb, npt4MeHeHre 6onee roncrbtx nrn (4nauerpou 6onee 21 G - 0,7 urr,r), nao6opol yBenuqxBaer
+Knero'{Hocrb, Ho nphBoAxr K 3Haqr4TenbHoMy pae6aenenno nyHKTara KpoBbto, qro orpaHhqt4Baer np[Me-
+HeHhe raK x hrn orAenbHblMt4 cny'.ta9Mh (HanprMep, npu 6onuuou o6beMe oqeHb rycroro Konnoxfla unt4
+3Ha'rrrerrbHbrx $u6poourrx nsuetelnnx ysnoe).
+Anr co3AaHht orpl4qarenbHoro AaBneHxF B rrfle HaMt4 ucnofl$yercF o6btqHHi crepunbHbti oAHopa-
+soeui unpnq-o6uervrou 10 Mn. [1o HaueMy MHeHtato, npnMeHeH]4e unpt4qa rMeHHo raKoro pa3Mepa onrh-
+MarIbHo KaK co cropoHbl gproHoMt4Kx, TaK h c Uenb|o coqAaHnr ycnoerfi 4nn BHnonHeHt4s <<Msrxoi> acnr-
+paunu npa BblnoflHeH[]l 6tloncxh. B 6onuuhHcrse cnyqaeB npe.qnoqrxTenbHo npoBo.qxrb TAnE nt46o
+c oqeHb cra6ofi acnrpaquei, n[6o eoo6qe 6eg ree. Texrnxa (acnhpaq[oHHofi 5noncun 6es acnupaqnr>
+no3Bon9er cyqecrBeHHo cH14alrrb Koflr4qecrBo nonaauei B nyHKTar KpoBt4, npI oroM coxpaH]rrb Aocraroq-
+Hylo ero KneroqHocrb. ],1cKaoqeHxe B oroM nraHe cocraBflrnr ysnoaue o6pa3oBaHt4q nflorHof KoHct4creH-
+r.14r4 c BbrpaxeHHbtM Sn6po3HbtM KoMnoHeHToM B crpyKType y3aa.
+MeroAx Kl,t npoBeAeHrn TAn E nog y,| brpa3ByKoBbrM koHrpoIeM
+r MeroAnra <ceo6o4xofi pyKtt) (free-hand) vaqe npuuennercr npta Aocraro'.tHo KpynHbtx o6pa3oBa-
+Hl49X B OTCyTCTBI4e CneqhanbHbrx HacaAoK hnx npx yBepeHHbrx HaBbtKax npoBeAeH[g uaxnnynnqtr. flpe-
+hMyqecrBaMa4 MeroAt4Kr4 f,Bnqlorcn BbtcoKar creneHb ceo6q4u npoBqAeHrg MaH[nyn9q[r, xopouag Bh-
+3yaflI3aqn9 t.lrnEi.
+. MeroAt4Ka c noMotqblo cneqhanbHoro nyHKr.ll4oHHoro AarqrKa no3Borger npe4BapnrenbHo oqeHxrb
+TpaeKToprlo xoAa nrnu. Ognaro ny npoBeAeHhx MaHr4nyfltr.I4r4 [rna qacro nnoxo Bx3yanu3rpyerc9, cBo-
+6oga uatnnynnqnu orpaHu.uaaerct lr3-ga xecrKocrh KoHcrpyKr.l4r4, nph groM [cnorb3yrorcq cneq]4anb-
+Hbte Ifflbt.
+o MeroAhKa c noMotqbto cneqnaflbHbrx nyHKr.l4oHHbrx HacaiqoK, nph lacnonb3oBaHtax Koropbtx orMeqa-
+ercc xopouaF BhSyanx3aqrF xrnbr npt,| onpeAefleHHoM orpaHnqeHh[ ceo6o4ur MaHt4nyn9qt4]4 t43-3a xecr-
+t(ocfl4 KoHcrpyKtlxi, Konl4r{ecrBo 6noncni orpaHl4r{eHo la6oporvr crepxnbHoro ]4HcrpyMeHTapl4r.
+Bae4enue hrnbl Moxer 6urru aunonneno 4eyun cnoco6amvii
+- no Kpalo qelrpanunofi qacrh iqarqxxa -.B oroM cny'{ae Bx3yanx3rpyercl roteqsufi (pparMeHT xrnbl
+(pnc. 7.1\;
+- c flarepanbHblx KpaeB Aar'{hKa - 
+B oroM cflyqae t,|rna Bx3yaJth3hpyercg Ha sKpaHe MoHl4TOpa npafiX-
+'{ecKr no ecei 4nnre (pnc.7.2).
+. 
+lloflyqeHHuft npn TAflS Marepnan cpa3y nepeHoc]4rce Ha npeAMerHbte creKna (pr,rc. 7.3a). Heo6xo-
+4rlao }1s6erars nepecyul14BaHnF npenapara, nocKonb(y oro Moxer npuBecrt4 K noBpeMeHI|o Kneror. nocne
+
+
+===== PAGE 50 =====
+'BIHe80170ucct4 0lo)cehruouolr4h
+ErHeHUou|9a Buf ol doredogeu s qthaeduro oleh oucou '(9e / chd) h[HeusedueH y{oHgo a oHquareuex
+v{ore ndu 'v{eoug v{h)lHor l4rceHeH oHXfH ex feedc ore ootorc eH Ehhdum eh eLedn)ce BhHeshuseo.na
+'[9) exler'auJo'B)I¤Ehl auHersoroJ[Idr u (e) orxerJ aoHromVedu EH Brrer,rderehr oJoHHahdror ar,rHaInaHoII .t./ .cl4d
+'r.rfiH¤xsrodu na]s EH rylehrJrEdr gJrasrovoduo (I,l)I[adJ]) eIfia seHHolihyHIu
+iedortHohl aHEdx¤ eH lqvJt Bl'lhE¤rirEd¤}ls - 9 lE)rrhJev oHqrarnJoHJo rqtrJI, ar4Haxorollted - e:E)|nhrev orBdx dnoHsrEdorB!.
+ou FIrrJIl hlallHotroaa t l|am urJBrgo s d,(.r,x,{dr) xrsurJonxdasou lrrrtuoug nourrorrlxrrr{tr rrrHoxrourrf, Bxrtro.Lal{ .Z.Z .Jl,td
+'lloxreorl HaheHeo90 IsrJI-I llasot lqrJu qrodr sEHqrEr][Y o)lcror rtJosravaduo :EdoJlHoN
+aHEdy¤ sH rcraJr suheEvtlef.Eus - g:E]irrhrev oHsraJ.'l]oHro rqraJu otlHar(orouJEd _ E :Exr,u,rBV t.rcer. 4oxrred,r.naI olBdx ou
+I'lIruI| rrlo[Havass t rralu ltrJErgo s d,{rtddrJ xrsflrtonxderou nr.ouor.rg 4oHHouhx&(u rl{aHrourra Bxutrorohl ,!.1 .3rd
+6t
+I L'aQt nd
+
+
+===== PAGE 51 =====
+50
+IIpuneut:ttuexluc<'ut|luI;QI1ItiT]-RAD,Snpuy7ht|tp
+Tlcnonb3oBaHue MeroAoB Br43yaflbHoro ynbrpa3ByKoBoro KoHrponn 3Haq reflbHo o6nerqaer npoBe4e-
+Hue MaHInynFqhu. YnurpaseyroeaA HaBulaqt4A, HecoMHeHHo, cHnxaer BeponrHocrb acn4paql4u nyreaofi
+KpoBt4, Kt4cro3Hoi xu4rocru rs xncrogHo-cdnnAxux roeoobpa3oBaHhfi. Br43yanbHbtri KoHrponb nyHKLI4l4
+nplBoAt4T K cyqecrBeHHoMy ynyqueHlto KreroqHocrr4 nyHKTara, raxru obpasour, noBb .raercg anarHoc-
+TIqecKag hH(popMaTIBHocTb 14ccneAoBaHI9.
+BHeApeHne B KnhHnqecKyto npaxrury Y314 He hcKnoqaer ta3 AharHocrr4qecKoro aflrophrMa naflbnauu19.
+Sror uero4 4rarHocrt4Kn no-npexHeMy BXoAt4T a crax4aprHurfi nporoKon ocMorpa naqreHra h no3Borrer
+oqeHnrb cMeulaeMocrb t4 KoHct4creHqtato ysnoe. OnpegeneHne grrx KaqecrB y3na nueet 6onuutoe 3saqe-
+Hue npl4 npoBeAeHun TAfl5. Ctrleqaeuue ysnut re6onsuoro pa3Mepa B npoqecce TAflS nyxno aKKypar-
+Ho Ql4KctlpoBarb B aKycrrqecKoM none, a nanbnaropHat oqeHKa nrorHocrl4 y3na noMoraer est6paru on-
+ruMarbHyro cnny, npunaraeMyo K unp[qy Bo BpeMF acnwpaquv-
+Vgnosste o6pasoaaHnn l{X,lacro uMercr rereporeHHyo crpyxTypy.,Qnn rccne4oaaH[q pa3fltar{Hbrx
+yqacTKoB raKnx ysnoB n,|oxer noua4o6ttTbcf, HecKorbKo acnrapaqurl r43 oAHoro { Toro xe ysna. Ilpoae4e-
+ane 2-4 acnupaqni no3Borner a qocrarovuoi Mepe cHh3r4Tb BepocrHocrb nonyqeHng HeaAeKBarHoro
+Mareprara. Taroe xonhqeclao nyHKqrf xopouo nepeHocr4Tcg naqheHTaMh, B To BpeMF KaK AanbHefuee
+yBeruqeHre ux qrcna noBbtuaer pl4cK pa3B[Tr4q BbtpaxeHHoro MecrHoro oreKa MnrKux rraHefi n reMoppa-
+ruqecKhx ocnoxrexui. flph HeoAHopoAHbrx no exocrpyKType o6uen,|xux o6paooeatnnx Marephan 6epyr r,rs
+uan6onee noAo3prrenbHbtx yqacrKoB B qeHTpe r c nepraQeprr y3na, npu Kr4crax c BbtpaxeHHbtM rKaHe-
+BblM KoMnoHeHToM, B ToM q[cre u3 T(aHeBoro KoMnoHeHTa, nocre npt4MeHeHxg l_lAK - 
+l43 HanMeHee Bac-
+KynFpnsxpoBaHH blx f.{acrKoB, no pesynbraraM snacrorpaQuh - hg Hah6onee xecrKl4x o6nacrefi ysna.
+flnn nonuoqeHHoro qrrororhqecKoro rccreAoBaHuq AonxHo 6urs nonyveHo 4ocraroqHoe KonhqecrBo
+Marepuana. Konnqecrserxan oqeHKa perynrpyerce npaBhnoM J. Hamburger et al. (1988 r.). llocne rr.r1a-
+TenbHoro uSyqeHng nonyqeHHoro Marephana noA cBeroBbtM M14KpocKonoM n oqeHKh ecex vop$onornvec-
+Knx npn3HaKoB qhronor conocraBflqer nx c Llt4TonoruqecKof KaprhHoi HopMaflbHoi t4xroBt4AHofi xene3bl
+(unu cooraercrayrcqrx naronorhqecKux npoqeccoa) n 4enaer qhronorhqecKoe 3aKnpqeHhe. nph oroM
+o6searensHo AonxHbt yqurbtBarbcg xnlltnro-na6oparopHbte AaHHbte t4, KoHeqHo,4aHtsre y3lrl.
+Llrronornvecrni AharH03 tuoxer 6urrs ycraHoBneH B yrBepAxrenbHofi nnn npe4nonoxrrenbHoi Oop-
+ue. Yraep4rrenbHbtfi qrrororhqecKuri AxarH03 hMeer |opr4A14qecKyo 3HaqIMocrb. flpegnonoxnrenuuuri
+AharHo3 yKa3blBaer Ha Heo6xoAhMocrb npoBeAeHhF AononHurerbHbrx nccnegoeatni. l-.[uronornvecxoe
+3aKflloqeHne (popMynupyercF B coorBercrB1414 c rll4rororl4qecKofi xnaccuQuxaquefi 3a6oneBaHnrl u{r4roBr4A-
+Hori xe,ne3br no o6HoeneHHoti ct4creMe Bethesda System (2018) (nphnoxeHxe 4).
+Pasden B
+Ylrrpa3ByKoBafl oqeHKa perrroHapHbrx 3oH Jrr{MQoorroKa
+rrllrToBrrAHoft )r(eJre3br
+6onuuIHcreo paroa ulIroeJhHoi xene3br pacnpocrpaHn orce n penMyu{ecrBeHHo nnMeoreHHo,
+B nepByo oqepeAb B nxMQoysnbr 6oKoBofi noBepxHocrr4 ueta. OqeHKa cocrosHr4r perhoHanbHbtx nr4M@a-
+TrqecKltx KonfleKropoB gmeerce xnto.]eBof aa4avei Y3V1 n npn nopaxeH h paKoM t4xroBr4AHoi xenesur
+n03BorFer yroqHrrb craAhfHocrb oHKonorrqecKoro npoqecca I cnnaHhpoBarb o6ueu oneparneHoro re-
+qeHhF.
+Ha uee pacnonaraercn oKoIIo 300 nnuQarnvecK x y3noB. flnn o6osravern A nolanvsau,tl BbreBfleH-
+Hbrx nhM(poy3noB nphHero Aenurb ueo Ha noAqenocrHyrc o6nacru, BepxHroto, cpeAH|oto, Ht4xHoto rpern
+ueu, nepeAH[e orAerbt t4 HaAKnrcqhqHyn o6nacru. B xupyprravecroi npaKr[Ke tau6onee qacro hcnorb-
+3yrcr AeneHue ueu Ha raK Ha3btBaeMbte ypoBHh (pr4c. 8.1), npe4noxeuHoe e 1991 r. K. Robbins et al.
+h nepecMorpeHHoe B 2002,2008 n 2OO9 rr., npnMeHneMoe 4nn o6osHaveHrn BuFBneHHof n14MOaAeHo-
+naruv npu npoBeAeHhu KT r MPT, leo6xognuoe ArF BbrnonHeHrg nnMQo,qucceKqxr,r (flpranoxer.run 5-6).
+
+
+===== PAGE 52 =====
+l(unrer'oure e|qHrcolEr4x'|creHnhcue)r) euefo$nnu ed^rvldrc s BnHeho{r.Drs e|cHquerIHuouoE.
+:(oHcuerhheHe hux oHHodonl 6eHHoxr4H
+-ou 'gsHuedc 'reuromrseou) oxe lroHHhvedc nossexednges ndu eueloSnuu qrcoHHeroxe Belngo .
+:ooHHesodnwdo$ev'eoxeI'oHaHedxocAoIercrIcro :(euefo$wru erodoa) oxe ooHHnuodc .
+:(Helnuo oudelroreederTxeHedxocAalsrcr^cro) eue^oQr,'l4u couc oioeo)rdo)r or4HUor.coc .
+:(eHomfdeH'ereredxoc) euefo$nnu [ercph xrqHsprcoc BrhehhHodaSSxts .
+:pue^odv{hu sodeweBd orsHvee-eHvedeu n orosnedeuou enHemoHrooc .
+:a|cHsodoH/oFHsod'envrer'es/eulrerr :euer{odwnu nd^ so>r h |chhHedr .
+i(uersuneeduer 'seui^d)ro l"e""ue"o 'uercouu) euefosntau endoQ o
+:(14co [o)l
+-rodoy ou deneed ccrecusr wrsrenrewdo$Hh oouogxeH 'xunhloodu xedr a) euefoQwnu ndeyreed .
+:(aFHHesrcexoH w' e' Z' l) soue^o$nnu xrqHHoueB|cs oslcohr4uov .
+:(nHeod^n,'Lceuso"^",",l#:fi :"J,;:*fsx1"1"ff f,il::""#;x1"J"T:
+:(7 9 'cnd) rnrcndeuedex-g^ xrtno^Uouc Io)rHoho c
+ov'roxc {oHrdeuHerc ou Bcrnvosou BhHe8oveuccl4 0ioeo)rAeeedrqur( r4|cHHev ou souelosv{ u e)rHeho
+'r4em I Fsouor aouet(o$wnu [eHsod^ xscs e]4HesoEeuccr hrcesodu re^Ueuc xfn ileA
+BhHeHuouna eucou fnoreou 'soueIoQnr4u rcuu^di eca crexedou rexor! ccehodu lr)cehhrercero] l
+x 6002 s exoJ,J.ooonur IaIIsodl,{r{axr s EHallEdseos srhnEou UEHHEtr/ rlrd
+-ardE goHHEtuq¤og amrqs orsHdoxorouJEd 'srHeDovadl oJaHxdaa rsrel anv:ahr,rJ,eoNnr lqlloJoHro IIA o'xaod/' )l'an'dDhawnd
+'I-rndardp IoHHrnrs¤a9 amrqq aHHHaxorouJed'BrHarJotrodJ
+oJaHxdas FrEIo(pnrr - IIl\ :arcHgam arr#sdau - IA :uam evuHcroJIadJ. o:ogovog rrre,{oQr{rrr - g1 'V :E[[ddJ sEHr,rads rss
+-xl-rH -AI 
+jeuuddJ EeHWodE ErHllodr - III :EIIIIIdJ BEsNads ssHxdas - gll 'VII :aEHr]orr.ohaqxriHtrol - gl lorsHLovodogvon - Vl
+inl|Ha|JoVadj oraHxdaf, u I|aE sor¤,{ xllxf,ohl|rBonlr r,{dJ ar raxrEdgocl| aoxrahlrEr{axJ '!'g 'cxd
+rqHxu dJ
+l|qHUhsaHrcdeU
+ehm|qW
+uEHh|cetsquou
+6eHUmsa14hauedl
+1.9
+g L,aQtDd
+r
+
+
+===== PAGE 53 =====
+52
+Ifpu.,vettenue xnoccurpttKslluu TI-RADS npu )tnbmpaseyxoeoil .uy,Tbmunupu-rtempuqecKoit oueHKe y3no6 u4unTosudHoil wenelbr
+Pnc. 8.2. Hopnaaurble JIHMQoyirbI lrren: a,6 - r,r3o6pilKeHr{e Jrr4MQoy3JroB (crperKt4) B pexnMe IIAK.
+Pttc. E.3. Pearrnrnue nluQoy3rhr urer.r. ll3uepea[e flotrepe.rHoro pa3Mepa (+...+): a - coxpaHeHo cpe4uuuoe exo; 6 - cpe-
+AI,IHHOe 3XO OTCyrCTByer.
+. BacKynqph3aqun nxM$oy3na (orcyrcrByer/BbrqMeHa: B o6nacru Bopol no neprSeprn, B qeHTpe,
+naronorh.{ecxufi cocyAt4cruf pncyHor).
+HeuaueHessue nnuSoysnut 60KoBoi noBepxHocrr4 uJeI nMeor npaBhnbHyro 6o6oaragnyo unI oBanb-
+ryo Qoplay, poBHble qerKr4e KoHTypbr, ToHKyE rhnepoxoreHHyp Kancyny. B nacronqee apenan 6onee sna-
+qhMUM npn onpeAeneHh[ pa3MepoB n]4M(poy3noB ueh c'{nraor nonepeqHbtf pa3Mep (puc. 8.2). B ypoe-
+xsx lll-Vll nonepeqHnK (nepeAHe-saAHhfi pasuep) He npeBbtuaer 0,5-0,6 cu, e I n ll ypoennx Moxer Ao-
+crnrarb Ao 0,8 cu. flo AnrnHlrKy pa3Mep n[MQoysnoe uier o6srqHo He npeBbtulaer 1,0 cM. SxocrpyKrypa
+nhM(poy3noB npqAcraBfleHa rnnooxoleHHofi nepuSepnef h rnnepoxofeHHof LleHTpanbHof vacruo. B pe-
+xuMe llIlK B Boporax flhM$arh're$hx ygnoB MoxHo BbrnBhrb KpoBeHocHHe cocyAbt, B qeHTpanbHof ,{ac-
+TA - nx eA[Ht4t{Hbre cpesu. Ogxaro cocyAr4crbre crpyKTypbr B rr4M$arhqecKhx y3nax Moryr x He Bh3ya-
+'|t43t4pOBaTbCt.
+Ilpn ocrputx t4 xpoHhqecxr4x npoqeccax nonocrr4 pra h HocornorKu e aepxnefi rpern 6oroeoi noaepx.
+Hocrt4 ueh MoxHo B14syaflh3t4poBarb peaKrt4BHo 143MeHeHHUe nuMQar[.]ecK[e y3nbt. PagMepbt l4x npI eroM
+KaK npaBnno yBenh'1eHbr, Ho Moryr ocraBarbcc B npeAenax topn,trr. Coxpalnercq crpyKrypa h BacKynnpx-
+3aqrF nhMQarr,{ecKoro y3na (xa annaparax cpeAHero Knacca cpeAIHHoe oxo Moxer He B[3yaflx314poBarb-
+cn) (pnb. 8.3).
+Han6onee qacro nph paKe IIX nopaxabrcc nruSarnvecxne ysnu cpegnefi x HhxHei rperef 6oKo-
+Boi noBepxHocn4 uen (ypoeur lll, lV V), a rapxe Vl r Vll ypoanra. llopaxeuu uoryr 6urru eAhHt4r{Hbte n]4M-
+Qoy3nbr, Ho BcTpeqaeTcr t4 MHoxecTBeHHoe nopaxeHne.
+lloAoapnrensxstMt4 Ha Meracrarhqecroe nopaxeHtae cae4yer cvnrars nnlaQarrqecKne y3nbt:
+- oKpyrnoi, pexe HenpaBnnbHofi QopMbt (pnc. 8.4);
+t-
+
+
+===== PAGE 54 =====
+'(g8'g chd) xr4QpdloFeue w|cHHpV ou qrco)U-cox otAtoctcs ohmo{ey{u -
+:(e8'B'cr4d)
+euel wolHfct4d n|grcl4u^coc htt4)rcehhrouoreu c 'Ienheehdbulxces [oHeISQhts 14ut4 {oycohndeshdou c -
+:(/'8 Jrd) [l.lHehotl.rxs x|cHrco)tEt4x t4 soleHnhquev mor4hr4uEH - euel |qd^rx^dlc ocrcoHuodoHvoeH c -
+:[oHHAXIHOU OHCUerXheHe,(OSOI
+-eho ru14 oHe^QQuts) foHHamnsou :(g'g chd) souelo$lrr4u xrcHHaxedou otqrcoHHeloxe xoHhhueed c -
+:(9'g chd) (enercrfcro oJe ooHuou t4ut4 oxe
+eoHcuedrHoh aouueeodnndo$ets) eue^ d^D^drc xrqseHexr e)tsodnhnedeQQnU refercr^cro xndoror e -
+'ox¤ oJoHHuVadr nan[ewdoQeV r'ygfu exed nneturJuror,rt alqHHaxedou '[1"'+) nem rsred alrxJeh]rreQnrny -g.g .c]ld
+wenxehnuee{ 3
+narHehnueaf 9
+'(raxrad"r.c) Isl^ldo0 norrddxo'ygfu uxud nI^IEEBTJBTaI^I erqHHexudou'nem rsred anyJahnJeQnrny.t.g .c'1d
+e9
+I uaQrDd
+
+
+===== PAGE 55 =====
+54
+I-[puuetteruexnae:cutpllKu4uuTI-RADS,1pt.yjtbmpu3t4|K06oi.|'y.Tbmunuput|e|fpiqecK0u04eHKe},:].:l()8l!lllllllcul)ll
+Puc. 8.6. Illeftnue rrnMQarr.rqecK[e y3rrbr
+cHr,rxeHHofr oxoreHHocrbro; 6 - nurqqoy3eJr
+fcrpe,rrrz), [opa)ICeHHbIe Meracra3aMl{ paKa IIIX: a - 
+"rrv uQoy3en co 3HaqvrenbHo
+rroBbrrtleHHotZ gxoreH HocrIr,
+Prc. 8.7. llleinue aurrltlarnvecrue yuu (crpe,rra), nopaxexHlre Meracra3aM[ paKa IIIX: a - n11MOoy3en oBarr,Hoi OopMbr,
+c napyueunofi 4arlQepeHll{poBKoi, orcjrrcrBl-IeM cpeAr-IHHoro xo, cpeAHei sxoreHHocrri, c MrrKpoKarbrlr-IHaraMr; 6 - 
+rMOo-
+y3en, rrllooxoreHHbrri, c xI,tAKocrHbIMr-.t BKrrotleHvsMl,I.
+P|ic' 8'S IIlefiHhIe nuuOarl|'lecrtue lnnbr, tropaxe[Hhle Meracra3aMn paKa ItlX: a - pexr.rv ADF fyr]FrrrreHHoro a[HaMsqec-
+roro notora): ,rllIQoy:el ooarruoi QopuH (eanzuaer oclo sony uurepeca), c napyureHHofi ArQOepeHrIrrpoBKoi, orcJncrBr-reM cpe-
+ALrIHoro 3xo' HepaBEoMepHo IIOHllxeHHoi 3xoteHHocrt-t; Bt 3yan[3tpyercfl [arororuvecrv i cocy4r,rcrui prcyqoK; 6 - pexuM K3fj
+.[I-IMQoy3e,'r oBarr'Hoi oopMbr (crpenKn), unepexorenurri; no AaHHbrM gracrorpa<[ua - nucorofi xecrxocru.
+t
+
+
+===== PAGE 56 =====
+'ornheehdBu^xces h 
+^d^r.I^drc-e^ 
+oIHHeHov{eroH ro{BHedxog 'soxeHendu-e^ x|cHHeucnh
+-edeuemrqs ro{otl[4 oH oFdorox 'or greaeeH oHxor4 [weue^oQy'r4u r4wrcHHesrceherodgou oHrBodeg
+'eue^ crcoHHoroxe ot^HHexhHc 'oxe oloHHuuodc ousrcrlcro 
+^mdod
+o^HcuhseduoH r4ur4 orlur^d)|o crerhhc raltseuc xeue^oQnr4u I r4y{unHeHeweh nw|cHHeuevoduooH
+'[ohheeudBun]ces [oHeAQQ]4f huh foxcehhdeQndou c 'r4rceh ea nux Fdo)r [ocs
+l4rCOHHOlOXe v\lehHgmtqsou c 't4hhe) 4(pt4hcue)| unereho c 'r,r!\tEnHeHeneh un|qHeorct4)t c |que^ ehxcehhres
+-u{uu qrErt4hS ro^Uouc enHexedou eoHHearcehe)rou8 eH [mrcHcrror]4deovouo)ocrqs 'u{oeedgo wr)rpl
+'IlIJosHaJox¤ 4osHaxI-rHou oHqLarI,rhEH¤ 'gotsoduIHado00uY 4osrlomfdeH J 'rqndo0 'IsHI,IhIiras 4oHhnrsEd rqrEdo0
+-hu{r - 9 :[I4rsaHaholIrva rlnlqHJito)t?ll]( l 'aHEHaJox¤daullJ 'IoxsodrhrladeQQI,IU gorlqamddEH t 'rcndoo 'Issrhrraaa roHhrr¤ed
+Isla{o(Pr{I,Ir - B:XIll Bv"d III{eEertBran orsHHaxBdou '([vradrJ] I|aIu rcr&( altrrJohurEonrrrr ar.rrrHoa.I;raxoHhl '0!'g 'Jxd
+. 
+lrrr¤Jplrrhqreyody[hrrr,{rqHhlitHlttraJ'nEHVodoHVoaHEdd.l,y,{dJ.3,EHaxI,tHouoH
+-doI,|oHsEdaH 6eHHaJox¤ 'Isd,{rv,{drJox¤ IaHHadJ,{Hs pxsod{trqada00ntr JaIsrJJdlJo 'rr^rEdIJrroy I|trHHsodaH J '(rrradr.|J rsndo0
+4orJ,{dto nam ro¤I 4ltvJehtrE(phr[I/ - 9 lS S(VU-lI :}lnErEHnhqrE odyrr{ 'uweddrHo} ,tntqrEhirraovodxrr4r rrHrrHsodaH ] ,I,IIJoH
+-HaJox¤ IroHHe)Io,riou oHdanoHsEdaH '(rxr¤drc) rcl^rdoo gorJldvo )I{II urov 4ospdu raed - e rnam etrcfoonru flof,ralrodn nrrx
+-Jah[rErJeran oJoHHar@dou n (xed Xrrndrnnuueu) ylfg er¤,{ oJosoyEd oJoHhnsdotr rqH[rdEx-¤.^ ausD.Laaroof, .6.g .Jnd
+' g IlvJ anHa p a eodu tx u atp
+-Hawovad sov¤[ xnviahnwo$wnv anHaxtcDdou aovtahnwDuJDwaw DH y.jqH.Ivawndeopou nnHaussgg ndlf 'w6Haodr(
+ou nnhD¤nvDxorr xn wanHD¤Dvt J auoroulodu-¤1f o gwDxnuo nam nrEfofwnv wowe ndu anHHarrgqns a\s ow
+-npoxgoaH 'aleHHaowJahDvov¤ DH nqHqvawnd¤oqou 'nnHDsoEDdgo xtcsov¤f )KIII nHDxw e nnuaxtdougo ndy
+'fuf'A'cnd)'dp n qwJoHHaeox¤'tdtutxfdutt'twdofi ledawtnd arqunnvend
+qtuawn ut'(zow nam nw( anxcannwoSwnv anuuateodou nnuapuvgon atr t{ou n woHpo g 'woxnhodu vmytannut
+-DlaxDuaw nam aovEt xnvtannwoSwnv gnuattodou wdo@ nnwdgooeoHw woHteott¤os o ewnHr'tou watpavS
+'G'g 'cnd) )KIII e ovet ozoaoyod ozounnedau aunwdoy-¤I ewDsoauxuaswo
+-oJ ugutxoHvou wa cov aorfe'{xnyJannutoQwnv xnxlahnwDw)Dwaw nqxualrodou punwdr}-af ioHt(Eg g
+99
+g mQtnd
+
+
+===== PAGE 57 =====
+56 
+frpu"e,enae KtaccaLuxa4ua TI-RADS npu )'n6rftpalslxot.)u ,tJ,xbmanapa. emputtecr<oa o4ettKe !:Moa ulutlrosadrloi rreenexbl
+Pasde"n 9
+B ap naHTbI Q op rnrup o B anufl, HTo ro B o Fo 3 aKJrroq e H ufl, y3,li
+c npHMeHeHrreM Kareropnn TI-RADS
+1. flpn o6HapyxeHn[ y3na a rxaxn o4toti r43 Aonefi l{X e nroroaonl 3aKroqeHhr cne4yer y1a3arb
+Karerophro TI-RADS rorxperrofi gonra (prac. 9.1 ).
+2. flpr o6lapyxeHhh HecKonbKhx y3noB B TKaHn oAnoi Aonn l{X B onucareflbHoi ,{acrh Kax(qoMy y31y
+nprcBa Baercc Kareropxn TI-RADS (e cnyvae MHoxecrBeHHbrx y3noB - rpelr rar6onee noAo3p[Tenb-
+HUM), B hroroBoM saKnoqeHrh crleAyer yraoaru 6onee BbtcoKyo Kareroprrc TI-RADS KoHKperHol4 ,qonh
+(pnc.9.2).
+3. flpr o6napyxeHnx y3noB a o6eux Aonnx e onncarenuHofi qacrr4 KaMoMy y3ny np[cBanBaercc Ka-
+reropnn TI-RADS, e rroroeou 3aKroqeHrh cneAyer yxasaru 6onee BbtcoKyrc Karerophto TI-RADS, coor-
+BercrBytou{yo xa4oi Aone (prc. 9.3).
+Pt'tc. 9.1. O4uxovuue y3nbr [crpenKu) B AoJtax IIIX: a - 3aKrrcqeH[e: y3eJr rrpaBot Aonx !lx; TI-RI{DS 2;6 - ear<rroveuae: vser
+,'leBofi Aorx U.lX; TI-RADS 5.
+Pnc' 9'2' HecKonhKo o6pa3oBaH[fi B oAHofi Aone lllxr a - r npaaofi 4ore aoqrpyercr y3en c rIoJrHocrhro KL]rbrlrHr-rpoBaHgot
+I(aflcynofi (1, crperKl-I; TI-RADS 3J t{ Y3en c yMepeHHo cHI{xeHHoi gxoreuuocrbro (2, crpenxn; TI-Rr{Ds 4J. 3aKnroqeq11er o6pa3oBa-
+HIrq rpaBoi Ao,,r IUX; TI-MDS 4. 6 - r npanofi 4oae IIIX aoqupyercr ([cro3Ho pacuuperuui r[orarKyn (1, crpenKa; TI-fu{Ds z),
+rtcroenblfi y3er [2, crpenru; TI-MDS 2] u JEeJr c HeqerKrr\,rl t-r HepoBgbrMu KogrJapaM1;r rrepaBgoMepgo flogrxegHori gxoreggocTrr,
+c Mr*po- r, MaKpoKa^quraraur [3, crpenKr; TI-MDS 5]. 3a(arcveure: o6paaoraurza nparofi 40aa IIlx; TI-RADS 5.
+t
+
+
+===== PAGE 58 =====
+-eHeildu xrqHquoruflegA
+-o$r,l r,r u o.roHd e H o rred
+'eorercu^eed xnycer,nrouoddon-o)|l4Hr,rur n|cHHeU ou ccreBHuouFs eHo )t L'Bc
+-rafuHau{oyed eH clt4uoeodu y\|Nl anercnc ou nam eouelo$wru n y1ft eoue^ r$naho-g^ souel xh)tcet'
+-rreSwr,tu xtcHcuoludeovou aelrogneH hhcuong BuHeHUou|9a cresogodrou rexon euHeeeri{ eouefi
+'xcertr(uc xtgH9r.J¤tlt4Htrtoc s (xt4reuoHeueQnuu x]eH8udu-eA) -
+:fu'A'cild) BnHexedou oJo)coht4relceron Eo>t
+t t F|vueH t4du (Ioue^o$rnrrau BilHoxedou oJo)rcohilrercerow r)|eHerdu-t^> -
+:qreee)A ro^uouc lAtA 1414Hoho{u}ee noHqueHilS E e)lorro
+xeHoe I Eoue^ xr)tcohytle$nrr,ru xrqHHoHov{er il)cohr4rouoreu rilHouEE|qE ildu
+.esorf, uam {Jlosxdaaou 4oaoxog aore,{oor{rr cr,lHar(edou oJo)rrahrrrerJeJarr rrEHer,Idlr-¤f lS SCVUIJ')I{I[[
+r,rroY fosar ra¤d :a[EahorrxE¤ '[rvradr] '9) nam sor¤,fuoHxr nexnexedou l ([vradJJ 'E) XII! xEd EtsHdrIrI ruEII 't'6 '3rd
+'t SCVUIJ - BroV nEsar'Z SCVU-lI - EroV re{edll :)I(II Iarov xllago IsIrEI :al'IlahollvE¤
+'(tr 5qyglgJ r,r:.connaJox¤ rolrHaxr:rsJ [r\rpxJrPhr{ J 'nHEd,{rHo)r tlltnr.r.ar' r '(+- +] IcndoQ goscrEso ra¤,( rf,Ja,(dlior orof
+gosar s - 9 t[Z SOVU{I :+- +) HrEI arqHvrorrov scJ,orgrayaduo arov uospdu s - E |)I(III 4alro? x[ago nrxeroaedg6 'g'5 'ott6
+L9
+6 raQntd
+
+
+===== PAGE 59 =====
+58
+ffp uneneu ue Krocc ue uxa 4u a Tr-RAD s npa ynbmpaz ey xoe o fi J)tynbm anapa.Dremp u.,ecxo fi o 4en Ke y3no s
+]
+t4umoeudnort arcenesil
+3arutrcrreHr{e
+,{nr aur6opa rarruril BeAeH,nq naq[eHroB c ysroBbrM so6oru rpe6yercq npoBeAeHue Mop_
+Qonoruvecroi oqeHKll ygnoBblx o6pasoeatui, BbtqBIeHHbrx npu yBA.Ilpruererue crparh-
+Quraqrau plcKa sroxaqecrBeHHocrr,r ynbrpa3ByroBbrx npr3HaKoB (Ilprnoxexue 5) nemo
+B OCHOBy Xnac'rSuraq^a T|-RADS, npeAHa3Hai{eHuoi 4nn or60pa ysnoe (e nepByro oqepeAb
+c6nr4rurx u npeuMyu{ecreeuro c6nu4rurx), no4osprrenbHbrx Ha 3noKaqecrBeHHui npoqecc,
+KoropbtM rpe6yercr eHnonHeHre TAflE.
+Bcn rnaccn$uraqian T|-RADS no oqerre pucKa 3noKa'{ecrBeHHocrl4 y3noB r4x Moxer
+6uru npe4craaneHa B BuAe ra6nuqu (flpranoxenue 6).
+llognexar o6nearenutofi TAflE o6paroearra l{X:
+' d > 1,0 cM - Bce rftnogxoreHHbre y3nbr !r y3nbr c rhnogxoreHH"'t, ,-o"""r""rj
+o d = 0,5-1,0 cM - 
+y3nbr c v3-npuoraxaMh 3noKaqecrBeHHocrx y naqueHToB B rpynne phc-
+Ka ulunu np,, Han'eun MeracrarhqecKoro nopaxeH!,re perlroHapHbrx nuu$oyonoa;
+. d > 1,5 cu - c6nu4rute y3nbt reo4nopo4roi crpyKrypbt;
+' d > 2'0 cM - Kr4cro3Ho-c6nu4rue ysnbr Ans TAI''B conra4noro KoMnoHeHTa.
+llepexo4 Ha oqeHKy BbreMeHHbrx yenoe r{x c nprMeHeHreu rnaccreuraqur T|_MDS
+cnoco6creyer e4uuoo6pasuo pa6oru epavei pa3nuqHbrx Kn1aHhi{ecKrx cneqxarbHocrei
+Poccnu, B T. r{. c repMuHonoruqecxofi rovrr gpeHrs, oKagbrBaer nonoxlrerbHoe BnurHue Ha
+KOHeqHbre noKa3arenr4 p$ynbraroB BqAeHUe naqheHroB c y3noBbrMx roeoo6paeoearreuu
+quroau4xofi xefle3bt.
+
+
+===== PAGE 60 =====
+, 
+tqeouox foHUreornfn eoue^ 9UVI HilHeHuoutqs etnUoren 'gL
+Heouox 4ouUreorrfn eoueA SUVI o{hHeHuouns >t suHeee)ou '?1,
+SOVU-;1 rnherr$ncceuy't l.
+hom r Hsouor soue{oStrunu nuaod6'71,
+nem n Heouor soueAoSrnrrau evueho seeovfieeEdrsu4 'pp
+nn$edlorcee nUng '91
+rarasedjorceue euluxed E Xfn eoue^ nrHeho uudetudv eneov^eeedrqun '6
+y[h.enuxed E tqeouex 4oHUheorufn eoue^ rvneho nndetudv eneorfeeedrSun 'g
+enrxed-g s Heouox 4ouUreorrln eoueA rvHeho undetudv etqeov^eeedrquA'L
+lseeuex foHUreornln sndrenouol 'g
+Heeuex 4ouUneornfn UtA Ht4HeHuoutss st'tJouoHxel '9
+XIn UtA uneUee n oulreeoUeuccr 
+^noeoxfieeedrqu{ 
+v svHeee)ou '?
+rqeeuox 4ouUreoufn AuHeaouogee n)ilrcoHrcnV nUoreyl 'g
+lqeouox f oHUileornln rvJouovlevg' Z
+..)
+Heouox 4oHUreorntn rilLloreHe 6eso)^eeedrquA u Bt,t toreHe tseHquendog' 1
+rqroduos erqHqnodrHoy
+69
+ncoduos anantrodruxoy
+
+
+===== PAGE 61 =====
+60
+Ilpuneueaue x,aaccuQaKaquu TI-RADS npu ytbmpoteyxoeoil ilyxbm,,nspsMempuqecKou oqeHKe yTxos u4umoeudruori wenesu
+Tecronbre 3aAaH*rfl,
+1 . eSSeKr Ar4cranbHoro nceBAoycnn eHnA Sopuupyerce :
+a) ea o6uerraMn, o6nagatoqnMr MeHb[urM nornou-leHreM, qeM oKpyxaloq]4e rKaHil;
+6) sa o6beKTaMr, o6narqaoulr4Mr 6onuu.rilM norfloqeHileM, veM oKpyxaloulre rKaHr;
+e) raxoro e$$eKra He cyqecrByer;
+r) ace nepeqr4cneHHoe BepHo.
+2. Ynwpa3ByK - gro 3ByK, r{acrora Koroporo He Huxe:
+a) 15 xl-q;
+6) 20 000 l-q;
+a) 1 Ml-q;
+r) 20 l-q.
+3. Cxopocrb pacnpocrpaHeH un ynbrpa3ByKa Bo3pacraer, ecnu:
+a) nnoruocrb cpegbr r ynpyrocrb Bo3pacralor;
+6) nnorHocrb cpe4br n ynpyrocrb yMeHbluatorce;
+a) ynpyrocrb yMeHbuaercn, nnorHocrb cpeAbl Bo3pacraer;
+r) nnornocrb yMeHbluaercn, ynpyrocrb Bo3pacraer.
+4. 3eyr - ero:
+a) nonepeqHae BonHa;
+6) enerrpoMarHr4rHan BonHa;
+e) vacrnqa;
+r) npo4onbHae MexaHnqecKafl BonHa.
+5. Ann nyvuei Bu3yanu3ar-1'nn o6uerroe xe6onbuJoro pa3Mepa npe4noqrrrenbHo:
+a) rcnonb3oBarb,qarL{14K 6onuueil paepeuanqerZ cnoco6Hocrt4;
+6) rcnonb3oBarb AarqilK MeHbuerZ paspeulaoqerZ cnoco6Hocn4;
+e) yaennqilrb Mor{Hocrb ynbrpa3ByKa;
+r) yveHuul4Tb MorlHocrb ynbrpa3ByKa.
+6. OcnoBHbre pexuMbt Y3V, r4cnonb3yeMbre npn AnarHocrr4Ke naronorrara lJ.lX:
+a) B-pexrru;
+6) pexrnn l-llK;
+a) enacrorpaSrn;
+r) aepHo Bce nepeqilcneHHoe.
+.)
+xere3a GnHre3upyer:
+8. flnqeBo4 no orHoueHnp K ulr4ToBu4xoi xene3e qarqe Bcero no!.p4pyercn:
+a) rnepeAn u narepanbHee npaeoil,qonil;
+6) rnepe,qn or rpaxeil;
+a) rsagr n Me1nanbHee neeofr Aonv;
+r) reagr h narepanbHee fpygr4H Ho-Kfl toqnq Ho-cocqeBh,qHorZ rr,r u r.u qul.
+7. l4nroBu+Haf,
+a) rrpeorponilH;
+6) xanuqrroH14H;
+a) nponaKrilH;
+r) rruosnH.
+
+
+===== PAGE 62 =====
+'Ecro^equouch oH (l
+:e (e
+:(s) r (e
+:e (e
+:r,rrasedJorceue 4oHHol4ccedunox rdu soJeho
+r,rnhereduderHu guu scre^equoucl4 nvseho (4oaoreah) 4olHoErcohe)l aourr ovquoxc '91
+:ura$edJorceue ndu 111In eouef evHeho
+'ondee aoHHoucnnedeu ece (-t
+1oqA1ns1 'ouon 'f (s
+lennelntnl 
+.'eloPeY11 ') (9
+:scvu-lr (e
+tseHHoarcohex rrUoxcrodu ouexm l4ovex oU '91
+'eroero o.toHdee reH (.1
+lrarcolAduA suAUor/{ o{hHoxhHc v rilUoehdu rrco)rcex ohHomFeou (e
+lreu (9
+leU (e
+:urcoJfdufi sufuow (xhHomtqsou y r]ruoendu 4euExl l4rco)lrcox ouHamlqsoll '71
+'ucre{gedr eH quodrHo)-t4 (l
+leUol 7 a eed quodruo)-t4 (8
+icen 9 enUxeY quodruo>t-g4 (9
+icen g etsUxer quodrHox-96 (e
+:excrd lquufd.r oH¤ aorueuheu f Z SOVU-II undolerex aoutfi slrxeUoa e)lurxel'tl,
+'ooHHoucrnedeu ece (.t
+irqreunhquexodvrN'HdArHo)l enrcnnAu (e
+jtqreurhqueyOdyen'qIcOHHOJOXSOUilI seHHedenfi (9
+:qIco)IcOX He)OclqE 'eue^ snhernendO tseHque)rardee (e
+:t SOVU-;1 raradoJole)t y uoeA rrcoHro ehlnotsuostou'rreHtvtdU'ZV
+'oHdae aoHHaucrF¤deu oca (l
+itsur$rruuo$odrew (e
+:tsueI osHeorcl4)l olcrcodu (9
+:|cu¤I (elcrehgfil) olqHuuouuo) glcHhl4ut4r (E
+:rscoHro z sovu-ll l,lxdoJoret )l 'll
+'9uvU
+:g o)rcuor (E
+' 
+|, 
+:t o)tcuor (9
+:¤ o)rcuor (e
+:SoVU-lI xB[doJarex s eHP¤E)lou aouef 9gy1 'SoVU-lI xxhexl|S]rcaeuv oHoeuJoC '0]
+'nuur{dl etqHHeuchhedau ecs (J
+:iln'tn (s
+:n'nr (9
+:ilt 'il (P
+:;;4tfl eyed 1l1taHousctqs ndu qreetdrenco o1r1l1tsoxgoox eoueA xulcer'ure$nlu rruu[dJ o1i1ve)l '6
+t9
+trnHDQOt anoour)al
+
+
+===== PAGE 63 =====
+62
+Ilpa,wdneruue xnaccuQuKaquu TI-RADS npu y.ilbmpazeyxoeofi ilynbmunsportempaqecxoil oqeruKe ysr706 t4umoeudnoit ucenezu
+17. 9ro xapaKrepu3yer noKa3arenb Strain Ratio:
+a) orHoureHhe onactnqHocn4 nopaxeHHoro 14 HenopaxeHHoro yqacrKoa l!X;
+6) a6conprHbril noKa3arenb xecrKocrr4 rKaHh B Kna;
+e) eepno av6;
+r) ner BepHoro orBera.
+18. qeeroBae uKana xecrKocrr rxanefi:
+a) rennure qBera - xecrKne rKaHh, xono,qHHe - 
+MFrKr4e rKaHh;
+6) rennure LlBera - 
+MFrKr4e rKaHh, xono4Hbre - xecrKre;
+e) saercrr or BnAa AarqrKa;
+r) saarchr or $rpuur-npon3Bo AVrenA.
+19. l-enepaqhp c4BnroBbrx BonH B KnrHlrqecKoI npaxruKe ocyu4ecrBnflK)r:
+a) uexaHilqecKilM cnoco6ou;
+6) xnvnqecKil M cnoco6otr,t ;
+a) rennoBbrM cnoco6orvr ;
+r) ner BepHoro orBera.
+20. Kar Ha3brBaercr Spoxr c4BlrroBbrx BonH npn 2D-SWE:
+a) rugeKc enacrrqHocn4;
+6) qaeroBan ruKana;
+a) ronyc Maxa;
+r) Her BepHoro orBera.
+21. B qeM Bbrpaxaercf, KonrqecrBeHHafl
+a) u/c,
+6) xf1a,
+e) u/v,
+r) aepHoan6.
+r n$opna a.luf, n p u yn brpa3 ByKo eo i enacro M erp Ll4 :
+22. Y natpa3 ByKo Bae en acroM erp us 6asnpyercfl Ha :
+a) 1-vr ypaBHeHVV Moqyns [OHra (e = o/e);
+6) 2-wr ypaBHeHnu Mo1ynn lOHra (E = 3pC2);
+e) rsyveHilil KoMnpecchr4 rKaHn;
+r) xer npaBilnbHoro orBera.
+23. flor a3aHunr TA|IE yina *iro"r4noi xene3br:
+a) excrpaKancynnpnurrZ pocr;
+6) nonrxeHHae exoreHHocrb y3na;
+a) nonaneHre naronoril.recroil nru$ageHonarnv Ha cropoHe nopaxeHilF;
+r) aepno Bce BHUenepeqrcneHHoe.
+,..
+24. TawnKa npn Karerop nu y3naTl-RADS 3:
+a) norasaHa TAflS npn rrnepoxoreHHoM y3ne;
+6) noxasaHa TAflS npr r3oexoreHHoM y3ne;
+a) 4rHaMnqecKoe na6np4eHre pa3 B rorq;
+r) eepno Bce.
+
+
+===== PAGE 64 =====
+s
+0t
+a
+?z
+J
+8t
+9
+zl
+J
+I
+a
+6Z
+J
+tz
+e
+LI
+J
+tl
+e
+I
+s
+8Z
+9
+zz
+9
+9t
+J
+01.
+J
+v
+J
+LZ
+J
+tz
+s
+91.
+J
+6
+J
+t
+J
+9Z
+a
+0z
+e
+vl
+a
+I
+9
+z
+a
+9Z
+e
+6t
+a
+eL
+9
+L
+e
+I
+JASrO
+Joduog
+JAsro
+Joduog
+rasJo
+roduog
+Jaaro
+lodrog
+Jesro
+roduog
+BUHevee orqsorcor eH rqrearo olqHquusedu
+lerHeuorueeH""rr""";"r'"';:i::Hdi.i'':J,t
+'.a p ewuohor e er4HeUotugeH (g
+'.a 7 ewuohor e et4neUougeH (e
+:tqrouox [oxUreornln SUVI eucou sorHe]4heu BuHeUea evxrxel '0t
+oHdee ece (.r
+jh-.tyu o'81-g'/ (g
+ih-.tuu 9'L-9 (g
+ih-tyrt 9-z @
+:{ororceh c tnrrreu qresoequoucl4 screfiUxsrruoxed guvl El4HoHuourqa Hw'62
+'shrruderdeur: (.t
+iyuteuou(reo) 6eHHeeodncueuruoxeU (e
+ieruerheu er4Huorcoc eouexur (g
+leleno uulteewue^era r4emodox or4srcr{cro (e
+:g;JVI ornnaUesodu )r snHeterouost4rodu otqHrotuocgv'gZ
+'ave oudee (.t
+lurahre$ur (e
+ivom f n)cohr4ueur$eHe (g
+lenueneroeodx (e
+:rqeouor( 4onUnaorrfn 9UVI ndu unHoHx(ouco otqHaoHcO'LZ
+."}
+'SOVU-11 uradoJore) 'excud lquufd.t tu erHonheu I
+-gerdo oHque)rhrdee'nnedfrHox t4trl,t)ttoh t4ntqHeod
+'gUVr '9 SCVU-tt (r
+:guvt 't scvu-[ (s
+;:;#tx3:t ;3:v:]i[3
+:e)tnDter
+'r,rmeleHuhq uexodxta]T c'4tsHxeeodnr
+c'lrtlrr g x g x Z uaef 4rsuuoJoxeoen'gZ
+'lseouox 4oHUneornln vwSednrHnhc (.t
+lceuu g eeden ntq r rvodc ormfexrug I 9UVI seHdoreou (e
+lquodrHo)-eA (9
+lerueneu ooHEr4redeuo (e
+: rcrefigedr
+? SOVU-;1 raradoJere)t euef 9UVI udu eueudereyr oroHshrewdo$ureH uuHahfuou udlJ'gZ
+t9
+UnHDQD¤ arqsour"al
+
+
+===== PAGE 65 =====
+64 
+llparte*ettue ,.naccuapuuaqut TI-RADS npa ynbrnpa3slr{osoi ynbmtnopoaempa.tecr<ot o4elKe !3nos ulamosaaxoi ttcutlrtu
+CnryaqrroHHbre 3aAarrn
+f acnp e4e lrvr e ras o 6pax eHvrfl, rrlr,rro B r4An o fi xel e3 r, rrp eAcraBJr eH H br e
+Ha pncyHnax 3.1, 4.7-4.74,4.L8,4.22-4.24 no rrrKa/re TI-RADS (or TI-RADS 1 4o TI-RADS 5).
+---r._ Ilosnqnn
+Hor,lea clxxe
+pr{cyHKa ----__
+a
+6
+B
+f
+A
+e
+3.1
+4.1
+4.2
+4.3
+4.4
+4.5
+4.6
+4.7
+4.8
+4.9
+4.10
+4.11
+4.12
+4.13
+4.14
+4.18
+4.22
+4.23
+4.24
+Orserrr K cr{TyaqnoHHbrM 3aAaqaM
+-----_ flosuqnr
+Horuel{Qrnxe
+prrcyHKa ----,\
+a
+6
+B
+T
+A
+e
+3.1
+TI-RADS 1
+TI-RADS 1
+TI-MDS 1
+TI-RADS 1
+4.1
+TI-RADS 4
+TI-RADS 2
+TI-RADS 4
+TI-MDS 5
+4.2
+TI-RADS 3
+TI-RADS 5
+4.3
+TI-MDS 4
+TI-RADS 5
+TI-MDS 5
+TI-MDS 5
+4.4
+TI-RADS 4
+TI-RADS 4
+TI-RADS 5
+TI-RADS 5
+TI-RADS 5
+TI-MDS 5
+4.5
+TI-RADS 5
+TI-MDS 5
+TI-RADS 4
+TI-RADS 4
+TI-RADS 3
+TI-RADS 4
+4.6
+TI-RADS 4
+TI-RADS 5
+TI-RADS 4
+TI-MDS 3
+4.7
+TI-RADS Z
+TI-MDS 2
+4.8
+TI-MDS 2 .
+tl-nens z
+4.9
+TI-RADS 2
+TI-RADS 2
+4.10
+TI-RADS 4
+TI-MDS 4
+TI-RADS 4
+TI-RADS 4
+4.11
+TI-MDS 5
+TI-RADS 5
+TI-RADS 5
+TI-RADS 3
+TI-RADS 3
+TI-RADS 3
+4.12
+TI-RADS 4
+TI-RADS 2
+TI-RADS 3
+TI-RADS 5
+TI-RADS 3
+TI-MDS 4
+4.13
+TI-RADS 4
+TI-RADS 4
+TI-RADS 4
+TI-RADS 3
+4.14
+TI-RADS 4
+TI-MDS 4
+4.18
+TI-RADS 4
+TI-RADS 4
+4.22
+TI.RADS 5
+TI-MDS 5
+4.23
+TI-MDS 4
+TI-RADS 4
+4.24
+TI-RADS 4
+TI-MDS 5
+
+
+===== PAGE 66 =====
+'4rqHriasrJf¤df,ouaH :JlyaJ - /-699-0¤000-S-g1,6 NgSI - w t J g0Z -'6102 
+,r^rdooHr..r-Jledutr/AW : .r\ _.ehHal .H .V
+/  woHxorl y oJoJJodu JO I^IoJPm ¤s JEm r.raarax 4oHtrusornlrl auHBaovarruJl,I aosoydssBdJqr .H .V EhHe] .SI
+'4rqHHasrf,YadJ
+'P'jtj!-:"l1t zztt68lz t(Jl 
+^uwsllg - 81,8t-I¤I0 :N 
+- 
+'1-197 -'>rtid u t'u[pnrEd
+/ / Eaogvvsell'J'X 'esoJEdeJ .ll J ,Humdel .3 .g / rsearax 
+qsoi;i;sfodlid[ uorrasJ.rai
+-Eyofs t-l r.roHHaarJahexodgoV axr.rJJoHJet.rV 4oHcrexhHad 
+eed.ronerg .3 .g iu mdeg .y1
+:rrxal - 's-0sz-6 lnBBj-81,6:NBst - .r gSL -.6tozdevug,: 
+.hl _- .uov n .gedadau ,rr, "-s i;:Xtlin-Yi?T:l
+-uJloHJeHY ltesoxdssedJcLd Eetn90 avt,trJoHJEuU uosovlseedrsil or ogrtVdeoyfd ao]rabnixedl .g .g aoxs.lr,r61 .g1
+9Z :CI.AUVUStla - ILL,-L09I:NSSI _ .82_tI .f _ .I dN _ .9102 _ .Exr.rrroH
+l$1,{01""",i'""#,1},,{ ;H? Til?::?""t#ffi,:1'##.t";t {"?'."f { iHiffi i?T
+'IrrcHHasrruedrouaH :rJyeJ.- S6tItI6-Z:Ol IUVUgl,Ia - 
+.AZZT-\07I:NSSI - 
+.6S-tS .l _.(ZgfJ f oN _ .Zf 
+OZ
+- vr'rHJf,es gHvJHnrrr4vaw KrsHhdeH 4',..],tuegf,y / / uug-rjd J- H 'Hfiel^rEm y .y ieiN.r.oifi .g v,hrdiiy-Hl\r/ rseerjy;
+4oHVrsoJ lrl nuueuosedgo xlqaoreho evt,rr]oHrEr.ru a (gd\!) *oHroa 4iiaolu?vr rn<[ed.ro-rjere re"brifiteizf;<y6.11
+_.EIrE! .s .g / punoserql ""^,", nr,Blf:r63l.n1",trrwggH{6f..::.J.'r%a*r,r"r"l;xti"f##ifiq? ar;trtli
+EZEO.L|\Z.ittrt
+16991g1/3to'1op//:sdlrq l¤9-tzs-.i{er{I s oN'gI Io - 8002- aurluo peqsrtqnd 6 pro.rfql // 1e 1a o rl)ozzrd.v
+'rpreue^orc v'Euqsy 3 / salnpop pro.rfql1ueu3r1ey,1 pue u8ruag.yo iriou8erqlerruaLigio a-rn ui ,iqde.lEcqiqx-5n.3 euasy.6
+- 7ss7qn\t'we0-1002'rt/otzt'oL,j?! ?g:L!9g- @)z6.Bnv -'Lo1z_ 0."^13?|,;10p0";'Jfifiiil;ylff,f:#
+'ruuuES U 'o8eg 1 / sa;npou prorlql ur f.rueu8rleru Surpi[5rd-:o1 !unose.qln ur quaudblarrap rr,rau :f[Oij6ojsqa f oa"if Li
+'rlcHHasrruedrouaH;rryal-.5-0SZ-6Ztgg-S-AL6N-ESI_.IQ9_1,9g.3_.6197de[rag:.y{_.uoyr.gedadar
+'v¤n a-t.'esovcrril/{ A- B.vad'vou /f evuLJoHJer.rV ueeoxfsiidJ.crf ?etri96:axrirbir-.reav 4-oaon?eeed.r,sr,tiu oarr
+-Yosoxld aovJaht,tDtudl / Isna.lcu: uoxrarureQnnr uuHesaroge¤ errjrf,ofr.r-e V resoydgeedisrrl .g .g rexuorogeg .4
+'I-,IrqHHasrJ[adf,ouaH :JJyaJ - 
+.S-61,0-6tg [6-g
+-,84q NBql -..- {, : r 00t - 7197'eaovuQuell V¤1 : .W 
+-.rnse l.dal ::dV r.r Hlrgof .y.y,ed,twelg.y,trnlirar.r.rag .h
+/ vuHesoEedgooaoH xlqHHearJahevore unhexntpuDerv-t{NJ oIl osrJtrosorfd aoiHegodI,rdJ,rort"r14 .r"r.ry 1,1p1 .9
+'l.rrsHHasrJhiadf,ouaH :rJxal - 
+.B-tl,ZS-t026-S-91,6 NSSI _ 1 ZEb _.\IOZ,euvaN_dVIOXJ : .l/{
+- Hlrsal' e a'vuo{V l 7'.LJ-HHxJ¤g Y J / lqserex rzoHVrrsou4}n auHegoVarlu aosoyrtaeeAisy6 .y j m-'H-1t"y;g:d
+'HrsHHodJyer¤
+:rrr{ -. Z.I.-S.I9I g7?tas/Wgy1'91/3.ro.rop//:sdaq :eu,{rlotr wmrcad - 
+.ZI_S t(i Ol _ .gI0Z _ .Brr.rdiidux yesnudx
+-ovHe// I'dv\l sahHBn^d o 'll 'ovHahlrHsral/{ VJ'oxn nBg e g 'r,raaahsrag 1 [ / [[or glgf) xrsrtodea I egos o.roa
+-orsA [-oJoH14J olI,IHaharu avI-tJJoHJPrjV olI soJolroHI,rdvoh/H¤ xrjhExhof,:re uoxr4IaDoj Nutreyialrouad anxlalNnury .7
+'IrqHHasJf,tradf,ouaH :Jf,yeJ -'O]-l -. fi\Z,lil.tf,tod soJoroyHo
+nrjhEr.rrroJf,e - yvHeHr,Ya,Lgo xrqHHasrJairgo eoro: 4nxr4racrodairgo : .1,{ - {.dr H] aou,{vli7,1 y,l .y ,unrorog .g .1,r1
+'soI{IqrV B O{ 'EsanIry g 3 / Irsarax uoHVI,Isorl,r[n evEd ornnar,ar ra air,lmbs,relji, ou lunei,uat^roxid'auxrar,nnNry .g
+,hrsarsras 1 .!r / rsserax 0"""#:H"fY;0"'*;llLi,,;#jfl's,''h"gfigfip#fg;,:lfj#$ ,r.fl'ili:XXT"U:I
+'hrsahsrasyV/r"r"u"*'o*v""otff; X""l}:"X"ffi ffi "99$o9tv-;f 
+fr
+]
+u'aro)r/ suonEpuarur.uorau puerua 
+:tlfffflt"i,t"tr'"**gi Sz"I'1fr3i;|o"-ii"t1;lo;3,:Jr,[
+pasBg-durtsErul puE utqs^S EqeC pu 
+uEero)I le F .H uqv urqs "g .( EN iU .S Bunq) .[ .A EH .¤
+'4rvuuaa.r.cVadrolaH :rrxal - 
+.Z- t9-t6000 6-S-gZ6 NSSI -.x 
+gS _'OZ0Z,<1a19413 er^rdr.rq> 699 : .1,1
+- ldr til r'ud.ley g v'Eevloroge¤ g'tl'nrs3 rl 94'oiia5n6 1:j / raii.rmouiSnu a6?"olxa'ei:"a-Jd,t a"n"*d" ""ii 
+"rij
+-oJou aovJahuforaN IqEaIrex I,IoHVI4soJnIII sorsl xJJoHHasrf,aheyor¤ r.rHa[aJJ eyHaho s SCVU11 rr,rtrexuQntrery .i
+- 
+'{ pro;dqJ rng // tprcquaal '1 'n8g
+salnpoN pror^qJ Jo uorlBrrJllexs >lsru .u 'aluernq 3 ,ue'oprs u 
+^,!"lf:'!X::?1,'J,]J 
+gl(?ll"ili 3!;{"!r? *6+o'i
+z{rueu8rlelN punoserln roJ seurlaprn! uorlerrossy piorriqfueadorng .g ssnu 'r
+edd,r.eda.lur nBHsoHJ O
+rqdfJ,edalnn xoJlrrr3
+99
+n dlu u datu n L' x 0,j tx u,)
+
+
+===== PAGE 67 =====
+66
+fIpu.'nenettuex,luccufuKutl,ll.tTI-RADSnp.lJ,.'7bmpgt8vt;oG()it.tI},'7bt',.t,,gp0.|templ'.rcC,KoiIol1eHKe.vIl()tJ
+16 c'HIrqbIH B E clacreMa 
+HIIX HccJ'IeAoBaHuq Moro.{Holi ,(ere3br. MaMMororri.recKrrt ar-
+.nac: lla uuorparbr-rs, v.ntroa
+il; ril,'ffiff;;'*i;'i,; 
+TrH!:;83"?tifi:3:r".ffi:??93fi$."iBr-MDS)/B E Cunrr-
+17 (D ceHKo E II Knaccndr'rraqrjq BI-RADS e ylr,rpa:ayxoeofi ,qL4 arHocrnKe HoBoo6pasoranr-rfi uorovnoa xeresu /
+E. [I. . @ncenro, H. A. Ilocinosa, H. H. Berures"a. -'rrl. ,"ooo ,i6'rliri-cip'o-rr4,;;;ifi:::ffi;.'i,r;". r.r.r. _ rsBN 978_
+5-900094-55-7. - Tercr: nenocpe4crreuHrrfi .
+f".a,A.rTfffl.#:''ii 
+rcnaccuguxa4uu rr_RADS^B p^occn_n / E. rr. @uceuno., A. !. Cenv4
+Te0?_O;ifi:Ot6:i 56 
+Harr'Haq AnarHocrrKa. - 2019. - 
+Ne 4. - C.36_48. doi: 1.O.Z4B3S|
+1'9 Adrian SaftoiuA The 
+Recommendations for the Clinical Practice ofEhsbgraphyin Non-Hepatic
+ApDlications: uDdate 20 
+u. cir;a, i i. Siarru er ar /i ijil;;i;liiiia". ilaiii"?i,. _ 201e. _ Vor 40,
+N;4. - 
+p 42s-453. doi: 
+_ feiir, e,le*rpoH"",l.
+20 American College of Radiology. ACR Breast Imaging Reporting and Data System (BI-MDS). website. www.acrors.
+!n
+k/
+22. A6pocur,'roz A.IO. Cucreva 
+rorrorH 
+Aa (nepecMorp 2017 r.l.
+IlepcnexrxBbr Ar{arHocrl,rKr,r 
+xeJle3 
+BeAeHu.g naIIHeHToB /
+4. p. A6pocIaMoB, OM. A6Aynx 
+Hr{{ecK 
+7. _ ToMzL, Ns 3_4. _
+c.23-31.
+23 The Bethesda svstem for'reDortin^g thy_r_oid_c''bpathorogy / syedz. AIi, Emund s. cibas // Ed,,2 Edition, springer -
+2018. - l4 p. doi fu.1007 /97ri-3-3ri-60i570_B ' '
+24' cosgrove D. wFUMB cuidelinesand Recommendations on the clinical use ofultrasound Elasbgraphy / D. cossrove.
+R. Barr, l. Boiunsa et aL | / rhvroid Ulrrasound rr,red. a Bloi _ 7016. _ F;;ii"- N;4;l!.:Fii:"ti.6# ib:idi;7
+i.ultasmedbio.20-1 6.06.022. -'Tercr: 3rreKrpoHHbl.r.
+25 Guths vervhieh orevalence ofthyroid nodules detected by high frequency^(13 MHz]_ult.asound examination/ s. Guth,
+u. rheune, J. Abeile; A. Gahch et aL' / / Eur. l. aiin.'l;;;l a idij,i. _ n, !s-. _ p. o6g-zo6.bnrin" isst, 1,36s_2362;
+Print ISSN: 0014-2972. -TeKcr: s;leirponaufi.
+26. Horvath E. An ultrasonoeram reporting system for thyroid nodules strati$rin-g-cancer risk [or clinical management /
+,?i;ru19'rt;y:,+:;l;1",,1il,ij,i1/{*rt]inleiaocrinoi M6au.: zoos. - N" d+ tBl.-:ll'tiiit-iztil.ior, o,glio.rzio'1
+27' Itoh A Breast disease: clinical application of US ehstography for diagnosis / A. Itoh, E. ueno, E. Tohno, H. Kam-
+ma et al // Radiology. - 2006. - 
+VoL 2f S, N" e. _ i 3ai_'9.5'0. a''***...ni.org7r!n".[trd. -----, -
+28 Kim D W Lone-Term ultrasound Follow-Up of Thyroid colloid cyss // lnternational Journal of Endocrinology. -
+20r4. -vol. ArticiE ro ssoozr. - + p.r.,w,tN.[oi.olelluiiii'izoi+7ldodi]::H;;i;;?1;:;;",,.
+rep-orting.and characterization system for ulFasound feahues ofthyroid nodules; multicentric Korean
+/l I.Kl,'i-a!4. Julc, J. H. Baek, s. M. Baek et ar- // Korean J. RaaioL -"jorl - tts i+.'- e rro-rrz. aoi,
+13.14.1.1 10. - Texcr: slexrponur,rii.
+30 Robbins K. T consensus statement on the chssification and brminolo^gy^of ne-ck dissection / K. T Robbins, A. R. shaha,
+I. E. Medina, l. A. carifano etar /./ Arch.Trraryngor H;;d N;;l su;;. - zo'ba. r Nr'ii?isj. 1'e. 'iaoissa. 
+aoi: 10.1001/
+archotol.134.5.5 3 6. - Texcr: r,r'exrpon-rrrfi. -
+31 shin l H Uhasonograohv Diagnosis and Imaging-Based Managem_e.nt ofThyroid Nodules: Revised Korean Sociew of
+Thvroid Radioloev conieniui Stadme^n-t_ana neio'mfien-aatio", iTii. sri",l. H."e""t, l.-ch;n,1. ij. ii;;;;'iZ K;;;;" I:
+Radior 2016. _No 1,7 (3)._ p 370_3es. d;i: 1n.iii8lij,:r(;1z,.ii::3-t'0..1T;il;i;;""_iif,ii,,Ji#,,,,,
+32. Tessler F.N. ACR Thyroi 
+ITI_RADS): lvhite paper of the ACR TI_MDS Committee /
+f; Ur}jj?y,?r{'fl53 
+ti"a-"ii'.""^iJG;fiii;ei;fisy i6ii. - Nn 14 (!).1
+33. zhuang Y A novel TIRADS of .u^s ^cra^ssification / y.zhuang, c. Li,-z. Hua let a]l // BioMed Eng online. _ 2orz._
+82 [2018). doi:10.1186/s12938-018-0502-:. - rericr: Jrrerrf6nHiii.r.
+34 Tonrozrolrgas acnxpaqx 
+,.ofi Neregr,I (4uarnocruvecrne Bo3MoxHocrr4, TexHuqecKI,Ie
+acrre(rr,r x aHa.rrrr3 pe3ynr,raro 
+p A qepxrKo;, c.ll. sopoort", Ia. B. dn-e;,{o; u.ap. // v,liii_
+qecKaq u 3KclepHMeHTanr,Har 
+_ ToM 9, Ns 4. _ C.31_39,
+
+
+===== PAGE 68 =====
+'rr¤erax goHYusoruln 4alrIorexldvo enuxnadeu lrar, k4r.rxdr> aerrog :XlrtHlreJoxcdaunJ -
+lHam rcIImrcn avlnorexddyo rnreh '(aaHr^raJ) raed :urqnne,Iox¤o[IlJ oHHaxEdrqtr -
+l)l{I[I rcr^r]rxHadpu 4alnorexddxo r4Jf,oHHaJox¤ EHhr,rJorEHE Err¤d crloHHatoxe :rtFrHHeJoxGo¤[ -
+1(IqIrmrqr4r
+r,toH<rraJEaray o{qJf,oHHaJox¤ J o rHansedr ou'danuduenJ lqhmrq',I eulnorExddvo INah '<(IIcHInIer> eaHahI
+oH 1XIII Er'{HxHadeu relnorexddyo seHqIreI^IdoH I^Iah '(4IcHI^IaJ) aalrog :ItIqHHeJoxcorrrlJ oHHederu{ -
+:¤ara>tt xlqHHoIrJ xrsHJJo{rahYou xrcHsrendoH Iqwraxgadeu orqJf,oHHaJox¤ x vtv vefit ItmIqn xl,tin
+-o{Exfdyo o{qHeyJ J')I{I[I orqHevJ o no.LaesHHsedo EuaI ElHoHouhtox oJoHul,tugc crcoHHoJoxe .
+.EITEHJ}If,
+r^raxHarrgPrlJo nnular,ulldye nrrqsqrEJcuv r^rrqHJaweet f,YYderljr{v(f,uE)r 4oHHesodunnQI4IIqrPv vus Betn
+-oreVudu 'ra¤d Belnore}I(fdvo 'sr.rHnII HeHHaroxedauu.r :Iqnr(Irdovo uonr'uB duu.L olI l'xhgx]tSrhque)l .
+'eJHaHorrNov rrroHsoJJuv a uuhedagdeaad urteruetpa.r,de aIrr.t
+-afeedgo 'ur^reJJosx nwrqHHaJox¤ urnlIqHgovo[oJaI^Iov J lqrpHJHJ aIqHHeJox¤de[IlJ :lqrewo)t rcosx .
+'pJHaHollNolr oJoHtrfiro] ¤a9 r, yoHaJJ xrqHHelnrord ¤a9 'rraneaoeedgo ar<rHHoJox¤He - Iq¤arav{ goH[us
+-o.r,nIn rcrdyurro<p anldurmed - tsu/trtxuuoO arqHHad!rmced-oHeorcl,r)r / rcu^xtauuo$odxeW .
+uNeyYodo.Iadeu I,lntl)IHor I,II^IIqHHaIrf, I,lhoJoHN xlqHHeIr
+-aYro 'srJHedJJodu xrqseo.lclzy xlryrer^r qHaho xrqHHasJJa)I(oHN tr,r JnoJJoJ evgf, o/o0S < :4rr.r.er'9d.r -
+lxJf,oyvrclt ¤n oIqJJoHlroIr I,IJhotr ]trll (xqJJoHt/ou I]rtngorf,of, :HlrHtort[)r -
+ler¤d Ernras,go 0/006 > oH '0S < JHaHoIIr,'rov glrvvu)I( :[FrrrgoJt[]I oHHeertelnIwuedtr 'glqHHEmeldt -
+ler¤d er^ras,go 0/o0g > oH'0I < rHeHollnov AL'rtrYLI)x:nrsHYlIrgt oHHegrteltrdnlredu '4tsHHEmant -
+10lo0l > o{qJJoxvrrx J gaHEyJ xrryJn}r ¤}r orqrcoHrol lrrholr JLroJsoJ it rs'ivrrv9t -
+:eue^ s hlco)tuux nu {eHe)rr xl4xrBv'r buou - aorHoHoul,ro)r erHomoHrooc l,r sercoc .
+rq¤o rax( rir oHVn so.rnln sored uvHeJH rr o s BnJ oIroHHh[ dal
+Z anHnrcoundy
+'XInd 
+^Uoeou 
+ou 4rhedeuo oeeHneHe I eilhilueH
+oJoHHeeodilu{rnr ntc pJoHqueeeg rHeodA oilHemtqEou
+lreu 0Z exouon rqruerhBU e
+n ofqHHouE6rqE oH4eh{uc 'xln 5nHeaoeedgo elqeoue^ o
+xrqeocouor r4rcoHxileUou Br4HonrHedlo rxeuerdu-tA o
+1 rruo$cutr lYuteScnU tseHHBoroou o
+leeeuneHe E ilom il rqeouor eruen{ugo o
+:X[n eved eeHr{eHe qzH{ohloc o
+ieuunorrhq uev
+:teU hdu erqHEhDre il)rcehnuogprent
+lxoerec
+:rqrerralr( EoHVusolnlu dxed orr souranlterl ExJ[rd euuddl
+I annnrcotmdil
+Ynuaucotin d11
+L9
+
+
+===== PAGE 69 =====
+68
+[Ipu.veneuuex.,toc'curpuKiqauTI-RADSnpu!'fbt|1P03tl1ly116,,,,
+. 9xocrpyrirypa - MeJIKo3epHLrcrat, oAHopoAHaq, xapaxTepvgyer paBHoMepHocrb c6rr-r4noro xouno-
+HCHTA:
+- HeoAHOpOAHaS: 3a Cqer eKrroqeHrft paa"nzvHoi 3xoreHHocru s c6anrHor*{ KoMnoHeHTe:
+- cMelrraHHat: c6,nu4Hufi KoMTIoHeHT corleraerct c xIrAKocrHbrMI,l BKJIroqeHr,IrIMIr;
+- oAHopoAHag: e4unsrft sHerrrHr,rft su1 c6auguoit qacrr4 y3ra.
+o Xano/rano/o604()K: aH-/ runoaxoreusufi KoHryp, Koropbrfi onpyxaer yaer; rr.roxer 6r,rrr on1acaH KaK
+ToHKran r4Jrv ro.ncrufi, paeHorr,repuofi r,rJrr HepaBHoMepnoi ro.nu4znr,r.
+Marcpoxaasqr.rHar: KarbqrrHar pa3MepoM > 1 MM, c Ancrarsnofi arycrnuecroft renlrc.
+Mr'rxpoxaarquuaqnr: KaJrI'qr,rHar pa3MepoM < 1 vu c 4rzcraaunofi anvcruqeqcofi renlro.
+. KoHryp:
+- ponxrrfi: qerKoe orrpaHr,ttreHre y3ra or onpyxaroqefi napeHxr,rMbr;
+- ne.rerxufi: orcyrcrBne qerxofi 4euapxaquu or lapeHxurr.ru IIIX;
+- HerrpaBnJrbHstfr uttra neperyaapnrrfi :
+- cnuKyJtoo6pa3nuii: oguu uttu 6otee ocrpbrx yrtroB (ulu cnut<yl) rro KoHTypy y3Jra;
+- uuxpodott'uamaui: op'na utu 60ttu]|e poBHbr& noKaJrbHbrx, oKpyurbrx nporpysr.rfi KoHTypa.
+Baxno! Cle4yer pa3AeJltrb rrot+TLrtr nJIoxo onpeAeJrseuux [neverxux] rourypon 14 HeperynrpHbrx
+KoHTypoB [r. x. neprr,re He r43MeH.flrcT Kareropr,txl pucxa ue.lrux yeaor).
+. OopMa:
+- oBaJrbHa.g: nepe4ue-aa4uufi AI{aMerp y3JIa MeHbIrIe, qeM ero ronepevnrrfi AxaMerp, Ha nonepeqHoM
+r,r npoAoJrbHoM cpe3ax;
+- oKpyrJrat:'IIepeAHe-3aAH hi Ar,raMerp y3Jra paBeH efo nonepeqHoMy Ar.taMerpy B nonepevHofi u npo-
+4o.rlnofi nrocKocr.fix;
+- Bepr[KaJrbHas npocrpagcrBeHHas opIreHTaqvg / B 4.nnny 6o;rrlre, rreM B rullprlrry: coorHorrre_
+HXe nepeAHe-3aAHero K rIonepeqHoMy AnaMeTpy onyxo;rz > 1;
+- roplf3oHTaJrbHafl [pocrpaHcrBeHHafl opnenra4ux / n rutpllxy 6oarlre, veu B pg7;rrpy: coorHorxe-
+Hr{e nepeAHe-gaAHero K npoAorbHoMy A14aMerpy ysta < L.
+. BacKynrph3aql,|r:
+- uHTpaHoAyJrrpHbrfi KpoBorox: ner/ecrn: nepurlepuvecxnii, qeurpaalnufi, cr,,rel]ranHufi;
+- trepnHoAyrcpnrrfi rponorol( - nepI,IHoAyn trp:abre, ,rrvt norpaHr,ltrHbre, cocyAbr, pacrroJroxeHHbre
+rro rpaHur{e y3Jra; npr,t groM r,rHTpaHoAyi.flpHrrfi rponorox lroxer 6rrrs pa3rHqHbrM;
+- rraroJroruqecrnfi cocy4ucrtrfi pxcynox yeaa lroxer rfopruuponarrcx npu .lrrc6oM Tr,rne KpoBoroKa,
+qaqe npn cMelIIaHHoM I4JII,I. qeHT{SIJIbHOM, xapaKTepr.r3yeTctr llalruq'veM xaorrrrrHo pacrroJro)KeHHbrx r,r3-
+MeHeHHr'rx cocyAoB (rsnurux, neinr,rcru4 06py6;renHu:q HepaBHoMepHo pacunpeHur,rx], B T. q. paAi-
+arbHo BxoAqqr,(x B y3eJr.
+
+
+===== PAGE 70 =====
+'{oulcupx IoHHesoduHuhcuex {oHrouu c -
+:r,rvrereHuhcue) hv{HHauccew c -
+:vr6hHesoeedgo x or $edrorgeue crtsHevrudu eH .
+:BEoron tsxHohxHedJO
+'¤oue^ xFHvuuoc-oHeolcl4x 14 xFHeolcl4)r -
+ixeue{ xnuruUAdree our'urcen udu -
+:Xfn er{emedeu ¤ xrqHHexououced 'soue^ -
+:hrc O'0 < vrodeweed 4uuesoeedgo xneouer( xnuuldv -
+:oxHaho rdu exxer'rxedro nr$edrorceue crcoHHeh rercer'urcoxrenfif
+'(rsretsuleed enHcuereh drooHxou 14 orqHquol4xouououxou) uuQedrorceue vrererqufeed
+ou e)urcoHreuUouur u ver '-deuu.r )rex eHxovreo¤ ('dU'Xfn urerr eodgu$ 'nJ.uUhoedhr)
+y4ft 4ra neeeuogee/InHeHev[eu xnuel$$uU xrqHHaxedne euo$ eu olh 'qruHwou ralUeu3 r
+''vuHexedgoeuoroaoreehoronrer'Iuouuuheredude.uu4orsuueedu
+-eH y reVee o+"(uruEoren ro nrcov{r4cu¤ee e) aorersuleed xrqvusuvreudu 0!-g eu uudsc or
+-cov{¤ UoxUou 4nrredrouUo qruhoulu4 :uu$edrorceue laluUorev{ euHeVeeodu eousuueed;_1 o
+'f or4ccedunov f oHhouqgev c -
+inour{ Uou -
+:e)hhreU-ef, nvsoHerc{ 4oudeeeFr srpJeee!,1 o
+' rsue$erde orqHquorexnU qrhhoru>tcl1 o
+'uuSedJoJ-ceue AUoren Ugn enede eruen{go ooHquoreergo scre^ged1 o
+:BuHexouou entngg
+(g nnf7y1 uulreVnenoxe d) Iqsara]I( HoHVusorraln
+}
+nnd.r.ehrorJerre / uuQed.ro.r.rer¤ uuneVesodu ndu xogrrmo q.lex(egarlr xBH
+t anHa:oundil
+69
+rnaaxcoundy
+
+
+===== PAGE 71 =====
+70
+rrpunenenue xnaccaQaKaquu Tr-RADS npu ynbmparcyxoeoil MynbmanapaJnempu.,ecxofi oqenKe ysnos t4amoeudnort uienesat
+IlpunoctceHue 4
+I0raccnQnraqns Bethesda Ailn rltrrorrorr{r qrrroBr{Agofi }KeJre3 H (ZO1g)
+(The Bethesda System for Reporting Thyroid cytopathology)
+A4anruponano rs arraca The Bethesda system for reporting thyroid cyopatolory (syed Z. AIi, Ed-
+mund S. Cibas, Ed,2, Springea 2018J.
+finarnocrtl qecxaf, Kareropuf,
+H e4na rrocrn qec Kta h nnu H eyAoBnerBo pr,rren s x ur i nyH KTar
+o Tonuxo Kl4crogHaq xnAKocrb
+o llparruqecKil 6ecrnero.{Huril o6paserl (n,teree 10 rneror)
+o flpyroe (sarenaxeH KpoBbto, cBepHyBwuhcn apreSaq 4p.)
+floeroprru TAflS
+noA ynbrpa3ByKoBblM
+KOHTpOfleM
+f|o6poxaqecreeHHuri
+o CooreercrByer 4o6po ravecrBeH H o ruy eonn r,t Kynfl p Ho M y
+yany (a4eHoMaro3Hurfi ysen., KoflnoilAHuil yeen u r. A.)
+o coorsercrByer n ra nr $o qrara pHo M y r npeou$ury (Xa ur r,t rr,t oro )
+o CooreercrByer rpa Hyne Maro3 Ho My rupeou1nry (n/o )
+o fipyroe
+KnnHrqecxoe
+ua6nn4exue
+Atnnnn Heon pe4ereH Horo 3HaqeH rf, tan t4
+sonnnrynf, pHbre ta3MeHeHnR HeonpeAeneHHoro 3HaqeHlR
+floeroprru TA|IE /
+M On e Kyn r p H o- re H eTu q ecKoe
+ilccneAoBaHUe
+Oonnnrynf, pHaf, Heonna3ta f, unn
+nogo3peHre Ha $onnrarynepHyp Heonna3lto
+M on e rynn p H o-re H en4 q ecKoe
+hccne4oBanue I
+neqe6tule Meponpuen4e
+Ilo4ospeHxe Ha 3noxaqecreeHHufi
+fle,{e6HHe
+MeponprflTuF
+Ile,{e6Hule
+MeponpIFT14F
+
+
+===== PAGE 72 =====
+'yUeDlUh mrcHHbU ou yoHlcud f rcrcuUlcoc ItsHdBU^UoHedrHu [r4)cohr4rouoreu -
+:(euorey{ ro r4rcoh[4c aee e) eodrewedeu x|cHHosrcohuuo>t utrulu xrcHHe8lc
+-ahe)r BuHeHemudu nererquleed ou cexHer'/tuou 'uu$edrorceue udu qrco)rcex Eelocns -
+:soreHuhcue)r vuhAUeH eeg trouei{ Be uHer eurcarurcl(le -
+ieuel ildvoe ouex rcHutnuor 4ordenoueedeu -
+ieueA e eoreHuhcuexodlev{ ot4h ueH -
+ieuel ewdoS ceuildlo -
+:(BuHohoruxs oroHHeroxeouru oJoHUo |ca
+urox enr'uueu) euel crcol{Heioxe ceHdewoHeedeH uur4 r4rcoHHeroxe euHexuHc eouxodglttl -
+' 
+:goue^ xrqHquer[Hrroc rletetdu-g4 otqHquaruHuouou 'etcuen .
+'ndl.uol euxreheH n (ers.r.cur'Au 'enrehcuouoxuen 'enrcud.tfg) enHeodeH -
+ieuel e eoreHuhquevodvurru ehhhueH -
+i(IHudum e wer'
+'emcuog IHuuU a 'ceHcueuuBdeuen) euef c herHehdo geHHeetcHedtcodu ceHcuB)l4rdee -
+ieuel urcoHHeJoxe ehHex Hc eoHquoruheHs -
+:enuxed-g s oxcuol etqH
+-xgr'Iuou 'tqeouox loHtsl,|sorxln gou¤/t nrcoxxaarcohE)rout rrexeudu-84 ermquog .
+..]
+Fr¤arf ax( 4oxYnaor.uh sor¤f
+rrrJ oHHa srJ e rrE)rorf ¤ s oxBH¤lr du - ¤/[ ErrhE)I n r[ n.r.e drf,
+S anrraltcomdn
+l.L
+rnaatcoundll
+
+
+===== PAGE 73 =====
+72
+flpu-weaeuue xtut'cutfruKuquu TI-RADS npa ]'rbmputeyxoeoi -rr)'.TbmunupaJrenrpuqe(,Kou oqerrK(: y3iros u4tumoeur)noi,ttt.c:resor
+IlpunouceHue 6
+KnaccuQraxaqr.rn TI- RAD S
+B yJrbrpa3ByKoB ofi o rIeHKe p u cKa 3Jr oKarr ecrB eHHo crrr
+y3/ro B rrIHTo B uAIg:Oir XCeJr e3br
+Kareropnr
+TI-RADS
+Y"nrrpasnyKoBafl
+orIeHKa pucKa
+3JI O KAII C CTB E HH O CTI,I
+TATIE
+V3-upneHarn
+Pncx
+3,TIOK-TI{,
+o/o
+PenoueH4arlr{r4
+L
+Her o.{arosltx
+neueHeuzfi
+Her
+0
+llranostrfi ocMorp pas n 2 ro4a,
+B rpyue pucKa - pa3 B roA
+2
+!o6poxavecrBeHHoe
+o6pasonauue
+Her
+Kor.nora4Hbre y3/rbr
+=Q
+llraHoslrfr ocMorp pas e 2 ro4a.
+B rpyrne pucKa - pa3 B roA
+22cyr la
+KucrosHo-
+c6ru4uue y3/rbr
+llpu orpuqarelssori A14HaMr,rKe - V3-sa-
+6rrc4eHue B Kareropr4vt3 ulu TAIIB
+3
+Hnsxrafr pracx
+3/IOKAqCCTBEHHOCTI4
+Her
+HsoexoreHHbre y3/rbr
+f urepexoreHHbre y3Jrbr
+2-4
+Ruuauuvecnoe V3H pa3 B roA.
+IIpu orpraqarelnuofr AHHaMr4Ke - nepe-
+BOA B nareropnrc 4
+) 1,5 cvt fia
+Vsru c Ma/rbrMr4
+V3-npnsHaKaM14
+llepeno4 B Kareropr4ro 4 4m TAIIE
+4
+Cpe4nr,rfi pucx
+3JIOKAqCCTBEHHOCTI4
+la
+Ysrrr yMepeHHo rr.rno-
+3XOfCHHbIC
+Verlr c yqacrKaMV rur-
+n0SxofeHHocT14
+Vsrnr c Ma/rbrMH
+V3-npusuaKaMr.r
+6-1.7
+llpn orpurlare/rbHoM t4rrv HevHQoprua-
+rr4BHoM pe3y/rbrare TAIIE - noBropHarr
+TAIIE s 6truxaianue cpoKt4,
+IIpra 4nyxparHoM orpr4rlareJrbHoM H/r14
+ueuuQoprtlaruBHoM pe3y/rbrare TAIIB -
+Ar4HaMlrr{ecxoe Y3H qepe3 2-3 rtecn4a
+5
+Buconzri pzcx
+3IOKAI{CCTBCHHOCTII
+)1cu
+fla
+B c6.rru4uoM y3/re
+ecrb xors 6u olun
+V3-rpvsnax
+3IOKAI{ECTBCHHOCT14
+26-87
+BrrcononoAo3pr.rreJrbHbre Ha paK y3/rbr
+II-IX vroryr norpe6onarb KaK Mr4Hr4MyM
+AByKparHOro rrpoBeAeHuq TAIIE Ao rrorry-
+qeHr4fl aAeKBaTHOTO rr4OpQO.nOf r,rqecKof o
+3aKIrcqeHllq.
+Peueuue o 4alluefiurefi raxruKe BeAe-
+Hr4fl rraqv eHTa npnH14MaeT K/rr,tHr4\t4cT
+(1cM la
+B c6rn4uoM y3Jre
+ecrn Y3-npr43HaKH
+3IOKAI{ECTBCHHOCTH
+y [aqueHroB B fpyrne
+pr4cKa
+BucononoAo3pr4reJrbHbre Ha paK y3/rbr
+II{X uoryr norpe6onarb KaK Mr4Hr4MyM
+AByKparHOro npoBeAeHzs TAIIB Ao no/ry-
+r{eHr,rq aAeKBarHoro vropQon0rnr{ecKoro
+3AKJIIOqEHI4g.
+PeneHue o 4alsuefiuefi ramruKe BeAe-
+H r4fl rrarlr4eHTa np 14 H r4 M aeT KJr r,r H t4\t4CT
+)
+( L crrr
+fla
+B c6nu4noM y3/re
+ecrr V3-npv3HaKr4
+3/IOKAI{CCTBCHHOCTII +
+V3-npusuanra
+MeTacTaTI4qecKofo
+ropaxeHr4q pefuoHap-
+uux lzuQarHr{ecKHX
+V3/IOB
+BlrcoxonoAo3pr,rrenbHbre Ha paK y3/rbr
+IIIX vroryr norpe6onarb KaK MHHT4MyM
+AByKparHoro rrpoBeAeHuq TAIIE Ao rrorry-
+qeHr4fl aAeKBarHOro vropQonorriqecKoro
+3AKIIOI{EHI4fl.
+TAII B noAo3pr4reJr bHOro lurtlQarnvecKO-
+fo y3Jra.
+Peuesue o 4alruefruefr r KTr4Ke BeAe-
+HHfl narlHeHTa npuHr,rMaeT KJrr4H r4rlr4cT
+( 0,5 cr"r Her
+llaqueHrnr BHe rpynnbr
+pHcKa
+AxrusHoe Ha6.nrc4eu vte, V3V qepe3
+3-6 Mecsuee
+6
+3roxa.{ecrBeHHoe
+o6pasonaHne
+3.[ o Ka.r ecre e H H lr fi xap aKTep y3Jr a n oATB epxAeH
+qnrouopQoJrortrqecK vM vccre AoBaH HeM
+llo4roronxa x re.{e6ubr M Meponp vflTLrflM

@@ -29,13 +29,32 @@ export async function GET(req: Request) {
     issues.push("NEXT_PUBLIC_SUPABASE_ANON_KEY не задан");
   }
   if (!process.env.SUPABASE_SERVICE_ROLE_KEY?.trim()) {
-    issues.push("SUPABASE_SERVICE_ROLE_KEY не задан — Telegram и auto-confirm email не работают");
+    issues.push(
+      "SUPABASE_SERVICE_ROLE_KEY не задан — вход по SMS/Google/Telegram и auto-confirm email не работают",
+    );
   }
+
+  const smsProvider = resolveSmsProvider();
+  const customSms = isCustomSmsAuthEnabled();
+  const smsIssues: string[] = [];
+
+  if (process.env.NODE_ENV === "production") {
+    if (!customSms || smsProvider === "mock") {
+      smsIssues.push(
+        "Production: задайте SMS_PROVIDER=smsru + SMSRU_API_ID (или Twilio) на Vercel",
+      );
+    }
+    if (!process.env.SMSRU_API_ID?.trim() && !process.env.TWILIO_ACCOUNT_SID?.trim()) {
+      smsIssues.push("SMSRU_API_ID или TWILIO_* не заданы — реальные SMS не отправятся");
+    }
+  } else if (smsProvider === "mock") {
+    smsIssues.push(
+      "Dev: SMS mock — код OTP смотрите в консоли сервера ([auth:sms] mock_sent). Для реальных SMS: SMS_PROVIDER=smsru + SMSRU_API_ID",
+    );
+  }
+
   if (!process.env.TELEGRAM_BOT_TOKEN?.trim()) {
-    issues.push("TELEGRAM_BOT_TOKEN не задан на сервере — вход через Telegram недоступен");
-  }
-  if (!process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME?.trim()) {
-    issues.push("NEXT_PUBLIC_TELEGRAM_BOT_USERNAME не задан");
+    smsIssues.push("TELEGRAM_BOT_TOKEN не задан (опционально, Telegram убран из UI)");
   }
   if (appOrigin.includes("localhost")) {
     issues.push("APP origin указывает на localhost — ссылки в письмах будут неверными");
@@ -61,10 +80,11 @@ export async function GET(req: Request) {
         process.env.TELEGRAM_BOT_TOKEN?.trim() && process.env.SUPABASE_SERVICE_ROLE_KEY?.trim(),
       ),
       turnstileConfigured: isTurnstileConfigured(),
-      smsProvider: resolveSmsProvider(),
-      customSmsAuth: isCustomSmsAuthEnabled(),
+      smsProvider: smsProvider,
+      customSmsAuth: customSms,
+      smsReady: customSms && Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY?.trim()),
     },
-    issues,
+    issues: [...issues, ...smsIssues],
     hints: {
       supabaseSiteUrl: appOrigin,
       supabaseRedirectUrls: [`${appOrigin}/auth/callback`, `${appOrigin}/**`],
@@ -90,10 +110,12 @@ export async function GET(req: Request) {
         "Supabase Site URL: https://sonogyn-pro.ru (не http)",
       ],
       phoneSms: [
-        "РФ: SMS.ru — SMSRU_API_ID в Vercel + SMS_PROVIDER=smsru (без Twilio)",
-        "Supabase Phone + Twilio — только если Twilio доступен в вашем регионе",
+        "РФ (production): SMS.ru — SMS_PROVIDER=smsru + SMSRU_API_ID на Vercel",
+        "Dev: SMS_PROVIDER=mock (по умолчанию) — код в консоли `npm run dev`",
+        "Обязательно: SUPABASE_SERVICE_ROLE_KEY для сессии после SMS-кода",
+        "Проверка: node apps/web/scripts/check-sms-connection.mjs",
         "Формат номера: +79001234567",
-        "Fallback: укажите email на вкладке «Телефон» — код придёт на почту, если SMS не дошло",
+        "Fallback: email на вкладке «Телефон», если SMS не дошло",
       ],
       emailDeliverability:
         "mail.ru / gmail: проверьте «Спам». Для надёжной доставки — Supabase → Auth → SMTP.",

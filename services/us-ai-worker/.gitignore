@@ -1,0 +1,7 @@
+sononet/SonoNet64.pth
+sononet/SonoNet32.pth
+sononet/SonoNet16.pth
+.venv/
+__pycache__/
+*.pyc
+.env

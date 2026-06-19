@@ -2,6 +2,13 @@ import crypto from "crypto";
 
 /** 6-значный OTP — только crypto.randomInt (не Math.random: предсказуем на V8). */
 export function generateVerificationCode(digits = 6): string {
+  // Localhost + SMS mock: фиксированный код (не на телефон — только для dev).
+  if (process.env.NODE_ENV === "development") {
+    const smsMode = process.env.SMS_PROVIDER?.trim().toLowerCase();
+    if (!smsMode || smsMode === "mock") {
+      return process.env.DEV_SMS_OTP_CODE?.trim() || "123456";
+    }
+  }
   const max = 10 ** digits;
   const n = crypto.randomInt(0, max);
   return n.toString().padStart(digits, "0");

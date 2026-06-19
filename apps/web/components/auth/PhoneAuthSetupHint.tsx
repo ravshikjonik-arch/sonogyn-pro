@@ -23,6 +23,10 @@ SMSRU_API_ID=ваш_api_id_с_sms.ru
 # SMSRU_FROM=SonoGyn   # опционально`}
       </pre>
       <p className="mt-2 text-xs">
+        Локально: <span className="font-mono">SMS_PROVIDER=mock</span> — код OTP в консоли сервера (
+        <span className="font-mono">[auth:sms] mock_sent</span>).
+      </p>
+      <p className="mt-2 text-xs">
         Нужен также <span className="font-mono">SUPABASE_SERVICE_ROLE_KEY</span> — без него сессия после кода не
         создастся.
       </p>
@@ -34,7 +38,7 @@ SMSRU_API_ID=ваш_api_id_с_sms.ru
         </li>
         <li>
           <Link href="/register?method=social" className="font-semibold underline">
-            Telegram
+            Вход через Google
           </Link>
         </li>
       </ul>

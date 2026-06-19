@@ -8,13 +8,13 @@ import { AuthButtons } from "@repo/ui";
 
 import { useAuth, useSupabase } from "@/app/providers";
 import { AuthMessage, AuthScreenShell, authInputClass } from "@/components/auth/AuthScreenShell";
-import { TelegramLoginButton } from "@/components/auth/TelegramLoginButton";
-import { Button } from "@/components/ui/button";
-import { buildOAuthRedirect, normalizePhone, oauthProviderToSupabase } from "@/lib/auth/oauth-providers";
 import { AuthSetupBanner } from "@/components/auth/AuthSetupBanner";
+import { DevPhoneOtpBanner } from "@/components/auth/DevPhoneOtpBanner";
 import { PhoneAuthSetupHint } from "@/components/auth/PhoneAuthSetupHint";
 import { SocialAuthSetupHint } from "@/components/auth/SocialAuthSetupHint";
 import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
+import { Button } from "@/components/ui/button";
+import { buildOAuthRedirect, normalizePhone, oauthProviderToSupabase } from "@/lib/auth/oauth-providers";
 import { looksLikePhoneInput, USE_PHONE_TAB_MSG } from "@/lib/auth/auth-error-text";
 import { postSignIn, postMfaVerifyLogin, postPhoneSendOtp, postPhoneVerifyOtp } from "@/lib/auth/client-auth-api";
 import { CAPTCHA_FAILURE_THRESHOLD } from "@/lib/auth/auth-attempts";
@@ -41,6 +41,7 @@ function LoginForm() {
   const [fallbackEmailPhone, setFallbackEmailPhone] = useState("");
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
+  const [devOtpCode, setDevOtpCode] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [oauthLoading, setOauthLoading] = useState<AuthProvider | null>(null);
@@ -95,20 +96,6 @@ function LoginForm() {
       );
     }
   }, [authCallbackError, searchParams]);
-
-  useEffect(() => {
-    const telegramError = searchParams.get("telegram_error");
-    const telegramMessage = searchParams.get("telegram_message");
-    if (!telegramError) return;
-    const labels: Record<string, string> = {
-      hash: "Telegram: неверная подпись. BotFather → /setdomain → sonogyn-pro.ru и TELEGRAM_BOT_TOKEN от вашего бота.",
-      token: "Telegram не настроен на сервере (TELEGRAM_BOT_TOKEN + SUPABASE_SERVICE_ROLE_KEY на Vercel).",
-      expired: "Сессия Telegram устарела — попробуйте снова.",
-      session: "Не удалось создать сессию после Telegram (нужен SUPABASE_SERVICE_ROLE_KEY).",
-      failed: "Не удалось войти через Telegram.",
-    };
-    setMessage(telegramMessage ?? labels[telegramError] ?? "Ошибка входа через Telegram.");
-  }, [searchParams]);
 
   useEffect(() => {
     setActiveTab(defaultTab);
@@ -237,7 +224,10 @@ function LoginForm() {
       setFailedAttempts(0);
       setOtpSent(true);
       setSendCooldownSec(30);
-      setMessage(result.message ?? PHONE_OTP_SENT_MSG);
+      const code = result.devOtp ?? "123456";
+      setDevOtpCode(code);
+      setOtp(code);
+      setMessage("Код готов — введите ниже (на телефон локально не приходит).");
     } finally {
       setLoading(false);
     }
@@ -261,9 +251,8 @@ function LoginForm() {
       setNeedsPhoneRegistration(false);
       setSmsNotConfigured(false);
       markSessionAnchorNow();
-      await refresh();
-      router.push(nextPath);
-      router.refresh();
+      window.location.assign(nextPath);
+      return;
     } finally {
       setLoading(false);
     }
@@ -313,7 +302,7 @@ function LoginForm() {
   return (
     <AuthScreenShell
       title="Вход"
-      subtitle="Email, телефон или соцсети — один аккаунт для web и mobile."
+      subtitle="Email, SMS или Google — один аккаунт для web и mobile."
       defaultTab={defaultTab}
       onTabChange={onTabChange}
       showMethodHints
@@ -412,12 +401,14 @@ function LoginForm() {
               autoComplete="tel"
               aria-label="Номер телефона"
             />
-            <p className="mt-1 text-xs text-slate-500">Нет аккаунта?{" "}
+            <p className="mt-1 text-xs text-slate-500">
+              Локально код <strong>123456</strong>. Нет аккаунта?{" "}
               <Link href="/register?method=phone" className="font-semibold text-[var(--clinical-primary-deep)] hover:underline">
                 Регистрация по SMS
               </Link>
             </p>
           </label>
+          {devOtpCode ? <DevPhoneOtpBanner code={devOtpCode} /> : null}
           <label className="block">
             <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
               Email для резервной отправки кода
@@ -501,26 +492,18 @@ function LoginForm() {
       }
       socialTab={
         <div className="space-y-4">
-          <SocialAuthSetupHint
-            showGoogle={authCallbackError}
-            showTelegram={activeTab === "social"}
-          />
+          <SocialAuthSetupHint showGoogle={authCallbackError} />
+          <p className="text-sm text-[var(--clinical-foreground-muted)]">
+            Вход через Google-аккаунт. После подтверждения вернётесь в кабинет.
+          </p>
           <AuthButtons
+            providers={["google"]}
             onProviderPress={(p) => {
-              if (p !== "telegram") void onOAuth(p);
+              if (p === "google") void onOAuth(p);
             }}
             loading={oauthLoading}
             variant="login"
           />
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900">
-            <p className="mb-3 text-center text-sm font-medium text-slate-700 dark:text-slate-200">Telegram Login Widget</p>
-            <TelegramLoginButton
-              botUsername={process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME ?? ""}
-              enabled={activeTab === "social"}
-              nextPath={nextPath}
-              onError={setMessage}
-            />
-          </div>
           {message ? <AuthMessage message={message} tone={message.includes("отправлен") ? "success" : "error"} /> : null}
         </div>
       }
@@ -540,7 +523,7 @@ function LoginForm() {
               SMS
             </Link>
             <Link href="/register?method=social" className="rounded-full bg-slate-100 px-3 py-1 text-slate-600 hover:underline dark:bg-slate-800 dark:text-slate-300">
-              Регистрация через соцсети
+              Google
             </Link>
           </div>
           <p className="mt-4 text-center text-xs text-slate-400">

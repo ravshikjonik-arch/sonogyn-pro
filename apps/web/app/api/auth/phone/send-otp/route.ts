@@ -132,6 +132,7 @@ export async function POST(req: Request) {
         fallbackUsed: fb.fallbackUsed ?? false,
         deliveredVia: fb.deliveredVia ?? "sms",
         customSms: true,
+        ...(process.env.NODE_ENV === "development" && fb.devOtp ? { devOtp: fb.devOtp } : {}),
       });
     }
     await recordAuthFailure(failKey);

@@ -13,6 +13,8 @@ export type SendVerificationResult = {
   /** Внутренний код ошибки для метрик (не PII). */
   errorCode?: string;
   suggestAlternateMethod?: VerificationMethod;
+  /** Только local dev + SMS mock — показать код на экране. */
+  devOtp?: string;
 };
 
 export type VerificationContact = {

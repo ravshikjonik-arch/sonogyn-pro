@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 
+import { CaseAiAnalysisPanel } from "@/components/cases/CaseAiAnalysisPanel";
 import { CaseMediaGallery } from "@/components/cases/CaseMediaGallery";
 import { CasePublishPanel } from "@/components/cases/CasePublishPanel";
 import { TeachingCaseDiscussion } from "@/components/cases/teaching-case-discussion";
@@ -111,6 +112,7 @@ export function CaseDetailClient({ teachingCase, devSkip = false }: Props) {
               userId={user.id}
               canUpload={user.id === teachingCase.user_id}
             />
+            <CaseAiAnalysisPanel caseId={teachingCase.id} canAnalyze={user.id === teachingCase.user_id} />
             <ClinicalAssistStrip context={assistContext} compact />
             <TeachingCaseDiscussion caseId={teachingCase.id} userId={user.id} />
           </>

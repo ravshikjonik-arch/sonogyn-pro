@@ -26,7 +26,10 @@ export function resolveSmsProvider(): SmsProviderId | null {
 
 export function isCustomSmsAuthEnabled(): boolean {
   const p = resolveSmsProvider();
-  return p === "smsru" || p === "twilio";
+  if (p === "smsru" || p === "twilio") return true;
+  // Локально: mock → наш KV + phone-custom-auth (без Supabase Phone/Twilio).
+  if (p === "mock" && process.env.NODE_ENV !== "production") return true;
+  return false;
 }
 
 async function sendTwilio(params: { toE164: string; code: string }): Promise<SmsSendResult> {
@@ -60,7 +63,14 @@ export async function dispatchSmsOtp(params: { toE164: string; code: string }): 
   if (provider === "smsru") return sendSmsRu(params);
   if (provider === "twilio") return sendTwilio(params);
   if (provider === "mock") {
-    console.info("[auth:sms] mock_sent", { to: params.toE164.replace(/\d(?=\d{4})/g, "*") });
+    const masked = params.toE164.replace(/\d(?=\d{4})/g, "*");
+    console.info(
+      `\n========== SMS DEV (на телефон НЕ приходит) ==========\n` +
+        `Код OTP: ${params.code}\n` +
+        `Номер: ${masked}\n` +
+        `Смотрите терминал Cursor, где запущен npm run dev:web\n` +
+        `=====================================================\n`,
+    );
     return { ok: true, providerMessageId: "mock-sms", provider: "mock" };
   }
   return { ok: false, errorCode: "sms_not_configured" };

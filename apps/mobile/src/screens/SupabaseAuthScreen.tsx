@@ -1,7 +1,5 @@
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import * as Linking from "expo-linking";
-import * as WebBrowser from "expo-web-browser";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -16,16 +14,10 @@ import { CLINICAL_3D_LOCALES, DEFAULT_CLINICAL_3D_LOCALE, type Clinical3dLocale 
 import type { AuthProvider } from "@repo/ui";
 import { AuthButtons } from "@repo/ui";
 
-import {
-  apiTelegramAuthPoll,
-  apiTelegramAuthStart,
-  apiTelegramSupabaseSession,
-  getWebApiBase,
-} from "../api/chatBackend";
 import { useOAuthSignIn } from "../hooks/useOAuthSignIn";
 import { usePhoneAuth } from "../hooks/usePhoneAuth";
 import { changeLanguage, isAppLanguage, type AppLanguage } from "../i18n";
-import { signInViaApi, signUpViaApi, verifyMfaViaApi, exchangeMobileSessionCode } from "../lib/auth/emailAuthApi";
+import { signInViaApi, signUpViaApi, verifyMfaViaApi } from "../lib/auth/emailAuthApi";
 import { isTurnstileConfiguredOnMobile, obtainTurnstileToken } from "../lib/auth/turnstileMobile";
 import { markSessionAnchorNow } from "../lib/security/sessionAnchor";
 import { supabaseMobile } from "../lib/supabase/mobileClient";
@@ -34,8 +26,6 @@ import { useAppGate } from "../navigation/AppGateContext";
 
 type Props = NativeStackScreenProps<RootStackParamList, "SupabaseAuth">;
 type Tab = "email" | "phone" | "social";
-
-WebBrowser.maybeCompleteAuthSession();
 
 function translateAuthError(message: string): string {
   if (/invalid login credentials/i.test(message)) return "Неверные учётные данные.";
@@ -102,41 +92,6 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
       setCaptchaBusy(false);
     }
   }
-
-  const completeTelegramNonce = useCallback(
-    async (nonce: string) => {
-      if (!supabaseMobile) return false;
-      setOauthLoading("telegram");
-      try {
-        const session = await apiTelegramSupabaseSession(nonce);
-        await supabaseMobile.auth.setSession(session);
-        await finishAuth();
-        return true;
-      } catch (e) {
-        Alert.alert("Telegram", e instanceof Error ? e.message : "Ошибка входа");
-        return false;
-      } finally {
-        setOauthLoading(null);
-      }
-    },
-    [finishAuth],
-  );
-
-  useEffect(() => {
-    async function handleUrl(url: string | null) {
-      if (!url) return;
-      const parsed = Linking.parse(url);
-      const nonceRaw = parsed.queryParams?.telegram_nonce;
-      const nonce = typeof nonceRaw === "string" ? nonceRaw : Array.isArray(nonceRaw) ? nonceRaw[0] : null;
-      if (nonce) {
-        await completeTelegramNonce(nonce);
-      }
-    }
-
-    void Linking.getInitialURL().then((url) => void handleUrl(url));
-    const sub = Linking.addEventListener("url", (event) => void handleUrl(event.url));
-    return () => sub.remove();
-  }, [completeTelegramNonce]);
 
   async function submitMfa() {
     if (!supabaseMobile || !mfaFactorId) return;
@@ -232,12 +187,7 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
     await phoneAuth.sendOtp(mode === "sign-up");
   }
 
-  async function onSocial(provider: AuthProvider) {
-    if (provider === "telegram") {
-      await signInTelegram();
-      return;
-    }
-
+  async function onSocial(provider: Exclude<AuthProvider, "telegram">) {
     setOauthLoading(provider);
     try {
       const result = await signInOAuth(provider);
@@ -251,54 +201,6 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
     }
   }
 
-  async function signInTelegram() {
-    setOauthLoading("telegram");
-    try {
-      const webBase = getWebApiBase();
-      if (webBase) {
-        const redirectTo = Linking.createURL("auth/callback", {
-          scheme: process.env.EXPO_PUBLIC_AUTH_REDIRECT_SCHEME || "com.yakrav7700.usriskcalc",
-        });
-        const bridgeUrl = `${webBase}/auth/telegram-bridge?redirect=${encodeURIComponent(redirectTo)}`;
-        const result = await WebBrowser.openAuthSessionAsync(bridgeUrl, redirectTo);
-        if (result.type === "success" && result.url) {
-          const parsed = Linking.parse(result.url);
-          const exchangeRaw = parsed.queryParams?.exchange_code;
-          const exchangeCode =
-            typeof exchangeRaw === "string" ? exchangeRaw : Array.isArray(exchangeRaw) ? exchangeRaw[0] : null;
-          if (exchangeCode && supabaseMobile) {
-            const exchanged = await exchangeMobileSessionCode(exchangeCode);
-            if (exchanged.ok) {
-              await supabaseMobile.auth.setSession(exchanged.session);
-              await finishAuth();
-              return;
-            }
-          }
-        }
-      }
-
-      const start = await apiTelegramAuthStart();
-      await Linking.openURL(start.botUrl);
-
-      for (let i = 0; i < 30; i += 1) {
-        await new Promise((r) => setTimeout(r, 2000));
-        const poll = await apiTelegramAuthPoll(start.nonce);
-        if (poll.status === "ok") {
-          const nonce = poll.nonce ?? start.nonce;
-          const ok = await completeTelegramNonce(nonce);
-          if (ok) return;
-        }
-        if (poll.status === "expired") break;
-      }
-
-      Alert.alert("Telegram", "Не удалось завершить вход. Попробуйте снова.");
-    } catch (e) {
-      Alert.alert("Telegram", e instanceof Error ? e.message : "Ошибка Telegram auth");
-    } finally {
-      setOauthLoading(null);
-    }
-  }
-
   const loading = busy || phoneAuth.busy || oauthLoading !== null;
 
   return (
@@ -306,14 +208,14 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
       <Text style={styles.kicker}>SonoGyn Pro</Text>
       <Text style={styles.title}>Вход / регистрация</Text>
       <Text style={styles.body}>
-        Email, телефон или соцсети. Регистрируясь, вы соглашаетесь с политикой конфиденциальности.
+        Email, SMS или Google. Регистрируясь, вы соглашаетесь с политикой конфиденциальности.
       </Text>
 
       <View style={styles.tabRow}>
         {([
           ["email", "Почта"],
           ["phone", "Телефон"],
-          ["social", "Соцсети"],
+          ["social", "Google"],
         ] as const).map(([id, label]) => (
           <Pressable
             key={id}
@@ -478,7 +380,12 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
 
       {tab === "social" ? (
         <View style={styles.panel}>
-          <AuthButtons onProviderPress={(p) => void onSocial(p)} loading={oauthLoading} variant={mode === "sign-up" ? "register" : "login"} />
+          <AuthButtons
+            providers={["google"]}
+            onProviderPress={(p) => void onSocial(p)}
+            loading={oauthLoading}
+            variant={mode === "sign-up" ? "register" : "login"}
+          />
         </View>
       ) : null}
 

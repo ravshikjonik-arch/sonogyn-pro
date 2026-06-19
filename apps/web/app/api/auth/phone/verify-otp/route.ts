@@ -102,7 +102,7 @@ export async function POST(req: Request) {
     }
 
     await clearAuthFailures(failKey);
-    return establishPhoneAuthSession(ensured.email, req, ensured.userId, registrationMeta);
+    return establishPhoneAuthSession(ensured.email, req, ensured.userId, registrationMeta, phone);
   }
 
   try {
