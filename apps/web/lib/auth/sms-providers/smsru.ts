@@ -1,3 +1,5 @@
+import { fetchWithRetry } from "@/lib/http/fetch-with-retry";
+
 import type { SmsSendResult } from "./types";
 
 /** SMS.ru — работает с номерами РФ (+7). https://sms.ru/api/send */
@@ -31,7 +33,12 @@ export async function sendSmsRu(params: { toE164: string; code: string }): Promi
   });
   if (cfg.from) qs.set("from", cfg.from);
 
-  const res = await fetch(`https://sms.ru/sms/send?${qs.toString()}`, { method: "GET" });
+  let res: Response;
+  try {
+    res = await fetchWithRetry(`https://sms.ru/sms/send?${qs.toString()}`, { method: "GET" });
+  } catch {
+    return { ok: false, errorCode: "smsru_network_error" };
+  }
   const json = (await res.json().catch(() => null)) as {
     status?: string;
     status_code?: number;

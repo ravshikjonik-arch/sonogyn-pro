@@ -1,4 +1,6 @@
 /** Имя бота для Login Widget (server-side). */
+import { fetchWithRetry } from "@/lib/http/fetch-with-retry";
+
 export function readTelegramBotUsername(): string {
   const fromPublic = process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME?.trim();
   const fromServer = process.env.TELEGRAM_BOT_USERNAME?.trim();
@@ -21,7 +23,7 @@ export async function resolveTelegramBotId(): Promise<string | null> {
     return null;
   }
   try {
-    const res = await fetch(`https://api.telegram.org/bot${token}/getMe`, { cache: "no-store" });
+    const res = await fetchWithRetry(`https://api.telegram.org/bot${token}/getMe`, { cache: "no-store" });
     const json = (await res.json()) as { ok?: boolean; result?: { id?: number } };
     cachedBotId = json.ok && json.result?.id ? String(json.result.id) : null;
   } catch {

@@ -7,6 +7,38 @@ export type SupabaseAuthChecklistItem = {
   why: string;
 };
 
+export const SUPABASE_PRODUCTION_AUTH_CHECKLIST: SupabaseAuthChecklistItem[] = [
+  {
+    id: "site-url",
+    area: "Authentication → URL Configuration",
+    setting: "Site URL",
+    recommended: "https://sonogyn-pro.ru",
+    why: "Ссылки в письмах, SMS и OAuth redirectTo должны совпадать с NEXT_PUBLIC_APP_URL на Vercel.",
+  },
+  {
+    id: "redirect-urls",
+    area: "Authentication → URL Configuration",
+    setting: "Redirect URLs",
+    recommended:
+      "https://sonogyn-pro.ru/auth/callback, https://sonogyn-pro.ru/**, https://*.vercel.app/** (preview)",
+    why: "Обязательно /auth/callback после email-link и OAuth.",
+  },
+  {
+    id: "confirm-email",
+    area: "Authentication → Providers → Email",
+    setting: "Confirm email",
+    recommended: "ON + SUPABASE_SERVICE_ROLE_KEY на Vercel (auto-confirm на сервере)",
+    why: "Без service role вход по email может зависнуть до клика по письму.",
+  },
+  {
+    id: "service-role",
+    area: "Project Settings → API",
+    setting: "service_role key → SUPABASE_SERVICE_ROLE_KEY",
+    recommended: "Только Vercel env, не в git",
+    why: "SMS OTP, Telegram auth, auto-confirm email, webhook ЮKassa.",
+  },
+];
+
 export const SUPABASE_DEV_AUTH_CHECKLIST: SupabaseAuthChecklistItem[] = [
   {
     id: "confirm-email",

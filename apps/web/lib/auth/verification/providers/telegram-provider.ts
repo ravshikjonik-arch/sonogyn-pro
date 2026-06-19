@@ -1,3 +1,5 @@
+import { fetchWithRetry } from "@/lib/http/fetch-with-retry";
+
 import { withTimeout } from "../with-timeout";
 
 export type TelegramSendResult =
@@ -28,7 +30,7 @@ export async function assertTelegramChatReady(chatId: string): Promise<void> {
   }
 
   const url = `https://api.telegram.org/bot${token}/getChat?chat_id=${encodeURIComponent(chatId)}`;
-  const res = await fetch(url, { method: "GET" });
+  const res = await fetchWithRetry(url, { method: "GET" });
   const json = (await res.json().catch(() => null)) as {
     ok?: boolean;
     description?: string;
@@ -68,7 +70,7 @@ async function sendVerificationTelegramInner(params: {
   ].join("\n");
 
   const url = `https://api.telegram.org/bot${token}/sendMessage`;
-  const res = await fetch(url, {
+  const res = await fetchWithRetry(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({

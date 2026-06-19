@@ -2,9 +2,16 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
+
+type BillingStatus = {
+  features?: {
+    yookassaConfigured?: boolean;
+    yookassaProPriceRub?: number;
+  };
+};
 
 /**
  * Subscription upsell shown when quota limits are exceeded or when navigating manually from settings.
@@ -14,11 +21,47 @@ export default function PaywallPage() {
   const checkout = searchParams.get("checkout");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [yookassaReady, setYookassaReady] = useState(false);
+  const [priceRub, setPriceRub] = useState(990);
 
-  async function startCheckout() {
+  useEffect(() => {
+    void fetch("/api/auth/status", { cache: "no-store" })
+      .then((r) => r.json() as Promise<BillingStatus>)
+      .then((body) => {
+        setYookassaReady(Boolean(body.features?.yookassaConfigured));
+        if (body.features?.yookassaProPriceRub) {
+          setPriceRub(body.features.yookassaProPriceRub);
+        }
+      })
+      .catch(() => undefined);
+  }, []);
+
+  async function startYooKassaCheckout() {
+    setBusy(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/yookassa/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amountRub: priceRub }),
+      });
+      const body = (await res.json()) as { confirmationUrl?: string; error?: unknown };
+      if (!res.ok || !body.confirmationUrl) {
+        setError(typeof body.error === "string" ? body.error : "Не удалось создать платёж");
+        return;
+      }
+      window.location.href = body.confirmationUrl;
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Не удалось создать платёж");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function startStripeCheckout() {
     const priceId = process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_PRO_MONTHLY;
     if (!priceId) {
-      setError("Billing is not configured (NEXT_PUBLIC_STRIPE_PRICE_ID_PRO_MONTHLY).");
+      setError("Stripe не настроен (NEXT_PUBLIC_STRIPE_PRICE_ID_PRO_MONTHLY).");
       return;
     }
     setBusy(true);
@@ -42,6 +85,14 @@ export default function PaywallPage() {
     }
   }
 
+  async function startCheckout() {
+    if (yookassaReady) {
+      await startYooKassaCheckout();
+      return;
+    }
+    await startStripeCheckout();
+  }
+
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-8 px-6 py-16">
       <header className="space-y-3">
@@ -49,41 +100,54 @@ export default function PaywallPage() {
           Ultrasound PRO
         </p>
         <h1 className="text-3xl font-black tracking-tight text-[var(--clinical-foreground)]">
-          Unlock AI-assisted teaching cases and unlimited analyses
+          {yookassaReady
+            ? "PRO-подписка для клинических инструментов и AI-разборов"
+            : "Unlock AI-assisted teaching cases and unlimited analyses"}
         </h1>
         <p className="text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
-          PHI-safe architecture with audit trails, HIPAA-aligned controls, and Stripe-backed subscriptions with a
-          seven-day evaluation window for qualified clinicians.
+          {yookassaReady
+            ? "Оплата через ЮKassa (карты РФ). PHI-safe архитектура, аудит действий, доступ PRO на 30 дней."
+            : "PHI-safe architecture with audit trails, HIPAA-aligned controls, and Stripe-backed subscriptions with a seven-day evaluation window for qualified clinicians."}
         </p>
       </header>
 
       {checkout === "cancel" ? (
         <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
-          Checkout was canceled — no charges were made.
+          {yookassaReady ? "Оплата отменена — списания не было." : "Checkout was canceled — no charges were made."}
         </div>
       ) : null}
 
       <div className="grid gap-6 rounded-2xl border border-[var(--clinical-border)] bg-white p-8 shadow-sm md:grid-cols-2">
         <div className="space-y-4">
-          <p className="text-sm font-semibold text-[var(--clinical-foreground)]">Included with PRO</p>
+          <p className="text-sm font-semibold text-[var(--clinical-foreground)]">
+            {yookassaReady ? "В PRO входит" : "Included with PRO"}
+          </p>
           <ul className="space-y-2 text-sm text-[var(--clinical-foreground-muted)]">
             <li>• Unlimited mocked AI segmentation jobs (production swaps model endpoint)</li>
             <li>• Higher monthly teaching case quotas</li>
             <li>• Priority moderation review lane</li>
-            <li>• Stripe Customer Portal for invoices</li>
+            <li>
+              • {yookassaReady ? "Оплата ЮKassa, чек на email" : "Stripe Customer Portal for invoices"}
+            </li>
           </ul>
         </div>
         <div className="flex flex-col justify-between gap-4 rounded-xl bg-[var(--clinical-muted)] p-6">
           <div>
             <p className="text-xs font-bold uppercase tracking-wider text-[var(--clinical-foreground-muted)]">
-              Monthly
+              {yookassaReady ? "30 дней" : "Monthly"}
             </p>
-            <p className="mt-2 text-4xl font-black text-[var(--clinical-foreground)]">$49</p>
-            <p className="text-xs text-[var(--clinical-foreground-muted)]">Price placeholder — configure Stripe Price IDs.</p>
+            <p className="mt-2 text-4xl font-black text-[var(--clinical-foreground)]">
+              {yookassaReady ? `${priceRub.toLocaleString("ru-RU")} ₽` : "$49"}
+            </p>
+            <p className="text-xs text-[var(--clinical-foreground-muted)]">
+              {yookassaReady
+                ? "Настраивается YOOKASSA_PRO_PRICE_RUB на Vercel."
+                : "Price placeholder — configure Stripe Price IDs."}
+            </p>
           </div>
           <div className="space-y-3">
             <Button className="w-full" size="lg" type="button" disabled={busy} onClick={() => void startCheckout()}>
-              {busy ? "Redirecting…" : "Start 7-day trial"}
+              {busy ? "Переход…" : yookassaReady ? "Оплатить через ЮKassa" : "Start 7-day trial"}
             </Button>
             <Button variant="outline" className="w-full" asChild>
               <Link href="/profile">Back to profile</Link>

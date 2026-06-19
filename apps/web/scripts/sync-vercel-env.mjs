@@ -33,6 +33,12 @@ const FROM_LOCAL = [
   "SMS_PROVIDER",
   "SMSRU_API_ID",
   "SMSRU_FROM",
+  "YOOKASSA_SHOP_ID",
+  "YOOKASSA_SECRET_KEY",
+  "YOOKASSA_PRO_PRICE_RUB",
+  "HTTP_RETRY_ATTEMPTS",
+  "HTTP_FETCH_TIMEOUT_MS",
+  "HTTP_RETRY_BASE_DELAY_MS",
   "TWILIO_ACCOUNT_SID",
   "TWILIO_AUTH_TOKEN",
   "TWILIO_FROM_NUMBER",
@@ -84,15 +90,26 @@ function envExists(name, target) {
   return line.toLowerCase().includes(target.toLowerCase());
 }
 
-function upsertEnv(name, value, targets) {
+/** Always overwrite on Vercel (e.g. domain migration). */
+const FORCE_UPDATE = ["NEXT_PUBLIC_APP_URL"];
+
+function removeEnv(name, target) {
+  vercel(["env", "rm", name, target, "--yes"], undefined);
+}
+
+function upsertEnv(name, value, targets, { force = false } = {}) {
   for (const target of targets) {
-    if (envExists(name, target)) {
+    const exists = envExists(name, target);
+    if (exists && !force && !FORCE_UPDATE.includes(name)) {
       console.log(`↷ skip ${name} (${target}) — already set`);
       continue;
     }
+    if (exists && (force || FORCE_UPDATE.includes(name))) {
+      removeEnv(name, target);
+    }
     const { code, stdout, stderr } = vercel(["env", "add", name, target, "--yes"], value);
     if (code === 0) {
-      console.log(`✓ added ${name} → ${target}`);
+      console.log(`✓ ${exists ? "updated" : "added"} ${name} → ${target}`);
     } else {
       console.warn(`✗ ${name} (${target}): ${(stderr || stdout).trim()}`);
     }
@@ -118,6 +135,7 @@ const REQUIRED_FOR_PRODUCTION_SECURITY = [
 
 const RECOMMENDED_FOR_US_AI = ["US_AI_WORKER_URL", "US_AI_WORKER_SECRET", "OPENROUTER_US_VISION_MODEL"];
 const RECOMMENDED_FOR_SMS = ["SMS_PROVIDER", "SMSRU_API_ID", "SUPABASE_SERVICE_ROLE_KEY"];
+const RECOMMENDED_FOR_YOOKASSA = ["YOOKASSA_SHOP_ID", "YOOKASSA_SECRET_KEY"];
 
 const UPSTASH_ENV_ANY = [
   ["UPSTASH_REDIS_REST_URL", "UPSTASH_REDIS_REST_TOKEN"],
@@ -152,6 +170,17 @@ for (const key of RECOMMENDED_FOR_SMS) {
 }
 if (!envExists("SMSRU_API_ID", "production")) {
   console.log("  → РФ: SMS.ru API ID + SMS_PROVIDER=smsru");
+}
+
+console.log("\n--- ЮKassa (РФ billing) ---");
+for (const key of RECOMMENDED_FOR_YOOKASSA) {
+  const localOk = Boolean(local[key]?.trim());
+  const vercelOk = envExists(key, "production");
+  const status = localOk && vercelOk ? "ok" : localOk ? "local only" : vercelOk ? "vercel only" : "MISSING";
+  console.log(`${status === "ok" ? "✓" : "○"} ${key}: ${status}`);
+}
+if (!envExists("YOOKASSA_SHOP_ID", "production")) {
+  console.log("  → Webhook: https://sonogyn-pro.ru/api/yookassa/webhook");
 }
 
 console.log("\n--- Upstash ---");

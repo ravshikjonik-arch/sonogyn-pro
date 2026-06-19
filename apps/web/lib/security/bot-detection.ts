@@ -1,7 +1,11 @@
 import type { NextRequest } from "next/server";
 
 /** Webhooks and server-to-server bridges — no browser User-Agent. */
-const API_BOT_ALLOWLIST_PREFIXES = ["/api/stripe/webhook", "/api/auth/telegram/bot"] as const;
+const API_BOT_ALLOWLIST_PREFIXES = [
+  "/api/stripe/webhook",
+  "/api/yookassa/webhook",
+  "/api/auth/telegram/bot",
+] as const;
 
 const CRAWLER_UA_PATTERNS = [
   /bot\b/i,

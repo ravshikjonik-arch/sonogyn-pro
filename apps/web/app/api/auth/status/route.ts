@@ -7,11 +7,12 @@ import {
 } from "@/lib/auth/dev-auth-mode";
 import { resolveEmailConfirmRedirect } from "@/lib/auth/email-confirmation";
 import { resolveAppOrigin } from "@/lib/auth/app-origin";
-import { SUPABASE_DEV_AUTH_CHECKLIST } from "@/lib/auth/supabase-dashboard-checklist";
+import { SUPABASE_DEV_AUTH_CHECKLIST, SUPABASE_PRODUCTION_AUTH_CHECKLIST } from "@/lib/auth/supabase-dashboard-checklist";
 import { isTurnstileConfigured } from "@/lib/auth/verify-turnstile";
 import { isCustomSmsAuthEnabled, resolveSmsProvider } from "@/lib/auth/sms-providers";
 import { supabaseGoogleCallbackUrl, TELEGRAM_LOGIN_DOMAINS } from "@/lib/auth/social-auth-domains";
 import { readTelegramBotUsername } from "@/lib/auth/telegram-bot-config";
+import { isYooKassaConfigured, readYooKassaProPriceRub } from "@/lib/yookassa/config";
 
 export const runtime = "nodejs";
 
@@ -83,12 +84,17 @@ export async function GET(req: Request) {
       smsProvider: smsProvider,
       customSmsAuth: customSms,
       smsReady: customSms && Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY?.trim()),
+      yookassaConfigured: isYooKassaConfigured(),
+      yookassaProPriceRub: readYooKassaProPriceRub(),
     },
     issues: [...issues, ...smsIssues],
     hints: {
       supabaseSiteUrl: appOrigin,
       supabaseRedirectUrls: [`${appOrigin}/auth/callback`, `${appOrigin}/**`],
-      supabaseDashboard: SUPABASE_DEV_AUTH_CHECKLIST,
+      supabaseDashboard:
+        process.env.NODE_ENV === "production"
+          ? SUPABASE_PRODUCTION_AUTH_CHECKLIST
+          : SUPABASE_DEV_AUTH_CHECKLIST,
       devAuthEnv: [
         "DEV_AUTH_MODE=true          # только local npm run dev",
         "AUTH_SESSION_MAX_AGE_DAYS=90",
@@ -116,6 +122,12 @@ export async function GET(req: Request) {
         "Проверка: node apps/web/scripts/check-sms-connection.mjs",
         "Формат номера: +79001234567",
         "Fallback: email на вкладке «Телефон», если SMS не дошло",
+      ],
+      yookassa: [
+        "ЮKassa (РФ): YOOKASSA_SHOP_ID + YOOKASSA_SECRET_KEY на Vercel",
+        "Webhook в кабинете ЮKassa: https://sonogyn-pro.ru/api/yookassa/webhook",
+        "YOOKASSA_PRO_PRICE_RUB=990 (опционально, цена PRO в рублях)",
+        "После env — Redeploy; миграция: 20260617140000_yookassa_payments.sql",
       ],
       emailDeliverability:
         "mail.ru / gmail: проверьте «Спам». Для надёжной доставки — Supabase → Auth → SMTP.",
