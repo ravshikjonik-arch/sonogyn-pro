@@ -2,7 +2,7 @@
 
 export type VerificationMethod = "email" | "sms" | "telegram";
 
-export type VerificationPurpose = "register" | "login" | "mfa" | "password_reset";
+export type VerificationPurpose = "register" | "login" | "mfa" | "password_reset" | "link_phone";
 
 export type SendVerificationResult = {
   ok: boolean;

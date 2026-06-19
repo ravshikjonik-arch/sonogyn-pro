@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { DOCTOR_SPECIALIZATION_OPTIONS } from "@repo/clinical-tools";
 
 import { useAuth, useSupabase } from "@/app/providers";
@@ -12,6 +13,8 @@ import {
   PRODUCT_OWNER_FIO,
   PRODUCT_OWNER_FIO_SHORT,
 } from "@/lib/auth/doctor-display";
+import { birthDateErrorMessage, parseBirthDateInput } from "@/lib/auth/birth-date";
+import { maskRuDateInput } from "@/lib/utils/ru-date";
 import { uploadClinicalAvatar } from "@/lib/supabase/medical-storage";
 import { wipeWebClinicalLocalData } from "@/lib/security/wipe-clinical-local";
 
@@ -31,9 +34,7 @@ export function ProfileSettingsForm({ initial }: Props) {
   const [full_name, setFullName] = useState(initial.full_name ?? "");
   const [institution, setInstitution] = useState(initial.institution ?? "");
   const [specialization, setSpecialization] = useState(initial.specialization ?? "");
-  const [birthYear, setBirthYear] = useState(
-    initial.birth_year != null ? String(initial.birth_year) : "",
-  );
+  const [birthDate, setBirthDate] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [revoking, setRevoking] = useState(false);
@@ -43,6 +44,12 @@ export function ProfileSettingsForm({ initial }: Props) {
     setMessage("");
     setLoading(true);
     try {
+      const parsedBirth = birthDate.trim() ? parseBirthDateInput(birthDate) : null;
+      if (birthDate.trim() && !parsedBirth) {
+        setMessage(birthDateErrorMessage());
+        return;
+      }
+
       const res = await fetch("/api/profile", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -51,10 +58,19 @@ export function ProfileSettingsForm({ initial }: Props) {
           full_name: full_name.trim(),
           institution: institution.trim() || undefined,
           specialization: specialization.trim() || undefined,
-          birth_year: birthYear.trim() ? Number.parseInt(birthYear.trim(), 10) : undefined,
+          birth_year: parsedBirth?.year,
         }),
       });
-      const payload = (await res.json().catch(() => null)) as { error?: unknown; profile?: unknown } | null;
+      const payload = (await res.json().catch(() => null)) as {
+        error?: unknown;
+        profile?: unknown;
+        career?: {
+          milestone?: "intern" | "doctor" | null;
+          progressPercent?: number;
+          previousStage?: string;
+          currentStage?: string;
+        } | null;
+      } | null;
       if (!res.ok) {
         const err =
           typeof payload?.error === "string"
@@ -65,7 +81,29 @@ export function ProfileSettingsForm({ initial }: Props) {
         setMessage(err);
         return;
       }
-      setMessage("Saved. Profile and doctor record are synced.");
+      setMessage("Профиль сохранён.");
+      if (payload?.career?.milestone === "doctor") {
+        toast.success("Вы — врач на платформе (75%)", {
+          description: "Остался шаг PRO — без лимитов AI и кейсов. Письмо отправлено на email.",
+          action: {
+            label: "Оформить PRO",
+            onClick: () => {
+              window.location.href = "/paywall";
+            },
+          },
+          duration: 12000,
+        });
+      } else if (payload?.career?.milestone === "intern") {
+        toast.success("Статус «Ординатор»", {
+          description: "Завершите профиль — станете врачом на платформе.",
+          action: { label: "Профиль", onClick: () => { window.location.href = "/profile"; } },
+        });
+      } else if (payload?.career?.currentStage === "doctor" && payload.career.progressPercent === 75) {
+        toast.message("Профиль обновлён", {
+          description: "Следующий шаг — PRO.",
+          action: { label: "Paywall", onClick: () => { window.location.href = "/paywall"; } },
+        });
+      }
       router.refresh();
     } finally {
       setLoading(false);
@@ -153,17 +191,21 @@ export function ProfileSettingsForm({ initial }: Props) {
           </p>
         </label>
         <label className="block">
-          <span className="text-sm font-medium text-slate-700 dark:text-slate-200">Год рождения</span>
+          <span className="text-sm font-medium text-slate-700 dark:text-slate-200">Дата рождения</span>
           <input
-            className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-950 outline-none transition focus:border-[var(--clinical-primary)] focus:ring-4 focus:ring-[var(--clinical-ring)] dark:bg-slate-950 dark:text-white"
-            type="number"
-            min={1900}
-            max={2100}
-            value={birthYear}
-            onChange={(ev) => setBirthYear(ev.target.value)}
-            placeholder="1988"
-            required
+            className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 font-mono tracking-wide text-slate-950 outline-none transition focus:border-[var(--clinical-primary)] focus:ring-4 focus:ring-[var(--clinical-ring)] dark:bg-slate-950 dark:text-white"
+            type="text"
+            inputMode="numeric"
+            autoComplete="bday"
+            value={birthDate}
+            onChange={(ev) => setBirthDate(maskRuDateInput(ev.target.value))}
+            onPaste={(ev) => {
+              ev.preventDefault();
+              setBirthDate(maskRuDateInput(ev.clipboardData.getData("text")));
+            }}
+            placeholder="21.12.1988"
           />
+          <p className="mt-1 text-xs text-slate-500">Формат ДД.ММ.ГГГГ</p>
         </label>
         <label className="block">
           <span className="text-sm font-medium text-slate-700 dark:text-slate-200">Специализация</span>

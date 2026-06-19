@@ -6,6 +6,8 @@ const API_BOT_ALLOWLIST_PREFIXES = [
   "/api/payment/webhook",
   "/api/yookassa/webhook",
   "/api/auth/telegram/bot",
+  "/api/cron/",
+  "/api/health",
 ] as const;
 
 const CRAWLER_UA_PATTERNS = [

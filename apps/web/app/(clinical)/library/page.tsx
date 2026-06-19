@@ -20,6 +20,9 @@ export default function LibraryPage() {
           <Link href="/library/basic-course?tab=program" className="text-sm font-medium text-[var(--clinical-primary)] underline">
             ISUOG Basic Training → программа · лекция · практика
           </Link>
+          <Link href="/library/courses" className="block text-sm font-medium text-[var(--clinical-primary)] underline">
+            Курсы авторов → шаг «Ординатор» на платформе
+          </Link>
         </header>
 
         <TelegramChannelLink className="max-w-xl" />

@@ -4,18 +4,20 @@ import { DOCTOR_SPECIALIZATION_OPTIONS } from "@repo/clinical-tools";
 
 import { authInputClass } from "@/components/auth/AuthScreenShell";
 import { APP_LOCALES, type AppLocale } from "@/lib/i18n/locale";
+import { parseBirthDateInput, birthDateErrorMessage } from "@/lib/auth/birth-date";
 import {
   buildFioAbbreviation,
   normalizeRussianFio,
   PRODUCT_OWNER_FIO,
   PRODUCT_OWNER_FIO_SHORT,
 } from "@/lib/auth/doctor-display";
+import { maskRuDateInput } from "@/lib/utils/ru-date";
 
 type DoctorRegistrationFieldsProps = {
   fullName: string;
   onFullNameChange: (value: string) => void;
-  birthYear: string;
-  onBirthYearChange: (value: string) => void;
+  birthDate: string;
+  onBirthDateChange: (value: string) => void;
   specialization: string;
   onSpecializationChange: (value: string) => void;
   locale: AppLocale;
@@ -25,13 +27,17 @@ type DoctorRegistrationFieldsProps = {
 export function DoctorRegistrationFields({
   fullName,
   onFullNameChange,
-  birthYear,
-  onBirthYearChange,
+  birthDate,
+  onBirthDateChange,
   specialization,
   onSpecializationChange,
   locale,
   onLocaleChange,
 }: DoctorRegistrationFieldsProps) {
+  function onBirthInput(raw: string) {
+    onBirthDateChange(maskRuDateInput(raw));
+  }
+
   return (
     <>
       <label className="block">
@@ -72,20 +78,23 @@ export function DoctorRegistrationFields({
         </p>
       </label>
       <label className="block">
-        <span className="text-sm font-medium text-slate-700 dark:text-slate-200">Год рождения</span>
+        <span className="text-sm font-medium text-slate-700 dark:text-slate-200">Дата рождения</span>
         <input
-          className={authInputClass}
-          type="number"
+          className={`${authInputClass} font-mono tracking-wide`}
+          type="text"
           inputMode="numeric"
-          min={1900}
-          max={2100}
-          step={1}
-          value={birthYear}
-          onChange={(e) => onBirthYearChange(e.target.value)}
-          placeholder="1988"
+          autoComplete="bday"
+          value={birthDate}
+          onChange={(e) => onBirthInput(e.target.value)}
+          onPaste={(e) => {
+            e.preventDefault();
+            onBirthInput(e.clipboardData.getData("text"));
+          }}
+          placeholder="21.12.1988"
           required
-          aria-label="Год рождения"
+          aria-label="Дата рождения"
         />
+        <p className="mt-1 text-xs text-slate-500">Формат ДД.ММ.ГГГГ</p>
       </label>
       <label className="block">
         <span className="text-sm font-medium text-slate-700 dark:text-slate-200">Специализация</span>
@@ -108,10 +117,13 @@ export function DoctorRegistrationFields({
   );
 }
 
+/** @deprecated используйте validateDoctorBirthDate */
 export function validateDoctorBirthYear(value: string): number | null {
-  const trimmed = value.trim();
-  if (!/^\d{4}$/.test(trimmed)) return null;
-  const year = Number.parseInt(trimmed, 10);
-  if (year < 1900 || year > 2100) return null;
-  return year;
+  return validateDoctorBirthDate(value)?.year ?? null;
 }
+
+export function validateDoctorBirthDate(value: string): ReturnType<typeof parseBirthDateInput> {
+  return parseBirthDateInput(value);
+}
+
+export { birthDateErrorMessage };

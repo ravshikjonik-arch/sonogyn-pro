@@ -52,7 +52,7 @@ export {
 
 // --- RBAC & profiles ------------------------------------------------------------
 
-export const UserRoleSchema = z.enum(["user", "moderator", "admin"]);
+export const UserRoleSchema = z.enum(["user", "moderator", "author", "admin"]);
 export type UserRole = z.infer<typeof UserRoleSchema>;
 
 export const SubscriptionTierSchema = z.enum(["free", "pro"]);
@@ -365,3 +365,18 @@ export const StudyRowSchema = z.object({
   updated_at: z.string().datetime(),
 });
 export type StudyRow = z.infer<typeof StudyRowSchema>;
+
+// --- AI Chat --------------------------------------------------------------------
+
+export const ChatMessageSchema = z.object({
+  role: z.enum(["user", "assistant", "system"]),
+  content: z.string(),
+});
+export type ChatMessage = z.infer<typeof ChatMessageSchema>;
+
+export const ChatCompletionRequestSchema = z.object({
+  messages: z.array(ChatMessageSchema).min(1),
+  model: z.string().optional(),
+  stream: z.boolean().default(false),
+});
+export type ChatCompletionRequest = z.infer<typeof ChatCompletionRequestSchema>;

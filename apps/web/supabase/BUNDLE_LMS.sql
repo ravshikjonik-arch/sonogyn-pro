@@ -1,0 +1,12 @@
+-- =============================================================================
+-- LMS bundle для Supabase SQL Editor
+-- Запускайте по порядку, если таблицы ещё не созданы:
+--   1) migrations/20260620120000_course_author_lms.sql
+--   2) migrations/20260621120000_lesson_video_storage.sql
+--   3) migrations/20260622120000_lms_school_upgrade.sql
+--
+-- Локально: cd apps/web && npm run db:migrate  (нужен SUPABASE_DB_URL в .env.local)
+-- =============================================================================
+
+-- Назначить роль author (подставьте UUID пользователя):
+-- update public.profiles set role = 'author', updated_at = now() where id = 'YOUR-USER-UUID';

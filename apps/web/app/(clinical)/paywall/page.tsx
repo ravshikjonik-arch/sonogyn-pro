@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import { PaywallCareerBanner } from "@/components/career/PaywallCareerBanner";
 import { Button } from "@/components/ui/button";
 
 type BillingStatus = {
@@ -95,18 +96,20 @@ export default function PaywallPage() {
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-8 px-6 py-16">
+      <PaywallCareerBanner />
+
       <header className="space-y-3">
         <p className="text-xs font-bold uppercase tracking-[0.3em] text-[var(--clinical-foreground-muted)]">
-          Ultrasound PRO
+          Шаг 4 · PRO
         </p>
         <h1 className="text-3xl font-black tracking-tight text-[var(--clinical-foreground)]">
           {yookassaReady
-            ? "PRO-подписка для клинических инструментов и AI-разборов"
+            ? "Финальный уровень — PRO для потока кейсов без лимитов"
             : "Unlock AI-assisted teaching cases and unlimited analyses"}
         </h1>
         <p className="text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
           {yookassaReady
-            ? "Оплата через ЮKassa (карты РФ). PHI-safe архитектура, аудит действий, доступ PRO на 30 дней."
+            ? "Вы уже прошли путь студент → врач. PRO снимает потолок AI и кейсов — оплата через ЮKassa, 30 дней доступа."
             : "PHI-safe architecture with audit trails, HIPAA-aligned controls, and Stripe-backed subscriptions with a seven-day evaluation window for qualified clinicians."}
         </p>
       </header>

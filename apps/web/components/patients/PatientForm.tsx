@@ -7,6 +7,7 @@ import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { isoFromRu, maskRuDateInput, ruFromIso } from "@/lib/utils/ru-date";
 
 type Props = {
   patientId?: string;
@@ -21,8 +22,8 @@ export function PatientForm({ patientId, initial }: Props) {
   const router = useRouter();
   const [displayLabel, setDisplayLabel] = useState(initial?.display_label ?? "");
   const [externalRef, setExternalRef] = useState(initial?.external_ref ?? "");
-  const [dob, setDob] = useState(initial?.meta?.date_of_birth ?? "");
-  const [lmp, setLmp] = useState(initial?.meta?.lmp ?? "");
+  const [dob, setDob] = useState(ruFromIso(initial?.meta?.date_of_birth));
+  const [lmp, setLmp] = useState(ruFromIso(initial?.meta?.lmp));
   const [phone, setPhone] = useState(initial?.meta?.phone ?? "");
   const [snils, setSnils] = useState(initial?.meta?.snils ?? "");
   const [omsPolicy, setOmsPolicy] = useState(initial?.meta?.oms_policy ?? "");
@@ -35,14 +36,26 @@ export function PatientForm({ patientId, initial }: Props) {
       toast.error("Укажите имя или метку пациента");
       return;
     }
+
+    const dobIso = dob.trim() ? isoFromRu(dob) : undefined;
+    if (dob.trim() && !dobIso) {
+      toast.error("Дата рождения: формат ДД.ММ.ГГГГ, например 27.12.1988");
+      return;
+    }
+    const lmpIso = lmp.trim() ? isoFromRu(lmp) : undefined;
+    if (lmp.trim() && !lmpIso) {
+      toast.error("ПМП: формат ДД.ММ.ГГГГ, например 27.12.1988");
+      return;
+    }
+
     setBusy(true);
     try {
       const body = {
         display_label: displayLabel.trim(),
         external_ref: externalRef.trim() || undefined,
         meta: {
-          date_of_birth: dob || undefined,
-          lmp: lmp || undefined,
+          date_of_birth: dobIso,
+          lmp: lmpIso,
           phone: phone.trim() || undefined,
           snils: snils.replace(/\D/g, "") || undefined,
           oms_policy: omsPolicy.replace(/\D/g, "") || undefined,
@@ -90,20 +103,33 @@ export function PatientForm({ patientId, initial }: Props) {
       <label className="block text-sm">
         Дата рождения
         <Input
-          type="date"
-          className="mt-1"
+          className="mt-1 font-mono tracking-wide"
+          inputMode="numeric"
+          autoComplete="bday"
           value={dob}
-          onChange={(e) => setDob(e.target.value)}
+          onChange={(e) => setDob(maskRuDateInput(e.target.value))}
+          onPaste={(e) => {
+            e.preventDefault();
+            setDob(maskRuDateInput(e.clipboardData.getData("text")));
+          }}
+          placeholder="27.12.1988"
         />
+        <span className="mt-1 block text-xs text-[var(--clinical-foreground-muted)]">Формат ДД.ММ.ГГГГ</span>
       </label>
       <label className="block text-sm">
-        ПМП
+        ПМП (первый день последней менструации)
         <Input
-          type="date"
-          className="mt-1"
+          className="mt-1 font-mono tracking-wide"
+          inputMode="numeric"
           value={lmp}
-          onChange={(e) => setLmp(e.target.value)}
+          onChange={(e) => setLmp(maskRuDateInput(e.target.value))}
+          onPaste={(e) => {
+            e.preventDefault();
+            setLmp(maskRuDateInput(e.clipboardData.getData("text")));
+          }}
+          placeholder="01.06.2026"
         />
+        <span className="mt-1 block text-xs text-[var(--clinical-foreground-muted)]">Формат ДД.ММ.ГГГГ</span>
       </label>
       <label className="block text-sm">
         Телефон

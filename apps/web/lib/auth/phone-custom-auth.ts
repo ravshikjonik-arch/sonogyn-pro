@@ -9,6 +9,7 @@ import {
 } from "@/lib/route-handler-supabase";
 import type { RegistrationMetadata } from "@/lib/auth/registration-metadata";
 import { applyRegistrationMetadataAdmin } from "@/lib/auth/registration-metadata";
+import { phoneVerifiedMetadataPatch } from "@/lib/auth/phone-verified";
 import { createServiceRoleClient } from "@/utils/supabase/admin";
 
 const PHONE_EMAIL_DOMAIN = "phone.sonogyn.app";
@@ -55,6 +56,7 @@ export async function ensurePhoneAuthUser(params: {
     if (params.createUser && params.registration?.full_name) {
       await applyRegistrationMetadataAdmin(admin, existing.id, params.registration, {
         phone_e164: params.phoneE164,
+        ...phoneVerifiedMetadataPatch(),
       });
     }
     return { email: existing.email ?? email, userId: existing.id, created: false };
@@ -78,6 +80,7 @@ export async function ensurePhoneAuthUser(params: {
       birth_year: meta?.birth_year,
       preferred_locale: meta?.preferred_locale,
       provider: "sms",
+      ...phoneVerifiedMetadataPatch(),
     },
   });
 
@@ -141,7 +144,7 @@ export async function establishPhoneAuthSession(
       admin,
       userId,
       registration,
-      phoneE164 ? { phone_e164: phoneE164 } : undefined,
+      phoneE164 ? { phone_e164: phoneE164, ...phoneVerifiedMetadataPatch() } : phoneVerifiedMetadataPatch(),
     );
   }
 

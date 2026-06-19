@@ -11,6 +11,7 @@ import { guardYooKassaWebhook } from "@/lib/payment/webhook-middleware";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { requireSupabaseUser } from "@/lib/security/require-user";
+import { logError } from "@/services/logger";
 import { createClient } from "@/utils/supabase/server";
 import { createServiceRoleClient } from "@/utils/supabase/admin";
 
@@ -84,7 +85,11 @@ export async function handlePaymentCreate(req: Request) {
       .single();
 
     if (insertErr || !row) {
-      console.error("[payment/create] db", insertErr?.message);
+      logError("payment/create: запись в БД не удалась", insertErr?.message, {
+        channel: "payment",
+        critical: true,
+        context: { userId: auth.userId, yookassaId: payment.id, stage: "db-insert" },
+      });
       return paymentError(PAYMENT_MESSAGES.recordFailed, 500);
     }
 
@@ -97,11 +102,10 @@ export async function handlePaymentCreate(req: Request) {
       description,
     });
   } catch (err) {
-    console.error("[payment/create]", err);
-    TelegramService.notifyAdminsSafe("payment.error", {
-      stage: "create",
-      userId: auth.userId,
-      message: err instanceof Error ? err.message : String(err),
+    logError("payment/create: исключение при создании платежа", err, {
+      channel: "payment",
+      critical: true,
+      context: { userId: auth.userId, stage: "create" },
     });
     return paymentError(mapExternalApiError("yookassa", err), 502);
   }
@@ -126,12 +130,16 @@ export async function handlePaymentWebhook(req: Request, rawBody: string) {
 
     const { data: row, error: findErr } = await admin
       .from("payments")
-      .select("id, user_id, status, amount, description")
+      .select("id, user_id, status, amount, description, metadata")
       .eq("yookassa_id", yookassaId)
       .maybeSingle();
 
     if (findErr) {
-      console.error("[payment/webhook] lookup", findErr.message);
+      logError("payment/webhook: ошибка поиска платежа", findErr.message, {
+        channel: "payment",
+        critical: true,
+        context: { yookassaId, stage: "lookup" },
+      });
       return paymentError("Ошибка базы данных.", 500);
     }
 
@@ -162,6 +170,9 @@ export async function handlePaymentWebhook(req: Request, rawBody: string) {
       .eq("id", row.id);
 
     if (event.event === "payment.succeeded" && remote.status === "succeeded") {
+      const rowMeta = (row.metadata ?? remote.metadata ?? {}) as Record<string, string>;
+      const { data: authUser } = await admin.auth.admin.getUserById(row.user_id as string);
+
       await fulfillSucceededPayment(admin, {
         paymentRowId: row.id as string,
         userId: row.user_id as string,
@@ -169,6 +180,8 @@ export async function handlePaymentWebhook(req: Request, rawBody: string) {
         amountRub: rowAmount,
         description: row.description as string | null,
         previousStatus: row.status as string,
+        metadata: rowMeta,
+        userEmail: authUser.user?.email ?? null,
       });
     } else if (
       event.event === "payment.canceled" ||
@@ -185,10 +198,10 @@ export async function handlePaymentWebhook(req: Request, rawBody: string) {
 
     return paymentJson({ ok: true, message: "Уведомление обработано." });
   } catch (err) {
-    console.error("[payment/webhook]", err);
-    TelegramService.notifyAdminsSafe("payment.error", {
-      stage: "webhook",
-      message: err instanceof Error ? err.message : String(err),
+    logError("payment/webhook: исключение при обработке webhook", err, {
+      channel: "payment",
+      critical: true,
+      context: { yookassaId, stage: "webhook" },
     });
     return paymentError(PAYMENT_MESSAGES.webhookFailed, 500);
   }

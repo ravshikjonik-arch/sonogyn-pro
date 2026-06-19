@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
+import { PatientAiSummary } from "@/components/patients/PatientAiSummary";
 import { PatientForm } from "@/components/patients/PatientForm";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/utils/supabase/server";
@@ -55,6 +56,13 @@ export default async function PatientDetailPage(props: { params: Promise<Params>
         <Button asChild variant="outline" size="sm">
           <Link href={`/assistant/gynecology?patientId=${patientId}`}>Помощник → протокол</Link>
         </Button>
+      </div>
+
+      <div className="mb-8">
+        <PatientAiSummary
+          meta={(patient.meta ?? {}) as { date_of_birth?: string | null; lmp?: string | null }}
+          studiesCount={(studies ?? []).length}
+        />
       </div>
 
       <PatientForm

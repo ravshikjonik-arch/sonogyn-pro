@@ -1,11 +1,15 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 
+import { parseBirthYearFromBody } from "@/lib/auth/birth-date";
+
 export type RegistrationMetadata = {
   full_name?: string;
   preferred_locale?: string;
   specialization?: string;
   institution?: string;
   birth_year?: number;
+  /** DD.MM.YYYY в user_metadata */
+  birth_date?: string;
 };
 
 export function parseRegistrationMetadata(body: Record<string, unknown>): RegistrationMetadata {
@@ -19,16 +23,17 @@ export function parseRegistrationMetadata(body: Record<string, unknown>): Regist
   const preferred_locale = pick("preferred_locale");
   const specialization = pick("specialization");
   const institution = pick("institution");
-  const birthYearRaw = body.birth_year;
+  const birthDateRaw = body.birth_date;
 
   if (full_name) meta.full_name = full_name;
   if (preferred_locale) meta.preferred_locale = preferred_locale;
   if (specialization) meta.specialization = specialization;
   if (institution) meta.institution = institution;
-  if (typeof birthYearRaw === "number" && Number.isFinite(birthYearRaw)) {
-    meta.birth_year = birthYearRaw;
-  } else if (typeof birthYearRaw === "string" && /^\d{4}$/.test(birthYearRaw.trim())) {
-    meta.birth_year = Number.parseInt(birthYearRaw.trim(), 10);
+
+  const parsedYear = parseBirthYearFromBody(body);
+  if (parsedYear) meta.birth_year = parsedYear;
+  if (typeof birthDateRaw === "string" && birthDateRaw.trim()) {
+    meta.birth_date = birthDateRaw.trim();
   }
 
   return meta;
@@ -43,6 +48,7 @@ export function registrationMetadataToUserData(
   if (meta.specialization) data.specialization = meta.specialization;
   if (meta.institution) data.institution = meta.institution;
   if (meta.birth_year) data.birth_year = meta.birth_year;
+  if (meta.birth_date) data.birth_date = meta.birth_date;
   return data;
 }
 
@@ -71,7 +77,7 @@ export async function applyRegistrationMetadataAdmin(
   admin: SupabaseClient,
   userId: string,
   meta: RegistrationMetadata,
-  extraMetadata?: Record<string, string | number>,
+  extraMetadata?: Record<string, string | number | boolean>,
 ): Promise<void> {
   const userData = registrationMetadataToUserData(meta);
   const merged = { ...userData, ...extraMetadata };

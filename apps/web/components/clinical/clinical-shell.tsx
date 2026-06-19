@@ -42,6 +42,7 @@ import { MockupNavSection } from "@/components/clinical/MockupNavSection";
 import { ClinicalToolSearchTrigger } from "@/components/clinical/ClinicalToolSearchDialog";
 import { TelegramChannelLink } from "@/components/clinical/TelegramChannelLink";
 import { ThemeToggle } from "@/components/clinical/theme-toggle";
+import { ProBadge } from "@/components/pro/ProBadge";
 import { ClinicalVoiceDock } from "@/components/voice/ClinicalVoiceDock";
 import {
   VoiceReaderProvider,
@@ -66,6 +67,7 @@ const navGroups: { title: string; items: { href: string; label: string; icon: ty
     items: [
       { href: "/calculators/ob", label: "Срок беременности", icon: Baby },
       { href: "/calculators", label: "Калькуляторы", icon: Calculator },
+      { href: "/orads-calculator", label: "O-RADS Калькулятор", icon: ScanLine },
       { href: "/assistant", label: "Помощник врача", icon: HandHeart },
       { href: "/nosologies", label: "Нозологии", icon: ClipboardList },
     ],
@@ -115,6 +117,7 @@ export function ClinicalShell({
   const [busy, setBusy] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
+  const [showAuthor, setShowAuthor] = useState(false);
   const [cabinetLabel, setCabinetLabel] = useState<DoctorCabinetLabel>(() =>
     buildDoctorCabinetLabel(devProfile?.full_name ?? null),
   );
@@ -141,6 +144,7 @@ export function ClinicalShell({
     ]).then(([{ data: profile }, { data: doctor }]) => {
       if (cancelled) return;
       if (profile?.role === "admin") setShowAdmin(true);
+      if (profile?.role === "author" || profile?.role === "admin") setShowAuthor(true);
       const fullName = resolveDoctorFullName({
         profileFullName: doctor?.full_name ?? profile?.full_name,
         userMetadataFullName: metaFullName,
@@ -245,6 +249,23 @@ export function ClinicalShell({
         ))}
         <MockupNavSection onNavigate={() => setMobileOpen(false)} />
 
+        {showAuthor ? (
+          <Link
+            href="/author"
+            onClick={() => setMobileOpen(false)}
+            data-testid="nav-author"
+            className={cn(
+              "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+              pathname.startsWith("/author")
+                ? "bg-[var(--clinical-primary-muted)] text-[var(--clinical-primary-deep)]"
+                : "text-[var(--clinical-foreground-muted)] hover:bg-black/[0.04] hover:text-[var(--clinical-foreground)]",
+            )}
+          >
+            <BookOpen className="h-4 w-4 shrink-0 opacity-80" />
+            Автор курсов
+          </Link>
+        ) : null}
+
         {showAdmin ? (
           <Link
             href="/admin"
@@ -312,6 +333,7 @@ export function ClinicalShell({
             </span>
           </div>
           <ClinicalToolSearchTrigger className="hidden sm:flex" />
+          <ProBadge className="hidden sm:inline-flex" />
           <ThemeToggle />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

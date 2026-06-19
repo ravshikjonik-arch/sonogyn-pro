@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import { birthDateErrorMessage, parseBirthYearFromBody } from "@/lib/auth/birth-date";
 import { isLikelySupabaseNetworkError } from "@/lib/auth-network-error";
 import {
   clearAuthFailures,
@@ -31,6 +32,7 @@ type SignUpBody = {
   password?: string;
   full_name?: string;
   birth_year?: number | string;
+  birth_date?: string;
   specialization?: string;
   institution?: string;
   preferred_locale?: string;
@@ -102,13 +104,8 @@ export async function POST(req: Request) {
   const specialization = typeof body.specialization === "string" ? body.specialization.trim() : "";
   const institution = typeof body.institution === "string" ? body.institution.trim() : "";
   const preferred_locale = typeof body.preferred_locale === "string" ? body.preferred_locale.trim() : "";
-  const birthYearRaw = body.birth_year;
-  let birth_year: number | null = null;
-  if (typeof birthYearRaw === "number" && Number.isFinite(birthYearRaw)) {
-    birth_year = birthYearRaw;
-  } else if (typeof birthYearRaw === "string" && /^\d{4}$/.test(birthYearRaw.trim())) {
-    birth_year = Number.parseInt(birthYearRaw.trim(), 10);
-  }
+  const birth_year = parseBirthYearFromBody(body as Record<string, unknown>);
+  const birth_date = typeof body.birth_date === "string" ? body.birth_date.trim() : "";
 
   if (!email || !password) {
     return NextResponse.json({ error: "Укажите email и пароль." }, { status: 400 });
@@ -122,8 +119,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Выберите специализацию из списка." }, { status: 400 });
   }
 
-  if (!birth_year || birth_year < 1900 || birth_year > 2100) {
-    return NextResponse.json({ error: "Укажите год рождения (4 цифры, например 1988)." }, { status: 400 });
+  if (!birth_year) {
+    return NextResponse.json({ error: birthDateErrorMessage() }, { status: 400 });
   }
 
   const wantsMobileSession = req.headers.get("x-sonogyn-client") === "mobile";
@@ -144,6 +141,7 @@ export async function POST(req: Request) {
           full_name,
           specialization,
           birth_year,
+          ...(birth_date ? { birth_date } : {}),
           ...(institution ? { institution } : {}),
           ...(preferred_locale ? { preferred_locale } : {}),
         },

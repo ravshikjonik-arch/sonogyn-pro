@@ -2,11 +2,12 @@ import { NextResponse } from "next/server";
 
 import type { SupabaseClient } from "@supabase/supabase-js";
 
-export type ClinicalRole = "user" | "moderator" | "admin";
+export type ClinicalRole = "user" | "moderator" | "author" | "admin";
 
 const ROLE_RANK: Record<ClinicalRole, number> = {
   user: 1,
   moderator: 2,
+  author: 2,
   admin: 3,
 };
 
@@ -22,7 +23,7 @@ export async function getClinicalRole(
 
   if (error || !data?.role) return null;
   const role = data.role as string;
-  if (role === "admin" || role === "moderator" || role === "user") return role;
+  if (role === "admin" || role === "moderator" || role === "author" || role === "user") return role;
   return "user";
 }
 
@@ -41,6 +42,21 @@ export async function requireClinicalRole(
     return {
       ok: false,
       response: NextResponse.json({ error: "Forbidden" }, { status: 403 }),
+    };
+  }
+  return { ok: true, role };
+}
+
+/** Author course workspace (LMS admin). */
+export async function requireAuthorRole(
+  supabase: SupabaseClient,
+  userId: string,
+): Promise<{ ok: true; role: ClinicalRole } | { ok: false; response: NextResponse }> {
+  const role = await getClinicalRole(supabase, userId);
+  if (!role || (role !== "author" && role !== "admin")) {
+    return {
+      ok: false,
+      response: NextResponse.json({ error: "Доступ только для авторов курсов." }, { status: 403 }),
     };
   }
   return { ok: true, role };

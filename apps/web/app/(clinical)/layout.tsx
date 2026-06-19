@@ -1,7 +1,9 @@
 import type { ReactNode } from "react";
 
+import { SonogynCopilot } from "@/components/ai/SonogynCopilot";
 import { SessionRevalidationGuard } from "@/components/auth/SessionRevalidationGuard";
 import { ClinicalShell } from "@/components/clinical/clinical-shell";
+import { UpgradeModal } from "@/components/pro/UpgradeModal";
 import { getDevBypassProfile } from "@/lib/auth/dev-account";
 
 export default function ClinicalLayout({ children }: { children: ReactNode }) {
@@ -10,6 +12,8 @@ export default function ClinicalLayout({ children }: { children: ReactNode }) {
   return (
     <SessionRevalidationGuard>
       <ClinicalShell devProfile={devProfile}>{children}</ClinicalShell>
+      <SonogynCopilot />
+      <UpgradeModal />
     </SessionRevalidationGuard>
   );
 }

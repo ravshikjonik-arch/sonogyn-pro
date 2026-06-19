@@ -31,6 +31,7 @@ export type CreatePaymentParams = {
   amountRub: number;
   description: string;
   returnUrl: string;
+  metadata?: Record<string, string>;
 };
 
 export async function createPaymentViaSdk(params: CreatePaymentParams) {
@@ -46,7 +47,7 @@ export async function createPaymentViaSdk(params: CreatePaymentParams) {
       return_url: params.returnUrl,
     },
     description: params.description,
-    metadata: { userId: params.userId },
+    metadata: { userId: params.userId, ...params.metadata },
   });
 }
 

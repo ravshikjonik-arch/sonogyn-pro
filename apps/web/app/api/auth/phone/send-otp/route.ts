@@ -26,6 +26,7 @@ import { parseEmailContact } from "@/lib/auth/verification/validate-contact";
 import { logVerificationEvent } from "@/lib/auth/verification/safe-verification-log";
 import { checkRateLimit } from "@/lib/auth/verification/verification-rate-limit";
 import { isCustomSmsAuthEnabled, resolveSmsProvider } from "@/lib/auth/sms-providers";
+import { logError } from "@/services/logger";
 
 type Body = {
   phone?: string;
@@ -76,6 +77,10 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: client.message }, { status: client.status });
   }
 
+  const {
+    data: { user: sessionUser },
+  } = await client.supabase.auth.getUser();
+
   const phone = typeof body.phone === "string" ? normalizePhone(body.phone) : "";
   if (!phone) {
     return NextResponse.json({ error: "Укажите номер телефона." }, { status: 400 });
@@ -85,6 +90,29 @@ export async function POST(req: Request) {
       { error: "Неверный формат номера. Используйте +79001234567." },
       { status: 400 },
     );
+  }
+
+  /** Привязка телефона к Google / email / Telegram аккаунту. */
+  if (sessionUser && body.createUser !== true) {
+    const { sendLinkPhoneOtp } = await import("@/lib/auth/link-phone");
+    const link = await sendLinkPhoneOtp({
+      user: sessionUser,
+      phoneE164: phone,
+      idempotencyKey: req.headers.get("Idempotency-Key"),
+    });
+    if (!link.ok) {
+      return NextResponse.json(
+        { error: link.error, retryAfterSec: link.retryAfterSec },
+        { status: link.status ?? 400 },
+      );
+    }
+    await clearAuthFailures(failKey);
+    return NextResponse.json({
+      ok: true,
+      message: link.message,
+      linkPhone: true,
+      ...(process.env.NODE_ENV === "development" && link.devOtp ? { devOtp: link.devOtp } : {}),
+    });
   }
 
   const phoneContactRl = await checkRateLimit("sms", phone);
@@ -136,6 +164,10 @@ export async function POST(req: Request) {
       });
     }
     await recordAuthFailure(failKey);
+    logError("phone/send-otp: SMS-провайдер не доставил код", fb.message, {
+      channel: "sms",
+      context: { errorCode: fb.errorCode, provider: resolveSmsProvider() ?? undefined },
+    });
     return NextResponse.json(
       {
         error: fb.message ?? "Не удалось отправить SMS.",
@@ -203,6 +235,10 @@ export async function POST(req: Request) {
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);
     await recordAuthFailure(failKey);
+    logError("phone/send-otp: исключение при отправке OTP", e, {
+      channel: "sms",
+      context: { isRegistration },
+    });
     const mapped = translatePhoneAuthError(msg, isRegistration ? "register" : "login");
     return NextResponse.json(
       {

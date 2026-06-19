@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import {
   createContext,
   useCallback,
@@ -11,6 +12,13 @@ import {
 } from "react";
 
 export type ThemeMode = "light" | "dark" | "system";
+
+/** Публичные страницы следуют системной теме; кабинет по умолчанию тёмный. */
+function isPublicPath(pathname: string | null): boolean {
+  if (!pathname) return false;
+  if (pathname === "/") return true;
+  return /^\/(landing|login|register|verify-phone|pricing|auth)(\/|$)/.test(pathname);
+}
 
 type ThemeContextValue = {
   mode: ThemeMode;
@@ -29,6 +37,7 @@ function getSystemTheme(): "light" | "dark" {
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
   const [mode, setModeState] = useState<ThemeMode>("system");
   const [resolved, setResolved] = useState<"light" | "dark">("light");
 
@@ -40,7 +49,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    const next = mode === "system" ? getSystemTheme() : mode;
+    const systemDefault = isPublicPath(pathname) ? getSystemTheme() : "dark";
+    const next = mode === "system" ? systemDefault : mode;
     setResolved(next);
     document.documentElement.setAttribute("data-theme", next);
     document.documentElement.classList.toggle("dark", next === "dark");
@@ -49,20 +59,20 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     } else {
       document.documentElement.setAttribute("data-theme-forced", mode);
     }
-  }, [mode]);
+  }, [mode, pathname]);
 
   useEffect(() => {
     if (mode !== "system") return;
     const mq = window.matchMedia("(prefers-color-scheme: dark)");
     const handler = () => {
-      const next = getSystemTheme();
+      const next = isPublicPath(pathname) ? getSystemTheme() : "dark";
       setResolved(next);
       document.documentElement.setAttribute("data-theme", next);
       document.documentElement.classList.toggle("dark", next === "dark");
     };
     mq.addEventListener("change", handler);
     return () => mq.removeEventListener("change", handler);
-  }, [mode]);
+  }, [mode, pathname]);
 
   const setMode = useCallback((next: ThemeMode) => {
     setModeState(next);

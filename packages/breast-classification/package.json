@@ -1,0 +1,32 @@
+{
+  "name": "breast-classification",
+  "version": "1.0.0",
+  "description": "Breast Ultrasound Classification and Reference Module",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup && tsc -p tsconfig.dts.json",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "lint": "eslint src",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "breast-ultrasound",
+    "bi-rads",
+    "doppler",
+    "elastography",
+    "medical-imaging"
+  ],
+  "author": "Sonogyn AI",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "@types/node": "^20.14.9",
+    "eslint": "^8.57.0",
+    "@tsconfig/node18": "^18.2.2",
+    "tsup": "^8.1.0",
+    "typescript": "^5.5.3"
+  },
+  "dependencies": {}
+}

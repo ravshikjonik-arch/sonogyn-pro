@@ -26,10 +26,13 @@ import {
   ensurePhoneAuthUser,
   establishPhoneAuthSession,
 } from "@/lib/auth/phone-custom-auth";
+import { logError } from "@/services/logger";
 
 type Body = {
   phone?: string;
   token?: string;
+  /** Alias для /api/auth/sms/verify */
+  code?: string;
   full_name?: string;
   preferred_locale?: string;
   specialization?: string;
@@ -64,8 +67,18 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: client.message }, { status: client.status });
   }
 
+  const {
+    data: { user: sessionUser },
+  } = await client.supabase.auth.getUser();
+
   const phone = typeof body.phone === "string" ? normalizePhone(body.phone) : "";
-  const token = typeof body.token === "string" ? body.token.trim() : "";
+  const tokenRaw =
+    typeof body.token === "string"
+      ? body.token
+      : typeof body.code === "string"
+        ? body.code
+        : "";
+  const token = tokenRaw.trim();
   const registrationMeta = parseRegistrationMetadata(body);
 
   if (!phone || !token) {
@@ -76,6 +89,25 @@ export async function POST(req: Request) {
       { error: "Неверный формат номера. Используйте +79001234567." },
       { status: 400 },
     );
+  }
+
+  if (sessionUser && body.createUser !== true) {
+    const { verifyLinkPhoneOtp } = await import("@/lib/auth/link-phone");
+    const { phoneVerifiedMetadataPatch } = await import("@/lib/auth/phone-verified");
+    const linked = await verifyLinkPhoneOtp({
+      user: sessionUser,
+      phoneE164: phone,
+      code: token,
+    });
+    if (!linked.ok) {
+      await recordAuthFailure(failKey);
+      return NextResponse.json({ error: linked.error }, { status: linked.status ?? 401 });
+    }
+    await client.supabase.auth.updateUser({
+      data: { ...phoneVerifiedMetadataPatch(), phone_e164: phone },
+    });
+    await clearAuthFailures(failKey);
+    return nextJsonWithAuthCookies({ ok: true, phoneVerified: true, linkPhone: true }, client.cookiesToSet);
   }
 
   const wantsMobileSession = req.headers.get("x-sonogyn-client") === "mobile";
@@ -136,6 +168,10 @@ export async function POST(req: Request) {
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);
     await recordAuthFailure(failKey);
+    logError("phone/verify-otp: исключение при проверке OTP", e, {
+      channel: "sms",
+      context: { isRegistration },
+    });
     const mapped = translatePhoneAuthError(msg, isRegistration ? "register" : "login");
     return NextResponse.json(
       { error: mapped.message, smsNotConfigured: mapped.smsNotConfigured },

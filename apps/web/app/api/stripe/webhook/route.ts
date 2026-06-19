@@ -7,6 +7,7 @@ import { getStripe } from "@/lib/stripe/server";
 import { createServiceRoleClient } from "@/utils/supabase/admin";
 
 export const runtime = "nodejs";
+export const maxDuration = 60;
 
 /**
  * Stripe webhook entrypoint — verifies signatures and syncs subscription rows + profile tier.

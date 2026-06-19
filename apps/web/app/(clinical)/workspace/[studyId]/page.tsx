@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { StudyAiPanel } from "@/components/clinical/StudyAiPanel";
 import { CdsPreviewPanel } from "@/components/copilot/CdsPreviewPanel";
 import { ImageSeriesUploader } from "@/components/copilot/ImageSeriesUploader";
 import { StudyProtocolSection } from "@/components/protocol/StudyProtocolSection";
@@ -135,6 +136,12 @@ export default async function StudyWorkspacePage(props: {
           <ImageSeriesUploader studyId={study.id} series={seriesRows} />
 
           <aside className="space-y-4">
+            <StudyAiPanel
+              studyTitle={study.title ?? "Исследование"}
+              studyType={study.study_type}
+              imagesCount={imageRows.length}
+            />
+
             <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
               <div className="flex items-center justify-between gap-3">
                 <h2 className="text-lg font-bold text-slate-950">Таймлайн медиа</h2>

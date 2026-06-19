@@ -16,8 +16,13 @@ import {
 import Link from "next/link";
 
 import { loadDoctorCabinetLabelForSession } from "@/lib/auth/load-doctor-profile";
+import { AICommandCenter } from "@/components/clinical/AICommandCenter";
 import { AppHomeActions } from "@/components/clinical/AppHomeActions";
+import { AiUsageMeter } from "@/components/pro/AiUsageMeter";
+import { PremiumFeaturesTeaser } from "@/components/pro/PremiumFeaturesTeaser";
+import { CareerPathWidget } from "@/components/career/CareerPathWidget";
 import { ObCalcQuickWidget } from "@/components/calculators/ob/ObCalcQuickWidget";
+import { loadCareerProgressForSession } from "@/lib/career/load-career-progress";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -122,7 +127,7 @@ const tiles = [
 ];
 
 export default async function CommandCenterPage() {
-  const cabinet = await loadDoctorCabinetLabelForSession();
+  const [cabinet, career] = await Promise.all([loadDoctorCabinetLabelForSession(), loadCareerProgressForSession()]);
 
   return (
     <div className="px-4 py-10 lg:px-10">
@@ -152,6 +157,16 @@ export default async function CommandCenterPage() {
             <AppHomeActions />
           </div>
         </header>
+
+        <AICommandCenter doctorName={cabinet.doctorLine ? cabinet.cabinetTitle : null} />
+
+        <AiUsageMeter />
+
+        {career.progress.currentStage !== "pro" ? (
+          <CareerPathWidget progress={career.progress} variant="compact" />
+        ) : null}
+
+        <PremiumFeaturesTeaser />
 
         <section className="sonogyn-glass-card sonogyn-enter sonogyn-enter-delay-1 flex flex-wrap items-center gap-3 rounded-2xl p-4 sm:gap-4 sm:p-5">
           <div className="flex items-center gap-2 text-sm font-semibold text-[var(--clinical-foreground)]">

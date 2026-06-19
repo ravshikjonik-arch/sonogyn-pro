@@ -6,6 +6,10 @@ import {
   parseClinicalPreferences,
 } from "@repo/types";
 
+import {
+  detectAndNotifyCareerMilestone,
+  loadCareerProfileInput,
+} from "@/lib/career/milestones";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { requireSupabaseUser } from "@/lib/security/require-user";
@@ -92,6 +96,10 @@ export async function PATCH(request: Request) {
   }
 
   const d = parsed.data;
+
+  const beforeProfile = await loadCareerProfileInput(supabase, auth.userId);
+  const beforeEnrollmentCount = beforeProfile?.courseEnrollmentCount ?? 0;
+
   const profilePatch: Record<string, unknown> = {};
   if (d.full_name !== undefined) profilePatch.full_name = d.full_name;
   if (d.institution !== undefined) profilePatch.institution = d.institution;
@@ -196,10 +204,33 @@ export async function PATCH(request: Request) {
     return NextResponse.json({ error: userUpsertError.message }, { status: 500 });
   }
 
+  const afterProfile =
+    (await loadCareerProfileInput(supabase, auth.userId)) ??
+    ({
+      full_name: profileRow.full_name,
+      specialization: profileRow.specialization,
+      birth_year: profileRow.birth_year,
+      subscription_tier: profileRow.subscription_tier,
+      trial_ends_at: profileRow.trial_ends_at,
+      courseEnrollmentCount: beforeEnrollmentCount,
+    } as const);
+
+  const career = beforeProfile
+    ? await detectAndNotifyCareerMilestone({
+        supabase,
+        userId: auth.userId,
+        email: auth.email,
+        beforeProfile,
+        afterProfile,
+        req: request,
+      })
+    : null;
+
   return NextResponse.json({
     profile: {
       ...profileRow,
       clinical_preferences: parseClinicalPreferences(profileRow.clinical_preferences),
     },
+    career,
   });
 }

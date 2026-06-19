@@ -8,11 +8,16 @@ import { AuthButtons } from "@repo/ui";
 
 import { useSupabase, useAuth } from "@/app/providers";
 import { AuthMessage, AuthScreenShell, authInputClass } from "@/components/auth/AuthScreenShell";
+import { RegisterCareerTeaser } from "@/components/auth/RegisterCareerTeaser";
 import { AuthSetupBanner } from "@/components/auth/AuthSetupBanner";
 import { EmailRegistrationHint } from "@/components/auth/EmailRegistrationHint";
 import { PhoneAuthSetupHint } from "@/components/auth/PhoneAuthSetupHint";
 import { DevPhoneOtpBanner } from "@/components/auth/DevPhoneOtpBanner";
-import { DoctorRegistrationFields, validateDoctorBirthYear } from "@/components/auth/DoctorRegistrationFields";
+import {
+  birthDateErrorMessage,
+  DoctorRegistrationFields,
+  validateDoctorBirthDate,
+} from "@/components/auth/DoctorRegistrationFields";
 import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
 import { Button } from "@/components/ui/button";
 import { CAPTCHA_FAILURE_THRESHOLD } from "@/lib/auth/auth-attempts";
@@ -53,7 +58,7 @@ function RegisterForm() {
 
   const [activeTab, setActiveTab] = useState<AuthRegistrationMethod>(defaultTab);
   const [fullName, setFullName] = useState("");
-  const [birthYear, setBirthYear] = useState("");
+  const [birthDate, setBirthDate] = useState("");
   const [specialization, setSpecialization] = useState("Акушер-гинеколог");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -130,9 +135,9 @@ function RegisterForm() {
     const trimmedName = validateDoctorName();
     if (!trimmedName) return;
 
-    const parsedBirthYear = validateDoctorBirthYear(birthYear);
-    if (!parsedBirthYear) {
-      setMessage("Укажите год рождения (4 цифры, например 1988).");
+    const parsedBirth = validateDoctorBirthDate(birthDate);
+    if (!parsedBirth) {
+      setMessage(birthDateErrorMessage());
       return;
     }
 
@@ -152,7 +157,8 @@ function RegisterForm() {
         email: email.trim(),
         password,
         full_name: trimmedName,
-        birth_year: parsedBirthYear,
+        birth_year: parsedBirth.year,
+        birth_date: parsedBirth.display,
         specialization: specialization.trim(),
         preferred_locale: locale,
         turnstileToken,
@@ -305,7 +311,7 @@ function RegisterForm() {
   return (
     <AuthScreenShell
       title="Регистрация"
-      subtitle="Email, SMS или Google. Все пути ведут в один кабинет врача."
+      subtitle="Шаг 1 · Студент — бесплатно. Дальше ординатор, врач и PRO."
       defaultTab={defaultTab}
       onTabChange={onTabChange}
       showMethodHints
@@ -313,12 +319,13 @@ function RegisterForm() {
         <>
           <AuthSetupBanner />
           <EmailRegistrationHint />
+          <RegisterCareerTeaser />
         <form className="space-y-4" onSubmit={(e) => void onEmailRegister(e)}>
           <DoctorRegistrationFields
             fullName={fullName}
             onFullNameChange={setFullName}
-            birthYear={birthYear}
-            onBirthYearChange={setBirthYear}
+            birthDate={birthDate}
+            onBirthDateChange={setBirthDate}
             specialization={specialization}
             onSpecializationChange={setSpecialization}
             locale={locale}
@@ -389,8 +396,8 @@ function RegisterForm() {
           <DoctorRegistrationFields
             fullName={fullName}
             onFullNameChange={setFullName}
-            birthYear={birthYear}
-            onBirthYearChange={setBirthYear}
+            birthDate={birthDate}
+            onBirthDateChange={setBirthDate}
             specialization={specialization}
             onSpecializationChange={setSpecialization}
             locale={locale}

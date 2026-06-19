@@ -53,7 +53,7 @@ export default async function AdminDashboardPage() {
           <Link href="/admin/nosologies">Нозологии (редактор)</Link>
         </Button>
         <Button asChild variant="secondary">
-          <Link href="/cases">Open cases gallery</Link>
+          <Link href="/author">Панель автора курсов</Link>
         </Button>
         <Button asChild variant="outline">
           <Link href="/app">Return to command center</Link>

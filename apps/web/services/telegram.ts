@@ -22,13 +22,21 @@ export type TelegramAdminEvent =
   | "user.created"
   | "payment.succeeded"
   | "sms.error"
-  | "payment.error";
+  | "payment.error"
+  | "course.enrollment"
+  | "course.offline_registration"
+  | "api.error"
+  | "daily.summary";
 
 const EVENT_TITLES: Record<TelegramAdminEvent, string> = {
   "user.created": "👤 Новый пользователь",
   "payment.succeeded": "✅ Успешный платёж",
   "sms.error": "⚠️ Ошибка SMS",
   "payment.error": "❌ Ошибка платежа",
+  "course.enrollment": "🎓 Новый студент на курсе",
+  "course.offline_registration": "📅 Запись на офлайн-лекцию",
+  "api.error": "🛑 Ошибка API",
+  "daily.summary": "📊 Сводка за сутки",
 };
 
 function readBotToken(): string | null {

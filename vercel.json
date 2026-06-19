@@ -1,0 +1,16 @@
+{
+  "functions": {
+    "apps/web/app/api/ustri_inference/route.py": {
+      "runtime": "python3.11",
+      "memory": 3008,
+      "maxDuration": 300
+    }
+  },
+  "build": {
+    "env": {
+      "AWS_ACCESS_KEY_ID": "@aws_access_key_id",
+      "AWS_SECRET_ACCESS_KEY": "@aws_secret_access_key",
+      "S3_BUCKET_NAME": "@s3_bucket_name"
+    }
+  }
+}

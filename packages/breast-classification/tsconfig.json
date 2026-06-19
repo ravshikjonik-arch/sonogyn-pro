@@ -1,0 +1,24 @@
+{
+  "extends": "@tsconfig/node18/tsconfig.json",
+  "compilerOptions": {
+    "lib": ["es2022", "dom"],
+    "composite": true,
+    "esModuleInterop": true,
+    "declaration": true,
+    "resolveJsonModule": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "tsBuildInfoFile": "./node_modules/.tsbuildinfo",
+    "jsx": "react-jsx",
+    "module": "esnext",
+    "allowImportingTsExtensions": true,
+    "moduleResolution": "bundler",
+    "forceConsistentCasingInFileNames": true
+  },
+  "files": [
+    "src/index.ts",
+    "src/types.ts"
+  ]
+}

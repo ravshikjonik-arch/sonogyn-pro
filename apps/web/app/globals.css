@@ -27,6 +27,18 @@
   --mesh-base-end: #d9f5ef;
   --background: var(--clinical-canvas);
   --foreground: var(--clinical-foreground);
+
+  /* Premium AI accent system (Linear/Vercel/Notion-style) — общий для обеих тем */
+  --ai-blue: #3b82f6;
+  --ai-indigo: #6366f1;
+  --ai-violet: #8b5cf6;
+  --ai-success: #10b981;
+  --ai-danger: #ef4444;
+  --ai-gradient: linear-gradient(135deg, #3b82f6 0%, #6366f1 50%, #8b5cf6 100%);
+  --ai-gradient-soft: linear-gradient(135deg, rgba(59, 130, 246, 0.16), rgba(139, 92, 246, 0.16));
+  --ai-glow: 0 0 0 1px rgba(99, 102, 241, 0.22), 0 18px 50px rgba(99, 102, 241, 0.22);
+  --premium-shadow: 0 10px 40px rgba(15, 23, 42, 0.14);
+  --premium-shadow-strong: 0 24px 70px rgba(15, 23, 42, 0.26);
 }
 
 @theme inline {
@@ -38,26 +50,26 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme-forced="light"]) {
-    --clinical-canvas: #071a2e;
-    --clinical-card: rgba(12, 48, 68, 0.9);
-    --clinical-card-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
-    --clinical-header: rgba(10, 42, 60, 0.92);
-    --clinical-sidebar: rgba(8, 36, 52, 0.96);
-    --clinical-border: rgba(45, 212, 191, 0.18);
-    --clinical-muted: rgba(15, 55, 75, 0.65);
-    --clinical-foreground: #e8f7fc;
-    --clinical-foreground-muted: #8eb4c9;
-    --clinical-primary: #2dd4bf;
-    --clinical-primary-hover: #14b8a6;
-    --clinical-primary-muted: rgba(45, 212, 191, 0.18);
-    --clinical-primary-deep: #99f6e4;
-    --clinical-ring: rgba(45, 212, 191, 0.45);
-    --clinical-accent-teal: #5eead4;
-    --mesh-1: rgba(45, 212, 191, 0.16);
-    --mesh-2: rgba(34, 211, 238, 0.14);
-    --mesh-3: rgba(14, 165, 233, 0.12);
-    --mesh-base-start: #071a2e;
-    --mesh-base-end: #0a2840;
+    --clinical-canvas: #0b0f19;
+    --clinical-card: rgba(17, 24, 39, 0.72);
+    --clinical-card-shadow: 0 24px 60px rgba(2, 6, 23, 0.6);
+    --clinical-header: rgba(11, 15, 25, 0.82);
+    --clinical-sidebar: rgba(9, 12, 22, 0.94);
+    --clinical-border: rgba(148, 163, 184, 0.14);
+    --clinical-muted: rgba(30, 41, 59, 0.55);
+    --clinical-foreground: #f1f5f9;
+    --clinical-foreground-muted: #94a3b8;
+    --clinical-primary: #3b82f6;
+    --clinical-primary-hover: #2563eb;
+    --clinical-primary-muted: rgba(59, 130, 246, 0.16);
+    --clinical-primary-deep: #bfdbfe;
+    --clinical-ring: rgba(99, 102, 241, 0.5);
+    --clinical-accent-teal: #22d3ee;
+    --mesh-1: rgba(59, 130, 246, 0.16);
+    --mesh-2: rgba(139, 92, 246, 0.14);
+    --mesh-3: rgba(99, 102, 241, 0.12);
+    --mesh-base-start: #0b0f19;
+    --mesh-base-end: #0f172a;
     --background: var(--clinical-canvas);
     --foreground: var(--clinical-foreground);
   }
@@ -65,26 +77,26 @@
 
 html[data-theme="dark"],
 html[data-theme-forced="dark"] {
-  --clinical-canvas: #071a2e;
-  --clinical-card: rgba(12, 48, 68, 0.9);
-  --clinical-card-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
-  --clinical-header: rgba(10, 42, 60, 0.92);
-  --clinical-sidebar: rgba(8, 36, 52, 0.96);
-  --clinical-border: rgba(45, 212, 191, 0.18);
-  --clinical-muted: rgba(15, 55, 75, 0.65);
-  --clinical-foreground: #e8f7fc;
-  --clinical-foreground-muted: #8eb4c9;
-  --clinical-primary: #2dd4bf;
-  --clinical-primary-hover: #14b8a6;
-  --clinical-primary-muted: rgba(45, 212, 191, 0.18);
-  --clinical-primary-deep: #99f6e4;
-  --clinical-ring: rgba(45, 212, 191, 0.45);
-  --clinical-accent-teal: #5eead4;
-  --mesh-1: rgba(45, 212, 191, 0.16);
-  --mesh-2: rgba(34, 211, 238, 0.14);
-  --mesh-3: rgba(14, 165, 233, 0.12);
-  --mesh-base-start: #071a2e;
-  --mesh-base-end: #0a2840;
+  --clinical-canvas: #0b0f19;
+  --clinical-card: rgba(17, 24, 39, 0.72);
+  --clinical-card-shadow: 0 24px 60px rgba(2, 6, 23, 0.6);
+  --clinical-header: rgba(11, 15, 25, 0.82);
+  --clinical-sidebar: rgba(9, 12, 22, 0.94);
+  --clinical-border: rgba(148, 163, 184, 0.14);
+  --clinical-muted: rgba(30, 41, 59, 0.55);
+  --clinical-foreground: #f1f5f9;
+  --clinical-foreground-muted: #94a3b8;
+  --clinical-primary: #3b82f6;
+  --clinical-primary-hover: #2563eb;
+  --clinical-primary-muted: rgba(59, 130, 246, 0.16);
+  --clinical-primary-deep: #bfdbfe;
+  --clinical-ring: rgba(99, 102, 241, 0.5);
+  --clinical-accent-teal: #22d3ee;
+  --mesh-1: rgba(59, 130, 246, 0.16);
+  --mesh-2: rgba(139, 92, 246, 0.14);
+  --mesh-3: rgba(99, 102, 241, 0.12);
+  --mesh-base-start: #0b0f19;
+  --mesh-base-end: #0f172a;
   --background: var(--clinical-canvas);
   --foreground: var(--clinical-foreground);
 }
@@ -352,4 +364,91 @@ html[data-theme-forced="dark"] mark {
   background: radial-gradient(circle, rgba(56, 189, 248, 0.22), transparent 68%);
   filter: blur(2px);
   animation: sonogyn-drift 14s ease-in-out infinite alternate;
+}
+
+/* ─── Premium AI layer (Phase 1) ───────────────────────────────────────── */
+.ai-gradient-text {
+  background: var(--ai-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.ai-gradient-bg {
+  background: var(--ai-gradient);
+  color: #fff;
+}
+
+.ai-gradient-border {
+  position: relative;
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--clinical-card), var(--clinical-card)) padding-box,
+    var(--ai-gradient) border-box;
+}
+
+.ai-glow {
+  box-shadow: var(--ai-glow);
+}
+
+.premium-card {
+  border: 1px solid var(--clinical-border);
+  background: var(--clinical-card);
+  backdrop-filter: blur(18px);
+  box-shadow: var(--premium-shadow);
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.premium-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--premium-shadow-strong);
+  border-color: var(--clinical-primary-muted);
+}
+
+.ai-orb {
+  background: var(--ai-gradient);
+  box-shadow: 0 12px 36px rgba(99, 102, 241, 0.45);
+}
+
+/* Skeleton loading shimmer */
+.skeleton-shimmer {
+  position: relative;
+  overflow: hidden;
+  background: var(--clinical-muted);
+}
+
+.skeleton-shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(148, 163, 184, 0.18),
+    transparent
+  );
+  animation: skeleton-sweep 1.5s infinite;
+}
+
+@keyframes skeleton-sweep {
+  100% { transform: translateX(100%); }
+}
+
+@keyframes ai-breathe {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.06); opacity: 1; }
+}
+
+.ai-breathe {
+  animation: ai-breathe 3.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sonogyn-enter,
+  .ai-breathe,
+  .skeleton-shimmer::after,
+  .sonogyn-shimmer-bar {
+    animation: none !important;
+  }
 }

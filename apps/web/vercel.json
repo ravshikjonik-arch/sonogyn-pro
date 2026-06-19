@@ -2,5 +2,19 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "installCommand": "cd ../.. && npx --yes pnpm@10.6.5 install --no-frozen-lockfile",
   "buildCommand": "cd ../.. && pnpm --filter @repo/web build",
-  "framework": "nextjs"
+  "framework": "nextjs",
+  "crons": [
+    {
+      "path": "/api/cron/daily-summary",
+      "schedule": "0 6 * * *"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.sonogyn-pro.ru" }],
+      "destination": "https://sonogyn-pro.ru/:path*",
+      "permanent": true
+    }
+  ]
 }
