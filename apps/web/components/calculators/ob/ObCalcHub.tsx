@@ -15,6 +15,8 @@ import {
   approximateGaDaysFromBiometry,
   eddFromBiometryAndUsDate,
   eddFromCrlAndUsDate,
+  datingFromAntenatalVisit,
+  datingFromFetalMovement,
   eddFromEmbryoTransfer,
   eddFromLmp,
   eddFromOvulation,
@@ -37,6 +39,9 @@ const TABS = [
   { id: "ivf", label: "ЭКО / овуляция" },
   { id: "feto", label: "Фетометрия" },
   { id: "dekret", label: "Декрет" },
+  { id: "edd", label: "По ПДР" },
+  { id: "movement", label: "Шевеления" },
+  { id: "antenatal", label: "Явка в ЖК" },
 ] as const;
 
 type TabId = (typeof TABS)[number]["id"];
@@ -70,6 +75,12 @@ export function ObCalcHub({ initialTab = "lmp" }: { initialTab?: TabId }) {
   const [fetoKind, setFetoKind] = useState<BiometryKind>("BPD");
   const [fetoMm, setFetoMm] = useState("");
   const [dekretEddIso, setDekretEddIso] = useState<string | undefined>();
+  const [reverseEddIso, setReverseEddIso] = useState<string | undefined>();
+  const [movementDateIso, setMovementDateIso] = useState<string | undefined>();
+  const [movementMultiparous, setMovementMultiparous] = useState(false);
+  const [antenatalDateIso, setAntenatalDateIso] = useState<string | undefined>();
+  const [antenatalWeeks, setAntenatalWeeks] = useState("12");
+  const [antenatalDays, setAntenatalDays] = useState("0");
 
   const lmpResult = useMemo(() => {
     if (!lmpIso) return [];
@@ -178,6 +189,53 @@ export function ObCalcHub({ initialTab = "lmp" }: { initialTab?: TabId }) {
     const { prenatalStart, note } = maternityLeaveHintsRu(edd);
     return [`ПДР: ${formatRuDate(edd)}`, `Ориентир начала декрета: ${formatRuDate(prenatalStart)}`, "", note];
   }, [dekretEddIso]);
+
+  const eddReverseResult = useMemo(() => {
+    if (!reverseEddIso) return [];
+    const edd = parseIsoDate(reverseEddIso);
+    if (!edd) return ["Введите ПДР"];
+    const lmpEst = lmpFromEdd(edd);
+    const gaToday = gaDaysFromLmp(lmpEst, new Date());
+    const { weeks, days } = splitGaDays(gaToday);
+    return [
+      `ПДР: ${formatRuDate(edd)}`,
+      `Оценка ПМП: ${formatRuDate(lmpEst)}`,
+      `Срок сегодня: ${weeks} нед. ${days} дн. (${gaToday} дн.)`,
+      "",
+      ...screeningHintsRu(gaToday),
+    ];
+  }, [reverseEddIso]);
+
+  const movementResult = useMemo(() => {
+    if (!movementDateIso) return [];
+    const d = parseIsoDate(movementDateIso);
+    if (!d) return ["Проверьте дату первых шевелений"];
+    const r = datingFromFetalMovement(d, movementMultiparous);
+    const split = splitGaDays(r.estimatedGaDays);
+    return [
+      `Срок сегодня (ориентир): ${split.weeks} нед. ${split.days} дн.`,
+      `ПДР: ${formatRuDate(r.edd)}`,
+      "",
+      r.note,
+    ];
+  }, [movementDateIso, movementMultiparous]);
+
+  const antenatalResult = useMemo(() => {
+    if (!antenatalDateIso) return [];
+    const visit = parseIsoDate(antenatalDateIso);
+    if (!visit) return ["Проверьте дату явки"];
+    const w = Math.max(0, Number.parseInt(antenatalWeeks, 10) || 0);
+    const days = Math.min(6, Math.max(0, Number.parseInt(antenatalDays, 10) || 0));
+    const r = datingFromAntenatalVisit(visit, w, days);
+    const today = splitGaDays(r.gaTodayDays);
+    return [
+      `ПДР: ${formatRuDate(r.edd)}`,
+      `Оценка ПМП: ${formatRuDate(r.lmpEstimate)}`,
+      `Срок сегодня: ${today.weeks} нед. ${today.days} дн.`,
+      "",
+      ...screeningHintsRu(r.gaTodayDays),
+    ];
+  }, [antenatalDateIso, antenatalWeeks, antenatalDays]);
 
   return (
     <div className="mx-auto max-w-3xl space-y-6 px-4 py-8 lg:px-8">
@@ -365,6 +423,78 @@ export function ObCalcHub({ initialTab = "lmp" }: { initialTab?: TabId }) {
                 <RuDateInput className="mt-1" value={dekretEddIso} onChange={setDekretEddIso} />
               </label>
               <ResultBox lines={dekretResult} />
+            </CardContent>
+          </Card>
+          </div>
+        ) : null}
+
+        {tab === "edd" ? (
+          <div className="mt-4 space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">Срок по предполагаемой дате родов</CardTitle>
+              <CardDescription>ПДР → оценка ПМП, срок сегодня, окна скринингов</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <label className="block text-sm font-semibold">
+                Предполагаемая дата родов (ПДР)
+                <RuDateInput className="mt-1" value={reverseEddIso} onChange={setReverseEddIso} />
+              </label>
+              <ResultBox lines={eddReverseResult} />
+            </CardContent>
+          </Card>
+          </div>
+        ) : null}
+
+        {tab === "movement" ? (
+          <div className="mt-4 space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">Срок по шевелениям плода</CardTitle>
+              <CardDescription>Дата первых ощутимых шевелений → ориентир срока</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <label className="block text-sm font-semibold">
+                Дата первых шевелений
+                <RuDateInput className="mt-1" value={movementDateIso} onChange={setMovementDateIso} />
+              </label>
+              <Button
+                type="button"
+                size="sm"
+                variant={movementMultiparous ? "default" : "outline"}
+                onClick={() => setMovementMultiparous((v) => !v)}
+              >
+                {movementMultiparous ? "Многородящая" : "Первобеременная"}
+              </Button>
+              <ResultBox lines={movementResult} />
+            </CardContent>
+          </Card>
+          </div>
+        ) : null}
+
+        {tab === "antenatal" ? (
+          <div className="mt-4 space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">Срок по явке в женскую консультацию</CardTitle>
+              <CardDescription>Дата постановки на учёт + срок на момент явки</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <label className="block text-sm font-semibold">
+                Дата явки / постановки на учёт
+                <RuDateInput className="mt-1" value={antenatalDateIso} onChange={setAntenatalDateIso} />
+              </label>
+              <div className="flex gap-3">
+                <label className="block text-sm font-semibold">
+                  Нед
+                  <Input className="mt-1 w-20" inputMode="numeric" value={antenatalWeeks} onChange={(e) => setAntenatalWeeks(e.target.value)} />
+                </label>
+                <label className="block text-sm font-semibold">
+                  Дн
+                  <Input className="mt-1 w-20" inputMode="numeric" value={antenatalDays} onChange={(e) => setAntenatalDays(e.target.value)} />
+                </label>
+              </div>
+              <ResultBox lines={antenatalResult} />
             </CardContent>
           </Card>
           </div>

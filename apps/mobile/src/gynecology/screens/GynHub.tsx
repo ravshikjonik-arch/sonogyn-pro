@@ -30,6 +30,11 @@ export function GynHub({ setPage }: { setPage: (p: PageType) => void }) {
       <Text style={s.title}>Калькуляторы и помощники для акушера-гинеколога</Text>
       <Text style={s.meta}>{PREGNANCY_CALC_VERSION}</Text>
       <View style={s.assistantGrid}>
+        <Pressable style={[s.assistantWidget, { backgroundColor: "#1e3a5f" }]} onPress={() => setPage("gyn_quick_access")}>
+          <Text style={s.assistantKicker}>Быстрый доступ</Text>
+          <Text style={s.assistantTitle}>Для приёма врача</Text>
+          <Text style={s.assistantSub}>Срок · масса · Bishop · VBAC · риски · лекарства</Text>
+        </Pressable>
         <Pressable style={[s.assistantWidget, { backgroundColor: "#831843" }]} onPress={() => setPage("gyn_assistant_gynecology")}>
           <Text style={s.assistantKicker}>Ежедневный прием</Text>
           <Text style={s.assistantTitle}>Помощник врача-гинеколога</Text>

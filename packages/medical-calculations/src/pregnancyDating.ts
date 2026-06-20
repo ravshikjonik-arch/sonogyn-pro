@@ -2,6 +2,7 @@ import {
   approximateGaDaysFromBiometry,
   eddFromGaAtStudy,
   gaDaysFromCrlTable,
+  gaDaysFromLmp,
   type BiometryKind,
 } from "./gestationalAge";
 
@@ -61,3 +62,36 @@ export function maternityLeaveHintsRu(edd: Date): { prenatalStart: Date; note: s
 
 export const PREGNANCY_DATING_DISCLAIMER =
   "Ориентиры срока и ПДР. Не заменяют протокол учреждения, ЭМК и приказы МЗ РФ.";
+
+/** Срок по первым шевелениям: primipara ~20 нед, multipara ~18 нед от quickening. */
+export function datingFromFetalMovement(
+  movementDate: Date,
+  multiparous: boolean,
+): { estimatedGaDays: number; edd: Date; note: string } {
+  const quickeningGaDays = multiparous ? 18 * 7 : 20 * 7;
+  const today = startOfDay(new Date());
+  const mov = startOfDay(movementDate);
+  const daysSinceMovement = Math.max(0, Math.floor((today.getTime() - mov.getTime()) / 86400000));
+  const estimatedGaDays = quickeningGaDays + daysSinceMovement;
+  const edd = addDays(mov, 280 - quickeningGaDays);
+  return {
+    estimatedGaDays,
+    edd,
+    note: multiparous
+      ? "Многородящие: ориентир quickening ~18 нед (±2). Погрешность высокая — предпочтительна датировка по УЗI I триместра."
+      : "Первобеременные: quickening ~20 нед (±2). Не заменяет КТР/ПМП при расхождении >7 дней.",
+  };
+}
+
+/** Срок по явке в ЖК: дата постановки на учёт + срок на момент явки. */
+export function datingFromAntenatalVisit(
+  visitDate: Date,
+  weeksAtVisit: number,
+  daysAtVisit: number,
+): { edd: Date; lmpEstimate: Date; gaTodayDays: number } {
+  const gaAtVisit = Math.max(0, weeksAtVisit) * 7 + Math.min(6, Math.max(0, daysAtVisit));
+  const edd = eddFromGaAtStudy(startOfDay(visitDate), gaAtVisit);
+  const lmpEstimate = lmpFromEdd(edd);
+  const gaTodayDays = gaDaysFromLmp(lmpEstimate, new Date());
+  return { edd, lmpEstimate, gaTodayDays };
+}

@@ -5,7 +5,7 @@ export const metadata = {
   description: "Калькулятор срока беременности: ПМП, УЗИ, КТР, ЭКО, фетометрия, декрет.",
 };
 
-const TABS = ["lmp", "us", "crl", "ivf", "feto", "dekret"] as const;
+const TABS = ["lmp", "us", "crl", "ivf", "feto", "dekret", "edd", "movement", "antenatal"] as const;
 type TabId = (typeof TABS)[number];
 
 function parseTab(value?: string): TabId {

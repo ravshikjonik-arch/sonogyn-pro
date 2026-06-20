@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CALCULATORS } from "@/lib/calculators/registry";
 import { resolveCalculatorHref } from "@/lib/calculators/resolve-calculator-href";
+import { Stethoscope } from "lucide-react";
 
 const quickCalcSlugs = ["ob-calc", "o-rads", "bi-rads", "pop-q", "endometrium", "cervical-length", "figo", "ti-rads", "elastography"] as const;
 
@@ -28,6 +29,28 @@ export default function CalculatorsPage() {
         </header>
 
         <ObCalcQuickWidget />
+
+        <Card className="overflow-hidden border-[var(--clinical-primary)]/30 bg-gradient-to-br from-[var(--clinical-primary-muted)]/40 to-[var(--clinical-card)]">
+          <div className="h-1 bg-[var(--clinical-primary)]" />
+          <CardHeader>
+            <div className="flex items-start gap-3">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[var(--clinical-primary)] text-white">
+                <Stethoscope className="h-5 w-5" />
+              </div>
+              <div>
+                <CardTitle className="text-lg">Для приёма врача</CardTitle>
+                <CardDescription className="text-xs leading-relaxed">
+                  Избранное · часто на приёме · поиск · срок, ПДР, масса, Bishop, VBAC — одним экраном
+                </CardDescription>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <Button className="w-full sm:w-auto" asChild>
+              <Link href="/calculators/appointment">Открыть быстрый доступ</Link>
+            </Button>
+          </CardContent>
+        </Card>
 
         <section className="sonogyn-glass-card space-y-3 rounded-2xl p-5">
           <p className="text-sm font-bold text-[var(--clinical-foreground)]">Быстрые калькуляторы</p>
