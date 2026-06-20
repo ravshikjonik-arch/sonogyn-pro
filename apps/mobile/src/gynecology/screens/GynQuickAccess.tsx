@@ -20,6 +20,12 @@ const GYN_NATIVE: Partial<Record<string, PageType>> = {
   "ga-feto": "gyn_ga_feto",
   "maternity-leave": "gyn_dekret",
   "breast-risk": "gyn_breast_risk",
+  bishop: "gyn_bishop",
+  "vbac-pre": "gyn_vbac",
+  "vbac-labor": "gyn_vbac",
+  "efw-hadlock": "gyn_efw",
+  "efw-rudakov": "gyn_efw",
+  "efw-maternal": "gyn_efw",
 };
 
 type Props = {

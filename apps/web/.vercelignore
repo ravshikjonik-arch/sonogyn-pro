@@ -1,1 +1,13 @@
 public/books/umarov-2021
+public/clinical-atlas
+public/education
+public/images/orads-calculator
+.next
+node_modules
+app/api/ustri_inference/USTri
+**/*.pth
+**/*.mp4
+**/*.pdf
+**/*.jpg
+**/*.jpeg
+**/*.png

@@ -3,6 +3,7 @@ import FigoFibroidInteractive from "./FigoFibroidInteractive";
 import ObgynClinicalAssistant from "./ObgynClinicalAssistant";
 import UterusClinicScreen from "./UterusClinicScreen";
 import { ScreenBreastRisk, ScreenLnRads } from "./screens/BreastLnScreens";
+import { ScreenBishop, ScreenEfw, ScreenVbac } from "./screens/ObstetricScreens";
 import { GynQuickAccess } from "./screens/GynQuickAccess";
 import { GynHub } from "./screens/GynHub";
 import { ScreenMedvedevConsensus } from "./screens/MedvedevScreen";
@@ -28,6 +29,12 @@ export function GynecologyRouter({ page, setPage }: Props) {
   switch (page) {
     case "gyn_quick_access":
       return <GynQuickAccess setPage={setPage} />;
+    case "gyn_bishop":
+      return <ScreenBishop setPage={setPage} />;
+    case "gyn_vbac":
+      return <ScreenVbac setPage={setPage} />;
+    case "gyn_efw":
+      return <ScreenEfw setPage={setPage} />;
     case "gyn_hub":
       return <GynHub setPage={setPage} />;
     case "gyn_assistant_gynecology":

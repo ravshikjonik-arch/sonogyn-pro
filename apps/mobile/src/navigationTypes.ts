@@ -20,7 +20,10 @@ export type PageType =
   | "gyn_figo_fibroid"
   | "gyn_uterus_clinic"
   | "gyn_medvedev_consensus"
-  | "gyn_quick_access";
+  | "gyn_quick_access"
+  | "gyn_bishop"
+  | "gyn_vbac"
+  | "gyn_efw";
 
 export const SECTION_TITLE: Record<Exclude<PageType, "home">, string> = {
   orads: "O-RADS — яичники",
@@ -44,6 +47,9 @@ export const SECTION_TITLE: Record<Exclude<PageType, "home">, string> = {
   gyn_uterus_clinic: "Матка — FIGO + аденомиоз / DIE",
   gyn_medvedev_consensus: "Консенсусы УЗИ (Medvedev 2018)",
   gyn_quick_access: "Для приёма врача",
+  gyn_bishop: "Шкала Бишопа",
+  gyn_vbac: "VBAC / TOLAC",
+  gyn_efw: "Масса плода",
 };
 
 export function isGynecologyPage(p: PageType): boolean {
