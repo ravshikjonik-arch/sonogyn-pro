@@ -51,6 +51,9 @@ export const QUIZ_CATEGORY_LABELS: Record<string, string> = {
   "follow-up": "Наблюдение",
   epidemiology: "Эпидемиология",
   diagnostics: "Диагностика",
+  morphology: "Морфология",
+  doppler: "ЦДК / color score",
+  adnex: "ADNEX / стратегия",
 };
 
 export function resolveQuizSource(bank: QuizBank, sourceId: string): QuizSource | undefined {

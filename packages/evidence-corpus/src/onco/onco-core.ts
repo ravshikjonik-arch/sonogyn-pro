@@ -24,6 +24,7 @@ export const ONCO_CORE_EVIDENCE: EvidenceEntry[] = [
       { label: "O-RADS Pro", href: "/calculators/o-rads" },
       { label: "Атлас яичника", href: "/ovary-atlas" },
       { label: "O-RADS эхограммы", href: "/library/orads-echograms" },
+      { label: "IOTA 2026 · термины", href: "/library/iota-terms-2026" },
     ],
   },
   {
@@ -84,7 +85,10 @@ export const ONCO_CORE_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ACR O-RADS US", organization: "ACR", year: 2022 },
     tags: ["O-RADS 5", "malignancy", "ascites", "solid", "high risk"],
-    relatedLinks: [{ label: "O-RADS Pro", href: "/calculators/o-rads" }],
+    relatedLinks: [
+      { label: "O-RADS Pro", href: "/calculators/o-rads" },
+      { label: "IOTA 2026 · термины", href: "/library/iota-terms-2026" },
+    ],
   },
   {
     id: "onco-iota-simple-rules-b",
@@ -99,7 +103,10 @@ export const ONCO_CORE_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "IOTA Simple Rules / consensus 2026", organization: "IOTA", year: 2026, pmid: "21481708" },
     tags: ["IOTA", "Simple Rules", "B-features", "benign"],
-    relatedLinks: [{ label: "O-RADS Pro", href: "/calculators/o-rads" }],
+    relatedLinks: [
+      { label: "O-RADS Pro", href: "/calculators/o-rads" },
+      { label: "IOTA 2026 · термины", href: "/library/iota-terms-2026" },
+    ],
   },
   {
     id: "onco-iota-simple-rules-m",
@@ -114,7 +121,34 @@ export const ONCO_CORE_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "IOTA Simple Rules", organization: "IOTA", year: 2026, pmid: "23896425" },
     tags: ["IOTA", "M-features", "malignant", "papillary", "ascites"],
-    relatedLinks: [{ label: "O-RADS Pro", href: "/calculators/o-rads" }],
+    relatedLinks: [
+      { label: "O-RADS Pro", href: "/calculators/o-rads" },
+      { label: "IOTA 2026 · термины", href: "/library/iota-terms-2026" },
+    ],
+  },
+  {
+    id: "onco-iota-terms-2026",
+    shelf: "onco",
+    title: "IOTA 2026 · terms and definitions",
+    summary:
+      "Updated IOTA consensus (2026): standardized terms for solid component ≥3 mm, papillary projections, lesion types, cyst walls, color score 1–4, ADNEX variables and two-step strategy — harmonized with O-RADS US reporting.",
+    clinicalPearl:
+      "Солидный компонент ≥3 мм; жировой шарик, взвесь и сгустки крови — не солид; папилляр ≥3 мм — считать отдельно; асцит вне дугласова пространства.",
+    excerpt:
+      "The IOTA Group updated consensus defines sonographic terms and measurements for adnexal tumor description and risk models.",
+    tier: 1,
+    source: {
+      label: "IOTA consensus · terms and definitions 2026",
+      organization: "IOTA Group",
+      year: 2026,
+      url: "https://obgyn.onlinelibrary.wiley.com/doi/10.1002/uog.70191",
+    },
+    tags: ["IOTA", "2026", "terms", "solid component", "papillary", "ADNEX", "consensus"],
+    relatedLinks: [
+      { label: "IOTA 2026 · справочник", href: "/library/iota-terms-2026" },
+      { label: "O-RADS Pro", href: "/calculators/orads-pro" },
+      { label: "O-RADS эхограммы", href: "/library/orads-echograms" },
+    ],
   },
   {
     id: "onco-color-score",
@@ -129,7 +163,10 @@ export const ONCO_CORE_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ACR O-RADS US color score", organization: "ACR", year: 2022 },
     tags: ["color score", "допплер", "vascularity", "papillary"],
-    relatedLinks: [{ label: "O-RADS Pro", href: "/calculators/o-rads" }],
+    relatedLinks: [
+      { label: "O-RADS Pro", href: "/calculators/o-rads" },
+      { label: "IOTA 2026 · термины", href: "/library/iota-terms-2026" },
+    ],
   },
   {
     id: "onco-endometrioma",

@@ -75,6 +75,7 @@ const SUGGESTED_BY_SHELF: Record<EvidenceShelf, string[]> = {
     "dense breast",
   ],
   onco: [
+    "IOTA 2026 terms",
     "O-RADS 5",
     "IOTA M-features",
     "color score",
@@ -116,14 +117,29 @@ const PLACEHOLDER_BY_SHELF: Record<EvidenceShelf, string> = {
   surgery: "laparoscopy, hysteroscopy, myomectomy, cerclage…",
 };
 
+const SHELF_RESOURCE_LINKS: Record<EvidenceShelf, EvidenceRelatedLink[]> = {
+  "us-fmf": [{ href: "/assistant/fmf", label: "FMF · скрининги" }],
+  obgyn: [{ href: "/assistant/gynecology", label: "Помощник АГ" }],
+  cervix: [{ href: "/library/cervix-pathology", label: "Самопроверка · шейка" }],
+  mammo: [{ href: "/calculators/bi-rads", label: "BI-RADS" }],
+  onco: [
+    { href: "/library/iota-terms-2026", label: "IOTA 2026 · термины" },
+    { href: "/library/orads-echograms", label: "O-RADS · эхограммы" },
+    { href: "/calculators/orads-pro", label: "O-RADS Pro" },
+  ],
+  endocrine: [{ href: "/calculators/ti-rads", label: "TI-RADS" }],
+  surgery: [{ href: "/idea-deep-endometriosis", label: "IDEA · pre-op" }],
+};
+
+/** @deprecated используйте SHELF_RESOURCE_LINKS */
 const FALLBACK_LINK_BY_SHELF: Record<EvidenceShelf, { href: string; label: string }> = {
-  "us-fmf": { href: "/assistant/fmf", label: "FMF · скрининги" },
-  obgyn: { href: "/assistant/gynecology", label: "Помощник АГ" },
-  cervix: { href: "/library/cervix-pathology", label: "Самопроверка · шейка" },
-  mammo: { href: "/calculators/bi-rads", label: "BI-RADS" },
-  onco: { href: "/library/orads-echograms", label: "O-RADS · эхограммы" },
-  endocrine: { href: "/calculators/ti-rads", label: "TI-RADS" },
-  surgery: { href: "/idea-deep-endometriosis", label: "IDEA · pre-op" },
+  "us-fmf": SHELF_RESOURCE_LINKS["us-fmf"][0]!,
+  obgyn: SHELF_RESOURCE_LINKS.obgyn[0]!,
+  cervix: SHELF_RESOURCE_LINKS.cervix[0]!,
+  mammo: SHELF_RESOURCE_LINKS.mammo[0]!,
+  onco: SHELF_RESOURCE_LINKS.onco[1]!,
+  endocrine: SHELF_RESOURCE_LINKS.endocrine[0]!,
+  surgery: SHELF_RESOURCE_LINKS.surgery[0]!,
 };
 
 function TierBadge({ tier }: { tier: 1 | 2 | 3 }) {
@@ -192,8 +208,8 @@ function CitationCard({ c }: { c: EvidenceCitation }) {
   );
 }
 
-export function EvidenceWorkspace() {
-  const [shelf, setShelf] = useState<EvidenceShelf>("us-fmf");
+export function EvidenceWorkspace({ initialShelf }: { initialShelf?: EvidenceShelf }) {
+  const [shelf, setShelf] = useState<EvidenceShelf>(initialShelf ?? "us-fmf");
 
   const shelfMeta = useMemo(
     () => EVIDENCE_SHELVES.find((s: EvidenceShelfMeta) => s.id === shelf)!,
@@ -298,6 +314,19 @@ export function EvidenceWorkspace() {
         ))}
       </div>
 
+      {SHELF_RESOURCE_LINKS[shelf].length > 0 ? (
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--clinical-foreground-muted)]">
+            Материалы полки
+          </span>
+          {SHELF_RESOURCE_LINKS[shelf].map((link) => (
+            <Button key={link.href} variant="outline" size="sm" asChild>
+              <Link href={link.href}>{link.label}</Link>
+            </Button>
+          ))}
+        </div>
+      ) : null}
+
       <form onSubmit={onSubmit} className="flex gap-2">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-3 h-4 w-4 text-[var(--clinical-foreground-muted)]" />
@@ -361,12 +390,14 @@ export function EvidenceWorkspace() {
           ) : (
             <p className="text-sm text-[var(--clinical-foreground-muted)]">
               Совпадений нет — попробуйте другой синоним или откройте{" "}
-              <Link
-                href={FALLBACK_LINK_BY_SHELF[shelf].href}
-                className="font-semibold text-[var(--clinical-primary)] underline"
-              >
-                {FALLBACK_LINK_BY_SHELF[shelf].label}
-              </Link>
+              {SHELF_RESOURCE_LINKS[shelf].map((link, i) => (
+                <span key={link.href}>
+                  {i > 0 ? (i === SHELF_RESOURCE_LINKS[shelf].length - 1 ? " или " : ", ") : null}
+                  <Link href={link.href} className="font-semibold text-[var(--clinical-primary)] underline">
+                    {link.label}
+                  </Link>
+                </span>
+              ))}
               .
             </p>
           )}

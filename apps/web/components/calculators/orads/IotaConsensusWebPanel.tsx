@@ -12,14 +12,22 @@ export function IotaConsensusWebPanel({ consensus }: { consensus: IotaConsensusR
     >
       <div className="flex flex-wrap items-center justify-between gap-2">
         <p className="text-[10px] font-black uppercase tracking-widest text-violet-800">Консенсус IOTA 2026</p>
-        <span
+        <div className="flex items-center gap-2">
+          <a
+            href="/library/iota-terms-2026"
+            className="text-[10px] font-bold text-violet-700 underline underline-offset-2 hover:text-violet-900"
+          >
+            Справочник терминов →
+          </a>
+          <span
           className={cn(
             "rounded-full px-2 py-0.5 text-[10px] font-black",
             ready ? "bg-teal-100 text-teal-900" : "bg-amber-100 text-amber-900",
           )}
-        >
-          {ready ? "заполнено" : "неполно"}
-        </span>
+          >
+            {ready ? "заполнено" : "неполно"}
+          </span>
+        </div>
       </div>
       <p className="mt-2 text-lg font-black">{consensus.harmonizedCategory}</p>
       <p className="text-xs text-[var(--clinical-foreground-muted)]">{consensus.versionLabel}</p>

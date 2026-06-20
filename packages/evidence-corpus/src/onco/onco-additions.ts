@@ -15,7 +15,10 @@ export const ONCO_ADDITIONAL_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ACR O-RADS US", organization: "ACR", year: 2022 },
     tags: ["papillary", "excrescence", "projection", "O-RADS"],
-    relatedLinks: [{ label: "O-RADS Pro", href: "/calculators/o-rads" }],
+    relatedLinks: [
+      { label: "O-RADS Pro", href: "/calculators/o-rads" },
+      { label: "IOTA 2026 · термины", href: "/library/iota-terms-2026" },
+    ],
   },
   {
     id: "onco-solid-adnexal-mass",
@@ -193,6 +196,7 @@ export const ONCO_ADDITIONAL_EVIDENCE: EvidenceEntry[] = [
     tags: ["reporting", "протокол", "lexicon", "O-RADS"],
     relatedLinks: [
       { label: "O-RADS Pro", href: "/calculators/o-rads" },
+      { label: "IOTA 2026 · термины", href: "/library/iota-terms-2026" },
       { label: "O-RADS эхограммы", href: "/library/orads-echograms" },
     ],
   },

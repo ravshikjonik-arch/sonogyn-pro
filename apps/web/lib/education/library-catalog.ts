@@ -133,6 +133,17 @@ export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
     badge: "IOTA",
   },
   {
+    id: "iota-terms-2026",
+    shelf: "reference",
+    title: "IOTA 2026 · термины и определения",
+    description:
+      "Консенсус IOTA Group 2026: солидный компонент ≥3 мм, тип поражения, папилляр, color score, ADNEX — инфографика + 12 вопросов.",
+    href: "/library/iota-terms-2026",
+    tags: ["IOTA", "ADNEX", "придатки", "O-RADS", "2026", "консенсус", "самопроверка"],
+    primary: true,
+    badge: "12+2026",
+  },
+  {
     id: "obstetric-atlas",
     shelf: "atlases",
     title: "Атлас I триместра (Блинов)",
@@ -142,6 +153,17 @@ export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
     tags: ["атлас", "I триместр", "4–14 нед.", "эхограммы"],
     primary: true,
     badge: "Атлас",
+  },
+  {
+    id: "fetal-spine-atlas",
+    shelf: "atlases",
+    title: "УЗИ позвоночника плода",
+    description:
+      "15 карточек: норма, spina bifida, миеломенингоцеле, сколиоз, тератомы, каудальная регрессия — II–III триместр.",
+    href: "/library/fetal-spine",
+    tags: ["позвоночник", "плод", "spina bifida", "скрининг", "атлас"],
+    primary: true,
+    badge: "15",
   },
   {
     id: "uterus-3d",
