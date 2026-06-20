@@ -32,7 +32,7 @@ export function OradsProFlow() {
           <Button variant="secondary" size="sm" asChild className="h-8 rounded-full text-xs">
             <Link href="/calculators">← Калькуляторы</Link>
           </Button>
-          <span className="text-sm font-bold">O-RADS · режим приёма</span>
+          <span className="text-sm font-bold">O-RADS Pro · ACR / IOTA</span>
           <div className="ml-auto flex gap-1">
             <Button type="button" variant="secondary" size="sm" className="h-8 rounded-full text-xs" onClick={() => setPanel("tables")}>
               Таблицы

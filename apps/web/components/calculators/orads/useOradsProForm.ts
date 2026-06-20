@@ -28,8 +28,28 @@ import {
   type UnilocularSubtype,
 } from "@/lib/orads-pro";
 
+function bloodFlowToColorScore(flow?: BloodFlow): IotaColorScore | undefined {
+  if (flow === "none") return "1";
+  if (flow === "minimal") return "2";
+  if (flow === "moderate") return "3";
+  if (flow === "marked") return "4";
+  return undefined;
+}
+
+function deriveIotaLesionType(
+  structure?: Structure,
+  solidComponent?: boolean,
+): IotaLesionType | undefined {
+  if (structure === "unilocular") return solidComponent ? "unilocular_solid_cyst" : "unilocular_cyst";
+  if (structure === "multilocular") return solidComponent ? "multilocular_solid_cyst" : "multilocular_cyst";
+  if (structure === "solid") return "solid_tumor";
+  return undefined;
+}
+
 export function useOradsProForm() {
   const [localization, setLocalization] = useState<Localization | undefined>("ovarian");
+  const [ageYears, setAgeYears] = useState("");
+  const [cycleDay, setCycleDay] = useState("");
   const [menopause, setMenopause] = useState<Menopause | undefined>();
   const [lesionKind, setLesionKind] = useState<LesionKind | undefined>();
   const [physType, setPhysType] = useState<PhysiologicalType | undefined>();
@@ -57,9 +77,13 @@ export function useOradsProForm() {
   const [iotaCenterType, setIotaCenterType] = useState<IotaCenterType | undefined>();
   const [incompleteSeptum, setIncompleteSeptum] = useState(false);
 
-  const input = useMemo<OradsInput>(
-    () => ({
+  const input = useMemo<OradsInput>(() => {
+    const derivedLesionType = deriveIotaLesionType(structure, solidComponent);
+    return {
       localization,
+      ageYears: Number(ageYears) > 0 ? Number(ageYears) : undefined,
+      cycleDay:
+        menopause === "pre" && Number(cycleDay) > 0 && Number(cycleDay) <= 35 ? Number(cycleDay) : undefined,
       menopause,
       lesionKind,
       physiologicalType: physType,
@@ -77,18 +101,20 @@ export function useOradsProForm() {
       ascites,
       bloodFlow,
       peritonealNodules,
-      iotaLesionType,
+      iotaLesionType: iotaLesionType ?? derivedLesionType,
       papillaryProjectionCount,
       papillaryProjectionSurface,
       largestSolidDiameterMm: Number(largestSolidDiameterMm) > 0 ? Number(largestSolidDiameterMm) : undefined,
       cystLoculesOver10,
       acousticShadows,
-      iotaColorScore,
+      iotaColorScore: iotaColorScore ?? bloodFlowToColorScore(bloodFlow),
       iotaCenterType,
       incompleteSeptum: incompleteSeptum || undefined,
-    }),
-    [
+    };
+  }, [
       localization,
+      ageYears,
+      cycleDay,
       menopause,
       lesionKind,
       physType,
@@ -134,6 +160,8 @@ export function useOradsProForm() {
 
   function reset() {
     setLocalization("ovarian");
+    setAgeYears("");
+    setCycleDay("");
     setMenopause(undefined);
     setLesionKind(undefined);
     setPhysType(undefined);
@@ -162,6 +190,11 @@ export function useOradsProForm() {
     setIncompleteSeptum(false);
   }
 
+  function setBloodFlowWithColor(flow: BloodFlow | undefined) {
+    setBloodFlow(flow);
+    if (flow) setIotaColorScore(bloodFlowToColorScore(flow));
+  }
+
   return {
     input,
     result,
@@ -171,6 +204,10 @@ export function useOradsProForm() {
     reset,
     localization,
     setLocalization,
+    ageYears,
+    setAgeYears,
+    cycleDay,
+    setCycleDay,
     menopause,
     setMenopause,
     lesionKind,
@@ -202,7 +239,7 @@ export function useOradsProForm() {
     ascites,
     setAscites,
     bloodFlow,
-    setBloodFlow,
+    setBloodFlow: setBloodFlowWithColor,
     peritonealNodules,
     setPeritonealNodules,
     iotaLesionType,

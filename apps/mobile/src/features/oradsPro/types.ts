@@ -32,6 +32,10 @@ export type UnilocularSubtype =
 
 export type OradsInput = {
   localization?: Localization;
+  /** Полных лет; при ≥50 и сомнении в менопаузе — учитывать как постменопаузу (O-RADS US v2022). */
+  ageYears?: number;
+  /** День менструального цикла (1–35); только для пременопаузы. */
+  cycleDay?: number;
   menopause?: Menopause;
   lesionKind?: LesionKind;
   physiologicalType?: PhysiologicalType;
@@ -64,6 +68,8 @@ export type OradsInput = {
 export type OradsResult = {
   category: 1 | 2 | 3 | 4 | 5;
   riskText: string;
+  /** Вероятный паттерн для протокола (функциональная киста, фолликул и т.д.). */
+  patternLabel?: string;
   recommendation: string;
   rationale: string;
   volumeMl: number | null;

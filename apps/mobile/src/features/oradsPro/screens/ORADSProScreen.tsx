@@ -47,6 +47,8 @@ type Props = NativeStackScreenProps<RootStackParamList, "ORADSPro">;
 
 export default function ORADSProScreen({ navigation, route }: Props) {
   const [localization, setLocalization] = useState<Localization | undefined>("ovarian");
+  const [ageYears, setAgeYears] = useState("");
+  const [cycleDay, setCycleDay] = useState("");
   const [menopause, setMenopause] = useState<Menopause | undefined>(undefined);
   const [lesionKind, setLesionKind] = useState<LesionKind | undefined>(undefined);
   const [physType, setPhysType] = useState<PhysiologicalType | undefined>(undefined);
@@ -89,6 +91,9 @@ export default function ORADSProScreen({ navigation, route }: Props) {
   const input = useMemo<OradsInput>(
     () => ({
       localization,
+      ageYears: Number(ageYears) > 0 ? Number(ageYears) : undefined,
+      cycleDay:
+        menopause === "pre" && Number(cycleDay) > 0 && Number(cycleDay) <= 35 ? Number(cycleDay) : undefined,
       menopause,
       lesionKind,
       physiologicalType: physType,
@@ -117,6 +122,8 @@ export default function ORADSProScreen({ navigation, route }: Props) {
     }),
     [
       localization,
+      ageYears,
+      cycleDay,
       menopause,
       lesionKind,
       physType,
@@ -160,6 +167,8 @@ export default function ORADSProScreen({ navigation, route }: Props) {
     const p = route.params?.prefill;
     if (p) {
       setLocalization(p.localization ?? "ovarian");
+      setAgeYears(p.ageYears ? String(p.ageYears) : "");
+      setCycleDay(p.cycleDay ? String(p.cycleDay) : "");
       setMenopause(p.menopause);
       setLesionKind(p.lesionKind);
       setPhysType(p.physiologicalType);
@@ -259,6 +268,8 @@ export default function ORADSProScreen({ navigation, route }: Props) {
 
   function onReset() {
     setLocalization("ovarian");
+    setAgeYears("");
+    setCycleDay("");
     setMenopause(undefined);
     setLesionKind(undefined);
     setPhysType(undefined);
@@ -305,11 +316,8 @@ export default function ORADSProScreen({ navigation, route }: Props) {
         <Pressable onPress={() => navigation.goBack()}>
           <Text style={styles.back}>Назад</Text>
         </Pressable>
-        <Text style={styles.title}>O-RADS + IOTA</Text>
+        <Text style={styles.title}>O-RADS Pro</Text>
         <View style={styles.rightHeader}>
-          <Pressable onPress={() => navigation.navigate("ORADSWizard")}>
-            <Text style={styles.history}>Wizard</Text>
-          </Pressable>
           <Pressable onPress={() => navigation.navigate("ORADSHistory")}>
             <Text style={styles.history}>История</Text>
           </Pressable>
@@ -402,6 +410,16 @@ export default function ORADSProScreen({ navigation, route }: Props) {
         </StepCard>
 
         <StepCard title="ШАГ 2 — Статус пациентки" required={!menopause}>
+          <TextInput
+            value={ageYears}
+            onChangeText={(v) => {
+              markInteraction();
+              setAgeYears(v.replace(/[^\d]/g, ""));
+            }}
+            style={styles.input}
+            placeholder="Возраст, лет"
+            keyboardType="number-pad"
+          />
           <View style={styles.rowWrap}>
             <SelectChip
               label="Пременопауза"
@@ -417,9 +435,22 @@ export default function ORADSProScreen({ navigation, route }: Props) {
               onPress={() => {
                 markInteraction();
                 setMenopause("post");
+                setCycleDay("");
               }}
             />
           </View>
+          {menopause === "pre" ? (
+            <TextInput
+              value={cycleDay}
+              onChangeText={(v) => setCycleDay(v.replace(/[^\d]/g, ""))}
+              style={styles.input}
+              placeholder="День цикла (например, 12)"
+              keyboardType="number-pad"
+            />
+          ) : null}
+          {Number(ageYears) >= 50 && menopause === "pre" ? (
+            <Text style={styles.warn}>Возраст ≥50: при сомнении учитывайте как постменопаузу.</Text>
+          ) : null}
         </StepCard>
 
         {menopause ? (

@@ -20,6 +20,7 @@ export default function ResultPanel({ result, aiText, onAskAI }: Props) {
     <View style={[styles.wrap, { backgroundColor: c.bg, borderTopColor: c.border }]}>
       <Text style={styles.title}>O-RADS {result.category}</Text>
       <Text style={[styles.risk, { color: c.text }]}>{result.riskText}</Text>
+      {result.patternLabel ? <Text style={styles.pattern}>{result.patternLabel}</Text> : null}
       <Text style={styles.rationale}>• {result.rationale}</Text>
       <Text style={styles.rec}>Рекомендация: {result.recommendation}</Text>
       {result.volumeMl != null ? <Text style={styles.rec}>Объем: {result.volumeMl} мл</Text> : null}
@@ -45,6 +46,7 @@ const styles = StyleSheet.create({
   },
   title: { fontSize: 30, fontWeight: "900", color: "#0f172a" },
   risk: { fontSize: 17, fontWeight: "800" },
+  pattern: { color: "#0f766e", fontSize: 14, fontWeight: "700" },
   rationale: { color: "#334155", fontSize: 13 },
   rec: { color: "#334155", fontSize: 13 },
   warning: { color: "#b91c1c", fontSize: 12, fontWeight: "700" },

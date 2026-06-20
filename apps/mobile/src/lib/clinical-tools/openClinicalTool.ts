@@ -36,7 +36,7 @@ export function openClinicalToolAction(navigation: Nav, action: MobileToolAction
       navigation.navigate("ORADSPro");
       return;
     case "orads_wizard":
-      navigation.navigate("ORADSWizard");
+      navigation.navigate("ORADSPro");
       return;
     case "orads_guide":
       navigation.navigate("ORADSGuide");

@@ -166,6 +166,16 @@ function menopauseRu(value?: OradsInput["menopause"]) {
   return "не заполнено";
 }
 
+function patientContextRu(input: OradsInput) {
+  const parts: string[] = [];
+  if (typeof input.ageYears === "number" && input.ageYears > 0) parts.push(`${input.ageYears} лет`);
+  parts.push(menopauseRu(input.menopause));
+  if (input.menopause === "pre" && typeof input.cycleDay === "number" && input.cycleDay > 0) {
+    parts.push(`${input.cycleDay}-й день цикла`);
+  }
+  return parts.join(", ");
+}
+
 function centerRu(value?: OradsInput["iotaCenterType"]) {
   if (value === "oncology") return "онкологический центр";
   if (value === "other") return "другой центр";
@@ -212,7 +222,7 @@ export function evaluateIotaConsensus2026(input: OradsInput, orads: OradsResult)
     missingFields,
     modifiedBenignDescriptor: benignDescriptor,
     adnexVariables: [
-      { key: "ageContext", label: "Контекст пациентки", value: menopauseRu(input.menopause), complete: !!input.menopause },
+      { key: "ageContext", label: "Контекст пациентки", value: patientContextRu(input), complete: !!input.menopause },
       { key: "lesionType", label: "Тип образования", value: lesionType ? lesionTypeLabels[lesionType] : "не заполнено", complete: !!lesionType },
       { key: "maxDiameter", label: "Максимальный диаметр образования", value: fmtSize(input), complete: !!input.lengthMm && !!input.widthMm && !!input.heightMm },
       { key: "largestSolid", label: "Наибольший солидный компонент", value: fmtMm(input.largestSolidDiameterMm), complete: !solidComponentMeetsIota || !!input.largestSolidDiameterMm },

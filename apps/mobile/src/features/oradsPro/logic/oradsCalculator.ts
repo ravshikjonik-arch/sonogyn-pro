@@ -23,6 +23,42 @@ function bumpRisk(category: number): 1 | 2 | 3 | 4 | 5 {
   return (category + 1) as 2 | 3 | 4;
 }
 
+function buildPatientWarnings(input: OradsInput): string | undefined {
+  const notes: string[] = [];
+  if (typeof input.ageYears === "number" && input.ageYears >= 50 && input.menopause === "pre") {
+    notes.push("Возраст ≥50 лет при статусе «пременопауза» — при сомнении учитывайте как постменопаузу (O-RADS US v2022).");
+  }
+  if (input.menopause === "post" && typeof input.cycleDay === "number") {
+    notes.push("День цикла указан при постменопаузе — проверьте менопаузальный статус.");
+  }
+  return notes.length ? notes.join(" ") : undefined;
+}
+
+function derivePatternLabel(input: OradsInput): string | undefined {
+  if (input.menopause !== "pre") return undefined;
+
+  if (input.lesionKind === "physiological") {
+    if (input.physiologicalType === "follicle") return "Фолликул";
+    if (input.physiologicalType === "corpus_luteum") return "Желтое тело";
+  }
+
+  if (
+    input.lesionKind === "nonphysiological" &&
+    input.structure === "unilocular" &&
+    input.unilocularSubtype === "simple_cyst" &&
+    !input.solidComponent &&
+    input.bloodFlow !== "moderate" &&
+    input.bloodFlow !== "marked"
+  ) {
+    const day = input.cycleDay;
+    if (day == null || (day >= 5 && day <= 28)) {
+      return "Вероятна функциональная киста";
+    }
+  }
+
+  return undefined;
+}
+
 /**
  * O-RADS US v2022: неполная перегородка во 2-й плоскости → однокамерное (не многокамерное).
  */
@@ -175,20 +211,25 @@ export function calculateORADS(input: OradsInput): OradsResult {
 
   const reclassNote =
     "O-RADS US v2022: неполная перегородка во 2-й плоскости — пересчёт как однокамерное.";
+  const patientWarning = buildPatientWarnings(norm);
+  const patternLabel = derivePatternLabel(norm);
+  const warnings = [structureReclassified ? reclassNote : undefined, patientWarning].filter(Boolean);
 
   return {
     category,
     riskText: riskTextByCategory[category],
+    patternLabel,
     recommendation: recommendationByCategory[category],
     rationale: structureReclassified ? `${reclassNote} ${rationale}` : rationale,
     volumeMl,
     structureReclassified: structureReclassified || undefined,
-    warning: structureReclassified ? reclassNote : undefined,
+    warning: warnings.length ? warnings.join(" ") : undefined,
   };
 }
 
 export function buildProtocolOneLiner(result: OradsResult): string {
-  return `O-RADS ${result.category}. ${result.riskText} ${result.recommendation}`;
+  const pattern = result.patternLabel ? `${result.patternLabel}. ` : "";
+  return `O-RADS ${result.category}. ${pattern}${result.riskText} ${result.recommendation}`;
 }
 
 export function buildReportText(input: OradsInput, result: OradsResult): string {
@@ -196,8 +237,22 @@ export function buildReportText(input: OradsInput, result: OradsResult): string 
     ? `${input.lengthMm}×${input.widthMm}×${input.heightMm} мм`
     : "не указаны";
 
+  const menopauseLine =
+    input.menopause === "pre"
+      ? "пременопауза"
+      : input.menopause === "post"
+        ? "постменопауза"
+        : "не указана";
+  const ageLine = typeof input.ageYears === "number" && input.ageYears > 0 ? `${input.ageYears} лет` : "не указан";
+  const cycleLine =
+    input.menopause === "pre" && typeof input.cycleDay === "number" && input.cycleDay > 0
+      ? `${input.cycleDay}-й день цикла`
+      : "не указан";
+
   return [
     `O-RADS: ${result.category} (${result.riskText})`,
+    result.patternLabel ? `Паттерн: ${result.patternLabel}` : null,
+    `Пациентка: ${ageLine}, ${menopauseLine}${input.menopause === "pre" ? `, ${cycleLine}` : ""}`,
     `Локализация: ${input.localization === "extraovarian" ? "Экстраовариальная" : "Овариальная/аднексальная"}`,
     `Размеры: ${dims}`,
     `Объем: ${result.volumeMl == null ? "не рассчитан" : `${result.volumeMl} мл`}`,
@@ -205,5 +260,7 @@ export function buildReportText(input: OradsInput, result: OradsResult): string 
     `Кровоток: ${input.bloodFlow ?? "не указан"}`,
     `Обоснование: ${result.rationale}`,
     `Рекомендации: ${result.recommendation}`,
-  ].join("\n");
+  ]
+    .filter(Boolean)
+    .join("\n");
 }

@@ -98,6 +98,21 @@ function run() {
   if (!r7b.structureReclassified) {
     throw new Error("INCOMPLETE_SEPTUM_RECLASS: expected structureReclassified");
   }
+
+  const r8 = calculateORADS({
+    localization: "ovarian",
+    ageYears: 34,
+    cycleDay: 12,
+    menopause: "pre",
+    lesionKind: "nonphysiological",
+    structure: "unilocular",
+    unilocularSubtype: "simple_cyst",
+    lengthMm: 45,
+  });
+  expectEq("FUNCTIONAL_CYST_PATTERN", r8.category, 2);
+  if (r8.patternLabel !== "Вероятна функциональная киста") {
+    throw new Error(`FUNCTIONAL_CYST_PATTERN: expected pattern label, got ${String(r8.patternLabel)}`);
+  }
 }
 
 run();

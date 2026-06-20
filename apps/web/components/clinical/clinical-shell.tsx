@@ -67,7 +67,7 @@ const navGroups: { title: string; items: { href: string; label: string; icon: ty
     items: [
       { href: "/calculators/ob", label: "Срок беременности", icon: Baby },
       { href: "/calculators", label: "Калькуляторы", icon: Calculator },
-      { href: "/orads-calculator", label: "O-RADS Калькулятор", icon: ScanLine },
+      { href: "/calculators/o-rads", label: "O-RADS Pro", icon: ScanLine },
       { href: "/assistant", label: "Помощник врача", icon: HandHeart },
       { href: "/nosologies", label: "Нозологии", icon: ClipboardList },
     ],
