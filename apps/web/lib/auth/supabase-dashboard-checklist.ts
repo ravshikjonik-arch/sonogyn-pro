@@ -24,6 +24,20 @@ export const SUPABASE_PRODUCTION_AUTH_CHECKLIST: SupabaseAuthChecklistItem[] = [
     why: "Обязательно /auth/callback после email-link и OAuth.",
   },
   {
+    id: "custom-smtp",
+    area: "Authentication → SMTP Settings",
+    setting: "Custom SMTP (Mailgun)",
+    recommended: "smtp.mailgun.org:587 или :2525, SMTP_USER / SMTP_PASSWORD из Vercel",
+    why: "Письма «Подтвердите email» идут из Supabase, не из apps/web email-provider.",
+  },
+  {
+    id: "providers-off",
+    area: "Authentication → Providers",
+    setting: "Google OFF, Phone OFF",
+    recommended: "Только Email provider",
+    why: "AUTH_EMAIL_ONLY в приложении — дублируйте в Supabase Dashboard.",
+  },
+  {
     id: "confirm-email",
     area: "Authentication → Providers → Email",
     setting: "Confirm email",

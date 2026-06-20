@@ -1,5 +1,6 @@
 import { logVerificationEvent as obsLogVerification } from "@/lib/observability";
 
+import { isAuthEmailOnly } from "@/lib/auth/auth-methods-config";
 import { translateSmsRuErrorCode } from "@/lib/auth/sms-providers";
 import { TelegramService } from "@/services/telegram";
 import { sendVerificationEmail } from "./providers/email-provider";
@@ -53,7 +54,7 @@ async function dispatchOnce(params: SendVerificationCodeParams): Promise<SendVer
             result.bounce
               ? "Не удалось доставить письмо. Проверьте адрес или выберите другой способ."
               : "Не удалось отправить код на email. Попробуйте позже.",
-          suggestAlternateMethod: result.bounce ? "sms" : undefined,
+          suggestAlternateMethod: result.bounce && !isAuthEmailOnly() ? "sms" : undefined,
         };
       }
       return {

@@ -55,6 +55,15 @@ const FROM_LOCAL = [
   "NEXT_PUBLIC_TURNSTILE_SITE_KEY",
   "TURNSTILE_SECRET_KEY",
   "SUPABASE_SERVICE_ROLE_KEY",
+  "AUTH_AUTO_CONFIRM_EMAIL",
+  "AUTH_EMAIL_ONLY",
+  "NEXT_PUBLIC_AUTH_EMAIL_ONLY",
+  "SMTP_HOST",
+  "SMTP_PORT",
+  "SMTP_USER",
+  "SMTP_PASSWORD",
+  "SMTP_PASS",
+  "SMTP_FROM",
 ];
 
 function loadEnv(filePath) {
@@ -131,6 +140,23 @@ for (const key of FROM_LOCAL) {
   upsertEnv(key, value, targets);
 }
 
+// Production: email-only + auto-confirm на Vercel
+upsertEnv("AUTH_EMAIL_ONLY", "true", targets);
+upsertEnv("NEXT_PUBLIC_AUTH_EMAIL_ONLY", "true", targets);
+if (!local.AUTH_AUTO_CONFIRM_EMAIL?.trim()) {
+  upsertEnv("AUTH_AUTO_CONFIRM_EMAIL", "true", ["production"]);
+} else {
+  upsertEnv("AUTH_AUTO_CONFIRM_EMAIL", local.AUTH_AUTO_CONFIRM_EMAIL.trim(), targets);
+}
+
+const RECOMMENDED_FOR_EMAIL = [
+  "SMTP_HOST",
+  "SMTP_USER",
+  "SMTP_PASSWORD",
+  "SUPABASE_SERVICE_ROLE_KEY",
+  "AUTH_AUTO_CONFIRM_EMAIL",
+];
+
 const REQUIRED_FOR_PRODUCTION_SECURITY = [
   "SONOGYN_AUTH_INTERNAL_SECRET",
   "SUPABASE_SERVICE_ROLE_KEY",
@@ -144,6 +170,16 @@ const UPSTASH_ENV_ANY = [
   ["UPSTASH_REDIS_REST_URL", "UPSTASH_REDIS_REST_TOKEN"],
   ["KV_REST_API_URL", "KV_REST_API_TOKEN"],
 ];
+
+console.log("\n--- Email auth (Mailgun + auto-confirm) ---");
+for (const key of RECOMMENDED_FOR_EMAIL) {
+  const localOk = Boolean(local[key]?.trim());
+  const vercelOk = envExists(key, "production");
+  const status = localOk && vercelOk ? "ok" : localOk ? "local only" : vercelOk ? "vercel only" : "MISSING";
+  console.log(`${status === "ok" ? "✓" : "○"} ${key}: ${status}`);
+}
+console.log("  → Supabase SMTP: node scripts/configure-supabase-smtp.mjs --apply");
+console.log("  → Mailgun Sandbox: Authorized Recipients или домен sonogyn-pro.ru");
 
 console.log("\n--- Production security checklist ---");
 for (const key of REQUIRED_FOR_PRODUCTION_SECURITY) {

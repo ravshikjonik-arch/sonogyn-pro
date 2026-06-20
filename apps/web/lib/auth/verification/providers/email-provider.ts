@@ -1,5 +1,7 @@
 import { escapeVerificationTemplateText } from "../validate-contact";
 import { withTimeout } from "../with-timeout";
+import { isSmtpConfigured } from "@/lib/mail/smtp-config";
+import { sendSmtpEmail } from "@/lib/mail/send-smtp-email";
 
 export type EmailSendResult = { ok: true } | { ok: false; errorCode: string; bounce?: boolean };
 
@@ -10,9 +12,6 @@ async function sendVerificationEmailInner(params: {
   code: string;
   purposeLabel: string;
 }): Promise<EmailSendResult> {
-  const apiKey = process.env.RESEND_API_KEY?.trim();
-  const from = process.env.RESEND_FROM_EMAIL?.trim() || "SonoGyn Pro <noreply@sonogyn.app>";
-
   const subject = escapeVerificationTemplateText(`Код подтверждения — ${params.purposeLabel}`);
   const text = [
     "Код подтверждения SonoGyn Pro",
@@ -24,7 +23,7 @@ async function sendVerificationEmailInner(params: {
     "Если вы не запрашивали код — проигнорируйте письмо.",
   ].join("\n");
 
-  if (!apiKey) {
+  if (!isSmtpConfigured()) {
     if (process.env.NODE_ENV === "production") {
       return { ok: false, errorCode: "email_not_configured" };
     }
@@ -32,28 +31,22 @@ async function sendVerificationEmailInner(params: {
     return { ok: true };
   }
 
-  const res = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from,
-      to: [params.to],
-      subject,
-      text,
-    }),
+  const result = await sendSmtpEmail({
+    to: params.to,
+    subject,
+    text,
   });
 
-  if (res.ok) return { ok: true };
+  if (result.ok) return { ok: true };
 
-  const body = (await res.json().catch(() => null)) as { name?: string } | null;
-  const bounce = res.status === 422 || body?.name === "validation_error";
-  return { ok: false, errorCode: bounce ? "email_bounce" : "email_provider_error", bounce };
+  return {
+    ok: false,
+    errorCode: result.errorCode,
+    bounce: result.bounce,
+  };
 }
 
-/** Email через Resend, таймаут 12 с (Vercel serverless limit). */
+/** Email через SMTP (Mailgun), таймаут 12 с (Vercel serverless limit). */
 export async function sendVerificationEmail(params: {
   to: string;
   code: string;

@@ -1,3 +1,5 @@
+import { isAuthEmailOnly } from "@/lib/auth/auth-methods-config";
+
 export type AuthRegistrationMethod = "email" | "phone" | "social";
 
 export const REGISTRATION_METHOD_LABELS: Record<AuthRegistrationMethod, string> = {
@@ -13,6 +15,7 @@ export const REGISTRATION_METHOD_HINTS: Record<AuthRegistrationMethod, string> =
 };
 
 export function parseRegistrationMethod(raw: string | null): AuthRegistrationMethod {
+  if (isAuthEmailOnly()) return "email";
   if (raw === "phone" || raw === "social") return raw;
   return "email";
 }

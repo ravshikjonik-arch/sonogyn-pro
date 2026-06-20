@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import { isAuthEmailOnly, disabledAuthMethodResponse } from "@/lib/auth/auth-methods-config";
 import { verifyTurnstileIfConfigured } from "@/lib/auth/verify-turnstile";
 import { CAPTCHA_REQUIRED_MSG } from "@/lib/auth/safe-auth-messages";
 import { runVerificationFallbackChain } from "@/lib/auth/verification/fallback-handler";
@@ -49,6 +50,10 @@ export async function POST(req: Request) {
   }
 
   const method = body.method;
+  if (isAuthEmailOnly() && method && method !== "email") {
+    return disabledAuthMethodResponse(method === "sms" ? "sms" : "telegram");
+  }
+
   const purpose = body.purpose ?? "login";
 
   if (!method || !METHODS.includes(method)) {

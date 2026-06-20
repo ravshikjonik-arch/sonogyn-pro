@@ -20,6 +20,7 @@ import { postSignIn, postMfaVerifyLogin, postPhoneSendOtp, postPhoneVerifyOtp } 
 import { CAPTCHA_FAILURE_THRESHOLD } from "@/lib/auth/auth-attempts";
 import { markSessionAnchorNow } from "@/lib/security/session-anchor";
 import { parseRegistrationMethod, type AuthRegistrationMethod } from "@/lib/auth/registration-methods";
+import { isAuthEmailOnlyClient } from "@/lib/auth/auth-methods-config";
 import {
   EMAIL_NOT_CONFIRMED_MSG,
   PASSWORD_RESET_GENERIC_MSG,
@@ -302,7 +303,11 @@ function LoginForm() {
   return (
     <AuthScreenShell
       title="Вход"
-      subtitle="Email, SMS или Google — один аккаунт для web и mobile."
+      subtitle={
+        isAuthEmailOnlyClient()
+          ? "Email и пароль — один аккаунт для web и mobile."
+          : "Email, SMS или Google — один аккаунт для web и mobile."
+      }
       defaultTab={defaultTab}
       onTabChange={onTabChange}
       showMethodHints
@@ -516,6 +521,8 @@ function LoginForm() {
             </Link>
           </p>
           <div className="mt-3 flex flex-wrap justify-center gap-2 text-xs">
+            {!isAuthEmailOnlyClient() ? (
+              <>
             <Link href="/login?method=email" className="rounded-full bg-slate-100 px-3 py-1 text-slate-600 hover:underline dark:bg-slate-800 dark:text-slate-300">
               Email
             </Link>
@@ -525,6 +532,8 @@ function LoginForm() {
             <Link href="/register?method=social" className="rounded-full bg-slate-100 px-3 py-1 text-slate-600 hover:underline dark:bg-slate-800 dark:text-slate-300">
               Google
             </Link>
+              </>
+            ) : null}
           </div>
           <p className="mt-4 text-center text-xs text-slate-400">
             <Link href="/landing" className="hover:underline">

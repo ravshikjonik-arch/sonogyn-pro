@@ -21,6 +21,7 @@ import {
   nextJsonWithAuthCookies,
 } from "@/lib/route-handler-supabase";
 import { verifyStoredCode } from "@/lib/auth/verification/code-store";
+import { isAuthEmailOnly, disabledAuthMethodResponse } from "@/lib/auth/auth-methods-config";
 import { isCustomSmsAuthEnabled } from "@/lib/auth/sms-providers";
 import {
   ensurePhoneAuthUser,
@@ -41,6 +42,8 @@ type Body = {
 };
 
 export async function POST(req: Request) {
+  if (isAuthEmailOnly()) return disabledAuthMethodResponse("phone");
+
   const failKey = rateLimitKeyFromRequest(req, "auth-phone-verify-fail");
 
   let body: Body;

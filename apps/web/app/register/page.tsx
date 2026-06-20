@@ -34,6 +34,7 @@ import {
 import { looksLikePhoneInput, USE_PHONE_TAB_MSG } from "@/lib/auth/auth-error-text";
 import { buildOAuthRedirect, normalizePhone, oauthProviderToSupabase } from "@/lib/auth/oauth-providers";
 import { parseRegistrationMethod, type AuthRegistrationMethod } from "@/lib/auth/registration-methods";
+import { isAuthEmailOnlyClient } from "@/lib/auth/auth-methods-config";
 import {
   PHONE_OTP_SENT_MSG,
   requireOnlineForAuth,
@@ -512,6 +513,8 @@ function RegisterForm() {
       footer={
         <>
           <div className="mt-4 flex flex-wrap justify-center gap-2 text-xs">
+            {!isAuthEmailOnlyClient() ? (
+              <>
             <Link
               href="/register?method=email"
               className={`rounded-full px-3 py-1 ${activeTab === "email" ? "bg-[var(--clinical-primary-deep)] text-white" : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"}`}
@@ -530,6 +533,8 @@ function RegisterForm() {
             >
               Google
             </Link>
+              </>
+            ) : null}
           </div>
           <p className="mt-6 text-center text-sm text-[var(--clinical-foreground-muted)]">
             Уже есть аккаунт?{" "}

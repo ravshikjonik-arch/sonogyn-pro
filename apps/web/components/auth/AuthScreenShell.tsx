@@ -9,6 +9,7 @@ import {
   REGISTRATION_METHOD_LABELS,
   type AuthRegistrationMethod,
 } from "@/lib/auth/registration-methods";
+import { isAuthEmailOnlyClient } from "@/lib/auth/auth-methods-config";
 
 type AuthScreenShellProps = {
   title: string;
@@ -33,13 +34,15 @@ export function AuthScreenShell({
   onTabChange,
   showMethodHints = false,
 }: AuthScreenShellProps) {
-  const [tab, setTab] = useState<AuthRegistrationMethod>(defaultTab);
+  const emailOnly = isAuthEmailOnlyClient();
+  const [tab, setTab] = useState<AuthRegistrationMethod>(emailOnly ? "email" : defaultTab);
 
   useEffect(() => {
-    setTab(defaultTab);
-  }, [defaultTab]);
+    setTab(emailOnly ? "email" : defaultTab);
+  }, [defaultTab, emailOnly]);
 
   function handleTabChange(next: string) {
+    if (emailOnly) return;
     const value = next as AuthRegistrationMethod;
     setTab(value);
     onTabChange?.(value);
@@ -55,7 +58,7 @@ export function AuthScreenShell({
         <p className="mt-2 text-sm text-[var(--clinical-foreground-muted)]">{subtitle}</p>
       </div>
 
-      {showMethodHints ? (
+      {showMethodHints && !emailOnly ? (
         <div className="mb-4 rounded-2xl border border-slate-200 bg-slate-50/80 p-3 text-xs text-slate-600 dark:border-slate-800 dark:bg-slate-900/60 dark:text-slate-300">
           <p className="font-semibold text-slate-800 dark:text-slate-100">
             Способ: {REGISTRATION_METHOD_LABELS[tab]}
@@ -64,6 +67,9 @@ export function AuthScreenShell({
         </div>
       ) : null}
 
+      {emailOnly ? (
+        <div className="w-full">{emailTab}</div>
+      ) : (
       <Tabs value={tab} onValueChange={handleTabChange} className="w-full">
         <TabsList className="mb-6 grid w-full grid-cols-3 rounded-2xl bg-[var(--clinical-muted)] p-1">
           <TabsTrigger value="email" className="rounded-xl text-xs sm:text-sm">
@@ -81,6 +87,7 @@ export function AuthScreenShell({
         <TabsContent value="phone">{phoneTab}</TabsContent>
         <TabsContent value="social">{socialTab}</TabsContent>
       </Tabs>
+      )}
 
       <p className="mt-6 text-center text-xs text-slate-500">
         Регистрируясь или входя, вы соглашаетесь с{" "}

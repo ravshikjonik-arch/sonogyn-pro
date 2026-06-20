@@ -25,6 +25,7 @@ import { runVerificationFallbackChain } from "@/lib/auth/verification/fallback-h
 import { parseEmailContact } from "@/lib/auth/verification/validate-contact";
 import { logVerificationEvent } from "@/lib/auth/verification/safe-verification-log";
 import { checkRateLimit } from "@/lib/auth/verification/verification-rate-limit";
+import { isAuthEmailOnly, disabledAuthMethodResponse } from "@/lib/auth/auth-methods-config";
 import { isCustomSmsAuthEnabled, resolveSmsProvider } from "@/lib/auth/sms-providers";
 import { logError } from "@/services/logger";
 
@@ -41,6 +42,8 @@ type Body = {
 };
 
 export async function POST(req: Request) {
+  if (isAuthEmailOnly()) return disabledAuthMethodResponse("phone");
+
   const failKey = rateLimitKeyFromRequest(req, "auth-phone-fail");
 
   let body: Body;

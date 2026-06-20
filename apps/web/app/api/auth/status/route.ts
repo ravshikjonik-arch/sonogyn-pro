@@ -10,6 +10,8 @@ import { resolveAppOrigin } from "@/lib/auth/app-origin";
 import { SUPABASE_DEV_AUTH_CHECKLIST, SUPABASE_PRODUCTION_AUTH_CHECKLIST } from "@/lib/auth/supabase-dashboard-checklist";
 import { isTurnstileConfigured } from "@/lib/auth/verify-turnstile";
 import { isCustomSmsAuthEnabled, resolveSmsProvider } from "@/lib/auth/sms-providers";
+import { isAuthEmailOnly } from "@/lib/auth/auth-methods-config";
+import { isSmtpConfigured } from "@/lib/mail/smtp-config";
 import { supabaseGoogleCallbackUrl } from "@/lib/auth/social-auth-domains";
 import { readTelegramBotUsername } from "@/lib/auth/telegram-bot-config";
 import { isYooKassaConfigured, readYooKassaProPriceRub } from "@/lib/yookassa/config";
@@ -40,7 +42,9 @@ export async function GET(req: Request) {
   const customSms = isCustomSmsAuthEnabled();
   const smsIssues: string[] = [];
 
-  if (process.env.NODE_ENV === "production") {
+  if (isAuthEmailOnly()) {
+    smsIssues.push("AUTH_EMAIL_ONLY: SMS и Google отключены — только email + пароль");
+  } else if (process.env.NODE_ENV === "production") {
     if (!customSms || smsProvider === "mock") {
       smsIssues.push(
         "Production: задайте SMS_PROVIDER=smsru + SMSRU_API_ID (или Twilio) на Vercel",
@@ -77,6 +81,8 @@ export async function GET(req: Request) {
       process.env.TELEGRAM_BOT_USERNAME?.trim() ||
       "",
     features: {
+      authEmailOnly: isAuthEmailOnly(),
+      smtpConfigured: isSmtpConfigured(),
       emailAutoConfirm: shouldAutoConfirmEmail(),
       telegramReady: Boolean(
         process.env.TELEGRAM_BOT_TOKEN?.trim() && process.env.SUPABASE_SERVICE_ROLE_KEY?.trim(),
@@ -135,7 +141,13 @@ export async function GET(req: Request) {
         "Миграции: 20260617140000_yookassa_payments.sql, 20260619130000_payments.sql",
       ],
       emailDeliverability:
-        "mail.ru / gmail: проверьте «Спам». Для надёжной доставки — Supabase → Auth → SMTP.",
+        "mail.ru / gmail: проверьте «Спам». Supabase → Auth → SMTP (Mailgun) для писем подтверждения; OTP — SMTP_* в Vercel.",
+      supabaseSmtp: [
+        "Supabase → Authentication → SMTP: host smtp.mailgun.org, port 587 или 2525",
+        "User/Pass — те же SMTP_USER / SMTP_PASSWORD что в Vercel",
+        "Sender: noreply@sonogyn-pro.ru (или sandbox postmaster)",
+        "Отключить: Providers → Google OFF, Phone OFF",
+      ],
     },
   });
 }
