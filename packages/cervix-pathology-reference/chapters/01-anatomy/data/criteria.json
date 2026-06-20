@@ -1,0 +1,64 @@
+{
+  "chapter": "anatomy",
+  "version": "1.0.0",
+  "measurements": {
+    "vaginalPortionLengthCm": "2-3",
+    "cervixWallThicknessCm": "1-1.2",
+    "cervicalCanalMaxLengthCm": 4,
+    "cervicalCanalMaxWidthMm": 4,
+    "squamousEpitheliumThicknessMicron": "150-200",
+    "transformationZoneAvgWidthMm": 6
+  },
+  "epitheliumLayers": [
+    {
+      "id": "basal",
+      "name": "Базальный слой",
+      "description": "Один ряд мелких клеток на базальной мембране, источник регенерации МПЭ; в патологии — источник аномальной пролиферации"
+    },
+    {
+      "id": "parabasal",
+      "name": "Парабазальный слой",
+      "description": "2-3 ряда более крупных клеток с базофильными ядрами"
+    },
+    {
+      "id": "intermediate",
+      "name": "Промежуточный слой",
+      "description": "6-12 рядов полигональных клеток, богатых гликогеном"
+    },
+    {
+      "id": "superficial",
+      "name": "Поверхностный слой",
+      "description": "12-18 рядов зрелых клеток, лучше выражен в пролиферативной фазе цикла"
+    }
+  ],
+  "transformationZoneTypes": [
+    {
+      "id": "tz-1",
+      "name": "ЗТ 1 типа",
+      "location": "Полностью на эктоцервиксе",
+      "colposcopicVisibility": "Видна на 100%",
+      "clinicalNote": "Оптимальный вариант для кольпоскопической диагностики"
+    },
+    {
+      "id": "tz-2",
+      "name": "ЗТ 2 типа",
+      "location": "У наружного зева, частично в цервикальном канале",
+      "colposcopicVisibility": "Видна только внутренняя граница",
+      "clinicalNote": "Встречается чаще других типов"
+    },
+    {
+      "id": "tz-3",
+      "name": "ЗТ 3 типа",
+      "location": "В цервикальном канале",
+      "colposcopicVisibility": "Кольпоскопически не оценивается",
+      "clinicalNote": "Вариант нормы в менопаузе и после деструктивного лечения шейки матки"
+    }
+  ],
+  "atypicalTransformationZoneSigns": [
+    "Атипичные сосуды",
+    "Ацетобелый эпителий",
+    "Мозаика",
+    "Пунктация",
+    "Йоднегативные зоны"
+  ]
+}

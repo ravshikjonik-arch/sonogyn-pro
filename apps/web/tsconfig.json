@@ -32,6 +32,12 @@
       "@clinical/uterus/*": [
         "./packages/clinical-uterus/src/*"
       ],
+      "@repo/cervix-pathology-reference": [
+        "../../packages/cervix-pathology-reference/src/index.ts"
+      ],
+      "@repo/cervix-pathology-reference/*": [
+        "../../packages/cervix-pathology-reference/*"
+      ],
       "@repo/clinical-reference": [
         "../../packages/clinical-reference/src/index.ts"
       ],

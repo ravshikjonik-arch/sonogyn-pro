@@ -93,6 +93,16 @@ export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
     badge: "v1",
   },
   {
+    id: "cervix-pathology-quiz",
+    shelf: "reference",
+    title: "Патология шейки · справочник",
+    description:
+      "7 глав: анатомия, диагностика, ЦИН, РШМ, FIGO. Режимы «студент» (TTS) и «врач» + 16 вопросов самопроверки.",
+    href: "/library/cervix-pathology",
+    tags: ["шейка", "FIGO", "ЦИН", "РШМ", "кольпоскопия", "самопроверка"],
+    badge: "7+16",
+  },
+  {
     id: "guidelines",
     shelf: "reference",
     title: "КР и приказы",

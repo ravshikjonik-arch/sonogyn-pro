@@ -15,6 +15,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 
+import { NosologyEducationCard } from "@/components/nosology/NosologyEducationCard";
 import { NosologySectionView } from "@/components/nosology/NosologySectionView";
 import { NosologyLiteraturePanel } from "@/components/nosology/NosologyLiteraturePanel";
 import { PdfSourcePanel } from "@/components/nosology/PdfSourcePanel";
@@ -188,6 +189,8 @@ export function NosologyDetailClient({ id, isAdmin }: Props) {
           toast.success("Черновик ИИ скопирован — вставьте в протокол");
         }}
       />
+
+      <NosologyEducationCard nosologyId={nosology.id} />
 
       <div className="grid gap-4 rounded-xl border border-[var(--clinical-border)] bg-[var(--clinical-card)] p-4 md:grid-cols-3">
         <label className="text-sm">

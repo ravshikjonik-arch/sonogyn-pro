@@ -119,7 +119,7 @@ const PLACEHOLDER_BY_SHELF: Record<EvidenceShelf, string> = {
 const FALLBACK_LINK_BY_SHELF: Record<EvidenceShelf, { href: string; label: string }> = {
   "us-fmf": { href: "/assistant/fmf", label: "FMF · скрининги" },
   obgyn: { href: "/assistant/gynecology", label: "Помощник АГ" },
-  cervix: { href: "/nosologies/cervix-pathology", label: "Нозология · шейка" },
+  cervix: { href: "/library/cervix-pathology", label: "Самопроверка · шейка" },
   mammo: { href: "/calculators/bi-rads", label: "BI-RADS" },
   onco: { href: "/library/orads-echograms", label: "O-RADS · эхограммы" },
   endocrine: { href: "/calculators/ti-rads", label: "TI-RADS" },

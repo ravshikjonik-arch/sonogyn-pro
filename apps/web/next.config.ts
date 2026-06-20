@@ -37,11 +37,20 @@ function supabaseConnectOriginExtra(): string {
 }
 
 const nextConfig: NextConfig = {
-  transpilePackages: ["three", "@clinical/uterus", "@repo/ui", "@repo/clinical-3d", "@repo/nosology"],
+  transpilePackages: ["three", "@clinical/uterus", "@repo/ui", "@repo/clinical-3d", "@repo/nosology", "@repo/cervix-pathology-reference"],
+  env: {
+    NEXT_PUBLIC_AUTH_EMAIL_ONLY: process.env.AUTH_EMAIL_ONLY ?? "true",
+  },
   experimental: {
     optimizePackageImports: ["lucide-react", "@react-three/drei"],
   },
   webpack: (config) => {
+    config.module ??= { rules: [] };
+    config.module.rules ??= [];
+    config.module.rules.push({
+      test: /\.md$/i,
+      type: "asset/source",
+    });
     const clinical3dSrc = path.join(__dirname, "../../packages/clinical-3d/src");
     config.resolve ??= {};
     config.resolve.alias = {

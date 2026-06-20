@@ -1,0 +1,45 @@
+{
+  "chapter": "precancerous",
+  "version": "1.0.0",
+  "cinClassification": [
+    {"grade": "CIN I", "depthInvolved": "до 1/3 толщины эпителия", "icd10": "N87.0"},
+    {"grade": "CIN II", "depthInvolved": "1/2-2/3 толщины эпителия", "icd10": "N87.1"},
+    {"grade": "CIN III", "depthInvolved": ">2/3 толщины, включая тяжёлую дисплазию и carcinoma in situ", "icd10": "N87.2"}
+  ],
+  "epidemiology": {
+    "prevalenceUnder30": "20%",
+    "prevalence30to50": "67%"
+  },
+  "persistenceRiskFactors": [
+    {"factor": "Возраст >30 лет + ВПЧ 16/18", "relativeRisk": "повышен"},
+    {"factor": "Предшествующее лечение ЦИН", "relativeRisk": "x2"},
+    {"factor": "Поражение >2/3 эпителиального пласта", "relativeRisk": "x19"}
+  ],
+  "treatmentByIndication": [
+    {"indication": "ЦИН I-II, небольшой очаг, влагалищная часть, без поражения протоков желёз/канала", "method": "Криодеструкция"},
+    {"indication": "Крупные очаги, неровная поверхность, переход на свод влагалища", "method": "Лазерная вапоризация"},
+    {"indication": "ЦИН II-III; границы очага/ЗТ не определяются; несовпадение данных КС/цитологии/гистологии", "method": "Конизация"},
+    {"indication": "Пери-/постменопауза при любой степени ЦИН", "method": "Конизация или высокая ампутация по Штурмдорфу"},
+    {"indication": "Микроинвазивный рак на фоне ЦИН; невозможность регулярного наблюдения", "method": "Экстирпация матки"}
+  ],
+  "pharmacologicalOption": {
+    "substance": "Дииндолилметан (вагинальные суппозитории)",
+    "registeredInRfSince": 2018,
+    "indicatedFor": "ЦИН I-II",
+    "cautionNote": "Заявленная регрессия 87.3% получена в исследовании, связанном с производителем — требует сверки с независимыми источниками перед использованием в клиническом продукте"
+  },
+  "followUpAfterTreatment": {
+    "cinI": "Каждые 6 месяцев (КС + цитология)",
+    "cinIIandIII": "Каждые 3 месяца (КС + цитология)"
+  },
+  "prognosisUntreated": [
+    {"grade": "CIN I", "progressionToHigherGrade": "11%", "invasion": "1%"},
+    {"grade": "CIN II", "progressionToHigherGrade": "22%", "invasion": "5%"},
+    {"grade": "CIN III", "progressionToHigherGrade": null, "invasion": ">12%"}
+  ],
+  "recurrenceRateAnyMethod": "до 10%, чаще при неполном иссечении очага",
+  "prevention": {
+    "primary": ["Профилактика раннего начала половой жизни", "Барьерная контрацепция", "Вакцинация против ВПЧ"],
+    "secondary": ["Цитологический скрининг", "Комбинированные скрининговые программы (цитология + КС + ВПЧ-тест)"]
+  }
+}
