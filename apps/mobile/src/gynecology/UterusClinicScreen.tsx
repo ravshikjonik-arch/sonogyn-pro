@@ -1,8 +1,9 @@
 import * as Clipboard from "expo-clipboard";
 import { useCallback, useMemo, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import type { PageType } from "../navigationTypes";
+import { openWebPath } from "../lib/clinical-tools/openClinicalTool";
 import FigoFibroidInteractive, { type FigoFibroidSnapshot } from "./FigoFibroidInteractive";
+import FigoUsAtlasPanel from "./FigoUsAtlasPanel";
 import UterusCoronalPanel from "./UterusCoronalPanel";
 import UterusSlicePanel from "./uterus3d/UterusSlicePanel";
 import {
@@ -148,6 +149,17 @@ export default function UterusClinicScreen({ setPage }: { setPage: (p: PageType)
       <UterusSlicePanel />
 
       <FigoFibroidInteractive onSnapshot={onFigoSnap} />
+
+      <Text style={s.sectionTitle}>3D модель</Text>
+      <Pressable style={s.copyBtn} onPress={() => setPage("gyn_uterus_3d")}>
+        <Text style={s.copyBtnText}>Открыть 3D · FIGO в приложении</Text>
+      </Pressable>
+      <Pressable style={[s.backBtn, { marginTop: 0 }]} onPress={() => void openWebPath("/uterus-3d")}>
+        <Text style={s.backBtnText}>Web · полный атлас УЗИ</Text>
+      </Pressable>
+
+      <Text style={s.sectionTitle}>Атлас УЗИ · FIGO 0–8 + трансмуральные</Text>
+      <FigoUsAtlasPanel />
 
       <Text style={s.sectionTitle}>Аденомиоз — sono-признаки (образовательный консенсус)</Text>
       <View style={s.rowWrap}>

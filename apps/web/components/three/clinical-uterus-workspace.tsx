@@ -17,6 +17,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { UterusSliceAtlas } from "@/components/uterus/UterusSliceAtlas";
+import { FigoResultCard } from "@/components/uterus/FigoResultCard";
 import { useUterusAnnotations } from "@/components/uterus/useUterusAnnotations";
 
 export function ClinicalUterusWorkspace() {
@@ -122,6 +123,12 @@ export function ClinicalUterusWorkspace() {
                   {figoAlternatives.length > 0 ? (
                     <p className="text-[10px] text-amber-600">Варианты: {figoAlternatives.map((n) => `FIGO ${n}`).join(", ")}</p>
                   ) : null}
+                  <FigoResultCard
+                    figoType={ua.selectedEnriched.figoOverride ?? ua.selectedEnriched.figoType ?? 4}
+                    figoVariant={ua.selectedEnriched.figoVariant}
+                    localizationRu={ua.selectedEnriched.localizationRu}
+                    mode="clinical"
+                  />
                 </>
               ) : null}
 

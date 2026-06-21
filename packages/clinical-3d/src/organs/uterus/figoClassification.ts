@@ -5,8 +5,27 @@
  */
 
 import type { FigoType, FibroidAnnotation } from "../../types";
+import { FIGO_SHORT_DESCRIPTIONS } from "./figoAtlasContent";
 
 export type { FigoType };
+export {
+  FIGO_ATLAS_ENTRIES,
+  FIGO_SHORT_DESCRIPTIONS,
+  formatFigoProtocolLine,
+  formatFigoSonoGynBlock,
+  getFigoAtlasEntry,
+  getFigoAtlasEntryForType,
+  type FigoAtlasEntry,
+  type FigoDisplayCode,
+  type FigoVariantCode,
+} from "./figoAtlasContent";
+export {
+  detectFigoVariantFromStroke,
+  resolveFigoDisplayCode,
+  strokeTouchesEndometrium,
+  strokeTouchesSerosa,
+  type SliceNormPoint,
+} from "./figoTransmural";
 
 export interface FigoPosition {
   description: string;
@@ -16,39 +35,39 @@ export interface FigoPosition {
 
 export const FIGO_TYPES: Record<FigoType, FigoPosition> = {
   "0": {
-    description: "Субмукозная на ножке, полностью в полости",
+    description: FIGO_SHORT_DESCRIPTIONS["0"],
     iconPosition: { x: 0.5, y: 0.15 },
   },
   "1": {
-    description: "Субмукозная, <50% в миометрии",
+    description: FIGO_SHORT_DESCRIPTIONS["1"],
     iconPosition: { x: 0.5, y: 0.25 },
   },
   "2": {
-    description: "Субмукозная, ≥50% в миометрии",
+    description: FIGO_SHORT_DESCRIPTIONS["2"],
     iconPosition: { x: 0.5, y: 0.35 },
   },
   "3": {
-    description: "Интрамуральная, контактирует с эндометрием",
+    description: FIGO_SHORT_DESCRIPTIONS["3"],
     iconPosition: { x: 0.5, y: 0.45 },
   },
   "4": {
-    description: "Интрамуральная, полностью в толще миометрия",
+    description: FIGO_SHORT_DESCRIPTIONS["4"],
     iconPosition: { x: 0.5, y: 0.55 },
   },
   "5": {
-    description: "Субсерозная, ≥50% интрамурально",
+    description: FIGO_SHORT_DESCRIPTIONS["5"],
     iconPosition: { x: 0.5, y: 0.65 },
   },
   "6": {
-    description: "Субсерозная, <50% интрамурально",
+    description: FIGO_SHORT_DESCRIPTIONS["6"],
     iconPosition: { x: 0.5, y: 0.75 },
   },
   "7": {
-    description: "Субсерозная на ножке",
+    description: FIGO_SHORT_DESCRIPTIONS["7"],
     iconPosition: { x: 0.5, y: 0.85 },
   },
   "8": {
-    description: "Атипичная локализация (шейка, связка)",
+    description: FIGO_SHORT_DESCRIPTIONS["8"],
     iconPosition: { x: 0.5, y: 0.95 },
   },
 };

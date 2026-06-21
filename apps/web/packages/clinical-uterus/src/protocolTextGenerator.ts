@@ -1,4 +1,5 @@
 import { Vector3 } from "three";
+import { formatFigoProtocolLine, formatFigoSonoGynBlock, getFigoAtlasEntryForType } from "@repo/clinical-3d";
 import { computeFibroidClinicalMetrics } from "./clinicalFibroidLogic";
 import { analyzeUterusHit } from "./figoHitMapping";
 import { enrichAnnotationFromSlice } from "./sliceAtlas";
@@ -20,9 +21,13 @@ function myomaLine(a: PathologyAnnotation): string {
   const shapeNote = a.sliceStroke
     ? ` (контур на срезе ${Math.round(a.sizeMm.length)}×${Math.round(a.sizeMm.width)} мм)`
     : a.sliceShape
-    ? ` (контур на срезе ${Math.round(a.sizeMm.length)}×${Math.round(a.sizeMm.width)} мм)`
-    : "";
-  return `Миома тела матки (${figo >= 0 && figo <= 8 ? `FIGO ${figo}` : "FIGO ?"}), ${loc}, размеры ${fmtSize(a.sizeMm)}${shapeNote}.`;
+      ? ` (контур на срезе ${Math.round(a.sizeMm.length)}×${Math.round(a.sizeMm.width)} мм)`
+      : "";
+  const sizeLine = `размеры ${fmtSize(a.sizeMm)}${shapeNote}`;
+  const headline = formatFigoProtocolLine(figo, a.figoVariant, loc, sizeLine);
+  const entry = getFigoAtlasEntryForType(figo, a.figoVariant ?? null);
+  const detail = formatFigoSonoGynBlock(entry);
+  return `${headline}\n${detail}`;
 }
 
 function adenomyosisLine(a: PathologyAnnotation): string {

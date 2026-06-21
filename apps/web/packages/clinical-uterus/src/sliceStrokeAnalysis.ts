@@ -2,6 +2,9 @@ import { analyzeSliceHit, sliceNormToModelPosition, type SliceNorm } from "./sli
 import { figoFromLesionEllipse, sizeMmFromEllipse, type SliceEllipse } from "./sliceLesionShape";
 import type { PathologyAnnotation, SizeMm } from "./pathologyTypes";
 
+export type { SliceNormPoint } from "@repo/clinical-3d";
+import { detectFigoVariantFromStroke } from "@repo/clinical-3d";
+
 export type SliceEditorTool = "navigate" | "draw";
 
 /** Контур, нарисованный врачом (координаты 0–1 на срезе) */
@@ -94,6 +97,10 @@ export function figoFromStroke(points: SliceNorm[], pedunculated: boolean): numb
   return best;
 }
 
+export function figoVariantFromStroke(points: SliceNorm[], primaryFigo: number) {
+  return detectFigoVariantFromStroke(points, primaryFigo);
+}
+
 export function strokeToSvgPath(points: SliceNorm[], w: number, h: number, closed = true): string {
   if (points.length === 0) return "";
   const head = points
@@ -121,6 +128,8 @@ export function annotationFromStroke(
   const ped = patch?.pedunculated ?? false;
   const stroke: SliceStroke = { points };
   const figoType = type === "myoma" ? figoFromStroke(points, ped) : undefined;
+  const figoVariant =
+    type === "myoma" && figoType != null ? figoVariantFromStroke(points, figoType) : null;
 
   return {
     id: `pa-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
@@ -132,6 +141,7 @@ export function annotationFromStroke(
     pedunculated: ped,
     figoOverride: null,
     figoType,
+    figoVariant,
     ...patch,
   };
 }

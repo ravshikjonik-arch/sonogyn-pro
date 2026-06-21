@@ -2,6 +2,7 @@ import type { PageType } from "../navigationTypes";
 import FigoFibroidInteractive from "./FigoFibroidInteractive";
 import ObgynClinicalAssistant from "./ObgynClinicalAssistant";
 import UterusClinicScreen from "./UterusClinicScreen";
+import Uterus3DScreen from "./Uterus3DScreen";
 import { ScreenBreastRisk, ScreenLnRads } from "./screens/BreastLnScreens";
 import { ScreenBishop, ScreenEfw, ScreenVbac } from "./screens/ObstetricScreens";
 import { GynQuickAccess } from "./screens/GynQuickAccess";
@@ -61,6 +62,8 @@ export function GynecologyRouter({ page, setPage }: Props) {
       return <ScreenFigoFibroid setPage={setPage} />;
     case "gyn_uterus_clinic":
       return <UterusClinicScreen setPage={setPage} />;
+    case "gyn_uterus_3d":
+      return <Uterus3DScreen setPage={setPage} />;
     case "gyn_medvedev_consensus":
       return <ScreenMedvedevConsensus setPage={setPage} />;
     default:

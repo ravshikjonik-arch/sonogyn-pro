@@ -3,49 +3,61 @@
 import Link from "next/link";
 import { useState } from "react";
 
+import { Uterus3DInteractive } from "@/components/three/uterus-3d-interactive";
+import { ClinicalUterusWorkspace } from "@/components/three/clinical-uterus-workspace";
+import { FigoUsAtlasGallery } from "@/components/uterus/FigoUsAtlasGallery";
+import { UterusCoronalAtlas } from "@/components/uterus/UterusCoronalAtlas";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ClinicalUterusWorkspace } from "@/components/three/clinical-uterus-workspace";
-import { UterusCoronalAtlas } from "@/components/uterus/UterusCoronalAtlas";
 
-type Tab = "coronal" | "sagittal";
+type Tab = "coronal" | "sagittal" | "model3d" | "atlas";
+
+const TABS: { id: Tab; label: string; hint: string }[] = [
+  { id: "coronal", label: "Коронарный макет", hint: "Клик / контур → FIGO" },
+  { id: "sagittal", label: "Сагиттальный срез", hint: "Кисть → авто-FIGO + протокол" },
+  { id: "model3d", label: "3D модель", hint: "Клик на стенку → FIGO" },
+  { id: "atlas", label: "Атлас УЗИ", hint: "11 типов FIGO · учебный" },
+];
 
 export function Uterus3DClientBody() {
-  const [tab, setTab] = useState<Tab>("coronal");
+  const [tab, setTab] = useState<Tab>("sagittal");
 
   return (
     <div className="space-y-6 px-4 py-10 lg:px-10">
       <div className="mx-auto max-w-6xl space-y-4">
-        <Badge variant="outline">Макет · FIGO · протокол</Badge>
+        <Badge variant="outline">FIGO · рабочий и учебный режим</Badge>
         <h1 className="sonogyn-gradient-text text-3xl font-black tracking-tight">
-          Матка — выбор места образования
+          Матка — миома · классификация FIGO
         </h1>
         <p className="max-w-3xl text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
-          Коронарный макет (ваше изображение): клик или контур — программа формирует локализацию и FIGO для миомы.
-          Сагиттальный срез — для детальной разметки миомы, аденомиоза, полипа (как раньше).
+          Отметьте локализацию на коронарном макете, сагиттальном срезе или 3D-модели — SonoGyn Pro определит тип FIGO
+          (0–8, включая трансмуральные 2–5 и 3–5) и сформирует текст для протокола. Атлас УЗИ — для обучения и
+          сопоставления с реальным исследованием.
         </p>
         <div className="flex flex-wrap items-center gap-2">
-          <Button variant={tab === "coronal" ? "default" : "outline"} onClick={() => setTab("coronal")}>
-            Коронарный макет
-          </Button>
-          <Button variant={tab === "sagittal" ? "default" : "outline"} onClick={() => setTab("sagittal")}>
-            Сагиттальный срез
-          </Button>
+          {TABS.map((t) => (
+            <Button key={t.id} variant={tab === t.id ? "default" : "outline"} onClick={() => setTab(t.id)}>
+              {t.label}
+            </Button>
+          ))}
           <Button variant="ghost" size="sm" asChild>
-            <Link href="/mockups">← Все макеты</Link>
-          </Button>
-          <Button variant="outline" size="sm" asChild>
-            <Link href="/breast-3d">Макет МЖ →</Link>
+            <Link href="/mockups">← Макеты</Link>
           </Button>
         </div>
+        <p className="text-xs text-[var(--clinical-foreground-muted)]">
+          {TABS.find((t) => t.id === tab)?.hint}
+        </p>
       </div>
 
       <div className="mx-auto max-w-6xl">
-        {tab === "coronal" ? <UterusCoronalAtlas /> : <ClinicalUterusWorkspace />}
+        {tab === "coronal" ? <UterusCoronalAtlas /> : null}
+        {tab === "sagittal" ? <ClinicalUterusWorkspace /> : null}
+        {tab === "model3d" ? <Uterus3DInteractive /> : null}
+        {tab === "atlas" ? <FigoUsAtlasGallery /> : null}
       </div>
 
       <p className="mx-auto max-w-6xl text-center text-xs text-[var(--clinical-foreground-muted)]">
-        Учебный модуль. Не заменяет УЗИ/МРТ. Заключение — за лечащим врачом.
+        Учебный CDS · PALM-COEIN (FIGO). Не заменяет УЗИ/МРТ. Заключение — за лечащим врачом.
       </p>
     </div>
   );

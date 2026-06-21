@@ -2,7 +2,7 @@ import { Vector3 } from "three";
 import { computeFibroidClinicalMetrics } from "./clinicalFibroidLogic";
 import { CERVIX_Y_MAX } from "./profile";
 import { figoFromLesionEllipse } from "./sliceLesionShape";
-import { boundsFromStroke, figoFromStroke } from "./sliceStrokeAnalysis";
+import { boundsFromStroke, figoFromStroke, figoVariantFromStroke } from "./sliceStrokeAnalysis";
 import type { PathologyAnnotation } from "./pathologyTypes";
 import {
   ANATOMY_LAYER_LABEL_RU,
@@ -147,6 +147,9 @@ export function enrichAnnotationFromSlice(
     : a.sliceShape
       ? figoFromLesionEllipse(a.sliceShape.ellipse, ped)
       : (m.figoType ?? hit.figoType);
+  const figoVariant =
+    a.figoVariant ??
+    (a.sliceStroke?.points.length ? figoVariantFromStroke(a.sliceStroke.points, figoCalc) : null);
 
   return {
     ...a,
@@ -155,5 +158,6 @@ export function enrichAnnotationFromSlice(
     layerLabelRu: hit.layerLabelRu,
     localizationRu: m.localizationRu,
     figoType: a.figoOverride ?? figoCalc,
+    figoVariant,
   };
 }
