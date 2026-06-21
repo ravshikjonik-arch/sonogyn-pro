@@ -18,7 +18,7 @@
     "db:bundle": "node scripts/apply-supabase-migrations.mjs --bundle-only",
     "db:migrate": "node scripts/apply-supabase-migrations.mjs",
     "db:migrate:security": "node scripts/apply-supabase-migrations.mjs --security-only",
-    "build": "next build --webpack",
+    "build": "prisma generate && next build --webpack",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
