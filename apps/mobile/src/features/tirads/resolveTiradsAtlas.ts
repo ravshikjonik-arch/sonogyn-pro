@@ -1,6 +1,6 @@
 import { pathologyImageUrl } from "@repo/tirads-acr";
 
-import { getWebApiBase } from "../../../api/chatBackend";
+import { getWebApiBase } from "../../api/chatBackend";
 
 export type TiradsAtlasPreview = {
   uri: string;

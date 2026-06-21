@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 
-import type { TiradsAtlasPreview } from "./resolveTiradsAtlas";
+import type { TiradsAtlasPreview } from "../resolveTiradsAtlas";
 
 type Props = {
   preview: TiradsAtlasPreview | null;
