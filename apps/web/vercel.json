@@ -8,13 +8,5 @@
       "path": "/api/cron/daily-summary",
       "schedule": "0 6 * * *"
     }
-  ],
-  "redirects": [
-    {
-      "source": "/:path*",
-      "has": [{ "type": "host", "value": "sonogyn-pro.ru" }],
-      "destination": "https://www.sonogyn-pro.ru/:path*",
-      "permanent": true
-    }
   ]
 }
