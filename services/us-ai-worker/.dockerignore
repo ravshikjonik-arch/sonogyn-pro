@@ -6,6 +6,7 @@ __pycache__/
 sononet/SonoNet64.pth
 sononet/SonoNet32.pth
 sononet/SonoNet16.pth
+ustri/
 .git/
 docs/
 streamlit_app.py

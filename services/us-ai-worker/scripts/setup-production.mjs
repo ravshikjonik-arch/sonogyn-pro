@@ -25,6 +25,9 @@ console.log(`
        OPENROUTER_API_KEY=sk-or-...
        US_VISION_MODEL=openai/gpt-4o-mini
        US_VISION_BACKEND=openrouter
+       USTRI_PATH=/app/ustri
+       USTRI_USPEC_WEIGHTS=/app/ustri/USpec.pth
+       (USTri ставится в Docker автоматически — см. scripts/setup-ustri.sh)
    • Deploy → скопируйте Public URL (например https://xxx.up.railway.app)
 
 3) Vercel (Production env)

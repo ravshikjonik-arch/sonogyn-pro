@@ -25,7 +25,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Build Docker image
-        run: docker build -t sonogyn-us-ai-worker .
+        run: docker build --build-arg INSTALL_USTRI=0 -t sonogyn-us-ai-worker .
 
       - name: Smoke test /health
         run: |

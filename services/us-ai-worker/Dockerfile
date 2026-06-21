@@ -4,19 +4,30 @@ WORKDIR /app
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libjpeg62-turbo \
+    libglib2.0-0 \
+    libgomp1 \
+    git \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
 # CPU-only PyTorch (~200MB vs ~2GB CUDA)
 RUN pip install --no-cache-dir torch torchvision --index-url https://download.pytorch.org/whl/cpu
 
-COPY requirements-worker.txt .
-RUN pip install --no-cache-dir -r requirements-worker.txt
+COPY requirements-worker.txt requirements-ustri.txt ./
+RUN pip install --no-cache-dir -r requirements-worker.txt \
+    && pip install --no-cache-dir -r requirements-ustri.txt gdown
 
 COPY . .
 
 # SonoNet weights baked into image (~57MB) — required for fetal planes
 RUN bash scripts/setup-sononet-weights.sh
+
+# USTri: clone MacDunno/USTri + USpec.pth (~1.2GB). CI: --build-arg INSTALL_USTRI=0
+ARG INSTALL_USTRI=1
+ENV INSTALL_USTRI=${INSTALL_USTRI}
+ENV USTRI_PATH=/app/ustri
+ENV USTRI_USPEC_WEIGHTS=/app/ustri/USpec.pth
+RUN bash scripts/setup-ustri.sh
 
 RUN chmod +x scripts/docker-entrypoint.sh
 

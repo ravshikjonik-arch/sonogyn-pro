@@ -28,6 +28,9 @@
 | `US_VISION_MODEL` | `openai/gpt-4o-mini` | ✅ |
 | `US_VISION_BACKEND` | `openrouter` | рекомендуется |
 | `US_AI_WORKER_REFERER` | `https://sonogyn-pro-web-....vercel.app` | опционально |
+| `USTRI_PATH` | `/app/ustri` (в Docker автоматически) | опционально |
+| `USTRI_USPEC_WEIGHTS` | `/app/ustri/USpec.pth` | опционально |
+| `INSTALL_USTRI` | `0` — пропустить USTri при сборке | только build-arg |
 
 6. **Settings → Networking → Generate Domain** → скопируйте URL  
    Пример: `https://sonogyn-us-ai-production.up.railway.app`
@@ -35,7 +38,7 @@
 7. Smoke:
 ```bash
 curl -s https://YOUR-URL.up.railway.app/health | python3 -m json.tool
-# sononet: true, visionBackend: "openai/gpt-4o-mini"
+# sononet: true, ustri: true, visionBackend: "openai/gpt-4o-mini"
 ```
 
 ### B. CLI (повторные деплои)
@@ -136,6 +139,7 @@ docker compose --profile local-llm up
 | Симптом | Решение |
 |---------|---------|
 | `sononet: false` на /health | Weights не скачались — пересобрать Docker |
+| `ustri: false` на /health | `INSTALL_USTRI=0` или сбой gdown — логи `setup-ustri.sh` |
 | Worker 401 | `US_AI_WORKER_SECRET` не совпадает Vercel ↔ Railway |
 | Только SonoNet, без текста | Добавить `OPENROUTER_API_KEY` на Railway |
 | DICOM не декодируется | Проверить pylibjpeg в логах контейнера |

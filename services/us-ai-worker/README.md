@@ -125,6 +125,9 @@ node scripts/setup-production.mjs   # секрет + чеклист
 Railway: Root Directory `services/us-ai-worker` → Variables → Public URL.  
 Vercel: `US_AI_WORKER_URL` + тот же `US_AI_WORKER_SECRET` → `node apps/web/scripts/sync-vercel-env.mjs`
 
+**USTri в Docker/Railway:** при сборке автоматически `scripts/setup-ustri.sh` (clone USTri + USpec.pth ~1.2GB).  
+CI: `INSTALL_USTRI=0`. Локально без Docker: `export USTRI_PATH=../../USTri`.
+
 Подробно: [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) · CI: `.github/workflows/us-ai-worker.yml`
 
 ## Docker локально
