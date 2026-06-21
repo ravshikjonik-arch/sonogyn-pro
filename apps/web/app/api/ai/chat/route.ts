@@ -3,7 +3,6 @@ import { NextResponse } from "next/server";
 import { ChatCompletionRequestSchema } from "@repo/types";
 
 import { handleApiError } from "@/lib/api/error-handler";
-import { jsonRequestInit } from "@/lib/http/request-headers";
 import { requireSupabaseUser } from "@/lib/security/require-user";
 import { createClient } from "@/utils/supabase/server";
 
@@ -37,23 +36,23 @@ export async function POST(request: Request) {
   }
 
   const openRouterUrl = process.env.OPENROUTER_API_URL?.trim() || "https://openrouter.ai/api/v1/chat/completions";
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL?.trim();
 
   try {
-    const response = await fetch(
-      openRouterUrl,
-      jsonRequestInit({
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-          "HTTP-Referer": process.env.NEXT_PUBLIC_APP_URL?.trim(),
-          "X-Title": "Sonogyn AI",
-        },
-        body: JSON.stringify({
-          model: model || process.env.OPENROUTER_ORADS_MODEL || "openai/gpt-4o-mini",
-          messages,
-          stream,
-        }),
+    const response = await fetch(openRouterUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+        ...(appUrl ? { "HTTP-Referer": appUrl } : {}),
+        "X-Title": "Sonogyn AI",
+      },
+      body: JSON.stringify({
+        model: model || process.env.OPENROUTER_ORADS_MODEL || "openai/gpt-4o-mini",
+        messages,
+        stream,
       }),
-    );
+    });
 
     if (!response.ok) {
       const errorText = await response.text();
