@@ -38,8 +38,13 @@ const roots = [
   "/demo",
 ];
 
-/** Калькуляторы без Supabase-логина (режим приёма / демо). */
-const PUBLIC_WITHIN_PROTECTED = ["/calculators/elastography", "/calculators/o-rads"];
+/** Калькуляторы, доступные без Supabase-логина (как elastography / O-RADS Pro). */
+const PUBLIC_WITHIN_PROTECTED = [
+  "/calculators/elastography",
+  "/calculators/o-rads",
+  "/calculators/bi-rads",
+  "/calculators/ti-rads",
+];
 
 function isPublicWithinProtected(pathname: string): boolean {
   return PUBLIC_WITHIN_PROTECTED.some(

@@ -366,8 +366,6 @@ export const StudyRowSchema = z.object({
 });
 export type StudyRow = z.infer<typeof StudyRowSchema>;
 
-// --- AI Chat --------------------------------------------------------------------
-
 export const ChatMessageSchema = z.object({
   role: z.enum(["user", "assistant", "system"]),
   content: z.string(),
@@ -380,82 +378,3 @@ export const ChatCompletionRequestSchema = z.object({
   stream: z.boolean().default(false),
 });
 export type ChatCompletionRequest = z.infer<typeof ChatCompletionRequestSchema>;
-
-// --- Structured Reporting Engine (Phase 1) ------------------------------------
-
-export {
-  AdnexBloodFlowSchema,
-  AdnexClassificationSchema,
-  AdnexIotaColorScoreSchema,
-  AdnexLesionKindSchema,
-  AdnexLocalizationSchema,
-  AdnexMeasurementSchema,
-  AdnexMenopauseSchema,
-  AdnexMorphologySchema,
-  AdnexSolidTypeSchema,
-  AdnexStructureSchema,
-  AdnexStructuredReportInputSchema,
-  CreateStructuredReportBodySchema,
-  GenerateStructuredReportRequestSchema,
-  GenerateStructuredReportResponseSchema,
-  ListReportTemplatesQuerySchema,
-  OradsCategorySchema,
-  ReportCitationSchema,
-  ReportDocumentStatusSchema,
-  ReportDomainSchema,
-  ReportEngineVersionSchema,
-  ReportLocaleSchema,
-  ReportModalitySchema,
-  ReportPatientIdentifierTypeSchema,
-  ReportTemplateFieldSchema,
-  ReportTemplateFieldTypeSchema,
-  ReportTemplateRowSchema,
-  ReportTemplateSchema,
-  StructuredReportBlocksSchema,
-  StructuredReportDocumentSchema,
-  StructuredReportEditedBlocksSchema,
-  StructuredReportFindingSchema,
-  StructuredReportInputSchema,
-  StructuredReportOutputSchema,
-  StructuredReportPatientStubSchema,
-  StructuredReportRowSchema,
-  StructuredReportStudyStubSchema,
-  UpdateStructuredReportBodySchema,
-  type AdnexStructuredReportInput,
-  type CreateStructuredReportBody,
-  type GenerateStructuredReportRequest,
-  type GenerateStructuredReportResponse,
-  type ListReportTemplatesQuery,
-  type ReportCitation,
-  type ReportDocumentStatus,
-  type ReportDomain,
-  type ReportEngineVersion,
-  type ReportLocale,
-  type ReportTemplate,
-  type ReportTemplateField,
-  type ReportTemplateRow,
-  type StructuredReportBlocks,
-  type StructuredReportDocument,
-  type StructuredReportEditedBlocks,
-  type StructuredReportFinding,
-  type StructuredReportInput,
-  type StructuredReportOutput,
-  type StructuredReportPatientStub,
-  type StructuredReportRow,
-  type StructuredReportStudyStub,
-  type UpdateStructuredReportBody,
-} from "./structured-reporting";
-
-export {
-  ListTeachingCasesQuerySchema,
-  ListTeachingCasesResponseSchema,
-  TeachingCaseListItemSchema,
-  TeachingCaseStatusSchema,
-  TeachingCaseTopicSchema,
-  parseTeachingCaseTags,
-  type ListTeachingCasesQuery,
-  type ListTeachingCasesResponse,
-  type TeachingCaseListItem,
-  type TeachingCaseStatus,
-  type TeachingCaseTopic,
-} from "./teaching-cases";

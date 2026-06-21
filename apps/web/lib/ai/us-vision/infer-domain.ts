@@ -7,6 +7,9 @@ const RULES: { domain: UsStudyDomain; keywords: string[] }[] = [
   { domain: "fetal", keywords: ["плод", "беремен", "fetal", "скрининг", "триместр", "плацент"] },
 ];
 
+/** ЩЖ не имеет отдельного worker-domain — используйте `auto` + контекст TI-RADS. */
+export const THYROID_DOMAIN_KEYWORDS = ["щитовид", "thyroid", "tirads", "ti-rads", "узел щж", "коллоид"];
+
 /** Согласовано с sonogyn_agents/orchestrator.detect_domain */
 export function inferUsStudyDomain(clinicalContext: string): UsStudyDomain {
   const text = clinicalContext.toLowerCase();

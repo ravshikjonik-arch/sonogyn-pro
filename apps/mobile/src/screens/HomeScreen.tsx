@@ -80,8 +80,8 @@ export default function HomeScreen({ navigation }: HomeTabScreenProps) {
       },
       {
         key: "tirads",
-        title: "TI-RADS",
-        sub: "Щитовидная железа · скрининг",
+        title: "TI-RADS Pro",
+        sub: "ACR Score · Patterns · AI · РФ 2023",
         glyph: "△",
         onPress: () => navigation.navigate("TiRadsAssistant"),
       },
@@ -94,8 +94,8 @@ export default function HomeScreen({ navigation }: HomeTabScreenProps) {
       },
       {
         key: "birads",
-        title: "BI-RADS US",
-        sub: "Молочная железа",
+        title: "BI-RADS US Pro",
+        sub: "Быстрый · брошюра v2025 · атлас · AI",
         glyph: "◎",
         onPress: () => navigation.navigate("BiRadsAssistant"),
       },

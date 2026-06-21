@@ -1,12 +1,24 @@
-/** ACR TI-RADS (2017) — балльная система для образований щитовидной железы (УЗИ). Образовательный расчёт; клинические решения — врачу. */
+/**
+ * Mobile adapter: UI types → @repo/tirads-acr (единый движок с web).
+ * Образовательный расчёт; клинические решения — врачу.
+ */
 
-export const TI_RADS_VERSION = "ACR TI-RADS 2017";
+import {
+  ACR_TIRADS_VERSION,
+  evaluateAcrTirads,
+  mergeTiradsInput,
+  patternById,
+  type TiradsAcrInput,
+  type TiradsAcrCategory,
+} from "@repo/tirads-acr";
+
+export { ACR_TIRADS_VERSION as TI_RADS_VERSION };
+export type { TiradsAcrCategory as TiradsCategory };
 
 export type TiradsComposition = "cystic" | "spongiform" | "mixed" | "solid" | "indeterminate";
 export type TiradsEchogenicity = "anechoic" | "hyperechoic_isoechoic" | "hypoechoic" | "very_hypoechoic";
 export type TiradsShape = "wider" | "taller";
 export type TiradsMargin = "smooth" | "lobulated_irregular" | "ete";
-/** Один вариант очаговых включений с максимальным весом (по логике атласа ACR). */
 export type TiradsFoci = "none" | "comet_small" | "coarse" | "rim" | "punctate";
 
 export type TiradsInput = {
@@ -15,7 +27,6 @@ export type TiradsInput = {
   shape: TiradsShape;
   margin: TiradsMargin;
   echogenicFoci: TiradsFoci;
-  /** Наибольший размер узла, мм (для порогов FNA по ACR). */
   largestDiameterMm?: number;
 };
 
@@ -25,95 +36,112 @@ export const defaultTiradsInput: TiradsInput = {
   shape: "wider",
   margin: "smooth",
   echogenicFoci: "none",
-  largestDiameterMm: undefined,
 };
 
-const COMPOSITION_POINTS: Record<TiradsComposition, number> = {
-  cystic: 0,
-  spongiform: 0,
-  mixed: 1,
-  solid: 2,
-  indeterminate: 2,
-};
+function toAcrInput(input: TiradsInput): TiradsAcrInput {
+  const compositionMap: Record<TiradsComposition, TiradsAcrInput["composition"]> = {
+    cystic: "cystic",
+    spongiform: "spongiform",
+    mixed: "mixed",
+    solid: "solid",
+    indeterminate: "solid",
+  };
+  const echogenicityMap: Record<TiradsEchogenicity, TiradsAcrInput["echogenicity"]> = {
+    anechoic: "anechoic",
+    hyperechoic_isoechoic: "hyperechoic_or_isoechoic",
+    hypoechoic: "hypoechoic",
+    very_hypoechoic: "very_hypoechoic",
+  };
+  const shapeMap: Record<TiradsShape, TiradsAcrInput["shape"]> = {
+    wider: "wider_than_tall",
+    taller: "taller_than_wide",
+  };
+  const marginMap: Record<TiradsMargin, TiradsAcrInput["margin"]> = {
+    smooth: "smooth",
+    lobulated_irregular: "lobulated_or_irregular",
+    ete: "extrathyroidal_extension",
+  };
+  const fociMap: Record<TiradsFoci, TiradsAcrInput["echogenicFoci"]> = {
+    none: "none_or_comet_tail",
+    comet_small: "none_or_comet_tail",
+    coarse: "macrocalcifications",
+    rim: "peripheral_rim",
+    punctate: "punctate",
+  };
 
-const ECHOGENICITY_POINTS: Record<TiradsEchogenicity, number> = {
-  anechoic: 0,
-  hyperechoic_isoechoic: 1,
-  hypoechoic: 2,
-  very_hypoechoic: 3,
-};
-
-const SHAPE_POINTS: Record<TiradsShape, number> = {
-  wider: 0,
-  taller: 3,
-};
-
-const MARGIN_POINTS: Record<TiradsMargin, number> = {
-  smooth: 0,
-  lobulated_irregular: 2,
-  ete: 3,
-};
-
-const FOCI_POINTS: Record<TiradsFoci, number> = {
-  none: 0,
-  comet_small: 1,
-  coarse: 1,
-  rim: 2,
-  punctate: 3,
-};
-
-function echogenicityContribution(composition: TiradsComposition, echogenicity: TiradsEchogenicity): number {
-  if (composition === "cystic" || composition === "spongiform") return 0;
-  return ECHOGENICITY_POINTS[echogenicity];
+  return {
+    composition: compositionMap[input.composition],
+    echogenicity: echogenicityMap[input.echogenicity],
+    shape: shapeMap[input.shape],
+    margin: marginMap[input.margin],
+    echogenicFoci: fociMap[input.echogenicFoci],
+    largestDiameterMm: input.largestDiameterMm,
+    lymphNodes: "not_assessed",
+  };
 }
 
-export function sumTiradsPoints(input: TiradsInput): number {
-  return (
-    COMPOSITION_POINTS[input.composition] +
-    echogenicityContribution(input.composition, input.echogenicity) +
-    SHAPE_POINTS[input.shape] +
-    MARGIN_POINTS[input.margin] +
-    FOCI_POINTS[input.echogenicFoci]
-  );
+export function fromAcrInput(acr: TiradsAcrInput): TiradsInput {
+  const compositionRev: Record<TiradsAcrInput["composition"], TiradsComposition> = {
+    no_nodule: "solid",
+    cystic: "cystic",
+    spongiform: "spongiform",
+    mixed: "mixed",
+    solid: "solid",
+  };
+  const echogenicityRev: Record<TiradsAcrInput["echogenicity"], TiradsEchogenicity> = {
+    anechoic: "anechoic",
+    hyperechoic_or_isoechoic: "hyperechoic_isoechoic",
+    hypoechoic: "hypoechoic",
+    very_hypoechoic: "very_hypoechoic",
+  };
+  const shapeRev: Record<TiradsAcrInput["shape"], TiradsShape> = {
+    wider_than_tall: "wider",
+    taller_than_wide: "taller",
+  };
+  const marginRev: Record<TiradsAcrInput["margin"], TiradsMargin> = {
+    smooth: "smooth",
+    ill_defined: "smooth",
+    lobulated_or_irregular: "lobulated_irregular",
+    extrathyroidal_extension: "ete",
+  };
+  const fociRev: Record<TiradsAcrInput["echogenicFoci"], TiradsFoci> = {
+    none_or_comet_tail: "none",
+    macrocalcifications: "coarse",
+    peripheral_rim: "rim",
+    punctate: "punctate",
+  };
+
+  return {
+    composition: compositionRev[acr.composition],
+    echogenicity: echogenicityRev[acr.echogenicity],
+    shape: shapeRev[acr.shape],
+    margin: marginRev[acr.margin],
+    echogenicFoci: fociRev[acr.echogenicFoci],
+    largestDiameterMm: acr.largestDiameterMm,
+  };
 }
 
-export type TiradsCategory = "TR1" | "TR2" | "TR3" | "TR4" | "TR5";
-
-export function categoryFromPoints(points: number): TiradsCategory {
-  if (points <= 0) return "TR1";
-  if (points <= 2) return "TR2";
-  if (points === 3) return "TR3";
-  if (points <= 6) return "TR4";
-  return "TR5";
+/** Pattern Recognition → автозаполнение ACR калькulatorа (mobile). */
+export function applyPatternToMobileInput(patternId: string): TiradsInput {
+  const p = patternById(patternId);
+  if (!p) return { ...defaultTiradsInput };
+  const acr = mergeTiradsInput({ ...p.preset, patternId: p.id });
+  return fromAcrInput(acr);
 }
 
-const CATEGORY_LABEL: Record<TiradsCategory, string> = {
-  TR1: "Доброкачественно (0 баллов)",
-  TR2: "Не подозрительно (1–2 балла)",
-  TR3: "Слабо подозрительно (3 балла)",
-  TR4: "Умеренно подозрительно (4–6 баллов)",
-  TR5: "Высоко подозрительно (≥7 баллов)",
-};
-
-const CATEGORY_RISK: Record<TiradsCategory, string> = {
-  TR1: "Риск злокачественности: пренебрежимо малый (ориентир для образования).",
-  TR2: "Риск злокачественности: низкий (часто <2% в когортах с биопсией по показаниям).",
-  TR3: "Риск злокачественности: низкий–умеренный (зависит от размера и клиники).",
-  TR4: "Риск злокачественности: умеренный (часто порядка нескольких–15% в зависимости от серии).",
-  TR5: "Риск злокачественности: высокий (часто существенно выше; решение по FNA при меньшем размере).",
-};
-
-/** Пороги FNA по максимальному диаметру (ACR 2017), в мм. */
-function fnaThresholdMm(cat: TiradsCategory): number | null {
-  if (cat === "TR1" || cat === "TR2") return null;
-  if (cat === "TR3") return 25;
-  if (cat === "TR4") return 15;
-  return 10;
+/** AI Assistant → ACR калькulator (mobile). */
+export function applyAiResultToMobileInput(parsed: TiradsAcrInput): { input: TiradsInput; sizeText: string } {
+  const input = fromAcrInput(parsed);
+  const sizeText =
+    parsed.largestDiameterMm !== undefined && Number.isFinite(parsed.largestDiameterMm)
+      ? String(parsed.largestDiameterMm)
+      : "";
+  return { input, sizeText };
 }
 
 export type TiradsResult = {
   points: number;
-  category: TiradsCategory;
+  category: TiradsAcrCategory;
   categoryLabel: string;
   riskNarrative: string;
   fnaThresholdMm: number | null;
@@ -121,38 +149,37 @@ export type TiradsResult = {
   surveillanceHint: string;
 };
 
+function fnaThresholdMm(cat: TiradsAcrCategory): number | null {
+  if (cat === "TR1" || cat === "TR2") return null;
+  if (cat === "TR3") return 25;
+  if (cat === "TR4") return 15;
+  return 10;
+}
+
+export function sumTiradsPoints(input: TiradsInput): number {
+  return evaluateAcrTirads(toAcrInput(input)).totalPoints;
+}
+
+export function categoryFromPoints(points: number): TiradsAcrCategory {
+  if (points <= 0) return "TR2";
+  if (points === 3) return "TR3";
+  if (points >= 4 && points <= 6) return "TR4";
+  if (points >= 7) return "TR5";
+  return "TR2";
+}
+
 export function evaluateTirads(input: TiradsInput): TiradsResult {
-  const points = sumTiradsPoints(input);
-  const category = categoryFromPoints(points);
-  const threshold = fnaThresholdMm(category);
-  const d = input.largestDiameterMm;
-
-  let fnaRecommendation: string;
-  if (threshold === null) {
-    fnaRecommendation = "Тонкоигольная аспирационная биопсия (ТАБ) по TI-RADS обычно не показана только из-за категории. Решение — клинико-лабораторно.";
-  } else if (d === undefined || !Number.isFinite(d) || d <= 0) {
-    fnaRecommendation = `Укажите наибольший размер узла (мм): при ≥ ${threshold} мм для ${category} рассматривают ТАБ по протоколу ACR 2017.`;
-  } else if (d >= threshold) {
-    fnaRecommendation = `При размере ${d} мм (≥ ${threshold} мм для ${category}) по критериям ACR 2017 обычно рассматривают ТАБ (с учётом клиники, узловых статусов, анамнеза).`;
-  } else {
-    fnaRecommendation = `Размер ${d} мм ниже типичного порога ТАБ для ${category} (${threshold} мм). Часто достаточно динамического наблюдения — по местным протоколам и эндокринологу.`;
-  }
-
-  const surveillanceHint =
-    category === "TR5" || category === "TR4"
-      ? "Плотный УЗ-контроль и/или ТАБ по показаниям; при TR5 — низкий порог для уточнения даже при небольшом размере."
-      : category === "TR3"
-        ? "Контрольное УЗИ через 6–12 месяцев или раньше при росте/симптомах — по согласованию с врачом."
-        : "Рутинное наблюдение по клинической ситуации.";
+  const acr = evaluateAcrTirads(toAcrInput(input));
+  const threshold = fnaThresholdMm(acr.category);
 
   return {
-    points,
-    category,
-    categoryLabel: CATEGORY_LABEL[category],
-    riskNarrative: CATEGORY_RISK[category],
+    points: acr.totalPoints,
+    category: acr.category,
+    categoryLabel: acr.categoryLabel,
+    riskNarrative: `Риск злокачественности (ACR): ${acr.malignancyRisk}. ${acr.clinicalSignificance}`,
     fnaThresholdMm: threshold,
-    fnaRecommendation,
-    surveillanceHint,
+    fnaRecommendation: acr.fnaRationale,
+    surveillanceHint: acr.followUpRecommendation,
   };
 }
 
@@ -188,7 +215,7 @@ export function buildTiradsReportText(input: TiradsInput, res: TiradsResult): st
       ? " (балл за эхогенность не суммируется по ACR)"
       : "";
   const lines = [
-    `Щитовидная железа · ${TI_RADS_VERSION}`,
+    `Щитовидная железа · ${ACR_TIRADS_VERSION}`,
     `Баллы: ${res.points} → ${res.category} (${res.categoryLabel})`,
     "",
     "Параметры:",

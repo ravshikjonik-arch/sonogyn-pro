@@ -22,17 +22,7 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "test:e2e": "playwright test",
-    "test:e2e:ui": "playwright test --ui",
-    "test:e2e:headed": "playwright test --headed",
-    "prisma:generate": "prisma generate",
-    "prisma:studio": "prisma studio",
-    "prisma:seed": "prisma db seed",
-    "prisma:init-sql": "prisma migrate diff --from-empty --to-schema-datamodel prisma/schema.prisma --script > prisma/init.sql",
-    "calc:audit": "tsx scripts/calculator-audit.ts"
-  },
-  "prisma": {
-    "seed": "tsx prisma/seed.ts"
+    "atlas:thyroid-png": "python3 scripts/generate-thyroid-atlas-png.py"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1072.0",
@@ -58,6 +48,14 @@
     "@react-pdf/renderer": "^4.3.0",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.6.1",
+    "@repo/birads-us": "workspace:*",
+    "@repo/tirads-acr": "workspace:*",
+    "@repo/thyroid-tirads": "workspace:*",
+    "@repo/clinical-guidelines": "workspace:*",
+    "@repo/clinical-3d": "workspace:*",
+    "@repo/clinical-reference": "workspace:*",
+    "@repo/medical-calculations": "workspace:*",
+    "@repo/medvedev-reference": "workspace:*",
     "@repo/adnex-education": "workspace:*",
     "@repo/cervix-pathology-reference": "workspace:*",
     "@repo/clinical-3d": "workspace:*",
