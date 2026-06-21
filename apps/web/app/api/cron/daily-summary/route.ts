@@ -84,6 +84,6 @@ export async function GET(req: Request) {
 
     return NextResponse.json({ ok: true, summary });
   } catch (error) {
-    return handleApiError(error, { route: "GET /api/cron/daily-summary", channel: "cron" });
+    return handleApiError(error, 500, { route: "GET /api/cron/daily-summary", channel: "cron" });
   }
 }

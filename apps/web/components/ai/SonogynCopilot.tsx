@@ -95,7 +95,6 @@ function buildReply(prompt: string): Omit<Message, "id" | "role"> {
     text: base.reply,
     links: base.links,
     pro: matched?.pro,
-    upsell: base.upsell,
   };
 }
 

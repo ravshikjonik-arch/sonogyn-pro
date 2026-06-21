@@ -66,7 +66,7 @@ export function IdeaWorkspace() {
   const [exportBusy, setExportBusy] = useState(false);
 
   const form = useForm<IdeaFormValues>({
-    resolver: zodResolver(ideaFormSchema),
+    resolver: zodResolver(ideaFormSchema as never),
     defaultValues: getDefaultIdeaFormValues(),
     mode: "onChange",
   });

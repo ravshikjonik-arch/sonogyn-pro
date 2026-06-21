@@ -1,0 +1,15 @@
+# Monorepo — exclude from CLI upload (Vercel builds install deps on server)
+node_modules
+**/.next
+.git
+USTri
+apps/video
+Medical-Imaging-Diagnosis-Agent
+apps/web/app/api/ustri_inference/USTri
+**/*.pth
+**/*.mp4
+**/*.pdf
+apps/web/public/clinical-atlas
+apps/web/public/education
+apps/web/public/images/orads-calculator
+apps/web/public/books
