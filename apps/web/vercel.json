@@ -12,8 +12,8 @@
   "redirects": [
     {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": "www.sonogyn-pro.ru" }],
-      "destination": "https://sonogyn-pro.ru/:path*",
+      "has": [{ "type": "host", "value": "sonogyn-pro.ru" }],
+      "destination": "https://www.sonogyn-pro.ru/:path*",
       "permanent": true
     }
   ]

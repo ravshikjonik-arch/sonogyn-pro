@@ -12,7 +12,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const webRoot = path.join(__dirname, "..");
 const envPath = path.join(webRoot, ".env.local");
 
-const PRODUCTION_APP_URL = "https://sonogyn-pro.ru";
+const PRODUCTION_APP_URL = "https://www.sonogyn-pro.ru";
 
 /** Keys to push when present in .env.local */
 const FROM_LOCAL = [
