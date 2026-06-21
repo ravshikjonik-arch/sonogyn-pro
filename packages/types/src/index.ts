@@ -350,3 +350,16 @@ export const StudyRowSchema = z.object({
   updated_at: z.string().datetime(),
 });
 export type StudyRow = z.infer<typeof StudyRowSchema>;
+
+export const ChatMessageSchema = z.object({
+  role: z.enum(["user", "assistant", "system"]),
+  content: z.string(),
+});
+export type ChatMessage = z.infer<typeof ChatMessageSchema>;
+
+export const ChatCompletionRequestSchema = z.object({
+  messages: z.array(ChatMessageSchema).min(1),
+  model: z.string().optional(),
+  stream: z.boolean().default(false),
+});
+export type ChatCompletionRequest = z.infer<typeof ChatCompletionRequestSchema>;

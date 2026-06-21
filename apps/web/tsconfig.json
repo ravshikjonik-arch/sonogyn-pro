@@ -73,6 +73,12 @@
       ],
       "@repo/tirads-acr/*": [
         "../../packages/tirads-acr/*"
+      ],
+      "@repo/thyroid-tirads": [
+        "../../packages/thyroid-tirads/src/index.ts"
+      ],
+      "@repo/thyroid-tirads/*": [
+        "../../packages/thyroid-tirads/*"
       ]
     }
   },

@@ -66,7 +66,8 @@ export function IdeaWorkspace() {
   const [exportBusy, setExportBusy] = useState(false);
 
   const form = useForm<IdeaFormValues>({
-    resolver: zodResolver(ideaFormSchema),
+    // @hookform/resolvers typings target Zod 4; runtime schema is Zod 3.
+    resolver: zodResolver(ideaFormSchema as never),
     defaultValues: getDefaultIdeaFormValues(),
     mode: "onChange",
   });

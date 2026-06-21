@@ -37,6 +37,7 @@
     "@react-three/fiber": "^9.6.1",
     "@repo/birads-us": "workspace:*",
     "@repo/tirads-acr": "workspace:*",
+    "@repo/thyroid-tirads": "workspace:*",
     "@repo/clinical-guidelines": "workspace:*",
     "@repo/clinical-3d": "workspace:*",
     "@repo/clinical-reference": "workspace:*",
