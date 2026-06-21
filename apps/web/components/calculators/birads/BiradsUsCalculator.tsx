@@ -5,6 +5,8 @@ import { useCallback, useMemo, useState, useTransition } from "react";
 import { toast } from "sonner";
 
 import { saveCalculatorEntry } from "@/app/actions/calculator-actions";
+import { BiradsImageAssistPanel } from "@/components/calculators/birads/BiradsImageAssistPanel";
+import { useBiradsFlowOptional } from "@/components/calculators/birads/BiradsFlowContext";
 import { BreastTopographyAtlas } from "@/components/breast/BreastTopographyAtlas";
 import { CalcChip, CalcStepCard, CalcSubLabel } from "@/components/calculators/shared/calc-ui";
 import { DocumentExportToolbar } from "@/components/reporting/DocumentExportToolbar";
@@ -59,14 +61,19 @@ function ChipField({
   );
 }
 
-export function BiradsUsCalculator() {
-  const [step, setStep] = useState(1);
-  const [input, setInput] = useState<BiradsBrochureInput>({ ...defaultBiradsBrochureInput });
+export function BiradsUsCalculator({ embedded }: { embedded?: boolean } = {}) {
+  const flow = useBiradsFlowOptional();
+  const [localStep, setLocalStep] = useState(1);
+  const [localInput, setLocalInput] = useState<BiradsBrochureInput>({ ...defaultBiradsBrochureInput });
+  const step = flow?.brochureStep ?? localStep;
+  const setStep = flow?.setBrochureStep ?? setLocalStep;
+  const input = flow?.input ?? localInput;
+  const setInput = flow?.setInput ?? setLocalInput;
   const [pending, startTransition] = useTransition();
 
   const setField = useCallback(<K extends keyof BiradsBrochureInput>(key: K, value: BiradsBrochureInput[K]) => {
     setInput((prev) => ({ ...prev, [key]: value }));
-  }, []);
+  }, [setInput]);
 
   const autoResult = useMemo(() => evaluateBiradsBrochure(input), [input]);
   const result = useMemo(() => resolveBiradsBrochureCategory(input, autoResult), [input, autoResult]);
@@ -109,21 +116,37 @@ export function BiradsUsCalculator() {
   const massKeys = ["shape", "orientation", "margin", "echoPattern", "posteriorFeatures"] as const;
 
   return (
-    <div className="space-y-6 px-4 py-10 lg:px-10">
-      <div className="flex flex-wrap items-center gap-3">
-        <Button variant="ghost" size="sm" asChild>
-          <Link href="/calculators">← Каталог</Link>
-        </Button>
-        <Badge variant="outline">BI-RADS v2025</Badge>
-        <Badge className="bg-rose-100 text-rose-900">Брошюра цикла</Badge>
-      </div>
+    <div className={cn("space-y-6", embedded ? "px-4 py-6 lg:px-10" : "px-4 py-10 lg:px-10")}>
+      {!embedded ? (
+        <>
+          <div className="flex flex-wrap items-center gap-3">
+            <Button variant="ghost" size="sm" asChild>
+              <Link href="/calculators">← Каталог</Link>
+            </Button>
+            <Badge variant="outline">BI-RADS v2025</Badge>
+            <Badge className="bg-rose-100 text-rose-900">Брошюра цикла</Badge>
+          </div>
 
-      <header className="mx-auto max-w-4xl space-y-2">
-        <h1 className="text-3xl font-black tracking-tight">Алгоритм УЗИ молочной железы по BI-RADS</h1>
-        <p className="text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
-          {BIRADS_BROCHURE_SOURCE}
-        </p>
-      </header>
+          <header className="mx-auto max-w-4xl space-y-2">
+            <h1 className="text-3xl font-black tracking-tight">Алгоритм УЗИ молочной железы по BI-RADS</h1>
+            <p className="text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
+              {BIRADS_BROCHURE_SOURCE}
+            </p>
+          </header>
+        </>
+      ) : (
+        <header className="mx-auto max-w-4xl space-y-2">
+          <h2 className="text-xl font-black">Брошюра v2025 · 8 шагов</h2>
+          <p className="text-xs text-[var(--clinical-foreground-muted)]">{BIRADS_BROCHURE_SOURCE}</p>
+          {flow?.applySource ? (
+            <p className="text-xs font-semibold text-rose-700">Источник: {flow.applySource.label}</p>
+          ) : null}
+        </header>
+      )}
+
+      {embedded && flow ? (
+        <BiradsImageAssistPanel onResult={(r) => flow.applyFromAi(r, "brochure")} />
+      ) : null}
 
       <nav className="mx-auto flex max-w-4xl flex-wrap gap-1">
         {BIRADS_BROCHURE_STEPS.map((s) => (

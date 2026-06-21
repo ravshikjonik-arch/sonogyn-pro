@@ -94,8 +94,8 @@ export default function HomeScreen({ navigation }: HomeTabScreenProps) {
       },
       {
         key: "birads",
-        title: "BI-RADS US",
-        sub: "Молочная железа",
+        title: "BI-RADS US Pro",
+        sub: "Быстрый · брошюра v2025 · атлас · AI",
         glyph: "◎",
         onPress: () => navigation.navigate("BiRadsAssistant"),
       },
