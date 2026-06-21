@@ -445,3 +445,17 @@ export {
   type StructuredReportStudyStub,
   type UpdateStructuredReportBody,
 } from "./structured-reporting";
+
+export {
+  ListTeachingCasesQuerySchema,
+  ListTeachingCasesResponseSchema,
+  TeachingCaseListItemSchema,
+  TeachingCaseStatusSchema,
+  TeachingCaseTopicSchema,
+  parseTeachingCaseTags,
+  type ListTeachingCasesQuery,
+  type ListTeachingCasesResponse,
+  type TeachingCaseListItem,
+  type TeachingCaseStatus,
+  type TeachingCaseTopic,
+} from "./teaching-cases";

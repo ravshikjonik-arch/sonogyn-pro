@@ -1,17 +1,18 @@
 "use client";
 
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, Search, ShieldCheck } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 import { useSupabase } from "@/app/providers";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { isProlapseTeachingCase } from "@/lib/popq";
+import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils/cn";
 
-/** Row from `public.cases` visible under RLS (own drafts + published gallery). */
+/** Row from GET /api/cases (public.cases + orads/tags). */
 export type TeachingGalleryCaseRow = {
   id: string;
   title: string;
@@ -23,82 +24,116 @@ export type TeachingGalleryCaseRow = {
   is_public: boolean;
   created_at: string;
   user_id: string;
+  orads_category: number | null;
+  tags: string[];
 };
+
+type FeedFilters = {
+  q: string;
+  orads: string;
+  tags: string;
+  queue: "gallery" | "review";
+};
+
+const ORADS_OPTIONS = ["", "0", "1", "2", "3", "4", "5"] as const;
 
 export function CaseFeed({ topic }: { topic?: "all" | "prolapse" }) {
   const supabase = useSupabase();
   const [cases, setCases] = useState<TeachingGalleryCaseRow[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
+  const [isModerator, setIsModerator] = useState(false);
   const [liked, setLiked] = useState<Record<string, boolean>>({});
   const [bookmarked, setBookmarked] = useState<Record<string, boolean>>({});
   const [commentCounts, setCommentCounts] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState(true);
+  const [draftFilters, setDraftFilters] = useState<Omit<FeedFilters, "queue">>({
+    q: "",
+    orads: "",
+    tags: "",
+  });
+  const [appliedFilters, setAppliedFilters] = useState<FeedFilters>({
+    q: "",
+    orads: "",
+    tags: "",
+    queue: "gallery",
+  });
 
-  const refresh = useMemo(
-    () => async () => {
-      setLoading(true);
-      const [{ data: sessionData }, { data: rows, error }] = await Promise.all([
-        supabase.auth.getSession(),
-        supabase
-          .from("cases")
-          .select(
-            "id,title,description,anatomy,pathology,difficulty,status,is_public,created_at,user_id",
-          )
-          .order("created_at", { ascending: false })
-          .limit(60),
-      ]);
+  const refresh = useCallback(async () => {
+    setLoading(true);
 
-      const uid = sessionData.session?.user.id ?? null;
-      setUserId(uid);
+    const { data: sessionData } = await supabase.auth.getSession();
+    const uid = sessionData.session?.user.id ?? null;
+    setUserId(uid);
 
-      if (error) {
-        toast.error("Не удалось загрузить кейсы — проверьте миграции Supabase.");
-        setCases([]);
-        setLoading(false);
-        return;
-      }
+    if (uid) {
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", uid)
+        .maybeSingle();
+      const role = profile?.role as string | undefined;
+      setIsModerator(role === "moderator" || role === "admin");
+    } else {
+      setIsModerator(false);
+    }
 
-      const list = (rows ?? []) as TeachingGalleryCaseRow[];
-      const filtered = topic === "prolapse" ? list.filter(isProlapseTeachingCase) : list;
-      setCases(filtered);
+    const params = new URLSearchParams();
+    if (appliedFilters.q.trim()) params.set("q", appliedFilters.q.trim());
+    if (appliedFilters.orads) params.set("orads", appliedFilters.orads);
+    if (appliedFilters.tags.trim()) params.set("tags", appliedFilters.tags.trim());
+    if (appliedFilters.queue === "review") params.set("status", "review");
+    if (topic === "prolapse") params.set("topic", "prolapse");
 
-      if (filtered.length) {
-        const ids = filtered.map((r) => r.id);
-        const { data: commentRows } = await supabase
-          .from("teaching_case_comments")
-          .select("case_id")
-          .in("case_id", ids);
-        const counts: Record<string, number> = {};
-        commentRows?.forEach((row: { case_id: string }) => {
-          counts[row.case_id] = (counts[row.case_id] ?? 0) + 1;
-        });
-        setCommentCounts(counts);
-      } else {
-        setCommentCounts({});
-      }
+    const res = await fetch(`/api/cases?${params.toString()}`);
+    const payload = (await res.json().catch(() => null)) as
+      | { cases?: TeachingGalleryCaseRow[]; error?: string }
+      | null;
 
-      if (uid && filtered.length) {
-        const ids = filtered.map((r) => r.id);
-        const [{ data: likes }, { data: marks }] = await Promise.all([
-          supabase.from("teaching_case_likes").select("case_id").eq("user_id", uid).in("case_id", ids),
-          supabase.from("teaching_case_bookmarks").select("case_id").eq("user_id", uid).in("case_id", ids),
-        ]);
-        const likeMap: Record<string, boolean> = {};
-        const bookMap: Record<string, boolean> = {};
-        likes?.forEach((row: { case_id: string }) => {
-          likeMap[row.case_id] = true;
-        });
-        marks?.forEach((row: { case_id: string }) => {
-          bookMap[row.case_id] = true;
-        });
-        setLiked(likeMap);
-        setBookmarked(bookMap);
-      }
-
+    if (!res.ok) {
+      toast.error(payload?.error ?? "Не удалось загрузить кейсы");
+      setCases([]);
       setLoading(false);
-    },
-    [supabase, topic],
-  );
+      return;
+    }
+
+    const list = payload?.cases ?? [];
+    setCases(list);
+
+    if (list.length) {
+      const ids = list.map((r) => r.id);
+      const { data: commentRows } = await supabase
+        .from("teaching_case_comments")
+        .select("case_id")
+        .in("case_id", ids);
+      const counts: Record<string, number> = {};
+      commentRows?.forEach((row: { case_id: string }) => {
+        counts[row.case_id] = (counts[row.case_id] ?? 0) + 1;
+      });
+      setCommentCounts(counts);
+    } else {
+      setCommentCounts({});
+    }
+
+    if (uid && list.length) {
+      const ids = list.map((r) => r.id);
+      const [{ data: likes }, { data: marks }] = await Promise.all([
+        supabase.from("teaching_case_likes").select("case_id").eq("user_id", uid).in("case_id", ids),
+        supabase.from("teaching_case_bookmarks").select("case_id").eq("user_id", uid).in("case_id", ids),
+      ]);
+      const likeMap: Record<string, boolean> = {};
+      const bookMap: Record<string, boolean> = {};
+      likes?.forEach((row: { case_id: string }) => {
+        likeMap[row.case_id] = true;
+      });
+      marks?.forEach((row: { case_id: string }) => {
+        bookMap[row.case_id] = true;
+      });
+      setLiked(likeMap);
+      setBookmarked(bookMap);
+    }
+
+    setLoading(false);
+  }, [supabase, topic, appliedFilters]);
 
   useEffect(() => {
     queueMicrotask(() => void refresh());
@@ -119,6 +154,23 @@ export function CaseFeed({ topic }: { topic?: "all" | "prolapse" }) {
       void supabase.removeChannel(channel);
     };
   }, [supabase, refresh]);
+
+  const filterSummary = useMemo(() => {
+    const parts: string[] = [];
+    if (appliedFilters.q.trim()) parts.push(`поиск «${appliedFilters.q.trim()}»`);
+    if (appliedFilters.orads) parts.push(`O-RADS ${appliedFilters.orads}`);
+    if (appliedFilters.tags.trim()) parts.push(`теги: ${appliedFilters.tags.trim()}`);
+    if (appliedFilters.queue === "review") parts.push("очередь эксперта");
+    return parts.length ? parts.join(" · ") : "все опубликованные";
+  }, [appliedFilters]);
+
+  function applyDraftFilters() {
+    setAppliedFilters((prev) => ({ ...prev, ...draftFilters }));
+  }
+
+  function switchQueue(queue: FeedFilters["queue"]) {
+    setAppliedFilters((prev) => ({ ...prev, queue }));
+  }
 
   async function toggleLike(caseId: string) {
     if (!userId) {
@@ -150,6 +202,12 @@ export function CaseFeed({ topic }: { topic?: "all" | "prolapse" }) {
     }
   }
 
+  function handleExpertReviewStub(caseId: string) {
+    toast.message("Очередь эксперта — скоро", {
+      description: `Кейс ${caseId.slice(0, 8)}… будет доступен для рецензии в Phase 2.`,
+    });
+  }
+
   async function seedProlapseDemoCase() {
     if (!userId) {
       toast.error("Войдите, чтобы создать демо-кейс");
@@ -165,6 +223,7 @@ export function CaseFeed({ topic }: { topic?: "all" | "prolapse" }) {
       difficulty: "intermediate",
       status: "published",
       is_public: true,
+      tags: ["pop-q", "prolapse"],
     });
     if (error) {
       toast.error(error.message);
@@ -189,6 +248,8 @@ export function CaseFeed({ topic }: { topic?: "all" | "prolapse" }) {
       difficulty: "intermediate",
       status: "published",
       is_public: true,
+      orads_category: 3,
+      tags: ["cystic", "adnexa", "o-rads"],
     });
     if (error) {
       toast.error(error.message);
@@ -209,6 +270,78 @@ export function CaseFeed({ topic }: { topic?: "all" | "prolapse" }) {
           Лента «Пролапс · разбор» — кейсы с POP-Q, выпадением и опущением ОМТ. Без PHI.
         </p>
       ) : null}
+
+      <Card className="border-slate-200">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-base">Поиск и фильтры</CardTitle>
+          <CardDescription>{filterSummary}</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              <Input
+                className="pl-9"
+                placeholder="Заголовок или описание…"
+                value={draftFilters.q}
+                onChange={(e) => setDraftFilters((prev) => ({ ...prev, q: e.target.value }))}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") applyDraftFilters();
+                }}
+              />
+            </div>
+            <select
+              className="h-10 w-full rounded-md border border-slate-200 bg-white px-3 text-sm sm:w-[140px]"
+              value={draftFilters.orads || "all"}
+              onChange={(e) =>
+                setDraftFilters((prev) => ({
+                  ...prev,
+                  orads: e.target.value === "all" ? "" : e.target.value,
+                }))
+              }
+            >
+              <option value="all">O-RADS · все</option>
+              {ORADS_OPTIONS.filter(Boolean).map((v) => (
+                <option key={v} value={v}>
+                  O-RADS {v}
+                </option>
+              ))}
+            </select>
+            <Input
+              className="sm:w-[180px]"
+              placeholder="Теги (через запятую)"
+              value={draftFilters.tags}
+              onChange={(e) => setDraftFilters((prev) => ({ ...prev, tags: e.target.value }))}
+            />
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Button
+              size="sm"
+              variant={appliedFilters.queue === "gallery" ? "default" : "secondary"}
+              type="button"
+              onClick={() => switchQueue("gallery")}
+            >
+              Галерея
+            </Button>
+            {isModerator ? (
+              <Button
+                size="sm"
+                variant={appliedFilters.queue === "review" ? "default" : "secondary"}
+                type="button"
+                className="gap-1"
+                onClick={() => switchQueue("review")}
+              >
+                <ShieldCheck className="h-3.5 w-3.5" />
+                Очередь эксперта
+              </Button>
+            ) : null}
+            <Button size="sm" type="button" onClick={applyDraftFilters}>
+              Применить
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
       <div className="flex flex-wrap gap-3">
         <Button size="sm" type="button" asChild variant="default">
           <Link href="/cases/new">Новый кейс для обсуждения</Link>
@@ -231,12 +364,18 @@ export function CaseFeed({ topic }: { topic?: "all" | "prolapse" }) {
         <Card>
           <CardHeader>
             <CardTitle>
-              {topic === "prolapse" ? "Пока нет кейсов по пролапсу" : "Лента пуста — начните обсуждение"}
+              {appliedFilters.queue === "review"
+                ? "Очередь эксперта пуста"
+                : topic === "prolapse"
+                  ? "Пока нет кейсов по пролапсу"
+                  : "Лента пуста — начните обсуждение"}
             </CardTitle>
             <CardDescription>
-              {topic === "prolapse"
-                ? "Создайте кейс из калькулятора POP-Q или нажмите «Демо · POP-Q»."
-                : "Создайте первый кейс с фото УЗИ или нажмите «Демо-кейс». Нужны миграции Supabase и вход врача."}
+              {appliedFilters.queue === "review"
+                ? "Кейсы со статусом review появятся здесь после отправки на модерацию."
+                : topic === "prolapse"
+                  ? "Создайте кейс из калькулятора POP-Q или нажмите «Демо · POP-Q»."
+                  : "Создайте первый кейс с фото УЗИ или нажмите «Демо-кейс». Нужны миграции Supabase и вход врача."}
             </CardDescription>
           </CardHeader>
           {topic === "prolapse" ? (
@@ -261,8 +400,16 @@ export function CaseFeed({ topic }: { topic?: "all" | "prolapse" }) {
                   <CardDescription className="line-clamp-2">{c.description ?? "—"}</CardDescription>
                   <div className="mt-2 flex flex-wrap gap-2">
                     <Badge variant="outline">{c.anatomy ?? "анатомия не указана"}</Badge>
+                    {c.orads_category != null ? (
+                      <Badge className="bg-violet-600">O-RADS {c.orads_category}</Badge>
+                    ) : null}
                     {c.pathology === "POP-Q" ? <Badge className="bg-rose-600">POP-Q</Badge> : null}
                     <Badge variant="outline">{c.status}</Badge>
+                    {c.tags?.map((tag) => (
+                      <Badge key={tag} variant="secondary" className="text-xs">
+                        #{tag}
+                      </Badge>
+                    ))}
                     {c.user_id === userId ? <Badge variant="outline">мой кейс</Badge> : null}
                     {(commentCounts[c.id] ?? 0) > 0 ? (
                       <Badge variant="outline" className="gap-1">
@@ -273,8 +420,25 @@ export function CaseFeed({ topic }: { topic?: "all" | "prolapse" }) {
                     <span className="text-xs text-slate-400">{new Date(c.created_at).toLocaleString()}</span>
                   </div>
                 </div>
-                <div className="flex gap-2">
-                  <Button size="sm" variant={liked[c.id] ? "default" : "secondary"} type="button" onClick={() => void toggleLike(c.id)}>
+                <div className="flex flex-wrap gap-2">
+                  {appliedFilters.queue === "review" && isModerator ? (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      type="button"
+                      className={cn("gap-1")}
+                      onClick={() => handleExpertReviewStub(c.id)}
+                    >
+                      <ShieldCheck className="h-3.5 w-3.5" />
+                      Рецензия
+                    </Button>
+                  ) : null}
+                  <Button
+                    size="sm"
+                    variant={liked[c.id] ? "default" : "secondary"}
+                    type="button"
+                    onClick={() => void toggleLike(c.id)}
+                  >
                     Лайк
                   </Button>
                   <Button

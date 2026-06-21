@@ -1,7 +1,7 @@
 import type { CompositeScreenProps } from "@react-navigation/native";
 import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -13,8 +13,11 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CaseCard from "../components/CaseCard";
+import TeachingCaseCard from "../components/TeachingCaseCard";
 import { branding } from "../config/branding";
 import { useCases } from "../hooks/useCases";
+import { useTeachingCases } from "../hooks/useTeachingCases";
+import { openWebPath } from "../lib/clinical-tools/openClinicalTool";
 import type { MainTabParamList, RootStackParamList } from "../navigation/paramLists";
 import { theme } from "../theme";
 
@@ -24,11 +27,19 @@ export type CasesTabScreenProps = CompositeScreenProps<
 >;
 
 export default function CasesScreen({ navigation }: CasesTabScreenProps) {
+  const [view, setView] = useState<"local" | "gallery">("local");
   const { cases, loading, reload, error } = useCases();
+  const {
+    cases: galleryCases,
+    loading: galleryLoading,
+    reload: reloadGallery,
+    error: galleryError,
+  } = useTeachingCases();
   const sorted = useMemo(
     () => [...cases].sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)),
     [cases]
   );
+  const showGallery = view === "gallery";
 
   return (
     <SafeAreaView style={styles.safe} edges={["top", "left", "right"]}>
@@ -36,9 +47,55 @@ export default function CasesScreen({ navigation }: CasesTabScreenProps) {
         <Text style={styles.kicker}>Клиника</Text>
         <Text style={styles.title}>Cases</Text>
         <Text style={styles.sub}>Кейсы и обсуждения</Text>
+        <View style={styles.segment}>
+          <Pressable
+            style={[styles.segmentBtn, view === "local" && styles.segmentBtnActive]}
+            onPress={() => setView("local")}
+          >
+            <Text style={[styles.segmentText, view === "local" && styles.segmentTextActive]}>Мои</Text>
+          </Pressable>
+          <Pressable
+            style={[styles.segmentBtn, view === "gallery" && styles.segmentBtnActive]}
+            onPress={() => setView("gallery")}
+          >
+            <Text style={[styles.segmentText, view === "gallery" && styles.segmentTextActive]}>
+              Галерея
+            </Text>
+          </Pressable>
+        </View>
       </View>
 
-      {loading && sorted.length === 0 ? (
+      {showGallery ? (
+        galleryLoading && galleryCases.length === 0 ? (
+          <View style={styles.center}>
+            <ActivityIndicator size="large" color={branding.colors.primary} />
+          </View>
+        ) : (
+          <FlatList
+            data={galleryCases}
+            keyExtractor={(item) => item.id}
+            contentContainerStyle={styles.listContent}
+            refreshControl={
+              <RefreshControl
+                refreshing={galleryLoading}
+                onRefresh={reloadGallery}
+                tintColor={branding.colors.primary}
+              />
+            }
+            ListEmptyComponent={
+              <View style={styles.empty}>
+                <Text style={styles.emptyTitle}>Галерея пуста</Text>
+                <Text style={styles.emptyHint}>
+                  Опубликованные учебные кейсы появятся здесь после входа и синхронизации с web.
+                </Text>
+              </View>
+            }
+            renderItem={({ item }) => (
+              <TeachingCaseCard item={item} onPress={() => void openWebPath(`/cases/${item.id}`)} />
+            )}
+          />
+        )
+      ) : loading && sorted.length === 0 ? (
         <View style={styles.center}>
           <ActivityIndicator size="large" color={branding.colors.primary} />
         </View>
@@ -87,14 +144,22 @@ export default function CasesScreen({ navigation }: CasesTabScreenProps) {
         />
       )}
 
-      <Pressable
-        style={styles.fab}
-        onPress={() => navigation.navigate("Case", { caseId: undefined })}
-      >
-        <Text style={styles.fabText}>+</Text>
-      </Pressable>
+      {!showGallery ? (
+        <Pressable
+          style={styles.fab}
+          onPress={() => navigation.navigate("Case", { caseId: undefined })}
+        >
+          <Text style={styles.fabText}>+</Text>
+        </Pressable>
+      ) : null}
 
-      {error ? (
+      {showGallery && galleryError ? (
+        <View style={styles.error}>
+          <Text style={styles.errorText}>{galleryError}</Text>
+        </View>
+      ) : null}
+
+      {!showGallery && error ? (
         <View style={styles.error}>
           <Text style={styles.errorText}>{error}</Text>
         </View>
@@ -115,6 +180,25 @@ const styles = StyleSheet.create({
   },
   title: { fontSize: 26, fontWeight: "700", color: branding.colors.text, marginTop: 4 },
   sub: { fontSize: 14, color: branding.colors.textSecondary, marginTop: 4 },
+  segment: {
+    flexDirection: "row",
+    marginTop: 12,
+    backgroundColor: "#e2e8f0",
+    borderRadius: 12,
+    padding: 4,
+    gap: 4,
+  },
+  segmentBtn: {
+    flex: 1,
+    paddingVertical: 8,
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  segmentBtnActive: {
+    backgroundColor: "#fff",
+  },
+  segmentText: { fontSize: 13, fontWeight: "600", color: branding.colors.textSecondary },
+  segmentTextActive: { color: branding.colors.text },
   listContent: { paddingHorizontal: theme.spacing.md, paddingBottom: 100, gap: 12 },
   columnWrap: { gap: 12 },
   cell: { flex: 1, maxWidth: "50%" },
