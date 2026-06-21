@@ -1,0 +1,7 @@
+# USTri GPU inference (optional — только если есть USpec.pth + CUDA/CPU torch)
+albumentations>=1.4.0
+opencv-python-headless>=4.8.0
+segmentation-models-pytorch>=0.3.3
+scikit-learn>=1.3.0
+pandas>=2.0.0
+SimpleITK>=2.3.0

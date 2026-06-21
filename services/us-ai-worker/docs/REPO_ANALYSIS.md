@@ -63,7 +63,7 @@ pip install tensorboard segmentation-models-pytorch
 
 ### Вывод
 - Лучший **CNN-бэкенд** для плода/МЖ при наличии GPU.
-- Интеграция: `USTRI_PATH` + `USpec.pth` → adapter (см. `adapters/ustri_adapter.py`).
+- Интеграция: `USTRI_PATH` + `USpec.pth` → `sonogyn_agents/adapters/ustri_adapter.py` (inference реализован).
 
 ---
 

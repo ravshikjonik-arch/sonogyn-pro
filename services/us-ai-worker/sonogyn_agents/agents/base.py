@@ -19,5 +19,9 @@ class DomainAgent(ABC):
     def user_instructions(self) -> str:
         ...
 
-    def enrich_cv_hints(self, sononet_map: dict[str, dict[str, Any]]) -> str:
+    def enrich_cv_hints(
+        self,
+        sononet_map: dict[str, dict[str, Any]],
+        ustri_map: dict[str, dict[str, Any]] | None = None,
+    ) -> str:
         return ""

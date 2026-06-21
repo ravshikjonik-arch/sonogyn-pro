@@ -27,6 +27,7 @@ class FrameFinding:
     biometry_hints: list[str] = field(default_factory=list)
     confidence: float | None = None
     sononet: dict[str, Any] | None = None
+    ustri: dict[str, Any] | None = None
 
     def to_dict(self) -> dict[str, Any]:
         d: dict[str, Any] = {
@@ -44,6 +45,8 @@ class FrameFinding:
             d["orads"] = self.orads
         if self.sononet:
             d["sononet"] = self.sononet
+        if self.ustri:
+            d["ustri"] = self.ustri
         return d
 
 

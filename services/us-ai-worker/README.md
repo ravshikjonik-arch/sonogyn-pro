@@ -54,6 +54,25 @@ streamlit run streamlit_app.py --server.port 8501
 
 Sidebar: PRO license key (`SONOGYN_PRO_KEYS=key1,key2`) или Supabase JWT.
 
+## Пакетный анализ архива (ai_mri_analyzer-паттерн)
+
+```bash
+source .venv/bin/activate && set -a && source .env && set +a
+python scripts/batch_analyze_folder.py /path/to/dicom_or_png \\
+  --domain fetal --context "Скрининг 2 триместр" --sample 5
+```
+
+Результат: `sonogyn_batch_output/batch_summary.csv` + `reports/*.md` (RU).  
+Resume: `.batch_progress.json`. API: `POST /analyze/archive` с `{ "rootDir": "..." }`.
+
+### USTri (GPU, опционально)
+
+```bash
+export USTRI_PATH=/path/to/USTri
+export USTRI_USPEC_WEIGHTS=/path/to/USpec.pth
+pip install -r requirements-ustri.txt
+```
+
 ## API
 
 `GET /health`  
@@ -93,7 +112,7 @@ US_AI_WORKER_SECRET=dev-local-secret
 
 | Env | Репозиторий |
 |-----|-------------|
-| `USTRI_PATH` + `USpec.pth` | MacDunno/USTri |
+| `USTRI_PATH` + `USpec.pth` | MacDunno/USTri — inference в `ustri_adapter.py` |
 | `FETAL_AGENTS_PATH` | hu2274898/FetalAgents |
 | `ECHO_ALPHA_PATH` | MiliLab/Echo-Alpha (код inference пока отсутствует) |
 

@@ -17,6 +17,7 @@ load_dotenv()
 from dicom_io import dicom_bytes_to_png_bytes
 from pro_auth import is_pro_access
 from report_ru import build_report_markdown
+from sonogyn_agents.adapters.ustri_adapter import ustri_available
 from sonogyn_agents.backends.factory import get_vision_backend
 from sonogyn_agents.orchestrator import analyze_study
 from sononet_infer import sononet_available
@@ -81,6 +82,7 @@ def main() -> None:
         vision = get_vision_backend(backend if backend != "auto" else None)
         st.write(f"Vision: **{vision.name() if vision else '—'}**")
         st.write(f"SonoNet: **{'✓' if sononet_available() else '✗'}**")
+        st.write(f"USTri: **{'✓' if ustri_available() else '✗'}** (USpec.pth + GPU)")
 
     if not ok:
         st.stop()
@@ -153,6 +155,15 @@ def main() -> None:
 
         with tab3:
             st.json(result)
+
+    st.divider()
+    st.subheader("Пакетный CLI (архив DICOM)")
+    st.code(
+        """python scripts/batch_analyze_folder.py /path/to/dicom_folder \\
+  --domain fetal --context "Скрининг 2 триместр" --sample 5""",
+        language="bash",
+    )
+    st.caption("Аналог ai_mri_analyzer: CSV + markdown в sonogyn_batch_output/, resume через .batch_progress.json")
 
 
 if __name__ == "__main__":

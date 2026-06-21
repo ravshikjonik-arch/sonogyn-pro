@@ -35,7 +35,11 @@ class FetalAgent(DomainAgent):
   }]
 }"""
 
-    def enrich_cv_hints(self, sononet_map: dict[str, dict[str, Any]]) -> str:
+    def enrich_cv_hints(
+        self,
+        sononet_map: dict[str, dict[str, Any]],
+        ustri_map: dict[str, dict[str, Any]] | None = None,
+    ) -> str:
         if not sononet_map:
             return "SonoNet недоступен."
         lines = []
@@ -44,4 +48,9 @@ class FetalAgent(DomainAgent):
                 f"{mid}: SonoNet → {sn.get('labelRu')} ({sn.get('labelEn')}, "
                 f"conf {float(sn.get('confidence', 0)):.0%})"
             )
+        if ustri_map:
+            for mid, us in ustri_map.items():
+                lines.append(
+                    f"{mid}: USTri → {us.get('labelRu')} (conf {float(us.get('confidence', 0)):.0%})"
+                )
         return "\n".join(lines)

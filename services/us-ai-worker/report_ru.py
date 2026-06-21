@@ -53,6 +53,12 @@ def build_report_markdown(result: dict[str, Any]) -> str:
                     f"- **SonoNet:** {sn.get('labelRu')} ({sn.get('labelEn')}) — "
                     f"{round(float(sn.get('confidence', 0)) * 100)}%"
                 )
+            us = f.get("ustri") or {}
+            if us and us.get("labelRu"):
+                lines.append(
+                    f"- **USTri:** {us.get('labelRu')} — "
+                    f"{round(float(us.get('confidence', 0)) * 100)}%"
+                )
             if f.get("birads"):
                 lines.append(f"- **BI-RADS:** {f.get('birads')}")
             if f.get("orads"):

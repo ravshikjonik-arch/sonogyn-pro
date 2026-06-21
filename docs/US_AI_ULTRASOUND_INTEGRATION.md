@@ -4,7 +4,8 @@
 
 | Компонент | Путь | Назначение |
 |-----------|------|------------|
-| Python worker | `services/us-ai-worker/` | DICOM, SonoNet, domain agents |
+| Python worker | `services/us-ai-worker/` | DICOM, SonoNet, USTri, domain agents |
+| Пакетный CLI | `scripts/batch_analyze_folder.py` | Архив DICOM → CSV + RU markdown |
 | Streamlit PRO UI | `services/us-ai-worker/streamlit_app.py` | Загрузка снимков, отчёт RU |
 | Next.js API | `apps/web/app/api/ai/analyze/` | PRO gate для веб-приложения |
 | Анализ репозиториев | `services/us-ai-worker/docs/REPO_ANALYSIS.md` | Echo-Alpha, USTri, FetUSAgents, AzaRKazar |
@@ -30,9 +31,10 @@ streamlit run streamlit_app.py
 ## Выбор open-source (кратко)
 
 - **Echo-Alpha** — идея agent+detector, **кода нет** → LLM BI-RADS agent.
-- **USTri** — лучший GPU CNN (Phase 2), adapter готов.
+- **USTri** — GPU CNN (Phase 2), adapter **реализован** (`ustri_adapter.py`).
 - **FetUSAgents** — веса не опубликованы → SonoNet + LLM.
 - **AzaRKazar** — паттерн Streamlit; мы добавили Ollama + PRO + RU JSON.
+- **ai_mri_analyzer** — паттерн batch CSV/PDF → наш `batch_archive.py` + CLI.
 
 ## Структурированный отчёт
 
