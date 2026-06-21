@@ -28,8 +28,8 @@ export const CALCULATORS: CalculatorDefinition[] = [
   {
     slug: "bi-rads",
     code: "BI_RADS_US",
-    title: "BI-RADS US — алгоритм v2025",
-    subtitle: "8 шагов по брошюре Солнцевой И.А. + локализация МЖ",
+    title: "BI-RADS US Pro",
+    subtitle: "Быстрый калькулятор · брошюра v2025 · атлас · AI Assistant + US Worker",
     externalHref: "/calculators/bi-rads",
     fields: [],
   },
@@ -83,17 +83,10 @@ export const CALCULATORS: CalculatorDefinition[] = [
   {
     slug: "ti-rads",
     code: "TI_RADS",
-    title: "TI-RADS",
-    subtitle: "Thyroid nodule risk stratification",
-    fields: [
-      {
-        key: "category",
-        label: "EU-TIRADS–style category",
-        type: "select",
-        options: ["1–2", "3", "4", "5"],
-      },
-      { key: "notes", label: "Size / elastography notes", type: "text" },
-    ],
+    title: "TI-RADS ЩЖ",
+    subtitle: "ACR TI-RADS Pro · Pattern Recognition · FNA · РФ 2023",
+    externalHref: "/calculators/ti-rads",
+    fields: [],
   },
   {
     slug: "pop-q",

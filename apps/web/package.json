@@ -15,7 +15,8 @@
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "atlas:thyroid-png": "python3 scripts/generate-thyroid-atlas-png.py"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -34,6 +35,8 @@
     "@radix-ui/react-tabs": "^1.1.13",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.6.1",
+    "@repo/birads-us": "workspace:*",
+    "@repo/tirads-acr": "workspace:*",
     "@repo/clinical-guidelines": "workspace:*",
     "@repo/clinical-3d": "workspace:*",
     "@repo/clinical-reference": "workspace:*",
