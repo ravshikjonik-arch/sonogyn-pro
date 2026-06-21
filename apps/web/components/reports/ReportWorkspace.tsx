@@ -53,14 +53,19 @@ export function ReportWorkspace({ initialInput, className }: Props) {
     const wizardBridge = loadOradsWizardBridgePayload();
     if (wizardBridge) {
       setSreInput(
-        mapOradsTreeToSreInput(wizardBridge.path, wizardBridge.result, wizardBridge.pathSummary),
+        mapOradsTreeToSreInput(
+          wizardBridge.path,
+          wizardBridge.result,
+          wizardBridge.pathSummary,
+          wizardBridge.triangulation,
+        ),
       );
       clearOradsWizardBridgePayload();
       return;
     }
     const bridge = loadOradsBridgePayload();
     if (!bridge) return;
-    setSreInput(mapOradsToAdnexSreInput(bridge.input, bridge.result));
+    setSreInput(mapOradsToAdnexSreInput(bridge.input, bridge.result, undefined, bridge.triangulation));
     clearOradsBridgePayload();
   }, [initialInput]);
 

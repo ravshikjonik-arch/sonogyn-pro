@@ -6,6 +6,7 @@ import { useCallback, useState } from "react";
 import { OradsCategoryAtlas } from "@/components/calculators/orads/OradsCategoryAtlas";
 import { OradsProCalculator } from "@/components/calculators/orads/OradsProCalculator";
 import { OradsUsWizard } from "@/components/calculators/orads/wizard/OradsUsWizard";
+import { IotaSimpleRulesPanel } from "@/components/calculators/orads/IotaSimpleRulesPanel";
 import { CalculatorLiteraturePanel } from "@/components/pubmed/CalculatorLiteraturePanel";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils/cn";
@@ -18,7 +19,7 @@ import {
 import { ORADS_GOVERNING_BULLETS, ORADS_VERSION_LABEL } from "@/lib/orads-pro";
 
 type SidePanel = "tables" | "resources" | null;
-type OradsMode = "wizard" | "pro";
+type OradsMode = "wizard" | "pro" | "iota";
 
 /** O-RADS: пошаговое дерево (orads-us) + расширенный Pro (чипы / IOTA). */
 export function OradsProFlow() {
@@ -58,6 +59,15 @@ export function OradsProFlow() {
             </Button>
             <Button
               type="button"
+              variant={mode === "iota" ? "secondary" : "ghost"}
+              size="sm"
+              className={cn("h-8 rounded-full text-xs", mode !== "iota" && "text-white hover:bg-white/20")}
+              onClick={() => setMode("iota")}
+            >
+              IOTA B/M
+            </Button>
+            <Button
+              type="button"
               variant="ghost"
               size="sm"
               className="h-8 rounded-full text-xs text-white hover:bg-white/20"
@@ -80,8 +90,12 @@ export function OradsProFlow() {
 
       {mode === "wizard" ? (
         <OradsUsWizard onOpenPro={() => setMode("pro")} />
-      ) : (
+      ) : mode === "pro" ? (
         <OradsProCalculator onCrumb={pushCrumb} />
+      ) : (
+        <div className="mx-auto max-w-3xl px-4 py-6 lg:px-10">
+          <IotaSimpleRulesPanel />
+        </div>
       )}
 
       {panel ? (

@@ -7,6 +7,7 @@ import { toast } from "sonner";
 
 import { saveCalculatorEntry } from "@/app/actions/calculator-actions";
 import { AdnexConsensusPanel } from "@/components/calculators/orads/AdnexConsensusPanel";
+import { IotaConsensusWebPanel } from "@/components/calculators/orads/IotaConsensusWebPanel";
 import { useOradsProForm } from "@/components/calculators/orads/useOradsProForm";
 import { CalcChip, CalcStepCard, CalcSubLabel } from "@/components/calculators/shared/calc-ui";
 import { Button } from "@/components/ui/button";
@@ -90,7 +91,7 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
       toast.error("Заполните менопаузу и тип образования для протокола");
       return;
     }
-    saveOradsBridgePayload({ input: f.input, result: f.result });
+    saveOradsBridgePayload({ input: f.input, result: f.result, triangulation: f.triangulation });
     router.push("/reports/adnex");
   }
 
@@ -427,7 +428,12 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
               </CalcStepCard>
             ) : null}
 
-            {showTriangulation ? <AdnexConsensusPanel triangulation={f.triangulation} /> : null}
+            {showTriangulation ? (
+              <>
+                <AdnexConsensusPanel triangulation={f.triangulation} />
+                <IotaConsensusWebPanel consensus={f.iotaConsensus} />
+              </>
+            ) : null}
 
             <div className="flex flex-wrap gap-2 pt-2">
               <Button type="button" variant="secondary" disabled={pending} onClick={onSave}>

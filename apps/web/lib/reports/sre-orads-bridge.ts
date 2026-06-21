@@ -1,3 +1,4 @@
+import type { AdnexTriangulation } from "@repo/adnex-education";
 import type { OradsInput, OradsResult } from "@/lib/orads-pro";
 
 export const SRE_ORADS_BRIDGE_KEY = "sonogyn:sre-orads-bridge-v1";
@@ -5,6 +6,7 @@ export const SRE_ORADS_BRIDGE_KEY = "sonogyn:sre-orads-bridge-v1";
 export type SreOradsBridgePayload = {
   input: OradsInput;
   result: OradsResult;
+  triangulation?: AdnexTriangulation;
   savedAt: string;
 };
 

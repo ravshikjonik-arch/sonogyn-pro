@@ -5,10 +5,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { OradsWizardOptionButton } from "@/components/calculators/orads/wizard/OradsWizardOptionButton";
-import { OradsWizardResultPanel } from "@/components/calculators/orads/wizard/OradsWizardResultPanel";
+import { OradsWizardResultTabs } from "@/components/calculators/orads/wizard/OradsWizardResultTabs";
 import { OradsWizardProgressBar } from "@/components/calculators/orads/wizard/OradsWizardUi";
 import { Button } from "@/components/ui/button";
 import { useOradsLocaleWeb } from "@/lib/orads-us/useOradsLocaleWeb";
+import type { AdnexTriangulation } from "@repo/adnex-education";
 import { saveOradsWizardBridgePayload } from "@/lib/reports/sre-orads-wizard-bridge";
 import { cn } from "@/lib/utils/cn";
 
@@ -34,12 +35,13 @@ export function OradsUsWizard({ onOpenPro, className }: Props) {
     nav.back();
   }
 
-  function openStructuredReport() {
+  function openStructuredReport(triangulation: AdnexTriangulation) {
     if (view.kind !== "result") return;
     saveOradsWizardBridgePayload({
       path: nav.state.path,
       result: view.result,
       pathSummary: nav.pathSummary,
+      triangulation,
     });
     router.push("/reports/adnex");
   }
@@ -74,10 +76,11 @@ export function OradsUsWizard({ onOpenPro, className }: Props) {
       </p>
 
       {view.kind === "result" ? (
-        <OradsWizardResultPanel
+        <OradsWizardResultTabs
+          path={nav.state.path}
           result={view.result}
-          locale={locale}
           pathSummary={nav.pathSummary}
+          locale={locale}
           onRestart={nav.restart}
           onBack={goBack}
           onBuildReport={openStructuredReport}

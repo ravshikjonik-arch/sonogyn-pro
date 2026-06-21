@@ -1,12 +1,16 @@
 import type { AdnexStructuredReportInput } from "@repo/types";
 
+import type { AdnexTriangulation } from "@repo/adnex-education";
 import type { OradsInput, OradsResult } from "@/lib/orads-pro";
 
-/** Bridge O-RADS Pro calculator state → SRE adnex input (Phase 1). */
+import { classificationFromTriangulation } from "@/lib/reports/sre-classification";
+
+/** Bridge O-RADS Pro calculator state → SRE adnex input (Phase 1 · T1.10). */
 export function mapOradsToAdnexSreInput(
   orads: OradsInput,
   result: OradsResult,
   freeText?: string,
+  triangulation?: AdnexTriangulation | null,
 ): AdnexStructuredReportInput {
   const cat = result.category;
   const oradsCategory =
@@ -40,11 +44,7 @@ export function mapOradsToAdnexSreInput(
       iotaColorScore: orads.iotaColorScore,
       incompleteSeptum: orads.incompleteSeptum,
     },
-    classification: {
-      oradsCategory,
-      iotaBenignCodes: [],
-      iotaMalignantCodes: [],
-    },
+    classification: classificationFromTriangulation(oradsCategory, triangulation),
     freeTextFindings: freeText?.trim() || orads.customDescription?.trim() || undefined,
   };
 }

@@ -1,3 +1,4 @@
+import type { AdnexTriangulation } from "@repo/adnex-education";
 import type { OradsTreePathStep, OradsTreeResult } from "@repo/orads-us";
 
 export const SRE_ORADS_WIZARD_BRIDGE_KEY = "sonogyn:sre-orads-wizard-bridge-v1";
@@ -6,6 +7,7 @@ export type SreOradsWizardBridgePayload = {
   path: OradsTreePathStep[];
   result: OradsTreeResult;
   pathSummary: string[];
+  triangulation?: AdnexTriangulation;
   savedAt: string;
 };
 
