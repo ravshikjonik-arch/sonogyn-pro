@@ -68,8 +68,8 @@ export default function LibraryScreen({ navigation }: LibraryTabScreenProps) {
     },
     {
       id: "tirads",
-      title: "TI-RADS",
-      sub: "Щитовидная железа · скрининг УЗИ",
+      title: "TI-RADS Pro",
+      sub: "ACR · Pattern Recognition · AI Assistant · РФ 2023",
       onPress: () => navigation.navigate("TiRadsAssistant"),
     },
     {

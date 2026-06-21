@@ -61,6 +61,18 @@
       ],
       "@repo/orads-us/*": [
         "../../packages/orads-us/*"
+      ],
+      "@repo/birads-us": [
+        "../../packages/birads-us/src/index.ts"
+      ],
+      "@repo/birads-us/*": [
+        "../../packages/birads-us/*"
+      ],
+      "@repo/tirads-acr": [
+        "../../packages/tirads-acr/src/index.ts"
+      ],
+      "@repo/tirads-acr/*": [
+        "../../packages/tirads-acr/*"
       ]
     }
   },

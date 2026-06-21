@@ -25,7 +25,9 @@
     "prisma:generate": "prisma generate",
     "prisma:studio": "prisma studio",
     "prisma:seed": "prisma db seed",
-    "prisma:init-sql": "prisma migrate diff --from-empty --to-schema-datamodel prisma/schema.prisma --script > prisma/init.sql"
+    "prisma:init-sql": "prisma migrate diff --from-empty --to-schema-datamodel prisma/schema.prisma --script > prisma/init.sql",
+    "calc:audit": "tsx scripts/calculator-audit.ts",
+    "atlas:thyroid-png": "python3 scripts/generate-thyroid-atlas-png.py"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
@@ -54,6 +56,8 @@
     "@react-pdf/renderer": "^4.3.0",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.6.1",
+    "@repo/birads-us": "workspace:*",
+    "@repo/tirads-acr": "workspace:*",
     "@repo/adnex-education": "workspace:*",
     "@repo/clinical-3d": "workspace:*",
     "@repo/clinical-guidelines": "workspace:*",

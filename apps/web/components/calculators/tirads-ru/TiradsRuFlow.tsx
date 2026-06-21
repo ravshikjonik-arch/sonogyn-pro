@@ -62,7 +62,7 @@ function ChipField<T extends string>({
   );
 }
 
-export function TiradsRuFlow() {
+export function TiradsRuFlow({ embedded = false }: { embedded?: boolean } = {}) {
   const [mode, setMode] = useState<Mode>("clinic");
   const [input, setInput] = useState<TiradsRuInput>(defaultInput);
   const [location, setLocation] = useState("");
@@ -160,15 +160,17 @@ export function TiradsRuFlow() {
 
   return (
     <div className="space-y-4 px-4 py-4 lg:px-10">
-      <div className="border-b border-[var(--clinical-border)] bg-gradient-to-r from-sky-900 to-cyan-700 px-2 py-2.5 text-white lg:px-4">
-        <div className="mx-auto flex max-w-3xl flex-wrap items-center gap-2">
-          <span className="text-sm font-bold">ЩЖ · TI-RADS (РФ, 2023)</span>
-          <span className="text-xs opacity-80">Катрич · Фисенко · Ветшева</span>
-          <Button variant="secondary" size="sm" asChild className="ml-auto h-8 rounded-full text-xs">
-            <Link href="/calculators">← Калькуляторы</Link>
-          </Button>
+      {!embedded ? (
+        <div className="border-b border-[var(--clinical-border)] bg-gradient-to-r from-sky-900 to-cyan-700 px-2 py-2.5 text-white lg:px-4">
+          <div className="mx-auto flex max-w-3xl flex-wrap items-center gap-2">
+            <span className="text-sm font-bold">ЩЖ · TI-RADS (РФ, 2023)</span>
+            <span className="text-xs opacity-80">Катрич · Фисенко · Ветшева</span>
+            <Button variant="secondary" size="sm" asChild className="ml-auto h-8 rounded-full text-xs">
+              <Link href="/calculators">← Калькуляторы</Link>
+            </Button>
+          </div>
         </div>
-      </div>
+      ) : null}
 
       <div className="mx-auto flex max-w-3xl gap-2">
         <CalcChip label="Режим приёма" selected={mode === "clinic"} onClick={() => setMode("clinic")} />

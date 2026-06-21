@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 140" width="240" height="140">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0c4a6e"/><stop offset="100%" stop-color="#082f49"/></linearGradient></defs>
+  <rect width="240" height="140" fill="url(#g)"/>
+  <rect x="8" y="8" width="224" height="124" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+  <ellipse cx="120" cy="68" rx="56" ry="36" fill="#020617" stroke="#38bdf8" stroke-width="2"/>
+  <ellipse cx="120" cy="68" rx="28" ry="20" fill="#0ea5e933" stroke="#7dd3fc" stroke-width="1"/>
+  <text x="120" y="22" fill="#7dd3fc" font-family="system-ui,sans-serif" font-size="9" text-anchor="middle">Thyroid US schematic</text>
+  <text x="120" y="128" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="10" text-anchor="middle">spongiform nodule</text>
+</svg>
