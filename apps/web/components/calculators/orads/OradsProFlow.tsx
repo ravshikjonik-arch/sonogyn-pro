@@ -5,8 +5,10 @@ import { useCallback, useState } from "react";
 
 import { OradsCategoryAtlas } from "@/components/calculators/orads/OradsCategoryAtlas";
 import { OradsProCalculator } from "@/components/calculators/orads/OradsProCalculator";
+import { OradsUsWizard } from "@/components/calculators/orads/wizard/OradsUsWizard";
 import { CalculatorLiteraturePanel } from "@/components/pubmed/CalculatorLiteraturePanel";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils/cn";
 import {
   ORADS_ECHOGRAMS_LIBRARY_PATH,
   ORADS_US_CLINICAL_BULLETS,
@@ -16,10 +18,12 @@ import {
 import { ORADS_GOVERNING_BULLETS, ORADS_VERSION_LABEL } from "@/lib/orads-pro";
 
 type SidePanel = "tables" | "resources" | null;
+type OradsMode = "wizard" | "pro";
 
-/** Режим приёма: сразу калькулятор, справка — по кнопке. */
+/** O-RADS: пошаговое дерево (orads-us) + расширенный Pro (чипы / IOTA). */
 export function OradsProFlow() {
   const [panel, setPanel] = useState<SidePanel>(null);
+  const [mode, setMode] = useState<OradsMode>("wizard");
 
   const pushCrumb = useCallback((_label: string) => {
     /* упрощённый режим — без хлебных крошек */
@@ -32,19 +36,53 @@ export function OradsProFlow() {
           <Button variant="secondary" size="sm" asChild className="h-8 rounded-full text-xs">
             <Link href="/calculators">← Калькуляторы</Link>
           </Button>
-          <span className="text-sm font-bold">O-RADS Pro · ACR / IOTA</span>
+          <span className="text-sm font-bold">O-RADS US · ACR v2022</span>
           <div className="ml-auto flex gap-1">
-            <Button type="button" variant="secondary" size="sm" className="h-8 rounded-full text-xs" onClick={() => setPanel("tables")}>
+            <Button
+              type="button"
+              variant={mode === "wizard" ? "secondary" : "ghost"}
+              size="sm"
+              className={cn("h-8 rounded-full text-xs", mode !== "wizard" && "text-white hover:bg-white/20")}
+              onClick={() => setMode("wizard")}
+            >
+              Пошаговый
+            </Button>
+            <Button
+              type="button"
+              variant={mode === "pro" ? "secondary" : "ghost"}
+              size="sm"
+              className={cn("h-8 rounded-full text-xs", mode !== "pro" && "text-white hover:bg-white/20")}
+              onClick={() => setMode("pro")}
+            >
+              Pro + IOTA
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="h-8 rounded-full text-xs text-white hover:bg-white/20"
+              onClick={() => setPanel("tables")}
+            >
               Таблицы
             </Button>
-            <Button type="button" variant="ghost" size="sm" className="h-8 rounded-full text-xs text-white hover:bg-white/20" onClick={() => setPanel("resources")}>
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="h-8 rounded-full text-xs text-white hover:bg-white/20"
+              onClick={() => setPanel("resources")}
+            >
               Справка
             </Button>
           </div>
         </div>
       </div>
 
-      <OradsProCalculator onCrumb={pushCrumb} />
+      {mode === "wizard" ? (
+        <OradsUsWizard onOpenPro={() => setMode("pro")} />
+      ) : (
+        <OradsProCalculator onCrumb={pushCrumb} />
+      )}
 
       {panel ? (
         <div

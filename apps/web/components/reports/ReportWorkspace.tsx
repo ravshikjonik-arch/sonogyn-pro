@@ -12,7 +12,12 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { mapOradsToAdnexSreInput } from "@/lib/reports/map-orads-to-sre-input";
+import { mapOradsTreeToSreInput } from "@/lib/reports/map-orads-tree-to-sre-input";
 import { clearOradsBridgePayload, loadOradsBridgePayload } from "@/lib/reports/sre-orads-bridge";
+import {
+  clearOradsWizardBridgePayload,
+  loadOradsWizardBridgePayload,
+} from "@/lib/reports/sre-orads-wizard-bridge";
 import { plainTextToDocumentSpec } from "@/lib/reporting/document-spec-builders";
 import { cn } from "@/lib/utils/cn";
 
@@ -45,6 +50,14 @@ export function ReportWorkspace({ initialInput, className }: Props) {
 
   useEffect(() => {
     if (initialInput) return;
+    const wizardBridge = loadOradsWizardBridgePayload();
+    if (wizardBridge) {
+      setSreInput(
+        mapOradsTreeToSreInput(wizardBridge.path, wizardBridge.result, wizardBridge.pathSummary),
+      );
+      clearOradsWizardBridgePayload();
+      return;
+    }
     const bridge = loadOradsBridgePayload();
     if (!bridge) return;
     setSreInput(mapOradsToAdnexSreInput(bridge.input, bridge.result));
