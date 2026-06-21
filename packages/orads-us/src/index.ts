@@ -22,6 +22,21 @@ export {
 
 export { collectOradsTreeLocaleKeys, findOradsOption, walkOradsDecisionTree } from "./treeWalker";
 export type { WalkOradsTreeResult } from "./treeWalker";
+
+export {
+  appendOradsNavigatorStep,
+  getOradsNavigatorTerminalResult,
+  oradsNavigatorReducer,
+  ORADS_NAVIGATOR_INITIAL_STATE,
+  resolveOradsNavigatorView,
+  resolveOradsNavigatorViewFromPath,
+  useOradsNavigator,
+  type OradsNavigatorAction,
+  type OradsNavigatorState,
+  type OradsNavigatorView,
+  type UseOradsNavigatorOptions,
+  type UseOradsNavigatorReturn,
+} from "./navigator";
 export { ORADS_ATLAS_PAGE_FALLBACK, ORADS_ATLAS_TOPIC_BY_REF } from "./atlasImageMap";
 export { calculateOradsResult } from "./calculateOradsResult";
 export type {

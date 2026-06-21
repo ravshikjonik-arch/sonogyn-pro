@@ -61,6 +61,7 @@
     "@react-three/fiber": "^9.6.1",
     "@repo/adnex-education": "workspace:*",
     "@repo/orads-us": "workspace:*",
+    "@repo/report-engine": "workspace:*",
     "@repo/clinical-tools": "workspace:*",
     "@repo/clinical-guidelines": "workspace:*",
     "@repo/clinical-3d": "workspace:*",

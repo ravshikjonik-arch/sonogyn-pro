@@ -31,6 +31,11 @@ export type RootStackParamList = {
   Language: undefined;
   ORADSFlow: undefined;
   ORADSWizard: undefined;
+  StructuredReportPreview: {
+    path: import("@repo/orads-us").OradsTreePathStep[];
+    result: import("@repo/orads-us").OradsTreeResult;
+    pathSummary: string[];
+  };
   ORADSGuide: { sectionId?: string; caseId?: string } | undefined;
   ORADSPro: { prefill?: import("../features/oradsPro/types").OradsInput } | undefined;
   ORADSHistory: undefined;

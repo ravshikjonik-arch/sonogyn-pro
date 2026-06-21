@@ -19,6 +19,7 @@ import ORADSFlowScreen from "../screens/ORADSFlowScreen";
 import ProlapseScreen from "../screens/ProlapseScreen";
 import ORADSProScreen from "../features/oradsPro/screens/ORADSProScreen";
 import OradsWizardScreen from "../features/oradsWizard/OradsWizardScreen";
+import StructuredReportPreviewScreen from "../features/reportPreview/StructuredReportPreviewScreen";
 import OradsGuideScreen from "../features/oradsGuide/OradsGuideScreen";
 import ORADSHistoryScreen from "../features/oradsPro/screens/ORADSHistoryScreen";
 import ORADSHistoryDetailsScreen from "../features/oradsPro/screens/ORADSHistoryDetailsScreen";
@@ -62,6 +63,7 @@ function withClinicalPhiGate<P extends object>(Screen: ComponentType<P>) {
 
 const GuardedORADSPro = withClinicalPhiGate(ORADSProScreen);
 const GuardedORADSWizard = withClinicalPhiGate(OradsWizardScreen);
+const GuardedStructuredReportPreview = withClinicalPhiGate(StructuredReportPreviewScreen);
 const GuardedORADSHistory = withClinicalPhiGate(ORADSHistoryScreen);
 const GuardedORADSHistoryDetails = withClinicalPhiGate(ORADSHistoryDetailsScreen);
 
@@ -112,6 +114,7 @@ const linking: LinkingOptions<RootStackParamList> = {
       Language: "language",
       ORADSFlow: "orads-basic",
       ORADSWizard: "orads-wizard",
+      StructuredReportPreview: "reports/adnex",
       ORADSGuide: {
         path: "library/orads-guide",
         parse: {
@@ -271,6 +274,7 @@ export default function AppStack() {
           <Stack.Screen name="Language" component={LanguageScreen} />
           <Stack.Screen name="ORADSFlow" component={ORADSFlowScreen} />
           <Stack.Screen name="ORADSWizard" component={GuardedORADSWizard} />
+          <Stack.Screen name="StructuredReportPreview" component={GuardedStructuredReportPreview} />
           <Stack.Screen name="ORADSGuide" component={OradsGuideScreen} />
           <Stack.Screen name="ORADSPro" component={GuardedORADSPro} />
           <Stack.Screen name="ORADSHistory" component={GuardedORADSHistory} />

@@ -12,6 +12,7 @@ type Props = {
   onRestart: () => void;
   onBack: () => void;
   onShare: () => void;
+  onBuildReport?: () => void;
   onOpenGuide?: () => void;
   onAskAscites?: () => void;
 };
@@ -35,6 +36,7 @@ export default function OradsWizardResultPanel({
   onRestart,
   onBack,
   onShare,
+  onBuildReport,
   onOpenGuide,
   onAskAscites,
 }: Props) {
@@ -92,6 +94,13 @@ export default function OradsWizardResultPanel({
         <Text style={styles.shareText}>{locale.t("orads.wizard.share_colleagues")}</Text>
         <Text style={styles.shareHint}>{locale.t("orads.wizard.share_todo")}</Text>
       </Pressable>
+
+      {onBuildReport ? (
+        <Pressable style={styles.reportBtn} onPress={onBuildReport}>
+          <Text style={styles.reportText}>Сформировать протокол</Text>
+          <Text style={styles.reportHint}>Structured Reporting · 3 блока</Text>
+        </Pressable>
+      ) : null}
 
       {onOpenGuide ? (
         <Pressable style={styles.guideBtn} onPress={onOpenGuide}>
@@ -156,6 +165,17 @@ const styles = StyleSheet.create({
   },
   shareText: { color: "#1D4ED8", fontWeight: "800", fontSize: 14 },
   shareHint: { color: "#64748B", fontSize: 11, marginTop: 2 },
+  reportBtn: {
+    marginTop: 4,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#86EFAC",
+    backgroundColor: "#F0FDF4",
+    paddingVertical: 10,
+    alignItems: "center",
+  },
+  reportText: { color: "#15803D", fontWeight: "800", fontSize: 14 },
+  reportHint: { color: "#64748B", fontSize: 11, marginTop: 2 },
   guideBtn: {
     marginTop: 4,
     borderRadius: 10,

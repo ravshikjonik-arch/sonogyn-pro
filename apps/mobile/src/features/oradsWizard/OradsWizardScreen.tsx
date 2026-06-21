@@ -1,5 +1,5 @@
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { useMemo, useReducer } from "react";
+import { useMemo } from "react";
 import {
   Animated,
   I18nManager,
@@ -11,14 +11,10 @@ import {
   View,
 } from "react-native";
 import {
-  buildOradsPathSummary,
-  getOradsDecisionNode,
   getOradsReferat,
   getReferatCaseIdForImageRef,
   getReferatSectionIdForWizardNode,
-  ORADS_TREE_OPTIONAL_ENTRY_ID,
-  type OradsTreePathStep,
-  type OradsTreeResult,
+  useOradsNavigator,
 } from "@repo/orads-us";
 
 import type { RootStackParamList } from "../../navigation/paramLists";
@@ -29,96 +25,17 @@ import OradsWizardProgress from "./OradsWizardProgress";
 import OradsWizardResultPanel from "./OradsWizardResultPanel";
 import { resolveOradsAtlasPreview } from "./resolveOradsAtlas";
 import { useOradsLocaleStrings } from "./useOradsLocale";
-import { appendOradsWizardStep, resolveOradsWizardView } from "./wizardState";
 
 type Props = NativeStackScreenProps<RootStackParamList, "ORADSWizard">;
 
-type WizardState = {
-  path: OradsTreePathStep[];
-  showTechnicalGate: boolean;
-  modifierMode: boolean;
-  overrideResult: OradsTreeResult | null;
-};
-
-type WizardAction =
-  | { type: "pick"; nodeId: string; optionId: string }
-  | { type: "back" }
-  | { type: "restart" }
-  | { type: "modifier_start" }
-  | { type: "modifier_pick"; optionId: string };
-
-const ESTIMATED_STEPS = 6;
-
-function wizardReducer(state: WizardState, action: WizardAction): WizardState {
-  switch (action.type) {
-    case "pick": {
-      if (state.showTechnicalGate && action.nodeId === ORADS_TREE_OPTIONAL_ENTRY_ID) {
-        if (action.optionId === "adequate") {
-          return { ...state, showTechnicalGate: false };
-        }
-        return { ...state, showTechnicalGate: false, path: appendOradsWizardStep(state.path, action.nodeId, action.optionId) };
-      }
-      if (state.modifierMode) {
-        const node = getOradsDecisionNode("step_modifier_ascites");
-        const opt = node?.options.find((o) => o.id === action.optionId);
-        if (opt?.result) {
-          return { ...state, modifierMode: false, overrideResult: opt.result };
-        }
-        return state;
-      }
-      return { ...state, path: appendOradsWizardStep(state.path, action.nodeId, action.optionId) };
-    }
-    case "back": {
-      if (state.overrideResult) return { ...state, overrideResult: null };
-      if (state.modifierMode) return { ...state, modifierMode: false };
-      if (state.path.length === 0) return state;
-      return { ...state, path: state.path.slice(0, -1) };
-    }
-    case "restart":
-      return { path: [], showTechnicalGate: true, modifierMode: false, overrideResult: null };
-    case "modifier_start":
-      return { ...state, modifierMode: true, overrideResult: null };
-    case "modifier_pick": {
-      const node = getOradsDecisionNode("step_modifier_ascites");
-      const opt = node?.options.find((o) => o.id === action.optionId);
-      if (opt?.result) {
-        return { ...state, modifierMode: false, overrideResult: opt.result };
-      }
-      return state;
-    }
-    default:
-      return state;
-  }
-}
-
 export default function OradsWizardScreen({ navigation }: Props) {
   const locale = useOradsLocaleStrings();
-  const [state, dispatch] = useReducer(wizardReducer, {
-    path: [],
-    showTechnicalGate: true,
-    modifierMode: false,
-    overrideResult: null,
+  const nav = useOradsNavigator({
+    estimatedSteps: 6,
+    translate: (key) => locale.t(key),
   });
 
-  const view = useMemo(() => {
-    if (state.overrideResult) {
-      return { kind: "result" as const, result: state.overrideResult, stepIndex: state.path.length + 1 };
-    }
-    if (state.modifierMode) {
-      const node = getOradsDecisionNode("step_modifier_ascites");
-      if (node) return { kind: "question" as const, node, stepIndex: state.path.length + 1 };
-    }
-    if (state.showTechnicalGate) {
-      const node = getOradsDecisionNode(ORADS_TREE_OPTIONAL_ENTRY_ID);
-      if (node) return { kind: "question" as const, node, stepIndex: 1 };
-    }
-    return resolveOradsWizardView(state.path);
-  }, [state]);
-
-  const pathSummary = useMemo(
-    () => buildOradsPathSummary(state.path, (key) => locale.t(key)),
-    [state.path, locale],
-  );
+  const view = nav.view;
 
   const atlasPreview = useMemo(() => {
     if (view.kind !== "question") return null;
@@ -129,11 +46,11 @@ export default function OradsWizardScreen({ navigation }: Props) {
   const rowDirection = rtl ? "row-reverse" : "row";
 
   function goBack() {
-    if (state.path.length === 0 && !state.overrideResult && !state.modifierMode) {
+    if (!nav.canPopStep && nav.state.path.length === 0) {
       navigation.goBack();
       return;
     }
-    dispatch({ type: "back" });
+    nav.back();
   }
 
   function openAtlasWeb() {
@@ -154,23 +71,35 @@ export default function OradsWizardScreen({ navigation }: Props) {
     console.warn("[O-RADS] shareToColleagues — Phase 3 ChatService");
   }
 
-  const stepCurrent = Math.min(view.stepIndex, ESTIMATED_STEPS);
+  function openStructuredReport() {
+    if (view.kind !== "result") return;
+    navigation.navigate("StructuredReportPreview", {
+      path: nav.state.path,
+      result: view.result,
+      pathSummary: nav.pathSummary,
+    });
+  }
 
   return (
     <SafeAreaView style={styles.safe}>
       <View style={[styles.header, { flexDirection: rowDirection }]}>
         <Pressable onPress={goBack} hitSlop={12} style={styles.backBtn}>
-          <Text style={styles.back}>{rtl ? "›" : "‹"} {locale.t("orads.wizard.back")}</Text>
+          <Text style={styles.back}>
+            {rtl ? "›" : "‹"} {locale.t("orads.wizard.back")}
+          </Text>
         </Pressable>
         <Text style={styles.title}>{locale.t("orads.wizard.title")}</Text>
-        <Pressable onPress={() => dispatch({ type: "restart" })} hitSlop={8}>
+        <Pressable onPress={nav.restart} hitSlop={8}>
           <Text style={styles.reset}>{locale.t("orads.wizard.restart")}</Text>
         </Pressable>
       </View>
 
-      <OradsWizardProgress current={stepCurrent} total={ESTIMATED_STEPS} rtl={rtl} />
+      <OradsWizardProgress current={nav.stepCurrent} total={nav.estimatedSteps} rtl={rtl} />
       <Text style={[styles.stepLabel, rtl && styles.textRtl]}>
-        {locale.t("orads.wizard.step_of", { current: String(stepCurrent), total: String(ESTIMATED_STEPS) })}
+        {locale.t("orads.wizard.step_of", {
+          current: String(nav.stepCurrent),
+          total: String(nav.estimatedSteps),
+        })}
       </Text>
 
       <ScrollView contentContainerStyle={styles.scroll}>
@@ -181,12 +110,13 @@ export default function OradsWizardScreen({ navigation }: Props) {
             <OradsWizardResultPanel
               result={view.result}
               locale={locale}
-              pathSummary={pathSummary}
-              onRestart={() => dispatch({ type: "restart" })}
+              pathSummary={nav.pathSummary}
+              onRestart={nav.restart}
               onBack={goBack}
               onShare={shareToColleaguesTodo}
+              onBuildReport={openStructuredReport}
               onOpenGuide={() => navigation.navigate("ORADSGuide", { sectionId: "categories" })}
-              onAskAscites={() => dispatch({ type: "modifier_start" })}
+              onAskAscites={nav.startAscitesModifier}
             />
           ) : (
             <>
@@ -223,7 +153,7 @@ export default function OradsWizardScreen({ navigation }: Props) {
                       />
                     ) : undefined
                   }
-                  onPress={() => dispatch({ type: "pick", nodeId: view.node.id, optionId: opt.id })}
+                  onPress={() => nav.pick(view.node.id, opt.id)}
                 />
               ))}
 
