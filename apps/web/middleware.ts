@@ -31,8 +31,13 @@ const roots = [
   "/idea-deep-endometriosis",
 ];
 
-/** Как раньше `/elastography` — калькулятор доступен без Supabase-логина. */
-const PUBLIC_WITHIN_PROTECTED = ["/calculators/elastography"];
+/** Калькуляторы, доступные без Supabase-логина (как elastography / O-RADS Pro). */
+const PUBLIC_WITHIN_PROTECTED = [
+  "/calculators/elastography",
+  "/calculators/o-rads",
+  "/calculators/bi-rads",
+  "/calculators/ti-rads",
+];
 
 function isPublicWithinProtected(pathname: string): boolean {
   return PUBLIC_WITHIN_PROTECTED.some(
