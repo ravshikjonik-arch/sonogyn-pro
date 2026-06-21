@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useMemo, useState, useTransition } from "react";
 import { toast } from "sonner";
 
@@ -22,6 +23,7 @@ import {
   type UnilocularSubtype,
 } from "@/lib/orads-pro";
 import { plainTextToDocumentSpec } from "@/lib/reporting/document-spec-builders";
+import { saveOradsBridgePayload } from "@/lib/reports/sre-orads-bridge";
 import { cn } from "@/lib/utils/cn";
 
 function categoryColors(cat: number) {
@@ -42,6 +44,7 @@ const COLOR_SCORE_LABELS: Record<IotaColorScore, string> = {
 
 export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => void }) {
   const f = useOradsProForm();
+  const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [oradsZero, setOradsZero] = useState<OradsZeroId | null>(null);
 
@@ -80,6 +83,15 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
 
   function copyProtocolLine() {
     void navigator.clipboard.writeText(protocolLine).then(() => toast.success("Строка скопирована в буфер"));
+  }
+
+  function openStructuredReport() {
+    if (!f.menopause || !f.lesionKind) {
+      toast.error("Заполните менопаузу и тип образования для протокола");
+      return;
+    }
+    saveOradsBridgePayload({ input: f.input, result: f.result });
+    router.push("/reports/adnex");
   }
 
   return (
@@ -420,6 +432,9 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
             <div className="flex flex-wrap gap-2 pt-2">
               <Button type="button" variant="secondary" disabled={pending} onClick={onSave}>
                 Сохранить
+              </Button>
+              <Button type="button" variant="default" disabled={pending || !showTriangulation} onClick={openStructuredReport}>
+                Структурированный протокол
               </Button>
               <Button variant="outline" size="sm" asChild>
                 <Link href="/assistant/gynecology">Помощник АГ</Link>

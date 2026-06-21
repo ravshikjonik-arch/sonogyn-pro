@@ -1,0 +1,29 @@
+{
+  "name": "@repo/report-engine",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Structured Reporting Engine — template renderers for SonoGyn Pro",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./adnex": "./src/adnex/renderAdnexReport.ts",
+    "./templates/adnex-orads-v1": "./src/templates/adnex-orads-v1.ts"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "echo \"skip\"",
+    "test": "node --import tsx --test src/**/*.test.ts"
+  },
+  "dependencies": {
+    "@repo/adnex-education": "workspace:*",
+    "@repo/types": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "tsx": "^4.19.4",
+    "typescript": "^5.9.2"
+  }
+}

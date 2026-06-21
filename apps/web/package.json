@@ -71,6 +71,7 @@
     "@repo/nosology": "workspace:*",
     "@repo/obstetric-atlas": "workspace:*",
     "@repo/orads-us": "workspace:*",
+    "@repo/report-engine": "workspace:*",
     "@repo/thyroid-tirads": "workspace:*",
     "@repo/types": "workspace:*",
     "@repo/ui": "workspace:*",
