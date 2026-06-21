@@ -13,6 +13,7 @@ export async function analyzeFramesWithWorker(params: {
   clinicalContext: string;
   frames: PreparedVisionFrame[];
   mediaIds: string[];
+  domain?: "auto" | "fetal" | "breast" | "gyn" | "kidney";
 }): Promise<UsVisionAnalysisResult | { error: string }> {
   const cfg = readUsAiWorkerConfig();
   if (!cfg) return { error: "US_AI_WORKER_URL / US_AI_WORKER_SECRET не настроены" };
@@ -25,7 +26,7 @@ export async function analyzeFramesWithWorker(params: {
     },
     body: JSON.stringify({
       clinicalContext: params.clinicalContext,
-      domain: inferUsStudyDomain(params.clinicalContext),
+      domain: params.domain ?? inferUsStudyDomain(params.clinicalContext),
       backend: "auto",
       mediaIds: params.mediaIds,
       frames: params.frames.map((f) => ({
