@@ -7,12 +7,12 @@ function parseEmailOnly(raw: string | undefined): boolean | undefined {
   return !FALSE.has(raw.trim().toLowerCase());
 }
 
-/** Email-only auth (Google / SMS отключены). По умолчанию true. */
+/** Email-only auth (Google / SMS отключены). По умолчанию false — все способы включены. */
 export function isAuthEmailOnly(): boolean {
   return (
     parseEmailOnly(process.env.AUTH_EMAIL_ONLY) ??
     parseEmailOnly(process.env.NEXT_PUBLIC_AUTH_EMAIL_ONLY) ??
-    true
+    false
   );
 }
 
@@ -29,6 +29,7 @@ export function disabledAuthMethodResponse(method: "phone" | "google" | "sms" | 
 /** Client-safe (NEXT_PUBLIC_AUTH_EMAIL_ONLY через next.config env). */
 export function isAuthEmailOnlyClient(): boolean {
   const raw = process.env.NEXT_PUBLIC_AUTH_EMAIL_ONLY?.trim().toLowerCase();
+  if (!raw) return false;
   if (raw === "false" || raw === "0" || raw === "no") return false;
   return true;
 }

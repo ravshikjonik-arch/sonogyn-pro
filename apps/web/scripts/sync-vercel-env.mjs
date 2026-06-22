@@ -140,9 +140,14 @@ for (const key of FROM_LOCAL) {
   upsertEnv(key, value, targets);
 }
 
-// Production: email-only + auto-confirm на Vercel
-upsertEnv("AUTH_EMAIL_ONLY", "true", targets);
-upsertEnv("NEXT_PUBLIC_AUTH_EMAIL_ONLY", "true", targets);
+// Auth methods: из .env.local или false (SMS + Google включены)
+const authEmailOnly = local.AUTH_EMAIL_ONLY?.trim() || "false";
+upsertEnv("AUTH_EMAIL_ONLY", authEmailOnly, targets);
+upsertEnv(
+  "NEXT_PUBLIC_AUTH_EMAIL_ONLY",
+  local.NEXT_PUBLIC_AUTH_EMAIL_ONLY?.trim() || authEmailOnly,
+  targets,
+);
 if (!local.AUTH_AUTO_CONFIRM_EMAIL?.trim()) {
   upsertEnv("AUTH_AUTO_CONFIRM_EMAIL", "true", ["production"]);
 } else {

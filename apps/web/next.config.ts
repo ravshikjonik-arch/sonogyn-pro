@@ -39,7 +39,7 @@ function supabaseConnectOriginExtra(): string {
 const nextConfig: NextConfig = {
   transpilePackages: ["three", "@clinical/uterus", "@repo/ui", "@repo/clinical-3d", "@repo/nosology", "@repo/cervix-pathology-reference"],
   env: {
-    NEXT_PUBLIC_AUTH_EMAIL_ONLY: process.env.AUTH_EMAIL_ONLY ?? "true",
+    NEXT_PUBLIC_AUTH_EMAIL_ONLY: process.env.AUTH_EMAIL_ONLY ?? "false",
   },
   experimental: {
     optimizePackageImports: ["lucide-react", "@react-three/drei"],
