@@ -35,6 +35,34 @@ function getRedisClient(): InstanceType<typeof import("@upstash/redis").Redis> |
   }
 }
 
+/** Upstash auto-deserializes JSON on get; legacy entries may still be plain strings. */
+function parseStoredVerificationRecord(raw: unknown): StoredVerificationRecord | null {
+  if (typeof raw === "string") {
+    try {
+      return parseStoredVerificationRecord(JSON.parse(raw));
+    } catch {
+      return null;
+    }
+  }
+
+  if (!raw || typeof raw !== "object") return null;
+
+  const rec = raw as Record<string, unknown>;
+  if (typeof rec.codeHash !== "string") return null;
+  if (typeof rec.purpose !== "string") return null;
+  if (typeof rec.method !== "string") return null;
+  if (typeof rec.createdAt !== "number") return null;
+  if (typeof rec.attempts !== "number") return null;
+
+  return {
+    codeHash: rec.codeHash,
+    purpose: rec.purpose as VerificationPurpose,
+    method: rec.method as VerificationMethod,
+    createdAt: rec.createdAt,
+    attempts: rec.attempts,
+  };
+}
+
 /**
  * Хранение кодов в @vercel/kv / Upstash Redis.
  * Vercel: in-memory Map умрёт при cold start и не шарится между инстансами — только Redis/KV.
@@ -84,9 +112,10 @@ export async function verifyStoredCode(params: {
   const redis = getRedisClient();
 
   if (redis) {
-    const raw = await redis.get<string>(key);
-    if (!raw) return false;
-    const record = JSON.parse(raw) as StoredVerificationRecord;
+    const raw = await redis.get(key);
+    if (raw == null) return false;
+    const record = parseStoredVerificationRecord(raw);
+    if (!record) return false;
     if (record.attempts >= maxAttempts) {
       await redis.del(key);
       return false;
