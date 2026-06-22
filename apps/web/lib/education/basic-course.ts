@@ -18,8 +18,11 @@ export type BasicCourseLecture = {
   subtitle: string;
   topics: BasicCourseTopic[];
   objectives: string[];
-  fileName: string;
-  yandexDiskUrl: string;
+  /** PDF на Яндекс.Диске (если нет platformModuleHref). */
+  fileName?: string;
+  yandexDiskUrl?: string;
+  /** Встроенный модуль SonoGyn-Pro (курс в библиотеке). */
+  platformModuleHref?: string;
 };
 
 export type BasicCourseModule = {
@@ -28,6 +31,8 @@ export type BasicCourseModule = {
   description: string;
   lectureIds: string[];
   comingSoon?: boolean;
+  /** Linked SonoGyn-Pro educational module when no Yandex lecture yet. */
+  platformModuleHref?: string;
 };
 
 export const BASIC_COURSE_DISCLAIMER =
@@ -43,16 +48,15 @@ export const ISUOG_COURSE_MODULES: BasicCourseModule[] = [
   {
     id: "first-trimester",
     title: "I триместр · скрининг",
-    description: "11–13+6 нед: КТР, ТВП, комбинированный скрининг FMF.",
-    lectureIds: [],
-    comingSoon: true,
+    description: "11–13+6 нед: КТР, ТВП, допплер (5 позиций), PI VP/UTA, FMF.",
+    lectureIds: ["lecture-7-fetal-doppler-first-trimester"],
   },
   {
     id: "second-trimester",
     title: "II триместр · аномалии",
-    description: "18–22 нед: анатомический скрининг, срезы, перцентили.",
-    lectureIds: [],
-    comingSoon: true,
+    description: "18–22 нед: 22 среза, анатомический скрининг, база 65 ВПР.",
+    lectureIds: ["lecture-8-fetal-anatomy-22-views"],
+    platformModuleHref: "/library/fetal-anatomy-22-views",
   },
   {
     id: "third-trimester",
@@ -148,6 +152,184 @@ export const ISUOG_BASIC_COURSE = {
       ],
       fileName: "Lecture-6-4-10.pdf",
       yandexDiskUrl: "https://disk.yandex.ru/i/HBUWonJavsL1DA",
+    },
+    {
+      id: "lecture-7-fetal-doppler-first-trimester",
+      number: 7,
+      title: "Допплер I триместра (11–14 нед)",
+      subtitle:
+        "Расширенный протокол FMF: ALARA, 5 позиций — сердце, венозный проток, пуповина, кольцо, маточные артерии",
+      objectives: [
+        "Применять ALARA: TI ≤ 1.0, Color → Pulsed Doppler",
+        "Выполнить 5 допплер-позиций расширенного протокола",
+        "Измерить PI VP и маточных артерий, описать A-wave",
+        "Распознать SUA и отличить omphalocele / gastroschisis",
+        "Избегать типичных ошибок (wrong vessel, large color box)",
+      ],
+      topics: [
+        {
+          id: "alara-safety",
+          title: "Безопасность · ALARA",
+          summary: "TI ≤ 1.0, 5–10 мин, маленький color box, без спектрального допплера до 11 нед без показаний.",
+          checkpoints: [
+            "Color → короткий pulsed Doppler",
+            "Минимальная глубина и color box",
+            "При плохой визуализации — сменить доступ, не «дожимать» мощность",
+          ],
+          practiceLinks: [
+            {
+              label: "Курс · безопасность",
+              href: "/library/fetal-doppler-first-trimester",
+            },
+          ],
+        },
+        {
+          id: "five-positions",
+          title: "5 позиций протокола",
+          summary: "Сердце → VP → 2 артерии у пузыря → кольцо (при подозрении) → UTA PI mean.",
+          checkpoints: [
+            "Фиксированный порядок прохода",
+            "Кольцо — только при подозрении на АБС-дефект",
+            "Mean UTA = (R + L) / 2",
+          ],
+          practiceLinks: [{ label: "Алгоритмы", href: "/library/fetal-doppler-first-trimester" }],
+        },
+        {
+          id: "fetal-heart-doppler",
+          title: "Сердце · 4CV · 3VT",
+          summary: "Color в диастолу; TR — импульсный допплер только по показаниям.",
+          checkpoints: [
+            "4CV — наполнение правых/левых отделов",
+            "3VT — три сосуда в одной плоскости",
+            "Не полная ЭхоКГ — быстрая функциональная проверка",
+          ],
+          practiceLinks: [{ label: "FMF · I скрининг", href: "/assistant/fmf?section=first" }],
+        },
+        {
+          id: "ductus-venosus",
+          title: "Венозный проток · PI · A-wave",
+          summary: "Правый парасагиттальный; sample ~1 mm; A-wave antegrade в норме.",
+          checkpoints: [
+            "Color: ПВ → VP → ПП",
+            "Не путать с печёночными венами",
+            "3 стабильных цикла",
+          ],
+          practiceLinks: [
+            { label: "Нормы PI · Медvedev", href: "/assistant/fmf?section=doppler" },
+            { label: "Модуль · VP", href: "/library/fetal-doppler-first-trimester" },
+          ],
+        },
+        {
+          id: "umbilical-vessels",
+          title: "Пуповина · SUA",
+          summary: "Поперечный таз на уровне мочевого пузыря — 2A + 1V.",
+          checkpoints: [
+            "Пузырь обязателен в кадре",
+            "SUA → расширенный протокол по клинике",
+          ],
+          practiceLinks: [{ label: "Случаи · SUA", href: "/library/fetal-doppler-first-trimester" }],
+        },
+        {
+          id: "umbilical-ring",
+          title: "Пупочное кольцо · АБС",
+          summary: "Физиологическая грыжа до 11 нед; окончательная оценка после 12 нед.",
+          checkpoints: [
+            "Midline + membrane → omphalocele likely",
+            "Paraumbilical + free loops → gastroschisis likely",
+          ],
+          practiceLinks: [{ label: "Omphalocele vs gastroschisis", href: "/library/fetal-doppler-first-trimester" }],
+        },
+        {
+          id: "uterine-arteries",
+          title: "Маточные артерии · PI",
+          summary: "TA, internal os, угол < 30°, 3 цикла, mean PI — скрининг PE.",
+          checkpoints: [
+            "Не iliac / ovarian artery",
+            "Sample volume 2 mm",
+            "Усреднить правую и левую",
+          ],
+          practiceLinks: [
+            { label: "FMF · допплер", href: "/assistant/fmf?section=doppler" },
+            { label: "Протокол UTA", href: "/library/fetal-doppler-first-trimester" },
+          ],
+        },
+      ],
+      platformModuleHref: "/library/fetal-doppler-first-trimester",
+    },
+    {
+      id: "lecture-8-fetal-anatomy-22-views",
+      number: 8,
+      title: "22 среза · 65 ВПР (II триместр)",
+      subtitle:
+        "Систематический анатомический скрининг 18–22 нед: позвоночник, мозг, сердце, живот, конечности, лицо · Е.С. Емельяненко",
+      objectives: [
+        "Выполнить протокол 22 срезов с обзорами 1 и 2",
+        "Связать каждый срез со списком исключаемых ВПР",
+        "Распознать lemon/banana sign и запустить протокол позвоночника",
+        "Пройти кардиальную последовательность 7a–10 без остановки на 4CV",
+        "Использовать view 14 для SUA, BRA, LUTO",
+      ],
+      topics: [
+        {
+          id: "overview-spine",
+          title: "Обзор · позвоночник (1–3)",
+          summary: "Сагиттальный и коронарный позвоночник; коронарный trunk — situs, ось сердца.",
+          checkpoints: [
+            "Непрерывная кожа над позвоночником",
+            "Коронарный trunk — stomach, heart axis",
+            "Overview-1 — gross anomalies, viability",
+          ],
+          practiceLinks: [
+            { label: "Модуль · spine", href: "/library/fetal-anatomy-22-views" },
+            { label: "Атлас позвоночника", href: "/library/fetal-spine" },
+          ],
+        },
+        {
+          id: "brain-views",
+          title: "Голова · 4–6",
+          summary: "Transventricular, transthalamic, transcerebellar — ventricles, CSP, cerebellum.",
+          checkpoints: [
+            "CSP на transthalamic",
+            "Cisterna magna 2–10 mm",
+            "Banana sign → spine protocol",
+          ],
+          practiceLinks: [{ label: "Модуль · brain", href: "/library/fetal-anatomy-22-views" }],
+        },
+        {
+          id: "heart-views",
+          title: "Сердце · 7a–10",
+          summary: "4CV apical/lateral → LVOT → RVOT → crossing → 3VT.",
+          checkpoints: [
+            "Оба 4CV (7a и 7b)",
+            "Outflow crossing documented",
+            "3VT — arch anomalies, TGA clues",
+          ],
+          practiceLinks: [{ label: "FMF · II скрининг", href: "/assistant/fmf?section=second" }],
+        },
+        {
+          id: "abdomen-pelvis",
+          title: "Живот · таз · 11–14",
+          summary: "UV plane, cord insertion, kidneys 13a/b, bladder + 2UA.",
+          checkpoints: [
+            "Omphalocele vs gastroschisis",
+            "Обе почки + pelvis",
+            "Bladder + 2 arteries on color",
+          ],
+          practiceLinks: [{ label: "База ВПР", href: "/library/fetal-anatomy-22-views" }],
+        },
+        {
+          id: "limbs-face-overview2",
+          title: "Конечности · лицо · обзор 2",
+          summary: "Femur, limbs, face 18–20; transverse sweep neck → sacrum.",
+          checkpoints: [
+            "FL + three bones each limb",
+            "Upper lip coronal + profile",
+            "Overview-2 — не пропускать",
+          ],
+          practiceLinks: [{ label: "Самопроверка", href: "/library/fetal-anatomy-22-views" }],
+        },
+      ],
+      platformModuleHref: "/library/fetal-anatomy-22-views",
     },
   ] satisfies BasicCourseLecture[],
 } as const;

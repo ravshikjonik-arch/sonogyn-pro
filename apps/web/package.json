@@ -22,7 +22,8 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "atlas:thyroid-png": "python3 scripts/generate-thyroid-atlas-png.py"
+    "atlas:thyroid-png": "python3 scripts/generate-thyroid-atlas-png.py",
+    "atlas:fetal-anatomy-png": "python3 scripts/generate-fetal-anatomy-atlas-png.py"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1072.0",

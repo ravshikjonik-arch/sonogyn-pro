@@ -74,6 +74,12 @@ function LoginForm() {
   }, [ready, user, router, nextPath]);
 
   useEffect(() => {
+    if (searchParams.get("message") === "password_updated") {
+      setMessage("Пароль обновлён. Войдите с новым паролем.");
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
     if (searchParams.get("dev_setup") === "service_role") {
       setMessage(
         "Автовход: добавьте SUPABASE_SERVICE_ROLE_KEY в apps/web/.env.local (Supabase → Settings → API → service_role), затем npm run setup:dev-login. Пока войдите email + пароль вручную.",
@@ -271,7 +277,7 @@ function LoginForm() {
     try {
       const origin = window.location.origin;
       const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
-        redirectTo: `${origin}/auth/callback?next=/profile`,
+        redirectTo: `${origin}/auth/callback?next=${encodeURIComponent("/auth/reset-password?recovery=1")}`,
       });
       if (error) {
         setMessage(PASSWORD_RESET_GENERIC_MSG);

@@ -20,15 +20,24 @@ export const SUPABASE_PRODUCTION_AUTH_CHECKLIST: SupabaseAuthChecklistItem[] = [
     area: "Authentication → URL Configuration",
     setting: "Redirect URLs",
     recommended:
-      "https://sonogyn-pro.ru/auth/callback, https://sonogyn-pro.ru/**, https://*.vercel.app/** (preview)",
+      "https://sonogyn-pro.ru/auth/callback, https://sonogyn-pro.ru/auth/reset-password, https://sonogyn-pro.ru/**, https://*.vercel.app/** (preview)",
     why: "Обязательно /auth/callback после email-link и OAuth.",
   },
   {
     id: "custom-smtp",
     area: "Authentication → SMTP Settings",
     setting: "Custom SMTP (Mailgun)",
-    recommended: "smtp.mailgun.org:587 или :2525, SMTP_USER / SMTP_PASSWORD из Vercel",
+    recommended:
+      "Host smtp.mailgun.org · Port 587 (или 2525) · User postmaster@mg.sonogyn-pro.ru · Pass из Mailgun SMTP credentials · Sender noreply@sonogyn-pro.ru",
     why: "Письма «Подтвердите email» идут из Supabase, не из apps/web email-provider.",
+  },
+  {
+    id: "recovery-email-template",
+    area: "Authentication → Email Templates → Reset password",
+    setting: "Recovery link (TokenHash, cross-browser)",
+    recommended:
+      "{{ .SiteURL }}/auth/callback?token_hash={{ .TokenHash }}&type=recovery&next=/auth/reset-password?recovery=1",
+    why: "PKCE через {{ .ConfirmationURL }} ломается в другом браузере/Gmail → otp_expired. TokenHash + verifyOtp работает везде.",
   },
   {
     id: "providers-off",

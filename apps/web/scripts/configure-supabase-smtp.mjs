@@ -89,6 +89,14 @@ const payload = {
 console.log(`  Project: ${projectRef}`);
 console.log(`  SMTP host: ${payload.smtp_host}:${payload.smtp_port}`);
 console.log(`  SMTP user: ${smtpUser}`);
+
+if (smtpUser.includes("sandbox")) {
+  console.log("\n⚠️  SMTP_USER — Mailgun SANDBOX. Для production Supabase используйте postmaster@mg.sonogyn-pro.ru\n");
+}
+
+if (!smtpFrom || smtpFrom.includes("sandbox")) {
+  console.log("⚠️  Задайте SMTP_FROM=SonoGyn Pro <noreply@sonogyn-pro.ru> (verified sender)\n");
+}
 console.log(`  Sender:    ${payload.smtp_sender_name} <${payload.smtp_admin_email}>`);
 console.log("  Google:    OFF");
 console.log("  Phone:     OFF\n");

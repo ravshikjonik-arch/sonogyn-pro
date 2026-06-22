@@ -7,6 +7,8 @@ import { useEffect, useMemo, useState, type Dispatch, type ReactNode, type SetSt
 import { toast } from "sonner";
 
 import { BasicCourseLinkPanel } from "@/components/education/BasicCourseLinkPanel";
+import { FetalDopplerEducationalLinkPanel } from "@/components/education/FetalDopplerEducationalLinkPanel";
+import { FetalAnatomyEducationalLinkPanel } from "@/components/education/FetalAnatomyEducationalLinkPanel";
 import { CalculatorLiteraturePanel } from "@/components/pubmed/CalculatorLiteraturePanel";
 import { ClinicalAssistStrip } from "@/components/clinical-assistant/ClinicalAssistStrip";
 import {
@@ -352,6 +354,10 @@ export function FmfAssistantClient({ initialSection = "early" }: Props) {
       ) : null}
 
       {section === "early" ? <BasicCourseLinkPanel variant="inline" /> : null}
+      {section === "first" || section === "doppler" ? (
+        <FetalDopplerEducationalLinkPanel variant="inline" />
+      ) : null}
+      {section === "second" ? <FetalAnatomyEducationalLinkPanel variant="inline" /> : null}
 
       {section === "first" ? (
         <Card className="border-indigo-200/80 bg-indigo-50/40 dark:border-indigo-900/40 dark:bg-indigo-950/20">

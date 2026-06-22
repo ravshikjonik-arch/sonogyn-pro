@@ -144,6 +144,28 @@ export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
     badge: "12+2026",
   },
   {
+    id: "fetal-anatomy-22-views",
+    shelf: "courses",
+    title: "22 среза · 65 ВПР (II триместр)",
+    description:
+      "Систематический протокол Емельяненко: 24 views, 65 ВПР, 15 cases, 20 Q, ISUOG лекция 8, atlas PNG.",
+    href: "/library/fetal-anatomy-22-views",
+    tags: ["22 views", "II триместр", "ВПР", "анатомия", "сердце", "мозг"],
+    primary: true,
+    badge: "22+65",
+  },
+  {
+    id: "fetal-doppler-first-trimester",
+    shelf: "courses",
+    title: "Допплер I триместра (11–14 нед)",
+    description:
+      "5 допплер-позиций FMF: сердце, VP, пуповина, кольцо, UTA. ALARA, 9 случаев, 16 Q. ISUOG Basic · лекция 7.",
+    href: "/library/fetal-doppler-first-trimester",
+    tags: ["допплер", "FMF", "I триместр", "VP", "UTA", "SUA", "ALARA"],
+    primary: true,
+    badge: "11–14",
+  },
+  {
     id: "obstetric-atlas",
     shelf: "atlases",
     title: "Атлас I триместра (Блинов)",

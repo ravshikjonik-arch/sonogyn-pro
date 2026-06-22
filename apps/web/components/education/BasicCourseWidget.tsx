@@ -29,8 +29,12 @@ import {
   type BasicCourseLecture,
   type BasicCourseTopic,
 } from "@/lib/education/basic-course";
+import {
+  ISUOG_TOPIC_PROGRESS_KEY,
+} from "@/lib/education/fetal-doppler-first-trimester/progress";
+import { ISUOG_LECTURE_MODULE_SYNC, onIsuogTopicToggled } from "@/lib/education/isuog-module-sync";
 
-const PROGRESS_KEY = "sonogyn-isuog-topic-progress";
+const PROGRESS_KEY = ISUOG_TOPIC_PROGRESS_KEY;
 
 type CourseTab = "program" | "lecture" | "practice";
 
@@ -66,6 +70,13 @@ export function BasicCourseWidget({ variant = "full", className, initialLectureI
 
   useEffect(() => {
     setTopicDone(loadProgress());
+    const refresh = () => setTopicDone(loadProgress());
+    window.addEventListener("storage", refresh);
+    window.addEventListener("sonogyn:fetal-anatomy-progress", refresh);
+    return () => {
+      window.removeEventListener("storage", refresh);
+      window.removeEventListener("sonogyn:fetal-anatomy-progress", refresh);
+    };
   }, []);
 
   useEffect(() => {
@@ -95,8 +106,10 @@ export function BasicCourseWidget({ variant = "full", className, initialLectureI
   const toggleTopic = useCallback((lectureId: string, topicId: string) => {
     const key = `${lectureId}::${topicId}`;
     setTopicDone((prev) => {
-      const next = { ...prev, [key]: !prev[key] };
+      const nextDone = !prev[key];
+      const next = { ...prev, [key]: nextDone };
       localStorage.setItem(PROGRESS_KEY, JSON.stringify(next));
+      onIsuogTopicToggled(lectureId, topicId, nextDone);
       return next;
     });
   }, []);
@@ -244,6 +257,11 @@ function ProgramTab({
               <CardDescription>{mod.description}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-2">
+              {mod.platformModuleHref ? (
+                <Button variant="secondary" size="sm" asChild className="w-full justify-start">
+                  <Link href={mod.platformModuleHref}>Открыть модуль · 22 среза</Link>
+                </Button>
+              ) : null}
               {mod.lectureIds.length ? (
                 mod.lectureIds.map((lid) => {
                   const lecture = ISUOG_BASIC_COURSE.lectures.find((l) => l.id === lid);
@@ -264,7 +282,11 @@ function ProgramTab({
                   );
                 })
               ) : (
-                <p className="text-xs text-[var(--clinical-foreground-muted)]">Добавьте ссылку с Яндекс.Диска</p>
+                <p className="text-xs text-[var(--clinical-foreground-muted)]">
+                  {mod.lectureIds.length
+                    ? "Лекции доступны в программе ISUOG"
+                    : "Материалы будут добавлены"}
+                </p>
               )}
             </CardContent>
           </Card>
@@ -311,12 +333,22 @@ function LectureTab({
               ))}
             </ul>
             <div className="flex flex-wrap gap-2">
-              <Button asChild size="sm">
-                <a href={lecture.yandexDiskUrl} target="_blank" rel="noopener noreferrer">
-                  <ExternalLink className="mr-2 h-4 w-4" />
-                  Яндекс.Диск
-                </a>
-              </Button>
+              {lecture.platformModuleHref ? (
+                <Button asChild size="sm">
+                  <Link href={lecture.platformModuleHref}>
+                    <Stethoscope className="mr-2 h-4 w-4" />
+                    Образовательный модуль SonoGyn-Pro
+                  </Link>
+                </Button>
+              ) : null}
+              {lecture.yandexDiskUrl ? (
+                <Button asChild size="sm" variant={lecture.platformModuleHref ? "secondary" : "default"}>
+                  <a href={lecture.yandexDiskUrl} target="_blank" rel="noopener noreferrer">
+                    <ExternalLink className="mr-2 h-4 w-4" />
+                    Яндекс.Диск
+                  </a>
+                </Button>
+              ) : null}
             </div>
           </CardHeader>
           <CardContent className="space-y-3 p-4">
@@ -336,14 +368,29 @@ function LectureTab({
 
         <Card className="overflow-hidden border-[var(--clinical-border)]">
           <CardHeader className="py-3">
-            <CardTitle className="text-sm">Презентация</CardTitle>
+            <CardTitle className="text-sm">
+              {lecture.platformModuleHref ? "Интерактивный модуль" : "Презентация"}
+            </CardTitle>
           </CardHeader>
-          <iframe
-            title={`${lecture.fileName} — ISUOG`}
-            src={yandexDiskViewerUrl(lecture.yandexDiskUrl)}
-            className="h-[min(65vh,680px)] w-full bg-white"
-            loading="lazy"
-          />
+          {lecture.platformModuleHref ? (
+            <CardContent className="space-y-3 pb-6">
+              <p className="text-sm text-[var(--clinical-foreground-muted)]">
+                Полный курс: 13 секций, 9 случаев, 16 вопросов самопроверки, алгоритмы и глоссарий.
+              </p>
+              <Button asChild>
+                <Link href={lecture.platformModuleHref}>
+                  Перейти к модулю SonoGyn-Pro →
+                </Link>
+              </Button>
+            </CardContent>
+          ) : lecture.yandexDiskUrl ? (
+            <iframe
+              title={`${lecture.fileName ?? lecture.title} — ISUOG`}
+              src={yandexDiskViewerUrl(lecture.yandexDiskUrl)}
+              className="h-[min(65vh,680px)] w-full bg-white"
+              loading="lazy"
+            />
+          ) : null}
         </Card>
       </section>
     </div>
@@ -396,7 +443,10 @@ function PracticeTab({
       <Card className="border-[var(--clinical-border)]">
         <CardHeader>
           <CardTitle className="text-base">Чеклист самопроверки</CardTitle>
-          <CardDescription>Отметьте темы, которые уже отработали на практике.</CardDescription>
+          <CardDescription>
+            {ISUOG_LECTURE_MODULE_SYNC[lecture.id]?.syncMessage ??
+              "Отметьте темы, которые уже отработали на практике."}
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-2">
           {lecture.topics.map((topic) => {
