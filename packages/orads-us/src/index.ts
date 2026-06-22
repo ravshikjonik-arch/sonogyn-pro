@@ -51,6 +51,18 @@ export { buildOradsPathSummary } from "./pathSummary";
 export { flattenLocaleKeys, getNestedLocaleValue } from "./localeUtils";
 
 export {
+  hintsToPath,
+  mapExtractedToHints,
+  parseAndMapOradsHints,
+  parseOradsProtocolText,
+  type HintConfidence,
+  type OradsExtractedInput,
+  type OradsHintsResult,
+  type OradsWizardHint,
+} from "./extractedToHints";
+export type { OradsAscites, OradsContour, OradsSeptations, OradsVascularity } from "./parseOradsProtocolText";
+
+export {
   getOradsReferat,
   getReferatCaseIdForImageRef,
   getReferatImagePath,
@@ -69,6 +81,17 @@ export type {
   OradsReferatDocument,
   OradsReferatSection,
 } from "../education";
+
+export type { OradsProtocolDraftSource } from "./assist/types";
+export { buildOradsProtocolDraft, ORADS_PROTOCOL_DRAFT_DISCLAIMER } from "./assist/buildProtocolDraft";
+export {
+  resolveOradsAssistContext,
+  type OradsAgeSource,
+  type OradsAssistContext,
+  type OradsMenopauseSource,
+  type ResolveOradsAssistContextInput,
+} from "./assist/resolveOradsAssistContext";
+export { runOradsAssistPipeline, type OradsAssistPipelineResult } from "./assist/runOradsAssistPipeline";
 
 /** Supported locale bundle file names (Phase 2 UI loads JSON by code). */
 export const ORADS_LOCALE_CODES = ["ru", "en", "es", "fr", "ar"] as const;

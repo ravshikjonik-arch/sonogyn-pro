@@ -3,6 +3,7 @@ import type { OradsTreeResult } from "../types";
 
 import {
   appendOradsNavigatorStep,
+  resolveOradsNavigatorView,
   resolveOradsNavigatorViewFromPath,
   type OradsNavigatorState,
 } from "./resolveView";
@@ -12,7 +13,13 @@ export type OradsNavigatorAction =
   | { type: "back" }
   | { type: "restart" }
   | { type: "modifier_start" }
-  | { type: "modifier_pick"; optionId: string };
+  | { type: "modifier_pick"; optionId: string }
+  | {
+      type: "apply_hints";
+      hints: Array<{ nodeId: string; optionId: string; confidence?: "low" | "medium" | "high" }>;
+      /** Stop at first non-high hint when true. */
+      autoPickHigh?: boolean;
+    };
 
 export const ORADS_NAVIGATOR_INITIAL_STATE: OradsNavigatorState = {
   path: [],
@@ -64,6 +71,39 @@ export function oradsNavigatorReducer(
         return { ...state, modifierMode: false, overrideResult: opt.result };
       }
       return state;
+    }
+    case "apply_hints": {
+      let next: OradsNavigatorState = {
+        ...state,
+        showTechnicalGate: false,
+        modifierMode: false,
+        overrideResult: null,
+      };
+
+      for (const hint of action.hints) {
+        if (action.autoPickHigh && hint.confidence !== "high") break;
+
+        const view = resolveOradsNavigatorView(next);
+        if (view.kind === "result") break;
+        if (view.node.id !== hint.nodeId) continue;
+
+        const option = view.node.options.find((o) => o.id === hint.optionId);
+        if (!option) continue;
+
+        if (next.showTechnicalGate && hint.nodeId === ORADS_TREE_OPTIONAL_ENTRY_ID) {
+          next = { ...next, showTechnicalGate: false };
+        }
+
+        next = {
+          ...next,
+          path: appendOradsNavigatorStep(next.path, hint.nodeId, hint.optionId),
+        };
+
+        const after = resolveOradsNavigatorViewFromPath(next.path);
+        if (after.kind === "result") break;
+      }
+
+      return next;
     }
     default:
       return state;

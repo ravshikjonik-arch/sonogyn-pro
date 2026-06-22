@@ -26,6 +26,10 @@ export type UseOradsNavigatorReturn = {
   back: () => void;
   restart: () => void;
   startAscitesModifier: () => void;
+  applyHints: (
+    hints: Array<{ nodeId: string; optionId: string; confidence?: "low" | "medium" | "high" }>,
+    autoPickHigh?: boolean,
+  ) => void;
 };
 
 export function useOradsNavigator(options: UseOradsNavigatorOptions = {}): UseOradsNavigatorReturn {
@@ -64,6 +68,16 @@ export function useOradsNavigator(options: UseOradsNavigatorOptions = {}): UseOr
     dispatch({ type: "modifier_start" });
   }, []);
 
+  const applyHints = useCallback(
+    (
+      hints: Array<{ nodeId: string; optionId: string; confidence?: "low" | "medium" | "high" }>,
+      autoPickHigh?: boolean,
+    ) => {
+      dispatch({ type: "apply_hints", hints, autoPickHigh });
+    },
+    [],
+  );
+
   return {
     state,
     dispatch,
@@ -76,6 +90,7 @@ export function useOradsNavigator(options: UseOradsNavigatorOptions = {}): UseOr
     back,
     restart,
     startAscitesModifier,
+    applyHints,
   };
 }
 
