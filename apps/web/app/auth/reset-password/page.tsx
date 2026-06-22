@@ -6,7 +6,8 @@ import { Suspense, useCallback, useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { createClient } from "@/utils/supabase/client";
+import { fetchAuthSession, postUpdatePassword } from "@/lib/auth/client-auth-api";
+import { recoveryResetPath } from "@/lib/auth/auth-callback";
 
 function ResetPasswordForm() {
   const router = useRouter();
@@ -23,68 +24,35 @@ function ResetPasswordForm() {
   const [canReset, setCanReset] = useState(false);
 
   const finishCheck = useCallback(async () => {
-    const supabase = createClient();
-    if (!supabase) {
-      setMessage("Supabase не настроен в браузере.");
-      setCheckingSession(false);
-      return;
-    }
-
     const url = new URL(window.location.href);
     const code = url.searchParams.get("code");
     const tokenHash = url.searchParams.get("token_hash") ?? url.searchParams.get("token");
     const type = url.searchParams.get("type");
 
-    if (code || (tokenHash && type)) {
-      const next = encodeURIComponent("/auth/reset-password?recovery=1");
+    if (code || tokenHash) {
       const callback = new URL("/auth/callback", url.origin);
       if (code) callback.searchParams.set("code", code);
       if (tokenHash) callback.searchParams.set("token_hash", tokenHash);
       if (type) callback.searchParams.set("type", type);
-      callback.searchParams.set("next", next);
+      callback.searchParams.set("next", recoveryResetPath());
       window.location.replace(callback.toString());
       return;
     }
 
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
-
-    setCanReset(Boolean(session));
+    const { user } = await fetchAuthSession();
+    setCanReset(Boolean(user));
     setCheckingSession(false);
 
-    if (!session && callbackError && callbackMessage) {
+    if (!user && callbackError && callbackMessage) {
       setMessage(decodeURIComponent(callbackMessage));
-    } else if (!session && recovery) {
+    } else if (!user && recovery) {
       setMessage("Сессия восстановления не найдена. Откройте свежую ссылку из письма или запросите новую.");
     }
   }, [callbackError, callbackMessage, recovery]);
 
   useEffect(() => {
     void finishCheck();
-
-    const supabase = createClient();
-    if (!supabase) return;
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === "PASSWORD_RECOVERY" || (event === "SIGNED_IN" && recovery)) {
-        setCanReset(true);
-        setCheckingSession(false);
-        setMessage("");
-      }
-      if (event === "SIGNED_OUT") {
-        setCanReset(false);
-      }
-      if (session && recovery) {
-        setCanReset(true);
-        setCheckingSession(false);
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, [finishCheck, recovery]);
+  }, [finishCheck]);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -101,28 +69,15 @@ function ResetPasswordForm() {
 
     setLoading(true);
     try {
-      const supabase = createClient();
-      if (!supabase) {
-        setMessage("Supabase не настроен.");
+      const result = await postUpdatePassword(password);
+      if (!result.ok) {
+        setMessage(result.error);
+        if (/сессия|session|jwt|expired/i.test(result.error)) {
+          setCanReset(false);
+        }
         return;
       }
 
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      if (!session) {
-        setMessage("Сессия истекла. Запросите новую ссылку для сброса пароля.");
-        setCanReset(false);
-        return;
-      }
-
-      const { error } = await supabase.auth.updateUser({ password });
-      if (error) {
-        setMessage(error.message);
-        return;
-      }
-
-      await supabase.auth.signOut();
       router.replace("/login?message=password_updated");
       router.refresh();
     } finally {

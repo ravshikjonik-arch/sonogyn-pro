@@ -16,7 +16,7 @@ import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
 import { Button } from "@/components/ui/button";
 import { buildOAuthRedirect, normalizePhone, oauthProviderToSupabase } from "@/lib/auth/oauth-providers";
 import { looksLikePhoneInput, USE_PHONE_TAB_MSG } from "@/lib/auth/auth-error-text";
-import { postSignIn, postMfaVerifyLogin, postPhoneSendOtp, postPhoneVerifyOtp } from "@/lib/auth/client-auth-api";
+import { postForgotPassword, postMfaVerifyLogin, postPhoneSendOtp, postPhoneVerifyOtp, postSignIn } from "@/lib/auth/client-auth-api";
 import { CAPTCHA_FAILURE_THRESHOLD } from "@/lib/auth/auth-attempts";
 import { markSessionAnchorNow } from "@/lib/security/session-anchor";
 import { parseRegistrationMethod, type AuthRegistrationMethod } from "@/lib/auth/registration-methods";
@@ -275,15 +275,8 @@ function LoginForm() {
 
     setLoading(true);
     try {
-      const origin = window.location.origin;
-      const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
-        redirectTo: `${origin}/auth/callback?next=${encodeURIComponent("/auth/reset-password?recovery=1")}`,
-      });
-      if (error) {
-        setMessage(PASSWORD_RESET_GENERIC_MSG);
-        return;
-      }
-      setMessage(PASSWORD_RESET_GENERIC_MSG);
+      const result = await postForgotPassword(email.trim());
+      setMessage(result.ok ? result.message : PASSWORD_RESET_GENERIC_MSG);
     } finally {
       setLoading(false);
     }

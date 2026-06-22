@@ -297,6 +297,40 @@ export async function postPhoneVerifyOtp(params: {
   return { ok: true, session: payload.session };
 }
 
+export async function postForgotPassword(email: string): Promise<{ ok: true; message: string } | { ok: false; error: string }> {
+  const res = await fetch("/api/auth/forgot-password", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "same-origin",
+    body: JSON.stringify({ email }),
+  });
+  const payload = (await res.json().catch(() => null)) as {
+    ok?: boolean;
+    message?: string;
+    error?: string;
+  } | null;
+
+  if (!res.ok || !payload?.ok) {
+    return { ok: false, error: payload?.error ?? "Не удалось отправить письмо." };
+  }
+  return { ok: true, message: payload.message ?? "Если email зарегистрирован, мы отправили ссылку." };
+}
+
+export async function postUpdatePassword(password: string): Promise<{ ok: true } | { ok: false; error: string }> {
+  const res = await fetch("/api/auth/update-password", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "same-origin",
+    body: JSON.stringify({ password }),
+  });
+  const payload = (await res.json().catch(() => null)) as { ok?: boolean; error?: string } | null;
+
+  if (!res.ok || !payload?.ok) {
+    return { ok: false, error: payload?.error ?? "Не удалось сохранить пароль." };
+  }
+  return { ok: true };
+}
+
 export async function fetchAuthSession(): Promise<{
   user: Record<string, unknown> | null;
   rateLimited?: boolean;
