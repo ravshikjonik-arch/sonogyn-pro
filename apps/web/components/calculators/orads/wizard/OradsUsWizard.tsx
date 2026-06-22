@@ -3,7 +3,9 @@
 import { useOradsNavigator } from "@repo/orads-us";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
+import { OradsAssistPanel } from "@/components/calculators/orads/wizard/OradsAssistPanel";
 import { OradsWizardOptionButton } from "@/components/calculators/orads/wizard/OradsWizardOptionButton";
 import { OradsWizardResultTabs } from "@/components/calculators/orads/wizard/OradsWizardResultTabs";
 import { OradsWizardProgressBar } from "@/components/calculators/orads/wizard/OradsWizardUi";
@@ -22,6 +24,7 @@ type Props = {
 export function OradsUsWizard({ onOpenPro, className }: Props) {
   const locale = useOradsLocaleWeb("ru");
   const router = useRouter();
+  const [mode, setMode] = useState<"stepper" | "assist">("stepper");
 
   const nav = useOradsNavigator({
     estimatedSteps: 6,
@@ -67,6 +70,33 @@ export function OradsUsWizard({ onOpenPro, className }: Props) {
         </div>
       </div>
 
+      <div className="flex gap-2 rounded-xl border border-[var(--clinical-border)] bg-[var(--clinical-muted)] p-1">
+        <Button
+          type="button"
+          size="sm"
+          variant={mode === "stepper" ? "default" : "ghost"}
+          className="flex-1 rounded-lg"
+          onClick={() => setMode("stepper")}
+        >
+          Пошагово
+        </Button>
+        <Button
+          type="button"
+          size="sm"
+          variant={mode === "assist" ? "default" : "ghost"}
+          className="flex-1 rounded-lg"
+          onClick={() => setMode("assist")}
+        >
+          Из описания
+        </Button>
+      </div>
+
+      {mode === "assist" ? (
+        <OradsAssistPanel nav={nav} />
+      ) : null}
+
+      {mode === "stepper" ? (
+        <>
       <OradsWizardProgressBar current={nav.stepCurrent} total={nav.estimatedSteps} />
       <p className="text-sm font-bold text-[var(--clinical-foreground-muted)]">
         {locale.t("orads.wizard.step_of", {
@@ -123,6 +153,8 @@ export function OradsUsWizard({ onOpenPro, className }: Props) {
       )}
 
       <p className="text-xs text-[var(--clinical-foreground-muted)]">{locale.t("orads.meta.disclaimer")}</p>
+        </>
+      ) : null}
     </div>
   );
 }
