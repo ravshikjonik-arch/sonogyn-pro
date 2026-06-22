@@ -55,7 +55,6 @@ function LoginForm() {
   const [needsEmailConfirmation, setNeedsEmailConfirmation] = useState(false);
   const [needsPhoneRegistration, setNeedsPhoneRegistration] = useState(false);
   const [smsNotConfigured, setSmsNotConfigured] = useState(false);
-  const [idempotencyKey] = useState(() => crypto.randomUUID());
   const [sendCooldownSec, setSendCooldownSec] = useState(0);
 
   const defaultTab = useMemo(
@@ -214,7 +213,7 @@ function LoginForm() {
       const result = await postPhoneSendOtp({
         phone: normalized,
         turnstileToken,
-        idempotencyKey,
+        idempotencyKey: crypto.randomUUID(),
         fallbackEmail: fallbackEmailPhone.trim() || email.trim() || undefined,
       });
       if (!result.ok) {
@@ -231,10 +230,15 @@ function LoginForm() {
       setFailedAttempts(0);
       setOtpSent(true);
       setSendCooldownSec(30);
-      const code = result.devOtp ?? "123456";
-      setDevOtpCode(code);
-      setOtp(code);
-      setMessage("Код готов — введите ниже (на телефон локально не приходит).");
+      if (result.devOtp) {
+        setDevOtpCode(result.devOtp);
+        setOtp(result.devOtp);
+        setMessage("Dev: код на экране (SMS mock, на телефон не приходит).");
+      } else {
+        setDevOtpCode("");
+        setOtp("");
+        setMessage(result.message ?? PHONE_OTP_SENT_MSG);
+      }
     } finally {
       setLoading(false);
     }
@@ -406,7 +410,7 @@ function LoginForm() {
               aria-label="Номер телефона"
             />
             <p className="mt-1 text-xs text-slate-500">
-              Локально код <strong>123456</strong>. Нет аккаунта?{" "}
+              Код придёт по SMS в течение минуты. Нет аккаунта?{" "}
               <Link href="/register?method=phone" className="font-semibold text-[var(--clinical-primary-deep)] hover:underline">
                 Регистрация по SMS
               </Link>
@@ -479,7 +483,7 @@ function LoginForm() {
           {message && activeTab === "phone" ? (
             <AuthMessage
               message={message}
-              tone={message === PHONE_OTP_SENT_MSG || message.includes("отправлен") ? "success" : "error"}
+              tone={message === PHONE_OTP_SENT_MSG || message.includes("отправлен") || message.includes("SMS") || message.startsWith("Dev:") ? "success" : "error"}
             />
           ) : null}
           {needsPhoneRegistration && activeTab === "phone" ? (

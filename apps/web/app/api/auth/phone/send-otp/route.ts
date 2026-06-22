@@ -26,6 +26,7 @@ import { parseEmailContact } from "@/lib/auth/verification/validate-contact";
 import { logVerificationEvent } from "@/lib/auth/verification/safe-verification-log";
 import { checkRateLimit } from "@/lib/auth/verification/verification-rate-limit";
 import { isAuthEmailOnly, disabledAuthMethodResponse } from "@/lib/auth/auth-methods-config";
+import { shouldExposeDevSmsOtp } from "@/lib/auth/dev-sms";
 import { isCustomSmsAuthEnabled, resolveSmsProvider } from "@/lib/auth/sms-providers";
 import { logError } from "@/services/logger";
 
@@ -42,8 +43,6 @@ type Body = {
 };
 
 export async function POST(req: Request) {
-  if (isAuthEmailOnly()) return disabledAuthMethodResponse("phone");
-
   const failKey = rateLimitKeyFromRequest(req, "auth-phone-fail");
 
   let body: Body;
@@ -52,6 +51,19 @@ export async function POST(req: Request) {
   } catch {
     return NextResponse.json({ error: "Некорректное тело запроса." }, { status: 400 });
   }
+
+  const client = await createSupabaseRouteHandlerClient();
+  if (!client.ok) {
+    return NextResponse.json({ error: client.message }, { status: client.status });
+  }
+
+  const {
+    data: { user: sessionUser },
+  } = await client.supabase.auth.getUser();
+
+  /** /verify-phone: привязка номера после Google/email — не блокируем AUTH_EMAIL_ONLY. */
+  const isLinkPhoneFlow = Boolean(sessionUser) && body.createUser !== true;
+  if (isAuthEmailOnly() && !isLinkPhoneFlow) return disabledAuthMethodResponse("phone");
 
   const rl = await consumeAuthRateLimit(
     rateLimitKeyFromRequest(req, "auth-phone-send"),
@@ -74,15 +86,6 @@ export async function POST(req: Request) {
       );
     }
   }
-
-  const client = await createSupabaseRouteHandlerClient();
-  if (!client.ok) {
-    return NextResponse.json({ error: client.message }, { status: client.status });
-  }
-
-  const {
-    data: { user: sessionUser },
-  } = await client.supabase.auth.getUser();
 
   const phone = typeof body.phone === "string" ? normalizePhone(body.phone) : "";
   if (!phone) {
@@ -114,7 +117,7 @@ export async function POST(req: Request) {
       ok: true,
       message: link.message,
       linkPhone: true,
-      ...(process.env.NODE_ENV === "development" && link.devOtp ? { devOtp: link.devOtp } : {}),
+      ...(shouldExposeDevSmsOtp() && link.devOtp ? { devOtp: link.devOtp } : {}),
     });
   }
 
@@ -163,7 +166,7 @@ export async function POST(req: Request) {
         fallbackUsed: fb.fallbackUsed ?? false,
         deliveredVia: fb.deliveredVia ?? "sms",
         customSms: true,
-        ...(process.env.NODE_ENV === "development" && fb.devOtp ? { devOtp: fb.devOtp } : {}),
+        ...(shouldExposeDevSmsOtp() && fb.devOtp ? { devOtp: fb.devOtp } : {}),
       });
     }
     await recordAuthFailure(failKey);

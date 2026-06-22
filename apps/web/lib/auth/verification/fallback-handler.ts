@@ -1,4 +1,5 @@
 import { generateVerificationCode } from "./code-generator";
+import { readDevSmsOtpForMock, shouldExposeDevSmsOtp } from "@/lib/auth/dev-sms";
 import {
   buildIdempotencyFingerprint,
   checkIdempotency,
@@ -29,8 +30,8 @@ function resolveContact(method: VerificationMethod, raw: string): string | null 
   return parseTelegramChatId(raw);
 }
 
-const GENERIC_OK_MSG =
-  "Если контакт указан верно, код отправлен. Проверьте выбранный канал или почту (fallback).";
+const IDEMPOTENCY_DUP_MSG =
+  "Код уже отправлен. Проверьте SMS или подождите минуту перед повторной отправкой.";
 
 /**
  * Fallback chain:
@@ -59,12 +60,11 @@ export async function runVerificationFallbackChain(
     logVerificationEvent("idempotency_duplicate", { method: params.primaryMethod, purpose: params.purpose });
     const dup: FallbackChainResult = {
       ok: true,
-      message: GENERIC_OK_MSG,
+      message: IDEMPOTENCY_DUP_MSG,
       codeStored: true,
     };
-    if (process.env.NODE_ENV === "development" && params.primaryMethod === "sms") {
-      const { resolveSmsProvider } = await import("@/lib/auth/sms-providers");
-      if (resolveSmsProvider() === "mock") dup.devOtp = process.env.DEV_SMS_OTP_CODE?.trim() || "123456";
+    if (shouldExposeDevSmsOtp() && params.primaryMethod === "sms") {
+      dup.devOtp = readDevSmsOtpForMock();
     }
     return dup;
   }
@@ -87,12 +87,8 @@ export async function runVerificationFallbackChain(
 
   if (primary.ok) {
     const out: FallbackChainResult = { ...primary, codeStored: true };
-    if (
-      process.env.NODE_ENV === "development" &&
-      params.primaryMethod === "sms"
-    ) {
-      const { resolveSmsProvider } = await import("@/lib/auth/sms-providers");
-      if (resolveSmsProvider() === "mock") out.devOtp = code;
+    if (shouldExposeDevSmsOtp() && params.primaryMethod === "sms") {
+      out.devOtp = code;
     }
     return out;
   }

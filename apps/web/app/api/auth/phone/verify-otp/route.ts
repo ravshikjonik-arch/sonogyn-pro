@@ -42,8 +42,6 @@ type Body = {
 };
 
 export async function POST(req: Request) {
-  if (isAuthEmailOnly()) return disabledAuthMethodResponse("phone");
-
   const failKey = rateLimitKeyFromRequest(req, "auth-phone-verify-fail");
 
   let body: Body;
@@ -52,6 +50,18 @@ export async function POST(req: Request) {
   } catch {
     return NextResponse.json({ error: "Некорректное тело запроса." }, { status: 400 });
   }
+
+  const client = await createSupabaseRouteHandlerClient();
+  if (!client.ok) {
+    return NextResponse.json({ error: client.message }, { status: client.status });
+  }
+
+  const {
+    data: { user: sessionUser },
+  } = await client.supabase.auth.getUser();
+
+  const isLinkPhoneFlow = Boolean(sessionUser) && body.createUser !== true;
+  if (isAuthEmailOnly() && !isLinkPhoneFlow) return disabledAuthMethodResponse("phone");
 
   const rl = await consumeAuthRateLimit(
     rateLimitKeyFromRequest(req, "auth-phone-verify"),
@@ -64,15 +74,6 @@ export async function POST(req: Request) {
       { status: 429, headers: { "Retry-After": String(rl.retryAfterSec) } },
     );
   }
-
-  const client = await createSupabaseRouteHandlerClient();
-  if (!client.ok) {
-    return NextResponse.json({ error: client.message }, { status: client.status });
-  }
-
-  const {
-    data: { user: sessionUser },
-  } = await client.supabase.auth.getUser();
 
   const phone = typeof body.phone === "string" ? normalizePhone(body.phone) : "";
   const tokenRaw =
@@ -95,22 +96,33 @@ export async function POST(req: Request) {
   }
 
   if (sessionUser && body.createUser !== true) {
-    const { verifyLinkPhoneOtp } = await import("@/lib/auth/link-phone");
-    const { phoneVerifiedMetadataPatch } = await import("@/lib/auth/phone-verified");
-    const linked = await verifyLinkPhoneOtp({
-      user: sessionUser,
-      phoneE164: phone,
-      code: token,
-    });
-    if (!linked.ok) {
+    try {
+      const { verifyLinkPhoneOtp } = await import("@/lib/auth/link-phone");
+      const { phoneVerifiedMetadataPatch } = await import("@/lib/auth/phone-verified");
+      const linked = await verifyLinkPhoneOtp({
+        user: sessionUser,
+        phoneE164: phone,
+        code: token,
+      });
+      if (!linked.ok) {
+        await recordAuthFailure(failKey);
+        return NextResponse.json({ error: linked.error }, { status: linked.status ?? 401 });
+      }
+      const { error: metaError } = await client.supabase.auth.updateUser({
+        data: { ...phoneVerifiedMetadataPatch(), phone_e164: phone },
+      });
+      if (metaError) {
+        logError("phone/verify-otp: updateUser metadata failed", metaError, { userId: sessionUser.id });
+        await recordAuthFailure(failKey);
+        return NextResponse.json({ error: "Не удалось обновить профиль." }, { status: 500 });
+      }
+      await clearAuthFailures(failKey);
+      return nextJsonWithAuthCookies({ ok: true, phoneVerified: true, linkPhone: true }, client.cookiesToSet);
+    } catch (e) {
       await recordAuthFailure(failKey);
-      return NextResponse.json({ error: linked.error }, { status: linked.status ?? 401 });
+      logError("phone/verify-otp: link phone exception", e, { userId: sessionUser.id });
+      return NextResponse.json({ error: "Не удалось подтвердить номер." }, { status: 500 });
     }
-    await client.supabase.auth.updateUser({
-      data: { ...phoneVerifiedMetadataPatch(), phone_e164: phone },
-    });
-    await clearAuthFailures(failKey);
-    return nextJsonWithAuthCookies({ ok: true, phoneVerified: true, linkPhone: true }, client.cookiesToSet);
   }
 
   const wantsMobileSession = req.headers.get("x-sonogyn-client") === "mobile";

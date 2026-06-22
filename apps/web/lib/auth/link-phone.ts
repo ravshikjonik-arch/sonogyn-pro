@@ -1,13 +1,14 @@
 import type { User } from "@supabase/supabase-js";
 
 import { PHONE_OTP_SENT_MSG } from "@/lib/auth/safe-auth-messages";
-import { isValidPhoneE164 } from "@/lib/auth/registration-metadata";
 import { phoneVerifiedMetadataPatch } from "@/lib/auth/phone-verified";
 import { findUserByPhoneE164 } from "@/lib/auth/phone-custom-auth";
 import { runVerificationFallbackChain } from "@/lib/auth/verification/fallback-handler";
 import { verifyStoredCode } from "@/lib/auth/verification/code-store";
+import { shouldExposeDevSmsOtp } from "@/lib/auth/dev-sms";
 import { isCustomSmsAuthEnabled } from "@/lib/auth/sms-providers";
 import { createServiceRoleClient } from "@/utils/supabase/admin";
+import { logError } from "@/services/logger";
 
 /** Отправка OTP для привязки телефона к уже авторизованному аккаунту. */
 export async function sendLinkPhoneOtp(params: {
@@ -50,7 +51,7 @@ export async function sendLinkPhoneOtp(params: {
   return {
     ok: true,
     message: fb.message ?? PHONE_OTP_SENT_MSG,
-    devOtp: fb.devOtp,
+    ...(shouldExposeDevSmsOtp() && fb.devOtp ? { devOtp: fb.devOtp } : {}),
   };
 }
 
@@ -90,6 +91,7 @@ export async function verifyLinkPhoneOtp(params: {
   });
 
   if (error) {
+    logError("link-phone: updateUserById failed", error, { userId: params.user.id });
     return { ok: false, error: "Не удалось сохранить номер.", status: 500 };
   }
 

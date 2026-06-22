@@ -77,7 +77,6 @@ function RegisterForm() {
   const [turnstileToken, setTurnstileToken] = useState<string | undefined>();
   const [pendingEmailConfirmation, setPendingEmailConfirmation] = useState(false);
   const [smsNotConfigured, setSmsNotConfigured] = useState(false);
-  const [idempotencyKey] = useState(() => crypto.randomUUID());
   const [sendCooldownSec, setSendCooldownSec] = useState(0);
 
   const afterAuthPath = safeInternalPath(searchParams.get("next"), "/app");
@@ -229,7 +228,7 @@ function RegisterForm() {
         full_name: trimmedName,
         preferred_locale: locale,
         turnstileToken,
-        idempotencyKey,
+        idempotencyKey: crypto.randomUUID(),
         fallbackEmail: fallbackEmailPhone.trim() || email.trim() || undefined,
       });
       if (!result.ok) {
@@ -244,10 +243,15 @@ function RegisterForm() {
       setFailedAttempts(0);
       setOtpSent(true);
       setSendCooldownSec(30);
-      const code = result.devOtp ?? "123456";
-      setDevOtpCode(code);
-      setOtp(code);
-      setMessage("Код готов — введите ниже (на телефон локально не приходит).");
+      if (result.devOtp) {
+        setDevOtpCode(result.devOtp);
+        setOtp(result.devOtp);
+        setMessage("Dev: код на экране (SMS mock, на телефон не приходит).");
+      } else {
+        setDevOtpCode("");
+        setOtp("");
+        setMessage(result.message ?? PHONE_OTP_SENT_MSG);
+      }
     } finally {
       setLoading(false);
     }
@@ -307,7 +311,9 @@ function RegisterForm() {
     message === RESEND_CONFIRMATION_MSG ||
     message === PHONE_OTP_SENT_MSG ||
     message.includes("отправлен") ||
-    message.includes("Код готов");
+    message.includes("Код готов") ||
+    message.includes("SMS") ||
+    message.startsWith("Dev:");
 
   return (
     <AuthScreenShell
@@ -417,7 +423,7 @@ function RegisterForm() {
               aria-label="Номер телефона"
             />
             <p className="mt-1 text-xs text-slate-500">
-              Локально: код <strong>123456</strong> (SMS на телефон не приходит). На production — sms.ru.
+              Код придёт по SMS в течение минуты.
             </p>
           </label>
           {devOtpCode ? <DevPhoneOtpBanner code={devOtpCode} /> : null}

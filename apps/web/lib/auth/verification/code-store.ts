@@ -90,7 +90,8 @@ export async function storeVerificationCode(params: {
   const key = codeKey(params.purpose, contactHash);
 
   if (redis) {
-    await redis.set(key, JSON.stringify(record), { ex: CODE_TTL_SEC });
+    // Upstash auto-serializes objects; parseStoredVerificationRecord accepts object or legacy string.
+    await redis.set(key, record, { ex: CODE_TTL_SEC });
     return;
   }
 
@@ -127,7 +128,7 @@ export async function verifyStoredCode(params: {
     }
     record.attempts += 1;
     const ttl = await redis.ttl(key);
-    await redis.set(key, JSON.stringify(record), { ex: ttl > 0 ? ttl : CODE_TTL_SEC });
+    await redis.set(key, record, { ex: ttl > 0 ? ttl : CODE_TTL_SEC });
     return false;
   }
 

@@ -92,7 +92,7 @@ export async function POST(req: Request) {
   const started = Date.now();
   const result = await runVerificationFallbackChain({
     primaryMethod: method,
-    contact: contactRaw,
+    contact,
     purpose,
     fallbackEmail: fallbackEmail ?? undefined,
     idempotencyKey,
