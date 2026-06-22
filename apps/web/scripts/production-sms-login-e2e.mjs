@@ -37,6 +37,30 @@ function codeKey(purpose, contactHash) {
   return `sonogyn:verify:code:${purpose}:${contactHash}`;
 }
 
+async function resolveOtpFromKvHash(purpose, phone) {
+  const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
+  const token =
+    process.env.KV_REST_API_READ_ONLY_TOKEN ||
+    process.env.KV_REST_API_TOKEN ||
+    process.env.UPSTASH_REDIS_REST_TOKEN;
+  if (!url || !token) return null;
+  const p = pepper();
+  if (!p) return null;
+  const key = codeKey(purpose, hashContact(phone));
+  const res = await fetch(`${url}/get/${encodeURIComponent(key)}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!res.ok) return null;
+  const raw = await res.json();
+  const record = typeof raw.result === "string" ? JSON.parse(raw.result) : raw.result;
+  if (!record?.codeHash) return null;
+  for (let n = 0; n < 1_000_000; n++) {
+    const candidate = String(n).padStart(6, "0");
+    if (hashCode(candidate, p) === record.codeHash) return candidate;
+  }
+  return null;
+}
+
 async function storeOtpInKv(purpose, phone, code) {
   try {
     const { Redis } = await import("@upstash/redis");
@@ -173,9 +197,14 @@ async function main() {
 
   let cookies = "";
 
-  // New / first login verify
-  const code1 = String(Math.floor(100000 + Math.random() * 900000));
-  await storeOtpInKv("login", PHONE, code1);
+  // Prefer OTP from KV hash (after real send-otp) or explicit E2E_OTP_CODE
+  let code1 = process.env.E2E_OTP_CODE?.trim();
+  if (!code1) code1 = await resolveOtpFromKvHash("login", PHONE);
+  if (!code1) {
+    const injected = String(Math.floor(100000 + Math.random() * 900000));
+    await storeOtpInKv("login", PHONE, injected);
+    code1 = injected;
+  }
   const verify1 = await jsonPost("/api/auth/sms/verify", { phone: PHONE, code: code1 }, cookies);
   cookies = mergeCookies(cookies, verify1.setCookie);
   log("verify-otp (1)", { status: verify1.status, body: verify1.data, cookiesSet: verify1.setCookie.length });
@@ -209,9 +238,13 @@ async function main() {
   const sessionStatus = await sessionCheck.json();
   log("session/with-cookies", { authenticated: sessionStatus.authenticated ?? sessionStatus.userId ?? "check" });
 
-  // Existing user login
-  const code2 = String(Math.floor(100000 + Math.random() * 900000));
-  await storeOtpInKv("login", PHONE, code2);
+  // Existing user login — resolve fresh OTP from KV after another send or inject
+  await jsonPost("/api/auth/sms/send", { phone: PHONE, purpose: "login" }, cookies);
+  let code2 = await resolveOtpFromKvHash("login", PHONE);
+  if (!code2) {
+    code2 = String(Math.floor(100000 + Math.random() * 900000));
+    await storeOtpInKv("login", PHONE, code2);
+  }
   const verify2 = await jsonPost("/api/auth/sms/verify", { phone: PHONE, code: code2 }, cookies);
   cookies = mergeCookies(cookies, verify2.setCookie);
   log("verify-otp (2 existing)", { status: verify2.status, body: verify2.data });
