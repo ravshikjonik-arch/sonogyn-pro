@@ -38,27 +38,44 @@ function codeKey(purpose, contactHash) {
 }
 
 async function storeOtpInKv(purpose, phone, code) {
-  const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
-  const token = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
-  if (!url || !token) throw new Error("Missing KV_REST_API_URL / KV_REST_API_TOKEN");
-  const p = pepper();
-  if (!p) throw new Error("Missing VERIFICATION_CODE_PEPPER or SUPABASE_SERVICE_ROLE_KEY");
-
-  const contactHash = hashContact(phone);
-  const key = codeKey(purpose, contactHash);
-  const record = {
-    codeHash: hashCode(code, p),
-    purpose,
-    method: "sms",
-    createdAt: Date.now(),
-    attempts: 0,
-  };
-
-  const res = await fetch(`${url}/set/${encodeURIComponent(key)}/${encodeURIComponent(JSON.stringify(record))}/EX/300`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  if (!res.ok) throw new Error(`KV set failed: ${res.status} ${await res.text()}`);
-  return { key, code };
+  try {
+    const { Redis } = await import("@upstash/redis");
+    const redis = Redis.fromEnv();
+    const p = pepper();
+    if (!p) throw new Error("Missing VERIFICATION_CODE_PEPPER or SUPABASE_SERVICE_ROLE_KEY");
+    const contactHash = hashContact(phone);
+    const key = codeKey(purpose, contactHash);
+    const record = {
+      codeHash: hashCode(code, p),
+      purpose,
+      method: "sms",
+      createdAt: Date.now(),
+      attempts: 0,
+    };
+    await redis.set(key, record, { ex: 300 });
+    return { key, code };
+  } catch {
+    // Fallback: raw REST when @upstash/redis env is unavailable locally
+    const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
+    const token = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
+    if (!url || !token) throw new Error("Missing KV_REST_API_URL / KV_REST_API_TOKEN (or UPSTASH_*)");
+    const p = pepper();
+    if (!p) throw new Error("Missing VERIFICATION_CODE_PEPPER or SUPABASE_SERVICE_ROLE_KEY");
+    const contactHash = hashContact(phone);
+    const key = codeKey(purpose, contactHash);
+    const record = {
+      codeHash: hashCode(code, p),
+      purpose,
+      method: "sms",
+      createdAt: Date.now(),
+      attempts: 0,
+    };
+    const res = await fetch(`${url}/set/${encodeURIComponent(key)}/${encodeURIComponent(JSON.stringify(record))}/EX/300`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!res.ok) throw new Error(`KV set failed: ${res.status} ${await res.text()}`);
+    return { key, code };
+  }
 }
 
 async function jsonPost(path, body, cookieJar) {
@@ -124,13 +141,14 @@ async function main() {
   const statusRes = await fetch(`${BASE}/api/auth/status`, { headers: { "User-Agent": UA } });
   const status = await statusRes.json();
   log("auth/status", status);
+  const smsReady = status.smsReady ?? status.features?.smsReady;
   results.steps.push({
     step: "status",
-    smsReady: status.smsReady,
-    smsProvider: status.smsProvider,
+    smsReady,
+    smsProvider: status.smsProvider ?? status.features?.smsProvider,
     hasDevOtp: false,
   });
-  if (!status.smsReady) throw new Error("Production SMS not ready");
+  if (!smsReady) throw new Error("Production SMS not ready");
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;

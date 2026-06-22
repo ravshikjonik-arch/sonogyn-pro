@@ -74,6 +74,12 @@
       "@repo/birads-us/*": [
         "../../packages/birads-us/*"
       ],
+      "@repo/ln-rads-us": [
+        "../../packages/ln-rads-us/src/index.ts"
+      ],
+      "@repo/ln-rads-us/*": [
+        "../../packages/ln-rads-us/*"
+      ],
       "@repo/tirads-acr": [
         "../../packages/tirads-acr/src/index.ts"
       ],
@@ -99,6 +105,10 @@
   ],
   "exclude": [
     "node_modules",
-    ".next"
+    ".next",
+    "**/* 2.ts",
+    "**/* 2.tsx",
+    "**/* 3.ts",
+    "**/* 3.tsx"
   ]
 }
