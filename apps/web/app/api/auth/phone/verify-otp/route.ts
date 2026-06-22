@@ -139,7 +139,8 @@ export async function POST(req: Request) {
     const ensured = await ensurePhoneAuthUser({
       phoneE164: phone,
       registration: registrationMeta,
-      createUser: isRegistration,
+      // OTP verified — phone ownership proven; provision account if deleted / first SMS login.
+      createUser: true,
     });
     if ("error" in ensured) {
       return NextResponse.json(

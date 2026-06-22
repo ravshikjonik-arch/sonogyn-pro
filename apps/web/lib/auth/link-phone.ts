@@ -2,7 +2,7 @@ import type { User } from "@supabase/supabase-js";
 
 import { PHONE_OTP_SENT_MSG } from "@/lib/auth/safe-auth-messages";
 import { phoneVerifiedMetadataPatch } from "@/lib/auth/phone-verified";
-import { findUserByPhoneE164 } from "@/lib/auth/phone-custom-auth";
+import { findUserByPhoneE164, phoneDigitsForLookup } from "@/lib/auth/phone-custom-auth";
 import { runVerificationFallbackChain } from "@/lib/auth/verification/fallback-handler";
 import { verifyStoredCode } from "@/lib/auth/verification/code-store";
 import { shouldExposeDevSmsOtp } from "@/lib/auth/dev-sms";
@@ -85,7 +85,7 @@ export async function verifyLinkPhoneOtp(params: {
   };
 
   const { error } = await admin.auth.admin.updateUserById(params.user.id, {
-    phone: params.phoneE164,
+    phone: phoneDigitsForLookup(params.phoneE164),
     phone_confirm: true,
     user_metadata: patch,
   });

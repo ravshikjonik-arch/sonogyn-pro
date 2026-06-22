@@ -14,6 +14,18 @@ import { createServiceRoleClient } from "@/utils/supabase/admin";
 
 const PHONE_EMAIL_DOMAIN = "phone.sonogyn.app";
 
+/** E.164 / Supabase phone → единые цифры для сравнения (79933000070). */
+export function phoneDigitsForLookup(e164: string): string {
+  const digits = e164.replace(/\D/g, "");
+  if (digits.startsWith("8") && digits.length === 11) return `7${digits.slice(1)}`;
+  return digits;
+}
+
+export function phonesMatchStored(stored: string | null | undefined, e164: string): boolean {
+  if (!stored?.trim()) return false;
+  return phoneDigitsForLookup(stored) === phoneDigitsForLookup(e164);
+}
+
 export function phoneToAuthEmail(e164: string): string {
   const digits = e164.replace(/\D/g, "");
   return `phone_${digits}@${PHONE_EMAIL_DOMAIN}`;
@@ -32,9 +44,9 @@ export async function findUserByPhoneE164(
     if (error) throw error;
     const hit = data.users.find(
       (u) =>
-        u.phone === target ||
-        String(u.user_metadata?.phone_e164 ?? "") === target ||
-        u.email === phoneToAuthEmail(target),
+        phonesMatchStored(u.phone, target) ||
+        phonesMatchStored(String(u.user_metadata?.phone_e164 ?? ""), target) ||
+        u.email?.toLowerCase() === email.toLowerCase(),
     );
     if (hit) return hit;
     if (data.users.length < 200) break;
@@ -70,7 +82,7 @@ export async function ensurePhoneAuthUser(params: {
   const { data, error } = await admin.auth.admin.createUser({
     email,
     email_confirm: true,
-    phone: params.phoneE164,
+    phone: phoneDigitsForLookup(params.phoneE164),
     phone_confirm: true,
     user_metadata: {
       phone_e164: params.phoneE164,
