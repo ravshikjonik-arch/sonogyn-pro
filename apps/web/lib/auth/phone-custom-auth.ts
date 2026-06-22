@@ -107,6 +107,13 @@ export async function ensurePhoneAuthUser(params: {
   const userId = data.user?.id;
   if (!userId) return { error: "Не удалось создать пользователя." };
 
+  await applyRegistrationMetadataAdmin(
+    admin,
+    userId,
+    params.registration ?? {},
+    { phone_e164: params.phoneE164, ...phoneVerifiedMetadataPatch() },
+  );
+
   TelegramService.notifyAdminsSafe("user.created", {
     userId,
     phone: params.phoneE164,

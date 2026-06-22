@@ -12,7 +12,6 @@ import { RegisterCareerTeaser } from "@/components/auth/RegisterCareerTeaser";
 import { AuthSetupBanner } from "@/components/auth/AuthSetupBanner";
 import { EmailRegistrationHint } from "@/components/auth/EmailRegistrationHint";
 import { PhoneAuthSetupHint } from "@/components/auth/PhoneAuthSetupHint";
-import { DevPhoneOtpBanner } from "@/components/auth/DevPhoneOtpBanner";
 import {
   birthDateErrorMessage,
   DoctorRegistrationFields,
@@ -67,7 +66,6 @@ function RegisterForm() {
   const [fallbackEmailPhone, setFallbackEmailPhone] = useState("");
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
-  const [devOtpCode, setDevOtpCode] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [oauthLoading, setOauthLoading] = useState<AuthProvider | null>(null);
@@ -243,15 +241,8 @@ function RegisterForm() {
       setFailedAttempts(0);
       setOtpSent(true);
       setSendCooldownSec(30);
-      if (result.devOtp) {
-        setDevOtpCode(result.devOtp);
-        setOtp(result.devOtp);
-        setMessage("Dev: код на экране (SMS mock, на телефон не приходит).");
-      } else {
-        setDevOtpCode("");
-        setOtp("");
-        setMessage(result.message ?? PHONE_OTP_SENT_MSG);
-      }
+      setOtp("");
+      setMessage(result.message ?? PHONE_OTP_SENT_MSG);
     } finally {
       setLoading(false);
     }
@@ -312,8 +303,7 @@ function RegisterForm() {
     message === PHONE_OTP_SENT_MSG ||
     message.includes("отправлен") ||
     message.includes("Код готов") ||
-    message.includes("SMS") ||
-    message.startsWith("Dev:");
+    message.includes("SMS");
 
   return (
     <AuthScreenShell
@@ -426,7 +416,6 @@ function RegisterForm() {
               Код придёт по SMS в течение минуты.
             </p>
           </label>
-          {devOtpCode ? <DevPhoneOtpBanner code={devOtpCode} /> : null}
           <label className="block">
             <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
               Email для резервной отправки кода

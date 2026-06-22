@@ -9,7 +9,6 @@ import { AuthButtons } from "@repo/ui";
 import { useAuth, useSupabase } from "@/app/providers";
 import { AuthMessage, AuthScreenShell, authInputClass } from "@/components/auth/AuthScreenShell";
 import { AuthSetupBanner } from "@/components/auth/AuthSetupBanner";
-import { DevPhoneOtpBanner } from "@/components/auth/DevPhoneOtpBanner";
 import { PhoneAuthSetupHint } from "@/components/auth/PhoneAuthSetupHint";
 import { SocialAuthSetupHint } from "@/components/auth/SocialAuthSetupHint";
 import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
@@ -42,7 +41,6 @@ function LoginForm() {
   const [fallbackEmailPhone, setFallbackEmailPhone] = useState("");
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
-  const [devOtpCode, setDevOtpCode] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [oauthLoading, setOauthLoading] = useState<AuthProvider | null>(null);
@@ -230,15 +228,8 @@ function LoginForm() {
       setFailedAttempts(0);
       setOtpSent(true);
       setSendCooldownSec(30);
-      if (result.devOtp) {
-        setDevOtpCode(result.devOtp);
-        setOtp(result.devOtp);
-        setMessage("Dev: код на экране (SMS mock, на телефон не приходит).");
-      } else {
-        setDevOtpCode("");
-        setOtp("");
-        setMessage(result.message ?? PHONE_OTP_SENT_MSG);
-      }
+      setOtp("");
+      setMessage(result.message ?? PHONE_OTP_SENT_MSG);
     } finally {
       setLoading(false);
     }
@@ -416,7 +407,6 @@ function LoginForm() {
               </Link>
             </p>
           </label>
-          {devOtpCode ? <DevPhoneOtpBanner code={devOtpCode} /> : null}
           <label className="block">
             <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
               Email для резервной отправки кода
@@ -483,7 +473,7 @@ function LoginForm() {
           {message && activeTab === "phone" ? (
             <AuthMessage
               message={message}
-              tone={message === PHONE_OTP_SENT_MSG || message.includes("отправлен") || message.includes("SMS") || message.startsWith("Dev:") ? "success" : "error"}
+              tone={message === PHONE_OTP_SENT_MSG || message.includes("отправлен") || message.includes("SMS") ? "success" : "error"}
             />
           ) : null}
           {needsPhoneRegistration && activeTab === "phone" ? (
