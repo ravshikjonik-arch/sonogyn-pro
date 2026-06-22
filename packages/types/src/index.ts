@@ -33,6 +33,24 @@ export {
 } from "./clinical-preferences";
 
 export {
+  BIRTH_DATE_MIN_AGE,
+  BIRTH_DATE_MAX_AGE,
+  ageFromBirthDateIso,
+  birthDateErrorMessage,
+  birthDatePickerBounds,
+  formatAgeYearsRu,
+  formatBirthDateRu,
+  isoFromDate,
+  normalizeBirthDateInput,
+  parseIsoBirthDate,
+  parseRuBirthDate,
+  resolveBirthDateIso,
+  validateBirthDateIso,
+  type BirthDateValidationError,
+  type ParsedBirthDate,
+} from "./birth-date";
+
+export {
   ClinicalPhoneSchema,
   clinicalPlainText,
   ExternalMrnSchema,
@@ -82,6 +100,11 @@ export const UpdateProfileBodySchema = z
     institution: z.string().max(240).optional(),
     specialization: z.string().max(240).optional(),
     birth_year: z.coerce.number().int().min(1900).max(2100).optional(),
+    /** ISO YYYY-MM-DD — stored in auth user_metadata.birth_date */
+    birth_date: z
+      .string()
+      .regex(/^\d{4}-\d{2}-\d{2}$/, "birth_date must be ISO YYYY-MM-DD")
+      .optional(),
     /** Relative path inside bucket `clinical-avatars`, must start with `{userId}/`. */
     avatar_storage_path: z.string().max(512).optional(),
     /** Частичное обновление клинических настроек (merge в profiles.clinical_preferences). */
@@ -459,3 +482,20 @@ export {
   type TeachingCaseStatus,
   type TeachingCaseTopic,
 } from "./teaching-cases";
+
+export {
+  CreateOradsEventBodySchema,
+  OradsAgeSourceSchema,
+  OradsAssistPlatformSchema,
+  OradsEventFeedbackBodySchema,
+  OradsMenopauseSourceSchema,
+  OradsProtocolDraftSourceSchema,
+  OradsTreePathStepSchema,
+  OradsWizardHintSchema,
+  type CreateOradsEventBody,
+  type OradsAgeSource,
+  type OradsAssistPlatform,
+  type OradsEventFeedbackBody,
+  type OradsMenopauseSource,
+  type OradsProtocolDraftSource,
+} from "./orads-events";
