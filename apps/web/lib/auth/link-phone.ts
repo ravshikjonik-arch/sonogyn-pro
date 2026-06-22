@@ -91,7 +91,7 @@ export async function verifyLinkPhoneOtp(params: {
   });
 
   if (error) {
-    logError("link-phone: updateUserById failed", error, { userId: params.user.id });
+    logError("link-phone: updateUserById failed", error, { context: { userId: params.user.id } });
     return { ok: false, error: "Не удалось сохранить номер.", status: 500 };
   }
 
