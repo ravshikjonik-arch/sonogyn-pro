@@ -112,7 +112,9 @@ export async function POST(req: Request) {
         data: { ...phoneVerifiedMetadataPatch(), phone_e164: phone },
       });
       if (metaError) {
-        logError("phone/verify-otp: updateUser metadata failed", metaError, { userId: sessionUser.id });
+        logError("phone/verify-otp: updateUser metadata failed", metaError, {
+          context: { userId: sessionUser.id },
+        });
         await recordAuthFailure(failKey);
         return NextResponse.json({ error: "Не удалось обновить профиль." }, { status: 500 });
       }
@@ -120,7 +122,7 @@ export async function POST(req: Request) {
       return nextJsonWithAuthCookies({ ok: true, phoneVerified: true, linkPhone: true }, client.cookiesToSet);
     } catch (e) {
       await recordAuthFailure(failKey);
-      logError("phone/verify-otp: link phone exception", e, { userId: sessionUser.id });
+      logError("phone/verify-otp: link phone exception", e, { context: { userId: sessionUser.id } });
       return NextResponse.json({ error: "Не удалось подтвердить номер." }, { status: 500 });
     }
   }
