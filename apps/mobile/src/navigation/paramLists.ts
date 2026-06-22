@@ -30,7 +30,13 @@ export type RootStackParamList = {
   Paywall: undefined;
   Language: undefined;
   ORADSFlow: undefined;
-  ORADSWizard: undefined;
+  ORADSWizard:
+    | {
+        patientId?: string;
+        /** ISO YYYY-MM-DD from patient meta.date_of_birth */
+        patientBirthDateIso?: string;
+      }
+    | undefined;
   StructuredReportPreview: {
     path: import("@repo/orads-us").OradsTreePathStep[];
     result: import("@repo/orads-us").OradsTreeResult;
