@@ -63,7 +63,13 @@ export function signUpViaApi(
   email: string,
   password: string,
   full_name: string,
-  extra?: { preferred_locale?: string; turnstileToken?: string },
+  extra?: {
+    preferred_locale?: string;
+    turnstileToken?: string;
+    birth_date?: string;
+    birth_year?: number;
+    specialization?: string;
+  },
 ) {
   return postAuth("sign-up", { email, password, full_name, ...extra });
 }
@@ -155,6 +161,14 @@ export async function sendPhoneOtpViaApi(
 export async function verifyPhoneOtpViaApi(
   phone: string,
   token: string,
+  registration?: {
+    full_name?: string;
+    birth_date?: string;
+    birth_year?: number;
+    specialization?: string;
+    preferred_locale?: string;
+    createUser?: boolean;
+  },
 ): Promise<EmailAuthResult> {
   const base = getWebApiBase();
   if (!base) return { ok: false, error: "API не настроен." };
@@ -162,7 +176,16 @@ export async function verifyPhoneOtpViaApi(
   const res = await fetch(`${base}/api/auth/phone/verify-otp`, {
     method: "POST",
     headers: { "Content-Type": "application/json", "x-sonogyn-client": "mobile" },
-    body: JSON.stringify({ phone, token }),
+    body: JSON.stringify({
+      phone,
+      token,
+      createUser: registration?.createUser ?? true,
+      full_name: registration?.full_name,
+      birth_date: registration?.birth_date,
+      birth_year: registration?.birth_year,
+      specialization: registration?.specialization,
+      preferred_locale: registration?.preferred_locale,
+    }),
   });
 
   const payload = (await res.json().catch(() => null)) as {

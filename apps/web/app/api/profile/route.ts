@@ -3,7 +3,9 @@ import { NextResponse } from "next/server";
 import {
   ClinicalPreferencesSchema,
   UpdateProfileBodySchema,
+  birthDateErrorMessage,
   parseClinicalPreferences,
+  validateBirthDateIso,
 } from "@repo/types";
 
 import {
@@ -97,6 +99,13 @@ export async function PATCH(request: Request) {
 
   const d = parsed.data;
 
+  if (d.birth_date !== undefined) {
+    const birthErr = validateBirthDateIso(d.birth_date);
+    if (birthErr) {
+      return NextResponse.json({ error: birthDateErrorMessage(birthErr) }, { status: 400 });
+    }
+  }
+
   const beforeProfile = await loadCareerProfileInput(supabase, auth.userId);
   const beforeEnrollmentCount = beforeProfile?.courseEnrollmentCount ?? 0;
 
@@ -105,6 +114,9 @@ export async function PATCH(request: Request) {
   if (d.institution !== undefined) profilePatch.institution = d.institution;
   if (d.specialization !== undefined) profilePatch.specialization = d.specialization;
   if (d.birth_year !== undefined) profilePatch.birth_year = d.birth_year;
+  if (d.birth_date !== undefined) {
+    profilePatch.birth_year = Number.parseInt(d.birth_date.slice(0, 4), 10);
+  }
 
   if (d.clinical_preferences !== undefined) {
     const { data: currentRow, error: readError } = await supabase
@@ -202,6 +214,18 @@ export async function PATCH(request: Request) {
 
   if (userUpsertError) {
     return NextResponse.json({ error: userUpsertError.message }, { status: 500 });
+  }
+
+  if (d.birth_date !== undefined) {
+    const { error: metaError } = await supabase.auth.updateUser({
+      data: {
+        birth_date: d.birth_date,
+        birth_year: Number.parseInt(d.birth_date.slice(0, 4), 10),
+      },
+    });
+    if (metaError) {
+      return NextResponse.json({ error: metaError.message }, { status: 500 });
+    }
   }
 
   const afterProfile =

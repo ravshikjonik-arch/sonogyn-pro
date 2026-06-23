@@ -1,5 +1,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 
+import { normalizeBirthDateInput, validateBirthDateIso } from "@repo/types";
+
 import { parseBirthYearFromBody } from "@/lib/auth/birth-date";
 
 export type RegistrationMetadata = {
@@ -8,7 +10,7 @@ export type RegistrationMetadata = {
   specialization?: string;
   institution?: string;
   birth_year?: number;
-  /** DD.MM.YYYY в user_metadata */
+  /** ISO YYYY-MM-DD в user_metadata */
   birth_date?: string;
 };
 
@@ -33,7 +35,11 @@ export function parseRegistrationMetadata(body: Record<string, unknown>): Regist
   const parsedYear = parseBirthYearFromBody(body);
   if (parsedYear) meta.birth_year = parsedYear;
   if (typeof birthDateRaw === "string" && birthDateRaw.trim()) {
-    meta.birth_date = birthDateRaw.trim();
+    const parsed = normalizeBirthDateInput(birthDateRaw);
+    if (parsed && !validateBirthDateIso(parsed.iso)) {
+      meta.birth_date = parsed.iso;
+      if (!meta.birth_year) meta.birth_year = parsed.year;
+    }
   }
 
   return meta;

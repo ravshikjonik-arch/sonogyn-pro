@@ -50,6 +50,7 @@
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.6.1",
     "@repo/birads-us": "workspace:*",
+    "@repo/ln-rads-us": "workspace:*",
     "@repo/tirads-acr": "workspace:*",
     "@repo/thyroid-tirads": "workspace:*",
     "@repo/clinical-guidelines": "workspace:*",

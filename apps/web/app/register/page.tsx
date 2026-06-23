@@ -15,7 +15,7 @@ import { PhoneAuthSetupHint } from "@/components/auth/PhoneAuthSetupHint";
 import {
   birthDateErrorMessage,
   DoctorRegistrationFields,
-  validateDoctorBirthDate,
+  validateDoctorBirthDateIso,
 } from "@/components/auth/DoctorRegistrationFields";
 import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
 import { Button } from "@/components/ui/button";
@@ -58,7 +58,7 @@ function RegisterForm() {
 
   const [activeTab, setActiveTab] = useState<AuthRegistrationMethod>(defaultTab);
   const [fullName, setFullName] = useState("");
-  const [birthDate, setBirthDate] = useState("");
+  const [birthDateIso, setBirthDateIso] = useState("");
   const [specialization, setSpecialization] = useState("Акушер-гинеколог");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -133,9 +133,9 @@ function RegisterForm() {
     const trimmedName = validateDoctorName();
     if (!trimmedName) return;
 
-    const parsedBirth = validateDoctorBirthDate(birthDate);
+    const parsedBirth = validateDoctorBirthDateIso(birthDateIso);
     if (!parsedBirth) {
-      setMessage(birthDateErrorMessage());
+      setMessage(birthDateErrorMessage(birthDateIso));
       return;
     }
 
@@ -156,7 +156,7 @@ function RegisterForm() {
         password,
         full_name: trimmedName,
         birth_year: parsedBirth.year,
-        birth_date: parsedBirth.display,
+        birth_date: parsedBirth.iso,
         specialization: specialization.trim(),
         preferred_locale: locale,
         turnstileToken,
@@ -256,6 +256,17 @@ function RegisterForm() {
     const trimmedName = validateDoctorName();
     if (!trimmedName) return;
 
+    const parsedBirth = validateDoctorBirthDateIso(birthDateIso);
+    if (!parsedBirth) {
+      setMessage(birthDateErrorMessage(birthDateIso));
+      return;
+    }
+
+    if (!specialization.trim()) {
+      setMessage("Выберите специализацию из списка.");
+      return;
+    }
+
     const normalized = normalizePhone(phone);
     setLoading(true);
     try {
@@ -265,6 +276,9 @@ function RegisterForm() {
         createUser: true,
         full_name: trimmedName,
         preferred_locale: locale,
+        birth_year: parsedBirth.year,
+        birth_date: parsedBirth.iso,
+        specialization: specialization.trim(),
       });
       if (!result.ok) {
         setSmsNotConfigured(Boolean(result.smsNotConfigured));
@@ -321,8 +335,8 @@ function RegisterForm() {
           <DoctorRegistrationFields
             fullName={fullName}
             onFullNameChange={setFullName}
-            birthDate={birthDate}
-            onBirthDateChange={setBirthDate}
+            birthDateIso={birthDateIso}
+            onBirthDateIsoChange={setBirthDateIso}
             specialization={specialization}
             onSpecializationChange={setSpecialization}
             locale={locale}
@@ -393,8 +407,8 @@ function RegisterForm() {
           <DoctorRegistrationFields
             fullName={fullName}
             onFullNameChange={setFullName}
-            birthDate={birthDate}
-            onBirthDateChange={setBirthDate}
+            birthDateIso={birthDateIso}
+            onBirthDateIsoChange={setBirthDateIso}
             specialization={specialization}
             onSpecializationChange={setSpecialization}
             locale={locale}

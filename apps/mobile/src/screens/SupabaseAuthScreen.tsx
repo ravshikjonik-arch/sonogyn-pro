@@ -11,9 +11,15 @@ import {
   View,
 } from "react-native";
 import { CLINICAL_3D_LOCALES, DEFAULT_CLINICAL_3D_LOCALE, type Clinical3dLocale } from "@repo/clinical-3d";
+import { DOCTOR_SPECIALIZATION_OPTIONS } from "@repo/clinical-tools";
 import type { AuthProvider } from "@repo/ui";
 import { AuthButtons } from "@repo/ui";
+import {
+  birthDateErrorMessage,
+  validateBirthDateIso,
+} from "@repo/types";
 
+import { BirthDateField } from "../components/BirthDateField";
 import { useOAuthSignIn } from "../hooks/useOAuthSignIn";
 import { usePhoneAuth } from "../hooks/usePhoneAuth";
 import { changeLanguage, isAppLanguage, type AppLanguage } from "../i18n";
@@ -44,6 +50,9 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
   const [mode, setMode] = useState<"sign-in" | "sign-up">("sign-in");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [birthDateIso, setBirthDateIso] = useState("");
+  const [specialization, setSpecialization] = useState("Акушер-гинеколог");
   const [busy, setBusy] = useState(false);
   const [oauthLoading, setOauthLoading] = useState<AuthProvider | null>(null);
   const [locale, setLocale] = useState<AuthLocale>(DEFAULT_CLINICAL_3D_LOCALE);
@@ -67,6 +76,29 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
 
   const phoneAuth = usePhoneAuth();
   const { signIn: signInOAuth } = useOAuthSignIn();
+
+  function validateSignUpDoctorFields(): { birth_date: string; birth_year: number } | null {
+    const trimmedName = fullName.trim();
+    if (!trimmedName) {
+      Alert.alert("Регистрация", "Укажите ФИО врача.");
+      return null;
+    }
+    if (!birthDateIso.trim() || validateBirthDateIso(birthDateIso)) {
+      Alert.alert(
+        "Регистрация",
+        birthDateErrorMessage(validateBirthDateIso(birthDateIso) ?? "empty"),
+      );
+      return null;
+    }
+    if (!specialization.trim()) {
+      Alert.alert("Регистрация", "Выберите специализацию.");
+      return null;
+    }
+    return {
+      birth_date: birthDateIso,
+      birth_year: Number.parseInt(birthDateIso.slice(0, 4), 10),
+    };
+  }
 
   const finishAuth = useCallback(async () => {
     await markSessionAnchorNow();
@@ -127,9 +159,14 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
         return;
       }
       if (mode === "sign-up") {
-        const result = await signUpViaApi(email.trim(), password, email.trim().split("@")[0] ?? "User", {
+        const birth = validateSignUpDoctorFields();
+        if (!birth) return;
+        const result = await signUpViaApi(email.trim(), password, fullName.trim(), {
           preferred_locale: locale,
           turnstileToken,
+          birth_date: birth.birth_date,
+          birth_year: birth.birth_year,
+          specialization: specialization.trim(),
         });
         if (!result.ok) {
           setRequiresCaptcha(Boolean(result.requiresCaptcha));
@@ -180,7 +217,22 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
 
   async function submitPhone() {
     if (phoneAuth.otpSent) {
-      const ok = await phoneAuth.verifyOtp();
+      const registration =
+        mode === "sign-up"
+          ? (() => {
+              const birth = validateSignUpDoctorFields();
+              if (!birth) return null;
+              return {
+                full_name: fullName.trim(),
+                birth_date: birth.birth_date,
+                birth_year: birth.birth_year,
+                specialization: specialization.trim(),
+                preferred_locale: locale,
+              };
+            })()
+          : undefined;
+      if (mode === "sign-up" && !registration) return;
+      const ok = await phoneAuth.verifyOtp(registration ?? undefined);
       if (ok) await finishAuth();
       return;
     }
@@ -229,24 +281,54 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
         ))}
       </View>
 
+      <View style={styles.toggleRow}>
+        <Pressable
+          style={[styles.toggle, mode === "sign-in" && styles.toggleActive]}
+          onPress={() => setMode("sign-in")}
+          accessibilityLabel="Режим входа"
+        >
+          <Text style={[styles.toggleText, mode === "sign-in" && styles.toggleTextActive]}>Войти</Text>
+        </Pressable>
+        <Pressable
+          style={[styles.toggle, mode === "sign-up" && styles.toggleActive]}
+          onPress={() => setMode("sign-up")}
+          accessibilityLabel="Режим регистрации"
+        >
+          <Text style={[styles.toggleText, mode === "sign-up" && styles.toggleTextActive]}>Регистрация</Text>
+        </Pressable>
+      </View>
+
+      {mode === "sign-up" && (tab === "email" || tab === "phone") ? (
+        <View style={styles.panel}>
+          <TextInput
+            placeholder="ФИО врача"
+            accessibilityLabel="ФИО врача"
+            style={styles.input}
+            value={fullName}
+            onChangeText={setFullName}
+          />
+          <BirthDateField value={birthDateIso} onChange={setBirthDateIso} />
+          <View style={styles.specBlock}>
+            <Text style={styles.specLabel}>Специализация</Text>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.specScroll}>
+              {DOCTOR_SPECIALIZATION_OPTIONS.map((opt) => (
+                <Pressable
+                  key={opt}
+                  style={[styles.specChip, specialization === opt && styles.specChipActive]}
+                  onPress={() => setSpecialization(opt)}
+                >
+                  <Text style={[styles.specChipText, specialization === opt && styles.specChipTextActive]}>
+                    {opt}
+                  </Text>
+                </Pressable>
+              ))}
+            </ScrollView>
+          </View>
+        </View>
+      ) : null}
+
       {tab === "email" ? (
         <View style={styles.panel}>
-          <View style={styles.toggleRow}>
-            <Pressable
-              style={[styles.toggle, mode === "sign-in" && styles.toggleActive]}
-              onPress={() => setMode("sign-in")}
-              accessibilityLabel="Режим входа"
-            >
-              <Text style={[styles.toggleText, mode === "sign-in" && styles.toggleTextActive]}>Войти</Text>
-            </Pressable>
-            <Pressable
-              style={[styles.toggle, mode === "sign-up" && styles.toggleActive]}
-              onPress={() => setMode("sign-up")}
-              accessibilityLabel="Режим регистрации"
-            >
-              <Text style={[styles.toggleText, mode === "sign-up" && styles.toggleTextActive]}>Регистрация</Text>
-            </Pressable>
-          </View>
           {mode === "sign-up" ? (
             <View style={styles.localeBlock}>
               <Text style={styles.localeLabel}>Язык интерфейса</Text>
@@ -473,4 +555,19 @@ const styles = StyleSheet.create({
   localeChipActive: { borderColor: "#005CB9", backgroundColor: "#E0F2FE" },
   localeChipText: { fontSize: 12, fontWeight: "700", color: "#64748B" },
   localeChipTextActive: { color: "#075985" },
+  specBlock: { gap: 6 },
+  specLabel: { fontSize: 13, fontWeight: "700", color: "#334155" },
+  specScroll: { flexGrow: 0 },
+  specChip: {
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: "#CBD5F5",
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    marginRight: 8,
+    backgroundColor: "#fff",
+  },
+  specChipActive: { borderColor: "#005CB9", backgroundColor: "#E0F2FE" },
+  specChipText: { fontSize: 12, fontWeight: "600", color: "#64748B" },
+  specChipTextActive: { color: "#075985" },
 });

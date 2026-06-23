@@ -259,6 +259,8 @@ export async function postPhoneVerifyOtp(params: {
   preferred_locale?: string;
   specialization?: string;
   institution?: string;
+  birth_year?: number;
+  birth_date?: string;
   mobile?: boolean;
 }): Promise<AuthApiResult & { session?: { access_token: string; refresh_token: string } }> {
   const res = await fetch("/api/auth/phone/verify-otp", {
@@ -276,6 +278,8 @@ export async function postPhoneVerifyOtp(params: {
       preferred_locale: params.preferred_locale,
       specialization: params.specialization,
       institution: params.institution,
+      birth_year: params.birth_year,
+      birth_date: params.birth_date,
     }),
   });
   const payload = (await res.json().catch(() => null)) as {

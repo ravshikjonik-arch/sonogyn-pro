@@ -68,17 +68,10 @@ export const CALCULATORS: CalculatorDefinition[] = [
   {
     slug: "ln-rads",
     code: "LN_RADS",
-    title: "LN-RADS",
-    subtitle: "Lymph node ultrasound descriptors",
-    fields: [
-      {
-        key: "suspicion",
-        label: "Suspicion level",
-        type: "select",
-        options: ["benign-appearing", "intermediate", "suspicious"],
-      },
-      { key: "notes", label: "Location / correlate", type: "text" },
-    ],
+    title: "LN-RADS US Pro",
+    subtitle: "Morphology · Doppler · Atlas · Academy · AI · Cases · Board",
+    externalHref: "/calculators/ln-rads",
+    fields: [],
   },
   {
     slug: "ti-rads",

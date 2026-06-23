@@ -3,6 +3,14 @@ import { useCallback, useState } from "react";
 import { sendPhoneOtpViaApi, verifyPhoneOtpViaApi } from "../lib/auth/emailAuthApi";
 import { supabaseMobile } from "../lib/supabase/mobileClient";
 
+export type PhoneRegistrationMeta = {
+  full_name?: string;
+  birth_date?: string;
+  birth_year?: number;
+  specialization?: string;
+  preferred_locale?: string;
+};
+
 function normalizePhone(raw: string): string {
   const digits = raw.replace(/\D/g, "");
   if (digits.startsWith("8") && digits.length === 11) return `+7${digits.slice(1)}`;
@@ -42,7 +50,7 @@ export function usePhoneAuth() {
     }
   }, [phone]);
 
-  const verifyOtp = useCallback(async () => {
+  const verifyOtp = useCallback(async (registration?: PhoneRegistrationMeta) => {
     if (!supabaseMobile) {
       setError("Supabase не настроен.");
       return false;
@@ -52,7 +60,10 @@ export function usePhoneAuth() {
     setError(null);
     try {
       const normalized = normalizePhone(phone);
-      const result = await verifyPhoneOtpViaApi(normalized, otp.trim());
+      const result = await verifyPhoneOtpViaApi(normalized, otp.trim(), {
+        ...registration,
+        createUser: true,
+      });
       if (!result.ok) {
         setError(result.error);
         return false;

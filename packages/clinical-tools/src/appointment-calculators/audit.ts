@@ -129,8 +129,8 @@ export function detectUnused(): UnusedEntry[] {
     },
     {
       id: "ln-rads",
-      title: "LN-RADS (web registry)",
-      note: "Есть в CALCULATORS registry, нет страницы /calculators/ln-rads",
+      title: "LN-RADS (web)",
+      note: "Страница /calculators/ln-rads — Intelligence Suite (calculator, atlas, anatomy, board). Mobile — упрощённый прототип.",
     },
     {
       id: "calculators/[slug]",
