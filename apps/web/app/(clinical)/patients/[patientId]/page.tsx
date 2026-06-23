@@ -41,6 +41,12 @@ export default async function PatientDetailPage(props: { params: Promise<Params>
     .eq("created_by", user.id)
     .order("created_at", { ascending: false });
 
+  const latestStudyId = studies?.[0]?.id;
+  const cpiHref =
+    latestStudyId != null
+      ? `/calculators/cervical-intelligence?patientId=${patientId}&studyId=${latestStudyId}`
+      : `/calculators/cervical-intelligence?patientId=${patientId}`;
+
   return (
     <main className="mx-auto max-w-3xl px-4 py-8">
       <div className="mb-6 flex flex-wrap gap-3">
@@ -57,9 +63,7 @@ export default async function PatientDetailPage(props: { params: Promise<Params>
           <Link href={`/assistant/gynecology?patientId=${patientId}`}>Помощник → протокол</Link>
         </Button>
         <Button asChild variant="outline" size="sm">
-          <Link href={`/calculators/cervical-intelligence?patientId=${patientId}`}>
-            CPI — кольпоскопия
-          </Link>
+          <Link href={cpiHref}>CPI — кольпоскопия</Link>
         </Button>
       </div>
 
@@ -101,16 +105,23 @@ export default async function PatientDetailPage(props: { params: Promise<Params>
         ) : (
           <ul className="mt-3 space-y-2">
             {(studies ?? []).map((s) => (
-              <li key={s.id}>
+              <li key={s.id} className="flex flex-wrap items-stretch gap-2">
                 <Link
                   href={`/workspace/${s.id}`}
-                  className="block rounded-lg border border-[var(--clinical-border)] bg-[var(--clinical-card)] px-4 py-3 hover:bg-[var(--clinical-muted)]"
+                  className="block min-w-0 flex-1 rounded-lg border border-[var(--clinical-border)] bg-[var(--clinical-card)] px-4 py-3 hover:bg-[var(--clinical-muted)]"
                 >
                   <span className="font-medium">{s.title ?? s.study_type}</span>
                   <span className="ml-2 text-xs text-[var(--clinical-foreground-muted)]">
                     {new Date(s.created_at).toLocaleString("ru-RU")}
                   </span>
                 </Link>
+                <Button asChild variant="outline" size="sm" className="shrink-0 self-center">
+                  <Link
+                    href={`/calculators/cervical-intelligence?patientId=${patientId}&studyId=${s.id}`}
+                  >
+                    CPI
+                  </Link>
+                </Button>
               </li>
             ))}
           </ul>
