@@ -53,7 +53,7 @@ export function useOradsAssist(platform: "web" | "mobile" = "web") {
           throw new Error("Введите хотя бы несколько слов описания УЗИ.");
         }
 
-        let pipeline = runOradsAssistPipeline(trimmed, {
+        const pipeline = runOradsAssistPipeline(trimmed, {
           uiMenopause: params.menopause,
           profileAgeYears: params.profileAgeYears,
         });
