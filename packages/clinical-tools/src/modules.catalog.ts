@@ -774,14 +774,50 @@ export const MODULES_BY_DOMAIN: Record<ModuleDomain, ModuleEntry[]> = MODULES.re
   } as Record<ModuleDomain, ModuleEntry[]>,
 );
 
+export function getModulesWithSurface(surface: keyof ModuleSurfaces): ModuleEntry[] {
+  return MODULES.filter((m) => m.surfaces?.[surface] === true);
+}
+
+/** Display order for /app home tiles (matches legacy tiles[]). */
+export const HOME_TILE_MODULE_ORDER: ModuleId[] = [
+  "community.chat",
+  "assistant.hub",
+  "calculator.ob-hub",
+  "calculator.hub",
+  "reference.guidelines",
+  "education.library-hub",
+  "education.isuog-basic",
+  "mockup.hub",
+  "mockup.ovary",
+  "mockup.uterus",
+  "mockup.breast",
+  "workspace.ai",
+];
+
+export type GetModulesQuery = {
+  surface: keyof ModuleSurfaces | "home-tile";
+};
+
+function resolveSurfaceKey(surface: GetModulesQuery["surface"]): keyof ModuleSurfaces {
+  return surface === "home-tile" ? "homeTile" : surface;
+}
+
+export function getModules(query: GetModulesQuery): ModuleEntry[] {
+  const key = resolveSurfaceKey(query.surface);
+  const filtered = getModulesWithSurface(key);
+  if (query.surface === "home-tile") {
+    const byId = new Map(filtered.map((m) => [m.id, m]));
+    return HOME_TILE_MODULE_ORDER.map((id) => byId.get(id)).filter(
+      (m): m is ModuleEntry => m !== undefined,
+    );
+  }
+  return filtered;
+}
+
 export function getModuleById(id: ModuleId): ModuleEntry | undefined {
   return MODULES.find((m) => m.id === id);
 }
 
 export function getModulesByDomain(domain: ModuleDomain): ModuleEntry[] {
   return MODULES_BY_DOMAIN[domain];
-}
-
-export function getModulesWithSurface(surface: keyof ModuleSurfaces): ModuleEntry[] {
-  return MODULES.filter((m) => Boolean(m.surfaces?.[surface]));
 }
