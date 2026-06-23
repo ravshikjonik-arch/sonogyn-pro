@@ -104,5 +104,5 @@ export function createMockSupabaseClient(): SupabaseClient & { __tables: Map<str
     },
   };
 
-  return client as SupabaseClient & { __tables: Map<string, Row[]> };
+  return client as unknown as SupabaseClient & { __tables: Map<string, Row[]> };
 }
