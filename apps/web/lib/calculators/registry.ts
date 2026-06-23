@@ -98,6 +98,22 @@ export const CALCULATORS: CalculatorDefinition[] = [
     fields: [],
   },
   {
+    slug: "cin-risk",
+    code: "CIN_RISK",
+    title: "CIN Risk · IFCPC Expert",
+    subtitle: "CIN1–3, AIS, инвазия — HPV, Bethesda, TZ, IFCPC, logit-модель",
+    externalHref: "/calculators/cin-risk",
+    fields: [],
+  },
+  {
+    slug: "cervical-intelligence",
+    code: "CPI_CDS",
+    title: "Cervical Pathology Intelligence",
+    subtitle: "CDS: IFCPC + HPV + Bethesda + TZ3 + AIS + Quality + 8 actions",
+    externalHref: "/calculators/cervical-intelligence",
+    fields: [],
+  },
+  {
     slug: "ob-calc",
     code: "OB_CALC",
     title: "Калькулятор расчёта срока беременности",

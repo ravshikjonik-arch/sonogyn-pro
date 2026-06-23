@@ -1,11 +1,15 @@
 {
-  "name": "@repo/types",
+  "name": "@repo/ifcpc-expert",
   "version": "1.0.0",
   "private": true,
+  "description": "IFCPC Colposcopy Nomenclature (Rio 2011) — knowledge base, exam model, and API schemas for SonoGyn Pro.",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./knowledge": "./src/knowledge/nomenclature.ts",
+    "./schema": "./src/schema/api-schema.ts",
+    "./cin-risk": "./src/cin-risk/index.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
@@ -13,7 +17,6 @@
     "test": "node --import tsx --test src/**/*.test.ts"
   },
   "dependencies": {
-    "@repo/ifcpc-expert": "workspace:*",
     "zod": "^3.24.4"
   },
   "devDependencies": {

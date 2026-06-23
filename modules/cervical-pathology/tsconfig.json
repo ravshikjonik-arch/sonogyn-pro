@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "types": ["node"],
+    "paths": {
+      "@repo/cervical-pathology-intelligence": ["../../packages/cervical-pathology-intelligence/src/index.ts"],
+      "@repo/ifcpc-expert": ["../../packages/ifcpc-expert/src/index.ts"],
+      "@repo/medical-calculations": ["../../packages/medical-calculations/src/index.ts"]
+    }
+  },
+  "include": ["src/**/*.ts", "tests/**/*.ts"],
+  "exclude": ["**/*.test.ts"]
+}
