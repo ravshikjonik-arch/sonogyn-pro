@@ -173,18 +173,47 @@ export function CpiDashboard({ initialPatientId, initialStudyId }: CpiDashboardP
   }, [patientQuery, loadPatients]);
 
   useEffect(() => {
+    if (!initialPatientId) return;
+    void (async () => {
+      const res = await fetch(`/api/patients/${initialPatientId}`);
+      if (!res.ok) return;
+      const json = (await res.json()) as {
+        patient: { id: string; display_label: string; meta?: { date_of_birth?: string | null } };
+        studies: StudyRow[];
+      };
+      setPatients((prev) => {
+        const exists = prev.some((p) => p.id === json.patient.id);
+        if (exists) return prev;
+        return [{ id: json.patient.id, display_label: json.patient.display_label }, ...prev];
+      });
+      setStudies(json.studies ?? []);
+      if (!initialStudyId && json.studies?.[0]) {
+        setSelectedStudyId(json.studies[0].id);
+      }
+      const dob = json.patient.meta?.date_of_birth;
+      if (dob) {
+        const age = Math.floor((Date.now() - new Date(dob).getTime()) / (365.25 * 24 * 3600 * 1000));
+        if (age >= 15 && age <= 90) {
+          setInput((p) => ({ ...p, clinical: { ...p.clinical, age } }));
+        }
+      }
+    })();
+  }, [initialPatientId, initialStudyId]);
+
+  useEffect(() => {
     if (!selectedPatientId) {
       setStudies([]);
       return;
     }
     setInput((p) => ({ ...p, patientId: selectedPatientId }));
+    if (selectedPatientId === initialPatientId) return;
     void (async () => {
-      const res = await fetch(`/api/patients/${selectedPatientId}/studies`);
+      const res = await fetch(`/api/patients/${selectedPatientId}`);
       if (!res.ok) return;
       const json = (await res.json()) as { studies: StudyRow[] };
       setStudies(json.studies ?? []);
     })();
-  }, [selectedPatientId]);
+  }, [selectedPatientId, initialPatientId]);
 
   const patchClinical = useCallback(
     <K extends keyof CpiCaseInput["clinical"]>(key: K, value: CpiCaseInput["clinical"][K]) => {

@@ -56,6 +56,11 @@ export default async function PatientDetailPage(props: { params: Promise<Params>
         <Button asChild variant="outline" size="sm">
           <Link href={`/assistant/gynecology?patientId=${patientId}`}>Помощник → протокол</Link>
         </Button>
+        <Button asChild variant="outline" size="sm">
+          <Link href={`/calculators/cervical-intelligence?patientId=${patientId}`}>
+            CPI — кольпоскопия
+          </Link>
+        </Button>
       </div>
 
       <div className="mb-8">
