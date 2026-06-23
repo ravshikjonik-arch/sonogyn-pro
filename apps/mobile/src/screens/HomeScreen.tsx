@@ -16,7 +16,7 @@ import type { MainTabParamList, RootStackParamList } from "../navigation/paramLi
 import { theme } from "../theme";
 
 export type HomeTabScreenProps = CompositeScreenProps<
-  BottomTabScreenProps<MainTabParamList, "ProfileTab">,
+  BottomTabScreenProps<MainTabParamList, "ToolsTab">,
   NativeStackScreenProps<RootStackParamList>
 >;
 

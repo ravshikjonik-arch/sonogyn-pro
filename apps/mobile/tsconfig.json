@@ -9,11 +9,7 @@
       "@repo/tirads-acr": ["../../packages/tirads-acr/src/index.ts"],
       "@repo/tirads-acr/*": ["../../packages/tirads-acr/*"],
       "@repo/thyroid-tirads": ["../../packages/thyroid-tirads/src/index.ts"],
-      "@repo/thyroid-tirads/*": ["../../packages/thyroid-tirads/*"],
-      "@repo/adnex-education": ["../../packages/adnex-education/src/index.ts"],
-      "@repo/adnex-education/*": ["../../packages/adnex-education/*"],
-      "@repo/report-engine": ["../../packages/report-engine/src/index.ts"],
-      "@repo/report-engine/*": ["../../packages/report-engine/*"]
+      "@repo/thyroid-tirads/*": ["../../packages/thyroid-tirads/*"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx", "src/react-three-fiber.d.ts", "src/expo-modules.d.ts"],

@@ -465,7 +465,8 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
           <AuthButtons
             providers={["google"]}
             onProviderPress={(p) => {
-              if (p === "google" || p === "vk" || p === "yandex") void onSocial(p);
+              if (p === "telegram") return;
+              void onSocial(p);
             }}
             loading={oauthLoading}
             variant={mode === "sign-up" ? "register" : "login"}
