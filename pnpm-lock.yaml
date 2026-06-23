@@ -85,9 +85,6 @@ importers:
       '@react-three/fiber':
         specifier: ^9.6.1
         version: 9.6.1(1d2677d6e61471c70fc36cbadfd2710d)
-      '@repo/adnex-education':
-        specifier: workspace:*
-        version: link:../../packages/adnex-education
       '@repo/birads-us':
         specifier: workspace:*
         version: link:../../packages/birads-us
@@ -115,9 +112,6 @@ importers:
       '@repo/orads-us':
         specifier: workspace:*
         version: link:../../packages/orads-us
-      '@repo/report-engine':
-        specifier: workspace:*
-        version: link:../../packages/report-engine
       '@repo/thyroid-tirads':
         specifier: workspace:*
         version: link:../../packages/thyroid-tirads
