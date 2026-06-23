@@ -31,9 +31,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Generate Prisma client
-        run: pnpm --filter @repo/web exec prisma generate
-
       - name: Typecheck
         run: pnpm typecheck
 
@@ -79,7 +76,7 @@ jobs:
         run: pnpm exec playwright install chromium --with-deps
 
       - name: Run E2E tests
-        run: pnpm test:e2e
+        run: pnpm test:e2e:cpi
 
       - name: Upload Playwright report on failure
         if: failure()

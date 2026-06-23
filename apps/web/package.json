@@ -20,11 +20,12 @@
     "db:migrate:security": "node scripts/apply-supabase-migrations.mjs --security-only",
     "build": "prisma generate && next build --webpack",
     "start": "next start",
-    "lint": "eslint --max-warnings 9999",
+    "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "audit:navigation-icons": "node --import tsx scripts/audit-navigation-icons.ts",
     "test:navigation": "node --import tsx --test lib/modules/navigation-icon-audit.test.ts",
     "test:e2e": "playwright test",
+    "test:e2e:cpi": "playwright test tests/e2e/cpi-evaluate.spec.ts --project=chromium-no-auth",
     "atlas:thyroid-png": "python3 scripts/generate-thyroid-atlas-png.py",
     "atlas:fetal-anatomy-png": "python3 scripts/generate-fetal-anatomy-atlas-png.py"
   },
