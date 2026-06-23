@@ -68,6 +68,12 @@ export function openClinicalToolAction(navigation: Nav, action: MobileToolAction
     case "colposcopy":
       void WebBrowser.openBrowserAsync(webAppUrl("/calculators/colposcopy"));
       return;
+    case "cin_risk":
+      void WebBrowser.openBrowserAsync(webAppUrl("/calculators/cin-risk"));
+      return;
+    case "cervical_intelligence":
+      void WebBrowser.openBrowserAsync(webAppUrl("/calculators/cervical-intelligence"));
+      return;
     case "fmf":
       navigation.navigate("FMFAssistant");
       return;

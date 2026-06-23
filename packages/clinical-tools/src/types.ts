@@ -31,6 +31,8 @@ export type MobileToolAction =
   | "cervical_length"
   | "popq"
   | "colposcopy"
+  | "cin_risk"
+  | "cervical_intelligence"
   | "fmf"
   | "ln_rads"
   | "gyn_assistant_gyn"

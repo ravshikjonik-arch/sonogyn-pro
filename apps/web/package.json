@@ -24,6 +24,7 @@
     "typecheck": "tsc --noEmit",
     "audit:navigation-icons": "node --import tsx scripts/audit-navigation-icons.ts",
     "test:navigation": "node --import tsx --test lib/modules/navigation-icon-audit.test.ts",
+    "test:e2e": "playwright test",
     "atlas:thyroid-png": "python3 scripts/generate-thyroid-atlas-png.py",
     "atlas:fetal-anatomy-png": "python3 scripts/generate-fetal-anatomy-atlas-png.py"
   },

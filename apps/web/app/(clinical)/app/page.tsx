@@ -1,23 +1,18 @@
 import { Sparkles, Zap } from "lucide-react";
-import Link from "next/link";
 
 import { loadDoctorCabinetLabelForSession } from "@/lib/auth/load-doctor-profile";
 import { AICommandCenter } from "@/components/clinical/AICommandCenter";
 import { AppHomeActions } from "@/components/clinical/AppHomeActions";
+import { DoctorCabinetNavigation } from "@/components/clinical/DoctorCabinetNavigation";
 import { AiUsageMeter } from "@/components/pro/AiUsageMeter";
 import { PremiumFeaturesTeaser } from "@/components/pro/PremiumFeaturesTeaser";
 import { CareerPathWidget } from "@/components/career/CareerPathWidget";
 import { ObCalcQuickWidget } from "@/components/calculators/ob/ObCalcQuickWidget";
 import { loadCareerProgressForSession } from "@/lib/career/load-career-progress";
-import { getHomeTilePresentation } from "@/lib/modules/home-tile-presentation";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { getModules } from "@repo/clinical-tools";
 
 export default async function CommandCenterPage() {
   const [cabinet, career] = await Promise.all([loadDoctorCabinetLabelForSession(), loadCareerProgressForSession()]);
-  const homeTiles = getModules({ surface: "home-tile" });
 
   return (
     <div className="px-4 py-10 lg:px-10">
@@ -74,44 +69,7 @@ export default async function CommandCenterPage() {
 
         <ObCalcQuickWidget compact />
 
-        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {homeTiles.map((tile, index) => {
-            const presentation = getHomeTilePresentation(tile.id);
-            if (!presentation || !tile.href) return null;
-            const Icon = presentation.icon;
-            const delayClass =
-              index === 0
-                ? "sonogyn-enter-delay-1"
-                : index === 1
-                  ? "sonogyn-enter-delay-2"
-                  : index === 2
-                    ? "sonogyn-enter-delay-3"
-                    : "sonogyn-enter-delay-3";
-            return (
-              <Card
-                key={tile.id}
-                className={`sonogyn-tile-hover sonogyn-enter ${delayClass} group flex flex-col overflow-hidden border-slate-200/90 bg-white dark:bg-[var(--clinical-card)]`}
-              >
-                <div className={`h-1 ${presentation.accentBar}`} />
-                <CardHeader className="space-y-3">
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[var(--clinical-primary-muted)] to-white text-[var(--clinical-primary-deep)] shadow-sm transition group-hover:scale-105">
-                      <Icon className="h-5 w-5" />
-                    </div>
-                    <Badge variant="default">{presentation.badge}</Badge>
-                  </div>
-                  <CardTitle className="text-lg">{tile.title}</CardTitle>
-                  <CardDescription className="leading-relaxed">{tile.description}</CardDescription>
-                </CardHeader>
-                <CardContent className="mt-auto pt-2">
-                  <Button variant="secondary" className="w-full group-hover:bg-[var(--clinical-primary-muted)]" asChild>
-                    <Link href={tile.href}>Открыть модуль →</Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
+        <DoctorCabinetNavigation />
       </div>
     </div>
   );

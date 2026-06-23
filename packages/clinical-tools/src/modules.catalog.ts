@@ -81,6 +81,8 @@ export type ModuleId =
   | "calculator.endometrium"
   | "calculator.pop-q"
   | "calculator.colposcopy"
+  | "calculator.cin-risk"
+  | "calculator.cervical-intelligence"
   | "calculator.elastography"
   | "calculator.risk-breast"
   | "calculator.risk-cervical"
@@ -131,7 +133,7 @@ export type ModuleEntry = {
   };
 };
 
-/** Canonical product modules (63 entries). */
+/** Canonical product modules (65 entries). */
 export const MODULES: ModuleEntry[] = [
   // —— doctors-chat ——
   {
@@ -482,6 +484,28 @@ export const MODULES: ModuleEntry[] = [
     ref: { catalog: "registry", slug: "colposcopy" },
     surfaces: { clinicalSearch: true },
     legacy: { clinicalTools: ["colposcopy"] },
+  },
+  {
+    id: "calculator.cin-risk",
+    domain: "gynecology",
+    kind: "calculator",
+    title: "CIN Risk Calculator",
+    description: "Multinomial logit: CIN1 / CIN2+ / CIN3+ / AIS / invasion — IFCPC + HPV + Bethesda.",
+    href: "/calculators/cin-risk",
+    ref: { catalog: "registry", slug: "cin-risk" },
+    surfaces: { clinicalSearch: true, sidebar: true, sidebarGroup: "appointment" },
+    legacy: { clinicalTools: ["cin-risk"] },
+  },
+  {
+    id: "calculator.cervical-intelligence",
+    domain: "gynecology",
+    kind: "calculator",
+    title: "Cervical Pathology Intelligence",
+    description: "CDS: IFCPC + HPV + Bethesda + Swede + Quality + ASCCP/WHO recommendations.",
+    href: "/calculators/cervical-intelligence",
+    ref: { catalog: "registry", slug: "cervical-intelligence" },
+    surfaces: { clinicalSearch: true, sidebar: true, sidebarGroup: "appointment" },
+    legacy: { clinicalTools: ["cervical-intelligence"] },
   },
   {
     id: "calculator.elastography",

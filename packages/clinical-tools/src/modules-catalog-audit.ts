@@ -17,6 +17,8 @@ export const REGISTRY_CALCULATOR_SLUGS = [
   "ti-rads",
   "pop-q",
   "colposcopy",
+  "cin-risk",
+  "cervical-intelligence",
   "ob-calc",
   "fetal-weight",
   "bishop",

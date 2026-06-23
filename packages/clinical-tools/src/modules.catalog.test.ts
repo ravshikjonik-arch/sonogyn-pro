@@ -5,8 +5,8 @@ import { auditModulesCatalog, listUnmappedAppointmentCalculators } from "./modul
 import { getModules, HOME_TILE_MODULE_ORDER, MODULES, MODULES_BY_DOMAIN } from "./modules.catalog";
 
 describe("modules.catalog", () => {
-  it("has 63 canonical modules", () => {
-    assert.equal(MODULES.length, 63);
+  it("has 65 canonical modules", () => {
+    assert.equal(MODULES.length, 65);
   });
 
   it("domain totals sum to module count", () => {
@@ -15,7 +15,7 @@ describe("modules.catalog", () => {
   });
 
   it("passes audit (refs, unique ids)", () => {
-    const result = auditModulesCatalog(63);
+    const result = auditModulesCatalog(65);
     assert.ok(result.ok, result.errors.join("; ") || "audit failed");
   });
 
