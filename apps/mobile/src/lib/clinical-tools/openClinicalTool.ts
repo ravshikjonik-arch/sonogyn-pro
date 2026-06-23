@@ -2,11 +2,11 @@ import type { MobileToolAction } from "@repo/clinical-tools";
 import * as WebBrowser from "expo-web-browser";
 import { Linking } from "react-native";
 
+import type { NavigationProp, ParamListBase } from "@react-navigation/native";
+
 import { openTelegramChannel } from "../../config/community";
 import { PRODUCT } from "../../config/product";
-import type { PageType } from "../navigationTypes";
-import type { RootStackParamList } from "../navigation/paramLists";
-import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import type { PageType } from "../../navigationTypes";
 
 const WEB_APP =
   (process.env.EXPO_PUBLIC_WEB_APP_URL || "https://sonogyn-pro-web.vercel.app").replace(/\/$/, "");
@@ -16,9 +16,12 @@ export function webAppUrl(path: string): string {
   return `${WEB_APP}${p}`;
 }
 
-type Nav = NativeStackNavigationProp<RootStackParamList>;
+/** Tab + stack navigators passed from screens into clinical tool actions. */
+export type ClinicalToolNav = NavigationProp<ParamListBase> & {
+  getParent?: () => { navigate: NavigationProp<ParamListBase>["navigate"] } | undefined;
+};
 
-export function openClinicalToolAction(navigation: Nav, action: MobileToolAction): void {
+export function openClinicalToolAction(navigation: ClinicalToolNav, action: MobileToolAction): void {
   switch (action) {
     case "chat_web":
       void WebBrowser.openBrowserAsync(webAppUrl("/cases"));
@@ -115,7 +118,7 @@ export function openClinicalToolAction(navigation: Nav, action: MobileToolAction
   }
 }
 
-export function openGynPage(navigation: Nav, page: PageType): void {
+export function openGynPage(navigation: ClinicalToolNav, page: PageType): void {
   navigation.navigate("GynecologyCalc", { initialPage: page });
 }
 

@@ -2,6 +2,7 @@ import * as Clipboard from "expo-clipboard";
 import { useCallback, useMemo, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { openWebPath } from "../lib/clinical-tools/openClinicalTool";
+import type { PageType } from "../navigationTypes";
 import FigoFibroidInteractive, { type FigoFibroidSnapshot } from "./FigoFibroidInteractive";
 import FigoUsAtlasPanel from "./FigoUsAtlasPanel";
 import UterusCoronalPanel from "./UterusCoronalPanel";

@@ -22,7 +22,7 @@ import type { MainTabParamList, RootStackParamList } from "../navigation/paramLi
 import { theme } from "../theme";
 
 export type CasesTabScreenProps = CompositeScreenProps<
-  BottomTabScreenProps<MainTabParamList, "CasesTab">,
+  BottomTabScreenProps<MainTabParamList, "ChatTab">,
   NativeStackScreenProps<RootStackParamList>
 >;
 

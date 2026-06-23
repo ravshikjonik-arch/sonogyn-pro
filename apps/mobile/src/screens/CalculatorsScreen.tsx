@@ -13,7 +13,7 @@ import type { MainTabParamList, RootStackParamList } from "../navigation/paramLi
 import { theme } from "../theme";
 
 export type CalculatorsTabScreenProps = CompositeScreenProps<
-  BottomTabScreenProps<MainTabParamList, "CalculatorsTab">,
+  BottomTabScreenProps<MainTabParamList, "ToolsTab">,
   NativeStackScreenProps<RootStackParamList>
 >;
 
