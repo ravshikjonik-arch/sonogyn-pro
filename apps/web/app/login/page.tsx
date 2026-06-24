@@ -15,10 +15,10 @@ import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
 import { Button } from "@/components/ui/button";
 import { buildOAuthRedirect, normalizePhone, oauthProviderToSupabase } from "@/lib/auth/oauth-providers";
 import { looksLikePhoneInput, USE_PHONE_TAB_MSG } from "@/lib/auth/auth-error-text";
-import { postForgotPassword, postMfaVerifyLogin, postPhoneSendOtp, postPhoneVerifyOtp, postSignIn } from "@/lib/auth/client-auth-api";
+import { postForgotPassword, postMfaVerifyLogin, postPhoneSendOtp, postPhoneVerifyOtp, postSendCode, postSignIn, postTelegramVerifyOtp } from "@/lib/auth/client-auth-api";
 import { CAPTCHA_FAILURE_THRESHOLD } from "@/lib/auth/auth-attempts";
 import { markSessionAnchorNow } from "@/lib/security/session-anchor";
-import { parseRegistrationMethod, type AuthRegistrationMethod } from "@/lib/auth/registration-methods";
+import { parseRegistrationMethod, readTelegramBotDisplayName, type AuthRegistrationMethod } from "@/lib/auth/registration-methods";
 import { isAuthEmailOnlyClient } from "@/lib/auth/auth-methods-config";
 import {
   EMAIL_NOT_CONFIRMED_MSG,
@@ -39,7 +39,9 @@ function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
+  const [telegramChatId, setTelegramChatId] = useState("");
   const [fallbackEmailPhone, setFallbackEmailPhone] = useState("");
+  const [fallbackEmailTelegram, setFallbackEmailTelegram] = useState("");
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [message, setMessage] = useState("");
@@ -53,6 +55,7 @@ function LoginForm() {
   const [mfaCode, setMfaCode] = useState("");
   const [needsEmailConfirmation, setNeedsEmailConfirmation] = useState(false);
   const [needsPhoneRegistration, setNeedsPhoneRegistration] = useState(false);
+  const [needsTelegramRegistration, setNeedsTelegramRegistration] = useState(false);
   const [smsNotConfigured, setSmsNotConfigured] = useState(false);
   const [sendCooldownSec, setSendCooldownSec] = useState(0);
 
@@ -64,6 +67,7 @@ function LoginForm() {
 
   const nextPath = safeInternalPath(searchParams.get("redirectedFrom"), "/app");
   const authCallbackError = searchParams.get("error") === "auth_callback";
+  const telegramBotName = readTelegramBotDisplayName();
 
   useEffect(() => {
     if (!ready || !user) return;
@@ -135,6 +139,7 @@ function LoginForm() {
     setTurnstileToken(undefined);
     setNeedsEmailConfirmation(false);
     setNeedsPhoneRegistration(false);
+    setNeedsTelegramRegistration(false);
     setSmsNotConfigured(false);
   }
 
@@ -196,6 +201,67 @@ function LoginForm() {
       await refresh();
       router.push(nextPath);
       router.refresh();
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function onSendTelegramOtp() {
+    setMessage("");
+    if (!guardOnline()) return;
+    if (sendCooldownSec > 0) return;
+
+    const chatId = telegramChatId.trim();
+    if (!/^\d{5,20}$/.test(chatId)) {
+      setMessage("Укажите числовой Telegram ID (5–20 цифр). Узнать: @userinfobot.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const result = await postSendCode({
+        method: "telegram",
+        contact: chatId,
+        purpose: "login",
+        turnstileToken,
+        idempotencyKey: crypto.randomUUID(),
+        fallbackEmail: fallbackEmailTelegram.trim() || email.trim() || undefined,
+      });
+      if (!result.ok) {
+        setRequiresCaptcha(Boolean(result.requiresCaptcha));
+        setFailedAttempts((n) => n + 1);
+        setMessage(result.error);
+        setTurnstileToken(undefined);
+        return;
+      }
+      setNeedsTelegramRegistration(false);
+      setFailedAttempts(0);
+      setOtpSent(true);
+      setSendCooldownSec(30);
+      setOtp("");
+      setMessage(result.message ?? "Код отправлен в Telegram.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function onVerifyTelegramOtp(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setMessage("");
+    if (!guardOnline()) return;
+
+    const chatId = telegramChatId.trim();
+    setLoading(true);
+    try {
+      const result = await postTelegramVerifyOtp({ chatId, token: otp.trim(), createUser: false });
+      if (!result.ok) {
+        setNeedsTelegramRegistration(Boolean(result.needsRegistration));
+        setMessage(result.error);
+        return;
+      }
+      setNeedsTelegramRegistration(false);
+      markSessionAnchorNow();
+      window.location.assign(nextPath);
     } finally {
       setLoading(false);
     }
@@ -301,11 +367,111 @@ function LoginForm() {
       subtitle={
         isAuthEmailOnlyClient()
           ? "Email и пароль — один аккаунт для web и mobile."
-          : "Email, SMS или Google — один аккаунт для web и mobile."
+          : "Telegram, SMS или Google — один аккаунт для web и mobile."
       }
       defaultTab={defaultTab}
       onTabChange={onTabChange}
       showMethodHints
+      telegramTab={
+        <form className="space-y-4" onSubmit={(e) => void onVerifyTelegramOtp(e)}>
+          <label className="block">
+            <span className="text-sm font-medium text-slate-700 dark:text-slate-200">Telegram ID</span>
+            <input
+              className={authInputClass}
+              inputMode="numeric"
+              value={telegramChatId}
+              onChange={(e) => setTelegramChatId(e.target.value)}
+              placeholder="310996807"
+              required
+              aria-label="Telegram ID"
+            />
+            <p className="mt-1 text-xs text-slate-500">
+              Сначала откройте {telegramBotName} и нажмите Start. ID узнайте у @userinfobot.{" "}
+              <Link href="/register?method=telegram" className="font-semibold text-[var(--clinical-primary-deep)] hover:underline">
+                Регистрация через Telegram
+              </Link>
+            </p>
+          </label>
+          <label className="block">
+            <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
+              Email для резервной отправки кода
+            </span>
+            <input
+              className={authInputClass}
+              type="email"
+              value={fallbackEmailTelegram}
+              onChange={(e) => setFallbackEmailTelegram(e.target.value)}
+              placeholder="doctor@example.com"
+              autoComplete="email"
+              aria-label="Email для резервной отправки кода"
+            />
+            <p className="mt-1 text-xs text-slate-500">Если Telegram недоступен — код придёт на почту.</p>
+          </label>
+          {!otpSent ? (
+            <Button
+              type="button"
+              className="w-full rounded-2xl py-6"
+              disabled={loading || sendCooldownSec > 0}
+              onClick={() => void onSendTelegramOtp()}
+              aria-label="Получить код в Telegram"
+            >
+              {loading
+                ? "Отправляем…"
+                : sendCooldownSec > 0
+                  ? `Повтор через ${sendCooldownSec} с`
+                  : "Получить код в Telegram"}
+            </Button>
+          ) : (
+            <>
+              <label className="block">
+                <span className="text-sm font-medium text-slate-700 dark:text-slate-200">Код из Telegram</span>
+                <input
+                  className={authInputClass}
+                  inputMode="numeric"
+                  autoComplete="one-time-code"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                  placeholder="123456"
+                  required
+                  aria-label="Код из Telegram"
+                />
+              </label>
+              <Button className="w-full rounded-2xl py-6" type="submit" disabled={loading} aria-label="Войти">
+                {loading ? "Проверяем…" : "Войти"}
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full rounded-2xl"
+                disabled={loading || sendCooldownSec > 0}
+                onClick={() => void onSendTelegramOtp()}
+              >
+                {loading
+                  ? "Отправляем…"
+                  : sendCooldownSec > 0
+                    ? `Повтор через ${sendCooldownSec} с`
+                    : "Отправить код повторно"}
+              </Button>
+            </>
+          )}
+          {message && activeTab === "telegram" ? (
+            <AuthMessage
+              message={message}
+              tone={message.includes("отправлен") || message.includes("Telegram") ? "success" : "error"}
+            />
+          ) : null}
+          {needsTelegramRegistration && activeTab === "telegram" ? (
+            <p className="text-center text-sm text-[var(--clinical-foreground-muted)]">
+              <Link className="font-bold text-[var(--clinical-primary-deep)] hover:underline" href="/register?method=telegram">
+                Зарегистрироваться через Telegram
+              </Link>
+            </p>
+          ) : null}
+          {showCaptcha && activeTab === "telegram" ? (
+            <TurnstileWidget onToken={(t) => setTurnstileToken(t)} onExpire={() => setTurnstileToken(undefined)} />
+          ) : null}
+        </form>
+      }
       emailTab={
         mfaRequired ? (
           <form className="space-y-4" onSubmit={(e) => void onMfaLogin(e)}>
@@ -517,6 +683,9 @@ function LoginForm() {
           <div className="mt-3 flex flex-wrap justify-center gap-2 text-xs">
             {!isAuthEmailOnlyClient() ? (
               <>
+            <Link href="/login?method=telegram" className="rounded-full bg-slate-100 px-3 py-1 text-slate-600 hover:underline dark:bg-slate-800 dark:text-slate-300">
+              Telegram
+            </Link>
             <Link href="/login?method=email" className="rounded-full bg-slate-100 px-3 py-1 text-slate-600 hover:underline dark:bg-slate-800 dark:text-slate-300">
               Email
             </Link>

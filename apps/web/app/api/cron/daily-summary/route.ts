@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { handleApiError } from "@/lib/api/error-handler";
+import { isInternalNotifyAuthorized } from "@/lib/security/internal-notify-auth";
 import { logInfo, snapshotAndResetCounters } from "@/services/logger";
 import { TelegramService } from "@/services/telegram";
 import { createServiceRoleClient } from "@/utils/supabase/admin";
@@ -10,20 +11,9 @@ export const runtime = "nodejs";
 /**
  * Ежедневная сводка для админов: регистрации, платежи, ошибки за сутки.
  *
- * Запуск: Vercel Cron (см. vercel.json) с заголовком `Authorization: Bearer <CRON_SECRET>`.
- * Можно дёрнуть вручную тем же заголовком.
+ * Запуск: Vercel Cron (см. vercel.json, 06:00 UTC) с заголовком
+ * `Authorization: Bearer <CRON_SECRET>` или `x-sonogyn-internal-secret`.
  */
-function isAuthorizedCron(req: Request): boolean {
-  const secret = process.env.CRON_SECRET?.trim();
-  // Без секрета пускаем только в dev (для ручной проверки), в проде — запрещаем.
-  if (!secret) return process.env.NODE_ENV !== "production";
-
-  const auth = req.headers.get("authorization")?.trim();
-  if (auth === `Bearer ${secret}`) return true;
-  if (req.headers.get("x-cron-secret")?.trim() === secret) return true;
-  return false;
-}
-
 type Admin = ReturnType<typeof createServiceRoleClient>;
 
 async function countRegistrations(admin: Admin, sinceIso: string): Promise<number> {
@@ -45,7 +35,7 @@ async function countPayments(admin: Admin, sinceIso: string, status?: string): P
 }
 
 export async function GET(req: Request) {
-  if (!isAuthorizedCron(req)) {
+  if (!isInternalNotifyAuthorized(req)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

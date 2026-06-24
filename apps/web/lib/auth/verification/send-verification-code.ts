@@ -1,6 +1,7 @@
 import { logVerificationEvent as obsLogVerification } from "@/lib/observability";
 
 import { isAuthEmailOnly } from "@/lib/auth/auth-methods-config";
+import { readTelegramBotUsername } from "@/lib/auth/telegram-bot-config";
 import { translateSmsRuErrorCode } from "@/lib/auth/sms-providers";
 import { TelegramService } from "@/services/telegram";
 import { sendVerificationEmail } from "./providers/email-provider";
@@ -22,6 +23,11 @@ export type SendVerificationCodeParams = {
   purpose: VerificationPurpose;
   timeoutMs?: number;
 };
+
+function telegramBotHint(): string {
+  const username = readTelegramBotUsername();
+  return username ? `@${username}` : "@SonogynProBot";
+}
 
 async function dispatchOnce(params: SendVerificationCodeParams): Promise<SendVerificationResult> {
   const purposeLabel =
@@ -104,7 +110,7 @@ async function dispatchOnce(params: SendVerificationCodeParams): Promise<SendVer
           ok: false,
           errorCode: result.errorCode,
           message: result.botNotStarted
-            ? "Сначала откройте бота @Sonogyn_bot и нажмите Start."
+            ? `Сначала откройте бота ${telegramBotHint()} и нажмите Start.`
             : "Не удалось отправить код в Telegram.",
           suggestAlternateMethod: "email",
         };
@@ -122,7 +128,7 @@ async function dispatchOnce(params: SendVerificationCodeParams): Promise<SendVer
         return {
           ok: false,
           errorCode: "TELEGRAM_NOT_READY",
-          message: "Сначала откройте бота @Sonogyn_bot и нажмите Start.",
+          message: `Сначала откройте бота ${telegramBotHint()} и нажмите Start.`,
           suggestAlternateMethod: "email",
         };
       }

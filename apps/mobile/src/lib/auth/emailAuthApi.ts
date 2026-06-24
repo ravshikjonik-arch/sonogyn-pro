@@ -199,3 +199,86 @@ export async function verifyPhoneOtpViaApi(
   }
   return { ok: true, session: payload.session };
 }
+
+export async function sendTelegramOtpViaApi(
+  chatId: string,
+  createUser = false,
+  turnstileToken?: string,
+  fallbackEmail?: string,
+): Promise<{ ok: true; message?: string } | { ok: false; error: string; requiresCaptcha?: boolean }> {
+  const base = getWebApiBase();
+  if (!base) return { ok: false, error: "API не настроен." };
+
+  const res = await fetch(`${base}/api/auth/send-code`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-sonogyn-client": "mobile",
+    },
+    body: JSON.stringify({
+      method: "telegram",
+      contact: chatId,
+      purpose: createUser ? "register" : "login",
+      turnstileToken,
+      fallbackEmail,
+    }),
+  });
+
+  const payload = (await res.json().catch(() => null)) as {
+    ok?: boolean;
+    error?: string;
+    message?: string;
+    requiresCaptcha?: boolean;
+  } | null;
+
+  if (!res.ok || !payload?.ok) {
+    return {
+      ok: false,
+      error: payload?.error ?? "Не удалось отправить код.",
+      requiresCaptcha: payload?.requiresCaptcha,
+    };
+  }
+  return { ok: true, message: payload.message };
+}
+
+export async function verifyTelegramOtpViaApi(
+  chatId: string,
+  token: string,
+  registration?: {
+    full_name?: string;
+    birth_date?: string;
+    birth_year?: number;
+    specialization?: string;
+    preferred_locale?: string;
+    createUser?: boolean;
+  },
+): Promise<EmailAuthResult> {
+  const base = getWebApiBase();
+  if (!base) return { ok: false, error: "API не настроен." };
+
+  const res = await fetch(`${base}/api/auth/telegram/verify-otp`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "x-sonogyn-client": "mobile" },
+    body: JSON.stringify({
+      chatId,
+      token,
+      createUser: registration?.createUser ?? true,
+      full_name: registration?.full_name,
+      birth_date: registration?.birth_date,
+      birth_year: registration?.birth_year,
+      specialization: registration?.specialization,
+      preferred_locale: registration?.preferred_locale,
+    }),
+  });
+
+  const payload = (await res.json().catch(() => null)) as {
+    ok?: boolean;
+    error?: string;
+    session?: { access_token: string; refresh_token: string };
+  } | null;
+
+  if (!res.ok || !payload?.ok) {
+    return { ok: false, error: payload?.error ?? "Неверный или просроченный код." };
+  }
+  return { ok: true, session: payload.session };
+}

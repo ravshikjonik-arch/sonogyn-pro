@@ -251,6 +251,54 @@ export async function postSendCode(params: {
   };
 }
 
+export async function postTelegramVerifyOtp(params: {
+  chatId: string;
+  token: string;
+  createUser?: boolean;
+  full_name?: string;
+  preferred_locale?: string;
+  specialization?: string;
+  institution?: string;
+  birth_year?: number;
+  birth_date?: string;
+  mobile?: boolean;
+}): Promise<AuthApiResult & { session?: { access_token: string; refresh_token: string } }> {
+  const res = await fetch("/api/auth/telegram/verify-otp", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...(params.mobile ? { "x-sonogyn-client": "mobile" } : {}),
+    },
+    credentials: "same-origin",
+    body: JSON.stringify({
+      chatId: params.chatId,
+      token: params.token,
+      createUser: params.createUser,
+      full_name: params.full_name,
+      preferred_locale: params.preferred_locale,
+      specialization: params.specialization,
+      institution: params.institution,
+      birth_year: params.birth_year,
+      birth_date: params.birth_date,
+    }),
+  });
+  const payload = (await res.json().catch(() => null)) as {
+    ok?: boolean;
+    error?: string;
+    needsRegistration?: boolean;
+    session?: { access_token: string; refresh_token: string };
+  } | null;
+
+  if (!res.ok || !payload?.ok) {
+    return {
+      ok: false,
+      error: payload?.error ?? "Неверный или просроченный код.",
+      needsRegistration: payload?.needsRegistration,
+    };
+  }
+  return { ok: true, session: payload.session };
+}
+
 export async function postPhoneVerifyOtp(params: {
   phone: string;
   token: string;

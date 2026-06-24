@@ -22,6 +22,7 @@ import {
 import { BirthDateField } from "../components/BirthDateField";
 import { useOAuthSignIn } from "../hooks/useOAuthSignIn";
 import { usePhoneAuth } from "../hooks/usePhoneAuth";
+import { useTelegramAuth } from "../hooks/useTelegramAuth";
 import { changeLanguage, isAppLanguage, type AppLanguage } from "../i18n";
 import { signInViaApi, signUpViaApi, verifyMfaViaApi } from "../lib/auth/emailAuthApi";
 import { isTurnstileConfiguredOnMobile, obtainTurnstileToken } from "../lib/auth/turnstileMobile";
@@ -31,7 +32,10 @@ import type { RootStackParamList } from "../navigation/paramLists";
 import { useAppGate } from "../navigation/AppGateContext";
 
 type Props = NativeStackScreenProps<RootStackParamList, "SupabaseAuth">;
-type Tab = "email" | "phone" | "social";
+type Tab = "telegram" | "email" | "phone" | "social";
+
+const TELEGRAM_BOT_NAME =
+  process.env.EXPO_PUBLIC_TELEGRAM_BOT_USERNAME?.replace(/^@/, "") ?? "SonogynProBot";
 
 function translateAuthError(message: string): string {
   if (/invalid login credentials/i.test(message)) return "Неверные учётные данные.";
@@ -46,7 +50,7 @@ type AuthLocale = Clinical3dLocale | "es";
 
 export default function SupabaseAuthScreen({ navigation }: Props) {
   const { refreshSupabaseSession } = useAppGate();
-  const [tab, setTab] = useState<Tab>("email");
+  const [tab, setTab] = useState<Tab>("telegram");
   const [mode, setMode] = useState<"sign-in" | "sign-up">("sign-in");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -75,6 +79,7 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
   );
 
   const phoneAuth = usePhoneAuth();
+  const telegramAuth = useTelegramAuth();
   const { signIn: signInOAuth } = useOAuthSignIn();
 
   function validateSignUpDoctorFields(): { birth_date: string; birth_year: number } | null {
@@ -215,6 +220,30 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
     }
   }
 
+  async function submitTelegram() {
+    if (telegramAuth.otpSent) {
+      const registration =
+        mode === "sign-up"
+          ? (() => {
+              const birth = validateSignUpDoctorFields();
+              if (!birth) return null;
+              return {
+                full_name: fullName.trim(),
+                birth_date: birth.birth_date,
+                birth_year: birth.birth_year,
+                specialization: specialization.trim(),
+                preferred_locale: locale,
+              };
+            })()
+          : undefined;
+      if (mode === "sign-up" && !registration) return;
+      const ok = await telegramAuth.verifyOtp(registration ?? undefined);
+      if (ok) await finishAuth();
+      return;
+    }
+    await telegramAuth.sendOtp(mode === "sign-up");
+  }
+
   async function submitPhone() {
     if (phoneAuth.otpSent) {
       const registration =
@@ -253,20 +282,21 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
     }
   }
 
-  const loading = busy || phoneAuth.busy || oauthLoading !== null;
+  const loading = busy || phoneAuth.busy || telegramAuth.busy || oauthLoading !== null;
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.kicker}>SonoGyn Pro</Text>
       <Text style={styles.title}>Вход / регистрация</Text>
       <Text style={styles.body}>
-        Email, SMS или Google. Регистрируясь, вы соглашаетесь с политикой конфиденциальности.
+        Telegram, SMS или Google. Регистрируясь, вы соглашаетесь с политикой конфиденциальности.
       </Text>
 
       <View style={styles.tabRow}>
         {([
+          ["telegram", "Telegram"],
+          ["phone", "SMS"],
           ["email", "Почта"],
-          ["phone", "Телефон"],
           ["social", "Google"],
         ] as const).map(([id, label]) => (
           <Pressable
@@ -298,7 +328,7 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
         </Pressable>
       </View>
 
-      {mode === "sign-up" && (tab === "email" || tab === "phone") ? (
+      {mode === "sign-up" && (tab === "email" || tab === "phone" || tab === "telegram") ? (
         <View style={styles.panel}>
           <TextInput
             placeholder="ФИО врача"
@@ -324,6 +354,57 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
               ))}
             </ScrollView>
           </View>
+        </View>
+      ) : null}
+
+      {tab === "telegram" ? (
+        <View style={styles.panel}>
+          <TextInput
+            keyboardType="number-pad"
+            placeholder="Telegram ID"
+            accessibilityLabel="Telegram ID"
+            style={styles.input}
+            value={telegramAuth.chatId}
+            onChangeText={telegramAuth.setChatId}
+          />
+          <TextInput
+            autoCapitalize="none"
+            keyboardType="email-address"
+            placeholder="Email для резерва"
+            accessibilityLabel="Email для резервной отправки"
+            style={styles.input}
+            value={telegramAuth.fallbackEmail}
+            onChangeText={telegramAuth.setFallbackEmail}
+          />
+          {telegramAuth.otpSent ? (
+            <TextInput
+              keyboardType="number-pad"
+              placeholder="Код из Telegram"
+              accessibilityLabel="Код из Telegram"
+              style={styles.input}
+              value={telegramAuth.otp}
+              onChangeText={telegramAuth.setOtp}
+            />
+          ) : (
+            <Text style={styles.hint}>
+              Сначала откройте @{TELEGRAM_BOT_NAME} и нажмите Start. ID — у @userinfobot.
+            </Text>
+          )}
+          {telegramAuth.error ? <Text style={styles.error}>{telegramAuth.error}</Text> : null}
+          <Pressable
+            style={[styles.primary, loading && styles.primaryDisabled]}
+            disabled={loading}
+            onPress={() => void submitTelegram()}
+            accessibilityLabel={telegramAuth.otpSent ? "Подтвердить код" : "Получить код в Telegram"}
+          >
+            {loading ? (
+              <ActivityIndicator color="#fff" />
+            ) : (
+              <Text style={styles.primaryText}>
+                {telegramAuth.otpSent ? "Подтвердить" : "Получить код в Telegram"}
+              </Text>
+            )}
+          </Pressable>
         </View>
       ) : null}
 
@@ -490,9 +571,9 @@ const styles = StyleSheet.create({
   kicker: { fontSize: 11, fontWeight: "900", letterSpacing: 1, textTransform: "uppercase", color: "#0EA5E9" },
   title: { fontSize: 26, fontWeight: "900", color: "#0F172A" },
   body: { fontSize: 14, lineHeight: 21, color: "#475569" },
-  tabRow: { flexDirection: "row", gap: 8, marginTop: 8 },
+  tabRow: { flexDirection: "row", flexWrap: "wrap", gap: 8, marginTop: 8 },
   tab: {
-    flex: 1,
+    width: "48%",
     borderRadius: 12,
     borderWidth: 1,
     borderColor: "#CBD5F5",

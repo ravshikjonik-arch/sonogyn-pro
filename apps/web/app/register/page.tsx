@@ -24,7 +24,9 @@ import {
   postPhoneSendOtp,
   postPhoneVerifyOtp,
   postResendConfirmation,
+  postSendCode,
   postSignUp,
+  postTelegramVerifyOtp,
 } from "@/lib/auth/client-auth-api";
 import {
   PRODUCT_OWNER_FIO,
@@ -32,7 +34,7 @@ import {
 } from "@/lib/auth/doctor-display";
 import { looksLikePhoneInput, USE_PHONE_TAB_MSG } from "@/lib/auth/auth-error-text";
 import { buildOAuthRedirect, normalizePhone, oauthProviderToSupabase } from "@/lib/auth/oauth-providers";
-import { parseRegistrationMethod, type AuthRegistrationMethod } from "@/lib/auth/registration-methods";
+import { parseRegistrationMethod, readTelegramBotDisplayName, type AuthRegistrationMethod } from "@/lib/auth/registration-methods";
 import { isAuthEmailOnlyClient } from "@/lib/auth/auth-methods-config";
 import {
   PHONE_OTP_DELAY_HINT,
@@ -64,7 +66,9 @@ function RegisterForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
+  const [telegramChatId, setTelegramChatId] = useState("");
   const [fallbackEmailPhone, setFallbackEmailPhone] = useState("");
+  const [fallbackEmailTelegram, setFallbackEmailTelegram] = useState("");
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [message, setMessage] = useState("");
@@ -79,6 +83,7 @@ function RegisterForm() {
   const [sendCooldownSec, setSendCooldownSec] = useState(0);
 
   const afterAuthPath = safeInternalPath(searchParams.get("next"), "/app");
+  const telegramBotName = readTelegramBotDisplayName();
 
   useEffect(() => {
     if (sendCooldownSec <= 0) return;
@@ -210,6 +215,91 @@ function RegisterForm() {
     }
   }
 
+  async function onSendTelegramOtp() {
+    setMessage("");
+    if (!guardOnline()) return;
+    if (sendCooldownSec > 0) return;
+
+    const trimmedName = validateDoctorName();
+    if (!trimmedName) return;
+
+    const chatId = telegramChatId.trim();
+    if (!/^\d{5,20}$/.test(chatId)) {
+      setMessage("Укажите числовой Telegram ID (5–20 цифр). Узнать: @userinfobot.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const result = await postSendCode({
+        method: "telegram",
+        contact: chatId,
+        purpose: "register",
+        turnstileToken,
+        idempotencyKey: crypto.randomUUID(),
+        fallbackEmail: fallbackEmailTelegram.trim() || email.trim() || undefined,
+      });
+      if (!result.ok) {
+        setFailedAttempts((n) => n + 1);
+        setRequiresCaptcha(Boolean(result.requiresCaptcha));
+        setMessage(result.error);
+        setTurnstileToken(undefined);
+        return;
+      }
+      setFailedAttempts(0);
+      setOtpSent(true);
+      setSendCooldownSec(30);
+      setOtp("");
+      setMessage(result.message ?? "Код отправлен в Telegram.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function onVerifyTelegramOtp(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setMessage("");
+    if (!guardOnline()) return;
+
+    const trimmedName = validateDoctorName();
+    if (!trimmedName) return;
+
+    const parsedBirth = validateDoctorBirthDateIso(birthDateIso);
+    if (!parsedBirth) {
+      setMessage(birthDateErrorMessage(birthDateIso));
+      return;
+    }
+
+    if (!specialization.trim()) {
+      setMessage("Выберите специализацию из списка.");
+      return;
+    }
+
+    const chatId = telegramChatId.trim();
+    setLoading(true);
+    try {
+      const result = await postTelegramVerifyOtp({
+        chatId,
+        token: otp.trim(),
+        createUser: true,
+        full_name: trimmedName,
+        preferred_locale: locale,
+        birth_year: parsedBirth.year,
+        birth_date: parsedBirth.iso,
+        specialization: specialization.trim(),
+      });
+      if (!result.ok) {
+        setMessage(result.error);
+        return;
+      }
+      saveAppLocale(locale);
+      markSessionAnchorNow();
+      window.location.assign(afterAuthPath);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   async function onSendOtp() {
     setMessage("");
     if (!guardOnline()) return;
@@ -318,7 +408,8 @@ function RegisterForm() {
     message === PHONE_OTP_SENT_MSG ||
     message.includes("отправлен") ||
     message.includes("Код готов") ||
-    message.includes("SMS");
+    message.includes("SMS") ||
+    message.includes("Telegram");
 
   return (
     <AuthScreenShell
@@ -327,6 +418,106 @@ function RegisterForm() {
       defaultTab={defaultTab}
       onTabChange={onTabChange}
       showMethodHints
+      telegramTab={
+        <form className="space-y-4" onSubmit={(e) => void onVerifyTelegramOtp(e)}>
+          <RegisterCareerTeaser />
+          <DoctorRegistrationFields
+            fullName={fullName}
+            onFullNameChange={setFullName}
+            birthDateIso={birthDateIso}
+            onBirthDateIsoChange={setBirthDateIso}
+            specialization={specialization}
+            onSpecializationChange={setSpecialization}
+            locale={locale}
+            onLocaleChange={setLocale}
+          />
+          <label className="block">
+            <span className="text-sm font-medium text-slate-700 dark:text-slate-200">Telegram ID</span>
+            <input
+              className={authInputClass}
+              inputMode="numeric"
+              value={telegramChatId}
+              onChange={(e) => setTelegramChatId(e.target.value)}
+              placeholder="310996807"
+              required
+              aria-label="Telegram ID"
+            />
+            <p className="mt-1 text-xs text-slate-500">
+              Сначала откройте {telegramBotName} и нажмите Start. ID — у @userinfobot.
+            </p>
+          </label>
+          <label className="block">
+            <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
+              Email для резервной отправки кода
+            </span>
+            <input
+              className={authInputClass}
+              type="email"
+              value={fallbackEmailTelegram}
+              onChange={(e) => setFallbackEmailTelegram(e.target.value)}
+              placeholder="doctor@example.com"
+              autoComplete="email"
+              aria-label="Email для резервной отправки кода"
+            />
+            <p className="mt-1 text-xs text-slate-500">
+              Если Telegram недоступен — код уйдёт на эту почту (152-ФЗ: только ваш адрес).
+            </p>
+          </label>
+          {!otpSent ? (
+            <Button
+              type="button"
+              className="w-full rounded-2xl py-6"
+              disabled={loading || sendCooldownSec > 0}
+              onClick={() => void onSendTelegramOtp()}
+              aria-label="Получить код"
+            >
+              {loading
+                ? "Отправляем…"
+                : sendCooldownSec > 0
+                  ? `Повтор через ${sendCooldownSec} с`
+                  : "Получить код в Telegram"}
+            </Button>
+          ) : (
+            <>
+              <label className="block">
+                <span className="text-sm font-medium text-slate-700 dark:text-slate-200">Код из Telegram</span>
+                <input
+                  className={authInputClass}
+                  inputMode="numeric"
+                  autoComplete="one-time-code"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                  placeholder="123456"
+                  required
+                  aria-label="Код из Telegram"
+                />
+              </label>
+              <Button className="w-full rounded-2xl py-6" type="submit" disabled={loading} aria-label="Подтвердить">
+                {loading ? "Проверяем…" : "Подтвердить и войти"}
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full rounded-2xl"
+                disabled={loading || sendCooldownSec > 0}
+                onClick={() => void onSendTelegramOtp()}
+              >
+                {loading
+                  ? "Отправляем…"
+                  : sendCooldownSec > 0
+                    ? `Повтор через ${sendCooldownSec} с`
+                    : "Отправить код повторно"}
+              </Button>
+            </>
+          )}
+          {message && activeTab === "telegram" ? (
+            <AuthMessage message={message} tone={isSuccessMessage ? "success" : "error"} />
+          ) : null}
+          {showCaptcha && activeTab === "telegram" ? (
+            <TurnstileWidget onToken={(t) => setTurnstileToken(t)} onExpire={() => setTurnstileToken(undefined)} />
+          ) : null}
+        </form>
+      }
       emailTab={
         <>
           <AuthSetupBanner />
@@ -523,6 +714,12 @@ function RegisterForm() {
           <div className="mt-4 flex flex-wrap justify-center gap-2 text-xs">
             {!isAuthEmailOnlyClient() ? (
               <>
+            <Link
+              href="/register?method=telegram"
+              className={`rounded-full px-3 py-1 ${activeTab === "telegram" ? "bg-[var(--clinical-primary-deep)] text-white" : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"}`}
+            >
+              Telegram
+            </Link>
             <Link
               href="/register?method=email"
               className={`rounded-full px-3 py-1 ${activeTab === "email" ? "bg-[var(--clinical-primary-deep)] text-white" : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"}`}

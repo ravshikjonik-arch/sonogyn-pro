@@ -14,6 +14,7 @@ import { isAuthEmailOnlyClient } from "@/lib/auth/auth-methods-config";
 type AuthScreenShellProps = {
   title: string;
   subtitle: string;
+  telegramTab: ReactNode;
   emailTab: ReactNode;
   phoneTab: ReactNode;
   socialTab: ReactNode;
@@ -26,11 +27,12 @@ type AuthScreenShellProps = {
 export function AuthScreenShell({
   title,
   subtitle,
+  telegramTab,
   emailTab,
   phoneTab,
   socialTab,
   footer,
-  defaultTab = "email",
+  defaultTab = "telegram",
   onTabChange,
   showMethodHints = false,
 }: AuthScreenShellProps) {
@@ -71,18 +73,22 @@ export function AuthScreenShell({
         <div className="w-full">{emailTab}</div>
       ) : (
       <Tabs value={tab} onValueChange={handleTabChange} className="w-full">
-        <TabsList className="mb-6 grid w-full grid-cols-3 rounded-2xl bg-[var(--clinical-muted)] p-1">
-          <TabsTrigger value="email" className="rounded-xl text-xs sm:text-sm">
-            📧 Почта
+        <TabsList className="mb-6 grid w-full grid-cols-2 gap-1 rounded-2xl bg-[var(--clinical-muted)] p-1 sm:grid-cols-4">
+          <TabsTrigger value="telegram" className="rounded-xl text-xs sm:text-sm">
+            ✈️ Telegram
           </TabsTrigger>
           <TabsTrigger value="phone" className="rounded-xl text-xs sm:text-sm">
-            📱 Телефон
+            📱 SMS
+          </TabsTrigger>
+          <TabsTrigger value="email" className="rounded-xl text-xs sm:text-sm">
+            📧 Почта
           </TabsTrigger>
           <TabsTrigger value="social" className="rounded-xl text-xs sm:text-sm">
             🔵 Google
           </TabsTrigger>
         </TabsList>
 
+        <TabsContent value="telegram">{telegramTab}</TabsContent>
         <TabsContent value="email">{emailTab}</TabsContent>
         <TabsContent value="phone">{phoneTab}</TabsContent>
         <TabsContent value="social">{socialTab}</TabsContent>

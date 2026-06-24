@@ -43,7 +43,7 @@ function readBotToken(): string | null {
   return process.env.TELEGRAM_BOT_TOKEN?.trim() || null;
 }
 
-/** Список chat_id админов из TELEGRAM_ADMIN_IDS (через запятую). */
+/** Список chat_id админов из TELEGRAM_ADMIN_IDS (через запятую, точку с запятой или пробел). */
 export function readTelegramAdminIds(): string[] {
   const raw =
     process.env.TELEGRAM_ADMIN_IDS?.trim() ||
@@ -53,14 +53,19 @@ export function readTelegramAdminIds(): string[] {
 
   if (!raw) return [];
 
-  return raw
-    .split(/[,;\s]+/)
-    .map((id) => id.trim())
-    .filter(Boolean);
+  return [
+    ...new Set(
+      raw
+        .split(/[,;\s]+/)
+        .map((id) => id.trim())
+        .filter(Boolean),
+    ),
+  ];
 }
 
-function formatAdminMessage(event: TelegramAdminEvent, data: Record<string, unknown>): string {
-  const lines = [EVENT_TITLES[event], ""];
+function formatAdminMessage(event: string, data: Record<string, unknown>): string {
+  const title = EVENT_TITLES[event as TelegramAdminEvent] ?? `📢 ${event}`;
+  const lines = [title, ""];
 
   for (const [key, value] of Object.entries(data)) {
     if (value === undefined || value === null || value === "") continue;
@@ -108,24 +113,36 @@ export class TelegramService {
     }
   }
 
-  /** Рассылка всем админам из TELEGRAM_ADMIN_IDS. Fire-and-forget. */
-  static async notifyAdmins(event: TelegramAdminEvent, data: Record<string, unknown>): Promise<void> {
+  /** Рассылка всем админам. Возвращает число успешных отправок. */
+  static async notifyAdmins(
+    event: TelegramAdminEvent | string,
+    data: Record<string, unknown>,
+  ): Promise<{ sent: number; total: number }> {
     const adminIds = readTelegramAdminIds();
     if (!readBotToken()) {
       console.info("[TelegramService] skip notifyAdmins — TELEGRAM_BOT_TOKEN не задан", event);
-      return;
+      return { sent: 0, total: adminIds.length };
     }
     if (adminIds.length === 0) {
       console.info("[TelegramService] skip notifyAdmins — TELEGRAM_ADMIN_IDS пуст", event);
-      return;
+      return { sent: 0, total: 0 };
     }
 
     const text = formatAdminMessage(event, data);
-    await Promise.all(adminIds.map((chatId) => TelegramService.sendMessage(chatId, text)));
+    const results = await Promise.all(adminIds.map((chatId) => TelegramService.sendMessage(chatId, text)));
+    const sent = results.filter(Boolean).length;
+    if (sent < adminIds.length) {
+      console.warn("[TelegramService] notifyAdmins partial delivery", {
+        event,
+        sent,
+        total: adminIds.length,
+      });
+    }
+    return { sent, total: adminIds.length };
   }
 
   /** Не блокирует ответ API при недоступности Telegram. */
-  static notifyAdminsSafe(event: TelegramAdminEvent, data: Record<string, unknown>): void {
+  static notifyAdminsSafe(event: TelegramAdminEvent | string, data: Record<string, unknown>): void {
     void TelegramService.notifyAdmins(event, data).catch((err) => {
       console.warn("[TelegramService] notifyAdminsSafe", event, err);
     });
