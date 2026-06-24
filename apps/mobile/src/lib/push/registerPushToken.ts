@@ -5,7 +5,7 @@ import { Platform } from "react-native";
 
 import { supabaseMobile } from "../supabase/mobileClient";
 
-/** Foreground notification display (stub — extend for deep links later). */
+/** Foreground notification display. Tap routing: usePushNotificationNavigation. */
 export function configurePushNotificationHandler(): void {
   Notifications.setNotificationHandler({
     handleNotification: async () => ({

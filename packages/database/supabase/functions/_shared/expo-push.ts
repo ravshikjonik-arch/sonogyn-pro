@@ -1,5 +1,7 @@
 /** Expo Push API batch sender (Supabase Edge Functions / Deno). */
 
+import { createClient, type SupabaseClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
+
 const EXPO_PUSH_URL = "https://exp.host/--/api/v2/push/send";
 
 export type ExpoPushMessage = {
@@ -46,6 +48,27 @@ export function createServiceClient() {
   const url = Deno.env.get("SUPABASE_URL") ?? "";
   const key = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
   if (!url || !key) throw new Error("Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY");
-  // Dynamic import to keep shared module lightweight
   return { url, key };
+}
+
+export function createServiceSupabase(): SupabaseClient {
+  const { url, key } = createServiceClient();
+  return createClient(url, key);
+}
+
+/** Env secret first; fallback to DB RPC (prod webhooks without CLI secrets). */
+export async function verifyDiscussionWebhook(
+  req: Request,
+  supabase: SupabaseClient,
+): Promise<boolean> {
+  const header = req.headers.get("x-webhook-secret")?.trim();
+  if (!header) return false;
+
+  const envSecret = Deno.env.get("DISCUSSIONS_WEBHOOK_SECRET")?.trim();
+  if (envSecret) return header === envSecret;
+
+  const { data, error } = await supabase.rpc("verify_discussion_webhook_secret", {
+    p_secret: header,
+  });
+  return !error && data === true;
 }

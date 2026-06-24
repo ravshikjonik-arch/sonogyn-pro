@@ -1,4 +1,4 @@
-import { NavigationContainer, type LinkingOptions } from "@react-navigation/native";
+import { NavigationContainer, useNavigationContainerRef, type LinkingOptions } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import type { Session } from "@supabase/supabase-js";
 import { useCallback, useEffect, useState, type ComponentType } from "react";
@@ -45,6 +45,7 @@ import { supabaseMobile } from "../lib/supabase/mobileClient";
 import { wipeMobileClinicalLocalData } from "../lib/security/wipeClinicalLocal";
 import { useAuthDeepLinks } from "../hooks/useAuthDeepLinks";
 import { usePushTokenRegistration } from "../hooks/usePushTokenRegistration";
+import { usePushNotificationNavigation } from "../hooks/usePushNotificationNavigation";
 import { useSessionRevalidation } from "../hooks/useSessionRevalidation";
 import { AppGateContext } from "./AppGateContext";
 
@@ -146,6 +147,7 @@ const linking: LinkingOptions<RootStackParamList> = {
 };
 
 export default function AppStack() {
+  const navigationRef = useNavigationContainerRef<RootStackParamList>();
   const [checked, setChecked] = useState(false);
   const [consentOk, setConsentOk] = useState(false);
   const [banned, setBanned] = useState(false);
@@ -183,6 +185,11 @@ export default function AppStack() {
   useSessionRevalidation(Boolean(supabaseSession));
 
   usePushTokenRegistration(supabaseSession?.user.id);
+
+  usePushNotificationNavigation({
+    enabled: checked && consentOk && !banned,
+    navigationRef,
+  });
 
   useEffect(() => {
     const STARTUP_MS = 10_000;
@@ -259,7 +266,7 @@ export default function AppStack() {
 
   return (
     <AppGateContext.Provider value={{ consentOk, supabaseReady, supabaseSession, refreshSupabaseSession }}>
-      <NavigationContainer linking={linking}>
+      <NavigationContainer ref={navigationRef} linking={linking}>
         <Stack.Navigator
           screenOptions={{ headerShown: false }}
           initialRouteName={Platform.OS === "web" ? "Landing" : "Splash"}

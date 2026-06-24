@@ -15,11 +15,18 @@ function TeachingCaseCard({
   return (
     <Pressable style={styles.card} onPress={onPress}>
       <View style={styles.header}>
-        {item.oradsCategory != null ? (
-          <View style={styles.oradsBadge}>
-            <Text style={styles.oradsText}>O-RADS {item.oradsCategory}</Text>
-          </View>
-        ) : null}
+        <View style={styles.badges}>
+          {item.channelId ? (
+            <View style={styles.discussionBadge}>
+              <Text style={styles.discussionText}>вопрос коллегам</Text>
+            </View>
+          ) : null}
+          {item.oradsCategory != null ? (
+            <View style={styles.oradsBadge}>
+              <Text style={styles.oradsText}>O-RADS {item.oradsCategory}</Text>
+            </View>
+          ) : null}
+        </View>
         <Text style={styles.anatomy}>{item.anatomy ?? "—"}</Text>
       </View>
       <Text numberOfLines={2} style={styles.title}>
@@ -59,6 +66,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     gap: 8,
   },
+  badges: { flexDirection: "row", flexWrap: "wrap", gap: 6, flex: 1 },
+  discussionBadge: {
+    backgroundColor: "#047857",
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 8,
+  },
+  discussionText: { color: "#fff", fontSize: 10, fontWeight: "700" },
   oradsBadge: {
     backgroundColor: "#7c3aed",
     paddingHorizontal: 8,

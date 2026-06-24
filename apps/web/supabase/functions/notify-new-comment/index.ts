@@ -1,5 +1,4 @@
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
-import { createServiceClient, sendExpoPushBatch } from "../_shared/expo-push.ts";
+import { createServiceSupabase, sendExpoPushBatch, verifyDiscussionWebhook } from "../_shared/expo-push.ts";
 
 type WebhookPayload = {
   type: "INSERT";
@@ -12,18 +11,14 @@ type WebhookPayload = {
   };
 };
 
-function verifyWebhook(req: Request): boolean {
-  const secret = Deno.env.get("DISCUSSIONS_WEBHOOK_SECRET")?.trim();
-  if (!secret) return Deno.env.get("DENO_ENV") !== "production";
-  return req.headers.get("x-webhook-secret") === secret;
-}
-
 Deno.serve(async (req) => {
   if (req.method !== "POST") {
     return new Response("Method not allowed", { status: 405 });
   }
 
-  if (!verifyWebhook(req)) {
+  const supabase = createServiceSupabase();
+
+  if (!(await verifyDiscussionWebhook(req, supabase))) {
     return new Response("Unauthorized", { status: 401 });
   }
 
@@ -39,9 +34,6 @@ Deno.serve(async (req) => {
       headers: { "Content-Type": "application/json" },
     });
   }
-
-  const { url, key } = createServiceClient();
-  const supabase = createClient(url, key);
 
   const { case_id, author_id, body } = payload.record;
 
