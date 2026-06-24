@@ -22,14 +22,22 @@ export type CaseDetailData = {
   created_at: string;
   user_id: string;
   flag_reason: string | null;
+  channel_id: string | null;
 };
 
 type Props = {
   teachingCase: CaseDetailData;
+  channelTitle?: string | null;
+  openedFromPush?: boolean;
   devSkip?: boolean;
 };
 
-export function CaseDetailClient({ teachingCase, devSkip = false }: Props) {
+export function CaseDetailClient({
+  teachingCase,
+  channelTitle = null,
+  openedFromPush = false,
+  devSkip = false,
+}: Props) {
   const { user, ready } = useAuth();
 
   if (!ready) {
@@ -59,13 +67,30 @@ export function CaseDetailClient({ teachingCase, devSkip = false }: Props) {
     voiceProfile: "general" as const,
   };
 
+  const isDiscussion = Boolean(teachingCase.channel_id);
+  const casesBackHref = isDiscussion
+    ? `/cases?feedMode=discussions${
+        teachingCase.channel_id ? `&channelId=${encodeURIComponent(teachingCase.channel_id)}` : ""
+      }`
+    : "/cases?tab=cases";
+
   return (
     <div className="px-4 py-10 lg:px-10">
       <div className="mx-auto max-w-4xl space-y-8">
+        {openedFromPush ? (
+          <p className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-950">
+            Открыто из push-уведомления — ответьте коллеге в обсуждении ниже.
+          </p>
+        ) : null}
         <div className="flex flex-wrap items-center gap-3">
           <Button variant="ghost" size="sm" asChild>
-            <Link href="/cases?tab=cases">← Кейсы</Link>
+            <Link href={casesBackHref}>← {isDiscussion ? "Вопросы коллегам" : "Кейсы"}</Link>
           </Button>
+          {isDiscussion ? (
+            <Badge className="border-emerald-200 bg-emerald-50 text-emerald-900">
+              Вопрос коллегам{channelTitle ? ` · ${channelTitle}` : ""}
+            </Badge>
+          ) : null}
           <Badge variant="outline">{teachingCase.anatomy ?? "УЗИ"}</Badge>
           {user ? (
             <CasePublishPanel

@@ -31,7 +31,7 @@ function resolveContact(method: VerificationMethod, raw: string): string | null 
 }
 
 const IDEMPOTENCY_DUP_MSG =
-  "Код уже отправлен. Проверьте SMS или подождите минуту перед повторной отправкой.";
+  "Код уже отправлен. SMS.ru может доставлять до 10 минут — подождите или проверьте email-fallback.";
 
 /**
  * Fallback chain:

@@ -9,6 +9,7 @@ import { OtpInput } from "@/components/auth/OtpInput";
 import { PhoneInput } from "@/components/auth/PhoneInput";
 import { Button } from "@/components/ui/button";
 import { normalizePhone } from "@/lib/auth/oauth-providers";
+import { PHONE_OTP_DELAY_HINT } from "@/lib/auth/safe-auth-messages";
 import { isRuPhoneMaskComplete } from "@/lib/auth/ru-phone-mask";
 import { safeInternalPath } from "@/lib/nav/safe-redirect";
 
@@ -77,7 +78,7 @@ export function VerifyPhoneForm() {
         setCode(body.devOtp);
         setInfo(`Dev: код ${body.devOtp} (SMS mock)`);
       } else {
-        setInfo("Код отправлен. Проверьте SMS.");
+        setInfo(PHONE_OTP_DELAY_HINT);
       }
     } finally {
       setSending(false);

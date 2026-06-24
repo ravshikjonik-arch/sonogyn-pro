@@ -8,7 +8,7 @@ import {
 } from "./code-generator";
 import type { StoredVerificationRecord, VerificationMethod, VerificationPurpose } from "./types";
 
-const CODE_TTL_SEC = 300; // 5 минут — требование задачи
+const CODE_TTL_SEC = 600; // 10 мин — sms.ru иногда доставляет код с задержкой 5–7+ мин
 const IDEMPOTENCY_TTL_SEC = 60;
 
 type MemoryEntry = { record: StoredVerificationRecord; expiresAt: number };

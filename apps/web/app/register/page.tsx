@@ -35,6 +35,7 @@ import { buildOAuthRedirect, normalizePhone, oauthProviderToSupabase } from "@/l
 import { parseRegistrationMethod, type AuthRegistrationMethod } from "@/lib/auth/registration-methods";
 import { isAuthEmailOnlyClient } from "@/lib/auth/auth-methods-config";
 import {
+  PHONE_OTP_DELAY_HINT,
   PHONE_OTP_SENT_MSG,
   requireOnlineForAuth,
   RESEND_CONFIRMATION_MSG,
@@ -426,9 +427,7 @@ function RegisterForm() {
               autoComplete="tel"
               aria-label="Номер телефона"
             />
-            <p className="mt-1 text-xs text-slate-500">
-              Код придёт по SMS в течение минуты.
-            </p>
+            <p className="mt-1 text-xs text-slate-500">{PHONE_OTP_DELAY_HINT}</p>
           </label>
           <label className="block">
             <span className="text-sm font-medium text-slate-700 dark:text-slate-200">

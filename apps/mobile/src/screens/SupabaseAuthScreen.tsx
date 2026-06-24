@@ -443,7 +443,11 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
               value={phoneAuth.otp}
               onChangeText={phoneAuth.setOtp}
             />
-          ) : null}
+          ) : (
+            <Text style={styles.hint}>
+              SMS.ru иногда доставляет код 5–10 минут. Не запрашивайте повтор сразу.
+            </Text>
+          )}
           {phoneAuth.error ? <Text style={styles.error}>{phoneAuth.error}</Text> : null}
           <Pressable
             style={[styles.primary, loading && styles.primaryDisabled]}
@@ -544,6 +548,7 @@ const styles = StyleSheet.create({
   secondary: { paddingVertical: 8, alignItems: "center" },
   secondaryText: { color: "#005CB9", fontWeight: "800" },
   error: { color: "#B91C1C", fontSize: 13, fontWeight: "600" },
+  hint: { color: "#64748B", fontSize: 12, lineHeight: 18 },
   localeBlock: { gap: 8 },
   localeLabel: { fontSize: 13, fontWeight: "700", color: "#334155" },
   localeRow: { flexDirection: "row", flexWrap: "wrap", gap: 8 },

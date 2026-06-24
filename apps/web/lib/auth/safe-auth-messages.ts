@@ -10,7 +10,10 @@ export const EMAIL_NOT_CONFIRMED_MSG =
 export const PASSWORD_RESET_GENERIC_MSG =
   "Если аккаунт с таким email существует, на него отправлено письмо для сброса пароля.";
 export const OTP_INVALID_MSG = "Неверный или просроченный код.";
-export const PHONE_OTP_SENT_MSG = "Если номер подходит, код отправлен по SMS. Проверьте сообщения.";
+export const PHONE_OTP_SENT_MSG =
+  "Если номер подходит, код отправлен по SMS. Проверьте сообщения — доставка может занять до 10 минут.";
+export const PHONE_OTP_DELAY_HINT =
+  "SMS.ru иногда доставляет код с задержкой 5–10 минут. Не запрашивайте новый код сразу — дождитесь SMS или используйте email-fallback.";
 export const PHONE_NOT_REGISTERED_MSG =
   "Аккаунт с этим номером не найден. Сначала зарегистрируйтесь через вкладку «Телефон».";
 export const PHONE_SMS_NOT_CONFIGURED_MSG =

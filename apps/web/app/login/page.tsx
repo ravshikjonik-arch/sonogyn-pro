@@ -23,6 +23,7 @@ import { isAuthEmailOnlyClient } from "@/lib/auth/auth-methods-config";
 import {
   EMAIL_NOT_CONFIRMED_MSG,
   PASSWORD_RESET_GENERIC_MSG,
+  PHONE_OTP_DELAY_HINT,
   PHONE_OTP_SENT_MSG,
   requireOnlineForAuth,
   translateAuthError,
@@ -401,7 +402,7 @@ function LoginForm() {
               aria-label="Номер телефона"
             />
             <p className="mt-1 text-xs text-slate-500">
-              Код придёт по SMS в течение минуты. Нет аккаунта?{" "}
+              {PHONE_OTP_DELAY_HINT} Нет аккаунта?{" "}
               <Link href="/register?method=phone" className="font-semibold text-[var(--clinical-primary-deep)] hover:underline">
                 Регистрация по SMS
               </Link>
