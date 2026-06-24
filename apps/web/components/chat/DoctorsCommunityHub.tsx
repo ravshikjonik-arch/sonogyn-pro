@@ -18,6 +18,9 @@ function HubInner() {
   const searchParams = useSearchParams();
   const initialTab = searchParams.get("tab") === "cases" ? "cases" : "chat";
   const caseTopic = searchParams.get("topic") === "prolapse" ? "prolapse" : "all";
+  const initialFeedMode =
+    searchParams.get("feed") === "discussions" ? ("discussions" as const) : ("library" as const);
+  const initialChannelId = searchParams.get("channelId") || null;
   const initialChannel = (searchParams.get("channel") as DoctorChatChannelSlug) || "general";
   const [activeChannel, setActiveChannel] = useState<DoctorChatChannelSlug>(
     DOCTOR_CHAT_CHANNELS.some((c) => c.slug === initialChannel) ? initialChannel : "general",
@@ -69,10 +72,24 @@ function HubInner() {
             Структурированные кейсы с галереей снимков и тредом обсуждения.
           </p>
           <Button asChild size="sm">
-            <Link href="/cases/new">Новый кейс</Link>
+            <Link
+              href={
+                initialFeedMode === "discussions" && initialChannelId
+                  ? `/cases/new?feed=discussions&channelId=${initialChannelId}`
+                  : initialFeedMode === "discussions"
+                    ? "/cases/new?feed=discussions"
+                    : "/cases/new"
+              }
+            >
+              Новый кейс
+            </Link>
           </Button>
         </div>
-        <CaseFeed topic={caseTopic} />
+        <CaseFeed
+          topic={caseTopic}
+          initialFeedMode={initialFeedMode}
+          initialChannelId={initialChannelId}
+        />
       </TabsContent>
     </Tabs>
   );

@@ -106,6 +106,7 @@
   "exclude": [
     "node_modules",
     ".next",
+    "supabase/functions",
     "**/* 2.ts",
     "**/* 2.tsx",
     "**/* 3.ts",

@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils/cn";
+import { loadDiscussionChannels, type DiscussionChannel } from "@/lib/chat/load-discussion-channels";
 
 /** Row from GET /api/cases (public.cases + orads/tags). */
 export type TeachingGalleryCaseRow = {
@@ -22,10 +23,21 @@ export type TeachingGalleryCaseRow = {
   difficulty: string | null;
   status: string;
   is_public: boolean;
+  channel_id: string | null;
   created_at: string;
   user_id: string;
   orads_category: number | null;
   tags: string[];
+};
+
+type FeedMode = "library" | "discussions";
+
+type CaseFeedProps = {
+  topic?: "all" | "prolapse";
+  /** Pre-select discussion section (doctor_chat_channels.id). */
+  initialChannelId?: string | null;
+  /** library = teaching gallery; discussions = colleague questions. */
+  initialFeedMode?: FeedMode;
 };
 
 type FeedFilters = {
@@ -33,12 +45,19 @@ type FeedFilters = {
   orads: string;
   tags: string;
   queue: "gallery" | "review";
+  feedMode: FeedMode;
+  channelId: string | null;
 };
 
 const ORADS_OPTIONS = ["", "0", "1", "2", "3", "4", "5"] as const;
 
-export function CaseFeed({ topic }: { topic?: "all" | "prolapse" }) {
+export function CaseFeed({
+  topic,
+  initialChannelId = null,
+  initialFeedMode = "library",
+}: CaseFeedProps) {
   const supabase = useSupabase();
+  const [channels, setChannels] = useState<DiscussionChannel[]>([]);
   const [cases, setCases] = useState<TeachingGalleryCaseRow[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
   const [isModerator, setIsModerator] = useState(false);
@@ -46,7 +65,7 @@ export function CaseFeed({ topic }: { topic?: "all" | "prolapse" }) {
   const [bookmarked, setBookmarked] = useState<Record<string, boolean>>({});
   const [commentCounts, setCommentCounts] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState(true);
-  const [draftFilters, setDraftFilters] = useState<Omit<FeedFilters, "queue">>({
+  const [draftFilters, setDraftFilters] = useState<{ q: string; orads: string; tags: string }>({
     q: "",
     orads: "",
     tags: "",
@@ -56,7 +75,13 @@ export function CaseFeed({ topic }: { topic?: "all" | "prolapse" }) {
     orads: "",
     tags: "",
     queue: "gallery",
+    feedMode: initialFeedMode,
+    channelId: initialChannelId,
   });
+
+  useEffect(() => {
+    void loadDiscussionChannels(supabase).then(setChannels);
+  }, [supabase]);
 
   const refresh = useCallback(async () => {
     setLoading(true);
@@ -83,6 +108,11 @@ export function CaseFeed({ topic }: { topic?: "all" | "prolapse" }) {
     if (appliedFilters.tags.trim()) params.set("tags", appliedFilters.tags.trim());
     if (appliedFilters.queue === "review") params.set("status", "review");
     if (topic === "prolapse") params.set("topic", "prolapse");
+    if (appliedFilters.feedMode === "library") params.set("feedMode", "library");
+    if (appliedFilters.feedMode === "discussions") {
+      params.set("feedMode", "discussions");
+      if (appliedFilters.channelId) params.set("channelId", appliedFilters.channelId);
+    }
 
     const res = await fetch(`/api/cases?${params.toString()}`);
     const payload = (await res.json().catch(() => null)) as
@@ -161,11 +191,53 @@ export function CaseFeed({ topic }: { topic?: "all" | "prolapse" }) {
     if (appliedFilters.orads) parts.push(`O-RADS ${appliedFilters.orads}`);
     if (appliedFilters.tags.trim()) parts.push(`теги: ${appliedFilters.tags.trim()}`);
     if (appliedFilters.queue === "review") parts.push("очередь эксперта");
+    if (appliedFilters.feedMode === "discussions") {
+      const ch = channels.find((c) => c.id === appliedFilters.channelId);
+      parts.push(ch ? `вопросы · ${ch.title}` : "вопросы коллегам");
+    } else {
+      parts.push("учебная библиотека");
+    }
     return parts.length ? parts.join(" · ") : "все опубликованные";
-  }, [appliedFilters]);
+  }, [appliedFilters, channels]);
 
   function applyDraftFilters() {
     setAppliedFilters((prev) => ({ ...prev, ...draftFilters }));
+  }
+
+  function switchFeedMode(feedMode: FeedMode) {
+    setAppliedFilters((prev) => ({
+      ...prev,
+      feedMode,
+      channelId: feedMode === "discussions" ? prev.channelId : null,
+    }));
+  }
+
+  function switchChannel(channelId: string | null) {
+    setAppliedFilters((prev) => ({ ...prev, feedMode: "discussions", channelId }));
+  }
+
+  const activeChannel = channels.find((c) => c.id === appliedFilters.channelId);
+
+  async function toggleChannelSubscription() {
+    if (!userId || !appliedFilters.channelId) {
+      toast.message("Выберите раздел и войдите");
+      return;
+    }
+    const channelId = appliedFilters.channelId;
+    const { data: existing } = await supabase
+      .from("channel_subscriptions")
+      .select("user_id")
+      .eq("user_id", userId)
+      .eq("channel_id", channelId)
+      .maybeSingle();
+
+    if (existing) {
+      await supabase.from("channel_subscriptions").delete().eq("user_id", userId).eq("channel_id", channelId);
+      toast.success("Подписка на раздел отключена");
+    } else {
+      await supabase.from("channel_subscriptions").insert({ user_id: userId, channel_id: channelId });
+      toast.success("Push при новых вопросах в разделе включён");
+    }
   }
 
   function switchQueue(queue: FeedFilters["queue"]) {
@@ -317,11 +389,68 @@ export function CaseFeed({ topic }: { topic?: "all" | "prolapse" }) {
           <div className="flex flex-wrap gap-2">
             <Button
               size="sm"
+              variant={appliedFilters.feedMode === "library" ? "default" : "secondary"}
+              type="button"
+              onClick={() => switchFeedMode("library")}
+            >
+              Библиотека кейсов
+            </Button>
+            <Button
+              size="sm"
+              variant={appliedFilters.feedMode === "discussions" ? "default" : "secondary"}
+              type="button"
+              onClick={() => switchFeedMode("discussions")}
+            >
+              Вопросы коллегам
+            </Button>
+          </div>
+          {appliedFilters.feedMode === "discussions" ? (
+            <div className="space-y-2">
+              <p className="text-xs font-semibold text-[var(--clinical-foreground-muted)]">Раздел · специализация</p>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={() => switchChannel(null)}
+                  className={cn(
+                    "rounded-xl border px-3 py-1.5 text-xs transition",
+                    !appliedFilters.channelId
+                      ? "border-[var(--clinical-primary)] bg-[var(--clinical-primary-muted)] font-bold"
+                      : "border-[var(--clinical-border)] hover:bg-[var(--clinical-muted)]",
+                  )}
+                >
+                  Все разделы
+                </button>
+                {channels.map((ch) => (
+                  <button
+                    key={ch.id}
+                    type="button"
+                    onClick={() => switchChannel(ch.id)}
+                    className={cn(
+                      "rounded-xl border px-3 py-1.5 text-xs transition",
+                      appliedFilters.channelId === ch.id
+                        ? "border-[var(--clinical-primary)] bg-[var(--clinical-primary-muted)] font-bold"
+                        : "border-[var(--clinical-border)] hover:bg-[var(--clinical-muted)]",
+                    )}
+                  >
+                    {ch.title}
+                  </button>
+                ))}
+              </div>
+              {appliedFilters.channelId ? (
+                <Button size="sm" variant="outline" type="button" onClick={() => void toggleChannelSubscription()}>
+                  {activeChannel ? `Push · ${activeChannel.title}` : "Подписаться на push"}
+                </Button>
+              ) : null}
+            </div>
+          ) : null}
+          <div className="flex flex-wrap gap-2">
+            <Button
+              size="sm"
               variant={appliedFilters.queue === "gallery" ? "default" : "secondary"}
               type="button"
               onClick={() => switchQueue("gallery")}
             >
-              Галерея
+              Опубликованные
             </Button>
             {isModerator ? (
               <Button
@@ -344,7 +473,17 @@ export function CaseFeed({ topic }: { topic?: "all" | "prolapse" }) {
 
       <div className="flex flex-wrap gap-3">
         <Button size="sm" type="button" asChild variant="default">
-          <Link href="/cases/new">Новый кейс для обсуждения</Link>
+          <Link
+            href={
+              appliedFilters.feedMode === "discussions"
+                ? `/cases/new?feed=discussions${
+                    appliedFilters.channelId ? `&channelId=${appliedFilters.channelId}` : ""
+                  }`
+                : "/cases/new"
+            }
+          >
+            Новый кейс для обсуждения
+          </Link>
         </Button>
         {topic === "prolapse" ? (
           <Button size="sm" type="button" onClick={() => void seedProlapseDemoCase()}>
@@ -411,6 +550,9 @@ export function CaseFeed({ topic }: { topic?: "all" | "prolapse" }) {
                       </Badge>
                     ))}
                     {c.user_id === userId ? <Badge variant="outline">мой кейс</Badge> : null}
+                    {c.channel_id ? (
+                      <Badge className="bg-emerald-700">вопрос коллегам</Badge>
+                    ) : null}
                     {(commentCounts[c.id] ?? 0) > 0 ? (
                       <Badge variant="outline" className="gap-1">
                         <MessageCircle className="h-3 w-3" />

@@ -1,6 +1,6 @@
 -- SonoGyn Pro · все миграции (порядок по имени файла)
 -- Supabase Dashboard → SQL Editor → вставить и Run
--- Сгенерировано: 2026-06-21T09:37:00.636Z
+-- Сгенерировано: 2026-06-24T12:59:31.224Z
 
 -- ========== 20260608120000_security_hardening.sql ==========
 -- Security hardening (safe: skips sections if tables not created yet).

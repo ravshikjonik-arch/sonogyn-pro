@@ -30,6 +30,8 @@ export async function GET(request: Request) {
     tags: searchParams.get("tags") ?? undefined,
     status: searchParams.get("status") ?? undefined,
     topic: searchParams.get("topic") ?? undefined,
+    channelId: searchParams.get("channelId") ?? undefined,
+    feedMode: searchParams.get("feedMode") ?? undefined,
     limit: searchParams.get("limit") ?? undefined,
     cursor: searchParams.get("cursor") ?? undefined,
   });

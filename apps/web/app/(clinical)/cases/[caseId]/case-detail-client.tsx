@@ -114,7 +114,11 @@ export function CaseDetailClient({ teachingCase, devSkip = false }: Props) {
             />
             <CaseAiAnalysisPanel caseId={teachingCase.id} canAnalyze={user.id === teachingCase.user_id} />
             <ClinicalAssistStrip context={assistContext} compact />
-            <TeachingCaseDiscussion caseId={teachingCase.id} userId={user.id} />
+            <TeachingCaseDiscussion
+              caseId={teachingCase.id}
+              userId={user.id}
+              caseAuthorId={teachingCase.user_id}
+            />
           </>
         ) : (
           <p className="rounded-xl border border-[var(--clinical-border)] bg-[var(--clinical-muted)] p-4 text-sm text-[var(--clinical-foreground-muted)]">

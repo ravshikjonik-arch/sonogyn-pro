@@ -6,12 +6,19 @@ export type TeachingCaseStatus = z.infer<typeof TeachingCaseStatusSchema>;
 export const TeachingCaseTopicSchema = z.enum(["all", "prolapse"]);
 export type TeachingCaseTopic = z.infer<typeof TeachingCaseTopicSchema>;
 
+/** library = channel_id IS NULL; discussions = channel_id IS NOT NULL */
+export const TeachingCaseFeedModeSchema = z.enum(["library", "discussions", "all"]);
+export type TeachingCaseFeedMode = z.infer<typeof TeachingCaseFeedModeSchema>;
+
 export const ListTeachingCasesQuerySchema = z.object({
   q: z.string().trim().max(120).optional(),
   orads: z.coerce.number().int().min(0).max(5).optional(),
   tags: z.string().trim().max(200).optional(),
   status: TeachingCaseStatusSchema.optional(),
   topic: TeachingCaseTopicSchema.optional(),
+  /** Filter by doctor_chat_channels.id (colleague questions). */
+  channelId: z.string().uuid().optional(),
+  feedMode: TeachingCaseFeedModeSchema.optional(),
   limit: z.coerce.number().int().min(1).max(60).optional(),
   cursor: z.string().trim().max(64).optional(),
 });
@@ -27,6 +34,7 @@ export const TeachingCaseListItemSchema = z.object({
   difficulty: z.string().nullable(),
   status: TeachingCaseStatusSchema,
   is_public: z.boolean(),
+  channel_id: z.string().uuid().nullable(),
   created_at: z.string(),
   user_id: z.string().uuid(),
   orads_category: z.number().int().min(0).max(5).nullable(),

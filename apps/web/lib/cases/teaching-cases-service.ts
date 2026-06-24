@@ -4,7 +4,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 
 const DEFAULT_LIMIT = 40;
 const SELECT_COLS =
-  "id,title,description,anatomy,pathology,difficulty,status,is_public,created_at,user_id,orads_category,tags";
+  "id,title,description,anatomy,pathology,difficulty,status,is_public,created_at,user_id,orads_category,tags,channel_id";
 
 export type TeachingCaseRow = {
   id: string;
@@ -19,6 +19,7 @@ export type TeachingCaseRow = {
   user_id: string;
   orads_category: number | null;
   tags: string[] | null;
+  channel_id: string | null;
 };
 
 export async function listTeachingCases(
@@ -31,6 +32,7 @@ export async function listTeachingCases(
   const limit = query.limit ?? DEFAULT_LIMIT;
   const tags = parseTeachingCaseTags(query.tags);
   const topic = query.topic ?? "all";
+  const feedMode = query.feedMode ?? "all";
 
   if (query.status === "review" && !isModerator) {
     throw Object.assign(new Error("Forbidden"), { status: 403 });
@@ -44,6 +46,14 @@ export async function listTeachingCases(
 
   if (query.cursor) {
     dbQuery = dbQuery.lt("created_at", query.cursor);
+  }
+
+  if (query.channelId) {
+    dbQuery = dbQuery.eq("channel_id", query.channelId);
+  } else if (feedMode === "library") {
+    dbQuery = dbQuery.is("channel_id", null);
+  } else if (feedMode === "discussions") {
+    dbQuery = dbQuery.not("channel_id", "is", null);
   }
 
   if (query.orads !== undefined) {

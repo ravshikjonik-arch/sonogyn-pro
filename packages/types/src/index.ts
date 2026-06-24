@@ -155,10 +155,24 @@ export const CaseRowSchema = z.object({
   is_public: z.boolean(),
   status: CaseStatusSchema,
   flag_reason: z.string().nullable(),
+  /** NULL = teaching library; NOT NULL = colleague question in a channel section. */
+  channel_id: z.string().uuid().nullable(),
   created_at: z.string().datetime(),
   updated_at: z.string().datetime(),
 });
 export type CaseRow = z.infer<typeof CaseRowSchema>;
+
+export const TeachingCaseCommentRowSchema = z.object({
+  id: z.string().uuid(),
+  case_id: z.string().uuid(),
+  author_id: z.string().uuid(),
+  body: z.string(),
+  is_best_answer: z.boolean(),
+  media_storage_path: z.string().nullable(),
+  media_type: z.enum(["image", "video"]).nullable(),
+  created_at: z.string().datetime(),
+});
+export type TeachingCaseCommentRow = z.infer<typeof TeachingCaseCommentRowSchema>;
 
 export const CaseMediaTypeSchema = z.enum(["image", "video", "dicom"]);
 export type CaseMediaType = z.infer<typeof CaseMediaTypeSchema>;
@@ -501,12 +515,14 @@ export {
   TeachingCaseListItemSchema,
   TeachingCaseStatusSchema,
   TeachingCaseTopicSchema,
+  TeachingCaseFeedModeSchema,
   parseTeachingCaseTags,
   type ListTeachingCasesQuery,
   type ListTeachingCasesResponse,
   type TeachingCaseListItem,
   type TeachingCaseStatus,
   type TeachingCaseTopic,
+  type TeachingCaseFeedMode,
 } from "./teaching-cases";
 
 export {

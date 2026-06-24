@@ -1,6 +1,6 @@
 -- SonoGyn Pro · все миграции (порядок по имени файла)
 -- Supabase Dashboard → SQL Editor → вставить и Run
--- Сгенерировано: 2026-06-21T09:37:00.634Z
+-- Сгенерировано: 2026-06-24T12:59:31.219Z
 
 -- ========== 20260207180000_clinical_cases.sql ==========
 -- Clinical cases social layer + Supabase Realtime enablement
@@ -1436,6 +1436,185 @@ begin
 end
 $security$;
 
+-- ========== 20260608120000_security_hardening 3.sql ==========
+-- Security hardening (safe: skips sections if tables not created yet).
+-- Run anytime. After clinical_copilot migration, re-run to apply series/images policies.
+
+-- ========== profiles (only if table exists) ==========
+do $security$
+begin
+  if to_regclass('public.profiles') is not null then
+    execute 'drop policy if exists profiles_select_roster on public.profiles';
+
+    execute $fn$
+      create or replace function public.get_doctor_display_names(p_user_ids uuid[])
+      returns table (id uuid, full_name text)
+      language sql
+      security definer
+      set search_path = public
+      stable
+      as $body$
+        select p.id, coalesce(nullif(trim(p.full_name), ''), 'Врач') as full_name
+        from public.profiles p
+        where p.id = any (p_user_ids)
+          and auth.uid() is not null;
+      $body$;
+    $fn$;
+
+    execute 'revoke all on function public.get_doctor_display_names(uuid[]) from public';
+    execute 'grant execute on function public.get_doctor_display_names(uuid[]) to authenticated';
+  end if;
+end
+$security$;
+
+-- ========== copilot series/images (only if tables exist) ==========
+do $security$
+begin
+  if to_regclass('public.ultrasound_series') is not null then
+    execute 'drop policy if exists series_select_own on public.ultrasound_series';
+    execute 'drop policy if exists series_insert_own on public.ultrasound_series';
+    execute 'drop policy if exists series_update_own on public.ultrasound_series';
+    execute 'drop policy if exists series_delete_own on public.ultrasound_series';
+    execute 'drop policy if exists series_select_own_study on public.ultrasound_series';
+    execute 'drop policy if exists series_insert_own_study on public.ultrasound_series';
+    execute 'drop policy if exists series_update_own_study on public.ultrasound_series';
+    execute 'drop policy if exists series_delete_own_study on public.ultrasound_series';
+
+    execute $pol$
+      create policy series_select_own_study on public.ultrasound_series
+        for select to authenticated
+        using (
+          exists (
+            select 1 from public.studies s
+            where s.id = ultrasound_series.study_id and s.created_by = auth.uid()
+          )
+        )
+    $pol$;
+
+    execute $pol$
+      create policy series_insert_own_study on public.ultrasound_series
+        for insert to authenticated
+        with check (
+          created_by = auth.uid()
+          and exists (
+            select 1 from public.studies s
+            where s.id = study_id and s.created_by = auth.uid()
+          )
+        )
+    $pol$;
+
+    execute $pol$
+      create policy series_update_own_study on public.ultrasound_series
+        for update to authenticated
+        using (
+          exists (
+            select 1 from public.studies s
+            where s.id = ultrasound_series.study_id and s.created_by = auth.uid()
+          )
+        )
+    $pol$;
+
+    execute $pol$
+      create policy series_delete_own_study on public.ultrasound_series
+        for delete to authenticated
+        using (
+          exists (
+            select 1 from public.studies s
+            where s.id = ultrasound_series.study_id and s.created_by = auth.uid()
+          )
+        )
+    $pol$;
+  end if;
+
+  if to_regclass('public.ultrasound_images') is not null then
+    execute 'drop policy if exists images_select_own on public.ultrasound_images';
+    execute 'drop policy if exists images_insert_own on public.ultrasound_images';
+    execute 'drop policy if exists images_update_own on public.ultrasound_images';
+    execute 'drop policy if exists images_delete_own on public.ultrasound_images';
+    execute 'drop policy if exists images_select_own_study on public.ultrasound_images';
+    execute 'drop policy if exists images_insert_own_study on public.ultrasound_images';
+    execute 'drop policy if exists images_update_own_study on public.ultrasound_images';
+    execute 'drop policy if exists images_delete_own_study on public.ultrasound_images';
+
+    execute $pol$
+      create policy images_select_own_study on public.ultrasound_images
+        for select to authenticated
+        using (
+          exists (
+            select 1
+            from public.ultrasound_series ser
+            join public.studies s on s.id = ser.study_id
+            where ser.id = ultrasound_images.series_id and s.created_by = auth.uid()
+          )
+        )
+    $pol$;
+
+    execute $pol$
+      create policy images_insert_own_study on public.ultrasound_images
+        for insert to authenticated
+        with check (
+          created_by = auth.uid()
+          and exists (
+            select 1
+            from public.ultrasound_series ser
+            join public.studies s on s.id = ser.study_id
+            where ser.id = series_id and s.created_by = auth.uid()
+          )
+        )
+    $pol$;
+
+    execute $pol$
+      create policy images_update_own_study on public.ultrasound_images
+        for update to authenticated
+        using (
+          exists (
+            select 1
+            from public.ultrasound_series ser
+            join public.studies s on s.id = ser.study_id
+            where ser.id = ultrasound_images.series_id and s.created_by = auth.uid()
+          )
+        )
+    $pol$;
+
+    execute $pol$
+      create policy images_delete_own_study on public.ultrasound_images
+        for delete to authenticated
+        using (
+          exists (
+            select 1
+            from public.ultrasound_series ser
+            join public.studies s on s.id = ser.study_id
+            where ser.id = ultrasound_images.series_id and s.created_by = auth.uid()
+          )
+        )
+    $pol$;
+  end if;
+end
+$security$;
+
+-- ========== doctor chat media (only if chat table exists) ==========
+do $security$
+begin
+  if to_regclass('public.doctor_chat_messages') is not null then
+    execute 'drop policy if exists doctor_chat_media_select on storage.objects';
+    execute $pol$
+      create policy doctor_chat_media_select on storage.objects
+        for select to authenticated
+        using (
+          bucket_id = 'doctor-chat-media'
+          and (
+            (storage.foldername(name))[1] = auth.uid()::text
+            or exists (
+              select 1 from public.doctor_chat_messages m
+              where m.media_storage_path = name
+            )
+          )
+        )
+    $pol$;
+  end if;
+end
+$security$;
+
 -- ========== 20260608120000_security_hardening.sql ==========
 -- Security hardening (safe: skips sections if tables not created yet).
 -- Run anytime. After clinical_copilot migration, re-run to apply series/images policies.
@@ -1615,6 +1794,84 @@ begin
 end
 $security$;
 
+-- ========== 20260614120000_user_metadata_lookup 2.sql ==========
+-- Быстрый lookup email → user id (замена auth.admin.listUsers в sign-up).
+-- Синхронизация из auth.users через trigger.
+
+CREATE TABLE IF NOT EXISTS public.user_metadata (
+  id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+  email TEXT UNIQUE NOT NULL,
+  phone TEXT UNIQUE,
+  full_name TEXT,
+  specialty TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_user_metadata_email ON public.user_metadata(email);
+CREATE INDEX IF NOT EXISTS idx_user_metadata_phone ON public.user_metadata(phone);
+
+ALTER TABLE public.user_metadata ENABLE ROW LEVEL SECURITY;
+
+-- Только service role / backend (RLS без policies для anon/authenticated).
+REVOKE ALL ON public.user_metadata FROM anon, authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.user_metadata TO service_role;
+
+CREATE OR REPLACE FUNCTION public.handle_auth_user_metadata_sync()
+RETURNS trigger
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+BEGIN
+  IF NEW.email IS NULL OR trim(NEW.email) = '' THEN
+    RETURN NEW;
+  END IF;
+
+  INSERT INTO public.user_metadata (id, email, phone, full_name, specialty, updated_at)
+  VALUES (
+    NEW.id,
+    lower(trim(NEW.email)),
+    NEW.phone,
+    COALESCE(NEW.raw_user_meta_data->>'full_name', ''),
+    COALESCE(NEW.raw_user_meta_data->>'specialization', NEW.raw_user_meta_data->>'specialty', ''),
+    NOW()
+  )
+  ON CONFLICT (id) DO UPDATE SET
+    email = EXCLUDED.email,
+    phone = EXCLUDED.phone,
+    full_name = EXCLUDED.full_name,
+    specialty = EXCLUDED.specialty,
+    updated_at = NOW();
+
+  RETURN NEW;
+END;
+$$;
+
+DROP TRIGGER IF EXISTS on_auth_user_metadata_sync ON auth.users;
+CREATE TRIGGER on_auth_user_metadata_sync
+  AFTER INSERT OR UPDATE OF email, phone, raw_user_meta_data ON auth.users
+  FOR EACH ROW
+  EXECUTE FUNCTION public.handle_auth_user_metadata_sync();
+
+-- Backfill существующих пользователей (идемпотентно).
+INSERT INTO public.user_metadata (id, email, phone, full_name, specialty, updated_at)
+SELECT
+  u.id,
+  lower(trim(u.email)),
+  u.phone,
+  COALESCE(u.raw_user_meta_data->>'full_name', ''),
+  COALESCE(u.raw_user_meta_data->>'specialization', u.raw_user_meta_data->>'specialty', ''),
+  NOW()
+FROM auth.users u
+WHERE u.email IS NOT NULL AND trim(u.email) <> ''
+ON CONFLICT (id) DO UPDATE SET
+  email = EXCLUDED.email,
+  phone = EXCLUDED.phone,
+  full_name = EXCLUDED.full_name,
+  specialty = EXCLUDED.specialty,
+  updated_at = NOW();
+
 -- ========== 20260614120000_user_metadata_lookup.sql ==========
 -- Быстрый lookup email → user id (замена auth.admin.listUsers в sign-up).
 -- Синхронизация из auth.users через trigger.
@@ -1693,6 +1950,55 @@ ON CONFLICT (id) DO UPDATE SET
   specialty = EXCLUDED.specialty,
   updated_at = NOW();
 
+-- ========== 20260616120000_profile_birth_year 2.sql ==========
+-- Год рождения врача (обязательное поле при регистрации / dev-login).
+
+alter table public.profiles
+  add column if not exists birth_year smallint
+  check (birth_year is null or (birth_year >= 1900 and birth_year <= 2100));
+
+alter table public.users
+  add column if not exists birth_year smallint
+  check (birth_year is null or (birth_year >= 1900 and birth_year <= 2100));
+
+create or replace function public.handle_new_user_profile()
+returns trigger language plpgsql security definer set search_path = public as $$
+declare
+  fn text := coalesce(nullif(trim(coalesce(new.raw_user_meta_data->>'full_name', '')), ''), '');
+  sp text := nullif(trim(coalesce(new.raw_user_meta_data->>'specialization', '')), '');
+  ins text := nullif(trim(coalesce(new.raw_user_meta_data->>'institution', '')), '');
+  by_raw text := nullif(trim(coalesce(new.raw_user_meta_data->>'birth_year', '')), '');
+  by_val smallint := null;
+begin
+  if by_raw ~ '^\d{4}$' then
+    by_val := by_raw::smallint;
+  end if;
+
+  insert into public.profiles (id, full_name, specialization, institution, birth_year, trial_ends_at)
+  values (new.id, fn, sp, ins, by_val, now() + interval '7 days')
+  on conflict (id) do nothing;
+
+  insert into public.users (id, email, full_name, specialization, institution, birth_year)
+  values (
+    new.id,
+    coalesce(new.email, ''),
+    fn,
+    sp,
+    ins,
+    by_val
+  )
+  on conflict (id) do update set
+    email = excluded.email,
+    full_name = case when excluded.full_name <> '' then excluded.full_name else public.users.full_name end,
+    specialization = coalesce(excluded.specialization, public.users.specialization),
+    institution = coalesce(excluded.institution, public.users.institution),
+    birth_year = coalesce(excluded.birth_year, public.users.birth_year),
+    updated_at = now();
+
+  return new;
+end;
+$$;
+
 -- ========== 20260616120000_profile_birth_year.sql ==========
 -- Год рождения врача (обязательное поле при регистрации / dev-login).
 
@@ -1742,6 +2048,15 @@ begin
 end;
 $$;
 
+-- ========== 20260617130000_profile_clinical_preferences 2.sql ==========
+-- Клинические настройки врача (шаблоны протоколов и др.) — синхронизация между устройствами.
+
+alter table public.profiles
+  add column if not exists clinical_preferences jsonb not null default '{}'::jsonb;
+
+comment on column public.profiles.clinical_preferences is
+  'Doctor UI prefs: fmfSecondThirdProtocolTemplate (yakubov-2023 | sonogyn-compact), etc.';
+
 -- ========== 20260617130000_profile_clinical_preferences.sql ==========
 -- Клинические настройки врача (шаблоны протоколов и др.) — синхронизация между устройствами.
 
@@ -1750,6 +2065,34 @@ alter table public.profiles
 
 comment on column public.profiles.clinical_preferences is
   'Doctor UI prefs: fmfSecondThirdProtocolTemplate (yakubov-2023 | sonogyn-compact), etc.';
+
+-- ========== 20260617140000_yookassa_payments 2.sql ==========
+-- ЮKassa payments (РФ billing). Server writes via service role only.
+
+create table if not exists public.yookassa_payments (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  yookassa_id text not null unique,
+  amount_rub numeric(12, 2) not null,
+  status text not null default 'pending',
+  description text,
+  confirmation_url text,
+  metadata jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists yookassa_payments_user_id_idx on public.yookassa_payments (user_id);
+create index if not exists yookassa_payments_status_idx on public.yookassa_payments (status);
+
+alter table public.yookassa_payments enable row level security;
+
+drop policy if exists "yookassa_payments_select_own" on public.yookassa_payments;
+create policy "yookassa_payments_select_own"
+  on public.yookassa_payments
+  for select
+  to authenticated
+  using (auth.uid() = user_id);
 
 -- ========== 20260617140000_yookassa_payments.sql ==========
 -- ЮKassa payments (РФ billing). Server writes via service role only.
@@ -1775,6 +2118,52 @@ alter table public.yookassa_payments enable row level security;
 drop policy if exists "yookassa_payments_select_own" on public.yookassa_payments;
 create policy "yookassa_payments_select_own"
   on public.yookassa_payments
+  for select
+  to authenticated
+  using (auth.uid() = user_id);
+
+-- ========== 20260619130000_payments 2.sql ==========
+-- Payments (ЮKassa). Таблица orders/payments для webhook.
+
+do $$
+begin
+  if exists (
+    select 1 from information_schema.tables
+    where table_schema = 'public' and table_name = 'yookassa_payments'
+  ) and not exists (
+    select 1 from information_schema.tables
+    where table_schema = 'public' and table_name = 'payments'
+  ) then
+    alter table public.yookassa_payments rename to payments;
+    alter table public.payments rename column amount_rub to amount;
+    alter index if exists yookassa_payments_user_id_idx rename to payments_user_id_idx;
+    alter index if exists yookassa_payments_status_idx rename to payments_status_idx;
+  elsif not exists (
+    select 1 from information_schema.tables
+    where table_schema = 'public' and table_name = 'payments'
+  ) then
+    create table public.payments (
+      id uuid primary key default gen_random_uuid(),
+      user_id uuid not null references auth.users(id) on delete cascade,
+      yookassa_id text not null unique,
+      amount numeric(12, 2) not null,
+      status text not null default 'pending',
+      description text,
+      confirmation_url text,
+      metadata jsonb not null default '{}'::jsonb,
+      created_at timestamptz not null default now(),
+      updated_at timestamptz not null default now()
+    );
+    create index payments_user_id_idx on public.payments (user_id);
+    create index payments_status_idx on public.payments (status);
+  end if;
+end $$;
+
+alter table public.payments enable row level security;
+
+drop policy if exists "payments_select_own" on public.payments;
+create policy "payments_select_own"
+  on public.payments
   for select
   to authenticated
   using (auth.uid() = user_id);
@@ -1824,6 +2213,287 @@ create policy "payments_select_own"
   for select
   to authenticated
   using (auth.uid() = user_id);
+
+-- ========== 20260620120000_course_author_lms 2.sql ==========
+-- LMS: courses, modules, lessons, enrollments, sales, author role
+
+-- Роль author для создателей курсов
+alter table public.profiles drop constraint if exists profiles_role_check;
+alter table public.profiles
+  add constraint profiles_role_check
+  check (role in ('user', 'moderator', 'admin', 'author'));
+
+-- ---------------------------------------------------------------------------
+-- Tables
+-- ---------------------------------------------------------------------------
+
+create table if not exists public.courses (
+  id uuid primary key default gen_random_uuid(),
+  author_id uuid not null references auth.users (id) on delete cascade,
+  title text not null default '',
+  description_html text not null default '',
+  cover_storage_path text,
+  status text not null default 'draft' check (status in ('draft', 'published', 'archived')),
+  price_rub integer not null default 0 check (price_rub >= 0),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists idx_courses_author_id on public.courses (author_id);
+create index if not exists idx_courses_status on public.courses (status);
+
+create table if not exists public.course_modules (
+  id uuid primary key default gen_random_uuid(),
+  course_id uuid not null references public.courses (id) on delete cascade,
+  title text not null default '',
+  sort_order integer not null default 0,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists idx_course_modules_course_sort on public.course_modules (course_id, sort_order);
+
+create table if not exists public.course_lessons (
+  id uuid primary key default gen_random_uuid(),
+  course_id uuid not null references public.courses (id) on delete cascade,
+  module_id uuid not null references public.course_modules (id) on delete cascade,
+  title text not null default '',
+  body_html text not null default '',
+  lesson_type text not null default 'video' check (lesson_type in ('video', 'offline')),
+  video_url text,
+  video_storage_path text,
+  offline_starts_at timestamptz,
+  offline_address text,
+  offline_stream_url text,
+  max_seats integer check (max_seats is null or max_seats > 0),
+  is_free_preview boolean not null default false,
+  sort_order integer not null default 0,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists idx_course_lessons_module_sort on public.course_lessons (module_id, sort_order);
+create index if not exists idx_course_lessons_course on public.course_lessons (course_id);
+create index if not exists idx_course_lessons_offline on public.course_lessons (offline_starts_at)
+  where lesson_type = 'offline';
+
+create table if not exists public.course_enrollments (
+  id uuid primary key default gen_random_uuid(),
+  course_id uuid not null references public.courses (id) on delete cascade,
+  user_id uuid not null references auth.users (id) on delete cascade,
+  progress_percent smallint not null default 0 check (progress_percent >= 0 and progress_percent <= 100),
+  enrolled_at timestamptz not null default now(),
+  last_activity_at timestamptz not null default now(),
+  unique (course_id, user_id)
+);
+
+create index if not exists idx_course_enrollments_course on public.course_enrollments (course_id);
+create index if not exists idx_course_enrollments_user on public.course_enrollments (user_id);
+
+create table if not exists public.offline_lesson_registrations (
+  id uuid primary key default gen_random_uuid(),
+  lesson_id uuid not null references public.course_lessons (id) on delete cascade,
+  course_id uuid not null references public.courses (id) on delete cascade,
+  user_id uuid not null references auth.users (id) on delete cascade,
+  registered_at timestamptz not null default now(),
+  status text not null default 'registered' check (status in ('registered', 'cancelled', 'attended')),
+  unique (lesson_id, user_id)
+);
+
+create index if not exists idx_offline_regs_lesson on public.offline_lesson_registrations (lesson_id, registered_at desc);
+create index if not exists idx_offline_regs_course on public.offline_lesson_registrations (course_id);
+
+create table if not exists public.course_sales (
+  id uuid primary key default gen_random_uuid(),
+  course_id uuid not null references public.courses (id) on delete cascade,
+  author_id uuid not null references auth.users (id) on delete cascade,
+  buyer_id uuid references auth.users (id) on delete set null,
+  amount_rub integer not null check (amount_rub >= 0),
+  sold_at timestamptz not null default now(),
+  payment_ref text
+);
+
+create index if not exists idx_course_sales_author_sold on public.course_sales (author_id, sold_at desc);
+create index if not exists idx_course_sales_course on public.course_sales (course_id);
+
+-- ---------------------------------------------------------------------------
+-- Helpers
+-- ---------------------------------------------------------------------------
+
+create or replace function public.is_author_or_admin()
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1
+    from public.profiles p
+    where p.id = auth.uid()
+      and p.role in ('author', 'admin')
+  );
+$$;
+
+create or replace function public.is_course_owner(p_course_id uuid)
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1
+    from public.courses c
+    where c.id = p_course_id
+      and c.author_id = auth.uid()
+  );
+$$;
+
+create or replace function public.can_manage_course(p_course_id uuid)
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select public.is_course_owner(p_course_id)
+    or exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin');
+$$;
+
+-- ---------------------------------------------------------------------------
+-- RLS
+-- ---------------------------------------------------------------------------
+
+alter table public.courses enable row level security;
+alter table public.course_modules enable row level security;
+alter table public.course_lessons enable row level security;
+alter table public.course_enrollments enable row level security;
+alter table public.offline_lesson_registrations enable row level security;
+alter table public.course_sales enable row level security;
+
+-- courses
+drop policy if exists courses_select_published on public.courses;
+create policy courses_select_published on public.courses
+  for select using (
+    status = 'published'
+    or author_id = auth.uid()
+    or exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin')
+  );
+
+drop policy if exists courses_author_write on public.courses;
+create policy courses_author_write on public.courses
+  for all using (author_id = auth.uid())
+  with check (author_id = auth.uid());
+
+drop policy if exists courses_admin_all on public.courses;
+create policy courses_admin_all on public.courses
+  for all using (
+    exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin')
+  );
+
+-- modules
+drop policy if exists course_modules_manage on public.course_modules;
+create policy course_modules_manage on public.course_modules
+  for all using (public.can_manage_course(course_id))
+  with check (public.can_manage_course(course_id));
+
+drop policy if exists course_modules_select_enrolled on public.course_modules;
+create policy course_modules_select_enrolled on public.course_modules
+  for select using (
+    exists (
+      select 1 from public.courses c
+      where c.id = course_id
+        and (c.status = 'published' or c.author_id = auth.uid())
+    )
+  );
+
+-- lessons
+drop policy if exists course_lessons_manage on public.course_lessons;
+create policy course_lessons_manage on public.course_lessons
+  for all using (public.can_manage_course(course_id))
+  with check (public.can_manage_course(course_id));
+
+drop policy if exists course_lessons_select on public.course_lessons;
+create policy course_lessons_select on public.course_lessons
+  for select using (
+    exists (
+      select 1 from public.courses c
+      where c.id = course_id
+        and (c.status = 'published' or c.author_id = auth.uid())
+    )
+  );
+
+-- enrollments
+drop policy if exists course_enrollments_select on public.course_enrollments;
+create policy course_enrollments_select on public.course_enrollments
+  for select using (
+    user_id = auth.uid()
+    or public.can_manage_course(course_id)
+  );
+
+drop policy if exists course_enrollments_insert on public.course_enrollments;
+create policy course_enrollments_insert on public.course_enrollments
+  for insert with check (user_id = auth.uid());
+
+drop policy if exists course_enrollments_update on public.course_enrollments;
+create policy course_enrollments_update on public.course_enrollments
+  for update using (user_id = auth.uid() or public.can_manage_course(course_id));
+
+-- offline registrations
+drop policy if exists offline_regs_select on public.offline_lesson_registrations;
+create policy offline_regs_select on public.offline_lesson_registrations
+  for select using (
+    user_id = auth.uid()
+    or public.can_manage_course(course_id)
+  );
+
+drop policy if exists offline_regs_insert on public.offline_lesson_registrations;
+create policy offline_regs_insert on public.offline_lesson_registrations
+  for insert with check (user_id = auth.uid());
+
+-- sales
+drop policy if exists course_sales_author on public.course_sales;
+create policy course_sales_author on public.course_sales
+  for select using (
+    author_id = auth.uid()
+    or exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin')
+  );
+
+drop policy if exists course_sales_insert_service on public.course_sales;
+create policy course_sales_insert_service on public.course_sales
+  for insert with check (author_id = auth.uid() or public.is_author_or_admin());
+
+-- ---------------------------------------------------------------------------
+-- Storage bucket course-media
+-- ---------------------------------------------------------------------------
+
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values (
+  'course-media',
+  'course-media',
+  false,
+  104857600,
+  array['image/jpeg', 'image/png', 'image/webp', 'video/mp4', 'video/webm']::text[]
+)
+on conflict (id) do nothing;
+
+drop policy if exists course_media_owner_rw on storage.objects;
+create policy course_media_owner_rw on storage.objects
+  for all using (
+    bucket_id = 'course-media'
+    and (storage.foldername(name))[1] = auth.uid()::text
+  )
+  with check (
+    bucket_id = 'course-media'
+    and (storage.foldername(name))[1] = auth.uid()::text
+  );
+
+drop policy if exists course_media_admin on storage.objects;
+create policy course_media_admin on storage.objects
+  for all using (
+    bucket_id = 'course-media'
+    and exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin')
+  );
 
 -- ========== 20260620120000_course_author_lms.sql ==========
 -- LMS: courses, modules, lessons, enrollments, sales, author role
@@ -2106,6 +2776,23 @@ create policy course_media_admin on storage.objects
     and exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin')
   );
 
+-- ========== 20260621120000_lesson_video_storage 2.sql ==========
+-- Video upload fields for S3/Yandex Object Storage + HLS
+
+alter table public.course_lessons
+  add column if not exists video_file_key text,
+  add column if not exists video_file_url text,
+  add column if not exists hls_playlist_key text,
+  add column if not exists video_processing_status text not null default 'none'
+    check (video_processing_status in ('none', 'uploading', 'processing', 'ready', 'failed')),
+  add column if not exists video_mime_type text,
+  add column if not exists video_size_bytes bigint check (video_size_bytes is null or video_size_bytes >= 0),
+  add column if not exists video_upload_error text;
+
+create index if not exists idx_course_lessons_video_status
+  on public.course_lessons (video_processing_status)
+  where lesson_type = 'video';
+
 -- ========== 20260621120000_lesson_video_storage.sql ==========
 -- Video upload fields for S3/Yandex Object Storage + HLS
 
@@ -2122,6 +2809,72 @@ alter table public.course_lessons
 create index if not exists idx_course_lessons_video_status
   on public.course_lessons (video_processing_status)
   where lesson_type = 'video';
+
+-- ========== 20260622120000_lms_school_upgrade 2.sql ==========
+-- Online school upgrade: author profiles, per-lesson progress, lesson metadata
+
+create table if not exists public.author_profiles (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null unique references auth.users (id) on delete cascade,
+  bio text,
+  avatar_url text,
+  telegram text,
+  website text,
+  revenue_percent smallint not null default 70 check (revenue_percent >= 0 and revenue_percent <= 100),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists idx_author_profiles_user on public.author_profiles (user_id);
+
+alter table public.course_lessons
+  add column if not exists description text,
+  add column if not exists video_provider text check (
+    video_provider is null or video_provider in ('youtube', 'vimeo', 'upload')
+  ),
+  add column if not exists duration_minutes integer check (duration_minutes is null or duration_minutes > 0);
+
+alter table public.course_enrollments
+  add column if not exists payment_id uuid references public.payments (id) on delete set null;
+
+create table if not exists public.course_lesson_progress (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users (id) on delete cascade,
+  course_id uuid not null references public.courses (id) on delete cascade,
+  lesson_id uuid not null references public.course_lessons (id) on delete cascade,
+  completed boolean not null default false,
+  completed_at timestamptz,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  unique (user_id, lesson_id)
+);
+
+create index if not exists idx_lesson_progress_user_course on public.course_lesson_progress (user_id, course_id);
+create index if not exists idx_lesson_progress_lesson on public.course_lesson_progress (lesson_id);
+
+alter table public.author_profiles enable row level security;
+alter table public.course_lesson_progress enable row level security;
+
+drop policy if exists author_profiles_select on public.author_profiles;
+create policy author_profiles_select on public.author_profiles
+  for select using (true);
+
+drop policy if exists author_profiles_own_write on public.author_profiles;
+create policy author_profiles_own_write on public.author_profiles
+  for all using (user_id = auth.uid())
+  with check (user_id = auth.uid());
+
+drop policy if exists lesson_progress_select on public.course_lesson_progress;
+create policy lesson_progress_select on public.course_lesson_progress
+  for select using (
+    user_id = auth.uid()
+    or public.can_manage_course(course_id)
+  );
+
+drop policy if exists lesson_progress_own_write on public.course_lesson_progress;
+create policy lesson_progress_own_write on public.course_lesson_progress
+  for all using (user_id = auth.uid())
+  with check (user_id = auth.uid());
 
 -- ========== 20260622120000_lms_school_upgrade.sql ==========
 -- Online school upgrade: author profiles, per-lesson progress, lesson metadata
@@ -2404,3 +3157,392 @@ create policy report_citation_links_delete_owner on public.report_citation_links
       where r.id = report_citation_links.report_id and r.user_id = auth.uid()
     )
   );
+
+-- ========== 20260624120000_cases_orads_tags.sql ==========
+-- Case Library Platform — O-RADS category + tags for search (T1.11)
+
+alter table public.cases
+  add column if not exists orads_category smallint,
+  add column if not exists tags text[] not null default '{}';
+
+alter table public.cases drop constraint if exists cases_orads_category_check;
+alter table public.cases add constraint cases_orads_category_check
+  check (orads_category is null or (orads_category >= 0 and orads_category <= 5));
+
+create index if not exists cases_orads_category_idx
+  on public.cases (orads_category)
+  where orads_category is not null;
+
+create index if not exists cases_tags_gin_idx
+  on public.cases using gin (tags);
+
+-- Moderator helper (review queue visibility)
+create or replace function public.is_moderator()
+returns boolean language sql stable security definer set search_path = public as $$
+  select exists (
+    select 1 from public.profiles p
+    where p.id = auth.uid() and p.role in ('moderator', 'admin')
+  );
+$$;
+
+-- Extend SELECT: moderators see cases awaiting review
+drop policy if exists cases_select_policy on public.cases;
+create policy cases_select_policy on public.cases for select using (
+  public.is_admin()
+  or user_id = auth.uid()
+  or (status = 'published' and is_public = true)
+  or (status = 'review' and public.is_moderator())
+);
+
+-- Moderators may update cases in review queue (expert stub)
+drop policy if exists cases_moderator_review_update on public.cases;
+create policy cases_moderator_review_update on public.cases for update using (
+  public.is_moderator() and status = 'review'
+);
+
+comment on column public.cases.orads_category is 'O-RADS US final category (0–5), nullable for non-adnex cases.';
+comment on column public.cases.tags is 'Free-form pathology / anatomy tags for gallery search.';
+
+-- ========== 20260624120000_doctor_discussions_extend.sql ==========
+-- Doctor discussions: extend cases / teaching_case_comments / doctor_chat_channels.
+-- channel_id IS NULL → teaching library case; channel_id IS NOT NULL → colleague question.
+
+alter table public.cases
+  add column if not exists channel_id uuid references public.doctor_chat_channels (id) on delete set null;
+
+create index if not exists idx_cases_channel_id on public.cases (channel_id);
+
+alter table public.teaching_case_comments
+  add column if not exists is_best_answer boolean not null default false;
+
+-- Push subscription tables
+create table if not exists public.channel_subscriptions (
+  user_id uuid not null references auth.users (id) on delete cascade,
+  channel_id uuid not null references public.doctor_chat_channels (id) on delete cascade,
+  created_at timestamptz not null default now(),
+  primary key (user_id, channel_id)
+);
+
+create table if not exists public.case_subscriptions (
+  user_id uuid not null references auth.users (id) on delete cascade,
+  case_id uuid not null references public.cases (id) on delete cascade,
+  created_at timestamptz not null default now(),
+  primary key (user_id, case_id)
+);
+
+alter table public.channel_subscriptions enable row level security;
+alter table public.case_subscriptions enable row level security;
+
+drop policy if exists channel_subscriptions_own on public.channel_subscriptions;
+create policy channel_subscriptions_own on public.channel_subscriptions
+  for all to authenticated
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+drop policy if exists case_subscriptions_own on public.case_subscriptions;
+create policy case_subscriptions_own on public.case_subscriptions
+  for all to authenticated
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+-- Expo push tokens (mobile registers via authenticated client)
+create table if not exists public.user_push_tokens (
+  user_id uuid not null references auth.users (id) on delete cascade,
+  expo_push_token text not null,
+  platform text,
+  updated_at timestamptz not null default now(),
+  primary key (user_id, expo_push_token)
+);
+
+alter table public.user_push_tokens enable row level security;
+
+drop policy if exists user_push_tokens_own on public.user_push_tokens;
+create policy user_push_tokens_own on public.user_push_tokens
+  for all to authenticated
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+-- Auto-subscribe comment authors (and case author on new question)
+create or replace function public.bump_case_subscriptions()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  insert into public.case_subscriptions (user_id, case_id)
+  values (new.author_id, new.case_id)
+  on conflict do nothing;
+  return new;
+end;
+$$;
+
+drop trigger if exists trg_bump_case_subscriptions on public.teaching_case_comments;
+create trigger trg_bump_case_subscriptions
+after insert on public.teaching_case_comments
+for each row execute function public.bump_case_subscriptions();
+
+create or replace function public.bump_case_subscriptions_on_case()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  if new.channel_id is not null then
+    insert into public.case_subscriptions (user_id, case_id)
+    values (new.user_id, new.id)
+    on conflict do nothing;
+  end if;
+  return new;
+end;
+$$;
+
+drop trigger if exists trg_bump_case_subscriptions_on_case on public.cases;
+create trigger trg_bump_case_subscriptions_on_case
+after insert on public.cases
+for each row execute function public.bump_case_subscriptions_on_case();
+
+-- Mark best answer: case author only (RPC)
+create or replace function public.mark_best_comment(p_case_id uuid, p_comment_id uuid)
+returns void
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  if not exists (
+    select 1 from public.cases where id = p_case_id and user_id = auth.uid()
+  ) then
+    raise exception 'only case author can mark best answer';
+  end if;
+
+  if not exists (
+    select 1 from public.teaching_case_comments
+    where id = p_comment_id and case_id = p_case_id
+  ) then
+    raise exception 'comment not found for case';
+  end if;
+
+  update public.teaching_case_comments
+  set is_best_answer = (id = p_comment_id)
+  where case_id = p_case_id;
+end;
+$$;
+
+revoke all on function public.mark_best_comment(uuid, uuid) from public;
+grant execute on function public.mark_best_comment(uuid, uuid) to authenticated;
+
+-- Specialty sections (slug unique for ON CONFLICT)
+create unique index if not exists doctor_chat_channels_slug_key on public.doctor_chat_channels (slug);
+
+insert into public.doctor_chat_channels (id, slug, title, description, sort_order)
+values
+  (gen_random_uuid(), 'iota-orads', 'IOTA / O-RADS', 'Яичник, IOTA 2026, O-RADS US', 10),
+  (gen_random_uuid(), 'fast-efast', 'FAST / EFAST', 'ЭFAST, свободная жидкость, травма', 20),
+  (gen_random_uuid(), 'cervix-pathology', 'Патология шейки', 'Кольпоскопия, CIN, шейка матки', 30),
+  (gen_random_uuid(), 'breast-us', 'Молочная железа', 'BI-RADS US, МЖ, допплер', 40),
+  (gen_random_uuid(), 'vascular-us', 'Сосуды', 'Допплер, вены, артерии', 50)
+on conflict (slug) do nothing;
+
+comment on column public.cases.channel_id is 'NULL = teaching library; NOT NULL = colleague question in doctor_chat_channels section.';
+comment on column public.teaching_case_comments.is_best_answer is 'Best answer marker; only case author may set via mark_best_comment RPC.';
+
+-- ========== 20260625120000_ai_orads_events.sql ==========
+-- O-RADS assist analytics: text → extracted features → AI category vs manual (Sprint 2)
+
+create table if not exists public.ai_orads_events (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users (id) on delete cascade,
+  patient_id uuid references public.patients (id) on delete set null,
+  study_id uuid references public.studies (id) on delete set null,
+  platform text not null check (platform in ('web', 'mobile')),
+  source_text text not null,
+  extracted jsonb not null default '{}'::jsonb,
+  hints jsonb not null default '[]'::jsonb,
+  unresolved_nodes jsonb not null default '[]'::jsonb,
+  ai_category_number smallint check (ai_category_number between 0 and 5),
+  ai_complete_path jsonb,
+  age_years smallint check (age_years between 0 and 130),
+  age_source text check (age_source in ('text', 'profile')),
+  menopause text check (menopause in ('pre', 'post')),
+  menopause_source text check (menopause_source in ('text', 'ui', 'profile')),
+  protocol_draft text,
+  protocol_draft_source text check (protocol_draft_source in ('local', 'protocol-ai', 'none')),
+  manual_category_number smallint check (manual_category_number between 1 and 5),
+  feedback_correct boolean,
+  feedback_note text,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  feedback_at timestamptz
+);
+
+create index if not exists ai_orads_events_user_created_idx
+  on public.ai_orads_events (user_id, created_at desc);
+
+create index if not exists ai_orads_events_patient_idx
+  on public.ai_orads_events (patient_id, created_at desc)
+  where patient_id is not null;
+
+alter table public.ai_orads_events enable row level security;
+
+create policy "ai_orads_events_select_own" on public.ai_orads_events
+  for select to authenticated using (auth.uid() = user_id);
+
+create policy "ai_orads_events_insert_own" on public.ai_orads_events
+  for insert to authenticated with check (auth.uid() = user_id);
+
+create policy "ai_orads_events_update_own" on public.ai_orads_events
+  for update to authenticated using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
+-- ========== 20260626120000_cpi_schema.sql ==========
+-- Cervical Pathology Intelligence (CPI) — Sonogyn Pro
+-- IFCPC · HPV · Bethesda · Histology · CDS · Reports
+
+create table if not exists public.cpi_cases (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users (id) on delete cascade,
+  patient_id uuid references public.patients (id) on delete set null,
+  status text not null default 'draft' check (status in ('draft', 'evaluated', 'archived')),
+  input jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists cpi_cases_user_idx on public.cpi_cases (user_id, updated_at desc);
+create index if not exists cpi_cases_patient_idx on public.cpi_cases (patient_id);
+
+create table if not exists public.cpi_colposcopy (
+  id uuid primary key default gen_random_uuid(),
+  case_id uuid not null references public.cpi_cases (id) on delete cascade,
+  payload jsonb not null,
+  created_at timestamptz not null default now()
+);
+
+create table if not exists public.cpi_hpv (
+  id uuid primary key default gen_random_uuid(),
+  case_id uuid not null references public.cpi_cases (id) on delete cascade,
+  payload jsonb not null,
+  created_at timestamptz not null default now()
+);
+
+create table if not exists public.cpi_cytology (
+  id uuid primary key default gen_random_uuid(),
+  case_id uuid not null references public.cpi_cases (id) on delete cascade,
+  payload jsonb not null,
+  created_at timestamptz not null default now()
+);
+
+create table if not exists public.cpi_histology (
+  id uuid primary key default gen_random_uuid(),
+  case_id uuid not null references public.cpi_cases (id) on delete cascade,
+  payload jsonb not null,
+  created_at timestamptz not null default now()
+);
+
+create table if not exists public.cpi_risk_results (
+  id uuid primary key default gen_random_uuid(),
+  case_id uuid not null references public.cpi_cases (id) on delete cascade,
+  cin1_risk numeric(6,5) not null,
+  cin2_plus_risk numeric(6,5) not null,
+  cin3_plus_risk numeric(6,5) not null,
+  ais_risk numeric(6,5) not null,
+  invasion_risk numeric(6,5) not null,
+  confidence_score numeric(6,5) not null,
+  payload jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists cpi_risk_case_idx on public.cpi_risk_results (case_id, created_at desc);
+
+create table if not exists public.cpi_decisions (
+  id uuid primary key default gen_random_uuid(),
+  case_id uuid not null references public.cpi_cases (id) on delete cascade,
+  actions jsonb not null default '[]'::jsonb,
+  explanation text not null,
+  evidence jsonb not null default '[]'::jsonb,
+  guideline_references jsonb not null default '[]'::jsonb,
+  created_at timestamptz not null default now()
+);
+
+create table if not exists public.cpi_reports (
+  id uuid primary key default gen_random_uuid(),
+  case_id uuid not null references public.cpi_cases (id) on delete cascade,
+  format text not null check (format in ('html', 'pdf', 'docx')),
+  content text,
+  storage_path text,
+  created_at timestamptz not null default now()
+);
+
+create table if not exists public.cpi_images (
+  id uuid primary key default gen_random_uuid(),
+  case_id uuid not null references public.cpi_cases (id) on delete cascade,
+  kind text not null check (kind in ('pre_acetic', 'post_acetic', 'post_schiller', 'ai_heatmap')),
+  storage_path text not null,
+  meta jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now()
+);
+
+create table if not exists public.cpi_audit_log (
+  id uuid primary key default gen_random_uuid(),
+  case_id uuid references public.cpi_cases (id) on delete set null,
+  user_id uuid not null references auth.users (id) on delete cascade,
+  action text not null,
+  meta jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists cpi_audit_case_idx on public.cpi_audit_log (case_id, created_at desc);
+
+-- RLS
+alter table public.cpi_cases enable row level security;
+alter table public.cpi_colposcopy enable row level security;
+alter table public.cpi_hpv enable row level security;
+alter table public.cpi_cytology enable row level security;
+alter table public.cpi_histology enable row level security;
+alter table public.cpi_risk_results enable row level security;
+alter table public.cpi_decisions enable row level security;
+alter table public.cpi_reports enable row level security;
+alter table public.cpi_images enable row level security;
+alter table public.cpi_audit_log enable row level security;
+
+create policy cpi_cases_own on public.cpi_cases for all to authenticated
+  using (user_id = auth.uid()) with check (user_id = auth.uid());
+
+create policy cpi_colposcopy_own on public.cpi_colposcopy for all to authenticated
+  using (exists (select 1 from public.cpi_cases c where c.id = case_id and c.user_id = auth.uid()))
+  with check (exists (select 1 from public.cpi_cases c where c.id = case_id and c.user_id = auth.uid()));
+
+create policy cpi_hpv_own on public.cpi_hpv for all to authenticated
+  using (exists (select 1 from public.cpi_cases c where c.id = case_id and c.user_id = auth.uid()))
+  with check (exists (select 1 from public.cpi_cases c where c.id = case_id and c.user_id = auth.uid()));
+
+create policy cpi_cytology_own on public.cpi_cytology for all to authenticated
+  using (exists (select 1 from public.cpi_cases c where c.id = case_id and c.user_id = auth.uid()))
+  with check (exists (select 1 from public.cpi_cases c where c.id = case_id and c.user_id = auth.uid()));
+
+create policy cpi_histology_own on public.cpi_histology for all to authenticated
+  using (exists (select 1 from public.cpi_cases c where c.id = case_id and c.user_id = auth.uid()))
+  with check (exists (select 1 from public.cpi_cases c where c.id = case_id and c.user_id = auth.uid()));
+
+create policy cpi_risk_own on public.cpi_risk_results for all to authenticated
+  using (exists (select 1 from public.cpi_cases c where c.id = case_id and c.user_id = auth.uid()))
+  with check (exists (select 1 from public.cpi_cases c where c.id = case_id and c.user_id = auth.uid()));
+
+create policy cpi_decisions_own on public.cpi_decisions for all to authenticated
+  using (exists (select 1 from public.cpi_cases c where c.id = case_id and c.user_id = auth.uid()))
+  with check (exists (select 1 from public.cpi_cases c where c.id = case_id and c.user_id = auth.uid()));
+
+create policy cpi_reports_own on public.cpi_reports for all to authenticated
+  using (exists (select 1 from public.cpi_cases c where c.id = case_id and c.user_id = auth.uid()))
+  with check (exists (select 1 from public.cpi_cases c where c.id = case_id and c.user_id = auth.uid()));
+
+create policy cpi_images_own on public.cpi_images for all to authenticated
+  using (exists (select 1 from public.cpi_cases c where c.id = case_id and c.user_id = auth.uid()))
+  with check (exists (select 1 from public.cpi_cases c where c.id = case_id and c.user_id = auth.uid()));
+
+create policy cpi_audit_own on public.cpi_audit_log for select to authenticated
+  using (user_id = auth.uid());
+
+create policy cpi_audit_insert on public.cpi_audit_log for insert to authenticated
+  with check (user_id = auth.uid());

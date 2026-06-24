@@ -44,6 +44,7 @@ import { hasValidConsent } from "../legal/consentStorage";
 import { supabaseMobile } from "../lib/supabase/mobileClient";
 import { wipeMobileClinicalLocalData } from "../lib/security/wipeClinicalLocal";
 import { useAuthDeepLinks } from "../hooks/useAuthDeepLinks";
+import { usePushTokenRegistration } from "../hooks/usePushTokenRegistration";
 import { useSessionRevalidation } from "../hooks/useSessionRevalidation";
 import { AppGateContext } from "./AppGateContext";
 
@@ -180,6 +181,8 @@ export default function AppStack() {
   });
 
   useSessionRevalidation(Boolean(supabaseSession));
+
+  usePushTokenRegistration(supabaseSession?.user.id);
 
   useEffect(() => {
     const STARTUP_MS = 10_000;

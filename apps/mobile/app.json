@@ -57,7 +57,14 @@
         }
       ],
       "expo-localization",
-      "expo-asset"
+      "expo-asset",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/icon.png",
+          "color": "#005CB9"
+        }
+      ]
     ],
     "web": {
       "bundler": "metro",

@@ -20,17 +20,25 @@ type RawComment = {
   author_id: string;
   media_storage_path: string | null;
   media_type: "image" | "video" | null;
+  is_best_answer: boolean;
 };
 
-type Props = { caseId: string; userId: string };
+type Props = {
+  caseId: string;
+  userId: string;
+  caseAuthorId: string;
+};
 
-export function TeachingCaseDiscussion({ caseId, userId }: Props) {
+export function TeachingCaseDiscussion({ caseId, userId, caseAuthorId }: Props) {
   const supabase = useSupabase();
   const scrollRef = useRef<HTMLDivElement>(null);
   const [messages, setMessages] = useState<ChatBubbleMessage[]>([]);
   const [authorNames, setAuthorNames] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
+  const [markingId, setMarkingId] = useState<string | null>(null);
+
+  const isCaseAuthor = userId === caseAuthorId;
 
   const enrich = useCallback(
     async (rows: RawComment[]) => {
@@ -44,17 +52,37 @@ export function TeachingCaseDiscussion({ caseId, userId }: Props) {
           media_url: row.media_storage_path
             ? await getChatMediaSignedUrl(supabase, row.media_storage_path)
             : null,
+          is_best_answer: row.is_best_answer,
         })),
       );
     },
     [supabase],
   );
 
+  const applyRow = useCallback(
+    async (row: RawComment) => {
+      const [bubble] = await enrich([row]);
+      setMessages((prev) => {
+        const without = prev.filter((m) => m.id !== bubble.id);
+        if (row.is_best_answer) {
+          return [...without.map((m) => ({ ...m, is_best_answer: m.id === bubble.id })), bubble].sort(
+            (a, b) => a.created_at.localeCompare(b.created_at),
+          );
+        }
+        const merged = [...without, bubble].sort((a, b) => a.created_at.localeCompare(b.created_at));
+        return merged;
+      });
+      const names = await resolveAuthorNames(supabase, [row.author_id]);
+      setAuthorNames((prev) => ({ ...prev, ...names }));
+    },
+    [enrich, supabase],
+  );
+
   const load = useCallback(async () => {
     setLoading(true);
     const { data, error } = await supabase
       .from("teaching_case_comments")
-      .select("id,body,created_at,author_id,media_storage_path,media_type")
+      .select("id,body,created_at,author_id,media_storage_path,media_type,is_best_answer")
       .eq("case_id", caseId)
       .order("created_at", { ascending: true });
 
@@ -87,11 +115,19 @@ export function TeachingCaseDiscussion({ caseId, userId }: Props) {
           filter: `case_id=eq.${caseId}`,
         },
         async (payload) => {
-          const row = payload.new as RawComment;
-          const [bubble] = await enrich([row]);
-          setMessages((prev) => [...prev.filter((m) => m.id !== bubble.id), bubble]);
-          const names = await resolveAuthorNames(supabase, [row.author_id]);
-          setAuthorNames((prev) => (prev[row.author_id] ? prev : { ...prev, ...names }));
+          await applyRow(payload.new as RawComment);
+        },
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "teaching_case_comments",
+          filter: `case_id=eq.${caseId}`,
+        },
+        async () => {
+          await load();
         },
       )
       .subscribe();
@@ -99,13 +135,32 @@ export function TeachingCaseDiscussion({ caseId, userId }: Props) {
     return () => {
       void supabase.removeChannel(channel);
     };
-  }, [caseId, enrich, supabase]);
+  }, [applyRow, caseId, load, supabase]);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages.length]);
 
   const mine = useMemo(() => new Set([userId]), [userId]);
+
+  async function handleMarkBest(commentId: string) {
+    if (!isCaseAuthor) return;
+    setMarkingId(commentId);
+    try {
+      const { error } = await supabase.rpc("mark_best_comment", {
+        p_case_id: caseId,
+        p_comment_id: commentId,
+      });
+      if (error) {
+        toast.error(error.message);
+        return;
+      }
+      toast.success("Лучший ответ отмечен");
+      await load();
+    } finally {
+      setMarkingId(null);
+    }
+  }
 
   async function handleSend({ text, file }: { text: string; file: File | null }) {
     setSending(true);
@@ -153,7 +208,7 @@ export function TeachingCaseDiscussion({ caseId, userId }: Props) {
       <CardHeader>
         <CardTitle className="text-lg">Обсуждение с коллегами</CardTitle>
         <p className="text-xs text-[var(--clinical-foreground-muted)]">
-          Живой тред · фото и видео в сообщениях · Realtime.
+          Живой тред · фото и видео · Realtime · автор кейса может отметить лучший ответ.
         </p>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -174,6 +229,9 @@ export function TeachingCaseDiscussion({ caseId, userId }: Props) {
                 message={msg}
                 authorName={authorNames[msg.author_id] ?? "Коллега"}
                 isMine={mine.has(msg.author_id)}
+                canMarkBest={isCaseAuthor && !mine.has(msg.author_id)}
+                markingBest={markingId === msg.id}
+                onMarkBest={() => void handleMarkBest(msg.id)}
               />
             ))
           )}
