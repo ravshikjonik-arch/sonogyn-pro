@@ -25,69 +25,44 @@ URL после деплоя:
 
 ---
 
-## 2. Секреты
+## 2. Секреты (Vault + опционально Edge env)
 
-Сгенерируйте общий секрет для верификации webhook-запросов:
+**Prod:** секреты в **Supabase Vault** (не в git). SQL Editor (service role), один раз:
 
-```bash
-supabase secrets set DISCUSSIONS_WEBHOOK_SECRET="$(openssl rand -hex 32)" --project-ref <PROJECT_REF>
+```sql
+select vault.create_secret('<PROJECT_REF>', 'supabase_project_ref', 'Supabase project ref for edge URLs');
+select vault.create_secret('<openssl rand -hex 32>', 'discussions_webhook_secret', 'Webhook header for push edge functions');
 ```
 
-Edge Functions автоматически получают `SUPABASE_URL` и `SUPABASE_SERVICE_ROLE_KEY` от Supabase.
-Дополнительно нужен только `DISCUSSIONS_WEBHOOK_SECRET`.
+Опционально дублировать на Edge Functions (если есть CLI-доступ):
 
-**Проверка:** без заголовка `x-webhook-secret` в production функции отвечают `401 Unauthorized`.
+```bash
+supabase secrets set DISCUSSIONS_WEBHOOK_SECRET="<same hex>" --project-ref <PROJECT_REF>
+```
 
----
+Edge Functions проверяют `DISCUSSIONS_WEBHOOK_SECRET` из env **или** RPC `verify_discussion_webhook_secret` (Vault).
 
-## 3. Database Webhooks (оба)
-
-**Supabase Dashboard → Database → Webhooks → Enable Webhooks → Create a new hook**
-
-### Webhook A — новый ответ в обсуждении кейса
-
-| Поле | Значение |
-|------|----------|
-| **Name** | `notify-new-comment` |
-| **Table** | `public.teaching_case_comments` |
-| **Events** | `INSERT` (только Insert) |
-| **Type** | HTTP Request |
-| **Method** | POST |
-| **URL** | `https://<PROJECT_REF>.supabase.co/functions/v1/notify-new-comment` |
-| **HTTP Headers** | `Content-Type: application/json` |
-| **HTTP Headers** | `x-webhook-secret: <DISCUSSIONS_WEBHOOK_SECRET>` |
-| **Filter** | *(пусто)* |
-
-**Логика функции:**
-
-1. Берёт `case_id`, `author_id`, `body` из INSERT.
-2. Находит подписчиков в `case_subscriptions` (кроме автора комментария).
-3. Достаёт `expo_push_token` из `user_push_tokens`.
-4. Шлёт batch в Expo Push API.
+**Проверка:** без заголовка `x-webhook-secret` функции отвечают `401 Unauthorized`.
 
 ---
 
-### Webhook B — новый вопрос коллегам в разделе
+## 3. Database Webhooks — pg_net + SQL-триггеры (prod)
 
-| Поле | Значение |
-|------|----------|
-| **Name** | `notify-new-case-question` |
-| **Table** | `public.cases` |
-| **Events** | `INSERT` |
-| **Type** | HTTP Request |
-| **Method** | POST |
-| **URL** | `https://<PROJECT_REF>.supabase.co/functions/v1/notify-new-case-question` |
-| **HTTP Headers** | `Content-Type: application/json` |
-| **HTTP Headers** | `x-webhook-secret: <DISCUSSIONS_WEBHOOK_SECRET>` |
-| **Filter** | `channel_id` **is not null** |
+На prod используются **SQL-триггеры** (`pg_net`), не Dashboard Webhooks.
 
-**Логика функции:**
+Миграции:
 
-1. Если `channel_id` пустой — skip (учебная библиотека, не push).
-2. Находит подписчиков в `channel_subscriptions` для этого `channel_id` (кроме автора кейса).
-3. Push через Expo.
+- `20260624161753_doctor_discussions_push_webhooks.sql` — триггеры + `net.http_post`
+- `20260624162105_doctor_discussions_webhook_secret_verify.sql` — RPC для Edge Functions
 
-> **Важно:** фильтр на webhook обязателен — иначе push уйдёт и при создании обычных учебных кейсов (`channel_id IS NULL`).
+| Триггер | Таблица | Событие | Edge Function |
+|---------|---------|---------|---------------|
+| `notify_new_comment_webhook` | `teaching_case_comments` | INSERT | `notify-new-comment` |
+| `notify_new_case_question_webhook` | `cases` | INSERT (skip if `channel_id` null) | `notify-new-case-question` |
+
+**Логика `notify-new-comment`:** подписчики `case_subscriptions` → `user_push_tokens` → Expo.
+
+**Логика `notify-new-case-question`:** подписчики `channel_subscriptions` → Expo (только вопросы коллегам).
 
 ---
 
