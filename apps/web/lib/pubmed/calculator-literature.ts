@@ -7,6 +7,7 @@ export type CalculatorLiteratureSlug =
   | "bi-rads"
   | "fmf"
   | "ti-rads"
+  | "ln-rads"
   | "endometrium"
   | "cervical-length"
   | "elastography";
@@ -113,6 +114,25 @@ export const CALCULATOR_LITERATURE: Record<CalculatorLiteratureSlug, CalculatorL
       {
         pmid: "31682535",
         clinicalPearl: "Пороги FNA по TI-RADS points — когда направлять на пункцию.",
+        tier: 2,
+      },
+    ],
+  },
+  "ln-rads": {
+    title: "LN-RADS US · литература",
+    description: "Морфология, Doppler, elastography/CEUS лимфоузлов — EFSUMB, WFUMB, ATA neck, SRU.",
+    pubmedQuery: "ultrasound lymph node morphology Doppler metastasis head neck axillary",
+    evidenceHref: "/evidence",
+    evidenceLabel: "SonoEvidence · лимфоузлы",
+    literature: [
+      {
+        pmid: "29727105",
+        clinicalPearl: "Сохранение hilum и овальная форма — ключевые доброкачественные признаки.",
+        tier: 1,
+      },
+      {
+        pmid: "23896425",
+        clinicalPearl: "Peripheral vascularity и потеря hilum повышают риск метастазы.",
         tier: 2,
       },
     ],

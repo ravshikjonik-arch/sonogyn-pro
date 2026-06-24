@@ -8,7 +8,7 @@ import { CALCULATORS } from "@/lib/calculators/registry";
 import { resolveCalculatorHref } from "@/lib/calculators/resolve-calculator-href";
 import { Stethoscope } from "lucide-react";
 
-const quickCalcSlugs = ["ob-calc", "o-rads", "bi-rads", "pop-q", "endometrium", "cervical-length", "figo", "ti-rads", "elastography"] as const;
+const quickCalcSlugs = ["ob-calc", "o-rads", "bi-rads", "ln-rads", "pop-q", "endometrium", "cervical-length", "colposcopy", "cin-risk", "cervical-intelligence", "figo", "ti-rads", "elastography"] as const;
 
 export default function CalculatorsPage() {
   const quick = CALCULATORS.filter((c) => quickCalcSlugs.includes(c.slug as (typeof quickCalcSlugs)[number]));

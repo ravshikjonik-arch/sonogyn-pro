@@ -3,8 +3,9 @@ import { redirect } from "next/navigation";
 import { MfaSettingsPanel } from "@/components/clinical/MfaSettingsPanel";
 import { ProfileClinicalPreferencesSection } from "@/components/clinical/ProfileClinicalPreferencesSection";
 import { ProfileSettingsForm } from "@/components/clinical/profile-settings-form";
+import { BirthDateDisplay } from "@/components/ui/BirthDateField";
 import { CLINICAL_AVATARS_BUCKET } from "@/lib/supabase/medical-storage";
-import { parseClinicalPreferences } from "@repo/types";
+import { parseClinicalPreferences, resolveBirthDateIso } from "@repo/types";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function ProfilePage() {
@@ -55,6 +56,11 @@ export default async function ProfilePage() {
   const specialization =
     doctor?.specialization?.trim() || profile?.specialization?.trim() || null;
 
+  const birthDateIso = resolveBirthDateIso(
+    typeof user.user_metadata?.birth_date === "string" ? user.user_metadata.birth_date : null,
+  );
+  const birthYear = doctor?.birth_year ?? profile?.birth_year ?? null;
+
   const clinicalPrefs = parseClinicalPreferences(profile?.clinical_preferences);
   const fmfTemplateId = clinicalPrefs.fmfSecondThirdProtocolTemplate;
 
@@ -98,6 +104,11 @@ export default async function ProfilePage() {
             </p>
             <p className="mt-2 text-lg font-bold text-slate-950 dark:text-white">{specialization ?? "Не указана"}</p>
           </div>
+          {(birthDateIso || birthYear) ? (
+            <div className="sm:col-span-2">
+              <BirthDateDisplay iso={birthDateIso} birthYear={birthYear} />
+            </div>
+          ) : null}
         </div>
 
         {!profile && profileError ? (
@@ -120,7 +131,8 @@ export default async function ProfilePage() {
             full_name: doctor?.full_name ?? profile?.full_name ?? "",
             institution: doctor?.institution ?? profile?.institution ?? "",
             specialization: doctor?.specialization ?? profile?.specialization ?? "",
-            birth_year: doctor?.birth_year ?? profile?.birth_year ?? null,
+            birth_year: birthYear,
+            birth_date_iso: birthDateIso,
           }}
         />
 

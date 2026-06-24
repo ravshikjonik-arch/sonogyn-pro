@@ -36,11 +36,11 @@ export default defineConfig({
     {
       name: "chromium-no-auth",
       use: { ...devices["Desktop Chrome"] },
-      testMatch: /auth\.spec\.ts/,
+      testMatch: /auth\.spec\.ts|cpi-evaluate\.spec\.ts/,
     },
   ],
   webServer: {
-    command: "pnpm dev",
+    command: "npm exec --yes pnpm@9 -- dev",
     cwd: __dirname,
     url: baseURL,
     reuseExistingServer: !process.env.CI,

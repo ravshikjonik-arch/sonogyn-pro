@@ -1,43 +1,38 @@
-import { isoFromRu, parseIsoDate, parseRuDate } from "@/lib/utils/ru-date";
+import {
+  ageFromBirthDateIso,
+  birthDateErrorMessage,
+  formatAgeYearsRu,
+  formatBirthDateRu,
+  normalizeBirthDateInput,
+  type BirthDateValidationError,
+  type ParsedBirthDate,
+  validateBirthDateIso,
+} from "@repo/types";
 
-export type ParsedBirthDate = {
-  year: number;
-  /** ISO YYYY-MM-DD */
-  iso: string;
-  /** DD.MM.YYYY */
-  display: string;
+export type { BirthDateValidationError, ParsedBirthDate };
+
+export {
+  ageFromBirthDateIso,
+  formatAgeYearsRu,
+  formatBirthDateRu,
+  normalizeBirthDateInput,
+  validateBirthDateIso,
 };
 
-/** Парсит дату рождения в формате ДД.ММ.ГГГГ (или ISO). */
+/** Parses and validates birth date (ISO or legacy DD.MM.YYYY). */
 export function parseBirthDateInput(value: string): ParsedBirthDate | null {
-  const trimmed = value.trim();
-  if (!trimmed) return null;
-
-  const fromRu = parseRuDate(trimmed);
-  const date = fromRu ?? parseIsoDate(trimmed);
-  if (!date) return null;
-
-  const year = date.getFullYear();
-  if (year < 1900 || year > 2100) return null;
-
-  const dd = String(date.getDate()).padStart(2, "0");
-  const mm = String(date.getMonth() + 1).padStart(2, "0");
-  const iso = `${year}-${mm}-${dd}`;
-
-  return { year, iso, display: `${dd}.${mm}.${year}` };
+  const parsed = normalizeBirthDateInput(value);
+  if (!parsed) return null;
+  if (validateBirthDateIso(parsed.iso)) return null;
+  return parsed;
 }
 
-/** Из тела API: birth_date (ДД.ММ.ГГГГ / ISO) или birth_year (4 цифры). */
+/** From API body: birth_date (ISO / DD.MM.YYYY) or birth_year. */
 export function parseBirthYearFromBody(body: Record<string, unknown>): number | null {
   const birthDateRaw = body.birth_date;
   if (typeof birthDateRaw === "string" && birthDateRaw.trim()) {
-    const parsed = parseBirthDateInput(birthDateRaw);
-    if (parsed) return parsed.year;
-    const iso = isoFromRu(birthDateRaw);
-    if (iso) {
-      const fromIso = parseBirthDateInput(iso);
-      if (fromIso) return fromIso.year;
-    }
+    const parsed = normalizeBirthDateInput(birthDateRaw);
+    if (parsed && !validateBirthDateIso(parsed.iso)) return parsed.year;
   }
 
   const birthYearRaw = body.birth_year;
@@ -52,6 +47,11 @@ export function parseBirthYearFromBody(body: Record<string, unknown>): number | 
   return null;
 }
 
-export function birthDateErrorMessage(): string {
-  return "Укажите дату рождения в формате ДД.ММ.ГГГГ, например 21.12.1988.";
+export function birthDateErrorMessageForValue(value: string): string {
+  if (!value.trim()) return birthDateErrorMessage("empty");
+  const parsed = normalizeBirthDateInput(value);
+  if (!parsed) return birthDateErrorMessage("invalid");
+  return birthDateErrorMessage(validateBirthDateIso(parsed.iso));
 }
+
+export { birthDateErrorMessage };

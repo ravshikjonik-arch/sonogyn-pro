@@ -13,8 +13,8 @@ import {
   PRODUCT_OWNER_FIO,
   PRODUCT_OWNER_FIO_SHORT,
 } from "@/lib/auth/doctor-display";
-import { birthDateErrorMessage, parseBirthDateInput } from "@/lib/auth/birth-date";
-import { maskRuDateInput } from "@/lib/utils/ru-date";
+import { BirthDateField } from "@/components/ui/BirthDateField";
+import { birthDateErrorMessageForValue, parseBirthDateInput } from "@/lib/auth/birth-date";
 import { uploadClinicalAvatar } from "@/lib/supabase/medical-storage";
 import { wipeWebClinicalLocalData } from "@/lib/security/wipe-clinical-local";
 
@@ -24,6 +24,7 @@ type Props = {
     institution: string | null;
     specialization: string | null;
     birth_year: number | null;
+    birth_date_iso: string | null;
   };
 };
 
@@ -34,7 +35,7 @@ export function ProfileSettingsForm({ initial }: Props) {
   const [full_name, setFullName] = useState(initial.full_name ?? "");
   const [institution, setInstitution] = useState(initial.institution ?? "");
   const [specialization, setSpecialization] = useState(initial.specialization ?? "");
-  const [birthDate, setBirthDate] = useState("");
+  const [birthDateIso, setBirthDateIso] = useState(initial.birth_date_iso ?? "");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [revoking, setRevoking] = useState(false);
@@ -44,9 +45,9 @@ export function ProfileSettingsForm({ initial }: Props) {
     setMessage("");
     setLoading(true);
     try {
-      const parsedBirth = birthDate.trim() ? parseBirthDateInput(birthDate) : null;
-      if (birthDate.trim() && !parsedBirth) {
-        setMessage(birthDateErrorMessage());
+      const parsedBirth = birthDateIso.trim() ? parseBirthDateInput(birthDateIso) : null;
+      if (birthDateIso.trim() && !parsedBirth) {
+        setMessage(birthDateErrorMessageForValue(birthDateIso));
         return;
       }
 
@@ -59,6 +60,7 @@ export function ProfileSettingsForm({ initial }: Props) {
           institution: institution.trim() || undefined,
           specialization: specialization.trim() || undefined,
           birth_year: parsedBirth?.year,
+          birth_date: parsedBirth?.iso,
         }),
       });
       const payload = (await res.json().catch(() => null)) as {
@@ -190,23 +192,11 @@ export function ProfileSettingsForm({ initial }: Props) {
             </span>
           </p>
         </label>
-        <label className="block">
-          <span className="text-sm font-medium text-slate-700 dark:text-slate-200">Дата рождения</span>
-          <input
-            className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 font-mono tracking-wide text-slate-950 outline-none transition focus:border-[var(--clinical-primary)] focus:ring-4 focus:ring-[var(--clinical-ring)] dark:bg-slate-950 dark:text-white"
-            type="text"
-            inputMode="numeric"
-            autoComplete="bday"
-            value={birthDate}
-            onChange={(ev) => setBirthDate(maskRuDateInput(ev.target.value))}
-            onPaste={(ev) => {
-              ev.preventDefault();
-              setBirthDate(maskRuDateInput(ev.clipboardData.getData("text")));
-            }}
-            placeholder="21.12.1988"
-          />
-          <p className="mt-1 text-xs text-slate-500">Формат ДД.ММ.ГГГГ</p>
-        </label>
+        <BirthDateField
+          value={birthDateIso}
+          onChange={setBirthDateIso}
+          className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-950 outline-none transition focus:border-[var(--clinical-primary)] focus:ring-4 focus:ring-[var(--clinical-ring)] dark:bg-slate-950 dark:text-white"
+        />
         <label className="block">
           <span className="text-sm font-medium text-slate-700 dark:text-slate-200">Специализация</span>
           <select

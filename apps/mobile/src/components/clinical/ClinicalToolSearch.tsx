@@ -6,12 +6,10 @@ import {
   type ClinicalTool,
   type DoctorRole,
 } from "@repo/clinical-tools";
-import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-import type { RootStackParamList } from "../../navigation/paramLists";
-import { openClinicalToolAction } from "./openClinicalTool";
+import { openClinicalToolAction, type ClinicalToolNav } from "../../lib/clinical-tools/openClinicalTool";
 
-type Nav = NativeStackNavigationProp<RootStackParamList>;
+type Nav = ClinicalToolNav;
 
 type Props = {
   navigation: Nav;

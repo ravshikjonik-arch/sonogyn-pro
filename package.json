@@ -22,7 +22,11 @@
     "lint": "npx --yes pnpm@10.6.5 exec turbo lint",
     "typecheck": "npx --yes pnpm@10.6.5 exec turbo typecheck",
     "clean": "turbo clean && rm -rf node_modules",
-    "sync:guidelines": "npx --yes pnpm@10.6.5 --filter @repo/clinical-guidelines sync"
+    "sync:guidelines": "npx --yes pnpm@10.6.5 --filter @repo/clinical-guidelines sync",
+    "audit:navigation": "npx --yes pnpm@10.6.5 --filter @repo/types test && npx --yes pnpm@10.6.5 --filter @repo/web audit:navigation-icons && npx --yes pnpm@10.6.5 --filter @repo/web test:navigation",
+    "setup:githooks": "git config core.hooksPath .githooks && chmod +x .githooks/pre-commit",
+    "test:e2e": "npx --yes pnpm@10.6.5 --filter @repo/web test:e2e",
+    "test:cpi": "npx --yes pnpm@10.6.5 --filter @repo/cervical-pathology test"
   },
   "devDependencies": {
     "turbo": "^2.5.4",

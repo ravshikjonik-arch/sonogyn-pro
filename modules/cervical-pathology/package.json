@@ -1,0 +1,31 @@
+{
+  "name": "@repo/cervical-pathology",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sonogyn-Pro Cervical Pathology Intelligence — DDD module (IFCPC · HPV · Bethesda · Histology · Swede · CDS · Reports).",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./domain": "./src/domain/index.ts",
+    "./application": "./src/application/index.ts",
+    "./calculators": "./src/calculators/index.ts",
+    "./rules": "./src/rules/clinical-decision-rules.json"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test src/**/*.test.ts tests/**/*.test.ts"
+  },
+  "dependencies": {
+    "@repo/cervical-pathology-intelligence": "workspace:*",
+    "@repo/ifcpc-expert": "workspace:*",
+    "@repo/medical-calculations": "workspace:*",
+    "@supabase/supabase-js": "^2.105.3",
+    "zod": "^3.24.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "tsx": "^4.19.4",
+    "typescript": "^5.9.2"
+  }
+}

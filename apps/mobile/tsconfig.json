@@ -13,5 +13,5 @@
     }
   },
   "include": ["**/*.ts", "**/*.tsx", "src/react-three-fiber.d.ts", "src/expo-modules.d.ts"],
-  "exclude": ["**/*.test.ts", "**/*.test.tsx"]
+  "exclude": ["**/*.test.ts", "**/*.test.tsx", "**/* 2.ts", "**/* 2.tsx", "**/* 3.ts", "**/* 3.tsx"]
 }

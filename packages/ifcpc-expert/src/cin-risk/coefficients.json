@@ -1,0 +1,89 @@
+{
+  "$schema": "https://sonogyn.pro/schemas/cin-risk-model.v1.json",
+  "meta": {
+    "id": "sonogyn-cin-risk-v1",
+    "title": "SonoGyn CIN Risk Model v1",
+    "version": "1.0.0",
+    "method": "multinomial-logit",
+    "disclaimer": "Клиническая DSS-модель для стратификации риска на кольпоскопии. Калибровка по публикациям ASCCP 2019, Swede Score, IFCPC 2011. Не заменяет гистологию.",
+    "references": [
+      "ASCCP 2019 Risk-Based Management Consensus",
+      "Bornstein J et al. 2011 IFCPC Colposcopy Nomenclature",
+      "Strander B et al. Swede Score validation",
+      "Katki HA et al. CIN3+ risk estimates (NCI)"
+    ],
+    "formula": {
+      "description": "Мультиномиальная логистическая модель по 6 исходам гистологии",
+      "logit": "L_k = β0_k + Σ(w_i,k · x_i)",
+      "probability": "P_k = exp(L_k) / Σ_j exp(L_j)",
+      "cin2plus": "P(CIN2+) = P(CIN2) + P(CIN3) + P(AIS) + P(invasion)",
+      "note": "β0_k — априор от цитологии Bethesda + HPV; x_i — бинарные/категориальные предикторы; w из coefficients"
+    }
+  },
+  "outcomes": ["normal", "cin1", "cin2", "cin3", "ais", "invasion"],
+  "bethesdaPriors": {
+    "nilm": { "normal": 2.8, "cin1": -0.5, "cin2": -2.2, "cin3": -3.0, "ais": -3.5, "invasion": -4.5 },
+    "ascus": { "normal": 1.2, "cin1": 0.4, "cin2": -1.0, "cin3": -2.0, "ais": -2.5, "invasion": -3.5 },
+    "lsil": { "normal": 0.2, "cin1": 1.0, "cin2": -0.3, "cin3": -1.5, "ais": -2.0, "invasion": -3.0 },
+    "asc_h": { "normal": -1.5, "cin1": -0.2, "cin2": 1.2, "cin3": 0.8, "ais": 0.2, "invasion": -1.0 },
+    "hsil": { "normal": -2.5, "cin1": -1.0, "cin2": 0.8, "cin3": 1.5, "ais": 0.5, "invasion": -0.5 },
+    "agc": { "normal": -2.0, "cin1": -0.8, "cin2": 0.5, "cin3": 0.8, "ais": 1.8, "invasion": 0.6 },
+    "unsatisfactory": { "normal": 0.5, "cin1": 0.0, "cin2": -0.5, "cin3": -1.0, "ais": -1.0, "invasion": -1.5 }
+  },
+  "hpvModifiers": {
+    "negative": { "normal": 0.6, "cin1": -0.2, "cin2": -0.8, "cin3": -1.0, "ais": -0.8, "invasion": -1.0 },
+    "positive": { "normal": -0.4, "cin1": 0.2, "cin2": 0.5, "cin3": 0.4, "ais": 0.2, "invasion": 0.1 },
+    "hpv16": { "normal": -1.2, "cin1": -0.3, "cin2": 0.6, "cin3": 1.2, "ais": 0.3, "invasion": 0.4 },
+    "hpv18": { "normal": -0.8, "cin1": -0.4, "cin2": 0.3, "cin3": 0.5, "ais": 1.4, "invasion": 0.8 },
+    "other_hr": { "normal": -0.5, "cin1": 0.1, "cin2": 0.4, "cin3": 0.3, "ais": 0.2, "invasion": 0.1 }
+  },
+  "transformationZone": {
+    "tz1": { "normal": 0.1, "cin1": 0.0, "cin2": 0.0, "cin3": 0.0, "ais": 0.0, "invasion": 0.0 },
+    "tz2": { "normal": -0.1, "cin1": 0.0, "cin2": 0.15, "cin3": 0.1, "ais": 0.05, "invasion": 0.0 },
+    "tz3": { "normal": -0.3, "cin1": -0.1, "cin2": 0.25, "cin3": 0.2, "ais": 0.15, "invasion": 0.1 }
+  },
+  "ifcpcSectionWeights": {
+    "abnormal_grade1": { "normal": -0.2, "cin1": 0.35, "cin2": 0.15, "cin3": 0.05, "ais": 0.0, "invasion": 0.0 },
+    "abnormal_grade2": { "normal": -0.8, "cin1": -0.3, "cin2": 0.55, "cin3": 0.75, "ais": 0.2, "invasion": 0.15 },
+    "suspicious_invasion": { "normal": -1.5, "cin1": -0.8, "cin2": 0.2, "cin3": 0.6, "ais": 0.4, "invasion": 1.8 }
+  },
+  "priorBiopsy": {
+    "none": { "normal": 0, "cin1": 0, "cin2": 0, "cin3": 0, "ais": 0, "invasion": 0 },
+    "negative": { "normal": 0.4, "cin1": -0.1, "cin2": -0.2, "cin3": -0.2, "ais": -0.2, "invasion": -0.3 },
+    "cin1": { "normal": -0.3, "cin1": 0.8, "cin2": 0.2, "cin3": 0.1, "ais": 0.0, "invasion": 0.0 },
+    "cin2": { "normal": -1.0, "cin1": -0.2, "cin2": 1.0, "cin3": 0.6, "ais": 0.2, "invasion": 0.1 },
+    "cin3": { "normal": -1.5, "cin1": -0.5, "cin2": 0.3, "cin3": 1.2, "ais": 0.4, "invasion": 0.3 },
+    "ais": { "normal": -1.8, "cin1": -0.8, "cin2": 0.0, "cin3": 0.4, "ais": 1.5, "invasion": 0.5 },
+    "invasion": { "normal": -2.5, "cin1": -1.0, "cin2": -0.2, "cin3": 0.5, "ais": 0.3, "invasion": 2.0 }
+  },
+  "priorCinTreatment": {
+    "none": { "normal": 0, "cin1": 0, "cin2": 0, "cin3": 0, "ais": 0, "invasion": 0 },
+    "excision_success": { "normal": 0.5, "cin1": 0.1, "cin2": -0.3, "cin3": -0.4, "ais": -0.3, "invasion": -0.4 },
+    "excision_incomplete": { "normal": -0.8, "cin1": -0.2, "cin2": 0.6, "cin3": 0.8, "ais": 0.3, "invasion": 0.2 },
+    "ablation": { "normal": 0.2, "cin1": 0.1, "cin2": -0.1, "cin3": -0.2, "ais": -0.1, "invasion": -0.2 },
+    "repeat_treatment": { "normal": -1.0, "cin1": -0.3, "cin2": 0.5, "cin3": 0.7, "ais": 0.4, "invasion": 0.3 }
+  },
+  "clinicalModifiers": {
+    "immunodeficiency": { "normal": -0.5, "cin1": 0.1, "cin2": 0.35, "cin3": 0.45, "ais": 0.3, "invasion": 0.4 },
+    "pregnancy": { "normal": 0.3, "cin1": 0.2, "cin2": -0.15, "cin3": -0.25, "ais": -0.2, "invasion": -0.3 },
+    "age_under25": { "normal": 0.4, "cin1": 0.3, "cin2": -0.2, "cin3": -0.35, "ais": -0.2, "invasion": -0.3 },
+    "age_25_34": { "normal": 0.1, "cin1": 0.1, "cin2": 0.0, "cin3": -0.1, "ais": 0.0, "invasion": 0.0 },
+    "age_35_49": { "normal": 0.0, "cin1": 0.0, "cin2": 0.05, "cin3": 0.05, "ais": 0.0, "invasion": 0.0 },
+    "age_50_plus": { "normal": -0.1, "cin1": -0.2, "cin2": 0.1, "cin3": 0.15, "ais": 0.25, "invasion": 0.2 }
+  },
+  "riskTierThresholds": {
+    "cin2plus": [
+      { "tier": "very_low", "max": 0.05, "color": "#22c55e", "labelRu": "Очень низкий" },
+      { "tier": "low", "max": 0.15, "color": "#14b8a6", "labelRu": "Низкий" },
+      { "tier": "moderate", "max": 0.35, "color": "#f59e0b", "labelRu": "Умеренный" },
+      { "tier": "high", "max": 0.60, "color": "#f97316", "labelRu": "Высокий" },
+      { "tier": "very_high", "max": 1.0, "color": "#ef4444", "labelRu": "Очень высокий" }
+    ],
+    "invasion": [
+      { "tier": "negligible", "max": 0.01, "color": "#22c55e", "labelRu": "Минимальный" },
+      { "tier": "low", "max": 0.05, "color": "#14b8a6", "labelRu": "Низкий" },
+      { "tier": "moderate", "max": 0.15, "color": "#f59e0b", "labelRu": "Умеренный" },
+      { "tier": "high", "max": 1.0, "color": "#dc2626", "labelRu": "Высокий" }
+    ]
+  }
+}

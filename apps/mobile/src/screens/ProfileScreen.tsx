@@ -29,6 +29,9 @@ import { buildGrTeamInviteMessage } from "../utils/grInviteText";
 import { revokeAllSessions } from "../lib/auth/sessionApi";
 import { wipeMobileClinicalLocalData } from "../lib/security/wipeClinicalLocal";
 import { supabaseMobile } from "../lib/supabase/mobileClient";
+import { resolveBirthDateIso } from "@repo/types";
+
+import { BirthDateDisplay } from "../components/BirthDateField";
 import { DoctorRoleSettings } from "../components/clinical/DoctorRoleSettings";
 
 type Props = CompositeScreenProps<
@@ -53,6 +56,8 @@ export default function ProfileScreen({ navigation }: Props) {
   const [codesCount, setCodesCount] = useState("10");
   const [codesDays, setCodesDays] = useState("14");
   const [supabaseLoggedIn, setSupabaseLoggedIn] = useState(false);
+  const [birthDateIso, setBirthDateIso] = useState<string | null>(null);
+  const [birthYear, setBirthYear] = useState<number | null>(null);
   const [revokingSessions, setRevokingSessions] = useState(false);
 
   const nextPoints = nextLevelPoints(user?.level ?? 1);
@@ -63,6 +68,13 @@ export default function ProfileScreen({ navigation }: Props) {
   useEffect(() => {
     void supabaseMobile?.auth.getSession().then(({ data }) => {
       setSupabaseLoggedIn(Boolean(data.session));
+      const meta = data.session?.user?.user_metadata;
+      const iso = resolveBirthDateIso(
+        typeof meta?.birth_date === "string" ? meta.birth_date : null,
+      );
+      setBirthDateIso(iso);
+      const yearRaw = meta?.birth_year;
+      setBirthYear(typeof yearRaw === "number" ? yearRaw : iso ? Number.parseInt(iso.slice(0, 4), 10) : null);
     });
   }, []);
 
@@ -173,6 +185,9 @@ export default function ProfileScreen({ navigation }: Props) {
       <View style={[styles.card, isPro && styles.cardPro]}>
         {loading ? <ActivityIndicator color="#0ea5a4" /> : null}
         <Text style={styles.name}>{user?.name ?? i18n.t("doctor")}</Text>
+        {supabaseLoggedIn && (birthDateIso || birthYear) ? (
+          <BirthDateDisplay iso={birthDateIso} birthYear={birthYear} />
+        ) : null}
         <ProBadge isPro={isPro} />
         <Text style={styles.level}>{i18n.t("profile_level", { level: user?.level ?? 1 })}</Text>
         <Text style={styles.stars}>{stars}</Text>

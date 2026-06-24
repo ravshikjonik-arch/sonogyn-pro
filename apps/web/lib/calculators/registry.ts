@@ -68,17 +68,10 @@ export const CALCULATORS: CalculatorDefinition[] = [
   {
     slug: "ln-rads",
     code: "LN_RADS",
-    title: "LN-RADS",
-    subtitle: "Lymph node ultrasound descriptors",
-    fields: [
-      {
-        key: "suspicion",
-        label: "Suspicion level",
-        type: "select",
-        options: ["benign-appearing", "intermediate", "suspicious"],
-      },
-      { key: "notes", label: "Location / correlate", type: "text" },
-    ],
+    title: "LN-RADS US Pro",
+    subtitle: "Morphology · Doppler · Atlas · Academy · AI · Cases · Board",
+    externalHref: "/calculators/ln-rads",
+    fields: [],
   },
   {
     slug: "ti-rads",
@@ -102,6 +95,22 @@ export const CALCULATORS: CalculatorDefinition[] = [
     title: "Кольпоскопия · Swede Score",
     subtitle: "Протокол по бланку, 5 признаков IFCPC, риск CIN 2+, PDF",
     externalHref: "/calculators/colposcopy",
+    fields: [],
+  },
+  {
+    slug: "cin-risk",
+    code: "CIN_RISK",
+    title: "CIN Risk · IFCPC Expert",
+    subtitle: "CIN1–3, AIS, инвазия — HPV, Bethesda, TZ, IFCPC, logit-модель",
+    externalHref: "/calculators/cin-risk",
+    fields: [],
+  },
+  {
+    slug: "cervical-intelligence",
+    code: "CPI_CDS",
+    title: "Cervical Pathology Intelligence",
+    subtitle: "CDS: IFCPC + HPV + Bethesda + TZ3 + AIS + Quality + 8 actions",
+    externalHref: "/calculators/cervical-intelligence",
     fields: [],
   },
   {

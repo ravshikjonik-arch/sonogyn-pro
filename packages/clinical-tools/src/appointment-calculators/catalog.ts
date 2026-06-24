@@ -352,10 +352,10 @@ export const EXTRA_PROJECT_CALCULATORS: AppointmentCalculator[] = [
   {
     id: "ln-rads",
     title: "LN-RADS",
-    description: "Лимфоузлы · УЗИ (mobile + registry)",
+    description: "Лимфоузлы · УЗИ (Intelligence Suite + mobile prototype)",
     category: "gynecologic",
-    status: "partial",
-    partialNote: "В web registry, отдельной страницы /calculators/ln-rads нет",
+    status: "implemented",
+    webHref: "/calculators/ln-rads",
     icon: "circle",
   },
   {

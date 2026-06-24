@@ -65,6 +65,8 @@
     "@repo/thyroid-tirads": "workspace:*",
     "@repo/clinical-guidelines": "workspace:*",
     "@repo/clinical-tools": "workspace:*",
+    "@repo/adnex-education": "workspace:*",
+    "@repo/report-engine": "workspace:*",
     "@repo/clinical-3d": "workspace:*",
     "@repo/clinical-reference": "workspace:*",
     "@repo/medical-calculations": "workspace:*",

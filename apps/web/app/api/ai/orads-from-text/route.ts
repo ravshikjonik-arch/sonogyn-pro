@@ -1,4 +1,5 @@
-import { buildOradsProtocolDraft, runOradsAssistPipeline } from "@repo/orads-us";
+import { buildOradsProtocolDraft } from "@repo/orads-us/assist/buildProtocolDraft";
+import { runOradsAssistPipeline } from "@repo/orads-us/assist/runOradsAssistPipeline";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 

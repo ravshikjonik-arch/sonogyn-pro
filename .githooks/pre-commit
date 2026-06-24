@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(git rev-parse --show-toplevel)"
+cd "$ROOT"
+
+echo "[pre-commit] navigation.config validation (@repo/types)…"
+npx --yes pnpm@10.6.5 --filter @repo/types test
+
+echo "[pre-commit] navigation icon mapping audit (@repo/web)…"
+npx --yes pnpm@10.6.5 --filter @repo/web audit:navigation-icons
+
+echo "[pre-commit] navigation checks passed."

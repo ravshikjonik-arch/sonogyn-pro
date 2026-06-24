@@ -17,6 +17,13 @@ const eslintConfig = defineConfig([
     // CommonJS scripts run with Node (not linted as TS modules).
     "scripts/**/*.js",
   ]),
+  {
+    rules: {
+      // Next 16 / react-hooks v7: legacy hydration and data-fetch effects across the app.
+      "react-hooks/set-state-in-effect": "off",
+      "react-hooks/static-components": "off",
+    },
+  },
 ]);
 
 export default eslintConfig;

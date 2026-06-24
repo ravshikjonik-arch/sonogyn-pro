@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { birthDateErrorMessage, parseBirthYearFromBody } from "@/lib/auth/birth-date";
+import { birthDateErrorMessageForValue, parseBirthDateInput, parseBirthYearFromBody } from "@/lib/auth/birth-date";
 import { isLikelySupabaseNetworkError } from "@/lib/auth-network-error";
 import {
   clearAuthFailures,
@@ -105,7 +105,9 @@ export async function POST(req: Request) {
   const institution = typeof body.institution === "string" ? body.institution.trim() : "";
   const preferred_locale = typeof body.preferred_locale === "string" ? body.preferred_locale.trim() : "";
   const birth_year = parseBirthYearFromBody(body as Record<string, unknown>);
-  const birth_date = typeof body.birth_date === "string" ? body.birth_date.trim() : "";
+  const birthDateRaw = typeof body.birth_date === "string" ? body.birth_date.trim() : "";
+  const parsedBirth = birthDateRaw ? parseBirthDateInput(birthDateRaw) : null;
+  const birth_date = parsedBirth?.iso ?? "";
 
   if (!email || !password) {
     return NextResponse.json({ error: "Укажите email и пароль." }, { status: 400 });
@@ -119,8 +121,11 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Выберите специализацию из списка." }, { status: 400 });
   }
 
-  if (!birth_year) {
-    return NextResponse.json({ error: birthDateErrorMessage() }, { status: 400 });
+  if (!birth_year || !birth_date) {
+    return NextResponse.json(
+      { error: birthDateErrorMessageForValue(birthDateRaw || " ") },
+      { status: 400 },
+    );
   }
 
   const wantsMobileSession = req.headers.get("x-sonogyn-client") === "mobile";

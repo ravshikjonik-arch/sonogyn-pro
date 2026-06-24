@@ -1,0 +1,434 @@
+{
+  "$schema": "https://sonogyn.pro/schemas/cpi-clinical-rules.v1.json",
+  "version": "1.0.0",
+  "sources": [
+    {
+      "id": "ifcpc-2011",
+      "organization": "IFCPC",
+      "title": "Colposcopic Nomenclature of the Cervix, Rio de Janeiro 2011",
+      "year": 2011,
+      "citation": "Bornstein J et al. 2011 Colposcopic Terminology of the IFCPC. J Low Genit Tract Dis. 2012."
+    },
+    {
+      "id": "asccp-2019",
+      "organization": "ASCCP",
+      "title": "2019 ASCCP Risk-Based Management Consensus Guidelines",
+      "year": 2019,
+      "url": "https://www.asccp.org/guidelines",
+      "citation": "Perkins RB et al. 2019 ASCCP Risk-Based Management Consensus Guidelines. J Low Genit Tract Dis. 2020."
+    },
+    {
+      "id": "who-2021",
+      "organization": "WHO",
+      "title": "WHO guideline for screening and treatment of cervical pre-cancer lesions",
+      "year": 2021,
+      "citation": "WHO 2021 — screen-and-treat / triage strategies for cervical cancer prevention."
+    },
+    {
+      "id": "esgo-cervical",
+      "organization": "ESGO",
+      "title": "ESGO guidelines for cervical cancer (management pathways)",
+      "year": 2023,
+      "citation": "ESGO/ESTRO/ESP guidelines — management of patients with cervical cancer."
+    },
+    {
+      "id": "mz-rf-cervical",
+      "organization": "MZ_RF",
+      "title": "КР МЗ РФ — профилактика и лечение патологии шейки матки",
+      "year": 2021,
+      "citation": "Клинические рекомендации МЗ РФ: профилактика, скрининг и лечение CIN/РШМ."
+    },
+    {
+      "id": "swede-score",
+      "organization": "IFCPC",
+      "title": "Swede Score — colposcopic prediction of CIN2+",
+      "year": 2013,
+      "citation": "Strander B et al. Swede Score for colposcopic prediction of CIN2+."
+    }
+  ],
+  "actionLabels": {
+    "observation": "Наблюдение",
+    "targeted_biopsy": "Прицельная биопсия",
+    "ecc": "ECC (эндоцервикальное curettage)",
+    "lletz": "LLETZ / LEEP",
+    "conization": "Конизация (диагностическая/лечебная)",
+    "repeat_colposcopy": "Повторная кольпоскопия",
+    "hpv_test_12mo": "HPV-тест через 12 месяцев",
+    "oncology_referral": "Направление к онкогинecologу"
+  },
+  "rules": [
+    {
+      "id": "invasion-suspicion-oncology",
+      "titleRu": "Подозрение на инвазию — срочная верификация",
+      "priority": 100,
+      "blockId": "block1-ifcpc",
+      "when": { "field": "flags.invasionSignsPresent", "op": "eq", "value": true },
+      "actions": ["targeted_biopsy", "oncology_referral", "conization"],
+      "actionPriority": "primary",
+      "explanation": "При IFCPC-признаках инвазии (атипичные сосуды, некроз, экзофитный рост, язва) — срочная биопсия и консультация онкогинecologa до подтверждения стадии.",
+      "sourceIds": ["ifcpc-2011", "esgo-cervical", "mz-rf-cervical"]
+    },
+    {
+      "id": "invasion-risk-threshold",
+      "titleRu": "Высокая вероятность инвазии по модели",
+      "priority": 99,
+      "blockId": "block8-risk",
+      "when": { "field": "risk.invasion", "op": "gte", "value": 0.05 },
+      "actions": ["targeted_biopsy", "oncology_referral"],
+      "actionPriority": "primary",
+      "explanation": "Модель риска: инвазия ≥5% — приоритетная гистологическая верификация и онкологический маршрут.",
+      "sourceIds": ["asccp-2019", "esgo-cervical"]
+    },
+    {
+      "id": "confirmed-invasion",
+      "titleRu": "Подтверждённая инвазия на биопсии",
+      "priority": 98,
+      "blockId": "block8-risk",
+      "when": { "field": "input.currentBiopsyResult", "op": "eq", "value": "invasion" },
+      "actions": ["oncology_referral"],
+      "actionPriority": "primary",
+      "explanation": "Инвазивный рак на гистологии — направление в онкогинecologию по ESGO/КР МЗ РФ.",
+      "sourceIds": ["esgo-cervical", "mz-rf-cervical"]
+    },
+    {
+      "id": "ais-confirmed-conization",
+      "titleRu": "AIS на биопсии — excision обязательна",
+      "priority": 95,
+      "blockId": "block4-glandular",
+      "when": {
+        "any": [
+          { "field": "input.cytology", "op": "eq", "value": "ais" },
+          { "field": "input.currentBiopsyResult", "op": "eq", "value": "ais" },
+          { "field": "input.glandularSuspicion", "op": "eq", "value": "confirmed_ais" }
+        ]
+      },
+      "actions": ["conization", "oncology_referral", "ecc"],
+      "actionPriority": "primary",
+      "explanation": "AIS требует excisional treatment с negative margins; HPV18/AGC-маршрут — ECC и консультация онкогинecologa при fertility-sparing вопросах.",
+      "sourceIds": ["asccp-2019", "esgo-cervical", "mz-rf-cervical"]
+    },
+    {
+      "id": "agc-glandular-pathway",
+      "titleRu": "AGC / подозрение на железистую патологию",
+      "priority": 90,
+      "blockId": "block4-glandular",
+      "when": {
+        "any": [
+          { "field": "input.cytology", "op": "eq", "value": "agc" },
+          { "field": "flags.glandularPathway", "op": "eq", "value": true }
+        ]
+      },
+      "actions": ["ecc", "targeted_biopsy", "conization", "oncology_referral"],
+      "actionPriority": "primary",
+      "explanation": "AGC — обязательная кольпоскопия + ECC; при AIS/AGC favor neoplasia — диагностическая excision.",
+      "sourceIds": ["asccp-2019", "ifcpc-2011"]
+    },
+    {
+      "id": "tz3-hsil-hpv16",
+      "titleRu": "TZ3 + HSIL/ASC-H + HPV16 — риск пропуска CIN3+/AIS",
+      "priority": 88,
+      "blockId": "block5-tz3",
+      "when": {
+        "all": [
+          { "field": "input.transformationZoneTypeId", "op": "eq", "value": "tz3" },
+          {
+            "any": [
+              { "field": "input.cytology", "op": "in", "value": ["hsil", "asc_h"] },
+              { "field": "input.hpv16Positive", "op": "eq", "value": true }
+            ]
+          }
+        ]
+      },
+      "actions": ["ecc", "conization", "targeted_biopsy", "repeat_colposcopy"],
+      "actionPriority": "primary",
+      "explanation": "TZ3 при HSIL+/HPV16+: высокий риск пропуска проксимального CIN3+/AIS — ECC и рассмотреть диагностическую excision (ASCCP/IFCPC).",
+      "sourceIds": ["asccp-2019", "ifcpc-2011", "swede-score"]
+    },
+    {
+      "id": "tz3-scj-not-visible",
+      "titleRu": "TZ3 / SCJ не видна — sampling канала",
+      "priority": 85,
+      "blockId": "block5-tz3",
+      "when": {
+        "any": [
+          { "field": "input.transformationZoneTypeId", "op": "eq", "value": "tz3" },
+          { "field": "input.scjVisibilityId", "op": "eq", "value": "scj_not_visible" }
+        ]
+      },
+      "actions": ["ecc", "repeat_colposcopy"],
+      "actionPriority": "primary",
+      "explanation": "Невизуализированная SCJ/TZ3 — ECC и повторная кольпоскопия; CIN2+ не может быть исключён только эктоцервикальным осмотром.",
+      "sourceIds": ["ifcpc-2011", "asccp-2019"]
+    },
+    {
+      "id": "hsil-biopsy-mandatory",
+      "titleRu": "HSIL — биопсия обязательна",
+      "priority": 82,
+      "blockId": "block3-cytology",
+      "when": { "field": "input.cytology", "op": "eq", "value": "hsil" },
+      "actions": ["targeted_biopsy", "ecc"],
+      "actionPriority": "primary",
+      "explanation": "HSIL (Bethesda) — кольpоскопически-направленная биопсия; при TZ2/TZ3 — ECC.",
+      "sourceIds": ["asccp-2019", "who-2021"]
+    },
+    {
+      "id": "asc-h-biopsy",
+      "titleRu": "ASC-H — биопсия",
+      "priority": 80,
+      "blockId": "block3-cytology",
+      "when": { "field": "input.cytology", "op": "eq", "value": "asc_h" },
+      "actions": ["targeted_biopsy"],
+      "actionPriority": "primary",
+      "explanation": "ASC-H — высокий риск CIN2+; прицельная биопсия по ASCCP.",
+      "sourceIds": ["asccp-2019"]
+    },
+    {
+      "id": "ifcpc-major-biopsy",
+      "titleRu": "IFCPC major (Grade 2) — биопсия",
+      "priority": 78,
+      "blockId": "block1-ifcpc",
+      "when": { "field": "flags.ifcpcGrade2Count", "op": "gte", "value": 1 },
+      "actions": ["targeted_biopsy"],
+      "actionPriority": "primary",
+      "explanation": "Major colposcopic features (dense AW, coarse mosaic/punctation, sharp border…) — biopsy наиболее аномальной зоны.",
+      "sourceIds": ["ifcpc-2011", "swede-score"]
+    },
+    {
+      "id": "cin2plus-high-lletz",
+      "titleRu": "CIN2+ на биопсии — excision (LLETZ/конизация)",
+      "priority": 76,
+      "blockId": "block8-risk",
+      "when": {
+        "field": "input.currentBiopsyResult",
+        "op": "in",
+        "value": ["cin2", "cin3"]
+      },
+      "actions": ["lletz", "conization", "hpv_test_12mo"],
+      "actionPriority": "primary",
+      "explanation": "CIN2+ на гистологии — excisional treatment (LLETZ/conization) + post-treatment HPV/co-test по ASCCP.",
+      "sourceIds": ["asccp-2019", "mz-rf-cervical"]
+    },
+    {
+      "id": "cin3-conization",
+      "titleRu": "CIN3 — конизация",
+      "priority": 75,
+      "blockId": "block8-risk",
+      "when": {
+        "any": [
+          { "field": "input.currentBiopsyResult", "op": "eq", "value": "cin3" },
+          { "field": "risk.cin3plus", "op": "gte", "value": 0.25 }
+        ]
+      },
+      "actions": ["conization", "hpv_test_12mo"],
+      "actionPriority": "primary",
+      "explanation": "CIN3/HSIL — excision с отрицательными margins; контроль HPV 12–24 мес.",
+      "sourceIds": ["asccp-2019", "esgo-cervical"]
+    },
+    {
+      "id": "hpv16-lsil-high",
+      "titleRu": "LSIL + HPV16 — высокий риск",
+      "priority": 72,
+      "blockId": "block2-hpv",
+      "when": {
+        "all": [
+          { "field": "input.cytology", "op": "eq", "value": "lsil" },
+          { "field": "input.hpv16Positive", "op": "eq", "value": true }
+        ]
+      },
+      "actions": ["targeted_biopsy", "repeat_colposcopy"],
+      "actionPriority": "primary",
+      "explanation": "LSIL + HPV16 — повышенный риск CIN2+; кольpоскопия с биопсией major-зон (ASCCP).",
+      "sourceIds": ["asccp-2019", "who-2021"]
+    },
+    {
+      "id": "lsil-hpv-negative-observe",
+      "titleRu": "LSIL + HPV(−) — низкий риск, наблюдение",
+      "priority": 40,
+      "blockId": "block2-hpv",
+      "when": {
+        "all": [
+          { "field": "input.cytology", "op": "eq", "value": "lsil" },
+          { "field": "input.hpvStatus", "op": "eq", "value": "negative" },
+          { "field": "flags.invasionSignsPresent", "op": "eq", "value": false }
+        ]
+      },
+      "actions": ["observation", "repeat_colposcopy", "hpv_test_12mo"],
+      "actionPriority": "secondary",
+      "explanation": "LSIL при HPV− — низкая вероятность CIN2+; наблюдение и повторный скрининг через 12 мес (ASCCP/WHO).",
+      "sourceIds": ["asccp-2019", "who-2021"]
+    },
+    {
+      "id": "ascus-hpv-positive",
+      "titleRu": "ASC-US + HPV+ — кольpоскопия",
+      "priority": 55,
+      "blockId": "block3-cytology",
+      "when": {
+        "all": [
+          { "field": "input.cytology", "op": "eq", "value": "ascus" },
+          { "field": "input.hpvStatus", "op": "eq", "value": "positive" }
+        ]
+      },
+      "actions": ["targeted_biopsy", "repeat_colposcopy"],
+      "actionPriority": "primary",
+      "explanation": "ASC-US + HPV+ — реферальная кольpоскопия; биопсия при аномальных признаках.",
+      "sourceIds": ["asccp-2019"]
+    },
+    {
+      "id": "ascus-hpv-negative",
+      "titleRu": "ASC-US + HPV(−) — наблюдение",
+      "priority": 35,
+      "blockId": "block3-cytology",
+      "when": {
+        "all": [
+          { "field": "input.cytology", "op": "eq", "value": "ascus" },
+          { "field": "input.hpvStatus", "op": "eq", "value": "negative" }
+        ]
+      },
+      "actions": ["observation", "hpv_test_12mo"],
+      "actionPriority": "secondary",
+      "explanation": "ASC-US/HPV− — повтор ко-теста через 3 года (ASCCP) или 12 мес HPV по локальному протоколу.",
+      "sourceIds": ["asccp-2019", "who-2021"]
+    },
+    {
+      "id": "nilm-hpv-negative-screen",
+      "titleRu": "NILM + HPV(−) — рутинный скрининг",
+      "priority": 10,
+      "blockId": "block3-cytology",
+      "when": {
+        "all": [
+          { "field": "input.cytology", "op": "eq", "value": "nilm" },
+          { "field": "input.hpvStatus", "op": "eq", "value": "negative" },
+          { "field": "flags.ifcpcGrade2Count", "op": "eq", "value": 0 },
+          { "field": "flags.invasionSignsPresent", "op": "eq", "value": false }
+        ]
+      },
+      "actions": ["observation"],
+      "actionPriority": "secondary",
+      "explanation": "NILM/HPV− без colposcopic major — продолжение программы скрининга WHO/ASCCP.",
+      "sourceIds": ["who-2021", "asccp-2019"]
+    },
+    {
+      "id": "immunodeficiency-intensify",
+      "titleRu": "Иммунodeficiency — усиленное наблюдение",
+      "priority": 70,
+      "blockId": "block8-risk",
+      "when": { "field": "input.immunodeficiency", "op": "eq", "value": true },
+      "actions": ["targeted_biopsy", "hpv_test_12mo", "repeat_colposcopy"],
+      "actionPriority": "conditional",
+      "explanation": "Имmunocompromised — сокращённые интервалы, низкий порог для биопсии (ASCCP HIV/transplant appendix).",
+      "sourceIds": ["asccp-2019"]
+    },
+    {
+      "id": "pregnancy-defer-treatment",
+      "titleRu": "Беременность — отложенное лечение при CIN2–3",
+      "priority": 65,
+      "blockId": "block8-risk",
+      "when": {
+        "all": [
+          { "field": "input.pregnancy", "op": "eq", "value": true },
+          {
+            "field": "input.currentBiopsyResult",
+            "op": "in",
+            "value": ["cin1", "cin2", "cin3", "pending"]
+          }
+        ]
+      },
+      "actions": ["observation", "repeat_colposcopy"],
+      "actionPriority": "conditional",
+      "explanation": "Беременность: CIN2–3 — отложенное excision до postpartum (6–8 нед) unless invasion suspected.",
+      "sourceIds": ["asccp-2019", "esgo-cervical"]
+    },
+    {
+      "id": "inadequate-colposcopy-repeat",
+      "titleRu": "Неадекватная кольpоскопия — повтор",
+      "priority": 60,
+      "blockId": "block1-ifcpc",
+      "when": { "field": "input.adequacyId", "op": "eq", "value": "adequacy_unsatisfactory" },
+      "actions": ["repeat_colposcopy", "ecc"],
+      "actionPriority": "primary",
+      "explanation": "Unsatisfactory colposcopy — ECC при HSIL+ и повторное исследование.",
+      "sourceIds": ["ifcpc-2011", "asccp-2019"]
+    },
+    {
+      "id": "prior-treatment-surveillance",
+      "titleRu": "После лечения CIN — HPV surveillance",
+      "priority": 50,
+      "blockId": "block8-risk",
+      "when": {
+        "field": "input.priorCinTreatment",
+        "op": "in",
+        "value": ["excision_success", "excision_incomplete", "repeat_treatment"]
+      },
+      "actions": ["hpv_test_12mo", "repeat_colposcopy"],
+      "actionPriority": "secondary",
+      "explanation": "Post-treatment surveillance: HPV-primary 12–24 мес (ASCCP).",
+      "sourceIds": ["asccp-2019", "mz-rf-cervical"]
+    },
+    {
+      "id": "cin1-observe",
+      "titleRu": "CIN1 — наблюдение",
+      "priority": 45,
+      "blockId": "block8-risk",
+      "when": { "field": "input.currentBiopsyResult", "op": "eq", "value": "cin1" },
+      "actions": ["observation", "hpv_test_12mo", "repeat_colposcopy"],
+      "actionPriority": "secondary",
+      "explanation": "CIN1 — наблюдение 12 мес unless immunosuppressed or persistence.",
+      "sourceIds": ["asccp-2019"]
+    },
+    {
+      "id": "moderate-risk-biopsy",
+      "titleRu": "Умеренный риск CIN2+ (15–35%)",
+      "priority": 58,
+      "blockId": "block8-risk",
+      "when": {
+        "all": [
+          { "field": "risk.cin2plus", "op": "gte", "value": 0.15 },
+          { "field": "risk.cin2plus", "op": "lt", "value": 0.35 },
+          { "field": "flags.invasionSignsPresent", "op": "eq", "value": false }
+        ]
+      },
+      "actions": ["targeted_biopsy"],
+      "actionPriority": "primary",
+      "explanation": "CIN2+ 15–35% — прицельная биопсия по Swede/IFCPC порогам.",
+      "sourceIds": ["swede-score", "asccp-2019"]
+    },
+    {
+      "id": "high-risk-biopsy-ecc",
+      "titleRu": "Высокий риск CIN2+ (≥35%)",
+      "priority": 68,
+      "blockId": "block8-risk",
+      "when": {
+        "all": [
+          { "field": "risk.cin2plus", "op": "gte", "value": 0.35 },
+          { "field": "flags.invasionSignsPresent", "op": "eq", "value": false }
+        ]
+      },
+      "actions": ["targeted_biopsy", "ecc"],
+      "actionPriority": "primary",
+      "explanation": "CIN2+ ≥35% — биопсия + ECC при TZ2/TZ3 или HSIL+ цитologии.",
+      "sourceIds": ["asccp-2019", "ifcpc-2011"]
+    },
+    {
+      "id": "hpv18-glandular",
+      "titleRu": "HPV18 — железистый маршрут",
+      "priority": 74,
+      "blockId": "block2-hpv",
+      "when": { "field": "input.hpv18Positive", "op": "eq", "value": true },
+      "actions": ["ecc", "targeted_biopsy"],
+      "actionPriority": "conditional",
+      "explanation": "HPV18 ассоциирован с AIS/адenocarcinoma — ECC при AGC/TZ3.",
+      "sourceIds": ["asccp-2019", "who-2021"]
+    },
+    {
+      "id": "quality-incomplete-repeat",
+      "titleRu": "Низкий quality score — дополнить протокол",
+      "priority": 20,
+      "blockId": "block7-quality",
+      "when": { "field": "quality.score", "op": "lt", "value": 70 },
+      "actions": ["repeat_colposcopy"],
+      "actionPriority": "conditional",
+      "explanation": "Quality score <70 — неполная документация; повторить/дополнить фото, TZ, adequacy (best practice IFCPC).",
+      "sourceIds": ["ifcpc-2011"]
+    }
+  ]
+}

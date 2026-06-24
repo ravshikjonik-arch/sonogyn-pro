@@ -7,7 +7,7 @@ import {
   type DoctorRole,
 } from "@repo/clinical-tools";
 
-import { loadDoctorRole, saveDoctorRole, savePinnedToolIds } from "../lib/doctorWorkspacePrefs";
+import { loadDoctorRole, saveDoctorRole, savePinnedToolIds } from "../../lib/doctorWorkspacePrefs";
 
 const ROLES: DoctorRole[] = ["ultrasound", "gynecologist", "obstetrician", "allied"];
 

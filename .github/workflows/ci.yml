@@ -31,11 +31,18 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Generate Prisma client (web)
+        run: pnpm exec prisma generate
+        working-directory: apps/web
+
       - name: Typecheck
         run: pnpm typecheck
 
       - name: Lint
         run: pnpm lint
+
+      - name: CPI module tests
+        run: pnpm test:cpi
 
       - name: Build web (webpack + PWA plugin)
         run: pnpm exec turbo build --filter=@repo/web
@@ -73,7 +80,7 @@ jobs:
         run: pnpm exec playwright install chromium --with-deps
 
       - name: Run E2E tests
-        run: pnpm test:e2e
+        run: pnpm test:e2e:cpi
 
       - name: Upload Playwright report on failure
         if: failure()

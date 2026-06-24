@@ -6,3 +6,5 @@ export * from "./search";
 export * from "./appointment-calculators/types";
 export * from "./appointment-calculators/catalog";
 export * from "./appointment-calculators/audit";
+export * from "./modules.catalog";
+export * from "./modules-catalog-audit";
