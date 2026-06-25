@@ -413,6 +413,119 @@ export function gradeAvAccess(input: {
   return { grade, label: grade === "normal" ? "AV-доступ без критических находок" : grade, criteria };
 }
 
+/** §9.4–9.5 — брюшная аорта и висцеральные ветви (Куликов, гл. 9). */
+export const ABDOMINAL_AORTA_NORMS = {
+  /** Наружный диаметр аорты в норме <30 мм; аневризма ≥30 мм. */
+  aortaDiameterNormalMaxMm: 30,
+  aneurysmThresholdMm: 30,
+  /** Показание к операции — >50 мм. */
+  aneurysmSurgicalIndicationMm: 50,
+  /** Прогрессирование — прирост >5 мм/год. */
+  aneurysmGrowthSignificantMmPerYear: 5,
+  /** PSV аорты ~80±25 см/с; для RAR aorta PSV ≥50. */
+  aortaPsvNormalCmS: 80,
+  aortaPsvMinForRarCmS: 50,
+  /** RAR <3,5 — норма; >3,5 — стеноз ПчА. */
+  renalAorticRatioNormalMax: 3.5,
+  /** Стеноз ПчА >60%: PSV >180 см/с. */
+  renalArteryStenosisPsvCmS: 180,
+  /** Стеноз ЧС ≥70%: PSV ≥200; ВБА ≥245. */
+  celiacStenosisPsvCmS: 200,
+  smaStenosisPsvCmS: 245,
+  /** Брыжеечно-висцеральное отношение >3,0 — значимый стеноз. */
+  mesentericVisceralRatioSignificantMin: 3,
+  /** ЭКЧС: прирост PSV ЧС на выдохе ≥80% vs вдох. */
+  celiacCompressionPsvIncreaseMinPercent: 80,
+  /** RI сегментарных/междолевых ПчА ≤0,7. */
+  renalSegmentalRiMax: 0.7,
+} as const;
+
+export type AaaDiameterGrade = "normal" | "ectasia" | "aneurysm" | "surgical";
+
+export function gradeAaaDiameter(diameterMm: number): {
+  grade: AaaDiameterGrade;
+  label: string;
+  criteria: string[];
+} {
+  const n = ABDOMINAL_AORTA_NORMS;
+  if (diameterMm >= n.aneurysmSurgicalIndicationMm) {
+    return {
+      grade: "surgical",
+      label: `Аневризма ${diameterMm} мм — показание к операции (≥${n.aneurysmSurgicalIndicationMm})`,
+      criteria: ["Контроль динамики 2×/год; обсуждение реваскуляризации/EVAR"],
+    };
+  }
+  if (diameterMm >= n.aneurysmThresholdMm) {
+    return {
+      grade: "aneurysm",
+      label: `Аневризма ${diameterMm} мм (≥${n.aneurysmThresholdMm})`,
+      criteria: ["Поперечное сечение обязательно; серийное наблюдение"],
+    };
+  }
+  if (diameterMm > n.aortaDiameterNormalMaxMm) {
+    return {
+      grade: "ectasia",
+      label: `Эктазия ${diameterMm} мм (${n.aortaDiameterNormalMaxMm}–${n.aneurysmThresholdMm - 1})`,
+      criteria: ["Пограничное расширение; контроль через 6–12 мес."],
+    };
+  }
+  return {
+    grade: "normal",
+    label: `Диаметр ${diameterMm} мм — норма (<${n.aortaDiameterNormalMaxMm})`,
+    criteria: [],
+  };
+}
+
+export function gradeRenalAorticRatio(psvRenalCmS: number, psvAortaCmS: number): {
+  ratio: number;
+  significant: boolean;
+  label: string;
+  criteria: string[];
+} {
+  const n = ABDOMINAL_AORTA_NORMS;
+  if (psvAortaCmS < n.aortaPsvMinForRarCmS) {
+    return {
+      ratio: 0,
+      significant: false,
+      label: "RAR некорректен",
+      criteria: [`PSV аорты ${psvAortaCmS} < ${n.aortaPsvMinForRarCmS} см/с — используйте локальное ускорение`],
+    };
+  }
+  const ratio = psvRenalCmS / psvAortaCmS;
+  const significant = ratio >= n.renalAorticRatioNormalMax;
+  return {
+    ratio: Math.round(ratio * 10) / 10,
+    significant,
+    label: significant
+      ? `RAR ${ratio.toFixed(1)} ≥${n.renalAorticRatioNormalMax} — стеноз ПчА`
+      : `RAR ${ratio.toFixed(1)} — без гемодинамически значимого стеноза`,
+    criteria: significant
+      ? [`PSV ПчА ${psvRenalCmS} / PSV аорты ${psvAortaCmS}`, "Parvus-tardus дистально при выраженном стенозе"]
+      : [`Порог значимости RAR <${n.renalAorticRatioNormalMax}`],
+  };
+}
+
+export function gradeCeliacCompression(input: {
+  psvInspirationCmS: number;
+  psvExpirationCmS: number;
+}): { significant: boolean; increasePercent: number; label: string } {
+  const n = ABDOMINAL_AORTA_NORMS;
+  if (input.psvInspirationCmS <= 0) {
+    return { significant: false, increasePercent: 0, label: "Укажите PSV ЧС на вдохе" };
+  }
+  const increasePercent = Math.round(
+    ((input.psvExpirationCmS - input.psvInspirationCmS) / input.psvInspirationCmS) * 100,
+  );
+  const significant = increasePercent >= n.celiacCompressionPsvIncreaseMinPercent;
+  return {
+    significant,
+    increasePercent,
+    label: significant
+      ? `ЭКЧС: +${increasePercent}% PSV ЧС на выдохе (≥${n.celiacCompressionPsvIncreaseMinPercent}%)`
+      : `Прирост PSV ЧС +${increasePercent}% — без критериев ЭКЧС`,
+  };
+}
+
 export function gradeUpperLimbDynamicLoad(input: {
   psvBeforeCmS: number;
   psvAfterCmS: number;

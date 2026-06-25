@@ -151,7 +151,6 @@ export const VASCULAR_US_SECTIONS: VascularSection[] = [
       {
         heading: "Клинический модуль",
         items: ["Протокол §6.7, заключение §6.8 — вкладка «Глава 6 · АНК»."],
-      ],
       },
     ],
     checklist: ["ОБА–берцовые: PSV, RI", "ЛПИ/ППИ", "Коллатерали"],
@@ -230,17 +229,33 @@ export const VASCULAR_US_SECTIONS: VascularSection[] = [
     id: "abdominal-aorta",
     number: 9,
     title: "Аорта и висцеральные ветви",
-    subtitle: "AAA · renal artery stenosis",
+    subtitle: "AAA · RAR · ЭКЧС",
     kulikovChapter: "Глава 9",
     blocks: [
       {
-        heading: "Измерения",
+        heading: "Диаметр аорты",
         items: [
-          "Аорта: max outer-to-outer diameter.",
-          "Renal RAR = PSV renal / PSV aorta; PSV thresholds по протоколу.",
+          "Наружный диаметр — только поперечное сечение, перпендикулярно оси.",
+          "Норма <30 мм; аневризма ≥30 мм; операция — ≥50 мм.",
+          "Прирост >5 мм/год — прогрессирование.",
+        ],
+      },
+      {
+        heading: "Почечные артерии",
+        items: [
+          "RAR = PSV ПчА / PSV аорты (аорта ≥50 см/с); норма <3,5.",
+          "Стеноз >60%: PSV >180 см/с; parvus-tardus дистально.",
+        ],
+      },
+      {
+        heading: "ЧС и висцеральные",
+        items: [
+          "ЭКЧС: +PSV ЧС на выдохе ≥80% vs вдох; RI в СА снижен.",
+          "Стеноз ЧС ≥200 см/с; ВБА ≥245 см/с; отношение >3,0.",
         ],
       },
     ],
+    checklist: ["Аорта 3 уровня", "RAR обе ПчА", "ЧС вдох/выдох", "Заключение §9.9"],
   },
   {
     id: "teaching-mode",

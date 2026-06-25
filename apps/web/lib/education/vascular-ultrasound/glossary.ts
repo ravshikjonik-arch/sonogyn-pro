@@ -236,6 +236,38 @@ export const VASCULAR_US_QUIZ: VascularQuizQuestion[] = [
     correctIndex: 0,
     explanation: "Поражение I сегмента ПКА → стил-синдром с ретроградным потоком в позвоночной артерии.",
   },
+  {
+    id: "q27",
+    sectionId: "abdominal-aorta",
+    question: "Наружный диаметр брюшной аорты 38 мм — интерпретация:",
+    options: ["Норма", "Эктазия без AAA", "Аневризма", "Показание к срочной операции"],
+    correctIndex: 2,
+    explanation: "≥30 мм — аневризма по гл. 9; операция обычно при ≥50 мм.",
+  },
+  {
+    id: "q28",
+    sectionId: "abdominal-aorta",
+    question: "RAR 4,1 при PSV аорты 90 см/с — наиболее вероятно:",
+    options: ["Норма", "Стеноз почечной артерии", "ТГВ", "ЭКЧС"],
+    correctIndex: 1,
+    explanation: "RAR ≥3,5 — гемодинамически значимый стеноз ПчА (§9.4–9.5).",
+  },
+  {
+    id: "q29",
+    sectionId: "abdominal-aorta",
+    question: "PSV чревного ствола +92% на выдохе vs вдох — критерий:",
+    options: ["Норма", "Экстравазальная компрессия ЧС (ЭКЧС)", "Окклюзия ВБА", "RAR некорректен"],
+    correctIndex: 1,
+    explanation: "Прирост PSV ЧС на выдохе ≥80% — критерий ЭКЧС (§9.3.2).",
+  },
+  {
+    id: "q30",
+    sectionId: "abdominal-aorta",
+    question: "Диаметр AAA 52 мм — по Куликову:",
+    options: ["Наблюдение без вмешательства", "Показание к оперативному лечению", "Только RAR", "Компрессия вены"],
+    correctIndex: 1,
+    explanation: "≥50 мм — показание к операции; контроль 2×/год при меньших размерах.",
+  },
 ];
 
 const SECTION_CATEGORY: Record<string, string> = {
@@ -251,7 +283,7 @@ const SECTION_CATEGORY: Record<string, string> = {
 export function getVascularUsQuizBank(): QuizBank {
   return {
     topic: "vascular-ultrasound",
-    version: "1.3",
+    version: "1.4",
     lastReviewed: "2026-06-20",
     sources: [
       {
