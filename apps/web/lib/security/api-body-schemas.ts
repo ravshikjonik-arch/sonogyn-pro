@@ -52,6 +52,37 @@ export const CopilotImageRegisterBodySchema = z.object({
 
 export type CopilotImageRegisterBody = z.infer<typeof CopilotImageRegisterBodySchema>;
 
+const COPILOT_STUDY_TYPES = [
+  "ob_gyn_general",
+  "ob_fetal",
+  "ob_doppler",
+  "gyn_pelvic",
+  "gyn_ovarian",
+  "gyn_endometrial",
+  "cervix",
+  "placenta",
+  "iugr_workup",
+  "other",
+] as const;
+
+/** POST /api/copilot/studies */
+export const CopilotStudyCreateBodySchema = z.object({
+  title: z.string().trim().max(200).optional(),
+  studyType: z.enum(COPILOT_STUDY_TYPES).optional(),
+  patientDisplayLabel: z.string().trim().max(200).optional(),
+});
+
+export type CopilotStudyCreateBody = z.infer<typeof CopilotStudyCreateBodySchema>;
+
+/** POST /api/copilot/studies/[studyId]/series */
+export const CopilotSeriesCreateBodySchema = z.object({
+  label: z.string().trim().max(200).optional(),
+  planeOrRegion: z.string().trim().max(120).optional(),
+  sortOrder: z.number().int().min(-9999).max(9999).optional(),
+});
+
+export type CopilotSeriesCreateBody = z.infer<typeof CopilotSeriesCreateBodySchema>;
+
 /** Shared registration fields (phone / Telegram OTP). */
 export const RegistrationMetadataFieldsSchema = z.object({
   full_name: z.string().trim().max(200).optional(),

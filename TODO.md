@@ -18,5 +18,7 @@
 
 - [x] CI lockfile + wave 3 Zod (mobile exchange, webhook)
 - [x] Wave 4 Zod (send-code, verify-code, resend-confirmation, mfa/verify-login, notify)
+- [x] Security E2E fix (webhook 400, E2E_DEV_SKIP_AUTH=false)
+- [x] Wave 5 Zod (copilot studies create, series create)
 - [x] Security E2E в CI
 - [x] Mobile MVP: калькулятор стеноза ВСА

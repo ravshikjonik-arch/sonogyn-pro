@@ -3,6 +3,8 @@ import { describe, it } from "node:test";
 
 import {
   CopilotImageRegisterBodySchema,
+  CopilotSeriesCreateBodySchema,
+  CopilotStudyCreateBodySchema,
   InternalNotifyBodySchema,
   MobileExchangeBodySchema,
   MfaVerifyLoginBodySchema,
@@ -40,6 +42,30 @@ describe("CopilotImageRegisterBodySchema", () => {
       storagePath: "u/s/p/x.png",
       fileName: "../etc/passwd",
     });
+    assert.equal(r.success, false);
+  });
+});
+
+describe("CopilotStudyCreateBodySchema", () => {
+  it("accepts minimal study create", () => {
+    const r = CopilotStudyCreateBodySchema.safeParse({});
+    assert.equal(r.success, true);
+  });
+
+  it("rejects invalid studyType", () => {
+    const r = CopilotStudyCreateBodySchema.safeParse({ studyType: "invalid" });
+    assert.equal(r.success, false);
+  });
+});
+
+describe("CopilotSeriesCreateBodySchema", () => {
+  it("accepts label and sortOrder", () => {
+    const r = CopilotSeriesCreateBodySchema.safeParse({ label: "Axial", sortOrder: 1 });
+    assert.equal(r.success, true);
+  });
+
+  it("rejects non-integer sortOrder", () => {
+    const r = CopilotSeriesCreateBodySchema.safeParse({ sortOrder: 1.5 });
     assert.equal(r.success, false);
   });
 });

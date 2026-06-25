@@ -5,23 +5,15 @@ import {
   rejectIfRateLimitedPreset,
   rejectIfSyncBurstForUser,
 } from "@/lib/security/api-rate-limit";
+import {
+  CopilotStudyCreateBodySchema,
+  parseJsonBody,
+  zodErrorResponse,
+} from "@/lib/security/api-body-schemas";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
 import { createClient } from "@/utils/supabase/server";
-
-const STUDY_TYPES = new Set<string>([
-  "ob_gyn_general",
-  "ob_fetal",
-  "ob_doppler",
-  "gyn_pelvic",
-  "gyn_ovarian",
-  "gyn_endometrial",
-  "cervix",
-  "placenta",
-  "iugr_workup",
-  "other",
-]);
 
 export async function GET(request: Request) {
   const supabase = await createClient();
@@ -75,25 +67,22 @@ export async function POST(request: Request) {
   const burst = await rejectIfSyncBurstForUser(user.id);
   if (burst) return burst;
 
-  const body = (await request.json().catch(() => null)) as Record<
-    string,
-    unknown
-  > | null;
+  const raw = await parseJsonBody(request);
+  if (!raw.ok) return raw.response;
+
+  const parsed = CopilotStudyCreateBodySchema.safeParse(raw.data);
+  if (!parsed.success) return zodErrorResponse(parsed.error);
+
+  const body = parsed.data;
 
   const title =
-    typeof body?.title === "string" && body.title.trim().length > 0
-      ? body.title.trim().slice(0, 200)
-      : null;
+    body.title && body.title.length > 0 ? body.title : null;
 
-  const rawType = typeof body?.studyType === "string" ? body.studyType : "";
-  const studyType = (
-    STUDY_TYPES.has(rawType) ? rawType : "ob_gyn_general"
-  ) as StudyType;
+  const studyType = (body.studyType ?? "ob_gyn_general") as StudyType;
 
   const patientDisplayLabel =
-    typeof body?.patientDisplayLabel === "string" &&
-    body.patientDisplayLabel.trim().length > 0
-      ? body.patientDisplayLabel.trim().slice(0, 200)
+    body.patientDisplayLabel && body.patientDisplayLabel.length > 0
+      ? body.patientDisplayLabel
       : null;
 
   let patientId: string | null = null;

@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
 import { recordAuditEvent } from "@/lib/copilot/audit";
 import { rejectIfRateLimitedPreset, rejectIfSyncBurstForUser } from "@/lib/security/api-rate-limit";
+import {
+  CopilotSeriesCreateBodySchema,
+  parseJsonBody,
+  zodErrorResponse,
+} from "@/lib/security/api-body-schemas";
 import { RL } from "@/lib/security/rate-limit-config";
 import { isUuid } from "@/lib/security/uuid";
 import { createClient } from "@/utils/supabase/server";
@@ -41,25 +46,20 @@ export async function POST(
     return NextResponse.json({ error: "Study not found" }, { status: 404 });
   }
 
-  const body = (await request.json().catch(() => null)) as Record<
-    string,
-    unknown
-  > | null;
+  const raw = await parseJsonBody(request);
+  if (!raw.ok) return raw.response;
 
-  const label =
-    typeof body?.label === "string" && body.label.trim().length > 0
-      ? body.label.trim().slice(0, 200)
-      : "Series";
+  const parsed = CopilotSeriesCreateBodySchema.safeParse(raw.data);
+  if (!parsed.success) return zodErrorResponse(parsed.error);
+
+  const body = parsed.data;
+
+  const label = body.label && body.label.length > 0 ? body.label : "Series";
 
   const planeOrRegion =
-    typeof body?.planeOrRegion === "string" && body.planeOrRegion.trim().length > 0
-      ? body.planeOrRegion.trim().slice(0, 120)
-      : null;
+    body.planeOrRegion && body.planeOrRegion.length > 0 ? body.planeOrRegion : null;
 
-  const sortOrder =
-    typeof body?.sortOrder === "number" && Number.isFinite(body.sortOrder)
-      ? Math.trunc(body.sortOrder)
-      : 0;
+  const sortOrder = body.sortOrder ?? 0;
 
   const { data: series, error } = await supabase
     .from("ultrasound_series")
