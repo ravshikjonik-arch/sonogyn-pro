@@ -17,7 +17,9 @@ import {
 } from "@/lib/ai/vascular-ultrasound/protocol-checklists";
 import { BcaProtocolPanel } from "@/components/assistant/BcaProtocolPanel";
 import { LowerLimbArteriesProtocolPanel } from "@/components/assistant/LowerLimbArteriesProtocolPanel";
+import { LowerLimbVeinsProtocolPanel } from "@/components/assistant/LowerLimbVeinsProtocolPanel";
 import { TcdProtocolPanel } from "@/components/assistant/TcdProtocolPanel";
+import { UpperLimbProtocolPanel } from "@/components/assistant/UpperLimbProtocolPanel";
 import { VASCULAR_US_DISCLAIMER } from "@/lib/education/vascular-ultrasound";
 
 type AssistMode = "clinical" | "teaching" | "report";
@@ -88,6 +90,8 @@ export function VascularUltrasoundAssistantClient() {
         <TabsTrigger value="bca">Глава 4 · БЦА</TabsTrigger>
         <TabsTrigger value="tcd">Глава 5 · TCD</TabsTrigger>
         <TabsTrigger value="lla">Глава 6 · АНК</TabsTrigger>
+        <TabsTrigger value="llv">Глава 7 · ВНК</TabsTrigger>
+        <TabsTrigger value="ul">Глава 8 · ВК</TabsTrigger>
         <TabsTrigger value="carotid">Калькулятор БЦА</TabsTrigger>
         <TabsTrigger value="ai">AI · интерпретация</TabsTrigger>
       </TabsList>
@@ -153,6 +157,14 @@ export function VascularUltrasoundAssistantClient() {
 
       <TabsContent value="lla">
         <LowerLimbArteriesProtocolPanel />
+      </TabsContent>
+
+      <TabsContent value="llv">
+        <LowerLimbVeinsProtocolPanel />
+      </TabsContent>
+
+      <TabsContent value="ul">
+        <UpperLimbProtocolPanel />
       </TabsContent>
 
       <TabsContent value="carotid" className="space-y-4">

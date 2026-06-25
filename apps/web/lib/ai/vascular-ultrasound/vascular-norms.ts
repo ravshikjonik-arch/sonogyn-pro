@@ -234,6 +234,206 @@ export const TCD_ARTERIAL_NORMS = {
 
 export type LindegaardGrade = "normal" | "hyperperfusion" | "moderate_vasospasm" | "severe_vasospasm";
 
+/** §7.4–7.5 — вены нижних конечностей (Куликов, гл. 7; Cloviczki P. et al., 2011). */
+export const LOWER_LIMB_VENOUS_NORMS = {
+  /** БПВ/МПВ (кроме прокс. трети): флебэктазия >4 мм. */
+  saphenousPhlebectasiaMaxMm: 4,
+  /** Перфоранты: флебэктазия >3,5 мм. */
+  perforatorPhlebectasiaMaxMm: 3.5,
+  /** Рефлюкс: подкожные/берцовые/перфоранты — значимый >0,5 с. */
+  refluxSuperficialSignificantSec: 0.5,
+  /** Рефлюкс: бедренные/подколенная — значимый >1 с. */
+  refluxDeepFemoralSignificantSec: 1,
+  /** Короткий vs продолжительный рефлюкс (порог 2 с). */
+  refluxProlongedSec: 2,
+  /** Высоко- vs низкоскоростной рефлюкс (порог 20 см/с). */
+  refluxHighVelocityCmS: 20,
+  /** Венозное давление стоя: норма 60–70; при застое 90–100 мм рт.ст. */
+  venousPressureStandingNormalMaxMmHg: 70,
+  venousPressureCongestionMinMmHg: 90,
+} as const;
+
+export type VenousRefluxSegment =
+  | "superficial"
+  | "calf"
+  | "perforator"
+  | "femoral"
+  | "popliteal";
+
+export type VenousRefluxGrade = "none" | "borderline" | "significant" | "prolonged";
+
+export function gradeVenousReflux(input: {
+  durationSec: number;
+  segment: VenousRefluxSegment;
+  initialVelocityCmS?: number | null;
+}): {
+  grade: VenousRefluxGrade;
+  label: string;
+  significant: boolean;
+  criteria: string[];
+  velocityClass: "high" | "low" | "unknown";
+  durationClass: "short" | "prolonged";
+} {
+  const n = LOWER_LIMB_VENOUS_NORMS;
+  const isDeep = input.segment === "femoral" || input.segment === "popliteal";
+  const threshold = isDeep ? n.refluxDeepFemoralSignificantSec : n.refluxSuperficialSignificantSec;
+  const criteria: string[] = [];
+  const duration = input.durationSec;
+
+  let grade: VenousRefluxGrade = "none";
+  if (duration <= 0) {
+    grade = "none";
+    criteria.push("Ретроградный сброс не зарегистрирован");
+  } else if (duration < threshold) {
+    grade = "borderline";
+    criteria.push(
+      `Длительность ${duration} с < порога ${threshold} с (${isDeep ? "глубокие" : "поверхностные"})`,
+    );
+  } else if (duration >= n.refluxProlongedSec) {
+    grade = "prolonged";
+    criteria.push(`Продолжительный рефлюкс ≥${n.refluxProlongedSec} с`);
+  } else {
+    grade = "significant";
+    criteria.push(`Значимый рефлюкс ≥${threshold} с`);
+  }
+
+  const v = input.initialVelocityCmS ?? null;
+  const velocityClass: "high" | "low" | "unknown" =
+    v == null ? "unknown" : v >= n.refluxHighVelocityCmS ? "high" : "low";
+  if (v != null) {
+    criteria.push(
+      `Начальная скорость ${v} см/с — ${velocityClass === "high" ? "высокоскоростной" : "низкоскоростной"} рефлюкс`,
+    );
+  }
+
+  const durationClass: "short" | "prolonged" =
+    duration >= n.refluxProlongedSec ? "prolonged" : "short";
+
+  const segmentLabel: Record<VenousRefluxSegment, string> = {
+    superficial: "БПВ/МПВ",
+    calf: "берцовые",
+    perforator: "перфорант",
+    femoral: "бедренные",
+    popliteal: "подколенная",
+  };
+
+  return {
+    grade,
+    label: `${segmentLabel[input.segment]} · ${grade === "none" ? "без рефлюкса" : grade === "borderline" ? "погранично" : grade === "prolonged" ? "продолжительный" : "значимый"}`,
+    significant: grade === "significant" || grade === "prolonged",
+    criteria,
+    velocityClass,
+    durationClass,
+  };
+}
+
+/** §8.4 — артерии и вены верхних конечностей (Куликов, гл. 8). */
+export const UPPER_LIMB_ARTERIAL_NORMS = {
+  /** PSV норма (см/с): ПКА/подмышечная 70–120; плечевая 50–100; лучевая/локтевая 40–90. */
+  psvNormalCmS: {
+    subclavianAxillary: { min: 70, max: 120 },
+    brachial: { min: 50, max: 100 },
+    radialUlnar: { min: 40, max: 90 },
+  },
+  /** Асимметрия PSV и диаметра вен <30%; САД на плечах <15 мм рт.ст. */
+  psvAsymmetryMaxPercent: 30,
+  veinDiameterAsymmetryMaxPercent: 30,
+  bpAsymmetryMaxMmHg: 15,
+  /** AV-фистула/шунт: объёмный кровоток <300 / <550 мл/мин — недостаточность. */
+  avFistulaVolumeFlowMinMlMin: 300,
+  avGraftVolumeFlowMinMlMin: 550,
+  /** Табл. 8.1 — PSV в шунте: норма >150; стеноз <50%: 100–150; анастомоз >300. */
+  avShuntPsvNormalMinCmS: 150,
+  avShuntPsvStenosisRangeCmS: { min: 100, max: 150 },
+  avAnastomosisPsvSignificantMinCmS: 300,
+  avVenousPsvLowMaxCmS: 100,
+  /** Аневризма: локальное увеличение диаметра ≥1,5×. */
+  aneurysmDiameterRatioMin: 1.5,
+  /** TOS / динамическая нагрузка: прирост PSV <15% — стеноз. */
+  dynamicLoadIncreaseMinPercent: 15,
+} as const;
+
+export type AvAccessGrade = "normal" | "insufficient" | "stenosis_mild" | "stenosis_severe" | "occlusion";
+
+export function gradeAvAccess(input: {
+  shuntPsvCmS?: number | null;
+  anastomosisPsvCmS?: number | null;
+  volumeFlowMlMin?: number | null;
+  accessType?: "fistula" | "graft";
+  occlusionSuspected?: boolean;
+}): {
+  grade: AvAccessGrade;
+  label: string;
+  criteria: string[];
+} {
+  if (input.occlusionSuspected) {
+    return {
+      grade: "occlusion",
+      label: "Окклюзия AV-доступа",
+      criteria: ["Отсутствие потока в фистуле/шунте или анастомозах"],
+    };
+  }
+
+  const n = UPPER_LIMB_ARTERIAL_NORMS;
+  const criteria: string[] = [];
+  let grade: AvAccessGrade = "normal";
+
+  const volMin =
+    input.accessType === "graft" ? n.avGraftVolumeFlowMinMlMin : n.avFistulaVolumeFlowMinMlMin;
+  if (input.volumeFlowMlMin != null && input.volumeFlowMlMin < volMin) {
+    criteria.push(`Объёмный кровоток ${input.volumeFlowMlMin} мл/мин < ${volMin} — недостаточность`);
+    grade = "insufficient";
+  }
+
+  const shunt = input.shuntPsvCmS ?? null;
+  const anast = input.anastomosisPsvCmS ?? null;
+
+  if (shunt != null) {
+    if (shunt >= n.avAnastomosisPsvSignificantMinCmS) {
+      criteria.push(`PSV в шунте ${shunt} см/с ≥300 — выраженный стеноз анастомоза`);
+      grade = "stenosis_severe";
+    } else if (shunt >= n.avShuntPsvStenosisRangeCmS.min && shunt <= n.avShuntPsvStenosisRangeCmS.max) {
+      criteria.push(`PSV ${shunt} см/с — пограничная зона 100–150`);
+      if (grade === "normal") grade = "stenosis_mild";
+    } else if (shunt < n.avShuntPsvNormalMinCmS) {
+      criteria.push(`PSV ${shunt} см/с < ${n.avShuntPsvNormalMinCmS} — сниженный приток`);
+      if (grade === "normal") grade = "insufficient";
+    } else {
+      criteria.push(`PSV в шунте ${shunt} см/с — в пределах нормы (>150)`);
+    }
+  }
+
+  if (anast != null && anast >= n.avAnastomosisPsvSignificantMinCmS) {
+    criteria.push(`PSV в анастомозе ${anast} см/с ≥300`);
+    grade = "stenosis_severe";
+  }
+
+  if (!criteria.length) criteria.push("Укажите PSV шунта/анастомоза и объёмный кровоток.");
+
+  return { grade, label: grade === "normal" ? "AV-доступ без критических находок" : grade, criteria };
+}
+
+export function gradeUpperLimbDynamicLoad(input: {
+  psvBeforeCmS: number;
+  psvAfterCmS: number;
+}): { adequate: boolean; increasePercent: number; label: string } {
+  const n = UPPER_LIMB_ARTERIAL_NORMS;
+  if (input.psvBeforeCmS <= 0) {
+    return { adequate: false, increasePercent: 0, label: "Укажите PSV до нагрузки" };
+  }
+  const increasePercent = Math.round(
+    ((input.psvAfterCmS - input.psvBeforeCmS) / input.psvBeforeCmS) * 100,
+  );
+  const adequate = increasePercent >= n.dynamicLoadIncreaseMinPercent;
+  return {
+    adequate,
+    increasePercent,
+    label: adequate
+      ? `Адекватная реакция (+${increasePercent}%)`
+      : `Сниженная реакция (+${increasePercent}% < ${n.dynamicLoadIncreaseMinPercent}%) — стеноз/окклюзия`,
+  };
+}
+
 export function gradeLindegaardRatio(mcaPsvCmS: number, icaPsvCmS: number): {
   ratio: number;
   grade: LindegaardGrade;

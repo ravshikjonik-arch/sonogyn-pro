@@ -13,6 +13,8 @@ export const VASCULAR_US_GLOSSARY: VascularGlossaryEntry[] = [
   { term: "Subclavian steal", definition: "Ретроградный поток в позвоночной артерии при стenosis подключичной.", sectionIds: ["upper-limb", "extracranial"] },
   { term: "RAR", definition: "Renal-aortic ratio — отношение PSV почечной артерии к аорте.", sectionIds: ["abdominal-aorta"] },
   { term: "Компрессия вены", definition: "Gold standard для исключения острого тромбоза глубоких вен.", sectionIds: ["lower-limb-veins"] },
+  { term: "Hach", definition: "Степенная классификация клапанной недостаточности по распространению рефлюкса (I–IV).", sectionIds: ["lower-limb-veins"] },
+  { term: "Флебэктазия", definition: "Дилатация вены: БПВ/МПВ >4 мм; перфоранты >3,5 мм.", sectionIds: ["lower-limb-veins"] },
 ];
 
 export const VASCULAR_US_QUIZ: VascularQuizQuestion[] = [
@@ -160,6 +162,80 @@ export const VASCULAR_US_QUIZ: VascularQuizQuestion[] = [
     correctIndex: 2,
     explanation: "PSV 200–400 см/с соответствует стенозу 50–74% по табл. 6.1; ИПС ≈3,1.",
   },
+  {
+    id: "q19",
+    sectionId: "lower-limb-veins",
+    question: "Рефлюкс в БПВ 0,7 с при пробе Вальсальвы (стоя) — интерпретация:",
+    options: ["Норма", "Погранично", "Значимый рефлюкс", "Окклюзия"],
+    correctIndex: 2,
+    explanation: "Для подкожных вен порог значимого рефлюкса >0,5 с (гл. 7, Cloviczki).",
+  },
+  {
+    id: "q20",
+    sectionId: "lower-limb-veins",
+    question: "Диаметр перфорантной вены 4,2 мм при ретроградном потоке:",
+    options: ["Норма", "Флебэктазия перфоранта", "Только артериальный спазм", "НПВ норма"],
+    correctIndex: 1,
+    explanation: "Перфоранты >3,5 мм — флебэктазия; указать направление потока и рефлюкс.",
+  },
+  {
+    id: "q21",
+    sectionId: "lower-limb-veins",
+    question: "Рефлюкс в общей бедренной вене 0,8 с — значимость:",
+    options: [">0,5 с — значимый", ">1 с — значимый", "Только при Vmax >40", "Не оценивается"],
+    correctIndex: 1,
+    explanation: "Для бедренных/подколенных вен порог значимого рефлюкса >1 с.",
+  },
+  {
+    id: "q22",
+    sectionId: "lower-limb-veins",
+    question: "Главный критерий исключения острого ТГВ при дуплексе:",
+    options: [
+      "Рефлюкс <0,5 с",
+      "Полная компрессия просвета вены",
+      "Диаметр БПВ ≤4 мм",
+      "Monophasic спектр артерии",
+    ],
+    correctIndex: 1,
+    explanation: "Сохранённая компрессия просвета — против острого тромбоза; loss of compressibility — ключевой признак.",
+  },
+  {
+    id: "q23",
+    sectionId: "upper-limb",
+    question: "PSV в AV-фистуле 120 см/с, объёмный кровоток 250 мл/мин — интерпретация:",
+    options: ["Норма", "Недостаточность фистулы", "Окклюзия ПКА", "TOS"],
+    correctIndex: 1,
+    explanation: "PSV <150 и объём <300 мл/мин — недостаточность AV-доступа (гл. 8, табл. 8.1).",
+  },
+  {
+    id: "q24",
+    sectionId: "upper-limb",
+    question: "Прирост PSV после динамической нагрузки на кисть +8% — наиболее вероятно:",
+    options: ["Норма", "Стеноз/окклюзия проксимально", "ТГВ", "AAA"],
+    correctIndex: 1,
+    explanation: "Прирост <15% после пробы с нагрузкой — стеноокклюзирующее поражение (§8.3.2).",
+  },
+  {
+    id: "q25",
+    sectionId: "upper-limb",
+    question: "Норма PSV в плечевой артерии по Куликову:",
+    options: ["20–40 см/с", "50–100 см/с", "150–200 см/с", "300–400 см/с"],
+    correctIndex: 1,
+    explanation: "Плечевая артерия: 50–100 см/с; ПКА/подмышечная: 70–120 (§8.4).",
+  },
+  {
+    id: "q26",
+    sectionId: "upper-limb",
+    question: "Стил-синдром при поражении I сегмента ПКА — характерный признак:",
+    options: [
+      "Ретроградный поток в ПА",
+      "Monophasic спектр только в лучевой",
+      "Рефлюкс БПВ",
+      "RAR >3,5",
+    ],
+    correctIndex: 0,
+    explanation: "Поражение I сегмента ПКА → стил-синдром с ретроградным потоком в позвоночной артерии.",
+  },
 ];
 
 const SECTION_CATEGORY: Record<string, string> = {
@@ -175,7 +251,7 @@ const SECTION_CATEGORY: Record<string, string> = {
 export function getVascularUsQuizBank(): QuizBank {
   return {
     topic: "vascular-ultrasound",
-    version: "1.2",
+    version: "1.3",
     lastReviewed: "2026-06-20",
     sources: [
       {
