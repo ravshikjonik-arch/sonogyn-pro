@@ -20,5 +20,5 @@
 - [x] Wave 4 Zod (send-code, verify-code, resend-confirmation, mfa/verify-login, notify)
 - [x] Security E2E fix (webhook 400, E2E_DEV_SKIP_AUTH=false)
 - [x] Wave 5 Zod (copilot studies create, series create)
-- [x] Security E2E в CI
+- [x] Security E2E в CI (run #28166757988, commit `c95aa1c`)
 - [x] Mobile MVP: калькулятор стеноза ВСА
