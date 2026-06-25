@@ -26,7 +26,7 @@ export type WoodwardPathologyEntry = {
   postnatal_management: string;
   references: string[];
   /** Raw KEY FACTS blocks for audit / re-extraction */
-  sourceBlocks?: Record<string, string[]>;
+  sourceBlocks?: Partial<Record<string, string[]>>;
 };
 
 export type WoodwardKnowledgeFile = {

@@ -7,8 +7,10 @@ import { useCallback, useState } from "react";
 import { ClinicalAssistStrip } from "@/components/clinical-assistant/ClinicalAssistStrip";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+
+const fieldLabelClass =
+  "mb-1.5 block text-sm font-medium text-[var(--clinical-foreground)]";
 
 type CopilotResponse = {
   executiveSummaryRu: string;
@@ -102,20 +104,20 @@ export function ObstetricExpertClient() {
       <div className="sonogyn-glass-card space-y-4 rounded-2xl p-5">
         <div className="grid gap-4 sm:grid-cols-3">
           <div>
-            <Label htmlFor="weeks">Срок (нед)</Label>
+            <label htmlFor="weeks" className={fieldLabelClass}>Срок (нед)</label>
             <Input id="weeks" value={weeks} onChange={(e) => setWeeks(e.target.value)} inputMode="numeric" />
           </div>
           <div>
-            <Label htmlFor="lv">Atrium LV (mm)</Label>
+            <label htmlFor="lv" className={fieldLabelClass}>Atrium LV (mm)</label>
             <Input id="lv" value={lateralVentricle} onChange={(e) => setLateralVentricle(e.target.value)} />
           </div>
           <div>
-            <Label htmlFor="age">Возраст матери (I трим.)</Label>
+            <label htmlFor="age" className={fieldLabelClass}>Возраст матери (I трим.)</label>
             <Input id="age" value={maternalAge} onChange={(e) => setMaternalAge(e.target.value)} placeholder="опц." />
           </div>
         </div>
         <div>
-          <Label htmlFor="findings">Находки (по строке)</Label>
+          <label htmlFor="findings" className={fieldLabelClass}>Находки (по строке)</label>
           <Textarea
             id="findings"
             rows={4}
