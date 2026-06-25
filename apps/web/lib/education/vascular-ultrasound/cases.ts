@@ -88,6 +88,45 @@ export const VASCULAR_US_CASES: VascularCase[] = [
     interpretation: "Выраженный стеноз ОБА справа (50–74% по табл. 6.1).",
     teachingPoints: ["ЛПИ 0,75 подтверждает гемодинамическую значимость", "Monophasic дистально — проксимальное поражение"],
   },
+  {
+    id: "tcd-vasospasm",
+    level: "advanced",
+    title: "Vasospasm после SAH",
+    basin: "TCD · гл. 5",
+    clinicalScenario: "Женщина 48 лет, 5-й день после SAH, снижение сознания.",
+    ultrasoundFindings: ["Temporal window доступен с обеих сторон"],
+    dopplerFindings: ["PSV СМА справа 185 см/с", "PSV экстракраниальной ВСА 28 см/с", "Lindegaard ratio 6,6"],
+    interpretation: "Выраженный ангиоспазм СМА справа (Lindegaard ≥6).",
+    teachingPoints: [
+      "Сравнивать с экстракраниальной PSV ВСА — не интерпретировать изолированное ускорение СМА.",
+      "Ежедневный мониторинг при SAH.",
+    ],
+  },
+  {
+    id: "bpv-reflux",
+    level: "beginner",
+    title: "Рефлюкс БПВ",
+    basin: "Вены НК · гл. 7",
+    clinicalScenario: "Женщина 38 лет, варикоз, тяжесть в ногах к вечеру.",
+    ultrasoundFindings: ["Дилатация БПВ проксимальной трети бедра справа до 5,2 мм"],
+    dopplerFindings: ["Рефлюкс при Вальсальве 1,2 с, Vmax 22 см/с", "Исследование стоя"],
+    interpretation: "Значимый венозный рефлюкс бассейна БПВ справа (Hach II).",
+    teachingPoints: [
+      "Рефлюкс >0,5 с для подкожных вен — значимый.",
+      "Указать длительность, Vmax и сегмент распространения.",
+    ],
+  },
+  {
+    id: "av-fistula-hd",
+    level: "intermediate",
+    title: "AV-фистула для гемодиализа",
+    basin: "Верхние конечности · гл. 8",
+    clinicalScenario: "Мужчина 58 лет, ХПН, снижение эффективности диализа.",
+    ultrasoundFindings: ["Фистула лучевая артерия — латеральная подкожная вена, справа"],
+    dopplerFindings: ["PSV в фистуле 110 см/с", "Объёмный кровоток 240 мл/мин", "PSV в анастомозе 180 см/с"],
+    interpretation: "Недостаточность AV-фистулы (PSV <150, объём <300 мл/мин).",
+    teachingPoints: ["Табл. 8.1: стеноз/окклюзия венозного анастомоза чаще", "ЦДС ценнее ангиографии для функции фистулы"],
+  },
 ];
 
 export const casesByLevel = {

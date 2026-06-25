@@ -1,4 +1,10 @@
 import {
+  buildVascularBasinHints,
+  formatBasinHintsForPrompt,
+  type VascularAssistMetrics,
+  type VascularBasinHint,
+} from "@/lib/ai/vascular-ultrasound/vascular-basin-metrics";
+import {
   gradeCarotidStenosis,
   type CarotidStenosisInput,
   type CarotidStenosisResult,
@@ -20,6 +26,7 @@ export type VascularAssistInput = {
   freeText?: string;
   clinicalContext?: string;
   carotid?: CarotidStenosisInput;
+  metrics?: VascularAssistMetrics;
 };
 
 export type VascularAssistResult = {
@@ -28,12 +35,17 @@ export type VascularAssistResult = {
   mode: VascularAssistMode;
   basin?: VascularBasinId;
   carotidGrade?: CarotidStenosisResult;
+  basinHints?: VascularBasinHint[];
   protocolChecklist?: ReturnType<typeof getVascularProtocolChecklist>;
   aiText?: string;
   suggestedSections: string[];
 };
 
-function buildFallbackSummary(input: VascularAssistInput, carotid?: CarotidStenosisResult): string {
+function buildFallbackSummary(
+  input: VascularAssistInput,
+  carotid?: CarotidStenosisResult,
+  basinHints?: VascularBasinHint[],
+): string {
   const parts: string[] = [];
   const checklist = input.basin ? getVascularProtocolChecklist(input.basin) : undefined;
 
@@ -50,12 +62,19 @@ function buildFallbackSummary(input: VascularAssistInput, carotid?: CarotidSteno
     );
   }
 
+  if (basinHints?.length) {
+    parts.push(
+      "**Расчёт по бассейну (Куликов):**",
+      basinHints.map((h) => `- ${h.label}: ${h.criteria.join("; ")}`).join("\n"),
+    );
+  }
+
   if (input.freeText?.trim()) {
     parts.push(`**Введённые данные:** ${input.freeText.trim()}`);
     parts.push(
       "Для полной интерпретации укажите: сторона, PSV/EDV, диаметр, морфология бляшки, симптоматика, функциональные пробы.",
     );
-  } else if (!carotid) {
+  } else if (!carotid && !basinHints?.length) {
     parts.push("Введите описание исследования или параметры допплера для интерпретации.");
   }
 
@@ -104,6 +123,8 @@ export async function analyzeVascularUltrasoundAssist(
   const mode = input.mode ?? "clinical";
   const checklist = input.basin ? getVascularProtocolChecklist(input.basin) : undefined;
   const carotidGrade = input.carotid ? gradeCarotidStenosis(input.carotid) : undefined;
+  const basinHints = buildVascularBasinHints(input.basin, input.metrics);
+  const hintsText = formatBasinHintsForPrompt(basinHints);
 
   const userContent = [
     input.clinicalContext ? `Клинический контекст: ${input.clinicalContext}` : "",
@@ -111,6 +132,7 @@ export async function analyzeVascularUltrasoundAssist(
     carotidGrade
       ? `Расчёт стеноза ВСА: ${carotidGrade.label} (${carotidGrade.percentRange}); критерии: ${carotidGrade.criteria.join("; ")}`
       : "",
+    hintsText ? `Расчёты по бассейну:\n${hintsText}` : "",
     input.mode === "report" ? "Сформируй структурированное заключение по шаблону." : "",
     input.mode === "teaching" ? "Режим обучения: разбор с алгоритмом и контрольными вопросами." : "",
     input.freeText ? `Данные исследования:\n${input.freeText}` : "",
@@ -138,8 +160,9 @@ export async function analyzeVascularUltrasoundAssist(
     mode,
     basin: input.basin,
     carotidGrade,
+    basinHints: basinHints.length ? basinHints : undefined,
     protocolChecklist: checklist,
-    aiText: aiText ?? buildFallbackSummary(input, carotidGrade),
+    aiText: aiText ?? buildFallbackSummary(input, carotidGrade, basinHints),
     suggestedSections,
   };
 }

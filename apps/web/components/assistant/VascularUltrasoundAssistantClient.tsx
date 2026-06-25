@@ -66,6 +66,58 @@ export function VascularUltrasoundAssistantClient({ defaultTab }: { defaultTab?:
   const [resultText, setResultText] = useState("");
   const [carotidGrade, setCarotidGrade] = useState<CarotidStenosisResult | null>(null);
   const [pipeline, setPipeline] = useState("");
+  const [metricAortaMm, setMetricAortaMm] = useState("");
+  const [metricRenalPsv, setMetricRenalPsv] = useState("");
+  const [metricAortaPsvRar, setMetricAortaPsvRar] = useState("");
+  const [metricRefluxSec, setMetricRefluxSec] = useState("");
+  const [metricLlaStenosis, setMetricLlaStenosis] = useState("");
+  const [metricLlaProximal, setMetricLlaProximal] = useState("");
+  const [metricMcaPsv, setMetricMcaPsv] = useState("");
+  const [metricIcaPsvLinde, setMetricIcaPsvLinde] = useState("");
+  const [metricAvPsv, setMetricAvPsv] = useState("");
+  const [metricAvVolume, setMetricAvVolume] = useState("");
+
+  const buildMetricsPayload = useCallback(() => {
+    switch (basin) {
+      case "abdominal-aorta":
+        return {
+          aortaDiameterMm: metricAortaMm ? Number(metricAortaMm) : undefined,
+          renalPsvCmS: metricRenalPsv ? Number(metricRenalPsv) : undefined,
+          aortaPsvForRarCmS: metricAortaPsvRar ? Number(metricAortaPsvRar) : undefined,
+        };
+      case "lower-limb-veins":
+        return { refluxDurationSec: metricRefluxSec ? Number(metricRefluxSec) : undefined };
+      case "lower-limb-arteries":
+        return {
+          psvStenosisCmS: metricLlaStenosis ? Number(metricLlaStenosis) : undefined,
+          psvProximalCmS: metricLlaProximal ? Number(metricLlaProximal) : undefined,
+        };
+      case "tcd":
+        return {
+          mcaPsvCmS: metricMcaPsv ? Number(metricMcaPsv) : undefined,
+          icaPsvForLindegaardCmS: metricIcaPsvLinde ? Number(metricIcaPsvLinde) : undefined,
+        };
+      case "upper-limb":
+        return {
+          avShuntPsvCmS: metricAvPsv ? Number(metricAvPsv) : undefined,
+          avVolumeFlowMlMin: metricAvVolume ? Number(metricAvVolume) : undefined,
+        };
+      default:
+        return undefined;
+    }
+  }, [
+    basin,
+    metricAortaMm,
+    metricAortaPsvRar,
+    metricAvPsv,
+    metricAvVolume,
+    metricIcaPsvLinde,
+    metricLlaProximal,
+    metricLlaStenosis,
+    metricMcaPsv,
+    metricRenalPsv,
+    metricRefluxSec,
+  ]);
 
   const checklist = useMemo(
     () => VASCULAR_PROTOCOL_CHECKLISTS.find((p) => p.id === basin),
@@ -92,6 +144,7 @@ export function VascularUltrasoundAssistantClient({ defaultTab }: { defaultTab?:
                   psvCcaCmS: psvCca ? Number(psvCca) : null,
                 }
               : undefined,
+          metrics: buildMetricsPayload(),
         }),
       });
       const payload = (await res.json().catch(() => null)) as {
@@ -112,7 +165,7 @@ export function VascularUltrasoundAssistantClient({ defaultTab }: { defaultTab?:
     } finally {
       setLoading(false);
     }
-  }, [basin, edvIca, freeText, mode, psvCca, psvIca]);
+  }, [basin, buildMetricsPayload, edvIca, freeText, mode, psvCca, psvIca]);
 
   return (
     <Tabs defaultValue={parseVascularTab(defaultTab)} className="space-y-6">
@@ -275,6 +328,80 @@ export function VascularUltrasoundAssistantClient({ defaultTab }: { defaultTab?:
                 </button>
               ))}
             </div>
+            <div className="flex flex-wrap gap-2">
+              {VASCULAR_PROTOCOL_CHECKLISTS.map((p) => (
+                <button
+                  key={p.id}
+                  type="button"
+                  onClick={() => setBasin(p.id)}
+                  className={`rounded-full px-3 py-1 text-xs font-medium ${
+                    basin === p.id
+                      ? "bg-[var(--clinical-primary)] text-white"
+                      : "bg-[var(--clinical-muted)] text-[var(--clinical-foreground-muted)]"
+                  }`}
+                >
+                  {p.title}
+                </button>
+              ))}
+            </div>
+            {basin === "abdominal-aorta" ? (
+              <div className="grid gap-2 sm:grid-cols-3">
+                <label className="text-xs">
+                  Диаметр аорты, мм
+                  <Input className="mt-1" inputMode="decimal" value={metricAortaMm} onChange={(e) => setMetricAortaMm(e.target.value)} />
+                </label>
+                <label className="text-xs">
+                  PSV ПчА, см/с
+                  <Input className="mt-1" inputMode="decimal" value={metricRenalPsv} onChange={(e) => setMetricRenalPsv(e.target.value)} />
+                </label>
+                <label className="text-xs">
+                  PSV аорты (RAR), см/с
+                  <Input className="mt-1" inputMode="decimal" value={metricAortaPsvRar} onChange={(e) => setMetricAortaPsvRar(e.target.value)} />
+                </label>
+              </div>
+            ) : null}
+            {basin === "lower-limb-veins" ? (
+              <label className="text-xs">
+                Рефлюкс, с
+                <Input className="mt-1 max-w-xs" inputMode="decimal" value={metricRefluxSec} onChange={(e) => setMetricRefluxSec(e.target.value)} />
+              </label>
+            ) : null}
+            {basin === "lower-limb-arteries" ? (
+              <div className="grid gap-2 sm:grid-cols-2">
+                <label className="text-xs">
+                  PSV в стенозе, см/с
+                  <Input className="mt-1" inputMode="decimal" value={metricLlaStenosis} onChange={(e) => setMetricLlaStenosis(e.target.value)} />
+                </label>
+                <label className="text-xs">
+                  PSV проксимально, см/с
+                  <Input className="mt-1" inputMode="decimal" value={metricLlaProximal} onChange={(e) => setMetricLlaProximal(e.target.value)} />
+                </label>
+              </div>
+            ) : null}
+            {basin === "tcd" ? (
+              <div className="grid gap-2 sm:grid-cols-2">
+                <label className="text-xs">
+                  PSV СМА, см/с
+                  <Input className="mt-1" inputMode="decimal" value={metricMcaPsv} onChange={(e) => setMetricMcaPsv(e.target.value)} />
+                </label>
+                <label className="text-xs">
+                  PSV ВСА (экстра), см/с
+                  <Input className="mt-1" inputMode="decimal" value={metricIcaPsvLinde} onChange={(e) => setMetricIcaPsvLinde(e.target.value)} />
+                </label>
+              </div>
+            ) : null}
+            {basin === "upper-limb" ? (
+              <div className="grid gap-2 sm:grid-cols-2">
+                <label className="text-xs">
+                  PSV фистулы, см/с
+                  <Input className="mt-1" inputMode="decimal" value={metricAvPsv} onChange={(e) => setMetricAvPsv(e.target.value)} />
+                </label>
+                <label className="text-xs">
+                  Объёмный поток, мл/мин
+                  <Input className="mt-1" inputMode="decimal" value={metricAvVolume} onChange={(e) => setMetricAvVolume(e.target.value)} />
+                </label>
+              </div>
+            ) : null}
             <Textarea
               rows={8}
               placeholder="Опишите находки, PSV/EDV, сторону, пробы… Или: «Разбери случай» / «Обучение» по главе 4."

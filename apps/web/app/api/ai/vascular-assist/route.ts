@@ -24,6 +24,25 @@ const BodySchema = z.object({
       occlusionSuspected: z.boolean().optional(),
     })
     .optional(),
+  metrics: z
+    .object({
+      aortaDiameterMm: z.number().finite().optional().nullable(),
+      renalPsvCmS: z.number().finite().optional().nullable(),
+      aortaPsvForRarCmS: z.number().finite().optional().nullable(),
+      celiacPsvInspirationCmS: z.number().finite().optional().nullable(),
+      celiacPsvExpirationCmS: z.number().finite().optional().nullable(),
+      refluxDurationSec: z.number().finite().optional().nullable(),
+      refluxSegment: z
+        .enum(["superficial", "calf", "perforator", "femoral", "popliteal"])
+        .optional(),
+      psvStenosisCmS: z.number().finite().optional().nullable(),
+      psvProximalCmS: z.number().finite().optional().nullable(),
+      mcaPsvCmS: z.number().finite().optional().nullable(),
+      icaPsvForLindegaardCmS: z.number().finite().optional().nullable(),
+      avShuntPsvCmS: z.number().finite().optional().nullable(),
+      avVolumeFlowMlMin: z.number().finite().optional().nullable(),
+    })
+    .optional(),
 });
 
 export async function POST(request: Request) {
