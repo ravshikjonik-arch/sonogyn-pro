@@ -23,9 +23,39 @@ import { TcdProtocolPanel } from "@/components/assistant/TcdProtocolPanel";
 import { UpperLimbProtocolPanel } from "@/components/assistant/UpperLimbProtocolPanel";
 import { VASCULAR_US_DISCLAIMER } from "@/lib/education/vascular-ultrasound";
 
+type VascularTabId =
+  | "protocol"
+  | "bca"
+  | "tcd"
+  | "lla"
+  | "llv"
+  | "ul"
+  | "aaa"
+  | "carotid"
+  | "ai";
+
+const VASCULAR_TAB_IDS: VascularTabId[] = [
+  "protocol",
+  "bca",
+  "tcd",
+  "lla",
+  "llv",
+  "ul",
+  "aaa",
+  "carotid",
+  "ai",
+];
+
+function parseVascularTab(tab?: string): VascularTabId {
+  if (tab && VASCULAR_TAB_IDS.includes(tab as VascularTabId)) {
+    return tab as VascularTabId;
+  }
+  return "protocol";
+}
+
 type AssistMode = "clinical" | "teaching" | "report";
 
-export function VascularUltrasoundAssistantClient() {
+export function VascularUltrasoundAssistantClient({ defaultTab }: { defaultTab?: string }) {
   const [basin, setBasin] = useState<VascularBasinId>("extracranial");
   const [mode, setMode] = useState<AssistMode>("clinical");
   const [freeText, setFreeText] = useState("");
@@ -85,7 +115,7 @@ export function VascularUltrasoundAssistantClient() {
   }, [basin, edvIca, freeText, mode, psvCca, psvIca]);
 
   return (
-    <Tabs defaultValue="protocol" className="space-y-6">
+    <Tabs defaultValue={parseVascularTab(defaultTab)} className="space-y-6">
       <TabsList className="flex h-auto flex-wrap gap-1 bg-[var(--clinical-muted)] p-1">
         <TabsTrigger value="protocol">Протокол</TabsTrigger>
         <TabsTrigger value="bca">Глава 4 · БЦА</TabsTrigger>

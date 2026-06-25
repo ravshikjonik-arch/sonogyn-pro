@@ -16,15 +16,17 @@ import {
   VASCULAR_US_EDUCATIONAL_CARDS,
   VASCULAR_US_GLOSSARY,
   VASCULAR_US_LINKS,
+  getVascularClinicalHref,
   getVascularUsQuizBank,
   VASCULAR_US_SECTIONS,
   VASCULAR_US_SOURCE,
   searchGlossary,
+  VASCULAR_CLINICAL_TAB_BY_SECTION,
   type VascularSectionId,
 } from "@/lib/education/vascular-ultrasound";
 
 export function VascularUltrasoundEducationClient() {
-  const [activeSection, setActiveSection] = useState<VascularSectionId>("hemodynamics");
+  const [activeSection, setActiveSection] = useState<VascularSectionId>("extracranial");
   const [search, setSearch] = useState("");
   const quizBank = useMemo(() => getVascularUsQuizBank(), []);
 
@@ -37,8 +39,8 @@ export function VascularUltrasoundEducationClient() {
       <TabsList className="flex h-auto flex-wrap gap-1 bg-[var(--clinical-muted)] p-1">
         <TabsTrigger value="course">Курс · 10 глав</TabsTrigger>
         <TabsTrigger value="cards">Ординатор</TabsTrigger>
-        <TabsTrigger value="cases">Случаи · 3</TabsTrigger>
-        <TabsTrigger value="quiz">Экзамен · 4 Q</TabsTrigger>
+        <TabsTrigger value="cases">Случаи · {VASCULAR_US_CASES.length}</TabsTrigger>
+        <TabsTrigger value="quiz">Экзамен · {quizBank.questions.length} Q</TabsTrigger>
         <TabsTrigger value="glossary">Глоссарий</TabsTrigger>
       </TabsList>
 
@@ -111,7 +113,15 @@ export function VascularUltrasoundEducationClient() {
               </div>
             ) : null}
             <Button asChild>
-              <Link href={VASCULAR_US_LINKS.clinical.href}>Клинический модуль → протокол и AI</Link>
+              <Link
+                href={
+                  activeSection in VASCULAR_CLINICAL_TAB_BY_SECTION
+                    ? getVascularClinicalHref(activeSection as keyof typeof VASCULAR_CLINICAL_TAB_BY_SECTION)
+                    : VASCULAR_US_LINKS.clinical.href
+                }
+              >
+                Клинический модуль → протокол и калькуляторы
+              </Link>
             </Button>
           </CardContent>
         </Card>
@@ -141,7 +151,7 @@ export function VascularUltrasoundEducationClient() {
               </>
             ) : (
               <p className="text-[var(--clinical-foreground-muted)]">
-                Выберите главу «Экстракраниальные» или «Вены НК» в курсе для карточек ординатора.
+                Выберите главу 4–9 в курсе — карточки ординатора доступны для всех клинических разделов.
               </p>
             )}
           </CardContent>
@@ -173,7 +183,7 @@ export function VascularUltrasoundEducationClient() {
           bank={quizBank}
           storageKey="sonogyn-vascular-us-quiz-progress"
           title="Самопроверка · сосудистое УЗД"
-          description={`${quizBank.questions.length} вопросов по Куликову: БЦА, гемодинамика, вены, TCD.`}
+          description={`${quizBank.questions.length} вопросов по гл. 4–9 (Куликов): БЦА, TCD, АНК, ВНК, ВК, аорта.`}
           disclaimer={VASCULAR_US_DISCLAIMER}
           relatedLinks={[VASCULAR_US_LINKS.clinical]}
         />

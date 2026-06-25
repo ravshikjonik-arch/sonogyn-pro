@@ -13,7 +13,12 @@ export const metadata: Metadata = {
     "Протоколы дуплексного сканирования, градация стеноза БЦА, AI-интерпретация по методологии Куликова.",
 };
 
-export default function VascularAssistantPage() {
+export default async function VascularAssistantPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ tab?: string }>;
+}) {
+  const { tab } = await searchParams;
   return (
     <div className="px-4 py-10 lg:px-10">
       <div className="mx-auto max-w-6xl space-y-6">
@@ -44,7 +49,7 @@ export default function VascularAssistantPage() {
             </Link>
           </div>
         </header>
-        <VascularUltrasoundAssistantClient />
+        <VascularUltrasoundAssistantClient defaultTab={tab} />
       </div>
     </div>
   );

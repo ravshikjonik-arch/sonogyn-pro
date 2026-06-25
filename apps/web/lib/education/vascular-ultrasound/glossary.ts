@@ -11,10 +11,12 @@ export const VASCULAR_US_GLOSSARY: VascularGlossaryEntry[] = [
   { term: "ECST", definition: "European Carotid Surgery Trial — стеноз по диаметру в месте бляшки.", sectionIds: ["extracranial"] },
   { term: "NASCET", definition: "North American Symptomatic Carotid Endarterectomy Trial — стеноз относительно дистальной ВСА.", sectionIds: ["extracranial"] },
   { term: "Subclavian steal", definition: "Ретроградный поток в позвоночной артерии при стenosis подключичной.", sectionIds: ["upper-limb", "extracranial"] },
-  { term: "RAR", definition: "Renal-aortic ratio — отношение PSV почечной артерии к аорте.", sectionIds: ["abdominal-aorta"] },
   { term: "Компрессия вены", definition: "Gold standard для исключения острого тромбоза глубоких вен.", sectionIds: ["lower-limb-veins"] },
-  { term: "Hach", definition: "Степенная классификация клапанной недостаточности по распространению рефлюкса (I–IV).", sectionIds: ["lower-limb-veins"] },
+  { term: "Hach", definition: "Классификация рефлюкса по распространению (I–IV).", sectionIds: ["lower-limb-veins"] },
   { term: "Флебэктазия", definition: "Дилатация вены: БПВ/МПВ >4 мм; перфоранты >3,5 мм.", sectionIds: ["lower-limb-veins"] },
+  { term: "RAR", aliases: ["Renal/Aorta Ratio"], definition: "PSV почечной / PSV аорты; норма <3,5 (гл. 9).", sectionIds: ["abdominal-aorta"] },
+  { term: "ЭКЧС", definition: "Экстравазальная компрессия чревного ствола; +PSV ЧС на выдохе ≥80%.", sectionIds: ["abdominal-aorta"] },
+  { term: "Lindegaard", definition: "PSV СМА / PSV экстракраниальной ВСА — мониторинг вазоспазма после SAH.", sectionIds: ["tcd"] },
 ];
 
 export const VASCULAR_US_QUIZ: VascularQuizQuestion[] = [

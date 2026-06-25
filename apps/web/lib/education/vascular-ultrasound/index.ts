@@ -4,6 +4,8 @@ export {
   VASCULAR_US_SOURCE,
   VASCULAR_US_LINKS,
   VASCULAR_US_CLINICAL_HREF,
+  VASCULAR_CLINICAL_TAB_BY_SECTION,
+  getVascularClinicalHref,
 } from "./constants";
 
 export { VASCULAR_US_SECTIONS, getVascularSection } from "./sections";
