@@ -13,10 +13,12 @@ export async function GET() {
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
 
   if (!url || !key) {
-    return NextResponse.json(
-      { ok: false, step: "env", detail: "NEXT_PUBLIC_SUPABASE_URL или ANON_KEY пустые на сервере Next (перезапустите dev после правки .env.local)." },
-      { status: 500 },
-    );
+    return NextResponse.json({
+      ok: false,
+      step: "env",
+      detail:
+        "NEXT_PUBLIC_SUPABASE_URL или ANON_KEY пустые на сервере Next (перезапустите dev после правки .env.local).",
+    });
   }
 
   try {
@@ -41,15 +43,12 @@ export async function GET() {
     });
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);
-    return NextResponse.json(
-      {
-        ok: false,
-        step: "fetch",
-        detail: msg,
-        hint:
-          "Сервер Next не смог открыть Supabase (DNS, файрвол, VPN, регион). Проверьте в терминале: ping или откройте Project URL в браузере. Попробуйте другую сеть или DNS 1.1.1.1.",
-      },
-      { status: 500 },
-    );
+    return NextResponse.json({
+      ok: false,
+      step: "fetch",
+      detail: msg,
+      hint:
+        "Сервер Next не смог открыть Supabase (DNS, файрвол, VPN, регион). Проверьте в терминале: ping или откройте Project URL в браузере. Попробуйте другую сеть или DNS 1.1.1.1.",
+    });
   }
 }

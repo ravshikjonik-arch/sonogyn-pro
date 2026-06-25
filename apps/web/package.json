@@ -27,7 +27,7 @@
     "test:security": "node --import tsx --test lib/security/__tests__/api-body-schemas.test.ts",
     "test:e2e": "playwright test",
     "test:e2e:cpi": "playwright test tests/e2e/cpi-evaluate.spec.ts --project=chromium-no-auth",
-    "test:e2e:security": "E2E_DEV_SKIP_AUTH=false playwright test tests/e2e/security-smoke.spec.ts --project=chromium-no-auth",
+    "test:e2e:security": "PLAYWRIGHT_SECURITY_E2E=true E2E_DEV_SKIP_AUTH=false playwright test tests/e2e/security-smoke.spec.ts --project=chromium-no-auth",
     "atlas:thyroid-png": "python3 scripts/generate-thyroid-atlas-png.py",
     "atlas:fetal-anatomy-png": "python3 scripts/generate-fetal-anatomy-atlas-png.py"
   },

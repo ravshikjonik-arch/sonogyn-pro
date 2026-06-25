@@ -3,6 +3,12 @@ import path from "node:path";
 
 const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? "http://127.0.0.1:3000";
 
+/** Security smoke must not bypass auth (CI sets DEV_SKIP_AUTH=true for CPI e2e). */
+const devSkipAuthForWebServer =
+  process.env.PLAYWRIGHT_SECURITY_E2E === "true" || process.env.E2E_DEV_SKIP_AUTH === "false"
+    ? "false"
+    : (process.env.DEV_SKIP_AUTH ?? "true");
+
 export default defineConfig({
   testDir: "./tests/e2e",
   fullyParallel: true,
@@ -49,7 +55,7 @@ export default defineConfig({
       ...process.env,
       E2E_FIXTURES: "true",
       NEXT_PUBLIC_E2E_FIXTURES: "true",
-      DEV_SKIP_AUTH: process.env.E2E_DEV_SKIP_AUTH ?? "true",
+      DEV_SKIP_AUTH: devSkipAuthForWebServer,
       DEV_AUTO_LOGIN: "false",
     },
   },
