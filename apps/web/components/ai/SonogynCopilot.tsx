@@ -5,6 +5,7 @@ import {
   ArrowUpRight,
   Clock,
   Command,
+  ImagePlus,
   Lock,
   MessageSquare,
   Send,
@@ -13,10 +14,28 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { toast } from "sonner";
 
+import { SonogynStructuredCard } from "@/components/ai/SonogynStructuredCard";
 import { useProStatus } from "@/components/pro/use-pro-status";
 import { onCopilotOpen } from "@/lib/ai/copilot-bus";
-import { ChatCompletionRequestSchema, type ChatCompletionRequest, type ChatMessage } from "@repo/types";
+import {
+  messageFromApiErrorBody,
+  parseClientFetchError,
+} from "@/lib/ai/sonogyn-chat/errors";
+import {
+  extractOpenRouterChatContent,
+  type OpenRouterChatCompletion,
+} from "@/lib/ai/sonogyn-chat/openrouter-client";
+import {
+  prepareChatImage,
+  type PreparedChatImage,
+} from "@/lib/ai/sonogyn-chat/prepare-image";
+import { suggestModuleLinks } from "@/lib/ai/sonogyn-chat/suggest-links";
+import {
+  extractStructuredFromAssistantText,
+  type SonogynStructuredResponse,
+} from "@/lib/ai/sonogyn-chat/structured-response";
 import { FREE_AI_LIMIT, getAiUsage, incrementAiUsage } from "@/lib/pro/ai-usage";
 import { openUpgrade } from "@/lib/pro/upgrade-bus";
 import { cn } from "@/lib/utils/cn";
@@ -27,9 +46,10 @@ type Message = {
   role: "user" | "assistant";
   text: string;
   links?: Suggestion[];
+  structured?: SonogynStructuredResponse | null;
   pro?: boolean;
   upsell?: boolean;
-  stream?: boolean; // Indicate if message is streaming
+  stream?: boolean;
 };
 type HistoryItem = { id: string; title: string; ts: number };
 
@@ -42,70 +62,6 @@ const QUICK_COMMANDS: { label: string; prompt: string }[] = [
   { label: "BI-RADS по описанию", prompt: "Помоги определить категорию BI-RADS по описанию." },
 ];
 
-const ROUTES: { test: RegExp; reply: string; links: Suggestion[]; pro?: boolean }[] = [
-  {
-    test: /заключ|отч[её]т|report/i,
-    reply:
-      "Готов помочь с заключением. Откройте AI-рабочую зону — загрузите снимки и данные, я предложу формулировки. Полная авто-генерация заключения доступна на PRO.",
-    links: [{ label: "AI-рабочая зона", href: "/workspace" }],
-    pro: true,
-  },
-  {
-    test: /пациент|иванов|карт/i,
-    reply: "Поиск и карточки пациентов — в разделе «Пациенты». Там же история визитов и AI Summary.",
-    links: [{ label: "Пациенты", href: "/patients" }],
-  },
-  {
-    test: /o-?rads|орадс|яичник/i,
-    reply: "Для классификации придатковых образований используйте калькулятор O-RADS (IOTA/ADNEX, по гайдлайнам).",
-    links: [
-      { label: "Калькулятор O-RADS", href: "/calculators/o-rads" },
-      { label: "Макет яичника", href: "/ovary-atlas" },
-    ],
-  },
-  {
-    test: /срок|пдр|пмп|беремен|гестац/i,
-    reply: "Срок беременности, ПДР, декрет — в модуле расчёта срока (ПМП, КТР, фетометрия, ЭКО).",
-    links: [{ label: "Калькулятор срока", href: "/calculators/ob" }],
-  },
-  {
-    test: /bi-?rads|молочн|мж/i,
-    reply: "Категорию BI-RADS поможет определить калькулятор по УЗ-признакам.",
-    links: [{ label: "Калькулятор BI-RADS", href: "/calculators/bi-rads" }],
-  },
-  {
-    test: /протокол|омт|омп/i,
-    reply: "Протоколы и маршруты — в «Помощнике врача»: нозология → анализы → УЗИ → лечение → протокол.",
-    links: [{ label: "Помощник врача", href: "/assistant" }],
-  },
-  {
-    test: /сосуд|дуплекс|бца|каротид|tcd|тромбоз|стеноз/i,
-    reply: "Сосудистое УЗД: протокол по бассейнам, калькулятор стеноза ВСА и AI-интерпретация (методология Куликова).",
-    links: [
-      { label: "Клинический модуль", href: "/assistant/vascular" },
-      { label: "Курс для ординаторов", href: "/library/vascular-ultrasound" },
-    ],
-  },
-];
-
-function buildReply(prompt: string): Omit<Message, "id" | "role"> {
-  const matched = ROUTES.find((r) => r.test.test(prompt));
-  const base = matched ?? {
-    reply:
-      "Подскажу, какой модуль подойдёт. Уточните задачу: заключение, протокол, расчёт срока, классификация (O-RADS/BI-RADS/TI-RADS) или поиск пациента.",
-    links: [
-      { label: "Калькуляторы", href: "/calculators" },
-      { label: "Пациенты", href: "/patients" },
-    ] as Suggestion[],
-    pro: false,
-  };
-  return {
-    text: base.reply,
-    links: base.links,
-    pro: matched?.pro,
-  };
-}
-
 export function SonogynCopilot() {
   const reduce = useReducedMotion();
   const { isPro } = useProStatus();
@@ -113,6 +69,8 @@ export function SonogynCopilot() {
   const [tab, setTab] = useState<"chat" | "history" | "commands">("chat");
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
+  const [pendingImages, setPendingImages] = useState<PreparedChatImage[]>([]);
+  const fileRef = useRef<HTMLInputElement>(null);
   const [history, setHistory] = useState<HistoryItem[]>(() => {
     if (typeof window === "undefined") return [];
     try {
@@ -137,24 +95,36 @@ export function SonogynCopilot() {
     });
   }, []);
 
+  const onPickImages = useCallback(async (files: FileList | null) => {
+    if (!files?.length) return;
+    try {
+      const prepared = await Promise.all(Array.from(files).slice(0, 4).map((f) => prepareChatImage(f)));
+      setPendingImages((prev) => [...prev, ...prepared].slice(0, 4));
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Не удалось загрузить фото");
+    }
+  }, []);
+
   const send = useCallback(
     async (raw: string) => {
       const prompt = raw.trim();
-      if (!prompt) return;
+      if (!prompt && pendingImages.length === 0) return;
       setTab("chat");
-      const userMsg: Message = { id: `u_${Date.now()}`, role: "user", text: prompt };
-      setMessages((prev) => [...prev, userMsg]);
-      setInput("");
-      pushHistory(prompt);
 
-      // Лимит бесплатных AI-запросов: вместо ошибки — красивый апселл.
+      const userMsg: Message = {
+        id: `u_${Date.now()}`,
+        role: "user",
+        text: prompt || "(снимок УЗИ)",
+      };
+
       if (!isPro && getAiUsage() >= FREE_AI_LIMIT) {
+        setMessages((prev) => [...prev, userMsg]);
         setMessages((prev) => [
           ...prev,
           {
             id: `a_${Date.now()}`,
             role: "assistant",
-            text: "Вы использовали все бесплатные AI-запросы. Переходите на PRO и продолжайте работу без ограничений — безлимитный AI, авто-заключения и анализ исследований.",
+            text: "Вы использовали все бесплатные AI-запросы. Переходите на PRO и продолжайте работу без ограничений.",
             upsell: true,
           },
         ]);
@@ -162,71 +132,93 @@ export function SonogynCopilot() {
         return;
       }
 
+      const imagesPayload = pendingImages.map((img) => ({
+        mediaType: img.mediaType,
+        data: img.data,
+      }));
+
+      const apiMessages = [...messages, userMsg].map((m) => ({
+        role: m.role,
+        content: m.text,
+      }));
+
+      setMessages((prev) => [...prev, userMsg]);
+      setInput("");
+      setPendingImages([]);
+      pushHistory(prompt || "Снимок УЗИ");
+
       if (!isPro) incrementAiUsage();
       setTyping(true);
-      const assistantMsg: Message = {
-        id: `a_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
-        role: "assistant",
-        text: "",
-        stream: true,
-      };
-      setMessages((prev) => [...prev, assistantMsg]);
+
+      const assistantId = `a_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
+      setMessages((prev) => [
+        ...prev,
+        { id: assistantId, role: "assistant", text: "", stream: true },
+      ]);
 
       try {
         const res = await fetch("/api/ai/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
+          credentials: "same-origin",
           body: JSON.stringify({
-            messages: messages.map((m) => ({ role: m.role, content: m.text })),
-            model: "openai/gpt-4o-mini", // hardcode for now, can be dynamic later
-            stream: true,
+            messages: apiMessages,
+            stream: false,
+            images: imagesPayload.length ? imagesPayload : undefined,
+            modality: "auto",
           }),
         });
 
-      if (!res.ok || !res.body) {
-        const errorText = await res.text();
-        throw new Error(`OpenRouter API error: ${res.status} - ${errorText}`);
-      }
-
-        const reader = res.body.getReader();
-        const decoder = new TextDecoder();
-        let fullText = "";
-
-        // Stream the response
-        while (true) {
-          const { value, done } = await reader.read();
-          if (done) break;
-          const chunk = decoder.decode(value);
-          const lines = chunk.split("\n").filter(Boolean);
-
-          for (const line of lines) {
-            if (line.startsWith("data: ")) {
-              const data = JSON.parse(line.substring(6));
-              if (data.choices && data.choices.length > 0) {
-                const delta = data.choices[0].delta.content || "";
-                fullText += delta;
-                setMessages((prev) =>
-                  prev.map((msg) => (msg.id === assistantMsg.id ? { ...msg, text: fullText } : msg)),
-                );
-              }
-            }
-          }
+        let errMsg = parseClientFetchError(new Error(String(res.status))).message;
+        let data: OpenRouterChatCompletion & { error?: string; code?: string } | null = null;
+        try {
+          data = (await res.json()) as OpenRouterChatCompletion & { error?: string; code?: string };
+        } catch {
+          /* non-JSON body */
         }
 
-        // Final message (non-streaming, could include links/PRO info)
+        if (!res.ok) {
+          if (data) {
+            errMsg = messageFromApiErrorBody({
+              error: typeof data.error === "string" ? data.error : undefined,
+              code: data.code as import("@/lib/ai/sonogyn-chat/errors").SonogynAiErrorCode | undefined,
+            });
+          }
+          throw new Error(errMsg);
+        }
+
+        const fullText = extractOpenRouterChatContent(data ?? {});
+        if (!fullText) {
+          throw new Error("Ответ пустой — уточните запрос или повторите позже.");
+        }
+
+        setMessages((prev) =>
+          prev.map((msg) => (msg.id === assistantId ? { ...msg, text: fullText } : msg)),
+        );
+
+        const { displayText, structured } = extractStructuredFromAssistantText(fullText);
+        const links = suggestModuleLinks(prompt);
+
         setMessages((prev) =>
           prev.map((msg) =>
-            msg.id === assistantMsg.id
-              ? { ...msg, stream: false, ...buildReply(fullText) }
+            msg.id === assistantId
+              ? {
+                  ...msg,
+                  text: displayText || fullText || "Ответ пустой — уточните запрос.",
+                  structured,
+                  links,
+                  stream: false,
+                }
               : msg,
           ),
         );
       } catch (error) {
+        const { message } = parseClientFetchError(error);
         console.error("AI Chat error:", error);
         setMessages((prev) =>
           prev.map((msg) =>
-            msg.id === assistantMsg.id
-              ? { ...msg, text: "Произошла ошибка при получении ответа от AI.", stream: false }
+            msg.id === assistantId
+              ? { ...msg, text: error instanceof Error ? error.message : message, stream: false }
               : msg,
           ),
         );
@@ -234,13 +226,13 @@ export function SonogynCopilot() {
         setTyping(false);
       }
     },
-    [pushHistory, reduce, isPro, messages],
+    [pushHistory, isPro, messages, pendingImages],
   );
 
   useEffect(() => {
     return onCopilotOpen((detail) => {
       setOpen(true);
-      if (detail.prompt) send(detail.prompt);
+      if (detail.prompt) void send(detail.prompt);
     });
   }, [send]);
 
@@ -308,7 +300,9 @@ export function SonogynCopilot() {
                 </span>
                 <div className="flex-1">
                   <p className="text-sm font-bold text-[var(--clinical-foreground)]">Sonogyn AI</p>
-                  <p className="text-[11px] text-[var(--clinical-foreground-muted)]">Интеллектуальный помощник · preview</p>
+                  <p className="text-[11px] text-[var(--clinical-foreground-muted)]">
+                    Decision support · O-RADS / BI-RADS / IOTA
+                  </p>
                 </div>
                 <button
                   type="button"
@@ -321,11 +315,13 @@ export function SonogynCopilot() {
               </header>
 
               <nav className="flex gap-1 border-b border-[var(--clinical-border)] px-2 py-2">
-                {([
-                  { id: "chat", label: "Чат", icon: MessageSquare },
-                  { id: "commands", label: "Команды", icon: Command },
-                  { id: "history", label: "История", icon: Clock },
-                ] as const).map((t) => {
+                {(
+                  [
+                    { id: "chat", label: "Чат", icon: MessageSquare },
+                    { id: "commands", label: "Команды", icon: Command },
+                    { id: "history", label: "История", icon: Clock },
+                  ] as const
+                ).map((t) => {
                   const Icon = t.icon;
                   return (
                     <button
@@ -356,7 +352,7 @@ export function SonogynCopilot() {
                         </span>
                         <p className="text-sm font-semibold text-[var(--clinical-foreground)]">Чем помочь?</p>
                         <p className="mx-auto max-w-[260px] text-xs text-[var(--clinical-foreground-muted)]">
-                          Спросите про заключение, протокол, срок беременности, O-RADS/BI-RADS или поиск пациента.
+                          Опишите находку или прикрепите снимок. ИИ систематизирует признаки — решение за вами.
                         </p>
                       </div>
                     )}
@@ -373,7 +369,8 @@ export function SonogynCopilot() {
                               : "border border-[var(--clinical-border)] bg-[var(--clinical-card)] text-[var(--clinical-foreground)]",
                           )}
                         >
-                          <p>{m.text}</p>
+                          <p className="whitespace-pre-wrap">{m.text}</p>
+                          {m.structured ? <SonogynStructuredCard data={m.structured} /> : null}
                           {m.links && m.links.length > 0 && (
                             <div className="mt-2 flex flex-wrap gap-1.5">
                               {m.links.map((l) => (
@@ -427,14 +424,48 @@ export function SonogynCopilot() {
                     )}
                   </div>
                   <div className="border-t border-[var(--clinical-border)] p-3">
+                    {pendingImages.length > 0 && (
+                      <div className="mb-2 flex flex-wrap gap-2">
+                        {pendingImages.map((img, idx) => (
+                          <div key={idx} className="relative h-14 w-14 overflow-hidden rounded-lg border">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src={img.previewUrl} alt="" className="h-full w-full object-cover" />
+                            <button
+                              type="button"
+                              className="absolute right-0 top-0 bg-black/60 p-0.5 text-white"
+                              onClick={() => setPendingImages((p) => p.filter((_, i) => i !== idx))}
+                              aria-label="Удалить фото"
+                            >
+                              <X className="h-3 w-3" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                     <div className="flex items-end gap-2 rounded-2xl border border-[var(--clinical-border)] bg-[var(--clinical-card)] px-3 py-2 focus-within:ring-2 focus-within:ring-[var(--clinical-ring)]">
+                      <input
+                        ref={fileRef}
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp,image/gif"
+                        multiple
+                        className="hidden"
+                        onChange={(e) => void onPickImages(e.target.files)}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => fileRef.current?.click()}
+                        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-[var(--clinical-foreground-muted)] hover:bg-[var(--clinical-muted)]"
+                        aria-label="Прикрепить снимок"
+                      >
+                        <ImagePlus className="h-4 w-4" />
+                      </button>
                       <textarea
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
                         onKeyDown={(e) => {
                           if (e.key === "Enter" && !e.shiftKey) {
                             e.preventDefault();
-                            send(input);
+                            void send(input);
                           }
                         }}
                         rows={1}
@@ -443,8 +474,8 @@ export function SonogynCopilot() {
                       />
                       <button
                         type="button"
-                        onClick={() => send(input)}
-                        disabled={!input.trim()}
+                        onClick={() => void send(input)}
+                        disabled={!input.trim() && pendingImages.length === 0}
                         className="ai-gradient-bg flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-white transition disabled:opacity-40"
                         aria-label="Отправить"
                       >
@@ -464,7 +495,7 @@ export function SonogynCopilot() {
                     <button
                       key={c.label}
                       type="button"
-                      onClick={() => send(c.prompt)}
+                      onClick={() => void send(c.prompt)}
                       className="flex w-full items-center gap-2 rounded-xl border border-[var(--clinical-border)] bg-[var(--clinical-card)] px-3 py-2.5 text-left text-sm text-[var(--clinical-foreground)] transition hover:-translate-y-0.5 hover:shadow-md"
                     >
                       <Sparkles className="h-4 w-4 shrink-0 text-[var(--ai-indigo)]" />
@@ -485,7 +516,7 @@ export function SonogynCopilot() {
                       <button
                         key={h.id}
                         type="button"
-                        onClick={() => send(h.title)}
+                        onClick={() => void send(h.title)}
                         className="flex w-full items-start gap-2 rounded-xl border border-[var(--clinical-border)] bg-[var(--clinical-card)] px-3 py-2.5 text-left transition hover:bg-[var(--clinical-muted)]"
                       >
                         <Clock className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[var(--clinical-foreground-muted)]" />

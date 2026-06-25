@@ -1,6 +1,8 @@
 public/books/umarov-2021
 public/clinical-atlas
 public/education
+!public/education/fetal-spine
+!public/education/fetal-spine/**
 public/images/orads-calculator
 .next
 node_modules
@@ -10,4 +12,5 @@ app/api/ustri_inference/USTri
 **/*.pdf
 **/*.jpg
 **/*.jpeg
+!public/education/fetal-spine/**/*.jpeg
 **/*.png

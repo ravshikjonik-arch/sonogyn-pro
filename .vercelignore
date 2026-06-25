@@ -11,5 +11,7 @@ apps/web/app/api/ustri_inference/USTri
 **/*.pdf
 apps/web/public/clinical-atlas
 apps/web/public/education
+!apps/web/public/education/fetal-spine
+!apps/web/public/education/fetal-spine/**
 apps/web/public/images/orads-calculator
 apps/web/public/books

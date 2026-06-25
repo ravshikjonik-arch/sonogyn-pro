@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { fetalSpineImageSrc } from "@/lib/education/fetal-spine/constants";
 import { cn } from "@/lib/utils/cn";
@@ -23,11 +23,17 @@ export function FetalSpineCardImage({
   const src = fetalSpineImageSrc(imageId);
   const [failed, setFailed] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const loadedRef = useRef(false);
 
   useEffect(() => {
+    loadedRef.current = false;
     setFailed(false);
     setLoaded(false);
-  }, [imageId]);
+    const timer = window.setTimeout(() => {
+      if (!loadedRef.current) setFailed(true);
+    }, 12_000);
+    return () => window.clearTimeout(timer);
+  }, [imageId, src]);
 
   if (failed) {
     return (
@@ -59,7 +65,15 @@ export function FetalSpineCardImage({
       )}
     >
       {!loaded ? (
-        <div className="absolute inset-0 animate-pulse bg-[var(--clinical-muted)]" aria-hidden />
+        <div
+          className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-[var(--clinical-muted)]/60"
+          aria-hidden
+        >
+          <span className="text-3xl font-black text-[var(--clinical-foreground-muted)]/40">
+            {String(imageId).padStart(2, "0")}
+          </span>
+          <span className="h-1 w-16 animate-pulse rounded-full bg-[var(--clinical-primary)]/30" />
+        </div>
       ) : null}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
@@ -67,7 +81,10 @@ export function FetalSpineCardImage({
         alt={title ?? `УЗИ-карточка ${imageId}`}
         loading="lazy"
         decoding="async"
-        onLoad={() => setLoaded(true)}
+        onLoad={() => {
+          loadedRef.current = true;
+          setLoaded(true);
+        }}
         onError={() => setFailed(true)}
         className={cn(
           "max-h-full w-full object-contain object-center transition-opacity duration-300",
