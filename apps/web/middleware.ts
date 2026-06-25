@@ -139,7 +139,9 @@ export default async function middleware(request: NextRequest) {
       return res;
     }
 
-    const { response } = await updateSession(request);
+    const { response } = await updateSession(request).catch(() => ({
+      response: NextResponse.next({ request }),
+    }));
     response.headers.set("Cache-Control", "no-store, no-cache, must-revalidate");
     response.headers.set("Pragma", "no-cache");
     applySecurityHeaders(response);

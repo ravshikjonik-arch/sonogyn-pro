@@ -110,7 +110,7 @@ export async function handlePaymentWebhook(req: Request, rawBody: string) {
   }
 
   if (!isYooKassaConfigured()) {
-    return paymentError(PAYMENT_MESSAGES.notConfigured, 503);
+    return paymentError(PAYMENT_MESSAGES.webhookForbidden, 403);
   }
 
   const guard = guardYooKassaWebhook(req, rawBody);

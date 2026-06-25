@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 
+import { isE2eCiStubMode } from "@/lib/e2e/ci-stub";
+
 /**
  * Только для локальной отладки: видно, достучался ли Next-сервер до Supabase на машине разработчика.
  * Откройте в браузере: GET /api/debug/supabase
@@ -7,6 +9,14 @@ import { NextResponse } from "next/server";
 export async function GET() {
   if (process.env.NODE_ENV === "production") {
     return NextResponse.json({ error: "Not available" }, { status: 404 });
+  }
+
+  if (isE2eCiStubMode()) {
+    return NextResponse.json({
+      ok: false,
+      step: "ci-stub",
+      detail: "CI placeholder Supabase URL — health check skipped in E2E.",
+    });
   }
 
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();

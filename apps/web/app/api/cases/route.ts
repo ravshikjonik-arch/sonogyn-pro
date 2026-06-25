@@ -2,6 +2,7 @@ import { ListTeachingCasesQuerySchema } from "@repo/types";
 import { NextResponse } from "next/server";
 
 import { listTeachingCases } from "@/lib/cases/teaching-cases-service";
+import { isE2eCiStubMode } from "@/lib/e2e/ci-stub";
 import { rejectIfRateLimitedForUser, rejectIfRateLimitedPreset } from "@/lib/security/api-rate-limit";
 import { getClinicalRole, roleMeetsMinimum } from "@/lib/security/require-clinical-role";
 import { RL } from "@/lib/security/rate-limit-config";
@@ -13,6 +14,14 @@ import { createClient } from "@/utils/supabase/server";
 export async function GET(request: Request) {
   const limited = await rejectIfRateLimitedPreset(request, "cases-list", RL.casesListIp);
   if (limited) return limited;
+
+  if (isE2eCiStubMode()) {
+    return NextResponse.json({
+      cases: [],
+      nextCursor: null,
+      meta: { topic: "all", isModerator: false },
+    });
+  }
 
   const supabase = await createClient();
   const auth = await requireSupabaseUserFromRequest(request, supabase);
@@ -63,6 +72,13 @@ export async function GET(request: Request) {
         : 500;
     if (status === 403) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+    if (isE2eCiStubMode()) {
+      return NextResponse.json({
+        cases: [],
+        nextCursor: null,
+        meta: { topic: "all", isModerator: false },
+      });
     }
     safeLog("cases list error", { message: err instanceof Error ? err.message : "unknown" });
     const message = err instanceof Error ? err.message : "List failed";

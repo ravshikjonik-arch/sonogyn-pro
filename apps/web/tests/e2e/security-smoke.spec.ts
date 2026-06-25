@@ -91,8 +91,7 @@ test.describe("Security smoke — API boundaries", () => {
   });
 
   test("POST /api/payment/webhook — пустое тело → 400 или 403", async ({ request }) => {
-    const res = await request.fetch("/api/payment/webhook", {
-      method: "POST",
+    const res = await request.post("/api/payment/webhook", {
       headers: { "Content-Type": "application/json" },
       data: "",
     });
