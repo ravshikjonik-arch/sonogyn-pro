@@ -136,6 +136,22 @@ export function VascularUltrasoundEducationClient() {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4 text-sm">
+            <div className="flex flex-wrap gap-2">
+              {VASCULAR_US_SECTIONS.filter((s) => s.id !== "teaching-mode").map((s) => (
+                <button
+                  key={s.id}
+                  type="button"
+                  onClick={() => setActiveSection(s.id)}
+                  className={`rounded-full px-3 py-1 text-xs font-medium ${
+                    activeSection === s.id
+                      ? "bg-[var(--clinical-primary)] text-white"
+                      : "bg-[var(--clinical-muted)]"
+                  }`}
+                >
+                  {s.number}. {s.title}
+                </button>
+              ))}
+            </div>
             {card ? (
               <>
                 <Block title="Цели" items={card.learningObjectives} />
@@ -151,7 +167,7 @@ export function VascularUltrasoundEducationClient() {
               </>
             ) : (
               <p className="text-[var(--clinical-foreground-muted)]">
-                Выберите главу 4–9 в курсе — карточки ординатора доступны для всех клинических разделов.
+                Выберите главу 1–9 — карточки ординатора доступны для всех разделов курса.
               </p>
             )}
           </CardContent>
@@ -183,7 +199,7 @@ export function VascularUltrasoundEducationClient() {
           bank={quizBank}
           storageKey="sonogyn-vascular-us-quiz-progress"
           title="Самопроверка · сосудистое УЗД"
-          description={`${quizBank.questions.length} вопросов по гл. 4–9 (Куликов): БЦА, TCD, АНК, ВНК, ВК, аорта.`}
+          description={`${quizBank.questions.length} вопросов по гл. 1–9 (Куликов): гемодинамика, БЦА, TCD, АНК, ВНК, ВК, аорта.`}
           disclaimer={VASCULAR_US_DISCLAIMER}
           relatedLinks={[VASCULAR_US_LINKS.clinical]}
         />

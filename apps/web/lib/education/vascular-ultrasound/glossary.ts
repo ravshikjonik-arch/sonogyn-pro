@@ -10,7 +10,7 @@ export const VASCULAR_US_GLOSSARY: VascularGlossaryEntry[] = [
   { term: "ICA/CCA ratio", definition: "Отношение PSV внутренней сонной к общей сонной.", sectionIds: ["extracranial"] },
   { term: "ECST", definition: "European Carotid Surgery Trial — стеноз по диаметру в месте бляшки.", sectionIds: ["extracranial"] },
   { term: "NASCET", definition: "North American Symptomatic Carotid Endarterectomy Trial — стеноз относительно дистальной ВСА.", sectionIds: ["extracranial"] },
-  { term: "Subclavian steal", definition: "Ретроградный поток в позвоночной артерии при стenosis подключичной.", sectionIds: ["upper-limb", "extracranial"] },
+  { term: "Subclavian steal", definition: "Ретроградный поток в позвоночной артерии при стенозе подключичной.", sectionIds: ["upper-limb", "extracranial"] },
   { term: "Компрессия вены", definition: "Gold standard для исключения острого тромбоза глубоких вен.", sectionIds: ["lower-limb-veins"] },
   { term: "Hach", definition: "Классификация рефлюкса по распространению (I–IV).", sectionIds: ["lower-limb-veins"] },
   { term: "Флебэктазия", definition: "Дилатация вены: БПВ/МПВ >4 мм; перфоранты >3,5 мм.", sectionIds: ["lower-limb-veins"] },
@@ -286,6 +286,14 @@ export const VASCULAR_US_QUIZ: VascularQuizQuestion[] = [
     correctIndex: 1,
     explanation: "PSV <150 и объём <300 мл/мин — недостаточность AV-доступа (табл. 8.1).",
   },
+  {
+    id: "q33",
+    sectionId: "hemodynamics",
+    question: "RI = (PSV − EDV) / PSV. При parvus-tardus дистально RI обычно:",
+    options: ["Снижается до нуля", "Повышается", "Не меняется", "Относится только к венам"],
+    correctIndex: 1,
+    explanation: "Дистально при значимом стенозе/окклюзии — damped waveform, ↑ RI (гл. 1–2).",
+  },
 ];
 
 const SECTION_CATEGORY: Record<string, string> = {
@@ -301,8 +309,8 @@ const SECTION_CATEGORY: Record<string, string> = {
 export function getVascularUsQuizBank(): QuizBank {
   return {
     topic: "vascular-ultrasound",
-    version: "1.5",
-    lastReviewed: "2026-06-25",
+    version: "1.6",
+    lastReviewed: "2026-06-20",
     sources: [
       {
         id: "kulikov-2015",

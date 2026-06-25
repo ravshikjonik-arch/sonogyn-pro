@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useMemo, useState } from "react";
-import { Activity, BookOpen, FileText, Stethoscope } from "lucide-react";
+import { Activity, BookOpen, FileText, Printer, Stethoscope } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -22,6 +22,16 @@ import { LowerLimbVeinsProtocolPanel } from "@/components/assistant/LowerLimbVei
 import { TcdProtocolPanel } from "@/components/assistant/TcdProtocolPanel";
 import { UpperLimbProtocolPanel } from "@/components/assistant/UpperLimbProtocolPanel";
 import { VASCULAR_US_DISCLAIMER } from "@/lib/education/vascular-ultrasound";
+import { printVascularChecklist } from "@/lib/ai/vascular-ultrasound/print-protocol";
+import type { VenousRefluxSegment } from "@/lib/ai/vascular-ultrasound/vascular-norms";
+
+const REFLUX_SEGMENTS: { id: VenousRefluxSegment; label: string }[] = [
+  { id: "superficial", label: "БПВ/МПВ" },
+  { id: "femoral", label: "Бедренные" },
+  { id: "popliteal", label: "ПкВ" },
+  { id: "calf", label: "Берцовые" },
+  { id: "perforator", label: "Перфорант" },
+];
 
 type VascularTabId =
   | "protocol"
@@ -69,7 +79,10 @@ export function VascularUltrasoundAssistantClient({ defaultTab }: { defaultTab?:
   const [metricAortaMm, setMetricAortaMm] = useState("");
   const [metricRenalPsv, setMetricRenalPsv] = useState("");
   const [metricAortaPsvRar, setMetricAortaPsvRar] = useState("");
+  const [metricCeliacInsp, setMetricCeliacInsp] = useState("");
+  const [metricCeliacExp, setMetricCeliacExp] = useState("");
   const [metricRefluxSec, setMetricRefluxSec] = useState("");
+  const [metricRefluxSegment, setMetricRefluxSegment] = useState<VenousRefluxSegment>("superficial");
   const [metricLlaStenosis, setMetricLlaStenosis] = useState("");
   const [metricLlaProximal, setMetricLlaProximal] = useState("");
   const [metricMcaPsv, setMetricMcaPsv] = useState("");
@@ -84,9 +97,14 @@ export function VascularUltrasoundAssistantClient({ defaultTab }: { defaultTab?:
           aortaDiameterMm: metricAortaMm ? Number(metricAortaMm) : undefined,
           renalPsvCmS: metricRenalPsv ? Number(metricRenalPsv) : undefined,
           aortaPsvForRarCmS: metricAortaPsvRar ? Number(metricAortaPsvRar) : undefined,
+          celiacPsvInspirationCmS: metricCeliacInsp ? Number(metricCeliacInsp) : undefined,
+          celiacPsvExpirationCmS: metricCeliacExp ? Number(metricCeliacExp) : undefined,
         };
       case "lower-limb-veins":
-        return { refluxDurationSec: metricRefluxSec ? Number(metricRefluxSec) : undefined };
+        return {
+          refluxDurationSec: metricRefluxSec ? Number(metricRefluxSec) : undefined,
+          refluxSegment: metricRefluxSegment,
+        };
       case "lower-limb-arteries":
         return {
           psvStenosisCmS: metricLlaStenosis ? Number(metricLlaStenosis) : undefined,
@@ -111,12 +129,15 @@ export function VascularUltrasoundAssistantClient({ defaultTab }: { defaultTab?:
     metricAortaPsvRar,
     metricAvPsv,
     metricAvVolume,
+    metricCeliacExp,
+    metricCeliacInsp,
     metricIcaPsvLinde,
     metricLlaProximal,
     metricLlaStenosis,
     metricMcaPsv,
     metricRenalPsv,
     metricRefluxSec,
+    metricRefluxSegment,
   ]);
 
   const checklist = useMemo(
@@ -228,6 +249,16 @@ export function VascularUltrasoundAssistantClient({ defaultTab }: { defaultTab?:
                 Образовательный курс →
               </Link>
             </Button>
+            {checklist ? (
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => printVascularChecklist(checklist)}
+              >
+                <Printer className="mr-2 h-4 w-4" />
+                Печать протокола
+              </Button>
+            ) : null}
           </CardContent>
         </Card>
       </TabsContent>
@@ -358,13 +389,55 @@ export function VascularUltrasoundAssistantClient({ defaultTab }: { defaultTab?:
                   PSV аорты (RAR), см/с
                   <Input className="mt-1" inputMode="decimal" value={metricAortaPsvRar} onChange={(e) => setMetricAortaPsvRar(e.target.value)} />
                 </label>
+                <label className="text-xs">
+                  PSV ЧС на вдохе, см/с
+                  <Input className="mt-1" inputMode="decimal" value={metricCeliacInsp} onChange={(e) => setMetricCeliacInsp(e.target.value)} />
+                </label>
+                <label className="text-xs">
+                  PSV ЧС на выдохе, см/с
+                  <Input className="mt-1" inputMode="decimal" value={metricCeliacExp} onChange={(e) => setMetricCeliacExp(e.target.value)} />
+                </label>
+              </div>
+            ) : null}
+            {basin === "extracranial" ? (
+              <div className="grid gap-2 sm:grid-cols-3">
+                <label className="text-xs">
+                  PSV ВСА, см/с
+                  <Input className="mt-1" inputMode="decimal" value={psvIca} onChange={(e) => setPsvIca(e.target.value)} />
+                </label>
+                <label className="text-xs">
+                  EDV ВСА, см/с
+                  <Input className="mt-1" inputMode="decimal" value={edvIca} onChange={(e) => setEdvIca(e.target.value)} />
+                </label>
+                <label className="text-xs">
+                  PSV ОСА, см/с
+                  <Input className="mt-1" inputMode="decimal" value={psvCca} onChange={(e) => setPsvCca(e.target.value)} />
+                </label>
               </div>
             ) : null}
             {basin === "lower-limb-veins" ? (
-              <label className="text-xs">
-                Рефлюкс, с
-                <Input className="mt-1 max-w-xs" inputMode="decimal" value={metricRefluxSec} onChange={(e) => setMetricRefluxSec(e.target.value)} />
-              </label>
+              <div className="space-y-2">
+                <div className="flex flex-wrap gap-1">
+                  {REFLUX_SEGMENTS.map((s) => (
+                    <button
+                      key={s.id}
+                      type="button"
+                      onClick={() => setMetricRefluxSegment(s.id)}
+                      className={`rounded-full px-2 py-0.5 text-xs ${
+                        metricRefluxSegment === s.id
+                          ? "bg-[var(--clinical-primary)] text-white"
+                          : "bg-[var(--clinical-muted)]"
+                      }`}
+                    >
+                      {s.label}
+                    </button>
+                  ))}
+                </div>
+                <label className="text-xs">
+                  Рефлюкс, с
+                  <Input className="mt-1 max-w-xs" inputMode="decimal" value={metricRefluxSec} onChange={(e) => setMetricRefluxSec(e.target.value)} />
+                </label>
+              </div>
             ) : null}
             {basin === "lower-limb-arteries" ? (
               <div className="grid gap-2 sm:grid-cols-2">
@@ -417,6 +490,18 @@ export function VascularUltrasoundAssistantClient({ defaultTab }: { defaultTab?:
             {resultText ? (
               <div className="whitespace-pre-wrap rounded-2xl border border-[var(--clinical-border)] bg-[var(--clinical-card)] p-4 text-sm leading-relaxed">
                 {resultText}
+              </div>
+            ) : null}
+            {carotidGrade && basin === "extracranial" ? (
+              <div className="rounded-2xl border border-[var(--clinical-border)] bg-[var(--clinical-muted)]/40 p-4 text-sm">
+                <p className="font-semibold">
+                  {carotidGrade.label} · {carotidGrade.percentRange}
+                </p>
+                <ul className="mt-2 list-disc pl-5 text-[var(--clinical-foreground-muted)]">
+                  {carotidGrade.criteria.map((c) => (
+                    <li key={c}>{c}</li>
+                  ))}
+                </ul>
               </div>
             ) : null}
           </CardContent>
