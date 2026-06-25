@@ -1,0 +1,21 @@
+{
+  "id": "nt",
+  "label": "Nuchal Translucency (NT)",
+  "labelRu": "Толщина воротникового пространства (NT)",
+  "engine": "fmf",
+  "source": "Wright et al. 2008 / FMF-compatible log-linear model (approximation; not proprietary Astraia coefficients)",
+  "unit": "mm",
+  "model": {
+    "type": "log_linear_regression",
+    "predictor": { "parameter": "crl", "unit": "mm", "min": 45, "max": 84 },
+    "mean": {
+      "intercept": 0.359,
+      "slope": 0.102,
+      "xScale": 0.1,
+      "yTransform": "exp"
+    },
+    "sdLog": 0.28
+  },
+  "percentileDisplay": [3, 5, 10, 50, 90, 95, 97],
+  "screeningWindow": { "crlMinMm": 45, "crlMaxMm": 84, "gaLabel": "11+0–13+6" }
+}

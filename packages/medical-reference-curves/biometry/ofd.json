@@ -1,0 +1,154 @@
+{
+  "id": "ofd",
+  "label": "Occipitofrontal Diameter",
+  "labelRu": "OFD (ЛЗР)",
+  "engine": "medvedev",
+  "source": "Медведев М.В. Пренатальная эхография, 2016. Прил. 1 (Медведев и соавт., 1999). PDF скрининг 18–21 — скан; цифры верифицированы по книге.",
+  "unit": "mm",
+  "xAxis": {
+    "type": "gaWeeks",
+    "min": 18,
+    "max": 41.857
+  },
+  "model": {
+    "type": "mean_sd_anchors",
+    "anchors": [
+      {
+        "gaWeeks": 16,
+        "mean": 45,
+        "sd": 2.432
+      },
+      {
+        "gaWeeks": 17,
+        "mean": 50,
+        "sd": 2.432
+      },
+      {
+        "gaWeeks": 18,
+        "mean": 54,
+        "sd": 3.04
+      },
+      {
+        "gaWeeks": 19,
+        "mean": 58,
+        "sd": 3.04
+      },
+      {
+        "gaWeeks": 20,
+        "mean": 62,
+        "sd": 3.647
+      },
+      {
+        "gaWeeks": 21,
+        "mean": 66,
+        "sd": 3.647
+      },
+      {
+        "gaWeeks": 22,
+        "mean": 70,
+        "sd": 3.647
+      },
+      {
+        "gaWeeks": 23,
+        "mean": 74,
+        "sd": 4.255
+      },
+      {
+        "gaWeeks": 24,
+        "mean": 78,
+        "sd": 4.255
+      },
+      {
+        "gaWeeks": 25,
+        "mean": 81,
+        "sd": 4.863
+      },
+      {
+        "gaWeeks": 26,
+        "mean": 85,
+        "sd": 4.863
+      },
+      {
+        "gaWeeks": 27,
+        "mean": 88,
+        "sd": 4.863
+      },
+      {
+        "gaWeeks": 28,
+        "mean": 91,
+        "sd": 4.863
+      },
+      {
+        "gaWeeks": 29,
+        "mean": 94,
+        "sd": 4.863
+      },
+      {
+        "gaWeeks": 30,
+        "mean": 97,
+        "sd": 4.863
+      },
+      {
+        "gaWeeks": 31,
+        "mean": 101,
+        "sd": 4.863
+      },
+      {
+        "gaWeeks": 32,
+        "mean": 104,
+        "sd": 5.471
+      },
+      {
+        "gaWeeks": 33,
+        "mean": 107,
+        "sd": 5.471
+      },
+      {
+        "gaWeeks": 34,
+        "mean": 110,
+        "sd": 5.471
+      },
+      {
+        "gaWeeks": 35,
+        "mean": 112,
+        "sd": 5.471
+      },
+      {
+        "gaWeeks": 36,
+        "mean": 114,
+        "sd": 6.079
+      },
+      {
+        "gaWeeks": 37,
+        "mean": 116,
+        "sd": 6.079
+      },
+      {
+        "gaWeeks": 38,
+        "mean": 118,
+        "sd": 6.079
+      },
+      {
+        "gaWeeks": 39,
+        "mean": 119,
+        "sd": 6.079
+      },
+      {
+        "gaWeeks": 40,
+        "mean": 120,
+        "sd": 6.079
+      }
+    ]
+  },
+  "percentileDisplay": [
+    3,
+    5,
+    10,
+    50,
+    90,
+    95,
+    97
+  ],
+  "supportsGrowthVelocity": true,
+  "supportsGaFromValue": true
+}

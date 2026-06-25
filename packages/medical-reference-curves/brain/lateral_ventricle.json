@@ -1,0 +1,74 @@
+{
+  "id": "lateral_ventricle",
+  "label": "Lateral Ventricles",
+  "labelRu": "Лат. желудочки",
+  "engine": "medvedev",
+  "source": "Медведев М.В. Пренатальная эхография, 2016. Прил. 1 (Медведев и соавт., 1999). PDF скрининг 18–21 — скан; цифры верифицированы по книге. Таблица мозга, стр. 622.",
+  "unit": "mm",
+  "xAxis": {
+    "type": "gaWeeks",
+    "min": 18,
+    "max": 26
+  },
+  "model": {
+    "type": "mean_sd_anchors",
+    "anchors": [
+      {
+        "gaWeeks": 18,
+        "mean": 6.2,
+        "sd": 0.79
+      },
+      {
+        "gaWeeks": 19,
+        "mean": 6.3,
+        "sd": 0.79
+      },
+      {
+        "gaWeeks": 20,
+        "mean": 6.4,
+        "sd": 0.79
+      },
+      {
+        "gaWeeks": 21,
+        "mean": 6.5,
+        "sd": 0.851
+      },
+      {
+        "gaWeeks": 22,
+        "mean": 6.6,
+        "sd": 0.851
+      },
+      {
+        "gaWeeks": 23,
+        "mean": 6.8,
+        "sd": 0.912
+      },
+      {
+        "gaWeeks": 24,
+        "mean": 6.9,
+        "sd": 0.912
+      },
+      {
+        "gaWeeks": 25,
+        "mean": 7,
+        "sd": 0.912
+      },
+      {
+        "gaWeeks": 26,
+        "mean": 7.2,
+        "sd": 0.942
+      }
+    ]
+  },
+  "percentileDisplay": [
+    3,
+    5,
+    10,
+    50,
+    90,
+    95,
+    97
+  ],
+  "supportsGrowthVelocity": true,
+  "supportsGaFromValue": false
+}

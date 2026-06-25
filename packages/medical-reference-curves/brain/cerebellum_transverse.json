@@ -1,0 +1,84 @@
+{
+  "id": "cerebellum_transverse",
+  "label": "Transcerebellar Diameter",
+  "labelRu": "Мозжечок (поперечный)",
+  "engine": "medvedev",
+  "source": "Медведев М.В. Пренатальная эхография, 2016. Прил. 1 (Медведев и соавт., 1999). PDF скрининг 18–21 — скан; цифры верифицированы по книге. Таблица мозга, стр. 622.",
+  "unit": "mm",
+  "xAxis": {
+    "type": "gaWeeks",
+    "min": 18,
+    "max": 26
+  },
+  "model": {
+    "type": "mean_sd_anchors",
+    "anchors": [
+      {
+        "gaWeeks": 16,
+        "mean": 14,
+        "sd": 1.216
+      },
+      {
+        "gaWeeks": 17,
+        "mean": 16,
+        "sd": 1.216
+      },
+      {
+        "gaWeeks": 18,
+        "mean": 17,
+        "sd": 1.216
+      },
+      {
+        "gaWeeks": 19,
+        "mean": 18,
+        "sd": 1.216
+      },
+      {
+        "gaWeeks": 20,
+        "mean": 20,
+        "sd": 1.216
+      },
+      {
+        "gaWeeks": 21,
+        "mean": 21,
+        "sd": 1.216
+      },
+      {
+        "gaWeeks": 22,
+        "mean": 23,
+        "sd": 1.824
+      },
+      {
+        "gaWeeks": 23,
+        "mean": 24,
+        "sd": 1.824
+      },
+      {
+        "gaWeeks": 24,
+        "mean": 26,
+        "sd": 1.824
+      },
+      {
+        "gaWeeks": 25,
+        "mean": 27,
+        "sd": 1.824
+      },
+      {
+        "gaWeeks": 26,
+        "mean": 29,
+        "sd": 1.824
+      }
+    ]
+  },
+  "percentileDisplay": [
+    3,
+    5,
+    10,
+    50,
+    90,
+    95,
+    97
+  ],
+  "supportsGrowthVelocity": true,
+  "supportsGaFromValue": false
+}

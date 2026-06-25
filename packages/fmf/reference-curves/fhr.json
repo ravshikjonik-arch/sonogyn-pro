@@ -1,0 +1,19 @@
+{
+  "id": "fhr",
+  "label": "Fetal Heart Rate",
+  "labelRu": "ЧСС плода",
+  "engine": "fmf",
+  "source": "FMF screening window approximation (11–14 нед)",
+  "unit": "bpm",
+  "xAxis": { "type": "gaDays", "min": 77, "max": 98 },
+  "model": {
+    "type": "mean_sd_anchors",
+    "anchors": [
+      { "gaDays": 77, "mean": 165, "sd": 18 },
+      { "gaDays": 84, "mean": 167, "sd": 17 },
+      { "gaDays": 91, "mean": 160, "sd": 16 },
+      { "gaDays": 98, "mean": 155, "sd": 15 }
+    ]
+  },
+  "percentileDisplay": [3, 5, 10, 50, 90, 95, 97]
+}

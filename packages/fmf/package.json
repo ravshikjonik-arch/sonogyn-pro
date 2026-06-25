@@ -1,0 +1,23 @@
+{
+  "name": "@repo/fmf",
+  "version": "0.1.0",
+  "private": true,
+  "description": "FMF First Trimester Percentile Engine — reference curves + z-score/MoM (Sonogyn Pro)",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./reference-curves/*": "./reference-curves/*"
+  },
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "sideEffects": false,
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test src/**/*.test.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "tsx": "^4.19.4",
+    "typescript": "^5.9.2"
+  }
+}

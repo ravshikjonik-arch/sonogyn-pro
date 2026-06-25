@@ -1,0 +1,26 @@
+{
+  "version": "0.1.0",
+  "trimester": "second_third",
+  "gaRange": {
+    "minWeeks": 18,
+    "maxWeeks": 41,
+    "maxDays": 6
+  },
+  "biometry": [
+    "bpd",
+    "ofd",
+    "hc",
+    "ac",
+    "fl",
+    "hl"
+  ],
+  "brain": [
+    "lateral_ventricle",
+    "cisterna_magna",
+    "cerebellum_transverse"
+  ],
+  "primarySources": [
+    "Медведев М.В. Пренатальная эхография, 2016",
+    "Uzicenter III скрининг 30–34 н. (протокол; OCR pending)"
+  ]
+}

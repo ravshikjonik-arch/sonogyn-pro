@@ -1,0 +1,20 @@
+{
+  "id": "uta",
+  "label": "Uterine Artery PI",
+  "labelRu": "ПИ маточных артерий (UtA)",
+  "engine": "fmf",
+  "source": "Medvedev Прил. 36 / FMF UtA PI reference (1996, approximation)",
+  "unit": "index",
+  "xAxis": { "type": "gaWeeks", "min": 11, "max": 14 },
+  "model": {
+    "type": "mean_sd_anchors",
+    "anchors": [
+      { "gaWeeks": 11, "mean": 1.82, "sd": 0.487 },
+      { "gaWeeks": 12, "mean": 1.75, "sd": 0.462 },
+      { "gaWeeks": 13, "mean": 1.68, "sd": 0.437 },
+      { "gaWeeks": 14, "mean": 1.61, "sd": 0.441 }
+    ]
+  },
+  "aggregate": "mean",
+  "percentileDisplay": [3, 5, 10, 50, 90, 95, 97]
+}

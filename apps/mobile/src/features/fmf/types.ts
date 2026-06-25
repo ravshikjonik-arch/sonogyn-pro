@@ -10,6 +10,8 @@ export type EarlyInput = {
   crlMm?: number;
   fhr?: number;
   yolkSacSeen?: boolean;
+  /** Диаметр желточного мешка (YSD), мм — перцентили малого срока. */
+  ysdMm?: number;
   corpusLuteumPresent?: boolean;
   corpusLuteumSizeMm?: number;
   corpusLuteumSide?: "right" | "left";
@@ -36,6 +38,16 @@ export type FirstTrimesterInput = {
   /** ПИ маточных артерий — Прил. 36. */
   uterinePiRight?: number;
   uterinePiLeft?: number;
+  /** DV a-wave (FMF percentile engine). */
+  dvAWave?: "positive" | "absent" | "reversed";
+  /** TR jet velocity (cm/s). */
+  tricuspidVelocityCmS?: number;
+  /** TR duration / systole (0–1). */
+  tricuspidDurationFraction?: number;
+  /** MAP — систолическое / диастолическое давление матери. */
+  sbpMmHg?: number;
+  dbpMmHg?: number;
+  nasalBoneCategory?: "present" | "absent" | "hypoplastic" | "uncertain";
 };
 
 export type SecondThirdInput = {
@@ -127,4 +139,8 @@ export type AssistantOutput = {
   medvedevBiometry?: MedvedevBiometryAssessment[];
   /** Плацента, ИАЖ, пальцы: Прил. 33–35. */
   medvedevPlacentaAfi?: MedvedevPlacentaAfiAssessment[];
+  /** Малый срок: MSD / YSD / CRL по референсным кривым. */
+  earlyBiometry?: import("@repo/medical-calculations/early-pregnancy").EarlyBiometryAssessment[];
+  /** I скрининг: FMF percentile / z / MoM engine. */
+  fmfScreening?: import("@repo/fmf").FirstTrimesterScreeningOutput;
 };

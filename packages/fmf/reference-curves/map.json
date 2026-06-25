@@ -1,0 +1,20 @@
+{
+  "id": "map",
+  "label": "Mean Arterial Pressure",
+  "labelRu": "Среднее артериальное давление (MAP)",
+  "engine": "fmf",
+  "source": "FMF pre-eclampsia screening approximation (11–14 нед)",
+  "unit": "mmHg",
+  "xAxis": { "type": "gaWeeks", "min": 11, "max": 14 },
+  "model": {
+    "type": "mean_sd_anchors",
+    "anchors": [
+      { "gaWeeks": 11, "mean": 88, "sd": 9.5 },
+      { "gaWeeks": 12, "mean": 87, "sd": 9.5 },
+      { "gaWeeks": 13, "mean": 86, "sd": 9.5 },
+      { "gaWeeks": 14, "mean": 85, "sd": 9.5 }
+    ]
+  },
+  "formula": "MAP = DBP + (SBP - DBP) / 3",
+  "percentileDisplay": [3, 5, 10, 50, 90, 95, 97]
+}

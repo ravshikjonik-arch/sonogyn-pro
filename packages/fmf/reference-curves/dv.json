@@ -1,0 +1,24 @@
+{
+  "id": "dv",
+  "label": "Ductus Venosus PI",
+  "labelRu": "ПИ венозного протока (DV)",
+  "engine": "fmf",
+  "source": "FMF / Medvedev Прил. 40 (11+0–14+0) — mean/sd from published PI bands",
+  "unit": "index",
+  "xAxis": { "type": "gaDays", "min": 77, "max": 98 },
+  "model": {
+    "type": "mean_sd_anchors",
+    "anchors": [
+      { "gaDays": 77, "mean": 1.037, "sd": 0.097 },
+      { "gaDays": 84, "mean": 1.037, "sd": 0.097 },
+      { "gaDays": 91, "mean": 1.022, "sd": 0.095 },
+      { "gaDays": 98, "mean": 0.972, "sd": 0.103 }
+    ]
+  },
+  "aWave": {
+    "positive": { "interpretation": "Положительная a-wave — норма", "riskNote": "normal" },
+    "absent": { "interpretation": "Отсутствующая a-wave — маркер повышенного риска", "riskNote": "high" },
+    "reversed": { "interpretation": "Реверст a-wave — патологический поток", "riskNote": "critical" }
+  },
+  "percentileDisplay": [3, 5, 10, 50, 90, 95, 97]
+}

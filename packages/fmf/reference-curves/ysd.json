@@ -1,0 +1,27 @@
+{
+  "id": "ysd",
+  "label": "Yolk Sac (YSD)",
+  "labelRu": "Желточный мешок (YSD)",
+  "engine": "custom",
+  "source": "Sonogyn Pro custom reference v1 (5–10 нед)",
+  "unit": "mm",
+  "xAxis": { "type": "gaDays", "min": 35, "max": 70 },
+  "model": {
+    "type": "mean_sd_anchors",
+    "anchors": [
+      { "gaDays": 35, "mean": 3.0, "sd": 0.46 },
+      { "gaDays": 42, "mean": 3.5, "sd": 0.46 },
+      { "gaDays": 49, "mean": 4.0, "sd": 0.46 },
+      { "gaDays": 56, "mean": 4.5, "sd": 0.46 },
+      { "gaDays": 63, "mean": 4.5, "sd": 0.46 },
+      { "gaDays": 70, "mean": 4.0, "sd": 0.46 }
+    ]
+  },
+  "clinical": {
+    "criticalLowMm": 2.0,
+    "criticalHighMm": 6.0,
+    "criticalLowNote": "<2 мм — подозрительный признак",
+    "criticalHighNote": "≥6 мм — высокий риск неразвивающейся беременности"
+  },
+  "percentileDisplay": [3, 5, 10, 50, 90, 95, 97]
+}

@@ -8,6 +8,7 @@ import { analyzeCervix, analyzeDoppler, analyzeEarly, analyzeFirst, analyzeScar,
 import { parseVoiceProtocol } from "../logic/voiceNlp";
 import SelectChip from "../../oradsPro/components/SelectChip";
 import { AlertWithTeach, MedvedevPanel } from "../components/MedvedevPanel";
+import { FmfPercentilePanel } from "../components/FmfPercentilePanel";
 import { pregnancyUltrasoundModule } from "../core/pregnancyModule";
 import { FMF_SCREENING_3034_SOURCE_NOTE, fmfScreening3034Examples } from "../data/fmfScreening3034Examples";
 
@@ -89,7 +90,7 @@ export default function FMFAssistantScreen({ navigation }: Props) {
         `- Плодное яйцо: ${presentText(early.gestationalSacPresent)}`,
         `- Средний диаметр плодного яйца (СДП): ${f(early.msdMm, " мм")}`,
         `- Контуры плодного яйца: ${early.sacContourNormal === false ? "неровные" : early.sacContourNormal === true ? "ровные" : "___"}`,
-        `- Желточный мешок: ${presentText(early.yolkSacSeen)}`,
+        `- Желточный мешок: ${presentText(early.yolkSacSeen)}${early.ysdMm != null ? `, YSD ${early.ysdMm} мм` : ""}`,
         `- Эмбрион: ${presentText(early.embryoPresent)}`,
         `- КТР: ${f(early.crlMm, " мм")}`,
         `- ЧСС: ${f(early.fhr, " уд/мин")}`,
@@ -264,6 +265,7 @@ export default function FMFAssistantScreen({ navigation }: Props) {
               <SelectChip label="Желточный мешок: да" selected={early.yolkSacSeen === true} onPress={() => setEarly((p) => ({ ...p, yolkSacSeen: true }))} />
               <SelectChip label="Желточный мешок: нет" selected={early.yolkSacSeen === false} onPress={() => setEarly((p) => ({ ...p, yolkSacSeen: false }))} />
             </View>
+            <TextInput style={styles.input} placeholder="YSD, диаметр ЖМ (мм)" keyboardType="numeric" value={early.ysdMm != null ? String(early.ysdMm) : ""} onChangeText={(v) => setEarly((p) => ({ ...p, ysdMm: num(v) }))} />
             <View style={styles.rowWrap}>
               <SelectChip label="Эмбрион: да" selected={early.embryoPresent === true} onPress={() => setEarly((p) => ({ ...p, embryoPresent: true }))} />
               <SelectChip label="Эмбрион: нет" selected={early.embryoPresent === false} onPress={() => setEarly((p) => ({ ...p, embryoPresent: false }))} />
@@ -305,12 +307,35 @@ export default function FMFAssistantScreen({ navigation }: Props) {
             <TextInput style={styles.input} placeholder="ТВП (мм)" keyboardType="numeric" onChangeText={(v) => setFirst((p) => ({ ...p, ntMm: num(v) }))} />
             <TextInput style={styles.input} placeholder="ЧСС (уд/мин)" keyboardType="numeric" onChangeText={(v) => setFirst((p) => ({ ...p, fhr: num(v) }))} />
             <View style={styles.rowWrap}>
-              <SelectChip label="НК: визуализируется" selected={first.nasalBone === "seen"} onPress={() => setFirst((p) => ({ ...p, nasalBone: "seen" }))} />
-              <SelectChip label="НК: не визуализируется" selected={first.nasalBone === "not_seen"} onPress={() => setFirst((p) => ({ ...p, nasalBone: "not_seen" }))} />
+              <SelectChip label="НК: визуализируется" selected={first.nasalBone === "seen" || first.nasalBoneCategory === "present"} onPress={() => setFirst((p) => ({ ...p, nasalBone: "seen", nasalBoneCategory: "present" }))} />
+              <SelectChip label="НК: не визуализируется" selected={first.nasalBone === "not_seen" || first.nasalBoneCategory === "absent"} onPress={() => setFirst((p) => ({ ...p, nasalBone: "not_seen", nasalBoneCategory: "absent" }))} />
+              <SelectChip label="НК: гипоплазия" selected={first.nasalBoneCategory === "hypoplastic"} onPress={() => setFirst((p) => ({ ...p, nasalBone: "seen", nasalBoneCategory: "hypoplastic" }))} />
             </View>
             <View style={styles.rowWrap}>
               <SelectChip label="DV: норма" selected={first.dvFlow === "normal"} onPress={() => setFirst((p) => ({ ...p, dvFlow: "normal" }))} />
               <SelectChip label="DV: патология" selected={first.dvFlow === "abnormal"} onPress={() => setFirst((p) => ({ ...p, dvFlow: "abnormal" }))} />
+            </View>
+            <View style={styles.rowWrap}>
+              <SelectChip label="a-wave +" selected={first.dvAWave === "positive"} onPress={() => setFirst((p) => ({ ...p, dvAWave: "positive" }))} />
+              <SelectChip label="a-wave −" selected={first.dvAWave === "absent"} onPress={() => setFirst((p) => ({ ...p, dvAWave: "absent" }))} />
+              <SelectChip label="a-wave реверс" selected={first.dvAWave === "reversed"} onPress={() => setFirst((p) => ({ ...p, dvAWave: "reversed" }))} />
+            </View>
+            <View style={styles.row}>
+              <TextInput style={styles.inputFlex} placeholder="DV PI" keyboardType="decimal-pad" onChangeText={(v) => setFirst((p) => ({ ...p, dvPi: num(v) }))} />
+              <TextInput style={styles.inputFlex} placeholder="PI мат. справа" keyboardType="decimal-pad" onChangeText={(v) => setFirst((p) => ({ ...p, uterinePiRight: num(v) }))} />
+              <TextInput style={styles.inputFlex} placeholder="PI мат. слева" keyboardType="decimal-pad" onChangeText={(v) => setFirst((p) => ({ ...p, uterinePiLeft: num(v) }))} />
+            </View>
+            <View style={styles.rowWrap}>
+              <SelectChip label="TR: нет" selected={first.tricuspidRegurg === "none"} onPress={() => setFirst((p) => ({ ...p, tricuspidRegurg: "none" }))} />
+              <SelectChip label="TR: есть" selected={first.tricuspidRegurg === "present"} onPress={() => setFirst((p) => ({ ...p, tricuspidRegurg: "present" }))} />
+            </View>
+            <View style={styles.row}>
+              <TextInput style={styles.inputFlex} placeholder="TR V, см/с" keyboardType="decimal-pad" onChangeText={(v) => setFirst((p) => ({ ...p, tricuspidVelocityCmS: num(v) }))} />
+              <TextInput style={styles.inputFlex} placeholder="TR dur/syst" keyboardType="decimal-pad" onChangeText={(v) => setFirst((p) => ({ ...p, tricuspidDurationFraction: num(v) }))} />
+            </View>
+            <View style={styles.row}>
+              <TextInput style={styles.inputFlex} placeholder="САД, мм рт.ст." keyboardType="numeric" onChangeText={(v) => setFirst((p) => ({ ...p, sbpMmHg: num(v) }))} />
+              <TextInput style={styles.inputFlex} placeholder="ДАД, мм рт.ст." keyboardType="numeric" onChangeText={(v) => setFirst((p) => ({ ...p, dbpMmHg: num(v) }))} />
             </View>
           </Card>
         ) : null}
@@ -508,6 +533,15 @@ export default function FMFAssistantScreen({ navigation }: Props) {
               <SelectChip label="Структура: однородный" selected={scar.structure === "homogeneous"} onPress={() => setScar((p) => ({ ...p, structure: "homogeneous" }))} />
               <SelectChip label="Структура: неоднородный" selected={scar.structure === "heterogeneous"} onPress={() => setScar((p) => ({ ...p, structure: "heterogeneous" }))} />
             </View>
+          </Card>
+        ) : null}
+
+        {section === "first" && out.fmfScreening ? (
+          <Card title="FMF Percentile Engine">
+            <FmfPercentilePanel
+              measurements={out.fmfScreening.measurements}
+              categorical={out.fmfScreening.categorical}
+            />
           </Card>
         ) : null}
 

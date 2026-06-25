@@ -1,0 +1,30 @@
+{
+  "id": "nasal_bone",
+  "label": "Nasal Bone",
+  "labelRu": "Носовая кость",
+  "engine": "fmf",
+  "source": "FMF meta-analysis LR approximation (Cicero et al.; not identical to Astraia)",
+  "type": "categorical",
+  "categories": {
+    "present": {
+      "labelRu": "Визуализируется",
+      "likelihoodRatioT21": 0.27,
+      "interpretation": "Носовая кость present — снижает LR для T21"
+    },
+    "absent": {
+      "labelRu": "Не визуализируется",
+      "likelihoodRatioT21": 17.0,
+      "interpretation": "Absent nasal bone — существенно повышает пост-test риск T21"
+    },
+    "hypoplastic": {
+      "labelRu": "Гипоплазия",
+      "likelihoodRatioT21": 6.5,
+      "interpretation": "Hypoplastic NB — промежуточный/повышенный LR"
+    },
+    "uncertain": {
+      "labelRu": "Не уверен",
+      "likelihoodRatioT21": 1.0,
+      "interpretation": "Повторите midsagittal plane или экспертный контроль"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "id": "msd",
+  "label": "Gestational Sac (MSD)",
+  "labelRu": "Средний диаметр плодного яйца (MSD)",
+  "engine": "custom",
+  "source": "Sonogyn Pro custom reference v1 (p5/p50/p95 anchors, 4+0–11+0)",
+  "unit": "mm",
+  "xAxis": { "type": "gaDays", "min": 28, "max": 77 },
+  "model": {
+    "type": "mean_sd_anchors",
+    "anchors": [
+      { "gaDays": 28, "mean": 3.0, "sd": 0.91 },
+      { "gaDays": 33, "mean": 7.0, "sd": 1.52 },
+      { "gaDays": 35, "mean": 10.0, "sd": 2.13 },
+      { "gaDays": 38, "mean": 16.0, "sd": 2.74 },
+      { "gaDays": 42, "mean": 20.0, "sd": 3.34 },
+      { "gaDays": 45, "mean": 27.0, "sd": 4.26 },
+      { "gaDays": 49, "mean": 30.0, "sd": 4.56 },
+      { "gaDays": 56, "mean": 40.0, "sd": 4.56 },
+      { "gaDays": 63, "mean": 50.0, "sd": 4.56 },
+      { "gaDays": 70, "mean": 60.0, "sd": 4.86 },
+      { "gaDays": 77, "mean": 70.0, "sd": 5.17 }
+    ]
+  },
+  "percentileDisplay": [3, 5, 10, 50, 90, 95, 97],
+  "supportsGrowthVelocity": true
+}

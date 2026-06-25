@@ -1,0 +1,33 @@
+{
+  "id": "crl",
+  "label": "Crown-Rump Length (CRL)",
+  "labelRu": "Копчико-теменной размер (CRL)",
+  "engine": "custom",
+  "source": "Sonogyn Pro custom v1 + INTERGROWTH-21st extension (5+5–13+6)",
+  "unit": "mm",
+  "xAxis": { "type": "gaDays", "min": 38, "max": 97 },
+  "model": {
+    "type": "mean_sd_anchors",
+    "anchors": [
+      { "gaDays": 38, "mean": 2.0, "sd": 0.61 },
+      { "gaDays": 42, "mean": 4.0, "sd": 1.22 },
+      { "gaDays": 45, "mean": 8.0, "sd": 1.82 },
+      { "gaDays": 49, "mean": 10.0, "sd": 1.82 },
+      { "gaDays": 52, "mean": 15.0, "sd": 2.43 },
+      { "gaDays": 56, "mean": 18.0, "sd": 2.43 },
+      { "gaDays": 59, "mean": 24.0, "sd": 2.74 },
+      { "gaDays": 63, "mean": 28.0, "sd": 3.34 },
+      { "gaDays": 66, "mean": 36.0, "sd": 3.65 },
+      { "gaDays": 70, "mean": 42.0, "sd": 4.26 },
+      { "gaDays": 73, "mean": 50.0, "sd": 4.86 },
+      { "gaDays": 77, "mean": 57.0, "sd": 5.47 },
+      { "gaDays": 83, "mean": 64.0, "sd": 5.78 },
+      { "gaDays": 84, "mean": 54.0, "sd": 9.7 },
+      { "gaDays": 91, "mean": 71.0, "sd": 11.5 },
+      { "gaDays": 97, "mean": 84.0, "sd": 12.2 }
+    ]
+  },
+  "percentileDisplay": [3, 5, 10, 50, 90, 95, 97],
+  "supportsGrowthVelocity": true,
+  "supportsGaFromValue": true
+}

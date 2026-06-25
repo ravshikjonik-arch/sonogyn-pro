@@ -1,4 +1,6 @@
 import type { AssistantOutput, EarlyInput, FirstTrimesterInput, SecondThirdInput } from "../types";
+import { assessEarlyPregnancyGrowth } from "@repo/medical-calculations/early-pregnancy";
+import { assessFirstTrimesterScreening } from "@repo/fmf";
 import { daysBetween, formatGa, gaDaysByCrl, hadlockEfwGrams } from "./fmfMath";
 import { calcPercentile } from "./fmfPercentiles";
 import { assessMedvedevDoppler } from "./medvedevDoppler";
@@ -63,6 +65,22 @@ export function analyzeEarly(input: EarlyInput): AssistantOutput {
     alerts.push("⚠️ Желточный мешок не визуализируется при наличии плодного яйца");
     recommendations.push("Контроль УЗИ через 5–7 дней, исключить ошибку срока и неразвивающуюся беременность.");
   }
+  const earlyBiometry =
+    gaFinal != null
+      ? assessEarlyPregnancyGrowth({
+          gaDays: gaFinal,
+          msdMm: input.msdMm,
+          ysdMm: input.ysdMm,
+          crlMm: input.crlMm,
+        })
+      : [];
+  for (const row of earlyBiometry) {
+    if (row.flag === "critical_low" || row.flag === "critical_high") {
+      alerts.push(`⚠️ ${row.label}: ${row.summary.split("→")[0]?.trim() ?? row.summary}`);
+    } else if (row.flag === "low" || row.flag === "high") {
+      hypotheses.push(`${row.label} — отклонение от референса (~${row.percentile ?? "?"}-й перц.).`);
+    }
+  }
   if (input.corpusLuteumPresent === false) {
     hypotheses.push("Отсутствие визуализации желтого тела: проверить оба яичника и повторить скан.");
   }
@@ -124,7 +142,16 @@ export function analyzeEarly(input: EarlyInput): AssistantOutput {
       : "Беременность малого срока, требуется динамическое наблюдение.";
 
   if (recommendations.length === 0) recommendations.push("Контроль по клинической ситуации, при сомнениях повтор УЗИ через 5-7 дней.");
-  return { nextPrompt, alerts, hypotheses, conclusion, recommendations, visualHints, missingQuestions };
+  return {
+    nextPrompt,
+    alerts,
+    hypotheses,
+    conclusion,
+    recommendations,
+    visualHints,
+    missingQuestions,
+    earlyBiometry,
+  };
 }
 
 export function analyzeFirst(input: FirstTrimesterInput): AssistantOutput {
@@ -144,6 +171,42 @@ export function analyzeFirst(input: FirstTrimesterInput): AssistantOutput {
 
   const medvedevMarkers = assessFirstTrimesterMedvedev(input);
   const gaDaysTotal = input.crlMm ? gaDaysByCrl(input.crlMm) : null;
+  const gaWeeks = gaDaysTotal != null ? Math.floor(gaDaysTotal / 7) : undefined;
+
+  const fmfScreening = assessFirstTrimesterScreening({
+    gaDays: gaDaysTotal ?? undefined,
+    gaWeeks,
+    crlMm: input.crlMm,
+    ntMm: input.ntMm,
+    fhrBpm: input.fhr,
+    dvPi: input.dvPi,
+    dvAWave: input.dvAWave,
+    uterinePiLeft: input.uterinePiLeft,
+    uterinePiRight: input.uterinePiRight,
+    sbpMmHg: input.sbpMmHg,
+    dbpMmHg: input.dbpMmHg,
+    nasalBone: input.nasalBoneCategory ?? input.nasalBone,
+    tricuspidRegurg: input.tricuspidRegurg,
+    tricuspidVelocityCmS: input.tricuspidVelocityCmS,
+    tricuspidDurationFraction: input.tricuspidDurationFraction,
+  });
+
+  for (const m of fmfScreening.measurements) {
+    if (m.flag === "critical_high" || m.flag === "critical_low") {
+      alerts.push(`⚠️ ${m.labelRu}: ${m.interpretation.split(".")[0]}`);
+    } else if (m.flag === "high" && m.parameterId === "nt") {
+      alerts.push(`⚠️ ТВП выше 95-го перцентиля (~${m.percentile}-й, FMF engine)`);
+    }
+  }
+  for (const c of fmfScreening.categorical) {
+    if (c.parameterId === "nasal_bone" && c.category.includes("Не")) {
+      alerts.push(`⚠️ ${c.interpretation.split(".")[0]}`);
+    }
+    if (c.parameterId === "dv_a_wave" && c.category !== "positive") {
+      alerts.push(`⚠️ ${c.interpretation}`);
+    }
+  }
+
   const medvedevDoppler = assessMedvedevDoppler({
     gaDaysTotal,
     dvPi: input.dvPi,
@@ -186,10 +249,15 @@ export function analyzeFirst(input: FirstTrimesterInput): AssistantOutput {
   if (alerts.length >= 2) hypotheses.push("Повышенный комбинированный риск хромосомной патологии, требуется расчет риска.");
   const nextPrompt = !input.crlMm ? "Введите КТР." : typeof input.ntMm !== "number" ? "Введите ТВП (строго FMF)." : "Оцените носовую кость и допплер (DV/TR).";
 
-  const percentileNotes = [...medvedevMarkers, ...medvedevDoppler]
-    .filter((m) => m.percentile !== undefined)
-    .map((m) => `${m.label}: ~${m.percentile}-й перц.`)
-    .join("; ");
+  const percentileNotes = [
+    ...fmfScreening.measurements
+      .filter((m) => Number.isFinite(m.percentile))
+      .map((m) => `${m.labelRu}: ~${m.percentile}-й перц., MoM ${m.mom}`),
+    ...medvedevMarkers
+      .filter((m) => m.percentile !== undefined)
+      .map((m) => `${m.label}: ~${m.percentile}-й перц.`),
+    ...medvedevDoppler.filter((m) => m.percentile !== undefined).map((m) => `${m.label}: ~${m.percentile}-й перц.`),
+  ].join("; ");
 
   const conclusion =
     alerts.length === 0
@@ -209,6 +277,7 @@ export function analyzeFirst(input: FirstTrimesterInput): AssistantOutput {
     missingQuestions,
     medvedevMarkers,
     medvedevDoppler,
+    fmfScreening,
   };
 }
 

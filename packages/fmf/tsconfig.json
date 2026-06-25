@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "dist",
+    "resolveJsonModule": true,
+    "moduleResolution": "bundler"
+  },
+  "include": ["src/**/*", "reference-curves/**/*.json"]
+}

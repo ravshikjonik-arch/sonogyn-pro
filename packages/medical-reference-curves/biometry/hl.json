@@ -1,0 +1,154 @@
+{
+  "id": "hl",
+  "label": "Humerus Length",
+  "labelRu": "HL (ДП)",
+  "engine": "medvedev",
+  "source": "Медведев М.В. Пренатальная эхография, 2016. Прил. 1 (Медведев и соавт., 1999). PDF скрининг 18–21 — скан; цифры верифицированы по книге.",
+  "unit": "mm",
+  "xAxis": {
+    "type": "gaWeeks",
+    "min": 18,
+    "max": 41.857
+  },
+  "model": {
+    "type": "mean_sd_anchors",
+    "anchors": [
+      {
+        "gaWeeks": 16,
+        "mean": 18,
+        "sd": 1.824
+      },
+      {
+        "gaWeeks": 17,
+        "mean": 21,
+        "sd": 2.432
+      },
+      {
+        "gaWeeks": 18,
+        "mean": 24,
+        "sd": 2.432
+      },
+      {
+        "gaWeeks": 19,
+        "mean": 27,
+        "sd": 2.432
+      },
+      {
+        "gaWeeks": 20,
+        "mean": 30,
+        "sd": 2.432
+      },
+      {
+        "gaWeeks": 21,
+        "mean": 33,
+        "sd": 2.432
+      },
+      {
+        "gaWeeks": 22,
+        "mean": 35,
+        "sd": 2.432
+      },
+      {
+        "gaWeeks": 23,
+        "mean": 38,
+        "sd": 2.432
+      },
+      {
+        "gaWeeks": 24,
+        "mean": 40,
+        "sd": 2.432
+      },
+      {
+        "gaWeeks": 25,
+        "mean": 43,
+        "sd": 2.432
+      },
+      {
+        "gaWeeks": 26,
+        "mean": 45,
+        "sd": 2.432
+      },
+      {
+        "gaWeeks": 27,
+        "mean": 47,
+        "sd": 2.432
+      },
+      {
+        "gaWeeks": 28,
+        "mean": 49,
+        "sd": 2.432
+      },
+      {
+        "gaWeeks": 29,
+        "mean": 51,
+        "sd": 2.432
+      },
+      {
+        "gaWeeks": 30,
+        "mean": 53,
+        "sd": 2.432
+      },
+      {
+        "gaWeeks": 31,
+        "mean": 55,
+        "sd": 2.432
+      },
+      {
+        "gaWeeks": 32,
+        "mean": 56,
+        "sd": 2.432
+      },
+      {
+        "gaWeeks": 33,
+        "mean": 58,
+        "sd": 2.432
+      },
+      {
+        "gaWeeks": 34,
+        "mean": 59,
+        "sd": 2.432
+      },
+      {
+        "gaWeeks": 35,
+        "mean": 61,
+        "sd": 2.432
+      },
+      {
+        "gaWeeks": 36,
+        "mean": 62,
+        "sd": 2.432
+      },
+      {
+        "gaWeeks": 37,
+        "mean": 63,
+        "sd": 2.432
+      },
+      {
+        "gaWeeks": 38,
+        "mean": 64,
+        "sd": 2.432
+      },
+      {
+        "gaWeeks": 39,
+        "mean": 65,
+        "sd": 3.04
+      },
+      {
+        "gaWeeks": 40,
+        "mean": 66,
+        "sd": 3.04
+      }
+    ]
+  },
+  "percentileDisplay": [
+    3,
+    5,
+    10,
+    50,
+    90,
+    95,
+    97
+  ],
+  "supportsGrowthVelocity": true,
+  "supportsGaFromValue": true
+}

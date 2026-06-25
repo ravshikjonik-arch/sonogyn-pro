@@ -1,0 +1,37 @@
+{
+  "id": "tricuspid_regurgitation",
+  "label": "Tricuspid Regurgitation",
+  "labelRu": "Трикуспидальная регургитация (TR)",
+  "engine": "fmf",
+  "source": "FMF TR jet criteria approximation (velocity + duration)",
+  "type": "composite",
+  "unit": {
+    "velocity": "cm/s",
+    "durationFraction": "ratio"
+  },
+  "rules": [
+    {
+      "class": "normal",
+      "labelRu": "Норма",
+      "when": { "maxVelocityCmS": 80, "maxDurationFraction": 0.35 },
+      "interpretation": "TR отсутствует или незначительная"
+    },
+    {
+      "class": "borderline",
+      "labelRu": "Погранично",
+      "when": { "maxVelocityCmS": 100, "maxDurationFraction": 0.5 },
+      "interpretation": "Умеренная TR — пересмотр среза, возможен повтор"
+    },
+    {
+      "class": "abnormal",
+      "labelRu": "Патология",
+      "when": { "minVelocityCmS": 100, "minDurationFraction": 0.5 },
+      "interpretation": "TR jet ≥50% систолы и/или высокая скорость — маркер I скрининга"
+    }
+  ],
+  "fallbackQualitative": {
+    "none": { "class": "normal", "interpretation": "TR не выявлена" },
+    "present": { "class": "abnormal", "interpretation": "TR present — маркер повышенного риска" },
+    "unknown": { "class": "borderline", "interpretation": "TR не оценена — уточните" }
+  }
+}

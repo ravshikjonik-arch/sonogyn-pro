@@ -1,0 +1,25 @@
+{
+  "name": "@repo/obstetric-engine",
+  "version": "0.1.0",
+  "private": true,
+  "description": "II/III trimester Astraia-style percentile engine — Sonogyn Pro",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "sideEffects": false,
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test src/**/*.test.ts"
+  },
+  "dependencies": {
+    "@repo/fmf": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "tsx": "^4.19.4",
+    "typescript": "^5.9.2"
+  }
+}

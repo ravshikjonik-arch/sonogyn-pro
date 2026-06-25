@@ -7,10 +7,13 @@ import { useEffect, useMemo, useState, type Dispatch, type ReactNode, type SetSt
 import { toast } from "sonner";
 
 import { BasicCourseLinkPanel } from "@/components/education/BasicCourseLinkPanel";
+import { ClinicalAssistStrip } from "@/components/clinical-assistant/ClinicalAssistStrip";
 import { FetalDopplerEducationalLinkPanel } from "@/components/education/FetalDopplerEducationalLinkPanel";
 import { FetalAnatomyEducationalLinkPanel } from "@/components/education/FetalAnatomyEducationalLinkPanel";
 import { CalculatorLiteraturePanel } from "@/components/pubmed/CalculatorLiteraturePanel";
-import { ClinicalAssistStrip } from "@/components/clinical-assistant/ClinicalAssistStrip";
+import { EarlyGrowthReferencePanel } from "@/components/clinical-assistant/EarlyGrowthReferencePanel";
+import { FirstTrimesterPercentilePanel } from "@/components/clinical-assistant/FirstTrimesterPercentilePanel";
+import { SecondThirdPercentilePanel } from "@/components/clinical-assistant/SecondThirdPercentilePanel";
 import {
   MedvedevMarkerTeachInline,
   MedvedevScreeningWindowsTeach,
@@ -24,6 +27,9 @@ import { LmpDateField } from "@/components/clinical/LmpDateField";
 import { Input } from "@/components/ui/input";
 import { parseIsoDate } from "@/lib/utils/ru-date";
 import { gaDaysFromLmp, splitGaDays } from "@repo/medical-calculations";
+import { assessEarlyPregnancyGrowth } from "@repo/medical-calculations/early-pregnancy";
+import { assessFirstTrimesterScreening } from "@repo/fmf";
+import { assessSecondThirdScreening } from "@repo/obstetric-engine";
 import {
   buildCervixProtocol,
   buildDopplerProtocol,
@@ -41,6 +47,10 @@ import { FmfProtocolTemplatePicker } from "@/components/clinical-assistant/FmfPr
 import { useSecondThirdProtocolTemplate } from "@/lib/clinical-assistant/fmf-protocol-template-prefs";
 import { nosologyAssistContextForFmf } from "@/lib/clinical-assistant/nosology-assist-context";
 import { cn } from "@/lib/utils/cn";
+import {
+  assistantOutputComplete,
+  useFmfModuleProgress,
+} from "@/lib/achievements/use-calculator-achievements";
 import {
   analyzeCervix,
   analyzeDoppler,
@@ -97,11 +107,11 @@ const SECTION_META: Record<
 > = {
   early: {
     formTitle: "Малый срок — входные данные",
-    formDescription: "ДПМ, плодное яйцо, эмбрион, желтое тело. Срок — по КТР, иначе по ДПМ.",
+    formDescription: "ДПМ, СДП, ЖМ (YSD), КТР — перцентили P3–P97 по референсным кривым малого срока.",
   },
   first: {
     formTitle: "I скрининг — входные данные",
-    formDescription: "КТР, ТВП, носовая кость, IV желудочек — перцентили по Медведеву (Прил. 11, КТР 45–84 мм).",
+    formDescription: "КТР, NT, DV, UtA, MAP — FMF Percentile Engine (z-score, MoM, P3–P97) + Медведев Прил. 11.",
   },
   second: {
     formTitle: "II скрининг — входные данные",
@@ -160,9 +170,36 @@ export function FmfAssistantClient({ initialSection = "early" }: Props) {
   const firstOut = useMemo(() => analyzeFirst(first), [first]);
   const secondOut = useMemo(() => analyzeSecondThird(secondThird, "second", calcMode), [secondThird, calcMode]);
   const thirdOut = useMemo(() => analyzeSecondThird(secondThird, "third", calcMode), [secondThird, calcMode]);
+  const obstetricScreening = useMemo(() => {
+    if (secondThird.gaWeeksByLmp == null) return null;
+    return assessSecondThirdScreening({
+      gaWeeks: secondThird.gaWeeksByLmp,
+      gaDays: secondThird.gaDaysByLmp ?? 0,
+      bpdMm: secondThird.bpd,
+      ofdMm: secondThird.ofd,
+      hcMm: secondThird.hc,
+      acMm: secondThird.ac,
+      flMm: secondThird.fl,
+      hlMm: secondThird.hlMm,
+      footLengthMm: secondThird.footLengthMm,
+      lateralVentriclesMm: secondThird.lateralVentriclesMm,
+      cisternaMagnaMm: secondThird.cisternaMagnaMm,
+      cerebellumMm: secondThird.cerebellumMm,
+    });
+  }, [secondThird]);
   const dopplerOut = useMemo(() => analyzeDoppler(doppler), [doppler]);
   const cervixOut = useMemo(() => analyzeCervix(cervix), [cervix]);
   const scarOut = useMemo(() => analyzeScar(scar), [scar]);
+
+  useFmfModuleProgress({
+    early: assistantOutputComplete(earlyOut.conclusion, Boolean(early.lmpDate || early.crlMm)),
+    first: assistantOutputComplete(firstOut.conclusion, Boolean(first.crlMm)),
+    second: assistantOutputComplete(secondOut.conclusion, Boolean(secondThird.gaWeeksByLmp != null)),
+    third: assistantOutputComplete(thirdOut.conclusion, Boolean(secondThird.gaWeeksByLmp != null)),
+    doppler: assistantOutputComplete(dopplerOut.conclusion, Boolean(doppler.gaWeeks != null)),
+    cervix: assistantOutputComplete(cervixOut.conclusion, Boolean(cervix.lengthMm)),
+    scar: assistantOutputComplete(scarOut.conclusion, Boolean(scar.thicknessMm)),
+  });
 
   useEffect(() => {
     if (!early.lmpDate) return;
@@ -442,6 +479,15 @@ export function FmfAssistantClient({ initialSection = "early" }: Props) {
           teachMode={teachMode}
           extra={
             <>
+              {section === "early" && earlyOut.earlyBiometry?.length ? (
+                <EarlyGrowthReferencePanel assessments={earlyOut.earlyBiometry} />
+              ) : null}
+              {section === "first" && firstOut.fmfScreening ? (
+                <FirstTrimesterPercentilePanel
+                  measurements={firstOut.fmfScreening.measurements}
+                  categorical={firstOut.fmfScreening.categorical}
+                />
+              ) : null}
               {section === "first" && firstOut.medvedevMarkers?.length ? (
                 <MedvedevReferencePanel
                   title="Перцентили · Прил. 11"
@@ -463,6 +509,14 @@ export function FmfAssistantClient({ initialSection = "early" }: Props) {
                   title="Допплер · Медведев"
                   doppler={dopplerOut.medvedevDoppler}
                   teachMode={teachMode}
+                />
+              ) : null}
+              {(section === "second" || section === "third") && obstetricScreening ? (
+                <SecondThirdPercentilePanel
+                  measurements={obstetricScreening.measurements}
+                  efw={obstetricScreening.efw}
+                  skeletonIndices={obstetricScreening.skeletonIndices}
+                  findings={obstetricScreening.findings}
                 />
               ) : null}
               {(section === "second" || section === "third") && out.medvedevBiometry?.length ? (
@@ -523,6 +577,28 @@ function EarlyForm({
   gaText: string;
   onGoToFirst: () => void;
 }) {
+  const gaDays = useMemo(() => {
+    if (early.crlMm) return gaDaysByCrl(early.crlMm);
+    if (early.lmpDate) {
+      const lmp = parseIsoDate(early.lmpDate);
+      return lmp ? gaDaysFromLmp(lmp, new Date()) : null;
+    }
+    return null;
+  }, [early.crlMm, early.lmpDate]);
+
+  const liveEarlyBiometry = useMemo(
+    () =>
+      gaDays != null
+        ? assessEarlyPregnancyGrowth({
+            gaDays,
+            msdMm: early.msdMm,
+            ysdMm: early.ysdMm,
+            crlMm: early.crlMm,
+          })
+        : [],
+    [gaDays, early.msdMm, early.ysdMm, early.crlMm],
+  );
+
   return (
     <>
       <div className="flex flex-wrap items-center gap-2">
@@ -571,6 +647,17 @@ function EarlyForm({
         <Chip label="Да" selected={early.yolkSacSeen === true} onClick={() => setEarly((p) => ({ ...p, yolkSacSeen: true }))} />
         <Chip label="Нет" selected={early.yolkSacSeen === false} onClick={() => setEarly((p) => ({ ...p, yolkSacSeen: false }))} />
       </FieldGroup>
+
+      <FieldBlock label="YSD (диаметр ЖМ), мм">
+        <Input
+          inputMode="decimal"
+          placeholder="2–6 мм · &lt;2 подозрительно · ≥6 риск НБ"
+          value={early.ysdMm != null ? String(early.ysdMm) : ""}
+          onChange={(e) => setEarly((p) => ({ ...p, ysdMm: parseNum(e.target.value) }))}
+        />
+      </FieldBlock>
+
+      {liveEarlyBiometry.length ? <EarlyGrowthReferencePanel assessments={liveEarlyBiometry} compact /> : null}
 
       <FieldGroup label="Эмбрион">
         <Chip label="Да" selected={early.embryoPresent === true} onClick={() => setEarly((p) => ({ ...p, embryoPresent: true }))} />
@@ -666,6 +753,27 @@ function FirstForm({
       }),
     [first],
   );
+  const liveFmfScreening = useMemo(() => {
+    const gaDaysTotal = first.crlMm ? gaDaysByCrl(first.crlMm) : null;
+    const gaWeeks = gaDaysTotal != null ? Math.floor(gaDaysTotal / 7) : undefined;
+    return assessFirstTrimesterScreening({
+      gaDays: gaDaysTotal ?? undefined,
+      gaWeeks,
+      crlMm: first.crlMm,
+      ntMm: first.ntMm,
+      fhrBpm: first.fhr,
+      dvPi: first.dvPi,
+      dvAWave: first.dvAWave,
+      uterinePiLeft: first.uterinePiLeft,
+      uterinePiRight: first.uterinePiRight,
+      sbpMmHg: first.sbpMmHg,
+      dbpMmHg: first.dbpMmHg,
+      nasalBone: first.nasalBoneCategory ?? first.nasalBone,
+      tricuspidRegurg: first.tricuspidRegurg,
+      tricuspidVelocityCmS: first.tricuspidVelocityCmS,
+      tricuspidDurationFraction: first.tricuspidDurationFraction,
+    });
+  }, [first]);
 
   return (
     <>
@@ -678,6 +786,14 @@ function FirstForm({
           </Badge>
         ) : null}
       </div>
+
+      {liveFmfScreening.measurements.length > 0 || liveFmfScreening.categorical.length > 0 ? (
+        <FirstTrimesterPercentilePanel
+          measurements={liveFmfScreening.measurements}
+          categorical={liveFmfScreening.categorical}
+          compact
+        />
+      ) : null}
 
       {first.crlMm ? (
         <>
@@ -713,9 +829,22 @@ function FirstForm({
       </div>
 
       <FieldGroup label="Носовая кость">
-        <Chip label="Визуализируется" selected={first.nasalBone === "seen"} onClick={() => setFirst((p) => ({ ...p, nasalBone: "seen" }))} />
-        <Chip label="Не визуализируется" selected={first.nasalBone === "not_seen"} onClick={() => setFirst((p) => ({ ...p, nasalBone: "not_seen" }))} />
-        <Chip label="Оценка затруднена" selected={first.nasalBone === "uncertain"} onClick={() => setFirst((p) => ({ ...p, nasalBone: "uncertain" }))} />
+        <Chip
+          label="Визуализируется"
+          selected={first.nasalBone === "seen" || first.nasalBoneCategory === "present"}
+          onClick={() => setFirst((p) => ({ ...p, nasalBone: "seen", nasalBoneCategory: "present" }))}
+        />
+        <Chip
+          label="Не визуализируется"
+          selected={first.nasalBone === "not_seen" || first.nasalBoneCategory === "absent"}
+          onClick={() => setFirst((p) => ({ ...p, nasalBone: "not_seen", nasalBoneCategory: "absent" }))}
+        />
+        <Chip
+          label="Гипоплазия"
+          selected={first.nasalBoneCategory === "hypoplastic"}
+          onClick={() => setFirst((p) => ({ ...p, nasalBone: "seen", nasalBoneCategory: "hypoplastic" }))}
+        />
+        <Chip label="Оценка затруднена" selected={first.nasalBone === "uncertain"} onClick={() => setFirst((p) => ({ ...p, nasalBone: "uncertain", nasalBoneCategory: "uncertain" }))} />
       </FieldGroup>
 
       <div className="grid gap-3 sm:grid-cols-2">
@@ -741,6 +870,12 @@ function FirstForm({
         <Chip label="Норма" selected={first.dvFlow === "normal"} onClick={() => setFirst((p) => ({ ...p, dvFlow: "normal" }))} />
         <Chip label="Патология" selected={first.dvFlow === "abnormal"} onClick={() => setFirst((p) => ({ ...p, dvFlow: "abnormal" }))} />
         <Chip label="Не оценён" selected={first.dvFlow === "unknown"} onClick={() => setFirst((p) => ({ ...p, dvFlow: "unknown" }))} />
+      </FieldGroup>
+
+      <FieldGroup label="DV a-wave">
+        <Chip label="Положительная" selected={first.dvAWave === "positive"} onClick={() => setFirst((p) => ({ ...p, dvAWave: "positive" }))} />
+        <Chip label="Отсутствует" selected={first.dvAWave === "absent"} onClick={() => setFirst((p) => ({ ...p, dvAWave: "absent" }))} />
+        <Chip label="Ретроградная" selected={first.dvAWave === "reversed"} onClick={() => setFirst((p) => ({ ...p, dvAWave: "reversed" }))} />
       </FieldGroup>
 
       <div className="grid gap-3 sm:grid-cols-3">
@@ -773,6 +908,42 @@ function FirstForm({
         <Chip label="Есть" selected={first.tricuspidRegurg === "present"} onClick={() => setFirst((p) => ({ ...p, tricuspidRegurg: "present" }))} />
         <Chip label="Не оценена" selected={first.tricuspidRegurg === "unknown"} onClick={() => setFirst((p) => ({ ...p, tricuspidRegurg: "unknown" }))} />
       </FieldGroup>
+
+      <div className="grid gap-3 sm:grid-cols-2">
+        <FieldBlock label="TR velocity, см/с (опц.)">
+          <Input
+            inputMode="decimal"
+            placeholder="V max"
+            value={first.tricuspidVelocityCmS != null ? String(first.tricuspidVelocityCmS) : ""}
+            onChange={(e) => setFirst((p) => ({ ...p, tricuspidVelocityCmS: parseNum(e.target.value) }))}
+          />
+        </FieldBlock>
+        <FieldBlock label="TR duration / systole, 0–1 (опц.)">
+          <Input
+            inputMode="decimal"
+            placeholder="0.35"
+            value={first.tricuspidDurationFraction != null ? String(first.tricuspidDurationFraction) : ""}
+            onChange={(e) => setFirst((p) => ({ ...p, tricuspidDurationFraction: parseNum(e.target.value) }))}
+          />
+        </FieldBlock>
+      </div>
+
+      <div className="grid gap-3 sm:grid-cols-2">
+        <FieldBlock label="САД матери, мм рт.ст. (MAP)">
+          <Input
+            inputMode="numeric"
+            value={first.sbpMmHg != null ? String(first.sbpMmHg) : ""}
+            onChange={(e) => setFirst((p) => ({ ...p, sbpMmHg: parseNum(e.target.value) }))}
+          />
+        </FieldBlock>
+        <FieldBlock label="ДАД матери, мм рт.ст. (MAP)">
+          <Input
+            inputMode="numeric"
+            value={first.dbpMmHg != null ? String(first.dbpMmHg) : ""}
+            onChange={(e) => setFirst((p) => ({ ...p, dbpMmHg: parseNum(e.target.value) }))}
+          />
+        </FieldBlock>
+      </div>
 
       <div className="grid gap-3 sm:grid-cols-2">
         <FieldBlock label="PAPP-A, МЕ/л">
@@ -820,6 +991,24 @@ function SecondThirdForm({
     return assessSecondThirdMedvedev({ ...secondThird, efwGrams: efw ?? undefined });
   }, [secondThird]);
 
+  const liveObstetric = useMemo(() => {
+    if (secondThird.gaWeeksByLmp == null) return null;
+    return assessSecondThirdScreening({
+      gaWeeks: secondThird.gaWeeksByLmp,
+      gaDays: secondThird.gaDaysByLmp ?? 0,
+      bpdMm: secondThird.bpd,
+      ofdMm: secondThird.ofd,
+      hcMm: secondThird.hc,
+      acMm: secondThird.ac,
+      flMm: secondThird.fl,
+      hlMm: secondThird.hlMm,
+      footLengthMm: secondThird.footLengthMm,
+      lateralVentriclesMm: secondThird.lateralVentriclesMm,
+      cisternaMagnaMm: secondThird.cisternaMagnaMm,
+      cerebellumMm: secondThird.cerebellumMm,
+    });
+  }, [secondThird]);
+
   const gaLabel =
     secondThird.gaWeeksByLmp !== undefined
       ? `${secondThird.gaWeeksByLmp} нед ${secondThird.gaDaysByLmp ?? 0} д`
@@ -828,6 +1017,16 @@ function SecondThirdForm({
   return (
     <>
       {gaLabel ? <Badge variant="outline">Срок: {gaLabel}</Badge> : null}
+
+      {liveObstetric && (liveObstetric.measurements.length > 0 || liveObstetric.efw) ? (
+        <SecondThirdPercentilePanel
+          measurements={liveObstetric.measurements}
+          efw={liveObstetric.efw}
+          skeletonIndices={liveObstetric.skeletonIndices}
+          findings={liveObstetric.findings}
+          compact
+        />
+      ) : null}
 
       <p className="text-xs font-bold uppercase tracking-wide text-[var(--clinical-foreground-muted)]">
         Шапка протокола (шаблон Якубова)
