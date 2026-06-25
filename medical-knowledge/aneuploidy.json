@@ -1,0 +1,520 @@
+{
+  "module": "aneuploidy",
+  "moduleRu": "Анеуплоидии",
+  "source": {
+    "title": "Diagnostic Imaging: Obstetrics",
+    "edition": "4th",
+    "authors": [
+      "Paula J. Woodward",
+      "Anne Kennedy",
+      "Roya Sohaey",
+      "Janice L. B. Byrne",
+      "Michael D. Puchalski",
+      "Brian L. Shaffer",
+      "Emily Edwards",
+      "Priyanka Jha",
+      "Whitnee Hogan"
+    ]
+  },
+  "version": "1.0.0",
+  "extractedAt": "2026-06-25",
+  "entries": [
+    {
+      "id": "trisomy-21",
+      "name": "Трисомия 21",
+      "nameEn": "Trisomy 21",
+      "category": "Анеуплоидии",
+      "bookSection": "SECTION 12",
+      "bookPage": 908,
+      "definition": "Trisomy 21",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "1st-trimester findings (11- to 14-week scan)",
+        "↑ NT: ↑ fluid behind neck on midsagittal view",
+        "Absent носовая кость",
+        "Abnormal венозный проток (DV) and tricuspid flow",
+        "Other anomalies may be seen",
+        "2nd-trimester markers (15-22 weeks)",
+        "↑ nuchal fold thickness (≥ 6 mm)",
+        "Absent or small носовая кость",
+        "укорочение бедренной кости length/укорочение плечевой кости length",
+        "эхогенный bowel",
+        "Intracardiac эхогенный focus",
+        "Renal pelvis dilatation",
+        "Mild lateral вентрикуломегалия",
+        "Hallmark anomalies associated with T21",
+        "Atrioventricular septal defect",
+        "Esophageal atresia",
+        "Duodenal atresia"
+      ],
+      "doppler_findings": [
+        "1st-trimester findings (11- to 14-week scan)",
+        "Abnormal венозный проток (DV) and tricuspid flow",
+        "2nd-trimester markers (15-22 weeks)",
+        "Mild lateral вентрикуломегалия",
+        "Atrioventricular septal defect"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Turner syndrome",
+        "Trisomies 18 and 13"
+      ],
+      "red_flags": [
+        "Screening offered to all pregnant women",
+        "ПДН плода (NIPT/cfDNA) is best screening test",
+        "Detects 99.2% T21 in high-risk population",
+        "Offer when markers seen in low-risk patient",
+        "– Can be performed from 10 weeks throughout",
+        "pregnancy",
+        "NT + other ultrasound markers + maternal serum markers",
+        "detects 95% (3-5% false-positive rate)",
+        "биопсия хориона (CVS) and амниocentesis remain only",
+        "true diagnostic tests"
+      ],
+      "follow_up": [
+        "1:2,000 risk at 20 years vs. 1:100 risk at 40 years",
+        "However, only 35% of T21 born to women ≥ 35 years"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.908: Trisomy 21"
+      ],
+      "sourceBlocks": {
+        "IMAGING": [
+          "• 1st-trimester findings (11- to 14-week scan)",
+          "○ ↑ NT: ↑ fluid behind neck on midsagittal view",
+          "○ Absent nasal bone",
+          "○ Abnormal ductus venosus and tricuspid flow",
+          "○ Other anomalies may be seen",
+          "• 2nd-trimester markers (15-22 weeks)",
+          "○ ↑ nuchal fold thickness (≥ 6 mm)",
+          "○ Absent or small nasal bone",
+          "○ Short femur length/short humerus length",
+          "○ Echogenic bowel",
+          "○ Intracardiac echogenic focus",
+          "○ Renal pelvis dilatation",
+          "○ Mild lateral ventriculomegaly",
+          "• Hallmark anomalies associated with T21",
+          "○ Atrioventricular septal defect",
+          "○ Esophageal atresia",
+          "○ Duodenal atresia"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Turner syndrome",
+          "• Trisomies 18 and 13"
+        ],
+        "CLINICAL ISSUES": [
+          "• 1:2,000 risk at 20 years vs. 1:100 risk at 40 years",
+          "• However, only 35% of T21 born to women ≥ 35 years"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Screening offered to all pregnant women",
+          "• Cell-free fetal DNA is best screening test",
+          "○ Detects 99.2% T21 in high-risk population",
+          "○ Offer when markers seen in low-risk patient",
+          "– Can be performed from 10 weeks throughout",
+          "pregnancy",
+          "• NT + other ultrasound markers + maternal serum markers",
+          "detects 95% (3-5% false-positive rate)",
+          "• Chorionic villus sampling and amniocentesis remain only",
+          "true diagnostic tests"
+        ]
+      }
+    },
+    {
+      "id": "trisomy-18",
+      "name": "Трисомия 18",
+      "nameEn": "Trisomy 18",
+      "category": "Анеуплоидии",
+      "bookSection": "SECTION 12",
+      "bookPage": 914,
+      "definition": "• Autosomal trisomy of chromosome 18",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Multiple anomalies is hallmark finding",
+        "Findings at time of толщина воротникового пространства (ТВП) (NT)",
+        "↑ NT, absent носовая кость",
+        "Many anomalies are detectable at time of NT",
+        "2nd-trimester anomalies in almost all fetuses",
+        "Cardiac defects (90%)",
+        "Musculoskeletal anomalies (75%)",
+        "– Clenched hand + overlapping index finger (50%)",
+        "Omphalocele, врождённая диафрагмальная грыжа (CDH), spina",
+        "bifida, brain and facial anomalies, others",
+        "Markers are rarely isolated",
+        "– Choroid plexus cysts (CPCs), single umbilical artery",
+        "(SUA), strawberry-shaped calvarium, ↑ nuchal fold",
+        "3rd-trimester findings",
+        "задержка роста плода (ЗРП/FGR), многоводие"
+      ],
+      "doppler_findings": [
+        "2nd-trimester anomalies in almost all fetuses",
+        "– Clenched hand + overlapping index finger (50%)",
+        "Omphalocele, врождённая диафрагмальная грыжа (CDH), spina",
+        "(SUA), strawberry-shaped calvarium, ↑ nuchal fold",
+        "3rd-trimester findings",
+        "задержка роста плода (ЗРП/FGR), многоводие"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Pena-Shokeir syndrome (pseudotrisomy 18)",
+        "Trisomy 13",
+        "Triploidy",
+        "Smith-Lemli-Opitz syndrome"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Confirmation with diagnostic testing recommended",
+        "CVS, амниocentesis"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Prognosis if pregnancy proceeds (90% termination rates)",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.914: Trisomy 18"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Autosomal trisomy of chromosome 18"
+        ],
+        "IMAGING": [
+          "• Multiple anomalies is hallmark finding",
+          "• Findings at time of nuchal translucency (NT)",
+          "○ ↑ NT, absent nasal bone",
+          "○ Many anomalies are detectable at time of NT",
+          "• 2nd-trimester anomalies in almost all fetuses",
+          "○ Cardiac defects (90%)",
+          "○ Musculoskeletal anomalies (75%)",
+          "– Clenched hand + overlapping index finger (50%)",
+          "○ Omphalocele, congenital diaphragmatic hernia, spina",
+          "bifida, brain and facial anomalies, others",
+          "○ Markers are rarely isolated",
+          "– Choroid plexus cysts (CPCs), single umbilical artery",
+          "(SUA), strawberry-shaped calvarium, ↑ nuchal fold",
+          "• 3rd-trimester findings",
+          "○ Fetal growth restriction, polyhydramnios"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Pena-Shokeir syndrome (pseudotrisomy 18)",
+          "• Trisomy 13",
+          "• Triploidy",
+          "• Smith-Lemli-Opitz syndrome"
+        ],
+        "CLINICAL ISSUES": [
+          "• Screening tests with excellent detection rates",
+          "• Confirmation with diagnostic testing recommended",
+          "○ CVS, amniocentesis",
+          "• Prognosis if pregnancy proceeds (90% termination rates)",
+          "○ ~ 50% with intrauterine fetal demise (IUFD)",
+          "– Ultrasound findings are poor predictor for IUFD",
+          "○ ~ 50% are liveborn",
+          "– 39% (11-72%) survive beyond 48 hours",
+          "– 11% (3-21%) survive beyond 1 month",
+          "– 5-10% survive beyond 1st year of life in most studies",
+          "○ More recent medical and surgical interventions have led",
+          "to increasing number surviving infancy"
+        ]
+      }
+    },
+    {
+      "id": "trisomy-13",
+      "name": "Трисомия 13",
+      "nameEn": "Trisomy 13",
+      "category": "Анеуплоидии",
+      "bookSection": "SECTION 12",
+      "bookPage": 920,
+      "definition": "• Synonym: Patau syndrome",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "гольопrosencephalia / гольопrosencephalia / holoprosencephaly is hallmark finding",
+        "Alobar, semilobar, lobar",
+        "+ associated facial anomalies",
+        "– Hypotelorism or cyclopia",
+        "– Nasal anomaly or proboscis",
+        "– Midline or bilateral cleft lip/palate",
+        "Cardiac defects (80%)",
+        "Hypoplastic left heart + intracardiac эхогенный focus",
+        "highly associated with trisomy 13 (T13)",
+        "Enlarged эхогенный kidneys (50%)",
+        "Postaxial polydactyly (75%)",
+        "задержка роста плода (ЗРП/FGR) (50%)",
+        "Early onset and progressive",
+        "Findings at time of толщина воротникового пространства (ТВП) (NT) screening",
+        "↑ NT, absent носовая кость",
+        "Many key anomalies may be seen at this time"
+      ],
+      "doppler_findings": [
+        "– Hypotelorism or cyclopia",
+        "highly associated with trisomy 13 (T13)",
+        "задержка роста плода (ЗРП/FGR) (50%)"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Offer genetic testing when associated anomalies are seen"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "гольопrosencephalia / гольопrosencephalia / holoprosencephaly without T13",
+        "Trisomy 18 (T18)",
+        "Meckel-Gruber syndrome"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "амниocentesis in 2nd trimester"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.920: Trisomy 13"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Synonym: Patau syndrome"
+        ],
+        "IMAGING": [
+          "• Holoprosencephaly is hallmark finding",
+          "○ Alobar, semilobar, lobar",
+          "○ + associated facial anomalies",
+          "– Hypotelorism or cyclopia",
+          "– Nasal anomaly or proboscis",
+          "– Midline or bilateral cleft lip/palate",
+          "• Cardiac defects (80%)",
+          "○ Hypoplastic left heart + intracardiac echogenic focus",
+          "highly associated with trisomy 13 (T13)",
+          "• Enlarged echogenic kidneys (50%)",
+          "• Postaxial polydactyly (75%)",
+          "• Fetal growth restriction (50%)",
+          "○ Early onset and progressive",
+          "• Findings at time of nuchal translucency (NT) screening",
+          "○ ↑ NT, absent nasal bone",
+          "○ Many key anomalies may be seen at this time"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Holoprosencephaly without T13",
+          "• Trisomy 18 (T18)",
+          "• Meckel-Gruber syndrome"
+        ],
+        "CLINICAL ISSUES": [
+          "• Offer genetic testing when associated anomalies are seen",
+          "○ Chorionic villus sampling at 11-14 weeks",
+          "○ Amniocentesis in 2nd trimester",
+          "○ Cell-free fetal DNA with low positive predictive value",
+          "because of low prevalence of disease",
+          "• 3rd most common trisomy (after trisomy 21 and T18)",
+          "• Advanced maternal age (AMA) at higher risk",
+          "• Prognosis when pregnancy continued",
+          "○ 1/2 with intrauterine death and 1/2 liveborn",
+          "○ ~ 50% mortality in 1st week of life",
+          "○ ~ 90% mortality in 1st year of life"
+        ]
+      }
+    },
+    {
+      "id": "turner-syndrome",
+      "name": "Синдром Шерешевского–Тёрнера",
+      "nameEn": "Turner Syndrome",
+      "category": "Анеуплоидии",
+      "bookSection": "SECTION 12",
+      "bookPage": 926,
+      "definition": "• Monosomy X (45,X) • Complete or partial deficiency of X chromosome",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "2nd-trimester findings",
+        "Cystic hygroma (CH) is hallmark finding",
+        "– Often very large (multiloculated > uniloculated)",
+        "– 60% of fetuses with CH have Turner syndrome",
+        "Associated nonimmune гидrops fetalis is common",
+        "Hallmark cardiovascular defect is coarctation of aorta",
+        "– Hypoplastic left heart if severe",
+        "Horseshoe kidney",
+        "укорочение бедренной кости and humerus",
+        "1st-trimester findings in > 90% of cases",
+        "Very large толщина воротникового пространства (ТВП) measurements",
+        "CH ± гидrops fetalis can be seen early",
+        "75% will have retrograde венозный проток (DV) flow"
+      ],
+      "doppler_findings": [
+        "2nd-trimester findings",
+        "1st-trimester findings in > 90% of cases"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Other variants (20%)"
+      ],
+      "genetic_associations": [
+        "Genetics",
+        "chromosome)"
+      ],
+      "differential_diagnosis": [
+        "Noonan syndrome",
+        "Trisomy 21 (Down syndrome)",
+        "Chest lymphangioma"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Marked phenotype variability from varied кaryotyping / кариотипированиеs"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.926: Turner Syndrome"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Monosomy X (45,X)",
+          "• Complete or partial deficiency of X chromosome"
+        ],
+        "IMAGING": [
+          "• 2nd-trimester findings",
+          "○ Cystic hygroma (CH) is hallmark finding",
+          "– Often very large (multiloculated > uniloculated)",
+          "– 60% of fetuses with CH have Turner syndrome",
+          "○ Associated nonimmune hydrops is common",
+          "○ Hallmark cardiovascular defect is coarctation of aorta",
+          "– Hypoplastic left heart if severe",
+          "○ Horseshoe kidney",
+          "○ Short femur and humerus",
+          "• 1st-trimester findings in > 90% of cases",
+          "○ Very large nuchal translucency measurements",
+          "○ CH ± hydrops can be seen early",
+          "○ 75% will have retrograde ductus venosus flow"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Noonan syndrome",
+          "• Trisomy 21 (Down syndrome)",
+          "• Chest lymphangioma"
+        ],
+        "PATHOLOGY": [
+          "• Genetics",
+          "○ 40-50% monosomy X  (complete absence of 1 X",
+          "chromosome)",
+          "○ 15-20% mosaic",
+          "○ Other variants (20%)"
+        ],
+        "CLINICAL ISSUES": [
+          "• Birth prevalence: 1:2,000 girls",
+          "○ Marked phenotype variability from varied karyotypes",
+          "• Vast majority diagnosed because of ultrasound findings",
+          "• 75% of 45,X spontaneously abort in 1st or 2nd trimester",
+          "• Advanced maternal age not at higher risk",
+          "• Prognosis with hydrops is dismal"
+        ]
+      }
+    },
+    {
+      "id": "triploidy",
+      "name": "Триплоидия",
+      "nameEn": "Triploidy",
+      "category": "Анеуплоидии",
+      "bookSection": "SECTION 12",
+      "bookPage": 930,
+      "definition": "• Synonym: Partial mole • Definition: 69 chromosomes (entire extra haploid set) ○ Diandric triploidy = extra set is paternal (more common) ○ Digynic triploidy = extra set is maternal",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Diandric triploidy phenotype",
+        "Thick, large, cystic placenta is key feature",
+        "Symmetric задержка роста плода (ЗРП/FGR) (FGR)",
+        "Ovaries with theca lutein cysts",
+        "Digynic triploidy phenotype",
+        "Profound asymmetric FGR is key feature",
+        "– Relative макроцефалия with small body",
+        "Normal or small placenta",
+        "20% of cases have overlapping features",
+        "Multiple anomalies in 60% (none pathognomonic)",
+        "вентрикуломегалия + 3-4 syndactyly most common",
+        "combination of findings"
+      ],
+      "doppler_findings": [
+        "Diandric triploidy phenotype",
+        "Symmetric задержка роста плода (ЗРП/FGR) (FGR)",
+        "Ovaries with theca lutein cysts",
+        "Digynic triploidy phenotype",
+        "Profound asymmetric FGR is key feature",
+        "20% of cases have overlapping features",
+        "вентрикуломегалия + 3-4 syndactyly most common"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Twin molar pregnancy",
+        "Hydatidiform mole with coexistent fetus",
+        "Placental hydropic change",
+        "Failed pregnancy (fetal/embryonic demise)",
+        "Placental mesenchymal dysplasia",
+        "Associated with preeclampsia",
+        "Trisomies 18 and 13"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "suspected (биопсия хориона (CVS) or амниocentesis)"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.930: Triploidy"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Synonym: Partial mole",
+          "• Definition: 69 chromosomes (entire extra haploid set)",
+          "○ Diandric triploidy = extra set is paternal (more common)",
+          "○ Digynic triploidy = extra set is maternal"
+        ],
+        "IMAGING": [
+          "• Diandric triploidy phenotype",
+          "○ Thick, large, cystic placenta is key feature",
+          "○ Symmetric fetal growth restriction (FGR)",
+          "○ Ovaries with theca lutein cysts",
+          "• Digynic triploidy phenotype",
+          "○ Profound asymmetric FGR is key feature",
+          "– Relative macrocephaly with small body",
+          "○ Normal or small placenta",
+          "• 20% of cases have overlapping features",
+          "• Multiple anomalies in 60% (none pathognomonic)",
+          "○ Ventriculomegaly + 3-4 syndactyly most common",
+          "combination of findings"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Twin molar pregnancy",
+          "○ Hydatidiform mole with coexistent fetus",
+          "• Placental hydropic change",
+          "○ Failed pregnancy (fetal/embryonic demise)",
+          "• Placental mesenchymal dysplasia",
+          "○ Associated with preeclampsia",
+          "• Trisomies 18 and 13"
+        ],
+        "CLINICAL ISSUES": [
+          "• 1st-trimester maternal biochemistry useful in detection (80-",
+          "100%) and identification of parental origin",
+          "• Invasive testing should be offered when diagnosis",
+          "suspected (chorionic villus sampling or amniocentesis)",
+          "• Maternal complications",
+          "○ Preeclampsia (4-35%)",
+          "○ Placental abruption",
+          "○ Postpartum hemorrhage",
+          "• Triploidy considered lethal diagnosis"
+        ]
+      }
+    }
+  ]
+}

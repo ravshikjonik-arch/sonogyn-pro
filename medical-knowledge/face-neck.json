@@ -1,0 +1,1028 @@
+{
+  "module": "face-neck",
+  "moduleRu": "Лицо и шея",
+  "source": {
+    "title": "Diagnostic Imaging: Obstetrics",
+    "edition": "4th",
+    "authors": [
+      "Paula J. Woodward",
+      "Anne Kennedy",
+      "Roya Sohaey",
+      "Janice L. B. Byrne",
+      "Michael D. Puchalski",
+      "Brian L. Shaffer",
+      "Emily Edwards",
+      "Priyanka Jha",
+      "Whitnee Hogan"
+    ]
+  },
+  "version": "1.0.0",
+  "extractedAt": "2026-06-25",
+  "entries": [
+    {
+      "id": "cleft-lip-palate",
+      "name": "Расщелина губы, неба",
+      "nameEn": "Cleft Lip, Palate",
+      "category": "Лицо и шея",
+      "bookSection": "SECTION 4",
+      "bookPage": 278,
+      "definition": "• Cleft lip with or without cleft palate (CL ± CP) ○ > 80% of CL have CP • Primary palate: Alveolar ridge (anterior medial) • Secondary palate: Dorsal to alveolar ridge (soft + hard)",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Best to be descriptive when making prenatal diagnosis",
+        "Complete CL: Cleft extends to naris",
+        "Incomplete CL: Cleft does not extend to naris",
+        "CP + CL involves alveolar ridge",
+        "– Variable extension into secondary palate",
+        "Isolated CP involves only secondary palate",
+        "– Intact lip and alveolar ridge",
+        "Unilateral CL + CP (most common)",
+        "CL + alveolar ridge defect",
+        "Ipsilateral flat naris",
+        "Unilateral CL without CP (intact alveolar ridge)",
+        "Bilateral CL/CP (bilateral clefts flank alveolar ridge)",
+        "Premaxillary protrusion on profile view",
+        "Midline CL/CP (medial maxillary agenesis)",
+        "Flattened dysplastic nose (best seen on profile)",
+        "Isolated CP (secondary palate defect)",
+        "Highly associated with hypognathia",
+        "Associations",
+        "Midline and bilateral CL/CP more likely to have genetic",
+        "defects (rarely isolated finding)",
+        "– Trisomy 13, trisomy 18, > 200 syndromes",
+        "Brain and cardiac anomalies"
+      ],
+      "doppler_findings": [
+        "Best to be descriptive when making prenatal diagnosis",
+        "Complete CL: Cleft extends to naris",
+        "Incomplete CL: Cleft does not extend to naris",
+        "CP + CL involves alveolar ridge",
+        "– Variable extension into secondary palate",
+        "– Intact lip and alveolar ridge",
+        "CL + alveolar ridge defect",
+        "Ipsilateral flat naris",
+        "Unilateral CL without CP (intact alveolar ridge)",
+        "Bilateral CL/CP (bilateral clefts flank alveolar ridge)",
+        "– Trisomy 13, trisomy 18, > 200 syndromes"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [
+        "Multidisciplinary care",
+        "Presurgical nasal alveolar molding",
+        "Surgical treatment",
+        "CL often repaired at 2-3 months",
+        "CP often repaired at 9-12 months",
+        "2 operations in 71%"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "CL often repaired at 2-3 months CP often repaired at 9-12 months",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.278: Cleft Lip, Palate"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Cleft lip with or without cleft palate (CL ± CP)",
+          "○ > 80% of CL have CP",
+          "• Primary palate: Alveolar ridge (anterior medial)",
+          "• Secondary palate: Dorsal to alveolar ridge (soft + hard)"
+        ],
+        "IMAGING": [
+          "• Best to be descriptive when making prenatal diagnosis",
+          "○ Complete CL: Cleft extends to naris",
+          "○ Incomplete CL: Cleft does not extend to naris",
+          "○ CP + CL involves alveolar ridge",
+          "– Variable extension into secondary palate",
+          "○ Isolated CP involves only secondary palate",
+          "– Intact lip and alveolar ridge",
+          "• Unilateral CL + CP (most common)",
+          "○ CL + alveolar ridge defect",
+          "○ Ipsilateral flat naris",
+          "• Unilateral CL without CP (intact alveolar ridge)",
+          "• Bilateral CL/CP (bilateral clefts flank alveolar ridge)",
+          "○ Premaxillary protrusion on profile view",
+          "• Midline CL/CP (medial maxillary agenesis)",
+          "○ Flattened dysplastic nose (best seen on profile)",
+          "• Isolated CP (secondary palate defect)",
+          "○ Highly associated with hypognathia",
+          "• Associations",
+          "○ Midline and bilateral CL/CP more likely to have genetic",
+          "defects (rarely isolated finding)",
+          "– Trisomy 13, trisomy 18, > 200 syndromes",
+          "○ Brain and cardiac anomalies"
+        ],
+        "CLINICAL ISSUES": [
+          "• Multidisciplinary care",
+          "• Presurgical nasal alveolar molding",
+          "• Surgical treatment",
+          "○ CL often repaired at 2-3 months",
+          "○ CP often repaired at 9-12 months",
+          "○ 2 operations in 71%"
+        ]
+      }
+    },
+    {
+      "id": "dacryocystocele",
+      "name": "Дакриоцистоцеле",
+      "nameEn": "Dacryocystocele",
+      "category": "Лицо и шея",
+      "bookSection": "SECTION 4",
+      "bookPage": 284,
+      "definition": "• Congenital dacryocystocele (CD) is variant of nasolacrimal duct obstruction leading to cyst formation at orbital end of lacrimal sac",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Thin-walled round cyst located inferior and medial to globe",
+        "анэхогенный or гипоэхогенный",
+        "5 mm is mean size, but size is variable",
+        "25% bilateral ± intranasal extension",
+        "Best for evaluation of nasal extension"
+      ],
+      "doppler_findings": [
+        "Thin-walled round cyst located inferior and medial to globe",
+        "5 mm is mean size, but size is variable",
+        "Best for evaluation of nasal extension"
+      ],
+      "mri_findings": [
+        "Consider МР if dacryocystocele is large and bilateral"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Frontal/nasal encephalocele",
+        "Look for skull defect ± hypertelorism",
+        "Lymphangioma",
+        "Multicystic mass with infiltration",
+        "Hemangioma and dermoid (rare in fetal life)"
+      ],
+      "red_flags": [
+        "Dacryocystocele is 3rd-trimester diagnosis; therefore,",
+        "consider other diagnosis if orbital mass seen in 2nd",
+        "trimester"
+      ],
+      "follow_up": [
+        "20% resolve in utero",
+        "75-85% resolve during 1st year of life",
+        "Conservative treatment",
+        "Massage, manual decompression, local heat",
+        "Surgical treatment if conservative approach fails",
+        "Endoscopic cyst marsupialization",
+        "Complications",
+        "Neonatal nasal obstruction (large cysts)",
+        "Dacryocystitis"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Neonatal nasal obstruction (large cysts)",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.284: Dacryocystocele"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Congenital dacryocystocele (CD) is variant of nasolacrimal",
+          "duct obstruction leading to cyst formation at orbital end of",
+          "lacrimal sac"
+        ],
+        "IMAGING": [
+          "• Thin-walled round cyst located inferior and medial to globe",
+          "○ Anechoic or hypoechoic",
+          "○ 5 mm is mean size, but size is variable",
+          "• 25% bilateral ± intranasal extension",
+          "• Consider MR if dacryocystocele is large and bilateral",
+          "○ Best for evaluation of nasal extension"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Frontal/nasal encephalocele",
+          "○ Look for skull defect ± hypertelorism",
+          "• Lymphangioma",
+          "○ Multicystic mass with infiltration",
+          "• Hemangioma and dermoid (rare in fetal life)"
+        ],
+        "PATHOLOGY": [
+          "• Both proximal and distal duct obstruction lead to pooling of",
+          "mucus or amniotic fluid in enclosed space"
+        ],
+        "CLINICAL ISSUES": [
+          "• 20% resolve in utero",
+          "• 75-85% resolve during 1st year of life",
+          "• Conservative treatment",
+          "○ Massage, manual decompression, local heat",
+          "• Surgical treatment if conservative approach fails",
+          "○ Endoscopic cyst marsupialization",
+          "• Complications",
+          "○ Neonatal nasal obstruction (large cysts)",
+          "○ Dacryocystitis"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Dacryocystocele is 3rd-trimester diagnosis; therefore,",
+          "consider other diagnosis if orbital mass seen in 2nd",
+          "trimester"
+        ]
+      }
+    },
+    {
+      "id": "coloboma",
+      "name": "Колобома",
+      "nameEn": "Coloboma",
+      "category": "Лицо и шея",
+      "bookSection": "SECTION 4",
+      "bookPage": 286,
+      "definition": "• Gap or defect of ocular tissue",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "High-signal protrusion from globe on T2WI",
+        "Focal bulge in globe contour at optic nerve insertion",
+        "May be unilateral or bilateral",
+        "If bilateral more likely syndromic"
+      ],
+      "doppler_findings": [],
+      "mri_findings": [
+        "Seen best on МРТ плода as orbital apex shadowed out on US"
+      ],
+      "associated_anomalies": [
+        "Associated with numerous syndromes",
+        "May be associated with retinal detachment and"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [
+        "May suggest specific syndromic diagnosis if noted during",
+        "МР for other anomalies",
+        "Always check orbit contents and globe contour on fetal",
+        "cerebral МР"
+      ],
+      "follow_up": [
+        "Prevalence of 1.4:10,000",
+        "Most common in India",
+        "Prognosis depends on underlying diagnosis",
+        "Associated with numerous syndromes",
+        "Aicardi syndrome",
+        "CHARGE syndrome",
+        "COACH syndrome",
+        "PHACES syndrome",
+        "Renal coloboma syndrome",
+        "Walker-Warburg syndrome",
+        "Goldenhar (oculo-auriculo-vertebral) syndrome",
+        "Fetal alcohol syndrome",
+        "May be associated with retinal detachment and",
+        "microphthalmia",
+        "Important cause of childhood visual impairment and",
+        "blindness"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.286: Coloboma"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Gap or defect of ocular tissue"
+        ],
+        "IMAGING": [
+          "• Seen best on fetal MR as orbital apex shadowed out on US",
+          "• High-signal protrusion from globe on T2WI",
+          "○ Focal bulge in globe contour at optic nerve insertion",
+          "• May be unilateral or bilateral",
+          "○ If bilateral more likely syndromic"
+        ],
+        "PATHOLOGY": [
+          "• Defect of fetal fissure closure and retinal ganglion cell",
+          "development"
+        ],
+        "CLINICAL ISSUES": [
+          "• Prevalence of 1.4:10,000",
+          "○ Most common in India",
+          "• Prognosis depends on underlying diagnosis",
+          "• Associated with numerous syndromes",
+          "○ Aicardi syndrome",
+          "○ CHARGE syndrome",
+          "○ COACH syndrome",
+          "○ PHACES syndrome",
+          "○ Renal coloboma syndrome",
+          "○ Walker-Warburg syndrome",
+          "○ Goldenhar (oculo-auriculo-vertebral) syndrome",
+          "○ Fetal alcohol syndrome",
+          "• May be associated with retinal detachment and",
+          "microphthalmia",
+          "• Important cause of childhood visual impairment and",
+          "blindness"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• May suggest specific syndromic diagnosis if noted during",
+          "MR for other anomalies",
+          "• Always check orbit contents and globe contour on fetal",
+          "cerebral MR"
+        ]
+      }
+    },
+    {
+      "id": "epignathus",
+      "name": "Эпигнат",
+      "nameEn": "Epignathus",
+      "category": "Лицо и шея",
+      "bookSection": "SECTION 4",
+      "bookPage": 288,
+      "definition": "• Teratoma arising from naso- or oropharynx",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Fills oral cavity and extrudes from mouth &/or nose",
+        "Predominately solid or mixed cystic/solid",
+        "Usually large at time of diagnosis",
+        "May grow rapidly to massive size",
+        "Transsphenoidal intracranial extension can occur",
+        "Presence of intracranial extension significantly worsens",
+        "prognosis",
+        "многоводие secondary to pharyngeal obstruction",
+        "Often severe and may cause preterm labor",
+        "Solid components very vascular with arteriovenous",
+        "shunting",
+        "At risk for гидrops fetalis and fetal demise",
+        "Intracranial extension",
+        "Airway"
+      ],
+      "doppler_findings": [
+        "Usually large at time of diagnosis",
+        "May grow rapidly to massive size",
+        "Solid components very vascular with arteriovenous",
+        "At risk for гидrops fetalis and fetal demise"
+      ],
+      "mri_findings": [
+        "МР recommended to better delineate anatomy"
+      ],
+      "associated_anomalies": [
+        "Unlike other neck masses, teratomas often require"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Bilateral cleft lip and palate",
+        "Premaxillary protrusion may appear as soft tissue mass",
+        "Epulis",
+        "Small, smooth, round, soft tissue mass arising from",
+        "alveolar ridge"
+      ],
+      "red_flags": [
+        "Any large, fungating oral mass is virtually diagnostic of",
+        "teratoma",
+        "Important to remember most infants are critically ill despite"
+      ],
+      "follow_up": [
+        "Lethal if unable to establish airway",
+        "Substantial improvement in survival achieved with ex utero",
+        "intrapartum treatment (EXIT) procedure",
+        "Unlike other neck masses, teratomas often require",
+        "immediate resection (EXIT to resection)",
+        "Important to remember most infants are critically ill despite",
+        "successful EXIT and often require long-term hospitalization"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.288: Epignathus"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Teratoma arising from naso- or oropharynx"
+        ],
+        "IMAGING": [
+          "• Fills oral cavity and extrudes from mouth &/or nose",
+          "• Predominately solid or mixed cystic/solid",
+          "• Usually large at time of diagnosis",
+          "○ May grow rapidly to massive size",
+          "• Transsphenoidal intracranial extension can occur",
+          "○ Presence of intracranial extension significantly worsens",
+          "prognosis",
+          "• Polyhydramnios secondary to pharyngeal obstruction",
+          "○ Often severe and may cause preterm labor",
+          "• Solid components very vascular with arteriovenous",
+          "shunting",
+          "• At risk for hydrops and fetal demise",
+          "• MR recommended to better delineate anatomy",
+          "○ Intracranial extension",
+          "○ Airway"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Bilateral cleft lip and palate",
+          "○ Premaxillary protrusion may appear as soft tissue mass",
+          "• Epulis",
+          "○ Small, smooth, round, soft tissue mass arising from",
+          "alveolar ridge"
+        ],
+        "CLINICAL ISSUES": [
+          "• Lethal if unable to establish airway",
+          "• Substantial improvement in survival achieved with ex utero",
+          "intrapartum treatment (EXIT) procedure",
+          "• Unlike other neck masses, teratomas often require",
+          "immediate resection (EXIT to resection)",
+          "• Important to remember most infants are critically ill despite",
+          "successful EXIT and often require long-term hospitalization"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Any large, fungating oral mass is virtually diagnostic of",
+          "teratoma"
+        ]
+      }
+    },
+    {
+      "id": "epulis",
+      "name": "Эпулис",
+      "nameEn": "Epulis",
+      "category": "Лицо и шея",
+      "bookSection": "SECTION 4",
+      "bookPage": 290,
+      "definition": "• Definition ○ Benign soft tissue tumor arising specifically from gingiva of anterior alveolar ridge ○ From maxilla or mandible surface • Synonyms ○ Congenital granular cell tumor ○ Gingival granular cell tumor ○ Neumann tumor",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "US findings",
+        "Anterior oral cavity mass",
+        "– Seen best on coronal nose lip view",
+        "□ Lips parted around oral mass",
+        "– Sessile or pedunculated solitary mass",
+        "□ Homogeneous or mildly heterogeneous",
+        "– 3rd-trimester mass",
+        "□ All reported fetal cases are > 26 weeks",
+        "□ Not present at anatomy scan, even in retrospect",
+        "– Variable size",
+        "□ 3-80 mm reported",
+        "□ Most are 10-20 mm",
+        "– Variable vascularity",
+        "Maxilla > > mandible",
+        "– At least 2-3x more common arising from anterior",
+        "gingival surface of maxilla",
+        "Diagnostic accuracy often better than US",
+        "– Able to provide more precise anatomic definition",
+        "– Show intact palate and mass arising from anterior",
+        "ridge",
+        "Best for evaluating airway",
+        "Real-time cine sequences can evaluate swallowing",
+        "Signal characteristics",
+        "– Isointense to muscle on T1-weighted imaging",
+        "– Isogenous to heterogeneous on T2-weighted imaging"
+      ],
+      "doppler_findings": [
+        "Anterior oral cavity mass",
+        "– 3rd-trimester mass",
+        "– Variable size",
+        "– Variable vascularity",
+        "– At least 2-3x more common arising from anterior",
+        "– Show intact palate and mass arising from anterior",
+        "ridge",
+        "Best for evaluating airway",
+        "Real-time cine sequences can evaluate swallowing",
+        "Signal characteristics"
+      ],
+      "mri_findings": [
+        "МР findings"
+      ],
+      "associated_anomalies": [
+        "No known associated anomalies"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Bilateral cleft lip, palate",
+        "Premaxillary protrusion mimics oral cavity mass",
+        "Epignathus",
+        "Teratoma arising in oral/nasal cavity",
+        "Large, irregular shape, mixed эхогенныйity",
+        "More vascular than epulis",
+        "Macroglossia",
+        "Enlarged tongue",
+        "Cannot fit in oral cavity and can mimic mass"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Oral mass may cause многоводие in 3rd trimester"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Monitor size, airway, and swallowing to plan delivery delivery – Increased risk for preterm delivery After delivery tumors are stable or decrease in size",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.290: Epulis"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Definition",
+          "○ Benign soft tissue tumor arising specifically from gingiva",
+          "of anterior alveolar ridge",
+          "○ From maxilla or mandible surface",
+          "• Synonyms",
+          "○ Congenital granular cell tumor",
+          "○ Gingival granular cell tumor",
+          "○ Neumann tumor"
+        ],
+        "IMAGING": [
+          "• US findings",
+          "○ Anterior oral cavity mass",
+          "– Seen best on coronal nose lip view",
+          "□ Lips parted around oral mass",
+          "– Sessile or pedunculated solitary mass",
+          "□ Homogeneous or mildly heterogeneous",
+          "– 3rd-trimester mass",
+          "□ All reported fetal cases are > 26 weeks",
+          "□ Not present at anatomy scan, even in retrospect",
+          "– Variable size",
+          "□ 3-80 mm reported",
+          "□ Most are 10-20 mm",
+          "– Variable vascularity",
+          "○ Maxilla > > mandible",
+          "– At least 2-3x more common arising from anterior",
+          "gingival surface of maxilla",
+          "• MR findings",
+          "○ Diagnostic accuracy often better than US",
+          "– Able to provide more precise anatomic definition",
+          "– Show intact palate and mass arising from anterior",
+          "ridge",
+          "○ Best for evaluating airway",
+          "○ Real-time cine sequences can evaluate swallowing",
+          "○ Signal characteristics",
+          "– Isointense to muscle on T1-weighted imaging",
+          "– Isogenous to heterogeneous on T2-weighted imaging"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Bilateral cleft lip, palate",
+          "○ Premaxillary protrusion mimics oral cavity mass",
+          "• Epignathus",
+          "○ Teratoma arising in oral/nasal cavity",
+          "○ Large, irregular shape, mixed echogenicity",
+          "○ More vascular than epulis",
+          "• Macroglossia",
+          "○ Enlarged tongue",
+          "○ Cannot fit in oral cavity and can mimic mass"
+        ],
+        "PATHOLOGY": [
+          "• Mesenchymal in origin",
+          "• Hormonal influence suspected",
+          "○ Explains increased incidence in female fetuses"
+        ],
+        "CLINICAL ISSUES": [
+          "• During pregnancy",
+          "○ Monitor size, airway, and swallowing to plan delivery",
+          "– Might need ex utero intrapartum treatment (EXIT)",
+          "delivery",
+          "○ Oral mass may cause polyhydramnios in 3rd trimester",
+          "– Increased risk for premature",
+          "– Increased risk for preterm delivery",
+          "○ No known associated anomalies",
+          "○ F:M = 10:1",
+          "• After delivery tumors are stable or decrease in size",
+          "○ Potential for airway obstruction, mechanical feeding",
+          "difficulties if large",
+          "○ Decreasing size from fibrosis of mass &/or less maternal",
+          "hormonal influence",
+          "• Treatment",
+          "○ Conservative surgical resection",
+          "– Easily resected",
+          "– Resection done to avoid disruption of future dentition",
+          "○ No reported recurrence",
+          "○ No risk of malignant degeneration"
+        ]
+      }
+    },
+    {
+      "id": "goiter",
+      "name": "Зоб",
+      "nameEn": "Goiter",
+      "category": "Лицо и шея",
+      "bookSection": "SECTION 4",
+      "bookPage": 292,
+      "definition": "• Enlarged fetal thyroid gland due to either hyperthyroidism or hypothyroidism ○ 85-90% due to maternal Graves disease (GD)",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Enlarged thyroid gland maintains contour and morphology",
+        "Mass effect from goiter",
+        "Tracheal compression → airway compromise at birth",
+        "May obstruct swallowing → многоводие",
+        "Fetal hyperthyroidism findings",
+        "Vascular gland, tachycardia, задержка роста плода (ЗРП/FGR)",
+        "Fetal hypothyroidism findings",
+        "Enlarged gland, relatively hypovascular",
+        "Best for airway assessment",
+        "T2 signal varies with iodine concentration",
+        "– Low-signal gland suggests hyperthyroid state",
+        "– High-signal gland suggests hypothyroid state"
+      ],
+      "doppler_findings": [
+        "Vascular gland, tachycardia, задержка роста плода (ЗРП/FGR)",
+        "T2 signal varies with iodine concentration"
+      ],
+      "mri_findings": [
+        "МР findings"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [
+        "Surveillance of thyroid size at 20 weeks and onward in high-",
+        "risk patients is crucial for early diagnosis and treatment"
+      ],
+      "follow_up": [
+        "Fetal goiter may be earliest sign of gland dysfunction",
+        "Common presentation: Goiter noted during surveillance in",
+        "patient with GD",
+        "Evaluate with TRAbs level assessment + fetal thyroid size",
+        "surveillance",
+        "TRAb levels 2-3x upper limits of normal with higher",
+        "association of fetal thyroid dysfunction",
+        "Excellent prognosis with early diagnosis and treatment",
+        "Treatment determined by cause of goiter",
+        "Treatment strategies for large fetal goiters",
+        "Cesarean section delivery if neck hyperextended",
+        "Ex utero intrapartum treatment (EXIT) delivery if airway",
+        "compromise",
+        "Fetal endoscopic tracheal intubation is new procedure"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Cesarean section delivery if neck hyperextended Ex utero intrapartum treatment (EXIT) delivery if airway",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.292: Goiter"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Enlarged fetal thyroid gland due to either hyperthyroidism",
+          "or hypothyroidism",
+          "○ 85-90% due to maternal Graves disease (GD)"
+        ],
+        "IMAGING": [
+          "• Enlarged thyroid gland maintains contour and morphology",
+          "• Mass effect from goiter",
+          "○ Tracheal compression → airway compromise at birth",
+          "○ May obstruct swallowing → polyhydramnios",
+          "• Fetal hyperthyroidism findings",
+          "○ Vascular gland, tachycardia, fetal growth restriction",
+          "• Fetal hypothyroidism findings",
+          "○ Enlarged gland, relatively hypovascular",
+          "• MR findings",
+          "○ Best for airway assessment",
+          "○ T2 signal varies with iodine concentration",
+          "– Low-signal gland suggests hyperthyroid state",
+          "– High-signal gland suggests hypothyroid state"
+        ],
+        "CLINICAL ISSUES": [
+          "• Fetal goiter may be earliest sign of gland dysfunction",
+          "• Common presentation: Goiter noted during surveillance in",
+          "patient with GD",
+          "• Evaluate with TRAbs level assessment + fetal thyroid size",
+          "surveillance",
+          "○ TRAb levels 2-3x upper limits of normal with higher",
+          "association of fetal thyroid dysfunction",
+          "• Excellent prognosis with early diagnosis and treatment",
+          "• Treatment determined by cause of goiter",
+          "• Treatment strategies for large fetal goiters",
+          "○ Cesarean section delivery if neck hyperextended",
+          "○ Ex utero intrapartum treatment (EXIT) delivery if airway",
+          "compromise",
+          "○ Fetal endoscopic tracheal intubation is new procedure"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Surveillance of thyroid size at 20 weeks and onward in high-",
+          "risk patients is crucial for early diagnosis and treatment"
+        ]
+      }
+    },
+    {
+      "id": "cystic-hygroma",
+      "name": "Кистозная гигрома",
+      "nameEn": "Cystic Hygroma",
+      "category": "Лицо и шея",
+      "bookSection": "SECTION 4",
+      "bookPage": 296,
+      "definition": "• Definition: Nuchal lymphangioma • Monoloculated or multiloculated lymphatic system anomaly causing abnormal nuchal fluid collection",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Posterior and lateral neck fluid-filled mass",
+        "Multiple internal linear septations (most common)",
+        "Monoloculated may show only nuchal ligament",
+        "Although variable in size, most often large",
+        "Cystic hygroma (CH) is often associated with гидrops fetalis",
+        "гидrops fetalis defined as fluid in 2 anatomic areas",
+        "CH counts as 1 area",
+        "CH is highly associated with aneuploidy (2/3 of cases)",
+        "Hallmark anomaly of monosomy X (Turner syndrome)",
+        "Trisomy 21 is 2nd most common",
+        "Others: Trisomy 18, trisomy 13, triploidy",
+        "1st-trimester CH: Very large толщина воротникового пространства (ТВП) (NT) (> 5",
+        "mm is typical)"
+      ],
+      "doppler_findings": [
+        "Posterior and lateral neck fluid-filled mass",
+        "Although variable in size, most often large",
+        "Trisomy 21 is 2nd most common",
+        "Others: Trisomy 18, trisomy 13, triploidy",
+        "1st-trimester CH: Very large толщина воротникового пространства (ТВП) (NT) (> 5",
+        "mm is typical)"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "CH also associated with other genetic syndromes",
+        "other anomalies seen"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Body/trunk lymphangioma",
+        "Occipital encephalocele",
+        "Scalp hemangioma",
+        "Cervical teratoma"
+      ],
+      "red_flags": [
+        "Offer diagnostic genetic testing in all cases",
+        "Look carefully for other anomalies",
+        "Consider фetal echocardiography / эхокардиография плодаcardiography"
+      ],
+      "follow_up": [
+        "CH also associated with other genetic syndromes",
+        "Noonan syndrome most common",
+        "Microarray for diagnosis",
+        "Markedly increased morbidity and mortality if гидrops fetalis or",
+        "other anomalies seen",
+        "Small percentage resolve in utero (< 20%)",
+        "More likely if small CH in euploid fetus"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.296: Cystic Hygroma"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Definition: Nuchal lymphangioma",
+          "• Monoloculated or multiloculated lymphatic system",
+          "anomaly causing abnormal nuchal fluid collection"
+        ],
+        "IMAGING": [
+          "• Posterior and lateral neck fluid-filled mass",
+          "○ Multiple internal linear septations (most common)",
+          "○ Monoloculated may show only nuchal ligament",
+          "○ Although variable in size, most often large",
+          "• Cystic hygroma (CH) is often associated with hydrops",
+          "○ Hydrops defined as fluid in 2 anatomic areas",
+          "○ CH counts as 1 area",
+          "• CH is highly associated with aneuploidy (2/3 of cases)",
+          "○ Hallmark anomaly of monosomy X (Turner syndrome)",
+          "○ Trisomy 21 is 2nd most common",
+          "○ Others: Trisomy 18, trisomy 13, triploidy",
+          "• 1st-trimester CH: Very large nuchal translucency (NT) (> 5",
+          "mm is typical)"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Body/trunk lymphangioma",
+          "• Occipital encephalocele",
+          "• Scalp hemangioma",
+          "• Cervical teratoma"
+        ],
+        "CLINICAL ISSUES": [
+          "• CH also associated with other genetic syndromes",
+          "○ Noonan syndrome most common",
+          "○ Microarray for diagnosis",
+          "• Markedly increased morbidity and mortality if hydrops or",
+          "other anomalies seen",
+          "• Small percentage resolve in utero (< 20%)",
+          "○ More likely if small CH in euploid fetus"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Offer diagnostic genetic testing in all cases",
+          "• Look carefully for other anomalies",
+          "• Consider fetal echocardiography"
+        ]
+      }
+    },
+    {
+      "id": "cervical-teratoma",
+      "name": "Шейная тератома",
+      "nameEn": "Cervical Teratoma",
+      "category": "Лицо и шея",
+      "bookSection": "SECTION 4",
+      "bookPage": 300,
+      "definition": "Cervical Teratoma",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Anterior neck mass, often large",
+        "Typically mixed cystic and solid",
+        "многоводие is common and may be severe",
+        "Airway obstruction → многоводие, fluid in",
+        "oropharynx",
+        "цветовой допpler to evaluate vascularity",
+        "Mass may cause high-output cardiac failure and гидrops fetalis",
+        "Perform detailed US evaluation of neck structures for",
+        "invasion or compression",
+        "airway patency",
+        "Anatomic involvement by tumor critical for delivery and",
+        "surgical planning",
+        "– Carotid arteries, floor of mouth, parotid",
+        "– Intracranial, skull base",
+        "– Upper mediastinum",
+        "Low lung volumes can indicate lung hypoplasia"
+      ],
+      "doppler_findings": [
+        "Anterior neck mass, often large",
+        "Typically mixed cystic and solid",
+        "цветовой допpler to evaluate vascularity",
+        "Perform detailed US evaluation of neck structures for",
+        "Anatomic involvement by tumor critical for delivery and",
+        "– Carotid arteries, floor of mouth, parotid"
+      ],
+      "mri_findings": [
+        "МР recommended to better delineate tumor extent and"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Cystic hygroma",
+        "Septated cystic mass in posterior/lateral neck",
+        "Goiter",
+        "эхогенный neck mass, maintains thyroid contour"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Head often hyperextended or deviated to one side",
+        "May be severe → malpresentation and dystocia,",
+        "precluding vaginal delivery",
+        "Can grow rapidly in utero",
+        "Estimated tumor volume useful to monitor size increase",
+        "If pregnancy continued, deliver at tertiary care facility with",
+        "ex utero intrapartum treatment (EXIT) procedure capability",
+        "Provides controlled environment to establish airway",
+        "Substantial improvement in survival (mortality 23% vs.",
+        "80-100%)",
+        "For survivors of neonatal period, long-term functional and",
+        "cognitive outcomes are good"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "precluding vaginal delivery If pregnancy continued, deliver at tertiary care facility with",
+      "postnatal_management": "For survivors of neonatal period, long-term functional and",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.300: Cervical Teratoma"
+      ],
+      "sourceBlocks": {
+        "IMAGING": [
+          "• Anterior neck mass, often large",
+          "○ Typically mixed cystic and solid",
+          "• Polyhydramnios is common and may be severe",
+          "○ Airway obstruction → polyhydramnios, fluid in",
+          "oropharynx",
+          "• Color Doppler to evaluate vascularity",
+          "○ Mass may cause high-output cardiac failure and hydrops",
+          "• Perform detailed US evaluation of neck structures for",
+          "invasion or compression",
+          "• MR recommended to better delineate tumor extent and",
+          "airway patency",
+          "○ Anatomic involvement by tumor critical for delivery and",
+          "surgical planning",
+          "– Carotid arteries, floor of mouth, parotid",
+          "– Intracranial, skull base",
+          "– Upper mediastinum",
+          "○ Low lung volumes can indicate lung hypoplasia"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Cystic hygroma",
+          "○ Septated cystic mass in posterior/lateral neck",
+          "• Goiter",
+          "○ Echogenic neck mass, maintains thyroid contour"
+        ],
+        "CLINICAL ISSUES": [
+          "• Head often hyperextended or deviated to one side",
+          "○ May be severe → malpresentation and dystocia,",
+          "precluding vaginal delivery",
+          "• Can grow rapidly in utero",
+          "○ Estimated tumor volume useful to monitor size increase",
+          "• If pregnancy continued, deliver at tertiary care facility with",
+          "ex utero intrapartum treatment (EXIT) procedure capability",
+          "○ Provides controlled environment to establish airway",
+          "○ Substantial improvement in survival (mortality 23% vs.",
+          "80-100%)",
+          "• For survivors of neonatal period, long-term functional and",
+          "cognitive outcomes are good"
+        ]
+      }
+    },
+    {
+      "id": "abnormal-orbits-eyes",
+      "name": "Аномалия орбит/глаз",
+      "nameEn": "Abnormal Orbits/Eyes",
+      "category": "Лицо и шея",
+      "bookSection": "SECTION 4",
+      "bookPage": 302,
+      "definition": "Abnormal Orbits/Eyes",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.302: Abnormal Orbits/Eyes"
+      ],
+      "sourceBlocks": {}
+    },
+    {
+      "id": "abnormal-ears",
+      "name": "Аномалия ушей",
+      "nameEn": "Abnormal Ears",
+      "category": "Лицо и шея",
+      "bookSection": "SECTION 4",
+      "bookPage": 308,
+      "definition": "Abnormal Ears",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.308: Abnormal Ears"
+      ],
+      "sourceBlocks": {}
+    },
+    {
+      "id": "micrognathia",
+      "name": "Микрогнатия",
+      "nameEn": "Micrognathia",
+      "category": "Лицо и шея",
+      "bookSection": "SECTION 4",
+      "bookPage": 312,
+      "definition": "Micrognathia",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.312: Micrognathia"
+      ],
+      "sourceBlocks": {}
+    },
+    {
+      "id": "macroglossia",
+      "name": "Макроглоссия",
+      "nameEn": "Macroglossia",
+      "category": "Лицо и шея",
+      "bookSection": "SECTION 4",
+      "bookPage": 316,
+      "definition": "Macroglossia",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.316: Macroglossia"
+      ],
+      "sourceBlocks": {}
+    }
+  ]
+}

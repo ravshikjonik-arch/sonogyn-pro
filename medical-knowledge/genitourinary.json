@@ -1,0 +1,2652 @@
+{
+  "module": "genitourinary",
+  "moduleRu": "Мочеполовая система",
+  "source": {
+    "title": "Diagnostic Imaging: Obstetrics",
+    "edition": "4th",
+    "authors": [
+      "Paula J. Woodward",
+      "Anne Kennedy",
+      "Roya Sohaey",
+      "Janice L. B. Byrne",
+      "Michael D. Puchalski",
+      "Brian L. Shaffer",
+      "Emily Edwards",
+      "Priyanka Jha",
+      "Whitnee Hogan"
+    ]
+  },
+  "version": "1.0.0",
+  "extractedAt": "2026-06-25",
+  "entries": [
+    {
+      "id": "urinary-tract-dilation",
+      "name": "Расширение мочевых путей",
+      "nameEn": "Urinary Tract Dilation",
+      "category": "Мочеполовая система",
+      "bookSection": "SECTION 8",
+      "bookPage": 588,
+      "definition": "Urinary Tract Dilation",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Best clue: ↑ anteroposterior renal pelvis diameter (AP RPD)",
+        "Measure AP RPD in axial plane with spine at 12 o'clock or",
+        "6 o'clock",
+        "Normal AP RPD",
+        "< 4 mm for gestational age (GA) 16-27 weeks",
+        "< 7 mm for GA ≥ 28 weeks",
+        "Prenatal urinary tract dilation (UTD) classification system",
+        "UTD A1 → low risk",
+        "– Mildly dilated renal pelvis",
+        "UTD A2-3 → ↑ risk",
+        "– Moderately to severely dilated renal pelvis",
+        "– Any calyceal or ureteral dilation",
+        "– Any parenchyma or bladder abnormalities",
+        "– More frequent fetal surveillance indicated",
+        "– маловодие more likely",
+        "Associations: Minor marker for trisomy 21"
+      ],
+      "doppler_findings": [
+        "Best clue: ↑ anteroposterior renal pelvis diameter (AP RPD)",
+        "Measure AP RPD in axial plane with spine at 12 o'clock or",
+        "Prenatal urinary tract dilation (UTD) classification system",
+        "UTD A1 → low risk",
+        "UTD A2-3 → ↑ risk",
+        "Associations: Minor marker for trisomy 21"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [
+        "Urinary tract morphology indicates level of obstruction",
+        "Important to visualize entire urinary tract",
+        "Carefully assess renal parenchyma for evidence of injury",
+        "↑ эхогенныйity, cortical cysts, loss of corticomedullary",
+        "differentiation",
+        "Consider cystic dysplasia if renal эхогенныйity >",
+        "liver/spleen эхогенныйity"
+      ],
+      "follow_up": [
+        "UTD diagnosed in 1-2% of all pregnancies",
+        "M:F = 2:1",
+        "Transient/physiologic: 50-70%",
+        "Common pathologic causes include reflux, ureteropelvic",
+        "junction (UPJ), lower urinary tract obstruction (LUTO)",
+        "↑ likelihood of postnatal uropathy when UTD progresses",
+        "UTD A1: ≥ 80% resolve postnatally",
+        "UTD A2-3: ↑ need for antibiotics and surgery postnatally"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "↑ likelihood of postnatal uropathy when UTD progresses UTD A1: ≥ 80% resolve postnatally UTD A2-3: ↑ need for antibiotics and surgery postnatally",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.588: Urinary Tract Dilation"
+      ],
+      "sourceBlocks": {
+        "IMAGING": [
+          "• Best clue: ↑ anteroposterior renal pelvis diameter (AP RPD)",
+          "○ Measure AP RPD in axial plane with spine at 12 o'clock or",
+          "6 o'clock",
+          "• Normal AP RPD",
+          "○ < 4 mm for gestational age (GA) 16-27 weeks",
+          "○ < 7 mm for GA ≥ 28 weeks",
+          "• Prenatal urinary tract dilation (UTD) classification system",
+          "○ UTD A1 → low risk",
+          "– Mildly dilated renal pelvis",
+          "○ UTD A2-3 → ↑ risk",
+          "– Moderately to severely dilated renal pelvis",
+          "– Any calyceal or ureteral dilation",
+          "– Any parenchyma or bladder abnormalities",
+          "– More frequent fetal surveillance indicated",
+          "– Oligohydramnios more likely",
+          "• Associations: Minor marker for trisomy 21"
+        ],
+        "CLINICAL ISSUES": [
+          "• UTD diagnosed in 1-2% of all pregnancies",
+          "○ M:F = 2:1",
+          "• Transient/physiologic: 50-70%",
+          "• Common pathologic causes include reflux, ureteropelvic",
+          "junction (UPJ), lower urinary tract obstruction (LUTO)",
+          "• ↑ likelihood of postnatal uropathy when UTD progresses",
+          "• UTD A1: ≥ 80% resolve postnatally",
+          "• UTD A2-3: ↑ need for antibiotics and surgery postnatally"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Urinary tract morphology indicates level of obstruction",
+          "○ Important to visualize entire urinary tract",
+          "• Carefully assess renal parenchyma for evidence of injury",
+          "○ ↑ echogenicity, cortical cysts, loss of corticomedullary",
+          "differentiation",
+          "○ Consider cystic dysplasia if renal echogenicity >",
+          "liver/spleen echogenicity"
+        ]
+      }
+    },
+    {
+      "id": "unilateral-renal-agenesis",
+      "name": "Односторонняя агенезия почки",
+      "nameEn": "Unilateral Renal Agenesis",
+      "category": "Мочеполовая система",
+      "bookSection": "SECTION 8",
+      "bookPage": 592,
+      "definition": "Unilateral Renal Agenesis",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Adrenal gland fills empty renal fossa in globular instead of",
+        "triangular shape",
+        "Shape and position of adrenal can mimic kidney",
+        "Colon in empty renal fossa may also mimic kidney",
+        "Absent renal artery",
+        "цветовой допpler confirms diagnosis",
+        "Beware of adrenal or lumbar arteries mimicking renal",
+        "artery",
+        "Compensatory hypertrophy of remaining kidney in up to",
+        "90% of cases",
+        "Look for associated findings",
+        "Single umbilical artery",
+        "VACTERL association"
+      ],
+      "doppler_findings": [
+        "triangular shape",
+        "цветовой допpler confirms diagnosis",
+        "Beware of adrenal or lumbar arteries mimicking renal"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Associated with multiple chromosomal abnormalities",
+        "Müllerian/uterine duplication anomalies can be present",
+        "anomalies",
+        "– Still under hormonal influence of mother"
+      ],
+      "genetic_associations": [
+        "Associated with multiple chromosomal abnormalities"
+      ],
+      "differential_diagnosis": [
+        "Pelvic kidney or other ectopic location (crossed fused",
+        "ectopia, asymmetric horseshoe kidney)"
+      ],
+      "red_flags": [
+        "Diagnosis of exclusion once ectopic location is ruled out",
+        "If diagnosed in 2nd trimester, динамическое наблюдение in 3rd trimester to",
+        "better assess for possible pelvic kidney"
+      ],
+      "follow_up": [
+        "Often incidental finding",
+        "Occurs in up to 1:1,000 live births",
+        "Postnatal ultrasound to confirm diagnosis",
+        "Include uterus in females to assess for müllerian duct",
+        "anomalies",
+        "– Scan in 1st few days of life when uterus and",
+        "endometrium are easier to see",
+        "– Still under hormonal influence of mother"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Postnatal ultrasound to confirm diagnosis",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.592: Unilateral Renal Agenesis"
+      ],
+      "sourceBlocks": {
+        "IMAGING": [
+          "• Adrenal gland fills empty renal fossa in globular instead of",
+          "triangular shape",
+          "○ Shape and position of adrenal can mimic kidney",
+          "• Colon in empty renal fossa may also mimic kidney",
+          "• Absent renal artery",
+          "○ Color Doppler confirms diagnosis",
+          "○ Beware of adrenal or lumbar arteries mimicking renal",
+          "artery",
+          "• Compensatory hypertrophy of remaining kidney in up to",
+          "90% of cases",
+          "• Look for associated findings",
+          "○ Single umbilical artery",
+          "○ VACTERL association"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Pelvic kidney or other ectopic location (crossed fused",
+          "ectopia, asymmetric horseshoe kidney)"
+        ],
+        "PATHOLOGY": [
+          "• Associated with multiple chromosomal abnormalities",
+          "• Müllerian/uterine duplication anomalies can be present"
+        ],
+        "CLINICAL ISSUES": [
+          "• Often incidental finding",
+          "• Occurs in up to 1:1,000 live births",
+          "• Postnatal ultrasound to confirm diagnosis",
+          "○ Include uterus in females to assess for müllerian duct",
+          "anomalies",
+          "– Scan in 1st few days of life when uterus and",
+          "endometrium are easier to see",
+          "– Still under hormonal influence of mother"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Diagnosis of exclusion once ectopic location is ruled out",
+          "• If diagnosed in 2nd trimester, follow-up in 3rd trimester to",
+          "better assess for possible pelvic kidney"
+        ]
+      }
+    },
+    {
+      "id": "duplicated-collecting-system",
+      "name": "Удвоение лоханочно-мочеточниковой системы",
+      "nameEn": "Duplicated Collecting System",
+      "category": "Мочеполовая система",
+      "bookSection": "SECTION 8",
+      "bookPage": 594,
+      "definition": "• Duplicated renal collecting system draining separate upper and lower pole renal moieties ○ May be complete or partial duplication",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Duplicated kidney larger than contralateral side",
+        "Majority are > 95th percentile in length",
+        "Bilateral duplication in 10-20%",
+        "2 separate ureters drain upper and lower poles",
+        "Upper pole drained by ectopic ureter with associated",
+        "ureterocele in bladder; prone to obstruction",
+        "Lower pole drained by normotopic ureter; prone to",
+        "reflux",
+        "Dilatation of upper pole collecting system typical",
+        "Lower pole may also be dilated but not as severe"
+      ],
+      "doppler_findings": [
+        "Majority are > 95th percentile in length",
+        "Upper pole drained by ectopic ureter with associated",
+        "Lower pole drained by normotopic ureter; prone to",
+        "Dilatation of upper pole collecting system typical"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Gynecological anomalies in 50% of affected females"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Ureteropelvic junction obstruction"
+      ],
+      "red_flags": [
+        "Always evaluate for duplication in presence of",
+        "гидронефроз (unilateral or bilateral)",
+        "Dilated upper pole moiety + cystic mass in bladder is",
+        "diagnostic for duplication with ureterocele",
+        "Postnatal pelvic ultrasound or МР in females to search for",
+        "associated gynecological malformations"
+      ],
+      "follow_up": [
+        "Most common congenital malformation of urinary tract",
+        "Usually incidental finding",
+        "More common in females",
+        "Gynecological anomalies in 50% of affected females",
+        "Obstructed upper pole moiety prone to infection due to",
+        "urinary stasis",
+        "Prenatal diagnosis allows early intervention, decreasing",
+        "risk of urosepsis and renal damage",
+        "In utero treatment not usually indicated"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.594: Duplicated Collecting System"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Duplicated renal collecting system draining separate upper",
+          "and lower pole renal moieties",
+          "○ May be complete or partial duplication"
+        ],
+        "IMAGING": [
+          "• Duplicated kidney larger than contralateral side",
+          "○ Majority are > 95th percentile in length",
+          "• Bilateral duplication in 10-20%",
+          "• 2 separate ureters drain upper and lower poles",
+          "○ Upper pole drained by ectopic ureter with associated",
+          "ureterocele in bladder; prone to obstruction",
+          "○ Lower pole drained by normotopic ureter; prone to",
+          "reflux",
+          "• Dilatation of upper pole collecting system typical",
+          "○ Lower pole may also be dilated but not as severe"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Ureteropelvic junction obstruction"
+        ],
+        "CLINICAL ISSUES": [
+          "• Most common congenital malformation of urinary tract",
+          "• Usually incidental finding",
+          "• More common in females",
+          "○ Gynecological anomalies in 50% of affected females",
+          "• Obstructed upper pole moiety prone to infection due to",
+          "urinary stasis",
+          "○ Prenatal diagnosis allows early intervention, decreasing",
+          "risk of urosepsis and renal damage",
+          "○ In utero treatment not usually indicated"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Always evaluate for duplication in presence of",
+          "hydronephrosis (unilateral or bilateral)",
+          "• Dilated upper pole moiety + cystic mass in bladder is",
+          "diagnostic for duplication with ureterocele",
+          "• Postnatal pelvic ultrasound or MR in females to search for",
+          "associated gynecological malformations"
+        ]
+      }
+    },
+    {
+      "id": "pelvic-kidney",
+      "name": "Тазовая почка",
+      "nameEn": "Pelvic Kidney",
+      "category": "Мочеполовая система",
+      "bookSection": "SECTION 8",
+      "bookPage": 598,
+      "definition": "Pelvic Kidney",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Empty renal fossa with ipsilateral pelvic kidney",
+        "Check adjacent to iliac wing or bladder",
+        "May be smaller in size with abnormal morphology",
+        "No contralateral compensatory renal hypertrophy",
+        "Unless nonfunctioning pelvic kidney",
+        "Variable blood supply on цветовой допpler",
+        "Vascular supply from distal aorta, iliac, midsacral, or",
+        "hypogastric arteries",
+        "Renal parenchymal morphology more easily identified later",
+        "in gestation",
+        "Median 25-weeks gestation at diagnosis",
+        "Colon in empty renal fossa may mimic kidney, especially",
+        "early in pregnancy",
+        "Can have concurrent renal pathology",
+        "Reflux, ureteropelvic junction obstruction, multicystic",
+        "dysplastic kidney"
+      ],
+      "doppler_findings": [
+        "Variable blood supply on цветовой допpler",
+        "hypogastric arteries"
+      ],
+      "mri_findings": [
+        "Consider МР if appearance suggests pelvic mass"
+      ],
+      "associated_anomalies": [
+        "May be associated with dysplasia, hypoplasia, reduced renal"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Unilateral renal agenesis",
+        "Horseshoe kidney",
+        "Pelvic mass"
+      ],
+      "red_flags": [
+        "динамическое наблюдение US in later 2nd or 3rd trimester may help",
+        "diagnose pelvic kidney in cases of apparent unilateral renal",
+        "agenesis"
+      ],
+      "follow_up": [
+        "Usually incidental finding",
+        "Up to 37% of fetuses with unilateral empty renal fossa",
+        "actually have pelvic kidney",
+        "May not be readily identified until 3rd trimester"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.598: Pelvic Kidney"
+      ],
+      "sourceBlocks": {
+        "IMAGING": [
+          "• Empty renal fossa with ipsilateral pelvic kidney",
+          "○ Check adjacent to iliac wing or bladder",
+          "○ May be smaller in size with abnormal morphology",
+          "• No contralateral compensatory renal hypertrophy",
+          "○ Unless nonfunctioning pelvic kidney",
+          "• Variable blood supply on color Doppler",
+          "○ Vascular supply from distal aorta, iliac, midsacral, or",
+          "hypogastric arteries",
+          "• Renal parenchymal morphology more easily identified later",
+          "in gestation",
+          "○ Median 25-weeks gestation at diagnosis",
+          "○ Colon in empty renal fossa may mimic kidney, especially",
+          "early in pregnancy",
+          "• Can have concurrent renal pathology",
+          "○ Reflux, ureteropelvic junction obstruction, multicystic",
+          "dysplastic kidney",
+          "• Consider MR if appearance suggests pelvic mass"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Unilateral renal agenesis",
+          "• Horseshoe kidney",
+          "• Pelvic mass"
+        ],
+        "PATHOLOGY": [
+          "• May be associated with dysplasia, hypoplasia, reduced renal",
+          "function"
+        ],
+        "CLINICAL ISSUES": [
+          "• Usually incidental finding",
+          "• Up to 37% of fetuses with unilateral empty renal fossa",
+          "actually have pelvic kidney",
+          "○ May not be readily identified until 3rd trimester"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Follow-up US in later 2nd or 3rd trimester may help",
+          "diagnose pelvic kidney in cases of apparent unilateral renal",
+          "agenesis"
+        ]
+      }
+    },
+    {
+      "id": "horseshoe-kidney",
+      "name": "Почка в виде подковы",
+      "nameEn": "Horseshoe Kidney",
+      "category": "Мочеполовая система",
+      "bookSection": "SECTION 8",
+      "bookPage": 600,
+      "definition": "• Abnormality of fusion and ascent • Kidneys fused in horseshoe configuration • Isthmus is bridging tissue, typically between lower poles",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Can be symmetric or asymmetric",
+        "Left side more often longer/larger than right",
+        "Kidneys more low lying than usual",
+        "Malrotation common",
+        "Lower poles medially oriented",
+        "Renal pelvis ventral to parenchyma in 97%",
+        "Isthmus is anterior to aorta",
+        "May be parenchymal or fibrous",
+        "\"Snags\" on inferior mesenteric artery during ascent",
+        "цветовой допpler shows highly variable blood supply",
+        "Can be associated with uteropelvic junction (UPJ)",
+        "obstruction due to aberrant course of ureter",
+        "May have supernumerary ureters"
+      ],
+      "doppler_findings": [
+        "Can be symmetric or asymmetric",
+        "Left side more often longer/larger than right",
+        "Kidneys more low lying than usual",
+        "Lower poles medially oriented",
+        "Isthmus is anterior to aorta",
+        "\"Snags\" on inferior mesenteric artery during ascent",
+        "цветовой допpler shows highly variable blood supply"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Prognosis depends on if associated aneuploidy or"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Crossed fused renal ectopia"
+      ],
+      "red_flags": [
+        "Horseshoe kidney may be missed if isthmus is thin",
+        "Look for medial orientation of lower pole",
+        "Look for associated anomalies"
+      ],
+      "follow_up": [
+        "In study of 380 children (median age 2.8 years) ~ 1/2 had",
+        "renal or extrarenal diseases or syndromes",
+        "Turner syndrome most common aneuploidy",
+        "VACTERL association",
+        "гидронефроз",
+        "Vesicoureteral reflux",
+        "Urolithiasis, pyelonephritis",
+        "Prognosis depends on if associated aneuploidy or",
+        "syndrome is present",
+        "Isolated finding has no increased of aneuploidy"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.600: Horseshoe Kidney"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Abnormality of fusion and ascent",
+          "• Kidneys fused in horseshoe configuration",
+          "• Isthmus is bridging tissue, typically between lower poles"
+        ],
+        "IMAGING": [
+          "• Can be symmetric or asymmetric",
+          "○ Left side more often longer/larger than right",
+          "• Kidneys more low lying than usual",
+          "• Malrotation common",
+          "○ Lower poles medially oriented",
+          "○ Renal pelvis ventral to parenchyma in 97%",
+          "• Isthmus is anterior to aorta",
+          "○ May be parenchymal or fibrous",
+          "○ \"Snags\" on inferior mesenteric artery during ascent",
+          "• Color Doppler shows highly variable blood supply",
+          "• Can be associated with uteropelvic junction (UPJ)",
+          "obstruction due to aberrant course of ureter",
+          "○ May have supernumerary ureters"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Crossed fused renal ectopia"
+        ],
+        "CLINICAL ISSUES": [
+          "• In study of 380 children (median age 2.8 years) ~ 1/2 had",
+          "renal or extrarenal diseases or syndromes",
+          "○ Turner syndrome most common aneuploidy",
+          "○ VACTERL association",
+          "○ Hydronephrosis",
+          "○ Vesicoureteral reflux",
+          "○ Urolithiasis, pyelonephritis",
+          "• Prognosis depends on if associated aneuploidy or",
+          "syndrome is present",
+          "• Isolated finding has no increased of aneuploidy"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Horseshoe kidney may be missed if isthmus is thin",
+          "○ Look for medial orientation of lower pole",
+          "• Look for associated anomalies"
+        ]
+      }
+    },
+    {
+      "id": "crossed-fused-ectopia",
+      "name": "Перекрестная слитая эктопия почки",
+      "nameEn": "Crossed Fused Ectopia",
+      "category": "Мочеполовая система",
+      "bookSection": "SECTION 8",
+      "bookPage": 602,
+      "definition": "• Abnormal ascent of developing kidneys with both kidneys on same side of fetus ○ Upper kidney is in normal position (normotopic) ○ Lower kidney ascended on same side (ectopic) and is located by lower pole ○ 90% fused, 10% remain unfused",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Unilateral empty renal fossa on one side",
+        "Adrenal gland and colon fill empty renal fossa and either",
+        "may potentially be mistaken for kidney",
+        "Enlarged, lobular kidney on opposite side",
+        "Ectopic kidney frequently malrotated and may look like",
+        "mass; look for гипоэхогенный medullary pyramids to identify",
+        "ectopic renal parenchyma",
+        "цветовой допpler to document renal arteries: Variable arterial",
+        "supply to both ectopic and normotopic kidney",
+        "Both ureters insert into bladder in normal position"
+      ],
+      "doppler_findings": [
+        "Ectopic kidney frequently malrotated and may look like",
+        "ectopic renal parenchyma",
+        "цветовой допpler to document renal arteries: Variable arterial",
+        "supply to both ectopic and normotopic kidney"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Associated findings",
+        "Uterine anomalies"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Asymmetric horseshoe kidney",
+        "Unilateral renal agenesis",
+        "Pelvic kidney"
+      ],
+      "red_flags": [
+        "Empty renal fossa not always renal agenesis",
+        "Look for crossed fused ectopia or pelvic kidney",
+        "Evaluate visible kidney for morphology, size, blood supply"
+      ],
+      "follow_up": [
+        "Most often asymptomatic throughout life",
+        "Left-to-right crossover > right to left"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.602: Crossed Fused Ectopia"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Abnormal ascent of developing kidneys with both kidneys",
+          "on same side of fetus",
+          "○ Upper kidney is in normal position (normotopic)",
+          "○ Lower kidney ascended on same side (ectopic) and is",
+          "located by lower pole",
+          "○ 90% fused, 10% remain unfused"
+        ],
+        "IMAGING": [
+          "• Unilateral empty renal fossa on one side",
+          "○ Adrenal gland and colon fill empty renal fossa and either",
+          "may potentially be mistaken for kidney",
+          "• Enlarged, lobular kidney on opposite side",
+          "• Ectopic kidney frequently malrotated and may look like",
+          "mass; look for hypoechoic medullary pyramids to identify",
+          "ectopic renal parenchyma",
+          "• Color Doppler to document renal arteries: Variable arterial",
+          "supply to both ectopic and normotopic kidney",
+          "• Both ureters insert into bladder in normal position"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Asymmetric horseshoe kidney",
+          "• Unilateral renal agenesis",
+          "• Pelvic kidney"
+        ],
+        "PATHOLOGY": [
+          "• Associated findings",
+          "○ Imperforate anus",
+          "○ Skeletal abnormalities",
+          "○ Uterine anomalies"
+        ],
+        "CLINICAL ISSUES": [
+          "• Most often asymptomatic throughout life",
+          "• Left-to-right crossover > right to left"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Empty renal fossa not always renal agenesis",
+          "○ Look for crossed fused ectopia or pelvic kidney",
+          "• Evaluate visible kidney for morphology, size, blood supply"
+        ]
+      }
+    },
+    {
+      "id": "bilateral-renal-agenesis",
+      "name": "Двусторонняя агенезия почек",
+      "nameEn": "Bilateral Renal Agenesis",
+      "category": "Мочеполовая система",
+      "bookSection": "SECTION 8",
+      "bookPage": 604,
+      "definition": "• Complete absence of renal tissue",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Anhydramnios in mid-2nd/3rd trimester",
+        "No kidneys in renal fossa or elsewhere in fetal abdomen",
+        "Potential pitfalls",
+        "Fetal adrenal glands are relatively large, almost same size",
+        "as kidneys, early in gestation",
+        "– Look for characteristic discoid shape and trilaminar",
+        "appearance",
+        "Bowel within renal fossa pitfall later in pregnancy",
+        "Use цветовой допpler to assess for renal arteries",
+        "No urine in fetal bladder",
+        "Associated findings",
+        "Pulmonary hypoplasia",
+        "Clubfeet, other joint contractures"
+      ],
+      "doppler_findings": [
+        "Anhydramnios in mid-2nd/3rd trimester",
+        "Potential pitfalls",
+        "– Look for characteristic discoid shape and trilaminar",
+        "Bowel within renal fossa pitfall later in pregnancy",
+        "Use цветовой допpler to assess for renal arteries",
+        "No urine in fetal bladder"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Uterine compression and lack of movement associated"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [
+        "Consider МРТ плода for confirmation in difficult or equivocal",
+        "cases"
+      ],
+      "follow_up": [
+        "Amniotic fluid can be normal in early pregnancy, even with",
+        "Minimal renal contribution to amniotic fluid volume until",
+        "Earlier-onset anhydramnios has worse prognosis",
+        "Case reports of serial amnioinfusions with improved",
+        "Potter sequence (маловодие sequence)"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "neonatal pulmonary status",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.604: Bilateral Renal Agenesis"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Complete absence of renal tissue"
+        ],
+        "IMAGING": [
+          "• Anhydramnios in mid-2nd/3rd trimester",
+          "• No kidneys in renal fossa or elsewhere in fetal abdomen",
+          "• Potential pitfalls",
+          "○ Fetal adrenal glands are relatively large, almost same size",
+          "as kidneys, early in gestation",
+          "– Look for characteristic discoid shape and trilaminar",
+          "appearance",
+          "○ Bowel within renal fossa pitfall later in pregnancy",
+          "• Use color Doppler to assess for renal arteries",
+          "• No urine in fetal bladder",
+          "• Associated findings",
+          "○ Pulmonary hypoplasia",
+          "○ Clubfeet, other joint contractures"
+        ],
+        "CLINICAL ISSUES": [
+          "• Amniotic fluid can be normal in early pregnancy, even with",
+          "bilateral renal agenesis",
+          "○ Minimal renal contribution to amniotic fluid volume until",
+          "after 16 weeks",
+          "• Earlier-onset anhydramnios has worse prognosis",
+          "• Bilateral agenesis is lethal without intervention",
+          "• Case reports of serial amnioinfusions with improved",
+          "neonatal pulmonary status",
+          "○ Ongoing research in multicenter trial",
+          "• Potter sequence (oligohydramnios sequence)",
+          "○ Uterine compression and lack of movement associated",
+          "with abnormal facies, limb deformities",
+          "• Can be seen in aneuploidy and as part of syndrome"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Consider fetal MR for confirmation in difficult or equivocal",
+          "cases"
+        ]
+      }
+    },
+    {
+      "id": "ureteropelvic-junction-obstruction",
+      "name": "Обструкция мочеточниково-лоханочного сегмента",
+      "nameEn": "Ureteropelvic Junction Obstruction",
+      "category": "Мочеполовая система",
+      "bookSection": "SECTION 8",
+      "bookPage": 608,
+      "definition": "Ureteropelvic Junction Obstruction",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Hallmark finding: Renal pelvis and calyceal dilation tapering",
+        "abruptly at ureteropelvic junction (UPJ)",
+        "Any calyceal dilation is abnormal",
+        "Demonstrate calyces connecting with renal pelvis",
+        "Kidney often enlarged",
+        "Funnel-shaped renal pelvis",
+        "Postobstructive renal dysplasia if severe",
+        "↑ эхогенныйity, cysts, thin cortex",
+        "Normal ureters and bladder",
+        "Associations",
+        "Contralateral renal abnormality: 25%",
+        "Bilateral UPJ obstruction: 10-30%",
+        "Extrarenal anomalies: 10%"
+      ],
+      "doppler_findings": [
+        "Hallmark finding: Renal pelvis and calyceal dilation tapering"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Multicystic dysplastic kidney",
+        "Upper tract dilation secondary to LUTO"
+      ],
+      "red_flags": [
+        "Use UTD classification system",
+        "Stratifies risk",
+        "Standardizes prenatal and postnatal динамическое наблюдение",
+        "UPJ may progress rapidly in utero",
+        "Monitor contralateral kidney, amniotic fluid"
+      ],
+      "follow_up": [
+        "Most common obstructive uropathy",
+        "Usually isolated abnormality",
+        "Prognosis excellent if unilateral",
+        "↑ risk of renal dysfunction if prenatal APRPD ≥ 10 mm",
+        "Prenatal APRPD > 14 mm strongly correlated with",
+        "postnatal surgical intervention",
+        "For severe obstruction early surgical intervention improves",
+        "renal function",
+        "Pyeloplasty: Surgical resection of narrow UPJ segment"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "postnatal surgical intervention",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.608: Ureteropelvic Junction Obstruction"
+      ],
+      "sourceBlocks": {
+        "IMAGING": [
+          "• Hallmark finding: Renal pelvis and calyceal dilation tapering",
+          "abruptly at ureteropelvic junction (UPJ)",
+          "• Any calyceal dilation is abnormal",
+          "○ Demonstrate calyces connecting with renal pelvis",
+          "• Kidney often enlarged",
+          "• Funnel-shaped renal pelvis",
+          "• Postobstructive renal dysplasia if severe",
+          "○ ↑ echogenicity, cysts, thin cortex",
+          "• Normal ureters and bladder",
+          "• Associations",
+          "○ Contralateral renal abnormality: 25%",
+          "○ Bilateral UPJ obstruction: 10-30%",
+          "○ Extrarenal anomalies: 10%"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Multicystic dysplastic kidney",
+          "• Upper tract dilation secondary to LUTO"
+        ],
+        "CLINICAL ISSUES": [
+          "• Most common obstructive uropathy",
+          "• Usually isolated abnormality",
+          "• Prognosis excellent if unilateral",
+          "• ↑ risk of renal dysfunction if prenatal APRPD ≥ 10 mm",
+          "• Prenatal APRPD > 14 mm strongly correlated with",
+          "postnatal surgical intervention",
+          "• For severe obstruction early surgical intervention improves",
+          "renal function",
+          "• Pyeloplasty: Surgical resection of narrow UPJ segment"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Use UTD classification system",
+          "○ Stratifies risk",
+          "○ Standardizes prenatal and postnatal follow-up",
+          "• UPJ may progress rapidly in utero",
+          "• Monitor contralateral kidney, amniotic fluid"
+        ]
+      }
+    },
+    {
+      "id": "urinoma",
+      "name": "Уринома",
+      "nameEn": "Urinoma",
+      "category": "Мочеполовая система",
+      "bookSection": "SECTION 8",
+      "bookPage": 612,
+      "definition": "• Rupture of severely obstructed urinary tract → urine leak, forms encapsulated perirenal fluid collection",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "анэхогенный fluid around or abutting obstructed kidney",
+        "Elliptical or crescentic",
+        "Associated severe urinary tract obstruction",
+        "Ureteropelvic junction (UPJ) obstruction",
+        "Lower urinary tract obstruction (LUTO)",
+        "– Posterior urethral valves most common",
+        "– Look for enlarged bladder",
+        "эхогенный ± cystic renal parenchyma"
+      ],
+      "doppler_findings": [
+        "Associated severe urinary tract obstruction",
+        "Lower urinary tract obstruction (LUTO)",
+        "– Posterior urethral valves most common"
+      ],
+      "mri_findings": [
+        "Consider МР to identify ipsilateral kidney, cysts"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Lymphangioma",
+        "Mesenteric/enteric duplication cyst",
+        "Meconium pseudocyst",
+        "UPJ with massive renal pelvis distention",
+        "Multicystic dysplastic kidney"
+      ],
+      "red_flags": [
+        "Fluid collection touching lateral lumbar spine most likely",
+        "originates from urinary tract",
+        "Surveillance of contralateral kidney, amniotic fluid, and",
+        "urinoma size"
+      ],
+      "follow_up": [
+        "Presence of urinoma confirms severe obstruction and",
+        "worse prognosis",
+        "Fetal urinoma may resolve in utero or after delivery",
+        "Often reflects oliguria/anuria of affected kidney",
+        "– Does not change prognosis",
+        "Consider urinoma drainage if concern for abdominal",
+        "dystocia",
+        "Drainage does not improve renal function"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Fetal urinoma may resolve in utero or after delivery",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.612: Urinoma"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Rupture of severely obstructed urinary tract → urine leak,",
+          "forms encapsulated perirenal fluid collection"
+        ],
+        "IMAGING": [
+          "• Anechoic fluid around or abutting obstructed kidney",
+          "○ Elliptical or crescentic",
+          "• Associated severe urinary tract obstruction",
+          "○ Ureteropelvic junction (UPJ) obstruction",
+          "○ Lower urinary tract obstruction (LUTO)",
+          "– Posterior urethral valves most common",
+          "– Look for enlarged bladder",
+          "○ Echogenic ± cystic renal parenchyma",
+          "• Consider MR to identify ipsilateral kidney, cysts"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Lymphangioma",
+          "• Mesenteric/enteric duplication cyst",
+          "• Meconium pseudocyst",
+          "• UPJ with massive renal pelvis distention",
+          "• Multicystic dysplastic kidney"
+        ],
+        "CLINICAL ISSUES": [
+          "• Presence of urinoma confirms severe obstruction and",
+          "worse prognosis",
+          "• Fetal urinoma may resolve in utero or after delivery",
+          "○ Often reflects oliguria/anuria of affected kidney",
+          "– Does not change prognosis",
+          "• Consider urinoma drainage if concern for abdominal",
+          "dystocia",
+          "○ Drainage does not improve renal function"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Fluid collection touching lateral lumbar spine most likely",
+          "originates from urinary tract",
+          "• Surveillance of contralateral kidney, amniotic fluid, and",
+          "urinoma size"
+        ]
+      }
+    },
+    {
+      "id": "obstructive-renal-dysplasia",
+      "name": "Обструктивная дисплазия почки",
+      "nameEn": "Obstructive Renal Dysplasia",
+      "category": "Мочеполовая система",
+      "bookSection": "SECTION 8",
+      "bookPage": 614,
+      "definition": "• Obstructive renal dysplasia (ORD) • GU tract obstruction → renal parenchymal destruction and cyst formation",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "↑ renal parenchyma эхогенныйity is 1st finding",
+        "Renal эхогенныйity > liver (normally same or < liver)",
+        "Cortical cysts",
+        "Early cysts are peripheral (\"rosary beads\")",
+        "Progresses to variable-sized cysts",
+        "Variable urinary tract dilation (UTD)",
+        "Amniotic fluid volume is variable",
+        "Bilateral ORD → severe маловодие",
+        "Ultrasound shows ORD progression",
+        "UTD → ↑ renal эхогенныйity → small peripheral cortical",
+        "cysts → large cysts",
+        "GU anomalies associated with ORD",
+        "Posterior urethral valves (PUV) in male fetus",
+        "Ureteropelvic junction (UPJ) obstruction",
+        "Duplicated kidney with obstruction",
+        "1° vesicoureteral junction obstruction (rare)",
+        "Severe маловодие limits ultrasound",
+        "Cystic kidneys have high signal on T2WI"
+      ],
+      "doppler_findings": [
+        "Early cysts are peripheral (\"rosary beads\")",
+        "Progresses to variable-sized cysts",
+        "Variable urinary tract dilation (UTD)",
+        "Amniotic fluid volume is variable",
+        "UTD → ↑ renal эхогенныйity → small peripheral cortical",
+        "Posterior urethral valves (PUV) in male fetus"
+      ],
+      "mri_findings": [
+        "МР is helpful with difficult cases"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Multicystic dysplastic kidney",
+        "Nonobstructive renal dysplasia",
+        "Autosomal recessive polycystic kidney disease"
+      ],
+      "red_flags": [
+        "эхогенный kidney or kidneys is important finding and",
+        "predictive of renal dysplasia",
+        "Look for subcortical small cysts when suspect ORD"
+      ],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.614: Obstructive Renal Dysplasia"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Obstructive renal dysplasia (ORD)",
+          "• GU tract obstruction → renal parenchymal destruction and",
+          "cyst formation"
+        ],
+        "IMAGING": [
+          "• ↑ renal parenchyma echogenicity is 1st finding",
+          "○ Renal echogenicity > liver (normally same or < liver)",
+          "• Cortical cysts",
+          "○ Early cysts are peripheral (\"rosary beads\")",
+          "○ Progresses to variable-sized cysts",
+          "• Variable urinary tract dilation (UTD)",
+          "• Amniotic fluid volume is variable",
+          "○ Bilateral ORD → severe oligohydramnios",
+          "• Ultrasound shows ORD progression",
+          "○ UTD → ↑ renal echogenicity → small peripheral cortical",
+          "cysts → large cysts",
+          "• GU anomalies associated with ORD",
+          "○ Posterior urethral valves (PUV) in male fetus",
+          "○ Ureteropelvic junction (UPJ) obstruction",
+          "○ Duplicated kidney with obstruction",
+          "○ 1° vesicoureteral junction obstruction (rare)",
+          "• MR is helpful with difficult cases",
+          "○ Severe oligohydramnios limits ultrasound",
+          "○ Cystic kidneys have high signal on T2WI"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Multicystic dysplastic kidney",
+          "• Nonobstructive renal dysplasia",
+          "• Autosomal recessive polycystic kidney disease"
+        ],
+        "PATHOLOGY": [
+          "• ↑ fluid retention and pressure in nephrons → cortical cysts",
+          "• ↓ nephron/tubular induction → ↓ number of nephrons"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Echogenic kidney or kidneys is important finding and",
+          "predictive of renal dysplasia",
+          "• Look for subcortical small cysts when suspect ORD"
+        ]
+      }
+    },
+    {
+      "id": "multicystic-dysplastic-kidney",
+      "name": "Мультикистозная дисплазия почки",
+      "nameEn": "Multicystic Dysplastic Kidney",
+      "category": "Мочеполовая система",
+      "bookSection": "SECTION 8",
+      "bookPage": 618,
+      "definition": "Multicystic Dysplastic Kidney",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Multiple noncommunicating cysts in kidney",
+        "Intervening renal tissue is sparse and abnormal",
+        "90% with ↑ renal size",
+        "Reniform shape often lost",
+        "Bilateral multicystic dysplastic kidney (MCDK) in 20%",
+        "(Potter type II)",
+        "Severe маловодие or anhydramnios",
+        "Grim prognosis from pulmonary hypoplasia",
+        "Contralateral renal anomaly (non-MCDK) in 5-40%",
+        "Ureteropelvic junction obstruction obstruction, reflux,",
+        "renal agenesis/hypoplasia",
+        "Nonrenal anomalies in 5%",
+        "Consider genetic testing",
+        "динамическое наблюдение US every 3-4 weeks",
+        "MCDK can enlarge dramatically",
+        "Evaluate contralateral kidney",
+        "Follow amniotic fluid"
+      ],
+      "doppler_findings": [
+        "Grim prognosis from pulmonary hypoplasia",
+        "Evaluate contralateral kidney"
+      ],
+      "mri_findings": [
+        "МРТ плода helpful for complicated cases"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Ureteropelvic junction obstruction",
+        "Obstructive cystic dysplasia"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "MCDK is most often nonfunctioning",
+        "Compensatory hypertrophy of contralateral kidney is good",
+        "prognosticator of healthy contralateral kidney",
+        "Routine nephrectomy not performed",
+        "Often involutes with time",
+        "Neonatal work-up",
+        "Confirmatory US",
+        "Voiding cystourethrogram (reflux common)",
+        "Isotope renal scan for function"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Neonatal work-up",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.618: Multicystic Dysplastic Kidney"
+      ],
+      "sourceBlocks": {
+        "IMAGING": [
+          "• Multiple noncommunicating cysts in kidney",
+          "○ Intervening renal tissue is sparse and abnormal",
+          "○ 90% with ↑ renal size",
+          "○ Reniform shape often lost",
+          "• Bilateral multicystic dysplastic kidney (MCDK) in 20%",
+          "(Potter type II)",
+          "○ Severe oligohydramnios or anhydramnios",
+          "○ Grim prognosis from pulmonary hypoplasia",
+          "• Contralateral renal anomaly (non-MCDK) in 5-40%",
+          "○ Ureteropelvic junction obstruction obstruction, reflux,",
+          "renal agenesis/hypoplasia",
+          "• Nonrenal anomalies in 5%",
+          "○ Consider genetic testing",
+          "• Follow-up US every 3-4 weeks",
+          "○ MCDK can enlarge dramatically",
+          "○ Evaluate contralateral kidney",
+          "○ Follow amniotic fluid",
+          "• Fetal MR helpful for complicated cases"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Ureteropelvic junction obstruction",
+          "• Obstructive cystic dysplasia"
+        ],
+        "PATHOLOGY": [
+          "• Noncommunicating cysts + dysplastic renal tissue",
+          "• Nonpatent ureter and renal pelvis"
+        ],
+        "CLINICAL ISSUES": [
+          "• MCDK is most often nonfunctioning",
+          "• Compensatory hypertrophy of contralateral kidney is good",
+          "prognosticator of healthy contralateral kidney",
+          "• Routine nephrectomy not performed",
+          "○ Often involutes with time",
+          "• Neonatal work-up",
+          "○ Confirmatory US",
+          "○ Voiding cystourethrogram (reflux common)",
+          "○ Isotope renal scan for function"
+        ]
+      }
+    },
+    {
+      "id": "autosomal-recessive-polycystic-kidney-disease",
+      "name": "Автосомно-рецессивная поликистозная болезнь почек",
+      "nameEn": "Autosomal Recessive Polycystic Kidney Disease",
+      "category": "Мочеполовая система",
+      "bookSection": "SECTION 8",
+      "bookPage": 622,
+      "definition": "• Most common ciliopathy in fetus • Single gene disorder resulting in bilateral, symmetric, cystic renal disease + hepatic fibrosis • Involves distal convoluted tubules + collecting ducts (i.e., medulla), cortex is relatively spared",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Renal enlargement, which may be massive in 3rd trimester",
+        "May be diffusely hyperechoic or limited to medulla",
+        "Hyperэхогенныйity caused by multiple interfaces of",
+        "dilated collecting ducts",
+        "гипоэхогенный cortex may be preserved depending on",
+        "severity of disease",
+        "Small, discrete cysts or areas of tubular ectasia often visible",
+        "with high-resolution scan",
+        "Fan or radial shape emanating from medulla"
+      ],
+      "doppler_findings": [
+        "Renal enlargement, which may be massive in 3rd trimester",
+        "severity of disease"
+      ],
+      "mri_findings": [
+        "Uniformly high signal intensity on T2WI МР"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [
+        "gene mutation located on chromosome 6p12"
+      ],
+      "differential_diagnosis": [
+        "Trisomy 13",
+        "Meckel-Gruber syndrome",
+        "Beckwith-Wiedemann syndrome"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Fetal diagnosis: маловодие → pulmonary hypoplasia"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "→ majority stillborn or neonatal death Neonatal survivors",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.622: Autosomal Recessive Polycystic Kidney Disease"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Most common ciliopathy in fetus",
+          "• Single gene disorder resulting in bilateral, symmetric, cystic",
+          "renal disease + hepatic fibrosis",
+          "• Involves distal convoluted tubules + collecting ducts (i.e.,",
+          "medulla), cortex is relatively spared"
+        ],
+        "IMAGING": [
+          "• Renal enlargement, which may be massive in 3rd trimester",
+          "• May be diffusely hyperechoic or limited to medulla",
+          "○ Hyperechogenicity caused by multiple interfaces of",
+          "dilated collecting ducts",
+          "○ Hypoechoic cortex may be preserved depending on",
+          "severity of disease",
+          "• Small, discrete cysts or areas of tubular ectasia often visible",
+          "with high-resolution scan",
+          "○ Fan or radial shape emanating from medulla",
+          "• Uniformly high signal intensity on T2WI MR"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Trisomy 13",
+          "• Meckel-Gruber syndrome",
+          "• Beckwith-Wiedemann syndrome"
+        ],
+        "PATHOLOGY": [
+          "• Autosomal recessive with all typical forms due to PKHD1",
+          "gene mutation located on chromosome 6p12",
+          "• Prenatal diagnosis is possible if specific mutation known"
+        ],
+        "CLINICAL ISSUES": [
+          "• Fetal diagnosis: Oligohydramnios → pulmonary hypoplasia",
+          "→ majority stillborn or neonatal death",
+          "• Neonatal survivors",
+          "○ 1-year survival: 85%",
+          "○ 10-year survival: 82%",
+          "○ 50% will need kidney transplant before age 20",
+          "• Juvenile form: Minimal renal disease but marked hepatic",
+          "fibrosis"
+        ]
+      }
+    },
+    {
+      "id": "autosomal-dominant-polycystic-kidney-disease",
+      "name": "Автосомно-доминантная поликистозная болезнь почек",
+      "nameEn": "Autosomal Dominant Polycystic Kidney Disease",
+      "category": "Мочеполовая система",
+      "bookSection": "SECTION 8",
+      "bookPage": 626,
+      "definition": "• Autosomal dominant polycystic kidney disease (ADPKD)",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Moderately enlarged эхогенный fetal kidneys",
+        "Renal size 1.5-2.0 s.d. above mean for gestational age",
+        "эхогенныйity is greater than liver эхогенныйity",
+        "Actual cysts seen in minority of fetal cases",
+        "Amniotic fluid tends to be normal"
+      ],
+      "doppler_findings": [
+        "Actual cysts seen in minority of fetal cases"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [
+        "85% PKD1 defect, short arm of chromosome 16",
+        "15% PKD2 defect, long arm of chromosome 4"
+      ],
+      "differential_diagnosis": [
+        "Autosomal recessive polycystic kidney disease",
+        "More common diagnosis in fetal life",
+        "Larger эхогенный kidneys than with ADPKD",
+        "– Parenchymal эхогенныйity from dilated tubules",
+        "More likely to have маловодие",
+        "Other genetic conditions with renal cystic dysplasia",
+        "Trisomy 13",
+        "Meckel-Gruber syndrome",
+        "Beckwith-Wiedemann syndrome",
+        "Obstructive renal dysplasia"
+      ],
+      "red_flags": [
+        "Avoid calling all enlarged эхогенный kidneys autosomal",
+        "recessive kidney disease",
+        "Renal cysts develop over time and often not seen in fetal",
+        "life",
+        "Recommend assessment of parents' kidneys"
+      ],
+      "follow_up": [
+        "1:400-1,000 incidence",
+        "Age at presentation and symptoms are variable",
+        "Fetal findings can prompt parental diagnosis",
+        "59% of parents did not know they were ADPKD carriers"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.626: Autosomal Dominant Polycystic Kidney Disease"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Autosomal dominant polycystic kidney disease (ADPKD)"
+        ],
+        "IMAGING": [
+          "• Moderately enlarged echogenic fetal kidneys",
+          "○ Renal size 1.5-2.0 s.d. above mean for gestational age",
+          "○ Echogenicity is greater than liver echogenicity",
+          "• Actual cysts seen in minority of fetal cases",
+          "• Amniotic fluid tends to be normal"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Autosomal recessive polycystic kidney disease",
+          "○ More common diagnosis in fetal life",
+          "○ Larger echogenic kidneys than with ADPKD",
+          "– Parenchymal echogenicity from dilated tubules",
+          "○ More likely to have oligohydramnios",
+          "• Other genetic conditions with renal cystic dysplasia",
+          "○ Trisomy 13",
+          "○ Meckel-Gruber syndrome",
+          "○ Beckwith-Wiedemann syndrome",
+          "• Obstructive renal dysplasia"
+        ],
+        "PATHOLOGY": [
+          "• 85% PKD1 defect, short arm of chromosome 16",
+          "○ Earlier and more severe presentations",
+          "• 15% PKD2 defect, long arm of chromosome 4"
+        ],
+        "CLINICAL ISSUES": [
+          "• 1:400-1,000 incidence",
+          "• Age at presentation and symptoms are variable",
+          "• Fetal findings can prompt parental diagnosis",
+          "○ 59% of parents did not know they were ADPKD carriers"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Avoid calling all enlarged echogenic kidneys autosomal",
+          "recessive kidney disease",
+          "○ Renal cysts develop over time and often not seen in fetal",
+          "life",
+          "• Recommend assessment of parents' kidneys"
+        ]
+      }
+    },
+    {
+      "id": "mesoblastic-nephroma",
+      "name": "Мезобластическая нефрома",
+      "nameEn": "Mesoblastic Nephroma",
+      "category": "Мочеполовая система",
+      "bookSection": "SECTION 8",
+      "bookPage": 628,
+      "definition": "• Benign mesenchymal renal tumor composed predominately of spindle cells",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Large, solid, vascular renal mass",
+        "Cystic/necrotic areas may be present",
+        "More often seen with more aggressive cellular variant",
+        "многоводие (often severe) in ~ 70%",
+        "Confirm renal origin of mass",
+        "Look for separate adrenal gland",
+        "Use цветовой допpler to find renal artery"
+      ],
+      "doppler_findings": [
+        "More often seen with more aggressive cellular variant",
+        "Confirm renal origin of mass",
+        "Use цветовой допpler to find renal artery"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Wilms tumor",
+        "Ultrasound appearance identical",
+        "Most present later in childhood (rare in utero)",
+        "Rhabdoid tumor also reported but rare"
+      ],
+      "red_flags": [
+        "Mesoblastic nephroma has excellent oncologic outcome",
+        "but high risk for perinatal complications",
+        "Mesoblastic nephroma is most likely diagnosis for",
+        "unilateral, solid renal mass"
+      ],
+      "follow_up": [
+        "Severe многоводие"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Neonatal respiratory distress Neonatal hypertension Neonatal hypercalcemia",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.628: Mesoblastic Nephroma"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Benign mesenchymal renal tumor composed",
+          "predominately of spindle cells"
+        ],
+        "IMAGING": [
+          "• Large, solid, vascular renal mass",
+          "• Cystic/necrotic areas may be present",
+          "○ More often seen with more aggressive cellular variant",
+          "• Polyhydramnios (often severe) in ~ 70%",
+          "• Confirm renal origin of mass",
+          "○ Look for separate adrenal gland",
+          "○ Use color Doppler to find renal artery"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Wilms tumor",
+          "○ Ultrasound appearance identical",
+          "○ Most present later in childhood (rare in utero)",
+          "• Rhabdoid tumor also reported but rare"
+        ],
+        "CLINICAL ISSUES": [
+          "• Most common renal neoplasm in fetus and newborn",
+          "• ~ 5% of perinatal tumors arise from kidney",
+          "• Can show rapid growth despite benign histology",
+          "• Perinatal complications in ~ 75%",
+          "○ Severe polyhydramnios",
+          "○ Hydrops",
+          "○ Acute fetal distress",
+          "○ Neonatal respiratory distress",
+          "○ Neonatal hypertension",
+          "○ Neonatal hypercalcemia",
+          "• Surgical resection usually curative"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Mesoblastic nephroma has excellent oncologic outcome",
+          "but high risk for perinatal complications",
+          "• Mesoblastic nephroma is most likely diagnosis for",
+          "unilateral, solid renal mass"
+        ]
+      }
+    },
+    {
+      "id": "adrenal-hemorrhage",
+      "name": "Кровоизлияние в надпочечник",
+      "nameEn": "Adrenal Hemorrhage",
+      "category": "Мочеполовая система",
+      "bookSection": "SECTION 8",
+      "bookPage": 632,
+      "definition": "• Hemorrhage within adrenal gland",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Sonographic features vary depending on age of bleed",
+        "Active bleeding may be sonolucent",
+        "As clot solidifies, it may simulate эхогенный mass",
+        "As clot liquefies, appearance changes from complex to",
+        "simple cystic lesion",
+        "May see septated cyst",
+        "May see fluid-fluid level",
+        "Adrenal hematomas may display rim of vascularity around",
+        "mass; no internal flow"
+      ],
+      "doppler_findings": [
+        "Adrenal hematomas may display rim of vascularity around"
+      ],
+      "mri_findings": [
+        "Blood products high signal on T1WI МР"
+      ],
+      "associated_anomalies": [
+        "body mass"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Neuroblastoma",
+        "May be cystic, but appearance does not change as",
+        "quickly as hemorrhage",
+        "Bronchopulmonary sequestration",
+        "Renal mass"
+      ],
+      "red_flags": [
+        "Key to diagnosis of fetal adrenal hemorrhage is evolution of",
+        "changes over time",
+        "Cystic neuroblastoma is important differential diagnosis;",
+        "prognosis is quite favorable when diagnosed prenatally"
+      ],
+      "follow_up": [
+        "Monitor size with US",
+        "Most will resolve spontaneously",
+        "Residual scar may calcify",
+        "Avoid adrenalectomy"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.632: Adrenal Hemorrhage"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Hemorrhage within adrenal gland"
+        ],
+        "IMAGING": [
+          "• Sonographic features vary depending on age of bleed",
+          "○ Active bleeding may be sonolucent",
+          "○ As clot solidifies, it may simulate echogenic mass",
+          "○ As clot liquefies, appearance changes from complex to",
+          "simple cystic lesion",
+          "○ May see septated cyst",
+          "○ May see fluid-fluid level",
+          "• Adrenal hematomas may display rim of vascularity around",
+          "mass; no internal flow",
+          "• Blood products high signal on T1WI MR"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Neuroblastoma",
+          "○ May be cystic, but appearance does not change as",
+          "quickly as hemorrhage",
+          "• Bronchopulmonary sequestration",
+          "• Renal mass"
+        ],
+        "PATHOLOGY": [
+          "• Fetal adrenal 10-20x larger than adult when compared with",
+          "body mass",
+          "• Thought to be more susceptible to hemodynamic stress",
+          "than adult adrenal"
+        ],
+        "CLINICAL ISSUES": [
+          "• Monitor size with US",
+          "• Most will resolve spontaneously",
+          "○ Residual scar may calcify",
+          "• Avoid adrenalectomy"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Key to diagnosis of fetal adrenal hemorrhage is evolution of",
+          "changes over time",
+          "• Cystic neuroblastoma is important differential diagnosis;",
+          "prognosis is quite favorable when diagnosed prenatally"
+        ]
+      }
+    },
+    {
+      "id": "neuroblastoma",
+      "name": "Нейробластома",
+      "nameEn": "Neuroblastoma",
+      "category": "Мочеполовая система",
+      "bookSection": "SECTION 8",
+      "bookPage": 634,
+      "definition": "• Malignant tumor composed of neuroblasts, arising within sympathetic neural plexus or adrenal medulla",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "> 90% of fetal cases arise in adrenal gland but may occur",
+        "anywhere along sympathetic chain",
+        "Retroperitoneal and posterior mediastinal make up",
+        "majority of remainder",
+        "~ 25% are cystic; may represent involuting tumor",
+        "Liver most common location for metastases",
+        "May be either diffusely infiltrating or form discrete",
+        "masses",
+        "Look for placental metastases, especially if maternal",
+        "symptoms of catecholamine excess"
+      ],
+      "doppler_findings": [
+        "> 90% of fetal cases arise in adrenal gland but may occur",
+        "Retroperitoneal and posterior mediastinal make up",
+        "majority of remainder"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Extralobar sequestration: Dominant feeding vessel from",
+        "aorta helps differentiate from neuroblastoma"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Most common congenital malignancy",
+        "Variable fetal course",
+        "May resolve spontaneously",
+        "Most remain stable without complications",
+        "Minority progress to гидrops fetalis and even death",
+        "Most fetal neuroblastomas have both favorable stage and",
+        "biologic markers",
+        "Excellent prognosis for this group",
+        "Many now advocate more conservative postpartum",
+        "treatment approach"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.634: Neuroblastoma"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Malignant tumor composed of neuroblasts, arising within",
+          "sympathetic neural plexus or adrenal medulla"
+        ],
+        "IMAGING": [
+          "• > 90% of fetal cases arise in adrenal gland but may occur",
+          "anywhere along sympathetic chain",
+          "○ Retroperitoneal and posterior mediastinal make up",
+          "majority of remainder",
+          "• ~ 25% are cystic; may represent involuting tumor",
+          "• Liver most common location for metastases",
+          "○ May be either diffusely infiltrating or form discrete",
+          "masses",
+          "• Look for placental metastases, especially if maternal",
+          "symptoms of catecholamine excess"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Extralobar sequestration: Dominant feeding vessel from",
+          "aorta helps differentiate from neuroblastoma"
+        ],
+        "PATHOLOGY": [
+          "• Normal fetal adrenal contains neuroblastic nodules",
+          "• Fetal neuroblastoma may represent temporary defect in",
+          "growth of these nodules that are destined to involute over",
+          "time",
+          "• May explain nonaggressive nature of fetal tumors when",
+          "compared to those in pediatric age group"
+        ],
+        "CLINICAL ISSUES": [
+          "• Most common congenital malignancy",
+          "• Variable fetal course",
+          "○ May resolve spontaneously",
+          "○ Most remain stable without complications",
+          "○ Minority progress to hydrops and even death",
+          "• Most fetal neuroblastomas have both favorable stage and",
+          "biologic markers",
+          "○ Excellent prognosis for this group",
+          "○ Many now advocate more conservative postpartum",
+          "treatment approach"
+        ]
+      }
+    },
+    {
+      "id": "congenital-adrenal-hyperplasia",
+      "name": "Врожденная гиперплазия надпочечников",
+      "nameEn": "Congenital Adrenal Hyperplasia",
+      "category": "Мочеполовая система",
+      "bookSection": "SECTION 8",
+      "bookPage": 640,
+      "definition": "• Congenital adrenal hyperplasia (CAH) is most common cause of disorder of sex development (DSD) in XX fetus • Autosomal recessive disorder of cortisol production",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Virilized female genitalia",
+        "Clitoral hypertrophy (clitoromegaly)",
+        "– Mimics penis or hypospadias",
+        "Prominent labia or fused labia",
+        "– Mimics scrotum",
+        "Affected male fetus with normal genitalia",
+        "Rare undervirilized XY",
+        "Adrenal glands may be normal or enlarged",
+        "Lose normal morphology (become mass-like)",
+        "Normative adrenal size data available",
+        "asymmetric appearance",
+        "Normal gland is homogeneously low signal on T2"
+      ],
+      "doppler_findings": [
+        "Virilized female genitalia",
+        "Rare undervirilized XY",
+        "asymmetric appearance"
+      ],
+      "mri_findings": [
+        "МРТ плода helpful to rule out adrenal mass, especially if"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Other DSD diagnoses",
+        "Severe hypospadias",
+        "Small penis (variety of etiologies)",
+        "Other suprarenal masses",
+        "Neuroblastoma",
+        "Bronchopulmonary sequestration"
+      ],
+      "red_flags": [
+        "Recommend genetic counseling for all cases with DSD",
+        "DSD multidisciplinary team approach is ideal",
+        "Do not assign fetal sex in suspected cases before complete",
+        "diagnostic assessment"
+      ],
+      "follow_up": [
+        "CAH considered chronic disease with lifelong sequelae",
+        "Very early (< 9-weeks gestation) in utero treatment with",
+        "low-dose dexamethasone possible but controversial"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.640: Congenital Adrenal Hyperplasia"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Congenital adrenal hyperplasia (CAH) is most common",
+          "cause of disorder of sex development (DSD) in XX fetus",
+          "• Autosomal recessive disorder of cortisol production"
+        ],
+        "IMAGING": [
+          "• Virilized female genitalia",
+          "○ Clitoral hypertrophy (clitoromegaly)",
+          "– Mimics penis or hypospadias",
+          "○ Prominent labia or fused labia",
+          "– Mimics scrotum",
+          "• Affected male fetus with normal genitalia",
+          "○ Rare undervirilized XY",
+          "• Adrenal glands may be normal or enlarged",
+          "○ Lose normal morphology (become mass-like)",
+          "○ Normative adrenal size data available",
+          "• Fetal MR helpful to rule out adrenal mass, especially if",
+          "asymmetric appearance",
+          "○ Normal gland is homogeneously low signal on T2"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Other DSD diagnoses",
+          "○ Severe hypospadias",
+          "○ Small penis (variety of etiologies)",
+          "• Other suprarenal masses",
+          "○ Neuroblastoma",
+          "○ Bronchopulmonary sequestration"
+        ],
+        "CLINICAL ISSUES": [
+          "• CAH considered chronic disease with lifelong sequelae",
+          "• Very early (< 9-weeks gestation) in utero treatment with",
+          "low-dose dexamethasone possible but controversial"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Recommend genetic counseling for all cases with DSD",
+          "• DSD multidisciplinary team approach is ideal",
+          "• Do not assign fetal sex in suspected cases before complete",
+          "diagnostic assessment"
+        ]
+      }
+    },
+    {
+      "id": "posterior-urethral-valves",
+      "name": "Задние уретральные клапаны",
+      "nameEn": "Posterior Urethral Valves",
+      "category": "Мочеполовая система",
+      "bookSection": "SECTION 8",
+      "bookPage": 642,
+      "definition": "• Most common cause of fetal lower urinary tract obstruction (LUTO) • Exclusively in male fetuses",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Distended bladder \"funnels\" into urethra",
+        "Keyhole sign from dilated posterior urethra",
+        "маловодие",
+        "гидронефроз/hydroureter",
+        "Associated malformations in 43%",
+        "Rupture → urinoma or urinary ascites",
+        "Evaluate for signs of obstructive renal dysplasia",
+        "↑ renal parenchymal эхогенныйity",
+        "Renal cortical cysts"
+      ],
+      "doppler_findings": [
+        "Keyhole sign from dilated posterior urethra",
+        "Rupture → urinoma or urinary ascites",
+        "Evaluate for signs of obstructive renal dysplasia"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Prune-belly syndrome",
+        "Cloacal malformation",
+        "Urethral atresia",
+        "Megacystis-microcolon intestinal hypoperistalsis syndrome",
+        "Vesicoureteral reflux"
+      ],
+      "red_flags": [
+        "Hallmark findings are dilated bladder + маловодие in",
+        "male fetus"
+      ],
+      "follow_up": [
+        "Worsening urinary tract dilation or маловодие",
+        "Severe маловодие and early gestational age at"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.642: Posterior Urethral Valves"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Most common cause of fetal lower urinary tract obstruction",
+          "(LUTO)",
+          "• Exclusively in male fetuses"
+        ],
+        "IMAGING": [
+          "• Distended bladder \"funnels\" into urethra",
+          "○ Keyhole sign from dilated posterior urethra",
+          "• Oligohydramnios",
+          "• Hydronephrosis/hydroureter",
+          "• Associated malformations in 43%",
+          "• Rupture → urinoma or urinary ascites",
+          "• Evaluate for signs of obstructive renal dysplasia",
+          "○ ↑ renal parenchymal echogenicity",
+          "○ Renal cortical cysts"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Prune-belly syndrome",
+          "• Cloacal malformation",
+          "• Urethral atresia",
+          "• Megacystis-microcolon intestinal hypoperistalsis syndrome",
+          "• Vesicoureteral reflux"
+        ],
+        "PATHOLOGY": [
+          "• Posterior urethral membrane acts as valve in male fetuses",
+          "○ Results in bladder outlet obstruction (usually partial)"
+        ],
+        "CLINICAL ISSUES": [
+          "• Wide range of severity with 25-50% overall mortality",
+          "• Variable degree of fetal renal damage",
+          "• Consider intervention to prevent pulmonary hypoplasia",
+          "○ Worsening urinary tract dilation or oligohydramnios",
+          "• Poor outcome predictors",
+          "○ Severe oligohydramnios and early gestational age at",
+          "onset"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Hallmark findings are dilated bladder + oligohydramnios in",
+          "male fetus"
+        ]
+      }
+    },
+    {
+      "id": "prune-belly-syndrome",
+      "name": "Синдром прунообразного живота",
+      "nameEn": "Prune-Belly Syndrome",
+      "category": "Мочеполовая система",
+      "bookSection": "SECTION 8",
+      "bookPage": 646,
+      "definition": "• 1 in group of disorders causing lower urinary tract obstruction (LUTO) • Characterized by 3 principle components ○ Dramatic collecting system dilatation ○ Deficiency or laxity of abdominal musculature ○ Cryptorchidism",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Gross dilatation of bladder, ureters, and renal pelves",
+        "Urethral dilation without obvious point of obstruction",
+        "Abdominal wall laxity after bladder decompression",
+        "Look for undescended testes",
+        "Follow kidneys for signs of developing dysplasia",
+        "маловодие often present but variable in severity",
+        "Small, bell-shaped chest suggestive of pulmonary",
+        "hypoplasia",
+        "Consider фetal echocardiography / эхокардиография плода: 10% of infants with prune belly have",
+        "cardiac anomalies"
+      ],
+      "doppler_findings": [
+        "Follow kidneys for signs of developing dysplasia",
+        "маловодие often present but variable in severity"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Posterior urethral valves",
+        "Megacystis-microcolon-intestinal hypoperistalsis syndrome"
+      ],
+      "red_flags": [
+        "Consider prune-belly syndrome when there is massive",
+        "dilatation of entire collecting system without severe",
+        "bladder wall thickening and trabeculations"
+      ],
+      "follow_up": [
+        "damage, маловодие, and pulmonary hypoplasia",
+        "Vesicoamniotic shunt may aid in decompressing bladder",
+        "and improving amniotic fluid status"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Postnatal flaccid, \"doughy\" abdomen",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.646: Prune-Belly Syndrome"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• 1 in group of disorders causing lower urinary tract",
+          "obstruction (LUTO)",
+          "• Characterized by 3 principle components",
+          "○ Dramatic collecting system dilatation",
+          "○ Deficiency or laxity of abdominal musculature",
+          "○ Cryptorchidism"
+        ],
+        "IMAGING": [
+          "• Gross dilatation of bladder, ureters, and renal pelves",
+          "• Urethral dilation without obvious point of obstruction",
+          "• Abdominal wall laxity after bladder decompression",
+          "• Look for undescended testes",
+          "• Follow kidneys for signs of developing dysplasia",
+          "• Oligohydramnios often present but variable in severity",
+          "• Small, bell-shaped chest suggestive of pulmonary",
+          "hypoplasia",
+          "• Consider fetal echo: 10% of infants with prune belly have",
+          "cardiac anomalies"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Posterior urethral valves",
+          "• Megacystis-microcolon-intestinal hypoperistalsis syndrome"
+        ],
+        "CLINICAL ISSUES": [
+          "• Almost all cases are male",
+          "• Prognosis dependent on severity of renal",
+          "damage, oligohydramnios, and pulmonary hypoplasia",
+          "• Vesicoamniotic shunt may aid in decompressing bladder",
+          "and improving amniotic fluid status",
+          "• Postnatal flaccid, \"doughy\" abdomen",
+          "• Neonate may require immediate assistance due to",
+          "pulmonary hypoplasia",
+          "• ~ 1/2 of survivors develop chronic renal disease"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Consider prune-belly syndrome when there is massive",
+          "dilatation of entire collecting system without severe",
+          "bladder wall thickening and trabeculations"
+        ]
+      }
+    },
+    {
+      "id": "ureterocele",
+      "name": "Уретероцеле",
+      "nameEn": "Ureterocele",
+      "category": "Мочеполовая система",
+      "bookSection": "SECTION 8",
+      "bookPage": 650,
+      "definition": "• Congenital dilatation of intramucosal segment of ureter with prolapse into bladder lumen ○ Simple: Occurs at normal ureterovesical junction ○ Ectopic: Almost always associated with renal duplication",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "анэхогенный, balloon-like, thin-walled cyst inside bladder",
+        "May fluctuate in size with bladder filling and ureteral",
+        "peristalsis",
+        "If large, may obstruct contralateral ureter or cause",
+        "bladder outlet obstruction",
+        "Evaluate bladder several times during exam to assess for",
+        "ureterocele",
+        "Ureterocele best seen when bladder partially full",
+        "– May be misinterpreted as bladder when latter is",
+        "decompressed",
+        "– If fully distended, may compress ureterocele",
+        "Urinary tract dilation grading: UTD A2-3 (prenatal) and at",
+        "least UTD P2 (postnatal) when ureterocele is present"
+      ],
+      "doppler_findings": [
+        "May fluctuate in size with bladder filling and ureteral",
+        "peristalsis",
+        "Evaluate bladder several times during exam to assess for",
+        "Urinary tract dilation grading: UTD A2-3 (prenatal) and at"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Mass effect from adjacent sigmoid colon",
+        "Ovarian cyst in female fetuses"
+      ],
+      "red_flags": [
+        "Dilated upper pole moiety + cystic mass in bladder =",
+        "duplicated collecting system with ureterocele"
+      ],
+      "follow_up": [
+        "маловодие and even urinary ascites may develop if"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.650: Ureterocele"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Congenital dilatation of intramucosal segment of ureter",
+          "with prolapse into bladder lumen",
+          "○ Simple: Occurs at normal ureterovesical junction",
+          "○ Ectopic: Almost always associated with renal duplication"
+        ],
+        "IMAGING": [
+          "• Anechoic, balloon-like, thin-walled cyst inside bladder",
+          "○ May fluctuate in size with bladder filling and ureteral",
+          "peristalsis",
+          "○ If large, may obstruct contralateral ureter or cause",
+          "bladder outlet obstruction",
+          "• Evaluate bladder several times during exam to assess for",
+          "ureterocele",
+          "○ Ureterocele best seen when bladder partially full",
+          "– May be misinterpreted as bladder when latter is",
+          "decompressed",
+          "– If fully distended, may compress ureterocele",
+          "• Urinary tract dilation grading: UTD A2-3 (prenatal) and at",
+          "least UTD P2 (postnatal) when ureterocele is present"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Mass effect from adjacent sigmoid colon",
+          "• Ovarian cyst in female fetuses"
+        ],
+        "PATHOLOGY": [
+          "• Ectopic ureterocele from upper pole of duplicated",
+          "collecting system inserts medially and inferiorly to trigone,",
+          "near bladder neck"
+        ],
+        "CLINICAL ISSUES": [
+          "• Oligohydramnios and even urinary ascites may develop if",
+          "ureterocele obstructs bladder outlet"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Dilated upper pole moiety + cystic mass in bladder =",
+          "duplicated collecting system with ureterocele"
+        ]
+      }
+    },
+    {
+      "id": "urachal-anomalies",
+      "name": "Аномалии урахуса",
+      "nameEn": "Urachal Anomalies",
+      "category": "Мочеполовая система",
+      "bookSection": "SECTION 8",
+      "bookPage": 654,
+      "definition": "• Group of disorders resulting from incomplete involution of allantois • Urachus is intraabdominal portion of allantois ○ Any persistent segments are termed urachal remnants ○ Complete failure of closure → patent urachus – Most common type seen in fetus ○ Partial failure of closure → urachal cyst, diverticulum, or sinus",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Anterior midline fluid collection located between bladder",
+        "and umbilical cord insertion",
+        "May extend into base of umbilical cord, forming allantoic",
+        "cyst",
+        "Cord cyst may be large and most obvious finding",
+        "Edematous, cystic-appearing Wharton jelly from urine",
+        "absorption into cord",
+        "Real-time examination is important",
+        "Try to connect cyst with bladder",
+        "– May change size, often becoming larger when bladder",
+        "decompresses",
+        "Look for discontinuity in abdominal wall allowing",
+        "communication with cord cyst"
+      ],
+      "doppler_findings": [
+        "Anterior midline fluid collection located between bladder",
+        "Edematous, cystic-appearing Wharton jelly from urine"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Other abdominal cysts are not restricted to anterior midline",
+        "location",
+        "Lower urinary tract obstruction",
+        "Dilated bladder may extend up to umbilicus and be",
+        "confused with urachal anomaly",
+        "Remember: There may be both obstructed bladder and",
+        "patent urachus",
+        "Urachus serves as pop-off valve to decompress bladder"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Excellent prognosis with repair",
+        "Risk of infection and malignancy if not resected"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Excellent prognosis with repair",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.654: Urachal Anomalies"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Group of disorders resulting from incomplete involution of",
+          "allantois",
+          "• Urachus is intraabdominal portion of allantois",
+          "○ Any persistent segments are termed urachal remnants",
+          "○ Complete failure of closure → patent urachus",
+          "– Most common type seen in fetus",
+          "○ Partial failure of closure → urachal cyst, diverticulum, or",
+          "sinus"
+        ],
+        "IMAGING": [
+          "• Anterior midline fluid collection located between bladder",
+          "and umbilical cord insertion",
+          "• May extend into base of umbilical cord, forming allantoic",
+          "cyst",
+          "○ Cord cyst may be large and most obvious finding",
+          "○ Edematous, cystic-appearing Wharton jelly from urine",
+          "absorption into cord",
+          "• Real-time examination is important",
+          "○ Try to connect cyst with bladder",
+          "– May change size, often becoming larger when bladder",
+          "decompresses",
+          "○ Look for discontinuity in abdominal wall allowing",
+          "communication with cord cyst"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Other abdominal cysts are not restricted to anterior midline",
+          "location",
+          "• Lower urinary tract obstruction",
+          "○ Dilated bladder may extend up to umbilicus and be",
+          "confused with urachal anomaly",
+          "• Remember: There may be both obstructed bladder and",
+          "patent urachus",
+          "○ Urachus serves as pop-off valve to decompress bladder"
+        ],
+        "CLINICAL ISSUES": [
+          "• Excellent prognosis with repair",
+          "• Risk of infection and malignancy if not resected"
+        ]
+      }
+    },
+    {
+      "id": "disorders-of-sex-development",
+      "name": "Нарушения полового развития",
+      "nameEn": "Disorders of Sex Development",
+      "category": "Мочеполовая система",
+      "bookSection": "SECTION 8",
+      "bookPage": 658,
+      "definition": "• Atypical external genitalia; indeterminate fetal sex ○ Discrepancy between external genitalia, gonadal, and chromosomal sex • Preferred terminology: Fetal \"sex\" not \"gender\" • Phallus: Genital tubercle; differentiates into penis or clitoris",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Fetal sex is atypical despite adequate visualization",
+        "Cannot differentiate penis from clitoris",
+        "Cannot differentiate scrotum from labia",
+        "– Internal genitalia: Uterus, cervix, and testes are",
+        "difficult to reliably image at midtrimester",
+        "4 main categories of disorders of sex development (DSD)",
+        "DSD findings in XY fetus",
+        "– Hypospadias: Ventral urethral opening; most common",
+        "□ Blunt-ending penis instead of normal taper",
+        "– Epispadias: Dorsal urethral opening",
+        "– Small penis ± cryptorchidism",
+        "DSD findings in XX fetus",
+        "– Clitoromegaly; prominent or fused labia",
+        "– Congenital adrenal hyperplasia (CAH) is most common",
+        "DSD in sex chromosome aneuploidy",
+        "– May have typical external genitalia (45,X/47,XXY)",
+        "– Mosaicism (45,X/46,XY) or chimera (46,XX/46,XY)",
+        "□ May have asymmetric atypical genitalia",
+        "Syndromic/structural DSD",
+        "– Many associated syndromes/structural abnormalities",
+        "– Includes trisomies 13, 18; Smith-Lemli-Opitz;",
+        "campomelic dysplasia; Cornelia de Lange; and",
+        "CHARGE syndrome"
+      ],
+      "doppler_findings": [
+        "Fetal sex is atypical despite adequate visualization",
+        "Cannot differentiate penis from clitoris",
+        "difficult to reliably image at midtrimester",
+        "4 main categories of disorders of sex development (DSD)",
+        "– Epispadias: Dorsal urethral opening",
+        "– May have typical external genitalia (45,X/47,XXY)",
+        "□ May have asymmetric atypical genitalia",
+        "– Includes trisomies 13, 18; Smith-Lemli-Opitz;"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [
+        "Refer all for genetic counseling",
+        "DSD multidisciplinary team approach is ideal",
+        "Consultations can begin at time of prenatal diagnosis",
+        "Sex assignment should be postponed until diagnostic",
+        "assessment is complete"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.658: Disorders of Sex Development"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Atypical external genitalia; indeterminate fetal sex",
+          "○ Discrepancy between external genitalia, gonadal, and",
+          "chromosomal sex",
+          "• Preferred terminology: Fetal \"sex\" not \"gender\"",
+          "• Phallus: Genital tubercle; differentiates into penis or clitoris"
+        ],
+        "IMAGING": [
+          "• Fetal sex is atypical despite adequate visualization",
+          "○ Cannot differentiate penis from clitoris",
+          "○ Cannot differentiate scrotum from labia",
+          "– Internal genitalia: Uterus, cervix, and testes are",
+          "difficult to reliably image at midtrimester",
+          "• 4 main categories of disorders of sex development (DSD)",
+          "○ DSD findings in XY fetus",
+          "– Hypospadias: Ventral urethral opening; most common",
+          "□ Blunt-ending penis instead of normal taper",
+          "– Epispadias: Dorsal urethral opening",
+          "– Small penis ± cryptorchidism",
+          "○ DSD findings in XX fetus",
+          "– Clitoromegaly; prominent or fused labia",
+          "– Congenital adrenal hyperplasia (CAH) is most common",
+          "○ DSD in sex chromosome aneuploidy",
+          "– May have typical external genitalia (45,X/47,XXY)",
+          "– Mosaicism (45,X/46,XY) or chimera (46,XX/46,XY)",
+          "□ May have asymmetric atypical genitalia",
+          "○ Syndromic/structural DSD",
+          "– Many associated syndromes/structural abnormalities",
+          "– Includes trisomies 13, 18; Smith-Lemli-Opitz;",
+          "campomelic dysplasia; Cornelia de Lange; and",
+          "CHARGE syndrome"
+        ],
+        "CLINICAL ISSUES": [
+          "• Refer all for genetic counseling",
+          "• DSD multidisciplinary team approach is ideal",
+          "○ Consultations can begin at time of prenatal diagnosis",
+          "• Sex assignment should be postponed until diagnostic",
+          "assessment is complete"
+        ]
+      }
+    },
+    {
+      "id": "hypospadias",
+      "name": "Гипоспадия",
+      "nameEn": "Hypospadias",
+      "category": "Мочеполовая система",
+      "bookSection": "SECTION 8",
+      "bookPage": 664,
+      "definition": "• Opening of urethra along ventral side of penis, not tip ○ 50% distal near glans (glanular) ○ 30% midpenile shaft ○ 20% severe and proximal (penoscrotal, scrotal, perineal)",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Blunt penile tip",
+        "Lateral эхогенный lines (prepuce lateral folds)",
+        "Chordee: Ventral curvature of penis from fibrous band",
+        "Tulip sign suggests severe hypospadias",
+        "Small, curved penis between scrotal folds",
+        "Associated anomalies",
+        "40% with upper urinary tract anomalies",
+        "7-10% with cryptorchidism",
+        "7-9% with extraurogenital anomalies",
+        "задержка роста плода (ЗРП/FGR)"
+      ],
+      "doppler_findings": [
+        "40% with upper urinary tract anomalies",
+        "задержка роста плода (ЗРП/FGR)"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Associated with many different syndromes"
+      ],
+      "genetic_associations": [
+        "Most often normal chromosomes",
+        "Aneuploidy association",
+        "Associated with many different syndromes"
+      ],
+      "differential_diagnosis": [
+        "Clitoromegaly",
+        "Micropenis",
+        "Bladder exstrophy with epispadias"
+      ],
+      "red_flags": [
+        "Recommend genetic counseling",
+        "Avoid sex identification if severe"
+      ],
+      "follow_up": [
+        "Most common male genital congenital defect",
+        "1 in 200-250 males",
+        "4-12% recurrence risk"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.664: Hypospadias"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Opening of urethra along ventral side of penis, not tip",
+          "○ 50% distal near glans (glanular)",
+          "○ 30% midpenile shaft",
+          "○ 20% severe and proximal (penoscrotal, scrotal, perineal)"
+        ],
+        "IMAGING": [
+          "• Blunt penile tip",
+          "○ Lateral echogenic lines (prepuce lateral folds)",
+          "• Chordee: Ventral curvature of penis from fibrous band",
+          "• Tulip sign suggests severe hypospadias",
+          "○ Small, curved penis between scrotal folds",
+          "• Associated anomalies",
+          "○ 40% with upper urinary tract anomalies",
+          "○ 7-10% with cryptorchidism",
+          "○ 7-9% with extraurogenital anomalies",
+          "○ Fetal growth restriction"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Clitoromegaly",
+          "• Micropenis",
+          "• Bladder exstrophy with epispadias"
+        ],
+        "PATHOLOGY": [
+          "• Most often normal chromosomes",
+          "• Aneuploidy association",
+          "○ XXY, XXXXY, trisomy 13 and 18, triploidy",
+          "• Associated with many different syndromes"
+        ],
+        "CLINICAL ISSUES": [
+          "• Most common male genital congenital defect",
+          "• 1 in 200-250 males",
+          "• 4-12% recurrence risk"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Recommend genetic counseling",
+          "• Avoid sex identification if severe"
+        ]
+      }
+    },
+    {
+      "id": "ovarian-cyst",
+      "name": "Киста яичника",
+      "nameEn": "Ovarian Cyst",
+      "category": "Мочеполовая система",
+      "bookSection": "SECTION 8",
+      "bookPage": 666,
+      "definition": "Ovarian Cyst",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Abdominal cyst in female fetus especially if lower lateral",
+        "abdomen or pelvis",
+        "Daughter cyst sign highly specific",
+        "Gastrointestinal and urinary tracts normal",
+        "Consider torsion if",
+        "New fluid-fluid level",
+        "Previously анэхогенный or гипоэхогенный cyst becomes",
+        "hyperechoic"
+      ],
+      "doppler_findings": [
+        "Gastrointestinal and urinary tracts normal"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Large cyst (> 6 cm) associated with increased risk of"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Renal abnormalities",
+        "Multicystic dysplastic kidney",
+        "гидронефроз/ureteropelvic junction obstruction",
+        "Gastrointestinal abnormalities",
+        "Dilated bowel, meconium pseudocyst",
+        "Other intraabdominal cysts",
+        "Urachal",
+        "Enteric duplication",
+        "Mesenteric",
+        "Choledochal",
+        "Hydrocolpos"
+      ],
+      "red_flags": [
+        "If seen before 3rd trimester, it is very unlikely that cyst is",
+        "ovarian in origin"
+      ],
+      "follow_up": [
+        "Most common cause of intraabdominal cyst in female fetus",
+        "In utero or postnatal regression in 53.5%",
+        "Indications for surgical resection include cysts persisting for",
+        "> 6 months, > 5 cm or enlarging",
+        "Nonsimple cysts more likely to require excision than",
+        "simple",
+        "Large cyst (> 6 cm) associated with increased risk of",
+        "hemorrhage and torsion",
+        "If torsion occurs, ipsilateral ovary usually not salvageable",
+        "Not indication for early delivery"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Not indication for early delivery",
+      "postnatal_management": "In utero or postnatal regression in 53.5%",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.666: Ovarian Cyst"
+      ],
+      "sourceBlocks": {
+        "IMAGING": [
+          "• Abdominal cyst in female fetus especially if lower lateral",
+          "abdomen or pelvis",
+          "○ Daughter cyst sign highly specific",
+          "• Gastrointestinal and urinary tracts normal",
+          "• Consider torsion if",
+          "○ New fluid-fluid level",
+          "○ Previously anechoic or hypoechoic cyst becomes",
+          "hyperechoic"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Renal abnormalities",
+          "○ Multicystic dysplastic kidney",
+          "○ Hydronephrosis/ureteropelvic junction obstruction",
+          "• Gastrointestinal abnormalities",
+          "○ Dilated bowel, meconium pseudocyst",
+          "• Other intraabdominal cysts",
+          "○ Urachal",
+          "○ Enteric duplication",
+          "○ Mesenteric",
+          "○ Choledochal",
+          "• Hydrocolpos"
+        ],
+        "CLINICAL ISSUES": [
+          "• Most common cause of intraabdominal cyst in female fetus",
+          "• In utero or postnatal regression in 53.5%",
+          "• Indications for surgical resection include cysts persisting for",
+          "> 6 months, > 5 cm or enlarging",
+          "○ Nonsimple cysts more likely to require excision than",
+          "simple",
+          "• Large cyst (> 6 cm) associated with increased risk of",
+          "hemorrhage and torsion",
+          "• If torsion occurs, ipsilateral ovary usually not salvageable",
+          "○ Not indication for early delivery"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• If seen before 3rd trimester, it is very unlikely that cyst is",
+          "ovarian in origin"
+        ]
+      }
+    },
+    {
+      "id": "hydrocolpos",
+      "name": "Гидроколпос",
+      "nameEn": "Hydrocolpos",
+      "category": "Мочеполовая система",
+      "bookSection": "SECTION 8",
+      "bookPage": 670,
+      "definition": "• Vaginal obstruction with resulting distension from vaginal and uterine secretions • Isolated hydrocolpos is distinct entity from hydrocolpos in association with cloacal anomalies",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Unilocular, fluid-filled, conical retrovesicular mass funneling",
+        "to perineum",
+        "Contents may be анэхогенный or have low-level echoes",
+        "Normal anal dimple",
+        "Normal T1-hyperintense, meconium-filled rectum"
+      ],
+      "doppler_findings": [
+        "to perineum",
+        "Normal T1-hyperintense, meconium-filled rectum"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Additional congenital anomalies uncommon"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Cloacal malformation",
+        "Typically septated or bilobed, cystic pelvic mass",
+        "representing obstructed, duplicated vaginas",
+        "Fluid-debris level resulting from mixing of urine and",
+        "vaginal secretions ± meconium",
+        "Commonly has associated abnormalities",
+        "Absent normal T1-hyperintense, meconium-filled rectum",
+        "on МРТ плода"
+      ],
+      "red_flags": [
+        "МРТ плода recommended for characterization of pelvic",
+        "structures and differentiation of isolated hydrocolpos from",
+        "cloacal malformation"
+      ],
+      "follow_up": [
+        "Imperforate hymen present in 0.1% of term neonates",
+        "Immediate drainage is important to prevent sepsis,",
+        "perforation, or ongoing urinary tract obstruction"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.670: Hydrocolpos"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Vaginal obstruction with resulting distension from vaginal",
+          "and uterine secretions",
+          "• Isolated hydrocolpos is distinct entity from hydrocolpos in",
+          "association with cloacal anomalies"
+        ],
+        "IMAGING": [
+          "• Unilocular, fluid-filled, conical retrovesicular mass funneling",
+          "to perineum",
+          "○ Contents may be anechoic or have low-level echoes",
+          "• Normal anal dimple",
+          "• Normal T1-hyperintense, meconium-filled rectum"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Cloacal malformation",
+          "○ Typically septated or bilobed, cystic pelvic mass",
+          "representing obstructed, duplicated vaginas",
+          "○ Fluid-debris level resulting from mixing of urine and",
+          "vaginal secretions ± meconium",
+          "○ Commonly has associated abnormalities",
+          "○ Absent normal T1-hyperintense, meconium-filled rectum",
+          "on fetal MR"
+        ],
+        "PATHOLOGY": [
+          "• Isolated hydrocolpos results from imperforate hymen",
+          "(most common), transverse vaginal septum or atresia",
+          "○ Accumulation of copious secretions in response to",
+          "circulating maternal hormones",
+          "• Additional congenital anomalies uncommon"
+        ],
+        "CLINICAL ISSUES": [
+          "• Imperforate hymen present in 0.1% of term neonates",
+          "• Immediate drainage is important to prevent sepsis,",
+          "perforation, or ongoing urinary tract obstruction"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Fetal MR recommended for characterization of pelvic",
+          "structures and differentiation of isolated hydrocolpos from",
+          "cloacal malformation"
+        ]
+      }
+    },
+    {
+      "id": "hydronephrosis",
+      "name": "Гидронефроз",
+      "nameEn": "Hydronephrosis",
+      "category": "Мочеполовая система",
+      "bookSection": "SECTION 8",
+      "bookPage": 672,
+      "definition": "гидронефроз",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.672: Hydronephrosis"
+      ],
+      "sourceBlocks": {}
+    },
+    {
+      "id": "echogenic-kidneys",
+      "name": "Эхогенные почки",
+      "nameEn": "Echogenic Kidneys",
+      "category": "Мочеполовая система",
+      "bookSection": "SECTION 8",
+      "bookPage": 676,
+      "definition": "эхогенный Kidneys",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.676: Echogenic Kidneys"
+      ],
+      "sourceBlocks": {}
+    },
+    {
+      "id": "unilateral-enlarged-kidney",
+      "name": "Одностороннее увеличение почки",
+      "nameEn": "Unilateral Enlarged Kidney",
+      "category": "Мочеполовая система",
+      "bookSection": "SECTION 8",
+      "bookPage": 680,
+      "definition": "Unilateral Enlarged Kidney",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.680: Unilateral Enlarged Kidney"
+      ],
+      "sourceBlocks": {}
+    },
+    {
+      "id": "suprarenal-mass",
+      "name": "Образование надпочечника",
+      "nameEn": "Suprarenal Mass",
+      "category": "Мочеполовая система",
+      "bookSection": "SECTION 8",
+      "bookPage": 684,
+      "definition": "Suprarenal Mass",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.684: Suprarenal Mass"
+      ],
+      "sourceBlocks": {}
+    },
+    {
+      "id": "scrotal-mass",
+      "name": "Образование мошонки",
+      "nameEn": "Scrotal Mass",
+      "category": "Мочеполовая система",
+      "bookSection": "SECTION 8",
+      "bookPage": 686,
+      "definition": "Scrotal Mass",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.686: Scrotal Mass"
+      ],
+      "sourceBlocks": {}
+    }
+  ]
+}

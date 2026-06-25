@@ -1,0 +1,86 @@
+{
+  "sourcePdf": "/Users/yakrav7700/Desktop/Diagnostic Imaging. Obstetrics (Woodward) 4 ed (2021).pdf",
+  "extractedAt": "2026-06-25",
+  "files": {
+    "first-trimester": {
+      "path": "first-trimester.json",
+      "count": 12,
+      "moduleRu": "I триместр"
+    },
+    "brain": {
+      "path": "brain.json",
+      "count": 42,
+      "moduleRu": "Головной мозг"
+    },
+    "spine": {
+      "path": "spine.json",
+      "count": 7,
+      "moduleRu": "Позвоночник"
+    },
+    "face-neck": {
+      "path": "face-neck.json",
+      "count": 12,
+      "moduleRu": "Лицо и шея"
+    },
+    "chest": {
+      "path": "chest.json",
+      "count": 11,
+      "moduleRu": "Грудная клетка"
+    },
+    "heart": {
+      "path": "heart.json",
+      "count": 27,
+      "moduleRu": "Сердце"
+    },
+    "gastrointestinal": {
+      "path": "gastrointestinal.json",
+      "count": 28,
+      "moduleRu": "ЖКТ и брюшная стенка"
+    },
+    "genitourinary": {
+      "path": "genitourinary.json",
+      "count": 30,
+      "moduleRu": "Мочеполовая система"
+    },
+    "musculoskeletal": {
+      "path": "musculoskeletal.json",
+      "count": 26,
+      "moduleRu": "Опорно-двигательная система"
+    },
+    "placenta": {
+      "path": "placenta.json",
+      "count": 16,
+      "moduleRu": "Плацента, оболочки, пуповина"
+    },
+    "multiple-gestation": {
+      "path": "multiple-gestation.json",
+      "count": 10,
+      "moduleRu": "Многоплодная беременность"
+    },
+    "aneuploidy": {
+      "path": "aneuploidy.json",
+      "count": 5,
+      "moduleRu": "Анеуплоидии"
+    },
+    "syndromes": {
+      "path": "syndromes.json",
+      "count": 37,
+      "moduleRu": "Синдромы и мультисистемные нарушения"
+    },
+    "infection": {
+      "path": "infection.json",
+      "count": 5,
+      "moduleRu": "Инфекции"
+    },
+    "growth-wellbeing": {
+      "path": "growth-wellbeing.json",
+      "count": 6,
+      "moduleRu": "Рост, жидкость, состояние плода"
+    },
+    "maternal-conditions": {
+      "path": "maternal-conditions.json",
+      "count": 12,
+      "moduleRu": "Материнские состояния"
+    }
+  }
+}

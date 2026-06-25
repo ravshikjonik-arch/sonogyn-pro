@@ -1,0 +1,381 @@
+{
+  "module": "growth-wellbeing",
+  "moduleRu": "Рост, жидкость, состояние плода",
+  "source": {
+    "title": "Diagnostic Imaging: Obstetrics",
+    "edition": "4th",
+    "authors": [
+      "Paula J. Woodward",
+      "Anne Kennedy",
+      "Roya Sohaey",
+      "Janice L. B. Byrne",
+      "Michael D. Puchalski",
+      "Brian L. Shaffer",
+      "Emily Edwards",
+      "Priyanka Jha",
+      "Whitnee Hogan"
+    ]
+  },
+  "version": "1.0.0",
+  "extractedAt": "2026-06-25",
+  "entries": [
+    {
+      "id": "fetal-growth-restriction",
+      "name": "Задержка роста плода",
+      "nameEn": "Fetal Growth Restriction",
+      "category": "Рост, жидкость, состояние плода",
+      "bookSection": "SECTION 15",
+      "bookPage": 1070,
+      "definition": "• задержка роста плода (ЗРП/FGR) (FGR): Estimated fetal weight or abdominal circumference < 10th percentile for gestational age (GA) • Severe FGR: EFW < 3rd percentile for GA • Small for GA: Birth weight < 10th percentile for GA • Early onset diagnosed at < 32 weeks GA, late onset at > 32 weeks at diagnosis",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Detailed scan for aneuploidy, anomalies, signs of infection",
+        "Once FGR diagnosed, serial UA Doppler to assess for",
+        "deterioration"
+      ],
+      "doppler_findings": [
+        "Once FGR diagnosed, serial UA Doppler to assess for",
+        "deterioration"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "anomalies"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Constitutionally small fetus",
+        "маловодие without placental insufficiency"
+      ],
+      "red_flags": [
+        "Confirm correct pregnancy dating",
+        "EFW percentiles are based on GA; early US more accurate",
+        "than menstrual or clinical dating",
+        "Nonconventional biometry helpful when dates uncertain"
+      ],
+      "follow_up": [
+        "кaryotyping / кариотипирование with microarray recommended for early-onset",
+        "isolated FGR or in any case with многоводие or fetal",
+        "Amniotic fluid PCR for CMV is амниocentesis performed"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Society of Maternal Fetal Medicine (SMFM) delivery",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1070: Fetal Growth Restriction"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Fetal growth restriction (FGR): Estimated fetal weight or",
+          "abdominal circumference < 10th percentile for gestational",
+          "age (GA)",
+          "• Severe FGR: EFW < 3rd percentile for GA",
+          "• Small for GA: Birth weight < 10th percentile for GA",
+          "• Early onset diagnosed at < 32 weeks GA, late onset at > 32",
+          "weeks at diagnosis"
+        ],
+        "IMAGING": [
+          "• Detailed scan for aneuploidy, anomalies, signs of infection",
+          "• Once FGR diagnosed, serial UA Doppler to assess for",
+          "deterioration"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Constitutionally small fetus",
+          "• Oligohydramnios without placental insufficiency"
+        ],
+        "CLINICAL ISSUES": [
+          "• Placental causes in 25-30%",
+          "○ Small abdominal circumference (AC) is biggest predictor",
+          "for FGR from placental insufficiency",
+          "• Chromosomal disorders, malformations in ~ 20%",
+          "○ Karyotype with microarray recommended for early-onset",
+          "isolated FGR or in any case with polyhydramnios or fetal",
+          "anomalies",
+          "• Intrauterine infection in 5-10% of cases",
+          "○ Amniotic fluid PCR for CMV is amniocentesis performed",
+          "• Society of Maternal Fetal Medicine (SMFM) delivery",
+          "guidelines correlate FGR with UA Doppler findings",
+          "• Preterm birth is most important prognostic factor in FGR",
+          "• Intact survival ↑ 1-2% for every day spent in utero at < 32",
+          "weeks"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Confirm correct pregnancy dating",
+          "○ EFW percentiles are based on GA; early US more accurate",
+          "than menstrual or clinical dating",
+          "○ Nonconventional biometry helpful when dates uncertain"
+        ]
+      }
+    },
+    {
+      "id": "macrosomia",
+      "name": "Макросомия",
+      "nameEn": "Macrosomia",
+      "category": "Рост, жидкость, состояние плода",
+      "bookSection": "SECTION 15",
+      "bookPage": 1074,
+      "definition": "• Birth weight > 4,000 g or 4,500 g (or 10 lb) • Estimated fetal weight (EFW) > 90th percentile",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Fetal biometry used to estimate weight",
+        "Large abdominal circumference (AC) is often 1st clue",
+        "– AC is heavily weighted in all EFW calculations",
+        "Growth graphs are useful visual tools",
+        "Most often 3rd-trimester diagnosis",
+        "Accuracy for EFW > 4,500 g is only 33-44%",
+        "High false-positive rates",
+        "Positive predictive value only 30-44%",
+        "Negative predictive value of 97-99%",
+        "Associated findings",
+        "многоводие",
+        "↑ subcutaneous adipose tissue"
+      ],
+      "doppler_findings": [
+        "Growth graphs are useful visual tools",
+        "Most often 3rd-trimester diagnosis",
+        "↑ subcutaneous adipose tissue"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Beckwith-Wiedemann syndrome",
+        "гидrops fetalis"
+      ],
+      "red_flags": [
+        "Call provider if unexpected large for gestational age is",
+        "diagnosed"
+      ],
+      "follow_up": [
+        "Maternal complications",
+        "Protracted/arrested labor",
+        "Cesarean delivery",
+        "Fetal complications",
+        "Shoulder dystocia",
+        "Neonatal hypoglycemia, hypocalcemia",
+        "Consider prophylactic cesarean delivery if EFW > 5,000 g",
+        "and patient is not diabetic",
+        "Consider prophylactic cesarean delivery if EFW > 4,500 g",
+        "and patient is diabetic"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Cesarean delivery Consider prophylactic cesarean delivery if EFW > 5,000 g Consider prophylactic cesarean delivery if EFW > 4,500 g",
+      "postnatal_management": "Neonatal hypoglycemia, hypocalcemia",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1074: Macrosomia"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Birth weight > 4,000 g or 4,500 g (or 10 lb)",
+          "• Estimated fetal weight (EFW) > 90th percentile"
+        ],
+        "IMAGING": [
+          "• Fetal biometry used to estimate weight",
+          "○ Large abdominal circumference (AC) is often 1st clue",
+          "– AC is heavily weighted in all EFW calculations",
+          "○ Growth graphs are useful visual tools",
+          "○ Most often 3rd-trimester diagnosis",
+          "• Accuracy for EFW > 4,500 g is only 33-44%",
+          "○ High false-positive rates",
+          "○ Positive predictive value only 30-44%",
+          "○ Negative predictive value of 97-99%",
+          "• Associated findings",
+          "○ Polyhydramnios",
+          "○ ↑ subcutaneous adipose tissue"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Beckwith-Wiedemann syndrome",
+          "• Hydrops"
+        ],
+        "CLINICAL ISSUES": [
+          "• Maternal complications",
+          "○ Protracted/arrested labor",
+          "○ Cesarean delivery",
+          "• Fetal complications",
+          "○ Shoulder dystocia",
+          "○ Neonatal hypoglycemia, hypocalcemia",
+          "• Consider prophylactic cesarean delivery if EFW > 5,000 g",
+          "and patient is not diabetic",
+          "• Consider prophylactic cesarean delivery if EFW > 4,500 g",
+          "and patient is diabetic"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Call provider if unexpected large for gestational age is",
+          "diagnosed"
+        ]
+      }
+    },
+    {
+      "id": "fetal-anemia",
+      "name": "Анемия плода",
+      "nameEn": "Fetal Anemia",
+      "category": "Рост, жидкость, состояние плода",
+      "bookSection": "SECTION 15",
+      "bookPage": 1076,
+      "definition": "• Abnormal or decreased fetal red blood cells • Most commonly due to Rhesus (Rh) or other minor red cell antigen/protein incompatibility ○ Maternal antibodies cross placenta and cause lysis of fetal red blood cells",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Elevated middle cerebral artery (MCA) peak systolic velocity",
+        "(PSV)",
+        "Doppler gate should be placed near origin of MCA",
+        "Angle of insonation should be 0",
+        "Several MCA PSV measurements should be obtained",
+        "Best measurement chosen, not average",
+        "Assess for fetal гидrops fetalis, cardiomegaly, многоводие"
+      ],
+      "doppler_findings": [
+        "Elevated middle cerebral artery (MCA) peak systolic velocity",
+        "Doppler gate should be placed near origin of MCA",
+        "Several MCA PSV measurements should be obtained"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Parvovirus infection",
+        "Virus attacks red blood cell precursors → anemia",
+        "Fetal hemorrhage",
+        "Twin anemia-polycythemia sequence",
+        "Chronic fetofetal transfusion in monochorionic twins",
+        "α-thalassemia"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Serial MCA Doppler measurement utilized to monitor fetal"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1076: Fetal Anemia"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Abnormal or decreased fetal red blood cells",
+          "• Most commonly due to Rhesus (Rh) or other minor red cell",
+          "antigen/protein incompatibility",
+          "○ Maternal antibodies cross placenta and cause lysis of",
+          "fetal red blood cells"
+        ],
+        "IMAGING": [
+          "• Elevated middle cerebral artery (MCA) peak systolic velocity",
+          "(PSV)",
+          "○ Doppler gate should be placed near origin of MCA",
+          "○ Angle of insonation should be 0",
+          "• Several MCA PSV measurements should be obtained",
+          "○ Best measurement chosen, not average",
+          "• Assess for fetal hydrops, cardiomegaly, polyhydramnios"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Parvovirus infection",
+          "○ Virus attacks red blood cell precursors → anemia",
+          "• Fetal hemorrhage",
+          "• Twin anemia-polycythemia sequence",
+          "○ Chronic fetofetal transfusion in monochorionic twins",
+          "• α-thalassemia"
+        ],
+        "CLINICAL ISSUES": [
+          "• For Rh-alloimmunized patients, fetal hemolytic disease",
+          "similar or more severe in subsequent pregnancies",
+          "• Serial MCA Doppler measurement utilized to monitor fetal",
+          "anemia risk",
+          "• Need for intervention generally based on relationship of",
+          "MCA PSV to gestational age",
+          "○ Risk of anemia high if MCA PSA ≥ 1.50 MoM",
+          "○ After 35-weeks gestation, increased false-positive rate",
+          "for prediction of anemia",
+          "• Look for fetal hydrops/high-output heart failure",
+          "• Ultrasound guidance used to access fetal circulation for",
+          "cordocentesis and intrauterine transfusion",
+          "○ Complication rate of 2-5% reported"
+        ]
+      }
+    },
+    {
+      "id": "polyhydramnios",
+      "name": "Многоводие",
+      "nameEn": "Polyhydramnios",
+      "category": "Рост, жидкость, состояние плода",
+      "bookSection": "SECTION 15",
+      "bookPage": 1080,
+      "definition": "многоводие",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1080: Polyhydramnios"
+      ],
+      "sourceBlocks": {}
+    },
+    {
+      "id": "oligohydramnios",
+      "name": "Маловодие",
+      "nameEn": "Oligohydramnios",
+      "category": "Рост, жидкость, состояние плода",
+      "bookSection": "SECTION 15",
+      "bookPage": 1084,
+      "definition": "маловодие",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1084: Oligohydramnios"
+      ],
+      "sourceBlocks": {}
+    },
+    {
+      "id": "hydrops",
+      "name": "Водянка плода",
+      "nameEn": "Hydrops",
+      "category": "Рост, жидкость, состояние плода",
+      "bookSection": "SECTION 15",
+      "bookPage": 1088,
+      "definition": "гидrops fetalis",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1088: Hydrops"
+      ],
+      "sourceBlocks": {}
+    }
+  ]
+}

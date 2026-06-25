@@ -1,0 +1,1316 @@
+{
+  "module": "first-trimester",
+  "moduleRu": "I триместр",
+  "source": {
+    "title": "Diagnostic Imaging: Obstetrics",
+    "edition": "4th",
+    "authors": [
+      "Paula J. Woodward",
+      "Anne Kennedy",
+      "Roya Sohaey",
+      "Janice L. B. Byrne",
+      "Michael D. Puchalski",
+      "Brian L. Shaffer",
+      "Emily Edwards",
+      "Priyanka Jha",
+      "Whitnee Hogan"
+    ]
+  },
+  "version": "1.0.0",
+  "extractedAt": "2026-06-25",
+  "entries": [
+    {
+      "id": "failed-first-trimester-pregnancy",
+      "name": "Неудачная беременность I триместра",
+      "nameEn": "Failed First-Trimester Pregnancy",
+      "category": "I триместр",
+      "bookSection": "SECTION 1",
+      "bookPage": 20,
+      "definition": "• Pregnancy is considered viable if it can potentially result in live birth • Nonviable pregnancy is one that will not result in live birth",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Criteria for nonviable pregnancy on transvaginal",
+        "sonography",
+        "средний диаметр плодного мешка (СДПМ) > 25 mm without embryo",
+        "копчико-теменной размер (КТР) ≥ 7 mm without сердечная активность",
+        "Cessation of previously documented сердечная активность",
+        "regardless of копчико-теменной размер (КТР)",
+        "Time динамическое наблюдение intervals for definitive diagnosis of failure",
+        "Lack of live embryo 11 days after demonstration of",
+        "плодное яйцо (ПЯ) with желточный мешок (ЖМ) (YS)",
+        "Lack of live embryo 14 days after demonstration of",
+        "плодное яйцо (ПЯ) without YS",
+        "Other published signs of failed pregnancy",
+        "Empty amnion sign",
+        "Expanded amnion sign",
+        "Yolk stalk sign",
+        "Absent or abnormal YS predictor of poor pregnancy",
+        "outcome"
+      ],
+      "doppler_findings": [
+        "Criteria for nonviable pregnancy on transvaginal"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Probable внутриматочная беременность (ВМБ) (IUP)",
+        "Intrauterine sac-like structure without YS or embryo",
+        "IUP of uncertain viability",
+        "Retained products of conception",
+        "Gestational trophoblastic disease"
+      ],
+      "red_flags": [
+        "Failed 1st-trimester pregnancy simplifies terminology",
+        "Positive pregnancy test with intrauterine fluid collection",
+        "with rounded edges is statistically most likely to be IUP",
+        "Probable IUP if no YS or embryo",
+        "Definite IUP if YS or embryo visible",
+        "If in doubt, wait and see"
+      ],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.20: Failed First-Trimester Pregnancy"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Pregnancy is considered viable if it can potentially result in",
+          "live birth",
+          "• Nonviable pregnancy is one that will not result in live birth"
+        ],
+        "IMAGING": [
+          "• Criteria for nonviable pregnancy on transvaginal",
+          "sonography",
+          "○ Mean sac diameter > 25 mm without embryo",
+          "○ Crown-rump length ≥ 7 mm without cardiac activity",
+          "○ Cessation of previously documented cardiac activity",
+          "regardless of crown-rump length",
+          "• Time follow-up intervals for definitive diagnosis of failure",
+          "○ Lack of live embryo 11 days after demonstration of",
+          "gestational sac with yolk sac (YS)",
+          "○ Lack of live embryo 14 days after demonstration of",
+          "gestational sac without YS",
+          "• Other published signs of failed pregnancy",
+          "○ Empty amnion sign",
+          "○ Expanded amnion sign",
+          "○ Yolk stalk sign",
+          "• Absent or abnormal YS predictor of poor pregnancy",
+          "outcome"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Probable intrauterine pregnancy (IUP)",
+          "○ Intrauterine sac-like structure without YS or embryo",
+          "• IUP of uncertain viability",
+          "• Retained products of conception",
+          "• Gestational trophoblastic disease"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Failed 1st-trimester pregnancy simplifies terminology",
+          "• Positive pregnancy test with intrauterine fluid collection",
+          "with rounded edges is statistically most likely to be IUP",
+          "○ Probable IUP if no YS or embryo",
+          "○ Definite IUP if YS or embryo visible",
+          "• If in doubt, wait and see"
+        ]
+      }
+    },
+    {
+      "id": "perigestational-hemorrhage",
+      "name": "Кровотечение вокруг плодного яйца",
+      "nameEn": "Perigestational Hemorrhage",
+      "category": "I триместр",
+      "bookSection": "SECTION 1",
+      "bookPage": 24,
+      "definition": "• Abbreviations ○ Perigestational hemorrhage (PGH) ○ плодное яйцо (ПЯ) (GS) • Synonym ○ Subchorionic hemorrhage ○ Subchorionic hematoma • Definition ○ Blood in subchorionic space, adjacent to GS",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "PGH appearance depends on size and age of bleed",
+        "Acute hematoma is эхогенный",
+        "– Isoechoic to GS border",
+        "Progression to гипоэхогенный/анэхогенный with time",
+        "– Fibrin strands appear as septations",
+        "Larger PGH associated with less favorable outcomes",
+        "Reported outcomes when living embryo is seen",
+        "– PGH size ≤ 10% of GS with 6% demise rate reported",
+        "– PGH size > 50% with 23% demise rate reported",
+        "Earlier diagnosis associated with less favorable outcome",
+        "– ≤ 8 weeks: 17% demise rate reported",
+        "– > 8 weeks: 4% demise rate reported",
+        "Other findings associated with less favorable outcomes",
+        "PGH encircling ≥ 2/3 of плодное яйцо (ПЯ)",
+        "PGH with misshapen GS",
+        "Bradycardia: Embryo heart rate ≤ 90 beats/minute",
+        "– 80% fail rates reported",
+        "PGH shape is variable",
+        "Round and mass-like bleed",
+        "May mimic 2nd GS",
+        "Curvilinear/lenticular follows contour of uterus",
+        "May extend around GS",
+        "PGH may extend beyond subchorionic space",
+        "May extend into developing placenta",
+        "May extend into cervical os",
+        "– Open cervix portends bad prognosis",
+        "цветовой допpler helpful",
+        "Shows vascular GS attachment site",
+        "Differentiate GS (with flow) from PGH (no flow)"
+      ],
+      "doppler_findings": [
+        "– Fibrin strands appear as septations",
+        "PGH shape is variable",
+        "PGH may extend beyond subchorionic space",
+        "May extend into developing placenta",
+        "цветовой допpler helpful"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "New data shows PGH diagnosis is not associated with"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Early twin gestation",
+        "2nd GS mimics PGH",
+        "динамическое наблюдение to see желточный мешок (ЖМ)/embryo development in sac",
+        "Ectopic or failed pregnancy",
+        "Intrauterine blood mimics GS (\"pseudosac\")",
+        "Chorioamniotic separation in later 1st trimester",
+        "Fluid adjacent to amnion prior to fusion with chorion"
+      ],
+      "red_flags": [
+        "Subjectively evaluate size of PGH compared to GS",
+        "Subjective PGH size as fraction of GS size has been",
+        "shown to be most predictive for prognosis",
+        "Measurements to calculate percent surrounding GS and",
+        "elliptic volumetric calculations are less predictive",
+        "Consider short-term динамическое наблюдение for early and large PGH",
+        "Higher risk for pregnancy loss",
+        "Follow established viability guidelines",
+        "GS ≥ 25 mm with living embryo",
+        "Embryo ≥ 7 mm with сердечная активность"
+      ],
+      "follow_up": [
+        "Incidental finding or presenting with symptoms",
+        "Vaginal bleeding",
+        "Pain (uterine tenderness)",
+        "Variable incidence reported (0.5-40%)",
+        "New data shows PGH diagnosis is not associated with",
+        "adverse pregnancy outcome beyond 1st trimester"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.24: Perigestational Hemorrhage"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Abbreviations",
+          "○ Perigestational hemorrhage (PGH)",
+          "○ Gestational sac (GS)",
+          "• Synonym",
+          "○ Subchorionic hemorrhage",
+          "○ Subchorionic hematoma",
+          "• Definition",
+          "○ Blood in subchorionic space, adjacent to GS"
+        ],
+        "IMAGING": [
+          "• PGH appearance depends on size and age of bleed",
+          "○ Acute hematoma is echogenic",
+          "– Isoechoic to GS border",
+          "○ Progression to hypoechoic/anechoic with time",
+          "– Fibrin strands appear as septations",
+          "• Larger PGH associated with less favorable outcomes",
+          "○ Reported outcomes when living embryo is seen",
+          "– PGH size ≤ 10% of GS with 6% demise rate reported",
+          "– PGH size > 50% with 23% demise rate reported",
+          "○ Earlier diagnosis associated with less favorable outcome",
+          "– ≤ 8 weeks: 17% demise rate reported",
+          "– > 8 weeks: 4% demise rate reported",
+          "• Other findings associated with less favorable outcomes",
+          "○ PGH encircling ≥ 2/3 of gestational sac",
+          "○ PGH with misshapen GS",
+          "○ Bradycardia: Embryo heart rate ≤ 90 beats/minute",
+          "– 80% fail rates reported",
+          "• PGH shape is variable",
+          "○ Round and mass-like bleed",
+          "○ May mimic 2nd GS",
+          "• Curvilinear/lenticular follows contour of uterus",
+          "○ May extend around GS",
+          "• PGH may extend beyond subchorionic space",
+          "○ May extend into developing placenta",
+          "○ May extend into cervical os",
+          "– Open cervix portends bad prognosis",
+          "• Color Doppler helpful",
+          "○ Shows vascular GS attachment site",
+          "○ Differentiate GS (with flow) from PGH (no flow)"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Early twin gestation",
+          "○ 2nd GS mimics PGH",
+          "○ Follow-up to see yolk sac/embryo development in sac",
+          "• Ectopic or failed pregnancy",
+          "○ Intrauterine blood mimics GS (\"pseudosac\")",
+          "• Chorioamniotic separation in later 1st trimester",
+          "○ Fluid adjacent to amnion prior to fusion with chorion"
+        ],
+        "PATHOLOGY": [
+          "• Etiology",
+          "○ Bleeding from area of trophoblastic tissue implantation",
+          "○ Less likely from endometrial decidua",
+          "• Most often self-limiting process"
+        ],
+        "CLINICAL ISSUES": [
+          "• Incidental finding or presenting with symptoms",
+          "○ Vaginal bleeding",
+          "○ Pain (uterine tenderness)",
+          "• Variable incidence reported (0.5-40%)",
+          "• New data shows PGH diagnosis is not associated with",
+          "adverse pregnancy outcome beyond 1st trimester"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Subjectively evaluate size of PGH compared to GS",
+          "○ Subjective PGH size as fraction of GS size has been",
+          "shown to be most predictive for prognosis",
+          "○ Measurements to calculate percent surrounding GS and",
+          "elliptic volumetric calculations are less predictive",
+          "• Consider short-term follow-up for early and large PGH",
+          "○ Higher risk for pregnancy loss",
+          "• Follow established viability guidelines",
+          "○ GS ≥ 25 mm with living embryo",
+          "○ Embryo ≥ 7 mm with cardiac activity"
+        ]
+      }
+    },
+    {
+      "id": "chorionic-bump",
+      "name": "Хориальный выпуклость",
+      "nameEn": "Chorionic Bump",
+      "category": "I триместр",
+      "bookSection": "SECTION 1",
+      "bookPage": 26,
+      "definition": "Chorionic Bump",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Focal protrusion of chorion",
+        "Continuous with surface of chorion",
+        "Central hypoэхогенный area in 20% of cases",
+        "Low-level swirling echoes seen in central area on real-time",
+        "evaluation in 27% of cases"
+      ],
+      "doppler_findings": [
+        "Focal protrusion of chorion",
+        "Continuous with surface of chorion",
+        "evaluation in 27% of cases"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Enlarging CB associated with increased chance of failure,"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Failed 1st-trimester pregnancy",
+        "Abnormal желточный мешок (ЖМ)",
+        "Perigestational hemorrhage"
+      ],
+      "red_flags": [
+        "Must know normal appearance of early pregnancy",
+        "Avoid confusion with embryonic demise",
+        "Avoid confusion with abnormal желточный мешок (ЖМ)"
+      ],
+      "follow_up": [
+        "smaller, less эхогенный, eventually resolves"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.26: Chorionic Bump"
+      ],
+      "sourceBlocks": {
+        "IMAGING": [
+          "• Focal protrusion of chorion",
+          "○ Continuous with surface of chorion",
+          "• Central hypoechogenic area in 20% of cases",
+          "• Low-level swirling echoes seen in central area on real-time",
+          "evaluation in 27% of cases"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Failed 1st-trimester pregnancy",
+          "• Abnormal yolk sac",
+          "• Perigestational hemorrhage"
+        ],
+        "CLINICAL ISSUES": [
+          "• Prevalence 0.15% in retrospective case-control study",
+          "• Thought to be arterial hematoma arising from developing",
+          "intervillous space or chorionic plate vs. necrosis in",
+          "decidualized endometrium",
+          "• In continuing pregnancy, chorionic bump (CB) becomes",
+          "smaller, less echogenic, eventually resolves",
+          "• Enlarging CB associated with increased chance of failure,",
+          "strong association with partial mole",
+          "• Prognosis",
+          "○ 50% failure rate documented in initial cohort",
+          "– 80% survived if embryo with normal heart rate seen",
+          "○ Subsequent studies have shown better outcome",
+          "– Sana et al: Live birth rate 62% with ~ 2x loss rate in CB",
+          "group vs. controls",
+          "– Arleo et al: If live embryo at some point → live birth",
+          "rate 83%",
+          "○ Likely no clinical significance if detected at 11- to 13-",
+          "week scan for 1st-trimester screening",
+          "○ In patients at high risk for aneuploidy CB increase risk",
+          "(odds ratio 15.0)"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Must know normal appearance of early pregnancy",
+          "○ Avoid confusion with embryonic demise",
+          "○ Avoid confusion with abnormal yolk sac"
+        ]
+      }
+    },
+    {
+      "id": "complete-hydatidiform-mole",
+      "name": "Полная пузырчатая мозаичная беременность",
+      "nameEn": "Complete Hydatidiform Mole",
+      "category": "I триместр",
+      "bookSection": "SECTION 1",
+      "bookPage": 28,
+      "definition": "• Trophoblastic proliferation (both cytotrophoblast and syncytiotrophoblast) and vesicular swelling of placental villi associated with absent fetus",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Classic findings described as \"Swiss cheese\" or \"cluster of",
+        "grapes\" endometrium",
+        "No fetus or embryo",
+        "↑ vascularity on цветовой допpler",
+        "Areas of hemorrhage common",
+        "1st-trimester complete hydatidiform mole (CHM)",
+        "Very different appearance than seen later",
+        "Thickened, irregular endometrium",
+        "Appearance may mimic retained products of conception",
+        "or anembryonic pregnancy",
+        "Both false-positives and negatives common, particularly in",
+        "1st trimester",
+        "Ovarian theca lutein cysts in 20% of cases (rare < 13 weeks)",
+        "Must distinguish CHM with coexistent fetus (dizygotic twin",
+        "pregnancy) from partial mole (triploidy)"
+      ],
+      "doppler_findings": [
+        "Classic findings described as \"Swiss cheese\" or \"cluster of",
+        "grapes\" endometrium",
+        "↑ vascularity on цветовой допpler",
+        "1st-trimester complete hydatidiform mole (CHM)",
+        "Thickened, irregular endometrium",
+        "1st trimester",
+        "Ovarian theca lutein cysts in 20% of cases (rare < 13 weeks)",
+        "pregnancy) from partial mole (triploidy)"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Failed 1st-trimester pregnancy, triploidy (partial mole),",
+        "placental mesenchymal dysplasia"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "CHM",
+        "Evacuation with suction curettage",
+        "Measure hCG weekly until undetectable for 3 weeks and",
+        "then monthly for 6 months",
+        "Gestational trophoblastic neoplasia (GTN) in 15-20%",
+        "CHM with coexistent fetus",
+        "Risk of maternal complications in ~ 80%",
+        "Preeclampsia, in utero fetal demise, and preterm",
+        "delivery most common",
+        "Only 50% live births",
+        "~ 1/3 develop GTN"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "delivery most common",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.28: Complete Hydatidiform Mole"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Trophoblastic proliferation (both cytotrophoblast and",
+          "syncytiotrophoblast) and vesicular swelling of placental villi",
+          "associated with absent fetus"
+        ],
+        "IMAGING": [
+          "• Classic findings described as \"Swiss cheese\" or \"cluster of",
+          "grapes\" endometrium",
+          "○ No fetus or embryo",
+          "○ ↑ vascularity on color Doppler",
+          "○ Areas of hemorrhage common",
+          "• 1st-trimester complete hydatidiform mole (CHM)",
+          "○ Very different appearance than seen later",
+          "○ Thickened, irregular endometrium",
+          "○ Appearance may mimic retained products of conception",
+          "or anembryonic pregnancy",
+          "• Both false-positives and negatives common, particularly in",
+          "1st trimester",
+          "• Ovarian theca lutein cysts in 20% of cases (rare < 13 weeks)",
+          "• Must distinguish CHM with coexistent fetus (dizygotic twin",
+          "pregnancy) from partial mole (triploidy)"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Failed 1st-trimester pregnancy, triploidy (partial mole),",
+          "placental mesenchymal dysplasia"
+        ],
+        "CLINICAL ISSUES": [
+          "• CHM",
+          "○ Evacuation with suction curettage",
+          "○ Measure hCG weekly until undetectable for 3 weeks and",
+          "then monthly for 6 months",
+          "○ Gestational trophoblastic neoplasia (GTN) in 15-20%",
+          "• CHM with coexistent fetus",
+          "○ Risk of maternal complications in ~ 80%",
+          "○ Preeclampsia, in utero fetal demise, and preterm",
+          "delivery most common",
+          "○ Only 50% live births",
+          "○ ~ 1/3 develop GTN"
+        ]
+      }
+    },
+    {
+      "id": "tubal-ectopic",
+      "name": "Трубная внематочная беременность",
+      "nameEn": "Tubal Ectopic",
+      "category": "I триместр",
+      "bookSection": "SECTION 1",
+      "bookPage": 32,
+      "definition": "• Definition: Pregnancy developing in fallopian tube • Tubal ectopic pregnancy (TEP) is not viable pregnancy and needs treatment or close surveillance",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "No внутриматочная беременность (ВМБ) (IUP) + adnexal mass +",
+        "эхогенный cul-de-sac fluid",
+        "Essential to show adnexal mass is separate from ovary",
+        "Findings considered definitive of TEP",
+        "Adnexal плодное яйцо (ПЯ) with желточный мешок (ЖМ) ± embryo (± cardiac",
+        "activity)",
+        "Findings highly suggestive for TEP",
+        "Bagel sign: эхогенный ring-like adnexal mass",
+        "Blob sign: Inhomogeneous mass separate from ovary",
+        "Findings suspicious for TEP",
+        "Nonspecific adnexal mass and no IUP",
+        "цветовой допpler shows ring of fire flow in TEP",
+        "Look for corpus luteum (CL) and do not confuse it with TEP",
+        "85% of ectopic pregnancies (EPs) on same side as CL"
+      ],
+      "doppler_findings": [
+        "No внутриматочная беременность (ВМБ) (IUP) + adnexal mass +",
+        "Bagel sign: эхогенный ring-like adnexal mass",
+        "Findings suspicious for TEP",
+        "цветовой допpler shows ring of fire flow in TEP",
+        "85% of ectopic pregnancies (EPs) on same side as CL"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "CL",
+        "Incidental adnexal mass",
+        "Ovarian EP (rare)"
+      ],
+      "red_flags": [
+        "Presence of IUP is best negative predictor of EP"
+      ],
+      "follow_up": [
+        "> 90% of all EPs are tubal",
+        "Recurrence risk is 10-25%",
+        "Medical management with systemic methotrexate (MTX)",
+        "Higher success rates with earlier TEP diagnosis",
+        "– < 4.0 cm on US, little or no peritoneal fluid",
+        "– Living embryo is not absolute contraindication",
+        "Surgical management (laparoscopy preferred)",
+        "Salpingotomy for nonruptured TEP",
+        "Salpingectomy is only choice for ruptured EP"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.32: Tubal Ectopic"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Definition: Pregnancy developing in fallopian tube",
+          "• Tubal ectopic pregnancy (TEP) is not viable pregnancy and",
+          "needs treatment or close surveillance"
+        ],
+        "IMAGING": [
+          "• No intrauterine pregnancy (IUP) + adnexal mass +",
+          "echogenic cul-de-sac fluid",
+          "• Essential to show adnexal mass is separate from ovary",
+          "• Findings considered definitive of TEP",
+          "○ Adnexal gestational sac with yolk sac ± embryo (± cardiac",
+          "activity)",
+          "• Findings highly suggestive for TEP",
+          "○ Bagel sign: Echogenic ring-like adnexal mass",
+          "○ Blob sign: Inhomogeneous mass separate from ovary",
+          "• Findings suspicious for TEP",
+          "○ Nonspecific adnexal mass and no IUP",
+          "• Color Doppler shows ring of fire flow in TEP",
+          "• Look for corpus luteum (CL) and do not confuse it with TEP",
+          "○ 85% of ectopic pregnancies (EPs) on same side as CL"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• CL",
+          "• Incidental adnexal mass",
+          "• Ovarian EP (rare)"
+        ],
+        "CLINICAL ISSUES": [
+          "• > 90% of all EPs are tubal",
+          "○ Recurrence risk is 10-25%",
+          "• Medical management with systemic methotrexate (MTX)",
+          "○ Higher success rates with earlier TEP diagnosis",
+          "– < 4.0 cm on US, little or no peritoneal fluid",
+          "– Living embryo is not absolute contraindication",
+          "• Surgical management (laparoscopy preferred)",
+          "○ Salpingotomy for nonruptured TEP",
+          "○ Salpingectomy is only choice for ruptured EP"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Presence of IUP is best negative predictor of EP"
+        ]
+      }
+    },
+    {
+      "id": "interstitial-ectopic",
+      "name": "Интерстициальная внематочная беременность",
+      "nameEn": "Interstitial Ectopic",
+      "category": "I триместр",
+      "bookSection": "SECTION 1",
+      "bookPage": 38,
+      "definition": "• Terminology in literature is mixed, confusing, and inconsistently applied • Interstitial ectopic pregnancy (IEP) preferred term • Blastocyst implants in interstitial portion of fallopian tube",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "плодное яйцо (ПЯ) (GS) eccentric to uterine cavity",
+        "Located high and lateral in fundus",
+        "Interstitial line sign is key finding",
+        "эхогенный line from endometrium to IEP",
+        "Thinned myometrium (< 5 mm)",
+        "Variable appearance of GS contents",
+        "3D ultrasound helps with accurate diagnosis",
+        "Shows IEP is not intracavitary in orthogonal planes",
+        "Low signal on T2",
+        "Intact uterine junctional zone",
+        "Covered by myometrium, therefore, can achieve large size"
+      ],
+      "doppler_findings": [
+        "плодное яйцо (ПЯ) (GS) eccentric to uterine cavity",
+        "эхогенный line from endometrium to IEP",
+        "Thinned myometrium (< 5 mm)",
+        "Variable appearance of GS contents",
+        "МР shows GS surrounded by myometrium",
+        "Intact uterine junctional zone",
+        "Covered by myometrium, therefore, can achieve large size"
+      ],
+      "mri_findings": [
+        "МР shows GS surrounded by myometrium"
+      ],
+      "associated_anomalies": [
+        "Appropriate timely treatment associated with good"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Angular pregnancy (AP)",
+        "Unlike IEP, AP may be viable pregnancy",
+        "GS is eccentric but within endometrial cavity",
+        "Requires accurate diagnosis and close динамическое наблюдение",
+        "Pregnancy in uterine duplication",
+        "Septate uterus most likely to cause confusion with IEP"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Perform short-term динамическое наблюдение for any sac that appears high"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.38: Interstitial Ectopic"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Terminology in literature is mixed, confusing, and",
+          "inconsistently applied",
+          "• Interstitial ectopic pregnancy (IEP) preferred term",
+          "• Blastocyst implants in interstitial portion of fallopian tube"
+        ],
+        "IMAGING": [
+          "• Gestational sac (GS) eccentric to uterine cavity",
+          "○ Located high and lateral in fundus",
+          "• Interstitial line sign is key finding",
+          "○ Echogenic line from endometrium to IEP",
+          "• Thinned myometrium (< 5 mm)",
+          "• Variable appearance of GS contents",
+          "• 3D ultrasound helps with accurate diagnosis",
+          "○ Shows IEP is not intracavitary in orthogonal planes",
+          "• MR shows GS surrounded by myometrium",
+          "○ Low signal on T2",
+          "○ Intact uterine junctional zone",
+          "• Covered by myometrium, therefore, can achieve large size"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Angular pregnancy (AP)",
+          "○ Unlike IEP, AP may be viable pregnancy",
+          "○ GS is eccentric but within endometrial cavity",
+          "○ Requires accurate diagnosis and close follow-up",
+          "• Pregnancy in uterine duplication",
+          "○ Septate uterus most likely to cause confusion with IEP"
+        ],
+        "CLINICAL ISSUES": [
+          "• Up to 7% of ectopic pregnancies are interstitial",
+          "• ↑ morbidity and mortality compared to tubal ectopic",
+          "○ Mortality rate up to 2.5% reported",
+          "○ 7x higher than with tubal ectopics",
+          "• Appropriate timely treatment associated with good",
+          "outcome and preserved future fertility",
+          "○ Medical management success of 89-100% reported",
+          "○ Surgical treatment often necessary",
+          "• Perform short-term follow-up for any sac that appears high",
+          "and eccentric"
+        ]
+      }
+    },
+    {
+      "id": "cesarean-section-scar-pregnancy",
+      "name": "Беременность в рубце после кесарева сечения",
+      "nameEn": "Cesarean Section Scar Pregnancy",
+      "category": "I триместр",
+      "bookSection": "SECTION 1",
+      "bookPage": 42,
+      "definition": "• Cesarean section scar pregnancy (CSSP) ○ CSSP is preferred term, rather than \"C-section ectopic\" • плодное яйцо (ПЯ) (GS) implants in cesarean section (C-section) scar ○ CSSP is potentially viable ○ Untreated CSSP is highly associated with placenta accreta spectrum (ПАС) spectrum (ПАС) spectrum (PAS)",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Best clue: GS is eccentric and closer to cervix than fundus",
+        "Uterine cavity otherwise empty or with blood above GS",
+        "Cervical canal is normal (GS above internal os)",
+        "Early: \"Triangular\" GS (in niche of scar)",
+        "2 types of CSSP: Endogenic and exogenic",
+        "Endogenic CSSP: GS progressing toward uterine cavity",
+        "– Variable amount of trophoblastic implantation in scar",
+        "– Potentially viable with ↑ ↑ risk for PAS",
+        "– Features of PAS seen late 1st trimester (11-14 weeks)",
+        "□ Loss of retroplacental clear space",
+        "□ Lacunae and uterovesical hypervascularity",
+        "□ Bladder wall interruption/invasion",
+        "Exogenic CSSP: GS progressing toward maternal",
+        "bladder/abdominal cavity",
+        "– ↑ risk for uterine rupture ± hemoperitoneum",
+        "Easier to differentiate between 2 types as GS grows",
+        "цветовой допpler shows peritrophoblastic flow around sac"
+      ],
+      "doppler_findings": [
+        "Best clue: GS is eccentric and closer to cervix than fundus",
+        "Uterine cavity otherwise empty or with blood above GS",
+        "Early: \"Triangular\" GS (in niche of scar)",
+        "Endogenic CSSP: GS progressing toward uterine cavity",
+        "– Variable amount of trophoblastic implantation in scar",
+        "– Potentially viable with ↑ ↑ risk for PAS",
+        "– Features of PAS seen late 1st trimester (11-14 weeks)",
+        "□ Lacunae and uterovesical hypervascularity",
+        "– ↑ risk for uterine rupture ± hemoperitoneum",
+        "цветовой допpler shows peritrophoblastic flow around sac",
+        "МР is equally accurate but rarely needed"
+      ],
+      "mri_findings": [
+        "МР is equally accurate but rarely needed"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Low внутриматочная беременность (ВМБ) (IUP)",
+        "CSSP is misdiagnosed as normal IUP in 15% of cases",
+        "Cervical ectopic pregnancy",
+        "Below level of internal os (CSSP is superior to os)",
+        "Failed IUP (abortion in progress)",
+        "Will not have living embryo",
+        "– CSSP often with living embryo",
+        "Cervical os often open (closed with CSSP)"
+      ],
+      "red_flags": [
+        "Look at GS position in uterus in all cases",
+        "Do not immediately \"zoom\" to embryo",
+        "Carefully assess GS implantation site if prior C-section",
+        "Assess if endogenic or exogenic CSSP"
+      ],
+      "follow_up": [
+        "Presentation: Low abdominal pain ± bleeding in 25%",
+        "Often asymptomatic (diagnosis at viability scan)",
+        "Incidence rising with ↑ rate of operative deliveries",
+        "~ 1:1,700 pregnancies",
+        "6% of all ectopics in women with at least 1 C-section",
+        "Mean gestational age (GA) of diagnosis: 7 ± 2.5 weeks",
+        "Untreated CSSP at ↑ ↑ risk for PAS, uterine rupture",
+        "CSSP + living embryo and continued pregnancy outcome",
+        "– 15% with hysterectomy in 1st or 2nd trimester",
+        "– 33% progressed to 3rd trimester",
+        "– 75% with PAS, most often placenta percreta",
+        "CSSP and no living embryo",
+        "– 69% with uncomplicated miscarriage",
+        "Treatment: Early and combined treatments best",
+        "Goal: Prevent life-threatening complications and",
+        "preserve fertility",
+        "Intramuscular systemic methotrexate (MTX)",
+        "– Success rates better with hCG levels < 12,000 mIU, < 8-",
+        "week GA, no сердечная активность",
+        "– 30% fail rate",
+        "Ultrasound-guided MTX or KCL injection of GS",
+        "– 30% fail rate, 17% complication rate requiring surgery",
+        "Hysteroscopic or laparoscopic resection of CSSP",
+        "Balloon catheter treatment",
+        "– Cervical ripening dual balloon",
+        "– Balloon at CSSP compresses sac",
+        "Bilateral uterine artery chemoembolization with MTX",
+        "D&C after medical treatment",
+        "– Not as primary treatment",
+        "Expectant management only if hCG levels dropping"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Incidence rising with ↑ rate of operative deliveries 6% of all ectopics in women with at least 1 C-section",
+      "postnatal_management": "– 30% fail rate, 17% complication rate requiring surgery",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.42: Cesarean Section Scar Pregnancy"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Cesarean section scar pregnancy (CSSP)",
+          "○ CSSP is preferred term, rather than \"C-section ectopic\"",
+          "• Gestational sac (GS) implants in cesarean section (C-section)",
+          "scar",
+          "○ CSSP is potentially viable",
+          "○ Untreated CSSP is highly associated with placenta",
+          "accreta spectrum (PAS)"
+        ],
+        "IMAGING": [
+          "• Best clue: GS is eccentric and closer to cervix than fundus",
+          "○ Uterine cavity otherwise empty or with blood above GS",
+          "○ Cervical canal is normal (GS above internal os)",
+          "○ Early: \"Triangular\" GS (in niche of scar)",
+          "• 2 types of CSSP: Endogenic and exogenic",
+          "○ Endogenic CSSP: GS progressing toward uterine cavity",
+          "– Variable amount of trophoblastic implantation in scar",
+          "– Potentially viable with ↑ ↑ risk for PAS",
+          "– Features of PAS seen late 1st trimester (11-14 weeks)",
+          "□ Loss of retroplacental clear space",
+          "□ Lacunae and uterovesical hypervascularity",
+          "□ Bladder wall interruption/invasion",
+          "○ Exogenic CSSP: GS progressing toward maternal",
+          "bladder/abdominal cavity",
+          "– ↑ risk for uterine rupture ± hemoperitoneum",
+          "• Easier to differentiate between 2 types as GS grows",
+          "• Color Doppler shows peritrophoblastic flow around sac",
+          "• MR is equally accurate but rarely needed"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Low intrauterine pregnancy (IUP)",
+          "○ CSSP is misdiagnosed as normal IUP in 15% of cases",
+          "• Cervical ectopic pregnancy",
+          "○ Below level of internal os (CSSP is superior to os)",
+          "• Failed IUP (abortion in progress)",
+          "○ Will not have living embryo",
+          "– CSSP often with living embryo",
+          "○ Cervical os often open (closed with CSSP)"
+        ],
+        "CLINICAL ISSUES": [
+          "• Presentation: Low abdominal pain ± bleeding in 25%",
+          "○ Often asymptomatic (diagnosis at viability scan)",
+          "• Incidence rising with ↑ rate of operative deliveries",
+          "○ ~ 1:1,700 pregnancies",
+          "○ 6% of all ectopics in women with at least 1 C-section",
+          "○ Mean gestational age (GA) of diagnosis: 7 ± 2.5 weeks",
+          "• Untreated CSSP at ↑ ↑ risk for PAS, uterine rupture",
+          "○ CSSP + living embryo and continued pregnancy outcome",
+          "– 15% with hysterectomy in 1st or 2nd trimester",
+          "– 33% progressed to 3rd trimester",
+          "– 75% with PAS, most often placenta percreta",
+          "○ CSSP and no living embryo",
+          "– 69% with uncomplicated miscarriage",
+          "• Treatment: Early and combined treatments best",
+          "○ Goal: Prevent life-threatening complications and",
+          "preserve fertility",
+          "○ Intramuscular systemic methotrexate (MTX)",
+          "– Success rates better with hCG levels < 12,000 mIU, < 8-",
+          "week GA, no cardiac activity",
+          "– 30% fail rate",
+          "○ Ultrasound-guided MTX or KCL injection of GS",
+          "– 30% fail rate, 17% complication rate requiring surgery",
+          "○ Hysteroscopic or laparoscopic resection of CSSP",
+          "○ Balloon catheter treatment",
+          "– Cervical ripening dual balloon",
+          "– Balloon at CSSP compresses sac",
+          "○ Bilateral uterine artery chemoembolization with MTX",
+          "○ D&C after medical treatment",
+          "– Not as primary treatment",
+          "○ Expectant management only if hCG levels dropping"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Look at GS position in uterus in all cases",
+          "○ Do not immediately \"zoom\" to embryo",
+          "• Carefully assess GS implantation site if prior C-section",
+          "• Assess if endogenic or exogenic CSSP"
+        ]
+      }
+    },
+    {
+      "id": "cervical-ectopic",
+      "name": "Шейная внематочная беременность",
+      "nameEn": "Cervical Ectopic",
+      "category": "I триместр",
+      "bookSection": "SECTION 1",
+      "bookPage": 44,
+      "definition": "• Cervical ectopic pregnancy (CEP) • Definition: Implantation of плодное яйцо (ПЯ) (GS) within cervix, inferior to internal os (IO)",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Hourglass-shaped uterus",
+        "Empty uterus + closed IO (waist of hourglass) +",
+        "distended cervix from CEP",
+        "Seen best on coronal 3D images",
+        "Empty uterine cavity with decidualized endometrium",
+        "CEP distends cervix",
+        "GS shape is often normal",
+        "– Round/elliptical with эхогенный ring",
+        "– цветовой допpler shows peritrophoblastic flow",
+        "GS position is eccentric within cervix",
+        "– Look for endocervical canal displaced by GS",
+        "Embryo with heartbeat often present"
+      ],
+      "doppler_findings": [
+        "Empty uterine cavity with decidualized endometrium",
+        "– Round/elliptical with эхогенный ring",
+        "– цветовой допpler shows peritrophoblastic flow",
+        "GS position is eccentric within cervix"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Failed 1st trimester: Spontaneous abortion",
+        "GS flattened, centered in canal, sliding sign",
+        "IO usually open",
+        "No embryo сердечная активность",
+        "Cesarean section scar ectopic pregnancy",
+        "Above IO, in \"niche\" of cesarean scar"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Most present with painless bleeding",
+        "CEP is not viable pregnancy and must be treated",
+        "Fertility preservation usually successful with accurate",
+        "diagnosis and early treatment",
+        "Treatment",
+        "Expectant management: Low-risk patient, ↓ hCG levels",
+        "Intramuscular systemic methotrexate (MTX) injection",
+        "US-guided intra-GS injection",
+        "– MTX, potassium chloride (KCl), prostaglandin",
+        "Surgical treatment: Hysteroscopic resection, D&C"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.44: Cervical Ectopic"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Cervical ectopic pregnancy (CEP)",
+          "• Definition: Implantation of gestational sac (GS) within",
+          "cervix, inferior to internal os (IO)"
+        ],
+        "IMAGING": [
+          "• Hourglass-shaped uterus",
+          "○ Empty uterus + closed IO (waist of hourglass) +",
+          "distended cervix from CEP",
+          "○ Seen best on coronal 3D images",
+          "• Empty uterine cavity with decidualized endometrium",
+          "• CEP distends cervix",
+          "○ GS shape is often normal",
+          "– Round/elliptical with echogenic ring",
+          "– Color Doppler shows peritrophoblastic flow",
+          "○ GS position is eccentric within cervix",
+          "– Look for endocervical canal displaced by GS",
+          "• Embryo with heartbeat often present"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Failed 1st trimester: Spontaneous abortion",
+          "○ GS flattened, centered in canal, sliding sign",
+          "○ IO usually open",
+          "○ No embryo cardiac activity",
+          "• Cesarean section scar ectopic pregnancy",
+          "○ Above IO, in \"niche\" of cesarean scar"
+        ],
+        "CLINICAL ISSUES": [
+          "• Most present with painless bleeding",
+          "• CEP is not viable pregnancy and must be treated",
+          "○ Fertility preservation usually successful with accurate",
+          "diagnosis and early treatment",
+          "• Treatment",
+          "○ Expectant management: Low-risk patient, ↓ hCG levels",
+          "○ Intramuscular systemic methotrexate (MTX) injection",
+          "○ US-guided intra-GS injection",
+          "– MTX, potassium chloride (KCl), prostaglandin",
+          "○ Surgical treatment: Hysteroscopic resection, D&C"
+        ]
+      }
+    },
+    {
+      "id": "ovarian-ectopic",
+      "name": "Яичниковая внематочная беременность",
+      "nameEn": "Ovarian Ectopic",
+      "category": "I триместр",
+      "bookSection": "SECTION 1",
+      "bookPage": 46,
+      "definition": "• Ectopic pregnancy implanted on surface of or within ovary",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "эхогенный ring of плодное яйцо (ПЯ) is in ovary or attached to",
+        "ovary surface",
+        "Show mass moves with ovary, not tube",
+        "Often more эхогенный than corpus luteum",
+        "Look for желточный мешок (ЖМ) or embryo",
+        "Ring of fire with цветовой допpler (nonspecific)",
+        "Uterine findings similar to tubal ectopic",
+        "No внутриматочная беременность (ВМБ)",
+        "Decidual reaction",
+        "Uterine cavity blood",
+        "Look for blood in cul-de-sac",
+        "Ovarian ectopics often present ruptured",
+        "May be impossible to tell from tubal pregnancy if",
+        "ruptured"
+      ],
+      "doppler_findings": [
+        "эхогенный ring of плодное яйцо (ПЯ) is in ovary or attached to",
+        "Ring of fire with цветовой допpler (nonspecific)",
+        "Uterine findings similar to tubal ectopic",
+        "No внутриматочная беременность (ВМБ)",
+        "Decidual reaction",
+        "Uterine cavity blood",
+        "Ovarian ectopics often present ruptured"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Corpus luteum cyst",
+        "Will not have желточный мешок (ЖМ) or embryo",
+        "Tubal ectopic",
+        "Moves separate from ovary with probe pressure",
+        "Incidental ovarian mass",
+        "Will not have ring of fire цветовой допpler flow"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Excellent prognosis when treated early",
+        "Ovarian preservation is goal",
+        "Treatment most often with laparoscopic surgical resection",
+        "Ovarian wedge resection if necessary",
+        "Medical management rarely successful alone"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.46: Ovarian Ectopic"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Ectopic pregnancy implanted on surface of or within ovary"
+        ],
+        "IMAGING": [
+          "• Echogenic ring of gestational sac is in ovary or attached to",
+          "ovary surface",
+          "○ Show mass moves with ovary, not tube",
+          "○ Often more echogenic than corpus luteum",
+          "○ Look for yolk sac or embryo",
+          "○ Ring of fire with color Doppler (nonspecific)",
+          "• Uterine findings similar to tubal ectopic",
+          "○ No intrauterine pregnancy",
+          "○ Decidual reaction",
+          "○ Uterine cavity blood",
+          "• Look for blood in cul-de-sac",
+          "○ Ovarian ectopics often present ruptured",
+          "○ May be impossible to tell from tubal pregnancy if",
+          "ruptured"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Corpus luteum cyst",
+          "○ Will not have yolk sac or embryo",
+          "• Tubal ectopic",
+          "○ Moves separate from ovary with probe pressure",
+          "• Incidental ovarian mass",
+          "○ Will not have ring of fire color Doppler flow"
+        ],
+        "PATHOLOGY": [
+          "• Retrograde migration of fertilized ovum from fallopian",
+          "tube to ovary (considered most common cause)",
+          "• Direct fertilization of ovum inside ovary (rare)"
+        ],
+        "CLINICAL ISSUES": [
+          "• Excellent prognosis when treated early",
+          "○ Ovarian preservation is goal",
+          "• Treatment most often with laparoscopic surgical resection",
+          "○ Ovarian wedge resection if necessary",
+          "• Medical management rarely successful alone"
+        ]
+      }
+    },
+    {
+      "id": "heterotopic-pregnancy",
+      "name": "Гетеротопическая беременность",
+      "nameEn": "Heterotopic Pregnancy",
+      "category": "I триместр",
+      "bookSection": "SECTION 1",
+      "bookPage": 48,
+      "definition": "• 2 concurrent pregnancies, at least 1 of which is ectopic in location • Most commonly, 1 внутриматочная беременность (ВМБ) (IUP) with tubal ectopic pregnancy ○ Interstitial next most common with cervical, cesarean scar, tubal stump, abdominal, and ovarian all reported",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Document IUP",
+        "Look for adnexal mass/ring outside of uterus",
+        "Pitfalls in assisted reproductive technologies (ART) patients",
+        "Enlarged ovaries can both simulate and mask tubal",
+        "ectopics",
+        "Be particularly careful with цветовой допpler",
+        "– Flow around corpus luteum can simulate ectopic",
+        "эхогенный free fluid common in ovulation induction and",
+        "egg retrieval"
+      ],
+      "doppler_findings": [
+        "Look for adnexal mass/ring outside of uterus",
+        "Pitfalls in assisted reproductive technologies (ART) patients",
+        "Enlarged ovaries can both simulate and mask tubal",
+        "ectopics",
+        "Be particularly careful with цветовой допpler",
+        "– Flow around corpus luteum can simulate ectopic",
+        "egg retrieval"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Ectopic pregnancy with intrauterine fluid creating sac-like",
+        "structure",
+        "Pregnancy in uterine duplication"
+      ],
+      "red_flags": [
+        "Careful evaluation of high-risk patients warranted",
+        "29-50% are asymptomatic and found during ultrasound",
+        "surveillance",
+        "Always check adnexa, even if IUP identified"
+      ],
+      "follow_up": [
+        "< 1:30,000 naturally conceived pregnancies",
+        "0.1-3% with ART depending on study and technique",
+        "Live birth in 60-70% of treated heterotopic pregnancies",
+        "Surgical management treatment of choice to preserve IUP",
+        "Medical treatment with sac injection if difficult to manage",
+        "surgically (e.g., interstitial, cervical, cesarean implantation)"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "surgically (e.g., interstitial, cervical, cesarean implantation)",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.48: Heterotopic Pregnancy"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• 2 concurrent pregnancies, at least 1 of which is ectopic in",
+          "location",
+          "• Most commonly, 1 intrauterine pregnancy (IUP) with tubal",
+          "ectopic pregnancy",
+          "○ Interstitial next most common with cervical, cesarean",
+          "scar, tubal stump, abdominal, and ovarian all reported"
+        ],
+        "IMAGING": [
+          "• Document IUP",
+          "• Look for adnexal mass/ring outside of uterus",
+          "• Pitfalls in assisted reproductive technologies (ART) patients",
+          "○ Enlarged ovaries can both simulate and mask tubal",
+          "ectopics",
+          "○ Be particularly careful with color Doppler",
+          "– Flow around corpus luteum can simulate ectopic",
+          "○ Echogenic free fluid common in ovulation induction and",
+          "egg retrieval"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Ectopic pregnancy with intrauterine fluid creating sac-like",
+          "structure",
+          "• Pregnancy in uterine duplication"
+        ],
+        "CLINICAL ISSUES": [
+          "• < 1:30,000 naturally conceived pregnancies",
+          "• 0.1-3% with ART depending on study and technique",
+          "• Live birth in 60-70% of treated heterotopic pregnancies",
+          "• Surgical management treatment of choice to preserve IUP",
+          "• Medical treatment with sac injection if difficult to manage",
+          "surgically (e.g., interstitial, cervical, cesarean implantation)"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Careful evaluation of high-risk patients warranted",
+          "○ 29-50% are asymptomatic and found during ultrasound",
+          "surveillance",
+          "• Always check adnexa, even if IUP identified"
+        ]
+      }
+    },
+    {
+      "id": "abdominal-ectopic",
+      "name": "Абдоминальная внематочная беременность",
+      "nameEn": "Abdominal Ectopic",
+      "category": "I триместр",
+      "bookSection": "SECTION 1",
+      "bookPage": 50,
+      "definition": "• Pregnancy within peritoneal cavity, outside of uterus and fallopian tube • Divided into early (< 20 weeks) and advanced (> 20 weeks)",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Ectopic плодное яйцо (ПЯ) located in unusual location",
+        "Most often in cul-de-sac or surface of uterus",
+        "Sac and embryo often larger than typical ectopic pregnancy",
+        "Findings in advanced abdominal pregnancy (AAP) may be",
+        "deceiving and diagnosis is frequently missed",
+        "Compressed, small uterus mistaken for cervix",
+        "Placental implantation on uterine corpus may be",
+        "mistaken for previa",
+        "Fetal membranes form normal-appearing sac"
+      ],
+      "doppler_findings": [
+        "Ectopic плодное яйцо (ПЯ) located in unusual location",
+        "Sac and embryo often larger than typical ectopic pregnancy",
+        "Findings in advanced abdominal pregnancy (AAP) may be",
+        "Placental implantation on uterine corpus may be",
+        "Fetal membranes form normal-appearing sac"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Unlike other ectopics, fetus is growing in unconstrained",
+        "Consider watchful waiting if mother stable and potential"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Tubal ectopic pregnancy: Fallopian tube can occasionally",
+        "rotate to unexpected locations",
+        "Pregnancy in uterine duplication"
+      ],
+      "red_flags": [
+        "Always assess for гипоэхогенный myometrium around",
+        "embryo/fetus to prove intrauterine location"
+      ],
+      "follow_up": [
+        "Early cases may be incidentally noted on routine scan",
+        "Unlike other ectopics, fetus is growing in unconstrained",
+        "space so symptoms present later",
+        "Abdominal or back pain: Localizing pain related to site of",
+        "implantation",
+        "Maternal mortality rates reported from 0.5-18%",
+        "Perinatal mortality: 45-95%",
+        "Rarely sufficient blood supply to carry pregnancy to term",
+        "but case reports exist",
+        "Consider watchful waiting if mother stable and potential",
+        "for live birth",
+        "Parts or all of placenta may be left in situ to avoid bowel",
+        "perforation, solid organ injury, or hemorrhage"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.50: Abdominal Ectopic"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Pregnancy within peritoneal cavity, outside of uterus and",
+          "fallopian tube",
+          "• Divided into early (< 20 weeks) and advanced (> 20 weeks)"
+        ],
+        "IMAGING": [
+          "• Ectopic gestational sac located in unusual location",
+          "○ Most often in cul-de-sac or surface of uterus",
+          "• Sac and embryo often larger than typical ectopic pregnancy",
+          "• Findings in advanced abdominal pregnancy (AAP) may be",
+          "deceiving and diagnosis is frequently missed",
+          "○ Compressed, small uterus mistaken for cervix",
+          "○ Placental implantation on uterine corpus may be",
+          "mistaken for previa",
+          "○ Fetal membranes form normal-appearing sac"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Tubal ectopic pregnancy: Fallopian tube can occasionally",
+          "rotate to unexpected locations",
+          "• Pregnancy in uterine duplication"
+        ],
+        "CLINICAL ISSUES": [
+          "• Early cases may be incidentally noted on routine scan",
+          "○ Unlike other ectopics, fetus is growing in unconstrained",
+          "space so symptoms present later",
+          "• Abdominal or back pain: Localizing pain related to site of",
+          "implantation",
+          "• Maternal mortality rates reported from 0.5-18%",
+          "• Perinatal mortality: 45-95%",
+          "• Rarely sufficient blood supply to carry pregnancy to term",
+          "but case reports exist",
+          "• Consider watchful waiting if mother stable and potential",
+          "for live birth",
+          "• Parts or all of placenta may be left in situ to avoid bowel",
+          "perforation, solid organ injury, or hemorrhage"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Always assess for hypoechoic myometrium around",
+          "embryo/fetus to prove intrauterine location"
+        ]
+      }
+    },
+    {
+      "id": "abnormal-gestational-sac-and-contents",
+      "name": "Аномалия плодного яйца и его содержимого",
+      "nameEn": "Abnormal Gestational Sac and Contents",
+      "category": "I триместр",
+      "bookSection": "SECTION 1",
+      "bookPage": 52,
+      "definition": "Abnormal плодное яйцо (ПЯ) and Contents",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.52: Abnormal Gestational Sac and Contents"
+      ],
+      "sourceBlocks": {}
+    }
+  ]
+}

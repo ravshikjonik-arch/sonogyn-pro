@@ -1,0 +1,870 @@
+{
+  "module": "maternal-conditions",
+  "moduleRu": "Материнские состояния",
+  "source": {
+    "title": "Diagnostic Imaging: Obstetrics",
+    "edition": "4th",
+    "authors": [
+      "Paula J. Woodward",
+      "Anne Kennedy",
+      "Roya Sohaey",
+      "Janice L. B. Byrne",
+      "Michael D. Puchalski",
+      "Brian L. Shaffer",
+      "Emily Edwards",
+      "Priyanka Jha",
+      "Whitnee Hogan"
+    ]
+  },
+  "version": "1.0.0",
+  "extractedAt": "2026-06-25",
+  "entries": [
+    {
+      "id": "cervical-insufficiency-short-cervix",
+      "name": "Недостаточность/укорочение шейки матки",
+      "nameEn": "Cervical Insufficiency/Short Cervix",
+      "category": "Материнские состояния",
+      "bookSection": "SECTION 16",
+      "bookPage": 1096,
+      "definition": "• Cervical insufficiency (CI): Clinical diagnosis of cervical inability to retain pregnancy in absence of contractions or labor • Short cervix: Sonographic observation of cervical length (CL) < 10th percentile for gestational age (GA)",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Dilated internal os (IO): Measure anterior-to-posterior",
+        "diameter",
+        "Check CL at beginning of exam as cervix is dynamic; length",
+        "is shortest in patients who have recently been upright",
+        "Observe for 3-5 minutes with transvaginal US (TVUS)",
+        "Avoid excessive vaginal transducer pressure",
+        "Use fundal pressure to unveil short cervix",
+        "CL < 10th percentile for GA on TVUS indicates short cervix",
+        "16-22 weeks 10th percentile = 30 mm",
+        "22-24 weeks 10th percentile = 25 mm"
+      ],
+      "doppler_findings": [
+        "Dilated internal os (IO): Measure anterior-to-posterior",
+        "is shortest in patients who have recently been upright"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Normal гипоэхогенный cervical canal can mimic fluid",
+        "Focal myometrial contraction can mimic funneling"
+      ],
+      "red_flags": [
+        "Report single best, shortest CL, widest IO, measured on",
+        "TVUS",
+        "This graphic illustrates the 3rd-trimester cervix. The transducer is placed in the vagina and withdrawn until the cervix ﬇ is just in focus.",
+        "In this way, the cervix is not compressed by the transducer, as doing so can cause artificial elongation and obscure a short cervix or",
+        "dynamic changes. The position where the transducer is placed for an abdominal US is not sufficient for evaluation of cervical length as",
+        "the image quality is compromised by the pubic symphysis and presenting fetal parts. If full, the bladder ﬊ can compress the lower",
+        "uterine segment to mimic a long, closed cervix. Correct technique is crucial in assessment of cervical length."
+      ],
+      "follow_up": [
+        "serial TVUS examinations"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1096: Cervical Insufficiency/Short Cervix"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Cervical insufficiency (CI): Clinical diagnosis of cervical",
+          "inability to retain pregnancy in absence of contractions or",
+          "labor",
+          "• Short cervix: Sonographic observation of cervical length",
+          "(CL) < 10th percentile for gestational age (GA)"
+        ],
+        "IMAGING": [
+          "• Dilated internal os (IO): Measure anterior-to-posterior",
+          "diameter",
+          "• Check CL at beginning of exam as cervix is dynamic; length",
+          "is shortest in patients who have recently been upright",
+          "○ Observe for 3-5 minutes with transvaginal US (TVUS)",
+          "○ Avoid excessive vaginal transducer pressure",
+          "○ Use fundal pressure to unveil short cervix",
+          "• CL < 10th percentile for GA on TVUS indicates short cervix",
+          "○ 16-22 weeks 10th percentile = 30 mm",
+          "○ 22-24 weeks 10th percentile = 25 mm"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Normal hypoechoic cervical canal can mimic fluid",
+          "• Focal myometrial contraction can mimic funneling"
+        ],
+        "CLINICAL ISSUES": [
+          "• US more sensitive to cervical shortening than manual exam",
+          "at < 32 weeks",
+          "• Most patients at risk for CI can be safely monitored with",
+          "serial TVUS examinations",
+          "• Evaluate for preterm labor/infection if CL decreases",
+          "• Cervical cerclage limited to 2nd-trimester pregnancies,",
+          "usually before viability",
+          "• Exam-indicated cerclage in multiple gestations may",
+          "decrease preterm birth"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Report single best, shortest CL, widest IO, measured on",
+          "TVUS",
+          "This graphic illustrates the 3rd-trimester cervix. The transducer is placed in the vagina and withdrawn until the cervix ﬇ is just in focus.",
+          "In this way, the cervix is not compressed by the transducer, as doing so can cause artificial elongation and obscure a short cervix or",
+          "dynamic changes. The position where the transducer is placed for an abdominal US is not sufficient for evaluation of cervical length as",
+          "the image quality is compromised by the pubic symphysis and presenting fetal parts. If full, the bladder ﬊ can compress the lower",
+          "uterine segment to mimic a long, closed cervix. Correct technique is crucial in assessment of cervical length."
+        ]
+      }
+    },
+    {
+      "id": "myoma-in-pregnancy",
+      "name": "Миома матки при беременности",
+      "nameEn": "Myoma in Pregnancy",
+      "category": "Материнские состояния",
+      "bookSection": "SECTION 16",
+      "bookPage": 1102,
+      "definition": "• Fibroid, leiomyoma • Common benign smooth muscle tumor",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Note location, type, and size",
+        "Fundus, body, lower uterine segment (LUS), cervix",
+        "–  Anterior, posterior, lateral",
+        "Intramural, subserosal, submucosal, pedunculated",
+        "Measure in 3 orthogonal planes",
+        "Document placenta implantation on myoma",
+        "Ultrasound",
+        "Well-circumscribed, гипоэхогенный myometrial mass",
+        "цветовой допpler shows peripheral flow",
+        "Degenerated fibroids are heterogeneous and often",
+        "cystic ± septations",
+        "Look for areas of hemorrhage",
+        "Better define myoma location"
+      ],
+      "doppler_findings": [
+        "Fundus, body, lower uterine segment (LUS), cervix",
+        "–  Anterior, posterior, lateral",
+        "Well-circumscribed, гипоэхогенный myometrial mass",
+        "цветовой допpler shows peripheral flow"
+      ],
+      "mri_findings": [
+        "МР helpful for complicated cases"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Focal myometrial contraction",
+        "Placental abruption",
+        "Adenomyoma",
+        "Complex adnexal mass"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Recommend динамическое наблюдение for fetal growth when large myoma"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Spontaneous abortion, preterm and cesarean delivery,",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1102: Myoma in Pregnancy"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Fibroid, leiomyoma",
+          "• Common benign smooth muscle tumor"
+        ],
+        "IMAGING": [
+          "• Note location, type, and size",
+          "○ Fundus, body, lower uterine segment (LUS), cervix",
+          "–  Anterior, posterior, lateral",
+          "○ Intramural, subserosal, submucosal, pedunculated",
+          "○ Measure in 3 orthogonal planes",
+          "○ Document placenta implantation on myoma",
+          "• Ultrasound",
+          "○ Well-circumscribed, hypoechoic myometrial mass",
+          "○ Color Doppler shows peripheral flow",
+          "○ Degenerated fibroids are heterogeneous and often",
+          "cystic ± septations",
+          "• MR helpful for complicated cases",
+          "○ Look for areas of hemorrhage",
+          "○ Better define myoma location"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Focal myometrial contraction",
+          "• Placental abruption",
+          "• Adenomyoma",
+          "• Complex adnexal mass"
+        ],
+        "CLINICAL ISSUES": [
+          "• Usually incidental finding on routine scan",
+          "• Nonlinear growth during first 1/2 of pregnancy",
+          "○ Mean ↑ in size of 12%, rarely > 25%",
+          "• 10-30% with symptoms (mass, pain)",
+          "○ Palpable mass if subserosal or pedunculated",
+          "○ Pain if degenerating or torsion",
+          "– Hemorrhagic (red) degeneration with ↑ morbidity",
+          "• Adverse pregnancy outcomes reported",
+          "○ Spontaneous abortion, preterm and cesarean delivery,",
+          "abruption, and fetal growth restriction",
+          "• Recommend follow-up for fetal growth when large myoma",
+          "(> 5 cm) or numerous myomas seen"
+        ]
+      }
+    },
+    {
+      "id": "adenomyosis-in-pregnancy",
+      "name": "Аденомиоз при беременности",
+      "nameEn": "Adenomyosis in Pregnancy",
+      "category": "Материнские состояния",
+      "bookSection": "SECTION 16",
+      "bookPage": 1106,
+      "definition": "• Common benign disorder in which functioning endometrial glands and stroma are present within myometrium • Unique pregnancy findings due to ectopic endometrium decidualization + inflammatory response",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "General findings",
+        "Focal or diffuse myometrial heterogeneity with",
+        "myometrial cysts and ↑ blood flow",
+        "Key sonographic findings",
+        "Subendometrial эхогенный buds and lines",
+        "Hyperechoic myometrial islands",
+        "Myometrial cysts",
+        "Striated fan-shaped shadowing",
+        "– \"Venetian blind\" shadowing",
+        "Myosis: Muscular hyperplasia and hypertrophy",
+        "Adenomyosis is vascular process",
+        "– Penetrating translesional vessels",
+        "Ill-defined low signal on T2",
+        "Foci of high signal intensity on T2 from cysts",
+        "Foci of high signal intensity on T1 from hemorrhage"
+      ],
+      "doppler_findings": [
+        "Focal or diffuse myometrial heterogeneity with",
+        "myometrial cysts and ↑ blood flow",
+        "Subendometrial эхогенный buds and lines",
+        "Hyperechoic myometrial islands",
+        "Myometrial cysts",
+        "Striated fan-shaped shadowing"
+      ],
+      "mri_findings": [
+        "Key МР findings"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Myoma in pregnancy",
+        "Placental mesenchymal dysplasia",
+        "Gestational trophoblastic disease",
+        "Focal myometrial contraction"
+      ],
+      "red_flags": [
+        "Look at nongravid imaging (note adenomyosis location)",
+        "Adenomyosis findings \"flourish\" in pregnancy",
+        "Report extent of adenomyosis (subjective assessment)",
+        "Report relationship to placenta"
+      ],
+      "follow_up": [
+        "Prevalence of 20-35% in reproductive age women reported",
+        "Higher risk for obstetric complications"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1106: Adenomyosis in Pregnancy"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Common benign disorder in which functioning endometrial",
+          "glands and stroma are present within myometrium",
+          "• Unique pregnancy findings due to ectopic endometrium",
+          "decidualization + inflammatory response"
+        ],
+        "IMAGING": [
+          "• General findings",
+          "○ Focal or diffuse myometrial heterogeneity with",
+          "myometrial cysts and ↑ blood flow",
+          "• Key sonographic findings",
+          "○ Subendometrial echogenic buds and lines",
+          "○ Hyperechoic myometrial islands",
+          "○ Myometrial cysts",
+          "○ Striated fan-shaped shadowing",
+          "– \"Venetian blind\" shadowing",
+          "○ Myosis: Muscular hyperplasia and hypertrophy",
+          "○ Adenomyosis is vascular process",
+          "– Penetrating translesional vessels",
+          "• Key MR findings",
+          "○ Ill-defined low signal on T2",
+          "○ Foci of high signal intensity on T2 from cysts",
+          "○ Foci of high signal intensity on T1 from hemorrhage"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Myoma in pregnancy",
+          "• Placental mesenchymal dysplasia",
+          "• Gestational trophoblastic disease",
+          "• Focal myometrial contraction"
+        ],
+        "CLINICAL ISSUES": [
+          "• Prevalence of 20-35% in reproductive age women reported",
+          "• Higher risk for obstetric complications"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Look at nongravid imaging (note adenomyosis location)",
+          "○ Adenomyosis findings \"flourish\" in pregnancy",
+          "• Report extent of adenomyosis (subjective assessment)",
+          "• Report relationship to placenta"
+        ]
+      }
+    },
+    {
+      "id": "mullerian-duct-anomalies-in-pregnancy",
+      "name": "Аномалии мюллеровых протоков при беременности",
+      "nameEn": "Müllerian Duct Anomalies in Pregnancy",
+      "category": "Материнские состояния",
+      "bookSection": "SECTION 16",
+      "bookPage": 1110,
+      "definition": "• Spectrum of congenital uterine malformations ○ Unicornuate uterus (20%) ○ Uterus didelphys (5%) ○ Bicornuate uterus (10%) ○ Septate uterus (55%)",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Image plane should be true coronal along long axis of",
+        "uterus to show fundal contour",
+        "Septate uterus: Fundus mildly convex to mildly concave",
+        "– Septum may extend for variable lengths",
+        "Bicornuate: Concave or heart-shaped external fundal",
+        "contour",
+        "3D ultrasound provides improved spatial delineation",
+        "Volume acquisition allows reconstruction of true coronal",
+        "plane",
+        "of uterus, not coronal view of pelvis"
+      ],
+      "doppler_findings": [
+        "– Septum may extend for variable lengths",
+        "Bicornuate: Concave or heart-shaped external fundal"
+      ],
+      "mri_findings": [
+        "МР scan plane set off sagittal scout to ensure coronal view"
+      ],
+      "associated_anomalies": [
+        "spectrum, not discrete, unique anomalies",
+        "Renal anomalies occur in ~ 30%",
+        "~ 25% of women with müllerian duct anomalies (MDAs)"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Interstitial ectopic",
+        "Leiomyoma"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "~ 25% of women with müllerian duct anomalies (MDAs)",
+        "have reproductive problems",
+        "Chances of live birth relative to type of MDA",
+        "Unicornuate, didelphys (~ 40%)",
+        "Bicornuate uterus (62.5%)",
+        "Septate uterus (62%)",
+        "Uterine septum treated with hysteroscopic resection",
+        "Ultrasound guidance important for dilatation and",
+        "evacuation/curettage"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1110: Müllerian Duct Anomalies in Pregnancy"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Spectrum of congenital uterine malformations",
+          "○ Unicornuate uterus (20%)",
+          "○ Uterus didelphys (5%)",
+          "○ Bicornuate uterus (10%)",
+          "○ Septate uterus (55%)"
+        ],
+        "IMAGING": [
+          "• Image plane should be true coronal along long axis of",
+          "uterus to show fundal contour",
+          "○ Septate uterus: Fundus mildly convex to mildly concave",
+          "– Septum may extend for variable lengths",
+          "○ Bicornuate: Concave or heart-shaped external fundal",
+          "contour",
+          "• 3D ultrasound provides improved spatial delineation",
+          "○ Volume acquisition allows reconstruction of true coronal",
+          "plane",
+          "• MR scan plane set off sagittal scout to ensure coronal view",
+          "of uterus, not coronal view of pelvis"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Interstitial ectopic",
+          "• Leiomyoma"
+        ],
+        "PATHOLOGY": [
+          "• Important to emphasize these represent developmental",
+          "spectrum, not discrete, unique anomalies",
+          "• Renal anomalies occur in ~ 30%"
+        ],
+        "CLINICAL ISSUES": [
+          "• ~ 25% of women with müllerian duct anomalies (MDAs)",
+          "have reproductive problems",
+          "• Chances of live birth relative to type of MDA",
+          "○ Unicornuate, didelphys (~ 40%)",
+          "○ Bicornuate uterus (62.5%)",
+          "○ Septate uterus (62%)",
+          "• Uterine septum treated with hysteroscopic resection",
+          "• Ultrasound guidance important for dilatation and",
+          "evacuation/curettage"
+        ]
+      }
+    },
+    {
+      "id": "synechiae",
+      "name": "Синехии полости матки",
+      "nameEn": "Synechiae",
+      "category": "Материнские состояния",
+      "bookSection": "SECTION 16",
+      "bookPage": 1114,
+      "definition": "• Endometrial scarring leads to uterine adhesions ○ Expanding chorion and amnion fold around synechia",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Band-like structure crossing uterine cavity",
+        "Attachments are to uterine walls",
+        "– Triangular Y-shaped attachment",
+        "Variable thickness, complete or incomplete",
+        "Placenta might implant on synechia",
+        "Fetus moves freely around sheet"
+      ],
+      "doppler_findings": [
+        "Band-like structure crossing uterine cavity",
+        "Attachments are to uterine walls",
+        "– Triangular Y-shaped attachment",
+        "Variable thickness, complete or incomplete"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Obstetrical complications associated with synechia (< 10%)"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Amniotic bands",
+        "Disruption of amnion with fetal defects",
+        "Circumvallate placenta",
+        "Band attaches from placental margin to placental margin",
+        "Uterine septum (duplication anomaly)",
+        "Midline, thick septum extends inferiorly from fundus"
+      ],
+      "red_flags": [
+        "Synechiae do not cause fetal structural defects",
+        "Show normal fetal hands and feet",
+        "Document fetus moving freely around synechia",
+        "Document synechia attachment points to uterus"
+      ],
+      "follow_up": [
+        "Present in 5% of women referred with infertility",
+        "Prevalence of 15- 40% reported in women s/p pregnancy-",
+        "related curettage",
+        "Most cases are incidentally seen, without sequelae",
+        "Obstetrical complications associated with synechia (< 10%)",
+        "Lower birth weight, preterm delivery",
+        "Cesarean delivery for malpresentation",
+        "Retained placenta; placental abruption",
+        "Treatment",
+        "Synechialysis: Hysteroscopic lysis of adhesions",
+        "Recurrence rate ~ 33% for mild to moderate and ~ 66%",
+        "for severe uterine involvement"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Lower birth weight, preterm delivery Cesarean delivery for malpresentation",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1114: Synechiae"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Endometrial scarring leads to uterine adhesions",
+          "○ Expanding chorion and amnion fold around synechia"
+        ],
+        "IMAGING": [
+          "• Band-like structure crossing uterine cavity",
+          "○ Attachments are to uterine walls",
+          "– Triangular Y-shaped attachment",
+          "○ Variable thickness, complete or incomplete",
+          "• Placenta might implant on synechia",
+          "• Fetus moves freely around sheet"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Amniotic bands",
+          "○ Disruption of amnion with fetal defects",
+          "• Circumvallate placenta",
+          "○ Band attaches from placental margin to placental margin",
+          "• Uterine septum (duplication anomaly)",
+          "○ Midline, thick septum extends inferiorly from fundus"
+        ],
+        "CLINICAL ISSUES": [
+          "• Present in 5% of women referred with infertility",
+          "• Prevalence of 15- 40% reported in women s/p pregnancy-",
+          "related curettage",
+          "• Most cases are incidentally seen, without sequelae",
+          "• Obstetrical complications associated with synechia (< 10%)",
+          "○ Lower birth weight, preterm delivery",
+          "○ Cesarean delivery for malpresentation",
+          "○ Retained placenta; placental abruption",
+          "• Treatment",
+          "○ Synechialysis: Hysteroscopic lysis of adhesions",
+          "○ Recurrence rate ~ 33% for mild to moderate and ~ 66%",
+          "for severe uterine involvement"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Synechiae do not cause fetal structural defects",
+          "○ Show normal fetal hands and feet",
+          "○ Document fetus moving freely around synechia",
+          "• Document synechia attachment points to uterus"
+        ]
+      }
+    },
+    {
+      "id": "uterine-dehiscence-rupture",
+      "name": "Расхождение/разрыв матки",
+      "nameEn": "Uterine Dehiscence/Rupture",
+      "category": "Материнские состояния",
+      "bookSection": "SECTION 16",
+      "bookPage": 1116,
+      "definition": "• Uterine rupture: Full-thickness tear of uterine wall • Uterine dehiscence: Incomplete rupture with disrupted myometrium but intact serosa",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Pregnant patient: Defect in myometrium ± fetal parts seen",
+        "in peritoneal cavity",
+        "Nonpregnant patient: Free intraperitoneal fluid after",
+        "recent delivery or uterine instrumentation"
+      ],
+      "doppler_findings": [
+        "Pregnant patient: Defect in myometrium ± fetal parts seen",
+        "in peritoneal cavity",
+        "Nonpregnant patient: Free intraperitoneal fluid after",
+        "recent delivery or uterine instrumentation"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Prenatal bleeding ± pain",
+        "Placental abruption",
+        "Placenta previa",
+        "Morbidly adherent placentation",
+        "Postpartum bleeding ± pain",
+        "Retained products of conception",
+        "Endometritis"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Prior cesarean section in majority of cases (92%)",
+        "Maternal Fetal Medicine Units Network quote 0.32% risk of",
+        "rupture with prior low transverse cesarean section",
+        "0.7% risk of rupture when attempting vaginal birth after",
+        "prior cesarean section",
+        "0.16% risk of rupture without labor in those planning",
+        "repeat cesarean",
+        "Primary uterine rupture (i.e., rupture of unscarred uterus)",
+        "0.005% risk in developed countries",
+        "Rupture may occur during pregnancy, labor, or post partum",
+        "Rupture during labor has worst prognosis, especially if",
+        "unscarred uterus as diagnosis may be delayed",
+        "Requires emergency laparotomy and possible",
+        "hysterectomy to control bleeding",
+        "Uterine dehiscence may be clinically silent or present with",
+        "vague lower abdominal pain",
+        "Managed conservatively if patient stable"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Prior cesarean section in majority of cases (92%) rupture with prior low transverse cesarean section prior cesarean section repeat cesarean",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1116: Uterine Dehiscence/Rupture"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Uterine rupture: Full-thickness tear of uterine wall",
+          "• Uterine dehiscence: Incomplete rupture with disrupted",
+          "myometrium but intact serosa"
+        ],
+        "IMAGING": [
+          "• Pregnant patient: Defect in myometrium ± fetal parts seen",
+          "in peritoneal cavity",
+          "• Nonpregnant patient: Free intraperitoneal fluid after",
+          "recent delivery or uterine instrumentation"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Prenatal bleeding ± pain",
+          "○ Placental abruption",
+          "○ Placenta previa",
+          "○ Morbidly adherent placentation",
+          "• Postpartum bleeding ± pain",
+          "○ Retained products of conception",
+          "○ Endometritis"
+        ],
+        "CLINICAL ISSUES": [
+          "• Prior cesarean section in majority of cases (92%)",
+          "• Maternal Fetal Medicine Units Network quote 0.32% risk of",
+          "rupture with prior low transverse cesarean section",
+          "○ 0.7% risk of rupture when attempting vaginal birth after",
+          "prior cesarean section",
+          "○ 0.16% risk of rupture without labor in those planning",
+          "repeat cesarean",
+          "• Primary uterine rupture (i.e., rupture of unscarred uterus)",
+          "0.005% risk in developed countries",
+          "• Rupture may occur during pregnancy, labor, or post partum",
+          "○ Rupture during labor has worst prognosis, especially if",
+          "unscarred uterus as diagnosis may be delayed",
+          "○ Requires emergency laparotomy and possible",
+          "hysterectomy to control bleeding",
+          "• Uterine dehiscence may be clinically silent or present with",
+          "vague lower abdominal pain",
+          "○ Managed conservatively if patient stable"
+        ]
+      }
+    },
+    {
+      "id": "retained-products-of-conception",
+      "name": "Задержанные продукты зачатия",
+      "nameEn": "Retained Products of Conception",
+      "category": "Материнские состояния",
+      "bookSection": "SECTION 16",
+      "bookPage": 1120,
+      "definition": "• Incomplete uterine evacuation with retention of placental/trophoblastic tissue within endometrial cavity",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Solid, heterogeneous, эхогенный mass",
+        "Early loss often has small cystic areas",
+        "Post partum appears more like placenta",
+        "Persistent, thickened endometrium",
+        "> 10 mm considered abnormal",
+        "Perform цветовой допpler to look for flow",
+        "High-velocity, low-resistance flow",
+        "Lack of increased flow does not rule out RPOC",
+        "40% of cases may have no or minimal flow"
+      ],
+      "doppler_findings": [
+        "Persistent, thickened endometrium",
+        "Perform цветовой допpler to look for flow"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Normal postpartum uterus",
+        "Small эхогенный foci and fluid common",
+        "Intrauterine blood/clot",
+        "More гипоэхогенный than RPOC, avascular",
+        "Enhanced myometrial vascularity without RPOC",
+        "Placental site subinvolution",
+        "– Histologic diagnosis; delayed or inadequate of",
+        "maternal spiral arteries back to baseline",
+        "Uterine arteriovenous malformation",
+        "– Rare without history of prior instrumentation",
+        "Gestational trophoblastic disease",
+        "If invasive, mass and increased vascularity involve",
+        "myometrium as well as endometrial cavity"
+      ],
+      "red_flags": [
+        "If no mass or fluid and endometrial thickness < 10 mm",
+        "without increased flow, RPOC extremely unlikely"
+      ],
+      "follow_up": [
+        "Look for RPOC in any patient presenting with endometritis",
+        "Expectant management appropriate if little or no",
+        "vascularity"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1120: Retained Products of Conception"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Incomplete uterine evacuation with retention of",
+          "placental/trophoblastic tissue within endometrial cavity"
+        ],
+        "IMAGING": [
+          "• Solid, heterogeneous, echogenic mass",
+          "○ Early loss often has small cystic areas",
+          "○ Post partum appears more like placenta",
+          "• Persistent, thickened endometrium",
+          "○ > 10 mm considered abnormal",
+          "• Perform color Doppler to look for flow",
+          "○ High-velocity, low-resistance flow",
+          "• Lack of increased flow does not rule out RPOC",
+          "○ 40% of cases may have no or minimal flow"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Normal postpartum uterus",
+          "○ Small echogenic foci and fluid common",
+          "• Intrauterine blood/clot",
+          "○ More hypoechoic than RPOC, avascular",
+          "• Enhanced myometrial vascularity without RPOC",
+          "○ Placental site subinvolution",
+          "– Histologic diagnosis; delayed or inadequate of",
+          "maternal spiral arteries back to baseline",
+          "○ Uterine arteriovenous malformation",
+          "– Rare without history of prior instrumentation",
+          "• Gestational trophoblastic disease",
+          "○ If invasive, mass and increased vascularity involve",
+          "myometrium as well as endometrial cavity"
+        ],
+        "CLINICAL ISSUES": [
+          "• Look for RPOC in any patient presenting with endometritis",
+          "• Expectant management appropriate if little or no",
+          "vascularity"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• If no mass or fluid and endometrial thickness < 10 mm",
+          "without increased flow, RPOC extremely unlikely"
+        ]
+      }
+    },
+    {
+      "id": "adnexal-mass-in-pregnancy",
+      "name": "Образование придатков при беременности",
+      "nameEn": "Adnexal Mass in Pregnancy",
+      "category": "Материнские состояния",
+      "bookSection": "SECTION 16",
+      "bookPage": 1122,
+      "definition": "Adnexal Mass in Pregnancy",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1122: Adnexal Mass in Pregnancy"
+      ],
+      "sourceBlocks": {}
+    },
+    {
+      "id": "acute-abdomen-in-pregnancy",
+      "name": "Острый живот при беременности",
+      "nameEn": "Acute Abdomen in Pregnancy",
+      "category": "Материнские состояния",
+      "bookSection": "SECTION 16",
+      "bookPage": 1126,
+      "definition": "Acute Abdomen in Pregnancy",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1126: Acute Abdomen in Pregnancy"
+      ],
+      "sourceBlocks": {}
+    },
+    {
+      "id": "intrauterine-linear-echoes",
+      "name": "Внутриматочные линейные эхосигналы",
+      "nameEn": "Intrauterine Linear Echoes",
+      "category": "Материнские состояния",
+      "bookSection": "SECTION 16",
+      "bookPage": 1130,
+      "definition": "Intrauterine Linear Echoes",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1130: Intrauterine Linear Echoes"
+      ],
+      "sourceBlocks": {}
+    },
+    {
+      "id": "postpartum-hemorrhage",
+      "name": "Послеродовое кровотечение",
+      "nameEn": "Postpartum Hemorrhage",
+      "category": "Материнские состояния",
+      "bookSection": "SECTION 16",
+      "bookPage": 1134,
+      "definition": "Postpartum Hemorrhage",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1134: Postpartum Hemorrhage"
+      ],
+      "sourceBlocks": {}
+    },
+    {
+      "id": "postpartum-pain-fever",
+      "name": "Послеродовая боль/лихорадка",
+      "nameEn": "Postpartum Pain/Fever",
+      "category": "Материнские состояния",
+      "bookSection": "SECTION 16",
+      "bookPage": 1138,
+      "definition": "Postpartum Pain/Fever",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1138: Postpartum Pain/Fever"
+      ],
+      "sourceBlocks": {}
+    }
+  ]
+}

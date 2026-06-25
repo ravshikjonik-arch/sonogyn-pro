@@ -1,0 +1,3580 @@
+{
+  "module": "syndromes",
+  "moduleRu": "Синдромы и мультисистемные нарушения",
+  "source": {
+    "title": "Diagnostic Imaging: Obstetrics",
+    "edition": "4th",
+    "authors": [
+      "Paula J. Woodward",
+      "Anne Kennedy",
+      "Roya Sohaey",
+      "Janice L. B. Byrne",
+      "Michael D. Puchalski",
+      "Brian L. Shaffer",
+      "Emily Edwards",
+      "Priyanka Jha",
+      "Whitnee Hogan"
+    ]
+  },
+  "version": "1.0.0",
+  "extractedAt": "2026-06-25",
+  "entries": [
+    {
+      "id": "22q11-deletion-syndrome",
+      "name": "Синдром делеции 22q11",
+      "nameEn": "22q11 Deletion Syndrome",
+      "category": "Синдромы и мультисистемные нарушения",
+      "bookSection": "SECTION 13",
+      "bookPage": 938,
+      "definition": "• Synonyms ○ Velocardiofacial syndrome ○ DiGeorge syndrome • Highly variable microdeletion syndrome with congenital heart, palate, immune, and cognitive defects due to deletion of 22q11.2",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Conotruncal heart defects",
+        "Truncus arteriosus, tetralogy of Fallot; ventricular septal",
+        "defect (VSD), interrupted aortic arch, vascular ring",
+        "Cleft palate",
+        "Mild micrognathia, hypertelorism, prominent broad nasal",
+        "bridge",
+        "Thymic hypoplasia"
+      ],
+      "doppler_findings": [
+        "Truncus arteriosus, tetralogy of Fallot; ventricular septal",
+        "defect (VSD), interrupted aortic arch, vascular ring",
+        "Mild micrognathia, hypertelorism, prominent broad nasal",
+        "bridge"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Isolated conotruncal heart defects"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Congenital heart disease (~ 75%)",
+        "Palatal abnormalities (~ 70%), including velopharyngeal",
+        "insufficiency",
+        "Characteristic facial features, often subtle (majority of",
+        "patients)",
+        "Learning disabilities (70-90%)",
+        "Immune deficiency (77%)",
+        "Neuropsychiatric illness",
+        "del22q11.2 may account for up to 1-2% of those with",
+        "schizophrenia"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.938: 22q11 Deletion Syndrome"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Synonyms",
+          "○ Velocardiofacial syndrome",
+          "○ DiGeorge syndrome",
+          "• Highly variable microdeletion syndrome with congenital",
+          "heart, palate, immune, and cognitive defects due to",
+          "deletion of 22q11.2"
+        ],
+        "IMAGING": [
+          "• Conotruncal heart defects",
+          "○ Truncus arteriosus, tetralogy of Fallot; ventricular septal",
+          "defect (VSD), interrupted aortic arch, vascular ring",
+          "• Cleft palate",
+          "• Mild micrognathia, hypertelorism, prominent broad nasal",
+          "bridge",
+          "• Thymic hypoplasia"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Isolated conotruncal heart defects"
+        ],
+        "PATHOLOGY": [
+          "• Haploinsufficiency of 3 genes in del22q11.2 (TBX1, CRKL,",
+          "MAPK1) disrupt neural crest cell migration and secondary",
+          "(anterior) heart field",
+          "• Autosomal dominant (heterozygous)",
+          "○ Most affected individuals with de novo deletion"
+        ],
+        "CLINICAL ISSUES": [
+          "• Congenital heart disease (~ 75%)",
+          "• Palatal abnormalities (~ 70%), including velopharyngeal",
+          "insufficiency",
+          "• Characteristic facial features, often subtle (majority of",
+          "patients)",
+          "• Learning disabilities (70-90%)",
+          "• Immune deficiency (77%)",
+          "• Neuropsychiatric illness",
+          "○ del22q11.2 may account for up to 1-2% of those with",
+          "schizophrenia"
+        ]
+      }
+    },
+    {
+      "id": "aicardi-syndrome",
+      "name": "Синдром Аикарди",
+      "nameEn": "Aicardi Syndrome",
+      "category": "Синдромы и мультисистемные нарушения",
+      "bookSection": "SECTION 13",
+      "bookPage": 942,
+      "definition": "• Described in 1965 as clinical triad of infantile spasms, agenesis of мозолистое тело, and chorioretinal lacunae • Phenotype now known to be more complex",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Agenesis of мозолистое тело is most consistent finding in",
+        "fetus",
+        "Cortical dysplasia",
+        "Intracranial cysts in 25-100%, depending on series",
+        "Cerebellar anomalies in 6-95%, depending on series",
+        "Microphthalmia"
+      ],
+      "doppler_findings": [
+        "Intracranial cysts in 25-100%, depending on series",
+        "Cerebellar anomalies in 6-95%, depending on series"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [
+        "Seen only in females and 47, XXY кaryotyping / кариотипирование",
+        "Must have 2 X chromosomes"
+      ],
+      "differential_diagnosis": [
+        "Agenesis/dysgenesis of мозолистое тело",
+        "Dandy-Walker malformation",
+        "Arachnoid cyst",
+        "Intracranial hemorrhage"
+      ],
+      "red_flags": [
+        "Consider Aicardi syndrome in female fetus with callosal",
+        "agenesis/dysgenesis, especially if posterior fossa",
+        "abnormalities or abnormal cortical mantle"
+      ],
+      "follow_up": [
+        "USA incidence 1:105,000 live births",
+        "Estimated survival rate of 76% at 6 years, 40% at 14 years",
+        "Risk of death peaked at age 16 in one series",
+        "Median age of survival estimated at 18.5 ± 4 years",
+        "Intractable seizures"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.942: Aicardi Syndrome"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Described in 1965 as clinical triad of infantile spasms,",
+          "agenesis of corpus callosum, and chorioretinal lacunae",
+          "• Phenotype now known to be more complex"
+        ],
+        "IMAGING": [
+          "• Agenesis of corpus callosum is most consistent finding in",
+          "fetus",
+          "• Cortical dysplasia",
+          "• Intracranial cysts in 25-100%, depending on series",
+          "• Cerebellar anomalies in 6-95%, depending on series",
+          "• Microphthalmia"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Agenesis/dysgenesis of corpus callosum",
+          "• Dandy-Walker malformation",
+          "• Arachnoid cyst",
+          "• Intracranial hemorrhage"
+        ],
+        "PATHOLOGY": [
+          "• Seen only in females and 47, XXY karyotype",
+          "○ Must have 2 X chromosomes",
+          "○ Probable X-linked dominant with early embryonic",
+          "lethality in hemizygous males",
+          "• Affected females do not reproduce; therefore, all cases",
+          "thought to be new mutations"
+        ],
+        "CLINICAL ISSUES": [
+          "• USA incidence 1:105,000 live births",
+          "• Estimated survival rate of 76% at 6 years, 40% at 14 years",
+          "○ Risk of death peaked at age 16 in one series",
+          "• Median age of survival estimated at 18.5 ± 4 years",
+          "• Intractable seizures"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Consider Aicardi syndrome in female fetus with callosal",
+          "agenesis/dysgenesis, especially if posterior fossa",
+          "abnormalities or abnormal cortical mantle"
+        ]
+      }
+    },
+    {
+      "id": "amniotic-band-syndrome",
+      "name": "Синдром амниотических волокон",
+      "nameEn": "Amniotic Band Syndrome",
+      "category": "Синдромы и мультисистемные нарушения",
+      "bookSection": "SECTION 13",
+      "bookPage": 946,
+      "definition": "• Controversial as to etiology, but simplest concept is entrapment of fetal parts by disrupted amnion",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Asymmetric distribution of defects is hallmark of syndrome",
+        "Craniofacial deformities often severe",
+        "Abdominal wall defects are large, complex, often complete",
+        "evisceration",
+        "Edema of extremity distal to constricting band may",
+        "progress to limb amputation",
+        "Doppler flow distal to constriction used to identify",
+        "potential cases for fetal surgery",
+        "Abnormal, but present blood flow distal to band may",
+        "identify cases suitable for fetal surgery",
+        "75% with functional limb after surgery based on 2019",
+        "literature review",
+        "Amniotic band may be tightly adherent and difficult to see",
+        "Look for restricted movement of involved area",
+        "Change of maternal position may \"float\" fetus away from",
+        "uterine wall, revealing short band"
+      ],
+      "doppler_findings": [
+        "Asymmetric distribution of defects is hallmark of syndrome",
+        "Edema of extremity distal to constricting band may",
+        "progress to limb amputation",
+        "Doppler flow distal to constriction used to identify",
+        "Look for restricted movement of involved area",
+        "uterine wall, revealing short band"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Body stalk anomaly",
+        "Developmental craniofacial or abdominal wall defects",
+        "All have defined anatomic distributions from",
+        "embryologic development"
+      ],
+      "red_flags": [
+        "Always consider amniotic band syndrome with unusual",
+        "abdominal wall or cranial defects"
+      ],
+      "follow_up": [
+        "Defects range from minor to lethal",
+        "Termination offered for major defects (cranial defects,",
+        "large abdominoschisis)",
+        "In utero lysis of bands for at-risk extremity",
+        "Risk of premature rupture of membranes, prematurity, and",
+        "low birth weight"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Termination offered for major defects (cranial defects,",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.946: Amniotic Band Syndrome"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Controversial as to etiology, but simplest concept is",
+          "entrapment of fetal parts by disrupted amnion"
+        ],
+        "IMAGING": [
+          "• Asymmetric distribution of defects is hallmark of syndrome",
+          "• Craniofacial deformities often severe",
+          "• Abdominal wall defects are large, complex, often complete",
+          "evisceration",
+          "• Edema of extremity distal to constricting band may",
+          "progress to limb amputation",
+          "• Doppler flow distal to constriction used to identify",
+          "potential cases for fetal surgery",
+          "○ Abnormal, but present blood flow distal to band may",
+          "identify cases suitable for fetal surgery",
+          "○ 75% with functional limb after surgery based on 2019",
+          "literature review",
+          "• Amniotic band may be tightly adherent and difficult to see",
+          "○ Look for restricted movement of involved area",
+          "○ Change of maternal position may \"float\" fetus away from",
+          "uterine wall, revealing short band"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Body stalk anomaly",
+          "• Developmental craniofacial or abdominal wall defects",
+          "○ All have defined anatomic distributions from",
+          "embryologic development"
+        ],
+        "CLINICAL ISSUES": [
+          "• Defects range from minor to lethal",
+          "○ Termination offered for major defects (cranial defects,",
+          "large abdominoschisis)",
+          "○ In utero lysis of bands for at-risk extremity",
+          "• Risk of premature rupture of membranes, prematurity, and",
+          "low birth weight"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Always consider amniotic band syndrome with unusual",
+          "abdominal wall or cranial defects"
+        ]
+      }
+    },
+    {
+      "id": "apert-syndrome",
+      "name": "Синдром Аперта",
+      "nameEn": "Apert Syndrome",
+      "category": "Синдромы и мультисистемные нарушения",
+      "bookSection": "SECTION 13",
+      "bookPage": 950,
+      "definition": "• Acrocephalosyndactyly type I",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Abnormal calvarial shape often with frontal bossing",
+        "Fusion of coronal sutures ± other sutures, resulting in",
+        "conical tower skull shape",
+        "Severe syndactyly of hands and feet on midtrimester",
+        "ultrasound (\"mitten\" syndactyly)",
+        "Midface hypoplasia",
+        "3D ultrasound to evaluate extremities, face, and calvarium"
+      ],
+      "doppler_findings": [
+        "Abnormal calvarial shape often with frontal bossing",
+        "Severe syndactyly of hands and feet on midtrimester",
+        "3D ultrasound to evaluate extremities, face, and calvarium"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Associated with increased paternal age"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Other syndromes with craniosynostosis and syndactyly",
+        "Pfeiffer syndrome",
+        "Carpenter syndrome",
+        "Saethre-Chotzen syndrome"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Exophthalmos, hypertelorism",
+        "Malocclusion, dental abnormalities",
+        "Complex syndactyly of hands and feet",
+        "Potential airway compromise at birth",
+        "Intellectual impairment common (IQ 44-90)",
+        "Treatment issues",
+        "Extensive/complex surgical management of syndactyly",
+        "with goal of increasing functionality",
+        "Early repair of craniosynostosis does not prevent",
+        "intellectual impairment"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Early repair of craniosynostosis does not prevent",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.950: Apert Syndrome"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Acrocephalosyndactyly type I"
+        ],
+        "IMAGING": [
+          "• Abnormal calvarial shape often with frontal bossing",
+          "○ Fusion of coronal sutures ± other sutures, resulting in",
+          "conical tower skull shape",
+          "• Severe syndactyly of hands and feet on midtrimester",
+          "ultrasound (\"mitten\" syndactyly)",
+          "• Midface hypoplasia",
+          "• 3D ultrasound to evaluate extremities, face, and calvarium"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Other syndromes with craniosynostosis and syndactyly",
+          "○ Pfeiffer syndrome",
+          "○ Carpenter syndrome",
+          "○ Saethre-Chotzen syndrome"
+        ],
+        "PATHOLOGY": [
+          "• Due to mutations in fibroblast growth factor receptor 2",
+          "gene (FGFR2)",
+          "○ Most due to activating point mutations",
+          "• Autosomal dominant; most new mutations",
+          "• Associated with increased paternal age"
+        ],
+        "CLINICAL ISSUES": [
+          "• Exophthalmos, hypertelorism",
+          "• Malocclusion, dental abnormalities",
+          "• Complex syndactyly of hands and feet",
+          "• Potential airway compromise at birth",
+          "• Intellectual impairment common (IQ 44-90)",
+          "• Treatment issues",
+          "○ Extensive/complex surgical management of syndactyly",
+          "with goal of increasing functionality",
+          "○ Early repair of craniosynostosis does not prevent",
+          "intellectual impairment"
+        ]
+      }
+    },
+    {
+      "id": "beckwith-wiedemann-syndrome",
+      "name": "Синдром Беквита–Видемана",
+      "nameEn": "Beckwith-Wiedemann Syndrome",
+      "category": "Синдромы и мультисистемные нарушения",
+      "bookSection": "SECTION 13",
+      "bookPage": 954,
+      "definition": "• Imprinting disorder with principle features, including macrosomia, macroglossia, and omphalocele",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Macroglossia is most consistent finding",
+        "Persistent protruding tongue during exam with inability",
+        "to close mouth",
+        "Kidneys are enlarged with preservation of normal",
+        "architecture",
+        "Hepatomegaly common",
+        "Large abdominal circumference: Combination of",
+        "nephromegaly and hepatomegaly",
+        "Omphalocele, usually small",
+        "Placental mesenchymal dysplasia"
+      ],
+      "doppler_findings": [
+        "Persistent protruding tongue during exam with inability",
+        "Omphalocele, usually small"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [
+        "Multigenic disorder due to epigenetic alterations in growth"
+      ],
+      "differential_diagnosis": [
+        "Macrosomia associated with maternal diabetes"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Increased frequency in monozygotic twins",
+        "Reported increased incidence of infants with Beckwith-",
+        "Wiedemann syndrome born to couples who have",
+        "undergone various assisted reproductive technologies",
+        "Neonatal hypoglycemia, often severe",
+        "Airway difficulties; potentially life-threatening at delivery if",
+        "macroglossia is severe",
+        "Increased risk of embryonal tumors, including Wilms tumor,",
+        "hepatoblastoma, neuroblastoma, rhabdomyosarcoma,",
+        "adrenocortical carcinoma"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Airway difficulties; potentially life-threatening at delivery if",
+      "postnatal_management": "Neonatal hypoglycemia, often severe",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.954: Beckwith-Wiedemann Syndrome"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Imprinting disorder with principle features, including",
+          "macrosomia, macroglossia, and omphalocele"
+        ],
+        "IMAGING": [
+          "• Macroglossia is most consistent finding",
+          "○ Persistent protruding tongue during exam with inability",
+          "to close mouth",
+          "• Kidneys are enlarged with preservation of normal",
+          "architecture",
+          "• Hepatomegaly common",
+          "• Large abdominal circumference: Combination of",
+          "nephromegaly and hepatomegaly",
+          "• Omphalocele, usually small",
+          "• Placental mesenchymal dysplasia"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Macrosomia associated with maternal diabetes"
+        ],
+        "PATHOLOGY": [
+          "• Multigenic disorder due to epigenetic alterations in growth",
+          "regulatory genes at 11p15.5",
+          "• 10-15% are familial and inherited in autosomal dominant",
+          "fashion",
+          "• 10-20% with paternal uniparental disomy"
+        ],
+        "CLINICAL ISSUES": [
+          "• Increased frequency in monozygotic twins",
+          "• Reported increased incidence of infants with Beckwith-",
+          "Wiedemann syndrome born to couples who have",
+          "undergone various assisted reproductive technologies",
+          "• Neonatal hypoglycemia, often severe",
+          "• Airway difficulties; potentially life-threatening at delivery if",
+          "macroglossia is severe",
+          "• Increased risk of embryonal tumors, including Wilms tumor,",
+          "hepatoblastoma, neuroblastoma, rhabdomyosarcoma,",
+          "adrenocortical carcinoma"
+        ]
+      }
+    },
+    {
+      "id": "carpenter-syndrome",
+      "name": "Синдром Карпентера",
+      "nameEn": "Carpenter Syndrome",
+      "category": "Синдромы и мультисистемные нарушения",
+      "bookSection": "SECTION 13",
+      "bookPage": 958,
+      "definition": "• Acrocephalopolysyndactyly type II • Characterized by preaxial polydactyly, soft tissue syndactyly, cardiac defects, ventral wall abnormalities, and craniosynostosis of multiple sutures",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Abnormal calvarial shape with severe proptosis",
+        "Preaxial polydactyly, partial syndactyly of hands and feet",
+        "Craniosynostosis of sagittal, lambdoid, coronal sutures",
+        "Cardiac defects in 30-50%",
+        "Abdominal wall defects"
+      ],
+      "doppler_findings": [
+        "Abnormal calvarial shape with severe proptosis"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Features of Carpenter syndrome associated with defective"
+      ],
+      "genetic_associations": [
+        "Autosomal recessive but genetically heterogeneous",
+        "Features of Carpenter syndrome associated with defective"
+      ],
+      "differential_diagnosis": [
+        "Apert syndrome",
+        "Pfeiffer syndrome",
+        "Crouzon syndrome",
+        "Saethre-Chotzen syndrome"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Postnatal findings",
+        "Brachydactyly with broad thumbs, soft tissue syndactyly",
+        "of fingers",
+        "Dystopia canthorum (lateral displacement of inner",
+        "canthi), downslanting palpebral fissures",
+        "Dental abnormalities with delayed eruption, prolonged",
+        "retention of primary teeth, hypodontia",
+        "Hypogonadism",
+        "Intellectual function variable (IQ range: 52-104)",
+        "Obesity"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Postnatal findings",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.958: Carpenter Syndrome"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Acrocephalopolysyndactyly type II",
+          "• Characterized by preaxial polydactyly, soft tissue",
+          "syndactyly, cardiac defects, ventral wall abnormalities, and",
+          "craniosynostosis of multiple sutures"
+        ],
+        "IMAGING": [
+          "• Abnormal calvarial shape with severe proptosis",
+          "• Preaxial polydactyly, partial syndactyly of hands and feet",
+          "• Craniosynostosis of sagittal, lambdoid, coronal sutures",
+          "• Cardiac defects in 30-50%",
+          "• Abdominal wall defects"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Apert syndrome",
+          "• Pfeiffer syndrome",
+          "• Crouzon syndrome",
+          "• Saethre-Chotzen syndrome"
+        ],
+        "PATHOLOGY": [
+          "• Autosomal recessive but genetically heterogeneous",
+          "○ Homozygous mutations in RAB23 gene",
+          "• Features of Carpenter syndrome associated with defective",
+          "laterality; due to homozygous or compound heterozygous",
+          "mutations in MEGF8 gene"
+        ],
+        "CLINICAL ISSUES": [
+          "• Postnatal findings",
+          "○ Brachydactyly with broad thumbs, soft tissue syndactyly",
+          "of fingers",
+          "○ Dystopia canthorum (lateral displacement of inner",
+          "canthi), downslanting palpebral fissures",
+          "○ Dental abnormalities with delayed eruption, prolonged",
+          "retention of primary teeth, hypodontia",
+          "○ Hypogonadism",
+          "○ Intellectual function variable (IQ range: 52-104)",
+          "○ Obesity"
+        ]
+      }
+    },
+    {
+      "id": "charge-syndrome",
+      "name": "Синдром CHARGE",
+      "nameEn": "CHARGE Syndrome",
+      "category": "Синдромы и мультисистемные нарушения",
+      "bookSection": "SECTION 13",
+      "bookPage": 960,
+      "definition": "• CHARGE syndrome refers to nonrandom cluster of malformations, including ○ Coloboma and cranial nerve defects ○ Heart malformation ○ Choanal atresia ○ Retardation of growth &/or development ○ Genital anomalies ○ Ear anomalies",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "External ear abnormalities are only constant feature on US",
+        "Absent semicircular canal is very specific feature and can be",
+        "85% with congenital heart disease",
+        "59% hindbrain anomalies (1/3 with vermian hypoplasia)",
+        "48% coloboma (~ 1/3 associated with microphthalmia)",
+        "46% of males, 36% of females had genital anomalies",
+        "44% thymic agenesis/hypoplasia",
+        "41% vascular anomalies",
+        "36% многоводие"
+      ],
+      "doppler_findings": [],
+      "mri_findings": [
+        "seen on МРТ плода"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [
+        "Look carefully at eyes, inner ear, olfactory bulbs and sulci on",
+        "fetal brain МР",
+        "Look for development of olfactory sulci on US",
+        "Use 3D US to look for external ear abnormalities"
+      ],
+      "follow_up": [
+        "Prognosis is poor",
+        "82% developmental delay",
+        "40% autism/atypical autism",
+        "Recurrence risk ~ 3%, possibly higher with advanced",
+        "paternal age",
+        "Risk for adult with CHARGE to have affected child may be",
+        "as high as 50%"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.960: CHARGE Syndrome"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• CHARGE syndrome refers to nonrandom cluster of",
+          "malformations, including",
+          "○ Coloboma and cranial nerve defects",
+          "○ Heart malformation",
+          "○ Choanal atresia",
+          "○ Retardation of growth &/or development",
+          "○ Genital anomalies",
+          "○ Ear anomalies"
+        ],
+        "IMAGING": [
+          "• External ear abnormalities are only constant feature on US",
+          "• Absent semicircular canal is very specific feature and can be",
+          "seen on fetal MR",
+          "• 85% with congenital heart disease",
+          "• 59% hindbrain anomalies (1/3 with vermian hypoplasia)",
+          "• 48% coloboma (~ 1/3 associated with microphthalmia)",
+          "• 46% of males, 36% of females had genital anomalies",
+          "• 44% thymic agenesis/hypoplasia",
+          "• 41% vascular anomalies",
+          "• 36% polyhydramnios"
+        ],
+        "PATHOLOGY": [
+          "• Majority of cases due to mutations within CHD7 gene"
+        ],
+        "CLINICAL ISSUES": [
+          "• Prognosis is poor",
+          "○ 82% developmental delay",
+          "○ 40% autism/atypical autism",
+          "• Recurrence risk ~ 3%, possibly higher with advanced",
+          "paternal age",
+          "• Risk for adult with CHARGE to have affected child may be",
+          "as high as 50%"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Look carefully at eyes, inner ear, olfactory bulbs and sulci on",
+          "fetal brain MR",
+          "• Look for development of olfactory sulci on US",
+          "• Use 3D US to look for external ear abnormalities"
+        ]
+      }
+    },
+    {
+      "id": "cornelia-de-lange-syndrome",
+      "name": "Синдром Корнелии де Ланге",
+      "nameEn": "Cornelia de Lange Syndrome",
+      "category": "Синдромы и мультисистемные нарушения",
+      "bookSection": "SECTION 13",
+      "bookPage": 962,
+      "definition": "• Rare multisystem disorder with characteristic facial features, growth restriction, intellectual impairment, limb defects, gastrointestinal abnormalities, cardiac defects, and hypertrichosis",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Upper limb reduction defects, monodactyly",
+        "Micrognathia with protruding upper lip/philtrum",
+        "Best seen in profile",
+        "врождённая диафрагмальная грыжа (CDH), occasionally bilateral",
+        "Broad array of other gastrointestinal abnormalities",
+        "Severe growth restriction, often early onset"
+      ],
+      "doppler_findings": [
+        "Severe growth restriction, often early onset"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Fryns syndrome",
+        "Chromosome aneuploidy",
+        "Pallister-Killian syndrome (mosaic tetrasomy 12p)",
+        "Partial duplication 3q",
+        "Trisomy 18"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Distinctive facial phenotype",
+        "Fine, arched eyebrows (\"penciled\"); long, smooth",
+        "philtrum; thin lips; crescent-shaped mouth; synophrys",
+        "(fused eyebrows); long lashes; ptosis; downslanting eyes;",
+        "depressed nasal bridge; anteverted nares; micrognathia",
+        "Wide spectrum of severity",
+        "Intellectual impairment (moderate to profound)",
+        "Significant speech and language delay (some nonverbal),",
+        "hearing loss, seizures (11-23%)",
+        "Behavioral phenotype: Self-injury, aggression, sleep",
+        "disturbance, autistic behaviors"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.962: Cornelia de Lange Syndrome"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Rare multisystem disorder with characteristic facial",
+          "features, growth restriction, intellectual impairment, limb",
+          "defects, gastrointestinal abnormalities, cardiac defects, and",
+          "hypertrichosis"
+        ],
+        "IMAGING": [
+          "• Upper limb reduction defects, monodactyly",
+          "• Micrognathia with protruding upper lip/philtrum",
+          "○ Best seen in profile",
+          "• Congenital diaphragmatic hernia, occasionally bilateral",
+          "○ Broad array of other gastrointestinal abnormalities",
+          "• Severe growth restriction, often early onset"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Fryns syndrome",
+          "• Chromosome aneuploidy",
+          "○ Pallister-Killian syndrome (mosaic tetrasomy 12p)",
+          "○ Partial duplication 3q",
+          "○ Trisomy 18"
+        ],
+        "PATHOLOGY": [
+          "• Most common example of disorders of cohesin complex, or",
+          "cohesinopathies",
+          "• NIPBL, SMC1A, SMC3, HDAC8, RAD21"
+        ],
+        "CLINICAL ISSUES": [
+          "• Distinctive facial phenotype",
+          "○ Fine, arched eyebrows (\"penciled\"); long, smooth",
+          "philtrum; thin lips; crescent-shaped mouth; synophrys",
+          "(fused eyebrows); long lashes; ptosis; downslanting eyes;",
+          "depressed nasal bridge; anteverted nares; micrognathia",
+          "• Wide spectrum of severity",
+          "• Intellectual impairment (moderate to profound)",
+          "• Significant speech and language delay (some nonverbal),",
+          "hearing loss, seizures (11-23%)",
+          "• Behavioral phenotype: Self-injury, aggression, sleep",
+          "disturbance, autistic behaviors"
+        ]
+      }
+    },
+    {
+      "id": "cystic-fibrosis",
+      "name": "Муковисцидоз",
+      "nameEn": "Cystic Fibrosis",
+      "category": "Синдромы и мультисистемные нарушения",
+      "bookSection": "SECTION 13",
+      "bookPage": 966,
+      "definition": "• Recessive multisystem disorder caused by dysfunctional chloride ion transport across epithelial surfaces",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "эхогенный bowel in 2nd trimester, often progressing to",
+        "bowel dilation in 3rd trimester",
+        "эхогенныйity greater than bone considered abnormal",
+        "Meconium ileus",
+        "Dilated, эхогенный small bowel",
+        "Perforation with meconium peritonitis; 20% of fetuses with",
+        "meconium peritonitis have cystic fibrosis (CF)"
+      ],
+      "doppler_findings": [
+        "эхогенный bowel in 2nd trimester, often progressing to",
+        "bowel dilation in 3rd trimester",
+        "Perforation with meconium peritonitis; 20% of fetuses with",
+        "meconium peritonitis have cystic fibrosis (CF)"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Other causes of эхогенный bowel",
+        "Aneuploidy, especially trisomy 21",
+        "Infection",
+        "Swallowed blood",
+        "Bowel atresia (Ileal)"
+      ],
+      "red_flags": [
+        "Normal US exam does not rule out CF; assess individual risk",
+        "via carrier screening",
+        "Negative carrier screen lowers but does not eliminate risk",
+        "Offer work-up for CF in all cases of fetal bowel obstruction,",
+        "эхогенный bowel"
+      ],
+      "follow_up": [
+        "CF is part of newborn screening in all 50 states/DC",
+        "May present in neonatal period with failure to pass",
+        "meconium or in infancy with severe failure to thrive",
+        "Respiratory, GI systems most commonly affected",
+        "Male infertility",
+        "Median survival: Late 40s"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "May present in neonatal period with failure to pass",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.966: Cystic Fibrosis"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Recessive multisystem disorder caused by dysfunctional",
+          "chloride ion transport across epithelial surfaces"
+        ],
+        "IMAGING": [
+          "• Echogenic bowel in 2nd trimester, often progressing to",
+          "bowel dilation in 3rd trimester",
+          "○ Echogenicity greater than bone considered abnormal",
+          "• Meconium ileus",
+          "○ Dilated, echogenic small bowel",
+          "• Perforation with meconium peritonitis; 20% of fetuses with",
+          "meconium peritonitis have cystic fibrosis (CF)"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Other causes of echogenic bowel",
+          "○ Aneuploidy, especially trisomy 21",
+          "○ Infection",
+          "○ Swallowed blood",
+          "• Bowel atresia (Ileal)"
+        ],
+        "PATHOLOGY": [
+          "• Pathogenic variants in CTFR; encodes CF transmembrane",
+          "conductance regulator",
+          "• Autosomal recessive (25% recurrence risk)"
+        ],
+        "CLINICAL ISSUES": [
+          "• CF is part of newborn screening in all 50 states/DC",
+          "• May present in neonatal period with failure to pass",
+          "meconium or in infancy with severe failure to thrive",
+          "• Respiratory, GI systems most commonly affected",
+          "• Male infertility",
+          "• Median survival: Late 40s"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Normal US exam does not rule out CF; assess individual risk",
+          "via carrier screening",
+          "• Negative carrier screen lowers but does not eliminate risk",
+          "• Offer work-up for CF in all cases of fetal bowel obstruction,",
+          "echogenic bowel"
+        ]
+      }
+    },
+    {
+      "id": "crouzon-syndrome",
+      "name": "Синдром Крузона",
+      "nameEn": "Crouzon Syndrome",
+      "category": "Синдромы и мультисистемные нарушения",
+      "bookSection": "SECTION 13",
+      "bookPage": 968,
+      "definition": "• Synonym: Craniofacial dysostosis, type I",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Abnormal calvarial shape with variable multisutural",
+        "synostosis",
+        "Significant proptosis due to shallow orbits, midface",
+        "retrusion, convex nasal ridge, prognathism",
+        "Normal hands and feet"
+      ],
+      "doppler_findings": [
+        "Abnormal calvarial shape with variable multisutural",
+        "retrusion, convex nasal ridge, prognathism"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Other syndromes with craniosynostosis",
+        "Pfeiffer syndrome (FGFR2)",
+        "Apert syndrome (FGFR2)",
+        "Muenke syndrome (FGFR3)"
+      ],
+      "red_flags": [
+        "3D evaluation of calvarial features, close attention to",
+        "exclude abnormalities of hands and feet",
+        "Normal hands and feet afford distinction from Apert and",
+        "Pfeiffer syndromes"
+      ],
+      "follow_up": [
+        "Variable degree of craniosynostosis",
+        "Hypertelorism, proptosis, flat forehead, prognathism",
+        "Airway obstruction, choanal stenosis/atresia",
+        "Chiari 1, hydrocephalus, C2-C3 vertebral fusion",
+        "Treatment issues",
+        "Surgical management to correct maldevelopment of",
+        "midface and orbits, cranial vault abnormalities",
+        "Earlier correction may minimize cognitive impact"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.968: Crouzon Syndrome"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Synonym: Craniofacial dysostosis, type I"
+        ],
+        "IMAGING": [
+          "• Abnormal calvarial shape with variable multisutural",
+          "synostosis",
+          "• Significant proptosis due to shallow orbits, midface",
+          "retrusion, convex nasal ridge, prognathism",
+          "• Normal hands and feet"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Other syndromes with craniosynostosis",
+          "○ Pfeiffer syndrome (FGFR2)",
+          "○ Apert syndrome (FGFR2)",
+          "○ Muenke syndrome (FGFR3)"
+        ],
+        "PATHOLOGY": [
+          "• Due to pathogenic change in fibroblast growth factor 2",
+          "(FGFR2)",
+          "○ Gain-of-function change accelerating differentiation of",
+          "osteoblasts",
+          "○ Autosomal dominant; ~ 50% de novo"
+        ],
+        "CLINICAL ISSUES": [
+          "• Variable degree of craniosynostosis",
+          "• Hypertelorism, proptosis, flat forehead, prognathism",
+          "• Airway obstruction, choanal stenosis/atresia",
+          "• Chiari 1, hydrocephalus, C2-C3 vertebral fusion",
+          "• Treatment issues",
+          "○ Surgical management to correct maldevelopment of",
+          "midface and orbits, cranial vault abnormalities",
+          "○ Earlier correction may minimize cognitive impact"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• 3D evaluation of calvarial features, close attention to",
+          "exclude abnormalities of hands and feet",
+          "○ Normal hands and feet afford distinction from Apert and",
+          "Pfeiffer syndromes"
+        ]
+      }
+    },
+    {
+      "id": "diabetic-embryopathy",
+      "name": "Эмбриопатия при сахарном диабете",
+      "nameEn": "Diabetic Embryopathy",
+      "category": "Синдромы и мультисистемные нарушения",
+      "bookSection": "SECTION 13",
+      "bookPage": 970,
+      "definition": "• Pregestational diabetes (type I or II): Diabetes mellitus diagnosis predates pregnancy • Controversy exists regarding risk of anomalies in gestational diabetes ○ Anomalies may reflect undiagnosed type II diabetes",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "CNS anomalies: 3-20x increase over nondiabetic",
+        "Anencephaly, spina bifida",
+        "гольопrosencephalia / гольопrosencephalia / holoprosencephaly",
+        "Caudal dysplasia/regression sequence",
+        "Cardiac anomalies: 5x increase over nondiabetic",
+        "Extremities",
+        "Preaxial polydactyly of feet, syndactyly",
+        "Femoral hypoplasia, angulated bones",
+        "GU and GI anomalies",
+        "многоводие common",
+        "Imaging recommendations",
+        "Monthly ultrasound to evaluate fetal growth, amniotic",
+        "fluid volume",
+        "Thorough evaluation of fetal anatomy in every diabetic",
+        "Endovaginal ultrasound for better early anatomic",
+        "evaluation",
+        "фetal echocardiography / эхокардиография плодаcardiography to evaluate heart"
+      ],
+      "doppler_findings": [
+        "Anencephaly, spina bifida",
+        "Monthly ultrasound to evaluate fetal growth, amniotic",
+        "Thorough evaluation of fetal anatomy in every diabetic",
+        "evaluation",
+        "фetal echocardiography / эхокардиография плодаcardiography to evaluate heart"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "mothers",
+        "Structural anomalies, especially cardiac, account for 50%"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [
+        "Preconceptional planning is critical with goal of euglycemia"
+      ],
+      "follow_up": [
+        "Preconceptional planning is critical with goal of euglycemia",
+        "to minimize malformation risk"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.970: Diabetic Embryopathy"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Pregestational diabetes (type I or II): Diabetes mellitus",
+          "diagnosis predates pregnancy",
+          "• Controversy exists regarding risk of anomalies in",
+          "gestational diabetes",
+          "○ Anomalies may reflect undiagnosed type II diabetes"
+        ],
+        "IMAGING": [
+          "• CNS anomalies: 3-20x increase over nondiabetic",
+          "○ Anencephaly, spina bifida",
+          "○ Holoprosencephaly",
+          "• Caudal dysplasia/regression sequence",
+          "• Cardiac anomalies: 5x increase over nondiabetic",
+          "• Extremities",
+          "○ Preaxial polydactyly of feet, syndactyly",
+          "○ Femoral hypoplasia, angulated bones",
+          "• GU and GI anomalies",
+          "• Polyhydramnios common",
+          "• Imaging recommendations",
+          "○ Monthly ultrasound to evaluate fetal growth, amniotic",
+          "fluid volume",
+          "○ Thorough evaluation of fetal anatomy in every diabetic",
+          "○ Endovaginal ultrasound for better early anatomic",
+          "evaluation",
+          "○ Fetal echocardiography to evaluate heart"
+        ],
+        "PATHOLOGY": [
+          "• Major malformations in 6-10% of infants born to diabetic",
+          "mothers",
+          "○ 2-5x higher rate than in nondiabetics",
+          "○ Poor metabolic control, especially in 1st trimester,",
+          "increases risk of malformations",
+          "○ Structural anomalies, especially cardiac, account for 50%",
+          "of perinatal deaths"
+        ],
+        "CLINICAL ISSUES": [
+          "• Preconceptional planning is critical with goal of euglycemia",
+          "to minimize malformation risk"
+        ]
+      }
+    },
+    {
+      "id": "fraser-syndrome",
+      "name": "Синдром Фрейзера",
+      "nameEn": "Fraser Syndrome",
+      "category": "Синдромы и мультисистемные нарушения",
+      "bookSection": "SECTION 13",
+      "bookPage": 974,
+      "definition": "• Cryptophthalmos-syndactyly syndrome",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Small, absent eyes",
+        "Measure ocular diameter and compare to normative",
+        "data",
+        "Urinary tract anomalies",
+        "Syndactyly",
+        "Laryngeal/tracheal anomalies may cause airway narrowing",
+        "resulting in congenital high airway obstruction"
+      ],
+      "doppler_findings": [
+        "Urinary tract anomalies"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "anomalies"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Anophthalmia/microphthalmia",
+        "Trisomy 13, Walker-Warburg, and CHARGE syndromes",
+        "Multiple syndromes are associated with congenital",
+        "anomalies of kidney or urinary tract and extrarenal",
+        "manifestations",
+        "Branchiootorenal, Wolf-Hirschhorn, Bardet-Biedl, Smith-",
+        "Lemli-Opitz, and renal coloboma syndromes"
+      ],
+      "red_flags": [
+        "Fetal renal/urinary tract anomalies are common and may be",
+        "isolated, but always evaluate for extrarenal findings",
+        "Renal and facial abnormalities are common association in",
+        "many syndromes"
+      ],
+      "follow_up": [
+        "Often lethal when diagnosed prenatally",
+        "Long-term survival dependent on number and severity of",
+        "anomalies"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.974: Fraser Syndrome"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Cryptophthalmos-syndactyly syndrome"
+        ],
+        "IMAGING": [
+          "• Small, absent eyes",
+          "○ Measure ocular diameter and compare to normative",
+          "data",
+          "• Urinary tract anomalies",
+          "• Syndactyly",
+          "• Laryngeal/tracheal anomalies may cause airway narrowing",
+          "resulting in congenital high airway obstruction"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Anophthalmia/microphthalmia",
+          "○ Trisomy 13, Walker-Warburg, and CHARGE syndromes",
+          "• Multiple syndromes are associated with congenital",
+          "anomalies of kidney or urinary tract and extrarenal",
+          "manifestations",
+          "○ Branchiootorenal, Wolf-Hirschhorn, Bardet-Biedl, Smith-",
+          "Lemli-Opitz, and renal coloboma syndromes"
+        ],
+        "PATHOLOGY": [
+          "• Autosomal recessive disorder",
+          "• Mutations in FRAS1, FREM2, and GRIP1 genes",
+          "○ All function in interaction of ureteric bud and",
+          "metanephric mesenchyme"
+        ],
+        "CLINICAL ISSUES": [
+          "• Often lethal when diagnosed prenatally",
+          "• Long-term survival dependent on number and severity of",
+          "anomalies"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Fetal renal/urinary tract anomalies are common and may be",
+          "isolated, but always evaluate for extrarenal findings",
+          "• Renal and facial abnormalities are common association in",
+          "many syndromes"
+        ]
+      }
+    },
+    {
+      "id": "fryns-syndrome",
+      "name": "Синдром Фрайнса",
+      "nameEn": "Fryns Syndrome",
+      "category": "Синдромы и мультисистемные нарушения",
+      "bookSection": "SECTION 13",
+      "bookPage": 976,
+      "definition": "• Autosomal recessive multiple congenital anomaly syndrome characterized by врождённая диафрагмальная грыжа (CDH) (CDH) with pulmonary hypoplasia, characteristic facial appearance, distal digital hypoplasia",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "CDH is cardinal feature and should prompt search for other",
+        "anomalies",
+        "3D/4D ultrasound may be useful in delineating facial and",
+        "digital abnormalities, especially in high-risk families",
+        "Micrognathia, hypertelorism",
+        "Cardiac anomalies",
+        "многоводие",
+        "Digital hypoplasia may not be apparent on ultrasound",
+        "Fryns syndrome identified in up to 10% of syndromic CDH"
+      ],
+      "doppler_findings": [
+        "digital abnormalities, especially in high-risk families",
+        "Micrognathia, hypertelorism"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Other prenatal/postnatal findings",
+        "anomalies"
+      ],
+      "genetic_associations": [
+        "No consistent genetic linkage to date"
+      ],
+      "differential_diagnosis": [
+        "Pallister-Killian syndrome",
+        "Trisomy 18",
+        "Cornelia de Lange syndrome",
+        "Isolated diaphragmatic hernia"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Most are stillborn or die in neonatal period",
+        "CDH most obvious in utero finding (89%)",
+        "Other prenatal/postnatal findings",
+        "Craniofacial: Coarse facies (100%), broad nasal bridge",
+        "Extremities: Distal digital hypoplasia (near 100%)",
+        "Cardiac defects in ~ 50% of cases",
+        "Genitourinary abnormalities (86%)",
+        "Central nervous system abnormalities (50%)",
+        "Gut malrotation, pulmonary hypoplasia, anorectal",
+        "anomalies"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Most are stillborn or die in neonatal period Other prenatal/postnatal findings",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.976: Fryns Syndrome"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Autosomal recessive multiple congenital anomaly",
+          "syndrome characterized by congenital diaphragmatic",
+          "hernia (CDH) with pulmonary hypoplasia, characteristic",
+          "facial appearance, distal digital hypoplasia"
+        ],
+        "IMAGING": [
+          "• CDH is cardinal feature and should prompt search for other",
+          "anomalies",
+          "• 3D/4D ultrasound may be useful in delineating facial and",
+          "digital abnormalities, especially in high-risk families",
+          "○ Micrognathia, hypertelorism",
+          "• Cardiac anomalies",
+          "• Polyhydramnios",
+          "• Digital hypoplasia may not be apparent on ultrasound",
+          "• Fryns syndrome identified in up to 10% of syndromic CDH"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Pallister-Killian syndrome",
+          "• Trisomy 18",
+          "• Cornelia de Lange syndrome",
+          "• Isolated diaphragmatic hernia"
+        ],
+        "PATHOLOGY": [
+          "• Autosomal recessive",
+          "• No consistent genetic linkage to date"
+        ],
+        "CLINICAL ISSUES": [
+          "• Most are stillborn or die in neonatal period",
+          "• CDH most obvious in utero finding (89%)",
+          "• Other prenatal/postnatal findings",
+          "○ Craniofacial: Coarse facies (100%), broad nasal bridge",
+          "○ Extremities: Distal digital hypoplasia (near 100%)",
+          "○ Cardiac defects in ~ 50% of cases",
+          "○ Genitourinary abnormalities (86%)",
+          "○ Central nervous system abnormalities (50%)",
+          "○ Gut malrotation, pulmonary hypoplasia, anorectal",
+          "anomalies"
+        ]
+      }
+    },
+    {
+      "id": "holt-oram-syndrome",
+      "name": "Синдром Холта–Орама",
+      "nameEn": "Holt-Oram Syndrome",
+      "category": "Синдромы и мультисистемные нарушения",
+      "bookSection": "SECTION 13",
+      "bookPage": 978,
+      "definition": "• Heart and hand syndrome characterized by upper extremity and cardiac malformations",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Radial ray defects may be seen in 1st trimester",
+        "1st and most obvious finding in fetus with positive family",
+        "history",
+        "Variable degrees of radial deficiency, usually asymmetric",
+        "Atrial septal defect most common cardiac anomaly but",
+        "often not diagnosed on prenatal imaging",
+        "фetal echocardiography / эхокардиография плодаcardiography recommended in fetus at high",
+        "risk even without obvious limb defects"
+      ],
+      "doppler_findings": [
+        "Radial ray defects may be seen in 1st trimester",
+        "Variable degrees of radial deficiency, usually asymmetric",
+        "Atrial septal defect most common cardiac anomaly but",
+        "risk even without obvious limb defects"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Orthopedic repair of hand anomalies with goal of"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Fanconi anemia",
+        "Thrombocytopenia-absent radius (TAR)",
+        "VACTERL association",
+        "Isolated thumb hypoplasia"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Prenatal diagnosis by амниocentesis or chorionic villus"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Repair of cardiac abnormalities Orthopedic repair of hand anomalies with goal of",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.978: Holt-Oram Syndrome"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Heart and hand syndrome characterized by upper",
+          "extremity and cardiac malformations"
+        ],
+        "IMAGING": [
+          "• Radial ray defects may be seen in 1st trimester",
+          "○ 1st and most obvious finding in fetus with positive family",
+          "history",
+          "• Variable degrees of radial deficiency, usually asymmetric",
+          "• Atrial septal defect most common cardiac anomaly but",
+          "often not diagnosed on prenatal imaging",
+          "○ Fetal echocardiography recommended in fetus at high",
+          "risk even without obvious limb defects"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Fanconi anemia",
+          "• Thrombocytopenia-absent radius (TAR)",
+          "• VACTERL association",
+          "• Isolated thumb hypoplasia"
+        ],
+        "PATHOLOGY": [
+          "• Caused by mutations in T-box transcription factor gene",
+          "TBX5 (12q24.21)",
+          "○ Function of TBX5 is critical for initiation of forelimb",
+          "growth"
+        ],
+        "CLINICAL ISSUES": [
+          "• 1 in 100,000 live births",
+          "• ~ 85% result from de novo mutations",
+          "• Autosomal dominant with complete penetrance, variable",
+          "expressivity",
+          "• Prenatal diagnosis by amniocentesis or chorionic villus",
+          "sampling possible if TBX5 mutation known",
+          "• Overall prognosis dependent upon severity of cardiac",
+          "defect and degree of upper extremity malformation",
+          "○ Repair of cardiac abnormalities",
+          "○ Orthopedic repair of hand anomalies with goal of",
+          "optimizing function"
+        ]
+      }
+    },
+    {
+      "id": "idiopathic-infantile-arterial-calcification",
+      "name": "Идиопатическая инфантильная кальцификация артерий",
+      "nameEn": "Idiopathic Infantile Arterial Calcification",
+      "category": "Синдромы и мультисистемные нарушения",
+      "bookSection": "SECTION 13",
+      "bookPage": 982,
+      "definition": "• Idiopathic infantile arterial calcification (IIAC) is part of clinical spectrum of ectopic calcification with multiorgan pathology ○ Features overlap with pseudoxanthoma elasticum",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Calcification of major vessels",
+        "Image along long axis of vessel",
+        "Pericardial effusion common",
+        "Progression to гидrops fetalis due to myocardial ischemia",
+        "многоводие"
+      ],
+      "doppler_findings": [
+        "Pericardial effusion common"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "эхогенный cardiac focus",
+        "Rounded focus, not linear",
+        "Intraventricular, not in outflow tracts",
+        "Other more common causes of гидrops fetalis",
+        "Nonimmune and immune"
+      ],
+      "red_flags": [
+        "Hallmark finding is markedly increased эхогенныйity of",
+        "great arteries",
+        "Very unusual before 3rd trimester; look for other causes of",
+        "гидrops fetalis in 2nd trimester"
+      ],
+      "follow_up": [
+        "Untreated, 85% die within first 6 months from cardiac",
+        "ischemia → congestive heart failure"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.982: Idiopathic Infantile Arterial Calcification"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Idiopathic infantile arterial calcification (IIAC) is part of",
+          "clinical spectrum of ectopic calcification with multiorgan",
+          "pathology",
+          "○ Features overlap with pseudoxanthoma elasticum"
+        ],
+        "IMAGING": [
+          "• Calcification of major vessels",
+          "○ Image along long axis of vessel",
+          "• Pericardial effusion common",
+          "• Progression to hydrops due to myocardial ischemia",
+          "• Polyhydramnios"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Echogenic cardiac focus",
+          "○ Rounded focus, not linear",
+          "○ Intraventricular, not in outflow tracts",
+          "• Other more common causes of hydrops",
+          "○ Nonimmune and immune"
+        ],
+        "PATHOLOGY": [
+          "• IIAC is autosomal recessive",
+          "○ Mutations in ENPP1 gene known to cause generalized",
+          "arterial calcification",
+          "• Hydroxyapatite deposition in elastic fibers of large,",
+          "medium-sized arteries",
+          "• Postmortem CT may be used to confirm diagnosis in lieu of",
+          "autopsy"
+        ],
+        "CLINICAL ISSUES": [
+          "• Untreated, 85% die within first 6 months from cardiac",
+          "ischemia → congestive heart failure"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Hallmark finding is markedly increased echogenicity of",
+          "great arteries",
+          "• Very unusual before 3rd trimester; look for other causes of",
+          "hydrops in 2nd trimester"
+        ]
+      }
+    },
+    {
+      "id": "joubert-syndrome",
+      "name": "Синдром Жубера",
+      "nameEn": "Joubert Syndrome",
+      "category": "Синдромы и мультисистемные нарушения",
+      "bookSection": "SECTION 13",
+      "bookPage": 984,
+      "definition": "• Joubert syndrome and related disorders (JSRD) ○ Autosomal recessive genetic disorders with impaired ciliary function ○ 6 clinical subtypes, all have molar tooth sign ○ 20 subtypes based on gene mutations • Requirements for diagnosis of classic Joubert syndrome ○ Hindbrain malformation presenting as molar tooth sign on МР, intellectual impairment, hypotonia • JSRD are ciliopathies; group of hereditary ciliary defects that cause wide range of overlapping syndromes involving liver, kidneys, multiple organ systems",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "JSRD from other causes of abnormal posterior fossa"
+      ],
+      "doppler_findings": [
+        "JSRD from other causes of abnormal posterior fossa"
+      ],
+      "mri_findings": [
+        "Look for molar tooth sign on US and МР to differentiate"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Other posterior fossa malformations",
+        "Dandy-Walker malformation",
+        "Chiari malformation",
+        "Mega cisterna magna"
+      ],
+      "red_flags": [
+        "In fetuses with ↑ толщина воротникового пространства (ТВП) or intracranial",
+        "translucency, analyze posterior fossa structures carefully,",
+        "look at 4th ventricle shape, check for molar tooth",
+        "In fetuses with vermian hypoplasia or large cisterna magna,",
+        "pay special attention to 4th ventricle shape"
+      ],
+      "follow_up": [
+        "Mutation analysis important for specific clinical динамическое наблюдение",
+        "Infants need complete evaluation and careful динамическое наблюдение for"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.984: Joubert Syndrome"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Joubert syndrome and related disorders (JSRD)",
+          "○ Autosomal recessive genetic disorders with impaired",
+          "ciliary function",
+          "○ 6 clinical subtypes, all have molar tooth sign",
+          "○ 20 subtypes based on gene mutations",
+          "• Requirements for diagnosis of classic Joubert syndrome",
+          "○ Hindbrain malformation presenting as molar tooth sign",
+          "on MR, intellectual impairment, hypotonia",
+          "• JSRD are ciliopathies; group of hereditary ciliary defects",
+          "that cause wide range of overlapping syndromes involving",
+          "liver, kidneys, multiple organ systems"
+        ],
+        "IMAGING": [
+          "• Look for molar tooth sign on US and MR to differentiate",
+          "JSRD from other causes of abnormal posterior fossa"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Other posterior fossa malformations",
+          "○ Dandy-Walker malformation",
+          "○ Chiari malformation",
+          "○ Mega cisterna magna"
+        ],
+        "CLINICAL ISSUES": [
+          "• Recurrence risk: 25%",
+          "• Mutation analysis important for specific clinical follow-up",
+          "algorithms and for prenatal diagnosis in future pregnancies",
+          "• Clinical course variable, but most children survive infancy to",
+          "reach adulthood",
+          "○ Outcome independent of severity of imaging findings",
+          "• Infants need complete evaluation and careful follow-up for",
+          "complications"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• In fetuses with ↑ nuchal translucency or intracranial",
+          "translucency, analyze posterior fossa structures carefully,",
+          "look at 4th ventricle shape, check for molar tooth",
+          "• In fetuses with vermian hypoplasia or large cisterna magna,",
+          "pay special attention to 4th ventricle shape"
+        ]
+      }
+    },
+    {
+      "id": "klippel-trenaunay-syndrome",
+      "name": "Синдром Клиппеля–Треноне",
+      "nameEn": "Klippel-Trenaunay Syndrome",
+      "category": "Синдромы и мультисистемные нарушения",
+      "bookSection": "SECTION 13",
+      "bookPage": 988,
+      "definition": "• Definition: Capillary-lymphatic-venous malformation with limb overgrowth; often involving 1 lower extremity",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Ultrasound findings",
+        "Fetal cases tend to be large",
+        "Subcutaneous cystic lesions primarily of 1 leg",
+        "– Surrounds femur, tibia, fibula",
+        "Anemia from coagulopathy",
+        "– Measure peak systolic velocity in middle cerebral",
+        "artery and compare with gestational age nomograms",
+        "Along subcutaneous tissue of back and flank",
+        "Deep extension into pelvis and abdomen"
+      ],
+      "doppler_findings": [
+        "Subcutaneous cystic lesions primarily of 1 leg",
+        "Along subcutaneous tissue of back and flank"
+      ],
+      "mri_findings": [
+        "МР is best modality to show extension of mass"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Lymphangioma without Klippel-Trenaunay",
+        "Sacrococcygeal teratoma",
+        "Beckwith-Wiedemann syndrome",
+        "CLOVES (congenital lipomatous overgrowth vascular",
+        "malformation with epidermal nevus and skeletal",
+        "abnormality)"
+      ],
+      "red_flags": [
+        "Offer genetic counseling",
+        "Offer vascular anomalies/surgical consultation to prepare",
+        "family for treatment plans"
+      ],
+      "follow_up": [
+        "Cesarean section delivery typically recommended"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Cesarean section delivery typically recommended",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.988: Klippel-Trenaunay Syndrome"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Definition: Capillary-lymphatic-venous malformation with",
+          "limb overgrowth; often involving 1 lower extremity"
+        ],
+        "IMAGING": [
+          "• Ultrasound findings",
+          "○ Fetal cases tend to be large",
+          "○ Subcutaneous cystic lesions primarily of 1 leg",
+          "– Surrounds femur, tibia, fibula",
+          "○ Anemia from coagulopathy",
+          "– Measure peak systolic velocity in middle cerebral",
+          "artery and compare with gestational age nomograms",
+          "• MR is best modality to show extension of mass",
+          "○ Along subcutaneous tissue of back and flank",
+          "○ Deep extension into pelvis and abdomen"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Lymphangioma without Klippel-Trenaunay",
+          "• Sacrococcygeal teratoma",
+          "• Beckwith-Wiedemann syndrome",
+          "• CLOVES (congenital lipomatous overgrowth vascular",
+          "malformation with epidermal nevus and skeletal",
+          "abnormality)"
+        ],
+        "CLINICAL ISSUES": [
+          "• Somatic mosaic pathogenic variant in PIK3CA",
+          "• Cesarean section delivery typically recommended",
+          "• Prognosis: Large masses with ↑ morbidity",
+          "• Treatment: Multiple procedures necessary",
+          "○ Debulking procedures (including amputation)",
+          "○ Embolization, laser treatment",
+          "○ Steroid therapy with prednisolone",
+          "○ Rapamycin to inhibit hypertrophy"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Offer genetic counseling",
+          "• Offer vascular anomalies/surgical consultation to prepare",
+          "family for treatment plans"
+        ]
+      }
+    },
+    {
+      "id": "meckel-gruber-syndrome",
+      "name": "Синдром Мекеля–Грюбера",
+      "nameEn": "Meckel-Gruber Syndrome",
+      "category": "Синдромы и мультисистемные нарушения",
+      "bookSection": "SECTION 13",
+      "bookPage": 992,
+      "definition": "• Syndrome composed of triad of sonographic findings ○ Renal cystic dysplasia in 98-100% ○ Encephalocele or other CNS abnormality in 60-90% ○ Postaxial polydactyly in 70-87% • Should have at least 2 of 3 classic features",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Renal cystic dysplasia most consistent finding",
+        "Kidney appearance is variable",
+        "– Most commonly grossly enlarged and эхогенный but",
+        "may be filled with macroscopic cysts",
+        "Renal size often massive, enlarged abdominal",
+        "circumference",
+        "Occipital encephalocele classic CNS finding but may have",
+        "other malformations",
+        "Dandy-Walker malformation, микроцефалия,",
+        "гольопrosencephalia / гольопrosencephalia / holoprosencephaly, anencephaly",
+        "Diagnosis can be made in 1st trimester",
+        "Severe маловодие or anhydramnios by 2nd trimester",
+        "Makes evaluation of subtle anomalies challenging",
+        "Hepatic fibrosis difficult to identify prenatally"
+      ],
+      "doppler_findings": [
+        "Kidney appearance is variable",
+        "may be filled with macroscopic cysts",
+        "Occipital encephalocele classic CNS finding but may have",
+        "Diagnosis can be made in 1st trimester",
+        "Severe маловодие or anhydramnios by 2nd trimester",
+        "Makes evaluation of subtle anomalies challenging"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [
+        "Genetically heterogeneous lethal ciliopathy"
+      ],
+      "differential_diagnosis": [
+        "Trisomy 13",
+        "Significant overlap in imaging features",
+        "Diagnostic testing to assess chromosomes/single genes",
+        "– Needed to counsel regarding different recurrence risk"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "маловодие leads to pulmonary hypoplasia"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.992: Meckel-Gruber Syndrome"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Syndrome composed of triad of sonographic findings",
+          "○ Renal cystic dysplasia in 98-100%",
+          "○ Encephalocele or other CNS abnormality in 60-90%",
+          "○ Postaxial polydactyly in 70-87%",
+          "• Should have at least 2 of 3 classic features"
+        ],
+        "IMAGING": [
+          "• Renal cystic dysplasia most consistent finding",
+          "○ Kidney appearance is variable",
+          "– Most commonly grossly enlarged and echogenic but",
+          "may be filled with macroscopic cysts",
+          "○ Renal size often massive, enlarged abdominal",
+          "circumference",
+          "• Occipital encephalocele classic CNS finding but may have",
+          "other malformations",
+          "○ Dandy-Walker malformation, microcephaly,",
+          "holoprosencephaly, anencephaly",
+          "• Diagnosis can be made in 1st trimester",
+          "• Severe oligohydramnios or anhydramnios by 2nd trimester",
+          "○ Makes evaluation of subtle anomalies challenging",
+          "• Hepatic fibrosis difficult to identify prenatally"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Trisomy 13",
+          "○ Significant overlap in imaging features",
+          "○ Diagnostic testing to assess chromosomes/single genes",
+          "– Needed to counsel regarding different recurrence risk"
+        ],
+        "PATHOLOGY": [
+          "• Genetically heterogeneous lethal ciliopathy",
+          "• Autosomal recessive with 25% recurrence risk"
+        ],
+        "CLINICAL ISSUES": [
+          "• Oligohydramnios leads to pulmonary hypoplasia",
+          "• Most stillborn or die within a few hours",
+          "• Needs genetic counseling for future pregnancies"
+        ]
+      }
+    },
+    {
+      "id": "muenke-syndrome",
+      "name": "Синдром Мюнке",
+      "nameEn": "Muenke Syndrome",
+      "category": "Синдромы и мультисистемные нарушения",
+      "bookSection": "SECTION 13",
+      "bookPage": 996,
+      "definition": "• Synonyms: Syndrome of coronal craniosynostosis; FGFR3- related craniosynostosis",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Craniosynostosis: Bilateral (~ 66%), brachycephaly (reduced",
+        "A-P size), turribrachycephaly (tower-shaped), cloverleaf",
+        "Craniofacial findings: Frontal bossing, temporal bossing,",
+        "макроцефалия, midface retrusion",
+        "Limb findings often not suspected in prenatal ultrasound",
+        "Thimble-shaped middle phalanges, brachydactyly,",
+        "carpal/tarsal fusion"
+      ],
+      "doppler_findings": [
+        "A-P size), turribrachycephaly (tower-shaped), cloverleaf"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Syndromes with craniosynostosis",
+        "Crouzon syndrome (FGFR2)",
+        "Pfeiffer syndrome, type 1 (FGFR2/FGFR1)",
+        "Jackson-Weiss syndrome (FGFR2)",
+        "Beare-Stevenson cutis gyrata syndrome (FGFR2)"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Considerable variability within same family",
+        "Facial asymmetry, bilateral coronal synostosis, synostosis of",
+        "all sutures, макроцефалия",
+        "Temporal bossing, hypertelorism, strabismus, ptosis, mild",
+        "proptosis, and midface retrusion",
+        "Cleft lip/palate, high-arched palate, dental malocclusion",
+        "Sensorineural hearing loss (33-100%), cognitive disability (~",
+        "30-40%), developmental delay (~ 66%), ADHD (~ 25%),",
+        "speech delay, behavior abnormalities",
+        "Broad toes and thumbs, brachydactyly, carpal/tarsal bone",
+        "fusions, thimble-like middle phalanges"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.996: Muenke Syndrome"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Synonyms: Syndrome of coronal craniosynostosis; FGFR3-",
+          "related craniosynostosis"
+        ],
+        "IMAGING": [
+          "• Craniosynostosis: Bilateral (~ 66%), brachycephaly (reduced",
+          "A-P size), turribrachycephaly (tower-shaped), cloverleaf",
+          "• Craniofacial findings: Frontal bossing, temporal bossing,",
+          "macrocephaly, midface retrusion",
+          "• Limb findings often not suspected in prenatal ultrasound",
+          "○ Thimble-shaped middle phalanges, brachydactyly,",
+          "carpal/tarsal fusion"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Syndromes with craniosynostosis",
+          "○ Crouzon syndrome (FGFR2)",
+          "○ Pfeiffer syndrome, type 1 (FGFR2/FGFR1)",
+          "○ Jackson-Weiss syndrome (FGFR2)",
+          "○ Beare-Stevenson cutis gyrata syndrome (FGFR2)"
+        ],
+        "PATHOLOGY": [
+          "• Pathogenic variant in fibroblast growth factor 3 (FGFR3)",
+          "○ Enhanced binding of fibroblast growth factor and bone",
+          "differentiation",
+          "○ Incomplete penetrance (~ 75%) and variable expressivity",
+          "– Autosomal dominant"
+        ],
+        "CLINICAL ISSUES": [
+          "• Considerable variability within same family",
+          "• Facial asymmetry, bilateral coronal synostosis, synostosis of",
+          "all sutures, macrocephaly",
+          "• Temporal bossing, hypertelorism, strabismus, ptosis, mild",
+          "proptosis, and midface retrusion",
+          "• Cleft lip/palate, high-arched palate, dental malocclusion",
+          "• Sensorineural hearing loss (33-100%), cognitive disability (~",
+          "30-40%), developmental delay (~ 66%), ADHD (~ 25%),",
+          "speech delay, behavior abnormalities",
+          "• Broad toes and thumbs, brachydactyly, carpal/tarsal bone",
+          "fusions, thimble-like middle phalanges"
+        ]
+      }
+    },
+    {
+      "id": "miller-dieker-syndrome",
+      "name": "Синдром Миллера–Дикера",
+      "nameEn": "Miller-Dieker Syndrome",
+      "category": "Синдромы и мультисистемные нарушения",
+      "bookSection": "SECTION 13",
+      "bookPage": 998,
+      "definition": "• Miller-Dieker syndrome (MDS)/classic lissencephaly due to contiguous gene deletion/disruption of 17p13.3 • Results in abnormal neuronal migration and cortical malformations • Leads to severe cognitive/intellectual disability, characteristic craniofacial appearance, seizures",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "вентрикуломегалия and smooth-appearing brain",
+        "Shallow fissures/sulci, diminished brain convolutions",
+        "Smooth thickened cortex (agyria, pachygyria)",
+        "Subcortical gray matter band heterotopia",
+        "Other common findings",
+        "Agenesis/dysgenesis of мозолистое тело",
+        "многоводие ± задержка роста плода (ЗРП/FGR)",
+        "Classic facial features: High prominent forehead, short",
+        "upturned nose/nares, micrognathia"
+      ],
+      "doppler_findings": [
+        "вентрикуломегалия and smooth-appearing brain",
+        "Smooth thickened cortex (agyria, pachygyria)",
+        "Subcortical gray matter band heterotopia",
+        "Agenesis/dysgenesis of мозолистое тело",
+        "многоводие ± задержка роста плода (ЗРП/FGR)"
+      ],
+      "mri_findings": [
+        "Lissencephaly seen best by МР"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Other causes of mild вентрикуломегалия",
+        "Aneuploidy, early obstruction, etc.",
+        "Other causes of lissencephaly",
+        "Lissencephaly with cerebellar hypoplasia",
+        "Lissencephaly with agenesis of мозолистое тело (ARX)",
+        "Cobblestone cortical malformation (FKTN, etc.); recessive"
+      ],
+      "red_flags": [
+        "Routinely assess sylvian fissure and parietooccipital sulcus",
+        "Have low threshold to perform МРТ плода in fetuses with",
+        "unexplained вентрикуломегалия"
+      ],
+      "follow_up": [
+        "Severe neurologic impairment; early death is common"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.998: Miller-Dieker Syndrome"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Miller-Dieker syndrome (MDS)/classic lissencephaly due to",
+          "contiguous gene deletion/disruption of 17p13.3",
+          "• Results in abnormal neuronal migration and cortical",
+          "malformations",
+          "• Leads to severe cognitive/intellectual disability,",
+          "characteristic craniofacial appearance, seizures"
+        ],
+        "IMAGING": [
+          "• Ventriculomegaly and smooth-appearing brain",
+          "○ Shallow fissures/sulci, diminished brain convolutions",
+          "• Lissencephaly seen best by MR",
+          "○ Smooth thickened cortex (agyria, pachygyria)",
+          "○ Subcortical gray matter band heterotopia",
+          "• Other common findings",
+          "○ Agenesis/dysgenesis of corpus callosum",
+          "○ Polyhydramnios ± fetal growth restriction",
+          "○ Classic facial features: High prominent forehead, short",
+          "upturned nose/nares, micrognathia"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Other causes of mild ventriculomegaly",
+          "○ Aneuploidy, early obstruction, etc.",
+          "• Other causes of lissencephaly",
+          "○ Lissencephaly with cerebellar hypoplasia",
+          "○ Lissencephaly with agenesis of corpus callosum (ARX)",
+          "○ Cobblestone cortical malformation (FKTN, etc.); recessive"
+        ],
+        "PATHOLOGY": [
+          "• Haploinsufficiency/alteration of genes in del17p13.3",
+          "(PAFAH1B1, DCX, TUBA1A)"
+        ],
+        "CLINICAL ISSUES": [
+          "• Severe neurologic impairment; early death is common"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Routinely assess sylvian fissure and parietooccipital sulcus",
+          "• Have low threshold to perform fetal MR in fetuses with",
+          "unexplained ventriculomegaly"
+        ]
+      }
+    },
+    {
+      "id": "multiple-pterygium-syndromes",
+      "name": "Синдромы множественной птеригии",
+      "nameEn": "Multiple Pterygium Syndromes",
+      "category": "Синдромы и мультисистемные нарушения",
+      "bookSection": "SECTION 13",
+      "bookPage": 1000,
+      "definition": "• Multiple pterygium syndrome (MPS): Clinically and genetically heterogeneous group of syndromes characterized by multiple limb contractures (arthrogryposis) with soft tissue webbing across joints • Lethal MPS (LMPS) also with associated cystic hygroma, гидrops fetalis, and pulmonary hypoplasia",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Increased толщина воротникового пространства (ТВП)/cystic hygroma, absent limb",
+        "movements, multiple joint contractures, and cutaneous",
+        "webs",
+        "Webbing more difficult to see in 3rd trimester because of",
+        "crowding",
+        "Pterygia often not seen on prenatal imaging"
+      ],
+      "doppler_findings": [
+        "movements, multiple joint contractures, and cutaneous",
+        "Webbing more difficult to see in 3rd trimester because of"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [
+        "Popliteal pterygium syndrome: Autosomal dominant"
+      ],
+      "differential_diagnosis": [
+        "LMPS",
+        "Escobar variant multiple pterygium syndrome (EVMPS)",
+        "Contractures, pterygia, and variable skeletal fusions",
+        "syndrome 1B (mimics EVMPS)",
+        "Popliteal pterygium syndrome",
+        "Pterygium colli",
+        "Fetal akinesia deformation sequence"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "LMPS uniformly lethal in perinatal period due to pulmonary",
+        "hypoplasia",
+        "EVMPS",
+        "Progressive (severe) scoliosis is common and may result",
+        "in restrictive lung disease",
+        "Popliteal pterygium syndrome (nonlethal form)",
+        "Multiple early orthopedic procedures, intensive physical",
+        "therapy"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1000: Multiple Pterygium Syndromes"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Multiple pterygium syndrome (MPS): Clinically and",
+          "genetically heterogeneous group of syndromes",
+          "characterized by multiple limb contractures",
+          "(arthrogryposis) with soft tissue webbing across joints",
+          "• Lethal MPS (LMPS) also with associated cystic hygroma,",
+          "hydrops, and pulmonary hypoplasia"
+        ],
+        "IMAGING": [
+          "• Increased nuchal translucency/cystic hygroma, absent limb",
+          "movements, multiple joint contractures, and cutaneous",
+          "webs",
+          "• Webbing more difficult to see in 3rd trimester because of",
+          "crowding",
+          "• Pterygia often not seen on prenatal imaging"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• LMPS",
+          "• Escobar variant multiple pterygium syndrome (EVMPS)",
+          "• Contractures, pterygia, and variable skeletal fusions",
+          "syndrome 1B (mimics EVMPS)",
+          "• Popliteal pterygium syndrome",
+          "• Pterygium colli",
+          "• Fetal akinesia deformation sequence"
+        ],
+        "PATHOLOGY": [
+          "• LMPS and EVMPS: Autosomal recessive",
+          "• Popliteal pterygium syndrome: Autosomal dominant"
+        ],
+        "CLINICAL ISSUES": [
+          "• LMPS uniformly lethal in perinatal period due to pulmonary",
+          "hypoplasia",
+          "• EVMPS",
+          "○ Progressive (severe) scoliosis is common and may result",
+          "in restrictive lung disease",
+          "• Popliteal pterygium syndrome (nonlethal form)",
+          "○ Multiple early orthopedic procedures, intensive physical",
+          "therapy"
+        ]
+      }
+    },
+    {
+      "id": "neu-laxova-syndrome",
+      "name": "Синдром Нею–Лаксовой",
+      "nameEn": "Neu-Laxova Syndrome",
+      "category": "Синдромы и мультисистемные нарушения",
+      "bookSection": "SECTION 13",
+      "bookPage": 1002,
+      "definition": "• Lethal congenital disorder with задержка роста плода (ЗРП/FGR), ichthyosis, микроцефалия, abnormal facial findings, and limb contractures",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "задержка роста плода (ЗРП/FGR), severe микроцефалия",
+        "Facial, extremity, genital, neural abnormalities",
+        "Scoliosis",
+        "Skin edema",
+        "Absence of normal 3rd-trimester breathing, sucking,",
+        "swallowing, extremity movements",
+        "многоводие"
+      ],
+      "doppler_findings": [
+        "задержка роста плода (ЗРП/FGR), severe микроцефалия",
+        "Absence of normal 3rd-trimester breathing, sucking,"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Other implicated genes (PSAT, PSAT1, PSATD, EPIP, NLS2) on"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Trisomy 18 and other causes of задержка роста плода (ЗРП/FGR)",
+        "Anencephaly",
+        "Multiple pterygium syndrome"
+      ],
+      "red_flags": [
+        "Absence of eyelids is characteristic feature of this syndrome",
+        "at birth",
+        "Prenatal ultrasound findings of marked ocular proptosis in",
+        "growth-restricted, edematous fetus should prompt",
+        "consideration of Neu-Laxova"
+      ],
+      "follow_up": [
+        "Lethal entity resulting in stillbirth or neonatal demise",
+        "Autosomal recessive with 25% recurrence risk",
+        "Stress importance of autopsy for diagnosis to counsel for",
+        "future pregnancies"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Lethal entity resulting in stillbirth or neonatal demise",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1002: Neu-Laxova Syndrome"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Lethal congenital disorder with fetal growth restriction,",
+          "ichthyosis, microcephaly, abnormal facial findings, and limb",
+          "contractures"
+        ],
+        "IMAGING": [
+          "• Fetal growth restriction, severe microcephaly",
+          "• Facial, extremity, genital, neural abnormalities",
+          "• Scoliosis",
+          "• Skin edema",
+          "• Absence of normal 3rd-trimester breathing, sucking,",
+          "swallowing, extremity movements",
+          "• Polyhydramnios"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Trisomy 18 and other causes of fetal growth restriction",
+          "• Anencephaly",
+          "• Multiple pterygium syndrome"
+        ],
+        "PATHOLOGY": [
+          "• Linked to serine deficiency due to mutations in PHGDH,",
+          "PHGDHD, and NLS1 on 1p12",
+          "• Other implicated genes (PSAT, PSAT1, PSATD, EPIP, NLS2) on",
+          "9q21.2"
+        ],
+        "CLINICAL ISSUES": [
+          "• Lethal entity resulting in stillbirth or neonatal demise",
+          "• Autosomal recessive with 25% recurrence risk",
+          "○ Stress importance of autopsy for diagnosis to counsel for",
+          "future pregnancies"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Absence of eyelids is characteristic feature of this syndrome",
+          "at birth",
+          "• Prenatal ultrasound findings of marked ocular proptosis in",
+          "growth-restricted, edematous fetus should prompt",
+          "consideration of Neu-Laxova"
+        ]
+      }
+    },
+    {
+      "id": "niemann-pick-disease-type-c",
+      "name": "Болезнь Ниманна–Пика типа C",
+      "nameEn": "Niemann-Pick Disease Type C",
+      "category": "Синдромы и мультисистемные нарушения",
+      "bookSection": "SECTION 13",
+      "bookPage": 1004,
+      "definition": "• Autosomal recessive lipid storage disorder with fetal ascites and hepatosplenomegaly",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Ascites, эхогенный bowel, and hepatomegaly are most",
+        "common presenting findings",
+        "гидrops fetalis has been described but more commonly",
+        "isolated ascites",
+        "Splenomegaly develops in later 2nd/3rd trimester",
+        "Placentomegaly ± многоводие"
+      ],
+      "doppler_findings": [
+        "гидrops fetalis has been described but more commonly",
+        "Splenomegaly develops in later 2nd/3rd trimester"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Other lysosomal storage disorders",
+        "Cytomegalovirus and other infections"
+      ],
+      "red_flags": [
+        "Consider in fetus with isolated ascites and assess for",
+        "hepatomegaly/splenomegaly and placentomegaly",
+        "Obtain thorough family history",
+        "Increased risk in consanguinity",
+        "Consider gene panel/exome if normal chromosomes and",
+        "negative evaluation for infections"
+      ],
+      "follow_up": [
+        "Rare: 1 in 100,000-150,000",
+        "Neonates: Ascites, severe liver disease with prolonged",
+        "jaundice, respiratory failure",
+        "Childhood: Insidious ataxia, vertical supranuclear gaze palsy,",
+        "dementia, dystonia and seizures"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1004: Niemann-Pick Disease Type C"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Autosomal recessive lipid storage disorder with fetal ascites",
+          "and hepatosplenomegaly"
+        ],
+        "IMAGING": [
+          "• Ascites, echogenic bowel, and hepatomegaly are most",
+          "common presenting findings",
+          "○ Hydrops has been described but more commonly",
+          "isolated ascites",
+          "• Splenomegaly develops in later 2nd/3rd trimester",
+          "• Placentomegaly ± polyhydramnios"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Other lysosomal storage disorders",
+          "• Cytomegalovirus and other infections"
+        ],
+        "PATHOLOGY": [
+          "• Autosomal recessive pathogenic changes in NPC1 (~ 90%)",
+          "or NPC2 (5%)",
+          "• Enzyme disorder resulting in abnormal cholesterol",
+          "transport and accumulation of lipids in lysosomal and",
+          "endosomal systems",
+          "• Considerable clinical variability with prenatal to adult onset"
+        ],
+        "CLINICAL ISSUES": [
+          "• Rare: 1 in 100,000-150,000",
+          "• Neonates: Ascites, severe liver disease with prolonged",
+          "jaundice, respiratory failure",
+          "• Childhood: Insidious ataxia, vertical supranuclear gaze palsy,",
+          "dementia, dystonia and seizures"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Consider in fetus with isolated ascites and assess for",
+          "hepatomegaly/splenomegaly and placentomegaly",
+          "• Obtain thorough family history",
+          "○ Increased risk in consanguinity",
+          "• Consider gene panel/exome if normal chromosomes and",
+          "negative evaluation for infections"
+        ]
+      }
+    },
+    {
+      "id": "noonan-syndrome",
+      "name": "Синдром Нунана",
+      "nameEn": "Noonan Syndrome",
+      "category": "Синдромы и мультисистемные нарушения",
+      "bookSection": "SECTION 13",
+      "bookPage": 1006,
+      "definition": "• Genetically and clinically heterogeneous syndrome with congenital heart defects, short stature, characteristic craniofacial appearance, and developmental delay • Caused by activating mutations in RAS-MAPK signaling pathway (RASopathy)",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Increased NT/cystic hygroma",
+        "Heart: Pulmonic stenosis (20-50%) and hypertrophic",
+        "cardiomyopathy (20-30%) most common",
+        "ASD, VSD, and tetralogy of Fallot also reported",
+        "Most have > 1 cardiac anomaly",
+        "Lymphatic abnormalities: Ascites, гидrops fetalis, skin edema,",
+        "pulmonary lymphangiectasia, chylothorax",
+        "многоводие"
+      ],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Turner syndrome (45,X)",
+        "Watson syndrome/neurofibromatosis, type 1 (NF1)",
+        "Cardiofaciocutaneous (CFC) syndrome (BRAF, others)",
+        "Costello syndrome (HRAS)"
+      ],
+      "red_flags": [
+        "Consider Noonan syndrome in euploid fetus with increased",
+        "NT/cystic hygroma ± гидrops fetalis and многоводие",
+        "Five generations of a family with Noonan syndrome illustrate craniofacial features changing from neonatal to adulthood. Neonate ﬉",
+        "shows hypertelorism, downslanting palpebral fissures, and left ptosis. Additional features include low-set, posteriorly rotated, thick ears",
+        "﬈ and prominent forehead. Note depressed nasal root with wide base and bulbous tip. Later additional signs include wide forehead and",
+        "tapered chin with inverted triangle appearance ﬈. Features become milder with age with persistence of downslanting palpebral fissures",
+        "and prominent nasiolabial folds. [Reprinted with permission: Roberts AE et al: Noonan syndrome. Lancet. 381(9863):333-42, 2013.]"
+      ],
+      "follow_up": [
+        "многоводие"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Postnatal: Short stature; characteristic craniofacial",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1006: Noonan Syndrome"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Genetically and clinically heterogeneous syndrome with",
+          "congenital heart defects, short stature, characteristic",
+          "craniofacial appearance, and developmental delay",
+          "• Caused by activating mutations in RAS-MAPK signaling",
+          "pathway (RASopathy)"
+        ],
+        "IMAGING": [
+          "• Increased NT/cystic hygroma",
+          "• Heart: Pulmonic stenosis (20-50%) and hypertrophic",
+          "cardiomyopathy (20-30%) most common",
+          "○ ASD, VSD, and tetralogy of Fallot also reported",
+          "○ Most have > 1 cardiac anomaly",
+          "• Lymphatic abnormalities: Ascites, hydrops, skin edema,",
+          "pulmonary lymphangiectasia, chylothorax",
+          "• Polyhydramnios"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Turner syndrome (45,X)",
+          "• Watson syndrome/neurofibromatosis, type 1 (NF1)",
+          "• Cardiofaciocutaneous (CFC) syndrome (BRAF, others)",
+          "• Costello syndrome (HRAS)"
+        ],
+        "PATHOLOGY": [
+          "• Clinically heterogeneous; nearly all autosomal dominant",
+          "• ~ 50%, caused by pathogenic variant in PTPN11 gene",
+          "• Seen with advanced paternal age"
+        ],
+        "CLINICAL ISSUES": [
+          "• Prenatal: Cystic hygroma/increased NT/lymphatic",
+          "dysplasia/hydrops; pulmonic stenosis/HCM;",
+          "polyhydramnios",
+          "• Postnatal: Short stature; characteristic craniofacial",
+          "appearance; pectus deformity; lymphatic",
+          "abnormalities/webbed neck; wide nipples; cryptorchidism"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Consider Noonan syndrome in euploid fetus with increased",
+          "NT/cystic hygroma ± hydrops and polyhydramnios",
+          "Five generations of a family with Noonan syndrome illustrate craniofacial features changing from neonatal to adulthood. Neonate ﬉",
+          "shows hypertelorism, downslanting palpebral fissures, and left ptosis. Additional features include low-set, posteriorly rotated, thick ears",
+          "﬈ and prominent forehead. Note depressed nasal root with wide base and bulbous tip. Later additional signs include wide forehead and",
+          "tapered chin with inverted triangle appearance ﬈. Features become milder with age with persistence of downslanting palpebral fissures",
+          "and prominent nasiolabial folds. [Reprinted with permission: Roberts AE et al: Noonan syndrome. Lancet. 381(9863):333-42, 2013.]"
+        ]
+      }
+    },
+    {
+      "id": "oculo-auriculo-vertebral-spectrum-oavs",
+      "name": "Окуло-аурикуло-вертебральный спектр (OAVS)",
+      "nameEn": "Oculo-Auriculo-Vertebral Spectrum (OAVS)",
+      "category": "Синдромы и мультисистемные нарушения",
+      "bookSection": "SECTION 13",
+      "bookPage": 1008,
+      "definition": "• OAVS includes 3 subdivisions: Goldenhar, hemifacial microsomia, oculo-auriculo-vertebral disorder ○ Variable features in each with Goldenhar most severe • Developmental disorder involving structures derived from 1st and 2nd pharyngeal arches • No consensus on minimum diagnostic criteria ○ Microtia (small external ear) or hemifacial microsomia + ear malformations suggested as minimal criteria ○ Maxillary ± mandibular hypoplasia, asymmetry of zygomatic arch, malar/temporal bones, facial muscles • OMENS acronym to assist in evaluation: Orbit, mandible, ear, facial nerve, soft tissues",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Prenatal diagnosis uncommon: Look for facial anomalies",
+        "More common with multiple anomalies",
+        "3D US very helpful in evaluation of ears/ear tags,",
+        "asymmetric face, lateral cleft, macrostomia"
+      ],
+      "doppler_findings": [
+        "3D US very helpful in evaluation of ears/ear tags,",
+        "asymmetric face, lateral cleft, macrostomia"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Asymmetric ear anomalies: Microtia, preauricular tags/pits"
+      ],
+      "genetic_associations": [
+        "2-3% recurrence if normal chromosomes, no family history"
+      ],
+      "differential_diagnosis": [
+        "CHARGE syndrome (CHD7)",
+        "Treacher Collins syndrome (TCOF1, POLR1D, POLR1C)",
+        "VACTERL association",
+        "Townes-Brocks syndrome (SALL1)"
+      ],
+      "red_flags": [
+        "Fetal cases represent most severe end of spectrum",
+        "Use 3D to assess face, search for associated anomalies"
+      ],
+      "follow_up": [
+        "Majority have some facial asymmetry",
+        "Most unilateral (60-90%) but bilateral can occur; R > L",
+        "Asymmetric ear anomalies: Microtia, preauricular tags/pits"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1008: Oculo-Auriculo-Vertebral Spectrum (OAVS)"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• OAVS includes 3 subdivisions: Goldenhar, hemifacial",
+          "microsomia, oculo-auriculo-vertebral disorder",
+          "○ Variable features in each with Goldenhar most severe",
+          "• Developmental disorder involving structures derived from",
+          "1st and 2nd pharyngeal arches",
+          "• No consensus on minimum diagnostic criteria",
+          "○ Microtia (small external ear) or hemifacial microsomia +",
+          "ear malformations suggested as minimal criteria",
+          "○ Maxillary ± mandibular hypoplasia, asymmetry of",
+          "zygomatic arch, malar/temporal bones, facial muscles",
+          "• OMENS acronym to assist in evaluation: Orbit, mandible,",
+          "ear, facial nerve, soft tissues"
+        ],
+        "IMAGING": [
+          "• Prenatal diagnosis uncommon: Look for facial anomalies",
+          "○ More common with multiple anomalies",
+          "• 3D US very helpful in evaluation of ears/ear tags,",
+          "asymmetric face, lateral cleft, macrostomia"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• CHARGE syndrome (CHD7)",
+          "• Treacher Collins syndrome (TCOF1, POLR1D, POLR1C)",
+          "• VACTERL association",
+          "• Townes-Brocks syndrome (SALL1)"
+        ],
+        "PATHOLOGY": [
+          "• Usually sporadic but reports of autosomal",
+          "dominant/recessive cases in literature",
+          "• 2-3% recurrence if normal chromosomes, no family history"
+        ],
+        "CLINICAL ISSUES": [
+          "• Majority have some facial asymmetry",
+          "• Most unilateral (60-90%) but bilateral can occur; R > L",
+          "• Asymmetric ear anomalies: Microtia, preauricular tags/pits"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Fetal cases represent most severe end of spectrum",
+          "○ Use 3D to assess face, search for associated anomalies"
+        ]
+      }
+    },
+    {
+      "id": "phaces-syndrome",
+      "name": "Синдром PHACES",
+      "nameEn": "PHACES Syndrome",
+      "category": "Синдромы и мультисистемные нарушения",
+      "bookSection": "SECTION 13",
+      "bookPage": 1010,
+      "definition": "• Syndrome comprising ○ Posterior fossa malformations ○ Segmental hemangiomas ○ Arterial anomalies ○ Cardiac defects ○ Eye abnormalities ○ Sternal or ventral defects",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Look for cerebellar tilted telephone receiver sign on",
+        "coronal plane to suggest PHACES syndrome",
+        "Congenital heart disease (CHD), vascular abnormalities",
+        "Sternal cleft"
+      ],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "CNS malformations are commonest extracutaneous",
+        "Structural CNS and cerebrovascular malformation often"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [
+        "Posterior fossa malformations in female fetus should alert",
+        "sonographer to possibility of syndromes, such as Aicardi",
+        "and PHACES"
+      ],
+      "follow_up": [
+        "Extremely complex consensus-derived diagnosis and care",
+        "recommendations published in 2016",
+        "Presents care guidelines for screening at-risk infants",
+        "Presents risk-adjusted care guidelines for ongoing health",
+        "surveillance",
+        "PHACES may be present in up to 2% of children with facial",
+        "hemangiomas and 20% of children with \"segmental\" facial",
+        "hemangiomas",
+        "70% of children have only 1 extracutaneous",
+        "manifestation",
+        "CNS malformations are commonest extracutaneous",
+        "manifestation",
+        "Structural CNS and cerebrovascular malformation often",
+        "coexist",
+        "At risk for developmental delay, intellectual impairment,",
+        "seizures, and acute ischemic stroke",
+        "CHD in 41-47% with coarctation in 19-31%"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1010: PHACES Syndrome"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Syndrome comprising",
+          "○ Posterior fossa malformations",
+          "○ Segmental hemangiomas",
+          "○ Arterial anomalies",
+          "○ Cardiac defects",
+          "○ Eye abnormalities",
+          "○ Sternal or ventral defects"
+        ],
+        "IMAGING": [
+          "• Look for cerebellar tilted telephone receiver sign on",
+          "coronal plane to suggest PHACES syndrome",
+          "• Congenital heart disease (CHD), vascular abnormalities",
+          "• Sternal cleft"
+        ],
+        "CLINICAL ISSUES": [
+          "• Extremely complex consensus-derived diagnosis and care",
+          "recommendations published in 2016",
+          "○ Presents care guidelines for screening at-risk infants",
+          "○ Presents risk-adjusted care guidelines for ongoing health",
+          "surveillance",
+          "• PHACES may be present in up to 2% of children with facial",
+          "hemangiomas and 20% of children with \"segmental\" facial",
+          "hemangiomas",
+          "○ 70% of children have only 1 extracutaneous",
+          "manifestation",
+          "○ CNS malformations are commonest extracutaneous",
+          "manifestation",
+          "○ Structural CNS and cerebrovascular malformation often",
+          "coexist",
+          "• At risk for developmental delay, intellectual impairment,",
+          "seizures, and acute ischemic stroke",
+          "• CHD in 41-47% with coarctation in 19-31%"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Posterior fossa malformations in female fetus should alert",
+          "sonographer to possibility of syndromes, such as Aicardi",
+          "and PHACES"
+        ]
+      }
+    },
+    {
+      "id": "pfeiffer-syndrome",
+      "name": "Синдром Пфейфера",
+      "nameEn": "Pfeiffer Syndrome",
+      "category": "Синдромы и мультисистемные нарушения",
+      "bookSection": "SECTION 13",
+      "bookPage": 1012,
+      "definition": "• Acrocephalosyndactyly type V • Craniosynostosis syndrome with characteristic hand and foot anomalies",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Abnormal calvarial shape suggestive of craniosynostosis",
+        "Kleeblattschädel skull common",
+        "Shallow orbits with ocular proptosis, often severe",
+        "Abnormal hands and feet with deviated broad thumbs and",
+        "toes"
+      ],
+      "doppler_findings": [
+        "Abnormal calvarial shape suggestive of craniosynostosis"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "3 subtypes based on clinical findings and associated",
+        "regard to airway issues, has been associated with improved"
+      ],
+      "genetic_associations": [
+        "Genetically heterogeneous"
+      ],
+      "differential_diagnosis": [
+        "FGFR-related craniosynostosis spectrum",
+        "Apert syndrome",
+        "Crouzon syndrome",
+        "FGFR2-related (isolated) coronal synostosis",
+        "Jackson-Weiss syndrome",
+        "Muenke syndrome",
+        "Thanatophoric dysplasia, type 2",
+        "Carpenter syndrome",
+        "Saethre-Chotzen syndrome"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Aggressive medical and surgical therapy, especially with",
+        "regard to airway issues, has been associated with improved",
+        "prognosis"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1012: Pfeiffer Syndrome"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Acrocephalosyndactyly type V",
+          "• Craniosynostosis syndrome with characteristic hand and",
+          "foot anomalies"
+        ],
+        "IMAGING": [
+          "• Abnormal calvarial shape suggestive of craniosynostosis",
+          "○ Kleeblattschädel skull common",
+          "• Shallow orbits with ocular proptosis, often severe",
+          "• Abnormal hands and feet with deviated broad thumbs and",
+          "toes"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• FGFR-related craniosynostosis spectrum",
+          "○ Apert syndrome",
+          "○ Crouzon syndrome",
+          "○ FGFR2-related (isolated) coronal synostosis",
+          "○ Jackson-Weiss syndrome",
+          "○ Muenke syndrome",
+          "• Thanatophoric dysplasia, type 2",
+          "• Carpenter syndrome",
+          "• Saethre-Chotzen syndrome"
+        ],
+        "PATHOLOGY": [
+          "• Genetically heterogeneous",
+          "○ Most due to mutations in FGFR1 (8p11.23) or",
+          "FGFR2 (10q26.13)",
+          "• 3 subtypes based on clinical findings and associated",
+          "prognosis",
+          "○ Type 1: Compatible with survival, normal intelligence",
+          "○ Types 2 and 3: Generally do poorly and die early",
+          "• Type 1 autosomal dominant; types 2 and 3 generally",
+          "sporadic"
+        ],
+        "CLINICAL ISSUES": [
+          "• Aggressive medical and surgical therapy, especially with",
+          "regard to airway issues, has been associated with improved",
+          "prognosis"
+        ]
+      }
+    },
+    {
+      "id": "pierre-robin-sequence",
+      "name": "Последовательность Пьерра Робена",
+      "nameEn": "Pierre Robin Sequence",
+      "category": "Синдромы и мультисистемные нарушения",
+      "bookSection": "SECTION 13",
+      "bookPage": 1016,
+      "definition": "• Pierre Robin sequence (PRS) ○ Mandibular hypoplasia ○ Glossoptosis ○ Cleft palate",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Severe micrognathia on midsagittal view in midtrimester",
+        "Target imaging for cleft palate when micrognathia",
+        "identified",
+        "Classic U shape seen on postnatal evaluation",
+        "многоводие common in 3rd trimester",
+        "Thorough search for additional anomalies"
+      ],
+      "doppler_findings": [
+        "Severe micrognathia on midsagittal view in midtrimester",
+        "Classic U shape seen on postnatal evaluation",
+        "многоводие common in 3rd trimester"
+      ],
+      "mri_findings": [
+        "МР best imaging tool for airway and palate"
+      ],
+      "associated_anomalies": [
+        "~ 50-65% have additional anomalies",
+        "PRS associated with > 50 syndromes",
+        "Up to 30% mortality with associated/severe anomalies"
+      ],
+      "genetic_associations": [
+        "PRS associated with > 50 syndromes",
+        "Syndromes with PRS + additional findings",
+        "Stickler syndrome",
+        "22q11 deletion syndrome (DiGeorge/velocardiofacial",
+        "syndrome)",
+        "Treacher Collins syndrome"
+      ],
+      "differential_diagnosis": [
+        "Cleft palate, isolated",
+        "Micrognathia, isolated",
+        "Syndromic (chromosomal, single gene disorder)"
+      ],
+      "red_flags": [
+        "Airway protection critical in infants"
+      ],
+      "follow_up": [
+        "Glossoptosis → life-threatening airway obstruction in some",
+        "Airway protection critical in infants",
+        "Use imaging to plan delivery carefully",
+        "Airway obstruction may lessen with growth and",
+        "development of mandible",
+        "Up to 30% mortality with associated/severe anomalies"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Use imaging to plan delivery carefully",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1016: Pierre Robin Sequence"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Pierre Robin sequence (PRS)",
+          "○ Mandibular hypoplasia",
+          "○ Glossoptosis",
+          "○ Cleft palate"
+        ],
+        "IMAGING": [
+          "• Severe micrognathia on midsagittal view in midtrimester",
+          "• Target imaging for cleft palate when micrognathia",
+          "identified",
+          "○ MR best imaging tool for airway and palate",
+          "○ Classic U shape seen on postnatal evaluation",
+          "• Polyhydramnios common in 3rd trimester",
+          "• Thorough search for additional anomalies"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Cleft palate, isolated",
+          "• Micrognathia, isolated",
+          "• Syndromic (chromosomal, single gene disorder)"
+        ],
+        "PATHOLOGY": [
+          "• ~ 50-65% have additional anomalies",
+          "○ PRS associated with > 50 syndromes",
+          "• Syndromes with PRS + additional findings",
+          "○ Stickler syndrome",
+          "○ 22q11 deletion syndrome (DiGeorge/velocardiofacial",
+          "syndrome)",
+          "○ Craniofacial microsomia",
+          "○ Treacher Collins syndrome",
+          "○ Skeletal dysplasia",
+          "○ Neuromuscular disorders"
+        ],
+        "CLINICAL ISSUES": [
+          "• Glossoptosis → life-threatening airway obstruction in some",
+          "○ Airway protection critical in infants",
+          "○ Use imaging to plan delivery carefully",
+          "• Airway obstruction may lessen with growth and",
+          "development of mandible",
+          "• Up to 30% mortality with associated/severe anomalies"
+        ]
+      }
+    },
+    {
+      "id": "sirenomelia",
+      "name": "Сиреномелия",
+      "nameEn": "Sirenomelia",
+      "category": "Синдромы и мультисистемные нарушения",
+      "bookSection": "SECTION 13",
+      "bookPage": 1018,
+      "definition": "• Rare, usually lethal malformation characterized by varying degrees of single lower extremity and other skeletal, gastrointestinal, and genitourinary abnormalities",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Single midline lower extremity",
+        "Absence of normally tapered lumbosacral spine with",
+        "truncation of thorax",
+        "Midtrimester anhydramnios due to severe renal anomaly",
+        "Bilateral renal agenesis most common",
+        "Bilateral cystic dysplastic kidneys",
+        "Single umbilical artery",
+        "цветовой допpler ultrasound for abdominal vessels",
+        "Absent renal arteries",
+        "Frequently lacks normal bifurcation of aorta into iliac",
+        "arteries",
+        "evaluation in setting of маловодие"
+      ],
+      "doppler_findings": [
+        "Absence of normally tapered lumbosacral spine with",
+        "Midtrimester anhydramnios due to severe renal anomaly",
+        "цветовой допpler ultrasound for abdominal vessels",
+        "Absent renal arteries",
+        "arteries",
+        "evaluation in setting of маловодие"
+      ],
+      "mri_findings": [
+        "Consider МР to renal agenesis and better anatomic"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Caudal regression/dysgenesis syndrome",
+        "VACTERL association",
+        "Arthrogryposis with fixed lower limb posture"
+      ],
+      "red_flags": [
+        "Because of anhydramnios, at least 50% of diagnoses missed"
+      ],
+      "follow_up": [
+        "Because of anhydramnios, at least 50% of diagnoses missed"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1018: Sirenomelia"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Rare, usually lethal malformation characterized by varying",
+          "degrees of single lower extremity and other skeletal,",
+          "gastrointestinal, and genitourinary abnormalities"
+        ],
+        "IMAGING": [
+          "• Single midline lower extremity",
+          "• Absence of normally tapered lumbosacral spine with",
+          "truncation of thorax",
+          "• Midtrimester anhydramnios due to severe renal anomaly",
+          "○ Bilateral renal agenesis most common",
+          "○ Bilateral cystic dysplastic kidneys",
+          "• Single umbilical artery",
+          "• Color Doppler ultrasound for abdominal vessels",
+          "○ Absent renal arteries",
+          "○ Frequently lacks normal bifurcation of aorta into iliac",
+          "arteries",
+          "• Consider MR to renal agenesis and better anatomic",
+          "evaluation in setting of oligohydramnios"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Caudal regression/dysgenesis syndrome",
+          "• VACTERL association",
+          "• Arthrogryposis with fixed lower limb posture"
+        ],
+        "PATHOLOGY": [
+          "• Several theories of pathogenesis; abnormal blastogenesis is",
+          "predominant theory",
+          "○ Very early defect due to disruption of caudal mesoderm",
+          "occurring during gastrulation (3rd gestational week)",
+          "• Usually sporadic with no increased recurrence risk"
+        ],
+        "CLINICAL ISSUES": [
+          "• Because of anhydramnios, at least 50% of diagnoses missed",
+          "prenatally",
+          "• More common in monozygotic twins",
+          "• Majority of cases lethal due to pulmonary hypoplasia",
+          "• In rare survivors, obstruction of genitourinary and",
+          "gastrointestinal systems are usually life limiting"
+        ]
+      }
+    },
+    {
+      "id": "smith-lemli-opitz-syndrome",
+      "name": "Синдром Смита–Лемли–Опица",
+      "nameEn": "Smith-Lemli-Opitz Syndrome",
+      "category": "Синдромы и мультисистемные нарушения",
+      "bookSection": "SECTION 13",
+      "bookPage": 1022,
+      "definition": "• Disorder of cholesterol biosynthesis characterized by задержка роста плода (ЗРП/FGR), multiple congenital anomalies, and developmental delay",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Best diagnostic clue: Combination of early-onset severe",
+        "growth restriction, cardiac defects, polydactyly, genital",
+        "ambiguity on midtrimester ultrasound",
+        "3D ultrasound helpful in delineating facial, limb anomalies",
+        "1st-trimester diagnosis possible, especially in high-risk",
+        "families"
+      ],
+      "doppler_findings": [
+        "growth restriction, cardiac defects, polydactyly, genital",
+        "ambiguity on midtrimester ultrasound",
+        "1st-trimester diagnosis possible, especially in high-risk"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "patterns, unusual upper body arching, irritability",
+        "sonographic evaluation for characteristic anomalies"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Aneuploidy",
+        "Trisomy 13",
+        "Trisomy 18",
+        "Triploidy",
+        "Hydrolethalus"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Prenatal diagnosis possible by sterol analysis of amniotic",
+        "or амниocentesis when specific mutation(s) known"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1022: Smith-Lemli-Opitz Syndrome"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Disorder of cholesterol biosynthesis characterized by fetal",
+          "growth restriction, multiple congenital anomalies, and",
+          "developmental delay"
+        ],
+        "IMAGING": [
+          "• Best diagnostic clue: Combination of early-onset severe",
+          "growth restriction, cardiac defects, polydactyly, genital",
+          "ambiguity on midtrimester ultrasound",
+          "• 3D ultrasound helpful in delineating facial, limb anomalies",
+          "• 1st-trimester diagnosis possible, especially in high-risk",
+          "families"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Aneuploidy",
+          "○ Trisomy 13",
+          "○ Trisomy 18",
+          "○ Triploidy",
+          "• Hydrolethalus"
+        ],
+        "PATHOLOGY": [
+          "• Mutations in 3 β-hydroxysterol delta (7)-reductase gene",
+          "(DHCR7), which catalyzes terminal step in cholesterol",
+          "biosynthesis",
+          "• Autosomal recessive"
+        ],
+        "CLINICAL ISSUES": [
+          "• Severe perinatal presentation is usually lethal",
+          "• Survivors with moderate to profound intellectual",
+          "impairment, multiple medical problems",
+          "• Characteristic behavioral phenotype with autism, self-injury,",
+          "food aversions, extreme tactile sensitivity, abnormal sleep",
+          "patterns, unusual upper body arching, irritability",
+          "• Low to undetectable levels of unconjugated estriol (MSuE₃)",
+          "on maternal serum screen should prompt careful",
+          "sonographic evaluation for characteristic anomalies",
+          "• Prenatal diagnosis possible by sterol analysis of amniotic",
+          "fluid or molecular analysis by chorionic villus sampling (CVS)",
+          "or amniocentesis when specific mutation(s) known"
+        ]
+      }
+    },
+    {
+      "id": "treacher-collins-syndrome",
+      "name": "Синдром Тречер Коллинза",
+      "nameEn": "Treacher Collins Syndrome",
+      "category": "Синдромы и мультисистемные нарушения",
+      "bookSection": "SECTION 13",
+      "bookPage": 1026,
+      "definition": "• Mandibulofacial dysostosis",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Findings on US",
+        "Mandible hypoplasia ± cleft palate",
+        "Malar hypoplasia from zygomatic arch deficiency",
+        "3D best for other classic facial features",
+        "– Proptosis from shallow orbits",
+        "– Downward slope of eyelids",
+        "– Small abnormal ears",
+        "многоводие from poor swallowing",
+        "Inner ear normal with external/middle ear deficiency"
+      ],
+      "doppler_findings": [
+        "МР best for cleft palate and auditory canal evaluation"
+      ],
+      "mri_findings": [
+        "МР best for cleft palate and auditory canal evaluation"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Pierre Robin sequence",
+        "Oculo-auriculo-vertebral syndrome (Goldenhar)",
+        "Acrofacial dysostoses"
+      ],
+      "red_flags": [
+        "Consider TCS diagnosis if orbit and ear anomalies are seen",
+        "in fetus with small chin",
+        "Refer family for genetic counseling",
+        "Parent may have minor features of TCS and not be aware"
+      ],
+      "follow_up": [
+        "Normal intelligence without developmental delay or",
+        "neurologic disease",
+        "Treacher Collins syndrome (TCS) children need",
+        "multidisciplinary approach for treatment",
+        "Early focus on airway management, feeding, growth",
+        "Mandibular hypoplasia and cleft palate repair",
+        "Most with conductive hearing loss",
+        "Impaired vision in 1/3"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Mandibular hypoplasia and cleft palate repair",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1026: Treacher Collins Syndrome"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Mandibulofacial dysostosis"
+        ],
+        "IMAGING": [
+          "• Findings on US",
+          "○ Mandible hypoplasia ± cleft palate",
+          "○ Malar hypoplasia from zygomatic arch deficiency",
+          "○ 3D best for other classic facial features",
+          "– Proptosis from shallow orbits",
+          "– Downward slope of eyelids",
+          "– Small abnormal ears",
+          "○ Polyhydramnios from poor swallowing",
+          "• MR best for cleft palate and auditory canal evaluation",
+          "○ Inner ear normal with external/middle ear deficiency"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Pierre Robin sequence",
+          "• Oculo-auriculo-vertebral syndrome (Goldenhar)",
+          "• Acrofacial dysostoses"
+        ],
+        "PATHOLOGY": [
+          "• Most often autosomal dominant trait",
+          "• 60% de novo mutations vs. 40% familial"
+        ],
+        "CLINICAL ISSUES": [
+          "• Normal intelligence without developmental delay or",
+          "neurologic disease",
+          "• Treacher Collins syndrome (TCS) children need",
+          "multidisciplinary approach for treatment",
+          "○ Early focus on airway management, feeding, growth",
+          "○ Mandibular hypoplasia and cleft palate repair",
+          "○ Most with conductive hearing loss",
+          "○ Impaired vision in 1/3"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Consider TCS diagnosis if orbit and ear anomalies are seen",
+          "in fetus with small chin",
+          "• Refer family for genetic counseling",
+          "○ Parent may have minor features of TCS and not be aware"
+        ]
+      }
+    },
+    {
+      "id": "vacterl-association",
+      "name": "Ассоциация VACTERL",
+      "nameEn": "VACTERL Association",
+      "category": "Синдромы и мультисистемные нарушения",
+      "bookSection": "SECTION 13",
+      "bookPage": 1030,
+      "definition": "• Nonrandom association of 6 core abnormalities ○ Vertebral defects ○ Anal atresia ○ Cardiac anomalies ○ Tracheoesophageal (TE) fistula ± esophageal atresia ○ Renal anomalies ○ Limb defects (primarily radial ray)",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Renal, limb, and vertebral anomalies most easily identified",
+        "Cardiac anomalies most common defect (~ 80%)",
+        "Esophageal atresia ± TE fistula in 50-60%",
+        "Absent anal dimple",
+        "Systematic search for associated anomalies when 1 defect",
+        "identified"
+      ],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Not associated with chromosomal abnormality but shares",
+        "other syndromes as well as in isolation"
+      ],
+      "genetic_associations": [
+        "Not associated with chromosomal abnormality but shares",
+        "other syndromes as well as in isolation"
+      ],
+      "differential_diagnosis": [
+        "Trisomy 18",
+        "Arthrogryposis syndromes",
+        "Syndromes with overlapping features",
+        "Holt-Oram syndrome",
+        "Diabetic embryopathy",
+        "Thrombocytopenia absent radius (TAR)",
+        "MURCS association",
+        "CHARGE syndrome",
+        "VACTERL with hydrocephalus (VACTERL-H)"
+      ],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1030: VACTERL Association"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Nonrandom association of 6 core abnormalities",
+          "○ Vertebral defects",
+          "○ Anal atresia",
+          "○ Cardiac anomalies",
+          "○ Tracheoesophageal (TE) fistula ± esophageal atresia",
+          "○ Renal anomalies",
+          "○ Limb defects (primarily radial ray)"
+        ],
+        "IMAGING": [
+          "• Renal, limb, and vertebral anomalies most easily identified",
+          "• Cardiac anomalies most common defect (~ 80%)",
+          "• Esophageal atresia ± TE fistula in 50-60%",
+          "• Absent anal dimple",
+          "• Systematic search for associated anomalies when 1 defect",
+          "identified"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Trisomy 18",
+          "• Arthrogryposis syndromes",
+          "• Syndromes with overlapping features",
+          "○ Holt-Oram syndrome",
+          "○ Diabetic embryopathy",
+          "○ Thrombocytopenia absent radius (TAR)",
+          "○ MURCS association",
+          "○ CHARGE syndrome",
+          "• VACTERL with hydrocephalus (VACTERL-H)"
+        ],
+        "PATHOLOGY": [
+          "• Multiple genes implicated to date including FGF8, FOXF1,",
+          "HOXD13, LPP, TRAP1, ZIC3",
+          "• Not associated with chromosomal abnormality but shares",
+          "many common features",
+          "• Diagnosis of exclusion",
+          "• All features found in VACTERL are commonly found in",
+          "other syndromes as well as in isolation",
+          "• Risk factor: Maternal diabetes"
+        ]
+      }
+    },
+    {
+      "id": "valproate-embryopathy",
+      "name": "Вальпроатная эмбриопатия",
+      "nameEn": "Valproate Embryopathy",
+      "category": "Синдромы и мультисистемные нарушения",
+      "bookSection": "SECTION 13",
+      "bookPage": 1034,
+      "definition": "• Fetal exposure to antiepileptic drug valproic acid (VPA), characterized by dysmorphic facial appearance, major and minor anomalies, central nervous system dysfunction",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Best diagnostic clue: Neural tube defect (NTD), limb",
+        "anomalies, and growth restriction in an exposed fetus",
+        "Neural tube defects: 1-2%",
+        "микроцефалия: 15%",
+        "Congenital heart defects: 25%",
+        "Limb abnormalities: 45-65%",
+        "Genitourinary: 20%",
+        "Craniofacial anomalies",
+        "задержка роста плода (ЗРП/FGR)"
+      ],
+      "doppler_findings": [
+        "anomalies, and growth restriction in an exposed fetus",
+        "Genitourinary: 20%",
+        "задержка роста плода (ЗРП/FGR)"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Risk of other major malformation: ~ 10% (2-3x that of",
+        "Minor anomalies in 1/3 of fetuses",
+        "other antiepileptic drugs"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Embryopathy due to other anticonvulsants",
+        "Neural tube defects; isolated vs. syndromic",
+        "Aneuploidy",
+        "VACTERL association",
+        "Cardiac and limb malformations; isolated vs. syndromic"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "VPA exposure occurring at 17-30 days post fertilization",
+        "confers 1-2% risk of spina bifida",
+        "Risk of other major malformation: ~ 10% (2-3x that of",
+        "unexposed pregnancy)",
+        "Minor anomalies in 1/3 of fetuses",
+        "Increased risk with higher doses of VPA, polytherapy with",
+        "other antiepileptic drugs",
+        "Infant mortality: 12%",
+        "Developmental delay, intellectual impairment: 29%"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1034: Valproate Embryopathy"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Fetal exposure to antiepileptic drug valproic acid (VPA),",
+          "characterized by dysmorphic facial appearance, major and",
+          "minor anomalies, central nervous system dysfunction"
+        ],
+        "IMAGING": [
+          "• Best diagnostic clue: Neural tube defect (NTD), limb",
+          "anomalies, and growth restriction in an exposed fetus",
+          "• Neural tube defects: 1-2%",
+          "• Microcephaly: 15%",
+          "• Congenital heart defects: 25%",
+          "• Limb abnormalities: 45-65%",
+          "• Genitourinary: 20%",
+          "• Craniofacial anomalies",
+          "• Fetal growth restriction"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Embryopathy due to other anticonvulsants",
+          "• Neural tube defects; isolated vs. syndromic",
+          "• Aneuploidy",
+          "• VACTERL association",
+          "• Cardiac and limb malformations; isolated vs. syndromic"
+        ],
+        "PATHOLOGY": [
+          "• Mechanism of teratogenicity may be due to increased fetal",
+          "oxidative stress vs. folic acid inhibitory action of VPA vs.",
+          "changes in gene expression due to VPA inhibition of",
+          "histone deacetylase"
+        ],
+        "CLINICAL ISSUES": [
+          "• VPA exposure occurring at 17-30 days post fertilization",
+          "confers 1-2% risk of spina bifida",
+          "• Risk of other major malformation: ~ 10% (2-3x that of",
+          "unexposed pregnancy)",
+          "○ Minor anomalies in 1/3 of fetuses",
+          "• Increased risk with higher doses of VPA, polytherapy with",
+          "other antiepileptic drugs",
+          "• Infant mortality: 12%",
+          "• Developmental delay, intellectual impairment: 29%"
+        ]
+      }
+    },
+    {
+      "id": "warfarin-coumadin-embryopathy",
+      "name": "Эмбриопатия при приеме варфарина (Coumadin)",
+      "nameEn": "Warfarin (Coumadin) Embryopathy",
+      "category": "Синдромы и мультисистемные нарушения",
+      "bookSection": "SECTION 13",
+      "bookPage": 1036,
+      "definition": "• Fetal effects of early gestational exposure to warfarin, vitamin K antagonist • Phenocopy of chondrodysplasia punctata",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Severe nasal hypoplasia",
+        "Rhizomelia",
+        "Stippled epiphyses may be seen in 3rd trimester in coronal",
+        "views of large joints and spine",
+        "Postnatal radiography important for confirmation of",
+        "skeletal findings"
+      ],
+      "doppler_findings": [
+        "Stippled epiphyses may be seen in 3rd trimester in coronal",
+        "views of large joints and spine"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "vertebral anomalies"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Chondrodysplasia punctata",
+        "Binder phenotype",
+        "Skeletal dysplasias",
+        "Trisomy 21",
+        "Pseudowarfarin embryopathy",
+        "Maternal collagen vascular disease"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Embryopathy with 1st-trimester exposure in 6%",
+        "Spontaneous abortion (25%), stillbirth (7%)",
+        "Postnatal presentation",
+        "Neonatal respiratory distress; infants are obligate nasal",
+        "breathers",
+        "Severe nasal hypoplasia with depressed nasal bridge,",
+        "deep grooves between alae nasi and nasal tip",
+        "Skeletal: Stippled epiphyses, short limbs, nail hypoplasia,",
+        "vertebral anomalies",
+        "Ectopic calcifications of nose, tracheobronchial tree"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Postnatal presentation Neonatal respiratory distress; infants are obligate nasal",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1036: Warfarin (Coumadin) Embryopathy"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Fetal effects of early gestational exposure to warfarin,",
+          "vitamin K antagonist",
+          "• Phenocopy of chondrodysplasia punctata"
+        ],
+        "IMAGING": [
+          "• Severe nasal hypoplasia",
+          "• Rhizomelia",
+          "• Stippled epiphyses may be seen in 3rd trimester in coronal",
+          "views of large joints and spine",
+          "• Postnatal radiography important for confirmation of",
+          "skeletal findings"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Chondrodysplasia punctata",
+          "• Binder phenotype",
+          "• Skeletal dysplasias",
+          "• Trisomy 21",
+          "• Pseudowarfarin embryopathy",
+          "• Maternal collagen vascular disease"
+        ],
+        "PATHOLOGY": [
+          "• Critical period is 6-9 weeks post fertilization",
+          "• Inhibition of vitamin K-dependent carboxylation of bone",
+          "proteins",
+          "• Risk is higher with doses over 5 mg/day"
+        ],
+        "CLINICAL ISSUES": [
+          "• Embryopathy with 1st-trimester exposure in 6%",
+          "• Spontaneous abortion (25%), stillbirth (7%)",
+          "• Postnatal presentation",
+          "○ Neonatal respiratory distress; infants are obligate nasal",
+          "breathers",
+          "○ Severe nasal hypoplasia with depressed nasal bridge,",
+          "deep grooves between alae nasi and nasal tip",
+          "○ Skeletal: Stippled epiphyses, short limbs, nail hypoplasia,",
+          "vertebral anomalies",
+          "○ Ectopic calcifications of nose, tracheobronchial tree"
+        ]
+      }
+    },
+    {
+      "id": "walker-warburg-syndrome",
+      "name": "Синдром Уокера–Варбурга",
+      "nameEn": "Walker-Warburg Syndrome",
+      "category": "Синдромы и мультисистемные нарушения",
+      "bookSection": "SECTION 13",
+      "bookPage": 1038,
+      "definition": "• Congenital muscular dystrophy associated with brain and eye abnormalities",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Specific sonographic pattern identified",
+        "Diminished pericerebral CSF space",
+        "Newly described finding of эхогенный band at outer",
+        "surface of brain",
+        "– Seen as early as 14 weeks with dedicated search",
+        "эхогенный layer obliterates CSF in interhemispheric",
+        "fissure → pseudofusion",
+        "Associated absent sylvian, parietooccipital fissures (best",
+        "seen on coronal plane)",
+        "Z-shaped brainstem covered by эхогенный band of tissue",
+        "– Proposed as pathognomonic for cobblestone",
+        "lissencephaly",
+        "Hydrocephalus, cerebellar/callosal abnormalities",
+        "Eye abnormalities",
+        "Persistent hyperplastic primary vitreous (PHPV) may",
+        "present as hyperechoic bands or mass within globe",
+        "PHPV often seen in combination with microphthalmia"
+      ],
+      "doppler_findings": [
+        "Diminished pericerebral CSF space",
+        "Newly described finding of эхогенный band at outer",
+        "эхогенный layer obliterates CSF in interhemispheric",
+        "Associated absent sylvian, parietooccipital fissures (best",
+        "Persistent hyperplastic primary vitreous (PHPV) may"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Muscle-eye-brain disease (MEBD)",
+        "Fukuyama congenital muscular dystrophy (FCMD)",
+        "Tubulinopathies"
+      ],
+      "red_flags": [
+        "In fetus with brainstem/cerebellar anomalies",
+        "Assess sulcal/gyral development, extraaxial CSF space,",
+        "эхогенныйity of cerebral mantle",
+        "Look at eyes for retinal detachment, PHPV, cataracts,",
+        "coloboma"
+      ],
+      "follow_up": [
+        "Offer биопсия хориона (CVS)/амниocentesis for",
+        "кaryotyping / кариотипирование, microarray, exome sequencing"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1038: Walker-Warburg Syndrome"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Congenital muscular dystrophy associated with brain and",
+          "eye abnormalities"
+        ],
+        "IMAGING": [
+          "• Specific sonographic pattern identified",
+          "○ Diminished pericerebral CSF space",
+          "○ Newly described finding of echogenic band at outer",
+          "surface of brain",
+          "– Seen as early as 14 weeks with dedicated search",
+          "○ Echogenic layer obliterates CSF in interhemispheric",
+          "fissure → pseudofusion",
+          "○ Associated absent sylvian, parietooccipital fissures (best",
+          "seen on coronal plane)",
+          "○ Z-shaped brainstem covered by echogenic band of tissue",
+          "– Proposed as pathognomonic for cobblestone",
+          "lissencephaly",
+          "• Hydrocephalus, cerebellar/callosal abnormalities",
+          "• Eye abnormalities",
+          "○ Persistent hyperplastic primary vitreous (PHPV) may",
+          "present as hyperechoic bands or mass within globe",
+          "○ PHPV often seen in combination with microphthalmia"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Muscle-eye-brain disease (MEBD)",
+          "• Fukuyama congenital muscular dystrophy (FCMD)",
+          "• Tubulinopathies"
+        ],
+        "CLINICAL ISSUES": [
+          "• Offer chorionic villus sampling/amniocentesis for",
+          "karyotype, microarray, exome sequencing"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• In fetus with brainstem/cerebellar anomalies",
+          "○ Assess sulcal/gyral development, extraaxial CSF space,",
+          "echogenicity of cerebral mantle",
+          "○ Look at eyes for retinal detachment, PHPV, cataracts,",
+          "coloboma"
+        ]
+      }
+    },
+    {
+      "id": "wolf-hirschorn-syndrome",
+      "name": "Синдром Вольфа–Хиршхорна",
+      "nameEn": "Wolf-Hirschorn Syndrome",
+      "category": "Синдромы и мультисистемные нарушения",
+      "bookSection": "SECTION 13",
+      "bookPage": 1040,
+      "definition": "• Synonyms: 4p- syndrome, monosomy 4p • Deletion syndrome with growth restriction, dysmorphic craniofacial features, seizures, and intellectual disability",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "задержка роста плода (ЗРП/FGR) (FGR), микроцефалия (> 80%)",
+        "Craniofacial: Wide nasal bridge (\"Greek warrior helmet\"),",
+        "hypertelorism; micrognathia, cleft lip/palate",
+        "May be subtle; present in > 75%",
+        "Skeletal: Clubfoot, split hand, clinodactyly",
+        "Cardiac: ASD/VSD, pulmonic stenosis",
+        "Renal: гидронефроз, horseshoe kidney, cystic dysplasia",
+        "CNS: мозолистое тело (absence/hypoplasia),",
+        "вентрикуломегалия, cerebellar hypoplasia",
+        "1st trimester: ↑ толщина воротникового пространства (ТВП), cystic hygroma"
+      ],
+      "doppler_findings": [
+        "задержка роста плода (ЗРП/FGR) (FGR), микроцефалия (> 80%)",
+        "Craniofacial: Wide nasal bridge (\"Greek warrior helmet\"),",
+        "hypertelorism; micrognathia, cleft lip/palate",
+        "вентрикуломегалия, cerebellar hypoplasia",
+        "1st trimester: ↑ толщина воротникового пространства (ТВП), cystic hygroma"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Seckel syndrome (ATR, other genes)",
+        "CHARGE syndrome (CHD7)",
+        "Smith-Lemli-Opitz syndrome (DHCR7)",
+        "Opitz G-BBB (MID1, SPECCL1)"
+      ],
+      "red_flags": [
+        "Consider diagnosis in FGR and микроцефалия; search for",
+        "craniofacial features",
+        "SCANNING TIPS",
+        "Use 3D imaging to better characterize \"Greek warrior",
+        "helmet,\" hypertelorism, micrognathia, ear abnormalities"
+      ],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1040: Wolf-Hirschorn Syndrome"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Synonyms: 4p- syndrome, monosomy 4p",
+          "• Deletion syndrome with growth restriction, dysmorphic",
+          "craniofacial features, seizures, and intellectual disability"
+        ],
+        "IMAGING": [
+          "• Fetal growth restriction (FGR), microcephaly (> 80%)",
+          "• Craniofacial: Wide nasal bridge (\"Greek warrior helmet\"),",
+          "hypertelorism; micrognathia, cleft lip/palate",
+          "○ May be subtle; present in > 75%",
+          "• Skeletal: Clubfoot, split hand, clinodactyly",
+          "• Cardiac: ASD/VSD, pulmonic stenosis",
+          "• Renal: Hydronephrosis, horseshoe kidney, cystic dysplasia",
+          "• CNS: Corpus callosum (absence/hypoplasia),",
+          "ventriculomegaly, cerebellar hypoplasia",
+          "• 1st trimester: ↑ nuchal translucency, cystic hygroma"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Seckel syndrome (ATR, other genes)",
+          "• CHARGE syndrome (CHD7)",
+          "• Smith-Lemli-Opitz syndrome (DHCR7)",
+          "• Opitz G-BBB (MID1, SPECCL1)"
+        ],
+        "PATHOLOGY": [
+          "• Deletion of 4p16.3 (1.4-20 Mb)",
+          "○ ~ 50% de novo",
+          "○ ~ 40-45% unbalanced rearrangement",
+          "– Assess for parental balanced rearrangement",
+          "□ Impacts recurrence risk",
+          "• Rare (~ 1:50,000 births )"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Consider diagnosis in FGR and microcephaly; search for",
+          "craniofacial features",
+          "SCANNING TIPS",
+          "• Use 3D imaging to better characterize \"Greek warrior",
+          "helmet,\" hypertelorism, micrognathia, ear abnormalities"
+        ]
+      }
+    },
+    {
+      "id": "zellweger-spectrum-disorder",
+      "name": "Спектр заболеваний Целвегера",
+      "nameEn": "Zellweger Spectrum Disorder",
+      "category": "Синдромы и мультисистемные нарушения",
+      "bookSection": "SECTION 13",
+      "bookPage": 1042,
+      "definition": "• Autosomal recessive disorder of peroxisome biogenesis disorder due to PEX gene abnormality with mild to severe phenotype",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Brain: Lateral вентрикуломегалия with irregular border",
+        "(often asymmetric), periventricular pseudocysts, cerebellar",
+        "hypoplasia",
+        "neuronal migration, germinolytic cysts, severely impaired",
+        "myelination, poly/pachygyria",
+        "Renal: эхогенный kidneys; look for microcysts",
+        "GI: эхогенный bowel, hepatosplenomegaly",
+        "Musculoskeletal: Chondrodysplasia punctata with",
+        "epiphyseal stippling, especially of patella",
+        "Craniofacial: In instances in which diagnosis is suspected,",
+        "3rd-trimester 3D rendering may illustrate wide anterior",
+        "fontanelle, flat face, and broad nasal bridge"
+      ],
+      "doppler_findings": [
+        "Brain: Lateral вентрикуломегалия with irregular border",
+        "(often asymmetric), periventricular pseudocysts, cerebellar",
+        "myelination, poly/pachygyria",
+        "epiphyseal stippling, especially of patella",
+        "3rd-trimester 3D rendering may illustrate wide anterior",
+        "fontanelle, flat face, and broad nasal bridge"
+      ],
+      "mri_findings": [
+        "МР recommended in suspected cases: Abnormal"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Trisomy 21",
+        "Prader-Willi syndrome (partial deletion; paternal Chr15)",
+        "Spinal muscular atrophy (SMN1)",
+        "Congenital myotonic dystrophy, type I (trinucleotide",
+        "expansion; DMPK)"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Neonatal presentation: Poor feeding, hypotonia, seizures,",
+        "renal cysts, skeletal abnormalities, and unique craniofacial",
+        "appearance",
+        "Seriously impacted neonates often die in 1st year of life",
+        "Childhood presentation with milder phenotype but still",
+        "significantly affected"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Neonatal presentation: Poor feeding, hypotonia, seizures,",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1042: Zellweger Spectrum Disorder"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Autosomal recessive disorder of peroxisome biogenesis",
+          "disorder due to PEX gene abnormality with mild to severe",
+          "phenotype"
+        ],
+        "IMAGING": [
+          "• Brain: Lateral ventriculomegaly with irregular border",
+          "(often asymmetric), periventricular pseudocysts, cerebellar",
+          "hypoplasia",
+          "○ MR recommended in suspected cases: Abnormal",
+          "neuronal migration, germinolytic cysts, severely impaired",
+          "myelination, poly/pachygyria",
+          "• Renal: Echogenic kidneys; look for microcysts",
+          "• GI: Echogenic bowel, hepatosplenomegaly",
+          "• Musculoskeletal: Chondrodysplasia punctata with",
+          "epiphyseal stippling, especially of patella",
+          "• Craniofacial: In instances in which diagnosis is suspected,",
+          "3rd-trimester 3D rendering may illustrate wide anterior",
+          "fontanelle, flat face, and broad nasal bridge"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Trisomy 21",
+          "• Prader-Willi syndrome (partial deletion; paternal Chr15)",
+          "• Spinal muscular atrophy (SMN1)",
+          "• Congenital myotonic dystrophy, type I (trinucleotide",
+          "expansion; DMPK)"
+        ],
+        "PATHOLOGY": [
+          "• Pathogenic variants in PEX genes (13) lead to ↑",
+          "concentrations of numerous compounds, which impair",
+          "peroxisome biogenesis"
+        ],
+        "CLINICAL ISSUES": [
+          "• Neonatal presentation: Poor feeding, hypotonia, seizures,",
+          "renal cysts, skeletal abnormalities, and unique craniofacial",
+          "appearance",
+          "○ Seriously impacted neonates often die in 1st year of life",
+          "• Childhood presentation with milder phenotype but still",
+          "significantly affected"
+        ]
+      }
+    }
+  ]
+}

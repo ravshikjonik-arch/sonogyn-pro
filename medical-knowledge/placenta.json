@@ -1,0 +1,1568 @@
+{
+  "module": "placenta",
+  "moduleRu": "Плацента, оболочки, пуповина",
+  "source": {
+    "title": "Diagnostic Imaging: Obstetrics",
+    "edition": "4th",
+    "authors": [
+      "Paula J. Woodward",
+      "Anne Kennedy",
+      "Roya Sohaey",
+      "Janice L. B. Byrne",
+      "Michael D. Puchalski",
+      "Brian L. Shaffer",
+      "Emily Edwards",
+      "Priyanka Jha",
+      "Whitnee Hogan"
+    ]
+  },
+  "version": "1.0.0",
+  "extractedAt": "2026-06-25",
+  "entries": [
+    {
+      "id": "placental-abruption",
+      "name": "Преждевременное отслоение плаценты",
+      "nameEn": "Placental Abruption",
+      "category": "Плацента, оболочки, пуповина",
+      "bookSection": "SECTION 10",
+      "bookPage": 804,
+      "definition": "• Definition: Premature separation of placenta • Synonym: Abruptio placentae",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Appearance depends on age and size of hematoma",
+        "Acute hematoma: Often isoechoic to placenta",
+        "Subacute hematoma: гипоэхогенный to placenta",
+        "Resolving/chronic hematoma: Sonolucent",
+        "Marginal abruption (most common)",
+        "Hemorrhage from edge of placenta",
+        "Retroplacental abruption (2nd most common)",
+        "Hematoma between placenta and uterus",
+        "Intraplacental abruption",
+        "Bleed into placenta",
+        "Preplacental abruption (rare)",
+        "Hematoma on fetal surface of placenta",
+        "Ultrasound will be negative in 1/2 of cases"
+      ],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Leiomyoma",
+        "Focal myometrial contraction",
+        "Chorioangioma"
+      ],
+      "red_flags": [
+        "Look for abruption and previa in all cases presenting with",
+        "bleeding, tender uterus, preterm labor"
+      ],
+      "follow_up": [
+        "Placental abruption is clinical diagnosis",
+        "Bleeding, pain, contractions",
+        "Key associations and risk factors",
+        "Prior abruption",
+        "Placenta previa",
+        "Gestational hypertensive disease",
+        "Smoking",
+        "Maternal motor vehicle accident"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.804: Placental Abruption"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Definition: Premature separation of placenta",
+          "• Synonym: Abruptio placentae"
+        ],
+        "IMAGING": [
+          "• Appearance depends on age and size of hematoma",
+          "○ Acute hematoma: Often isoechoic to placenta",
+          "○ Subacute hematoma: Hypoechoic to placenta",
+          "○ Resolving/chronic hematoma: Sonolucent",
+          "• Marginal abruption (most common)",
+          "○ Hemorrhage from edge of placenta",
+          "• Retroplacental abruption (2nd most common)",
+          "○ Hematoma between placenta and uterus",
+          "• Intraplacental abruption",
+          "○ Bleed into placenta",
+          "• Preplacental abruption (rare)",
+          "○ Hematoma on fetal surface of placenta",
+          "• Ultrasound will be negative in 1/2 of cases"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Leiomyoma",
+          "• Focal myometrial contraction",
+          "• Chorioangioma"
+        ],
+        "CLINICAL ISSUES": [
+          "• Placental abruption is clinical diagnosis",
+          "○ Bleeding, pain, contractions",
+          "• Key associations and risk factors",
+          "○ Prior abruption",
+          "○ Placenta previa",
+          "○ Gestational hypertensive disease",
+          "○ Smoking",
+          "○ Maternal motor vehicle accident"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Look for abruption and previa in all cases presenting with",
+          "bleeding, tender uterus, preterm labor"
+        ]
+      }
+    },
+    {
+      "id": "placenta-previa-low-lying-placenta",
+      "name": "Плацента превия/низко расположенная плацента",
+      "nameEn": "Placenta Previa/Low-Lying Placenta",
+      "category": "Плацента, оболочки, пуповина",
+      "bookSection": "SECTION 10",
+      "bookPage": 808,
+      "definition": "• Placenta previa (PP): Placenta covers internal os (IO) • Low-lying placenta (LLP): Placenta edge ≤ 2 cm from IO • Normal: Placenta edge > 2 cm from IO • Avoid terms marginal or partial PP (deemed confusing)",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Transabdominal ultrasound is good screening tool",
+        "Suspicion of placenta in lower uterine segment (LUS) or",
+        "poor visualization of LUS requires further evaluation",
+        "Transvaginal ultrasound (TVUS) essential for diagnosis",
+        "Measure cervical length",
+        "Measure distance between placenta edge and IO",
+        "Important PP associations",
+        "placenta accreta spectrum (ПАС) spectrum (ПАС) spectrum",
+        "Vasa previa: Fetal vessels cross IO"
+      ],
+      "doppler_findings": [
+        "Suspicion of placenta in lower uterine segment (LUS) or",
+        "poor visualization of LUS requires further evaluation"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Full maternal bladder",
+        "Focal myometrial contraction",
+        "Placental abruption"
+      ],
+      "red_flags": [
+        "динамическое наблюдение at 32 weeks for asymptomatic PP or LLP",
+        "diagnosed in 2nd trimester; again at 36 weeks if unresolved",
+        "TVUS to rule out PP and LLP in all patients with bleeding in",
+        "2nd/3rd trimester"
+      ],
+      "follow_up": [
+        "↓ incidence as pregnancy advances",
+        "10% diagnosed with PP or LLP at time of anatomy scan",
+        "– Most are asymptomatic",
+        "– > 90% of LLP will resolve by term",
+        "0.5% incidence of PP at term",
+        "Treatment",
+        "Complete PP requires cesarean delivery",
+        "LLP may be able to delivery vaginally, especially if",
+        "placental margin is > 10 mm from IO"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Complete PP requires cesarean delivery LLP may be able to delivery vaginally, especially if",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.808: Placenta Previa/Low-Lying Placenta"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Placenta previa (PP): Placenta covers internal os (IO)",
+          "• Low-lying placenta (LLP): Placenta edge ≤ 2 cm from IO",
+          "• Normal: Placenta edge > 2 cm from IO",
+          "• Avoid terms marginal or partial PP (deemed confusing)"
+        ],
+        "IMAGING": [
+          "• Transabdominal ultrasound is good screening tool",
+          "○ Suspicion of placenta in lower uterine segment (LUS) or",
+          "poor visualization of LUS requires further evaluation",
+          "• Transvaginal ultrasound (TVUS) essential for diagnosis",
+          "○ Measure cervical length",
+          "○ Measure distance between placenta edge and IO",
+          "• Important PP associations",
+          "○ Placenta accreta spectrum",
+          "○ Vasa previa: Fetal vessels cross IO"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Full maternal bladder",
+          "• Focal myometrial contraction",
+          "• Placental abruption"
+        ],
+        "CLINICAL ISSUES": [
+          "• ↓ incidence as pregnancy advances",
+          "○ 10% diagnosed with PP or LLP at time of anatomy scan",
+          "– Most are asymptomatic",
+          "– > 90% of LLP will resolve by term",
+          "○ 0.5% incidence of PP at term",
+          "• Treatment",
+          "○ Complete PP requires cesarean delivery",
+          "○ LLP may be able to delivery vaginally, especially if",
+          "placental margin is > 10 mm from IO"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Follow-up at 32 weeks for asymptomatic PP or LLP",
+          "diagnosed in 2nd trimester; again at 36 weeks if unresolved",
+          "• TVUS to rule out PP and LLP in all patients with bleeding in",
+          "2nd/3rd trimester"
+        ]
+      }
+    },
+    {
+      "id": "vasa-previa",
+      "name": "Оболочки пуповины при предлежащем рождении плода",
+      "nameEn": "Vasa Previa",
+      "category": "Плацента, оболочки, пуповина",
+      "bookSection": "SECTION 10",
+      "bookPage": 810,
+      "definition": "• Vasa previa (VP) ○ Fetal vessels covering cervix or < 2 cm from IO ○ Vessels are submembranous – Prone to compression and tear – Unprotected by placenta or cord",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "2 typical scenarios with VP diagnosis",
+        "Velamentous cord insertion (VCI) in lower uterine",
+        "segment (type 1)",
+        "– Cord inserts on membranes near internal os (IO)",
+        "Low-lying placenta with succenturiate lobe (SL) (type 2)",
+        "– Fetal vessels travel between placental lobes and cover",
+        "or are < 2 cm from IO",
+        "Transvaginal US (TVUS) + цветовой допpler are best tools",
+        "Use pulsed Doppler to prove vessels are fetal",
+        "Show arterial flow + document fetal heart rate",
+        "20-40% will resolve in 3rd trimester",
+        "↑ chance of resolution if VP diagnosed early (< 24",
+        "weeks)",
+        "↑ resolution if vessels are near IO but do not cover IO",
+        "Imaging recommendations",
+        "Identify placental cord insertion (PCI) carefully",
+        "– Should be routine part of anatomy scan",
+        "Look with TVUS and цветовой допpler if low-lying placenta",
+        "or cannot see PCI with transabdominal scan"
+      ],
+      "doppler_findings": [
+        "2 typical scenarios with VP diagnosis",
+        "Velamentous cord insertion (VCI) in lower uterine",
+        "Low-lying placenta with succenturiate lobe (SL) (type 2)",
+        "Transvaginal US (TVUS) + цветовой допpler are best tools",
+        "Use pulsed Doppler to prove vessels are fetal",
+        "Show arterial flow + document fetal heart rate",
+        "20-40% will resolve in 3rd trimester",
+        "Look with TVUS and цветовой допpler if low-lying placenta"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Marginal sinus previa",
+        "Chorioamniotic separation",
+        "Marginal placental abruption",
+        "Presenting cord (not attached to uterus)"
+      ],
+      "red_flags": [
+        "PCI site may not be focal with VCI",
+        "VCI mangrove sign is common",
+        "– Vessels look like exposed roots of mangrove tree",
+        "– Large branching vessels roam around insertion",
+        "VP may evolve or resolve and surveillance is important",
+        "VP may evolve from low-lying placenta or previa",
+        "– Early finding of thin portion of placenta overlying IO",
+        "– Placenta may atrophy, leaving submembranous",
+        "vessels",
+        "VP may resolve",
+        "– Lower uterine segment elongates with advancing",
+        "pregnancy, and vessels are \"pulled\" superiorly",
+        "– > 2 cm from IO is considered resolved",
+        "Use цветовой допpler with TVUS in all cases with low-lying",
+        "placenta and nonvisualized PCI",
+        "May not see vessels with grayscale alone",
+        "Use pulsed Doppler to differentiate maternal vessels from",
+        "fetal vessels",
+        "Prenatal diagnosis of VP is critical",
+        "All appropriate caretakers should be notified"
+      ],
+      "follow_up": [
+        "Incidence: 0.2-2.2/1,000 pregnancies",
+        "1/202 in in vitro fertilization (IVF) patient",
+        "Risk factors",
+        "VCI; odds ratio (OR) = 672",
+        "SL and bilobed placenta; OR = 71",
+        "Low-lying placenta; OR = 9",
+        "IVF; OR = 19",
+        "Multiple gestations; OR = 3",
+        "Prognosis",
+        "44-50% survival rate if VP is not diagnosed prenatally",
+        "97-100% survival rates reported if VP is diagnosed",
+        "prenatally",
+        "Management",
+        "Early hospitalization at 32-34 weeks",
+        "Elective C-section at 35-36 weeks"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Elective C-section at 35-36 weeks",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.810: Vasa Previa"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Vasa previa (VP)",
+          "○ Fetal vessels covering cervix or < 2 cm from IO",
+          "○ Vessels are submembranous",
+          "– Prone to compression and tear",
+          "– Unprotected by placenta or cord"
+        ],
+        "IMAGING": [
+          "• 2 typical scenarios with VP diagnosis",
+          "○ Velamentous cord insertion (VCI) in lower uterine",
+          "segment (type 1)",
+          "– Cord inserts on membranes near internal os (IO)",
+          "○ Low-lying placenta with succenturiate lobe (SL) (type 2)",
+          "– Fetal vessels travel between placental lobes and cover",
+          "or are < 2 cm from IO",
+          "• Transvaginal US (TVUS) + color Doppler are best tools",
+          "○ Use pulsed Doppler to prove vessels are fetal",
+          "○ Show arterial flow + document fetal heart rate",
+          "• 20-40% will resolve in 3rd trimester",
+          "○ ↑ chance of resolution if VP diagnosed early (< 24",
+          "weeks)",
+          "○ ↑ resolution if vessels are near IO but do not cover IO",
+          "• Imaging recommendations",
+          "○ Identify placental cord insertion (PCI) carefully",
+          "– Should be routine part of anatomy scan",
+          "○ Look with TVUS and color Doppler if low-lying placenta",
+          "or cannot see PCI with transabdominal scan"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Marginal sinus previa",
+          "• Chorioamniotic separation",
+          "• Marginal placental abruption",
+          "• Presenting cord (not attached to uterus)"
+        ],
+        "CLINICAL ISSUES": [
+          "• Incidence: 0.2-2.2/1,000 pregnancies",
+          "○ 1/202 in in vitro fertilization (IVF) patient",
+          "• Risk factors",
+          "○ VCI; odds ratio (OR) = 672",
+          "○ SL and bilobed placenta; OR = 71",
+          "○ Low-lying placenta; OR = 9",
+          "○ IVF; OR = 19",
+          "○ Multiple gestations; OR = 3",
+          "• Prognosis",
+          "○ 44-50% survival rate if VP is not diagnosed prenatally",
+          "○ 97-100% survival rates reported if VP is diagnosed",
+          "prenatally",
+          "• Management",
+          "○ Early hospitalization at 32-34 weeks",
+          "○ Elective C-section at 35-36 weeks"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• PCI site may not be focal with VCI",
+          "○ VCI mangrove sign is common",
+          "– Vessels look like exposed roots of mangrove tree",
+          "– Large branching vessels roam around insertion",
+          "• VP may evolve or resolve and surveillance is important",
+          "○ VP may evolve from low-lying placenta or previa",
+          "– Early finding of thin portion of placenta overlying IO",
+          "– Placenta may atrophy, leaving submembranous",
+          "vessels",
+          "○ VP may resolve",
+          "– Lower uterine segment elongates with advancing",
+          "pregnancy, and vessels are \"pulled\" superiorly",
+          "– > 2 cm from IO is considered resolved",
+          "• Use color Doppler with TVUS in all cases with low-lying",
+          "placenta and nonvisualized PCI",
+          "○ May not see vessels with grayscale alone",
+          "• Use pulsed Doppler to differentiate maternal vessels from",
+          "fetal vessels",
+          "• Prenatal diagnosis of VP is critical",
+          "○ All appropriate caretakers should be notified"
+        ]
+      }
+    },
+    {
+      "id": "placenta-accreta-spectrum",
+      "name": "Спектр плацентарной инвазии",
+      "nameEn": "Placenta Accreta Spectrum",
+      "category": "Плацента, оболочки, пуповина",
+      "bookSection": "SECTION 10",
+      "bookPage": 812,
+      "definition": "• Abnormal penetration of placental tissue beyond endometrial lining of uterus • Imaging cannot differentiate pathologic subtypes",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Most sensitive US indicator of placenta accreta spectrum (ПАС) spectrum (ПАС) spectrum",
+        "(PAS) is presence of large, irregular lacunae",
+        "Uterine/placental bulge seen as disruption of normal",
+        "inverted pear shape",
+        "Bulge 7.432, placenta previa (PP) 7.283, T2 linear dark",
+        "bands 5.985, placental heterogeneity near scar 4.384,",
+        "fibrin deposition 4.322"
+      ],
+      "doppler_findings": [
+        "Uterine/placental bulge seen as disruption of normal",
+        "fibrin deposition 4.322"
+      ],
+      "mri_findings": [
+        "Odds ratios for МР findings in PAS"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Uncomplicated PP",
+        "Placental sonolucencies",
+        "Bladder varices"
+      ],
+      "red_flags": [
+        "High index of suspicion for PAS in setting of PP &/or prior",
+        "CS with placental implantation over scar",
+        "Be familiar with normal appearance of placenta and",
+        "placental/myometrial interface on US and МР",
+        "Look for abnormal tornado vessels, placental bands, uterine",
+        "bulging as signs of PAS",
+        "Presence of multiple findings increases US specificity"
+      ],
+      "follow_up": [
+        "Most important risk factors are prior C-section (CS), PP",
+        "3% in women with PP but no CS",
+        "11% with PP + 1 CS, 40% with PP + 2 CS, > 60% with PP +",
+        "> 3 CS",
+        "Significant risk of maternal/fetal demise; planned delivery",
+        "by multidisciplinary team results in best outcomes",
+        "In USA, most centers plan cesarean hysterectomy at 34-35",
+        "weeks after betamethasone administration"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Most important risk factors are prior C-section (CS), PP Significant risk of maternal/fetal demise; planned delivery In USA, most centers plan cesarean hysterectomy at 34-35",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.812: Placenta Accreta Spectrum"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Abnormal penetration of placental tissue beyond",
+          "endometrial lining of uterus",
+          "• Imaging cannot differentiate pathologic subtypes"
+        ],
+        "IMAGING": [
+          "• Most sensitive US indicator of placenta accreta spectrum",
+          "(PAS) is presence of large, irregular lacunae",
+          "• Uterine/placental bulge seen as disruption of normal",
+          "inverted pear shape",
+          "• Odds ratios for MR findings in PAS",
+          "○ Bulge 7.432, placenta previa (PP) 7.283, T2 linear dark",
+          "bands 5.985, placental heterogeneity near scar 4.384,",
+          "fibrin deposition 4.322"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Uncomplicated PP",
+          "• Placental sonolucencies",
+          "• Bladder varices"
+        ],
+        "CLINICAL ISSUES": [
+          "• Most important risk factors are prior C-section (CS), PP",
+          "○ 3% in women with PP but no CS",
+          "○ 11% with PP + 1 CS, 40% with PP + 2 CS, > 60% with PP +",
+          "> 3 CS",
+          "• Significant risk of maternal/fetal demise; planned delivery",
+          "by multidisciplinary team results in best outcomes",
+          "• In USA, most centers plan cesarean hysterectomy at 34-35",
+          "weeks after betamethasone administration"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• High index of suspicion for PAS in setting of PP &/or prior",
+          "CS with placental implantation over scar",
+          "• Be familiar with normal appearance of placenta and",
+          "placental/myometrial interface on US and MR",
+          "• Look for abnormal tornado vessels, placental bands, uterine",
+          "bulging as signs of PAS",
+          "○ Presence of multiple findings increases US specificity"
+        ]
+      }
+    },
+    {
+      "id": "placental-lake-intervillous-thrombus",
+      "name": "Плацентарное озеро, межворсинный тромб",
+      "nameEn": "Placental Lake, Intervillous Thrombus",
+      "category": "Плацента, оболочки, пуповина",
+      "bookSection": "SECTION 10",
+      "bookPage": 818,
+      "definition": "• Placental lake (PL) ○ Avillous vascular space with blood flow • Intervillous thrombus (IVT) ○ Avillous vascular space with thrombus or fibrin",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Sonolucent or гипоэхогенный foci in placenta",
+        "PL and IVT are most often incidental findings",
+        "Early, numerous, and large (> 5 cm) sonolucencies may",
+        "be significant",
+        "– Associated with задержка роста плода (ЗРП/FGR) (FGR)",
+        "PL with slow swirling streams of blood",
+        "Seen best with grayscale imaging",
+        "May change appearance and size during exam",
+        "IVT without swirling blood on grayscale",
+        "Does not change size or appearance",
+        "гипоэхогенный more likely than sonolucent",
+        "No flow on цветовой допpler",
+        "Distinguish simple PL from far more extensive, irregular,",
+        "vascular lacunae seen in placenta accreta spectrum (ПАС) spectrum (ПАС)"
+      ],
+      "doppler_findings": [
+        "– Associated with задержка роста плода (ЗРП/FGR) (FGR)",
+        "May change appearance and size during exam",
+        "No flow on цветовой допpler"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Associated with maternal hypertensive disorders"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Placental abruption",
+        "Gestational trophoblastic neoplasia"
+      ],
+      "red_flags": [
+        "динамическое наблюдение ultrasound for early, large, multiple lesions",
+        "< 25 weeks at presentation",
+        "> 5 cm in size",
+        "> 3-5 in number"
+      ],
+      "follow_up": [
+        "маловодие"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.818: Placental Lake, Intervillous Thrombus"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Placental lake (PL)",
+          "○ Avillous vascular space with blood flow",
+          "• Intervillous thrombus (IVT)",
+          "○ Avillous vascular space with thrombus or fibrin"
+        ],
+        "IMAGING": [
+          "• Sonolucent or hypoechoic foci in placenta",
+          "○ PL and IVT are most often incidental findings",
+          "○ Early, numerous, and large (> 5 cm) sonolucencies may",
+          "be significant",
+          "– Associated with fetal growth restriction (FGR)",
+          "• PL with slow swirling streams of blood",
+          "○ Seen best with grayscale imaging",
+          "○ May change appearance and size during exam",
+          "• IVT without swirling blood on grayscale",
+          "○ Does not change size or appearance",
+          "○ Hypoechoic more likely than sonolucent",
+          "• No flow on color Doppler",
+          "• Distinguish simple PL from far more extensive, irregular,",
+          "vascular lacunae seen in placenta accreta"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Placental abruption",
+          "• Gestational trophoblastic neoplasia"
+        ],
+        "CLINICAL ISSUES": [
+          "• Most often incidental finding with excellent prognosis",
+          "• Associated with maternal hypertensive disorders",
+          "• ↑ risk for placental insufficiency when extensive",
+          "○ Fetal growth restriction and stillbirth",
+          "○ Oligohydramnios",
+          "○ Abnormal fetal Doppler values"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Follow-up ultrasound for early, large, multiple lesions",
+          "○ < 25 weeks at presentation",
+          "○ > 5 cm in size",
+          "○ > 3-5 in number"
+        ]
+      }
+    },
+    {
+      "id": "succenturiate-lobe",
+      "name": "Дополнительная доля плаценты",
+      "nameEn": "Succenturiate Lobe",
+      "category": "Плацента, оболочки, пуповина",
+      "bookSection": "SECTION 10",
+      "bookPage": 822,
+      "definition": "• Succenturiate lobe (SL): 1 or more accessory placental lobes connected by submembranous fetal vessels",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Ultrasound shows 2 or more separate placentae",
+        "Umbilical cord insertion (UCI) site is variable",
+        "Often marginal or velamentous UCI",
+        "цветовой допpler shows connecting vessels between lobes",
+        "SL associations when seen in lower uterine segment",
+        "Placenta previa, low-lying placenta",
+        "Vasa previa",
+        "Protocol advice",
+        "Scan entire uterus before assigning placental location",
+        "Locate UCI in every patient (part of routine scan)",
+        "TVUS for all low-lying placentas and all patients with",
+        "unexplained bleeding",
+        "– Look for hidden small posterior SL",
+        "– Rule out vasa previa"
+      ],
+      "doppler_findings": [
+        "Umbilical cord insertion (UCI) site is variable",
+        "цветовой допpler shows connecting vessels between lobes",
+        "SL associations when seen in lower uterine segment",
+        "Protocol advice",
+        "– Look for hidden small posterior SL"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Acute placental abruption",
+        "Focal myometrial contraction"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Presentation",
+        "Incidental finding on routine ultrasound",
+        "Bleeding from SL previa or vasa previa",
+        "Incidence",
+        "5-6% of all pregnancies",
+        "↑ in twin pregnancies",
+        "↑ with in vitro fertilization",
+        "Excellent prognosis if isolated",
+        "↑ risk for retained placenta after delivery",
+        "SL with velamentous cord insertion has more complications",
+        "↑ risk of growth restriction, ↑ risk for cord trauma",
+        "Failure to diagnose SL with vasa previa can lead to ↑",
+        "perinatal morbidity and mortality"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "↑ risk for retained placenta after delivery",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.822: Succenturiate Lobe"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Succenturiate lobe (SL): 1 or more accessory placental lobes",
+          "connected by submembranous fetal vessels"
+        ],
+        "IMAGING": [
+          "• Ultrasound shows 2 or more separate placentae",
+          "• Umbilical cord insertion (UCI) site is variable",
+          "○ Often marginal or velamentous UCI",
+          "• Color Doppler shows connecting vessels between lobes",
+          "• SL associations when seen in lower uterine segment",
+          "○ Placenta previa, low-lying placenta",
+          "○ Vasa previa",
+          "• Protocol advice",
+          "○ Scan entire uterus before assigning placental location",
+          "○ Locate UCI in every patient (part of routine scan)",
+          "○ TVUS for all low-lying placentas and all patients with",
+          "unexplained bleeding",
+          "– Look for hidden small posterior SL",
+          "– Rule out vasa previa"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Acute placental abruption",
+          "• Focal myometrial contraction"
+        ],
+        "CLINICAL ISSUES": [
+          "• Presentation",
+          "○ Incidental finding on routine ultrasound",
+          "○ Bleeding from SL previa or vasa previa",
+          "• Incidence",
+          "○ 5-6% of all pregnancies",
+          "○ ↑ in twin pregnancies",
+          "○ ↑ with in vitro fertilization",
+          "• Excellent prognosis if isolated",
+          "○ ↑ risk for retained placenta after delivery",
+          "• SL with velamentous cord insertion has more complications",
+          "○ ↑ risk of growth restriction, ↑ risk for cord trauma",
+          "• Failure to diagnose SL with vasa previa can lead to ↑",
+          "perinatal morbidity and mortality"
+        ]
+      }
+    },
+    {
+      "id": "circumvallate-placenta",
+      "name": "Ободковидная плацента",
+      "nameEn": "Circumvallate Placenta",
+      "category": "Плацента, оболочки, пуповина",
+      "bookSection": "SECTION 10",
+      "bookPage": 824,
+      "definition": "• Chorion inserts inward from placental margin toward cord insertion resulting in raised placental margin",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Margin of placenta rolled toward cord insertion",
+        "Appears as shelf within 3 cm of placental margin",
+        "Intrauterine linear эхогенныйity from placental edge to",
+        "placental edge on long-axis view",
+        "Additional finding of marginal or velamentous cord",
+        "insertion is associated with ↑ morbidity"
+      ],
+      "doppler_findings": [
+        "Intrauterine linear эхогенныйity from placental edge to"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Placenta extrachorialis is placental developmental anomaly",
+        "Early placental marginal insult is another cause"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Synechiae (amniotic sheets)",
+        "Membranes attach to uterine wall",
+        "Amniotic bands",
+        "Membranes attach to fetus",
+        "Septate uterus",
+        "Septum central in fundus"
+      ],
+      "red_flags": [
+        "Look carefully at rest of placenta and placental umbilical",
+        "cord insertion site",
+        "динамическое наблюдение US for fetal growth in high-risk patients"
+      ],
+      "follow_up": [
+        "Most often incidental finding",
+        "Excellent prognosis if isolated finding",
+        "↑ risk of perinatal complications reported: Preterm",
+        "delivery, placental abruption, задержка роста плода (ЗРП/FGR),",
+        "premature rupture of membranes"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "delivery, placental abruption, задержка роста плода (ЗРП/FGR),",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.824: Circumvallate Placenta"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Chorion inserts inward from placental margin toward cord",
+          "insertion resulting in raised placental margin"
+        ],
+        "IMAGING": [
+          "• Margin of placenta rolled toward cord insertion",
+          "○ Appears as shelf within 3 cm of placental margin",
+          "• Intrauterine linear echogenicity from placental edge to",
+          "placental edge on long-axis view",
+          "• Additional finding of marginal or velamentous cord",
+          "insertion is associated with ↑ morbidity"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Synechiae (amniotic sheets)",
+          "○ Membranes attach to uterine wall",
+          "• Amniotic bands",
+          "○ Membranes attach to fetus",
+          "• Septate uterus",
+          "○ Septum central in fundus"
+        ],
+        "PATHOLOGY": [
+          "• Placenta extrachorialis is placental developmental anomaly",
+          "○ Discrepant size between chorion and basal plates",
+          "○ Results in raised placenta and membrane margins",
+          "○ Might be partial or complete",
+          "• Early placental marginal insult is another cause"
+        ],
+        "CLINICAL ISSUES": [
+          "• Most often incidental finding",
+          "• Excellent prognosis if isolated finding",
+          "• ↑ risk of perinatal complications reported: Preterm",
+          "delivery, placental abruption, fetal growth restriction,",
+          "premature rupture of membranes"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Look carefully at rest of placenta and placental umbilical",
+          "cord insertion site",
+          "• Follow-up US for fetal growth in high-risk patients"
+        ]
+      }
+    },
+    {
+      "id": "marginal-and-velamentous-cord-insertion",
+      "name": "Маргинальное и веламентозное прикрепление пуповины",
+      "nameEn": "Marginal and Velamentous Cord Insertion",
+      "category": "Плацента, оболочки, пуповина",
+      "bookSection": "SECTION 10",
+      "bookPage": 826,
+      "definition": "• Marginal placental cord insertion (MPCI) ○ Umbilical cord inserts ≤ 2 cm of placenta edge • Velamentous cord insertion (VCI) ○ Umbilical cord inserts on membranes away from placenta",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "MPCI",
+        "All branching vessels are on fetal surface of placenta",
+        "MPCI can progress to VCI if margin resorbs",
+        "VCI",
+        "Cord inserts at variable distance from placenta",
+        "Vessels often diverge immediately upon insertion and",
+        "travel beneath membranes toward placenta",
+        "At risk for vasa previa if VCI is in lower uterine segment",
+        "Document placental cord insertion (PCI) site at time of",
+        "anatomy scan",
+        "Also reliably seen at time of толщина воротникового пространства (ТВП) scan"
+      ],
+      "doppler_findings": [
+        "Cord inserts at variable distance from placenta",
+        "At risk for vasa previa if VCI is in lower uterine segment"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "VCI associated with ↑ risk for adverse perinatal outcome"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [
+        "динамическое наблюдение for growth and for MPCI evolving to VCI",
+        "Rule out vasa previa when VCI is in lower uterine segment"
+      ],
+      "follow_up": [
+        "VCI incidence: 1-2% singleton, 7% dichorionic twins, up to",
+        "40% monochorionic twins",
+        "VCI associated with ↑ risk for adverse perinatal outcome",
+        "Preterm birth, cesarean delivery, growth restriction,",
+        "intrauterine fetal demise, complications at time of labor"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Preterm birth, cesarean delivery, growth restriction,",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.826: Marginal and Velamentous Cord Insertion"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Marginal placental cord insertion (MPCI)",
+          "○ Umbilical cord inserts ≤ 2 cm of placenta edge",
+          "• Velamentous cord insertion (VCI)",
+          "○ Umbilical cord inserts on membranes away from",
+          "placenta"
+        ],
+        "IMAGING": [
+          "• MPCI",
+          "○ All branching vessels are on fetal surface of placenta",
+          "○ MPCI can progress to VCI if margin resorbs",
+          "• VCI",
+          "○ Cord inserts at variable distance from placenta",
+          "○ Vessels often diverge immediately upon insertion and",
+          "travel beneath membranes toward placenta",
+          "○ At risk for vasa previa if VCI is in lower uterine segment",
+          "• Document placental cord insertion (PCI) site at time of",
+          "anatomy scan",
+          "○ Also reliably seen at time of nuchal translucency scan"
+        ],
+        "PATHOLOGY": [
+          "• Etiology: \"Trophotropism\" of placenta",
+          "○ Early cord insertion is in center of chorionic disc",
+          "○ Parts of placenta grow and parts resorb 2° to",
+          "trophoblastic malperfusion",
+          "○ Cord insertion ends up marginal or velamentous",
+          "• Submembranous vessels not protected by Wharton jelly",
+          "and are susceptible to injury"
+        ],
+        "CLINICAL ISSUES": [
+          "• VCI incidence: 1-2% singleton, 7% dichorionic twins, up to",
+          "40% monochorionic twins",
+          "• VCI associated with ↑ risk for adverse perinatal outcome",
+          "○ Preterm birth, cesarean delivery, growth restriction,",
+          "intrauterine fetal demise, complications at time of labor"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Follow-up for growth and for MPCI evolving to VCI",
+          "• Rule out vasa previa when VCI is in lower uterine segment"
+        ]
+      }
+    },
+    {
+      "id": "chorioangioma",
+      "name": "Хориоангиома",
+      "nameEn": "Chorioangioma",
+      "category": "Плацента, оболочки, пуповина",
+      "bookSection": "SECTION 10",
+      "bookPage": 828,
+      "definition": "• Placental mass composed of capillaries, cellular stroma, and trophoblast ○ Reactive proliferation, not true neoplasm",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Most common on fetal side of placenta, near cord insertion",
+        "Bulges into amniotic cavity",
+        "Well-defined, гипоэхогенный mass",
+        "Septa and greater heterogeneity in larger lesions",
+        "цветовой допpler essential for making diagnosis",
+        "Flow through mass is from fetal circulation",
+        "Amount of flow in mass is quite variable",
+        "Greater flow and arteriovenous shunting increases risk of",
+        "developing high-output cardiac failure and гидrops fetalis",
+        "Vascularity may be more important than size for",
+        "predicting outcome",
+        "Vascularity may change with advancing gestation",
+        "Large (≥ 5-cm) and multiple masses (chorioangiomatosis)",
+        "are more likely to have complications",
+        "Fetal complications include многоводие, гидrops fetalis,",
+        "anemia, and growth restriction"
+      ],
+      "doppler_findings": [
+        "цветовой допpler essential for making diagnosis",
+        "Amount of flow in mass is quite variable",
+        "Greater flow and arteriovenous shunting increases risk of",
+        "developing high-output cardiac failure and гидrops fetalis",
+        "Vascularity may be more important than size for",
+        "Vascularity may change with advancing gestation",
+        "Large (≥ 5-cm) and multiple masses (chorioangiomatosis)",
+        "anemia, and growth restriction"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Consider early delivery or other intervention for impending"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Placental hematoma",
+        "Venous lakes and intervillous thrombi"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Amnioreduction for многоводие"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Consider early delivery or other intervention for impending",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.828: Chorioangioma"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Placental mass composed of capillaries, cellular stroma, and",
+          "trophoblast",
+          "○ Reactive proliferation, not true neoplasm"
+        ],
+        "IMAGING": [
+          "• Most common on fetal side of placenta, near cord insertion",
+          "○ Bulges into amniotic cavity",
+          "• Well-defined, hypoechoic mass",
+          "• Septa and greater heterogeneity in larger lesions",
+          "• Color Doppler essential for making diagnosis",
+          "• Flow through mass is from fetal circulation",
+          "• Amount of flow in mass is quite variable",
+          "○ Greater flow and arteriovenous shunting increases risk of",
+          "developing high-output cardiac failure and hydrops",
+          "○ Vascularity may be more important than size for",
+          "predicting outcome",
+          "○ Vascularity may change with advancing gestation",
+          "• Large (≥ 5-cm) and multiple masses (chorioangiomatosis)",
+          "are more likely to have complications",
+          "• Fetal complications include polyhydramnios, hydrops,",
+          "anemia, and growth restriction"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Placental hematoma",
+          "• Venous lakes and intervillous thrombi"
+        ],
+        "CLINICAL ISSUES": [
+          "• Excellent prognosis if small and single",
+          "○ Generally, no treatment necessary",
+          "• Large (≥ 5 cm) or multiple have complication rate reported",
+          "from 30-50%",
+          "○ In review of 78 cases, there was 28.2% perinatal",
+          "mortality rate for large lesions",
+          "• Amnioreduction for polyhydramnios",
+          "• Consider early delivery or other intervention for impending",
+          "fetal hydrops"
+        ]
+      }
+    },
+    {
+      "id": "placental-teratoma",
+      "name": "Плацентарная тератома",
+      "nameEn": "Placental Teratoma",
+      "category": "Плацента, оболочки, пуповина",
+      "bookSection": "SECTION 10",
+      "bookPage": 832,
+      "definition": "• Benign nontrophoblastic placental mass composed of all 3 germ cell layers • Remains controversial whether true neoplasm or extreme form of acardiac twin",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Lies between amnion and chorion",
+        "Usually on fetal surface of placenta",
+        "Inseparable from placenta, not free-floating in amniotic",
+        "cavity",
+        "Soft tissue mass with cystic and solid components",
+        "Calcifications common but no organized skeletal structures",
+        "No clear cranial or caudal end",
+        "Absence of umbilical cord",
+        "Blood supply from placenta, not umbilical artery",
+        "Internal components hypovascular with little or no flow on",
+        "цветовой допpler"
+      ],
+      "doppler_findings": [
+        "Lies between amnion and chorion",
+        "Usually on fetal surface of placenta",
+        "цветовой допpler"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Acardiac fetus in twin reversed arterial perfusion (TRAP)",
+        "Monochorionic placenta with superficial artery-to-artery",
+        "anastomosis",
+        "Acardiac twin has separate umbilical cord",
+        "Located in amniotic cavity, not contiguous with placenta",
+        "Has definite fetus-like appearance with axial organization",
+        "and development of central skeleton",
+        "– Lower body more developed than upper",
+        "Chorioangioma",
+        "Well-defined гипоэхогенный mass",
+        "Vascular on цветовой допpler"
+      ],
+      "red_flags": [
+        "Must rule out acardiac twin from TRAP",
+        "Far more serious condition",
+        "Untreated pump twin mortality ~ 50%",
+        "Always look for umbilical artery flow into mass"
+      ],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.832: Placental Teratoma"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Benign nontrophoblastic placental mass composed of all 3",
+          "germ cell layers",
+          "• Remains controversial whether true neoplasm or extreme",
+          "form of acardiac twin"
+        ],
+        "IMAGING": [
+          "• Lies between amnion and chorion",
+          "• Usually on fetal surface of placenta",
+          "• Inseparable from placenta, not free-floating in amniotic",
+          "cavity",
+          "• Soft tissue mass with cystic and solid components",
+          "• Calcifications common but no organized skeletal structures",
+          "• No clear cranial or caudal end",
+          "• Absence of umbilical cord",
+          "○ Blood supply from placenta, not umbilical artery",
+          "• Internal components hypovascular with little or no flow on",
+          "color Doppler"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Acardiac fetus in twin reversed arterial perfusion (TRAP)",
+          "○ Monochorionic placenta with superficial artery-to-artery",
+          "anastomosis",
+          "○ Acardiac twin has separate umbilical cord",
+          "○ Located in amniotic cavity, not contiguous with placenta",
+          "○ Has definite fetus-like appearance with axial organization",
+          "and development of central skeleton",
+          "– Lower body more developed than upper",
+          "• Chorioangioma",
+          "○ Well-defined hypoechoic mass",
+          "○ Vascular on color Doppler"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Must rule out acardiac twin from TRAP",
+          "○ Far more serious condition",
+          "○ Untreated pump twin mortality ~ 50%",
+          "○ Always look for umbilical artery flow into mass"
+        ]
+      }
+    },
+    {
+      "id": "placental-mesenchymal-dysplasia",
+      "name": "Мезенхимальная дисплазия плаценты",
+      "nameEn": "Placental Mesenchymal Dysplasia",
+      "category": "Плацента, оболочки, пуповина",
+      "bookSection": "SECTION 10",
+      "bookPage": 834,
+      "definition": "• Abnormal placental development characterized by placentomegaly, stem-villous hydropic cyst formation, and abnormal villous stroma",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Thickened, cystic placenta"
+      ],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Partial mole (triploidy)",
+        "Fetus usually has multiple anomalies",
+        "Twin pregnancy with complete hydatidiform mole",
+        "Normal twin has normal (i.e., noncystic) placenta",
+        "Chorioangiomatosis",
+        "Chorangiomas are typically hypervascular solid masses"
+      ],
+      "red_flags": [
+        "Consider PMD if molar placental changes + ↑ ms AFP +",
+        "normal to slightly ↑ βhCG",
+        "Need to follow pregnancy closely for developing growth",
+        "restriction and fetal well-being"
+      ],
+      "follow_up": [
+        "Consider кaryotyping / кариотипирование to exclude triploidy"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "delivery, and demise delivery, infants do well, but that is minority of cases",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.834: Placental Mesenchymal Dysplasia"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Abnormal placental development characterized by",
+          "placentomegaly, stem-villous hydropic cyst formation, and",
+          "abnormal villous stroma"
+        ],
+        "IMAGING": [
+          "• Thickened, cystic placenta"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Partial mole (triploidy)",
+          "○ Fetus usually has multiple anomalies",
+          "• Twin pregnancy with complete hydatidiform mole",
+          "○ Normal twin has normal (i.e., noncystic) placenta",
+          "• Chorioangiomatosis",
+          "○ Chorangiomas are typically hypervascular solid masses"
+        ],
+        "PATHOLOGY": [
+          "• Absence of trophoblastic proliferation differentiates",
+          "placental mesenchymal dysplasia (PMD) from partial mole"
+        ],
+        "CLINICAL ISSUES": [
+          "• Consider karyotype to exclude triploidy",
+          "• Maternal complications: Hypertension, preeclampsia",
+          "• Fetal complications include growth restriction, preterm",
+          "delivery, and demise",
+          "○ Growth restriction often early and severe",
+          "○ Stillbirth in 29.4%, median gestational age 31 weeks",
+          "• ~ 20% have Beckwith-Wiedemann syndrome",
+          "○ Macrosomia, organomegaly, macroglossia, and",
+          "omphalocele",
+          "• In absence of severe growth restriction and preterm",
+          "delivery, infants do well, but that is minority of cases"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Consider PMD if molar placental changes + ↑ ms AFP +",
+          "normal to slightly ↑ βhCG",
+          "• Need to follow pregnancy closely for developing growth",
+          "restriction and fetal well-being"
+        ]
+      }
+    },
+    {
+      "id": "single-umbilical-artery",
+      "name": "Одна пупочная артерия",
+      "nameEn": "Single Umbilical Artery",
+      "category": "Плацента, оболочки, пуповина",
+      "bookSection": "SECTION 10",
+      "bookPage": 836,
+      "definition": "• Single umbilical artery (SUA) cord has 1 umbilical artery (UA) and 1 umbilical vein (UV) instead of 2 UAs and 1 UV • Also referred to as 2-vessel cord",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Free loop of cord with 2 vessels instead of 3",
+        "цветовой допpler axial view of bladder shows only 1 UA",
+        "Diagnosis can be made in any trimester",
+        "SUA is isolated in 85% (no fetal anomalies)",
+        "Carries ↑ risk of задержка роста плода (ЗРП/FGR) (FGR)",
+        "↑ incidence of abnormal placental morphology or",
+        "abnormal placental cord insertion",
+        "SUA + anomaly in 15%",
+        "Aneuploidy associations",
+        "– Trisomies 18 and 13, not 21",
+        "– ↑ risk if ↑ толщина воротникового пространства (ТВП) (NT) or other",
+        "markers/anomalies",
+        "Common associated anomalies; GU and cardiac defects"
+      ],
+      "doppler_findings": [
+        "цветовой допpler axial view of bladder shows only 1 UA",
+        "Diagnosis can be made in any trimester",
+        "SUA is isolated in 85% (no fetal anomalies)",
+        "Carries ↑ risk of задержка роста плода (ЗРП/FGR) (FGR)",
+        "SUA + anomaly in 15%",
+        "– Trisomies 18 and 13, not 21",
+        "– ↑ risk if ↑ толщина воротникового пространства (ТВП) (NT) or other"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Prognosis related to anomalies and genetic diagnosis"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Umbilical cord cyst",
+        "Umbilical vessel thrombosis"
+      ],
+      "red_flags": [
+        "Look for SUA at time of NT screening",
+        "Suggest динамическое наблюдение growth scan for isolated SUA",
+        "Consider formal echocardiogram if cardiac anatomy not",
+        "seen well at time of detailed anatomy scan",
+        "Suggest genetic counseling for cases seen at time of NT",
+        "screening, nonisolated cases, and high-risk patients"
+      ],
+      "follow_up": [
+        "1% of pregnancies",
+        "Isolated SUA and outcomes",
+        "↑ risk for lower birth weight, preterm birth, cesarean",
+        "delivery, lower Apgar score, NICU admission",
+        "Nonisolated SUA and outcomes",
+        "Prognosis related to anomalies and genetic diagnosis"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "↑ risk for lower birth weight, preterm birth, cesarean delivery, lower Apgar score, NICU admission",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.836: Single Umbilical Artery"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Single umbilical artery (SUA) cord has 1 umbilical artery (UA)",
+          "and 1 umbilical vein (UV) instead of 2 UAs and 1 UV",
+          "• Also referred to as 2-vessel cord"
+        ],
+        "IMAGING": [
+          "• Free loop of cord with 2 vessels instead of 3",
+          "• Color Doppler axial view of bladder shows only 1 UA",
+          "• Diagnosis can be made in any trimester",
+          "• SUA is isolated in 85% (no fetal anomalies)",
+          "○ Carries ↑ risk of fetal growth restriction (FGR)",
+          "○ ↑ incidence of abnormal placental morphology or",
+          "abnormal placental cord insertion",
+          "• SUA + anomaly in 15%",
+          "○ Aneuploidy associations",
+          "– Trisomies 18 and 13, not 21",
+          "– ↑ risk if ↑ nuchal translucency (NT) or other",
+          "markers/anomalies",
+          "○ Common associated anomalies; GU and cardiac defects"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Umbilical cord cyst",
+          "• Umbilical vessel thrombosis"
+        ],
+        "CLINICAL ISSUES": [
+          "• 1% of pregnancies",
+          "• Isolated SUA and outcomes",
+          "○ ↑ risk for lower birth weight, preterm birth, cesarean",
+          "delivery, lower Apgar score, NICU admission",
+          "• Nonisolated SUA and outcomes",
+          "○ Prognosis related to anomalies and genetic diagnosis"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Look for SUA at time of NT screening",
+          "• Suggest follow-up growth scan for isolated SUA",
+          "• Consider formal echocardiogram if cardiac anatomy not",
+          "seen well at time of detailed anatomy scan",
+          "• Suggest genetic counseling for cases seen at time of NT",
+          "screening, nonisolated cases, and high-risk patients"
+        ]
+      }
+    },
+    {
+      "id": "umbilical-vein-varix",
+      "name": "Варикс пупочной вены",
+      "nameEn": "Umbilical Vein Varix",
+      "category": "Плацента, оболочки, пуповина",
+      "bookSection": "SECTION 10",
+      "bookPage": 838,
+      "definition": "• Several definitions in use ○ Focal dilatation of umbilical vein (UV) > 9-mm diameter ○ Varix diameter 50% > intrahepatic portion of UV ○ UV diameter > 2 standard deviations above mean for gestational age",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Cyst-like space in upper abdomen with venous flow on",
+        "Doppler",
+        "Usually intraabdominal, extrahepatic",
+        "UV varix may be 1st manifestation of elevated venous",
+        "pressure",
+        "Formal фetal echocardiography / эхокардиография плодаcardiogram should be performed",
+        "Monitor for signs of impending гидrops fetalis"
+      ],
+      "doppler_findings": [
+        "Doppler",
+        "Usually intraabdominal, extrahepatic",
+        "UV varix may be 1st manifestation of elevated venous"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Must differentiate isolated from those with other findings",
+        "associated with abdominal wall defects)",
+        "– 19% with anomalies: 7.3% IUFD"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Abdominal cysts",
+        "Umbilical cord cysts"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Detailed anatomic survey + formal фetal echocardiography / эхокардиография плодаcardiogram"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "32 weeks and delivery if signs of thrombosis or fetal weeks, US every 3-4 weeks, delivery 38 0/7 to 39 6/7 Early delivery no longer considered essential if UV varix",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.838: Umbilical Vein Varix"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Several definitions in use",
+          "○ Focal dilatation of umbilical vein (UV) > 9-mm diameter",
+          "○ Varix diameter 50% > intrahepatic portion of UV",
+          "○ UV diameter > 2 standard deviations above mean for",
+          "gestational age"
+        ],
+        "IMAGING": [
+          "• Cyst-like space in upper abdomen with venous flow on",
+          "Doppler",
+          "• Usually intraabdominal, extrahepatic",
+          "• UV varix may be 1st manifestation of elevated venous",
+          "pressure",
+          "○ Formal fetal echocardiogram should be performed",
+          "○ Monitor for signs of impending hydrops"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Abdominal cysts",
+          "• Umbilical cord cysts"
+        ],
+        "CLINICAL ISSUES": [
+          "• Must differentiate isolated from those with other findings",
+          "○ 2018 metaanalysis of 254 cases (excluding those",
+          "associated with abdominal wall defects)",
+          "– 81% isolated: No chromosomal abnormalities or IUFD",
+          "– 19% with anomalies: 7.3% IUFD",
+          "• Management",
+          "○ Detailed anatomic survey + formal fetal echocardiogram",
+          "○ Close fetal monitoring advised with emphasis on fetal",
+          "growth, varix size, presence of thrombus, signs of cardiac",
+          "decompensation",
+          "○ 2019 metaanalysis recommends US every 2 weeks after",
+          "32 weeks and delivery if signs of thrombosis or fetal",
+          "compromise",
+          "○ Author's institution: Nonstress testing 2x weekly from 32",
+          "weeks, US every 3-4 weeks, delivery 38 0/7 to 39 6/7",
+          "weeks unless complications develop",
+          "○ Early delivery no longer considered essential if UV varix",
+          "isolated"
+        ]
+      }
+    },
+    {
+      "id": "persistent-right-umbilical-vein",
+      "name": "Персистирующая правая пупочная вена",
+      "nameEn": "Persistent Right Umbilical Vein",
+      "category": "Плацента, оболочки, пуповина",
+      "bookSection": "SECTION 10",
+      "bookPage": 840,
+      "definition": "• Persistent right umbilical vein (PRUV): Embryologic right umbilical vein (UV) remains open, and left UV obliterates ○ Normal development: Right UV obliterates, and left UV remains open • 2 types of PRUV ○ Intrahepatic PRUV most common (90-95%) – Right UV joins at sinus venosus and proceeds to венозный проток (DV) (DV) ○ Extrahepatic PRUV (< 10%) – PRUV bypasses liver and portal system – Drains directly into right atrium, inferior vena cava (IVC), or iliac vein – DV often absent □ If left UV is also patent, then DV may be present",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Intrahepatic PRUV",
+        "Intrahepatic UV hooks toward stomach",
+        "– PRUV joins distal right portal vein",
+        "PRUV passes to right of gallbladder (GB)",
+        "– GB appears displaced medially",
+        "□ Not ectopic GB",
+        "Typically noted on abdominal circumference (AC) view",
+        "Otherwise normal portal venous and DV connections",
+        "23% with other anomalies",
+        "– Cardiovascular most common",
+        "Extrahepatic PRUV",
+        "PRUV bypasses liver and portal system and inserts",
+        "directly into right atrium or IVC",
+        "– PRUV runs anterior to liver",
+        "More likely to have associated anomalies"
+      ],
+      "doppler_findings": [
+        "– PRUV joins distal right portal vein",
+        "PRUV passes to right of gallbladder (GB)",
+        "□ Not ectopic GB",
+        "Typically noted on abdominal circumference (AC) view",
+        "Otherwise normal portal venous and DV connections",
+        "directly into right atrium or IVC",
+        "– PRUV runs anterior to liver"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Complex cardiovascular anomalies",
+        "Extrahepatic PRUV: Seen with other anomalies",
+        "Prognosis related to associated anomalies and genetic"
+      ],
+      "genetic_associations": [
+        "Trisomy 18, Noonan syndrome"
+      ],
+      "differential_diagnosis": [
+        "UV varix (normal hook away from stomach)",
+        "Choledochal cyst (no flow on цветовой допpler)",
+        "Other venous shunt anomalies"
+      ],
+      "red_flags": [
+        "Diagnosis missed if abnormal direction of UV hook not",
+        "noticed on AC view",
+        "Look for additional anomalies when PRUV seen",
+        "Consider formal фetal echocardiography / эхокардиография плодаcardiography",
+        "Anomalies may involve only venous circulation",
+        "Consider diagnosis in cases of \"displaced\" GB"
+      ],
+      "follow_up": [
+        "0.03-0.5% prevalence reported",
+        "Most common presentations",
+        "Intrahepatic PRUV: Incidentally seen on routine AC view",
+        "Extrahepatic PRUV: Seen with other anomalies",
+        "Prognosis related to associated anomalies and genetic",
+        "testing results",
+        "Excellent prognosis if isolated intrahepatic PRUV",
+        "Worse for extrahepatic PRUV"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.840: Persistent Right Umbilical Vein"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Persistent right umbilical vein (PRUV): Embryologic right",
+          "umbilical vein (UV) remains open, and left UV obliterates",
+          "○ Normal development: Right UV obliterates, and left UV",
+          "remains open",
+          "• 2 types of PRUV",
+          "○ Intrahepatic PRUV most common (90-95%)",
+          "– Right UV joins at sinus venosus and proceeds to",
+          "ductus venosus (DV)",
+          "○ Extrahepatic PRUV (< 10%)",
+          "– PRUV bypasses liver and portal system",
+          "– Drains directly into right atrium, inferior vena cava",
+          "(IVC), or iliac vein",
+          "– DV often absent",
+          "□ If left UV is also patent, then DV may be present"
+        ],
+        "IMAGING": [
+          "• Intrahepatic PRUV",
+          "○ Intrahepatic UV hooks toward stomach",
+          "– PRUV joins distal right portal vein",
+          "○ PRUV passes to right of gallbladder (GB)",
+          "– GB appears displaced medially",
+          "□ Not ectopic GB",
+          "○ Typically noted on abdominal circumference (AC) view",
+          "○ Otherwise normal portal venous and DV connections",
+          "○ 23% with other anomalies",
+          "– Cardiovascular most common",
+          "• Extrahepatic PRUV",
+          "○ PRUV bypasses liver and portal system and inserts",
+          "directly into right atrium or IVC",
+          "– PRUV runs anterior to liver",
+          "○ More likely to have associated anomalies"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• UV varix (normal hook away from stomach)",
+          "• Choledochal cyst (no flow on color Doppler)",
+          "• Other venous shunt anomalies"
+        ],
+        "PATHOLOGY": [
+          "• Theories of PRUV cause",
+          "○ 1st-trimester folic acid deficiency",
+          "○ Early left UV obstruction from external pressure or clot",
+          "• Intrahepatic PRUV",
+          "○ Left UV occludes instead of right",
+          "○ PRUV provides normal flow",
+          "• Extrahepatic PRUV",
+          "○ PRUV drains into systemic veins (right atrium, IVC most",
+          "often)",
+          "○ DV may be obliterated",
+          "• Associations",
+          "○ Complex cardiovascular anomalies",
+          "○ Trisomy 18, Noonan syndrome",
+          "○ Fetal growth restriction"
+        ],
+        "CLINICAL ISSUES": [
+          "• 0.03-0.5% prevalence reported",
+          "• Most common presentations",
+          "○ Intrahepatic PRUV: Incidentally seen on routine AC view",
+          "○ Extrahepatic PRUV: Seen with other anomalies",
+          "• Prognosis related to associated anomalies and genetic",
+          "testing results",
+          "○ Excellent prognosis if isolated intrahepatic PRUV",
+          "○ Worse for extrahepatic PRUV"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Diagnosis missed if abnormal direction of UV hook not",
+          "noticed on AC view",
+          "• Look for additional anomalies when PRUV seen",
+          "• Consider formal fetal echocardiography",
+          "○ Anomalies may involve only venous circulation",
+          "• Consider diagnosis in cases of \"displaced\" GB"
+        ]
+      }
+    },
+    {
+      "id": "placental-cysts-and-masses",
+      "name": "Кисты и образования плаценты",
+      "nameEn": "Placental Cysts and Masses",
+      "category": "Плацента, оболочки, пуповина",
+      "bookSection": "SECTION 10",
+      "bookPage": 842,
+      "definition": "Placental Cysts and Masses",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.842: Placental Cysts and Masses"
+      ],
+      "sourceBlocks": {}
+    },
+    {
+      "id": "umbilical-cord-cysts-and-masses",
+      "name": "Кисты и образования пуповины",
+      "nameEn": "Umbilical Cord Cysts and Masses",
+      "category": "Плацента, оболочки, пуповина",
+      "bookSection": "SECTION 10",
+      "bookPage": 846,
+      "definition": "Umbilical Cord Cysts and Masses",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.846: Umbilical Cord Cysts and Masses"
+      ],
+      "sourceBlocks": {}
+    }
+  ]
+}

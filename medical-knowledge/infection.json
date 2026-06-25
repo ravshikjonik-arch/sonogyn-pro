@@ -1,0 +1,501 @@
+{
+  "module": "infection",
+  "moduleRu": "Инфекции",
+  "source": {
+    "title": "Diagnostic Imaging: Obstetrics",
+    "edition": "4th",
+    "authors": [
+      "Paula J. Woodward",
+      "Anne Kennedy",
+      "Roya Sohaey",
+      "Janice L. B. Byrne",
+      "Michael D. Puchalski",
+      "Brian L. Shaffer",
+      "Emily Edwards",
+      "Priyanka Jha",
+      "Whitnee Hogan"
+    ]
+  },
+  "version": "1.0.0",
+  "extractedAt": "2026-06-25",
+  "entries": [
+    {
+      "id": "cytomegalovirus",
+      "name": "Цитомегаловирус",
+      "nameEn": "Cytomegalovirus",
+      "category": "Инфекции",
+      "bookSection": "SECTION 14",
+      "bookPage": 1046,
+      "definition": "Cytomegalovirus",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Cerebral",
+        "вентрикуломегалия, intraventricular adhesions",
+        "Calcifications, lenticulostriate vasculopathy",
+        "Intraparenchymal cysts",
+        "Cortical dysplasia, migrational abnormalities",
+        "микроцефалия",
+        "Anterior temporal lobe lesions are most specific finding",
+        "for cytomegalovirus (CMV)",
+        "Noncerebral",
+        "Hepatosplenomegaly",
+        "Cardiomyopathy, nonimmune гидrops fetalis",
+        "Anemia due to marrow suppression/hemolytic anemia",
+        "задержка роста плода (ЗРП/FGR)"
+      ],
+      "doppler_findings": [
+        "вентрикуломегалия, intraventricular adhesions",
+        "Calcifications, lenticulostriate vasculopathy",
+        "Anterior temporal lobe lesions are most specific finding",
+        "задержка роста плода (ЗРП/FGR)"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Serial US, МР > 95% sensitivity for brain anomalies in"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Toxoplasmosis",
+        "Parvovirus",
+        "Syphilis"
+      ],
+      "red_flags": [
+        "Invoke CMV in fetuses with growth restriction, эхогенный",
+        "bowel, effusions, or any cerebral anomaly",
+        "Postnatal CT/МР proven more sensitive than US allowing",
+        "better prediction of neurodevelopmental outcome"
+      ],
+      "follow_up": [
+        "Serial US, МР > 95% sensitivity for brain anomalies in",
+        "Negative fetal neurosonography/МР → strong negative"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1046: Cytomegalovirus"
+      ],
+      "sourceBlocks": {
+        "IMAGING": [
+          "• Cerebral",
+          "○ Ventriculomegaly, intraventricular adhesions",
+          "○ Calcifications, lenticulostriate vasculopathy",
+          "○ Intraparenchymal cysts",
+          "○ Cortical dysplasia, migrational abnormalities",
+          "○ Microcephaly",
+          "○ Anterior temporal lobe lesions are most specific finding",
+          "for cytomegalovirus (CMV)",
+          "• Noncerebral",
+          "○ Hepatosplenomegaly",
+          "○ Cardiomyopathy, nonimmune hydrops",
+          "○ Anemia due to marrow suppression/hemolytic anemia",
+          "○ Fetal growth restriction"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Toxoplasmosis",
+          "• Parvovirus",
+          "• Syphilis"
+        ],
+        "CLINICAL ISSUES": [
+          "• CMV is most common congenital infection worldwide with",
+          "no vaccine, no safe/effective therapy, and no universal",
+          "screening program",
+          "○ Humans are only known host",
+          "○ Vertical transmission: Transplacental fetal infection",
+          "• Congenital CMV responsible for 10% of cerebral palsy",
+          "○ Brain injury only occurs with 1st-trimester infection",
+          "• Serial US, MR > 95% sensitivity for brain anomalies in",
+          "fetuses known to be infected",
+          "• Negative fetal neurosonography/MR → strong negative",
+          "predictive value for poor outcome"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Invoke CMV in fetuses with growth restriction, echogenic",
+          "bowel, effusions, or any cerebral anomaly",
+          "• Postnatal CT/MR proven more sensitive than US allowing",
+          "better prediction of neurodevelopmental outcome"
+        ]
+      }
+    },
+    {
+      "id": "parvovirus",
+      "name": "Парвовирус B19",
+      "nameEn": "Parvovirus",
+      "category": "Инфекции",
+      "bookSection": "SECTION 14",
+      "bookPage": 1050,
+      "definition": "• Fetal infection with human parvovirus B19 • Major clinical triad of anemia, heart failure, гидrops fetalis",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Best diagnostic clue: гидrops fetalis in fetus at risk for parvovirus",
+        "infection based on maternal seroconversion",
+        "Ascites most common presenting finding",
+        "Progression to гидrops fetalis in severe cases",
+        "Cardiomegaly secondary to severe fetal anemia &/or",
+        "myocarditis",
+        "Placentomegaly, многоводие",
+        "Noninvasive assessment for fetal anemia using middle",
+        "cerebral artery peak systolic velocity (MCA-PSV)",
+        "MCA-PSV is elevated in fetal anemia and predicts need",
+        "for intrauterine transfusion"
+      ],
+      "doppler_findings": [
+        "Best diagnostic clue: гидrops fetalis in fetus at risk for parvovirus",
+        "cerebral artery peak systolic velocity (MCA-PSV)",
+        "MCA-PSV is elevated in fetal anemia and predicts need",
+        "for intrauterine transfusion"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Infection usually self-limited in mothers"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Other congenital infections",
+        "Significant overlap in imaging findings",
+        "Requires maternal/fetal serology to make definitive",
+        "diagnosis",
+        "Anemia is usually not as significant as with parvovirus"
+      ],
+      "red_flags": [
+        "Perform MCA Dopplers (PSV) looking for anemia in any",
+        "fetus presenting with unexplained гидrops fetalis"
+      ],
+      "follow_up": [
+        "Infection usually self-limited in mothers",
+        "25-32% of women who become infected during pregnancy",
+        "transmit infection to fetus",
+        "Risk of fetal гидrops fetalis is low (4-13%) but if present has 30-",
+        "50% risk of intrauterine demise"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1050: Parvovirus"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Fetal infection with human parvovirus B19",
+          "• Major clinical triad of anemia, heart failure, hydrops"
+        ],
+        "IMAGING": [
+          "• Best diagnostic clue: Hydrops in fetus at risk for parvovirus",
+          "infection based on maternal seroconversion",
+          "• Ascites most common presenting finding",
+          "• Progression to hydrops in severe cases",
+          "• Cardiomegaly secondary to severe fetal anemia &/or",
+          "myocarditis",
+          "• Placentomegaly, polyhydramnios",
+          "• Noninvasive assessment for fetal anemia using middle",
+          "cerebral artery peak systolic velocity (MCA-PSV)",
+          "○ MCA-PSV is elevated in fetal anemia and predicts need",
+          "for intrauterine transfusion"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Other congenital infections",
+          "○ Significant overlap in imaging findings",
+          "○ Requires maternal/fetal serology to make definitive",
+          "diagnosis",
+          "○ Anemia is usually not as significant as with parvovirus"
+        ],
+        "PATHOLOGY": [
+          "• Parvovirus attacks erythroid progenitor cells → anemia",
+          "• Involvement of cardiac myocytes → viral myocarditis →",
+          "hydrops"
+        ],
+        "CLINICAL ISSUES": [
+          "• Infection usually self-limited in mothers",
+          "• 25-32% of women who become infected during pregnancy",
+          "transmit infection to fetus",
+          "• Risk of fetal hydrops is low (4-13%) but if present has 30-",
+          "50% risk of intrauterine demise"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Perform MCA Dopplers (PSV) looking for anemia in any",
+          "fetus presenting with unexplained hydrops"
+        ]
+      }
+    },
+    {
+      "id": "toxoplasmosis",
+      "name": "Токсоплазмоз",
+      "nameEn": "Toxoplasmosis",
+      "category": "Инфекции",
+      "bookSection": "SECTION 14",
+      "bookPage": 1054,
+      "definition": "• Toxoplasmosis (toxo) is T in TORCH infections • Transplacental infection with protozoan Toxoplasma gondii",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Nonshadowing intracranial and intrahepatic calcifications",
+        "задержка роста плода (ЗРП/FGR), вентрикуломегалия, эхогенный",
+        "bowel",
+        "Monthly ultrasound when suspected or confirmed infection",
+        "to look for sequelae",
+        "Confirm fetal infection by амниocentesis or cord blood",
+        "sampling for viral polymerase chain reaction"
+      ],
+      "doppler_findings": [
+        "задержка роста плода (ЗРП/FGR), вентрикуломегалия, эхогенный",
+        "МРТ плода to evaluate brain"
+      ],
+      "mri_findings": [
+        "МРТ плода to evaluate brain"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Cytomegalovirus",
+        "Varicella (chickenpox)",
+        "Herpes simplex virus type 2"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "All positive screening tests in pregnancy should be",
+        "confirmed in toxoplasmosis reference lab",
+        "Overall risk of congenital infection without maternal",
+        "treatment = 20-50%",
+        "1st-trimester infection less likely to result in congenital",
+        "infection (10-15%) but more likely to be severe",
+        "Later infection with much higher congenital infection rate",
+        "(up to 60% in 3rd trimester) but generally less severe",
+        "Sequelae of congenital infection include blindness,",
+        "epilepsy, intellectual impairment",
+        "Most infected infants asymptomatic at birth; up to 90%",
+        "develop sequelae"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1054: Toxoplasmosis"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Toxoplasmosis (toxo) is T in TORCH infections",
+          "• Transplacental infection with protozoan Toxoplasma gondii"
+        ],
+        "IMAGING": [
+          "• Nonshadowing intracranial and intrahepatic calcifications",
+          "• Fetal growth restriction, ventriculomegaly, echogenic",
+          "bowel",
+          "• Monthly ultrasound when suspected or confirmed infection",
+          "to look for sequelae",
+          "• Fetal MR to evaluate brain",
+          "• Confirm fetal infection by amniocentesis or cord blood",
+          "sampling for viral polymerase chain reaction"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Cytomegalovirus",
+          "• Varicella (chickenpox)",
+          "• Herpes simplex virus type 2"
+        ],
+        "PATHOLOGY": [
+          "• 3 principal routes of infection in humans",
+          "○ Ingestion of inadequately cooked (infected) meat",
+          "○ Ingestion of oocytes from contaminated soil or water",
+          "○ Transplacental following maternal primary infection"
+        ],
+        "CLINICAL ISSUES": [
+          "• All positive screening tests in pregnancy should be",
+          "confirmed in toxoplasmosis reference lab",
+          "• Overall risk of congenital infection without maternal",
+          "treatment = 20-50%",
+          "• 1st-trimester infection less likely to result in congenital",
+          "infection (10-15%) but more likely to be severe",
+          "• Later infection with much higher congenital infection rate",
+          "(up to 60% in 3rd trimester) but generally less severe",
+          "• Sequelae of congenital infection include blindness,",
+          "epilepsy, intellectual impairment",
+          "○ Most infected infants asymptomatic at birth; up to 90%",
+          "develop sequelae"
+        ]
+      }
+    },
+    {
+      "id": "varicella",
+      "name": "Ветрянка оспа",
+      "nameEn": "Varicella",
+      "category": "Инфекции",
+      "bookSection": "SECTION 14",
+      "bookPage": 1056,
+      "definition": "• Fetal varicella syndrome/embryopathy • Transplacental infection of fetus following maternal chickenpox infection",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Intrahepatic and intracranial calcifications",
+        "многоводие due to neurologic impairment of",
+        "swallowing",
+        "Limb hypoplasia, reduction defects, contractures"
+      ],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Peripartum maternal chickenpox associated with 25% risk",
+        "Maternal zoster outbreak in pregnancy not associated with",
+        "< age 13, other nonimmune individuals"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Other limb reduction defects",
+        "Terminal transverse defects, oligodactyly",
+        "Amniotic bands",
+        "Other congenital infections",
+        "Significant overlap in imaging findings",
+        "Intrahepatic and intracranial calcifications most common",
+        "findings"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Immunization now recommended for school-aged children"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "of life-threatening neonatal infection",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1056: Varicella"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Fetal varicella syndrome/embryopathy",
+          "• Transplacental infection of fetus following maternal",
+          "chickenpox infection"
+        ],
+        "IMAGING": [
+          "• Intrahepatic and intracranial calcifications",
+          "• Polyhydramnios due to neurologic impairment of",
+          "swallowing",
+          "• Limb hypoplasia, reduction defects, contractures"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Other limb reduction defects",
+          "○ Terminal transverse defects, oligodactyly",
+          "○ Amniotic bands",
+          "• Other congenital infections",
+          "○ Significant overlap in imaging findings",
+          "○ Intrahepatic and intracranial calcifications most common",
+          "findings"
+        ],
+        "PATHOLOGY": [
+          "• Neurotropic virus: Sequelae due to neurologic damage in",
+          "utero",
+          "• After recovery, virus remains dormant in dorsal root ganglia",
+          "in spinal cord; reactivated as shingles (herpes zoster)"
+        ],
+        "CLINICAL ISSUES": [
+          "• Maternal varicella infection before 20-weeks gestation ~",
+          "6% fetal transmission",
+          "○ 1/3 of infected fetuses have clinical manifestations,",
+          "usually cutaneous",
+          "○ 1-2% of infected fetuses will have severe clinical",
+          "stigmata of fetal varicella syndrome",
+          "• Peripartum maternal chickenpox associated with 25% risk",
+          "of life-threatening neonatal infection",
+          "• Maternal zoster outbreak in pregnancy not associated with",
+          "risk of fetal infection or malformation",
+          "• Immunization now recommended for school-aged children",
+          "< age 13, other nonimmune individuals"
+        ]
+      }
+    },
+    {
+      "id": "congenital-syphilis",
+      "name": "Врожденный сифилис",
+      "nameEn": "Congenital Syphilis",
+      "category": "Инфекции",
+      "bookSection": "SECTION 14",
+      "bookPage": 1058,
+      "definition": "• Caused by spirochete bacterium, Treponema pallidum",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Congenital syphilis progression with predictable pattern of",
+        "findings",
+        "Hepatomegaly and placentomegaly seen first",
+        "Anemia, многоводие, гидrops fetalis seen later",
+        "Regression after treatment also follows predictable",
+        "opposite pattern",
+        "Hepatomegaly and placentomegaly regress last",
+        "US findings",
+        "Hepatomegaly in 80% of cases ± splenomegaly",
+        "Ascites (10%)",
+        "Placentomegaly (1/3)",
+        "↑ middle cerebral artery (MCA) peak systolic velocity",
+        "from anemia (1/3)",
+        "многоводие (10%)"
+      ],
+      "doppler_findings": [
+        "↑ middle cerebral artery (MCA) peak systolic velocity"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Other fetal infections (cytomegalovirus most common)",
+        "Other cause for fetal anemia and гидrops fetalis"
+      ],
+      "red_flags": [
+        "Confirmatory diagnosis requires амниocentesis",
+        "US is key in assessing severity of disease and following",
+        "treatment progress; surveillance of liver size, placenta size,",
+        "amniotic fluid, MCA peak systolic velocity"
+      ],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.1058: Congenital Syphilis"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Caused by spirochete bacterium, Treponema pallidum"
+        ],
+        "IMAGING": [
+          "• Congenital syphilis progression with predictable pattern of",
+          "findings",
+          "○ Hepatomegaly and placentomegaly seen first",
+          "○ Anemia, polyhydramnios, hydrops seen later",
+          "• Regression after treatment also follows predictable",
+          "opposite pattern",
+          "○ Hepatomegaly and placentomegaly regress last",
+          "• US findings",
+          "○ Hepatomegaly in 80% of cases ± splenomegaly",
+          "○ Ascites (10%)",
+          "○ Placentomegaly (1/3)",
+          "○ ↑ middle cerebral artery (MCA) peak systolic velocity",
+          "from anemia (1/3)",
+          "○ Polyhydramnios (10%)"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Other fetal infections (cytomegalovirus most common)",
+          "• Other cause for fetal anemia and hydrops"
+        ],
+        "PATHOLOGY": [
+          "• Most common congenital infection worldwide",
+          "• Vertical transplacental transmission",
+          "• Staging is clinical",
+          "○ Primary syphilis: Chancre, lymphadenopathy",
+          "○ Secondary syphilis: Skin, parenchymal, constitutional",
+          "manifestations; highest transmission rate to fetus",
+          "○ Latent syphilis (no symptoms)",
+          "○ Tertiary syphilis and neurosyphilis (rare in pregnancy)"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Confirmatory diagnosis requires amniocentesis",
+          "• US is key in assessing severity of disease and following",
+          "treatment progress; surveillance of liver size, placenta size,",
+          "amniotic fluid, MCA peak systolic velocity"
+        ]
+      }
+    }
+  ]
+}

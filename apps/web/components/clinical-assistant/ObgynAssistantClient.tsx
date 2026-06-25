@@ -110,6 +110,20 @@ export function ObgynAssistantClient({ mode, initialQuery = "", initialPatientId
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
                   <Sparkles className="h-4 w-4 text-teal-700 dark:text-teal-300" />
+                  <p className="text-sm font-bold text-[var(--clinical-foreground)]">Obstetric Expert Copilot</p>
+                </div>
+                <p className="text-xs leading-relaxed text-[var(--clinical-foreground-muted)]">
+                  Woodward 4ed: дифференциал, биометрия, допплер, анеуплоидии, ISUOG-отчёт, CDS — не чат.
+                </p>
+              </div>
+              <Button asChild className="shrink-0" variant="default">
+                <Link href="/assistant/obstetrics/expert">Expert Copilot →</Link>
+              </Button>
+            </div>
+            <div className="sonogyn-glass-card flex flex-col gap-3 rounded-2xl border border-teal-200/80 p-4 sm:flex-row sm:items-center sm:justify-between dark:border-teal-900/50">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="h-4 w-4 text-teal-700 dark:text-teal-300" />
                   <p className="text-sm font-bold text-[var(--clinical-foreground)]">FMF · малый срок и I скрининг</p>
                 </div>
                 <p className="text-xs leading-relaxed text-[var(--clinical-foreground-muted)]">

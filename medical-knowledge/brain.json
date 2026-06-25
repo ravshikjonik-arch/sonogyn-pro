@@ -1,0 +1,3923 @@
+{
+  "module": "brain",
+  "moduleRu": "Головной мозг",
+  "source": {
+    "title": "Diagnostic Imaging: Obstetrics",
+    "edition": "4th",
+    "authors": [
+      "Paula J. Woodward",
+      "Anne Kennedy",
+      "Roya Sohaey",
+      "Janice L. B. Byrne",
+      "Michael D. Puchalski",
+      "Brian L. Shaffer",
+      "Emily Edwards",
+      "Priyanka Jha",
+      "Whitnee Hogan"
+    ]
+  },
+  "version": "1.0.0",
+  "extractedAt": "2026-06-25",
+  "entries": [
+    {
+      "id": "exencephaly-anencephaly",
+      "name": "Эксенцефалия, анэнцефалия",
+      "nameEn": "Exencephaly, Anencephaly",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 88,
+      "definition": "• Exencephaly is early manifestation of anencephaly",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "No calvarium with absence of neural tissue above orbits",
+        "Neural tissue wears away during gestation",
+        "No organized neural tissue remaining",
+        "Cranial defect covered by angiomatous stroma (area",
+        "cerebrovasculosa)",
+        "Often contiguous with cervical spine defect",
+        "Should be able to diagnose routinely at 10-14 weeks",
+        "Neural tissue is still present (exencephaly)",
+        "Head has irregular, flattened, splayed appearance",
+        "Distinctive facial features with hypertelorism and proptosis",
+        "многоводие common; fluid is эхогенный from dissolved",
+        "neural tissue"
+      ],
+      "doppler_findings": [
+        "No calvarium with absence of neural tissue above orbits",
+        "Neural tissue wears away during gestation",
+        "Often contiguous with cervical spine defect",
+        "Distinctive facial features with hypertelorism and proptosis"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Amniotic band syndrome",
+        "Calvarium may be absent but large amount of intact",
+        "brain often remains",
+        "Look for other defects",
+        "Important distinction for counseling; sporadic, no",
+        "increased recurrence risk"
+      ],
+      "red_flags": [
+        "Lethal malformation, which should be recognized in 1st",
+        "trimester",
+        "копчико-теменной размер (КТР) less than expected is not always due to",
+        "incorrect dates",
+        "Short-term динамическое наблюдение for any case when head looks",
+        "asymmetric or irregular"
+      ],
+      "follow_up": [
+        "Elevated maternal serum α-fetoprotein",
+        "2-5% recurrence risk",
+        "Preconceptual folic acid should be given for future",
+        "pregnancies",
+        "4 mg/d reduces risk of recurrence by 70%"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.88: Exencephaly, Anencephaly"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Exencephaly is early manifestation of anencephaly"
+        ],
+        "IMAGING": [
+          "• No calvarium with absence of neural tissue above orbits",
+          "○ Neural tissue wears away during gestation",
+          "○ No organized neural tissue remaining",
+          "○ Cranial defect covered by angiomatous stroma (area",
+          "cerebrovasculosa)",
+          "○ Often contiguous with cervical spine defect",
+          "• Should be able to diagnose routinely at 10-14 weeks",
+          "○ Neural tissue is still present (exencephaly)",
+          "○ Head has irregular, flattened, splayed appearance",
+          "• Distinctive facial features with hypertelorism and proptosis",
+          "• Polyhydramnios common; fluid is echogenic from dissolved",
+          "neural tissue"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Amniotic band syndrome",
+          "○ Calvarium may be absent but large amount of intact",
+          "brain often remains",
+          "○ Look for other defects",
+          "○ Important distinction for counseling; sporadic, no",
+          "increased recurrence risk"
+        ],
+        "CLINICAL ISSUES": [
+          "• Elevated maternal serum α-fetoprotein",
+          "• 2-5% recurrence risk",
+          "• Preconceptual folic acid should be given for future",
+          "pregnancies",
+          "○ 4 mg/d reduces risk of recurrence by 70%"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Lethal malformation, which should be recognized in 1st",
+          "trimester",
+          "• Crown-rump length less than expected is not always due to",
+          "incorrect dates",
+          "• Short-term follow-up for any case when head looks",
+          "asymmetric or irregular"
+        ]
+      }
+    },
+    {
+      "id": "occipital-parietal-cephalocele",
+      "name": "Затылочная и теменная цефалокеле",
+      "nameEn": "Occipital, Parietal Cephalocele",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 92,
+      "definition": "• Meningoencephalocele: Brain tissue, meninges, and CSF • Meningocele: Meninges and CSF",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Diverse appearance of herniated tissue",
+        "Cyst within cyst or target sign seen with prolapsed ventricle",
+        "вентрикуломегалия in 70-80%",
+        "микроцефалия common in large defects",
+        "Other CNS anomalies common and adversely effects",
+        "prognosis",
+        "Assess crucial relationship to superior sagittal and other",
+        "Impacts possibility of surgical repair"
+      ],
+      "doppler_findings": [
+        "Cyst within cyst or target sign seen with prolapsed ventricle",
+        "вентрикуломегалия in 70-80%",
+        "Other CNS anomalies common and adversely effects",
+        "Assess crucial relationship to superior sagittal and other",
+        "venous sinuses with цветовой допpler and МР"
+      ],
+      "mri_findings": [
+        "venous sinuses with цветовой допpler and МР"
+      ],
+      "associated_anomalies": [
+        "Associated with multiple autosomal recessive syndromes",
+        "associated malformations"
+      ],
+      "genetic_associations": [
+        "Associated with multiple autosomal recessive syndromes",
+        "Meckel-Gruber most common genetic disorder"
+      ],
+      "differential_diagnosis": [
+        "Amniotic band syndrome",
+        "Cystic hygroma"
+      ],
+      "red_flags": [
+        "Edge artifacts may simulate cranial defect",
+        "In early pregnancy, cystic hygroma may be misdiagnosed as",
+        "cephalocele and vice versa"
+      ],
+      "follow_up": [
+        "80% of all cephaloceles in White populations of North",
+        "America and Europe are occipital; frontal encephaloceles",
+        "more common in Southeast Asia and Africa",
+        "Prognosis varies with amount of brain tissue in defect and",
+        "associated malformations",
+        "79% mortality in fetal series",
+        "Most are skin covered; therefore, maternal serum α-",
+        "fetoprotein usually not elevated"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.92: Occipital, Parietal Cephalocele"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Meningoencephalocele: Brain tissue, meninges, and CSF",
+          "• Meningocele: Meninges and CSF"
+        ],
+        "IMAGING": [
+          "• Diverse appearance of herniated tissue",
+          "• Cyst within cyst or target sign seen with prolapsed ventricle",
+          "• Ventriculomegaly in 70-80%",
+          "• Microcephaly common in large defects",
+          "• Other CNS anomalies common and adversely effects",
+          "prognosis",
+          "• Assess crucial relationship to superior sagittal and other",
+          "venous sinuses with color Doppler and MR",
+          "○ Impacts possibility of surgical repair"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Amniotic band syndrome",
+          "• Cystic hygroma"
+        ],
+        "PATHOLOGY": [
+          "• Associated with multiple autosomal recessive syndromes",
+          "• Meckel-Gruber most common genetic disorder",
+          "○ Encephalocele, polydactyly, polycystic kidneys"
+        ],
+        "CLINICAL ISSUES": [
+          "• 80% of all cephaloceles in White populations of North",
+          "America and Europe are occipital; frontal encephaloceles",
+          "more common in Southeast Asia and Africa",
+          "• Prognosis varies with amount of brain tissue in defect and",
+          "associated malformations",
+          "• 79% mortality in fetal series",
+          "• Most are skin covered; therefore, maternal serum α-",
+          "fetoprotein usually not elevated"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Edge artifacts may simulate cranial defect",
+          "• In early pregnancy, cystic hygroma may be misdiagnosed as",
+          "cephalocele and vice versa"
+        ]
+      }
+    },
+    {
+      "id": "atretic-cephalocele",
+      "name": "Атретическая цефалокеле",
+      "nameEn": "Atretic Cephalocele",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 96,
+      "definition": "• Atretic cephalocele (AC): Form fruste of encephalocele with dura, fibrous tissue, and dysplastic neuroglial rests",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Small scalp mass with variable эхогенныйity",
+        "Midline interparietal (most common) followed by occipital",
+        "Examine calvarium closely",
+        "Small defects may be difficult to detect",
+        "Conversely, edge artifact may give erroneous",
+        "appearance of cranial defect when none is present",
+        "Other CNS anomalies common: Callosal malformations,",
+        "гольопrosencephalia / гольопrosencephalia / holoprosencephaly spectrum, interhemispheric cyst",
+        "Fibrous tract and vertical falcine venous sinus extend to",
+        "subcutaneous scalp mass",
+        "Prominent superior cerebellar cistern, peaked tentorium",
+        "Evaluate for additional anomalies, including heterotopia",
+        "and other migrational abnormalities"
+      ],
+      "doppler_findings": [
+        "Small scalp mass with variable эхогенныйity",
+        "Midline interparietal (most common) followed by occipital",
+        "Examine calvarium closely",
+        "гольопrosencephalia / гольопrosencephalia / holoprosencephaly spectrum, interhemispheric cyst",
+        "subcutaneous scalp mass",
+        "Prominent superior cerebellar cistern, peaked tentorium",
+        "Evaluate for additional anomalies, including heterotopia"
+      ],
+      "mri_findings": [
+        "МР very helpful in work-up"
+      ],
+      "associated_anomalies": [
+        "Outcome primarily determined by associated anomalies",
+        "occipital had additional CNS anomalies",
+        "Those with no associated intracranial anomalies usually"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Scalp masses: Hemangioma, lymphangioma"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "All require postnatal МР"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "All require postnatal МР",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.96: Atretic Cephalocele"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Atretic cephalocele (AC): Form fruste of encephalocele with",
+          "dura, fibrous tissue, and dysplastic neuroglial rests"
+        ],
+        "IMAGING": [
+          "• Small scalp mass with variable echogenicity",
+          "• Midline interparietal (most common) followed by occipital",
+          "• Examine calvarium closely",
+          "○ Small defects may be difficult to detect",
+          "○ Conversely, edge artifact may give erroneous",
+          "appearance of cranial defect when none is present",
+          "• Other CNS anomalies common: Callosal malformations,",
+          "holoprosencephaly spectrum, interhemispheric cyst",
+          "• MR very helpful in work-up",
+          "○ Fibrous tract and vertical falcine venous sinus extend to",
+          "subcutaneous scalp mass",
+          "○ Prominent superior cerebellar cistern, peaked tentorium",
+          "○ Evaluate for additional anomalies, including heterotopia",
+          "and other migrational abnormalities"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Scalp masses: Hemangioma, lymphangioma"
+        ],
+        "PATHOLOGY": [
+          "• Involuted true cephalocele (meningocele or encephalocele)",
+          "vs. neural crest remnant"
+        ],
+        "CLINICAL ISSUES": [
+          "• Small cephaloceles may \"disappear\" with advancing",
+          "gestation",
+          "○ All require postnatal MR",
+          "• Outcome primarily determined by associated anomalies",
+          "• In review of 208 patients, 73.3% of parietal and 32.4% of",
+          "occipital had additional CNS anomalies",
+          "○ Occipital also less likely to involve dural sinuses",
+          "• Those with no associated intracranial anomalies usually",
+          "have good clinical outcomes",
+          "• Always consider AC in differential of fetal scalp mass even if",
+          "no obvious bone defect seen"
+        ]
+      }
+    },
+    {
+      "id": "frontal-cephalocele",
+      "name": "Лобная цефалокеле",
+      "nameEn": "Frontal Cephalocele",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 98,
+      "definition": "• Definition: Frontal bone defect with protrusion of intracranial structures ○ Frontoethmoidal (most common): Defect between frontal and ethmoidal bones ○ Nasofrontal: Defect between frontal and носовая костьs ○ Nasoorbital: Defect through medial orbit",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Cranial contents herniating through anterior skull defect",
+        "Often covered by skin",
+        "± brain parenchyma ± meninges",
+        "Fetus with facial mass",
+        "Hypertelorism common",
+        "for associated brain anomalies",
+        "Dysgenesis of мозолистое тело (common)",
+        "Heterotopia",
+        "Midline craniofacial dysraphism"
+      ],
+      "doppler_findings": [
+        "Cranial contents herniating through anterior skull defect",
+        "Hypertelorism common",
+        "Heterotopia"
+      ],
+      "mri_findings": [
+        "Consider МР for better anatomic delineation and to look"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Nasal glioma",
+        "Dermoid cyst"
+      ],
+      "red_flags": [
+        "Consider frontal cephalocele when unexplained",
+        "hypertelorism present"
+      ],
+      "follow_up": [
+        "If isolated and small, prognosis is generally good",
+        "Treatment with surgical resection",
+        "Endoscopic resection often performed",
+        "Complications include meningitis and brain abscess"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.98: Frontal Cephalocele"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Definition: Frontal bone defect with protrusion of",
+          "intracranial structures",
+          "○ Frontoethmoidal (most common): Defect between",
+          "frontal and ethmoidal bones",
+          "○ Nasofrontal: Defect between frontal and nasal bones",
+          "○ Nasoorbital: Defect through medial orbit"
+        ],
+        "IMAGING": [
+          "• Cranial contents herniating through anterior skull defect",
+          "○ Often covered by skin",
+          "○ ± brain parenchyma ± meninges",
+          "• Fetus with facial mass",
+          "○ Hypertelorism common",
+          "• Consider MR for better anatomic delineation and to look",
+          "for associated brain anomalies",
+          "○ Dysgenesis of corpus callosum (common)",
+          "○ Heterotopia",
+          "○ Midline craniofacial dysraphism"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Nasal glioma",
+          "• Dermoid cyst"
+        ],
+        "PATHOLOGY": [
+          "• Classification based on content",
+          "○ Meningoencephalocele: Meninges + brain tissue",
+          "○ Meningocele: Only meninges",
+          "○ Atretic cephalocele: Dura + fibrous tissue"
+        ],
+        "CLINICAL ISSUES": [
+          "• If isolated and small, prognosis is generally good",
+          "• Treatment with surgical resection",
+          "○ Endoscopic resection often performed",
+          "• Complications include meningitis and brain abscess"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Consider frontal cephalocele when unexplained",
+          "hypertelorism present"
+        ]
+      }
+    },
+    {
+      "id": "agenesis-dysgenesis-of-the-corpus-callosum",
+      "name": "Агенезия/дисгенез мозолистого тела",
+      "nameEn": "Agenesis/Dysgenesis of the Corpus Callosum",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 100,
+      "definition": "• Agenesis: Complete absence of мозолистое тело (CC) • Hypogenesis: Partial or incomplete formation of CC • Dysgenesis: Abnormal development of CC (e.g., callosal abnormalities seen in гольопrosencephalia / гольопrosencephalia / holoprosencephaly)",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Axial plane: Absent полость прозрачной перегородки (CSP) (CSP), teardrop-",
+        "shaped &/or parallel lateral ventricles",
+        "Coronal plane: Absent CSP, Texas longhorn morphology to",
+        "anterior horns of lateral ventricles, nonvisualization of CC",
+        "Midline sagittal plane: Absent or abnormal CC complex",
+        "Use 3D US with multislice display to evaluate in all 3 planes",
+        "Mild вентрикуломегалия often 1st clue",
+        "Elevated 3rd ventricle",
+        "75% of ACC will have associated anomalies",
+        "Other CNS anomalies 50%, body anomalies 60%",
+        "of cases, changes management in > 1/3"
+      ],
+      "doppler_findings": [
+        "shaped &/or parallel lateral ventricles",
+        "anterior horns of lateral ventricles, nonvisualization of CC",
+        "Use 3D US with multislice display to evaluate in all 3 planes",
+        "Mild вентрикуломегалия often 1st clue",
+        "Elevated 3rd ventricle"
+      ],
+      "mri_findings": [
+        "МРТ плода recommended: Finds other abnormalities in > 1/2"
+      ],
+      "associated_anomalies": [
+        "Chromosomal anomalies in 15-20% of cases",
+        "associated abnormalities after birth"
+      ],
+      "genetic_associations": [
+        "Association with multiple named syndromes and",
+        "> 80 chromosomal, genetic, and sporadic syndromes",
+        "Chromosomal anomalies in 15-20% of cases"
+      ],
+      "differential_diagnosis": [
+        "Mild вентрикуломегалия",
+        "Lobar гольопrosencephalia / гольопrosencephalia / holoprosencephaly"
+      ],
+      "red_flags": [
+        "Absent CSP crucial clue",
+        "Do not mistake paired fornices for CSP",
+        "ACC often missed or misdiagnosed as вентрикуломегалия"
+      ],
+      "follow_up": [
+        "кaryotyping / кариотипирование recommended even if isolated finding"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "associated abnormalities after birth",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.100: Agenesis/Dysgenesis of the Corpus Callosum"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Agenesis: Complete absence of corpus callosum (CC)",
+          "• Hypogenesis: Partial or incomplete formation of CC",
+          "• Dysgenesis: Abnormal development of CC (e.g., callosal",
+          "abnormalities seen in holoprosencephaly)"
+        ],
+        "IMAGING": [
+          "• Axial plane: Absent cavum septi pellucidi (CSP), teardrop-",
+          "shaped &/or parallel lateral ventricles",
+          "• Coronal plane: Absent CSP, Texas longhorn morphology to",
+          "anterior horns of lateral ventricles, nonvisualization of CC",
+          "• Midline sagittal plane: Absent or abnormal CC complex",
+          "• Use 3D US with multislice display to evaluate in all 3 planes",
+          "• Mild ventriculomegaly often 1st clue",
+          "• Elevated 3rd ventricle",
+          "• 75% of ACC will have associated anomalies",
+          "○ Other CNS anomalies 50%, body anomalies 60%",
+          "• Fetal MR recommended: Finds other abnormalities in > 1/2",
+          "of cases, changes management in > 1/3"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Mild ventriculomegaly",
+          "• Lobar holoprosencephaly"
+        ],
+        "PATHOLOGY": [
+          "• Association with multiple named syndromes and",
+          "malformations in 50-80% of cases",
+          "○ > 80 chromosomal, genetic, and sporadic syndromes",
+          "○ Chromosomal anomalies in 15-20% of cases"
+        ],
+        "CLINICAL ISSUES": [
+          "• Karyotype recommended even if isolated finding",
+          "• ~ 15% of cases thought to be isolated prenatally have",
+          "associated abnormalities after birth"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Absent CSP crucial clue",
+          "• Do not mistake paired fornices for CSP",
+          "• ACC often missed or misdiagnosed as ventriculomegaly"
+        ]
+      }
+    },
+    {
+      "id": "interhemispheric-cyst-avid",
+      "name": "Межполушарная киста/АВИД",
+      "nameEn": "Interhemispheric Cyst/AVID",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 104,
+      "definition": "• Intracranial cyst centered near midline ○ ± communication with ventricles • AVID:  Asymmetric вентрикуломегалия with interhemispheric cyst (IHC) and dysgenesis of мозолистое тело",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Smooth-walled, анэхогенный IHC, which displaces adjacent",
+        "brain",
+        "Hallmark feature of AVID is asymmetric вентрикуломегалия,",
+        "which is often marked",
+        "Due to type 1a IHC in continuity with ipsilateral ventricle",
+        "Affected ventricle with underlying cyst usually at least",
+        "50% greater in diameter than contralateral side",
+        "Cyst wall often difficult to visualize",
+        "Absent полость прозрачной перегородки (CSP)",
+        "Callosal anomaly (agenesis or dysgenesis)",
+        "Progressive hydrocephalus and макроцефалия"
+      ],
+      "doppler_findings": [
+        "Hallmark feature of AVID is asymmetric вентрикуломегалия,",
+        "Due to type 1a IHC in continuity with ipsilateral ventricle",
+        "Affected ventricle with underlying cyst usually at least",
+        "Cyst wall often difficult to visualize",
+        "Best evaluated with МР"
+      ],
+      "mri_findings": [
+        "Best evaluated with МР"
+      ],
+      "associated_anomalies": [
+        "anomalies, heterotopia, pachygyria, polymicrogyria"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Porencephalic cyst",
+        "Occurs in area of brain destruction, no mass effect",
+        "Arachnoid cyst",
+        "Schizencephaly"
+      ],
+      "red_flags": [
+        "Consider AVID triad if markedly asymmetric",
+        "вентрикуломегалия is present"
+      ],
+      "follow_up": [
+        "Follow for hydrocephalus/макроцефалия"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "May influence location, timing, and mode of delivery",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.104: Interhemispheric Cyst/AVID"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Intracranial cyst centered near midline",
+          "○ ± communication with ventricles",
+          "• AVID:  Asymmetric ventriculomegaly with interhemispheric",
+          "cyst (IHC) and dysgenesis of corpus callosum"
+        ],
+        "IMAGING": [
+          "• Smooth-walled, anechoic IHC, which displaces adjacent",
+          "brain",
+          "• Hallmark feature of AVID is asymmetric ventriculomegaly,",
+          "which is often marked",
+          "○ Due to type 1a IHC in continuity with ipsilateral ventricle",
+          "○ Affected ventricle with underlying cyst usually at least",
+          "50% greater in diameter than contralateral side",
+          "○ Cyst wall often difficult to visualize",
+          "• Absent cavum septi pellucidi",
+          "• Callosal anomaly (agenesis or dysgenesis)",
+          "• Progressive hydrocephalus and macrocephaly",
+          "• Best evaluated with MR"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Porencephalic cyst",
+          "○ Occurs in area of brain destruction, no mass effect",
+          "• Arachnoid cyst",
+          "• Schizencephaly"
+        ],
+        "PATHOLOGY": [
+          "• Aberrant neuronal migration may cause IHC with callosal",
+          "anomalies, heterotopia, pachygyria, polymicrogyria"
+        ],
+        "CLINICAL ISSUES": [
+          "• Follow for hydrocephalus/macrocephaly",
+          "○ May influence location, timing, and mode of delivery",
+          "• Infants with AVID very likely to require neurosurgical CSF",
+          "shunting"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Consider AVID triad if markedly asymmetric",
+          "ventriculomegaly is present"
+        ]
+      }
+    },
+    {
+      "id": "aprosencephaly-atelencephaly",
+      "name": "Апрозенцефалия, ателенцефалия",
+      "nameEn": "Aprosencephaly, Atelencephaly",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 108,
+      "definition": "• Aprosencephaly: Failed development of prosencephalon (forebrain precursor) • XK aprosencephaly: Syndromal aprosencephaly associated with limb, heart, genital defects • Atelencephaly: Abnormal prosencephalon division into telencephalon/diencephalon with only rudimentary diencephalic structures formed",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Severe микроцефалия ± limb abnormalities",
+        "Fluid-filled, small calvarium with absence of supratentorial",
+        "structures",
+        "Cerebellum may be normal or hypoplastic",
+        "Severe craniofacial anomalies",
+        "May have no recognizable facial features",
+        "Use endovaginal US in early gestation to confirm abnormal",
+        "brain with intact skull"
+      ],
+      "doppler_findings": [
+        "Fluid-filled, small calvarium with absence of supratentorial"
+      ],
+      "mri_findings": [
+        "Consider МР to confirm diagnosis"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Anencephaly",
+        "гольопrosencephalia / гольопrosencephalia / holoprosencephaly",
+        "Hydranencephaly"
+      ],
+      "red_flags": [
+        "Severe микроцефалия is associated with bad outcome",
+        "regardless of etiology"
+      ],
+      "follow_up": [
+        "Prenatal or neonatal death",
+        "Offer termination or avoid fetal monitoring/operative",
+        "delivery in confirmed cases"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Offer termination or avoid fetal monitoring/operative delivery in confirmed cases",
+      "postnatal_management": "Prenatal or neonatal death",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.108: Aprosencephaly, Atelencephaly"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Aprosencephaly: Failed development of prosencephalon",
+          "(forebrain precursor)",
+          "• XK aprosencephaly: Syndromal aprosencephaly associated",
+          "with limb, heart, genital defects",
+          "• Atelencephaly: Abnormal prosencephalon division into",
+          "telencephalon/diencephalon with only rudimentary",
+          "diencephalic structures formed"
+        ],
+        "IMAGING": [
+          "• Severe microcephaly ± limb abnormalities",
+          "• Fluid-filled, small calvarium with absence of supratentorial",
+          "structures",
+          "• Cerebellum may be normal or hypoplastic",
+          "• Severe craniofacial anomalies",
+          "○ May have no recognizable facial features",
+          "• Use endovaginal US in early gestation to confirm abnormal",
+          "brain with intact skull",
+          "• Consider MR to confirm diagnosis"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Anencephaly",
+          "• Holoprosencephaly",
+          "• Hydranencephaly"
+        ],
+        "PATHOLOGY": [
+          "• Generally sporadic",
+          "• Autosomal recessive in some families",
+          "• Partial monosomy 13q"
+        ],
+        "CLINICAL ISSUES": [
+          "• Prenatal or neonatal death",
+          "• Offer termination or avoid fetal monitoring/operative",
+          "delivery in confirmed cases"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Severe microcephaly is associated with bad outcome",
+          "regardless of etiology"
+        ]
+      }
+    },
+    {
+      "id": "alobar-holoprosencephaly",
+      "name": "Алобарная голопросенцефалия",
+      "nameEn": "Alobar Holoprosencephaly",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 110,
+      "definition": "• Alobar гольопrosencephalia / гольопrosencephalia / holoprosencephaly (ALHPE) implies complete or nearly complete lack of separation of cerebral hemispheres",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "1st trimester: Absent butterfly sign",
+        "2nd/3rd trimester",
+        "Monoventricle, absent midline structures, fused thalami,",
+        "facial anomalies",
+        "Dorsal cyst in 92% of cases"
+      ],
+      "doppler_findings": [
+        "1st trimester: Absent butterfly sign",
+        "2nd/3rd trimester",
+        "Monoventricle, absent midline structures, fused thalami,"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [
+        "Chromosomal abnormalities in 25-75% of cases"
+      ],
+      "differential_diagnosis": [
+        "Atelencephaly, aprosencephaly",
+        "Hydranencephaly",
+        "Aqueductal stenosis"
+      ],
+      "red_flags": [
+        "Diagnosis of ALHPE can be made at time of nuchal",
+        "translucency screening",
+        "Facial malformations of any kind should trigger very careful",
+        "evaluation of brain",
+        "\"The face predicts the brain\"",
+        "Firm diagnosis essential for pregnancy and delivery",
+        "management"
+      ],
+      "follow_up": [
+        "Offer кaryotyping / кариотипирование"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Offer termination",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.110: Alobar Holoprosencephaly"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Alobar holoprosencephaly (ALHPE) implies complete or",
+          "nearly complete lack of separation of cerebral hemispheres"
+        ],
+        "IMAGING": [
+          "• 1st trimester: Absent butterfly sign",
+          "• 2nd/3rd trimester",
+          "○ Monoventricle, absent midline structures, fused thalami,",
+          "facial anomalies",
+          "○ Dorsal cyst in 92% of cases"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Atelencephaly, aprosencephaly",
+          "• Hydranencephaly",
+          "• Aqueductal stenosis"
+        ],
+        "PATHOLOGY": [
+          "• Chromosomal abnormalities in 25-75% of cases",
+          "○ Trisomy 13 most common",
+          "• Pregestational diabetes confers 13.1% adjusted odds ratio",
+          "for HPE"
+        ],
+        "CLINICAL ISSUES": [
+          "• Offer karyotype",
+          "• Offer termination",
+          "• In utero demise and stillbirth common",
+          "• 50% of ALHPE patients die < 5 months, 80% die < 1 year",
+          "• Survivors have hypotonia, feeding difficulties, seizure",
+          "disorder"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Diagnosis of ALHPE can be made at time of nuchal",
+          "translucency screening",
+          "• Facial malformations of any kind should trigger very careful",
+          "evaluation of brain",
+          "○ \"The face predicts the brain\"",
+          "• Firm diagnosis essential for pregnancy and delivery",
+          "management"
+        ]
+      }
+    },
+    {
+      "id": "semilobar-holoprosencephaly",
+      "name": "Пололобарная голопросенцефалия",
+      "nameEn": "Semilobar Holoprosencephaly",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 114,
+      "definition": "• Intermediate severity in гольопrosencephalia / гольопrosencephalia / holoprosencephaly (HPE) spectrum due to partial cleavage of prosencephalon",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "микроцефалия common",
+        "Absent полость прозрачной перегородки (CSP) (CSP)",
+        "Interhemispheric fissure (IHF) present posteriorly but not",
+        "anteriorly",
+        "Anterior communication of ventricles with separate",
+        "occipital horns",
+        "Some attempt at 3rd ventricle/temporal horn formation",
+        "but no frontal horns",
+        "Thalami completely/partially fused ± dorsal cyst",
+        "Facial anomalies milder than seen with alobar HPE",
+        "Hypotelorism, median cleft, cebocephaly",
+        "to be more specific for diagnosis"
+      ],
+      "doppler_findings": [
+        "Interhemispheric fissure (IHF) present posteriorly but not",
+        "anteriorly",
+        "Anterior communication of ventricles with separate",
+        "occipital horns",
+        "Some attempt at 3rd ventricle/temporal horn formation",
+        "Hypotelorism, median cleft, cebocephaly",
+        "МР very helpful for detailed evaluation of brain and shown"
+      ],
+      "mri_findings": [
+        "МР very helpful for detailed evaluation of brain and shown"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Alobar HPE",
+        "Other causes of absent CSP",
+        "Syntelencephaly",
+        "Lobar HPE",
+        "Agenesis/dysgenesis of мозолистое тело",
+        "Open-lip schizencephaly"
+      ],
+      "red_flags": [
+        "Use all scan planes ± vaginal US and 3D volume acquisition",
+        "for work-up of absent CSP",
+        "HPE spectrum is only brain malformation where posterior",
+        "CC is present but anterior CC is absent"
+      ],
+      "follow_up": [
+        "Offer амниocentesis, discuss termination"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Offer амниocentesis, discuss termination",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.114: Semilobar Holoprosencephaly"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Intermediate severity in holoprosencephaly (HPE) spectrum",
+          "due to partial cleavage of prosencephalon"
+        ],
+        "IMAGING": [
+          "• Microcephaly common",
+          "• Absent cavum septi pellucidi (CSP)",
+          "• Interhemispheric fissure (IHF) present posteriorly but not",
+          "anteriorly",
+          "• Anterior communication of ventricles with separate",
+          "occipital horns",
+          "• Some attempt at 3rd ventricle/temporal horn formation",
+          "but no frontal horns",
+          "• Thalami completely/partially fused ± dorsal cyst",
+          "• Facial anomalies milder than seen with alobar HPE",
+          "○ Hypotelorism, median cleft, cebocephaly",
+          "• MR very helpful for detailed evaluation of brain and shown",
+          "to be more specific for diagnosis"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Alobar HPE",
+          "• Other causes of absent CSP",
+          "○ Syntelencephaly",
+          "○ Lobar HPE",
+          "○ Agenesis/dysgenesis of corpus callosum",
+          "○ Open-lip schizencephaly"
+        ],
+        "CLINICAL ISSUES": [
+          "• Offer amniocentesis, discuss termination",
+          "• Not lethal condition",
+          "○ Some with semilobar HPE survive into teens but with",
+          "significant impairment"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Use all scan planes ± vaginal US and 3D volume acquisition",
+          "for work-up of absent CSP",
+          "• HPE spectrum is only brain malformation where posterior",
+          "CC is present but anterior CC is absent"
+        ]
+      }
+    },
+    {
+      "id": "lobar-holoprosencephaly",
+      "name": "Лобарная голопросенцефалия",
+      "nameEn": "Lobar Holoprosencephaly",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 116,
+      "definition": "• Lobar гольопrosencephalia / гольопrosencephalia / holoprosencephaly (LHPE) is least severe form of гольопrosencephalia / гольопrosencephalia / holoprosencephaly (HPE) spectrum • Interhemispheric fissure (IHF) present along entire midline with differentiation of cerebral hemispheres • Neuropathology definition specifies at least 1 gyrus in continuity across midline",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Absent CSP may be only finding at 2nd-trimester scan",
+        "Small head size may progress to микроцефалия",
+        "Fused fornices have been described as specific sign of LHPE",
+        "on fetal US; however, they have been seen in other",
+        "conditions",
+        "Gyral continuity, which, by definition, must be present,"
+      ],
+      "doppler_findings": [
+        "Absent CSP may be only finding at 2nd-trimester scan",
+        "Fused fornices have been described as specific sign of LHPE"
+      ],
+      "mri_findings": [
+        "easier to see on МР than on US"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "dysplasia septo-optica / SOD",
+        "Agenesis of мозолистое тело (CC)",
+        "Syntelencephaly"
+      ],
+      "red_flags": [
+        "Absent CSP is important marker for midline malformation",
+        "HPE spectrum is only brain malformation where posterior",
+        "CC is present but anterior CC is absent"
+      ],
+      "follow_up": [
+        "Significant proportion with mild LHPE survive into",
+        "childhood and beyond",
+        "Survivors often with hypothalamic dysfunction, feeding",
+        "difficulties, spasticity/dystonia",
+        "70% have diabetes insipidus → fluid/electrolyte imbalance",
+        "40% have seizure disorder"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.116: Lobar Holoprosencephaly"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Lobar holoprosencephaly (LHPE) is least severe form of",
+          "holoprosencephaly (HPE) spectrum",
+          "• Interhemispheric fissure (IHF) present along entire midline",
+          "with differentiation of cerebral hemispheres",
+          "• Neuropathology definition specifies at least 1 gyrus in",
+          "continuity across midline"
+        ],
+        "IMAGING": [
+          "• Absent CSP may be only finding at 2nd-trimester scan",
+          "• Small head size may progress to microcephaly",
+          "• Fused fornices have been described as specific sign of LHPE",
+          "on fetal US; however, they have been seen in other",
+          "conditions",
+          "• Gyral continuity, which, by definition, must be present,",
+          "easier to see on MR than on US"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Septo-optic dysplasia",
+          "• Agenesis of corpus callosum (CC)",
+          "• Syntelencephaly"
+        ],
+        "PATHOLOGY": [
+          "• Most are sporadic but some known mutations/deletions",
+          "○ Autosomal recessive STIL mutation, 10q24.3-25.1",
+          "deletion"
+        ],
+        "CLINICAL ISSUES": [
+          "• Significant proportion with mild LHPE survive into",
+          "childhood and beyond",
+          "• Survivors often with hypothalamic dysfunction, feeding",
+          "difficulties, spasticity/dystonia",
+          "• 70% have diabetes insipidus → fluid/electrolyte imbalance",
+          "• 40% have seizure disorder"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Absent CSP is important marker for midline malformation",
+          "• HPE spectrum is only brain malformation where posterior",
+          "CC is present but anterior CC is absent"
+        ]
+      }
+    },
+    {
+      "id": "septo-optic-dysplasia",
+      "name": "Септо-оптическая дисплазия",
+      "nameEn": "Septo-Optic Dysplasia",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 118,
+      "definition": "• dysplasia septo-optica / SOD is defined as association of ○ Optic nerve hypoplasia (ONH) ○ Midline brain malformation ○ ± hypopituitarism",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Absent полость прозрачной перегородки (CSP) (CSP) is key fetal feature but",
+        "not diagnostic; clinical confirmation required",
+        "Frontal horns in communication across midline",
+        "Coronal view though frontal horns shows flat-top or",
+        "squared shape coming to point inferiorly"
+      ],
+      "doppler_findings": [
+        "squared shape coming to point inferiorly"
+      ],
+      "mri_findings": [
+        "МР may reveal additional findings not appreciated on US"
+      ],
+      "associated_anomalies": [
+        "Prognosis depends on severity and associated",
+        "associated conditions"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Agenesis of мозолистое тело",
+        "Lobar гольопrosencephalia / гольопrosencephalia / holoprosencephaly",
+        "Open-lip schizencephaly",
+        "Isolated agenesis of septum pellucidum"
+      ],
+      "red_flags": [
+        "CSP is marker of normal fetal CNS development",
+        "Do not assume absent CSP is \"technical\"",
+        "Even if absent CSP not embryologically linked to ONH,",
+        "affected fetuses need evaluation for midline brain/optic",
+        "chiasm abnormalities",
+        "Diagnosis of isolated septal dysgenesis is clinical in neonate",
+        "Requires normal ophthalmologic exam and normal",
+        "endocrine function"
+      ],
+      "follow_up": [
+        "Prognosis depends on severity and associated",
+        "abnormalities",
+        "ONH is leading cause of congenital blindness",
+        "Children with ONH require careful monitoring for",
+        "associated conditions",
+        "Risk of endocrine dysfunction highest in children ≤ 2 years",
+        "of age when ONH + CSP/мозолистое тело dysgenesis",
+        "present"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.118: Septo-Optic Dysplasia"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Septo-optic dysplasia is defined as association of",
+          "○ Optic nerve hypoplasia (ONH)",
+          "○ Midline brain malformation",
+          "○ ± hypopituitarism"
+        ],
+        "IMAGING": [
+          "• Absent cavum septi pellucidi (CSP) is key fetal feature but",
+          "not diagnostic; clinical confirmation required",
+          "• Frontal horns in communication across midline",
+          "• Coronal view though frontal horns shows flat-top or",
+          "squared shape coming to point inferiorly",
+          "• MR may reveal additional findings not appreciated on US"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Agenesis of corpus callosum",
+          "• Lobar holoprosencephaly",
+          "• Open-lip schizencephaly",
+          "• Isolated agenesis of septum pellucidum"
+        ],
+        "CLINICAL ISSUES": [
+          "• Prognosis depends on severity and associated",
+          "abnormalities",
+          "• ONH is leading cause of congenital blindness",
+          "• Children with ONH require careful monitoring for",
+          "associated conditions",
+          "• Risk of endocrine dysfunction highest in children ≤ 2 years",
+          "of age when ONH + CSP/corpus callosum dysgenesis",
+          "present"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• CSP is marker of normal fetal CNS development",
+          "○ Do not assume absent CSP is \"technical\"",
+          "• Even if absent CSP not embryologically linked to ONH,",
+          "affected fetuses need evaluation for midline brain/optic",
+          "chiasm abnormalities",
+          "• Diagnosis of isolated septal dysgenesis is clinical in neonate",
+          "○ Requires normal ophthalmologic exam and normal",
+          "endocrine function"
+        ]
+      }
+    },
+    {
+      "id": "syntelencephaly",
+      "name": "Синтеленцефалия",
+      "nameEn": "Syntelencephaly",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 122,
+      "definition": "• Variant of гольопrosencephalia / гольопrosencephalia / holoprosencephaly characterized by midline fusion of posterior frontal and parietal lobes",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Absent полость прозрачной перегородки (CSP) (CSP)",
+        "Communication of ventricles across midline",
+        "Anteriorly displaced and abnormal-appearing sylvian",
+        "fissures on US",
+        "Connect across midline over vertex, creating anomalous",
+        "Interhemispheric fissure (IHF) present anteriorly and",
+        "posteriorly",
+        "Separate frontal and occipital lobes",
+        "Fusion of posterior frontal and parietal lobes across",
+        "midline",
+        "Dorsal cyst in 25%",
+        "Thalamic fusion in 33%",
+        "Face is generally normal"
+      ],
+      "doppler_findings": [
+        "Communication of ventricles across midline",
+        "Anteriorly displaced and abnormal-appearing sylvian",
+        "coronally oriented fissure best seen on МР",
+        "Interhemispheric fissure (IHF) present anteriorly and",
+        "posteriorly",
+        "Separate frontal and occipital lobes",
+        "Fusion of posterior frontal and parietal lobes across"
+      ],
+      "mri_findings": [
+        "coronally oriented fissure best seen on МР"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Semilobar гольопrosencephalia / гольопrosencephalia / holoprosencephaly",
+        "IHF deficient anteriorly with variable fusion of anterior",
+        "cerebral hemispheres",
+        "Lobar гольопrosencephalia / гольопrosencephalia / holoprosencephaly",
+        "IHF present with minimal fusion of anterior cerebral",
+        "hemispheres",
+        "dysplasia septo-optica / SOD",
+        "Absent CSP with complete separation of cerebral",
+        "hemispheres",
+        "Bilateral schizencephaly",
+        "Ventricular wall often \"tented\" toward cleft",
+        "Do not confuse connected midline sylvian fissures of",
+        "syntelencephaly with bilateral schizencephaly"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Spasticity, hypotonia, seizures, visual impairment,",
+        "developmental delay"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.122: Syntelencephaly"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Variant of holoprosencephaly characterized by midline",
+          "fusion of posterior frontal and parietal lobes"
+        ],
+        "IMAGING": [
+          "• Absent cavum septi pellucidi (CSP)",
+          "• Communication of ventricles across midline",
+          "• Anteriorly displaced and abnormal-appearing sylvian",
+          "fissures on US",
+          "○ Connect across midline over vertex, creating anomalous",
+          "coronally oriented fissure best seen on MR",
+          "• Interhemispheric fissure (IHF) present anteriorly and",
+          "posteriorly",
+          "○ Separate frontal and occipital lobes",
+          "○ Fusion of posterior frontal and parietal lobes across",
+          "midline",
+          "• Dorsal cyst in 25%",
+          "• Thalamic fusion in 33%",
+          "• Face is generally normal"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Semilobar holoprosencephaly",
+          "○ IHF deficient anteriorly with variable fusion of anterior",
+          "cerebral hemispheres",
+          "• Lobar holoprosencephaly",
+          "○ IHF present with minimal fusion of anterior cerebral",
+          "hemispheres",
+          "• Septo-optic dysplasia",
+          "○ Absent CSP with complete separation of cerebral",
+          "hemispheres",
+          "• Bilateral schizencephaly",
+          "○ Ventricular wall often \"tented\" toward cleft",
+          "○ Do not confuse connected midline sylvian fissures of",
+          "syntelencephaly with bilateral schizencephaly"
+        ],
+        "CLINICAL ISSUES": [
+          "• Spasticity, hypotonia, seizures, visual impairment,",
+          "developmental delay"
+        ]
+      }
+    },
+    {
+      "id": "schizencephaly",
+      "name": "Шизенцефалия",
+      "nameEn": "Schizencephaly",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 126,
+      "definition": "• Gray matter-lined cleft in brain parenchyma ○ May be either closed lip or open lip",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Defect of brain parenchyma extending from inner table of",
+        "skull to underlying ventricle",
+        "Wedge-shaped configuration",
+        "Ventricular wall tented toward defect",
+        "Absent cavum septum pellucidum (CSP)",
+        "Unilateral (60%) or bilateral (40%)",
+        "Migrational anomalies",
+        "– Heterotopia",
+        "– Polymicrogyria",
+        "– Cortical dysplasia",
+        "Callosal agenesis/dysgenesis",
+        "Septo-optic malformations"
+      ],
+      "doppler_findings": [
+        "skull to underlying ventricle",
+        "Ventricular wall tented toward defect",
+        "– Heterotopia",
+        "– Polymicrogyria",
+        "Callosal agenesis/dysgenesis"
+      ],
+      "mri_findings": [
+        "МРТ плода detects other associated anomalies"
+      ],
+      "associated_anomalies": [
+        "Neuronal migration anomaly"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Arachnoid cyst",
+        "Porencephalic cyst",
+        "Hydranencephaly"
+      ],
+      "red_flags": [
+        "If diagnosis suspected, МРТ плода should be performed",
+        "Small defects can be difficult to detect, especially in near",
+        "field"
+      ],
+      "follow_up": [
+        "Most have neurologic impairments",
+        "Motor deficits",
+        "Neurocognitive dysfunction",
+        "Epilepsy"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.126: Schizencephaly"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Gray matter-lined cleft in brain parenchyma",
+          "○ May be either closed lip or open lip"
+        ],
+        "IMAGING": [
+          "• Defect of brain parenchyma extending from inner table of",
+          "skull to underlying ventricle",
+          "○ Wedge-shaped configuration",
+          "○ Ventricular wall tented toward defect",
+          "○ Absent cavum septum pellucidum (CSP)",
+          "○ Unilateral (60%) or bilateral (40%)",
+          "• Fetal MR detects other associated anomalies",
+          "○ Migrational anomalies",
+          "– Heterotopia",
+          "– Polymicrogyria",
+          "– Cortical dysplasia",
+          "○ Callosal agenesis/dysgenesis",
+          "○ Septo-optic malformations"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Arachnoid cyst",
+          "• Porencephalic cyst",
+          "• Hydranencephaly"
+        ],
+        "PATHOLOGY": [
+          "• Neuronal migration anomaly",
+          "• Early prenatal vascular injury has also been implicated"
+        ],
+        "CLINICAL ISSUES": [
+          "• Most have neurologic impairments",
+          "○ Motor deficits",
+          "○ Neurocognitive dysfunction",
+          "○ Epilepsy"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• If diagnosis suspected, fetal MR should be performed",
+          "• Small defects can be difficult to detect, especially in near",
+          "field"
+        ]
+      }
+    },
+    {
+      "id": "lissencephaly",
+      "name": "Лиссенцефалия",
+      "nameEn": "Lissencephaly",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 130,
+      "definition": "• Lissencephaly is abnormally smooth brain surface; it can be isolated or part of specific syndrome",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Use multiple scan planes, fissures best seen when beam is",
+        "perpendicular",
+        "Use transvaginal US if fetus is in cephalic presentation",
+        "Gyri and sulci appear in predictable sequence",
+        "Identifiable medial sulci: Parietooccipital, calcarine,",
+        "cingulate",
+        "Identifiable lateral sulci: Central, postcentral, superior",
+        "temporal",
+        "Temporal lobe asymmetry is normal",
+        "Ganglionic eminence cavitation may be helpful sign for",
+        "early detection"
+      ],
+      "doppler_findings": [
+        "Gyri and sulci appear in predictable sequence",
+        "Identifiable medial sulci: Parietooccipital, calcarine,",
+        "Identifiable lateral sulci: Central, postcentral, superior"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "associated with range of brain malformations collectively"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Incorrect dates",
+        "Hydrocephalus of any cause may obscure sulcal",
+        "development"
+      ],
+      "red_flags": [
+        "Do not suggest diagnosis at < 20 weeks of gestation",
+        "Diagnosis possible at 20-24 weeks, but false-positives may",
+        "occur due to sulcation delay"
+      ],
+      "follow_up": [
+        "Severe psychomotor retardation, developmental delay,",
+        "seizures, failure to thrive"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.130: Lissencephaly"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Lissencephaly is abnormally smooth brain surface; it can be",
+          "isolated or part of specific syndrome"
+        ],
+        "IMAGING": [
+          "• Use multiple scan planes, fissures best seen when beam is",
+          "perpendicular",
+          "○ Use transvaginal US if fetus is in cephalic presentation",
+          "• Gyri and sulci appear in predictable sequence",
+          "○ Identifiable medial sulci: Parietooccipital, calcarine,",
+          "cingulate",
+          "○ Identifiable lateral sulci: Central, postcentral, superior",
+          "temporal",
+          "• Temporal lobe asymmetry is normal",
+          "• Ganglionic eminence cavitation may be helpful sign for",
+          "early detection"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Incorrect dates",
+          "• Hydrocephalus of any cause may obscure sulcal",
+          "development"
+        ],
+        "PATHOLOGY": [
+          "• 2018 series of 811 patients: 81% with mutations",
+          "○ 40% PAFAH1B1, 23% DCX, 5% TUBA1A, 3% DYNC1H1",
+          "• Tubulin gene defects in TUBB2B, TUBB3, TUBA8, TUBG1,",
+          "TUBGCP2, TUBA1A, TBR1, TUBB2A, TUBB, TUBB4A are",
+          "associated with range of brain malformations collectively",
+          "known as tubulinopathies"
+        ],
+        "CLINICAL ISSUES": [
+          "• Severe psychomotor retardation, developmental delay,",
+          "seizures, failure to thrive"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Do not suggest diagnosis at < 20 weeks of gestation",
+          "• Diagnosis possible at 20-24 weeks, but false-positives may",
+          "occur due to sulcation delay"
+        ]
+      }
+    },
+    {
+      "id": "gray-matter-heterotopia",
+      "name": "Гетеротопия серого вещества",
+      "nameEn": "Gray Matter Heterotopia",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 134,
+      "definition": "• Abnormal location of nerve cells (in nodular or laminar distribution) between cortex and lateral ventricles",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Mild вентрикуломегалия",
+        "Nodular appearance to walls of lateral ventricles on US",
+        "Dot-dash ependyma",
+        "Heterotopic nodules follow cortical gray matter signal on all",
+        "Patterns of involvement",
+        "Asymmetric, few nodules, trigone/temporal/occipital",
+        "horns",
+        "Multiple nodules lining lateral ventricular walls",
+        "Rare descriptions of smooth, linear bands lining walls of",
+        "ventricles",
+        "Always check for associated cortical dysplasia in fetuses",
+        "with obvious brain abnormality, such as agenesis of corpus",
+        "callosum"
+      ],
+      "doppler_findings": [
+        "Mild вентрикуломегалия",
+        "Nodular appearance to walls of lateral ventricles on US",
+        "Heterotopic nodules follow cortical gray matter signal on all",
+        "Asymmetric, few nodules, trigone/temporal/occipital",
+        "Multiple nodules lining lateral ventricular walls",
+        "Rare descriptions of smooth, linear bands lining walls of",
+        "ventricles"
+      ],
+      "mri_findings": [
+        "МР sequences"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Tuberous sclerosis",
+        "Tubers do not follow gray matter signal on МР",
+        "Intracranial hemorrhage",
+        "Clot at caudothalamic groove, intraventricular blood",
+        "Infection",
+        "CMV may actually cause abnormal neuronal migration",
+        "Often associated with sick fetus; гидrops fetalis, growth",
+        "restriction"
+      ],
+      "red_flags": [
+        "Cortical dysplasia can be quite subtle; descriptions are",
+        "based on postnatal studies, which are of higher resolution",
+        "Both under and over fetal diagnosis is common"
+      ],
+      "follow_up": [
+        "Clinical symptoms of children diagnosed with heterotopia",
+        "include developmental delay, hemiparesis, seizures, autism,",
+        "and emotional disturbances"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.134: Gray Matter Heterotopia"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Abnormal location of nerve cells (in nodular or laminar",
+          "distribution) between cortex and lateral ventricles"
+        ],
+        "IMAGING": [
+          "• Mild ventriculomegaly",
+          "• Nodular appearance to walls of lateral ventricles on US",
+          "○ Dot-dash ependyma",
+          "• Heterotopic nodules follow cortical gray matter signal on all",
+          "MR sequences",
+          "• Patterns of involvement",
+          "○ Asymmetric, few nodules, trigone/temporal/occipital",
+          "horns",
+          "○ Multiple nodules lining lateral ventricular walls",
+          "○ Rare descriptions of smooth, linear bands lining walls of",
+          "ventricles",
+          "• Always check for associated cortical dysplasia in fetuses",
+          "with obvious brain abnormality, such as agenesis of corpus",
+          "callosum"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Tuberous sclerosis",
+          "○ Tubers do not follow gray matter signal on MR",
+          "• Intracranial hemorrhage",
+          "○ Clot at caudothalamic groove, intraventricular blood",
+          "• Infection",
+          "○ CMV may actually cause abnormal neuronal migration",
+          "○ Often associated with sick fetus; hydrops, growth",
+          "restriction"
+        ],
+        "CLINICAL ISSUES": [
+          "• Clinical symptoms of children diagnosed with heterotopia",
+          "include developmental delay, hemiparesis, seizures, autism,",
+          "and emotional disturbances"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Cortical dysplasia can be quite subtle; descriptions are",
+          "based on postnatal studies, which are of higher resolution",
+          "○ Both under and over fetal diagnosis is common"
+        ]
+      }
+    },
+    {
+      "id": "pachygyria-polymicrogyria",
+      "name": "Пачигирия, полимикрогирия",
+      "nameEn": "Pachygyria, Polymicrogyria",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 136,
+      "definition": "• Pachygyria: Broad, flattened gyri; thickened cortex • Polymicrogyria: Many small gyri",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Distortion of normal gyral/sulcal formation",
+        "Most often seen in 3rd trimester as part of complex brain",
+        "malformation",
+        "Pachygyria",
+        "Flatter, broader lumpy shape to gyri compared to normal",
+        "Polymicrogyria",
+        "Fine sawtooth or zigzag appearance to cortex"
+      ],
+      "doppler_findings": [
+        "Most often seen in 3rd trimester as part of complex brain",
+        "Pachygyria",
+        "Flatter, broader lumpy shape to gyri compared to normal",
+        "Polymicrogyria"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Cortical malformations may or may not be associated with",
+        "Confer worse prognosis if seen in conjunction with other",
+        "Many associated syndromes have autosomal recessive"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Lissencephaly syndromes",
+        "Look for ocular findings in Walker-Warburg syndrome",
+        "Congenital Cytomegalovirus (CMV) infection",
+        "Look for hepatosplenomegaly, cardiomegaly, гидrops fetalis,",
+        "growth restriction"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "reconstruction on МР may aid with recognition"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.136: Pachygyria, Polymicrogyria"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Pachygyria: Broad, flattened gyri; thickened cortex",
+          "• Polymicrogyria: Many small gyri"
+        ],
+        "IMAGING": [
+          "• Distortion of normal gyral/sulcal formation",
+          "• Most often seen in 3rd trimester as part of complex brain",
+          "malformation",
+          "• Pachygyria",
+          "○ Flatter, broader lumpy shape to gyri compared to normal",
+          "• Polymicrogyria",
+          "○ Fine sawtooth or zigzag appearance to cortex"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Lissencephaly syndromes",
+          "○ Look for ocular findings in Walker-Warburg syndrome",
+          "• Congenital Cytomegalovirus (CMV) infection",
+          "○ Look for hepatosplenomegaly, cardiomegaly, hydrops,",
+          "growth restriction"
+        ],
+        "CLINICAL ISSUES": [
+          "• Pachygyria and polygyria often occur together; common",
+          "end point of many etiologic processes",
+          "• Cortical malformations may or may not be associated with",
+          "severe neurologic symptoms",
+          "• Confer worse prognosis if seen in conjunction with other",
+          "abnormalities (e.g., agenesis of corpus callosum)",
+          "• Difficult antenatal diagnosis",
+          "○ Autopsy series including 44 fetuses showed majority had",
+          "no brain findings on fetal imaging, those with",
+          "abnormality were mostly ventriculomegaly",
+          "○ 87% with abnormal brain surface; use of surface",
+          "reconstruction on MR may aid with recognition",
+          "• Many associated syndromes have autosomal recessive",
+          "inheritance and, therefore, carry 25% recurrence risk for",
+          "each subsequent pregnancy",
+          "○ Recommend genetic counseling"
+        ]
+      }
+    },
+    {
+      "id": "tuberous-sclerosis",
+      "name": "Туберозный склероз",
+      "nameEn": "Tuberous Sclerosis",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 140,
+      "definition": "• Tuberous sclerosis (TS) or tuberous sclerosis complex (TSC) • TSC-associated neuropsychiatric disorders (TAND) ○ Collective term for autism, intellectual disability, behavioral, psychiatric issues associated with TSC",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "CNS findings may be subtle in utero",
+        "эхогенный subependymal nodules, may cause irregularity",
+        "of ventricular wall",
+        "Cortical/subcortical tubers somewhat larger эхогенный",
+        "parenchymal nodules",
+        "Subependymal giant cell astrocytoma at foramen of",
+        "Monro; uncommon but reported in fetus",
+        "Cardiac rhabdomyoma most common fetal finding",
+        "Renal cysts (macro/microcystic disease)"
+      ],
+      "doppler_findings": [
+        "эхогенный subependymal nodules, may cause irregularity",
+        "of ventricular wall"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Gray matter heterotopia",
+        "Other cortical dysplasias",
+        "Germinal matrix: Prominent normal or with hemorrhage"
+      ],
+      "red_flags": [
+        "Multiple fetal rhabdomyomas essentially diagnostic of TS",
+        "МР is modality of choice for fetal brain evaluation"
+      ],
+      "follow_up": [
+        "Fetal presentation with family history of TS or detection of",
+        "cardiac rhabdomyoma in 2nd trimester",
+        "Postnatal work-up for TS warranted in at-risk pregnancies,",
+        "even if prenatal work-up negative",
+        "Mechanism-based mTOR inhibitor therapy (everolimus,",
+        "sirolimus) promising treatment of TSC"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Postnatal work-up for TS warranted in at-risk pregnancies,",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.140: Tuberous Sclerosis"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Tuberous sclerosis (TS) or tuberous sclerosis complex (TSC)",
+          "• TSC-associated neuropsychiatric disorders (TAND)",
+          "○ Collective term for autism, intellectual disability,",
+          "behavioral, psychiatric issues associated with TSC"
+        ],
+        "IMAGING": [
+          "• CNS findings may be subtle in utero",
+          "○ Echogenic subependymal nodules, may cause irregularity",
+          "of ventricular wall",
+          "○ Cortical/subcortical tubers somewhat larger echogenic",
+          "parenchymal nodules",
+          "○ Subependymal giant cell astrocytoma at foramen of",
+          "Monro; uncommon but reported in fetus",
+          "• Cardiac rhabdomyoma most common fetal finding",
+          "• Renal cysts (macro/microcystic disease)"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Gray matter heterotopia",
+          "• Other cortical dysplasias",
+          "• Germinal matrix: Prominent normal or with hemorrhage"
+        ],
+        "PATHOLOGY": [
+          "• TS caused by pathogenic mutations in either TSC1 or TSC2",
+          "○ Genes that regulate cell growth and proliferation by",
+          "inhibition of mTORC1 signaling"
+        ],
+        "CLINICAL ISSUES": [
+          "• Fetal presentation with family history of TS or detection of",
+          "cardiac rhabdomyoma in 2nd trimester",
+          "• Postnatal work-up for TS warranted in at-risk pregnancies,",
+          "even if prenatal work-up negative",
+          "• Mechanism-based mTOR inhibitor therapy (everolimus,",
+          "sirolimus) promising treatment of TSC"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Multiple fetal rhabdomyomas essentially diagnostic of TS",
+          "• MR is modality of choice for fetal brain evaluation"
+        ]
+      }
+    },
+    {
+      "id": "choroid-plexus-cyst",
+      "name": "Киста сосудистого сплетения",
+      "nameEn": "Choroid Plexus Cyst",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 144,
+      "definition": "Choroid Plexus Cyst",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Isolated choroid plexus cyst (CPC)",
+        "0.3-3.6% of all midgestation fetuses have CPC",
+        "Almost all resolve by 32 weeks",
+        "– No need for динамическое наблюдение to show resolution",
+        "Not associated with aneuploidy in low-risk patients",
+        "CPC and trisomy 18 (T18)",
+        "30-50% of fetuses with T18 have CPC",
+        "Look for other T18 markers/anomalies (might be subtle)",
+        "– задержка роста плода (ЗРП/FGR) (often early and severe)",
+        "– Multisystemic anomalies without hallmark anomaly",
+        "□ \"Strawberry calvarium,\" cardiac, omphalocele, radial",
+        "ray, others",
+        "CPC morphology and risk",
+        "Multiple and bilateral CPC do not increase risk for T18",
+        "CPC > 10 mm might increase risk for T18",
+        "Large cysts may be mistaken for вентрикуломегалия",
+        "Rarely, CPC can be seen at time of толщина воротникового пространства (ТВП) scan"
+      ],
+      "doppler_findings": [
+        "Not associated with aneuploidy in low-risk patients",
+        "CPC and trisomy 18 (T18)",
+        "– задержка роста плода (ЗРП/FGR) (often early and severe)",
+        "□ \"Strawberry calvarium,\" cardiac, omphalocele, radial",
+        "CPC morphology and risk",
+        "Multiple and bilateral CPC do not increase risk for T18",
+        "CPC > 10 mm might increase risk for T18",
+        "Large cysts may be mistaken for вентрикуломегалия"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Intraventricular hemorrhage",
+        "Blood clot adherent to CPC might mimic cyst",
+        "Often with вентрикуломегалия"
+      ],
+      "red_flags": [
+        "When CPC seen, assess a priori risk for aneuploidy",
+        "Maternal serum biochemistry results",
+        "Noninvasive prenatal testing results",
+        "Maternal age",
+        "Pregnancy history",
+        "Scan carefully for markers of T18",
+        "Refer for genetic counseling if assessment cannot be done",
+        "by US reader (do not delay this time-sensitive referral)"
+      ],
+      "follow_up": [
+        "Transient benign finding",
+        "95% resolve within 2 months from diagnosis",
+        "No prognostic importance if they do not resolve"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.144: Choroid Plexus Cyst"
+      ],
+      "sourceBlocks": {
+        "IMAGING": [
+          "• Isolated choroid plexus cyst (CPC)",
+          "○ 0.3-3.6% of all midgestation fetuses have CPC",
+          "○ Almost all resolve by 32 weeks",
+          "– No need for follow-up to show resolution",
+          "○ Not associated with aneuploidy in low-risk patients",
+          "• CPC and trisomy 18 (T18)",
+          "○ 30-50% of fetuses with T18 have CPC",
+          "○ Look for other T18 markers/anomalies (might be subtle)",
+          "– Fetal growth restriction (often early and severe)",
+          "– Multisystemic anomalies without hallmark anomaly",
+          "□ \"Strawberry calvarium,\" cardiac, omphalocele, radial",
+          "ray, others",
+          "• CPC morphology and risk",
+          "○ Multiple and bilateral CPC do not increase risk for T18",
+          "○ CPC > 10 mm might increase risk for T18",
+          "○ Large cysts may be mistaken for ventriculomegaly",
+          "• Rarely, CPC can be seen at time of nuchal translucency scan"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Intraventricular hemorrhage",
+          "○ Blood clot adherent to CPC might mimic cyst",
+          "○ Often with ventriculomegaly"
+        ],
+        "CLINICAL ISSUES": [
+          "• Transient benign finding",
+          "• 95% resolve within 2 months from diagnosis",
+          "• No prognostic importance if they do not resolve"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• When CPC seen, assess a priori risk for aneuploidy",
+          "○ Maternal serum biochemistry results",
+          "○ Noninvasive prenatal testing results",
+          "○ Maternal age",
+          "○ Pregnancy history",
+          "• Scan carefully for markers of T18",
+          "• Refer for genetic counseling if assessment cannot be done",
+          "by US reader (do not delay this time-sensitive referral)"
+        ]
+      }
+    },
+    {
+      "id": "arachnoid-cyst",
+      "name": "Арахноидальная киста",
+      "nameEn": "Arachnoid Cyst",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 146,
+      "definition": "• CSF collection enclosed within layers of arachnoid",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Extraaxial, CSF-containing cyst with thin membranous wall",
+        "2/3 supratentorial",
+        "1/3 in posterior fossa",
+        "Usually single",
+        "Displaces adjacent normal brain parenchyma",
+        "> 90% discovered after 20-weeks gestation",
+        "Remaining brain sonographically normal in majority of cases",
+        "Adjacent calvarium may be thinned, scalloped",
+        "Avascular lesion; no flow on цветовой допpler",
+        "Follows CSF signal; low T1WI, high T2WI",
+        "Buckles adjacent gray matter-white matter interface",
+        "Rarely, may exhibit rapid growth and cause obstructive",
+        "hydrocephalus"
+      ],
+      "doppler_findings": [
+        "2/3 supratentorial",
+        "1/3 in posterior fossa",
+        "Usually single",
+        "Remaining brain sonographically normal in majority of cases",
+        "Adjacent calvarium may be thinned, scalloped",
+        "Avascular lesion; no flow on цветовой допpler",
+        "Rarely, may exhibit rapid growth and cause obstructive"
+      ],
+      "mri_findings": [
+        "МР"
+      ],
+      "associated_anomalies": [
+        "May be syndromic but not typically associated with"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Interhemispheric cyst/AVID",
+        "Asymmetric вентрикуломегалия with interhemispheric cyst",
+        "and dysgenesis of мозолистое тело",
+        "Porencephalic cyst",
+        "Schizencephaly",
+        "Dandy-Walker malformation"
+      ],
+      "red_flags": [
+        "Always check Doppler in apparent cyst to rule out vascular",
+        "malformation"
+      ],
+      "follow_up": [
+        "Monitor for growth of cyst (occurs in ~ 20% of cases)",
+        "May be syndromic but not typically associated with",
+        "aneuploidy when isolated",
+        "Prognosis good if isolated abnormality",
+        "May require shunt or excision if significant mass effect"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.146: Arachnoid Cyst"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• CSF collection enclosed within layers of arachnoid"
+        ],
+        "IMAGING": [
+          "• Extraaxial, CSF-containing cyst with thin membranous wall",
+          "○ 2/3 supratentorial",
+          "○ 1/3 in posterior fossa",
+          "○ Usually single",
+          "○ Displaces adjacent normal brain parenchyma",
+          "• > 90% discovered after 20-weeks gestation",
+          "• Remaining brain sonographically normal in majority of cases",
+          "• Adjacent calvarium may be thinned, scalloped",
+          "• Avascular lesion; no flow on color Doppler",
+          "• MR",
+          "○ Follows CSF signal; low T1WI, high T2WI",
+          "○ Buckles adjacent gray matter-white matter interface",
+          "• Rarely, may exhibit rapid growth and cause obstructive",
+          "hydrocephalus"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Interhemispheric cyst/AVID",
+          "○ Asymmetric ventriculomegaly with interhemispheric cyst",
+          "and dysgenesis of corpus callosum",
+          "• Porencephalic cyst",
+          "• Schizencephaly",
+          "• Dandy-Walker malformation"
+        ],
+        "CLINICAL ISSUES": [
+          "• Monitor for growth of cyst (occurs in ~ 20% of cases)",
+          "• May be syndromic but not typically associated with",
+          "aneuploidy when isolated",
+          "• Prognosis good if isolated abnormality",
+          "• May require shunt or excision if significant mass effect"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Always check Doppler in apparent cyst to rule out vascular",
+          "malformation"
+        ]
+      }
+    },
+    {
+      "id": "intracranial-hemorrhage",
+      "name": "Внутричерепное кровоизлияние",
+      "nameEn": "Intracranial Hemorrhage",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 150,
+      "definition": "Intracranial Hemorrhage",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Avascular intracranial mass of varying эхогенныйity",
+        "Most bleeds initially hyperechoic, over time evolve →",
+        "isoechoic → гипоэхогенный",
+        "Subependymal and intraventricular most common",
+        "locations",
+        "Often associated with вентрикуломегалия",
+        "Anemia secondary to hemorrhage increases risk for",
+        "nonimmune гидrops fetalis",
+        "Acute blood typically T1 high signal, T2 low signal",
+        "Small hemorrhages may be difficult to see on ultrasound"
+      ],
+      "doppler_findings": [
+        "Subependymal and intraventricular most common",
+        "Often associated with вентрикуломегалия",
+        "Anemia secondary to hemorrhage increases risk for",
+        "Evaluation with МР useful",
+        "Acute blood typically T1 high signal, T2 low signal"
+      ],
+      "mri_findings": [
+        "Evaluation with МР useful"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Intracranial tumor",
+        "Tumors may bleed and mask underlying mass",
+        "Infection",
+        "Vascular malformation"
+      ],
+      "red_flags": [
+        "МРТ плода helpful for counseling regarding prognosis"
+      ],
+      "follow_up": [
+        "Usually diagnosed between 26- and 33-weeks gestation",
+        "Outcome relates to severity and extent of bleed",
+        "Isolated germinal matrix bleed → good outcomes",
+        "Large hemorrhage with VM → poor outcomes",
+        "– Developmental delay, seizures, fetal or neonatal",
+        "death",
+        "Maternal testing for coagulation/platelet disorder may be",
+        "warranted",
+        "Fetal transfusion may be required",
+        "Consider delivery by cesarean section"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Consider delivery by cesarean section",
+      "postnatal_management": "– Developmental delay, seizures, fetal or neonatal",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.150: Intracranial Hemorrhage"
+      ],
+      "sourceBlocks": {
+        "IMAGING": [
+          "• Avascular intracranial mass of varying echogenicity",
+          "○ Most bleeds initially hyperechoic, over time evolve →",
+          "isoechoic → hypoechoic",
+          "• Subependymal and intraventricular most common",
+          "locations",
+          "• Often associated with ventriculomegaly",
+          "• Anemia secondary to hemorrhage increases risk for",
+          "nonimmune hydrops",
+          "• Evaluation with MR useful",
+          "○ Acute blood typically T1 high signal, T2 low signal",
+          "○ Small hemorrhages may be difficult to see on ultrasound"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Intracranial tumor",
+          "○ Tumors may bleed and mask underlying mass",
+          "• Infection",
+          "• Vascular malformation"
+        ],
+        "PATHOLOGY": [
+          "• Alterations in maternal &/or fetal blood pressure",
+          "• Trauma",
+          "• Maternal thrombocytopenia/coagulation disorders"
+        ],
+        "CLINICAL ISSUES": [
+          "• Usually diagnosed between 26- and 33-weeks gestation",
+          "• Outcome relates to severity and extent of bleed",
+          "○ Isolated germinal matrix bleed → good outcomes",
+          "○ Large hemorrhage with VM → poor outcomes",
+          "– Developmental delay, seizures, fetal or neonatal",
+          "death",
+          "• Maternal testing for coagulation/platelet disorder may be",
+          "warranted",
+          "• Fetal transfusion may be required",
+          "• Consider delivery by cesarean section"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Fetal MR helpful for counseling regarding prognosis"
+        ]
+      }
+    },
+    {
+      "id": "encephalomalacia-porencephaly",
+      "name": "Энцефаломалация, поренцефалия",
+      "nameEn": "Encephalomalacia, Porencephaly",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 154,
+      "definition": "• Encephalomalacia is regional brain parenchymal damage • Porencephaly is focal cavitary lesion in communication with ventricle",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Encephalomalacia often subtle; вентрикуломегалия may be",
+        "1st clue",
+        "Affected periventricular white matter tracts have",
+        "variable эхогенныйity",
+        "Porencephalic cyst: Intraaxial, avascular, fluid-filled",
+        "structure without mass effect"
+      ],
+      "doppler_findings": [
+        "Encephalomalacia often subtle; вентрикуломегалия may be",
+        "Affected periventricular white matter tracts have",
+        "variable эхогенныйity"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Schizencephaly",
+        "Arachnoid cyst",
+        "Vascular malformation"
+      ],
+      "red_flags": [
+        "Consider МРТ плода in all suspicious cases and at-risk patients",
+        "US findings can be subtle despite severe damage",
+        "Normal US at time of acute event does not exclude brain",
+        "injury",
+        "Repeat imaging at 10-14 days from acute event",
+        "Always check for flow in any apparently cystic lesion",
+        "Vascular malformations may cause ischemic",
+        "encephalomalacia due to \"steal\" phenomenon",
+        "Always evaluate for underlying cause of hydrocephalus",
+        "Hemorrhage may be due to genetic conditions with risk",
+        "of recurrence in future pregnancies"
+      ],
+      "follow_up": [
+        "Emergency delivery does not alter outcome",
+        "Apparently mild maternal trauma may cause devastating",
+        "fetal cerebral injury",
+        "Monochorionic twin at risk if co-twin demise",
+        "Neurodevelopmental outcome generally poor",
+        "Severe developmental delay",
+        "Seizures, often refractory to anticonvulsant therapy"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Emergency delivery does not alter outcome",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.154: Encephalomalacia, Porencephaly"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Encephalomalacia is regional brain parenchymal damage",
+          "• Porencephaly is focal cavitary lesion in communication with",
+          "ventricle"
+        ],
+        "IMAGING": [
+          "• Encephalomalacia often subtle; ventriculomegaly may be",
+          "1st clue",
+          "○ Affected periventricular white matter tracts have",
+          "variable echogenicity",
+          "• Porencephalic cyst: Intraaxial, avascular, fluid-filled",
+          "structure without mass effect"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Schizencephaly",
+          "• Arachnoid cyst",
+          "• Vascular malformation"
+        ],
+        "CLINICAL ISSUES": [
+          "• Emergency delivery does not alter outcome",
+          "○ Apparently mild maternal trauma may cause devastating",
+          "fetal cerebral injury",
+          "○ Monochorionic twin at risk if co-twin demise",
+          "• Neurodevelopmental outcome generally poor",
+          "○ Severe developmental delay",
+          "○ Seizures, often refractory to anticonvulsant therapy"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Consider fetal MR in all suspicious cases and at-risk patients",
+          "○ US findings can be subtle despite severe damage",
+          "• Normal US at time of acute event does not exclude brain",
+          "injury",
+          "○ Repeat imaging at 10-14 days from acute event",
+          "• Always check for flow in any apparently cystic lesion",
+          "○ Vascular malformations may cause ischemic",
+          "encephalomalacia due to \"steal\" phenomenon",
+          "• Always evaluate for underlying cause of hydrocephalus",
+          "○ Hemorrhage may be due to genetic conditions with risk",
+          "of recurrence in future pregnancies"
+        ]
+      }
+    },
+    {
+      "id": "hydranencephaly",
+      "name": "Гидраненцефалия",
+      "nameEn": "Hydranencephaly",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 158,
+      "definition": "• Destruction of cerebral hemispheres",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Fluid-filled cranium with intact falx, preserved thalami,",
+        "cerebellum, brainstem",
+        "Occasional islands of residual tissue",
+        "Brainstem can bulge into supratentorial fluid; do not",
+        "confuse with fused thalami in гольопrosencephalia / гольопrosencephalia / holoprosencephaly",
+        "thinned, compressed cerebral cortex in severe",
+        "вентрикуломегалия",
+        "Fowler syndrome: Cerebellum, brain stem, cord are also",
+        "involved; calcifications are present"
+      ],
+      "doppler_findings": [
+        "Occasional islands of residual tissue",
+        "Brainstem can bulge into supratentorial fluid; do not",
+        "вентрикуломегалия"
+      ],
+      "mri_findings": [
+        "МР excellent for differentiating between absent brain and"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [
+        "Fowler syndrome: Autosomal recessive, FLVCR2 mutation"
+      ],
+      "differential_diagnosis": [
+        "Alobar гольопrosencephalia / гольопrosencephalia / holoprosencephaly",
+        "Falx absent",
+        "Aqueductal stenosis",
+        "Thin mantle of tissue compressed against cranium",
+        "Giant open-lip schizencephaly",
+        "Large, symmetric cortical defects lined by gray matter",
+        "Asymmetric вентрикуломегалия with interhemispheric cyst",
+        "and dysgenesis of мозолистое тело (AVID)",
+        "Falx present but not central, interhemispheric cyst,",
+        "agenesis/dysgenesis of мозолистое тело"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "If pregnancy continues avoid monitoring in labor or",
+        "neonatal resuscitation"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "neonatal resuscitation",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.158: Hydranencephaly"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Destruction of cerebral hemispheres"
+        ],
+        "IMAGING": [
+          "• Fluid-filled cranium with intact falx, preserved thalami,",
+          "cerebellum, brainstem",
+          "○ Occasional islands of residual tissue",
+          "○ Brainstem can bulge into supratentorial fluid; do not",
+          "confuse with fused thalami in holoprosencephaly",
+          "• MR excellent for differentiating between absent brain and",
+          "thinned, compressed cerebral cortex in severe",
+          "ventriculomegaly",
+          "• Fowler syndrome: Cerebellum, brain stem, cord are also",
+          "involved; calcifications are present"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Alobar holoprosencephaly",
+          "○ Falx absent",
+          "• Aqueductal stenosis",
+          "○ Thin mantle of tissue compressed against cranium",
+          "• Giant open-lip schizencephaly",
+          "○ Large, symmetric cortical defects lined by gray matter",
+          "• Asymmetric ventriculomegaly with interhemispheric cyst",
+          "and dysgenesis of corpus callosum (AVID)",
+          "○ Falx present but not central, interhemispheric cyst,",
+          "agenesis/dysgenesis of corpus callosum"
+        ],
+        "PATHOLOGY": [
+          "• Usually sporadic",
+          "• Fowler syndrome: Autosomal recessive, FLVCR2 mutation",
+          "• Attributed to destruction of normal brain in distribution of",
+          "carotid arteries",
+          "○ Medial temporal tissue may be present but never",
+          "anterior temporal"
+        ],
+        "CLINICAL ISSUES": [
+          "• If pregnancy continues avoid monitoring in labor or",
+          "neonatal resuscitation"
+        ]
+      }
+    },
+    {
+      "id": "aqueductal-stenosis",
+      "name": "Стеноз водопровода мозга",
+      "nameEn": "Aqueductal Stenosis",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 160,
+      "definition": "• Narrowing or occlusion at aqueduct of Sylvius, causing obstructive hydrocephalus ○ Causes increased intraventricular pressure",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Moderate to severe ventricular dilatation (> 15 mm)",
+        "Dilatation may be so extreme that normal ventricular",
+        "anatomy may not be discernible",
+        "3rd ventricle dilated",
+        "Look for funnel-shaped morphology of aqueduct",
+        "4th ventricle is not dilated",
+        "Cerebellum usually normal or compressed by mass effect",
+        "полость прозрачной перегородки (CSP) may be absent",
+        "Severe hydrocephalus causes fenestrations within walls",
+        "мозолистое тело thinned or not visible",
+        "Head size often large",
+        "Consider X-linked hydrocephalus in male fetus",
+        "Look for adduction-flexion deformity of thumbs",
+        "thinned cortical mantle, and subtle CNS malformations"
+      ],
+      "doppler_findings": [
+        "Moderate to severe ventricular dilatation (> 15 mm)",
+        "Dilatation may be so extreme that normal ventricular",
+        "3rd ventricle dilated",
+        "4th ventricle is not dilated",
+        "Cerebellum usually normal or compressed by mass effect",
+        "МР gives more precise anatomic evaluation of aqueduct,"
+      ],
+      "mri_findings": [
+        "МР gives more precise anatomic evaluation of aqueduct,"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Hydranencephaly",
+        "гольопrosencephalia / гольопrosencephalia / holoprosencephaly"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Developmental delay in up to 90%",
+        "X-linked hydrocephalus → severe intellectual impairment",
+        "50% recurrence risk for male fetuses",
+        "4% recurrence risk for non-X-linked cases",
+        "Ventricular shunting or endoscopic 3rd ventriculostomy",
+        "after delivery"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "after delivery",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.160: Aqueductal Stenosis"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Narrowing or occlusion at aqueduct of Sylvius, causing",
+          "obstructive hydrocephalus",
+          "○ Causes increased intraventricular pressure"
+        ],
+        "IMAGING": [
+          "• Moderate to severe ventricular dilatation (> 15 mm)",
+          "• Dilatation may be so extreme that normal ventricular",
+          "anatomy may not be discernible",
+          "• 3rd ventricle dilated",
+          "○ Look for funnel-shaped morphology of aqueduct",
+          "• 4th ventricle is not dilated",
+          "• Cerebellum usually normal or compressed by mass effect",
+          "• Cavum septi pellucidi may be absent",
+          "○ Severe hydrocephalus causes fenestrations within walls",
+          "• Corpus callosum thinned or not visible",
+          "• Head size often large",
+          "• Consider X-linked hydrocephalus in male fetus",
+          "○ Look for adduction-flexion deformity of thumbs",
+          "• MR gives more precise anatomic evaluation of aqueduct,",
+          "thinned cortical mantle, and subtle CNS malformations"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Hydranencephaly",
+          "• Holoprosencephaly"
+        ],
+        "PATHOLOGY": [
+          "• Stenosis may result from hemorrhage, developmental,",
+          "inflammatory, or infectious causes",
+          "• May also be seen in conditions with dysplastic cerebellum",
+          "or tectal plate thickening"
+        ],
+        "CLINICAL ISSUES": [
+          "• Developmental delay in up to 90%",
+          "• X-linked hydrocephalus → severe intellectual impairment",
+          "○ 50% recurrence risk for male fetuses",
+          "• 4% recurrence risk for non-X-linked cases",
+          "• Ventricular shunting or endoscopic 3rd ventriculostomy",
+          "after delivery"
+        ]
+      }
+    },
+    {
+      "id": "chiari-2-malformation",
+      "name": "Малформация Киари II",
+      "nameEn": "Chiari 2 Malformation",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 164,
+      "definition": "• Small posterior fossa with cerebellar compression and hindbrain herniation through foramen magnum • Almost always associated with ONTD",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Posterior fossa compression is key finding",
+        "Small or obliterated cisterna magna is best clue",
+        "Compressed cerebellum (variable appearance)",
+        "– Severe compression leads to banana sign",
+        "вентрикуломегалия (common and progressive)",
+        "70% at 20-24 weeks, 85% at 30-32 weeks, > 90% at",
+        "delivery",
+        "Frontal bone concavity (lemon sign)",
+        "Nonspecific and transient",
+        "Associated findings in 40%",
+        "мозолистое тело absence or dysgenesis",
+        "Clubfoot",
+        "Can be diagnosed in 1st trimester",
+        "Loss of intracranial translucency"
+      ],
+      "doppler_findings": [
+        "Posterior fossa compression is key finding",
+        "Compressed cerebellum (variable appearance)",
+        "вентрикуломегалия (common and progressive)",
+        "Can be diagnosed in 1st trimester",
+        "МР allows more detailed evaluation of both brain and spine"
+      ],
+      "mri_findings": [
+        "МР allows more detailed evaluation of both brain and spine"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Aqueductal stenosis",
+        "Progressive вентрикуломегалия with макроцефалия",
+        "Cisterna magna not obliterated",
+        "Small cerebellum from other causes",
+        "Cerebellar hypoplasia; rhombencephalosynapsis"
+      ],
+      "red_flags": [
+        "Loss of cisterna magna is enough for diagnosis (do not wait",
+        "for banana sign)",
+        "Look meticulously for ONTD when Chiari 2 seen"
+      ],
+      "follow_up": [
+        "↑ maternal serum α-fetoprotein",
+        "Offer genetic counseling/testing",
+        "Immediate postnatal ONTD surgery",
+        "Most need shunting or ventriculostomy"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Immediate postnatal ONTD surgery",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.164: Chiari 2 Malformation"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Small posterior fossa with cerebellar compression and",
+          "hindbrain herniation through foramen magnum",
+          "• Almost always associated with ONTD"
+        ],
+        "IMAGING": [
+          "• Posterior fossa compression is key finding",
+          "○ Small or obliterated cisterna magna is best clue",
+          "○ Compressed cerebellum (variable appearance)",
+          "– Severe compression leads to banana sign",
+          "• Ventriculomegaly (common and progressive)",
+          "○ 70% at 20-24 weeks, 85% at 30-32 weeks, > 90% at",
+          "delivery",
+          "• Frontal bone concavity (lemon sign)",
+          "○ Nonspecific and transient",
+          "• Associated findings in 40%",
+          "○ Corpus callosum absence or dysgenesis",
+          "○ Clubfoot",
+          "• Can be diagnosed in 1st trimester",
+          "○ Loss of intracranial translucency",
+          "• MR allows more detailed evaluation of both brain and spine"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Aqueductal stenosis",
+          "○ Progressive ventriculomegaly with macrocephaly",
+          "○ Cisterna magna not obliterated",
+          "• Small cerebellum from other causes",
+          "○ Cerebellar hypoplasia; rhombencephalosynapsis"
+        ],
+        "CLINICAL ISSUES": [
+          "• ↑ maternal serum α-fetoprotein",
+          "• Offer genetic counseling/testing",
+          "• Immediate postnatal ONTD surgery",
+          "• Most need shunting or ventriculostomy"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Loss of cisterna magna is enough for diagnosis (do not wait",
+          "for banana sign)",
+          "• Look meticulously for ONTD when Chiari 2 seen"
+        ]
+      }
+    },
+    {
+      "id": "chiari-3-malformation",
+      "name": "Малформация Киари III",
+      "nameEn": "Chiari 3 Malformation",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 168,
+      "definition": "• Hindbrain herniation (Chiari 2) with cephalocele at craniocervical junction",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Cervical cystic mass, микроцефалия, вентрикуломегалия",
+        "Low occipital, high cervical meningoencephalocele",
+        "Cephalocele content variable",
+        "Bony defect variable",
+        "– Occiput only or with cervical dysraphism",
+        "Spinal cord tethered to upper dysraphism",
+        "Features of Chiari 2 malformation obligatory for diagnosis",
+        "вентрикуломегалия common (90%)",
+        "Additional supratentorial brain anomalies common",
+        "Technique",
+        "Use transvaginal US if fetus cephalic",
+        "3D may be helpful for extent/sac content"
+      ],
+      "doppler_findings": [
+        "Cervical cystic mass, микроцефалия, вентрикуломегалия",
+        "Low occipital, high cervical meningoencephalocele",
+        "Cephalocele content variable",
+        "Bony defect variable",
+        "Spinal cord tethered to upper dysraphism",
+        "Features of Chiari 2 malformation obligatory for diagnosis",
+        "вентрикуломегалия common (90%)",
+        "Additional supratentorial brain anomalies common"
+      ],
+      "mri_findings": [
+        "МР useful for better anatomic detail"
+      ],
+      "associated_anomalies": [
+        "associated brain malformation"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Iniencephaly",
+        "Fixed extended head position",
+        "Occipital cephalocele without cervical dysraphism",
+        "Isolated or syndromic"
+      ],
+      "red_flags": [
+        "Always check cervical spine in fetuses with occipital",
+        "cephalocele"
+      ],
+      "follow_up": [
+        "Poor prognosis if large amount of brain involved or",
+        "associated brain malformation",
+        "Involved brain often dysplastic and nonfunctional",
+        "Treatment is surgical",
+        "Resection of cephalocele with closure",
+        "Often need shunts for вентрикуломегалия",
+        "Severe disabilities even if repaired",
+        "Respiratory, feeding difficulties"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Severe disabilities even if repaired",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.168: Chiari 3 Malformation"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Hindbrain herniation (Chiari 2) with cephalocele at",
+          "craniocervical junction"
+        ],
+        "IMAGING": [
+          "• Cervical cystic mass, microcephaly, ventriculomegaly",
+          "• Low occipital, high cervical meningoencephalocele",
+          "○ Cephalocele content variable",
+          "○ Bony defect variable",
+          "– Occiput only or with cervical dysraphism",
+          "○ Spinal cord tethered to upper dysraphism",
+          "• Features of Chiari 2 malformation obligatory for diagnosis",
+          "• Ventriculomegaly common (90%)",
+          "• Additional supratentorial brain anomalies common",
+          "• Technique",
+          "○ Use transvaginal US if fetus cephalic",
+          "○ 3D may be helpful for extent/sac content",
+          "○ MR useful for better anatomic detail"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Iniencephaly",
+          "○ Fixed extended head position",
+          "• Occipital cephalocele without cervical dysraphism",
+          "○ Isolated or syndromic"
+        ],
+        "CLINICAL ISSUES": [
+          "• Poor prognosis if large amount of brain involved or",
+          "associated brain malformation",
+          "○ Involved brain often dysplastic and nonfunctional",
+          "• Treatment is surgical",
+          "○ Resection of cephalocele with closure",
+          "○ Often need shunts for ventriculomegaly",
+          "• Severe disabilities even if repaired",
+          "○ Respiratory, feeding difficulties"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Always check cervical spine in fetuses with occipital",
+          "cephalocele"
+        ]
+      }
+    },
+    {
+      "id": "dandy-walker-malformation",
+      "name": "Малформация Данди–Уолкера",
+      "nameEn": "Dandy-Walker Malformation",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 170,
+      "definition": "• Dandy-Walker malformation ○ Cystic dilatation of 4th ventricle (4V) ○ Enlarged posterior fossa (PF) with tentorial elevation ○ Complete or partial agenesis of cerebellar vermis",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "1st trimester, at time of толщина воротникового пространства (ТВП) evaluation",
+        "Brainstem-occipital bone (BS-OB) diameter and 4V both",
+        "enlarged in fetuses with PF cyst",
+        "Choroid plexus not visible in 4V correlated with PF",
+        "malformation in 43% of cases in one series",
+        "2nd/3rd trimester",
+        "Wide 4V due to communication with PF cyst/cisterna",
+        "magna",
+        "Elevated torcular, transverse sinus, tentorium",
+        "Vermian agenesis/dysgenesis",
+        "– If dysgenesis, vermis is rotated superiorly",
+        "~ 70-90% have additional anomalies",
+        "worse prognosis"
+      ],
+      "doppler_findings": [
+        "1st trimester, at time of толщина воротникового пространства (ТВП) evaluation",
+        "Brainstem-occipital bone (BS-OB) diameter and 4V both",
+        "malformation in 43% of cases in one series",
+        "2nd/3rd trimester",
+        "Elevated torcular, transverse sinus, tentorium",
+        "Vermian agenesis/dysgenesis",
+        "– If dysgenesis, vermis is rotated superiorly"
+      ],
+      "mri_findings": [
+        "МР: Thinned, kinked, or Z-shaped brainstem all confer"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [
+        "Aneuploidy in ~ 50%",
+        "Can be part of syndromes (e.g., Meckel-Gruber, Walker-"
+      ],
+      "differential_diagnosis": [
+        "Persistent Blake pouch cyst",
+        "Arachnoid cyst"
+      ],
+      "red_flags": [
+        "Sagittal plane is critical to document vermian size, area,",
+        "lobulation, and degree of rotation for more precise",
+        "classification of PF abnormalities"
+      ],
+      "follow_up": [
+        "2016 metaanalysis showed 58.2% incidence",
+        "neurodevelopmental impairment"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.170: Dandy-Walker Malformation"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Dandy-Walker malformation",
+          "○ Cystic dilatation of 4th ventricle (4V)",
+          "○ Enlarged posterior fossa (PF) with tentorial elevation",
+          "○ Complete or partial agenesis of cerebellar vermis"
+        ],
+        "IMAGING": [
+          "• 1st trimester, at time of nuchal translucency evaluation",
+          "○ Brainstem-occipital bone (BS-OB) diameter and 4V both",
+          "enlarged in fetuses with PF cyst",
+          "○ Choroid plexus not visible in 4V correlated with PF",
+          "malformation in 43% of cases in one series",
+          "• 2nd/3rd trimester",
+          "○ Wide 4V due to communication with PF cyst/cisterna",
+          "magna",
+          "○ Elevated torcular, transverse sinus, tentorium",
+          "○ Vermian agenesis/dysgenesis",
+          "– If dysgenesis, vermis is rotated superiorly",
+          "• ~ 70-90% have additional anomalies",
+          "• MR: Thinned, kinked, or Z-shaped brainstem all confer",
+          "worse prognosis"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Persistent Blake pouch cyst",
+          "• Arachnoid cyst"
+        ],
+        "PATHOLOGY": [
+          "• Aneuploidy in ~ 50%",
+          "• Can be part of syndromes (e.g., Meckel-Gruber, Walker-",
+          "Warburg, PHACES)"
+        ],
+        "CLINICAL ISSUES": [
+          "• 2016 metaanalysis showed 58.2% incidence",
+          "neurodevelopmental impairment"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Sagittal plane is critical to document vermian size, area,",
+          "lobulation, and degree of rotation for more precise",
+          "classification of PF abnormalities"
+        ]
+      }
+    },
+    {
+      "id": "vermian-dysgenesis",
+      "name": "Дисгенез червя мозжечка",
+      "nameEn": "Vermian Dysgenesis",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 174,
+      "definition": "• Partial dysgenesis or complete agenesis of cerebellar vermis",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Keyhole appearance of 4th ventricle (V4) in oblique axial",
+        "plane on standard brain views",
+        "True midline sagittal plane critical in assessment",
+        "– Lack of sharp fastigial point (apex of V4), loss of V4",
+        "triangular shape",
+        "– Vermis rotated superiorly with ↑ tegmentovermian",
+        "angle (34.9°± 5.4° in one study)",
+        "– Normal torcular position",
+        "– Choroid plexus abnormally located, dependent within",
+        "posterior fossa (PF)"
+      ],
+      "doppler_findings": [
+        "Keyhole appearance of 4th ventricle (V4) in oblique axial",
+        "True midline sagittal plane critical in assessment",
+        "triangular shape",
+        "– Vermis rotated superiorly with ↑ tegmentovermian",
+        "posterior fossa (PF)"
+      ],
+      "mri_findings": [
+        "Use 3D reconstruction ± МР"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Persistent Blake pouch cyst",
+        "Superior rotation of normal vermis",
+        "Mega cisterna magna",
+        "Vermis is normally formed, not rotated",
+        "Joubert syndrome",
+        "Abnormal superior cerebellar peduncles → molar tooth",
+        "configuration"
+      ],
+      "red_flags": [
+        "Do not make diagnosis too early: Vermis still developing up",
+        "to 24 weeks"
+      ],
+      "follow_up": [
+        "agenesis have normal postnatal МР"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "agenesis have normal postnatal МР",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.174: Vermian Dysgenesis"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Partial dysgenesis or complete agenesis of cerebellar",
+          "vermis"
+        ],
+        "IMAGING": [
+          "• Keyhole appearance of 4th ventricle (V4) in oblique axial",
+          "plane on standard brain views",
+          "• True midline sagittal plane critical in assessment",
+          "○ Use 3D reconstruction ± MR",
+          "– Lack of sharp fastigial point (apex of V4), loss of V4",
+          "triangular shape",
+          "– Vermis rotated superiorly with ↑ tegmentovermian",
+          "angle (34.9°± 5.4° in one study)",
+          "– Normal torcular position",
+          "– Choroid plexus abnormally located, dependent within",
+          "posterior fossa (PF)"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Persistent Blake pouch cyst",
+          "○ Superior rotation of normal vermis",
+          "• Mega cisterna magna",
+          "○ Vermis is normally formed, not rotated",
+          "• Joubert syndrome",
+          "○ Abnormal superior cerebellar peduncles → molar tooth",
+          "configuration"
+        ],
+        "CLINICAL ISSUES": [
+          "• Variable outcome reported but generally good outcomes",
+          "with isolated inferior defect",
+          "○ Can still have motor or language delays",
+          "• Up to 32% of fetuses with diagnosis of inferior vermian",
+          "agenesis have normal postnatal MR",
+          "○ Delayed rotation or closure of vermis may account for",
+          "overdiagnosis in utero"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Do not make diagnosis too early: Vermis still developing up",
+          "to 24 weeks"
+        ]
+      }
+    },
+    {
+      "id": "blake-pouch-cyst",
+      "name": "Киста кармана Блейка",
+      "nameEn": "Blake Pouch Cyst",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 176,
+      "definition": "• Persistent cystic evagination of area membranacea under inferior vermis in cerebellar valleculae",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Normal appearance to vermis",
+        "Blake pouch cyst (BPC) is actually inferior to structurally",
+        "normal vermis, which is rotated upward",
+        "Rotation results in abnormal tegmentovermian angle (TVA)",
+        "Normal is close to 0°, angle > 18° but < 30° likely BPC",
+        "No or minimal enlargement of cisterna magna",
+        "Cyst fluid анэхогенный, whereas cerebrospinal fluid in cisterna",
+        "magna has internal echoes",
+        "Multiplanar imaging essential for this diagnosis",
+        "Must see sagittal plane"
+      ],
+      "doppler_findings": [
+        "Blake pouch cyst (BPC) is actually inferior to structurally",
+        "Cyst fluid анэхогенный, whereas cerebrospinal fluid in cisterna"
+      ],
+      "mri_findings": [
+        "Use 3D US, МР, or both"
+      ],
+      "associated_anomalies": [
+        "Careful search for other findings and careful динамическое наблюдение"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Dandy-Walker malformation",
+        "Vermian dysgenesis",
+        "Arachnoid cyst",
+        "Mega cisterna magna"
+      ],
+      "red_flags": [
+        "Look for fastigial point (apex of 4th ventricle) and measure",
+        "TVA angle and vermian area in any case where vermian",
+        "abnormality is possible"
+      ],
+      "follow_up": [
+        "Careful search for other findings and careful динамическое наблюдение"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.176: Blake Pouch Cyst"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Persistent cystic evagination of area membranacea under",
+          "inferior vermis in cerebellar valleculae"
+        ],
+        "IMAGING": [
+          "• Normal appearance to vermis",
+          "○ Blake pouch cyst (BPC) is actually inferior to structurally",
+          "normal vermis, which is rotated upward",
+          "• Rotation results in abnormal tegmentovermian angle (TVA)",
+          "○ Normal is close to 0°, angle > 18° but < 30° likely BPC",
+          "• No or minimal enlargement of cisterna magna",
+          "• Cyst fluid anechoic, whereas cerebrospinal fluid in cisterna",
+          "magna has internal echoes",
+          "• Multiplanar imaging essential for this diagnosis",
+          "○ Use 3D US, MR, or both",
+          "○ Must see sagittal plane"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Dandy-Walker malformation",
+          "• Vermian dysgenesis",
+          "• Arachnoid cyst",
+          "• Mega cisterna magna"
+        ],
+        "CLINICAL ISSUES": [
+          "• A Blake pouch (BP) is a normal embryological structure",
+          "quite frequently seen with modern equipment",
+          "• With normal, nonrotated vermis, visible BP walls are of no",
+          "consequence",
+          "• BP cyst implies abnormal distention of BP, causing vermian",
+          "rotation",
+          "○ Careful search for other findings and careful follow-up",
+          "are merited",
+          "○ Patients with isolated BPC have good prognosis"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Look for fastigial point (apex of 4th ventricle) and measure",
+          "TVA angle and vermian area in any case where vermian",
+          "abnormality is possible"
+        ]
+      }
+    },
+    {
+      "id": "mega-cisterna-magna",
+      "name": "Увеличенная большая цистерна",
+      "nameEn": "Mega Cisterna Magna",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 180,
+      "definition": "• Cisterna magna measuring > 10 mm • Most benign entity within spectrum of abnormalities involving roof of rhombencephalon",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Enlarged posterior fossa CSF space",
+        "Measured in axial oblique plane at level of cerebellar",
+        "hemispheres with полость прозрачной перегородки (CSP) in image",
+        "Cerebellar hemispheres normally formed and normal in size",
+        "Sagittal view shows vermis completely covering 4th",
+        "ventricle",
+        "May show scalloping of inner table of skull due to CSF",
+        "pulsations",
+        "< 20% have associated anomalies",
+        "вентрикуломегалия is most common"
+      ],
+      "doppler_findings": [
+        "Enlarged posterior fossa CSF space",
+        "Sagittal view shows vermis completely covering 4th",
+        "ventricle",
+        "May show scalloping of inner table of skull due to CSF",
+        "вентрикуломегалия is most common"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Blake pouch cyst",
+        "Vermis normally formed but rotated superiorly",
+        "Arachnoid cyst",
+        "Look for mass effect on vermis/brainstem",
+        "Dandy-Walker malformation",
+        "Elevation of torcular of Herophili",
+        "Vermian dysgenesis",
+        "Abnormal vermis without large posterior fossa cyst or",
+        "torcular elevation"
+      ],
+      "red_flags": [
+        "Steep scanning angle may simulate mega cisterna magna",
+        "Measure transverse cerebellar diameter, vermian height to",
+        "exclude cerebellar hypoplasia/vermian dysgenesis"
+      ],
+      "follow_up": [
+        "Usually incidental finding",
+        "If isolated, excellent prognosis with low risk of",
+        "aneuploidy and high probability of normal development",
+        "Can be part of multiple findings seen with trisomy 18"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.180: Mega Cisterna Magna"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Cisterna magna measuring > 10 mm",
+          "• Most benign entity within spectrum of abnormalities",
+          "involving roof of rhombencephalon"
+        ],
+        "IMAGING": [
+          "• Enlarged posterior fossa CSF space",
+          "○ Measured in axial oblique plane at level of cerebellar",
+          "hemispheres with cavum septi pellucidi in image",
+          "• Cerebellar hemispheres normally formed and normal in size",
+          "• Sagittal view shows vermis completely covering 4th",
+          "ventricle",
+          "• May show scalloping of inner table of skull due to CSF",
+          "pulsations",
+          "• < 20% have associated anomalies",
+          "○ Ventriculomegaly is most common"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Blake pouch cyst",
+          "○ Vermis normally formed but rotated superiorly",
+          "• Arachnoid cyst",
+          "○ Look for mass effect on vermis/brainstem",
+          "• Dandy-Walker malformation",
+          "○ Elevation of torcular of Herophili",
+          "• Vermian dysgenesis",
+          "○ Abnormal vermis without large posterior fossa cyst or",
+          "torcular elevation"
+        ],
+        "CLINICAL ISSUES": [
+          "• Usually incidental finding",
+          "○ If isolated, excellent prognosis with low risk of",
+          "aneuploidy and high probability of normal development",
+          "• Can be part of multiple findings seen with trisomy 18"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Steep scanning angle may simulate mega cisterna magna",
+          "• Measure transverse cerebellar diameter, vermian height to",
+          "exclude cerebellar hypoplasia/vermian dysgenesis"
+        ]
+      }
+    },
+    {
+      "id": "cerebellar-hypoplasia",
+      "name": "Гипоплазия мозжечка",
+      "nameEn": "Cerebellar Hypoplasia",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 182,
+      "definition": "• Hypoplasia refers to small but complete anatomical structure with congenital volume diminution",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "May involve vermis, hemispheres, or entire cerebellum",
+        "Must differentiate between large cisterna magna, often of",
+        "no clinical significance, and small cerebellum",
+        "Measure cerebellum and compare to normative data",
+        "brainstem and cerebral peduncles"
+      ],
+      "doppler_findings": [
+        "МР recommended for more detailed evaluation, including"
+      ],
+      "mri_findings": [
+        "МР recommended for more detailed evaluation, including"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Other causes of enlarged posterior fossa",
+        "Dandy-Walker malformation",
+        "Arachnoid cyst",
+        "Mega cisterna magna",
+        "Cerebellar disruption",
+        "Rhombencephalosynapsis"
+      ],
+      "red_flags": [
+        "In sagittal view, vermis should be same size as hemispheres",
+        "In coronal view, vermis should extend inferiorly to same",
+        "level as hemispheres after 18-20 weeks",
+        "Beware of confusing vermian rotation with vermian",
+        "hypoplasia or dysgenesis",
+        "Up to 24 weeks, normal rotated vermis may cause",
+        "confusion; sagittal views vital for differentiation",
+        "When vermian hypoplasia is associated with small",
+        "transverse cerebellar diameter and pontine bulge is",
+        "missing, pontocerebellar hypoplasia should be diagnosed"
+      ],
+      "follow_up": [
+        "If isolated, variable but stable neurologic consequences",
+        "Seen in many genetic/chromosomal disorders",
+        "As part of pontocerebellar hypoplasias",
+        "Often progressive condition with poor outcome",
+        "May have autosomal recessive inheritance → 25%",
+        "recurrence risk"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.182: Cerebellar Hypoplasia"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Hypoplasia refers to small but complete anatomical",
+          "structure with congenital volume diminution"
+        ],
+        "IMAGING": [
+          "• May involve vermis, hemispheres, or entire cerebellum",
+          "• Must differentiate between large cisterna magna, often of",
+          "no clinical significance, and small cerebellum",
+          "○ Measure cerebellum and compare to normative data",
+          "• MR recommended for more detailed evaluation, including",
+          "brainstem and cerebral peduncles"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Other causes of enlarged posterior fossa",
+          "○ Dandy-Walker malformation",
+          "○ Arachnoid cyst",
+          "○ Mega cisterna magna",
+          "• Cerebellar disruption",
+          "• Rhombencephalosynapsis"
+        ],
+        "CLINICAL ISSUES": [
+          "• If isolated, variable but stable neurologic consequences",
+          "• Seen in many genetic/chromosomal disorders",
+          "• As part of pontocerebellar hypoplasias",
+          "○ Often progressive condition with poor outcome",
+          "○ May have autosomal recessive inheritance → 25%",
+          "recurrence risk"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• In sagittal view, vermis should be same size as hemispheres",
+          "• In coronal view, vermis should extend inferiorly to same",
+          "level as hemispheres after 18-20 weeks",
+          "• Beware of confusing vermian rotation with vermian",
+          "hypoplasia or dysgenesis",
+          "○ Up to 24 weeks, normal rotated vermis may cause",
+          "confusion; sagittal views vital for differentiation",
+          "• When vermian hypoplasia is associated with small",
+          "transverse cerebellar diameter and pontine bulge is",
+          "missing, pontocerebellar hypoplasia should be diagnosed"
+        ]
+      }
+    },
+    {
+      "id": "rhombencephalosynapsis",
+      "name": "Ромбенцефалосинапсис",
+      "nameEn": "Rhombencephalosynapsis",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 186,
+      "definition": "• Midline fusion of cerebellar hemispheres with partial or complete loss of vermis",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Abnormal cerebellar morphology",
+        "Horizontally oriented folia cross midline",
+        "May be difficult to demonstrate in fetus",
+        "May be other intracranial anomalies",
+        "Hydrocephalus",
+        "Callosal dysgenesis/agenesis",
+        "dysplasia septo-optica / SOD",
+        "гольопrosencephalia / гольопrosencephalia / holoprosencephaly"
+      ],
+      "doppler_findings": [
+        "Horizontally oriented folia cross midline"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Cerebellar hypoplasia",
+        "Unilateral cerebellar disruption",
+        "Dandy-Walker malformation",
+        "Vermian agenesis: Partial or complete",
+        "Joubert syndrome"
+      ],
+      "red_flags": [
+        "Small, single-lobed cerebellum is hallmark of",
+        "rhombencephalosynapsis",
+        "Fetal presentation, particularly with marked",
+        "вентрикуломегалия, likely represents severe end of spectrum",
+        "Detailed evaluation of posterior fossa structure mandatory",
+        "in any fetus with severe вентрикуломегалия"
+      ],
+      "follow_up": [
+        "Neurologic defects vary from mild to severe",
+        "Prenatal hydrocephalus seems to be unfavorable",
+        "prognostic feature",
+        "Majority have some cognitive impairment",
+        "Treatment",
+        "Careful postnatal evaluation by pediatric neurologist and",
+        "endocrinologist",
+        "Hydrocephalus may require shunt placement"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Careful postnatal evaluation by pediatric neurologist and",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.186: Rhombencephalosynapsis"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Midline fusion of cerebellar hemispheres with partial or",
+          "complete loss of vermis"
+        ],
+        "IMAGING": [
+          "• Abnormal cerebellar morphology",
+          "• Horizontally oriented folia cross midline",
+          "○ May be difficult to demonstrate in fetus",
+          "• May be other intracranial anomalies",
+          "○ Hydrocephalus",
+          "○ Callosal dysgenesis/agenesis",
+          "○ Septo-optic dysplasia",
+          "○ Holoprosencephaly"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Cerebellar hypoplasia",
+          "• Unilateral cerebellar disruption",
+          "• Dandy-Walker malformation",
+          "• Vermian agenesis: Partial or complete",
+          "• Joubert syndrome"
+        ],
+        "CLINICAL ISSUES": [
+          "• Neurologic defects vary from mild to severe",
+          "○ Prenatal hydrocephalus seems to be unfavorable",
+          "prognostic feature",
+          "• Majority have some cognitive impairment",
+          "• Treatment",
+          "○ Careful postnatal evaluation by pediatric neurologist and",
+          "endocrinologist",
+          "○ Hydrocephalus may require shunt placement"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Small, single-lobed cerebellum is hallmark of",
+          "rhombencephalosynapsis",
+          "• Fetal presentation, particularly with marked",
+          "ventriculomegaly, likely represents severe end of spectrum",
+          "• Detailed evaluation of posterior fossa structure mandatory",
+          "in any fetus with severe ventriculomegaly"
+        ]
+      }
+    },
+    {
+      "id": "vein-of-galen-aneurysmal-malformation",
+      "name": "Аневризмальная малформация вены Галена",
+      "nameEn": "Vein of Galen Aneurysmal Malformation",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 190,
+      "definition": "• Arteriovenous fistula between deep choroidal arteries and embryonic median prosencephalic vein of Markowski • Vein of Galen aneurysmal malformation (VGAM) is actually misnomer but still commonly used to describe this fistula",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Elongated midline vascular structure extending from",
+        "quadrigeminal plate cistern posteriorly toward occiput",
+        "Drains via straight sinus or embryonic falcine sinus",
+        "Arterialized venous flow on pulsed wave tracing",
+        "Both vascular steal and venous hypertension can cause",
+        "irreversible parenchymal damage",
+        "Other brain findings include both destructive (e.g.,",
+        "periventricular leukomalacia, porencephaly) or",
+        "developmental (e.g., migrational) lesions",
+        "Serial US utilized to evaluate for developing гидrops fetalis or",
+        "intracranial parenchymal damage"
+      ],
+      "doppler_findings": [
+        "quadrigeminal plate cistern posteriorly toward occiput",
+        "Arterialized venous flow on pulsed wave tracing",
+        "periventricular leukomalacia, porencephaly) or",
+        "Serial US utilized to evaluate for developing гидrops fetalis or"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Presence of any associated finding confers poor outcome",
+        "Most common associated findings include cardiomegaly",
+        "Better prognosis for isolated VGAM without other findings"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Dural sinus malformation"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Up to 80% of fetal cardiac output may be diverted to",
+        "cerebral circulation",
+        "Presence of any associated finding confers poor outcome",
+        "High mortality; survivors with neurologic or cardiac",
+        "impairment",
+        "Most common associated findings include cardiomegaly",
+        "and вентрикуломегалия",
+        "Even mild cardiomegaly correlated with poor outcome",
+        "Better prognosis for isolated VGAM without other findings",
+        "At birth, vascular shunt usually increases",
+        "Cessation of flow to low-resistance placenta",
+        "Aggressive treatment needed for congestive heart failure",
+        "present at birth",
+        "Emergency embolization may be necessary"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.190: Vein of Galen Aneurysmal Malformation"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Arteriovenous fistula between deep choroidal arteries and",
+          "embryonic median prosencephalic vein of Markowski",
+          "• Vein of Galen aneurysmal malformation (VGAM) is actually",
+          "misnomer but still commonly used to describe this fistula"
+        ],
+        "IMAGING": [
+          "• Elongated midline vascular structure extending from",
+          "quadrigeminal plate cistern posteriorly toward occiput",
+          "○ Drains via straight sinus or embryonic falcine sinus",
+          "• Arterialized venous flow on pulsed wave tracing",
+          "• Both vascular steal and venous hypertension can cause",
+          "irreversible parenchymal damage",
+          "• Other brain findings include both destructive (e.g.,",
+          "periventricular leukomalacia, porencephaly) or",
+          "developmental (e.g., migrational) lesions",
+          "• Serial US utilized to evaluate for developing hydrops or",
+          "intracranial parenchymal damage"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Dural sinus malformation"
+        ],
+        "CLINICAL ISSUES": [
+          "• Up to 80% of fetal cardiac output may be diverted to",
+          "cerebral circulation",
+          "• Presence of any associated finding confers poor outcome",
+          "○ High mortality; survivors with neurologic or cardiac",
+          "impairment",
+          "○ Most common associated findings include cardiomegaly",
+          "and ventriculomegaly",
+          "○ Even mild cardiomegaly correlated with poor outcome",
+          "• Better prognosis for isolated VGAM without other findings",
+          "• At birth, vascular shunt usually increases",
+          "○ Cessation of flow to low-resistance placenta",
+          "• Aggressive treatment needed for congestive heart failure",
+          "present at birth",
+          "○ Emergency embolization may be necessary"
+        ]
+      }
+    },
+    {
+      "id": "arteriovenous-fistula",
+      "name": "Артериовенозная фистула",
+      "nameEn": "Arteriovenous Fistula",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 194,
+      "definition": "• Abnormal arterial-to-venous connection without intervening capillary network ○ 85% supratentorial, 15% posterior fossa ○ Pial, dural, or mixed • Vein of Galen malformation is specific, named arteriovenous fistula (AVF)",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Ultrasound",
+        "Cyst-like structure on grayscale images",
+        "\"Tangle\" of dilated vessels with alternating direction of",
+        "flow on цветовой допpler",
+        "Cardiomegaly",
+        "гидrops fetalis",
+        "задержка роста плода (ЗРП/FGR)",
+        "Shunt vessels seen as flow voids on T2WI",
+        "Ischemic encephalomalacia",
+        "Intracranial hemorrhage"
+      ],
+      "doppler_findings": [
+        "flow on цветовой допpler",
+        "задержка роста плода (ЗРП/FGR)"
+      ],
+      "mri_findings": [
+        "МР"
+      ],
+      "associated_anomalies": [
+        "Prognosis depends on associated findings, early delivery"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Vascular tumor",
+        "Intracranial cyst"
+      ],
+      "red_flags": [
+        "Careful search for AVF in fetuses with apparent isolated",
+        "cardiomegaly",
+        "Always check Doppler of fluid-filled intracranial lesions"
+      ],
+      "follow_up": [
+        "Prognosis depends on associated findings, early delivery",
+        "does not prevent ischemic damage",
+        "High perinatal mortality rate when fetus is \"symptomatic\"",
+        "(e.g., hydropic)",
+        "Consider comfort care if evidence of ischemic brain injury",
+        "Embolization/surgery are options for survivors"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Prognosis depends on associated findings, early delivery",
+      "postnatal_management": "Embolization/surgery are options for survivors",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.194: Arteriovenous Fistula"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Abnormal arterial-to-venous connection without",
+          "intervening capillary network",
+          "○ 85% supratentorial, 15% posterior fossa",
+          "○ Pial, dural, or mixed",
+          "• Vein of Galen malformation is specific, named",
+          "arteriovenous fistula (AVF)"
+        ],
+        "IMAGING": [
+          "• Ultrasound",
+          "○ Cyst-like structure on grayscale images",
+          "○ \"Tangle\" of dilated vessels with alternating direction of",
+          "flow on color Doppler",
+          "○ Cardiomegaly",
+          "○ Hydrops",
+          "○ Fetal growth restriction",
+          "• MR",
+          "○ Shunt vessels seen as flow voids on T2WI",
+          "○ Ischemic encephalomalacia",
+          "○ Intracranial hemorrhage"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Vascular tumor",
+          "• Intracranial cyst"
+        ],
+        "CLINICAL ISSUES": [
+          "• Prognosis depends on associated findings, early delivery",
+          "does not prevent ischemic damage",
+          "• High perinatal mortality rate when fetus is \"symptomatic\"",
+          "(e.g., hydropic)",
+          "○ Consider comfort care if evidence of ischemic brain injury",
+          "• Embolization/surgery are options for survivors"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Careful search for AVF in fetuses with apparent isolated",
+          "cardiomegaly",
+          "• Always check Doppler of fluid-filled intracranial lesions"
+        ]
+      }
+    },
+    {
+      "id": "dural-sinus-malformation",
+      "name": "Малформация венозных синусов твердой мозговой оболочки",
+      "nameEn": "Dural Sinus Malformation",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 196,
+      "definition": "• Dural sinus malformation is focal dilatation of dural venous sinuses",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Posterior dural sinus malformation is grossly triangular,",
+        "apex anterior",
+        "Majority of fetal cases are thrombosed at presentation",
+        "Ultrasound",
+        "Mixed эхогенныйity mass centered on tentorium,",
+        "involving torcular Herophili",
+        "May appear round in cross section on axial images",
+        "High-signal areas within mass on T1WI due to clotted",
+        "blood",
+        "Low/mixed signal on T2WI",
+        "Tubular areas of high T1/low T2 signal seen with clot",
+        "extension within venous sinuses"
+      ],
+      "doppler_findings": [
+        "Posterior dural sinus malformation is grossly triangular,",
+        "apex anterior",
+        "Majority of fetal cases are thrombosed at presentation",
+        "Mixed эхогенныйity mass centered on tentorium,"
+      ],
+      "mri_findings": [
+        "МР"
+      ],
+      "associated_anomalies": [
+        "If no associated venous hypertension/ischemia outcome is",
+        "If associated with venous hypertension then"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Arachnoid cyst",
+        "Intracranial hemorrhage of other cause"
+      ],
+      "red_flags": [
+        "Dilated or thrombosed dural pouch in region of confluens",
+        "sinuum (torcular Herophili) suggests posterior dural sinus",
+        "malformation"
+      ],
+      "follow_up": [
+        "Size of mass at diagnosis is not predictive of outcome",
+        "Natural history is most commonly spontaneous regression",
+        "without sequela",
+        "If no associated venous hypertension/ischemia outcome is",
+        "excellent",
+        "If associated with venous hypertension then",
+        "thrombosis/periventricular hemorrhagic infarction may",
+        "lead to brain destruction"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.196: Dural Sinus Malformation"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Dural sinus malformation is focal dilatation of dural venous",
+          "sinuses"
+        ],
+        "IMAGING": [
+          "• Posterior dural sinus malformation is grossly triangular,",
+          "apex anterior",
+          "• Majority of fetal cases are thrombosed at presentation",
+          "• Ultrasound",
+          "○ Mixed echogenicity mass centered on tentorium,",
+          "involving torcular Herophili",
+          "○ May appear round in cross section on axial images",
+          "• MR",
+          "○ High-signal areas within mass on T1WI due to clotted",
+          "blood",
+          "○ Low/mixed signal on T2WI",
+          "○ Tubular areas of high T1/low T2 signal seen with clot",
+          "extension within venous sinuses"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Arachnoid cyst",
+          "• Intracranial hemorrhage of other cause"
+        ],
+        "CLINICAL ISSUES": [
+          "• Size of mass at diagnosis is not predictive of outcome",
+          "• Natural history is most commonly spontaneous regression",
+          "without sequela",
+          "• If no associated venous hypertension/ischemia outcome is",
+          "excellent",
+          "• If associated with venous hypertension then",
+          "thrombosis/periventricular hemorrhagic infarction may",
+          "lead to brain destruction"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Dilated or thrombosed dural pouch in region of confluens",
+          "sinuum (torcular Herophili) suggests posterior dural sinus",
+          "malformation"
+        ]
+      }
+    },
+    {
+      "id": "brain-tumors",
+      "name": "Опухоли головного мозга",
+      "nameEn": "Brain Tumors",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 198,
+      "definition": "Brain Tumors",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Most are supratentorial",
+        "Point of origin often difficult to determine",
+        "Often massive, filling entire cranial vault",
+        "Gross distortion of cerebral architecture",
+        "May extend through skull base into oral cavity",
+        "макроцефалия & hydrocephalus common presenting signs",
+        "Often exhibit rapid growth over short period of time",
+        "Intratumoral hemorrhage not uncommon, causing further",
+        "distortion",
+        "Considerable overlap in appearance of tumor types",
+        "Differentiation between histologic types often not",
+        "possible or even necessary",
+        "цветовой допpler essential to look for flow"
+      ],
+      "doppler_findings": [
+        "Most are supratentorial",
+        "Point of origin often difficult to determine",
+        "Often exhibit rapid growth over short period of time",
+        "цветовой допpler essential to look for flow"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Intracranial hemorrhage",
+        "Typically hyperechoic, but эхогенныйity varies according",
+        "to age of hemorrhage",
+        "No flow with Doppler"
+      ],
+      "red_flags": [
+        "Underlying neoplasm should always be considered in",
+        "setting of spontaneous intracranial hemorrhage"
+      ],
+      "follow_up": [
+        "97% mortality if diagnosed before 30 weeks",
+        "Large size portends grave prognosis regardless of histology",
+        "Benign tumors equally as lethal as malignant ones"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.198: Brain Tumors"
+      ],
+      "sourceBlocks": {
+        "IMAGING": [
+          "• Most are supratentorial",
+          "○ Point of origin often difficult to determine",
+          "• Often massive, filling entire cranial vault",
+          "○ Gross distortion of cerebral architecture",
+          "○ May extend through skull base into oral cavity",
+          "• Macrocephaly & hydrocephalus common presenting signs",
+          "• Often exhibit rapid growth over short period of time",
+          "• Intratumoral hemorrhage not uncommon, causing further",
+          "distortion",
+          "• Considerable overlap in appearance of tumor types",
+          "○ Differentiation between histologic types often not",
+          "possible or even necessary",
+          "• Color Doppler essential to look for flow"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Intracranial hemorrhage",
+          "○ Typically hyperechoic, but echogenicity varies according",
+          "to age of hemorrhage",
+          "○ No flow with Doppler"
+        ],
+        "PATHOLOGY": [
+          "• Histologic types in order of frequency",
+          "○ Teratoma ~ 50% of fetal brain tumors",
+          "○ Astrocytoma",
+          "○ Craniopharyngioma",
+          "○ Primitive neuroectodermal tumor",
+          "○ Meningioma",
+          "○ Ependymoma"
+        ],
+        "CLINICAL ISSUES": [
+          "• 97% mortality if diagnosed before 30 weeks",
+          "• Large size portends grave prognosis regardless of histology",
+          "○ Benign tumors equally as lethal as malignant ones"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Underlying neoplasm should always be considered in",
+          "setting of spontaneous intracranial hemorrhage"
+        ]
+      }
+    },
+    {
+      "id": "choroid-plexus-papilloma",
+      "name": "Папиллома сосудистого сплетения",
+      "nameEn": "Choroid Plexus Papilloma",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 200,
+      "definition": "• Benign, intraventricular, papillary neoplasm derived from choroid plexus epithelium",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Well-defined, lobular, hyperechoic mass",
+        "Lateral ventricle most common site",
+        "Most arise in atrium",
+        "Hydrocephalus may be from both overproduction of CSF",
+        "and obstruction by tumor",
+        "Often severe, causing marked макроцефалия",
+        "May be rapid onset",
+        "Intraparenchymal extension suggests choroid plexus",
+        "carcinoma"
+      ],
+      "doppler_findings": [
+        "Lateral ventricle most common site",
+        "Most arise in atrium",
+        "May be rapid onset"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "chemotherapy prior to resection have been reported"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Choroid plexus cyst",
+        "Clustered small cysts may mimic complex mass",
+        "Does not cause hydrocephalus",
+        "Intraventricular hemorrhage",
+        "Unusual to have isolated intraventricular hemorrhage",
+        "Changes over time with breakdown of blood products",
+        "Intraventricular lipoma",
+        "Usually in midline but may extend into ventricle"
+      ],
+      "red_flags": [
+        "While still guarded prognosis, outcome is better than for",
+        "other fetal brain tumors"
+      ],
+      "follow_up": [
+        "Often show rapid growth and progressive hydrocephalus",
+        "Consider early delivery",
+        "75-96% successful resection reported",
+        "May have significant neurologic sequelae, including",
+        "psychomotor retardation, seizures, and quadriparesis",
+        "Potential for massive blood loss secondary to vascularity",
+        "Preoperative embolization and neoadjuvant",
+        "chemotherapy prior to resection have been reported"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Consider early delivery",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.200: Choroid Plexus Papilloma"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Benign, intraventricular, papillary neoplasm derived from",
+          "choroid plexus epithelium"
+        ],
+        "IMAGING": [
+          "• Well-defined, lobular, hyperechoic mass",
+          "• Lateral ventricle most common site",
+          "○ Most arise in atrium",
+          "• Hydrocephalus may be from both overproduction of CSF",
+          "and obstruction by tumor",
+          "○ Often severe, causing marked macrocephaly",
+          "○ May be rapid onset",
+          "• Intraparenchymal extension suggests choroid plexus",
+          "carcinoma"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Choroid plexus cyst",
+          "○ Clustered small cysts may mimic complex mass",
+          "○ Does not cause hydrocephalus",
+          "• Intraventricular hemorrhage",
+          "○ Unusual to have isolated intraventricular hemorrhage",
+          "○ Changes over time with breakdown of blood products",
+          "• Intraventricular lipoma",
+          "○ Usually in midline but may extend into ventricle"
+        ],
+        "CLINICAL ISSUES": [
+          "• Often show rapid growth and progressive hydrocephalus",
+          "○ Consider early delivery",
+          "• 75-96% successful resection reported",
+          "○ May have significant neurologic sequelae, including",
+          "psychomotor retardation, seizures, and quadriparesis",
+          "• Potential for massive blood loss secondary to vascularity",
+          "○ Preoperative embolization and neoadjuvant",
+          "chemotherapy prior to resection have been reported"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• While still guarded prognosis, outcome is better than for",
+          "other fetal brain tumors"
+        ]
+      }
+    },
+    {
+      "id": "intracranial-lipoma",
+      "name": "Внутричерепная липома",
+      "nameEn": "Intracranial Lipoma",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 202,
+      "definition": "Intracranial Lipoma",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "80% supratentorial",
+        "2 kinds of interhemispheric lipoma",
+        "Tubulonodular type forms bulky mass and is most",
+        "common type seen in fetus",
+        "– May extend into lateral ventricles",
+        "Curvilinear type curves around мозолистое тело (CC)",
+        "эхогенный but may not be obvious in 2nd trimester,",
+        "especially curvilinear type",
+        "Look for signs of agenesis/dysgenesis of CC",
+        "Absent полость прозрачной перегородки (CSP)",
+        "Colpocephaly",
+        "Short CC",
+        "Associated agenesis/dysgenesis of CC reported in 50-90%",
+        "of fetuses with lipomas",
+        "Very specific for fat; therefore, definitive diagnosis can",
+        "be made and associated abnormalities better evaluated"
+      ],
+      "doppler_findings": [
+        "80% supratentorial",
+        "2 kinds of interhemispheric lipoma",
+        "– May extend into lateral ventricles",
+        "эхогенный but may not be obvious in 2nd trimester,",
+        "Look for signs of agenesis/dysgenesis of CC",
+        "Associated agenesis/dysgenesis of CC reported in 50-90%",
+        "be made and associated abnormalities better evaluated"
+      ],
+      "mri_findings": [
+        "МРТ плода recommended"
+      ],
+      "associated_anomalies": [
+        "Associated with oculo-auriculo-vertebral (Goldenhar) and",
+        "Prognosis dependent on presence of other anomalies"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Intracranial hemorrhage: Appearance evolves over time",
+        "with developing porencephaly",
+        "CNS tumors: Large aggressive masses"
+      ],
+      "red_flags": [
+        "Presence of lipoma is highly suspicious for",
+        "agenesis/dysgenesis of CC",
+        "Conversely, in setting of ACC look for subtle lipoma or cyst",
+        "in midline",
+        "Lipoma often missed on 2nd-trimester scan"
+      ],
+      "follow_up": [
+        "Consider кaryotyping / кариотипирование if present"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.202: Intracranial Lipoma"
+      ],
+      "sourceBlocks": {
+        "IMAGING": [
+          "• 80% supratentorial",
+          "• 2 kinds of interhemispheric lipoma",
+          "○ Tubulonodular type forms bulky mass and is most",
+          "common type seen in fetus",
+          "– May extend into lateral ventricles",
+          "○ Curvilinear type curves around corpus callosum (CC)",
+          "• Echogenic but may not be obvious in 2nd trimester,",
+          "especially curvilinear type",
+          "• Look for signs of agenesis/dysgenesis of CC",
+          "○ Absent cavum septi pellucidi",
+          "○ Colpocephaly",
+          "○ Short CC",
+          "• Associated agenesis/dysgenesis of CC reported in 50-90%",
+          "of fetuses with lipomas",
+          "• Fetal MR recommended",
+          "○ Very specific for fat; therefore, definitive diagnosis can",
+          "be made and associated abnormalities better evaluated"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Intracranial hemorrhage: Appearance evolves over time",
+          "with developing porencephaly",
+          "• CNS tumors: Large aggressive masses"
+        ],
+        "CLINICAL ISSUES": [
+          "• Associated with oculo-auriculo-vertebral (Goldenhar) and",
+          "Pai syndromes",
+          "• Prognosis dependent on presence of other anomalies",
+          "○ Consider karyotype if present",
+          "• Generally excellent prognosis when isolated"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Presence of lipoma is highly suspicious for",
+          "agenesis/dysgenesis of CC",
+          "• Conversely, in setting of ACC look for subtle lipoma or cyst",
+          "in midline",
+          "○ Lipoma often missed on 2nd-trimester scan"
+        ]
+      }
+    },
+    {
+      "id": "absent-cavum-septi-pellucidi",
+      "name": "Отсутствие полости прозрачной перегородки",
+      "nameEn": "Absent Cavum Septi Pellucidi",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 204,
+      "definition": "Absent полость прозрачной перегородки (CSP)",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.204: Absent Cavum Septi Pellucidi"
+      ],
+      "sourceBlocks": {}
+    },
+    {
+      "id": "mild-ventriculomegaly",
+      "name": "Умеренная вентрикуломегалия",
+      "nameEn": "Mild Ventriculomegaly",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 208,
+      "definition": "Mild вентрикуломегалия",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.208: Mild Ventriculomegaly"
+      ],
+      "sourceBlocks": {}
+    },
+    {
+      "id": "microcephaly",
+      "name": "Микроцефалия",
+      "nameEn": "Microcephaly",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 212,
+      "definition": "микроцефалия",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.212: Microcephaly"
+      ],
+      "sourceBlocks": {}
+    },
+    {
+      "id": "abnormal-calvarium",
+      "name": "Аномалия свода черепа",
+      "nameEn": "Abnormal Calvarium",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 216,
+      "definition": "Abnormal Calvarium",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.216: Abnormal Calvarium"
+      ],
+      "sourceBlocks": {}
+    },
+    {
+      "id": "posterior-fossa-cyst-fluid-collection",
+      "name": "Киста/жидкостное скопление задней черепной ямки",
+      "nameEn": "Posterior Fossa Cyst/Fluid Collection",
+      "category": "Головной мозг",
+      "bookSection": "SECTION 2",
+      "bookPage": 222,
+      "definition": "Posterior Fossa Cyst/Fluid Collection",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.222: Posterior Fossa Cyst/Fluid Collection"
+      ],
+      "sourceBlocks": {}
+    }
+  ]
+}

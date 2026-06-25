@@ -1,0 +1,2485 @@
+{
+  "module": "gastrointestinal",
+  "moduleRu": "ЖКТ и брюшная стенка",
+  "source": {
+    "title": "Diagnostic Imaging: Obstetrics",
+    "edition": "4th",
+    "authors": [
+      "Paula J. Woodward",
+      "Anne Kennedy",
+      "Roya Sohaey",
+      "Janice L. B. Byrne",
+      "Michael D. Puchalski",
+      "Brian L. Shaffer",
+      "Emily Edwards",
+      "Priyanka Jha",
+      "Whitnee Hogan"
+    ]
+  },
+  "version": "1.0.0",
+  "extractedAt": "2026-06-25",
+  "entries": [
+    {
+      "id": "gastroschisis",
+      "name": "Гастрошизис",
+      "nameEn": "Gastroschisis",
+      "category": "ЖКТ и брюшная стенка",
+      "bookSection": "SECTION 7",
+      "bookPage": 488,
+      "definition": "• Bowel herniation through right paramedian abdominal wall defect • Simple gastroschisis most common • Complex gastroschisis (12-15%) ○ Key fetal feature is bowel distention ○ Bowel complications: Atresia, stenosis, volvulus, perforation, ischemia",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Normal umbilical cord insertion (UCI) + extruded bowel",
+        "Free-floating bowel (no covering membrane)",
+        "Can make diagnosis in 1st trimester (> 12 weeks)",
+        "Extracorporeal bowel dilation is common",
+        "Intraabdominal bowel dilation more predictive of bowel",
+        "pathology",
+        "маловодие more common than многоводие",
+        "Additional anomalies in 14%",
+        "задержка роста плода (ЗРП/FGR) common"
+      ],
+      "doppler_findings": [
+        "Free-floating bowel (no covering membrane)",
+        "Can make diagnosis in 1st trimester (> 12 weeks)",
+        "задержка роста плода (ЗРП/FGR) common"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Anomaly associated with young maternal age"
+      ],
+      "genetic_associations": [
+        "Most are sporadic, no specific genetic defect"
+      ],
+      "differential_diagnosis": [
+        "Omphalocele",
+        "Body stalk anomaly",
+        "Amniotic band syndrome",
+        "Cloacal exstrophy",
+        "Physiologic gut herniation"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Anomaly associated with young maternal age",
+        "Survival for simple gastroschisis approaches 100%",
+        "Complex gastroschisis mortality rates approach 30%",
+        "Complications",
+        "Intrauterine fetal demise (4-5%)",
+        "задержка роста плода (ЗРП/FGR) (25%)",
+        "Bowel atresia (15%)",
+        "Short gut syndrome, motility disorders (15%)"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.488: Gastroschisis"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Bowel herniation through right paramedian abdominal wall",
+          "defect",
+          "• Simple gastroschisis most common",
+          "• Complex gastroschisis (12-15%)",
+          "○ Key fetal feature is bowel distention",
+          "○ Bowel complications: Atresia, stenosis, volvulus,",
+          "perforation, ischemia"
+        ],
+        "IMAGING": [
+          "• Normal umbilical cord insertion (UCI) + extruded bowel",
+          "○ Free-floating bowel (no covering membrane)",
+          "○ Can make diagnosis in 1st trimester (> 12 weeks)",
+          "• Extracorporeal bowel dilation is common",
+          "• Intraabdominal bowel dilation more predictive of bowel",
+          "pathology",
+          "• Oligohydramnios more common than polyhydramnios",
+          "• Additional anomalies in 14%",
+          "• Fetal growth restriction common"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Omphalocele",
+          "• Body stalk anomaly",
+          "• Amniotic band syndrome",
+          "• Cloacal exstrophy",
+          "• Physiologic gut herniation"
+        ],
+        "PATHOLOGY": [
+          "• Most are sporadic, no specific genetic defect"
+        ],
+        "CLINICAL ISSUES": [
+          "• Anomaly associated with young maternal age",
+          "• Survival for simple gastroschisis approaches 100%",
+          "• Complex gastroschisis mortality rates approach 30%",
+          "• Complications",
+          "○ Intrauterine fetal demise (4-5%)",
+          "○ Fetal growth restriction (25%)",
+          "○ Bowel atresia (15%)",
+          "○ Short gut syndrome, motility disorders (15%)"
+        ]
+      }
+    },
+    {
+      "id": "omphalocele",
+      "name": "Грыжа пупочного канатика",
+      "nameEn": "Omphalocele",
+      "category": "ЖКТ и брюшная стенка",
+      "bookSection": "SECTION 7",
+      "bookPage": 494,
+      "definition": "• Membrane-covered midline abdominal wall defect with herniation of abdominal contents into umbilical cord base",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Liver + small bowel most common type",
+        "Can be bowel only with intracorporeal liver",
+        "Umbilical cord inserts onto membrane (not always central)",
+        "цветовой допpler best to show cord insertion site",
+        "Giant omphalocele if defect diameter is > 5 cm or > 50% of",
+        "liver herniated",
+        "Ascites is common"
+      ],
+      "doppler_findings": [
+        "цветовой допpler best to show cord insertion site"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Associated abnormalities are common (up to 80%)",
+        "Cardiac defects: 50% of associated anomalies",
+        "GI: 40% of associated anomalies",
+        "Mortality varies significantly with associated anomalies",
+        "no other significant anomalies",
+        "↑ premature birth rate; associated with higher mortality"
+      ],
+      "genetic_associations": [
+        "Chromosomal abnormalities 30-40%",
+        "Syndromes with omphalocele",
+        "Beckwith-Wiedemann syndrome"
+      ],
+      "differential_diagnosis": [
+        "Physiologic herniation of bowel",
+        "Bowel returns to abdomen by 11- to 12-weeks gestation",
+        "Should not extend more than 1 cm",
+        "Normal liver is never extracorporeal",
+        "Gastroschisis",
+        "Umbilical cord cysts: Omphaloceles often coexist with cord",
+        "cysts and mucoid degeneration of Wharton jelly"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Mortality varies significantly with associated anomalies",
+        "Survival > 90% if normal chromosomes, no syndromes, and",
+        "no other significant anomalies",
+        "↑ premature birth rate; associated with higher mortality"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.494: Omphalocele"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Membrane-covered midline abdominal wall defect with",
+          "herniation of abdominal contents into umbilical cord base"
+        ],
+        "IMAGING": [
+          "• Liver + small bowel most common type",
+          "○ Can be bowel only with intracorporeal liver",
+          "• Umbilical cord inserts onto membrane (not always central)",
+          "○ Color Doppler best to show cord insertion site",
+          "• Giant omphalocele if defect diameter is > 5 cm or > 50% of",
+          "liver herniated",
+          "• Ascites is common"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Physiologic herniation of bowel",
+          "○ Bowel returns to abdomen by 11- to 12-weeks gestation",
+          "○ Should not extend more than 1 cm",
+          "○ Normal liver is never extracorporeal",
+          "• Gastroschisis",
+          "• Umbilical cord cysts: Omphaloceles often coexist with cord",
+          "cysts and mucoid degeneration of Wharton jelly"
+        ],
+        "PATHOLOGY": [
+          "• Associated abnormalities are common (up to 80%)",
+          "○ Chromosomal abnormalities 30-40%",
+          "– ↑ risk if bowel-only defect",
+          "○ Cardiac defects: 50% of associated anomalies",
+          "○ GI: 40% of associated anomalies",
+          "• Syndromes with omphalocele",
+          "○ Beckwith-Wiedemann syndrome",
+          "○ Pentalogy of Cantrell",
+          "○ Cloacal exstrophy/OEIS complex"
+        ],
+        "CLINICAL ISSUES": [
+          "• Mortality varies significantly with associated anomalies",
+          "• Survival > 90% if normal chromosomes, no syndromes, and",
+          "no other significant anomalies",
+          "• ↑ premature birth rate; associated with higher mortality"
+        ]
+      }
+    },
+    {
+      "id": "pentalogy-of-cantrell",
+      "name": "Пенталогия Кантрелля",
+      "nameEn": "Pentalogy of Cantrell",
+      "category": "ЖКТ и брюшная стенка",
+      "bookSection": "SECTION 7",
+      "bookPage": 500,
+      "definition": "• Complex malformation with 5 classic components ○ Midline abdominal wall defect ○ Lower sternal defect/cleft ○ Anterior diaphragmatic defect ○ Defect of diaphragmatic pericardium ○ Intracardiac defect",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "High abdominal wall defect",
+        "Omphalocele reported in 60-90%",
+        "Less commonly abdominal wall schisis",
+        "Variable displacement of heart and mediastinum",
+        "depending on severity of diaphragmatic/sternal defects",
+        "May be diagnosed in 1st trimester: Ectopia cordis,",
+        "omphalocele, increased толщина воротникового пространства (ТВП)",
+        "фetal echocardiography / эхокардиография плодаcardiography recommended to define",
+        "intracardiac anomaly in potentially viable cases"
+      ],
+      "doppler_findings": [
+        "Variable displacement of heart and mediastinum",
+        "depending on severity of diaphragmatic/sternal defects",
+        "May be diagnosed in 1st trimester: Ectopia cordis,"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "All 5 anomalies are not always present",
+        "Prognosis dependent on severity of anomalies but usually"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Isolated omphalocele",
+        "Body stalk anomaly",
+        "Amniotic band syndrome"
+      ],
+      "red_flags": [
+        "Coexisting ectopia cordis and omphalocele are very specific",
+        "Those with subtle defects or incomplete expression of",
+        "syndrome may be difficult to diagnose prenatally"
+      ],
+      "follow_up": [
+        "All 5 anomalies are not always present",
+        "Prognosis dependent on severity of anomalies but usually",
+        "fatal when discovered prenatally"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.500: Pentalogy of Cantrell"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Complex malformation with 5 classic components",
+          "○ Midline abdominal wall defect",
+          "○ Lower sternal defect/cleft",
+          "○ Anterior diaphragmatic defect",
+          "○ Defect of diaphragmatic pericardium",
+          "○ Intracardiac defect"
+        ],
+        "IMAGING": [
+          "• High abdominal wall defect",
+          "○ Omphalocele reported in 60-90%",
+          "○ Less commonly abdominal wall schisis",
+          "• Variable displacement of heart and mediastinum",
+          "depending on severity of diaphragmatic/sternal defects",
+          "• May be diagnosed in 1st trimester: Ectopia cordis,",
+          "omphalocele, increased nuchal translucency",
+          "• Fetal echocardiography recommended to define",
+          "intracardiac anomaly in potentially viable cases"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Isolated omphalocele",
+          "• Body stalk anomaly",
+          "• Amniotic band syndrome"
+        ],
+        "PATHOLOGY": [
+          "• Thought to result from abnormal formation and migration",
+          "of ventral mesoderm during days 14-18 of embryonic life",
+          "○ Results in failure of fusion of transverse septum of",
+          "diaphragm and lateral folds of thorax"
+        ],
+        "CLINICAL ISSUES": [
+          "• All 5 anomalies are not always present",
+          "• Prognosis dependent on severity of anomalies but usually",
+          "fatal when discovered prenatally"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Coexisting ectopia cordis and omphalocele are very specific",
+          "• Those with subtle defects or incomplete expression of",
+          "syndrome may be difficult to diagnose prenatally"
+        ]
+      }
+    },
+    {
+      "id": "body-stalk-anomaly",
+      "name": "Аномалия плодового стволка",
+      "nameEn": "Body Stalk Anomaly",
+      "category": "ЖКТ и брюшная стенка",
+      "bookSection": "SECTION 7",
+      "bookPage": 502,
+      "definition": "• Lethal malformation characterized by attachment of visceral organs to placenta with short or absent umbilical cord",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Abnormal fetus inseparable from placenta",
+        "Large thoracoabdominal wall defect",
+        "Absent/very short umbilical cord",
+        "Scoliosis prominent feature",
+        "Limb defects common",
+        "маловодие in 2nd and 3rd trimesters",
+        "цветовой допpler often useful to clarify confusing anatomy",
+        "and look for umbilical cord",
+        "3D US useful to define anatomic relationships, particularly",
+        "in 1st trimester"
+      ],
+      "doppler_findings": [
+        "маловодие in 2nd and 3rd trimesters",
+        "цветовой допpler often useful to clarify confusing anatomy",
+        "in 1st trimester"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Not associated with abnormal кaryotyping / кариотипирование"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Amniotic band syndrome",
+        "Severe cases may be indistinguishable",
+        "Usually normal umbilical cord seen"
+      ],
+      "red_flags": [
+        "Most likely diagnosis in setting of abdominal wall defect,",
+        "scoliosis, and stuck fetal appearance",
+        "Be vigilant at time of толщина воротникового пространства (ТВП) screening",
+        "Early diagnosis allows earlier/safer termination of",
+        "pregnancy"
+      ],
+      "follow_up": [
+        "Not associated with abnormal кaryotyping / кариотипирование"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.502: Body Stalk Anomaly"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Lethal malformation characterized by attachment of",
+          "visceral organs to placenta with short or absent umbilical",
+          "cord"
+        ],
+        "IMAGING": [
+          "• Abnormal fetus inseparable from placenta",
+          "○ Large thoracoabdominal wall defect",
+          "○ Absent/very short umbilical cord",
+          "○ Scoliosis prominent feature",
+          "○ Limb defects common",
+          "• Oligohydramnios in 2nd and 3rd trimesters",
+          "• Color Doppler often useful to clarify confusing anatomy",
+          "and look for umbilical cord",
+          "• 3D US useful to define anatomic relationships, particularly",
+          "in 1st trimester"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Amniotic band syndrome",
+          "○ Severe cases may be indistinguishable",
+          "○ Usually normal umbilical cord seen"
+        ],
+        "PATHOLOGY": [
+          "• Persistence of extraembryonic coelomic cavity",
+          "• Umbilical vessels embedded in amniotic sheet connecting",
+          "to skin margin of abdominal wall defect",
+          "• Placenta-abdominal (60%) and placento-cranial with",
+          "additional craniofacial defects (40%) phenotypes described"
+        ],
+        "CLINICAL ISSUES": [
+          "• Not associated with abnormal karyotype",
+          "• No known recurrence risk"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Most likely diagnosis in setting of abdominal wall defect,",
+          "scoliosis, and stuck fetal appearance",
+          "• Be vigilant at time of nuchal translucency screening",
+          "○ Early diagnosis allows earlier/safer termination of",
+          "pregnancy"
+        ]
+      }
+    },
+    {
+      "id": "bladder-exstrophy",
+      "name": "Экстрофия мочевого пузыря",
+      "nameEn": "Bladder Exstrophy",
+      "category": "ЖКТ и брюшная стенка",
+      "bookSection": "SECTION 7",
+      "bookPage": 506,
+      "definition": "• Bladder exstrophy (BE): Failure of closure of lower abdominal wall, resulting in exposed bladder • Exstrophy epispadias complex (EEC): Spectrum of malformations ranging from epispadias to BE to cloacal exstrophy",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Inability to demonstrate fluid-filled bladder",
+        "If bladder not seen, obtain midline sagittal image through",
+        "torso",
+        "Exposed posterior bladder wall creates soft tissue \"mass\"",
+        "Lower than normal insertion of umbilical cord (decreased",
+        "distance to genital tubercle)",
+        "Increased width of pubic symphysis",
+        "Genital anomalies common in both males and females",
+        "Look for anal dimple to differentiate from cloacal",
+        "exstrophy, which has worse prognosis"
+      ],
+      "doppler_findings": [
+        "Exposed posterior bladder wall creates soft tissue \"mass\""
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Mild form associated with exstrophy of urethra and",
+        "Severe form associated with wide diastasis of symphysis"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Absent bladder: Renal anomalies or other conditions",
+        "resulting in anuria",
+        "Cloacal exstrophy: Bowel herniation through abdominal",
+        "wall defect → elephant trunk sign"
+      ],
+      "red_flags": [
+        "Always consider in setting of absent bladder and normal",
+        "amniotic fluid"
+      ],
+      "follow_up": [
+        "Mild form associated with exstrophy of urethra and",
+        "external sphincter",
+        "Severe form associated with wide diastasis of symphysis",
+        "pubis and genital defects",
+        "Goals of surgical repair",
+        "Secure abdominal wall closure",
+        "Urinary continence with preservation of renal function",
+        "Adequate cosmetic and functional genital reconstruction"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Goals of surgical repair",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.506: Bladder Exstrophy"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Bladder exstrophy (BE): Failure of closure of lower",
+          "abdominal wall, resulting in exposed bladder",
+          "• Exstrophy epispadias complex (EEC): Spectrum of",
+          "malformations ranging from epispadias to BE to cloacal",
+          "exstrophy"
+        ],
+        "IMAGING": [
+          "• Inability to demonstrate fluid-filled bladder",
+          "• If bladder not seen, obtain midline sagittal image through",
+          "torso",
+          "○ Exposed posterior bladder wall creates soft tissue \"mass\"",
+          "○ Lower than normal insertion of umbilical cord (decreased",
+          "distance to genital tubercle)",
+          "• Increased width of pubic symphysis",
+          "• Genital anomalies common in both males and females",
+          "• Look for anal dimple to differentiate from cloacal",
+          "exstrophy, which has worse prognosis"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Absent bladder: Renal anomalies or other conditions",
+          "resulting in anuria",
+          "• Cloacal exstrophy: Bowel herniation through abdominal",
+          "wall defect → elephant trunk sign"
+        ],
+        "CLINICAL ISSUES": [
+          "• Mild form associated with exstrophy of urethra and",
+          "external sphincter",
+          "• Severe form associated with wide diastasis of symphysis",
+          "pubis and genital defects",
+          "• Goals of surgical repair",
+          "○ Secure abdominal wall closure",
+          "○ Urinary continence with preservation of renal function",
+          "○ Adequate cosmetic and functional genital reconstruction"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Always consider in setting of absent bladder and normal",
+          "amniotic fluid"
+        ]
+      }
+    },
+    {
+      "id": "cloacal-exstrophy-oeis-syndrome",
+      "name": "Экстрофия клоаки/синдром OEIS",
+      "nameEn": "Cloacal Exstrophy/OEIS Syndrome",
+      "category": "ЖКТ и брюшная стенка",
+      "bookSection": "SECTION 7",
+      "bookPage": 510,
+      "definition": "• Cardinal findings of cloacal exstrophy (CE) are hemibladder exstrophy, hindgut extrusion, and imperforate anus • Exstrophy epispadias complex (EEC) ○ Spectrum of malformations ranging from epispadias to bladder exstrophy to CE ○ Defects involve genitourinary/musculoskeletal systems, pelvis, pelvic floor, abdominal wall, spine, anus • Term OEIS complex was proposed by Carey et al as way to recall all defects that may be present ○ Omphalocele ○ Exstrophy of bladder ○ Imperforate anus ○ Spinal deformities",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Absence of normal bladder",
+        "Anal atresia (absent anal dimple)",
+        "Low abdominal wall defect",
+        "Appearance of prolapsed bowel described as elephant",
+        "trunk sign"
+      ],
+      "doppler_findings": [
+        "Appearance of prolapsed bowel described as elephant"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Prognosis dependent on severity of defect and associated",
+        "Postnatal survival is good but associated with considerable"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Other unusual abdominal wall defects",
+        "Amniotic band syndrome",
+        "Body stalk anomaly"
+      ],
+      "red_flags": [
+        "Always look for multiple abnormalities in fetus with",
+        "findings in \"diaper distribution\""
+      ],
+      "follow_up": [
+        "Prognosis dependent on severity of defect and associated",
+        "malformations",
+        "Postnatal survival is good but associated with considerable",
+        "morbidity and psychosocial consequences",
+        "Most patients have poor prognosis for bowel control but",
+        "can remain clean with bowel management"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Postnatal survival is good but associated with considerable",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.510: Cloacal Exstrophy/OEIS Syndrome"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Cardinal findings of cloacal exstrophy (CE) are hemibladder",
+          "exstrophy, hindgut extrusion, and imperforate anus",
+          "• Exstrophy epispadias complex (EEC)",
+          "○ Spectrum of malformations ranging from epispadias to",
+          "bladder exstrophy to CE",
+          "○ Defects involve genitourinary/musculoskeletal systems,",
+          "pelvis, pelvic floor, abdominal wall, spine, anus",
+          "• Term OEIS complex was proposed by Carey et al as way to",
+          "recall all defects that may be present",
+          "○ Omphalocele",
+          "○ Exstrophy of bladder",
+          "○ Imperforate anus",
+          "○ Spinal deformities"
+        ],
+        "IMAGING": [
+          "• Absence of normal bladder",
+          "• Anal atresia (absent anal dimple)",
+          "• Low abdominal wall defect",
+          "○ Appearance of prolapsed bowel described as elephant",
+          "trunk sign"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Other unusual abdominal wall defects",
+          "○ Amniotic band syndrome",
+          "○ Body stalk anomaly"
+        ],
+        "CLINICAL ISSUES": [
+          "• Prognosis dependent on severity of defect and associated",
+          "malformations",
+          "• Postnatal survival is good but associated with considerable",
+          "morbidity and psychosocial consequences",
+          "• Most patients have poor prognosis for bowel control but",
+          "can remain clean with bowel management"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Always look for multiple abnormalities in fetus with",
+          "findings in \"diaper distribution\""
+        ]
+      }
+    },
+    {
+      "id": "esophageal-atresia",
+      "name": "Атрезия пищевода",
+      "nameEn": "Esophageal Atresia",
+      "category": "ЖКТ и брюшная стенка",
+      "bookSection": "SECTION 7",
+      "bookPage": 514,
+      "definition": "• Esophagus atresia (EA) often associated with tracheoesophageal fistula (TEF) • Proximal atresia with distal TEF most common type",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Small or absent stomach bubble",
+        "Often difficult to define when stomach is \"small\"",
+        "Stomach size varies in same fetus over several hours",
+        "Requires динамическое наблюдение scans on questionable cases",
+        "Pouch sign",
+        "Transient filling of proximal esophagus with swallowing",
+        "Perform focused exam of neck and upper chest",
+        "задержка роста плода (ЗРП/FGR) seen in up to 40%",
+        "многоводие",
+        "Rarely develops before 20 weeks",
+        "Fetal swallowing not important part of amniotic fluid",
+        "dynamics until that time"
+      ],
+      "doppler_findings": [
+        "Stomach size varies in same fetus over several hours",
+        "задержка роста плода (ЗРП/FGR) seen in up to 40%"
+      ],
+      "mri_findings": [
+        "МРТ плода helpful in difficult/equivocal cases"
+      ],
+      "associated_anomalies": [
+        "> 50% have other anomalies"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [
+        "Ultrasound is poor in detecting EA before onset of",
+        "многоводие",
+        "Must have high degree of suspicion and perform follow-",
+        "up scans in setting of small stomach",
+        "Do not confuse normal pharynx with esophageal pouch"
+      ],
+      "follow_up": [
+        "All fetuses should be кaryotyping / кариотипированиеd"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Deliver at tertiary care center with facilities for early surgical",
+      "postnatal_management": "intervention after birth",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.514: Esophageal Atresia"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Esophagus atresia (EA) often associated with",
+          "tracheoesophageal fistula (TEF)",
+          "• Proximal atresia with distal TEF most common type"
+        ],
+        "IMAGING": [
+          "• Small or absent stomach bubble",
+          "○ Often difficult to define when stomach is \"small\"",
+          "○ Stomach size varies in same fetus over several hours",
+          "○ Requires follow-up scans on questionable cases",
+          "• Pouch sign",
+          "○ Transient filling of proximal esophagus with swallowing",
+          "○ Perform focused exam of neck and upper chest",
+          "○ Fetal MR helpful in difficult/equivocal cases",
+          "• Fetal growth restriction seen in up to 40%",
+          "• Polyhydramnios",
+          "○ Rarely develops before 20 weeks",
+          "○ Fetal swallowing not important part of amniotic fluid",
+          "dynamics until that time"
+        ],
+        "PATHOLOGY": [
+          "• > 50% have other anomalies",
+          "• VACTERL association in 30%",
+          "• Maternal diabetes is risk factor"
+        ],
+        "CLINICAL ISSUES": [
+          "• All fetuses should be karyotyped",
+          "○ Aneuploidy reported in 5-44% (trisomy 18 and 21)",
+          "• Deliver at tertiary care center with facilities for early surgical",
+          "intervention after birth",
+          "• Long-term sequelae common, including esophageal",
+          "dysmotility, anastomotic stricture, recurrent TEF"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Ultrasound is poor in detecting EA before onset of",
+          "polyhydramnios",
+          "○ Must have high degree of suspicion and perform follow-",
+          "up scans in setting of small stomach",
+          "• Do not confuse normal pharynx with esophageal pouch"
+        ]
+      }
+    },
+    {
+      "id": "duodenal-atresia",
+      "name": "Атрезия двенадцатиперстной кишки",
+      "nameEn": "Duodenal Atresia",
+      "category": "ЖКТ и брюшная стенка",
+      "bookSection": "SECTION 7",
+      "bookPage": 518,
+      "definition": "• Congenital duodenal obstruction more inclusive term ○ Includes duodenal atresia (DA), stenosis, web, or annular pancreas",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Double bubble: Fluid-filled stomach and duodenum",
+        "Persistent fluid in duodenum is always abnormal",
+        "Hyperperistalsis of stomach on real-time imaging",
+        "Fetal regurgitation may intermittently decompress",
+        "stomach",
+        "многоводие"
+      ],
+      "doppler_findings": [
+        "Hyperperistalsis of stomach on real-time imaging"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "50-70% of DA cases have other anomalies",
+        "Cardiac and other GI malformations are most common",
+        "Dependent on associated abnormalities"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Distal atresias",
+        "Jejunal, ileal, colonic, anal",
+        "Abdominal cysts",
+        "None will communicate with stomach",
+        "многоводие usually not feature"
+      ],
+      "red_flags": [
+        "Continuity with stomach confirms diagnosis"
+      ],
+      "follow_up": [
+        "All fetuses should be кaryotyping / кариотипированиеd"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "neonatal period",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.518: Duodenal Atresia"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Congenital duodenal obstruction more inclusive term",
+          "○ Includes duodenal atresia (DA), stenosis, web, or annular",
+          "pancreas"
+        ],
+        "IMAGING": [
+          "• Double bubble: Fluid-filled stomach and duodenum",
+          "• Persistent fluid in duodenum is always abnormal",
+          "• Hyperperistalsis of stomach on real-time imaging",
+          "• Fetal regurgitation may intermittently decompress",
+          "stomach",
+          "• Polyhydramnios"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Distal atresias",
+          "○ Jejunal, ileal, colonic, anal",
+          "• Abdominal cysts",
+          "○ None will communicate with stomach",
+          "○ Polyhydramnios usually not feature"
+        ],
+        "PATHOLOGY": [
+          "• Duodenum most common site of intestinal obstruction",
+          "○ 2nd and 3rd portions most commonly involved",
+          "• 30% of DA cases have trisomy 21",
+          "• 3-8% of trisomy 21 cases have DA",
+          "• 50-70% of DA cases have other anomalies",
+          "○ Cardiac and other GI malformations are most common"
+        ],
+        "CLINICAL ISSUES": [
+          "• All fetuses should be karyotyped",
+          "• Overall mortality is 15-40% for fetal cases",
+          "○ Dependent on associated abnormalities",
+          "• Isolated defect in liveborn; 90-95% survival with prompt",
+          "surgical treatment",
+          "• Surgical correction is usually performed in immediate",
+          "neonatal period"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Continuity with stomach confirms diagnosis"
+        ]
+      }
+    },
+    {
+      "id": "jejunal-ileal-atresia",
+      "name": "Атрезия тощей и подвздошной кишки",
+      "nameEn": "Jejunal, Ileal Atresia",
+      "category": "ЖКТ и брюшная стенка",
+      "bookSection": "SECTION 7",
+      "bookPage": 522,
+      "definition": "• 1 or more areas of stenosis or atresia involving small bowel",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Normal small bowel < 7-mm diameter",
+        "эхогенный bowel in 2nd trimester may be 1st sign of atresia",
+        "Dilated, fluid-filled loops of bowel progressively enlarge",
+        "Triple bubble for proximal jejunal atresia",
+        "Sausage-shaped bowel loops",
+        "Hyperperistalsis of obstructed segments in real time",
+        "многоводие more likely with proximal atresia",
+        "Usually develops after 26 weeks",
+        "At risk for perforation and meconium peritonitis",
+        "More common with ileal obstruction",
+        "Increasing complexity of bowel contents by US, and higher",
+        "Obtain sonographic views of rectum/anus to rule out anal",
+        "atresia"
+      ],
+      "doppler_findings": [
+        "эхогенный bowel in 2nd trimester may be 1st sign of atresia",
+        "Triple bubble for proximal jejunal atresia",
+        "Hyperperistalsis of obstructed segments in real time",
+        "Usually develops after 26 weeks",
+        "At risk for perforation and meconium peritonitis"
+      ],
+      "mri_findings": [
+        "Consider МРТ плода to better delineate site of obstruction",
+        "signal on T1 МР, correlate with more distal obstructions"
+      ],
+      "associated_anomalies": [
+        "Frequently associated with other GI anomalies",
+        "Anomalies outside GI tract uncommon",
+        "bowel and associated malformations"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Meconium ileus",
+        "Anal atresia"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Testing for cystic fibrosis is recommended in all cases of"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.522: Jejunal, Ileal Atresia"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• 1 or more areas of stenosis or atresia involving small bowel"
+        ],
+        "IMAGING": [
+          "• Normal small bowel < 7-mm diameter",
+          "• Echogenic bowel in 2nd trimester may be 1st sign of atresia",
+          "• Dilated, fluid-filled loops of bowel progressively enlarge",
+          "○ Triple bubble for proximal jejunal atresia",
+          "○ Sausage-shaped bowel loops",
+          "• Hyperperistalsis of obstructed segments in real time",
+          "• Polyhydramnios more likely with proximal atresia",
+          "○ Usually develops after 26 weeks",
+          "• At risk for perforation and meconium peritonitis",
+          "○ More common with ileal obstruction",
+          "• Consider fetal MR to better delineate site of obstruction",
+          "• Increasing complexity of bowel contents by US, and higher",
+          "signal on T1 MR, correlate with more distal obstructions",
+          "• Obtain sonographic views of rectum/anus to rule out anal",
+          "atresia"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Meconium ileus",
+          "• Anal atresia"
+        ],
+        "PATHOLOGY": [
+          "• Vascular injury most accepted theory of development",
+          "• Frequently associated with other GI anomalies",
+          "○ Gastroschisis, volvulus, intussusception, malrotation",
+          "• Anomalies outside GI tract uncommon"
+        ],
+        "CLINICAL ISSUES": [
+          "• > 90% survival",
+          "• Long-term outcome dependent on length of resected",
+          "bowel and associated malformations",
+          "○ Long-term sequelae include short gut syndrome,",
+          "dysmotility, and functional obstruction",
+          "• Testing for cystic fibrosis is recommended in all cases of",
+          "distal obstruction, as meconium ileus may have identical",
+          "appearance"
+        ]
+      }
+    },
+    {
+      "id": "colonic-atresia",
+      "name": "Атрезия ободочной кишки",
+      "nameEn": "Colonic Atresia",
+      "category": "ЖКТ и брюшная стенка",
+      "bookSection": "SECTION 7",
+      "bookPage": 526,
+      "definition": "• Atresia or stenosis involving colon • Location: Anywhere along colon ○ Ascending colon (28%) ○ Splenic flexure (25%) ○ Transverse colon (23%) ○ Descending and sigmoid colon (20%) ○ Hepatic flexure (3%) • Least common of all intestinal atresia (< 10%)",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Single dilated loop of bowel is key finding",
+        "In expected peripheral location of colon",
+        "Content эхогенныйity ↑ than seen with small bowel",
+        "atresia",
+        "May see layering debris levels",
+        "± small bowel distention depending on competency of",
+        "ileocecal valve",
+        "Most often 3rd-trimester diagnosis",
+        "Look for anal dimple to rule out anal atresia",
+        "High-signal meconium with T1"
+      ],
+      "doppler_findings": [
+        "In expected peripheral location of colon",
+        "May see layering debris levels",
+        "Most often 3rd-trimester diagnosis"
+      ],
+      "mri_findings": [
+        "МР helpful to show dilation is colon"
+      ],
+      "associated_anomalies": [
+        "Associated with Hirschsprung"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Anal atresia",
+        "Jejunal/ Ileal atresia",
+        "Cloacal malformation"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "4 types by surgical classification system",
+        "Associated with Hirschsprung",
+        "Worse prognosis",
+        "Rectal biopsy prior to definitive bowel continuity surgery",
+        "Microcolon distal to atresia",
+        "Treatment",
+        "Primary resection with anastomosis",
+        "Colostomy diversion with subsequent anastomosis"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Rectal biopsy prior to definitive bowel continuity surgery",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.526: Colonic Atresia"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Atresia or stenosis involving colon",
+          "• Location: Anywhere along colon",
+          "○ Ascending colon (28%)",
+          "○ Splenic flexure (25%)",
+          "○ Transverse colon (23%)",
+          "○ Descending and sigmoid colon (20%)",
+          "○ Hepatic flexure (3%)",
+          "• Least common of all intestinal atresia (< 10%)"
+        ],
+        "IMAGING": [
+          "• Single dilated loop of bowel is key finding",
+          "○ In expected peripheral location of colon",
+          "○ Content echogenicity ↑ than seen with small bowel",
+          "atresia",
+          "○ May see layering debris levels",
+          "• ± small bowel distention depending on competency of",
+          "ileocecal valve",
+          "• Most often 3rd-trimester diagnosis",
+          "• Look for anal dimple to rule out anal atresia",
+          "• MR helpful to show dilation is colon",
+          "○ High-signal meconium with T1"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Anal atresia",
+          "• Jejunal/ Ileal atresia",
+          "• Cloacal malformation"
+        ],
+        "CLINICAL ISSUES": [
+          "• 4 types by surgical classification system",
+          "• Associated with Hirschsprung",
+          "○ Worse prognosis",
+          "○ Rectal biopsy prior to definitive bowel continuity surgery",
+          "• Microcolon distal to atresia",
+          "• Treatment",
+          "○ Primary resection with anastomosis",
+          "○ Colostomy diversion with subsequent anastomosis"
+        ]
+      }
+    },
+    {
+      "id": "anal-atresia",
+      "name": "Атрезия ануса",
+      "nameEn": "Anal Atresia",
+      "category": "ЖКТ и брюшная стенка",
+      "bookSection": "SECTION 7",
+      "bookPage": 528,
+      "definition": "• High (above levator sling) or low (below levator sling)",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Inability to demonstrate normal anal dimple or target sign",
+        "Sausage-shaped, distended bowel loop in pelvis at 13-16",
+        "wk resolves in midtrimester, may recur in 3rd trimester",
+        "May be missed when isolated, especially if 2nd-trimester",
+        "scan is only study",
+        "Calcified meconium enteroliths within bowel lumen",
+        "Results from associated vesicocolic fistula",
+        "perineal opening",
+        "Meconium-filled rectum is high signal and easily",
+        "identified (low signal on T2WI)"
+      ],
+      "doppler_findings": [
+        "wk resolves in midtrimester, may recur in 3rd trimester",
+        "May be missed when isolated, especially if 2nd-trimester",
+        "perineal opening"
+      ],
+      "mri_findings": [
+        "T1WI МР excellent to demonstrate rectum extending to"
+      ],
+      "associated_anomalies": [
+        "Vast majority associated with other anomalies, especially",
+        "Associated with VACTERL, OEIS complex",
+        "Offer кaryotyping / кариотипирование, especially if multiple anomalies",
+        "Prognosis determined by associated malformations"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Normal 3rd-trimester colon",
+        "Small bowel atresias"
+      ],
+      "red_flags": [
+        "Take dedicated views of rectum/anus when any bowel,",
+        "spine, or genital abnormality is present",
+        "Decompressive surgery may be needed urgently"
+      ],
+      "follow_up": [
+        "Offer кaryotyping / кариотипирование, especially if multiple anomalies"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Decompressive surgery may be needed urgently",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.528: Anal Atresia"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• High (above levator sling) or low (below levator sling)"
+        ],
+        "IMAGING": [
+          "• Inability to demonstrate normal anal dimple or target sign",
+          "• Sausage-shaped, distended bowel loop in pelvis at 13-16",
+          "wk resolves in midtrimester, may recur in 3rd trimester",
+          "○ May be missed when isolated, especially if 2nd-trimester",
+          "scan is only study",
+          "• Calcified meconium enteroliths within bowel lumen",
+          "○ Results from associated vesicocolic fistula",
+          "• T1WI MR excellent to demonstrate rectum extending to",
+          "perineal opening",
+          "○ Meconium-filled rectum is high signal and easily",
+          "identified (low signal on T2WI)"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Normal 3rd-trimester colon",
+          "• Small bowel atresias"
+        ],
+        "PATHOLOGY": [
+          "• Vast majority associated with other anomalies, especially",
+          "genitourinary",
+          "• Associated with VACTERL, OEIS complex",
+          "○ Urorectal septum malformation sequence",
+          "• Reported with trisomy 18, 21 but mostly sporadic"
+        ],
+        "CLINICAL ISSUES": [
+          "• Offer karyotype, especially if multiple anomalies",
+          "○ Normal chromosomes do not exclude syndromic",
+          "diagnosis",
+          "• Prognosis determined by associated malformations",
+          "• Isolated anal atresia has relatively good prognosis",
+          "• Decompressive surgery may be needed urgently",
+          "• 3-4% recurrence risk"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Take dedicated views of rectum/anus when any bowel,",
+          "spine, or genital abnormality is present"
+        ]
+      }
+    },
+    {
+      "id": "cloacal-malformation-urogenital-sinus",
+      "name": "Клоакальная малформация/урогенитальный синус",
+      "nameEn": "Cloacal Malformation/Urogenital Sinus",
+      "category": "ЖКТ и брюшная стенка",
+      "bookSection": "SECTION 7",
+      "bookPage": 530,
+      "definition": "• Complex malformation resulting from failure of cloacal division in early embryogenesis • Spectrum of abnormal anatomy is related to timing of developmental arrest ○ Ranges from urogenital sinus (2 perineal openings) to cloacal dysgenesis (no perineal opening) ○ Classic cloaca defined as coalescence of urethra, vagina, and hindgut into common channel draining through single perineal orifice",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Cystic mass posterior to bladder (hydrocolpos) with fluid-",
+        "fluid or fluid-debris level",
+        "Uterine and vaginal duplication is observed in ~ 80% of",
+        "cases in which hydrocolpos is present",
+        "Vaginal duplication creates linear septation within",
+        "conical fluid collection",
+        "High percentage have additional abnormalities; most",
+        "commonly genitourinary, bowel, and lumbosacral",
+        "Perform high-resolution images of perineum looking for",
+        "abnormal genitalia and absent anal dimple",
+        "Absence of normal, meconium-filled, T1-hyperintense"
+      ],
+      "doppler_findings": [
+        "Cystic mass posterior to bladder (hydrocolpos) with fluid-",
+        "fluid or fluid-debris level",
+        "Uterine and vaginal duplication is observed in ~ 80% of",
+        "commonly genitourinary, bowel, and lumbosacral",
+        "Perform high-resolution images of perineum looking for",
+        "Absence of normal, meconium-filled, T1-hyperintense"
+      ],
+      "mri_findings": [
+        "rectum on МР imaging"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [
+        "Over 1/2 of cases will not have cystic mass due to absence",
+        "of hydrocolpos",
+        "Constellation of genitourinary, lumbosacral, and distal",
+        "bowel abnormalities in absence of hydrocolpos should also",
+        "raise suspicion for cloacal anomaly"
+      ],
+      "follow_up": [
+        "Immediate drainage of hydrocolpos is important in",
+        "neonatal period",
+        "Goal of surgical repair is bowel and bladder continence and",
+        "normal sexual function"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "neonatal period Goal of surgical repair is bowel and bladder continence and",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.530: Cloacal Malformation/Urogenital Sinus"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Complex malformation resulting from failure of cloacal",
+          "division in early embryogenesis",
+          "• Spectrum of abnormal anatomy is related to timing of",
+          "developmental arrest",
+          "○ Ranges from urogenital sinus (2 perineal openings) to",
+          "cloacal dysgenesis (no perineal opening)",
+          "○ Classic cloaca defined as coalescence of urethra, vagina,",
+          "and hindgut into common channel draining through",
+          "single perineal orifice"
+        ],
+        "IMAGING": [
+          "• Cystic mass posterior to bladder (hydrocolpos) with fluid-",
+          "fluid or fluid-debris level",
+          "○ Uterine and vaginal duplication is observed in ~ 80% of",
+          "cases in which hydrocolpos is present",
+          "○ Vaginal duplication creates linear septation within",
+          "conical fluid collection",
+          "• High percentage have additional abnormalities; most",
+          "commonly genitourinary, bowel, and lumbosacral",
+          "• Perform high-resolution images of perineum looking for",
+          "abnormal genitalia and absent anal dimple",
+          "• Absence of normal, meconium-filled, T1-hyperintense",
+          "rectum on MR imaging"
+        ],
+        "CLINICAL ISSUES": [
+          "• Immediate drainage of hydrocolpos is important in",
+          "neonatal period",
+          "• Goal of surgical repair is bowel and bladder continence and",
+          "normal sexual function"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Over 1/2 of cases will not have cystic mass due to absence",
+          "of hydrocolpos",
+          "• Constellation of genitourinary, lumbosacral, and distal",
+          "bowel abnormalities in absence of hydrocolpos should also",
+          "raise suspicion for cloacal anomaly"
+        ]
+      }
+    },
+    {
+      "id": "volvulus",
+      "name": "Узелоковая кишки",
+      "nameEn": "Volvulus",
+      "category": "ЖКТ и брюшная стенка",
+      "bookSection": "SECTION 7",
+      "bookPage": 534,
+      "definition": "• Closed-loop obstruction caused by bowel twisting on its mesentery ○ Causes high-grade obstruction and vascular compromise",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Dilated bowel, especially single kinked loop",
+        "Creates coffee bean sign",
+        "эхогенный intraluminal contents from infarction, necrosis,",
+        "and hemorrhage",
+        "Creates fluid-fluid or fluid-debris level",
+        "Ascites frequent",
+        "May be complicated by perforation and meconium",
+        "peritonitis",
+        "Real-time evaluation important",
+        "Infarcted bowel loses ability for peristalsis",
+        "Look for swirled mesenteric vessels (whirlpool sign)",
+        "гидrops fetalis may develop as overall fetal condition worsens"
+      ],
+      "doppler_findings": [
+        "Creates fluid-fluid or fluid-debris level",
+        "peritonitis",
+        "Real-time evaluation important",
+        "Infarcted bowel loses ability for peristalsis",
+        "Look for swirled mesenteric vessels (whirlpool sign)"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Jejunal, ileal atresia",
+        "Hyperperistalsis often seen in obstructed loops"
+      ],
+      "red_flags": [
+        "Consider in setting of new dilated loop of bowel in",
+        "previously normal gestation",
+        "Urgent delivery should be considered"
+      ],
+      "follow_up": [
+        "\"Sick\" fetus with decreased fetal movement and",
+        "nonreactive nonstress test",
+        "May cause in utero demise",
+        "Urgent delivery should be considered",
+        "Variable outcome related to length of gangrenous",
+        "segment and gestational age at time of volvulus"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Urgent delivery should be considered",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.534: Volvulus"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Closed-loop obstruction caused by bowel twisting on its",
+          "mesentery",
+          "○ Causes high-grade obstruction and vascular compromise"
+        ],
+        "IMAGING": [
+          "• Dilated bowel, especially single kinked loop",
+          "○ Creates coffee bean sign",
+          "• Echogenic intraluminal contents from infarction, necrosis,",
+          "and hemorrhage",
+          "○ Creates fluid-fluid or fluid-debris level",
+          "• Ascites frequent",
+          "• May be complicated by perforation and meconium",
+          "peritonitis",
+          "• Real-time evaluation important",
+          "○ Infarcted bowel loses ability for peristalsis",
+          "• Look for swirled mesenteric vessels (whirlpool sign)",
+          "• Hydrops may develop as overall fetal condition worsens"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Jejunal, ileal atresia",
+          "○ Hyperperistalsis often seen in obstructed loops"
+        ],
+        "PATHOLOGY": [
+          "• Most related to malrotation with short, mobile mesenteric",
+          "attachment"
+        ],
+        "CLINICAL ISSUES": [
+          "• \"Sick\" fetus with decreased fetal movement and",
+          "nonreactive nonstress test",
+          "• May cause in utero demise",
+          "• Urgent delivery should be considered",
+          "• Variable outcome related to length of gangrenous",
+          "segment and gestational age at time of volvulus"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Consider in setting of new dilated loop of bowel in",
+          "previously normal gestation"
+        ]
+      }
+    },
+    {
+      "id": "enteric-duplication-cyst",
+      "name": "Киста удвоения кишечника",
+      "nameEn": "Enteric Duplication Cyst",
+      "category": "ЖКТ и брюшная стенка",
+      "bookSection": "SECTION 7",
+      "bookPage": 536,
+      "definition": "• Duplication of gastrointestinal tract with enteric lining and muscular wall ○ Foregut 40% ○ Mid- and hindgut 60% – Ileum most common site • May either be round (80%) or tubular (20%) ○ Tubular duplications may communicate with bowel and are usually not detected in utero",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Gut signature: гипоэхогенный muscular wall between",
+        "hyperechoic mucosa and serosa",
+        "Obtain enlarged, high-frequency images focused on cyst to",
+        "evaluate wall",
+        "Rarely may cause bowel obstruction",
+        "Variable appearance depending on location",
+        "Esophagus: Commonly associated with vertebral",
+        "anomalies",
+        "– May cause oral mass and obstruct airway",
+        "Stomach: Appears as cyst within gastric lumen",
+        "Bowel: Solitary abdominal cyst"
+      ],
+      "doppler_findings": [
+        "evaluate wall",
+        "Variable appearance depending on location",
+        "Stomach: Appears as cyst within gastric lumen"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Mesenteric cyst",
+        "Usually multilocular",
+        "Unilocular cyst may look identical to enteric cyst",
+        "Ovarian cyst",
+        "Most common abdominal cystic mass in female fetus",
+        "Meconium pseudocyst",
+        "Thick, irregular wall",
+        "Other sequelae of meconium peritonitis",
+        "Choledochal cyst",
+        "Look for bile ducts entering cyst"
+      ],
+      "red_flags": [
+        "Always look at wall for ringed appearance created by layers",
+        "of bowel wall (gut signature)"
+      ],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.536: Enteric Duplication Cyst"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Duplication of gastrointestinal tract with enteric lining and",
+          "muscular wall",
+          "○ Foregut 40%",
+          "○ Mid- and hindgut 60%",
+          "– Ileum most common site",
+          "• May either be round (80%) or tubular (20%)",
+          "○ Tubular duplications may communicate with bowel and",
+          "are usually not detected in utero"
+        ],
+        "IMAGING": [
+          "• Gut signature: Hypoechoic muscular wall between",
+          "hyperechoic mucosa and serosa",
+          "• Obtain enlarged, high-frequency images focused on cyst to",
+          "evaluate wall",
+          "• Rarely may cause bowel obstruction",
+          "• Variable appearance depending on location",
+          "○ Esophagus: Commonly associated with vertebral",
+          "anomalies",
+          "– May cause oral mass and obstruct airway",
+          "○ Stomach: Appears as cyst within gastric lumen",
+          "○ Bowel: Solitary abdominal cyst"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Mesenteric cyst",
+          "○ Usually multilocular",
+          "○ Unilocular cyst may look identical to enteric cyst",
+          "• Ovarian cyst",
+          "○ Most common abdominal cystic mass in female fetus",
+          "• Meconium pseudocyst",
+          "○ Thick, irregular wall",
+          "○ Other sequelae of meconium peritonitis",
+          "• Choledochal cyst",
+          "○ Look for bile ducts entering cyst"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Always look at wall for ringed appearance created by layers",
+          "of bowel wall (gut signature)"
+        ]
+      }
+    },
+    {
+      "id": "meconium-peritonitis-pseudocyst",
+      "name": "Мекониевый перитонит, псевдокиста",
+      "nameEn": "Meconium Peritonitis, Pseudocyst",
+      "category": "ЖКТ и брюшная стенка",
+      "bookSection": "SECTION 7",
+      "bookPage": 538,
+      "definition": "• Chemical peritonitis due to intrauterine bowel perforation",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Intraperitoneal calcifications in 85%",
+        "Implants on peritoneal surfaces",
+        "Best seen along liver capsule",
+        "May also be in scrotum (meconium periorchitis)",
+        "Ascites secondary to both spilled contents and",
+        "inflammatory response",
+        "Meconium pseudocyst results from walled-off perforation",
+        "Irregular thick walls",
+        "Dilated bowel seen when meconium peritonitis is",
+        "secondary to obstruction",
+        "No dilatation when perforation is secondary to ischemia"
+      ],
+      "doppler_findings": [
+        "Intraperitoneal calcifications in 85%",
+        "Implants on peritoneal surfaces",
+        "May also be in scrotum (meconium periorchitis)",
+        "Ascites secondary to both spilled contents and",
+        "Dilated bowel seen when meconium peritonitis is"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Primary ischemic event or bowel anomaly",
+        "Bowel anomalies at risk for perforation: Atresias (distal at"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [
+        "Liver calcifications are on capsular surface with meconium",
+        "peritonitis, while infection causes intraparenchymal",
+        "calcifications",
+        "Consider infection as cause of perforation when",
+        "calcifications are seen in both locations"
+      ],
+      "follow_up": [
+        "Genetic counseling for cystic fibrosis",
+        "Spontaneous in utero closure of perforation may occur with",
+        "no long-term sequelae",
+        "Those with complex peritonitis (dilated bowel, persistent",
+        "pseudocysts, ascites) must deliver at tertiary care facility",
+        "with plan for surgical intervention",
+        "Highest morbidity/mortality in cases with bowel atresia,",
+        "prematurity, and low birth weight"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "pseudocysts, ascites) must deliver at tertiary care facility",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.538: Meconium Peritonitis, Pseudocyst"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Chemical peritonitis due to intrauterine bowel perforation"
+        ],
+        "IMAGING": [
+          "• Intraperitoneal calcifications in 85%",
+          "• Implants on peritoneal surfaces",
+          "○ Best seen along liver capsule",
+          "○ May also be in scrotum (meconium periorchitis)",
+          "• Ascites secondary to both spilled contents and",
+          "inflammatory response",
+          "• Meconium pseudocyst results from walled-off perforation",
+          "○ Irregular thick walls",
+          "• Dilated bowel seen when meconium peritonitis is",
+          "secondary to obstruction",
+          "• No dilatation when perforation is secondary to ischemia"
+        ],
+        "PATHOLOGY": [
+          "• 2 proposed mechanisms leading to perforation",
+          "○ Primary ischemic event or bowel anomaly",
+          "• Bowel anomalies at risk for perforation: Atresias (distal at",
+          "greater risk than proximal), meconium ileus, volvulus"
+        ],
+        "CLINICAL ISSUES": [
+          "• Genetic counseling for cystic fibrosis",
+          "• Spontaneous in utero closure of perforation may occur with",
+          "no long-term sequelae",
+          "• Those with complex peritonitis (dilated bowel, persistent",
+          "pseudocysts, ascites) must deliver at tertiary care facility",
+          "with plan for surgical intervention",
+          "• Highest morbidity/mortality in cases with bowel atresia,",
+          "prematurity, and low birth weight"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Liver calcifications are on capsular surface with meconium",
+          "peritonitis, while infection causes intraparenchymal",
+          "calcifications",
+          "○ Consider infection as cause of perforation when",
+          "calcifications are seen in both locations"
+        ]
+      }
+    },
+    {
+      "id": "mesenteric-lymphangioma",
+      "name": "Мезентериальная лимфангиома",
+      "nameEn": "Mesenteric Lymphangioma",
+      "category": "ЖКТ и брюшная стенка",
+      "bookSection": "SECTION 7",
+      "bookPage": 542,
+      "definition": "• Lymphovascular malformation (lymphangioma); sometimes referred to as mesenteric cyst when unilocular • Small bowel mesentery most common abdominal location but also reported in retroperitoneum",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Appearance variable from unilocular to complex cystic mass",
+        "Septa usually present and variable in thickness",
+        "Often large, distending abdomen",
+        "Look carefully at contour: May be elliptical or U-shaped in",
+        "axial plane conforming to contour of abdominal wall",
+        "Large masses can be confused with ascites",
+        "Bowel will be displaced by mass, not floating in fluid",
+        "Bowel obstruction uncommon even when large",
+        "No flow on цветовой допpler",
+        "Variable in utero course",
+        "May remain stable, regress, or enlarge",
+        "Internal septations may become more obvious with",
+        "advancing gestational age"
+      ],
+      "doppler_findings": [
+        "Appearance variable from unilocular to complex cystic mass",
+        "Septa usually present and variable in thickness",
+        "No flow on цветовой допpler",
+        "Variable in utero course",
+        "advancing gestational age"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Most treated with surgical excision, but sclerotherapy has"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Bowel atresia",
+        "Other abdominal cysts: Meconium pseudocyst, enteric",
+        "duplication cyst, ovarian cyst, urachal cyst, choledochal cyst"
+      ],
+      "red_flags": [
+        "Mesenteric lymphangioma is most likely diagnosis for large,",
+        "multiloculated abdominal mass separate from urinary tract"
+      ],
+      "follow_up": [
+        "Postnatal work-up usually requires CT or МР to see full"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Postnatal work-up usually requires CT or МР to see full",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.542: Mesenteric Lymphangioma"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Lymphovascular malformation (lymphangioma); sometimes",
+          "referred to as mesenteric cyst when unilocular",
+          "• Small bowel mesentery most common abdominal location",
+          "but also reported in retroperitoneum"
+        ],
+        "IMAGING": [
+          "• Appearance variable from unilocular to complex cystic mass",
+          "○ Septa usually present and variable in thickness",
+          "• Often large, distending abdomen",
+          "• Look carefully at contour: May be elliptical or U-shaped in",
+          "axial plane conforming to contour of abdominal wall",
+          "• Large masses can be confused with ascites",
+          "○ Bowel will be displaced by mass, not floating in fluid",
+          "○ Bowel obstruction uncommon even when large",
+          "• No flow on color Doppler",
+          "• Variable in utero course",
+          "○ May remain stable, regress, or enlarge",
+          "○ Internal septations may become more obvious with",
+          "advancing gestational age"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Bowel atresia",
+          "• Other abdominal cysts: Meconium pseudocyst, enteric",
+          "duplication cyst, ovarian cyst, urachal cyst, choledochal cyst"
+        ],
+        "CLINICAL ISSUES": [
+          "• Postnatal work-up usually requires CT or MR to see full",
+          "extent of large masses",
+          "• Cyst drainage often unsuccessful as fluid reaccumulates",
+          "○ Ectopic lymphatic tissue lacks normal communication",
+          "with lymphatic system",
+          "• Most treated with surgical excision, but sclerotherapy has",
+          "been effectively used on some lesions"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Mesenteric lymphangioma is most likely diagnosis for large,",
+          "multiloculated abdominal mass separate from urinary tract"
+        ]
+      }
+    },
+    {
+      "id": "gallstones",
+      "name": "Желчные камни",
+      "nameEn": "Gallstones",
+      "category": "ЖКТ и брюшная стенка",
+      "bookSection": "SECTION 7",
+      "bookPage": 544,
+      "definition": "• эхогенный material in gallbladder (GB) ○ Stones or sludge or both",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Spectrum of findings in GB lumen",
+        "Sludge: Diffusely эхогенный material",
+        "Stones: Multiple focal эхогенныйities",
+        "Spectrum of artifacts",
+        "Shadowing is subtle (if present)",
+        "Comet-tail artifact from cholesterol crystals",
+        "Twinkle artifact with цветовой допpler",
+        "Confirm foci are within GB lumen",
+        "Not in liver or on liver surface",
+        "Normal fetal GB",
+        "Consistently seen after 14-weeks gestational age",
+        "Linear ↑ in size with gestational age",
+        "> 30 weeks GB size: 23- to 26-mm length x 6- to 8-mm",
+        "width"
+      ],
+      "doppler_findings": [
+        "Sludge: Diffusely эхогенный material",
+        "Twinkle artifact with цветовой допpler"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [
+        "No clear associations with aneuploidy"
+      ],
+      "differential_diagnosis": [
+        "Liver эхогенныйities",
+        "Calcifications from infection",
+        "Tumor + calcification",
+        "Hemangioma",
+        "Meconium peritonitis",
+        "Calcifications on peritoneal surfaces (liver capsule)",
+        "± ascites",
+        "± dilated bowel"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Almost all resolve spontaneously in 1st year of life",
+        "Rarely need surgical treatment"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.544: Gallstones"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Echogenic material in gallbladder (GB)",
+          "○ Stones or sludge or both"
+        ],
+        "IMAGING": [
+          "• Spectrum of findings in GB lumen",
+          "○ Sludge: Diffusely echogenic material",
+          "○ Stones: Multiple focal echogenicities",
+          "• Spectrum of artifacts",
+          "○ Shadowing is subtle (if present)",
+          "○ Comet-tail artifact from cholesterol crystals",
+          "○ Twinkle artifact with color Doppler",
+          "• Confirm foci are within GB lumen",
+          "○ Not in liver or on liver surface",
+          "• Normal fetal GB",
+          "○ Consistently seen after 14-weeks gestational age",
+          "○ Linear ↑ in size with gestational age",
+          "○ > 30 weeks GB size: 23- to 26-mm length x 6- to 8-mm",
+          "width"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Liver echogenicities",
+          "○ Calcifications from infection",
+          "○ Tumor + calcification",
+          "○ Hemangioma",
+          "• Meconium peritonitis",
+          "○ Calcifications on peritoneal surfaces (liver capsule)",
+          "○ ± ascites",
+          "○ ± dilated bowel"
+        ],
+        "PATHOLOGY": [
+          "• Gallstones probably from crystallization of longstanding",
+          "bile acids in fetal GB",
+          "• Sludge is potentially from mucinous content of GB",
+          "• No clear associations with aneuploidy"
+        ],
+        "CLINICAL ISSUES": [
+          "• Almost all resolve spontaneously in 1st year of life",
+          "• Rarely need surgical treatment"
+        ]
+      }
+    },
+    {
+      "id": "choledochal-cyst",
+      "name": "Холедоховая киста",
+      "nameEn": "Choledochal Cyst",
+      "category": "ЖКТ и брюшная стенка",
+      "bookSection": "SECTION 7",
+      "bookPage": 546,
+      "definition": "• Choledochal cyst (CC): Congenital cystic dilatation of extrahepatic ± intrahepatic bile ducts • Type 1 (saccular or fusiform dilatation of common bile duct) represents 80-90% of fetal cases",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Right upper quadrant (RUQ) cyst",
+        "Subhepatic and separate from gallbladder",
+        "Look for short, tubular bile ducts entering cyst",
+        "цветовой допpler shows relationship to porta hepatitis",
+        "Tend to ↑ in size as pregnancy advances"
+      ],
+      "doppler_findings": [
+        "Right upper quadrant (RUQ) cyst",
+        "Look for short, tubular bile ducts entering cyst",
+        "цветовой допpler shows relationship to porta hepatitis",
+        "Tend to ↑ in size as pregnancy advances"
+      ],
+      "mri_findings": [
+        "Consider МР to show biliary connection"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Other RUQ cysts",
+        "Duodenal duplication cyst",
+        "Rare: Liver cyst, gallbladder duplication",
+        "Umbilical vein varix",
+        "Cystic biliary atresia: 10% also have CC",
+        "Gallbladder may be absent, small, or normal"
+      ],
+      "red_flags": [
+        "RUQ cyst, separate from gallbladder, communicating with",
+        "bile ducts is pathognomonic",
+        "Presence of gallbladder does not rule out biliary atresia"
+      ],
+      "follow_up": [
+        "Tends to be isolated finding at time of anatomy scan",
+        "Treatment and prognosis",
+        "Early surgical intervention (first 3 months of life)",
+        "– Better outcome with early surgical treatment",
+        "– Late treatment results in cholestasis → biliary cirrhosis",
+        "→ liver fibrosis → liver failure",
+        "Surgical resection (open or laparoscopic)",
+        "– Cyst excision with Roux-en-Y liver and jejunal",
+        "anastomosis"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.546: Choledochal Cyst"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Choledochal cyst (CC): Congenital cystic dilatation of",
+          "extrahepatic ± intrahepatic bile ducts",
+          "• Type 1 (saccular or fusiform dilatation of common bile duct)",
+          "represents 80-90% of fetal cases"
+        ],
+        "IMAGING": [
+          "• Right upper quadrant (RUQ) cyst",
+          "○ Subhepatic and separate from gallbladder",
+          "○ Look for short, tubular bile ducts entering cyst",
+          "○ Color Doppler shows relationship to porta hepatitis",
+          "• Consider MR to show biliary connection",
+          "• Tend to ↑ in size as pregnancy advances"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Other RUQ cysts",
+          "○ Duodenal duplication cyst",
+          "○ Rare: Liver cyst, gallbladder duplication",
+          "○ Umbilical vein varix",
+          "• Cystic biliary atresia: 10% also have CC",
+          "○ Gallbladder may be absent, small, or normal"
+        ],
+        "CLINICAL ISSUES": [
+          "• Tends to be isolated finding at time of anatomy scan",
+          "• Treatment and prognosis",
+          "○ Early surgical intervention (first 3 months of life)",
+          "– Better outcome with early surgical treatment",
+          "– Late treatment results in cholestasis → biliary cirrhosis",
+          "→ liver fibrosis → liver failure",
+          "○ Surgical resection (open or laparoscopic)",
+          "– Cyst excision with Roux-en-Y liver and jejunal",
+          "anastomosis"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• RUQ cyst, separate from gallbladder, communicating with",
+          "bile ducts is pathognomonic",
+          "• Presence of gallbladder does not rule out biliary atresia"
+        ]
+      }
+    },
+    {
+      "id": "splenic-cyst",
+      "name": "Киста селезенки",
+      "nameEn": "Splenic Cyst",
+      "category": "ЖКТ и брюшная стенка",
+      "bookSection": "SECTION 7",
+      "bookPage": 548,
+      "definition": "• Congenital, benign, epithelial-lined cyst within spleen",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Left upper quadrant simple cyst",
+        "Show cyst is separate from adrenal gland and kidney",
+        "Typically small; reported range: 3-20 mm",
+        "Spleen easily seen with high-resolution scanning technique",
+        "Use highest frequency transducer possible",
+        "Normal spleen is homogeneously гипоэхогенный, slightly",
+        "less эхогенный than liver",
+        "Usually isolated without associated findings",
+        "Fetal spleen is hypointense to liver on both T1 and T2",
+        "sequences (red pulp predominates in fetus)",
+        "Cyst low signal on T1WI, high signal on T2WI"
+      ],
+      "doppler_findings": [
+        "Left upper quadrant simple cyst",
+        "Typically small; reported range: 3-20 mm",
+        "Usually isolated without associated findings"
+      ],
+      "mri_findings": [
+        "МР may be confirmatory but not generally required"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Gastric duplication cyst",
+        "Intimately associated with gastric wall and often projects",
+        "into lumen",
+        "Duplicated renal collecting system",
+        "Obstructed upper pole may be confused with cyst",
+        "Neuroblastoma",
+        "Involuting lesions appear cystic but more complex"
+      ],
+      "red_flags": [
+        "Always think anatomically and remember to consider",
+        "splenic cyst when evaluating left upper quadrant",
+        "suprarenal mass"
+      ],
+      "follow_up": [
+        "Follow large ones for 1st few years of life to ensure"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Postnatal ultrasound to confirm diagnosis No complications reported to justify drainage or surgery",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.548: Splenic Cyst"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Congenital, benign, epithelial-lined cyst within spleen"
+        ],
+        "IMAGING": [
+          "• Left upper quadrant simple cyst",
+          "• Show cyst is separate from adrenal gland and kidney",
+          "• Typically small; reported range: 3-20 mm",
+          "• Spleen easily seen with high-resolution scanning technique",
+          "○ Use highest frequency transducer possible",
+          "○ Normal spleen is homogeneously hypoechoic, slightly",
+          "less echogenic than liver",
+          "• Usually isolated without associated findings",
+          "• MR may be confirmatory but not generally required",
+          "○ Fetal spleen is hypointense to liver on both T1 and T2",
+          "sequences (red pulp predominates in fetus)",
+          "○ Cyst low signal on T1WI, high signal on T2WI"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Gastric duplication cyst",
+          "○ Intimately associated with gastric wall and often projects",
+          "into lumen",
+          "• Duplicated renal collecting system",
+          "○ Obstructed upper pole may be confused with cyst",
+          "• Neuroblastoma",
+          "○ Involuting lesions appear cystic but more complex"
+        ],
+        "CLINICAL ISSUES": [
+          "• Most present in 3rd trimester",
+          "• ~ 50% resolve spontaneously in utero or in first 6 mos of life",
+          "• Postnatal ultrasound to confirm diagnosis",
+          "○ Follow large ones for 1st few years of life to ensure",
+          "stability",
+          "• No complications reported to justify drainage or surgery"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Always think anatomically and remember to consider",
+          "splenic cyst when evaluating left upper quadrant",
+          "suprarenal mass"
+        ]
+      }
+    },
+    {
+      "id": "gestational-alloimmune-liver-disease",
+      "name": "Гестационно-аллоиммунное заболевание печени",
+      "nameEn": "Gestational Alloimmune Liver Disease",
+      "category": "ЖКТ и брюшная стенка",
+      "bookSection": "SECTION 7",
+      "bookPage": 550,
+      "definition": "• Gestational alloimmune liver disease (GALD): Maternal-fetal IgG-mediated alloimmune disorder directed at fetal liver • Most common cause of neonatal hemochromatosis and neonatal liver failure",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Recurrent unexplained гидrops fetalis",
+        "Ascites is earliest feature of гидrops fetalis in GALD",
+        "Placentomegaly",
+        "Splenomegaly with normal or small cirrhotic liver",
+        "задержка роста плода (ЗРП/FGR) with normal Doppler"
+      ],
+      "doppler_findings": [
+        "задержка роста плода (ЗРП/FGR) with normal Doppler"
+      ],
+      "mri_findings": [
+        "МР shows markedly low liver signal on T2 sequences",
+        "Neonate МР shows evidence for extrahepatic siderosis"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Other causes of гидrops fetalis: Fetal anemia, infection",
+        "(cytomegalovirus most common), syndromes and",
+        "aneuploidy with lymphatic anomalies"
+      ],
+      "red_flags": [
+        "Consider МРТ плода in all cases with unexplained гидrops fetalis",
+        "МР showing abnormally low signal in fetal liver is best",
+        "imaging clue"
+      ],
+      "follow_up": [
+        "No serology screening test for GALD",
+        "Most often presents in patients with prior pregnancy",
+        "complicated by гидrops fetalis or prior newborn with liver failure",
+        "85-100% recurrence risk reported",
+        "10-20% survival in neonates not receiving treatment",
+        "75-80% survival in neonates receiving treatment",
+        "99% survival rates with antenatal high-dose IVIG"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.550: Gestational Alloimmune Liver Disease"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Gestational alloimmune liver disease (GALD): Maternal-fetal",
+          "IgG-mediated alloimmune disorder directed at fetal liver",
+          "• Most common cause of neonatal hemochromatosis and",
+          "neonatal liver failure"
+        ],
+        "IMAGING": [
+          "• Recurrent unexplained hydrops",
+          "○ Ascites is earliest feature of hydrops in GALD",
+          "• Placentomegaly",
+          "• Splenomegaly with normal or small cirrhotic liver",
+          "• Fetal growth restriction with normal Doppler",
+          "• MR shows markedly low liver signal on T2 sequences",
+          "• Neonate MR shows evidence for extrahepatic siderosis"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Other causes of hydrops: Fetal anemia, infection",
+          "(cytomegalovirus most common), syndromes and",
+          "aneuploidy with lymphatic anomalies"
+        ],
+        "PATHOLOGY": [
+          "• Maternal IgG binds to fetal hepatocyte antigen → activates",
+          "complement-mediated cascade → liver injury",
+          "• Liver injury → ↑ intrahepatic and extrahepatic iron uptake",
+          "• Sensitization to antigen occurs early in pregnancy"
+        ],
+        "CLINICAL ISSUES": [
+          "• No serology screening test for GALD",
+          "• Most often presents in patients with prior pregnancy",
+          "complicated by hydrops or prior newborn with liver failure",
+          "○ 85-100% recurrence risk reported",
+          "• 10-20% survival in neonates not receiving treatment",
+          "• 75-80% survival in neonates receiving treatment",
+          "• 99% survival rates with antenatal high-dose IVIG"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Consider fetal MR in all cases with unexplained hydrops",
+          "• MR showing abnormally low signal in fetal liver is best",
+          "imaging clue"
+        ]
+      }
+    },
+    {
+      "id": "biliary-atresia",
+      "name": "Атрезия желчных протоков",
+      "nameEn": "Biliary Atresia",
+      "category": "ЖКТ и брюшная стенка",
+      "bookSection": "SECTION 7",
+      "bookPage": 552,
+      "definition": "• Absent or severely deficient extrahepatic biliary tree",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Gallbladder (GB) typically absent or abnormal",
+        "May see irregular linear collection of fluid (\"ghost GB\")",
+        "Normal fetal GB can be identified by 15 weeks",
+        "Have patient return for repeat scan if GB not identified",
+        "Liver echotexture often normal but may have",
+        "hepatomegaly &/or fibrotic changes",
+        "Dilated bile ducts (intra- or extrahepatic) usually not",
+        "present"
+      ],
+      "doppler_findings": [
+        "Gallbladder (GB) typically absent or abnormal",
+        "Dilated bile ducts (intra- or extrahepatic) usually not"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "10-25% may have other anomalies"
+      ],
+      "genetic_associations": [
+        "Biliary atresia-splenic malformation (BASM) syndrome"
+      ],
+      "differential_diagnosis": [
+        "Other causes of GB nonvisualization include cystic fibrosis,",
+        "ectopic GB, and GB agenesis"
+      ],
+      "red_flags": [
+        "Prenatal diagnosis of biliary atresia is challenging and",
+        "almost never definitive; however, absent GB should prompt",
+        "early neonatal evaluation to guide clinical management",
+        "Improved outcomes with earlier intervention"
+      ],
+      "follow_up": [
+        "Most present in neonatal period with jaundice with",
+        "progressive conjugated (direct) hyperbilirubinemia",
+        "Fatal if untreated",
+        "Kasai portoenterostomy temporarily effective in 90% if",
+        "performed < 2 months of age; ↓ to < 50% if > 3 months of",
+        "age",
+        "Most patients ultimately require liver transplantation"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Most present in neonatal period with jaundice with",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.552: Biliary Atresia"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Absent or severely deficient extrahepatic biliary tree"
+        ],
+        "IMAGING": [
+          "• Gallbladder (GB) typically absent or abnormal",
+          "○ May see irregular linear collection of fluid (\"ghost GB\")",
+          "• Normal fetal GB can be identified by 15 weeks",
+          "○ Have patient return for repeat scan if GB not identified",
+          "• Liver echotexture often normal but may have",
+          "hepatomegaly &/or fibrotic changes",
+          "• Dilated bile ducts (intra- or extrahepatic) usually not",
+          "present"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Other causes of GB nonvisualization include cystic fibrosis,",
+          "ectopic GB, and GB agenesis"
+        ],
+        "PATHOLOGY": [
+          "• 10-25% may have other anomalies",
+          "• Biliary atresia-splenic malformation (BASM) syndrome"
+        ],
+        "CLINICAL ISSUES": [
+          "• Most present in neonatal period with jaundice with",
+          "progressive conjugated (direct) hyperbilirubinemia",
+          "• Fatal if untreated",
+          "• Kasai portoenterostomy temporarily effective in 90% if",
+          "performed < 2 months of age; ↓ to < 50% if > 3 months of",
+          "age",
+          "• Most patients ultimately require liver transplantation"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Prenatal diagnosis of biliary atresia is challenging and",
+          "almost never definitive; however, absent GB should prompt",
+          "early neonatal evaluation to guide clinical management",
+          "○ Improved outcomes with earlier intervention"
+        ]
+      }
+    },
+    {
+      "id": "congenital-hepatic-hemangioma",
+      "name": "Врожденная гепатическая гемангиома",
+      "nameEn": "Congenital Hepatic Hemangioma",
+      "category": "ЖКТ и брюшная стенка",
+      "bookSection": "SECTION 7",
+      "bookPage": 554,
+      "definition": "• Confusing terminology in literature with various terms that likely describe same lesion • International Society for Study of Vascular Anomalies now classifies fetal lesion as congenital hemangioma ○ True benign, vascular neoplasm occurring in soft tissues or viscera, typically liver ○ Rapidly involuting congenital hemangioma (RICH) is most common subtype and describes biologic behavior",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Well-defined, predominately solid mass that may have",
+        "areas of necrosis and fibrosis, especially when large",
+        "Marked vascularity on цветовой допpler with significant",
+        "arteriovenous shunting",
+        "Peripheral flow with less central vascularity if",
+        "necrosis/fibrosis",
+        "May develop thrombocytopenia, anemia",
+        "Consider monitoring with MCA Doppler"
+      ],
+      "doppler_findings": [
+        "Marked vascularity on цветовой допpler with significant",
+        "arteriovenous shunting",
+        "Peripheral flow with less central vascularity if",
+        "Consider monitoring with MCA Doppler"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "distinguishing it as histologically distinct from other lesions"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Hepatoblastoma",
+        "Mesenchymal hamartoma"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "гидrops fetalis can lead to fetal death",
+        "Peak size is at birth",
+        "Once delivered and stabilized, prognosis is excellent",
+        "RICH will involute by 14 months of age",
+        "NICH (noninvoluting subtype) will not resolve and may",
+        "grow proportionally with patient; may require surgical",
+        "resection",
+        "Aggressive supportive treatment for those in congestive",
+        "heart failure"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Once delivered and stabilized, prognosis is excellent",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.554: Congenital Hepatic Hemangioma"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Confusing terminology in literature with various terms that",
+          "likely describe same lesion",
+          "• International Society for Study of Vascular Anomalies now",
+          "classifies fetal lesion as congenital hemangioma",
+          "○ True benign, vascular neoplasm occurring in soft tissues",
+          "or viscera, typically liver",
+          "○ Rapidly involuting congenital hemangioma (RICH) is",
+          "most common subtype and describes biologic behavior"
+        ],
+        "IMAGING": [
+          "• Well-defined, predominately solid mass that may have",
+          "areas of necrosis and fibrosis, especially when large",
+          "• Marked vascularity on color Doppler with significant",
+          "arteriovenous shunting",
+          "○ Peripheral flow with less central vascularity if",
+          "necrosis/fibrosis",
+          "• May develop thrombocytopenia, anemia",
+          "○ Consider monitoring with MCA Doppler"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Hepatoblastoma",
+          "• Mesenchymal hamartoma"
+        ],
+        "PATHOLOGY": [
+          "• Most common fetal liver tumor",
+          "• Immunohistochemical staining negative for GLUT-1,",
+          "distinguishing it as histologically distinct from other lesions"
+        ],
+        "CLINICAL ISSUES": [
+          "• Hydrops can lead to fetal death",
+          "• Peak size is at birth",
+          "• Once delivered and stabilized, prognosis is excellent",
+          "○ RICH will involute by 14 months of age",
+          "○ NICH (noninvoluting subtype) will not resolve and may",
+          "grow proportionally with patient; may require surgical",
+          "resection",
+          "• Aggressive supportive treatment for those in congestive",
+          "heart failure"
+        ]
+      }
+    },
+    {
+      "id": "mesenchymal-hamartoma",
+      "name": "Мезенхимальная гарматома печени",
+      "nameEn": "Mesenchymal Hamartoma",
+      "category": "ЖКТ и брюшная стенка",
+      "bookSection": "SECTION 7",
+      "bookPage": 556,
+      "definition": "• Benign liver tumor composed of large, fluid-filled cysts surrounded by loose mesenchymal tissue",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Large, complex, mixed cystic and solid mass",
+        "Cysts variable in size but often large",
+        "Multiple septations may give Swiss cheese appearance",
+        "Little or no flow on цветовой допpler",
+        "многоводие often develops",
+        "гидrops fetalis is poor prognostic sign"
+      ],
+      "doppler_findings": [
+        "Cysts variable in size but often large",
+        "Little or no flow on цветовой допpler"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Associated with placental mesenchymal dysplasia"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Mesenteric lymphangioma",
+        "Usually in peritoneal cavity but may involve liver capsule",
+        "or hepatic parenchyma",
+        "Congenital hepatic hemangioma",
+        "Increased flow on цветовой допpler",
+        "Choledochal cyst"
+      ],
+      "red_flags": [
+        "Consider mesenchymal hamartoma for any cystic",
+        "abdominal mass that is within or abuts liver",
+        "20% are exophytic in pediatric series",
+        "Follow any simple-appearing liver cyst carefully as",
+        "mesenchymal hamartomas may show rapid growth"
+      ],
+      "follow_up": [
+        "May show rapid growth",
+        "Prognosis is related to size and compression of surrounding",
+        "organs",
+        "Prenatal cyst drainage considered for large lesions",
+        "Surgery is curative but not always possible if mass is",
+        "extensive",
+        "Those diagnosed in perinatal period have more guarded",
+        "prognosis than those diagnosed later in childhood"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Surgery is curative but not always possible if mass is",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.556: Mesenchymal Hamartoma"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Benign liver tumor composed of large, fluid-filled cysts",
+          "surrounded by loose mesenchymal tissue"
+        ],
+        "IMAGING": [
+          "• Large, complex, mixed cystic and solid mass",
+          "○ Cysts variable in size but often large",
+          "• Multiple septations may give Swiss cheese appearance",
+          "• Little or no flow on color Doppler",
+          "• Polyhydramnios often develops",
+          "• Hydrops is poor prognostic sign"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Mesenteric lymphangioma",
+          "○ Usually in peritoneal cavity but may involve liver capsule",
+          "or hepatic parenchyma",
+          "• Congenital hepatic hemangioma",
+          "○ Increased flow on color Doppler",
+          "• Choledochal cyst"
+        ],
+        "PATHOLOGY": [
+          "• Associated with placental mesenchymal dysplasia"
+        ],
+        "CLINICAL ISSUES": [
+          "• May show rapid growth",
+          "• Prognosis is related to size and compression of surrounding",
+          "organs",
+          "• Prenatal cyst drainage considered for large lesions",
+          "• Surgery is curative but not always possible if mass is",
+          "extensive",
+          "• Those diagnosed in perinatal period have more guarded",
+          "prognosis than those diagnosed later in childhood"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Consider mesenchymal hamartoma for any cystic",
+          "abdominal mass that is within or abuts liver",
+          "○ 20% are exophytic in pediatric series",
+          "• Follow any simple-appearing liver cyst carefully as",
+          "mesenchymal hamartomas may show rapid growth"
+        ]
+      }
+    },
+    {
+      "id": "hepatoblastoma",
+      "name": "Гепатобластома",
+      "nameEn": "Hepatoblastoma",
+      "category": "ЖКТ и брюшная стенка",
+      "bookSection": "SECTION 7",
+      "bookPage": 558,
+      "definition": "• Malignant embryonic hepatic tumor",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Well-defined, solid mass",
+        "Fibrous septa create spoke-wheel appearance",
+        "Necrosis/hemorrhage may cause more cystic appearance",
+        "Disorganized, mild to moderate vascularity",
+        "No large vessels as seen in congenital hepatic",
+        "hemangioma",
+        "May have elevated maternal serum α-fetoprotein",
+        "Very poor prognosis if diagnosed in utero"
+      ],
+      "doppler_findings": [
+        "Disorganized, mild to moderate vascularity"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Associated with Beckwith-Wiedemann syndrome"
+      ],
+      "genetic_associations": [
+        "Associated with Beckwith-Wiedemann syndrome",
+        "Overgrowth syndrome with predisposition to childhood"
+      ],
+      "differential_diagnosis": [
+        "Congenital hepatic hemangioma",
+        "Much more vascular than hepatoblastoma",
+        "Mesenchymal hamartoma",
+        "Predominately cystic or mixed, cystic/solid mass"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "~ 5% of fetal tumors occur in liver, and most are benign",
+        "Congenital hepatic hemangioma, mesenchymal",
+        "hamartoma",
+        "Malignant fetal liver tumors are rare",
+        "Consider hepatoblastoma for large, solitary mass",
+        "Consider leukemia in fetus with trisomy 21 and",
+        "hepatosplenomegaly",
+        "Always carefully evaluate liver for metastases in cases of",
+        "neuroblastoma"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.558: Hepatoblastoma"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Malignant embryonic hepatic tumor"
+        ],
+        "IMAGING": [
+          "• Well-defined, solid mass",
+          "○ Fibrous septa create spoke-wheel appearance",
+          "• Necrosis/hemorrhage may cause more cystic appearance",
+          "• Disorganized, mild to moderate vascularity",
+          "○ No large vessels as seen in congenital hepatic",
+          "hemangioma",
+          "• May have elevated maternal serum α-fetoprotein",
+          "• Very poor prognosis if diagnosed in utero"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Congenital hepatic hemangioma",
+          "○ Much more vascular than hepatoblastoma",
+          "• Mesenchymal hamartoma",
+          "○ Predominately cystic or mixed, cystic/solid mass"
+        ],
+        "PATHOLOGY": [
+          "• Associated with Beckwith-Wiedemann syndrome",
+          "○ Overgrowth syndrome with predisposition to childhood",
+          "tumors, particularly Wilms tumor and hepatoblastoma",
+          "○ Macroglossia is most consistent fetal finding",
+          "○ Hepatomegaly and nephromegaly",
+          "○ Placental mesenchymal dysplasia"
+        ],
+        "CLINICAL ISSUES": [
+          "• ~ 5% of fetal tumors occur in liver, and most are benign",
+          "○ Congenital hepatic hemangioma, mesenchymal",
+          "hamartoma",
+          "• Malignant fetal liver tumors are rare",
+          "○ Consider hepatoblastoma for large, solitary mass",
+          "○ Consider leukemia in fetus with trisomy 21 and",
+          "hepatosplenomegaly",
+          "○ Always carefully evaluate liver for metastases in cases of",
+          "neuroblastoma"
+        ]
+      }
+    },
+    {
+      "id": "echogenic-bowel",
+      "name": "Эхогенный кишечник",
+      "nameEn": "Echogenic Bowel",
+      "category": "ЖКТ и брюшная стенка",
+      "bookSection": "SECTION 7",
+      "bookPage": 560,
+      "definition": "эхогенный Bowel",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.560: Echogenic Bowel"
+      ],
+      "sourceBlocks": {}
+    },
+    {
+      "id": "ascites",
+      "name": "Асцит",
+      "nameEn": "Ascites",
+      "category": "ЖКТ и брюшная стенка",
+      "bookSection": "SECTION 7",
+      "bookPage": 562,
+      "definition": "Ascites",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.562: Ascites"
+      ],
+      "sourceBlocks": {}
+    },
+    {
+      "id": "cystic-abdominal-mass",
+      "name": "Кистозное образование брюшной полости",
+      "nameEn": "Cystic Abdominal Mass",
+      "category": "ЖКТ и брюшная стенка",
+      "bookSection": "SECTION 7",
+      "bookPage": 564,
+      "definition": "Cystic Abdominal Mass",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.564: Cystic Abdominal Mass"
+      ],
+      "sourceBlocks": {}
+    },
+    {
+      "id": "hepatomegaly",
+      "name": "Гепатомегалия",
+      "nameEn": "Hepatomegaly",
+      "category": "ЖКТ и брюшная стенка",
+      "bookSection": "SECTION 7",
+      "bookPage": 570,
+      "definition": "Hepatomegaly",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.570: Hepatomegaly"
+      ],
+      "sourceBlocks": {}
+    }
+  ]
+}

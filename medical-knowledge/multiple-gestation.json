@@ -1,0 +1,1029 @@
+{
+  "module": "multiple-gestation",
+  "moduleRu": "Многоплодная беременность",
+  "source": {
+    "title": "Diagnostic Imaging: Obstetrics",
+    "edition": "4th",
+    "authors": [
+      "Paula J. Woodward",
+      "Anne Kennedy",
+      "Roya Sohaey",
+      "Janice L. B. Byrne",
+      "Michael D. Puchalski",
+      "Brian L. Shaffer",
+      "Emily Edwards",
+      "Priyanka Jha",
+      "Whitnee Hogan"
+    ]
+  },
+  "version": "1.0.0",
+  "extractedAt": "2026-06-25",
+  "entries": [
+    {
+      "id": "dichorionic-diamniotic-twins",
+      "name": "Дихориальная диамниальная близнецовая беременность",
+      "nameEn": "Dichorionic Diamniotic Twins",
+      "category": "Многоплодная беременность",
+      "bookSection": "SECTION 11",
+      "bookPage": 860,
+      "definition": "Dichorionic Diamniotic Twins",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "1st trimester: Thick эхогенный chorion completely",
+        "surrounds each embryo",
+        "2nd/3rd trimester",
+        "2 placentas, thick intertwin membrane",
+        "Twin peak sign: Wedge of chorionic tissue extending into",
+        "base of intertwin membrane",
+        "Different sex is most specific sign of dizygotic (DZ) twins"
+      ],
+      "doppler_findings": [
+        "1st trimester: Thick эхогенный chorion completely",
+        "2nd/3rd trimester",
+        "Twin peak sign: Wedge of chorionic tissue extending into"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Monochorionic (MC) diamniotic twins",
+        "Thin intertwin membrane",
+        "MC monoamniotic twins",
+        "No intertwin membrane"
+      ],
+      "red_flags": [
+        "Transvaginal US in 1st trimester is best modality for",
+        "determination of chorionicity and amnionicity"
+      ],
+      "follow_up": [
+        "Twin prognosis determined by chorionicity, not zygosity",
+        "70% of naturally conceived twins are DZ; 30% are",
+        "monozygotic (MZ)",
+        "Of MZ, 30% are dichorionic (DC)",
+        "Twins account for 1.1% of pregnancies in USA, but 10%",
+        "perinatal morbidity and mortality",
+        "~ 95% probability of delivering 2 live infants if normal US",
+        "at 12 weeks in DC twins",
+        "Plan delivery at 38 weeks for uncomplicated DC twins",
+        "Maternal complications > singleton pregnancy",
+        "Hypertension, preeclampsia, antepartum and",
+        "postpartum hemorrhage",
+        "Maternal outcomes not impacted by chorionicity",
+        "Cell-free DNA (cfDNA) testing for trisomy 21 now known to",
+        "be as effective as in singleton pregnancy",
+        "Superior to 1st-trimester combined test or 2nd-trimester",
+        "biochemical testing"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "~ 95% probability of delivering 2 live infants if normal US Plan delivery at 38 weeks for uncomplicated DC twins",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.860: Dichorionic Diamniotic Twins"
+      ],
+      "sourceBlocks": {
+        "IMAGING": [
+          "• 1st trimester: Thick echogenic chorion completely",
+          "surrounds each embryo",
+          "• 2nd/3rd trimester",
+          "○ 2 placentas, thick intertwin membrane",
+          "○ Twin peak sign: Wedge of chorionic tissue extending into",
+          "base of intertwin membrane",
+          "○ Different sex is most specific sign of dizygotic (DZ) twins"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Monochorionic (MC) diamniotic twins",
+          "○ Thin intertwin membrane",
+          "• MC monoamniotic twins",
+          "○ No intertwin membrane"
+        ],
+        "CLINICAL ISSUES": [
+          "• Twin prognosis determined by chorionicity, not zygosity",
+          "• 70% of naturally conceived twins are DZ; 30% are",
+          "monozygotic (MZ)",
+          "○ Of MZ, 30% are dichorionic (DC)",
+          "• Twins account for 1.1% of pregnancies in USA, but 10%",
+          "perinatal morbidity and mortality",
+          "○ ~ 95% probability of delivering 2 live infants if normal US",
+          "at 12 weeks in DC twins",
+          "○ Plan delivery at 38 weeks for uncomplicated DC twins",
+          "• Maternal complications > singleton pregnancy",
+          "○ Hypertension, preeclampsia, antepartum and",
+          "postpartum hemorrhage",
+          "○ Maternal outcomes not impacted by chorionicity",
+          "• Cell-free DNA (cfDNA) testing for trisomy 21 now known to",
+          "be as effective as in singleton pregnancy",
+          "○ Superior to 1st-trimester combined test or 2nd-trimester",
+          "biochemical testing"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Transvaginal US in 1st trimester is best modality for",
+          "determination of chorionicity and amnionicity"
+        ]
+      }
+    },
+    {
+      "id": "monochorionic-diamniotic-twins",
+      "name": "Монохориальная диамниальная близнецовая беременность",
+      "nameEn": "Monochorionic Diamniotic Twins",
+      "category": "Многоплодная беременность",
+      "bookSection": "SECTION 11",
+      "bookPage": 864,
+      "definition": "Monochorionic Diamniotic Twins",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "1st trimester",
+        "2 желточный мешок (ЖМ)s (YSs)",
+        "Must confirm diamnionicity with visualization of",
+        "membrane; get short-term динамическое наблюдение",
+        "2nd trimester",
+        "Single placental mass",
+        "Same sex twins",
+        "Thin intertwin membrane, no \"twin peak\" (lambda sign)",
+        "Protocol",
+        "Identify twins and maintain identity throughout",
+        "pregnancy: Define placental cord insertion, discordant",
+        "growth, unique anomalies",
+        "Twin surveillance every 2 weeks starting at 16 weeks",
+        "– Check bladder and amniotic fluid volume",
+        "NAFTNet recommends growth scan every 4 weeks",
+        "(institutional protocols vary from 2- to 4-week intervals)",
+        "Doppler US should be considered in all MDT > 16 weeks",
+        "– Umbilical artery and vein, венозный проток (DV), middle",
+        "cerebral artery",
+        "Look for specific complications of monochorionic twinning",
+        "Unequal placental sharing",
+        "Twin-twin transfusion syndrome",
+        "Twin anemia polycythemia sequence",
+        "Twin reversed arterial perfusion sequence",
+        "Perform formal фetal echocardiography / эхокардиография плодаcardiography at 18-22 weeks",
+        "Relative risk 9.2x for congenital heart disease"
+      ],
+      "doppler_findings": [
+        "1st trimester",
+        "Must confirm diamnionicity with visualization of",
+        "2nd trimester",
+        "Doppler US should be considered in all MDT > 16 weeks",
+        "Look for specific complications of monochorionic twinning",
+        "Unequal placental sharing",
+        "Twin reversed arterial perfusion sequence",
+        "Relative risk 9.2x for congenital heart disease"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [
+        "Determine chorionicity on very 1st US",
+        "Best assessment of chorionicity based on combining all",
+        "sonographic features rather than any single sign alone"
+      ],
+      "follow_up": [
+        "Prognosis in twins depends on chorionicity, not zygosity",
+        "Perinatal morbidity and mortality of monochorionic twins 3-",
+        "5x that of dichorionic twins"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.864: Monochorionic Diamniotic Twins"
+      ],
+      "sourceBlocks": {
+        "IMAGING": [
+          "• 1st trimester",
+          "○ 2 yolk sacs (YSs)",
+          "○ Must confirm diamnionicity with visualization of",
+          "membrane; get short-term follow-up",
+          "• 2nd trimester",
+          "○ Single placental mass",
+          "○ Same sex twins",
+          "○ Thin intertwin membrane, no \"twin peak\" (lambda sign)",
+          "• Protocol",
+          "○ Identify twins and maintain identity throughout",
+          "pregnancy: Define placental cord insertion, discordant",
+          "growth, unique anomalies",
+          "○ Twin surveillance every 2 weeks starting at 16 weeks",
+          "– Check bladder and amniotic fluid volume",
+          "○ NAFTNet recommends growth scan every 4 weeks",
+          "(institutional protocols vary from 2- to 4-week intervals)",
+          "○ Doppler US should be considered in all MDT > 16 weeks",
+          "– Umbilical artery and vein, ductus venosus, middle",
+          "cerebral artery",
+          "• Look for specific complications of monochorionic twinning",
+          "○ Unequal placental sharing",
+          "○ Twin-twin transfusion syndrome",
+          "○ Twin anemia polycythemia sequence",
+          "○ Twin reversed arterial perfusion sequence",
+          "• Perform formal fetal echocardiography at 18-22 weeks",
+          "○ Relative risk 9.2x for congenital heart disease"
+        ],
+        "CLINICAL ISSUES": [
+          "• Prognosis in twins depends on chorionicity, not zygosity",
+          "• Perinatal morbidity and mortality of monochorionic twins 3-",
+          "5x that of dichorionic twins"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Determine chorionicity on very 1st US",
+          "• Best assessment of chorionicity based on combining all",
+          "sonographic features rather than any single sign alone"
+        ]
+      }
+    },
+    {
+      "id": "monochorionic-monoamniotic-twins",
+      "name": "Монохориальная моноамниальная близнецовая беременность",
+      "nameEn": "Monochorionic Monoamniotic Twins",
+      "category": "Многоплодная беременность",
+      "bookSection": "SECTION 11",
+      "bookPage": 868,
+      "definition": "• 2 fetuses in single amniotic sac",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "1st trimester",
+        "Single желточный мешок (ЖМ) with 2 embryos is reliable predictor on",
+        "vaginal scans > 7 weeks",
+        "Must динамическое наблюдение to confirm no intertwin membrane to",
+        "verify monoamnionicity",
+        "2nd trimester",
+        "No intertwin membrane",
+        "Single placental mass",
+        "Majority of cases have cord entanglement"
+      ],
+      "doppler_findings": [
+        "1st trimester",
+        "verify monoamnionicity",
+        "2nd trimester",
+        "Majority of cases have cord entanglement"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Careful screen for anomalies (particularly cardiac)",
+        "Major anomalies seen in 6-28%",
+        "25% discordant for major anomaly",
+        "presence of anomalies rather than cord entanglement"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Conjoined twins",
+        "Diamniotic twins without visible intertwin membrane",
+        "TTTS, twin anomaly causing anhydramnios in 1 sac,",
+        "intertwin membrane rupture"
+      ],
+      "red_flags": [
+        "Establish chorionicity and amnionicity as early as possible"
+      ],
+      "follow_up": [
+        "monochorionic monoamniotic twin pregnancies with birth-"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.868: Monochorionic Monoamniotic Twins"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• 2 fetuses in single amniotic sac"
+        ],
+        "IMAGING": [
+          "• 1st trimester",
+          "○ Single yolk sac with 2 embryos is reliable predictor on",
+          "vaginal scans > 7 weeks",
+          "○ Must follow-up to confirm no intertwin membrane to",
+          "verify monoamnionicity",
+          "• 2nd trimester",
+          "○ No intertwin membrane",
+          "○ Single placental mass",
+          "○ Majority of cases have cord entanglement"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Conjoined twins",
+          "• Diamniotic twins without visible intertwin membrane",
+          "○ TTTS, twin anomaly causing anhydramnios in 1 sac,",
+          "intertwin membrane rupture"
+        ],
+        "CLINICAL ISSUES": [
+          "• Careful screen for anomalies (particularly cardiac)",
+          "○ Major anomalies seen in 6-28%",
+          "○ 25% discordant for major anomaly",
+          "• Intensive monitoring of fetal well-being",
+          "• Diligent search for TTTS",
+          "○ More challenging, as no membrane means no way to",
+          "detect fluid asymmetry",
+          "○ Check bladders, size discrepancy, cord Doppler, signs of",
+          "cardiac decompensation",
+          "• Risk of intrauterine fetal demise (IUFD) 2x higher in",
+          "monochorionic monoamniotic twin pregnancies with birth-",
+          "weight discordance ≥ 10%",
+          "• Adverse outcomes most affected by prematurity and",
+          "presence of anomalies rather than cord entanglement",
+          "• Best management protocol remains controversial"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Establish chorionicity and amnionicity as early as possible"
+        ]
+      }
+    },
+    {
+      "id": "selective-fetal-growth-restriction",
+      "name": "Селективная задержка роста плода",
+      "nameEn": "Selective Fetal Growth Restriction",
+      "category": "Многоплодная беременность",
+      "bookSection": "SECTION 11",
+      "bookPage": 872,
+      "definition": "• 2018 Delphi procedure established consensus criteria for selective задержка роста плода (ЗРП/FGR) (sFGR) using abdominal circumference (AC), estimated fetal weight (EFW), intertwin difference (Δ EFW), umbilical artery (UA) pulsatility index (PI) for dichorionic (DC) and monochorionic (MC) twins",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "копчико-теменной размер (КТР) (CRL) disparity in 1st trimester",
+        "Disparity in AC, EFW, UA PI in 2nd/3rd trimester",
+        "Determine chorionicity and amnionicity in all multiples",
+        "UA Doppler in all twins with sFGR ± венозный проток (DV) Doppler"
+      ],
+      "doppler_findings": [
+        "копчико-теменной размер (КТР) (CRL) disparity in 1st trimester",
+        "Disparity in AC, EFW, UA PI in 2nd/3rd trimester",
+        "Determine chorionicity and amnionicity in all multiples",
+        "UA Doppler in all twins with sFGR ± венозный проток (DV) Doppler"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Twin-twin transfusion syndrome (TTTS)",
+        "Donor twin oligemic with маловодие",
+        "Recipient twin volume overloaded with многоводие"
+      ],
+      "red_flags": [
+        "1st-trimester CRL discrepancy should trigger careful",
+        "evaluation; weak predictor of mortality if no structural or",
+        "chromosomal abnormality",
+        "DC twins may exhibit benign twin growth rate deviations",
+        "MC twins should have same growth potential",
+        "In MC twins with sFGR, check for TTTS"
+      ],
+      "follow_up": [
+        "Significance of discordance depends on chorionicity",
+        "7x ↑ in neurologic morbidity in MC discordant twins",
+        "compared to DC",
+        "Serious morbidity ↑ 8x in sFGR twins with preterm birth",
+        "Current management is individualized according to",
+        "gestational age at diagnosis, severity of growth",
+        "discordance, and Doppler abnormalities",
+        "Not based on EFW differences alone",
+        "Look at fluid volume, fetal activity, nonstress testing,",
+        "biophysical profile"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.872: Selective Fetal Growth Restriction"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• 2018 Delphi procedure established consensus criteria for",
+          "selective fetal growth restriction (sFGR) using abdominal",
+          "circumference (AC), estimated fetal weight (EFW),",
+          "intertwin difference (Δ EFW), umbilical artery",
+          "(UA) pulsatility index (PI) for dichorionic (DC) and",
+          "monochorionic (MC) twins"
+        ],
+        "IMAGING": [
+          "• Crown-rump length (CRL) disparity in 1st trimester",
+          "• Disparity in AC, EFW, UA PI in 2nd/3rd trimester",
+          "• Determine chorionicity and amnionicity in all multiples",
+          "• UA Doppler in all twins with sFGR ± ductus venosus Doppler"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Twin-twin transfusion syndrome (TTTS)",
+          "○ Donor twin oligemic with oligohydramnios",
+          "○ Recipient twin volume overloaded with polyhydramnios"
+        ],
+        "CLINICAL ISSUES": [
+          "• Significance of discordance depends on chorionicity",
+          "○ 7x ↑ in neurologic morbidity in MC discordant twins",
+          "compared to DC",
+          "• Serious morbidity ↑ 8x in sFGR twins with preterm birth",
+          "• Current management is individualized according to",
+          "gestational age at diagnosis, severity of growth",
+          "discordance, and Doppler abnormalities",
+          "○ Not based on EFW differences alone",
+          "○ Look at fluid volume, fetal activity, nonstress testing,",
+          "biophysical profile"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• 1st-trimester CRL discrepancy should trigger careful",
+          "evaluation; weak predictor of mortality if no structural or",
+          "chromosomal abnormality",
+          "• DC twins may exhibit benign twin growth rate deviations",
+          "• MC twins should have same growth potential",
+          "○ In MC twins with sFGR, check for TTTS"
+        ]
+      }
+    },
+    {
+      "id": "twin-twin-transfusion-syndrome",
+      "name": "Синдром трансфузии близнецов",
+      "nameEn": "Twin-Twin Transfusion Syndrome",
+      "category": "Многоплодная беременность",
+      "bookSection": "SECTION 11",
+      "bookPage": 876,
+      "definition": "• Monochorionic (MC) twin complication caused by intrauterine transfusion of blood from donor (D) to recipient (R) via arteriovenous (AV) placental anastomoses • Staging based on fluid volume, bladder size, Doppler findings, presence of гидrops fetalis",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Donor",
+        "маловодие defined as maximum vertical pocket",
+        "(MVP) ≤ 2 cm",
+        "\"Stuck twin\" seen with severe маловодие",
+        "Doppler abnormalities in D usually involve umbilical",
+        "artery (UA) with absent or reversed end-diastolic flow",
+        "Recipient",
+        "многоводие defined as MVP ≥ 8 cm",
+        "Cardiomyopathy and гидrops fetalis due to volume overload",
+        "High incidence of pulmonary atresia, pulmonary stenosis",
+        "Doppler abnormalities in R more likely to involve ductus",
+        "venosus (DV) or umbilical vein (UV), UA Doppler changes",
+        "less commonly seen",
+        "Incidence of structural heart defects in TTTS Rs is 15-23x",
+        "that in singletons"
+      ],
+      "doppler_findings": [
+        "Doppler abnormalities in D usually involve umbilical",
+        "artery (UA) with absent or reversed end-diastolic flow",
+        "Recipient",
+        "Doppler abnormalities in R more likely to involve ductus",
+        "venosus (DV) or umbilical vein (UV), UA Doppler changes"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [
+        "Hallmark finding is MC diamniotic twins with",
+        "маловодие in 1 sac and многоводие in other"
+      ],
+      "follow_up": [
+        "Surveillance for MVPs and bladder every 2 weeks, starting",
+        "at 16 weeks in all MC twins",
+        "Stage TTTS at diagnosis to determine treatment",
+        "Laser coagulation is treatment of choice for stages 2, 3, and",
+        "4 TTTS in continuing pregnancies at < 26 weeks"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.876: Twin-Twin Transfusion Syndrome"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Monochorionic (MC) twin complication caused by",
+          "intrauterine transfusion of blood from donor (D) to",
+          "recipient (R) via arteriovenous (AV) placental anastomoses",
+          "• Staging based on fluid volume, bladder size, Doppler",
+          "findings, presence of hydrops"
+        ],
+        "IMAGING": [
+          "• Donor",
+          "○ Oligohydramnios defined as maximum vertical pocket",
+          "(MVP) ≤ 2 cm",
+          "○ \"Stuck twin\" seen with severe oligohydramnios",
+          "○ Doppler abnormalities in D usually involve umbilical",
+          "artery (UA) with absent or reversed end-diastolic flow",
+          "• Recipient",
+          "○ Polyhydramnios defined as MVP ≥ 8 cm",
+          "○ Cardiomyopathy and hydrops due to volume overload",
+          "○ High incidence of pulmonary atresia, pulmonary stenosis",
+          "○ Doppler abnormalities in R more likely to involve ductus",
+          "venosus (DV) or umbilical vein (UV), UA Doppler changes",
+          "less commonly seen",
+          "• Incidence of structural heart defects in TTTS Rs is 15-23x",
+          "that in singletons"
+        ],
+        "PATHOLOGY": [
+          "• Unbalanced AV shunt between twins → TTTS"
+        ],
+        "CLINICAL ISSUES": [
+          "• Surveillance for MVPs and bladder every 2 weeks, starting",
+          "at 16 weeks in all MC twins",
+          "• Stage TTTS at diagnosis to determine treatment",
+          "• Laser coagulation is treatment of choice for stages 2, 3, and",
+          "4 TTTS in continuing pregnancies at < 26 weeks"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Hallmark finding is MC diamniotic twins with",
+          "oligohydramnios in 1 sac and polyhydramnios in other"
+        ]
+      }
+    },
+    {
+      "id": "twin-anemia-polycythemia-sequence",
+      "name": "Синдром анемии-полицитемии у близнецов",
+      "nameEn": "Twin Anemia-Polycythemia Sequence",
+      "category": "Многоплодная беременность",
+      "bookSection": "SECTION 11",
+      "bookPage": 880,
+      "definition": "• Twin-anemia polycythemia sequence (TAPS): Slow transfusion from donor → recipient through shared placenta in monochorionic twins ○ Can develop spontaneously or post laser for twin-twin transfusion syndrome (TTTS)",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Fetal diagnosis",
+        "Consensus criteria: MCA PSV > 1.5 MoM in donor, < 0.8",
+        "MoM in recipient, or Δ PSV > 1.0 MoM",
+        "Traditional criteria: MCA PSV ≥ 1.5 MoM in donor, ≤ 1.0",
+        "MoM in recipient",
+        "No amniotic fluid discordance",
+        "Cardiomegaly can occur in donor",
+        "Placental dichotomy: Donor placenta thick, эхогенный with",
+        "more normal appearance of recipient placenta",
+        "Starry-sky appearance of recipient liver",
+        "In most cases, role reversal happens in post laser TAPS",
+        "TTTS recipient becomes anemic (i.e., TAPS donor)",
+        "TTTS donor becomes polycythemic (i.e., TAPS recipient)"
+      ],
+      "doppler_findings": [
+        "Consensus criteria: MCA PSV > 1.5 MoM in donor, < 0.8",
+        "MoM in recipient, or Δ PSV > 1.0 MoM",
+        "Traditional criteria: MCA PSV ≥ 1.5 MoM in donor, ≤ 1.0",
+        "MoM in recipient",
+        "more normal appearance of recipient placenta",
+        "Starry-sky appearance of recipient liver",
+        "TTTS recipient becomes anemic (i.e., TAPS donor)",
+        "TTTS donor becomes polycythemic (i.e., TAPS recipient)"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "TTTS: TTTS and TAPS coexist in ~ 15% of cases",
+        "Selective задержка роста плода (ЗРП/FGR)"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "recommended per 2020 consensus statement",
+        "without discordant amniotic fluid"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "laser surgery, intrauterine transfusion, fetal reduction Postnatal diagnosis based on hemoglobin difference ≥ 8",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.880: Twin Anemia-Polycythemia Sequence"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Twin-anemia polycythemia sequence (TAPS): Slow",
+          "transfusion from donor → recipient through shared",
+          "placenta in monochorionic twins",
+          "○ Can develop spontaneously or post laser for twin-twin",
+          "transfusion syndrome (TTTS)"
+        ],
+        "IMAGING": [
+          "• Fetal diagnosis",
+          "○ Consensus criteria: MCA PSV > 1.5 MoM in donor, < 0.8",
+          "MoM in recipient, or Δ PSV > 1.0 MoM",
+          "○ Traditional criteria: MCA PSV ≥ 1.5 MoM in donor, ≤ 1.0",
+          "MoM in recipient",
+          "• No amniotic fluid discordance",
+          "• Cardiomegaly can occur in donor",
+          "• Placental dichotomy: Donor placenta thick, echogenic with",
+          "more normal appearance of recipient placenta",
+          "• Starry-sky appearance of recipient liver",
+          "• In most cases, role reversal happens in post laser TAPS",
+          "○ TTTS recipient becomes anemic (i.e., TAPS donor)",
+          "○ TTTS donor becomes polycythemic (i.e., TAPS recipient)"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• TTTS: TTTS and TAPS coexist in ~ 15% of cases",
+          "• Selective fetal growth restriction"
+        ],
+        "CLINICAL ISSUES": [
+          "• Surveillance criteria and interval not well established but",
+          "recommended per 2020 consensus statement",
+          "• Treatment options include expectant management, fetal",
+          "laser surgery, intrauterine transfusion, fetal reduction",
+          "• Postnatal diagnosis based on hemoglobin difference ≥ 8",
+          "g/dL and intertwin reticulocyte ratio ≥ 1.7",
+          "○ ↑ reticulocyte count in donor proves chronic anemia",
+          "• Mounting evidence of serious effects of TAPS",
+          "SCANNING TIPS",
+          "• TAPS present when MC twins have discordant MCA PSV",
+          "without discordant amniotic fluid"
+        ]
+      }
+    },
+    {
+      "id": "twin-reversed-arterial-perfusion",
+      "name": "Синдром обратной артериальной перфузии близнецов",
+      "nameEn": "Twin Reversed Arterial Perfusion",
+      "category": "Многоплодная беременность",
+      "bookSection": "SECTION 11",
+      "bookPage": 884,
+      "definition": "• Anomalous twin perfused by deoxygenated blood from pump twin • Blood enters TRAP fetus via umbilical artery ○ Reversed perfusion → selective development of torso/lower extremities ○ Lack of umbilical vein flow into heart → impaired/absent cardiac development",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Must be monochorionic gestation",
+        "TRAP twin dysmorphic with marked soft tissue edema",
+        "Flow in umbilical artery towards anomalous twin is",
+        "pathognomonic of TRAP",
+        "Pump twin high output state may → гидrops fetalis",
+        "Recognizable in 1st trimester"
+      ],
+      "doppler_findings": [
+        "Must be monochorionic gestation",
+        "Recognizable in 1st trimester"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "TRAP twin anomalies are lethal"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "In utero co-twin demise",
+        "Monochorionic twins with discordant anomalies",
+        "Anencephaly, cystic hygroma, amniotic band syndrome"
+      ],
+      "red_flags": [
+        "Monochorionic pregnancy + 1 anomalous twin + umbilical",
+        "artery flow to abnormal twin = TRAP",
+        "Rudimentary heart not uncommon; does not preclude",
+        "TRAP diagnosis"
+      ],
+      "follow_up": [
+        "TRAP twin anomalies are lethal",
+        "Best potential outcome is 1 healthy infant",
+        "Untreated, pump twin mortality ~ 50% in modern series",
+        "Pump twin survival improves with intervention",
+        "Goal of intervention is to interrupt blood supply to",
+        "abnormal twin",
+        "Summary of published cases: ~ 80-90% survival",
+        "92% success reported with 1st-trimester intervention in",
+        "series of 12 (one pump twin demise)"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.884: Twin Reversed Arterial Perfusion"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Anomalous twin perfused by deoxygenated blood from",
+          "pump twin",
+          "• Blood enters TRAP fetus via umbilical artery",
+          "○ Reversed perfusion → selective development of",
+          "torso/lower extremities",
+          "○ Lack of umbilical vein flow into heart → impaired/absent",
+          "cardiac development"
+        ],
+        "IMAGING": [
+          "• Must be monochorionic gestation",
+          "• TRAP twin dysmorphic with marked soft tissue edema",
+          "• Flow in umbilical artery towards anomalous twin is",
+          "pathognomonic of TRAP",
+          "• Pump twin high output state may → hydrops",
+          "• Recognizable in 1st trimester"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• In utero co-twin demise",
+          "• Monochorionic twins with discordant anomalies",
+          "○ Anencephaly, cystic hygroma, amniotic band syndrome"
+        ],
+        "CLINICAL ISSUES": [
+          "• TRAP twin anomalies are lethal",
+          "• Best potential outcome is 1 healthy infant",
+          "• Untreated, pump twin mortality ~ 50% in modern series",
+          "• Pump twin survival improves with intervention",
+          "○ Goal of intervention is to interrupt blood supply to",
+          "abnormal twin",
+          "○ Summary of published cases: ~ 80-90% survival",
+          "• 92% success reported with 1st-trimester intervention in",
+          "series of 12 (one pump twin demise)"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Monochorionic pregnancy + 1 anomalous twin + umbilical",
+          "artery flow to abnormal twin = TRAP",
+          "○ Rudimentary heart not uncommon; does not preclude",
+          "TRAP diagnosis"
+        ]
+      }
+    },
+    {
+      "id": "conjoined-twins",
+      "name": "Сращенные близнецы",
+      "nameEn": "Conjoined Twins",
+      "category": "Многоплодная беременность",
+      "bookSection": "SECTION 11",
+      "bookPage": 888,
+      "definition": "• Fetal fusion of variable degree • Nomenclature ○ Site of fusion + suffix \"pagus\" ○ Prefix \"di\" denotes separate parts associated with conglomerate structures",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Contiguous skin covering between fetuses",
+        "Variable presentation does not exclude diagnosis",
+        "High incidence of congenital heart disease",
+        "многоводие in 50%",
+        "Imaging protocol",
+        "фetal echocardiography / эхокардиография плодаcardiogram essential",
+        "3D US reconstructions easier for parents to understand"
+      ],
+      "doppler_findings": [
+        "Contiguous skin covering between fetuses",
+        "Variable presentation does not exclude diagnosis",
+        "МРТ плода helpful to assess degree of organ sharing"
+      ],
+      "mri_findings": [
+        "МРТ плода helpful to assess degree of organ sharing"
+      ],
+      "associated_anomalies": [
+        "Emergency separation is associated with very poor",
+        "from associated defects"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [
+        "Must be contiguous skin covering for diagnosis of conjoined",
+        "twins"
+      ],
+      "follow_up": [
+        "Majority deliver preterm",
+        "40% stillborn, 75% die on 1st day of life",
+        "Emergency separation is associated with very poor",
+        "outcome",
+        "Delayed separation much preferred",
+        "Systematic imaging of twins with careful labeling to",
+        "assist surgical planning",
+        "Allows for tissue expander use to increase skin available",
+        "for closure of defects after separation",
+        "Despite meticulous investigation, certain anatomy can only",
+        "be discovered intraoperatively",
+        "Huge ethical and legal dilemmas for parents and teams",
+        "involved in care of conjoined twins",
+        "Even if twins separable, consider long-term morbidity",
+        "from associated defects"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Majority deliver preterm",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.888: Conjoined Twins"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Fetal fusion of variable degree",
+          "• Nomenclature",
+          "○ Site of fusion + suffix \"pagus\"",
+          "○ Prefix \"di\" denotes separate parts associated with",
+          "conglomerate structures"
+        ],
+        "IMAGING": [
+          "• Contiguous skin covering between fetuses",
+          "○ Variable presentation does not exclude diagnosis",
+          "• High incidence of congenital heart disease",
+          "• Polyhydramnios in 50%",
+          "• Imaging protocol",
+          "○ Fetal echocardiogram essential",
+          "○ 3D US reconstructions easier for parents to understand",
+          "○ Fetal MR helpful to assess degree of organ sharing"
+        ],
+        "CLINICAL ISSUES": [
+          "• Majority deliver preterm",
+          "○ 40% stillborn, 75% die on 1st day of life",
+          "• Emergency separation is associated with very poor",
+          "outcome",
+          "• Delayed separation much preferred",
+          "○ Systematic imaging of twins with careful labeling to",
+          "assist surgical planning",
+          "○ Allows for tissue expander use to increase skin available",
+          "for closure of defects after separation",
+          "• Despite meticulous investigation, certain anatomy can only",
+          "be discovered intraoperatively",
+          "• Huge ethical and legal dilemmas for parents and teams",
+          "involved in care of conjoined twins",
+          "○ Even if twins separable, consider long-term morbidity",
+          "from associated defects"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Must be contiguous skin covering for diagnosis of conjoined",
+          "twins"
+        ]
+      }
+    },
+    {
+      "id": "triplets-and-beyond",
+      "name": "Тройня и многоплодная беременность",
+      "nameEn": "Triplets and Beyond",
+      "category": "Многоплодная беременность",
+      "bookSection": "SECTION 11",
+      "bookPage": 892,
+      "definition": "• 3 or more fetuses ○ Separate or shared chorionic sacs ○ Separate or shared amniotic sacs",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Determination of chorionicity is critical",
+        "Management protocols based on chorionicity",
+        "Measure толщина воротникового пространства (ТВП) and assess early anatomy",
+        "Important in detection of aneuploidy",
+        "Check placental cord insertion for velamentous cord",
+        "Look for placenta/vasa previa with endovaginal sonography",
+        "Track growth and amniotic fluid",
+        "Use maximum vertical pocket for each fetus to track fluid",
+        "distribution"
+      ],
+      "doppler_findings": [
+        "Determination of chorionicity is critical",
+        "Management protocols based on chorionicity",
+        "distribution"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Associated with significantly increased maternal and fetal"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [
+        "Document chorionicity and amnionicity with endovaginal",
+        "sonography in 1st trimester",
+        "Document fetal positions carefully",
+        "Vital if selective termination to be performed based on",
+        "биопсия хориона (CVS) (CVS) results",
+        "Triplets may be monochorionic, dichorionic, or trichorionic with any combinations of amniotic sacs. Monozygous triplets may be mono-,",
+        "di-, or triamniotic. Dizygous triplets may be di- or trichorionic. Trizygous triplets must be trichorionic. Combinations of monozygous and",
+        "polyzygous multiples are common. Multichorionic placentas may be separate or fused."
+      ],
+      "follow_up": [
+        "Triplet and higher order multiple births continuing to trend",
+        "downward",
+        "↓ in number of embryos transferred per IVF cycle",
+        "Only ~ 20% of triplets are spontaneously conceived",
+        "Associated with significantly increased maternal and fetal",
+        "complications",
+        "Hypertensive complications proportional to fetal",
+        "number",
+        "Increased incidence of aneuploidy at lower maternal age",
+        "when compared with singletons",
+        "2nd-/3rd-trimester loss rate higher than for singletons or",
+        "twins; 14-17% of triplets vs. 2-5% of twins",
+        "Selective multifetal pregnancy reduction may be",
+        "considered"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.892: Triplets and Beyond"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• 3 or more fetuses",
+          "○ Separate or shared chorionic sacs",
+          "○ Separate or shared amniotic sacs"
+        ],
+        "IMAGING": [
+          "• Determination of chorionicity is critical",
+          "○ Management protocols based on chorionicity",
+          "• Measure nuchal translucency and assess early anatomy",
+          "○ Important in detection of aneuploidy",
+          "• Check placental cord insertion for velamentous cord",
+          "• Look for placenta/vasa previa with endovaginal sonography",
+          "• Track growth and amniotic fluid",
+          "○ Use maximum vertical pocket for each fetus to track fluid",
+          "distribution"
+        ],
+        "CLINICAL ISSUES": [
+          "• Triplet and higher order multiple births continuing to trend",
+          "downward",
+          "○ ↓ in number of embryos transferred per IVF cycle",
+          "○ Only ~ 20% of triplets are spontaneously conceived",
+          "• Associated with significantly increased maternal and fetal",
+          "complications",
+          "○ Hypertensive complications proportional to fetal",
+          "number",
+          "○ Increased incidence of aneuploidy at lower maternal age",
+          "when compared with singletons",
+          "○ 2nd-/3rd-trimester loss rate higher than for singletons or",
+          "twins; 14-17% of triplets vs. 2-5% of twins",
+          "• Selective multifetal pregnancy reduction may be",
+          "considered"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Document chorionicity and amnionicity with endovaginal",
+          "sonography in 1st trimester",
+          "• Document fetal positions carefully",
+          "○ Vital if selective termination to be performed based on",
+          "chorionic villus sampling (CVS) results",
+          "Triplets may be monochorionic, dichorionic, or trichorionic with any combinations of amniotic sacs. Monozygous triplets may be mono-,",
+          "di-, or triamniotic. Dizygous triplets may be di- or trichorionic. Trizygous triplets must be trichorionic. Combinations of monozygous and",
+          "polyzygous multiples are common. Multichorionic placentas may be separate or fused."
+        ]
+      }
+    },
+    {
+      "id": "fetus-in-fetu",
+      "name": "Плод в плоде",
+      "nameEn": "Fetus-in-Fetu",
+      "category": "Многоплодная беременность",
+      "bookSection": "SECTION 11",
+      "bookPage": 896,
+      "definition": "• Variant of monochorionic diamniotic twinning in which one abnormal fetus is entirely encompassed within body of other twin",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Well-circumscribed, mixed fluid and solid components",
+        "Fetus suspended within sac containing fluid or",
+        "sebaceous material",
+        "80% of reported cases in retroperitoneal area",
+        "Internal calcifications common",
+        "Presence of vertebral bodies confirms diagnosis"
+      ],
+      "doppler_findings": [
+        "Well-circumscribed, mixed fluid and solid components",
+        "sebaceous material",
+        "80% of reported cases in retroperitoneal area"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Teratoma",
+        "Meconium pseudocyst",
+        "Other solid fetal masses"
+      ],
+      "red_flags": [
+        "Diagnosis is based on presence of neural axis"
+      ],
+      "follow_up": [
+        "Not indication for preterm delivery",
+        "Large masses may cause sufficient abdominal distension",
+        "that cesarean delivery is required to prevent abdominal",
+        "dystocia",
+        "Some secrete β-hCG or AFP",
+        "If diagnosis suspected prenatally",
+        "Counsel parents that postnatal imaging confirmation will",
+        "be required",
+        "Final diagnosis may not be made until surgical resection",
+        "Prognosis",
+        "Excision is curative",
+        "Fetus-in-fetu carries no risk of malignancy"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Not indication for preterm delivery that cesarean delivery is required to prevent abdominal",
+      "postnatal_management": "Counsel parents that postnatal imaging confirmation will",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.896: Fetus-in-Fetu"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Variant of monochorionic diamniotic twinning in which one",
+          "abnormal fetus is entirely encompassed within body of",
+          "other twin"
+        ],
+        "IMAGING": [
+          "• Well-circumscribed, mixed fluid and solid components",
+          "○ Fetus suspended within sac containing fluid or",
+          "sebaceous material",
+          "• 80% of reported cases in retroperitoneal area",
+          "• Internal calcifications common",
+          "○ Presence of vertebral bodies confirms diagnosis"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Teratoma",
+          "• Meconium pseudocyst",
+          "• Other solid fetal masses"
+        ],
+        "CLINICAL ISSUES": [
+          "• Not indication for preterm delivery",
+          "• Large masses may cause sufficient abdominal distension",
+          "that cesarean delivery is required to prevent abdominal",
+          "dystocia",
+          "• Some secrete β-hCG or AFP",
+          "• If diagnosis suspected prenatally",
+          "○ Counsel parents that postnatal imaging confirmation will",
+          "be required",
+          "○ Final diagnosis may not be made until surgical resection",
+          "• Prognosis",
+          "○ Excision is curative",
+          "○ Fetus-in-fetu carries no risk of malignancy"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Diagnosis is based on presence of neural axis"
+        ]
+      }
+    }
+  ]
+}

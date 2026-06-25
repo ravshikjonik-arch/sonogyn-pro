@@ -1,0 +1,997 @@
+{
+  "module": "chest",
+  "moduleRu": "Грудная клетка",
+  "source": {
+    "title": "Diagnostic Imaging: Obstetrics",
+    "edition": "4th",
+    "authors": [
+      "Paula J. Woodward",
+      "Anne Kennedy",
+      "Roya Sohaey",
+      "Janice L. B. Byrne",
+      "Michael D. Puchalski",
+      "Brian L. Shaffer",
+      "Emily Edwards",
+      "Priyanka Jha",
+      "Whitnee Hogan"
+    ]
+  },
+  "version": "1.0.0",
+  "extractedAt": "2026-06-25",
+  "entries": [
+    {
+      "id": "congenital-diaphragmatic-hernia",
+      "name": "Врожденная диафрагмальная грыжа",
+      "nameEn": "Congenital Diaphragmatic Hernia",
+      "category": "Грудная клетка",
+      "bookSection": "SECTION 5",
+      "bookPage": 328,
+      "definition": "• Foramen of Bochdalek hernia (posterior diaphragm defect) most common",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Image entire diaphragm in sagittal plane",
+        "Coronal view of anterior diaphragm may appear normal",
+        "Left врождённая диафрагмальная грыжа (CDH) (CDH) (85%)",
+        "Stomach usually intrathoracic: More posterior or",
+        "retrocardiac position suggests liver also herniated",
+        "Cardiac dextroposition",
+        "Up to 85% contain herniated liver (liver up): Use color",
+        "Doppler to identify portal and hepatic veins",
+        "Right CDH (13%): Stomach down; may be confused with",
+        "chest mass",
+        "Bilateral CDH (2%): High suspicion if intrathoracic stomach",
+        "but little mediastinal shift",
+        "Calculate lung:head ratio (LHR) and observed:expected",
+        "(O:E) LHR; LHR < 1.0 poor prognosis category",
+        "lung volumes; O:E total fetal lung volume (TFLV) < 0.25 → ↑",
+        "mortality, extracorporeal membrane oxygenation (ECMO),",
+        "and chronic lung disease"
+      ],
+      "doppler_findings": [
+        "Coronal view of anterior diaphragm may appear normal",
+        "Stomach usually intrathoracic: More posterior or",
+        "Doppler to identify portal and hepatic veins",
+        "Right CDH (13%): Stomach down; may be confused with",
+        "Bilateral CDH (2%): High suspicion if intrathoracic stomach"
+      ],
+      "mri_findings": [
+        "МР excellent for identifying hernia contents and calculating"
+      ],
+      "associated_anomalies": [
+        "Associated abnormalities in up to 50% of cases",
+        "Structural anomalies (especially cardiac), abnormal",
+        "1st step: Determine if CDH is isolated or other anomalies",
+        "If isolated, other prognostic indicators become important"
+      ],
+      "genetic_associations": [
+        "chromosomes, and syndromes all reported",
+        "кaryotyping / кариотипирование all CDH fetuses"
+      ],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [
+        "US O:E LHR, МР O:E TFLV, and liver herniation are best"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Delivery at tertiary care facility essential for all CDH",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.328: Congenital Diaphragmatic Hernia"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Foramen of Bochdalek hernia (posterior diaphragm defect)",
+          "most common"
+        ],
+        "IMAGING": [
+          "• Image entire diaphragm in sagittal plane",
+          "○ Coronal view of anterior diaphragm may appear normal",
+          "• Left congenital diaphragmatic hernia (CDH) (85%)",
+          "○ Stomach usually intrathoracic: More posterior or",
+          "retrocardiac position suggests liver also herniated",
+          "○ Cardiac dextroposition",
+          "○ Up to 85% contain herniated liver (liver up): Use color",
+          "Doppler to identify portal and hepatic veins",
+          "• Right CDH (13%): Stomach down; may be confused with",
+          "chest mass",
+          "• Bilateral CDH (2%): High suspicion if intrathoracic stomach",
+          "but little mediastinal shift",
+          "• Calculate lung:head ratio (LHR) and observed:expected",
+          "(O:E) LHR; LHR < 1.0 poor prognosis category",
+          "• MR excellent for identifying hernia contents and calculating",
+          "lung volumes; O:E total fetal lung volume (TFLV) < 0.25 → ↑",
+          "mortality, extracorporeal membrane oxygenation (ECMO),",
+          "and chronic lung disease"
+        ],
+        "PATHOLOGY": [
+          "• Associated abnormalities in up to 50% of cases",
+          "○ Structural anomalies (especially cardiac), abnormal",
+          "chromosomes, and syndromes all reported",
+          "○ Karyotype all CDH fetuses"
+        ],
+        "CLINICAL ISSUES": [
+          "• 1st step: Determine if CDH is isolated or other anomalies",
+          "present; if present → poor prognosis",
+          "• If isolated, other prognostic indicators become important",
+          "○ US O:E LHR, MR O:E TFLV, and liver herniation are best",
+          "predictors of survival",
+          "• Delivery at tertiary care facility essential for all CDH",
+          "• US ratios can be calculated by entering data in online",
+          "perinatology calculator"
+        ]
+      }
+    },
+    {
+      "id": "congenital-pulmonary-airway-malformation",
+      "name": "Врожденная малформация легочных путей (КВМРЛ)",
+      "nameEn": "Congenital Pulmonary Airway Malformation",
+      "category": "Грудная клетка",
+      "bookSection": "SECTION 5",
+      "bookPage": 332,
+      "definition": "• Congenital pulmonary airway malformation (CPAM): Newer terminology for congenital cystic adenomatoid malformation (CCAM)",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Varies from solid-appearing (microcystic) to uni- or",
+        "multilocular cystic lesion (macrocystic)",
+        "Microcystic: Cysts < 5 mm; macrocystic: ≥ 1 cyst ≥ 5 mm",
+        "Vascular supply from pulmonary artery",
+        "95% are unilateral and affect only 1 lobe",
+        "Calculate CPAM volume ratio (CVR)",
+        "CPAM volume/head circumference",
+        "CVR > 1.6 → increased risk of гидrops fetalis, fetal demise",
+        "Monitor frequently until CPAM growth stabilizes, usually by",
+        "29 weeks"
+      ],
+      "doppler_findings": [
+        "Varies from solid-appearing (microcystic) to uni- or",
+        "CVR > 1.6 → increased risk of гидrops fetalis, fetal demise",
+        "Monitor frequently until CPAM growth stabilizes, usually by"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Bronchopulmonary sequestration (BPS)",
+        "Hybrid lesion (CPAM + BPS)",
+        "врождённая диафрагмальная грыжа (CDH) (CDH)"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Stable lesions may be watched without intervention",
+        "Majority will stabilize or begin to regress by 29 weeks",
+        "2/3 of CPAMs enlarge during 2nd trimester with CVR peak",
+        "around 25-26 weeks",
+        "1/3 of CPAMs remain relatively stable, then regress during",
+        "late gestation",
+        "Betamethasone administration for high-risk lesions (CVR >",
+        "1.6 &/or гидrops fetalis)",
+        "гидrops fetalis significantly impacts prognosis",
+        "95% fetal and neonatal mortality with expectant",
+        "management",
+        "Mortality 20-47% with betamethasone administration",
+        "Postnatal work-up of all lesions, even if regressed in utero",
+        "Postnatal resection if symptomatic, delayed resection",
+        "possible if asymptomatic"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "95% fetal and neonatal mortality with expectant Postnatal work-up of all lesions, even if regressed in utero Postnatal resection if symptomatic, delayed resection",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.332: Congenital Pulmonary Airway Malformation"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Congenital pulmonary airway malformation (CPAM): Newer",
+          "terminology for congenital cystic adenomatoid",
+          "malformation (CCAM)"
+        ],
+        "IMAGING": [
+          "• Varies from solid-appearing (microcystic) to uni- or",
+          "multilocular cystic lesion (macrocystic)",
+          "○ Microcystic: Cysts < 5 mm; macrocystic: ≥ 1 cyst ≥ 5 mm",
+          "• Vascular supply from pulmonary artery",
+          "• 95% are unilateral and affect only 1 lobe",
+          "• Calculate CPAM volume ratio (CVR)",
+          "○ CPAM volume/head circumference",
+          "○ CVR > 1.6 → increased risk of hydrops, fetal demise",
+          "• Monitor frequently until CPAM growth stabilizes, usually by",
+          "29 weeks"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Bronchopulmonary sequestration (BPS)",
+          "• Hybrid lesion (CPAM + BPS)",
+          "• Congenital diaphragmatic hernia (CDH)"
+        ],
+        "CLINICAL ISSUES": [
+          "• Stable lesions may be watched without intervention",
+          "○ Majority will stabilize or begin to regress by 29 weeks",
+          "• 2/3 of CPAMs enlarge during 2nd trimester with CVR peak",
+          "around 25-26 weeks",
+          "• 1/3 of CPAMs remain relatively stable, then regress during",
+          "late gestation",
+          "• Betamethasone administration for high-risk lesions (CVR >",
+          "1.6 &/or hydrops)",
+          "• Hydrops significantly impacts prognosis",
+          "○ 95% fetal and neonatal mortality with expectant",
+          "management",
+          "○ Mortality 20-47% with betamethasone administration",
+          "• Postnatal work-up of all lesions, even if regressed in utero",
+          "○ Postnatal resection if symptomatic, delayed resection",
+          "possible if asymptomatic"
+        ]
+      }
+    },
+    {
+      "id": "bronchopulmonary-sequestration",
+      "name": "Бронхолегочная секвестрация",
+      "nameEn": "Bronchopulmonary Sequestration",
+      "category": "Грудная клетка",
+      "bookSection": "SECTION 5",
+      "bookPage": 336,
+      "definition": "• Lung tissue that does not connect to tracheobronchial tree with anomalous systemic arterial supply",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Homogeneously эхогенный, solid mass",
+        "80% left sided, lower lung predominant",
+        "85-90% supradiaphragmatic",
+        "10-15% subdiaphragmatic",
+        "May be isoechoic to lung in late gestation",
+        "Feeding vessel arising from aorta most specific imaging",
+        "finding",
+        "Intrathoracic bronchopulmonary sequestration (BPS)",
+        "эхогенный, triangular lesion adjacent to diaphragm",
+        "Ipsilateral pleural effusion in 6-10%",
+        "Abdominal BPS",
+        "Stomach displaced anteriorly by эхогенный mass",
+        "Separate from adrenal gland",
+        "CVR typically peaks at 26- to 28-weeks gestation"
+      ],
+      "doppler_findings": [
+        "Feeding vessel arising from aorta most specific imaging",
+        "эхогенный, triangular lesion adjacent to diaphragm",
+        "Stomach displaced anteriorly by эхогенный mass",
+        "CVR typically peaks at 26- to 28-weeks gestation"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Associated anomalies in up to 50%",
+        "BPS is most commonly associated with congenital"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Congenital pulmonary airway malformation (CPAM)",
+        "Microcystic CPAM similar US appearance to BPS",
+        "Hybrid lesion (BPS + CPAM)",
+        "Consider when systemic vessel supplies cystic lung mass",
+        "Neuroblastoma",
+        "Most common differential consideration for",
+        "subdiaphragmatic BPS",
+        "More often on right, cystic"
+      ],
+      "red_flags": [
+        "diaphragmatic hernia but is often missed"
+      ],
+      "follow_up": [
+        "1/3 of prenatally diagnosed lung masses",
+        "Associated anomalies in up to 50%",
+        "BPS is most commonly associated with congenital",
+        "diaphragmatic hernia but is often missed",
+        "Excellent prognosis when isolated finding (reported 100%",
+        "survival)",
+        "Intervention for hydrothorax ± гидrops fetalis",
+        "Majority resected postnatally"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Majority resected postnatally",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.336: Bronchopulmonary Sequestration"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Lung tissue that does not connect to tracheobronchial tree",
+          "with anomalous systemic arterial supply"
+        ],
+        "IMAGING": [
+          "• Homogeneously echogenic, solid mass",
+          "○ 80% left sided, lower lung predominant",
+          "○ 85-90% supradiaphragmatic",
+          "○ 10-15% subdiaphragmatic",
+          "○ May be isoechoic to lung in late gestation",
+          "• Feeding vessel arising from aorta most specific imaging",
+          "finding",
+          "• Intrathoracic bronchopulmonary sequestration (BPS)",
+          "○ Echogenic, triangular lesion adjacent to diaphragm",
+          "○ Ipsilateral pleural effusion in 6-10%",
+          "• Abdominal BPS",
+          "○ Stomach displaced anteriorly by echogenic mass",
+          "○ Separate from adrenal gland",
+          "• CVR typically peaks at 26- to 28-weeks gestation"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Congenital pulmonary airway malformation (CPAM)",
+          "○ Microcystic CPAM similar US appearance to BPS",
+          "• Hybrid lesion (BPS + CPAM)",
+          "○ Consider when systemic vessel supplies cystic lung mass",
+          "• Neuroblastoma",
+          "○ Most common differential consideration for",
+          "subdiaphragmatic BPS",
+          "○ More often on right, cystic"
+        ],
+        "CLINICAL ISSUES": [
+          "• 1/3 of prenatally diagnosed lung masses",
+          "• Associated anomalies in up to 50%",
+          "○ BPS is most commonly associated with congenital",
+          "diaphragmatic hernia but is often missed",
+          "• Excellent prognosis when isolated finding (reported 100%",
+          "survival)",
+          "• Intervention for hydrothorax ± hydrops",
+          "• Majority resected postnatally"
+        ]
+      }
+    },
+    {
+      "id": "bronchogenic-cyst",
+      "name": "Бронхогенная киста",
+      "nameEn": "Bronchogenic Cyst",
+      "category": "Грудная клетка",
+      "bookSection": "SECTION 5",
+      "bookPage": 340,
+      "definition": "• Bronchogenic cysts are part of family of foregut duplication cysts, which also includes enteric and neurenteric cysts",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "May be mediastinal or in lung parenchyma",
+        "Majority in middle or posterior mediastinum",
+        "– Peritracheal/carinal most common location",
+        "Parenchymal cysts typically in medial 1/3 of lungs",
+        "Neck and subcutaneous (usually upper chest) locations also",
+        "reported",
+        "Unilocular, simple cyst",
+        "Almost always solitary",
+        "May contain эхогенный debris and be difficult to",
+        "differentiate from surrounding tissues",
+        "May exert mass effect and compress esophagus or adjacent",
+        "bronchus, especially if large",
+        "многоводие or гидrops fetalis if significant compression of",
+        "mediastinal structures",
+        "No flow on цветовой допpler"
+      ],
+      "doppler_findings": [
+        "Majority in middle or posterior mediastinum",
+        "– Peritracheal/carinal most common location",
+        "Parenchymal cysts typically in medial 1/3 of lungs",
+        "Neck and subcutaneous (usually upper chest) locations also",
+        "May contain эхогенный debris and be difficult to",
+        "No flow on цветовой допpler"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Supernumerary or anomalous foregut bud occurring"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Congenital pulmonary airway malformation (CPAM)",
+        "Usually more complex and multilocular, but unilocular",
+        "CPAM could have similar appearance",
+        "Esophageal duplication cyst",
+        "Can be round or tubular",
+        "Always located in posterior mediastinum",
+        "Neurenteric cyst",
+        "Associated with spinal anomalies"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Surgical resection recommended postnatally"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Surgical resection recommended postnatally",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.340: Bronchogenic Cyst"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Bronchogenic cysts are part of family of foregut duplication",
+          "cysts, which also includes enteric and neurenteric cysts"
+        ],
+        "IMAGING": [
+          "• May be mediastinal or in lung parenchyma",
+          "○ Majority in middle or posterior mediastinum",
+          "– Peritracheal/carinal most common location",
+          "○ Parenchymal cysts typically in medial 1/3 of lungs",
+          "• Neck and subcutaneous (usually upper chest) locations also",
+          "reported",
+          "• Unilocular, simple cyst",
+          "• Almost always solitary",
+          "• May contain echogenic debris and be difficult to",
+          "differentiate from surrounding tissues",
+          "• May exert mass effect and compress esophagus or adjacent",
+          "bronchus, especially if large",
+          "○ Polyhydramnios or hydrops if significant compression of",
+          "mediastinal structures",
+          "• No flow on color Doppler"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Congenital pulmonary airway malformation (CPAM)",
+          "○ Usually more complex and multilocular, but unilocular",
+          "CPAM could have similar appearance",
+          "• Esophageal duplication cyst",
+          "○ Can be round or tubular",
+          "○ Always located in posterior mediastinum",
+          "• Neurenteric cyst",
+          "○ Associated with spinal anomalies"
+        ],
+        "PATHOLOGY": [
+          "• Supernumerary or anomalous foregut bud occurring",
+          "between days 26-40 of gestation"
+        ],
+        "CLINICAL ISSUES": [
+          "• Usually incidental finding in fetus",
+          "• Surgical resection recommended postnatally"
+        ]
+      }
+    },
+    {
+      "id": "congenital-high-airway-obstruction-sequence",
+      "name": "Синдром врожденной обструкции верхних дыхательных путей",
+      "nameEn": "Congenital High Airway Obstruction Sequence",
+      "category": "Грудная клетка",
+      "bookSection": "SECTION 5",
+      "bookPage": 342,
+      "definition": "• High airway obstruction (tracheal or laryngeal) caused by atresia, stenosis, or web",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Bilaterally enlarged, hyperechoic lungs",
+        "Heart appears small and midline in position",
+        "Dilated, fluid-filled trachea and bronchi distal to point of",
+        "obstruction",
+        "Diaphragm flattened or everted",
+        "Ascites common and may be massive",
+        "High intrathoracic pressures obstructs lymphatic and",
+        "venous return",
+        "Coronal цветовой допpler ultrasound of neck focused on larynx",
+        "Look for movement of fluid during breathing",
+        "Opening and closing of vocal cords suggest less severe",
+        "obstruction",
+        "Associated anomalies in 50% of cases",
+        "Typically 1 or more features of VACTERL association"
+      ],
+      "doppler_findings": [
+        "Coronal цветовой допpler ultrasound of neck focused on larynx",
+        "Look for movement of fluid during breathing",
+        "Typically 1 or more features of VACTERL association"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Bilateral congenital pulmonary airway malformations",
+        "Trachea and bronchi would not be fluid filled"
+      ],
+      "red_flags": [
+        "Symmetric, homogeneous lung enlargement is essentially",
+        "pathognomonic",
+        "Goal of imaging is to determine site and severity of",
+        "obstruction to aid in counseling and treatment planning"
+      ],
+      "follow_up": [
+        "Planning for delivery is essential",
+        "EXIT procedure (ex utero intrapartum treatment) to",
+        "tracheostomy",
+        "Long-term prognosis is poor even with appropriate",
+        "planning"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Planning for delivery is essential",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.342: Congenital High Airway Obstruction Sequence"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• High airway obstruction (tracheal or laryngeal) caused by",
+          "atresia, stenosis, or web"
+        ],
+        "IMAGING": [
+          "• Bilaterally enlarged, hyperechoic lungs",
+          "• Heart appears small and midline in position",
+          "• Dilated, fluid-filled trachea and bronchi distal to point of",
+          "obstruction",
+          "• Diaphragm flattened or everted",
+          "• Ascites common and may be massive",
+          "○ High intrathoracic pressures obstructs lymphatic and",
+          "venous return",
+          "• Coronal color Doppler ultrasound of neck focused on larynx",
+          "○ Look for movement of fluid during breathing",
+          "○ Opening and closing of vocal cords suggest less severe",
+          "obstruction",
+          "• Associated anomalies in 50% of cases",
+          "○ Typically 1 or more features of VACTERL association"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Bilateral congenital pulmonary airway malformations",
+          "○ Trachea and bronchi would not be fluid filled"
+        ],
+        "PATHOLOGY": [
+          "• Obstruction causes retention of fetal lung fluid and",
+          "subsequent overdevelopment"
+        ],
+        "CLINICAL ISSUES": [
+          "• Planning for delivery is essential",
+          "○ EXIT procedure (ex utero intrapartum treatment) to",
+          "tracheostomy",
+          "• Long-term prognosis is poor even with appropriate",
+          "planning"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Symmetric, homogeneous lung enlargement is essentially",
+          "pathognomonic",
+          "• Goal of imaging is to determine site and severity of",
+          "obstruction to aid in counseling and treatment planning"
+        ]
+      }
+    },
+    {
+      "id": "congenital-lobar-overinflation",
+      "name": "Врожденная гиперинфляция доли легкого",
+      "nameEn": "Congenital Lobar Overinflation",
+      "category": "Грудная клетка",
+      "bookSection": "SECTION 5",
+      "bookPage": 344,
+      "definition": "• Congenital lobar overinflation (CLO): Hyperinflation of ≥ 1 lung lobe due to partial obstruction of bronchus ○ Abnormal bronchus acts as 1-way valve → fluid-trapping prenatally and air-trapping postnatally",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "LUL (~ 1/2) > RML > RUL > > lower lobes or > 1 lobe",
+        "Homogeneously эхогенный lung mass without cysts or",
+        "systemic arterial blood supply",
+        "May be hypervascular",
+        "Only ~ 1/4 detected prenatally",
+        "Of those detected in fetal life, majority diagnosed as",
+        "congenital pulmonary airway malformation (CPAM)"
+      ],
+      "doppler_findings": [
+        "systemic arterial blood supply",
+        "Of those detected in fetal life, majority diagnosed as"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Type 2: Associated with bronchial atresia"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Microcystic CPAM",
+        "Most common prenatal mimic of CLO; extensive overlap",
+        "of imaging findings → frequent misdiagnosis"
+      ],
+      "red_flags": [
+        "Include CLO in differential for homogeneously эхогенный",
+        "lung masses without macrocysts or systemic arterial supply",
+        "Use цветовой допpler to look for hypervascularity within",
+        "affected lung"
+      ],
+      "follow_up": [
+        "Rare: 1/20,000-30,000 births",
+        "~ 10% of all congenital lung malformations",
+        "Neonate with progressive tachypnea, asymmetric chest",
+        "wall expansion, ↓ breath sounds",
+        "90% resected in 1st year of life",
+        "Excellent clinical outcomes"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.344: Congenital Lobar Overinflation"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Congenital lobar overinflation (CLO): Hyperinflation of ≥ 1",
+          "lung lobe due to partial obstruction of bronchus",
+          "○ Abnormal bronchus acts as 1-way valve → fluid-trapping",
+          "prenatally and air-trapping postnatally"
+        ],
+        "IMAGING": [
+          "• LUL (~ 1/2) > RML > RUL > > lower lobes or > 1 lobe",
+          "• Homogeneously echogenic lung mass without cysts or",
+          "systemic arterial blood supply",
+          "• May be hypervascular",
+          "• Only ~ 1/4 detected prenatally",
+          "○ Of those detected in fetal life, majority diagnosed as",
+          "congenital pulmonary airway malformation (CPAM)"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Microcystic CPAM",
+          "○ Most common prenatal mimic of CLO; extensive overlap",
+          "of imaging findings → frequent misdiagnosis"
+        ],
+        "PATHOLOGY": [
+          "• Type 1 (classic CLO): Bronchial obstruction → air-trapping",
+          "and hyperinflation",
+          "○ Bronchial obstruction can be intrinsic or extrinsic",
+          "• Type 2: Associated with bronchial atresia"
+        ],
+        "CLINICAL ISSUES": [
+          "• Rare: 1/20,000-30,000 births",
+          "• ~ 10% of all congenital lung malformations",
+          "• Neonate with progressive tachypnea, asymmetric chest",
+          "wall expansion, ↓ breath sounds",
+          "• 90% resected in 1st year of life",
+          "• Excellent clinical outcomes"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Include CLO in differential for homogeneously echogenic",
+          "lung masses without macrocysts or systemic arterial supply",
+          "• Use color Doppler to look for hypervascularity within",
+          "affected lung"
+        ]
+      }
+    },
+    {
+      "id": "pulmonary-agenesis",
+      "name": "Агенезия легкого",
+      "nameEn": "Pulmonary Agenesis",
+      "category": "Грудная клетка",
+      "bookSection": "SECTION 5",
+      "bookPage": 346,
+      "definition": "Pulmonary Agenesis",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Abnormal heart position without chest mass or",
+        "diaphragmatic hernia",
+        "Cardiomediastinal shift towards absent/small lung",
+        "Right pulmonary agenesis more common (~ 2/3)",
+        "Associated anomalies in 50-75%",
+        "Vascular and cardiac most common"
+      ],
+      "doppler_findings": [
+        "Right pulmonary agenesis more common (~ 2/3)"
+      ],
+      "mri_findings": [
+        "МР helpful in most cases"
+      ],
+      "associated_anomalies": [
+        "70% genetic abnormality when other anomalies present",
+        "Prognosis depends on associated anomalies",
+        "Anomalous vascular anatomy often cannot be elucidated"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "врождённая диафрагмальная грыжа (CDH) (CDH)",
+        "Left CDH → cardiac dextroposition",
+        "– Stomach, bowel in chest ± liver",
+        "Right CDH → cardiac levoposition",
+        "– Liver in chest",
+        "Other causes of abnormal cardiac position",
+        "Congenital pulmonary airway malformation",
+        "Bronchopulmonary sequestration",
+        "Congenital heart disease"
+      ],
+      "red_flags": [
+        "Consider diagnosis with unexplained cardiac malposition",
+        "e.g., normal echocardiogram, no chest mass, intact",
+        "diaphragms",
+        "Echocardiogram for abnormal cardiac position",
+        "recommended",
+        "Partial agenesis findings may be subtle"
+      ],
+      "follow_up": [
+        "Postnatal CT &/or МР often necessary"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Postnatal CT &/or МР often necessary",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.346: Pulmonary Agenesis"
+      ],
+      "sourceBlocks": {
+        "IMAGING": [
+          "• Abnormal heart position without chest mass or",
+          "diaphragmatic hernia",
+          "○ Cardiomediastinal shift towards absent/small lung",
+          "• Right pulmonary agenesis more common (~ 2/3)",
+          "• Associated anomalies in 50-75%",
+          "○ Vascular and cardiac most common",
+          "• MR helpful in most cases"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Congenital diaphragmatic hernia (CDH)",
+          "○ Left CDH → cardiac dextroposition",
+          "– Stomach, bowel in chest ± liver",
+          "○ Right CDH → cardiac levoposition",
+          "– Liver in chest",
+          "• Other causes of abnormal cardiac position",
+          "○ Congenital pulmonary airway malformation",
+          "○ Bronchopulmonary sequestration",
+          "○ Congenital heart disease"
+        ],
+        "PATHOLOGY": [
+          "• Classification includes agenesis, aplasia, hypoplasia"
+        ],
+        "CLINICAL ISSUES": [
+          "• Consider genetic counseling and testing",
+          "○ 70% genetic abnormality when other anomalies present",
+          "• Prognosis depends on associated anomalies",
+          "○ Isolated and partial agenesis → good prognosis",
+          "• Postnatal CT &/or MR often necessary",
+          "○ Anomalous vascular anatomy often cannot be elucidated",
+          "prenatally"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Consider diagnosis with unexplained cardiac malposition",
+          "○ e.g., normal echocardiogram, no chest mass, intact",
+          "diaphragms",
+          "• Echocardiogram for abnormal cardiac position",
+          "recommended",
+          "• Partial agenesis findings may be subtle"
+        ]
+      }
+    },
+    {
+      "id": "lymphangioma",
+      "name": "Лимфангиома",
+      "nameEn": "Lymphangioma",
+      "category": "Грудная клетка",
+      "bookSection": "SECTION 5",
+      "bookPage": 348,
+      "definition": "• Congenital lymphovascular malformation",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Nonnuchal complex cystic mass",
+        "Often large with septations",
+        "– Septa of variable thickness ± vascularity",
+        "No solid component",
+        "20% of all lymphangiomas are nonnuchal",
+        "Most involve axilla",
+        "Can occur anywhere",
+        "– Trunk ± leg",
+        "– Intraabdominal (mesenteric)",
+        "Often progressive and infiltrative",
+        "Assess fetal airway",
+        "Compression of adjacent organs",
+        "гидrops fetalis not common complication"
+      ],
+      "doppler_findings": [
+        "– Septa of variable thickness ± vascularity",
+        "– Intraabdominal (mesenteric)"
+      ],
+      "mri_findings": [
+        "Infiltrative nature of mass better seen with МР"
+      ],
+      "associated_anomalies": [
+        "Treatment: Surgical excision or sclerotherapy"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Nuchal cystic hygroma (CH)",
+        "66% associated with chromosome abnormality",
+        "Klippel-Trenaunay-Weber syndrome",
+        "Large cutaneous hemangiomas",
+        "Other abdominal cystic masses (when mesenteric)"
+      ],
+      "red_flags": [
+        "Assess for fetal anemia if cysts become эхогенный from",
+        "intracystic hemorrhage"
+      ],
+      "follow_up": [
+        "Imaging findings key for delivery planning",
+        "Risk of airway compromise or shoulder dystocia",
+        "2% will have genetic abnormality",
+        "Treatment: Surgical excision or sclerotherapy",
+        "Survival rates near 100%",
+        "Much better than with nuchal CH"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Imaging findings key for delivery planning",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.348: Lymphangioma"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Congenital lymphovascular malformation"
+        ],
+        "IMAGING": [
+          "• Nonnuchal complex cystic mass",
+          "○ Often large with septations",
+          "– Septa of variable thickness ± vascularity",
+          "○ No solid component",
+          "• 20% of all lymphangiomas are nonnuchal",
+          "○ Most involve axilla",
+          "○ Can occur anywhere",
+          "– Trunk ± leg",
+          "– Intraabdominal (mesenteric)",
+          "• Often progressive and infiltrative",
+          "○ Infiltrative nature of mass better seen with MR",
+          "○ Assess fetal airway",
+          "○ Compression of adjacent organs",
+          "• Hydrops not common complication"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Nuchal cystic hygroma (CH)",
+          "○ 66% associated with chromosome abnormality",
+          "• Klippel-Trenaunay-Weber syndrome",
+          "○ Large cutaneous hemangiomas",
+          "• Other abdominal cystic masses (when mesenteric)"
+        ],
+        "CLINICAL ISSUES": [
+          "• Imaging findings key for delivery planning",
+          "○ Risk of airway compromise or shoulder dystocia",
+          "• 2% will have genetic abnormality",
+          "• Treatment: Surgical excision or sclerotherapy",
+          "• Survival rates near 100%",
+          "○ Much better than with nuchal CH"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Assess for fetal anemia if cysts become echogenic from",
+          "intracystic hemorrhage"
+        ]
+      }
+    },
+    {
+      "id": "mediastinal-teratoma",
+      "name": "Средостенная тератома",
+      "nameEn": "Mediastinal Teratoma",
+      "category": "Грудная клетка",
+      "bookSection": "SECTION 5",
+      "bookPage": 352,
+      "definition": "Mediastinal Teratoma",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Complex heterogeneous mass",
+        "Contains both cystic and solid components",
+        "Most originate from superior mediastinum and are midline",
+        "in location",
+        "Lungs are pushed laterally",
+        "Heart compressed inferiorly",
+        "гидrops fetalis common and may be severe with large masses",
+        "Lack of airway visualization does not necessarily mean",
+        "invasion; may still be patent but compressed by mass"
+      ],
+      "doppler_findings": [
+        "Most originate from superior mediastinum and are midline",
+        "Heart compressed inferiorly",
+        "МР helpful in defining extent of mass and evaluating airway",
+        "Lack of airway visualization does not necessarily mean"
+      ],
+      "mri_findings": [
+        "МР helpful in defining extent of mass and evaluating airway"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Pericardial teratoma",
+        "Often has massive pericardial effusion",
+        "Lymphangioma",
+        "Septated cystic mass without significant solid",
+        "components",
+        "May invade into chest and mediastinum but largest",
+        "component in neck or axillae",
+        "Congenital pulmonary airway malformation and",
+        "bronchopulmonary sequestration",
+        "Arise from lung, not mediastinum"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "required to establish airway followed by immediate"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.352: Mediastinal Teratoma"
+      ],
+      "sourceBlocks": {
+        "IMAGING": [
+          "• Complex heterogeneous mass",
+          "○ Contains both cystic and solid components",
+          "• Most originate from superior mediastinum and are midline",
+          "in location",
+          "○ Lungs are pushed laterally",
+          "○ Heart compressed inferiorly",
+          "• Hydrops common and may be severe with large masses",
+          "• MR helpful in defining extent of mass and evaluating airway",
+          "○ Lack of airway visualization does not necessarily mean",
+          "invasion; may still be patent but compressed by mass"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Pericardial teratoma",
+          "○ Often has massive pericardial effusion",
+          "• Lymphangioma",
+          "○ Septated cystic mass without significant solid",
+          "components",
+          "○ May invade into chest and mediastinum but largest",
+          "component in neck or axillae",
+          "• Congenital pulmonary airway malformation and",
+          "bronchopulmonary sequestration",
+          "○ Arise from lung, not mediastinum"
+        ],
+        "CLINICAL ISSUES": [
+          "• Most present in 3rd trimester",
+          "○ May have had normal 2nd-trimester scan reflecting rapid",
+          "growth potential",
+          "• Large masses with hydrops often fatal",
+          "• Ex utero intrapartum treatment (EXIT) treatment may be",
+          "required to establish airway followed by immediate",
+          "resection of mass",
+          "• For those successfully resected, degree of pulmonary",
+          "hypoplasia and status of trachea are key prognostic",
+          "indicators",
+          "○ Even if airway is not invaded, tracheomalacia is common",
+          "secondary to external compression"
+        ]
+      }
+    },
+    {
+      "id": "solid-echogenic-chest-mass",
+      "name": "Плотное/эхогенное образование грудной клетки",
+      "nameEn": "Solid/Echogenic Chest Mass",
+      "category": "Грудная клетка",
+      "bookSection": "SECTION 5",
+      "bookPage": 354,
+      "definition": "Solid/эхогенный Chest Mass",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.354: Solid/Echogenic Chest Mass"
+      ],
+      "sourceBlocks": {}
+    },
+    {
+      "id": "cystic-chest-mass",
+      "name": "Кистозное образование грудной клетки",
+      "nameEn": "Cystic Chest Mass",
+      "category": "Грудная клетка",
+      "bookSection": "SECTION 5",
+      "bookPage": 358,
+      "definition": "Cystic Chest Mass",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.358: Cystic Chest Mass"
+      ],
+      "sourceBlocks": {}
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "sourcePdf": "/Users/yakrav7700/Desktop/Diagnostic Imaging. Obstetrics (Woodward) 4 ed (2021).pdf",
+  "projectCopyHint": "docs/books/Diagnostic-Imaging-Obstetrics-2021.pdf",
+  "extractScript": "scripts/extract-woodward-obstetrics.py",
+  "localizeScript": "scripts/localize-woodward-ru.py",
+  "schema": "medical-knowledge/schema.ts",
+  "loader": "medical-knowledge/index.ts",
+  "totalEntries": 286,
+  "modules": 16
+}

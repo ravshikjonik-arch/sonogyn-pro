@@ -53,8 +53,12 @@ const nextConfig: NextConfig = {
     });
     const clinical3dSrc = path.join(__dirname, "../../packages/clinical-3d/src");
     config.resolve ??= {};
+    const servicesRoot = path.join(__dirname, "../../services");
+    const medicalKnowledge = path.join(__dirname, "../../medical-knowledge");
     config.resolve.alias = {
       ...config.resolve.alias,
+      "@repo/obstetric-expert-services": servicesRoot,
+      "@medical-knowledge": path.join(medicalKnowledge, "index.ts"),
       // Явные subpath для Vercel/webpack (wildcard exports из package.json не всегда резолвятся)
       "@repo/clinical-3d/organs/ovary": path.join(clinical3dSrc, "organs/ovary/index.ts"),
       "@repo/clinical-3d/shared/locale": path.join(clinical3dSrc, "shared/locale.ts"),

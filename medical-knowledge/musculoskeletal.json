@@ -1,0 +1,2435 @@
+{
+  "module": "musculoskeletal",
+  "moduleRu": "Опорно-двигательная система",
+  "source": {
+    "title": "Diagnostic Imaging: Obstetrics",
+    "edition": "4th",
+    "authors": [
+      "Paula J. Woodward",
+      "Anne Kennedy",
+      "Roya Sohaey",
+      "Janice L. B. Byrne",
+      "Michael D. Puchalski",
+      "Brian L. Shaffer",
+      "Emily Edwards",
+      "Priyanka Jha",
+      "Whitnee Hogan"
+    ]
+  },
+  "version": "1.0.0",
+  "extractedAt": "2026-06-25",
+  "entries": [
+    {
+      "id": "achondrogenesis-hypochondrogenesis",
+      "name": "Ахондрогенез, гипохондрогенез",
+      "nameEn": "Achondrogenesis, Hypochondrogenesis",
+      "category": "Опорно-двигательная система",
+      "bookSection": "SECTION 9",
+      "bookPage": 698,
+      "definition": "• Group of lethal osteochondrodysplasias due to failure of cartilaginous matrix formation • Achondrogenesis has 3 main subtypes based on clinical features",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "All types characterized by severe micromelia, deficient",
+        "spine ossification, short trunk, and disproportionately large",
+        "head",
+        "Type IA achondrogenesis most severely affected",
+        "Poorly ossified skull",
+        "Completely unossified spine",
+        "Short ribs with multiple fractures",
+        "Type IB achondrogenesis",
+        "Poorly ossified skull",
+        "Posterior pedicles of spine may be ossified",
+        "No rib fractures",
+        "Type II achondrogenesis",
+        "Normal skull ossification",
+        "Poorly ossified spine",
+        "Hypochondrogenesis",
+        "Normal skull ossification",
+        "Better ossification of vertebral bodies"
+      ],
+      "doppler_findings": [
+        "All types characterized by severe micromelia, deficient",
+        "spine ossification, short trunk, and disproportionately large",
+        "Completely unossified spine",
+        "Short ribs with multiple fractures",
+        "Posterior pedicles of spine may be ossified",
+        "No rib fractures",
+        "Poorly ossified spine"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Hypophosphatasia",
+        "Osteogenesis imperfecta",
+        "Atelosteogenesis II",
+        "Short rib-polydactyly syndrome"
+      ],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.698: Achondrogenesis, Hypochondrogenesis"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Group of lethal osteochondrodysplasias due to failure of",
+          "cartilaginous matrix formation",
+          "• Achondrogenesis has 3 main subtypes based on clinical",
+          "features"
+        ],
+        "IMAGING": [
+          "• All types characterized by severe micromelia, deficient",
+          "spine ossification, short trunk, and disproportionately large",
+          "head",
+          "• Type IA achondrogenesis most severely affected",
+          "○ Poorly ossified skull",
+          "○ Completely unossified spine",
+          "○ Short ribs with multiple fractures",
+          "• Type IB achondrogenesis",
+          "○ Poorly ossified skull",
+          "○ Posterior pedicles of spine may be ossified",
+          "○ No rib fractures",
+          "• Type II achondrogenesis",
+          "○ Normal skull ossification",
+          "○ Poorly ossified spine",
+          "• Hypochondrogenesis",
+          "○ Normal skull ossification",
+          "○ Better ossification of vertebral bodies"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Hypophosphatasia",
+          "• Osteogenesis imperfecta",
+          "• Atelosteogenesis II",
+          "• Short rib-polydactyly syndrome"
+        ],
+        "PATHOLOGY": [
+          "• Types IA and IB: Autosomal recessive",
+          "○ Type IA: Molecular basis not known",
+          "○ Type IB: Mutations in diastrophic dysplasia sulfate",
+          "transporter gene [SLC26A2 (DTDST)]",
+          "• Type II and hypochondrogenesis: Autosomal dominant",
+          "○ Mutations in type II collagen gene COL2A1"
+        ]
+      }
+    },
+    {
+      "id": "achondroplasia",
+      "name": "Ахондроплазия",
+      "nameEn": "Achondroplasia",
+      "category": "Опорно-двигательная система",
+      "bookSection": "SECTION 9",
+      "bookPage": 704,
+      "definition": "• Most common heritable, nonlethal skeletal dysplasia • Characterized by disproportionately short limbs (rhizomelia), large head with frontal bossing, midface hypoplasia, and short digits",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Short limbs with normal ossification, no fractures",
+        "Normal early scan with shortening manifesting between",
+        "21-27 weeks and progressing in 3rd trimester",
+        "Proximal femoral diaphysis-metaphysis angle is increased",
+        "Collar hoop sign: Small, highly эхогенный hook at end of",
+        "diaphysis",
+        "Progressive макроцефалия with frontal bossing",
+        "Depressed nasal bridge with upturned nasal tip",
+        "Chest normal to mildly bell-shaped",
+        "Prominent thoracolumbar kyphosis and platyspondyly",
+        "Trident-shaped hands"
+      ],
+      "doppler_findings": [
+        "21-27 weeks and progressing in 3rd trimester",
+        "Depressed nasal bridge with upturned nasal tip",
+        "Trident-shaped hands"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Hypochondroplasia",
+        "Thanatophoric dysplasia"
+      ],
+      "red_flags": [
+        "Normal 2nd-trimester scan does not rule out",
+        "achondroplasia"
+      ],
+      "follow_up": [
+        "Normal intelligence",
+        "Generally normal lifespan",
+        "Increased incidence of orthopedic and neurologic",
+        "complications"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.704: Achondroplasia"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Most common heritable, nonlethal skeletal dysplasia",
+          "• Characterized by disproportionately short limbs",
+          "(rhizomelia), large head with frontal bossing, midface",
+          "hypoplasia, and short digits"
+        ],
+        "IMAGING": [
+          "• Short limbs with normal ossification, no fractures",
+          "○ Normal early scan with shortening manifesting between",
+          "21-27 weeks and progressing in 3rd trimester",
+          "• Proximal femoral diaphysis-metaphysis angle is increased",
+          "• Collar hoop sign: Small, highly echogenic hook at end of",
+          "diaphysis",
+          "• Progressive macrocephaly with frontal bossing",
+          "• Depressed nasal bridge with upturned nasal tip",
+          "• Chest normal to mildly bell-shaped",
+          "• Prominent thoracolumbar kyphosis and platyspondyly",
+          "• Trident-shaped hands"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Hypochondroplasia",
+          "• Thanatophoric dysplasia"
+        ],
+        "PATHOLOGY": [
+          "• Autosomal dominant single-gene disorder",
+          "• FGFR3 mutations (gain-of-function)",
+          "• > 80% of cases are de novo mutations (sporadic)",
+          "• Homozygous achondroplasia is lethal"
+        ],
+        "CLINICAL ISSUES": [
+          "• Normal intelligence",
+          "• Generally normal lifespan",
+          "• Increased incidence of orthopedic and neurologic",
+          "complications"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Normal 2nd-trimester scan does not rule out",
+          "achondroplasia"
+        ]
+      }
+    },
+    {
+      "id": "amelia-phocomelia",
+      "name": "Амелия/фокомелия",
+      "nameEn": "Amelia/Phocomelia",
+      "category": "Опорно-двигательная система",
+      "bookSection": "SECTION 9",
+      "bookPage": 708,
+      "definition": "• Amelia: Absence of 1 or more limbs • Micromelia: Shortening of both proximal and distal segments of limb • Phocomelia: Shortening of limb with hand/foot arising near trunk • Limb reduction defect: Absence of any portion of skeletal structures or soft tissues of limb • Hemimelia: Absence of distal limb",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Missing or severely shortened extremities on 1st- or 2nd-",
+        "trimester ultrasound",
+        "Pattern of body involvement is key",
+        "Segment involved, symmetry",
+        "Careful search for associated anomalies, especially orofacial",
+        "clefts, thoracoabdominal defects, cardiac malformations",
+        "Evaluation of morphology of bones of extremities to",
+        "exclude skeletal dysplasia",
+        "Search for evidence of amniotic bands"
+      ],
+      "doppler_findings": [
+        "trimester ultrasound",
+        "Evaluation of morphology of bones of extremities to"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [
+        "Cytogenetic analysis looking for centromeric separation in",
+        "suspected Roberts syndrome"
+      ],
+      "differential_diagnosis": [
+        "Amelia/tetra-amelia",
+        "Roberts syndrome/Roberts SC syndrome",
+        "Amniotic bands",
+        "Thrombocytopenia-absent radius (TAR) syndrome",
+        "Isolated phocomelia/amelia of 1 or more limbs",
+        "DK phocomelia",
+        "Micromelia: Achondrogenesis, atelosteogenesis,",
+        "dyssegmental dysplasia, fibrochondrogenesis"
+      ],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.708: Amelia/Phocomelia"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Amelia: Absence of 1 or more limbs",
+          "• Micromelia: Shortening of both proximal and distal",
+          "segments of limb",
+          "• Phocomelia: Shortening of limb with hand/foot arising near",
+          "trunk",
+          "• Limb reduction defect: Absence of any portion of skeletal",
+          "structures or soft tissues of limb",
+          "• Hemimelia: Absence of distal limb"
+        ],
+        "IMAGING": [
+          "• Missing or severely shortened extremities on 1st- or 2nd-",
+          "trimester ultrasound",
+          "• Pattern of body involvement is key",
+          "○ Segment involved, symmetry",
+          "• Careful search for associated anomalies, especially orofacial",
+          "clefts, thoracoabdominal defects, cardiac malformations",
+          "• Evaluation of morphology of bones of extremities to",
+          "exclude skeletal dysplasia",
+          "• Search for evidence of amniotic bands"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Amelia/tetra-amelia",
+          "○ Roberts syndrome/Roberts SC syndrome",
+          "○ Amniotic bands",
+          "○ Thrombocytopenia-absent radius (TAR) syndrome",
+          "• Isolated phocomelia/amelia of 1 or more limbs",
+          "• DK phocomelia",
+          "• Micromelia: Achondrogenesis, atelosteogenesis,",
+          "dyssegmental dysplasia, fibrochondrogenesis"
+        ],
+        "PATHOLOGY": [
+          "• Autosomal recessive: Roberts, TAR, DK phocomelia, many",
+          "types of micromelia",
+          "• Cases of recurrent tetra-amelia in consanguineous families;",
+          "presumed autosomal recessive",
+          "• Cytogenetic analysis looking for centromeric separation in",
+          "suspected Roberts syndrome"
+        ]
+      }
+    },
+    {
+      "id": "atelosteogenesis",
+      "name": "Ателостеогенез",
+      "nameEn": "Atelosteogenesis",
+      "category": "Опорно-двигательная система",
+      "bookSection": "SECTION 9",
+      "bookPage": 712,
+      "definition": "Atelosteogenesis",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Rhizomelic limb shortening with disproportionately",
+        "shortened and tapered humeri",
+        "Flat midface",
+        "Atelosteogenesis type 1",
+        "Distal hypoplasia/tapered humerus, femur",
+        "Atelosteogenesis type 2",
+        "Micromelia with flared metaphyses, distal tapering,",
+        "bowed radius, ulna",
+        "Proximally implanted \"hitchhiker\" thumb, great toe",
+        "Atelosteogenesis type 3",
+        "Disproportionately укорочение плечевой кости, femur with distal",
+        "tapering",
+        "Short, broad phalanges with short 3rd metacarpal"
+      ],
+      "doppler_findings": [
+        "shortened and tapered humeri",
+        "Micromelia with flared metaphyses, distal tapering,",
+        "tapering"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "FLNB-related disorders",
+        "Phenotypic spectrum from mild (spondylo-carpal-tarsal",
+        "dysplasia and Larsen syndrome) to severe",
+        "(atelosteogenesis types 1 and 3 and \"boomerang\"",
+        "dysplasia)",
+        "Sulfate transporter SLC26A2 (DTDST)-related disorders",
+        "Allelic disorders ranging from mild (multiple epiphyseal",
+        "dysplasia and diastrophic dysplasia) to perinatal lethal",
+        "(achondrogenesis 1B, atelosteogenesis type 2, de la",
+        "Chapelle dysplasia)"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Atelosteogenesis types 1 and 2: Most are stillborn or die of",
+        "cardiorespiratory failure in neonatal period",
+        "Atelosteogenesis type 3: Compatible with longer term",
+        "survival",
+        "Chronic respiratory problems and recurrent infections,",
+        "related to laryngotracheomalacia",
+        "Conductive hearing loss, joint dislocations"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "cardiorespiratory failure in neonatal period",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.712: Atelosteogenesis"
+      ],
+      "sourceBlocks": {
+        "IMAGING": [
+          "• Rhizomelic limb shortening with disproportionately",
+          "shortened and tapered humeri",
+          "• Flat midface",
+          "• Atelosteogenesis type 1",
+          "○ Distal hypoplasia/tapered humerus, femur",
+          "• Atelosteogenesis type 2",
+          "○ Micromelia with flared metaphyses, distal tapering,",
+          "bowed radius, ulna",
+          "○ Proximally implanted \"hitchhiker\" thumb, great toe",
+          "• Atelosteogenesis type 3",
+          "○ Disproportionately short humerus, femur with distal",
+          "tapering",
+          "○ Short, broad phalanges with short 3rd metacarpal"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• FLNB-related disorders",
+          "○ Phenotypic spectrum from mild (spondylo-carpal-tarsal",
+          "dysplasia and Larsen syndrome) to severe",
+          "(atelosteogenesis types 1 and 3 and \"boomerang\"",
+          "dysplasia)",
+          "• Sulfate transporter SLC26A2 (DTDST)-related disorders",
+          "○ Allelic disorders ranging from mild (multiple epiphyseal",
+          "dysplasia and diastrophic dysplasia) to perinatal lethal",
+          "(achondrogenesis 1B, atelosteogenesis type 2, de la",
+          "Chapelle dysplasia)"
+        ],
+        "CLINICAL ISSUES": [
+          "• Atelosteogenesis types 1 and 2: Most are stillborn or die of",
+          "cardiorespiratory failure in neonatal period",
+          "• Atelosteogenesis type 3: Compatible with longer term",
+          "survival",
+          "○ Chronic respiratory problems and recurrent infections,",
+          "related to laryngotracheomalacia",
+          "○ Conductive hearing loss, joint dislocations"
+        ]
+      }
+    },
+    {
+      "id": "campomelic-dysplasia",
+      "name": "Кампомелическая дисплазия",
+      "nameEn": "Campomelic Dysplasia",
+      "category": "Опорно-двигательная система",
+      "bookSection": "SECTION 9",
+      "bookPage": 716,
+      "definition": "• Campomelia = bowed limbs • Rare, semilethal osteochondrodystrophy",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Normal ossification without fractures",
+        "Anterolaterally bowed femora, tibiae",
+        "Hypoplastic fibulae",
+        "Hypoplastic scapulae is hallmark finding",
+        "Disorder of sexual development",
+        "XY sex reversal (male to female)",
+        "Bell-shaped chest, usually mild",
+        "Midface hypoplasia"
+      ],
+      "doppler_findings": [
+        "Disorder of sexual development",
+        "Bell-shaped chest, usually mild"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Osteogenesis imperfecta",
+        "Kyphomelic dysplasia",
+        "Acampomelic campomelic dysplasia",
+        "Femur-fibula-ulna complex",
+        "Fibular hemimelia"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Preponderance of phenotypic female patients due to XY",
+        "sex reversal",
+        "3/4 of male patients are sex reversed (appear",
+        "phenotypically female) or have ambiguous genitalia",
+        "Most die in infancy due to respiratory insufficiency",
+        "Occasional longer term survivors",
+        "Considered sporadic dominant",
+        "Recurrences attributed to gonadal mosaicism"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.716: Campomelic Dysplasia"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Campomelia = bowed limbs",
+          "• Rare, semilethal osteochondrodystrophy"
+        ],
+        "IMAGING": [
+          "• Normal ossification without fractures",
+          "• Anterolaterally bowed femora, tibiae",
+          "○ Hypoplastic fibulae",
+          "• Hypoplastic scapulae is hallmark finding",
+          "• Disorder of sexual development",
+          "○ XY sex reversal (male to female)",
+          "• Bell-shaped chest, usually mild",
+          "• Midface hypoplasia"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Osteogenesis imperfecta",
+          "• Kyphomelic dysplasia",
+          "• Acampomelic campomelic dysplasia",
+          "• Femur-fibula-ulna complex",
+          "• Fibular hemimelia"
+        ],
+        "PATHOLOGY": [
+          "• Haploinsufficiency of SOX9",
+          "○ Key regulator in cartilage differentiation and early testis",
+          "development",
+          "○ Airway cartilage also affected",
+          "○ Tracheobronchomalacia may be severe and adversely",
+          "affects respiratory status"
+        ],
+        "CLINICAL ISSUES": [
+          "• Preponderance of phenotypic female patients due to XY",
+          "sex reversal",
+          "○ 3/4 of male patients are sex reversed (appear",
+          "phenotypically female) or have ambiguous genitalia",
+          "• Most die in infancy due to respiratory insufficiency",
+          "• Occasional longer term survivors",
+          "• Considered sporadic dominant",
+          "○ Recurrences attributed to gonadal mosaicism"
+        ]
+      }
+    },
+    {
+      "id": "chondrodysplasia-punctata",
+      "name": "Пунктатная хондродисплазия",
+      "nameEn": "Chondrodysplasia Punctata",
+      "category": "Опорно-двигательная система",
+      "bookSection": "SECTION 9",
+      "bookPage": 720,
+      "definition": "• Etiologic & genetically heterogeneous group of osteochondrodystrophies associated with punctate calcifications (stippled epiphyses) of long bones & spine, & maxillonasal hypoplasia • Associated with single-gene disorders, maternal conditions, metabolic abnormalities, chromosome abnormalities, & teratogen exposures",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Punctate calcifications involving epiphyses of long bones",
+        "&/or spine",
+        "Limb shortening",
+        "Severe midface hypoplasia with flat nasal bridge"
+      ],
+      "doppler_findings": [
+        "Punctate calcifications involving epiphyses of long bones",
+        "&/or spine",
+        "Severe midface hypoplasia with flat nasal bridge"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Chondrodysplasia punctata, rhizomelic type (RCDP1)",
+        "Conradi-Hünermann syndrome (CDPX2)",
+        "Chondrodysplasia punctata, brachytelephalangic type",
+        "(CDPX1)",
+        "Congenital hemidysplasia, ichthyosis, limb defects (CHILD",
+        "syndrome)",
+        "Other conditions associated with calcific stippling of",
+        "epiphyses & nasal hypoplasia",
+        "Maternal collagen vascular disease",
+        "Maternal diabetes",
+        "Vitamin K deficiency",
+        "Coumadin (warfarin) embryopathy",
+        "Binder maxillonasal dysplasia",
+        "Zellweger syndrome spectrum",
+        "Chromosomal"
+      ],
+      "red_flags": [
+        "Punctate calcifications best seen in coronal plane focusing",
+        "on area of joints, along spine",
+        "Severe midface hypoplasia with shortened limbs → look for",
+        "epiphyseal calcifications"
+      ],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.720: Chondrodysplasia Punctata"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Etiologic & genetically heterogeneous group of",
+          "osteochondrodystrophies associated with punctate",
+          "calcifications (stippled epiphyses) of long bones & spine, &",
+          "maxillonasal hypoplasia",
+          "• Associated with single-gene disorders, maternal conditions,",
+          "metabolic abnormalities, chromosome abnormalities, &",
+          "teratogen exposures"
+        ],
+        "IMAGING": [
+          "• Punctate calcifications involving epiphyses of long bones",
+          "&/or spine",
+          "• Limb shortening",
+          "• Severe midface hypoplasia with flat nasal bridge"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Chondrodysplasia punctata, rhizomelic type (RCDP1)",
+          "• Conradi-Hünermann syndrome (CDPX2)",
+          "• Chondrodysplasia punctata, brachytelephalangic type",
+          "(CDPX1)",
+          "• Congenital hemidysplasia, ichthyosis, limb defects (CHILD",
+          "syndrome)",
+          "• Other conditions associated with calcific stippling of",
+          "epiphyses & nasal hypoplasia",
+          "○ Maternal collagen vascular disease",
+          "○ Maternal diabetes",
+          "○ Vitamin K deficiency",
+          "○ Coumadin (warfarin) embryopathy",
+          "○ Binder maxillonasal dysplasia",
+          "○ Zellweger syndrome spectrum",
+          "○ Chromosomal"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Punctate calcifications best seen in coronal plane focusing",
+          "on area of joints, along spine",
+          "• Severe midface hypoplasia with shortened limbs → look for",
+          "epiphyseal calcifications"
+        ]
+      }
+    },
+    {
+      "id": "cleidocranial-dysplasia",
+      "name": "Клейдокраниальная дисплазия",
+      "nameEn": "Cleidocranial Dysplasia",
+      "category": "Опорно-двигательная система",
+      "bookSection": "SECTION 9",
+      "bookPage": 724,
+      "definition": "• Cleidocranial dysplasia (CCD) spectrum disorder • Skeletal dysplasia with wide cranial sutures, small/absent clavicles, dental abnormalities",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Craniofacial findings",
+        "Abnormally wide cranial fontanelles",
+        "– Assess coronal/metopic sutures",
+        "Hypomineralization: Brain is seen too well",
+        "Brachycephaly, frontal bossing, absent носовая костьs",
+        "Clavicles: Absent, discontinuous or hypoplastic",
+        "Extremities",
+        "Short long bones, < 10th percentile",
+        "Brachydactyly, short broad thumbs, tapered fingers"
+      ],
+      "doppler_findings": [
+        "– Assess coronal/metopic sutures"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "16q22 deletion (including deletion of gene CBFB)",
+        "Hypophosphatasia (ALPL)",
+        "Yunis-Varon syndrome (FIG4)",
+        "Osteogenesis imperfecta (COL1A1, COL1A2)",
+        "Pycnodysostosis (CTSK)"
+      ],
+      "red_flags": [
+        "Consider diagnosis in hypomineralization of skull",
+        "Look for additional findings of frontal bossing,",
+        "absent/hypoplastic clavicles, moderately short long bones",
+        "SCANNING TIPS",
+        "Use 3D US to characterize open fontanelles",
+        "Measure clavicles if present; use online or reference",
+        "calculator"
+      ],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.724: Cleidocranial Dysplasia"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Cleidocranial dysplasia (CCD) spectrum disorder",
+          "• Skeletal dysplasia with wide cranial sutures, small/absent",
+          "clavicles, dental abnormalities"
+        ],
+        "IMAGING": [
+          "• Craniofacial findings",
+          "○  Abnormally wide cranial fontanelles",
+          "– Assess coronal/metopic sutures",
+          "○ Hypomineralization: Brain is seen too well",
+          "○ Brachycephaly, frontal bossing, absent nasal bones",
+          "• Clavicles: Absent, discontinuous or hypoplastic",
+          "• Extremities",
+          "○ Short long bones, < 10th percentile",
+          "○ Brachydactyly, short broad thumbs, tapered fingers"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• 16q22 deletion (including deletion of gene CBFB)",
+          "• Hypophosphatasia (ALPL)",
+          "• Yunis-Varon syndrome (FIG4)",
+          "• Osteogenesis imperfecta (COL1A1, COL1A2)",
+          "• Pycnodysostosis (CTSK)"
+        ],
+        "PATHOLOGY": [
+          "• Autosomal dominant (RUNX2)",
+          "○ Pathogenic variant in gene in ~ 65%",
+          "○ Deletion of exon/whole gene in ~ 10%",
+          "○ High penetrance, variable expressivity"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Consider diagnosis in hypomineralization of skull",
+          "• Look for additional findings of frontal bossing,",
+          "absent/hypoplastic clavicles, moderately short long bones",
+          "SCANNING TIPS",
+          "• Use 3D US to characterize open fontanelles",
+          "• Measure clavicles if present; use online or reference",
+          "calculator"
+        ]
+      }
+    },
+    {
+      "id": "greenberg-dysplasia",
+      "name": "Дисплазия Гринберга",
+      "nameEn": "Greenberg Dysplasia",
+      "category": "Опорно-двигательная система",
+      "bookSection": "SECTION 9",
+      "bookPage": 726,
+      "definition": "• Synonym: гидrops fetalis, ectopic calcification, moth-eaten (HEM) bones skeletal dysplasia • Definition: Life-limiting osteochondrodysplasia",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Severe skeletal dysplasia with micromelia",
+        "Prenatal bones appear thickened and heterogeneous",
+        "– Irregular epiphyses",
+        "– Stippled calcific deposits in cartilage",
+        "Postnatal radiographs",
+        "– Lytic, moth-eaten bones",
+        "– Ectopic calcifications",
+        "– Chondrodysplasia punctata",
+        "□ Epiphyses, spine, ribs, sternum, and pelvis",
+        "гидrops fetalis",
+        "Associated многоводие and placental thickening",
+        "Relative макроцефалия, poorly ossified skull",
+        "Postaxial polydactyly; all 4 limbs, syndactyly of toes",
+        "Platyspondyly",
+        "Small chest with short ribs",
+        "Other anomalies: Omphalocele, hepatomegaly, эхогенный",
+        "bowel, microtia",
+        "May present in 1st trimester: Cystic hygroma/гидrops fetalis and",
+        "micromelia",
+        "3D/4D images useful in delineation of phenotype and in",
+        "counseling of families"
+      ],
+      "doppler_findings": [
+        "– Irregular epiphyses",
+        "– Ectopic calcifications",
+        "□ Epiphyses, spine, ribs, sternum, and pelvis",
+        "Small chest with short ribs",
+        "May present in 1st trimester: Cystic hygroma/гидrops fetalis and"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [
+        "Genetics: Autosomal recessive"
+      ],
+      "differential_diagnosis": [
+        "X-linked dominant chondrodysplasia punctata (Conradi-",
+        "Hünermann syndrome), CDPX2 gene",
+        "Mainly impacts females",
+        "Asymmetric rhizomelic limb shortening",
+        "– Chondrodysplasia punctata",
+        "– Hemivertebrae, scoliosis",
+        "Ichthyosis, alopecia/whorled patches on scalp, cataracts",
+        "Lack of moth-eaten appearance of long bones",
+        "Congenital hemidysplasia, ichthyosis, limb defects (CHILD),",
+        "NSDHL gene",
+        "Mainly impacts females, X-linked dominant",
+        "Asymmetric rhizomelia, chondrodysplasia punctata",
+        "Unilateral ichthyosiform (yellow scaly) skin with",
+        "ipsilateral limb defects",
+        "Chondrodysplasia punctata, rhizomelic type, PEX7 gene",
+        "Autosomal recessive",
+        "Rhizomelic skeletal dysplasia (more symmetric)",
+        "Chondrodysplasia punctata (less widespread)",
+        "Smith-Lemli-Opitz syndrome, DHCR7 gene",
+        "Autosomal recessive due to cholesterol metabolism",
+        "abnormality",
+        "Very low estriol on serum screening",
+        "задержка роста плода (ЗРП/FGR)/микроцефалия",
+        "Structural cardiac malformation, disorder of sex",
+        "differentiation, postaxial polydactyly, syndactyly"
+      ],
+      "red_flags": [
+        "Consider diagnosis in recurrent severe skeletal dysplasia",
+        "with гидrops fetalis; consanguinity",
+        "SCANNING TIPS",
+        "Use high-resolution probe to look at long bone",
+        "morphology, especially near epiphyses"
+      ],
+      "follow_up": [
+        "Rare (< 1 in 100,000)",
+        "Life limiting, presenting with гидrops fetalis or cystic hygroma;",
+        "currently no reports of long-term survival",
+        "Monitor for mirror syndrome, reproductive options,",
+        "including termination or palliative birth"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "including termination or palliative birth",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.726: Greenberg Dysplasia"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Synonym: Hydrops, ectopic calcification, moth-eaten (HEM)",
+          "bones skeletal dysplasia",
+          "• Definition: Life-limiting osteochondrodysplasia"
+        ],
+        "IMAGING": [
+          "• Severe skeletal dysplasia with micromelia",
+          "○ Prenatal bones appear thickened and heterogeneous",
+          "– Irregular epiphyses",
+          "– Stippled calcific deposits in cartilage",
+          "○ Postnatal radiographs",
+          "– Lytic, moth-eaten bones",
+          "– Ectopic calcifications",
+          "– Chondrodysplasia punctata",
+          "□ Epiphyses, spine, ribs, sternum, and pelvis",
+          "• Hydrops",
+          "○ Associated polyhydramnios and placental thickening",
+          "• Relative macrocephaly, poorly ossified skull",
+          "• Postaxial polydactyly; all 4 limbs, syndactyly of toes",
+          "• Platyspondyly",
+          "• Small chest with short ribs",
+          "• Other anomalies: Omphalocele, hepatomegaly, echogenic",
+          "bowel, microtia",
+          "• May present in 1st trimester: Cystic hygroma/hydrops and",
+          "micromelia",
+          "• 3D/4D images useful in delineation of phenotype and in",
+          "counseling of families"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• X-linked dominant chondrodysplasia punctata (Conradi-",
+          "Hünermann syndrome), CDPX2 gene",
+          "○ Mainly impacts females",
+          "○ Asymmetric rhizomelic limb shortening",
+          "– Chondrodysplasia punctata",
+          "– Hemivertebrae, scoliosis",
+          "○ Ichthyosis, alopecia/whorled patches on scalp, cataracts",
+          "○ Lack of moth-eaten appearance of long bones",
+          "• Congenital hemidysplasia, ichthyosis, limb defects (CHILD),",
+          "NSDHL gene",
+          "○ Mainly impacts females, X-linked dominant",
+          "○ Asymmetric rhizomelia, chondrodysplasia punctata",
+          "○ Unilateral ichthyosiform (yellow scaly) skin with",
+          "ipsilateral limb defects",
+          "• Chondrodysplasia punctata, rhizomelic type, PEX7 gene",
+          "○ Autosomal recessive",
+          "○ Rhizomelic skeletal dysplasia (more symmetric)",
+          "○ Chondrodysplasia punctata (less widespread)",
+          "• Smith-Lemli-Opitz syndrome, DHCR7 gene",
+          "○ Autosomal recessive due to cholesterol metabolism",
+          "abnormality",
+          "○ Very low estriol on serum screening",
+          "○ Fetal growth restriction/microcephaly",
+          "○ Structural cardiac malformation, disorder of sex",
+          "differentiation, postaxial polydactyly, syndactyly"
+        ],
+        "PATHOLOGY": [
+          "• Genetics: Autosomal recessive",
+          "• 2 pathogenic changes in lamin B receptor (LBR) gene;",
+          "essential for cholesterol metabolism",
+          "○ Loss of function: Loss of chromatin organization and",
+          "cholesterol synthesis"
+        ],
+        "CLINICAL ISSUES": [
+          "• Rare (< 1 in 100,000)",
+          "• Life limiting, presenting with hydrops or cystic hygroma;",
+          "currently no reports of long-term survival",
+          "• Monitor for mirror syndrome, reproductive options,",
+          "including termination or palliative birth"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Consider diagnosis in recurrent severe skeletal dysplasia",
+          "with hydrops; consanguinity",
+          "SCANNING TIPS",
+          "• Use high-resolution probe to look at long bone",
+          "morphology, especially near epiphyses"
+        ]
+      }
+    },
+    {
+      "id": "hypophosphatasia",
+      "name": "Гипофосфатазия",
+      "nameEn": "Hypophosphatasia",
+      "category": "Опорно-двигательная система",
+      "bookSection": "SECTION 9",
+      "bookPage": 728,
+      "definition": "• Rare inherited disorder of bone metabolism resulting in loss of function in gene ALPL coding for tissue-nonspecific alkaline phosphatase (TNSALP) with 3 subtypes ○ Perinatal lethal: Micromelia and severe hypomineralization ○ Infantile: Rickets-like skeletal changes, fractures, premature shedding of teeth ○ Late onset (adult form): Bowing, pseudofractures, ectopic calcifications in spinal ligaments and joint cartilage, rachitic changes in ribs",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Perinatal lethal type: Micromelia and severe",
+        "undermineralization of bones and calvarium on",
+        "midtrimester ultrasound",
+        "True fractures uncommon",
+        "Structures may appear absent due to severity of",
+        "underossification",
+        "Bones may appear moth eaten in late gestation",
+        "Profound hypomineralization of membranous skull"
+      ],
+      "doppler_findings": [
+        "Perinatal lethal type: Micromelia and severe",
+        "undermineralization of bones and calvarium on",
+        "midtrimester ultrasound",
+        "Structures may appear absent due to severity of"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Osteogenesis imperfecta",
+        "Achondrogenesis type 1A",
+        "Neonatal hyperparathyroidism, severe form"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "1 per 100,000 births (perinatal lethal type)",
+        "Prenatal diagnosis",
+        "Direct mutational analysis possible"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.728: Hypophosphatasia"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Rare inherited disorder of bone metabolism resulting in",
+          "loss of function in gene ALPL coding for tissue-nonspecific",
+          "alkaline phosphatase (TNSALP) with 3 subtypes",
+          "○ Perinatal lethal: Micromelia and severe",
+          "hypomineralization",
+          "○ Infantile: Rickets-like skeletal changes, fractures,",
+          "premature shedding of teeth",
+          "○ Late onset (adult form): Bowing, pseudofractures,",
+          "ectopic calcifications in spinal ligaments and joint",
+          "cartilage, rachitic changes in ribs"
+        ],
+        "IMAGING": [
+          "• Perinatal lethal type: Micromelia and severe",
+          "undermineralization of bones and calvarium on",
+          "midtrimester ultrasound",
+          "○ True fractures uncommon",
+          "○ Structures may appear absent due to severity of",
+          "underossification",
+          "○ Bones may appear moth eaten in late gestation",
+          "○ Profound hypomineralization of membranous skull"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Osteogenesis imperfecta",
+          "• Achondrogenesis type 1A",
+          "• Neonatal hyperparathyroidism, severe form"
+        ],
+        "PATHOLOGY": [
+          "• Mutations in TNSALP (or ALPL) gene",
+          "• Perinatal lethal/infantile: Autosomal recessive",
+          "• Adult form both autosomal recessive and dominant",
+          "○ Carriers with ↓ serum ALP/↑ urinary",
+          "phosphoethanolamine"
+        ],
+        "CLINICAL ISSUES": [
+          "• 1 per 100,000 births (perinatal lethal type)",
+          "• Prenatal diagnosis",
+          "○ Direct mutational analysis possible"
+        ]
+      }
+    },
+    {
+      "id": "metaphyseal-chondrodysplasia",
+      "name": "Метафизарная хондродисплазия",
+      "nameEn": "Metaphyseal Chondrodysplasia",
+      "category": "Опорно-двигательная система",
+      "bookSection": "SECTION 9",
+      "bookPage": 732,
+      "definition": "• Autosomal dominant severe skeletal dysplasia with metaphyseal involvement and abnormal mineral metabolism",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Ribs: Wave shape deformity (midrib external concavity)",
+        "Thorax: Bell-shaped; chest circumference normal to small",
+        "Metaphyseal cupping and flaring",
+        "Bowing of tibia and femur; 10% in 3rd trimester",
+        "↓ mineralization of spine, long bones, and calvarium",
+        "Micrognathia, retrognathia"
+      ],
+      "doppler_findings": [
+        "Ribs: Wave shape deformity (midrib external concavity)",
+        "Metaphyseal cupping and flaring",
+        "Bowing of tibia and femur; 10% in 3rd trimester",
+        "↓ mineralization of spine, long bones, and calvarium"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Hypophosphatemia, X linked (PHEX)",
+        "Hypochondroplasia (FGFR3)",
+        "McKusick metaphyseal chondrodysplasia (RMRP)",
+        "Schmid metaphyseal chondrodysplasia (COL10A1)"
+      ],
+      "red_flags": [
+        "Consider diagnosis in 3rd trimester when fetus presents",
+        "with short, bowed, hypomineralized long bones with",
+        "characteristic metaphyseal findings"
+      ],
+      "follow_up": [
+        "Progressive rickets-like rhizomelic skeletal dysplasia",
+        "Metaphyseal and mineral abnormalities (↑↑ Ca⁺⁺)",
+        "Generally no neonatal respiratory issues but prepare for",
+        "possible choanal atresia"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Generally no neonatal respiratory issues but prepare for",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.732: Metaphyseal Chondrodysplasia"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Autosomal dominant severe skeletal dysplasia with",
+          "metaphyseal involvement and abnormal mineral",
+          "metabolism"
+        ],
+        "IMAGING": [
+          "• Ribs: Wave shape deformity (midrib external concavity)",
+          "• Thorax: Bell-shaped; chest circumference normal to small",
+          "• Metaphyseal cupping and flaring",
+          "• Bowing of tibia and femur; 10% in 3rd trimester",
+          "• ↓ mineralization of spine, long bones, and calvarium",
+          "• Micrognathia, retrognathia"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Hypophosphatemia, X linked (PHEX)",
+          "• Hypochondroplasia (FGFR3)",
+          "• McKusick metaphyseal chondrodysplasia (RMRP)",
+          "• Schmid metaphyseal chondrodysplasia (COL10A1)"
+        ],
+        "PATHOLOGY": [
+          "• Pathogenic change (PTH1R) in PTH receptor",
+          "• Constitutively activates chondrocyte receptors → ↑",
+          "metaphyseal resorption/↓ deposition",
+          "• Metaphyseal enlargement due to abnormal chondrocyte",
+          "growth and differentiation",
+          "• Diffuse demineralization, rickets-like metaphyseal changes,",
+          "cortex erosion"
+        ],
+        "CLINICAL ISSUES": [
+          "• Progressive rickets-like rhizomelic skeletal dysplasia",
+          "○ Metaphyseal and mineral abnormalities (↑↑ Ca⁺⁺)",
+          "• Generally no neonatal respiratory issues but prepare for",
+          "possible choanal atresia"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Consider diagnosis in 3rd trimester when fetus presents",
+          "with short, bowed, hypomineralized long bones with",
+          "characteristic metaphyseal findings"
+        ]
+      }
+    },
+    {
+      "id": "osteogenesis-imperfecta",
+      "name": "Несовершенный остеогенез",
+      "nameEn": "Osteogenesis Imperfecta",
+      "category": "Опорно-двигательная система",
+      "bookSection": "SECTION 9",
+      "bookPage": 734,
+      "definition": "• Genetically and clinically heterogeneous group of connective tissue disorders presenting with osteopenia and fractures ○ 85-90% of cases due to abnormalities in type I collagen (COL1A1, COL1A2) resulting in quantitative or qualitative defects in type I collagen • Newer osteogenesis imperfecta (OI) nomenclature further subdivides classic phenotypes (van Dijk and Sillence 2014) ○ Phenotypes with mild to moderate severity (previously types I, IV, V) – Nondeforming OI with blue sclerae (type I) – Common variable OI with normal sclerae (type IV) – OI with interosseous membrane calcification (type V) ○ Phenotypes that are progressively deforming and perinatally lethal (previously types II, III) – Perinatally lethal OI (type II) – Progressively deforming (type III)",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Presence of fractures distinguishes OI from most other",
+        "skeletal dysplasias",
+        "Long bone shortening/angulation secondary to fractures",
+        "Callus formation gives bones crumpled appearance",
+        "Poorly mineralized skull",
+        "Skull deformation from normal transducer pressure"
+      ],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Thanatophoric dysplasia",
+        "Achondrogenesis",
+        "Campomelic dysplasia",
+        "Hypophosphatasia",
+        "Nonaccidental trauma"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Deliver in center with expertise in genetic fetopathology,",
+        "skeletal dysplasias",
+        "Autopsy with x-rays if termination or demise"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Deliver in center with expertise in genetic fetopathology, Autopsy with x-rays if termination or demise",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.734: Osteogenesis Imperfecta"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Genetically and clinically heterogeneous group of",
+          "connective tissue disorders presenting with osteopenia and",
+          "fractures",
+          "○ 85-90% of cases due to abnormalities in type I collagen",
+          "(COL1A1, COL1A2) resulting in quantitative or qualitative",
+          "defects in type I collagen",
+          "• Newer osteogenesis imperfecta (OI) nomenclature further",
+          "subdivides classic phenotypes (van Dijk and Sillence 2014)",
+          "○ Phenotypes with mild to moderate severity (previously",
+          "types I, IV, V)",
+          "– Nondeforming OI with blue sclerae (type I)",
+          "– Common variable OI with normal sclerae (type IV)",
+          "– OI with interosseous membrane calcification (type V)",
+          "○ Phenotypes that are progressively deforming and",
+          "perinatally lethal (previously types II, III)",
+          "– Perinatally lethal OI (type II)",
+          "– Progressively deforming (type III)"
+        ],
+        "IMAGING": [
+          "• Presence of fractures distinguishes OI from most other",
+          "skeletal dysplasias",
+          "• Long bone shortening/angulation secondary to fractures",
+          "• Callus formation gives bones crumpled appearance",
+          "• Poorly mineralized skull",
+          "○ Skull deformation from normal transducer pressure"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Thanatophoric dysplasia",
+          "• Achondrogenesis",
+          "• Campomelic dysplasia",
+          "• Hypophosphatasia",
+          "• Nonaccidental trauma"
+        ],
+        "CLINICAL ISSUES": [
+          "• Deliver in center with expertise in genetic fetopathology,",
+          "skeletal dysplasias",
+          "• Autopsy with x-rays if termination or demise"
+        ]
+      }
+    },
+    {
+      "id": "short-rib-polydactyly-syndromes",
+      "name": "Синдромы короткого ребра-полидактилии",
+      "nameEn": "Short Rib-Polydactyly Syndromes",
+      "category": "Опорно-двигательная система",
+      "bookSection": "SECTION 9",
+      "bookPage": 738,
+      "definition": "• Group of rare osteochondrodysplasias characterized by short tubular bones, short horizontal ribs with severely constricted thorax, ± polydactyly, ± visceral anomalies • Autosomal recessive skeletal ciliopathies • Includes Jeune (asphyxiating thoracic dystrophy), Saldino- Noonan, Verma-Naumoff, Majewski, and Beemer-Langer syndromes",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Best diagnostic clue: Triad of micromelia, polydactyly, short",
+        "horizontal ribs",
+        "Diagnosis possible by 15- to 16-weeks gestation based on",
+        "micromelia, very short ribs",
+        "Large эхогенный dysplastic kidneys, common finding in",
+        "ciliopathies, may be seen",
+        "Increased толщина воротникового пространства (ТВП) in 1st trimester",
+        "Radiographs performed after delivery as part of evaluation",
+        "Short horizontal ribs with small thorax",
+        "Medial and lateral iliac spurs",
+        "Short extremities with bowing",
+        "Other nonskeletal anomalies, especially cardiac, renal,",
+        "orofacial, genital",
+        "Normal ossification of bones",
+        "Postaxial polydactyly variably present"
+      ],
+      "doppler_findings": [
+        "Best diagnostic clue: Triad of micromelia, polydactyly, short",
+        "horizontal ribs",
+        "micromelia, very short ribs",
+        "Increased толщина воротникового пространства (ТВП) in 1st trimester",
+        "Radiographs performed after delivery as part of evaluation",
+        "Short horizontal ribs with small thorax",
+        "Postaxial polydactyly variably present"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [
+        "Phenotype highly variable",
+        "Long narrow thorax with short horizontal ribs",
+        "Brachydactyly, short limbs",
+        "Significant respiratory insufficiency at birth",
+        "Constricted thorax",
+        "Subglottic stenosis from abnormal airway formation"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.738: Short Rib-Polydactyly Syndromes"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Group of rare osteochondrodysplasias characterized by",
+          "short tubular bones, short horizontal ribs with severely",
+          "constricted thorax, ± polydactyly, ± visceral anomalies",
+          "• Autosomal recessive skeletal ciliopathies",
+          "• Includes Jeune (asphyxiating thoracic dystrophy), Saldino-",
+          "Noonan, Verma-Naumoff, Majewski, and Beemer-Langer",
+          "syndromes"
+        ],
+        "IMAGING": [
+          "• Best diagnostic clue: Triad of micromelia, polydactyly, short",
+          "horizontal ribs",
+          "• Diagnosis possible by 15- to 16-weeks gestation based on",
+          "micromelia, very short ribs",
+          "• Large echogenic dysplastic kidneys, common finding in",
+          "ciliopathies, may be seen",
+          "• Increased nuchal translucency in 1st trimester",
+          "• Radiographs performed after delivery as part of evaluation",
+          "○ Short horizontal ribs with small thorax",
+          "○ Medial and lateral iliac spurs",
+          "○ Short extremities with bowing",
+          "○ Other nonskeletal anomalies, especially cardiac, renal,",
+          "orofacial, genital",
+          "○ Normal ossification of bones",
+          "○ Postaxial polydactyly variably present"
+        ],
+        "PATHOLOGY": [
+          "• Primary ciliary dyskinesia involving chondrocytes, including",
+          "airway"
+        ],
+        "CLINICAL ISSUES": [
+          "• Phenotype highly variable",
+          "• Long narrow thorax with short horizontal ribs",
+          "• Brachydactyly, short limbs",
+          "• Significant respiratory insufficiency at birth",
+          "○ Constricted thorax",
+          "○ Subglottic stenosis from abnormal airway formation"
+        ]
+      }
+    },
+    {
+      "id": "thanatophoric-dysplasia",
+      "name": "Танатофорная дисплазия",
+      "nameEn": "Thanatophoric Dysplasia",
+      "category": "Опорно-двигательная система",
+      "bookSection": "SECTION 9",
+      "bookPage": 742,
+      "definition": "• Lethal skeletal dysplasia due to activating mutations in fibroblast growth factor receptor 3 gene (FGFR3) • Divided into 2 subtypes based on morphologic findings • Thanatophoric is Greek for \"death bearing\"",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Thanatophoric dysplasia (TD) type I",
+        "Long bones severely affected",
+        "Micromelia with trident hands",
+        "Prominent bowing",
+        "\"Telephone receiver\" femur",
+        "Normal ossification",
+        "No evidence of fractures",
+        "Macrocephalic, relatively normal-shaped skull",
+        "TD type II",
+        "Kleeblattschädel (cloverleaf) skull",
+        "Femurs longer, less curved",
+        "Platyspondyly less marked",
+        "Other findings similar to TD type I"
+      ],
+      "doppler_findings": [
+        "Thanatophoric dysplasia (TD) type I",
+        "Micromelia with trident hands"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [
+        "arm of chromosome 4"
+      ],
+      "differential_diagnosis": [
+        "Achondrogenesis",
+        "Homozygous achondroplasia",
+        "Campomelic dysplasia",
+        "Osteogenesis imperfecta",
+        "Fibrochondrogenesis",
+        "Carpenter syndrome"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "75% have severe многоводие by late 2nd trimester"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.742: Thanatophoric Dysplasia"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Lethal skeletal dysplasia due to activating mutations in",
+          "fibroblast growth factor receptor 3 gene (FGFR3)",
+          "• Divided into 2 subtypes based on morphologic findings",
+          "• Thanatophoric is Greek for \"death bearing\""
+        ],
+        "IMAGING": [
+          "• Thanatophoric dysplasia (TD) type I",
+          "○ Long bones severely affected",
+          "○ Micromelia with trident hands",
+          "○ Prominent bowing",
+          "○ \"Telephone receiver\" femur",
+          "○ Normal ossification",
+          "○ No evidence of fractures",
+          "○ Macrocephalic, relatively normal-shaped skull",
+          "• TD type II",
+          "○ Kleeblattschädel (cloverleaf) skull",
+          "○ Femurs longer, less curved",
+          "○ Platyspondyly less marked",
+          "○ Other findings similar to TD type I"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Achondrogenesis",
+          "• Homozygous achondroplasia",
+          "• Campomelic dysplasia",
+          "• Osteogenesis imperfecta",
+          "• Fibrochondrogenesis",
+          "• Carpenter syndrome"
+        ],
+        "PATHOLOGY": [
+          "• Identifiable mutation found in up to 99% of TD type I &",
+          "more than 99% of TD type II",
+          "• Sporadic, new dominant mutation of FGFR3 gene on short",
+          "arm of chromosome 4"
+        ],
+        "CLINICAL ISSUES": [
+          "• Most common type of lethal osteochondrodystrophy",
+          "• 75% have severe polyhydramnios by late 2nd trimester",
+          "• Autopsy important for final specific diagnosis"
+        ]
+      }
+    },
+    {
+      "id": "clubfoot",
+      "name": "Клубная стопа",
+      "nameEn": "Clubfoot",
+      "category": "Опорно-двигательная система",
+      "bookSection": "SECTION 9",
+      "bookPage": 748,
+      "definition": "• Congenital talipes equinovarus • Isolated if no other anomaly or genetic defect (50-70%) • Complex if other anomaly or genetic defect (30-50%)",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Coronal tibia/fibula view shows varus foot",
+        "Foot is turned in at ankle",
+        "Sagittal view shows pointed toes",
+        "Plantar foot view shows short ,angulated foot",
+        "3D ultrasound helpful to show severity and morphology",
+        "and should be performed in all cases",
+        "60-70% of cases are bilateral"
+      ],
+      "doppler_findings": [
+        "3D ultrasound helpful to show severity and morphology"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Associated anomalies",
+        "CNS and spine anomalies (52%)",
+        "Musculoskeletal anomalies (28%)"
+      ],
+      "genetic_associations": [
+        "Chromosome abnormalities in 30% of complex and 2% of"
+      ],
+      "differential_diagnosis": [
+        "Rocker-bottom foot",
+        "Ectrodactyly",
+        "Amniotic band syndrome"
+      ],
+      "red_flags": [
+        "Beware of transient foot position mimicking clubfoot",
+        "Look carefully at all extremities and note fetal movement",
+        "Refer all cases for genetic counseling",
+        "Refer to orthopedic clinic during pregnancy"
+      ],
+      "follow_up": [
+        "Isolated clubfoot has excellent prognosis"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.748: Clubfoot"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Congenital talipes equinovarus",
+          "• Isolated if no other anomaly or genetic defect (50-70%)",
+          "• Complex if other anomaly or genetic defect (30-50%)"
+        ],
+        "IMAGING": [
+          "• Coronal tibia/fibula view shows varus foot",
+          "○ Foot is turned in at ankle",
+          "• Sagittal view shows pointed toes",
+          "• Plantar foot view shows short ,angulated foot",
+          "• 3D ultrasound helpful to show severity and morphology",
+          "and should be performed in all cases",
+          "• 60-70% of cases are bilateral"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Rocker-bottom foot",
+          "• Ectrodactyly",
+          "• Amniotic band syndrome"
+        ],
+        "PATHOLOGY": [
+          "• Chromosome abnormalities in 30% of complex and 2% of",
+          "isolated cases",
+          "• Associated anomalies",
+          "○ CNS and spine anomalies (52%)",
+          "– Spina bifida is most common",
+          "○ Musculoskeletal anomalies (28%)",
+          "– Arthrogryposis multiplex sequence common",
+          "○ Extrinsic factors affecting foot position",
+          "– Oligohydramnios is most common"
+        ],
+        "CLINICAL ISSUES": [
+          "• Isolated clubfoot has excellent prognosis"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Beware of transient foot position mimicking clubfoot",
+          "• Look carefully at all extremities and note fetal movement",
+          "• Refer all cases for genetic counseling",
+          "• Refer to orthopedic clinic during pregnancy"
+        ]
+      }
+    },
+    {
+      "id": "rocker-bottom-foot",
+      "name": "Стопа в виде качели",
+      "nameEn": "Rocker-Bottom Foot",
+      "category": "Опорно-двигательная система",
+      "bookSection": "SECTION 9",
+      "bookPage": 752,
+      "definition": "• Rocker-bottom foot (RF): Congenital vertical talus • Definition: Rigid foot deformity with fixed vertical talus ○ Dorsal navicular dislocation ○ Midfoot dorsiflexion ○ Forefoot abduction",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Hallmark findings resulting in rocker-bottom appearance",
+        "Bulbous and prominent heal",
+        "Convex plantar surface of foot",
+        "– Normal foot is concave",
+        "Toes may be upturned",
+        "– Severe extensor tendon contracture gives Persian",
+        "slipper appearance",
+        "RF is rarely isolated finding in utero",
+        "Associated anomalies",
+        "CNS anomalies (in up to 2/3)",
+        "– Brain anomalies (often severe)",
+        "□ Including микроцефалия, migrational anomalies",
+        "Spine anomalies",
+        "– Meningomyelocele, VACTERL, limb-body wall defects",
+        "Neuromuscular anomalies (often severe)",
+        "– Arthrogryposis association",
+        "– Spinal muscular atrophy",
+        "Cardiac anomalies in up to 1/3",
+        "Chromosome defects in up to 1/4",
+        "– Strong association with trisomy 18 (T18)",
+        "Best imaging tools",
+        "3D ultrasound + multiplanar views",
+        "Protocol advice",
+        "Beware of transient foot position, as RF is fixed defect",
+        "True lateral image of shin and foot view is best",
+        "Frontal shin/foot image helps differentiate from",
+        "clubfoot"
+      ],
+      "doppler_findings": [
+        "Spine anomalies",
+        "– Spinal muscular atrophy",
+        "– Strong association with trisomy 18 (T18)",
+        "Protocol advice"
+      ],
+      "mri_findings": [
+        "МР best to assess for additional CNS anomalies"
+      ],
+      "associated_anomalies": [
+        "Rasmussen: Ear and foot anomalies",
+        "Prognosis depends on genetic results and associated",
+        "anomalies",
+        "Isolated RF still considered severe anomaly with morbidity"
+      ],
+      "genetic_associations": [
+        "Genetic defect associations",
+        "– Chromosomes 9, 12, 16, and 21 most common",
+        "Syndromes",
+        "Costello: Faciocutaneoskeletal syndrome"
+      ],
+      "differential_diagnosis": [
+        "Clubfoot: Most common foot anomaly",
+        "RF often misdiagnosed as clubfoot",
+        "Ectrodactyly (split hand/foot deformity)",
+        "Amniotic band syndrome"
+      ],
+      "red_flags": [
+        "Recommend genetic counseling for all cases",
+        "Look carefully at all extremities, fetal brain, and spine if",
+        "suspect RF diagnosis",
+        "Consider МР to look for additional CNS anomalies"
+      ],
+      "follow_up": [
+        "1:10,000 live births",
+        "Prognosis depends on genetic results and associated",
+        "anomalies",
+        "Isolated RF still considered severe anomaly with morbidity",
+        "Stiffness, functional disability, pain",
+        "Treatment is usually surgical; extensive soft tissue release",
+        "surgeries is standard"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.752: Rocker-Bottom Foot"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Rocker-bottom foot (RF): Congenital vertical talus",
+          "• Definition: Rigid foot deformity with fixed vertical talus",
+          "○ Dorsal navicular dislocation",
+          "○ Midfoot dorsiflexion",
+          "○ Forefoot abduction"
+        ],
+        "IMAGING": [
+          "• Hallmark findings resulting in rocker-bottom appearance",
+          "○ Bulbous and prominent heal",
+          "○ Convex plantar surface of foot",
+          "– Normal foot is concave",
+          "○ Toes may be upturned",
+          "– Severe extensor tendon contracture gives Persian",
+          "slipper appearance",
+          "• RF is rarely isolated finding in utero",
+          "• Associated anomalies",
+          "○ CNS anomalies (in up to 2/3)",
+          "– Brain anomalies (often severe)",
+          "□ Including microcephaly, migrational anomalies",
+          "○ Spine anomalies",
+          "– Meningomyelocele, VACTERL, limb-body wall defects",
+          "○ Neuromuscular anomalies (often severe)",
+          "– Arthrogryposis association",
+          "– Spinal muscular atrophy",
+          "○ Cardiac anomalies in up to 1/3",
+          "○ Chromosome defects in up to 1/4",
+          "– Strong association with trisomy 18 (T18)",
+          "• Best imaging tools",
+          "○ 3D ultrasound + multiplanar views",
+          "○ MR best to assess for additional CNS anomalies",
+          "• Protocol advice",
+          "○ Beware of transient foot position, as RF is fixed defect",
+          "○ True lateral image of shin and foot view is best",
+          "○ Frontal shin/foot image helps differentiate from",
+          "clubfoot"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Clubfoot: Most common foot anomaly",
+          "○ RF often misdiagnosed as clubfoot",
+          "• Ectrodactyly (split hand/foot deformity)",
+          "• Amniotic band syndrome"
+        ],
+        "PATHOLOGY": [
+          "• Genetic defect associations",
+          "○ Trisomies",
+          "– T18 > T13 > rare trisomy 15",
+          "○ Complex partial duplication or deletions",
+          "– Chromosomes 9, 12, 16, and 21 most common",
+          "○ Single gene disorders",
+          "– Particularly HOX gene mutations",
+          "□ Typically autosomal dominant",
+          "• Syndromes",
+          "○ De Barsy: Cutis laxa, musculoskeletal and neurologic",
+          "abnormalities",
+          "○ Costello: Faciocutaneoskeletal syndrome",
+          "○ Rasmussen: Ear and foot anomalies"
+        ],
+        "CLINICAL ISSUES": [
+          "• 1:10,000 live births",
+          "• Prognosis depends on genetic results and associated",
+          "anomalies",
+          "• Isolated RF still considered severe anomaly with morbidity",
+          "○ Stiffness, functional disability, pain",
+          "• Treatment is usually surgical; extensive soft tissue release",
+          "surgeries is standard"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Recommend genetic counseling for all cases",
+          "• Look carefully at all extremities, fetal brain, and spine if",
+          "suspect RF diagnosis",
+          "• Consider MR to look for additional CNS anomalies"
+        ]
+      }
+    },
+    {
+      "id": "radial-ray-malformation",
+      "name": "Малформация лучевого луча",
+      "nameEn": "Radial Ray Malformation",
+      "category": "Опорно-двигательная система",
+      "bookSection": "SECTION 9",
+      "bookPage": 754,
+      "definition": "• Spectrum of anomalies, including absence or hypoplasia of radius, radial carpal bones, &/or thumb",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Should be routinely detected on anatomic survey at 18-20",
+        "weeks",
+        "Single forearm bone",
+        "Radial deviation of hand",
+        "Absent or abnormal thumb",
+        "Can diagnosis in 1st trimester: Abnormal hand/wrist",
+        "posture",
+        "Other findings",
+        "Congenital heart disease",
+        "Thrombocytopenia"
+      ],
+      "doppler_findings": [
+        "Can diagnosis in 1st trimester: Abnormal hand/wrist"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "spontaneous 2nd-/3rd-trimester abortuses with anomalies"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Isolated: May be uni- or bilateral with variable thumb",
+        "defects",
+        "VACTERL association",
+        "Chromosomal: Trisomy 18, 13q deletion",
+        "Holt-Oram syndrome: Cardiac septal defects with upper",
+        "extremity abnormalities",
+        "Diabetic embryopathy: Range of limb defects, including",
+        "femoral hypoplasia, radial ray, preaxial polydactyly",
+        "Thrombocytopenia-absent radius (TAR) syndrome: Thumbs",
+        "are present",
+        "Fanconi anemia",
+        "Teratogens: Valproic acid",
+        "Nager acrofacial dysostosis: Facial anomalies, radial ray",
+        "defects"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Prognosis depends on underlying cause",
+        "Limb defects (including radial ray) noted in ~ 1/3 of",
+        "spontaneous 2nd-/3rd-trimester abortuses with anomalies",
+        "Recurrence risk dependent upon underlying condition"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.754: Radial Ray Malformation"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Spectrum of anomalies, including absence or hypoplasia of",
+          "radius, radial carpal bones, &/or thumb"
+        ],
+        "IMAGING": [
+          "• Should be routinely detected on anatomic survey at 18-20",
+          "weeks",
+          "○ Single forearm bone",
+          "○ Radial deviation of hand",
+          "○ Absent or abnormal thumb",
+          "• Can diagnosis in 1st trimester: Abnormal hand/wrist",
+          "posture",
+          "• Other findings",
+          "○ Congenital heart disease",
+          "○ Thrombocytopenia"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Isolated: May be uni- or bilateral with variable thumb",
+          "defects",
+          "• VACTERL association",
+          "• Chromosomal: Trisomy 18, 13q deletion",
+          "• Holt-Oram syndrome: Cardiac septal defects with upper",
+          "extremity abnormalities",
+          "• Diabetic embryopathy: Range of limb defects, including",
+          "femoral hypoplasia, radial ray, preaxial polydactyly",
+          "• Thrombocytopenia-absent radius (TAR) syndrome: Thumbs",
+          "are present",
+          "• Fanconi anemia",
+          "• Teratogens: Valproic acid",
+          "• Nager acrofacial dysostosis: Facial anomalies, radial ray",
+          "defects"
+        ],
+        "CLINICAL ISSUES": [
+          "• Prognosis depends on underlying cause",
+          "• Limb defects (including radial ray) noted in ~ 1/3 of",
+          "spontaneous 2nd-/3rd-trimester abortuses with anomalies",
+          "• Recurrence risk dependent upon underlying condition"
+        ]
+      }
+    },
+    {
+      "id": "clinodactyly",
+      "name": "Клинодактилия",
+      "nameEn": "Clinodactyly",
+      "category": "Опорно-двигательная система",
+      "bookSection": "SECTION 9",
+      "bookPage": 758,
+      "definition": "• Little finger deviates toward ring finger • Short middle phalanx leads to angulation",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Seen best on coronal hand view in 2nd trimester",
+        "5th finger curves toward 4th",
+        "Commonly bilateral",
+        "Captured well with 3D",
+        "2-4% of normal fetuses have clinodactyly",
+        "Clinodactyly is minor marker for aneuploidy/syndromes",
+        "60% of trisomy 21 (T21) fetuses have clinodactyly",
+        "Look for other markers of T21",
+        "↑ nuchal fold (strong marker)",
+        "Absent носовая кость (strong marker)",
+        "Other markers: эхогенный intracardiac focus, эхогенный",
+        "bowel, renal pelvis distention, укорочение плечевой кости/femur,",
+        "sandal gap foot"
+      ],
+      "doppler_findings": [
+        "Seen best on coronal hand view in 2nd trimester",
+        "60% of trisomy 21 (T21) fetuses have clinodactyly"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Other syndromic associations besides T21"
+      ],
+      "genetic_associations": [
+        "Other syndromic associations besides T21"
+      ],
+      "differential_diagnosis": [],
+      "red_flags": [
+        "Document open hands as part of routine anatomy exam",
+        "Consider genetic counseling if not isolated or patient at",
+        "high risk for aneuploidy or genetic syndrome",
+        "Ask family if anyone else has clinodactyly when isolated"
+      ],
+      "follow_up": [
+        "Excellent prognosis when isolated",
+        "Functional limitations common if > 30-40°",
+        "May need surgical treatment"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.758: Clinodactyly"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Little finger deviates toward ring finger",
+          "• Short middle phalanx leads to angulation"
+        ],
+        "IMAGING": [
+          "• Seen best on coronal hand view in 2nd trimester",
+          "○ 5th finger curves toward 4th",
+          "○ Commonly bilateral",
+          "○ Captured well with 3D",
+          "• 2-4% of normal fetuses have clinodactyly",
+          "• Clinodactyly is minor marker for aneuploidy/syndromes",
+          "○ 60% of trisomy 21 (T21) fetuses have clinodactyly",
+          "• Look for other markers of T21",
+          "○ ↑ nuchal fold (strong marker)",
+          "○ Absent nasal bone (strong marker)",
+          "○ Other markers: Echogenic intracardiac focus, echogenic",
+          "bowel, renal pelvis distention, short humerus/femur,",
+          "sandal gap foot"
+        ],
+        "PATHOLOGY": [
+          "• Etiology",
+          "○ Trapezoidal/delta-shaped middle phalanx",
+          "• Familial clinodactyly",
+          "○ Autosomal dominant",
+          "○ Variable expression",
+          "• Other syndromic associations besides T21"
+        ],
+        "CLINICAL ISSUES": [
+          "• Excellent prognosis when isolated",
+          "• Functional limitations common if > 30-40°",
+          "○ May need surgical treatment"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Document open hands as part of routine anatomy exam",
+          "• Consider genetic counseling if not isolated or patient at",
+          "high risk for aneuploidy or genetic syndrome",
+          "• Ask family if anyone else has clinodactyly when isolated"
+        ]
+      }
+    },
+    {
+      "id": "polydactyly",
+      "name": "Полидактилия",
+      "nameEn": "Polydactyly",
+      "category": "Опорно-двигательная система",
+      "bookSection": "SECTION 9",
+      "bookPage": 760,
+      "definition": "• 1 or more extra digits or parts of digits ○ Postaxial: Ulnar or fibular side ○ Preaxial: Radial or tibial side",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Easy to both under- and overdiagnose",
+        "Careful scanning for other abnormalities and syndromes",
+        "Bilateral in ~ 50%",
+        "Syndactyly may also be present",
+        "3D ultrasound valuable tool for evaluation of hands, feet,",
+        "and digits",
+        "Endovaginal ultrasound in late 1st trimester"
+      ],
+      "doppler_findings": [
+        "3D ultrasound valuable tool for evaluation of hands, feet,",
+        "Endovaginal ultrasound in late 1st trimester"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Some associated syndromes are autosomal recessive,"
+      ],
+      "genetic_associations": [
+        "Some associated syndromes are autosomal recessive,",
+        "be part of syndrome"
+      ],
+      "differential_diagnosis": [
+        "Nonsyndromal polydactyly",
+        "Isolated",
+        "Familial",
+        "Syndromal polydactyly",
+        "Trisomy 13",
+        "Meckel-Gruber syndrome",
+        "Diabetic embryopathy",
+        "Smith-Lemli-Opitz/RSH syndrome",
+        "Carpenter syndrome",
+        "Short rib-polydactyly syndromes",
+        "Ellis-van Creveld syndrome",
+        "Pallister-Hall syndrome",
+        "Greig cephalopolysyndactyly"
+      ],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.760: Polydactyly"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• 1 or more extra digits or parts of digits",
+          "○ Postaxial: Ulnar or fibular side",
+          "○ Preaxial: Radial or tibial side"
+        ],
+        "IMAGING": [
+          "• Easy to both under- and overdiagnose",
+          "• Careful scanning for other abnormalities and syndromes",
+          "• Bilateral in ~ 50%",
+          "• Syndactyly may also be present",
+          "• 3D ultrasound valuable tool for evaluation of hands, feet,",
+          "and digits",
+          "• Endovaginal ultrasound in late 1st trimester"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Nonsyndromal polydactyly",
+          "○ Isolated",
+          "○ Familial",
+          "• Syndromal polydactyly",
+          "○ Trisomy 13",
+          "○ Meckel-Gruber syndrome",
+          "○ Diabetic embryopathy",
+          "○ Smith-Lemli-Opitz/RSH syndrome",
+          "○ Carpenter syndrome",
+          "○ Short rib-polydactyly syndromes",
+          "○ Ellis-van Creveld syndrome",
+          "○ Pallister-Hall syndrome",
+          "○ Greig cephalopolysyndactyly"
+        ],
+        "PATHOLOGY": [
+          "• Maternal diabetes risk factor for preaxial polydactyly",
+          "• Inheritance variable according to condition",
+          "○ Some associated syndromes are autosomal recessive,",
+          "autosomal dominant",
+          "○ Isolated polydactyly generally autosomal dominant with",
+          "variable penetrance",
+          "• Preaxial polydactyly and triphalangeal thumb more likely to",
+          "be part of syndrome"
+        ]
+      }
+    },
+    {
+      "id": "syndactyly",
+      "name": "Синдактилия",
+      "nameEn": "Syndactyly",
+      "category": "Опорно-двигательная система",
+      "bookSection": "SECTION 9",
+      "bookPage": 764,
+      "definition": "• Syndactyly: Greek for \"digits grown together\" • Partial or incomplete syndactyly: Affects only proximal segments of digits • Complete syndactyly: Affects length of digits to level of nails • Polysyndactyly/synpolydactyly: Combination of duplicated and fused digits • Symphalangism: Synostosis of joints of digits • Zygodactyly: Shallow, membranous webbing of 2nd-3rd toes, most prominent on plantar surface • Acrosyndactyly: Soft tissue attachment of distal digits with nonattached proximal segments",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Inability to see separate digits on open-hand view of fetus",
+        "Careful search for other limb, structural anomalies",
+        "Examination of hands and feet of parents, siblings"
+      ],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [
+        "Nonsyndromal syndactyly usually has good prognosis",
+        "Prognosis in syndromal syndactyly dependent upon",
+        "particular syndrome"
+      ],
+      "differential_diagnosis": [
+        "Nonsyndromal syndactyly",
+        "Familial 2-3 toe syndactyly (most common); amniotic",
+        "bands",
+        "Syndromal syndactyly",
+        "Smith-Lemli-Opitz syndrome, Apert syndrome, triploidy,",
+        "Carpenter syndrome, Pfeiffer syndrome, diabetic",
+        "embryopathy"
+      ],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.764: Syndactyly"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Syndactyly: Greek for \"digits grown together\"",
+          "• Partial or incomplete syndactyly: Affects only proximal",
+          "segments of digits",
+          "• Complete syndactyly: Affects length of digits to level of",
+          "nails",
+          "• Polysyndactyly/synpolydactyly: Combination of duplicated",
+          "and fused digits",
+          "• Symphalangism: Synostosis of joints of digits",
+          "• Zygodactyly: Shallow, membranous webbing of 2nd-3rd",
+          "toes, most prominent on plantar surface",
+          "• Acrosyndactyly: Soft tissue attachment of distal digits with",
+          "nonattached proximal segments"
+        ],
+        "IMAGING": [
+          "• Inability to see separate digits on open-hand view of fetus",
+          "• Careful search for other limb, structural anomalies",
+          "• Examination of hands and feet of parents, siblings"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Nonsyndromal syndactyly",
+          "○ Familial 2-3 toe syndactyly (most common); amniotic",
+          "bands",
+          "• Syndromal syndactyly",
+          "○ Smith-Lemli-Opitz syndrome, Apert syndrome, triploidy,",
+          "Carpenter syndrome, Pfeiffer syndrome, diabetic",
+          "embryopathy"
+        ],
+        "PATHOLOGY": [
+          "• Separation failure of digits prior to 6th week of",
+          "development",
+          "• Programmed cell death essential to remove interdigital",
+          "tissue, thus allowing separation of digits",
+          "• Nonsyndromal syndactyly usually has good prognosis",
+          "• Prognosis in syndromal syndactyly dependent upon",
+          "particular syndrome"
+        ]
+      }
+    },
+    {
+      "id": "split-hand-foot-malformation",
+      "name": "Расщелина кисти/стопы",
+      "nameEn": "Split Hand/Foot Malformation",
+      "category": "Опорно-двигательная система",
+      "bookSection": "SECTION 9",
+      "bookPage": 768,
+      "definition": "• Ectrodactyly • Characterized by deficiency/hypoplasia of phalanges, metacarpals, metatarsals, and deep median cleft; fusion of remaining digits • One of most complex distal limb abnormalities",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Cleft appearance of hands &/or feet with missing digits",
+        "Orofacial cleft in association with cleft hands or feet should",
+        "prompt consideration of ectrodactyly-ectodermal dysplasia",
+        "clefting syndrome (EEC syndrome)",
+        "Should be seen in routine midtrimester hand and foot",
+        "views",
+        "Perform endovaginal ultrasound in 1st trimester in high-risk",
+        "pregnancy",
+        "Careful evaluation for other limb abnormalities, clefts,",
+        "other structural anomalies",
+        "Related disorders: EEC, limb-mammary syndrome (LMS),",
+        "split hand/foot malformation with long bone deficiency",
+        "(SHFLD), acro-dermato-ungual-lacrimal-tooth syndrome",
+        "(ADULT)"
+      ],
+      "doppler_findings": [
+        "Should be seen in routine midtrimester hand and foot",
+        "Perform endovaginal ultrasound in 1st trimester in high-risk",
+        "Careful evaluation for other limb abnormalities, clefts,",
+        "(SHFLD), acro-dermato-ungual-lacrimal-tooth syndrome"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [
+        "Nonsyndromal split hand/foot malformation (SHFM) maps"
+      ],
+      "differential_diagnosis": [
+        "Amniotic bands",
+        "Diabetic embryopathy"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "At least 75 syndromes reported with SHFM as feature",
+        "SHFM accounts for 8-17% of all limb malformations"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.768: Split Hand/Foot Malformation"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Ectrodactyly",
+          "• Characterized by deficiency/hypoplasia of phalanges,",
+          "metacarpals, metatarsals, and deep median cleft; fusion of",
+          "remaining digits",
+          "• One of most complex distal limb abnormalities"
+        ],
+        "IMAGING": [
+          "• Cleft appearance of hands &/or feet with missing digits",
+          "• Orofacial cleft in association with cleft hands or feet should",
+          "prompt consideration of ectrodactyly-ectodermal dysplasia",
+          "clefting syndrome (EEC syndrome)",
+          "• Should be seen in routine midtrimester hand and foot",
+          "views",
+          "• Perform endovaginal ultrasound in 1st trimester in high-risk",
+          "pregnancy",
+          "• Careful evaluation for other limb abnormalities, clefts,",
+          "other structural anomalies",
+          "• Related disorders: EEC, limb-mammary syndrome (LMS),",
+          "split hand/foot malformation with long bone deficiency",
+          "(SHFLD), acro-dermato-ungual-lacrimal-tooth syndrome",
+          "(ADULT)"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Amniotic bands",
+          "• Diabetic embryopathy"
+        ],
+        "PATHOLOGY": [
+          "• Classification schema is complex",
+          "• Nonsyndromal split hand/foot malformation (SHFM) maps",
+          "to at least 7 different loci",
+          "• Most autosomal dominant inheritance with variable",
+          "expressivity and reduced penetrance"
+        ],
+        "CLINICAL ISSUES": [
+          "• At least 75 syndromes reported with SHFM as feature",
+          "• SHFM accounts for 8-17% of all limb malformations"
+        ]
+      }
+    },
+    {
+      "id": "arthrogryposis-akinesia-sequence",
+      "name": "Артрогрипоз, последовательность акинезии",
+      "nameEn": "Arthrogryposis, Akinesia Sequence",
+      "category": "Опорно-двигательная система",
+      "bookSection": "SECTION 9",
+      "bookPage": 772,
+      "definition": "• Abnormalities related to lack of fetal movement",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Multiple congenital joint contractures involving 2 or more",
+        "body areas",
+        "Lack of extremity motion despite fetal stimulation",
+        "Unusual or persistent abnormal posturing of limbs",
+        "Persistent \"pike\" position of lower limbs with",
+        "hyperextended knees",
+        "Cross-legged \"tailor's position\" of lower limbs",
+        "Extended elbows with internally rotated, flexed wrists",
+        "(\"waiter's tip\")",
+        "Clubfeet/rocker-bottom feet, may be very severe",
+        "Clenched hands",
+        "Lack of facial movement",
+        "Persistent open mouth throughout exam",
+        "Micrognathia",
+        "многоводие from decreased fetal swallowing",
+        "Evaluate degree of involvement",
+        "Progressive vs. static",
+        "Generalized vs. focal"
+      ],
+      "doppler_findings": [
+        "Lack of extremity motion despite fetal stimulation",
+        "Unusual or persistent abnormal posturing of limbs",
+        "Persistent \"pike\" position of lower limbs with",
+        "Extended elbows with internally rotated, flexed wrists",
+        "Evaluate degree of involvement"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Multiple different etiologies",
+        "Trisomy 18",
+        "Distal arthrogryposis",
+        "Amyoplasia",
+        "Multiple pterygium syndrome",
+        "Spinal muscular atrophy",
+        "Acetylcholine receptor (AChR) antibodies",
+        "Restrictive dermopathy",
+        "Caudal regression sequence",
+        "Gaucher type 2"
+      ],
+      "red_flags": [
+        "Progressive generalized lack of fetal movement with",
+        "гидrops fetalis predicts high risk of lethality"
+      ],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.772: Arthrogryposis, Akinesia Sequence"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Abnormalities related to lack of fetal movement"
+        ],
+        "IMAGING": [
+          "• Multiple congenital joint contractures involving 2 or more",
+          "body areas",
+          "• Lack of extremity motion despite fetal stimulation",
+          "• Unusual or persistent abnormal posturing of limbs",
+          "○ Persistent \"pike\" position of lower limbs with",
+          "hyperextended knees",
+          "○ Cross-legged \"tailor's position\" of lower limbs",
+          "○ Extended elbows with internally rotated, flexed wrists",
+          "(\"waiter's tip\")",
+          "○ Clubfeet/rocker-bottom feet, may be very severe",
+          "○ Clenched hands",
+          "• Lack of facial movement",
+          "○ Persistent open mouth throughout exam",
+          "○ Micrognathia",
+          "• Polyhydramnios from decreased fetal swallowing",
+          "• Evaluate degree of involvement",
+          "○ Progressive vs. static",
+          "○ Generalized vs. focal"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Multiple different etiologies",
+          "○ Trisomy 18",
+          "○ Distal arthrogryposis",
+          "○ Amyoplasia",
+          "○ Multiple pterygium syndrome",
+          "○ Spinal muscular atrophy",
+          "○ Acetylcholine receptor (AChR) antibodies",
+          "○ Restrictive dermopathy",
+          "○ Caudal regression sequence",
+          "○ Gaucher type 2"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Progressive generalized lack of fetal movement with",
+          "hydrops predicts high risk of lethality"
+        ]
+      }
+    },
+    {
+      "id": "proximal-focal-femoral-dysplasia",
+      "name": "Проксимальная фокальная дисплазия бедра",
+      "nameEn": "Proximal Focal Femoral Dysplasia",
+      "category": "Опорно-двигательная система",
+      "bookSection": "SECTION 9",
+      "bookPage": 778,
+      "definition": "• Dysplasia, hypoplasia, or aplasia involving proximal femur ○ Spectrum ranges from mild shortening to absent femur",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "85-90% unilateral",
+        "Discrepant femur length is key finding",
+        "Difference ranges from subtle to severe",
+        "Affected femur often angulated",
+        "Proximal and distal femur may be discontinuous",
+        "Bone mineralization is normal",
+        "Other common ipsilateral findings",
+        "Fibular hypoplasia/agenesis, bowed tibia",
+        "Clubfoot",
+        "Flexion contractures",
+        "Oligodactyly (missing toes)"
+      ],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Not associated with aneuploidy"
+      ],
+      "genetic_associations": [
+        "Not associated with aneuploidy"
+      ],
+      "differential_diagnosis": [
+        "Femoral-fibula-ulna syndrome",
+        "Some authors include PFFD in this spectrum",
+        "Femoral hypoplasia-unusual facies syndrome",
+        "Characteristic facial features (often mild)",
+        "Early-onset задержка роста плода (ЗРП/FGR)",
+        "Conditions with bilateral symmetric укорочение бедренной костиs",
+        "Other more severe skeletal dysplasia"
+      ],
+      "red_flags": [
+        "Far-field femur can artifactually appear bowed"
+      ],
+      "follow_up": [
+        "Children with isolated PFFD typically have normal intellect",
+        "Orthopedic correction vs. amputation and prosthesis"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.778: Proximal Focal Femoral Dysplasia"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Dysplasia, hypoplasia, or aplasia involving proximal femur",
+          "○ Spectrum ranges from mild shortening to absent femur"
+        ],
+        "IMAGING": [
+          "• 85-90% unilateral",
+          "• Discrepant femur length is key finding",
+          "○ Difference ranges from subtle to severe",
+          "• Affected femur often angulated",
+          "• Proximal and distal femur may be discontinuous",
+          "• Bone mineralization is normal",
+          "• Other common ipsilateral findings",
+          "○ Fibular hypoplasia/agenesis, bowed tibia",
+          "○ Clubfoot",
+          "○ Flexion contractures",
+          "○ Oligodactyly (missing toes)"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Femoral-fibula-ulna syndrome",
+          "○ Some authors include PFFD in this spectrum",
+          "• Femoral hypoplasia-unusual facies syndrome",
+          "○ Characteristic facial features (often mild)",
+          "• Early-onset fetal growth restriction",
+          "• Conditions with bilateral symmetric short femurs",
+          "• Other more severe skeletal dysplasia"
+        ],
+        "PATHOLOGY": [
+          "• Femoral head can be discontinuous from distal femur",
+          "○ Pseudoarthrosis with varus angulation",
+          "• Distal femoral shaft has classic pencil-point appearance",
+          "• Maternal diabetes common etiology",
+          "• Not associated with aneuploidy"
+        ],
+        "CLINICAL ISSUES": [
+          "• Children with isolated PFFD typically have normal intellect",
+          "• Orthopedic correction vs. amputation and prosthesis"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Far-field femur can artifactually appear bowed"
+        ]
+      }
+    },
+    {
+      "id": "fibular-tibial-hemimelia",
+      "name": "Гемимелия малоберцовой/большеберцовой кости",
+      "nameEn": "Fibular/Tibial Hemimelia",
+      "category": "Опорно-двигательная система",
+      "bookSection": "SECTION 9",
+      "bookPage": 782,
+      "definition": "• Definition: Longitudinal deficiency of long bones ○ Ranges from mild deficiency to complete absence",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Fibular hemimelia (FH): Deformed, short, or absent fibula",
+        "Associated with anteriorly bowed and shortened tibia",
+        "Associated with lateral ankle, foot, and femur anomalies",
+        "– Proximal focal femoral dysplasia",
+        "– Missing lateral digits and metatarsals",
+        "– Valgus deviation of foot",
+        "Tibial hemimelia (TH): Deformed, short, or absent tibia",
+        "Fibula most often normal",
+        "Associated with medial foot and ankle deformities",
+        "– Varus deviation of foot deformity",
+        "– Missing medial digits and metatarsals",
+        "3D ultrasound for extremity positioning and contour"
+      ],
+      "doppler_findings": [
+        "Associated with anteriorly bowed and shortened tibia"
+      ],
+      "mri_findings": [
+        "МР helpful if other anomalies suspected"
+      ],
+      "associated_anomalies": [
+        "Prognosis depends on extent of deficiency and associated"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Proximal focal femoral dysplasia",
+        "Femur-fibula-ulna syndrome",
+        "Clubfoot without hemimelia"
+      ],
+      "red_flags": [
+        "Clue to which bone is missing is that foot deviates toward",
+        "missing bone",
+        "Fibula missing, foot deviates lateral",
+        "Tibia missing, foot deviates medial",
+        "If 1 long bone is short, measure all long bones"
+      ],
+      "follow_up": [
+        "FH more common than TH",
+        "Prognosis depends on extent of deficiency and associated",
+        "abnormalities proximal and distal to long bone",
+        "Treatment after birth is surgical",
+        "Limb reconstruction",
+        "Amputation with prosthetic fitting"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Treatment after birth is surgical",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.782: Fibular/Tibial Hemimelia"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Definition: Longitudinal deficiency of long bones",
+          "○ Ranges from mild deficiency to complete absence"
+        ],
+        "IMAGING": [
+          "• Fibular hemimelia (FH): Deformed, short, or absent fibula",
+          "○ Associated with anteriorly bowed and shortened tibia",
+          "○ Associated with lateral ankle, foot, and femur anomalies",
+          "– Proximal focal femoral dysplasia",
+          "– Missing lateral digits and metatarsals",
+          "– Valgus deviation of foot",
+          "• Tibial hemimelia (TH): Deformed, short, or absent tibia",
+          "○ Fibula most often normal",
+          "○ Associated with medial foot and ankle deformities",
+          "– Varus deviation of foot deformity",
+          "– Missing medial digits and metatarsals",
+          "• 3D ultrasound for extremity positioning and contour",
+          "• MR helpful if other anomalies suspected"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Proximal focal femoral dysplasia",
+          "• Femur-fibula-ulna syndrome",
+          "• Clubfoot without hemimelia"
+        ],
+        "CLINICAL ISSUES": [
+          "• FH more common than TH",
+          "• Prognosis depends on extent of deficiency and associated",
+          "abnormalities proximal and distal to long bone",
+          "• Treatment after birth is surgical",
+          "○ Limb reconstruction",
+          "○ Amputation with prosthetic fitting"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Clue to which bone is missing is that foot deviates toward",
+          "missing bone",
+          "○ Fibula missing, foot deviates lateral",
+          "○ Tibia missing, foot deviates medial",
+          "• If 1 long bone is short, measure all long bones"
+        ]
+      }
+    },
+    {
+      "id": "mildly-short-femur-humerus",
+      "name": "Умеренное укорочение бедренной/плечевой кости",
+      "nameEn": "Mildly Short Femur/Humerus",
+      "category": "Опорно-двигательная система",
+      "bookSection": "SECTION 9",
+      "bookPage": 784,
+      "definition": "Mildly укорочение бедренной кости/Humerus",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.784: Mildly Short Femur/Humerus"
+      ],
+      "sourceBlocks": {}
+    },
+    {
+      "id": "curved-angulated-bones",
+      "name": "Изогнутые/угловые деформации костей",
+      "nameEn": "Curved/Angulated Bones",
+      "category": "Опорно-двигательная система",
+      "bookSection": "SECTION 9",
+      "bookPage": 788,
+      "definition": "Curved/Angulated Bones",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.788: Curved/Angulated Bones"
+      ],
+      "sourceBlocks": {}
+    },
+    {
+      "id": "abnormal-ossification",
+      "name": "Нарушение оссификации",
+      "nameEn": "Abnormal Ossification",
+      "category": "Опорно-двигательная система",
+      "bookSection": "SECTION 9",
+      "bookPage": 794,
+      "definition": "Abnormal Ossification",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.794: Abnormal Ossification"
+      ],
+      "sourceBlocks": {}
+    }
+  ]
+}

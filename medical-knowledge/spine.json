@@ -1,0 +1,745 @@
+{
+  "module": "spine",
+  "moduleRu": "Позвоночник",
+  "source": {
+    "title": "Diagnostic Imaging: Obstetrics",
+    "edition": "4th",
+    "authors": [
+      "Paula J. Woodward",
+      "Anne Kennedy",
+      "Roya Sohaey",
+      "Janice L. B. Byrne",
+      "Michael D. Puchalski",
+      "Brian L. Shaffer",
+      "Emily Edwards",
+      "Priyanka Jha",
+      "Whitnee Hogan"
+    ]
+  },
+  "version": "1.0.0",
+  "extractedAt": "2026-06-25",
+  "entries": [
+    {
+      "id": "spina-bifida",
+      "name": "Расщелина позвоночника",
+      "nameEn": "Spina Bifida",
+      "category": "Позвоночник",
+      "bookSection": "SECTION 3",
+      "bookPage": 236,
+      "definition": "• Definition: Bony vertebral defect + neural content exposure ○ Open spina bifida: Without skin coverage (90%) ○ Closed spina bifida: With skin coverage (10%) • Meningocele: Dural sac only involved • Myelomeningocele: Neural elements attached to herniated dural sac • Myelocele (a.k.a. myeloschisis): Neural placode exposed without covering dura (flat)",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Meningocele or myelomeningocele sac + Chiari 2 (80%)",
+        "Meningocele (анэхогенный sac with only dura/meninges)",
+        "Myelomeningocele (complex cystic sac)",
+        "20% of open spina bifida without sac",
+        "Spinal cord is part of defect",
+        "Often worse brain findings",
+        "Skin-covered closed spina bifida often without Chiari 2",
+        "Splayed dorsal ossification centers on axial view",
+        "Longitudinal views best for determining defect level",
+        "Levels: Lumbar > sacral > thoracic > cervical"
+      ],
+      "doppler_findings": [
+        "Meningocele or myelomeningocele sac + Chiari 2 (80%)",
+        "20% of open spina bifida without sac",
+        "Spinal cord is part of defect",
+        "Skin-covered closed spina bifida often without Chiari 2"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Sacrococcygeal teratoma",
+        "Isolated scoliosis/kyphosis"
+      ],
+      "red_flags": [
+        "Presence of normal cisterna magna nearly eliminates",
+        "diagnosis of open spina bifida",
+        "Consider МР to look for additional brain anomalies"
+      ],
+      "follow_up": [
+        "Prognosis depends on level and severity of defect",
+        "Spinal defect surgically closed within first 24 hours of life",
+        "60-80% need hydrocephalus treatment (first 6 months)",
+        "Fetal surgery may be option",
+        "↓ ventriculoperitoneal shunt rate and improved limb",
+        "function",
+        "Recurrence risk: 3-4% ↓ to 1% with high-dose folic acid"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Fetal surgery may be option",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.236: Spina Bifida"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Definition: Bony vertebral defect + neural content exposure",
+          "○ Open spina bifida: Without skin coverage (90%)",
+          "○ Closed spina bifida: With skin coverage (10%)",
+          "• Meningocele: Dural sac only involved",
+          "• Myelomeningocele: Neural elements attached to herniated",
+          "dural sac",
+          "• Myelocele (a.k.a. myeloschisis): Neural placode exposed",
+          "without covering dura (flat)"
+        ],
+        "IMAGING": [
+          "• Meningocele or myelomeningocele sac + Chiari 2 (80%)",
+          "○ Meningocele (anechoic sac with only dura/meninges)",
+          "○ Myelomeningocele (complex cystic sac)",
+          "• 20% of open spina bifida without sac",
+          "○ Spinal cord is part of defect",
+          "○ Often worse brain findings",
+          "• Skin-covered closed spina bifida often without Chiari 2",
+          "• Splayed dorsal ossification centers on axial view",
+          "• Longitudinal views best for determining defect level",
+          "○ Levels: Lumbar > sacral > thoracic > cervical"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Sacrococcygeal teratoma",
+          "• Isolated scoliosis/kyphosis"
+        ],
+        "CLINICAL ISSUES": [
+          "• Prognosis depends on level and severity of defect",
+          "• Spinal defect surgically closed within first 24 hours of life",
+          "• 60-80% need hydrocephalus treatment (first 6 months)",
+          "• Fetal surgery may be option",
+          "○ ↓ ventriculoperitoneal shunt rate and improved limb",
+          "function",
+          "• Recurrence risk: 3-4% ↓ to 1% with high-dose folic acid"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Presence of normal cisterna magna nearly eliminates",
+          "diagnosis of open spina bifida",
+          "• Consider MR to look for additional brain anomalies"
+        ]
+      }
+    },
+    {
+      "id": "iniencephaly",
+      "name": "Иниенцефалия",
+      "nameEn": "Iniencephaly",
+      "category": "Позвоночник",
+      "bookSection": "SECTION 3",
+      "bookPage": 242,
+      "definition": "Iniencephaly",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "1st trimester",
+        "копчико-теменной размер (КТР) less than expected",
+        "Head disproportionately large",
+        "Use EV scan to carefully evaluate spine",
+        "CNS",
+        "Extreme, fixed retroflexion of neck",
+        "Occipital encephalocele",
+        "Spinal dysraphism often extensive (rachischisis)",
+        "Cervical vertebrae are missing or fused",
+        "Other brain anomalies frequently present",
+        "Face",
+        "Orbits directed upward, stargazer appearance",
+        "Mandibular skin contiguous with chest",
+        "Non-CNS anomalies common"
+      ],
+      "doppler_findings": [
+        "1st trimester",
+        "Use EV scan to carefully evaluate spine",
+        "Occipital encephalocele",
+        "Spinal dysraphism often extensive (rachischisis)"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Associated anomalies in up to 85%"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Cervical hyperextension",
+        "May be transient",
+        "динамическое наблюдение to document resolution",
+        "Klippel-Feil syndrome",
+        "Failure of segmentation of cervical vertebrae",
+        "Neck usually not retroflexed",
+        "Triploidy may give similar appearance in 1st and early 2nd",
+        "trimester",
+        "Digynic phenotype has severe asymmetric growth",
+        "restriction with small body and relative макроцефалия"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "No treatment; lethal malformation"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.242: Iniencephaly"
+      ],
+      "sourceBlocks": {
+        "IMAGING": [
+          "• 1st trimester",
+          "○ Crown-rump length less than expected",
+          "○ Head disproportionately large",
+          "○ Use EV scan to carefully evaluate spine",
+          "• CNS",
+          "○ Extreme, fixed retroflexion of neck",
+          "○ Occipital encephalocele",
+          "○ Spinal dysraphism often extensive (rachischisis)",
+          "○ Cervical vertebrae are missing or fused",
+          "○ Other brain anomalies frequently present",
+          "• Face",
+          "○ Orbits directed upward, stargazer appearance",
+          "○ Mandibular skin contiguous with chest",
+          "• Non-CNS anomalies common"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Cervical hyperextension",
+          "○ May be transient",
+          "○ Follow-up to document resolution",
+          "• Klippel-Feil syndrome",
+          "○ Failure of segmentation of cervical vertebrae",
+          "○ Neck usually not retroflexed",
+          "• Triploidy may give similar appearance in 1st and early 2nd",
+          "trimester",
+          "○ Digynic phenotype has severe asymmetric growth",
+          "restriction with small body and relative macrocephaly"
+        ],
+        "PATHOLOGY": [
+          "• Associated anomalies in up to 85%",
+          "• Defect always involves inion and foramen magnum",
+          "• Iniencephaly apertus most common type",
+          "○ Encephalocele present",
+          "• Iniencephaly clausus has no encephalocele"
+        ],
+        "CLINICAL ISSUES": [
+          "• No treatment; lethal malformation"
+        ]
+      }
+    },
+    {
+      "id": "caudal-regression-sequence",
+      "name": "Каудальная регрессивная последовательность",
+      "nameEn": "Caudal Regression Sequence",
+      "category": "Позвоночник",
+      "bookSection": "SECTION 3",
+      "bookPage": 244,
+      "definition": "• Heterogeneous constellation of malformations of lumbar and sacral spine and corresponding spinal cord segments ○ Abnormal innervation affects lower extremity, GI, and GU development",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "1st-trimester US findings: Short копчико-теменной размер (КТР) (CRL)",
+        "2nd- and 3rd-trimester US findings",
+        "Abrupt termination of spine on longitudinal views",
+        "– Distal spine appears erased",
+        "Because of absent sacrum, iliac wings approximated or",
+        "fused (shield appearance)",
+        "Lower extremities fixed and atrophic",
+        "– Cross-legged tailor or Buddha pose",
+        "GI and GU anomalies common and often severe",
+        "Congenital heart disease in 24%"
+      ],
+      "doppler_findings": [
+        "1st-trimester US findings: Short копчико-теменной размер (КТР) (CRL)",
+        "2nd- and 3rd-trimester US findings",
+        "Abrupt termination of spine on longitudinal views",
+        "– Distal spine appears erased",
+        "МР best to evaluate spinal cord and conus position"
+      ],
+      "mri_findings": [
+        "МР best to evaluate spinal cord and conus position"
+      ],
+      "associated_anomalies": [
+        "1% of infants born to diabetic mothers have caudal",
+        "12-22% of infants with CRS have diabetic mothers"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Myelomeningocele",
+        "VACTERL association",
+        "Sirenomelia"
+      ],
+      "red_flags": [
+        "Always check for spine ossification centers in axial scan",
+        "plane at level of iliac wings; count from ribs in sagittal",
+        "Look for CRS at толщина воротникового пространства (ТВП) (NT)/1st-trimester",
+        "anatomy exam; use transvaginal US",
+        "Should specifically target in any diabetic mother"
+      ],
+      "follow_up": [
+        "1% of infants born to diabetic mothers have caudal",
+        "regression sequence (CRS)",
+        "12-22% of infants with CRS have diabetic mothers",
+        "Clinical outcome determined by level of defect",
+        "Neurogenic bladder, motor and sensory deficits are",
+        "common"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.244: Caudal Regression Sequence"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Heterogeneous constellation of malformations of lumbar",
+          "and sacral spine and corresponding spinal cord segments",
+          "○ Abnormal innervation affects lower extremity, GI, and",
+          "GU development"
+        ],
+        "IMAGING": [
+          "• 1st-trimester US findings: Short crown-rump length (CRL)",
+          "• 2nd- and 3rd-trimester US findings",
+          "○ Abrupt termination of spine on longitudinal views",
+          "– Distal spine appears erased",
+          "○ Because of absent sacrum, iliac wings approximated or",
+          "fused (shield appearance)",
+          "○ Lower extremities fixed and atrophic",
+          "– Cross-legged tailor or Buddha pose",
+          "• GI and GU anomalies common and often severe",
+          "• Congenital heart disease in 24%",
+          "• MR best to evaluate spinal cord and conus position"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Myelomeningocele",
+          "• VACTERL association",
+          "• Sirenomelia"
+        ],
+        "CLINICAL ISSUES": [
+          "• 1% of infants born to diabetic mothers have caudal",
+          "regression sequence (CRS)",
+          "• 12-22% of infants with CRS have diabetic mothers",
+          "• Clinical outcome determined by level of defect",
+          "○ Neurogenic bladder, motor and sensory deficits are",
+          "common"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Always check for spine ossification centers in axial scan",
+          "plane at level of iliac wings; count from ribs in sagittal",
+          "• Look for CRS at nuchal translucency (NT)/1st-trimester",
+          "anatomy exam; use transvaginal US",
+          "○ Should specifically target in any diabetic mother"
+        ]
+      }
+    },
+    {
+      "id": "kyphosis-scoliosis",
+      "name": "Кифоз, сколиоз",
+      "nameEn": "Kyphosis, Scoliosis",
+      "category": "Позвоночник",
+      "bookSection": "SECTION 3",
+      "bookPage": 248,
+      "definition": "• Scoliosis: Abnormal lateral spine angulation • Kyphosis: Abnormal anterior spine angulation",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Longitudinal views best",
+        "Coronal for scoliosis",
+        "Sagittal for kyphosis",
+        "Fusion anomalies: Hemivertebra (most common), butterfly",
+        "or block vertebra",
+        "Multiple dysmorphic vertebrae create \"jumbled\" spine",
+        "3D bone-rendered ultrasound best shows level and degree",
+        "of vertebral dysmorphology",
+        "Rib abnormalities (absent, malformed, fused, cervical)",
+        "common but frequently missed",
+        "Cervical ribs higher association with aneuploidy, genetic",
+        "syndromes, and poor outcomes",
+        "Beware of positional curvature",
+        "No bony defect, changes during exam",
+        "Associated anomalies common",
+        "Spina bifida (evaluate brain for Chiari malformation)",
+        "1 or more findings of VACTERL association",
+        "Spinal cord abnormalities: Tethered cord, syrinx"
+      ],
+      "doppler_findings": [
+        "Multiple dysmorphic vertebrae create \"jumbled\" spine",
+        "Rib abnormalities (absent, malformed, fused, cervical)",
+        "Cervical ribs higher association with aneuploidy, genetic",
+        "No bony defect, changes during exam",
+        "Spina bifida (evaluate brain for Chiari malformation)",
+        "Spinal cord abnormalities: Tethered cord, syrinx"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "More common in infants of diabetic mothers",
+        "20-30% with additional intraspinal anomaly"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Caudal regression sequence",
+        "Arthrogryposis"
+      ],
+      "red_flags": [
+        "1/3 of cases missed prenatally"
+      ],
+      "follow_up": [
+        "More common in infants of diabetic mothers",
+        "1/3 of cases missed prenatally",
+        "Isolated has no increased risk for aneuploidy",
+        "20-30% with additional intraspinal anomaly",
+        "Postnatal evaluation begins with radiographs",
+        "Curve progression of isolated scoliosis (> 10° at diagnosis)",
+        "25% have no further curve progression",
+        "50% have slow curve progression",
+        "25% have rapid curve progression"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Postnatal evaluation begins with radiographs",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.248: Kyphosis, Scoliosis"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Scoliosis: Abnormal lateral spine angulation",
+          "• Kyphosis: Abnormal anterior spine angulation"
+        ],
+        "IMAGING": [
+          "• Longitudinal views best",
+          "○ Coronal for scoliosis",
+          "○ Sagittal for kyphosis",
+          "• Fusion anomalies: Hemivertebra (most common), butterfly",
+          "or block vertebra",
+          "• Multiple dysmorphic vertebrae create \"jumbled\" spine",
+          "• 3D bone-rendered ultrasound best shows level and degree",
+          "of vertebral dysmorphology",
+          "• Rib abnormalities (absent, malformed, fused, cervical)",
+          "common but frequently missed",
+          "○ Cervical ribs higher association with aneuploidy, genetic",
+          "syndromes, and poor outcomes",
+          "• Beware of positional curvature",
+          "○ No bony defect, changes during exam",
+          "• Associated anomalies common",
+          "○ Spina bifida (evaluate brain for Chiari malformation)",
+          "○ 1 or more findings of VACTERL association",
+          "○ Spinal cord abnormalities: Tethered cord, syrinx"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Caudal regression sequence",
+          "• Arthrogryposis"
+        ],
+        "CLINICAL ISSUES": [
+          "• More common in infants of diabetic mothers",
+          "• 1/3 of cases missed prenatally",
+          "• Isolated has no increased risk for aneuploidy",
+          "• 20-30% with additional intraspinal anomaly",
+          "• Postnatal evaluation begins with radiographs",
+          "• Curve progression of isolated scoliosis (> 10° at diagnosis)",
+          "○ 25% have no further curve progression",
+          "○ 50% have slow curve progression",
+          "○ 25% have rapid curve progression"
+        ]
+      }
+    },
+    {
+      "id": "tethered-cord",
+      "name": "Спинальный мозг на нитке",
+      "nameEn": "Tethered Cord",
+      "category": "Позвоночник",
+      "bookSection": "SECTION 3",
+      "bookPage": 250,
+      "definition": "• Low-lying conus medullaris (CM) ○ Often with associated spinal anomaly ○ Short, thick filum terminale in isolated cases",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "CM can be seen in > 90% of fetuses > 14 weeks",
+        "CM position varies with gestational age",
+        "Should not be inferior to L3-L4 after 18 weeks",
+        "19-24 weeks: CM between L2 and L3",
+        "24 weeks-term: Progressive relative ascent with CM",
+        "above L2-L3 at term",
+        "Longitudinal views best for determining level",
+        "Identify T12 or S1 and count lumbar levels",
+        "Associations",
+        "Neural tube defects (open and closed)",
+        "VACTERL association",
+        "Congenital scoliosis and kyphosis"
+      ],
+      "doppler_findings": [
+        "CM position varies with gestational age",
+        "Should not be inferior to L3-L4 after 18 weeks"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Associated fibroma/lipoma",
+        "Associated spine anomaly"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Cyst of filum terminale (may mimic low CM on ultrasound)",
+        "Ventriculus terminalis (dilation of CM central canal)"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Midline cutaneous stigmata seen on physical exam",
+        "Nevi, lipoma, hair tuft, hemangioma, dermal sinus",
+        "Children commonly present with incontinence",
+        "Adults commonly present with pain, gait spasticity,",
+        "weakness, muscle atrophy",
+        "Chronic fixed tension on cord may result in severe and",
+        "permanent damage",
+        "Treatment: Resect tethering mass → stabilizes neurological",
+        "function"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.250: Tethered Cord"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Low-lying conus medullaris (CM)",
+          "○ Often with associated spinal anomaly",
+          "○ Short, thick filum terminale in isolated cases"
+        ],
+        "IMAGING": [
+          "• CM can be seen in > 90% of fetuses > 14 weeks",
+          "• CM position varies with gestational age",
+          "○ Should not be inferior to L3-L4 after 18 weeks",
+          "○ 19-24 weeks: CM between L2 and L3",
+          "○ 24 weeks-term: Progressive relative ascent with CM",
+          "above L2-L3 at term",
+          "• Longitudinal views best for determining level",
+          "○ Identify T12 or S1 and count lumbar levels",
+          "• Associations",
+          "○ Neural tube defects (open and closed)",
+          "○ VACTERL association",
+          "○ Congenital scoliosis and kyphosis"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Cyst of filum terminale (may mimic low CM on ultrasound)",
+          "• Ventriculus terminalis (dilation of CM central canal)"
+        ],
+        "PATHOLOGY": [
+          "• Thickened fibrotic filum",
+          "• Associated fibroma/lipoma",
+          "• Associated spine anomaly"
+        ],
+        "CLINICAL ISSUES": [
+          "• Midline cutaneous stigmata seen on physical exam",
+          "○ Nevi, lipoma, hair tuft, hemangioma, dermal sinus",
+          "• Children commonly present with incontinence",
+          "• Adults commonly present with pain, gait spasticity,",
+          "weakness, muscle atrophy",
+          "• Chronic fixed tension on cord may result in severe and",
+          "permanent damage",
+          "• Treatment: Resect tethering mass → stabilizes neurological",
+          "function"
+        ]
+      }
+    },
+    {
+      "id": "diastematomyelia",
+      "name": "Диастематомиелия",
+      "nameEn": "Diastematomyelia",
+      "category": "Позвоночник",
+      "bookSection": "SECTION 3",
+      "bookPage": 252,
+      "definition": "• Rare form of spinal dysraphism • Sagittally oriented spinal canal spur that splits spinal cord into 2 hemicords",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "US diagnosis difficult secondary to shadowing from",
+        "vertebrae",
+        "Axial plane best for seeing spur (эхогенный focus in",
+        "posterior spinal canal)",
+        "Coronal plane shows widening of spinal canal",
+        "Sagittal plane best to evaluate for associated vertebral",
+        "body anomalies",
+        "Associated CNS abnormalities",
+        "Scoliosis (80%)",
+        "Tethered cord (75%)",
+        "Myeloschisis, myelomeningocele,  lipomeningocele (15-",
+        "25%)",
+        "Evaluate filum terminale (tethered cord, fibrolipoma)",
+        "2 hemicords may unite above and below cleft"
+      ],
+      "doppler_findings": [
+        "posterior spinal canal)",
+        "Coronal plane shows widening of spinal canal",
+        "Sagittal plane best to evaluate for associated vertebral",
+        "МР superior to US for looking at cord",
+        "Evaluate filum terminale (tethered cord, fibrolipoma)"
+      ],
+      "mri_findings": [
+        "МР superior to US for looking at cord"
+      ],
+      "associated_anomalies": [
+        "Prognosis favorable when not associated with other spinal",
+        "anomalies"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Duplicated spinal cord (diplomyelia)"
+      ],
+      "red_flags": [
+        "When vertebral anomaly is present, evaluate spinal cord",
+        "Consider МР for further evaluation"
+      ],
+      "follow_up": [
+        "Represents 5% of congenital scoliosis",
+        "Symptoms related to degree of spinal cord tethering",
+        "Orthopedic foot problems (50%)",
+        "Urologic dysfunction",
+        "Prognosis favorable when not associated with other spinal",
+        "anomalies",
+        "Treatment: Tethered cord release, spur resection, and dural",
+        "repair",
+        "Decreases symptom progression"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "repair",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.252: Diastematomyelia"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Rare form of spinal dysraphism",
+          "• Sagittally oriented spinal canal spur that splits spinal cord",
+          "into 2 hemicords"
+        ],
+        "IMAGING": [
+          "• US diagnosis difficult secondary to shadowing from",
+          "vertebrae",
+          "○ Axial plane best for seeing spur (echogenic focus in",
+          "posterior spinal canal)",
+          "○ Coronal plane shows widening of spinal canal",
+          "○ Sagittal plane best to evaluate for associated vertebral",
+          "body anomalies",
+          "• Associated CNS abnormalities",
+          "○ Scoliosis (80%)",
+          "○ Tethered cord (75%)",
+          "○ Myeloschisis, myelomeningocele,  lipomeningocele (15-",
+          "25%)",
+          "• MR superior to US for looking at cord",
+          "○ Evaluate filum terminale (tethered cord, fibrolipoma)",
+          "○ 2 hemicords may unite above and below cleft"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Duplicated spinal cord (diplomyelia)"
+        ],
+        "CLINICAL ISSUES": [
+          "• Represents 5% of congenital scoliosis",
+          "• Symptoms related to degree of spinal cord tethering",
+          "○ Orthopedic foot problems (50%)",
+          "○ Urologic dysfunction",
+          "• Prognosis favorable when not associated with other spinal",
+          "anomalies",
+          "• Treatment: Tethered cord release, spur resection, and dural",
+          "repair",
+          "○ Decreases symptom progression"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• When vertebral anomaly is present, evaluate spinal cord",
+          "• Consider MR for further evaluation"
+        ]
+      }
+    },
+    {
+      "id": "sacrococcygeal-teratoma",
+      "name": "Крестцово-копчиковая тератома",
+      "nameEn": "Sacrococcygeal Teratoma",
+      "category": "Позвоночник",
+      "bookSection": "SECTION 3",
+      "bookPage": 254,
+      "definition": "Sacrococcygeal Teratoma",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Exophytic mixed cystic/solid mass extending from sacrum",
+        "Purely cystic in 15%",
+        "Variable size but often large, with potential for extremely",
+        "rapid growth",
+        "Solid tumors may have significant arteriovenous shunting",
+        "цветовой допpler essential to evaluate vascularity",
+        "extent of tumor and effect on surrounding organs",
+        "Always evaluate for possible involvement of spinal canal",
+        "Associated malformations in 11-38%, mostly secondary to",
+        "mass effect from local tumor growth",
+        "гидrops fetalis and многоводие common complications",
+        "Intratumoral hemorrhage common in large solid tumors",
+        "Very poor prognostic sign",
+        "Scan every 1-3 weeks, depending on size, vascularity, etc.",
+        "Evaluate for signs of impending cardiovascular",
+        "compromise or internal hemorrhage"
+      ],
+      "doppler_findings": [
+        "Variable size but often large, with potential for extremely",
+        "rapid growth",
+        "Solid tumors may have significant arteriovenous shunting",
+        "цветовой допpler essential to evaluate vascularity",
+        "МР superior to ultrasound for evaluation of intraabdominal",
+        "Always evaluate for possible involvement of spinal canal",
+        "Scan every 1-3 weeks, depending on size, vascularity, etc.",
+        "Evaluate for signs of impending cardiovascular"
+      ],
+      "mri_findings": [
+        "МР superior to ultrasound for evaluation of intraabdominal"
+      ],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [
+        "May require therapeutic amnioreduction for symptomatic",
+        "relief of многоводие"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Consider early delivery if signs of cardiovascular",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.254: Sacrococcygeal Teratoma"
+      ],
+      "sourceBlocks": {
+        "IMAGING": [
+          "• Exophytic mixed cystic/solid mass extending from sacrum",
+          "○ Purely cystic in 15%",
+          "• Variable size but often large, with potential for extremely",
+          "rapid growth",
+          "• Solid tumors may have significant arteriovenous shunting",
+          "○ Color Doppler essential to evaluate vascularity",
+          "• MR superior to ultrasound for evaluation of intraabdominal",
+          "extent of tumor and effect on surrounding organs",
+          "○ Always evaluate for possible involvement of spinal canal",
+          "• Associated malformations in 11-38%, mostly secondary to",
+          "mass effect from local tumor growth",
+          "• Hydrops and polyhydramnios common complications",
+          "• Intratumoral hemorrhage common in large solid tumors",
+          "○ Very poor prognostic sign",
+          "• Scan every 1-3 weeks, depending on size, vascularity, etc.",
+          "○ Evaluate for signs of impending cardiovascular",
+          "compromise or internal hemorrhage"
+        ],
+        "CLINICAL ISSUES": [
+          "• Amount of solid component and degree of arteriovenous",
+          "shunting far more important for fetal survival than stage",
+          "○ Large, solid, vascular tumors have high mortality and",
+          "morbidity",
+          "• Consider early delivery if signs of cardiovascular",
+          "compromise",
+          "• May require therapeutic amnioreduction for symptomatic",
+          "relief of polyhydramnios",
+          "• Prognosis significantly worse for fetus than neonate",
+          "○ Fetal diagnosis: 30-50% mortality",
+          "○ Hydrops almost universally fatal",
+          "○ Better outcome for cystic tumors",
+          "• Maternal complications include preeclampsia, mirror",
+          "syndrome, and HELLP syndrome",
+          "• Long-term functional disorders in ~ 20%",
+          "○ Anorectal and urologic dysfunction, lower-extremity",
+          "motor disorders"
+        ]
+      }
+    }
+  ]
+}

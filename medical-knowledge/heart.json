@@ -1,0 +1,2534 @@
+{
+  "module": "heart",
+  "moduleRu": "Сердце",
+  "source": {
+    "title": "Diagnostic Imaging: Obstetrics",
+    "edition": "4th",
+    "authors": [
+      "Paula J. Woodward",
+      "Anne Kennedy",
+      "Roya Sohaey",
+      "Janice L. B. Byrne",
+      "Michael D. Puchalski",
+      "Brian L. Shaffer",
+      "Emily Edwards",
+      "Priyanka Jha",
+      "Whitnee Hogan"
+    ]
+  },
+  "version": "1.0.0",
+  "extractedAt": "2026-06-25",
+  "entries": [
+    {
+      "id": "heterotaxy-cardiosplenic-syndromes",
+      "name": "Гетеротаксия, кардиоспленические синдромы",
+      "nameEn": "Heterotaxy, Cardiosplenic Syndromes",
+      "category": "Сердце",
+      "bookSection": "SECTION 6",
+      "bookPage": 376,
+      "definition": "• Heterotaxy syndrome: Abnormality where internal thoracoabdominal organs demonstrate abnormal arrangement across left-right axis of body ○ Also called situs ambiguous, which implies that laterality of internal organs is neither situs solitus (normal) nor situs inversus (mirror image of situs solitus) • Left atrial appendage (LA) isomerism: Asplenia, bilateral right sidedness • Right atrial appendage (RA) isomerism: Polysplenia, bilateral left sidedness",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Heart and stomach on opposite sides",
+        "Large midline liver",
+        "Cardiac anomalies occur at every level: Atrial,",
+        "atrioventricular, ventricular, ventriculoarterial",
+        "Anomalies occur in any combination but have patterns",
+        "depending on sidedness",
+        "e.g., interrupted IVC in ~ 90% of LA isomerism;",
+        "conotruncal anomalies more common in RA isomerism"
+      ],
+      "doppler_findings": [
+        "Cardiac anomalies occur at every level: Atrial,",
+        "atrioventricular, ventricular, ventriculoarterial",
+        "e.g., interrupted IVC in ~ 90% of LA isomerism;",
+        "conotruncal anomalies more common in RA isomerism"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Associated complete heart block → гидrops fetalis →",
+        "Outcomes depend on type and severity of associated",
+        "in single ventricles with total anomalous pulmonary"
+      ],
+      "genetic_associations": [
+        "Heterotaxy is clinically and genetically heterogeneous",
+        "Aneuploidy rarely coexists with heterotaxy syndromes"
+      ],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [
+        "LA isomerism more commonly diagnosed in utero",
+        "Associated complete heart block → гидrops fetalis →",
+        "intrauterine fetal demise",
+        "RA isomerism more common in postnatal series",
+        "Single ventricles with outflow tract abnormalities",
+        "Outcomes depend on type and severity of associated",
+        "cardiac malformation",
+        "Early survival has improved in current era but is still poor",
+        "in single ventricles with total anomalous pulmonary",
+        "venous return",
+        "Mortality and morbidity continue to be significant, even",
+        "after early neonatal period"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "RA isomerism more common in postnatal series after early neonatal period",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.376: Heterotaxy, Cardiosplenic Syndromes"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Heterotaxy syndrome: Abnormality where internal",
+          "thoracoabdominal organs demonstrate abnormal",
+          "arrangement across left-right axis of body",
+          "○ Also called situs ambiguous, which implies that laterality",
+          "of internal organs is neither situs solitus (normal) nor",
+          "situs inversus (mirror image of situs solitus)",
+          "• Left atrial appendage (LA) isomerism: Asplenia, bilateral",
+          "right sidedness",
+          "• Right atrial appendage (RA) isomerism: Polysplenia,",
+          "bilateral left sidedness"
+        ],
+        "IMAGING": [
+          "• Heart and stomach on opposite sides",
+          "• Large midline liver",
+          "• Cardiac anomalies occur at every level: Atrial,",
+          "atrioventricular, ventricular, ventriculoarterial",
+          "• Anomalies occur in any combination but have patterns",
+          "depending on sidedness",
+          "○ e.g., interrupted IVC in ~ 90% of LA isomerism;",
+          "conotruncal anomalies more common in RA isomerism"
+        ],
+        "PATHOLOGY": [
+          "• Heterotaxy is clinically and genetically heterogeneous",
+          "• Aneuploidy rarely coexists with heterotaxy syndromes"
+        ],
+        "CLINICAL ISSUES": [
+          "• LA isomerism more commonly diagnosed in utero",
+          "○ Associated complete heart block → hydrops →",
+          "intrauterine fetal demise",
+          "• RA isomerism more common in postnatal series",
+          "○ Single ventricles with outflow tract abnormalities",
+          "• Outcomes depend on type and severity of associated",
+          "cardiac malformation",
+          "○ Early survival has improved in current era but is still poor",
+          "in single ventricles with total anomalous pulmonary",
+          "venous return",
+          "○ Mortality and morbidity continue to be significant, even",
+          "after early neonatal period"
+        ]
+      }
+    },
+    {
+      "id": "ectopia-cordis",
+      "name": "Эктопия сердца",
+      "nameEn": "Ectopia Cordis",
+      "category": "Сердце",
+      "bookSection": "SECTION 6",
+      "bookPage": 380,
+      "definition": "• Anomaly in which fetal heart lies completely or partially outside thoracic cavity",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "1st-trimester diagnosis possible even before 9 weeks with",
+        "transvaginal US (TVUS)",
+        "Distinguish abnormal axis from abnormal location",
+        "Look for specific features of",
+        "Body stalk anomaly",
+        "– Fixed fetal/placental relationship essential for",
+        "diagnosis",
+        "Amniotic band syndrome",
+        "– Fine linear echoes of bands tethering fetus to uterine",
+        "wall",
+        "Pentalogy of Cantrell",
+        "Look carefully for additional abnormalities",
+        "Omphalocele increases suspicion for trisomy 18",
+        "Refer for formal фetal echocardiography / эхокардиография плодаcardiography",
+        "Prognosis at least partly determined by complexity of",
+        "associated congenital heart disease (CHD)"
+      ],
+      "doppler_findings": [
+        "1st-trimester diagnosis possible even before 9 weeks with",
+        "– Fine linear echoes of bands tethering fetus to uterine",
+        "Omphalocele increases suspicion for trisomy 18"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "83% incidence of associated CHD"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Sternal cleft",
+        "Prognosis dependent on coexisting CHD but good if",
+        "isolated"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "Extremely poor prognosis",
+        "Significant postoperative loss rate in surviving infants"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.380: Ectopia Cordis"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Anomaly in which fetal heart lies completely or partially",
+          "outside thoracic cavity"
+        ],
+        "IMAGING": [
+          "• 1st-trimester diagnosis possible even before 9 weeks with",
+          "transvaginal US (TVUS)",
+          "• Distinguish abnormal axis from abnormal location",
+          "• Look for specific features of",
+          "○ Body stalk anomaly",
+          "– Fixed fetal/placental relationship essential for",
+          "diagnosis",
+          "○ Amniotic band syndrome",
+          "– Fine linear echoes of bands tethering fetus to uterine",
+          "wall",
+          "○ Pentalogy of Cantrell",
+          "• Look carefully for additional abnormalities",
+          "○ Omphalocele increases suspicion for trisomy 18",
+          "• Refer for formal fetal echocardiography",
+          "○ Prognosis at least partly determined by complexity of",
+          "associated congenital heart disease (CHD)"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Sternal cleft",
+          "○ Prognosis dependent on coexisting CHD but good if",
+          "isolated"
+        ],
+        "PATHOLOGY": [
+          "• Subtypes based on location",
+          "○ Cervical (3-5%)",
+          "○ Thoracic (60-65%)",
+          "○ Thoracoabdominal (7-20%)",
+          "○ Abdominal (10-30%)",
+          "• 83% incidence of associated CHD",
+          "• Reported association with trisomy 18, triploidy, 45,X0"
+        ],
+        "CLINICAL ISSUES": [
+          "• Extremely poor prognosis",
+          "• Significant postoperative loss rate in surviving infants"
+        ]
+      }
+    },
+    {
+      "id": "ventricular-septal-defect",
+      "name": "Дефект межжелудочковой перегородки",
+      "nameEn": "Ventricular Septal Defect",
+      "category": "Сердце",
+      "bookSection": "SECTION 6",
+      "bookPage": 384,
+      "definition": "• Ventricular septal defects classified according to location ○ Membranous: Defect in outflow tract of left ventricle, immediately below aortic valve ○ Muscular: Defect in muscular portion of septum, anywhere from apex to base ○ Outlet: Defect in outflow tract of right ventricle, below pulmonary valve ○ Inlet: Located posterior and inferior to membranous septum, beneath septal leaflet of tricuspid valve",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Signal dropout in septum is potential pitfall",
+        "Try to image perpendicular to ventricular septum",
+        "Confirm on long-axis view if seen on apical 4-chamber",
+        "view and vice versa",
+        "Small muscular ventricular septal defects may not be visible",
+        "on grayscale or цветовой допpler",
+        "цветовой допpler useful to confirm blood flow across defect",
+        "Needs dedicated фetal echocardiography / эхокардиография плода, as associated cardiac",
+        "abnormalities are present in 50%"
+      ],
+      "doppler_findings": [
+        "Signal dropout in septum is potential pitfall",
+        "Try to image perpendicular to ventricular septum",
+        "Confirm on long-axis view if seen on apical 4-chamber",
+        "Small muscular ventricular septal defects may not be visible",
+        "on grayscale or цветовой допpler",
+        "цветовой допpler useful to confirm blood flow across defect"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [
+        "Hemodynamically significant lesions are larger → more",
+        "likely to be detected"
+      ],
+      "follow_up": [
+        "Accounts for 20% of all congenital heart disease as solitary",
+        "lesion",
+        "Excellent short- and long-term outcomes",
+        "Operative mortality 0.5%"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.384: Ventricular Septal Defect"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Ventricular septal defects classified according to location",
+          "○ Membranous: Defect in outflow tract of left ventricle,",
+          "immediately below aortic valve",
+          "○ Muscular: Defect in muscular portion of septum,",
+          "anywhere from apex to base",
+          "○ Outlet: Defect in outflow tract of right ventricle, below",
+          "pulmonary valve",
+          "○ Inlet: Located posterior and inferior to membranous",
+          "septum, beneath septal leaflet of tricuspid valve"
+        ],
+        "IMAGING": [
+          "• Signal dropout in septum is potential pitfall",
+          "○ Try to image perpendicular to ventricular septum",
+          "○ Confirm on long-axis view if seen on apical 4-chamber",
+          "view and vice versa",
+          "• Small muscular ventricular septal defects may not be visible",
+          "on grayscale or color Doppler",
+          "• Color Doppler useful to confirm blood flow across defect",
+          "• Needs dedicated fetal echo, as associated cardiac",
+          "abnormalities are present in 50%"
+        ],
+        "PATHOLOGY": [
+          "• Membranous (75%): Tetralogy of Fallot, double-outlet right",
+          "ventricle (DORV)",
+          "• Muscular (10-15%): May be multiple",
+          "• Outlet (5%): Truncus arteriosus",
+          "• Inlet (5-8%): Component of atrioventricular septal defect",
+          "(AVSD)"
+        ],
+        "CLINICAL ISSUES": [
+          "• Accounts for 20% of all congenital heart disease as solitary",
+          "lesion",
+          "• Excellent short- and long-term outcomes",
+          "○ Operative mortality 0.5%"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Hemodynamically significant lesions are larger → more",
+          "likely to be detected"
+        ]
+      }
+    },
+    {
+      "id": "atrioventricular-septal-defect",
+      "name": "Дефект атриовентрикулярной перегородки",
+      "nameEn": "Atrioventricular Septal Defect",
+      "category": "Сердце",
+      "bookSection": "SECTION 6",
+      "bookPage": 386,
+      "definition": "• Central cardiac defect involving atrial and ventricular septum, atrioventricular (AV) valves, and conducting system • AV septal defect can be balanced or unbalanced ○ Balanced defect: Right and left ventricles are equal in size with equal commitment of AV valves ○ Unbalanced defect: 1 ventricle gets majority of inflow and is equivalent to single ventricle • Defect can be complete or partial ○ Partial: Primum atrial septal defect (ASD), distinct mitral and tricuspid valve anuli, cleft in mitral valve ○ Complete: Primum ASD, contiguous inlet ventricular septal defect, and common AV valve has single anulus",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Missing crux of heart on 4-chamber view",
+        "Normally, atrial and ventricular septa meet at crux of",
+        "heart, and AV valves are separated into 2 distinct valve",
+        "anuli",
+        "Single AV valve makes straight line across heart in systole",
+        "Identify commitment of AV valve to ventricles",
+        "Small ventricle suggestive of unbalanced defect",
+        "Defect in primum atrial septum and inlet ventricular",
+        "septum",
+        "Gooseneck deformity of left ventricular outflow tract"
+      ],
+      "doppler_findings": [
+        "Normally, atrial and ventricular septa meet at crux of",
+        "Identify commitment of AV valve to ventricles",
+        "Small ventricle suggestive of unbalanced defect",
+        "Defect in primum atrial septum and inlet ventricular",
+        "Gooseneck deformity of left ventricular outflow tract"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Other chromosomal anomalies or syndromes in 20-30%"
+      ],
+      "genetic_associations": [
+        "Other chromosomal anomalies or syndromes in 20-30%"
+      ],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [
+        "Trisomy 21 not independent risk factor for adverse surgical",
+        "outcome",
+        "Excellent short- and long-term surgical outcomes in",
+        "liveborns (95% 20-year survival rate)"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.386: Atrioventricular Septal Defect"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Central cardiac defect involving atrial and ventricular",
+          "septum, atrioventricular (AV) valves, and conducting system",
+          "• AV septal defect can be balanced or unbalanced",
+          "○ Balanced defect: Right and left ventricles are equal in",
+          "size with equal commitment of AV valves",
+          "○ Unbalanced defect: 1 ventricle gets majority of inflow",
+          "and is equivalent to single ventricle",
+          "• Defect can be complete or partial",
+          "○ Partial: Primum atrial septal defect (ASD), distinct mitral",
+          "and tricuspid valve anuli, cleft in mitral valve",
+          "○ Complete: Primum ASD, contiguous inlet ventricular",
+          "septal defect, and common AV valve has single anulus"
+        ],
+        "IMAGING": [
+          "• Missing crux of heart on 4-chamber view",
+          "○ Normally, atrial and ventricular septa meet at crux of",
+          "heart, and AV valves are separated into 2 distinct valve",
+          "anuli",
+          "• Single AV valve makes straight line across heart in systole",
+          "○ Identify commitment of AV valve to ventricles",
+          "○ Small ventricle suggestive of unbalanced defect",
+          "• Defect in primum atrial septum and inlet ventricular",
+          "septum",
+          "• Gooseneck deformity of left ventricular outflow tract"
+        ],
+        "PATHOLOGY": [
+          "• Trisomy 21 in up to 50% of fetal cases",
+          "• Other chromosomal anomalies or syndromes in 20-30%",
+          "• Heterotaxy found in 15-20%",
+          "• Additional cardiac malformations common"
+        ],
+        "CLINICAL ISSUES": [
+          "• Trisomy 21 not independent risk factor for adverse surgical",
+          "outcome",
+          "• Excellent short- and long-term surgical outcomes in",
+          "liveborns (95% 20-year survival rate)"
+        ]
+      }
+    },
+    {
+      "id": "atrial-septal-aneurysm",
+      "name": "Аневризма межпредсердной перегородки",
+      "nameEn": "Atrial Septal Aneurysm",
+      "category": "Сердце",
+      "bookSection": "SECTION 6",
+      "bookPage": 390,
+      "definition": "• Redundant foramen ovale flap",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Balloon appearance of foramen ovale flap",
+        "Extends at least halfway across left atrium",
+        "May make cyclical contact with left atrial wall or mitral valve",
+        "Very redundant flap may even herniate through mitral",
+        "valve",
+        "Can cause left ventricular inflow obstruction",
+        "Movement during cardiac cycle creates fluttering",
+        "appearance (jellyfish appearance)",
+        "Check rhythm",
+        "Up to 36% will have premature atrial contractions (PACs)"
+      ],
+      "doppler_findings": [
+        "Extends at least halfway across left atrium",
+        "May make cyclical contact with left atrial wall or mitral valve",
+        "Can cause left ventricular inflow obstruction",
+        "Movement during cardiac cycle creates fluttering",
+        "Up to 36% will have premature atrial contractions (PACs)"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [
+        "No association with aneuploidy"
+      ],
+      "differential_diagnosis": [
+        "Normal foramen ovale",
+        "Flap projects into left atrium but shows little mobility",
+        "Linear appearance; not enough tissue to balloon"
+      ],
+      "red_flags": [
+        "Isolated atrial septal aneurysm is benign entity",
+        "Monitor for rhythm disturbance by regular auscultation",
+        "If associated with PACs, very small risk of progression to",
+        "tachyarrhythmia"
+      ],
+      "follow_up": [
+        "1.2% of fetuses undergoing фetal echocardiography / эхокардиография плода for any reason"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.390: Atrial Septal Aneurysm"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Redundant foramen ovale flap"
+        ],
+        "IMAGING": [
+          "• Balloon appearance of foramen ovale flap",
+          "○ Extends at least halfway across left atrium",
+          "• May make cyclical contact with left atrial wall or mitral valve",
+          "• Very redundant flap may even herniate through mitral",
+          "valve",
+          "○ Can cause left ventricular inflow obstruction",
+          "• Movement during cardiac cycle creates fluttering",
+          "appearance (jellyfish appearance)",
+          "• Check rhythm",
+          "○ Up to 36% will have premature atrial contractions (PACs)"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Normal foramen ovale",
+          "○ Flap projects into left atrium but shows little mobility",
+          "○ Linear appearance; not enough tissue to balloon"
+        ],
+        "PATHOLOGY": [
+          "• No association with aneuploidy",
+          "• PACs may be due to cyclical contact of redundant flap with",
+          "left atrial wall or irritation of sinoatrial node"
+        ],
+        "CLINICAL ISSUES": [
+          "• True population incidence unknown",
+          "• 1.2% of fetuses undergoing fetal echo for any reason",
+          "• 5.4% of fetuses referred for arrhythmia",
+          "• No fetuses in large series (> 1,000 patients) developed",
+          "significant arrhythmia"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Isolated atrial septal aneurysm is benign entity",
+          "• Monitor for rhythm disturbance by regular auscultation",
+          "• If associated with PACs, very small risk of progression to",
+          "tachyarrhythmia"
+        ]
+      }
+    },
+    {
+      "id": "ebstein-anomaly",
+      "name": "Аномалия Эбштейна",
+      "nameEn": "Ebstein Anomaly",
+      "category": "Сердце",
+      "bookSection": "SECTION 6",
+      "bookPage": 392,
+      "definition": "• Apical displacement of septal and posterior tricuspid valve (TV) leaflets • Coaptation point of TV is lowered into right ventricle (RV), not at atrioventricular junction ○ Results in \"atrialization\" of RV",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Cardiomegaly due primarily to right atrial (RA) enlargement",
+        "Dilation often massive; wall-to-wall heart",
+        "Adherence of septal and posterior leaflet to underlying",
+        "myocardium results in apical displacement of functional",
+        "anulus into RV",
+        "Long, sail-like or redundant anterior tricuspid leaflet",
+        "Valve dysplasia + leaflet malposition → tricuspid",
+        "regurgitation",
+        "Functional RV small",
+        "Pulmonary artery often small or atretic",
+        "Can have pulmonary insufficiency, poor prognosis",
+        "Monitor for arrhythmia: Supraventricular tachycardia or",
+        "atrial flutter → worse prognosis"
+      ],
+      "doppler_findings": [
+        "Cardiomegaly due primarily to right atrial (RA) enlargement",
+        "Adherence of septal and posterior leaflet to underlying",
+        "myocardium results in apical displacement of functional",
+        "Long, sail-like or redundant anterior tricuspid leaflet",
+        "Valve dysplasia + leaflet malposition → tricuspid",
+        "Monitor for arrhythmia: Supraventricular tachycardia or",
+        "atrial flutter → worse prognosis"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [
+        "Abnormal offset of TV is key to making diagnosis of Ebstein",
+        "anomaly"
+      ],
+      "follow_up": [
+        "Degree of anatomic deformity and clinical outcome varies",
+        "greatly",
+        "GOSE score (combined RA and atrialized RV:functional",
+        "RV and left heart ratio) helps determine prognosis based",
+        "on 4 grades",
+        "Grade 1 ratio < 0.5; > 90% survival",
+        "Grade 4 ratio > 1.5; 100% mortality is expected",
+        "Absence of antegrade flow across pulmonary valve is lethal",
+        "without patency of ductus arteriosus",
+        "In utero mortality rate is 45%",
+        "In cases of mild valve displacement patients do well and",
+        "may not require surgery for long time, if at all"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "may not require surgery for long time, if at all",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.392: Ebstein Anomaly"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Apical displacement of septal and posterior tricuspid valve",
+          "(TV) leaflets",
+          "• Coaptation point of TV is lowered into right ventricle (RV),",
+          "not at atrioventricular junction",
+          "○ Results in \"atrialization\" of RV"
+        ],
+        "IMAGING": [
+          "• Cardiomegaly due primarily to right atrial (RA) enlargement",
+          "○ Dilation often massive; wall-to-wall heart",
+          "• Adherence of septal and posterior leaflet to underlying",
+          "myocardium results in apical displacement of functional",
+          "anulus into RV",
+          "• Long, sail-like or redundant anterior tricuspid leaflet",
+          "• Valve dysplasia + leaflet malposition → tricuspid",
+          "regurgitation",
+          "• Functional RV small",
+          "• Pulmonary artery often small or atretic",
+          "○ Can have pulmonary insufficiency, poor prognosis",
+          "• Monitor for arrhythmia: Supraventricular tachycardia or",
+          "atrial flutter → worse prognosis"
+        ],
+        "CLINICAL ISSUES": [
+          "• Degree of anatomic deformity and clinical outcome varies",
+          "greatly",
+          "○ GOSE score (combined RA and atrialized RV:functional",
+          "RV and left heart ratio) helps determine prognosis based",
+          "on 4 grades",
+          "○ Grade 1 ratio < 0.5; > 90% survival",
+          "○ Grade 4 ratio > 1.5; 100% mortality is expected",
+          "• Absence of antegrade flow across pulmonary valve is lethal",
+          "without patency of ductus arteriosus",
+          "• In utero mortality rate is 45%",
+          "• In cases of mild valve displacement patients do well and",
+          "may not require surgery for long time, if at all"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Abnormal offset of TV is key to making diagnosis of Ebstein",
+          "anomaly"
+        ]
+      }
+    },
+    {
+      "id": "tricuspid-dysplasia",
+      "name": "Дисплазия трехстворчатого клапана",
+      "nameEn": "Tricuspid Dysplasia",
+      "category": "Сердце",
+      "bookSection": "SECTION 6",
+      "bookPage": 396,
+      "definition": "• Thick and dysplastic tricuspid valve (TV)",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "TV is in normal position",
+        "Thick, nodular, or irregular valve leaflets",
+        "Leads to incompetence or трикуспидальная регurgитация → large",
+        "right atrium and increased risk of developing гидrops fetalis",
+        "Often associated with pulmonary stenosis/atresia",
+        "Assess for arrhythmias"
+      ],
+      "doppler_findings": [
+        "Leads to incompetence or трикуспидальная регurgитация → large",
+        "right atrium and increased risk of developing гидrops fetalis"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "infants with Ebstein anomaly and TV dysplasia"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Ebstein anomaly",
+        "Also has dysplastic TV and трикуспидальная регurgитация, but",
+        "key difference is apical displacement of septal and",
+        "posterior TV leaflets",
+        "Results in atrialization of right ventricle (RV)",
+        "Functional RV small"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "After delivery, may present with cyanosis due to right-to-",
+        "left shunting at atrial level",
+        "Loud regurgitant systolic murmur at auscultation",
+        "May improve significantly without any intervention",
+        "Due to rapid fall in pulmonary vascular resistance (PVR)",
+        "after birth",
+        "Presentation in utero or after birth with severe pulmonary",
+        "regurgitation has worse prognosis",
+        "Fetal demise is 17%, excluding termination",
+        "Neonatal mortality is 32% in combined large series of",
+        "infants with Ebstein anomaly and TV dysplasia",
+        "Surgery is necessary for patients in heart failure with",
+        "profound cyanosis who are not improving with time and",
+        "decreased PVR"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "After delivery, may present with cyanosis due to right-to- Fetal demise is 17%, excluding termination",
+      "postnatal_management": "after birth Presentation in utero or after birth with severe pulmonary Neonatal mortality is 32% in combined large series of Surgery is necessary for patients in heart failure with",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.396: Tricuspid Dysplasia"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Thick and dysplastic tricuspid valve (TV)"
+        ],
+        "IMAGING": [
+          "• TV is in normal position",
+          "• Thick, nodular, or irregular valve leaflets",
+          "○ Leads to incompetence or tricuspid regurgitation → large",
+          "right atrium and increased risk of developing hydrops",
+          "• Often associated with pulmonary stenosis/atresia",
+          "• Assess for arrhythmias"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Ebstein anomaly",
+          "○ Also has dysplastic TV and tricuspid regurgitation, but",
+          "key difference is apical displacement of septal and",
+          "posterior TV leaflets",
+          "○ Results in atrialization of right ventricle (RV)",
+          "○ Functional RV small"
+        ],
+        "PATHOLOGY": [
+          "• Ebstein and TV dysplasia have similar pathophysiology"
+        ],
+        "CLINICAL ISSUES": [
+          "• After delivery, may present with cyanosis due to right-to-",
+          "left shunting at atrial level",
+          "○ Loud regurgitant systolic murmur at auscultation",
+          "• May improve significantly without any intervention",
+          "○ Due to rapid fall in pulmonary vascular resistance (PVR)",
+          "after birth",
+          "• Presentation in utero or after birth with severe pulmonary",
+          "regurgitation has worse prognosis",
+          "○ Fetal demise is 17%, excluding termination",
+          "○ Neonatal mortality is 32% in combined large series of",
+          "infants with Ebstein anomaly and TV dysplasia",
+          "• Surgery is necessary for patients in heart failure with",
+          "profound cyanosis who are not improving with time and",
+          "decreased PVR"
+        ]
+      }
+    },
+    {
+      "id": "tricuspid-atresia",
+      "name": "Атрезия трехстворчатого клапана",
+      "nameEn": "Tricuspid Atresia",
+      "category": "Сердце",
+      "bookSection": "SECTION 6",
+      "bookPage": 398,
+      "definition": "• Absent functional tricuspid valve (TV) ○ No communication from right atrium to right ventricle (RV)",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Small RV and plate-like TV on 4-chamber view",
+        "Results in obligatory right-to-left shunt at atrial level",
+        "Ventricular septal defect (VSD) also usually present",
+        "Only way for blood to go from left ventricle (LV) to",
+        "pulmonary circulation when great vessels are normally",
+        "related",
+        "Additional cardiac anomalies reported in up to 20%",
+        "Pulmonary stenosis/atresia common"
+      ],
+      "doppler_findings": [
+        "Results in obligatory right-to-left shunt at atrial level",
+        "Ventricular septal defect (VSD) also usually present",
+        "Only way for blood to go from left ventricle (LV) to"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Presence of chromosomal anomaly or syndrome"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [
+        "If plate-like TV and hypoplastic RV are seen",
+        "Assess ventriculoarterial relationship",
+        "Look for presence and size of VSD/outflow obstruction",
+        "With D-transposition, look for additional aortic/arch",
+        "obstruction"
+      ],
+      "follow_up": [
+        "Untreated, 90% mortality by 1 year",
+        "Current surgical experience from prenatally diagnosed",
+        "patients",
+        "91% survival at 1 month, 83% at 1 year",
+        "83% at 10 years",
+        "Poor prognostic indicators",
+        "Presence of chromosomal anomaly or syndrome",
+        "Use of extracorporeal membrane oxygenation"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.398: Tricuspid Atresia"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Absent functional tricuspid valve (TV)",
+          "○ No communication from right atrium to right ventricle",
+          "(RV)"
+        ],
+        "IMAGING": [
+          "• Small RV and plate-like TV on 4-chamber view",
+          "• Results in obligatory right-to-left shunt at atrial level",
+          "• Ventricular septal defect (VSD) also usually present",
+          "○ Only way for blood to go from left ventricle (LV) to",
+          "pulmonary circulation when great vessels are normally",
+          "related",
+          "• Additional cardiac anomalies reported in up to 20%",
+          "○ Pulmonary stenosis/atresia common"
+        ],
+        "PATHOLOGY": [
+          "• Type 1: Great artery relationship normal (72%)",
+          "• Type 2: D-transposition (25%)",
+          "• Type 3: L-transposition (3%)",
+          "• Type 4: Persistent truncus arteriosus (rare)"
+        ],
+        "CLINICAL ISSUES": [
+          "• Untreated, 90% mortality by 1 year",
+          "• Current surgical experience from prenatally diagnosed",
+          "patients",
+          "○ 91% survival at 1 month, 83% at 1 year",
+          "○ 83% at 10 years",
+          "• Poor prognostic indicators",
+          "○ Presence of chromosomal anomaly or syndrome",
+          "○ Use of extracorporeal membrane oxygenation"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• If plate-like TV and hypoplastic RV are seen",
+          "○ Assess ventriculoarterial relationship",
+          "○ Look for presence and size of VSD/outflow obstruction",
+          "○ With D-transposition, look for additional aortic/arch",
+          "obstruction"
+        ]
+      }
+    },
+    {
+      "id": "pulmonary-stenosis-atresia",
+      "name": "Стеноз, атрезия легочного клапана",
+      "nameEn": "Pulmonary Stenosis, Atresia",
+      "category": "Сердце",
+      "bookSection": "SECTION 6",
+      "bookPage": 400,
+      "definition": "• Obstruction to right ventricular outflow at level of pulmonary valve (PV) ○ Pulmonary stenosis (PS): Turbulent, high-velocity flow across PV ○ Pulmonary atresia (PA): No antegrade flow across PV",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "PS",
+        "Pulmonary anulus may be small or normal in size but",
+        "thickened",
+        "PV is thickened and may not open fully; creates high-",
+        "velocity jet and potential poststenotic dilation of main",
+        "pulmonary artery",
+        "RV may be hypertrophied and small if severe",
+        "PA with intact ventricular septum (IVS)",
+        "No antegrade flow across PV",
+        "PV may appear well formed but does not open",
+        "Hypertrophy of RV with spectrum of size",
+        "Coronary cameral fistula may be present",
+        "Spectrum of tricuspid valve size and degree of",
+        "regurgitation; may determine surgical path"
+      ],
+      "doppler_findings": [
+        "PA with intact ventricular septum (IVS)",
+        "Spectrum of tricuspid valve size and degree of"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "biventricular repair, others require single ventricle palliation"
+      ],
+      "genetic_associations": [
+        "LEOPARD syndromes; recipient in twin-twin transfusion",
+        "syndrome"
+      ],
+      "differential_diagnosis": [],
+      "red_flags": [
+        "Reverse flow in ductus arteriosus = ductal dependent",
+        "pulmonary circulation"
+      ],
+      "follow_up": [
+        "Pulmonary circulation is ductal dependent in severe forms",
+        "of PS and PA",
+        "PS in isolation: ~ 1/3 improve, 1/3 remain unchanged, and",
+        "1/3 increase in severity",
+        "PA-IVS requires early intervention; some achieve",
+        "biventricular repair, others require single ventricle palliation"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "biventricular repair, others require single ventricle palliation",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.400: Pulmonary Stenosis, Atresia"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Obstruction to right ventricular outflow at level of",
+          "pulmonary valve (PV)",
+          "○ Pulmonary stenosis (PS): Turbulent, high-velocity flow",
+          "across PV",
+          "○ Pulmonary atresia (PA): No antegrade flow across PV"
+        ],
+        "IMAGING": [
+          "• PS",
+          "○ Pulmonary anulus may be small or normal in size but",
+          "thickened",
+          "○ PV is thickened and may not open fully; creates high-",
+          "velocity jet and potential poststenotic dilation of main",
+          "pulmonary artery",
+          "○ RV may be hypertrophied and small if severe",
+          "• PA with intact ventricular septum (IVS)",
+          "○ No antegrade flow across PV",
+          "○ PV may appear well formed but does not open",
+          "○ Hypertrophy of RV with spectrum of size",
+          "○ Coronary cameral fistula may be present",
+          "○ Spectrum of tricuspid valve size and degree of",
+          "regurgitation; may determine surgical path"
+        ],
+        "PATHOLOGY": [
+          "• PS can be seen with Noonan, Williams, Alagille, and",
+          "LEOPARD syndromes; recipient in twin-twin transfusion",
+          "syndrome"
+        ],
+        "CLINICAL ISSUES": [
+          "• Pulmonary circulation is ductal dependent in severe forms",
+          "of PS and PA",
+          "• PS in isolation: ~ 1/3 improve, 1/3 remain unchanged, and",
+          "1/3 increase in severity",
+          "• PA-IVS requires early intervention; some achieve",
+          "biventricular repair, others require single ventricle palliation"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Reverse flow in ductus arteriosus = ductal dependent",
+          "pulmonary circulation"
+        ]
+      }
+    },
+    {
+      "id": "hypoplastic-left-heart-syndrome",
+      "name": "Синдром гипоплазии левого желудочка",
+      "nameEn": "Hypoplastic Left Heart Syndrome",
+      "category": "Сердце",
+      "bookSection": "SECTION 6",
+      "bookPage": 404,
+      "definition": "• Hypoplasia of left ventricle (LV) associated with ○ Mitral stenosis/atresia ○ Aortic stenosis/atresia ○ Hypoplastic ascending aorta and coarctation",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "LV small or nonexistent",
+        "May see bright эхогенный LV endocardium signifying",
+        "endocardial fibroelastosis (EFE)",
+        "LV is not apex forming",
+        "Right ventricle (RV) is dilated with good function",
+        "It wraps under LV apex as it enlarges to accommodate",
+        "extra blood flow",
+        "Interatrial septum bowed left to right, reflecting direction",
+        "of blood flow",
+        "Ascending aorta and transverse arch are typically very small",
+        "Retrograde filling of aortic arch = ductal dependence"
+      ],
+      "doppler_findings": [
+        "May see bright эхогенный LV endocardium signifying",
+        "Right ventricle (RV) is dilated with good function",
+        "Interatrial septum bowed left to right, reflecting direction",
+        "Ascending aorta and transverse arch are typically very small"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [
+        "фetal echocardiography / эхокардиография плодаcardiography very specific for this entity"
+      ],
+      "follow_up": [
+        "Lethal in days/weeks if untreated",
+        "If pregnancy continues, main choices are",
+        "Comfort care → no intrapartum monitoring, deliver at",
+        "any institution",
+        "Surgical intervention → planned delivery at tertiary",
+        "center specializing in cardiac surgery",
+        "Hybrid procedure → planned delivery at tertiary center",
+        "with preference for catheter/surgery-based approach",
+        "Improving surgical techniques → increased survival",
+        "> 85% success of 1st-stage Norwood in many centers",
+        "Near 100% for Glenn and Fontan (2nd and 3rd stages)",
+        "surgeries",
+        "Long-term survival unknown, but 6-year survival with",
+        "current techniques is 60-65%"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Comfort care → no intrapartum monitoring, deliver at Surgical intervention → planned delivery at tertiary Hybrid procedure → planned delivery at tertiary center",
+      "postnatal_management": "center specializing in cardiac surgery with preference for catheter/surgery-based approach",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.404: Hypoplastic Left Heart Syndrome"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Hypoplasia of left ventricle (LV) associated with",
+          "○ Mitral stenosis/atresia",
+          "○ Aortic stenosis/atresia",
+          "○ Hypoplastic ascending aorta and coarctation"
+        ],
+        "IMAGING": [
+          "• LV small or nonexistent",
+          "○ May see bright echogenic LV endocardium signifying",
+          "endocardial fibroelastosis (EFE)",
+          "○ LV is not apex forming",
+          "• Right ventricle (RV) is dilated with good function",
+          "○ It wraps under LV apex as it enlarges to accommodate",
+          "extra blood flow",
+          "• Interatrial septum bowed left to right, reflecting direction",
+          "of blood flow",
+          "• Ascending aorta and transverse arch are typically very small",
+          "• Retrograde filling of aortic arch = ductal dependence"
+        ],
+        "CLINICAL ISSUES": [
+          "• Lethal in days/weeks if untreated",
+          "• If pregnancy continues, main choices are",
+          "○ Comfort care → no intrapartum monitoring, deliver at",
+          "any institution",
+          "○ Surgical intervention → planned delivery at tertiary",
+          "center specializing in cardiac surgery",
+          "○ Hybrid procedure → planned delivery at tertiary center",
+          "with preference for catheter/surgery-based approach",
+          "• Improving surgical techniques → increased survival",
+          "○ > 85% success of 1st-stage Norwood in many centers",
+          "○ Near 100% for Glenn and Fontan (2nd and 3rd stages)",
+          "surgeries",
+          "○ Long-term survival unknown, but 6-year survival with",
+          "current techniques is 60-65%"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Fetal echocardiography very specific for this entity"
+        ]
+      }
+    },
+    {
+      "id": "coarctation-and-interrupted-aortic-arch",
+      "name": "Коарктация аорты и прерывистая дуга аорты",
+      "nameEn": "Coarctation and Interrupted Aortic Arch",
+      "category": "Сердце",
+      "bookSection": "SECTION 6",
+      "bookPage": 408,
+      "definition": "• Coarctation: Narrowing of aortic arch • Interrupted arch: Occlusion of aortic lumen",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Coarctation",
+        "Can be discrete or long segment",
+        "Asymmetry in ventricular size (RV > LV)",
+        "Aortic valve < pulmonary valve in diameter",
+        "Mitral valve < tricuspid valve",
+        "Hypoplasia of transverse arch and isthmus suggests",
+        "coarctation",
+        "цветовой допpler may show",
+        "– Focal turbulence at narrowed area",
+        "– Left-to-right shunt across foramen ovale",
+        "– Reverse or retrograde flow in transverse arch",
+        "– Flow persistence in transverse arch and isthmus",
+        "Interrupted aortic arch (IAA)",
+        "Normal candy cane curve not seen",
+        "Arch gives rise to 1 or more head and neck vessels, which",
+        "extend straight into neck",
+        "Descending aorta reconstituted by ductus arteriosus",
+        "IAA rarely occurs in isolation",
+        "– Almost always ventricular septal defect with posterior",
+        "deviation of infundibular septum"
+      ],
+      "doppler_findings": [
+        "Asymmetry in ventricular size (RV > LV)",
+        "Mitral valve < tricuspid valve",
+        "цветовой допpler may show",
+        "– Left-to-right shunt across foramen ovale",
+        "Arch gives rise to 1 or more head and neck vessels, which",
+        "Descending aorta reconstituted by ductus arteriosus",
+        "– Almost always ventricular septal defect with posterior"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "1 sibling (2%), 2 siblings (6%), mother (4%), father (2%)"
+      ],
+      "genetic_associations": [
+        "35% of Turner syndrome patients have coarctation",
+        "22q11 deletion (DiGeorge syndrome)"
+      ],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [
+        "Coarctation accounts for 6-8% of congenital heart disease",
+        "Early arch repair straightforward with excellent outcomes",
+        "Normal life expectancy",
+        "Restenosis rate is < 10% in experienced hands",
+        "Recurrence risk for coarctation of aorta",
+        "1 sibling (2%), 2 siblings (6%), mother (4%), father (2%)"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Early arch repair straightforward with excellent outcomes",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.408: Coarctation and Interrupted Aortic Arch"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Coarctation: Narrowing of aortic arch",
+          "• Interrupted arch: Occlusion of aortic lumen"
+        ],
+        "IMAGING": [
+          "• Coarctation",
+          "○ Can be discrete or long segment",
+          "○ Asymmetry in ventricular size (RV > LV)",
+          "○ Aortic valve < pulmonary valve in diameter",
+          "○ Mitral valve < tricuspid valve",
+          "○ Hypoplasia of transverse arch and isthmus suggests",
+          "coarctation",
+          "○ Color Doppler may show",
+          "– Focal turbulence at narrowed area",
+          "– Left-to-right shunt across foramen ovale",
+          "– Reverse or retrograde flow in transverse arch",
+          "– Flow persistence in transverse arch and isthmus",
+          "• Interrupted aortic arch (IAA)",
+          "○ Normal candy cane curve not seen",
+          "○ Arch gives rise to 1 or more head and neck vessels, which",
+          "extend straight into neck",
+          "○ Descending aorta reconstituted by ductus arteriosus",
+          "○ IAA rarely occurs in isolation",
+          "– Almost always ventricular septal defect with posterior",
+          "deviation of infundibular septum"
+        ],
+        "PATHOLOGY": [
+          "• 35% of Turner syndrome patients have coarctation",
+          "• 22q11 deletion (DiGeorge syndrome)",
+          "○ Present in > 50% of IAA cases"
+        ],
+        "CLINICAL ISSUES": [
+          "• Coarctation accounts for 6-8% of congenital heart disease",
+          "• Early arch repair straightforward with excellent outcomes",
+          "○ Normal life expectancy",
+          "○ Restenosis rate is < 10% in experienced hands",
+          "• Recurrence risk for coarctation of aorta",
+          "○ 1 sibling (2%), 2 siblings (6%), mother (4%), father (2%)"
+        ]
+      }
+    },
+    {
+      "id": "aortic-stenosis",
+      "name": "Стеноз аорты",
+      "nameEn": "Aortic Stenosis",
+      "category": "Сердце",
+      "bookSection": "SECTION 6",
+      "bookPage": 412,
+      "definition": "• Obstruction to flow across aortic valve ○ Valvar ○ Subvalvar: Fixed or dynamic ○ Supravalvar: Narrowing in proximal aorta",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Aortic stenosis (AS)",
+        "Valve often bicuspid (difficult to see in fetus)",
+        "Critical AS → minimal flow in aorta",
+        "Retrograde filling of arch via ductus arteriosus",
+        "– Reverse flow in transverse arch indicates ductal",
+        "dependency",
+        "Subvalvar aortic (subaortic) stenosis",
+        "Muscular: Look for asymmetric septal hypertrophy",
+        "Fibrous: Membrane from septum to mitral valve",
+        "Supravalvar AS",
+        "Typical ridge at sinotubular junction"
+      ],
+      "doppler_findings": [
+        "Valve often bicuspid (difficult to see in fetus)",
+        "Critical AS → minimal flow in aorta",
+        "Retrograde filling of arch via ductus arteriosus",
+        "Muscular: Look for asymmetric septal hypertrophy",
+        "Typical ridge at sinotubular junction"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Prognosis varies with severity of obstruction and associated",
+        "anomalies"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [
+        "critical AS"
+      ],
+      "follow_up": [
+        "Accounts for 3-8% of all congenital heart disease",
+        "60-75% valvar",
+        "10-20% subvalvar",
+        "Prostaglandins are required at birth if ductal dependent",
+        "critical AS",
+        "Balloon valvuloplasty is 1st-line therapy for valvar AS if left",
+        "ventricle (LV) is adequate in size",
+        "Prognosis varies with severity of obstruction and associated",
+        "anomalies",
+        "Mild valvar stenosis (mean gradient: < 25 mm Hg)",
+        "progresses slowly, intervention common by 4th-6th",
+        "decades",
+        "Moderate valvar stenosis (mean gradient: 25-40 mm Hg)",
+        "may require surgical or nonsurgical intervention",
+        "Severe valvar stenosis (mean gradient: > 40 mm Hg)",
+        "requires surgical or nonsurgical (catheter-based)",
+        "intervention"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.412: Aortic Stenosis"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Obstruction to flow across aortic valve",
+          "○ Valvar",
+          "○ Subvalvar: Fixed or dynamic",
+          "○ Supravalvar: Narrowing in proximal aorta"
+        ],
+        "IMAGING": [
+          "• Aortic stenosis (AS)",
+          "○ Valve often bicuspid (difficult to see in fetus)",
+          "• Critical AS → minimal flow in aorta",
+          "○ Retrograde filling of arch via ductus arteriosus",
+          "– Reverse flow in transverse arch indicates ductal",
+          "dependency",
+          "• Subvalvar aortic (subaortic) stenosis",
+          "○ Muscular: Look for asymmetric septal hypertrophy",
+          "○ Fibrous: Membrane from septum to mitral valve",
+          "• Supravalvar AS",
+          "○ Typical ridge at sinotubular junction"
+        ],
+        "CLINICAL ISSUES": [
+          "• Accounts for 3-8% of all congenital heart disease",
+          "○ 60-75% valvar",
+          "○ 10-20% subvalvar",
+          "• Prostaglandins are required at birth if ductal dependent",
+          "critical AS",
+          "• Balloon valvuloplasty is 1st-line therapy for valvar AS if left",
+          "ventricle (LV) is adequate in size",
+          "• Prognosis varies with severity of obstruction and associated",
+          "anomalies",
+          "○ Mild valvar stenosis (mean gradient: < 25 mm Hg)",
+          "progresses slowly, intervention common by 4th-6th",
+          "decades",
+          "○ Moderate valvar stenosis (mean gradient: 25-40 mm Hg)",
+          "may require surgical or nonsurgical intervention",
+          "○ Severe valvar stenosis (mean gradient: > 40 mm Hg)",
+          "requires surgical or nonsurgical (catheter-based)",
+          "intervention"
+        ]
+      }
+    },
+    {
+      "id": "total-anomalous-pulmonary-venous-return",
+      "name": "Полный аномальный возврат легочных вен",
+      "nameEn": "Total Anomalous Pulmonary Venous Return",
+      "category": "Сердце",
+      "bookSection": "SECTION 6",
+      "bookPage": 416,
+      "definition": "• TAPVR means that all pulmonary veins (PVs) connect to location other than left atrium (LA), typically to systemic veins and ultimately to right atrium (RA) ○ Supracardiac TAPVR – Drainage is cephalad, typically via vertical vein to innominate (brachiocephalic) vein ○ Cardiac TAPVR – Drainage is directly to heart, typically via coronary sinus ○ Infracardiac TAPVR – Drainage is caudad, coursing below diaphragm ○ Mixed TAPVR – Drainage of each vein may be to different location, or groups of veins may drain to different locations",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Increased distance between descending aorta (DAo) and LA",
+        "on 4-chamber view",
+        "Lack of visible connection of PVs to LA",
+        "Twig sign: Tubular vascular confluence posterior to atria,",
+        "anterior to descending aorta",
+        "TAPVR to innominate vein causes abnormal 3-vessel",
+        "trachea view; 4th vessel (vertical vein) seen on left"
+      ],
+      "doppler_findings": [
+        "Twig sign: Tubular vascular confluence posterior to atria,",
+        "anterior to descending aorta"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [
+        "Obstructed TAPVR is surgical emergency",
+        "Unobstructed TAPVR can be repaired electively but",
+        "typically still done in 1st few weeks of life",
+        "Surgical repair connects all veins back to LA",
+        "Surgical mortality < 5% with elective repair in relatively",
+        "healthy infants"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Unobstructed TAPVR can be repaired electively but Surgical repair connects all veins back to LA Surgical mortality < 5% with elective repair in relatively",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.416: Total Anomalous Pulmonary Venous Return"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• TAPVR means that all pulmonary veins (PVs) connect to",
+          "location other than left atrium (LA), typically to systemic",
+          "veins and ultimately to right atrium (RA)",
+          "○ Supracardiac TAPVR",
+          "– Drainage is cephalad, typically via vertical vein to",
+          "innominate (brachiocephalic) vein",
+          "○ Cardiac TAPVR",
+          "– Drainage is directly to heart, typically via coronary",
+          "sinus",
+          "○ Infracardiac TAPVR",
+          "– Drainage is caudad, coursing below diaphragm",
+          "○ Mixed TAPVR",
+          "– Drainage of each vein may be to different location, or",
+          "groups of veins may drain to different locations"
+        ],
+        "IMAGING": [
+          "• Increased distance between descending aorta (DAo) and LA",
+          "on 4-chamber view",
+          "• Lack of visible connection of PVs to LA",
+          "• Twig sign: Tubular vascular confluence posterior to atria,",
+          "anterior to descending aorta",
+          "• TAPVR to innominate vein causes abnormal 3-vessel",
+          "trachea view; 4th vessel (vertical vein) seen on left"
+        ],
+        "PATHOLOGY": [
+          "• Infracardiac veins are almost always obstructed",
+          "○ Obstructed pulmonary venous return → no oxygenated",
+          "blood gets back to heart → circulatory collapse",
+          "• Supracardiac veins may also obstruct between left",
+          "bronchus/left pulmonary artery"
+        ],
+        "CLINICAL ISSUES": [
+          "• Obstructed TAPVR is surgical emergency",
+          "• Unobstructed TAPVR can be repaired electively but",
+          "typically still done in 1st few weeks of life",
+          "• Surgical repair connects all veins back to LA",
+          "• Surgical mortality < 5% with elective repair in relatively",
+          "healthy infants"
+        ]
+      }
+    },
+    {
+      "id": "tetralogy-of-fallot",
+      "name": "Тетрада Фалло",
+      "nameEn": "Tetralogy of Fallot",
+      "category": "Сердце",
+      "bookSection": "SECTION 6",
+      "bookPage": 420,
+      "definition": "• Congenital heart disease with 4 components ○ Ventricular septal defect (VSD) ○ Overriding aorta ○ Right ventricular outflow tract (RVOT) obstruction ○ Right ventricle (RV) hypertrophy • Variants include pulmonary atresia (PA) with VSD (PA-VSD) and tetralogy of Fallot with absent pulmonary valve (ToF- APV)",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Aorta overrides large perimembranous VSD",
+        "RVOT obstruction",
+        "Anterior deviation of infundibulum",
+        "Pulmonary valve (PV) usually abnormal and small",
+        "Stenosis may be combination of subvalvar, valvar, or",
+        "supravalvar",
+        "PA-VSD: Aorta is only outflow as pulmonary artery is atretic",
+        "ToF-APV",
+        "Back-and-forth flow across PV seen with цветовой допpler",
+        "Markedly enlarged pulmonary artery and branches"
+      ],
+      "doppler_findings": [
+        "Aorta overrides large perimembranous VSD",
+        "Anterior deviation of infundibulum",
+        "Pulmonary valve (PV) usually abnormal and small",
+        "Back-and-forth flow across PV seen with цветовой допpler"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [
+        "95% of fetuses have normal 4-chamber view",
+        "Outflow tract assessment is key to making diagnosis"
+      ],
+      "follow_up": [
+        "Most common cyanotic congenital heart disease",
+        "7-10% of congenital heart disease in liveborn",
+        "Chromosomal abnormality in up to 45% of fetal cases, 25%",
+        "of live births",
+        "Trisomy 21 (may have ToF with atrioventricular septal",
+        "defect), trisomy 18 and 13, and 22q11 deletion",
+        "syndrome",
+        "If isolated, excellent short- and long-term outcomes with",
+        "definitive repair",
+        "> 98% survival in liveborn",
+        "ToF with APV and PA-VSD have worse prognosis"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "definitive repair",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.420: Tetralogy of Fallot"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Congenital heart disease with 4 components",
+          "○ Ventricular septal defect (VSD)",
+          "○ Overriding aorta",
+          "○ Right ventricular outflow tract (RVOT) obstruction",
+          "○ Right ventricle (RV) hypertrophy",
+          "• Variants include pulmonary atresia (PA) with VSD (PA-VSD)",
+          "and tetralogy of Fallot with absent pulmonary valve (ToF-",
+          "APV)"
+        ],
+        "IMAGING": [
+          "• Aorta overrides large perimembranous VSD",
+          "• RVOT obstruction",
+          "○ Anterior deviation of infundibulum",
+          "○ Pulmonary valve (PV) usually abnormal and small",
+          "○ Stenosis may be combination of subvalvar, valvar, or",
+          "supravalvar",
+          "• PA-VSD: Aorta is only outflow as pulmonary artery is atretic",
+          "• ToF-APV",
+          "○ Back-and-forth flow across PV seen with color Doppler",
+          "○ Markedly enlarged pulmonary artery and branches"
+        ],
+        "CLINICAL ISSUES": [
+          "• Most common cyanotic congenital heart disease",
+          "○ 7-10% of congenital heart disease in liveborn",
+          "• Chromosomal abnormality in up to 45% of fetal cases, 25%",
+          "of live births",
+          "○ Trisomy 21 (may have ToF with atrioventricular septal",
+          "defect), trisomy 18 and 13, and 22q11 deletion",
+          "syndrome",
+          "• If isolated, excellent short- and long-term outcomes with",
+          "definitive repair",
+          "○ > 98% survival in liveborn",
+          "• ToF with APV and PA-VSD have worse prognosis"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• 95% of fetuses have normal 4-chamber view",
+          "• Outflow tract assessment is key to making diagnosis"
+        ]
+      }
+    },
+    {
+      "id": "transposition-of-the-great-arteries",
+      "name": "Транспозиция магистральных сосудов",
+      "nameEn": "Transposition of the Great Arteries",
+      "category": "Сердце",
+      "bookSection": "SECTION 6",
+      "bookPage": 424,
+      "definition": "• Transposition of great arteries (TGA) ○ Ventriculoarterial (VA) discordance ○ Aorta arises from right ventricle (RV) ○ Pulmonary artery (PA) arises from left ventricle (LV) • Congenitally corrected TGA (cc-TGA) ○ Atrioventricular (AV) and VA discordance ○ Right atrium → LV → PA ○ Left atrium → RV → aorta",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "TGA has normal 4-chamber view",
+        "Outflow tracts parallel as they exit heart",
+        "Ventricular septal defect (VSD) (40-45%)",
+        "Left ventricular outflow tract obstruction (25%)",
+        "In cc-TGA, ventricles loop to left not right, bringing",
+        "morphologic LV to right and morphologic RV to left",
+        "Outflow tracts parallel as they exit heart",
+        "VSD (60-80%)",
+        "Right ventricular outflow tract obstruction (30-50%)"
+      ],
+      "doppler_findings": [
+        "Ventricular septal defect (VSD) (40-45%)",
+        "Left ventricular outflow tract obstruction (25%)",
+        "In cc-TGA, ventricles loop to left not right, bringing",
+        "morphologic LV to right and morphologic RV to left",
+        "Right ventricular outflow tract obstruction (30-50%)"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [
+        "Parallel outflow tracts → significant congenital heart",
+        "disease",
+        "In D-transposition of great arteries, posterior great artery",
+        "branches early (i.e., is PA)"
+      ],
+      "follow_up": [
+        "Arterial switch recommended in 1st week of life"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "and delivery of oxygenated blood to tissues",
+      "postnatal_management": "Fetal loss is uncommon but postnatal TGA is lethal without TGA postnatal circulation cc-TGA postnatal circulation Survivors possible into 50s without surgery but surgical repair now more common",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.424: Transposition of the Great Arteries"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Transposition of great arteries (TGA)",
+          "○ Ventriculoarterial (VA) discordance",
+          "○ Aorta arises from right ventricle (RV)",
+          "○ Pulmonary artery (PA) arises from left ventricle (LV)",
+          "• Congenitally corrected TGA (cc-TGA)",
+          "○ Atrioventricular (AV) and VA discordance",
+          "○ Right atrium → LV → PA",
+          "○ Left atrium → RV → aorta"
+        ],
+        "IMAGING": [
+          "• TGA has normal 4-chamber view",
+          "○ Outflow tracts parallel as they exit heart",
+          "○ Ventricular septal defect (VSD) (40-45%)",
+          "○ Left ventricular outflow tract obstruction (25%)",
+          "• In cc-TGA, ventricles loop to left not right, bringing",
+          "morphologic LV to right and morphologic RV to left",
+          "○ Outflow tracts parallel as they exit heart",
+          "○ VSD (60-80%)",
+          "○ Right ventricular outflow tract obstruction (30-50%)"
+        ],
+        "CLINICAL ISSUES": [
+          "• Fetal loss is uncommon but postnatal TGA is lethal without",
+          "treatment",
+          "• TGA postnatal circulation",
+          "○ Fetal connections are necessary to allow mixing of blood",
+          "and delivery of oxygenated blood to tissues",
+          "○ Arterial switch recommended in 1st week of life",
+          "• cc-TGA postnatal circulation",
+          "○ Oxygenated blood from lungs reaches systemic",
+          "circulation like normal",
+          "○ Survivors possible into 50s without surgery but surgical",
+          "repair now more common"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Parallel outflow tracts → significant congenital heart",
+          "disease",
+          "• In D-transposition of great arteries, posterior great artery",
+          "branches early (i.e., is PA)"
+        ]
+      }
+    },
+    {
+      "id": "truncus-arteriosus",
+      "name": "Артериальный ствол",
+      "nameEn": "Truncus Arteriosus",
+      "category": "Сердце",
+      "bookSection": "SECTION 6",
+      "bookPage": 428,
+      "definition": "• Single vessel (truncus) arises from heart ○ Gives rise to aorta and pulmonary arteries",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Single truncal valve with 1-5 cusps",
+        "May cause stenosis ± regurgitation",
+        "Ventricular septal defect (VSD)",
+        "Right-sided aortic arch in 21-36%",
+        "Interrupted aortic arch in 10-19%",
+        "Full anatomic survey for other extracardiac anomalies (21-",
+        "30%)"
+      ],
+      "doppler_findings": [
+        "Ventricular septal defect (VSD)",
+        "Right-sided aortic arch in 21-36%"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Prognosis dependent on associated abnormalities",
+        "Outcomes may be worse if associated with interrupted"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [
+        "Prognosis dependent on associated abnormalities",
+        "40% of liveborns with truncus have 22q11 deletion",
+        "Definitive treatment is early, complete surgical repair",
+        "Excellent outcomes with 90% survival",
+        "Outcomes may be worse if associated with interrupted",
+        "aortic arch"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Definitive treatment is early, complete surgical repair",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.428: Truncus Arteriosus"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Single vessel (truncus) arises from heart",
+          "○ Gives rise to aorta and pulmonary arteries"
+        ],
+        "IMAGING": [
+          "• Single truncal valve with 1-5 cusps",
+          "○ May cause stenosis ± regurgitation",
+          "• Ventricular septal defect (VSD)",
+          "• Right-sided aortic arch in 21-36%",
+          "• Interrupted aortic arch in 10-19%",
+          "• Full anatomic survey for other extracardiac anomalies (21-",
+          "30%)"
+        ],
+        "PATHOLOGY": [
+          "• Embryonic truncus lies between conus cordis proximally",
+          "and aortic arch distally",
+          "○ Truncal swellings divide truncal lumen into 2 channels:",
+          "Ascending aorta and pulmonary trunk",
+          "○ Failure to divide lumen → single vessel leaving heart",
+          "○ Deficiency or absence of conal septum produces large",
+          "VSD",
+          "• Type 1: Short main pulmonary trunk arising from truncus,",
+          "usually left-sided",
+          "○ Most common form; 48-68% of all cases",
+          "• Type 2: PAs arise separately from truncus",
+          "• Type 3: One PA arises from ascending aorta",
+          "• Type 4: Underdevelopment of aortic arch",
+          "○ Includes interrupted aortic arch, preductal coarctation,",
+          "or severe arch hypoplasia/atresia"
+        ],
+        "CLINICAL ISSUES": [
+          "• Prognosis dependent on associated abnormalities",
+          "• 40% of liveborns with truncus have 22q11 deletion",
+          "• Definitive treatment is early, complete surgical repair",
+          "○ Excellent outcomes with 90% survival",
+          "○ Outcomes may be worse if associated with interrupted",
+          "aortic arch"
+        ]
+      }
+    },
+    {
+      "id": "double-outlet-right-ventricle",
+      "name": "Двойной отход из правого желудочка",
+      "nameEn": "Double-Outlet Right Ventricle",
+      "category": "Сердце",
+      "bookSection": "SECTION 6",
+      "bookPage": 432,
+      "definition": "• Both great arteries arise predominantly from right ventricle (RV) with variable patterns",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Double-outlet RV described in terms of relative position of",
+        "great arteries and relative position of ventricular septal",
+        "defect (VSD)",
+        "40% tetralogy of Fallot type: Subaortic VSD with",
+        "pulmonary stenosis (PS) (most common)",
+        "– Aorta located right of and posterior to pulmonary",
+        "artery (PA)",
+        "20% transposition of great arteries type: Subpulmonary",
+        "VSD (Taussig-Bing anomaly)",
+        "– Aorta located right of and anterior to PA",
+        "15% VSD type: Subaortic VSD without PS",
+        "10% doubly committed VSD",
+        "< 10% noncommitted or remote VSD",
+        "PS present in 50% of patients",
+        "Aortic/mitral or pulmonary/mitral discontinuity",
+        "Neither semilunar valve is in fibrous continuity with",
+        "atrioventricular valve"
+      ],
+      "doppler_findings": [
+        "Double-outlet RV described in terms of relative position of",
+        "great arteries and relative position of ventricular septal",
+        "– Aorta located right of and posterior to pulmonary",
+        "20% transposition of great arteries type: Subpulmonary",
+        "– Aorta located right of and anterior to PA",
+        "atrioventricular valve"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Associated with maternal diabetes",
+        "Extracardiac anomalies are common (~ 66%)"
+      ],
+      "genetic_associations": [
+        "Offer genetic testing as 40% with fetal diagnosis have",
+        "genetic abnormality"
+      ],
+      "differential_diagnosis": [],
+      "red_flags": [
+        "Parallel outflow tracts are never normal"
+      ],
+      "follow_up": [
+        "Physiology is determined by great artery relationship and",
+        "location of VSD",
+        "Excellent early and long-term outcomes if normal",
+        "chromosomes, no heterotaxy, and biventricular repair",
+        "possible"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "chromosomes, no heterotaxy, and biventricular repair",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.432: Double-Outlet Right Ventricle"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Both great arteries arise predominantly from right ventricle",
+          "(RV) with variable patterns"
+        ],
+        "IMAGING": [
+          "• Double-outlet RV described in terms of relative position of",
+          "great arteries and relative position of ventricular septal",
+          "defect (VSD)",
+          "○ 40% tetralogy of Fallot type: Subaortic VSD with",
+          "pulmonary stenosis (PS) (most common)",
+          "– Aorta located right of and posterior to pulmonary",
+          "artery (PA)",
+          "○ 20% transposition of great arteries type: Subpulmonary",
+          "VSD (Taussig-Bing anomaly)",
+          "– Aorta located right of and anterior to PA",
+          "○ 15% VSD type: Subaortic VSD without PS",
+          "○ 10% doubly committed VSD",
+          "○ < 10% noncommitted or remote VSD",
+          "• PS present in 50% of patients",
+          "• Aortic/mitral or pulmonary/mitral discontinuity",
+          "○ Neither semilunar valve is in fibrous continuity with",
+          "atrioventricular valve"
+        ],
+        "PATHOLOGY": [
+          "• Associated with maternal diabetes",
+          "• Offer genetic testing as 40% with fetal diagnosis have",
+          "genetic abnormality",
+          "• Extracardiac anomalies are common (~ 66%)"
+        ],
+        "CLINICAL ISSUES": [
+          "• Physiology is determined by great artery relationship and",
+          "location of VSD",
+          "• Excellent early and long-term outcomes if normal",
+          "chromosomes, no heterotaxy, and biventricular repair",
+          "possible"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Parallel outflow tracts are never normal"
+        ]
+      }
+    },
+    {
+      "id": "echogenic-cardiac-focus",
+      "name": "Эхогенный очаг в сердце",
+      "nameEn": "Echogenic Cardiac Focus",
+      "category": "Сердце",
+      "bookSection": "SECTION 6",
+      "bookPage": 434,
+      "definition": "эхогенный Cardiac Focus",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Small bright dot (< 3 mm) in ventricle of heart",
+        "Bright эхогенный focus in ventricle, bright as bone",
+        "85% left ventricle, 4% right ventricle, 12% bilateral",
+        "Beware of pitfalls",
+        "Intracardiac эхогенный focus (IEF) is most often incidental",
+        "finding in euploid fetus",
+        "IEF is not cardiac defect (no associated dysfunction)",
+        "Weak association with trisomy 21 (T21)",
+        "Seek other markers for T21",
+        "Correlate with maternal genetic screening results",
+        "Association with trisomy 13 (T13) if severe anomalies"
+      ],
+      "doppler_findings": [
+        "Small bright dot (< 3 mm) in ventricle of heart",
+        "Bright эхогенный focus in ventricle, bright as bone",
+        "85% left ventricle, 4% right ventricle, 12% bilateral",
+        "Beware of pitfalls",
+        "Weak association with trisomy 21 (T21)",
+        "Association with trisomy 13 (T13) if severe anomalies"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "– Might be associated with maternal body mass index",
+        "Look for other soft markers of T21",
+        "Fetuses with severe anomalies"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Rhabdomyoma",
+        "Homogenously эхогенный myocardial mass",
+        "Atrioventricular (AV) septal defect",
+        "Valve remnants can mimic IEF"
+      ],
+      "red_flags": [
+        "Isolated IEF in low-risk patient is considered normal variant",
+        "Do not diagnose IEF if эхогенныйity is less than bone",
+        "Turn down gain and directly compare IEF and bone",
+        "Review chart to assess patient's a priori risk",
+        "Low-risk patients need no динамическое наблюдение"
+      ],
+      "follow_up": [
+        "4-8% of euploid fetuses",
+        "20-30% of Asian fetuses have IEF",
+        "– Might be associated with maternal body mass index",
+        "rather than true ethnic cause",
+        "15-30% of T21 fetuses have IEF (rarely isolated)",
+        "Look for other soft markers of T21",
+        "30-40% of T13 fetuses have IEF (almost never isolated)",
+        "Fetuses with severe anomalies"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.434: Echogenic Cardiac Focus"
+      ],
+      "sourceBlocks": {
+        "IMAGING": [
+          "• Small bright dot (< 3 mm) in ventricle of heart",
+          "○ Bright echogenic focus in ventricle, bright as bone",
+          "○ 85% left ventricle, 4% right ventricle, 12% bilateral",
+          "○ Beware of pitfalls",
+          "• Intracardiac echogenic focus (IEF) is most often incidental",
+          "finding in euploid fetus",
+          "• IEF is not cardiac defect (no associated dysfunction)",
+          "• Weak association with trisomy 21 (T21)",
+          "○ Seek other markers for T21",
+          "○ Correlate with maternal genetic screening results",
+          "• Association with trisomy 13 (T13) if severe anomalies"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Rhabdomyoma",
+          "○ Homogenously echogenic myocardial mass",
+          "• Atrioventricular (AV) septal defect",
+          "○ Valve remnants can mimic IEF"
+        ],
+        "PATHOLOGY": [
+          "• Probably from microcalcification within papillary muscle"
+        ],
+        "CLINICAL ISSUES": [
+          "• 4-8% of euploid fetuses",
+          "○ 20-30% of Asian fetuses have IEF",
+          "– Might be associated with maternal body mass index",
+          "rather than true ethnic cause",
+          "• 15-30% of T21 fetuses have IEF (rarely isolated)",
+          "○ Look for other soft markers of T21",
+          "• 30-40% of T13 fetuses have IEF (almost never isolated)",
+          "○ Fetuses with severe anomalies"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Isolated IEF in low-risk patient is considered normal variant",
+          "• Do not diagnose IEF if echogenicity is less than bone",
+          "○ Turn down gain and directly compare IEF and bone",
+          "• Review chart to assess patient's a priori risk",
+          "• Low-risk patients need no follow-up"
+        ]
+      }
+    },
+    {
+      "id": "cardiomyopathy",
+      "name": "Кардиомиопатия",
+      "nameEn": "Cardiomyopathy",
+      "category": "Сердце",
+      "bookSection": "SECTION 6",
+      "bookPage": 436,
+      "definition": "• Hypertrophic cardiomyopathy (HCM) ○ Primary disorder of cardiac muscle – Thickened, but nondilated, left ventricle – Absence of another cardiac or systemic disease capable of producing hypertrophy • Dilated cardiomyopathy (DCM) ○ Dilated heart with decreased systolic function ○ Final common pathway for diverse disease processes that lead to heart failure",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "HCM",
+        "Myocardial thickening characteristically asymmetric",
+        "– Septum most often involved",
+        "– May be confined to apex or free wall",
+        "May be symmetric (concentric hypertrophy)",
+        "Normal or hyperdynamic function",
+        "– Increased gradient in left ventricular outflow tract",
+        "Diastolic dysfunction",
+        "DCM",
+        "Cardiomegaly",
+        "Poor myocardial contractility",
+        "– May involve right ventricle, left ventricle, or both",
+        "Anatomically normal with no valvar obstruction"
+      ],
+      "doppler_findings": [
+        "Myocardial thickening characteristically asymmetric",
+        "May be symmetric (concentric hypertrophy)",
+        "– Increased gradient in left ventricular outflow tract",
+        "– May involve right ventricle, left ventricle, or both"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [
+        "Idiopathic, genetic, metabolic, inflammatory, familial,",
+        "renal disease, twin-twin transfusion syndrome, high-"
+      ],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [
+        "Presence of гидrops fetalis is poor prognostic sign",
+        "Cardiomyopathy (all types) accounts for 2% of neonatal",
+        "heart disease",
+        "Annual risk of death with primary/familial forms is 1%",
+        "Barth syndrome is often lethal early in infancy"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Cardiomyopathy (all types) accounts for 2% of neonatal",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.436: Cardiomyopathy"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Hypertrophic cardiomyopathy (HCM)",
+          "○ Primary disorder of cardiac muscle",
+          "– Thickened, but nondilated, left ventricle",
+          "– Absence of another cardiac or systemic disease",
+          "capable of producing hypertrophy",
+          "• Dilated cardiomyopathy (DCM)",
+          "○ Dilated heart with decreased systolic function",
+          "○ Final common pathway for diverse disease processes",
+          "that lead to heart failure"
+        ],
+        "IMAGING": [
+          "• HCM",
+          "○ Myocardial thickening characteristically asymmetric",
+          "– Septum most often involved",
+          "– May be confined to apex or free wall",
+          "○ May be symmetric (concentric hypertrophy)",
+          "○ Normal or hyperdynamic function",
+          "– Increased gradient in left ventricular outflow tract",
+          "○ Diastolic dysfunction",
+          "• DCM",
+          "○ Cardiomegaly",
+          "○ Poor myocardial contractility",
+          "– May involve right ventricle, left ventricle, or both",
+          "○ Anatomically normal with no valvar obstruction"
+        ],
+        "PATHOLOGY": [
+          "• May be end result of numerous disease processes",
+          "○ Idiopathic, genetic, metabolic, inflammatory, familial,",
+          "renal disease, twin-twin transfusion syndrome, high-",
+          "output states"
+        ],
+        "CLINICAL ISSUES": [
+          "• Presence of hydrops is poor prognostic sign",
+          "• Cardiomyopathy (all types) accounts for 2% of neonatal",
+          "heart disease",
+          "○ Annual risk of death with primary/familial forms is 1%",
+          "○ Barth syndrome is often lethal early in infancy"
+        ]
+      }
+    },
+    {
+      "id": "rhabdomyoma",
+      "name": "Рабдомиома",
+      "nameEn": "Rhabdomyoma",
+      "category": "Сердце",
+      "bookSection": "SECTION 6",
+      "bookPage": 440,
+      "definition": "• Congenital, cardiac hamartoma composed of abnormal myocytes",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Well-defined, homogeneous, hyperechoic, myocardial mass",
+        "Typically multiple masses; most common in ventricles but",
+        "can be anywhere",
+        "Follow for signs of obstruction, rhythm abnormalities, or",
+        "гидrops fetalis",
+        "Clinically significant arrhythmias occur in 16%",
+        "Large or multiple lesions more likely to grow in utero",
+        "Growth slows after 32 weeks"
+      ],
+      "doppler_findings": [
+        "Typically multiple masses; most common in ventricles but"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "Other cases due to new mutation",
+        "Poor outcome if associated with cardiac dysfunction"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [
+        "Dedicated neurosonography and fetal brain МР",
+        "recommended to evaluate for subependymal nodules and",
+        "cortical/subcortical tubers",
+        "Postnatal brain МР should be done in all cases, even if fetal",
+        "scan is normal"
+      ],
+      "follow_up": [
+        "Good cardiac outcome if no complications in utero or in first",
+        "6 months of life",
+        "Usually spontaneously regress",
+        "Poor outcome if associated with cardiac dysfunction",
+        "Inflow or outflow obstruction or regurgitation due to",
+        "mass effect",
+        "Consider use of mTOR inhibitor in severe cases with limited",
+        "options",
+        "Clinical triad of findings in TS: Seizures, intellectual disability,",
+        "cutaneous angiofibromas"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.440: Rhabdomyoma"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Congenital, cardiac hamartoma composed of abnormal",
+          "myocytes"
+        ],
+        "IMAGING": [
+          "• Well-defined, homogeneous, hyperechoic, myocardial mass",
+          "• Typically multiple masses; most common in ventricles but",
+          "can be anywhere",
+          "• Follow for signs of obstruction, rhythm abnormalities, or",
+          "hydrops",
+          "○ Clinically significant arrhythmias occur in 16%",
+          "• Large or multiple lesions more likely to grow in utero",
+          "• Growth slows after 32 weeks"
+        ],
+        "PATHOLOGY": [
+          "• Strong association with TS regardless of tumor number",
+          "• TS is autosomal dominant with variable expressivity",
+          "○ ~ 30% of cases inherited",
+          "○ Other cases due to new mutation",
+          "○ Caused by mutations in TSC1 or TSC2 genes"
+        ],
+        "CLINICAL ISSUES": [
+          "• Good cardiac outcome if no complications in utero or in first",
+          "6 months of life",
+          "○ Usually spontaneously regress",
+          "• Poor outcome if associated with cardiac dysfunction",
+          "○ Inflow or outflow obstruction or regurgitation due to",
+          "mass effect",
+          "• Consider use of mTOR inhibitor in severe cases with limited",
+          "options",
+          "• Clinical triad of findings in TS: Seizures, intellectual disability,",
+          "cutaneous angiofibromas"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• Dedicated neurosonography and fetal brain MR",
+          "recommended to evaluate for subependymal nodules and",
+          "cortical/subcortical tubers",
+          "• Postnatal brain MR should be done in all cases, even if fetal",
+          "scan is normal"
+        ]
+      }
+    },
+    {
+      "id": "pericardial-effusion",
+      "name": "Выпот в перикарде",
+      "nameEn": "Pericardial Effusion",
+      "category": "Сердце",
+      "bookSection": "SECTION 6",
+      "bookPage": 444,
+      "definition": "• Accumulation of excessive fluid in pericardial space",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "Fluid collection surrounding all or part of heart",
+        "Must measure > 2 mm to be considered abnormal",
+        "Seen best on standard 4-chamber view",
+        "Significant if surrounding atria and ventricles",
+        "Trace of fluid along 1 ventricular wall is normal",
+        "If large, heart is seen beating in \"bag of water\" with lungs",
+        "displaced posteriorly",
+        "Outer 1-6 mm of myocardium may be гипоэхогенный and",
+        "mimic fluid"
+      ],
+      "doppler_findings": [
+        "Significant if surrounding atria and ventricles",
+        "Trace of fluid along 1 ventricular wall is normal",
+        "displaced posteriorly"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [
+        "May need formal фetal echocardiography / эхокардиография плодаcardiogram",
+        "Pericardial effusion may be 1st sign of гидrops fetalis, especially if",
+        "etiology is cardiac"
+      ],
+      "follow_up": [
+        "динамическое наблюдение exams necessary when fluid is > 2 mm or in high-"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.444: Pericardial Effusion"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Accumulation of excessive fluid in pericardial space"
+        ],
+        "IMAGING": [
+          "• Fluid collection surrounding all or part of heart",
+          "○ Must measure > 2 mm to be considered abnormal",
+          "○ Seen best on standard 4-chamber view",
+          "○ Significant if surrounding atria and ventricles",
+          "• Trace of fluid along 1 ventricular wall is normal",
+          "• If large, heart is seen beating in \"bag of water\" with lungs",
+          "displaced posteriorly",
+          "• Outer 1-6 mm of myocardium may be hypoechoic and",
+          "mimic fluid"
+        ],
+        "PATHOLOGY": [
+          "• Etiology",
+          "○ Cardiac abnormality",
+          "○ Congenital infection",
+          "○ High-output states",
+          "○ Fetal endocrine abnormality"
+        ],
+        "CLINICAL ISSUES": [
+          "• Typically incidental finding on screening exam",
+          "○ 0.02% of fetuses in series of 506 routine obstetric scans",
+          "had isolated pericardial effusion",
+          "• Course is variable depending on cause",
+          "○ No treatment necessary if isolated and small",
+          "○ With hydrops fetalis, overall prognosis is poor",
+          "• Follow-up exams necessary when fluid is > 2 mm or in high-",
+          "risk patients",
+          "• Treat underlying cause where possible",
+          "• Case reports of pericardiocentesis for massive effusion with",
+          "risk of tamponade"
+        ],
+        "DIAGNOSTIC CHECKLIST": [
+          "• May need formal fetal echocardiogram",
+          "• Pericardial effusion may be 1st sign of hydrops, especially if",
+          "etiology is cardiac"
+        ]
+      }
+    },
+    {
+      "id": "pericardial-teratoma",
+      "name": "Перикардиальная тератома",
+      "nameEn": "Pericardial Teratoma",
+      "category": "Сердце",
+      "bookSection": "SECTION 6",
+      "bookPage": 446,
+      "definition": "• Neoplasm arising from pericardium",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "May be intrapericardial (most common), extrapericardial, or",
+        "very rarely, intracardiac",
+        "Often quite large with reported range of 2-15 cm",
+        "Contains both solid and cystic components",
+        "Calcifications most specific finding for teratoma but",
+        "often not present",
+        "Pericardial effusion invariably present with intrapericardial",
+        "teratoma",
+        "May be massive and mistaken for pleural effusion",
+        "– Pericardial effusion compresses lungs posteriorly",
+        "– Lungs will float in pleural effusion (wing-like",
+        "appearance)",
+        "гидrops fetalis common associated finding from compression of",
+        "heart and great vessels by both mass and pericardial",
+        "effusion",
+        "Extrapericardial teratomas may be indistinguishable from",
+        "lung masses",
+        "Look for attachment to pericardium"
+      ],
+      "doppler_findings": [
+        "May be intrapericardial (most common), extrapericardial, or",
+        "Pericardial effusion invariably present with intrapericardial",
+        "– Pericardial effusion compresses lungs posteriorly",
+        "heart and great vessels by both mass and pericardial",
+        "Extrapericardial teratomas may be indistinguishable from",
+        "Look for attachment to pericardium"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [
+        "Rhabdomyoma",
+        "Myocardial (not pericardial) mass",
+        "Real-time evaluation imperative to determine origin of",
+        "mass",
+        "Mediastinal teratoma",
+        "May have pleural (not pericardial) effusion"
+      ],
+      "red_flags": [],
+      "follow_up": [
+        "< 10% of teratomas occur in chest, but most of these are",
+        "pericardial",
+        "Often fatal, especially if гидrops fetalis is present",
+        "Monitor for гидrops fetalis and consider referral to fetal surgery",
+        "center",
+        "Fetal surgery with successful resection reported"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "Monitor for гидrops fetalis and consider referral to fetal surgery Fetal surgery with successful resection reported",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.446: Pericardial Teratoma"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Neoplasm arising from pericardium"
+        ],
+        "IMAGING": [
+          "• May be intrapericardial (most common), extrapericardial, or",
+          "very rarely, intracardiac",
+          "• Often quite large with reported range of 2-15 cm",
+          "• Contains both solid and cystic components",
+          "○ Calcifications most specific finding for teratoma but",
+          "often not present",
+          "• Pericardial effusion invariably present with intrapericardial",
+          "teratoma",
+          "○ May be massive and mistaken for pleural effusion",
+          "– Pericardial effusion compresses lungs posteriorly",
+          "– Lungs will float in pleural effusion (wing-like",
+          "appearance)",
+          "• Hydrops common associated finding from compression of",
+          "heart and great vessels by both mass and pericardial",
+          "effusion",
+          "• Extrapericardial teratomas may be indistinguishable from",
+          "lung masses",
+          "○ Look for attachment to pericardium"
+        ],
+        "TOP DIFFERENTIAL DIAGNOSES": [
+          "• Rhabdomyoma",
+          "○ Myocardial (not pericardial) mass",
+          "○ Real-time evaluation imperative to determine origin of",
+          "mass",
+          "• Mediastinal teratoma",
+          "○ May have pleural (not pericardial) effusion"
+        ],
+        "CLINICAL ISSUES": [
+          "• < 10% of teratomas occur in chest, but most of these are",
+          "pericardial",
+          "• Often fatal, especially if hydrops is present",
+          "• Monitor for hydrops and consider referral to fetal surgery",
+          "center",
+          "○ Fetal surgery with successful resection reported"
+        ]
+      }
+    },
+    {
+      "id": "irregular-rhythm",
+      "name": "Нарушение сердечного ритма",
+      "nameEn": "Irregular Rhythm",
+      "category": "Сердце",
+      "bookSection": "SECTION 6",
+      "bookPage": 448,
+      "definition": "• Ectopic beat is extra beat arising prematurely from site other than heart's natural pacemaker ○ Extra beat can arise from anywhere (atrium or ventricle) within myocardium to produce irregular rhythm • Blocked beats: Atrial activity does not conduct to ventricles ○ When early atrial beats are blocked, there is typically no problem with atrioventricular (AV) node; usually variant of normal",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "M-mode cursor needs to be placed in position to allow atrial",
+        "and ventricular (AV) activity to be recorded at same time",
+        "Doppler sample volume placed in left ventricular inflow",
+        "and adjacent outflow",
+        "– Demonstrates atrial filling in one direction and",
+        "ventricular ejection in opposite direction",
+        "Doppler sampling in ascending aorta and superior vena",
+        "cava or pulmonary artery and vein",
+        "– Normal flow reversal in vein (onset of atrial",
+        "contraction) and onset of forward flow in artery (same",
+        "direction)",
+        "Premature atrial contraction (PAC)",
+        "Early atrial contraction in cardiac cycle followed by",
+        "ventricular contraction (conducted) or not (blocked)",
+        "Premature ventricular contraction (PVC)",
+        "Early ventricular contraction in cardiac cycle occurring",
+        "without prior atrial contraction"
+      ],
+      "doppler_findings": [
+        "M-mode cursor needs to be placed in position to allow atrial",
+        "and ventricular (AV) activity to be recorded at same time",
+        "Doppler sample volume placed in left ventricular inflow",
+        "– Demonstrates atrial filling in one direction and",
+        "ventricular ejection in opposite direction",
+        "Doppler sampling in ascending aorta and superior vena",
+        "– Normal flow reversal in vein (onset of atrial",
+        "Premature atrial contraction (PAC)",
+        "Early atrial contraction in cardiac cycle followed by",
+        "ventricular contraction (conducted) or not (blocked)",
+        "Premature ventricular contraction (PVC)",
+        "Early ventricular contraction in cardiac cycle occurring",
+        "without prior atrial contraction"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [
+        "1-2% of pregnancies will have arrhythmia",
+        "< 10% are significant",
+        "PACs/PVCs account for 90%",
+        "Most common in 3rd trimester",
+        "Self-limited: Most resolve by time of delivery, extremely",
+        "rare to cause problem in neonate",
+        "If frequent PACs, 2-5% risk of developing supraventricular",
+        "tachycardia (SVT)"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "Self-limited: Most resolve by time of delivery, extremely",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.448: Irregular Rhythm"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Ectopic beat is extra beat arising prematurely from site",
+          "other than heart's natural pacemaker",
+          "○ Extra beat can arise from anywhere (atrium or ventricle)",
+          "within myocardium to produce irregular rhythm",
+          "• Blocked beats: Atrial activity does not conduct to ventricles",
+          "○ When early atrial beats are blocked, there is typically no",
+          "problem with atrioventricular (AV) node; usually variant",
+          "of normal"
+        ],
+        "IMAGING": [
+          "• M-mode cursor needs to be placed in position to allow atrial",
+          "and ventricular (AV) activity to be recorded at same time",
+          "○ Doppler sample volume placed in left ventricular inflow",
+          "and adjacent outflow",
+          "– Demonstrates atrial filling in one direction and",
+          "ventricular ejection in opposite direction",
+          "○ Doppler sampling in ascending aorta and superior vena",
+          "cava or pulmonary artery and vein",
+          "– Normal flow reversal in vein (onset of atrial",
+          "contraction) and onset of forward flow in artery (same",
+          "direction)",
+          "• Premature atrial contraction (PAC)",
+          "○ Early atrial contraction in cardiac cycle followed by",
+          "ventricular contraction (conducted) or not (blocked)",
+          "• Premature ventricular contraction (PVC)",
+          "○ Early ventricular contraction in cardiac cycle occurring",
+          "without prior atrial contraction"
+        ],
+        "CLINICAL ISSUES": [
+          "• 1-2% of pregnancies will have arrhythmia",
+          "• < 10% are significant",
+          "• PACs/PVCs account for 90%",
+          "○ Most common in 3rd trimester",
+          "• Self-limited: Most resolve by time of delivery, extremely",
+          "rare to cause problem in neonate",
+          "• If frequent PACs, 2-5% risk of developing supraventricular",
+          "tachycardia (SVT)"
+        ]
+      }
+    },
+    {
+      "id": "tachyarrhythmia",
+      "name": "Тахиаритмия",
+      "nameEn": "Tachyarrhythmia",
+      "category": "Сердце",
+      "bookSection": "SECTION 6",
+      "bookPage": 450,
+      "definition": "• Supraventricular tachycardia (SVT): Any tachycardia with its origin above ventricles; rates typically > 200 • Ventricular tachycardia: Ventricular rate exceeds atrial rate",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "2D echo in 4-chamber view to compare atrial and",
+        "ventricular contraction",
+        "Pulsed Doppler ± M-mode ± color",
+        "Allows assessment of interval between atrial and",
+        "ventricular contraction"
+      ],
+      "doppler_findings": [
+        "2D echo in 4-chamber view to compare atrial and",
+        "ventricular contraction",
+        "Pulsed Doppler ± M-mode ± color",
+        "Allows assessment of interval between atrial and",
+        "ventricular contraction"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [
+        "White syndrome)"
+      ],
+      "differential_diagnosis": [],
+      "red_flags": [
+        "urgent"
+      ],
+      "follow_up": [
+        "Fetal arrhythmia seen in 1-2% of pregnancies",
+        "Only ~ 10% clinically significant",
+        "Prognosis generally good for intermittent SVT and SVT",
+        "without гидrops fetalis",
+        "гидrops fetalis develops in 40-75% of fetuses with sustained",
+        "tachyarrhythmia",
+        "When present, treatment is more complicated and",
+        "urgent",
+        "Harder to achieve therapeutic levels of medication and,",
+        "therefore, cardioversion"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.450: Tachyarrhythmia"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Supraventricular tachycardia (SVT): Any tachycardia with its",
+          "origin above ventricles; rates typically > 200",
+          "• Ventricular tachycardia: Ventricular rate exceeds atrial rate"
+        ],
+        "IMAGING": [
+          "• 2D echo in 4-chamber view to compare atrial and",
+          "ventricular contraction",
+          "• Pulsed Doppler ± M-mode ± color",
+          "○ Allows assessment of interval between atrial and",
+          "ventricular contraction"
+        ],
+        "PATHOLOGY": [
+          "• Atrioventricular (AV) reentry SVT (including Wolf-Parkinson-",
+          "White syndrome)",
+          "○ Most common fetal tachyarrhythmia",
+          "○ Normal conduction through AV node from atria to",
+          "ventricle",
+          "○ Accessory pathway conducts ventricular impulse back to",
+          "atria",
+          "○ AV node is recovered from refractory state and conducts",
+          "impulse again, setting up circuit",
+          "• Atrial flutter",
+          "○ Single reentry circuit within atrium, which is very fast",
+          "○ Variable AV block but often 2:1"
+        ],
+        "CLINICAL ISSUES": [
+          "• Fetal arrhythmia seen in 1-2% of pregnancies",
+          "○ Only ~ 10% clinically significant",
+          "• Prognosis generally good for intermittent SVT and SVT",
+          "without hydrops",
+          "• Hydrops develops in 40-75% of fetuses with sustained",
+          "tachyarrhythmia",
+          "○ When present, treatment is more complicated and",
+          "urgent",
+          "○ Harder to achieve therapeutic levels of medication and,",
+          "therefore, cardioversion"
+        ]
+      }
+    },
+    {
+      "id": "bradyarrhythmia",
+      "name": "Брадиаритмия",
+      "nameEn": "Bradyarrhythmia",
+      "category": "Сердце",
+      "bookSection": "SECTION 6",
+      "bookPage": 454,
+      "definition": "• Abnormally slow heart rate < 100 beats per minute (BPM) • Benign transient bradycardia ○ Due to vagal stimulation; often from transducer pressure ○ Quickly returns to normal rate with release of pressure • Complete heart block (CHB) ○ Due to failed conduction from atrium to ventricle • Blocked premature atrial contractions (PAC) ○ Early atrial beat not followed by ventricular beat",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [
+        "M-mode for atrioventricular (AV) correlation and rates",
+        "Pulsed Doppler to assess mechanical PR interval",
+        "Doppler sampling placed in left ventricular inflow and",
+        "outflow, ascending aorta and SVC or PA and PV"
+      ],
+      "doppler_findings": [
+        "M-mode for atrioventricular (AV) correlation and rates",
+        "Pulsed Doppler to assess mechanical PR interval",
+        "Doppler sampling placed in left ventricular inflow and"
+      ],
+      "mri_findings": [],
+      "associated_anomalies": [
+        "50% associated with cardiac malformation, particularly left",
+        "50% of cases in mothers with connective tissue disease",
+        "Fetal/neonatal myocardium contains body's highest",
+        "Maternal antibody binds to fetal antigen causing",
+        "1st-trimester bradycardia associated with high pregnancy",
+        "Recurrence risk up to 20% in mother with anti-Ro/La"
+      ],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [
+        "1st-trimester bradycardia associated with high pregnancy",
+        "failure rate",
+        "Risk of fetal CHB with maternal lupus up to 5%",
+        "Recurrence risk up to 20% in mother with anti-Ro/La",
+        "antibodies and previous child with CHB",
+        "Normal structure/no гидrops fetalis → 90% survival",
+        "Poor prognosis with structural abnormality",
+        "Increased mortality with heart rate < 50 BPM"
+      ],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.454: Bradyarrhythmia"
+      ],
+      "sourceBlocks": {
+        "TERMINOLOGY": [
+          "• Abnormally slow heart rate < 100 beats per minute (BPM)",
+          "• Benign transient bradycardia",
+          "○ Due to vagal stimulation; often from transducer pressure",
+          "○ Quickly returns to normal rate with release of pressure",
+          "• Complete heart block (CHB)",
+          "○ Due to failed conduction from atrium to ventricle",
+          "• Blocked premature atrial contractions (PAC)",
+          "○ Early atrial beat not followed by ventricular beat"
+        ],
+        "IMAGING": [
+          "• M-mode for atrioventricular (AV) correlation and rates",
+          "• Pulsed Doppler to assess mechanical PR interval",
+          "○ Doppler sampling placed in left ventricular inflow and",
+          "outflow, ascending aorta and SVC or PA and PV"
+        ],
+        "PATHOLOGY": [
+          "• 50% associated with cardiac malformation, particularly left",
+          "atrial appendage isomerism (heterotaxy)",
+          "• CHB without heart disease",
+          "○ 50% of cases in mothers with connective tissue disease",
+          "○ Anti-SSA/Ro ± anti-SSB/La antibodies start crossing",
+          "placenta at 16 weeks",
+          "○ Fetal/neonatal myocardium contains body's highest",
+          "concentration of Ro antigen",
+          "○ Maternal antibody binds to fetal antigen causing",
+          "inflammation/fibrosis of fetal heart conduction system"
+        ],
+        "CLINICAL ISSUES": [
+          "• 1st-trimester bradycardia associated with high pregnancy",
+          "failure rate",
+          "• Risk of fetal CHB with maternal lupus up to 5%",
+          "• Recurrence risk up to 20% in mother with anti-Ro/La",
+          "antibodies and previous child with CHB",
+          "• Normal structure/no hydrops → 90% survival",
+          "• Poor prognosis with structural abnormality",
+          "• Increased mortality with heart rate < 50 BPM"
+        ]
+      }
+    },
+    {
+      "id": "abnormal-cardiac-axis",
+      "name": "Аномалия оси сердца",
+      "nameEn": "Abnormal Cardiac Axis",
+      "category": "Сердце",
+      "bookSection": "SECTION 6",
+      "bookPage": 458,
+      "definition": "Abnormal Cardiac Axis",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.458: Abnormal Cardiac Axis"
+      ],
+      "sourceBlocks": {}
+    },
+    {
+      "id": "chamber-asymmetry",
+      "name": "Асимметрия полостей сердца",
+      "nameEn": "Chamber Asymmetry",
+      "category": "Сердце",
+      "bookSection": "SECTION 6",
+      "bookPage": 464,
+      "definition": "Chamber Asymmetry",
+      "epidemiology": "",
+      "embryology": "",
+      "ultrasound_findings": [],
+      "doppler_findings": [],
+      "mri_findings": [],
+      "associated_anomalies": [],
+      "genetic_associations": [],
+      "differential_diagnosis": [],
+      "red_flags": [],
+      "follow_up": [],
+      "prognosis": "",
+      "delivery_recommendations": "",
+      "postnatal_management": "",
+      "references": [
+        "Woodward PJ, et al. Diagnostic Imaging: Obstetrics. 4th ed. Elsevier; 2021.",
+        "Book p.464: Chamber Asymmetry"
+      ],
+      "sourceBlocks": {}
+    }
+  ]
+}
