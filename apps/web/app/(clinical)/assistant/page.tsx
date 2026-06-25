@@ -1,4 +1,4 @@
-import { Brain, Stethoscope, Baby, GraduationCap } from "lucide-react";
+import { Brain, Stethoscope, Baby, GraduationCap, Activity } from "lucide-react";
 import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
@@ -26,6 +26,13 @@ const modes = [
     description: "Малый срок, I/II/III скрининг, допплер — протокол FMF и red flags.",
     icon: GraduationCap,
     color: "from-[#0d9488] to-[#059669]",
+  },
+  {
+    href: "/assistant/vascular",
+    title: "Сосудистое УЗД · дуплекс",
+    description: "БЦА, TCD, артерии/вены НК, аорта — протокол, стеноз ВСА, AI-интерпретация (Куликов).",
+    icon: Activity,
+    color: "from-[#1e3a8a] to-[#2563eb]",
   },
 ];
 

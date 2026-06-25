@@ -155,6 +155,26 @@ export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
     badge: "22+65",
   },
   {
+    id: "vascular-ultrasound-edu",
+    shelf: "courses",
+    title: "Сосудистое УЗД · Куликов",
+    description:
+      "10 глав: гемодинамика, БЦА, TCD, артерии/вены НК, аорта. Ординатор, 3 случая, экзамен. Связка с клиническим модулем.",
+    href: "/library/vascular-ultrasound",
+    tags: ["сосуды", "дуплекс", "БЦА", "TCD", "Куликов", "ординатор"],
+    primary: true,
+    badge: "NEW",
+  },
+  {
+    id: "vascular-ultrasound-clinical",
+    shelf: "assistant",
+    title: "Сосудистое УЗД · протокол",
+    description: "Чеклисты по бассейнам, калькулятор стеноза ВСА, AI-заключение по допплеру.",
+    href: "/assistant/vascular",
+    tags: ["дуплекс", "БЦА", "стеноз", "протокол", "Куликов"],
+    badge: "NEW",
+  },
+  {
     id: "fetal-doppler-first-trimester",
     shelf: "courses",
     title: "Допплер I триместра (11–14 нед)",

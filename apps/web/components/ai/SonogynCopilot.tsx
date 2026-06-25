@@ -78,6 +78,14 @@ const ROUTES: { test: RegExp; reply: string; links: Suggestion[]; pro?: boolean 
     reply: "Протоколы и маршруты — в «Помощнике врача»: нозология → анализы → УЗИ → лечение → протокол.",
     links: [{ label: "Помощник врача", href: "/assistant" }],
   },
+  {
+    test: /сосуд|дуплекс|бца|каротид|tcd|тромбоз|стеноз/i,
+    reply: "Сосудистое УЗД: протокол по бассейнам, калькулятор стеноза ВСА и AI-интерпретация (методология Куликова).",
+    links: [
+      { label: "Клинический модуль", href: "/assistant/vascular" },
+      { label: "Курс для ординаторов", href: "/library/vascular-ultrasound" },
+    ],
+  },
 ];
 
 function buildReply(prompt: string): Omit<Message, "id" | "role"> {
