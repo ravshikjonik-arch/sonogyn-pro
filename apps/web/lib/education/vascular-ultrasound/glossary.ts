@@ -270,6 +270,22 @@ export const VASCULAR_US_QUIZ: VascularQuizQuestion[] = [
     correctIndex: 1,
     explanation: "≥50 мм — показание к операции; контроль 2×/год при меньших размерах.",
   },
+  {
+    id: "q31",
+    sectionId: "tcd",
+    question: "Lindegaard ratio 6,2 после SAH — интерпретация:",
+    options: ["Норма", "Умеренный вазоспазм", "Выраженный вазоспазм", "Окклюзия ПкА"],
+    correctIndex: 2,
+    explanation: "Lindegaard ≥6 — выраженный ангиоспазм (гл. 5); сравнивать PSV СМА с экстракраниальной ВСА.",
+  },
+  {
+    id: "q32",
+    sectionId: "upper-limb",
+    question: "AV-фистула для гемодиализа: PSV 130 см/с, объём 220 мл/мин — вывод:",
+    options: ["Норма", "Недостаточность фистулы", "Окклюзия ЧС", "RAR >3,5"],
+    correctIndex: 1,
+    explanation: "PSV <150 и объём <300 мл/мин — недостаточность AV-доступа (табл. 8.1).",
+  },
 ];
 
 const SECTION_CATEGORY: Record<string, string> = {
@@ -285,8 +301,8 @@ const SECTION_CATEGORY: Record<string, string> = {
 export function getVascularUsQuizBank(): QuizBank {
   return {
     topic: "vascular-ultrasound",
-    version: "1.4",
-    lastReviewed: "2026-06-20",
+    version: "1.5",
+    lastReviewed: "2026-06-25",
     sources: [
       {
         id: "kulikov-2015",
