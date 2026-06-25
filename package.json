@@ -17,6 +17,7 @@
     "test:doppler": "node --import tsx --test services/dopplerEngine.test.ts",
     "test:aneuploidy": "node --import tsx --test services/aneuploidyRiskEngine.test.ts",
     "test:obstetric-expert": "node --import tsx --test services/differentialDiagnosis.test.ts services/sonographerAssistant.test.ts services/fetalBiometryEngine.test.ts services/dopplerEngine.test.ts services/aneuploidyRiskEngine.test.ts services/obstetricCopilot.test.ts",
+    "test:musa-adenomyosis": "npm run test --prefix packages/musa-framework",
     "dev:web": "npx --yes pnpm@10.6.5 --filter @repo/web dev",
     "dev:web:lan": "npx --yes pnpm@10.6.5 --filter @repo/web dev:lan",
     "dev:video": "npx --yes pnpm@10.6.5 --filter @repo/video studio",

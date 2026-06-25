@@ -111,6 +111,17 @@ export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
     tags: ["КР", "ДЗМ", "гайдлайны"],
   },
   {
+    id: "musa-adenomyosis",
+    shelf: "courses",
+    title: "MUSA · Аденомиоз",
+    description:
+      "Консенсус MUSA: прямые/косвенные признаки, JZ, локализация, Sonogyn Score 0–13, структурированный протокол.",
+    href: "/musa/adenomyosis",
+    tags: ["MUSA", "аденомиоз", "JZ", "миометрий", "обучение"],
+    primary: true,
+    badge: "MUSA",
+  },
+  {
     id: "orads-guide",
     shelf: "courses",
     title: "O-RADS US · руководство",

@@ -83,7 +83,10 @@ export const OBGYN_CORE_EVIDENCE: EvidenceEntry[] = [
       year: 2022,
     },
     tags: ["аденомиоз", "adenomyosis", "JZ", "дисменорея", "матка"],
-    relatedLinks: [{ label: "Срез матки 3D", href: "/uterus-3d" }],
+    relatedLinks: [
+      { label: "MUSA · Аденомиоз", href: "/musa/adenomyosis" },
+      { label: "Срез матки 3D", href: "/uterus-3d" },
+    ],
   },
   {
     id: "obgyn-aub-palm-coein",

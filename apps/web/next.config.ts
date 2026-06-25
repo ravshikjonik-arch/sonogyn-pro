@@ -37,7 +37,7 @@ function supabaseConnectOriginExtra(): string {
 }
 
 const nextConfig: NextConfig = {
-  transpilePackages: ["three", "@clinical/uterus", "@repo/ui", "@repo/clinical-3d", "@repo/nosology", "@repo/cervix-pathology-reference"],
+  transpilePackages: ["three", "@clinical/uterus", "@repo/ui", "@repo/clinical-3d", "@repo/nosology", "@repo/cervix-pathology-reference", "@repo/musa-framework"],
   env: {
     NEXT_PUBLIC_AUTH_EMAIL_ONLY: process.env.AUTH_EMAIL_ONLY ?? "false",
   },

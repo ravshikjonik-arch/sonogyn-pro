@@ -1,0 +1,301 @@
+{
+  "module": "musa-adenomyosis",
+  "version": "1.0.0",
+  "moduleRu": "MUSA · Аденомиоз",
+  "moduleEn": "MUSA · Adenomyosis",
+  "source": {
+    "consensus": "MUSA (Morphological Uterus Sonographic Assessment)",
+    "reference": "Van den Bosch T et al. Ultrasound Obstet Gynecol 2022; MUSA consensus",
+    "sonogynScore": "Sonogyn Adenomyosis Score v1 (educational composite)"
+  },
+  "disclaimer": {
+    "ru": "Образовательный модуль Sonogyn-Pro. Заключение формирует врач по изображению и клинике; не является диагнозом.",
+    "en": "Sonogyn-Pro educational module. Final interpretation is the clinician's responsibility."
+  },
+  "introduction": {
+    "id": "intro-what-is-adenomyosis",
+    "title": "Что такое аденомиоз?",
+    "titleEn": "What is Adenomyosis?",
+    "definition": "Наличие эндометриальных желез и стромы внутри миометрия.",
+    "definitionEn": "Presence of endometrial glands and stroma within the myometrium.",
+    "learningObjectives": [
+      "Понимать терминологию MUSA",
+      "Распознавать прямые ультразвуковые признаки",
+      "Распознавать косвенные ультразвуковые признаки",
+      "Применять структурированное описание в протоколе"
+    ],
+    "musaConcept": "Диагноз основывается на комбинации ультразвуковых признаков.",
+    "keyMessage": "Ни один признак не является абсолютно патогномоничным.",
+    "sonogynTip": "Чем больше прямых признаков выявлено, тем выше вероятность аденомиоза."
+  },
+  "directFeatures": [
+    {
+      "id": "myometrial-cysts",
+      "category": "direct",
+      "title": "Миометриальные кисты",
+      "titleEn": "Myometrial Cysts",
+      "musa_term": "Myometrial Cysts",
+      "definition": "Анэхогенные округлые включения в миометрии, соответствующие эндометриальным железам.",
+      "pathology": "Эктопическая эндометриальная ткань с секреторной активностью и микрокистами.",
+      "ultrasound_appearance": "Округлые анэхогенные структуры 1–7 мм, одиночные или множественные.",
+      "key_features": ["анэхогенные", "округлые", "1–7 мм", "внутри миометрия"],
+      "differential_diagnosis": ["псевдокисты при миоме", "сосудистые пространства", "некроз миомы"],
+      "diagnostic_value": "Высокоспецифичный прямой признак MUSA (★★★★★).",
+      "pitfalls": ["артефакт реверберации", "смешение с сосудом на цветном допpler"],
+      "score_points": 3,
+      "clinical_relevance": "Существенно повышает вероятность аденомиоза при корректной визуализации.",
+      "reporting_phrase": "В миометрии определяются анэхогенные микрокистозные включения, согласующиеся с миометриальными кистами (MUSA)."
+    },
+    {
+      "id": "hyperechogenic-islands",
+      "category": "direct",
+      "title": "Гиперэхогенные островки",
+      "titleEn": "Hyperechogenic Islands",
+      "musa_term": "Hyperechogenic Islands / Striations",
+      "definition": "Гиперэхогенные очаги или линейные включения в миометрии.",
+      "pathology": "Эндометриальная стroma и железы, внедрённые в мышечный слой.",
+      "ultrasound_appearance": "Белые линейные или островковидные структуры, часто направлены от эндометрия наружу.",
+      "key_features": ["гиперэхогенные", "линейные или очаговые", "радиальная ориентация от JZ"],
+      "differential_diagnosis": ["кальцинаты", "фиброз", "артефакты"],
+      "diagnostic_value": "Прямой признак MUSA (★★★★).",
+      "pitfalls": ["зависимость от gain/TGC", "перепутать с капсулой миомы"],
+      "score_points": 2,
+      "clinical_relevance": "Часто один из ранних морфологических маркеров.",
+      "reporting_phrase": "В миометрии — гиперэхогенные островки/тяжи (MUSA), без чёткой капсулы."
+    },
+    {
+      "id": "subendometrial-striations",
+      "category": "direct",
+      "title": "Субэндометриальные линейные страты",
+      "titleEn": "Subendometrial Linear Striations",
+      "musa_term": "Subendometrial Linear Striations",
+      "definition": "Линейные гиперэхогенные структуры, исходящие из субэндометриальной зоны.",
+      "pathology": "Проникновение эндометрия в внутренний слой миометрия.",
+      "ultrasound_appearance": "«Лучи», перпендикулярные эндометрию, проникающие в миометрий.",
+      "key_features": ["перпендикулярны эндометрию", "субэндометриальное происхождение"],
+      "differential_diagnosis": ["артефакт", "сосудистый рисунок"],
+      "diagnostic_value": "Прямой признак MUSA (★★★★).",
+      "pitfalls": ["недостаточное разрешение при ожирении"],
+      "score_points": 2,
+      "clinical_relevance": "Ранний признак; особенно значим в сочетании с изменениями JZ.",
+      "reporting_phrase": "Субэндометриальные линейные страты, проникающие в миометрий (MUSA)."
+    }
+  ],
+  "junctionalZone": {
+    "title": "Junctional Zone (JZ)",
+    "normal": {
+      "maxThicknessMm": 8,
+      "description": "Толщина ≤ 8 мм, ровный контур, чёткая граница с эндометрием."
+    },
+    "classification": [
+      { "class": "JZ-0", "minMm": 0, "maxMm": 7.9, "severity": "normal", "description": "Нормальная JZ (< 8 мм)", "reportingText": "Переходная зона ≤ 8 мм, контур ровный." },
+      { "class": "JZ-1", "minMm": 8, "maxMm": 11, "severity": "mild", "description": "Незначительное утолщение JZ (8–11 мм)", "reportingText": "Утолщение JZ до 11 мм (JZ-1)." },
+      { "class": "JZ-2", "minMm": 12, "maxMm": 15, "severity": "moderate", "description": "Умеренное утолщение JZ (12–15 мм)", "reportingText": "Утолщение JZ 12–15 мм (JZ-2), повышенная вероятность аденомиоза." },
+      { "class": "JZ-3", "minMm": 15.1, "maxMm": null, "severity": "marked", "description": "Выраженное утолщение JZ (> 15 мм)", "reportingText": "Выраженное утолщение JZ > 15 мм (JZ-3)." }
+    ],
+    "irregularity": [
+      { "class": "JZ-I", "description": "Ровная, чёткая граница JZ" },
+      { "class": "JZ-II", "description": "Умеренная деформация/прерывистость JZ" },
+      { "class": "JZ-III", "description": "Выраженная неровность, зазубренность, плохая дифференцировка" }
+    ],
+    "scoreThresholdMm": 12,
+    "scorePoints": 2,
+    "sonogynTip": "JZ оценивается в срединной сагиттальной плоскости."
+  },
+  "indirectFeatures": [
+    {
+      "id": "heterogeneous-myometrium",
+      "category": "indirect",
+      "title": "Неоднородный миометрий",
+      "titleEn": "Heterogeneous Myometrium",
+      "musa_term": "Heterogeneous Myometrium",
+      "definition": "Нарушение однородной эхоструктуры миометрия.",
+      "pathology": "Диффузная или очаговая инфильтрация эндометрием.",
+      "ultrasound_appearance": "Пятнистая структура, смешанная эхогенность, отсутствие чёткого рисунка.",
+      "key_features": ["M1 <25%", "M2 25–50%", "M3 >50% вовлечения стенки"],
+      "differential_diagnosis": ["миома", "аденомиома", "постоперационный рубец"],
+      "diagnostic_value": "Косвенный признак (★★★).",
+      "pitfalls": ["недостаточная оптимизация gain"],
+      "score_points": 1,
+      "clinical_relevance": "Часто сочетается с асимметрией и изменениями JZ.",
+      "reporting_phrase": "Неоднородная эхоструктура миометрия (MUSA, косвенный признак)."
+    },
+    {
+      "id": "fan-shaped-shadowing",
+      "category": "indirect",
+      "title": "Веерообразное затенение",
+      "titleEn": "Fan-shaped Shadowing",
+      "musa_term": "Fan-shaped Shadowing",
+      "definition": "Акустическая тень без чёткой капсулированной массы.",
+      "pathology": "Диффузный фибrosis/гиперэхогенные включения в миометрии.",
+      "ultrasound_appearance": "Тень расходится веером; нет чётких контуров опухоли.",
+      "key_features": ["веерная тень", "без капсулы", "отличие от миомы"],
+      "differential_diagnosis": ["миома с кальцинатами", "костная тень"],
+      "diagnostic_value": "Косвенный признак (★★★).",
+      "pitfalls": ["миома с периферической тенью"],
+      "score_points": 1,
+      "clinical_relevance": "Помогает отличить аденомиоз от капсулированной миомы.",
+      "reporting_phrase": "Веерообразное акустическое затенение за миометрием (MUSA)."
+    },
+    {
+      "id": "asymmetric-thickening",
+      "category": "indirect",
+      "title": "Асимметрия миометрия",
+      "titleEn": "Asymmetrical Myometrial Thickening",
+      "musa_term": "Asymmetrical Myometrial Thickening",
+      "definition": "Разница толщины передней и задней стенки миометрия.",
+      "pathology": "Преимущественное поражение одной стенки.",
+      "ultrasound_appearance": "Разница > 5 мм или отношение > 1.5; часто утолщение задней стенки.",
+      "key_features": [">5 мм разница", "ratio >1.5", "задняя стенка чаще"],
+      "differential_diagnosis": ["фокальная миома", "односторонний рубец"],
+      "diagnostic_value": "Косвенный признак (★★★).",
+      "pitfalls": ["наклон матки", "некорректная плоскость среза"],
+      "score_points": 1,
+      "clinical_relevance": "Типично для диффузного и очагового аденомиоза.",
+      "reporting_phrase": "Асимметричное утолщение миометрия (MUSA)."
+    },
+    {
+      "id": "globular-uterus",
+      "category": "indirect",
+      "title": "Глобулярная матка",
+      "titleEn": "Globular Uterus",
+      "musa_term": "Globular Uterus",
+      "definition": "Округление контуров и увеличение матки при сохранённой симметрии.",
+      "pathology": "Диффузный аденомиоз с гипертрофией миометрия.",
+      "ultrasound_appearance": "Увеличение AP-размера, округлые контуры.",
+      "key_features": ["увеличение матки", "округление", "AP > нормы для фазы цикла"],
+      "differential_diagnosis": ["миоматоз", "беременность"],
+      "diagnostic_value": "Косвенный признак (★★).",
+      "pitfalls": ["фаза цикла", "nulliparity"],
+      "score_points": 1,
+      "clinical_relevance": "Характерно для диффузного аденомиоза.",
+      "reporting_phrase": "Глобулярная конфигурация матки (MUSA)."
+    },
+    {
+      "id": "irregular-contour",
+      "category": "indirect",
+      "title": "Неровный контур матки",
+      "titleEn": "Irregular Uterine Contour",
+      "musa_term": "Irregular Uterine Contour",
+      "definition": "Локальная или диффузная деформация наружного контура.",
+      "pathology": "Очаговый аденомиоз / аденомиома.",
+      "ultrasound_appearance": "U0–U3: от нормы до грубой деформации.",
+      "key_features": ["U0 норма", "U1 локальное выбухание", "U2 множественные", "U3 грубая деформация"],
+      "differential_diagnosis": ["миома", "сращения"],
+      "diagnostic_value": "Косвенный топографический признак.",
+      "pitfalls": ["субserозная миома"],
+      "score_points": 0,
+      "clinical_relevance": "Очаговый аденомиоз часто деформирует контур.",
+      "reporting_phrase": "Деформация контура матки (категория U_ по MUSA)."
+    }
+  ],
+  "localization": {
+    "title": "Локализация поражения",
+    "regions": [
+      { "code": "AW", "labelRu": "Передняя стенка", "labelEn": "Anterior Wall" },
+      { "code": "PW", "labelRu": "Задняя стенка", "labelEn": "Posterior Wall" },
+      { "code": "FU", "labelRu": "Дно матки", "labelEn": "Fundus" },
+      { "code": "RL", "labelRu": "Правая латеральная стенка", "labelEn": "Right Lateral Wall" },
+      { "code": "LL", "labelRu": "Левая латеральная стенка", "labelEn": "Left Lateral Wall" },
+      { "code": "CX", "labelRu": "Цервикальный отдел", "labelEn": "Cervical Region" }
+    ]
+  },
+  "depthOfInvasion": [
+    { "code": "A0", "labelRu": "Нет поражения", "maxPercent": 0, "reportingText": "Признаков инвазии миометрия не выявлено (A0)." },
+    { "code": "A1", "labelRu": "< 25% толщины стенки", "maxPercent": 24, "reportingText": "Поражение < 25% толщины миометрия (A1)." },
+    { "code": "A2", "labelRu": "25–50%", "maxPercent": 50, "reportingText": "Поражение 25–50% толщины миометрия (A2)." },
+    { "code": "A3", "labelRu": "> 50%", "maxPercent": 99, "reportingText": "Поражение > 50% толщины миометрия (A3)." },
+    { "code": "A4", "labelRu": "Трансмуральное", "maxPercent": 100, "reportingText": "Трансмуральное поражение миометрия (A4)." }
+  ],
+  "adenomyosisTypes": [
+    {
+      "code": "D",
+      "title": "Диффузный аденомиоз",
+      "titleEn": "Diffuse Adenomyosis",
+      "definition": "Распространённое поражение миометрия без чётких границ.",
+      "ultrasound_appearance": "Неоднородность, JZ изменения, глобулярность, часто задняя стенка.",
+      "reportingTemplate": "УЗ-признаки диффузного аденомиоза (D-type MUSA).",
+      "clinicalImplications": "Дисменорея, хроническая тазовая боль; планирование терапии/МРТ."
+    },
+    {
+      "code": "F",
+      "title": "Очаговый аденомиоз",
+      "titleEn": "Focal Adenomyosis",
+      "definition": "Ограниченная зона изменённого миометрия.",
+      "ultrasound_appearance": "Очаг без капсулы, асимметрия стенки, локальная деформация контура.",
+      "reportingTemplate": "Очаговые изменения миометрия, согласующиеся с focal adenomyosis (F-type).",
+      "clinicalImplications": "Дифференциально с миомой; при планировании операции — МРТ."
+    },
+    {
+      "code": "AM",
+      "title": "Аденомиома",
+      "titleEn": "Adenomyoma",
+      "definition": "Округлый или овальный очаг аденомиоза, часто с псевдокапсулой.",
+      "ultrasound_appearance": "Очаг в миометрии, микрокисты, неоднородность; отличие от миомы — отсутствие чёткой капсулы.",
+      "reportingTemplate": "Образование миометрия с признаками adenomyoma (AM-type).",
+      "clinicalImplications": "Часто симулирует миому; важна корреляция с допpler/МРТ."
+    },
+    {
+      "code": "C",
+      "title": "Кистозный аденомиоз",
+      "titleEn": "Cystic Adenomyosis",
+      "definition": "Множественные микро-/макрокисты в зоне аденомиоза.",
+      "ultrasound_appearance": "Кластер анэхогенных включений, часто с гиперэхогенным ободком.",
+      "reportingTemplate": "Кистозный вариант аденомиоза (C-type) с миометриальными кистами.",
+      "clinicalImplications": "Высокая специфичность; может сопровождать выраженную боль."
+    }
+  ],
+  "scoring": {
+    "maxScore": 13,
+    "items": [
+      { "id": "myometrialCysts", "labelRu": "Миометриальные кисты", "points": 3 },
+      { "id": "hyperechogenicIslands", "labelRu": "Гиперэхогенные островки", "points": 2 },
+      { "id": "subendometrialStriations", "labelRu": "Субэндометриальные страты", "points": 2 },
+      { "id": "jzOver12mm", "labelRu": "JZ > 12 мм", "points": 2 },
+      { "id": "heterogeneousMyometrium", "labelRu": "Неоднородный миометрий", "points": 1 },
+      { "id": "asymmetry", "labelRu": "Асимметрия", "points": 1 },
+      { "id": "globularUterus", "labelRu": "Глобулярная матка", "points": 1 },
+      { "id": "fanShapedShadowing", "labelRu": "Fan-shaped shadowing", "points": 1 }
+    ],
+    "interpretation": [
+      { "min": 0, "max": 2, "category": "low", "labelRu": "Низкая вероятность", "badgeColor": "green" },
+      { "min": 3, "max": 5, "category": "possible", "labelRu": "Возможен аденомиоз", "badgeColor": "yellow" },
+      { "min": 6, "max": 8, "category": "probable", "labelRu": "Вероятен аденомиоз", "badgeColor": "orange" },
+      { "min": 9, "max": 13, "category": "highly_probable", "labelRu": "Высокая вероятность", "badgeColor": "red" }
+    ]
+  },
+  "algorithm": {
+    "title": "Алгоритм MUSA → Sonogyn-Pro",
+    "steps": [
+      "Оценить миометрий",
+      "Оценить JZ",
+      "Выявить прямые признаки",
+      "Определить локализацию",
+      "Определить тип поражения",
+      "Рассчитать Sonogyn Score",
+      "Сформировать структурированное заключение"
+    ]
+  },
+  "slides": [
+    { "id": "slide-1", "number": 1, "title": "MUSA: Что такое аденомиоз?", "blocks": [{ "heading": "Определение", "items": ["Аденомиоз — наличие эндометриальных желез и стромы внутри миометрия."] }, { "heading": "MUSA-концепция", "items": ["Диагноз основывается на комбинации ультразвуковых признаков."] }, { "heading": "Важно", "items": ["Ни один признак не является абсолютно патогномоничным."], "tone": "warning" }, { "heading": "Sonogyn Tip", "items": ["Чем больше прямых признаков выявлено, тем выше вероятность аденомиоза."], "tone": "tip" }] },
+    { "id": "slide-2", "number": 2, "title": "Шаг 1. Оценка миометрия", "blocks": [{ "heading": "Норма", "items": ["Однородная эхоструктура", "Симметричные стенки", "Отсутствие кист"] }, { "heading": "Подозрение на аденомиоз", "items": ["Неоднородность", "Очаги сниженной эхогенности", "Деформация структуры миометрия"] }, { "heading": "Интерпретация", "items": ["Первый этап оценки по MUSA."] }] },
+    { "id": "slide-3", "number": 3, "title": "Миометриальные кисты", "blocks": [{ "heading": "MUSA Feature", "items": ["Myometrial Cysts"] }, { "heading": "Как выглядят", "items": ["Округлые анэхогенные 1–7 мм", "Одиночные или множественные"] }, { "heading": "Диагностическая ценность", "items": ["★★★★★ — высокоспецифичный признак"] }, { "heading": "Sonogyn Score", "items": ["+3 балла"] }] },
+    { "id": "slide-4", "number": 4, "title": "Гиперэхогенные тяжи", "blocks": [{ "heading": "MUSA Feature", "items": ["Hyperechogenic Islands / Striations"] }, { "heading": "УЗ-картина", "items": ["Белые линейные структуры в миометрии", "Часто направлены от эндометрия наружу"] }, { "heading": "Sonogyn Score", "items": ["+2 балла"] }] },
+    { "id": "slide-5", "number": 5, "title": "Субэндометриальные линейные страты", "blocks": [{ "heading": "MUSA Feature", "items": ["Subendometrial Linear Striations"] }, { "heading": "Признаки", "items": ["Перпендикулярны эндометрию", "Проникают в миометрий", "Выглядят как «лучи»"] }, { "heading": "Sonogyn Score", "items": ["+2 балла"] }] },
+    { "id": "slide-6", "number": 6, "title": "Junctional Zone (JZ)", "blocks": [{ "heading": "Что это?", "items": ["Переходная зона между эндометрием и внутренним миометрием"] }, { "heading": "Норма", "items": ["Толщина ≤ 8 мм", "Контур ровный", "Граница чёткая"] }, { "heading": "Sonogyn Tip", "items": ["JZ оценивается в срединной сагиттальной плоскости."], "tone": "tip" }] },
+    { "id": "slide-7", "number": 7, "title": "Утолщение JZ", "blocks": [{ "heading": "Классификация", "items": ["JZ-0: < 8 мм", "JZ-1: 8–11 мм", "JZ-2: 12–15 мм", "JZ-3: > 15 мм"] }, { "heading": "Интерпретация", "items": ["JZ > 12 мм значительно повышает вероятность аденомиоза"] }, { "heading": "Sonogyn Score", "items": ["+2 балла при JZ > 12 мм"] }] },
+    { "id": "slide-8", "number": 8, "title": "Неровность JZ", "blocks": [{ "heading": "Норма", "items": ["Ровная граница JZ"] }, { "heading": "Патология", "items": ["Прерывистая", "Зазубренная", "Плохо различимая"] }, { "heading": "Категории", "items": ["JZ-I — нормальная", "JZ-II — умеренная деформация", "JZ-III — выраженная деформация"] }] },
+    { "id": "slide-9", "number": 9, "title": "Неоднородный миометрий", "blocks": [{ "heading": "MUSA Feature", "items": ["Heterogeneous Myometrium"] }, { "heading": "Степени", "items": ["M1 — < 25%", "M2 — 25–50%", "M3 — > 50%"] }, { "heading": "Sonogyn Score", "items": ["+1 балл"] }] },
+    { "id": "slide-10", "number": 10, "title": "Веерообразное затенение", "blocks": [{ "heading": "MUSA Feature", "items": ["Fan-shaped Shadowing"] }, { "heading": "Аденомиоз vs миома", "items": ["Аденомиоз: нет капсулы, веерная тень", "Миома: чёткие контуры, периферическая тень"] }, { "heading": "Sonogyn Score", "items": ["+1 балл"] }] },
+    { "id": "slide-11", "number": 11, "title": "Асимметрия миометрия", "blocks": [{ "heading": "Критерий", "items": ["Разница > 5 мм", "Или отношение > 1.5"] }, { "heading": "Типично", "items": ["Утолщение задней стенки"] }, { "heading": "Sonogyn Score", "items": ["+1 балл"] }] },
+    { "id": "slide-12", "number": 12, "title": "Глобулярная матка", "blocks": [{ "heading": "MUSA Feature", "items": ["Globular Uterus"] }, { "heading": "УЗ-признаки", "items": ["Увеличение матки", "Округление контуров", "Увеличение AP-размера"] }, { "heading": "Sonogyn Score", "items": ["+1 балл"] }] },
+    { "id": "slide-13", "number": 13, "title": "Контур матки", "blocks": [{ "heading": "Категории", "items": ["U0 — нормальный", "U1 — локальное выбухание", "U2 — множественные выбухания", "U3 — грубая деформация"] }, { "heading": "Интерпретация", "items": ["Очаговый аденомиоз часто вызывает локальную деформацию контура"] }] },
+    { "id": "slide-14", "number": 14, "title": "Локализация поражения", "blocks": [{ "heading": "Sonogyn Map", "items": ["AW — передняя стенка", "PW — задняя стенка", "FU — дно", "RL/LL — латеральные", "CX — цервикальный отдел"] }, { "heading": "Применение", "items": ["Цветовое картирование зон поражения в протоколе"] }] },
+    { "id": "slide-15", "number": 15, "title": "Глубина инвазии", "blocks": [{ "heading": "A0–A4", "items": ["A0 — нет", "A1 — < 25%", "A2 — 25–50%", "A3 — > 50%", "A4 — трансмуральное"] }] },
+    { "id": "slide-16", "number": 16, "title": "Морфологический тип", "blocks": [{ "heading": "Типы", "items": ["D — диффузный", "F — очаговый", "AM — аденомиома", "C — кистозный"] }] },
+    { "id": "slide-17", "number": 17, "title": "Sonogyn Adenomyosis Score", "blocks": [{ "heading": "Шкала", "items": ["Кисты 3", "Гиперэхогенные тяжи 2", "Линейные страты 2", "JZ >12 мм 2", "Неоднородность 1", "Асимметрия 1", "Глобулярность 1", "Fan-shadowing 1", "Максимум 13"] }] },
+    { "id": "slide-18", "number": 18, "title": "Интерпретация Sonogyn Score", "blocks": [{ "heading": "0–2", "items": ["Низкая вероятность 🟢"] }, { "heading": "3–5", "items": ["Возможен аденомиоз 🟡"] }, { "heading": "6–8", "items": ["Вероятен аденомиоз 🟠"] }, { "heading": "≥9", "items": ["Высокая вероятность 🔴"] }] },
+    { "id": "slide-19", "number": 19, "title": "Стандартизированное заключение", "blocks": [{ "heading": "Пример", "items": ["Тип: диффузный", "Локализация: задняя стенка", "Глубина: A3", "JZ: 14 мм", "Score: 10/13", "Итог: УЗ-признаки высоко соответствуют аденомиозу"] }] },
+    { "id": "slide-20", "number": 20, "title": "Алгоритм MUSA → Sonogyn-Pro", "blocks": [{ "heading": "Шаги", "items": ["1. Миометрий → 2. JZ → 3. Прямые признаки → 4. Локализация → 5. Тип → 6. Score → 7. Заключение"] }, { "heading": "Результат", "items": ["Единый международный формат описания аденомиоза для клиники и AI-аналитики Sonogyn-Pro"] }] }
+  ]
+}

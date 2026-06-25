@@ -35,6 +35,7 @@ const roots = [
   "/assistant",
   "/voice-reader",
   "/idea-deep-endometriosis",
+  "/musa",
   "/demo",
 ];
 
@@ -309,6 +310,8 @@ export const config = {
     "/voice-reader/:path*",
     "/idea-deep-endometriosis",
     "/idea-deep-endometriosis/:path*",
+    "/musa",
+    "/musa/:path*",
     "/demo",
     "/demo/:path*",
   ],

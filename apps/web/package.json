@@ -64,6 +64,7 @@
     "@repo/clinical-reference": "workspace:*",
     "@repo/medical-calculations": "workspace:*",
     "@repo/medvedev-reference": "workspace:*",
+    "@repo/musa-framework": "workspace:*",
     "@repo/adnex-education": "workspace:*",
     "@repo/cervix-pathology-reference": "workspace:*",
     "@repo/clinical-3d": "workspace:*",
