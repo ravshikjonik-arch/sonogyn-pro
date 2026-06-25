@@ -8,9 +8,9 @@
 
 ### Равшан (ручно, ~15 мин)
 
-- [ ] **Vercel prod env** — `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`, `SONOGYN_AUTH_INTERNAL_SECRET` (≥32), убрать `DEV_SKIP_AUTH`.
-- [ ] **Supabase prod** — применить `20260608120000_security_hardening.sql` (`cd apps/web && npm run db:migrate:security`).
-- [ ] **Auth SMS** — прогнать вход/регистрацию по SMS (sms.ru, задержка до 10 мин; OTP TTL = 10 мин).
+- [x] **Vercel prod env** — SMSRU_API_ID, AUTH_EMAIL_ONLY=false, Upstash/KV, redeploy (проверено: smsReady=true).
+- [x] **Supabase prod** — `cases_orads_tags` + `security_hardening` применены (MCP, 2026-06-26).
+- [ ] **Auth SMS** — прогнать вход/регистрацию по SMS на реальном номере (sms.ru, до 10 мин).
 - [ ] **EAS build** — `cd apps/mobile && npm run eas:android:preview` (или `eas:all:preview`); на устройстве проверить push-токен в `user_push_tokens`.
 - [ ] **Discussions e2e** — web + mobile: вопрос → ответ → push → deep link.
 

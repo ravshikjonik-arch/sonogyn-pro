@@ -100,9 +100,19 @@ const authStatus = await request("GET", "/api/auth/status");
 if (authStatus.status === 200) {
   ok("/api/auth/status → 200");
   const f = authStatus.json?.features ?? {};
-  if (f.sms) ok("SMS auth включён на prod");
-  else warn("SMS auth", "features.sms=false — проверь SMSRU_* на Vercel");
-  if (f.emailAutoConfirm) warn("emailAutoConfirm", "true на prod — ок для пилота, выключить перед массовым релизом");
+  const issues = authStatus.json?.issues ?? [];
+  const smsIssueLines = issues.filter((x) => /SMS|sms|EMAIL_ONLY/i.test(String(x)));
+
+  if (f.smsReady) ok("SMS auth готов на prod (smsReady=true)");
+  else if (f.customSmsAuth && f.smsProvider)
+    warn("SMS auth", `провайдер ${f.smsProvider}, но smsReady=false — нужен SUPABASE_SERVICE_ROLE_KEY`);
+  else if (f.authEmailOnly) warn("SMS auth", "AUTH_EMAIL_ONLY=true — SMS отключён");
+  else if (smsIssueLines.length)
+    warn("SMS auth", smsIssueLines.join("; "));
+  else warn("SMS auth", "smsReady=false — проверь SMSRU_API_ID + redeploy Production");
+
+  if (f.emailAutoConfirm)
+    warn("emailAutoConfirm", "true на prod — ок для пилота, выключить перед массовым релизом");
 } else {
   fail("/api/auth/status", `HTTP ${authStatus.status}`);
 }
