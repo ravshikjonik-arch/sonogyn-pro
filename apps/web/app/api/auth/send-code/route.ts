@@ -17,21 +17,15 @@ import { logVerificationEvent } from "@/lib/auth/verification/safe-verification-
 import { logVerificationEvent as obsLogVerification } from "@/lib/observability";
 import { isCaptchaRequired, recordAuthFailure } from "@/lib/auth/auth-attempts";
 import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
+import {
+  parseJsonBody,
+  SendCodeBodySchema,
+  zodErrorResponse,
+} from "@/lib/security/api-body-schemas";
 
 export const runtime = "nodejs";
 /** Vercel Hobby: 10s; Pro: до 60s. Внешние вызовы обёрнуты in withTimeout. */
 export const maxDuration = 30;
-
-type SendCodeBody = {
-  method?: VerificationMethod;
-  contact?: string;
-  fallbackEmail?: string;
-  purpose?: VerificationPurpose;
-  turnstileToken?: string;
-};
-
-const PURPOSES: VerificationPurpose[] = ["register", "login", "mfa", "password_reset"];
-const METHODS: VerificationMethod[] = ["email", "sms", "telegram"];
 
 function normalizeContact(method: VerificationMethod, raw: string): string | null {
   if (method === "email") return parseEmailContact(raw);
@@ -42,13 +36,13 @@ function normalizeContact(method: VerificationMethod, raw: string): string | nul
 export async function POST(req: Request) {
   const failKey = rateLimitKeyFromRequest(req, "auth-send-code-fail");
 
-  let body: SendCodeBody;
-  try {
-    body = (await req.json()) as SendCodeBody;
-  } catch {
-    return NextResponse.json({ error: "Некорректное тело запроса." }, { status: 400 });
-  }
+  const raw = await parseJsonBody(req);
+  if (!raw.ok) return raw.response;
 
+  const parsed = SendCodeBodySchema.safeParse(raw.data);
+  if (!parsed.success) return zodErrorResponse(parsed.error);
+
+  const body = parsed.data;
   const method = body.method;
   if (isAuthEmailOnly() && method && method !== "email") {
     return disabledAuthMethodResponse(method === "sms" ? "sms" : "telegram");
@@ -56,15 +50,7 @@ export async function POST(req: Request) {
 
   const purpose = body.purpose ?? "login";
 
-  if (!method || !METHODS.includes(method)) {
-    return NextResponse.json({ error: "Укажите method: email | sms | telegram." }, { status: 400 });
-  }
-  if (!PURPOSES.includes(purpose)) {
-    return NextResponse.json({ error: "Некорректный purpose." }, { status: 400 });
-  }
-
-  const contactRaw = typeof body.contact === "string" ? body.contact : "";
-  const contact = normalizeContact(method, contactRaw);
+  const contact = normalizeContact(method, body.contact);
   if (!contact) {
     return NextResponse.json({ error: "Некорректный contact для выбранного method." }, { status: 400 });
   }

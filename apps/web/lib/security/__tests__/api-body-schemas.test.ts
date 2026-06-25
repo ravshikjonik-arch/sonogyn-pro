@@ -3,11 +3,16 @@ import { describe, it } from "node:test";
 
 import {
   CopilotImageRegisterBodySchema,
+  InternalNotifyBodySchema,
   MobileExchangeBodySchema,
+  MfaVerifyLoginBodySchema,
   PaymentCreateBodySchema,
+  ResendConfirmationBodySchema,
+  SendCodeBodySchema,
   SignInBodySchema,
   SignUpBodySchema,
   TelegramVerifyOtpBodySchema,
+  VerifyCodeBodySchema,
   YooKassaWebhookBodySchema,
 } from "../api-body-schemas";
 import { validateRegisteredStorageSignature } from "../file-validation";
@@ -113,5 +118,53 @@ describe("YooKassaWebhookBodySchema", () => {
       object: { id: "" },
     });
     assert.equal(r.success, false);
+  });
+});
+
+describe("SendCodeBodySchema", () => {
+  it("accepts sms send", () => {
+    const r = SendCodeBodySchema.safeParse({
+      method: "sms",
+      contact: "+79001234567",
+      purpose: "login",
+    });
+    assert.equal(r.success, true);
+  });
+
+  it("rejects invalid method", () => {
+    const r = SendCodeBodySchema.safeParse({ method: "fax", contact: "x" });
+    assert.equal(r.success, false);
+  });
+});
+
+describe("VerifyCodeBodySchema", () => {
+  it("requires code length", () => {
+    const r = VerifyCodeBodySchema.safeParse({
+      method: "email",
+      contact: "a@b.ru",
+      code: "12",
+    });
+    assert.equal(r.success, false);
+  });
+});
+
+describe("ResendConfirmationBodySchema", () => {
+  it("requires valid email", () => {
+    const r = ResendConfirmationBodySchema.safeParse({ email: "bad" });
+    assert.equal(r.success, false);
+  });
+});
+
+describe("MfaVerifyLoginBodySchema", () => {
+  it("accepts factor and code", () => {
+    const r = MfaVerifyLoginBodySchema.safeParse({ factorId: "f1", code: "123456" });
+    assert.equal(r.success, true);
+  });
+});
+
+describe("InternalNotifyBodySchema", () => {
+  it("requires event and message", () => {
+    const r = InternalNotifyBodySchema.safeParse({ event: "deploy", message: "ok" });
+    assert.equal(r.success, true);
   });
 });

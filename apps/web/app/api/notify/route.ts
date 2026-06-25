@@ -1,15 +1,14 @@
 import { NextResponse } from "next/server";
 
 import { isInternalNotifyAuthorized } from "@/lib/security/internal-notify-auth";
+import {
+  InternalNotifyBodySchema,
+  parseJsonBody,
+  zodErrorResponse,
+} from "@/lib/security/api-body-schemas";
 import { TelegramService } from "@/services/telegram";
 
 export const runtime = "nodejs";
-
-type NotifyBody = {
-  event?: string;
-  message?: string;
-  metadata?: Record<string, unknown>;
-};
 
 /**
  * Единый фасад для внутренних admin-уведомлений в Telegram.
@@ -21,23 +20,13 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  let body: NotifyBody;
-  try {
-    body = (await req.json()) as NotifyBody;
-  } catch {
-    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
-  }
+  const raw = await parseJsonBody(req);
+  if (!raw.ok) return raw.response;
 
-  const event = body.event?.trim();
-  const message = body.message?.trim();
-  if (!event || !message) {
-    return NextResponse.json({ error: "Required: event, message" }, { status: 400 });
-  }
+  const parsed = InternalNotifyBodySchema.safeParse(raw.data);
+  if (!parsed.success) return zodErrorResponse(parsed.error);
 
-  const metadata =
-    body.metadata && typeof body.metadata === "object" && !Array.isArray(body.metadata)
-      ? body.metadata
-      : {};
+  const { event, message, metadata = {} } = parsed.data;
 
   const { sent, total } = await TelegramService.notifyAdmins(event, {
     message,

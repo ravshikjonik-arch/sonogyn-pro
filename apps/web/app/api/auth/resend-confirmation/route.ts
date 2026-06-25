@@ -24,24 +24,24 @@ import { RL } from "@/lib/security/rate-limit-config";
 import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
 import { safeLog } from "@/lib/security/safeLog";
 import {
+  parseJsonBody,
+  ResendConfirmationBodySchema,
+  zodErrorResponse,
+} from "@/lib/security/api-body-schemas";
+import {
   createSupabaseRouteHandlerClient,
-  nextJsonWithAuthCookies,
 } from "@/lib/route-handler-supabase";
-
-type ResendBody = {
-  email?: string;
-  turnstileToken?: string;
-};
 
 export async function POST(req: Request) {
   const failKey = rateLimitKeyFromRequest(req, "auth-fail-resend");
 
-  let body: ResendBody;
-  try {
-    body = (await req.json()) as ResendBody;
-  } catch {
-    return NextResponse.json({ error: "Некорректное тело запроса." }, { status: 400 });
-  }
+  const raw = await parseJsonBody(req);
+  if (!raw.ok) return raw.response;
+
+  const parsed = ResendConfirmationBodySchema.safeParse(raw.data);
+  if (!parsed.success) return zodErrorResponse(parsed.error);
+
+  const body = parsed.data;
 
   const rl = await consumeAuthRateLimit(
     rateLimitKeyFromRequest(req, "auth-resend-confirmation"),
@@ -71,10 +71,7 @@ export async function POST(req: Request) {
   }
 
   const { supabase } = client;
-  const email = typeof body.email === "string" ? body.email.trim() : "";
-  if (!email) {
-    return NextResponse.json({ error: "Укажите email." }, { status: 400 });
-  }
+  const email = body.email;
 
   const emailRedirectTo = resolveEmailConfirmRedirect(req, "/app");
 

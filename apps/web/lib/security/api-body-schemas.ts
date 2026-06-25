@@ -157,6 +157,51 @@ export const YooKassaWebhookBodySchema = z.object({
 
 export type YooKassaWebhookBody = z.infer<typeof YooKassaWebhookBodySchema>;
 
+const VerificationMethodSchema = z.enum(["email", "sms", "telegram"]);
+const VerificationPurposeSchema = z.enum(["register", "login", "mfa", "password_reset"]);
+
+/** POST /api/auth/send-code */
+export const SendCodeBodySchema = z.object({
+  method: VerificationMethodSchema,
+  contact: z.string().trim().min(3).max(320),
+  fallbackEmail: z.union([z.string().trim().email().max(320), z.literal("")]).optional(),
+  purpose: VerificationPurposeSchema.optional(),
+  turnstileToken: z.string().max(4096).optional(),
+});
+
+/** POST /api/auth/verify-code */
+export const VerifyCodeBodySchema = z.object({
+  method: VerificationMethodSchema,
+  contact: z.string().trim().min(3).max(320),
+  code: z.string().trim().min(4).max(12),
+  purpose: VerificationPurposeSchema.optional(),
+});
+
+/** POST /api/auth/resend-confirmation */
+export const ResendConfirmationBodySchema = z.object({
+  email: z.string().trim().email({ message: "Некорректный email." }).max(320),
+  turnstileToken: z.string().max(4096).optional(),
+});
+
+/** POST /api/auth/mfa/verify-login */
+export const MfaVerifyLoginBodySchema = z.object({
+  factorId: z.string().trim().min(1).max(128),
+  code: z.string().trim().min(4).max(12),
+  session: z
+    .object({
+      access_token: z.string().min(1).max(4096),
+      refresh_token: z.string().min(1).max(4096),
+    })
+    .optional(),
+});
+
+/** POST /api/notify — internal admin Telegram facade */
+export const InternalNotifyBodySchema = z.object({
+  event: z.string().trim().min(1).max(64),
+  message: z.string().trim().min(1).max(4096),
+  metadata: z.record(z.unknown()).optional(),
+});
+
 export async function parseJsonBody(request: Request): Promise<
   | { ok: true; data: unknown }
   | { ok: false; response: Response }

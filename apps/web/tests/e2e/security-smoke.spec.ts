@@ -73,6 +73,18 @@ test.describe("Security smoke — API boundaries", () => {
     expect([200, 401]).toContain(res.status());
   });
 
+  test("POST /api/auth/send-code — пустое тело → 400", async ({ request }) => {
+    const res = await request.post("/api/auth/send-code", { data: {} });
+    expect(res.status()).toBe(400);
+  });
+
+  test("POST /api/auth/verify-code — без code → 400", async ({ request }) => {
+    const res = await request.post("/api/auth/verify-code", {
+      data: { method: "email", contact: "a@b.ru" },
+    });
+    expect(res.status()).toBe(400);
+  });
+
   test("POST /api/auth/mobile/exchange — пустое тело → 400", async ({ request }) => {
     const res = await request.post("/api/auth/mobile/exchange", { data: {} });
     expect(res.status()).toBe(400);

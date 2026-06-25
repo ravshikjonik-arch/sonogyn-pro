@@ -1,35 +1,30 @@
 import { NextResponse } from "next/server";
 
-import { OTP_INVALID_MSG, toSafeAuthErrorMessage } from "@/lib/auth/safe-auth-messages";
+import { toSafeAuthErrorMessage } from "@/lib/auth/safe-auth-messages";
 import { consumeAuthRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
+import {
+  MfaVerifyLoginBodySchema,
+  parseJsonBody,
+  zodErrorResponse,
+} from "@/lib/security/api-body-schemas";
 import {
   createSupabaseRouteHandlerClient,
   nextJsonWithAuthCookies,
 } from "@/lib/route-handler-supabase";
 
-type Body = {
-  factorId?: string;
-  code?: string;
-  session?: { access_token?: string; refresh_token?: string };
-};
-
 /** Завершение входа при включённом TOTP (после sign-in с needsMfa). */
 export async function POST(req: Request) {
-  let body: Body;
-  try {
-    body = (await req.json()) as Body;
-  } catch {
-    return NextResponse.json({ error: "Некорректное тело запроса." }, { status: 400 });
-  }
+  const raw = await parseJsonBody(req);
+  if (!raw.ok) return raw.response;
 
-  const factorId = typeof body.factorId === "string" ? body.factorId.trim() : "";
-  const code = typeof body.code === "string" ? body.code.trim() : "";
+  const parsed = MfaVerifyLoginBodySchema.safeParse(raw.data);
+  if (!parsed.success) return zodErrorResponse(parsed.error);
 
-  if (!factorId || !code) {
-    return NextResponse.json({ error: OTP_INVALID_MSG }, { status: 400 });
-  }
+  const body = parsed.data;
+  const factorId = body.factorId;
+  const code = body.code;
 
   const rl = await consumeAuthRateLimit(
     rateLimitKeyFromRequest(req, "auth-mfa-verify"),
