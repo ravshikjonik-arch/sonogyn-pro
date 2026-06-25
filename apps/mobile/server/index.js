@@ -13,6 +13,10 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import multer from "multer";
 import { rateLimit } from "express-rate-limit";
+import {
+  extensionForKind,
+  validateClinicalImageBuffer,
+} from "../../../packages/upload-validation/index.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DATA_PATH = path.join(__dirname, "data", "store.json");
@@ -26,7 +30,6 @@ const JWT_SECRET =
   (isProduction
     ? null
     : "dev-only-change-in-production");
-const JWT_EXPIRES = process.env.JWT_EXPIRES || "7d";
 const JWT_EXPIRES = process.env.JWT_EXPIRES || "7d";
 const MIN_JWT_SECRET_LEN = 32;
 if (!JWT_SECRET) {
@@ -338,7 +341,11 @@ app.post("/cases", authMiddleware, upload.single("image"), (req, res) => {
 
   let imageFilename = null;
   if (req.file && req.file.buffer && req.file.buffer.length) {
-    const ext = (req.file.mimetype || "").includes("png") ? "png" : "jpg";
+    const sig = validateClinicalImageBuffer(req.file.buffer);
+    if (!sig.ok) {
+      return res.status(400).json({ error: sig.error });
+    }
+    const ext = extensionForKind(sig.kind);
     imageFilename = `${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
     fs.writeFileSync(path.join(UPLOADS_DIR, imageFilename), req.file.buffer);
   }

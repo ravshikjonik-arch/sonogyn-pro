@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
 
 import { translateAuthError } from "@/lib/auth/translate-auth-error";
+import {
+  parseJsonBody,
+  TelegramWidgetBodySchema,
+  zodErrorResponse,
+} from "@/lib/security/api-body-schemas";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
@@ -8,7 +13,6 @@ import {
   ensureTelegramUser,
   establishTelegramSession,
   verifyTelegramWidgetHash,
-  type TelegramPayload,
 } from "@/lib/auth/telegram-supabase";
 
 export async function POST(request: Request) {
@@ -29,12 +33,13 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "TELEGRAM_BOT_TOKEN не задан на сервере." }, { status: 503 });
   }
 
-  let body: TelegramPayload;
-  try {
-    body = (await request.json()) as TelegramPayload;
-  } catch {
-    return NextResponse.json({ error: "Некорректное тело запроса." }, { status: 400 });
-  }
+  const raw = await parseJsonBody(request);
+  if (!raw.ok) return raw.response;
+
+  const parsed = TelegramWidgetBodySchema.safeParse(raw.data);
+  if (!parsed.success) return zodErrorResponse(parsed.error);
+
+  const body = parsed.data;
 
   const telegramId = String(body.id ?? "").trim();
   if (!telegramId || !verifyTelegramWidgetHash(body, botToken)) {

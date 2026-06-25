@@ -15,6 +15,11 @@ import {
   ref,
   uploadBytes,
 } from "firebase/storage";
+import {
+  detectClinicalImageKind,
+  extensionForClinicalKind,
+  validateClinicalImageUri,
+} from "@repo/upload-validation";
 import type { CaseRecord, OrganType, OradsSnapshot } from "../../features/case/types";
 import { requireFirestore, requireStorage } from "./firebase";
 
@@ -55,10 +60,21 @@ function stripUndefinedDeep<T>(value: T): T {
 }
 
 async function uploadCaseImage(imageUri: string, caseId: string): Promise<string> {
+  const check = await validateClinicalImageUri(imageUri);
+  if (!check.ok) {
+    throw new Error(check.error);
+  }
+
   const response = await fetch(imageUri);
   const blob = await response.blob();
-  const fileRef = ref(st(), `cases/${caseId}/${Date.now()}.jpg`);
-  await uploadBytes(fileRef, blob, { contentType: "image/jpeg" });
+  const head = new Uint8Array(await blob.slice(0, 16).arrayBuffer());
+  const kind = detectClinicalImageKind(head) ?? "jpeg";
+  const ext = extensionForClinicalKind(kind);
+  const contentType =
+    kind === "png" ? "image/png" : kind === "webp" ? "image/webp" : kind === "gif" ? "image/gif" : "image/jpeg";
+
+  const fileRef = ref(st(), `cases/${caseId}/${Date.now()}.${ext}`);
+  await uploadBytes(fileRef, blob, { contentType });
   return getDownloadURL(fileRef);
 }
 

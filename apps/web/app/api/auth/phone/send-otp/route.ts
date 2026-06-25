@@ -28,29 +28,23 @@ import { checkRateLimit } from "@/lib/auth/verification/verification-rate-limit"
 import { isAuthEmailOnly, disabledAuthMethodResponse } from "@/lib/auth/auth-methods-config";
 import { shouldExposeDevSmsOtp } from "@/lib/auth/dev-sms";
 import { isCustomSmsAuthEnabled, resolveSmsProvider } from "@/lib/auth/sms-providers";
+import {
+  parseJsonBody,
+  PhoneSendOtpBodySchema,
+  zodErrorResponse,
+} from "@/lib/security/api-body-schemas";
 import { logError } from "@/services/logger";
-
-type Body = {
-  phone?: string;
-  createUser?: boolean;
-  turnstileToken?: string;
-  full_name?: string;
-  preferred_locale?: string;
-  specialization?: string;
-  institution?: string;
-  /** Email для fallback, если SMS не доставлен (см. /api/auth/send-code). */
-  fallbackEmail?: string;
-};
 
 export async function POST(req: Request) {
   const failKey = rateLimitKeyFromRequest(req, "auth-phone-fail");
 
-  let body: Body;
-  try {
-    body = (await req.json()) as Body;
-  } catch {
-    return NextResponse.json({ error: "Некорректное тело запроса." }, { status: 400 });
-  }
+  const raw = await parseJsonBody(req);
+  if (!raw.ok) return raw.response;
+
+  const parsed = PhoneSendOtpBodySchema.safeParse(raw.data);
+  if (!parsed.success) return zodErrorResponse(parsed.error);
+
+  const body = parsed.data;
 
   const client = await createSupabaseRouteHandlerClient();
   if (!client.ok) {

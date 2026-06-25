@@ -44,6 +44,12 @@ jobs:
       - name: CPI module tests
         run: pnpm test:cpi
 
+      - name: Security schema tests
+        run: pnpm exec npm run test:security --prefix apps/web
+
+      - name: Upload validation tests
+        run: pnpm exec npm run test --prefix packages/upload-validation
+
       - name: Build web (webpack + PWA plugin)
         run: pnpm exec turbo build --filter=@repo/web
 

@@ -40,6 +40,38 @@ function detectKind(head: Uint8Array): "png" | "jpeg" | "webp" | "gif" | "dicom"
   return null;
 }
 
+const CLINICAL_STORAGE_KINDS = new Set(["png", "jpeg", "webp", "gif", "dicom"]);
+
+/** Server-side signature check after Storage upload (copilot register). */
+export function validateRegisteredStorageSignature(
+  contentType: string | null | undefined,
+  head: Uint8Array,
+  byteSize: number,
+): FileValidationResult {
+  if (byteSize <= 0) return { ok: false, error: "Пустой файл" };
+  if (byteSize > MAX_ULTRASOUND_IMAGE_BYTES) {
+    return { ok: false, error: "Размер файла превышает лимит" };
+  }
+
+  const kind = detectKind(head);
+  if (!kind || !CLINICAL_STORAGE_KINDS.has(kind)) {
+    return { ok: false, error: "Недопустимая сигнатура файла (ожидается PNG/JPEG/WebP/GIF/DICOM)" };
+  }
+
+  const typeCheck = validateRegisteredContentType(contentType ?? null, byteSize);
+  if (!typeCheck.ok) return typeCheck;
+
+  const type = (contentType ?? "").toLowerCase();
+  if (type.startsWith("image/") && kind === "dicom") {
+    return { ok: false, error: "Сигнатура DICOM не совпадает с image/* content-type" };
+  }
+  if (type.includes("dicom") && kind !== "dicom" && !["png", "jpeg", "webp", "gif"].includes(kind)) {
+    return { ok: false, error: "Сигнатура файла не совпадает с DICOM content-type" };
+  }
+
+  return { ok: true };
+}
+
 export async function validateClinicalImageUpload(
   file: File,
   maxBytes = MAX_ULTRASOUND_IMAGE_BYTES,

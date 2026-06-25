@@ -1,0 +1,150 @@
+import { z } from "zod";
+
+import { MAX_ULTRASOUND_IMAGE_BYTES } from "@/lib/security/file-validation";
+
+/** POST /api/auth/sign-in */
+export const SignInBodySchema = z.object({
+  email: z.string().trim().email({ message: "Некорректный email." }).max(320),
+  password: z.string().min(1, "Укажите пароль.").max(128),
+  turnstileToken: z.string().max(4096).optional(),
+});
+
+export type SignInBody = z.infer<typeof SignInBodySchema>;
+
+/** POST /api/auth/sign-up */
+export const SignUpBodySchema = z.object({
+  email: z.string().trim().email({ message: "Некорректный email." }).max(320),
+  password: z.string().min(1, "Укажите пароль.").max(128),
+  full_name: z.string().trim().min(1, "Укажите имя и фамилию.").max(200),
+  specialization: z.string().trim().min(1, "Выберите специализацию.").max(120),
+  institution: z.string().trim().max(200).optional(),
+  preferred_locale: z.string().trim().max(16).optional(),
+  birth_year: z.union([z.number().int(), z.string().max(4)]).optional(),
+  birth_date: z.string().trim().max(32).optional(),
+  turnstileToken: z.string().max(4096).optional(),
+});
+
+export type SignUpBody = z.infer<typeof SignUpBodySchema>;
+
+const SAFE_UPLOAD_FILE_NAME = /^[\w.\-()+ ]{1,180}$/;
+
+/** POST /api/copilot/images/register */
+export const CopilotImageRegisterBodySchema = z.object({
+  studyId: z.string().uuid(),
+  seriesId: z.string().uuid(),
+  storagePath: z.string().min(1).max(512),
+  fileName: z
+    .string()
+    .min(1)
+    .max(200)
+    .regex(SAFE_UPLOAD_FILE_NAME, "Недопустимое имя файла"),
+  contentType: z.string().max(128).nullable().optional(),
+  byteSize: z
+    .number()
+    .int()
+    .positive()
+    .max(MAX_ULTRASOUND_IMAGE_BYTES)
+    .nullable()
+    .optional(),
+  modalityHint: z.string().max(64).nullable().optional(),
+  frameIndex: z.number().int().min(0).max(9999).nullable().optional(),
+});
+
+export type CopilotImageRegisterBody = z.infer<typeof CopilotImageRegisterBodySchema>;
+
+/** Shared registration fields (phone / Telegram OTP). */
+export const RegistrationMetadataFieldsSchema = z.object({
+  full_name: z.string().trim().max(200).optional(),
+  preferred_locale: z.string().trim().max(16).optional(),
+  specialization: z.string().trim().max(120).optional(),
+  institution: z.string().trim().max(200).optional(),
+  birth_year: z.union([z.number().int(), z.string().max(4)]).optional(),
+  birth_date: z.string().trim().max(32).optional(),
+});
+
+/** POST /api/auth/telegram/verify-otp */
+export const TelegramVerifyOtpBodySchema = RegistrationMetadataFieldsSchema.extend({
+  chatId: z.string().trim().max(32).optional(),
+  telegramId: z.string().trim().max(32).optional(),
+  token: z.string().trim().max(12).optional(),
+  code: z.string().trim().max(12).optional(),
+  createUser: z.boolean().optional(),
+}).superRefine((data, ctx) => {
+  if (!data.chatId?.trim() && !data.telegramId?.trim()) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Укажите Telegram ID.", path: ["chatId"] });
+  }
+  if (!data.token?.trim() && !data.code?.trim()) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Укажите код.", path: ["code"] });
+  }
+});
+
+export type TelegramVerifyOtpBody = z.infer<typeof TelegramVerifyOtpBodySchema>;
+
+/** POST /api/auth/telegram — Login Widget */
+export const TelegramWidgetBodySchema = z.object({
+  id: z.union([z.number().int().positive(), z.string().max(32)]),
+  first_name: z.string().max(200).optional(),
+  last_name: z.string().max(200).optional(),
+  username: z.string().max(64).optional(),
+  photo_url: z.string().max(2048).optional(),
+  auth_date: z.union([z.number().int(), z.string().max(16)]).optional(),
+  hash: z.string().min(1).max(128),
+  source: z.string().max(32).optional(),
+});
+
+/** POST /api/auth/telegram/bot — server-to-server */
+export const TelegramBotBodySchema = z.object({
+  id: z.union([z.number().int().positive(), z.string().max(32)]),
+  first_name: z.string().max(200).optional(),
+  last_name: z.string().max(200).optional(),
+  username: z.string().max(64).optional(),
+  photo_url: z.string().max(2048).optional(),
+  auth_date: z.union([z.number().int(), z.string().max(16)]).optional(),
+  hash: z.string().max(128).optional(),
+  source: z.string().max(32).optional(),
+});
+
+/** POST /api/auth/phone/send-otp */
+export const PhoneSendOtpBodySchema = RegistrationMetadataFieldsSchema.extend({
+  phone: z.string().trim().min(5, "Укажите номер телефона.").max(24),
+  createUser: z.boolean().optional(),
+  turnstileToken: z.string().max(4096).optional(),
+  fallbackEmail: z.union([z.string().trim().email().max(320), z.literal("")]).optional(),
+});
+
+/** POST /api/auth/phone/verify-otp */
+export const PhoneVerifyOtpBodySchema = RegistrationMetadataFieldsSchema.extend({
+  phone: z.string().trim().min(5, "Укажите номер телефона.").max(24),
+  token: z.string().trim().max(12).optional(),
+  code: z.string().trim().max(12).optional(),
+  createUser: z.boolean().optional(),
+}).superRefine((data, ctx) => {
+  if (!data.token?.trim() && !data.code?.trim()) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Укажите код.", path: ["code"] });
+  }
+});
+
+/** POST /api/payment/create · /api/yookassa/create */
+export const PaymentCreateBodySchema = z.object({
+  amountRub: z.number().min(1).max(1_000_000).optional(),
+  description: z.string().min(3).max(200).optional(),
+  returnUrl: z.string().url().max(2048).optional(),
+});
+
+export async function parseJsonBody(request: Request): Promise<
+  | { ok: true; data: unknown }
+  | { ok: false; response: Response }
+> {
+  try {
+    return { ok: true, data: await request.json() };
+  } catch {
+    return {
+      ok: false,
+      response: Response.json({ error: "Некорректное тело запроса." }, { status: 400 }),
+    };
+  }
+}
+
+export function zodErrorResponse(error: z.ZodError, status = 400) {
+  return Response.json({ error: error.flatten() }, { status });
+}

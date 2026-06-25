@@ -27,8 +27,9 @@ export function validateRegisteredImagePath(params: {
   seriesId: string;
   storagePath: string;
 }): boolean {
+  if (params.storagePath.includes("..") || params.storagePath.includes("\\")) return false;
   const prefix = `${params.userId}/${params.studyId}/${params.seriesId}/`;
-  return params.storagePath.startsWith(prefix);
+  return params.storagePath.startsWith(prefix) && params.storagePath.length <= 512;
 }
 
 export function inferModalityHint(file: File): ImageModalityHint {

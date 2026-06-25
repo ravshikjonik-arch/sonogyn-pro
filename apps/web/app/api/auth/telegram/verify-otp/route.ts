@@ -5,9 +5,12 @@ import {
   recordAuthFailure,
 } from "@/lib/auth/auth-attempts";
 import { isAuthEmailOnly, disabledAuthMethodResponse } from "@/lib/auth/auth-methods-config";
+import { parseRegistrationMetadata } from "@/lib/auth/registration-metadata";
 import {
-  parseRegistrationMetadata,
-} from "@/lib/auth/registration-metadata";
+  parseJsonBody,
+  TelegramVerifyOtpBodySchema,
+  zodErrorResponse,
+} from "@/lib/security/api-body-schemas";
 import { consumeAuthRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
@@ -19,31 +22,18 @@ import {
 } from "@/lib/auth/telegram-custom-auth";
 import { logError } from "@/services/logger";
 
-type Body = {
-  chatId?: string;
-  telegramId?: string;
-  token?: string;
-  code?: string;
-  full_name?: string;
-  preferred_locale?: string;
-  specialization?: string;
-  institution?: string;
-  birth_year?: number;
-  birth_date?: string;
-  createUser?: boolean;
-};
-
 export async function POST(req: Request) {
   const failKey = rateLimitKeyFromRequest(req, "auth-telegram-verify-fail");
 
   if (isAuthEmailOnly()) return disabledAuthMethodResponse("telegram");
 
-  let body: Body;
-  try {
-    body = (await req.json()) as Body;
-  } catch {
-    return NextResponse.json({ error: "Некорректное тело запроса." }, { status: 400 });
-  }
+  const raw = await parseJsonBody(req);
+  if (!raw.ok) return raw.response;
+
+  const parsed = TelegramVerifyOtpBodySchema.safeParse(raw.data);
+  if (!parsed.success) return zodErrorResponse(parsed.error);
+
+  const body = parsed.data;
 
   const rl = await consumeAuthRateLimit(
     rateLimitKeyFromRequest(req, "auth-telegram-verify"),
@@ -57,20 +47,9 @@ export async function POST(req: Request) {
     );
   }
 
-  const chatIdRaw =
-    typeof body.chatId === "string"
-      ? body.chatId
-      : typeof body.telegramId === "string"
-        ? body.telegramId
-        : "";
+  const chatIdRaw = body.chatId ?? body.telegramId ?? "";
   const chatId = parseTelegramChatId(chatIdRaw);
-  const tokenRaw =
-    typeof body.token === "string"
-      ? body.token
-      : typeof body.code === "string"
-        ? body.code
-        : "";
-  const token = tokenRaw.trim();
+  const token = (body.token ?? body.code ?? "").trim();
   const registrationMeta = parseRegistrationMetadata(body);
 
   if (!chatId || !token) {

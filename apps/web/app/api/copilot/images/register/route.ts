@@ -2,11 +2,18 @@ import { NextResponse } from "next/server";
 import { recordAuditEvent } from "@/lib/copilot/audit";
 import { validateRegisteredImagePath } from "@/lib/copilot/storage-path";
 import { rejectIfRateLimitedPreset, rejectIfSyncBurstForUser } from "@/lib/security/api-rate-limit";
+import {
+  CopilotImageRegisterBodySchema,
+  parseJsonBody,
+  zodErrorResponse,
+} from "@/lib/security/api-body-schemas";
 import { RL } from "@/lib/security/rate-limit-config";
-import { validateRegisteredContentType } from "@/lib/security/file-validation";
-import { isUuid } from "@/lib/security/uuid";
-import { ULTRASOUND_MEDIA_BUCKET } from "@/lib/copilot/types";
+import {
+  validateRegisteredContentType,
+  validateRegisteredStorageSignature,
+} from "@/lib/security/file-validation";
 import { assertStudyOwnedByUser } from "@/lib/security/assert-study-owner";
+import { ULTRASOUND_MEDIA_BUCKET } from "@/lib/copilot/types";
 import { createClient } from "@/utils/supabase/server";
 
 export async function POST(request: Request) {
@@ -25,42 +32,31 @@ export async function POST(request: Request) {
   const burst = await rejectIfSyncBurstForUser(user.id);
   if (burst) return burst;
 
-  const body = (await request.json().catch(() => null)) as Record<
-    string,
-    unknown
-  > | null;
+  const raw = await parseJsonBody(request);
+  if (!raw.ok) return raw.response;
 
-  const studyId = typeof body?.studyId === "string" ? body.studyId : "";
-  const seriesId = typeof body?.seriesId === "string" ? body.seriesId : "";
-  const storagePath = typeof body?.storagePath === "string" ? body.storagePath : "";
-  const fileName = typeof body?.fileName === "string" ? body.fileName : "";
-  const contentType =
-    typeof body?.contentType === "string" ? body.contentType : null;
-  const byteSize =
-    typeof body?.byteSize === "number" && Number.isFinite(body.byteSize)
-      ? Math.trunc(body.byteSize)
-      : null;
-  const modalityHint =
-    typeof body?.modalityHint === "string" ? body.modalityHint : null;
-  const frameIndex =
-    typeof body?.frameIndex === "number" && Number.isFinite(body.frameIndex)
-      ? Math.trunc(body.frameIndex)
-      : null;
+  const parsed = CopilotImageRegisterBodySchema.safeParse(raw.data);
+  if (!parsed.success) return zodErrorResponse(parsed.error);
 
-  if (!studyId || !seriesId || !storagePath || !fileName) {
-    return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
-  }
-
-  if (!isUuid(studyId) || !isUuid(seriesId)) {
-    return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
-  }
-
-  if (!validateRegisteredImagePath({
-    userId: user.id,
+  const {
     studyId,
     seriesId,
     storagePath,
-  })) {
+    fileName,
+    contentType = null,
+    byteSize = null,
+    modalityHint = null,
+    frameIndex = null,
+  } = parsed.data;
+
+  if (
+    !validateRegisteredImagePath({
+      userId: user.id,
+      studyId,
+      seriesId,
+      storagePath,
+    })
+  ) {
     return NextResponse.json({ error: "Invalid storage path" }, { status: 400 });
   }
 
@@ -84,6 +80,25 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Series mismatch" }, { status: 400 });
   }
 
+  const { data: blob, error: downloadError } = await supabase.storage
+    .from(ULTRASOUND_MEDIA_BUCKET)
+    .download(storagePath);
+
+  if (downloadError || !blob) {
+    return NextResponse.json({ error: "Storage object not found" }, { status: 400 });
+  }
+
+  const actualSize = blob.size;
+  if (byteSize != null && byteSize !== actualSize) {
+    return NextResponse.json({ error: "Размер файла не совпадает с заявленным" }, { status: 400 });
+  }
+
+  const buffer = new Uint8Array(await blob.arrayBuffer());
+  const signatureCheck = validateRegisteredStorageSignature(contentType, buffer, actualSize);
+  if (!signatureCheck.ok) {
+    return NextResponse.json({ error: signatureCheck.error }, { status: 400 });
+  }
+
   const { data: image, error } = await supabase
     .from("ultrasound_images")
     .insert({
@@ -92,7 +107,7 @@ export async function POST(request: Request) {
       storage_path: storagePath,
       file_name: fileName,
       content_type: contentType,
-      byte_size: byteSize,
+      byte_size: actualSize,
       frame_index: frameIndex,
       modality_hint: modalityHint,
       created_by: user.id,
@@ -113,7 +128,7 @@ export async function POST(request: Request) {
     action: "image_registered",
     entityType: "ultrasound_image",
     entityId: image.id,
-    payload: { storage_path: storagePath },
+    payload: { storage_path: storagePath, byte_size: actualSize },
   });
 
   return NextResponse.json({ image });

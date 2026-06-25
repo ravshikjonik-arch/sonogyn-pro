@@ -1,5 +1,4 @@
-import { z } from "zod";
-
+import { PaymentCreateBodySchema } from "@/lib/security/api-body-schemas";
 import { mapExternalApiError } from "@/lib/http/external-api-errors";
 import { TelegramService } from "@/services/telegram";
 import { resolveAppOrigin } from "@/lib/auth/app-origin";
@@ -15,12 +14,6 @@ import { logError } from "@/services/logger";
 import { createClient } from "@/utils/supabase/server";
 import { createServiceRoleClient } from "@/utils/supabase/admin";
 
-const createBodySchema = z.object({
-  amountRub: z.number().min(1).max(1_000_000).optional(),
-  description: z.string().min(3).max(200).optional(),
-  returnUrl: z.string().url().optional(),
-});
-
 export async function handlePaymentCreate(req: Request) {
   if (!isYooKassaConfigured()) {
     return paymentError(PAYMENT_MESSAGES.notConfigured, 503);
@@ -33,7 +26,7 @@ export async function handlePaymentCreate(req: Request) {
     return paymentError(PAYMENT_MESSAGES.invalidInput, 400);
   }
 
-  const parsed = createBodySchema.safeParse(json);
+  const parsed = PaymentCreateBodySchema.safeParse(json);
   if (!parsed.success) {
     return paymentError(PAYMENT_MESSAGES.invalidInput, 400);
   }

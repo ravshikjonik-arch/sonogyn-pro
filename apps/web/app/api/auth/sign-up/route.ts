@@ -18,6 +18,11 @@ import { resolveUserIdByEmail } from "@/lib/auth/resolve-user-by-email";
 import { SIGN_UP_GENERIC_MSG, CAPTCHA_REQUIRED_MSG, RESEND_CONFIRMATION_MSG } from "@/lib/auth/safe-auth-messages";
 import { translateAuthError } from "@/lib/auth/translate-auth-error";
 import { verifyTurnstileIfConfigured } from "@/lib/auth/verify-turnstile";
+import {
+  parseJsonBody,
+  SignUpBodySchema,
+  zodErrorResponse,
+} from "@/lib/security/api-body-schemas";
 import { consumeAuthRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
@@ -26,18 +31,6 @@ import {
   createSupabaseRouteHandlerClient,
   nextJsonWithAuthCookies,
 } from "@/lib/route-handler-supabase";
-
-type SignUpBody = {
-  email?: string;
-  password?: string;
-  full_name?: string;
-  birth_year?: number | string;
-  birth_date?: string;
-  specialization?: string;
-  institution?: string;
-  preferred_locale?: string;
-  turnstileToken?: string;
-};
 
 async function finishSignUpResponse(params: {
   wantsMobileSession: boolean;
@@ -62,12 +55,13 @@ async function finishSignUpResponse(params: {
 export async function POST(req: Request) {
   const failKey = rateLimitKeyFromRequest(req, "auth-fail-signup");
 
-  let body: SignUpBody;
-  try {
-    body = (await req.json()) as SignUpBody;
-  } catch {
-    return NextResponse.json({ error: "Некорректное тело запроса." }, { status: 400 });
-  }
+  const raw = await parseJsonBody(req);
+  if (!raw.ok) return raw.response;
+
+  const parsed = SignUpBodySchema.safeParse(raw.data);
+  if (!parsed.success) return zodErrorResponse(parsed.error);
+
+  const body = parsed.data;
 
   const rl = await consumeAuthRateLimit(
     rateLimitKeyFromRequest(req, "auth-sign-up"),
@@ -98,28 +92,18 @@ export async function POST(req: Request) {
 
   const { supabase, cookiesToSet } = client;
 
-  const email = typeof body.email === "string" ? body.email.trim() : "";
-  const password = typeof body.password === "string" ? body.password : "";
-  const full_name = typeof body.full_name === "string" ? body.full_name.trim() : "";
-  const specialization = typeof body.specialization === "string" ? body.specialization.trim() : "";
-  const institution = typeof body.institution === "string" ? body.institution.trim() : "";
-  const preferred_locale = typeof body.preferred_locale === "string" ? body.preferred_locale.trim() : "";
+  const {
+    email,
+    password,
+    full_name,
+    specialization,
+    institution = "",
+    preferred_locale = "",
+    birth_date: birthDateRaw = "",
+  } = body;
   const birth_year = parseBirthYearFromBody(body as Record<string, unknown>);
-  const birthDateRaw = typeof body.birth_date === "string" ? body.birth_date.trim() : "";
   const parsedBirth = birthDateRaw ? parseBirthDateInput(birthDateRaw) : null;
   const birth_date = parsedBirth?.iso ?? "";
-
-  if (!email || !password) {
-    return NextResponse.json({ error: "Укажите email и пароль." }, { status: 400 });
-  }
-
-  if (!full_name) {
-    return NextResponse.json({ error: "Укажите имя и фамилию (полное имя специалиста)." }, { status: 400 });
-  }
-
-  if (!specialization) {
-    return NextResponse.json({ error: "Выберите специализацию из списка." }, { status: 400 });
-  }
 
   if (!birth_year || !birth_date) {
     return NextResponse.json(

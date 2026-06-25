@@ -4,10 +4,14 @@ import { rejectIfRateLimitedPreset } from "@/lib/security/api-rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { translateAuthError } from "@/lib/auth/translate-auth-error";
 import {
+  parseJsonBody,
+  TelegramBotBodySchema,
+  zodErrorResponse,
+} from "@/lib/security/api-body-schemas";
+import {
   ensureTelegramUser,
   establishTelegramSession,
   readInternalAuthSecret,
-  type TelegramPayload,
 } from "@/lib/auth/telegram-supabase";
 
 /** Доверенный вход через Telegram-бота (без Login Widget hash). Только server-to-server. */
@@ -19,13 +23,13 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Недостаточно прав." }, { status: 403 });
   }
 
-  let body: TelegramPayload;
-  try {
-    body = (await request.json()) as TelegramPayload;
-  } catch {
-    return NextResponse.json({ error: "Некорректное тело запроса." }, { status: 400 });
-  }
+  const raw = await parseJsonBody(request);
+  if (!raw.ok) return raw.response;
 
+  const parsed = TelegramBotBodySchema.safeParse(raw.data);
+  if (!parsed.success) return zodErrorResponse(parsed.error);
+
+  const body = parsed.data;
   const telegramId = String(body.id ?? "").trim();
   if (!telegramId) {
     return NextResponse.json({ error: "Не указан Telegram ID." }, { status: 400 });

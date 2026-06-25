@@ -75,6 +75,7 @@
     "@repo/nosology": "workspace:*",
     "@repo/orads-us": "workspace:*",
     "@repo/types": "workspace:*",
+    "@repo/upload-validation": "workspace:*",
     "@repo/ui": "workspace:*",
     "@supabase/supabase-js": "^2.105.3",
     "expo": "~54.0.35",

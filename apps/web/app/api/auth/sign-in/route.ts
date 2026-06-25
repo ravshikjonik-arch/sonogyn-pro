@@ -10,6 +10,11 @@ import {
 } from "@/lib/auth/auth-attempts";
 import { toSafeAuthErrorMessage, CAPTCHA_REQUIRED_MSG } from "@/lib/auth/safe-auth-messages";
 import { verifyTurnstileIfConfigured } from "@/lib/auth/verify-turnstile";
+import {
+  parseJsonBody,
+  SignInBodySchema,
+  zodErrorResponse,
+} from "@/lib/security/api-body-schemas";
 import { consumeAuthRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
@@ -18,21 +23,16 @@ import {
   nextJsonWithAuthCookies,
 } from "@/lib/route-handler-supabase";
 
-type SignInBody = {
-  email?: string;
-  password?: string;
-  turnstileToken?: string;
-};
-
 export async function POST(req: Request) {
   const failKey = rateLimitKeyFromRequest(req, "auth-fail");
 
-  let body: SignInBody;
-  try {
-    body = (await req.json()) as SignInBody;
-  } catch {
-    return NextResponse.json({ error: "Некорректное тело запроса." }, { status: 400 });
-  }
+  const raw = await parseJsonBody(req);
+  if (!raw.ok) return raw.response;
+
+  const parsed = SignInBodySchema.safeParse(raw.data);
+  if (!parsed.success) return zodErrorResponse(parsed.error);
+
+  const body = parsed.data;
 
   const rl = await consumeAuthRateLimit(
     rateLimitKeyFromRequest(req, "auth-sign-in"),
@@ -63,12 +63,7 @@ export async function POST(req: Request) {
 
   const { supabase, cookiesToSet } = client;
 
-  const email = typeof body.email === "string" ? body.email.trim() : "";
-  const password = typeof body.password === "string" ? body.password : "";
-
-  if (!email || !password) {
-    return NextResponse.json({ error: "Укажите email и пароль." }, { status: 400 });
-  }
+  const { email, password } = body;
 
   const wantsMobileSession = req.headers.get("x-sonogyn-client") === "mobile";
 

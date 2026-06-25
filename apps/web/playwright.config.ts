@@ -36,7 +36,7 @@ export default defineConfig({
     {
       name: "chromium-no-auth",
       use: { ...devices["Desktop Chrome"] },
-      testMatch: /auth\.spec\.ts|cpi-evaluate\.spec\.ts/,
+      testMatch: /auth\.spec\.ts|cpi-evaluate\.spec\.ts|security-smoke\.spec\.ts/,
     },
   ],
   webServer: {
