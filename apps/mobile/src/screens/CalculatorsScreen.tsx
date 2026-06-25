@@ -135,6 +135,13 @@ export default function CalculatorsScreen({ navigation }: CalculatorsTabScreenPr
         art: "prolapse",
         onPress: () => navigation.navigate("Prolapse"),
       },
+      {
+        id: "vascular",
+        title: "Сосуды · ВСА",
+        subtitle: "Стеноз · табл. 4.1",
+        art: "lymph",
+        onPress: () => navigation.navigate("VascularCarotidCalc"),
+      },
     ],
     [navigation]
   );

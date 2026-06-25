@@ -73,6 +73,20 @@ test.describe("Security smoke — API boundaries", () => {
     expect([200, 401]).toContain(res.status());
   });
 
+  test("POST /api/auth/mobile/exchange — пустое тело → 400", async ({ request }) => {
+    const res = await request.post("/api/auth/mobile/exchange", { data: {} });
+    expect(res.status()).toBe(400);
+  });
+
+  test("POST /api/payment/webhook — пустое тело → 400 или 403", async ({ request }) => {
+    const res = await request.fetch("/api/payment/webhook", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      data: "",
+    });
+    expect([400, 403]).toContain(res.status());
+  });
+
   test("POST /api/ai/vascular-assist без сессии → 401 или 403", async ({ request }) => {
     const res = await request.post("/api/ai/vascular-assist", {
       data: { mode: "clinical", basin: "extracranial" },

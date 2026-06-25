@@ -1,11 +1,14 @@
 import { NextResponse } from "next/server";
 
 import { consumeMobileSessionExchange } from "@/lib/auth/mobile-session-exchange";
+import {
+  MobileExchangeBodySchema,
+  parseJsonBody,
+  zodErrorResponse,
+} from "@/lib/security/api-body-schemas";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
-
-type Body = { exchangeCode?: string };
 
 /** Обмен одноразового кода на mobile session (без токенов в URL). */
 export async function POST(req: Request) {
@@ -21,17 +24,13 @@ export async function POST(req: Request) {
     );
   }
 
-  let body: Body;
-  try {
-    body = (await req.json()) as Body;
-  } catch {
-    return NextResponse.json({ error: "Некорректное тело запроса." }, { status: 400 });
-  }
+  const raw = await parseJsonBody(req);
+  if (!raw.ok) return raw.response;
 
-  const code = typeof body.exchangeCode === "string" ? body.exchangeCode.trim() : "";
-  if (!code) {
-    return NextResponse.json({ error: "Код обмена не указан." }, { status: 400 });
-  }
+  const parsed = MobileExchangeBodySchema.safeParse(raw.data);
+  if (!parsed.success) return zodErrorResponse(parsed.error);
+
+  const code = parsed.data.exchangeCode;
 
   const session = await consumeMobileSessionExchange(code);
   if (!session) {

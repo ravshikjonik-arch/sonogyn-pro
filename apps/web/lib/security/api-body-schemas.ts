@@ -131,6 +131,32 @@ export const PaymentCreateBodySchema = z.object({
   returnUrl: z.string().url().max(2048).optional(),
 });
 
+/** POST /api/auth/mobile/exchange */
+export const MobileExchangeBodySchema = z.object({
+  exchangeCode: z.string().trim().min(1, "Код обмена не указан.").max(128),
+});
+
+export type MobileExchangeBody = z.infer<typeof MobileExchangeBodySchema>;
+
+/** POST /api/payment/webhook — ЮKassa notification */
+export const YooKassaWebhookBodySchema = z.object({
+  type: z.string().max(64),
+  event: z.string().max(128),
+  object: z.object({
+    id: z.string().trim().min(1).max(64),
+    status: z.string().max(32).optional(),
+    amount: z
+      .object({
+        value: z.string().max(32).optional(),
+        currency: z.string().max(8).optional(),
+      })
+      .optional(),
+    metadata: z.record(z.string().max(512)).optional(),
+  }),
+});
+
+export type YooKassaWebhookBody = z.infer<typeof YooKassaWebhookBodySchema>;
+
 export async function parseJsonBody(request: Request): Promise<
   | { ok: true; data: unknown }
   | { ok: false; response: Response }

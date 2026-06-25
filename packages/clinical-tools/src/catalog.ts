@@ -197,6 +197,17 @@ export const CLINICAL_TOOLS: ClinicalTool[] = [
     mobileAction: "elastography",
   },
   {
+    id: "vascular-carotid",
+    title: "Стеноз ВСА",
+    subtitle: "Дуплекс · табл. 4.1 Куликов",
+    category: "reference",
+    roles: ["ultrasound", "allied"],
+    synonyms: ["вса", "бца", "каротид", "стеноз", "дуплекс", "сосуды"],
+    keywords: ["vascular", "carotid", "stenosis", "duplex"],
+    webHref: "/assistant/vascular",
+    mobileAction: "vascular_carotid",
+  },
+  {
     id: "ob-calc",
     title: "Калькулятор расчёта срока беременности",
     subtitle: "ПМП, УЗИ, КТР, ЭКО, фетометрия, декрет",

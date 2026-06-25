@@ -1,3 +1,4 @@
+import { YooKassaWebhookBodySchema } from "@/lib/security/api-body-schemas";
 import type { YooKassaWebhookEvent } from "@/lib/yookassa/types";
 
 import { isYooKassaIp, resolveClientIp } from "./yookassa-ip";
@@ -21,16 +22,19 @@ export function guardYooKassaWebhook(req: Request, rawBody: string): WebhookGuar
     return { ok: false, status: 400, message: "Пустое тело webhook." };
   }
 
-  let event: YooKassaWebhookEvent;
+  let json: unknown;
   try {
-    event = JSON.parse(rawBody) as YooKassaWebhookEvent;
+    json = JSON.parse(rawBody) as unknown;
   } catch {
     return { ok: false, status: 400, message: "Некорректный JSON webhook." };
   }
 
-  if (!event.object?.id) {
-    return { ok: false, status: 400, message: "В webhook нет идентификатора платежа." };
+  const parsed = YooKassaWebhookBodySchema.safeParse(json);
+  if (!parsed.success) {
+    return { ok: false, status: 400, message: "Некорректная структура webhook." };
   }
+
+  const event = parsed.data as YooKassaWebhookEvent;
 
   return { ok: true, event, rawBody };
 }

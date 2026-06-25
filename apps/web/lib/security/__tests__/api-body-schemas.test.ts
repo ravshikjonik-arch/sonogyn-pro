@@ -3,10 +3,12 @@ import { describe, it } from "node:test";
 
 import {
   CopilotImageRegisterBodySchema,
+  MobileExchangeBodySchema,
   PaymentCreateBodySchema,
   SignInBodySchema,
   SignUpBodySchema,
   TelegramVerifyOtpBodySchema,
+  YooKassaWebhookBodySchema,
 } from "../api-body-schemas";
 import { validateRegisteredStorageSignature } from "../file-validation";
 
@@ -78,6 +80,38 @@ describe("TelegramVerifyOtpBodySchema", () => {
 describe("PaymentCreateBodySchema", () => {
   it("rejects invalid returnUrl", () => {
     const r = PaymentCreateBodySchema.safeParse({ returnUrl: "not-a-url" });
+    assert.equal(r.success, false);
+  });
+});
+
+describe("MobileExchangeBodySchema", () => {
+  it("accepts exchange code", () => {
+    const r = MobileExchangeBodySchema.safeParse({ exchangeCode: "abc-123" });
+    assert.equal(r.success, true);
+  });
+
+  it("rejects empty code", () => {
+    const r = MobileExchangeBodySchema.safeParse({ exchangeCode: "   " });
+    assert.equal(r.success, false);
+  });
+});
+
+describe("YooKassaWebhookBodySchema", () => {
+  it("accepts minimal webhook", () => {
+    const r = YooKassaWebhookBodySchema.safeParse({
+      type: "notification",
+      event: "payment.succeeded",
+      object: { id: "22e12f66-000f-5000-8000-18db35124563" },
+    });
+    assert.equal(r.success, true);
+  });
+
+  it("rejects missing object id", () => {
+    const r = YooKassaWebhookBodySchema.safeParse({
+      type: "notification",
+      event: "payment.succeeded",
+      object: { id: "" },
+    });
     assert.equal(r.success, false);
   });
 });

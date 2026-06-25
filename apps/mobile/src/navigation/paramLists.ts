@@ -58,5 +58,6 @@ export type RootStackParamList = {
   ClinicalReference: undefined;
   Nosology: undefined;
   ElastographyCalc: undefined;
+  VascularCarotidCalc: undefined;
   ClinicalGuidelineDetail: { guidelineId: string };
 };

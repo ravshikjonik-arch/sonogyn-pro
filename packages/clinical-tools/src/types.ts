@@ -19,6 +19,7 @@ export type MobileToolAction =
   | "new_case"
   | "telegram"
   | "elastography"
+  | "vascular_carotid"
   | "orads"
   | "orads_flow"
   | "orads_wizard"

@@ -35,6 +35,9 @@ export function openClinicalToolAction(navigation: ClinicalToolNav, action: Mobi
     case "elastography":
       navigation.navigate("ElastographyCalc");
       return;
+    case "vascular_carotid":
+      navigation.navigate("VascularCarotidCalc");
+      return;
     case "orads":
       navigation.navigate("ORADSPro");
       return;
