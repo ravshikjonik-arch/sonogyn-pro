@@ -851,6 +851,9 @@ importers:
       '@repo/fmf':
         specifier: workspace:*
         version: link:../fmf
+      '@repo/medical-reference-curves':
+        specifier: workspace:*
+        version: link:../medical-reference-curves
     devDependencies:
       '@types/node':
         specifier: ^20

@@ -15,7 +15,8 @@
     "test": "node --import tsx --test src/**/*.test.ts"
   },
   "dependencies": {
-    "@repo/fmf": "workspace:*"
+    "@repo/fmf": "workspace:*",
+    "@repo/medical-reference-curves": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20",

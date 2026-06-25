@@ -1,12 +1,12 @@
-import acCurve from "../../medical-reference-curves/biometry/ac.json";
-import bpdCurve from "../../medical-reference-curves/biometry/bpd.json";
-import flCurve from "../../medical-reference-curves/biometry/fl.json";
-import hcCurve from "../../medical-reference-curves/biometry/hc.json";
-import hlCurve from "../../medical-reference-curves/biometry/hl.json";
-import ofdCurve from "../../medical-reference-curves/biometry/ofd.json";
-import cerebellumCurve from "../../medical-reference-curves/brain/cerebellum_transverse.json";
-import cisternaCurve from "../../medical-reference-curves/brain/cisterna_magna.json";
-import lateralVentricleCurve from "../../medical-reference-curves/brain/lateral_ventricle.json";
+import acCurve from "@repo/medical-reference-curves/biometry/ac.json";
+import bpdCurve from "@repo/medical-reference-curves/biometry/bpd.json";
+import flCurve from "@repo/medical-reference-curves/biometry/fl.json";
+import hcCurve from "@repo/medical-reference-curves/biometry/hc.json";
+import hlCurve from "@repo/medical-reference-curves/biometry/hl.json";
+import ofdCurve from "@repo/medical-reference-curves/biometry/ofd.json";
+import cerebellumCurve from "@repo/medical-reference-curves/brain/cerebellum_transverse.json";
+import cisternaCurve from "@repo/medical-reference-curves/brain/cisterna_magna.json";
+import lateralVentricleCurve from "@repo/medical-reference-curves/brain/lateral_ventricle.json";
 
 import type { ReferenceCurveJson } from "./types";
 
