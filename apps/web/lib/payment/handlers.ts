@@ -105,6 +105,10 @@ export async function handlePaymentCreate(req: Request) {
 }
 
 export async function handlePaymentWebhook(req: Request, rawBody: string) {
+  if (!rawBody.trim()) {
+    return paymentError("Пустое тело webhook.", 400);
+  }
+
   if (!isYooKassaConfigured()) {
     return paymentError(PAYMENT_MESSAGES.notConfigured, 503);
   }
