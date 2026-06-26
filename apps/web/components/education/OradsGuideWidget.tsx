@@ -120,7 +120,7 @@ export function OradsGuideWidget({ initialSectionId, locale = "ru", className }:
             ))}
             <div className="mt-4 space-y-2 border-t border-[var(--clinical-border)] pt-3">
               <Button asChild variant="outline" size="sm" className="w-full justify-start gap-2">
-                <Link href="/calculators/o-rads">
+                <Link href="/tools/calc/rads/o-rads">
                   <Calculator className="h-4 w-4" />
                   Калькулятор O-RADS
                 </Link>

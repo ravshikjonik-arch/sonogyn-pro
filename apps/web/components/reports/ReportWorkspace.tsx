@@ -174,7 +174,7 @@ export function ReportWorkspace({ initialInput, className }: Props) {
         </p>
         <div className="flex flex-wrap gap-2">
           <Button variant="outline" size="sm" asChild>
-            <Link href="/calculators/o-rads">← O-RADS Pro</Link>
+            <Link href="/tools/calc/rads/o-rads">← O-RADS Pro</Link>
           </Button>
           {status !== "draft" ? (
             <Badge variant="secondary" className="self-center">
@@ -195,7 +195,7 @@ export function ReportWorkspace({ initialInput, className }: Props) {
           </CardHeader>
           <CardContent>
             <Button asChild>
-              <Link href="/calculators/o-rads">Перейти к O-RADS Pro</Link>
+              <Link href="/tools/calc/rads/o-rads">Перейти к O-RADS Pro</Link>
             </Button>
           </CardContent>
         </Card>

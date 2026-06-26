@@ -138,7 +138,7 @@ export function OvarianCancerRiskCalculator() {
           <RiskResult band={result.level} lines={result.text} />
           {result.suggestOrads ? (
             <Button variant="secondary" asChild>
-              <Link href="/calculators/o-rads">O-RADS Pro →</Link>
+              <Link href="/tools/calc/rads/o-rads">O-RADS Pro →</Link>
             </Button>
           ) : null}
         </>

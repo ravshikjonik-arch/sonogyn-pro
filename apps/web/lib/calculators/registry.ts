@@ -22,7 +22,7 @@ export const CALCULATORS: CalculatorDefinition[] = [
     code: "O_RADS",
     title: "O-RADS Pro",
     subtitle: "O-RADS US v2022 + IOTA 2026 — полный калькулятор яичника",
-    externalHref: "/calculators/o-rads",
+    externalHref: "/tools/calc/rads/o-rads",
     fields: [],
   },
   {

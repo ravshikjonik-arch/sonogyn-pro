@@ -90,7 +90,7 @@ function main() {
     "/calculators/cin-follow-up",
     "/calculators/ovarian-cancer-risk",
     "/calculators/pregnancy-medications",
-    "/calculators/o-rads",
+    "/tools/calc/rads/o-rads",
     "/calculators/bi-rads",
     "/calculators/endometrium",
     "/calculators/cervical-length",

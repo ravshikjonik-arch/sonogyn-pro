@@ -35,7 +35,7 @@ const AI_ROUTES: Omit<AiRouteHit, "score">[] = [
     id: "ai.orads-assist",
     title: "O-RADS из текста протокола",
     subtitle: "Assist pipeline · rule-first",
-    href: "/calculators/o-rads",
+    href: "/tools/calc/rads/o-rads",
   },
 ];
 

@@ -1,9 +1,6 @@
-import { OradsProFlow } from "@/components/calculators/orads/OradsProFlow";
+import { redirect } from "next/navigation";
 
-export const metadata = {
-  title: "O-RADS US · SonoGyn",
-};
-
-export default function OradsProPage() {
-  return <OradsProFlow />;
+/** Legacy path — canonical IA v2: /tools/calc/rads/o-rads */
+export default function LegacyOradsRedirect() {
+  redirect("/tools/calc/rads/o-rads");
 }

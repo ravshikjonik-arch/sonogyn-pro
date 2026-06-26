@@ -58,7 +58,7 @@ export function OradsEchogramsWidget({ initialChapter = "all", initialPageId }: 
         <h1 className="text-2xl font-bold md:text-3xl">Библиотека эхограмм придатков матки</h1>
         <p className="max-w-3xl text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
           Официальный расчёт категории — по {ORADS_US_VERSION} (ACR) в{" "}
-          <Link href="/calculators/o-rads" className="font-semibold text-[var(--clinical-primary-deep)] hover:underline">
+          <Link href="/tools/calc/rads/o-rads" className="font-semibold text-[var(--clinical-primary-deep)] hover:underline">
             калькуляторе O-RADS
           </Link>
           . Учебный алгоритм и клинические случаи — в{" "}
@@ -161,7 +161,7 @@ export function OradsEchogramsWidget({ initialChapter = "all", initialPageId }: 
               <p className="text-sm text-[var(--clinical-foreground-muted)]">{selected.teaching_hint}</p>
             ) : null}
             <Button variant="outline" size="sm" asChild>
-              <Link href="/calculators/o-rads">Вернуться в калькулятор O-RADS →</Link>
+              <Link href="/tools/calc/rads/o-rads">Вернуться в калькулятор O-RADS →</Link>
             </Button>
           </div>
         ) : null}

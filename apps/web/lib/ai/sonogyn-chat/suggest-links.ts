@@ -4,7 +4,7 @@ type Suggestion = { label: string; href: string };
 export function suggestModuleLinks(prompt: string): Suggestion[] {
   if (/o-?rads|орадс|яичник/i.test(prompt)) {
     return [
-      { label: "Калькулятор O-RADS", href: "/calculators/o-rads" },
+      { label: "Калькулятор O-RADS", href: "/tools/calc/rads/o-rads" },
       { label: "Макет яичника", href: "/ovary-atlas" },
     ];
   }
