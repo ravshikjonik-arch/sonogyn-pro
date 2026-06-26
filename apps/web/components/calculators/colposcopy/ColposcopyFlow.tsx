@@ -173,7 +173,7 @@ export function ColposcopyFlow() {
             <Link href="/tools/calc/gyn/cin-risk">CIN Risk →</Link>
           </Button>
           <Button variant="secondary" size="sm" asChild className="ml-auto h-8 rounded-full text-xs">
-            <Link href="/calculators">← Калькуляторы</Link>
+            <Link href="/tools/calc">← Калькуляторы</Link>
           </Button>
         </div>
       </div>

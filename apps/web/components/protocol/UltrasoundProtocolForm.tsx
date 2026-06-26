@@ -12,6 +12,8 @@ import {
   interpretAfiRu,
   screeningHintsRu,
   toMillimetres,
+  roundMeasurementMm,
+  formatMeasurementDecimal,
   validateBiometryMm,
   validateBpdVsGa,
   validateEfwGrams,
@@ -283,14 +285,14 @@ export function UltrasoundProtocolForm({
       ...p,
       biometry: {
         ...p.biometry,
-        [key]: Number.isFinite(num) && num > 0 ? Math.round(toMillimetres(num, unit)) : undefined,
+        [key]: Number.isFinite(num) && num > 0 ? roundMeasurementMm(toMillimetres(num, unit)) : undefined,
       },
     }));
   }
 
   function displayValue(mm?: number): string {
     if (mm == null) return "";
-    return unit === "cm" ? String(mm / 10) : String(mm);
+    return unit === "cm" ? formatMeasurementDecimal(mm / 10) : formatMeasurementDecimal(mm);
   }
 
   if (loading) {

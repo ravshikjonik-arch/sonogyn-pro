@@ -10,6 +10,6 @@ export function getFetalAnatomy22ViewsEducationalLink() {
     lecture,
     moduleHref: FETAL_ANATOMY_EDUCATIONAL_HREF,
     courseHref: `/tools/refs/basic-course?lecture=${FETAL_ANATOMY_22_VIEWS_LECTURE_ID}&tab=lecture`,
-    fmfSecondHref: "/assistant/fmf?section=second",
+    fmfSecondHref: "/ai/consultants/fmf?section=second",
   };
 }

@@ -14,6 +14,7 @@ import {
 } from "@repo/adnex-education";
 
 import { CalcChip } from "@/components/calculators/shared/calc-ui";
+import { useIotaInterpretationAchievement } from "@/lib/achievements/use-calculator-achievements";
 import { cn } from "@/lib/utils/cn";
 
 function toggle(list: IotaSimpleCode[], code: IotaSimpleCode): IotaSimpleCode[] {
@@ -25,6 +26,8 @@ export function IotaSimpleRulesPanel() {
   const [malignant, setMalignant] = useState<IotaSimpleCode[]>([]);
 
   const result = useMemo(() => evaluateIotaSimpleRules(benign, malignant), [benign, malignant]);
+
+  useIotaInterpretationAchievement(result.verdict);
 
   const tone =
     result.verdict === "benign"

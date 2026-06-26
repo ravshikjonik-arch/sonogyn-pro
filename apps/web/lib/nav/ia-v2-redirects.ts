@@ -25,9 +25,10 @@ function legacyCalculatorRedirects(): Redirect[] {
 
   const out: Redirect[] = [
     { source: "/calculators", destination: "/tools/calc", permanent: false },
+    { source: "/calculators/appointment", destination: "/tools/calc/appointment", permanent: false },
+    { source: "/calculators/orads-pro", destination: "/tools/calc/rads/o-rads", permanent: false },
     { source: "/calculators/ob", destination: "/tools/calc/ob", permanent: false },
     { source: "/calculators/ti-rads", destination: "/tools/adjunct/ti-rads", permanent: false },
-    { source: "/calculators/appointment", destination: "/tools/calc/ob", permanent: false },
   ];
 
   for (const slug of obSlugs) {

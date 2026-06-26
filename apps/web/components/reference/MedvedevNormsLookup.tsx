@@ -208,7 +208,7 @@ export function MedvedevNormsLookup() {
                 ← Методики измерений
               </Link>
               {" · "}
-              <Link href="/assistant/fmf" className="font-medium text-[var(--clinical-primary)] underline">
+              <Link href="/ai/consultants/fmf" className="font-medium text-[var(--clinical-primary)] underline">
                 FMF-ассистент →
               </Link>
             </p>

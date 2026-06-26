@@ -445,7 +445,7 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
                 Структурированный протокол
               </Button>
               <Button variant="outline" size="sm" asChild>
-                <Link href="/assistant/gynecology">Помощник АГ</Link>
+                <Link href="/ai/consultants/gynecology">Помощник АГ</Link>
               </Button>
             </div>
 

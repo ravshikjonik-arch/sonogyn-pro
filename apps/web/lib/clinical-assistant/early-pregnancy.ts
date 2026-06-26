@@ -5,7 +5,7 @@ const EARLY_PREGNANCY_CODE_PREFIXES = ["O00", "O02", "O03", "O20", "O21", "Z33"]
 
 const EARLY_PREGNANCY_GROUPS = ["Ранняя беременность и потери"] as const;
 
-export const FMF_EARLY_ASSISTANT_HREF = "/assistant/fmf";
+export const FMF_EARLY_ASSISTANT_HREF = "/ai/consultants/fmf";
 
 export const ISUOG_EARLY_LECTURE_ID = "lecture-6-early-pregnancy-4-10";
 

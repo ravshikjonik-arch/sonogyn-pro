@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { parseMeasurementMm } from "@repo/medical-calculations";
 
 import { buildAdnexTriangulationReport, evaluateAdnexTriangulation } from "@repo/adnex-education";
 
@@ -95,16 +96,16 @@ export function useOradsProForm() {
       solidComponent,
       solidType,
       echogenicity,
-      lengthMm: Number(lengthMm) > 0 ? Number(lengthMm) : undefined,
-      widthMm: Number(widthMm) > 0 ? Number(widthMm) : undefined,
-      heightMm: Number(heightMm) > 0 ? Number(heightMm) : undefined,
+      lengthMm: parseMeasurementMm(lengthMm),
+      widthMm: parseMeasurementMm(widthMm),
+      heightMm: parseMeasurementMm(heightMm),
       ascites,
       bloodFlow,
       peritonealNodules,
       iotaLesionType: iotaLesionType ?? derivedLesionType,
       papillaryProjectionCount,
       papillaryProjectionSurface,
-      largestSolidDiameterMm: Number(largestSolidDiameterMm) > 0 ? Number(largestSolidDiameterMm) : undefined,
+      largestSolidDiameterMm: parseMeasurementMm(largestSolidDiameterMm),
       cystLoculesOver10,
       acousticShadows,
       iotaColorScore: iotaColorScore ?? bloodFlowToColorScore(bloodFlow),

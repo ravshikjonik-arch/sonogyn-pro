@@ -151,7 +151,7 @@ function RiskShell({ title, badge, children }: { title: string; badge: string; c
   return (
     <div className="space-y-6 px-4 py-10 lg:px-10">
       <Button variant="ghost" size="sm" asChild>
-        <Link href="/calculators/appointment">← Для приёма</Link>
+        <Link href="/tools/calc/appointment">← Для приёма</Link>
       </Button>
       <header className="mx-auto max-w-3xl space-y-2">
         <Badge variant="outline">{badge}</Badge>

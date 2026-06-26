@@ -39,6 +39,7 @@ export const CLINICAL_PRIMARY_TABS: ClinicalPrimaryTab[] = [
     match: (pathname) =>
       pathname === "/tools" ||
       pathname.startsWith("/tools/") ||
+      pathname.startsWith("/ai/consultants") ||
       pathname.startsWith("/assistant") ||
       pathname.startsWith("/workspace") ||
       pathname === "/calculators" ||

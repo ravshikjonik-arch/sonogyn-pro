@@ -60,7 +60,7 @@ export default async function PatientDetailPage(props: { params: Promise<Params>
           <Link href={`/workspace?patientId=${patientId}`}>Новое исследование</Link>
         </Button>
         <Button asChild variant="outline" size="sm">
-          <Link href={`/assistant/gynecology?patientId=${patientId}`}>Помощник → протокол</Link>
+          <Link href={`/ai/consultants/gynecology?patientId=${patientId}`}>Помощник → протокол</Link>
         </Button>
         <Button asChild variant="outline" size="sm">
           <Link href={cpiHref}>CPI — кольпоскопия</Link>

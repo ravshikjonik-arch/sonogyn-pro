@@ -15,7 +15,7 @@ export function suggestModuleLinks(prompt: string): Suggestion[] {
     return [{ label: "Калькулятор TI-RADS", href: "/tools/adjunct/ti-rads" }];
   }
   if (/fmf|скрининг|беремен/i.test(prompt)) {
-    return [{ label: "FMF ассистент", href: "/assistant/fmf" }];
+    return [{ label: "FMF ассистент", href: "/ai/consultants/fmf" }];
   }
   if (/adenomyosis|аденомиоз|musa/i.test(prompt)) {
     return [{ label: "MUSA аденомиоз", href: "/musa/adenomyosis" }];
@@ -24,7 +24,7 @@ export function suggestModuleLinks(prompt: string): Suggestion[] {
     return [{ label: "AI-рабочая зона", href: "/workspace" }];
   }
   return [
-    { label: "Калькуляторы", href: "/calculators" },
-    { label: "Помощник врача", href: "/assistant" },
+    { label: "Калькуляторы", href: "/tools/calc" },
+    { label: "Помощник врача", href: "/ai/consultants" },
   ];
 }

@@ -241,7 +241,7 @@ export function ObCalcHub({ initialTab = "lmp" }: { initialTab?: TabId }) {
     <div className="mx-auto max-w-3xl space-y-6 px-4 py-8 lg:px-8">
       <div className="flex flex-wrap items-start gap-3">
         <Button variant="ghost" size="sm" asChild>
-          <Link href="/calculators">← Калькуляторы</Link>
+          <Link href="/tools/calc">← Калькуляторы</Link>
         </Button>
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
@@ -510,10 +510,10 @@ export function ObCalcHub({ initialTab = "lmp" }: { initialTab?: TabId }) {
         </CardHeader>
         <CardContent className="flex flex-wrap gap-2">
           <Button size="sm" asChild>
-            <Link href="/assistant/fmf?section=second">II скрининг (18–22 нед.)</Link>
+            <Link href="/ai/consultants/fmf?section=second">II скрининг (18–22 нед.)</Link>
           </Button>
           <Button size="sm" variant="outline" asChild>
-            <Link href="/assistant/fmf?section=third">III скрининг (30–34 нед.)</Link>
+            <Link href="/ai/consultants/fmf?section=third">III скрининг (30–34 нед.)</Link>
           </Button>
         </CardContent>
       </Card>

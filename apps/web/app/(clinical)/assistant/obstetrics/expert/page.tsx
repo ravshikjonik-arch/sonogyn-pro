@@ -1,10 +1,5 @@
-import { ObstetricExpertClient } from "@/components/clinical-assistant/ObstetricExpertClient";
+import { redirect } from "next/navigation";
 
-export const metadata = {
-  title: "Obstetric Expert · SonoGyn Pro",
-  description: "Woodward + ISUOG expert copilot: дифференциал, биометрия, допплер, CDS",
-};
-
-export default function ObstetricExpertPage() {
-  return <ObstetricExpertClient />;
+export default function LegacyAssistantObsExpertRedirect() {
+  redirect("/ai/consultants/obstetrics/expert");
 }

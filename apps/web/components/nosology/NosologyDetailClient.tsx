@@ -144,7 +144,11 @@ export function NosologyDetailClient({ id, isAdmin }: Props) {
           <p className="mt-2 text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
             {nosology.description.split(/(\/(?:reference|assistant|nosologies)[^\s)\],]+)/g).map((part, i) => {
               if (!part.startsWith("/")) return part;
-              const label = part.includes("/norms") ? "Нормы Медведева" : part.includes("/assistant") ? "Ассистент" : "Ссылка";
+              const label = part.includes("/norms")
+                ? "Нормы Медведева"
+                : part.includes("/assistant") || part.includes("/ai/consultants")
+                  ? "Ассистент"
+                  : "Ссылка";
               return (
                 <Link key={`desc-${i}`} href={part} className="font-semibold text-[var(--clinical-primary)] underline">
                   {label}

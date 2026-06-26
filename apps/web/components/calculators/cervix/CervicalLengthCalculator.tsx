@@ -72,7 +72,7 @@ export function CervicalLengthCalculator() {
     <div className="space-y-6 px-4 py-10 lg:px-10">
       <div className="flex flex-wrap items-center gap-3">
         <Button variant="ghost" size="sm" asChild>
-          <Link href="/calculators">← Каталог</Link>
+          <Link href="/tools/calc">← Каталог</Link>
         </Button>
         <Badge variant="outline">CL · 16–24 нед</Badge>
       </div>

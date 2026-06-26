@@ -1,3 +1,5 @@
+import { formatMeasurementDecimal } from "@repo/medical-calculations";
+
 /**
  * Русские подписи для значений формы IDEA (в JSON хранятся enum-ключи).
  * Клинические термины УЗИ/АГ; при расхождении с локальным протоколом — править здесь.
@@ -114,7 +116,7 @@ export function ruDiagramRegions(ids: string[]): string {
 
 export function ruNoduleLine(n: IdeaFormValues["step4"]["nodules"][number], index: number): string {
   const pen = n.penelopeScore != null ? `; Penelope ${n.penelopeScore}` : "";
-  return `#${index + 1} ${noduleLoc[n.location]}: ${n.sizeLengthMm}×${n.sizeWidthMm}×${n.sizeHeightMm} мм, инфильтрация — ${depth[n.depthOfInfiltration]}, форма — ${shape[n.shape]}, болезненность ${boolRu(n.associatedTenderness)}, васкуляризация по Допплеру — ${doppler[n.vascularizationDoppler]}${pen}.`;
+  return `#${index + 1} ${noduleLoc[n.location]}: ${formatMeasurementDecimal(n.sizeLengthMm)}×${formatMeasurementDecimal(n.sizeWidthMm)}×${formatMeasurementDecimal(n.sizeHeightMm)} мм, инфильтрация — ${depth[n.depthOfInfiltration]}, форма — ${shape[n.shape]}, болезненность ${boolRu(n.associatedTenderness)}, васкуляризация по Допплеру — ${doppler[n.vascularizationDoppler]}${pen}.`;
 }
 
 export const severityRu: Record<"mild" | "moderate" | "severe", string> = {

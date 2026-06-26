@@ -62,9 +62,9 @@ function discoverWebRoutes(): Set<string> {
   }
   // Статические маршруты вне app tree
   normalized.add("/tools/mapping/uterus");
-  normalized.add("/assistant/fmf");
-  normalized.add("/assistant/gynecology");
-  normalized.add("/assistant/obstetrics");
+  normalized.add("/ai/consultants/fmf");
+  normalized.add("/ai/consultants/gynecology");
+  normalized.add("/ai/consultants/obstetrics");
   normalized.add("/tools/refs/cervix-pathology");
   return normalized;
 }
@@ -79,7 +79,7 @@ function main() {
   const brokenRoutes = validateRoutes(knownRoutes, allCalcs);
 
   const menuLinked = new Set<string>([
-    "/calculators",
+    "/tools/calc",
     "/tools/calc/ob",
     "/tools/calc/ob/fetal-weight",
     "/tools/calc/ob/bishop",
@@ -92,7 +92,7 @@ function main() {
     "/tools/calc/gyn/elastography",
     "/tools/mapping/uterus",
     "/tools/mapping/ovary",
-    "/assistant/fmf",
+    "/ai/consultants/fmf",
   ]);
 
   const coverage: CoverageReport = {

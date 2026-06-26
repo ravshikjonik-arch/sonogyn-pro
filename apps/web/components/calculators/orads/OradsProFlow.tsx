@@ -35,7 +35,7 @@ export function OradsProFlow() {
       <div className="border-b border-[var(--clinical-border)] bg-gradient-to-r from-[#0c4a6e] to-[#14b8a6] px-4 py-2.5 text-white lg:px-10">
         <div className="mx-auto flex max-w-3xl flex-wrap items-center gap-2">
           <Button variant="secondary" size="sm" asChild className="h-8 rounded-full text-xs">
-            <Link href="/calculators">← Калькуляторы</Link>
+            <Link href="/tools/calc">← Калькуляторы</Link>
           </Button>
           <span className="text-sm font-bold">O-RADS US · ACR v2022</span>
           <div className="ml-auto flex gap-1">

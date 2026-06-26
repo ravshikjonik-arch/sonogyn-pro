@@ -159,7 +159,7 @@ export const CALCULATORS: CalculatorDefinition[] = [
     code: "FMF_FIRST_TRIMESTER",
     title: "FMF · малый срок и I скрининг",
     subtitle: "Малый срок · I/II/III · допплер · шейка · рубец",
-    externalHref: "/assistant/fmf",
+    externalHref: "/ai/consultants/fmf",
     fields: [],
   },
 ];

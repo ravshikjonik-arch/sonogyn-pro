@@ -73,7 +73,7 @@ export function ObstetricExpertClient() {
     <div className="mx-auto max-w-4xl space-y-6 px-4 py-8 lg:px-8">
       <div className="flex flex-wrap items-center gap-2">
         <Button variant="ghost" size="sm" asChild>
-          <Link href="/assistant/obstetrics">← Помощник акушера</Link>
+          <Link href="/ai/consultants/obstetrics">← Помощник акушера</Link>
         </Button>
       </div>
 
@@ -131,7 +131,7 @@ export function ObstetricExpertClient() {
           Запустить copilot
         </Button>
         <Button variant="outline" size="sm" asChild>
-          <Link href="/assistant/fmf">FMF I трим. (сертиф. риск) →</Link>
+          <Link href="/ai/consultants/fmf">FMF I трим. (сертиф. риск) →</Link>
         </Button>
         {error ? <p className="text-sm text-red-600">{error}</p> : null}
       </div>

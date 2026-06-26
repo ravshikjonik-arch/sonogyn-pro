@@ -27,7 +27,7 @@ export default async function CalculatorDetailPage(props: Props) {
 
   const devBypass = isDevSkipAuthEnabled();
   if (!user && !devBypass) {
-    redirect(`/login?redirectedFrom=/calculators/${slug}`);
+    redirect(`/login?redirectedFrom=${encodeURIComponent(resolveCalculatorHref(definition))}`);
   }
 
   let history: CalculatorHistoryRow[] = [];
@@ -46,7 +46,7 @@ export default async function CalculatorDetailPage(props: Props) {
     <div className="space-y-8 px-4 py-10 lg:px-10">
       <div className="flex flex-wrap items-center gap-3">
         <Button variant="ghost" size="sm" asChild>
-          <Link href="/calculators">← Каталог</Link>
+          <Link href="/tools/calc">← Каталог</Link>
         </Button>
         <Badge variant="outline">{definition.code}</Badge>
         {devBypass && !user ? (

@@ -14,7 +14,7 @@ type Props = {
 };
 
 export function NosologyRouteModal({ card, open, onOpenChange, initialPatientId }: Props) {
-  const backHref = card ? `/assistant/${card.mode}` : "/assistant";
+  const backHref = card ? `/ai/consultants/${card.mode}` : "/ai/consultants";
 
   return (
     <Dialog open={open && !!card} onOpenChange={onOpenChange}>

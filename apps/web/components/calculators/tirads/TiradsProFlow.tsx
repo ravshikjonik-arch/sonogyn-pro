@@ -27,7 +27,7 @@ export function TiradsProFlow() {
         <div className="border-b border-[var(--clinical-border)] bg-gradient-to-r from-sky-950 to-cyan-600 px-4 py-2.5 text-white lg:px-10">
           <div className="mx-auto flex max-w-4xl flex-wrap items-center gap-2">
             <Button variant="secondary" size="sm" asChild className="h-8 rounded-full text-xs">
-              <Link href="/calculators">← Калькуляторы</Link>
+              <Link href="/tools/calc">← Калькуляторы</Link>
             </Button>
             <span className="text-sm font-bold">{ACR_TIRADS_VERSION}</span>
             <div className="ml-auto flex flex-wrap gap-1">

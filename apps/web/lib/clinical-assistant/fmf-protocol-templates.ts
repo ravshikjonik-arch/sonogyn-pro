@@ -8,6 +8,7 @@ import {
   assessMedvedevPlacentaAfi,
   MEDVEDEV_BIOMETRY_SOURCE,
 } from "@repo/medvedev-reference";
+import { formatMm } from "@repo/medical-calculations";
 
 import { hadlockEfwGrams } from "../../../mobile/src/features/fmf/logic/fmfMath";
 import { formatProtocolField, presentProtocolText } from "./fmf-protocol-format";
@@ -201,8 +202,8 @@ export function buildYakubovSecondThirdProtocol(
     `Боковые желудочки мозга – ${formatProtocolField(input.lateralVentriclesMm, " мм")}`,
     `Мозжечок – ${formatProtocolField(input.cerebellumMm, " мм")}`,
     `Большая цистерна – ${formatProtocolField(input.cisternaMagnaMm, " мм")}`,
-    `Полость прозрачной перегородки (ППП) – ${input.cspWidthMm != null ? `${input.cspWidthMm} мм` : "б/о"}`,
-    `Мозолистое тело – ${input.corpusCallosumLengthMm != null ? `${input.corpusCallosumLengthMm} мм` : "б/о"}`,
+    `Полость прозрачной перегородки (ППП) – ${input.cspWidthMm != null ? formatMm(input.cspWidthMm) : "б/о"}`,
+    `Мозолистое тело – ${input.corpusCallosumLengthMm != null ? formatMm(input.corpusCallosumLengthMm) : "б/о"}`,
     `Сильвиева борозда – ${bo(undefined)}`,
     `Лицевые структуры: профиль – ${bo(undefined)}`,
     `Носовые кости – ${presentProtocolText(input.nasalBoneSeen)}`,

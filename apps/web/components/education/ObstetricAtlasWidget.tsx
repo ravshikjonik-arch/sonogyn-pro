@@ -76,7 +76,7 @@ export function ObstetricAtlasWidget({ initialPart = "all", initialPageId }: Pro
         <p className="max-w-3xl text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
           Учебный слой по атласу Блинова/Емельяненко: эталонные срезы, ошибки плоскости и пороговые
           значения ранней беременности. Перцентили КТР/ТВП — в{" "}
-          <Link href="/assistant/fmf" className="font-semibold text-[var(--clinical-primary-deep)] hover:underline">
+          <Link href="/ai/consultants/fmf" className="font-semibold text-[var(--clinical-primary-deep)] hover:underline">
             FMF-помощнике
           </Link>{" "}
           и{" "}

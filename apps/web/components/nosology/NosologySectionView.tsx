@@ -4,14 +4,19 @@ import type { ReactNode } from "react";
 import type { NosologyBlock } from "@repo/nosology";
 
 function linkifyClinicalText(text: string): ReactNode[] {
-  const parts = text.split(/(\/(?:reference|assistant|nosologies)[^\s)\],]+)/g);
+  const parts = text.split(/(\/(?:reference|assistant|ai\/consultants|nosologies)[^\s)\],]+)/g);
   return parts.map((part, i) => {
-    if (!part.startsWith("/reference/") && !part.startsWith("/assistant/") && !part.startsWith("/nosologies/")) {
+    if (
+      !part.startsWith("/reference/") &&
+      !part.startsWith("/assistant/") &&
+      !part.startsWith("/ai/consultants/") &&
+      !part.startsWith("/nosologies/")
+    ) {
       return part;
     }
     const label = part.includes("/norms")
       ? "Таблица норм Медведева →"
-      : part.includes("/assistant/fmf")
+      : part.includes("/assistant/fmf") || part.includes("/ai/consultants/fmf")
         ? "FMF-ассистент →"
         : part.includes("/nosologies")
           ? "Нозология →"

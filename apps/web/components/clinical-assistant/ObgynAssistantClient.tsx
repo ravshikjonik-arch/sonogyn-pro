@@ -76,7 +76,7 @@ export function ObgynAssistantClient({ mode, initialQuery = "", initialPatientId
       <div className="mx-auto max-w-6xl space-y-6 px-4 py-8 lg:px-8">
         <div className="flex flex-wrap items-center gap-2">
           <Button variant="ghost" size="sm" asChild>
-            <Link href="/assistant">← Помощник врача</Link>
+            <Link href="/ai/consultants">← Помощник врача</Link>
           </Button>
           <Button variant="outline" size="sm" asChild>
             <Link href="/workspace">AI-зона УЗИ</Link>
@@ -117,7 +117,7 @@ export function ObgynAssistantClient({ mode, initialQuery = "", initialPatientId
                 </p>
               </div>
               <Button asChild className="shrink-0" variant="default">
-                <Link href="/assistant/obstetrics/expert">Expert Copilot →</Link>
+                <Link href="/ai/consultants/obstetrics/expert">Expert Copilot →</Link>
               </Button>
             </div>
             <div className="sonogyn-glass-card flex flex-col gap-3 rounded-2xl border border-teal-200/80 p-4 sm:flex-row sm:items-center sm:justify-between dark:border-teal-900/50">

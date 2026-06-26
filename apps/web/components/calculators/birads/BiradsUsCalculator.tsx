@@ -122,7 +122,7 @@ export function BiradsUsCalculator({ embedded }: { embedded?: boolean } = {}) {
         <>
           <div className="flex flex-wrap items-center gap-3">
             <Button variant="ghost" size="sm" asChild>
-              <Link href="/calculators">← Каталог</Link>
+              <Link href="/tools/calc">← Каталог</Link>
             </Button>
             <Badge variant="outline">BI-RADS v2025</Badge>
             <Badge className="bg-rose-100 text-rose-900">Брошюра цикла</Badge>

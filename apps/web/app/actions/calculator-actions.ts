@@ -38,13 +38,10 @@ export async function saveCalculatorEntry(input: {
     return { ok: false, message: error.message };
   }
 
-  revalidatePath("/calculators");
-  revalidatePath("/calculators/elastography");
+  revalidatePath("/tools/calc");
   revalidatePath("/tools/calc/gyn/elastography");
-  revalidatePath("/calculators/pop-q");
   revalidatePath("/tools/calc/gyn/pop-q");
-  revalidatePath("/calculators/ti-rads");
   revalidatePath("/tools/adjunct/ti-rads");
-  revalidatePath(`/calculators/${input.slug}`);
+  revalidatePath(`/tools/calc/${input.slug}`);
   return { ok: true, id: data.id as string };
 }

@@ -286,14 +286,14 @@ export function FmfAssistantClient({ initialSection = "early" }: Props) {
       fhr: early.fhr ?? prev.fhr,
       betaHcg: early.bHcg ?? prev.betaHcg,
     }));
-    router.replace("/assistant/fmf?section=first", { scroll: false });
+    router.replace("/ai/consultants/fmf?section=first", { scroll: false });
   }
 
   return (
     <div className="mx-auto max-w-6xl space-y-6 px-4 py-8 lg:px-8">
       <div className="flex flex-wrap items-center gap-2">
         <Button variant="ghost" size="sm" asChild>
-          <Link href="/assistant/obstetrics">← Помощник акушера</Link>
+          <Link href="/ai/consultants/obstetrics">← Помощник акушера</Link>
         </Button>
         <Button variant="outline" size="sm" asChild>
           <Link href="/tools/refs/norms">Клин. нормы УЗИ</Link>
@@ -342,7 +342,7 @@ export function FmfAssistantClient({ initialSection = "early" }: Props) {
         {SECTIONS.map((item) => (
           <Link
             key={item.id}
-            href={`/assistant/fmf?section=${item.id}`}
+            href={`/ai/consultants/fmf?section=${item.id}`}
             scroll={false}
             prefetch
             className={cn(

@@ -172,7 +172,7 @@ export function BasicCourseWidget({ variant = "full", className, initialLectureI
           <Link href="/tools/refs" className="font-medium text-[var(--clinical-primary)] underline">
             ← Библиотека
           </Link>
-          <Link href="/assistant/fmf" className="font-medium text-[var(--clinical-primary)] underline">
+          <Link href="/ai/consultants/fmf" className="font-medium text-[var(--clinical-primary)] underline">
             FMF-ассистент →
           </Link>
         </div>
@@ -409,7 +409,7 @@ function PracticeTab({
   const practiceLinks = useMemo(() => {
     const seen = new Set<string>();
     const links: { label: string; href: string }[] = [
-      { label: "FMF · малый срок и скрининги", href: "/assistant/fmf" },
+      { label: "FMF · малый срок и скрининги", href: "/ai/consultants/fmf" },
       { label: "Нормы по сроку · Медведев", href: "/reference/norms" },
       { label: "Клин. нормы УЗИ", href: "/reference" },
     ];

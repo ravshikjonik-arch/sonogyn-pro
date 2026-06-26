@@ -134,7 +134,7 @@ export function AppointmentQuickAccessHub() {
     <div className="mx-auto max-w-2xl space-y-8 px-4 py-8 lg:px-8">
       <div className="flex flex-wrap items-start gap-3">
         <Button variant="ghost" size="sm" asChild>
-          <Link href="/calculators">← Калькуляторы</Link>
+          <Link href="/tools/calc">← Калькуляторы</Link>
         </Button>
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">

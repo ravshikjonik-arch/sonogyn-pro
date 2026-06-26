@@ -2,6 +2,7 @@
 
 import type { ClinicalFinding, EfwAssessment, ObstetricMeasurementResult, SkeletonIndexResult } from "@repo/obstetric-engine";
 import { OBSTETRIC_ENGINE_DISCLAIMER } from "@repo/obstetric-engine";
+import { formatMeasurementDecimal } from "@repo/medical-calculations";
 import { cn } from "@/lib/utils/cn";
 
 type Props = {
@@ -49,9 +50,9 @@ function MiniCurve({ m }: { m: ObstetricMeasurementResult }) {
         />
       </div>
       <div className="flex justify-between text-[9px] text-[var(--clinical-foreground-muted)]">
-        <span>P3 {m.band.p3}</span>
-        <span>P50 {m.band.p50}</span>
-        <span>P97 {m.band.p97}</span>
+        <span>P3 {formatMeasurementDecimal(m.band.p3)}</span>
+        <span>P50 {formatMeasurementDecimal(m.band.p50)}</span>
+        <span>P97 {formatMeasurementDecimal(m.band.p97)}</span>
       </div>
     </div>
   );
@@ -100,9 +101,9 @@ export function SecondThirdPercentilePanel({
               {measurements.map((m) => (
                 <tr key={m.parameterId} className={cn("border-b border-[var(--clinical-border)]/60", flagClass(m.flag))}>
                   <td className="px-2 py-2 font-semibold">{m.labelRu}</td>
-                  <td className="px-2 py-2 tabular-nums">{m.value}</td>
-                  <td className="px-2 py-2 tabular-nums">{Number.isFinite(m.expected) ? m.expected : "—"}</td>
-                  <td className="px-2 py-2 tabular-nums">{Number.isFinite(m.sd) ? m.sd : "—"}</td>
+                  <td className="px-2 py-2 tabular-nums">{formatMeasurementDecimal(m.value)}</td>
+                  <td className="px-2 py-2 tabular-nums">{Number.isFinite(m.expected) ? formatMeasurementDecimal(m.expected) : "—"}</td>
+                  <td className="px-2 py-2 tabular-nums">{Number.isFinite(m.sd) ? formatMeasurementDecimal(m.sd) : "—"}</td>
                   <td className="px-2 py-2 tabular-nums font-bold">~{m.percentile}</td>
                   <td className="px-2 py-2 tabular-nums">{m.zScore}</td>
                   <td className="px-2 py-2 tabular-nums">{m.mom}</td>

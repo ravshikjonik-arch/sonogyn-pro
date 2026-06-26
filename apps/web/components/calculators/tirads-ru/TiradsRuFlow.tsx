@@ -1,5 +1,6 @@
 "use client";
 
+import { parseMeasurementMm } from "@repo/medical-calculations";
 import Link from "next/link";
 import { useMemo, useState, useTransition } from "react";
 import { toast } from "sonner";
@@ -166,7 +167,7 @@ export function TiradsRuFlow({ embedded = false }: { embedded?: boolean } = {}) 
             <span className="text-sm font-bold">ЩЖ · TI-RADS (РФ, 2023)</span>
             <span className="text-xs opacity-80">Катрич · Фисенко · Ветшева</span>
             <Button variant="secondary" size="sm" asChild className="ml-auto h-8 rounded-full text-xs">
-              <Link href="/calculators">← Калькуляторы</Link>
+              <Link href="/tools/calc">← Калькуляторы</Link>
             </Button>
           </div>
         </div>
@@ -273,7 +274,7 @@ export function TiradsRuFlow({ embedded = false }: { embedded?: boolean } = {}) 
               value={input.largestDiameterMm ?? ""}
               onChange={(e) =>
                 patch({
-                  largestDiameterMm: e.target.value ? Number(e.target.value) : undefined,
+                  largestDiameterMm: e.target.value ? parseMeasurementMm(e.target.value) : undefined,
                 })
               }
               className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm font-bold"

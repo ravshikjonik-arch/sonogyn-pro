@@ -10,11 +10,11 @@ export const VASCULAR_US_SOURCE = {
 } as const;
 
 export const VASCULAR_US_LINKS = {
-  clinical: { href: "/assistant/vascular", label: "Клинический модуль · протокол и AI" },
+  clinical: { href: "/ai/consultants/vascular", label: "Клинический модуль · протокол и AI" },
   library: { href: "/tools/refs", label: "Библиотека" },
 } as const;
 
-export const VASCULAR_US_CLINICAL_HREF = "/assistant/vascular";
+export const VASCULAR_US_CLINICAL_HREF = "/ai/consultants/vascular";
 
 /** Вкладки клинического модуля для deep-link из курса (?tab=). */
 export const VASCULAR_CLINICAL_TAB_BY_SECTION: Partial<

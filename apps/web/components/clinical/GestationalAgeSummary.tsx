@@ -105,7 +105,7 @@ export function GestationalAgeSummary({ lmpIso, referenceIso, className, compact
         <Link href="/tools/refs/consensus" className="font-medium text-[var(--clinical-primary)] underline">
           Нормы по сроку →
         </Link>
-        <Link href="/assistant/fmf" className="font-medium text-[var(--clinical-primary)] underline">
+        <Link href="/ai/consultants/fmf" className="font-medium text-[var(--clinical-primary)] underline">
           FMF-ассистент →
         </Link>
       </div>

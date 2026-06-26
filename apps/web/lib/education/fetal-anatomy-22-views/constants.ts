@@ -21,7 +21,7 @@ export const FETAL_ANATOMY_IMAGE_BASE = "/images/fetal-anatomy";
 
 export const FETAL_ANATOMY_LINKS = {
   library: { href: "/tools/refs", label: "Библиотека" },
-  fmf: { href: "/assistant/fmf?section=second", label: "FMF · II скрининг" },
+  fmf: { href: "/ai/consultants/fmf?section=second", label: "FMF · II скрининг" },
   fetalSpine: { href: "/tools/refs/fetal-spine", label: "Атлас позвоночника" },
   basicCourse: { href: "/tools/refs/basic-course?tab=program", label: "ISUOG Basic Training" },
   moduleRoute: "/tools/refs/fetal-anatomy-22-views",

@@ -140,7 +140,7 @@ function DoctorsCommunityHubBody() {
               <Link href="/tools/calc/gyn/pop-q">POP-Q калькулятор</Link>
             </Button>
             <Button variant="outline" asChild>
-              <Link href="/assistant">ИИ-помощник по снимку →</Link>
+              <Link href="/ai/consultants">ИИ-помощник по снимку →</Link>
             </Button>
           </div>
         </header>

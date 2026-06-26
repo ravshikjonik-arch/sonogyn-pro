@@ -246,7 +246,7 @@ export function PopQFlow() {
             <p className="text-xs text-rose-100">Русская версия · золотой стандарт стадирования пролапса</p>
           </div>
           <Button variant="secondary" size="sm" asChild className="ml-auto h-8 rounded-full text-xs">
-            <Link href="/calculators">← Калькуляторы</Link>
+            <Link href="/tools/calc">← Калькуляторы</Link>
           </Button>
         </div>
       </div>
@@ -364,7 +364,7 @@ export function PopQFlow() {
           <CalcStepCard title="Связанные инструменты">
             <div className="flex flex-wrap gap-2">
               <Button variant="outline" size="sm" asChild>
-                <Link href="/assistant/gynecology">Помощник АГ · N81</Link>
+                <Link href="/ai/consultants/gynecology">Помощник АГ · N81</Link>
               </Button>
               <Button variant="outline" size="sm" asChild>
                 <Link href="/cases?pathology=POP-Q">Пролапс · разбор кейсов</Link>

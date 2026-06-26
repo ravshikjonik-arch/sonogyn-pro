@@ -21,7 +21,7 @@ const quickLinks = [
   {
     title: "Calculators",
     description: "Evidence-aligned scoring and gestational tools.",
-    href: "/calculators",
+    href: "/tools/calc",
     icon: Calculator,
   },
   {

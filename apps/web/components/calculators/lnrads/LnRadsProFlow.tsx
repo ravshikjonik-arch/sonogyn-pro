@@ -39,7 +39,7 @@ export function LnRadsProFlow() {
         <div className="border-b border-[var(--clinical-border)] bg-gradient-to-r from-teal-900 to-emerald-500 px-4 py-2.5 text-white lg:px-10">
           <div className="mx-auto flex max-w-4xl flex-wrap items-center gap-2">
             <Button variant="secondary" size="sm" asChild className="h-8 rounded-full text-xs">
-              <Link href="/calculators">← Калькуляторы</Link>
+              <Link href="/tools/calc">← Калькуляторы</Link>
             </Button>
             <span className="text-sm font-bold">LN-RADS US Intelligence Suite</span>
             <div className="ml-auto flex flex-wrap gap-1">

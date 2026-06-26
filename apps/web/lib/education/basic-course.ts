@@ -98,7 +98,7 @@ export const ISUOG_BASIC_COURSE = {
             "Локализация — тело матки, не цервикальный канал",
           ],
           practiceLinks: [
-            { label: "FMF · малый срок", href: "/assistant/fmf?section=early" },
+            { label: "FMF · малый срок", href: "/ai/consultants/fmf?section=early" },
             { label: "Клин. нормы", href: "/reference" },
           ],
         },
@@ -111,7 +111,7 @@ export const ISUOG_BASIC_COURSE = {
             "Диаметр ЖМ до 6 мм на ранних сроках",
             "Отсутствие ЖМ при видимом ПЯ — red flag",
           ],
-          practiceLinks: [{ label: "FMF · малый срок", href: "/assistant/fmf?section=early" }],
+          practiceLinks: [{ label: "FMF · малый срок", href: "/ai/consultants/fmf?section=early" }],
         },
         {
           id: "embryo-crl",
@@ -123,7 +123,7 @@ export const ISUOG_BASIC_COURSE = {
             "Срок по КТР приоритетнее ДПМ при расхождении >5–7 дн",
           ],
           practiceLinks: [
-            { label: "FMF · I скрининг", href: "/assistant/fmf?section=first" },
+            { label: "FMF · I скрининг", href: "/ai/consultants/fmf?section=first" },
             { label: "Нормы по сроку", href: "/reference/norms" },
           ],
         },
@@ -147,7 +147,7 @@ export const ISUOG_BASIC_COURSE = {
             "Лямбда-знак при монохориальной двойне",
             "Синхронность размеров КТР",
           ],
-          practiceLinks: [{ label: "FMF · малый срок", href: "/assistant/fmf?section=early" }],
+          practiceLinks: [{ label: "FMF · малый срок", href: "/ai/consultants/fmf?section=early" }],
         },
       ],
       fileName: "Lecture-6-4-10.pdf",
@@ -203,7 +203,7 @@ export const ISUOG_BASIC_COURSE = {
             "3VT — три сосуда в одной плоскости",
             "Не полная ЭхоКГ — быстрая функциональная проверка",
           ],
-          practiceLinks: [{ label: "FMF · I скрининг", href: "/assistant/fmf?section=first" }],
+          practiceLinks: [{ label: "FMF · I скрининг", href: "/ai/consultants/fmf?section=first" }],
         },
         {
           id: "ductus-venosus",
@@ -215,7 +215,7 @@ export const ISUOG_BASIC_COURSE = {
             "3 стабильных цикла",
           ],
           practiceLinks: [
-            { label: "Нормы PI · Медvedev", href: "/assistant/fmf?section=doppler" },
+            { label: "Нормы PI · Медvedev", href: "/ai/consultants/fmf?section=doppler" },
             { label: "Модуль · VP", href: "/tools/refs/fetal-doppler-first-trimester" },
           ],
         },
@@ -249,7 +249,7 @@ export const ISUOG_BASIC_COURSE = {
             "Усреднить правую и левую",
           ],
           practiceLinks: [
-            { label: "FMF · допплер", href: "/assistant/fmf?section=doppler" },
+            { label: "FMF · допплер", href: "/ai/consultants/fmf?section=doppler" },
             { label: "Протокол UTA", href: "/tools/refs/fetal-doppler-first-trimester" },
           ],
         },
@@ -304,7 +304,7 @@ export const ISUOG_BASIC_COURSE = {
             "Outflow crossing documented",
             "3VT — arch anomalies, TGA clues",
           ],
-          practiceLinks: [{ label: "FMF · II скрининг", href: "/assistant/fmf?section=second" }],
+          practiceLinks: [{ label: "FMF · II скрининг", href: "/ai/consultants/fmf?section=second" }],
         },
         {
           id: "abdomen-pelvis",

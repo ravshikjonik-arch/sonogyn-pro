@@ -1,5 +1,7 @@
 "use client";
 
+import { formatMm, parseMeasurementMm } from "@repo/medical-calculations";
+
 import { useCallback, useMemo, useTransition } from "react";
 import { toast } from "sonner";
 
@@ -162,7 +164,7 @@ export function TiradsAcrWizard() {
             min={1}
             max={80}
             value={input.largestDiameterMm ?? ""}
-            onChange={(e) => setField("largestDiameterMm", e.target.value ? Number(e.target.value) : undefined)}
+            onChange={(e) => setField("largestDiameterMm", e.target.value ? parseMeasurementMm(e.target.value) : undefined)}
           />
           <CalcSubLabel>Локализация узла</CalcSubLabel>
           <Input value={input.noduleLocation ?? ""} onChange={(e) => setField("noduleLocation", e.target.value)} placeholder="правая доля, верхний полюс" />
