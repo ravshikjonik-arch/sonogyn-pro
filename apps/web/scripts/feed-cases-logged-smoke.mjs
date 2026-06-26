@@ -31,6 +31,7 @@ function loadEnv() {
 
 const BAD_TITLE = /feed seed|pilot e2e|202\d-\d{2}-\d{2}t/i;
 const CASES_CRASH = /cannot add postgres_changes|doctor_presence_roster after subscribe|Application error/i;
+const CASES_CLIENT_ERROR = /postgres_changes|doctor_presence_roster|RealtimeChannel/i;
 
 let failed = 0;
 
@@ -117,6 +118,64 @@ async function getPage(pathname, cookies) {
   return { status: res.status, url: res.url, text };
 }
 
+function cookiesForPlaywright(cookieHeader) {
+  const host = new URL(base).hostname;
+  return cookieHeader
+    .split("; ")
+    .map((pair) => {
+      const eq = pair.indexOf("=");
+      if (eq < 0) return null;
+      return {
+        name: pair.slice(0, eq).trim(),
+        value: pair.slice(eq + 1),
+        domain: host,
+        path: "/",
+      };
+    })
+    .filter(Boolean);
+}
+
+/** Client-side Realtime check (DoctorPresence) — только в headless Chromium. */
+async function clientCasesSmoke(cookies) {
+  let chromium;
+  try {
+    ({ chromium } = await import("playwright"));
+  } catch {
+    return { skipped: true, reason: "playwright not installed" };
+  }
+
+  try {
+    const browser = await chromium.launch({ headless: true });
+    try {
+      const context = await browser.newContext({ userAgent: ua });
+      await context.addCookies(cookiesForPlaywright(cookies));
+      const page = await context.newPage();
+      const errors = [];
+      page.on("console", (msg) => {
+        if (msg.type() === "error") errors.push(msg.text());
+      });
+      page.on("pageerror", (err) => errors.push(String(err.message ?? err)));
+
+      await page.goto(`${base}/cases`, { waitUntil: "domcontentloaded", timeout: 90_000 });
+      await page.waitForTimeout(4000);
+
+      const bodyText = await page.locator("body").innerText().catch(() => "");
+      const bad = [...errors, bodyText].some(
+        (line) => CASES_CRASH.test(line) || CASES_CLIENT_ERROR.test(line),
+      );
+      return { skipped: false, ok: !bad, errors: errors.slice(0, 5) };
+    } finally {
+      await browser.close();
+    }
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
+    if (/Executable doesn't exist|playwright install/i.test(msg)) {
+      return { skipped: true, reason: "npx playwright install" };
+    }
+    return { skipped: true, reason: msg.slice(0, 120) };
+  }
+}
+
 console.log(`\n🔐 Feed + Cases logged-in smoke · ${base}\n`);
 
 const env = loadEnv();
@@ -182,6 +241,15 @@ else if (CASES_CRASH.test(cases.text)) {
   const m = cases.text.match(CASES_CRASH);
   fail("/cases HTML", m?.[0] ?? "crash pattern");
 } else ok("/cases HTML → 200 · без Realtime crash в SSR");
+
+const client = await clientCasesSmoke(cookies);
+if (client.skipped) {
+  console.log(`⏭  /cases client (Playwright): ${client.reason}`);
+} else if (client.ok) {
+  ok("/cases client · без Realtime / DoctorPresence ошибок");
+} else {
+  fail("/cases client", client.errors?.join(" | ") || "console/pageerror");
+}
 
 console.log(`\nИтог: ${failed} ошибок\n`);
 process.exit(failed > 0 ? 1 : 0);
