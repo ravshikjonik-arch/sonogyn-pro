@@ -65,7 +65,7 @@ function discoverWebRoutes(): Set<string> {
   normalized.add("/assistant/fmf");
   normalized.add("/assistant/gynecology");
   normalized.add("/assistant/obstetrics");
-  normalized.add("/library/cervix-pathology");
+  normalized.add("/tools/refs/cervix-pathology");
   return normalized;
 }
 

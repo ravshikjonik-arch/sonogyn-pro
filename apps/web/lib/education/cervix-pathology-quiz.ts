@@ -3,6 +3,6 @@ export const CERVIX_PATHOLOGY_QUIZ_DISCLAIMER =
 
 export const CERVIX_PATHOLOGY_QUIZ_LINKS = {
   nosology: { href: "/nosologies/cervix-pathology", label: "Нозология · шейка матки" },
-  library: { href: "/library", label: "Библиотека" },
+  library: { href: "/tools/refs", label: "Библиотека" },
   evidence: { href: "/evidence?shelf=cervix", label: "SonoEvidence · шейка" },
 } as const;

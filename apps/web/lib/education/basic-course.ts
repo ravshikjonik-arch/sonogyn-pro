@@ -56,7 +56,7 @@ export const ISUOG_COURSE_MODULES: BasicCourseModule[] = [
     title: "II триместр · аномалии",
     description: "18–22 нед: 22 среза, анатомический скрининг, база 65 ВПР.",
     lectureIds: ["lecture-8-fetal-anatomy-22-views"],
-    platformModuleHref: "/library/fetal-anatomy-22-views",
+    platformModuleHref: "/tools/refs/fetal-anatomy-22-views",
   },
   {
     id: "third-trimester",
@@ -179,7 +179,7 @@ export const ISUOG_BASIC_COURSE = {
           practiceLinks: [
             {
               label: "Курс · безопасность",
-              href: "/library/fetal-doppler-first-trimester",
+              href: "/tools/refs/fetal-doppler-first-trimester",
             },
           ],
         },
@@ -192,7 +192,7 @@ export const ISUOG_BASIC_COURSE = {
             "Кольцо — только при подозрении на АБС-дефект",
             "Mean UTA = (R + L) / 2",
           ],
-          practiceLinks: [{ label: "Алгоритмы", href: "/library/fetal-doppler-first-trimester" }],
+          practiceLinks: [{ label: "Алгоритмы", href: "/tools/refs/fetal-doppler-first-trimester" }],
         },
         {
           id: "fetal-heart-doppler",
@@ -216,7 +216,7 @@ export const ISUOG_BASIC_COURSE = {
           ],
           practiceLinks: [
             { label: "Нормы PI · Медvedev", href: "/assistant/fmf?section=doppler" },
-            { label: "Модуль · VP", href: "/library/fetal-doppler-first-trimester" },
+            { label: "Модуль · VP", href: "/tools/refs/fetal-doppler-first-trimester" },
           ],
         },
         {
@@ -227,7 +227,7 @@ export const ISUOG_BASIC_COURSE = {
             "Пузырь обязателен в кадре",
             "SUA → расширенный протокол по клинике",
           ],
-          practiceLinks: [{ label: "Случаи · SUA", href: "/library/fetal-doppler-first-trimester" }],
+          practiceLinks: [{ label: "Случаи · SUA", href: "/tools/refs/fetal-doppler-first-trimester" }],
         },
         {
           id: "umbilical-ring",
@@ -237,7 +237,7 @@ export const ISUOG_BASIC_COURSE = {
             "Midline + membrane → omphalocele likely",
             "Paraumbilical + free loops → gastroschisis likely",
           ],
-          practiceLinks: [{ label: "Omphalocele vs gastroschisis", href: "/library/fetal-doppler-first-trimester" }],
+          practiceLinks: [{ label: "Omphalocele vs gastroschisis", href: "/tools/refs/fetal-doppler-first-trimester" }],
         },
         {
           id: "uterine-arteries",
@@ -250,11 +250,11 @@ export const ISUOG_BASIC_COURSE = {
           ],
           practiceLinks: [
             { label: "FMF · допплер", href: "/assistant/fmf?section=doppler" },
-            { label: "Протокол UTA", href: "/library/fetal-doppler-first-trimester" },
+            { label: "Протокол UTA", href: "/tools/refs/fetal-doppler-first-trimester" },
           ],
         },
       ],
-      platformModuleHref: "/library/fetal-doppler-first-trimester",
+      platformModuleHref: "/tools/refs/fetal-doppler-first-trimester",
     },
     {
       id: "lecture-8-fetal-anatomy-22-views",
@@ -280,8 +280,8 @@ export const ISUOG_BASIC_COURSE = {
             "Overview-1 — gross anomalies, viability",
           ],
           practiceLinks: [
-            { label: "Модуль · spine", href: "/library/fetal-anatomy-22-views" },
-            { label: "Атлас позвоночника", href: "/library/fetal-spine" },
+            { label: "Модуль · spine", href: "/tools/refs/fetal-anatomy-22-views" },
+            { label: "Атлас позвоночника", href: "/tools/refs/fetal-spine" },
           ],
         },
         {
@@ -293,7 +293,7 @@ export const ISUOG_BASIC_COURSE = {
             "Cisterna magna 2–10 mm",
             "Banana sign → spine protocol",
           ],
-          practiceLinks: [{ label: "Модуль · brain", href: "/library/fetal-anatomy-22-views" }],
+          practiceLinks: [{ label: "Модуль · brain", href: "/tools/refs/fetal-anatomy-22-views" }],
         },
         {
           id: "heart-views",
@@ -315,7 +315,7 @@ export const ISUOG_BASIC_COURSE = {
             "Обе почки + pelvis",
             "Bladder + 2 arteries on color",
           ],
-          practiceLinks: [{ label: "База ВПР", href: "/library/fetal-anatomy-22-views" }],
+          practiceLinks: [{ label: "База ВПР", href: "/tools/refs/fetal-anatomy-22-views" }],
         },
         {
           id: "limbs-face-overview2",
@@ -326,10 +326,10 @@ export const ISUOG_BASIC_COURSE = {
             "Upper lip coronal + profile",
             "Overview-2 — не пропускать",
           ],
-          practiceLinks: [{ label: "Самопроверка", href: "/library/fetal-anatomy-22-views" }],
+          practiceLinks: [{ label: "Самопроверка", href: "/tools/refs/fetal-anatomy-22-views" }],
         },
       ],
-      platformModuleHref: "/library/fetal-anatomy-22-views",
+      platformModuleHref: "/tools/refs/fetal-anatomy-22-views",
     },
   ] satisfies BasicCourseLecture[],
 } as const;

@@ -33,7 +33,7 @@ function CervixPathologyLibraryInner() {
     (value: string) => {
       const params = new URLSearchParams(searchParams.toString());
       params.set("tab", value);
-      router.replace(`/library/cervix-pathology?${params.toString()}`);
+      router.replace(`/tools/refs/cervix-pathology?${params.toString()}`);
     },
     [router, searchParams],
   );

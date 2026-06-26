@@ -41,7 +41,7 @@ export function CourseCatalogClient() {
         action: { label: "Профиль", onClick: () => { window.location.href = "/profile"; } },
         duration: 12000,
       });
-      window.history.replaceState({}, "", "/library/courses");
+      window.history.replaceState({}, "", "/tools/refs/courses");
     }
   }, []);
 

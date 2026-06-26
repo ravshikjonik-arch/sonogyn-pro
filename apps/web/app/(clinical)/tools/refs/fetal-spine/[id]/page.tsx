@@ -35,7 +35,7 @@ export default async function FetalSpineCardPage({ params }: Props) {
     <div className="px-4 py-10 lg:px-10">
       <div className="mx-auto max-w-6xl space-y-4">
         <Button variant="ghost" size="sm" asChild className="-ml-2">
-          <Link href="/library/fetal-spine">
+          <Link href="/tools/refs/fetal-spine">
             <ArrowLeft className="mr-1 h-4 w-4" />
             УЗИ позвоночника плода
           </Link>

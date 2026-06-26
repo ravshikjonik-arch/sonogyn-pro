@@ -11,7 +11,7 @@ export const VASCULAR_US_SOURCE = {
 
 export const VASCULAR_US_LINKS = {
   clinical: { href: "/assistant/vascular", label: "Клинический модуль · протокол и AI" },
-  library: { href: "/library", label: "Библиотека" },
+  library: { href: "/tools/refs", label: "Библиотека" },
 } as const;
 
 export const VASCULAR_US_CLINICAL_HREF = "/assistant/vascular";

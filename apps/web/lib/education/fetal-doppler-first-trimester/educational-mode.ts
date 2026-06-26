@@ -194,7 +194,7 @@ export const FETAL_DOPPLER_EDUCATIONAL_CARDS: FetalDopplerEducationalCard[] = [
   {
     id: "sonogyn-educational-mode",
     learningObjectives: ["Навигация по модулю в SonoGyn-Pro"],
-    keyPoints: ["/library/fetal-doppler-first-trimester"],
+    keyPoints: ["/tools/refs/fetal-doppler-first-trimester"],
     clinicalPearls: [],
     residentTips: [],
     examPearls: [],

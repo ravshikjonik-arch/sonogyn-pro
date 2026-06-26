@@ -61,7 +61,7 @@ export function ModuleAccordion({ courseId, modules, progressPercent = 0 }: Modu
                 {module.lessons.map((lesson) => {
                   const Icon = lesson.lesson_type === "offline" ? MapPin : Video;
                   const locked = lesson.locked && !lesson.is_free_preview;
-                  const href = locked ? undefined : `/library/courses/${courseId}/lessons/${lesson.id}`;
+                  const href = locked ? undefined : `/tools/refs/courses/${courseId}/lessons/${lesson.id}`;
                   return (
                     <li key={lesson.id}>
                       {href ? (

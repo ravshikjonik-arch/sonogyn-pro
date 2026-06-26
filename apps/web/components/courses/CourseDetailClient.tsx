@@ -137,7 +137,7 @@ export function CourseDetailClient({ courseId }: CourseDetailClientProps) {
             <>
               <ProgressBar value={progressPercent} label="Ваш прогресс" />
               <Button asChild className="w-full">
-                <Link href={`/library/my-courses`}>Мои курсы</Link>
+                <Link href="/tools/refs/my-courses">Мои курсы</Link>
               </Button>
             </>
           ) : (

@@ -45,7 +45,7 @@ export async function POST(req: Request, { params }: Params) {
 
     const appOrigin = resolveAppOrigin(req);
     const description = `Курс «${course.title}» · SonoGyn Pro`;
-    const returnUrl = `${appOrigin}/library/courses?enrolled=${courseId}`;
+    const returnUrl = `${appOrigin}/tools/refs/courses?enrolled=${courseId}`;
 
     const payment = await createPaymentViaSdk({
       userId: user.id,

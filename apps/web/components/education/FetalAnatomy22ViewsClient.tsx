@@ -458,7 +458,7 @@ export function FetalAnatomy22ViewsClient() {
             FETAL_ANATOMY_LINKS.fmf,
             FETAL_ANATOMY_LINKS.fetalSpine,
             {
-              href: `/library/basic-course?lecture=${FETAL_ANATOMY_ISUOG_LECTURE_ID}&tab=practice`,
+              href: `/tools/refs/basic-course?lecture=${FETAL_ANATOMY_ISUOG_LECTURE_ID}&tab=practice`,
               label: "ISUOG · лекция 8",
             },
           ]}

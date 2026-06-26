@@ -113,7 +113,7 @@ export function FetalSpineGalleryClient() {
       ) : (
         <>
           {featured ? (
-            <Link href={`/library/fetal-spine/${featured.id}`} className="group block">
+            <Link href={`/tools/refs/fetal-spine/${featured.id}`} className="group block">
               <Card className="overflow-hidden transition-all hover:shadow-lg">
                 <div className="grid lg:grid-cols-2">
                   <div className="relative bg-[var(--clinical-muted)]/30 lg:max-h-[320px]">
@@ -146,7 +146,7 @@ export function FetalSpineGalleryClient() {
               const tag = primaryTag(card);
               const style = TAG_STYLES[tag] ?? TAG_STYLES.Обзор;
               return (
-                <Link key={card.id} href={`/library/fetal-spine/${card.id}`} className="group block">
+                <Link key={card.id} href={`/tools/refs/fetal-spine/${card.id}`} className="group block">
                   <Card
                     className={cn(
                       "h-full overflow-hidden ring-1 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg",

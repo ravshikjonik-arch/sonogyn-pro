@@ -141,6 +141,6 @@ export function fetalDopplerProgressSummary(isuogProgress = loadIsuogTopicProgre
     coreDone,
     coreTotal: FETAL_DOPPLER_CORE_TOPIC_IDS.length,
     corePercent: fetalDopplerCoreProgressPercent(isuogProgress),
-    isuogHref: `/library/basic-course?lecture=${FETAL_DOPPLER_ISUOG_LECTURE_ID}&tab=practice`,
+    isuogHref: `/tools/refs/basic-course?lecture=${FETAL_DOPPLER_ISUOG_LECTURE_ID}&tab=practice`,
   };
 }

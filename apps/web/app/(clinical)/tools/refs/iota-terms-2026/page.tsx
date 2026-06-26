@@ -19,7 +19,7 @@ export default function IotaTerms2026Page() {
       <div className="mx-auto max-w-6xl space-y-6">
         <header className="space-y-4">
           <Button variant="ghost" size="sm" asChild className="-ml-2">
-            <Link href="/library">
+            <Link href="/tools/refs">
               <ArrowLeft className="mr-1 h-4 w-4" />
               Библиотека
             </Link>

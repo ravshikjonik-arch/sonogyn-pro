@@ -6,11 +6,13 @@ import { Check, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { OfflineLessonCard } from "@/components/courses/OfflineLessonCard";
+import { ModuleProgressWidget } from "@/components/achievements/ModuleProgressWidget";
 import { VimeoPlayer } from "@/components/courses/VimeoPlayer";
 import { YouTubePlayer } from "@/components/courses/YouTubePlayer";
 import { LessonVideoPlayer } from "@/components/lesson/LessonVideoPlayer";
 import { Button } from "@/components/ui/button";
 import { extractVimeoId, extractYouTubeId } from "@/lib/courses/video-url";
+import { reportAchievementCheck } from "@/hooks/useAchievements";
 
 type LessonData = {
   id: string;
@@ -78,6 +80,7 @@ export function LessonViewClient({ courseId, lessonId }: LessonViewClientProps) 
       }
       setCompleted(true);
       toast.success("Урок отмечен пройденным");
+      void reportAchievementCheck({ eventType: "lesson_complete", moduleId: "general" });
     } finally {
       setSubmitting(false);
     }
@@ -116,7 +119,7 @@ export function LessonViewClient({ courseId, lessonId }: LessonViewClientProps) 
     return (
       <div className="rounded-xl border p-6 text-center text-sm">
         Урок недоступен.{" "}
-        <Link href={`/library/courses/${courseId}`} className="text-[var(--clinical-primary)] underline">
+        <Link href={`/tools/refs/courses/${courseId}`} className="text-[var(--clinical-primary)] underline">
           Вернуться к курсу
         </Link>
       </div>
@@ -127,7 +130,7 @@ export function LessonViewClient({ courseId, lessonId }: LessonViewClientProps) 
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <Link href={`/library/courses/${courseId}`} className="text-sm text-[var(--clinical-primary)] underline">
+          <Link href={`/tools/refs/courses/${courseId}`} className="text-sm text-[var(--clinical-primary)] underline">
             ← К курсу
           </Link>
           <h1 className="mt-2 text-2xl font-semibold">{lesson.title}</h1>
@@ -168,6 +171,8 @@ export function LessonViewClient({ courseId, lessonId }: LessonViewClientProps) 
           dangerouslySetInnerHTML={{ __html: lesson.body_html || `<p>${lesson.description ?? ""}</p>` }}
         />
       )}
+
+      <ModuleProgressWidget moduleId="general" eventType="lesson_complete" />
     </div>
   );
 }

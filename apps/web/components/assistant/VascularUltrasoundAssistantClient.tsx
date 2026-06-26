@@ -244,7 +244,7 @@ export function VascularUltrasoundAssistantClient({ defaultTab }: { defaultTab?:
               </div>
             ) : null}
             <Button variant="outline" asChild>
-              <Link href="/library/vascular-ultrasound">
+              <Link href="/tools/refs/vascular-ultrasound">
                 <BookOpen className="mr-2 h-4 w-4" />
                 Образовательный курс →
               </Link>

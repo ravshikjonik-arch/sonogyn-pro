@@ -45,7 +45,7 @@ export function MyCoursesClient() {
       <Card>
         <CardContent className="py-10 text-center text-sm text-slate-500">
           Вы ещё не записаны на курсы.{" "}
-          <Link href="/library/courses" className="text-[var(--clinical-primary)] underline">
+          <Link href="/tools/refs/courses" className="text-[var(--clinical-primary)] underline">
             Перейти в каталог
           </Link>
         </CardContent>
@@ -67,7 +67,7 @@ export function MyCoursesClient() {
           <CardContent className="space-y-4">
             <ProgressBar value={row.progressPercent} label="Прогресс" />
             <Button asChild className="w-full">
-              <Link href={`/library/courses/${row.courseId}`}>Продолжить</Link>
+              <Link href={`/tools/refs/courses/${row.courseId}`}>Продолжить</Link>
             </Button>
           </CardContent>
         </Card>

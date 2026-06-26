@@ -39,7 +39,7 @@ export function FetalSpineCardDetailClient({ card }: FetalSpineCardDetailClientP
   return (
     <>
       <Link
-        href="/library/fetal-spine"
+        href="/tools/refs/fetal-spine"
         className="mb-5 inline-flex items-center gap-2 rounded-xl px-2 py-1 text-sm font-bold text-[var(--clinical-foreground-muted)] transition-colors hover:bg-[var(--clinical-muted)] hover:text-[var(--clinical-foreground)]"
       >
         <ArrowLeft className="h-4 w-4" />

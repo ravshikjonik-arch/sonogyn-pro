@@ -34,7 +34,7 @@ export function CourseCard({ course, enrolling, onEnroll }: CourseCardProps) {
       )}
       <CardHeader>
         <CardTitle className="flex items-start justify-between gap-2 text-lg">
-          <Link href={`/library/courses/${course.id}`} className="hover:underline">
+          <Link href={`/tools/refs/courses/${course.id}`} className="hover:underline">
             {course.title}
           </Link>
           {course.enrolled ? (
@@ -59,7 +59,7 @@ export function CourseCard({ course, enrolling, onEnroll }: CourseCardProps) {
       />
       <CardContent className="flex gap-2 pt-0">
         <Button variant="secondary" className="flex-1" asChild>
-          <Link href={`/library/courses/${course.id}`}>Подробнее</Link>
+          <Link href={`/tools/refs/courses/${course.id}`}>Подробнее</Link>
         </Button>
         {!course.enrolled && onEnroll ? (
           <Button className="flex-1" disabled={enrolling} onClick={onEnroll}>

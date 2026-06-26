@@ -11,15 +11,15 @@ export const ISUOG_LECTURE_MODULE_SYNC: Record<
   { moduleHref: string; label: string; syncMessage: string }
 > = {
   [FETAL_DOPPLER_ISUOG_LECTURE_ID]: {
-    moduleHref: "/library/fetal-doppler-first-trimester",
+    moduleHref: "/tools/refs/fetal-doppler-first-trimester",
     label: "5 позиций допплера",
-    syncMessage: "Отметки синхронизированы с модулем /library/fetal-doppler-first-trimester.",
+    syncMessage: "Отметки синхронизированы с модулем /tools/refs/fetal-doppler-first-trimester.",
   },
   [FETAL_ANATOMY_ISUOG_LECTURE_ID]: {
-    moduleHref: "/library/fetal-anatomy-22-views",
+    moduleHref: "/tools/refs/fetal-anatomy-22-views",
     label: "22 среза · 65 ВПР",
     syncMessage:
-      "Отметки синхронизированы с модулем /library/fetal-anatomy-22-views (сreзы ↔ темы ISUOG).",
+      "Отметки синхронизированы с модулем /tools/refs/fetal-anatomy-22-views (сreзы ↔ темы ISUOG).",
   },
 };
 

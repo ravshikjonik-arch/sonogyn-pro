@@ -13,7 +13,7 @@ export function FetalSpineCardNavigation({ prev, next }: FetalSpineCardNavigatio
     <div className="mt-6 grid gap-3 sm:grid-cols-2">
       {prev ? (
         <Link
-          href={`/library/fetal-spine/${prev.id}`}
+          href={`/tools/refs/fetal-spine/${prev.id}`}
           className="group flex items-center gap-3 rounded-2xl border border-[var(--clinical-border)] bg-[var(--clinical-card)] p-4 shadow-sm transition-all hover:border-[var(--clinical-primary)]/40 hover:shadow-md"
         >
           <ChevronLeft className="h-5 w-5 shrink-0 text-[var(--clinical-primary)]" />
@@ -31,7 +31,7 @@ export function FetalSpineCardNavigation({ prev, next }: FetalSpineCardNavigatio
       )}
       {next ? (
         <Link
-          href={`/library/fetal-spine/${next.id}`}
+          href={`/tools/refs/fetal-spine/${next.id}`}
           className="group flex items-center justify-end gap-3 rounded-2xl border border-[var(--clinical-border)] bg-[var(--clinical-card)] p-4 shadow-sm transition-all hover:border-[var(--clinical-primary)]/40 hover:shadow-md sm:col-start-2"
         >
           <div className="min-w-0 text-right">

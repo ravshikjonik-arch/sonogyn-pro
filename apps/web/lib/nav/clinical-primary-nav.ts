@@ -44,7 +44,8 @@ export const CLINICAL_PRIMARY_TABS: ClinicalPrimaryTab[] = [
       pathname === "/calculators" ||
       pathname.startsWith("/calculators/") ||
       pathname.startsWith("/reports/") ||
-      pathname.startsWith("/library/") ||
+      pathname.startsWith("/tools/refs/") ||
+      pathname === "/library" ||
       pathname.startsWith("/guidelines") ||
       pathname.startsWith("/reference") ||
       pathname.startsWith("/evidence") ||

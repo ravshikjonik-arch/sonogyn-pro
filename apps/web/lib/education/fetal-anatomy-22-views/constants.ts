@@ -20,11 +20,11 @@ export const FETAL_ANATOMY_SOURCE = {
 export const FETAL_ANATOMY_IMAGE_BASE = "/images/fetal-anatomy";
 
 export const FETAL_ANATOMY_LINKS = {
-  library: { href: "/library", label: "Библиотека" },
+  library: { href: "/tools/refs", label: "Библиотека" },
   fmf: { href: "/assistant/fmf?section=second", label: "FMF · II скрининг" },
-  fetalSpine: { href: "/library/fetal-spine", label: "Атлас позвоночника" },
-  basicCourse: { href: "/library/basic-course?tab=program", label: "ISUOG Basic Training" },
-  moduleRoute: "/library/fetal-anatomy-22-views",
+  fetalSpine: { href: "/tools/refs/fetal-spine", label: "Атлас позвоночника" },
+  basicCourse: { href: "/tools/refs/basic-course?tab=program", label: "ISUOG Basic Training" },
+  moduleRoute: "/tools/refs/fetal-anatomy-22-views",
 } as const;
 
 export const FETAL_ANATOMY_REGION_LABELS: Record<string, string> = {

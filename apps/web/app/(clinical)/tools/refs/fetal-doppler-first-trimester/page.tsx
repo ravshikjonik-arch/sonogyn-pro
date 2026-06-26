@@ -20,7 +20,7 @@ export default function FetalDopplerFirstTrimesterPage() {
       <div className="mx-auto max-w-6xl space-y-6">
         <header className="space-y-4">
           <Button variant="ghost" size="sm" asChild className="-ml-2">
-            <Link href="/library">
+            <Link href="/tools/refs">
               <ArrowLeft className="mr-1 h-4 w-4" />
               Библиотека
             </Link>
@@ -43,7 +43,7 @@ export default function FetalDopplerFirstTrimesterPage() {
             <p className="text-xs text-[var(--clinical-foreground-muted)]">{FETAL_DOPPLER_DISCLAIMER}</p>
             <div className="flex flex-wrap gap-3 text-sm">
               <Link
-                href={`/library/basic-course?lecture=${FETAL_DOPPLER_FIRST_TRIMESTER_LECTURE_ID}&tab=lecture`}
+                href={`/tools/refs/basic-course?lecture=${FETAL_DOPPLER_FIRST_TRIMESTER_LECTURE_ID}&tab=lecture`}
                 className="font-medium text-[var(--clinical-primary)] underline"
               >
                 ISUOG Basic Training · лекция 7

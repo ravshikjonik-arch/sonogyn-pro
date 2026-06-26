@@ -1,55 +1,46 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-const REF_LINKS = [
-  { href: "/tools/refs/guidelines", label: "КР и приказы" },
-  { href: "/tools/refs/norms", label: "Клинические нормы УЗИ" },
-  { href: "/tools/refs/consensus", label: "Консенсусы · нормы по сроку" },
-  { href: "/tools/refs/nosologies", label: "Нозологии" },
-  { href: "/tools/refs/evidence", label: "Доказательная база" },
-  { href: "/tools/refs/orads-guide", label: "O-RADS · руководство" },
-  { href: "/tools/refs/iota-terms-2026", label: "IOTA 2026 · термины" },
-  { href: "/tools/refs/basic-course", label: "ISUOG · базовый курс" },
-];
+import { TelegramChannelLink } from "@/components/clinical/TelegramChannelLink";
+import { BasicCourseWidget } from "@/components/education/BasicCourseWidget";
+import { EducationLibraryCatalog } from "@/components/education/EducationLibraryCatalog";
+import { Badge } from "@/components/ui/badge";
 
 type Props = { params: Promise<{ slug?: string[] }> };
 
-function RefsHub() {
+function RefsLibraryHubPage() {
   return (
-    <div className="mx-auto max-w-3xl space-y-6 px-4 py-8 pb-24">
-      <header>
-        <h1 className="text-2xl font-black">Справочники</h1>
-        <p className="text-sm text-[var(--clinical-foreground-muted)]">
-          КР, нормы, нозологии, учебные материалы
-        </p>
-      </header>
-      <div className="grid gap-3 sm:grid-cols-2">
-        {REF_LINKS.map((item) => (
-          <Card key={item.href}>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-base">{item.label}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Button asChild size="sm">
-                <Link href={item.href}>Открыть</Link>
-              </Button>
-            </CardContent>
-          </Card>
-        ))}
+    <div className="px-4 py-10 lg:px-10">
+      <div className="mx-auto max-w-6xl space-y-10">
+        <header className="space-y-2">
+          <Badge variant="outline">Библиотека</Badge>
+          <h1 className="text-3xl font-semibold tracking-tight text-[var(--clinical-foreground)]">
+            Учебные материалы
+          </h1>
+          <p className="max-w-3xl text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
+            Всё по полкам: курсы ISUOG, справочники, атласы и калькуляторы. Поиск и быстрый переход к инструменту.
+          </p>
+          <Link href="/tools/refs/basic-course?tab=program" className="text-sm font-medium text-[var(--clinical-primary)] underline">
+            ISUOG Basic Training → программа · лекция · практика
+          </Link>
+          <Link href="/tools/refs/courses" className="block text-sm font-medium text-[var(--clinical-primary)] underline">
+            Курсы авторов → шаг «Ординатор» на платформе
+          </Link>
+        </header>
+
+        <TelegramChannelLink className="max-w-xl" />
+
+        <BasicCourseWidget variant="compact" className="max-w-xl" />
+
+        <EducationLibraryCatalog />
       </div>
-      <Button asChild variant="outline" size="sm">
-        <Link href="/library">Курсы и прочее (legacy hub)</Link>
-      </Button>
     </div>
   );
 }
 
-/** /tools/refs hub; unmigrated paths fall back to /library/* */
+/** /tools/refs hub; unknown nested slugs → 404 */
 export default async function ToolsRefsCatchAllPage({ params }: Props) {
   const { slug = [] } = await params;
-  if (slug.length === 0) return <RefsHub />;
-  redirect(`/library/${slug.join("/")}`);
+  if (slug.length === 0) return <RefsLibraryHubPage />;
+  notFound();
 }

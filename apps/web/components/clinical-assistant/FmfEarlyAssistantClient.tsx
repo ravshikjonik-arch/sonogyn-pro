@@ -299,7 +299,7 @@ export function FmfAssistantClient({ initialSection = "early" }: Props) {
           <Link href="/tools/refs/norms">Клин. нормы УЗИ</Link>
         </Button>
         <Button variant="outline" size="sm" asChild>
-          <Link href="/library/basic-course">ISUOG · лекция 6</Link>
+          <Link href="/tools/refs/basic-course">ISUOG · лекция 6</Link>
         </Button>
       </div>
 

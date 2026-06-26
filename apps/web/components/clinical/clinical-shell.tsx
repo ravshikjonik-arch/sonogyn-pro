@@ -79,6 +79,7 @@ const navGroups: { title: string; items: { href: string; label: string; icon: ty
       { href: "/tools/refs/guidelines", label: "КР и приказы", icon: FileText },
       { href: "/tools/refs/evidence", label: "УЗИ · база", icon: BookMarked },
       { href: "/tools/refs/norms", label: "Клин. нормы", icon: BookOpen },
+      { href: "/tools/refs/courses", label: "Курсы", icon: BookOpen },
       { href: "/tools/refs", label: "Библиотека", icon: Library },
     ],
   },

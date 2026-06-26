@@ -44,7 +44,7 @@ export default async function VascularAssistantPage({
               гемодинамика → заключение). Методология: {VASCULAR_US_SOURCE.author}, «{VASCULAR_US_SOURCE.title}».
             </p>
             <p className="text-xs text-[var(--clinical-foreground-muted)]">{VASCULAR_US_DISCLAIMER}</p>
-            <Link href="/library/vascular-ultrasound" className="text-sm font-medium text-[var(--clinical-primary)] underline">
+            <Link href="/tools/refs/vascular-ultrasound" className="text-sm font-medium text-[var(--clinical-primary)] underline">
               Модуль 2 · образовательный курс для ординаторов →
             </Link>
           </div>

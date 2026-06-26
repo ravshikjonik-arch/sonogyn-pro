@@ -12,5 +12,5 @@ export const IOTA_TERMS_2026_QUIZ_DISCLAIMER =
 export const IOTA_TERMS_2026_QUIZ_LINKS = {
   evidence: { href: "/evidence?shelf=onco", label: "SonoEvidence · онкология" },
   calculator: { href: "/calculators/orads-pro", label: "O-RADS Pro + IOTA 2026" },
-  library: { href: "/library", label: "Библиотека" },
+  library: { href: "/tools/refs", label: "Библиотека" },
 } as const;

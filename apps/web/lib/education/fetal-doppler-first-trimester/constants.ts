@@ -15,9 +15,9 @@ export const FETAL_DOPPLER_IMAGE_BASE = "/images/fetal-doppler";
 
 export const FETAL_DOPPLER_LINKS = {
   fmf: { href: "/assistant/fmf?section=first", label: "FMF · I скрининг" },
-  obstetricAtlas: { href: "/library/obstetric-atlas", label: "Атлас I триместра" },
+  obstetricAtlas: { href: "/tools/refs/obstetric-atlas", label: "Атлас I триместра" },
   evidence: { href: "/evidence?shelf=us-fmf", label: "SonoEvidence · FMF" },
-  library: { href: "/library", label: "Библиотека" },
+  library: { href: "/tools/refs", label: "Библиотека" },
 } as const;
 
 /** Atlas filenames (placeholders until images uploaded). */

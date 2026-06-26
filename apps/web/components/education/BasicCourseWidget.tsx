@@ -98,7 +98,7 @@ export function BasicCourseWidget({ variant = "full", className, initialLectureI
     (lectureId: string, tab: CourseTab) => {
       setActiveId(lectureId);
       setActiveTab(tab);
-      patchUrl("/library/basic-course", { lecture: lectureId, tab });
+      patchUrl("/tools/refs/basic-course", { lecture: lectureId, tab });
     },
     [],
   );
@@ -137,7 +137,7 @@ export function BasicCourseWidget({ variant = "full", className, initialLectureI
         </CardHeader>
         <CardContent className="mt-auto space-y-2">
           <Button className="w-full" asChild>
-            <Link href={`/library/basic-course?lecture=${activeLecture?.id ?? ""}&tab=program`}>Открыть курс</Link>
+            <Link href={`/tools/refs/basic-course?lecture=${activeLecture?.id ?? ""}&tab=program`}>Открыть курс</Link>
           </Button>
         </CardContent>
       </Card>
@@ -169,7 +169,7 @@ export function BasicCourseWidget({ variant = "full", className, initialLectureI
           />
         </div>
         <div className="flex flex-wrap gap-2 text-xs">
-          <Link href="/library" className="font-medium text-[var(--clinical-primary)] underline">
+          <Link href="/tools/refs" className="font-medium text-[var(--clinical-primary)] underline">
             ← Библиотека
           </Link>
           <Link href="/assistant/fmf" className="font-medium text-[var(--clinical-primary)] underline">

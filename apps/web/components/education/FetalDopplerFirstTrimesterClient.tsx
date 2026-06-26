@@ -122,7 +122,7 @@ export function FetalDopplerFirstTrimesterClient() {
                 </div>
                 <Progress value={corePercent} className="h-2" />
                 <Link
-                  href={`/library/basic-course?lecture=${FETAL_DOPPLER_ISUOG_LECTURE_ID}&tab=practice`}
+                  href={`/tools/refs/basic-course?lecture=${FETAL_DOPPLER_ISUOG_LECTURE_ID}&tab=practice`}
                   className="text-xs text-[var(--clinical-primary)] underline"
                 >
                   Прогресс синхронизирован с лекцией 7

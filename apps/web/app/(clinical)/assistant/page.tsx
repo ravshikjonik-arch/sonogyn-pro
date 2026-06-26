@@ -99,7 +99,7 @@ export default function AssistantHubPage() {
               <Link href="/assistant/fmf">FMF · I скрининг</Link>
             </Button>
             <Button variant="outline" size="sm" asChild>
-              <Link href="/library/basic-course">ISUOG курс</Link>
+              <Link href="/tools/refs/basic-course">ISUOG курс</Link>
             </Button>
           </CardContent>
         </Card>

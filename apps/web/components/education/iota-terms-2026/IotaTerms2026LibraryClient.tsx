@@ -16,7 +16,7 @@ function IotaTerms2026LibraryInner() {
     (value: string) => {
       const params = new URLSearchParams(searchParams.toString());
       params.set("tab", value);
-      router.replace(`/library/iota-terms-2026?${params.toString()}`);
+      router.replace(`/tools/refs/iota-terms-2026?${params.toString()}`);
     },
     [router, searchParams],
   );

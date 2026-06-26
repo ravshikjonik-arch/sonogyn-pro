@@ -194,7 +194,7 @@ export function fetalAnatomyProgressSummary(isuogProgress = loadIsuogTopicProgre
     coreDone,
     coreTotal: FETAL_ANATOMY_CORE_TOPIC_IDS.length,
     corePercent: fetalAnatomyCoreProgressPercent(isuogProgress),
-    isuogHref: `/library/basic-course?lecture=${FETAL_ANATOMY_ISUOG_LECTURE_ID}&tab=practice`,
+    isuogHref: `/tools/refs/basic-course?lecture=${FETAL_ANATOMY_ISUOG_LECTURE_ID}&tab=practice`,
   };
 }
 

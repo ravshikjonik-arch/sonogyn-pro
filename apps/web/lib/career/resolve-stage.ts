@@ -60,7 +60,7 @@ function buildMotivation(
       headline: "Шаг 2 — запишитесь на курс автора",
       subline: "Ординаторский статус открывается после записи на курс (бесплатный или платный).",
       ctaLabel: "Выбрать курс — стать ординатором",
-      ctaHref: "/library/courses",
+      ctaHref: "/tools/refs/courses",
     };
   }
 

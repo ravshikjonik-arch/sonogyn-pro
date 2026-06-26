@@ -39,7 +39,7 @@ const quickLinks = [
   {
     title: "Clinical library",
     description: "Protocols and imaging references.",
-    href: "/library",
+    href: "/tools/refs",
     icon: Layers,
   },
 ];

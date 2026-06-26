@@ -24,7 +24,7 @@ export const FETAL_ANATOMY_MODULE_MANIFEST = {
   titleRu: FETAL_ANATOMY_MODULE_TITLE_RU,
   disclaimer: FETAL_ANATOMY_DISCLAIMER,
   source: FETAL_ANATOMY_SOURCE,
-  route: "/library/fetal-anatomy-22-views",
+  route: "/tools/refs/fetal-anatomy-22-views",
   isuogLectureId: "lecture-8-fetal-anatomy-22-views",
   counts: {
     views: FETAL_ANATOMY_VIEW_COUNT,

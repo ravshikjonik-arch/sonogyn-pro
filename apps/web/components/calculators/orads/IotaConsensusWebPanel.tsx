@@ -14,7 +14,7 @@ export function IotaConsensusWebPanel({ consensus }: { consensus: IotaConsensusR
         <p className="text-[10px] font-black uppercase tracking-widest text-violet-800">Консенсус IOTA 2026</p>
         <div className="flex items-center gap-2">
           <a
-            href="/library/iota-terms-2026"
+            href="/tools/refs/iota-terms-2026"
             className="text-[10px] font-bold text-violet-700 underline underline-offset-2 hover:text-violet-900"
           >
             Справочник терминов →

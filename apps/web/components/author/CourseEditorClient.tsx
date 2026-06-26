@@ -394,7 +394,7 @@ export function CourseEditorClient({ courseId }: CourseEditorClientProps) {
               <CoverUploader coverUrl={coverUrl} onUpload={uploadCover} />
               {status === "published" ? (
                 <Button variant="outline" size="sm" className="w-full" asChild>
-                  <Link href={`/library/courses/${courseId}`} target="_blank">
+                  <Link href={`/tools/refs/courses/${courseId}`} target="_blank">
                     Предпросмотр курса
                   </Link>
                 </Button>
