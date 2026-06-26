@@ -7,6 +7,7 @@ import { Suspense, useState } from "react";
 
 import { CaseFeed } from "@/components/cases/case-feed";
 import { DoctorChannelChat } from "@/components/chat/DoctorChannelChat";
+import { DoctorPresenceProvider } from "@/components/chat/DoctorPresenceContext";
 import { DoctorPresencePanel } from "@/components/chat/DoctorPresencePanel";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -101,6 +102,14 @@ function HubInner() {
 }
 
 export function DoctorsCommunityHub() {
+  return (
+    <DoctorPresenceProvider>
+      <DoctorsCommunityHubBody />
+    </DoctorPresenceProvider>
+  );
+}
+
+function DoctorsCommunityHubBody() {
   return (
     <div className="px-4 py-10 lg:px-10">
       <div className="mx-auto max-w-6xl space-y-8">

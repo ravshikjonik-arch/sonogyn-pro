@@ -2,7 +2,7 @@
 
 import { Circle, Users, Wifi, WifiOff } from "lucide-react";
 
-import { useDoctorPresence } from "@/hooks/useDoctorPresence";
+import { useDoctorPresenceContext } from "@/components/chat/DoctorPresenceContext";
 import { formatLastSeen } from "@/lib/chat/presence";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils/cn";
@@ -42,7 +42,7 @@ function MemberRow({
 
 export function DoctorPresencePanel({ compact }: { compact?: boolean }) {
   const { loading, error, online, offline, onlineCount, offlineCount, totalCount, currentUserId } =
-    useDoctorPresence();
+    useDoctorPresenceContext();
 
   if (compact) {
     return (
