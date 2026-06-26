@@ -1,7 +1,5 @@
-import { PregnancyMedicationsReference } from "@/components/calculators/reference/PregnancyMedicationsReference";
+import { redirect } from "next/navigation";
 
-export const metadata = { title: "Лекарства при беременности · SonoGyn" };
-
-export default function PregnancyMedicationsPage() {
-  return <PregnancyMedicationsReference />;
+export default function LegacyPregnancyMedsRedirect() {
+  redirect("/tools/calc/ob/pregnancy-medications");
 }

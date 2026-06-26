@@ -46,7 +46,7 @@ export const CALCULATORS: CalculatorDefinition[] = [
     code: "CERVICAL_LENGTH",
     title: "Длина шейки матки (CL)",
     subtitle: "Скрининг 16–24 нед, воронка T/Y/V/U, sludge",
-    externalHref: "/calculators/cervical-length",
+    externalHref: "/tools/calc/ob/cervical-length",
     fields: [],
   },
   {
@@ -118,7 +118,7 @@ export const CALCULATORS: CalculatorDefinition[] = [
     code: "OB_CALC",
     title: "Калькулятор расчёта срока беременности",
     subtitle: "ПМП, УЗИ, КТР, ЭКО, фетометрия, декрет, шевеления, явка в ЖК",
-    externalHref: "/calculators/ob",
+    externalHref: "/tools/calc/ob",
     fields: [],
   },
   {
@@ -126,7 +126,7 @@ export const CALCULATORS: CalculatorDefinition[] = [
     code: "EFW",
     title: "Масса плода",
     subtitle: "Hadlock, Рудаков, антропометрия матери",
-    externalHref: "/calculators/fetal-weight",
+    externalHref: "/tools/calc/ob/fetal-weight",
     fields: [],
   },
   {
@@ -134,7 +134,7 @@ export const CALCULATORS: CalculatorDefinition[] = [
     code: "BISHOP",
     title: "Шкала Бишопа",
     subtitle: "Созревание шейки перед индукцией",
-    externalHref: "/calculators/bishop",
+    externalHref: "/tools/calc/ob/bishop",
     fields: [],
   },
   {
@@ -142,7 +142,7 @@ export const CALCULATORS: CalculatorDefinition[] = [
     code: "VBAC",
     title: "VBAC / TOLAC",
     subtitle: "До родов и в родах после кесарева сечения",
-    externalHref: "/calculators/vbac",
+    externalHref: "/tools/calc/ob/vbac",
     fields: [],
   },
   {
@@ -150,7 +150,7 @@ export const CALCULATORS: CalculatorDefinition[] = [
     code: "PREG_MEDS",
     title: "Лекарства при беременности",
     subtitle: "Справочник категорий FDA (ориентир)",
-    externalHref: "/calculators/pregnancy-medications",
+    externalHref: "/tools/calc/ob/pregnancy-medications",
     fields: [],
   },
   {

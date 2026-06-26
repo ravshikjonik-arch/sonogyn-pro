@@ -26,7 +26,7 @@ import { GestationalAgeSummary } from "@/components/clinical/GestationalAgeSumma
 import { LmpDateField } from "@/components/clinical/LmpDateField";
 import { Input } from "@/components/ui/input";
 import { parseIsoDate } from "@/lib/utils/ru-date";
-import { gaDaysFromLmp, splitGaDays } from "@repo/medical-calculations";
+import { gaDaysFromLmp, splitGaDays, formatMeasurementDecimal, parseMeasurementMm } from "@repo/medical-calculations";
 import { assessEarlyPregnancyGrowth } from "@repo/medical-calculations/early-pregnancy";
 import { assessFirstTrimesterScreening } from "@repo/fmf";
 import { assessSecondThirdScreening } from "@repo/obstetric-engine";
@@ -1272,7 +1272,7 @@ function CervixForm({
           </Badge>
         ) : null}
         <Button variant="outline" size="sm" asChild>
-          <Link href="/calculators/cervical-length">Калькулятор CL →</Link>
+          <Link href="/tools/calc/ob/cervical-length">Калькулятор CL →</Link>
         </Button>
       </div>
       <NumField label="Длина шейки (CL), мм" value={cervix.lengthMm} onChange={(v) => setCervix((p) => ({ ...p, lengthMm: v }))} />
@@ -1323,17 +1323,26 @@ function NumField({
   label,
   value,
   onChange,
+  measurementMm,
 }: {
   label: string;
   value?: number;
   onChange: (value?: number) => void;
+  measurementMm?: boolean;
 }) {
+  const linearMeasure =
+    measurementMm ?? (label.includes("мм") || label.includes(" см") || label.includes(", см"));
   return (
     <FieldBlock label={label}>
       <Input
         inputMode="decimal"
-        value={value != null ? String(value) : ""}
-        onChange={(e) => onChange(parseNum(e.target.value))}
+        step={linearMeasure ? "0.1" : undefined}
+        value={
+          value != null ? (linearMeasure ? formatMeasurementDecimal(value) : String(value)) : ""
+        }
+        onChange={(e) =>
+          onChange(linearMeasure ? parseMeasurementMm(e.target.value) : parseNum(e.target.value))
+        }
       />
     </FieldBlock>
   );

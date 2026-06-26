@@ -1,7 +1,5 @@
-import { VbacCalculator } from "@/components/calculators/obstetric/VbacCalculator";
+import { redirect } from "next/navigation";
 
-export const metadata = { title: "VBAC / TOLAC · SonoGyn" };
-
-export default function VbacPage() {
-  return <VbacCalculator />;
+export default function LegacyVbacRedirect() {
+  redirect("/tools/calc/ob/vbac");
 }

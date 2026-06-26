@@ -1,7 +1,5 @@
-import { BishopCalculator } from "@/components/calculators/obstetric/BishopCalculator";
+import { redirect } from "next/navigation";
 
-export const metadata = { title: "Шкала Бишопа · SonoGyn" };
-
-export default function BishopPage() {
-  return <BishopCalculator />;
+export default function LegacyBishopRedirect() {
+  redirect("/tools/calc/ob/bishop");
 }

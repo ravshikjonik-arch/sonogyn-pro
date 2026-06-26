@@ -44,12 +44,12 @@ export function ObCalcQuickWidget({ className, compact }: Props) {
         <div className="flex flex-wrap gap-2">
           {QUICK_TABS.map((item) => (
             <Button key={item.tab} variant="outline" size="sm" className="rounded-full bg-[var(--clinical-card)]/80" asChild>
-              <Link href={`/calculators/ob?tab=${item.tab}`}>{item.label}</Link>
+              <Link href={`/tools/calc/ob?tab=${item.tab}`}>{item.label}</Link>
             </Button>
           ))}
         </div>
         <Button className="w-full sm:w-auto" asChild>
-          <Link href="/calculators/ob">
+          <Link href="/tools/calc/ob">
             <CalendarDays className="mr-2 h-4 w-4" />
             Открыть калькулятор
           </Link>

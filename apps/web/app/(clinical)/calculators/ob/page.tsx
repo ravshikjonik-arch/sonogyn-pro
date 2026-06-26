@@ -1,20 +1,9 @@
-import { ObCalcHub } from "@/components/calculators/ob/ObCalcHub";
-
-export const metadata = {
-  title: "Калькулятор расчёта срока беременности · SonoGyn",
-  description: "Калькулятор срока беременности: ПМП, УЗИ, КТР, ЭКО, фетометрия, декрет.",
-};
-
-const TABS = ["lmp", "us", "crl", "ivf", "feto", "dekret", "edd", "movement", "antenatal"] as const;
-type TabId = (typeof TABS)[number];
-
-function parseTab(value?: string): TabId {
-  return TABS.includes(value as TabId) ? (value as TabId) : "lmp";
-}
+import { redirect } from "next/navigation";
 
 type Props = { searchParams: Promise<{ tab?: string }> };
 
-export default async function ObCalcPage({ searchParams }: Props) {
+/** Legacy path — canonical IA v2: /tools/calc/ob */
+export default async function LegacyObRedirect({ searchParams }: Props) {
   const { tab } = await searchParams;
-  return <ObCalcHub initialTab={parseTab(tab)} />;
+  redirect(tab ? `/tools/calc/ob?tab=${encodeURIComponent(tab)}` : "/tools/calc/ob");
 }

@@ -50,8 +50,16 @@ export default async function ToolsCalcCatchAllPage({ params }: Props) {
 
   const path = slug.join("/");
 
-  if (path === "ob") redirect("/calculators/ob");
-  if (path.startsWith("ob/")) redirect(`/calculators/${path.slice(3)}`);
+  if (path === "ob") redirect("/tools/calc/ob");
+  if (path.startsWith("ob/")) {
+    const sub = path.slice(3);
+    if (sub === "fetal-weight") redirect("/tools/calc/ob/fetal-weight");
+    if (sub === "bishop") redirect("/tools/calc/ob/bishop");
+    if (sub === "vbac") redirect("/tools/calc/ob/vbac");
+    if (sub === "pregnancy-medications") redirect("/tools/calc/ob/pregnancy-medications");
+    if (sub === "cervical-length") redirect("/tools/calc/ob/cervical-length");
+    redirect(`/calculators/${sub}`);
+  }
   if (path.startsWith("rads/")) {
     if (path === "rads/adnex-report") redirect("/reports/adnex");
     if (path === "rads/o-rads") redirect("/tools/calc/rads/o-rads");

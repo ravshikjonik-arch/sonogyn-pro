@@ -92,7 +92,7 @@ export default async function PregnancyPage(props: { params: Promise<Params> }) 
           Скрининг CL 16–24 нед, порог &lt;25 мм, воронка T/Y/V/U.
         </p>
         <Button asChild variant="outline" size="sm" className="mt-3">
-          <Link href="/calculators/cervical-length">Калькулятор CL →</Link>
+          <Link href="/tools/calc/ob/cervical-length">Калькулятор CL →</Link>
         </Button>
       </section>
 

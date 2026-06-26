@@ -264,7 +264,7 @@ export function ObCalcHub({ initialTab = "lmp" }: { initialTab?: TabId }) {
           {TABS.map((t) => (
             <Link
               key={t.id}
-              href={`/calculators/ob?tab=${t.id}`}
+              href={`/tools/calc/ob?tab=${t.id}`}
               scroll={false}
               prefetch
               role="tab"

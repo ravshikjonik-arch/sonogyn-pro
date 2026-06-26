@@ -1,7 +1,5 @@
-import { FetalWeightCalculator } from "@/components/calculators/obstetric/FetalWeightCalculator";
+import { redirect } from "next/navigation";
 
-export const metadata = { title: "Масса плода · SonoGyn" };
-
-export default function FetalWeightPage() {
-  return <FetalWeightCalculator />;
+export default function LegacyFetalWeightRedirect() {
+  redirect("/tools/calc/ob/fetal-weight");
 }
