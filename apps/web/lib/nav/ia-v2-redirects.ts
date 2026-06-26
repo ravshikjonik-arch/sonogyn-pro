@@ -126,8 +126,4 @@ export const IA_V2_REDIRECTS: Redirect[] = [
 ];
 
 /** Bridge via page components only (avoid next.config ↔ legacy redirect loops). */
-export const IA_V2_BRIDGE_REDIRECTS: Redirect[] = [
-  { source: "/tools/calc/rads/bi-rads", destination: "/calculators/bi-rads", permanent: false },
-  { source: "/tools/calc/rads/ln-rads", destination: "/calculators/ln-rads", permanent: false },
-  { source: "/tools/adjunct/ti-rads", destination: "/calculators/ti-rads", permanent: false },
-];
+export const IA_V2_BRIDGE_REDIRECTS: Redirect[] = [];

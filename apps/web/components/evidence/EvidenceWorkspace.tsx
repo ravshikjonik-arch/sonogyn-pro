@@ -121,13 +121,13 @@ const SHELF_RESOURCE_LINKS: Record<EvidenceShelf, EvidenceRelatedLink[]> = {
   "us-fmf": [{ href: "/assistant/fmf", label: "FMF · скрининги" }],
   obgyn: [{ href: "/assistant/gynecology", label: "Помощник АГ" }],
   cervix: [{ href: "/library/cervix-pathology", label: "Самопроверка · шейка" }],
-  mammo: [{ href: "/calculators/bi-rads", label: "BI-RADS" }],
+  mammo: [{ href: "/tools/calc/rads/bi-rads", label: "BI-RADS" }],
   onco: [
     { href: "/library/iota-terms-2026", label: "IOTA 2026 · термины" },
     { href: "/library/orads-echograms", label: "O-RADS · эхограммы" },
     { href: "/calculators/orads-pro", label: "O-RADS Pro" },
   ],
-  endocrine: [{ href: "/calculators/ti-rads", label: "TI-RADS" }],
+  endocrine: [{ href: "/tools/adjunct/ti-rads", label: "TI-RADS" }],
   surgery: [{ href: "/idea-deep-endometriosis", label: "IDEA · pre-op" }],
 };
 

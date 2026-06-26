@@ -34,7 +34,7 @@ export function Breast3DClientBody() {
         </p>
         <div className="flex flex-wrap items-center gap-2">
           <Button variant="outline" asChild>
-            <Link href="/calculators/bi-rads">BI-RADS US →</Link>
+            <Link href="/tools/calc/rads/bi-rads">BI-RADS US →</Link>
           </Button>
           <Button variant="ghost" size="sm" onClick={() => setShow3d((v) => !v)}>
             {show3d ? "Схема (2D)" : "3D-просмотр (учебный)"}

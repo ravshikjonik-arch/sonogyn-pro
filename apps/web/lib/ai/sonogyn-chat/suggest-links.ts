@@ -9,10 +9,10 @@ export function suggestModuleLinks(prompt: string): Suggestion[] {
     ];
   }
   if (/bi-?rads|молочн|мж/i.test(prompt)) {
-    return [{ label: "Калькулятор BI-RADS", href: "/calculators/bi-rads" }];
+    return [{ label: "Калькулятор BI-RADS", href: "/tools/calc/rads/bi-rads" }];
   }
   if (/ti-?rads|щитовид/i.test(prompt)) {
-    return [{ label: "Калькулятор TI-RADS", href: "/calculators/ti-rads" }];
+    return [{ label: "Калькулятор TI-RADS", href: "/tools/adjunct/ti-rads" }];
   }
   if (/fmf|скрининг|беремен/i.test(prompt)) {
     return [{ label: "FMF ассистент", href: "/assistant/fmf" }];

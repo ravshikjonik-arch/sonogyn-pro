@@ -1,10 +1,6 @@
-import { BiradsProFlow } from "@/components/calculators/birads/BiradsProFlow";
+import { redirect } from "next/navigation";
 
-export const metadata = {
-  title: "BI-RADS US · SonoGyn",
-  description: "Калькулятор BI-RADS US: быстрый режим, брошюра v2025, визуальный атлас, AI Assistant.",
-};
-
-export default function BiradsUsPage() {
-  return <BiradsProFlow />;
+/** Legacy path — canonical IA v2: /tools/calc/rads/bi-rads */
+export default function LegacyBiradsRedirect() {
+  redirect("/tools/calc/rads/bi-rads");
 }

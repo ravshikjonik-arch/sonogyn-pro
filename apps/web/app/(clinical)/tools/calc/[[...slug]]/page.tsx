@@ -55,6 +55,8 @@ export default async function ToolsCalcCatchAllPage({ params }: Props) {
   if (path.startsWith("rads/")) {
     if (path === "rads/adnex-report") redirect("/reports/adnex");
     if (path === "rads/o-rads") redirect("/tools/calc/rads/o-rads");
+    if (path === "rads/bi-rads") redirect("/tools/calc/rads/bi-rads");
+    if (path === "rads/ln-rads") redirect("/tools/calc/rads/ln-rads");
     redirect(`/calculators/${path.slice(5)}`);
   }
   if (path.startsWith("gyn/")) redirect(`/calculators/${path.slice(4)}`);

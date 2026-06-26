@@ -49,6 +49,9 @@ const PUBLIC_WITHIN_PROTECTED = [
   "/calculators/bi-rads",
   "/calculators/ti-rads",
   "/tools/calc/rads/o-rads",
+  "/tools/calc/rads/bi-rads",
+  "/tools/calc/rads/ln-rads",
+  "/tools/adjunct/ti-rads",
 ];
 
 function isPublicWithinProtected(pathname: string): boolean {

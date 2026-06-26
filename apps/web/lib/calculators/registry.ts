@@ -30,7 +30,7 @@ export const CALCULATORS: CalculatorDefinition[] = [
     code: "BI_RADS_US",
     title: "BI-RADS US Pro",
     subtitle: "Быстрый калькулятор · брошюра v2025 · атлас · AI Assistant + US Worker",
-    externalHref: "/calculators/bi-rads",
+    externalHref: "/tools/calc/rads/bi-rads",
     fields: [],
   },
   {
@@ -70,7 +70,7 @@ export const CALCULATORS: CalculatorDefinition[] = [
     code: "LN_RADS",
     title: "LN-RADS US Pro",
     subtitle: "Morphology · Doppler · Atlas · Academy · AI · Cases · Board",
-    externalHref: "/calculators/ln-rads",
+    externalHref: "/tools/calc/rads/ln-rads",
     fields: [],
   },
   {
@@ -78,7 +78,7 @@ export const CALCULATORS: CalculatorDefinition[] = [
     code: "TI_RADS",
     title: "TI-RADS ЩЖ",
     subtitle: "ACR TI-RADS Pro · Pattern Recognition · FNA · РФ 2023",
-    externalHref: "/calculators/ti-rads",
+    externalHref: "/tools/adjunct/ti-rads",
     fields: [],
   },
   {
