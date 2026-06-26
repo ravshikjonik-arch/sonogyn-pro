@@ -42,7 +42,7 @@ export default async function CaseDetailPage(props: {
     notFound();
   }
 
-  const teachingCase = row as CaseDetailData;
+  const teachingCase = row as unknown as CaseDetailData;
 
   let isModerator = false;
   if (user) {

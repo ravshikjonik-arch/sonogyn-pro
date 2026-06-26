@@ -233,6 +233,27 @@ export const InternalNotifyBodySchema = z.object({
   metadata: z.record(z.unknown()).optional(),
 });
 
+const clinicalModuleIdSchema = z.enum(["orads", "iota", "birads", "tirads", "fmf", "general"]);
+
+export const AchievementCheckBodySchema = z.object({
+  eventType: z.enum([
+    "case_complete",
+    "lesson_complete",
+    "quiz_pass",
+    "interpretation",
+    "daily_login",
+    "module_progress",
+  ]),
+  moduleId: clinicalModuleIdSchema,
+  correct: z.boolean().optional(),
+  score: z.number().min(0).max(100).optional(),
+  passed: z.boolean().optional(),
+  fmfCompleted: z.number().int().min(0).optional(),
+  fmfTotal: z.number().int().min(0).optional(),
+});
+
+export type AchievementCheckBody = z.infer<typeof AchievementCheckBodySchema>;
+
 export async function parseJsonBody(request: Request): Promise<
   | { ok: true; data: unknown }
   | { ok: false; response: Response }

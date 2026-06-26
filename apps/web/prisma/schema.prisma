@@ -118,3 +118,70 @@ model Payment {
   @@index([userId, status])
   @@map("prisma_payments")
 }
+
+// ---------------------------------------------------------------------------
+// Геймификация «Звёзды и награды» (Supabase auth.users.id → userId)
+// Не путать с prisma_users — здесь userId = UUID из Supabase Auth.
+// ---------------------------------------------------------------------------
+
+/// Справочник бейджей (сидируется при первом запросе или миграцией)
+model Achievement {
+  id            String   @id @default(cuid())
+  name          String
+  slug          String   @unique
+  description   String
+  iconEmoji     String   @map("icon_emoji")
+  xpReward      Int      @map("xp_reward")
+  /// CASES_COMPLETED | CORRECT_STREAK | LESSONS_COMPLETED | LOGIN_STREAK | MODULE_COMPLETION
+  criteriaType  String   @map("criteria_type")
+  criteriaValue Int      @map("criteria_value")
+  /// orads | iota | birads | tirads | fmf | general — null = любой модуль
+  moduleId      String?  @map("module_id")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  userAchievements UserAchievement[]
+
+  @@map("prisma_achievements")
+}
+
+model UserAchievement {
+  id            String      @id @default(cuid())
+  userId        String      @map("user_id")
+  achievementId String      @map("achievement_id")
+  unlockedAt    DateTime    @default(now()) @map("unlocked_at")
+  achievement   Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, achievementId])
+  @@index([userId])
+  @@map("prisma_user_achievements")
+}
+
+model UserProgress {
+  id               String    @id @default(cuid())
+  userId           String    @unique @map("user_id")
+  totalXp          Int       @default(0) @map("total_xp")
+  level            Int       @default(1)
+  streakDays       Int       @default(0) @map("streak_days")
+  lastActiveDate   DateTime? @map("last_active_date") @db.Date
+  /// Серия правильных интерпретаций IOTA (сбрасывается при ошибке)
+  iotaCorrectStreak Int      @default(0) @map("iota_correct_streak")
+  /// Агрегаты: casesByModule, lessonsCompleted, fmfPercent и т.д.
+  stats            Json      @default("{}")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
+
+  @@map("prisma_user_progress")
+}
+
+model QuizResult {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  moduleId  String   @map("module_id")
+  score     Float
+  passed    Boolean  @default(false)
+  passedAt  DateTime @default(now()) @map("passed_at")
+  metadata  Json?
+
+  @@index([userId, moduleId])
+  @@index([userId, passedAt])
+  @@map("prisma_quiz_results")
+}

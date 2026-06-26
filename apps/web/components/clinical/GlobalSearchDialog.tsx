@@ -200,7 +200,7 @@ export function GlobalSearchDialog({ open, onOpenChange }: Props) {
                   href={c.href}
                   title={c.title}
                   subtitle={c.subtitle}
-                  badge={c.lifecycle}
+                  badge={c.lifecycle ?? undefined}
                   onPick={onPick}
                 />
               ))}
