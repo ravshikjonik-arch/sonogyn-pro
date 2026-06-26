@@ -19,6 +19,7 @@
     "test:pilot-case-e2e": "node scripts/pilot-case-e2e.mjs",
     "feed:editorial-seed": "node scripts/feed-editorial-seed.mjs",
     "feed:editorial-maintain": "node scripts/feed-editorial-maintain.mjs",
+    "test:feed-cases-smoke": "node scripts/feed-cases-logged-smoke.mjs",
     "test:social-auth": "node scripts/verify-social-auth.mjs",
     "db:bundle": "node scripts/apply-supabase-migrations.mjs --bundle-only",
     "db:migrate": "node scripts/apply-supabase-migrations.mjs",
