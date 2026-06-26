@@ -89,7 +89,7 @@ export function OradsWizardResultPanel({
             </Button>
           ) : null}
           <Button type="button" variant="secondary" size="sm" asChild>
-            <Link href="/library/orads-guide">Руководство O-RADS</Link>
+            <Link href="/tools/refs/orads-guide">Руководство O-RADS</Link>
           </Button>
           {onAskAscites ? (
             <Button type="button" variant="destructive" size="sm" onClick={onAskAscites}>

@@ -42,7 +42,7 @@ export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
     title: "ISUOG — базовый курс",
     description:
       "Basic Training: интерактивные лекции. Лекция 6 — ранняя беременность 4–10 нед (одно- и многоплодная).",
-    href: "/library/basic-course",
+    href: "/tools/refs/basic-course",
     tags: ["ISUOG", "ранняя беременность", "КТР", "лекция 6"],
     primary: true,
     badge: "ISUOG",
@@ -79,7 +79,7 @@ export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
     shelf: "reference",
     title: "Клинические нормы УЗИ",
     description: "КТР, БПР, AFI, допплер, скрининговые сроки — ISUOG / Hadlock.",
-    href: "/reference",
+    href: "/tools/refs/norms",
     tags: ["нормы", "ISUOG", "Hadlock"],
   },
   {
@@ -98,7 +98,7 @@ export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
     title: "Патология шейки · справочник",
     description:
       "7 глав: анатомия, диагностика, ЦИН, РШМ, FIGO. Режимы «студент» (TTS) и «врач» + 16 вопросов самопроверки.",
-    href: "/library/cervix-pathology",
+    href: "/tools/refs/cervix-pathology",
     tags: ["шейка", "FIGO", "ЦИН", "РШМ", "кольпоскопия", "самопроверка"],
     badge: "7+16",
   },
@@ -107,7 +107,7 @@ export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
     shelf: "reference",
     title: "КР и приказы",
     description: "КР МЗ РФ, приказы ДЗМ, международные гайдлайны — по полкам.",
-    href: "/guidelines",
+    href: "/tools/refs/guidelines",
     tags: ["КР", "ДЗМ", "гайдлайны"],
   },
   {
@@ -127,7 +127,7 @@ export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
     title: "O-RADS US · руководство",
     description:
       "Учебный реферат: алгоритм ACR v2022, 10 клинических случаев с эхограммами, таблица категорий 0–5.",
-    href: "/library/orads-guide",
+    href: "/tools/refs/orads-guide",
     tags: ["O-RADS", "ACR", "реферат", "алгоритм", "обучение"],
     primary: true,
     badge: "v2022",
@@ -138,7 +138,7 @@ export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
     title: "O-RADS · эхограммы и случаи",
     description:
       "Учебные и клинические эхограммы придатков по нозологиям. Расчёт категории — в калькуляторе O-RADS US.",
-    href: "/library/orads-echograms",
+    href: "/tools/refs/orads-echograms",
     tags: ["IOTA", "O-RADS", "эхограммы", "придатки"],
     primary: true,
     badge: "IOTA",
@@ -149,7 +149,7 @@ export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
     title: "IOTA 2026 · термины и определения",
     description:
       "Консенсус IOTA Group 2026: солидный компонент ≥3 мм, тип поражения, папилляр, color score, ADNEX — инфографика + 12 вопросов.",
-    href: "/library/iota-terms-2026",
+    href: "/tools/refs/iota-terms-2026",
     tags: ["IOTA", "ADNEX", "придатки", "O-RADS", "2026", "консенсус", "самопроверка"],
     primary: true,
     badge: "12+2026",
@@ -160,7 +160,7 @@ export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
     title: "22 среза · 65 ВПР (II триместр)",
     description:
       "Систематический протокол Емельяненко: 24 views, 65 ВПР, 15 cases, 20 Q, ISUOG лекция 8, atlas PNG.",
-    href: "/library/fetal-anatomy-22-views",
+    href: "/tools/refs/fetal-anatomy-22-views",
     tags: ["22 views", "II триместр", "ВПР", "анатомия", "сердце", "мозг"],
     primary: true,
     badge: "22+65",
@@ -191,7 +191,7 @@ export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
     title: "Допплер I триместра (11–14 нед)",
     description:
       "5 допплер-позиций FMF: сердце, VP, пуповина, кольцо, UTA. ALARA, 9 случаев, 16 Q. ISUOG Basic · лекция 7.",
-    href: "/library/fetal-doppler-first-trimester",
+    href: "/tools/refs/fetal-doppler-first-trimester",
     tags: ["допплер", "FMF", "I триместр", "VP", "UTA", "SUA", "ALARA"],
     primary: true,
     badge: "11–14",
@@ -202,7 +202,7 @@ export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
     title: "Атлас I триместра (Блинов)",
     description:
       "Эхограммы 4–14 нед.: ранняя беременность, топоанатомия, пороги ЖК/кольца ПЯ, ошибки плоскости.",
-    href: "/library/obstetric-atlas",
+    href: "/tools/refs/obstetric-atlas",
     tags: ["атлас", "I триместр", "4–14 нед.", "эхограммы"],
     primary: true,
     badge: "Атлас",
@@ -213,7 +213,7 @@ export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
     title: "УЗИ позвоночника плода",
     description:
       "15 карточек: норма, spina bifida, миеломенингоцеле, сколиоз, тератомы, каудальная регрессия — II–III триместр.",
-    href: "/library/fetal-spine",
+    href: "/tools/refs/fetal-spine",
     tags: ["позвоночник", "плод", "spina bifida", "скрининг", "атлас"],
     primary: true,
     badge: "15",

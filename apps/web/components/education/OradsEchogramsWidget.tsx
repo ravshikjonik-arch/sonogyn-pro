@@ -62,7 +62,7 @@ export function OradsEchogramsWidget({ initialChapter = "all", initialPageId }: 
             калькуляторе O-RADS
           </Link>
           . Учебный алгоритм и клинические случаи — в{" "}
-          <Link href="/library/orads-guide" className="font-semibold text-[var(--clinical-primary-deep)] hover:underline">
+          <Link href="/tools/refs/orads-guide" className="font-semibold text-[var(--clinical-primary-deep)] hover:underline">
             руководстве O-RADS US
           </Link>
           . Здесь — атлас эхограмм Озерской; позже добавим живые клинические случаи.

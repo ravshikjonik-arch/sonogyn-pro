@@ -80,7 +80,7 @@ export function ObstetricAtlasWidget({ initialPart = "all", initialPageId }: Pro
             FMF-помощнике
           </Link>{" "}
           и{" "}
-          <Link href="/reference" className="font-semibold text-[var(--clinical-primary-deep)] hover:underline">
+          <Link href="/tools/refs/norms" className="font-semibold text-[var(--clinical-primary-deep)] hover:underline">
             клинических нормах
           </Link>
           .

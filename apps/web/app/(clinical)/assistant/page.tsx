@@ -84,7 +84,7 @@ export default function AssistantHubPage() {
           </CardHeader>
           <CardContent className="flex flex-wrap gap-2">
             <Button variant="outline" size="sm" asChild>
-              <Link href="/nosologies">Справочник нозологий</Link>
+              <Link href="/tools/refs/nosologies">Справочник нозологий</Link>
             </Button>
             <Button variant="outline" size="sm" asChild>
               <Link href="/tools/mapping/uterus">FIGO · 3D матка</Link>

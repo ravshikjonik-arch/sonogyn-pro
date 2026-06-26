@@ -1,6 +1,7 @@
 "use client";
 
 import { CircleHelp } from "lucide-react";
+import { formatMeasurementDecimal } from "@repo/medical-calculations";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 
@@ -21,7 +22,7 @@ function formatBand(p5: number, p50: number, p95: number, unit: string): string 
   if (unit === "г") {
     return `p5 ${Math.round(p5)} · p50 ${Math.round(p50)} · p95 ${Math.round(p95)} ${unit}`;
   }
-  return `p5 ${p5} · p50 ${p50} · p95 ${p95} ${unit}`;
+  return `p5 ${formatMeasurementDecimal(p5)} · p50 ${formatMeasurementDecimal(p50)} · p95 ${formatMeasurementDecimal(p95)} ${unit}`;
 }
 
 export function FieldHelpPopover({ fieldName, label, gaWeeks, gaDays }: Props) {

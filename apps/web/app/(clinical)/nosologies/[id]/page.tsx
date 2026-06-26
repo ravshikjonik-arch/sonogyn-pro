@@ -1,14 +1,8 @@
-import { Suspense } from "react";
-
-import { NosologyDetailClient } from "@/components/nosology/NosologyDetailClient";
+import { redirect } from "next/navigation";
 
 type Props = { params: Promise<{ id: string }> };
 
-export default async function NosologyDetailPage({ params }: Props) {
+export default async function LegacyNosologyRedirect({ params }: Props) {
   const { id } = await params;
-  return (
-    <Suspense fallback={null}>
-      <NosologyDetailClient id={id} />
-    </Suspense>
-  );
+  redirect(`/tools/refs/nosologies/${id}`);
 }

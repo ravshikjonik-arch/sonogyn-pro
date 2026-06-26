@@ -24,6 +24,7 @@ import {
   MEDVEDEV_HEART_ORBITS_SOURCE,
 } from "@repo/medvedev-reference";
 import { getTeachForMarker } from "@repo/medvedev-reference";
+import { formatMeasurementDecimal } from "@repo/medical-calculations";
 import { listMcaPiAtWeek, listMcaPsvAtWeek, listDvPiAtWeek, listUaRiAtWeek, listPlacentaAfiAtWeek, MEDVEDEV_MCA_SOURCE, MEDVEDEV_MCA_PSV_SOURCE, MEDVEDEV_DV_LATE_SOURCE, MEDVEDEV_UA_RI_SOURCE, MEDVEDEV_AFI_SOURCE, MEDVEDEV_PLACENTA_SOURCE, MEDVEDEV_FINGER_SOURCE, MEDVEDEV_PLACENTA_AFI_OPTIONS } from "@repo/medvedev-reference";
 
 const HEART_ORBIT_OPTIONS = MEDVEDEV_HEART_ORBIT_METRIC_OPTIONS.map((m) => ({
@@ -59,7 +60,7 @@ const ANATOMY_OPTIONS = [
 ];
 
 function formatBandValue(value: number, unit: string): string {
-  return unit === "г" ? String(Math.round(value)) : value.toFixed(1).replace(/\.0$/, "");
+  return unit === "г" ? String(Math.round(value)) : formatMeasurementDecimal(value);
 }
 
 type NormMetricMeta = {
@@ -203,7 +204,7 @@ export function MedvedevNormsLookup() {
               Прил. 1 — фетометрия и мозг II/III скрининга (p5 / p50 / p95)
             </p>
             <p className="mt-2 text-[10px]">
-              <Link href="/reference" className="font-medium text-[var(--clinical-primary)] underline">
+              <Link href="/tools/refs/norms" className="font-medium text-[var(--clinical-primary)] underline">
                 ← Методики измерений
               </Link>
               {" · "}

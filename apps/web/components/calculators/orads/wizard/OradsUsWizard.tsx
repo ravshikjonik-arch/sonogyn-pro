@@ -141,7 +141,7 @@ export function OradsUsWizard({ onOpenPro, className }: Props) {
 
           <div className="flex flex-wrap items-center gap-3 border-t border-[var(--clinical-border)] pt-4">
             <Button type="button" variant="link" size="sm" className="h-auto p-0" asChild>
-              <Link href="/library/orads-guide">Справка O-RADS →</Link>
+              <Link href="/tools/refs/orads-guide">Справка O-RADS →</Link>
             </Button>
             {onOpenPro ? (
               <Button type="button" variant="link" size="sm" className="h-auto p-0" onClick={onOpenPro}>

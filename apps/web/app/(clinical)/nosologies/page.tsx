@@ -1,8 +1,8 @@
-import { NosologyListClient } from "@/components/nosology/NosologyListClient";
+import { redirect } from "next/navigation";
 
 type Props = { searchParams: Promise<{ studyId?: string }> };
 
-export default async function NosologiesPage({ searchParams }: Props) {
+export default async function LegacyNosologiesRedirect({ searchParams }: Props) {
   const { studyId } = await searchParams;
-  return <NosologyListClient studyId={studyId ?? null} />;
+  redirect(studyId ? `/tools/refs/nosologies?studyId=${encodeURIComponent(studyId)}` : "/tools/refs/nosologies");
 }

@@ -119,7 +119,7 @@ export function NosologyDetailClient({ id, isAdmin }: Props) {
       <div className="mx-auto max-w-lg p-10 text-center">
         <p className="text-lg font-semibold">{error ?? "Не найдено"}</p>
         <Button className="mt-4" asChild>
-          <Link href="/nosologies">К списку</Link>
+          <Link href="/tools/refs/nosologies">К списку</Link>
         </Button>
       </div>
     );
@@ -131,7 +131,7 @@ export function NosologyDetailClient({ id, isAdmin }: Props) {
     <div className="mx-auto max-w-6xl space-y-6 px-4 py-8 lg:px-8">
       <div className="flex flex-wrap items-start gap-3">
         <Button variant="ghost" size="sm" asChild>
-          <Link href={studyId ? `/workspace/${studyId}` : "/nosologies"}>
+          <Link href={studyId ? `/workspace/${studyId}` : "/tools/refs/nosologies"}>
             <ArrowLeft className="mr-1 h-4 w-4" />
             {studyId ? "К протоколу" : "Назад"}
           </Link>

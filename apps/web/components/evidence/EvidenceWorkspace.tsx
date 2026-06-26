@@ -123,7 +123,7 @@ const SHELF_RESOURCE_LINKS: Record<EvidenceShelf, EvidenceRelatedLink[]> = {
   cervix: [{ href: "/library/cervix-pathology", label: "Самопроверка · шейка" }],
   mammo: [{ href: "/tools/calc/rads/bi-rads", label: "BI-RADS" }],
   onco: [
-    { href: "/library/iota-terms-2026", label: "IOTA 2026 · термины" },
+    { href: "/tools/refs/iota-terms-2026", label: "IOTA 2026 · термины" },
     { href: "/library/orads-echograms", label: "O-RADS · эхограммы" },
     { href: "/calculators/orads-pro", label: "O-RADS Pro" },
   ],

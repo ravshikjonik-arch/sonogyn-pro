@@ -296,7 +296,7 @@ export function FmfAssistantClient({ initialSection = "early" }: Props) {
           <Link href="/assistant/obstetrics">← Помощник акушера</Link>
         </Button>
         <Button variant="outline" size="sm" asChild>
-          <Link href="/reference">Клин. нормы УЗИ</Link>
+          <Link href="/tools/refs/norms">Клин. нормы УЗИ</Link>
         </Button>
         <Button variant="outline" size="sm" asChild>
           <Link href="/library/basic-course">ISUOG · лекция 6</Link>
@@ -325,7 +325,7 @@ export function FmfAssistantClient({ initialSection = "early" }: Props) {
             {teachMode ? "Учебные подсказки: вкл" : "Учебные подсказки: выкл"}
           </button>
           <Button variant="secondary" size="sm" asChild className="h-8 bg-white/15 text-white hover:bg-white/25">
-            <Link href="/reference/norms">Таблица норм</Link>
+            <Link href="/tools/refs/consensus">Таблица норм</Link>
           </Button>
         </div>
       </div>

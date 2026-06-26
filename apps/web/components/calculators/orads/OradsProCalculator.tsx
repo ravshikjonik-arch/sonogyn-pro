@@ -9,6 +9,7 @@ import { saveCalculatorEntry } from "@/app/actions/calculator-actions";
 import { AdnexConsensusPanel } from "@/components/calculators/orads/AdnexConsensusPanel";
 import { IotaConsensusWebPanel } from "@/components/calculators/orads/IotaConsensusWebPanel";
 import { useOradsProForm } from "@/components/calculators/orads/useOradsProForm";
+import { useIotaInterpretationAchievement } from "@/lib/achievements/use-calculator-achievements";
 import { CalcChip, CalcStepCard, CalcSubLabel } from "@/components/calculators/shared/calc-ui";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -45,6 +46,7 @@ const COLOR_SCORE_LABELS: Record<IotaColorScore, string> = {
 
 export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => void }) {
   const f = useOradsProForm();
+  useIotaInterpretationAchievement(f.iotaConsensus.readiness === "complete" ? "benign" : "inconclusive");
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [oradsZero, setOradsZero] = useState<OradsZeroId | null>(null);
@@ -117,7 +119,7 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
             Сброс
           </Button>
           <Button variant="ghost" size="sm" asChild>
-            <Link href="/library/orads-echograms">Эхограммы O-RADS →</Link>
+            <Link href="/tools/refs/orads-echograms">Эхограммы O-RADS →</Link>
           </Button>
         </div>
       </div>
@@ -325,7 +327,7 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
                         <Input
                           placeholder="Наибольший солидный компонент, мм"
                           value={f.largestSolidDiameterMm}
-                          onChange={(e) => f.setLargestSolidDiameterMm(e.target.value.replace(/[^\d]/g, ""))}
+                    onChange={(e) => f.setLargestSolidDiameterMm(e.target.value.replace(/[^\d.,]/g, ""))}
                         />
                       </>
                     ) : null}
@@ -355,7 +357,7 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
                         <Input
                           placeholder="Наибольший солидный компонент, мм"
                           value={f.largestSolidDiameterMm}
-                          onChange={(e) => f.setLargestSolidDiameterMm(e.target.value.replace(/[^\d]/g, ""))}
+                    onChange={(e) => f.setLargestSolidDiameterMm(e.target.value.replace(/[^\d.,]/g, ""))}
                         />
                       </>
                     ) : null}
@@ -386,7 +388,7 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
                     placeholder="Наибольший диаметр, мм"
                     inputMode="numeric"
                     value={f.lengthMm}
-                    onChange={(e) => f.setLengthMm(e.target.value.replace(/[^\d]/g, ""))}
+                    onChange={(e) => f.setLengthMm(e.target.value.replace(/[^\d.,]/g, ""))}
                   />
                 </CalcStepCard>
 
@@ -423,7 +425,7 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
                   placeholder="Наибольший диаметр (≤30 мм → O-RADS 1)"
                   inputMode="numeric"
                   value={f.lengthMm}
-                  onChange={(e) => f.setLengthMm(e.target.value.replace(/[^\d]/g, ""))}
+                  onChange={(e) => f.setLengthMm(e.target.value.replace(/[^\d.,]/g, ""))}
                 />
               </CalcStepCard>
             ) : null}

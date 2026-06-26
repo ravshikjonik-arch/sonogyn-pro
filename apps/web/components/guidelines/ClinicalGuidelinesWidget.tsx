@@ -58,11 +58,11 @@ export function ClinicalGuidelinesCatalog() {
           Каждый документ — отдельная карточка с выдержками и ссылкой на официальный источник.
         </p>
         <div className="flex flex-wrap gap-2 text-xs">
-          <Link href="/nosologies" className="font-medium text-[var(--clinical-primary)] underline">
+          <Link href="/tools/refs/nosologies" className="font-medium text-[var(--clinical-primary)] underline">
             Нозологии →
           </Link>
           <span className="text-[var(--clinical-foreground-muted)]">·</span>
-          <Link href="/reference" className="font-medium text-[var(--clinical-primary)] underline">
+          <Link href="/tools/refs/norms" className="font-medium text-[var(--clinical-primary)] underline">
             Клин. нормы УЗИ →
           </Link>
         </div>
@@ -153,7 +153,7 @@ function ShelfSection({
       </div>
       <div className="grid gap-3 md:grid-cols-2">
         {items.map((g) => (
-          <Link key={g.id} href={`/guidelines/${g.id}`} className="group block">
+          <Link key={g.id} href={`/tools/refs/guidelines/${g.id}`} className="group block">
             <Card className="h-full transition-shadow group-hover:shadow-md">
               <CardHeader className="space-y-2 pb-2">
                 <div className="flex flex-wrap gap-2">
@@ -189,7 +189,7 @@ export function ClinicalGuidelineDetailView({ guidelineId }: { guidelineId: stri
     return (
       <div className="mx-auto max-w-3xl px-4 py-12">
         <p className="text-sm text-[var(--clinical-foreground-muted)]">Документ не найден.</p>
-        <Link href="/guidelines" className="mt-4 inline-block text-sm font-semibold text-[var(--clinical-primary)]">
+        <Link href="/tools/refs/guidelines" className="mt-4 inline-block text-sm font-semibold text-[var(--clinical-primary)]">
           ← К каталогу
         </Link>
       </div>
@@ -198,7 +198,7 @@ export function ClinicalGuidelineDetailView({ guidelineId }: { guidelineId: stri
 
   return (
     <article className="mx-auto max-w-3xl space-y-6 px-4 py-8 lg:px-8">
-      <Link href="/guidelines" className="text-sm font-semibold text-[var(--clinical-primary)] hover:underline">
+      <Link href="/tools/refs/guidelines" className="text-sm font-semibold text-[var(--clinical-primary)] hover:underline">
         ← Все полки
       </Link>
 
@@ -244,7 +244,7 @@ export function ClinicalGuidelineDetailView({ guidelineId }: { guidelineId: stri
           </CardHeader>
           <CardContent className="flex flex-wrap gap-2">
             {g.relatedNosologyIds.map((id) => (
-              <Link key={id} href={`/nosologies/${id}`}>
+              <Link key={id} href={`/tools/refs/nosologies/${id}`}>
                 <Badge variant="outline" className="hover:bg-[var(--clinical-muted)]">
                   {id}
                 </Badge>

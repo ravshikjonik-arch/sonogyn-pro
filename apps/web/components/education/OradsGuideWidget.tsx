@@ -126,7 +126,7 @@ export function OradsGuideWidget({ initialSectionId, locale = "ru", className }:
                 </Link>
               </Button>
               <Button asChild variant="ghost" size="sm" className="w-full justify-start gap-2">
-                <Link href="/library/orads-echograms">
+                <Link href="/tools/refs/orads-echograms">
                   <ExternalLink className="h-4 w-4" />
                   Эхограммы атласа
                 </Link>

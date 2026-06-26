@@ -35,11 +35,11 @@ export function ClinicalReferenceReader() {
             Методики измерений · v{index.version}
           </p>
           <p className="mt-1 text-[10px]">
-            <Link href="/nosologies" className="font-medium text-[var(--clinical-primary)] underline">
+            <Link href="/tools/refs/nosologies" className="font-medium text-[var(--clinical-primary)] underline">
               Справочник нозологий →
             </Link>
             {" · "}
-            <Link href="/reference/norms" className="font-medium text-[var(--clinical-primary)] underline">
+            <Link href="/tools/refs/consensus" className="font-medium text-[var(--clinical-primary)] underline">
               Нормы по сроку (Медведев) →
             </Link>
           </p>
