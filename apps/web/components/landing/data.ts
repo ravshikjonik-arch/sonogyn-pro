@@ -117,7 +117,7 @@ export const GUEST_ACCESS_TIERS: GuestAccessTier[] = [
     description: "Регистрация и знакомство — без оплаты.",
     items: [
       { label: "Курсы авторов", href: "/library/courses" },
-      { label: "Калькулятор эластографии", href: "/calculators/elastography" },
+      { label: "Калькулятор эластографии", href: "/tools/calc/gyn/elastography" },
       { label: "Клинический кабинет", href: "/register?next=/app", note: "после регистрации" },
     ],
   },

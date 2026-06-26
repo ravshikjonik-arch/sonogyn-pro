@@ -265,10 +265,10 @@ export function MusaAdenomyosisClient() {
           </Button>
           <AutoReportPreview report={report} />
           <div className="flex flex-wrap gap-2 text-sm">
-            <Link href="/uterus-3d" className="text-[var(--clinical-primary)] hover:underline">
+            <Link href="/tools/mapping/uterus" className="text-[var(--clinical-primary)] hover:underline">
               FIGO / 3D матка →
             </Link>
-            <Link href="/idea-deep-endometriosis" className="text-[var(--clinical-primary)] hover:underline">
+            <Link href="/tools/mapping/endometriosis" className="text-[var(--clinical-primary)] hover:underline">
               IDEA · глубокий эндометриоз →
             </Link>
           </div>

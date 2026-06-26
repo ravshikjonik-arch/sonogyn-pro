@@ -15,6 +15,7 @@ export const CALCULATORS: CalculatorDefinition[] = [
     code: "ELASTOGRAPHY",
     title: "Эластография",
     subtitle: "Strain / SWE — шейка, миометрий, яичники, МЖ",
+    externalHref: "/tools/calc/gyn/elastography",
     fields: [],
   },
   {
@@ -38,7 +39,7 @@ export const CALCULATORS: CalculatorDefinition[] = [
     code: "ENDOMETRIUM_ISUOG",
     title: "Эндометрий · ISUOG / КР РФ",
     subtitle: "M-эхо, пороги, очаг, тамоксифен — протокол и экспорт",
-    externalHref: "/calculators/endometrium",
+    externalHref: "/tools/calc/gyn/endometrium",
     fields: [],
   },
   {
@@ -54,7 +55,7 @@ export const CALCULATORS: CalculatorDefinition[] = [
     code: "FIGO_FIBROID",
     title: "FIGO fibroid typing",
     subtitle: "Morphology / mural mapping",
-    externalHref: "/uterus-3d",
+    externalHref: "/tools/mapping/uterus",
     fields: [
       {
         key: "figoType",
@@ -86,7 +87,7 @@ export const CALCULATORS: CalculatorDefinition[] = [
     code: "POP_Q",
     title: "POP-Q · русская версия",
     subtitle: "Золотой стандарт стадирования пролапса по точкам Aa/Ba/C/D/Ap/Bp/TVL",
-    externalHref: "/calculators/pop-q",
+    externalHref: "/tools/calc/gyn/pop-q",
     fields: [],
   },
   {
@@ -94,7 +95,7 @@ export const CALCULATORS: CalculatorDefinition[] = [
     code: "COLOPOSCOPY_SWEDE",
     title: "Кольпоскопия · Swede Score",
     subtitle: "Протокол по бланку, 5 признаков IFCPC, риск CIN 2+, PDF",
-    externalHref: "/calculators/colposcopy",
+    externalHref: "/tools/calc/gyn/colposcopy",
     fields: [],
   },
   {
@@ -102,7 +103,7 @@ export const CALCULATORS: CalculatorDefinition[] = [
     code: "CIN_RISK",
     title: "CIN Risk · IFCPC Expert",
     subtitle: "CIN1–3, AIS, инвазия — HPV, Bethesda, TZ, IFCPC, logit-модель",
-    externalHref: "/calculators/cin-risk",
+    externalHref: "/tools/calc/gyn/cin-risk",
     fields: [],
   },
   {
@@ -110,7 +111,7 @@ export const CALCULATORS: CalculatorDefinition[] = [
     code: "CPI_CDS",
     title: "Cervical Pathology Intelligence",
     subtitle: "CDS: IFCPC + HPV + Bethesda + TZ3 + AIS + Quality + 8 actions",
-    externalHref: "/calculators/cervical-intelligence",
+    externalHref: "/tools/calc/gyn/cervical-intelligence",
     fields: [],
   },
   {

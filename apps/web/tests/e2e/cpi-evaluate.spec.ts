@@ -60,7 +60,7 @@ test.describe("CPI API smoke", () => {
 test.describe("CPI Dashboard deep link", () => {
   test("calculator route accepts patientId query param", async ({ request }) => {
     const res = await request.get(
-      "/calculators/cervical-intelligence?patientId=22222222-2222-4222-8222-222222222222&studyId=33333333-3333-4333-8333-333333333333",
+      "/tools/calc/gyn/cervical-intelligence?patientId=22222222-2222-4222-8222-222222222222&studyId=33333333-3333-4333-8333-333333333333",
     );
     expect(res.status()).toBe(200);
     const html = await res.text();

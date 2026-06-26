@@ -10,9 +10,9 @@ export type MockupNavPrefs = {
 const STORAGE_KEY = "sonogyn-mockup-nav-prefs";
 
 export const MOCKUP_LEGACY_HREF: Record<MockupId, string> = {
-  uterus: "/uterus-3d",
-  breast: "/breast-3d",
-  ovary: "/ovary-atlas",
+  uterus: "/tools/mapping/uterus",
+  breast: "/tools/mapping/breast",
+  ovary: "/tools/mapping/ovary",
 };
 
 export const MOCKUP_ROUTES: Record<

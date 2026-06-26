@@ -1,5 +1,5 @@
-import { OvaryAtlasClientBody } from "./ovary-atlas-client";
+import { redirect } from "next/navigation";
 
-export default function OvaryAtlasPage() {
-  return <OvaryAtlasClientBody />;
+export default function LegacyOvaryMappingRedirect() {
+  redirect("/tools/mapping/ovary");
 }

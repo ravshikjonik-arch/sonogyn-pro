@@ -1,7 +1,5 @@
-import { CervicalCancerRiskCalculator } from "@/components/calculators/gynecologic/CancerRiskCalculators";
+import { redirect } from "next/navigation";
 
-export const metadata = { title: "Риск рака шейки · SonoGyn" };
-
-export default function CervicalCancerRiskPage() {
-  return <CervicalCancerRiskCalculator />;
+export default function LegacyGynRedirect() {
+  redirect("/tools/calc/gyn/cervical-cancer-risk");
 }

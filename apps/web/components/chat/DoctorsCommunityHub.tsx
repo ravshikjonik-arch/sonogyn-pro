@@ -128,7 +128,7 @@ export function DoctorsCommunityHub() {
               <Link href="/cases?tab=cases&topic=prolapse">Пролапс · разбор</Link>
             </Button>
             <Button variant="outline" asChild>
-              <Link href="/calculators/pop-q">POP-Q калькулятор</Link>
+              <Link href="/tools/calc/gyn/pop-q">POP-Q калькулятор</Link>
             </Button>
             <Button variant="outline" asChild>
               <Link href="/assistant">ИИ-помощник по снимку →</Link>

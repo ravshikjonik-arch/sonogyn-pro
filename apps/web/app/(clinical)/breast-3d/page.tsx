@@ -1,5 +1,5 @@
-import { Breast3DClientBody } from "./breast-3d-client";
+import { redirect } from "next/navigation";
 
-export default function Breast3DPage() {
-  return <Breast3DClientBody />;
+export default function LegacyBreastMappingRedirect() {
+  redirect("/tools/mapping/breast");
 }

@@ -113,7 +113,7 @@ export function CpiDecisionEngineFlow() {
   return (
     <div className="space-y-6 px-4 py-10 lg:px-10">
       <Button variant="ghost" size="sm" asChild>
-        <Link href="/calculators/cin-risk">← CIN Risk Calculator</Link>
+        <Link href="/tools/calc/gyn/cin-risk">← CIN Risk Calculator</Link>
       </Button>
 
       <header className="mx-auto max-w-5xl space-y-2">

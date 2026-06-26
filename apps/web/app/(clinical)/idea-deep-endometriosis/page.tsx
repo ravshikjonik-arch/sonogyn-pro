@@ -1,12 +1,5 @@
-import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 
-import { IdeaWorkspace } from "@/features/idea-deep-endometriosis";
-
-export const metadata: Metadata = {
-  title: "IDEA — глубокий эндометриоз",
-  description: "Структурированный протокол УЗИ по IDEA (International Deep Endometriosis Analysis).",
-};
-
-export default function IdeaDeepEndometriosisPage() {
-  return <IdeaWorkspace />;
+export default function LegacyEndometriosisMappingRedirect() {
+  redirect("/tools/mapping/endometriosis");
 }

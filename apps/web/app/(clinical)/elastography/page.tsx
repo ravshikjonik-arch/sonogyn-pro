@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 
-/** Старые закладки `/elastography` → калькулятор внутри Calculators. */
+/** Старые закладки `/elastography` → canonical IA v2. */
 export default function LegacyElastographyRedirect() {
-  redirect("/calculators/elastography");
+  redirect("/tools/calc/gyn/elastography");
 }

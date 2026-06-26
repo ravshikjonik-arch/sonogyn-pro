@@ -17,6 +17,7 @@
     "test:auth": "node scripts/auth-smoke-test.mjs",
     "test:pilot-smoke": "node scripts/pilot-smoke.mjs",
     "test:pilot-case-e2e": "node scripts/pilot-case-e2e.mjs",
+    "feed:editorial-seed": "node scripts/feed-editorial-seed.mjs",
     "test:social-auth": "node scripts/verify-social-auth.mjs",
     "db:bundle": "node scripts/apply-supabase-migrations.mjs --bundle-only",
     "db:migrate": "node scripts/apply-supabase-migrations.mjs",

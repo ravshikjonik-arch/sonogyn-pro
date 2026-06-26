@@ -546,7 +546,7 @@ export function CaseFeed({
           {topic === "prolapse" ? (
             <CardContent>
               <Button variant="outline" size="sm" asChild>
-                <Link href="/calculators/pop-q">Открыть POP-Q →</Link>
+                <Link href="/tools/calc/gyn/pop-q">Открыть POP-Q →</Link>
               </Button>
             </CardContent>
           ) : null}

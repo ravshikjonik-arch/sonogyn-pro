@@ -61,7 +61,7 @@ function discoverWebRoutes(): Set<string> {
     normalized.add(r === "" ? "/" : r);
   }
   // Статические маршруты вне app tree
-  normalized.add("/uterus-3d");
+  normalized.add("/tools/mapping/uterus");
   normalized.add("/assistant/fmf");
   normalized.add("/assistant/gynecology");
   normalized.add("/assistant/obstetrics");
@@ -86,19 +86,12 @@ function main() {
     "/tools/calc/ob/vbac",
     "/tools/calc/ob/pregnancy-medications",
     "/tools/calc/ob/cervical-length",
-    "/calculators/breast-risk",
-    "/calculators/cervical-cancer-risk",
-    "/calculators/cin-follow-up",
-    "/calculators/ovarian-cancer-risk",
-    "/tools/calc/rads/o-rads",
-    "/tools/calc/rads/bi-rads",
-    "/tools/calc/rads/ln-rads",
-    "/tools/adjunct/ti-rads",
-    "/calculators/endometrium",
-    "/calculators/pop-q",
-    "/calculators/colposcopy",
-    "/calculators/elastography",
-    "/uterus-3d",
+    "/tools/calc/gyn/endometrium",
+    "/tools/calc/gyn/pop-q",
+    "/tools/calc/gyn/colposcopy",
+    "/tools/calc/gyn/elastography",
+    "/tools/mapping/uterus",
+    "/tools/mapping/ovary",
     "/assistant/fmf",
   ]);
 

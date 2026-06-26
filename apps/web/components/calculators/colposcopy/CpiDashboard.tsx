@@ -320,11 +320,11 @@ export function CpiDashboard({ initialPatientId, initialStudyId }: CpiDashboardP
         </div>
         <p className="text-sm text-muted-foreground">
           Экспертная система для кольпоскопии и патологии шейки матки.{" "}
-          <Link href="/calculators/cin-risk" className="underline">
+          <Link href="/tools/calc/gyn/cin-risk" className="underline">
             CIN Risk
           </Link>
           {" · "}
-          <Link href="/calculators/colposcopy" className="underline">
+          <Link href="/tools/calc/gyn/colposcopy" className="underline">
             Colposcopy Flow
           </Link>
         </p>

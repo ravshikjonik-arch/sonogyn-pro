@@ -87,13 +87,13 @@ export default function AssistantHubPage() {
               <Link href="/nosologies">Справочник нозологий</Link>
             </Button>
             <Button variant="outline" size="sm" asChild>
-              <Link href="/uterus-3d">FIGO · 3D матка</Link>
+              <Link href="/tools/mapping/uterus">FIGO · 3D матка</Link>
             </Button>
             <Button variant="outline" size="sm" asChild>
-              <Link href="/breast-3d">BI-RADS · 3D МЖ</Link>
+              <Link href="/tools/mapping/breast">BI-RADS · 3D МЖ</Link>
             </Button>
             <Button variant="outline" size="sm" asChild>
-              <Link href="/calculators/elastography">Эластография</Link>
+              <Link href="/tools/calc/gyn/elastography">Эластография</Link>
             </Button>
             <Button variant="outline" size="sm" asChild>
               <Link href="/assistant/fmf">FMF · I скрининг</Link>

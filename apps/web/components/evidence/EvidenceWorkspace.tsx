@@ -128,7 +128,7 @@ const SHELF_RESOURCE_LINKS: Record<EvidenceShelf, EvidenceRelatedLink[]> = {
     { href: "/calculators/orads-pro", label: "O-RADS Pro" },
   ],
   endocrine: [{ href: "/tools/adjunct/ti-rads", label: "TI-RADS" }],
-  surgery: [{ href: "/idea-deep-endometriosis", label: "IDEA · pre-op" }],
+  surgery: [{ href: "/tools/mapping/endometriosis", label: "IDEA · pre-op" }],
 };
 
 /** @deprecated используйте SHELF_RESOURCE_LINKS */

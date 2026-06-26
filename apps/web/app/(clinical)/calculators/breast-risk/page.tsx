@@ -1,7 +1,5 @@
-import { BreastRiskCalculator } from "@/components/calculators/gynecologic/CancerRiskCalculators";
+import { redirect } from "next/navigation";
 
-export const metadata = { title: "Риск рака МЖ · SonoGyn" };
-
-export default function BreastRiskPage() {
-  return <BreastRiskCalculator />;
+export default function LegacyGynRedirect() {
+  redirect("/tools/calc/gyn/breast-risk");
 }

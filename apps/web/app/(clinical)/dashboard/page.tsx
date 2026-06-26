@@ -192,7 +192,7 @@ export default async function MedicalDashboardPage() {
           <div className="flex items-center justify-between gap-4">
             <h2 className="text-lg font-semibold text-slate-950 dark:text-white">Shortcuts</h2>
             <Button variant="ghost" size="sm" className="text-[var(--clinical-primary-deep)]" asChild>
-              <Link href="/uterus-3d">
+              <Link href="/tools/mapping/uterus">
                 <Stethoscope className="mr-2 h-4 w-4" />
                 3D uterus
               </Link>

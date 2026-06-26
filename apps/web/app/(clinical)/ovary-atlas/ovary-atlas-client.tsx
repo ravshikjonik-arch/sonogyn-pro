@@ -36,7 +36,7 @@ export function OvaryAtlasClientBody() {
             <Link href="/tools/calc/rads/o-rads">O-RADS Pro →</Link>
           </Button>
           <Button variant="ghost" size="sm" asChild>
-            <Link href="/uterus-3d">Макет матки</Link>
+            <Link href="/tools/mapping/uterus">Макет матки</Link>
           </Button>
         </div>
       </div>

@@ -1,5 +1,5 @@
-import { Uterus3DClientBody } from "./uterus-3d-client";
+import { redirect } from "next/navigation";
 
-export default function Uterus3DPage() {
-  return <Uterus3DClientBody />;
+export default function LegacyUterusMappingRedirect() {
+  redirect("/tools/mapping/uterus");
 }

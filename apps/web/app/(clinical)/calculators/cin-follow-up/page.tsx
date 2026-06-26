@@ -1,7 +1,5 @@
-import { CinFollowUpCalculator } from "@/components/calculators/gynecologic/CinFollowUpCalculator";
+import { redirect } from "next/navigation";
 
-export const metadata = { title: "Наблюдение после CIN · SonoGyn" };
-
-export default function CinFollowUpPage() {
-  return <CinFollowUpCalculator />;
+export default function LegacyGynRedirect() {
+  redirect("/tools/calc/gyn/cin-follow-up");
 }

@@ -223,7 +223,7 @@ export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
     shelf: "atlases",
     title: "Срез матки / FIGO",
     description: "Сагиттальный и коронарный разрез — маркеры для протокола.",
-    href: "/uterus-3d",
+    href: "/tools/mapping/uterus",
     tags: ["FIGO", "матка", "3D"],
   },
   {
@@ -231,7 +231,7 @@ export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
     shelf: "atlases",
     title: "Макет яичника · O-RADS",
     description: "Фолликулы, кисты, ИИ по фото — текст в протокол.",
-    href: "/ovary-atlas",
+    href: "/tools/mapping/ovary",
     tags: ["O-RADS", "яичник"],
   },
   {

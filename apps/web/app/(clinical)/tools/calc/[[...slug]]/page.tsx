@@ -67,7 +67,23 @@ export default async function ToolsCalcCatchAllPage({ params }: Props) {
     if (path === "rads/ln-rads") redirect("/tools/calc/rads/ln-rads");
     redirect(`/calculators/${path.slice(5)}`);
   }
-  if (path.startsWith("gyn/")) redirect(`/calculators/${path.slice(4)}`);
+  if (path.startsWith("gyn/")) {
+    const sub = path.slice(4);
+    const gynSlugs = [
+      "endometrium",
+      "pop-q",
+      "colposcopy",
+      "cin-risk",
+      "cervical-intelligence",
+      "elastography",
+      "breast-risk",
+      "cervical-cancer-risk",
+      "cin-follow-up",
+      "ovarian-cancer-risk",
+    ];
+    if (gynSlugs.includes(sub)) redirect(`/tools/calc/gyn/${sub}`);
+    redirect(`/calculators/${sub}`);
+  }
 
   redirect(`/calculators/${path}`);
 }

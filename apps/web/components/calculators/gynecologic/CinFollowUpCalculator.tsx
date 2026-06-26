@@ -95,7 +95,7 @@ export function CinFollowUpCalculator() {
               ))}
             </ul>
             <Button variant="outline" size="sm" className="mt-4" asChild>
-              <Link href="/calculators/colposcopy">Кольпоскопия · Swede →</Link>
+              <Link href="/tools/calc/gyn/colposcopy">Кольпоскопия · Swede →</Link>
             </Button>
           </section>
         ) : null}

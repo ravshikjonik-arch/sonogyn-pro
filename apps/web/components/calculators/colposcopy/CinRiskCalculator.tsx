@@ -236,7 +236,7 @@ export function CinRiskCalculator() {
   return (
     <div className="space-y-6 px-4 py-10 lg:px-10">
       <Button variant="ghost" size="sm" asChild>
-        <Link href="/calculators/colposcopy">← Кольпоскопия · Swede</Link>
+        <Link href="/tools/calc/gyn/colposcopy">← Кольпоскопия · Swede</Link>
       </Button>
 
       <header className="mx-auto max-w-4xl space-y-2">

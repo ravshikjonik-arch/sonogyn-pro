@@ -44,8 +44,8 @@ export default async function PatientDetailPage(props: { params: Promise<Params>
   const latestStudyId = studies?.[0]?.id;
   const cpiHref =
     latestStudyId != null
-      ? `/calculators/cervical-intelligence?patientId=${patientId}&studyId=${latestStudyId}`
-      : `/calculators/cervical-intelligence?patientId=${patientId}`;
+      ? `/tools/calc/gyn/cervical-intelligence?patientId=${patientId}&studyId=${latestStudyId}`
+      : `/tools/calc/gyn/cervical-intelligence?patientId=${patientId}`;
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-8">
@@ -117,7 +117,7 @@ export default async function PatientDetailPage(props: { params: Promise<Params>
                 </Link>
                 <Button asChild variant="outline" size="sm" className="shrink-0 self-center">
                   <Link
-                    href={`/calculators/cervical-intelligence?patientId=${patientId}&studyId=${s.id}`}
+                    href={`/tools/calc/gyn/cervical-intelligence?patientId=${patientId}&studyId=${s.id}`}
                   >
                     CPI
                   </Link>

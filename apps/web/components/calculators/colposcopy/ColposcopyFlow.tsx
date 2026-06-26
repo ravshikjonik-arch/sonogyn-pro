@@ -167,10 +167,10 @@ export function ColposcopyFlow() {
             <p className="text-xs text-violet-100">Протокол по стандартному бланку + оценка риска CIN 2+</p>
           </div>
           <Button variant="secondary" size="sm" asChild className="h-8 rounded-full text-xs">
-            <Link href="/calculators/cervical-intelligence">CPI CDS →</Link>
+            <Link href="/tools/calc/gyn/cervical-intelligence">CPI CDS →</Link>
           </Button>
           <Button variant="secondary" size="sm" asChild className="h-8 rounded-full text-xs">
-            <Link href="/calculators/cin-risk">CIN Risk →</Link>
+            <Link href="/tools/calc/gyn/cin-risk">CIN Risk →</Link>
           </Button>
           <Button variant="secondary" size="sm" asChild className="ml-auto h-8 rounded-full text-xs">
             <Link href="/calculators">← Калькуляторы</Link>

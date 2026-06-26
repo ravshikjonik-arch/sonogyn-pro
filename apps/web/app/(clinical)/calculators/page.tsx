@@ -21,7 +21,7 @@ export default function CalculatorsPage() {
           <p className="max-w-3xl text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
             FIGO, O-RADS, BI-RADS и др. — по гайдлайнам. Записи сохраняются в{" "}
             <code className="font-mono text-xs">calculator_entries</code> (при входе). FIGO и интерактив — в{" "}
-            <Link href="/uterus-3d" className="font-semibold text-[var(--clinical-primary-deep)] hover:underline">
+            <Link href="/tools/mapping/uterus" className="font-semibold text-[var(--clinical-primary-deep)] hover:underline">
               3D матке
             </Link>
             .

@@ -1,11 +1,5 @@
-import { CinRiskCalculator } from "@/components/calculators/colposcopy/CinRiskCalculator";
+import { redirect } from "next/navigation";
 
-export const metadata = {
-  title: "CIN Risk · IFCPC Expert · SonoGyn",
-  description:
-    "Калькулятор риска CIN1, CIN2, CIN3, AIS и инвазии: HPV, Bethesda, TZ, IFCPC, анамнез. Logit-модель ASCCP/IFCPC.",
-};
-
-export default function CinRiskPage() {
-  return <CinRiskCalculator />;
+export default function LegacyGynRedirect() {
+  redirect("/tools/calc/gyn/cin-risk");
 }

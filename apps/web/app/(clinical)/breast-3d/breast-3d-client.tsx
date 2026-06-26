@@ -43,7 +43,7 @@ export function Breast3DClientBody() {
             <Link href="/mockups">← Все макеты</Link>
           </Button>
           <Button variant="outline" size="sm" asChild>
-            <Link href="/uterus-3d">Макет матки →</Link>
+            <Link href="/tools/mapping/uterus">Макет матки →</Link>
           </Button>
         </div>
       </div>
