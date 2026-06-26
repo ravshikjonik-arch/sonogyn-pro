@@ -22,8 +22,9 @@ function flagFromPercentile(p: number): PercentileFlag {
   return "normal";
 }
 
-function formatNum(n: number): string {
-  return Number.isInteger(n) ? String(n) : n.toFixed(2).replace(/\.?0+$/, "");
+function formatNum(n: number, unit?: string): string {
+  if (unit === "г" || unit === "g") return String(Math.round(n));
+  return (Math.round(n * 10) / 10).toFixed(1);
 }
 
 function assessAnchorCurve(params: {
@@ -69,7 +70,8 @@ function assessAnchorCurve(params: {
   const band = buildPercentileBand(stats.expected, stats.sd);
   const mom = calculateMoM(params.value, stats.expected);
 
-  let interpretation = `${curve.labelRu} ${formatNum(params.value)} ${curve.unit ?? ""} → ~${percentile}-й перц., MoM ${formatNum(mom)}, z ${formatNum(z)}`;
+  const unit = curve.unit ?? "mm";
+  let interpretation = `${curve.labelRu} ${formatNum(params.value, unit)} ${unit} → ~${percentile}-й перц., MoM ${formatNum(mom)}, z ${formatNum(z)}`;
   if (flag === "critical_low" && params.clinical?.criticalLowNote) {
     interpretation += `. ${params.clinical.criticalLowNote}`;
   }

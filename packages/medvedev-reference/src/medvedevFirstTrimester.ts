@@ -177,7 +177,7 @@ function flagFromPercentile(percentile: number): "low" | "normal" | "high" {
 }
 
 function formatMm(value: number): string {
-  return value.toFixed(2).replace(/\.?0+$/, "");
+  return (Math.round(value * 10) / 10).toFixed(1);
 }
 
 function formatBandRef(band: PercentileBand): string {

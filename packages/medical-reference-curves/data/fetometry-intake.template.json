@@ -1,0 +1,23 @@
+{
+  "_comment": "Шаблон для Равшана: скопируйте в fetometry-intake.json и заполните. Запуск: cd packages/medical-reference-curves && npm run import:intake",
+  "sourceNote": "Откуда цифры: книга / протокол / PDF (дата сверки)",
+  "biometry": [
+    {
+      "week": 20,
+      "bpd": { "p5": 43, "p50": 48, "p95": 53 },
+      "ofd": { "p5": 56, "p50": 62, "p95": 68 },
+      "hc": { "p5": 154, "p50": 170, "p95": 186 },
+      "ac": { "p5": 124, "p50": 144, "p95": 164 },
+      "fl": { "p5": 29, "p50": 33, "p95": 37 },
+      "hl": { "p5": 26, "p50": 30, "p95": 34 }
+    }
+  ],
+  "brain": [
+    {
+      "week": 20,
+      "lateralVentricle": { "p5": 5.1, "p50": 6.4, "p95": 7.7 },
+      "cisternaMagna": { "p5": 3.2, "p50": 4.8, "p95": 6.4 },
+      "cerebellumTransverse": { "p5": 18, "p50": 20, "p95": 22 }
+    }
+  ]
+}

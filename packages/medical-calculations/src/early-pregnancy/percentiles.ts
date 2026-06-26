@@ -1,4 +1,5 @@
 import type { PercentileBand, PercentileBandFull } from "./types";
+import { formatMeasurementDecimal } from "../units";
 
 const Z = {
   p3: 1.88,
@@ -55,7 +56,7 @@ function round1(n: number): number {
 }
 
 export function formatMm(value: number): string {
-  return value.toFixed(1).replace(/\.0$/, "");
+  return formatMeasurementDecimal(value);
 }
 
 export function formatBandFull(band: PercentileBandFull): string {

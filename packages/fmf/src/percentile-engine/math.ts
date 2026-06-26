@@ -61,7 +61,7 @@ export function buildPercentileBand(mean: number, sd: number): {
 }
 
 function round(n: number): number {
-  return Math.round(n * 100) / 100;
+  return Math.round(n * 10) / 10;
 }
 
 export function calculateMap(sbp: number, dbp: number): number {

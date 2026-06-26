@@ -190,7 +190,7 @@ export function getAfiReferenceBand(gaWeeksFraction: number): PercentileBand | n
 }
 
 function formatMm(value: number): string {
-  return value.toFixed(1).replace(/\.0$/, "");
+  return (Math.round(value * 10) / 10).toFixed(1);
 }
 
 function assessPercentileMarker(

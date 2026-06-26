@@ -23,6 +23,10 @@
 | **1** | BPD, OFD, HC, AC, FL, HL, мозг | `medvedevBiometry.ts` |
 | — | EFW Hadlock IV | `medvedevBiometry.ts` |
 
+**SSOT таблицы:** `data/biometry-rows.json` (p5/p50/p95 по неделям 16–40).
+
+Импорт новых цифр: `packages/medical-reference-curves` → `npm run import:intake`.
+
 ---
 
 ## Глава 3. Анатомия II триместра
@@ -78,7 +82,7 @@ API: `assessMedvedevPlacentaAfi`, `listPlacentaAfiAtWeek`
 
 | Поверхность | Путь |
 |-------------|------|
-| Web FMF | `/assistant/fmf` |
+| Web FMF | `/ai/consultants/fmf` |
 | Нормы | `/reference/norms` |
 | Mobile | `FMFAssistantScreen`, `fmfScreening3034Examples` |
 | Протокол | `fmf-protocol.ts` |

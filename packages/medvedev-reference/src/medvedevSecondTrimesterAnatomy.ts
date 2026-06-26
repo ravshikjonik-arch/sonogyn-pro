@@ -307,8 +307,7 @@ function flagFromPercentile(percentile: number): MedvedevBiometryAssessment["fla
 }
 
 function formatValue(value: number, unit: string): string {
-  const rounded = unit === "°" ? value.toFixed(1).replace(/\.0$/, "") : value.toFixed(1).replace(/\.0$/, "");
-  return `${rounded} ${unit}`;
+  return `${(Math.round(value * 10) / 10).toFixed(1)} ${unit}`;
 }
 
 function formatBandRef(band: PercentileBand, unit: string): string {

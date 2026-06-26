@@ -418,7 +418,7 @@ function formatBandRef(bandRef: PercentileBand, unit: string, marker: MedvedevHe
 }
 
 function formatValue(value: number, unit: string): string {
-  return `${value.toFixed(1).replace(/\.0$/, "")} ${unit}`;
+  return `${(Math.round(value * 10) / 10).toFixed(1)} ${unit}`;
 }
 
 function flagFromPercentile(percentile: number): MedvedevBiometryAssessment["flag"] {

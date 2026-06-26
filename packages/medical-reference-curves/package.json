@@ -13,6 +13,9 @@
   },
   "sideEffects": false,
   "scripts": {
-    "generate": "node scripts/generate-from-medvedev.mjs"
+    "generate": "node scripts/generate-from-medvedev.mjs",
+    "validate": "node scripts/validate-fetometry-data.mjs",
+    "import:intake": "node scripts/import-fetometry-intake.mjs",
+    "sync": "npm run validate && npm run generate"
   }
 }
