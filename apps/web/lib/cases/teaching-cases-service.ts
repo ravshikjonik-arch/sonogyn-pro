@@ -3,7 +3,9 @@ import { isProlapseTeachingCase } from "@repo/medical-calculations/popq";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 const DEFAULT_LIMIT = 40;
-const SELECT_COLS =
+const SELECT_COLS_WITH_LIFECYCLE =
+  "id,title,description,anatomy,pathology,difficulty,status,is_public,created_at,user_id,orads_category,tags,channel_id,lifecycle_status";
+const SELECT_COLS_LEGACY =
   "id,title,description,anatomy,pathology,difficulty,status,is_public,created_at,user_id,orads_category,tags,channel_id";
 
 export type TeachingCaseRow = {
@@ -20,6 +22,7 @@ export type TeachingCaseRow = {
   orads_category: number | null;
   tags: string[] | null;
   channel_id: string | null;
+  lifecycle_status: string | null;
 };
 
 export async function listTeachingCases(
@@ -38,50 +41,29 @@ export async function listTeachingCases(
     throw Object.assign(new Error("Forbidden"), { status: 403 });
   }
 
-  let dbQuery = supabase
-    .from("cases")
-    .select(SELECT_COLS)
-    .order("created_at", { ascending: false })
-    .limit(limit + 1);
+  let result = await runCasesListQuery(supabase, SELECT_COLS_WITH_LIFECYCLE, {
+    userId,
+    query,
+    limit,
+    tags,
+    feedMode,
+  });
 
-  if (query.cursor) {
-    dbQuery = dbQuery.lt("created_at", query.cursor);
+  if (result.error?.message?.includes("lifecycle_status")) {
+    result = await runCasesListQuery(supabase, SELECT_COLS_LEGACY, {
+      userId,
+      query,
+      limit,
+      tags,
+      feedMode,
+    });
   }
 
-  if (query.channelId) {
-    dbQuery = dbQuery.eq("channel_id", query.channelId);
-  } else if (feedMode === "library") {
-    dbQuery = dbQuery.is("channel_id", null);
-  } else if (feedMode === "discussions") {
-    dbQuery = dbQuery.not("channel_id", "is", null);
+  if (result.error) {
+    throw Object.assign(new Error(result.error.message), { status: 400, code: result.error.code });
   }
 
-  if (query.orads !== undefined) {
-    dbQuery = dbQuery.eq("orads_category", query.orads);
-  }
-
-  if (tags.length > 0) {
-    dbQuery = dbQuery.overlaps("tags", tags);
-  }
-
-  if (query.status) {
-    dbQuery = dbQuery.eq("status", query.status);
-  } else if (!userId) {
-    dbQuery = dbQuery.eq("status", "published").eq("is_public", true);
-  }
-
-  if (query.q) {
-    const pattern = `%${escapeLikePattern(query.q)}%`;
-    dbQuery = dbQuery.or(`title.ilike.${pattern},description.ilike.${pattern}`);
-  }
-
-  const { data, error } = await dbQuery;
-
-  if (error) {
-    throw Object.assign(new Error(error.message), { status: 400, code: error.code });
-  }
-
-  let rows = (data ?? []) as TeachingCaseRow[];
+  let rows = (result.data ?? []) as unknown as TeachingCaseRow[];
 
   if (topic === "prolapse") {
     rows = rows.filter(isProlapseTeachingCase);
@@ -101,5 +83,41 @@ function normalizeTeachingCaseRow(row: TeachingCaseRow): TeachingCaseRow {
   return {
     ...row,
     tags: Array.isArray(row.tags) ? row.tags : [],
+    lifecycle_status: row.lifecycle_status ?? null,
   };
+}
+
+async function runCasesListQuery(
+  supabase: SupabaseClient,
+  selectCols: string,
+  ctx: {
+    userId: string | null;
+    query: ListTeachingCasesQuery;
+    limit: number;
+    tags: string[];
+    feedMode: ListTeachingCasesQuery["feedMode"];
+  },
+) {
+  const { userId, query, limit, tags, feedMode } = ctx;
+  let dbQuery = supabase
+    .from("cases")
+    .select(selectCols)
+    .order("created_at", { ascending: false })
+    .limit(limit + 1);
+
+  if (query.cursor) dbQuery = dbQuery.lt("created_at", query.cursor);
+  if (query.channelId) dbQuery = dbQuery.eq("channel_id", query.channelId);
+  else if (feedMode === "library") dbQuery = dbQuery.is("channel_id", null);
+  else if (feedMode === "discussions") dbQuery = dbQuery.not("channel_id", "is", null);
+  if (query.orads !== undefined) dbQuery = dbQuery.eq("orads_category", query.orads);
+  if (query.lifecycle) dbQuery = dbQuery.eq("lifecycle_status", query.lifecycle);
+  if (tags.length > 0) dbQuery = dbQuery.overlaps("tags", tags);
+  if (query.status) dbQuery = dbQuery.eq("status", query.status);
+  else if (!userId) dbQuery = dbQuery.eq("status", "published").eq("is_public", true);
+  if (query.q) {
+    const pattern = `%${escapeLikePattern(query.q)}%`;
+    dbQuery = dbQuery.or(`title.ilike.${pattern},description.ilike.${pattern}`);
+  }
+
+  return await dbQuery;
 }

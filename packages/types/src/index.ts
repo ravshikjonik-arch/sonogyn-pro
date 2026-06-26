@@ -516,6 +516,7 @@ export {
   TeachingCaseStatusSchema,
   TeachingCaseTopicSchema,
   TeachingCaseFeedModeSchema,
+  CaseLifecycleStatusSchema,
   parseTeachingCaseTags,
   type ListTeachingCasesQuery,
   type ListTeachingCasesResponse,
@@ -523,6 +524,7 @@ export {
   type TeachingCaseStatus,
   type TeachingCaseTopic,
   type TeachingCaseFeedMode,
+  type CaseLifecycleStatus,
 } from "./teaching-cases";
 
 export {

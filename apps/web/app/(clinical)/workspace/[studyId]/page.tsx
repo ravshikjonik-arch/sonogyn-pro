@@ -60,7 +60,7 @@ export default async function StudyWorkspacePage(props: {
           <p className="mt-2">
             Убедитесь, что SQL-миграция применена и у вас есть доступ к записи.
           </p>
-          <Link className="mt-4 inline-flex font-bold text-blue-700" href="/workspace">
+          <Link className="mt-4 inline-flex font-bold text-blue-700" href="/ai/workspace">
             ← Назад к списку
           </Link>
         </div>
@@ -109,7 +109,7 @@ export default async function StudyWorkspacePage(props: {
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-8">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <Link className="text-sm font-bold text-blue-700" href="/workspace">
+            <Link className="text-sm font-bold text-blue-700" href="/ai/workspace">
               ← Все исследования
             </Link>
             <p className="mt-3 text-xs font-bold uppercase tracking-[0.22em] text-blue-600">

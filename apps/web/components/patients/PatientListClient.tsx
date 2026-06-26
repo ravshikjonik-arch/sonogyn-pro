@@ -70,7 +70,7 @@ export function PatientListClient() {
           </p>
         </div>
         <Button asChild className="sonogyn-cta-glow gap-2">
-          <Link href="/patients/new">
+          <Link href="/profile/patients/new">
             <UserPlus className="h-4 w-4" />
             Новый пациент
           </Link>
@@ -99,7 +99,7 @@ export function PatientListClient() {
         <div className="mt-8 rounded-2xl border border-dashed border-[var(--clinical-border)] p-10 text-center">
           <p className="text-sm text-[var(--clinical-foreground-muted)]">Пациенты не найдены. Создайте первую карту.</p>
           <Button asChild className="mt-4 gap-2">
-            <Link href="/patients/new">
+            <Link href="/profile/patients/new">
               <UserPlus className="h-4 w-4" />
               Новый пациент
             </Link>
@@ -112,7 +112,7 @@ export function PatientListClient() {
             return (
               <StaggerItem key={p.id} data-testid="patient-list-item">
                 <Link
-                  href={e2eFixtures ? `/demo/patient-card?id=${p.id}` : `/patients/${p.id}`}
+                  href={e2eFixtures ? `/demo/patient-card?id=${p.id}` : `/profile/patients/${p.id}`}
                   className="premium-card group flex items-center gap-3 rounded-2xl p-4"
                 >
                   <PatientAvatar label={p.display_label} />

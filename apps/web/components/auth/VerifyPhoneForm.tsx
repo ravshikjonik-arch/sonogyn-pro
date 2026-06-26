@@ -25,7 +25,7 @@ type ApiErrorBody = {
 export function VerifyPhoneForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const nextPath = safeInternalPath(searchParams.get("redirectedFrom"), "/dashboard");
+  const nextPath = safeInternalPath(searchParams.get("redirectedFrom"), "/profile/dashboard");
 
   const [phone, setPhone] = useState("+7 ");
   const [code, setCode] = useState("");

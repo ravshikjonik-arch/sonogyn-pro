@@ -38,8 +38,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
+import { ClinicalBottomNav } from "@/components/clinical/ClinicalBottomNav";
 import { MockupNavSection } from "@/components/clinical/MockupNavSection";
-import { ClinicalToolSearchTrigger } from "@/components/clinical/ClinicalToolSearchDialog";
+import { GlobalSearchTrigger } from "@/components/clinical/GlobalSearchDialog";
 import { TelegramChannelLink } from "@/components/clinical/TelegramChannelLink";
 import { ThemeToggle } from "@/components/clinical/theme-toggle";
 import { ProBadge } from "@/components/pro/ProBadge";
@@ -58,38 +59,37 @@ const navGroups: { title: string; items: { href: string; label: string; icon: ty
   {
     title: "Сообщество",
     items: [
+      { href: "/feed", label: "Лента", icon: LayoutDashboard },
       { href: "/cases", label: "Чат врачей", icon: MessageCircle },
-      { href: "/app", label: "Рабочий стол", icon: LayoutDashboard },
     ],
   },
   {
     title: "Приём",
     items: [
-      { href: "/calculators/ob", label: "Срок беременности", icon: Baby },
-      { href: "/calculators", label: "Калькуляторы", icon: Calculator },
-      { href: "/calculators/o-rads", label: "O-RADS Pro", icon: ScanLine },
-      { href: "/reports/adnex", label: "Протокол O-RADS", icon: FileText },
-      { href: "/assistant", label: "Помощник врача", icon: HandHeart },
-      { href: "/nosologies", label: "Нозологии", icon: ClipboardList },
+      { href: "/tools", label: "Инструменты", icon: Calculator },
+      { href: "/tools/calc/ob", label: "Срок беременности", icon: Baby },
+      { href: "/tools/calc/rads/o-rads", label: "O-RADS Pro", icon: ScanLine },
+      { href: "/ai/consultants", label: "Помощник врача", icon: HandHeart },
+      { href: "/tools/refs/nosologies", label: "Нозологии", icon: ClipboardList },
     ],
   },
   {
     title: "Знания",
     items: [
-      { href: "/guidelines", label: "КР и приказы", icon: FileText },
-      { href: "/evidence", label: "УЗИ · база", icon: BookMarked },
-      { href: "/reference", label: "Клин. нормы", icon: BookOpen },
-      { href: "/library", label: "Библиотека", icon: Library },
+      { href: "/tools/refs/guidelines", label: "КР и приказы", icon: FileText },
+      { href: "/tools/refs/evidence", label: "УЗИ · база", icon: BookMarked },
+      { href: "/tools/refs/norms", label: "Клин. нормы", icon: BookOpen },
+      { href: "/tools/refs", label: "Библиотека", icon: Library },
     ],
   },
   {
     title: "Ещё",
     items: [
-      { href: "/patients", label: "Пациенты", icon: Users },
-      { href: "/dashboard", label: "Дашборд", icon: HeartPulse },
-      { href: "/idea-deep-endometriosis", label: "IDEA · эндометриоз", icon: ScanLine },
-      { href: "/workspace", label: "AI-зона", icon: Brain },
-      { href: "/paywall", label: "PRO", icon: Sparkles },
+      { href: "/profile/patients", label: "Пациенты", icon: Users },
+      { href: "/profile/dashboard", label: "Дашборд", icon: HeartPulse },
+      { href: "/tools/mapping/endometriosis", label: "IDEA · эндометриоз", icon: ScanLine },
+      { href: "/ai/workspace", label: "AI-зона", icon: Brain },
+      { href: "/profile/pro", label: "PRO", icon: Sparkles },
       { href: "/profile", label: "Профиль", icon: UserRound },
     ],
   },
@@ -221,8 +221,8 @@ export function ClinicalShell({
             {group.items.map((item) => {
               const Icon = item.icon;
               const active =
-                item.href === "/workspace"
-                  ? pathname.startsWith("/workspace")
+                item.href === "/ai/workspace" || item.href.startsWith("/ai/workspace")
+                  ? pathname.startsWith("/ai/workspace") || pathname.startsWith("/workspace")
                   : item.href === "/cases"
                     ? pathname === "/cases" ||
                       pathname.startsWith("/cases/") ||
@@ -333,7 +333,7 @@ export function ClinicalShell({
               Federated learning opt-out · Audit stream enabled (stub)
             </span>
           </div>
-          <ClinicalToolSearchTrigger className="hidden sm:flex" />
+          <GlobalSearchTrigger />
           <ProBadge className="hidden sm:inline-flex" />
           <ThemeToggle />
           <DropdownMenu>
@@ -359,10 +359,11 @@ export function ClinicalShell({
             </DropdownMenuContent>
           </DropdownMenu>
         </header>
-        <main className="flex-1 sonogyn-enter" data-voice-content>
+        <main className="flex-1 pb-[calc(4.5rem+env(safe-area-inset-bottom))] sonogyn-enter lg:pb-0" data-voice-content>
           {children}
         </main>
         <ClinicalVoiceDock />
+        <ClinicalBottomNav className="lg:hidden" />
       </div>
     </div>
     </VoiceReaderProvider>

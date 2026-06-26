@@ -3,10 +3,15 @@
 import Link from "next/link";
 
 import { CaseAiAnalysisPanel } from "@/components/cases/CaseAiAnalysisPanel";
+import { CaseEditorialPanel } from "@/components/cases/CaseEditorialPanel";
+import { CaseLifecyclePanel } from "@/components/cases/CaseLifecyclePanel";
 import { CaseMediaGallery } from "@/components/cases/CaseMediaGallery";
 import { CasePublishPanel } from "@/components/cases/CasePublishPanel";
 import { TeachingCaseDiscussion } from "@/components/cases/teaching-case-discussion";
+import { ModuleProgressWidget } from "@/components/achievements/ModuleProgressWidget";
 import { ClinicalAssistStrip } from "@/components/clinical-assistant/ClinicalAssistStrip";
+import { reportAchievementCheck } from "@/hooks/useAchievements";
+import type { ClinicalModuleId } from "@/lib/achievements/types";
 import { useAuth } from "@/app/providers";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -23,6 +28,10 @@ export type CaseDetailData = {
   user_id: string;
   flag_reason: string | null;
   channel_id: string | null;
+  lifecycle_status?: string | null;
+  is_rare?: boolean;
+  rare_slot?: string | null;
+  editorial_priority?: number | null;
 };
 
 type Props = {
@@ -30,13 +39,25 @@ type Props = {
   channelTitle?: string | null;
   openedFromPush?: boolean;
   devSkip?: boolean;
+  isModerator?: boolean;
 };
+
+function caseModuleId(anatomy: string | null, pathology: string | null): ClinicalModuleId {
+  const hay = `${anatomy ?? ""} ${pathology ?? ""}`.toLowerCase();
+  if (hay.includes("iota")) return "iota";
+  if (hay.includes("o-rads") || hay.includes("orads")) return "orads";
+  if (hay.includes("bi-rads") || hay.includes("birads")) return "birads";
+  if (hay.includes("ti-rads") || hay.includes("tirads")) return "tirads";
+  if (hay.includes("fmf")) return "fmf";
+  return "orads";
+}
 
 export function CaseDetailClient({
   teachingCase,
   channelTitle = null,
   openedFromPush = false,
   devSkip = false,
+  isModerator = false,
 }: Props) {
   const { user, ready } = useAuth();
 
@@ -68,6 +89,7 @@ export function CaseDetailClient({
   };
 
   const isDiscussion = Boolean(teachingCase.channel_id);
+  const caseModule = caseModuleId(teachingCase.anatomy, teachingCase.pathology);
   const casesBackHref = isDiscussion
     ? `/cases?feedMode=discussions${
         teachingCase.channel_id ? `&channelId=${encodeURIComponent(teachingCase.channel_id)}` : ""
@@ -90,6 +112,16 @@ export function CaseDetailClient({
             <Badge className="border-emerald-200 bg-emerald-50 text-emerald-900">
               Вопрос коллегам{channelTitle ? ` · ${channelTitle}` : ""}
             </Badge>
+          ) : null}
+          {user ? (
+            <CaseLifecyclePanel
+              caseId={teachingCase.id}
+              userId={user.id}
+              ownerId={teachingCase.user_id}
+              status={teachingCase.status}
+              lifecycleStatus={teachingCase.lifecycle_status}
+              isModerator={isModerator}
+            />
           ) : null}
           <Badge variant="outline">{teachingCase.anatomy ?? "УЗИ"}</Badge>
           {user ? (
@@ -132,6 +164,14 @@ export function CaseDetailClient({
 
         {user ? (
           <>
+            {isModerator ? (
+              <CaseEditorialPanel
+                caseId={teachingCase.id}
+                isRare={Boolean(teachingCase.is_rare)}
+                rareSlot={teachingCase.rare_slot ?? null}
+                editorialPriority={teachingCase.editorial_priority ?? 0}
+              />
+            ) : null}
             <CaseMediaGallery
               caseId={teachingCase.id}
               userId={user.id}
@@ -144,6 +184,17 @@ export function CaseDetailClient({
               userId={user.id}
               caseAuthorId={teachingCase.user_id}
             />
+            <ModuleProgressWidget moduleId={caseModule} eventType="case_complete" />
+            <Button
+              type="button"
+              variant="secondary"
+              className="w-full rounded-xl"
+              onClick={() =>
+                void reportAchievementCheck({ eventType: "case_complete", moduleId: caseModule })
+              }
+            >
+              Отметить кейс пройденным (+XP)
+            </Button>
           </>
         ) : (
           <p className="rounded-xl border border-[var(--clinical-border)] bg-[var(--clinical-muted)] p-4 text-sm text-[var(--clinical-foreground-muted)]">

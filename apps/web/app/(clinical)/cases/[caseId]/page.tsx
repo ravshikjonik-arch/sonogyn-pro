@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { isDevSkipAuthEnabled } from "@/lib/auth/dev-account";
 
-import { CaseDetailClient } from "./case-detail-client";
+import { CaseDetailClient, type CaseDetailData } from "./case-detail-client";
 
 type Params = { caseId: string };
 type Search = { from?: string; channelId?: string };
@@ -23,34 +23,51 @@ export default async function CaseDetailPage(props: {
     notFound();
   }
 
-  const { data: row, error } = await supabase
-    .from("cases")
-    .select(
-      "id,title,description,anatomy,pathology,difficulty,status,is_public,created_at,user_id,flag_reason,channel_id",
-    )
-    .eq("id", caseId)
-    .maybeSingle();
+  let selectCols =
+    "id,title,description,anatomy,pathology,difficulty,status,is_public,created_at,user_id,flag_reason,channel_id,lifecycle_status,is_rare,rare_slot,editorial_priority";
+
+  let { data: row, error } = await supabase.from("cases").select(selectCols).eq("id", caseId).maybeSingle();
+
+  if (error?.message?.includes("lifecycle_status")) {
+    selectCols =
+      "id,title,description,anatomy,pathology,difficulty,status,is_public,created_at,user_id,flag_reason,channel_id";
+    ({ data: row, error } = await supabase.from("cases").select(selectCols).eq("id", caseId).maybeSingle());
+  } else if (error?.message?.includes("is_rare") || error?.message?.includes("editorial_priority")) {
+    selectCols =
+      "id,title,description,anatomy,pathology,difficulty,status,is_public,created_at,user_id,flag_reason,channel_id,lifecycle_status";
+    ({ data: row, error } = await supabase.from("cases").select(selectCols).eq("id", caseId).maybeSingle());
+  }
 
   if (error || !row) {
     notFound();
   }
 
+  const teachingCase = row as CaseDetailData;
+
+  let isModerator = false;
+  if (user) {
+    const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
+    const role = profile?.role as string | undefined;
+    isModerator = role === "moderator" || role === "admin";
+  }
+
   let channelTitle: string | null = null;
-  if (row.channel_id) {
+  if (teachingCase.channel_id) {
     const { data: channelRow } = await supabase
       .from("doctor_chat_channels")
       .select("title")
-      .eq("id", row.channel_id)
+      .eq("id", teachingCase.channel_id)
       .maybeSingle();
     channelTitle = channelRow?.title ?? null;
   }
 
   return (
     <CaseDetailClient
-      teachingCase={row}
+      teachingCase={teachingCase}
       channelTitle={channelTitle}
       openedFromPush={search.from === "push"}
       devSkip={isDevSkipAuthEnabled()}
+      isModerator={isModerator}
     />
   );
 }

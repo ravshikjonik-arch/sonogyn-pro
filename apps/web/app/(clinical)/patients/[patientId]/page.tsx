@@ -27,7 +27,7 @@ export default async function PatientDetailPage(props: { params: Promise<Params>
     return (
       <main className="px-4 py-10">
         <p className="text-sm">Пациент не найден.</p>
-        <Link href="/patients" className="mt-4 inline-block text-blue-600">
+        <Link href="/profile/patients" className="mt-4 inline-block text-blue-600">
           ← К списку
         </Link>
       </main>
@@ -51,10 +51,10 @@ export default async function PatientDetailPage(props: { params: Promise<Params>
     <main className="mx-auto max-w-3xl px-4 py-8">
       <div className="mb-6 flex flex-wrap gap-3">
         <Button asChild variant="secondary" size="sm">
-          <Link href="/patients">← Пациенты</Link>
+          <Link href="/profile/patients">← Пациенты</Link>
         </Button>
         <Button asChild size="sm">
-          <Link href={`/patients/${patientId}/pregnancy`}>Беременность / графики</Link>
+          <Link href={`/profile/patients/${patientId}/pregnancy`}>Беременность / графики</Link>
         </Button>
         <Button asChild variant="secondary" size="sm">
           <Link href={`/workspace?patientId=${patientId}`}>Новое исследование</Link>

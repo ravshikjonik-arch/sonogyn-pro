@@ -16,11 +16,15 @@ import { cn } from "@/lib/utils/cn";
 
 function HubInner() {
   const searchParams = useSearchParams();
-  const initialTab = searchParams.get("tab") === "cases" ? "cases" : "chat";
+  const initialTab =
+    searchParams.get("tab") === "cases" || searchParams.get("lifecycle")
+      ? "cases"
+      : "chat";
   const caseTopic = searchParams.get("topic") === "prolapse" ? "prolapse" : "all";
   const initialFeedMode =
     searchParams.get("feed") === "discussions" ? ("discussions" as const) : ("library" as const);
   const initialChannelId = searchParams.get("channelId") || null;
+  const initialLifecycle = searchParams.get("lifecycle") || null;
   const initialChannel = (searchParams.get("channel") as DoctorChatChannelSlug) || "general";
   const [activeChannel, setActiveChannel] = useState<DoctorChatChannelSlug>(
     DOCTOR_CHAT_CHANNELS.some((c) => c.slug === initialChannel) ? initialChannel : "general",
@@ -89,6 +93,7 @@ function HubInner() {
           topic={caseTopic}
           initialFeedMode={initialFeedMode}
           initialChannelId={initialChannelId}
+          initialLifecycle={initialLifecycle}
         />
       </TabsContent>
     </Tabs>

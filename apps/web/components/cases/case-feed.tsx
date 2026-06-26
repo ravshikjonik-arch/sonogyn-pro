@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils/cn";
+import { formatLifecycleLabel, resolveCaseLifecycle } from "@/lib/cases/lifecycle-labels";
 import { loadDiscussionChannels, type DiscussionChannel } from "@/lib/chat/load-discussion-channels";
 
 /** Row from GET /api/cases (public.cases + orads/tags). */
@@ -28,6 +29,7 @@ export type TeachingGalleryCaseRow = {
   user_id: string;
   orads_category: number | null;
   tags: string[];
+  lifecycle_status?: string | null;
 };
 
 type FeedMode = "library" | "discussions";
@@ -38,6 +40,8 @@ type CaseFeedProps = {
   initialChannelId?: string | null;
   /** library = teaching gallery; discussions = colleague questions. */
   initialFeedMode?: FeedMode;
+  /** IA v2: filter by lifecycle_status (e.g. confirmed). */
+  initialLifecycle?: string | null;
 };
 
 type FeedFilters = {
@@ -47,6 +51,7 @@ type FeedFilters = {
   queue: "gallery" | "review";
   feedMode: FeedMode;
   channelId: string | null;
+  lifecycle: string | null;
 };
 
 const ORADS_OPTIONS = ["", "0", "1", "2", "3", "4", "5"] as const;
@@ -55,6 +60,7 @@ export function CaseFeed({
   topic,
   initialChannelId = null,
   initialFeedMode = "library",
+  initialLifecycle = null,
 }: CaseFeedProps) {
   const supabase = useSupabase();
   const [channels, setChannels] = useState<DiscussionChannel[]>([]);
@@ -77,6 +83,7 @@ export function CaseFeed({
     queue: "gallery",
     feedMode: initialFeedMode,
     channelId: initialChannelId,
+    lifecycle: initialLifecycle,
   });
 
   useEffect(() => {
@@ -107,6 +114,7 @@ export function CaseFeed({
     if (appliedFilters.orads) params.set("orads", appliedFilters.orads);
     if (appliedFilters.tags.trim()) params.set("tags", appliedFilters.tags.trim());
     if (appliedFilters.queue === "review") params.set("status", "review");
+    if (appliedFilters.lifecycle) params.set("lifecycle", appliedFilters.lifecycle);
     if (topic === "prolapse") params.set("topic", "prolapse");
     if (appliedFilters.feedMode === "library") params.set("feedMode", "library");
     if (appliedFilters.feedMode === "discussions") {
@@ -191,6 +199,7 @@ export function CaseFeed({
     if (appliedFilters.orads) parts.push(`O-RADS ${appliedFilters.orads}`);
     if (appliedFilters.tags.trim()) parts.push(`теги: ${appliedFilters.tags.trim()}`);
     if (appliedFilters.queue === "review") parts.push("очередь эксперта");
+    if (appliedFilters.lifecycle === "confirmed") parts.push("CONFIRMED");
     if (appliedFilters.feedMode === "discussions") {
       const ch = channels.find((c) => c.id === appliedFilters.channelId);
       parts.push(ch ? `вопросы · ${ch.title}` : "вопросы коллегам");
@@ -214,6 +223,13 @@ export function CaseFeed({
 
   function switchChannel(channelId: string | null) {
     setAppliedFilters((prev) => ({ ...prev, feedMode: "discussions", channelId }));
+  }
+
+  function toggleConfirmedFilter() {
+    setAppliedFilters((prev) => ({
+      ...prev,
+      lifecycle: prev.lifecycle === "confirmed" ? null : "confirmed",
+    }));
   }
 
   const activeChannel = channels.find((c) => c.id === appliedFilters.channelId);
@@ -403,6 +419,16 @@ export function CaseFeed({
             >
               Вопросы коллегам
             </Button>
+            <Button
+              size="sm"
+              variant={appliedFilters.lifecycle === "confirmed" ? "default" : "secondary"}
+              type="button"
+              className="gap-1"
+              onClick={toggleConfirmedFilter}
+            >
+              <ShieldCheck className="h-3.5 w-3.5" />
+              Подтверждённые
+            </Button>
           </div>
           {appliedFilters.feedMode === "discussions" ? (
             <div className="space-y-2">
@@ -538,12 +564,27 @@ export function CaseFeed({
                   </CardTitle>
                   <CardDescription className="line-clamp-2">{c.description ?? "—"}</CardDescription>
                   <div className="mt-2 flex flex-wrap gap-2">
+                    {(() => {
+                      const lc = resolveCaseLifecycle(c.lifecycle_status, c.status);
+                      const label = formatLifecycleLabel(lc);
+                      return label ? (
+                        <Badge
+                          variant="outline"
+                          className={cn(
+                            lc === "confirmed" && "border-emerald-600 text-emerald-800",
+                            lc === "discussion" && "border-violet-600 text-violet-800",
+                          )}
+                        >
+                          {label}
+                        </Badge>
+                      ) : null;
+                    })()}
                     <Badge variant="outline">{c.anatomy ?? "анатомия не указана"}</Badge>
                     {c.orads_category != null ? (
                       <Badge className="bg-violet-600">O-RADS {c.orads_category}</Badge>
                     ) : null}
                     {c.pathology === "POP-Q" ? <Badge className="bg-rose-600">POP-Q</Badge> : null}
-                    <Badge variant="outline">{c.status}</Badge>
+                    {c.status !== "published" ? <Badge variant="outline">{c.status}</Badge> : null}
                     {c.tags?.map((tag) => (
                       <Badge key={tag} variant="secondary" className="text-xs">
                         #{tag}

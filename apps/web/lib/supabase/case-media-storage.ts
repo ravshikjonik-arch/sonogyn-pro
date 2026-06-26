@@ -9,6 +9,7 @@ export type CaseMediaRow = {
   media_type: "image" | "video" | "dicom";
   order_index: number;
   uploaded_at: string;
+  anonymization_status?: string | null;
 };
 
 export function caseMediaObjectPath(userId: string, caseId: string, fileName: string): string {
@@ -47,8 +48,9 @@ export async function uploadCaseMedia(
       case_id: params.caseId,
       storage_path: storagePath,
       media_type: mediaType,
+      anonymization_status: "pending",
     })
-    .select("id,case_id,storage_path,media_type,order_index,uploaded_at")
+    .select("id,case_id,storage_path,media_type,order_index,uploaded_at,anonymization_status")
     .single();
 
   if (insertErr || !rows) {

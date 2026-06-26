@@ -11,6 +11,7 @@ import {
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
+import { AchievementsDashboard } from "@/components/achievements/AchievementsDashboard";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -50,7 +51,7 @@ export default async function MedicalDashboardPage() {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect("/login?redirectedFrom=/dashboard");
+    redirect("/login?redirectedFrom=/profile/dashboard");
   }
 
   const [{ data: profile }, { data: doctor }] = await Promise.all([
@@ -176,6 +177,16 @@ export default async function MedicalDashboardPage() {
             </CardContent>
           </Card>
         </div>
+
+        <section className="space-y-4">
+          <div className="flex items-center justify-between gap-4">
+            <h2 className="text-lg font-semibold text-slate-950 dark:text-white">Звёзды и награды</h2>
+            <Button variant="ghost" size="sm" className="text-[var(--clinical-primary-deep)]" asChild>
+              <Link href="/achievements">Все бейджи →</Link>
+            </Button>
+          </div>
+          <AchievementsDashboard />
+        </section>
 
         <section className="space-y-4">
           <div className="flex items-center justify-between gap-4">

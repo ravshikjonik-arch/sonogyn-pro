@@ -13,10 +13,10 @@ export function AppHomeActions() {
       </Button>
       <ClinicalToolSearchTrigger />
       <Button variant="secondary" asChild>
-        <Link href="/calculators/ob">Срок беременности</Link>
+        <Link href="/tools/calc/ob">Срок беременности</Link>
       </Button>
       <Button variant="secondary" asChild>
-        <Link href="/calculators">Калькуляторы</Link>
+        <Link href="/tools/calc">Калькуляторы</Link>
       </Button>
     </div>
   );

@@ -23,7 +23,7 @@ export default async function PregnancyPage(props: { params: Promise<Params> }) 
     .eq("created_by", user.id)
     .maybeSingle();
 
-  if (!patient) redirect("/patients");
+  if (!patient) redirect("/profile/patients");
 
   const meta = (patient.meta ?? {}) as { lmp?: string };
   const lmp = meta.lmp ? new Date(meta.lmp) : null;
@@ -60,7 +60,7 @@ export default async function PregnancyPage(props: { params: Promise<Params> }) 
   return (
     <main className="mx-auto max-w-3xl px-4 py-8">
       <Button asChild variant="secondary" size="sm">
-        <Link href={`/patients/${patientId}`}>← Карта пациента</Link>
+        <Link href={`/profile/patients/${patientId}`}>← Карта пациента</Link>
       </Button>
       <h1 className="mt-4 text-2xl font-bold">Ведение беременности</h1>
       <p className="mt-1 text-sm text-[var(--clinical-foreground-muted)]">{patient.display_label}</p>

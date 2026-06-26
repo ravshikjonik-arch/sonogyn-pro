@@ -7,6 +7,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
+  MOCKUP_LEGACY_HREF,
   MOCKUP_ROUTES,
   readMockupNavPrefs,
   swapMockupSidebarOrder,
@@ -33,7 +34,11 @@ export function MockupNavSection({ onNavigate }: Props) {
     setPrefs(readMockupNavPrefs());
   }, []);
 
-  const hubActive = pathname === "/mockups" || pathname.startsWith("/mockups/");
+  const hubActive =
+    pathname === "/tools/mapping" ||
+    pathname.startsWith("/tools/mapping/") ||
+    pathname === "/mockups" ||
+    pathname.startsWith("/mockups/");
 
   const swapOrder = useCallback(() => {
     setPrefs(swapMockupSidebarOrder(prefs));
@@ -58,7 +63,7 @@ export function MockupNavSection({ onNavigate }: Props) {
       </div>
 
       <Link
-        href="/mockups"
+        href="/tools/mapping"
         onClick={onNavigate}
         className={cn(
           "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all",
@@ -74,7 +79,12 @@ export function MockupNavSection({ onNavigate }: Props) {
       {prefs.sidebarOrder.map((id) => {
         const meta = MOCKUP_ROUTES[id];
         const Icon = ICONS[id];
-        const active = pathname === meta.href || pathname.startsWith(`${meta.href}/`);
+        const legacy = MOCKUP_LEGACY_HREF[id];
+        const active =
+          pathname === meta.href ||
+          pathname.startsWith(`${meta.href}/`) ||
+          pathname === legacy ||
+          pathname.startsWith(`${legacy}/`);
         return (
           <Link
             key={id}

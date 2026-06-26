@@ -28,7 +28,7 @@ export default async function VerifyPhonePage({ searchParams }: Props) {
 
     if (!needsPhoneVerification(user)) {
       const sp = await searchParams;
-      redirect(safeInternalPath(sp.redirectedFrom ?? null, "/dashboard"));
+      redirect(safeInternalPath(sp.redirectedFrom ?? null, "/profile/dashboard"));
     }
   }
 

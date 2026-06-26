@@ -3,6 +3,8 @@ import { createRequire } from "node:module";
 
 import type { NextConfig } from "next";
 
+import { IA_V2_REDIRECTS } from "./lib/nav/ia-v2-redirects";
+
 const requireFromWeb = createRequire(path.join(__dirname, "package.json"));
 
 /**
@@ -82,6 +84,9 @@ const nextConfig: NextConfig = {
       /* optional peer of @react-pdf — pages without PDF export still work */
     }
     return config;
+  },
+  async redirects() {
+    return IA_V2_REDIRECTS;
   },
   async headers() {
     const headers = [

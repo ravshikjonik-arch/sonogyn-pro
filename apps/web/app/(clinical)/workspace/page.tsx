@@ -11,7 +11,7 @@ export default async function WorkspacePage() {
   } = await supabase.auth.getUser();
 
   if (!user && !isDevSkipAuthEnabled()) {
-    redirect("/login?redirectedFrom=/workspace");
+    redirect("/login?redirectedFrom=/ai/workspace");
   }
 
   let rows: { id: string; title: string; study_type: string; status: string; created_at: string }[] = [];

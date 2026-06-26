@@ -5,8 +5,13 @@ import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { useSupabase } from "@/app/providers";
+import { CaseMediaAnonymizationPanel } from "@/components/cases/CaseMediaAnonymizationPanel";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  anonymizationLabel,
+  isAnonymizationOk,
+} from "@/lib/cases/anonymization-gate";
 import {
   getCaseMediaSignedUrl,
   uploadCaseMedia,
@@ -31,7 +36,7 @@ export function CaseMediaGallery({ caseId, userId, canUpload }: Props) {
     setLoading(true);
     const { data, error } = await supabase
       .from("case_media")
-      .select("id,case_id,storage_path,media_type,order_index,uploaded_at")
+      .select("id,case_id,storage_path,media_type,order_index,uploaded_at,anonymization_status")
       .eq("case_id", caseId)
       .order("order_index", { ascending: true });
 
@@ -68,10 +73,10 @@ export function CaseMediaGallery({ caseId, userId, canUpload }: Props) {
         } else {
           toast.success(
             file.type.startsWith("video/")
-              ? "Видео добавлено"
+              ? "Видео добавлено — подтвердите анонимизацию"
               : file.name.toLowerCase().endsWith(".dcm")
-                ? "DICOM добавлен"
-                : "Снимок добавлен",
+                ? "DICOM добавлен — подтвердите анонимизацию"
+                : "Снимок добавлен — подтвердите анонимизацию",
           );
         }
       }
@@ -157,9 +162,29 @@ export function CaseMediaGallery({ caseId, userId, canUpload }: Props) {
                 ) : (
                   <p className="p-4 text-xs text-[var(--clinical-foreground-muted)]">Превью недоступно</p>
                 )}
-                <p className="px-3 py-2 text-[10px] text-[var(--clinical-foreground-muted)]">
-                  {item.media_type} · {new Date(item.uploaded_at).toLocaleString()}
-                </p>
+                <div className="flex flex-wrap items-center justify-between gap-2 px-3 py-2">
+                  <p className="text-[10px] text-[var(--clinical-foreground-muted)]">
+                    {item.media_type} · {new Date(item.uploaded_at).toLocaleString()}
+                  </p>
+                  <span
+                    className={
+                      isAnonymizationOk(item.anonymization_status)
+                        ? "rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-semibold text-emerald-800"
+                        : item.anonymization_status === "failed"
+                          ? "rounded-full bg-red-100 px-2 py-0.5 text-[10px] font-semibold text-red-800"
+                          : "rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-semibold text-amber-900"
+                    }
+                  >
+                    {anonymizationLabel(item.anonymization_status)}
+                  </span>
+                </div>
+                {canUpload && !isAnonymizationOk(item.anonymization_status) ? (
+                  <CaseMediaAnonymizationPanel
+                    mediaId={item.id}
+                    userId={userId}
+                    onConfirmed={() => void refresh()}
+                  />
+                ) : null}
               </div>
             ))}
           </div>

@@ -38,6 +38,7 @@ export async function GET(request: Request) {
     orads: searchParams.get("orads") ?? undefined,
     tags: searchParams.get("tags") ?? undefined,
     status: searchParams.get("status") ?? undefined,
+    lifecycle: searchParams.get("lifecycle") ?? undefined,
     topic: searchParams.get("topic") ?? undefined,
     channelId: searchParams.get("channelId") ?? undefined,
     feedMode: searchParams.get("feedMode") ?? undefined,

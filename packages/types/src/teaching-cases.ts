@@ -10,11 +10,21 @@ export type TeachingCaseTopic = z.infer<typeof TeachingCaseTopicSchema>;
 export const TeachingCaseFeedModeSchema = z.enum(["library", "discussions", "all"]);
 export type TeachingCaseFeedMode = z.infer<typeof TeachingCaseFeedModeSchema>;
 
+export const CaseLifecycleStatusSchema = z.enum([
+  "open",
+  "discussion",
+  "resolved",
+  "confirmed",
+  "archived",
+]);
+export type CaseLifecycleStatus = z.infer<typeof CaseLifecycleStatusSchema>;
+
 export const ListTeachingCasesQuerySchema = z.object({
   q: z.string().trim().max(120).optional(),
   orads: z.coerce.number().int().min(0).max(5).optional(),
   tags: z.string().trim().max(200).optional(),
   status: TeachingCaseStatusSchema.optional(),
+  lifecycle: CaseLifecycleStatusSchema.optional(),
   topic: TeachingCaseTopicSchema.optional(),
   /** Filter by doctor_chat_channels.id (colleague questions). */
   channelId: z.string().uuid().optional(),
@@ -39,6 +49,7 @@ export const TeachingCaseListItemSchema = z.object({
   user_id: z.string().uuid(),
   orads_category: z.number().int().min(0).max(5).nullable(),
   tags: z.array(z.string()),
+  lifecycle_status: CaseLifecycleStatusSchema.nullable().optional(),
 });
 
 export type TeachingCaseListItem = z.infer<typeof TeachingCaseListItemSchema>;

@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { useSupabase } from "@/app/providers";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { canPublishCaseMedia, formatPublishBlockedError } from "@/lib/cases/anonymization-gate";
 
 type Props = {
   caseId: string;
@@ -40,6 +41,24 @@ export function CasePublishPanel({ caseId, userId, ownerId, status, isPublic }: 
 
   async function publish() {
     setBusy(true);
+    const { data: mediaRows, error: mediaError } = await supabase
+      .from("case_media")
+      .select("anonymization_status")
+      .eq("case_id", caseId);
+
+    if (mediaError) {
+      setBusy(false);
+      toast.error("Не удалось проверить медиа перед публикацией");
+      return;
+    }
+
+    const gate = canPublishCaseMedia(mediaRows ?? []);
+    if (!gate.ok) {
+      setBusy(false);
+      toast.error(gate.reason ?? "Подтвердите анонимизацию всех файлов");
+      return;
+    }
+
     const { error } = await supabase
       .from("cases")
       .update({ status: "published", is_public: true })
@@ -47,7 +66,7 @@ export function CasePublishPanel({ caseId, userId, ownerId, status, isPublic }: 
       .eq("user_id", userId);
     setBusy(false);
     if (error) {
-      toast.error(error.message);
+      toast.error(formatPublishBlockedError(error.message));
       return;
     }
     toast.success("Кейс опубликован — коллеги увидят в ленте чата");
@@ -70,6 +89,9 @@ export function CasePublishPanel({ caseId, userId, ownerId, status, isPublic }: 
           <Button type="button" size="sm" disabled={busy} onClick={() => void publish()}>
             {busy ? "Публикация…" : "Опубликовать для коллег"}
           </Button>
+          <p className="w-full text-xs text-[var(--clinical-foreground-muted)]">
+            Если есть снимки — подтвердите анонимизацию каждого файла в галерее (R6).
+          </p>
         </>
       )}
     </div>

@@ -9,22 +9,28 @@ export type MockupNavPrefs = {
 
 const STORAGE_KEY = "sonogyn-mockup-nav-prefs";
 
+export const MOCKUP_LEGACY_HREF: Record<MockupId, string> = {
+  uterus: "/uterus-3d",
+  breast: "/breast-3d",
+  ovary: "/ovary-atlas",
+};
+
 export const MOCKUP_ROUTES: Record<
   MockupId,
   { href: string; label: string; description: string }
 > = {
   uterus: {
-    href: "/uterus-3d",
+    href: "/tools/mapping/uterus",
     label: "Макет матки",
     description: "Коронарный разрез и сагиттальный срез · FIGO · текст в протокол",
   },
   breast: {
-    href: "/breast-3d",
+    href: "/tools/mapping/breast",
     label: "Макет МЖ",
     description: "Топография обеих грудей · часы, квадрант, см от соска · BI-RADS",
   },
   ovary: {
-    href: "/ovary-atlas",
+    href: "/tools/mapping/ovary",
     label: "Макет яичника",
     description: "Увеличенный яичник · фолликулы, кисты · ИИ по фото/видео · O-RADS",
   },

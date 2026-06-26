@@ -13,6 +13,9 @@ assertProductionSecretsConfigured();
 
 const roots = [
   "/app",
+  "/feed",
+  "/ai",
+  "/tools",
   "/calculators",
   "/cases",
   "/community",
@@ -170,7 +173,7 @@ export default async function middleware(request: NextRequest) {
     }
 
     if (!needsPhoneVerification(verifyUser)) {
-      const dest = safeInternalPath(request.nextUrl.searchParams.get("redirectedFrom"), "/dashboard");
+      const dest = safeInternalPath(request.nextUrl.searchParams.get("redirectedFrom"), "/profile/dashboard");
       return redirectWithSessionCookies(request, response, dest);
     }
 
@@ -186,7 +189,7 @@ export default async function middleware(request: NextRequest) {
         const redirectedFrom = request.nextUrl.searchParams.get("redirectedFrom");
         if (needsPhoneVerification(user)) {
           const verifySearch = new URLSearchParams({
-            redirectedFrom: safeInternalPath(redirectedFrom, "/dashboard"),
+            redirectedFrom: safeInternalPath(redirectedFrom, "/profile/dashboard"),
           });
           return redirectWithSessionCookies(
             request,
@@ -195,7 +198,7 @@ export default async function middleware(request: NextRequest) {
             verifySearch.toString(),
           );
         }
-        const dest = safeInternalPath(redirectedFrom, "/app");
+        const dest = safeInternalPath(redirectedFrom, "/cases");
         return redirectWithSessionCookies(request, response, dest);
       }
     }
@@ -231,7 +234,7 @@ export default async function middleware(request: NextRequest) {
       const role = await getClinicalRole(supabase, user.id);
       if (!role || !roleMeetsMinimum(role, "admin")) {
         const denyUrl = request.nextUrl.clone();
-        denyUrl.pathname = "/app";
+        denyUrl.pathname = "/cases";
         denyUrl.search = "";
         const denyResponse = NextResponse.redirect(denyUrl);
         response.cookies.getAll().forEach((cookie) => {
@@ -244,7 +247,7 @@ export default async function middleware(request: NextRequest) {
       const role = await getClinicalRole(supabase, user.id);
       if (!role || (role !== "author" && role !== "admin")) {
         const denyUrl = request.nextUrl.clone();
-        denyUrl.pathname = "/app";
+        denyUrl.pathname = "/cases";
         denyUrl.search = "";
         const denyResponse = NextResponse.redirect(denyUrl);
         response.cookies.getAll().forEach((cookie) => {
@@ -268,6 +271,12 @@ export const config = {
     "/verify-phone",
     "/app",
     "/app/:path*",
+    "/feed",
+    "/feed/:path*",
+    "/tools",
+    "/tools/:path*",
+    "/ai",
+    "/ai/:path*",
     "/calculators",
     "/calculators/:path*",
     "/cases",
