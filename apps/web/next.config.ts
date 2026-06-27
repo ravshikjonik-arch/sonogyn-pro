@@ -28,6 +28,19 @@ type WithPWAFactory = (options: {
   };
 }) => (config: NextConfig) => NextConfig;
 
+function liveKitConnectExtra(): string {
+  const raw = process.env.NEXT_PUBLIC_LIVEKIT_URL?.trim();
+  if (!raw) return " wss://*.livekit.cloud https://*.livekit.cloud";
+  try {
+    const httpsOrigin = raw.startsWith("wss://")
+      ? `https://${raw.slice("wss://".length).split("/")[0]}`
+      : new URL(raw).origin;
+    return ` ${raw} ${httpsOrigin} wss://*.livekit.cloud https://*.livekit.cloud`;
+  } catch {
+    return " wss://*.livekit.cloud https://*.livekit.cloud";
+  }
+}
+
 function supabaseConnectOriginExtra(): string {
   const raw = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
   if (!raw) return "";
@@ -97,12 +110,12 @@ const nextConfig: NextConfig = {
       { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
       {
         key: "Permissions-Policy",
-        value: "camera=(), microphone=(self), geolocation=()",
+        value: "camera=(self), microphone=(self), geolocation=()",
       },
       {
         key: "Content-Security-Policy",
         value:
-          `default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data: https://*.supabase.co https://telegram.org https://*.telesco.pe blob:; connect-src 'self' https://*.supabase.co wss://*.supabase.co${supabaseConnectOriginExtra()} https://*.google-analytics.com https://*.firebaseio.com https://firebasestorage.googleapis.com https://*.ingest.sentry.io https://challenges.cloudflare.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://challenges.cloudflare.com https://telegram.org; frame-src https://js.stripe.com https://challenges.cloudflare.com https://oauth.telegram.org;`,
+          `default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data: https://*.supabase.co https://telegram.org https://*.telesco.pe blob:; media-src 'self' blob:; connect-src 'self' https://*.supabase.co wss://*.supabase.co${supabaseConnectOriginExtra()}${liveKitConnectExtra()} https://*.google-analytics.com https://*.firebaseio.com https://firebasestorage.googleapis.com https://*.ingest.sentry.io https://challenges.cloudflare.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://challenges.cloudflare.com https://telegram.org; frame-src https://js.stripe.com https://challenges.cloudflare.com https://oauth.telegram.org;`,
       },
     ];
 

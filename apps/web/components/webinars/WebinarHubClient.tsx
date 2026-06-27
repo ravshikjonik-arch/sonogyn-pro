@@ -17,7 +17,7 @@ function formatWhen(iso: string): string {
 }
 
 function WebinarCard({ item }: { item: WebinarListItem }) {
-  const href = `/library/webinars/${item.lessonId}`;
+  const href = `/tools/refs/webinars/${item.lessonId}`;
   const live = item.status === "live";
 
   return (

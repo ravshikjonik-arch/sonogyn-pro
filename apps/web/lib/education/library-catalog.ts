@@ -41,7 +41,7 @@ export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
     shelf: "courses",
     title: "Вебинары · прямой эфир",
     description: "Live внутри SonoGyn Pro: эфир + чат + запись. Доступ после оплаты курса.",
-    href: "/library/webinars",
+    href: "/tools/refs/webinars",
     tags: ["вебинар", "эфир", "лекция", "LiveKit"],
     primary: true,
     badge: "LIVE",

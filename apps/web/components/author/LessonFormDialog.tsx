@@ -253,7 +253,7 @@ export function LessonFormDialog({ open, courseId, moduleId, lesson, onClose, on
               {savedLessonId ? (
                 <p className="text-xs text-emerald-700">
                   Комната создана. В день эфира откройте{" "}
-                  <a href={`/library/webinars/${savedLessonId}`} className="underline" target="_blank" rel="noreferrer">
+                  <a href={`/tools/refs/webinars/${savedLessonId}`} className="underline" target="_blank" rel="noreferrer">
                     страницу вебинара
                   </a>{" "}
                   и нажмите «Начать эфир».

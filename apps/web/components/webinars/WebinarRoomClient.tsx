@@ -136,7 +136,7 @@ export function WebinarRoomClient({ lessonId, courseId }: Props) {
     return (
       <div className="rounded-xl border p-6 text-center text-sm">
         Вебинар не найден.{" "}
-        <Link href="/library/webinars" className="text-[var(--clinical-primary)] underline">
+        <Link href="/tools/refs/webinars" className="text-[var(--clinical-primary)] underline">
           К каталогу
         </Link>
       </div>
@@ -163,7 +163,7 @@ export function WebinarRoomClient({ lessonId, courseId }: Props) {
     <div className="space-y-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <Link href="/library/webinars" className="text-sm text-[var(--clinical-primary)] underline">
+          <Link href="/tools/refs/webinars" className="text-sm text-[var(--clinical-primary)] underline">
             ← Вебинары
           </Link>
           <h1 className="mt-2 text-2xl font-semibold">{meta.lesson.title}</h1>

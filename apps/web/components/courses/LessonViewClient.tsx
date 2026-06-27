@@ -131,7 +131,7 @@ export function LessonViewClient({ courseId, lessonId }: LessonViewClientProps) 
       <div className="rounded-xl border p-6 text-center text-sm">
         <p className="mb-4">Это вебинар — откройте комнату с чатом и эфиром.</p>
         <Button asChild>
-          <Link href={`/library/webinars/${lessonId}`}>Перейти к вебинару</Link>
+          <Link href={`/tools/refs/webinars/${lessonId}`}>Перейти к вебинару</Link>
         </Button>
       </div>
     );

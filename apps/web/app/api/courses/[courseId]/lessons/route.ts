@@ -79,7 +79,7 @@ export async function GET(_req: Request, { params }: Params) {
             webinar_session: session
               ? { status: session.status, scheduledAt: session.scheduled_at }
               : null,
-            webinar_href: `/library/webinars/${lesson.id}`,
+            webinar_href: `/tools/refs/webinars/${lesson.id}`,
           };
         }
         return base;

@@ -1,6 +1,6 @@
 -- SonoGyn Pro · все миграции (порядок по имени файла)
 -- Supabase Dashboard → SQL Editor → вставить и Run
--- Сгенерировано: 2026-06-24T12:59:31.219Z
+-- Сгенерировано: 2026-06-27T14:32:10.624Z
 
 -- ========== 20260207180000_clinical_cases.sql ==========
 -- Clinical cases social layer + Supabase Realtime enablement
@@ -1257,364 +1257,6 @@ begin
   end if;
 end $migration$;
 
--- ========== 20260608120000_security_hardening 2.sql ==========
--- Security hardening (safe: skips sections if tables not created yet).
--- Run anytime. After clinical_copilot migration, re-run to apply series/images policies.
-
--- ========== profiles (only if table exists) ==========
-do $security$
-begin
-  if to_regclass('public.profiles') is not null then
-    execute 'drop policy if exists profiles_select_roster on public.profiles';
-
-    execute $fn$
-      create or replace function public.get_doctor_display_names(p_user_ids uuid[])
-      returns table (id uuid, full_name text)
-      language sql
-      security definer
-      set search_path = public
-      stable
-      as $body$
-        select p.id, coalesce(nullif(trim(p.full_name), ''), 'Врач') as full_name
-        from public.profiles p
-        where p.id = any (p_user_ids)
-          and auth.uid() is not null;
-      $body$;
-    $fn$;
-
-    execute 'revoke all on function public.get_doctor_display_names(uuid[]) from public';
-    execute 'grant execute on function public.get_doctor_display_names(uuid[]) to authenticated';
-  end if;
-end
-$security$;
-
--- ========== copilot series/images (only if tables exist) ==========
-do $security$
-begin
-  if to_regclass('public.ultrasound_series') is not null then
-    execute 'drop policy if exists series_select_own on public.ultrasound_series';
-    execute 'drop policy if exists series_insert_own on public.ultrasound_series';
-    execute 'drop policy if exists series_update_own on public.ultrasound_series';
-    execute 'drop policy if exists series_delete_own on public.ultrasound_series';
-    execute 'drop policy if exists series_select_own_study on public.ultrasound_series';
-    execute 'drop policy if exists series_insert_own_study on public.ultrasound_series';
-    execute 'drop policy if exists series_update_own_study on public.ultrasound_series';
-    execute 'drop policy if exists series_delete_own_study on public.ultrasound_series';
-
-    execute $pol$
-      create policy series_select_own_study on public.ultrasound_series
-        for select to authenticated
-        using (
-          exists (
-            select 1 from public.studies s
-            where s.id = ultrasound_series.study_id and s.created_by = auth.uid()
-          )
-        )
-    $pol$;
-
-    execute $pol$
-      create policy series_insert_own_study on public.ultrasound_series
-        for insert to authenticated
-        with check (
-          created_by = auth.uid()
-          and exists (
-            select 1 from public.studies s
-            where s.id = study_id and s.created_by = auth.uid()
-          )
-        )
-    $pol$;
-
-    execute $pol$
-      create policy series_update_own_study on public.ultrasound_series
-        for update to authenticated
-        using (
-          exists (
-            select 1 from public.studies s
-            where s.id = ultrasound_series.study_id and s.created_by = auth.uid()
-          )
-        )
-    $pol$;
-
-    execute $pol$
-      create policy series_delete_own_study on public.ultrasound_series
-        for delete to authenticated
-        using (
-          exists (
-            select 1 from public.studies s
-            where s.id = ultrasound_series.study_id and s.created_by = auth.uid()
-          )
-        )
-    $pol$;
-  end if;
-
-  if to_regclass('public.ultrasound_images') is not null then
-    execute 'drop policy if exists images_select_own on public.ultrasound_images';
-    execute 'drop policy if exists images_insert_own on public.ultrasound_images';
-    execute 'drop policy if exists images_update_own on public.ultrasound_images';
-    execute 'drop policy if exists images_delete_own on public.ultrasound_images';
-    execute 'drop policy if exists images_select_own_study on public.ultrasound_images';
-    execute 'drop policy if exists images_insert_own_study on public.ultrasound_images';
-    execute 'drop policy if exists images_update_own_study on public.ultrasound_images';
-    execute 'drop policy if exists images_delete_own_study on public.ultrasound_images';
-
-    execute $pol$
-      create policy images_select_own_study on public.ultrasound_images
-        for select to authenticated
-        using (
-          exists (
-            select 1
-            from public.ultrasound_series ser
-            join public.studies s on s.id = ser.study_id
-            where ser.id = ultrasound_images.series_id and s.created_by = auth.uid()
-          )
-        )
-    $pol$;
-
-    execute $pol$
-      create policy images_insert_own_study on public.ultrasound_images
-        for insert to authenticated
-        with check (
-          created_by = auth.uid()
-          and exists (
-            select 1
-            from public.ultrasound_series ser
-            join public.studies s on s.id = ser.study_id
-            where ser.id = series_id and s.created_by = auth.uid()
-          )
-        )
-    $pol$;
-
-    execute $pol$
-      create policy images_update_own_study on public.ultrasound_images
-        for update to authenticated
-        using (
-          exists (
-            select 1
-            from public.ultrasound_series ser
-            join public.studies s on s.id = ser.study_id
-            where ser.id = ultrasound_images.series_id and s.created_by = auth.uid()
-          )
-        )
-    $pol$;
-
-    execute $pol$
-      create policy images_delete_own_study on public.ultrasound_images
-        for delete to authenticated
-        using (
-          exists (
-            select 1
-            from public.ultrasound_series ser
-            join public.studies s on s.id = ser.study_id
-            where ser.id = ultrasound_images.series_id and s.created_by = auth.uid()
-          )
-        )
-    $pol$;
-  end if;
-end
-$security$;
-
--- ========== doctor chat media (only if chat table exists) ==========
-do $security$
-begin
-  if to_regclass('public.doctor_chat_messages') is not null then
-    execute 'drop policy if exists doctor_chat_media_select on storage.objects';
-    execute $pol$
-      create policy doctor_chat_media_select on storage.objects
-        for select to authenticated
-        using (
-          bucket_id = 'doctor-chat-media'
-          and (
-            (storage.foldername(name))[1] = auth.uid()::text
-            or exists (
-              select 1 from public.doctor_chat_messages m
-              where m.media_storage_path = name
-            )
-          )
-        )
-    $pol$;
-  end if;
-end
-$security$;
-
--- ========== 20260608120000_security_hardening 3.sql ==========
--- Security hardening (safe: skips sections if tables not created yet).
--- Run anytime. After clinical_copilot migration, re-run to apply series/images policies.
-
--- ========== profiles (only if table exists) ==========
-do $security$
-begin
-  if to_regclass('public.profiles') is not null then
-    execute 'drop policy if exists profiles_select_roster on public.profiles';
-
-    execute $fn$
-      create or replace function public.get_doctor_display_names(p_user_ids uuid[])
-      returns table (id uuid, full_name text)
-      language sql
-      security definer
-      set search_path = public
-      stable
-      as $body$
-        select p.id, coalesce(nullif(trim(p.full_name), ''), 'Врач') as full_name
-        from public.profiles p
-        where p.id = any (p_user_ids)
-          and auth.uid() is not null;
-      $body$;
-    $fn$;
-
-    execute 'revoke all on function public.get_doctor_display_names(uuid[]) from public';
-    execute 'grant execute on function public.get_doctor_display_names(uuid[]) to authenticated';
-  end if;
-end
-$security$;
-
--- ========== copilot series/images (only if tables exist) ==========
-do $security$
-begin
-  if to_regclass('public.ultrasound_series') is not null then
-    execute 'drop policy if exists series_select_own on public.ultrasound_series';
-    execute 'drop policy if exists series_insert_own on public.ultrasound_series';
-    execute 'drop policy if exists series_update_own on public.ultrasound_series';
-    execute 'drop policy if exists series_delete_own on public.ultrasound_series';
-    execute 'drop policy if exists series_select_own_study on public.ultrasound_series';
-    execute 'drop policy if exists series_insert_own_study on public.ultrasound_series';
-    execute 'drop policy if exists series_update_own_study on public.ultrasound_series';
-    execute 'drop policy if exists series_delete_own_study on public.ultrasound_series';
-
-    execute $pol$
-      create policy series_select_own_study on public.ultrasound_series
-        for select to authenticated
-        using (
-          exists (
-            select 1 from public.studies s
-            where s.id = ultrasound_series.study_id and s.created_by = auth.uid()
-          )
-        )
-    $pol$;
-
-    execute $pol$
-      create policy series_insert_own_study on public.ultrasound_series
-        for insert to authenticated
-        with check (
-          created_by = auth.uid()
-          and exists (
-            select 1 from public.studies s
-            where s.id = study_id and s.created_by = auth.uid()
-          )
-        )
-    $pol$;
-
-    execute $pol$
-      create policy series_update_own_study on public.ultrasound_series
-        for update to authenticated
-        using (
-          exists (
-            select 1 from public.studies s
-            where s.id = ultrasound_series.study_id and s.created_by = auth.uid()
-          )
-        )
-    $pol$;
-
-    execute $pol$
-      create policy series_delete_own_study on public.ultrasound_series
-        for delete to authenticated
-        using (
-          exists (
-            select 1 from public.studies s
-            where s.id = ultrasound_series.study_id and s.created_by = auth.uid()
-          )
-        )
-    $pol$;
-  end if;
-
-  if to_regclass('public.ultrasound_images') is not null then
-    execute 'drop policy if exists images_select_own on public.ultrasound_images';
-    execute 'drop policy if exists images_insert_own on public.ultrasound_images';
-    execute 'drop policy if exists images_update_own on public.ultrasound_images';
-    execute 'drop policy if exists images_delete_own on public.ultrasound_images';
-    execute 'drop policy if exists images_select_own_study on public.ultrasound_images';
-    execute 'drop policy if exists images_insert_own_study on public.ultrasound_images';
-    execute 'drop policy if exists images_update_own_study on public.ultrasound_images';
-    execute 'drop policy if exists images_delete_own_study on public.ultrasound_images';
-
-    execute $pol$
-      create policy images_select_own_study on public.ultrasound_images
-        for select to authenticated
-        using (
-          exists (
-            select 1
-            from public.ultrasound_series ser
-            join public.studies s on s.id = ser.study_id
-            where ser.id = ultrasound_images.series_id and s.created_by = auth.uid()
-          )
-        )
-    $pol$;
-
-    execute $pol$
-      create policy images_insert_own_study on public.ultrasound_images
-        for insert to authenticated
-        with check (
-          created_by = auth.uid()
-          and exists (
-            select 1
-            from public.ultrasound_series ser
-            join public.studies s on s.id = ser.study_id
-            where ser.id = series_id and s.created_by = auth.uid()
-          )
-        )
-    $pol$;
-
-    execute $pol$
-      create policy images_update_own_study on public.ultrasound_images
-        for update to authenticated
-        using (
-          exists (
-            select 1
-            from public.ultrasound_series ser
-            join public.studies s on s.id = ser.study_id
-            where ser.id = ultrasound_images.series_id and s.created_by = auth.uid()
-          )
-        )
-    $pol$;
-
-    execute $pol$
-      create policy images_delete_own_study on public.ultrasound_images
-        for delete to authenticated
-        using (
-          exists (
-            select 1
-            from public.ultrasound_series ser
-            join public.studies s on s.id = ser.study_id
-            where ser.id = ultrasound_images.series_id and s.created_by = auth.uid()
-          )
-        )
-    $pol$;
-  end if;
-end
-$security$;
-
--- ========== doctor chat media (only if chat table exists) ==========
-do $security$
-begin
-  if to_regclass('public.doctor_chat_messages') is not null then
-    execute 'drop policy if exists doctor_chat_media_select on storage.objects';
-    execute $pol$
-      create policy doctor_chat_media_select on storage.objects
-        for select to authenticated
-        using (
-          bucket_id = 'doctor-chat-media'
-          and (
-            (storage.foldername(name))[1] = auth.uid()::text
-            or exists (
-              select 1 from public.doctor_chat_messages m
-              where m.media_storage_path = name
-            )
-          )
-        )
-    $pol$;
-  end if;
-end
-$security$;
-
 -- ========== 20260608120000_security_hardening.sql ==========
 -- Security hardening (safe: skips sections if tables not created yet).
 -- Run anytime. After clinical_copilot migration, re-run to apply series/images policies.
@@ -1794,84 +1436,6 @@ begin
 end
 $security$;
 
--- ========== 20260614120000_user_metadata_lookup 2.sql ==========
--- Быстрый lookup email → user id (замена auth.admin.listUsers в sign-up).
--- Синхронизация из auth.users через trigger.
-
-CREATE TABLE IF NOT EXISTS public.user_metadata (
-  id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
-  email TEXT UNIQUE NOT NULL,
-  phone TEXT UNIQUE,
-  full_name TEXT,
-  specialty TEXT,
-  created_at TIMESTAMPTZ DEFAULT NOW(),
-  updated_at TIMESTAMPTZ DEFAULT NOW()
-);
-
-CREATE INDEX IF NOT EXISTS idx_user_metadata_email ON public.user_metadata(email);
-CREATE INDEX IF NOT EXISTS idx_user_metadata_phone ON public.user_metadata(phone);
-
-ALTER TABLE public.user_metadata ENABLE ROW LEVEL SECURITY;
-
--- Только service role / backend (RLS без policies для anon/authenticated).
-REVOKE ALL ON public.user_metadata FROM anon, authenticated;
-GRANT SELECT, INSERT, UPDATE, DELETE ON public.user_metadata TO service_role;
-
-CREATE OR REPLACE FUNCTION public.handle_auth_user_metadata_sync()
-RETURNS trigger
-LANGUAGE plpgsql
-SECURITY DEFINER
-SET search_path = public
-AS $$
-BEGIN
-  IF NEW.email IS NULL OR trim(NEW.email) = '' THEN
-    RETURN NEW;
-  END IF;
-
-  INSERT INTO public.user_metadata (id, email, phone, full_name, specialty, updated_at)
-  VALUES (
-    NEW.id,
-    lower(trim(NEW.email)),
-    NEW.phone,
-    COALESCE(NEW.raw_user_meta_data->>'full_name', ''),
-    COALESCE(NEW.raw_user_meta_data->>'specialization', NEW.raw_user_meta_data->>'specialty', ''),
-    NOW()
-  )
-  ON CONFLICT (id) DO UPDATE SET
-    email = EXCLUDED.email,
-    phone = EXCLUDED.phone,
-    full_name = EXCLUDED.full_name,
-    specialty = EXCLUDED.specialty,
-    updated_at = NOW();
-
-  RETURN NEW;
-END;
-$$;
-
-DROP TRIGGER IF EXISTS on_auth_user_metadata_sync ON auth.users;
-CREATE TRIGGER on_auth_user_metadata_sync
-  AFTER INSERT OR UPDATE OF email, phone, raw_user_meta_data ON auth.users
-  FOR EACH ROW
-  EXECUTE FUNCTION public.handle_auth_user_metadata_sync();
-
--- Backfill существующих пользователей (идемпотентно).
-INSERT INTO public.user_metadata (id, email, phone, full_name, specialty, updated_at)
-SELECT
-  u.id,
-  lower(trim(u.email)),
-  u.phone,
-  COALESCE(u.raw_user_meta_data->>'full_name', ''),
-  COALESCE(u.raw_user_meta_data->>'specialization', u.raw_user_meta_data->>'specialty', ''),
-  NOW()
-FROM auth.users u
-WHERE u.email IS NOT NULL AND trim(u.email) <> ''
-ON CONFLICT (id) DO UPDATE SET
-  email = EXCLUDED.email,
-  phone = EXCLUDED.phone,
-  full_name = EXCLUDED.full_name,
-  specialty = EXCLUDED.specialty,
-  updated_at = NOW();
-
 -- ========== 20260614120000_user_metadata_lookup.sql ==========
 -- Быстрый lookup email → user id (замена auth.admin.listUsers в sign-up).
 -- Синхронизация из auth.users через trigger.
@@ -1950,55 +1514,6 @@ ON CONFLICT (id) DO UPDATE SET
   specialty = EXCLUDED.specialty,
   updated_at = NOW();
 
--- ========== 20260616120000_profile_birth_year 2.sql ==========
--- Год рождения врача (обязательное поле при регистрации / dev-login).
-
-alter table public.profiles
-  add column if not exists birth_year smallint
-  check (birth_year is null or (birth_year >= 1900 and birth_year <= 2100));
-
-alter table public.users
-  add column if not exists birth_year smallint
-  check (birth_year is null or (birth_year >= 1900 and birth_year <= 2100));
-
-create or replace function public.handle_new_user_profile()
-returns trigger language plpgsql security definer set search_path = public as $$
-declare
-  fn text := coalesce(nullif(trim(coalesce(new.raw_user_meta_data->>'full_name', '')), ''), '');
-  sp text := nullif(trim(coalesce(new.raw_user_meta_data->>'specialization', '')), '');
-  ins text := nullif(trim(coalesce(new.raw_user_meta_data->>'institution', '')), '');
-  by_raw text := nullif(trim(coalesce(new.raw_user_meta_data->>'birth_year', '')), '');
-  by_val smallint := null;
-begin
-  if by_raw ~ '^\d{4}$' then
-    by_val := by_raw::smallint;
-  end if;
-
-  insert into public.profiles (id, full_name, specialization, institution, birth_year, trial_ends_at)
-  values (new.id, fn, sp, ins, by_val, now() + interval '7 days')
-  on conflict (id) do nothing;
-
-  insert into public.users (id, email, full_name, specialization, institution, birth_year)
-  values (
-    new.id,
-    coalesce(new.email, ''),
-    fn,
-    sp,
-    ins,
-    by_val
-  )
-  on conflict (id) do update set
-    email = excluded.email,
-    full_name = case when excluded.full_name <> '' then excluded.full_name else public.users.full_name end,
-    specialization = coalesce(excluded.specialization, public.users.specialization),
-    institution = coalesce(excluded.institution, public.users.institution),
-    birth_year = coalesce(excluded.birth_year, public.users.birth_year),
-    updated_at = now();
-
-  return new;
-end;
-$$;
-
 -- ========== 20260616120000_profile_birth_year.sql ==========
 -- Год рождения врача (обязательное поле при регистрации / dev-login).
 
@@ -2048,15 +1563,6 @@ begin
 end;
 $$;
 
--- ========== 20260617130000_profile_clinical_preferences 2.sql ==========
--- Клинические настройки врача (шаблоны протоколов и др.) — синхронизация между устройствами.
-
-alter table public.profiles
-  add column if not exists clinical_preferences jsonb not null default '{}'::jsonb;
-
-comment on column public.profiles.clinical_preferences is
-  'Doctor UI prefs: fmfSecondThirdProtocolTemplate (yakubov-2023 | sonogyn-compact), etc.';
-
 -- ========== 20260617130000_profile_clinical_preferences.sql ==========
 -- Клинические настройки врача (шаблоны протоколов и др.) — синхронизация между устройствами.
 
@@ -2065,34 +1571,6 @@ alter table public.profiles
 
 comment on column public.profiles.clinical_preferences is
   'Doctor UI prefs: fmfSecondThirdProtocolTemplate (yakubov-2023 | sonogyn-compact), etc.';
-
--- ========== 20260617140000_yookassa_payments 2.sql ==========
--- ЮKassa payments (РФ billing). Server writes via service role only.
-
-create table if not exists public.yookassa_payments (
-  id uuid primary key default gen_random_uuid(),
-  user_id uuid not null references auth.users(id) on delete cascade,
-  yookassa_id text not null unique,
-  amount_rub numeric(12, 2) not null,
-  status text not null default 'pending',
-  description text,
-  confirmation_url text,
-  metadata jsonb not null default '{}'::jsonb,
-  created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now()
-);
-
-create index if not exists yookassa_payments_user_id_idx on public.yookassa_payments (user_id);
-create index if not exists yookassa_payments_status_idx on public.yookassa_payments (status);
-
-alter table public.yookassa_payments enable row level security;
-
-drop policy if exists "yookassa_payments_select_own" on public.yookassa_payments;
-create policy "yookassa_payments_select_own"
-  on public.yookassa_payments
-  for select
-  to authenticated
-  using (auth.uid() = user_id);
 
 -- ========== 20260617140000_yookassa_payments.sql ==========
 -- ЮKassa payments (РФ billing). Server writes via service role only.
@@ -2118,52 +1596,6 @@ alter table public.yookassa_payments enable row level security;
 drop policy if exists "yookassa_payments_select_own" on public.yookassa_payments;
 create policy "yookassa_payments_select_own"
   on public.yookassa_payments
-  for select
-  to authenticated
-  using (auth.uid() = user_id);
-
--- ========== 20260619130000_payments 2.sql ==========
--- Payments (ЮKassa). Таблица orders/payments для webhook.
-
-do $$
-begin
-  if exists (
-    select 1 from information_schema.tables
-    where table_schema = 'public' and table_name = 'yookassa_payments'
-  ) and not exists (
-    select 1 from information_schema.tables
-    where table_schema = 'public' and table_name = 'payments'
-  ) then
-    alter table public.yookassa_payments rename to payments;
-    alter table public.payments rename column amount_rub to amount;
-    alter index if exists yookassa_payments_user_id_idx rename to payments_user_id_idx;
-    alter index if exists yookassa_payments_status_idx rename to payments_status_idx;
-  elsif not exists (
-    select 1 from information_schema.tables
-    where table_schema = 'public' and table_name = 'payments'
-  ) then
-    create table public.payments (
-      id uuid primary key default gen_random_uuid(),
-      user_id uuid not null references auth.users(id) on delete cascade,
-      yookassa_id text not null unique,
-      amount numeric(12, 2) not null,
-      status text not null default 'pending',
-      description text,
-      confirmation_url text,
-      metadata jsonb not null default '{}'::jsonb,
-      created_at timestamptz not null default now(),
-      updated_at timestamptz not null default now()
-    );
-    create index payments_user_id_idx on public.payments (user_id);
-    create index payments_status_idx on public.payments (status);
-  end if;
-end $$;
-
-alter table public.payments enable row level security;
-
-drop policy if exists "payments_select_own" on public.payments;
-create policy "payments_select_own"
-  on public.payments
   for select
   to authenticated
   using (auth.uid() = user_id);
@@ -2213,287 +1645,6 @@ create policy "payments_select_own"
   for select
   to authenticated
   using (auth.uid() = user_id);
-
--- ========== 20260620120000_course_author_lms 2.sql ==========
--- LMS: courses, modules, lessons, enrollments, sales, author role
-
--- Роль author для создателей курсов
-alter table public.profiles drop constraint if exists profiles_role_check;
-alter table public.profiles
-  add constraint profiles_role_check
-  check (role in ('user', 'moderator', 'admin', 'author'));
-
--- ---------------------------------------------------------------------------
--- Tables
--- ---------------------------------------------------------------------------
-
-create table if not exists public.courses (
-  id uuid primary key default gen_random_uuid(),
-  author_id uuid not null references auth.users (id) on delete cascade,
-  title text not null default '',
-  description_html text not null default '',
-  cover_storage_path text,
-  status text not null default 'draft' check (status in ('draft', 'published', 'archived')),
-  price_rub integer not null default 0 check (price_rub >= 0),
-  created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now()
-);
-
-create index if not exists idx_courses_author_id on public.courses (author_id);
-create index if not exists idx_courses_status on public.courses (status);
-
-create table if not exists public.course_modules (
-  id uuid primary key default gen_random_uuid(),
-  course_id uuid not null references public.courses (id) on delete cascade,
-  title text not null default '',
-  sort_order integer not null default 0,
-  created_at timestamptz not null default now()
-);
-
-create index if not exists idx_course_modules_course_sort on public.course_modules (course_id, sort_order);
-
-create table if not exists public.course_lessons (
-  id uuid primary key default gen_random_uuid(),
-  course_id uuid not null references public.courses (id) on delete cascade,
-  module_id uuid not null references public.course_modules (id) on delete cascade,
-  title text not null default '',
-  body_html text not null default '',
-  lesson_type text not null default 'video' check (lesson_type in ('video', 'offline')),
-  video_url text,
-  video_storage_path text,
-  offline_starts_at timestamptz,
-  offline_address text,
-  offline_stream_url text,
-  max_seats integer check (max_seats is null or max_seats > 0),
-  is_free_preview boolean not null default false,
-  sort_order integer not null default 0,
-  created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now()
-);
-
-create index if not exists idx_course_lessons_module_sort on public.course_lessons (module_id, sort_order);
-create index if not exists idx_course_lessons_course on public.course_lessons (course_id);
-create index if not exists idx_course_lessons_offline on public.course_lessons (offline_starts_at)
-  where lesson_type = 'offline';
-
-create table if not exists public.course_enrollments (
-  id uuid primary key default gen_random_uuid(),
-  course_id uuid not null references public.courses (id) on delete cascade,
-  user_id uuid not null references auth.users (id) on delete cascade,
-  progress_percent smallint not null default 0 check (progress_percent >= 0 and progress_percent <= 100),
-  enrolled_at timestamptz not null default now(),
-  last_activity_at timestamptz not null default now(),
-  unique (course_id, user_id)
-);
-
-create index if not exists idx_course_enrollments_course on public.course_enrollments (course_id);
-create index if not exists idx_course_enrollments_user on public.course_enrollments (user_id);
-
-create table if not exists public.offline_lesson_registrations (
-  id uuid primary key default gen_random_uuid(),
-  lesson_id uuid not null references public.course_lessons (id) on delete cascade,
-  course_id uuid not null references public.courses (id) on delete cascade,
-  user_id uuid not null references auth.users (id) on delete cascade,
-  registered_at timestamptz not null default now(),
-  status text not null default 'registered' check (status in ('registered', 'cancelled', 'attended')),
-  unique (lesson_id, user_id)
-);
-
-create index if not exists idx_offline_regs_lesson on public.offline_lesson_registrations (lesson_id, registered_at desc);
-create index if not exists idx_offline_regs_course on public.offline_lesson_registrations (course_id);
-
-create table if not exists public.course_sales (
-  id uuid primary key default gen_random_uuid(),
-  course_id uuid not null references public.courses (id) on delete cascade,
-  author_id uuid not null references auth.users (id) on delete cascade,
-  buyer_id uuid references auth.users (id) on delete set null,
-  amount_rub integer not null check (amount_rub >= 0),
-  sold_at timestamptz not null default now(),
-  payment_ref text
-);
-
-create index if not exists idx_course_sales_author_sold on public.course_sales (author_id, sold_at desc);
-create index if not exists idx_course_sales_course on public.course_sales (course_id);
-
--- ---------------------------------------------------------------------------
--- Helpers
--- ---------------------------------------------------------------------------
-
-create or replace function public.is_author_or_admin()
-returns boolean
-language sql
-stable
-security definer
-set search_path = public
-as $$
-  select exists (
-    select 1
-    from public.profiles p
-    where p.id = auth.uid()
-      and p.role in ('author', 'admin')
-  );
-$$;
-
-create or replace function public.is_course_owner(p_course_id uuid)
-returns boolean
-language sql
-stable
-security definer
-set search_path = public
-as $$
-  select exists (
-    select 1
-    from public.courses c
-    where c.id = p_course_id
-      and c.author_id = auth.uid()
-  );
-$$;
-
-create or replace function public.can_manage_course(p_course_id uuid)
-returns boolean
-language sql
-stable
-security definer
-set search_path = public
-as $$
-  select public.is_course_owner(p_course_id)
-    or exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin');
-$$;
-
--- ---------------------------------------------------------------------------
--- RLS
--- ---------------------------------------------------------------------------
-
-alter table public.courses enable row level security;
-alter table public.course_modules enable row level security;
-alter table public.course_lessons enable row level security;
-alter table public.course_enrollments enable row level security;
-alter table public.offline_lesson_registrations enable row level security;
-alter table public.course_sales enable row level security;
-
--- courses
-drop policy if exists courses_select_published on public.courses;
-create policy courses_select_published on public.courses
-  for select using (
-    status = 'published'
-    or author_id = auth.uid()
-    or exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin')
-  );
-
-drop policy if exists courses_author_write on public.courses;
-create policy courses_author_write on public.courses
-  for all using (author_id = auth.uid())
-  with check (author_id = auth.uid());
-
-drop policy if exists courses_admin_all on public.courses;
-create policy courses_admin_all on public.courses
-  for all using (
-    exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin')
-  );
-
--- modules
-drop policy if exists course_modules_manage on public.course_modules;
-create policy course_modules_manage on public.course_modules
-  for all using (public.can_manage_course(course_id))
-  with check (public.can_manage_course(course_id));
-
-drop policy if exists course_modules_select_enrolled on public.course_modules;
-create policy course_modules_select_enrolled on public.course_modules
-  for select using (
-    exists (
-      select 1 from public.courses c
-      where c.id = course_id
-        and (c.status = 'published' or c.author_id = auth.uid())
-    )
-  );
-
--- lessons
-drop policy if exists course_lessons_manage on public.course_lessons;
-create policy course_lessons_manage on public.course_lessons
-  for all using (public.can_manage_course(course_id))
-  with check (public.can_manage_course(course_id));
-
-drop policy if exists course_lessons_select on public.course_lessons;
-create policy course_lessons_select on public.course_lessons
-  for select using (
-    exists (
-      select 1 from public.courses c
-      where c.id = course_id
-        and (c.status = 'published' or c.author_id = auth.uid())
-    )
-  );
-
--- enrollments
-drop policy if exists course_enrollments_select on public.course_enrollments;
-create policy course_enrollments_select on public.course_enrollments
-  for select using (
-    user_id = auth.uid()
-    or public.can_manage_course(course_id)
-  );
-
-drop policy if exists course_enrollments_insert on public.course_enrollments;
-create policy course_enrollments_insert on public.course_enrollments
-  for insert with check (user_id = auth.uid());
-
-drop policy if exists course_enrollments_update on public.course_enrollments;
-create policy course_enrollments_update on public.course_enrollments
-  for update using (user_id = auth.uid() or public.can_manage_course(course_id));
-
--- offline registrations
-drop policy if exists offline_regs_select on public.offline_lesson_registrations;
-create policy offline_regs_select on public.offline_lesson_registrations
-  for select using (
-    user_id = auth.uid()
-    or public.can_manage_course(course_id)
-  );
-
-drop policy if exists offline_regs_insert on public.offline_lesson_registrations;
-create policy offline_regs_insert on public.offline_lesson_registrations
-  for insert with check (user_id = auth.uid());
-
--- sales
-drop policy if exists course_sales_author on public.course_sales;
-create policy course_sales_author on public.course_sales
-  for select using (
-    author_id = auth.uid()
-    or exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin')
-  );
-
-drop policy if exists course_sales_insert_service on public.course_sales;
-create policy course_sales_insert_service on public.course_sales
-  for insert with check (author_id = auth.uid() or public.is_author_or_admin());
-
--- ---------------------------------------------------------------------------
--- Storage bucket course-media
--- ---------------------------------------------------------------------------
-
-insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
-values (
-  'course-media',
-  'course-media',
-  false,
-  104857600,
-  array['image/jpeg', 'image/png', 'image/webp', 'video/mp4', 'video/webm']::text[]
-)
-on conflict (id) do nothing;
-
-drop policy if exists course_media_owner_rw on storage.objects;
-create policy course_media_owner_rw on storage.objects
-  for all using (
-    bucket_id = 'course-media'
-    and (storage.foldername(name))[1] = auth.uid()::text
-  )
-  with check (
-    bucket_id = 'course-media'
-    and (storage.foldername(name))[1] = auth.uid()::text
-  );
-
-drop policy if exists course_media_admin on storage.objects;
-create policy course_media_admin on storage.objects
-  for all using (
-    bucket_id = 'course-media'
-    and exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin')
-  );
 
 -- ========== 20260620120000_course_author_lms.sql ==========
 -- LMS: courses, modules, lessons, enrollments, sales, author role
@@ -2776,23 +1927,6 @@ create policy course_media_admin on storage.objects
     and exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin')
   );
 
--- ========== 20260621120000_lesson_video_storage 2.sql ==========
--- Video upload fields for S3/Yandex Object Storage + HLS
-
-alter table public.course_lessons
-  add column if not exists video_file_key text,
-  add column if not exists video_file_url text,
-  add column if not exists hls_playlist_key text,
-  add column if not exists video_processing_status text not null default 'none'
-    check (video_processing_status in ('none', 'uploading', 'processing', 'ready', 'failed')),
-  add column if not exists video_mime_type text,
-  add column if not exists video_size_bytes bigint check (video_size_bytes is null or video_size_bytes >= 0),
-  add column if not exists video_upload_error text;
-
-create index if not exists idx_course_lessons_video_status
-  on public.course_lessons (video_processing_status)
-  where lesson_type = 'video';
-
 -- ========== 20260621120000_lesson_video_storage.sql ==========
 -- Video upload fields for S3/Yandex Object Storage + HLS
 
@@ -2809,72 +1943,6 @@ alter table public.course_lessons
 create index if not exists idx_course_lessons_video_status
   on public.course_lessons (video_processing_status)
   where lesson_type = 'video';
-
--- ========== 20260622120000_lms_school_upgrade 2.sql ==========
--- Online school upgrade: author profiles, per-lesson progress, lesson metadata
-
-create table if not exists public.author_profiles (
-  id uuid primary key default gen_random_uuid(),
-  user_id uuid not null unique references auth.users (id) on delete cascade,
-  bio text,
-  avatar_url text,
-  telegram text,
-  website text,
-  revenue_percent smallint not null default 70 check (revenue_percent >= 0 and revenue_percent <= 100),
-  created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now()
-);
-
-create index if not exists idx_author_profiles_user on public.author_profiles (user_id);
-
-alter table public.course_lessons
-  add column if not exists description text,
-  add column if not exists video_provider text check (
-    video_provider is null or video_provider in ('youtube', 'vimeo', 'upload')
-  ),
-  add column if not exists duration_minutes integer check (duration_minutes is null or duration_minutes > 0);
-
-alter table public.course_enrollments
-  add column if not exists payment_id uuid references public.payments (id) on delete set null;
-
-create table if not exists public.course_lesson_progress (
-  id uuid primary key default gen_random_uuid(),
-  user_id uuid not null references auth.users (id) on delete cascade,
-  course_id uuid not null references public.courses (id) on delete cascade,
-  lesson_id uuid not null references public.course_lessons (id) on delete cascade,
-  completed boolean not null default false,
-  completed_at timestamptz,
-  created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now(),
-  unique (user_id, lesson_id)
-);
-
-create index if not exists idx_lesson_progress_user_course on public.course_lesson_progress (user_id, course_id);
-create index if not exists idx_lesson_progress_lesson on public.course_lesson_progress (lesson_id);
-
-alter table public.author_profiles enable row level security;
-alter table public.course_lesson_progress enable row level security;
-
-drop policy if exists author_profiles_select on public.author_profiles;
-create policy author_profiles_select on public.author_profiles
-  for select using (true);
-
-drop policy if exists author_profiles_own_write on public.author_profiles;
-create policy author_profiles_own_write on public.author_profiles
-  for all using (user_id = auth.uid())
-  with check (user_id = auth.uid());
-
-drop policy if exists lesson_progress_select on public.course_lesson_progress;
-create policy lesson_progress_select on public.course_lesson_progress
-  for select using (
-    user_id = auth.uid()
-    or public.can_manage_course(course_id)
-  );
-
-drop policy if exists lesson_progress_own_write on public.course_lesson_progress;
-create policy lesson_progress_own_write on public.course_lesson_progress
-  for all using (user_id = auth.uid())
-  with check (user_id = auth.uid());
 
 -- ========== 20260622120000_lms_school_upgrade.sql ==========
 -- Online school upgrade: author profiles, per-lesson progress, lesson metadata
@@ -3349,9 +2417,13 @@ comment on column public.cases.channel_id is 'NULL = teaching library; NOT NULL 
 comment on column public.teaching_case_comments.is_best_answer is 'Best answer marker; only case author may set via mark_best_comment RPC.';
 
 -- ========== 20260624161753_doctor_discussions_push_webhooks.sql ==========
--- Requires Vault secrets (run once before triggers fire):
+-- Doctor discussions: pg_net database webhooks → Edge Functions (push).
+--
+-- One-time setup in Vault (SQL Editor, service role) BEFORE webhooks fire:
 --   select vault.create_secret('<PROJECT_REF>', 'supabase_project_ref', 'Supabase project ref for edge URLs');
 --   select vault.create_secret('<openssl rand -hex 32>', 'discussions_webhook_secret', 'Webhook header for push edge functions');
+-- Optional mirror for Edge Functions CLI:
+--   supabase secrets set DISCUSSIONS_WEBHOOK_SECRET=<same hex> --project-ref <PROJECT_REF>
 
 create extension if not exists pg_net with schema extensions;
 
@@ -3483,6 +2555,7 @@ after insert on public.cases
 for each row execute function public.notify_new_case_question_webhook_fn();
 
 -- ========== 20260624162105_doctor_discussions_webhook_secret_verify.sql ==========
+-- Doctor discussions: RPC for Edge Functions to verify webhook secret (Vault-backed).
 
 create or replace function public.verify_discussion_webhook_secret(p_secret text)
 returns boolean
@@ -3497,6 +2570,34 @@ $$;
 
 revoke all on function public.verify_discussion_webhook_secret(text) from public;
 grant execute on function public.verify_discussion_webhook_secret(text) to service_role;
+
+-- ========== 20260624164104_doctor_discussions_vault_seed.sql ==========
+-- One-time legacy path: copy hardcoded webhook secret into Vault (prod already migrated).
+-- Fresh installs: create secrets manually BEFORE 20260624161753 (see functions/README.md).
+
+do $$
+declare
+  v_secret text;
+begin
+  if exists (select 1 from vault.secrets where name = 'discussions_webhook_secret') then
+    return;
+  end if;
+
+  begin
+    v_secret := (select public.discussion_push_webhook_headers() ->> 'x-webhook-secret');
+  exception
+    when others then
+      v_secret := null;
+  end;
+
+  if coalesce(v_secret, '') <> '' then
+    perform vault.create_secret(
+      v_secret,
+      'discussions_webhook_secret',
+      'Doctor discussions webhook header secret'
+    );
+  end if;
+end $$;
 
 -- ========== 20260625120000_ai_orads_events.sql ==========
 -- O-RADS assist analytics: text → extracted features → AI category vs manual (Sprint 2)
@@ -3696,3 +2797,489 @@ create policy cpi_audit_own on public.cpi_audit_log for select to authenticated
 
 create policy cpi_audit_insert on public.cpi_audit_log for insert to authenticated
   with check (user_id = auth.uid());
+
+-- ========== 20260627120000_achievements_gamification.sql ==========
+-- Геймификация «Звёзды и награды» (Prisma @@map tables)
+-- user_id = auth.users.id (Supabase UUID)
+
+CREATE TABLE IF NOT EXISTS prisma_achievements (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  slug TEXT NOT NULL UNIQUE,
+  description TEXT NOT NULL,
+  icon_emoji TEXT NOT NULL,
+  xp_reward INTEGER NOT NULL,
+  criteria_type TEXT NOT NULL,
+  criteria_value INTEGER NOT NULL,
+  module_id TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE TABLE IF NOT EXISTS prisma_user_achievements (
+  id TEXT PRIMARY KEY,
+  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  achievement_id TEXT NOT NULL REFERENCES prisma_achievements(id) ON DELETE CASCADE,
+  unlocked_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  UNIQUE (user_id, achievement_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_prisma_user_achievements_user ON prisma_user_achievements(user_id);
+
+CREATE TABLE IF NOT EXISTS prisma_user_progress (
+  id TEXT PRIMARY KEY,
+  user_id UUID NOT NULL UNIQUE REFERENCES auth.users(id) ON DELETE CASCADE,
+  total_xp INTEGER NOT NULL DEFAULT 0,
+  level INTEGER NOT NULL DEFAULT 1,
+  streak_days INTEGER NOT NULL DEFAULT 0,
+  last_active_date DATE,
+  iota_correct_streak INTEGER NOT NULL DEFAULT 0,
+  stats JSONB NOT NULL DEFAULT '{}'::jsonb,
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE TABLE IF NOT EXISTS prisma_quiz_results (
+  id TEXT PRIMARY KEY,
+  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  module_id TEXT NOT NULL,
+  score DOUBLE PRECISION NOT NULL,
+  passed BOOLEAN NOT NULL DEFAULT false,
+  passed_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  metadata JSONB
+);
+
+CREATE INDEX IF NOT EXISTS idx_prisma_quiz_results_user_module ON prisma_quiz_results(user_id, module_id);
+CREATE INDEX IF NOT EXISTS idx_prisma_quiz_results_user_passed ON prisma_quiz_results(user_id, passed_at);
+
+ALTER TABLE prisma_user_achievements ENABLE ROW LEVEL SECURITY;
+ALTER TABLE prisma_user_progress ENABLE ROW LEVEL SECURITY;
+ALTER TABLE prisma_quiz_results ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY achievements_select_own ON prisma_user_achievements
+  FOR SELECT USING (auth.uid() = user_id);
+
+CREATE POLICY progress_select_own ON prisma_user_progress
+  FOR SELECT USING (auth.uid() = user_id);
+
+CREATE POLICY quiz_select_own ON prisma_quiz_results
+  FOR SELECT USING (auth.uid() = user_id);
+
+-- Справочник бейджей (идемпотентно)
+INSERT INTO prisma_achievements (id, name, slug, description, icon_emoji, xp_reward, criteria_type, criteria_value, module_id)
+VALUES
+  ('ach_orads_explorer', 'O-RADS Explorer', 'orads-explorer', 'Пройдено 3 учебных кейса по O-RADS US', '⭐', 50, 'CASES_COMPLETED', 3, 'orads'),
+  ('ach_iota_pro', 'IOTA Pro', 'iota-pro', '5 правильных интерпретаций IOTA подряд', '⭐⭐', 75, 'CORRECT_STREAK', 5, 'iota'),
+  ('ach_ultrasound_student', 'Ученик УЗИ', 'ultrasound-student', 'Изучено 10 учебных материалов', '⭐', 50, 'LESSONS_COMPLETED', 10, 'general'),
+  ('ach_patient_streak', 'Терпеливый', 'patient-streak', '7 дней подряд заходите в платформу', '🔥', 100, 'LOGIN_STREAK', 7, NULL),
+  ('ach_fmf_master', 'FMF Мастер', 'fmf-master', '100% прохождение раздела FMF', '🏆', 150, 'MODULE_COMPLETION', 100, 'fmf')
+ON CONFLICT (slug) DO NOTHING;
+
+-- ========== 20260627140000_ai_chat_events.sql ==========
+-- Sonogyn AI chat — аудит метаданных (без PHI / base64)
+
+create table if not exists public.ai_chat_events (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users (id) on delete cascade,
+  domain text not null default 'general',
+  success boolean not null default false,
+  duration_ms integer not null default 0,
+  model text not null default '',
+  error_code text,
+  prompt_tokens integer,
+  completion_tokens integer,
+  has_images boolean not null default false,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists ai_chat_events_user_created_idx
+  on public.ai_chat_events (user_id, created_at desc);
+
+alter table public.ai_chat_events enable row level security;
+
+create policy "ai_chat_events_select_own" on public.ai_chat_events
+  for select to authenticated using (auth.uid() = user_id);
+
+-- insert только через service role (API route)
+
+-- ========== 20260701120000_case_lifecycle_ia_v2.sql ==========
+-- Sonogyn Pro IA v2: CASE lifecycle + anonymization + FTS + editorial flags.
+-- Additive: preserves legacy status (draft|review|published|flagged) and channel_id semantics.
+
+-- 1) Lifecycle (parallel to legacy status)
+alter table public.cases
+  add column if not exists lifecycle_status text
+    check (lifecycle_status in ('open', 'discussion', 'resolved', 'confirmed', 'archived')),
+  add column if not exists confirmed_at timestamptz,
+  add column if not exists confirmed_by uuid references auth.users (id) on delete set null,
+  add column if not exists expert_reviewer_id uuid references auth.users (id) on delete set null,
+  add column if not exists resolved_at timestamptz,
+  add column if not exists birads_category text,
+  add column if not exists tirads_category text,
+  add column if not exists iota_verdict text,
+  add column if not exists pathology_tags text[] not null default '{}',
+  add column if not exists is_rare boolean not null default false,
+  add column if not exists rare_slot text check (rare_slot in ('week', 'month', 'dont_miss')),
+  add column if not exists editorial_priority smallint not null default 0,
+  add column if not exists search_vector tsvector;
+
+create index if not exists idx_cases_lifecycle_status on public.cases (lifecycle_status);
+create index if not exists idx_cases_confirmed_at on public.cases (confirmed_at desc nulls last);
+create index if not exists idx_cases_pathology_tags on public.cases using gin (pathology_tags);
+create index if not exists idx_cases_search_vector on public.cases using gin (search_vector);
+
+-- Backfill lifecycle from legacy status (idempotent)
+update public.cases
+set lifecycle_status = case
+  when status = 'flagged' then 'archived'
+  else 'open'
+end
+where lifecycle_status is null;
+
+alter table public.cases
+  alter column lifecycle_status set default 'open';
+
+-- FTS trigger (title + description + tags)
+create or replace function public.cases_search_vector_update()
+returns trigger
+language plpgsql
+as $$
+begin
+  new.search_vector :=
+    setweight(to_tsvector('russian', coalesce(new.title, '')), 'A')
+    || setweight(to_tsvector('russian', coalesce(new.description, '')), 'B')
+    || setweight(
+      to_tsvector('simple', coalesce(array_to_string(new.pathology_tags, ' '), '')),
+      'C'
+    );
+  return new;
+end;
+$$;
+
+drop trigger if exists trg_cases_search_vector on public.cases;
+create trigger trg_cases_search_vector
+before insert or update of title, description, pathology_tags on public.cases
+for each row
+execute function public.cases_search_vector_update();
+
+-- 2) Media anonymization (gate R6)
+alter table public.case_media
+  add column if not exists anonymization_status text not null default 'pending'
+    check (anonymization_status in ('pending', 'passed', 'failed', 'waived')),
+  add column if not exists anonymization_checked_at timestamptz,
+  add column if not exists anonymization_checked_by uuid references auth.users (id) on delete set null,
+  add column if not exists blur_regions jsonb not null default '[]'::jsonb;
+
+create index if not exists idx_case_media_anon on public.case_media (anonymization_status);
+
+-- 3) Auto DISCUSSION when first comment
+create or replace function public.bump_case_lifecycle_on_comment()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  update public.cases
+  set
+    lifecycle_status = 'discussion',
+    updated_at = now()
+  where id = new.case_id
+    and lifecycle_status = 'open';
+
+  return new;
+end;
+$$;
+
+drop trigger if exists trg_bump_lifecycle_on_comment on public.teaching_case_comments;
+create trigger trg_bump_lifecycle_on_comment
+after insert on public.teaching_case_comments
+for each row
+execute function public.bump_case_lifecycle_on_comment();
+
+-- 4) RPC: confirm case (expert/moderator only)
+create or replace function public.confirm_teaching_case(p_case_id uuid)
+returns void
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_role text;
+begin
+  select role into v_role from public.profiles where id = auth.uid();
+
+  if v_role not in ('moderator', 'admin') then
+    raise exception 'forbidden';
+  end if;
+
+  update public.cases
+  set
+    lifecycle_status = 'confirmed',
+    confirmed_at = now(),
+    confirmed_by = auth.uid(),
+    expert_reviewer_id = auth.uid(),
+    updated_at = now()
+  where id = p_case_id;
+end;
+$$;
+
+revoke all on function public.confirm_teaching_case(uuid) from public;
+grant execute on function public.confirm_teaching_case(uuid) to authenticated;
+
+comment on column public.cases.lifecycle_status is
+  'IA v2: open→discussion→resolved→confirmed→archived; parallel to legacy status';
+comment on column public.cases.channel_id is
+  'NULL=library case; NOT NULL=colleague discussion (existing semantics preserved)';
+comment on column public.case_media.anonymization_status is
+  'Gate R6: public thumb only when passed (or legacy waived after audit)';
+
+-- ========== 20260702120000_case_publish_anon_gate.sql ==========
+-- R6 server-side gate: block publish when case_media not anonymized.
+
+create or replace function public.enforce_case_publish_media_anon()
+returns trigger
+language plpgsql
+as $$
+begin
+  if new.status = 'published'
+     and new.is_public = true
+     and (
+       old.status is distinct from 'published'
+       or old.is_public is distinct from true
+     )
+     and exists (
+       select 1
+       from public.case_media cm
+       where cm.case_id = new.id
+         and cm.anonymization_status not in ('passed', 'waived')
+     )
+  then
+    raise exception 'publish blocked: confirm media anonymization (R6)';
+  end if;
+
+  return new;
+end;
+$$;
+
+drop trigger if exists trg_enforce_case_publish_media_anon on public.cases;
+create trigger trg_enforce_case_publish_media_anon
+before update on public.cases
+for each row
+execute function public.enforce_case_publish_media_anon();
+
+comment on function public.enforce_case_publish_media_anon() is
+  'Gate R6: cannot set published+public while pending/failed media anonymization';
+
+-- ========== 20260703120000_case_media_legacy_r5_audit.sql ==========
+-- R5 Legacy media audit + controlled waive (post manual PHI review).
+-- Gate R6 still applies to new uploads; waived = legacy pre-IA-v2 only.
+
+create or replace function public.waive_legacy_case_media(
+  p_cutoff timestamptz default timestamptz '2026-07-01 00:00:00+00',
+  p_dry_run boolean default true
+)
+returns table (
+  media_id uuid,
+  case_id uuid,
+  storage_path text,
+  uploaded_at timestamptz,
+  case_status text,
+  action text
+)
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_role text;
+  v_updated int;
+begin
+  select role into v_role from public.profiles where id = auth.uid();
+
+  if v_role not in ('moderator', 'admin') then
+    raise exception 'forbidden';
+  end if;
+
+  return query
+  select
+    cm.id,
+    cm.case_id,
+    cm.storage_path,
+    cm.uploaded_at,
+    c.status::text,
+    case when p_dry_run then 'dry_run'::text else 'waived'::text end
+  from public.case_media cm
+  inner join public.cases c on c.id = cm.case_id
+  where cm.anonymization_status = 'pending'
+    and cm.uploaded_at is not null
+    and cm.uploaded_at < p_cutoff
+    and c.status = 'published'
+    and c.is_public = true
+  order by cm.uploaded_at;
+
+  if not p_dry_run then
+    update public.case_media cm
+    set
+      anonymization_status = 'waived',
+      anonymization_checked_at = now(),
+      anonymization_checked_by = auth.uid()
+    from public.cases c
+    where cm.case_id = c.id
+      and cm.anonymization_status = 'pending'
+      and cm.uploaded_at is not null
+      and cm.uploaded_at < p_cutoff
+      and c.status = 'published'
+      and c.is_public = true;
+
+    get diagnostics v_updated = row_count;
+    raise notice 'R5 waived % legacy media row(s)', v_updated;
+  end if;
+end;
+$$;
+
+revoke all on function public.waive_legacy_case_media (timestamptz, boolean) from public;
+grant execute on function public.waive_legacy_case_media (timestamptz, boolean) to authenticated;
+
+comment on function public.waive_legacy_case_media (timestamptz, boolean) is
+  'R5: after manual PHI audit, waive pre-IA-v2 published case media. Default dry_run=true.';
+
+-- ========== 20260704120000_webinar_livekit.sql ==========
+-- Webinars: LiveKit sessions + in-room chat (paid enrollment required)
+
+alter table public.course_lessons
+  drop constraint if exists course_lessons_lesson_type_check;
+
+alter table public.course_lessons
+  add constraint course_lessons_lesson_type_check
+  check (lesson_type in ('video', 'offline', 'webinar'));
+
+create table if not exists public.webinar_sessions (
+  id uuid primary key default gen_random_uuid(),
+  lesson_id uuid not null unique references public.course_lessons (id) on delete cascade,
+  course_id uuid not null references public.courses (id) on delete cascade,
+  room_name text not null unique,
+  status text not null default 'scheduled'
+    check (status in ('scheduled', 'live', 'ended', 'cancelled')),
+  scheduled_at timestamptz not null,
+  started_at timestamptz,
+  ended_at timestamptz,
+  livekit_room_sid text,
+  recording_storage_key text,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists idx_webinar_sessions_course on public.webinar_sessions (course_id);
+create index if not exists idx_webinar_sessions_status_scheduled
+  on public.webinar_sessions (status, scheduled_at desc);
+
+create table if not exists public.webinar_chat_messages (
+  id uuid primary key default gen_random_uuid(),
+  session_id uuid not null references public.webinar_sessions (id) on delete cascade,
+  lesson_id uuid not null references public.course_lessons (id) on delete cascade,
+  author_id uuid not null references auth.users (id) on delete cascade,
+  author_display_name text,
+  body text not null check (char_length(trim(body)) > 0 and char_length(body) <= 2000),
+  is_pinned boolean not null default false,
+  is_hidden boolean not null default false,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists idx_webinar_chat_session_created
+  on public.webinar_chat_messages (session_id, created_at asc);
+
+create or replace function public.can_access_webinar(p_lesson_id uuid)
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1
+    from public.course_lessons cl
+    join public.courses c on c.id = cl.course_id
+    where cl.id = p_lesson_id
+      and cl.lesson_type = 'webinar'
+      and (
+        public.can_manage_course(cl.course_id)
+        or (
+          c.status = 'published'
+          and c.price_rub > 0
+          and exists (
+            select 1
+            from public.course_enrollments e
+            where e.course_id = cl.course_id
+              and e.user_id = auth.uid()
+          )
+        )
+      )
+  );
+$$;
+
+create or replace function public.can_host_webinar(p_lesson_id uuid)
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1
+    from public.course_lessons cl
+    where cl.id = p_lesson_id
+      and cl.lesson_type = 'webinar'
+      and public.can_manage_course(cl.course_id)
+  );
+$$;
+
+alter table public.webinar_sessions enable row level security;
+alter table public.webinar_chat_messages enable row level security;
+
+drop policy if exists webinar_sessions_select on public.webinar_sessions;
+create policy webinar_sessions_select on public.webinar_sessions
+  for select to authenticated
+  using (
+    public.can_access_webinar(lesson_id)
+    or exists (
+      select 1
+      from public.course_lessons cl
+      join public.courses c on c.id = cl.course_id
+      where cl.id = lesson_id
+        and c.status = 'published'
+    )
+  );
+
+drop policy if exists webinar_sessions_manage on public.webinar_sessions;
+create policy webinar_sessions_manage on public.webinar_sessions
+  for all to authenticated
+  using (public.can_manage_course(course_id))
+  with check (public.can_manage_course(course_id));
+
+drop policy if exists webinar_chat_select on public.webinar_chat_messages;
+create policy webinar_chat_select on public.webinar_chat_messages
+  for select to authenticated
+  using (public.can_access_webinar(lesson_id) and is_hidden = false);
+
+drop policy if exists webinar_chat_insert on public.webinar_chat_messages;
+create policy webinar_chat_insert on public.webinar_chat_messages
+  for insert to authenticated
+  with check (
+    author_id = auth.uid()
+    and public.can_access_webinar(lesson_id)
+  );
+
+drop policy if exists webinar_chat_moderate on public.webinar_chat_messages;
+create policy webinar_chat_moderate on public.webinar_chat_messages
+  for update to authenticated
+  using (public.can_host_webinar(lesson_id))
+  with check (public.can_host_webinar(lesson_id));
+
+do $migration$
+begin
+  if not exists (
+    select 1 from pg_publication_tables
+    where pubname = 'supabase_realtime' and schemaname = 'public' and tablename = 'webinar_chat_messages'
+  ) then
+    alter publication supabase_realtime add table public.webinar_chat_messages;
+  end if;
+end $migration$;
