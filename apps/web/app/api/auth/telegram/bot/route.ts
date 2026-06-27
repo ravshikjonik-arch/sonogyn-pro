@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { rejectIfRateLimitedPreset } from "@/lib/security/api-rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { translateAuthError } from "@/lib/auth/translate-auth-error";
+import { checkPilotTelegramAllowed } from "@/lib/auth/pilot-allowlist";
 import {
   parseJsonBody,
   TelegramBotBodySchema,
@@ -33,6 +34,11 @@ export async function POST(request: Request) {
   const telegramId = String(body.id ?? "").trim();
   if (!telegramId) {
     return NextResponse.json({ error: "Не указан Telegram ID." }, { status: 400 });
+  }
+
+  const pilotDenied = checkPilotTelegramAllowed(telegramId);
+  if (pilotDenied) {
+    return NextResponse.json({ error: pilotDenied }, { status: 403 });
   }
 
   try {

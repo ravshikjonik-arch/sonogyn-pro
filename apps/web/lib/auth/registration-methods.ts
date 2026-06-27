@@ -11,7 +11,7 @@ export const REGISTRATION_METHOD_LABELS: Record<AuthRegistrationMethod, string> 
 
 export const REGISTRATION_METHOD_HINTS: Record<AuthRegistrationMethod, string> = {
   telegram:
-    "Основной способ для пилота. Код в Telegram за секунды. Укажите +7 — продублируем код по SMS.",
+    "Пилот: одна кнопка Telegram — ID и @ник вводить не нужно. Сначала Start у @SonogynProBot.",
   email: "Письмо с подтверждением на почту. Работает из РФ без VPN.",
   phone: "SMS на номера РФ (+7) — обычно 10–30 сек. Для других стран используйте Telegram.",
   social: "Google OAuth. Если Google недоступен — вкладка «Telegram».",

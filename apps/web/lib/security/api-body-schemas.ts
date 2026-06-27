@@ -103,6 +103,16 @@ export const RegistrationMetadataFieldsSchema = z.object({
   birth_date: z.string().trim().max(32).optional(),
 });
 
+/** POST /api/auth/pilot/register-intent */
+export const PilotRegisterIntentBodySchema = RegistrationMetadataFieldsSchema.extend({
+  full_name: z.string().trim().min(1, "Укажите ФИО.").max(200),
+  specialization: z.string().trim().min(1, "Выберите специализацию.").max(120),
+  telegramId: z.string().trim().max(32).optional(),
+  next: z.string().trim().max(256).optional(),
+});
+
+export type PilotRegisterIntentBody = z.infer<typeof PilotRegisterIntentBodySchema>;
+
 /** POST /api/auth/telegram/verify-otp */
 export const TelegramVerifyOtpBodySchema = RegistrationMetadataFieldsSchema.extend({
   chatId: z.string().trim().max(32).optional(),

@@ -5,6 +5,7 @@ import { verifyTurnstileIfConfigured } from "@/lib/auth/verify-turnstile";
 import { CAPTCHA_REQUIRED_MSG } from "@/lib/auth/safe-auth-messages";
 import { runVerificationFallbackChain } from "@/lib/auth/verification/fallback-handler";
 import type { VerificationMethod, VerificationPurpose } from "@/lib/auth/verification/types";
+import { checkPilotTelegramAllowed } from "@/lib/auth/pilot-allowlist";
 import {
   parseEmailContact,
   parseSmsContact,
@@ -53,6 +54,13 @@ export async function POST(req: Request) {
   const contact = normalizeContact(method, body.contact);
   if (!contact) {
     return NextResponse.json({ error: "Некорректный contact для выбранного method." }, { status: 400 });
+  }
+
+  if (method === "telegram") {
+    const pilotDenied = checkPilotTelegramAllowed(contact);
+    if (pilotDenied) {
+      return NextResponse.json({ error: pilotDenied }, { status: 403 });
+    }
   }
 
   const limited = await rejectIfVerificationRateLimited(req, method, contact);

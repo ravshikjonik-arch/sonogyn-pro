@@ -15,6 +15,7 @@ import { consumeAuthRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
 import { verifyStoredCode } from "@/lib/auth/verification/code-store";
+import { checkPilotTelegramAllowed } from "@/lib/auth/pilot-allowlist";
 import { parseTelegramChatId } from "@/lib/auth/verification/validate-contact";
 import {
   ensureTelegramOtpUser,
@@ -54,6 +55,11 @@ export async function POST(req: Request) {
 
   if (!chatId || !token) {
     return NextResponse.json({ error: "Укажите Telegram ID и код." }, { status: 400 });
+  }
+
+  const pilotDenied = checkPilotTelegramAllowed(chatId);
+  if (pilotDenied) {
+    return NextResponse.json({ error: pilotDenied }, { status: 403 });
   }
 
   const isRegistration = body.createUser === true || Boolean(registrationMeta.full_name);

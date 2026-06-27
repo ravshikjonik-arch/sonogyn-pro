@@ -12,6 +12,7 @@ import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
 import {
   ensureTelegramUser,
   establishTelegramSession,
+  PilotTelegramAuthError,
   verifyTelegramWidgetHash,
 } from "@/lib/auth/telegram-supabase";
 
@@ -55,6 +56,12 @@ export async function POST(request: Request) {
     const email = await ensureTelegramUser({ ...body, source: "widget" });
     return establishTelegramSession(email, request);
   } catch (e) {
+    if (e instanceof PilotTelegramAuthError) {
+      return NextResponse.json(
+        { error: e.message, needsRegistration: e.code === "needs_registration" },
+        { status: e.code === "needs_registration" ? 400 : 403 },
+      );
+    }
     const msg = e instanceof Error ? e.message : String(e);
     return NextResponse.json({ error: translateAuthError(msg) }, { status: 500 });
   }

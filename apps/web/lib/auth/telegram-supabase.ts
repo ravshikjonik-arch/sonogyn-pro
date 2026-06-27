@@ -9,7 +9,24 @@ import {
 import { createMobileSessionExchange } from "@/lib/auth/mobile-session-exchange";
 import { isInternalAuthSecretConfigured } from "@/lib/security/production-secrets";
 import { timingSafeEqual } from "@/lib/security/timing-safe";
+import {
+  checkPilotTelegramAllowed,
+  isPilotAllowlistEnabled,
+  PILOT_REGISTER_FIRST_MSG,
+} from "@/lib/auth/pilot-allowlist";
+import type { RegistrationMetadata } from "@/lib/auth/registration-metadata";
+import { applyRegistrationMetadataAdmin } from "@/lib/auth/registration-metadata";
 import { createServiceRoleClient } from "@/utils/supabase/admin";
+
+export class PilotTelegramAuthError extends Error {
+  constructor(
+    message: string,
+    readonly code: "denied" | "needs_registration" = "denied",
+  ) {
+    super(message);
+    this.name = "PilotTelegramAuthError";
+  }
+}
 
 export type TelegramPayload = {
   id?: number | string;
@@ -56,15 +73,37 @@ export async function findUserByTelegramId(
   return null;
 }
 
-export async function ensureTelegramUser(body: TelegramPayload) {
+export async function ensureTelegramUser(
+  body: TelegramPayload,
+  options?: { registration?: RegistrationMetadata },
+) {
   const admin = createServiceRoleClient();
   const telegramId = String(body.id ?? "").trim();
+  if (!telegramId) throw new Error("Не указан Telegram ID.");
+
+  const denied = checkPilotTelegramAllowed(telegramId);
+  if (denied) throw new PilotTelegramAuthError(denied, "denied");
+
   const email = `tg_${telegramId}@telegram.sonogyn.app`;
   const fullName = [body.first_name, body.last_name].filter(Boolean).join(" ").trim();
+  const registration = options?.registration;
+  const metaFullName = registration?.full_name?.trim() || fullName || body.username || `Telegram ${telegramId}`;
 
   const existing = await findUserByTelegramId(admin, telegramId);
-  if (existing?.email) {
-    return existing.email;
+  if (existing?.id) {
+    if (registration?.full_name) {
+      await applyRegistrationMetadataAdmin(admin, existing.id, registration, {
+        telegram_id: telegramId,
+        username: body.username ?? undefined,
+        provider: "telegram",
+        auth_source: body.source ?? "widget",
+      });
+    }
+    return existing.email ?? email;
+  }
+
+  if (isPilotAllowlistEnabled() && !registration?.full_name?.trim()) {
+    throw new PilotTelegramAuthError(PILOT_REGISTER_FIRST_MSG, "needs_registration");
   }
 
   const { error: createError } = await admin.auth.admin.createUser({
@@ -72,7 +111,11 @@ export async function ensureTelegramUser(body: TelegramPayload) {
     email_confirm: true,
     user_metadata: {
       telegram_id: telegramId,
-      full_name: fullName || body.username || `Telegram ${telegramId}`,
+      full_name: metaFullName,
+      specialization: registration?.specialization,
+      institution: registration?.institution,
+      birth_year: registration?.birth_year,
+      preferred_locale: registration?.preferred_locale,
       username: body.username,
       photo_url: body.photo_url,
       provider: "telegram",
@@ -84,6 +127,16 @@ export async function ensureTelegramUser(body: TelegramPayload) {
     const retry = await findUserByTelegramId(admin, telegramId);
     if (retry?.email) return retry.email;
     throw new Error(createError.message);
+  }
+
+  const created = await findUserByTelegramId(admin, telegramId);
+  if (created?.id && registration?.full_name) {
+    await applyRegistrationMetadataAdmin(admin, created.id, registration, {
+      telegram_id: telegramId,
+      username: body.username ?? undefined,
+      provider: "telegram",
+      auth_source: body.source ?? "widget",
+    });
   }
 
   return email;

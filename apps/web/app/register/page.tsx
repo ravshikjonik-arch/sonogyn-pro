@@ -19,6 +19,7 @@ import {
   validateDoctorBirthDateIso,
 } from "@/components/auth/DoctorRegistrationFields";
 import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
+import { TelegramSimpleAuth } from "@/components/auth/TelegramSimpleAuth";
 import { Button } from "@/components/ui/button";
 import { CAPTCHA_FAILURE_THRESHOLD } from "@/lib/auth/auth-attempts";
 import {
@@ -37,7 +38,7 @@ import { looksLikePhoneInput, USE_PHONE_TAB_MSG } from "@/lib/auth/auth-error-te
 import { buildOAuthRedirect, normalizePhone, oauthProviderToSupabase } from "@/lib/auth/oauth-providers";
 import { parseRegistrationMethod, readTelegramBotDisplayName, type AuthRegistrationMethod } from "@/lib/auth/registration-methods";
 import { isAuthEmailOnlyClient } from "@/lib/auth/auth-methods-config";
-import { isPilotTelegramPrimary, PILOT_AUTH_SUBTITLE } from "@/lib/auth/auth-pilot-config";
+import { isPilotClosedAccessClient, isPilotTelegramPrimary, PILOT_AUTH_SUBTITLE, PILOT_REGISTER_SUBTITLE } from "@/lib/auth/auth-pilot-config";
 import { isRuPhoneMaskComplete } from "@/lib/auth/ru-phone-mask";
 import {
   PHONE_OTP_DELAY_HINT,
@@ -87,6 +88,7 @@ function RegisterForm() {
   const [sendCooldownSec, setSendCooldownSec] = useState(0);
 
   const afterAuthPath = safeInternalPath(searchParams.get("next"), "/app");
+  const simpleTelegramRegister = isPilotTelegramPrimary() || isPilotClosedAccessClient();
   const telegramBotName = readTelegramBotDisplayName();
 
   useEffect(() => {
@@ -96,6 +98,12 @@ function RegisterForm() {
     }, 1000);
     return () => clearInterval(timer);
   }, [sendCooldownSec]);
+
+  useEffect(() => {
+    if (searchParams.get("message") === "register_first") {
+      setMessage("Сначала заполните данные врача и подтвердите через Telegram.");
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     setActiveTab(defaultTab);
@@ -307,6 +315,51 @@ function RegisterForm() {
     }
   }
 
+  async function onRegisterViaTelegram() {
+    setMessage("");
+    if (!guardOnline()) return;
+
+    const trimmedName = validateDoctorName();
+    if (!trimmedName) return;
+
+    const parsedBirth = validateDoctorBirthDateIso(birthDateIso);
+    if (!parsedBirth) {
+      setMessage(birthDateErrorMessage(birthDateIso));
+      return;
+    }
+
+    if (!specialization.trim()) {
+      setMessage("Выберите специализацию из списка.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const res = await fetch("/api/auth/pilot/register-intent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify({
+          full_name: trimmedName,
+          specialization: specialization.trim(),
+          preferred_locale: locale,
+          birth_year: parsedBirth.year,
+          birth_date: parsedBirth.iso,
+          next: afterAuthPath,
+        }),
+      });
+      const body = (await res.json().catch(() => ({}))) as { ok?: boolean; redirectUrl?: string; error?: string };
+      if (!res.ok || !body.redirectUrl) {
+        setMessage(body.error ?? "Не удалось начать регистрацию.");
+        return;
+      }
+      saveAppLocale(locale);
+      window.location.assign(body.redirectUrl);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   async function onSendOtp() {
     setMessage("");
     if (!guardOnline()) return;
@@ -427,14 +480,41 @@ function RegisterForm() {
     <AuthScreenShell
       title="Регистрация"
       subtitle={
-        isPilotTelegramPrimary()
-          ? `Шаг 1 · ${PILOT_AUTH_SUBTITLE}`
-          : "Шаг 1 · Студент — бесплатно. Дальше ординатор, врач и PRO."
+        isPilotClosedAccessClient()
+          ? PILOT_REGISTER_SUBTITLE
+          : isPilotTelegramPrimary()
+            ? `Шаг 1 · ${PILOT_AUTH_SUBTITLE}`
+            : "Шаг 1 · Студент — бесплатно. Дальше ординатор, врач и PRO."
       }
       defaultTab={defaultTab}
       onTabChange={onTabChange}
       showMethodHints
       telegramTab={
+        simpleTelegramRegister ? (
+          <div className="space-y-4">
+            <RegisterCareerTeaser />
+            <DoctorRegistrationFields
+              fullName={fullName}
+              onFullNameChange={setFullName}
+              birthDateIso={birthDateIso}
+              onBirthDateIsoChange={setBirthDateIso}
+              specialization={specialization}
+              onSpecializationChange={setSpecialization}
+              locale={locale}
+              onLocaleChange={setLocale}
+            />
+            <TelegramSimpleAuth
+              mode="register"
+              nextPath={afterAuthPath}
+              message={message && activeTab === "telegram" && !isSuccessMessage ? message : undefined}
+              onRegisterClick={() => void onRegisterViaTelegram()}
+              registerLoading={loading}
+            />
+            {message && activeTab === "telegram" && isSuccessMessage ? (
+              <AuthMessage message={message} tone="success" />
+            ) : null}
+          </div>
+        ) : (
         <form className="space-y-4" onSubmit={(e) => void onVerifyTelegramOtp(e)}>
           <RegisterCareerTeaser />
           <DoctorRegistrationFields
@@ -542,6 +622,7 @@ function RegisterForm() {
             <TurnstileWidget onToken={(t) => setTurnstileToken(t)} onExpire={() => setTurnstileToken(undefined)} />
           ) : null}
         </form>
+        )
       }
       emailTab={
         <>
@@ -725,7 +806,7 @@ function RegisterForm() {
       footer={
         <>
           <div className="mt-4 flex flex-wrap justify-center gap-2 text-xs">
-            {!isAuthEmailOnlyClient() ? (
+            {!isAuthEmailOnlyClient() && !isPilotClosedAccessClient() ? (
               <>
             <Link
               href="/register?method=telegram"

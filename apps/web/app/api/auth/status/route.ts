@@ -14,6 +14,8 @@ import { isAuthEmailOnly } from "@/lib/auth/auth-methods-config";
 import { isSmtpConfigured } from "@/lib/mail/smtp-config";
 import { supabaseGoogleCallbackUrl } from "@/lib/auth/social-auth-domains";
 import { readTelegramBotUsername } from "@/lib/auth/telegram-bot-config";
+import { isPilotTelegramPrimary } from "@/lib/auth/auth-pilot-config";
+import { isPilotAllowlistEnabled, PILOT_ALLOWLIST_MAX, readPilotAllowlist } from "@/lib/auth/pilot-allowlist";
 import { isYooKassaConfigured, readYooKassaProPriceRub } from "@/lib/yookassa/config";
 import { TelegramService, readTelegramAdminIds } from "@/services/telegram";
 
@@ -80,6 +82,13 @@ export async function GET(req: Request) {
       process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME?.trim() ||
       process.env.TELEGRAM_BOT_USERNAME?.trim() ||
       "",
+    pilot: {
+      closedAccess: isPilotAllowlistEnabled(),
+      allowlistCount: readPilotAllowlist().length,
+      allowlistMax: PILOT_ALLOWLIST_MAX,
+      telegramPrimary: isPilotTelegramPrimary(),
+      simpleTelegramLogin: isPilotTelegramPrimary() || isPilotAllowlistEnabled(),
+    },
     features: {
       authEmailOnly: isAuthEmailOnly(),
       smtpConfigured: isSmtpConfigured(),

@@ -12,6 +12,7 @@ import { AuthSetupBanner } from "@/components/auth/AuthSetupBanner";
 import { PhoneAuthSetupHint } from "@/components/auth/PhoneAuthSetupHint";
 import { PhoneInput } from "@/components/auth/PhoneInput";
 import { SocialAuthSetupHint } from "@/components/auth/SocialAuthSetupHint";
+import { TelegramSimpleAuth } from "@/components/auth/TelegramSimpleAuth";
 import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
 import { Button } from "@/components/ui/button";
 import { buildOAuthRedirect, normalizePhone, oauthProviderToSupabase } from "@/lib/auth/oauth-providers";
@@ -21,7 +22,7 @@ import { CAPTCHA_FAILURE_THRESHOLD } from "@/lib/auth/auth-attempts";
 import { markSessionAnchorNow } from "@/lib/security/session-anchor";
 import { parseRegistrationMethod, readTelegramBotDisplayName, type AuthRegistrationMethod } from "@/lib/auth/registration-methods";
 import { isAuthEmailOnlyClient } from "@/lib/auth/auth-methods-config";
-import { isPilotTelegramPrimary, PILOT_AUTH_SUBTITLE } from "@/lib/auth/auth-pilot-config";
+import { isPilotClosedAccessClient, isPilotTelegramPrimary, PILOT_AUTH_SUBTITLE } from "@/lib/auth/auth-pilot-config";
 import { isRuPhoneMaskComplete } from "@/lib/auth/ru-phone-mask";
 import {
   EMAIL_NOT_CONFIRMED_MSG,
@@ -72,6 +73,8 @@ function LoginForm() {
   const nextPath = safeInternalPath(searchParams.get("redirectedFrom"), "/app");
   const authCallbackError = searchParams.get("error") === "auth_callback";
   const telegramBotName = readTelegramBotDisplayName();
+  const simpleTelegramLogin = isPilotTelegramPrimary() || isPilotClosedAccessClient();
+  const telegramWidgetMessage = searchParams.get("telegram_message") ?? "";
 
   useEffect(() => {
     if (!ready || !user) return;
@@ -387,6 +390,70 @@ function LoginForm() {
       onTabChange={onTabChange}
       showMethodHints
       telegramTab={
+        simpleTelegramLogin ? (
+          <div className="space-y-4">
+            <TelegramSimpleAuth
+              mode="login"
+              nextPath={nextPath}
+              message={telegramWidgetMessage || (message && activeTab === "telegram" ? message : undefined)}
+            />
+            {!isPilotClosedAccessClient() ? (
+              <details className="rounded-2xl border border-slate-200 p-3 text-sm dark:border-slate-800">
+                <summary className="cursor-pointer font-medium text-slate-600 dark:text-slate-300">
+                  Вход по коду (если кнопка не работает)
+                </summary>
+                <form className="mt-4 space-y-4" onSubmit={(e) => void onVerifyTelegramOtp(e)}>
+                  <label className="block">
+                    <span className="text-sm font-medium text-slate-700 dark:text-slate-200">Telegram ID</span>
+                    <input
+                      className={authInputClass}
+                      inputMode="numeric"
+                      value={telegramChatId}
+                      onChange={(e) => setTelegramChatId(e.target.value)}
+                      placeholder="310996807"
+                      required
+                      aria-label="Telegram ID"
+                    />
+                  </label>
+                  {!otpSent ? (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="w-full rounded-2xl"
+                      disabled={loading || sendCooldownSec > 0}
+                      onClick={() => void onSendTelegramOtp()}
+                    >
+                      Получить код в Telegram
+                    </Button>
+                  ) : (
+                    <>
+                      <input
+                        className={authInputClass}
+                        inputMode="numeric"
+                        autoComplete="one-time-code"
+                        value={otp}
+                        onChange={(e) => setOtp(e.target.value)}
+                        placeholder="123456"
+                        required
+                        aria-label="Код из Telegram"
+                      />
+                      <Button className="w-full rounded-2xl" type="submit" disabled={loading}>
+                        {loading ? "Проверяем…" : "Войти"}
+                      </Button>
+                    </>
+                  )}
+                </form>
+              </details>
+            ) : null}
+            {needsTelegramRegistration && activeTab === "telegram" ? (
+              <p className="text-center text-sm text-[var(--clinical-foreground-muted)]">
+                <Link className="font-bold text-[var(--clinical-primary-deep)] hover:underline" href="/register?method=telegram">
+                  Зарегистрироваться через Telegram
+                </Link>
+              </p>
+            ) : null}
+          </div>
+        ) : (
         <form className="space-y-4" onSubmit={(e) => void onVerifyTelegramOtp(e)}>
           <label className="block">
             <span className="text-sm font-medium text-slate-700 dark:text-slate-200">Telegram ID</span>
@@ -494,6 +561,7 @@ function LoginForm() {
             <TurnstileWidget onToken={(t) => setTurnstileToken(t)} onExpire={() => setTurnstileToken(undefined)} />
           ) : null}
         </form>
+        )
       }
       emailTab={
         mfaRequired ? (
@@ -697,7 +765,7 @@ function LoginForm() {
             </Link>
           </p>
           <div className="mt-3 flex flex-wrap justify-center gap-2 text-xs">
-            {!isAuthEmailOnlyClient() ? (
+            {!isAuthEmailOnlyClient() && !isPilotClosedAccessClient() ? (
               <>
             <Link href="/login?method=telegram" className="rounded-full bg-slate-100 px-3 py-1 text-slate-600 hover:underline dark:bg-slate-800 dark:text-slate-300">
               Telegram

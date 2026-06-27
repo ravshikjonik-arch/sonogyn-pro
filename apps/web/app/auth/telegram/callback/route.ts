@@ -4,18 +4,24 @@ import { translateAuthError } from "@/lib/auth/translate-auth-error";
 import {
   ensureTelegramUser,
   establishTelegramSession,
+  PilotTelegramAuthError,
   verifyTelegramWidgetHash,
   type TelegramPayload,
 } from "@/lib/auth/telegram-supabase";
+import {
+  PILOT_REGISTER_INTENT_COOKIE,
+  readRegisterIntentCookie,
+} from "@/lib/auth/pilot-register-intent";
 import { safeInternalPath } from "@/lib/nav/safe-redirect";
+import { cookies } from "next/headers";
 
 export const runtime = "nodejs";
 
-function authFailRedirect(req: Request, code: string, message?: string) {
+function authFailRedirect(req: Request, code: string, message?: string, method = "telegram") {
   const url = new URL("/login", req.url);
-  url.searchParams.set("method", "social");
+  url.searchParams.set("method", method);
   url.searchParams.set("telegram_error", code);
-  if (message) url.searchParams.set("telegram_message", message.slice(0, 120));
+  if (message) url.searchParams.set("telegram_message", message.slice(0, 200));
   return NextResponse.redirect(url);
 }
 
@@ -49,7 +55,10 @@ export async function GET(req: Request) {
   }
 
   try {
-    const email = await ensureTelegramUser(body);
+    const jar = await cookies();
+    const registration = readRegisterIntentCookie(jar.get(PILOT_REGISTER_INTENT_COOKIE)?.value);
+
+    const email = await ensureTelegramUser(body, { registration: registration ?? undefined });
     const sessionResponse = await establishTelegramSession(email, req);
     if (!sessionResponse.ok) {
       const payload = (await sessionResponse.json().catch(() => null)) as { error?: string } | null;
@@ -57,11 +66,23 @@ export async function GET(req: Request) {
     }
 
     const redirect = NextResponse.redirect(new URL(next, req.url));
+    if (registration) {
+      redirect.cookies.set(PILOT_REGISTER_INTENT_COOKIE, "", { path: "/", maxAge: 0 });
+    }
     sessionResponse.cookies.getAll().forEach((cookie) => {
       redirect.cookies.set(cookie);
     });
     return redirect;
   } catch (e) {
+    if (e instanceof PilotTelegramAuthError) {
+      if (e.code === "needs_registration") {
+        const regUrl = new URL("/register", req.url);
+        regUrl.searchParams.set("method", "telegram");
+        regUrl.searchParams.set("message", "register_first");
+        return NextResponse.redirect(regUrl);
+      }
+      return authFailRedirect(req, "denied", e.message);
+    }
     const msg = e instanceof Error ? e.message : String(e);
     return authFailRedirect(req, "failed", translateAuthError(msg));
   }

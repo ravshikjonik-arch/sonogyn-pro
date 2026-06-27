@@ -53,6 +53,7 @@ const nextConfig: NextConfig = {
   ],
   env: {
     NEXT_PUBLIC_AUTH_EMAIL_ONLY: process.env.AUTH_EMAIL_ONLY ?? "false",
+    NEXT_PUBLIC_AUTH_PILOT_CLOSED: process.env.AUTH_PILOT_TELEGRAM_ALLOWLIST?.trim() ? "true" : "false",
   },
   experimental: {
     optimizePackageImports: ["lucide-react", "@react-three/drei"],

@@ -10,6 +10,7 @@ import {
 import type { RegistrationMetadata } from "@/lib/auth/registration-metadata";
 import { applyRegistrationMetadataAdmin } from "@/lib/auth/registration-metadata";
 import { createServiceRoleClient } from "@/utils/supabase/admin";
+import { checkPilotTelegramAllowed } from "@/lib/auth/pilot-allowlist";
 import { findUserByTelegramId } from "@/lib/auth/telegram-supabase";
 
 export const TELEGRAM_EMAIL_DOMAIN = "telegram.sonogyn.app";
@@ -23,6 +24,11 @@ export async function ensureTelegramOtpUser(params: {
   registration?: RegistrationMetadata;
   createUser: boolean;
 }): Promise<{ email: string; userId: string; created: boolean } | { error: string; needsRegistration?: boolean }> {
+  const pilotDenied = checkPilotTelegramAllowed(params.chatId);
+  if (pilotDenied) {
+    return { error: pilotDenied };
+  }
+
   const admin = createServiceRoleClient();
   const email = telegramChatIdToAuthEmail(params.chatId);
   const existing = await findUserByTelegramId(admin, params.chatId);

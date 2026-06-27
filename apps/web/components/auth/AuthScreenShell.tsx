@@ -10,7 +10,7 @@ import {
   type AuthRegistrationMethod,
 } from "@/lib/auth/registration-methods";
 import { isAuthEmailOnlyClient } from "@/lib/auth/auth-methods-config";
-import { isPilotTelegramPrimary, PILOT_TELEGRAM_TAB_BADGE } from "@/lib/auth/auth-pilot-config";
+import { isPilotClosedAccessClient, isPilotTelegramPrimary, PILOT_TELEGRAM_TAB_BADGE } from "@/lib/auth/auth-pilot-config";
 
 type AuthScreenShellProps = {
   title: string;
@@ -38,6 +38,7 @@ export function AuthScreenShell({
   showMethodHints = false,
 }: AuthScreenShellProps) {
   const emailOnly = isAuthEmailOnlyClient();
+  const closedPilot = isPilotClosedAccessClient();
   const [tab, setTab] = useState<AuthRegistrationMethod>(emailOnly ? "email" : defaultTab);
 
   useEffect(() => {
@@ -61,7 +62,7 @@ export function AuthScreenShell({
         <p className="mt-2 text-sm text-[var(--clinical-foreground-muted)]">{subtitle}</p>
       </div>
 
-      {showMethodHints && !emailOnly ? (
+      {showMethodHints && !emailOnly && !closedPilot ? (
         <div className="mb-4 rounded-2xl border border-slate-200 bg-slate-50/80 p-3 text-xs text-slate-600 dark:border-slate-800 dark:bg-slate-900/60 dark:text-slate-300">
           <p className="font-semibold text-slate-800 dark:text-slate-100">
             Способ: {REGISTRATION_METHOD_LABELS[tab]}
@@ -72,6 +73,8 @@ export function AuthScreenShell({
 
       {emailOnly ? (
         <div className="w-full">{emailTab}</div>
+      ) : closedPilot ? (
+        <div className="w-full">{telegramTab}</div>
       ) : (
       <Tabs value={tab} onValueChange={handleTabChange} className="w-full">
         <TabsList className="mb-6 grid w-full grid-cols-2 gap-1 rounded-2xl bg-[var(--clinical-muted)] p-1 sm:grid-cols-4">
