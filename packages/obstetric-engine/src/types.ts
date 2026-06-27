@@ -65,6 +65,8 @@ export type SecondThirdScreeningInput = {
   fibulaMm?: number;
   footLengthMm?: number;
   lateralVentriclesMm?: number;
+  /** Тело лат. желудочка (табл. 2.8 Medvedev), отдельно от atrium. */
+  lateralVentricleBodyMm?: number;
   cisternaMagnaMm?: number;
   cerebellumMm?: number;
   priorMeasurements?: Partial<

@@ -14,6 +14,7 @@ import {
   ScreenFeto,
   ScreenGaLmp,
   ScreenGaUs,
+  ScreenMsd,
   ScreenOvoIvf,
 } from "./screens/PregnancyScreens";
 
@@ -52,6 +53,8 @@ export function GynecologyRouter({ page, setPage }: Props) {
       return <ScreenDekret setPage={setPage} />;
     case "gyn_ga_crl":
       return <ScreenCrl setPage={setPage} />;
+    case "gyn_ga_msd":
+      return <ScreenMsd setPage={setPage} />;
     case "gyn_ga_feto":
       return <ScreenFeto setPage={setPage} />;
     case "gyn_breast_risk":

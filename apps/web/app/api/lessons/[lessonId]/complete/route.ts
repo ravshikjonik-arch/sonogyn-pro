@@ -4,11 +4,15 @@ import { canAccessLessonPlayback } from "@/lib/lessons/playback-access";
 import { markLessonCompleted } from "@/lib/courses/progress";
 import { isEnrolledInCourse } from "@/lib/courses/student-access";
 import { createSupabaseRouteHandlerClient } from "@/lib/route-handler-supabase";
+import { isUuid } from "@/lib/security/uuid";
 
 type Params = { params: Promise<{ lessonId: string }> };
 
 export async function POST(_req: Request, { params }: Params) {
   const { lessonId } = await params;
+  if (!isUuid(lessonId)) {
+    return NextResponse.json({ error: "Урок не найден." }, { status: 404 });
+  }
   const client = await createSupabaseRouteHandlerClient();
   if (!client.ok) {
     return NextResponse.json({ error: client.message }, { status: client.status });
@@ -52,6 +56,19 @@ export async function POST(_req: Request, { params }: Params) {
 
   if (!result.ok) {
     return NextResponse.json({ error: result.error }, { status: 500 });
+  }
+
+  // Геймификация: урок → XP (не блокируем ответ при ошибке Prisma)
+  try {
+    const { checkAndAwardAchievements, isPrismaConfigured } = await import("@/lib/achievements/engine");
+    if (isPrismaConfigured()) {
+      await checkAndAwardAchievements(user.id, {
+        eventType: "lesson_complete",
+        moduleId: "general",
+      });
+    }
+  } catch (e) {
+    console.warn("[lessons/complete] achievements", e);
   }
 
   return NextResponse.json({ ok: true, progressPercent: result.progressPercent });

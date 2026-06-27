@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 
+import { escapeLikePattern } from "@repo/types";
+
 import { getCourseMediaSignedUrl } from "@/lib/courses/storage";
 import { fetchPublicAuthor } from "@/lib/courses/public-queries";
 import { createSupabaseRouteHandlerClient } from "@/lib/route-handler-supabase";
@@ -23,7 +25,7 @@ export async function GET(req: Request) {
     .eq("status", "published")
     .order("updated_at", { ascending: false });
 
-  if (search) query = query.ilike("title", `%${search.replace(/[%_\\]/g, "\\$&")}%`);
+  if (search) query = query.ilike("title", `%${escapeLikePattern(search)}%`);
   if (authorId) query = query.eq("author_id", authorId);
   if (priceMin != null && priceMin !== "") {
     const n = Number.parseInt(priceMin, 10);

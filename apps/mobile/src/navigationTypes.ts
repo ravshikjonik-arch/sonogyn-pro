@@ -14,6 +14,7 @@ export type PageType =
   | "gyn_ga_ovo_ivf"
   | "gyn_dekret"
   | "gyn_ga_crl"
+  | "gyn_ga_msd"
   | "gyn_ga_feto"
   | "gyn_breast_risk"
   | "gyn_lnrads"
@@ -41,6 +42,7 @@ export const SECTION_TITLE: Record<Exclude<PageType, "home">, string> = {
   gyn_ga_ovo_ivf: "Овуляция и ЭКО",
   gyn_dekret: "Декрет (ориентиры)",
   gyn_ga_crl: "Срок по КТР",
+  gyn_ga_msd: "Срок по СВД",
   gyn_ga_feto: "Срок по фетометрии",
   gyn_breast_risk: "Риск рака МЖ (образовательно)",
   gyn_lnrads: "LN-RADS — лимфоузлы",

@@ -23,6 +23,7 @@
 - **Сроки декретного отпуска** — `/calculators/ob?tab=dekret` (maternity-leave)
 - **Срок беременности по предполагаемой дате родов** — `/calculators/ob?tab=edd` (ga-edd)
 - **Срок беременности по КТР (I триместр)** — `/calculators/ob?tab=crl` (ga-crl)
+- **Срок беременности по СВД (I триместр)** — `/calculators/ob?tab=msd` (ga-msd)
 - **Срок беременности по фетометрии (II триместр)** — `/calculators/ob?tab=feto` (ga-feto)
 - **Предполагаемая масса плода по антропометрии матери** — `/calculators/fetal-weight` (efw-maternal)
 - **Метод Рудакова** — `/calculators/fetal-weight` (efw-rudakov)

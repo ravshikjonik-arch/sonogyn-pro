@@ -42,6 +42,7 @@ export type MobileToolAction =
   | "ga_lmp"
   | "ga_us"
   | "ga_crl"
+  | "ga_msd"
   | "nosology"
   | "clinical_ref"
   | "guidelines"

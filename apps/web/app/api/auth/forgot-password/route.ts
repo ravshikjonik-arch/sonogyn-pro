@@ -5,14 +5,11 @@ import { PASSWORD_RESET_GENERIC_MSG } from "@/lib/auth/safe-auth-messages";
 import { consumeAuthRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
+import { ForgotPasswordBodySchema, parseJsonBody, zodErrorResponse } from "@/lib/security/api-body-schemas";
 import {
   createSupabaseRouteHandlerClient,
   nextJsonWithAuthCookies,
 } from "@/lib/route-handler-supabase";
-
-type ForgotPasswordBody = {
-  email?: string;
-};
 
 function recoveryRedirectTo(request: Request): string {
   const configured = process.env.NEXT_PUBLIC_APP_URL?.trim();
@@ -35,17 +32,15 @@ export async function POST(request: Request) {
     );
   }
 
-  let body: ForgotPasswordBody;
-  try {
-    body = (await request.json()) as ForgotPasswordBody;
-  } catch {
-    return NextResponse.json({ error: "Некорректное тело запроса." }, { status: 400 });
+  const raw = await parseJsonBody(request);
+  if (!raw.ok) return raw.response;
+
+  const parsed = ForgotPasswordBodySchema.safeParse(raw.data);
+  if (!parsed.success) {
+    return zodErrorResponse(parsed.error);
   }
 
-  const email = typeof body.email === "string" ? body.email.trim() : "";
-  if (!email) {
-    return NextResponse.json({ error: "Укажите email." }, { status: 400 });
-  }
+  const email = parsed.data.email;
 
   const client = await createSupabaseRouteHandlerClient();
   if (!client.ok) {

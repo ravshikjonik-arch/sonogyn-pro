@@ -2,6 +2,16 @@ import { z } from "zod";
 
 import { MAX_ULTRASOUND_IMAGE_BYTES } from "@/lib/security/file-validation";
 
+/** POST /api/auth/forgot-password */
+export const ForgotPasswordBodySchema = z.object({
+  email: z.string().trim().email({ message: "Некорректный email." }).max(320),
+});
+
+/** POST /api/auth/update-password */
+export const UpdatePasswordBodySchema = z.object({
+  password: z.string().min(8, "Пароль не короче 8 символов.").max(128),
+});
+
 /** POST /api/auth/sign-in */
 export const SignInBodySchema = z.object({
   email: z.string().trim().email({ message: "Некорректный email." }).max(320),

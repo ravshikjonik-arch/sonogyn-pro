@@ -11,6 +11,9 @@
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "sideEffects": false,
+  "dependencies": {
+    "@repo/medical-calculations": "workspace:*"
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "node --import tsx --test src/**/*.test.ts"

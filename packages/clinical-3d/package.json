@@ -11,6 +11,9 @@
     "./organs/*": "./src/organs/*/index.ts",
     "./shared/*": "./src/shared/*"
   },
+  "dependencies": {
+    "@repo/medical-calculations": "workspace:*"
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "lint": "echo \"skip\""

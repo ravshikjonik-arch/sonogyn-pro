@@ -4,13 +4,14 @@ import { consumeAuthRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
 import {
+  parseJsonBody,
+  UpdatePasswordBodySchema,
+  zodErrorResponse,
+} from "@/lib/security/api-body-schemas";
+import {
   createSupabaseRouteHandlerClient,
   nextJsonWithAuthCookies,
 } from "@/lib/route-handler-supabase";
-
-type UpdatePasswordBody = {
-  password?: string;
-};
 
 /** Смена пароля после recovery-link — сессия только в HttpOnly cookies. */
 export async function POST(request: Request) {
@@ -26,17 +27,15 @@ export async function POST(request: Request) {
     );
   }
 
-  let body: UpdatePasswordBody;
-  try {
-    body = (await request.json()) as UpdatePasswordBody;
-  } catch {
-    return NextResponse.json({ error: "Некорректное тело запроса." }, { status: 400 });
+  const raw = await parseJsonBody(request);
+  if (!raw.ok) return raw.response;
+
+  const parsed = UpdatePasswordBodySchema.safeParse(raw.data);
+  if (!parsed.success) {
+    return zodErrorResponse(parsed.error);
   }
 
-  const password = typeof body.password === "string" ? body.password : "";
-  if (password.length < 8) {
-    return NextResponse.json({ error: "Пароль не короче 8 символов." }, { status: 400 });
-  }
+  const password = parsed.data.password;
 
   const client = await createSupabaseRouteHandlerClient();
   if (!client.ok) {

@@ -104,6 +104,9 @@ export function openClinicalToolAction(navigation: ClinicalToolNav, action: Mobi
     case "ga_crl":
       navigation.navigate("GynecologyCalc", { initialPage: "gyn_ga_crl" });
       return;
+    case "ga_msd":
+      navigation.navigate("GynecologyCalc", { initialPage: "gyn_ga_msd" });
+      return;
     case "nosology":
       navigation.navigate("Nosology");
       return;

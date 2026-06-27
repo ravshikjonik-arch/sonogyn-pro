@@ -7,6 +7,7 @@ const BRAIN_INPUT_MAP: Record<
   { field: keyof SecondThirdScreeningInput; priorKey: string }
 > = {
   lateral_ventricle: { field: "lateralVentriclesMm", priorKey: "lateralVentricle" },
+  lateral_ventricle_body: { field: "lateralVentricleBodyMm", priorKey: "lateralVentricleBody" },
   cisterna_magna: { field: "cisternaMagnaMm", priorKey: "cisternaMagna" },
   cerebellum_transverse: { field: "cerebellumMm", priorKey: "cerebellum" },
 };

@@ -19,6 +19,7 @@ export function GynHub({ setPage }: { setPage: (p: PageType) => void }) {
     { id: "gyn_ga_us", title: "По УЗИ", sub: "Дата УЗИ + срок на момент осмотра" },
     { id: "gyn_ga_ovo_ivf", title: "Овуляция и ЭКО", sub: "ПДР от овуляции / переноса" },
     { id: "gyn_ga_crl", title: "По КТР", sub: "CRL мм + дата УЗИ" },
+    { id: "gyn_ga_msd", title: "По СВД", sub: "СВД 6–50 мм + дата УЗИ (I тр.)" },
     { id: "gyn_ga_feto", title: "По фетометрии", sub: "BPD / HC / FL / AC (II–III тр.)" },
     { id: "gyn_dekret", title: "Декрет", sub: "Ориентиры по ПДР (ТК РФ, упрощ.)" },
     { id: "gyn_breast_risk", title: "Риск МЖ", sub: "Образовательный чеклист" },

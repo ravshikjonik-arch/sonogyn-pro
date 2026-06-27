@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { rejectIfRateLimitedPreset } from "@/lib/security/api-rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
+import { isUuid } from "@/lib/security/uuid";
 import { createClient } from "@/utils/supabase/server";
 
 type Params = { patientId: string };
@@ -11,6 +12,9 @@ export async function GET(request: Request, context: { params: Promise<Params> }
   if (limited) return limited;
 
   const { patientId } = await context.params;
+  if (!isUuid(patientId)) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
   const supabase = await createClient();
   const {
     data: { user },

@@ -3,6 +3,8 @@
  * FIGO subclassification — упрощённый алгоритм по координатам (как в mobile FigoFibroidInteractive).
  */
 
+import { formatMeasurementDecimal, roundMeasurementMm } from "@repo/medical-calculations";
+
 export type UterusNormPoint = { x: number; y: number };
 
 export type UterusOrganZone =
@@ -151,7 +153,7 @@ export function formatUterusCoronalMarkerRu(marker: UterusCoronalMarker): string
   const zoneRu = zoneLabelRu(zone);
   const size =
     marker.diameterMm > 0
-      ? `, ориентировочный размер ${marker.diameterMm}×${Math.round(marker.diameterMm * 0.85)}×${Math.round(marker.diameterMm * 0.8)} мм`
+      ? `, ориентировочный размер ${formatMeasurementDecimal(marker.diameterMm)}×${formatMeasurementDecimal(roundMeasurementMm(marker.diameterMm * 0.85))}×${formatMeasurementDecimal(roundMeasurementMm(marker.diameterMm * 0.8))} мм`
       : "";
 
   if (marker.kind !== "myoma" || zone === "right_adnexa" || zone === "left_adnexa") {

@@ -1,18 +1,22 @@
 import { NextResponse } from "next/server";
 
+import { resolveAppOrigin } from "@/lib/auth/app-origin";
 import { countUserCourseEnrollments } from "@/lib/career/enrollments";
 import { processEnrollmentMilestone } from "@/lib/career/milestones";
-import { resolveAppOrigin } from "@/lib/auth/app-origin";
 import { enrollUserInCourse } from "@/lib/courses/enroll-user";
 import { isYooKassaConfigured } from "@/lib/payment/config";
 import { createPaymentViaSdk } from "@/lib/payment/yookassa-sdk-client";
 import { createSupabaseRouteHandlerClient } from "@/lib/route-handler-supabase";
 import { createServiceRoleClient } from "@/utils/supabase/admin";
+import { isUuid } from "@/lib/security/uuid";
 
 type Params = { params: Promise<{ courseId: string }> };
 
 export async function POST(req: Request, { params }: Params) {
   const { courseId } = await params;
+  if (!isUuid(courseId)) {
+    return NextResponse.json({ error: "Курс недоступен." }, { status: 404 });
+  }
   const client = await createSupabaseRouteHandlerClient();
   if (!client.ok) {
     return NextResponse.json({ error: client.message }, { status: client.status });

@@ -28,7 +28,7 @@ function flagFromPercentile(p: number): PercentileFlag {
 
 function formatNum(n: number, unit: string): string {
   if (unit === "g") return String(Math.round(n));
-  return Number.isInteger(n) ? String(n) : n.toFixed(1).replace(/\.0$/, "");
+  return (Math.round(n * 10) / 10).toFixed(1);
 }
 
 function interpretPercentile(

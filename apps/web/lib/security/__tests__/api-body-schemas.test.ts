@@ -5,6 +5,7 @@ import {
   CopilotImageRegisterBodySchema,
   CopilotSeriesCreateBodySchema,
   CopilotStudyCreateBodySchema,
+  ForgotPasswordBodySchema,
   InternalNotifyBodySchema,
   MobileExchangeBodySchema,
   MfaVerifyLoginBodySchema,
@@ -14,6 +15,7 @@ import {
   SignInBodySchema,
   SignUpBodySchema,
   TelegramVerifyOtpBodySchema,
+  UpdatePasswordBodySchema,
   VerifyCodeBodySchema,
   YooKassaWebhookBodySchema,
 } from "../api-body-schemas";
@@ -30,6 +32,20 @@ describe("SignInBodySchema", () => {
 
   it("rejects invalid email", () => {
     const r = SignInBodySchema.safeParse({ email: "bad", password: "x" });
+    assert.equal(r.success, false);
+  });
+});
+
+describe("ForgotPasswordBodySchema", () => {
+  it("accepts valid email", () => {
+    const r = ForgotPasswordBodySchema.safeParse({ email: "doctor@clinic.ru" });
+    assert.equal(r.success, true);
+  });
+});
+
+describe("UpdatePasswordBodySchema", () => {
+  it("rejects short password", () => {
+    const r = UpdatePasswordBodySchema.safeParse({ password: "1234567" });
     assert.equal(r.success, false);
   });
 });

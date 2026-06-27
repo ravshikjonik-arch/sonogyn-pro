@@ -3,6 +3,7 @@
 ## Mobile
 
 - [x] **OAuth / AuthProvider types** — `SupabaseAuthScreen`: `telegram` отфильтрован в `onProviderPress`, OAuth только `google`.
+- [x] **СВД dating** — `ScreenMsd` + `gyn_ga_msd` в GynecologyRouter / GynHub.
 
 ## Пилот (после готовности кода)
 
@@ -14,6 +15,28 @@
 - [ ] **EAS build** — `cd apps/mobile && npm run eas:android:preview` (или `eas:all:preview`); на устройстве проверить push-токен в `user_push_tokens`.
 - [ ] **Discussions e2e** — web + mobile: вопрос → ответ → push → deep link.
 
+#### Гайд пилота (волна 1)
+
+1. **SMS auth**
+   - Открыть https://sonogyn-pro.ru/register на телефоне.
+   - Ввести реальный номер (+7…), дождаться SMS (TTL до 10 мин).
+   - Проверить: вход → `/dashboard`, профиль с `phoneVerified`.
+   - Если нет SMS: Vercel → `SMSRU_API_ID`, redeploy; `/api/auth/status` → `smsReady: true`.
+
+2. **EAS build**
+   ```bash
+   cd apps/mobile
+   npm run eas:android:preview
+   ```
+   - Установить APK/AAB на устройство.
+   - Войти → Settings → убедиться, что push разрешён.
+   - Supabase → `user_push_tokens` — строка с вашим `user_id`.
+
+3. **Discussions e2e**
+   - Web: `/cases` → открыть кейс → задать вопрос.
+   - Другой аккаунт (или mobile) → ответ.
+   - Проверить push на mobile + deep link в кейс.
+
 ### Код (закрыто ассистентом)
 
 - [x] CI lockfile + wave 3 Zod (mobile exchange, webhook)
@@ -22,3 +45,25 @@
 - [x] Wave 5 Zod (copilot studies create, series create)
 - [x] Security E2E в CI (run #28166757988, commit `c95aa1c`)
 - [x] Mobile MVP: калькулятор стеноза ВСА
+- [x] Wave 6 Zod: forgot/update-password, UUID guards (enroll, studies, lessons complete)
+- [x] ILIKE: `escapeLikePattern` на `/api/courses` (patients уже было)
+- [x] brain-engine: `lateral_ventricle_body` mapping
+- [x] Mobile upload magic bytes — `@repo/upload-validation` в `casesService.ts`
+- [x] CSP enforcing — `next.config.ts` Content-Security-Policy (prod)
+
+## Архив Медведева
+
+- [x] Extraction 96/96 JPEG → JSON
+- [x] MSD (1.1) + КТР (1.2) + A.3 в runtime
+- [ ] **verified** — 13/92 (ручная сверка следующих batch)
+- [ ] **11 partial tables** — нужны доп. JPEG или второй источник
+
+## Открыто (v2 / не блокер пилота)
+
+- [ ] Zod на оставшихся ~45 API routes (GET-only, webhooks, cron)
+- [ ] Full Playwright CI (сейчас только CPI)
+- [ ] Vascular Kulikov mobile parity
+- [ ] Duplicate O-RADS mobile `oradsCalculator` → `@repo/orads-us`
+- [ ] Structured Reporting (SRE) Phase 1
+- [ ] App Store / Google Play release
+- [ ] i18n en/es

@@ -15,6 +15,7 @@ import {
 import {
   datingFromBiometryAndUsDate,
   datingFromCrlAndUsDate,
+  datingFromMsdAndUsDate,
   datingFromGaAtStudy,
   formatGaTodayLabel,
   splitGaDays,
@@ -227,6 +228,49 @@ export function ScreenCrl({ setPage }: { setPage: (p: PageType) => void }) {
       <TextInput value={usStr} onChangeText={setUsStr} placeholder="20.03.2025" style={s.input} />
       <Text style={s.label}>КТР, мм</Text>
       <TextInput value={crl} onChangeText={setCrl} keyboardType="decimal-pad" placeholder="45" style={s.input} />
+      <Pressable style={s.btn} onPress={run}>
+        <Text style={s.btnText}>Рассчитать</Text>
+      </Pressable>
+      {out ? <Text style={s.result}>{out}</Text> : null}
+    </View>
+  );
+}
+
+export function ScreenMsd({ setPage }: { setPage: (p: PageType) => void }) {
+  const [usStr, setUsStr] = useState("");
+  const [msd, setMsd] = useState("");
+  const [out, setOut] = useState("");
+  const run = () => {
+    const us = parseRuDate(usStr);
+    const mm = parseFloat(msd.replace(",", "."));
+    if (!us || !Number.isFinite(mm)) {
+      setOut("Дата УЗИ и СВД в мм");
+      return;
+    }
+    const dating = datingFromMsdAndUsDate(us, mm);
+    if (!dating) {
+      setOut("СВД вне диапазона 6–50 мм (табл. 1.1 Medvedev).");
+      return;
+    }
+    const atStudy = splitGaDays(dating.gaAtStudyDays);
+    const gaToday = formatGaTodayLabel(dating);
+    const hints = screeningHintsRu(gaToday.hintsGaDays);
+    setOut(
+      `СВД ${mm} мм → срок на дату УЗИ: ${atStudy.weeks} нед. ${atStudy.days} дн.\n` +
+        `ПДР: ${formatRuDate(dating.edd)}\n` +
+        `Оценка ПМП: ${formatRuDate(dating.lmpEstimate)}\n` +
+        `${gaToday.line}\n\n` +
+        hints.join("\n")
+    );
+  };
+  return (
+    <View style={s.card}>
+      <GynBackToHub onPress={() => setPage("gyn_hub")} />
+      <Text style={s.title}>Срок беременности по СВД</Text>
+      <Text style={s.label}>Дата УЗИ</Text>
+      <TextInput value={usStr} onChangeText={setUsStr} placeholder="20.03.2025" style={s.input} />
+      <Text style={s.label}>СВД (средний диаметр плодного яйца), мм</Text>
+      <TextInput value={msd} onChangeText={setMsd} keyboardType="decimal-pad" placeholder="10" style={s.input} />
       <Pressable style={s.btn} onPress={run}>
         <Text style={s.btnText}>Рассчитать</Text>
       </Pressable>
