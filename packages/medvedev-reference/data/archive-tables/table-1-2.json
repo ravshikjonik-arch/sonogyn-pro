@@ -1,0 +1,475 @@
+{
+  "tableId": "1.2",
+  "titleRu": "Нормативные показатели КТР эмбриона/плода в зависимости от срока беременности (СБ)",
+  "source": "Н.А. Алтынник, М.В. Медведев, 2001",
+  "clinicalBlock": "early_dating",
+  "tableType": "percentile_by_ga",
+  "parameter": {
+    "id": "crl",
+    "labelRu": "КТР (CRL)",
+    "unit": "mm"
+  },
+  "rows": [
+    {
+      "ga": {
+        "weeks": 7,
+        "days": 0
+      },
+      "crlP5": 5,
+      "crlP50": 8,
+      "crlP95": 11
+    },
+    {
+      "ga": {
+        "weeks": 7,
+        "days": 1
+      },
+      "crlP5": 6,
+      "crlP50": 9,
+      "crlP95": 12
+    },
+    {
+      "ga": {
+        "weeks": 7,
+        "days": 2
+      },
+      "crlP5": 7,
+      "crlP50": 10,
+      "crlP95": 13
+    },
+    {
+      "ga": {
+        "weeks": 7,
+        "days": 3
+      },
+      "crlP5": 8,
+      "crlP50": 11,
+      "crlP95": 14
+    },
+    {
+      "ga": {
+        "weeks": 7,
+        "days": 4
+      },
+      "crlP5": 9,
+      "crlP50": 12,
+      "crlP95": 15
+    },
+    {
+      "ga": {
+        "weeks": 7,
+        "days": 5
+      },
+      "crlP5": 9,
+      "crlP50": 13,
+      "crlP95": 16
+    },
+    {
+      "ga": {
+        "weeks": 7,
+        "days": 6
+      },
+      "crlP5": 10,
+      "crlP50": 13,
+      "crlP95": 17
+    },
+    {
+      "ga": {
+        "weeks": 8,
+        "days": 0
+      },
+      "crlP5": 10,
+      "crlP50": 14,
+      "crlP95": 18
+    },
+    {
+      "ga": {
+        "weeks": 8,
+        "days": 1
+      },
+      "crlP5": 11,
+      "crlP50": 15,
+      "crlP95": 19
+    },
+    {
+      "ga": {
+        "weeks": 8,
+        "days": 2
+      },
+      "crlP5": 11,
+      "crlP50": 16,
+      "crlP95": 21
+    },
+    {
+      "ga": {
+        "weeks": 8,
+        "days": 3
+      },
+      "crlP5": 12,
+      "crlP50": 17,
+      "crlP95": 22
+    },
+    {
+      "ga": {
+        "weeks": 8,
+        "days": 4
+      },
+      "crlP5": 13,
+      "crlP50": 18,
+      "crlP95": 23
+    },
+    {
+      "ga": {
+        "weeks": 8,
+        "days": 5
+      },
+      "crlP5": 14,
+      "crlP50": 19,
+      "crlP95": 24
+    },
+    {
+      "ga": {
+        "weeks": 8,
+        "days": 6
+      },
+      "crlP5": 15,
+      "crlP50": 20,
+      "crlP95": 25
+    },
+    {
+      "ga": {
+        "weeks": 9,
+        "days": 0
+      },
+      "crlP5": 16,
+      "crlP50": 22,
+      "crlP95": 27
+    },
+    {
+      "ga": {
+        "weeks": 9,
+        "days": 1
+      },
+      "crlP5": 17,
+      "crlP50": 23,
+      "crlP95": 29
+    },
+    {
+      "ga": {
+        "weeks": 9,
+        "days": 2
+      },
+      "crlP5": 18,
+      "crlP50": 24,
+      "crlP95": 30
+    },
+    {
+      "ga": {
+        "weeks": 9,
+        "days": 3
+      },
+      "crlP5": 19,
+      "crlP50": 25,
+      "crlP95": 31
+    },
+    {
+      "ga": {
+        "weeks": 9,
+        "days": 4
+      },
+      "crlP5": 20,
+      "crlP50": 26,
+      "crlP95": 32
+    },
+    {
+      "ga": {
+        "weeks": 9,
+        "days": 5
+      },
+      "crlP5": 21,
+      "crlP50": 27,
+      "crlP95": 34
+    },
+    {
+      "ga": {
+        "weeks": 9,
+        "days": 6
+      },
+      "crlP5": 22,
+      "crlP50": 29,
+      "crlP95": 36
+    },
+    {
+      "ga": {
+        "weeks": 10,
+        "days": 0
+      },
+      "crlP5": 24,
+      "crlP50": 31,
+      "crlP95": 38
+    },
+    {
+      "ga": {
+        "weeks": 10,
+        "days": 1
+      },
+      "crlP5": 25,
+      "crlP50": 33,
+      "crlP95": 41
+    },
+    {
+      "ga": {
+        "weeks": 10,
+        "days": 2
+      },
+      "crlP5": 26,
+      "crlP50": 34,
+      "crlP95": 42
+    },
+    {
+      "ga": {
+        "weeks": 10,
+        "days": 3
+      },
+      "crlP5": 27,
+      "crlP50": 35,
+      "crlP95": 43
+    },
+    {
+      "ga": {
+        "weeks": 10,
+        "days": 4
+      },
+      "crlP5": 29,
+      "crlP50": 37,
+      "crlP95": 45
+    },
+    {
+      "ga": {
+        "weeks": 10,
+        "days": 5
+      },
+      "crlP5": 31,
+      "crlP50": 39,
+      "crlP95": 47
+    },
+    {
+      "ga": {
+        "weeks": 10,
+        "days": 6
+      },
+      "crlP5": 33,
+      "crlP50": 41,
+      "crlP95": 49
+    },
+    {
+      "ga": {
+        "weeks": 11,
+        "days": 0
+      },
+      "crlP5": 34,
+      "crlP50": 42,
+      "crlP95": 50
+    },
+    {
+      "ga": {
+        "weeks": 11,
+        "days": 1
+      },
+      "crlP5": 35,
+      "crlP50": 43,
+      "crlP95": 51
+    },
+    {
+      "ga": {
+        "weeks": 11,
+        "days": 2
+      },
+      "crlP5": 36,
+      "crlP50": 44,
+      "crlP95": 52
+    },
+    {
+      "ga": {
+        "weeks": 11,
+        "days": 3
+      },
+      "crlP5": 37,
+      "crlP50": 45,
+      "crlP95": 54
+    },
+    {
+      "ga": {
+        "weeks": 11,
+        "days": 4
+      },
+      "crlP5": 38,
+      "crlP50": 47,
+      "crlP95": 56
+    },
+    {
+      "ga": {
+        "weeks": 11,
+        "days": 5
+      },
+      "crlP5": 39,
+      "crlP50": 48,
+      "crlP95": 57
+    },
+    {
+      "ga": {
+        "weeks": 11,
+        "days": 6
+      },
+      "crlP5": 40,
+      "crlP50": 49,
+      "crlP95": 58
+    },
+    {
+      "ga": {
+        "weeks": 12,
+        "days": 0
+      },
+      "crlP5": 42,
+      "crlP50": 51,
+      "crlP95": 59
+    },
+    {
+      "ga": {
+        "weeks": 12,
+        "days": 1
+      },
+      "crlP5": 44,
+      "crlP50": 53,
+      "crlP95": 62
+    },
+    {
+      "ga": {
+        "weeks": 12,
+        "days": 2
+      },
+      "crlP5": 45,
+      "crlP50": 55,
+      "crlP95": 65
+    },
+    {
+      "ga": {
+        "weeks": 12,
+        "days": 3
+      },
+      "crlP5": 47,
+      "crlP50": 57,
+      "crlP95": 67
+    },
+    {
+      "ga": {
+        "weeks": 12,
+        "days": 4
+      },
+      "crlP5": 49,
+      "crlP50": 59,
+      "crlP95": 69
+    },
+    {
+      "ga": {
+        "weeks": 12,
+        "days": 5
+      },
+      "crlP5": 50,
+      "crlP50": 61,
+      "crlP95": 72
+    },
+    {
+      "ga": {
+        "weeks": 12,
+        "days": 6
+      },
+      "crlP5": 51,
+      "crlP50": 62,
+      "crlP95": 73
+    },
+    {
+      "ga": {
+        "weeks": 13,
+        "days": 0
+      },
+      "crlP5": 51,
+      "crlP50": 63,
+      "crlP95": 75
+    },
+    {
+      "ga": {
+        "weeks": 13,
+        "days": 1
+      },
+      "crlP5": 53,
+      "crlP50": 65,
+      "crlP95": 77
+    },
+    {
+      "ga": {
+        "weeks": 13,
+        "days": 2
+      },
+      "crlP5": 54,
+      "crlP50": 66,
+      "crlP95": 78
+    },
+    {
+      "ga": {
+        "weeks": 13,
+        "days": 3
+      },
+      "crlP5": 56,
+      "crlP50": 68,
+      "crlP95": 80
+    },
+    {
+      "ga": {
+        "weeks": 13,
+        "days": 4
+      },
+      "crlP5": 58,
+      "crlP50": 70,
+      "crlP95": 82
+    },
+    {
+      "ga": {
+        "weeks": 13,
+        "days": 5
+      },
+      "crlP5": 59,
+      "crlP50": 72,
+      "crlP95": 85
+    },
+    {
+      "ga": {
+        "weeks": 13,
+        "days": 6
+      },
+      "crlP5": 61,
+      "crlP50": 74,
+      "crlP95": 87
+    },
+    {
+      "ga": {
+        "weeks": 14,
+        "days": 0
+      },
+      "crlP5": 63,
+      "crlP50": 76,
+      "crlP95": 89
+    },
+    {
+      "ga": {
+        "weeks": 14,
+        "days": 1
+      },
+      "crlP5": 64,
+      "crlP50": 78,
+      "crlP95": 92
+    }
+  ],
+  "sourceCard": "image-26-06-26-04-55-19.jpeg",
+  "verified": false
+}

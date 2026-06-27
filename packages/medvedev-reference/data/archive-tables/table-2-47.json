@@ -1,0 +1,254 @@
+{
+  "tableId": "2.47",
+  "titleRu": "Нормативные значения размеров желудка плода в зависимости от срока беременности",
+  "source": "R. Romero и соавт., 1988",
+  "clinicalBlock": "fetometry",
+  "tableType": "percentile_by_ga",
+  "rows": [
+    {
+      "ga": {
+        "from": {
+          "weeks": 13,
+          "days": 0
+        },
+        "to": {
+          "weeks": 15,
+          "days": 0
+        }
+      },
+      "longitudinal": {
+        "m2sd": 6,
+        "mean": 9,
+        "p2sd": 12
+      },
+      "ap": {
+        "m2sd": 3,
+        "mean": 4,
+        "p2sd": 5
+      },
+      "transverse": {
+        "m2sd": 4,
+        "mean": 6,
+        "p2sd": 8
+      }
+    },
+    {
+      "ga": {
+        "from": {
+          "weeks": 16,
+          "days": 0
+        },
+        "to": {
+          "weeks": 18,
+          "days": 0
+        }
+      },
+      "longitudinal": {
+        "m2sd": 9,
+        "mean": 13,
+        "p2sd": 17
+      },
+      "ap": {
+        "m2sd": 4,
+        "mean": 6,
+        "p2sd": 8
+      },
+      "transverse": {
+        "m2sd": 6,
+        "mean": 8,
+        "p2sd": 10
+      }
+    },
+    {
+      "ga": {
+        "from": {
+          "weeks": 19,
+          "days": 0
+        },
+        "to": {
+          "weeks": 21,
+          "days": 0
+        }
+      },
+      "longitudinal": {
+        "m2sd": 11,
+        "mean": 16,
+        "p2sd": 21
+      },
+      "ap": {
+        "m2sd": 6,
+        "mean": 8,
+        "p2sd": 10
+      },
+      "transverse": {
+        "m2sd": 7,
+        "mean": 9,
+        "p2sd": 11
+      }
+    },
+    {
+      "ga": {
+        "from": {
+          "weeks": 22,
+          "days": 0
+        },
+        "to": {
+          "weeks": 24,
+          "days": 0
+        }
+      },
+      "longitudinal": {
+        "m2sd": 13,
+        "mean": 19,
+        "p2sd": 25
+      },
+      "ap": {
+        "m2sd": 6,
+        "mean": 9,
+        "p2sd": 12
+      },
+      "transverse": {
+        "m2sd": 15,
+        "mean": 18,
+        "p2sd": 21
+      }
+    },
+    {
+      "ga": {
+        "from": {
+          "weeks": 25,
+          "days": 0
+        },
+        "to": {
+          "weeks": 27,
+          "days": 0
+        }
+      },
+      "longitudinal": {
+        "m2sd": 13,
+        "mean": 23,
+        "p2sd": 33
+      },
+      "ap": {
+        "m2sd": 5,
+        "mean": 10,
+        "p2sd": 15
+      },
+      "transverse": {
+        "m2sd": 14,
+        "mean": 19,
+        "p2sd": 24
+      }
+    },
+    {
+      "ga": {
+        "from": {
+          "weeks": 28,
+          "days": 0
+        },
+        "to": {
+          "weeks": 30,
+          "days": 0
+        }
+      },
+      "longitudinal": {
+        "m2sd": 18,
+        "mean": 23,
+        "p2sd": 28
+      },
+      "ap": {
+        "m2sd": 9,
+        "mean": 12,
+        "p2sd": 15
+      },
+      "transverse": {
+        "m2sd": 12,
+        "mean": 16,
+        "p2sd": 20
+      }
+    },
+    {
+      "ga": {
+        "from": {
+          "weeks": 31,
+          "days": 0
+        },
+        "to": {
+          "weeks": 33,
+          "days": 0
+        }
+      },
+      "longitudinal": {
+        "m2sd": 19,
+        "mean": 28,
+        "p2sd": 37
+      },
+      "ap": {
+        "m2sd": 11,
+        "mean": 14,
+        "p2sd": 17
+      },
+      "transverse": {
+        "m2sd": 12,
+        "mean": 16,
+        "p2sd": 20
+      }
+    },
+    {
+      "ga": {
+        "from": {
+          "weeks": 34,
+          "days": 0
+        },
+        "to": {
+          "weeks": 36,
+          "days": 0
+        }
+      },
+      "longitudinal": {
+        "m2sd": 19,
+        "mean": 28,
+        "p2sd": 37
+      },
+      "ap": {
+        "m2sd": 10,
+        "mean": 14,
+        "p2sd": 18
+      },
+      "transverse": {
+        "m2sd": 12,
+        "mean": 16,
+        "p2sd": 20
+      }
+    },
+    {
+      "ga": {
+        "from": {
+          "weeks": 37,
+          "days": 0
+        },
+        "to": {
+          "weeks": 39,
+          "days": 0
+        }
+      },
+      "longitudinal": {
+        "m2sd": 23,
+        "mean": 32,
+        "p2sd": 41
+      },
+      "ap": {
+        "m2sd": 12,
+        "mean": 16,
+        "p2sd": 20
+      },
+      "transverse": {
+        "m2sd": 16,
+        "mean": 20,
+        "p2sd": 24
+      }
+    }
+  ],
+  "sourceCard": "image-26-06-26-04-55-22.jpeg",
+  "verified": false
+}

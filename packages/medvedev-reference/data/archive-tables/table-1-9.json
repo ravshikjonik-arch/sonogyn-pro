@@ -1,0 +1,52 @@
+{
+  "tableId": "1.9",
+  "titleRu": "Нормативные показатели длины ушной раковины плода в зависимости от срока беременности",
+  "source": "Е.А. Бадигова, 2012",
+  "clinicalBlock": "screening_i",
+  "tableType": "percentile_by_ga",
+  "parameter": {
+    "id": "earLength",
+    "labelRu": "Длина ушной раковины",
+    "unit": "mm"
+  },
+  "rows": [
+    {
+      "ga": {
+        "weeks": 11,
+        "days": 0
+      },
+      "p5": 4.5,
+      "p50": 5,
+      "p95": 5.8
+    },
+    {
+      "ga": {
+        "weeks": 12,
+        "days": 0
+      },
+      "p5": 5.1,
+      "p50": 5.6,
+      "p95": 6.8
+    },
+    {
+      "ga": {
+        "weeks": 13,
+        "days": 0
+      },
+      "p5": 5.9,
+      "p50": 6.6,
+      "p95": 8.2
+    },
+    {
+      "ga": {
+        "weeks": 14,
+        "days": 0
+      },
+      "p5": 6.4,
+      "p50": 7.7,
+      "p95": 9.4
+    }
+  ],
+  "sourceCard": "image-26-06-26-04-55-8.jpeg",
+  "verified": false
+}

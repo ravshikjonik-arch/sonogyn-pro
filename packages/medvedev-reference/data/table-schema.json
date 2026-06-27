@@ -1,0 +1,15 @@
+{
+  "$comment": "Astraia-like SSOT для 96 карточек «Основы УЗ фетометрии» (Медведев 2016)",
+  "tableTypes": {
+    "percentile_by_ga": "Срок (нед) → p5/p50/p95 измерения (мм или индекс)",
+    "dating_inverse": "Измерение (мм) → СБ на p5/p50/p95 (нед+дни)",
+    "percentile_by_crl": "Диапазон КТР (мм) → p5/p50/p95 маркеров I скрининга"
+  },
+  "clinicalBlocks": {
+    "early_dating": "Малый срок: СПЯ, ЖП, КТР→СБ, ранние структуры",
+    "screening_i": "I скрининг 11–13+6: КТР, ТВП, кость носа, допплер I трим.",
+    "fetometry": "II/III: BPD, HC, AC, FL, мозг, анатомия",
+    "doppler_late": "Допплер II/III: UtA, MCA, DV, пуповина",
+    "anatomy_other": "Прочие нормы (кишечник, щитовидная, DA…)"
+  }
+}
