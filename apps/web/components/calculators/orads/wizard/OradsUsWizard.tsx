@@ -74,7 +74,7 @@ export function OradsUsWizard({ onOpenPro, className }: Props) {
         <Button
           type="button"
           size="sm"
-          variant={mode === "stepper" ? "default" : "ghost"}
+          variant={mode === "stepper" ? "default" : "outline"}
           className="flex-1 rounded-lg"
           onClick={() => setMode("stepper")}
         >
@@ -83,7 +83,7 @@ export function OradsUsWizard({ onOpenPro, className }: Props) {
         <Button
           type="button"
           size="sm"
-          variant={mode === "assist" ? "default" : "ghost"}
+          variant={mode === "assist" ? "default" : "outline"}
           className="flex-1 rounded-lg"
           onClick={() => setMode("assist")}
         >
@@ -98,7 +98,7 @@ export function OradsUsWizard({ onOpenPro, className }: Props) {
       {mode === "stepper" ? (
         <>
       <OradsWizardProgressBar current={nav.stepCurrent} total={nav.estimatedSteps} />
-      <p className="text-sm font-bold text-[var(--clinical-foreground-muted)]">
+      <p className="text-sm font-bold text-[var(--clinical-foreground)]">
         {locale.t("orads.wizard.step_of", {
           current: String(nav.stepCurrent),
           total: String(nav.estimatedSteps),
@@ -134,11 +134,6 @@ export function OradsUsWizard({ onOpenPro, className }: Props) {
               <OradsWizardOptionButton
                 key={opt.id}
                 label={locale.t(opt.labelKey)}
-                variant={
-                  view.node.id === "step0_technical" && opt.id === "inadequate"
-                    ? "secondary"
-                    : "default"
-                }
                 onClick={() => nav.pick(view.node.id, opt.id)}
               />
             ))}
