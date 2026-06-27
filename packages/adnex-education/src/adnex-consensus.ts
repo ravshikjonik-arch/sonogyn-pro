@@ -13,7 +13,7 @@ import { evaluateIotaSimpleRules } from "./ozerskaya-iota";
 export type AdnexCalcInput = {
   localization?: "ovarian" | "extraovarian";
   menopause?: "pre" | "post";
-  lesionKind?: "physiological" | "nonphysiological";
+  lesionKind?: "physiological" | "nonphysiological" | "normal_ovary";
   structure?: "unilocular" | "multilocular" | "solid";
   unilocularSubtype?: string;
   septaThickness?: "thin" | "thick";
