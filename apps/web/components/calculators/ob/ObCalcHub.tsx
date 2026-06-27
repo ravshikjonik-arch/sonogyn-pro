@@ -12,17 +12,17 @@ import { RuDateInput } from "@/components/ui/ru-date-input";
 import { cn } from "@/lib/utils/cn";
 import { formatRuDate, parseIsoDate } from "@/lib/utils/ru-date";
 import {
-  approximateGaDaysFromBiometry,
-  eddFromBiometryAndUsDate,
-  eddFromCrlAndUsDate,
   datingFromAntenatalVisit,
+  datingFromBiometryAndUsDate,
+  datingFromCrlAndUsDate,
+  datingFromEdd,
   datingFromFetalMovement,
+  datingFromGaAtStudy,
   eddFromEmbryoTransfer,
   eddFromLmp,
   eddFromOvulation,
-  eddFromUltrasound,
+  formatGaTodayLabel,
   formatGestationalAge,
-  gaDaysFromCrlTable,
   gaDaysFromLmp,
   lmpFromEdd,
   maternityLeaveHintsRu,
@@ -104,16 +104,17 @@ export function ObCalcHub({ initialTab = "lmp" }: { initialTab?: TabId }) {
     if (!us) return ["Проверьте дату УЗИ"];
     const w = Math.max(0, Number.parseInt(usWeeks, 10) || 0);
     const d = Math.min(6, Math.max(0, Number.parseInt(usDays, 10) || 0));
-    const edd = eddFromUltrasound(us, w, d);
-    const lmpEst = lmpFromEdd(edd);
-    const gaToday = gaDaysFromLmp(lmpEst, new Date());
-    const { weeks, days } = splitGaDays(gaToday);
+    const gaDays = w * 7 + d;
+    const dating = datingFromGaAtStudy(us, gaDays);
+    const atStudy = splitGaDays(dating.gaAtStudyDays);
+    const gaToday = formatGaTodayLabel(dating);
     return [
-      `ПДР по УЗИ: ${formatRuDate(edd)}`,
-      `Оценка ПМП: ${formatRuDate(lmpEst)}`,
-      `Срок сегодня (от оценки ПМП): ${weeks} нед. ${days} дн.`,
+      `Срок на дату УЗИ: ${atStudy.weeks} нед. ${atStudy.days} дн.`,
+      `ПДР: ${formatRuDate(dating.edd)}`,
+      `Оценка ПМП: ${formatRuDate(dating.lmpEstimate)}`,
+      gaToday.line,
       "",
-      ...screeningHintsRu(gaToday),
+      ...screeningHintsRu(gaToday.hintsGaDays),
     ];
   }, [usDateIso, usWeeks, usDays]);
 
@@ -122,21 +123,17 @@ export function ObCalcHub({ initialTab = "lmp" }: { initialTab?: TabId }) {
     const us = parseIsoDate(crlDateIso);
     const mm = Number.parseFloat(crlMm.replace(",", "."));
     if (!us) return ["Проверьте дату УЗИ"];
-    const gaDays = gaDaysFromCrlTable(mm);
-    if (gaDays == null) return ["КТР вне диапазона 2–84 мм"];
-    const edd = eddFromCrlAndUsDate(us, mm);
-    if (!edd) return ["Не удалось рассчитать ПДР"];
-    const lmpEst = lmpFromEdd(edd);
-    const { weeks, days } = splitGaDays(gaDays);
-    const gaToday = gaDaysFromLmp(lmpEst, new Date());
-    const todaySplit = splitGaDays(gaToday);
+    const dating = datingFromCrlAndUsDate(us, mm);
+    if (!dating) return ["КТР вне диапазона 2–84 мм"];
+    const atStudy = splitGaDays(dating.gaAtStudyDays);
+    const gaToday = formatGaTodayLabel(dating);
     return [
-      `КТР ${mm} мм → срок на дату УЗИ: ${weeks} нед. ${days} дн.`,
-      `ПДР: ${formatRuDate(edd)}`,
-      `Оценка ПМП: ${formatRuDate(lmpEst)}`,
-      `Срок сегодня: ${todaySplit.weeks} нед. ${todaySplit.days} дн.`,
+      `КТР ${mm} мм → срок на дату УЗИ: ${atStudy.weeks} нед. ${atStudy.days} дн.`,
+      `ПДР: ${formatRuDate(dating.edd)}`,
+      `Оценка ПМП: ${formatRuDate(dating.lmpEstimate)}`,
+      gaToday.line,
       "",
-      ...screeningHintsRu(gaToday),
+      ...screeningHintsRu(gaToday.hintsGaDays),
     ];
   }, [crlDateIso, crlMm]);
 
@@ -166,18 +163,14 @@ export function ObCalcHub({ initialTab = "lmp" }: { initialTab?: TabId }) {
     const us = parseIsoDate(fetoDateIso);
     const mm = Number.parseFloat(fetoMm.replace(",", "."));
     if (!us) return ["Проверьте дату УЗИ"];
-    const gaDays = approximateGaDaysFromBiometry(fetoKind, mm);
-    if (gaDays == null) return [`${fetoKind} вне допустимого диапазона для ориентира`];
-    const edd = eddFromBiometryAndUsDate(us, fetoKind, mm);
-    if (!edd) return ["Не удалось рассчитать ПДР"];
-    const lmpEst = lmpFromEdd(edd);
-    const gaToday = gaDaysFromLmp(lmpEst, new Date());
-    const onStudy = splitGaDays(gaDays);
-    const todaySplit = splitGaDays(gaToday);
+    const dating = datingFromBiometryAndUsDate(us, fetoKind, mm);
+    if (!dating) return [`${fetoKind} вне допустимого диапазона для ориентира`];
+    const gaToday = formatGaTodayLabel(dating);
     return [
-      `${fetoKind} ${mm} мм → срок на дату УЗИ: ${formatGestationalAge(gaDays)} (${onStudy.weeks}+${onStudy.days})`,
-      `ПДР: ${formatRuDate(edd)}`,
-      `Срок сегодня: ${todaySplit.weeks} нед. ${todaySplit.days} дн.`,
+      `${fetoKind} ${mm} мм → срок на дату УЗИ: ${formatGestationalAge(dating.gaAtStudyDays)}`,
+      `ПДР: ${formatRuDate(dating.edd)}`,
+      `Оценка ПМП: ${formatRuDate(dating.lmpEstimate)}`,
+      gaToday.line,
       "II–III триместр: ориентир, не замена I триместровой датировки по КТР.",
     ];
   }, [fetoDateIso, fetoKind, fetoMm]);
@@ -194,15 +187,14 @@ export function ObCalcHub({ initialTab = "lmp" }: { initialTab?: TabId }) {
     if (!reverseEddIso) return [];
     const edd = parseIsoDate(reverseEddIso);
     if (!edd) return ["Введите ПДР"];
-    const lmpEst = lmpFromEdd(edd);
-    const gaToday = gaDaysFromLmp(lmpEst, new Date());
-    const { weeks, days } = splitGaDays(gaToday);
+    const dating = datingFromEdd(edd);
+    const gaToday = formatGaTodayLabel(dating);
     return [
-      `ПДР: ${formatRuDate(edd)}`,
-      `Оценка ПМП: ${formatRuDate(lmpEst)}`,
-      `Срок сегодня: ${weeks} нед. ${days} дн. (${gaToday} дн.)`,
+      `ПДР: ${formatRuDate(dating.edd)}`,
+      `Оценка ПМП: ${formatRuDate(dating.lmpEstimate)}`,
+      gaToday.line,
       "",
-      ...screeningHintsRu(gaToday),
+      ...(dating.status === "completed" ? [] : screeningHintsRu(gaToday.hintsGaDays)),
     ];
   }, [reverseEddIso]);
 
@@ -226,14 +218,14 @@ export function ObCalcHub({ initialTab = "lmp" }: { initialTab?: TabId }) {
     if (!visit) return ["Проверьте дату явки"];
     const w = Math.max(0, Number.parseInt(antenatalWeeks, 10) || 0);
     const days = Math.min(6, Math.max(0, Number.parseInt(antenatalDays, 10) || 0));
-    const r = datingFromAntenatalVisit(visit, w, days);
-    const today = splitGaDays(r.gaTodayDays);
+    const dating = datingFromAntenatalVisit(visit, w, days);
+    const gaToday = formatGaTodayLabel(dating);
     return [
-      `ПДР: ${formatRuDate(r.edd)}`,
-      `Оценка ПМП: ${formatRuDate(r.lmpEstimate)}`,
-      `Срок сегодня: ${today.weeks} нед. ${today.days} дн.`,
+      `ПДР: ${formatRuDate(dating.edd)}`,
+      `Оценка ПМП: ${formatRuDate(dating.lmpEstimate)}`,
+      gaToday.line,
       "",
-      ...screeningHintsRu(r.gaTodayDays),
+      ...screeningHintsRu(gaToday.hintsGaDays),
     ];
   }, [antenatalDateIso, antenatalWeeks, antenatalDays]);
 
