@@ -131,7 +131,7 @@ export function BasicCourseWidget({ variant = "full", className, initialLectureI
             <Badge variant="outline">{ISUOG_BASIC_COURSE.issuer}</Badge>
           </div>
           <CardTitle className="text-base">{ISUOG_BASIC_COURSE.title}</CardTitle>
-          <CardDescription className="leading-relaxed">
+          <CardDescription className="leading-relaxed text-[var(--clinical-foreground)]/90">
             Лекция {activeLecture?.number}: {activeLecture?.title}. Прогресс курса: {courseProgress}%.
           </CardDescription>
         </CardHeader>
@@ -372,10 +372,16 @@ function LectureTab({
         </Card>
 
         <Card className="overflow-hidden border-[var(--clinical-border)]">
-          <CardHeader className="py-3">
-            <CardTitle className="text-sm">
-              {lecture.platformModuleHref ? "Интерактивный модуль" : "Презентация"}
-            </CardTitle>
+          <CardHeader className="space-y-2 py-3">
+            <CardTitle className="text-sm">Презентация</CardTitle>
+            {lecture.yandexDiskUrl ? (
+              <Button asChild size="sm" variant="outline" className="w-fit">
+                <a href={lecture.yandexDiskUrl} target="_blank" rel="noopener noreferrer">
+                  <ExternalLink className="mr-2 h-4 w-4" />
+                  Открыть PDF на Яндекс.Диске
+                </a>
+              </Button>
+            ) : null}
           </CardHeader>
           {lecture.platformModuleHref ? (
             <CardContent className="space-y-3 pb-6">
@@ -485,7 +491,7 @@ function PracticeTab({
                 {done ? <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" /> : <Circle className="mt-0.5 h-4 w-4 shrink-0" />}
                 <span>
                   <strong>{topic.title}</strong>
-                  <span className="mt-0.5 block text-[var(--clinical-foreground-muted)]">{topic.summary}</span>
+                  <span className="mt-0.5 block text-[var(--clinical-foreground)]/85">{topic.summary}</span>
                 </span>
               </button>
             );

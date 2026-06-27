@@ -115,7 +115,7 @@ const nextConfig: NextConfig = {
       {
         key: "Content-Security-Policy",
         value:
-          `default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data: https://*.supabase.co https://telegram.org https://*.telesco.pe blob:; media-src 'self' blob:; connect-src 'self' https://*.supabase.co wss://*.supabase.co${supabaseConnectOriginExtra()}${liveKitConnectExtra()} https://*.google-analytics.com https://*.firebaseio.com https://firebasestorage.googleapis.com https://*.ingest.sentry.io https://challenges.cloudflare.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://challenges.cloudflare.com https://telegram.org; frame-src 'self' https://js.stripe.com https://challenges.cloudflare.com https://oauth.telegram.org https://disk.yandex.ru https://yandex.ru;`,
+          `default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data: https://*.supabase.co https://telegram.org https://*.telesco.pe https://*.yandex.ru https://yastatic.net blob:; media-src 'self' blob:; connect-src 'self' https://*.supabase.co wss://*.supabase.co${supabaseConnectOriginExtra()}${liveKitConnectExtra()} https://*.google-analytics.com https://*.firebaseio.com https://firebasestorage.googleapis.com https://*.ingest.sentry.io https://challenges.cloudflare.com https://*.yandex.ru; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://challenges.cloudflare.com https://telegram.org; frame-src 'self' https://js.stripe.com https://challenges.cloudflare.com https://oauth.telegram.org https://disk.yandex.ru https://*.yandex.ru;`,
       },
     ];
 
