@@ -347,111 +347,125 @@
       "cardIndex": 29,
       "filename": "image-26-06-26-04-56-5.jpeg",
       "imagePath": "docs/fetometry-source/medvedev-archive/image-26-06-26-04-56-5.jpeg",
-      "tableId": null,
-      "titleRu": null,
-      "clinicalBlock": null,
-      "tableType": null,
-      "extractionStatus": "pending",
-      "dataFile": null
+      "tableId": "2.18",
+      "titleRu": "Нормативные значения ЭОР, ИОР и диаметра глазницы (ДГ) плода",
+      "clinicalBlock": "fetometry",
+      "tableType": "percentile_by_ga",
+      "extractionStatus": "extracted",
+      "dataFile": "table-2-18.json",
+      "verified": false
     },
     {
       "cardIndex": 30,
       "filename": "image-26-06-26-04-56-6.jpeg",
       "imagePath": "docs/fetometry-source/medvedev-archive/image-26-06-26-04-56-6.jpeg",
-      "tableId": null,
-      "titleRu": null,
-      "clinicalBlock": null,
-      "tableType": null,
-      "extractionStatus": "pending",
-      "dataFile": null
+      "tableId": "2.1",
+      "titleRu": "Нормативные значения БПР в зависимости от срока беременности",
+      "clinicalBlock": "fetometry",
+      "tableType": "percentile_by_ga",
+      "extractionStatus": "extracted",
+      "dataFile": "table-2-1.json",
+      "verified": false
     },
     {
       "cardIndex": 31,
       "filename": "image-26-06-26-04-56-7.jpeg",
       "imagePath": "docs/fetometry-source/medvedev-archive/image-26-06-26-04-56-7.jpeg",
-      "tableId": null,
-      "titleRu": null,
-      "clinicalBlock": null,
-      "tableType": null,
-      "extractionStatus": "pending",
-      "dataFile": null
+      "tableId": "A.1",
+      "titleRu": "Объем фетометрических показателей при скрининговом УЗИ (Приложение 1)",
+      "clinicalBlock": "fetometry",
+      "tableType": "percentile_by_ga",
+      "extractionStatus": "extracted",
+      "dataFile": "table-A-1.json",
+      "verified": false
     },
     {
       "cardIndex": 32,
       "filename": "image-26-06-26-04-56-8.jpeg",
       "imagePath": "docs/fetometry-source/medvedev-archive/image-26-06-26-04-56-8.jpeg",
-      "tableId": null,
-      "titleRu": null,
-      "clinicalBlock": null,
-      "tableType": null,
-      "extractionStatus": "pending",
-      "dataFile": null
+      "tableId": "2.59",
+      "titleRu": "Нормативные значения длины пальцев кисти плода во II триместре",
+      "clinicalBlock": "fetometry",
+      "tableType": "percentile_by_ga",
+      "extractionStatus": "extracted",
+      "dataFile": "table-2-59.json",
+      "verified": false
     },
     {
       "cardIndex": 33,
       "filename": "image-26-06-26-04-56-9.jpeg",
       "imagePath": "docs/fetometry-source/medvedev-archive/image-26-06-26-04-56-9.jpeg",
-      "tableId": null,
-      "titleRu": null,
-      "clinicalBlock": null,
-      "tableType": null,
-      "extractionStatus": "pending",
-      "dataFile": null
+      "tableId": "2.42",
+      "titleRu": "Нормативные значения митрально-трикуспидального размера",
+      "clinicalBlock": "fetometry",
+      "tableType": "percentile_partial",
+      "extractionStatus": "extracted",
+      "dataFile": "table-2-42.json",
+      "verified": false
     },
     {
       "cardIndex": 34,
       "filename": "image-26-06-26-04-56-10.jpeg",
       "imagePath": "docs/fetometry-source/medvedev-archive/image-26-06-26-04-56-10.jpeg",
-      "tableId": null,
-      "titleRu": null,
-      "clinicalBlock": null,
-      "tableType": null,
-      "extractionStatus": "pending",
-      "dataFile": null
+      "tableId": "2.25",
+      "titleRu": "Нормативные значения 50-го процентиля поперечного размера верхней челюсти плода",
+      "clinicalBlock": "fetometry",
+      "tableType": "percentile_partial",
+      "extractionStatus": "extracted",
+      "dataFile": "table-2-25.json",
+      "verified": false
     },
     {
       "cardIndex": 35,
       "filename": "image-26-06-26-04-56-11.jpeg",
       "imagePath": "docs/fetometry-source/medvedev-archive/image-26-06-26-04-56-11.jpeg",
-      "tableId": null,
-      "titleRu": null,
-      "clinicalBlock": null,
-      "tableType": null,
-      "extractionStatus": "pending",
-      "dataFile": null
+      "tableId": "2.7",
+      "titleRu": "Нормативные значения ширины переднего рога бокового желудочка",
+      "clinicalBlock": "fetometry",
+      "tableType": "percentile_by_ga",
+      "extractionStatus": "extracted",
+      "dataFile": "table-2-7.json",
+      "verified": false
     },
     {
       "cardIndex": 36,
       "filename": "image-26-06-26-04-56-12.jpeg",
       "imagePath": "docs/fetometry-source/medvedev-archive/image-26-06-26-04-56-12.jpeg",
-      "tableId": null,
-      "titleRu": null,
-      "clinicalBlock": null,
-      "tableType": null,
-      "extractionStatus": "pending",
-      "dataFile": null
+      "tableId": "1.3+1.4",
+      "titleRu": "Нормативные показатели СВДЖМ в зависимости от срока беременности (СБ)",
+      "clinicalBlock": "early_dating",
+      "tableType": "percentile_by_ga_days",
+      "extractionStatus": "extracted",
+      "dataFile": "table-1-3.json, table-1-4.json",
+      "verified": false,
+      "multiTable": [
+        "1.3",
+        "1.4"
+      ]
     },
     {
       "cardIndex": 37,
       "filename": "image-26-06-26-04-56-13.jpeg",
       "imagePath": "docs/fetometry-source/medvedev-archive/image-26-06-26-04-56-13.jpeg",
-      "tableId": null,
-      "titleRu": null,
-      "clinicalBlock": null,
-      "tableType": null,
-      "extractionStatus": "pending",
-      "dataFile": null
+      "tableId": "A.7",
+      "titleRu": "Региональные нормативы фетометрии (Казахстан, Алматы, А.А. Галиаскарова, 2001)",
+      "clinicalBlock": "fetometry",
+      "tableType": "percentile_by_ga",
+      "extractionStatus": "extracted",
+      "dataFile": "table-A-7.json",
+      "verified": false
     },
     {
       "cardIndex": 38,
       "filename": "image-26-06-26-04-56-14.jpeg",
       "imagePath": "docs/fetometry-source/medvedev-archive/image-26-06-26-04-56-14.jpeg",
-      "tableId": null,
-      "titleRu": null,
-      "clinicalBlock": null,
-      "tableType": null,
-      "extractionStatus": "pending",
-      "dataFile": null
+      "tableId": "2.64",
+      "titleRu": "Нормативные показатели индекса резистентности (ИР) артерий пуповины",
+      "clinicalBlock": "doppler_late",
+      "tableType": "percentile_by_ga",
+      "extractionStatus": "partial",
+      "dataFile": "table-2-64.json",
+      "verified": false
     },
     {
       "cardIndex": 39,
@@ -1093,9 +1107,9 @@
     }
   ],
   "stats": {
-    "extractedCards": 28,
-    "pendingCards": 68,
-    "tableJsonCount": 28,
-    "updatedAt": "2026-06-27T04:47:59.458Z"
+    "extractedCards": 38,
+    "pendingCards": 58,
+    "tableJsonCount": 39,
+    "updatedAt": "2026-06-27T04:57:10.075Z"
   }
 }

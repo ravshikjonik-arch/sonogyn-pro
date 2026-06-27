@@ -1,0 +1,162 @@
+{
+  "tableId": "1.3",
+  "titleRu": "Нормативные показатели СВДЖМ в зависимости от срока беременности (СБ)",
+  "source": "D. Lindsay et al., 1992",
+  "clinicalBlock": "early_dating",
+  "tableType": "percentile_by_ga_days",
+  "gaAxis": "days_from_lmp",
+  "gaAxisNote": "СБ в полных днях от ПМП (31 ≈ 4+3 нед), не календарная дата",
+  "parameter": {
+    "id": "yolkSacMid",
+    "labelRu": "СВДЖМ",
+    "unit": "mm"
+  },
+  "rows": [
+    {
+      "gaDaysFromLmp": 31,
+      "p50": 0.4
+    },
+    {
+      "gaDaysFromLmp": 32,
+      "p50": 0.7
+    },
+    {
+      "gaDaysFromLmp": 33,
+      "p50": 1
+    },
+    {
+      "gaDaysFromLmp": 34,
+      "p50": 1.2
+    },
+    {
+      "gaDaysFromLmp": 35,
+      "p50": 1.4
+    },
+    {
+      "gaDaysFromLmp": 36,
+      "p50": 1.6
+    },
+    {
+      "gaDaysFromLmp": 37,
+      "p50": 1.7
+    },
+    {
+      "gaDaysFromLmp": 38,
+      "p50": 1.9
+    },
+    {
+      "gaDaysFromLmp": 39,
+      "p50": 2
+    },
+    {
+      "gaDaysFromLmp": 40,
+      "p50": 2.2
+    },
+    {
+      "gaDaysFromLmp": 41,
+      "p50": 2.3
+    },
+    {
+      "gaDaysFromLmp": 42,
+      "p50": 2.4
+    },
+    {
+      "gaDaysFromLmp": 43,
+      "p50": 2.5
+    },
+    {
+      "gaDaysFromLmp": 44,
+      "p50": 2.6
+    },
+    {
+      "gaDaysFromLmp": 45,
+      "p50": 2.7
+    },
+    {
+      "gaDaysFromLmp": 46,
+      "p50": 2.7
+    },
+    {
+      "gaDaysFromLmp": 47,
+      "p50": 2.8
+    },
+    {
+      "gaDaysFromLmp": 48,
+      "p50": 2.8
+    },
+    {
+      "gaDaysFromLmp": 49,
+      "p50": 2.9
+    },
+    {
+      "gaDaysFromLmp": 50,
+      "p50": 2.9
+    },
+    {
+      "gaDaysFromLmp": 51,
+      "p50": 3
+    },
+    {
+      "gaDaysFromLmp": 52,
+      "p50": 3
+    },
+    {
+      "gaDaysFromLmp": 53,
+      "p50": 3
+    },
+    {
+      "gaDaysFromLmp": 54,
+      "p50": 3.1
+    },
+    {
+      "gaDaysFromLmp": 55,
+      "p50": 3.1
+    },
+    {
+      "gaDaysFromLmp": 56,
+      "p50": 3.1
+    },
+    {
+      "gaDaysFromLmp": 57,
+      "p50": 3.2
+    },
+    {
+      "gaDaysFromLmp": 58,
+      "p50": 3.2
+    },
+    {
+      "gaDaysFromLmp": 59,
+      "p50": 3.2
+    },
+    {
+      "gaDaysFromLmp": 60,
+      "p50": 3.3
+    },
+    {
+      "gaDaysFromLmp": 61,
+      "p50": 3.3
+    },
+    {
+      "gaDaysFromLmp": 62,
+      "p50": 3.4
+    },
+    {
+      "gaDaysFromLmp": 63,
+      "p50": 3.4
+    },
+    {
+      "gaDaysFromLmp": 64,
+      "p50": 3.5
+    },
+    {
+      "gaDaysFromLmp": 65,
+      "p50": 3.5
+    },
+    {
+      "gaDaysFromLmp": 66,
+      "p50": 3.6
+    }
+  ],
+  "sourceCard": "image-26-06-26-04-56-12.jpeg",
+  "verified": false
+}
