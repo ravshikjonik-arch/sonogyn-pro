@@ -20,6 +20,7 @@ function fail(msg) {
 function gaSortKey(row) {
   if (typeof row.gaDaysFromLmp === "number") return row.gaDaysFromLmp;
   if (typeof row.msdMm === "number") return row.msdMm;
+  if (typeof row.crlMm === "number") return row.crlMm;
   if (row.ga?.weeks != null) return row.ga.weeks * 7 + (row.ga.days ?? 0);
   if (row.ga?.from?.weeks != null) return row.ga.from.weeks * 7 + (row.ga.from.days ?? 0);
   return null;
@@ -44,7 +45,7 @@ for (const file of files) {
   for (const row of data.rows) {
     const sortKey = gaSortKey(row);
     const gk = sortKey == null ? "?" : String(sortKey);
-    if (sortKey != null && sortKey <= prevSort && row.msdMm == null) {
+    if (sortKey != null && sortKey <= prevSort && row.msdMm == null && row.crlMm == null) {
       fail(`${file}: ось не монотонна ${prevSort} → ${sortKey}`);
     }
     if (sortKey != null) prevSort = sortKey;
@@ -67,6 +68,14 @@ for (const file of files) {
       const ss = ssot.biometry.find((b) => b.week === row.ga.weeks);
       if (!ss) fail(`${file}: нет недели ${row.ga.weeks} в SSOT`);
       else if (row.p50 !== ss.bpd.p50) fail(`${file} week ${row.ga.weeks} BPD p50 ${row.p50} ≠ SSOT ${ss.bpd.p50}`);
+    }
+  }
+
+  if (data.ssotDerivedFrom === "biometry-rows.json" && data.tableId === "2.2") {
+    for (const row of data.rows) {
+      const ss = ssot.biometry.find((b) => b.week === row.ga.weeks);
+      if (!ss) fail(`${file}: нет недели ${row.ga.weeks} в SSOT`);
+      else if (row.p50 !== ss.ofd.p50) fail(`${file} week ${row.ga.weeks} OFD p50 ${row.p50} ≠ SSOT ${ss.ofd.p50}`);
     }
   }
 
@@ -93,10 +102,20 @@ for (const file of files) {
       if (days[i] !== days[i - 1] + 1) fail(`${file}: пропуск в gaDaysFromLmp ${days[i - 1]}→${days[i]}`);
     }
   }
+
+  if (data.tableId === "1.11") {
+    const crls = data.rows.map((r) => r.crlMm);
+    if (crls[0] !== 1 || crls[crls.length - 1] !== 15) {
+      fail(`${file}: crlMm должен быть 1–15`);
+    }
+    for (let i = 1; i < crls.length; i++) {
+      if (crls[i] !== crls[i - 1] + 1) fail(`${file}: пропуск crlMm ${crls[i - 1]}→${crls[i]}`);
+    }
+  }
 }
 
 if (errors) {
   console.error(`\n${errors} ошибок в archive-tables`);
   process.exit(1);
 }
-console.log(`✅ archive-tables: ${files.length} JSON, SSOT-зеркала 2.1/A.1 совпадают`);
+console.log(`✅ archive-tables: ${files.length} JSON, SSOT-зеркала 2.1/2.2/A.1 совпадают`);

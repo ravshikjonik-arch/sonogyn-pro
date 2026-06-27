@@ -1,0 +1,283 @@
+{
+  "tableId": "1.11",
+  "titleRu": "Зависимость СДПЯ, желточного мешка и ЧСС эмбриона от КТР",
+  "source": "G. Papaioannou et al., 2010",
+  "clinicalBlock": "screening_i",
+  "tableType": "percentile_by_crl",
+  "gaAxis": "crl_mm",
+  "gaAxisNote": "КТР в мм (1–15), не календарная дата",
+  "rows": [
+    {
+      "crlMm": 1,
+      "yolkSac": {
+        "p5": 2.4,
+        "p50": 3.2,
+        "p95": 4.1
+      },
+      "gestationalSac": {
+        "p5": 8.1,
+        "p50": 12.9,
+        "p95": 18.7
+      },
+      "embryonicHeartRate": {
+        "p5": 85,
+        "p50": 99,
+        "p95": 113
+      }
+    },
+    {
+      "crlMm": 2,
+      "yolkSac": {
+        "p5": 2.5,
+        "p50": 3.3,
+        "p95": 4.2
+      },
+      "gestationalSac": {
+        "p5": 9,
+        "p50": 13.9,
+        "p95": 20
+      },
+      "embryonicHeartRate": {
+        "p5": 90,
+        "p50": 104,
+        "p95": 119
+      }
+    },
+    {
+      "crlMm": 3,
+      "yolkSac": {
+        "p5": 2.6,
+        "p50": 3.4,
+        "p95": 4.3
+      },
+      "gestationalSac": {
+        "p5": 9.9,
+        "p50": 15,
+        "p95": 21.3
+      },
+      "embryonicHeartRate": {
+        "p5": 94,
+        "p50": 109,
+        "p95": 125
+      }
+    },
+    {
+      "crlMm": 4,
+      "yolkSac": {
+        "p5": 2.7,
+        "p50": 3.5,
+        "p95": 4.4
+      },
+      "gestationalSac": {
+        "p5": 10.8,
+        "p50": 16.1,
+        "p95": 22.6
+      },
+      "embryonicHeartRate": {
+        "p5": 99,
+        "p50": 114,
+        "p95": 130
+      }
+    },
+    {
+      "crlMm": 5,
+      "yolkSac": {
+        "p5": 2.7,
+        "p50": 3.6,
+        "p95": 4.5
+      },
+      "gestationalSac": {
+        "p5": 11.7,
+        "p50": 17.2,
+        "p95": 23.9
+      },
+      "embryonicHeartRate": {
+        "p5": 104,
+        "p50": 119,
+        "p95": 135
+      }
+    },
+    {
+      "crlMm": 6,
+      "yolkSac": {
+        "p5": 2.8,
+        "p50": 3.6,
+        "p95": 4.6
+      },
+      "gestationalSac": {
+        "p5": 12.6,
+        "p50": 18.4,
+        "p95": 25.2
+      },
+      "embryonicHeartRate": {
+        "p5": 108,
+        "p50": 124,
+        "p95": 140
+      }
+    },
+    {
+      "crlMm": 7,
+      "yolkSac": {
+        "p5": 2.9,
+        "p50": 3.7,
+        "p95": 4.7
+      },
+      "gestationalSac": {
+        "p5": 13.5,
+        "p50": 19.5,
+        "p95": 26.5
+      },
+      "embryonicHeartRate": {
+        "p5": 113,
+        "p50": 129,
+        "p95": 145
+      }
+    },
+    {
+      "crlMm": 8,
+      "yolkSac": {
+        "p5": 2.9,
+        "p50": 3.8,
+        "p95": 4.8
+      },
+      "gestationalSac": {
+        "p5": 14.5,
+        "p50": 20.6,
+        "p95": 27.8
+      },
+      "embryonicHeartRate": {
+        "p5": 117,
+        "p50": 133,
+        "p95": 150
+      }
+    },
+    {
+      "crlMm": 9,
+      "yolkSac": {
+        "p5": 3,
+        "p50": 3.9,
+        "p95": 4.8
+      },
+      "gestationalSac": {
+        "p5": 15.4,
+        "p50": 21.7,
+        "p95": 29.1
+      },
+      "embryonicHeartRate": {
+        "p5": 121,
+        "p50": 137,
+        "p95": 155
+      }
+    },
+    {
+      "crlMm": 10,
+      "yolkSac": {
+        "p5": 3.1,
+        "p50": 3.9,
+        "p95": 4.9
+      },
+      "gestationalSac": {
+        "p5": 16.3,
+        "p50": 22.8,
+        "p95": 30.4
+      },
+      "embryonicHeartRate": {
+        "p5": 125,
+        "p50": 141,
+        "p95": 159
+      }
+    },
+    {
+      "crlMm": 11,
+      "yolkSac": {
+        "p5": 3.1,
+        "p50": 4,
+        "p95": 5
+      },
+      "gestationalSac": {
+        "p5": 17.3,
+        "p50": 23.9,
+        "p95": 32.7
+      },
+      "embryonicHeartRate": {
+        "p5": 128,
+        "p50": 145,
+        "p95": 163
+      }
+    },
+    {
+      "crlMm": 12,
+      "yolkSac": {
+        "p5": 3.2,
+        "p50": 4.1,
+        "p95": 5.1
+      },
+      "gestationalSac": {
+        "p5": 18.2,
+        "p50": 25,
+        "p95": 32.9
+      },
+      "embryonicHeartRate": {
+        "p5": 132,
+        "p50": 149,
+        "p95": 167
+      }
+    },
+    {
+      "crlMm": 13,
+      "yolkSac": {
+        "p5": 3.3,
+        "p50": 4.2,
+        "p95": 5.2
+      },
+      "gestationalSac": {
+        "p5": 19.1,
+        "p50": 26.1,
+        "p95": 34.2
+      },
+      "embryonicHeartRate": {
+        "p5": 135,
+        "p50": 152,
+        "p95": 171
+      }
+    },
+    {
+      "crlMm": 14,
+      "yolkSac": {
+        "p5": 3.3,
+        "p50": 4.2,
+        "p95": 5.2
+      },
+      "gestationalSac": {
+        "p5": 20,
+        "p50": 27.2,
+        "p95": 35.4
+      },
+      "embryonicHeartRate": {
+        "p5": 138,
+        "p50": 156,
+        "p95": 174
+      }
+    },
+    {
+      "crlMm": 15,
+      "yolkSac": {
+        "p5": 3.4,
+        "p50": 4.3,
+        "p95": 5.3
+      },
+      "gestationalSac": {
+        "p5": 21,
+        "p50": 28.2,
+        "p95": 36.6
+      },
+      "embryonicHeartRate": {
+        "p5": 141,
+        "p50": 159,
+        "p95": 177
+      }
+    }
+  ],
+  "sourceCard": "image-26-06-26-04-56-18.jpeg",
+  "verified": false
+}
