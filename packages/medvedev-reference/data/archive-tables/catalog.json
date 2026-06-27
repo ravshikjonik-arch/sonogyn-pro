@@ -299,45 +299,49 @@
       "cardIndex": 25,
       "filename": "image-26-06-26-04-56-1.jpeg",
       "imagePath": "docs/fetometry-source/medvedev-archive/image-26-06-26-04-56-1.jpeg",
-      "tableId": null,
-      "titleRu": null,
-      "clinicalBlock": null,
-      "tableType": null,
-      "extractionStatus": "pending",
-      "dataFile": null
+      "tableId": "1.10",
+      "titleRu": "ЧСС плода с учетом индивидуальных колебаний в зависимости от срока беременности",
+      "clinicalBlock": "screening_i",
+      "tableType": "percentile_by_ga",
+      "extractionStatus": "extracted",
+      "dataFile": "table-1-10.json",
+      "verified": false
     },
     {
       "cardIndex": 26,
       "filename": "image-26-06-26-04-56-2.jpeg",
       "imagePath": "docs/fetometry-source/medvedev-archive/image-26-06-26-04-56-2.jpeg",
-      "tableId": null,
-      "titleRu": null,
-      "clinicalBlock": null,
-      "tableType": null,
-      "extractionStatus": "pending",
-      "dataFile": null
+      "tableId": "2.67",
+      "titleRu": "Нормативные показатели пульсационного индекса (ПИ) венозного протока плода в 11–14 недель беременности",
+      "clinicalBlock": "screening_i",
+      "tableType": "percentile_by_ga",
+      "extractionStatus": "extracted",
+      "dataFile": "table-2-67.json",
+      "verified": false
     },
     {
       "cardIndex": 27,
       "filename": "image-26-06-26-04-56-3.jpeg",
       "imagePath": "docs/fetometry-source/medvedev-archive/image-26-06-26-04-56-3.jpeg",
-      "tableId": null,
-      "titleRu": null,
-      "clinicalBlock": null,
-      "tableType": null,
-      "extractionStatus": "pending",
-      "dataFile": null
+      "tableId": "2.53",
+      "titleRu": "Нормативные значения размеров почек плода в зависимости от срока беременности",
+      "clinicalBlock": "fetometry",
+      "tableType": "percentile_by_ga",
+      "extractionStatus": "extracted",
+      "dataFile": "table-2-53.json",
+      "verified": false
     },
     {
       "cardIndex": 28,
       "filename": "image-26-06-26-04-56-4.jpeg",
       "imagePath": "docs/fetometry-source/medvedev-archive/image-26-06-26-04-56-4.jpeg",
-      "tableId": null,
-      "titleRu": null,
-      "clinicalBlock": null,
-      "tableType": null,
-      "extractionStatus": "pending",
-      "dataFile": null
+      "tableId": "2.36",
+      "titleRu": "Нормативные значения площади поперечного сечения сердца плода в зависимости от срока беременности",
+      "clinicalBlock": "fetometry",
+      "tableType": "percentile_by_ga",
+      "extractionStatus": "extracted",
+      "dataFile": "table-2-36.json",
+      "verified": false
     },
     {
       "cardIndex": 29,
@@ -1089,9 +1093,9 @@
     }
   ],
   "stats": {
-    "extractedCards": 24,
-    "pendingCards": 72,
-    "tableJsonCount": 24,
-    "updatedAt": "2026-06-27T04:39:15.401Z"
+    "extractedCards": 28,
+    "pendingCards": 68,
+    "tableJsonCount": 28,
+    "updatedAt": "2026-06-27T04:47:59.458Z"
   }
 }
