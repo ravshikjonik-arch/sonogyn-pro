@@ -15,6 +15,7 @@ import {
   datingFromAntenatalVisit,
   datingFromBiometryAndUsDate,
   datingFromCrlAndUsDate,
+  datingFromMsdAndUsDate,
   datingFromEdd,
   datingFromFetalMovement,
   datingFromGaAtStudy,
@@ -36,6 +37,7 @@ const TABS = [
   { id: "lmp", label: "По ПМП" },
   { id: "us", label: "По УЗИ" },
   { id: "crl", label: "По КТР" },
+  { id: "msd", label: "По СВД" },
   { id: "ivf", label: "ЭКО / овуляция" },
   { id: "feto", label: "Фетометрия" },
   { id: "dekret", label: "Декрет" },
@@ -68,6 +70,8 @@ export function ObCalcHub({ initialTab = "lmp" }: { initialTab?: TabId }) {
   const [usDays, setUsDays] = useState("0");
   const [crlDateIso, setCrlDateIso] = useState<string | undefined>();
   const [crlMm, setCrlMm] = useState("");
+  const [msdDateIso, setMsdDateIso] = useState<string | undefined>();
+  const [msdMm, setMsdMm] = useState("");
   const [ivfMode, setIvfMode] = useState<"ov" | "ivf">("ov");
   const [ivfDateIso, setIvfDateIso] = useState<string | undefined>();
   const [embryoDay, setEmbryoDay] = useState<"3" | "5">("5");
@@ -136,6 +140,25 @@ export function ObCalcHub({ initialTab = "lmp" }: { initialTab?: TabId }) {
       ...screeningHintsRu(gaToday.hintsGaDays),
     ];
   }, [crlDateIso, crlMm]);
+
+  const msdResult = useMemo(() => {
+    if (!msdDateIso || !msdMm.trim()) return [];
+    const us = parseIsoDate(msdDateIso);
+    const mm = Number.parseFloat(msdMm.replace(",", "."));
+    if (!us) return ["Проверьте дату УЗИ"];
+    const dating = datingFromMsdAndUsDate(us, mm);
+    if (!dating) return ["СВД вне диапазона 6–50 мм (табл. 1.1 Medvedev)"];
+    const atStudy = splitGaDays(dating.gaAtStudyDays);
+    const gaToday = formatGaTodayLabel(dating);
+    return [
+      `СВД ${mm} мм → срок на дату УЗИ: ${atStudy.weeks} нед. ${atStudy.days} дн.`,
+      `ПДР: ${formatRuDate(dating.edd)}`,
+      `Оценка ПМП: ${formatRuDate(dating.lmpEstimate)}`,
+      gaToday.line,
+      "",
+      ...screeningHintsRu(gaToday.hintsGaDays),
+    ];
+  }, [msdDateIso, msdMm]);
 
   const ivfResult = useMemo(() => {
     if (!ivfDateIso) return [];
@@ -241,7 +264,7 @@ export function ObCalcHub({ initialTab = "lmp" }: { initialTab?: TabId }) {
             <Badge variant="outline">ПДР · датировка</Badge>
           </div>
           <p className="mt-1 text-sm text-[var(--clinical-foreground-muted)]">
-            ПМП, УЗИ, КТР, ЭКО, фетометрия, декрет. В поиске: <strong>срок</strong>, <strong>ПДР</strong>,{" "}
+            ПМП, УЗИ, КТР, СВД, ЭКО, фетометрия, декрет. В поиске: <strong>срок</strong>, <strong>ПДР</strong>,{" "}
             <strong>ПМП</strong>, <strong>датировка</strong>.
           </p>
         </div>
@@ -333,6 +356,28 @@ export function ObCalcHub({ initialTab = "lmp" }: { initialTab?: TabId }) {
                 <Input className="mt-1" inputMode="decimal" value={crlMm} onChange={(e) => setCrlMm(e.target.value)} placeholder="62" />
               </label>
               <ResultBox lines={crlResult} />
+            </CardContent>
+          </Card>
+          </div>
+        ) : null}
+
+        {tab === "msd" ? (
+          <div className="mt-4 space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">Срок по СВД плодного яйца</CardTitle>
+              <CardDescription>Ранний срок · табл. 1.1 Medvedev (Grisolia), СВД 6–50 мм</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <label className="block text-sm font-semibold">
+                Дата УЗИ
+                <RuDateInput className="mt-1" value={msdDateIso} onChange={setMsdDateIso} />
+              </label>
+              <label className="block text-sm font-semibold">
+                СВД (средний диаметр плодного яйца), мм
+                <Input className="mt-1" inputMode="decimal" value={msdMm} onChange={(e) => setMsdMm(e.target.value)} placeholder="10" />
+              </label>
+              <ResultBox lines={msdResult} />
             </CardContent>
           </Card>
           </div>

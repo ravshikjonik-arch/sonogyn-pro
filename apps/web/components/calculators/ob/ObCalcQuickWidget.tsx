@@ -10,6 +10,7 @@ const QUICK_TABS = [
   { tab: "lmp", label: "По ПМП" },
   { tab: "us", label: "По УЗИ" },
   { tab: "crl", label: "По КТР" },
+  { tab: "msd", label: "По СВД" },
   { tab: "ivf", label: "ЭКО" },
   { tab: "feto", label: "Фетометрия" },
 ] as const;
@@ -34,7 +35,7 @@ export function ObCalcQuickWidget({ className, compact }: Props) {
           <div className="min-w-0">
             <CardTitle className="text-lg">Калькулятор расчёта срока беременности</CardTitle>
             <CardDescription className="text-xs leading-relaxed">
-              ПМП, УЗИ, КТР, ЭКО, фетометрия, декрет — отдельный модуль. В поиске:{" "}
+              ПМП, УЗИ, КТР, СВД, ЭКО, фетометрия, декрет — отдельный модуль. В поиске:{" "}
               <strong>срок</strong>, <strong>ПДР</strong>, <strong>ПМП</strong>.
             </CardDescription>
           </div>
