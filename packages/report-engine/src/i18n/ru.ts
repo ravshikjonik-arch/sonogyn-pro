@@ -1,4 +1,6 @@
 /** Russian prose templates for SRE (Phase 1 · adnex). */
+import { formatMeasurementDecimal } from "@repo/medical-calculations";
+
 export const ru = {
   report: {
     assistive_footer:
@@ -13,13 +15,17 @@ export const ru = {
       extraovarian: "экстраовариальная локализация",
     },
     menopause: { pre: "пременопауза", post: "постменопауза", unknown: "менопаузальный статус не указан" },
-    lesionKind: { physiological: "физиологическое образование", nonphysiological: "нефизиологическое образование" },
+    lesionKind: {
+      physiological: "физиологическое образование",
+      nonphysiological: "нефизиологическое образование",
+      normal_ovary: "мультифолликулярный / нормальный яичник",
+    },
     structure: { unilocular: "однокамерное", multilocular: "многокамерное", solid: "солидное" },
     septa: { thin: "тонкие перегородки", thick: "утолщённые перегородки" },
     solidType: { smooth: "ровный солидный компонент", irregular: "неровный солидный компонент", papillary: "папиллярные разрастания" },
     bloodFlow: { none: "васкуляризация не определяется", minimal: "минимальный кровоток", moderate: "умеренный кровоток", marked: "выраженный кровоток" },
     measurements: (maxMm: number, vol?: number) => {
-      const parts = [`наибольший размер ${maxMm} мм`];
+      const parts = [`наибольший размер ${formatMeasurementDecimal(maxMm)} мм`];
       if (vol != null && vol > 0) parts.push(`объём ~${Math.round(vol * 10) / 10} мл`);
       return parts.join(", ");
     },

@@ -141,7 +141,7 @@ export type StructuredReportFinding = z.infer<typeof StructuredReportFindingSche
 
 export const AdnexMenopauseSchema = z.enum(["pre", "post"]);
 export const AdnexLocalizationSchema = z.enum(["ovarian", "extraovarian"]);
-export const AdnexLesionKindSchema = z.enum(["physiological", "nonphysiological"]);
+export const AdnexLesionKindSchema = z.enum(["physiological", "nonphysiological", "normal_ovary"]);
 export const AdnexStructureSchema = z.enum(["unilocular", "multilocular", "solid"]);
 export const AdnexSolidTypeSchema = z.enum(["smooth", "irregular", "papillary"]);
 export const AdnexBloodFlowSchema = z.enum(["none", "minimal", "moderate", "marked"]);
