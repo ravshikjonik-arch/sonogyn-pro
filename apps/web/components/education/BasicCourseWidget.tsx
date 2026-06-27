@@ -326,10 +326,15 @@ function LectureTab({
             <CardTitle className="text-xl">
               Лекция {lecture.number}. {lecture.title}
             </CardTitle>
-            <CardDescription>{lecture.subtitle}</CardDescription>
-            <ul className="grid gap-1 text-xs text-[var(--clinical-foreground-muted)] sm:grid-cols-2">
+            <CardDescription className="text-[var(--clinical-foreground)]/90">{lecture.subtitle}</CardDescription>
+            <ul className="grid gap-1.5 text-xs leading-relaxed text-[var(--clinical-foreground)] sm:grid-cols-2">
               {lecture.objectives.map((o) => (
-                <li key={o}>· {o}</li>
+                <li key={o} className="flex gap-1.5">
+                  <span className="text-[var(--clinical-primary)]" aria-hidden>
+                    ·
+                  </span>
+                  <span>{o}</span>
+                </li>
               ))}
             </ul>
             <div className="flex flex-wrap gap-2">
@@ -384,12 +389,26 @@ function LectureTab({
               </Button>
             </CardContent>
           ) : lecture.yandexDiskUrl ? (
-            <iframe
-              title={`${lecture.fileName ?? lecture.title} — ISUOG`}
-              src={yandexDiskViewerUrl(lecture.yandexDiskUrl)}
-              className="h-[min(65vh,680px)] w-full bg-white"
-              loading="lazy"
-            />
+            <div className="space-y-2">
+              <iframe
+                title={`${lecture.fileName ?? lecture.title} — ISUOG`}
+                src={yandexDiskViewerUrl(lecture.yandexDiskUrl)}
+                className="h-[min(65vh,680px)] w-full bg-white"
+                loading="lazy"
+                allow="fullscreen"
+              />
+              <p className="border-t border-[var(--clinical-border)] px-4 py-2 text-xs text-[var(--clinical-foreground-muted)]">
+                Не открывается в окне?{" "}
+                <a
+                  href={lecture.yandexDiskUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold text-[var(--clinical-primary)] underline"
+                >
+                  Открыть PDF на Яндекс.Диске
+                </a>
+              </p>
+            </div>
           ) : null}
         </Card>
       </section>
@@ -499,16 +518,18 @@ function TopicAccordion({
           {done ? <CheckCircle2 className="h-5 w-5 text-emerald-600" /> : <Circle className="h-5 w-5 text-[var(--clinical-foreground-muted)]" />}
         </button>
         <button type="button" onClick={onExpand} className="min-w-0 flex-1 text-left">
-          <p className="text-sm font-semibold">{topic.title}</p>
-          <p className="text-xs text-[var(--clinical-foreground-muted)]">{topic.summary}</p>
+          <p className="text-sm font-semibold text-[var(--clinical-foreground)]">{topic.title}</p>
+          <p className="text-xs leading-relaxed text-[var(--clinical-foreground)]/85">{topic.summary}</p>
         </button>
       </div>
       {expanded ? (
-        <div className="border-t border-[var(--clinical-border)] px-3 py-3 text-xs">
-          <p className="font-bold uppercase tracking-wide text-[var(--clinical-foreground-muted)]">Контрольные точки</p>
-          <ul className="mt-2 space-y-1">
+        <div className="border-t border-[var(--clinical-border)] px-3 py-3 text-xs text-[var(--clinical-foreground)]">
+          <p className="font-bold uppercase tracking-wide text-[var(--clinical-foreground)]">Контрольные точки</p>
+          <ul className="mt-2 space-y-1.5">
             {topic.checkpoints.map((c) => (
-              <li key={c}>· {c}</li>
+              <li key={c} className="leading-relaxed">
+                · {c}
+              </li>
             ))}
           </ul>
           {topic.practiceLinks?.length ? (
