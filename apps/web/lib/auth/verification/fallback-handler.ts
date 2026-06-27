@@ -17,6 +17,7 @@ export type FallbackChainParams = {
   /** Email для fallback при Telegram/SMS. */
   fallbackEmail?: string;
   idempotencyKey?: string | null;
+  clientIp?: string;
 };
 
 export type FallbackChainResult = SendVerificationResult & {
@@ -83,6 +84,7 @@ export async function runVerificationFallbackChain(
     contact,
     code,
     purpose: params.purpose,
+    clientIp: params.clientIp,
   });
 
   if (primary.ok) {

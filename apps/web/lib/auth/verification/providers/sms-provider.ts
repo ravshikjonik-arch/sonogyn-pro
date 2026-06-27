@@ -9,6 +9,7 @@ const SMS_TIMEOUT_MS = 10_000;
 export async function sendVerificationSms(params: {
   toE164: string;
   code: string;
+  clientIp?: string;
 }): Promise<SmsSendResult> {
   return withTimeout(dispatchSmsOtp(params), SMS_TIMEOUT_MS, "sms");
 }

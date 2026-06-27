@@ -17,9 +17,24 @@ export function smsRuPhoneDigits(e164: string): string {
   return digits;
 }
 
-export async function sendSmsRu(params: { toE164: string; code: string }): Promise<SmsSendResult> {
+/** SMS.ru надёжно работает с мобильными РФ (+7, 11 цифр). */
+export function isRuMobileForSmsRu(e164: string): boolean {
+  const digits = smsRuPhoneDigits(e164);
+  return digits.length === 11 && digits.startsWith("7");
+}
+
+export async function sendSmsRu(params: {
+  toE164: string;
+  code: string;
+  /** IP пользователя — sms.ru рекомендует для антифрода (колонка «IP пользователя»). */
+  clientIp?: string;
+}): Promise<SmsSendResult> {
   const cfg = readSmsRuConfig();
   if (!cfg) return { ok: false, errorCode: "sms_not_configured" };
+
+  if (!isRuMobileForSmsRu(params.toE164)) {
+    return { ok: false, errorCode: "smsru_non_ru_number" };
+  }
 
   const to = smsRuPhoneDigits(params.toE164);
   if (to.length < 10) return { ok: false, errorCode: "invalid_phone" };
@@ -32,6 +47,10 @@ export async function sendSmsRu(params: { toE164: string; code: string }): Promi
     json: "1",
   });
   if (cfg.from) qs.set("from", cfg.from);
+  const ip = params.clientIp?.trim();
+  if (ip && ip !== "unknown" && /^\d{1,3}(\.\d{1,3}){3}$/.test(ip)) {
+    qs.set("ip", ip);
+  }
 
   let res: Response;
   try {

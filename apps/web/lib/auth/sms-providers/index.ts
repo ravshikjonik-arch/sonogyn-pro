@@ -60,7 +60,11 @@ async function sendTwilio(params: { toE164: string; code: string }): Promise<Sms
 }
 
 /** Отправка OTP-SMS (SMS.ru для РФ или Twilio). */
-export async function dispatchSmsOtp(params: { toE164: string; code: string }): Promise<SmsSendResult> {
+export async function dispatchSmsOtp(params: {
+  toE164: string;
+  code: string;
+  clientIp?: string;
+}): Promise<SmsSendResult> {
   const provider = resolveSmsProvider();
   if (provider === "smsru") return sendSmsRu(params);
   if (provider === "twilio") return sendTwilio(params);

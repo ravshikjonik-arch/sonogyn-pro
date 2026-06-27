@@ -19,7 +19,7 @@ import {
 } from "@/lib/auth/registration-metadata";
 import { consumeAuthRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
-import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
+import { clientIpFromRequest, rateLimitKeyFromRequest } from "@/lib/security/request-client";
 import { createSupabaseRouteHandlerClient } from "@/lib/route-handler-supabase";
 import { runVerificationFallbackChain } from "@/lib/auth/verification/fallback-handler";
 import { parseEmailContact } from "@/lib/auth/verification/validate-contact";
@@ -147,6 +147,7 @@ export async function POST(req: Request) {
       purpose: isRegistration ? "register" : "login",
       fallbackEmail: fallbackEmail ?? undefined,
       idempotencyKey: req.headers.get("Idempotency-Key"),
+      clientIp: clientIpFromRequest(req),
     });
     if (fb.ok) {
       logVerificationEvent("custom_sms_sent", {
@@ -206,6 +207,7 @@ export async function POST(req: Request) {
           purpose: isRegistration ? "register" : "login",
           fallbackEmail,
           idempotencyKey: req.headers.get("Idempotency-Key"),
+          clientIp: clientIpFromRequest(req),
         });
         if (fb.ok) {
           logVerificationEvent("supabase_sms_fallback_ok", {

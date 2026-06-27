@@ -22,6 +22,7 @@ export type SendVerificationCodeParams = {
   code: string;
   purpose: VerificationPurpose;
   timeoutMs?: number;
+  clientIp?: string;
 };
 
 function telegramBotHint(): string {
@@ -71,7 +72,11 @@ async function dispatchOnce(params: SendVerificationCodeParams): Promise<SendVer
     }
 
     if (params.method === "sms") {
-      const result = await sendVerificationSms({ toE164: params.contact, code: params.code });
+      const result = await sendVerificationSms({
+        toE164: params.contact,
+        code: params.code,
+        clientIp: params.clientIp,
+      });
       obsLogVerification("send", "sms", result.ok, Date.now() - started, {
         errorCode: result.ok ? undefined : result.errorCode,
       });
@@ -89,7 +94,8 @@ async function dispatchOnce(params: SendVerificationCodeParams): Promise<SendVer
           ok: false,
           errorCode: result.errorCode,
           message: translateSmsRuErrorCode(result.errorCode),
-          suggestAlternateMethod: "email",
+          suggestAlternateMethod:
+            result.errorCode === "smsru_non_ru_number" ? "telegram" : "email",
         };
       }
       return {

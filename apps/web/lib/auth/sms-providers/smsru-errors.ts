@@ -20,6 +20,9 @@ export function translateSmsRuErrorCode(errorCode: string | undefined): string {
   if (errorCode === "smsru_network_error") {
     return "Нет связи с sms.ru. Проверьте интернет или повторите позже.";
   }
+  if (errorCode === "smsru_non_ru_number") {
+    return "SMS.ru надёжно доставляет только на номера РФ (+7). Для +993 и других стран используйте вход через Telegram или email.";
+  }
   const match = /^smsru_(\d+)$/.exec(errorCode);
   if (match) {
     const code = Number.parseInt(match[1]!, 10);

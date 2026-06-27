@@ -1,10 +1,16 @@
-/** Client identity for rate limiting (IP behind proxy). */
-export function rateLimitKeyFromRequest(request: Request, prefix: string): string {
+/** Client IP behind Vercel/proxy (for sms.ru `ip` param). */
+export function clientIpFromRequest(request: Request): string | undefined {
   const forwarded = request.headers.get("x-forwarded-for");
   const ip =
     forwarded?.split(",")[0]?.trim() ||
     request.headers.get("x-real-ip")?.trim() ||
-    "unknown";
+    undefined;
+  return ip;
+}
+
+/** Client identity for rate limiting (IP behind proxy). */
+export function rateLimitKeyFromRequest(request: Request, prefix: string): string {
+  const ip = clientIpFromRequest(request) ?? "unknown";
   return `${prefix}:${ip}`;
 }
 

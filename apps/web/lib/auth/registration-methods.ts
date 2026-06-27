@@ -12,7 +12,7 @@ export const REGISTRATION_METHOD_LABELS: Record<AuthRegistrationMethod, string> 
 export const REGISTRATION_METHOD_HINTS: Record<AuthRegistrationMethod, string> = {
   telegram: "Код в Telegram — быстрее SMS. Сначала откройте бота и нажмите Start.",
   email: "Письмо с подтверждением на почту. Работает из РФ без VPN.",
-  phone: "Код по SMS (sms.ru с сервера). VPN не нужен — SMS идёт на ваш номер.",
+  phone: "Код по SMS — только номера РФ (+7), через sms.ru. Для +993 и других стран: Telegram или email.",
   social: "Google OAuth. Если Google недоступен — вкладки «Telegram», «Почта» или «Телефон».",
 };
 
