@@ -3,6 +3,7 @@ import {
   eddFromGaAtStudy,
   eddFromLmp,
   gaDaysFromCrlTable,
+  gaDaysFromMsdTable,
   gaDaysFromLmp,
   splitGaDays,
   type BiometryKind,
@@ -82,6 +83,17 @@ export function datingFromCrlAndUsDate(
   const gaDays = gaDaysFromCrlTable(crlMm);
   if (gaDays == null) return null;
   return { ...datingFromGaAtStudy(usDate, gaDays, referenceDate ?? new Date()), crlMm };
+}
+
+/** Датировка по СВД (MSD) — табл. 1.1 Medvedev / Grisolia 1993, gaP50. */
+export function datingFromMsdAndUsDate(
+  usDate: Date,
+  msdMm: number,
+  referenceDate?: Date,
+): (DatingFromStudyResult & { msdMm: number }) | null {
+  const gaDays = gaDaysFromMsdTable(msdMm);
+  if (gaDays == null) return null;
+  return { ...datingFromGaAtStudy(usDate, gaDays, referenceDate ?? new Date()), msdMm };
 }
 
 export function datingFromBiometryAndUsDate(

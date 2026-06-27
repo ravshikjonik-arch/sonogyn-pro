@@ -23,3 +23,6 @@ export * from "./medvedevTeaching";
 
 /** Глава 7 — Плацента, воды, пальцы: Прил. 33, 34, 35 */
 export * from "./medvedevPlacentaAfi";
+
+/** Каталог 96 archive-tables (JPEG → JSON) */
+export * from "./archiveTables";

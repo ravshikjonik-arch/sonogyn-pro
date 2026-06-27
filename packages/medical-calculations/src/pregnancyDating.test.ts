@@ -4,6 +4,7 @@ import { describe, it } from "node:test";
 import {
   datingFromCrlAndUsDate,
   datingFromGaAtStudy,
+  datingFromMsdAndUsDate,
   formatGaTodayLabel,
   lmpEstimateFromGaAtStudy,
 } from "./pregnancyDating";
@@ -19,6 +20,13 @@ describe("pregnancyDating from study", () => {
     assert.equal(d.edd.getMonth(), 0);
     assert.equal(d.edd.getDate(), 12);
     assert.equal(d.gaAtStudyDays, 80);
+  });
+
+  it("MSD 10 mm on 2020-06-26 → gaP50 5+6 (41 d)", () => {
+    const us = new Date(2020, 5, 26);
+    const d = datingFromMsdAndUsDate(us, 10, us)!;
+    assert.equal(d.gaAtStudyDays, 41);
+    assert.equal(d.msdMm, 10);
   });
 
   it("does not show 300+ weeks when ПДР long passed", () => {

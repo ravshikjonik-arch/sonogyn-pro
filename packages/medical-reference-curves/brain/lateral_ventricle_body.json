@@ -1,0 +1,156 @@
+{
+  "id": "lateral_ventricle_body",
+  "label": "Lateral ventricle body width",
+  "labelRu": "Ширина тела бокового желудочка",
+  "engine": "medvedev_archive",
+  "source": "Е.А. Яковенко, 1994",
+  "archiveTableId": "2.8",
+  "unit": "mm",
+  "xAxis": {
+    "type": "gaWeeks",
+    "min": 14,
+    "max": 39
+  },
+  "model": {
+    "type": "mean_sd_anchors",
+    "anchors": [
+      {
+        "gaWeeks": 14,
+        "mean": 4.2,
+        "sd": 0.79
+      },
+      {
+        "gaWeeks": 15,
+        "mean": 4.3,
+        "sd": 0.699
+      },
+      {
+        "gaWeeks": 16,
+        "mean": 4.8,
+        "sd": 1.945
+      },
+      {
+        "gaWeeks": 17,
+        "mean": 4.9,
+        "sd": 0.76
+      },
+      {
+        "gaWeeks": 18,
+        "mean": 5.3,
+        "sd": 0.851
+      },
+      {
+        "gaWeeks": 19,
+        "mean": 5.4,
+        "sd": 1.033
+      },
+      {
+        "gaWeeks": 20,
+        "mean": 5.9,
+        "sd": 0.881
+      },
+      {
+        "gaWeeks": 21,
+        "mean": 6.2,
+        "sd": 1.155
+      },
+      {
+        "gaWeeks": 22,
+        "mean": 6.3,
+        "sd": 1.033
+      },
+      {
+        "gaWeeks": 23,
+        "mean": 6.7,
+        "sd": 1.125
+      },
+      {
+        "gaWeeks": 24,
+        "mean": 6.7,
+        "sd": 1.429
+      },
+      {
+        "gaWeeks": 25,
+        "mean": 7,
+        "sd": 2.158
+      },
+      {
+        "gaWeeks": 26,
+        "mean": 7.1,
+        "sd": 1.337
+      },
+      {
+        "gaWeeks": 27,
+        "mean": 7.5,
+        "sd": 1.307
+      },
+      {
+        "gaWeeks": 28,
+        "mean": 7.9,
+        "sd": 1.52
+      },
+      {
+        "gaWeeks": 29,
+        "mean": 7.9,
+        "sd": 1.55
+      },
+      {
+        "gaWeeks": 30,
+        "mean": 8.1,
+        "sd": 3.921
+      },
+      {
+        "gaWeeks": 31,
+        "mean": 8.1,
+        "sd": 1.398
+      },
+      {
+        "gaWeeks": 32,
+        "mean": 8.8,
+        "sd": 2.006
+      },
+      {
+        "gaWeeks": 33,
+        "mean": 8.9,
+        "sd": 2.006
+      },
+      {
+        "gaWeeks": 34,
+        "mean": 9.2,
+        "sd": 1.733
+      },
+      {
+        "gaWeeks": 35,
+        "mean": 9.2,
+        "sd": 2.857
+      },
+      {
+        "gaWeeks": 36,
+        "mean": 9.5,
+        "sd": 0.821
+      },
+      {
+        "gaWeeks": 37,
+        "mean": 12.2,
+        "sd": 5.046
+      },
+      {
+        "gaWeeks": 38,
+        "mean": 12.3,
+        "sd": 2.948
+      },
+      {
+        "gaWeeks": 39,
+        "mean": 12.5,
+        "sd": 1.094
+      }
+    ]
+  },
+  "percentileDisplay": [
+    5,
+    50,
+    95
+  ],
+  "supportsGrowthVelocity": false,
+  "partial": true
+}

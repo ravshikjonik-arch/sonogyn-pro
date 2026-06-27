@@ -6,6 +6,7 @@ import hlCurve from "@repo/medical-reference-curves/biometry/hl.json";
 import ofdCurve from "@repo/medical-reference-curves/biometry/ofd.json";
 import cerebellumCurve from "@repo/medical-reference-curves/brain/cerebellum_transverse.json";
 import cisternaCurve from "@repo/medical-reference-curves/brain/cisterna_magna.json";
+import lateralVentricleBodyCurve from "@repo/medical-reference-curves/brain/lateral_ventricle_body.json";
 import lateralVentricleCurve from "@repo/medical-reference-curves/brain/lateral_ventricle.json";
 
 import type { ReferenceCurveJson } from "./types";
@@ -21,6 +22,7 @@ export const BIOMETRY_CURVES = {
 
 export const BRAIN_CURVES = {
   lateral_ventricle: lateralVentricleCurve as ReferenceCurveJson,
+  lateral_ventricle_body: lateralVentricleBodyCurve as ReferenceCurveJson,
   cisterna_magna: cisternaCurve as ReferenceCurveJson,
   cerebellum_transverse: cerebellumCurve as ReferenceCurveJson,
 } as const;

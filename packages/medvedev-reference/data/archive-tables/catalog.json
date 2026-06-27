@@ -169,7 +169,7 @@
       "tableType": "percentile_by_ga",
       "extractionStatus": "extracted",
       "dataFile": "table-2-70.json",
-      "verified": false
+      "verified": true
     },
     {
       "cardIndex": 15,
@@ -229,7 +229,7 @@
       "tableType": "percentile_by_ga",
       "extractionStatus": "extracted",
       "dataFile": "table-1-2.json",
-      "verified": false
+      "verified": true
     },
     {
       "cardIndex": 20,
@@ -365,7 +365,7 @@
       "tableType": "percentile_by_ga",
       "extractionStatus": "extracted",
       "dataFile": "table-2-1.json",
-      "verified": false
+      "verified": true
     },
     {
       "cardIndex": 31,
@@ -377,7 +377,7 @@
       "tableType": "percentile_by_ga",
       "extractionStatus": "extracted",
       "dataFile": "table-A-1.json",
-      "verified": false
+      "verified": true
     },
     {
       "cardIndex": 32,
@@ -573,7 +573,7 @@
       "tableType": "percentile_by_ga",
       "extractionStatus": "extracted",
       "dataFile": "table-2-2.json",
-      "verified": false
+      "verified": true
     },
     {
       "cardIndex": 48,
@@ -645,7 +645,7 @@
       "tableType": "percentile_by_crl_range",
       "extractionStatus": "extracted",
       "dataFile": "table-1-6.json",
-      "verified": false
+      "verified": true
     },
     {
       "cardIndex": 54,
@@ -729,7 +729,7 @@
       "tableType": "percentile_by_ga",
       "extractionStatus": "extracted",
       "dataFile": "table-2-69.json",
-      "verified": false
+      "verified": true
     },
     {
       "cardIndex": 61,
@@ -777,7 +777,7 @@
       "tableType": "percentile_by_ga",
       "extractionStatus": "extracted",
       "dataFile": "table-2-3.json",
-      "verified": false
+      "verified": true
     },
     {
       "cardIndex": 65,
@@ -787,9 +787,9 @@
       "titleRu": "Региональные нормативы фетометрии (Ярославль, М.В. Хитров и соавт., 1999)",
       "clinicalBlock": "fetometry",
       "tableType": "percentile_by_ga",
-      "extractionStatus": "partial",
+      "extractionStatus": "extracted",
       "dataFile": "table-A-3.json",
-      "verified": false
+      "verified": true
     },
     {
       "cardIndex": 66,
@@ -849,7 +849,7 @@
       "tableType": "percentile_by_crl_range",
       "extractionStatus": "extracted",
       "dataFile": "table-1-7.json",
-      "verified": false
+      "verified": true
     },
     {
       "cardIndex": 71,
@@ -873,7 +873,7 @@
       "tableType": "median_mom_by_ga",
       "extractionStatus": "extracted",
       "dataFile": "table-2-65.json",
-      "verified": false
+      "verified": true
     },
     {
       "cardIndex": 73,
@@ -933,7 +933,7 @@
       "tableType": "percentile_by_ga",
       "extractionStatus": "extracted",
       "dataFile": "table-2-69.json",
-      "verified": false
+      "verified": true
     },
     {
       "cardIndex": 78,
@@ -981,7 +981,7 @@
       "tableType": "percentile_by_ga",
       "extractionStatus": "extracted",
       "dataFile": "table-2-4.json",
-      "verified": false
+      "verified": true
     },
     {
       "cardIndex": 82,
@@ -1053,7 +1053,7 @@
       "tableType": "percentile_by_crl_range",
       "extractionStatus": "extracted",
       "dataFile": "table-1-8.json",
-      "verified": false
+      "verified": true
     },
     {
       "cardIndex": 88,
@@ -1065,7 +1065,7 @@
       "tableType": "median_mom_by_ga",
       "extractionStatus": "extracted",
       "dataFile": "table-2-65.json",
-      "verified": false
+      "verified": true
     },
     {
       "cardIndex": 89,
@@ -1125,7 +1125,7 @@
       "tableType": "percentile_by_ga",
       "extractionStatus": "extracted",
       "dataFile": "table-2-70.json",
-      "verified": false
+      "verified": true
     },
     {
       "cardIndex": 94,
@@ -1168,6 +1168,6 @@
     "extractedCards": 96,
     "pendingCards": 0,
     "tableJsonCount": 92,
-    "updatedAt": "2026-06-27T05:39:44.829Z"
+    "updatedAt": "2026-06-27T05:52:10.583Z"
   }
 }

@@ -15,6 +15,7 @@ export function gaDaysFromCrlMm(crlMm: number): number | null {
 }
 
 import crlMedvedev12 from "./data/crl-medvedev-12-p50.json";
+import msdMedvedev11 from "./data/msd-medvedev-11-p50.json";
 
 /** Medvedev table 1.2 (Altynnik 2001): CRL p50 → GA days, inverse linear interpolation. */
 const CRL_MEDVEDEV_P50: [number, number][] = crlMedvedev12.points as [number, number][];
@@ -38,6 +39,28 @@ export function gaDaysFromCrlTable(crlMm: number): number | null {
     return interpolateInverseCrlToGa(crlMm, CRL_MEDVEDEV_P50);
   }
   return gaDaysFromCrlMm(crlMm);
+}
+
+const MSD_MEDVEDEV_P50: [number, number][] = msdMedvedev11.points as [number, number][];
+
+function interpolateInverseMsdToGa(msdMm: number, table: [number, number][]): number | null {
+  for (let i = 0; i < table.length - 1; i++) {
+    const [x0, y0] = table[i];
+    const [x1, y1] = table[i + 1];
+    if (msdMm >= x0 && msdMm <= x1) {
+      const t = (msdMm - x0) / (x1 - x0);
+      return Math.round(y0 + t * (y1 - y0));
+    }
+  }
+  return null;
+}
+
+/** Tabulated MSD/SVD (mm) → GA days — Medvedev 1.1 gaP50 (Grisolia 1993). */
+export function gaDaysFromMsdTable(msdMm: number): number | null {
+  if (!Number.isFinite(msdMm) || msdMm < msdMedvedev11.minMsd || msdMm > msdMedvedev11.maxMsd) {
+    return null;
+  }
+  return interpolateInverseMsdToGa(msdMm, MSD_MEDVEDEV_P50);
 }
 
 export type BiometryKind = "BPD" | "HC" | "FL" | "AC" | "HL";

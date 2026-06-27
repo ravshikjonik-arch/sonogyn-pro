@@ -4,6 +4,7 @@ import { describe, it } from "node:test";
 import {
   gaDaysFromCrlMm,
   gaDaysFromCrlTable,
+  gaDaysFromMsdTable,
   approximateGaDaysFromBiometry,
   combinedGaDaysFromBiometry,
 } from "./gestationalAge";
@@ -18,6 +19,10 @@ describe("gestationalAge", () => {
   it("CRL table (Medvedev 1.2 p50) returns 80 days for 45.5 mm", () => {
     assert.equal(gaDaysFromCrlTable(45.5), 80);
     assert.equal(gaDaysFromCrlTable(45), 80);
+  });
+
+  it("MSD table (Medvedev 1.1 gaP50) returns 41 days for 10 mm (5+6)", () => {
+    assert.equal(gaDaysFromMsdTable(10), 41);
   });
 
   it("BPD biometry GA in plausible range", () => {
