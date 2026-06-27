@@ -68,6 +68,20 @@ export async function GET(_req: Request, { params }: Params) {
             user_registered: reg?.status === "registered",
           };
         }
+        if (canView && lesson.lesson_type === "webinar") {
+          const { data: session } = await client.supabase
+            .from("webinar_sessions")
+            .select("status, scheduled_at")
+            .eq("lesson_id", lesson.id)
+            .maybeSingle();
+          return {
+            ...base,
+            webinar_session: session
+              ? { status: session.status, scheduledAt: session.scheduled_at }
+              : null,
+            webinar_href: `/library/webinars/${lesson.id}`,
+          };
+        }
         return base;
       }),
     ),

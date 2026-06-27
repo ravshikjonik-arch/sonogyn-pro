@@ -20,7 +20,7 @@ type LessonData = {
   title: string;
   body_html?: string;
   description?: string | null;
-  lesson_type: "video" | "offline";
+  lesson_type: "video" | "offline" | "webinar";
   video_url?: string | null;
   video_provider?: string | null;
   video_file_key?: string | null;
@@ -122,6 +122,17 @@ export function LessonViewClient({ courseId, lessonId }: LessonViewClientProps) 
         <Link href={`/tools/refs/courses/${courseId}`} className="text-[var(--clinical-primary)] underline">
           Вернуться к курсу
         </Link>
+      </div>
+    );
+  }
+
+  if (lesson.lesson_type === "webinar") {
+    return (
+      <div className="rounded-xl border p-6 text-center text-sm">
+        <p className="mb-4">Это вебинар — откройте комнату с чатом и эфиром.</p>
+        <Button asChild>
+          <Link href={`/library/webinars/${lessonId}`}>Перейти к вебинару</Link>
+        </Button>
       </div>
     );
   }

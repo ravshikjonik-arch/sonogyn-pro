@@ -19,7 +19,7 @@ export const LessonUpsertSchema = z.object({
   module_id: z.string().uuid(),
   title: z.string().trim().min(1).max(200),
   body_html: z.string().max(200_000).optional().default(""),
-  lesson_type: z.enum(["video", "offline"]),
+  lesson_type: z.enum(["video", "offline", "webinar"]),
   video_url: z
     .union([z.string().url().max(2000), z.literal(""), z.null()])
     .optional()

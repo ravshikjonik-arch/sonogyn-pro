@@ -1,5 +1,5 @@
 export type CourseStatus = "draft" | "published" | "archived";
-export type LessonType = "video" | "offline";
+export type LessonType = "video" | "offline" | "webinar";
 export type OfflineRegistrationStatus = "registered" | "cancelled" | "attended";
 
 export type CourseRow = {

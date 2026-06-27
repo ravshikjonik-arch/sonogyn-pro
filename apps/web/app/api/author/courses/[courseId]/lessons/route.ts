@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { withAuthorCourseApi } from "@/lib/courses/api-handler";
 import { LessonReorderSchema, LessonUpsertSchema } from "@/lib/courses/schemas";
 import { resolveVideoProvider } from "@/lib/courses/video-url";
+import { syncWebinarSessionAfterLessonSave } from "@/lib/webinars/author-sync";
 
 type Params = { params: Promise<{ courseId: string }> };
 
@@ -50,6 +51,14 @@ export async function POST(req: Request, { params }: Params) {
       .single();
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+    await syncWebinarSessionAfterLessonSave(supabase, {
+      lessonId: data.id as string,
+      courseId,
+      lessonType: parsed.data.lesson_type,
+      scheduledAt: parsed.data.offline_starts_at ?? null,
+    });
+
     return NextResponse.json({ ok: true, lesson: data });
   });
 }

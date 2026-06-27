@@ -41,7 +41,7 @@ function mergeOfflineDateTime(date: string, time: string): string | null {
 export function LessonFormDialog({ open, courseId, moduleId, lesson, onClose, onSaved }: LessonFormDialogProps) {
   const [title, setTitle] = useState("");
   const [bodyHtml, setBodyHtml] = useState("");
-  const [lessonType, setLessonType] = useState<"video" | "offline">("video");
+  const [lessonType, setLessonType] = useState<"video" | "offline" | "webinar">("video");
   const [videoUrl, setVideoUrl] = useState("");
   const [offlineDate, setOfflineDate] = useState("");
   const [offlineTime, setOfflineTime] = useState("");
@@ -87,12 +87,13 @@ export function LessonFormDialog({ open, courseId, moduleId, lesson, onClose, on
       body_html: bodyHtml,
       lesson_type: lessonType,
       video_url: lessonType === "video" ? videoUrl.trim() || null : null,
-      offline_starts_at: lessonType === "offline" ? mergeOfflineDateTime(offlineDate, offlineTime) : null,
+      offline_starts_at:
+        lessonType === "offline" || lessonType === "webinar" ? mergeOfflineDateTime(offlineDate, offlineTime) : null,
       offline_address: lessonType === "offline" ? offlineAddress.trim() || null : null,
       offline_stream_url: lessonType === "offline" ? offlineStreamUrl.trim() || null : null,
       max_seats: lessonType === "offline" && maxSeats ? Number.parseInt(maxSeats, 10) : null,
       duration_minutes: durationMinutes ? Number.parseInt(durationMinutes, 10) : null,
-      is_free_preview: isFreePreview,
+      is_free_preview: lessonType === "webinar" ? false : isFreePreview,
     };
 
     const url = lesson
@@ -167,8 +168,14 @@ export function LessonFormDialog({ open, courseId, moduleId, lesson, onClose, on
             />
           </label>
 
-          <div className="flex gap-2">
-            {(["video", "offline"] as const).map((type) => (
+          <div className="flex flex-wrap gap-2">
+            {(
+              [
+                ["video", "Видео"],
+                ["offline", "Офлайн"],
+                ["webinar", "Вебинар · Live"],
+              ] as const
+            ).map(([type, label]) => (
               <Button
                 key={type}
                 type="button"
@@ -176,7 +183,7 @@ export function LessonFormDialog({ open, courseId, moduleId, lesson, onClose, on
                 variant={lessonType === type ? "default" : "secondary"}
                 onClick={() => setLessonType(type)}
               >
-                {type === "video" ? "Видео" : "Офлайн"}
+                {label}
               </Button>
             ))}
           </div>
@@ -216,6 +223,42 @@ export function LessonFormDialog({ open, courseId, moduleId, lesson, onClose, on
                   Сначала сохраните урок — затем можно загрузить своё видео (до 2 ГБ).
                 </p>
               )}
+            </div>
+          ) : lessonType === "webinar" ? (
+            <div className="space-y-3 rounded-xl border border-dashed border-rose-300 p-4 dark:border-rose-800">
+              <p className="text-xs leading-relaxed text-[var(--clinical-foreground-muted)]">
+                Прямой эфир внутри SonoGyn Pro (LiveKit). Доступ только после оплаты курса. После эфира загрузите
+                запись как видео-урок.
+              </p>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <label className="block">
+                  <span className="text-sm font-medium">Дата эфира (ДД.ММ.ГГГГ)</span>
+                  <input
+                    className="mt-2 w-full rounded-xl border border-slate-200 px-3 py-2 font-mono dark:border-slate-700 dark:bg-slate-900"
+                    value={offlineDate}
+                    onChange={(e) => setOfflineDate(maskRuDateInput(e.target.value))}
+                    placeholder="21.12.2026"
+                  />
+                </label>
+                <label className="block">
+                  <span className="text-sm font-medium">Время начала</span>
+                  <input
+                    type="time"
+                    className="mt-2 w-full rounded-xl border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-900"
+                    value={offlineTime}
+                    onChange={(e) => setOfflineTime(e.target.value)}
+                  />
+                </label>
+              </div>
+              {savedLessonId ? (
+                <p className="text-xs text-emerald-700">
+                  Комната создана. В день эфира откройте{" "}
+                  <a href={`/library/webinars/${savedLessonId}`} className="underline" target="_blank" rel="noreferrer">
+                    страницу вебинара
+                  </a>{" "}
+                  и нажмите «Начать эфир».
+                </p>
+              ) : null}
             </div>
           ) : (
             <div className="space-y-3 rounded-xl border border-dashed border-slate-300 p-4 dark:border-slate-700">
@@ -270,10 +313,14 @@ export function LessonFormDialog({ open, courseId, moduleId, lesson, onClose, on
             </div>
           )}
 
-          <label className="flex items-center gap-2 text-sm">
-            <input type="checkbox" checked={isFreePreview} onChange={(e) => setIsFreePreview(e.target.checked)} />
-            Бесплатный пробный урок
-          </label>
+          {lessonType !== "webinar" ? (
+            <label className="flex items-center gap-2 text-sm">
+              <input type="checkbox" checked={isFreePreview} onChange={(e) => setIsFreePreview(e.target.checked)} />
+              Бесплатный пробный урок
+            </label>
+          ) : (
+            <p className="text-xs text-[var(--clinical-foreground-muted)]">Вебинары — только платный доступ (без пробного урока).</p>
+          )}
 
           {savedNotice ? <p className="text-sm text-emerald-700">{savedNotice}</p> : null}
           {error ? <p className="text-sm text-red-600">{error}</p> : null}

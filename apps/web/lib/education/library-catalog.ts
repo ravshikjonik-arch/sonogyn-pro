@@ -37,6 +37,16 @@ export const EDUCATION_SHELF_DESCRIPTIONS: Record<EducationShelf, string> = {
 
 export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
   {
+    id: "webinars",
+    shelf: "courses",
+    title: "Вебинары · прямой эфир",
+    description: "Live внутри SonoGyn Pro: эфир + чат + запись. Доступ после оплаты курса.",
+    href: "/library/webinars",
+    tags: ["вебинар", "эфир", "лекция", "LiveKit"],
+    primary: true,
+    badge: "LIVE",
+  },
+  {
     id: "isuog-basic",
     shelf: "courses",
     title: "ISUOG — базовый курс",
