@@ -12,7 +12,7 @@ import { applyRegistrationMetadataAdmin } from "@/lib/auth/registration-metadata
 import { createServiceRoleClient } from "@/utils/supabase/admin";
 import { findUserByTelegramId } from "@/lib/auth/telegram-supabase";
 
-const TELEGRAM_EMAIL_DOMAIN = "telegram.sonogyn.app";
+export const TELEGRAM_EMAIL_DOMAIN = "telegram.sonogyn.app";
 
 export function telegramChatIdToAuthEmail(chatId: string): string {
   return `tg_${chatId}@${TELEGRAM_EMAIL_DOMAIN}`;
@@ -123,12 +123,12 @@ export async function establishTelegramAuthSession(
     return NextResponse.json({ error: translateAuthError(verifyError.message) }, { status: 401 });
   }
 
-  if (userId && registration?.full_name) {
+  if (userId && chatId) {
     await applyRegistrationMetadataAdmin(
       admin,
       userId,
-      registration,
-      chatId ? { telegram_id: chatId, provider: "telegram", auth_source: "otp" } : undefined,
+      registration?.full_name ? registration : {},
+      { telegram_id: chatId, provider: "telegram", auth_source: "otp" },
     );
   }
 
