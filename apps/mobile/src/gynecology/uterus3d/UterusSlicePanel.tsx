@@ -12,8 +12,10 @@ import {
 } from "react-native";
 import Svg, { Path, Text as SvgText } from "react-native-svg";
 
+import { formatMeasurementDecimal } from "@repo/medical-calculations";
 import {
   boundsFromStroke,
+  ellipseStrokeAt,
   figoFromStroke,
   isValidStroke,
   localizationRu,
@@ -54,6 +56,8 @@ const TYPE_COLORS: Record<MarkerType, string> = {
   other: "#2563eb",
 };
 
+const SAGITTAL_TYPES: MarkerType[] = ["myoma", "adenomyosis", "polyp"];
+
 const MIN_ZOOM = 0.55;
 const MAX_ZOOM = 4;
 
@@ -64,7 +68,7 @@ function touchDist(t1: { pageX: number; pageY: number }, t2: { pageX: number; pa
 function buildProtocolLine(m: Marker): string {
   const b = boundsFromStroke(m.stroke.points);
   const loc = localizationRu(b.cx, b.cy);
-  const size = `${Math.round(m.sizeMm.length)}×${Math.round(m.sizeMm.width)} мм`;
+  const size = `${formatMeasurementDecimal(m.sizeMm.length)}×${formatMeasurementDecimal(m.sizeMm.width)} мм`;
   if (m.type === "myoma") {
     const figo = m.figoType != null ? `FIGO ${m.figoType}, ` : "";
     return `Миома тела матки (${figo}${loc}), размеры ${size}${m.pedunculated ? ", на ножке" : ""}.`;
@@ -77,7 +81,7 @@ function buildProtocolLine(m: Marker): string {
 
 export default function UterusSlicePanel() {
   const [layout, setLayout] = useState<LayoutRectangle | null>(null);
-  const [tool, setTool] = useState<SliceEditorTool>("navigate");
+  const [tool, setTool] = useState<SliceEditorTool>("place");
   const [placeMode, setPlaceMode] = useState<MarkerType>("myoma");
   const [pedunculated, setPedunculated] = useState(false);
   const [markers, setMarkers] = useState<Marker[]>([]);
@@ -122,6 +126,25 @@ export default function UterusSlicePanel() {
     setSelectedId(nu.id);
   }, [placeMode, pedunculated]);
 
+  const placeMarkerAt = useCallback(
+    (nx: number, ny: number) => {
+      if (nx < 0.02 || nx > 0.98 || ny < 0.02 || ny > 0.98) return;
+      const pts = ellipseStrokeAt(nx, ny);
+      const figo = placeMode === "myoma" ? figoFromStroke(pts, pedunculated) : undefined;
+      const nu: Marker = {
+        id: `m-${Date.now()}`,
+        type: placeMode,
+        stroke: { points: pts },
+        sizeMm: sizeMmFromStroke(pts),
+        pedunculated: placeMode === "myoma" ? pedunculated : false,
+        figoType: figo,
+      };
+      setMarkers((p) => [...p, nu]);
+      setSelectedId(nu.id);
+    },
+    [placeMode, pedunculated],
+  );
+
   const panResponder = useMemo(
     () =>
       PanResponder.create({
@@ -135,11 +158,16 @@ export default function UterusSlicePanel() {
           }
           if (toolRef.current === "navigate") {
             panRef.current = { x: pan.x, y: pan.y, startX: evt.nativeEvent.pageX, startY: evt.nativeEvent.pageY };
-          } else {
-            const n = normFromTouch(evt.nativeEvent.locationX, evt.nativeEvent.locationY);
-            strokeRef.current = [n];
-            setDraftStroke([n]);
+            return;
           }
+          if (toolRef.current === "place") {
+            const n = normFromTouch(evt.nativeEvent.locationX, evt.nativeEvent.locationY);
+            placeMarkerAt(n[0], n[1]);
+            return;
+          }
+          const n = normFromTouch(evt.nativeEvent.locationX, evt.nativeEvent.locationY);
+          strokeRef.current = [n];
+          setDraftStroke([n]);
         },
         onPanResponderMove: (evt) => {
           const touches = evt.nativeEvent.touches;
@@ -156,6 +184,7 @@ export default function UterusSlicePanel() {
             });
             return;
           }
+          if (toolRef.current === "place") return;
           const n = normFromTouch(evt.nativeEvent.locationX, evt.nativeEvent.locationY);
           const last = strokeRef.current[strokeRef.current.length - 1];
           if (!last || Math.hypot(n[0] - last[0], n[1] - last[1]) > 0.004) {
@@ -172,7 +201,7 @@ export default function UterusSlicePanel() {
           if (toolRef.current === "draw") finishStroke();
         },
       }),
-    [zoom, pan, normFromTouch, finishStroke],
+    [zoom, pan, normFromTouch, finishStroke, placeMarkerAt],
   );
 
   const selected = useMemo(() => markers.find((m) => m.id === selectedId) ?? null, [markers, selectedId]);
@@ -182,10 +211,14 @@ export default function UterusSlicePanel() {
     <View style={styles.outer}>
       <Text style={styles.title}>Редактор среза матки</Text>
       <Text style={styles.disclaimer}>
-        «Рука» — сдвиг одним пальцем, pinch — масштаб. «Кисть» — обведите узел. FIGO для миомы автоматически.
+        «Курсор» — тап по срезу (миома, аденомиоз, полип). «Рука» — сдвиг, pinch — масштаб. «Кисть» — обвести контур.
+        FIGO для миомы — автоматически.
       </Text>
 
       <View style={styles.toolRow}>
+        <Pressable style={[styles.toolBtn, tool === "place" && styles.toolBtnOn]} onPress={() => setTool("place")}>
+          <Text style={[styles.toolBtnText, tool === "place" && styles.toolBtnTextOn]}>Курсор</Text>
+        </Pressable>
         <Pressable style={[styles.toolBtn, tool === "navigate" && styles.toolBtnOn]} onPress={() => setTool("navigate")}>
           <Text style={[styles.toolBtnText, tool === "navigate" && styles.toolBtnTextOn]}>Рука</Text>
         </Pressable>
@@ -205,7 +238,7 @@ export default function UterusSlicePanel() {
       </View>
 
       <View style={styles.chipRow}>
-        {(Object.keys(TYPE_LABELS) as MarkerType[]).map((t) => (
+        {SAGITTAL_TYPES.map((t) => (
           <Pressable key={t} style={[styles.chip, placeMode === t && styles.chipOn]} onPress={() => setPlaceMode(t)}>
             <Text style={[styles.chipText, placeMode === t && styles.chipTextOn]}>{TYPE_LABELS[t]}</Text>
           </Pressable>
@@ -278,7 +311,11 @@ export default function UterusSlicePanel() {
       </View>
 
       <Text style={styles.hint}>
-        {tool === "draw" ? `Обведите ${TYPE_LABELS[placeMode].toLowerCase()}` : "Сдвиг · pinch для масштаба"}
+        {tool === "place"
+          ? `Тап по срезу — ${TYPE_LABELS[placeMode].toLowerCase()}`
+          : tool === "draw"
+            ? `Обведите ${TYPE_LABELS[placeMode].toLowerCase()}`
+            : "Сдвиг · pinch для масштаба"}
       </Text>
 
       {selected ? (

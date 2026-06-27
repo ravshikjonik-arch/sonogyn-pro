@@ -70,7 +70,7 @@ export function UterusSliceAtlas({
   className,
 }: Props) {
   const hostRef = useRef<HTMLDivElement>(null);
-  const [tool, setTool] = useState<SliceEditorTool>("navigate");
+  const [tool, setTool] = useState<SliceEditorTool>("place");
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [size, setSize] = useState({ w: 800, h: 500 });
@@ -100,6 +100,18 @@ export function UterusSliceAtlas({
     onAddLesion(enrichAnnotation(ann, pedunculated));
   }, [placeMode, pedunculated, onAddLesion]);
 
+  const placeMarkerAt = useCallback(
+    (norm: SliceNorm) => {
+      if (norm[0] < 0.02 || norm[0] > 0.98 || norm[1] < 0.02 || norm[1] > 0.98) return;
+      onAddLesion(
+        addAnnotationAtSlice(norm, placeMode, {
+          pedunculated: placeMode === "myoma" ? pedunculated : false,
+        }),
+      );
+    },
+    [placeMode, pedunculated, onAddLesion],
+  );
+
   const handlePointerDown = useCallback(
     (e: React.PointerEvent) => {
       if (e.button !== 0 && e.pointerType === "mouse") return;
@@ -115,6 +127,12 @@ export function UterusSliceAtlas({
         return;
       }
 
+      if (tool === "place") {
+        const norm = normFromClient(e.clientX, e.clientY, rect, zoom, pan.x, pan.y);
+        placeMarkerAt(norm);
+        return;
+      }
+
       if (tool === "draw") {
         dragging.current = true;
         strokeRef.current = [normFromClient(e.clientX, e.clientY, rect, zoom, pan.x, pan.y)];
@@ -122,7 +140,7 @@ export function UterusSliceAtlas({
         (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
       }
     },
-    [tool, zoom, pan],
+    [tool, zoom, pan, placeMarkerAt],
   );
 
   const handlePointerMove = useCallback(
@@ -140,6 +158,14 @@ export function UterusSliceAtlas({
         return;
       }
 
+      if (tool === "place") {
+        const norm = normFromClient(e.clientX, e.clientY, rect, zoom, pan.x, pan.y);
+        if (norm[0] >= 0 && norm[0] <= 1 && norm[1] >= 0 && norm[1] <= 1) {
+          setHoverHit(analyzeSliceHit(norm[0], norm[1], pedunculated).tooltipRu);
+        }
+        return;
+      }
+
       if (tool === "draw" && dragging.current) {
         const n = normFromClient(e.clientX, e.clientY, rect, zoom, pan.x, pan.y);
         const last = strokeRef.current[strokeRef.current.length - 1];
@@ -150,9 +176,11 @@ export function UterusSliceAtlas({
         return;
       }
 
-      const norm = normFromClient(e.clientX, e.clientY, rect, zoom, pan.x, pan.y);
-      if (norm[0] >= 0 && norm[0] <= 1 && norm[1] >= 0 && norm[1] <= 1) {
-        setHoverHit(analyzeSliceHit(norm[0], norm[1], pedunculated).tooltipRu);
+      if (tool === "draw") {
+        const norm = normFromClient(e.clientX, e.clientY, rect, zoom, pan.x, pan.y);
+        if (norm[0] >= 0 && norm[0] <= 1 && norm[1] >= 0 && norm[1] <= 1) {
+          setHoverHit(analyzeSliceHit(norm[0], norm[1], pedunculated).tooltipRu);
+        }
       }
     },
     [tool, zoom, pan, pedunculated],
@@ -199,6 +227,14 @@ export function UterusSliceAtlas({
         <Button
           type="button"
           size="sm"
+          variant={tool === "place" ? "default" : "secondary"}
+          onClick={() => setTool("place")}
+        >
+          Курсор · очаг
+        </Button>
+        <Button
+          type="button"
+          size="sm"
           variant={tool === "navigate" ? "default" : "secondary"}
           onClick={() => setTool("navigate")}
         >
@@ -224,8 +260,8 @@ export function UterusSliceAtlas({
         ref={hostRef}
         role="presentation"
         className={cn(
-          "relative aspect-[16/10] w-full touch-none overflow-hidden rounded-2xl bg-white shadow-inner ring-1 ring-slate-200/90 dark:ring-slate-700",
-          tool === "draw" ? "cursor-crosshair" : "cursor-grab active:cursor-grabbing",
+          "relative aspect-[16/10] w-full touch-none overflow-hidden rounded-2xl bg-[var(--clinical-card)] shadow-inner ring-1 ring-slate-200/90 dark:ring-slate-700",
+          tool === "place" || tool === "draw" ? "cursor-crosshair" : "cursor-grab active:cursor-grabbing",
         )}
         onWheel={handleWheel}
         onPointerDown={handlePointerDown}
@@ -322,9 +358,11 @@ export function UterusSliceAtlas({
       </div>
 
       <p className="text-center text-[11px] leading-snug text-slate-500 dark:text-slate-400">
-        {tool === "draw"
-          ? `Обведите ${PATHOLOGY_LABELS_RU[placeMode].toLowerCase()} пальцем или мышью`
-          : hoverHit ?? "Перетащите схему · pinch/колёсико — приближение · дно слева, шейка справа"}
+        {tool === "place"
+          ? `Кликните по срезу — ${PATHOLOGY_LABELS_RU[placeMode].toLowerCase()} · FIGO для миомы автоматически`
+          : tool === "draw"
+            ? `Обведите ${PATHOLOGY_LABELS_RU[placeMode].toLowerCase()} пальцем или мышью`
+            : hoverHit ?? "Перетащите схему · pinch/колёсико — приближение · дно слева, шейка справа"}
       </p>
     </div>
   );
@@ -344,5 +382,9 @@ export function addAnnotationAtSlice(
     [norm[0] - r, norm[1]],
   ];
   const ann = annotationFromStroke(type, pts, patch);
-  return enrichAnnotation(ann ?? { id: "x", type, position: [0, 0, 0], sizeMm: { length: 10, width: 10, depth: 8 } });
+  const ped = patch?.pedunculated === true;
+  return enrichAnnotation(
+    ann ?? { id: "x", type, position: [0, 0, 0], sizeMm: { length: 10, width: 10, depth: 8 } },
+    ped,
+  );
 }

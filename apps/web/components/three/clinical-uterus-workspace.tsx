@@ -20,6 +20,8 @@ import { UterusSliceAtlas } from "@/components/uterus/UterusSliceAtlas";
 import { FigoResultCard } from "@/components/uterus/FigoResultCard";
 import { useUterusAnnotations } from "@/components/uterus/useUterusAnnotations";
 
+const SAGITTAL_PATHOLOGY_TYPES: PathologyType[] = ["myoma", "adenomyosis", "polyp"];
+
 export function ClinicalUterusWorkspace() {
   const ua = useUterusAnnotations();
   const [pedunculated, setPedunculated] = useState(false);
@@ -60,16 +62,16 @@ export function ClinicalUterusWorkspace() {
           Планирование поражений матки
         </h2>
         <p className="mt-1 max-w-2xl text-xs leading-relaxed text-[var(--clinical-foreground-muted)]">
-          Редактор среза: приближайте схему жестами, обводите образование кистью. FIGO для миомы — автоматически.
+          Клик по срезу — миома, аденомиоз или полип эндометрия. Кисть — обвести контур. FIGO для миомы — автоматически.
         </p>
       </div>
 
       <div className="grid gap-0 xl:grid-cols-[minmax(280px,340px)_1fr]">
         <CardContent className="space-y-4 border-b border-slate-100 p-5 xl:border-b-0 xl:border-r dark:border-slate-800">
-          <div className="rounded-2xl border border-slate-200/80 bg-white/90 p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900/40">
+          <div className="rounded-2xl border border-slate-200/80 bg-[var(--clinical-card)] p-4 shadow-sm dark:border-slate-700">
             <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-slate-500">Новый маркер</p>
             <div className="mt-3 flex flex-wrap gap-2">
-              {(Object.keys(PATHOLOGY_LABELS_RU) as PathologyType[]).map((t) => (
+              {SAGITTAL_PATHOLOGY_TYPES.map((t) => (
                 <Button
                   key={t}
                   type="button"
@@ -158,7 +160,9 @@ export function ClinicalUterusWorkspace() {
               </Button>
             </section>
           ) : (
-            <p className="text-sm text-[var(--clinical-foreground-muted)]">Коснитесь среза, чтобы поставить маркер.</p>
+            <p className="text-sm text-[var(--clinical-foreground-muted)]">
+              Выберите тип и кликните по срезу (режим «Курсор · очаг»).
+            </p>
           )}
 
           <Badge variant="outline">{ua.annotations.length} маркер(ов)</Badge>

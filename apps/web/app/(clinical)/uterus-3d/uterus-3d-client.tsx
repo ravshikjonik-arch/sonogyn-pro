@@ -13,14 +13,14 @@ import { Button } from "@/components/ui/button";
 type Tab = "coronal" | "sagittal" | "model3d" | "atlas";
 
 const TABS: { id: Tab; label: string; hint: string }[] = [
-  { id: "coronal", label: "Коронарный макет", hint: "Клик / контур → FIGO" },
-  { id: "sagittal", label: "Сагиттальный срез", hint: "Кисть → авто-FIGO + протокол" },
+  { id: "coronal", label: "Коронарный макет", hint: "Курсор → миома / аденомиоз · FIGO" },
+  { id: "sagittal", label: "Сагиттальный срез", hint: "Курсор → миома, аденомиоз, полип · авто-FIGO" },
   { id: "model3d", label: "3D модель", hint: "Клик на стенку → FIGO" },
   { id: "atlas", label: "Атлас УЗИ", hint: "11 типов FIGO · учебный" },
 ];
 
 export function Uterus3DClientBody() {
-  const [tab, setTab] = useState<Tab>("sagittal");
+  const [tab, setTab] = useState<Tab>("coronal");
 
   return (
     <div className="space-y-6 px-4 py-10 lg:px-10">

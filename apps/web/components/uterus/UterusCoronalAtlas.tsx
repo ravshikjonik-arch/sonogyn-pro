@@ -25,9 +25,6 @@ type Tool = "place" | "draw";
 const KINDS: { id: UterusLesionKind; label: string }[] = [
   { id: "myoma", label: "Миома" },
   { id: "adenomyosis", label: "Аденомиоз" },
-  { id: "polyp", label: "Полип" },
-  { id: "endometrioma", label: "Эндометриома" },
-  { id: "other", label: "Другое" },
 ];
 
 function normFromEvent(clientX: number, clientY: number, rect: DOMRect): UterusNormPoint {

@@ -5,7 +5,7 @@ import type { PathologyAnnotation, SizeMm } from "./pathologyTypes";
 export type { SliceNormPoint } from "@repo/clinical-3d";
 import { detectFigoVariantFromStroke } from "@repo/clinical-3d";
 
-export type SliceEditorTool = "navigate" | "draw";
+export type SliceEditorTool = "navigate" | "draw" | "place";
 
 /** Контур, нарисованный врачом (координаты 0–1 на срезе) */
 export type SliceStroke = {
