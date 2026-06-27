@@ -159,7 +159,7 @@ export function BasicCourseWidget({ variant = "full", className, initialLectureI
           {ISUOG_BASIC_COURSE.title}
         </h1>
         <p className="text-sm font-medium text-[var(--clinical-primary-deep)]">{ISUOG_BASIC_COURSE.subtitle}</p>
-        <p className="max-w-3xl text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
+        <p className="max-w-3xl text-sm leading-relaxed text-[var(--clinical-foreground)]/85">
           {ISUOG_BASIC_COURSE.description}
         </p>
         <div className="h-2 max-w-md overflow-hidden rounded-full bg-[var(--clinical-muted)]">
@@ -254,7 +254,7 @@ function ProgramTab({
                 <CardTitle className="text-base">{mod.title}</CardTitle>
                 {mod.comingSoon ? <Badge variant="outline">скоро</Badge> : null}
               </div>
-              <CardDescription>{mod.description}</CardDescription>
+              <CardDescription className="text-[var(--clinical-foreground)]/85">{mod.description}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-2">
               {mod.platformModuleHref ? (
