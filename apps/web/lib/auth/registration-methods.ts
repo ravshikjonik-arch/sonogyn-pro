@@ -10,10 +10,11 @@ export const REGISTRATION_METHOD_LABELS: Record<AuthRegistrationMethod, string> 
 };
 
 export const REGISTRATION_METHOD_HINTS: Record<AuthRegistrationMethod, string> = {
-  telegram: "Код в Telegram — быстрее SMS. Сначала откройте бота и нажмите Start.",
+  telegram:
+    "Основной способ для пилота. Код в Telegram за секунды. Укажите +7 — продублируем код по SMS.",
   email: "Письмо с подтверждением на почту. Работает из РФ без VPN.",
-  phone: "Код по SMS — только номера РФ (+7), через sms.ru. Для +993 и других стран: Telegram или email.",
-  social: "Google OAuth. Если Google недоступен — вкладки «Telegram», «Почта» или «Телефон».",
+  phone: "SMS на номера РФ (+7) — обычно 10–30 сек. Для других стран используйте Telegram.",
+  social: "Google OAuth. Если Google недоступен — вкладка «Telegram».",
 };
 
 export function parseRegistrationMethod(raw: string | null): AuthRegistrationMethod {

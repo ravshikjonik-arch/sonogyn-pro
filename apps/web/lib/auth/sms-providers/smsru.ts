@@ -39,7 +39,7 @@ export async function sendSmsRu(params: {
   const to = smsRuPhoneDigits(params.toE164);
   if (to.length < 10) return { ok: false, errorCode: "invalid_phone" };
 
-  const text = `SonoGyn Pro: код ${params.code}. Действует 5 мин. Не сообщайте код никому.`;
+  const text = `SonoGyn: код ${params.code}`;
   const qs = new URLSearchParams({
     api_id: cfg.apiId,
     to,

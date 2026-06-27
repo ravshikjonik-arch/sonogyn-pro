@@ -206,6 +206,8 @@ export const SendCodeBodySchema = z.object({
   method: VerificationMethodSchema,
   contact: z.string().trim().min(3).max(320),
   fallbackEmail: z.union([z.string().trim().email().max(320), z.literal("")]).optional(),
+  /** Пилот: дублировать тот же код по SMS на +7 (при входе через Telegram). */
+  backupPhone: z.string().trim().max(24).optional(),
   purpose: VerificationPurposeSchema.optional(),
   turnstileToken: z.string().max(4096).optional(),
 });

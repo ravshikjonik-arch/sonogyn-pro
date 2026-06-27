@@ -10,6 +10,7 @@ import {
   type AuthRegistrationMethod,
 } from "@/lib/auth/registration-methods";
 import { isAuthEmailOnlyClient } from "@/lib/auth/auth-methods-config";
+import { isPilotTelegramPrimary, PILOT_TELEGRAM_TAB_BADGE } from "@/lib/auth/auth-pilot-config";
 
 type AuthScreenShellProps = {
   title: string;
@@ -74,8 +75,13 @@ export function AuthScreenShell({
       ) : (
       <Tabs value={tab} onValueChange={handleTabChange} className="w-full">
         <TabsList className="mb-6 grid w-full grid-cols-2 gap-1 rounded-2xl bg-[var(--clinical-muted)] p-1 sm:grid-cols-4">
-          <TabsTrigger value="telegram" className="rounded-xl text-xs sm:text-sm">
+          <TabsTrigger value="telegram" className="relative rounded-xl text-xs sm:text-sm">
             ✈️ Telegram
+            {isPilotTelegramPrimary() ? (
+              <span className="ml-1 hidden rounded-full bg-emerald-100 px-1.5 py-0.5 text-[10px] font-bold text-emerald-800 sm:inline">
+                {PILOT_TELEGRAM_TAB_BADGE}
+              </span>
+            ) : null}
           </TabsTrigger>
           <TabsTrigger value="phone" className="rounded-xl text-xs sm:text-sm">
             📱 SMS

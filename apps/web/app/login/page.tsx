@@ -10,6 +10,7 @@ import { useAuth, useSupabase } from "@/app/providers";
 import { AuthMessage, AuthScreenShell, authInputClass } from "@/components/auth/AuthScreenShell";
 import { AuthSetupBanner } from "@/components/auth/AuthSetupBanner";
 import { PhoneAuthSetupHint } from "@/components/auth/PhoneAuthSetupHint";
+import { PhoneInput } from "@/components/auth/PhoneInput";
 import { SocialAuthSetupHint } from "@/components/auth/SocialAuthSetupHint";
 import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
 import { Button } from "@/components/ui/button";
@@ -20,6 +21,8 @@ import { CAPTCHA_FAILURE_THRESHOLD } from "@/lib/auth/auth-attempts";
 import { markSessionAnchorNow } from "@/lib/security/session-anchor";
 import { parseRegistrationMethod, readTelegramBotDisplayName, type AuthRegistrationMethod } from "@/lib/auth/registration-methods";
 import { isAuthEmailOnlyClient } from "@/lib/auth/auth-methods-config";
+import { isPilotTelegramPrimary, PILOT_AUTH_SUBTITLE } from "@/lib/auth/auth-pilot-config";
+import { isRuPhoneMaskComplete } from "@/lib/auth/ru-phone-mask";
 import {
   EMAIL_NOT_CONFIRMED_MSG,
   PASSWORD_RESET_GENERIC_MSG,
@@ -42,6 +45,7 @@ function LoginForm() {
   const [telegramChatId, setTelegramChatId] = useState("");
   const [fallbackEmailPhone, setFallbackEmailPhone] = useState("");
   const [fallbackEmailTelegram, setFallbackEmailTelegram] = useState("");
+  const [backupPhoneTelegram, setBackupPhoneTelegram] = useState("");
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [message, setMessage] = useState("");
@@ -226,6 +230,9 @@ function LoginForm() {
         turnstileToken,
         idempotencyKey: crypto.randomUUID(),
         fallbackEmail: fallbackEmailTelegram.trim() || email.trim() || undefined,
+        backupPhone: isRuPhoneMaskComplete(backupPhoneTelegram)
+          ? normalizePhone(backupPhoneTelegram)
+          : undefined,
       });
       if (!result.ok) {
         setRequiresCaptcha(Boolean(result.requiresCaptcha));
@@ -271,6 +278,11 @@ function LoginForm() {
     setMessage("");
     if (!guardOnline()) return;
     if (sendCooldownSec > 0) return;
+
+    if (!isRuPhoneMaskComplete(phone)) {
+      setMessage("Укажите полный номер РФ: +7 и 10 цифр. Для других стран — вкладка Telegram.");
+      return;
+    }
 
     const normalized = normalizePhone(phone);
     setLoading(true);
@@ -367,7 +379,9 @@ function LoginForm() {
       subtitle={
         isAuthEmailOnlyClient()
           ? "Email и пароль — один аккаунт для web и mobile."
-          : "Telegram, SMS или Google — один аккаунт для web и mobile."
+          : isPilotTelegramPrimary()
+            ? PILOT_AUTH_SUBTITLE
+            : "Telegram, SMS или Google — один аккаунт для web и mobile."
       }
       defaultTab={defaultTab}
       onTabChange={onTabChange}
@@ -407,6 +421,15 @@ function LoginForm() {
             />
             <p className="mt-1 text-xs text-slate-500">Если Telegram недоступен — код придёт на почту.</p>
           </label>
+          <PhoneInput
+            id="telegram-backup-phone"
+            value={backupPhoneTelegram}
+            onChange={setBackupPhoneTelegram}
+            disabled={loading}
+          />
+          <p className="-mt-1 text-xs text-slate-500">
+            Необязательно: тот же код продублируем по SMS на +7 (обычно за секунды).
+          </p>
           {!otpSent ? (
             <Button
               type="button"
@@ -555,25 +578,18 @@ function LoginForm() {
       phoneTab={
         <form className="space-y-4" onSubmit={(e) => void onVerifyOtp(e)}>
           <PhoneAuthSetupHint visible={smsNotConfigured} />
-          <label className="block">
-            <span className="text-sm font-medium text-slate-700 dark:text-slate-200">Телефон</span>
-            <input
-              className={authInputClass}
-              type="tel"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder="+79001234567"
-              required
-              autoComplete="tel"
-              aria-label="Номер телефона"
-            />
-            <p className="mt-1 text-xs text-slate-500">
-              {PHONE_OTP_DELAY_HINT} Нет аккаунта?{" "}
-              <Link href="/register?method=phone" className="font-semibold text-[var(--clinical-primary-deep)] hover:underline">
-                Регистрация по SMS
-              </Link>
-            </p>
-          </label>
+          <PhoneInput
+            id="login-phone"
+            value={phone}
+            onChange={setPhone}
+            disabled={loading}
+          />
+          <p className="-mt-1 text-xs text-slate-500">
+            {PHONE_OTP_DELAY_HINT} Нет аккаунта?{" "}
+            <Link href="/register?method=phone" className="font-semibold text-[var(--clinical-primary-deep)] hover:underline">
+              Регистрация по SMS
+            </Link>
+          </p>
           <label className="block">
             <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
               Email для резервной отправки кода

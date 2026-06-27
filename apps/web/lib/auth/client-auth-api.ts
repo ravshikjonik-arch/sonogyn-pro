@@ -208,6 +208,7 @@ export async function postSendCode(params: {
   contact: string;
   purpose?: "register" | "login" | "mfa" | "password_reset";
   fallbackEmail?: string;
+  backupPhone?: string;
   turnstileToken?: string;
   idempotencyKey?: string;
 }): Promise<

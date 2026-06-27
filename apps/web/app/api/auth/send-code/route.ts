@@ -16,7 +16,7 @@ import {
 import { logVerificationEvent } from "@/lib/auth/verification/safe-verification-log";
 import { logVerificationEvent as obsLogVerification } from "@/lib/observability";
 import { isCaptchaRequired, recordAuthFailure } from "@/lib/auth/auth-attempts";
-import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
+import { clientIpFromRequest, rateLimitKeyFromRequest } from "@/lib/security/request-client";
 import {
   parseJsonBody,
   SendCodeBodySchema,
@@ -67,6 +67,10 @@ export async function POST(req: Request) {
 
   const fallbackEmail =
     typeof body.fallbackEmail === "string" ? parseEmailContact(body.fallbackEmail) : undefined;
+  const backupPhone =
+    typeof body.backupPhone === "string" && body.backupPhone.trim()
+      ? parseSmsContact(body.backupPhone)
+      : undefined;
 
   if ((method === "sms" || method === "telegram") && !fallbackEmail) {
     // Fallback chain требует email для SMS/TG — без него только primary канал.
@@ -81,7 +85,9 @@ export async function POST(req: Request) {
     contact,
     purpose,
     fallbackEmail: fallbackEmail ?? undefined,
+    backupPhone: backupPhone ?? undefined,
     idempotencyKey,
+    clientIp: clientIpFromRequest(req),
   });
 
   if (!result.ok) {

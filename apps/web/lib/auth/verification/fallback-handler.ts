@@ -6,6 +6,7 @@ import {
   storeVerificationCode,
 } from "./code-store";
 import { sendVerificationCode } from "./send-verification-code";
+import { sendVerificationSms } from "./providers/sms-provider";
 import { logVerificationError, logVerificationEvent } from "./safe-verification-log";
 import type { SendVerificationResult, VerificationMethod, VerificationPurpose } from "./types";
 import { parseEmailContact, parseSmsContact, parseTelegramChatId } from "./validate-contact";
@@ -18,6 +19,8 @@ export type FallbackChainParams = {
   fallbackEmail?: string;
   idempotencyKey?: string | null;
   clientIp?: string;
+  /** Пилот: тот же код по SMS на +7 после успешной отправки в Telegram. */
+  backupPhone?: string;
 };
 
 export type FallbackChainResult = SendVerificationResult & {
@@ -32,7 +35,7 @@ function resolveContact(method: VerificationMethod, raw: string): string | null 
 }
 
 const IDEMPOTENCY_DUP_MSG =
-  "Код уже отправлен. SMS.ru может доставлять до 10 минут — подождите или проверьте email-fallback.";
+  "Код уже отправлен. Проверьте Telegram или SMS (+7) — повтор через 30 сек.";
 
 /**
  * Fallback chain:
@@ -89,6 +92,22 @@ export async function runVerificationFallbackChain(
 
   if (primary.ok) {
     const out: FallbackChainResult = { ...primary, codeStored: true };
+
+    if (params.primaryMethod === "telegram" && params.backupPhone) {
+      const backupE164 = parseSmsContact(params.backupPhone);
+      if (backupE164) {
+        const smsDup = await sendVerificationSms({
+          toE164: backupE164,
+          code,
+          clientIp: params.clientIp,
+        });
+        if (smsDup.ok) {
+          out.message = "Код отправлен в Telegram и продублирован по SMS на +7.";
+          logVerificationEvent("telegram_sms_duplicate_ok", { purpose: params.purpose });
+        }
+      }
+    }
+
     if (shouldExposeDevSmsOtp() && params.primaryMethod === "sms") {
       out.devOtp = code;
     }
