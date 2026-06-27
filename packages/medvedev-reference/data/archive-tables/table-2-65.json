@@ -1,0 +1,88 @@
+{
+  "tableId": "2.65",
+  "titleRu": "Нормативные показатели ПССК в средней мозговой артерии плода",
+  "source": "G. Mari et al., 2000",
+  "clinicalBlock": "doppler_late",
+  "tableType": "median_mom_by_ga",
+  "parameter": {
+    "id": "mcaPsv",
+    "labelRu": "ПССК в СМА",
+    "unit": "cm/s"
+  },
+  "rows": [
+    {
+      "ga": {
+        "weeks": 14,
+        "days": 0
+      },
+      "median": 19.9,
+      "mom15": 28.9
+    },
+    {
+      "ga": {
+        "weeks": 15,
+        "days": 0
+      },
+      "median": 20.2,
+      "mom15": 30.3
+    },
+    {
+      "ga": {
+        "weeks": 16,
+        "days": 0
+      },
+      "median": 21.1,
+      "mom15": 31.7
+    },
+    {
+      "ga": {
+        "weeks": 17,
+        "days": 0
+      },
+      "median": 22.1,
+      "mom15": 33.2
+    },
+    {
+      "ga": {
+        "weeks": 18,
+        "days": 0
+      },
+      "median": 23.2,
+      "mom15": 34.8
+    },
+    {
+      "ga": {
+        "weeks": 19,
+        "days": 0
+      },
+      "median": 24.3,
+      "mom15": 36.5
+    },
+    {
+      "ga": {
+        "weeks": 20,
+        "days": 0
+      },
+      "median": 25.5,
+      "mom15": 38.2
+    },
+    {
+      "ga": {
+        "weeks": 21,
+        "days": 0
+      },
+      "median": 26.7,
+      "mom15": 40
+    },
+    {
+      "ga": {
+        "weeks": 22,
+        "days": 0
+      },
+      "median": 27.9,
+      "mom15": 41.9
+    }
+  ],
+  "sourceCard": "image-26-06-26-04-57-20.jpeg",
+  "verified": false
+}

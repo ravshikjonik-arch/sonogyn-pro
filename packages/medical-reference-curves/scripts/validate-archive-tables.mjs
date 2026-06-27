@@ -89,6 +89,14 @@ for (const file of files) {
     }
   }
 
+  if (data.ssotDerivedFrom === "biometry-rows.json" && data.tableId === "2.4") {
+    for (const row of data.rows) {
+      const ss = ssot.biometry.find((b) => b.week === row.ga.weeks);
+      if (!ss) fail(`${file}: нет недели ${row.ga.weeks} в SSOT`);
+      else if (row.p50 !== ss.ac.p50) fail(`${file} week ${row.ga.weeks} AC p50 ${row.p50} ≠ SSOT ${ss.ac.p50}`);
+    }
+  }
+
   if (data.ssotDerivedFrom === "biometry-rows.json" && data.tableId === "A.1") {
     for (const row of data.rows) {
       const ss = ssot.biometry.find((b) => b.week === row.ga.weeks);
@@ -140,6 +148,19 @@ for (const file of files) {
     }
   }
 
+  if (data.tableId === "2.65") {
+    for (const row of data.rows) {
+      if (row.median >= row.mom15) fail(`${file} week ${row.ga.weeks}: median ≥ mom15`);
+    }
+  }
+
+  if (data.tableId === "2.69" && !data.partial) {
+    const weeks = data.rows.map((r) => r.ga.weeks);
+    if (weeks[0] !== 14 || weeks[weeks.length - 1] !== 40) {
+      fail(`${file}: аортальная ПССК недели 14–40, got ${weeks[0]}–${weeks[weeks.length - 1]}`);
+    }
+  }
+
   if (data.tableId === "2.64" && !data.partial) {
     const weeks = data.rows.map((r) => r.ga.weeks);
     if (weeks[0] !== 14 || weeks[weeks.length - 1] !== 40) {
@@ -152,4 +173,4 @@ if (errors) {
   console.error(`\n${errors} ошибок в archive-tables`);
   process.exit(1);
 }
-console.log(`✅ archive-tables: ${files.length} JSON, SSOT-зеркала 2.1/2.2/2.3/A.1 совпадают`);
+console.log(`✅ archive-tables: ${files.length} JSON, SSOT-зеркала 2.1/2.2/2.3/2.4/A.1 совпадают`);
