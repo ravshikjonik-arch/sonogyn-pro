@@ -17,8 +17,12 @@
     "./education/referat.ru": "./education/referat.ru.json",
     "./education/referat.en": "./education/referat.en.json",
     "./education/referatImageMap": "./education/referatImageMap.ts",
+    "./education/nosologyAtlas": "./education/nosologyAtlas.ts",
     "./assist/buildProtocolDraft": "./src/assist/buildProtocolDraft.ts",
     "./assist/runOradsAssistPipeline": "./src/assist/runOradsAssistPipeline.ts"
+  },
+  "dependencies": {
+    "@repo/medical-calculations": "workspace:*"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",

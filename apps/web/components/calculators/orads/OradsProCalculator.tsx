@@ -22,6 +22,7 @@ import {
   type BloodFlow,
   type IotaColorScore,
   getOradsNosologyBySubtype,
+  isOradsNosologyPending,
   type PapillaryProjectionCount,
   type SeptaCount,
   type UnilocularSubtype,
@@ -280,6 +281,11 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
                       <Input placeholder="Краткое описание…" value={f.customDescription} onChange={(e) => f.setCustomDescription(e.target.value)} />
                     ) : null}
                     {nosologyPreview ? <OradsNosologyPreview entry={nosologyPreview} /> : null}
+                    {!nosologyPreview && isOradsNosologyPending(f.unilocularSubtype) ? (
+                      <p className="text-xs italic text-slate-500">
+                        Эхограмма и текст протокола для этой нозологии — в следующем обновлении.
+                      </p>
+                    ) : null}
                   </CalcStepCard>
                 ) : null}
 

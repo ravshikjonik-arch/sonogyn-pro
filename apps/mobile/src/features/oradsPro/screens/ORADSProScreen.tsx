@@ -11,7 +11,9 @@ import {
   View,
 } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { isOradsNosologyPending } from "@repo/orads-us";
 import OradsIntroHero from "../components/OradsIntroHero";
+import OradsNosologyPreview from "../components/OradsNosologyPreview";
 import StepCard from "../components/StepCard";
 import { ORADS_ZERO_OPTIONS } from "../oradsReference";
 import SelectChip from "../components/SelectChip";
@@ -38,6 +40,7 @@ import type {
   UnilocularSubtype,
 } from "../types";
 import { buildReportText, calculateORADS } from "../logic/oradsCalculator";
+import { resolveOradsNosologyPreview } from "../resolveOradsNosology";
 import { buildIotaConsensusReportText, evaluateIotaConsensus2026 } from "../consensus/iotaConsensus2026";
 import { appendCaseToHistory, loadUXMetric, pushTimeToResult } from "../storage/oradsStorage";
 import { flushAIQueue, getAIQueueSize, getAIQueueStatus, requestAIOrQueue } from "../ai/aiService";
@@ -154,6 +157,7 @@ export default function ORADSProScreen({ navigation, route }: Props) {
 
   const result = useMemo(() => calculateORADS(input), [input]);
   const iotaConsensus = useMemo(() => evaluateIotaConsensus2026(input, result), [input, result]);
+  const nosologyPreview = useMemo(() => resolveOradsNosologyPreview(unilocularSubtype), [unilocularSubtype]);
 
   function markInteraction() {
     if (!firstInteractionAtRef.current) firstInteractionAtRef.current = Date.now();
@@ -496,9 +500,9 @@ export default function ORADSProScreen({ navigation, route }: Props) {
               <StepCard title="ШАГ 5 — Детали (однокамерное)" required={!unilocularSubtype}>
                 <View style={styles.rowWrap}>
                   {[
-                    ["simple_cyst", "Простая киста"],
+                    ["simple_cyst", "Функциональная / простая"],
                     ["hemorrhagic", "Геморрагическая"],
-                    ["endometrioma", "Эндометриома"],
+                    ["endometrioma", "Эндометриома («стекло»)"],
                     ["dermoid", "Дермоидная"],
                     ["paraovarian", "Параовариальная"],
                     ["peritoneal_inclusion", "Перитонеальная инклюзия"],
@@ -520,6 +524,11 @@ export default function ORADSProScreen({ navigation, route }: Props) {
                     style={styles.input}
                     placeholder="Ручное описание..."
                   />
+                ) : null}
+                {nosologyPreview ? (
+                  <OradsNosologyPreview entry={nosologyPreview.entry} imageUri={nosologyPreview.imageUri} />
+                ) : isOradsNosologyPending(unilocularSubtype) ? (
+                  <Text style={styles.nosologyPending}>Эхограмма и текст протокола для этой нозологии — в следующем обновлении.</Text>
                 ) : null}
               </StepCard>
             ) : null}
@@ -768,4 +777,11 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   saveCaseText: { color: "#fff", fontWeight: "800" },
+  nosologyPending: {
+    marginTop: 8,
+    fontSize: 12,
+    lineHeight: 17,
+    color: "#64748b",
+    fontStyle: "italic",
+  },
 });

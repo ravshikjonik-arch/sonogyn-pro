@@ -42,5 +42,7 @@ export {
   ORADS_NOSOLOGY_ATLAS,
   getOradsNosologyById,
   getOradsNosologyBySubtype,
+  isOradsNosologyPending,
+  ORADS_NOSOLOGY_PENDING_SUBTYPES,
   type OradsNosologyAtlasEntry,
-} from "./nosology-atlas";
+} from "@repo/orads-us";
