@@ -94,7 +94,7 @@ export async function ensureTelegramUser(
     if (registration?.full_name) {
       await applyRegistrationMetadataAdmin(admin, existing.id, registration, {
         telegram_id: telegramId,
-        username: body.username ?? undefined,
+        ...(body.username ? { username: body.username } : {}),
         provider: "telegram",
         auth_source: body.source ?? "widget",
       });
@@ -133,7 +133,7 @@ export async function ensureTelegramUser(
   if (created?.id && registration?.full_name) {
     await applyRegistrationMetadataAdmin(admin, created.id, registration, {
       telegram_id: telegramId,
-      username: body.username ?? undefined,
+      ...(body.username ? { username: body.username } : {}),
       provider: "telegram",
       auth_source: body.source ?? "widget",
     });

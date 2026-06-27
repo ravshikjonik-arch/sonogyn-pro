@@ -63,6 +63,10 @@ const nextConfig: NextConfig = {
     "@repo/fmf",
     "@repo/obstetric-engine",
     "@repo/medical-calculations",
+    "@repo/report-engine",
+    "@repo/adnex-education",
+    "@repo/types",
+    "@repo/orads-us",
   ],
   env: {
     NEXT_PUBLIC_AUTH_EMAIL_ONLY: process.env.AUTH_EMAIL_ONLY ?? "false",
