@@ -62,6 +62,24 @@
       "@repo/adnex-education/*": [
         "../../packages/adnex-education/src/*"
       ],
+      "@repo/medical-calculations": [
+        "../../packages/medical-calculations/src/index.ts"
+      ],
+      "@repo/medical-calculations/*": [
+        "../../packages/medical-calculations/src/*"
+      ],
+      "@repo/report-engine": [
+        "../../packages/report-engine/src/index.ts"
+      ],
+      "@repo/report-engine/*": [
+        "../../packages/report-engine/src/*"
+      ],
+      "@repo/types": [
+        "../../packages/types/src/index.ts"
+      ],
+      "@repo/types/*": [
+        "../../packages/types/src/*"
+      ],
       "@repo/orads-us": [
         "../../packages/orads-us/src/index.ts"
       ],
