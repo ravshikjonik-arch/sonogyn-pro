@@ -131,7 +131,7 @@ for (const file of files) {
     }
   }
 
-  if (data.tableId === "1.6" || data.tableId === "1.7") {
+  if (data.tableId === "1.6" || data.tableId === "1.7" || data.tableId === "1.8") {
     let prevTo = 0;
     for (const row of data.rows) {
       if (row.crlMmFrom <= prevTo) fail(`${file}: перекрытие CRL ${row.crlMmFrom}–${row.crlMmTo}`);
@@ -146,11 +146,27 @@ for (const file of files) {
     if (data.tableId === "1.7" && (minFrom !== 45 || maxTo !== 84)) {
       fail(`${file}: диапазоны КТР должны покрывать 45–84 мм`);
     }
+    if (data.tableId === "1.8" && (minFrom !== 45 || maxTo !== 84)) {
+      fail(`${file}: диапазоны КТР должны покрывать 45–84 мм`);
+    }
   }
 
   if (data.tableId === "2.65") {
     for (const row of data.rows) {
       if (row.median >= row.mom15) fail(`${file} week ${row.ga.weeks}: median ≥ mom15`);
+    }
+    if (data.rows.length >= 27) {
+      const weeks = data.rows.map((r) => r.ga.weeks);
+      if (weeks[0] !== 14 || weeks[weeks.length - 1] !== 40) {
+        fail(`${file}: MCA PSV недели 14–40, got ${weeks[0]}–${weeks[weeks.length - 1]}`);
+      }
+    }
+  }
+
+  if (data.tableId === "2.70" && !data.partial) {
+    const weeks = data.rows.map((r) => r.ga.weeks);
+    if (weeks[0] !== 14 || weeks[weeks.length - 1] !== 40) {
+      fail(`${file}: лёгочная ПССК недели 14–40, got ${weeks[0]}–${weeks[weeks.length - 1]}`);
     }
   }
 

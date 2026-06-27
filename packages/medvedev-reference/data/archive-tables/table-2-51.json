@@ -1,0 +1,114 @@
+{
+  "tableId": "2.51",
+  "titleRu": "Среднее и максимальное значения диаметра тонкого кишечника плода",
+  "source": "S. Parulekar, 1991",
+  "clinicalBlock": "anatomy_other",
+  "tableType": "mean_max_by_ga",
+  "parameter": {
+    "id": "smallIntestineDiameter",
+    "labelRu": "Диаметр тонкого кишечника",
+    "unit": "mm"
+  },
+  "rows": [
+    {
+      "ga": {
+        "from": {
+          "weeks": 10,
+          "days": 0
+        },
+        "to": {
+          "weeks": 15,
+          "days": 6
+        }
+      },
+      "mean": 1,
+      "max": 1
+    },
+    {
+      "ga": {
+        "from": {
+          "weeks": 15,
+          "days": 0
+        },
+        "to": {
+          "weeks": 20,
+          "days": 6
+        }
+      },
+      "mean": 1.2,
+      "max": 2
+    },
+    {
+      "ga": {
+        "from": {
+          "weeks": 20,
+          "days": 0
+        },
+        "to": {
+          "weeks": 25,
+          "days": 6
+        }
+      },
+      "mean": 1.4,
+      "max": 2
+    },
+    {
+      "ga": {
+        "from": {
+          "weeks": 25,
+          "days": 0
+        },
+        "to": {
+          "weeks": 30,
+          "days": 6
+        }
+      },
+      "mean": 1.8,
+      "max": 3
+    },
+    {
+      "ga": {
+        "from": {
+          "weeks": 30,
+          "days": 0
+        },
+        "to": {
+          "weeks": 35,
+          "days": 6
+        }
+      },
+      "mean": 2.9,
+      "max": 6
+    },
+    {
+      "ga": {
+        "from": {
+          "weeks": 35,
+          "days": 0
+        },
+        "to": {
+          "weeks": 40,
+          "days": 6
+        }
+      },
+      "mean": 3.7,
+      "max": 8
+    },
+    {
+      "ga": {
+        "from": {
+          "weeks": 40,
+          "days": 0
+        },
+        "to": {
+          "weeks": 42,
+          "days": 0
+        }
+      },
+      "mean": 4.4,
+      "max": 6
+    }
+  ],
+  "sourceCard": "image-26-06-26-04-58-5.jpeg",
+  "verified": false
+}

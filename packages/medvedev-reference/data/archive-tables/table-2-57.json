@@ -1,0 +1,165 @@
+{
+  "tableId": "2.57",
+  "titleRu": "Нормативные значения 50-го процентиля поперечного размера матки у плода",
+  "source": "D. Soriano et al., 1999",
+  "clinicalBlock": "anatomy_other",
+  "tableType": "p50_only_by_ga",
+  "parameter": {
+    "id": "fetalUterusTransverse",
+    "labelRu": "Поперечный размер матки",
+    "unit": "mm"
+  },
+  "partial": true,
+  "partialNote": "На карточке видны недели 19–39",
+  "rows": [
+    {
+      "ga": {
+        "weeks": 19,
+        "days": 0
+      },
+      "p50": 9.6
+    },
+    {
+      "ga": {
+        "weeks": 20,
+        "days": 0
+      },
+      "p50": 9.9
+    },
+    {
+      "ga": {
+        "weeks": 21,
+        "days": 0
+      },
+      "p50": 10.2
+    },
+    {
+      "ga": {
+        "weeks": 22,
+        "days": 0
+      },
+      "p50": 10.5
+    },
+    {
+      "ga": {
+        "weeks": 23,
+        "days": 0
+      },
+      "p50": 10.8
+    },
+    {
+      "ga": {
+        "weeks": 24,
+        "days": 0
+      },
+      "p50": 11.1
+    },
+    {
+      "ga": {
+        "weeks": 25,
+        "days": 0
+      },
+      "p50": 11.4
+    },
+    {
+      "ga": {
+        "weeks": 26,
+        "days": 0
+      },
+      "p50": 11.7
+    },
+    {
+      "ga": {
+        "weeks": 27,
+        "days": 0
+      },
+      "p50": 12
+    },
+    {
+      "ga": {
+        "weeks": 28,
+        "days": 0
+      },
+      "p50": 12.3
+    },
+    {
+      "ga": {
+        "weeks": 29,
+        "days": 0
+      },
+      "p50": 12.6
+    },
+    {
+      "ga": {
+        "weeks": 30,
+        "days": 0
+      },
+      "p50": 12.9
+    },
+    {
+      "ga": {
+        "weeks": 31,
+        "days": 0
+      },
+      "p50": 13.2
+    },
+    {
+      "ga": {
+        "weeks": 32,
+        "days": 0
+      },
+      "p50": 13.5
+    },
+    {
+      "ga": {
+        "weeks": 33,
+        "days": 0
+      },
+      "p50": 13.8
+    },
+    {
+      "ga": {
+        "weeks": 34,
+        "days": 0
+      },
+      "p50": 14.1
+    },
+    {
+      "ga": {
+        "weeks": 35,
+        "days": 0
+      },
+      "p50": 14.4
+    },
+    {
+      "ga": {
+        "weeks": 36,
+        "days": 0
+      },
+      "p50": 14.7
+    },
+    {
+      "ga": {
+        "weeks": 37,
+        "days": 0
+      },
+      "p50": 15
+    },
+    {
+      "ga": {
+        "weeks": 38,
+        "days": 0
+      },
+      "p50": 15.3
+    },
+    {
+      "ga": {
+        "weeks": 39,
+        "days": 0
+      },
+      "p50": 15.6
+    }
+  ],
+  "sourceCard": "image-26-06-26-04-58-10.jpeg",
+  "verified": false
+}

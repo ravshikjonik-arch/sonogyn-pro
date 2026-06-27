@@ -1,0 +1,73 @@
+{
+  "tableId": "1.8",
+  "titleRu": "Нормативные показатели переднезаднего размера IV желудочка в зависимости от КТР",
+  "source": "Н.А. Алтынник, М.В. Медведев, 2012",
+  "clinicalBlock": "screening_i",
+  "tableType": "percentile_by_crl_range",
+  "gaAxis": "crl_mm",
+  "parameter": {
+    "id": "fourthVentricleAp",
+    "labelRu": "ПЗР IV желудочка",
+    "unit": "mm"
+  },
+  "rows": [
+    {
+      "crlMmFrom": 45,
+      "crlMmTo": 50,
+      "p5": 1.29,
+      "p50": 1.62,
+      "p95": 1.95
+    },
+    {
+      "crlMmFrom": 51,
+      "crlMmTo": 55,
+      "p5": 1.37,
+      "p50": 1.72,
+      "p95": 2.07
+    },
+    {
+      "crlMmFrom": 56,
+      "crlMmTo": 60,
+      "p5": 1.46,
+      "p50": 1.86,
+      "p95": 2.26
+    },
+    {
+      "crlMmFrom": 61,
+      "crlMmTo": 65,
+      "p5": 1.54,
+      "p50": 1.96,
+      "p95": 2.38
+    },
+    {
+      "crlMmFrom": 66,
+      "crlMmTo": 70,
+      "p5": 1.62,
+      "p50": 2.07,
+      "p95": 2.52
+    },
+    {
+      "crlMmFrom": 71,
+      "crlMmTo": 75,
+      "p5": 1.7,
+      "p50": 2.17,
+      "p95": 2.64
+    },
+    {
+      "crlMmFrom": 76,
+      "crlMmTo": 80,
+      "p5": 1.78,
+      "p50": 2.26,
+      "p95": 2.74
+    },
+    {
+      "crlMmFrom": 81,
+      "crlMmTo": 84,
+      "p5": 1.86,
+      "p50": 2.34,
+      "p95": 2.82
+    }
+  ],
+  "sourceCard": "image-26-06-26-04-58-3.jpeg",
+  "verified": false
+}

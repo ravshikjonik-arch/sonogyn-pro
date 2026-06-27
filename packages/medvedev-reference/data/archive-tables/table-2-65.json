@@ -81,8 +81,152 @@
       },
       "median": 27.9,
       "mom15": 41.9
+    },
+    {
+      "ga": {
+        "weeks": 23,
+        "days": 0
+      },
+      "median": 29.3,
+      "mom15": 43.9
+    },
+    {
+      "ga": {
+        "weeks": 24,
+        "days": 0
+      },
+      "median": 30.7,
+      "mom15": 46
+    },
+    {
+      "ga": {
+        "weeks": 25,
+        "days": 0
+      },
+      "median": 32.1,
+      "mom15": 48.2
+    },
+    {
+      "ga": {
+        "weeks": 26,
+        "days": 0
+      },
+      "median": 33.6,
+      "mom15": 50.4
+    },
+    {
+      "ga": {
+        "weeks": 27,
+        "days": 0
+      },
+      "median": 35.2,
+      "mom15": 52.8
+    },
+    {
+      "ga": {
+        "weeks": 28,
+        "days": 0
+      },
+      "median": 36.9,
+      "mom15": 55.4
+    },
+    {
+      "ga": {
+        "weeks": 29,
+        "days": 0
+      },
+      "median": 38.7,
+      "mom15": 58
+    },
+    {
+      "ga": {
+        "weeks": 30,
+        "days": 0
+      },
+      "median": 40.5,
+      "mom15": 60.7
+    },
+    {
+      "ga": {
+        "weeks": 31,
+        "days": 0
+      },
+      "median": 42.4,
+      "mom15": 63.6
+    },
+    {
+      "ga": {
+        "weeks": 32,
+        "days": 0
+      },
+      "median": 44.4,
+      "mom15": 66.6
+    },
+    {
+      "ga": {
+        "weeks": 33,
+        "days": 0
+      },
+      "median": 46.5,
+      "mom15": 69.8
+    },
+    {
+      "ga": {
+        "weeks": 34,
+        "days": 0
+      },
+      "median": 48.7,
+      "mom15": 73.1
+    },
+    {
+      "ga": {
+        "weeks": 35,
+        "days": 0
+      },
+      "median": 51.1,
+      "mom15": 76.6
+    },
+    {
+      "ga": {
+        "weeks": 36,
+        "days": 0
+      },
+      "median": 53.5,
+      "mom15": 80.2
+    },
+    {
+      "ga": {
+        "weeks": 37,
+        "days": 0
+      },
+      "median": 56,
+      "mom15": 84
+    },
+    {
+      "ga": {
+        "weeks": 38,
+        "days": 0
+      },
+      "median": 58.7,
+      "mom15": 88
+    },
+    {
+      "ga": {
+        "weeks": 39,
+        "days": 0
+      },
+      "median": 61.5,
+      "mom15": 92.2
+    },
+    {
+      "ga": {
+        "weeks": 40,
+        "days": 0
+      },
+      "median": 64.4,
+      "mom15": 96.6
     }
   ],
-  "sourceCard": "image-26-06-26-04-57-20.jpeg",
+  "sourceCard": "image-26-06-26-04-57-20.jpeg,image-26-06-26-04-58-4.jpeg",
   "verified": false
 }

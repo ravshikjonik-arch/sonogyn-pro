@@ -1,0 +1,61 @@
+{
+  "tableId": "2.16",
+  "titleRu": "Нормативные значения угла между стволом мозга и червем мозжечка (II триместр)",
+  "source": "О.И. Козлова, М.В. Медведев, 2016",
+  "clinicalBlock": "fetometry",
+  "tableType": "percentile_by_ga",
+  "parameter": {
+    "id": "brainstemVermisAngle",
+    "labelRu": "Угол ствол–червь мозжечка",
+    "unit": "deg"
+  },
+  "rows": [
+    {
+      "ga": {
+        "from": {
+          "weeks": 18,
+          "days": 0
+        },
+        "to": {
+          "weeks": 20,
+          "days": 6
+        }
+      },
+      "p5": 3.7,
+      "p50": 9.25,
+      "p95": 14.8
+    },
+    {
+      "ga": {
+        "from": {
+          "weeks": 21,
+          "days": 0
+        },
+        "to": {
+          "weeks": 23,
+          "days": 6
+        }
+      },
+      "p5": 3.74,
+      "p50": 7.94,
+      "p95": 12.14
+    },
+    {
+      "ga": {
+        "from": {
+          "weeks": 24,
+          "days": 0
+        },
+        "to": {
+          "weeks": 26,
+          "days": 6
+        }
+      },
+      "p5": 3.72,
+      "p50": 7.79,
+      "p95": 11.86
+    }
+  ],
+  "sourceCard": "image-26-06-26-04-58-7.jpeg",
+  "verified": false
+}
