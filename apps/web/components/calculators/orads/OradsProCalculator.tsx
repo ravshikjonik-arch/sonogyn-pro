@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { saveCalculatorEntry } from "@/app/actions/calculator-actions";
 import { AdnexConsensusPanel } from "@/components/calculators/orads/AdnexConsensusPanel";
 import { IotaConsensusWebPanel } from "@/components/calculators/orads/IotaConsensusWebPanel";
+import { OradsNosologyPreview } from "@/components/calculators/orads/OradsNosologyPreview";
 import { useOradsProForm } from "@/components/calculators/orads/useOradsProForm";
 import { useIotaInterpretationAchievement } from "@/lib/achievements/use-calculator-achievements";
 import { CalcChip, CalcStepCard, CalcSubLabel } from "@/components/calculators/shared/calc-ui";
@@ -20,6 +21,7 @@ import {
   buildProtocolOneLiner,
   type BloodFlow,
   type IotaColorScore,
+  getOradsNosologyBySubtype,
   type PapillaryProjectionCount,
   type SeptaCount,
   type UnilocularSubtype,
@@ -64,6 +66,7 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
 
   const zeroMeta = ORADS_ZERO_OPTIONS.find((z) => z.id === oradsZero);
   const showTriangulation = Boolean(f.menopause && f.lesionKind && !oradsZero);
+  const nosologyPreview = getOradsNosologyBySubtype(f.unilocularSubtype);
 
   const protocolLine = useMemo(() => {
     if (oradsZero && zeroMeta) return `${zeroMeta.label}. ${zeroMeta.recommendation}`;
@@ -255,7 +258,7 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
                     <div className="flex flex-wrap gap-2">
                       {(
                         [
-                          ["simple_cyst", "Простая / анэхогенная"],
+                          ["simple_cyst", "Функциональная / простая"],
                           ["hemorrhagic", "Геморрагическая"],
                           ["endometrioma", "Эндометриома («стекло»)"],
                           ["dermoid", "Дермоидная"],
@@ -276,6 +279,7 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
                     {f.unilocularSubtype === "other" ? (
                       <Input placeholder="Краткое описание…" value={f.customDescription} onChange={(e) => f.setCustomDescription(e.target.value)} />
                     ) : null}
+                    {nosologyPreview ? <OradsNosologyPreview entry={nosologyPreview} /> : null}
                   </CalcStepCard>
                 ) : null}
 

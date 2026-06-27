@@ -38,3 +38,9 @@ export {
   type OradsCategoryId,
   type OradsReferenceLesion,
 } from "../../../mobile/src/features/oradsPro/oradsReference";
+export {
+  ORADS_NOSOLOGY_ATLAS,
+  getOradsNosologyById,
+  getOradsNosologyBySubtype,
+  type OradsNosologyAtlasEntry,
+} from "./nosology-atlas";

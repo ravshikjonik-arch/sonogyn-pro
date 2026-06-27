@@ -14,8 +14,10 @@ import {
   type AdnexPageRecord,
 } from "@repo/adnex-education";
 
+import { OradsNosologyPreview } from "@/components/calculators/orads/OradsNosologyPreview";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { ORADS_NOSOLOGY_ATLAS } from "@/lib/orads-pro/nosology-atlas";
 
 const CHAPTER_LABELS: Record<string, string> = {
   all: "Все",
@@ -36,6 +38,7 @@ export function OradsEchogramsWidget({ initialChapter = "all", initialPageId }: 
   const [chapter, setChapter] = useState(initialChapter);
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState<string | null>(initialPageId ?? null);
+  const [nosologyId, setNosologyId] = useState<string>(ORADS_NOSOLOGY_ATLAS[0]?.id ?? "");
 
   const pages = useMemo(() => {
     if (query.trim()) return searchAdnexPages(query);
@@ -48,6 +51,7 @@ export function OradsEchogramsWidget({ initialChapter = "all", initialPageId }: 
   }, [pages, selectedId]);
 
   const supplementary = SUPPLEMENTARY_READING[0];
+  const selectedNosology = ORADS_NOSOLOGY_ATLAS.find((n) => n.id === nosologyId) ?? ORADS_NOSOLOGY_ATLAS[0];
 
   return (
     <div className="space-y-8">
@@ -65,7 +69,7 @@ export function OradsEchogramsWidget({ initialChapter = "all", initialPageId }: 
           <Link href="/tools/refs/orads-guide" className="font-semibold text-[var(--clinical-primary-deep)] hover:underline">
             руководстве O-RADS US
           </Link>
-          . Здесь — атлас эхограмм Озерской; позже добавим живые клинические случаи.
+          . Здесь — учебные эхограммы по типичным кистам O-RADS 2 и атлас Озерской.
         </p>
         {supplementary ? (
           <p className="text-xs text-slate-500">
@@ -74,12 +78,29 @@ export function OradsEchogramsWidget({ initialChapter = "all", initialPageId }: 
         ) : null}
       </header>
 
-      <section className="rounded-3xl border border-dashed border-sky-300 bg-sky-50/50 p-4 dark:border-sky-800 dark:bg-sky-950/20">
-        <p className="text-sm font-semibold text-sky-900 dark:text-sky-100">Скоро: реальные случаи</p>
-        <p className="mt-1 text-xs text-[var(--clinical-foreground-muted)]">
-          Планируем альбомы по нозологиям (эндометриома, дермоид, серозная и др.) с деидентифицированными
-          эхограммами из практики — для сопоставления с O-RADS US.
+      <section className="space-y-4 rounded-3xl border border-emerald-200/80 bg-[var(--clinical-card)] p-5 dark:border-emerald-900/40">
+        <h2 className="text-lg font-bold">Нозологии O-RADS 2 · эхограмма + протокол</h2>
+        <p className="text-xs text-[var(--clinical-foreground-muted)]">
+          Выберите образование — эхограмма и готовая формулировка для заключения. То же появляется в{" "}
+          <Link href="/tools/calc/rads/o-rads" className="font-semibold text-[var(--clinical-primary-deep)] hover:underline">
+            калькуляторе O-RADS
+          </Link>{" "}
+          при выборе типа кисты.
         </p>
+        <div className="flex flex-wrap gap-2">
+          {ORADS_NOSOLOGY_ATLAS.map((n) => (
+            <Button
+              key={n.id}
+              type="button"
+              size="sm"
+              variant={nosologyId === n.id ? "default" : "outline"}
+              onClick={() => setNosologyId(n.id)}
+            >
+              {n.titleRu}
+            </Button>
+          ))}
+        </div>
+        {selectedNosology ? <OradsNosologyPreview entry={selectedNosology} /> : null}
       </section>
 
       <section className="rounded-3xl border border-[var(--clinical-border)] bg-[var(--clinical-card)] p-5">
