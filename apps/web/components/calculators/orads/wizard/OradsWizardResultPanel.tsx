@@ -62,7 +62,7 @@ export function OradsWizardResultPanel({
         <p className="font-medium leading-relaxed">{management}</p>
 
         {pathSummary.length > 0 ? (
-          <div className="rounded-lg bg-white/70 p-3">
+          <div className="rounded-lg bg-[var(--clinical-muted)]/60 p-3 dark:bg-[var(--clinical-surface-muted)]/40">
             <p className="text-xs font-bold text-[var(--clinical-foreground)]">
               {locale.t("orads.wizard.path_summary")}
             </p>

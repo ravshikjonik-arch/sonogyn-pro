@@ -14,14 +14,14 @@ export const STEP0_TECHNICAL: OradsDecisionNode = {
   helpKey: "orads.step0.technical.help",
   options: [
     {
-      id: "inadequate",
-      labelKey: "orads.step0.technical.option.inadequate",
-      result: R(0, "orads.management.0", "orads.rationale.0_inadequate"),
-    },
-    {
       id: "adequate",
       labelKey: "orads.step0.technical.option.adequate",
       next: "step1_localization",
+    },
+    {
+      id: "inadequate",
+      labelKey: "orads.step0.technical.option.inadequate",
+      result: R(0, "orads.management.0", "orads.rationale.0_inadequate"),
     },
   ],
 };

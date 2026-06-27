@@ -134,6 +134,11 @@ export function OradsUsWizard({ onOpenPro, className }: Props) {
               <OradsWizardOptionButton
                 key={opt.id}
                 label={locale.t(opt.labelKey)}
+                variant={
+                  view.node.id === "step0_technical" && opt.id === "inadequate"
+                    ? "secondary"
+                    : "default"
+                }
                 onClick={() => nav.pick(view.node.id, opt.id)}
               />
             ))}
