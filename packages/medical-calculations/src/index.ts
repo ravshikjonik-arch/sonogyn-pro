@@ -20,3 +20,4 @@ export * from "./clinicalEfw";
 export * from "./cancerRiskEducation";
 export * from "./cinFollowUp";
 export * from "./pregnancyMedications";
+export * from "./ovarianVolume";

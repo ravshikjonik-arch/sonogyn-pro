@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState, useTransition } from "react";
+import { formatOvaryDimensionsMm } from "@repo/medical-calculations";
 import { toast } from "sonner";
 
 import { saveCalculatorEntry } from "@/app/actions/calculator-actions";
@@ -74,6 +75,13 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
     if (oradsZero && zeroMeta) return `${zeroMeta.label}. ${zeroMeta.recommendation}`;
     return buildProtocolOneLiner(f.result);
   }, [oradsZero, zeroMeta, f.result]);
+
+  const sizeSummary = useMemo(() => {
+    const dims = formatOvaryDimensionsMm(f.input.lengthMm, f.input.widthMm, f.input.heightMm);
+    if (!dims && f.result.volumeMl == null) return null;
+    const vol = f.result.volumeMl != null ? `${f.result.volumeMl} мл` : null;
+    return [dims, vol].filter(Boolean).join(" · ");
+  }, [f.input.lengthMm, f.input.widthMm, f.input.heightMm, f.result.volumeMl]);
 
   function onSave() {
     startTransition(() => {
@@ -218,6 +226,7 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
                   selected={f.lesionKind === "physiological"}
                   onClick={() => {
                     f.setLesionKind("physiological");
+                    f.setNormalOvaryPattern(undefined);
                     onCrumb?.("Физиологическое");
                   }}
                 />
@@ -226,10 +235,42 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
                   selected={f.lesionKind === "nonphysiological"}
                   onClick={() => {
                     f.setLesionKind("nonphysiological");
+                    f.setNormalOvaryPattern(undefined);
                     onCrumb?.("Образование");
                   }}
                 />
+                <CalcChip
+                  label="Мультифолликулярный / нормальное яичник"
+                  selected={f.lesionKind === "normal_ovary"}
+                  onClick={() => {
+                    f.setLesionKind("normal_ovary");
+                    f.setNormalOvaryPattern("multifollicular");
+                    f.setStructure(undefined);
+                    f.setUnilocularSubtype(undefined);
+                    onCrumb?.("Нормальное яичник");
+                  }}
+                />
               </div>
+              {f.lesionKind === "normal_ovary" ? (
+                <div className="space-y-3">
+                  <CalcSubLabel>Рисунок яичника</CalcSubLabel>
+                  <div className="flex flex-wrap gap-2">
+                    <CalcChip
+                      label="Мультифолликулярный"
+                      selected={f.normalOvaryPattern === "multifollicular"}
+                      onClick={() => f.setNormalOvaryPattern("multifollicular")}
+                    />
+                    <CalcChip
+                      label="Обычная строма / норма"
+                      selected={f.normalOvaryPattern === "typical"}
+                      onClick={() => f.setNormalOvaryPattern("typical")}
+                    />
+                  </div>
+                  <p className="text-xs text-[var(--clinical-foreground-muted)]">
+                    Без focal образования · O-RADS 1. Фолликулы 2–9 мм по периферии, AFC — в протоколе отдельно.
+                  </p>
+                </div>
+              ) : null}
               {f.lesionKind === "physiological" && f.menopause === "pre" ? (
                 <div className="flex flex-wrap gap-2">
                   <CalcChip label="Фолликул" selected={f.physType === "follicle"} onClick={() => f.setPhysType("follicle")} />
@@ -402,6 +443,7 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
                     onLengthChange={f.setLengthMm}
                     onWidthChange={f.setWidthMm}
                     onHeightChange={f.setHeightMm}
+                    menopause={f.menopause}
                   />
                 </CalcStepCard>
 
@@ -441,7 +483,25 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
                   onLengthChange={f.setLengthMm}
                   onWidthChange={f.setWidthMm}
                   onHeightChange={f.setHeightMm}
+                  menopause={f.menopause}
                   hint="Для физиологического образования O-RADS 1 — наибольший диаметр ≤30 мм."
+                />
+              </CalcStepCard>
+            ) : f.lesionKind === "normal_ovary" ? (
+              <CalcStepCard title="3. Размер яичника" required={!f.lengthMm || !f.widthMm || !f.heightMm}>
+                <OradsSizeTripletInput
+                  lengthMm={f.lengthMm}
+                  widthMm={f.widthMm}
+                  heightMm={f.heightMm}
+                  onLengthChange={f.setLengthMm}
+                  onWidthChange={f.setWidthMm}
+                  onHeightChange={f.setHeightMm}
+                  menopause={f.menopause}
+                  hint={
+                    f.normalOvaryPattern === "multifollicular"
+                      ? "Мультифолликулярный: объём >10 мл (пременопауза) — поликистозная морфология; укажите AFC."
+                      : "Норма: длина ≤3 см, ширина ≤2 см, высота ≤1,5 см; объём ≤10 см³ (пременопауза)."
+                  }
                 />
               </CalcStepCard>
             ) : null}
@@ -503,6 +563,9 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
               </>
             )}
             <p className="mt-1 truncate text-xs text-[var(--clinical-foreground-muted)]">{protocolLine}</p>
+            {sizeSummary ? (
+              <p className="truncate text-xs font-bold tabular-nums text-[var(--clinical-primary-deep)]">{sizeSummary}</p>
+            ) : null}
           </div>
           <Button
             type="button"

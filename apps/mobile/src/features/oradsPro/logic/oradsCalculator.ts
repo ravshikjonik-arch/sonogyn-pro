@@ -1,4 +1,5 @@
 import type { BloodFlow, OradsInput, OradsResult } from "../types";
+import { calcOvaryEllipsoidVolumeMl, formatMeasurementDecimal } from "@repo/medical-calculations";
 
 function toCm(mm?: number): number | null {
   if (typeof mm !== "number" || !Number.isFinite(mm) || mm <= 0) return null;
@@ -6,10 +7,7 @@ function toCm(mm?: number): number | null {
 }
 
 function calcVolumeMl(lengthMm?: number, widthMm?: number, heightMm?: number): number | null {
-  if (![lengthMm, widthMm, heightMm].every((v) => typeof v === "number" && Number.isFinite(v) && (v as number) > 0)) {
-    return null;
-  }
-  return Number((((lengthMm as number) * (widthMm as number) * (heightMm as number) * 0.523) / 1000).toFixed(2));
+  return calcOvaryEllipsoidVolumeMl(lengthMm, widthMm, heightMm);
 }
 
 function bloodAtLeast(flow: BloodFlow | undefined, threshold: BloodFlow): boolean {
@@ -40,6 +38,11 @@ function derivePatternLabel(input: OradsInput): string | undefined {
   if (input.lesionKind === "physiological") {
     if (input.physiologicalType === "follicle") return "Фолликул";
     if (input.physiologicalType === "corpus_luteum") return "Желтое тело";
+  }
+
+  if (input.lesionKind === "normal_ovary") {
+    if (input.normalOvaryPattern === "multifollicular") return "Мультифолликулярный рисунок";
+    return "Нормальное яичник";
   }
 
   if (
@@ -94,6 +97,30 @@ export function calculateORADS(input: OradsInput): OradsResult {
       rationale: "Выбрана экстраовариальная локализация.",
       volumeMl,
       warning: "Калькулятор O-RADS предназначен только для овариальных/аднексальных образований.",
+    };
+  }
+
+  // O-RADS 1: нормальное / мультифолликулярное яичник без focal образования
+  if (norm.lesionKind === "normal_ovary" && norm.menopause) {
+    const isMulti = norm.normalOvaryPattern === "multifollicular";
+    let rationale = isMulti
+      ? "Мультифолликулярный рисунок без focal образования — O-RADS 1 (клиническая корреляция, AFC)."
+      : "Нормальное яичник без focal образования — O-RADS 1.";
+    if (volumeMl != null) {
+      if (norm.menopause === "pre" && volumeMl > 10) {
+        rationale += ` Объём ${volumeMl} мл (>10 мл) — поликистозная морфология по объёму.`;
+      }
+      if (norm.menopause === "post" && volumeMl > 5) {
+        rationale += ` Объём ${volumeMl} мл (>5 мл) в постменопаузе — проверьте менопаузальный статус.`;
+      }
+    }
+    return {
+      category: 1,
+      riskText: "Норма / физиология",
+      recommendation: "Рутинное наблюдение; при СПКЯ — клиническая корреляция (AFC, аменорея, андрогены).",
+      rationale,
+      volumeMl,
+      patternLabel: derivePatternLabel(norm),
     };
   }
 
@@ -234,7 +261,7 @@ export function buildProtocolOneLiner(result: OradsResult): string {
 
 export function buildReportText(input: OradsInput, result: OradsResult): string {
   const dims = [input.lengthMm, input.widthMm, input.heightMm].every((v) => typeof v === "number" && v > 0)
-    ? `${input.lengthMm}×${input.widthMm}×${input.heightMm} мм`
+    ? `${formatMeasurementDecimal(input.lengthMm!)}×${formatMeasurementDecimal(input.widthMm!)}×${formatMeasurementDecimal(input.heightMm!)} мм`
     : "не указаны";
 
   const menopauseLine =

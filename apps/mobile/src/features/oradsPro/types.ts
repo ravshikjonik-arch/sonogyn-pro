@@ -1,7 +1,8 @@
 export type Localization = "ovarian" | "extraovarian";
 export type Menopause = "pre" | "post";
-export type LesionKind = "physiological" | "nonphysiological";
+export type LesionKind = "physiological" | "nonphysiological" | "normal_ovary";
 export type PhysiologicalType = "follicle" | "corpus_luteum";
+export type NormalOvaryPattern = "multifollicular" | "typical";
 export type Structure = "unilocular" | "multilocular" | "solid";
 export type SeptaCount = "0" | "1-3" | ">3";
 export type SeptaThickness = "thin" | "thick";
@@ -39,6 +40,8 @@ export type OradsInput = {
   menopause?: Menopause;
   lesionKind?: LesionKind;
   physiologicalType?: PhysiologicalType;
+  /** Без focal образования: норма / мультифолликулярный рисунок (O-RADS 1). */
+  normalOvaryPattern?: NormalOvaryPattern;
   structure?: Structure;
   unilocularSubtype?: UnilocularSubtype;
   customDescription?: string;

@@ -17,6 +17,7 @@ export type {
   LesionKind,
   Localization,
   Menopause,
+  NormalOvaryPattern,
   OradsInput,
   OradsResult,
   PapillaryProjectionCount,

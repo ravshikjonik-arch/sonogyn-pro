@@ -2,9 +2,10 @@
 
 import { Brain, ImageIcon, Video } from "lucide-react";
 import Link from "next/link";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { toast } from "sonner";
 
+import { OradsSizeTripletInput } from "@/components/calculators/orads/OradsSizeTripletInput";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,6 +16,7 @@ import {
   type OvaryAiAssistResult,
   type OvaryImageMetrics,
 } from "@/lib/ai/ovary-ultrasound-assist";
+import { calcOvaryEllipsoidVolumeMl, parseMeasurementMm } from "@repo/medical-calculations";
 import type { OvaryMorphologyPreset, OvaryTopographyMarker } from "@repo/clinical-3d";
 
 type Props = {
@@ -29,10 +31,22 @@ export function OvaryAiAssistantPanel({ morphology, markers, onApplyAiMarkers }:
   const [metrics, setMetrics] = useState<OvaryImageMetrics | null>(null);
   const [cycleDay, setCycleDay] = useState("");
   const [afc, setAfc] = useState("");
-  const [volume, setVolume] = useState("");
+  const [lengthMm, setLengthMm] = useState("");
+  const [widthMm, setWidthMm] = useState("");
+  const [heightMm, setHeightMm] = useState("");
   const [notes, setNotes] = useState("");
   const [result, setResult] = useState<OvaryAiAssistResult | null>(null);
   const [busy, setBusy] = useState(false);
+
+  const ovaryVolumeMl = useMemo(
+    () =>
+      calcOvaryEllipsoidVolumeMl(
+        parseMeasurementMm(lengthMm),
+        parseMeasurementMm(widthMm),
+        parseMeasurementMm(heightMm),
+      ),
+    [lengthMm, widthMm, heightMm],
+  );
 
   const onFile = useCallback(async (file: File | null) => {
     if (!file) return;
@@ -70,7 +84,7 @@ export function OvaryAiAssistantPanel({ morphology, markers, onApplyAiMarkers }:
         markers,
         cycleDay: cycleDay ? Number(cycleDay) : undefined,
         afcCount: afc ? Number(afc) : undefined,
-        ovaryVolumeMl: volume ? Number(volume) : undefined,
+        ovaryVolumeMl: ovaryVolumeMl ?? undefined,
         userNotes: notes,
         imageMetrics: metrics ?? undefined,
         mediaType,
@@ -89,7 +103,7 @@ export function OvaryAiAssistantPanel({ morphology, markers, onApplyAiMarkers }:
         markers,
         cycleDay: cycleDay ? Number(cycleDay) : undefined,
         afcCount: afc ? Number(afc) : undefined,
-        ovaryVolumeMl: volume ? Number(volume) : undefined,
+        ovaryVolumeMl: ovaryVolumeMl ?? undefined,
         userNotes: notes,
         imageMetrics: metrics ?? undefined,
         mediaType,
@@ -98,7 +112,7 @@ export function OvaryAiAssistantPanel({ morphology, markers, onApplyAiMarkers }:
     } finally {
       setBusy(false);
     }
-  }, [morphology, markers, cycleDay, afc, volume, notes, metrics, mediaType]);
+  }, [morphology, markers, cycleDay, afc, ovaryVolumeMl, notes, metrics, mediaType]);
 
   return (
     <div className="sonogyn-glass-card space-y-4 rounded-2xl border border-violet-200/60 p-5 dark:border-violet-900/50">
@@ -113,7 +127,7 @@ export function OvaryAiAssistantPanel({ morphology, markers, onApplyAiMarkers }:
         Подсказка по рисунку: мультифолликулярный / норма / тип кисты. Сопоставьте с эхограммой и O-RADS Pro.
       </p>
 
-      <div className="grid gap-3 sm:grid-cols-3">
+      <div className="grid gap-3 sm:grid-cols-2">
         <div>
           <label className="text-xs font-bold">День цикла</label>
           <Input className="mt-1" inputMode="numeric" value={cycleDay} onChange={(e) => setCycleDay(e.target.value)} placeholder="напр. 12" />
@@ -122,9 +136,20 @@ export function OvaryAiAssistantPanel({ morphology, markers, onApplyAiMarkers }:
           <label className="text-xs font-bold">AFC (суммарно)</label>
           <Input className="mt-1" inputMode="numeric" value={afc} onChange={(e) => setAfc(e.target.value)} placeholder="≥12 → СПКЯ?" />
         </div>
-        <div>
-          <label className="text-xs font-bold">Объём яичника, мл</label>
-          <Input className="mt-1" inputMode="decimal" value={volume} onChange={(e) => setVolume(e.target.value)} placeholder="мл" />
+      </div>
+
+      <div>
+        <label className="text-xs font-bold">Размер яичника (40×20×40 мм)</label>
+        <div className="mt-1">
+          <OradsSizeTripletInput
+            lengthMm={lengthMm}
+            widthMm={widthMm}
+            heightMm={heightMm}
+            onLengthChange={setLengthMm}
+            onWidthChange={setWidthMm}
+            onHeightChange={setHeightMm}
+            hint={morphology === "multifollicular" ? "Мультифолликулярный рисунок: объём >10 мл + AFC для СПКЯ." : undefined}
+          />
         </div>
       </div>
 

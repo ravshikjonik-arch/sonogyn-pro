@@ -29,6 +29,7 @@ import type {
   LesionKind,
   Localization,
   Menopause,
+  NormalOvaryPattern,
   OradsInput,
   PapillaryProjectionCount,
   PapillaryProjectionSurface,
@@ -55,6 +56,7 @@ export default function ORADSProScreen({ navigation, route }: Props) {
   const [menopause, setMenopause] = useState<Menopause | undefined>(undefined);
   const [lesionKind, setLesionKind] = useState<LesionKind | undefined>(undefined);
   const [physType, setPhysType] = useState<PhysiologicalType | undefined>(undefined);
+  const [normalOvaryPattern, setNormalOvaryPattern] = useState<NormalOvaryPattern | undefined>(undefined);
   const [structure, setStructure] = useState<Structure | undefined>(undefined);
   const [unilocularSubtype, setUnilocularSubtype] = useState<UnilocularSubtype | undefined>(undefined);
   const [customDescription, setCustomDescription] = useState("");
@@ -100,6 +102,7 @@ export default function ORADSProScreen({ navigation, route }: Props) {
       menopause,
       lesionKind,
       physiologicalType: physType,
+      normalOvaryPattern,
       structure,
       unilocularSubtype,
       customDescription: customDescription.trim() || undefined,
@@ -130,6 +133,7 @@ export default function ORADSProScreen({ navigation, route }: Props) {
       menopause,
       lesionKind,
       physType,
+      normalOvaryPattern,
       structure,
       unilocularSubtype,
       customDescription,
@@ -176,6 +180,7 @@ export default function ORADSProScreen({ navigation, route }: Props) {
       setMenopause(p.menopause);
       setLesionKind(p.lesionKind);
       setPhysType(p.physiologicalType);
+      setNormalOvaryPattern(p.normalOvaryPattern);
       setStructure(p.structure);
       setUnilocularSubtype(p.unilocularSubtype);
       setCustomDescription(p.customDescription ?? "");
@@ -466,6 +471,7 @@ export default function ORADSProScreen({ navigation, route }: Props) {
                 onPress={() => {
                   markInteraction();
                   setLesionKind("physiological");
+                  setNormalOvaryPattern(undefined);
                 }}
               />
               <SelectChip
@@ -474,9 +480,33 @@ export default function ORADSProScreen({ navigation, route }: Props) {
                 onPress={() => {
                   markInteraction();
                   setLesionKind("nonphysiological");
+                  setNormalOvaryPattern(undefined);
+                }}
+              />
+              <SelectChip
+                label="Мультифолликулярный / норма"
+                selected={lesionKind === "normal_ovary"}
+                onPress={() => {
+                  markInteraction();
+                  setLesionKind("normal_ovary");
+                  setNormalOvaryPattern("multifollicular");
                 }}
               />
             </View>
+            {lesionKind === "normal_ovary" ? (
+              <View style={styles.rowWrap}>
+                <SelectChip
+                  label="Мультифолликулярный"
+                  selected={normalOvaryPattern === "multifollicular"}
+                  onPress={() => setNormalOvaryPattern("multifollicular")}
+                />
+                <SelectChip
+                  label="Обычная строма"
+                  selected={normalOvaryPattern === "typical"}
+                  onPress={() => setNormalOvaryPattern("typical")}
+                />
+              </View>
+            ) : null}
             {lesionKind === "physiological" && menopause === "pre" ? (
               <View style={styles.rowWrap}>
                 <SelectChip label="Фолликул" selected={physType === "follicle"} onPress={() => setPhysType("follicle")} />
@@ -583,8 +613,14 @@ export default function ORADSProScreen({ navigation, route }: Props) {
             <TextInput value={heightMm} onChangeText={setHeightMm} placeholder="Высота" keyboardType="numeric" style={styles.inputFlex} />
           </View>
           {result.volumeMl != null ? (
-            <Text style={styles.volumeHint}>Объём: {result.volumeMl} мл (эллипсоид ×0,523)</Text>
-          ) : null}
+            <Text style={styles.volumeHint}>
+              Объём: {result.volumeMl} мл (эллипсоид ×0,523) — пересчёт при вводе
+            </Text>
+          ) : (
+            <Text style={styles.volumePending}>
+              {[lengthMm, widthMm, heightMm].filter(Boolean).length}/3 диаметров — укажите все три для объёма
+            </Text>
+          )}
           <Text style={styles.sub}>Асцит</Text>
           <View style={styles.rowWrap}>
             <SelectChip label="Нет" selected={!ascites} onPress={() => setAscites(false)} />
@@ -770,6 +806,7 @@ const styles = StyleSheet.create({
   },
   dimSep: { fontSize: 18, fontWeight: "800", color: "#0f172a", paddingHorizontal: 2 },
   volumeHint: { fontSize: 13, fontWeight: "700", color: "#0c4a6e", marginBottom: 4 },
+  volumePending: { fontSize: 12, color: "#64748b", marginBottom: 4, fontStyle: "italic" },
   export: {
     borderRadius: 10,
     backgroundColor: "#2563EB",

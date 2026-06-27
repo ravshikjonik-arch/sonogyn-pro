@@ -18,6 +18,7 @@ import {
   type LesionKind,
   type Localization,
   type Menopause,
+  type NormalOvaryPattern,
   type OradsInput,
   type PapillaryProjectionCount,
   type PapillaryProjectionSurface,
@@ -54,6 +55,7 @@ export function useOradsProForm() {
   const [menopause, setMenopause] = useState<Menopause | undefined>();
   const [lesionKind, setLesionKind] = useState<LesionKind | undefined>();
   const [physType, setPhysType] = useState<PhysiologicalType | undefined>();
+  const [normalOvaryPattern, setNormalOvaryPattern] = useState<NormalOvaryPattern | undefined>();
   const [structure, setStructure] = useState<Structure | undefined>();
   const [unilocularSubtype, setUnilocularSubtype] = useState<UnilocularSubtype | undefined>();
   const [customDescription, setCustomDescription] = useState("");
@@ -88,6 +90,7 @@ export function useOradsProForm() {
       menopause,
       lesionKind,
       physiologicalType: physType,
+      normalOvaryPattern,
       structure,
       unilocularSubtype,
       customDescription: customDescription.trim() || undefined,
@@ -119,6 +122,7 @@ export function useOradsProForm() {
       menopause,
       lesionKind,
       physType,
+      normalOvaryPattern,
       structure,
       unilocularSubtype,
       customDescription,
@@ -166,6 +170,7 @@ export function useOradsProForm() {
     setMenopause(undefined);
     setLesionKind(undefined);
     setPhysType(undefined);
+    setNormalOvaryPattern(undefined);
     setStructure(undefined);
     setUnilocularSubtype(undefined);
     setCustomDescription("");
@@ -215,6 +220,8 @@ export function useOradsProForm() {
     setLesionKind,
     physType,
     setPhysType,
+    normalOvaryPattern,
+    setNormalOvaryPattern,
     structure,
     setStructure,
     unilocularSubtype,

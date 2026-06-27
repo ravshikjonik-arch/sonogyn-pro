@@ -113,6 +113,21 @@ function run() {
   if (r8.patternLabel !== "Вероятна функциональная киста") {
     throw new Error(`FUNCTIONAL_CYST_PATTERN: expected pattern label, got ${String(r8.patternLabel)}`);
   }
+
+  const r9 = calculateORADS({
+    localization: "ovarian",
+    menopause: "pre",
+    lesionKind: "normal_ovary",
+    normalOvaryPattern: "multifollicular",
+    lengthMm: 40,
+    widthMm: 20,
+    heightMm: 40,
+  });
+  expectEq("MULTIFOLLICULAR_ORADS", r9.category, 1);
+  expectEq("MULTIFOLLICULAR_VOLUME", r9.volumeMl, 16.74);
+  if (r9.patternLabel !== "Мультифолликулярный рисунок") {
+    throw new Error(`MULTIFOLLICULAR_PATTERN: got ${String(r9.patternLabel)}`);
+  }
 }
 
 run();

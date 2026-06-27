@@ -1,25 +1,16 @@
 "use client";
 
-import { formatMeasurementDecimal, parseMeasurementMm } from "@repo/medical-calculations";
+import {
+  calcOvaryEllipsoidVolumeMl,
+  countOvaryDimensionsFilled,
+  formatMeasurementDecimal,
+  formatOvaryDimensionsMm,
+  parseMeasurementMm,
+} from "@repo/medical-calculations";
 
 import { CalcSubLabel } from "@/components/calculators/shared/calc-ui";
 import { Input } from "@/components/ui/input";
-
-/** Эллипсоид O-RADS / IOTA: D1×D2×D3×0,523 / 1000 → мл */
-export function calcOradsEllipsoidVolumeMl(
-  lengthMm?: number,
-  widthMm?: number,
-  heightMm?: number,
-): number | null {
-  if (
-    ![lengthMm, widthMm, heightMm].every(
-      (v) => typeof v === "number" && Number.isFinite(v) && (v as number) > 0,
-    )
-  ) {
-    return null;
-  }
-  return Number((((lengthMm as number) * (widthMm as number) * (heightMm as number) * 0.523) / 1000).toFixed(2));
-}
+import { cn } from "@/lib/utils/cn";
 
 function sanitizeMmInput(raw: string): string {
   return raw.replace(/[^\d.,]/g, "");
@@ -34,6 +25,11 @@ type Props = {
   onHeightChange: (value: string) => void;
   /** Подсказка под полями (физиологические образования и т.п.) */
   hint?: string;
+  /** Порог объёма для пременопаузы (мл) */
+  volumeWarnPreMl?: number;
+  /** Порог объёма для постменопаузы (мл) */
+  volumeWarnPostMl?: number;
+  menopause?: "pre" | "post";
 };
 
 export function OradsSizeTripletInput({
@@ -44,19 +40,24 @@ export function OradsSizeTripletInput({
   onWidthChange,
   onHeightChange,
   hint,
+  volumeWarnPreMl = 10,
+  volumeWarnPostMl = 5,
+  menopause,
 }: Props) {
   const l = parseMeasurementMm(lengthMm);
   const w = parseMeasurementMm(widthMm);
   const h = parseMeasurementMm(heightMm);
-  const volumeMl = calcOradsEllipsoidVolumeMl(l ?? undefined, w ?? undefined, h ?? undefined);
+  const filled = countOvaryDimensionsFilled(l, w, h);
+  const volumeMl = calcOvaryEllipsoidVolumeMl(l, w, h);
+  const dimsLabel = formatOvaryDimensionsMm(l, w, h);
 
-  const dimsLabel =
-    l != null && w != null && h != null
-      ? `${formatMeasurementDecimal(l)}×${formatMeasurementDecimal(w)}×${formatMeasurementDecimal(h)} мм`
-      : null;
+  const volumeHigh =
+    volumeMl != null &&
+    ((menopause === "pre" && volumeMl > volumeWarnPreMl) ||
+      (menopause === "post" && volumeMl > volumeWarnPostMl));
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-3">
       <div className="flex flex-wrap items-end gap-2">
         <div className="min-w-[4.5rem] flex-1">
           <CalcSubLabel>Длина, мм</CalcSubLabel>
@@ -68,10 +69,7 @@ export function OradsSizeTripletInput({
             aria-label="Длина образования в миллиметрах"
           />
         </div>
-        <span
-          className="pb-2.5 text-base font-bold text-[var(--clinical-foreground)]"
-          aria-hidden
-        >
+        <span className="pb-2.5 text-base font-bold text-[var(--clinical-foreground)]" aria-hidden>
           ×
         </span>
         <div className="min-w-[4.5rem] flex-1">
@@ -84,10 +82,7 @@ export function OradsSizeTripletInput({
             aria-label="Ширина образования в миллиметрах"
           />
         </div>
-        <span
-          className="pb-2.5 text-base font-bold text-[var(--clinical-foreground)]"
-          aria-hidden
-        >
+        <span className="pb-2.5 text-base font-bold text-[var(--clinical-foreground)]" aria-hidden>
           ×
         </span>
         <div className="min-w-[4.5rem] flex-1">
@@ -102,22 +97,43 @@ export function OradsSizeTripletInput({
         </div>
       </div>
 
-      {dimsLabel ? (
-        <p className="text-sm font-semibold text-[var(--clinical-foreground)]">{dimsLabel}</p>
-      ) : (
-        <p className="text-xs text-[var(--clinical-foreground-muted)]">Формат: 40×20×40 мм (три перпендикулярных диаметра)</p>
-      )}
-
-      {volumeMl != null ? (
-        <p className="text-sm font-bold text-[var(--clinical-primary-deep)]">
-          Объём: {formatMeasurementDecimal(volumeMl)} мл
-          <span className="ml-1 text-xs font-normal text-[var(--clinical-foreground-muted)]">
-            (эллипсоид ×0,523)
-          </span>
-        </p>
-      ) : null}
+      <div
+        className={cn(
+          "rounded-xl border-2 px-3 py-2.5 transition-colors",
+          volumeMl != null
+            ? volumeHigh
+              ? "border-amber-400 bg-amber-50 dark:border-amber-600 dark:bg-amber-950/30"
+              : "border-emerald-300 bg-emerald-50/80 dark:border-emerald-700 dark:bg-emerald-950/25"
+            : "border-[var(--clinical-border)] bg-[var(--clinical-muted)]/50",
+        )}
+      >
+        {volumeMl != null ? (
+          <div className="space-y-1">
+            <p className="text-sm font-bold text-[var(--clinical-foreground)]">{dimsLabel}</p>
+            <p className="text-lg font-black tabular-nums text-[var(--clinical-primary-deep)]">
+              Объём: {formatMeasurementDecimal(volumeMl)} мл
+            </p>
+            <p className="text-[11px] text-[var(--clinical-foreground-muted)]">эллипсоид ×0,523 · пересчёт при каждом вводе</p>
+            {volumeHigh ? (
+              <p className="text-xs font-semibold text-amber-900 dark:text-amber-100">
+                {menopause === "post"
+                  ? `Объём >${volumeWarnPostMl} мл в постменопаузе — проверьте статус.`
+                  : `Объём >${volumeWarnPreMl} мл — поликистозная морфология по объёму (AFC).`}
+              </p>
+            ) : null}
+          </div>
+        ) : (
+          <p className="text-sm text-[var(--clinical-foreground-muted)]">
+            {filled === 0
+              ? "Формат: 40×20×40 мм — объём появится сразу после трёх диаметров"
+              : `Заполнено ${filled}/3 — укажите ${filled === 1 ? "ширину и высоту" : "оставшийся диаметр"} для расчёта объёма`}
+          </p>
+        )}
+      </div>
 
       {hint ? <p className="text-xs text-[var(--clinical-foreground-muted)]">{hint}</p> : null}
     </div>
   );
 }
+
+export { calcOvaryEllipsoidVolumeMl as calcOradsEllipsoidVolumeMl };
