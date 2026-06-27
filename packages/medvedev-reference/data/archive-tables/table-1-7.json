@@ -1,0 +1,73 @@
+{
+  "tableId": "1.7",
+  "titleRu": "Нормативные показатели ТВП в зависимости от КТР",
+  "source": "Н.А. Алтынник, М.В. Медведев, 2012",
+  "clinicalBlock": "screening_i",
+  "tableType": "percentile_by_crl_range",
+  "gaAxis": "crl_mm",
+  "parameter": {
+    "id": "nt",
+    "labelRu": "ТВП (NT)",
+    "unit": "mm"
+  },
+  "rows": [
+    {
+      "crlMmFrom": 45,
+      "crlMmTo": 50,
+      "p5": 0.74,
+      "p50": 1.52,
+      "p95": 2.3
+    },
+    {
+      "crlMmFrom": 51,
+      "crlMmTo": 55,
+      "p5": 0.76,
+      "p50": 1.54,
+      "p95": 2.32
+    },
+    {
+      "crlMmFrom": 56,
+      "crlMmTo": 60,
+      "p5": 0.78,
+      "p50": 1.56,
+      "p95": 2.34
+    },
+    {
+      "crlMmFrom": 61,
+      "crlMmTo": 65,
+      "p5": 0.81,
+      "p50": 1.59,
+      "p95": 2.37
+    },
+    {
+      "crlMmFrom": 66,
+      "crlMmTo": 70,
+      "p5": 0.83,
+      "p50": 1.61,
+      "p95": 2.39
+    },
+    {
+      "crlMmFrom": 71,
+      "crlMmTo": 75,
+      "p5": 0.85,
+      "p50": 1.63,
+      "p95": 2.41
+    },
+    {
+      "crlMmFrom": 76,
+      "crlMmTo": 80,
+      "p5": 0.87,
+      "p50": 1.65,
+      "p95": 2.43
+    },
+    {
+      "crlMmFrom": 81,
+      "crlMmTo": 84,
+      "p5": 0.89,
+      "p50": 1.67,
+      "p95": 2.45
+    }
+  ],
+  "sourceCard": "image-26-06-26-04-57-18.jpeg",
+  "verified": false
+}

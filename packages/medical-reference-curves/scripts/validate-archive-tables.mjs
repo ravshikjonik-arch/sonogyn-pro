@@ -22,6 +22,7 @@ function gaSortKey(row) {
   if (typeof row.msdMm === "number") return row.msdMm;
   if (typeof row.crlMm === "number") return row.crlMm;
   if (typeof row.ribLengthMm === "number") return row.ribLengthMm;
+  if (typeof row.bpdMm === "number") return row.bpdMm;
   if (row.ga?.weeks != null) return row.ga.weeks * 7 + (row.ga.days ?? 0);
   if (row.ga?.from?.weeks != null) return row.ga.from.weeks * 7 + (row.ga.from.days ?? 0);
   return null;
@@ -46,7 +47,7 @@ for (const file of files) {
   for (const row of data.rows) {
     const sortKey = gaSortKey(row);
     const gk = sortKey == null ? "?" : String(sortKey);
-    if (sortKey != null && sortKey <= prevSort && row.msdMm == null && row.crlMm == null && row.ribLengthMm == null) {
+    if (sortKey != null && sortKey <= prevSort && row.msdMm == null && row.crlMm == null && row.ribLengthMm == null && row.bpdMm == null) {
       fail(`${file}: ось не монотонна ${prevSort} → ${sortKey}`);
     }
     if (sortKey != null) prevSort = sortKey;
@@ -77,6 +78,14 @@ for (const file of files) {
       const ss = ssot.biometry.find((b) => b.week === row.ga.weeks);
       if (!ss) fail(`${file}: нет недели ${row.ga.weeks} в SSOT`);
       else if (row.p50 !== ss.ofd.p50) fail(`${file} week ${row.ga.weeks} OFD p50 ${row.p50} ≠ SSOT ${ss.ofd.p50}`);
+    }
+  }
+
+  if (data.ssotDerivedFrom === "biometry-rows.json" && data.tableId === "2.3") {
+    for (const row of data.rows) {
+      const ss = ssot.biometry.find((b) => b.week === row.ga.weeks);
+      if (!ss) fail(`${file}: нет недели ${row.ga.weeks} в SSOT`);
+      else if (row.p50 !== ss.hc.p50) fail(`${file} week ${row.ga.weeks} HC p50 ${row.p50} ≠ SSOT ${ss.hc.p50}`);
     }
   }
 
@@ -114,14 +123,19 @@ for (const file of files) {
     }
   }
 
-  if (data.tableId === "1.6") {
+  if (data.tableId === "1.6" || data.tableId === "1.7") {
     let prevTo = 0;
     for (const row of data.rows) {
       if (row.crlMmFrom <= prevTo) fail(`${file}: перекрытие CRL ${row.crlMmFrom}–${row.crlMmTo}`);
       if (row.crlMmTo < row.crlMmFrom) fail(`${file}: crlMmTo < crlMmFrom`);
       prevTo = row.crlMmTo;
     }
-    if (data.rows[0].crlMmFrom !== 45 || prevTo !== 84) {
+    const minFrom = data.rows[0].crlMmFrom;
+    const maxTo = prevTo;
+    if (data.tableId === "1.6" && (minFrom !== 45 || maxTo !== 84)) {
+      fail(`${file}: диапазоны КТР должны покрывать 45–84 мм`);
+    }
+    if (data.tableId === "1.7" && (minFrom !== 45 || maxTo !== 84)) {
       fail(`${file}: диапазоны КТР должны покрывать 45–84 мм`);
     }
   }
@@ -138,4 +152,4 @@ if (errors) {
   console.error(`\n${errors} ошибок в archive-tables`);
   process.exit(1);
 }
-console.log(`✅ archive-tables: ${files.length} JSON, SSOT-зеркала 2.1/2.2/A.1 совпадают`);
+console.log(`✅ archive-tables: ${files.length} JSON, SSOT-зеркала 2.1/2.2/2.3/A.1 совпадают`);

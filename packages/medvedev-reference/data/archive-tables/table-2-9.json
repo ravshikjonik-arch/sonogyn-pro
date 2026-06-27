@@ -1,0 +1,121 @@
+{
+  "tableId": "2.9",
+  "titleRu": "Нормативные значения ширины III желудочка",
+  "source": "О.Е. Озерова, 1987",
+  "clinicalBlock": "fetometry",
+  "tableType": "mean_range_by_ga",
+  "parameter": {
+    "id": "thirdVentricleWidth",
+    "labelRu": "Ширина III желудочка",
+    "unit": "mm"
+  },
+  "rows": [
+    {
+      "ga": {
+        "from": {
+          "weeks": 27,
+          "days": 0
+        },
+        "to": {
+          "weeks": 28,
+          "days": 0
+        }
+      },
+      "mean": 1.2,
+      "rangeMin": 1,
+      "rangeMax": 2
+    },
+    {
+      "ga": {
+        "from": {
+          "weeks": 29,
+          "days": 0
+        },
+        "to": {
+          "weeks": 30,
+          "days": 0
+        }
+      },
+      "mean": 1.5,
+      "rangeMin": 1,
+      "rangeMax": 2
+    },
+    {
+      "ga": {
+        "from": {
+          "weeks": 31,
+          "days": 0
+        },
+        "to": {
+          "weeks": 32,
+          "days": 0
+        }
+      },
+      "mean": 1.5,
+      "rangeMin": 1,
+      "rangeMax": 2
+    },
+    {
+      "ga": {
+        "from": {
+          "weeks": 33,
+          "days": 0
+        },
+        "to": {
+          "weeks": 34,
+          "days": 0
+        }
+      },
+      "mean": 2.1,
+      "rangeMin": 1,
+      "rangeMax": 3
+    },
+    {
+      "ga": {
+        "from": {
+          "weeks": 35,
+          "days": 0
+        },
+        "to": {
+          "weeks": 36,
+          "days": 0
+        }
+      },
+      "mean": 1.9,
+      "rangeMin": 1,
+      "rangeMax": 3
+    },
+    {
+      "ga": {
+        "from": {
+          "weeks": 37,
+          "days": 0
+        },
+        "to": {
+          "weeks": 38,
+          "days": 0
+        }
+      },
+      "mean": 2.1,
+      "rangeMin": 1,
+      "rangeMax": 3
+    },
+    {
+      "ga": {
+        "from": {
+          "weeks": 39,
+          "days": 0
+        },
+        "to": {
+          "weeks": 40,
+          "days": 0
+        }
+      },
+      "mean": 2.8,
+      "rangeMin": 2,
+      "rangeMax": 4
+    }
+  ],
+  "sourceCard": "image-26-06-26-04-57-17.jpeg",
+  "verified": false
+}
