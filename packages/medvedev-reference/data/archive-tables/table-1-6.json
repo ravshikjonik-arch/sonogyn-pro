@@ -1,0 +1,74 @@
+{
+  "tableId": "1.6",
+  "titleRu": "Нормативные показатели длины носовых костей плода в зависимости от КТР",
+  "source": "Н.А. Алтынник, М.В. Медведев, 2012",
+  "clinicalBlock": "screening_i",
+  "tableType": "percentile_by_crl_range",
+  "gaAxis": "crl_mm",
+  "gaAxisNote": "Диапазон КТР в мм, не календарная дата",
+  "parameter": {
+    "id": "nasalBoneLength",
+    "labelRu": "Длина носовой кости",
+    "unit": "mm"
+  },
+  "rows": [
+    {
+      "crlMmFrom": 45,
+      "crlMmTo": 50,
+      "p5": 1.35,
+      "p50": 1.75,
+      "p95": 2.15
+    },
+    {
+      "crlMmFrom": 51,
+      "crlMmTo": 55,
+      "p5": 1.4,
+      "p50": 1.86,
+      "p95": 2.32
+    },
+    {
+      "crlMmFrom": 56,
+      "crlMmTo": 60,
+      "p5": 1.49,
+      "p50": 1.95,
+      "p95": 2.41
+    },
+    {
+      "crlMmFrom": 61,
+      "crlMmTo": 65,
+      "p5": 1.58,
+      "p50": 2.05,
+      "p95": 2.52
+    },
+    {
+      "crlMmFrom": 66,
+      "crlMmTo": 70,
+      "p5": 1.69,
+      "p50": 2.18,
+      "p95": 2.67
+    },
+    {
+      "crlMmFrom": 71,
+      "crlMmTo": 75,
+      "p5": 1.88,
+      "p50": 2.39,
+      "p95": 2.9
+    },
+    {
+      "crlMmFrom": 76,
+      "crlMmTo": 80,
+      "p5": 2.21,
+      "p50": 2.73,
+      "p95": 3.25
+    },
+    {
+      "crlMmFrom": 81,
+      "crlMmTo": 84,
+      "p5": 2.5,
+      "p50": 3.02,
+      "p95": 3.54
+    }
+  ],
+  "sourceCard": "image-26-06-26-04-57-1.jpeg",
+  "verified": false
+}

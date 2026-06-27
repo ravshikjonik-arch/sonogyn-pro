@@ -21,6 +21,7 @@ function gaSortKey(row) {
   if (typeof row.gaDaysFromLmp === "number") return row.gaDaysFromLmp;
   if (typeof row.msdMm === "number") return row.msdMm;
   if (typeof row.crlMm === "number") return row.crlMm;
+  if (typeof row.ribLengthMm === "number") return row.ribLengthMm;
   if (row.ga?.weeks != null) return row.ga.weeks * 7 + (row.ga.days ?? 0);
   if (row.ga?.from?.weeks != null) return row.ga.from.weeks * 7 + (row.ga.from.days ?? 0);
   return null;
@@ -45,7 +46,7 @@ for (const file of files) {
   for (const row of data.rows) {
     const sortKey = gaSortKey(row);
     const gk = sortKey == null ? "?" : String(sortKey);
-    if (sortKey != null && sortKey <= prevSort && row.msdMm == null && row.crlMm == null) {
+    if (sortKey != null && sortKey <= prevSort && row.msdMm == null && row.crlMm == null && row.ribLengthMm == null) {
       fail(`${file}: ось не монотонна ${prevSort} → ${sortKey}`);
     }
     if (sortKey != null) prevSort = sortKey;
@@ -105,11 +106,30 @@ for (const file of files) {
 
   if (data.tableId === "1.11") {
     const crls = data.rows.map((r) => r.crlMm);
-    if (crls[0] !== 1 || crls[crls.length - 1] !== 15) {
-      fail(`${file}: crlMm должен быть 1–15`);
+    if (crls[0] !== 1 || crls[crls.length - 1] !== 40) {
+      fail(`${file}: crlMm должен быть 1–40, got ${crls[0]}–${crls[crls.length - 1]}`);
     }
     for (let i = 1; i < crls.length; i++) {
       if (crls[i] !== crls[i - 1] + 1) fail(`${file}: пропуск crlMm ${crls[i - 1]}→${crls[i]}`);
+    }
+  }
+
+  if (data.tableId === "1.6") {
+    let prevTo = 0;
+    for (const row of data.rows) {
+      if (row.crlMmFrom <= prevTo) fail(`${file}: перекрытие CRL ${row.crlMmFrom}–${row.crlMmTo}`);
+      if (row.crlMmTo < row.crlMmFrom) fail(`${file}: crlMmTo < crlMmFrom`);
+      prevTo = row.crlMmTo;
+    }
+    if (data.rows[0].crlMmFrom !== 45 || prevTo !== 84) {
+      fail(`${file}: диапазоны КТР должны покрывать 45–84 мм`);
+    }
+  }
+
+  if (data.tableId === "2.64" && !data.partial) {
+    const weeks = data.rows.map((r) => r.ga.weeks);
+    if (weeks[0] !== 14 || weeks[weeks.length - 1] !== 40) {
+      fail(`${file}: UA RI недели 14–40, got ${weeks[0]}–${weeks[weeks.length - 1]}`);
     }
   }
 }

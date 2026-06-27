@@ -1,0 +1,362 @@
+{
+  "tableId": "2.49",
+  "titleRu": "Нормативные значения размеров желчного пузыря плода",
+  "source": "L. Chan et al., 1995",
+  "clinicalBlock": "anatomy_other",
+  "tableType": "percentile_by_ga",
+  "rows": [
+    {
+      "ga": {
+        "from": {
+          "weeks": 15,
+          "days": 0
+        },
+        "to": {
+          "weeks": 16,
+          "days": 0
+        }
+      },
+      "longitudinal": {
+        "p5": 4,
+        "p50": 7,
+        "p95": 10
+      },
+      "anteroposterior": {
+        "p5": 2,
+        "p50": 3,
+        "p95": 4
+      },
+      "transverse": {
+        "p5": 3,
+        "p50": 4,
+        "p95": 5
+      }
+    },
+    {
+      "ga": {
+        "from": {
+          "weeks": 17,
+          "days": 0
+        },
+        "to": {
+          "weeks": 18,
+          "days": 0
+        }
+      },
+      "longitudinal": {
+        "p5": 6,
+        "p50": 9,
+        "p95": 12
+      },
+      "anteroposterior": {
+        "p5": 2,
+        "p50": 3,
+        "p95": 4
+      },
+      "transverse": {
+        "p5": 3,
+        "p50": 4,
+        "p95": 5
+      }
+    },
+    {
+      "ga": {
+        "from": {
+          "weeks": 19,
+          "days": 0
+        },
+        "to": {
+          "weeks": 20,
+          "days": 0
+        }
+      },
+      "longitudinal": {
+        "p5": 10,
+        "p50": 12,
+        "p95": 14
+      },
+      "anteroposterior": {
+        "p5": 3,
+        "p50": 4,
+        "p95": 5
+      },
+      "transverse": {
+        "p5": 4,
+        "p50": 5,
+        "p95": 6
+      }
+    },
+    {
+      "ga": {
+        "from": {
+          "weeks": 21,
+          "days": 0
+        },
+        "to": {
+          "weeks": 22,
+          "days": 0
+        }
+      },
+      "longitudinal": {
+        "p5": 12,
+        "p50": 16,
+        "p95": 20
+      },
+      "anteroposterior": {
+        "p5": 3,
+        "p50": 4,
+        "p95": 5
+      },
+      "transverse": {
+        "p5": 3,
+        "p50": 5,
+        "p95": 7
+      }
+    },
+    {
+      "ga": {
+        "from": {
+          "weeks": 23,
+          "days": 0
+        },
+        "to": {
+          "weeks": 24,
+          "days": 0
+        }
+      },
+      "longitudinal": {
+        "p5": 14,
+        "p50": 17,
+        "p95": 20
+      },
+      "anteroposterior": {
+        "p5": 4,
+        "p50": 5,
+        "p95": 6
+      },
+      "transverse": {
+        "p5": 4,
+        "p50": 6,
+        "p95": 8
+      }
+    },
+    {
+      "ga": {
+        "from": {
+          "weeks": 25,
+          "days": 0
+        },
+        "to": {
+          "weeks": 26,
+          "days": 0
+        }
+      },
+      "longitudinal": {
+        "p5": 16,
+        "p50": 19,
+        "p95": 22
+      },
+      "anteroposterior": {
+        "p5": 4,
+        "p50": 5,
+        "p95": 6
+      },
+      "transverse": {
+        "p5": 4,
+        "p50": 6,
+        "p95": 8
+      }
+    },
+    {
+      "ga": {
+        "from": {
+          "weeks": 27,
+          "days": 0
+        },
+        "to": {
+          "weeks": 28,
+          "days": 0
+        }
+      },
+      "longitudinal": {
+        "p5": 16,
+        "p50": 20,
+        "p95": 24
+      },
+      "anteroposterior": {
+        "p5": 4,
+        "p50": 6,
+        "p95": 8
+      },
+      "transverse": {
+        "p5": 5,
+        "p50": 6,
+        "p95": 7
+      }
+    },
+    {
+      "ga": {
+        "from": {
+          "weeks": 29,
+          "days": 0
+        },
+        "to": {
+          "weeks": 30,
+          "days": 0
+        }
+      },
+      "longitudinal": {
+        "p5": 18,
+        "p50": 23,
+        "p95": 28
+      },
+      "anteroposterior": {
+        "p5": 5,
+        "p50": 6,
+        "p95": 7
+      },
+      "transverse": {
+        "p5": 6,
+        "p50": 8,
+        "p95": 10
+      }
+    },
+    {
+      "ga": {
+        "from": {
+          "weeks": 31,
+          "days": 0
+        },
+        "to": {
+          "weeks": 32,
+          "days": 0
+        }
+      },
+      "longitudinal": {
+        "p5": 19,
+        "p50": 25,
+        "p95": 31
+      },
+      "anteroposterior": {
+        "p5": 4,
+        "p50": 6,
+        "p95": 8
+      },
+      "transverse": {
+        "p5": 6,
+        "p50": 8,
+        "p95": 10
+      }
+    },
+    {
+      "ga": {
+        "from": {
+          "weeks": 33,
+          "days": 0
+        },
+        "to": {
+          "weeks": 34,
+          "days": 0
+        }
+      },
+      "longitudinal": {
+        "p5": 18,
+        "p50": 23,
+        "p95": 28
+      },
+      "anteroposterior": {
+        "p5": 4,
+        "p50": 6,
+        "p95": 8
+      },
+      "transverse": {
+        "p5": 5,
+        "p50": 7,
+        "p95": 9
+      }
+    },
+    {
+      "ga": {
+        "from": {
+          "weeks": 35,
+          "days": 0
+        },
+        "to": {
+          "weeks": 36,
+          "days": 0
+        }
+      },
+      "longitudinal": {
+        "p5": 20,
+        "p50": 25,
+        "p95": 30
+      },
+      "anteroposterior": {
+        "p5": 4,
+        "p50": 6,
+        "p95": 8
+      },
+      "transverse": {
+        "p5": 5,
+        "p50": 8,
+        "p95": 11
+      }
+    },
+    {
+      "ga": {
+        "from": {
+          "weeks": 37,
+          "days": 0
+        },
+        "to": {
+          "weeks": 38,
+          "days": 0
+        }
+      },
+      "longitudinal": {
+        "p5": 18,
+        "p50": 26,
+        "p95": 34
+      },
+      "anteroposterior": {
+        "p5": 4,
+        "p50": 6,
+        "p95": 8
+      },
+      "transverse": {
+        "p5": 4,
+        "p50": 6,
+        "p95": 8
+      }
+    },
+    {
+      "ga": {
+        "from": {
+          "weeks": 39,
+          "days": 0
+        },
+        "to": {
+          "weeks": 40,
+          "days": 0
+        }
+      },
+      "longitudinal": {
+        "p5": 19,
+        "p50": 26,
+        "p95": 33
+      },
+      "anteroposterior": {
+        "p5": 4,
+        "p50": 6,
+        "p95": 8
+      },
+      "transverse": {
+        "p5": 4,
+        "p50": 6,
+        "p95": 8
+      }
+    }
+  ],
+  "sourceCard": "image-26-06-26-04-57-4.jpeg",
+  "verified": false
+}

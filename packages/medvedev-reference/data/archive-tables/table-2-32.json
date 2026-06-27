@@ -1,0 +1,173 @@
+{
+  "tableId": "2.32",
+  "titleRu": "Нормативные значения длины ребра — срок беременности (обратная таблица)",
+  "source": "A. Abuhamad et al., 1996",
+  "clinicalBlock": "fetometry",
+  "tableType": "ga_from_measurement",
+  "parameter": {
+    "id": "ribLength",
+    "labelRu": "Длина ребра",
+    "unit": "mm"
+  },
+  "gaAxisNote": "Срок в неделях (десятичный: 11.8 = 11+6), не календарная дата",
+  "rows": [
+    {
+      "ribLengthMm": 15,
+      "gaMinus2SdWeeks": 7.2,
+      "gaMeanWeeks": 11.8,
+      "gaPlus2SdWeeks": 16.5
+    },
+    {
+      "ribLengthMm": 17.5,
+      "gaMinus2SdWeeks": 8.4,
+      "gaMeanWeeks": 13.1,
+      "gaPlus2SdWeeks": 17.7
+    },
+    {
+      "ribLengthMm": 20,
+      "gaMinus2SdWeeks": 9.7,
+      "gaMeanWeeks": 14.4,
+      "gaPlus2SdWeeks": 19
+    },
+    {
+      "ribLengthMm": 22.5,
+      "gaMinus2SdWeeks": 10.6,
+      "gaMeanWeeks": 15.2,
+      "gaPlus2SdWeeks": 19.9
+    },
+    {
+      "ribLengthMm": 25,
+      "gaMinus2SdWeeks": 11.7,
+      "gaMeanWeeks": 16.3,
+      "gaPlus2SdWeeks": 21
+    },
+    {
+      "ribLengthMm": 27.5,
+      "gaMinus2SdWeeks": 12.8,
+      "gaMeanWeeks": 17.4,
+      "gaPlus2SdWeeks": 22
+    },
+    {
+      "ribLengthMm": 30,
+      "gaMinus2SdWeeks": 13.8,
+      "gaMeanWeeks": 18.5,
+      "gaPlus2SdWeeks": 23.1
+    },
+    {
+      "ribLengthMm": 32.5,
+      "gaMinus2SdWeeks": 14.9,
+      "gaMeanWeeks": 19.5,
+      "gaPlus2SdWeeks": 24.2
+    },
+    {
+      "ribLengthMm": 35,
+      "gaMinus2SdWeeks": 16,
+      "gaMeanWeeks": 20.7,
+      "gaPlus2SdWeeks": 25.3
+    },
+    {
+      "ribLengthMm": 37.5,
+      "gaMinus2SdWeeks": 17.2,
+      "gaMeanWeeks": 21.8,
+      "gaPlus2SdWeeks": 26.4
+    },
+    {
+      "ribLengthMm": 40,
+      "gaMinus2SdWeeks": 18.2,
+      "gaMeanWeeks": 22.9,
+      "gaPlus2SdWeeks": 27.5
+    },
+    {
+      "ribLengthMm": 42.5,
+      "gaMinus2SdWeeks": 19.3,
+      "gaMeanWeeks": 23.9,
+      "gaPlus2SdWeeks": 28.6
+    },
+    {
+      "ribLengthMm": 45,
+      "gaMinus2SdWeeks": 20.4,
+      "gaMeanWeeks": 25.1,
+      "gaPlus2SdWeeks": 29.7
+    },
+    {
+      "ribLengthMm": 47.5,
+      "gaMinus2SdWeeks": 21.7,
+      "gaMeanWeeks": 26.3,
+      "gaPlus2SdWeeks": 30.9
+    },
+    {
+      "ribLengthMm": 50,
+      "gaMinus2SdWeeks": 22.6,
+      "gaMeanWeeks": 27.2,
+      "gaPlus2SdWeeks": 31.8
+    },
+    {
+      "ribLengthMm": 52.5,
+      "gaMinus2SdWeeks": 23.6,
+      "gaMeanWeeks": 28.3,
+      "gaPlus2SdWeeks": 32.9
+    },
+    {
+      "ribLengthMm": 55,
+      "gaMinus2SdWeeks": 24.8,
+      "gaMeanWeeks": 29.4,
+      "gaPlus2SdWeeks": 34
+    },
+    {
+      "ribLengthMm": 57.5,
+      "gaMinus2SdWeeks": 25.9,
+      "gaMeanWeeks": 30.6,
+      "gaPlus2SdWeeks": 35.2
+    },
+    {
+      "ribLengthMm": 60,
+      "gaMinus2SdWeeks": 26.9,
+      "gaMeanWeeks": 31.6,
+      "gaPlus2SdWeeks": 36.2
+    },
+    {
+      "ribLengthMm": 62.5,
+      "gaMinus2SdWeeks": 28.1,
+      "gaMeanWeeks": 32.7,
+      "gaPlus2SdWeeks": 37.3
+    },
+    {
+      "ribLengthMm": 65,
+      "gaMinus2SdWeeks": 29.2,
+      "gaMeanWeeks": 33.8,
+      "gaPlus2SdWeeks": 38.5
+    },
+    {
+      "ribLengthMm": 67.5,
+      "gaMinus2SdWeeks": 30.3,
+      "gaMeanWeeks": 34.9,
+      "gaPlus2SdWeeks": 39.6
+    },
+    {
+      "ribLengthMm": 70,
+      "gaMinus2SdWeeks": 31.2,
+      "gaMeanWeeks": 35.8,
+      "gaPlus2SdWeeks": 40.5
+    },
+    {
+      "ribLengthMm": 72.5,
+      "gaMinus2SdWeeks": 32.5,
+      "gaMeanWeeks": 37.1,
+      "gaPlus2SdWeeks": 41.7
+    },
+    {
+      "ribLengthMm": 74,
+      "gaMinus2SdWeeks": 33.4,
+      "gaMeanWeeks": 38,
+      "gaPlus2SdWeeks": 42.6
+    },
+    {
+      "ribLengthMm": 80,
+      "gaMinus2SdWeeks": 35.5,
+      "gaMeanWeeks": 40.2,
+      "gaPlus2SdWeeks": 44.8
+    }
+  ],
+  "sourceCard": "image-26-06-26-04-57-5.jpeg",
+  "verified": false
+}
