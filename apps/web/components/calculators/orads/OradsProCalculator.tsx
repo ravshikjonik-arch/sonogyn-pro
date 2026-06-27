@@ -9,6 +9,7 @@ import { saveCalculatorEntry } from "@/app/actions/calculator-actions";
 import { AdnexConsensusPanel } from "@/components/calculators/orads/AdnexConsensusPanel";
 import { IotaConsensusWebPanel } from "@/components/calculators/orads/IotaConsensusWebPanel";
 import { OradsNosologyPreview } from "@/components/calculators/orads/OradsNosologyPreview";
+import { OradsSizeTripletInput } from "@/components/calculators/orads/OradsSizeTripletInput";
 import { useOradsProForm } from "@/components/calculators/orads/useOradsProForm";
 import { useIotaInterpretationAchievement } from "@/lib/achievements/use-calculator-achievements";
 import { CalcChip, CalcStepCard, CalcSubLabel } from "@/components/calculators/shared/calc-ui";
@@ -394,11 +395,13 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
                 ) : null}
 
                 <CalcStepCard title="6. Размер">
-                  <Input
-                    placeholder="Наибольший диаметр, мм"
-                    inputMode="numeric"
-                    value={f.lengthMm}
-                    onChange={(e) => f.setLengthMm(e.target.value.replace(/[^\d.,]/g, ""))}
+                  <OradsSizeTripletInput
+                    lengthMm={f.lengthMm}
+                    widthMm={f.widthMm}
+                    heightMm={f.heightMm}
+                    onLengthChange={f.setLengthMm}
+                    onWidthChange={f.setWidthMm}
+                    onHeightChange={f.setHeightMm}
                   />
                 </CalcStepCard>
 
@@ -430,12 +433,15 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
                 </CalcStepCard>
               </>
             ) : f.lesionKind === "physiological" ? (
-              <CalcStepCard title="3. Размер, мм">
-                <Input
-                  placeholder="Наибольший диаметр (≤30 мм → O-RADS 1)"
-                  inputMode="numeric"
-                  value={f.lengthMm}
-                  onChange={(e) => f.setLengthMm(e.target.value.replace(/[^\d.,]/g, ""))}
+              <CalcStepCard title="3. Размер">
+                <OradsSizeTripletInput
+                  lengthMm={f.lengthMm}
+                  widthMm={f.widthMm}
+                  heightMm={f.heightMm}
+                  onLengthChange={f.setLengthMm}
+                  onWidthChange={f.setWidthMm}
+                  onHeightChange={f.setHeightMm}
+                  hint="Для физиологического образования O-RADS 1 — наибольший диаметр ≤30 мм."
                 />
               </CalcStepCard>
             ) : null}

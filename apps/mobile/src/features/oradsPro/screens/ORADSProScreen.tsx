@@ -573,13 +573,18 @@ export default function ORADSProScreen({ navigation, route }: Props) {
           </>
         ) : null}
 
-        <StepCard title="ШАГ 6 — Дополнительные признаки">
-          <Text style={styles.sub}>Размеры (мм)</Text>
+        <StepCard title="ШАГ 6 — Размер">
+          <Text style={styles.sub}>40 × 20 × 40 мм — три перпендикулярных диаметра</Text>
           <View style={styles.row}>
             <TextInput value={lengthMm} onChangeText={setLengthMm} placeholder="Длина" keyboardType="numeric" style={styles.inputFlex} />
+            <Text style={styles.dimSep}>×</Text>
             <TextInput value={widthMm} onChangeText={setWidthMm} placeholder="Ширина" keyboardType="numeric" style={styles.inputFlex} />
+            <Text style={styles.dimSep}>×</Text>
             <TextInput value={heightMm} onChangeText={setHeightMm} placeholder="Высота" keyboardType="numeric" style={styles.inputFlex} />
           </View>
+          {result.volumeMl != null ? (
+            <Text style={styles.volumeHint}>Объём: {result.volumeMl} мл (эллипсоид ×0,523)</Text>
+          ) : null}
           <Text style={styles.sub}>Асцит</Text>
           <View style={styles.rowWrap}>
             <SelectChip label="Нет" selected={!ascites} onPress={() => setAscites(false)} />
@@ -763,6 +768,8 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     backgroundColor: "#fff",
   },
+  dimSep: { fontSize: 18, fontWeight: "800", color: "#0f172a", paddingHorizontal: 2 },
+  volumeHint: { fontSize: 13, fontWeight: "700", color: "#0c4a6e", marginBottom: 4 },
   export: {
     borderRadius: 10,
     backgroundColor: "#2563EB",
