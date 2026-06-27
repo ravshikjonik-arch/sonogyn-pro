@@ -9,17 +9,16 @@ import {
 } from "./pregnancyDating";
 
 describe("pregnancyDating from study", () => {
-  it("CRL 45.5 mm on 2020-06-26 → ПМП 2020-04-11, ПДР 2021-01-16", () => {
+  it("CRL 45.5 mm on 2020-06-26 → Medvedev 1.2 p50, ПМП 2020-04-07, ПДР 2021-01-12", () => {
     const us = new Date(2020, 5, 26);
     const d = datingFromCrlAndUsDate(us, 45.5, us)!;
-    assert.equal(d.lmpEstimate.toISOString().slice(0, 10), "2020-04-10"); // local TZ may be -1 day in ISO
     assert.equal(d.lmpEstimate.getFullYear(), 2020);
     assert.equal(d.lmpEstimate.getMonth(), 3);
-    assert.equal(d.lmpEstimate.getDate(), 11);
+    assert.equal(d.lmpEstimate.getDate(), 7);
     assert.equal(d.edd.getFullYear(), 2021);
     assert.equal(d.edd.getMonth(), 0);
-    assert.equal(d.edd.getDate(), 16);
-    assert.equal(d.gaAtStudyDays, 76);
+    assert.equal(d.edd.getDate(), 12);
+    assert.equal(d.gaAtStudyDays, 80);
   });
 
   it("does not show 300+ weeks when ПДР long passed", () => {

@@ -14,39 +14,30 @@ export function gaDaysFromCrlMm(crlMm: number): number | null {
   return Math.round(8.052 * Math.sqrt(crlMm) + 23.73);
 }
 
-/** Tabulated CRL (mm) → GA days — linear interpolation (1st trimester screening tables). */
-const CRL_TABLE: [number, number][] = [
-  [2, 29],
-  [5, 36],
-  [10, 49],
-  [15, 55],
-  [20, 60],
-  [25, 64],
-  [30, 67],
-  [35, 70],
-  [40, 73],
-  [45, 76],
-  [50, 79],
-  [55, 81],
-  [60, 84],
-  [65, 87],
-  [70, 90],
-  [75, 93],
-  [80, 96],
-  [84, 98],
-];
+import crlMedvedev12 from "./data/crl-medvedev-12-p50.json";
 
-export function gaDaysFromCrlTable(crlMm: number): number | null {
-  if (!Number.isFinite(crlMm) || crlMm < 2 || crlMm > 84) return null;
-  for (let i = 0; i < CRL_TABLE.length - 1; i++) {
-    const [x0, y0] = CRL_TABLE[i];
-    const [x1, y1] = CRL_TABLE[i + 1];
+/** Medvedev table 1.2 (Altynnik 2001): CRL p50 → GA days, inverse linear interpolation. */
+const CRL_MEDVEDEV_P50: [number, number][] = crlMedvedev12.points as [number, number][];
+
+function interpolateInverseCrlToGa(crlMm: number, table: [number, number][]): number | null {
+  for (let i = 0; i < table.length - 1; i++) {
+    const [x0, y0] = table[i];
+    const [x1, y1] = table[i + 1];
     if (crlMm >= x0 && crlMm <= x1) {
       const t = (crlMm - x0) / (x1 - x0);
       return Math.round(y0 + t * (y1 - y0));
     }
   }
   return null;
+}
+
+/** Tabulated CRL (mm) → GA days — Medvedev 1.2 p50; Robinson fallback at edges. */
+export function gaDaysFromCrlTable(crlMm: number): number | null {
+  if (!Number.isFinite(crlMm) || crlMm < 2 || crlMm > 84) return null;
+  if (crlMm >= crlMedvedev12.minCrl && crlMm <= crlMedvedev12.maxCrl) {
+    return interpolateInverseCrlToGa(crlMm, CRL_MEDVEDEV_P50);
+  }
+  return gaDaysFromCrlMm(crlMm);
 }
 
 export type BiometryKind = "BPD" | "HC" | "FL" | "AC" | "HL";
