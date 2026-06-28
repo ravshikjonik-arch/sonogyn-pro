@@ -157,7 +157,8 @@ export function WebinarRoomClient({ lessonId, courseId }: Props) {
 
   const status = meta.session?.status ?? "scheduled";
   const showLive = status === "live" || (meta.isHost && join);
-  const showReplay = status === "ended" && meta.hasRecording;
+  const showRecording = meta.hasRecording && !showLive;
+  const needsLiveKitForLive = !meta.liveKitConfigured && (status === "live" || meta.isHost);
 
   return (
     <div className="space-y-6">
@@ -201,18 +202,20 @@ export function WebinarRoomClient({ lessonId, courseId }: Props) {
         </div>
       </div>
 
-      {!meta.liveKitConfigured ? (
+      {needsLiveKitForLive && !showRecording ? (
         <div className="rounded-2xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900 dark:bg-amber-950/30 dark:text-amber-200">
-          LiveKit не настроен. Добавьте `LIVEKIT_API_KEY`, `LIVEKIT_API_SECRET`, `NEXT_PUBLIC_LIVEKIT_URL` в Vercel.
-          Чат работает; видео появится после настройки.
+          LiveKit не настроен — live-эфир недоступен. Добавьте `LIVEKIT_API_KEY`, `LIVEKIT_API_SECRET`,
+          `NEXT_PUBLIC_LIVEKIT_URL` на Vercel и redeploy. Запись и чат работают без LiveKit.
         </div>
       ) : null}
 
       <div className="grid gap-4 xl:grid-cols-[1fr_340px]">
         <div className="space-y-3">
-          {showReplay ? (
+          {showRecording ? (
             <div>
-              <p className="mb-2 text-sm font-medium text-[var(--clinical-foreground-muted)]">Запись эфира</p>
+              <p className="mb-2 text-sm font-medium text-[var(--clinical-foreground-muted)]">
+                {status === "ended" ? "Запись эфира" : "Видео"}
+              </p>
               <LessonVideoPlayer lessonId={lessonId} />
             </div>
           ) : showLive && join && meta.liveKitConfigured ? (

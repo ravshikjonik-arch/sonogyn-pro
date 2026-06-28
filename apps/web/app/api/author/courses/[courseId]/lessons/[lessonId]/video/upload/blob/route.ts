@@ -30,6 +30,7 @@ export async function POST(req: Request, { params }: Params) {
         onBeforeGenerateToken: async () => ({
           allowedContentTypes: [...ALLOWED_VIDEO_MIME],
           maximumSizeInBytes: MAX_LESSON_VIDEO_BYTES,
+          access: "private",
           tokenPayload: JSON.stringify({ courseId, lessonId }),
         }),
       });
