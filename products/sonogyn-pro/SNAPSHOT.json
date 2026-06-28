@@ -1,8 +1,8 @@
 {
   "product": "SonoGyn Pro",
   "brandShort": "SonoGyn",
-  "savedAt": "2026-05-30",
-  "gitBranch": "feature/pwa-web-platform",
+  "savedAt": "2026-06-28",
+  "gitBranch": "main",
   "canonicalSource": "apps/mobile",
   "snapshotPath": "products/sonogyn-pro/app",
   "appVersion": "0.2.0",

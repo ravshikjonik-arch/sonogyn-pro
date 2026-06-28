@@ -2,7 +2,8 @@ import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useEffect, useMemo, useState } from "react";
 import { Platform, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { communityLinks } from "../config/community";
+import { openTelegramChannel } from "../config/community";
+import { TELEGRAM_CHANNEL } from "../config/telegram";
 import { PRODUCT } from "../config/product";
 import { useAppGate } from "../navigation/AppGateContext";
 import type { RootStackParamList } from "../navigation/paramLists";
@@ -18,10 +19,8 @@ const PRODUCT_NAME = PRODUCT.fullName;
 const PRODUCT_TAGLINE = PRODUCT.taglineRu;
 const CONTACT = "+7 993 300-00-70";
 
-function openExternal(url: string) {
-  if (Platform.OS === "web" && typeof window !== "undefined") {
-    window.open(url, "_blank", "noopener,noreferrer");
-  }
+function openTelegramLink() {
+  void openTelegramChannel();
 }
 
 const features = [
@@ -221,10 +220,11 @@ export default function LandingScreen({ navigation }: Props) {
             and grow a shared language for OB/GYN, breast, thyroid and adnexal ultrasound.
           </Text>
           <Text style={styles.communityTextRu}>
-            Сообщество врачей УЗД для кейсов, протоколов, классификаций и ежедневной клинической практики.
+            Сообщество врачей УЗД: {TELEGRAM_CHANNEL.handle}. В РФ t.me может не открываться без VPN —
+            используйте приложение Telegram или VPN.
           </Text>
-          <Pressable style={styles.telegramBtn} onPress={() => openExternal(communityLinks.telegramChannelUrl)}>
-            <Text style={styles.telegramBtnText}>Join Telegram Channel</Text>
+          <Pressable style={styles.telegramBtn} onPress={openTelegramLink}>
+            <Text style={styles.telegramBtnText}>Telegram · {TELEGRAM_CHANNEL.name}</Text>
           </Pressable>
         </View>
 
@@ -240,8 +240,8 @@ export default function LandingScreen({ navigation }: Props) {
             <Pressable onPress={() => navigation.navigate("TermsOfUse")}>
               <Text style={styles.footerLink}>Terms</Text>
             </Pressable>
-            <Pressable onPress={() => openExternal(communityLinks.telegramChannelUrl)}>
-              <Text style={styles.footerLink}>Telegram Channel</Text>
+            <Pressable onPress={openTelegramLink}>
+              <Text style={styles.footerLink}>Telegram · {TELEGRAM_CHANNEL.handle}</Text>
             </Pressable>
             <Text style={styles.footerLink}>Telegram / Contact: {CONTACT}</Text>
           </View>

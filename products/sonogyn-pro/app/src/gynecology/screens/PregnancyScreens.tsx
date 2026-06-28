@@ -4,19 +4,22 @@ import type { PageType } from "../../navigationTypes";
 import { GynBackToHub } from "../components/GynBackToHub";
 import { formatRuDate, parseRuDate } from "../dateUtils";
 import {
-  approximateGaDaysFromSingleBiometry,
   eddFromEmbryoTransfer,
   eddFromLmp,
   eddFromOvulation,
-  eddFromUltrasound,
-  gaDaysFromCrlMm,
   gaFromLmp,
   maternityLeaveHintsRu,
   screeningHintsRu,
-  eddFromCrlAndUsDate,
-  eddFromBiometryAndUsDate,
   lmpFromEdd,
 } from "../pregnancyCalc";
+import {
+  datingFromBiometryAndUsDate,
+  datingFromCrlAndUsDate,
+  datingFromMsdAndUsDate,
+  datingFromGaAtStudy,
+  formatGaTodayLabel,
+  splitGaDays,
+} from "@repo/medical-calculations";
 import { gynRouterStyles as s } from "../gynRouterStyles";
 
 export function ScreenGaLmp({ setPage }: { setPage: (p: PageType) => void }) {
@@ -65,14 +68,15 @@ export function ScreenGaUs({ setPage }: { setPage: (p: PageType) => void }) {
     }
     const w = Math.max(0, parseInt(gw, 10) || 0);
     const d = Math.min(6, Math.max(0, parseInt(gd, 10) || 0));
-    const edd = eddFromUltrasound(us, w, d);
-    const lmpEst = lmpFromEdd(edd);
-    const gaToday = gaFromLmp(lmpEst, new Date());
-    const hints = screeningHintsRu(gaToday.totalDays);
+    const dating = datingFromGaAtStudy(us, w * 7 + d);
+    const atStudy = splitGaDays(dating.gaAtStudyDays);
+    const gaToday = formatGaTodayLabel(dating);
+    const hints = screeningHintsRu(gaToday.hintsGaDays);
     setOut(
-      `ПДР по УЗИ: ${formatRuDate(edd)}\n` +
-        `Оценка ПМП: ${formatRuDate(lmpEst)}\n` +
-        `Срок сегодня (от оценки ПМП): ${gaToday.weeks} нед. ${gaToday.days} дн.\n\n` +
+      `Срок на дату УЗИ: ${atStudy.weeks} нед. ${atStudy.days} дн.\n` +
+        `ПДР: ${formatRuDate(dating.edd)}\n` +
+        `Оценка ПМП: ${formatRuDate(dating.lmpEstimate)}\n` +
+        `${gaToday.line}\n\n` +
         hints.join("\n")
     );
   };
@@ -200,23 +204,19 @@ export function ScreenCrl({ setPage }: { setPage: (p: PageType) => void }) {
       setOut("Дата УЗИ и КТР в мм");
       return;
     }
-    const gaDays = gaDaysFromCrlMm(mm);
-    if (gaDays == null) {
+    const dating = datingFromCrlAndUsDate(us, mm);
+    if (!dating) {
       setOut("КТР обычно 2–84 мм для I триместра.");
       return;
     }
-    const edd = eddFromCrlAndUsDate(us, mm);
-    if (!edd) {
-      setOut("Не удалось оценить ПДР.");
-      return;
-    }
-    const w = Math.floor(gaDays / 7);
-    const d = gaDays % 7;
-    const hints = screeningHintsRu(gaDays);
+    const atStudy = splitGaDays(dating.gaAtStudyDays);
+    const gaToday = formatGaTodayLabel(dating);
+    const hints = screeningHintsRu(gaToday.hintsGaDays);
     setOut(
-      `Срок по КТР на дату УЗИ: ${w} нед. ${d} дн. (${gaDays} дн.)\n` +
-        `ПДР: ${formatRuDate(edd)}\n` +
-        `ПМП (оценка): ${formatRuDate(lmpFromEdd(edd))}\n\n` +
+      `КТР ${mm} мм → срок на дату УЗИ: ${atStudy.weeks} нед. ${atStudy.days} дн.\n` +
+        `ПДР: ${formatRuDate(dating.edd)}\n` +
+        `Оценка ПМП: ${formatRuDate(dating.lmpEstimate)}\n` +
+        `${gaToday.line}\n\n` +
         hints.join("\n")
     );
   };
@@ -228,6 +228,49 @@ export function ScreenCrl({ setPage }: { setPage: (p: PageType) => void }) {
       <TextInput value={usStr} onChangeText={setUsStr} placeholder="20.03.2025" style={s.input} />
       <Text style={s.label}>КТР, мм</Text>
       <TextInput value={crl} onChangeText={setCrl} keyboardType="decimal-pad" placeholder="45" style={s.input} />
+      <Pressable style={s.btn} onPress={run}>
+        <Text style={s.btnText}>Рассчитать</Text>
+      </Pressable>
+      {out ? <Text style={s.result}>{out}</Text> : null}
+    </View>
+  );
+}
+
+export function ScreenMsd({ setPage }: { setPage: (p: PageType) => void }) {
+  const [usStr, setUsStr] = useState("");
+  const [msd, setMsd] = useState("");
+  const [out, setOut] = useState("");
+  const run = () => {
+    const us = parseRuDate(usStr);
+    const mm = parseFloat(msd.replace(",", "."));
+    if (!us || !Number.isFinite(mm)) {
+      setOut("Дата УЗИ и СВД в мм");
+      return;
+    }
+    const dating = datingFromMsdAndUsDate(us, mm);
+    if (!dating) {
+      setOut("СВД вне диапазона 6–50 мм (табл. 1.1 Medvedev).");
+      return;
+    }
+    const atStudy = splitGaDays(dating.gaAtStudyDays);
+    const gaToday = formatGaTodayLabel(dating);
+    const hints = screeningHintsRu(gaToday.hintsGaDays);
+    setOut(
+      `СВД ${mm} мм → срок на дату УЗИ: ${atStudy.weeks} нед. ${atStudy.days} дн.\n` +
+        `ПДР: ${formatRuDate(dating.edd)}\n` +
+        `Оценка ПМП: ${formatRuDate(dating.lmpEstimate)}\n` +
+        `${gaToday.line}\n\n` +
+        hints.join("\n")
+    );
+  };
+  return (
+    <View style={s.card}>
+      <GynBackToHub onPress={() => setPage("gyn_hub")} />
+      <Text style={s.title}>Срок беременности по СВД</Text>
+      <Text style={s.label}>Дата УЗИ</Text>
+      <TextInput value={usStr} onChangeText={setUsStr} placeholder="20.03.2025" style={s.input} />
+      <Text style={s.label}>СВД (средний диаметр плодного яйца), мм</Text>
+      <TextInput value={msd} onChangeText={setMsd} keyboardType="decimal-pad" placeholder="10" style={s.input} />
       <Pressable style={s.btn} onPress={run}>
         <Text style={s.btnText}>Рассчитать</Text>
       </Pressable>
@@ -248,24 +291,19 @@ export function ScreenFeto({ setPage }: { setPage: (p: PageType) => void }) {
       setOut("Дата УЗИ и размер в мм");
       return;
     }
-    const gaDays = approximateGaDaysFromSingleBiometry(kind, v);
-    if (gaDays == null) {
+    const dating = datingFromBiometryAndUsDate(us, kind, v);
+    if (!dating) {
       setOut("Проверьте диапазон размеров для выбранного параметра.");
       return;
     }
-    const edd = eddFromBiometryAndUsDate(us, kind, v);
-    if (!edd) {
-      setOut("Не удалось оценить ПДР.");
-      return;
-    }
-    const w = Math.floor(gaDays / 7);
-    const d = gaDays % 7;
-    const hints = screeningHintsRu(gaDays);
+    const atStudy = splitGaDays(dating.gaAtStudyDays);
+    const gaToday = formatGaTodayLabel(dating);
     setOut(
-      `Оценка срока по ${kind} (${v} мм): ~${w} нед. ${d} дн.\n` +
-        `ПДР (ориентир): ${formatRuDate(edd)}\n` +
-        "В I триместре предпочтительна КТР; фетометрия — грубый ориентир II–III триместра.\n\n" +
-        hints.join("\n")
+      `${kind} ${v} мм → срок на дату УЗИ: ${atStudy.weeks} нед. ${atStudy.days} дн.\n` +
+        `ПДР: ${formatRuDate(dating.edd)}\n` +
+        `Оценка ПМП: ${formatRuDate(dating.lmpEstimate)}\n` +
+        `${gaToday.line}\n` +
+        "II–III триместр: ориентир, не замена I триместровой датировки по КТР."
     );
   };
   const kinds: ("BPD" | "HC" | "FL" | "AC")[] = ["BPD", "HC", "FL", "AC"];

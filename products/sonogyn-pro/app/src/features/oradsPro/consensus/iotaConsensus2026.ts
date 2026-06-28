@@ -1,4 +1,5 @@
 import type { IotaColorScore, IotaLesionType, OradsInput, OradsResult, UnilocularSubtype } from "../types";
+import { formatMeasurementDecimal, formatMm } from "@repo/medical-calculations";
 
 export const IOTA_CONSENSUS_2026 = {
   title:
@@ -81,11 +82,11 @@ function fmtSize(input: OradsInput) {
     (v): v is number => typeof v === "number" && Number.isFinite(v) && v > 0
   );
   if (values.length === 0) return "не заполнено";
-  return `${values.join(" x ")} мм`;
+  return `${values.map((v) => formatMeasurementDecimal(v)).join(" × ")} мм`;
 }
 
 function fmtMm(value?: number) {
-  return typeof value === "number" && Number.isFinite(value) && value > 0 ? `${value} мм` : "не заполнено";
+  return typeof value === "number" && Number.isFinite(value) && value > 0 ? formatMm(value) : "не заполнено";
 }
 
 function deriveLesionType(input: OradsInput): IotaLesionType | undefined {
@@ -166,6 +167,16 @@ function menopauseRu(value?: OradsInput["menopause"]) {
   return "не заполнено";
 }
 
+function patientContextRu(input: OradsInput) {
+  const parts: string[] = [];
+  if (typeof input.ageYears === "number" && input.ageYears > 0) parts.push(`${input.ageYears} лет`);
+  parts.push(menopauseRu(input.menopause));
+  if (input.menopause === "pre" && typeof input.cycleDay === "number" && input.cycleDay > 0) {
+    parts.push(`${input.cycleDay}-й день цикла`);
+  }
+  return parts.join(", ");
+}
+
 function centerRu(value?: OradsInput["iotaCenterType"]) {
   if (value === "oncology") return "онкологический центр";
   if (value === "other") return "другой центр";
@@ -212,7 +223,7 @@ export function evaluateIotaConsensus2026(input: OradsInput, orads: OradsResult)
     missingFields,
     modifiedBenignDescriptor: benignDescriptor,
     adnexVariables: [
-      { key: "ageContext", label: "Контекст пациентки", value: menopauseRu(input.menopause), complete: !!input.menopause },
+      { key: "ageContext", label: "Контекст пациентки", value: patientContextRu(input), complete: !!input.menopause },
       { key: "lesionType", label: "Тип образования", value: lesionType ? lesionTypeLabels[lesionType] : "не заполнено", complete: !!lesionType },
       { key: "maxDiameter", label: "Максимальный диаметр образования", value: fmtSize(input), complete: !!input.lengthMm && !!input.widthMm && !!input.heightMm },
       { key: "largestSolid", label: "Наибольший солидный компонент", value: fmtMm(input.largestSolidDiameterMm), complete: !solidComponentMeetsIota || !!input.largestSolidDiameterMm },

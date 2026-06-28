@@ -1,8 +1,11 @@
 import * as Clipboard from "expo-clipboard";
 import { useCallback, useMemo, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
+import { openWebPath } from "../lib/clinical-tools/openClinicalTool";
 import type { PageType } from "../navigationTypes";
 import FigoFibroidInteractive, { type FigoFibroidSnapshot } from "./FigoFibroidInteractive";
+import FigoUsAtlasPanel from "./FigoUsAtlasPanel";
+import UterusCoronalPanel from "./UterusCoronalPanel";
 import UterusSlicePanel from "./uterus3d/UterusSlicePanel";
 import {
   buildCombinedUterusReport,
@@ -105,17 +108,17 @@ const defaultDie: DeepEndometriosisConsensusInput = {
 
 export default function UterusClinicScreen({ setPage }: { setPage: (p: PageType) => void }) {
   const [figo, setFigo] = useState<FigoFibroidSnapshot | null>(null);
+  const [coronalProtocol, setCoronalProtocol] = useState("");
   const onFigoSnap = useCallback((snap: FigoFibroidSnapshot) => setFigo(snap), []);
   const [adeno, setAdeno] = useState<AdenomyosisUsConsensusInput>(defaultAdeno);
   const [die, setDie] = useState<DeepEndometriosisConsensusInput>(defaultDie);
 
   const fibroidProtocol = useMemo(() => {
+    const coronal = coronalProtocol.trim();
     const p = figo?.protocol?.trim();
-    return (
-      p ||
-      "[Миома] Укажите положение узла на схеме FIGO ниже — фрагмент протокола обновится автоматически."
-    );
-  }, [figo?.protocol]);
+    if (coronal && p) return `${coronal}\n\n${p}`;
+    return coronal || p || "[Миома] Отметьте очаг на коронарном макете или схеме FIGO — текст обновится.";
+  }, [figo?.protocol, coronalProtocol]);
 
   const merged = useMemo(
     () => buildCombinedUterusReport({ fibroidProtocol, adeno, die }),
@@ -140,10 +143,24 @@ export default function UterusClinicScreen({ setPage }: { setPage: (p: PageType)
         Финальная формулировка в документации — решение врача.
       </Text>
 
+      <Text style={s.sectionTitle}>Коронарный макет — место образования</Text>
+      <UterusCoronalPanel onProtocolChange={setCoronalProtocol} />
+
       <Text style={s.sectionTitle}>Сагиттальный срез — помощник врача (образование)</Text>
       <UterusSlicePanel />
 
       <FigoFibroidInteractive onSnapshot={onFigoSnap} />
+
+      <Text style={s.sectionTitle}>3D модель</Text>
+      <Pressable style={s.copyBtn} onPress={() => setPage("gyn_uterus_3d")}>
+        <Text style={s.copyBtnText}>Открыть 3D · FIGO в приложении</Text>
+      </Pressable>
+      <Pressable style={[s.backBtn, { marginTop: 0 }]} onPress={() => void openWebPath("/uterus-3d")}>
+        <Text style={s.backBtnText}>Web · полный атлас УЗИ</Text>
+      </Pressable>
+
+      <Text style={s.sectionTitle}>Атлас УЗИ · FIGO 0–8 + трансмуральные</Text>
+      <FigoUsAtlasPanel />
 
       <Text style={s.sectionTitle}>Аденомиоз — sono-признаки (образовательный консенсус)</Text>
       <View style={s.rowWrap}>

@@ -14,12 +14,18 @@ export type PageType =
   | "gyn_ga_ovo_ivf"
   | "gyn_dekret"
   | "gyn_ga_crl"
+  | "gyn_ga_msd"
   | "gyn_ga_feto"
   | "gyn_breast_risk"
   | "gyn_lnrads"
   | "gyn_figo_fibroid"
   | "gyn_uterus_clinic"
-  | "gyn_medvedev_consensus";
+  | "gyn_uterus_3d"
+  | "gyn_medvedev_consensus"
+  | "gyn_quick_access"
+  | "gyn_bishop"
+  | "gyn_vbac"
+  | "gyn_efw";
 
 export const SECTION_TITLE: Record<Exclude<PageType, "home">, string> = {
   orads: "O-RADS — яичники",
@@ -29,19 +35,25 @@ export const SECTION_TITLE: Record<Exclude<PageType, "home">, string> = {
   stages: "Стадии O-RADS",
   feedback: "Обратная связь",
   gyn_hub: "Для гинеколога",
-  gyn_assistant_gynecology: "Помощник гинеколога",
+  gyn_assistant_gynecology: "Помощник врача-гинеколога",
   gyn_assistant_obstetrics: "Помощник акушера",
   gyn_ga_lmp: "Срок по менструации",
   gyn_ga_us: "Срок по УЗИ",
   gyn_ga_ovo_ivf: "Овуляция и ЭКО",
   gyn_dekret: "Декрет (ориентиры)",
   gyn_ga_crl: "Срок по КТР",
+  gyn_ga_msd: "Срок по СВД",
   gyn_ga_feto: "Срок по фетометрии",
   gyn_breast_risk: "Риск рака МЖ (образовательно)",
   gyn_lnrads: "LN-RADS — лимфоузлы",
   gyn_figo_fibroid: "FIGO — миоматозный узел",
   gyn_uterus_clinic: "Матка — FIGO + аденомиоз / DIE",
+  gyn_uterus_3d: "3D матка · FIGO",
   gyn_medvedev_consensus: "Консенсусы УЗИ (Medvedev 2018)",
+  gyn_quick_access: "Для приёма врача",
+  gyn_bishop: "Шкала Бишопа",
+  gyn_vbac: "VBAC / TOLAC",
+  gyn_efw: "Масса плода",
 };
 
 export function isGynecologyPage(p: PageType): boolean {

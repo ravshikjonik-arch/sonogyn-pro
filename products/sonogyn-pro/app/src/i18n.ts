@@ -1,9 +1,16 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { I18n } from "i18n-js";
 import { attachLegalTranslations } from "./legal/i18nLegalBundle";
+import { attachOradsTranslations } from "./features/orads/i18nOradsBundle";
 
-export type AppLanguage = "ru" | "en" | "es";
+export type AppLanguage = "ru" | "en" | "es" | "fr" | "it" | "ar";
 export const APP_LANGUAGE_KEY = "app_language";
+
+const APP_LANGUAGES: AppLanguage[] = ["ru", "en", "es", "fr", "it", "ar"];
+
+export function isAppLanguage(value: string): value is AppLanguage {
+  return APP_LANGUAGES.includes(value as AppLanguage);
+}
 
 const i18n = new I18n({
   en: {
@@ -305,6 +312,45 @@ const i18n = new I18n({
     prolapse_popq_stage_3: "POP-Q Stage III",
     prolapse_popq_stage_4: "POP-Q Stage IV",
     prolapse_cm: "cm",
+    prolapse_popq_presets_title: "Examples (teaching)",
+    prolapse_popq_context_title: "1. Exam context",
+    prolapse_popq_uterus_present: "Uterus present",
+    prolapse_popq_hysterectomy: "After hysterectomy",
+    prolapse_popq_diagram_title: "2. POP-Q diagram",
+    prolapse_popq_show_normal: "Showing: normal",
+    prolapse_popq_show_patient: "Show normal anatomy",
+    prolapse_popq_labels_on: "Point labels",
+    prolapse_popq_labels_off: "Hide labels",
+    prolapse_popq_grid_title: "3. POP-Q points (3×3 grid)",
+    prolapse_popq_d_na: "D — N/A\n(after hysterectomy)",
+    prolapse_popq_leading: "leading",
+    prolapse_popq_leading_unknown: "Enter points to determine leading compartment",
+    prolapse_popq_copy_protocol: "Copy to protocol",
+    prolapse_popq_protocol_copied: "POP-Q line copied to clipboard.",
+    prolapse_popq_enter_points: "Enter POP-Q points first.",
+    prolapse_popq_diagram_disclaimer: "Educational diagram only. Does not replace clinical exam.",
+    prolapse_popq_pick_value: "Select value",
+    prolapse_popq_normal_anatomy: "Normal anatomy",
+    prolapse_popq_your_measurements: "Your measurements",
+    prolapse_popq_axis_hint: "minus — above hymen, plus — below",
+    prolapse_popq_export_section: "Documents",
+    prolapse_popq_patient_preview: "Patient sheet (preview)",
+    prolapse_popq_clinical_preview: "Clinical protocol (preview)",
+    prolapse_popq_patient_pdf: "PDF for patient",
+    prolapse_popq_clinical_pdf: "PDF clinical protocol",
+    prolapse_popq_patient_pdf_title: "POP-Q · patient sheet",
+    prolapse_popq_patient_pdf_subtitle: "Exam results in plain language",
+    prolapse_popq_patient_pdf_footer:
+      "Educational material only. Not a diagnosis. Treatment is determined by your physician.",
+    prolapse_popq_clinical_pdf_title: "POP-Q · clinical exam protocol",
+    prolapse_popq_clinical_pdf_subtitle: "For medical record / operative chart",
+    prolapse_popq_clinical_pdf_footer:
+      "Auxiliary documentation. Does not replace the physician's clinical conclusion.",
+    prolapse_popq_copy_clinical: "Copy clinical block",
+    prolapse_popq_clinical_copied: "Clinical protocol copied.",
+    prolapse_popq_meta_stage: "Stage",
+    prolapse_popq_meta_leading: "Leading compartment",
+    prolapse_popq_meta_context: "Context",
     prolapse_functional_subtitle: "Volume at rest vs during Valsalva (same units).",
     prolapse_functional_output_label: "Output",
     prolapse_functional_line: "Prolapse increase: %{pct}%",
@@ -654,6 +700,45 @@ const i18n = new I18n({
     prolapse_popq_stage_3: "POP-Q Stage III",
     prolapse_popq_stage_4: "POP-Q Stage IV",
     prolapse_cm: "см",
+    prolapse_popq_presets_title: "Примеры (учебные)",
+    prolapse_popq_context_title: "1. Контекст осмотра",
+    prolapse_popq_uterus_present: "Матка сохранена",
+    prolapse_popq_hysterectomy: "После гистерэктомии",
+    prolapse_popq_diagram_title: "2. Схема POP-Q",
+    prolapse_popq_show_normal: "Показаны: норма",
+    prolapse_popq_show_patient: "Показать норму",
+    prolapse_popq_labels_on: "Подписи точек",
+    prolapse_popq_labels_off: "Скрыть подписи",
+    prolapse_popq_grid_title: "3. Точки POP-Q (сетка 3×3)",
+    prolapse_popq_d_na: "D — N/A\n(после гистерэктомии)",
+    prolapse_popq_leading: "ведущая точка",
+    prolapse_popq_leading_unknown: "Введите точки для определения отдела",
+    prolapse_popq_copy_protocol: "В протокол",
+    prolapse_popq_protocol_copied: "Строка POP-Q скопирована.",
+    prolapse_popq_enter_points: "Сначала введите точки POP-Q.",
+    prolapse_popq_diagram_disclaimer: "Схема для обучения. Не заменяет клинический осмотр.",
+    prolapse_popq_pick_value: "Выберите значение",
+    prolapse_popq_normal_anatomy: "Нормальная анатомия",
+    prolapse_popq_your_measurements: "Ваши измерения",
+    prolapse_popq_axis_hint: "минус — выше гимена, плюс — ниже",
+    prolapse_popq_export_section: "Документы",
+    prolapse_popq_patient_preview: "Лист для пациентки (предпросмотр)",
+    prolapse_popq_clinical_preview: "Протокол для врача (предпросмотр)",
+    prolapse_popq_patient_pdf: "PDF для пациентки",
+    prolapse_popq_clinical_pdf: "PDF протокол осмотра",
+    prolapse_popq_patient_pdf_title: "POP-Q · лист для пациентки",
+    prolapse_popq_patient_pdf_subtitle: "Результаты осмотра понятным языком",
+    prolapse_popq_patient_pdf_footer:
+      "Материал носит информационный характер. Не является диагнозом. Тактика лечения определяется лечащим врачом.",
+    prolapse_popq_clinical_pdf_title: "POP-Q · протокол осмотра",
+    prolapse_popq_clinical_pdf_subtitle: "Для медицинской документации / операционного протокола",
+    prolapse_popq_clinical_pdf_footer:
+      "Вспомогательный документ. Не заменяет клиническое заключение врача.",
+    prolapse_popq_copy_clinical: "Копировать протокол",
+    prolapse_popq_clinical_copied: "Клинический протокол скопирован.",
+    prolapse_popq_meta_stage: "Стадия",
+    prolapse_popq_meta_leading: "Ведущий отдел",
+    prolapse_popq_meta_context: "Контекст",
     prolapse_functional_subtitle: "Объём в покое и при натуживании (одинаковые единицы).",
     prolapse_functional_output_label: "Результат",
     prolapse_functional_line: "Прирост пролапса: %{pct}%",
@@ -1002,6 +1087,45 @@ const i18n = new I18n({
     prolapse_popq_stage_3: "POP-Q estadio III",
     prolapse_popq_stage_4: "POP-Q estadio IV",
     prolapse_cm: "cm",
+    prolapse_popq_presets_title: "Ejemplos (docencia)",
+    prolapse_popq_context_title: "1. Contexto del examen",
+    prolapse_popq_uterus_present: "Utero presente",
+    prolapse_popq_hysterectomy: "Tras histerectomia",
+    prolapse_popq_diagram_title: "2. Diagrama POP-Q",
+    prolapse_popq_show_normal: "Mostrando: normal",
+    prolapse_popq_show_patient: "Mostrar anatomia normal",
+    prolapse_popq_labels_on: "Etiquetas de puntos",
+    prolapse_popq_labels_off: "Ocultar etiquetas",
+    prolapse_popq_grid_title: "3. Puntos POP-Q (cuadricula 3×3)",
+    prolapse_popq_d_na: "D — N/A\n(tras histerectomia)",
+    prolapse_popq_leading: "punto maximo",
+    prolapse_popq_leading_unknown: "Introduzca puntos para determinar el compartimento",
+    prolapse_popq_copy_protocol: "Copiar al protocolo",
+    prolapse_popq_protocol_copied: "Linea POP-Q copiada al portapapeles.",
+    prolapse_popq_enter_points: "Primero introduzca los puntos POP-Q.",
+    prolapse_popq_diagram_disclaimer: "Diagrama educativo. No sustituye el examen clinico.",
+    prolapse_popq_pick_value: "Seleccionar valor",
+    prolapse_popq_normal_anatomy: "Anatomia normal",
+    prolapse_popq_your_measurements: "Sus mediciones",
+    prolapse_popq_axis_hint: "menos — sobre el himen, mas — debajo",
+    prolapse_popq_export_section: "Documentos",
+    prolapse_popq_patient_preview: "Hoja para la paciente (vista previa)",
+    prolapse_popq_clinical_preview: "Protocolo clinico (vista previa)",
+    prolapse_popq_patient_pdf: "PDF para paciente",
+    prolapse_popq_clinical_pdf: "PDF protocolo clinico",
+    prolapse_popq_patient_pdf_title: "POP-Q · hoja para paciente",
+    prolapse_popq_patient_pdf_subtitle: "Resultados del examen en lenguaje claro",
+    prolapse_popq_patient_pdf_footer:
+      "Material informativo. No es un diagnostico. El tratamiento lo determina el medico.",
+    prolapse_popq_clinical_pdf_title: "POP-Q · protocolo de examen",
+    prolapse_popq_clinical_pdf_subtitle: "Para historia clinica / protocolo operatorio",
+    prolapse_popq_clinical_pdf_footer:
+      "Documento auxiliar. No sustituye la conclusion clinica del medico.",
+    prolapse_popq_copy_clinical: "Copiar protocolo clinico",
+    prolapse_popq_clinical_copied: "Protocolo clinico copiado.",
+    prolapse_popq_meta_stage: "Estadio",
+    prolapse_popq_meta_leading: "Compartimento principal",
+    prolapse_popq_meta_context: "Contexto",
     prolapse_functional_subtitle: "Volumen en reposo vs Valsalva (mismas unidades).",
     prolapse_functional_output_label: "Resultado",
     prolapse_functional_line: "Incremento del prolapso: %{pct}%",
@@ -1054,6 +1178,7 @@ const i18n = new I18n({
 });
 
 attachLegalTranslations(i18n);
+attachOradsTranslations(i18n);
 
 i18n.defaultLocale = "ru";
 i18n.locale = "ru";
@@ -1080,7 +1205,7 @@ warnMissingRuKeys();
 
 export async function initI18n() {
   const savedLang = await AsyncStorage.getItem(APP_LANGUAGE_KEY);
-  if (savedLang === "ru" || savedLang === "en" || savedLang === "es") {
+  if (savedLang && isAppLanguage(savedLang)) {
     i18n.locale = savedLang;
     return;
   }

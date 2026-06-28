@@ -1,98 +1,296 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import * as Clipboard from "expo-clipboard";
+import { useMemo, useState, type ReactNode } from "react";
+import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
+
+import {
+  NORMAL_ANATOMY,
+  POPQ_PRESETS,
+  buildClinicalProtocolText,
+  buildPatientReportText,
+  buildProtocolLine,
+  compartmentLabel,
+  computePopQStage,
+  inputToFieldStrings,
+  leadingCompartment,
+  leadingPointKey,
+  stageLabel,
+  type PopQInput,
+} from "@repo/medical-calculations/popq";
+
 import type { POPQPointKey } from "../../gynecology/prolapseLogic";
-import { computePOPQStage, parsePOPQFields } from "../../gynecology/prolapseLogic";
+import { exportPopqPdf } from "../../gynecology/exportPopqPdf";
 import { popqStageLabel } from "../../gynecology/prolapseStageLabel";
+import SelectChip from "../../features/oradsPro/components/SelectChip";
 import i18n from "../../i18n";
 import { theme } from "../../theme";
-
-const FIELDS: POPQPointKey[] = ["Aa", "Ba", "Ap", "Bp", "C", "D", "GH", "PB", "TVL"];
+import PopQDiagram from "./PopQDiagram";
+import PopQGrid from "./PopQGrid";
 
 type Props = {
   values: Record<POPQPointKey, string>;
+  uterusPresent: boolean;
   onChange: (k: POPQPointKey, v: string) => void;
+  onUterusPresentChange: (v: boolean) => void;
+  onBatchChange: (values: Record<POPQPointKey, string>, uterusPresent: boolean) => void;
 };
 
-function PopqPoint({ label, style }: { label: string; style: object }) {
+function SectionCard({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <View style={[styles.point, style]}>
-      <Text style={styles.pointText}>{label}</Text>
+    <View style={styles.section}>
+      <Text style={styles.sectionTitle}>{title}</Text>
+      {children}
     </View>
   );
 }
 
-function POPQSchema() {
-  return (
-    <View style={styles.schemaCard}>
-      <Text style={styles.schemaTitle}>Схема точек POP-Q</Text>
-      <Text style={styles.schemaSub}>0 см — уровень гимена. Значения выше гимена отрицательные, ниже/кнаружи — положительные.</Text>
-      <View style={styles.schema}>
-        <View style={styles.vaginalCanal} />
-        <View style={styles.hymenLine} />
-        <Text style={styles.hymenText}>гимен 0 см</Text>
+export default function POPQCalculator({
+  values,
+  uterusPresent,
+  onChange,
+  onUterusPresentChange,
+  onBatchChange,
+}: Props) {
+  const [showNormal, setShowNormal] = useState(false);
+  const [showLabels, setShowLabels] = useState(true);
 
-        <Text style={[styles.wallLabel, styles.anteriorLabel]}>передняя стенка</Text>
-        <Text style={[styles.wallLabel, styles.posteriorLabel]}>задняя стенка</Text>
+  const input = useMemo<PopQInput>(() => {
+    const parsed: PopQInput = {};
+    (Object.keys(values) as POPQPointKey[]).forEach((k) => {
+      const raw = values[k]?.trim().replace(",", ".");
+      if (!raw) return;
+      const n = Number(raw);
+      if (Number.isFinite(n)) parsed[k] = n;
+    });
+    if (!uterusPresent) delete parsed.D;
+    return parsed;
+  }, [values, uterusPresent]);
 
-        <PopqPoint label="Aa" style={styles.aa} />
-        <PopqPoint label="Ba" style={styles.ba} />
-        <PopqPoint label="C" style={styles.c} />
-        <PopqPoint label="D" style={styles.d} />
-        <PopqPoint label="Ap" style={styles.ap} />
-        <PopqPoint label="Bp" style={styles.bp} />
+  const stage = useMemo(() => computePopQStage(input), [input]);
+  const lead = useMemo(() => leadingCompartment(input, uterusPresent), [input, uterusPresent]);
+  const leadPoint = useMemo(() => leadingPointKey(input, uterusPresent), [input, uterusPresent]);
 
-        <View style={[styles.measureLine, styles.ghLine]} />
-        <Text style={[styles.measureText, styles.ghText]}>GH</Text>
-        <View style={[styles.measureLine, styles.pbLine]} />
-        <Text style={[styles.measureText, styles.pbText]}>PB</Text>
-        <View style={[styles.measureLine, styles.tvlLine]} />
-        <Text style={[styles.measureText, styles.tvlText]}>TVL</Text>
-      </View>
-      <View style={styles.schemaLegend}>
-        <Text style={styles.legendText}>Aa/Ba — передняя стенка</Text>
-        <Text style={styles.legendText}>Ap/Bp — задняя стенка</Text>
-        <Text style={styles.legendText}>C/D — верхушка/шейка и задний свод</Text>
-        <Text style={styles.legendText}>GH/PB/TVL — щель, промежность, общая длина влагалища</Text>
-      </View>
-    </View>
+  const protocolLine = useMemo(
+    () => buildProtocolLine({ stageKey: stage.stageKey, leading: lead, tvl: input.TVL }),
+    [stage.stageKey, lead, input.TVL],
   );
-}
 
-export default function POPQCalculator({ values, onChange }: Props) {
-  const parsed = parsePOPQFields(values);
-  const { maxPoint, stageKey } = computePOPQStage(parsed);
-  const stageText = popqStageLabel(stageKey);
-  const maxText = maxPoint == null ? "—" : String(maxPoint);
+  const patientReport = useMemo(
+    () => buildPatientReportText({ protocolLine, uterusPresent, points: input }),
+    [protocolLine, uterusPresent, input],
+  );
+
+  const clinicalProtocol = useMemo(
+    () =>
+      buildClinicalProtocolText({
+        protocolLine,
+        uterusPresent,
+        points: input,
+        stageKey: stage.stageKey,
+        leading: lead,
+        leadingPoint: leadPoint,
+        maxPoint: stage.maxPoint,
+      }),
+    [protocolLine, uterusPresent, input, stage.stageKey, stage.maxPoint, lead, leadPoint],
+  );
+
+  const exportMeta = useMemo(
+    () => [
+      { label: i18n.t("prolapse_popq_meta_stage"), value: stageLabel(stage.stageKey) },
+      {
+        label: i18n.t("prolapse_popq_meta_leading"),
+        value: lead ? compartmentLabel(lead.key) : "—",
+      },
+      {
+        label: i18n.t("prolapse_popq_meta_context"),
+        value: uterusPresent ? i18n.t("prolapse_popq_uterus_present") : i18n.t("prolapse_popq_hysterectomy"),
+      },
+    ],
+    [stage.stageKey, lead, uterusPresent],
+  );
+
+  const stageText = popqStageLabel(stage.stageKey);
+  const stageBannerStyle =
+    stage.stageKey === "na"
+      ? styles.bannerNa
+      : stage.stageKey === "0" || stage.stageKey === "1"
+        ? styles.bannerLow
+        : stage.stageKey === "2"
+          ? styles.bannerMid
+          : styles.bannerHigh;
+
+  function updateField(key: POPQPointKey, value: string) {
+    if (!uterusPresent && key === "D") return;
+    onChange(key, value);
+    setShowNormal(false);
+  }
+
+  function applyPreset(presetId: string) {
+    const preset = POPQ_PRESETS.find((p) => p.id === presetId);
+    if (!preset) return;
+    onBatchChange(inputToFieldStrings(preset.values), preset.uterusPresent);
+    setShowNormal(false);
+  }
+
+  async function copyProtocol() {
+    if (stage.stageKey === "na") {
+      Alert.alert(i18n.t("prolapse_history_empty_title"), i18n.t("prolapse_popq_enter_points"));
+      return;
+    }
+    await Clipboard.setStringAsync(protocolLine);
+    Alert.alert(i18n.t("success"), i18n.t("prolapse_popq_protocol_copied"));
+  }
+
+  async function copyClinicalProtocol() {
+    if (stage.stageKey === "na") {
+      Alert.alert(i18n.t("prolapse_history_empty_title"), i18n.t("prolapse_popq_enter_points"));
+      return;
+    }
+    await Clipboard.setStringAsync(clinicalProtocol);
+    Alert.alert(i18n.t("success"), i18n.t("prolapse_popq_clinical_copied"));
+  }
+
+  async function exportPatientPdf() {
+    if (stage.stageKey === "na") {
+      Alert.alert(i18n.t("prolapse_history_empty_title"), i18n.t("prolapse_popq_enter_points"));
+      return;
+    }
+    const ok = await exportPopqPdf({
+      mode: "patient",
+      title: i18n.t("prolapse_popq_patient_pdf_title"),
+      subtitle: i18n.t("prolapse_popq_patient_pdf_subtitle"),
+      meta: exportMeta,
+      bodyText: patientReport,
+      footer: i18n.t("prolapse_popq_patient_pdf_footer"),
+    });
+    if (!ok) Alert.alert(i18n.t("report_export_pdf"), i18n.t("report_pdf_error"));
+  }
+
+  async function exportClinicalPdf() {
+    if (stage.stageKey === "na") {
+      Alert.alert(i18n.t("prolapse_history_empty_title"), i18n.t("prolapse_popq_enter_points"));
+      return;
+    }
+    const ok = await exportPopqPdf({
+      mode: "clinical",
+      title: i18n.t("prolapse_popq_clinical_pdf_title"),
+      subtitle: i18n.t("prolapse_popq_clinical_pdf_subtitle"),
+      meta: exportMeta,
+      bodyText: clinicalProtocol,
+      footer: i18n.t("prolapse_popq_clinical_pdf_footer"),
+    });
+    if (!ok) Alert.alert(i18n.t("report_export_pdf"), i18n.t("report_pdf_error"));
+  }
 
   return (
     <View style={styles.wrap}>
       <Text style={styles.sub}>{i18n.t("prolapse_popq_subtitle")}</Text>
-      <POPQSchema />
-      <View style={styles.grid}>
-        {FIELDS.map((key) => (
-          <View key={key} style={styles.field}>
-            <Text style={styles.label}>{key}</Text>
-            <TextInput
-              value={values[key]}
-              onChangeText={(t) => onChange(key, t)}
-              keyboardType="numbers-and-punctuation"
-              placeholder="0"
-              placeholderTextColor="#9ca3af"
-              style={styles.input}
-            />
-            <Text style={styles.unit}>{i18n.t("prolapse_cm")}</Text>
-          </View>
-        ))}
-      </View>
-      <View style={styles.metrics}>
-        <View style={styles.metric}>
-          <Text style={styles.metricLabel}>{i18n.t("prolapse_popq_max_point")}</Text>
-          <Text style={styles.metricValue}>{maxText}</Text>
+
+      <SectionCard title={i18n.t("prolapse_popq_presets_title")}>
+        <View style={styles.chipWrap}>
+          {POPQ_PRESETS.map((p) => (
+            <SelectChip key={p.id} label={p.label} selected={false} onPress={() => applyPreset(p.id)} />
+          ))}
         </View>
-        <View style={[styles.metric, styles.metricWide]}>
-          <Text style={styles.metricLabel}>{i18n.t("prolapse_popq_stage_label")}</Text>
-          <Text style={styles.metricValueLg}>{stageText}</Text>
+      </SectionCard>
+
+      <SectionCard title={i18n.t("prolapse_popq_context_title")}>
+        <View style={styles.chipWrap}>
+          <SelectChip
+            label={i18n.t("prolapse_popq_uterus_present")}
+            selected={uterusPresent}
+            onPress={() => onUterusPresentChange(true)}
+          />
+          <SelectChip
+            label={i18n.t("prolapse_popq_hysterectomy")}
+            selected={!uterusPresent}
+            onPress={() => {
+              onUterusPresentChange(false);
+              onChange("D", "");
+            }}
+          />
+        </View>
+      </SectionCard>
+
+      <SectionCard title={i18n.t("prolapse_popq_diagram_title")}>
+        <View style={styles.chipWrap}>
+          <SelectChip
+            label={showNormal ? i18n.t("prolapse_popq_show_normal") : i18n.t("prolapse_popq_show_patient")}
+            selected={showNormal}
+            onPress={() => setShowNormal((v) => !v)}
+          />
+          <SelectChip
+            label={showLabels ? i18n.t("prolapse_popq_labels_on") : i18n.t("prolapse_popq_labels_off")}
+            selected={showLabels}
+            onPress={() => setShowLabels((v) => !v)}
+          />
+        </View>
+        <View style={styles.diagramCard}>
+          <PopQDiagram
+            input={input}
+            uterusPresent={uterusPresent}
+            showNormal={showNormal}
+            normalInput={NORMAL_ANATOMY}
+            showLabels={showLabels}
+            leadingPoint={leadPoint}
+            normalTitle={i18n.t("prolapse_popq_normal_anatomy")}
+            patientTitle={i18n.t("prolapse_popq_your_measurements")}
+            axisHint={i18n.t("prolapse_popq_axis_hint")}
+            disclaimer={i18n.t("prolapse_popq_diagram_disclaimer")}
+          />
+        </View>
+      </SectionCard>
+
+      <SectionCard title={i18n.t("prolapse_popq_grid_title")}>
+        <PopQGrid
+          values={values}
+          uterusPresent={uterusPresent}
+          onChange={updateField}
+          dNaLabel={i18n.t("prolapse_popq_d_na")}
+          pickValueLabel={i18n.t("prolapse_popq_pick_value")}
+        />
+      </SectionCard>
+
+      <View style={[styles.resultBanner, stageBannerStyle]}>
+        <Text style={styles.resultStage}>{stageText !== "—" ? stageLabel(stage.stageKey) : stageText}</Text>
+        <Text style={styles.resultLead}>
+          {lead
+            ? `${compartmentLabel(lead.key)} · ${i18n.t("prolapse_popq_leading")} ${lead.value} ${i18n.t("prolapse_cm")}`
+            : i18n.t("prolapse_popq_leading_unknown")}
+        </Text>
+        <Text style={styles.resultProtocol} numberOfLines={3}>
+          {protocolLine}
+        </Text>
+        <View style={styles.actionRow}>
+          <Pressable style={({ pressed }) => [styles.copyBtn, pressed && styles.pressed]} onPress={() => void copyProtocol()}>
+            <Text style={styles.copyBtnText}>{i18n.t("prolapse_popq_copy_protocol")}</Text>
+          </Pressable>
+          <Pressable
+            style={({ pressed }) => [styles.copyBtnOutline, pressed && styles.pressed]}
+            onPress={() => void copyClinicalProtocol()}
+          >
+            <Text style={styles.copyBtnOutlineText}>{i18n.t("prolapse_popq_copy_clinical")}</Text>
+          </Pressable>
         </View>
       </View>
+
+      <SectionCard title={i18n.t("prolapse_popq_export_section")}>
+        <View style={styles.previewCard}>
+          <Text style={styles.previewLabel}>{i18n.t("prolapse_popq_patient_preview")}</Text>
+          <Text style={styles.previewText}>{patientReport}</Text>
+        </View>
+        <View style={styles.previewCard}>
+          <Text style={styles.previewLabel}>{i18n.t("prolapse_popq_clinical_preview")}</Text>
+          <Text style={styles.previewText}>{clinicalProtocol}</Text>
+        </View>
+        <View style={styles.exportRow}>
+          <Pressable style={({ pressed }) => [styles.exportBtnPatient, pressed && styles.pressed]} onPress={() => void exportPatientPdf()}>
+            <Text style={styles.exportBtnText}>{i18n.t("prolapse_popq_patient_pdf")}</Text>
+          </Pressable>
+          <Pressable style={({ pressed }) => [styles.exportBtnClinical, pressed && styles.pressed]} onPress={() => void exportClinicalPdf()}>
+            <Text style={styles.exportBtnText}>{i18n.t("prolapse_popq_clinical_pdf")}</Text>
+          </Pressable>
+        </View>
+      </SectionCard>
     </View>
   );
 }
@@ -100,101 +298,70 @@ export default function POPQCalculator({ values, onChange }: Props) {
 const styles = StyleSheet.create({
   wrap: { gap: theme.spacing.md },
   sub: { fontSize: 14, color: theme.colors.textSecondary, lineHeight: 20 },
-  schemaCard: {
-    backgroundColor: "#fff",
-    borderRadius: theme.radius.md,
-    borderWidth: 1,
-    borderColor: theme.colors.border,
-    padding: theme.spacing.md,
-    gap: 8,
-    ...theme.shadow.card,
-  },
-  schemaTitle: { color: theme.colors.text, fontSize: 15, fontWeight: "800" },
-  schemaSub: { color: theme.colors.textSecondary, fontSize: 12, lineHeight: 17 },
-  schema: {
-    height: 260,
-    borderRadius: 18,
-    backgroundColor: "#fff7ed",
+  section: { gap: 10 },
+  sectionTitle: { fontSize: 13, fontWeight: "800", color: theme.colors.textSecondary, letterSpacing: 0.3 },
+  chipWrap: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
+  diagramCard: {
+    borderRadius: theme.radius.lg,
     borderWidth: 1,
     borderColor: "#fed7aa",
+    backgroundColor: "#fff7ed",
     overflow: "hidden",
-    position: "relative",
+    paddingTop: 4,
   },
-  vaginalCanal: {
-    position: "absolute",
-    left: "22%",
-    right: "22%",
-    top: 34,
-    bottom: 34,
-    borderRadius: 80,
-    borderWidth: 4,
-    borderColor: "#fb7185",
-    backgroundColor: "#ffe4e6",
-  },
-  hymenLine: { position: "absolute", left: 18, right: 18, top: 184, height: 2, backgroundColor: "#7c2d12" },
-  hymenText: { position: "absolute", right: 20, top: 164, color: "#7c2d12", fontSize: 11, fontWeight: "800" },
-  wallLabel: { position: "absolute", color: "#9f1239", fontSize: 11, fontWeight: "900" },
-  anteriorLabel: { top: 18, left: 22 },
-  posteriorLabel: { bottom: 18, left: 22 },
-  point: {
-    position: "absolute",
-    width: 34,
-    height: 34,
-    borderRadius: 17,
-    backgroundColor: "#831843",
-    alignItems: "center",
-    justifyContent: "center",
+  resultBanner: {
+    borderRadius: theme.radius.lg,
     borderWidth: 2,
-    borderColor: "#fff",
+    padding: theme.spacing.md,
+    gap: 6,
   },
-  pointText: { color: "#fff", fontSize: 12, fontWeight: "900" },
-  aa: { left: "33%", top: 78 },
-  ba: { left: "52%", top: 58 },
-  c: { left: "67%", top: 108, backgroundColor: "#0f766e" },
-  d: { left: "69%", top: 146, backgroundColor: "#0f766e" },
-  ap: { left: "33%", top: 146 },
-  bp: { left: "52%", top: 166 },
-  measureLine: { position: "absolute", width: 2, backgroundColor: "#2563eb" },
-  measureText: { position: "absolute", color: "#1d4ed8", fontSize: 11, fontWeight: "900" },
-  ghLine: { left: "18%", top: 184, height: 42 },
-  ghText: { left: "13%", top: 202 },
-  pbLine: { right: "18%", top: 184, height: 42, backgroundColor: "#7c3aed" },
-  pbText: { right: "12%", top: 202, color: "#6d28d9" },
-  tvlLine: { left: "50%", top: 46, height: 138, backgroundColor: "#0891b2" },
-  tvlText: { left: "53%", top: 94, color: "#0e7490" },
-  schemaLegend: { gap: 3 },
-  legendText: { color: "#475569", fontSize: 12, lineHeight: 16 },
-  grid: { flexDirection: "row", flexWrap: "wrap", gap: 10 },
-  field: {
-    width: "30%",
-    flexGrow: 1,
-    minWidth: "28%",
-    backgroundColor: theme.colors.card,
-    borderRadius: theme.radius.sm,
+  bannerNa: { borderColor: "#cbd5e1", backgroundColor: "#f8fafc" },
+  bannerLow: { borderColor: "#6ee7b7", backgroundColor: "#ecfdf5" },
+  bannerMid: { borderColor: "#fcd34d", backgroundColor: "#fffbeb" },
+  bannerHigh: { borderColor: "#fda4af", backgroundColor: "#fff1f2" },
+  resultStage: { fontSize: 22, fontWeight: "900", color: theme.colors.text },
+  resultLead: { fontSize: 14, fontWeight: "700", color: theme.colors.text },
+  resultProtocol: { fontSize: 12, color: theme.colors.textSecondary, lineHeight: 17 },
+  actionRow: { flexDirection: "row", flexWrap: "wrap", gap: 8, marginTop: 4 },
+  copyBtn: {
+    backgroundColor: theme.colors.primary,
+    borderRadius: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+  },
+  copyBtnText: { color: "#fff", fontWeight: "800", fontSize: 14 },
+  copyBtnOutline: {
+    borderRadius: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderWidth: 1,
+    borderColor: theme.colors.primary,
+    backgroundColor: "#fff",
+  },
+  copyBtnOutlineText: { color: theme.colors.primary, fontWeight: "800", fontSize: 14 },
+  previewCard: {
+    backgroundColor: "#f8fafc",
+    borderRadius: theme.radius.md,
     borderWidth: 1,
     borderColor: theme.colors.border,
-    padding: 10,
-    ...theme.shadow.card,
+    padding: 12,
+    gap: 6,
   },
-  label: { fontSize: 13, fontWeight: "800", color: theme.colors.primary, marginBottom: 6 },
-  input: {
-    fontSize: 20,
-    fontWeight: "700",
-    color: theme.colors.text,
-    paddingVertical: 6,
-    paddingHorizontal: 0,
-  },
-  unit: { fontSize: 11, color: theme.colors.textSecondary, marginTop: 2 },
-  metrics: { flexDirection: "row", gap: 10, flexWrap: "wrap" },
-  metric: {
-    flex: 1,
-    minWidth: "42%",
-    backgroundColor: "#0f172a",
+  previewLabel: { fontSize: 11, fontWeight: "800", color: theme.colors.textSecondary, letterSpacing: 0.3 },
+  previewText: { fontSize: 12, color: theme.colors.text, lineHeight: 17 },
+  exportRow: { flexDirection: "column", gap: 10 },
+  exportBtnPatient: {
+    backgroundColor: "#be123c",
     borderRadius: theme.radius.md,
-    padding: theme.spacing.md,
+    paddingVertical: 14,
+    alignItems: "center",
   },
-  metricWide: { minWidth: "90%" },
-  metricLabel: { fontSize: 12, color: "#94a3b8", fontWeight: "600" },
-  metricValue: { fontSize: 28, fontWeight: "800", color: "#fff", marginTop: 4 },
-  metricValueLg: { fontSize: 22, fontWeight: "800", color: "#fff", marginTop: 4 },
+  exportBtnClinical: {
+    backgroundColor: "#1d4ed8",
+    borderRadius: theme.radius.md,
+    paddingVertical: 14,
+    alignItems: "center",
+  },
+  exportBtnText: { color: "#fff", fontWeight: "800", fontSize: 15 },
+  pressed: { opacity: 0.9 },
 });

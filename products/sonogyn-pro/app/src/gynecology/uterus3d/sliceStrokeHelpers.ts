@@ -1,5 +1,7 @@
+import { roundMeasurementMm } from "@repo/medical-calculations";
+
 export type SliceNorm = [number, number];
-export type SliceEditorTool = "navigate" | "draw";
+export type SliceEditorTool = "navigate" | "draw" | "place";
 export type SliceStroke = { points: SliceNorm[] };
 
 const MM_X = 108;
@@ -46,9 +48,9 @@ export function boundsFromStroke(points: SliceNorm[]) {
 
 export function sizeMmFromStroke(points: SliceNorm[]) {
   const b = boundsFromStroke(points);
-  const length = Math.max(6, Math.round((b.maxX - b.minX) * MM_X));
-  const width = Math.max(5, Math.round((b.maxY - b.minY) * MM_Y));
-  return { length, width, depth: Math.max(4, Math.round(Math.min(length, width) * 0.72)) };
+  const length = Math.max(6, roundMeasurementMm((b.maxX - b.minX) * MM_X));
+  const width = Math.max(5, roundMeasurementMm((b.maxY - b.minY) * MM_Y));
+  return { length, width, depth: Math.max(4, roundMeasurementMm(Math.min(length, width) * 0.72)) };
 }
 
 function depth01(_nx: number, ny: number) {
@@ -83,6 +85,18 @@ export function strokeToSvgPath(points: SliceNorm[], w: number, h: number, close
   if (!points.length) return "";
   const head = points.map((p, i) => `${i === 0 ? "M" : "L"} ${p[0] * w} ${p[1] * h}`).join(" ");
   return closed && points.length > 2 ? `${head} Z` : head;
+}
+
+/** Малый эллипс в точке клика — для режима «Курсор». */
+export function ellipseStrokeAt(nx: number, ny: number, radius = 0.022): SliceNorm[] {
+  const r = radius;
+  return [
+    [nx - r, ny],
+    [nx, ny - r * 0.65],
+    [nx + r, ny],
+    [nx, ny + r * 0.65],
+    [nx - r, ny],
+  ];
 }
 
 export function localizationRu(nx: number, ny: number): string {

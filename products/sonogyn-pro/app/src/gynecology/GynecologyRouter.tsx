@@ -2,7 +2,10 @@ import type { PageType } from "../navigationTypes";
 import FigoFibroidInteractive from "./FigoFibroidInteractive";
 import ObgynClinicalAssistant from "./ObgynClinicalAssistant";
 import UterusClinicScreen from "./UterusClinicScreen";
+import Uterus3DScreen from "./Uterus3DScreen";
 import { ScreenBreastRisk, ScreenLnRads } from "./screens/BreastLnScreens";
+import { ScreenBishop, ScreenEfw, ScreenVbac } from "./screens/ObstetricScreens";
+import { GynQuickAccess } from "./screens/GynQuickAccess";
 import { GynHub } from "./screens/GynHub";
 import { ScreenMedvedevConsensus } from "./screens/MedvedevScreen";
 import {
@@ -11,6 +14,7 @@ import {
   ScreenFeto,
   ScreenGaLmp,
   ScreenGaUs,
+  ScreenMsd,
   ScreenOvoIvf,
 } from "./screens/PregnancyScreens";
 
@@ -25,6 +29,14 @@ function ScreenFigoFibroid({ setPage }: { setPage: (p: PageType) => void }) {
 
 export function GynecologyRouter({ page, setPage }: Props) {
   switch (page) {
+    case "gyn_quick_access":
+      return <GynQuickAccess setPage={setPage} />;
+    case "gyn_bishop":
+      return <ScreenBishop setPage={setPage} />;
+    case "gyn_vbac":
+      return <ScreenVbac setPage={setPage} />;
+    case "gyn_efw":
+      return <ScreenEfw setPage={setPage} />;
     case "gyn_hub":
       return <GynHub setPage={setPage} />;
     case "gyn_assistant_gynecology":
@@ -41,6 +53,8 @@ export function GynecologyRouter({ page, setPage }: Props) {
       return <ScreenDekret setPage={setPage} />;
     case "gyn_ga_crl":
       return <ScreenCrl setPage={setPage} />;
+    case "gyn_ga_msd":
+      return <ScreenMsd setPage={setPage} />;
     case "gyn_ga_feto":
       return <ScreenFeto setPage={setPage} />;
     case "gyn_breast_risk":
@@ -51,6 +65,8 @@ export function GynecologyRouter({ page, setPage }: Props) {
       return <ScreenFigoFibroid setPage={setPage} />;
     case "gyn_uterus_clinic":
       return <UterusClinicScreen setPage={setPage} />;
+    case "gyn_uterus_3d":
+      return <Uterus3DScreen setPage={setPage} />;
     case "gyn_medvedev_consensus":
       return <ScreenMedvedevConsensus setPage={setPage} />;
     default:

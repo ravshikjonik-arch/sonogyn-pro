@@ -8,6 +8,22 @@ export type AIResult = {
 };
 export type AIQueueStatus = { size: number; nextRetryInSec: number | null; lastError: string | null };
 
+const FLUSH_GAP_MS = 1500;
+
+class AiRateLimitError extends Error {
+  retryAfterSec: number;
+
+  constructor(retryAfterSec: number) {
+    super(`AI API rate limited (${retryAfterSec}s)`);
+    this.name = "AiRateLimitError";
+    this.retryAfterSec = retryAfterSec;
+  }
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 function buildOfflineMock(): AIResult {
   return {
     text: "AI предполагает O-RADS 3 с уверенностью 72%. Основание: офлайн — подключите интернет и войдите для серверного AI.",
@@ -35,6 +51,12 @@ export async function requestAI(payload: OradsInput): Promise<AIResult> {
     headers: await authHeaders(),
     body: JSON.stringify({ payload }),
   });
+
+  if (res.status === 429) {
+    const retryAfterRaw = res.headers.get("Retry-After");
+    const retryAfterSec = retryAfterRaw ? Number.parseInt(retryAfterRaw, 10) : 60;
+    throw new AiRateLimitError(Number.isFinite(retryAfterSec) && retryAfterSec > 0 ? retryAfterSec : 60);
+  }
 
   if (!res.ok) {
     throw new Error(`AI API error ${res.status}`);
@@ -79,24 +101,33 @@ export async function flushAIQueue(): Promise<{ done: AIResult[]; failedCount: n
   const done: AIResult[] = [];
   const failed = [];
   const now = Date.now();
+  let flushedCount = 0;
 
   for (const item of queue) {
     if (item.nextAttemptAt && item.nextAttemptAt > now) {
       failed.push(item);
       continue;
     }
+    if (flushedCount > 0) {
+      await sleep(FLUSH_GAP_MS);
+    }
     try {
       const result = await requestAI(item.payload);
       done.push(result);
+      flushedCount += 1;
     } catch (e) {
       const retryCount = (item.retryCount ?? 0) + 1;
-      const delayMs = Math.min(5 * 60_000, 15_000 * Math.pow(2, Math.min(retryCount, 4)));
+      let delayMs = Math.min(5 * 60_000, 15_000 * Math.pow(2, Math.min(retryCount, 4)));
+      if (e instanceof AiRateLimitError) {
+        delayMs = Math.max(delayMs, e.retryAfterSec * 1000);
+      }
       failed.push({
         ...item,
         retryCount,
         nextAttemptAt: now + delayMs,
         lastError: e instanceof Error ? e.message : "network_error",
       });
+      flushedCount += 1;
     }
   }
   await saveAIQueue(failed);

@@ -8,6 +8,7 @@ const API_BOT_ALLOWLIST_PREFIXES = [
   "/api/auth/telegram/bot",
   "/api/cron/",
   "/api/health",
+  "/api/webinars/status",
 ] as const;
 
 const CRAWLER_UA_PATTERNS = [

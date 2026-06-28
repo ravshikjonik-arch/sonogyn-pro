@@ -17,8 +17,11 @@ import { branding } from "../config/branding";
 import {
   BI_RADS_VERSION,
   biradsOptions,
+  buildBiradsBrochureProtocol,
+  defaultBiradsBrochureInput,
   evaluateBirads,
   type BiradsInput,
+  type BiradsBrochureInput,
 } from "../guidelines/birads";
 import type { RootStackParamList } from "../navigation/paramLists";
 import { theme } from "../theme";
@@ -122,15 +125,6 @@ function getBreastLocation(point: BreastPoint, side: BreastSide) {
 function formatBreastLocation(point: BreastPoint, side: BreastSide) {
   const loc = getBreastLocation(point, side);
   return `${loc.sideLabel}: ${loc.quadrant} (${loc.quadrantFull}), на ${loc.hour} часах, ${loc.distanceCm} см от соска.`;
-}
-
-function summarizeForCase(input: BiradsInput, category: string, localization: string): string {
-  const lines = FIELD_ORDER.map((key) => {
-    const opts = biradsOptions[key];
-    const label = opts.find((o) => o.value === input[key])?.label ?? input[key];
-    return `${FIELD_TITLE[key]}: ${label}`;
-  });
-  return [`BI-RADS US · ${category}`, localization, BI_RADS_VERSION, ...lines].join("\n");
 }
 
 function BreastLocator({
@@ -252,7 +246,13 @@ export default function BiRadsAssistantScreen({ navigation }: Props) {
   }
 
   function onSaveAsCase() {
-    const draftDescription = summarizeForCase(input, result.category, localizationText);
+    const loc = formatBreastLocation(breastPoint, breastSide);
+    const brochureInput: BiradsBrochureInput = {
+      ...defaultBiradsBrochureInput,
+      ...input,
+      localizationText: loc,
+    };
+    const draftDescription = buildBiradsBrochureProtocol(brochureInput);
     navigation.navigate("Case", {
       caseId: undefined,
       draftOrgan: "breast",
@@ -270,8 +270,8 @@ export default function BiRadsAssistantScreen({ navigation }: Props) {
         </Pressable>
         <View style={styles.headerCenter}>
           <Text style={styles.title}>BI-RADS US</Text>
-          <Text style={styles.version} numberOfLines={1}>
-            {BI_RADS_VERSION}
+          <Text style={styles.version} numberOfLines={2}>
+            {BI_RADS_VERSION} · алгоритм 8 шагов (брошюра v2025) — полный протокол на web
           </Text>
         </View>
         <View style={styles.headerSpacer} />

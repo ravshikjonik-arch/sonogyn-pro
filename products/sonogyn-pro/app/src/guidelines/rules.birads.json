@@ -9,6 +9,7 @@
     "shape": [
       { "value": "oval", "label": "Овальная" },
       { "value": "round", "label": "Круглая" },
+      { "value": "lobulated", "label": "Дольчатая" },
       { "value": "irregular", "label": "Неправильная форма" }
     ],
     "orientation": [
@@ -33,20 +34,28 @@
     "posteriorFeatures": [
       { "value": "none", "label": "Признаков позади очагового образования нет" },
       { "value": "enhancement", "label": "Усиление позади очагового образования" },
-      { "value": "shadowing", "label": "Акустическая тень позади очагового образования" }
+      { "value": "shadowing", "label": "Акустическая тень позади очагового образования" },
+      { "value": "mixed", "label": "Смешанные акустические эффекты" }
     ],
     "nonMassEchogenicity": [
       { "value": "not_applicable", "label": "Не применимо" },
-      { "value": "hypoechoic_area", "label": "Гипоэхогенная зона" },
-      { "value": "heterogeneous_area", "label": "Неоднородная зона" },
+      { "value": "anechoic", "label": "Анэхогенная" },
+      { "value": "hyperechoic", "label": "Гиперэхогенная" },
+      { "value": "isoechoic", "label": "Изоэхогенная" },
+      { "value": "hypoechoic_area", "label": "Гипоэхогенная" },
+      { "value": "heterogeneous_area", "label": "Неоднородная" },
+      { "value": "heterogeneous", "label": "Неоднородная (зона)" },
       { "value": "architectural_distortion", "label": "Архитектурная деформация без чёткой массы" },
       { "value": "ductal_change", "label": "Протоковые изменения" }
     ],
     "nonMassDistribution": [
       { "value": "not_applicable", "label": "Не применимо" },
       { "value": "focal", "label": "Фокальное" },
+      { "value": "linear", "label": "Линейное" },
+      { "value": "segmental", "label": "Сегментарное" },
       { "value": "linear_segmental", "label": "Линейное / сегментарное" },
       { "value": "regional", "label": "Регионарное" },
+      { "value": "diffuse", "label": "Диффузное" },
       { "value": "multiple", "label": "Множественные участки" }
     ],
     "nonMassAssociatedFeatures": [

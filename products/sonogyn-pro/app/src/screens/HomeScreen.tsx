@@ -2,12 +2,12 @@ import type { CompositeScreenProps } from "@react-navigation/native";
 import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useMemo } from "react";
-import { Linking, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CaseCard from "../components/CaseCard";
 import { calcClinicalProgress } from "../components/widgets/case_progress";
 import { branding } from "../config/branding";
-import { communityLinks } from "../config/community";
+import { openTelegramChannel } from "../config/community";
 import type { CasePreview } from "../features/case/types";
 import { useCases } from "../hooks/useCases";
 import { useRecentComments } from "../hooks/useRecentComments";
@@ -16,12 +16,12 @@ import type { MainTabParamList, RootStackParamList } from "../navigation/paramLi
 import { theme } from "../theme";
 
 export type HomeTabScreenProps = CompositeScreenProps<
-  BottomTabScreenProps<MainTabParamList, "HomeTab">,
+  BottomTabScreenProps<MainTabParamList, "ToolsTab">,
   NativeStackScreenProps<RootStackParamList>
 >;
 
-const VIOLET = "#6D28D9";
-const VIOLET_SOFT = "#ede9fe";
+const PRIMARY = branding.colors.primary;
+const PRIMARY_SOFT = "#dbeafe";
 
 function organLabel(o: CasePreview["organ"]): string {
   if (o === "breast") return i18n.t("breast");
@@ -65,6 +65,13 @@ export default function HomeScreen({ navigation }: HomeTabScreenProps) {
   const directions: NavRow[] = useMemo(
     () => [
       {
+        key: "elasto",
+        title: "Эластография",
+        sub: "Strain · Shear Wave · CCI · Tsukuba",
+        glyph: "◈",
+        onPress: () => navigation.navigate("ElastographyCalc"),
+      },
+      {
         key: "orads",
         title: "O-RADS + IOTA 2026",
         sub: "Общий калькулятор яичника по O-RADS и новому consensus IOTA",
@@ -73,15 +80,22 @@ export default function HomeScreen({ navigation }: HomeTabScreenProps) {
       },
       {
         key: "tirads",
-        title: "TI-RADS",
-        sub: "Щитовидная железа · скрининг",
+        title: "TI-RADS Pro",
+        sub: "ACR Score · Patterns · AI · РФ 2023",
         glyph: "△",
         onPress: () => navigation.navigate("TiRadsAssistant"),
       },
       {
+        key: "birads3d",
+        title: "Макет МЖ",
+        sub: "Часы · см от соска · обе груди",
+        glyph: "◈",
+        onPress: () => navigation.navigate("Breast3D"),
+      },
+      {
         key: "birads",
-        title: "BI-RADS US",
-        sub: "Молочная железа",
+        title: "BI-RADS US Pro",
+        sub: "Быстрый · брошюра v2025 · атлас · AI",
         glyph: "◎",
         onPress: () => navigation.navigate("BiRadsAssistant"),
       },
@@ -116,9 +130,9 @@ export default function HomeScreen({ navigation }: HomeTabScreenProps) {
       {
         key: "community",
         title: "Сообщество врачей УЗД",
-        sub: "Telegram-канал: кейсы, обновления, клинические заметки",
+        sub: "Telegram · @UltraGynAnalytics (при блокировке — VPN)",
         glyph: "✦",
-        onPress: () => void Linking.openURL(communityLinks.telegramChannelUrl),
+        onPress: () => void openTelegramChannel(),
       },
       {
         key: "orads_flow",
@@ -136,6 +150,7 @@ export default function HomeScreen({ navigation }: HomeTabScreenProps) {
       { key: "q1", label: "O-RADS/IOTA", glyph: "○", onPress: () => navigation.navigate("ORADSPro") },
       { key: "q2", label: "TI-RADS", glyph: "△", onPress: () => navigation.navigate("TiRadsAssistant") },
       { key: "q3", label: "BI-RADS", glyph: "◎", onPress: () => navigation.navigate("BiRadsAssistant") },
+      { key: "q_b3d", label: "Макет МЖ", glyph: "◈", onPress: () => navigation.navigate("Breast3D") },
       {
         key: "q_ut",
         label: "Матка",
@@ -152,8 +167,9 @@ export default function HomeScreen({ navigation }: HomeTabScreenProps) {
       <View style={styles.hero}>
         <View style={styles.heroTop}>
           <View>
-            <Text style={styles.heroKicker}>Главная</Text>
-            <Text style={styles.heroTitle}>{branding.appName}</Text>
+            <Text style={styles.heroKicker}>SonoGyn Pro</Text>
+            <Text style={styles.heroTitle}>Рабочий стол врача</Text>
+            <Text style={styles.heroSub}>Калькуляторы · 3D · кейсы · КР</Text>
           </View>
           {branding.pilot.enabled ? (
             <View style={styles.pilotChip}>
@@ -177,7 +193,7 @@ export default function HomeScreen({ navigation }: HomeTabScreenProps) {
               void reload();
               void reloadComments();
             }}
-            tintColor={VIOLET}
+            tintColor={PRIMARY}
           />
         }
         showsVerticalScrollIndicator={false}
@@ -293,16 +309,22 @@ export default function HomeScreen({ navigation }: HomeTabScreenProps) {
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: "#ffffff" },
   hero: {
-    backgroundColor: VIOLET,
+    backgroundColor: PRIMARY,
     paddingHorizontal: theme.spacing.md,
     paddingTop: 6,
-    paddingBottom: 18,
-    borderBottomLeftRadius: 22,
-    borderBottomRightRadius: 22,
+    paddingBottom: 20,
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
+    shadowColor: PRIMARY,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.35,
+    shadowRadius: 16,
+    elevation: 8,
   },
   heroTop: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" },
-  heroKicker: { fontSize: 11, fontWeight: "700", color: "rgba(255,255,255,0.75)", letterSpacing: 1 },
-  heroTitle: { fontSize: 22, fontWeight: "800", color: "#fff", marginTop: 4 },
+  heroKicker: { fontSize: 11, fontWeight: "800", color: "rgba(255,255,255,0.8)", letterSpacing: 1.2, textTransform: "uppercase" },
+  heroTitle: { fontSize: 24, fontWeight: "900", color: "#fff", marginTop: 4 },
+  heroSub: { fontSize: 13, fontWeight: "600", color: "rgba(255,255,255,0.88)", marginTop: 6 },
   pilotChip: {
     marginTop: 2,
     paddingHorizontal: 10,
@@ -334,7 +356,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   rowBetween: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
-  cardTitle: { fontSize: 17, fontWeight: "800", color: VIOLET },
+  cardTitle: { fontSize: 17, fontWeight: "800", color: PRIMARY },
   cardMeta: { fontSize: 12, fontWeight: "700", color: "#64748b" },
   cardDesc: { fontSize: 14, color: "#475569", marginTop: 8, lineHeight: 20 },
   cardDescMuted: { fontSize: 14, color: "#64748b", marginTop: 6 },
@@ -345,12 +367,12 @@ const styles = StyleSheet.create({
     marginTop: 14,
     overflow: "hidden",
   },
-  progressFill: { height: 6, borderRadius: 999, backgroundColor: VIOLET },
+  progressFill: { height: 6, borderRadius: 999, backgroundColor: PRIMARY },
   progressCap: { fontSize: 12, color: "#64748b", marginTop: 8 },
   pillPrimary: {
     marginTop: 16,
     alignSelf: "flex-start",
-    backgroundColor: VIOLET,
+    backgroundColor: PRIMARY,
     paddingHorizontal: 22,
     paddingVertical: 12,
     borderRadius: 999,
@@ -360,7 +382,7 @@ const styles = StyleSheet.create({
   quickTile: {
     width: "47%",
     flexGrow: 1,
-    backgroundColor: VIOLET_SOFT,
+    backgroundColor: PRIMARY_SOFT,
     borderRadius: 14,
     borderWidth: 1,
     borderColor: "#ddd6fe",
@@ -368,8 +390,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 4,
   },
-  quickGlyph: { fontSize: 22, color: VIOLET, fontWeight: "700" },
-  quickLabel: { fontSize: 13, fontWeight: "800", color: VIOLET },
+  quickGlyph: { fontSize: 22, color: PRIMARY, fontWeight: "700" },
+  quickLabel: { fontSize: 13, fontWeight: "800", color: PRIMARY },
   listCard: {
     backgroundColor: "#f8fafc",
     borderRadius: 16,
@@ -389,9 +411,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  dirGlyph: { fontSize: 18, color: VIOLET, fontWeight: "700" },
+  dirGlyph: { fontSize: 18, color: PRIMARY, fontWeight: "700" },
   dirBody: { flex: 1, minWidth: 0 },
-  dirTitle: { fontSize: 15, fontWeight: "800", color: VIOLET },
+  dirTitle: { fontSize: 15, fontWeight: "800", color: PRIMARY },
   dirSub: { fontSize: 12, color: "#64748b", marginTop: 3, lineHeight: 16 },
   dirChev: { fontSize: 22, color: "#cbd5e1", fontWeight: "300" },
   cotd: { marginHorizontal: -2 },
@@ -420,7 +442,7 @@ const styles = StyleSheet.create({
     gap: 12,
     alignItems: "flex-start",
   },
-  discussDot: { width: 8, height: 8, borderRadius: 4, marginTop: 6, backgroundColor: VIOLET, opacity: 0.35 },
+  discussDot: { width: 8, height: 8, borderRadius: 4, marginTop: 6, backgroundColor: PRIMARY, opacity: 0.35 },
   discussBody: { flex: 1, minWidth: 0 },
   discussText: { fontSize: 14, color: "#0f172a", lineHeight: 20, fontWeight: "500" },
   discussSub: { fontSize: 11, color: "#64748b", marginTop: 6, fontWeight: "600" },
@@ -437,5 +459,5 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   errorText: { flex: 1, fontSize: 12, color: "#b91c1c" },
-  errorLink: { fontSize: 13, fontWeight: "700", color: VIOLET },
+  errorLink: { fontSize: 13, fontWeight: "700", color: PRIMARY },
 });

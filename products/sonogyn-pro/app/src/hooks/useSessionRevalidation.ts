@@ -24,15 +24,18 @@ async function forceSignOut(): Promise<void> {
   await supabaseMobile?.auth.signOut();
 }
 
-/** 24h offline policy для клинических данных (mobile). */
+/**
+ * 24h offline policy для клинических данных (mobile).
+ */
 export function useSessionRevalidation(enabled: boolean): void {
   const checking = useRef(false);
 
   useEffect(() => {
-    if (!enabled || !supabaseMobile) return;
+    const client = supabaseMobile;
+    if (!enabled || !client) return;
 
     async function revalidate() {
-      if (checking.current) return;
+      if (checking.current || !client) return;
       checking.current = true;
       try {
         const online = await isOnline();
@@ -46,8 +49,8 @@ export function useSessionRevalidation(enabled: boolean): void {
             await forceSignOut();
             return;
           }
-          if (anchor === 0 && supabaseMobile) {
-            const { data } = await supabaseMobile.auth.getSession();
+          if (anchor === 0) {
+            const { data } = await client.auth.getSession();
             const iso = data.session?.user?.last_sign_in_at ?? data.session?.user?.created_at;
             const sessionAnchor = iso ? new Date(iso).getTime() : 0;
             if (sessionAnchor > 0 && now - sessionAnchor > MAX_OFFLINE_MS) {
@@ -57,7 +60,7 @@ export function useSessionRevalidation(enabled: boolean): void {
           return;
         }
 
-        const { data, error } = await supabaseMobile.auth.getUser();
+        const { data, error } = await client.auth.getUser();
         if (error || !data.user) {
           await forceSignOut();
           return;

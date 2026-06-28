@@ -6,6 +6,11 @@ import { gynRouterStyles as s } from "../gynRouterStyles";
 export function GynHub({ setPage }: { setPage: (p: PageType) => void }) {
   const items: { id: PageType; title: string; sub: string }[] = [
     {
+      id: "gyn_uterus_3d",
+      title: "3D матка · FIGO",
+      sub: "Интерактивная модель — клик → тип FIGO",
+    },
+    {
       id: "gyn_uterus_clinic",
       title: "Матка: FIGO + аденомиоз/DIE",
       sub: "Интерактив FIGO, sono-чеклисты, общий протокол",
@@ -14,6 +19,7 @@ export function GynHub({ setPage }: { setPage: (p: PageType) => void }) {
     { id: "gyn_ga_us", title: "По УЗИ", sub: "Дата УЗИ + срок на момент осмотра" },
     { id: "gyn_ga_ovo_ivf", title: "Овуляция и ЭКО", sub: "ПДР от овуляции / переноса" },
     { id: "gyn_ga_crl", title: "По КТР", sub: "CRL мм + дата УЗИ" },
+    { id: "gyn_ga_msd", title: "По СВД", sub: "СВД 6–50 мм + дата УЗИ (I тр.)" },
     { id: "gyn_ga_feto", title: "По фетометрии", sub: "BPD / HC / FL / AC (II–III тр.)" },
     { id: "gyn_dekret", title: "Декрет", sub: "Ориентиры по ПДР (ТК РФ, упрощ.)" },
     { id: "gyn_breast_risk", title: "Риск МЖ", sub: "Образовательный чеклист" },
@@ -30,9 +36,14 @@ export function GynHub({ setPage }: { setPage: (p: PageType) => void }) {
       <Text style={s.title}>Калькуляторы и помощники для акушера-гинеколога</Text>
       <Text style={s.meta}>{PREGNANCY_CALC_VERSION}</Text>
       <View style={s.assistantGrid}>
+        <Pressable style={[s.assistantWidget, { backgroundColor: "#1e3a5f" }]} onPress={() => setPage("gyn_quick_access")}>
+          <Text style={s.assistantKicker}>Быстрый доступ</Text>
+          <Text style={s.assistantTitle}>Для приёма врача</Text>
+          <Text style={s.assistantSub}>Срок · масса · Bishop · VBAC · риски · лекарства</Text>
+        </Pressable>
         <Pressable style={[s.assistantWidget, { backgroundColor: "#831843" }]} onPress={() => setPage("gyn_assistant_gynecology")}>
           <Text style={s.assistantKicker}>Ежедневный прием</Text>
-          <Text style={s.assistantTitle}>Помощник гинеколога</Text>
+          <Text style={s.assistantTitle}>Помощник врача-гинеколога</Text>
           <Text style={s.assistantSub}>Нозология → УЗИ → красные флаги → протокол</Text>
         </Pressable>
         <Pressable style={[s.assistantWidget, { backgroundColor: "#0f766e" }]} onPress={() => setPage("gyn_assistant_obstetrics")}>

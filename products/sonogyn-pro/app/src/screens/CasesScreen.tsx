@@ -1,34 +1,202 @@
 import type { CompositeScreenProps } from "@react-navigation/native";
 import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   ActivityIndicator,
+  Alert,
   FlatList,
   Pressable,
   RefreshControl,
+  ScrollView,
   StyleSheet,
   Text,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CaseCard from "../components/CaseCard";
+import TeachingCaseCard from "../components/TeachingCaseCard";
 import { branding } from "../config/branding";
+import type { TeachingCaseFeedMode } from "../features/teachingCases/types";
 import { useCases } from "../hooks/useCases";
+import { useDiscussionChannels } from "../hooks/useDiscussionChannels";
+import { useTeachingCases } from "../hooks/useTeachingCases";
+import { openWebPath } from "../lib/clinical-tools/openClinicalTool";
+import { supabaseMobile } from "../lib/supabase/mobileClient";
+import { useAppGate } from "../navigation/AppGateContext";
 import type { MainTabParamList, RootStackParamList } from "../navigation/paramLists";
 import { theme } from "../theme";
 
 export type CasesTabScreenProps = CompositeScreenProps<
-  BottomTabScreenProps<MainTabParamList, "CasesTab">,
+  BottomTabScreenProps<MainTabParamList, "ChatTab">,
   NativeStackScreenProps<RootStackParamList>
 >;
 
+function buildNewCasePath(feedMode: TeachingCaseFeedMode, channelId: string | null): string {
+  if (feedMode !== "discussions") return "/cases/new";
+  const params = new URLSearchParams({ feed: "discussions" });
+  if (channelId) params.set("channelId", channelId);
+  return `/cases/new?${params.toString()}`;
+}
+
 export default function CasesScreen({ navigation }: CasesTabScreenProps) {
+  const { supabaseSession } = useAppGate();
+  const userId = supabaseSession?.user.id ?? null;
+  const [view, setView] = useState<"local" | "gallery">("local");
+  const [feedMode, setFeedMode] = useState<TeachingCaseFeedMode>("library");
+  const [channelId, setChannelId] = useState<string | null>(null);
+  const [subscribed, setSubscribed] = useState(false);
+  const [subscriptionBusy, setSubscriptionBusy] = useState(false);
+
+  const { channels } = useDiscussionChannels();
   const { cases, loading, reload, error } = useCases();
+  const galleryFilters = useMemo(
+    () =>
+      view === "gallery"
+        ? {
+            feedMode,
+            channelId: feedMode === "discussions" && channelId ? channelId : undefined,
+          }
+        : {},
+    [view, feedMode, channelId],
+  );
+  const {
+    cases: galleryCases,
+    loading: galleryLoading,
+    reload: reloadGallery,
+    error: galleryError,
+  } = useTeachingCases(galleryFilters);
+
   const sorted = useMemo(
     () => [...cases].sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)),
-    [cases]
+    [cases],
   );
+  const showGallery = view === "gallery";
+  const activeChannel = channels.find((ch) => ch.id === channelId);
+
+  useEffect(() => {
+    if (feedMode !== "discussions" || channelId || channels.length === 0) return;
+    setChannelId(channels[0]!.id);
+  }, [feedMode, channelId, channels]);
+
+  const refreshSubscription = useCallback(async () => {
+    if (!supabaseMobile || !userId || !channelId || feedMode !== "discussions") {
+      setSubscribed(false);
+      return;
+    }
+    const { data } = await supabaseMobile
+      .from("channel_subscriptions")
+      .select("user_id")
+      .eq("user_id", userId)
+      .eq("channel_id", channelId)
+      .maybeSingle();
+    setSubscribed(Boolean(data));
+  }, [userId, channelId, feedMode]);
+
+  useEffect(() => {
+    void refreshSubscription();
+  }, [refreshSubscription]);
+
+  async function toggleChannelSubscription() {
+    if (!supabaseMobile || !userId) {
+      Alert.alert("Подписка", "Войдите в Supabase, чтобы получать push по разделу.");
+      return;
+    }
+    if (!channelId) {
+      Alert.alert("Подписка", "Выберите раздел.");
+      return;
+    }
+
+    setSubscriptionBusy(true);
+    try {
+      if (subscribed) {
+        const { error: deleteErr } = await supabaseMobile
+          .from("channel_subscriptions")
+          .delete()
+          .eq("user_id", userId)
+          .eq("channel_id", channelId);
+        if (deleteErr) throw deleteErr;
+        setSubscribed(false);
+        Alert.alert("Push", "Подписка на раздел отключена.");
+      } else {
+        const { error: insertErr } = await supabaseMobile
+          .from("channel_subscriptions")
+          .insert({ user_id: userId, channel_id: channelId });
+        if (insertErr) throw insertErr;
+        setSubscribed(true);
+        Alert.alert("Push", "Уведомления о новых вопросах в разделе включены.");
+      }
+    } catch (e) {
+      Alert.alert("Подписка", e instanceof Error ? e.message : "Не удалось изменить подписку.");
+    } finally {
+      setSubscriptionBusy(false);
+    }
+  }
+
+  const galleryHeader = showGallery ? (
+    <View style={styles.galleryControls}>
+      <View style={styles.segment}>
+        <Pressable
+          style={[styles.segmentBtn, feedMode === "library" && styles.segmentBtnActive]}
+          onPress={() => setFeedMode("library")}
+        >
+          <Text style={[styles.segmentText, feedMode === "library" && styles.segmentTextActive]}>
+            Библиотека
+          </Text>
+        </Pressable>
+        <Pressable
+          style={[styles.segmentBtn, feedMode === "discussions" && styles.segmentBtnActive]}
+          onPress={() => setFeedMode("discussions")}
+        >
+          <Text style={[styles.segmentText, feedMode === "discussions" && styles.segmentTextActive]}>
+            Вопросы коллегам
+          </Text>
+        </Pressable>
+      </View>
+
+      {feedMode === "discussions" ? (
+        <>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.channelRow}>
+            {channels.map((ch) => (
+              <Pressable
+                key={ch.id}
+                style={[styles.channelChip, channelId === ch.id && styles.channelChipActive]}
+                onPress={() => setChannelId(ch.id)}
+              >
+                <Text style={[styles.channelChipText, channelId === ch.id && styles.channelChipTextActive]}>
+                  {ch.title}
+                </Text>
+              </Pressable>
+            ))}
+          </ScrollView>
+          {channelId ? (
+            <Pressable
+              style={[styles.pushBtn, subscribed && styles.pushBtnActive]}
+              disabled={subscriptionBusy}
+              onPress={() => void toggleChannelSubscription()}
+            >
+              <Text style={[styles.pushBtnText, subscribed && styles.pushBtnTextActive]}>
+                {subscriptionBusy
+                  ? "…"
+                  : subscribed
+                    ? `Push · ${activeChannel?.title ?? "раздел"} ✓`
+                    : `Push · ${activeChannel?.title ?? "раздел"}`}
+              </Text>
+            </Pressable>
+          ) : null}
+        </>
+      ) : null}
+
+      <Pressable
+        style={styles.newQuestionBtn}
+        onPress={() => void openWebPath(buildNewCasePath(feedMode, channelId))}
+      >
+        <Text style={styles.newQuestionBtnText}>
+          {feedMode === "discussions" ? "Новый вопрос коллегам" : "Новый учебный кейс"}
+        </Text>
+      </Pressable>
+    </View>
+  ) : null;
 
   return (
     <SafeAreaView style={styles.safe} edges={["top", "left", "right"]}>
@@ -36,9 +204,63 @@ export default function CasesScreen({ navigation }: CasesTabScreenProps) {
         <Text style={styles.kicker}>Клиника</Text>
         <Text style={styles.title}>Cases</Text>
         <Text style={styles.sub}>Кейсы и обсуждения</Text>
+        <View style={styles.segment}>
+          <Pressable
+            style={[styles.segmentBtn, view === "local" && styles.segmentBtnActive]}
+            onPress={() => setView("local")}
+          >
+            <Text style={[styles.segmentText, view === "local" && styles.segmentTextActive]}>Мои</Text>
+          </Pressable>
+          <Pressable
+            style={[styles.segmentBtn, view === "gallery" && styles.segmentBtnActive]}
+            onPress={() => setView("gallery")}
+          >
+            <Text style={[styles.segmentText, view === "gallery" && styles.segmentTextActive]}>
+              Галерея
+            </Text>
+          </Pressable>
+        </View>
       </View>
 
-      {loading && sorted.length === 0 ? (
+      {showGallery ? (
+        galleryLoading && galleryCases.length === 0 ? (
+          <View style={styles.center}>
+            <ActivityIndicator size="large" color={branding.colors.primary} />
+          </View>
+        ) : (
+          <FlatList
+            data={galleryCases}
+            keyExtractor={(item) => item.id}
+            contentContainerStyle={styles.listContent}
+            ListHeaderComponent={galleryHeader}
+            refreshControl={
+              <RefreshControl
+                refreshing={galleryLoading}
+                onRefresh={reloadGallery}
+                tintColor={branding.colors.primary}
+              />
+            }
+            ListEmptyComponent={
+              <View style={styles.empty}>
+                <Text style={styles.emptyTitle}>
+                  {feedMode === "discussions" ? "Вопросов пока нет" : "Галерея пуста"}
+                </Text>
+                <Text style={styles.emptyHint}>
+                  {feedMode === "discussions"
+                    ? "Создайте вопрос в выбранном разделе — коллеги увидят его на web и в push."
+                    : "Опубликованные учебные кейсы появятся здесь после входа и синхронизации с web."}
+                </Text>
+              </View>
+            }
+            renderItem={({ item }) => (
+              <TeachingCaseCard
+                item={item}
+                onPress={() => void openWebPath(`/cases/${item.id}`)}
+              />
+            )}
+          />
+        )
+      ) : loading && sorted.length === 0 ? (
         <View style={styles.center}>
           <ActivityIndicator size="large" color={branding.colors.primary} />
         </View>
@@ -87,14 +309,22 @@ export default function CasesScreen({ navigation }: CasesTabScreenProps) {
         />
       )}
 
-      <Pressable
-        style={styles.fab}
-        onPress={() => navigation.navigate("Case", { caseId: undefined })}
-      >
-        <Text style={styles.fabText}>+</Text>
-      </Pressable>
+      {!showGallery ? (
+        <Pressable
+          style={styles.fab}
+          onPress={() => navigation.navigate("Case", { caseId: undefined })}
+        >
+          <Text style={styles.fabText}>+</Text>
+        </Pressable>
+      ) : null}
 
-      {error ? (
+      {showGallery && galleryError ? (
+        <View style={styles.error}>
+          <Text style={styles.errorText}>{galleryError}</Text>
+        </View>
+      ) : null}
+
+      {!showGallery && error ? (
         <View style={styles.error}>
           <Text style={styles.errorText}>{error}</Text>
         </View>
@@ -115,6 +345,62 @@ const styles = StyleSheet.create({
   },
   title: { fontSize: 26, fontWeight: "700", color: branding.colors.text, marginTop: 4 },
   sub: { fontSize: 14, color: branding.colors.textSecondary, marginTop: 4 },
+  segment: {
+    flexDirection: "row",
+    marginTop: 12,
+    backgroundColor: "#e2e8f0",
+    borderRadius: 12,
+    padding: 4,
+    gap: 4,
+  },
+  segmentBtn: {
+    flex: 1,
+    paddingVertical: 8,
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  segmentBtnActive: {
+    backgroundColor: "#fff",
+  },
+  segmentText: { fontSize: 13, fontWeight: "600", color: branding.colors.textSecondary },
+  segmentTextActive: { color: branding.colors.text },
+  galleryControls: { gap: 12, marginBottom: 8 },
+  channelRow: { gap: 8, paddingVertical: 2 },
+  channelChip: {
+    borderWidth: 1,
+    borderColor: theme.colors.border,
+    backgroundColor: theme.colors.card,
+    borderRadius: 999,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+  },
+  channelChipActive: {
+    borderColor: branding.colors.primary,
+    backgroundColor: "#eff6ff",
+  },
+  channelChipText: { fontSize: 12, fontWeight: "600", color: branding.colors.textSecondary },
+  channelChipTextActive: { color: branding.colors.primary },
+  pushBtn: {
+    alignSelf: "flex-start",
+    borderWidth: 1,
+    borderColor: branding.colors.primary,
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+  },
+  pushBtnActive: {
+    backgroundColor: branding.colors.primary,
+  },
+  pushBtnText: { fontSize: 12, fontWeight: "700", color: branding.colors.primary },
+  pushBtnTextActive: { color: "#fff" },
+  newQuestionBtn: {
+    alignSelf: "flex-start",
+    backgroundColor: branding.colors.primary,
+    borderRadius: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+  },
+  newQuestionBtnText: { color: "#fff", fontSize: 13, fontWeight: "700" },
   listContent: { paddingHorizontal: theme.spacing.md, paddingBottom: 100, gap: 12 },
   columnWrap: { gap: 12 },
   cell: { flex: 1, maxWidth: "50%" },

@@ -1,0 +1,154 @@
+{
+  "meta": {
+    "version": "1.2.0",
+    "releaseDate": "2025-03-15T00:00:00Z",
+    "minAppVersion": "0.2.0",
+    "checksum": "sha256:9fde00b6dd52aad5fcd07e397a4119a749b97cf2819ef221a442c9672e3035de",
+    "source": "EFSUMB 2024, WFUMB 2023, O-RADS 2020",
+    "changelog": [
+      {
+        "version": "1.2.0",
+        "date": "2025-03-15",
+        "changes": "Обновлены cut-off для яичников по O-RADS v2024"
+      },
+      {
+        "version": "1.1.0",
+        "date": "2025-01-10",
+        "changes": "Добавлена шкала для миометрия"
+      }
+    ]
+  },
+  "cutoffs": {
+    "cervix": {
+      "strain": {
+        "cci": {
+          "soft": {
+            "max": 0.5,
+            "label": "Мягкая шейка",
+            "riskLevel": "high",
+            "colorHex": "#E53935"
+          },
+          "intermediate": {
+            "min": 0.5,
+            "max": 0.7,
+            "label": "Промежуточная",
+            "riskLevel": "intermediate",
+            "colorHex": "#FB8C00"
+          },
+          "firm": {
+            "min": 0.7,
+            "label": "Плотная шейка",
+            "riskLevel": "low",
+            "colorHex": "#43A047"
+          }
+        },
+        "recommendations": {
+          "high": "Повышенный риск преждевременных родов. Рекомендована консультация акушера-гинеколога, рассмотреть цервикометрию в динамике, при сроке <34 нед — госпитализация.",
+          "intermediate": "Пограничные значения. Контрольная цервикометрия через 1-2 недели.",
+          "low": "Низкий риск. Плановое наблюдение."
+        }
+      }
+    },
+    "myometrium": {
+      "swe": {
+        "adenomyosis": {
+          "range": [
+            20,
+            40
+          ],
+          "unit": "kPa"
+        },
+        "fibroid": {
+          "min": 45,
+          "unit": "kPa"
+        },
+        "ratioCutoff": 1.5,
+        "interpretations": {
+          "adenomyosis": "Значения в диапазоне 20-40 кПа, соотношение <1.5 характерны для аденомиоза.",
+          "fibroid": "Значения >45 кПа, соотношение >1.5 характерны для лейомиомы.",
+          "uncertain": "Пограничные значения. Рекомендована МР-диагностика."
+        }
+      }
+    },
+    "ovary": {
+      "strain": {
+        "ratioBenign": 3,
+        "ratioMalignant": 5
+      },
+      "swe": {
+        "emaxBenign": 30,
+        "emaxMalignant": 50,
+        "unit": "kPa"
+      },
+      "integratedAssessment": {
+        "benign": "Низкий риск малигнизации. Соответствует O-RADS 2-3.",
+        "intermediate": "Неопределенный потенциал. Соответствует O-RADS 4. Рекомендована консультация онкогинеколога.",
+        "malignant": "Высокий риск малигнизации. Соответствует O-RADS 5. Срочная консультация онкогинеколога."
+      }
+    },
+    "breast": {
+      "strain": {
+        "tsukubaScore": {
+          "1": {
+            "label": "Однородный зеленый",
+            "risk": "benign"
+          },
+          "2": {
+            "label": "Гетерогенный зеленый",
+            "risk": "benign"
+          },
+          "3": {
+            "label": "Синий центр, зеленый ободок",
+            "risk": "intermediate"
+          },
+          "4": {
+            "label": "Синий центр, красный ободок",
+            "risk": "malignant"
+          },
+          "5": {
+            "label": "Однородный синий",
+            "risk": "malignant"
+          }
+        },
+        "ratioBenign": 3,
+        "ratioMalignant": 5
+      },
+      "swe": {
+        "emaxBenign": 80,
+        "emaxMalignant": 160,
+        "unit": "kPa"
+      },
+      "biradsIntegration": {
+        "benign": "BI-RADS 2-3. Плановое наблюдение.",
+        "intermediate": "BI-RADS 4a-b. Рекомендована биопсия.",
+        "malignant": "BI-RADS 4c-5. Срочная биопсия."
+      }
+    }
+  },
+  "ui": {
+    "gradientColors": [
+      "#43A047",
+      "#FB8C00",
+      "#E53935"
+    ],
+    "scaleMarkers": {
+      "cervix": {
+        "min": 0,
+        "max": 1,
+        "step": 0.1
+      },
+      "ovary_swe": {
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "kPa"
+      },
+      "breast_swe": {
+        "min": 0,
+        "max": 200,
+        "step": 10,
+        "unit": "kPa"
+      }
+    }
+  }
+}

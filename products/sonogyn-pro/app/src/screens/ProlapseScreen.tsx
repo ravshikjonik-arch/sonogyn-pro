@@ -17,8 +17,12 @@ import QuickAssessment from "../components/prolapse/QuickAssessment";
 import type { OrganType } from "../features/case/types";
 import type { POPQPointKey, QuickStage } from "../gynecology/prolapseLogic";
 import {
+  buildClinicalProtocolText,
+  buildPopqProtocolLine,
   computeFunctionalProlapsePercent,
   computePOPQStage,
+  leadingCompartment,
+  leadingPointKey,
   parsePOPQFields,
 } from "../gynecology/prolapseLogic";
 import { popqStageLabel } from "../gynecology/prolapseStageLabel";
@@ -39,6 +43,7 @@ export default function ProlapseScreen({ navigation }: Props) {
   const [tab, setTab] = useState<TabId>("quick");
   const [quickStage, setQuickStage] = useState<QuickStage | null>(null);
   const [popq, setPopq] = useState(emptyPopq);
+  const [uterusPresent, setUterusPresent] = useState(true);
   const [vRest, setVRest] = useState("");
   const [vValsalva, setVValsalva] = useState("");
   const [disclaimerOpen, setDisclaimerOpen] = useState(false);
@@ -67,14 +72,33 @@ export default function ProlapseScreen({ navigation }: Props) {
   const summaryFn =
     fnPct == null ? "—" : i18n.t("prolapse_functional_line", { pct: Math.round(fnPct * 10) / 10 });
 
+  const popqClinicalReport = useMemo(() => {
+    if (popqComputed.stageKey === "na") return null;
+    return buildClinicalProtocolText({
+      protocolLine: buildPopqProtocolLine(parsedPopq, uterusPresent),
+      uterusPresent,
+      points: parsedPopq,
+      stageKey: popqComputed.stageKey,
+      leading: leadingCompartment(parsedPopq, uterusPresent),
+      leadingPoint: leadingPointKey(parsedPopq, uterusPresent),
+      maxPoint: popqComputed.maxPoint,
+    });
+  }, [parsedPopq, uterusPresent, popqComputed.stageKey, popqComputed.maxPoint]);
+
   const fullTextReport = useMemo(() => {
+    const popqLine =
+      popqComputed.stageKey !== "na"
+        ? buildPopqProtocolLine(parsedPopq, uterusPresent)
+        : null;
     const lines = [
       summaryQuick !== "—" ? summaryQuick : null,
-      summaryPopq !== "—" ? summaryPopq : null,
+      popqClinicalReport,
+      popqLine && !popqClinicalReport ? popqLine : null,
+      summaryPopq !== "—" && !popqLine && !popqClinicalReport ? summaryPopq : null,
       summaryFn !== "—" ? summaryFn : null,
     ].filter(Boolean) as string[];
-    return lines.join("\n");
-  }, [summaryQuick, summaryPopq, summaryFn]);
+    return lines.join("\n\n");
+  }, [summaryQuick, summaryPopq, summaryFn, popqComputed.stageKey, parsedPopq, uterusPresent, popqClinicalReport]);
 
   const draftResultCategory = useMemo(() => {
     if (popqComputed.stageKey !== "na") return popqStageLabel(popqComputed.stageKey);
@@ -89,8 +113,14 @@ export default function ProlapseScreen({ navigation }: Props) {
   function clearAll() {
     setQuickStage(null);
     setPopq(emptyPopq());
+    setUterusPresent(true);
     setVRest("");
     setVValsalva("");
+  }
+
+  function applyPopqBatch(values: Record<POPQPointKey, string>, uterus: boolean) {
+    setPopq(values);
+    setUterusPresent(uterus);
   }
 
   async function saveAsCase() {
@@ -177,7 +207,13 @@ export default function ProlapseScreen({ navigation }: Props) {
           {tab === "quick" ? (
             <QuickAssessment value={quickStage} onChange={setQuickStage} />
           ) : tab === "popq" ? (
-            <POPQCalculator values={popq} onChange={setPopqField} />
+            <POPQCalculator
+              values={popq}
+              uterusPresent={uterusPresent}
+              onChange={setPopqField}
+              onUterusPresentChange={setUterusPresent}
+              onBatchChange={applyPopqBatch}
+            />
           ) : (
             <FunctionalCalculator
               vRest={vRest}

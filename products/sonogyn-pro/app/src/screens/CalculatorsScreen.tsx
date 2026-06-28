@@ -13,7 +13,7 @@ import type { MainTabParamList, RootStackParamList } from "../navigation/paramLi
 import { theme } from "../theme";
 
 export type CalculatorsTabScreenProps = CompositeScreenProps<
-  BottomTabScreenProps<MainTabParamList, "CalculatorsTab">,
+  BottomTabScreenProps<MainTabParamList, "ToolsTab">,
   NativeStackScreenProps<RootStackParamList>
 >;
 
@@ -80,6 +80,13 @@ export default function CalculatorsScreen({ navigation }: CalculatorsTabScreenPr
   const tiles: Tile[] = useMemo(
     () => [
       {
+        id: "elasto",
+        title: "Эластография",
+        subtitle: "Strain · SWE · CCI",
+        art: "uterus",
+        onPress: () => navigation.navigate("ElastographyCalc"),
+      },
+      {
         id: "ov",
         title: "Яичник",
         subtitle: "O-RADS + IOTA 2026",
@@ -127,6 +134,13 @@ export default function CalculatorsScreen({ navigation }: CalculatorsTabScreenPr
         subtitle: "POP-Q",
         art: "prolapse",
         onPress: () => navigation.navigate("Prolapse"),
+      },
+      {
+        id: "vascular",
+        title: "Сосуды · ВСА",
+        subtitle: "Стеноз · табл. 4.1",
+        art: "lymph",
+        onPress: () => navigation.navigate("VascularCarotidCalc"),
       },
     ],
     [navigation]

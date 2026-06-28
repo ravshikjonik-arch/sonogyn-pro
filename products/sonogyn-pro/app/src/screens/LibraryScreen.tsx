@@ -1,7 +1,8 @@
 import type { CompositeScreenProps } from "@react-navigation/native";
 import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { Linking, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { openTelegramChannel } from "../config/community";
 import { TELEGRAM_CHANNEL } from "../config/telegram";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { branding } from "../config/branding";
@@ -9,7 +10,7 @@ import type { MainTabParamList, RootStackParamList } from "../navigation/paramLi
 import { theme } from "../theme";
 
 export type LibraryTabScreenProps = CompositeScreenProps<
-  BottomTabScreenProps<MainTabParamList, "LibraryTab">,
+  BottomTabScreenProps<MainTabParamList, "KnowledgeTab">,
   NativeStackScreenProps<RootStackParamList>
 >;
 
@@ -20,8 +21,8 @@ export default function LibraryScreen({ navigation }: LibraryTabScreenProps) {
     {
       id: "telegram",
       title: TELEGRAM_CHANNEL.name,
-      sub: "Telegram · аналитика и обновления для врачей",
-      onPress: () => void Linking.openURL(TELEGRAM_CHANNEL.url),
+      sub: "Telegram · @UltraGynAnalytics (в РФ — VPN)",
+      onPress: () => void openTelegramChannel(),
     },
     {
       id: "nosology",
@@ -40,6 +41,12 @@ export default function LibraryScreen({ navigation }: LibraryTabScreenProps) {
       title: "Матка · FIGO + аденомиоз / ДИЭ",
       sub: "Интерактив FIGO и объединённый протокол",
       onPress: () => navigation.navigate("GynecologyCalc", { initialPage: "gyn_uterus_clinic" }),
+    },
+    {
+      id: "orads-guide",
+      title: "O-RADS · руководство",
+      sub: "Реферат ACR v2022: алгоритм и клинические случаи",
+      onPress: () => navigation.navigate("ORADSGuide"),
     },
     {
       id: "orads",
@@ -61,8 +68,8 @@ export default function LibraryScreen({ navigation }: LibraryTabScreenProps) {
     },
     {
       id: "tirads",
-      title: "TI-RADS",
-      sub: "Щитовидная железа · скрининг УЗИ",
+      title: "TI-RADS Pro",
+      sub: "ACR · Pattern Recognition · AI Assistant · РФ 2023",
       onPress: () => navigation.navigate("TiRadsAssistant"),
     },
     {

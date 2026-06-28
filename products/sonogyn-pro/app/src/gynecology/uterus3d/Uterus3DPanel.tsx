@@ -342,7 +342,7 @@ export default function Uterus3DPanel() {
     if (scarEnabled) {
       const m = clampMeasurementMm(scarMm);
       blocks.push(
-        `[Рубец / ниша] RMT = ${m.residualMyometriumMm.toFixed(1)} мм · глубина дефекта = ${m.nicheDepthMm.toFixed(1)} мм · residual ratio ≈ ${(scarResidual * 100).toFixed(1)}%. Учебная проекция; не замена измерений на УЗИ.`
+        `[Рубец / ниша] RMT = ${m.residualMyometriumMm.toFixed(1)} мм · глубина = ${m.nicheDepthMm.toFixed(1)} мм · длина ${m.nicheLengthMm.toFixed(1)} · ширина ${m.nicheWidthMm.toFixed(1)} · от внутр. зева ${m.distanceFromInternalOsMm.toFixed(1)} мм · ratio ≈ ${(scarResidual * 100).toFixed(1)}%. Учебная проекция; не замена УЗИ.`
       );
     }
     if (measureMm !== null) {
@@ -585,11 +585,24 @@ export default function Uterus3DPanel() {
               onChangeText={(t) => setScarMm((s) => ({ ...s, nicheWidthMm: parseMmInput(t, s.nicheWidthMm) }))}
             />
           </View>
+          <View style={styles.measureCell}>
+            <Text style={styles.measureLabel}>От внутр. зева (мм)</Text>
+            <TextInput
+              style={styles.measureInput}
+              editable={scarEnabled}
+              keyboardType="decimal-pad"
+              value={String(scarMm.distanceFromInternalOsMm)}
+              onChangeText={(t) =>
+                setScarMm((s) => ({ ...s, distanceFromInternalOsMm: parseMmInput(t, s.distanceFromInternalOsMm) }))
+              }
+            />
+          </View>
         </View>
         {scarEnabled && (
           <Text style={styles.measureLegend}>
             Актив: RMT {clampMeasurementMm(scarMm).residualMyometriumMm.toFixed(1)} мм · Δ{" "}
-            {clampMeasurementMm(scarMm).nicheDepthMm.toFixed(1)} мм · ratio {(scarResidual * 100).toFixed(1)}%
+            {clampMeasurementMm(scarMm).nicheDepthMm.toFixed(1)} мм · от ЗВ{" "}
+            {clampMeasurementMm(scarMm).distanceFromInternalOsMm.toFixed(1)} мм · ratio {(scarResidual * 100).toFixed(1)}%
           </Text>
         )}
       </View>

@@ -1,19 +1,25 @@
+import { CLINICAL_3D_LOCALES } from "@repo/clinical-3d";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { ActivityIndicator, Pressable, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import type { RootStackParamList } from "../navigation/AppStack";
-import i18n, { changeLanguage, type AppLanguage } from "../i18n";
+import i18n, { changeLanguage, isAppLanguage, type AppLanguage } from "../i18n";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Language">;
 
-const LANG_OPTIONS: Array<{ id: AppLanguage; label: string }> = [
-  { id: "ru", label: "Русский" },
-  { id: "en", label: "English" },
-  { id: "es", label: "Español" },
-];
-
 export default function LanguageScreen({ navigation }: Props) {
   const [saving, setSaving] = useState(false);
+
+  const langOptions = useMemo((): Array<{ id: AppLanguage; label: string }> => {
+    const base: Array<{ id: AppLanguage; label: string }> = CLINICAL_3D_LOCALES.map((l) => ({
+      id: l.code as AppLanguage,
+      label: l.label,
+    }));
+    if (!base.some((o) => o.id === "es")) {
+      base.push({ id: "es", label: "Español" });
+    }
+    return base;
+  }, []);
 
   async function onSelectLanguage(lang: AppLanguage) {
     try {
@@ -25,6 +31,8 @@ export default function LanguageScreen({ navigation }: Props) {
     }
   }
 
+  const current = i18n.locale.split("-")[0];
+
   return (
     <SafeAreaView style={styles.safe}>
       <View style={styles.header}>
@@ -34,12 +42,16 @@ export default function LanguageScreen({ navigation }: Props) {
         <Text style={styles.title}>{i18n.t("language")}</Text>
       </View>
 
+      <Text style={styles.note}>Базовый язык — русский. FR / IT / AR пока с fallback на RU.</Text>
+
       <View style={styles.list}>
-        {LANG_OPTIONS.map((lang) => (
+        {langOptions.map((lang) => (
           <Pressable
             key={lang.id}
-            style={[styles.option, i18n.locale.startsWith(lang.id) && styles.optionActive]}
-            onPress={() => onSelectLanguage(lang.id)}
+            style={[styles.option, current === lang.id && styles.optionActive]}
+            onPress={() => {
+              if (isAppLanguage(lang.id)) void onSelectLanguage(lang.id);
+            }}
             disabled={saving}
           >
             <Text style={styles.optionText}>{lang.label}</Text>
@@ -54,7 +66,7 @@ export default function LanguageScreen({ navigation }: Props) {
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: "#f8fafc", padding: 16 },
-  header: { flexDirection: "row", alignItems: "center", gap: 12, marginBottom: 16 },
+  header: { flexDirection: "row", alignItems: "center", gap: 12, marginBottom: 8 },
   backBtn: {
     backgroundColor: "#ffffff",
     borderRadius: 12,
@@ -65,6 +77,7 @@ const styles = StyleSheet.create({
   },
   backBtnText: { color: "#0f172a", fontWeight: "600" },
   title: { fontSize: 22, fontWeight: "700", color: "#0f172a" },
+  note: { fontSize: 12, color: "#64748b", marginBottom: 12, lineHeight: 18 },
   list: { gap: 10 },
   option: {
     backgroundColor: "#ffffff",

@@ -245,6 +245,60 @@ EXPO_PUBLIC_CHAT_API_URL=http://localhost:3100
 
 После изменения `.env` перезапусти Expo (`npm run web` / `expo start`).
 
+## Remote Config эластографии
+
+Модуль `src/modules/elastography/remoteConfig/` загружает cut-off, шкалы и тексты интерпретаций с сервера (HTTPS), кэширует в AsyncStorage и при недоступности сети использует вшитый `defaultConfig.ts`.
+
+### Переменные окружения (`apps/mobile/.env`)
+
+```bash
+EXPO_PUBLIC_ELASTOGRAPHY_CONFIG_URL=https://api.yourapp.com/v1/elastography-config.json
+EXPO_PUBLIC_ELASTOGRAPHY_UPDATE_INTERVAL_HOURS=24
+EXPO_PUBLIC_ELASTOGRAPHY_REQUEST_TIMEOUT_MS=10000
+EXPO_PUBLIC_ELASTOGRAPHY_USE_LOCAL=true   # dev: asset вместо сети
+```
+
+Для разработки скопируй `apps/mobile/.env.development` или задай URL локального сервера:
+
+```bash
+EXPO_PUBLIC_ELASTOGRAPHY_CONFIG_URL=http://localhost:3000/test-elastography-config.json
+EXPO_PUBLIC_ELASTOGRAPHY_UPDATE_INTERVAL_HOURS=1
+```
+
+### Локальный тестовый сервер
+
+1. Тестовый JSON: `apps/mobile/assets/test-elastography-config.json`
+2. Запуск статики:
+
+```bash
+cd apps/mobile
+npx serve assets -p 3000
+```
+
+3. URL конфига: `http://localhost:3000/test-elastography-config.json`
+4. В dev по умолчанию `USE_LOCAL_CONFIG=true` — JSON берётся из asset без сети. Для проверки HEAD/ETag выставь `EXPO_PUBLIC_ELASTOGRAPHY_USE_LOCAL=false`.
+
+### Безопасность
+
+- Только HTTPS в production (кроме localhost в dev)
+- Проверка SHA-256 checksum и ETag
+- Персональные данные пациентов на сервер справочника не передаются
+
+### Checksum для production JSON
+
+Перед публикацией конфига на сервер:
+
+```bash
+cd apps/mobile
+node scripts/elastography-config-checksum.js path/to/config.json --write
+# или
+npm run elastography:checksum
+```
+
+### UI
+
+На экране результата эластографии — бейдж `ConfigStatusBadge` (версия, changelog, «Обновить сейчас», сброс на стандарт).
+
 ## Следующий шаг (рекомендую)
 
 - Подключить backend API с версионируемыми JSON-правилами.

@@ -11,6 +11,11 @@ config.watchFolders = [...config.watchFolders, workspaceRoot];
 
 const mobileNm = path.resolve(projectRoot, "node_modules");
 
+config.resolver.nodeModulesPaths = [
+  mobileNm,
+  path.resolve(workspaceRoot, "node_modules"),
+];
+
 /** Force resolution from apps/mobile/node_modules (RN-paired react), not repo root (Next). */
 function resolveFromMobileOrNull(moduleName) {
   try {

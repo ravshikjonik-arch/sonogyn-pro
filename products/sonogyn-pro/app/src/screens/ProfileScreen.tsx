@@ -24,7 +24,15 @@ import i18n from "../i18n";
 import { activateTrialCode, clearTrialAccess, getTrialStatus } from "../services/trialAccess";
 import { createOneTimeTrialCodes } from "../services/trialCodeAdmin";
 import { TELEGRAM_CHANNEL } from "../config/telegram";
+import { openTelegramChannel } from "../config/community";
 import { buildGrTeamInviteMessage } from "../utils/grInviteText";
+import { revokeAllSessions } from "../lib/auth/sessionApi";
+import { wipeMobileClinicalLocalData } from "../lib/security/wipeClinicalLocal";
+import { supabaseMobile } from "../lib/supabase/mobileClient";
+import { resolveBirthDateIso } from "@repo/types";
+
+import { BirthDateDisplay } from "../components/BirthDateField";
+import { DoctorRoleSettings } from "../components/clinical/DoctorRoleSettings";
 
 type Props = CompositeScreenProps<
   BottomTabScreenProps<MainTabParamList, "ProfileTab">,
@@ -47,11 +55,67 @@ export default function ProfileScreen({ navigation }: Props) {
   const [newCodes, setNewCodes] = useState<string[]>([]);
   const [codesCount, setCodesCount] = useState("10");
   const [codesDays, setCodesDays] = useState("14");
+  const [supabaseLoggedIn, setSupabaseLoggedIn] = useState(false);
+  const [birthDateIso, setBirthDateIso] = useState<string | null>(null);
+  const [birthYear, setBirthYear] = useState<number | null>(null);
+  const [revokingSessions, setRevokingSessions] = useState(false);
 
   const nextPoints = nextLevelPoints(user?.level ?? 1);
   const progress = nextPoints
     ? Math.min(100, Math.round(((user?.points ?? 0) / nextPoints) * 100))
     : 100;
+
+  useEffect(() => {
+    void supabaseMobile?.auth.getSession().then(({ data }) => {
+      setSupabaseLoggedIn(Boolean(data.session));
+      const meta = data.session?.user?.user_metadata;
+      const iso = resolveBirthDateIso(
+        typeof meta?.birth_date === "string" ? meta.birth_date : null,
+      );
+      setBirthDateIso(iso);
+      const yearRaw = meta?.birth_year;
+      setBirthYear(typeof yearRaw === "number" ? yearRaw : iso ? Number.parseInt(iso.slice(0, 4), 10) : null);
+    });
+  }, []);
+
+  async function onRevokeAllDevices() {
+    Alert.alert(
+      "Выйти на всех устройствах?",
+      "Сбросит вход на всех телефонах и в браузере. Используйте, если потеряли устройство.",
+      [
+        { text: "Отмена", style: "cancel" },
+        {
+          text: "Выйти везде",
+          style: "destructive",
+          onPress: () => {
+            void (async () => {
+              if (!supabaseMobile) return;
+              setRevokingSessions(true);
+              try {
+                const { data } = await supabaseMobile.auth.getSession();
+                const token = data.session?.access_token;
+                if (!token) {
+                  Alert.alert("Сессия", "Нет активного входа Supabase.");
+                  return;
+                }
+                const result = await revokeAllSessions(token);
+                if (!result.ok) {
+                  Alert.alert("Ошибка", result.error);
+                  return;
+                }
+                await wipeMobileClinicalLocalData();
+                await supabaseMobile.auth.signOut();
+                setSupabaseLoggedIn(false);
+                Alert.alert("Готово", "Выход на всех устройствах выполнен.");
+              } finally {
+                setRevokingSessions(false);
+              }
+            })();
+          },
+        },
+      ],
+    );
+  }
 
   useEffect(() => {
     void getTrialStatus().then((s) => {
@@ -121,6 +185,9 @@ export default function ProfileScreen({ navigation }: Props) {
       <View style={[styles.card, isPro && styles.cardPro]}>
         {loading ? <ActivityIndicator color="#0ea5a4" /> : null}
         <Text style={styles.name}>{user?.name ?? i18n.t("doctor")}</Text>
+        {supabaseLoggedIn && (birthDateIso || birthYear) ? (
+          <BirthDateDisplay iso={birthDateIso} birthYear={birthYear} />
+        ) : null}
         <ProBadge isPro={isPro} />
         <Text style={styles.level}>{i18n.t("profile_level", { level: user?.level ?? 1 })}</Text>
         <Text style={styles.stars}>{stars}</Text>
@@ -142,6 +209,26 @@ export default function ProfileScreen({ navigation }: Props) {
           <Text style={styles.langBtnText}>{i18n.t("language")}</Text>
         </Pressable>
 
+        <DoctorRoleSettings />
+
+        {supabaseLoggedIn ? (
+          <View style={styles.securityBox}>
+            <Text style={styles.securityTitle}>Безопасность входа</Text>
+            <Text style={styles.securityHint}>
+              Сброс сессий на всех устройствах. Офлайн-телефон выйдет при синхронизации или через 24 ч без сети.
+            </Text>
+            <Pressable
+              style={[styles.securityBtn, revokingSessions && styles.securityBtnDisabled]}
+              disabled={revokingSessions}
+              onPress={onRevokeAllDevices}
+            >
+              <Text style={styles.securityBtnText}>
+                {revokingSessions ? "Выход…" : "Выйти на всех устройствах"}
+              </Text>
+            </Pressable>
+          </View>
+        ) : null}
+
         <Text style={styles.legalHeader}>{i18n.t("profile_legal_header")}</Text>
         <Pressable style={styles.legalRow} onPress={() => navigation.navigate("TermsOfUse")}>
           <Text style={styles.legalRowText}>{i18n.t("profile_legal_terms")}</Text>
@@ -158,10 +245,13 @@ export default function ProfileScreen({ navigation }: Props) {
 
         <Pressable
           style={styles.telegramRow}
-          onPress={() => void Linking.openURL(TELEGRAM_CHANNEL.url)}
+          onPress={() => void openTelegramChannel()}
+          accessibilityHint="При блокировке t.me в РФ нужен VPN или приложение Telegram"
         >
           <Text style={styles.telegramTitle}>{TELEGRAM_CHANNEL.name}</Text>
-          <Text style={styles.telegramSub}>Telegram-канал · {TELEGRAM_CHANNEL.handle}</Text>
+          <Text style={styles.telegramSub}>
+            {TELEGRAM_CHANNEL.handle} · в РФ без VPN может не открыться
+          </Text>
         </Pressable>
 
         <View style={styles.trialBox}>
@@ -294,6 +384,28 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
   },
   langBtnText: { color: "#0f172a", fontWeight: "600" },
+  securityBox: {
+    marginTop: 10,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#fcd34d",
+    backgroundColor: "#fffbeb",
+    padding: 12,
+    gap: 6,
+  },
+  securityTitle: { color: "#92400e", fontWeight: "800", fontSize: 13 },
+  securityHint: { color: "#78350f", fontSize: 12, lineHeight: 17 },
+  securityBtn: {
+    marginTop: 4,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#f59e0b",
+    backgroundColor: "#fff",
+    alignItems: "center",
+    paddingVertical: 10,
+  },
+  securityBtnDisabled: { opacity: 0.6 },
+  securityBtnText: { color: "#92400e", fontWeight: "700", fontSize: 13 },
   legalHeader: {
     marginTop: 16,
     fontSize: 11,

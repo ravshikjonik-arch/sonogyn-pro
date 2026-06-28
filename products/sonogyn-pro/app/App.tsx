@@ -1,6 +1,7 @@
 import { Component, type ErrorInfo, type ReactNode, useEffect } from "react";
 import { Platform, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { getConfig } from "./src/modules/elastography/constants";
 import { migrateOradsToSecureStore } from "./src/features/oradsPro/storage/oradsStorage";
 import { migrateHistoryToSecureStore } from "./src/modules/elastography/utils/historyStorage";
 import AppStack from "./src/navigation/AppStack";
@@ -62,12 +63,24 @@ export default function App() {
     registerPwaRuntime();
   }, []);
 
+  /** Предзагрузка Remote Config эластографии при старте приложения */
+  useEffect(() => {
+    void getConfig().catch((error: unknown) => {
+      console.warn("[App] Elastography Remote Config:", error);
+    });
+  }, []);
+
+  /** Миграция локальной клиники в SecureStore (один раз после обновления) */
   useEffect(() => {
     void migrateHistoryToSecureStore().then((migrated) => {
-      if (migrated) console.log("[Elastography] История перенесена в защищённое хранилище");
+      if (migrated) {
+        console.log("[Elastography] История перенесена в защищённое хранилище");
+      }
     });
     void migrateOradsToSecureStore().then((migrated) => {
-      if (migrated) console.log("[O-RADS] Данные перенесены в защищённое хранилище");
+      if (migrated) {
+        console.log("[O-RADS] Данные перенесены в защищённое хранилище");
+      }
     });
   }, []);
 

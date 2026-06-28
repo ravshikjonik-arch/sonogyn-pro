@@ -68,6 +68,66 @@ function run() {
     ascites: true,
   });
   expectEq("OVERRIDE_ASCITES", r6.category, 4);
+
+  const r7a = calculateORADS({
+    localization: "ovarian",
+    menopause: "pre",
+    lesionKind: "nonphysiological",
+    structure: "multilocular",
+    septaThickness: "thin",
+    solidComponent: false,
+    lengthMm: 110,
+    widthMm: 100,
+    heightMm: 90,
+  });
+  expectEq("MULTILOCULAR_LARGE", r7a.category, 3);
+
+  const r7b = calculateORADS({
+    localization: "ovarian",
+    menopause: "pre",
+    lesionKind: "nonphysiological",
+    structure: "multilocular",
+    septaThickness: "thin",
+    solidComponent: false,
+    incompleteSeptum: true,
+    lengthMm: 110,
+    widthMm: 100,
+    heightMm: 90,
+  });
+  expectEq("INCOMPLETE_SEPTUM_RECLASS", r7b.category, 2);
+  if (!r7b.structureReclassified) {
+    throw new Error("INCOMPLETE_SEPTUM_RECLASS: expected structureReclassified");
+  }
+
+  const r8 = calculateORADS({
+    localization: "ovarian",
+    ageYears: 34,
+    cycleDay: 12,
+    menopause: "pre",
+    lesionKind: "nonphysiological",
+    structure: "unilocular",
+    unilocularSubtype: "simple_cyst",
+    lengthMm: 45,
+  });
+  expectEq("FUNCTIONAL_CYST_PATTERN", r8.category, 2);
+  if (r8.patternLabel !== "Вероятна функциональная киста") {
+    throw new Error(`FUNCTIONAL_CYST_PATTERN: expected pattern label, got ${String(r8.patternLabel)}`);
+  }
+
+  const r9 = calculateORADS({
+    localization: "ovarian",
+    menopause: "pre",
+    lesionKind: "normal_ovary",
+    normalOvaryPattern: "multifollicular",
+    lengthMm: 40,
+    widthMm: 20,
+    heightMm: 40,
+  });
+  expectEq("MULTIFOLLICULAR_ORADS", r9.category, 1);
+  expectEq("MULTIFOLLICULAR_VOLUME", r9.volumeMl, 16.74);
+  if (r9.patternLabel !== "Мультифолликулярный рисунок") {
+    throw new Error(`MULTIFOLLICULAR_PATTERN: got ${String(r9.patternLabel)}`);
+  }
 }
 
 run();

@@ -3,6 +3,7 @@
  * Run: cd server && npm install && npm start
  * Env: PORT=3100 JWT_SECRET=change-me-in-production
  */
+import crypto from "crypto";
 import express from "express";
 import cors from "cors";
 import fs from "fs";
@@ -12,6 +13,10 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import multer from "multer";
 import { rateLimit } from "express-rate-limit";
+import {
+  extensionForKind,
+  validateClinicalImageBuffer,
+} from "../../../packages/upload-validation/index.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DATA_PATH = path.join(__dirname, "data", "store.json");
@@ -25,7 +30,6 @@ const JWT_SECRET =
   (isProduction
     ? null
     : "dev-only-change-in-production");
-const JWT_EXPIRES = process.env.JWT_EXPIRES || "7d";
 const JWT_EXPIRES = process.env.JWT_EXPIRES || "7d";
 const MIN_JWT_SECRET_LEN = 32;
 if (!JWT_SECRET) {
@@ -337,7 +341,11 @@ app.post("/cases", authMiddleware, upload.single("image"), (req, res) => {
 
   let imageFilename = null;
   if (req.file && req.file.buffer && req.file.buffer.length) {
-    const ext = (req.file.mimetype || "").includes("png") ? "png" : "jpg";
+    const sig = validateClinicalImageBuffer(req.file.buffer);
+    if (!sig.ok) {
+      return res.status(400).json({ error: sig.error });
+    }
+    const ext = extensionForKind(sig.kind);
     imageFilename = `${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
     fs.writeFileSync(path.join(UPLOADS_DIR, imageFilename), req.file.buffer);
   }
@@ -469,6 +477,170 @@ app.delete("/admin/cases/:caseId/comments/:commentId", authMiddleware, adminOnly
 });
 
 app.get("/health", (_req, res) => res.json({ ok: true }));
+
+/** Telegram auth: mobile → bot → poll → session proxy → Supabase */
+const telegramPending = new Map();
+const WEB_API_BASE_URL = (process.env.WEB_API_BASE_URL || "http://localhost:3000").replace(/\/$/, "");
+const SONOGYN_AUTH_INTERNAL_SECRET = process.env.SONOGYN_AUTH_INTERNAL_SECRET || "";
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || "";
+const TELEGRAM_BOT_USERNAME = process.env.TELEGRAM_BOT_USERNAME || "sonogyn_bot";
+const TELEGRAM_WEBHOOK_SECRET = process.env.TELEGRAM_WEBHOOK_SECRET || "";
+
+function purgeTelegramPending() {
+  const now = Date.now();
+  for (const [key, value] of telegramPending) {
+    if (now - value.createdAt > 10 * 60 * 1000) telegramPending.delete(key);
+  }
+}
+
+async function sendTelegramMessage(chatId, text) {
+  if (!TELEGRAM_BOT_TOKEN) return;
+  await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      chat_id: chatId,
+      text,
+      disable_web_page_preview: true,
+    }),
+  }).catch(() => {});
+}
+
+app.post("/auth/telegram/start", (_req, res) => {
+  purgeTelegramPending();
+  const nonce = crypto.randomUUID();
+  telegramPending.set(nonce, { status: "pending", createdAt: Date.now() });
+  res.json({
+    nonce,
+    botUrl: `https://t.me/${TELEGRAM_BOT_USERNAME}?start=login_${nonce}`,
+    deepLink: `com.yakrav7700.usriskcalc://auth/callback?telegram_nonce=${nonce}`,
+  });
+});
+
+app.post("/auth/telegram/complete", (req, res) => {
+  const { nonce, id, first_name, last_name, username, photo_url, auth_date, hash } = req.body || {};
+  if (!nonce || !telegramPending.has(nonce)) {
+    return res.status(404).json({ error: "Сессия Telegram не найдена" });
+  }
+  telegramPending.set(nonce, {
+    status: "ok",
+    createdAt: Date.now(),
+    payload: { id, first_name, last_name, username, photo_url, auth_date, hash, source: hash ? "widget" : "bot" },
+  });
+  res.json({ ok: true });
+});
+
+app.post("/auth/telegram/session", async (req, res) => {
+  purgeTelegramPending();
+  const nonce = String(req.body?.nonce || "").trim();
+  if (!nonce) {
+    return res.status(400).json({ error: "nonce обязателен" });
+  }
+
+  const item = telegramPending.get(nonce);
+  if (!item || item.status !== "ok" || !item.payload) {
+    return res.status(404).json({ error: "Сессия Telegram не найдена или ещё не подтверждена" });
+  }
+
+  if (!SONOGYN_AUTH_INTERNAL_SECRET) {
+    return res.status(503).json({ error: "SONOGYN_AUTH_INTERNAL_SECRET не задан на chat-server" });
+  }
+
+  const payload = item.payload;
+  const path = payload.hash ? "/api/auth/telegram" : "/api/auth/telegram/bot";
+  const headers = {
+    "Content-Type": "application/json",
+    "x-sonogyn-client": "mobile",
+  };
+  if (!payload.hash) {
+    headers["x-sonogyn-internal-secret"] = SONOGYN_AUTH_INTERNAL_SECRET;
+  }
+
+  try {
+    const upstream = await fetch(`${WEB_API_BASE_URL}${path}`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(payload),
+    });
+    const data = await upstream.json().catch(() => ({}));
+    if (!upstream.ok || !data.session) {
+      return res.status(upstream.status || 500).json({
+        error: data.error || "Не удалось создать Supabase-сессию",
+      });
+    }
+
+    telegramPending.delete(nonce);
+    return res.json({ ok: true, session: data.session, email: data.email });
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
+    return res.status(502).json({ error: `Web API недоступен: ${msg}` });
+  }
+});
+
+app.get("/auth/telegram/poll/:nonce", (req, res) => {
+  purgeTelegramPending();
+  const item = telegramPending.get(req.params.nonce);
+  if (!item) return res.status(404).json({ error: "not found" });
+  if (Date.now() - item.createdAt > 10 * 60 * 1000) {
+    telegramPending.delete(req.params.nonce);
+    return res.json({ status: "expired" });
+  }
+  if (item.status === "ok") {
+    return res.json({ status: "ok", payload: item.payload, nonce: req.params.nonce });
+  }
+  return res.json({ status: "pending" });
+});
+
+/** Telegram Bot API webhook: /start login_{nonce} */
+app.post("/auth/telegram/webhook/:secret?", async (req, res) => {
+  if (TELEGRAM_WEBHOOK_SECRET && req.params.secret !== TELEGRAM_WEBHOOK_SECRET) {
+    return res.status(403).json({ error: "Forbidden" });
+  }
+
+  const update = req.body || {};
+  const message = update.message;
+  if (!message?.text || !message.from) {
+    return res.json({ ok: true });
+  }
+
+  const match = message.text.match(/^\/start(?:@\w+)?\s+login_([0-9a-f-]{36})$/i);
+  if (!match) {
+    if (message.text.startsWith("/start")) {
+      await sendTelegramMessage(
+        message.chat.id,
+        "SonoGyn Pro: откройте вход через приложение → «Войти через Telegram».",
+      );
+    }
+    return res.json({ ok: true });
+  }
+
+  const nonce = match[1];
+  if (!telegramPending.has(nonce)) {
+    await sendTelegramMessage(message.chat.id, "Сессия истекла. Запросите вход в приложении заново.");
+    return res.json({ ok: true });
+  }
+
+  const from = message.from;
+  telegramPending.set(nonce, {
+    status: "ok",
+    createdAt: Date.now(),
+    payload: {
+      id: from.id,
+      first_name: from.first_name,
+      last_name: from.last_name,
+      username: from.username,
+      source: "bot",
+    },
+  });
+
+  const deepLink = `com.yakrav7700.usriskcalc://auth/callback?telegram_nonce=${nonce}`;
+  await sendTelegramMessage(
+    message.chat.id,
+    `✅ Подтверждено.\n\nОткройте SonoGyn Pro:\n${deepLink}\n\nЕсли ссылка не открывается — вернитесь в приложение, вход завершится автоматически.`,
+  );
+
+  return res.json({ ok: true });
+});
 
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Chat API listening on http://0.0.0.0:${PORT}`);

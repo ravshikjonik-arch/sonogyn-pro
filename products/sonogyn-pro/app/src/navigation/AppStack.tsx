@@ -1,7 +1,7 @@
-import { NavigationContainer, type LinkingOptions } from "@react-navigation/native";
+import { NavigationContainer, useNavigationContainerRef, type LinkingOptions } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useEffect, useState, useCallback } from "react";
 import type { Session } from "@supabase/supabase-js";
+import { useCallback, useEffect, useState, type ComponentType } from "react";
 import { Platform } from "react-native";
 import CaseScreen from "../screens/CaseScreen";
 import LandingScreen from "../screens/LandingScreen";
@@ -18,28 +18,57 @@ import { isUserBanned } from "../services/firebase/reportService";
 import ORADSFlowScreen from "../screens/ORADSFlowScreen";
 import ProlapseScreen from "../screens/ProlapseScreen";
 import ORADSProScreen from "../features/oradsPro/screens/ORADSProScreen";
+import OradsWizardScreen from "../features/oradsWizard/OradsWizardScreen";
+import StructuredReportPreviewScreen from "../features/reportPreview/StructuredReportPreviewScreen";
+import OradsGuideScreen from "../features/oradsGuide/OradsGuideScreen";
 import ORADSHistoryScreen from "../features/oradsPro/screens/ORADSHistoryScreen";
 import ORADSHistoryDetailsScreen from "../features/oradsPro/screens/ORADSHistoryDetailsScreen";
 import FMFAssistantScreen from "../features/fmf/screens/FMFAssistantScreen";
 import GynecologyCalcScreen from "../screens/GynecologyCalcScreen";
 import BiRadsAssistantScreen from "../screens/BiRadsAssistantScreen";
+import Breast3DScreen from "../screens/Breast3DScreen";
 import TiRadsAssistantScreen from "../features/tirads/screens/TiRadsAssistantScreen";
+import EndometriumScreen from "../screens/EndometriumScreen";
+import CervicalLengthScreen from "../screens/CervicalLengthScreen";
 import ClinicalReferenceScreen from "../screens/ClinicalReferenceScreen";
 import NosologyScreen from "../screens/NosologyScreen";
 import SplashScreen, { SplashLoadingView } from "../screens/SplashScreen";
 import SupabaseAuthScreen from "../screens/SupabaseAuthScreen";
+import ClinicalGuidelineDetailScreen from "../modules/clinicalGuidelines/screens/ClinicalGuidelineDetailScreen";
+import ElastographyScreen from "../modules/elastography/screens/ElastographyScreen";
+import CarotidStenosisScreen from "../modules/vascular/screens/CarotidStenosisScreen";
+import { ClinicalPhiGate } from "../components/ClinicalPhiGate";
 import MainTabs from "./MainTabs";
 import type { RootStackParamList } from "./paramLists";
 import type { PageType } from "../navigationTypes";
 import { hasValidConsent } from "../legal/consentStorage";
 import { supabaseMobile } from "../lib/supabase/mobileClient";
 import { wipeMobileClinicalLocalData } from "../lib/security/wipeClinicalLocal";
+import { useAuthDeepLinks } from "../hooks/useAuthDeepLinks";
+import { usePushTokenRegistration } from "../hooks/usePushTokenRegistration";
+import { usePushNotificationNavigation } from "../hooks/usePushNotificationNavigation";
 import { useSessionRevalidation } from "../hooks/useSessionRevalidation";
 import { AppGateContext } from "./AppGateContext";
 
 export type { MainTabParamList, RootStackParamList } from "./paramLists";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
+
+function withClinicalPhiGate<P extends object>(Screen: ComponentType<P>) {
+  return function GuardedScreen(props: P) {
+    return (
+      <ClinicalPhiGate>
+        <Screen {...props} />
+      </ClinicalPhiGate>
+    );
+  };
+}
+
+const GuardedORADSPro = withClinicalPhiGate(ORADSProScreen);
+const GuardedORADSWizard = withClinicalPhiGate(OradsWizardScreen);
+const GuardedStructuredReportPreview = withClinicalPhiGate(StructuredReportPreviewScreen);
+const GuardedORADSHistory = withClinicalPhiGate(ORADSHistoryScreen);
+const GuardedORADSHistoryDetails = withClinicalPhiGate(ORADSHistoryDetailsScreen);
 
 function parseGynecologyInitialPage(segment?: string): PageType {
   if (!segment) return "gyn_hub";
@@ -55,6 +84,7 @@ function linkingPrefixes(): string[] {
     "https://www.sonogyn.ru",
     "https://us-risk-calc.app",
     "usriskcalc://",
+    "com.yakrav7700.usriskcalc://",
   ]);
   if (typeof window !== "undefined" && window.location?.origin) {
     out.add(window.location.origin);
@@ -86,6 +116,15 @@ const linking: LinkingOptions<RootStackParamList> = {
       SupabaseAuth: "auth/supabase",
       Language: "language",
       ORADSFlow: "orads-basic",
+      ORADSWizard: "orads-wizard",
+      StructuredReportPreview: "reports/adnex",
+      ORADSGuide: {
+        path: "library/orads-guide",
+        parse: {
+          sectionId: (value?: string) => value,
+          caseId: (value?: string) => value,
+        },
+      },
       ORADSPro: "orads",
       ORADSHistory: "orads/history",
       ORADSHistoryDetails: "orads/history/:caseId",
@@ -101,24 +140,31 @@ const linking: LinkingOptions<RootStackParamList> = {
       TiRadsAssistant: "tirads",
       ClinicalReference: "reference/clinical",
       Nosology: "reference/nosologies",
+      ElastographyCalc: "elastography",
+      VascularCarotidCalc: "vascular/carotid",
+      ClinicalGuidelineDetail: "guidelines/:guidelineId",
       Blocked: "blocked",
     },
   },
 };
 
 export default function AppStack() {
+  const navigationRef = useNavigationContainerRef<RootStackParamList>();
   const [checked, setChecked] = useState(false);
   const [consentOk, setConsentOk] = useState(false);
   const [banned, setBanned] = useState(false);
   const [supabaseSession, setSupabaseSession] = useState<Session | null>(null);
+  const [supabaseReady, setSupabaseReady] = useState(false);
 
   const refreshSupabaseSession = useCallback(async () => {
     if (!supabaseMobile) {
       setSupabaseSession(null);
+      setSupabaseReady(true);
       return;
     }
     const { data } = await supabaseMobile.auth.getSession();
     setSupabaseSession(data.session);
+    setSupabaseReady(true);
   }, []);
 
   useEffect(() => {
@@ -129,11 +175,23 @@ export default function AppStack() {
         void wipeMobileClinicalLocalData();
       }
       setSupabaseSession(session);
+      setSupabaseReady(true);
     });
     return () => sub.subscription.unsubscribe();
   }, [refreshSupabaseSession]);
 
+  useAuthDeepLinks(() => {
+    void refreshSupabaseSession();
+  });
+
   useSessionRevalidation(Boolean(supabaseSession));
+
+  usePushTokenRegistration(supabaseSession?.user.id);
+
+  usePushNotificationNavigation({
+    enabled: checked && consentOk && !banned,
+    navigationRef,
+  });
 
   useEffect(() => {
     const STARTUP_MS = 10_000;
@@ -209,8 +267,8 @@ export default function AppStack() {
   }
 
   return (
-    <AppGateContext.Provider value={{ consentOk }}>
-      <NavigationContainer linking={linking}>
+    <AppGateContext.Provider value={{ consentOk, supabaseReady, supabaseSession, refreshSupabaseSession }}>
+      <NavigationContainer ref={navigationRef} linking={linking}>
         <Stack.Navigator
           screenOptions={{ headerShown: false }}
           initialRouteName={Platform.OS === "web" ? "Landing" : "Splash"}
@@ -227,16 +285,25 @@ export default function AppStack() {
           <Stack.Screen name="SupabaseAuth" component={SupabaseAuthScreen} />
           <Stack.Screen name="Language" component={LanguageScreen} />
           <Stack.Screen name="ORADSFlow" component={ORADSFlowScreen} />
-          <Stack.Screen name="ORADSPro" component={ORADSProScreen} />
-          <Stack.Screen name="ORADSHistory" component={ORADSHistoryScreen} />
-          <Stack.Screen name="ORADSHistoryDetails" component={ORADSHistoryDetailsScreen} />
+          <Stack.Screen name="ORADSWizard" component={GuardedORADSWizard} />
+          <Stack.Screen name="StructuredReportPreview" component={GuardedStructuredReportPreview} />
+          <Stack.Screen name="ORADSGuide" component={OradsGuideScreen} />
+          <Stack.Screen name="ORADSPro" component={GuardedORADSPro} />
+          <Stack.Screen name="ORADSHistory" component={GuardedORADSHistory} />
+          <Stack.Screen name="ORADSHistoryDetails" component={GuardedORADSHistoryDetails} />
           <Stack.Screen name="FMFAssistant" component={FMFAssistantScreen} />
           <Stack.Screen name="Prolapse" component={ProlapseScreen} />
           <Stack.Screen name="GynecologyCalc" component={GynecologyCalcScreen} />
           <Stack.Screen name="BiRadsAssistant" component={BiRadsAssistantScreen} />
+          <Stack.Screen name="Breast3D" component={Breast3DScreen} />
           <Stack.Screen name="TiRadsAssistant" component={TiRadsAssistantScreen} />
+          <Stack.Screen name="EndometriumCalc" component={EndometriumScreen} />
+          <Stack.Screen name="CervicalLengthCalc" component={CervicalLengthScreen} />
           <Stack.Screen name="ClinicalReference" component={ClinicalReferenceScreen} />
           <Stack.Screen name="Nosology" component={NosologyScreen} />
+          <Stack.Screen name="ElastographyCalc" component={ElastographyScreen} />
+          <Stack.Screen name="VascularCarotidCalc" component={CarotidStenosisScreen} />
+          <Stack.Screen name="ClinicalGuidelineDetail" component={ClinicalGuidelineDetailScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </AppGateContext.Provider>

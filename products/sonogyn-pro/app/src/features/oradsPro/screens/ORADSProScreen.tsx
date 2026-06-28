@@ -11,7 +11,11 @@ import {
   View,
 } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { isOradsNosologyPending } from "@repo/orads-us";
+import OradsIntroHero from "../components/OradsIntroHero";
+import OradsNosologyPreview from "../components/OradsNosologyPreview";
 import StepCard from "../components/StepCard";
+import { ORADS_ZERO_OPTIONS } from "../oradsReference";
 import SelectChip from "../components/SelectChip";
 import ResultPanel from "../components/ResultPanel";
 import IotaConsensusPanel from "../components/IotaConsensusPanel";
@@ -25,6 +29,7 @@ import type {
   LesionKind,
   Localization,
   Menopause,
+  NormalOvaryPattern,
   OradsInput,
   PapillaryProjectionCount,
   PapillaryProjectionSurface,
@@ -36,6 +41,7 @@ import type {
   UnilocularSubtype,
 } from "../types";
 import { buildReportText, calculateORADS } from "../logic/oradsCalculator";
+import { resolveOradsNosologyPreview } from "../resolveOradsNosology";
 import { buildIotaConsensusReportText, evaluateIotaConsensus2026 } from "../consensus/iotaConsensus2026";
 import { appendCaseToHistory, loadUXMetric, pushTimeToResult } from "../storage/oradsStorage";
 import { flushAIQueue, getAIQueueSize, getAIQueueStatus, requestAIOrQueue } from "../ai/aiService";
@@ -45,9 +51,12 @@ type Props = NativeStackScreenProps<RootStackParamList, "ORADSPro">;
 
 export default function ORADSProScreen({ navigation, route }: Props) {
   const [localization, setLocalization] = useState<Localization | undefined>("ovarian");
+  const [ageYears, setAgeYears] = useState("");
+  const [cycleDay, setCycleDay] = useState("");
   const [menopause, setMenopause] = useState<Menopause | undefined>(undefined);
   const [lesionKind, setLesionKind] = useState<LesionKind | undefined>(undefined);
   const [physType, setPhysType] = useState<PhysiologicalType | undefined>(undefined);
+  const [normalOvaryPattern, setNormalOvaryPattern] = useState<NormalOvaryPattern | undefined>(undefined);
   const [structure, setStructure] = useState<Structure | undefined>(undefined);
   const [unilocularSubtype, setUnilocularSubtype] = useState<UnilocularSubtype | undefined>(undefined);
   const [customDescription, setCustomDescription] = useState("");
@@ -81,13 +90,19 @@ export default function ORADSProScreen({ navigation, route }: Props) {
   const [aiUpdatedAt, setAiUpdatedAt] = useState<number | null>(null);
   const firstInteractionAtRef = useRef<number | null>(null);
   const firstResultTrackedRef = useRef(false);
+  const [showIntro, setShowIntro] = useState(true);
+  const [oradsZero, setOradsZero] = useState<(typeof ORADS_ZERO_OPTIONS)[number]["id"] | null>(null);
 
   const input = useMemo<OradsInput>(
     () => ({
       localization,
+      ageYears: Number(ageYears) > 0 ? Number(ageYears) : undefined,
+      cycleDay:
+        menopause === "pre" && Number(cycleDay) > 0 && Number(cycleDay) <= 35 ? Number(cycleDay) : undefined,
       menopause,
       lesionKind,
       physiologicalType: physType,
+      normalOvaryPattern,
       structure,
       unilocularSubtype,
       customDescription: customDescription.trim() || undefined,
@@ -113,9 +128,12 @@ export default function ORADSProScreen({ navigation, route }: Props) {
     }),
     [
       localization,
+      ageYears,
+      cycleDay,
       menopause,
       lesionKind,
       physType,
+      normalOvaryPattern,
       structure,
       unilocularSubtype,
       customDescription,
@@ -143,6 +161,7 @@ export default function ORADSProScreen({ navigation, route }: Props) {
 
   const result = useMemo(() => calculateORADS(input), [input]);
   const iotaConsensus = useMemo(() => evaluateIotaConsensus2026(input, result), [input, result]);
+  const nosologyPreview = useMemo(() => resolveOradsNosologyPreview(unilocularSubtype), [unilocularSubtype]);
 
   function markInteraction() {
     if (!firstInteractionAtRef.current) firstInteractionAtRef.current = Date.now();
@@ -156,9 +175,12 @@ export default function ORADSProScreen({ navigation, route }: Props) {
     const p = route.params?.prefill;
     if (p) {
       setLocalization(p.localization ?? "ovarian");
+      setAgeYears(p.ageYears ? String(p.ageYears) : "");
+      setCycleDay(p.cycleDay ? String(p.cycleDay) : "");
       setMenopause(p.menopause);
       setLesionKind(p.lesionKind);
       setPhysType(p.physiologicalType);
+      setNormalOvaryPattern(p.normalOvaryPattern);
       setStructure(p.structure);
       setUnilocularSubtype(p.unilocularSubtype);
       setCustomDescription(p.customDescription ?? "");
@@ -255,6 +277,8 @@ export default function ORADSProScreen({ navigation, route }: Props) {
 
   function onReset() {
     setLocalization("ovarian");
+    setAgeYears("");
+    setCycleDay("");
     setMenopause(undefined);
     setLesionKind(undefined);
     setPhysType(undefined);
@@ -301,7 +325,7 @@ export default function ORADSProScreen({ navigation, route }: Props) {
         <Pressable onPress={() => navigation.goBack()}>
           <Text style={styles.back}>Назад</Text>
         </Pressable>
-        <Text style={styles.title}>O-RADS + IOTA</Text>
+        <Text style={styles.title}>O-RADS Pro</Text>
         <View style={styles.rightHeader}>
           <Pressable onPress={() => navigation.navigate("ORADSHistory")}>
             <Text style={styles.history}>История</Text>
@@ -344,7 +368,34 @@ export default function ORADSProScreen({ navigation, route }: Props) {
         </Text>
       </View>
 
+      {showIntro ? (
+        <View style={styles.content}>
+          <OradsIntroHero onContinue={() => setShowIntro(false)} />
+        </View>
+      ) : (
+      <>
       <ScrollView contentContainerStyle={styles.content}>
+        <StepCard title="Глава 0 — O-RADS 0 / не применимо">
+          {ORADS_ZERO_OPTIONS.map((z) => (
+            <SelectChip
+              key={z.id}
+              label={z.label}
+              selected={oradsZero === z.id}
+              onPress={() => {
+                markInteraction();
+                setOradsZero(z.id);
+              }}
+            />
+          ))}
+          <SelectChip
+            label="Перейти к оценке (O-RADS 1–5)"
+            selected={oradsZero === null}
+            onPress={() => setOradsZero(null)}
+          />
+        </StepCard>
+
+        {!oradsZero ? (
+        <>
         <StepCard title="ШАГ 1 — Локализация" required={!localization}>
           <View style={styles.rowWrap}>
             <SelectChip
@@ -368,6 +419,16 @@ export default function ORADSProScreen({ navigation, route }: Props) {
         </StepCard>
 
         <StepCard title="ШАГ 2 — Статус пациентки" required={!menopause}>
+          <TextInput
+            value={ageYears}
+            onChangeText={(v) => {
+              markInteraction();
+              setAgeYears(v.replace(/[^\d]/g, ""));
+            }}
+            style={styles.input}
+            placeholder="Возраст, лет"
+            keyboardType="number-pad"
+          />
           <View style={styles.rowWrap}>
             <SelectChip
               label="Пременопауза"
@@ -383,9 +444,22 @@ export default function ORADSProScreen({ navigation, route }: Props) {
               onPress={() => {
                 markInteraction();
                 setMenopause("post");
+                setCycleDay("");
               }}
             />
           </View>
+          {menopause === "pre" ? (
+            <TextInput
+              value={cycleDay}
+              onChangeText={(v) => setCycleDay(v.replace(/[^\d]/g, ""))}
+              style={styles.input}
+              placeholder="День цикла (например, 12)"
+              keyboardType="number-pad"
+            />
+          ) : null}
+          {Number(ageYears) >= 50 && menopause === "pre" ? (
+            <Text style={styles.warn}>Возраст ≥50: при сомнении учитывайте как постменопаузу.</Text>
+          ) : null}
         </StepCard>
 
         {menopause ? (
@@ -397,6 +471,7 @@ export default function ORADSProScreen({ navigation, route }: Props) {
                 onPress={() => {
                   markInteraction();
                   setLesionKind("physiological");
+                  setNormalOvaryPattern(undefined);
                 }}
               />
               <SelectChip
@@ -405,9 +480,33 @@ export default function ORADSProScreen({ navigation, route }: Props) {
                 onPress={() => {
                   markInteraction();
                   setLesionKind("nonphysiological");
+                  setNormalOvaryPattern(undefined);
+                }}
+              />
+              <SelectChip
+                label="Мультифолликулярный / норма"
+                selected={lesionKind === "normal_ovary"}
+                onPress={() => {
+                  markInteraction();
+                  setLesionKind("normal_ovary");
+                  setNormalOvaryPattern("multifollicular");
                 }}
               />
             </View>
+            {lesionKind === "normal_ovary" ? (
+              <View style={styles.rowWrap}>
+                <SelectChip
+                  label="Мультифолликулярный"
+                  selected={normalOvaryPattern === "multifollicular"}
+                  onPress={() => setNormalOvaryPattern("multifollicular")}
+                />
+                <SelectChip
+                  label="Обычная строма"
+                  selected={normalOvaryPattern === "typical"}
+                  onPress={() => setNormalOvaryPattern("typical")}
+                />
+              </View>
+            ) : null}
             {lesionKind === "physiological" && menopause === "pre" ? (
               <View style={styles.rowWrap}>
                 <SelectChip label="Фолликул" selected={physType === "follicle"} onPress={() => setPhysType("follicle")} />
@@ -431,9 +530,9 @@ export default function ORADSProScreen({ navigation, route }: Props) {
               <StepCard title="ШАГ 5 — Детали (однокамерное)" required={!unilocularSubtype}>
                 <View style={styles.rowWrap}>
                   {[
-                    ["simple_cyst", "Простая киста"],
+                    ["simple_cyst", "Функциональная / простая"],
                     ["hemorrhagic", "Геморрагическая"],
-                    ["endometrioma", "Эндометриома"],
+                    ["endometrioma", "Эндометриома («стекло»)"],
                     ["dermoid", "Дермоидная"],
                     ["paraovarian", "Параовариальная"],
                     ["peritoneal_inclusion", "Перитонеальная инклюзия"],
@@ -455,6 +554,11 @@ export default function ORADSProScreen({ navigation, route }: Props) {
                     style={styles.input}
                     placeholder="Ручное описание..."
                   />
+                ) : null}
+                {nosologyPreview ? (
+                  <OradsNosologyPreview entry={nosologyPreview.entry} imageUri={nosologyPreview.imageUri} />
+                ) : isOradsNosologyPending(unilocularSubtype) ? (
+                  <Text style={styles.nosologyPending}>Эхограмма и текст протокола для этой нозологии — в следующем обновлении.</Text>
                 ) : null}
               </StepCard>
             ) : null}
@@ -499,13 +603,24 @@ export default function ORADSProScreen({ navigation, route }: Props) {
           </>
         ) : null}
 
-        <StepCard title="ШАГ 6 — Дополнительные признаки">
-          <Text style={styles.sub}>Размеры (мм)</Text>
+        <StepCard title="ШАГ 6 — Размер">
+          <Text style={styles.sub}>40 × 20 × 40 мм — три перпендикулярных диаметра</Text>
           <View style={styles.row}>
             <TextInput value={lengthMm} onChangeText={setLengthMm} placeholder="Длина" keyboardType="numeric" style={styles.inputFlex} />
+            <Text style={styles.dimSep}>×</Text>
             <TextInput value={widthMm} onChangeText={setWidthMm} placeholder="Ширина" keyboardType="numeric" style={styles.inputFlex} />
+            <Text style={styles.dimSep}>×</Text>
             <TextInput value={heightMm} onChangeText={setHeightMm} placeholder="Высота" keyboardType="numeric" style={styles.inputFlex} />
           </View>
+          {result.volumeMl != null ? (
+            <Text style={styles.volumeHint}>
+              Объём: {result.volumeMl} мл (эллипсоид ×0,523) — пересчёт при вводе
+            </Text>
+          ) : (
+            <Text style={styles.volumePending}>
+              {[lengthMm, widthMm, heightMm].filter(Boolean).length}/3 диаметров — укажите все три для объёма
+            </Text>
+          )}
           <Text style={styles.sub}>Асцит</Text>
           <View style={styles.rowWrap}>
             <SelectChip label="Нет" selected={!ascites} onPress={() => setAscites(false)} />
@@ -621,9 +736,13 @@ export default function ORADSProScreen({ navigation, route }: Props) {
         <Pressable style={styles.saveCaseBtn} onPress={onSaveToCase}>
           <Text style={styles.saveCaseText}>Сохранить как кейс</Text>
         </Pressable>
+        </>
+        ) : null}
       </ScrollView>
 
       <ResultPanel result={result} aiText={aiText} onAskAI={onAskAI} />
+      </>
+      )}
     </SafeAreaView>
   );
 }
@@ -685,6 +804,9 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     backgroundColor: "#fff",
   },
+  dimSep: { fontSize: 18, fontWeight: "800", color: "#0f172a", paddingHorizontal: 2 },
+  volumeHint: { fontSize: 13, fontWeight: "700", color: "#0c4a6e", marginBottom: 4 },
+  volumePending: { fontSize: 12, color: "#64748b", marginBottom: 4, fontStyle: "italic" },
   export: {
     borderRadius: 10,
     backgroundColor: "#2563EB",
@@ -699,4 +821,11 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   saveCaseText: { color: "#fff", fontWeight: "800" },
+  nosologyPending: {
+    marginTop: 8,
+    fontSize: 12,
+    lineHeight: 17,
+    color: "#64748b",
+    fontStyle: "italic",
+  },
 });

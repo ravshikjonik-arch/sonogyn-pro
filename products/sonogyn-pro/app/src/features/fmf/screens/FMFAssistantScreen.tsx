@@ -7,6 +7,8 @@ import type { EarlyInput, FMFSection, FirstTrimesterInput, SecondThirdInput } fr
 import { analyzeCervix, analyzeDoppler, analyzeEarly, analyzeFirst, analyzeScar, analyzeSecondThird } from "../logic/assistantEngine";
 import { parseVoiceProtocol } from "../logic/voiceNlp";
 import SelectChip from "../../oradsPro/components/SelectChip";
+import { AlertWithTeach, MedvedevPanel } from "../components/MedvedevPanel";
+import { FmfPercentilePanel } from "../components/FmfPercentilePanel";
 import { pregnancyUltrasoundModule } from "../core/pregnancyModule";
 import { FMF_SCREENING_3034_SOURCE_NOTE, fmfScreening3034Examples } from "../data/fmfScreening3034Examples";
 
@@ -45,14 +47,25 @@ function Card({ title, children }: { title: string; children: React.ReactNode })
 
 export default function FMFAssistantScreen({ navigation }: Props) {
   const [section, setSection] = useState<FMFSection | "doppler" | "cervix" | "scar">("early");
-  const [early, setEarly] = useState<EarlyInput>({ localization: undefined } as unknown as EarlyInput);
+  const [early, setEarly] = useState<EarlyInput>({});
   const [first, setFirst] = useState<FirstTrimesterInput>({});
   const [st, setSt] = useState<SecondThirdInput>({});
-  const [doppler, setDoppler] = useState<{ piRight?: number; piLeft?: number; piUmb?: number; piMca?: number }>({});
+  const [doppler, setDoppler] = useState<{
+    piRight?: number;
+    piLeft?: number;
+    piUmb?: number;
+    uaRi?: number;
+    piMca?: number;
+    mcaPsv?: number;
+    dvPi?: number;
+    gaWeeks?: number;
+    gaDays?: number;
+  }>({});
   const [cervix, setCervix] = useState<{ lengthMm?: number; funneling?: boolean }>({});
   const [scar, setScar] = useState<{ thicknessMm?: number; structure?: "homogeneous" | "heterogeneous" }>({});
   const [voiceText, setVoiceText] = useState("");
   const [calcMode, setCalcMode] = useState<"quick" | "strict">("strict");
+  const [teachMode, setTeachMode] = useState(true);
 
   const out = useMemo(() => {
     if (section === "early") return analyzeEarly(early);
@@ -65,6 +78,39 @@ export default function FMFAssistantScreen({ navigation }: Props) {
   }, [section, early, first, st, doppler, cervix, scar, calcMode]);
 
   const protocolText = useMemo(() => {
+    if (section === "early") {
+      return [
+        "УЗИ БЕРЕМЕННОСТИ МАЛОГО СРОКА (до 11 недель)",
+        "",
+        "1. ОБЩИЕ ДАННЫЕ",
+        `- ДПМ: ${f(early.lmpDate)}`,
+        `- Срок гестации: ${early.crlMm ? "по КТР" : early.lmpDate ? "по ДПМ" : "___"}`,
+        "",
+        "2. МАТКА",
+        `- Плодное яйцо: ${presentText(early.gestationalSacPresent)}`,
+        `- Средний диаметр плодного яйца (СДП): ${f(early.msdMm, " мм")}`,
+        `- Контуры плодного яйца: ${early.sacContourNormal === false ? "неровные" : early.sacContourNormal === true ? "ровные" : "___"}`,
+        `- Желточный мешок: ${presentText(early.yolkSacSeen)}${early.ysdMm != null ? `, YSD ${early.ysdMm} мм` : ""}`,
+        `- Эмбрион: ${presentText(early.embryoPresent)}`,
+        `- КТР: ${f(early.crlMm, " мм")}`,
+        `- ЧСС: ${f(early.fhr, " уд/мин")}`,
+        `- Локализация: ${early.pregnancyLocation === "ectopic" ? "подозрение на внематочную" : early.pregnancyLocation === "uterine" ? "маточная" : "___"}`,
+        `- Ретрохориальная гематома: ${early.retrochorionicHematoma === true ? "да" : early.retrochorionicHematoma === false ? "нет" : "___"}`,
+        "",
+        "3. ЯИЧНИКИ",
+        `- Желтое тело: ${presentText(early.corpusLuteumPresent)}`,
+        `- Локализация: ${early.corpusLuteumSide === "right" ? "правый яичник" : early.corpusLuteumSide === "left" ? "левый яичник" : "___"}`,
+        `- Диаметр желтого тела: ${f(early.corpusLuteumSizeMm, " мм")}`,
+        "",
+        "4. ЗАКЛЮЧЕНИЕ",
+        out.conclusion,
+        "",
+        "5. РЕКОМЕНДАЦИИ",
+        ...out.recommendations.map((r) => `- ${r}`),
+        "",
+        "Не диагноз. Интерпретация — лечащим специалистом.",
+      ].join("\n");
+    }
     if (section !== "second" && section !== "third") return null;
     const trimesterTitle = section === "second" ? "ВО ВТОРОМ ТРИМЕСТРЕ" : "В ТРЕТЬЕМ ТРИМЕСТРЕ";
     const ga = `${f(st.gaWeeksByLmp)} недель ${f(st.gaDaysByLmp)} дней`;
@@ -105,6 +151,7 @@ export default function FMFAssistantScreen({ navigation }: Props) {
       "6. ПЛАЦЕНТА И ВОДЫ",
       `- Расстояние от плаценты до внутреннего зева: ${f(st.placentaDistanceToOsCm, " см")}`,
       "- Структура плаценты: б/о/уточнить.",
+      `- Толщина плаценты: ${f(st.placentaThicknessMm, " мм")}`,
       `- ИАЖ: ${f(st.afiCm, " см")} (норма/маловодие/многоводие).`,
       "- Пуповина: 3 сосуда, обвитие: ___",
       "",
@@ -113,8 +160,10 @@ export default function FMFAssistantScreen({ navigation }: Props) {
       "",
       "8. ДОППЛЕР",
       `- Маточные артерии PI (среднее): ${f(st.uterinePiMean)}`,
+      `- Артерия пуповины RI (Прил. 37): ${f(st.uaRi)}`,
       `- Артерия пуповины PI: ${f(st.uaPi)}`,
       `- Среднемозговая артерия PI: ${f(st.mcaPi)}`,
+      `- Среднемозговая артерия PSV (Прил. 38): ${f(st.mcaPsv, " см/с")}`,
       `- Венозный проток PI: ${f(st.dvPi)}`,
       "- ЦПО: ___",
       "",
@@ -124,7 +173,7 @@ export default function FMFAssistantScreen({ navigation }: Props) {
       "10. РЕКОМЕНДАЦИИ",
       ...out.recommendations.map((r) => `- ${r}`),
     ].join("\n");
-  }, [section, st, out.conclusion, out.recommendations]);
+  }, [section, early, st, out.conclusion, out.recommendations]);
   const voiceResult = useMemo(() => parseVoiceProtocol(voiceText), [voiceText]);
 
   async function onCopyProtocol() {
@@ -144,7 +193,7 @@ export default function FMFAssistantScreen({ navigation }: Props) {
                     ? "Шейка матки"
                     : "Рубец на матке"
       }`,
-      `Режим расчета: ${calcMode === "strict" ? "Строгий FMF" : "Быстрый"}`,
+      `Режим расчета: ${calcMode === "strict" ? "Медведев (Прил. 1)" : "Быстрая оценка"}`,
       `Следующий шаг: ${out.nextPrompt}`,
       out.alerts.length ? `Отклонения: ${out.alerts.join("; ")}` : "Отклонения: не выявлены",
       out.hypotheses.length ? `Клинические гипотезы: ${out.hypotheses.join("; ")}` : "Клинические гипотезы: нет",
@@ -186,9 +235,12 @@ export default function FMFAssistantScreen({ navigation }: Props) {
         </Card>
 
         <Card title={`Раздел: ${pregnancyUltrasoundModule.title}`}>
+          <Text style={styles.subtitle}>Помощник врача и учитель: перцентили Медведева + подсказки «как мерить».</Text>
           <View style={styles.rowWrap}>
-            <SelectChip label="Строгий FMF" selected={calcMode === "strict"} onPress={() => setCalcMode("strict")} />
-            <SelectChip label="Быстрый режим" selected={calcMode === "quick"} onPress={() => setCalcMode("quick")} />
+            <SelectChip label="Медведев (Прил. 1)" selected={calcMode === "strict"} onPress={() => setCalcMode("strict")} />
+            <SelectChip label="Быстрая оценка" selected={calcMode === "quick"} onPress={() => setCalcMode("quick")} />
+            <SelectChip label="Учебник: вкл" selected={teachMode} onPress={() => setTeachMode(true)} />
+            <SelectChip label="Учебник: выкл" selected={!teachMode} onPress={() => setTeachMode(false)} />
           </View>
           <View style={styles.rowWrap}>
             <SelectChip label="До 11 недель" selected={section === "early"} onPress={() => setSection("early")} />
@@ -202,14 +254,41 @@ export default function FMFAssistantScreen({ navigation }: Props) {
         </Card>
 
         {section === "early" ? (
-          <Card title="Входные данные: малый срок">
+          <Card title="Входные данные: малый срок (до 11 нед.)">
             <TextInput style={styles.input} placeholder="ДПМ (YYYY-MM-DD)" value={early.lmpDate ?? ""} onChangeText={(v) => setEarly((p) => ({ ...p, lmpDate: v }))} />
-            <TextInput style={styles.input} placeholder="КТР (мм)" keyboardType="numeric" onChangeText={(v) => setEarly((p) => ({ ...p, crlMm: num(v) }))} />
-            <TextInput style={styles.input} placeholder="ЧСС (уд/мин)" keyboardType="numeric" onChangeText={(v) => setEarly((p) => ({ ...p, fhr: num(v) }))} />
-            <TextInput style={styles.input} placeholder="Средний диаметр плодного яйца (мм)" keyboardType="numeric" onChangeText={(v) => setEarly((p) => ({ ...p, msdMm: num(v) }))} />
+            <View style={styles.rowWrap}>
+              <SelectChip label="Плодное яйцо: да" selected={early.gestationalSacPresent === true} onPress={() => setEarly((p) => ({ ...p, gestationalSacPresent: true }))} />
+              <SelectChip label="Плодное яйцо: нет" selected={early.gestationalSacPresent === false} onPress={() => setEarly((p) => ({ ...p, gestationalSacPresent: false }))} />
+            </View>
+            <TextInput style={styles.input} placeholder="Средний диаметр плодного яйца, СДП (мм)" keyboardType="numeric" value={early.msdMm != null ? String(early.msdMm) : ""} onChangeText={(v) => setEarly((p) => ({ ...p, msdMm: num(v) }))} />
+            <View style={styles.rowWrap}>
+              <SelectChip label="Желточный мешок: да" selected={early.yolkSacSeen === true} onPress={() => setEarly((p) => ({ ...p, yolkSacSeen: true }))} />
+              <SelectChip label="Желточный мешок: нет" selected={early.yolkSacSeen === false} onPress={() => setEarly((p) => ({ ...p, yolkSacSeen: false }))} />
+            </View>
+            <TextInput style={styles.input} placeholder="YSD, диаметр ЖМ (мм)" keyboardType="numeric" value={early.ysdMm != null ? String(early.ysdMm) : ""} onChangeText={(v) => setEarly((p) => ({ ...p, ysdMm: num(v) }))} />
             <View style={styles.rowWrap}>
               <SelectChip label="Эмбрион: да" selected={early.embryoPresent === true} onPress={() => setEarly((p) => ({ ...p, embryoPresent: true }))} />
               <SelectChip label="Эмбрион: нет" selected={early.embryoPresent === false} onPress={() => setEarly((p) => ({ ...p, embryoPresent: false }))} />
+            </View>
+            <TextInput style={styles.input} placeholder="КТР (мм)" keyboardType="numeric" value={early.crlMm != null ? String(early.crlMm) : ""} onChangeText={(v) => setEarly((p) => ({ ...p, crlMm: num(v) }))} />
+            <TextInput style={styles.input} placeholder="ЧСС (уд/мин)" keyboardType="numeric" value={early.fhr != null ? String(early.fhr) : ""} onChangeText={(v) => setEarly((p) => ({ ...p, fhr: num(v) }))} />
+            <Text style={styles.fieldLabel}>Яичники — желтое тело</Text>
+            <View style={styles.rowWrap}>
+              <SelectChip label="Желтое тело: да" selected={early.corpusLuteumPresent === true} onPress={() => setEarly((p) => ({ ...p, corpusLuteumPresent: true }))} />
+              <SelectChip label="Желтое тело: нет" selected={early.corpusLuteumPresent === false} onPress={() => setEarly((p) => ({ ...p, corpusLuteumPresent: false, corpusLuteumSide: undefined, corpusLuteumSizeMm: undefined }))} />
+            </View>
+            {early.corpusLuteumPresent ? (
+              <>
+                <View style={styles.rowWrap}>
+                  <SelectChip label="Правый яичник" selected={early.corpusLuteumSide === "right"} onPress={() => setEarly((p) => ({ ...p, corpusLuteumSide: "right" }))} />
+                  <SelectChip label="Левый яичник" selected={early.corpusLuteumSide === "left"} onPress={() => setEarly((p) => ({ ...p, corpusLuteumSide: "left" }))} />
+                </View>
+                <TextInput style={styles.input} placeholder="Диаметр желтого тела (мм)" keyboardType="numeric" value={early.corpusLuteumSizeMm != null ? String(early.corpusLuteumSizeMm) : ""} onChangeText={(v) => setEarly((p) => ({ ...p, corpusLuteumSizeMm: num(v) }))} />
+              </>
+            ) : null}
+            <View style={styles.rowWrap}>
+              <SelectChip label="Контуры ПЯ: ровные" selected={early.sacContourNormal === true} onPress={() => setEarly((p) => ({ ...p, sacContourNormal: true }))} />
+              <SelectChip label="Контуры ПЯ: неровные" selected={early.sacContourNormal === false} onPress={() => setEarly((p) => ({ ...p, sacContourNormal: false }))} />
             </View>
             <View style={styles.rowWrap}>
               <SelectChip label="Беременность маточная" selected={early.pregnancyLocation === "uterine"} onPress={() => setEarly((p) => ({ ...p, pregnancyLocation: "uterine" }))} />
@@ -228,12 +307,35 @@ export default function FMFAssistantScreen({ navigation }: Props) {
             <TextInput style={styles.input} placeholder="ТВП (мм)" keyboardType="numeric" onChangeText={(v) => setFirst((p) => ({ ...p, ntMm: num(v) }))} />
             <TextInput style={styles.input} placeholder="ЧСС (уд/мин)" keyboardType="numeric" onChangeText={(v) => setFirst((p) => ({ ...p, fhr: num(v) }))} />
             <View style={styles.rowWrap}>
-              <SelectChip label="НК: визуализируется" selected={first.nasalBone === "seen"} onPress={() => setFirst((p) => ({ ...p, nasalBone: "seen" }))} />
-              <SelectChip label="НК: не визуализируется" selected={first.nasalBone === "not_seen"} onPress={() => setFirst((p) => ({ ...p, nasalBone: "not_seen" }))} />
+              <SelectChip label="НК: визуализируется" selected={first.nasalBone === "seen" || first.nasalBoneCategory === "present"} onPress={() => setFirst((p) => ({ ...p, nasalBone: "seen", nasalBoneCategory: "present" }))} />
+              <SelectChip label="НК: не визуализируется" selected={first.nasalBone === "not_seen" || first.nasalBoneCategory === "absent"} onPress={() => setFirst((p) => ({ ...p, nasalBone: "not_seen", nasalBoneCategory: "absent" }))} />
+              <SelectChip label="НК: гипоплазия" selected={first.nasalBoneCategory === "hypoplastic"} onPress={() => setFirst((p) => ({ ...p, nasalBone: "seen", nasalBoneCategory: "hypoplastic" }))} />
             </View>
             <View style={styles.rowWrap}>
               <SelectChip label="DV: норма" selected={first.dvFlow === "normal"} onPress={() => setFirst((p) => ({ ...p, dvFlow: "normal" }))} />
               <SelectChip label="DV: патология" selected={first.dvFlow === "abnormal"} onPress={() => setFirst((p) => ({ ...p, dvFlow: "abnormal" }))} />
+            </View>
+            <View style={styles.rowWrap}>
+              <SelectChip label="a-wave +" selected={first.dvAWave === "positive"} onPress={() => setFirst((p) => ({ ...p, dvAWave: "positive" }))} />
+              <SelectChip label="a-wave −" selected={first.dvAWave === "absent"} onPress={() => setFirst((p) => ({ ...p, dvAWave: "absent" }))} />
+              <SelectChip label="a-wave реверс" selected={first.dvAWave === "reversed"} onPress={() => setFirst((p) => ({ ...p, dvAWave: "reversed" }))} />
+            </View>
+            <View style={styles.row}>
+              <TextInput style={styles.inputFlex} placeholder="DV PI" keyboardType="decimal-pad" onChangeText={(v) => setFirst((p) => ({ ...p, dvPi: num(v) }))} />
+              <TextInput style={styles.inputFlex} placeholder="PI мат. справа" keyboardType="decimal-pad" onChangeText={(v) => setFirst((p) => ({ ...p, uterinePiRight: num(v) }))} />
+              <TextInput style={styles.inputFlex} placeholder="PI мат. слева" keyboardType="decimal-pad" onChangeText={(v) => setFirst((p) => ({ ...p, uterinePiLeft: num(v) }))} />
+            </View>
+            <View style={styles.rowWrap}>
+              <SelectChip label="TR: нет" selected={first.tricuspidRegurg === "none"} onPress={() => setFirst((p) => ({ ...p, tricuspidRegurg: "none" }))} />
+              <SelectChip label="TR: есть" selected={first.tricuspidRegurg === "present"} onPress={() => setFirst((p) => ({ ...p, tricuspidRegurg: "present" }))} />
+            </View>
+            <View style={styles.row}>
+              <TextInput style={styles.inputFlex} placeholder="TR V, см/с" keyboardType="decimal-pad" onChangeText={(v) => setFirst((p) => ({ ...p, tricuspidVelocityCmS: num(v) }))} />
+              <TextInput style={styles.inputFlex} placeholder="TR dur/syst" keyboardType="decimal-pad" onChangeText={(v) => setFirst((p) => ({ ...p, tricuspidDurationFraction: num(v) }))} />
+            </View>
+            <View style={styles.row}>
+              <TextInput style={styles.inputFlex} placeholder="САД, мм рт.ст." keyboardType="numeric" onChangeText={(v) => setFirst((p) => ({ ...p, sbpMmHg: num(v) }))} />
+              <TextInput style={styles.inputFlex} placeholder="ДАД, мм рт.ст." keyboardType="numeric" onChangeText={(v) => setFirst((p) => ({ ...p, dbpMmHg: num(v) }))} />
             </View>
           </Card>
         ) : null}
@@ -308,6 +410,13 @@ export default function FMFAssistantScreen({ navigation }: Props) {
               />
               <TextInput
                 style={styles.inputFlex}
+                placeholder="Толщ. плаценты мм"
+                keyboardType="numeric"
+                value={st.placentaThicknessMm != null ? String(st.placentaThicknessMm) : ""}
+                onChangeText={(v) => setSt((p) => ({ ...p, placentaThicknessMm: num(v) }))}
+              />
+              <TextInput
+                style={styles.inputFlex}
                 placeholder="ЧСС"
                 keyboardType="numeric"
                 value={st.fhr != null ? String(st.fhr) : ""}
@@ -331,10 +440,26 @@ export default function FMFAssistantScreen({ navigation }: Props) {
               />
               <TextInput
                 style={styles.inputFlex}
+                placeholder="ИР АП (RI) · Прил. 37"
+                keyboardType="numeric"
+                value={st.uaRi != null ? String(st.uaRi) : ""}
+                onChangeText={(v) => setSt((p) => ({ ...p, uaRi: num(v) }))}
+              />
+            </View>
+            <View style={styles.row}>
+              <TextInput
+                style={styles.inputFlex}
                 placeholder="PI СМА"
                 keyboardType="numeric"
                 value={st.mcaPi != null ? String(st.mcaPi) : ""}
                 onChangeText={(v) => setSt((p) => ({ ...p, mcaPi: num(v) }))}
+              />
+              <TextInput
+                style={styles.inputFlex}
+                placeholder="PSV СМА · Прил. 38"
+                keyboardType="numeric"
+                value={st.mcaPsv != null ? String(st.mcaPsv) : ""}
+                onChangeText={(v) => setSt((p) => ({ ...p, mcaPsv: num(v) }))}
               />
             </View>
             <View style={styles.rowWrap}>
@@ -372,12 +497,21 @@ export default function FMFAssistantScreen({ navigation }: Props) {
         {section === "doppler" ? (
           <Card title="Входные данные: Допплер">
             <View style={styles.row}>
+              <TextInput style={styles.inputFlex} placeholder="Срок, нед" keyboardType="numeric" onChangeText={(v) => setDoppler((p) => ({ ...p, gaWeeks: num(v) }))} />
+              <TextInput style={styles.inputFlex} placeholder="Срок, дни" keyboardType="numeric" onChangeText={(v) => setDoppler((p) => ({ ...p, gaDays: num(v) }))} />
+            </View>
+            <View style={styles.row}>
               <TextInput style={styles.inputFlex} placeholder="PI маточной справа" keyboardType="numeric" onChangeText={(v) => setDoppler((p) => ({ ...p, piRight: num(v) }))} />
               <TextInput style={styles.inputFlex} placeholder="PI маточной слева" keyboardType="numeric" onChangeText={(v) => setDoppler((p) => ({ ...p, piLeft: num(v) }))} />
             </View>
             <View style={styles.row}>
-              <TextInput style={styles.inputFlex} placeholder="PI АП" keyboardType="numeric" onChangeText={(v) => setDoppler((p) => ({ ...p, piUmb: num(v) }))} />
-              <TextInput style={styles.inputFlex} placeholder="PI СМА" keyboardType="numeric" onChangeText={(v) => setDoppler((p) => ({ ...p, piMca: num(v) }))} />
+              <TextInput style={styles.inputFlex} placeholder="ИР АП (RI) · Прил. 37" keyboardType="decimal-pad" onChangeText={(v) => setDoppler((p) => ({ ...p, uaRi: num(v) }))} />
+              <TextInput style={styles.inputFlex} placeholder="PI СМА · Прил. 39" keyboardType="decimal-pad" onChangeText={(v) => setDoppler((p) => ({ ...p, piMca: num(v) }))} />
+              <TextInput style={styles.inputFlex} placeholder="PSV СМА · Прил. 38" keyboardType="decimal-pad" onChangeText={(v) => setDoppler((p) => ({ ...p, mcaPsv: num(v) }))} />
+            </View>
+            <View style={styles.row}>
+              <TextInput style={styles.inputFlex} placeholder="PI DV" keyboardType="decimal-pad" onChangeText={(v) => setDoppler((p) => ({ ...p, dvPi: num(v) }))} />
+              <TextInput style={styles.inputFlex} placeholder="PI АП (legacy)" keyboardType="decimal-pad" onChangeText={(v) => setDoppler((p) => ({ ...p, piUmb: num(v) }))} />
             </View>
           </Card>
         ) : null}
@@ -402,6 +536,52 @@ export default function FMFAssistantScreen({ navigation }: Props) {
           </Card>
         ) : null}
 
+        {section === "first" && out.fmfScreening ? (
+          <Card title="FMF Percentile Engine">
+            <FmfPercentilePanel
+              measurements={out.fmfScreening.measurements}
+              categorical={out.fmfScreening.categorical}
+            />
+          </Card>
+        ) : null}
+
+        {section === "first" && out.medvedevMarkers?.length ? (
+          <Card title="Медведев · I скрининг">
+            <MedvedevPanel title="Перцентили · Прил. 11" markers={out.medvedevMarkers} teachMode={teachMode} />
+            {out.medvedevDoppler?.length ? (
+              <MedvedevPanel title="Допплер · Прил. 40 / 36" doppler={out.medvedevDoppler} teachMode={teachMode} />
+            ) : null}
+          </Card>
+        ) : null}
+
+        {(section === "second" || section === "third") && out.medvedevBiometry?.length ? (
+          <Card title="Медведев · фетометрия и анатомия">
+            <MedvedevPanel
+              title={section === "second" ? "Перцентили · Прил. 1 + 5–20" : "Перцентили · Прил. 1"}
+              biometry={out.medvedevBiometry}
+              teachMode={teachMode}
+            />
+          </Card>
+        ) : null}
+
+        {(section === "second" || section === "third") && out.medvedevPlacentaAfi?.length ? (
+          <Card title="Медведев · плацента и воды">
+            <MedvedevPanel title="Прил. 34 / 35" placentaAfi={out.medvedevPlacentaAfi} teachMode={teachMode} />
+          </Card>
+        ) : null}
+
+        {(section === "second" || section === "third") && out.medvedevDoppler?.length ? (
+          <Card title="Медведев · допплер">
+            <MedvedevPanel title="Допплер · Прил. 36 / 37 / 38 / 39 / 41" doppler={out.medvedevDoppler} teachMode={teachMode} />
+          </Card>
+        ) : null}
+
+        {section === "doppler" && out.medvedevDoppler?.length ? (
+          <Card title="Медведев · допплер">
+            <MedvedevPanel title="Допплер" doppler={out.medvedevDoppler} teachMode={teachMode} />
+          </Card>
+        ) : null}
+
         <Card title="Клиническое мышление">
           <Text style={styles.next}>Следующий шаг: {out.nextPrompt}</Text>
           {out.missingQuestions.length ? <Text style={styles.subtitle}>Нужно уточнить</Text> : null}
@@ -411,11 +591,13 @@ export default function FMFAssistantScreen({ navigation }: Props) {
             </Text>
           ))}
           {out.alerts.length ? <Text style={styles.subtitle}>⚠️ Отклонения</Text> : null}
-          {out.alerts.map((a) => (
-            <Text key={a} style={styles.alert}>
-              {a}
-            </Text>
-          ))}
+          {out.alerts.map((a) =>
+            teachMode ? <AlertWithTeach key={a} alert={a} /> : (
+              <Text key={a} style={styles.alert}>
+                {a}
+              </Text>
+            ),
+          )}
           {out.hypotheses.length ? <Text style={styles.subtitle}>Гипотезы</Text> : null}
           {out.hypotheses.map((h) => (
             <Text key={h} style={styles.item}>
@@ -447,7 +629,7 @@ export default function FMFAssistantScreen({ navigation }: Props) {
           </Pressable>
         </Card>
         {protocolText ? (
-          <Card title="Полный протокол (II/III скрининг)">
+          <Card title={section === "early" ? "Полный протокол (малый срок)" : "Полный протокол (II/III скрининг)"}>
             <Text style={styles.protocol}>{protocolText}</Text>
           </Card>
         ) : null}
@@ -477,6 +659,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   cardTitle: { fontSize: 16, fontWeight: "800", color: "#0f172a" },
+  fieldLabel: { color: "#475569", fontSize: 13, fontWeight: "700", marginTop: 4 },
   input: {
     borderWidth: 1,
     borderColor: "#cbd5e1",
