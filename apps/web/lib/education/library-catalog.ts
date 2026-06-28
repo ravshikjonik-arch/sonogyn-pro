@@ -58,6 +58,16 @@ export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
     badge: "ISUOG",
   },
   {
+    id: "fmf-fetal-slices",
+    shelf: "courses",
+    title: "FMF Ambassador · плодовые срезы",
+    description:
+      "Видеоуроки по ключевым плодовым срезам (FMF / ISUOG). Дополняет модуль 22 среза и FMF-ассистент.",
+    href: "/library/courses/1d67a487-194c-4cd9-9db3-080b17b1698a",
+    tags: ["FMF", "плод", "срезы", "ISUOG", "видео"],
+    badge: "FMF",
+  },
+  {
     id: "assistant",
     shelf: "assistant",
     title: "Помощник врача",

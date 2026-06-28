@@ -20,6 +20,8 @@
     "feed:editorial-seed": "node scripts/feed-editorial-seed.mjs",
     "feed:editorial-maintain": "node scripts/feed-editorial-maintain.mjs",
     "seed:ottenki-webinar": "node scripts/seed-ottenki-webinar.mjs",
+    "seed:fmf-fetal-slices": "node scripts/seed-fmf-fetal-slices.mjs",
+    "pilot:smoke": "node scripts/pilot-wave1-smoke.mjs",
     "test:feed-cases-smoke": "node scripts/feed-cases-logged-smoke.mjs",
     "test:social-auth": "node scripts/verify-social-auth.mjs",
     "db:bundle": "node scripts/apply-supabase-migrations.mjs --bundle-only",

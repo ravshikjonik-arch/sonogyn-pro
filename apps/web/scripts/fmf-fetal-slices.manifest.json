@@ -1,0 +1,77 @@
+{
+  "courseTitle": "FMF Ambassador · плодовые срезы",
+  "courseDescription": "<p>Видеоуроки по ключевым плодовым срезам (FMF / ISUOG). Связаны с модулем <a href=\"/tools/refs/fetal-anatomy-22-views\">22 среза · 65 ВПР</a> и FMF-ассистентом.</p>",
+  "modules": [
+    {
+      "title": "Обзор и позвоночник",
+      "lessons": [
+        {
+          "slug": "overview-1",
+          "title": "Обзор 1 · сагиттальный head + body",
+          "bodyHtml": "<p>Сагиттальный обзор плода. См. также модуль <a href=\"/tools/refs/fetal-anatomy-22-views\">22 среза</a>.</p>"
+        },
+        {
+          "slug": "view-01-spine-sagittal",
+          "title": "Срез 1 · позвоночник сагиттальный",
+          "bodyHtml": "<p>Непрерывная кожа над позвоночником. Spina bifida workup.</p>"
+        },
+        {
+          "slug": "view-02-spine-coronal",
+          "title": "Срез 2 · позвоночник коронарный",
+          "bodyHtml": "<p>Симметрия дуг и pedicles.</p>"
+        }
+      ]
+    },
+    {
+      "title": "Голова и мозг",
+      "lessons": [
+        {
+          "slug": "view-04-transventricular",
+          "title": "Срез 4 · transventricular",
+          "bodyHtml": "<p>Боковые желудочки, CSP, choroid.</p>"
+        },
+        {
+          "slug": "view-05-transthalamic",
+          "title": "Срез 5 · transthalamic",
+          "bodyHtml": "<p>CSP, thalami, midline.</p>"
+        },
+        {
+          "slug": "view-06-transcerebellar",
+          "title": "Срез 6 · transcerebellar",
+          "bodyHtml": "<p>Cerebellum, cisterna magna, banana sign.</p>"
+        }
+      ]
+    },
+    {
+      "title": "Сердце",
+      "lessons": [
+        {
+          "slug": "view-07a-apical-four-chamber",
+          "title": "Срез 7a · 4CV apical",
+          "bodyHtml": "<p>Apical four-chamber view.</p>"
+        },
+        {
+          "slug": "view-08-lvot",
+          "title": "Срез 8 · LVOT",
+          "bodyHtml": "<p>Left ventricular outflow tract.</p>"
+        },
+        {
+          "slug": "view-10-three-vessel-trachea",
+          "title": "Срез 10 · 3VT",
+          "bodyHtml": "<p>Three-vessel and trachea view.</p>"
+        }
+      ]
+    },
+    {
+      "title": "ISUOG · I триместр (лекция)",
+      "lessons": [
+        {
+          "slug": "isuog-first-trimester-2023",
+          "title": "ISUOG 2023 · скрининг I триместра (запись)",
+          "bodyHtml": "<p>Обновлённый гайдлайн ISUOG 2023. Загрузите mp4 через <code>VIDEO_PATH</code> или <code>--video slug=path</code>.</p>",
+          "videoPath": "/Users/yakrav7700/Yandex.Disk.localized/Загрузки/19.12.2023. УЗ СКРИНИНГ I ТРИМЕСТРА- ОБНОВЛЕННЫЙ ГАЙДЛАЙН ISUOG 2023/19.12.2023. УЗ СКРИНИНГ I ТРИМЕСТРА- ОБНОВЛЕННЫЙ ГАЙДЛАЙН ISUOG 2023-запись с экрана.mkv"
+        }
+      ]
+    }
+  ]
+}
