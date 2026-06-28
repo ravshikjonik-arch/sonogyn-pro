@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { withAuthorApi } from "@/lib/courses/api-handler";
 import { CourseUpsertSchema } from "@/lib/courses/schemas";
+import { sanitizeCourseUpsertFields } from "@/lib/courses/sanitize-upsert";
 
 export async function GET() {
   return withAuthorApi(async ({ supabase, userId, role }) => {
@@ -28,14 +29,16 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
     }
 
+    const safe = sanitizeCourseUpsertFields(parsed.data);
+
     const { data, error } = await supabase
       .from("courses")
       .insert({
         author_id: userId,
-        title: parsed.data.title,
-        description_html: parsed.data.description_html ?? "",
-        status: parsed.data.status ?? "draft",
-        price_rub: parsed.data.price_rub ?? 0,
+        title: safe.title,
+        description_html: safe.description_html ?? "",
+        status: safe.status ?? "draft",
+        price_rub: safe.price_rub ?? 0,
       })
       .select("*")
       .single();

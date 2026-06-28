@@ -1,27 +1,21 @@
 import { NextResponse } from "next/server";
 
-import { createCourseAdminClient } from "@/lib/courses/admin-client";
 import { canAccessWebinar, canHostWebinar } from "@/lib/webinars/access";
 import { createSupabaseRouteHandlerClient } from "@/lib/route-handler-supabase";
 import type { WebinarListItem } from "@/lib/webinars/types";
 
-/** Каталог вебинаров: предстоящие и архив. */
+/** Каталог вебинаров: предстоящие и архив (RLS, без service_role). */
 export async function GET() {
   const client = await createSupabaseRouteHandlerClient();
   if (!client.ok) {
     return NextResponse.json({ error: client.message }, { status: client.status });
   }
 
-  const admin = createCourseAdminClient();
-  if (!admin) {
-    return NextResponse.json({ error: "Server misconfigured" }, { status: 503 });
-  }
-
   const {
     data: { user },
   } = await client.supabase.auth.getUser();
 
-  const { data: rows, error } = await admin
+  const { data: rows, error } = await client.supabase
     .from("webinar_sessions")
     .select(
       `
@@ -80,7 +74,7 @@ export async function GET() {
       isHost = await canHostWebinar(client.supabase, user.id, lesson.id);
     }
 
-    const { data: authorProfile } = await admin
+    const { data: authorProfile } = await client.supabase
       .from("profiles")
       .select("full_name")
       .eq("id", course.author_id)

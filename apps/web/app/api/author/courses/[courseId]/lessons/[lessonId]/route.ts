@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { withAuthorCourseApi } from "@/lib/courses/api-handler";
 import { LessonUpsertSchema } from "@/lib/courses/schemas";
+import { sanitizeLessonUpsertFields } from "@/lib/courses/sanitize-upsert";
 import { resolveVideoProvider } from "@/lib/courses/video-url";
 import { syncWebinarSessionAfterLessonSave } from "@/lib/webinars/author-sync";
 
@@ -16,9 +17,10 @@ export async function PATCH(req: Request, { params }: Params) {
       return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
     }
 
-    const patch: Record<string, unknown> = { ...parsed.data, updated_at: new Date().toISOString() };
-    if (parsed.data.video_url !== undefined) {
-      patch.video_provider = resolveVideoProvider({ videoUrl: parsed.data.video_url });
+    const safe = sanitizeLessonUpsertFields(parsed.data);
+    const patch: Record<string, unknown> = { ...safe, updated_at: new Date().toISOString() };
+    if (safe.video_url !== undefined) {
+      patch.video_provider = resolveVideoProvider({ videoUrl: safe.video_url });
     }
 
     const { data, error } = await supabase

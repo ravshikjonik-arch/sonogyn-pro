@@ -1,6 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "installCommand": "cd ../.. && npx --yes pnpm@10.6.5 install --no-frozen-lockfile",
+  "installCommand": "cd ../.. && npx --yes pnpm@10.6.5 install --frozen-lockfile",
   "buildCommand": "cd ../.. && pnpm exec prisma generate --schema=apps/web/prisma/schema.prisma && pnpm --filter @repo/web build",
   "framework": "nextjs",
   "crons": [

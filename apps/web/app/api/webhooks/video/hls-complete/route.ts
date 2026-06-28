@@ -17,7 +17,11 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
   }
 
-  if (expected && parsed.data.secret !== expected) {
+  if (!expected) {
+    if (process.env.NODE_ENV === "production" || process.env.VERCEL_ENV === "production") {
+      return NextResponse.json({ error: "VIDEO_TRANSCODE_WEBHOOK_SECRET is not configured" }, { status: 503 });
+    }
+  } else if (parsed.data.secret !== expected) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 

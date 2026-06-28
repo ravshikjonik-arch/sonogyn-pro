@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { withAuthorCourseApi } from "@/lib/courses/api-handler";
 import { LessonReorderSchema, LessonUpsertSchema } from "@/lib/courses/schemas";
+import { sanitizeLessonUpsertFields } from "@/lib/courses/sanitize-upsert";
 import { resolveVideoProvider } from "@/lib/courses/video-url";
 import { syncWebinarSessionAfterLessonSave } from "@/lib/webinars/author-sync";
 
@@ -16,6 +17,8 @@ export async function POST(req: Request, { params }: Params) {
       return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
     }
 
+    const safe = sanitizeLessonUpsertFields(parsed.data);
+
     const { data: last } = await supabase
       .from("course_lessons")
       .select("sort_order")
@@ -26,25 +29,25 @@ export async function POST(req: Request, { params }: Params) {
 
     const sort_order = (last?.sort_order ?? -1) + 1;
 
-    const videoProvider = resolveVideoProvider({ videoUrl: parsed.data.video_url });
+    const videoProvider = resolveVideoProvider({ videoUrl: safe.video_url });
 
     const { data, error } = await supabase
       .from("course_lessons")
       .insert({
         course_id: courseId,
-        module_id: parsed.data.module_id,
-        title: parsed.data.title,
-        body_html: parsed.data.body_html ?? "",
-        description: parsed.data.description ?? null,
-        lesson_type: parsed.data.lesson_type,
-        video_url: parsed.data.video_url ?? null,
+        module_id: safe.module_id,
+        title: safe.title,
+        body_html: safe.body_html ?? "",
+        description: safe.description ?? null,
+        lesson_type: safe.lesson_type,
+        video_url: safe.video_url ?? null,
         video_provider: videoProvider,
-        duration_minutes: parsed.data.duration_minutes ?? null,
-        offline_starts_at: parsed.data.offline_starts_at ?? null,
-        offline_address: parsed.data.offline_address ?? null,
-        offline_stream_url: parsed.data.offline_stream_url ?? null,
-        max_seats: parsed.data.max_seats ?? null,
-        is_free_preview: parsed.data.is_free_preview ?? false,
+        duration_minutes: safe.duration_minutes ?? null,
+        offline_starts_at: safe.offline_starts_at ?? null,
+        offline_address: safe.offline_address ?? null,
+        offline_stream_url: safe.offline_stream_url ?? null,
+        max_seats: safe.max_seats ?? null,
+        is_free_preview: safe.is_free_preview ?? false,
         sort_order,
       })
       .select("*")
@@ -55,8 +58,8 @@ export async function POST(req: Request, { params }: Params) {
     await syncWebinarSessionAfterLessonSave(supabase, {
       lessonId: data.id as string,
       courseId,
-      lessonType: parsed.data.lesson_type,
-      scheduledAt: parsed.data.offline_starts_at ?? null,
+      lessonType: safe.lesson_type,
+      scheduledAt: safe.offline_starts_at ?? null,
     });
 
     return NextResponse.json({ ok: true, lesson: data });

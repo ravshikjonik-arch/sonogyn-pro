@@ -18,11 +18,13 @@ import { isPilotTelegramPrimary } from "@/lib/auth/auth-pilot-config";
 import { isPilotAllowlistEnabled, PILOT_ALLOWLIST_MAX, readPilotAllowlist } from "@/lib/auth/pilot-allowlist";
 import { isYooKassaConfigured, readYooKassaProPriceRub } from "@/lib/yookassa/config";
 import { TelegramService, readTelegramAdminIds } from "@/services/telegram";
+import { isFullDiagnosticsAllowed } from "@/lib/security/diagnostics-access";
 
 export const runtime = "nodejs";
 
 /** Публичная диагностика auth (без секретов). */
 export async function GET(req: Request) {
+  const full = isFullDiagnosticsAllowed(req);
   const appOrigin = resolveAppOrigin(req);
   const emailRedirectTo = resolveEmailConfirmRedirect(req, "/app");
 
@@ -66,6 +68,18 @@ export async function GET(req: Request) {
   }
   if (appOrigin.includes("localhost")) {
     issues.push("APP origin указывает на localhost — ссылки в письмах будут неверными");
+  }
+
+  if (!full) {
+    return NextResponse.json({
+      ok: issues.length === 0,
+      issueCount: issues.length,
+      features: {
+        smtpConfigured: isSmtpConfigured(),
+        smsReady: customSms && Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY?.trim()),
+        yookassaConfigured: isYooKassaConfigured(),
+      },
+    });
   }
 
   return NextResponse.json({

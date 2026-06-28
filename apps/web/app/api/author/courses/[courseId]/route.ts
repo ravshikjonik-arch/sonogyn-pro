@@ -4,6 +4,7 @@ import { withAuthorCourseApi } from "@/lib/courses/api-handler";
 import { fetchCourseTree } from "@/lib/courses/queries";
 import { getCourseMediaSignedUrl } from "@/lib/courses/storage";
 import { CourseUpsertSchema } from "@/lib/courses/schemas";
+import { sanitizeCourseUpsertFields } from "@/lib/courses/sanitize-upsert";
 
 type Params = { params: Promise<{ courseId: string }> };
 
@@ -31,8 +32,10 @@ export async function PATCH(req: Request, { params }: Params) {
       return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
     }
 
+    const safe = sanitizeCourseUpsertFields(parsed.data);
+
     const patch = {
-      ...parsed.data,
+      ...safe,
       updated_at: new Date().toISOString(),
     };
 

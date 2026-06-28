@@ -1,13 +1,15 @@
 import { NextResponse } from "next/server";
 
 import { getLiveKitConfig, isLiveKitConfigured } from "@/lib/webinars/livekit";
+import { isFullDiagnosticsAllowed } from "@/lib/security/diagnostics-access";
 import { isObjectStorageConfigured, readStorageConfig } from "@/lib/storage/config";
 import { createServiceRoleClient } from "@/utils/supabase/admin";
 
 export const runtime = "nodejs";
 
 /** Публичная диагностика вебинаров (без секретов). */
-export async function GET() {
+export async function GET(req: Request) {
+  const full = isFullDiagnosticsAllowed(req);
   const issues: string[] = [];
   const liveKitConfigured = isLiveKitConfigured();
   const liveKitUrl = getLiveKitConfig()?.url ?? null;
@@ -87,7 +89,17 @@ export async function GET() {
     }
   }
 
-  const ready = liveKitConfigured && storageConfigured && databaseReady && webinarLessonType;
+  const ready = storageConfigured && databaseReady && webinarLessonType;
+
+  if (!full) {
+    return NextResponse.json({
+      ok: ready,
+      liveKit: { configured: liveKitConfigured },
+      storage: { configured: storageConfigured },
+      database: { ready: databaseReady },
+      issueCount: issues.length,
+    });
+  }
 
   return NextResponse.json({
     ok: ready,
