@@ -128,7 +128,7 @@ export function VideoUploader({ courseId, lessonId, processingStatus, onUploaded
         const ext = file.name.toLowerCase().endsWith(".webm") ? ".webm" : ".mp4";
         const pathname = `courses/${courseId}/lessons/${lessonId}/source-${Date.now()}${ext}`;
         const blob = await upload(pathname, file, {
-          access: "private",
+          access: "public",
           handleUploadUrl: `${apiBase}/blob`,
           onUploadProgress: ({ percentage }) => setProgress(Math.min(99, Math.round(percentage))),
         });

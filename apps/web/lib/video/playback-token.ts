@@ -42,7 +42,7 @@ export function verifyPlaybackToken(token: string, lessonId: string, userId: str
 export async function presignPlaybackUrl(key: string, expiresIn = DEFAULT_TTL_SEC): Promise<string> {
   if (key.startsWith("https://") && key.includes("blob.vercel-storage.com")) {
     const { getDownloadUrl } = await import("@vercel/blob");
-    return getDownloadUrl(key, { expiresIn });
+    return getDownloadUrl(key);
   }
   const { presignGetObject } = await import("@/lib/storage/s3");
   return presignGetObject(key, expiresIn);

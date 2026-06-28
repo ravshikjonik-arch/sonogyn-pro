@@ -55,7 +55,7 @@ console.log("\n1) Vercel Blob store…");
 const stores = vercel(["blob", "list-stores"], undefined);
 const hasStore = (stores.stdout ?? "").includes("sonogyn-lessons");
 if (!hasStore) {
-  const created = vercel(["blob", "create-store", "sonogyn-lessons", "--region", "fra1"], undefined);
+  const created = vercel(["blob", "create-store", "sonogyn-lessons", "--access", "private", "--region", "fra1", "--yes"], undefined);
   if (created.status === 0) console.log("✓ Blob store sonogyn-lessons создан");
   else console.warn("○ Blob store:", (created.stderr || created.stdout).trim());
 } else {
