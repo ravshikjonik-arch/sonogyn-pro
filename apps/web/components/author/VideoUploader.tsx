@@ -112,13 +112,57 @@ export function VideoUploader({ courseId, lessonId, processingStatus, onUploaded
       });
       const initBody = (await initRes.json()) as {
         ok?: boolean;
+        mode?: "vercel-blob";
         uploadId?: string;
         key?: string;
         partSize?: number;
         partCount?: number;
         error?: string;
       };
-      if (!initRes.ok || !initBody.ok || !initBody.uploadId || !initBody.key || !initBody.partSize) {
+      if (!initRes.ok || !initBody.ok) {
+        throw new Error(typeof initBody.error === "string" ? initBody.error : "Не удалось начать загрузку");
+      }
+
+      if (initBody.mode === "vercel-blob") {
+        const { upload } = await import("@vercel/blob/client");
+        const ext = file.name.toLowerCase().endsWith(".webm") ? ".webm" : ".mp4";
+        const pathname = `courses/${courseId}/lessons/${lessonId}/source-${Date.now()}${ext}`;
+        const blob = await upload(pathname, file, {
+          access: "private",
+          handleUploadUrl: `${apiBase}/blob`,
+          onUploadProgress: ({ percentage }) => setProgress(Math.min(99, Math.round(percentage))),
+        });
+
+        const completeRes = await fetch(`${apiBase}/blob/complete`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "same-origin",
+          body: JSON.stringify({
+            url: blob.url,
+            fileName: file.name,
+            fileSize: file.size,
+            mimeType,
+          }),
+        });
+        const completeBody = (await completeRes.json()) as {
+          ok?: boolean;
+          videoFileUrl?: string;
+          processingStatus?: string;
+          error?: string;
+        };
+        if (!completeRes.ok || !completeBody.ok) {
+          throw new Error(typeof completeBody.error === "string" ? completeBody.error : "Ошибка сохранения");
+        }
+        setProgress(100);
+        setPhase("ready");
+        onUploaded?.({
+          videoFileUrl: completeBody.videoFileUrl ?? blob.url,
+          processingStatus: completeBody.processingStatus ?? "ready",
+        });
+        return;
+      }
+
+      if (!initBody.uploadId || !initBody.key || !initBody.partSize) {
         throw new Error(typeof initBody.error === "string" ? initBody.error : "Не удалось начать загрузку");
       }
 

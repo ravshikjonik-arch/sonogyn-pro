@@ -9,6 +9,7 @@ import {
   lessonSourceVideoKey,
   MAX_LESSON_VIDEO_BYTES,
   MULTIPART_PART_SIZE,
+  readStorageConfig,
 } from "@/lib/storage/config";
 import { createMultipartUpload } from "@/lib/storage/s3";
 
@@ -29,7 +30,11 @@ export async function POST(req: Request, { params }: Params) {
   const { courseId, lessonId } = await params;
   return withAuthorCourseApi(courseId, async ({ supabase }) => {
     if (!isObjectStorageConfigured()) {
-      return NextResponse.json({ error: "Object Storage не настроен (STORAGE_*)." }, { status: 503 });
+      return NextResponse.json({ error: "Object Storage не настроен (STORAGE_* или BLOB_READ_WRITE_TOKEN)." }, { status: 503 });
+    }
+
+    if (readStorageConfig().provider === "vercel-blob") {
+      return NextResponse.json({ ok: true, mode: "vercel-blob" as const });
     }
 
     const json = (await req.json().catch(() => null)) as unknown;

@@ -1,5 +1,13 @@
--- Webinars only — Supabase SQL Editor → Run (если полный BUNDLE уже был)
+-- =============================================================================
+-- Webinars only — Supabase SQL Editor → Run
 -- Источник: migrations/20260704120000_webinar_livekit.sql
+--
+-- ПОРЯДОК:
+--   1) apps/web/supabase/BUNDLE_LMS.sql          ← course_lessons, can_manage_course
+--   2) этот файл (BUNDLE_WEBINAR_ONLY.sql)
+--
+-- Если ошибка «relation course_lessons does not exist» — сначала шаг 1.
+-- =============================================================================
 
 alter table public.course_lessons
   drop constraint if exists course_lessons_lesson_type_check;

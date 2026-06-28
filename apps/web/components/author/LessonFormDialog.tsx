@@ -251,13 +251,28 @@ export function LessonFormDialog({ open, courseId, moduleId, lesson, onClose, on
                 </label>
               </div>
               {savedLessonId ? (
-                <p className="text-xs text-emerald-700">
-                  Комната создана. В день эфира откройте{" "}
-                  <a href={`/tools/refs/webinars/${savedLessonId}`} className="underline" target="_blank" rel="noreferrer">
-                    страницу вебинара
-                  </a>{" "}
-                  и нажмите «Начать эфир».
-                </p>
+                <>
+                  <p className="text-xs text-emerald-700">
+                    Комната создана. В день эфира откройте{" "}
+                    <a href={`/tools/refs/webinars/${savedLessonId}`} className="underline" target="_blank" rel="noreferrer">
+                      страницу вебинара
+                    </a>{" "}
+                    и нажмите «Начать эфир».
+                  </p>
+                  <div className="border-t border-rose-200 pt-3 dark:border-rose-900">
+                    <p className="mb-2 text-xs font-medium text-[var(--clinical-foreground-muted)]">
+                      Запись эфира (mp4 до 2 ГБ) — появится после «Завершить эфир»
+                    </p>
+                    <VideoUploader
+                      courseId={courseId}
+                      lessonId={savedLessonId}
+                      processingStatus={videoStatus}
+                      onUploaded={({ processingStatus }) =>
+                        setVideoStatus(processingStatus as CourseLessonRow["video_processing_status"])
+                      }
+                    />
+                  </div>
+                </>
               ) : null}
             </div>
           ) : (

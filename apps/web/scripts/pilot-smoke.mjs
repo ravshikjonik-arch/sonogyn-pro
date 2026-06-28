@@ -117,6 +117,24 @@ if (authStatus.status === 200) {
   fail("/api/auth/status", `HTTP ${authStatus.status}`);
 }
 
+const webinarStatus = await request("GET", "/api/webinars/status");
+if (webinarStatus.status === 200) {
+  ok("/api/webinars/status → 200");
+  const w = webinarStatus.json ?? {};
+  if (w.ok) ok("Webinars готовы (LiveKit + Supabase schema)");
+  else {
+    for (const issue of w.issues ?? []) warn("Webinars", issue);
+    if (!w.liveKit?.configured)
+      warn("Webinars LiveKit", "задайте NEXT_PUBLIC_LIVEKIT_URL + LIVEKIT_API_KEY/SECRET на Vercel");
+    if (!w.database?.ready)
+      warn("Webinars DB", "выполните apps/web/supabase/BUNDLE_WEBINAR_ONLY.sql в Supabase SQL Editor");
+  }
+} else if (webinarStatus.status === 404) {
+  warn("/api/webinars/status", "404 — задеployьте последний main на Vercel");
+} else {
+  fail("/api/webinars/status", `HTTP ${webinarStatus.status}`);
+}
+
 const local = loadEnv();
 console.log("\n--- Локальные env (для sync на Vercel) ---");
 const requiredForProd = [
@@ -142,6 +160,7 @@ console.log("2. Supabase: cd apps/web && npm run db:migrate:security");
 console.log("3. SMS: вход/регистрация на prod с реальным номером");
 console.log("4. Mobile: cd apps/mobile && npm run eas:android:preview");
 console.log("5. Discussions: web вопрос → mobile push → deep link");
+console.log("6. Webinars: Supabase BUNDLE_WEBINAR_ONLY.sql + LiveKit env → /api/webinars/status");
 
 console.log(`\nИтог: ${failed} ошибок, ${warned} предупреждений\n`);
 process.exit(failed > 0 ? 1 : 0);
