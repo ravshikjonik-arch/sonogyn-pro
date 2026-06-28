@@ -2,7 +2,7 @@ export {
   buildReportText,
   buildProtocolOneLiner,
   calculateORADS,
-} from "../../../mobile/src/features/oradsPro/logic/oradsCalculator";
+} from "@repo/orads-us/pro";
 export {
   buildIotaConsensusReportText,
   evaluateIotaConsensus2026,
@@ -28,7 +28,7 @@ export type {
   SolidType,
   Structure,
   UnilocularSubtype,
-} from "../../../mobile/src/features/oradsPro/types";
+} from "@repo/orads-us/pro";
 export {
   ORADS_CATEGORY_CHAPTERS,
   ORADS_GOVERNING_BULLETS,

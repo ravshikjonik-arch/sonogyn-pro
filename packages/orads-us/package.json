@@ -18,6 +18,7 @@
     "./education/referat.en": "./education/referat.en.json",
     "./education/referatImageMap": "./education/referatImageMap.ts",
     "./education/nosologyAtlas": "./education/nosologyAtlas.ts",
+    "./pro": "./src/pro/index.ts",
     "./assist/buildProtocolDraft": "./src/assist/buildProtocolDraft.ts",
     "./assist/runOradsAssistPipeline": "./src/assist/runOradsAssistPipeline.ts"
   },
@@ -27,7 +28,7 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "lint": "echo \"skip\"",
-    "test": "node --import tsx --test src/**/*.test.ts src/navigator/**/*.test.ts education/**/*.test.ts __tests__/**/*.test.ts"
+    "test": "node --import tsx --test src/**/*.test.ts src/navigator/**/*.test.ts src/pro/**/*.test.ts education/**/*.test.ts __tests__/**/*.test.ts"
   },
   "devDependencies": {
     "@types/node": "^20",

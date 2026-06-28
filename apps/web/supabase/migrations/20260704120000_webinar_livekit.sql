@@ -104,6 +104,20 @@ create policy webinar_sessions_select on public.webinar_sessions
     )
   );
 
+drop policy if exists webinar_sessions_select_public on public.webinar_sessions;
+create policy webinar_sessions_select_public on public.webinar_sessions
+  for select
+  using (
+    exists (
+      select 1
+      from public.course_lessons cl
+      join public.courses c on c.id = cl.course_id
+      where cl.id = lesson_id
+        and cl.lesson_type = 'webinar'
+        and c.status = 'published'
+    )
+  );
+
 drop policy if exists webinar_sessions_manage on public.webinar_sessions;
 create policy webinar_sessions_manage on public.webinar_sessions
   for all to authenticated
