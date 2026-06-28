@@ -42,10 +42,6 @@ export function getProductionSecretViolations(): string[] {
     violations.push("SUPABASE_SERVICE_ROLE_KEY is required in production for admin auth flows");
   }
 
-  if (!process.env.VIDEO_TRANSCODE_WEBHOOK_SECRET?.trim()) {
-    violations.push("VIDEO_TRANSCODE_WEBHOOK_SECRET is required in production for HLS transcode webhook");
-  }
-
   if (process.env.DEV_SKIP_AUTH === "true") {
     violations.push("DEV_SKIP_AUTH must not be true in production (remove from Vercel env)");
   }
