@@ -22,7 +22,7 @@ export async function canAccessLessonPlayback(
 
   if (course?.author_id === userId) return true;
   if (lesson.is_free_preview) return true;
-  if ((course?.price_rub as number | undefined) != null && (course.price_rub as number) <= 0) return true;
+  if (course && (course.price_rub as number) <= 0) return true;
 
   const { data: enrollment } = await supabase
     .from("course_enrollments")
