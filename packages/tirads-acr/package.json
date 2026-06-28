@@ -8,6 +8,9 @@
   "exports": {
     ".": "./src/index.ts"
   },
+  "dependencies": {
+    "@repo/medical-calculations": "workspace:*"
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "lint": "echo \"skip\"",
