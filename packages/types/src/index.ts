@@ -498,6 +498,7 @@ export {
   type CreateStructuredReportBody,
   type GenerateStructuredReportRequest,
   type GenerateStructuredReportResponse,
+  type ListReportTemplatesQuery,
   type ObstetricStructuredReportInput,
   type ThyroidStructuredReportInput,
   type ReportCitation,

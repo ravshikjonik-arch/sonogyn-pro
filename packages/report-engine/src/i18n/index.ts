@@ -8,10 +8,10 @@ const catalogs = {
   en,
 } as const;
 
-export type ReportCatalog = typeof ru;
+export type ReportCatalog = typeof ru | typeof en;
 
 export function getReportI18n(locale: ReportLocale): ReportCatalog {
-  return catalogs[locale] ?? ru;
+  return (catalogs[locale] ?? ru) as ReportCatalog;
 }
 
 export { en, ru };
