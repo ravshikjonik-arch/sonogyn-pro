@@ -16,12 +16,13 @@ export async function canAccessLessonPlayback(
 
   const { data: course } = await supabase
     .from("courses")
-    .select("author_id")
+    .select("author_id, price_rub")
     .eq("id", lesson.course_id)
     .maybeSingle();
 
   if (course?.author_id === userId) return true;
   if (lesson.is_free_preview) return true;
+  if ((course?.price_rub as number | undefined) != null && (course.price_rub as number) <= 0) return true;
 
   const { data: enrollment } = await supabase
     .from("course_enrollments")

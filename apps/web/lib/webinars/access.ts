@@ -10,7 +10,7 @@ export async function canAccessWebinar(
 ): Promise<boolean> {
   const { data: lesson } = await supabase
     .from("course_lessons")
-    .select("id, course_id, lesson_type")
+    .select("id, course_id, lesson_type, is_free_preview")
     .eq("id", lessonId)
     .maybeSingle();
 
@@ -25,14 +25,15 @@ export async function canAccessWebinar(
     .eq("id", lesson.course_id as string)
     .maybeSingle();
 
-  if (!course || course.status !== "published") {
-    if (course?.author_id === userId) return true;
-    return false;
-  }
+  if (!course) return false;
 
   if (course.author_id === userId) return true;
 
-  if ((course.price_rub as number) <= 0) return false;
+  if (course.status !== "published") return false;
+
+  if (lesson.is_free_preview) return true;
+
+  if ((course.price_rub as number) <= 0) return true;
 
   const { data: enrollment } = await supabase
     .from("course_enrollments")
