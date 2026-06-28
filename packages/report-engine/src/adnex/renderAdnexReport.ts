@@ -7,6 +7,8 @@ import type {
   StructuredReportOutput,
 } from "@repo/types";
 
+import { generateObstetricReportFromRequest } from "../obstetric/renderObstetricReport";
+import { generateThyroidReportFromRequest } from "../thyroid/renderThyroidReport";
 import { buildAdnexReportCitations, ORADS_US_VERSION } from "./citations";
 import { composeAdnexDescription, composeAdnexImpression, composeAdnexRecommendations } from "./composeBlocks";
 import { getReportI18n } from "../i18n";
@@ -75,13 +77,19 @@ export function renderAdnexStructuredDocument(
 export function generateStructuredReportFromRequest(
   request: GenerateStructuredReportRequest,
 ): StructuredReportDocument {
-  if (request.input.domain !== "adnex") {
-    throw new Error(`Unsupported report domain: ${(request.input as { domain: string }).domain}`);
+  switch (request.input.domain) {
+    case "adnex":
+      return renderAdnexStructuredDocument(request.input, {
+        locale: request.locale,
+        templateSlug: request.templateSlug,
+      });
+    case "thyroid":
+      return generateThyroidReportFromRequest(request);
+    case "obstetric":
+      return generateObstetricReportFromRequest(request);
+    default:
+      throw new Error(`Unsupported report domain: ${(request.input as { domain: string }).domain}`);
   }
-  return renderAdnexStructuredDocument(request.input, {
-    locale: request.locale,
-    templateSlug: request.templateSlug,
-  });
 }
 
 export { mapAdnexStructuredInputToCalcInput, resolveOradsCategory } from "./mapInput";

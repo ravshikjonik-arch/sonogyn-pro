@@ -1,5 +1,5 @@
 import { renderAdnexStructuredDocument, ADNEX_ORADS_V1_TEMPLATE_SLUG } from "@repo/report-engine";
-import type { StructuredReportDocument } from "@repo/types";
+import type { ReportLocale, StructuredReportDocument } from "@repo/types";
 import type { OradsTreePathStep, OradsTreeResult } from "@repo/orads-us";
 
 import { mapOradsTreeToSreInput } from "./mapOradsTreeToSreInput";
@@ -8,10 +8,11 @@ export function buildStructuredReportFromOradsWizard(
   path: OradsTreePathStep[],
   result: OradsTreeResult,
   pathSummary: string[] = [],
+  locale: ReportLocale = "ru",
 ): StructuredReportDocument {
   const input = mapOradsTreeToSreInput(path, result, pathSummary);
   return renderAdnexStructuredDocument(input, {
-    locale: "ru",
+    locale,
     templateSlug: ADNEX_ORADS_V1_TEMPLATE_SLUG,
   });
 }

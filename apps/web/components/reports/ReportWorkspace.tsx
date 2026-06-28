@@ -46,6 +46,7 @@ export function ReportWorkspace({ initialInput, className }: Props) {
   const [persistedId, setPersistedId] = useState<string | null>(null);
   const [blocks, setBlocks] = useState({ description: "", impression: "", recommendations: "" });
   const [status, setStatus] = useState<StructuredReportDocument["status"]>("draft");
+  const [locale, setLocale] = useState<StructuredReportDocument["locale"]>("ru");
   const [pending, startTransition] = useTransition();
 
   useEffect(() => {
@@ -100,7 +101,7 @@ export function ReportWorkspace({ initialInput, className }: Props) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           templateSlug: ADNEX_ORADS_V1_TEMPLATE_SLUG,
-          locale: "ru",
+          locale,
           preview,
           input: sreInput,
         }),
@@ -202,6 +203,17 @@ export function ReportWorkspace({ initialInput, className }: Props) {
       ) : (
         <Card className="border-[var(--clinical-border)] bg-[var(--clinical-surface)]/50">
           <CardContent className="flex flex-wrap items-center gap-2 pt-6">
+            <label className="mr-2 flex items-center gap-2 text-sm">
+              <span className="text-[var(--clinical-foreground-muted)]">Язык</span>
+              <select
+                className="rounded-lg border border-[var(--clinical-border)] bg-transparent px-2 py-1 text-sm"
+                value={locale}
+                onChange={(e) => setLocale(e.target.value as StructuredReportDocument["locale"])}
+              >
+                <option value="ru">RU</option>
+                <option value="en">EN</option>
+              </select>
+            </label>
             <Button size="sm" disabled={pending} onClick={() => runGenerate(true)}>
               Сгенерировать preview
             </Button>

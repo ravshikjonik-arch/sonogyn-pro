@@ -2,6 +2,8 @@ import {
   ADNEX_ORADS_V1_TEMPLATE,
   ADNEX_ORADS_V1_TEMPLATE_SLUG,
   generateStructuredReportFromRequest,
+  OBSTETRIC_BIOMETRY_V1_TEMPLATE,
+  THYROID_TIRADS_V1_TEMPLATE,
 } from "@repo/report-engine";
 import type {
   GenerateStructuredReportRequest,
@@ -60,7 +62,11 @@ type DbCitationRow = {
   url: string | null;
 };
 
-const STATIC_TEMPLATES: ReportTemplate[] = [ADNEX_ORADS_V1_TEMPLATE];
+const STATIC_TEMPLATES: ReportTemplate[] = [
+  ADNEX_ORADS_V1_TEMPLATE,
+  THYROID_TIRADS_V1_TEMPLATE,
+  OBSTETRIC_BIOMETRY_V1_TEMPLATE,
+];
 
 function mapDbTemplate(row: DbTemplateRow): ReportTemplate {
   const schemaFields = row.schema_json?.fields;

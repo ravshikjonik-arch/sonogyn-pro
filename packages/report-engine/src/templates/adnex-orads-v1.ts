@@ -10,7 +10,7 @@ export const ADNEX_ORADS_V1_TEMPLATE: ReportTemplate = {
   domain: "adnex",
   version: "1.0.0",
   engineId: ADNEX_ORADS_V1_ENGINE_ID,
-  locales: ["ru"],
+  locales: ["ru", "en"],
   titleKey: "template.adnex_orads_v1.title",
   descriptionKey: "template.adnex_orads_v1.description",
   fields: [

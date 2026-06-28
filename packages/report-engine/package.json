@@ -19,6 +19,8 @@
   },
   "dependencies": {
     "@repo/adnex-education": "workspace:*",
+    "@repo/medical-calculations": "workspace:*",
+    "@repo/tirads-acr": "workspace:*",
     "@repo/types": "workspace:*"
   },
   "devDependencies": {

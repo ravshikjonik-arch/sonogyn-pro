@@ -206,9 +206,90 @@ export const AdnexStructuredReportInputSchema = z.object({
 });
 export type AdnexStructuredReportInput = z.infer<typeof AdnexStructuredReportInputSchema>;
 
-/** Discriminated union — extend with thyroid/obstetric in later tasks. */
+// --- Domain input: thyroid TI-RADS (Phase 1) ------------------------------------
+
+export const ThyroidCompositionSchema = z.enum([
+  "no_nodule",
+  "cystic",
+  "spongiform",
+  "mixed",
+  "solid",
+]);
+export const ThyroidEchogenicitySchema = z.enum([
+  "anechoic",
+  "hyperechoic_or_isoechoic",
+  "hypoechoic",
+  "very_hypoechoic",
+]);
+export const ThyroidShapeSchema = z.enum(["wider_than_tall", "taller_than_wide"]);
+export const ThyroidMarginSchema = z.enum([
+  "smooth",
+  "ill_defined",
+  "lobulated_or_irregular",
+  "extrathyroidal_extension",
+]);
+export const ThyroidEchogenicFociSchema = z.enum([
+  "none_or_comet_tail",
+  "macrocalcifications",
+  "peripheral_rim",
+  "punctate",
+]);
+
+export const ThyroidMeasurementSchema = z.object({
+  thyroidVolumeMl: z.number().min(0).max(500).optional(),
+  noduleMaxDiameterMm: z.number().min(0).max(150).optional(),
+});
+
+export const ThyroidMorphologySchema = z.object({
+  composition: ThyroidCompositionSchema.optional(),
+  echogenicity: ThyroidEchogenicitySchema.optional(),
+  shape: ThyroidShapeSchema.optional(),
+  margin: ThyroidMarginSchema.optional(),
+  echogenicFoci: ThyroidEchogenicFociSchema.optional(),
+  noduleLocation: z.string().max(120).optional(),
+  parenchymaEchogenicity: z.string().max(120).optional(),
+  parenchymaVascularity: z.string().max(120).optional(),
+});
+
+export const ThyroidStructuredReportInputSchema = z.object({
+  domain: z.literal("thyroid"),
+  patient: StructuredReportPatientStubSchema.optional(),
+  study: StructuredReportStudyStubSchema.optional(),
+  measurements: ThyroidMeasurementSchema.default({}),
+  morphology: ThyroidMorphologySchema.default({}),
+  freeTextFindings: clinicalPlainText(4000).optional(),
+});
+export type ThyroidStructuredReportInput = z.infer<typeof ThyroidStructuredReportInputSchema>;
+
+// --- Domain input: obstetric biometry (Phase 1) ---------------------------------
+
+export const ObstetricBiometrySchema = z.object({
+  gestationalAgeWeeks: z.number().min(4).max(44).optional(),
+  gestationalAgeDays: z.number().min(0).max(6).optional(),
+  crlMm: z.number().min(0).max(200).optional(),
+  bpdMm: z.number().min(0).max(150).optional(),
+  hcMm: z.number().min(0).max(500).optional(),
+  acMm: z.number().min(0).max(500).optional(),
+  flMm: z.number().min(0).max(150).optional(),
+  efwGrams: z.number().min(0).max(8000).optional(),
+  placentaLocation: z.string().max(120).optional(),
+  amnioticFluid: z.string().max(120).optional(),
+});
+
+export const ObstetricStructuredReportInputSchema = z.object({
+  domain: z.literal("obstetric"),
+  patient: StructuredReportPatientStubSchema.optional(),
+  study: StructuredReportStudyStubSchema.optional(),
+  biometry: ObstetricBiometrySchema.default({}),
+  freeTextFindings: clinicalPlainText(4000).optional(),
+});
+export type ObstetricStructuredReportInput = z.infer<typeof ObstetricStructuredReportInputSchema>;
+
+/** Discriminated union — extend with breast/generic in later tasks. */
 export const StructuredReportInputSchema = z.discriminatedUnion("domain", [
   AdnexStructuredReportInputSchema,
+  ThyroidStructuredReportInputSchema,
+  ObstetricStructuredReportInputSchema,
 ]);
 export type StructuredReportInput = z.infer<typeof StructuredReportInputSchema>;
 

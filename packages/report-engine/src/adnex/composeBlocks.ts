@@ -1,13 +1,13 @@
 import type { AdnexTriangulation } from "@repo/adnex-education";
 import type { AdnexStructuredReportInput } from "@repo/types";
 
-import type { RuCatalog } from "../i18n/ru";
+import type { ReportCatalog } from "../i18n";
 import { maxMeasurementMm } from "./mapInput";
 
 export function composeAdnexDescription(
   input: AdnexStructuredReportInput,
   tri: AdnexTriangulation,
-  t: RuCatalog,
+  t: ReportCatalog,
 ): string {
   const m = input.morphology;
   const lines: string[] = [];
@@ -69,7 +69,7 @@ export function composeAdnexDescription(
 export function composeAdnexImpression(
   input: AdnexStructuredReportInput,
   tri: AdnexTriangulation,
-  t: RuCatalog,
+  t: ReportCatalog,
   oradsVersion: string,
 ): string {
   const lines: string[] = [tri.headline];

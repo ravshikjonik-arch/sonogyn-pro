@@ -1,11 +1,17 @@
 import type { ReportLocale } from "@repo/types";
 
-import { ru, type RuCatalog } from "./ru";
+import { en } from "./en";
+import { ru } from "./ru";
 
-const catalogs: Partial<Record<ReportLocale, RuCatalog>> = {
+const catalogs = {
   ru,
-};
+  en,
+} as const;
 
-export function getReportI18n(locale: ReportLocale): RuCatalog {
+export type ReportCatalog = typeof ru;
+
+export function getReportI18n(locale: ReportLocale): ReportCatalog {
   return catalogs[locale] ?? ru;
 }
+
+export { en, ru };
