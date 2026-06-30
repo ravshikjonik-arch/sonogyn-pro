@@ -23,6 +23,7 @@
     "seed:fmf-fetal-slices": "node scripts/seed-fmf-fetal-slices.mjs",
     "diagnose:blob": "node scripts/diagnose-blob-token.mjs",
     "pilot:smoke": "node scripts/pilot-wave1-smoke.mjs",
+    "pilot:discussions": "node scripts/pilot-discussions-readiness.mjs",
     "ingest:external-guidelines": "node scripts/ingest-external-guidelines.mjs",
     "test:feed-cases-smoke": "node scripts/feed-cases-logged-smoke.mjs",
     "test:social-auth": "node scripts/verify-social-auth.mjs",

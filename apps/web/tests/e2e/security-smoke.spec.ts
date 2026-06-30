@@ -105,6 +105,16 @@ test.describe("Security smoke — API boundaries", () => {
     expect([401, 403]).toContain(res.status());
   });
 
+  test("POST /api/ai/nosology-assist — без context.title → 400", async ({ request }) => {
+    const res = await request.post("/api/ai/nosology-assist", { data: { context: {} } });
+    expect([400, 401, 403]).toContain(res.status());
+  });
+
+  test("POST /api/ai/ovary-assist — без morphology → 400", async ({ request }) => {
+    const res = await request.post("/api/ai/ovary-assist", { data: {} });
+    expect([400, 401, 403]).toContain(res.status());
+  });
+
   test("GET /api/debug/supabase в production недоступен (404 в dev может быть 200)", async ({
     request,
   }) => {

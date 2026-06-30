@@ -2,15 +2,15 @@ import { NextResponse } from "next/server";
 
 import { buildDemoStructuredReport, type StructuredUltrasoundReport } from "@/lib/ai/structured-report";
 import { isDevSkipAuthEnabled } from "@/lib/auth/dev-account";
+import {
+  parseJsonBody,
+  StructuredReportBodySchema,
+  zodErrorResponse,
+} from "@/lib/security/api-body-schemas";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { requireSupabaseUser } from "@/lib/security/require-user";
 import { createClient } from "@/utils/supabase/server";
-
-type Body = {
-  studyNotes?: string;
-  calculatorOutputs?: Record<string, unknown>;
-};
 
 export async function POST(request: Request) {
   const supabase = await createClient();
@@ -28,12 +28,12 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Too many requests" }, { status: 429, headers: { "Retry-After": String(rl.retryAfterSec) } });
   }
 
-  let body: Body = {};
-  try {
-    body = (await request.json()) as Body;
-  } catch {
-    body = {};
-  }
+  const parsedJson = await parseJsonBody(request);
+  if (!parsedJson.ok) return parsedJson.response;
+
+  const parsed = StructuredReportBodySchema.safeParse(parsedJson.data ?? {});
+  if (!parsed.success) return zodErrorResponse(parsed.error);
+  const body = parsed.data;
 
   const demo = buildDemoStructuredReport();
   const extraFindings =

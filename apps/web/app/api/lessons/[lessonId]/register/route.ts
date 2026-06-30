@@ -4,11 +4,15 @@ import { countOfflineSeats } from "@/lib/courses/offline-seats";
 import { notifyOfflineRegistrationSafe } from "@/lib/courses/lms-notify";
 import { isEnrolledInCourse } from "@/lib/courses/student-access";
 import { createSupabaseRouteHandlerClient } from "@/lib/route-handler-supabase";
+import { isUuid } from "@/lib/security/uuid";
 
 type Params = { params: Promise<{ lessonId: string }> };
 
 export async function POST(_req: Request, { params }: Params) {
   const { lessonId } = await params;
+  if (!isUuid(lessonId)) {
+    return NextResponse.json({ error: "Офлайн-лекция не найдена." }, { status: 404 });
+  }
   const client = await createSupabaseRouteHandlerClient();
   if (!client.ok) {
     return NextResponse.json({ error: client.message }, { status: client.status });

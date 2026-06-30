@@ -9,11 +9,14 @@ import {
   InternalNotifyBodySchema,
   MobileExchangeBodySchema,
   MfaVerifyLoginBodySchema,
+  NosologyAssistBodySchema,
+  OvaryAssistBodySchema,
   PaymentCreateBodySchema,
   ResendConfirmationBodySchema,
   SendCodeBodySchema,
   SignInBodySchema,
   SignUpBodySchema,
+  StructuredReportBodySchema,
   TelegramVerifyOtpBodySchema,
   UpdatePasswordBodySchema,
   VerifyCodeBodySchema,
@@ -208,5 +211,41 @@ describe("InternalNotifyBodySchema", () => {
   it("requires event and message", () => {
     const r = InternalNotifyBodySchema.safeParse({ event: "deploy", message: "ok" });
     assert.equal(r.success, true);
+  });
+});
+
+describe("NosologyAssistBodySchema", () => {
+  it("requires context.title", () => {
+    const r = NosologyAssistBodySchema.safeParse({ context: {} });
+    assert.equal(r.success, false);
+  });
+
+  it("accepts minimal context", () => {
+    const r = NosologyAssistBodySchema.safeParse({ context: { title: "Эндометриоз" } });
+    assert.equal(r.success, true);
+  });
+});
+
+describe("OvaryAssistBodySchema", () => {
+  it("requires morphology", () => {
+    const r = OvaryAssistBodySchema.safeParse({ markers: [] });
+    assert.equal(r.success, false);
+  });
+
+  it("accepts normal morphology", () => {
+    const r = OvaryAssistBodySchema.safeParse({ morphology: "normal" });
+    assert.equal(r.success, true);
+  });
+});
+
+describe("StructuredReportBodySchema", () => {
+  it("accepts empty body", () => {
+    const r = StructuredReportBodySchema.safeParse({});
+    assert.equal(r.success, true);
+  });
+
+  it("rejects oversized studyNotes", () => {
+    const r = StructuredReportBodySchema.safeParse({ studyNotes: "x".repeat(5000) });
+    assert.equal(r.success, false);
   });
 });

@@ -276,6 +276,90 @@ export const AchievementCheckBodySchema = z.object({
 
 export type AchievementCheckBody = z.infer<typeof AchievementCheckBodySchema>;
 
+/** POST /api/ai/nosology-assist */
+export const NosologyAssistBodySchema = z.object({
+  context: z.object({
+    code: z.string().trim().max(16).optional(),
+    title: z.string().trim().min(1, "context.title обязателен.").max(300),
+    group: z.string().trim().max(120).optional(),
+    mode: z.enum(["gynecology", "obstetrics"]).optional(),
+    ultrasoundFocus: z.array(z.string().max(200)).max(20).optional(),
+    redFlags: z.array(z.string().max(200)).max(20).optional(),
+    visitChecklist: z.array(z.string().max(200)).max(30).optional(),
+    protocolHints: z.array(z.string().max(300)).max(20).optional(),
+    voiceProfile: z.enum(["general", "fmf"]).optional(),
+  }),
+  userNotes: z.string().max(8000).optional(),
+  voiceTranscript: z.string().max(12000).optional(),
+  imageMetrics: z
+    .object({
+      width: z.number().finite().positive().optional(),
+      height: z.number().finite().positive().optional(),
+      meanIntensity: z.number().finite().optional(),
+      darkRatio: z.number().finite().min(0).max(1).optional(),
+    })
+    .optional(),
+  mediaType: z.enum(["image", "video_frame", "none"]).optional(),
+});
+
+export type NosologyAssistBody = z.infer<typeof NosologyAssistBodySchema>;
+
+const ovaryMarkerKindSchema = z.enum([
+  "follicle",
+  "dominant_follicle",
+  "cyst_functional",
+  "cyst_hemorrhagic",
+  "cyst_dermoid",
+  "cyst_endometrioma",
+  "solid_component",
+  "other",
+]);
+
+/** POST /api/ai/ovary-assist */
+export const OvaryAssistBodySchema = z.object({
+  morphology: z.enum(["normal", "enlarged", "multifollicular", "polycystic_pattern"]),
+  markers: z
+    .array(
+      z.object({
+        id: z.string().max(64),
+        side: z.enum(["left", "right"]),
+        point: z.object({ x: z.number().finite(), y: z.number().finite() }),
+        kind: ovaryMarkerKindSchema,
+        sizeMm: z.number().finite().positive().max(500).optional(),
+        stroke: z
+          .array(z.object({ x: z.number().finite(), y: z.number().finite() }))
+          .max(64)
+          .optional(),
+      }),
+    )
+    .max(50)
+    .default([]),
+  menopausalStatus: z.enum(["premenopause", "perimenopause", "postmenopause", "unknown"]).optional(),
+  cycleDay: z.number().int().min(1).max(45).optional(),
+  ovaryVolumeMl: z.number().finite().positive().max(500).optional(),
+  afcCount: z.number().int().min(0).max(100).optional(),
+  userNotes: z.string().max(8000).optional(),
+  imageMetrics: z
+    .object({
+      width: z.number().finite().positive(),
+      height: z.number().finite().positive(),
+      darkRatio: z.number().finite().min(0).max(1),
+      peripheralRingScore: z.number().finite().min(0).max(1),
+    })
+    .optional(),
+  mediaType: z.enum(["image", "video_frame", "none"]).optional(),
+});
+
+export type OvaryAssistBody = z.infer<typeof OvaryAssistBodySchema>;
+
+/** POST /api/ai/structured-report */
+export const StructuredReportBodySchema = z.object({
+  studyNotes: z.string().max(4000).optional(),
+  calculatorOutputs: z.record(z.unknown()).optional(),
+});
+
+export type StructuredReportBody = z.infer<typeof StructuredReportBodySchema>;
+
 export async function parseJsonBody(request: Request): Promise<
   | { ok: true; data: unknown }
   | { ok: false; response: Response }
