@@ -33,6 +33,8 @@
     "eas:init": "npx eas-cli init",
     "eas:android:preview": "npx eas-cli build --platform android --profile preview",
     "eas:android:local": "npx expo run:android --device",
+    "pilot:android": "bash scripts/pilot-android-build.sh",
+    "pilot:android:local": "bash scripts/pilot-android-build.sh --local",
     "eas:ios:preview": "npx eas-cli build --platform ios --profile preview",
     "eas:android:prod": "npx eas-cli build --platform android --profile production",
     "eas:ios:prod": "npx eas-cli build --platform ios --profile production",
