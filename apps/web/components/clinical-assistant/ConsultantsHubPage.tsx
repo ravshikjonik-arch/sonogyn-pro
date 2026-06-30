@@ -1,4 +1,4 @@
-import { Brain, Stethoscope, Baby, GraduationCap, Activity } from "lucide-react";
+import { Brain, Stethoscope, Baby, GraduationCap, Activity, Sparkles } from "lucide-react";
 import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
@@ -44,15 +44,23 @@ export function ConsultantsHubPage() {
           <Badge variant="outline">Помощник врача</Badge>
           <h1 className="sonogyn-gradient-text text-3xl font-black tracking-tight">Выберите сценарий приёма</h1>
           <p className="max-w-2xl text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
-            Поиск по МКБ и синонимам. Клик по заболеванию — полный маршрут: приём, анализы, УЗИ, лечение, протокол
-            (помощник врача-гинеколога). Не заменяет клиническое решение.
+            Поиск по МКБ и синонимам. Клик по заболеванию — полный маршрут: приём, анализы, УЗИ, лечение, протокол.
+            Evidence AI — live PubMed и КР с цитатами.
           </p>
-          <Button variant="secondary" className="gap-2" asChild>
-            <Link href="/ai/workspace">
-              <Brain className="h-4 w-4" />
-              AI-зона: снимки и CDS-preview
-            </Link>
-          </Button>
+          <div className="flex flex-wrap gap-2">
+            <Button variant="secondary" className="gap-2" asChild>
+              <Link href="/tools/refs/evidence-assistant">
+                <Sparkles className="h-4 w-4" />
+                Evidence AI
+              </Link>
+            </Button>
+            <Button variant="outline" className="gap-2" asChild>
+              <Link href="/ai/workspace">
+                <Brain className="h-4 w-4" />
+                AI-зона · снимки
+              </Link>
+            </Button>
+          </div>
         </header>
 
         <div className="grid gap-5 md:grid-cols-2">

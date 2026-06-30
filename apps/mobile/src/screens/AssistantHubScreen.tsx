@@ -5,7 +5,7 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { ClinicalToolSearchBar } from "../components/clinical/ClinicalToolSearch";
-import { openClinicalToolAction } from "../lib/clinical-tools/openClinicalTool";
+import { openClinicalToolAction, openWebPath } from "../lib/clinical-tools/openClinicalTool";
 import type { MainTabParamList, RootStackParamList } from "../navigation/paramLists";
 
 export type AssistantTabScreenProps = CompositeScreenProps<
@@ -43,6 +43,24 @@ export default function AssistantHubScreen({ navigation }: AssistantTabScreenPro
           <Text style={styles.cardOutlineTitle}>Сроки и калькуляторы Б</Text>
           <Text style={styles.cardOutlineSub}>ПМП · КТР · декрет · фетометрия</Text>
         </Pressable>
+        <Pressable
+          style={styles.cardOutline}
+          onPress={() => openClinicalToolAction(navigation, "evidence_assistant")}
+        >
+          <Text style={styles.cardOutlineTitle}>Evidence AI</Text>
+          <Text style={styles.cardOutlineSub}>PubMed · Cochrane · КР · закладки</Text>
+        </Pressable>
+        <View style={styles.domainRow}>
+          <Pressable style={styles.domainChip} onPress={() => openClinicalToolAction(navigation, "orads_hub")}>
+            <Text style={styles.domainChipText}>O-RADS хаб</Text>
+          </Pressable>
+          <Pressable style={styles.domainChip} onPress={() => void openWebPath("/tools/obstetrics")}>
+            <Text style={styles.domainChipText}>Акушерство</Text>
+          </Pressable>
+          <Pressable style={styles.domainChip} onPress={() => void openWebPath("/tools/gynecology")}>
+            <Text style={styles.domainChipText}>Гинекология</Text>
+          </Pressable>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -68,4 +86,14 @@ const styles = StyleSheet.create({
   },
   cardOutlineTitle: { fontSize: 16, fontWeight: "800", color: "#0f172a" },
   cardOutlineSub: { fontSize: 13, color: "#64748b", marginTop: 4 },
+  domainRow: { flexDirection: "row", flexWrap: "wrap", gap: 8, marginTop: 4 },
+  domainChip: {
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: "#cbd5e1",
+    backgroundColor: "#fff",
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+  },
+  domainChipText: { fontSize: 12, fontWeight: "700", color: "#0f2744" },
 });

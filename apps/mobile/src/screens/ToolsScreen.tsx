@@ -19,7 +19,7 @@ import {
 } from "../components/calculators/OrganMedicalIllustration";
 import { ClinicalToolSearchBar, PinnedToolsRow } from "../components/clinical/ClinicalToolSearch";
 import { loadDoctorRole, resolvePinnedIds } from "../lib/doctorWorkspacePrefs";
-import { openClinicalToolAction } from "../lib/clinical-tools/openClinicalTool";
+import { openClinicalToolAction, openWebPath } from "../lib/clinical-tools/openClinicalTool";
 import type { MainTabParamList, RootStackParamList } from "../navigation/paramLists";
 
 export type ToolsTabScreenProps = CompositeScreenProps<
@@ -109,9 +109,26 @@ export default function ToolsScreen({ navigation }: ToolsTabScreenProps) {
       <View style={styles.header}>
         <Text style={styles.kicker}>Приём · УЗИ</Text>
         <Text style={styles.title}>Инструменты</Text>
-        <Text style={styles.sub}>Один каталог · поиск по синонимам</Text>
+        <Text style={styles.sub}>Калькуляторы отдельно · O-RADS хаб · поиск по синонимам</Text>
       </View>
       <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
+        <View style={styles.domainRow}>
+          <Pressable style={styles.domainChip} onPress={() => openClinicalToolAction(navigation, "orads_hub")}>
+            <Text style={styles.domainChipText}>O-RADS</Text>
+          </Pressable>
+          <Pressable style={styles.domainChip} onPress={() => void openWebPath("/tools/calc/ob")}>
+            <Text style={styles.domainChipText}>Кальк. Б</Text>
+          </Pressable>
+          <Pressable style={styles.domainChip} onPress={() => void openWebPath("/tools/calc/gyn")}>
+            <Text style={styles.domainChipText}>Кальк. гин.</Text>
+          </Pressable>
+          <Pressable style={styles.domainChip} onPress={() => void openWebPath("/tools/obstetrics")}>
+            <Text style={styles.domainChipText}>Акушерство</Text>
+          </Pressable>
+          <Pressable style={styles.domainChip} onPress={() => void openWebPath("/tools/gynecology")}>
+            <Text style={styles.domainChipText}>Гинекология</Text>
+          </Pressable>
+        </View>
         <ClinicalToolSearchBar navigation={navigation} role={role} />
         <PinnedToolsRow navigation={navigation} toolIds={pins} />
 
@@ -147,6 +164,16 @@ const styles = StyleSheet.create({
   title: { fontSize: 28, fontWeight: "800", color: "#0F2744", marginTop: 4 },
   sub: { fontSize: 14, color: "#5C6B7A", marginTop: 4 },
   scroll: { padding: 16, paddingBottom: 32, gap: 20 },
+  domainRow: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
+  domainChip: {
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: "#cbd5e1",
+    backgroundColor: "#fff",
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+  },
+  domainChipText: { fontSize: 12, fontWeight: "700", color: "#0f2744" },
   section: { gap: 10 },
   sectionTitle: {
     fontSize: 13,

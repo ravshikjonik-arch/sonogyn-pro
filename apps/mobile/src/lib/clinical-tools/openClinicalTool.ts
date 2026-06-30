@@ -47,6 +47,12 @@ export function openClinicalToolAction(navigation: ClinicalToolNav, action: Mobi
     case "orads_guide":
       navigation.navigate("ORADSGuide");
       return;
+    case "orads_echograms":
+      void WebBrowser.openBrowserAsync(webAppUrl("/tools/refs/orads-echograms"));
+      return;
+    case "orads_hub":
+      void WebBrowser.openBrowserAsync(webAppUrl("/tools/o-rads"));
+      return;
     case "orads_flow":
       navigation.navigate("ORADSFlow");
       return;

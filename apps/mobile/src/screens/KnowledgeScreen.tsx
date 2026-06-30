@@ -36,6 +36,24 @@ export default function KnowledgeScreen({ navigation, route }: KnowledgeTabScree
 
   const rows = [
     {
+      id: "orads-hub",
+      title: "O-RADS · эхограммы и calc",
+      sub: "Калькулятор + карточки Озерской + реферат — один хаб",
+      onPress: () => void openWebPath("/tools/o-rads"),
+    },
+    {
+      id: "ob-hub",
+      title: "Акушерство",
+      sub: "FMF · срок Б · атласы · помощник акушера",
+      onPress: () => void openWebPath("/tools/obstetrics"),
+    },
+    {
+      id: "gyn-hub",
+      title: "Гинекология",
+      sub: "FIGO · эндометрий · нозологии · помощник",
+      onPress: () => void openWebPath("/tools/gynecology"),
+    },
+    {
       id: "evidence-assistant",
       title: "Evidence Assistant",
       sub: "PubMed · Cochrane · КР · AI-резюме · native",
@@ -72,9 +90,15 @@ export default function KnowledgeScreen({ navigation, route }: KnowledgeTabScree
       onPress: () => openClinicalToolAction(navigation, "medvedev"),
     },
     {
+      id: "orads-echograms",
+      title: "O-RADS · эхограммы",
+      sub: "Карточки Озерской по нозологиям",
+      onPress: () => void openWebPath("/tools/refs/orads-echograms"),
+    },
+    {
       id: "orads-flow",
-      title: "O-RADS Library",
-      sub: "Дерево решений (учебное)",
+      title: "O-RADS · дерево решений",
+      sub: "Учебный flow (native)",
       onPress: () => navigation.navigate("ORADSFlow"),
     },
     {
@@ -90,7 +114,7 @@ export default function KnowledgeScreen({ navigation, route }: KnowledgeTabScree
       <View style={styles.header}>
         <Text style={styles.kicker}>Знания</Text>
         <Text style={styles.title}>Справочник</Text>
-        <Text style={styles.sub}>КР · нормы · консенсусы — без дублей калькуляторов</Text>
+        <Text style={styles.sub}>O-RADS · акушерство · гинекология · EBM — без дублей калькуляторов</Text>
       </View>
       <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
         <ClinicalToolSearchBar navigation={navigation} placeholder="КР, нормы, нозология…" compact />

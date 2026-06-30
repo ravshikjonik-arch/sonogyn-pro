@@ -64,32 +64,55 @@ const navGroups: { title: string; items: { href: string; label: string; icon: ty
     ],
   },
   {
-    title: "Приём",
+    title: "Акушерство",
     items: [
-      { href: "/tools", label: "Инструменты", icon: Calculator },
-      { href: "/tools/calc/ob", label: "Срок беременности", icon: Baby },
-      { href: "/tools/calc/rads/o-rads", label: "O-RADS Pro", icon: ScanLine },
-      { href: "/ai/consultants", label: "Помощник врача", icon: HandHeart },
-      { href: "/tools/refs/nosologies", label: "Нозологии", icon: ClipboardList },
+      { href: "/tools/obstetrics", label: "Хаб акушерства", icon: Baby },
+      { href: "/ai/consultants/obstetrics", label: "Помощник акушера", icon: HandHeart },
+      { href: "/ai/consultants/fmf", label: "FMF · скрининг", icon: Baby },
+      { href: "/tools/calc/ob", label: "Кальк. беременности", icon: Calculator },
     ],
   },
   {
-    title: "Знания",
+    title: "Гинекология",
+    items: [
+      { href: "/tools/gynecology", label: "Хаб гинекологии", icon: HeartPulse },
+      { href: "/tools/o-rads", label: "O-RADS · эхограммы", icon: ScanLine },
+      { href: "/ai/consultants/gynecology", label: "Помощник гинеколога", icon: HandHeart },
+      { href: "/tools/calc/gyn", label: "Кальк. гинекологии", icon: Calculator },
+    ],
+  },
+  {
+    title: "Калькуляторы",
+    items: [
+      { href: "/tools/calc", label: "Все калькуляторы", icon: Calculator },
+      { href: "/tools/calc/rads/o-rads", label: "O-RADS Pro", icon: ScanLine },
+      { href: "/tools/calc/rads/bi-rads", label: "BI-RADS", icon: ScanLine },
+      { href: "/tools/calc/appointment", label: "Приём · быстрые", icon: ClipboardList },
+    ],
+  },
+  {
+    title: "Помощник · EBM",
+    items: [
+      { href: "/ai/consultants", label: "Помощник врача", icon: HandHeart },
+      { href: "/tools/refs/evidence-assistant", label: "Evidence AI", icon: Sparkles },
+      { href: "/ai/workspace", label: "AI-зона · снимки", icon: Brain },
+    ],
+  },
+  {
+    title: "Справочник",
     items: [
       { href: "/tools/refs/guidelines", label: "КР и приказы", icon: FileText },
-      { href: "/tools/refs/evidence", label: "УЗИ · база", icon: BookMarked },
       { href: "/tools/refs/norms", label: "Клин. нормы", icon: BookOpen },
+      { href: "/tools/refs/nosologies", label: "Нозологии", icon: ClipboardList },
       { href: "/tools/refs/courses", label: "Курсы", icon: BookOpen },
-      { href: "/tools/refs", label: "Библиотека", icon: Library },
     ],
   },
   {
     title: "Ещё",
     items: [
+      { href: "/tools", label: "Все инструменты", icon: Library },
       { href: "/profile/patients", label: "Пациенты", icon: Users },
-      { href: "/profile/dashboard", label: "Дашборд", icon: HeartPulse },
-      { href: "/tools/mapping/endometriosis", label: "IDEA · эндометриоз", icon: ScanLine },
-      { href: "/ai/workspace", label: "AI-зона", icon: Brain },
+      { href: "/profile/dashboard", label: "Дашборд", icon: LayoutDashboard },
       { href: "/profile/pro", label: "PRO", icon: Sparkles },
       { href: "/profile", label: "Профиль", icon: UserRound },
     ],
