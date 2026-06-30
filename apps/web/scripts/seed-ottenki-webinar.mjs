@@ -13,7 +13,8 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { createClient } from "@supabase/supabase-js";
-import { put } from "@vercel/blob";
+
+import { putPrivateBlob } from "./lib/blob-upload.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const webRoot = path.join(__dirname, "..");
@@ -255,8 +256,7 @@ async function main() {
   console.log("\n⬆ Upload to Vercel Blob…");
   const blobPath = `courses/${course.id}/lessons/${lessonId}/source-${Date.now()}.mp4`;
   const fileBuffer = fs.readFileSync(videoPath);
-  const blob = await put(blobPath, fileBuffer, {
-    access: "private",
+  const blob = await putPrivateBlob(blobPath, fileBuffer, {
     token: blobToken,
     contentType: "video/mp4",
   });

@@ -23,7 +23,6 @@ import {
   mergeWebEnv,
   readManifest,
   resolveAuthorId,
-  resolveVideoMime,
   uploadLessonVideo,
 } from "./lib/seed-course-video.mjs";
 
@@ -76,17 +75,18 @@ async function main() {
   }
 
   const pendingUploads = [];
+  const uploadableExt = new Set([".mp4", ".webm", ".mkv", ".mov", ".avi", ".m4v"]);
   for (const mod of manifest.modules) {
     for (const lesson of mod.lessons) {
       const vp = lessonVideoPath(lesson);
       if (!vp) continue;
-      const mime = resolveVideoMime(vp);
-      if (!mime) {
-        console.warn(`⚠ skip ${lesson.slug}: need mp4/webm (got ${path.extname(vp)}) — конвертируйте ffmpeg`);
-        continue;
-      }
       if (!fs.existsSync(vp)) {
         console.warn(`⚠ skip ${lesson.slug}: file missing ${vp}`);
+        continue;
+      }
+      const ext = path.extname(vp).toLowerCase();
+      if (!uploadableExt.has(ext)) {
+        console.warn(`⚠ skip ${lesson.slug}: unsupported ${ext}`);
         continue;
       }
       pendingUploads.push({ lesson, path: vp });

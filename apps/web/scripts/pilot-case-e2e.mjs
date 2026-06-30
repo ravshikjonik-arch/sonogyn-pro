@@ -10,9 +10,10 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { createClient } from "@supabase/supabase-js";
+import { mergeWebEnv } from "./lib/seed-course-video.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const envPath = path.join(__dirname, "..", ".env.local");
+const webRoot = path.join(__dirname, "..");
 const keep = process.argv.includes("--keep");
 
 function loadEnv(filePath) {
@@ -32,7 +33,7 @@ function loadEnv(filePath) {
   return out;
 }
 
-const env = { ...loadEnv(envPath), ...process.env };
+const env = mergeWebEnv(webRoot);
 const url = env.NEXT_PUBLIC_SUPABASE_URL?.trim();
 const serviceKey = env.SUPABASE_SERVICE_ROLE_KEY?.trim();
 const devEmail = env.DEV_LOGIN_EMAIL?.trim();

@@ -1,7 +1,11 @@
+import { createRequire } from "module";
+import { execFileSync } from "child_process";
 import fs from "fs";
+import os from "os";
 import path from "path";
 import { createClient } from "@supabase/supabase-js";
-import { put } from "@vercel/blob";
+
+import { putPrivateBlob } from "./blob-upload.mjs";
 
 export const DEFAULT_AUTHOR_IDS = [
   "d1fb4c18-9cef-4973-b8a4-399f2e8fde59",
@@ -153,6 +157,58 @@ export async function ensureVideoLesson(admin, { courseId, moduleId, slug, title
 }
 
 const ALLOWED_VIDEO_EXT = new Set([".mp4", ".webm"]);
+const TRANSCODE_SOURCE_EXT = new Set([".mkv", ".mov", ".avi", ".m4v"]);
+
+const require = createRequire(import.meta.url);
+
+function resolveFfmpegBin() {
+  const fromEnv = process.env.FFMPEG_PATH?.trim();
+  if (fromEnv && fs.existsSync(fromEnv)) return fromEnv;
+  for (const candidate of ["ffmpeg", "/opt/homebrew/bin/ffmpeg", "/usr/local/bin/ffmpeg"]) {
+    try {
+      execFileSync(candidate, ["-version"], { stdio: "ignore" });
+      return candidate;
+    } catch {
+      /* try next */
+    }
+  }
+  try {
+    const { path: bundled } = require("@ffmpeg-installer/ffmpeg");
+    if (bundled && fs.existsSync(bundled)) return bundled;
+  } catch {
+    /* optional dep */
+  }
+  return null;
+}
+
+let ffmpegBinCache;
+
+function ffmpegBin() {
+  if (ffmpegBinCache === undefined) ffmpegBinCache = resolveFfmpegBin();
+  return ffmpegBinCache;
+}
+
+/** Конвертирует mkv/mov/avi → mp4 во временный файл (нужен ffmpeg в PATH или @ffmpeg-installer/ffmpeg). */
+export function transcodeVideoForUpload(filePath) {
+  const ext = path.extname(filePath).toLowerCase();
+  if (ALLOWED_VIDEO_EXT.has(ext)) return filePath;
+  if (!TRANSCODE_SOURCE_EXT.has(ext)) return null;
+
+  const bin = ffmpegBin();
+  if (!bin) {
+    console.warn(`⚠ ${path.basename(filePath)}: нужен ffmpeg (brew install ffmpeg или npm i -D @ffmpeg-installer/ffmpeg)`);
+    return null;
+  }
+
+  const outPath = path.join(os.tmpdir(), `sonogyn-seed-${Date.now()}.mp4`);
+  console.log(`\n🔄 Transcode ${path.basename(filePath)} → mp4…`);
+  execFileSync(
+    bin,
+    ["-y", "-i", filePath, "-c:v", "libx264", "-preset", "fast", "-crf", "23", "-c:a", "aac", "-movflags", "+faststart", outPath],
+    { stdio: "inherit" },
+  );
+  return outPath;
+}
 
 export function resolveVideoMime(filePath) {
   const ext = path.extname(filePath).toLowerCase();
@@ -161,38 +217,57 @@ export function resolveVideoMime(filePath) {
   return null;
 }
 
-export async function uploadLessonVideo({ admin, blobToken, courseId, lessonId, filePath }) {
+/** Возвращает путь к mp4/webm, при необходимости транскодируя исходник. */
+export function prepareVideoForUpload(filePath) {
   const mime = resolveVideoMime(filePath);
-  if (!mime) {
-    throw new Error(`Unsupported video format (use mp4/webm): ${filePath}`);
+  if (mime) return { path: filePath, mime, temp: false };
+  const transcoded = transcodeVideoForUpload(filePath);
+  if (!transcoded) return null;
+  return { path: transcoded, mime: "video/mp4", temp: true };
+}
+
+export async function uploadLessonVideo({ admin, blobToken, courseId, lessonId, filePath }) {
+  const prepared = prepareVideoForUpload(filePath);
+  if (!prepared) {
+    throw new Error(`Unsupported video format (use mp4/webm/mkv): ${filePath}`);
   }
-  if (!fs.existsSync(filePath)) {
-    throw new Error(`Video not found: ${filePath}`);
+  const { path: uploadPath, mime, temp } = prepared;
+  if (!fs.existsSync(uploadPath)) {
+    throw new Error(`Video not found: ${uploadPath}`);
   }
-  const stat = fs.statSync(filePath);
-  console.log(`\n⬆ ${path.basename(filePath)} (${Math.round(stat.size / 1024 / 1024)} MB)`);
-  const blobPath = `courses/${courseId}/lessons/${lessonId}/source-${Date.now()}${path.extname(filePath)}`;
-  const fileBuffer = fs.readFileSync(filePath);
-  const blob = await put(blobPath, fileBuffer, {
-    access: "private",
-    token: blobToken,
-    contentType: mime,
-  });
-  const { error } = await admin
-    .from("course_lessons")
-    .update({
-      video_file_key: blob.url,
-      video_file_url: blob.url,
-      video_mime_type: mime,
-      video_size_bytes: stat.size,
-      video_processing_status: "ready",
-      video_upload_error: null,
-      updated_at: new Date().toISOString(),
-    })
-    .eq("id", lessonId);
-  if (error) throw new Error(error.message);
-  console.log(`✓ video ready: ${lessonId}`);
-  return blob.url;
+  const stat = fs.statSync(uploadPath);
+  console.log(`\n⬆ ${path.basename(uploadPath)} (${Math.round(stat.size / 1024 / 1024)} MB)`);
+  const blobPath = `courses/${courseId}/lessons/${lessonId}/source-${Date.now()}${path.extname(uploadPath)}`;
+  const fileBuffer = fs.readFileSync(uploadPath);
+  try {
+    const blob = await putPrivateBlob(blobPath, fileBuffer, {
+      token: blobToken,
+      contentType: mime,
+    });
+    const { error } = await admin
+      .from("course_lessons")
+      .update({
+        video_file_key: blob.url,
+        video_file_url: blob.url,
+        video_mime_type: mime,
+        video_size_bytes: stat.size,
+        video_processing_status: "ready",
+        video_upload_error: null,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", lessonId);
+    if (error) throw new Error(error.message);
+    console.log(`✓ video ready: ${lessonId}`);
+    return blob.url;
+  } finally {
+    if (temp) {
+      try {
+        fs.unlinkSync(uploadPath);
+      } catch {
+        /* ignore */
+      }
+    }
+  }
 }
 
 export function readManifest(manifestPath) {
