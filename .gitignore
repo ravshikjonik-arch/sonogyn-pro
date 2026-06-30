@@ -38,4 +38,22 @@ scripts/ozerskaya-samples/
 scripts/atlas-obstetrics-samples/
 scripts/atlas-obstetrics-audit.json
 
-.env*
+# Cursor / local IDE
+.cursor/settings.json
+.cursor/tmp-*
+
+# Finder duplicate copies
+* 2.*
+* 2/
+
+# Local transcode / temp
+apps/web/.tmp-ffmpeg/
+apps/web/supabase/.temp/
+
+# Large local media (seed from disk, not git)
+docs/books/
+docs/fetometry-source/medvedev-archive/
+
+# External experiments (track separately)
+USTri/
+apps/web/app/api/ustri_inference/

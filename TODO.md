@@ -39,6 +39,9 @@
 
 ### Код (закрыто ассистентом)
 
+- [x] **Pilot wave-1 smoke** — `npm run pilot:smoke` на prod (2026-06-29): 6/6 OK, `smsReady=true`
+- [x] **Pilot case E2E** — lifecycle R6 + feed (2026-06-29)
+- [x] **FMF fetal slices seed** — курс `1d67a487…` на prod, 10 уроков (видео ISUOG — загрузка после mkv→mp4)
 - [x] CI lockfile + wave 3 Zod (mobile exchange, webhook)
 - [x] Wave 4 Zod (send-code, verify-code, resend-confirmation, mfa/verify-login, notify)
 - [x] Security E2E fix (webhook 400, E2E_DEV_SKIP_AUTH=false)
@@ -46,6 +49,7 @@
 - [x] Security E2E в CI (run #28166757988, commit `c95aa1c`)
 - [x] Mobile MVP: калькулятор стеноза ВСА
 - [x] Wave 6 Zod: forgot/update-password, UUID guards (enroll, studies, lessons complete)
+- [x] Wave 7 Zod: AI assist, webinar, author video upload, e2e/dev-login (batches 1–3)
 - [x] ILIKE: `escapeLikePattern` на `/api/courses` (patients уже было)
 - [x] brain-engine: `lateral_ventricle_body` mapping
 - [x] Mobile upload magic bytes — `@repo/upload-validation` в `casesService.ts`
@@ -60,7 +64,7 @@
 
 ## Открыто (v2 / не блокер пилота)
 
-- [ ] Zod на оставшихся ~45 API routes (GET-only, webhooks, cron)
+- [ ] Zod на оставшихся ~10 API routes (sign-out, stripe webhook, author cover formData)
 - [ ] Full Playwright CI (сейчас только CPI)
 - [ ] Vascular Kulikov mobile parity
 - [ ] Duplicate O-RADS mobile `oradsCalculator` → `@repo/orads-us`
