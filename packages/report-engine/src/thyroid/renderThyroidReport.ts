@@ -7,14 +7,30 @@ import type {
 } from "@repo/types";
 
 import { getReportI18n, type ReportCatalog } from "../i18n";
+import {
+  mapEvidenceRecordsToReportCitations,
+  mergeReportCitations,
+  type EvidenceRecordLike,
+} from "../evidence/mapEvidenceRecordsToCitations";
 import { THYROID_TIRADS_V1_ENGINE_ID, THYROID_TIRADS_V1_TEMPLATE_SLUG } from "../templates/thyroid-tirads-v1";
 import { evaluateThyroidFromInput } from "./mapInput";
+
+const THYROID_STATIC_CITATIONS = [
+  {
+    id: "acr-tirads-2017",
+    standard: "ACR TI-RADS",
+    version: "2017",
+    label: "ACR Thyroid Imaging Reporting and Data System",
+    url: "https://www.acr.org/Clinical-Resources/Reporting-and-Data-Systems/TI-RADS",
+  },
+] as const;
 
 export type RenderThyroidReportOptions = {
   locale?: ReportLocale;
   templateSlug?: string;
   engineId?: string;
   generatedAt?: string;
+  evidenceRecords?: EvidenceRecordLike[];
 };
 
 function composeThyroidDescription(input: ThyroidStructuredReportInput, t: ReportCatalog, locale: ReportLocale): string {
@@ -55,15 +71,15 @@ export function renderThyroidStructuredReport(
     description,
     impression,
     recommendations,
-    citations: [
-      {
-        id: "acr-tirads-2017",
-        standard: "ACR TI-RADS",
-        version: "2017",
-        label: "ACR Thyroid Imaging Reporting and Data System",
-        url: "https://www.acr.org/Clinical-Resources/Reporting-and-Data-Systems/TI-RADS",
-      },
-    ],
+    citations: mergeReportCitations(
+      [...THYROID_STATIC_CITATIONS],
+      options.evidenceRecords
+        ? mapEvidenceRecordsToReportCitations(options.evidenceRecords, {
+            max: 8,
+            standardPrefix: "EBM",
+          })
+        : [],
+    ),
     disclaimerKey: "report.assistive_footer",
     generatedAt: options.generatedAt ?? new Date().toISOString(),
     locale,

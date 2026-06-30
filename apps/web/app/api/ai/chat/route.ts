@@ -7,7 +7,16 @@ import { callOpenRouterChat, type OpenRouterMessage } from "@/lib/ai/sonogyn-cha
 import { inferClinicalDomain, type SonogynClinicalDomain } from "@/lib/ai/sonogyn-chat/rag-context";
 import { SonogynChatRequestSchema } from "@/lib/ai/sonogyn-chat/request-schema";
 import { buildSonogynSystemPrompt } from "@/lib/ai/sonogyn-chat/system-prompt";
+import { buildEvidenceModeSystemPrompt, formatEvidenceContextForPrompt } from "@/lib/ai/sonogyn-chat/evidence-context";
+import { wrapOpenRouterStreamWithEvidence } from "@/lib/ai/sonogyn-chat/stream-client";
+import { buildRetrievalConfigAsync } from "@/lib/evidence/retrieval-config";
+import { fetchClinicalEvidenceSupplement } from "@/lib/evidence/clinical-evidence-supplement";
+import { logEvidenceQuery, sourcesFromAssistantAnswer } from "@/lib/evidence/log-evidence-query";
+import { synthesizeWithLlm } from "@/lib/evidence/synthesize-llm";
+import { consumeRateLimit } from "@/lib/security/rate-limit";
+import { RL } from "@/lib/security/rate-limit-config";
 import { requireSupabaseUser } from "@/lib/security/require-user";
+import { searchEvidenceUnified } from "@repo/evidence-retrieval";
 import { createClient } from "@/utils/supabase/server";
 
 export const runtime = "nodejs";
@@ -96,11 +105,37 @@ export async function POST(request: Request) {
     );
   }
 
-  const { messages, model, stream, images, modality } = parsed.data;
+  const { messages, model, stream, images, modality, mode, includeEvidence } = parsed.data;
   const lastUser = [...messages].reverse().find((m) => m.role === "user");
   const lastUserText = lastUser?.content ?? "";
-  const domain = resolveDomain(modality, lastUserText);
+  const domain = mode === "evidence" ? "general" : resolveDomain(modality, lastUserText);
   const hasImages = Boolean(images?.length);
+
+  if (mode === "evidence") {
+    const rl = await consumeRateLimit(
+      `ai-chat-evidence:${auth.userId}`,
+      RL.aiChatEvidence.limit,
+      RL.aiChatEvidence.windowMs,
+    );
+    if (!rl.ok) {
+      return NextResponse.json(
+        { error: "Слишком много EBM-запросов. Подождите.", code: "rate_limit" },
+        { status: 429, headers: { "Retry-After": String(rl.retryAfterSec) } },
+      );
+    }
+    if (hasImages) {
+      return NextResponse.json(
+        { error: "Evidence mode не поддерживает изображения — используйте текстовый вопрос.", code: "invalid_request" },
+        { status: 400 },
+      );
+    }
+    if (lastUserText.trim().length < 3) {
+      return NextResponse.json(
+        { error: "Укажите клинический вопрос (мин. 3 символа).", code: "invalid_request" },
+        { status: 400 },
+      );
+    }
+  }
 
   const apiKey = process.env.OPENROUTER_API_KEY?.trim();
   if (!apiKey) {
@@ -119,11 +154,54 @@ export async function POST(request: Request) {
     );
   }
 
-  const systemPrompt = buildSonogynSystemPrompt({
-    domain,
-    userText: lastUserText,
-    hasImages,
-  });
+  let evidenceAnswer: Awaited<ReturnType<typeof synthesizeWithLlm>> | null = null;
+
+  let systemPrompt =
+    mode === "evidence"
+      ? ""
+      : buildSonogynSystemPrompt({
+          domain,
+          userText: lastUserText,
+          hasImages,
+        });
+
+  const clinicalHintsEnabled =
+    mode === "clinical" &&
+    !hasImages &&
+    lastUserText.trim().length >= 5 &&
+    (includeEvidence === true ||
+      (includeEvidence !== false && process.env.EVIDENCE_CLINICAL_HINTS === "1"));
+
+  if (clinicalHintsEnabled) {
+    const supplement = await fetchClinicalEvidenceSupplement(lastUserText);
+    if (supplement) {
+      systemPrompt = [
+        systemPrompt,
+        "",
+        "---",
+        "Дополнительный EBM-контекст (PubMed, КР, WHO/NICE — цитируй при необходимости, не выдумывай источники):",
+        supplement,
+      ].join("\n");
+    }
+  }
+
+  if (mode === "evidence") {
+    const config = await buildRetrievalConfigAsync();
+    const searchResult = await searchEvidenceUnified(
+      { query: lastUserText, limit: 20, preferHighEvidence: true, maxAgeYears: 10 },
+      { config },
+    );
+    evidenceAnswer = await synthesizeWithLlm(lastUserText, searchResult);
+    systemPrompt = buildEvidenceModeSystemPrompt(formatEvidenceContextForPrompt(evidenceAnswer));
+    void logEvidenceQuery(supabase, {
+      userId: auth.userId,
+      query: lastUserText,
+      sources: sourcesFromAssistantAnswer(evidenceAnswer),
+      resultCount: evidenceAnswer.citations.length,
+      synthesisMode: `chat-${evidenceAnswer.synthesisMode}`,
+      evidenceStrength: evidenceAnswer.evidenceStrength,
+    });
+  }
 
   const providerMessages = buildProviderMessages({
     history: messages,
@@ -179,7 +257,15 @@ export async function POST(request: Request) {
   });
 
   if (stream) {
-    return new NextResponse(result.response.body, {
+    const body = result.response.body;
+    if (!body) {
+      return NextResponse.json({ error: "Empty stream" }, { status: 502 });
+    }
+
+    const streamBody =
+      evidenceAnswer != null ? wrapOpenRouterStreamWithEvidence(body, evidenceAnswer) : body;
+
+    return new NextResponse(streamBody, {
       headers: {
         "Content-Type": "text/event-stream",
         "Cache-Control": "no-cache, no-transform",
@@ -190,6 +276,9 @@ export async function POST(request: Request) {
 
   try {
     const data = await result.response.json();
+    if (evidenceAnswer) {
+      return NextResponse.json({ ...data, evidence: evidenceAnswer, mode: "evidence" });
+    }
     return NextResponse.json(data);
   } catch (error) {
     return handleApiError(error, 500, { route: "POST /api/ai/chat", channel: "ai-chat" });

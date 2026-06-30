@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 import { isDevSkipAuthEnabled } from "@/lib/auth/dev-account";
 import {
-  generateReportDocument,
+  generateReportDocumentAsync,
   persistStructuredReport,
   resolveTemplateBySlug,
 } from "@/lib/reports/structured-reports-service";
@@ -37,7 +37,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    const document = generateReportDocument(parsed.data);
+    const document = await generateReportDocumentAsync(parsed.data);
     const template = await resolveTemplateBySlug(supabase, parsed.data.templateSlug);
     if (!template) {
       return NextResponse.json({ error: "Template not found" }, { status: 404 });

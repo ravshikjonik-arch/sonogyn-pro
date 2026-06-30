@@ -11,6 +11,11 @@ import { generateObstetricReportFromRequest } from "../obstetric/renderObstetric
 import { generateThyroidReportFromRequest } from "../thyroid/renderThyroidReport";
 import { buildAdnexReportCitations, ORADS_US_VERSION } from "./citations";
 import { composeAdnexDescription, composeAdnexImpression, composeAdnexRecommendations } from "./composeBlocks";
+import {
+  mapEvidenceRecordsToReportCitations,
+  mergeReportCitations,
+  type EvidenceRecordLike,
+} from "../evidence/mapEvidenceRecordsToCitations";
 import { getReportI18n } from "../i18n";
 import { mapAdnexStructuredInputToCalcInput, resolveOradsCategory } from "./mapInput";
 import { ADNEX_ORADS_V1_ENGINE_ID, ADNEX_ORADS_V1_TEMPLATE_SLUG } from "../templates/adnex-orads-v1";
@@ -20,6 +25,8 @@ export type RenderAdnexReportOptions = {
   templateSlug?: string;
   engineId?: string;
   generatedAt?: string;
+  /** Live EBM hits appended to static O-RADS citations (SRE Phase 3). */
+  evidenceRecords?: EvidenceRecordLike[];
 };
 
 export function renderAdnexStructuredReport(
@@ -39,7 +46,15 @@ export function renderAdnexStructuredReport(
     description: composeAdnexDescription(input, tri, t),
     impression: composeAdnexImpression(input, tri, t, ORADS_US_VERSION),
     recommendations: composeAdnexRecommendations(tri),
-    citations: buildAdnexReportCitations(),
+    citations: mergeReportCitations(
+      buildAdnexReportCitations(),
+      options.evidenceRecords
+        ? mapEvidenceRecordsToReportCitations(options.evidenceRecords, {
+            max: 8,
+            standardPrefix: "EBM",
+          })
+        : [],
+    ),
     disclaimerKey: "report.assistive_footer",
     generatedAt: options.generatedAt ?? new Date().toISOString(),
     locale,

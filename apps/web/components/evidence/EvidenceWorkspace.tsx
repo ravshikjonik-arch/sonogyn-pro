@@ -290,6 +290,13 @@ export function EvidenceWorkspace({ initialShelf }: { initialShelf?: EvidenceShe
           {shelfMeta.description} · активных полок: {ACTIVE_SHELVES.length} · {EVIDENCE_ENTRIES.length} тем.
         </p>
         <p className="text-[11px] text-[var(--clinical-foreground-muted)]">{EVIDENCE_DISCLAIMER}</p>
+        <Link
+          href="/tools/refs/evidence-assistant"
+          className="inline-flex items-center gap-1 text-xs font-medium text-[var(--clinical-primary)] underline"
+        >
+          <Sparkles className="h-3 w-3" />
+          Evidence Assistant — live PubMed / Cochrane / AI
+        </Link>
       </header>
 
       <div className="flex flex-wrap gap-2">

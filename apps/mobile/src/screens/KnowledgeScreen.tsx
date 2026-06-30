@@ -9,7 +9,7 @@ import { ClinicalToolSearchBar } from "../components/clinical/ClinicalToolSearch
 import GuidelinesTabScreen from "../modules/clinicalGuidelines/screens/GuidelinesTabScreen";
 import { openTelegramChannel } from "../config/community";
 import { TELEGRAM_CHANNEL } from "../config/telegram";
-import { openClinicalToolAction } from "../lib/clinical-tools/openClinicalTool";
+import { openClinicalToolAction, openWebPath } from "../lib/clinical-tools/openClinicalTool";
 import type { MainTabParamList, RootStackParamList } from "../navigation/paramLists";
 
 export type KnowledgeTabScreenProps = CompositeScreenProps<
@@ -35,6 +35,18 @@ export default function KnowledgeScreen({ navigation, route }: KnowledgeTabScree
   }
 
   const rows = [
+    {
+      id: "evidence-assistant",
+      title: "Evidence Assistant",
+      sub: "PubMed · Cochrane · КР · AI-резюме · native",
+      onPress: () => navigation.navigate("EvidenceAssistant"),
+    },
+    {
+      id: "evidence-base",
+      title: "SonoEvidence · база",
+      sub: "236 тем · FMF · O-RADS · шейка",
+      onPress: () => void openWebPath("/tools/refs/evidence"),
+    },
     {
       id: "guidelines",
       title: "КР и приказы",

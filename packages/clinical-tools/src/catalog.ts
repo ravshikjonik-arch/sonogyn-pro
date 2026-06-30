@@ -320,6 +320,17 @@ export const CLINICAL_TOOLS: ClinicalTool[] = [
     mobileAction: "gyn_assistant_obs",
   },
   {
+    id: "evidence-assistant",
+    title: "Evidence Assistant",
+    subtitle: "PubMed · Cochrane · КР · AI",
+    category: "reference",
+    roles: ["gynecologist", "obstetrician", "ultrasound", "allied"],
+    synonyms: ["ebm", "pubmed", "доказательства", "cochrane", "evidence"],
+    keywords: ["evidence", "assistant"],
+    webHref: "/tools/refs/evidence-assistant",
+    mobileAction: "evidence_assistant",
+  },
+  {
     id: "guidelines",
     title: "КР и приказы",
     subtitle: "КР МЗ РФ, приказы ДЗМ",

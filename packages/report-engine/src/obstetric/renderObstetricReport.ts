@@ -8,15 +8,30 @@ import type {
 
 import { getReportI18n, type ReportCatalog } from "../i18n";
 import {
+  mapEvidenceRecordsToReportCitations,
+  mergeReportCitations,
+  type EvidenceRecordLike,
+} from "../evidence/mapEvidenceRecordsToCitations";
+import {
   OBSTETRIC_BIOMETRY_V1_ENGINE_ID,
   OBSTETRIC_BIOMETRY_V1_TEMPLATE_SLUG,
 } from "../templates/obstetric-biometry-v1";
+
+const OBSTETRIC_STATIC_CITATIONS = [
+  {
+    id: "isuog-biometry",
+    standard: "ISUOG",
+    label: "ISUOG practice guidelines for fetal biometry",
+    url: "https://www.isuog.org/",
+  },
+] as const;
 
 export type RenderObstetricReportOptions = {
   locale?: ReportLocale;
   templateSlug?: string;
   engineId?: string;
   generatedAt?: string;
+  evidenceRecords?: EvidenceRecordLike[];
 };
 
 const BIOMETRY_LABELS: Record<ReportLocale, Record<string, string>> = {
@@ -61,14 +76,15 @@ export function renderObstetricStructuredReport(
     description,
     impression: description,
     recommendations: t.obstetric.recommendations,
-    citations: [
-      {
-        id: "isuog-biometry",
-        standard: "ISUOG",
-        label: "ISUOG practice guidelines for fetal biometry",
-        url: "https://www.isuog.org/",
-      },
-    ],
+    citations: mergeReportCitations(
+      [...OBSTETRIC_STATIC_CITATIONS],
+      options.evidenceRecords
+        ? mapEvidenceRecordsToReportCitations(options.evidenceRecords, {
+            max: 8,
+            standardPrefix: "EBM",
+          })
+        : [],
+    ),
     disclaimerKey: "report.assistive_footer",
     generatedAt: options.generatedAt ?? new Date().toISOString(),
     locale,

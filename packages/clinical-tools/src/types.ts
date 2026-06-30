@@ -46,7 +46,8 @@ export type MobileToolAction =
   | "nosology"
   | "clinical_ref"
   | "guidelines"
-  | "medvedev";
+  | "medvedev"
+  | "evidence_assistant";
 
 export type ClinicalTool = {
   id: string;

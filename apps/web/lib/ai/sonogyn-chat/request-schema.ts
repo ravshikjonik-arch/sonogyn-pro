@@ -16,6 +16,10 @@ export const SonogynChatRequestSchema = z.object({
   stream: z.boolean().default(false),
   images: z.array(SonogynChatImageSchema).max(4).optional(),
   modality: z.enum(["auto", "breast", "ovary", "uterus", "obstetric", "general"]).optional(),
+  /** clinical = УЗИ-классификации (default); evidence = EBM retrieval + citations */
+  mode: z.enum(["clinical", "evidence"]).default("clinical"),
+  /** In clinical mode: append compact live EBM hits to system prompt */
+  includeEvidence: z.boolean().optional(),
 });
 
 export type SonogynChatRequest = z.infer<typeof SonogynChatRequestSchema>;

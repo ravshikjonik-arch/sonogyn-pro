@@ -12,6 +12,8 @@ export {
   generateThyroidReportFromRequest,
 } from "./thyroid/renderThyroidReport";
 
+export { evaluateThyroidFromInput, mapThyroidInputToTirads } from "./thyroid/mapInput";
+
 export {
   renderObstetricStructuredDocument,
   renderObstetricStructuredReport,
@@ -38,3 +40,9 @@ export {
 
 export { getReportI18n } from "./i18n";
 export type { ReportCatalog } from "./i18n";
+
+export {
+  mapEvidenceRecordsToReportCitations,
+  mergeReportCitations,
+  type EvidenceRecordLike,
+} from "./evidence/mapEvidenceRecordsToCitations";

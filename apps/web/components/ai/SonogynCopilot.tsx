@@ -3,6 +3,7 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   ArrowUpRight,
+  BookOpen,
   Clock,
   Command,
   ImagePlus,
@@ -15,6 +16,7 @@ import {
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
+import type { AssistantAnswer } from "@repo/evidence-retrieval";
 
 import { SonogynStructuredCard } from "@/components/ai/SonogynStructuredCard";
 import { useProStatus } from "@/components/pro/use-pro-status";
@@ -27,6 +29,7 @@ import {
   extractOpenRouterChatContent,
   type OpenRouterChatCompletion,
 } from "@/lib/ai/sonogyn-chat/openrouter-client";
+import { consumeSonogynChatStream } from "@/lib/ai/sonogyn-chat/stream-client";
 import {
   prepareChatImage,
   type PreparedChatImage,
@@ -50,6 +53,7 @@ type Message = {
   pro?: boolean;
   upsell?: boolean;
   stream?: boolean;
+  evidence?: AssistantAnswer;
 };
 type HistoryItem = { id: string; title: string; ts: number };
 
@@ -60,6 +64,7 @@ const QUICK_COMMANDS: { label: string; prompt: string }[] = [
   { label: "Протокол УЗИ ОМТ", prompt: "Сформируй протокол УЗИ органов малого таза." },
   { label: "Найти пациента", prompt: "Найди пациента по фамилии." },
   { label: "BI-RADS по описанию", prompt: "Помоги определить категорию BI-RADS по описанию." },
+  { label: "EBM: доказательства", prompt: "Какие доказательства по тактике O-RADS 3?" },
 ];
 
 export function SonogynCopilot() {
@@ -81,6 +86,7 @@ export function SonogynCopilot() {
     }
   });
   const [typing, setTyping] = useState(false);
+  const [evidenceMode, setEvidenceMode] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const pushHistory = useCallback((title: string) => {
@@ -157,27 +163,32 @@ export function SonogynCopilot() {
       ]);
 
       try {
+        const useStream = evidenceMode && pendingImages.length === 0;
         const res = await fetch("/api/ai/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "same-origin",
           body: JSON.stringify({
             messages: apiMessages,
-            stream: false,
+            stream: useStream,
             images: imagesPayload.length ? imagesPayload : undefined,
             modality: "auto",
+            mode: evidenceMode ? "evidence" : "clinical",
+            includeEvidence: !evidenceMode && imagesPayload.length === 0,
           }),
         });
 
-        let errMsg = parseClientFetchError(new Error(String(res.status))).message;
-        let data: OpenRouterChatCompletion & { error?: string; code?: string } | null = null;
-        try {
-          data = (await res.json()) as OpenRouterChatCompletion & { error?: string; code?: string };
-        } catch {
-          /* non-JSON body */
-        }
-
         if (!res.ok) {
+          let errMsg = parseClientFetchError(new Error(String(res.status))).message;
+          let data: OpenRouterChatCompletion & {
+            error?: string;
+            code?: string;
+          } | null = null;
+          try {
+            data = (await res.json()) as OpenRouterChatCompletion & { error?: string; code?: string };
+          } catch {
+            /* non-JSON body */
+          }
           if (data) {
             errMsg = messageFromApiErrorBody({
               error: typeof data.error === "string" ? data.error : undefined,
@@ -185,6 +196,51 @@ export function SonogynCopilot() {
             });
           }
           throw new Error(errMsg);
+        }
+
+        if (useStream && res.headers.get("content-type")?.includes("text/event-stream")) {
+          let fullText = "";
+          const streamMeta = await consumeSonogynChatStream(res, (delta) => {
+            fullText += delta;
+            setMessages((prev) =>
+              prev.map((msg) => (msg.id === assistantId ? { ...msg, text: fullText } : msg)),
+            );
+          });
+
+          const { displayText, structured } = extractStructuredFromAssistantText(fullText);
+          const links = suggestModuleLinks(prompt);
+          setMessages((prev) =>
+            prev.map((msg) =>
+              msg.id === assistantId
+                ? {
+                    ...msg,
+                    text: displayText || fullText || "Ответ пустой — уточните запрос.",
+                    structured: streamMeta.evidence ? null : structured,
+                    links,
+                    evidence: streamMeta.evidence,
+                    stream: false,
+                  }
+                : msg,
+            ),
+          );
+          return;
+        }
+
+        let data: OpenRouterChatCompletion & {
+          error?: string;
+          code?: string;
+          evidence?: AssistantAnswer;
+          mode?: string;
+        } | null = null;
+        try {
+          data = (await res.json()) as OpenRouterChatCompletion & {
+            error?: string;
+            code?: string;
+            evidence?: AssistantAnswer;
+            mode?: string;
+          };
+        } catch {
+          /* non-JSON body */
         }
 
         const fullText = extractOpenRouterChatContent(data ?? {});
@@ -198,6 +254,7 @@ export function SonogynCopilot() {
 
         const { displayText, structured } = extractStructuredFromAssistantText(fullText);
         const links = suggestModuleLinks(prompt);
+        const evidenceAnswer = data?.mode === "evidence" ? data.evidence : undefined;
 
         setMessages((prev) =>
           prev.map((msg) =>
@@ -205,8 +262,9 @@ export function SonogynCopilot() {
               ? {
                   ...msg,
                   text: displayText || fullText || "Ответ пустой — уточните запрос.",
-                  structured,
+                  structured: evidenceAnswer ? null : structured,
                   links,
+                  evidence: evidenceAnswer,
                   stream: false,
                 }
               : msg,
@@ -226,7 +284,7 @@ export function SonogynCopilot() {
         setTyping(false);
       }
     },
-    [pushHistory, isPro, messages, pendingImages],
+    [pushHistory, isPro, messages, pendingImages, evidenceMode],
   );
 
   useEffect(() => {
@@ -371,6 +429,43 @@ export function SonogynCopilot() {
                         >
                           <p className="whitespace-pre-wrap">{m.text}</p>
                           {m.structured ? <SonogynStructuredCard data={m.structured} /> : null}
+                          {m.evidence ? (
+                            <div className="mt-3 space-y-2 border-t border-[var(--clinical-border)] pt-2">
+                              <div className="flex flex-wrap items-center gap-1.5">
+                                <span className="inline-flex items-center gap-1 rounded-full bg-emerald-600/15 px-2 py-0.5 text-[10px] font-semibold text-emerald-800 dark:text-emerald-300">
+                                  <BookOpen className="h-3 w-3" />
+                                  EBM · {m.evidence.gradeLabel}
+                                </span>
+                                <span className="text-[10px] text-[var(--clinical-foreground-muted)]">
+                                  {m.evidence.citations.length} источников
+                                </span>
+                              </div>
+                              <ul className="space-y-1.5">
+                                {m.evidence.citations.slice(0, 4).map((c) => (
+                                  <li key={c.id}>
+                                    <a
+                                      href={c.url}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="text-xs text-[var(--clinical-primary)] underline"
+                                    >
+                                      {c.title}
+                                    </a>
+                                  </li>
+                                ))}
+                              </ul>
+                              {m.evidence.citations.length > 4 ? (
+                                <Link
+                                  href="/tools/refs/evidence-assistant"
+                                  onClick={() => setOpen(false)}
+                                  className="inline-flex items-center gap-1 text-[10px] text-[var(--clinical-primary-deep)] underline"
+                                >
+                                  Все цитаты в Evidence Assistant
+                                  <ArrowUpRight className="h-3 w-3" />
+                                </Link>
+                              ) : null}
+                            </div>
+                          ) : null}
                           {m.links && m.links.length > 0 && (
                             <div className="mt-2 flex flex-wrap gap-1.5">
                               {m.links.map((l) => (
@@ -424,6 +519,26 @@ export function SonogynCopilot() {
                     )}
                   </div>
                   <div className="border-t border-[var(--clinical-border)] p-3">
+                    <div className="mb-2 flex items-center justify-between gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setEvidenceMode((v) => !v)}
+                        className={cn(
+                          "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold transition",
+                          evidenceMode
+                            ? "bg-emerald-600/15 text-emerald-800 dark:text-emerald-300"
+                            : "border border-[var(--clinical-border)] text-[var(--clinical-foreground-muted)] hover:bg-[var(--clinical-muted)]",
+                        )}
+                      >
+                        <BookOpen className="h-3.5 w-3.5" />
+                        EBM mode
+                      </button>
+                      {evidenceMode ? (
+                        <span className="text-[10px] text-[var(--clinical-foreground-muted)]">
+                          PubMed · Cochrane · WHO · NICE · EMA
+                        </span>
+                      ) : null}
+                    </div>
                     {pendingImages.length > 0 && (
                       <div className="mb-2 flex flex-wrap gap-2">
                         {pendingImages.map((img, idx) => (
@@ -495,7 +610,10 @@ export function SonogynCopilot() {
                     <button
                       key={c.label}
                       type="button"
-                      onClick={() => void send(c.prompt)}
+                      onClick={() => {
+                        if (c.label.startsWith("EBM")) setEvidenceMode(true);
+                        void send(c.prompt);
+                      }}
                       className="flex w-full items-center gap-2 rounded-xl border border-[var(--clinical-border)] bg-[var(--clinical-card)] px-3 py-2.5 text-left text-sm text-[var(--clinical-foreground)] transition hover:-translate-y-0.5 hover:shadow-md"
                     >
                       <Sparkles className="h-4 w-4 shrink-0 text-[var(--ai-indigo)]" />

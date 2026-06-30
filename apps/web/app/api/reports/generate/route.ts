@@ -3,10 +3,12 @@ import { NextResponse } from "next/server";
 
 import { isDevSkipAuthEnabled } from "@/lib/auth/dev-account";
 import {
-  generateReportDocument,
+  generateReportDocumentAsync,
   persistStructuredReport,
   resolveTemplateBySlug,
 } from "@/lib/reports/structured-reports-service";
+import { buildReportEvidenceQuery } from "@/lib/reports/fetch-report-evidence";
+import { logEvidenceQuery } from "@/lib/evidence/log-evidence-query";
 import { rejectIfRateLimitedForUser, rejectIfRateLimitedPreset } from "@/lib/security/api-rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { requireSupabaseUserFromRequest } from "@/lib/security/require-user";
@@ -35,7 +37,23 @@ export async function POST(request: Request) {
   }
 
   try {
-    const document = generateReportDocument(parsed.data);
+    const document = await generateReportDocumentAsync(parsed.data);
+
+    if (auth.ok) {
+      const ebmCitations =
+        document.output.citations?.filter((c) => c.standard?.includes("EBM")).length ?? 0;
+      const reportQuery = buildReportEvidenceQuery(parsed.data.input);
+      if (reportQuery && ebmCitations > 0) {
+        void logEvidenceQuery(supabase, {
+          userId: auth.userId,
+          query: reportQuery,
+          sources: ["sre"],
+          resultCount: ebmCitations,
+          synthesisMode: `sre-${parsed.data.input.domain}`,
+          evidenceStrength: null,
+        });
+      }
+    }
 
     if (parsed.data.preview || !auth.ok) {
       return NextResponse.json({

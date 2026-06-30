@@ -35,6 +35,7 @@ import NosologyScreen from "../screens/NosologyScreen";
 import SplashScreen, { SplashLoadingView } from "../screens/SplashScreen";
 import SupabaseAuthScreen from "../screens/SupabaseAuthScreen";
 import ClinicalGuidelineDetailScreen from "../modules/clinicalGuidelines/screens/ClinicalGuidelineDetailScreen";
+import EvidenceAssistantScreen from "../screens/EvidenceAssistantScreen";
 import ElastographyScreen from "../modules/elastography/screens/ElastographyScreen";
 import CarotidStenosisScreen from "../modules/vascular/screens/CarotidStenosisScreen";
 import { ClinicalPhiGate } from "../components/ClinicalPhiGate";
@@ -143,6 +144,7 @@ const linking: LinkingOptions<RootStackParamList> = {
       ElastographyCalc: "elastography",
       VascularCarotidCalc: "vascular/carotid",
       ClinicalGuidelineDetail: "guidelines/:guidelineId",
+      EvidenceAssistant: "evidence-assistant",
       Blocked: "blocked",
     },
   },
@@ -304,6 +306,7 @@ export default function AppStack() {
           <Stack.Screen name="ElastographyCalc" component={ElastographyScreen} />
           <Stack.Screen name="VascularCarotidCalc" component={CarotidStenosisScreen} />
           <Stack.Screen name="ClinicalGuidelineDetail" component={ClinicalGuidelineDetailScreen} />
+          <Stack.Screen name="EvidenceAssistant" component={EvidenceAssistantScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </AppGateContext.Provider>

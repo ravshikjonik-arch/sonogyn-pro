@@ -1,0 +1,98 @@
+[
+  {
+    "source": "nice",
+    "externalId": "ng126",
+    "title": "NICE NG126 · Ectopic pregnancy and miscarriage",
+    "url": "https://www.nice.org.uk/guidance/ng126",
+    "summary": "Assessment and management of early pregnancy complications including ectopic pregnancy.",
+    "year": 2019
+  },
+  {
+    "source": "nice",
+    "externalId": "ng137",
+    "title": "NICE NG137 · Hypertension in pregnancy",
+    "url": "https://www.nice.org.uk/guidance/ng137",
+    "summary": "Diagnosis and management of hypertension and pre-eclampsia in pregnancy.",
+    "year": 2019
+  },
+  {
+    "source": "nice",
+    "externalId": "ng201",
+    "title": "NICE NG201 · Gestational diabetes",
+    "url": "https://www.nice.org.uk/guidance/ng201",
+    "summary": "Risk assessment, diagnosis and management of gestational diabetes.",
+    "year": 2020
+  },
+  {
+    "source": "nice",
+    "externalId": "ng245",
+    "title": "NICE NG245 · Antenatal care",
+    "url": "https://www.nice.org.uk/guidance/ng245",
+    "summary": "Routine antenatal care for uncomplicated pregnancies.",
+    "year": 2021
+  },
+  {
+    "source": "nice",
+    "externalId": "ng248",
+    "title": "NICE NG248 · Twin and triplet pregnancy",
+    "url": "https://www.nice.org.uk/guidance/ng248",
+    "summary": "Management of multiple pregnancy including ultrasound surveillance.",
+    "year": 2021
+  },
+  {
+    "source": "who",
+    "externalId": "who-anc-2016",
+    "title": "WHO · WHO recommendations on antenatal care for a positive pregnancy experience",
+    "url": "https://www.who.int/publications/i/item/9789241549912",
+    "summary": "Evidence-based ANC recommendations including ultrasound where appropriate.",
+    "year": 2016
+  },
+  {
+    "source": "who",
+    "externalId": "who-preterm-2022",
+    "title": "WHO · Recommendations for management of preterm birth",
+    "url": "https://www.who.int/publications/i/item/9789240048988",
+    "summary": "Preterm birth prevention, diagnosis and management.",
+    "year": 2022
+  },
+  {
+    "source": "who",
+    "externalId": "who-preeclampsia-2022",
+    "title": "WHO · Recommendations for prevention and treatment of pre-eclampsia",
+    "url": "https://www.who.int/publications/i/item/9789240048414",
+    "summary": "Calcium, aspirin and magnesium sulfate in pre-eclampsia/eclampsia.",
+    "year": 2022
+  },
+  {
+    "source": "who",
+    "externalId": "who-ultrasound-2016",
+    "title": "WHO · WHO handbook for guideline development",
+    "url": "https://www.who.int/publications/i/item/9789241548960",
+    "summary": "Framework for evidence-to-decision in WHO guidelines.",
+    "year": 2016
+  },
+  {
+    "source": "ema",
+    "externalId": "amoxicillin-epar",
+    "title": "EMA EPAR · Amoxicillin",
+    "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/amoxicillin",
+    "summary": "European public assessment report — pregnancy and lactation in SmPC.",
+    "year": 2023
+  },
+  {
+    "source": "ema",
+    "externalId": "metformin-epar",
+    "title": "EMA EPAR · Metformin",
+    "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/metformin",
+    "summary": "EPAR summary — gestational diabetes off-label context in EU labels.",
+    "year": 2022
+  },
+  {
+    "source": "ema",
+    "externalId": "low-molecular-weight-heparin",
+    "title": "EMA · Low molecular weight heparins (class)",
+    "url": "https://www.ema.europa.eu/en/medicines/human/referrals/low-molecular-weight-heparins",
+    "summary": "Class referral — pregnancy thromboprophylaxis evidence summary.",
+    "year": 2021
+  }
+]

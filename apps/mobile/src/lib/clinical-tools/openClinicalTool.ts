@@ -119,6 +119,9 @@ export function openClinicalToolAction(navigation: ClinicalToolNav, action: Mobi
     case "medvedev":
       navigation.navigate("GynecologyCalc", { initialPage: "gyn_medvedev_consensus" });
       return;
+    case "evidence_assistant":
+      navigation.navigate("EvidenceAssistant");
+      return;
     default:
       return;
   }

@@ -103,6 +103,17 @@ export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
     tags: ["нормы", "ISUOG", "Hadlock"],
   },
   {
+    id: "evidence-assistant",
+    shelf: "courses",
+    title: "Evidence Assistant · AI",
+    description:
+      "Live-поиск PubMed, Cochrane, Europe PMC, Semantic Scholar, КР МЗ РФ + AI-резюме с цитатами.",
+    href: "/tools/refs/evidence-assistant",
+    tags: ["EBM", "PubMed", "Cochrane", "AI", "доказательная медицина"],
+    primary: true,
+    badge: "EBM",
+  },
+  {
     id: "evidence-us-fmf",
     shelf: "reference",
     title: "УЗИ · доказательная база",

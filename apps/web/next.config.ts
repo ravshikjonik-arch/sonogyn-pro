@@ -64,6 +64,7 @@ const nextConfig: NextConfig = {
     "@repo/obstetric-engine",
     "@repo/medical-calculations",
     "@repo/report-engine",
+    "@repo/evidence-retrieval",
     "@repo/adnex-education",
     "@repo/types",
     "@repo/orads-us",
@@ -85,6 +86,11 @@ const nextConfig: NextConfig = {
     const clinical3dSrc = path.join(__dirname, "../../packages/clinical-3d/src");
     const packagesRoot = path.join(__dirname, "../../packages");
     config.resolve ??= {};
+    config.resolve.extensionAlias = {
+      ...(config.resolve.extensionAlias ?? {}),
+      ".js": [".ts", ".tsx", ".js"],
+      ".mjs": [".mts", ".mjs"],
+    };
     const servicesRoot = path.join(__dirname, "../../services");
     const medicalKnowledge = path.join(__dirname, "../../medical-knowledge");
     config.resolve.alias = {
@@ -93,6 +99,7 @@ const nextConfig: NextConfig = {
       "@medical-knowledge": path.join(medicalKnowledge, "index.ts"),
       "@repo/medical-calculations": path.join(packagesRoot, "medical-calculations/src/index.ts"),
       "@repo/report-engine": path.join(packagesRoot, "report-engine/src/index.ts"),
+      "@repo/evidence-retrieval": path.join(packagesRoot, "evidence-retrieval/src/index.ts"),
       "@repo/types": path.join(packagesRoot, "types/src/index.ts"),
       // Явные subpath для Vercel/webpack (wildcard exports из package.json не всегда резолвятся)
       "@repo/clinical-3d/organs/ovary": path.join(clinical3dSrc, "organs/ovary/index.ts"),

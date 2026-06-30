@@ -3,6 +3,9 @@ import {
   ADNEX_ORADS_V1_TEMPLATE_SLUG,
   generateStructuredReportFromRequest,
   OBSTETRIC_BIOMETRY_V1_TEMPLATE,
+  renderAdnexStructuredDocument,
+  renderObstetricStructuredDocument,
+  renderThyroidStructuredDocument,
   THYROID_TIRADS_V1_TEMPLATE,
 } from "@repo/report-engine";
 import type {
@@ -22,6 +25,8 @@ import {
   UpdateStructuredReportBodySchema,
 } from "@repo/types";
 import type { SupabaseClient } from "@supabase/supabase-js";
+
+import { fetchEvidenceForReportInput } from "@/lib/reports/fetch-report-evidence";
 
 type DbTemplateRow = {
   id: string;
@@ -165,6 +170,36 @@ export function generateReportDocument(
     ...request,
   });
   return generateStructuredReportFromRequest(parsed);
+}
+
+export async function generateReportDocumentAsync(
+  request: Omit<GenerateStructuredReportRequest, "preview"> & { preview?: boolean },
+): Promise<StructuredReportDocument> {
+  const parsed = GenerateStructuredReportRequestSchema.parse({
+    preview: false,
+    ...request,
+  });
+
+  const enrich =
+    process.env.EVIDENCE_ENRICH_REPORTS !== "0" && process.env.EVIDENCE_ENRICH_REPORTS !== "false";
+  const evidenceRecords = enrich ? await fetchEvidenceForReportInput(parsed.input) : [];
+
+  const renderOpts = {
+    locale: parsed.locale,
+    templateSlug: parsed.templateSlug,
+    evidenceRecords,
+  };
+
+  switch (parsed.input.domain) {
+    case "adnex":
+      return renderAdnexStructuredDocument(parsed.input, renderOpts);
+    case "thyroid":
+      return renderThyroidStructuredDocument(parsed.input, renderOpts);
+    case "obstetric":
+      return renderObstetricStructuredDocument(parsed.input, renderOpts);
+    default:
+      return generateStructuredReportFromRequest(parsed);
+  }
 }
 
 function mergeEditedBlocks(
