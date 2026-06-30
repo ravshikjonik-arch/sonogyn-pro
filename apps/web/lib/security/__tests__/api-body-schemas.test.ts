@@ -18,6 +18,7 @@ import {
   SignUpBodySchema,
   StructuredReportBodySchema,
   TelegramVerifyOtpBodySchema,
+  VideoTranscodeWebhookBodySchema,
   UpdatePasswordBodySchema,
   VerifyCodeBodySchema,
   YooKassaWebhookBodySchema,
@@ -247,5 +248,23 @@ describe("StructuredReportBodySchema", () => {
   it("rejects oversized studyNotes", () => {
     const r = StructuredReportBodySchema.safeParse({ studyNotes: "x".repeat(5000) });
     assert.equal(r.success, false);
+  });
+});
+
+describe("VideoTranscodeWebhookBodySchema", () => {
+  it("requires uuid lessonId", () => {
+    const r = VideoTranscodeWebhookBodySchema.safeParse({
+      lessonId: "bad",
+      hlsPlaylistKey: "courses/x/hls/index.m3u8",
+    });
+    assert.equal(r.success, false);
+  });
+
+  it("accepts valid payload", () => {
+    const r = VideoTranscodeWebhookBodySchema.safeParse({
+      lessonId: "11111111-1111-4111-8111-111111111111",
+      hlsPlaylistKey: "courses/x/hls/index.m3u8",
+    });
+    assert.equal(r.success, true);
   });
 });

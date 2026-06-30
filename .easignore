@@ -1,0 +1,91 @@
+# EAS читает ТОЛЬКО этот файл (корень git), не apps/mobile/.easignore.
+# При наличии .easignore .gitignore НЕ применяется — дублируем важные правила ниже.
+
+# --- deps / build artifacts ---
+node_modules/
+node_modules*/
+.pnpm-store/
+.turbo/
+.expo/
+dist/
+web-build/
+.next/
+.vercel/
+.kotlin/
+*.tsbuildinfo
+.metro-health-check*
+expo-env.d.ts
+apps/mobile/dist
+apps/mobile/ios
+apps/mobile/android
+
+# --- secrets / env ---
+.env
+.env.*
+!.env.example
+.env*.local
+*.pem
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# --- vcs / os / logs ---
+.git/
+.DS_Store
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+*.orig.*
+
+# --- npm lock (монорепо на pnpm; lock ломает EAS install) ---
+package-lock.json
+**/package-lock.json
+
+# --- дубликаты Finder / копии ---
+* 2.*
+pnpm-lock 2.yaml
+
+# --- не нужно для EAS mobile (монорепо) ---
+apps/web/
+apps/video/
+apps/fetal-spine-cards/
+USTri/
+services/
+starters/
+products/
+FetalAgents/
+Echo-Alpha/
+Medical-Imaging-Diagnosis-Agent/
+medical-knowledge/
+assets/
+public/
+docs/
+scripts/
+.cursor/
+agent-transcripts/
+
+# packages: тяжёлые медиа/черновики не для APK
+packages/**/node_modules/
+packages/**/__tests__/fixtures/
+packages/**/fixtures/
+**/*.mkv
+**/*.mp4
+**/*.mov
+**/*.zip
+**/*.pdf
+
+# mobile: docs и локальный chat-server не для сборки APK
+apps/mobile/docs/
+apps/mobile/server/node_modules/
+apps/mobile/server/data/
+apps/mobile/scripts/_medvedev_extract_raw.txt
+
+# корневые картинки / черновики
+image-*.jpeg
+PROJECT_TREE.txt
+
+# тестовые артефакты web
+**/playwright-report/
+**/test-results/

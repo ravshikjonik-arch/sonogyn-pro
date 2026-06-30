@@ -3,12 +3,16 @@ import { NextResponse } from "next/server";
 import { canAccessWebinar, canHostWebinar } from "@/lib/webinars/access";
 import { getLiveKitConfig, isLiveKitConfigured, mintLiveKitToken } from "@/lib/webinars/livekit";
 import { createSupabaseRouteHandlerClient } from "@/lib/route-handler-supabase";
+import { isUuid } from "@/lib/security/uuid";
 
 type Params = { params: Promise<{ lessonId: string }> };
 
 /** Состояние вебинара для урока. */
 export async function GET(_req: Request, { params }: Params) {
   const { lessonId } = await params;
+  if (!isUuid(lessonId)) {
+    return NextResponse.json({ error: "Вебинар не найден." }, { status: 404 });
+  }
   const client = await createSupabaseRouteHandlerClient();
   if (!client.ok) {
     return NextResponse.json({ error: client.message }, { status: client.status });
@@ -87,6 +91,9 @@ export async function GET(_req: Request, { params }: Params) {
 /** LiveKit JWT для комнаты вебинара. */
 export async function POST(_req: Request, { params }: Params) {
   const { lessonId } = await params;
+  if (!isUuid(lessonId)) {
+    return NextResponse.json({ error: "Вебинар не найден." }, { status: 404 });
+  }
   const client = await createSupabaseRouteHandlerClient();
   if (!client.ok) {
     return NextResponse.json({ error: client.message }, { status: client.status });

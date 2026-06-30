@@ -1,18 +1,12 @@
 import { NextResponse } from "next/server";
-import { z } from "zod";
 
+import { VideoTranscodeWebhookBodySchema } from "@/lib/security/api-body-schemas";
 import { markLessonHlsReady } from "@/lib/video/transcode";
-
-const bodySchema = z.object({
-  lessonId: z.string().uuid(),
-  hlsPlaylistKey: z.string().min(1),
-  secret: z.string().optional(),
-});
 
 export async function POST(req: Request) {
   const expected = process.env.VIDEO_TRANSCODE_WEBHOOK_SECRET?.trim();
   const json = (await req.json().catch(() => null)) as unknown;
-  const parsed = bodySchema.safeParse(json);
+  const parsed = VideoTranscodeWebhookBodySchema.safeParse(json);
   if (!parsed.success) {
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
   }

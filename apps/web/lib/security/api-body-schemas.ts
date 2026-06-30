@@ -360,6 +360,15 @@ export const StructuredReportBodySchema = z.object({
 
 export type StructuredReportBody = z.infer<typeof StructuredReportBodySchema>;
 
+/** POST /api/webhooks/video/hls-complete */
+export const VideoTranscodeWebhookBodySchema = z.object({
+  lessonId: z.string().uuid(),
+  hlsPlaylistKey: z.string().min(1).max(512),
+  secret: z.string().max(256).optional(),
+});
+
+export type VideoTranscodeWebhookBody = z.infer<typeof VideoTranscodeWebhookBodySchema>;
+
 export async function parseJsonBody(request: Request): Promise<
   | { ok: true; data: unknown }
   | { ok: false; response: Response }

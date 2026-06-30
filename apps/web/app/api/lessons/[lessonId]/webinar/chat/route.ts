@@ -3,11 +3,15 @@ import { NextResponse } from "next/server";
 import { canAccessWebinar, canHostWebinar } from "@/lib/webinars/access";
 import { WebinarChatModerateSchema, WebinarChatPostSchema } from "@/lib/webinars/schemas";
 import { createSupabaseRouteHandlerClient } from "@/lib/route-handler-supabase";
+import { isUuid } from "@/lib/security/uuid";
 
 type Params = { params: Promise<{ lessonId: string }> };
 
 export async function GET(_req: Request, { params }: Params) {
   const { lessonId } = await params;
+  if (!isUuid(lessonId)) {
+    return NextResponse.json({ error: "Вебинар не найден." }, { status: 404 });
+  }
   const client = await createSupabaseRouteHandlerClient();
   if (!client.ok) {
     return NextResponse.json({ error: client.message }, { status: client.status });
@@ -49,6 +53,9 @@ export async function GET(_req: Request, { params }: Params) {
 
 export async function POST(req: Request, { params }: Params) {
   const { lessonId } = await params;
+  if (!isUuid(lessonId)) {
+    return NextResponse.json({ error: "Вебинар не найден." }, { status: 404 });
+  }
   const client = await createSupabaseRouteHandlerClient();
   if (!client.ok) {
     return NextResponse.json({ error: client.message }, { status: client.status });
@@ -106,6 +113,9 @@ export async function POST(req: Request, { params }: Params) {
 
 export async function PATCH(req: Request, { params }: Params) {
   const { lessonId } = await params;
+  if (!isUuid(lessonId)) {
+    return NextResponse.json({ error: "Вебинар не найден." }, { status: 404 });
+  }
   const client = await createSupabaseRouteHandlerClient();
   if (!client.ok) {
     return NextResponse.json({ error: client.message }, { status: client.status });
