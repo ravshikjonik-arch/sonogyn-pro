@@ -1,3 +1,4 @@
+import { roundMeasurementMm } from "@repo/medical-calculations";
 import { analyzeSliceHit, sliceNormToModelPosition, type SliceNorm } from "./sliceAtlas";
 import type { PathologyAnnotation, SizeMm } from "./pathologyTypes";
 
@@ -81,9 +82,9 @@ export function sampleEllipsePoints(e: SliceEllipse, n = 12): SliceNorm[] {
 }
 
 export function sizeMmFromEllipse(e: SliceEllipse): SizeMm {
-  const length = Math.max(6, Math.round(2 * e.rx * SLICE_MM_PER_NORM_X));
-  const width = Math.max(5, Math.round(2 * e.ry * SLICE_MM_PER_NORM_Y));
-  const depth = Math.max(4, Math.round(Math.min(length, width) * 0.72));
+  const length = Math.max(6, roundMeasurementMm(2 * e.rx * SLICE_MM_PER_NORM_X));
+  const width = Math.max(5, roundMeasurementMm(2 * e.ry * SLICE_MM_PER_NORM_Y));
+  const depth = Math.max(4, roundMeasurementMm(Math.min(length, width) * 0.72));
   return { length, width, depth };
 }
 

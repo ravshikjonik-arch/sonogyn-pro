@@ -1,3 +1,4 @@
+import { formatMeasurementDecimal, parseMeasurementMm } from "@repo/medical-calculations";
 import { classifyLymphNodesFromKeywords } from "../lymph-node";
 import { patternById } from "../knowledge/patterns";
 import type { TiradsAcrInput } from "../types";
@@ -43,8 +44,11 @@ export function parseTiradsFreeText(text: string): { parsed: Partial<TiradsAcrIn
   }
   const size = text.match(/(\d+(?:[.,]\d+)?)\s*мм/i);
   if (size) {
-    parsed.largestDiameterMm = parseFloat(size[1]!.replace(",", "."));
-    keywords.push(`размер ${size[1]} мм`);
+    const sizeMm = parseMeasurementMm(size[1]!);
+    if (sizeMm != null) {
+      parsed.largestDiameterMm = sizeMm;
+      keywords.push(`размер ${formatMeasurementDecimal(sizeMm)} мм`);
+    }
   }
   parsed.lymphNodes = classifyLymphNodesFromKeywords(text);
   return { parsed, keywords };

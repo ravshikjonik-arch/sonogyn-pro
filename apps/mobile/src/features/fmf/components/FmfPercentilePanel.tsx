@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 
+import { formatMeasurementDecimal } from "@repo/medical-calculations";
 import type { CategoricalResult, PercentileResult } from "@repo/fmf";
 import { FMF_ENGINE_DISCLAIMER } from "@repo/fmf";
 
@@ -11,7 +12,7 @@ function flagStyle(flag?: PercentileResult["flag"]) {
 }
 
 function fmt(n: number | undefined): string {
-  return n != null && Number.isFinite(n) ? String(n) : "—";
+  return n != null && Number.isFinite(n) ? formatMeasurementDecimal(n) : "—";
 }
 
 export function FmfPercentilePanel({

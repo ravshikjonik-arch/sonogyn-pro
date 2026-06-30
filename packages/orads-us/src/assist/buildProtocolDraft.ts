@@ -1,4 +1,5 @@
 import type { OradsExtractedInput } from "../parseOradsProtocolText";
+import { formatMeasurementDecimal, formatMm } from "@repo/medical-calculations";
 
 export const ORADS_PROTOCOL_DRAFT_DISCLAIMER =
   "Черновик по диктовке — не диагноз. Категория O-RADS только после верификации врачом в калькуляторе.";
@@ -26,10 +27,10 @@ export function buildOradsProtocolDraft(text: string, extracted: OradsExtractedI
             : "образование";
 
   const sizeParts: string[] = [];
-  if (extracted.lengthMm) sizeParts.push(`L ${extracted.lengthMm} мм`);
-  if (extracted.widthMm) sizeParts.push(`W ${extracted.widthMm} мм`);
-  if (extracted.heightMm) sizeParts.push(`H ${extracted.heightMm} мм`);
-  if (!sizeParts.length && extracted.diameterMm) sizeParts.push(`макс. ${extracted.diameterMm} мм`);
+  if (extracted.lengthMm) sizeParts.push(`L ${formatMeasurementDecimal(extracted.lengthMm)} мм`);
+  if (extracted.widthMm) sizeParts.push(`W ${formatMeasurementDecimal(extracted.widthMm)} мм`);
+  if (extracted.heightMm) sizeParts.push(`H ${formatMeasurementDecimal(extracted.heightMm)} мм`);
+  if (!sizeParts.length && extracted.diameterMm) sizeParts.push(`макс. ${formatMeasurementDecimal(extracted.diameterMm)} мм`);
   const sizeLine = sizeParts.length ? sizeParts.join(", ") : "размеры уточнить";
 
   const lines = [
@@ -45,7 +46,7 @@ export function buildOradsProtocolDraft(text: string, extracted: OradsExtractedI
   if (extracted.septations === "thick") lines.push("Утолщённые перегородки.");
   if (extracted.solidComponent) {
     const mm =
-      extracted.solidComponentMm !== undefined ? ` (${extracted.solidComponentMm} мм)` : "";
+      extracted.solidComponentMm !== undefined ? ` (${formatMm(extracted.solidComponentMm)})` : "";
     lines.push(`Отмечается солидный компонент${mm} — оценить по O-RADS US v2022.`);
   }
   if (extracted.vascularity === "none") lines.push("Кровоток по ЦДК не определяется.");

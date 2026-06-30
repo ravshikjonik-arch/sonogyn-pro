@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import Svg, { Circle, Defs, LinearGradient, Path, Rect, Stop, Text as SvgText } from "react-native-svg";
 import { evaluateFigoFibroid, type EndometriumRelation, type FibroidLocation, type SerosaRelation } from "./figoFibroid";
+import { formatMeasurementDecimal, roundMeasurementMm } from "@repo/medical-calculations";
 import { buildUterineTapLocalization } from "./uterusFigoLocalization";
 
 type FigoPoint = {
@@ -91,9 +92,10 @@ function formatLocation(location: FibroidLocation) {
 }
 
 function buildSizeString(diameterMm: number) {
-  const d2 = Math.max(1, Math.round(diameterMm * 0.82));
-  const d3 = Math.max(1, Math.round(diameterMm * 0.76));
-  return `${diameterMm}x${d2}x${d3} мм`;
+  const d1 = formatMeasurementDecimal(diameterMm);
+  const d2 = formatMeasurementDecimal(Math.max(1, roundMeasurementMm(diameterMm * 0.82)));
+  const d3 = formatMeasurementDecimal(Math.max(1, roundMeasurementMm(diameterMm * 0.76)));
+  return `${d1}×${d2}×${d3} мм`;
 }
 
 function UterusCanvas({
@@ -334,7 +336,7 @@ export default function FigoFibroidInteractive({ onBack, backLabel, onSnapshot }
         <View style={styles.controls}>
           <View style={styles.metricCard}>
             <Text style={styles.metricLabel}>Условный размер узла</Text>
-            <Text style={styles.metricValue}>{diameterMm} мм</Text>
+            <Text style={styles.metricValue}>{formatMeasurementDecimal(diameterMm)} мм</Text>
             <View style={styles.sizeRow}>
               <Pressable style={styles.roundBtn} onPress={() => setDiameterMm((v) => clamp(v - 5, 5, 140))}>
                 <Text style={styles.roundBtnText}>−</Text>

@@ -1,3 +1,4 @@
+import { formatMeasurementDecimal } from "@repo/medical-calculations";
 import type { UltrasoundProtocolPayload } from "@repo/types";
 import { isSafeClinicalImageDataUrl } from "@repo/types";
 
@@ -86,7 +87,7 @@ export function buildStudyReportHtml(input: PdfReportInput): string {
 
 function fmtMm(v?: number): string {
   if (v == null || !Number.isFinite(v)) return "—";
-  return `${v} мм`;
+  return `${formatMeasurementDecimal(v)} мм`;
 }
 
 function organLabel(key: string): string {

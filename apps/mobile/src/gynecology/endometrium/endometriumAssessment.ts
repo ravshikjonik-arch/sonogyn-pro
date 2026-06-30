@@ -3,6 +3,8 @@
  * Учебный CDS; окончательное решение — врач.
  */
 
+import { formatMeasurementDecimal, roundMeasurementMm } from "@repo/medical-calculations";
+
 export const ENDOMETRIUM_SOURCE =
   "ISUOG Practice Guidelines (Van den Bosch et al.); КР РФ (гиперплазия эндометрия, РЭ тела матки); адаптация M.N. Bulanov.";
 
@@ -90,21 +92,17 @@ const ISUOG_MEASUREMENT_RULES = [
   "Эхогенность жидкости в полости указать (анэхогенная / гипоэхогенная / геморрагическая).",
 ];
 
-function round01(v: number) {
-  return Math.round(v * 10) / 10;
-}
-
 export function computeEffectiveThicknessMm(input: EndometriumAssessmentInput): number | null {
   if (input.focalLesionPresent && input.focalLesionDiameterMm && input.focalLesionDiameterMm > 0) {
     const layers = (input.layer1Mm ?? 0) + (input.layer2Mm ?? 0);
-    if (layers > 0) return round01(layers + input.focalLesionDiameterMm);
+    if (layers > 0) return roundMeasurementMm(layers + input.focalLesionDiameterMm);
   }
   if (input.fluidInCavity !== "none") {
     const l1 = input.layer1Mm;
     const l2 = input.layer2Mm;
-    if (l1 != null && l2 != null && l1 > 0 && l2 > 0) return round01(l1 + l2);
+    if (l1 != null && l2 != null && l1 > 0 && l2 > 0) return roundMeasurementMm(l1 + l2);
   }
-  if (input.thicknessMm != null && input.thicknessMm > 0) return round01(input.thicknessMm);
+  if (input.thicknessMm != null && input.thicknessMm > 0) return roundMeasurementMm(input.thicknessMm);
   return null;
 }
 
@@ -300,7 +298,7 @@ export function buildEndometriumProtocol(input: EndometriumAssessmentInput): str
     "ИЗМЕРЕНИЕ M-ЭХО (ISUOG)",
     ...ISUOG_MEASUREMENT_RULES.map((r) => `• ${r}`),
     "",
-    eff != null ? `Эффективная толщина эндометрия: ${eff} мм.` : "Толщина: не рассчитана.",
+    eff != null ? `Эффективная толщина эндометрия: ${formatMeasurementDecimal(eff)} мм.` : "Толщина: не рассчитана.",
   ];
 
   if (input.fluidInCavity !== "none") {
@@ -312,13 +310,13 @@ export function buildEndometriumProtocol(input: EndometriumAssessmentInput): str
           : "геморрагическая";
     lines.push(`Жидкость в полости: ${fluidRu}.`);
     if (input.layer1Mm && input.layer2Mm) {
-      lines.push(`Слои: ${input.layer1Mm} + ${input.layer2Mm} мм.`);
+      lines.push(`Слои: ${formatMeasurementDecimal(input.layer1Mm!)} + ${formatMeasurementDecimal(input.layer2Mm!)} мм.`);
     }
   }
 
   if (input.focalLesionPresent) {
     lines.push(
-      `Внутриматочное образование: да${input.focalLesionDiameterMm ? `, диаметр в сагиттали ${input.focalLesionDiameterMm} мм` : ""}.`,
+      `Внутриматочное образование: да${input.focalLesionDiameterMm ? `, диаметр в сагиттали ${formatMeasurementDecimal(input.focalLesionDiameterMm)} мм` : ""}.`,
     );
   }
   if (input.intracavitaryMyomaPresent) {

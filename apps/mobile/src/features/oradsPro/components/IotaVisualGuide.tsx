@@ -1,5 +1,6 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import Svg, { Circle, Defs, G, LinearGradient, Path, Rect, Stop, Text as SvgText } from "react-native-svg";
+import { formatMm } from "@repo/medical-calculations";
 import type { IotaLesionType, OradsInput } from "../types";
 
 type Props = {
@@ -217,7 +218,7 @@ function TextSvg({ x, y, text, color }: { x: number; y: number; text: string; co
 
 function selectedValueForTerm(termKey: string, input: OradsInput) {
   if (termKey === "lesion" && input.iotaLesionType) return lesionLabels[input.iotaLesionType];
-  if (termKey === "solid" && input.largestSolidDiameterMm) return `${input.largestSolidDiameterMm} мм`;
+  if (termKey === "solid" && input.largestSolidDiameterMm) return formatMm(input.largestSolidDiameterMm);
   if (termKey === "papillary" && input.papillaryProjectionCount) return input.papillaryProjectionCount === "4plus" ? ">=4" : input.papillaryProjectionCount;
   if (termKey === "locules" && typeof input.cystLoculesOver10 === "boolean") return input.cystLoculesOver10 ? ">10" : "<=10 / нет";
   if (termKey === "shadow" && typeof input.acousticShadows === "boolean") return input.acousticShadows ? "есть" : "нет";

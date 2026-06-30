@@ -13,6 +13,9 @@
     "typecheck": "tsc --noEmit",
     "test": "node --import tsx --test src/figoClassifier.test.ts"
   },
+  "dependencies": {
+    "@repo/medical-calculations": "workspace:*"
+  },
   "peerDependencies": {
     "@react-three/drei": ">=10",
     "@react-three/fiber": ">=9",

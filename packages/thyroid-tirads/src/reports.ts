@@ -1,4 +1,5 @@
 import type { TiradsRuInput, TiradsRuResult } from "./types";
+import { formatMm } from "@repo/medical-calculations";
 import { DESCRIPTOR_LABELS } from "./constants";
 
 export function buildClinicalProtocolText(input: {
@@ -22,7 +23,7 @@ export function buildClinicalProtocolText(input: {
     i.vascularization
       ? `  Васкуляризация: ${DESCRIPTOR_LABELS.vascularization[i.vascularization]}`
       : null,
-    i.largestDiameterMm !== undefined ? `  Наибольший размер: ${i.largestDiameterMm} мм` : null,
+    i.largestDiameterMm !== undefined ? `  Наибольший размер: ${formatMm(i.largestDiameterMm)}` : null,
     i.highRiskPatient ? "  Группа повышенного риска: да" : null,
     i.suspiciousLymphNodes ? "  Подозрительные регионарные ЛУ: да" : null,
     "",
@@ -52,7 +53,7 @@ export function buildPatientSheetText(input: {
     `Категория по шкале TI-RADS: ${input.result.category}`,
     `Что это значит: ${input.result.categoryLabel}`,
     input.largestDiameterMm !== undefined
-      ? `Размер узла: ${input.largestDiameterMm} мм`
+      ? `Размер узла: ${formatMm(input.largestDiameterMm)}`
       : null,
     "",
     input.result.fnaRecommended
@@ -67,7 +68,7 @@ export function buildPatientSheetText(input: {
 }
 
 export function buildProtocolOneLiner(result: TiradsRuResult, sizeMm?: number): string {
-  const size = sizeMm !== undefined ? `, ${sizeMm} мм` : "";
+  const size = sizeMm !== undefined ? `, ${formatMm(sizeMm)}` : "";
   const fna = result.fnaRecommended ? "ТАБ показана/рассматривается" : "ТАБ не требуется по порогам";
   return `ЩЖ · ${result.categoryLabel}${size}. ${fna}.`;
 }

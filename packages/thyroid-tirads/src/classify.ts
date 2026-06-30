@@ -1,4 +1,5 @@
 import type { TiradsRuCategory, TiradsRuInput, TiradsRuResult } from "./types";
+import { formatMm } from "@repo/medical-calculations";
 
 const CATEGORY_META: Record<
   TiradsRuCategory,
@@ -87,7 +88,7 @@ function fnaDecision(
   input: TiradsRuInput,
 ): { recommended: boolean; rationale: string } {
   const d = input.largestDiameterMm;
-  const sizeText = d !== undefined && Number.isFinite(d) ? `${d} мм` : "размер не указан";
+  const sizeText = d !== undefined && Number.isFinite(d) ? formatMm(d) : "размер не указан";
 
   if (category === "1" || category === "2") {
     return { recommended: false, rationale: "ТАБ по TI-RADS обычно не показана." };

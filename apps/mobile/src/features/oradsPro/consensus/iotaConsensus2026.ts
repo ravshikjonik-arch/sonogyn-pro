@@ -1,4 +1,5 @@
 import type { IotaColorScore, IotaLesionType, OradsInput, OradsResult, UnilocularSubtype } from "../types";
+import { formatMeasurementDecimal, formatMm } from "@repo/medical-calculations";
 
 export const IOTA_CONSENSUS_2026 = {
   title:
@@ -81,11 +82,11 @@ function fmtSize(input: OradsInput) {
     (v): v is number => typeof v === "number" && Number.isFinite(v) && v > 0
   );
   if (values.length === 0) return "не заполнено";
-  return `${values.join(" x ")} мм`;
+  return `${values.map((v) => formatMeasurementDecimal(v)).join(" × ")} мм`;
 }
 
 function fmtMm(value?: number) {
-  return typeof value === "number" && Number.isFinite(value) && value > 0 ? `${value} мм` : "не заполнено";
+  return typeof value === "number" && Number.isFinite(value) && value > 0 ? formatMm(value) : "не заполнено";
 }
 
 function deriveLesionType(input: OradsInput): IotaLesionType | undefined {

@@ -3,6 +3,7 @@
  * Образовательный расчёт; клинические решения — врачу.
  */
 
+import { formatMm } from "@repo/medical-calculations";
 import {
   ACR_TIRADS_VERSION,
   evaluateAcrTirads,
@@ -225,7 +226,7 @@ export function buildTiradsReportText(input: TiradsInput, res: TiradsResult): st
     `- Контур: ${RU_MARGIN[input.margin]}`,
     `- Эхогенные включения: ${RU_FOCI[input.echogenicFoci]}`,
     input.largestDiameterMm != null && Number.isFinite(input.largestDiameterMm)
-      ? `- Наибольший размер: ${input.largestDiameterMm} мм`
+      ? `- Наибольший размер: ${formatMm(input.largestDiameterMm)}`
       : "- Наибольший размер: не указан",
     "",
     res.riskNarrative,

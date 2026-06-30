@@ -1,15 +1,16 @@
 import { Vector3 } from "three";
 import { formatFigoProtocolLine, formatFigoSonoGynBlock, getFigoAtlasEntryForType } from "@repo/clinical-3d";
+import { formatMeasurementDecimal } from "@repo/medical-calculations";
 import { computeFibroidClinicalMetrics } from "./clinicalFibroidLogic";
 import { analyzeUterusHit } from "./figoHitMapping";
 import { enrichAnnotationFromSlice } from "./sliceAtlas";
 import { PATHOLOGY_LABELS_RU, type PathologyAnnotation, type PathologyType } from "./pathologyTypes";
 
 function fmtSize(s: { length: number; width: number; depth: number }): string {
-  const L = Math.round(s.length);
-  const W = Math.round(s.width);
-  const D = Math.round(s.depth);
-  if (D > 0 && D !== L && D !== W) return `${L}×${W}×${D} мм`;
+  const L = formatMeasurementDecimal(s.length);
+  const W = formatMeasurementDecimal(s.width);
+  const D = formatMeasurementDecimal(s.depth);
+  if (s.depth > 0 && D !== L && D !== W) return `${L}×${W}×${D} мм`;
   return `${L}×${W} мм`;
 }
 
@@ -19,9 +20,9 @@ function myomaLine(a: PathologyAnnotation): string {
   const figo = a.figoOverride ?? a.figoType ?? m.figoType;
   const loc = a.localizationRu ?? m.localizationRu;
   const shapeNote = a.sliceStroke
-    ? ` (контур на срезе ${Math.round(a.sizeMm.length)}×${Math.round(a.sizeMm.width)} мм)`
+    ? ` (контур на срезе ${formatMeasurementDecimal(a.sizeMm.length)}×${formatMeasurementDecimal(a.sizeMm.width)} мм)`
     : a.sliceShape
-      ? ` (контур на срезе ${Math.round(a.sizeMm.length)}×${Math.round(a.sizeMm.width)} мм)`
+      ? ` (контур на срезе ${formatMeasurementDecimal(a.sizeMm.length)}×${formatMeasurementDecimal(a.sizeMm.width)} мм)`
       : "";
   const sizeLine = `размеры ${fmtSize(a.sizeMm)}${shapeNote}`;
   const headline = formatFigoProtocolLine(figo, a.figoVariant, loc, sizeLine);

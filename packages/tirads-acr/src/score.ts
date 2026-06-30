@@ -1,4 +1,5 @@
 import { categoryMeta } from "./categories";
+import { formatMm } from "@repo/medical-calculations";
 import {
   COMPOSITION_OPTIONS,
   ECHOGENICITY_OPTIONS,
@@ -66,7 +67,7 @@ export function evaluateAcrTirads(input: TiradsAcrInput): TiradsAcrResult {
   ];
 
   if (input.largestDiameterMm !== undefined) {
-    rationale.push(`Размер: ${input.largestDiameterMm} мм`);
+    rationale.push(`Размер: ${formatMm(input.largestDiameterMm)}`);
   }
   if (lnNote) rationale.push(lnNote);
 

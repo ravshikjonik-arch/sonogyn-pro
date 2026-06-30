@@ -1,4 +1,5 @@
 import type { TiradsAcrCategory } from "./types";
+import { formatMm } from "@repo/medical-calculations";
 
 export function decideFnaAndFollowUp(
   category: TiradsAcrCategory,
@@ -10,7 +11,7 @@ export function decideFnaAndFollowUp(
   observationRecommendation: string;
 } {
   const sizeText =
-    sizeMm !== undefined && Number.isFinite(sizeMm) ? `${sizeMm} мм` : "размер не указан — укажите наибольший диаметр";
+    sizeMm !== undefined && Number.isFinite(sizeMm) ? formatMm(sizeMm) : "размер не указан — укажите наибольший диаметр";
 
   switch (category) {
     case "TR1":

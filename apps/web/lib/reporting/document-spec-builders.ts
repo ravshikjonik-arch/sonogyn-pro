@@ -1,4 +1,5 @@
 import type { UltrasoundProtocolPayload } from "@repo/types";
+import { formatMeasurementDecimal } from "@repo/medical-calculations";
 
 import { buildAssistantProtocolText } from "@/lib/clinical-assistant/build-protocol";
 import type { ObgynNosologyCard } from "@/lib/clinical-assistant";
@@ -75,7 +76,7 @@ export function studyProtocolToDocumentSpec(input: PdfReportInput): ClinicalDocu
 }
 
 function fmt(v?: number) {
-  return v != null && Number.isFinite(v) ? `${v} мм` : "—";
+  return v != null && Number.isFinite(v) ? `${formatMeasurementDecimal(v)} мм` : "—";
 }
 
 function organRu(key: string) {

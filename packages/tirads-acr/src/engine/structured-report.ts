@@ -1,5 +1,6 @@
 import { defaultTiradsAcrInput, evaluateAcrTirads } from "../score";
 import type { TiradsAcrInput } from "../types";
+import { formatMm } from "@repo/medical-calculations";
 import { COMPOSITION_OPTIONS, ECHOGENICITY_OPTIONS, ECHOGENIC_FOCI_OPTIONS, MARGIN_OPTIONS, SHAPE_OPTIONS } from "../lexicon";
 
 export function mergeTiradsInput(parsed: Partial<TiradsAcrInput>, base: TiradsAcrInput = defaultTiradsAcrInput): TiradsAcrInput {
@@ -33,7 +34,7 @@ export function generateStructuredThyroidReport(input: TiradsAcrInput) {
     `Shape: ${labelFor(SHAPE_OPTIONS, input.shape)} (+${result.scoreBreakdown.shape})`,
     `Margin: ${labelFor(MARGIN_OPTIONS, input.margin)} (+${result.scoreBreakdown.margin})`,
     `Echogenic foci: ${labelFor(ECHOGENIC_FOCI_OPTIONS, input.echogenicFoci)} (+${result.scoreBreakdown.echogenicFoci})`,
-    input.largestDiameterMm !== undefined ? `Наибольший диаметр: ${input.largestDiameterMm} мм` : "Размер: не указан",
+    input.largestDiameterMm !== undefined ? `Наибольший диаметр: ${formatMm(input.largestDiameterMm)}` : "Размер: не указан",
     "",
     "РЕГИОНАРНЫЕ ЛИМФОУЗЛЫ",
     result.lymphNodeNote ?? "Не оценивались.",
