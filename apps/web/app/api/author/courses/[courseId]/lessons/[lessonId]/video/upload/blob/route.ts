@@ -1,13 +1,18 @@
 import { handleUpload, type HandleUploadBody } from "@vercel/blob/client";
 import { NextResponse } from "next/server";
 
-import { withAuthorCourseApi } from "@/lib/courses/api-handler";
+import { withAuthorLessonCourseApi } from "@/lib/courses/api-handler";
 import {
   ALLOWED_VIDEO_MIME,
   MAX_LESSON_VIDEO_BYTES,
   isObjectStorageConfigured,
   readStorageConfig,
 } from "@/lib/storage/config";
+import {
+  AuthorVideoBlobUploadBodySchema,
+  parseJsonBody,
+  zodErrorResponse,
+} from "@/lib/security/api-body-schemas";
 
 type Params = { params: Promise<{ courseId: string; lessonId: string }> };
 
@@ -15,13 +20,19 @@ type Params = { params: Promise<{ courseId: string; lessonId: string }> };
 export async function POST(req: Request, { params }: Params) {
   const { courseId, lessonId } = await params;
 
-  return withAuthorCourseApi(courseId, async () => {
+  return withAuthorLessonCourseApi(courseId, lessonId, async () => {
     const cfg = readStorageConfig();
     if (cfg.provider !== "vercel-blob" || !isObjectStorageConfigured()) {
       return NextResponse.json({ error: "Vercel Blob не настроен (BLOB_READ_WRITE_TOKEN)." }, { status: 503 });
     }
 
-    const body = (await req.json()) as HandleUploadBody;
+    const parsedJson = await parseJsonBody(req);
+    if (!parsedJson.ok) return parsedJson.response;
+
+    const parsed = AuthorVideoBlobUploadBodySchema.safeParse(parsedJson.data);
+    if (!parsed.success) return zodErrorResponse(parsed.error);
+
+    const body = parsed.data as HandleUploadBody;
 
     try {
       const jsonResponse = await handleUpload({

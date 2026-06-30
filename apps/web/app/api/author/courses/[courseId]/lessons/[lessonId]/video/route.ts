@@ -1,13 +1,13 @@
 import { NextResponse } from "next/server";
 
-import { withAuthorCourseApi } from "@/lib/courses/api-handler";
+import { withAuthorLessonCourseApi } from "@/lib/courses/api-handler";
 import { uploadCourseLessonVideo } from "@/lib/courses/storage";
 
 type Params = { params: Promise<{ courseId: string; lessonId: string }> };
 
 export async function POST(req: Request, { params }: Params) {
   const { courseId, lessonId } = await params;
-  return withAuthorCourseApi(courseId, async ({ supabase, userId }) => {
+  return withAuthorLessonCourseApi(courseId, lessonId, async ({ supabase, userId }) => {
     const form = await req.formData();
     const file = form.get("file");
     if (!(file instanceof File)) {

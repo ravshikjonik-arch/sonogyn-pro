@@ -1,14 +1,11 @@
 import { NextResponse } from "next/server";
-import { z } from "zod";
 
-import { withAuthorCourseApi } from "@/lib/courses/api-handler";
-
-const bodySchema = z.object({
-  url: z.string().url(),
-  mimeType: z.string().min(1),
-  fileSize: z.number().int().positive(),
-  fileName: z.string().min(1),
-});
+import { withAuthorLessonCourseApi } from "@/lib/courses/api-handler";
+import {
+  AuthorVideoBlobCompleteBodySchema,
+  parseJsonBody,
+  zodErrorResponse,
+} from "@/lib/security/api-body-schemas";
 
 type Params = { params: Promise<{ courseId: string; lessonId: string }> };
 
@@ -16,12 +13,12 @@ type Params = { params: Promise<{ courseId: string; lessonId: string }> };
 export async function POST(req: Request, { params }: Params) {
   const { courseId, lessonId } = await params;
 
-  return withAuthorCourseApi(courseId, async ({ supabase }) => {
-    const json = (await req.json().catch(() => null)) as unknown;
-    const parsed = bodySchema.safeParse(json);
-    if (!parsed.success) {
-      return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
-    }
+  return withAuthorLessonCourseApi(courseId, lessonId, async ({ supabase }) => {
+    const parsedJson = await parseJsonBody(req);
+    if (!parsedJson.ok) return parsedJson.response;
+
+    const parsed = AuthorVideoBlobCompleteBodySchema.safeParse(parsedJson.data);
+    if (!parsed.success) return zodErrorResponse(parsed.error);
 
     const { error } = await supabase
       .from("course_lessons")

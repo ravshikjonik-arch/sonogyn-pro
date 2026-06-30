@@ -3,6 +3,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 
 import { assertCourseAccess, requireAuthorUser } from "@/lib/courses/access";
 import { createSupabaseRouteHandlerClient } from "@/lib/route-handler-supabase";
+import { isUuid } from "@/lib/security/uuid";
 
 type AuthorCtx = {
   supabase: SupabaseClient;
@@ -33,9 +34,24 @@ export async function withAuthorCourseApi(
   courseId: string,
   handler: (ctx: AuthorCtx) => Promise<NextResponse>,
 ): Promise<NextResponse> {
+  if (!isUuid(courseId)) {
+    return NextResponse.json({ error: "Курс не найден." }, { status: 404 });
+  }
   return withAuthorApi(async ({ supabase, userId, role }) => {
     const access = await assertCourseAccess(supabase, userId, courseId, role);
     if (!access.ok) return access.response;
     return handler({ supabase, userId, role });
   });
+}
+
+/** Author routes scoped to a lesson under a course. */
+export async function withAuthorLessonCourseApi(
+  courseId: string,
+  lessonId: string,
+  handler: (ctx: AuthorCtx) => Promise<NextResponse>,
+): Promise<NextResponse> {
+  if (!isUuid(lessonId)) {
+    return NextResponse.json({ error: "Урок не найден." }, { status: 404 });
+  }
+  return withAuthorCourseApi(courseId, handler);
 }

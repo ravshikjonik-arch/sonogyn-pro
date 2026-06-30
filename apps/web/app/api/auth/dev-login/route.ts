@@ -3,6 +3,11 @@ import { NextResponse } from "next/server";
 import { ensureDevUserExists, getDevLoginConfig, isDevAutoLoginEnabled, signInDevUserViaAdminLink } from "@/lib/auth/dev-account";
 import { safeInternalPath } from "@/lib/nav/safe-redirect";
 import {
+  DevLoginPostBodySchema,
+  parseJsonBodyOrEmpty,
+  zodErrorResponse,
+} from "@/lib/security/api-body-schemas";
+import {
   createSupabaseRouteHandlerClient,
   nextJsonWithAuthCookies,
 } from "@/lib/route-handler-supabase";
@@ -105,6 +110,12 @@ export async function POST(req: Request) {
   if (!isDevAutoLoginEnabled()) {
     return NextResponse.json({ error: "Dev auto-login disabled" }, { status: 404 });
   }
+
+  const parsedJson = await parseJsonBodyOrEmpty(req);
+  if (!parsedJson.ok) return parsedJson.response;
+
+  const parsedBody = DevLoginPostBodySchema.safeParse(parsedJson.data ?? {});
+  if (!parsedBody.success) return zodErrorResponse(parsedBody.error);
 
   const config = getDevLoginConfig();
   if (!config) {

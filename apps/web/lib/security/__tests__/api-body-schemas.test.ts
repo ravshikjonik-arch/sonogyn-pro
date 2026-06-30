@@ -7,6 +7,9 @@ import {
   CopilotStudyCreateBodySchema,
   ForgotPasswordBodySchema,
   InternalNotifyBodySchema,
+  AuthorVideoUploadInitBodySchema,
+  DevLoginPostBodySchema,
+  E2eAppointmentCreateBodySchema,
   MobileExchangeBodySchema,
   MfaVerifyLoginBodySchema,
   NosologyAssistBodySchema,
@@ -265,6 +268,40 @@ describe("VideoTranscodeWebhookBodySchema", () => {
       lessonId: "11111111-1111-4111-8111-111111111111",
       hlsPlaylistKey: "courses/x/hls/index.m3u8",
     });
+    assert.equal(r.success, true);
+  });
+});
+
+describe("AuthorVideoUploadInitBodySchema", () => {
+  it("rejects invalid mime", () => {
+    const r = AuthorVideoUploadInitBodySchema.safeParse({
+      fileName: "lesson.mp4",
+      fileSize: 1024,
+      mimeType: "video/avi",
+    });
+    assert.equal(r.success, false);
+  });
+
+  it("accepts mp4 upload", () => {
+    const r = AuthorVideoUploadInitBodySchema.safeParse({
+      fileName: "lesson.mp4",
+      fileSize: 1024,
+      mimeType: "video/mp4",
+    });
+    assert.equal(r.success, true);
+  });
+});
+
+describe("DevLoginPostBodySchema", () => {
+  it("accepts empty body", () => {
+    const r = DevLoginPostBodySchema.safeParse({});
+    assert.equal(r.success, true);
+  });
+});
+
+describe("E2eAppointmentCreateBodySchema", () => {
+  it("accepts partial appointment fields", () => {
+    const r = E2eAppointmentCreateBodySchema.safeParse({ time: "14:00" });
     assert.equal(r.success, true);
   });
 });

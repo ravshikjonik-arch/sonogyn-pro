@@ -3,13 +3,11 @@ import { NextResponse } from "next/server";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { requireAdminRole } from "@/lib/security/require-clinical-role";
+import { isUuid } from "@/lib/security/uuid";
 import { createServiceRoleClient } from "@/utils/supabase/admin";
 import { createClient } from "@/utils/supabase/server";
 
 type Params = { userId: string };
-
-const UUID_RE =
-  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 /**
  * Admin: revoke all Supabase refresh tokens for a user (e.g. lost device).
@@ -18,7 +16,7 @@ const UUID_RE =
 export async function POST(_request: Request, context: { params: Promise<Params> }) {
   const { userId: targetUserId } = await context.params;
 
-  if (!UUID_RE.test(targetUserId)) {
+  if (!isUuid(targetUserId)) {
     return NextResponse.json({ error: "Invalid user id" }, { status: 400 });
   }
 

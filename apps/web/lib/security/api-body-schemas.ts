@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { MAX_ULTRASOUND_IMAGE_BYTES } from "@/lib/security/file-validation";
+import { ALLOWED_VIDEO_MIME, MAX_LESSON_VIDEO_BYTES } from "@/lib/storage/config";
 
 /** POST /api/auth/forgot-password */
 export const ForgotPasswordBodySchema = z.object({
@@ -369,12 +370,119 @@ export const VideoTranscodeWebhookBodySchema = z.object({
 
 export type VideoTranscodeWebhookBody = z.infer<typeof VideoTranscodeWebhookBodySchema>;
 
+const SAFE_UPLOAD_FILE_NAME_VIDEO = /^[\w.\-()+ ]{1,255}$/;
+
+/** POST /api/author/.../video/upload/init */
+export const AuthorVideoUploadInitBodySchema = z.object({
+  fileName: z
+    .string()
+    .min(1)
+    .max(255)
+    .regex(SAFE_UPLOAD_FILE_NAME_VIDEO, "Недопустимое имя файла"),
+  fileSize: z.number().int().min(1).max(MAX_LESSON_VIDEO_BYTES),
+  mimeType: z.string().min(1).max(128).refine((v) => ALLOWED_VIDEO_MIME.has(v), {
+    message: "Допустимы только video/mp4 и video/webm.",
+  }),
+});
+
+/** POST /api/author/.../video/upload/blob/complete */
+export const AuthorVideoBlobCompleteBodySchema = z.object({
+  url: z.string().url().max(2048),
+  mimeType: z.string().min(1).max(128).refine((v) => ALLOWED_VIDEO_MIME.has(v), {
+    message: "Допустимы только video/mp4 и video/webm.",
+  }),
+  fileSize: z.number().int().positive().max(MAX_LESSON_VIDEO_BYTES),
+  fileName: z
+    .string()
+    .min(1)
+    .max(255)
+    .regex(SAFE_UPLOAD_FILE_NAME_VIDEO, "Недопустимое имя файла"),
+});
+
+/** POST /api/author/.../video/upload/sign-part */
+export const AuthorVideoMultipartSignPartBodySchema = z.object({
+  key: z.string().min(1).max(512),
+  uploadId: z.string().min(1).max(256),
+  partNumber: z.number().int().min(1).max(10_000),
+});
+
+/** POST /api/author/.../video/upload/complete */
+export const AuthorVideoMultipartCompleteBodySchema = z.object({
+  key: z.string().min(1).max(512),
+  uploadId: z.string().min(1).max(256),
+  parts: z
+    .array(
+      z.object({
+        PartNumber: z.number().int().min(1).max(10_000),
+        ETag: z.string().min(1).max(256),
+      }),
+    )
+    .min(1)
+    .max(10_000),
+  fileName: z
+    .string()
+    .min(1)
+    .max(255)
+    .regex(SAFE_UPLOAD_FILE_NAME_VIDEO, "Недопустимое имя файла"),
+  fileSize: z.number().int().positive().max(MAX_LESSON_VIDEO_BYTES),
+  mimeType: z.string().min(1).max(128).refine((v) => ALLOWED_VIDEO_MIME.has(v), {
+    message: "Допустимы только video/mp4 и video/webm.",
+  }),
+});
+
+/** Vercel Blob client upload token request (passthrough, size-capped). */
+export const AuthorVideoBlobUploadBodySchema = z
+  .record(z.unknown())
+  .refine((v) => JSON.stringify(v).length <= 65_536, { message: "Payload too large." });
+
+/** POST /api/auth/dev-login — optional JSON body */
+export const DevLoginPostBodySchema = z.object({
+  next: z.string().max(256).optional(),
+});
+
+/** E2E fixtures — bounded override fields */
+export const E2eAppointmentCreateBodySchema = z
+  .object({
+    time: z.string().max(64).optional(),
+    complaints: z.string().max(4000).optional(),
+    anamnesis: z.string().max(4000).optional(),
+    plan: z.string().max(4000).optional(),
+  })
+  .passthrough()
+  .refine((v) => JSON.stringify(v).length <= 8192, { message: "Body too large." });
+
+export const E2ePatientRecordPatchBodySchema = z
+  .object({
+    display_label: z.string().max(200).optional(),
+    external_ref: z.string().max(120).optional(),
+    meta: z.record(z.unknown()).optional(),
+  })
+  .passthrough()
+  .refine((v) => JSON.stringify(v).length <= 8192, { message: "Body too large." });
+
 export async function parseJsonBody(request: Request): Promise<
   | { ok: true; data: unknown }
   | { ok: false; response: Response }
 > {
   try {
     return { ok: true, data: await request.json() };
+  } catch {
+    return {
+      ok: false,
+      response: Response.json({ error: "Некорректное тело запроса." }, { status: 400 }),
+    };
+  }
+}
+
+/** Like parseJsonBody but treats empty body as `{}`. */
+export async function parseJsonBodyOrEmpty(request: Request): Promise<
+  | { ok: true; data: unknown }
+  | { ok: false; response: Response }
+> {
+  const text = await request.text();
+  if (!text.trim()) return { ok: true, data: {} };
+  try {
+    return { ok: true, data: JSON.parse(text) as unknown };
   } catch {
     return {
       ok: false,
