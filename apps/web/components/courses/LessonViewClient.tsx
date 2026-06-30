@@ -12,6 +12,7 @@ import { YouTubePlayer } from "@/components/courses/YouTubePlayer";
 import { LessonVideoPlayer } from "@/components/lesson/LessonVideoPlayer";
 import { Button } from "@/components/ui/button";
 import { extractVimeoId, extractYouTubeId } from "@/lib/courses/video-url";
+import { lessonBodyHtmlForDisplay } from "@/lib/security/sanitize-course-html";
 import { reportAchievementCheck } from "@/hooks/useAchievements";
 
 type LessonData = {
@@ -179,7 +180,9 @@ export function LessonViewClient({ courseId, lessonId }: LessonViewClientProps) 
       {(lesson.body_html || lesson.description) && (
         <div
           className="prose max-w-none dark:prose-invert"
-          dangerouslySetInnerHTML={{ __html: lesson.body_html || `<p>${lesson.description ?? ""}</p>` }}
+          dangerouslySetInnerHTML={{
+            __html: lessonBodyHtmlForDisplay(lesson.body_html, lesson.description),
+          }}
         />
       )}
 

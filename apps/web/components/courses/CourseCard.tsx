@@ -4,6 +4,7 @@ import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import type { PublicAuthorInfo } from "@/lib/courses/public-queries";
+import { sanitizeCourseHtml } from "@/lib/security/sanitize-course-html";
 
 export type CourseCardData = {
   id: string;
@@ -54,7 +55,7 @@ export function CourseCard({ course, enrolling, onEnroll }: CourseCardProps) {
       <CardContent
         className="prose prose-sm max-w-none flex-1 text-[var(--clinical-foreground-muted)] dark:prose-invert"
         dangerouslySetInnerHTML={{
-          __html: course.description_html?.slice(0, 280) || "<p>Описание скоро.</p>",
+          __html: sanitizeCourseHtml(course.description_html?.slice(0, 280) || "<p>Описание скоро.</p>"),
         }}
       />
       <CardContent className="flex gap-2 pt-0">

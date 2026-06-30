@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+import { AchievementToastListener } from "@/components/achievements/AchievementToastListener";
 import { SonogynCopilot } from "@/components/ai/SonogynCopilot";
 import { SessionRevalidationGuard } from "@/components/auth/SessionRevalidationGuard";
 import { ClinicalShell } from "@/components/clinical/clinical-shell";
@@ -12,6 +13,7 @@ export default function ClinicalLayout({ children }: { children: ReactNode }) {
   return (
     <SessionRevalidationGuard>
       <ClinicalShell devProfile={devProfile}>{children}</ClinicalShell>
+      <AchievementToastListener />
       <SonogynCopilot />
       <UpgradeModal />
     </SessionRevalidationGuard>

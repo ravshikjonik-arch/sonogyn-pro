@@ -9,6 +9,7 @@ import { ModuleAccordion } from "@/components/courses/ModuleAccordion";
 import { ProgressBar } from "@/components/courses/ProgressBar";
 import { Button } from "@/components/ui/button";
 import type { PublicAuthorInfo } from "@/lib/courses/public-queries";
+import { sanitizeCourseHtml } from "@/lib/security/sanitize-course-html";
 
 type CourseDetail = {
   id: string;
@@ -120,7 +121,7 @@ export function CourseDetailClient({ courseId }: CourseDetailClientProps) {
           <h1 className="text-3xl font-semibold tracking-tight">{course.title}</h1>
           <div
             className="prose max-w-none dark:prose-invert"
-            dangerouslySetInnerHTML={{ __html: course.description_html || "<p></p>" }}
+            dangerouslySetInnerHTML={{ __html: sanitizeCourseHtml(course.description_html || "<p></p>") }}
           />
         </div>
         <aside className="space-y-4 rounded-2xl border border-[var(--clinical-border)] bg-[var(--clinical-card)] p-5">
