@@ -98,6 +98,9 @@ export function openClinicalToolAction(navigation: ClinicalToolNav, action: Mobi
     case "gyn_assistant_obs":
       navigation.navigate("GynecologyCalc", { initialPage: "gyn_assistant_obstetrics" });
       return;
+    case "ultrasound_assistant":
+      navigation.navigate("UltrasoundAssistant");
+      return;
     case "gyn_hub":
       navigation.navigate("GynecologyCalc", { initialPage: "gyn_hub" });
       return;
@@ -127,6 +130,9 @@ export function openClinicalToolAction(navigation: ClinicalToolNav, action: Mobi
       return;
     case "evidence_assistant":
       navigation.navigate("EvidenceAssistant");
+      return;
+    case "cervix_pathology":
+      void WebBrowser.openBrowserAsync(webAppUrl("/tools/refs/cervix-pathology?tab=cytology"));
       return;
     default:
       return;

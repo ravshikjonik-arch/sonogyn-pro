@@ -1,0 +1,15 @@
+{
+  "chain": [
+    { "step": "screening", "label": "Скрининг", "description": "Цитология ± HPV" },
+    { "step": "triage", "label": "Triage", "description": "HPV-test, genotyping, повтор" },
+    { "step": "colposcopy", "label": "Кольпоскопия", "description": "Расширенная + биопсия" },
+    { "step": "histology", "label": "Гистология", "description": "CIN / AIS / рак" },
+    { "step": "management", "label": "Тактика", "description": "Наблюдение, excision, онкогинеколог" }
+  ],
+  "links": {
+    "colposcopy": "/tools/calc/gyn/colposcopy",
+    "cinRisk": "/tools/calc/gyn/cin-risk",
+    "cpi": "/tools/calc/gyn/cervical-intelligence",
+    "evidence": "/evidence?shelf=cervix"
+  }
+}

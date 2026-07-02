@@ -1,0 +1,112 @@
+{
+  "categories": [
+    {
+      "id": "nilm",
+      "code": "NILM",
+      "title": "Negative for intraepithelial lesion or malignancy",
+      "plain": "В пределах нормы, без предрака",
+      "histology": "Норма или реактивные изменения",
+      "hpvLink": "Может быть HPV+ при NILM — triage по протоколу",
+      "doctorAction": "Плановый скрининг по возрасту",
+      "colposcopy": "Нет (если нет других показаний)",
+      "biopsy": "Нет",
+      "referral": "Нет"
+    },
+    {
+      "id": "asc-us",
+      "code": "ASC-US",
+      "title": "Atypical squamous cells — undetermined significance",
+      "plain": "Лёгкие изменения, неясно — доброкачественное или нет",
+      "histology": "CIN1 или реактивность",
+      "hpvLink": "HPV triage обязателен (≥25 лет)",
+      "doctorAction": "HPV-test; HPV+ → кольпоскопия",
+      "colposcopy": "При HPV+",
+      "biopsy": "По кольпоскопии",
+      "referral": "При HSIL+ на биопсии"
+    },
+    {
+      "id": "asc-h",
+      "code": "ASC-H",
+      "title": "Atypical squamous cells — cannot exclude HSIL",
+      "plain": "Подозрение на тяжёлую дисплазию",
+      "histology": "CIN2/3",
+      "hpvLink": "Часто HPV+",
+      "doctorAction": "Кольпоскопия",
+      "colposcopy": "Да",
+      "biopsy": "По показаниям",
+      "referral": "При CIN2+"
+    },
+    {
+      "id": "lsil",
+      "code": "LSIL",
+      "title": "Low-grade squamous intraepithelial lesion",
+      "plain": "Низкая степень дисплазии (≈ CIN1)",
+      "histology": "CIN1",
+      "hpvLink": "Обычно HPV+",
+      "doctorAction": "Кольпоскопия; у <25 — наблюдение возможно",
+      "colposcopy": "Да (≥25)",
+      "biopsy": "По находкам",
+      "referral": "CIN2+"
+    },
+    {
+      "id": "hsil",
+      "code": "HSIL",
+      "title": "High-grade squamous intraepithelial lesion",
+      "plain": "Тяжёлая дисплазия (CIN2/3)",
+      "histology": "CIN2, CIN3",
+      "hpvLink": "HPV+",
+      "doctorAction": "Кольпоскопия + биопсия",
+      "colposcopy": "Да",
+      "biopsy": "Да",
+      "referral": "Онкогинеколог при CIN2+"
+    },
+    {
+      "id": "agc",
+      "code": "AGC",
+      "title": "Atypical glandular cells",
+      "plain": "Атипия железистого эпителия",
+      "histology": "AIS, adenocarcinoma",
+      "hpvLink": "Не всегда HPV-driven",
+      "doctorAction": "Кольпоскопия + ECC + возможно endometrial sampling",
+      "colposcopy": "Да",
+      "biopsy": "Да",
+      "referral": "Онкогинеколог"
+    },
+    {
+      "id": "ais",
+      "code": "AIS",
+      "title": "Adenocarcinoma in situ",
+      "plain": "Рак in situ желез",
+      "histology": "AIS",
+      "hpvLink": "Часто HPV+",
+      "doctorAction": "Конизация / гистерectomy по протоколу",
+      "colposcopy": "Да",
+      "biopsy": "Да",
+      "referral": "Онкогинеколог"
+    },
+    {
+      "id": "carcinoma",
+      "code": "SCC / AdenoCa",
+      "title": "Carcinoma",
+      "plain": "Рак",
+      "histology": "Invasive cancer",
+      "hpvLink": "Часто HPV+",
+      "doctorAction": "Срочное направление",
+      "colposcopy": "Да",
+      "biopsy": "Да",
+      "referral": "Онкогинеколог срочно"
+    },
+    {
+      "id": "unsatisfactory",
+      "code": "Unsatisfactory",
+      "title": "Inadequate / unsatisfactory sample",
+      "plain": "Мазок не пригоден для оценки",
+      "histology": "—",
+      "hpvLink": "—",
+      "doctorAction": "Повторить забор через 2–4 мес",
+      "colposcopy": "Нет (если нет других показаний)",
+      "biopsy": "Нет",
+      "referral": "Нет"
+    }
+  ]
+}

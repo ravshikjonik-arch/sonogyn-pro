@@ -1,0 +1,15 @@
+{
+  "title": "Ко-тестирование: цитология × HPV",
+  "rows": [
+    { "cytology": "NILM", "hpv": "negative", "action": "Рутинный скрининг через 3–5 лет (по возрасту/протоколу)" },
+    { "cytology": "NILM", "hpv": "positive", "action": "Кольпоскопия или HPV16/18 genotyping + triage" },
+    { "cytology": "NILM", "hpv": "16/18+", "action": "Кольпоскопия" },
+    { "cytology": "ASC-US", "hpv": "negative", "action": "Повтор co-test через 3 года (≥30 лет) или 1 год" },
+    { "cytology": "ASC-US", "hpv": "positive", "action": "Кольпоскопия" },
+    { "cytology": "LSIL", "hpv": "negative", "action": "Кольпоскопия (молодые — наблюдение по ASCCP)" },
+    { "cytology": "LSIL", "hpv": "positive", "action": "Кольпоскопия" },
+    { "cytology": "HSIL", "hpv": "any", "action": "Кольпоскопия + биопсия независимо от HPV" },
+    { "cytology": "AGC", "hpv": "any", "action": "Кольпоскопия + ECC ± endometrial sampling" },
+    { "cytology": "Unsatisfactory", "hpv": "any", "action": "Повторить забор" }
+  ]
+}

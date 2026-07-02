@@ -1,0 +1,8 @@
+{
+  "chapter": "cytology-screening",
+  "version": "1.0.0",
+  "interactiveModule": true,
+  "topicCount": 16,
+  "caseCount": 10,
+  "quizExtension": "cytology-screening"
+}

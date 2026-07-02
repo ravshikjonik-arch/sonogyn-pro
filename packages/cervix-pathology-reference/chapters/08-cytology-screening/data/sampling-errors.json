@@ -1,0 +1,112 @@
+{
+  "errors": [
+    {
+      "id": "excess-mucus",
+      "title": "Много слизи",
+      "whyBad": "Мазирует клетки, снижает клеточность эпителия.",
+      "cytologistSees": "Скудный эпителий на фоне слизи",
+      "patientRisk": "Ложноотрицательный или unsatisfactory",
+      "fix": "Тамpon, повторный забор",
+      "prevent": "Шаг удаления слизи обязателен"
+    },
+    {
+      "id": "blood",
+      "title": "Много крови",
+      "whyBad": "Маскирует атипию",
+      "cytologistSees": "Гемолиз, трудная интерпретация",
+      "patientRisk": "Повтор, задержка диагноза",
+      "fix": "Повтор через 1–2 недели или жидкостная цитология",
+      "prevent": "Не брать при кровотечении; мягкая техника"
+    },
+    {
+      "id": "low-cellularity",
+      "title": "Мало клеток",
+      "whyBad": "Не достигнут порог адекватности",
+      "cytologistSees": "Unsatisfactory / inadequate",
+      "patientRisk": "Нет результата скрининга",
+      "fix": "Повторить забор",
+      "prevent": "ЗТ + эндоцервикс, правильная щётка"
+    },
+    {
+      "id": "missed-tz",
+      "title": "Не попали в ЗТ",
+      "whyBad": "Пропуск HSIL",
+      "cytologistSees": "Только цилиндрический или поверхностный эпителий",
+      "patientRisk": "Ложноотрицательный",
+      "fix": "Повтор с кольпоскопическим ориентиром",
+      "prevent": "Осмотр + забор 360° в ЗТ"
+    },
+    {
+      "id": "drying",
+      "title": "Материал высох",
+      "whyBad": "Артефакты, ложная атипия",
+      "cytologistSees": "Drying artifact",
+      "patientRisk": "ASC-US? → лишние процедуры",
+      "fix": "Повтор",
+      "prevent": "Фиксация < 15 сек на стекле"
+    },
+    {
+      "id": "wrong-fixation",
+      "title": "Неправильная фиксация",
+      "whyBad": "Клетки не сохраняются",
+      "cytologistSees": "Unsatisfactory",
+      "patientRisk": "Повтор",
+      "fix": "Новый забор",
+      "prevent": "95% ethanol, достаточный объём"
+    },
+    {
+      "id": "unlabeled",
+      "title": "Стекло не промаркировано",
+      "whyBad": "Лаборатория не принимает / путаница",
+      "cytologistSees": "—",
+      "patientRisk": "Потеря пробы",
+      "fix": "Повтор",
+      "prevent": "Маркировка до фиксации"
+    },
+    {
+      "id": "no-history",
+      "title": "Нет анамнеза в направлении",
+      "whyBad": "Неверный triage",
+      "cytologistSees": "—",
+      "patientRisk": "Неверная тактика",
+      "fix": "Дополнить направление",
+      "prevent": "Чеклист направления"
+    },
+    {
+      "id": "inflammation",
+      "title": "Забор при воспалении",
+      "whyBad": "Реактивные изменения, неадекватность",
+      "cytologistSees": "Воспаление, реактивная атипия",
+      "patientRisk": "ASC-US, лишняя кольпоскопия",
+      "fix": "Лечение, повтор",
+      "prevent": "Осмотр, при необходимости отложить"
+    },
+    {
+      "id": "wrong-instrument",
+      "title": "Неподходящий инструмент",
+      "whyBad": "Низкая клеточность",
+      "cytologistSees": "Scant cellularity",
+      "patientRisk": "Unsatisfactory",
+      "fix": "Повтор approved brush",
+      "prevent": "Стандарт лаборатории"
+    },
+    {
+      "id": "vial-mixup",
+      "title": "Перепутана виала",
+      "whyBad": "ID ошибка",
+      "cytologistSees": "—",
+      "patientRisk": "Критическая ошибка идентификации",
+      "fix": "Процедура лаборатории",
+      "prevent": "Label in situ"
+    },
+    {
+      "id": "no-separation",
+      "title": "Не разделён экто/эндо (где важно)",
+      "whyBad": "Сложнее локализовать AGC",
+      "cytologistSees": "Смешанный материал",
+      "patientRisk": "Задержка диагностики желез",
+      "fix": "Повтор по протоколу",
+      "prevent": "Два стекла или dual sampling"
+    }
+  ]
+}

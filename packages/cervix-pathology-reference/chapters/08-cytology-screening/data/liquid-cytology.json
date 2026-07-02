@@ -1,0 +1,33 @@
+{
+  "systems": [
+    {
+      "id": "thinprep",
+      "name": "Hologic ThinPrep",
+      "technology": "Фильтрация на мембране",
+      "volumeMl": 20,
+      "brushHandling": "Щётка промывается и извлекается из виалы",
+      "cellWindowMm": 20,
+      "adequacyMinCells": 5000,
+      "advantages": ["Стандартизация тонкого слоя", "HPV из той же виалы", "Меньше артефактов"],
+      "limitations": ["Зависимость от техники промывки щётки"],
+      "typicalErrors": ["Щётка не промыта", "Недостаточный объём в виале"]
+    },
+    {
+      "id": "surepath",
+      "name": "BD SurePath",
+      "technology": "Осаждение (sedimentation)",
+      "volumeMl": 10,
+      "brushHandling": "Щётка может оставаться в виале",
+      "cellWindowMm": 12,
+      "adequacyMinCells": 15000,
+      "advantages": ["Встроенное окрашивание", "Щётка может оставаться в пробирке"],
+      "limitations": ["Меньшее клеточное окно", "Больший порог адекватности"],
+      "typicalErrors": ["Переполнение виалы", "Гемолиз без промывки"]
+    }
+  ],
+  "sharedBenefits": [
+    "HPV-тест из той же виалы",
+    "Возможность CINtec PLUS p16/Ki67 из aliquot",
+    "Меньше кластеров и фона vs стекло"
+  ]
+}

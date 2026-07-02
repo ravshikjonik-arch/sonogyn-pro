@@ -29,6 +29,12 @@
       "id": "ifcpc-rio-2011",
       "title": "IFCPC Colposcopy Nomenclature, Rio de Janeiro",
       "year": 2011
+    },
+    {
+      "id": "cervical-cytology-screening",
+      "title": "Модуль «Цитология и скрининг РШМ» (SonoGyn Pro)",
+      "year": 2026,
+      "status": "образовательный модуль"
     }
   ],
   "questions": [
@@ -235,6 +241,106 @@
       ],
       "correctIndex": 1,
       "explanation": "В риск-ориентированной модели решение о кольпоскопии при HPV+/NILM не универсально: оно зависит от генотипа ВПЧ (например, 16/18 повышает риск сильнее), предыдущей истории скрининга и расчётного индивидуального риска CIN3+.",
+      "sourceId": "asccp-2019"
+    },
+    {
+      "id": "cx-017",
+      "category": "screening",
+      "level": "student",
+      "question": "Минимальное число клеток для адекватности ThinPrep?",
+      "options": ["1500", "5000", "15000", "50000"],
+      "correctIndex": 1,
+      "explanation": "ThinPrep: не менее 5000 клеток; SurePath: не менее 15000.",
+      "sourceId": "cervical-cytology-screening"
+    },
+    {
+      "id": "cx-018",
+      "category": "screening",
+      "level": "doctor",
+      "question": "ASC-US + HPV negative у женщины ≥30 лет — типичная тактика?",
+      "options": ["Кольпоскопия немедленно", "Повтор co-test через 3 года", "Конизация", "Гистерэктомия"],
+      "correctIndex": 1,
+      "explanation": "ASC-US/HPV− — повтор co-testing через 3 года (ASCCP 2019).",
+      "sourceId": "asccp-2019"
+    },
+    {
+      "id": "cx-019",
+      "category": "diagnostics",
+      "level": "student",
+      "question": "Где чаще всего возникает CIN?",
+      "options": ["Тело матки", "Зона трансформации", "Влагалище", "Яичник"],
+      "correctIndex": 1,
+      "explanation": "CIN развивается в зоне трансформации — доступ базальных клеток для HPV.",
+      "sourceId": "cervical-cytology-screening"
+    },
+    {
+      "id": "cx-020",
+      "category": "management",
+      "level": "doctor",
+      "question": "HSIL на цитологии — следующий шаг?",
+      "options": ["Наблюдение 5 лет", "Кольпоскопия и биопсия", "Только повтор мазка", "Назначить антибиотики"],
+      "correctIndex": 1,
+      "explanation": "HSIL — кольпоскопия с биопсией независимо от HPV.",
+      "sourceId": "asccp-2019"
+    },
+    {
+      "id": "cx-021",
+      "category": "screening",
+      "level": "student",
+      "question": "Минимальное число клеток для адекватности SurePath?",
+      "options": ["1500", "5000", "15000", "50000"],
+      "correctIndex": 2,
+      "explanation": "SurePath: ≥15000 клеток; ThinPrep: ≥5000.",
+      "sourceId": "cervical-cytology-screening"
+    },
+    {
+      "id": "cx-022",
+      "category": "screening",
+      "level": "doctor",
+      "question": "NILM + HPV 16+ у женщины 35 лет — типичная тактика?",
+      "options": ["Повтор через 5 лет", "Кольпоскопия", "Гистерэктомия", "Наблюдение без обследования"],
+      "correctIndex": 1,
+      "explanation": "NILM + high-risk HPV (особенно 16/18) — кольпоскопия / genotyping по ASCCP 2019.",
+      "sourceId": "asccp-2019"
+    },
+    {
+      "id": "cx-023",
+      "category": "diagnostics",
+      "level": "student",
+      "question": "Что означает категория Bethesda «unsatisfactory»?",
+      "options": [
+        "Рак подтверждён",
+        "Материал не пригоден для оценки",
+        "Норма",
+        "Только воспаление"
+      ],
+      "correctIndex": 1,
+      "explanation": "Unsatisfactory — неадекватный материал; нужен повтор забора через 2–4 мес.",
+      "sourceId": "cervical-cytology-screening"
+    },
+    {
+      "id": "cx-024",
+      "category": "screening",
+      "level": "doctor",
+      "question": "Co-testing (цитология + HPV) у женщины ≥30 лет при обоих отрицательных — интервал?",
+      "options": ["6 месяцев", "1 год", "3 года", "5 лет"],
+      "correctIndex": 2,
+      "explanation": "NILM + HPV− при co-test — повтор через 3 года (ASCCP 2019).",
+      "sourceId": "asccp-2019"
+    },
+    {
+      "id": "cx-025",
+      "category": "management",
+      "level": "doctor",
+      "question": "AGC (atypical glandular cells) — минимальный объём обследования?",
+      "options": [
+        "Только повтор мазка",
+        "Кольпоскопия ± ECC / sampling эндометрия",
+        "Наблюдение 5 лет",
+        "Только HPV-тест"
+      ],
+      "correctIndex": 1,
+      "explanation": "AGC требует кольпоскопии и расширенного обследования (ECC, эндометрий по показаниям).",
       "sourceId": "asccp-2019"
     }
   ]

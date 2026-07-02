@@ -84,6 +84,12 @@ export default function KnowledgeScreen({ navigation, route }: KnowledgeTabScree
       onPress: () => navigation.navigate("ClinicalReference"),
     },
     {
+      id: "cervix-pathology",
+      title: "Патология шейки · цитология",
+      sub: "8 глав, Bethesda, HPV, алгоритмы, кейсы, quiz",
+      onPress: () => openClinicalToolAction(navigation, "cervix_pathology"),
+    },
+    {
       id: "medvedev",
       title: "Консенсусы УЗИ",
       sub: "MUSA · IETA · IOTA · IDEA",

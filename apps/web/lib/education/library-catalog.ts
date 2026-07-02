@@ -128,10 +128,10 @@ export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
     shelf: "reference",
     title: "Патология шейки · справочник",
     description:
-      "7 глав: анатомия, диагностика, ЦИН, РШМ, FIGO. Режимы «студент» (TTS) и «врач» + 16 вопросов самопроверки.",
-    href: "/tools/refs/cervix-pathology",
-    tags: ["шейка", "FIGO", "ЦИН", "РШМ", "кольпоскопия", "самопроверка"],
-    badge: "7+16",
+      "8 глав + модуль «Цитология · скрининг»: Bethesda, HPV, ASCCP, кейсы, AI. Режимы студент/врач + 25 вопросов.",
+    href: "/tools/refs/cervix-pathology?tab=cytology",
+    tags: ["шейка", "FIGO", "ЦИН", "РШМ", "Bethesda", "HPV", "скрининг", "самопроверка"],
+    badge: "8+25",
   },
   {
     id: "guidelines",
@@ -158,7 +158,7 @@ export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
     title: "O-RADS · всё в одном месте",
     description:
       "Калькулятор, эхограммы Озерской, реферат ACR v2022, IOTA 2026 — не нужно искать по библиотеке.",
-    href: "/tools/o-rads",
+    href: "/tools/calc/rads/o-rads",
     tags: ["O-RADS", "эхограммы", "IOTA", "калькулятор", "хаб"],
     primary: true,
     badge: "Хаб",

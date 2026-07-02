@@ -1,0 +1,114 @@
+{
+  "cases": [
+    {
+      "id": "case-01",
+      "title": "25 лет, NILM, HPV−",
+      "data": { "age": 25, "cytology": "nilm", "hpv": "negative" },
+      "question": "Какова тактика?",
+      "options": ["Кольпоскопия сейчас", "Плановый скрининг по возрасту", "Конизация", "Повтор через 1 мес"],
+      "correctIndex": 1,
+      "explanation": "NILM/HPV− — рутинный интервал скрининга; кольпоскопия не показана.",
+      "topicRef": "screening",
+      "casesChannel": "cervix-pathology"
+    },
+    {
+      "id": "case-02",
+      "title": "31 год, ASC-US, HPV+",
+      "data": { "age": 31, "cytology": "asc-us", "hpv": "positive" },
+      "question": "Следующий шаг?",
+      "options": ["Наблюдение 5 лет", "Кольпоскопия", "Гистерэктомия", "Повтор только цитологии через 3 года"],
+      "correctIndex": 1,
+      "explanation": "ASC-US + HPV+ → кольпоскопия (ASCCP 2019).",
+      "topicRef": "co-testing",
+      "casesChannel": "cervix-pathology"
+    },
+    {
+      "id": "case-03",
+      "title": "34 года, NILM, HPV16+",
+      "data": { "age": 34, "cytology": "nilm", "hpv": "16-positive" },
+      "question": "Что делать?",
+      "options": ["Игнорировать", "Кольпоскопия", "Повтор через 10 лет", "Только вакцинация"],
+      "correctIndex": 1,
+      "explanation": "NILM + HPV16+ — кольпоскопия / genotyping triage.",
+      "topicRef": "hpv-testing",
+      "casesChannel": "cervix-pathology"
+    },
+    {
+      "id": "case-04",
+      "title": "28 лет, LSIL",
+      "data": { "age": 28, "cytology": "lsil", "hpv": "positive" },
+      "question": "Тактика?",
+      "options": ["Кольпоскопия", "Гистерэктомия", "Ничего до 40 лет", "Только HPV через 5 лет"],
+      "correctIndex": 0,
+      "explanation": "LSIL ≥25 лет — кольпоскопия; у молодых возможно наблюдение по протоколу.",
+      "topicRef": "bethesda",
+      "casesChannel": "cervix-pathology"
+    },
+    {
+      "id": "case-05",
+      "title": "39 лет, HSIL",
+      "data": { "age": 39, "cytology": "hsil" },
+      "question": "Необходимо?",
+      "options": ["Повтор мазка через год", "Кольпоскопия и биопсия", "Наблюдение", "Назначить антибиотики"],
+      "correctIndex": 1,
+      "explanation": "HSIL — кольпоскопия + биопсия, направление при CIN2+.",
+      "topicRef": "bethesda",
+      "casesChannel": "cervix-pathology"
+    },
+    {
+      "id": "case-06",
+      "title": "45 лет, AGC",
+      "data": { "age": 45, "cytology": "agc" },
+      "question": "Объём обследования?",
+      "options": ["Только повтор цитологии", "Кольпоскопия + ECC ± эндометрий", "УЗИ почек", "МРТ молочных желёз"],
+      "correctIndex": 1,
+      "explanation": "AGC — кольпоскопия, ECC, оценка эндометрия по протоколу.",
+      "topicRef": "bethesda",
+      "casesChannel": "cervix-pathology"
+    },
+    {
+      "id": "case-07",
+      "title": "Беременность 14 нед, ASC-US HPV+",
+      "data": { "age": 29, "pregnant": true, "gestationalWeeks": 14, "cytology": "asc-us", "hpv": "positive" },
+      "question": "Тактика в беременности?",
+      "options": ["Кольпоскопия без биопсии / отложенная биопсия", "Конизация сейчас", "Игнорировать до родов", "Химиотерапия"],
+      "correctIndex": 0,
+      "explanation": "Беременность: кольпоскопия возможна; excision откладывают до послеродового периода без инвазии.",
+      "topicRef": "screening",
+      "casesChannel": "cervix-pathology"
+    },
+    {
+      "id": "case-08",
+      "title": "Постменопауза, AGC + кровянистые",
+      "data": { "age": 58, "postmenopausal": true, "cytology": "agc", "symptoms": "bleeding" },
+      "question": "Приоритет?",
+      "options": ["Только наблюдение", "Кольпоскопия + ECC + эндометрий", "Повтор мазка через год", "Витамины"],
+      "correctIndex": 1,
+      "explanation": "AGC + постменопауза + кровянистые — полный объём, исключить эндометриальную патологию.",
+      "topicRef": "bethesda",
+      "casesChannel": "cervix-pathology"
+    },
+    {
+      "id": "case-09",
+      "title": "Неадекватный мазок",
+      "data": { "cytology": "unsatisfactory" },
+      "question": "Действие?",
+      "options": ["Кольпоскопия немедленно", "Повторить забор", "Конизация", "Закрыть карту"],
+      "correctIndex": 1,
+      "explanation": "Unsatisfactory — повтор сбора через 2–4 месяца, оценить технику.",
+      "topicRef": "sampling-errors",
+      "casesChannel": "cervix-pathology"
+    },
+    {
+      "id": "case-10",
+      "title": "После конизации, HPV+",
+      "data": { "age": 36, "priorExcision": true, "hpv": "positive", "cytology": "nilm" },
+      "question": "Наблюдение?",
+      "options": ["Ничего 10 лет", "ВПЧ ± цитология через 12 мес (post-treatment surveillance)", "Повторная конизация сразу", "МРТ малого таза ежемесячно"],
+      "correctIndex": 1,
+      "explanation": "После excision CIN2/3 — HPV-primary testing ~12 мес (ASCCP).",
+      "topicRef": "screening",
+      "casesChannel": "cervix-pathology"
+    }
+  ]
+}

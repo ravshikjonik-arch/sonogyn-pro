@@ -19,7 +19,10 @@ export const CERVIX_CORE_EVIDENCE: EvidenceEntry[] = [
       year: 2021,
     },
     tags: ["скрининг", "цитология", "Pap", "рак шейки", "ВПЧ"],
-    relatedLinks: [{ label: "Нозология · шейка", href: "/nosologies/cervix-pathology" }],
+    relatedLinks: [
+      { label: "Модуль · цитология", href: "/tools/refs/cervix-pathology?tab=cytology" },
+      { label: "Нозология · шейка", href: "/nosologies/cervix-pathology" },
+    ],
   },
   {
     id: "cervix-hpv-primary",
@@ -38,7 +41,7 @@ export const CERVIX_CORE_EVIDENCE: EvidenceEntry[] = [
       year: 2022,
     },
     tags: ["ВПЧ", "HPV", "primary screening", "скрининг"],
-    relatedLinks: [{ label: "Помощник АГ", href: "/assistant/gynecology" }],
+    relatedLinks: [{ label: "Модуль · цитология", href: "/tools/refs/cervix-pathology?tab=cytology" }],
   },
   {
     id: "cervix-hpv-genotyping",

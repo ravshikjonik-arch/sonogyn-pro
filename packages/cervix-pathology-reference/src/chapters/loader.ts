@@ -19,6 +19,9 @@ import precancerousStudent from "../../chapters/06-precancerous/student-guide.md
 import cancerCriteria from "../../chapters/07-cervical-cancer/data/criteria.json";
 import cancerDoctor from "../../chapters/07-cervical-cancer/doctor-quickref.md";
 import cancerStudent from "../../chapters/07-cervical-cancer/student-guide.md";
+import cytologyCriteria from "../../chapters/08-cytology-screening/data/criteria.json";
+import cytologyDoctor from "../../chapters/08-cytology-screening/doctor-quickref.md";
+import cytologyStudent from "../../chapters/08-cytology-screening/student-guide.md";
 
 import { CERVIX_CHAPTER_CATALOG } from "./catalog";
 import type { CervixChapterContent, CervixChapterId } from "./types";
@@ -58,6 +61,11 @@ const CONTENT: Record<CervixChapterId, Pick<CervixChapterContent, "studentGuide"
     studentGuide: cancerStudent,
     doctorQuickref: cancerDoctor,
     criteria: cancerCriteria as Record<string, unknown>,
+  },
+  "08-cytology-screening": {
+    studentGuide: cytologyStudent,
+    doctorQuickref: cytologyDoctor,
+    criteria: cytologyCriteria as Record<string, unknown>,
   },
 };
 

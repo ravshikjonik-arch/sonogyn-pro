@@ -5,7 +5,8 @@ export type CervixChapterId =
   | "04-treatment-methods"
   | "05-special-populations"
   | "06-precancerous"
-  | "07-cervical-cancer";
+  | "07-cervical-cancer"
+  | "08-cytology-screening";
 
 export type CervixChapterMeta = {
   id: CervixChapterId;
