@@ -18,7 +18,6 @@ type AuthScreenShellProps = {
   telegramTab: ReactNode;
   emailTab: ReactNode;
   phoneTab: ReactNode;
-  socialTab: ReactNode;
   footer: ReactNode;
   defaultTab?: AuthRegistrationMethod;
   onTabChange?: (tab: AuthRegistrationMethod) => void;
@@ -31,7 +30,6 @@ export function AuthScreenShell({
   telegramTab,
   emailTab,
   phoneTab,
-  socialTab,
   footer,
   defaultTab = "telegram",
   onTabChange,
@@ -77,7 +75,7 @@ export function AuthScreenShell({
         <div className="w-full">{telegramTab}</div>
       ) : (
       <Tabs value={tab} onValueChange={handleTabChange} className="w-full">
-        <TabsList className="mb-6 grid w-full grid-cols-2 gap-1 rounded-2xl bg-[var(--clinical-muted)] p-1 sm:grid-cols-4">
+        <TabsList className="mb-6 grid w-full grid-cols-3 gap-1 rounded-2xl bg-[var(--clinical-muted)] p-1">
           <TabsTrigger value="telegram" className="relative rounded-xl text-xs sm:text-sm">
             ✈️ Telegram
             {isPilotTelegramPrimary() ? (
@@ -92,15 +90,11 @@ export function AuthScreenShell({
           <TabsTrigger value="email" className="rounded-xl text-xs sm:text-sm">
             📧 Почта
           </TabsTrigger>
-          <TabsTrigger value="social" className="rounded-xl text-xs sm:text-sm">
-            🔵 Google
-          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="telegram">{telegramTab}</TabsContent>
-        <TabsContent value="email">{emailTab}</TabsContent>
         <TabsContent value="phone">{phoneTab}</TabsContent>
-        <TabsContent value="social">{socialTab}</TabsContent>
+        <TabsContent value="email">{emailTab}</TabsContent>
       </Tabs>
       )}
 

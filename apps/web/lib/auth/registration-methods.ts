@@ -14,12 +14,13 @@ export const REGISTRATION_METHOD_HINTS: Record<AuthRegistrationMethod, string> =
     "Пилот: одна кнопка Telegram — ID и @ник вводить не нужно. Сначала Start у @SonogynProBot.",
   email: "Письмо с подтверждением на почту. Работает из РФ без VPN.",
   phone: "SMS на номера РФ (+7) — обычно 10–30 сек. Для других стран используйте Telegram.",
-  social: "Google OAuth. Если Google недоступен — вкладка «Telegram».",
+  social: "Используйте Telegram, SMS или почту.",
 };
 
 export function parseRegistrationMethod(raw: string | null): AuthRegistrationMethod {
   if (isAuthEmailOnly()) return "email";
-  if (raw === "email" || raw === "phone" || raw === "social" || raw === "telegram") return raw;
+  if (raw === "social") return "telegram";
+  if (raw === "email" || raw === "phone" || raw === "telegram") return raw;
   return "telegram";
 }
 

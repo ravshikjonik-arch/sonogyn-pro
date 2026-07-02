@@ -3,10 +3,8 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, Suspense, useCallback, useEffect, useMemo, useState } from "react";
-import type { AuthProvider } from "@repo/ui";
-import { AuthButtons } from "@repo/ui";
 
-import { useSupabase, useAuth } from "@/app/providers";
+import { useAuth } from "@/app/providers";
 import { AuthMessage, AuthScreenShell, authInputClass } from "@/components/auth/AuthScreenShell";
 import { RegisterCareerTeaser } from "@/components/auth/RegisterCareerTeaser";
 import { AuthSetupBanner } from "@/components/auth/AuthSetupBanner";
@@ -35,7 +33,7 @@ import {
   PRODUCT_OWNER_FIO_SHORT,
 } from "@/lib/auth/doctor-display";
 import { looksLikePhoneInput, USE_PHONE_TAB_MSG } from "@/lib/auth/auth-error-text";
-import { buildOAuthRedirect, normalizePhone, oauthProviderToSupabase } from "@/lib/auth/oauth-providers";
+import { normalizePhone } from "@/lib/auth/oauth-providers";
 import { parseRegistrationMethod, readTelegramBotDisplayName, type AuthRegistrationMethod } from "@/lib/auth/registration-methods";
 import { isAuthEmailOnlyClient } from "@/lib/auth/auth-methods-config";
 import { isPilotClosedAccessClient, isPilotTelegramPrimary, PILOT_AUTH_SUBTITLE, PILOT_REGISTER_SUBTITLE } from "@/lib/auth/auth-pilot-config";
@@ -46,7 +44,6 @@ import {
   requireOnlineForAuth,
   RESEND_CONFIRMATION_MSG,
   SIGN_UP_GENERIC_MSG,
-  translateAuthError,
 } from "@/lib/auth/translate-auth-error";
 import { readAppLocale, saveAppLocale, type AppLocale } from "@/lib/i18n/locale";
 import { safeInternalPath } from "@/lib/nav/safe-redirect";
@@ -55,7 +52,6 @@ import { markSessionAnchorNow } from "@/lib/security/session-anchor";
 function RegisterForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const supabase = useSupabase();
   const { refresh } = useAuth();
 
   const defaultTab = useMemo(
@@ -78,7 +74,6 @@ function RegisterForm() {
   const [otpSent, setOtpSent] = useState(false);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [oauthLoading, setOauthLoading] = useState<AuthProvider | null>(null);
   const [locale, setLocale] = useState<AppLocale>(() => readAppLocale());
   const [failedAttempts, setFailedAttempts] = useState(0);
   const [requiresCaptcha, setRequiresCaptcha] = useState(false);
@@ -450,23 +445,6 @@ function RegisterForm() {
     }
   }
 
-  async function onOAuth(provider: Exclude<AuthProvider, "telegram">) {
-    setMessage("");
-    if (!guardOnline()) return;
-
-    setOauthLoading(provider);
-    try {
-      const origin = window.location.origin;
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: oauthProviderToSupabase(provider),
-        options: { redirectTo: buildOAuthRedirect(origin, afterAuthPath) },
-      });
-      if (error) setMessage(translateAuthError(error.message));
-    } finally {
-      setOauthLoading(null);
-    }
-  }
-
   const isSuccessMessage =
     message === SIGN_UP_GENERIC_MSG ||
     message === RESEND_CONFIRMATION_MSG ||
@@ -787,22 +765,6 @@ function RegisterForm() {
           ) : null}
         </form>
       }
-      socialTab={
-        <div className="space-y-4">
-          <p className="text-sm text-[var(--clinical-foreground-muted)]">
-            Регистрация через Google. После подтверждения вернётесь в кабинет.
-          </p>
-          <AuthButtons
-            providers={["google"]}
-            onProviderPress={(p) => {
-              if (p === "google") void onOAuth(p);
-            }}
-            loading={oauthLoading}
-            variant="register"
-          />
-          {message && activeTab === "social" ? <AuthMessage message={message} /> : null}
-        </div>
-      }
       footer={
         <>
           <div className="mt-4 flex flex-wrap justify-center gap-2 text-xs">
@@ -825,12 +787,6 @@ function RegisterForm() {
               className={`rounded-full px-3 py-1 ${activeTab === "phone" ? "bg-[var(--clinical-primary-deep)] text-white" : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"}`}
             >
               SMS
-            </Link>
-            <Link
-              href="/register?method=social"
-              className={`rounded-full px-3 py-1 ${activeTab === "social" ? "bg-[var(--clinical-primary-deep)] text-white" : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"}`}
-            >
-              Google
             </Link>
               </>
             ) : null}
