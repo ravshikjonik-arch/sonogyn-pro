@@ -9,6 +9,8 @@ import { AuthMessage, AuthScreenShell, authInputClass } from "@/components/auth/
 import { AuthSetupBanner } from "@/components/auth/AuthSetupBanner";
 import { PhoneAuthSetupHint } from "@/components/auth/PhoneAuthSetupHint";
 import { PhoneInput } from "@/components/auth/PhoneInput";
+import { RussianIdpPanel } from "@/components/auth/RussianIdpPanel";
+import { SocialAuthSetupHint } from "@/components/auth/SocialAuthSetupHint";
 import { TelegramSimpleAuth } from "@/components/auth/TelegramSimpleAuth";
 import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
 import { Button } from "@/components/ui/button";
@@ -20,6 +22,7 @@ import { markSessionAnchorNow } from "@/lib/security/session-anchor";
 import { parseRegistrationMethod, readTelegramBotDisplayName, type AuthRegistrationMethod } from "@/lib/auth/registration-methods";
 import { isAuthEmailOnlyClient } from "@/lib/auth/auth-methods-config";
 import { isPilotClosedAccessClient, isPilotTelegramPrimary, PILOT_AUTH_SUBTITLE } from "@/lib/auth/auth-pilot-config";
+import { RU_IDP_SUBTITLE } from "@/lib/auth/russian-idp";
 import { isRuPhoneMaskComplete } from "@/lib/auth/ru-phone-mask";
 import {
   EMAIL_NOT_CONFIRMED_MSG,
@@ -29,6 +32,7 @@ import {
   requireOnlineForAuth,
   translateAuthError,
 } from "@/lib/auth/translate-auth-error";
+import { telegramAuthErrorMessage } from "@/lib/auth/telegram-widget";
 import { safeInternalPath } from "@/lib/nav/safe-redirect";
 
 function LoginForm() {
@@ -69,7 +73,9 @@ function LoginForm() {
   const authCallbackError = searchParams.get("error") === "auth_callback";
   const telegramBotName = readTelegramBotDisplayName();
   const simpleTelegramLogin = isPilotTelegramPrimary() || isPilotClosedAccessClient();
-  const telegramWidgetMessage = searchParams.get("telegram_message") ?? "";
+  const telegramWidgetMessage =
+    searchParams.get("telegram_message")?.trim() ||
+    telegramAuthErrorMessage(searchParams.get("telegram_error"));
 
   useEffect(() => {
     if (!ready || !user) return;
@@ -98,10 +104,9 @@ function LoginForm() {
 
   useEffect(() => {
     if (authCallbackError) {
-      const oauthMsg = searchParams.get("oauth_message");
       setMessage(
-        oauthMsg ||
-          "Вход через Google отключён. Используйте Telegram, SMS или почту.",
+        searchParams.get("oauth_message") ||
+          "Вход через Google/VK отключён. Используйте SMS (+7), Яндекс ID, Telegram или почту.",
       );
     }
   }, [authCallbackError, searchParams]);
@@ -358,13 +363,24 @@ function LoginForm() {
       subtitle={
         isAuthEmailOnlyClient()
           ? "Email и пароль — один аккаунт для web и mobile."
-          : isPilotTelegramPrimary()
+          : isPilotClosedAccessClient()
             ? PILOT_AUTH_SUBTITLE
-            : "Telegram, SMS или почта — один аккаунт для web и mobile."
+            : isPilotTelegramPrimary()
+              ? PILOT_AUTH_SUBTITLE
+              : RU_IDP_SUBTITLE
       }
       defaultTab={defaultTab}
       onTabChange={onTabChange}
       showMethodHints
+      socialTab={
+        !isAuthEmailOnlyClient() && !isPilotClosedAccessClient() ? (
+          <div className="space-y-4">
+            <RussianIdpPanel variant="login" nextPath={nextPath} />
+            <SocialAuthSetupHint showRussianIdp />
+            {authCallbackError ? <SocialAuthSetupHint showGoogle /> : null}
+          </div>
+        ) : undefined
+      }
       telegramTab={
         simpleTelegramLogin ? (
           <div className="space-y-4">
@@ -373,10 +389,9 @@ function LoginForm() {
               nextPath={nextPath}
               message={telegramWidgetMessage || (message && activeTab === "telegram" ? message : undefined)}
             />
-            {!isPilotClosedAccessClient() ? (
-              <details className="rounded-2xl border border-slate-200 p-3 text-sm dark:border-slate-800">
+            <details className="rounded-2xl border border-slate-200 p-3 text-sm dark:border-slate-800">
                 <summary className="cursor-pointer font-medium text-slate-600 dark:text-slate-300">
-                  Вход по коду (если кнопка не работает)
+                  Вход по коду (если кнопка Telegram не работает)
                 </summary>
                 <form className="mt-4 space-y-4" onSubmit={(e) => void onVerifyTelegramOtp(e)}>
                   <label className="block">
@@ -420,7 +435,6 @@ function LoginForm() {
                   )}
                 </form>
               </details>
-            ) : null}
             {needsTelegramRegistration && activeTab === "telegram" ? (
               <p className="text-center text-sm text-[var(--clinical-foreground-muted)]">
                 <Link className="font-bold text-[var(--clinical-primary-deep)] hover:underline" href="/register?method=telegram">
@@ -523,7 +537,11 @@ function LoginForm() {
           {message && activeTab === "telegram" ? (
             <AuthMessage
               message={message}
-              tone={message.includes("отправлен") || message.includes("Telegram") ? "success" : "error"}
+              tone={
+                /код\s+отправлен/i.test(message) || /код\s+готов/i.test(message)
+                  ? "success"
+                  : "error"
+              }
             />
           ) : null}
           {needsTelegramRegistration && activeTab === "telegram" ? (
@@ -726,14 +744,17 @@ function LoginForm() {
           <div className="mt-3 flex flex-wrap justify-center gap-2 text-xs">
             {!isAuthEmailOnlyClient() && !isPilotClosedAccessClient() ? (
               <>
+            <Link href="/login?method=phone" className="rounded-full bg-slate-100 px-3 py-1 text-slate-600 hover:underline dark:bg-slate-800 dark:text-slate-300">
+              SMS
+            </Link>
+            <Link href="/login?method=social" className="rounded-full bg-slate-100 px-3 py-1 text-slate-600 hover:underline dark:bg-slate-800 dark:text-slate-300">
+              Яндекс ID
+            </Link>
             <Link href="/login?method=telegram" className="rounded-full bg-slate-100 px-3 py-1 text-slate-600 hover:underline dark:bg-slate-800 dark:text-slate-300">
               Telegram
             </Link>
             <Link href="/login?method=email" className="rounded-full bg-slate-100 px-3 py-1 text-slate-600 hover:underline dark:bg-slate-800 dark:text-slate-300">
               Email
-            </Link>
-            <Link href="/login?method=phone" className="rounded-full bg-slate-100 px-3 py-1 text-slate-600 hover:underline dark:bg-slate-800 dark:text-slate-300">
-              SMS
             </Link>
               </>
             ) : null}

@@ -45,7 +45,7 @@ export async function POST(req: Request) {
     );
   }
 
-  const next = parsed.data.next?.trim() || "/cases";
+  const next = parsed.data.next?.trim() || "/app";
   const redirectUrl = `/auth/telegram/start?register=1&next=${encodeURIComponent(next)}`;
 
   const res = NextResponse.json({ ok: true, redirectUrl });

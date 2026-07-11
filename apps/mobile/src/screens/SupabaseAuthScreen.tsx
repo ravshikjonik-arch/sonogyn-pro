@@ -13,7 +13,7 @@ import {
 import { CLINICAL_3D_LOCALES, DEFAULT_CLINICAL_3D_LOCALE, type Clinical3dLocale } from "@repo/clinical-3d";
 import { DOCTOR_SPECIALIZATION_OPTIONS } from "@repo/clinical-tools";
 import type { AuthProvider } from "@repo/ui";
-import { AuthButtons } from "@repo/ui";
+import { AuthButtons, RU_AUTH_PROVIDERS } from "@repo/ui";
 import {
   birthDateErrorMessage,
   validateBirthDateIso,
@@ -35,7 +35,7 @@ type Props = NativeStackScreenProps<RootStackParamList, "SupabaseAuth">;
 type Tab = "telegram" | "email" | "phone" | "social";
 
 const TELEGRAM_BOT_NAME =
-  process.env.EXPO_PUBLIC_TELEGRAM_BOT_USERNAME?.replace(/^@/, "") ?? "SonogynProBot";
+  process.env.EXPO_PUBLIC_TELEGRAM_BOT_USERNAME?.replace(/^@/, "") ?? "Sonogyn_bot";
 
 function translateAuthError(message: string): string {
   if (/invalid login credentials/i.test(message)) return "Неверные учётные данные.";
@@ -50,7 +50,7 @@ type AuthLocale = Clinical3dLocale | "es";
 
 export default function SupabaseAuthScreen({ navigation }: Props) {
   const { refreshSupabaseSession } = useAppGate();
-  const [tab, setTab] = useState<Tab>("telegram");
+  const [tab, setTab] = useState<Tab>("phone");
   const [mode, setMode] = useState<"sign-in" | "sign-up">("sign-in");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -237,7 +237,7 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
             })()
           : undefined;
       if (mode === "sign-up" && !registration) return;
-      const ok = await telegramAuth.verifyOtp(registration ?? undefined);
+      const ok = await telegramAuth.verifyOtp(registration ?? undefined, mode === "sign-up");
       if (ok) await finishAuth();
       return;
     }
@@ -261,7 +261,7 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
             })()
           : undefined;
       if (mode === "sign-up" && !registration) return;
-      const ok = await phoneAuth.verifyOtp(registration ?? undefined);
+      const ok = await phoneAuth.verifyOtp(registration ?? undefined, mode === "sign-up");
       if (ok) await finishAuth();
       return;
     }
@@ -289,15 +289,15 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
       <Text style={styles.kicker}>SonoGyn Pro</Text>
       <Text style={styles.title}>Вход / регистрация</Text>
       <Text style={styles.body}>
-        Telegram, SMS или Google. Регистрируясь, вы соглашаетесь с политикой конфиденциальности.
+        SMS (+7), Яндекс ID, Telegram или email — способы входа для пилота.
       </Text>
 
       <View style={styles.tabRow}>
         {([
-          ["telegram", "Telegram"],
           ["phone", "SMS"],
+          ["social", "Яндекс ID"],
+          ["telegram", "Telegram"],
           ["email", "Почта"],
-          ["social", "Google"],
         ] as const).map(([id, label]) => (
           <Pressable
             key={id}
@@ -547,10 +547,13 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
 
       {tab === "social" ? (
         <View style={styles.panel}>
+          <Text style={styles.hint}>
+            Google отключён (199-ФЗ). Для пилота используйте Яндекс ID, Telegram, телефон или email.
+          </Text>
           <AuthButtons
-            providers={["google"]}
+            providers={RU_AUTH_PROVIDERS}
             onProviderPress={(p) => {
-              if (p === "telegram") return;
+              if (p === "telegram" || p === "google") return;
               void onSocial(p);
             }}
             loading={oauthLoading}

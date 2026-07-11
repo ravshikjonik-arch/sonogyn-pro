@@ -16,7 +16,7 @@ type Props = {
 
 export function TelegramSimpleAuth({
   mode,
-  nextPath = "/cases",
+  nextPath = "/app",
   message,
   onRegisterClick,
   registerLoading = false,

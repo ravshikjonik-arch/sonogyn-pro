@@ -11,6 +11,8 @@ import { AuthSetupBanner } from "@/components/auth/AuthSetupBanner";
 import { EmailRegistrationHint } from "@/components/auth/EmailRegistrationHint";
 import { PhoneAuthSetupHint } from "@/components/auth/PhoneAuthSetupHint";
 import { PhoneInput } from "@/components/auth/PhoneInput";
+import { RussianIdpPanel } from "@/components/auth/RussianIdpPanel";
+import { SocialAuthSetupHint } from "@/components/auth/SocialAuthSetupHint";
 import {
   birthDateErrorMessage,
   DoctorRegistrationFields,
@@ -37,6 +39,7 @@ import { normalizePhone } from "@/lib/auth/oauth-providers";
 import { parseRegistrationMethod, readTelegramBotDisplayName, type AuthRegistrationMethod } from "@/lib/auth/registration-methods";
 import { isAuthEmailOnlyClient } from "@/lib/auth/auth-methods-config";
 import { isPilotClosedAccessClient, isPilotTelegramPrimary, PILOT_AUTH_SUBTITLE, PILOT_REGISTER_SUBTITLE } from "@/lib/auth/auth-pilot-config";
+import { RU_IDP_REGISTER_SUBTITLE } from "@/lib/auth/russian-idp";
 import { isRuPhoneMaskComplete } from "@/lib/auth/ru-phone-mask";
 import {
   PHONE_OTP_DELAY_HINT,
@@ -95,8 +98,14 @@ function RegisterForm() {
   }, [sendCooldownSec]);
 
   useEffect(() => {
-    if (searchParams.get("message") === "register_first") {
-      setMessage("Сначала заполните данные врача и подтвердите через Telegram.");
+    const fromTelegram =
+      searchParams.get("telegram_message")?.trim() ||
+      (searchParams.get("message") === "register_first"
+        ? "Сначала заполните данные врача и подтвердите через Telegram."
+        : "");
+    if (fromTelegram) {
+      setMessage(fromTelegram);
+      setActiveTab("telegram");
     }
   }, [searchParams]);
 
@@ -449,10 +458,9 @@ function RegisterForm() {
     message === SIGN_UP_GENERIC_MSG ||
     message === RESEND_CONFIRMATION_MSG ||
     message === PHONE_OTP_SENT_MSG ||
-    message.includes("отправлен") ||
-    message.includes("Код готов") ||
-    message.includes("SMS") ||
-    message.includes("Telegram");
+    /^код\s+(отправлен|готов)/i.test(message) ||
+    /код\s+отправлен\s+(в\s+)?(sms|telegram)/i.test(message) ||
+    /sms[- ]?код\s+отправлен/i.test(message);
 
   return (
     <AuthScreenShell
@@ -462,11 +470,23 @@ function RegisterForm() {
           ? PILOT_REGISTER_SUBTITLE
           : isPilotTelegramPrimary()
             ? `Шаг 1 · ${PILOT_AUTH_SUBTITLE}`
-            : "Шаг 1 · Студент — бесплатно. Дальше ординатор, врач и PRO."
+            : RU_IDP_REGISTER_SUBTITLE
       }
       defaultTab={defaultTab}
       onTabChange={onTabChange}
       showMethodHints
+      socialTab={
+        !isAuthEmailOnlyClient() && !isPilotClosedAccessClient() ? (
+          <div className="space-y-4">
+            <RegisterCareerTeaser />
+            <RussianIdpPanel variant="register" nextPath={afterAuthPath} />
+            <SocialAuthSetupHint showRussianIdp />
+            <p className="text-xs text-slate-500">
+              После входа через Яндекс ID заполните ФИО и специализацию в профиле.
+            </p>
+          </div>
+        ) : undefined
+      }
       telegramTab={
         simpleTelegramRegister ? (
           <div className="space-y-4">
@@ -771,6 +791,18 @@ function RegisterForm() {
             {!isAuthEmailOnlyClient() && !isPilotClosedAccessClient() ? (
               <>
             <Link
+              href="/register?method=phone"
+              className={`rounded-full px-3 py-1 ${activeTab === "phone" ? "bg-[var(--clinical-primary-deep)] text-white" : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"}`}
+            >
+              SMS
+            </Link>
+            <Link
+              href="/register?method=social"
+              className={`rounded-full px-3 py-1 ${activeTab === "social" ? "bg-[var(--clinical-primary-deep)] text-white" : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"}`}
+            >
+              Яндекс ID
+            </Link>
+            <Link
               href="/register?method=telegram"
               className={`rounded-full px-3 py-1 ${activeTab === "telegram" ? "bg-[var(--clinical-primary-deep)] text-white" : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"}`}
             >
@@ -781,12 +813,6 @@ function RegisterForm() {
               className={`rounded-full px-3 py-1 ${activeTab === "email" ? "bg-[var(--clinical-primary-deep)] text-white" : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"}`}
             >
               Email
-            </Link>
-            <Link
-              href="/register?method=phone"
-              className={`rounded-full px-3 py-1 ${activeTab === "phone" ? "bg-[var(--clinical-primary-deep)] text-white" : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"}`}
-            >
-              SMS
             </Link>
               </>
             ) : null}

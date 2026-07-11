@@ -179,7 +179,7 @@ export async function verifyPhoneOtpViaApi(
     body: JSON.stringify({
       phone,
       token,
-      createUser: registration?.createUser ?? true,
+      createUser: registration?.createUser ?? false,
       full_name: registration?.full_name,
       birth_date: registration?.birth_date,
       birth_year: registration?.birth_year,
@@ -262,7 +262,7 @@ export async function verifyTelegramOtpViaApi(
     body: JSON.stringify({
       chatId,
       token,
-      createUser: registration?.createUser ?? true,
+      createUser: registration?.createUser ?? false,
       full_name: registration?.full_name,
       birth_date: registration?.birth_date,
       birth_year: registration?.birth_year,
