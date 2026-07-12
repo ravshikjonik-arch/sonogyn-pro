@@ -17,10 +17,13 @@ const PROVIDERS: {
   icon: string;
   color: string;
 }[] = [
-  { id: "google", label: "Google", icon: "🔵", color: "#4285F4" },
   { id: "vk", label: "ВКонтакте", icon: "🟦", color: "#0077FF" },
   { id: "yandex", label: "Яндекс ID", icon: "🔴", color: "#FC3F1D" },
+  { id: "google", label: "Google", icon: "🔵", color: "#4285F4" },
 ];
+
+/** Провайдеры для РФ (199-ФЗ): без Google. */
+export const RU_AUTH_PROVIDERS: AuthProvider[] = ["yandex"];
 
 export function AuthButtons({
   onProviderPress,
@@ -29,7 +32,9 @@ export function AuthButtons({
   providers,
 }: AuthButtonsProps) {
   const prefix = variant === "register" ? "Зарегистрироваться через" : "Войти через";
-  const visible = providers?.length ? PROVIDERS.filter((p) => providers.includes(p.id)) : PROVIDERS;
+  const visible = providers?.length
+    ? PROVIDERS.filter((p) => providers.includes(p.id))
+    : PROVIDERS.filter((p) => RU_AUTH_PROVIDERS.includes(p.id));
 
   return (
     <View style={styles.wrap}>

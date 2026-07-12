@@ -12,7 +12,8 @@ import { isTurnstileConfigured } from "@/lib/auth/verify-turnstile";
 import { isCustomSmsAuthEnabled, resolveSmsProvider } from "@/lib/auth/sms-providers";
 import { isAuthEmailOnly } from "@/lib/auth/auth-methods-config";
 import { isSmtpConfigured } from "@/lib/mail/smtp-config";
-import { supabaseGoogleCallbackUrl } from "@/lib/auth/social-auth-domains";
+import { supabaseOAuthCallbackUrl } from "@/lib/auth/social-auth-domains";
+import { isAuthRuIdpOnly, isVkIdConfigured, isYandexIdConfigured } from "@/lib/auth/russian-idp";
 import { readTelegramBotUsername } from "@/lib/auth/telegram-bot-config";
 import { isPilotTelegramPrimary } from "@/lib/auth/auth-pilot-config";
 import { isPilotAllowlistEnabled, PILOT_ALLOWLIST_MAX, readPilotAllowlist } from "@/lib/auth/pilot-allowlist";
@@ -74,6 +75,7 @@ export async function GET(req: Request) {
     return NextResponse.json({
       ok: issues.length === 0,
       issueCount: issues.length,
+      telegramBotUsername: readTelegramBotUsername(),
       features: {
         smtpConfigured: isSmtpConfigured(),
         smsReady: customSms && Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY?.trim()),
@@ -143,7 +145,7 @@ export async function GET(req: Request) {
       ],
       googleOAuth: [
         "Google Cloud → Credentials → OAuth 2.0 → Authorized redirect URIs:",
-        supabaseGoogleCallbackUrl(process.env.NEXT_PUBLIC_SUPABASE_URL),
+        supabaseOAuthCallbackUrl(process.env.NEXT_PUBLIC_SUPABASE_URL),
         "Supabase → Providers → Google → Client ID + Secret",
         "Supabase Site URL: https://sonogyn-pro.ru (не http)",
       ],

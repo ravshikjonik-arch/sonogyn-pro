@@ -9,11 +9,10 @@ import {
 } from "@/lib/route-handler-supabase";
 import type { RegistrationMetadata } from "@/lib/auth/registration-metadata";
 import { applyRegistrationMetadataAdmin } from "@/lib/auth/registration-metadata";
+import { TELEGRAM_EMAIL_DOMAIN } from "@/lib/auth/auth-email-domains";
 import { createServiceRoleClient } from "@/utils/supabase/admin";
 import { checkPilotTelegramAllowed } from "@/lib/auth/pilot-allowlist";
 import { findUserByTelegramId } from "@/lib/auth/telegram-supabase";
-
-export const TELEGRAM_EMAIL_DOMAIN = "telegram.sonogyn.app";
 
 export function telegramChatIdToAuthEmail(chatId: string): string {
   return `tg_${chatId}@${TELEGRAM_EMAIL_DOMAIN}`;

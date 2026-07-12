@@ -3,29 +3,32 @@ import { isAuthEmailOnly } from "@/lib/auth/auth-methods-config";
 export type AuthRegistrationMethod = "telegram" | "email" | "phone" | "social";
 
 export const REGISTRATION_METHOD_LABELS: Record<AuthRegistrationMethod, string> = {
+  phone: "Телефон + SMS",
+  social: "Яндекс ID",
   telegram: "Telegram",
   email: "Email + пароль",
-  phone: "Телефон + SMS",
-  social: "Google",
 };
 
 export const REGISTRATION_METHOD_HINTS: Record<AuthRegistrationMethod, string> = {
+  phone: "SMS на номера РФ (+7) через SMS.ru — основной способ по 199-ФЗ.",
+  social: "Яндекс ID — российский аккаунт в один клик. VK ID подключим отдельной интеграцией позже.",
   telegram:
-    "Пилот: одна кнопка Telegram — ID и @ник вводить не нужно. Сначала Start у @SonogynProBot.",
-  email: "Письмо с подтверждением на почту. Работает из РФ без VPN.",
-  phone: "SMS на номера РФ (+7) — обычно 10–30 сек. Для других стран используйте Telegram.",
-  social: "Используйте Telegram, SMS или почту.",
+    "Доп. канал: бот и код. Для новых пользователей предпочтительнее SMS или Яндекс ID.",
+  email: "Восстановление и уведомления. Для первого входа лучше SMS или Яндекс ID.",
 };
+
+/** Порядок вкладок на экране входа/регистрации (SMS первым). */
+export const AUTH_TAB_ORDER: AuthRegistrationMethod[] = ["phone", "social", "telegram", "email"];
 
 export function parseRegistrationMethod(raw: string | null): AuthRegistrationMethod {
   if (isAuthEmailOnly()) return "email";
-  if (raw === "social") return "telegram";
-  if (raw === "email" || raw === "phone" || raw === "telegram") return raw;
-  return "telegram";
+  if (raw === "google") return "social";
+  if (raw === "email" || raw === "phone" || raw === "telegram" || raw === "social") return raw;
+  return "phone";
 }
 
 /** Имя бота для подсказок в UI (client-safe). */
 export function readTelegramBotDisplayName(): string {
   const username = process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME?.trim().replace(/^@/, "");
-  return username ? `@${username}` : "@SonogynProBot";
+  return username ? `@${username}` : "@Sonogyn_bot";
 }

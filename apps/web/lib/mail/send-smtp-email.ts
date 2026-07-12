@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import type SMTPTransport from "nodemailer/lib/smtp-transport";
 
 import { getSmtpConfig } from "./smtp-config";
 
@@ -66,18 +67,21 @@ export async function sendSmtpEmail(params: SmtpSendParams): Promise<SmtpSendRes
     };
   }
 
-  const transport = nodemailer.createTransport({
-    host: config.host,
+  const transportOptions: SMTPTransport.Options = {
+    host: config.connectHost ?? config.host,
     port: config.port,
     secure: config.port === 465,
     auth: {
       user: config.user,
       pass: config.password,
     },
+    tls: config.connectHost ? { servername: config.host } : undefined,
     requireTLS: config.port === 587,
     connectionTimeout: 15_000,
     greetingTimeout: 15_000,
-  });
+  };
+
+  const transport = nodemailer.createTransport(transportOptions);
 
   try {
     const info = await transport.sendMail({

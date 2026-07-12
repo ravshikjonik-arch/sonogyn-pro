@@ -11,7 +11,6 @@ import { PhoneAuthSetupHint } from "@/components/auth/PhoneAuthSetupHint";
 import { PhoneInput } from "@/components/auth/PhoneInput";
 import { RussianIdpPanel } from "@/components/auth/RussianIdpPanel";
 import { SocialAuthSetupHint } from "@/components/auth/SocialAuthSetupHint";
-import { TelegramSimpleAuth } from "@/components/auth/TelegramSimpleAuth";
 import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
 import { Button } from "@/components/ui/button";
 import { normalizePhone } from "@/lib/auth/oauth-providers";
@@ -384,14 +383,29 @@ function LoginForm() {
       telegramTab={
         simpleTelegramLogin ? (
           <div className="space-y-4">
-            <TelegramSimpleAuth
-              mode="login"
-              nextPath={nextPath}
-              message={telegramWidgetMessage || (message && activeTab === "telegram" ? message : undefined)}
-            />
-            <details className="rounded-2xl border border-slate-200 p-3 text-sm dark:border-slate-800">
+            <div className="rounded-2xl border border-emerald-200 bg-emerald-50/80 p-4 text-sm text-emerald-950 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-100">
+              <p className="font-semibold">Вход через Telegram-код</p>
+              <ol className="mt-2 list-decimal space-y-1 pl-4 text-emerald-900 dark:text-emerald-200">
+                <li>
+                  Откройте {telegramBotName} в Telegram и нажмите <strong>Start</strong>
+                </li>
+                <li>Укажите числовой Telegram ID ниже</li>
+                <li>Получите код в Telegram и войдите</li>
+              </ol>
+              <p className="mt-2 text-xs text-emerald-800 dark:text-emerald-300">
+                Прямая OAuth-кнопка Telegram больше не используется: Telegram отдаёт deprecated для старого
+                endpoint. Код через бота работает стабильнее.
+              </p>
+            </div>
+            {telegramWidgetMessage ? (
+              <p className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-100">
+                {telegramWidgetMessage}
+              </p>
+            ) : null}
+            {message && activeTab === "telegram" ? <AuthMessage message={message} /> : null}
+            <details open className="rounded-2xl border border-slate-200 p-3 text-sm dark:border-slate-800">
                 <summary className="cursor-pointer font-medium text-slate-600 dark:text-slate-300">
-                  Вход по коду (если кнопка Telegram не работает)
+                  Вход по коду через Telegram
                 </summary>
                 <form className="mt-4 space-y-4" onSubmit={(e) => void onVerifyTelegramOtp(e)}>
                   <label className="block">

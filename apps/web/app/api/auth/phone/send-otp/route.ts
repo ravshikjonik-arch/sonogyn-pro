@@ -197,6 +197,14 @@ export async function POST(req: Request) {
         isRegistration ? "register" : "login",
       );
 
+      if (
+        !isRegistration &&
+        (mapped.needsRegistration ?? phoneAuthNeedsRegistration(error.message))
+      ) {
+        await clearAuthFailures(failKey);
+        return NextResponse.json({ ok: true, message: PHONE_OTP_SENT_MSG });
+      }
+
       // Fallback chain: Supabase SMS недоступен → наш send-code pipeline на email.
       const fallbackEmail =
         typeof body.fallbackEmail === "string" ? parseEmailContact(body.fallbackEmail) : null;

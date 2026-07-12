@@ -1,8 +1,6 @@
 import type { User } from "@supabase/supabase-js";
 
-import { TELEGRAM_EMAIL_DOMAIN } from "@/lib/auth/telegram-custom-auth";
-
-const PHONE_EMAIL_DOMAIN = "phone.sonogyn.app";
+import { PHONE_EMAIL_DOMAIN, TELEGRAM_EMAIL_DOMAIN } from "@/lib/auth/auth-email-domains";
 
 /** Прочитать phoneVerified из user_metadata (camelCase + snake_case). */
 export function readPhoneVerified(user: Pick<User, "user_metadata" | "phone_confirmed_at">): boolean {

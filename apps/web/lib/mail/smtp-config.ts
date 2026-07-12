@@ -1,5 +1,6 @@
 export type SmtpConfig = {
   host: string;
+  connectHost?: string;
   port: number;
   user: string;
   password: string;
@@ -9,6 +10,7 @@ export type SmtpConfig = {
 /** Mailgun / generic SMTP from env (SMTP_PASSWORD or legacy SMTP_PASS). */
 export function getSmtpConfig(): SmtpConfig | null {
   const host = process.env.SMTP_HOST?.trim();
+  const connectHost = process.env.SMTP_CONNECT_HOST?.trim();
   const portRaw = process.env.SMTP_PORT?.trim();
   const user = process.env.SMTP_USER?.trim();
   const password =
@@ -22,7 +24,7 @@ export function getSmtpConfig(): SmtpConfig | null {
   const port = Number.parseInt(portRaw ?? "587", 10);
   if (!Number.isFinite(port) || port <= 0) return null;
 
-  return { host, port, user, password, from };
+  return { host, connectHost: connectHost || undefined, port, user, password, from };
 }
 
 export function isSmtpConfigured(): boolean {
