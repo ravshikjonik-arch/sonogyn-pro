@@ -699,6 +699,10 @@ importers:
         version: 5.9.3
 
   packages/cervix-pathology-reference:
+    dependencies:
+      zod:
+        specifier: ^3.24.4
+        version: 3.25.76
     devDependencies:
       '@types/node':
         specifier: ^20
