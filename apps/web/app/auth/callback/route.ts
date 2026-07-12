@@ -41,8 +41,7 @@ export async function GET(request: NextRequest) {
 
   const isRecoveryFlow =
     params.type === "recovery" ||
-    params.next.includes("reset-password") ||
-    Boolean(params.tokenHash);
+    params.next.includes("reset-password");
 
   const redirectTarget = isRecoveryFlow ? recoveryResetPath() : params.next;
 
