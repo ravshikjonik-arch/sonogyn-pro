@@ -309,6 +309,23 @@ export function BiradsUsCalculator({ embedded }: { embedded?: boolean } = {}) {
 
         {step === 6 ? (
           <CalcStepCard title="Шаг 6 — Регионарные лимфатические узлы">
+            <p className="text-xs leading-relaxed text-[var(--clinical-foreground-muted)]">
+              9 параметров BI-RADS v2025: размер, форма, кора &gt;3 мм, контур, ворота, эхогенные фокусы, симметрия,
+              динамика, клиническая корреляция.{" "}
+              {flow?.setMode ? (
+                <button
+                  type="button"
+                  className="font-semibold text-[var(--clinical-primary-deep)] hover:underline"
+                  onClick={() => flow.setMode("lymph")}
+                >
+                  Справочник по ЛУ →
+                </button>
+              ) : (
+                <Link href="/tools/calc/rads/bi-rads" className="font-semibold text-[var(--clinical-primary-deep)] hover:underline">
+                  Справочник по ЛУ (вкладка «Лимфоузлы») →
+                </Link>
+              )}
+            </p>
             <CalcSubLabel>Локализация (можно несколько)</CalcSubLabel>
             <ChipField
               options={brochureOptions.lymphNodeSites}

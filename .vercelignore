@@ -9,6 +9,7 @@ apps/web/app/api/ustri_inference/USTri
 **/*.pth
 **/*.mp4
 **/*.pdf
-apps/web/public/clinical-atlas
+apps/web/public/clinical-atlas/blinov
+apps/web/public/clinical-atlas/blinov 2
 apps/web/public/images/orads-calculator
 apps/web/public/books

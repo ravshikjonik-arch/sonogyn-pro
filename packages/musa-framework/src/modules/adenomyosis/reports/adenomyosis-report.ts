@@ -48,6 +48,17 @@ export function generateAdenomyosisReport(input: MusaAdenomyosisAssessmentInput)
       ? input.localization.map((c) => localizationLabel(c)).join(", ")
       : "не указана";
 
+  const onlyVagueHeterogeneity =
+    input.heterogeneousMyometrium &&
+    !input.myometrialCysts &&
+    !input.hyperechogenicIslands &&
+    !input.subendometrialStriations &&
+    !input.asymmetry &&
+    !input.globularUterus &&
+    !input.fanShapedShadowing &&
+    (input.jzThicknessMm == null || input.jzThicknessMm < 8) &&
+    !input.jzIrregularity;
+
   const structuredLines = [
     "МАТКА — MUSA Adenomyosis (Sonogyn-Pro, образовательный шаблон)",
     "",
@@ -65,6 +76,9 @@ export function generateAdenomyosisReport(input: MusaAdenomyosisAssessmentInput)
       ? `Толщина стенок: передняя ${input.anteriorWallMm} мм, задняя ${input.posteriorWallMm} мм.`
       : null,
     "",
+    onlyVagueHeterogeneity
+      ? "⚠ MUSA: формулировка «неоднородный миометрий» недостаточна — добавьте конкретные признаки, локализацию, JZ и тип."
+      : null,
     `Sonogyn Adenomyosis Score: ${score.total}/${score.maxScore} — ${score.labelRu}.`,
     "",
     `Версия модуля: ${MUSA_ADENOMYOSIS_KNOWLEDGE.module} ${MUSA_ADENOMYOSIS_KNOWLEDGE.version}`,

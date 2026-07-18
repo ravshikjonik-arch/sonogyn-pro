@@ -7,6 +7,7 @@ export {
   getDirectFeatures,
   getIndirectFeatures,
   getSlides,
+  getTerminologyGuide,
   localizationLabel,
   type MusaAdenomyosisAssessmentInput,
   type MusaAdenomyosisKnowledge,

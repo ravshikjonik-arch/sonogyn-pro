@@ -1,11 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import { BiradsAiAssistant } from "@/components/calculators/birads/BiradsAiAssistant";
 import { BiradsCategoryAtlas } from "@/components/calculators/birads/BiradsCategoryAtlas";
 import { BiradsFlowProvider } from "@/components/calculators/birads/BiradsFlowContext";
+import { BiradsLymphNodesGuide } from "@/components/calculators/birads/BiradsLymphNodesGuide";
 import { BiradsQuickWizard } from "@/components/calculators/birads/BiradsQuickWizard";
 import { BiradsUsCalculator } from "@/components/calculators/birads/BiradsUsCalculator";
 import { CalculatorLiteraturePanel } from "@/components/pubmed/CalculatorLiteraturePanel";
@@ -13,13 +15,21 @@ import { Button } from "@/components/ui/button";
 import { BIRADS_BROCHURE_SOURCE, BIRADS_CATEGORIES } from "@/lib/birads-us";
 import { cn } from "@/lib/utils/cn";
 
-type BiradsMode = "quick" | "brochure" | "atlas" | "assistant";
+type BiradsMode = "quick" | "brochure" | "lymph" | "atlas" | "assistant";
 type SidePanel = "categories" | "resources" | null;
 
 /** BI-RADS US: быстрый калькулятор + брошюра v2025 + атлас + AI Assistant. */
 export function BiradsProFlow() {
+  const searchParams = useSearchParams();
   const [mode, setMode] = useState<BiradsMode>("quick");
   const [panel, setPanel] = useState<SidePanel>(null);
+
+  useEffect(() => {
+    const tab = searchParams.get("tab");
+    if (tab === "lymph" || tab === "brochure" || tab === "atlas" || tab === "assistant" || tab === "quick") {
+      setMode(tab);
+    }
+  }, [searchParams]);
 
   return (
     <BiradsFlowProvider setMode={setMode}>
@@ -35,6 +45,7 @@ export function BiradsProFlow() {
                 [
                   ["quick", "Быстрый"],
                   ["brochure", "Брошюра"],
+                  ["lymph", "Лимфоузлы"],
                   ["atlas", "Атлас"],
                   ["assistant", "AI Assistant"],
                 ] as const
@@ -74,6 +85,7 @@ export function BiradsProFlow() {
 
         {mode === "quick" ? <BiradsQuickWizard /> : null}
         {mode === "brochure" ? <BiradsUsCalculator embedded /> : null}
+        {mode === "lymph" ? <BiradsLymphNodesGuide /> : null}
         {mode === "atlas" ? <BiradsCategoryAtlas /> : null}
         {mode === "assistant" ? <BiradsAiAssistant /> : null}
 

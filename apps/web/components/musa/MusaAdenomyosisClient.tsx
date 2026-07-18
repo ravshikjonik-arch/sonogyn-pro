@@ -1,6 +1,6 @@
 "use client";
 
-import { BookOpen, ClipboardList, Layers, Map, Sparkles } from "lucide-react";
+import { BookOpen, ClipboardList, Layers, Map, MessageSquareText, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 
@@ -22,6 +22,7 @@ import { FeatureCard } from "@/components/musa/FeatureCard";
 import { JunctionalZoneCard } from "@/components/musa/JunctionalZoneCard";
 import { LocalizationMap } from "@/components/musa/LocalizationMap";
 import { MusaCard } from "@/components/musa/MusaCard";
+import { MusaTerminologyGuide } from "@/components/musa/MusaTerminologyGuide";
 import { ScoreCalculator } from "@/components/musa/ScoreCalculator";
 import { ClinicalAssistStrip } from "@/components/clinical-assistant/ClinicalAssistStrip";
 import { Badge } from "@/components/ui/badge";
@@ -105,8 +106,11 @@ export function MusaAdenomyosisClient() {
         </div>
       </header>
 
-      <Tabs defaultValue="learn">
+      <Tabs defaultValue="terminology">
         <TabsList className="flex h-auto flex-wrap gap-1">
+          <TabsTrigger value="terminology" className="gap-1">
+            <MessageSquareText className="h-4 w-4" /> Терминология
+          </TabsTrigger>
           <TabsTrigger value="learn" className="gap-1">
             <BookOpen className="h-4 w-4" /> Слайды
           </TabsTrigger>
@@ -120,6 +124,10 @@ export function MusaAdenomyosisClient() {
             <ClipboardList className="h-4 w-4" /> Протокол
           </TabsTrigger>
         </TabsList>
+
+        <TabsContent value="terminology" className="pt-4">
+          <MusaTerminologyGuide />
+        </TabsContent>
 
         <TabsContent value="learn" className="space-y-4 pt-4">
           <MusaCard title={slides[slideIdx]?.title ?? "MUSA"} badge={`Слайд ${slideIdx + 1}/${slides.length}`}>
