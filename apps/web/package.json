@@ -17,6 +17,7 @@
     "test:auth": "node scripts/auth-smoke-test.mjs",
     "test:auth:mailru-prod": "node scripts/test-mailru-auth-prod.mjs",
     "test:pilot-smoke": "node scripts/pilot-smoke.mjs",
+    "test:clinical-memory-prod": "node scripts/test-clinical-memory-prod.mjs",
     "pilot:launch-check": "node scripts/pilot-smoke.mjs && node scripts/test-mailru-auth-prod.mjs",
     "test:pilot-case-e2e": "node scripts/pilot-case-e2e.mjs",
     "feed:editorial-seed": "node scripts/feed-editorial-seed.mjs",
