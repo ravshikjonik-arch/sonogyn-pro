@@ -645,7 +645,7 @@ function RegisterForm() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="doctor@example.com"
+              placeholder="doctor@mail.ru"
               required
               autoComplete="email"
               aria-label="Email"
@@ -672,10 +672,8 @@ function RegisterForm() {
             <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-900 dark:border-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-100">
               <p className="font-medium">Подтвердите email</p>
               <p className="mt-1 text-emerald-800 dark:text-emerald-200">
-                Откройте письмо и перейдите по ссылке. Адрес приложения:{" "}
-                <span className="font-mono text-xs">
-                  {typeof window !== "undefined" ? window.location.origin : "…"}
-                </span>
+                Письмо придёт от <strong>Sonogyn-pro@mail.ru</strong> — откройте ссылку подтверждения.
+                Если не видите письмо, проверьте «Спам».
               </p>
               <Button
                 type="button"

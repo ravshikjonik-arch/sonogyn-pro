@@ -605,7 +605,7 @@ function LoginForm() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="doctor@example.com"
+              placeholder="doctor@mail.ru"
               required
               aria-label="Email"
               data-testid="email-input"

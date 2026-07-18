@@ -27,8 +27,9 @@ export function EmailRegistrationHint() {
 
   return (
     <p className="mb-4 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-100">
-      На почту придёт <strong>письмо с подтверждением</strong> — откройте ссылку, затем войдите.
-      Если письма нет, проверьте «Спам» и правильность email.
+      На почту придёт <strong>письмо с подтверждением</strong> от{" "}
+      <strong>SonoGyn Pro</strong> (<span className="font-mono text-xs">Sonogyn-pro@mail.ru</span>) — откройте
+      ссылку, затем войдите. Если письма нет, проверьте папку «Спам».
     </p>
   );
 }
