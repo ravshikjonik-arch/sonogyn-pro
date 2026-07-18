@@ -5,6 +5,8 @@ import { useCallback, useState } from "react";
 
 import { OradsCategoryAtlas } from "@/components/calculators/orads/OradsCategoryAtlas";
 import { OradsProCalculator } from "@/components/calculators/orads/OradsProCalculator";
+import { OradsRussianCriteriaPanel } from "@/components/calculators/orads/OradsRussianCriteriaPanel";
+import { OradsTextCalculator } from "@/components/calculators/orads/OradsTextCalculator";
 import { OradsUsWizard } from "@/components/calculators/orads/wizard/OradsUsWizard";
 import { IotaSimpleRulesPanel } from "@/components/calculators/orads/IotaSimpleRulesPanel";
 import { CalculatorLiteraturePanel } from "@/components/pubmed/CalculatorLiteraturePanel";
@@ -19,7 +21,7 @@ import {
 import { ORADS_GOVERNING_BULLETS, ORADS_VERSION_LABEL } from "@/lib/orads-pro";
 
 type SidePanel = "tables" | "resources" | null;
-type OradsMode = "wizard" | "pro" | "iota";
+type OradsMode = "wizard" | "text" | "pro" | "iota";
 
 /** O-RADS: пошаговое дерево (orads-us) + расширенный Pro (чипы / IOTA). */
 export function OradsProFlow() {
@@ -47,6 +49,15 @@ export function OradsProFlow() {
               onClick={() => setMode("wizard")}
             >
               Пошаговый
+            </Button>
+            <Button
+              type="button"
+              variant={mode === "text" ? "secondary" : "ghost"}
+              size="sm"
+              className={cn("h-8 rounded-full text-xs", mode !== "text" && "text-white hover:bg-white/20")}
+              onClick={() => setMode("text")}
+            >
+              По тексту
             </Button>
             <Button
               type="button"
@@ -90,6 +101,8 @@ export function OradsProFlow() {
 
       {mode === "wizard" ? (
         <OradsUsWizard onOpenPro={() => setMode("pro")} />
+      ) : mode === "text" ? (
+        <OradsTextCalculator />
       ) : mode === "pro" ? (
         <OradsProCalculator onCrumb={pushCrumb} />
       ) : (
@@ -115,7 +128,10 @@ export function OradsProFlow() {
             </div>
             <div className="overflow-y-auto p-4">
               {panel === "tables" ? (
-                <OradsCategoryAtlas />
+                <div className="space-y-6">
+                  <OradsRussianCriteriaPanel />
+                  <OradsCategoryAtlas />
+                </div>
               ) : (
                 <div className="space-y-4 text-sm">
                   <p className="font-bold">{ORADS_VERSION_LABEL}</p>

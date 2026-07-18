@@ -3,14 +3,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
-import { useSupabase } from "@/app/providers";
+import { useAuth, useSupabase } from "@/app/providers";
 import { ChatMessageBubble, type ChatBubbleMessage } from "@/components/chat/ChatMessageBubble";
 import { ChatMessageComposer } from "@/components/chat/ChatMessageComposer";
 import { resolveAuthorNames } from "@/lib/chat/resolve-author-names";
-import {
-  getChatMediaSignedUrl,
-  uploadChatMedia,
-} from "@/lib/supabase/chat-media-storage";
 
 type RawMessage = {
   id: string;
@@ -19,6 +15,7 @@ type RawMessage = {
   body: string | null;
   media_storage_path: string | null;
   media_type: "image" | "video" | null;
+  media_url?: string | null;
   created_at: string;
 };
 
@@ -30,6 +27,7 @@ type Props = {
 
 export function DoctorChannelChat({ channelId, channelTitle, channelDescription }: Props) {
   const supabase = useSupabase();
+  const { user } = useAuth();
   const scrollRef = useRef<HTMLDivElement>(null);
   const [messages, setMessages] = useState<ChatBubbleMessage[]>([]);
   const [authorNames, setAuthorNames] = useState<Record<string, string>>({});
@@ -39,58 +37,58 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
   const [sending, setSending] = useState(false);
 
   const enrich = useCallback(
-    async (rows: RawMessage[]) => {
-      const enriched: ChatBubbleMessage[] = await Promise.all(
-        rows.map(async (row) => ({
+    (rows: RawMessage[]) => {
+      const enriched: ChatBubbleMessage[] = rows.map((row) => ({
           id: row.id,
           body: row.body,
           author_id: row.author_id,
           created_at: row.created_at,
           media_type: row.media_type,
-          media_url: row.media_storage_path
-            ? await getChatMediaSignedUrl(supabase, row.media_storage_path)
-            : null,
-        })),
-      );
+          media_url: row.media_url ?? null,
+        }));
       return enriched;
     },
-    [supabase],
+    [],
   );
 
-  const load = useCallback(async () => {
-    setLoading(true);
-    const { data: sessionData } = await supabase.auth.getSession();
-    setUserId(sessionData.session?.user.id ?? null);
+  const load = useCallback(async (silent = false) => {
+    if (!silent) setLoading(true);
+    setUserId(user?.id ?? null);
 
-    const { data, error } = await supabase
-      .from("doctor_chat_messages")
-      .select("id,channel_id,author_id,body,media_storage_path,media_type,created_at")
-      .eq("channel_id", channelId)
-      .order("created_at", { ascending: true })
-      .limit(200);
+    const response = await fetch(`/api/doctor-chat/messages?channelId=${encodeURIComponent(channelId)}`);
+    const payload = (await response.json().catch(() => null)) as
+      | { messages?: RawMessage[]; error?: unknown }
+      | null;
 
-    if (error) {
+    if (!response.ok || !payload?.messages) {
+      const message = typeof payload?.error === "string" ? payload.error : "Не удалось загрузить чат";
       const hint =
-        error.message.includes("doctor_chat") ||
-        (typeof error === "object" && error !== null && "code" in error && error.code === "42P01")
+        message.includes("doctor_chat")
           ? "Примените BUNDLE_COMMUNITY_CHAT_ONLY.sql в Supabase SQL Editor."
-          : error.message;
+          : message;
       setLoadError(hint);
       toast.error("Чат: нужна миграция Supabase");
       setMessages([]);
-      setLoading(false);
+      if (!silent) setLoading(false);
       return;
     }
     setLoadError(null);
 
-    const rows = (data ?? []) as RawMessage[];
-    setMessages(await enrich(rows));
+    const rows = payload.messages;
+    setMessages(enrich(rows));
     setAuthorNames(await resolveAuthorNames(supabase, rows.map((r) => r.author_id)));
-    setLoading(false);
-  }, [channelId, enrich, supabase]);
+    if (!silent) setLoading(false);
+  }, [channelId, enrich, supabase, user?.id]);
 
   useEffect(() => {
     queueMicrotask(() => void load());
+  }, [load]);
+
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      void load(true);
+    }, 10000);
+    return () => window.clearInterval(id);
   }, [load]);
 
   useEffect(() => {
@@ -104,12 +102,8 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
           table: "doctor_chat_messages",
           filter: `channel_id=eq.${channelId}`,
         },
-        async (payload) => {
-          const row = payload.new as RawMessage;
-          const [bubble] = await enrich([row]);
-          setMessages((prev) => [...prev.filter((m) => m.id !== bubble.id), bubble]);
-          const names = await resolveAuthorNames(supabase, [row.author_id]);
-          setAuthorNames((prev) => (prev[row.author_id] ? prev : { ...prev, ...names }));
+        async () => {
+          await load(true);
         },
       )
       .subscribe();
@@ -128,7 +122,7 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
   async function handleSend({ text, file }: { text: string; file: File | null }) {
     if (!userId) {
       toast.message("Нужна авторизация");
-      return;
+      return false;
     }
     setSending(true);
     try {
@@ -136,40 +130,56 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
       let media_type: "image" | "video" | null = null;
 
       if (file) {
-        const uploaded = await uploadChatMedia(supabase, {
-          userId,
-          scope: "channel",
-          scopeId: channelId,
-          file,
+        const form = new FormData();
+        form.append("scope", "channel");
+        form.append("scopeId", channelId);
+        form.append("file", file);
+        const uploadResponse = await fetch("/api/doctor-chat/media", {
+          method: "POST",
+          body: form,
         });
-        if ("error" in uploaded) {
-          toast.error(uploaded.error);
-          return;
+        const uploaded = (await uploadResponse.json().catch(() => null)) as
+          | { storagePath?: string; mediaType?: "image" | "video"; error?: string }
+          | null;
+        if (!uploadResponse.ok || !uploaded?.storagePath || !uploaded.mediaType) {
+          toast.error(uploaded?.error ?? "Не удалось загрузить файл");
+          return false;
         }
         media_storage_path = uploaded.storagePath;
         media_type = uploaded.mediaType;
       }
 
-      const { error } = await supabase.from("doctor_chat_messages").insert({
-        channel_id: channelId,
-        author_id: userId,
-        body: text || null,
-        media_storage_path,
-        media_type,
+      const response = await fetch("/api/doctor-chat/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          channelId,
+          body: text || null,
+          media_storage_path,
+          media_type,
+        }),
       });
+      const payload = (await response.json().catch(() => null)) as
+        | { message?: RawMessage; error?: unknown }
+        | null;
 
-      if (error) {
-        toast.error(error.message);
-        return;
+      if (!response.ok || !payload?.message) {
+        toast.error(typeof payload?.error === "string" ? payload.error : "Не удалось отправить сообщение");
+        return false;
       }
+      const [bubble] = enrich([payload.message]);
+      setMessages((prev) => [...prev.filter((m) => m.id !== bubble.id), bubble]);
+      const names = await resolveAuthorNames(supabase, [payload.message.author_id]);
+      setAuthorNames((prev) => ({ ...prev, ...names }));
       toast.success("Сообщение отправлено");
+      return true;
     } finally {
       setSending(false);
     }
   }
 
   return (
-    <div className="flex min-h-[520px] flex-col rounded-2xl border border-[var(--clinical-border)] bg-[var(--clinical-card)] shadow-sm">
+    <div className="doctor-chat-panel flex min-h-[520px] flex-col rounded-2xl border border-[var(--clinical-border)] shadow-sm">
       <div className="border-b border-[var(--clinical-border)] px-5 py-4">
         <p className="text-sm font-black text-[var(--clinical-foreground)]">{channelTitle}</p>
         {channelDescription ? (
@@ -179,7 +189,7 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
 
       <div
         ref={scrollRef}
-        className="flex-1 space-y-3 overflow-y-auto bg-[var(--clinical-muted)]/30 p-4"
+        className="doctor-chat-messages flex-1 space-y-3 overflow-y-auto p-4"
       >
         {loadError ? (
           <div className="rounded-xl border border-amber-300/70 bg-amber-50/90 p-4 text-sm text-amber-950 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-100">
@@ -208,7 +218,7 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
       </div>
 
       {!loadError && userId ? (
-        <div className="border-t border-[var(--clinical-border)] p-4">
+        <div className="doctor-chat-composer border-t border-[var(--clinical-border)] p-4">
           <ChatMessageComposer busy={sending} onSend={handleSend} />
         </div>
       ) : null}

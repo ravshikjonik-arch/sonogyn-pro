@@ -9,11 +9,11 @@ export type WorkspaceToolId =
 
 export type FibroidMarkerState = {
   id: string;
-  /** Локальные координаты в группе матки (как при raycast) */
+  /** Local coordinates in the uterus group, as returned by raycast. */
   position: [number, number, number];
-  /** Визуальный радиус узла (условные единицы сцены) */
+  /** Visual lesion radius in scene units. */
   radius: number;
-  /** Смещение к полости: усиливает субмукозный компонент в расчёте */
+  /** Bias toward cavity: increases submucosal component in calculation. */
   cavityBias01: number;
 };
 
@@ -46,7 +46,7 @@ export function vecFromTuple(t: [number, number, number]): Vector3 {
   return new Vector3(t[0], t[1], t[2]);
 }
 
-/** Проброс колбэков и состояния клинического workspace между RN-панелью и сценой R3F */
+/** Shared clinical workspace state/callbacks between control panel and R3F scene. */
 export type UterusClinicalWorkspaceBinding = {
   fibroidMarkers: FibroidMarkerState[];
   fibroidSelectedId: string | null;

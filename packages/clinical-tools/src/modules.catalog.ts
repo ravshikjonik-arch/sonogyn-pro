@@ -110,6 +110,8 @@ export type ModuleId =
   | "education.obstetric-atlas"
   | "education.fetal-spine"
   | "education.exam-checklists"
+  | "education.case-library"
+  | "education.clinic-accreditation"
   | "education.orads-flow"
   | "education.calculators-shelf";
 
@@ -766,6 +768,24 @@ export const MODULES: ModuleEntry[] = [
     href: "/tools/refs/exam-checklists",
     surfaces: { educationShelf: "courses", clinicalSearch: true },
     legacy: { education: "exam-checklists" },
+  },
+  {
+    id: "education.case-library",
+    domain: "education",
+    kind: "education",
+    title: "Teaching Case Library",
+    href: "/tools/refs/case-library",
+    surfaces: { educationShelf: "courses", clinicalSearch: true },
+    legacy: { education: "case-library" },
+  },
+  {
+    id: "education.clinic-accreditation",
+    domain: "education",
+    kind: "education",
+    title: "Аккредитация кабинета УЗИ (AIUM-style)",
+    href: "/tools/refs/clinic-accreditation",
+    surfaces: { educationShelf: "courses", clinicalSearch: true },
+    legacy: { education: "clinic-accreditation" },
   },
   {
     id: "education.orads-flow",

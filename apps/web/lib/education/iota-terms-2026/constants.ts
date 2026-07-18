@@ -14,7 +14,7 @@ export const IOTA_TERMS_2026_META = {
 } as const;
 
 export const IOTA_TERMS_2026_LINKS = {
-  oradsCalculator: { href: "/tools/calc/rads/o-rads", label: "Калькулятор O-RADS Pro + IOTA 2026" },
+  oradsCalculator: { href: "/tools/calc/rads/o-rads", label: "Калькулятор O-RADS US + IOTA 2026" },
   oradsGuide: { href: "/tools/refs/orads-guide", label: "O-RADS US · руководство" },
   oradsEchograms: { href: "/tools/refs/orads-echograms", label: "O-RADS · эхограммы" },
   library: { href: "/tools/refs", label: "Библиотека" },

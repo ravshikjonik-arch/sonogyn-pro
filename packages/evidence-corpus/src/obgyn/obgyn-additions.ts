@@ -172,7 +172,7 @@ export const OBGYN_ADDITIONAL_EVIDENCE: EvidenceEntry[] = [
     },
     tags: ["O-RADS", "яичник", "киста", "oncology", "triage"],
     relatedLinks: [
-      { label: "O-RADS Pro", href: "/calculators/o-rads" },
+      { label: "O-RADS Pro", href: "/tools/calc/rads/o-rads" },
       { label: "Атлас яичника", href: "/ovary-atlas" },
     ],
   },

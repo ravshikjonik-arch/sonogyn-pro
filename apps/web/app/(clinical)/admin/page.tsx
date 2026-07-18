@@ -37,7 +37,7 @@ export default async function AdminDashboardPage() {
 
       <section className="grid gap-4 md:grid-cols-3">
         {[
-          { title: "User directory", body: "Invite flows + MFA audit — wire Supabase Auth admin APIs." },
+          { title: "Медицинский допуск", body: "Проверка врачей, ординаторов и студентов для закрытой платформы." },
           { title: "Moderation queue", body: "Review flagged teaching cases before publication." },
           { title: "Analytics export", body: "Blend Firebase events with `analytics_events` SQL warehouse." },
         ].map((card) => (
@@ -49,6 +49,9 @@ export default async function AdminDashboardPage() {
       </section>
 
       <div className="flex flex-wrap gap-3">
+        <Button asChild>
+          <Link href="/admin/medical-access">Проверка врачей</Link>
+        </Button>
         <Button asChild>
           <Link href="/admin/nosologies">Нозологии (редактор)</Link>
         </Button>

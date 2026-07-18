@@ -6,10 +6,10 @@ export const PRODUCT = {
   brand: "SonoGyn",
   fullName: "SonoGyn Pro",
   shortName: "SonoGyn",
-  taglineRu: "УЗИ и гинекология · клинические калькуляторы",
-  taglineEn: "Ultrasound & gynecology · clinical decision support",
+  taglineRu: "Чат врачей · AI-помощник · УЗИ и акушерство-гинекология",
+  taglineEn: "Doctors chat · AI assistant · ultrasound and OBGYN",
   descriptionRu:
-    "Клинические калькуляторы и рабочее место врача УЗИ и акушера-гинеколога: O-RADS, BI-RADS, FIGO, IOTA, кейсы. Учебный CDS, не замена заключения специалиста.",
+    "Клиническая платформа для врача УЗИ и акушера-гинеколога: чат врачей, AI-помощник, Помощник врача-гинеколога, Помощник врача-акушера, Помощник врача УЗИ, Evidence-поиск и рабочие инструменты O-RADS, BI-RADS, FMF/RU, FIGO, IOTA. Ассистивный CDS, не замена заключения специалиста.",
   /** Планируемые домены; legacy-префиксы deep link сохранены в AppStack. */
   domains: {
     primary: "sonogyn.com",

@@ -43,6 +43,10 @@ type BookmarkRow = {
   created_at: string;
 };
 
+type EvidenceAssistantAnswer = AssistantAnswer & {
+  sourceTranslations?: { id: string; titleRu: string; keyPointRu: string }[];
+};
+
 const SUGGESTED = [
   "Лечение хронического простатита по последним рекомендациям",
   "Амоксициллин при беременности — доказательства",
@@ -106,10 +110,11 @@ export function EvidenceAssistantWorkspace() {
   const [mode, setMode] = useState<"assistant" | "search">("assistant");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [answer, setAnswer] = useState<AssistantAnswer | null>(null);
+  const [answer, setAnswer] = useState<EvidenceAssistantAnswer | null>(null);
   const [searchResult, setSearchResult] = useState<UnifiedSearchResult | null>(null);
   const [bookmarks, setBookmarks] = useState<BookmarkRow[]>([]);
   const [bookmarkIds, setBookmarkIds] = useState<Set<string>>(new Set());
+  const [translateToRussian, setTranslateToRussian] = useState(true);
 
   const loadBookmarks = useCallback(async () => {
     try {
@@ -182,9 +187,9 @@ export function EvidenceAssistantWorkspace() {
       const res = await fetch("/api/evidence/assistant/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query: q, useLlm: true }),
+        body: JSON.stringify({ query: q, useLlm: true, translateToRussian }),
       });
-      const data = (await res.json()) as AssistantAnswer & { error?: string };
+      const data = (await res.json()) as EvidenceAssistantAnswer & { error?: string };
       if (!res.ok) throw new Error(data.error ?? `HTTP ${res.status}`);
       setAnswer(data);
     } catch (e) {
@@ -192,7 +197,7 @@ export function EvidenceAssistantWorkspace() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [translateToRussian]);
 
   const runSearch = useCallback(async (q: string) => {
     setLoading(true);
@@ -256,6 +261,17 @@ export function EvidenceAssistantWorkspace() {
           Unified search
         </Button>
       </div>
+
+      {mode === "assistant" ? (
+        <label className="flex w-fit cursor-pointer items-center gap-2 rounded-lg border border-[var(--clinical-border)] bg-[var(--clinical-card)] px-3 py-2 text-sm">
+          <input
+            type="checkbox"
+            checked={translateToRussian}
+            onChange={(event) => setTranslateToRussian(event.target.checked)}
+          />
+          <span>Русский перевод источников</span>
+        </label>
+      ) : null}
 
       <form onSubmit={onSubmit} className="flex gap-2">
         <Input
@@ -342,6 +358,42 @@ export function EvidenceAssistantWorkspace() {
                   </li>
                 ))}
               </ul>
+            </CardContent>
+          ) : null}
+          {answer.sourceTranslations?.length ? (
+            <CardContent className="border-t pt-4">
+              <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-[var(--clinical-foreground-muted)]">
+                Перевод / пояснение источников
+              </p>
+              <ul className="space-y-2">
+                {answer.sourceTranslations.map((item) => {
+                  const source = answer.citations.find((c) => c.id === item.id);
+                  return (
+                    <li
+                      key={item.id}
+                      className="rounded-lg border border-[var(--clinical-border)] bg-[var(--clinical-muted)]/40 p-3"
+                    >
+                      <p className="text-sm font-semibold">{item.titleRu}</p>
+                      <p className="mt-1 text-sm text-[var(--clinical-foreground-muted)]">
+                        {item.keyPointRu}
+                      </p>
+                      {source ? (
+                        <a
+                          href={source.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="mt-2 inline-flex items-center gap-1 text-xs text-[var(--clinical-primary)] underline"
+                        >
+                          Оригинал <ExternalLink className="h-3 w-3" />
+                        </a>
+                      ) : null}
+                    </li>
+                  );
+                })}
+              </ul>
+              <p className="mt-2 text-[11px] text-[var(--clinical-foreground-muted)]">
+                Это русский перевод-пояснение по названию/резюме источника; юридически и научно первичным остаётся оригинал по ссылке.
+              </p>
             </CardContent>
           ) : null}
           <CardContent className="border-t pt-4">

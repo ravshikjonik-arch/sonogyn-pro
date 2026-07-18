@@ -4,6 +4,7 @@ import type { DoctorRole } from "./types";
 export const DEFAULT_PINNED_TOOL_IDS: Record<DoctorRole, string[]> = {
   ultrasound: [
     "chat",
+    "assistant-us",
     "ob-calc",
     "orads",
     "birads",
@@ -16,6 +17,7 @@ export const DEFAULT_PINNED_TOOL_IDS: Record<DoctorRole, string[]> = {
   gynecologist: [
     "chat",
     "assistant-gyn",
+    "assistant-us",
     "ob-calc",
     "endometrium",
     "popq",
@@ -25,12 +27,12 @@ export const DEFAULT_PINNED_TOOL_IDS: Record<DoctorRole, string[]> = {
   ],
   obstetrician: [
     "chat",
+    "assistant-obs",
     "ob-calc",
     "fmf",
     "cervical-length",
     "ga-lmp",
     "ga-crl",
-    "assistant-obs",
     "new-case",
   ],
   allied: ["chat", "tirads", "ln-rads", "birads", "nosology", "new-case"],
@@ -44,8 +46,8 @@ export const DOCTOR_ROLE_LABELS: Record<DoctorRole, string> = {
 };
 
 export const DOCTOR_ROLE_HINTS: Record<DoctorRole, string> = {
-  ultrasound: "O-RADS, BI-RADS, TI-RADS, эластография",
-  gynecologist: "Помощник МКБ, эндометрий, POP-Q",
-  obstetrician: "FMF, сроки, длина шейки",
+  ultrasound: "Помощник врача УЗИ, O-RADS, BI-RADS, TI-RADS",
+  gynecologist: "Помощник врача-гинеколога, эндометрий, POP-Q",
+  obstetrician: "Помощник врача-акушера, FMF, сроки, шейка",
   allied: "ЩЖ, ЛУ, МЖ, нозологии",
 };

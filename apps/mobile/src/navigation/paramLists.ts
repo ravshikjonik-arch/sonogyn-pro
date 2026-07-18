@@ -1,5 +1,7 @@
+import type { NavigatorScreenParams } from "@react-navigation/native";
+
 export type MainTabParamList = {
-  ChatTab: undefined;
+  ChatTab: { section?: "discussions" | "local" | "gallery" } | undefined;
   ToolsTab: undefined;
   AssistantTab: undefined;
   KnowledgeTab: { section?: "guidelines" | "library" } | undefined;
@@ -14,7 +16,7 @@ export type RootStackParamList = {
   TermsOfUse: undefined;
   PrivacyPolicy: undefined;
   MedicalDisclaimer: undefined;
-  Main: undefined;
+  Main: NavigatorScreenParams<MainTabParamList> | undefined;
   Case:
     | {
         caseId?: string;
@@ -51,6 +53,7 @@ export type RootStackParamList = {
   GynecologyCalc: { initialPage?: import("../navigationTypes").PageType } | undefined;
   BiRadsAssistant: undefined;
   Breast3D: undefined;
+  UltrasoundAssistant: undefined;
   TiRadsAssistant: undefined;
   EndometriumCalc: undefined;
   CervicalLengthCalc: undefined;
@@ -61,4 +64,10 @@ export type RootStackParamList = {
   VascularCarotidCalc: undefined;
   ClinicalGuidelineDetail: { guidelineId: string };
   EvidenceAssistant: undefined;
+  CervixCytologyModule:
+    | {
+        topic?: import("@repo/cervix-pathology-reference/cytology").CytologyTopicId;
+        subFocus?: "thinprep" | "surepath";
+      }
+    | undefined;
 };

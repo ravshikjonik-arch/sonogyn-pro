@@ -100,6 +100,13 @@ export {
   type ResolveOradsAssistContextInput,
 } from "./assist/resolveOradsAssistContext";
 export { runOradsAssistPipeline, type OradsAssistPipelineResult } from "./assist/runOradsAssistPipeline";
+export {
+  applyOradsClinicalMemory,
+  type OradsClinicalMemoryInsight,
+  type OradsClinicalReasoningQuestion,
+  type OradsClinicalReasoningResult,
+  type OradsClinicalReasoningStep,
+} from "./assist/clinicalReasoning";
 
 /** Supported locale bundle file names (Phase 2 UI loads JSON by code). */
 export const ORADS_LOCALE_CODES = ["ru", "en", "es", "fr", "ar"] as const;

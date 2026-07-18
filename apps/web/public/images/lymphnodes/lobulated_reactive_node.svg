@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" role="img" aria-label="Lobulated lymph node">
+  <rect width="320" height="200" fill="#0f172a"/>
+  <text x="16" y="22" font-family="system-ui,sans-serif" font-size="11" fill="#7dd3fc">B-mode · LN-RADS 2–4</text>
+  <path d="M105 95 C95 55 125 45 155 52 C175 48 200 58 215 78 C235 85 230 115 210 130 C195 150 165 155 140 145 C115 150 95 130 100 110 Z" fill="#475569" stroke="#1e293b" stroke-width="2"/>
+  <ellipse cx="158" cy="98" rx="20" ry="12" fill="#cbd5e1" stroke="#94a3b8"/>
+  <line x1="158" y1="118" x2="158" y2="72" stroke="#eab308" stroke-width="2"/>
+  <text x="160" y="175" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" fill="#cbd5e1">Lobulated margins · assess hilum &amp; cortex</text>
+</svg>

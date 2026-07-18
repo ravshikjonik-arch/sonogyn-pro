@@ -16,7 +16,7 @@ export const ONCO_ADDITIONAL_EVIDENCE: EvidenceEntry[] = [
     source: { label: "ACR O-RADS US", organization: "ACR", year: 2022 },
     tags: ["papillary", "excrescence", "projection", "O-RADS"],
     relatedLinks: [
-      { label: "O-RADS Pro", href: "/calculators/o-rads" },
+      { label: "O-RADS Pro", href: "/tools/calc/rads/o-rads" },
       { label: "IOTA 2026 · термины", href: "/library/iota-terms-2026" },
     ],
   },
@@ -33,7 +33,7 @@ export const ONCO_ADDITIONAL_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ACR O-RADS US solid lesions", organization: "ACR", year: 2022 },
     tags: ["solid mass", "solid", "adnexal", "fibroma"],
-    relatedLinks: [{ label: "O-RADS Pro", href: "/calculators/o-rads" }],
+    relatedLinks: [{ label: "O-RADS Pro", href: "/tools/calc/rads/o-rads" }],
   },
   {
     id: "onco-ascites-peritoneal",
@@ -149,7 +149,7 @@ export const ONCO_ADDITIONAL_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ACR O-RADS US", organization: "ACR", year: 2022 },
     tags: ["O-RADS 0", "incomplete", "MRI", "follow-up"],
-    relatedLinks: [{ label: "O-RADS Pro", href: "/calculators/o-rads" }],
+    relatedLinks: [{ label: "O-RADS Pro", href: "/tools/calc/rads/o-rads" }],
   },
   {
     id: "onco-paraovarian-cyst",
@@ -164,7 +164,7 @@ export const ONCO_ADDITIONAL_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ACR O-RADS US", organization: "ACR", year: 2022 },
     tags: ["paraovarian", "paratubal", "O-RADS 2", "simple"],
-    relatedLinks: [{ label: "O-RADS Pro", href: "/calculators/o-rads" }],
+    relatedLinks: [{ label: "O-RADS Pro", href: "/tools/calc/rads/o-rads" }],
   },
   {
     id: "onco-mucinous-cystadenoma",
@@ -179,7 +179,7 @@ export const ONCO_ADDITIONAL_EVIDENCE: EvidenceEntry[] = [
     tier: 2,
     source: { label: "IOTA multilocular mass data", organization: "IOTA", year: 2022 },
     tags: ["mucinous", "cystadenoma", "multilocular", "large"],
-    relatedLinks: [{ label: "O-RADS Pro", href: "/calculators/o-rads" }],
+    relatedLinks: [{ label: "O-RADS Pro", href: "/tools/calc/rads/o-rads" }],
   },
   {
     id: "onco-reporting-orads",
@@ -195,7 +195,7 @@ export const ONCO_ADDITIONAL_EVIDENCE: EvidenceEntry[] = [
     source: { label: "ACR O-RADS US reporting", organization: "ACR", year: 2022 },
     tags: ["reporting", "протокол", "lexicon", "O-RADS"],
     relatedLinks: [
-      { label: "O-RADS Pro", href: "/calculators/o-rads" },
+      { label: "O-RADS Pro", href: "/tools/calc/rads/o-rads" },
       { label: "IOTA 2026 · термины", href: "/library/iota-terms-2026" },
       { label: "O-RADS эхограммы", href: "/library/orads-echograms" },
     ],
@@ -213,7 +213,7 @@ export const ONCO_ADDITIONAL_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "RCOG adnexal mass management", organization: "RCOG", year: 2022 },
     tags: ["premenopausal", "hemorrhagic", "corpus luteum", "follow-up"],
-    relatedLinks: [{ label: "O-RADS Pro", href: "/calculators/o-rads" }],
+    relatedLinks: [{ label: "O-RADS Pro", href: "/tools/calc/rads/o-rads" }],
   },
   {
     id: "onco-postmenopausal-simple-cyst",
@@ -228,6 +228,6 @@ export const ONCO_ADDITIONAL_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ACR O-RADS US postmenopause", organization: "ACR", year: 2022 },
     tags: ["postmenopause", "simple cyst", "3 cm", "O-RADS 2"],
-    relatedLinks: [{ label: "O-RADS Pro", href: "/calculators/o-rads" }],
+    relatedLinks: [{ label: "O-RADS Pro", href: "/tools/calc/rads/o-rads" }],
   },
 ];

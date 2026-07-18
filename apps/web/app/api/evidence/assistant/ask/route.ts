@@ -18,6 +18,7 @@ const BodySchema = z.object({
   query: z.string().min(3).max(800),
   limit: z.number().int().min(1).max(30).optional(),
   useLlm: z.boolean().optional(),
+  translateToRussian: z.boolean().optional(),
 });
 
 export async function POST(request: Request) {
@@ -62,7 +63,9 @@ export async function POST(request: Request) {
 
   const useLlm = parsed.data.useLlm !== false;
   const answer = useLlm
-    ? await synthesizeWithLlm(parsed.data.query, searchResult)
+    ? await synthesizeWithLlm(parsed.data.query, searchResult, {
+        translateToRussian: parsed.data.translateToRussian !== false,
+      })
     : synthesizeEvidenceAnswer(parsed.data.query, searchResult);
 
   try {

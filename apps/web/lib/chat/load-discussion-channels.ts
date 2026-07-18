@@ -1,5 +1,11 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 
+import {
+  PILOT_CASE_DISCUSSION_CHANNELS,
+  PILOT_CHAT_CHANNELS,
+  type PilotChatChannel,
+} from "@/lib/chat/pilot-channels";
+
 export type DiscussionChannel = {
   id: string;
   slug: string;
@@ -8,26 +14,26 @@ export type DiscussionChannel = {
   sort_order: number;
 };
 
-/** Specialty sections from doctor_chat_channels (excludes legacy live-chat slugs). */
-const DISCUSSION_CHANNEL_SLUGS = new Set([
-  "iota-orads",
-  "fast-efast",
-  "cervix-pathology",
-  "breast-us",
-  "vascular-us",
-  "gynecology",
-  "obstetrics",
-]);
+function toDiscussionChannel(ch: PilotChatChannel): DiscussionChannel {
+  return {
+    id: ch.id,
+    slug: ch.slug,
+    title: ch.title,
+    description: ch.description,
+    sort_order: ch.sort_order,
+  };
+}
 
+/** Разделы для вопросов коллегам — статический список (пилот). */
 export async function loadDiscussionChannels(
-  supabase: SupabaseClient,
+  _supabase: SupabaseClient,
 ): Promise<DiscussionChannel[]> {
-  const { data, error } = await supabase
-    .from("doctor_chat_channels")
-    .select("id,slug,title,description,sort_order")
-    .order("sort_order", { ascending: true });
+  return PILOT_CASE_DISCUSSION_CHANNELS.map(toDiscussionChannel);
+}
 
-  if (error) return [];
-
-  return ((data ?? []) as DiscussionChannel[]).filter((ch) => DISCUSSION_CHANNEL_SLUGS.has(ch.slug));
+/** Все каналы live-чата — статический список (пилот). */
+export async function loadLiveChatChannels(
+  _supabase: SupabaseClient,
+): Promise<DiscussionChannel[]> {
+  return PILOT_CHAT_CHANNELS.map(toDiscussionChannel);
 }

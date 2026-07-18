@@ -3,10 +3,17 @@ import { describe, it } from "node:test";
 
 import {
   BethesdaAssistInputSchema,
+  BethesdaCategorySchema,
+  CytologyClinicalCaseSchema,
+  CytologySamplingErrorSchema,
   CytologyScreeningInputSchema,
+  NoPhiTextSchema,
   getCytologyClinicalCases,
+  getCytologyBethesdaCategories,
   getCytologyDashboardTopics,
+  getCytologyLiquidCompare,
   getCytologyModuleMeta,
+  getCytologySamplingErrors,
   interpretBethesdaAssist,
   recommendCytologyScreening,
 } from "../src/cytology";
@@ -58,6 +65,33 @@ describe("cytology screening engine", () => {
     assert.equal(rec.colposcopyNeeded, true);
   });
 
+  it("does not send every NILM HPV+ result straight to colposcopy", () => {
+    const rec = recommendCytologyScreening({
+      age: 34,
+      cytology: "nilm",
+      hpvStatus: "positive",
+    });
+    assert.equal(rec.colposcopyNeeded, false);
+    assert.equal(rec.repeatCytologyMonths, 12);
+    assert.ok(rec.hpvTestNeeded);
+  });
+
+  it("recommends colposcopy for NILM with HPV16 positive", () => {
+    const rec = recommendCytologyScreening({
+      age: 34,
+      cytology: "nilm",
+      hpvStatus: "16-positive",
+    });
+    assert.equal(rec.colposcopyNeeded, true);
+    assert.match(rec.summary, /HPV16/i);
+  });
+
+  it("shows missing data for incomplete screening context", () => {
+    const rec = recommendCytologyScreening({ age: 35 });
+    assert.ok(rec.missingData.includes("Результат цитологии"));
+    assert.ok(rec.missingData.includes("HPV-статус"));
+  });
+
   it("adds pregnancy note when pregnant flag is set", () => {
     const rec = recommendCytologyScreening({ age: 30, cytology: "lsil", pregnant: true });
     assert.ok(rec.actionsNow.some((a) => a.includes("Беременность")));
@@ -89,9 +123,41 @@ describe("cytology data loaders", () => {
     const cases = getCytologyClinicalCases();
     assert.ok(cases.length >= 10);
     for (const c of cases) {
+      assert.equal(CytologyClinicalCaseSchema.safeParse(c).success, true);
       assert.ok(c.options.length >= 2);
       assert.ok(c.correctIndex >= 0 && c.correctIndex < c.options.length);
     }
+  });
+
+  it("loads complete Bethesda categories and sampling error cards", () => {
+    const categories = getCytologyBethesdaCategories();
+    assert.deepEqual(
+      categories.map((c) => c.id),
+      ["nilm", "asc-us", "asc-h", "lsil", "hsil", "agc", "ais", "carcinoma", "unsatisfactory"],
+    );
+    for (const category of categories) {
+      assert.equal(BethesdaCategorySchema.safeParse(category).success, true);
+      assert.ok(category.doctorAction.length > 0);
+      assert.ok(category.colposcopy.length > 0);
+      assert.ok(category.biopsy.length > 0);
+      assert.ok(category.referral.length > 0);
+    }
+
+    const errors = getCytologySamplingErrors();
+    assert.equal(errors.length, 12);
+    for (const error of errors) {
+      assert.equal(CytologySamplingErrorSchema.safeParse(error).success, true);
+    }
+  });
+
+  it("loads ThinPrep and SurePath comparison with slide preparation volumes", () => {
+    const liquid = getCytologyLiquidCompare();
+    const thinPrep = liquid.systems.find((system) => system.id === "thinprep");
+    const surePath = liquid.systems.find((system) => system.id === "surepath");
+    assert.equal(thinPrep?.slidePreparationVolumeMl, "4–5");
+    assert.equal(thinPrep?.adequacyMinCells, 5000);
+    assert.equal(surePath?.slidePreparationVolumeMl, "8");
+    assert.equal(surePath?.adequacyMinCells, 15000);
   });
 });
 
@@ -113,5 +179,19 @@ describe("cytology zod schemas", () => {
       hpvStatus: "unknown",
     });
     assert.equal(parsed.success, true);
+  });
+
+  it("rejects likely patient identifiers in free AI text", () => {
+    assert.equal(NoPhiTextSchema.safeParse("Иванова Мария, 12.01.1990").success, false);
+    assert.equal(NoPhiTextSchema.safeParse("CIN2 после биопсии, без ФИО").success, true);
+  });
+
+  it("rejects incompatible HPV combinations", () => {
+    const parsed = CytologyScreeningInputSchema.safeParse({
+      age: 31,
+      hpvStatus: "negative",
+      hpv16Positive: true,
+    });
+    assert.equal(parsed.success, false);
   });
 });

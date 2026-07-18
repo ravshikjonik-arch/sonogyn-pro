@@ -32,7 +32,7 @@ export async function POST(req: Request, { params }: Params) {
     const parsed = AuthorVideoBlobUploadBodySchema.safeParse(parsedJson.data);
     if (!parsed.success) return zodErrorResponse(parsed.error);
 
-    const body = parsed.data as HandleUploadBody;
+    const body = parsed.data as unknown as HandleUploadBody;
 
     try {
       const jsonResponse = await handleUpload({

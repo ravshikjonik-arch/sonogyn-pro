@@ -272,7 +272,6 @@ export function SonogynCopilot() {
         );
       } catch (error) {
         const { message } = parseClientFetchError(error);
-        console.error("AI Chat error:", error);
         setMessages((prev) =>
           prev.map((msg) =>
             msg.id === assistantId
@@ -519,6 +518,9 @@ export function SonogynCopilot() {
                     )}
                   </div>
                   <div className="border-t border-[var(--clinical-border)] p-3">
+                    <p className="mb-2 rounded-lg border border-amber-300/70 bg-amber-50 px-2.5 py-1.5 text-[10px] font-medium leading-relaxed text-amber-950 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-100">
+                      Не отправляйте в AI ФИО, телефон, email, дату рождения, номер карты, полиса или паспорта.
+                    </p>
                     <div className="mb-2 flex items-center justify-between gap-2">
                       <button
                         type="button"

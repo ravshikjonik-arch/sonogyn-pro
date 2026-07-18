@@ -6,13 +6,45 @@ import type {
 } from "./types";
 
 const DISCLAIMER =
-  "Алгоритм является образовательной и справочной поддержкой врача и не заменяет клиническое решение. Сверяйте тактику с действующими КР МЗ РФ и ASCCP 2019.";
+  "Алгоритм является образовательной clinical decision support поддержкой врача и не заменяет клиническое решение. Учитывайте локальные клинические рекомендации и сверяйте тактику с действующими КР МЗ РФ и ASCCP 2019.";
+
+function normalizeHpvStatus(input: CytologyScreeningInput): NonNullable<CytologyScreeningInput["hpvStatus"]> {
+  if (input.hpv16Positive) return "16-positive";
+  if (input.hpv18Positive) return "18-positive";
+  return input.hpvStatus ?? "unknown";
+}
+
+function collectMissingData(input: CytologyScreeningInput): string[] {
+  const missing = new Set<string>();
+  const hpv = normalizeHpvStatus(input);
+  if (input.cytology == null) missing.add("Результат цитологии");
+  if (hpv === "unknown") missing.add("HPV-статус");
+  if (input.sexuallyActive == null) missing.add("Факт начала половой жизни");
+  if (input.lastPapMonthsAgo == null) missing.add("Когда был последний ПАП-тест");
+  if (input.lastHpvMonthsAgo == null && input.age >= 30) missing.add("Когда был последний HPV-test");
+  if (input.priorExcision == null) missing.add("Была ли конизация/LEEP/excision");
+  return Array.from(missing);
+}
+
+function collectValidationNotes(input: CytologyScreeningInput): string[] {
+  const notes: string[] = [];
+  if (input.age < 25) notes.push("Возраст <25: тактика отличается от рутинного скрининга взрослых групп.");
+  if (input.pregnant) notes.push("Беременность: исключайте инвазию, избегайте excision без строгих показаний.");
+  if (input.immunodeficient || input.hivPositive) {
+    notes.push("Иммунодефицит/HIV: нужен индивидуальный укороченный интервал наблюдения.");
+  }
+  if (input.postmenopausal) notes.push("Постменопауза: учитывайте симптомы и железистые изменения отдельно.");
+  return notes;
+}
 
 function finalize(
-  rec: CytologyScreeningRecommendation,
+  rec: Omit<CytologyScreeningRecommendation, "missingData" | "validationNotes"> &
+    Partial<Pick<CytologyScreeningRecommendation, "missingData" | "validationNotes">>,
   input: CytologyScreeningInput,
 ): CytologyScreeningRecommendation {
   const actionsNow = [...rec.actionsNow];
+  const missingData = Array.from(new Set([...(rec.missingData ?? []), ...collectMissingData(input)]));
+  const validationNotes = Array.from(new Set([...(rec.validationNotes ?? []), ...collectValidationNotes(input)]));
 
   if (input.pregnant) {
     if (rec.colposcopyNeeded || rec.riskLevel === "high") {
@@ -22,7 +54,7 @@ function finalize(
     }
   }
 
-  return { ...rec, actionsNow };
+  return { ...rec, actionsNow, missingData, validationNotes };
 }
 
 function postTreatmentSurveillance(
@@ -54,7 +86,7 @@ export function recommendCytologyScreening(input: CytologyScreeningInput): Cytol
   let riskLevel: "low" | "moderate" | "high" = "low";
 
   const cytology = input.cytology ?? null;
-  const hpv = input.hpvStatus ?? "unknown";
+  const hpv = normalizeHpvStatus(input);
   const hpvPositive =
     hpv === "positive" || hpv === "16-positive" || hpv === "18-positive";
 
@@ -172,18 +204,38 @@ export function recommendCytologyScreening(input: CytologyScreeningInput): Cytol
       return postTreatmentSurveillance(input, hpv);
     }
 
-    if (hpvPositive) {
+    if (hpv === "16-positive" || hpv === "18-positive") {
       colposcopyNeeded = true;
       riskLevel = "moderate";
-      actionsNow.push("NILM + HPV+ → кольпоскопия / genotyping");
+      actionsNow.push("NILM + HPV16/18+ → кольпоскопия");
       return finalize(
         {
-          summary: "NILM + HPV+",
+          summary: "NILM + HPV16/18+",
           actionsNow,
           nextScreeningMonths: 12,
           hpvTestNeeded: false,
           colposcopyNeeded: true,
           repeatCytologyMonths: null,
+          referSpecialist: false,
+          riskLevel,
+          disclaimer: DISCLAIMER,
+          guidelineRefs: ["ASCCP 2019"],
+        },
+        input,
+      );
+    }
+
+    if (hpv === "positive") {
+      riskLevel = "moderate";
+      actionsNow.push("NILM + HPV+ без 16/18: выполнить genotyping или повтор co-test через 12 мес по протоколу");
+      return finalize(
+        {
+          summary: "NILM + HPV+",
+          actionsNow,
+          nextScreeningMonths: 12,
+          hpvTestNeeded: true,
+          colposcopyNeeded: false,
+          repeatCytologyMonths: 12,
           referSpecialist: false,
           riskLevel,
           disclaimer: DISCLAIMER,

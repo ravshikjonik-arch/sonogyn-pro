@@ -20,6 +20,7 @@ export type BreastLocationResult = {
   quadrantKey: BreastQuadrant;
   hour: number;
   distanceCm: number;
+  distanceMm: number;
 };
 
 function clamp(value: number, min: number, max: number) {
@@ -41,6 +42,7 @@ export function getBreastLocation(point: BreastNormPoint, side: BreastSide): Bre
   const dy = point.y - 0.5;
   const dist = Math.sqrt(dx * dx + dy * dy);
   const distanceCm = Math.round(clamp((dist / 0.43) * 8, 0, 12) * 10) / 10;
+  const distanceMm = Math.round(distanceCm * 10);
   const upper = dy < 0;
   const outer = side === "right" ? dx < 0 : dx > 0;
 
@@ -82,6 +84,7 @@ export function getBreastLocation(point: BreastNormPoint, side: BreastSide): Bre
     quadrantKey,
     hour: breastClockHour(point),
     distanceCm,
+    distanceMm,
   };
 }
 
@@ -90,14 +93,14 @@ export function formatBreastLocationRu(point: BreastNormPoint, side: BreastSide)
   const loc = getBreastLocation(point, side);
   const dist =
     loc.distanceCm % 1 === 0 ? String(loc.distanceCm) : loc.distanceCm.toFixed(1).replace(".", ",");
-  return `${loc.sideLabel}: ${loc.quadrantShort} (${loc.quadrantFull}), на ${loc.hour} часах, ${dist} см от соска.`;
+  return `${loc.sideLabel}: ${loc.quadrantShort} (${loc.quadrantFull}), на ${loc.hour} часах, ${dist} см (${loc.distanceMm} мм) от соска.`;
 }
 
 export function formatBreastLocationShort(point: BreastNormPoint, side: BreastSide): string {
   const loc = getBreastLocation(point, side);
   const dist =
     loc.distanceCm % 1 === 0 ? String(loc.distanceCm) : loc.distanceCm.toFixed(1).replace(".", ",");
-  return `${loc.quadrantShort}, ${loc.hour} ч, ${dist} см от соска`;
+  return `${loc.quadrantShort}, ${loc.hour} ч, ${dist} см (${loc.distanceMm} мм) от соска`;
 }
 
 export function centroidOfStroke(points: BreastNormPoint[]): BreastNormPoint {

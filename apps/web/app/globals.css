@@ -20,6 +20,7 @@
   --clinical-primary-deep: #0c4a6e;
   --clinical-ring: rgba(14, 165, 233, 0.4);
   --clinical-accent-teal: #14b8a6;
+  --clinical-bg: var(--clinical-canvas);
   --mesh-1: rgba(14, 165, 233, 0.24);
   --mesh-2: rgba(20, 184, 166, 0.2);
   --mesh-3: rgba(6, 182, 212, 0.16);
@@ -65,6 +66,7 @@
     --clinical-primary-deep: #bfdbfe;
     --clinical-ring: rgba(99, 102, 241, 0.5);
     --clinical-accent-teal: #22d3ee;
+    --clinical-bg: var(--clinical-canvas);
     --mesh-1: rgba(59, 130, 246, 0.16);
     --mesh-2: rgba(139, 92, 246, 0.14);
     --mesh-3: rgba(99, 102, 241, 0.12);
@@ -92,6 +94,8 @@ html[data-theme-forced="dark"] {
   --clinical-primary-deep: #bfdbfe;
   --clinical-ring: rgba(99, 102, 241, 0.5);
   --clinical-accent-teal: #22d3ee;
+  --clinical-bg: var(--clinical-canvas);
+  color-scheme: dark;
   --mesh-1: rgba(59, 130, 246, 0.16);
   --mesh-2: rgba(139, 92, 246, 0.14);
   --mesh-3: rgba(99, 102, 241, 0.12);
@@ -118,6 +122,8 @@ html[data-theme-forced="light"] {
   --clinical-primary-deep: #0c4a6e;
   --clinical-ring: rgba(14, 165, 233, 0.4);
   --clinical-accent-teal: #14b8a6;
+  --clinical-bg: var(--clinical-canvas);
+  color-scheme: light;
   --mesh-1: rgba(14, 165, 233, 0.24);
   --mesh-2: rgba(20, 184, 166, 0.2);
   --mesh-3: rgba(6, 182, 212, 0.16);
@@ -202,8 +208,108 @@ html[data-theme-forced="dark"] mark {
 .sonogyn-glass-card {
   border: 1px solid var(--clinical-border);
   background: var(--clinical-card);
+  color: var(--clinical-foreground);
   backdrop-filter: blur(16px);
   box-shadow: var(--clinical-card-shadow);
+}
+
+.sonogyn-auth-input {
+  color-scheme: light;
+  caret-color: var(--clinical-primary);
+}
+
+.sonogyn-auth-input:-webkit-autofill,
+.sonogyn-auth-input:-webkit-autofill:hover,
+.sonogyn-auth-input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #020617;
+  box-shadow: 0 0 0 1000px #ffffff inset;
+  transition: background-color 9999s ease-out;
+}
+
+html[data-theme="dark"] .sonogyn-auth-input,
+html[data-theme-forced="dark"] .sonogyn-auth-input,
+html.dark .sonogyn-auth-input {
+  color-scheme: dark;
+}
+
+html[data-theme="dark"] .sonogyn-auth-input:-webkit-autofill,
+html[data-theme="dark"] .sonogyn-auth-input:-webkit-autofill:hover,
+html[data-theme="dark"] .sonogyn-auth-input:-webkit-autofill:focus,
+html[data-theme-forced="dark"] .sonogyn-auth-input:-webkit-autofill,
+html[data-theme-forced="dark"] .sonogyn-auth-input:-webkit-autofill:hover,
+html[data-theme-forced="dark"] .sonogyn-auth-input:-webkit-autofill:focus,
+html.dark .sonogyn-auth-input:-webkit-autofill,
+html.dark .sonogyn-auth-input:-webkit-autofill:hover,
+html.dark .sonogyn-auth-input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #f8fafc;
+  box-shadow: 0 0 0 1000px #020617 inset;
+}
+
+.clinical-form-control,
+.sonogyn-clinical-app input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+.sonogyn-clinical-app textarea,
+.sonogyn-clinical-app select {
+  background-color: var(--clinical-card);
+  color: var(--clinical-foreground);
+  caret-color: var(--clinical-primary);
+  color-scheme: light;
+}
+
+.clinical-form-control::placeholder,
+.sonogyn-clinical-app input::placeholder,
+.sonogyn-clinical-app textarea::placeholder {
+  color: var(--clinical-foreground-muted);
+  opacity: 1;
+}
+
+html[data-theme="dark"] .clinical-form-control,
+html[data-theme-forced="dark"] .clinical-form-control,
+html.dark .clinical-form-control,
+html[data-theme="dark"] .sonogyn-clinical-app input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+html[data-theme-forced="dark"] .sonogyn-clinical-app input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+html.dark .sonogyn-clinical-app input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+html[data-theme="dark"] .sonogyn-clinical-app textarea,
+html[data-theme-forced="dark"] .sonogyn-clinical-app textarea,
+html.dark .sonogyn-clinical-app textarea,
+html[data-theme="dark"] .sonogyn-clinical-app select,
+html[data-theme-forced="dark"] .sonogyn-clinical-app select,
+html.dark .sonogyn-clinical-app select {
+  background-color: #0f172a;
+  color: #f8fafc;
+  color-scheme: dark;
+}
+
+.clinical-form-control:-webkit-autofill,
+.clinical-form-control:-webkit-autofill:hover,
+.clinical-form-control:-webkit-autofill:focus,
+.sonogyn-clinical-app input:-webkit-autofill,
+.sonogyn-clinical-app input:-webkit-autofill:hover,
+.sonogyn-clinical-app input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--clinical-foreground);
+  box-shadow: 0 0 0 1000px var(--clinical-card) inset;
+  transition: background-color 9999s ease-out;
+}
+
+html[data-theme="dark"] .clinical-form-control:-webkit-autofill,
+html[data-theme="dark"] .clinical-form-control:-webkit-autofill:hover,
+html[data-theme="dark"] .clinical-form-control:-webkit-autofill:focus,
+html[data-theme-forced="dark"] .clinical-form-control:-webkit-autofill,
+html[data-theme-forced="dark"] .clinical-form-control:-webkit-autofill:hover,
+html[data-theme-forced="dark"] .clinical-form-control:-webkit-autofill:focus,
+html.dark .clinical-form-control:-webkit-autofill,
+html.dark .clinical-form-control:-webkit-autofill:hover,
+html.dark .clinical-form-control:-webkit-autofill:focus,
+html[data-theme="dark"] .sonogyn-clinical-app input:-webkit-autofill,
+html[data-theme="dark"] .sonogyn-clinical-app input:-webkit-autofill:hover,
+html[data-theme="dark"] .sonogyn-clinical-app input:-webkit-autofill:focus,
+html[data-theme-forced="dark"] .sonogyn-clinical-app input:-webkit-autofill,
+html[data-theme-forced="dark"] .sonogyn-clinical-app input:-webkit-autofill:hover,
+html[data-theme-forced="dark"] .sonogyn-clinical-app input:-webkit-autofill:focus,
+html.dark .sonogyn-clinical-app input:-webkit-autofill,
+html.dark .sonogyn-clinical-app input:-webkit-autofill:hover,
+html.dark .sonogyn-clinical-app input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #f8fafc;
+  box-shadow: 0 0 0 1000px #0f172a inset;
 }
 
 .sonogyn-stat-chip {
@@ -457,4 +563,56 @@ html[data-theme-forced="dark"] mark {
   .sonogyn-shimmer-bar {
     animation: none !important;
   }
+}
+
+/* Чат врачей — непрозрачные поверхности (фикс «белого экрана» в тёмной теме) */
+.doctor-chat-panel {
+  background: var(--clinical-card);
+  color: var(--clinical-foreground);
+}
+
+html[data-theme="dark"] .doctor-chat-panel,
+html.dark .doctor-chat-panel {
+  --clinical-card: #111827;
+  --clinical-muted: #1e293b;
+  background: #111827;
+}
+
+.doctor-chat-messages {
+  background: var(--clinical-muted);
+  color: var(--clinical-foreground);
+}
+
+html[data-theme="dark"] .doctor-chat-messages,
+html.dark .doctor-chat-messages {
+  background: #0f172a;
+}
+
+.doctor-chat-composer {
+  background: var(--clinical-card);
+  color: var(--clinical-foreground);
+}
+
+html[data-theme="dark"] .doctor-chat-composer,
+html.dark .doctor-chat-composer {
+  background: #111827;
+}
+
+.doctor-chat-input {
+  background: var(--clinical-card) !important;
+  color: var(--clinical-foreground) !important;
+  border-color: var(--clinical-border) !important;
+  -webkit-text-fill-color: var(--clinical-foreground);
+}
+
+html[data-theme="dark"] .doctor-chat-input,
+html.dark .doctor-chat-input {
+  background: #1e293b !important;
+  color: #f1f5f9 !important;
+  -webkit-text-fill-color: #f1f5f9;
+}
+
+.doctor-chat-input::placeholder {
+  color: var(--clinical-foreground-muted);
+  opacity: 1;
 }

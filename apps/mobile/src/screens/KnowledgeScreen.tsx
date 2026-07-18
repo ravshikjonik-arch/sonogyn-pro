@@ -84,10 +84,16 @@ export default function KnowledgeScreen({ navigation, route }: KnowledgeTabScree
       onPress: () => navigation.navigate("ClinicalReference"),
     },
     {
+      id: "cervix-quiz",
+      title: "Самопроверка · цитология РШМ",
+      sub: "Quiz для врача, ординатора, студента",
+      onPress: () => navigation.navigate("CervixCytologyModule", { topic: "quiz" }),
+    },
+    {
       id: "cervix-pathology",
       title: "Патология шейки · цитология",
-      sub: "8 глав, Bethesda, HPV, алгоритмы, кейсы, quiz",
-      onPress: () => openClinicalToolAction(navigation, "cervix_pathology"),
+      sub: "Native: Bethesda, HPV, скрининг, кейсы, quiz",
+      onPress: () => navigation.navigate("CervixCytologyModule"),
     },
     {
       id: "medvedev",

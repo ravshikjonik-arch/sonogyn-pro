@@ -54,6 +54,10 @@ export function getProductionSecretViolations(): string[] {
     violations.push("DEV_AUTH_MODE must not be true in production (remove from Vercel env)");
   }
 
+  if (!process.env.PLAYBACK_TOKEN_SECRET?.trim()) {
+    violations.push("PLAYBACK_TOKEN_SECRET must be set in production (random string ≥32 chars)");
+  }
+
   return violations;
 }
 

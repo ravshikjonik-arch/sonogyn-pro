@@ -104,6 +104,8 @@ const EDUCATION_PILOT_PATHS = [
   "/tools/refs/exam-set-pieces",
   "/tools/refs/isuog-guidelines",
   "/tools/refs/cme-tracker",
+  "/tools/refs/case-library",
+  "/tools/refs/clinic-accreditation",
   "/tools/refs/ultrasound-safety",
   "/tools/refs/fetal-biometry-formulas",
   "/login",

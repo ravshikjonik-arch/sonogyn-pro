@@ -8,6 +8,7 @@
       "distribution": "internal",
       "channel": "preview",
       "pnpm": "10.6.5",
+      "installCommand": "cd ../.. && pnpm install --frozen-lockfile",
       "env": {
         "NODE_OPTIONS": "--max-old-space-size=8192",
         "GRADLE_OPTS": "-Xmx4096m -XX:MaxMetaspaceSize=1024m -Dorg.gradle.jvmargs=-Xmx4096m -XX:MaxMetaspaceSize=1024m"
@@ -22,6 +23,7 @@
     "production": {
       "channel": "production",
       "pnpm": "10.6.5",
+      "installCommand": "cd ../.. && pnpm install --frozen-lockfile",
       "android": {
         "buildType": "app-bundle"
       },

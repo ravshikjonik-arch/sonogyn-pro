@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
-import { useSupabase } from "@/app/providers";
+import { useAuth, useSupabase } from "@/app/providers";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils/cn";
 import { formatLifecycleLabel, resolveCaseLifecycle } from "@/lib/cases/lifecycle-labels";
 import { CasePlaylistsBar } from "@/components/cases/CasePlaylistsBar";
 import { playlistToFeedFilters, type CasePlaylist } from "@/lib/cases/playlists";
-import { loadDiscussionChannels, type DiscussionChannel } from "@/lib/chat/load-discussion-channels";
+import { PILOT_CASE_DISCUSSION_CHANNELS } from "@/lib/chat/pilot-channels";
 
 /** Row from GET /api/cases (public.cases + orads/tags). */
 export type TeachingGalleryCaseRow = {
@@ -68,8 +68,9 @@ export function CaseFeed({
   initialPlaylistId = null,
 }: CaseFeedProps) {
   const supabase = useSupabase();
+  const { user } = useAuth();
   const [activePlaylistId, setActivePlaylistId] = useState<string | null>(initialPlaylistId);
-  const [channels, setChannels] = useState<DiscussionChannel[]>([]);
+  const [channels] = useState(PILOT_CASE_DISCUSSION_CHANNELS);
   const [cases, setCases] = useState<TeachingGalleryCaseRow[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
   const [isModerator, setIsModerator] = useState(false);
@@ -92,15 +93,10 @@ export function CaseFeed({
     lifecycle: initialLifecycle,
   });
 
-  useEffect(() => {
-    void loadDiscussionChannels(supabase).then(setChannels);
-  }, [supabase]);
-
   const refresh = useCallback(async () => {
     setLoading(true);
 
-    const { data: sessionData } = await supabase.auth.getSession();
-    const uid = sessionData.session?.user.id ?? null;
+    const uid = user?.id ?? null;
     setUserId(uid);
 
     if (uid) {
@@ -145,39 +141,29 @@ export function CaseFeed({
 
     if (list.length) {
       const ids = list.map((r) => r.id);
-      const { data: commentRows } = await supabase
-        .from("teaching_case_comments")
-        .select("case_id")
-        .in("case_id", ids);
-      const counts: Record<string, number> = {};
-      commentRows?.forEach((row: { case_id: string }) => {
-        counts[row.case_id] = (counts[row.case_id] ?? 0) + 1;
-      });
-      setCommentCounts(counts);
+      const socialRes = uid
+        ? await fetch(`/api/cases/social?ids=${encodeURIComponent(ids.join(","))}`, { cache: "no-store" })
+        : null;
+      const social = socialRes?.ok
+        ? ((await socialRes.json().catch(() => null)) as
+            | {
+                liked?: Record<string, boolean>;
+                bookmarked?: Record<string, boolean>;
+                commentCounts?: Record<string, number>;
+              }
+            | null)
+        : null;
+      setCommentCounts(social?.commentCounts ?? {});
+      setLiked(social?.liked ?? {});
+      setBookmarked(social?.bookmarked ?? {});
     } else {
       setCommentCounts({});
-    }
-
-    if (uid && list.length) {
-      const ids = list.map((r) => r.id);
-      const [{ data: likes }, { data: marks }] = await Promise.all([
-        supabase.from("teaching_case_likes").select("case_id").eq("user_id", uid).in("case_id", ids),
-        supabase.from("teaching_case_bookmarks").select("case_id").eq("user_id", uid).in("case_id", ids),
-      ]);
-      const likeMap: Record<string, boolean> = {};
-      const bookMap: Record<string, boolean> = {};
-      likes?.forEach((row: { case_id: string }) => {
-        likeMap[row.case_id] = true;
-      });
-      marks?.forEach((row: { case_id: string }) => {
-        bookMap[row.case_id] = true;
-      });
-      setLiked(likeMap);
-      setBookmarked(bookMap);
+      setLiked({});
+      setBookmarked({});
     }
 
     setLoading(false);
-  }, [supabase, topic, appliedFilters]);
+  }, [supabase, topic, appliedFilters, user?.id]);
 
   useEffect(() => {
     queueMicrotask(() => void refresh());
@@ -246,18 +232,23 @@ export function CaseFeed({
       return;
     }
     const channelId = appliedFilters.channelId;
-    const { data: existing } = await supabase
-      .from("channel_subscriptions")
-      .select("user_id")
-      .eq("user_id", userId)
-      .eq("channel_id", channelId)
-      .maybeSingle();
+    const response = await fetch("/api/doctor-chat/subscriptions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ channelId }),
+    });
+    const payload = (await response.json().catch(() => null)) as
+      | { subscribed?: boolean; error?: string }
+      | null;
 
-    if (existing) {
-      await supabase.from("channel_subscriptions").delete().eq("user_id", userId).eq("channel_id", channelId);
+    if (!response.ok) {
+      toast.error(payload?.error ?? "Не удалось изменить подписку");
+      return;
+    }
+
+    if (payload?.subscribed === false) {
       toast.success("Подписка на раздел отключена");
     } else {
-      await supabase.from("channel_subscriptions").insert({ user_id: userId, channel_id: channelId });
       toast.success("Push при новых вопросах в разделе включён");
     }
   }
@@ -272,12 +263,16 @@ export function CaseFeed({
       return;
     }
     const active = liked[caseId];
-    if (active) {
-      await supabase.from("teaching_case_likes").delete().eq("case_id", caseId).eq("user_id", userId);
-      setLiked((prev) => ({ ...prev, [caseId]: false }));
-    } else {
-      await supabase.from("teaching_case_likes").insert({ case_id: caseId, user_id: userId });
-      setLiked((prev) => ({ ...prev, [caseId]: true }));
+    setLiked((prev) => ({ ...prev, [caseId]: !active }));
+    const res = await fetch(`/api/cases/${caseId}/like`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ active: !active }),
+    });
+    if (!res.ok) {
+      setLiked((prev) => ({ ...prev, [caseId]: active }));
+      const data = (await res.json().catch(() => null)) as { error?: string } | null;
+      toast.error(data?.error ?? "Не удалось сохранить лайк");
     }
   }
 
@@ -287,12 +282,16 @@ export function CaseFeed({
       return;
     }
     const active = bookmarked[caseId];
-    if (active) {
-      await supabase.from("teaching_case_bookmarks").delete().eq("case_id", caseId).eq("user_id", userId);
-      setBookmarked((prev) => ({ ...prev, [caseId]: false }));
-    } else {
-      await supabase.from("teaching_case_bookmarks").insert({ case_id: caseId, user_id: userId });
-      setBookmarked((prev) => ({ ...prev, [caseId]: true }));
+    setBookmarked((prev) => ({ ...prev, [caseId]: !active }));
+    const res = await fetch(`/api/cases/${caseId}/bookmark`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ active: !active }),
+    });
+    if (!res.ok) {
+      setBookmarked((prev) => ({ ...prev, [caseId]: active }));
+      const data = (await res.json().catch(() => null)) as { error?: string } | null;
+      toast.error(data?.error ?? "Не удалось сохранить закладку");
     }
   }
 
@@ -307,20 +306,14 @@ export function CaseFeed({
       toast.error("Войдите, чтобы создать демо-кейс");
       return;
     }
-    const { error } = await supabase.from("cases").insert({
-      user_id: userId,
-      title: "POP-Q Stage II · цистоцеле · разбор",
-      description:
-        "Постменопауза, жалобы на «шарик», Ba +1 см, TVL 9 см. Обсудите тактику: наблюдение vs операция (учебный кейс, без PHI).",
-      anatomy: "Тазовое дно / POP-Q",
-      pathology: "POP-Q",
-      difficulty: "intermediate",
-      status: "published",
-      is_public: true,
-      tags: ["pop-q", "prolapse"],
+    const response = await fetch("/api/cases/demo", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ kind: "prolapse" }),
     });
-    if (error) {
-      toast.error(error.message);
+    if (!response.ok) {
+      const payload = (await response.json().catch(() => null)) as { error?: string } | null;
+      toast.error(payload?.error ?? "Не удалось создать демо-кейс");
       return;
     }
     toast.success("Демо-кейс пролапса добавлен");
@@ -332,21 +325,14 @@ export function CaseFeed({
       toast.error("Войдите, чтобы создать демо-кейс");
       return;
     }
-    const { error } = await supabase.from("cases").insert({
-      user_id: userId,
-      title: "Демо · многокамерная кистозная масса",
-      description:
-        "54 года, случайная находка слева. Обсудите категорию O-RADS и тактику наблюдения (учебный кейс, без PHI).",
-      anatomy: "Adnexa",
-      pathology: "Cystic mass",
-      difficulty: "intermediate",
-      status: "published",
-      is_public: true,
-      orads_category: 3,
-      tags: ["cystic", "adnexa", "o-rads"],
+    const response = await fetch("/api/cases/demo", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ kind: "orads" }),
     });
-    if (error) {
-      toast.error(error.message);
+    if (!response.ok) {
+      const payload = (await response.json().catch(() => null)) as { error?: string } | null;
+      toast.error(payload?.error ?? "Не удалось создать демо-кейс");
       return;
     }
     toast.success("Демо-кейс добавлен в галерею");

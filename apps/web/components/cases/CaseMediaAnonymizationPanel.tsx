@@ -4,20 +4,18 @@ import { ShieldCheck } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
-import { useSupabase } from "@/app/providers";
 import { Button } from "@/components/ui/button";
 import { CASE_ANON_CHECKS } from "@/lib/cases/anonymization-gate";
 import { cn } from "@/lib/utils/cn";
 
 type Props = {
   mediaId: string;
-  userId: string;
+  caseId: string;
   onConfirmed: () => void;
 };
 
 /** Per-file anonymization checklist (gate R6). */
-export function CaseMediaAnonymizationPanel({ mediaId, userId, onConfirmed }: Props) {
-  const supabase = useSupabase();
+export function CaseMediaAnonymizationPanel({ mediaId, caseId, onConfirmed }: Props) {
   const [checks, setChecks] = useState<boolean[]>([false, false, false]);
   const [confirmed, setConfirmed] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -30,17 +28,15 @@ export function CaseMediaAnonymizationPanel({ mediaId, userId, onConfirmed }: Pr
       return;
     }
     setBusy(true);
-    const { error } = await supabase
-      .from("case_media")
-      .update({
-        anonymization_status: "passed",
-        anonymization_checked_at: new Date().toISOString(),
-        anonymization_checked_by: userId,
-      })
-      .eq("id", mediaId);
+    const res = await fetch(`/api/cases/${caseId}/media/${mediaId}/anonymization`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ confirmed: true }),
+    });
     setBusy(false);
-    if (error) {
-      toast.error(error.message);
+    if (!res.ok) {
+      const data = (await res.json().catch(() => null)) as { error?: string } | null;
+      toast.error(data?.error ?? "Не удалось подтвердить анонимизацию");
       return;
     }
     toast.success("Анонимизация подтверждена");

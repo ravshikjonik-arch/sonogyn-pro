@@ -76,7 +76,7 @@ const navGroups: { title: string; items: { href: string; label: string; icon: ty
     title: "Гинекология",
     items: [
       { href: "/tools/gynecology", label: "Хаб гинекологии", icon: HeartPulse },
-      { href: "/tools/o-rads", label: "O-RADS · эхограммы", icon: ScanLine },
+      { href: "/tools/calc/rads/o-rads", label: "O-RADS US", icon: ScanLine },
       { href: "/ai/consultants/gynecology", label: "Помощник гинеколога", icon: HandHeart },
       { href: "/tools/calc/gyn", label: "Кальк. гинекологии", icon: Calculator },
     ],
@@ -85,7 +85,7 @@ const navGroups: { title: string; items: { href: string; label: string; icon: ty
     title: "Калькуляторы",
     items: [
       { href: "/tools/calc", label: "Все калькуляторы", icon: Calculator },
-      { href: "/tools/calc/rads/o-rads", label: "O-RADS Pro", icon: ScanLine },
+      { href: "/tools/calc/rads/o-rads", label: "O-RADS US", icon: ScanLine },
       { href: "/tools/calc/rads/bi-rads", label: "BI-RADS", icon: ScanLine },
       { href: "/tools/calc/appointment", label: "Приём · быстрые", icon: ClipboardList },
     ],
@@ -326,7 +326,7 @@ export function ClinicalShell({
   return (
     <VoiceReaderProvider>
       <VoiceReaderRouteSync pathname={pathname} />
-      <div className="flex min-h-screen sonogyn-mesh-bg">
+      <div className="sonogyn-clinical-app flex min-h-screen sonogyn-mesh-bg">
       <div
         className={cn(
           "fixed inset-0 z-30 bg-black/40 lg:hidden",

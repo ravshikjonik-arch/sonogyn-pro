@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" role="img" aria-label="Gynecologic metastasis lymph node">
+  <rect width="320" height="200" fill="#0f172a"/>
+  <text x="16" y="22" font-family="system-ui,sans-serif" font-size="11" fill="#7dd3fc">B-mode · LN-RADS 4–5 · Pelvis</text>
+  <circle cx="160" cy="95" r="46" fill="#475569" stroke="#1e293b" stroke-width="2"/>
+  <ellipse cx="160" cy="95" rx="20" ry="16" fill="#1e293b" stroke="#334155"/>
+  <ellipse cx="160" cy="95" rx="12" ry="9" fill="#334155"/>
+  <line x1="195" y1="90" x2="125" y2="102" stroke="#ef4444" stroke-width="2"/>
+  <text x="24" y="155" font-family="system-ui,sans-serif" font-size="10" fill="#64748b">obturator · internal iliac · para-aortic</text>
+  <text x="160" y="175" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" fill="#cbd5e1">GYN metastasis · necrosis · FIGO staging</text>
+</svg>

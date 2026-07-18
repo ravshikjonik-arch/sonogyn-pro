@@ -35,8 +35,8 @@ export type PathologyAnnotation = {
   pedunculated?: boolean;
   /** Расчётный или ручной FIGO (0–8) */
   figoType?: number;
-  /** Трансмуральный подтип 2–5 / 3–5 при пересечении всей стенки */
-  figoVariant?: "2-5" | "3-5" | null;
+  /** Гибридный/трансмуральный подтип при пересечении всей стенки */
+  figoVariant?: "1-5" | "1-6" | "2-5" | "2-6" | "3-5" | null;
   figoOverride?: number | null;
   localizationRu?: string;
   layerLabelRu?: string;

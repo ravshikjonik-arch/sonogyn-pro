@@ -7,6 +7,7 @@ import { ScreenBreastRisk, ScreenLnRads } from "./screens/BreastLnScreens";
 import { ScreenBishop, ScreenEfw, ScreenVbac } from "./screens/ObstetricScreens";
 import { GynQuickAccess } from "./screens/GynQuickAccess";
 import { GynHub } from "./screens/GynHub";
+import { CervixHubScreen } from "./screens/CervixHubScreen";
 import { ScreenMedvedevConsensus } from "./screens/MedvedevScreen";
 import {
   ScreenCrl,
@@ -69,6 +70,8 @@ export function GynecologyRouter({ page, setPage }: Props) {
       return <Uterus3DScreen setPage={setPage} />;
     case "gyn_medvedev_consensus":
       return <ScreenMedvedevConsensus setPage={setPage} />;
+    case "gyn_cervix_hub":
+      return <CervixHubScreen setPage={setPage} />;
     default:
       return null;
   }

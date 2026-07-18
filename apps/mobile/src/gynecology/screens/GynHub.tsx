@@ -6,6 +6,11 @@ import { gynRouterStyles as s } from "../gynRouterStyles";
 export function GynHub({ setPage }: { setPage: (p: PageType) => void }) {
   const items: { id: PageType; title: string; sub: string }[] = [
     {
+      id: "gyn_cervix_hub",
+      title: "Шейка матки",
+      sub: "Цитология · скрининг РШМ · кольпоскопия · CIN",
+    },
+    {
       id: "gyn_uterus_3d",
       title: "3D матка · FIGO",
       sub: "Интерактивная модель — клик → тип FIGO",

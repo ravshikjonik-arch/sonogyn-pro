@@ -1,6 +1,6 @@
 import type { MobileToolAction } from "@repo/clinical-tools";
 import * as WebBrowser from "expo-web-browser";
-import { Linking } from "react-native";
+import { Linking, Platform } from "react-native";
 
 import type { NavigationProp, ParamListBase } from "@react-navigation/native";
 
@@ -9,11 +9,20 @@ import { PRODUCT } from "../../config/product";
 import type { PageType } from "../../navigationTypes";
 
 const WEB_APP =
-  (process.env.EXPO_PUBLIC_WEB_APP_URL || "https://sonogyn-pro-web.vercel.app").replace(/\/$/, "");
+  (process.env.EXPO_PUBLIC_WEB_APP_URL || "https://sonogyn-pro-web-ravshan-s-projects3.vercel.app").replace(/\/$/, "");
+
+const PRODUCTION_WEB_FALLBACK =
+  "https://sonogyn-pro-web-ravshan-s-projects3.vercel.app";
+
+function resolveWebBase(): string {
+  if (Platform.OS === "web") return WEB_APP;
+  if (/localhost|127\.0\.0\.1/.test(WEB_APP)) return PRODUCTION_WEB_FALLBACK;
+  return WEB_APP;
+}
 
 export function webAppUrl(path: string): string {
   const p = path.startsWith("/") ? path : `/${path}`;
-  return `${WEB_APP}${p}`;
+  return `${resolveWebBase()}${p}`;
 }
 
 /** Tab + stack navigators passed from screens into clinical tool actions. */
@@ -21,10 +30,22 @@ export type ClinicalToolNav = NavigationProp<ParamListBase> & {
   getParent?: () => { navigate: NavigationProp<ParamListBase>["navigate"] } | undefined;
 };
 
+function openMainTab(
+  navigation: ClinicalToolNav,
+  tab: "ChatTab" | "KnowledgeTab",
+  params?: Record<string, unknown>,
+): void {
+  if (navigation.getState().routeNames.includes(tab)) {
+    navigation.navigate(tab, params);
+    return;
+  }
+  navigation.navigate("Main", { screen: tab, params });
+}
+
 export function openClinicalToolAction(navigation: ClinicalToolNav, action: MobileToolAction): void {
   switch (action) {
     case "chat_web":
-      void WebBrowser.openBrowserAsync(webAppUrl("/cases"));
+      openMainTab(navigation, "ChatTab", { section: "discussions" });
       return;
     case "new_case":
       navigation.navigate("Case", { caseId: undefined });
@@ -123,7 +144,7 @@ export function openClinicalToolAction(navigation: ClinicalToolNav, action: Mobi
       navigation.navigate("ClinicalReference");
       return;
     case "guidelines":
-      navigation.getParent()?.navigate("KnowledgeTab", { section: "guidelines" });
+      openMainTab(navigation, "KnowledgeTab", { section: "guidelines" });
       return;
     case "medvedev":
       navigation.navigate("GynecologyCalc", { initialPage: "gyn_medvedev_consensus" });
@@ -132,7 +153,7 @@ export function openClinicalToolAction(navigation: ClinicalToolNav, action: Mobi
       navigation.navigate("EvidenceAssistant");
       return;
     case "cervix_pathology":
-      void WebBrowser.openBrowserAsync(webAppUrl("/tools/refs/cervix-pathology?tab=cytology"));
+      navigation.navigate("CervixCytologyModule");
       return;
     default:
       return;

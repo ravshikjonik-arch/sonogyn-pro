@@ -2,13 +2,16 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { Award, Plus } from "lucide-react";
+import { Award, Plus, RefreshCw } from "lucide-react";
 
+import { DocumentExportToolbar } from "@/components/reporting/DocumentExportToolbar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
+import { buildCmeCertificateSpec } from "@/lib/education/build-cme-certificate-spec";
+import { syncLearningPathsToCme } from "@/lib/education/cme-auto-sync";
 
 const CME_STORAGE_KEY = "sonogyn:cme-tracker:entries";
 
@@ -41,13 +44,21 @@ export function CmeTrackerClient() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    syncLearningPathsToCme();
     setEntries(loadEntries());
     setMounted(true);
+    const refresh = () => setEntries(loadEntries());
+    window.addEventListener("sonogyn:cme-updated", refresh);
+    return () => window.removeEventListener("sonogyn:cme-updated", refresh);
   }, []);
 
   const totalHours = useMemo(() => entries.reduce((n, e) => n + e.hours, 0), [entries]);
   const targetHours = 36;
   const percent = Math.min(100, Math.round((totalHours / targetHours) * 100));
+  const certificateSpec = useMemo(
+    () => buildCmeCertificateSpec(entries, { totalTargetHours: targetHours }),
+    [entries, targetHours],
+  );
 
   function addEntry() {
     const h = parseFloat(hours);
@@ -80,10 +91,30 @@ export function CmeTrackerClient() {
         <CardContent>
           <Progress value={percent} className="h-3" />
           <p className="mt-2 text-xs text-[var(--clinical-foreground-muted)]">
-            Локальный трекер часов обучения (не аккредитованный НМО). Экспорт сертификата — в следующих версиях.
+            Локальный трекер часов обучения (не аккредитованный НМО). Learning paths зачисляются автоматически.
           </p>
+          {certificateSpec ? (
+            <div className="mt-3">
+              <DocumentExportToolbar spec={certificateSpec} compact />
+            </div>
+          ) : null}
         </CardContent>
       </Card>
+
+      <div className="flex flex-wrap items-center gap-2">
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={() => {
+            const added = syncLearningPathsToCme();
+            setEntries(loadEntries());
+            if (added > 0) return;
+          }}
+        >
+          <RefreshCw className="mr-1 h-4 w-4" /> Синхр. Learning Paths
+        </Button>
+      </div>
 
       <div className="flex flex-wrap gap-2">
         <Input

@@ -55,9 +55,9 @@ function HubInner() {
               type="button"
               onClick={() => setActiveChannel(ch.slug)}
               className={cn(
-                "rounded-xl border px-4 py-2 text-left text-sm transition",
+                "rounded-xl border px-4 py-2 text-left text-sm transition text-[var(--clinical-foreground)]",
                 activeChannel === ch.slug
-                  ? "border-[var(--clinical-primary)] bg-[var(--clinical-primary-muted)] font-bold"
+                  ? "border-[var(--clinical-primary)] bg-[var(--clinical-primary-muted)] font-bold text-[var(--clinical-primary-deep)]"
                   : "border-[var(--clinical-border)] bg-[var(--clinical-card)] hover:bg-[var(--clinical-muted)]",
               )}
             >
@@ -148,7 +148,7 @@ function DoctorsCommunityHubBody() {
         </header>
 
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px]">
-          <Suspense fallback={<p className="text-sm text-slate-500">Загрузка…</p>}>
+          <Suspense fallback={<p className="text-sm text-[var(--clinical-foreground-muted)]">Загрузка…</p>}>
             <HubInner />
           </Suspense>
           <DoctorPresencePanel />

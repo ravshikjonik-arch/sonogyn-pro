@@ -29,9 +29,16 @@ export type CytologyBethesdaCode =
 
 export type CytologyHpvStatus = "negative" | "positive" | "16-positive" | "18-positive" | "unknown";
 
+export type CytologyAudienceRole = "physician" | "resident" | "student";
+
+export type CytologyKnowledgeLevel = "basic" | "advanced" | "expert";
+
+export type HPVResult = CytologyHpvStatus;
+
 export type CytologyScreeningInput = {
   age: number;
   sexuallyActive?: boolean;
+  sexualDebutAge?: number | null;
   pregnant?: boolean;
   immunodeficient?: boolean;
   hivPositive?: boolean;
@@ -40,6 +47,8 @@ export type CytologyScreeningInput = {
   lastHpvMonthsAgo?: number | null;
   cytology?: CytologyBethesdaCode | null;
   hpvStatus?: CytologyHpvStatus;
+  hpv16Positive?: boolean;
+  hpv18Positive?: boolean;
   priorExcision?: boolean;
 };
 
@@ -51,6 +60,8 @@ export type CytologyScreeningRecommendation = {
   colposcopyNeeded: boolean;
   repeatCytologyMonths: number | null;
   referSpecialist: boolean;
+  missingData: string[];
+  validationNotes: string[];
   riskLevel: "low" | "moderate" | "high";
   disclaimer: string;
   guidelineRefs: string[];
@@ -101,4 +112,72 @@ export type CytologyClinicalCase = {
   explanation: string;
   topicRef: string;
   casesChannel: string;
+};
+
+export type BethesdaCategory = {
+  id: string;
+  code: string;
+  title: string;
+  plain: string;
+  histology: string;
+  hpvLink: string;
+  doctorAction: string;
+  colposcopy: string;
+  biopsy: string;
+  referral: string;
+};
+
+export type CytologyTopic = {
+  id: CytologyTopicId;
+  title: string;
+  icon: string;
+  summary: string;
+};
+
+export type CytologyAlgorithm = {
+  chain: Array<{ step: string; label: string; description: string }>;
+  links: Record<string, string>;
+};
+
+export type CytologySamplingError = {
+  id: string;
+  title: string;
+  whyBad: string;
+  cytologistSees: string;
+  patientRisk: string;
+  fix: string;
+  prevent: string;
+};
+
+export type CytologyQuizQuestion = {
+  id: string;
+  category: string;
+  level: "student" | "doctor";
+  role?: CytologyAudienceRole;
+  knowledgeLevel?: CytologyKnowledgeLevel;
+  question: string;
+  options: string[];
+  correctIndex: number;
+  explanation: string;
+  sourceId: string;
+};
+
+export type CytologyQuizResult = {
+  total: number;
+  answered: number;
+  correct: number;
+  incorrect: number;
+  percentCorrect: number;
+  recommendedTopics: CytologyTopicId[];
+};
+
+export type CervicalCytologyModule = {
+  id: string;
+  title: string;
+  shortTitle: string;
+  version: string;
+  source: string;
+  disclaimer: string;
+  guidelines: string[];
+  topics: CytologyTopic[];
 };

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Настройка Supabase Auth SMTP (Mailgun) через Management API.
+ * Настройка Supabase Auth SMTP (Mail.ru) через Management API.
  *
  * Usage:
  *   node scripts/configure-supabase-smtp.mjs
@@ -59,7 +59,7 @@ const smtpFrom =
   smtpUser ||
   "noreply@sonogyn-pro.ru";
 
-console.log("\n📬 Supabase Auth → Mailgun SMTP\n");
+console.log("\n📬 Supabase Auth → Mail.ru SMTP\n");
 
 if (!supabaseUrl || !projectRef) {
   console.error("✗ NEXT_PUBLIC_SUPABASE_URL не задан в .env.local");
@@ -90,16 +90,16 @@ console.log(`  Project: ${projectRef}`);
 console.log(`  SMTP host: ${payload.smtp_host}:${payload.smtp_port}`);
 console.log(`  SMTP user: ${smtpUser}`);
 
-if (smtpUser.includes("sandbox")) {
-  console.log("\n⚠️  SMTP_USER — Mailgun SANDBOX. Для production Supabase используйте postmaster@mg.sonogyn-pro.ru\n");
+if (smtpUser.includes("sandbox") || smtpHost.includes("mailgun")) {
+  console.log("\n⚠️  Для production используйте Mail.ru: Sonogyn-pro@mail.ru @ smtp.mail.ru:465\n");
 }
 
-if (!smtpFrom || smtpFrom.includes("sandbox")) {
-  console.log("⚠️  Задайте SMTP_FROM=SonoGyn Pro <noreply@sonogyn-pro.ru> (verified sender)\n");
+if (!smtpFrom || smtpFrom.includes("sandbox") || smtpFrom.includes("noreply@sonogyn-pro.ru")) {
+  console.log("⚠️  Рекомендуется SMTP_FROM=SonoGyn Pro <Sonogyn-pro@mail.ru>\n");
 }
-console.log(`  Sender:    ${payload.smtp_sender_name} <${payload.smtp_admin_email}>`);
-console.log("  Google:    OFF");
-console.log("  Phone:     OFF\n");
+  console.log(`  Sender:    ${payload.smtp_sender_name} <${payload.smtp_admin_email}>`);
+  console.log("  ⚠️  Mail.ru: Sender email ДОЛЖЕН совпадать с SMTP User (Sonogyn-pro@mail.ru)");
+  console.log("      Иначе Supabase → 550 not local sender over smtp\n");
 
 if (!accessToken) {
   console.log("⚠️  SUPABASE_ACCESS_TOKEN не задан — ручная настройка в Dashboard:\n");
@@ -109,7 +109,8 @@ if (!accessToken) {
   console.log(`     Port: ${payload.smtp_port} (если 587 не работает — 2525)`);
   console.log(`     User: ${smtpUser}`);
   console.log(`     Pass: (из SMTP_PASSWORD)`);
-  console.log(`     Sender: ${payload.smtp_admin_email}`);
+  console.log(`     Sender email: ${payload.smtp_admin_email}  (не noreply@ и не другой домен!)`);
+  console.log(`     Sender name:  ${payload.smtp_sender_name}`);
   console.log("  3. Authentication → Providers → Google OFF, Phone OFF");
   console.log("  4. URL Configuration → Site URL + /auth/callback\n");
   console.log("  Для автоматизации: Supabase → Account → Access Tokens → SUPABASE_ACCESS_TOKEN в .env.local");

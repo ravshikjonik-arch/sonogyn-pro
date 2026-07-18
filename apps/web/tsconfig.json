@@ -109,6 +109,12 @@
       ],
       "@repo/thyroid-tirads/*": [
         "../../packages/thyroid-tirads/*"
+      ],
+      "@repo/upload-validation": [
+        "../../packages/upload-validation/src/index.ts"
+      ],
+      "@repo/upload-validation/*": [
+        "../../packages/upload-validation/src/*"
       ]
     }
   },

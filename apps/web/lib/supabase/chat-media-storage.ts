@@ -23,6 +23,14 @@ export function chatMediaObjectPath(
   return `${userId}/${folder}/${scopeId}/${Date.now()}-${safe}`;
 }
 
+export function chatMediaPathBelongsToScope(
+  storagePath: string,
+  params: { userId: string; scope: "channel" | "case-comment"; scopeId: string },
+): boolean {
+  const folder = params.scope === "channel" ? "channels" : "case-comments";
+  return storagePath.startsWith(`${params.userId}/${folder}/${params.scopeId}/`);
+}
+
 export async function uploadChatMedia(
   supabase: SupabaseClient,
   params: {

@@ -12,6 +12,7 @@ import TiradsAiPanel from "../components/TiradsAiPanel";
 import TiradsAcrPanel from "../components/TiradsAcrPanel";
 import TiradsPatternPanel from "../components/TiradsPatternPanel";
 import TiradsRuPanel from "../components/TiradsRuPanel";
+import ThyroidTopographyPanel from "../components/ThyroidTopographyPanel";
 import type { ThyroidAiAssistResult } from "../ai/thyroidAiService";
 import {
   applyAiResultToMobileInput,
@@ -22,7 +23,7 @@ import {
 } from "../logic/tiradsCalculator";
 
 type Props = NativeStackScreenProps<RootStackParamList, "TiRadsAssistant">;
-type System = "ru" | "acr" | "patterns" | "assistant";
+type System = "ru" | "acr" | "patterns" | "assistant" | "map";
 
 export default function TiRadsAssistantScreen({ navigation }: Props) {
   const [system, setSystem] = useState<System>("acr");
@@ -65,6 +66,8 @@ export default function TiRadsAssistantScreen({ navigation }: Props) {
                 ? "Pattern Recognition · ACR"
                 : system === "assistant"
                   ? "AI Assistant · ACR TI-RADS"
+                  : system === "map"
+                    ? "Карта ЩЖ · локализация узла"
                   : `${TI_RADS_VERSION} · ACR`}
           </Text>
         </View>
@@ -80,6 +83,9 @@ export default function TiRadsAssistantScreen({ navigation }: Props) {
         </Pressable>
         <Pressable style={[styles.toggle, system === "assistant" && styles.toggleOnAcr]} onPress={() => setSystem("assistant")}>
           <Text style={[styles.toggleText, system === "assistant" && styles.toggleTextOnAcr]}>AI</Text>
+        </Pressable>
+        <Pressable style={[styles.toggle, system === "map" && styles.toggleOnAcr]} onPress={() => setSystem("map")}>
+          <Text style={[styles.toggleText, system === "map" && styles.toggleTextOnAcr]}>Карта</Text>
         </Pressable>
         <Pressable style={[styles.toggle, system === "ru" && styles.toggleOn]} onPress={() => setSystem("ru")}>
           <Text style={[styles.toggleText, system === "ru" && styles.toggleTextOn]}>TI-RADS РФ</Text>
@@ -99,6 +105,10 @@ export default function TiRadsAssistantScreen({ navigation }: Props) {
         <View style={styles.patternsWrap}>
           <TiradsAiPanel onApply={applyFromAi} />
         </View>
+      ) : system === "map" ? (
+        <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
+          <ThyroidTopographyPanel />
+        </ScrollView>
       ) : (
         <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
           {system === "ru" ? (

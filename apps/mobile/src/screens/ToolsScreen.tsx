@@ -128,6 +128,9 @@ export default function ToolsScreen({ navigation }: ToolsTabScreenProps) {
           <Pressable style={styles.domainChip} onPress={() => void openWebPath("/tools/gynecology")}>
             <Text style={styles.domainChipText}>Гинекология</Text>
           </Pressable>
+          <Pressable style={styles.domainChip} onPress={() => openClinicalToolAction(navigation, "cervix_pathology")}>
+            <Text style={styles.domainChipText}>Цитология РШМ</Text>
+          </Pressable>
         </View>
         <ClinicalToolSearchBar navigation={navigation} role={role} />
         <PinnedToolsRow navigation={navigation} toolIds={pins} />

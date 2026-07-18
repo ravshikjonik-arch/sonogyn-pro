@@ -183,7 +183,7 @@ export function OvaryAiAssistantPanel({ morphology, markers, onApplyAiMarkers }:
           {busy ? "Анализ…" : "ИИ-оценка"}
         </Button>
         <Button variant="outline" size="sm" asChild>
-          <Link href="/tools/calc/rads/o-rads">O-RADS Pro →</Link>
+          <Link href="/tools/calc/rads/o-rads">O-RADS US →</Link>
         </Button>
       </div>
 

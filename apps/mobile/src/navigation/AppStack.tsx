@@ -14,6 +14,7 @@ import LanguageScreen from "../screens/LanguageScreen";
 import { initI18n } from "../i18n";
 import BlockedScreen from "../screens/BlockedScreen";
 import { ensureAnonymousAuth } from "../services/firebase/authService";
+import { isFirebaseConfigured } from "../services/firebase/firebase";
 import { isUserBanned } from "../services/firebase/reportService";
 import ORADSFlowScreen from "../screens/ORADSFlowScreen";
 import ProlapseScreen from "../screens/ProlapseScreen";
@@ -27,6 +28,7 @@ import FMFAssistantScreen from "../features/fmf/screens/FMFAssistantScreen";
 import GynecologyCalcScreen from "../screens/GynecologyCalcScreen";
 import BiRadsAssistantScreen from "../screens/BiRadsAssistantScreen";
 import Breast3DScreen from "../screens/Breast3DScreen";
+import UltrasoundAssistantScreen from "../screens/UltrasoundAssistantScreen";
 import TiRadsAssistantScreen from "../features/tirads/screens/TiRadsAssistantScreen";
 import EndometriumScreen from "../screens/EndometriumScreen";
 import CervicalLengthScreen from "../screens/CervicalLengthScreen";
@@ -36,6 +38,8 @@ import SplashScreen, { SplashLoadingView } from "../screens/SplashScreen";
 import SupabaseAuthScreen from "../screens/SupabaseAuthScreen";
 import ClinicalGuidelineDetailScreen from "../modules/clinicalGuidelines/screens/ClinicalGuidelineDetailScreen";
 import EvidenceAssistantScreen from "../screens/EvidenceAssistantScreen";
+import CervixCytologyScreen from "../features/cervixCytology/CervixCytologyScreen";
+import type { CytologyTopicId } from "@repo/cervix-pathology-reference/cytology";
 import ElastographyScreen from "../modules/elastography/screens/ElastographyScreen";
 import CarotidStenosisScreen from "../modules/vascular/screens/CarotidStenosisScreen";
 import { ClinicalPhiGate } from "../components/ClinicalPhiGate";
@@ -71,10 +75,39 @@ const GuardedStructuredReportPreview = withClinicalPhiGate(StructuredReportPrevi
 const GuardedORADSHistory = withClinicalPhiGate(ORADSHistoryScreen);
 const GuardedORADSHistoryDetails = withClinicalPhiGate(ORADSHistoryDetailsScreen);
 
+const CYTOLOGY_TOPIC_IDS = new Set([
+  "anatomy",
+  "transformation-zone",
+  "hpv",
+  "screening",
+  "liquid-cytology",
+  "conventional",
+  "sampling",
+  "sampling-errors",
+  "bethesda",
+  "hpv-testing",
+  "co-testing",
+  "algorithms",
+  "cases",
+  "quiz",
+  "ai-assist",
+  "lecture",
+]);
+
 function parseGynecologyInitialPage(segment?: string): PageType {
   if (!segment) return "gyn_hub";
   if (segment.startsWith("gyn_")) return segment as PageType;
   return "gyn_hub";
+}
+
+function parseCytologyTopic(segment?: string): CytologyTopicId | undefined {
+  if (!segment || !CYTOLOGY_TOPIC_IDS.has(segment)) return undefined;
+  return segment as CytologyTopicId;
+}
+
+function parseCytologySubFocus(segment?: string) {
+  if (segment === "thinprep" || segment === "surepath") return segment;
+  return undefined;
 }
 
 function linkingPrefixes(): string[] {
@@ -138,6 +171,7 @@ const linking: LinkingOptions<RootStackParamList> = {
         },
       },
       BiRadsAssistant: "birads",
+      UltrasoundAssistant: "assistant/ultrasound",
       TiRadsAssistant: "tirads",
       ClinicalReference: "reference/clinical",
       Nosology: "reference/nosologies",
@@ -145,6 +179,13 @@ const linking: LinkingOptions<RootStackParamList> = {
       VascularCarotidCalc: "vascular/carotid",
       ClinicalGuidelineDetail: "guidelines/:guidelineId",
       EvidenceAssistant: "evidence-assistant",
+      CervixCytologyModule: {
+        path: "gynecology/cervix/cytology/:topic?/:subFocus?",
+        parse: {
+          topic: (value?: string) => parseCytologyTopic(value),
+          subFocus: (value?: string) => parseCytologySubFocus(value),
+        },
+      },
       Blocked: "blocked",
     },
   },
@@ -203,10 +244,14 @@ export default function AppStack() {
     async function loadGate() {
       async function runGate(): Promise<{ banned: boolean; consentOk: boolean }> {
         await initI18n();
-        const authUser = await ensureAnonymousAuth();
-        const banned = await isUserBanned(authUser.uid);
+        if (isFirebaseConfigured()) {
+          const authUser = await ensureAnonymousAuth();
+          const banned = await isUserBanned(authUser.uid);
+          const consentOk = await hasValidConsent();
+          return { banned, consentOk };
+        }
         const consentOk = await hasValidConsent();
-        return { banned, consentOk };
+        return { banned: false, consentOk };
       }
 
       try {
@@ -298,6 +343,7 @@ export default function AppStack() {
           <Stack.Screen name="GynecologyCalc" component={GynecologyCalcScreen} />
           <Stack.Screen name="BiRadsAssistant" component={BiRadsAssistantScreen} />
           <Stack.Screen name="Breast3D" component={Breast3DScreen} />
+          <Stack.Screen name="UltrasoundAssistant" component={UltrasoundAssistantScreen} />
           <Stack.Screen name="TiRadsAssistant" component={TiRadsAssistantScreen} />
           <Stack.Screen name="EndometriumCalc" component={EndometriumScreen} />
           <Stack.Screen name="CervicalLengthCalc" component={CervicalLengthScreen} />
@@ -307,6 +353,7 @@ export default function AppStack() {
           <Stack.Screen name="VascularCarotidCalc" component={CarotidStenosisScreen} />
           <Stack.Screen name="ClinicalGuidelineDetail" component={ClinicalGuidelineDetailScreen} />
           <Stack.Screen name="EvidenceAssistant" component={EvidenceAssistantScreen} />
+          <Stack.Screen name="CervixCytologyModule" component={CervixCytologyScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </AppGateContext.Provider>

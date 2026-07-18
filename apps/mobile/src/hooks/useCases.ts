@@ -5,7 +5,7 @@ import type { CasePreview } from "../features/case/types";
 import type { OradsSnapshot } from "../features/case/types";
 import { createCase, getCommentCountsByCaseIds } from "../services/firebase/casesService";
 import { ensureAnonymousAuth } from "../services/firebase/authService";
-import { requireFirestore } from "../services/firebase/firebase";
+import { isFirebaseConfigured, requireFirestore } from "../services/firebase/firebase";
 import { addPoints, getUsersByIds, POINTS } from "../services/firebase/gamificationService";
 
 type CreateCaseDraft = {
@@ -39,6 +39,12 @@ export function useCases() {
 
     async function start() {
       try {
+        if (!isFirebaseConfigured()) {
+          setCases([]);
+          setLoading(false);
+          setError(null);
+          return;
+        }
         await loadCases();
         const fs = requireFirestore();
         const q = query(collection(fs, "cases"), orderBy("createdAt", "desc"));

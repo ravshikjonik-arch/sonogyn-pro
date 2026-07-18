@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
-import { useSupabase } from "@/app/providers";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { formatLifecycleLabel, resolveCaseLifecycle } from "@/lib/cases/lifecycle-labels";
@@ -28,7 +27,6 @@ export function CaseLifecyclePanel({
   lifecycleStatus,
   isModerator,
 }: Props) {
-  const supabase = useSupabase();
   const router = useRouter();
   const [busy, setBusy] = useState(false);
   const lifecycle = resolveCaseLifecycle(lifecycleStatus, status);
@@ -38,14 +36,15 @@ export function CaseLifecyclePanel({
 
   async function confirmCase() {
     setBusy(true);
-    const { error } = await supabase.rpc("confirm_teaching_case", { p_case_id: caseId });
+    const response = await fetch(`/api/cases/${caseId}/lifecycle`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "confirm" }),
+    });
     setBusy(false);
-    if (error) {
-      toast.error(
-        error.message.includes("schema cache") || error.code === "PGRST202"
-          ? "RPC не в кэше — выполните BUNDLE_RPC_CONFIRM.sql в SQL Editor"
-          : error.message,
-      );
+    if (!response.ok) {
+      const payload = (await response.json().catch(() => null)) as { error?: string } | null;
+      toast.error(payload?.error ?? "Не удалось подтвердить кейс");
       return;
     }
     toast.success("Кейс подтверждён экспертом");
@@ -54,14 +53,15 @@ export function CaseLifecyclePanel({
 
   async function resolveCase() {
     setBusy(true);
-    const { error } = await supabase
-      .from("cases")
-      .update({ lifecycle_status: "resolved", resolved_at: new Date().toISOString() })
-      .eq("id", caseId)
-      .eq("user_id", userId);
+    const response = await fetch(`/api/cases/${caseId}/lifecycle`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "resolve" }),
+    });
     setBusy(false);
-    if (error) {
-      toast.error(error.message);
+    if (!response.ok) {
+      const payload = (await response.json().catch(() => null)) as { error?: string } | null;
+      toast.error(payload?.error ?? "Не удалось закрыть кейс");
       return;
     }
     toast.success("Кейс закрыт");

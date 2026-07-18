@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 360" role="img" aria-label="Neck lymph node levels I-VII">
+  <defs>
+    <linearGradient id="skin" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+  </defs>
+  <rect width="480" height="360" fill="#0f172a"/>
+  <text x="20" y="28" font-family="system-ui,sans-serif" font-size="14" fill="#7dd3fc" font-weight="600">Neck levels IVII (ATA / SRU)</text>
+  <!-- stylized neck -->
+  <ellipse cx="240" cy="200" rx="90" ry="120" fill="url(#skin)" stroke="#64748b" stroke-width="2"/>
+  <rect x="210" y="60" width="60" height="40" rx="8" fill="#475569" stroke="#94a3b8"/>
+  <text x="240" y="85" text-anchor="middle" font-size="10" fill="#e2e8f0">Mandible</text>
+  <!-- Level regions -->
+  <g font-family="system-ui,sans-serif" font-size="11" font-weight="600">
+    <rect x="215" y="105" width="50" height="28" rx="6" fill="#22c55e" fill-opacity="0.35" stroke="#22c55e"/>
+    <text x="240" y="123" text-anchor="middle" fill="#bbf7d0">I</text>
+    <rect x="155" y="130" width="55" height="40" rx="6" fill="#38bdf8" fill-opacity="0.35" stroke="#38bdf8"/>
+    <text x="182" y="155" text-anchor="middle" fill="#bae6fd">II</text>
+    <rect x="270" y="130" width="55" height="40" rx="6" fill="#38bdf8" fill-opacity="0.35" stroke="#38bdf8"/>
+    <text x="297" y="155" text-anchor="middle" fill="#bae6fd">II</text>
+    <rect x="150" y="175" width="50" height="45" rx="6" fill="#818cf8" fill-opacity="0.35" stroke="#818cf8"/>
+    <text x="175" y="202" text-anchor="middle" fill="#c7d2fe">III</text>
+    <rect x="280" y="175" width="50" height="45" rx="6" fill="#818cf8" fill-opacity="0.35" stroke="#818cf8"/>
+    <text x="305" y="202" text-anchor="middle" fill="#c7d2fe">III</text>
+    <rect x="145" y="225" width="48" height="40" rx="6" fill="#f472b6" fill-opacity="0.35" stroke="#f472b6"/>
+    <text x="169" y="250" text-anchor="middle" fill="#fbcfe8">IV</text>
+    <rect x="287" y="225" width="48" height="40" rx="6" fill="#f472b6" fill-opacity="0.35" stroke="#f472b6"/>
+    <text x="311" y="250" text-anchor="middle" fill="#fbcfe8">IV</text>
+    <rect x="95" y="160" width="42" height="70" rx="6" fill="#fb923c" fill-opacity="0.35" stroke="#fb923c"/>
+    <text x="116" y="200" text-anchor="middle" fill="#fed7aa">V</text>
+    <rect x="343" y="160" width="42" height="70" rx="6" fill="#fb923c" fill-opacity="0.35" stroke="#fb923c"/>
+    <text x="364" y="200" text-anchor="middle" fill="#fed7aa">V</text>
+    <rect x="215" y="175" width="50" height="55" rx="6" fill="#ef4444" fill-opacity="0.4" stroke="#ef4444"/>
+    <text x="240" y="208" text-anchor="middle" fill="#fecaca">VI</text>
+    <rect x="220" y="240" width="40" height="35" rx="6" fill="#a855f7" fill-opacity="0.35" stroke="#a855f7"/>
+    <text x="240" y="262" text-anchor="middle" fill="#e9d5ff">VII</text>
+  </g>
+  <g font-family="system-ui,sans-serif" font-size="9" fill="#94a3b8">
+    <text x="20" y="310">I submental/submand � II upper jugular � III mid jugular</text>
+    <text x="20" y="326">IV lower jugular � V posterior � VI central (PTC) � VII mediastinal</text>
+  </g>
+</svg>

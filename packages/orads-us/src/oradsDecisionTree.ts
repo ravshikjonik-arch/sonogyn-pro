@@ -593,6 +593,7 @@ export const ORADS_DECISION_TREE: Record<string, OradsDecisionNode> = {
     id: "step_modifier_ascites",
     questionKey: "orads.modifier.ascites.question",
     helpKey: "orads.modifier.ascites.help",
+    imageRef: "atlas/modifier/ascites",
     options: [
       {
         id: "ascites",

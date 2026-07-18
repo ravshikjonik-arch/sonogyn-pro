@@ -45,7 +45,6 @@ const roots = [
 /** Калькуляторы, доступные без Supabase-логина (как elastography / O-RADS Pro). */
 const PUBLIC_WITHIN_PROTECTED = [
   "/calculators/elastography",
-  "/calculators/o-rads",
   "/calculators/bi-rads",
   "/calculators/ti-rads",
   "/tools/calc/rads/o-rads",

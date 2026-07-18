@@ -27,8 +27,8 @@ export function PhoneInput({ value, onChange, disabled, error, id = "phone" }: P
         onChange={(e) => onChange(maskRuPhoneInput(e.target.value))}
         placeholder="+7 900 123-45-67"
         className={cn(
-          "mt-2 w-full rounded-xl border px-4 py-3 font-mono text-base tracking-wide",
-          "border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-950",
+          "sonogyn-auth-input mt-2 w-full rounded-xl border px-4 py-3 font-mono text-base tracking-wide",
+          "border-slate-200 bg-white text-slate-950 placeholder:text-slate-500 dark:border-slate-700 dark:bg-slate-950/80 dark:text-slate-50 dark:placeholder:text-slate-400",
           "focus:border-[var(--clinical-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--clinical-primary)]/20",
           disabled && "opacity-60",
           error && "border-red-400 focus:ring-red-200",

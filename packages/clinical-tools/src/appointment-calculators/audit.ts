@@ -93,9 +93,9 @@ export function runReferenceAudit(): AuditSection {
 export function detectDuplicates(): DuplicateEntry[] {
   return [
     {
-      title: "O-RADS Pro",
+      title: "O-RADS US",
       ids: ["orads-guide", "orads-wizard", "orads"],
-      note: "Три записи в CLINICAL_TOOLS с одним webHref /calculators/o-rads",
+      note: "Три записи в CLINICAL_TOOLS с одним webHref /tools/calc/rads/o-rads",
     },
     {
       title: "Срок по фетометрии / УЗИ (mobile)",
@@ -183,7 +183,7 @@ export function detectOrphanScreens(registeredRoutes: Set<string>, menuLinkedRou
   const orphans: OrphanScreen[] = [];
   const calculatorRoutes = [
     "/calculators/elastography",
-    "/calculators/o-rads",
+    "/tools/calc/rads/o-rads",
     "/calculators/bi-rads",
     "/calculators/endometrium",
     "/calculators/cervical-length",

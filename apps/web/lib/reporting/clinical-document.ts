@@ -1,3 +1,5 @@
+import { escapeHtml } from "@/lib/security/escape-html";
+
 export type ClinicalDocumentSection = {
   heading?: string;
   body: string;
@@ -83,14 +85,6 @@ function textToHtmlParagraphs(text: string): string {
     .split(/\n{2,}/)
     .map((p) => `<p>${escapeHtml(p).replace(/\n/g, "<br/>")}</p>`)
     .join("");
-}
-
-function escapeHtml(s: string): string {
-  return s
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
 }
 
 function sanitizeFilename(name: string): string {

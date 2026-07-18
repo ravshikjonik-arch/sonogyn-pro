@@ -45,7 +45,7 @@ const password = (env.SMTP_PASSWORD ?? env.SMTP_PASS)?.trim();
 const from = env.SMTP_FROM?.trim() || (user ? `SonoGyn Pro <${user}>` : undefined);
 const to = process.argv[2]?.trim() || env.DEV_LOGIN_EMAIL?.trim();
 
-console.log("📧 SMTP test (Mailgun)\n");
+console.log("📧 SMTP test (Mail.ru)\n");
 
 if (!host || !user || !password || !from) {
   console.error("✗ Не хватает переменных: SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASSWORD");

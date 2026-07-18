@@ -90,7 +90,7 @@ export function figoFromStroke(points: SliceNorm[], pedunculated: boolean): numb
   let best = fromEllipse;
   for (const [nx, ny] of points) {
     const hit = analyzeSliceHit(nx, ny, pedunculated);
-    if (hit.figoType < best || (hit.figoType <= 2 && best > 2)) {
+    if (hit.figoType <= 2 && best > 2) {
       best = hit.figoType;
     }
   }

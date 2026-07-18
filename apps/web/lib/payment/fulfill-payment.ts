@@ -27,18 +27,21 @@ export async function fulfillSucceededPayment(
 ): Promise<void> {
   const now = new Date().toISOString();
 
-  if (params.previousStatus === "succeeded") {
-    return;
-  }
-
-  const { error: payErr } = await admin
+  const { data: claimed, error: payErr } = await admin
     .from("payments")
     .update({ status: "succeeded", updated_at: now })
-    .eq("id", params.paymentRowId);
+    .eq("id", params.paymentRowId)
+    .neq("status", "succeeded")
+    .select("id")
+    .maybeSingle();
 
   if (payErr) {
     console.error("[payment/fulfill] payments update", payErr.message);
     throw payErr;
+  }
+
+  if (!claimed) {
+    return;
   }
 
   const meta = params.metadata ?? {};

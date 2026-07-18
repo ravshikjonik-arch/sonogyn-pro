@@ -1,5 +1,5 @@
 /**
- * Определение трансмуральных подтипов FIGO 2–5 и 3–5 по контуру на сагиттальном срезе.
+ * Определение гибридных/трансмуральных подтипов FIGO по контуру на сагиттальном срезе.
  * Образовательная модель — не заменяет МРТ/соногистерографию.
  */
 
@@ -36,7 +36,8 @@ export function strokeHasSubmucosalDominance(points: SliceNormPoint[]): boolean 
 }
 
 /**
- * Возвращает вариант 2–5 / 3–5 если контур пересекает стенку от эндометрия до серозы.
+ * Возвращает вариант 1–5 / 1–6 / 2–5 / 2–6 / 3–5,
+ * если контур пересекает стенку от эндометрия до серозы.
  */
 export function detectFigoVariantFromStroke(
   points: SliceNormPoint[],
@@ -50,8 +51,17 @@ export function detectFigoVariantFromStroke(
 
   if (!endo || !serosa || span < MIN_TRANSVERSE_SPAN) return null;
 
+  const cavityPts = points.filter(([nx, ny]) => ny >= ENDO_MIN && ny <= 0.52 && nx > 0.12 && nx < 0.78).length;
+  const serosaPts = points.filter(([nx, ny]) => nx > 0.1 && nx < 0.82 && (ny <= SEROSA_OUTER || ny >= SEROSA_INNER)).length;
+  const cavityDominant = cavityPts >= Math.max(3, Math.ceil(points.length * 0.42));
+  const serosaDominant = serosaPts >= Math.max(3, Math.ceil(points.length * 0.42));
+
   const submucosal = strokeHasSubmucosalDominance(points) || primaryFigo <= 2;
-  if (submucosal) return "2-5";
+  if (submucosal) {
+    const cavitySide = primaryFigo === 1 || (primaryFigo !== 2 && cavityDominant) ? "1" : "2";
+    const serosaSide = primaryFigo === 6 || (serosaDominant && serosaPts >= cavityPts + 2) ? "6" : "5";
+    return `${cavitySide}-${serosaSide}` as FigoVariantCode;
+  }
 
   if (primaryFigo >= 3 && primaryFigo <= 5) return "3-5";
   if (primaryFigo === 4 || primaryFigo === 3 || primaryFigo === 5) return "3-5";

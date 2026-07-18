@@ -26,10 +26,10 @@ export const SUPABASE_PRODUCTION_AUTH_CHECKLIST: SupabaseAuthChecklistItem[] = [
   {
     id: "custom-smtp",
     area: "Authentication → SMTP Settings",
-    setting: "Custom SMTP (Mailgun)",
+    setting: "Custom SMTP (Mail.ru)",
     recommended:
-      "Host smtp.mailgun.org · Port 587 (или 2525) · User postmaster@mg.sonogyn-pro.ru · Pass из Mailgun SMTP credentials · Sender noreply@sonogyn-pro.ru",
-    why: "Письма «Подтвердите email» идут из Supabase, не из apps/web email-provider.",
+      "Host smtp.mail.ru · Port 587 · User Sonogyn-pro@mail.ru · Pass — пароль приложения · Sender email строго Sonogyn-pro@mail.ru (имя: SonoGyn Pro)",
+    why: "Mail.ru отклоняет письма, если Sender ≠ SMTP User (ошибка 550 not local sender over smtp). Подтверждение регистрации идёт через Supabase Auth SMTP.",
   },
   {
     id: "recovery-email-template",

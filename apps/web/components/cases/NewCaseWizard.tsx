@@ -4,11 +4,11 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { useSupabase } from "@/app/providers";
+import { useAuth } from "@/app/providers";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { loadDiscussionChannels, type DiscussionChannel } from "@/lib/chat/load-discussion-channels";
+import { PILOT_CASE_DISCUSSION_CHANNELS } from "@/lib/chat/pilot-channels";
 import { CASE_ANON_CHECKS } from "@/lib/cases/anonymization-gate";
 import { cn } from "@/lib/utils/cn";
 
@@ -20,17 +20,16 @@ const STEPS = ["Контекст", "Описание", "Media", "Аноними�
  * P0 wizard: 4 шага перед созданием draft-кейса (Step 4 gate R6).
  */
 export function NewCaseWizard() {
-  const supabase = useSupabase();
+  const { user } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [step, setStep] = useState(0);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [anatomy, setAnatomy] = useState("");
-  const [caseKind, setCaseKind] = useState<CaseKind>("library");
-  const [channelId, setChannelId] = useState<string>("");
-  const [channels, setChannels] = useState<DiscussionChannel[]>([]);
-  const [channelsLoading, setChannelsLoading] = useState(true);
+  const [caseKind, setCaseKind] = useState<CaseKind>("discussion");
+  const [channelId, setChannelId] = useState<string>(PILOT_CASE_DISCUSSION_CHANNELS[0]!.id);
+  const [channels] = useState(PILOT_CASE_DISCUSSION_CHANNELS);
   const [anonChecks, setAnonChecks] = useState<boolean[]>([false, false, false]);
   const [anonConfirmed, setAnonConfirmed] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -49,26 +48,13 @@ export function NewCaseWizard() {
     const feed = searchParams.get("feed");
     const preselectedChannel = searchParams.get("channelId");
     if (feed === "discussions") setCaseKind("discussion");
-    if (preselectedChannel) setChannelId(preselectedChannel);
+    if (
+      preselectedChannel &&
+      PILOT_CASE_DISCUSSION_CHANNELS.some((ch) => ch.id === preselectedChannel)
+    ) {
+      setChannelId(preselectedChannel);
+    }
   }, [searchParams]);
-
-  useEffect(() => {
-    let cancelled = false;
-    queueMicrotask(async () => {
-      setChannelsLoading(true);
-      const rows = await loadDiscussionChannels(supabase);
-      if (cancelled) return;
-      setChannels(rows);
-      setChannelsLoading(false);
-      setChannelId((prev) => {
-        if (prev && rows.some((ch) => ch.id === prev)) return prev;
-        return rows[0]?.id ?? "";
-      });
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [supabase]);
 
   function nextStep() {
     setError(null);
@@ -97,37 +83,32 @@ export function NewCaseWizard() {
     setBusy(true);
     setError(null);
 
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
-    if (!session?.user) {
+    if (!user?.id) {
       setError("Сессия истекла — войдите снова.");
       setBusy(false);
       return;
     }
 
-    const { data, error: insertErr } = await supabase
-      .from("cases")
-      .insert({
-        user_id: session.user.id,
+    const response = await fetch("/api/cases", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
         title: title.trim() || "Кейс без названия",
         description: description.trim() || null,
         anatomy: anatomy.trim() || null,
         pathology: searchParams.get("pathology")?.trim() || null,
         channel_id: caseKind === "discussion" ? channelId : null,
-        status: "draft",
-        is_public: false,
-      })
-      .select("id")
-      .single();
+      }),
+    });
+    const payload = (await response.json().catch(() => null)) as { id?: string; error?: unknown } | null;
 
-    if (insertErr || !data?.id) {
-      setError(insertErr?.message ?? "Не удалось создать кейс.");
+    if (!response.ok || !payload?.id) {
+      setError(typeof payload?.error === "string" ? payload.error : "Не удалось создать кейс.");
       setBusy(false);
       return;
     }
 
-    router.push(`/cases/${data.id}`);
+    router.push(`/cases/${payload.id}`);
     setBusy(false);
   }
 
@@ -198,18 +179,13 @@ export function NewCaseWizard() {
                 <select
                   className="h-10 w-full rounded-md border border-[var(--clinical-border)] bg-[var(--clinical-card)] px-3 text-sm"
                   value={channelId}
-                  disabled={channelsLoading || channels.length === 0}
                   onChange={(event) => setChannelId(event.target.value)}
                 >
-                  {channels.length === 0 ? (
-                    <option value="">Разделы загружаются…</option>
-                  ) : (
-                    channels.map((ch) => (
-                      <option key={ch.id} value={ch.id}>
-                        {ch.title}
-                      </option>
-                    ))
-                  )}
+                  {channels.map((ch) => (
+                    <option key={ch.id} value={ch.id}>
+                      {ch.title}
+                    </option>
+                  ))}
                 </select>
               </label>
             ) : null}

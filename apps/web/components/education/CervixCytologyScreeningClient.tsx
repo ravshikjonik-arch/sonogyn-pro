@@ -46,6 +46,18 @@ const topics = getCytologyDashboardTopics();
 
 const AGE_MIN = 14;
 const AGE_MAX = 90;
+const CYTOLOGY_OPTIONS: CytologyBethesdaCode[] = [
+  "nilm",
+  "asc-us",
+  "asc-h",
+  "lsil",
+  "hsil",
+  "agc",
+  "ais",
+  "carcinoma",
+  "unsatisfactory",
+];
+const HPV_OPTIONS: CytologyHpvStatus[] = ["unknown", "negative", "positive", "16-positive", "18-positive"];
 
 function parseAgeInput(raw: string, fallback: number): number {
   if (raw.trim() === "") return fallback;
@@ -92,6 +104,9 @@ function ScreeningWizard() {
   const [hpv, setHpv] = useState<CytologyHpvStatus>("unknown");
   const [pregnant, setPregnant] = useState(false);
   const [hiv, setHiv] = useState(false);
+  const [immunodeficient, setImmunodeficient] = useState(false);
+  const [postmenopausal, setPostmenopausal] = useState(false);
+  const [sexuallyActive, setSexuallyActive] = useState(true);
   const [priorExcision, setPriorExcision] = useState(false);
 
   const result = useMemo(
@@ -101,10 +116,13 @@ function ScreeningWizard() {
         cytology: cytology || null,
         hpvStatus: hpv,
         pregnant,
+        sexuallyActive,
+        immunodeficient,
         hivPositive: hiv,
+        postmenopausal,
         priorExcision,
       }),
-    [age, cytology, hpv, pregnant, hiv, priorExcision],
+    [age, cytology, hpv, pregnant, hiv, immunodeficient, postmenopausal, sexuallyActive, priorExcision],
   );
 
   return (
@@ -128,7 +146,7 @@ function ScreeningWizard() {
             onChange={(e) => setCytology(e.target.value as CytologyBethesdaCode | "")}
           >
             <option value="">Не указано</option>
-            {(["nilm", "asc-us", "lsil", "hsil", "agc", "unsatisfactory"] as const).map((c) => (
+            {CYTOLOGY_OPTIONS.map((c) => (
               <option key={c} value={c}>
                 {c.toUpperCase()}
               </option>
@@ -142,20 +160,37 @@ function ScreeningWizard() {
             value={hpv}
             onChange={(e) => setHpv(e.target.value as CytologyHpvStatus)}
           >
-            <option value="unknown">Неизвестно</option>
-            <option value="negative">Отрицательный</option>
-            <option value="positive">Положительный</option>
-            <option value="16-positive">HPV 16+</option>
-            <option value="18-positive">HPV 18+</option>
+            {HPV_OPTIONS.map((option) => (
+              <option key={option} value={option}>
+                {option === "unknown"
+                  ? "Неизвестно"
+                  : option === "negative"
+                    ? "Отрицательный"
+                    : option === "positive"
+                      ? "Положительный"
+                      : option === "16-positive"
+                        ? "HPV 16+"
+                        : "HPV 18+"}
+              </option>
+            ))}
           </select>
         </div>
       </div>
       <div className="flex flex-wrap gap-3 text-sm">
         <label className="flex items-center gap-2">
+          <input type="checkbox" checked={sexuallyActive} onChange={(e) => setSexuallyActive(e.target.checked)} /> Половая жизнь
+        </label>
+        <label className="flex items-center gap-2">
           <input type="checkbox" checked={pregnant} onChange={(e) => setPregnant(e.target.checked)} /> Беременность
         </label>
         <label className="flex items-center gap-2">
           <input type="checkbox" checked={hiv} onChange={(e) => setHiv(e.target.checked)} /> ВИЧ
+        </label>
+        <label className="flex items-center gap-2">
+          <input type="checkbox" checked={immunodeficient} onChange={(e) => setImmunodeficient(e.target.checked)} /> Иммунодефицит
+        </label>
+        <label className="flex items-center gap-2">
+          <input type="checkbox" checked={postmenopausal} onChange={(e) => setPostmenopausal(e.target.checked)} /> Постменопауза
         </label>
         <label className="flex items-center gap-2">
           <input type="checkbox" checked={priorExcision} onChange={(e) => setPriorExcision(e.target.checked)} /> После конизации
@@ -173,6 +208,23 @@ function ScreeningWizard() {
         </ul>
         {result.nextScreeningMonths ? (
           <p className="mt-2 text-sm">Следующий скрининг: ~{result.nextScreeningMonths} мес.</p>
+        ) : null}
+        {result.missingData.length ? (
+          <div className="mt-3 rounded-lg bg-[var(--clinical-muted)] p-3 text-xs">
+            <p className="font-semibold">Для точной тактики уточните:</p>
+            <ul className="mt-1 list-disc pl-4">
+              {result.missingData.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+        {result.validationNotes.length ? (
+          <ul className="mt-3 list-disc pl-5 text-xs text-[var(--clinical-foreground-muted)]">
+            {result.validationNotes.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
         ) : null}
         <p className="mt-3 text-xs text-[var(--clinical-foreground-muted)]">{result.disclaimer}</p>
       </div>
@@ -230,9 +282,9 @@ function BethesdaAiPanel() {
             value={cytology}
             onChange={(e) => setCytology(e.target.value as CytologyBethesdaCode)}
           >
-            {(["nilm", "asc-us", "lsil", "hsil", "agc", "unsatisfactory"] as const).map((c) => (
+            {CYTOLOGY_OPTIONS.map((c) => (
               <option key={c} value={c}>
-                {c}
+                {c.toUpperCase()}
               </option>
             ))}
           </select>
@@ -240,9 +292,11 @@ function BethesdaAiPanel() {
         <div>
           <label className="block text-sm font-semibold">HPV</label>
           <select className="w-full rounded-md border p-2 text-sm" value={hpv} onChange={(e) => setHpv(e.target.value as CytologyHpvStatus)}>
-            <option value="negative">−</option>
-            <option value="positive">+</option>
-            <option value="16-positive">16+</option>
+            <option value="unknown">Неизвестно</option>
+            <option value="negative">Отрицательный</option>
+            <option value="positive">Положительный</option>
+            <option value="16-positive">HPV 16+</option>
+            <option value="18-positive">HPV 18+</option>
           </select>
         </div>
       </div>
@@ -256,6 +310,33 @@ function BethesdaAiPanel() {
         <p>
           <strong>Пациентке:</strong> {result.explainToPatient}
         </p>
+        {result.missingData.length ? (
+          <div className="rounded-lg bg-[var(--clinical-muted)] p-3">
+            <p className="font-semibold">Уточнить перед решением</p>
+            <ul className="list-disc pl-5">
+              {result.missingData.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+        {result.avoid.length ? (
+          <div className="rounded-lg border border-amber-200 bg-amber-50/70 p-3 dark:border-amber-900 dark:bg-amber-950/30">
+            <p className="font-semibold">Чего избегать</p>
+            <ul className="list-disc pl-5">
+              {result.avoid.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+        <div className="flex flex-wrap gap-2">
+          {result.moduleLinks.map((link) => (
+            <Button key={link.topic} asChild variant="outline" size="sm">
+              <Link href={`/tools/refs/cervix-pathology?tab=cytology&topic=${link.topic}`}>{link.label}</Link>
+            </Button>
+          ))}
+        </div>
         <p className="text-xs text-[var(--clinical-foreground-muted)]">{result.disclaimer}</p>
       </div>
       <AskAiButton prompt={`Bethesda ${cytology}, HPV ${hpv}, возраст ${age}. Тактика?`} />
@@ -280,6 +361,13 @@ function ClinicalCasesPanel() {
         ))}
       </div>
       <p className="font-semibold">{c.title}</p>
+      <div className="grid gap-2 rounded-xl bg-[var(--clinical-muted)] p-3 text-xs sm:grid-cols-2">
+        {Object.entries(c.data).map(([key, value]) => (
+          <p key={key}>
+            <span className="font-semibold">{key}:</span> {String(value)}
+          </p>
+        ))}
+      </div>
       <p className="text-sm">{c.question}</p>
       <div className="space-y-2">
         {c.options.map((opt, i) => (
@@ -296,13 +384,18 @@ function ClinicalCasesPanel() {
       </div>
       {picked !== null ? <p className="rounded-lg bg-[var(--clinical-muted)] p-3 text-sm">{c.explanation}</p> : null}
       <div className="flex flex-wrap gap-2">
+        <Button asChild size="sm" variant="outline">
+          <Link href={`/tools/refs/cervix-pathology?tab=cytology&topic=${c.topicRef}`}>
+            Раздел: {c.topicRef}
+          </Link>
+        </Button>
         <Button asChild size="sm" variant="secondary">
           <Link href={`/cases/new?channel=${c.casesChannel}`}>
             <MessageSquare className="mr-1 h-4 w-4" />
             Обсудить в Cases
           </Link>
         </Button>
-        <AskAiButton prompt={`Кейс: ${c.title}`} />
+        <AskAiButton prompt={`Учебный обезличенный кейс по цитологии: ${c.title}. Данные: ${JSON.stringify(c.data)}. Вопрос: ${c.question}`} />
       </div>
     </SectionCard>
   );
@@ -374,12 +467,60 @@ function TopicContent({ topicId }: { topicId: CytologyTopicId }) {
       const liq = getCytologyLiquidCompare();
       return (
         <SectionCard title="ThinPrep vs SurePath">
-          {liq.systems.map((s) => (
-            <div key={s.id} className="rounded-xl border p-3 text-sm">
-              <p className="font-bold">{s.name}</p>
-              <p>Объём: {s.volumeMl} ml · Адекватность: ≥{s.adequacyMinCells} клеток</p>
-            </div>
-          ))}
+          <div className="overflow-x-auto rounded-xl border border-[var(--clinical-border)]">
+            <table className="min-w-[720px] w-full text-left text-sm">
+              <thead className="bg-[var(--clinical-muted)] text-xs uppercase text-[var(--clinical-foreground-muted)]">
+                <tr>
+                  <th className="px-3 py-2">Система</th>
+                  <th className="px-3 py-2">Принцип</th>
+                  <th className="px-3 py-2">Виала</th>
+                  <th className="px-3 py-2">На препарат</th>
+                  <th className="px-3 py-2">Окно</th>
+                  <th className="px-3 py-2">Адекватность</th>
+                </tr>
+              </thead>
+              <tbody>
+                {liq.systems.map((s) => (
+                  <tr key={s.id} className="border-t border-[var(--clinical-border)]">
+                    <td className="px-3 py-2 font-semibold">{s.name}</td>
+                    <td className="px-3 py-2">{s.technology}</td>
+                    <td className="px-3 py-2">{s.volumeMl} мл</td>
+                    <td className="px-3 py-2">{s.slidePreparationVolumeMl} мл</td>
+                    <td className="px-3 py-2">{s.cellWindowMm} мм</td>
+                    <td className="px-3 py-2">≥{s.adequacyMinCells} клеток</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="grid gap-3 md:grid-cols-2">
+            {liq.systems.map((s) => (
+              <div key={s.id} className="rounded-xl border border-[var(--clinical-border)] p-3 text-sm">
+                <p className="font-bold">{s.name}</p>
+                <p className="mt-1 text-[var(--clinical-foreground-muted)]">{s.brushHandling}</p>
+                <p className="mt-2 font-semibold">Плюсы</p>
+                <ul className="list-disc pl-5">
+                  {s.advantages.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+                <p className="mt-2 font-semibold">Типичные ошибки</p>
+                <ul className="list-disc pl-5">
+                  {s.typicalErrors.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+          <div className="rounded-xl bg-[var(--clinical-muted)] p-3 text-sm">
+            <p className="font-semibold">Общие преимущества</p>
+            <ul className="mt-1 list-disc pl-5">
+              {liq.sharedBenefits.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
         </SectionCard>
       );
     }
@@ -402,6 +543,14 @@ function TopicContent({ topicId }: { topicId: CytologyTopicId }) {
               </li>
             ))}
           </ol>
+          <div className="rounded-xl border border-amber-200 bg-amber-50/70 p-3 text-sm text-amber-950 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-100">
+            <p className="font-semibold">Нельзя</p>
+            <ul className="mt-1 list-disc pl-5">
+              {sp.forbidden.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
         </SectionCard>
       );
     }
@@ -412,7 +561,10 @@ function TopicContent({ topicId }: { topicId: CytologyTopicId }) {
             {getCytologySamplingErrors().map((e) => (
               <div key={e.id} className="rounded border p-2 text-sm">
                 <strong>{e.title}</strong>
+                <p className="mt-1"><span className="font-semibold">Почему плохо:</span> {e.whyBad}</p>
+                <p><span className="font-semibold">Риск:</span> {e.patientRisk}</p>
                 <p>{e.fix}</p>
+                <p className="text-[var(--clinical-foreground-muted)]"><span className="font-semibold">Профилактика:</span> {e.prevent}</p>
               </div>
             ))}
           </div>
@@ -430,7 +582,23 @@ function TopicContent({ topicId }: { topicId: CytologyTopicId }) {
               </Button>
             ))}
           </div>
-          {cat ? <p className="text-sm">{cat.doctorAction}</p> : null}
+          {cat ? (
+            <div className="grid gap-3 md:grid-cols-2 text-sm">
+              <div className="rounded-xl border border-[var(--clinical-border)] p-3">
+                <p className="font-semibold">{cat.title}</p>
+                <p className="mt-1">{cat.plain}</p>
+                <p className="mt-2 text-[var(--clinical-foreground-muted)]">CIN/гистология: {cat.histology}</p>
+                <p className="text-[var(--clinical-foreground-muted)]">HPV: {cat.hpvLink}</p>
+              </div>
+              <div className="rounded-xl border border-[var(--clinical-border)] p-3">
+                <p><span className="font-semibold">Следующий шаг:</span> {cat.doctorAction}</p>
+                <p><span className="font-semibold">Кольпоскопия:</span> {cat.colposcopy}</p>
+                <p><span className="font-semibold">Биопсия:</span> {cat.biopsy}</p>
+                <p><span className="font-semibold">Онкогинеколог:</span> {cat.referral}</p>
+              </div>
+            </div>
+          ) : null}
+          {cat ? <AskAiButton prompt={`Объясни Bethesda ${cat.code}: значение, CIN/HPV связь и следующий шаг`} /> : null}
         </SectionCard>
       );
     }

@@ -2,3 +2,6 @@
 > @repo/web@0.2.0 typecheck /Users/yakrav7700/Desktop/05-04-2026_11-45-39/apps/web
 > tsc --noEmit
 
+lib/analytics/firebase-web.ts(1,58): error TS7016: Could not find a declaration file for module 'firebase/app'. '/Users/yakrav7700/Desktop/05-04-2026_11-45-39/node_modules/firebase/app/dist/esm/index.esm.js' implicitly has an 'any' type.
+  If the 'firebase' package actually exposes this module, try adding a new declaration (.d.ts) file containing `declare module 'firebase/app';`
+ ELIFECYCLE  Command failed with exit code 2.

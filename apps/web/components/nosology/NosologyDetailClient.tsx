@@ -25,6 +25,7 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useNosologyDetail } from "@/hooks/useNosologies";
 import { nosologyAssistContextFromNosology } from "@/lib/clinical-assistant/nosology-assist-context";
+import { escapeHtml } from "@/lib/security/escape-html";
 import { cn } from "@/lib/utils/cn";
 
 const TAB_SECTIONS = [
@@ -90,13 +91,18 @@ export function NosologyDetailClient({ id, isAdmin }: Props) {
   );
 
   const printMemo = useCallback((n: Nosology) => {
-    const html = `<!DOCTYPE html><html><head><meta charset="utf-8"/><title>${n.title}</title>
+    const checklist = (n.examinationScheme.checklist ?? n.examinationScheme.bullets ?? []).map(
+      (x) => `<li>${escapeHtml(x)}</li>`,
+    ).join("");
+    const dx = (n.diagnostics.bullets ?? []).map((x) => `<li>${escapeHtml(x)}</li>`).join("");
+    const tx = (n.treatment.bullets ?? []).map((x) => `<li>${escapeHtml(x)}</li>`).join("");
+    const html = `<!DOCTYPE html><html><head><meta charset="utf-8"/><title>${escapeHtml(n.title)}</title>
       <style>body{font-family:system-ui,sans-serif;padding:24px;max-width:720px;line-height:1.5}
       h1{font-size:20px}h2{font-size:14px;margin-top:20px;color:#444}ul{padding-left:20px}</style></head><body>
-      <h1>${n.title}</h1><p>${n.description}</p>
-      <h2>Обследование</h2><ul>${(n.examinationScheme.checklist ?? n.examinationScheme.bullets ?? []).map((x) => `<li>${x}</li>`).join("")}</ul>
-      <h2>Диагностика</h2><ul>${(n.diagnostics.bullets ?? []).map((x) => `<li>${x}</li>`).join("")}</ul>
-      <h2>Лечение</h2><ul>${(n.treatment.bullets ?? []).map((x) => `<li>${x}</li>`).join("")}</ul>
+      <h1>${escapeHtml(n.title)}</h1><p>${escapeHtml(n.description)}</p>
+      <h2>Обследование</h2><ul>${checklist}</ul>
+      <h2>Диагностика</h2><ul>${dx}</ul>
+      <h2>Лечение</h2><ul>${tx}</ul>
       </body></html>`;
     const w = window.open("", "_blank");
     if (!w) return;

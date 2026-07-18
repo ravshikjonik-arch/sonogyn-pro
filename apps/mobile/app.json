@@ -2,6 +2,7 @@
   "expo": {
     "name": "SonoGyn Pro",
     "slug": "us-risk-calc",
+    "entryPoint": "./index.ts",
     "scheme": "com.yakrav7700.usriskcalc",
     "version": "0.2.0",
     "orientation": "portrait",

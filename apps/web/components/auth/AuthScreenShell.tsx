@@ -126,7 +126,7 @@ export function AuthScreenShell({
 }
 
 export const authInputClass =
-  "mt-2 w-full rounded-2xl border border-[var(--clinical-border)] bg-[var(--clinical-card)] px-4 py-3 text-[var(--clinical-foreground)] outline-none transition focus:border-[var(--clinical-primary)] focus:ring-4 focus:ring-[var(--clinical-ring)]";
+  "sonogyn-auth-input mt-2 w-full rounded-2xl border border-[var(--clinical-border)] bg-white px-4 py-3 text-slate-950 placeholder:text-slate-500 outline-none transition focus:border-[var(--clinical-primary)] focus:ring-4 focus:ring-[var(--clinical-ring)] dark:bg-slate-950/80 dark:text-slate-50 dark:placeholder:text-slate-400";
 
 export function AuthMessage({ message, tone = "error" }: { message: string; tone?: "error" | "success" }) {
   const cls =
