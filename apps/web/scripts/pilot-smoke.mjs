@@ -103,16 +103,17 @@ if (authStatus.status === 200) {
   const issues = authStatus.json?.issues ?? [];
   const smsIssueLines = issues.filter((x) => /SMS|sms|EMAIL_ONLY/i.test(String(x)));
 
-  if (f.smsReady) ok("SMS auth готов на prod (smsReady=true)");
+  if (f.authEmailOnly) ok("Auth pilot: email-only (SMS/Telegram/Яндекс скрыты)");
+  else if (f.smsReady) ok("SMS auth готов на prod (smsReady=true)");
   else if (f.customSmsAuth && f.smsProvider)
     warn("SMS auth", `провайдер ${f.smsProvider}, но smsReady=false — нужен SUPABASE_SERVICE_ROLE_KEY`);
-  else if (f.authEmailOnly) warn("SMS auth", "AUTH_EMAIL_ONLY=true — SMS отключён");
   else if (smsIssueLines.length)
     warn("SMS auth", smsIssueLines.join("; "));
   else warn("SMS auth", "smsReady=false — проверь SMSRU_API_ID + redeploy Production");
 
   if (f.emailAutoConfirm)
-    warn("emailAutoConfirm", "true на prod — ок для пилота, выключить перед массовым релизом");
+    warn("emailAutoConfirm", "true на prod — пользователи входят без письма; для пилота нужно false");
+  else if (f.authEmailOnly) ok("Email confirm: письмо Mail.ru перед входом (autoConfirm=false)");
 } else {
   fail("/api/auth/status", `HTTP ${authStatus.status}`);
 }
@@ -154,13 +155,11 @@ for (const key of requiredForProd) {
 
 if (local.DEV_SKIP_AUTH === "true") warn("DEV_SKIP_AUTH", "true в .env.local — не пушить на Vercel");
 
-console.log("\n--- Ручные шаги пилота (TODO.md) ---");
-console.log("1. Vercel: node apps/web/scripts/sync-vercel-env.mjs → Redeploy Production");
-console.log("2. Supabase: cd apps/web && npm run db:migrate:security");
-console.log("3. SMS: вход/регистрация на prod с реальным номером");
-console.log("4. Mobile: cd apps/mobile && npm run eas:android:preview");
-console.log("5. Discussions: web вопрос → mobile push → deep link");
-console.log("6. Webinars: Supabase BUNDLE_WEBINAR_ONLY.sql + LiveKit env → /api/webinars/status");
+console.log("\n--- Email-only pilot (узкий круг) ---");
+console.log("1. Регистрация: https://sonogyn-pro.ru/register — только «Почта»");
+console.log("2. Письмо подтверждения от Sonogyn-pro@mail.ru → ссылка → вход");
+console.log("3. /verify-phone не показывается (AUTH_EMAIL_ONLY=true)");
+console.log("4. Проверка: npm run test:auth:mailru-prod && npm run test:pilot-smoke");
 
 console.log(`\nИтог: ${failed} ошибок, ${warned} предупреждений\n`);
 process.exit(failed > 0 ? 1 : 0);
