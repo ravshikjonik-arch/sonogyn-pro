@@ -96,6 +96,27 @@ const signIn = await request("POST", "/api/auth/sign-in", {
 if (signIn.status === 400) ok("POST /api/auth/sign-in (пустое тело) → 400");
 else fail("POST /api/auth/sign-in", `HTTP ${signIn.status}, ожидали 400`);
 
+const EDUCATION_PILOT_PATHS = [
+  "/tools/refs",
+  "/tools/refs/exam-checklists",
+  "/tools/refs/patient-information",
+  "/tools/refs/learning-paths",
+  "/tools/refs/exam-set-pieces",
+  "/tools/refs/isuog-guidelines",
+  "/tools/refs/cme-tracker",
+  "/tools/refs/ultrasound-safety",
+  "/tools/refs/fetal-biometry-formulas",
+  "/login",
+  "/register",
+];
+
+for (const pathname of EDUCATION_PILOT_PATHS) {
+  const page = await request("GET", pathname);
+  if (page.status === 200) ok(`GET ${pathname} → 200`);
+  else if ([307, 308, 302].includes(page.status)) ok(`GET ${pathname} → ${page.status} (redirect)`);
+  else fail(`GET ${pathname}`, `HTTP ${page.status}, ожидали 200 или redirect`);
+}
+
 const authStatus = await request("GET", "/api/auth/status");
 if (authStatus.status === 200) {
   ok("/api/auth/status → 200");
