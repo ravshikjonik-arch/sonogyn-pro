@@ -1,6 +1,7 @@
 import type { User } from "@supabase/supabase-js";
 
 import { PHONE_EMAIL_DOMAIN, TELEGRAM_EMAIL_DOMAIN } from "@/lib/auth/auth-email-domains";
+import { isAuthEmailOnly } from "@/lib/auth/auth-methods-config";
 
 /** Прочитать phoneVerified из user_metadata (camelCase + snake_case). */
 export function readPhoneVerified(user: Pick<User, "user_metadata" | "phone_confirmed_at">): boolean {
@@ -31,6 +32,7 @@ export function isTelegramPrimaryAuth(user: Pick<User, "email" | "user_metadata"
 
 /** Нужна страница /verify-phone (Google, email — без подтверждённого телефона). */
 export function needsPhoneVerification(user: Pick<User, "email" | "user_metadata" | "phone_confirmed_at">): boolean {
+  if (isAuthEmailOnly()) return false;
   if (readPhoneVerified(user)) return false;
   if (isPhonePrimaryAuth(user)) return false;
   if (isTelegramPrimaryAuth(user)) return false;
