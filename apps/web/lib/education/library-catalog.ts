@@ -58,6 +58,16 @@ export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
     badge: "ISUOG",
   },
   {
+    id: "exam-set-pieces",
+    shelf: "courses",
+    title: "Exam Set-pieces · OBGYN",
+    description:
+      "Radiopaedia-style: история → structured report → differential. 4 сценария + 25 exam Q.",
+    href: "/tools/refs/exam-set-pieces",
+    tags: ["экзамен", "set-piece", "Radiopaedia", "ординатор", "OBGYN"],
+    badge: "NEW",
+  },
+  {
     id: "learning-paths",
     shelf: "courses",
     title: "Learning Paths · One-stop",
@@ -106,6 +116,23 @@ export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
     href: "/ai/consultants/fmf",
     tags: ["FMF", "скрининг", "Медведев"],
     badge: "FMF",
+  },
+  {
+    id: "isuog-guidelines",
+    shelf: "reference",
+    title: "ISUOG Guidelines Hub",
+    description: "PoCUS 2025, twins, endometrium, 11–14 нед, III trim, cardiac — + ссылки на инструменты.",
+    href: "/tools/refs/isuog-guidelines",
+    tags: ["ISUOG", "гайдлайн", "2025", "PoCUS"],
+    badge: "2025",
+  },
+  {
+    id: "cme-tracker",
+    shelf: "courses",
+    title: "CME · часы обучения",
+    description: "Локальный трекер часов (AIUM-style). Курсы, вебинары, quiz.",
+    href: "/tools/refs/cme-tracker",
+    tags: ["CME", "обучение", "часы"],
   },
   {
     id: "patient-information",

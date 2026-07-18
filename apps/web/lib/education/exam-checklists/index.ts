@@ -28,6 +28,7 @@ export {
 
 export { EXAM_CHECKLISTS_QUIZ_BANK } from "./quiz-bank";
 export { EXAM_PEARLS, getExamPearls, type ExamPearl } from "./educational-mode";
+export { PROTOCOL_IMAGE_LIBRARIES, imageLibrariesForProtocol, type ProtocolImageLibraryLink } from "./image-libraries";
 
 export type {
   ExamChecklistCategory,

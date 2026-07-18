@@ -17,6 +17,7 @@ import {
   EXAM_CHECKLISTS_QUIZ_BANK,
   EXAM_PROTOCOLS,
   getExamPearls,
+  imageLibrariesForProtocol,
   itemsByCategory,
   loadProtocolProgress,
   protocolCompleteness,
@@ -37,6 +38,7 @@ export function ExamChecklistsClient() {
   );
   const grouped = useMemo(() => itemsByCategory(activeProtocol), [activeProtocol]);
   const pearls = getExamPearls(activeProtocolId);
+  const imageLibs = useMemo(() => imageLibrariesForProtocol(activeProtocolId), [activeProtocolId]);
 
   const toggleItem = useCallback(
     (itemId: string) => {
@@ -157,6 +159,24 @@ export function ExamChecklistsClient() {
                     листовке для пациентки
                   </Link>
                   .
+                </div>
+              )}
+
+              {imageLibs.length > 0 && (
+                <div className="rounded-lg border border-[var(--clinical-border)] bg-[var(--clinical-muted)]/30 p-3">
+                  <p className="mb-2 text-xs font-semibold uppercase tracking-wide">Image library (эталонные срезы)</p>
+                  <div className="flex flex-wrap gap-2">
+                    {imageLibs.map((lib) => (
+                      <Link
+                        key={lib.href}
+                        href={lib.href}
+                        className="rounded-md border border-[var(--clinical-border)] bg-[var(--clinical-card)] px-2 py-1 text-xs hover:underline"
+                        title={lib.description}
+                      >
+                        {lib.label}
+                      </Link>
+                    ))}
+                  </div>
                 </div>
               )}
 
