@@ -109,6 +109,7 @@ export type ModuleId =
   | "education.fetal-doppler-1t"
   | "education.obstetric-atlas"
   | "education.fetal-spine"
+  | "education.exam-checklists"
   | "education.orads-flow"
   | "education.calculators-shelf";
 
@@ -754,8 +755,17 @@ export const MODULES: ModuleEntry[] = [
     kind: "education",
     title: "УЗИ позвоночника плода",
     href: "/library/fetal-spine",
-    surfaces: { educationShelf: "atlases" },
+    surfaces: { educationShelf: "courses" },
     legacy: { education: "fetal-spine-atlas" },
+  },
+  {
+    id: "education.exam-checklists",
+    domain: "education",
+    kind: "education",
+    title: "Чек-листы полного УЗИ (AIUM / ISUOG)",
+    href: "/tools/refs/exam-checklists",
+    surfaces: { educationShelf: "courses", clinicalSearch: true },
+    legacy: { education: "exam-checklists" },
   },
   {
     id: "education.orads-flow",

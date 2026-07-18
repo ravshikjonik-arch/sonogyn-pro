@@ -12,6 +12,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils/cn";
 import { formatLifecycleLabel, resolveCaseLifecycle } from "@/lib/cases/lifecycle-labels";
+import { CasePlaylistsBar } from "@/components/cases/CasePlaylistsBar";
+import { playlistToFeedFilters, type CasePlaylist } from "@/lib/cases/playlists";
 import { loadDiscussionChannels, type DiscussionChannel } from "@/lib/chat/load-discussion-channels";
 
 /** Row from GET /api/cases (public.cases + orads/tags). */
@@ -42,6 +44,8 @@ type CaseFeedProps = {
   initialFeedMode?: FeedMode;
   /** IA v2: filter by lifecycle_status (e.g. confirmed). */
   initialLifecycle?: string | null;
+  /** Pre-selected Radiopaedia-style playlist. */
+  initialPlaylistId?: string | null;
 };
 
 type FeedFilters = {
@@ -61,8 +65,10 @@ export function CaseFeed({
   initialChannelId = null,
   initialFeedMode = "library",
   initialLifecycle = null,
+  initialPlaylistId = null,
 }: CaseFeedProps) {
   const supabase = useSupabase();
+  const [activePlaylistId, setActivePlaylistId] = useState<string | null>(initialPlaylistId);
   const [channels, setChannels] = useState<DiscussionChannel[]>([]);
   const [cases, setCases] = useState<TeachingGalleryCaseRow[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
@@ -347,6 +353,30 @@ export function CaseFeed({
     void refresh();
   }
 
+  function handlePlaylistSelect(playlist: CasePlaylist | null) {
+    setActivePlaylistId(playlist?.id ?? null);
+    if (!playlist) {
+      setDraftFilters({ q: "", orads: "", tags: "" });
+      setAppliedFilters((prev) => ({
+        ...prev,
+        q: "",
+        orads: "",
+        tags: "",
+        lifecycle: initialLifecycle,
+      }));
+      return;
+    }
+    const preset = playlistToFeedFilters(playlist);
+    setDraftFilters({ q: preset.q, orads: preset.orads, tags: preset.tags });
+    setAppliedFilters((prev) => ({
+      ...prev,
+      q: preset.q,
+      orads: preset.orads,
+      tags: preset.tags,
+      lifecycle: preset.lifecycle ?? prev.lifecycle,
+    }));
+  }
+
   if (loading) {
     return <p className="text-sm text-slate-500">Синхронизация ленты…</p>;
   }
@@ -357,6 +387,10 @@ export function CaseFeed({
         <p className="rounded-xl border border-rose-200 bg-rose-50/80 px-3 py-2 text-xs text-rose-950">
           Лента «Пролапс · разбор» — кейсы с POP-Q, выпадением и опущением ОМТ. Без PHI.
         </p>
+      ) : null}
+
+      {appliedFilters.feedMode === "library" && topic !== "prolapse" ? (
+        <CasePlaylistsBar activeId={activePlaylistId} onSelect={handlePlaylistSelect} />
       ) : null}
 
       <Card className="border-slate-200">

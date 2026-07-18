@@ -58,6 +58,28 @@ export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
     badge: "ISUOG",
   },
   {
+    id: "learning-paths",
+    shelf: "courses",
+    title: "Learning Paths · One-stop",
+    description:
+      "5 маршрутов: I триместр, O-RADS, FGR, шейка, 22 среза. Гайдлайн → калькулятор → quiz → кейс.",
+    href: "/tools/refs/learning-paths",
+    tags: ["ISUOG", "маршрут", "обучение", "One-stop"],
+    primary: true,
+    badge: "NEW",
+  },
+  {
+    id: "exam-checklists",
+    shelf: "courses",
+    title: "Чек-листы полного УЗИ · AIUM / ISUOG",
+    description:
+      "Интерактивные чек-листы: гинекология TA+TV, стандартное акушерское, I и III триместр. Прогресс + exam tips + 10 Q.",
+    href: "/tools/refs/exam-checklists",
+    tags: ["AIUM", "ISUOG", "чек-лист", "протокол", "practice parameters", "экзамен"],
+    primary: true,
+    badge: "NEW",
+  },
+  {
     id: "fmf-fetal-slices",
     shelf: "courses",
     title: "FMF Ambassador · плодовые срезы",
@@ -84,6 +106,16 @@ export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
     href: "/ai/consultants/fmf",
     tags: ["FMF", "скрининг", "Медведев"],
     badge: "FMF",
+  },
+  {
+    id: "patient-information",
+    shelf: "reference",
+    title: "Информация для пациенток",
+    description:
+      "ISUOG-style листовки: шейка, O-RADS, цитология, FGR, скрининг I триместра. Печать · PDF · email.",
+    href: "/tools/refs/patient-information",
+    tags: ["пациентка", "ISUOG", "листовка", "FGR", "O-RADS", "цитология"],
+    badge: "NEW",
   },
   {
     id: "nosologies",

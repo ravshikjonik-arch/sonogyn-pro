@@ -18,10 +18,11 @@ import { cn } from "@/lib/utils/cn";
 function HubInner() {
   const searchParams = useSearchParams();
   const initialTab =
-    searchParams.get("tab") === "cases" || searchParams.get("lifecycle")
+    searchParams.get("tab") === "cases" || searchParams.get("lifecycle") || searchParams.get("playlist")
       ? "cases"
       : "chat";
   const caseTopic = searchParams.get("topic") === "prolapse" ? "prolapse" : "all";
+  const initialPlaylistId = searchParams.get("playlist");
   const initialFeedMode =
     searchParams.get("feed") === "discussions" ? ("discussions" as const) : ("library" as const);
   const initialChannelId = searchParams.get("channelId") || null;
@@ -95,6 +96,7 @@ function HubInner() {
           initialFeedMode={initialFeedMode}
           initialChannelId={initialChannelId}
           initialLifecycle={initialLifecycle}
+          initialPlaylistId={initialPlaylistId}
         />
       </TabsContent>
     </Tabs>
