@@ -16,12 +16,14 @@ supabase link --project-ref <PROJECT_REF>
 
 supabase functions deploy notify-new-comment --project-ref <PROJECT_REF>
 supabase functions deploy notify-new-case-question --project-ref <PROJECT_REF>
+supabase functions deploy notify-new-chat-message --project-ref <PROJECT_REF>
 ```
 
 URL после деплоя:
 
 - `https://<PROJECT_REF>.supabase.co/functions/v1/notify-new-comment`
 - `https://<PROJECT_REF>.supabase.co/functions/v1/notify-new-case-question`
+- `https://<PROJECT_REF>.supabase.co/functions/v1/notify-new-chat-message`
 
 ---
 
@@ -59,10 +61,13 @@ Edge Functions проверяют `DISCUSSIONS_WEBHOOK_SECRET` из env **или
 |---------|---------|---------|---------------|
 | `notify_new_comment_webhook` | `teaching_case_comments` | INSERT | `notify-new-comment` |
 | `notify_new_case_question_webhook` | `cases` | INSERT (skip if `channel_id` null) | `notify-new-case-question` |
+| `notify_new_chat_message_webhook` | `doctor_chat_messages` | INSERT | `notify-new-chat-message` |
 
 **Логика `notify-new-comment`:** подписчики `case_subscriptions` → `user_push_tokens` → Expo.
 
 **Логика `notify-new-case-question`:** подписчики `channel_subscriptions` → Expo (только вопросы коллегам).
+
+**Логика `notify-new-chat-message`:** подписчики `channel_subscriptions` → Expo (live-чат канала; превью ≤80 символов).
 
 ---
 

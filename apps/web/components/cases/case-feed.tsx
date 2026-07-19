@@ -249,7 +249,7 @@ export function CaseFeed({
     if (payload?.subscribed === false) {
       toast.success("Подписка на раздел отключена");
     } else {
-      toast.success("Push при новых вопросах в разделе включён");
+      toast.success("Push: новые вопросы и сообщения в чате раздела");
     }
   }
 

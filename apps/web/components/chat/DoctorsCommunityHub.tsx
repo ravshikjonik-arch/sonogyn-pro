@@ -27,10 +27,17 @@ function HubInner() {
     searchParams.get("feed") === "discussions" ? ("discussions" as const) : ("library" as const);
   const initialChannelId = searchParams.get("channelId") || null;
   const initialLifecycle = searchParams.get("lifecycle") || null;
-  const initialChannel = (searchParams.get("channel") as DoctorChatChannelSlug) || "general";
-  const [activeChannel, setActiveChannel] = useState<DoctorChatChannelSlug>(
-    DOCTOR_CHAT_CHANNELS.some((c) => c.slug === initialChannel) ? initialChannel : "general",
-  );
+  const channelFromSlug = searchParams.get("channel") as DoctorChatChannelSlug | null;
+  const channelFromId = initialChannelId
+    ? DOCTOR_CHAT_CHANNELS.find((c) => c.id === initialChannelId)?.slug
+    : null;
+  const initialChannel =
+    (channelFromSlug && DOCTOR_CHAT_CHANNELS.some((c) => c.slug === channelFromSlug)
+      ? channelFromSlug
+      : null) ??
+    channelFromId ??
+    "general";
+  const [activeChannel, setActiveChannel] = useState<DoctorChatChannelSlug>(initialChannel);
 
   const channel = DOCTOR_CHAT_CHANNELS.find((c) => c.slug === activeChannel) ?? DOCTOR_CHAT_CHANNELS[0]!;
 
