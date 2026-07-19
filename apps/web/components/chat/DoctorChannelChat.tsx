@@ -27,7 +27,7 @@ type Props = {
 
 export function DoctorChannelChat({ channelId, channelTitle, channelDescription }: Props) {
   const supabase = useSupabase();
-  const { user } = useAuth();
+  const { ready, user } = useAuth();
   const scrollRef = useRef<HTMLDivElement>(null);
   const [messages, setMessages] = useState<ChatBubbleMessage[]>([]);
   const [authorNames, setAuthorNames] = useState<Record<string, string>>({});
@@ -52,8 +52,20 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
   );
 
   const load = useCallback(async (silent = false) => {
+    if (!ready) {
+      if (!silent) setLoading(true);
+      return;
+    }
+
     if (!silent) setLoading(true);
     setUserId(user?.id ?? null);
+
+    if (!user) {
+      setMessages([]);
+      setLoadError("Войдите в аккаунт врача, чтобы открыть чат коллег.");
+      if (!silent) setLoading(false);
+      return;
+    }
 
     const response = await fetch(`/api/doctor-chat/messages?channelId=${encodeURIComponent(channelId)}`);
     const payload = (await response.json().catch(() => null)) as
@@ -61,13 +73,18 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
       | null;
 
     if (!response.ok || !payload?.messages) {
-      const message = typeof payload?.error === "string" ? payload.error : "Не удалось загрузить чат";
+      const message =
+        response.status === 401
+          ? "Войдите в аккаунт врача, чтобы открыть чат коллег."
+          : typeof payload?.error === "string"
+            ? payload.error
+            : "Не удалось загрузить чат";
       const hint =
         message.includes("doctor_chat")
           ? "Примените BUNDLE_COMMUNITY_CHAT_ONLY.sql в Supabase SQL Editor."
           : message;
       setLoadError(hint);
-      toast.error("Чат: нужна миграция Supabase");
+      if (!silent && response.status !== 401) toast.error("Чат: нужна миграция Supabase");
       setMessages([]);
       if (!silent) setLoading(false);
       return;
@@ -78,7 +95,7 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
     setMessages(enrich(rows));
     setAuthorNames(await resolveAuthorNames(supabase, rows.map((r) => r.author_id)));
     if (!silent) setLoading(false);
-  }, [channelId, enrich, supabase, user?.id]);
+  }, [channelId, enrich, ready, supabase, user]);
 
   useEffect(() => {
     queueMicrotask(() => void load());
@@ -92,6 +109,8 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
   }, [load]);
 
   useEffect(() => {
+    if (!ready || !user) return;
+
     const channel = supabase
       .channel(`doctor_chat:${channelId}`)
       .on(
@@ -111,7 +130,7 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
     return () => {
       void supabase.removeChannel(channel);
     };
-  }, [channelId, enrich, supabase]);
+  }, [channelId, load, ready, supabase, user]);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
