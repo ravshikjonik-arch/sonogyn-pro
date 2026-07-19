@@ -213,7 +213,7 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
         }),
       });
       const payload = (await response.json().catch(() => null)) as
-        | { message?: RawMessage; error?: unknown }
+        | { message?: RawMessage; autoSubscribed?: boolean; error?: unknown }
         | null;
 
       if (!response.ok || !payload?.message) {
@@ -224,7 +224,12 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
       setMessages((prev) => [...prev.filter((m) => m.id !== bubble.id), bubble]);
       const names = await resolveAuthorNames(supabase, [payload.message.author_id]);
       setAuthorNames((prev) => ({ ...prev, ...names }));
-      toast.success("Сообщение отправлено");
+      if (payload.autoSubscribed) {
+        setPushSubscribed(true);
+        toast.success("Отправлено · push на ответы канала включён");
+      } else {
+        toast.success("Сообщение отправлено");
+      }
       return true;
     } finally {
       setSending(false);

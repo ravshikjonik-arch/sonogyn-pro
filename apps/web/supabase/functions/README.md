@@ -67,7 +67,7 @@ Edge Functions проверяют `DISCUSSIONS_WEBHOOK_SECRET` из env **или
 
 **Логика `notify-new-case-question`:** подписчики `channel_subscriptions` → Expo (только вопросы коллегам).
 
-**Логика `notify-new-chat-message`:** подписчики `channel_subscriptions` → Expo (live-чат канала; превью ≤80 символов).
+**Логика `notify-new-chat-message`:** подписчики `channel_subscriptions` → Expo (live-чат канала; превью ≤80 символов). Антиспам: не чаще 1 push / 5 мин на подписчика (`last_chat_push_at`). Авто-подписка автора при первом сообщении в канале.
 
 ---
 
