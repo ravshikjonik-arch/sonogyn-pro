@@ -48,21 +48,35 @@ package-lock.json
 pnpm-lock 2.yaml
 
 # --- не нужно для EAS mobile (монорепо) ---
-apps/web/
+# apps/web: НЕ исключать целиком — pnpm-lock.yaml ссылается на apps/web/packages/clinical-uterus
+apps/web/app/
+apps/web/.next/
+apps/web/public/
+apps/web/supabase/
+apps/web/scripts/
+apps/web/lib/
+apps/web/components/
+apps/web/hooks/
+apps/web/e2e/
+apps/web/tests/
+apps/web/.tmp-ffmpeg/
+apps/web/playwright-report/
+apps/web/test-results/
 apps/video/
 apps/fetal-spine-cards/
 USTri/
-services/
+# Только корневой services/ (us-ai-worker и т.п.). НЕ трогать apps/mobile/src/services/.
+/services/
 starters/
 products/
 FetalAgents/
 Echo-Alpha/
 Medical-Imaging-Diagnosis-Agent/
 medical-knowledge/
-assets/
-public/
-docs/
-scripts/
+/assets/
+/public/
+/docs/
+/scripts/
 .cursor/
 agent-transcripts/
 
