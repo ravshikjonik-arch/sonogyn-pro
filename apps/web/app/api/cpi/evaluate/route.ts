@@ -14,16 +14,16 @@ export const runtime = "nodejs";
 export async function POST(request: Request) {
   const supabase = await createClient();
   const auth = await requireSupabaseUserFromRequest(request, supabase);
-  const userId =
-    auth.ok || (process.env.NODE_ENV !== "production" && isE2eFixturesEnabled())
-      ? (auth.ok ? auth.userId : "e2e-user-id")
-      : null;
-  if (!userId) {
+  const allowE2eFixtureUser = process.env.NODE_ENV !== "production" && isE2eFixturesEnabled();
+
+  if (!auth.ok && !allowE2eFixtureUser) {
     if (isDevSkipAuthEnabled()) {
       return NextResponse.json({ error: "Auth required" }, { status: 401 });
     }
     return auth.response;
   }
+
+  const userId = auth.ok ? auth.userId : "e2e-user-id";
 
   const rl = await consumeRateLimit(
     `cpi-evaluate:${userId}`,
