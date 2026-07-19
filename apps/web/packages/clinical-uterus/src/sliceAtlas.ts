@@ -12,7 +12,7 @@ import {
 } from "./figoHitMapping";
 
 /** Публичный путь к сагиттальному срезу (веб). */
-export const UTERUS_SAGITTAL_SLICE_SRC = "/clinical/uterus-sagittal-slice.png";
+export const UTERUS_SAGITTAL_SLICE_SRC = "/clinical/uterus-sagittal-slice.jpg";
 
 export type SliceNorm = [number, number];
 

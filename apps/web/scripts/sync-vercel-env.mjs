@@ -70,6 +70,7 @@ const FROM_LOCAL = [
   "AUTH_EMAIL_ONLY",
   "NEXT_PUBLIC_AUTH_EMAIL_ONLY",
   "SMTP_HOST",
+  "SMTP_CONNECT_HOST",
   "SMTP_PORT",
   "SMTP_USER",
   "SMTP_PASSWORD",
@@ -113,8 +114,19 @@ function envExists(name, target) {
   return line.toLowerCase().includes(target.toLowerCase());
 }
 
-/** Always overwrite on Vercel (e.g. domain migration). */
-const FORCE_UPDATE = ["NEXT_PUBLIC_APP_URL"];
+/** Always overwrite on Vercel (e.g. domain migration, SMTP mailbox change). */
+const FORCE_UPDATE = [
+  "NEXT_PUBLIC_APP_URL",
+  "AUTH_EMAIL_ONLY",
+  "NEXT_PUBLIC_AUTH_EMAIL_ONLY",
+  "AUTH_AUTO_CONFIRM_EMAIL",
+  "SMTP_HOST",
+  "SMTP_CONNECT_HOST",
+  "SMTP_PORT",
+  "SMTP_USER",
+  "SMTP_PASSWORD",
+  "SMTP_FROM",
+];
 
 function removeEnv(name, target) {
   vercel(["env", "rm", name, target, "--yes"], undefined);
@@ -187,7 +199,7 @@ const UPSTASH_ENV_ANY = [
   ["KV_REST_API_URL", "KV_REST_API_TOKEN"],
 ];
 
-console.log("\n--- Email auth (Mailgun + auto-confirm) ---");
+console.log("\n--- Email auth (Mail.ru SMTP + auto-confirm) ---");
 for (const key of RECOMMENDED_FOR_EMAIL) {
   const localOk = Boolean(local[key]?.trim());
   const vercelOk = envExists(key, "production");
@@ -195,7 +207,7 @@ for (const key of RECOMMENDED_FOR_EMAIL) {
   console.log(`${status === "ok" ? "✓" : "○"} ${key}: ${status}`);
 }
 console.log("  → Supabase SMTP: node scripts/configure-supabase-smtp.mjs --apply");
-console.log("  → Mailgun Sandbox: Authorized Recipients или домен sonogyn-pro.ru");
+console.log("  → Mail.ru: пароль приложения для Sonogyn-pro@mail.ru (не основной пароль ящика)");
 
 console.log("\n--- Production security checklist ---");
 for (const key of REQUIRED_FOR_PRODUCTION_SECURITY) {

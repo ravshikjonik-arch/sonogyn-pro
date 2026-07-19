@@ -120,12 +120,12 @@ const PLACEHOLDER_BY_SHELF: Record<EvidenceShelf, string> = {
 const SHELF_RESOURCE_LINKS: Record<EvidenceShelf, EvidenceRelatedLink[]> = {
   "us-fmf": [{ href: "/ai/consultants/fmf", label: "FMF · скрининги" }],
   obgyn: [{ href: "/ai/consultants/gynecology", label: "Помощник АГ" }],
-  cervix: [{ href: "/tools/refs/cervix-pathology", label: "Самопроверка · шейка" }],
+  cervix: [{ href: "/tools/refs/cervix-pathology?tab=cytology", label: "Цитология · шейка" }],
   mammo: [{ href: "/tools/calc/rads/bi-rads", label: "BI-RADS" }],
   onco: [
     { href: "/tools/refs/iota-terms-2026", label: "IOTA 2026 · термины" },
     { href: "/tools/refs/orads-echograms", label: "O-RADS · эхограммы" },
-    { href: "/tools/calc/rads/o-rads", label: "O-RADS Pro" },
+    { href: "/tools/calc/rads/o-rads", label: "O-RADS US" },
   ],
   endocrine: [{ href: "/tools/adjunct/ti-rads", label: "TI-RADS" }],
   surgery: [{ href: "/tools/mapping/endometriosis", label: "IDEA · pre-op" }],

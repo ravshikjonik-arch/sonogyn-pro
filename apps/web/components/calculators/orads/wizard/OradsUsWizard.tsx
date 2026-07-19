@@ -3,10 +3,12 @@
 import { useOradsNavigator } from "@repo/orads-us";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import { OradsAssistPanel } from "@/components/calculators/orads/wizard/OradsAssistPanel";
+import { OradsWizardAtlasImage } from "@/components/calculators/orads/wizard/OradsWizardAtlasImage";
 import { OradsWizardOptionButton } from "@/components/calculators/orads/wizard/OradsWizardOptionButton";
+import { resolveOradsAtlasPreview } from "@/lib/orads-us/resolveOradsAtlasPreview";
 import { OradsWizardResultTabs } from "@/components/calculators/orads/wizard/OradsWizardResultTabs";
 import { OradsWizardProgressBar } from "@/components/calculators/orads/wizard/OradsWizardUi";
 import { Button } from "@/components/ui/button";
@@ -32,6 +34,11 @@ export function OradsUsWizard({ onOpenPro, className }: Props) {
   });
 
   const view = nav.view;
+
+  const stepAtlasPreview = useMemo(() => {
+    if (view.kind !== "question") return null;
+    return resolveOradsAtlasPreview(view.node.imageRef);
+  }, [view]);
 
   function goBack() {
     if (!nav.canPopStep && nav.state.path.length === 0) return;
@@ -129,12 +136,19 @@ export function OradsUsWizard({ onOpenPro, className }: Props) {
             ) : null}
           </div>
 
+          <OradsWizardAtlasImage preview={stepAtlasPreview} />
+
           <div className="space-y-2">
             {view.node.options.map((opt) => (
               <OradsWizardOptionButton
                 key={opt.id}
                 label={locale.t(opt.labelKey)}
                 onClick={() => nav.pick(view.node.id, opt.id)}
+                imageSlot={
+                  opt.imageRef ? (
+                    <OradsWizardAtlasImage preview={resolveOradsAtlasPreview(opt.imageRef)} compact />
+                  ) : undefined
+                }
               />
             ))}
           </div>

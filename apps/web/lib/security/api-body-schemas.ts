@@ -1,3 +1,4 @@
+import { NextResponse } from "next/server";
 import { z } from "zod";
 
 import { MAX_ULTRASOUND_IMAGE_BYTES } from "@/lib/security/file-validation";
@@ -294,10 +295,10 @@ export const NosologyAssistBodySchema = z.object({
   voiceTranscript: z.string().max(12000).optional(),
   imageMetrics: z
     .object({
-      width: z.number().finite().positive().optional(),
-      height: z.number().finite().positive().optional(),
-      meanIntensity: z.number().finite().optional(),
-      darkRatio: z.number().finite().min(0).max(1).optional(),
+      width: z.number().finite().positive(),
+      height: z.number().finite().positive(),
+      darkRatio: z.number().finite().min(0).max(1),
+      peripheralRingScore: z.number().finite().min(0).max(1),
     })
     .optional(),
   mediaType: z.enum(["image", "video_frame", "none"]).optional(),
@@ -462,14 +463,14 @@ export const E2ePatientRecordPatchBodySchema = z
 
 export async function parseJsonBody(request: Request): Promise<
   | { ok: true; data: unknown }
-  | { ok: false; response: Response }
+  | { ok: false; response: NextResponse }
 > {
   try {
     return { ok: true, data: await request.json() };
   } catch {
     return {
       ok: false,
-      response: Response.json({ error: "Некорректное тело запроса." }, { status: 400 }),
+      response: NextResponse.json({ error: "Некорректное тело запроса." }, { status: 400 }),
     };
   }
 }
@@ -477,7 +478,7 @@ export async function parseJsonBody(request: Request): Promise<
 /** Like parseJsonBody but treats empty body as `{}`. */
 export async function parseJsonBodyOrEmpty(request: Request): Promise<
   | { ok: true; data: unknown }
-  | { ok: false; response: Response }
+  | { ok: false; response: NextResponse }
 > {
   const text = await request.text();
   if (!text.trim()) return { ok: true, data: {} };
@@ -486,11 +487,11 @@ export async function parseJsonBodyOrEmpty(request: Request): Promise<
   } catch {
     return {
       ok: false,
-      response: Response.json({ error: "Некорректное тело запроса." }, { status: 400 }),
+      response: NextResponse.json({ error: "Некорректное тело запроса." }, { status: 400 }),
     };
   }
 }
 
 export function zodErrorResponse(error: z.ZodError, status = 400) {
-  return Response.json({ error: error.flatten() }, { status });
+  return NextResponse.json({ error: error.flatten() }, { status });
 }

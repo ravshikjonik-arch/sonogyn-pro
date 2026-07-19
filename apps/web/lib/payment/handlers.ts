@@ -5,6 +5,7 @@ import { resolveAppOrigin } from "@/lib/auth/app-origin";
 import { createPaymentViaSdk, loadPaymentViaSdk } from "@/lib/payment/yookassa-sdk-client";
 import { isYooKassaConfigured, readDefaultProPriceRub } from "@/lib/payment/config";
 import { fulfillSucceededPayment } from "@/lib/payment/fulfill-payment";
+import { safePaymentReturnUrl } from "@/lib/payment/safe-return-url";
 import { PAYMENT_MESSAGES, paymentError, paymentJson } from "@/lib/payment/responses";
 import { guardYooKassaWebhook } from "@/lib/payment/webhook-middleware";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
@@ -47,7 +48,7 @@ export async function handlePaymentCreate(req: Request) {
   const appOrigin = resolveAppOrigin(req);
   const amountRub = parsed.data.amountRub ?? readDefaultProPriceRub();
   const description = parsed.data.description ?? "SonoGyn Pro — подписка на 30 дней";
-  const returnUrl = parsed.data.returnUrl ?? `${appOrigin}/profile?checkout=success`;
+  const returnUrl = safePaymentReturnUrl(appOrigin, parsed.data.returnUrl);
 
   try {
     const payment = await createPaymentViaSdk({

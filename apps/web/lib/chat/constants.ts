@@ -1,31 +1,19 @@
-export type DoctorChatChannelSlug = "general" | "gynecology" | "obstetrics";
+import {
+  PILOT_CHAT_CHANNELS,
+  pilotChannelBySlug,
+  type PilotChannelSlug,
+} from "@/lib/chat/pilot-channels";
 
-export const DOCTOR_CHAT_CHANNELS: {
-  id: string;
-  slug: DoctorChatChannelSlug;
-  title: string;
-  description: string;
-}[] = [
-  {
-    id: "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
-    slug: "general",
-    title: "Общий чат",
-    description: "Вопросы, мысли, обмен опытом — без PHI.",
-  },
-  {
-    id: "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
-    slug: "gynecology",
-    title: "Гинекология · УЗИ",
-    description: "Яичники, матка, O-RADS, эндометриоз.",
-  },
-  {
-    id: "cccccccc-cccc-cccc-cccc-cccccccccccc",
-    slug: "obstetrics",
-    title: "Акушерство · УЗИ",
-    description: "Беременность, скрининги, FMF, допплер.",
-  },
-];
+export type DoctorChatChannelSlug = PilotChannelSlug;
+
+export const DOCTOR_CHAT_CHANNELS = PILOT_CHAT_CHANNELS.map((ch) => ({
+  id: ch.id,
+  slug: ch.slug,
+  title: ch.title,
+  description: ch.description,
+}));
 
 export function channelBySlug(slug: DoctorChatChannelSlug) {
-  return DOCTOR_CHAT_CHANNELS.find((c) => c.slug === slug) ?? DOCTOR_CHAT_CHANNELS[0]!;
+  const ch = pilotChannelBySlug(slug);
+  return { id: ch.id, slug: ch.slug, title: ch.title, description: ch.description };
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import {
   BookOpen,
   GraduationCap,
@@ -53,7 +54,7 @@ export function CervixPathologyReferenceWidget({ initialChapterId, className }: 
               <BookOpen className="h-4 w-4" aria-hidden />
               Главы
             </CardTitle>
-            <CardDescription>7 разделов справочника</CardDescription>
+            <CardDescription>{chapters.length} разделов справочника</CardDescription>
           </CardHeader>
           <CardContent className="space-y-1">
             {chapters.map((item) => (
@@ -96,6 +97,22 @@ export function CervixPathologyReferenceWidget({ initialChapterId, className }: 
             />
           </div>
         </div>
+
+        {chapter.id === "08-cytology-screening" ? (
+          <Card className="border-[var(--clinical-primary)]/30 bg-[var(--clinical-primary-muted)]/40">
+            <CardContent className="flex flex-wrap items-center justify-between gap-3 py-4 text-sm">
+              <p>
+                Полный интерактив: алгоритмы скрининга, Bethesda AI, 10 кейсов, лекции и самопроверка по цитологии.
+              </p>
+              <Link
+                href="/tools/refs/cervix-pathology?tab=cytology"
+                className="font-semibold text-[var(--clinical-primary)] underline"
+              >
+                Открыть модуль «Цитология · скрининг»
+              </Link>
+            </CardContent>
+          </Card>
+        ) : null}
 
         {viewMode === "student" ? (
           <Card className="border-[var(--clinical-border)] bg-[var(--clinical-card)]" data-voice-content>

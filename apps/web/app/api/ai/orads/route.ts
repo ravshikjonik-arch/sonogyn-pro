@@ -3,8 +3,10 @@ import { z } from "zod";
 
 import { isDevSkipAuthEnabled } from "@/lib/auth/dev-account";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
+import { detectPhiInUnknown, PHI_BLOCK_MESSAGE } from "@/lib/security/phi-detection";
 import { RL } from "@/lib/security/rate-limit-config";
 import { requireSupabaseUserFromRequest } from "@/lib/security/require-user";
+import { safeLog } from "@/lib/security/safeLog";
 import { createClient } from "@/utils/supabase/server";
 
 export const runtime = "nodejs";
@@ -62,6 +64,12 @@ export async function POST(request: Request) {
   const parsed = OradsAiBodySchema.safeParse(json);
   if (!parsed.success) {
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
+  }
+
+  const phiCheck = detectPhiInUnknown(parsed.data.payload);
+  if (!phiCheck.ok) {
+    safeLog("ai orads phi blocked", { reasons: phiCheck.reasons, userId: userKey });
+    return NextResponse.json({ error: PHI_BLOCK_MESSAGE, code: "phi_detected" }, { status: 400 });
   }
 
   const apiKey = process.env.OPENROUTER_API_KEY?.trim();

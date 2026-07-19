@@ -268,11 +268,11 @@ export const APPOINTMENT_CALCULATORS: AppointmentCalculator[] = [
 export const EXTRA_PROJECT_CALCULATORS: AppointmentCalculator[] = [
   {
     id: "o-rads",
-    title: "O-RADS Pro",
+    title: "O-RADS US",
     description: "O-RADS US v2022 + IOTA 2026 — яичник на приёме",
     category: "gynecologic",
     status: "implemented",
-    webHref: "/calculators/o-rads",
+    webHref: "/tools/calc/rads/o-rads",
     icon: "ovary",
     searchTerms: ["o-rads", "iota", "киста"],
   },

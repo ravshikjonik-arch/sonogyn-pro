@@ -1,5 +1,9 @@
 import { useMemo, useState } from "react";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+import type { RootStackParamList } from "../navigation/paramLists";
 import {
   getAssistantCards,
   obgynAssistantMeta,
@@ -82,6 +86,7 @@ function NosologyDetails({ card }: { card: ObgynNosologyCard }) {
 }
 
 export default function ObgynClinicalAssistant({ mode, onBack }: Props) {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const cards = useMemo(() => getAssistantCards(mode), [mode]);
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(cards[0]?.id ?? "");
@@ -107,6 +112,16 @@ export default function ObgynClinicalAssistant({ mode, onBack }: Props) {
         <Text style={styles.title}>{modeTitle(mode)}</Text>
         <Text style={styles.subtitle}>{modeSubtitle(mode)}</Text>
       </View>
+
+      {mode === "gynecology" ? (
+        <Pressable
+          style={styles.cytologyLink}
+          onPress={() => navigation.navigate("CervixCytologyModule")}
+        >
+          <Text style={styles.cytologyLinkTitle}>Цитология и скрининг РШМ</Text>
+          <Text style={styles.cytologyLinkSub}>Bethesda · HPV · алгоритм · самопроверка · AI (без PHI)</Text>
+        </Pressable>
+      ) : null}
 
       <View style={styles.architectureCard}>
         <Text style={styles.architectureTitle}>Архитектура для ежедневного приёма</Text>
@@ -178,6 +193,16 @@ const styles = StyleSheet.create({
   kicker: { color: "rgba(255,255,255,0.72)", fontSize: 11, fontWeight: "900", letterSpacing: 1, textTransform: "uppercase" },
   title: { color: "#fff", fontSize: 25, fontWeight: "900", letterSpacing: -0.5 },
   subtitle: { color: "rgba(255,255,255,0.88)", fontSize: 13, lineHeight: 19, fontWeight: "600" },
+  cytologyLink: {
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: "#F9A8D4",
+    backgroundColor: "#FDF2F8",
+    padding: 14,
+    gap: 4,
+  },
+  cytologyLinkTitle: { color: "#9D174D", fontSize: 15, fontWeight: "900" },
+  cytologyLinkSub: { color: "#BE185D", fontSize: 12, lineHeight: 17, fontWeight: "600" },
   architectureCard: {
     borderRadius: 16,
     borderWidth: 1,

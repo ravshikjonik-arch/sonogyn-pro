@@ -9,11 +9,16 @@
     ".": "./src/index.ts",
     "./self-assessment": "./src/self-assessment/index.ts",
     "./self-assessment/quiz-bank": "./self-assessment/data/quiz-bank.json",
-    "./chapters": "./src/chapters/index.ts"
+    "./chapters": "./src/chapters/index.ts",
+    "./cytology": "./src/cytology/index.ts"
+  },
+  "dependencies": {
+    "zod": "^3.24.4"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "lint": "echo \"skip\""
+    "lint": "echo \"skip\"",
+    "test": "node --import tsx --test __tests__/*.test.ts"
   },
   "devDependencies": {
     "@types/node": "^20",

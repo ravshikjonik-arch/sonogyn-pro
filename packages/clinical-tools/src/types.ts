@@ -40,6 +40,7 @@ export type MobileToolAction =
   | "ln_rads"
   | "gyn_assistant_gyn"
   | "gyn_assistant_obs"
+  | "ultrasound_assistant"
   | "gyn_hub"
   | "ga_lmp"
   | "ga_us"
@@ -49,7 +50,8 @@ export type MobileToolAction =
   | "clinical_ref"
   | "guidelines"
   | "medvedev"
-  | "evidence_assistant";
+  | "evidence_assistant"
+  | "cervix_pathology";
 
 export type ClinicalTool = {
   id: string;

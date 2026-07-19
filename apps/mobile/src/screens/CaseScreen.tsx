@@ -21,6 +21,7 @@ import { useComments } from "../hooks/useComments";
 import { useCurrentUser } from "../hooks/useCurrentUser";
 import { useProAccess } from "../hooks/useProAccess";
 import { getCaseById } from "../services/firebase/casesService";
+import { isFirebaseConfigured } from "../services/firebase/firebase";
 import type { OrganType, OradsSnapshot } from "../features/case/types";
 import ProBadge from "../components/ProBadge";
 import DescriptionBlock from "../components/DescriptionBlock";
@@ -32,6 +33,7 @@ import {
   OVARIAN_DESCRIPTION_EXAMPLE,
   type OvarianDescriptionFeatures,
 } from "../features/case/ovaryDescription";
+import { inferOrganFromText, isHemorrhagicCystText } from "../features/case/inferOrganFromText";
 import i18n from "../i18n";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Case">;
@@ -127,8 +129,21 @@ function confidenceLevel(value: number): "low" | "medium" | "high" {
   return "low";
 }
 
-function getAiStubAnalysis(organ: OrganType, answers: Record<string, string>): AiStubResult {
-  if (organ === "ovary") {
+function getAiStubAnalysis(
+  organ: OrganType,
+  answers: Record<string, string>,
+  description = "",
+): AiStubResult {
+  const effectiveOrgan = inferOrganFromText(description) ?? organ;
+
+  if (effectiveOrgan === "ovary") {
+    if (isHemorrhagicCystText(description)) {
+      return {
+        text: i18n.t("ai_ovary_hemorrhagic_cyst"),
+        confidence: 78,
+        reason: i18n.t("ai_reason_ovary_hemorrhagic_cyst"),
+      };
+    }
     if (answers.solid === "option_yes" || answers.pap === "option_yes") {
       return {
         text: i18n.t("ai_ovary_suspicious"),
@@ -142,7 +157,7 @@ function getAiStubAnalysis(organ: OrganType, answers: Record<string, string>): A
       reason: i18n.t("ai_reason_ovary_benign"),
     };
   }
-  if (organ === "breast") {
+  if (effectiveOrgan === "breast") {
     if (answers.margin === "option_spiculated" || answers.flow === "option_marked") {
       return {
         text: i18n.t("ai_breast_suspicious"),
@@ -156,7 +171,7 @@ function getAiStubAnalysis(organ: OrganType, answers: Record<string, string>): A
       reason: i18n.t("ai_reason_breast_benign"),
     };
   }
-  if (organ === "uterus") {
+  if (effectiveOrgan === "uterus") {
     return {
       text: i18n.t("ai_uterus_typical_myoma"),
       confidence: 76,
@@ -164,7 +179,7 @@ function getAiStubAnalysis(organ: OrganType, answers: Record<string, string>): A
     };
   }
   return {
-    text: getAiStubText(organ, answers),
+    text: getAiStubText(effectiveOrgan, answers),
     confidence: 70,
     reason: i18n.t("ai_reason_lymph"),
   };
@@ -173,7 +188,7 @@ function getAiStubAnalysis(organ: OrganType, answers: Record<string, string>): A
 export default function CaseScreen({ navigation, route }: Props) {
   const initialCaseId = route.params?.caseId;
   const [caseId, setCaseId] = useState<string | undefined>(initialCaseId);
-  const [organ, setOrgan] = useState<OrganType>("breast");
+  const [organ, setOrgan] = useState<OrganType>(route.params?.draftOrgan ?? "ovary");
   const [description, setDescription] = useState("");
   const [size, setSize] = useState("");
   const [imageUri, setImageUri] = useState<string | undefined>(undefined);
@@ -283,6 +298,13 @@ export default function CaseScreen({ navigation, route }: Props) {
   }, [isCreateMode, organ, autoFillOvaryDescription, autoDescription]);
 
   useEffect(() => {
+    const inferred = inferOrganFromText(description);
+    if (inferred && inferred !== organ && description.trim().length > 3) {
+      setOrgan(inferred);
+    }
+  }, [description, organ]);
+
+  useEffect(() => {
     if (initialCaseId) return;
     const ts = route.params?.draftTimestamp;
     if (typeof ts !== "number") return;
@@ -370,6 +392,13 @@ export default function CaseScreen({ navigation, route }: Props) {
       Alert.alert(i18n.t("fill_description"), i18n.t("add_case_description"));
       return;
     }
+    if (!isFirebaseConfigured()) {
+      Alert.alert(
+        "Локальные кейсы недоступны",
+        "Firebase не настроен. Для обсуждений с коллегами: вкладка «Чат» → «Чат врачей · вопросы коллегам».",
+      );
+      return;
+    }
     try {
       const created = await createNewCase({
         organ,
@@ -414,7 +443,7 @@ export default function CaseScreen({ navigation, route }: Props) {
     setAiReason("");
     setAiConfidence(null);
     setTimeout(() => {
-      const analysis = getAiStubAnalysis(organ, answers);
+      const analysis = getAiStubAnalysis(organ, answers, description);
       setAiLoading(false);
       setAiText(analysis.text);
       setAiConfidence(analysis.confidence);

@@ -3,16 +3,16 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, Suspense, useCallback, useEffect, useMemo, useState } from "react";
-import type { AuthProvider } from "@repo/ui";
-import { AuthButtons } from "@repo/ui";
 
-import { useSupabase, useAuth } from "@/app/providers";
+import { useAuth } from "@/app/providers";
 import { AuthMessage, AuthScreenShell, authInputClass } from "@/components/auth/AuthScreenShell";
 import { RegisterCareerTeaser } from "@/components/auth/RegisterCareerTeaser";
 import { AuthSetupBanner } from "@/components/auth/AuthSetupBanner";
 import { EmailRegistrationHint } from "@/components/auth/EmailRegistrationHint";
 import { PhoneAuthSetupHint } from "@/components/auth/PhoneAuthSetupHint";
 import { PhoneInput } from "@/components/auth/PhoneInput";
+import { RussianIdpPanel } from "@/components/auth/RussianIdpPanel";
+import { SocialAuthSetupHint } from "@/components/auth/SocialAuthSetupHint";
 import {
   birthDateErrorMessage,
   DoctorRegistrationFields,
@@ -35,10 +35,11 @@ import {
   PRODUCT_OWNER_FIO_SHORT,
 } from "@/lib/auth/doctor-display";
 import { looksLikePhoneInput, USE_PHONE_TAB_MSG } from "@/lib/auth/auth-error-text";
-import { buildOAuthRedirect, normalizePhone, oauthProviderToSupabase } from "@/lib/auth/oauth-providers";
+import { normalizePhone } from "@/lib/auth/oauth-providers";
 import { parseRegistrationMethod, readTelegramBotDisplayName, type AuthRegistrationMethod } from "@/lib/auth/registration-methods";
 import { isAuthEmailOnlyClient } from "@/lib/auth/auth-methods-config";
 import { isPilotClosedAccessClient, isPilotTelegramPrimary, PILOT_AUTH_SUBTITLE, PILOT_REGISTER_SUBTITLE } from "@/lib/auth/auth-pilot-config";
+import { RU_IDP_REGISTER_SUBTITLE } from "@/lib/auth/russian-idp";
 import { isRuPhoneMaskComplete } from "@/lib/auth/ru-phone-mask";
 import {
   PHONE_OTP_DELAY_HINT,
@@ -46,7 +47,6 @@ import {
   requireOnlineForAuth,
   RESEND_CONFIRMATION_MSG,
   SIGN_UP_GENERIC_MSG,
-  translateAuthError,
 } from "@/lib/auth/translate-auth-error";
 import { readAppLocale, saveAppLocale, type AppLocale } from "@/lib/i18n/locale";
 import { safeInternalPath } from "@/lib/nav/safe-redirect";
@@ -55,7 +55,6 @@ import { markSessionAnchorNow } from "@/lib/security/session-anchor";
 function RegisterForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const supabase = useSupabase();
   const { refresh } = useAuth();
 
   const defaultTab = useMemo(
@@ -78,7 +77,6 @@ function RegisterForm() {
   const [otpSent, setOtpSent] = useState(false);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [oauthLoading, setOauthLoading] = useState<AuthProvider | null>(null);
   const [locale, setLocale] = useState<AppLocale>(() => readAppLocale());
   const [failedAttempts, setFailedAttempts] = useState(0);
   const [requiresCaptcha, setRequiresCaptcha] = useState(false);
@@ -100,8 +98,14 @@ function RegisterForm() {
   }, [sendCooldownSec]);
 
   useEffect(() => {
-    if (searchParams.get("message") === "register_first") {
-      setMessage("Сначала заполните данные врача и подтвердите через Telegram.");
+    const fromTelegram =
+      searchParams.get("telegram_message")?.trim() ||
+      (searchParams.get("message") === "register_first"
+        ? "Сначала заполните данные врача и подтвердите через Telegram."
+        : "");
+    if (fromTelegram) {
+      setMessage(fromTelegram);
+      setActiveTab("telegram");
     }
   }, [searchParams]);
 
@@ -450,31 +454,13 @@ function RegisterForm() {
     }
   }
 
-  async function onOAuth(provider: Exclude<AuthProvider, "telegram">) {
-    setMessage("");
-    if (!guardOnline()) return;
-
-    setOauthLoading(provider);
-    try {
-      const origin = window.location.origin;
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: oauthProviderToSupabase(provider),
-        options: { redirectTo: buildOAuthRedirect(origin, afterAuthPath) },
-      });
-      if (error) setMessage(translateAuthError(error.message));
-    } finally {
-      setOauthLoading(null);
-    }
-  }
-
   const isSuccessMessage =
     message === SIGN_UP_GENERIC_MSG ||
     message === RESEND_CONFIRMATION_MSG ||
     message === PHONE_OTP_SENT_MSG ||
-    message.includes("отправлен") ||
-    message.includes("Код готов") ||
-    message.includes("SMS") ||
-    message.includes("Telegram");
+    /^код\s+(отправлен|готов)/i.test(message) ||
+    /код\s+отправлен\s+(в\s+)?(sms|telegram)/i.test(message) ||
+    /sms[- ]?код\s+отправлен/i.test(message);
 
   return (
     <AuthScreenShell
@@ -484,11 +470,23 @@ function RegisterForm() {
           ? PILOT_REGISTER_SUBTITLE
           : isPilotTelegramPrimary()
             ? `Шаг 1 · ${PILOT_AUTH_SUBTITLE}`
-            : "Шаг 1 · Студент — бесплатно. Дальше ординатор, врач и PRO."
+            : RU_IDP_REGISTER_SUBTITLE
       }
       defaultTab={defaultTab}
       onTabChange={onTabChange}
       showMethodHints
+      socialTab={
+        !isAuthEmailOnlyClient() && !isPilotClosedAccessClient() ? (
+          <div className="space-y-4">
+            <RegisterCareerTeaser />
+            <RussianIdpPanel variant="register" nextPath={afterAuthPath} />
+            <SocialAuthSetupHint showRussianIdp />
+            <p className="text-xs text-slate-500">
+              После входа через Яндекс ID заполните ФИО и специализацию в профиле.
+            </p>
+          </div>
+        ) : undefined
+      }
       telegramTab={
         simpleTelegramRegister ? (
           <div className="space-y-4">
@@ -647,7 +645,7 @@ function RegisterForm() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="doctor@example.com"
+              placeholder="doctor@mail.ru"
               required
               autoComplete="email"
               aria-label="Email"
@@ -674,10 +672,8 @@ function RegisterForm() {
             <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-900 dark:border-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-100">
               <p className="font-medium">Подтвердите email</p>
               <p className="mt-1 text-emerald-800 dark:text-emerald-200">
-                Откройте письмо и перейдите по ссылке. Адрес приложения:{" "}
-                <span className="font-mono text-xs">
-                  {typeof window !== "undefined" ? window.location.origin : "…"}
-                </span>
+                Письмо придёт от <strong>Sonogyn-pro@mail.ru</strong> — откройте ссылку подтверждения.
+                Если не видите письмо, проверьте «Спам».
               </p>
               <Button
                 type="button"
@@ -787,27 +783,23 @@ function RegisterForm() {
           ) : null}
         </form>
       }
-      socialTab={
-        <div className="space-y-4">
-          <p className="text-sm text-[var(--clinical-foreground-muted)]">
-            Регистрация через Google. После подтверждения вернётесь в кабинет.
-          </p>
-          <AuthButtons
-            providers={["google"]}
-            onProviderPress={(p) => {
-              if (p === "google") void onOAuth(p);
-            }}
-            loading={oauthLoading}
-            variant="register"
-          />
-          {message && activeTab === "social" ? <AuthMessage message={message} /> : null}
-        </div>
-      }
       footer={
         <>
           <div className="mt-4 flex flex-wrap justify-center gap-2 text-xs">
             {!isAuthEmailOnlyClient() && !isPilotClosedAccessClient() ? (
               <>
+            <Link
+              href="/register?method=phone"
+              className={`rounded-full px-3 py-1 ${activeTab === "phone" ? "bg-[var(--clinical-primary-deep)] text-white" : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"}`}
+            >
+              SMS
+            </Link>
+            <Link
+              href="/register?method=social"
+              className={`rounded-full px-3 py-1 ${activeTab === "social" ? "bg-[var(--clinical-primary-deep)] text-white" : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"}`}
+            >
+              Яндекс ID
+            </Link>
             <Link
               href="/register?method=telegram"
               className={`rounded-full px-3 py-1 ${activeTab === "telegram" ? "bg-[var(--clinical-primary-deep)] text-white" : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"}`}
@@ -819,18 +811,6 @@ function RegisterForm() {
               className={`rounded-full px-3 py-1 ${activeTab === "email" ? "bg-[var(--clinical-primary-deep)] text-white" : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"}`}
             >
               Email
-            </Link>
-            <Link
-              href="/register?method=phone"
-              className={`rounded-full px-3 py-1 ${activeTab === "phone" ? "bg-[var(--clinical-primary-deep)] text-white" : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"}`}
-            >
-              SMS
-            </Link>
-            <Link
-              href="/register?method=social"
-              className={`rounded-full px-3 py-1 ${activeTab === "social" ? "bg-[var(--clinical-primary-deep)] text-white" : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"}`}
-            >
-              Google
             </Link>
               </>
             ) : null}

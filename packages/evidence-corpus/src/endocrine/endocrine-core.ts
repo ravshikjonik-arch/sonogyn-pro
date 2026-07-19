@@ -30,7 +30,7 @@ export const ENDOCRINE_CORE_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ESHRE PCOS ultrasound criteria", organization: "ESHRE", year: 2023 },
     tags: ["PCOM", "фollikлы", "объём яичника", "20 follicles", "УЗИ"],
-    relatedLinks: [{ label: "O-RADS Pro", href: "/calculators/o-rads" }],
+    relatedLinks: [{ label: "O-RADS Pro", href: "/tools/calc/rads/o-rads" }],
   },
   {
     id: "endo-amh-fertility",

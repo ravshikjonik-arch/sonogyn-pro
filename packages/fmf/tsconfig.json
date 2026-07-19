@@ -1,10 +1,15 @@
 {
-  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "target": "ES2022",
     "rootDir": ".",
     "outDir": "dist",
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmit": true,
     "resolveJsonModule": true,
-    "moduleResolution": "bundler"
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "types": ["node"]
   },
   "include": ["src/**/*", "reference-curves/**/*.json"]
 }

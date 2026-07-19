@@ -26,10 +26,10 @@ export const SUPABASE_PRODUCTION_AUTH_CHECKLIST: SupabaseAuthChecklistItem[] = [
   {
     id: "custom-smtp",
     area: "Authentication → SMTP Settings",
-    setting: "Custom SMTP (Mailgun)",
+    setting: "Custom SMTP (Mail.ru)",
     recommended:
-      "Host smtp.mailgun.org · Port 587 (или 2525) · User postmaster@mg.sonogyn-pro.ru · Pass из Mailgun SMTP credentials · Sender noreply@sonogyn-pro.ru",
-    why: "Письма «Подтвердите email» идут из Supabase, не из apps/web email-provider.",
+      "Host smtp.mail.ru · Port 587 · User Sonogyn-pro@mail.ru · Pass — пароль приложения · Sender email строго Sonogyn-pro@mail.ru (имя: SonoGyn Pro)",
+    why: "Mail.ru отклоняет письма, если Sender ≠ SMTP User (ошибка 550 not local sender over smtp). Подтверждение регистрации идёт через Supabase Auth SMTP.",
   },
   {
     id: "recovery-email-template",
@@ -40,11 +40,18 @@ export const SUPABASE_PRODUCTION_AUTH_CHECKLIST: SupabaseAuthChecklistItem[] = [
     why: "PKCE через {{ .ConfirmationURL }} ломается в другом браузере/Gmail → otp_expired. TokenHash + verifyOtp работает везде.",
   },
   {
+    id: "providers-ru",
+    area: "Authentication → Providers",
+    setting: "Google OFF · VK ON · Yandex ON · Phone OFF (custom SMS.ru)",
+    recommended: "Email + VK + Yandex; Phone через apps/web SMS.ru, не Supabase Phone",
+    why: "199-ФЗ / КоАП 13.55: иностранные IdP (Google, Apple) для пользователей из РФ не использовать. SMS.ru — основной телефонный вход.",
+  },
+  {
     id: "providers-off",
     area: "Authentication → Providers",
-    setting: "Google OFF, Phone OFF",
-    recommended: "Только Email provider",
-    why: "AUTH_EMAIL_ONLY в приложении — дублируйте в Supabase Dashboard.",
+    setting: "Google OFF (legacy AUTH_EMAIL_ONLY)",
+    recommended: "Не включать Google даже для staging с RU-трафиком",
+    why: "Mobile раньше показывал Google — убрано. Дублируйте OFF в Dashboard.",
   },
   {
     id: "confirm-email",

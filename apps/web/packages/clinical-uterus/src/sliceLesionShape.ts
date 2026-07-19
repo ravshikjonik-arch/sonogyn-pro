@@ -88,6 +88,27 @@ export function sizeMmFromEllipse(e: SliceEllipse): SizeMm {
   return { length, width, depth };
 }
 
+type WallRelation = {
+  cavityTouch: boolean;
+  serosaTouch: boolean;
+  wallDepth01: number;
+};
+
+function wallRelationFromEllipse(e: SliceEllipse): WallRelation {
+  const inBody = e.cx > 0.1 && e.cx < 0.8;
+  const upperWall = e.cy < 0.47;
+  const endometriumY = upperWall ? 0.39 : 0.55;
+  const serosaY = upperWall ? 0.22 : 0.7;
+  const edgeTowardCavity = upperWall ? e.cy + e.ry : e.cy - e.ry;
+  const edgeTowardSerosa = upperWall ? e.cy - e.ry : e.cy + e.ry;
+  const cavityTouch = inBody && (upperWall ? edgeTowardCavity >= endometriumY : edgeTowardCavity <= endometriumY);
+  const serosaTouch = inBody && (upperWall ? edgeTowardSerosa <= serosaY : edgeTowardSerosa >= serosaY);
+  const wallDepth01 = upperWall
+    ? clamp01((endometriumY - e.cy) / (endometriumY - serosaY))
+    : clamp01((e.cy - endometriumY) / (serosaY - endometriumY));
+  return { cavityTouch, serosaTouch, wallDepth01 };
+}
+
 /**
  * FIGO по форме узла на срезе: анализ центра и точек овала относительно полости / серозы.
  */
@@ -103,14 +124,16 @@ export function figoFromLesionEllipse(e: SliceEllipse, pedunculated: boolean): n
     if (hit.figoType >= 5 && hit.figoType <= 7) bestSerosal = Math.min(bestSerosal, hit.figoType);
   }
 
-  const cavityTouch = samples.some(
-    ([nx, ny]) => ny > 0.38 && ny < 0.56 && nx > 0.1 && nx < 0.8,
-  );
-  const serosaTouch = samples.some(([nx, ny]) => ny < 0.34 || ny > 0.64);
+  const { cavityTouch, serosaTouch, wallDepth01 } = wallRelationFromEllipse(e);
 
-  if (cavityTouch && bestSubmucosal <= 2) return pedunculated && center.figoType === 0 ? 0 : bestSubmucosal;
-  if (serosaTouch && bestSerosal <= 7) return pedunculated && bestSerosal === 6 ? 7 : bestSerosal;
-  if (center.figoType === 3 || center.figoType === 5) return center.figoType;
+  if (serosaTouch) {
+    if (pedunculated && wallDepth01 > 0.86) return 7;
+    return wallDepth01 < 0.72 ? 5 : (bestSerosal <= 7 ? bestSerosal : 6);
+  }
+  if (cavityTouch && center.figoType <= 2) return pedunculated && center.figoType === 0 ? 0 : center.figoType;
+  if (cavityTouch && center.figoType >= 3 && center.figoType <= 4) return 3;
+  if (center.figoType === 3) return 4;
+  if (center.figoType === 5) return center.figoType;
   return center.figoType;
 }
 

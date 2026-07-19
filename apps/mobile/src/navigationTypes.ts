@@ -22,6 +22,7 @@ export type PageType =
   | "gyn_uterus_clinic"
   | "gyn_uterus_3d"
   | "gyn_medvedev_consensus"
+  | "gyn_cervix_hub"
   | "gyn_quick_access"
   | "gyn_bishop"
   | "gyn_vbac"
@@ -50,6 +51,7 @@ export const SECTION_TITLE: Record<Exclude<PageType, "home">, string> = {
   gyn_uterus_clinic: "Матка — FIGO + аденомиоз / DIE",
   gyn_uterus_3d: "3D матка · FIGO",
   gyn_medvedev_consensus: "Консенсусы УЗИ (Medvedev 2018)",
+  gyn_cervix_hub: "Шейка матки",
   gyn_quick_access: "Для приёма врача",
   gyn_bishop: "Шкала Бишопа",
   gyn_vbac: "VBAC / TOLAC",

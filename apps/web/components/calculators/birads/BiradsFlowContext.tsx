@@ -12,7 +12,7 @@ import {
   type NlpAssistResult,
 } from "@/lib/birads-us";
 
-export type BiradsFlowMode = "quick" | "brochure" | "atlas" | "assistant";
+export type BiradsFlowMode = "quick" | "brochure" | "lymph" | "atlas" | "assistant";
 
 type ApplySource = {
   label: string;

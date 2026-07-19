@@ -111,7 +111,7 @@ export function computeFibroidClinicalMetrics(
   };
 }
 
-/** Предлагаемые FIGO при неоднозначности (соседние типы) */
+/** Suggested neighbouring FIGO types when location is borderline. */
 export function suggestFigoAlternatives(figoType: number): number[] {
   if (figoType <= 2) return [figoType, figoType + 1].filter((n) => n <= 2);
   if (figoType === 3) return [2, 3, 4];

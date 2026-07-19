@@ -1,6 +1,6 @@
 import {
   OTP_INVALID_MSG,
-  PHONE_NOT_REGISTERED_MSG,
+  PHONE_OTP_SENT_MSG,
   PHONE_SMS_NOT_CONFIGURED_MSG,
   TOO_MANY_ATTEMPTS_MSG,
 } from "./safe-auth-messages";
@@ -35,12 +35,13 @@ export function translatePhoneAuthError(
   }
 
   if (isSignupBlocked(raw)) {
+    if (mode === "login") {
+      return { message: PHONE_OTP_SENT_MSG };
+    }
     return {
       message:
-        mode === "register"
-          ? "Регистрация по SMS отключена в Supabase (Authentication → Providers → Phone → Enable sign ups)."
-          : PHONE_NOT_REGISTERED_MSG,
-      needsRegistration: mode === "login",
+        "Регистрация по SMS отключена в Supabase (Authentication → Providers → Phone → Enable sign ups).",
+      needsRegistration: false,
     };
   }
 

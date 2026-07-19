@@ -61,6 +61,10 @@ export function getSlides(): MusaSlide[] {
   return MUSA_ADENOMYOSIS_KNOWLEDGE.slides as MusaSlide[];
 }
 
+export function getTerminologyGuide() {
+  return MUSA_ADENOMYOSIS_KNOWLEDGE.terminologyGuide;
+}
+
 export function classifyJzThickness(mm: number | null | undefined): MusaJzClass {
   if (mm == null || !Number.isFinite(mm) || mm < 8) return "JZ-0";
   if (mm <= 11) return "JZ-1";

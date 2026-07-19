@@ -3,6 +3,7 @@ export type SonogynAiErrorCode =
   | "auth"
   | "config"
   | "invalid_request"
+  | "phi_detected"
   | "rate_limit"
   | "overloaded"
   | "timeout"
@@ -17,6 +18,8 @@ export function userMessageForAiError(code: SonogynAiErrorCode): string {
       return "ИИ-помощник временно недоступен (не настроен сервер). Обратитесь к администратору.";
     case "invalid_request":
       return "Запрос не принят: проверьте текст и формат изображения (JPEG/PNG/WebP, до 5 МБ).";
+    case "phi_detected":
+      return "Запрос остановлен защитой данных: уберите ФИО, телефон, email, дату рождения, номер карты/полиса/паспорта и отправьте обезличенное описание.";
     case "rate_limit":
       return "Слишком много запросов к ИИ. Подождите 30–60 секунд и попробуйте снова.";
     case "overloaded":

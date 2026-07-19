@@ -8,10 +8,6 @@ import { ChatMessageBubble, type ChatBubbleMessage } from "@/components/chat/Cha
 import { ChatMessageComposer } from "@/components/chat/ChatMessageComposer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { resolveAuthorNames } from "@/lib/chat/resolve-author-names";
-import {
-  getChatMediaSignedUrl,
-  uploadChatMedia,
-} from "@/lib/supabase/chat-media-storage";
 
 type RawComment = {
   id: string;
@@ -20,6 +16,7 @@ type RawComment = {
   author_id: string;
   media_storage_path: string | null;
   media_type: "image" | "video" | null;
+  media_url?: string | null;
   is_best_answer: boolean;
 };
 
@@ -41,27 +38,23 @@ export function TeachingCaseDiscussion({ caseId, userId, caseAuthorId }: Props) 
   const isCaseAuthor = userId === caseAuthorId;
 
   const enrich = useCallback(
-    async (rows: RawComment[]) => {
-      return Promise.all(
-        rows.map(async (row) => ({
+    (rows: RawComment[]) => {
+      return rows.map((row) => ({
           id: row.id,
           body: row.body || null,
           author_id: row.author_id,
           created_at: row.created_at,
           media_type: row.media_type,
-          media_url: row.media_storage_path
-            ? await getChatMediaSignedUrl(supabase, row.media_storage_path)
-            : null,
+          media_url: row.media_url ?? null,
           is_best_answer: row.is_best_answer,
-        })),
-      );
+        }));
     },
-    [supabase],
+    [],
   );
 
   const applyRow = useCallback(
     async (row: RawComment) => {
-      const [bubble] = await enrich([row]);
+      const [bubble] = enrich([row]);
       setMessages((prev) => {
         const without = prev.filter((m) => m.id !== bubble.id);
         if (row.is_best_answer) {
@@ -78,29 +71,35 @@ export function TeachingCaseDiscussion({ caseId, userId, caseAuthorId }: Props) 
     [enrich, supabase],
   );
 
-  const load = useCallback(async () => {
-    setLoading(true);
-    const { data, error } = await supabase
-      .from("teaching_case_comments")
-      .select("id,body,created_at,author_id,media_storage_path,media_type,is_best_answer")
-      .eq("case_id", caseId)
-      .order("created_at", { ascending: true });
+  const load = useCallback(async (silent = false) => {
+    if (!silent) setLoading(true);
+    const response = await fetch(`/api/cases/${caseId}/comments`);
+    const payload = (await response.json().catch(() => null)) as
+      | { comments?: RawComment[]; error?: unknown }
+      | null;
 
-    if (error) {
-      toast.error(error.message);
+    if (!response.ok || !payload?.comments) {
+      toast.error(typeof payload?.error === "string" ? payload.error : "Не удалось загрузить обсуждение");
       setMessages([]);
-      setLoading(false);
+      if (!silent) setLoading(false);
       return;
     }
 
-    const rows = (data ?? []) as RawComment[];
-    setMessages(await enrich(rows));
+    const rows = payload.comments;
+    setMessages(enrich(rows));
     setAuthorNames(await resolveAuthorNames(supabase, rows.map((r) => r.author_id)));
-    setLoading(false);
+    if (!silent) setLoading(false);
   }, [caseId, enrich, supabase]);
 
   useEffect(() => {
     queueMicrotask(() => void load());
+  }, [load]);
+
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      void load(true);
+    }, 10000);
+    return () => window.clearInterval(id);
   }, [load]);
 
   useEffect(() => {
@@ -114,8 +113,8 @@ export function TeachingCaseDiscussion({ caseId, userId, caseAuthorId }: Props) 
           table: "teaching_case_comments",
           filter: `case_id=eq.${caseId}`,
         },
-        async (payload) => {
-          await applyRow(payload.new as RawComment);
+        async () => {
+          await load(true);
         },
       )
       .on(
@@ -147,12 +146,12 @@ export function TeachingCaseDiscussion({ caseId, userId, caseAuthorId }: Props) 
     if (!isCaseAuthor) return;
     setMarkingId(commentId);
     try {
-      const { error } = await supabase.rpc("mark_best_comment", {
-        p_case_id: caseId,
-        p_comment_id: commentId,
+      const response = await fetch(`/api/cases/${caseId}/comments/${commentId}/best`, {
+        method: "POST",
       });
-      if (error) {
-        toast.error(error.message);
+      if (!response.ok) {
+        const payload = (await response.json().catch(() => null)) as { error?: string } | null;
+        toast.error(payload?.error ?? "Не удалось отметить лучший ответ");
         return;
       }
       toast.success("Лучший ответ отмечен");
@@ -169,35 +168,47 @@ export function TeachingCaseDiscussion({ caseId, userId, caseAuthorId }: Props) 
       let media_type: "image" | "video" | null = null;
 
       if (file) {
-        const uploaded = await uploadChatMedia(supabase, {
-          userId,
-          scope: "case-comment",
-          scopeId: caseId,
-          file,
+        const form = new FormData();
+        form.append("scope", "case-comment");
+        form.append("scopeId", caseId);
+        form.append("file", file);
+        const uploadResponse = await fetch("/api/doctor-chat/media", {
+          method: "POST",
+          body: form,
         });
-        if ("error" in uploaded) {
-          toast.error(uploaded.error);
-          return;
+        const uploaded = (await uploadResponse.json().catch(() => null)) as
+          | { storagePath?: string; mediaType?: "image" | "video"; error?: string }
+          | null;
+        if (!uploadResponse.ok || !uploaded?.storagePath || !uploaded.mediaType) {
+          toast.error(uploaded?.error ?? "Не удалось загрузить файл");
+          return false;
         }
         media_storage_path = uploaded.storagePath;
         media_type = uploaded.mediaType;
       }
 
-      if (!text.trim() && !media_storage_path) return;
+      if (!text.trim() && !media_storage_path) return false;
 
-      const { error } = await supabase.from("teaching_case_comments").insert({
-        case_id: caseId,
-        author_id: userId,
-        body: text.trim() || (media_type === "video" ? "Видео УЗИ" : "Снимок УЗИ"),
-        media_storage_path,
-        media_type,
+      const response = await fetch(`/api/cases/${caseId}/comments`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          body: text.trim() || (media_type === "video" ? "Видео УЗИ" : "Снимок УЗИ"),
+          media_storage_path,
+          media_type,
+        }),
       });
+      const payload = (await response.json().catch(() => null)) as
+        | { comment?: RawComment; error?: unknown }
+        | null;
 
-      if (error) {
-        toast.error(error.message);
-        return;
+      if (!response.ok || !payload?.comment) {
+        toast.error(typeof payload?.error === "string" ? payload.error : "Не удалось отправить сообщение");
+        return false;
       }
+      await applyRow(payload.comment);
       toast.success("Сообщение отправлено");
+      return true;
     } finally {
       setSending(false);
     }

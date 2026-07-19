@@ -66,6 +66,7 @@ export function ProfileSettingsForm({ initial }: Props) {
       const payload = (await res.json().catch(() => null)) as {
         error?: unknown;
         profile?: unknown;
+        pilotChatUnlocked?: boolean;
         career?: {
           milestone?: "intern" | "doctor" | null;
           progressPercent?: number;
@@ -84,7 +85,13 @@ export function ProfileSettingsForm({ initial }: Props) {
         return;
       }
       setMessage("Профиль сохранён.");
-      if (payload?.career?.milestone === "doctor") {
+      if (payload?.pilotChatUnlocked) {
+        toast.success("Чат врачей открыт", {
+          description: "Можно писать коллегам в разделе «Кейсы» → «Чат врачей».",
+          action: { label: "Открыть чат", onClick: () => { window.location.href = "/cases"; } },
+          duration: 10000,
+        });
+      } else if (payload?.career?.milestone === "doctor") {
         toast.success("Вы — врач на платформе (75%)", {
           description: "Остался шаг PRO — без лимитов AI и кейсов. Письмо отправлено на email.",
           action: {

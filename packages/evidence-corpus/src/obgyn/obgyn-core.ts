@@ -124,7 +124,7 @@ export const OBGYN_CORE_EVIDENCE: EvidenceEntry[] = [
       year: 2022,
     },
     tags: ["киста", "фолликулярная", "жёлтое тело", "яичник", "simple cyst"],
-    relatedLinks: [{ label: "O-RADS Pro", href: "/calculators/o-rads" }],
+    relatedLinks: [{ label: "O-RADS Pro", href: "/tools/calc/rads/o-rads" }],
   },
   {
     id: "obgyn-ovarian-torsion",

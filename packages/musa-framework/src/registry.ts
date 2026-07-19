@@ -34,7 +34,7 @@ export const MUSA_FRAMEWORK_MODULES: MusaFrameworkModule[] = [
     titleEn: "O-RADS Ultrasound",
     standard: "ACR O-RADS US",
     status: "ready",
-    route: "/calculators/o-rads",
+    route: "/tools/calc/rads/o-rads",
     descriptionRu: "Риск злокачественности придатков по O-RADS US.",
   },
   {

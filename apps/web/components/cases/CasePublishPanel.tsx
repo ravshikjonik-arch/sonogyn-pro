@@ -5,10 +5,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
-import { useSupabase } from "@/app/providers";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { canPublishCaseMedia, formatPublishBlockedError } from "@/lib/cases/anonymization-gate";
 
 type Props = {
   caseId: string;
@@ -19,7 +17,6 @@ type Props = {
 };
 
 export function CasePublishPanel({ caseId, userId, ownerId, status, isPublic }: Props) {
-  const supabase = useSupabase();
   const router = useRouter();
   const [busy, setBusy] = useState(false);
   const isOwner = userId === ownerId;
@@ -41,32 +38,11 @@ export function CasePublishPanel({ caseId, userId, ownerId, status, isPublic }: 
 
   async function publish() {
     setBusy(true);
-    const { data: mediaRows, error: mediaError } = await supabase
-      .from("case_media")
-      .select("anonymization_status")
-      .eq("case_id", caseId);
-
-    if (mediaError) {
-      setBusy(false);
-      toast.error("Не удалось проверить медиа перед публикацией");
-      return;
-    }
-
-    const gate = canPublishCaseMedia(mediaRows ?? []);
-    if (!gate.ok) {
-      setBusy(false);
-      toast.error(gate.reason ?? "Подтвердите анонимизацию всех файлов");
-      return;
-    }
-
-    const { error } = await supabase
-      .from("cases")
-      .update({ status: "published", is_public: true })
-      .eq("id", caseId)
-      .eq("user_id", userId);
+    const res = await fetch(`/api/cases/${caseId}/publish`, { method: "POST" });
     setBusy(false);
-    if (error) {
-      toast.error(formatPublishBlockedError(error.message));
+    if (!res.ok) {
+      const data = (await res.json().catch(() => null)) as { error?: string } | null;
+      toast.error(data?.error ?? "Не удалось опубликовать кейс");
       return;
     }
     toast.success("Кейс опубликован — коллеги увидят в ленте чата");

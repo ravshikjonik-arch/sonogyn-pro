@@ -89,6 +89,11 @@ export function requireAuth(): Auth {
   return authCache;
 }
 
+export function isFirebaseConfigured(): boolean {
+  ensureFirebaseBootstrapped();
+  return firestoreCache !== null;
+}
+
 export function requireFirestore(): Firestore {
   ensureFirebaseBootstrapped();
   if (!firestoreCache) {

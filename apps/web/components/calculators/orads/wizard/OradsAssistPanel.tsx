@@ -1,12 +1,18 @@
 "use client";
 
-import { Mic, MicOff, Sparkles } from "lucide-react";
+import { Brain, Database, Mic, MicOff, ShieldAlert, Sparkles, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 import { OradsAssistFeedback } from "@/components/calculators/orads/wizard/OradsAssistFeedback";
 import { Button } from "@/components/ui/button";
 import { useClinicalSpeechRecognition } from "@/hooks/useClinicalSpeechRecognition";
 import { useOradsAssist } from "@/hooks/useOradsAssist";
+import {
+  createClinicalMemory,
+  deleteClinicalMemory,
+  type ClinicalMemoryRow,
+} from "@/lib/orads/oradsEventsApi";
 import { formatAgeYearsRu } from "@repo/types";
 import type { UseOradsNavigatorReturn } from "@repo/orads-us";
 
@@ -35,6 +41,8 @@ const FEATURE_LABELS: Record<string, string> = {
 export function OradsAssistPanel({ nav, profileAgeYears, patientId, studyId }: Props) {
   const [text, setText] = useState("");
   const [menopause, setMenopause] = useState<"pre" | "post">("pre");
+  const [savedMemory, setSavedMemory] = useState<ClinicalMemoryRow | null>(null);
+  const [memoryBusy, setMemoryBusy] = useState(false);
   const { analyze, result, loading, error, reset, eventId } = useOradsAssist("web");
   const speech = useClinicalSpeechRecognition({ continuous: true });
 
@@ -46,6 +54,7 @@ export function OradsAssistPanel({ nav, profileAgeYears, patientId, studyId }: P
   }, [speech.transcript]);
 
   async function onAnalyze(fetchRemoteDraft = false) {
+    setSavedMemory(null);
     await analyze({
       text,
       menopause,
@@ -59,6 +68,51 @@ export function OradsAssistPanel({ nav, profileAgeYears, patientId, studyId }: P
   function onApplyHints(autoHighOnly: boolean) {
     if (!result?.hints.length) return;
     nav.applyHints(result.hints, autoHighOnly);
+  }
+
+  async function onRemember() {
+    if (!result) return;
+    setMemoryBusy(true);
+    try {
+      const memory = await createClinicalMemory({
+        domain: "orads",
+        memoryType: patientId ? "patient_context" : "case_learning",
+        title: patientId ? "O-RADS: контекст пациентки" : "O-RADS: клинический разбор",
+        detail: `${result.clinicalReasoning.workingCategory}. ${result.clinicalReasoning.summary}`,
+        confidence: result.categoryNumber !== null && result.unresolvedNodes.length === 0 ? "high" : "medium",
+        patientId,
+        sourceEventId: eventId ?? undefined,
+        payload: {
+          categoryNumber: result.categoryNumber,
+          unresolvedNodes: result.unresolvedNodes,
+          extracted: result.extracted,
+        },
+      });
+      if (!memory) {
+        toast.error("Память пока не сохранена: проверьте миграцию clinical_ai_memory.");
+        return;
+      }
+      setSavedMemory(memory);
+      toast.success("Сохранено в клиническую память");
+    } finally {
+      setMemoryBusy(false);
+    }
+  }
+
+  async function onForgetSavedMemory() {
+    if (!savedMemory) return;
+    setMemoryBusy(true);
+    try {
+      const ok = await deleteClinicalMemory(savedMemory.id);
+      if (!ok) {
+        toast.error("Не удалось забыть запись памяти");
+        return;
+      }
+      setSavedMemory(null);
+      toast.success("Запись памяти архивирована");
+    } finally {
+      setMemoryBusy(false);
+    }
   }
 
   return (
@@ -125,7 +179,7 @@ export function OradsAssistPanel({ nav, profileAgeYears, patientId, studyId }: P
         >
           Черновик protocol-ai
         </Button>
-        <Button type="button" size="sm" variant="ghost" onClick={() => { reset(); setText(""); speech.reset(); }}>
+        <Button type="button" size="sm" variant="ghost" onClick={() => { reset(); setText(""); setSavedMemory(null); speech.reset(); }}>
           Очистить
         </Button>
       </div>
@@ -158,6 +212,115 @@ export function OradsAssistPanel({ nav, profileAgeYears, patientId, studyId }: P
               Подсказка: возраст ≥50 при пременопаузе — уточните статус менопаузы (не меняем автоматически).
             </p>
           ) : null}
+
+          <div className="space-y-3 rounded-xl border border-cyan-200 bg-cyan-50/70 p-3 dark:border-cyan-900/40 dark:bg-cyan-950/25">
+            <div className="flex flex-wrap items-center gap-2">
+              <Brain className="h-4 w-4 text-cyan-700 dark:text-cyan-300" />
+              <p className="text-xs font-black uppercase tracking-wide text-cyan-900 dark:text-cyan-100">
+                Клиническое мышление
+              </p>
+            </div>
+
+            <p className="text-sm font-bold text-cyan-950 dark:text-cyan-50">
+              {result.clinicalReasoning.workingCategory}
+            </p>
+            <p className="text-xs leading-relaxed text-cyan-950/80 dark:text-cyan-100/80">
+              {result.clinicalReasoning.summary}
+            </p>
+
+            <div className="flex flex-wrap gap-2">
+              <Button type="button" size="sm" variant="secondary" disabled={memoryBusy} onClick={() => void onRemember()}>
+                <Database className="h-3.5 w-3.5" />
+                {savedMemory ? "Запомнить ещё раз" : "Запомнить разбор"}
+              </Button>
+              {savedMemory ? (
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  disabled={memoryBusy}
+                  onClick={() => void onForgetSavedMemory()}
+                >
+                  <Trash2 className="h-3.5 w-3.5" />
+                  Забыть
+                </Button>
+              ) : null}
+            </div>
+
+            {result.clinicalReasoning.memoryInsights.length ? (
+              <div className="space-y-2 rounded-lg border border-indigo-200 bg-indigo-50 p-2 dark:border-indigo-900/50 dark:bg-indigo-950/25">
+                <p className="flex items-center gap-1.5 text-xs font-bold text-indigo-950 dark:text-indigo-100">
+                  <Database className="h-3.5 w-3.5" />
+                  Память помощника
+                </p>
+                <ul className="space-y-1 text-xs text-indigo-950/90 dark:text-indigo-100/90">
+                  {result.clinicalReasoning.memoryInsights.map((memory) => (
+                    <li key={`${memory.scope}-${memory.title}`} className="rounded-md bg-white/70 p-2 dark:bg-slate-950/45">
+                      <p className="font-semibold">
+                        {memory.title} · {memory.scope} · вес: {memory.weight}
+                      </p>
+                      <p className="mt-0.5 leading-relaxed">{memory.detail}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+
+            <ol className="space-y-2 text-xs text-slate-800 dark:text-slate-100">
+              {result.clinicalReasoning.reasoningSteps.map((step) => (
+                <li key={step.title} className="rounded-lg bg-white/75 p-2 dark:bg-slate-950/45">
+                  <p className="font-bold">{step.title}</p>
+                  <p className="mt-0.5">
+                    <span className="font-semibold">Найдено:</span> {step.finding}
+                  </p>
+                  <p className="mt-0.5 text-slate-600 dark:text-slate-300">{step.interpretation}</p>
+                  <p className="mt-1 text-[10px] uppercase tracking-wide text-slate-500">
+                    уверенность: {step.confidence}
+                  </p>
+                </li>
+              ))}
+            </ol>
+
+            {result.clinicalReasoning.missingQuestions.length ? (
+              <div className="space-y-2">
+                <p className="text-xs font-bold text-cyan-950 dark:text-cyan-100">Что уточнить врачу</p>
+                <ul className="space-y-1 text-xs text-slate-800 dark:text-slate-100">
+                  {result.clinicalReasoning.missingQuestions.map((item) => (
+                    <li key={item.question} className="rounded-lg bg-white/75 p-2 dark:bg-slate-950/45">
+                      <p className="font-semibold">
+                        {item.priority === "critical" ? "Критично: " : item.priority === "important" ? "Важно: " : ""}
+                        {item.question}
+                      </p>
+                      <p className="mt-0.5 text-slate-600 dark:text-slate-300">{item.reason}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+
+            {result.clinicalReasoning.safetyFlags.length ? (
+              <div className="space-y-1 rounded-lg border border-amber-200 bg-amber-50 p-2 text-xs text-amber-950 dark:border-amber-900/50 dark:bg-amber-950/25 dark:text-amber-100">
+                <p className="flex items-center gap-1.5 font-bold">
+                  <ShieldAlert className="h-3.5 w-3.5" />
+                  Контроль безопасности
+                </p>
+                <ul className="list-disc space-y-0.5 pl-4">
+                  {result.clinicalReasoning.safetyFlags.map((flag) => (
+                    <li key={flag}>{flag}</li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+
+            <div className="space-y-1 text-xs text-cyan-950 dark:text-cyan-100">
+              <p className="font-bold">Следующий шаг</p>
+              <ul className="list-disc space-y-0.5 pl-4">
+                {result.clinicalReasoning.nextActions.map((action) => (
+                  <li key={action}>{action}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
 
           {result.categoryNumber !== null ? (
             <p className="text-sm font-bold text-[var(--clinical-primary-deep)]">

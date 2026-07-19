@@ -8,9 +8,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
-  title: "Патология шейки матки · справочник и самопроверка",
+  title: "Патология шейки матки · справочник, цитология, самопроверка",
   description:
-    "7 глав справочника по патологии шейки матки + банк из 16 вопросов: ЦИН, РШМ, FIGO 2018, ASCCP 2019, КР МЗ РФ.",
+    "8 глав справочника + интерактивный модуль «Цитология и скрининг РШМ»: Bethesda, HPV, алгоритмы ASCCP, кейсы, AI и 25 вопросов.",
 };
 
 export default function CervixPathologyPage() {
@@ -30,10 +30,16 @@ export default function CervixPathologyPage() {
               Патология шейки матки
             </h1>
             <p className="max-w-3xl text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
-              7 глав (student-guide для TTS, doctor-quickref с таблицами, criteria.json для карточек) + самопроверка.
-              Все данные локальные, без сетевых запросов.
+              8 глав справочника (TTS для студента, квик-реф для врача) + интерактив «Цитология · скрининг»: алгоритмы,
+              Bethesda AI, кейсы, лекции и самопроверка. Без персональных данных в AI-формах.
             </p>
             <div className="flex flex-wrap gap-3 text-sm">
+              <Link
+                href={CERVIX_PATHOLOGY_QUIZ_LINKS.cytology.href}
+                className="font-medium text-[var(--clinical-primary)] underline"
+              >
+                {CERVIX_PATHOLOGY_QUIZ_LINKS.cytology.label}
+              </Link>
               <Link
                 href={CERVIX_PATHOLOGY_QUIZ_LINKS.nosology.href}
                 className="font-medium text-[var(--clinical-primary)] underline"

@@ -16,6 +16,8 @@ import { synthesizeWithLlm } from "@/lib/evidence/synthesize-llm";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { requireSupabaseUser } from "@/lib/security/require-user";
+import { detectPhi, PHI_BLOCK_MESSAGE } from "@/lib/security/phi-detection";
+import { safeLog } from "@/lib/security/safeLog";
 import { searchEvidenceUnified } from "@repo/evidence-retrieval";
 import { createClient } from "@/utils/supabase/server";
 
@@ -87,6 +89,18 @@ export async function POST(request: Request) {
     );
   }
 
+  const chatRl = await consumeRateLimit(
+    `ai-chat:${auth.userId}`,
+    RL.aiChat.limit,
+    RL.aiChat.windowMs,
+  );
+  if (!chatRl.ok) {
+    return NextResponse.json(
+      { error: userMessageForAiError("rate_limit"), code: "rate_limit" },
+      { status: 429, headers: { "Retry-After": String(chatRl.retryAfterSec) } },
+    );
+  }
+
   let json: unknown;
   try {
     json = await request.json();
@@ -108,6 +122,14 @@ export async function POST(request: Request) {
   const { messages, model, stream, images, modality, mode, includeEvidence } = parsed.data;
   const lastUser = [...messages].reverse().find((m) => m.role === "user");
   const lastUserText = lastUser?.content ?? "";
+  const phiCheck = detectPhi(messages.map((message) => message.content).join("\n"));
+  if (!phiCheck.ok) {
+    safeLog("ai chat phi blocked", { reasons: phiCheck.reasons, userId: auth.userId });
+    return NextResponse.json(
+      { error: PHI_BLOCK_MESSAGE, code: "phi_detected" },
+      { status: 400 },
+    );
+  }
   const domain = mode === "evidence" ? "general" : resolveDomain(modality, lastUserText);
   const hasImages = Boolean(images?.length);
 
@@ -226,10 +248,9 @@ export async function POST(request: Request) {
   });
 
   if (!result.ok) {
-    console.error("[POST /api/ai/chat] OpenRouter error", {
+    safeLog("ai chat provider error", {
       status: result.status,
       code: result.code,
-      body: result.bodyText.slice(0, 500),
       userId: auth.userId,
     });
     await logAiChatEvent({

@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils/cn";
 type Props = {
   placeholder?: string;
   busy?: boolean;
-  onSend: (payload: { text: string; file: File | null }) => Promise<void>;
+  onSend: (payload: { text: string; file: File | null }) => Promise<boolean | void>;
   className?: string;
 };
 
@@ -35,7 +35,8 @@ export function ChatMessageComposer({
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     if (!text.trim() && !file) return;
-    await onSend({ text: text.trim(), file });
+    const sent = await onSend({ text: text.trim(), file });
+    if (sent === false) return;
     setText("");
     pickFile(null);
     if (imageRef.current) imageRef.current.value = "";
@@ -82,6 +83,7 @@ export function ChatMessageComposer({
           type="button"
           size="sm"
           variant="outline"
+          className="border-[var(--clinical-border)] text-[var(--clinical-foreground)]"
           disabled={busy}
           onClick={() => imageRef.current?.click()}
         >
@@ -91,6 +93,7 @@ export function ChatMessageComposer({
           type="button"
           size="sm"
           variant="outline"
+          className="border-[var(--clinical-border)] text-[var(--clinical-foreground)]"
           disabled={busy}
           onClick={() => videoRef.current?.click()}
         >
@@ -100,7 +103,7 @@ export function ChatMessageComposer({
 
       <div className="flex gap-2">
         <Input
-          className="flex-1"
+          className="doctor-chat-input flex-1"
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder={placeholder}

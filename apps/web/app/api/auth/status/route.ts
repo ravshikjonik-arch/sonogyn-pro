@@ -12,7 +12,8 @@ import { isTurnstileConfigured } from "@/lib/auth/verify-turnstile";
 import { isCustomSmsAuthEnabled, resolveSmsProvider } from "@/lib/auth/sms-providers";
 import { isAuthEmailOnly } from "@/lib/auth/auth-methods-config";
 import { isSmtpConfigured } from "@/lib/mail/smtp-config";
-import { supabaseGoogleCallbackUrl } from "@/lib/auth/social-auth-domains";
+import { supabaseOAuthCallbackUrl } from "@/lib/auth/social-auth-domains";
+import { isAuthRuIdpOnly, isVkIdConfigured, isYandexIdConfigured } from "@/lib/auth/russian-idp";
 import { readTelegramBotUsername } from "@/lib/auth/telegram-bot-config";
 import { isPilotTelegramPrimary } from "@/lib/auth/auth-pilot-config";
 import { isPilotAllowlistEnabled, PILOT_ALLOWLIST_MAX, readPilotAllowlist } from "@/lib/auth/pilot-allowlist";
@@ -74,7 +75,10 @@ export async function GET(req: Request) {
     return NextResponse.json({
       ok: issues.length === 0,
       issueCount: issues.length,
+      telegramBotUsername: readTelegramBotUsername(),
       features: {
+        authEmailOnly: isAuthEmailOnly(),
+        emailAutoConfirm: shouldAutoConfirmEmail(),
         smtpConfigured: isSmtpConfigured(),
         smsReady: customSms && Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY?.trim()),
         yookassaConfigured: isYooKassaConfigured(),
@@ -143,7 +147,7 @@ export async function GET(req: Request) {
       ],
       googleOAuth: [
         "Google Cloud → Credentials → OAuth 2.0 → Authorized redirect URIs:",
-        supabaseGoogleCallbackUrl(process.env.NEXT_PUBLIC_SUPABASE_URL),
+        supabaseOAuthCallbackUrl(process.env.NEXT_PUBLIC_SUPABASE_URL),
         "Supabase → Providers → Google → Client ID + Secret",
         "Supabase Site URL: https://sonogyn-pro.ru (не http)",
       ],
@@ -164,11 +168,12 @@ export async function GET(req: Request) {
         "Миграции: 20260617140000_yookassa_payments.sql, 20260619130000_payments.sql",
       ],
       emailDeliverability:
-        "mail.ru / gmail: проверьте «Спам». Supabase → Auth → SMTP (Mailgun) для писем подтверждения; OTP — SMTP_* в Vercel.",
+        "mail.ru / gmail: проверьте «Спам». Supabase Auth SMTP и Vercel SMTP_* — один ящик Sonogyn-pro@mail.ru (smtp.mail.ru:465).",
       supabaseSmtp: [
-        "Supabase → Authentication → SMTP: host smtp.mailgun.org, port 587 или 2525",
-        "User/Pass — те же SMTP_USER / SMTP_PASSWORD что в Vercel",
-        "Sender: noreply@sonogyn-pro.ru (или sandbox postmaster)",
+        "Supabase → Authentication → SMTP: host smtp.mail.ru, port 465 (или 587)",
+        "User Sonogyn-pro@mail.ru · Pass — пароль приложения Mail.ru (не основной пароль ящика)",
+        "Sender: SonoGyn Pro <Sonogyn-pro@mail.ru>",
+        "Те же SMTP_USER / SMTP_PASSWORD что в Vercel env",
         "Отключить: Providers → Google OFF, Phone OFF",
       ],
     },

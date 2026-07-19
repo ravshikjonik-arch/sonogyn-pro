@@ -2,6 +2,7 @@ import { CpiCaseInputSchema, evaluateCpiCase } from "@repo/cervical-pathology";
 import { NextResponse } from "next/server";
 
 import { isDevSkipAuthEnabled } from "@/lib/auth/dev-account";
+import { isE2eFixturesEnabled } from "@/lib/e2e/ci-stub";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { requireSupabaseUserFromRequest } from "@/lib/security/require-user";
@@ -13,15 +14,19 @@ export const runtime = "nodejs";
 export async function POST(request: Request) {
   const supabase = await createClient();
   const auth = await requireSupabaseUserFromRequest(request, supabase);
-  if (!auth.ok) {
+  const allowE2eFixtureUser = process.env.NODE_ENV !== "production" && isE2eFixturesEnabled();
+
+  if (!auth.ok && !allowE2eFixtureUser) {
     if (isDevSkipAuthEnabled()) {
       return NextResponse.json({ error: "Auth required" }, { status: 401 });
     }
     return auth.response;
   }
 
+  const userId = auth.ok ? auth.userId : "e2e-user-id";
+
   const rl = await consumeRateLimit(
-    `cpi-evaluate:${auth.userId}`,
+    `cpi-evaluate:${userId}`,
     RL.copilotCdsPreview.limit,
     RL.copilotCdsPreview.windowMs,
   );

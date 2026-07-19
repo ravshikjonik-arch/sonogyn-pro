@@ -1,3 +1,5 @@
+import { ORADS_NOSOLOGY_PUBLIC_IMAGE_BASE } from "./nosologyAtlas";
+
 /** Public web path prefix for referat echograms (served from apps/web/public). */
 export const ORADS_REFERAT_PUBLIC_IMAGE_BASE = "/clinical-atlas/orads-referat";
 
@@ -10,12 +12,13 @@ export const ORADS_REFERAT_IMAGE_BY_REF: Record<string, string> = {
   "atlas/ovarian": `${ORADS_REFERAT_PUBLIC_IMAGE_BASE}/case-04.png`,
   "atlas/extraovarian": `${ORADS_REFERAT_PUBLIC_IMAGE_BASE}/case-01.png`,
   "atlas/extraovarian/paraovarian": `${ORADS_REFERAT_PUBLIC_IMAGE_BASE}/case-01.png`,
-  "atlas/extraovarian/hydrosalpinx": `${ORADS_REFERAT_PUBLIC_IMAGE_BASE}/case-02.png`,
+  "atlas/extraovarian/hydrosalpinx": `${ORADS_NOSOLOGY_PUBLIC_IMAGE_BASE}/hydrosalpinx.jpg`,
   "atlas/extraovarian/peritoneal_inclusion": `${ORADS_REFERAT_PUBLIC_IMAGE_BASE}/case-01.png`,
   "atlas/physiologic": `${ORADS_REFERAT_PUBLIC_IMAGE_BASE}/case-04.png`,
   "atlas/simple_cyst": `${ORADS_REFERAT_PUBLIC_IMAGE_BASE}/case-05.png`,
   "atlas/solid_dominant": `${ORADS_REFERAT_PUBLIC_IMAGE_BASE}/case-09.png`,
-  "atlas/classic_benign": `${ORADS_REFERAT_PUBLIC_IMAGE_BASE}/case-05.png`,
+  "atlas/classic_benign": `${ORADS_NOSOLOGY_PUBLIC_IMAGE_BASE}/dermoid-cyst.jpg`,
+  "atlas/modifier/ascites": `${ORADS_NOSOLOGY_PUBLIC_IMAGE_BASE}/free-fluid-pelvis.jpg`,
   "atlas/irregular_wall": `${ORADS_REFERAT_PUBLIC_IMAGE_BASE}/case-06.png`,
   "atlas/papillary_4plus": `${ORADS_REFERAT_PUBLIC_IMAGE_BASE}/case-10.png`,
 };
@@ -23,7 +26,9 @@ export const ORADS_REFERAT_IMAGE_BY_REF: Record<string, string> = {
 /** Optional didactic caption keyed by imageRef (RU; UI may translate). */
 export const ORADS_REFERAT_CAPTION_BY_REF: Record<string, string> = {
   "atlas/extraovarian/paraovarian": "Клинический случай 1 — параовариальная киста",
-  "atlas/extraovarian/hydrosalpinx": "Клинический случай 2 — гидросальпинкс",
+  "atlas/extraovarian/hydrosalpinx": "Гидросальпинкс — трубчатое анэхогенное образование, эффект «бусин»",
+  "atlas/classic_benign": "Дермоидная киста — узелок Rokitansky и дермоидная сетка",
+  "atlas/modifier/ascites": "Свободная жидкость в малом тазу (асцит) — модификатор O-RADS 5",
   "atlas/simple_cyst": "Клинический случай 5 — simple vs non-simple",
   "atlas/irregular_wall": "Клинический случай 6 — типы внутренней стенки",
   "atlas/papillary_4plus": "Клинический случай 10 — папиллярные разрастания",

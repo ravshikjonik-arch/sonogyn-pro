@@ -17,7 +17,7 @@ export function isAuthEmailOnly(): boolean {
 }
 
 export const AUTH_METHOD_DISABLED_MSG =
-  "Вход по телефону и Google временно отключён. Используйте email и пароль.";
+  "Сейчас доступен только вход по email и пароль. Подтвердите почту по ссылке из письма.";
 
 export function disabledAuthMethodResponse(method: "phone" | "google" | "sms" | "telegram") {
   return NextResponse.json(

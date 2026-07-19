@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
-import { useSupabase } from "@/app/providers";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -27,7 +26,6 @@ const RARE_SLOTS = [
 
 /** Moderator editorial flags for `/feed` (Rare / Case of day). */
 export function CaseEditorialPanel({ caseId, isRare, rareSlot, editorialPriority }: Props) {
-  const supabase = useSupabase();
   const router = useRouter();
   const [rare, setRare] = useState(isRare);
   const [slot, setSlot] = useState(rareSlot ?? "");
@@ -42,18 +40,20 @@ export function CaseEditorialPanel({ caseId, isRare, rareSlot, editorialPriority
     }
 
     setBusy(true);
-    const { error } = await supabase
-      .from("cases")
-      .update({
+    const response = await fetch(`/api/cases/${caseId}/editorial`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
         is_rare: rare,
         rare_slot: slot || null,
         editorial_priority: parsedPriority,
-      })
-      .eq("id", caseId);
+      }),
+    });
     setBusy(false);
 
-    if (error) {
-      toast.error(error.message);
+    if (!response.ok) {
+      const payload = (await response.json().catch(() => null)) as { error?: string } | null;
+      toast.error(payload?.error ?? "Не удалось сохранить editorial-разметку");
       return;
     }
     toast.success("Editorial-разметка сохранена");

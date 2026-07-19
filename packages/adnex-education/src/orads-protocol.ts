@@ -6,7 +6,7 @@
 export const ORADS_US_VERSION = "O-RADS US v2022";
 
 /** Библиотека эхограмм O-RADS (учебные и клинические случаи). */
-export const ORADS_ECHOGRAMS_LIBRARY_PATH = "/tools/o-rads";
+export const ORADS_ECHOGRAMS_LIBRARY_PATH = "/tools/refs/orads-echograms";
 
 export function oradsEchogramsLibraryHref(query?: { chapter?: string; page?: string }): string {
   if (!query?.chapter && !query?.page) return ORADS_ECHOGRAMS_LIBRARY_PATH;

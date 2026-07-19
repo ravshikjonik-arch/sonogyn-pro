@@ -12,6 +12,11 @@ export function readTelegramBotToken(): string | null {
   return token || null;
 }
 
+function readTelegramBotIdFromToken(token: string): string | null {
+  const botId = token.split(":", 1)[0]?.trim();
+  return /^\d{5,20}$/.test(botId) ? botId : null;
+}
+
 /** Числовой bot_id для oauth.telegram.org/auth (кэш на процесс). */
 let cachedBotId: string | null | undefined;
 
@@ -21,6 +26,11 @@ export async function resolveTelegramBotId(): Promise<string | null> {
   if (!token) {
     cachedBotId = null;
     return null;
+  }
+  const fromToken = readTelegramBotIdFromToken(token);
+  if (fromToken) {
+    cachedBotId = fromToken;
+    return cachedBotId;
   }
   try {
     const res = await fetchWithRetry(`https://api.telegram.org/bot${token}/getMe`, { cache: "no-store" });

@@ -78,7 +78,7 @@ export const SURGERY_CORE_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ACR O-RADS / ESGO surgical", organization: "ACR · ESGO", year: 2022 },
     tags: ["adnexal", "pre-op", "O-RADS", "oncology", "surgery"],
-    relatedLinks: [{ label: "O-RADS Pro", href: "/calculators/o-rads" }],
+    relatedLinks: [{ label: "O-RADS Pro", href: "/tools/calc/rads/o-rads" }],
   },
   {
     id: "surg-cystectomy-vs-oophorectomy",

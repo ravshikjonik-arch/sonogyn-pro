@@ -50,7 +50,7 @@ export function usePhoneAuth() {
     }
   }, [phone]);
 
-  const verifyOtp = useCallback(async (registration?: PhoneRegistrationMeta) => {
+  const verifyOtp = useCallback(async (registration?: PhoneRegistrationMeta, createUser = false) => {
     if (!supabaseMobile) {
       setError("Supabase не настроен.");
       return false;
@@ -60,9 +60,10 @@ export function usePhoneAuth() {
     setError(null);
     try {
       const normalized = normalizePhone(phone);
+      const shouldCreate = createUser || Boolean(registration?.full_name?.trim());
       const result = await verifyPhoneOtpViaApi(normalized, otp.trim(), {
         ...registration,
-        createUser: true,
+        createUser: shouldCreate,
       });
       if (!result.ok) {
         setError(result.error);

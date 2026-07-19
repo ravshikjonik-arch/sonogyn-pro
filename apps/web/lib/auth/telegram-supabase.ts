@@ -1,4 +1,3 @@
-import crypto from "crypto";
 import { NextResponse } from "next/server";
 
 import { translateAuthError } from "@/lib/auth/translate-auth-error";
@@ -11,12 +10,18 @@ import { isInternalAuthSecretConfigured } from "@/lib/security/production-secret
 import { timingSafeEqual } from "@/lib/security/timing-safe";
 import {
   checkPilotTelegramAllowed,
-  isPilotAllowlistEnabled,
   PILOT_REGISTER_FIRST_MSG,
 } from "@/lib/auth/pilot-allowlist";
 import type { RegistrationMetadata } from "@/lib/auth/registration-metadata";
 import { applyRegistrationMetadataAdmin } from "@/lib/auth/registration-metadata";
+import {
+  type TelegramPayload,
+  verifyTelegramWidgetHash,
+} from "@/lib/auth/telegram-widget";
 import { createServiceRoleClient } from "@/utils/supabase/admin";
+
+export type { TelegramPayload };
+export { verifyTelegramWidgetHash };
 
 export class PilotTelegramAuthError extends Error {
   constructor(
@@ -26,32 +31,6 @@ export class PilotTelegramAuthError extends Error {
     super(message);
     this.name = "PilotTelegramAuthError";
   }
-}
-
-export type TelegramPayload = {
-  id?: number | string;
-  first_name?: string;
-  last_name?: string;
-  username?: string;
-  photo_url?: string;
-  auth_date?: number | string;
-  hash?: string;
-  source?: string;
-};
-
-export function verifyTelegramWidgetHash(body: TelegramPayload, botToken: string): boolean {
-  const { hash, ...rest } = body;
-  if (!hash) return false;
-
-  const checkString = Object.keys(rest)
-    .filter((k) => rest[k as keyof typeof rest] !== undefined && rest[k as keyof typeof rest] !== "")
-    .sort()
-    .map((k) => `${k}=${rest[k as keyof typeof rest]}`)
-    .join("\n");
-
-  const secretKey = crypto.createHash("sha256").update(botToken).digest();
-  const computedHash = crypto.createHmac("sha256", secretKey).update(checkString).digest("hex");
-  return timingSafeEqual(computedHash, hash);
 }
 
 export async function findUserByTelegramId(
@@ -102,7 +81,8 @@ export async function ensureTelegramUser(
     return existing.email ?? email;
   }
 
-  if (isPilotAllowlistEnabled() && !registration?.full_name?.trim()) {
+  // Новых пользователей создаём только после формы врача (intent cookie / OTP metadata).
+  if (!registration?.full_name?.trim()) {
     throw new PilotTelegramAuthError(PILOT_REGISTER_FIRST_MSG, "needs_registration");
   }
 

@@ -9,11 +9,10 @@ import {
 } from "@/lib/route-handler-supabase";
 import type { RegistrationMetadata } from "@/lib/auth/registration-metadata";
 import { applyRegistrationMetadataAdmin } from "@/lib/auth/registration-metadata";
+import { TELEGRAM_EMAIL_DOMAIN } from "@/lib/auth/auth-email-domains";
 import { createServiceRoleClient } from "@/utils/supabase/admin";
 import { checkPilotTelegramAllowed } from "@/lib/auth/pilot-allowlist";
 import { findUserByTelegramId } from "@/lib/auth/telegram-supabase";
-
-export const TELEGRAM_EMAIL_DOMAIN = "telegram.sonogyn.app";
 
 export function telegramChatIdToAuthEmail(chatId: string): string {
   return `tg_${chatId}@${TELEGRAM_EMAIL_DOMAIN}`;
@@ -52,16 +51,23 @@ export async function ensureTelegramOtpUser(params: {
   }
 
   const meta = params.registration;
+  if (!meta?.full_name?.trim()) {
+    return {
+      error: "Сначала заполните данные врача (ФИО, специализация) и зарегистрируйтесь.",
+      needsRegistration: true,
+    };
+  }
+
   const { data, error } = await admin.auth.admin.createUser({
     email,
     email_confirm: true,
     user_metadata: {
       telegram_id: params.chatId,
-      full_name: meta?.full_name ?? `Telegram ${params.chatId}`,
-      specialization: meta?.specialization,
-      institution: meta?.institution,
-      birth_year: meta?.birth_year,
-      preferred_locale: meta?.preferred_locale,
+      full_name: meta.full_name.trim(),
+      specialization: meta.specialization,
+      institution: meta.institution,
+      birth_year: meta.birth_year,
+      preferred_locale: meta.preferred_locale,
       provider: "telegram",
       auth_source: "otp",
     },

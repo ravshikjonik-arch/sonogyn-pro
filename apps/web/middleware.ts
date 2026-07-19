@@ -45,7 +45,6 @@ const roots = [
 /** Калькуляторы, доступные без Supabase-логина (как elastography / O-RADS Pro). */
 const PUBLIC_WITHIN_PROTECTED = [
   "/calculators/elastography",
-  "/calculators/o-rads",
   "/calculators/bi-rads",
   "/calculators/ti-rads",
   "/tools/calc/rads/o-rads",
@@ -53,6 +52,7 @@ const PUBLIC_WITHIN_PROTECTED = [
   "/tools/calc/rads/ln-rads",
   "/tools/adjunct/ti-rads",
   "/tools/calc/gyn/elastography",
+  "/tools/calc/gyn/cervical-intelligence",
 ];
 
 function isPublicWithinProtected(pathname: string): boolean {

@@ -28,7 +28,7 @@ export function translateAuthError(message: string, context: "sign-in" | "sign-u
   if (/oauth|provider.*not enabled|unsupported provider|could not be found/i.test(message)) {
     return (
       "Провайдер входа не включён в Supabase (Dashboard → Authentication → Providers). " +
-      "Для Google — включите Google OAuth. ВКонтакте и Яндекс ID в Supabase по умолчанию недоступны — используйте Google, email или Telegram."
+      "Для пилота используйте SMS, Яндекс ID, Telegram или email. VK ID подключим отдельной интеграцией позже."
     );
   }
   return toSafeAuthErrorMessage(message, context);

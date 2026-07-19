@@ -10,6 +10,7 @@ import { saveCalculatorEntry } from "@/app/actions/calculator-actions";
 import { AdnexConsensusPanel } from "@/components/calculators/orads/AdnexConsensusPanel";
 import { IotaConsensusWebPanel } from "@/components/calculators/orads/IotaConsensusWebPanel";
 import { OradsNosologyPreview } from "@/components/calculators/orads/OradsNosologyPreview";
+import { OradsVisualSubtypePicker } from "@/components/calculators/orads/OradsVisualSubtypePicker";
 import { OradsSizeTripletInput } from "@/components/calculators/orads/OradsSizeTripletInput";
 import { useOradsProForm } from "@/components/calculators/orads/useOradsProForm";
 import { useIotaInterpretationAchievement } from "@/lib/achievements/use-calculator-achievements";
@@ -298,6 +299,11 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
 
                 {f.structure === "unilocular" ? (
                   <CalcStepCard title="4. Содержимое / вид кисты" required={!f.unilocularSubtype}>
+                    <OradsVisualSubtypePicker
+                      selected={f.unilocularSubtype}
+                      onSelect={(subtype) => f.setUnilocularSubtype(subtype as UnilocularSubtype)}
+                    />
+                    <CalcSubLabel>Или выберите термин вручную</CalcSubLabel>
                     <div className="flex flex-wrap gap-2">
                       {(
                         [

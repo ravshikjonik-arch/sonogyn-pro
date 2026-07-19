@@ -18,10 +18,11 @@ import { cn } from "@/lib/utils/cn";
 function HubInner() {
   const searchParams = useSearchParams();
   const initialTab =
-    searchParams.get("tab") === "cases" || searchParams.get("lifecycle")
+    searchParams.get("tab") === "cases" || searchParams.get("lifecycle") || searchParams.get("playlist")
       ? "cases"
       : "chat";
   const caseTopic = searchParams.get("topic") === "prolapse" ? "prolapse" : "all";
+  const initialPlaylistId = searchParams.get("playlist");
   const initialFeedMode =
     searchParams.get("feed") === "discussions" ? ("discussions" as const) : ("library" as const);
   const initialChannelId = searchParams.get("channelId") || null;
@@ -54,9 +55,9 @@ function HubInner() {
               type="button"
               onClick={() => setActiveChannel(ch.slug)}
               className={cn(
-                "rounded-xl border px-4 py-2 text-left text-sm transition",
+                "rounded-xl border px-4 py-2 text-left text-sm transition text-[var(--clinical-foreground)]",
                 activeChannel === ch.slug
-                  ? "border-[var(--clinical-primary)] bg-[var(--clinical-primary-muted)] font-bold"
+                  ? "border-[var(--clinical-primary)] bg-[var(--clinical-primary-muted)] font-bold text-[var(--clinical-primary-deep)]"
                   : "border-[var(--clinical-border)] bg-[var(--clinical-card)] hover:bg-[var(--clinical-muted)]",
               )}
             >
@@ -95,6 +96,7 @@ function HubInner() {
           initialFeedMode={initialFeedMode}
           initialChannelId={initialChannelId}
           initialLifecycle={initialLifecycle}
+          initialPlaylistId={initialPlaylistId}
         />
       </TabsContent>
     </Tabs>
@@ -146,7 +148,7 @@ function DoctorsCommunityHubBody() {
         </header>
 
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px]">
-          <Suspense fallback={<p className="text-sm text-slate-500">Загрузка…</p>}>
+          <Suspense fallback={<p className="text-sm text-[var(--clinical-foreground-muted)]">Загрузка…</p>}>
             <HubInner />
           </Suspense>
           <DoctorPresencePanel />

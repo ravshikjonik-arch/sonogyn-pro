@@ -1,0 +1,16 @@
+{
+  "id": "cervical-cytology-screening",
+  "title": "Цитология и скрининг РШМ",
+  "shortTitle": "Цитология · скрининг",
+  "version": "1.0.0",
+  "source": {
+    "title": "Модуль SonoGyn Pro «Цитология и скрининг РШМ»",
+    "note": "Интерактивный модуль — не PDF-viewer. Тексты переработаны для обучения; клинические решения — по ASCCP 2019, КР МЗ РФ, WHO."
+  },
+  "disclaimer": "Образовательная и справочная поддержка врача. Не заменяет клиническое решение и официальные протоколы. Не использовать персональные данные пациентки в AI-запросах.",
+  "guidelines": [
+    { "id": "asccp-2019", "label": "ASCCP 2019 Risk-Based Management", "href": "https://www.asccp.org/" },
+    { "id": "who-2020", "label": "WHO cervical cancer elimination strategy", "href": "https://www.who.int/" },
+    { "id": "ru-clinrek-cc", "label": "КР «Рак шейки матки», МЗ РФ", "href": "https://cr.minzdrav.gov.ru/" }
+  ]
+}

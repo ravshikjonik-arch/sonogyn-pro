@@ -55,6 +55,9 @@ export async function createMobileSessionExchange(payload: MobileSessionPayload)
   const code = crypto.randomBytes(24).toString("base64url");
   const stored = await redisSet(code, payload);
   if (!stored) {
+    if (process.env.NODE_ENV === "production" || process.env.VERCEL_ENV === "production") {
+      throw new Error("[security] UPSTASH_REDIS_REST_* required for mobile session exchange in production");
+    }
     purgeMemory();
     memoryStore.set(code, { payload, expiresAt: Date.now() + TTL_MS });
   }

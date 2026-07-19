@@ -24,6 +24,7 @@ export type AuthCallbackParams = {
 export function parseAuthCallbackParams(url: URL, defaultNext = "/app"): AuthCallbackParams {
   const rawType = url.searchParams.get("type")?.trim() ?? null;
   const type = rawType && OTP_TYPES.has(rawType) ? (rawType as EmailOtpType) : null;
+  const defaultForType = type === "recovery" ? recoveryResetPath() : defaultNext;
 
   return {
     code: url.searchParams.get("code")?.trim() || null,
@@ -35,7 +36,7 @@ export function parseAuthCallbackParams(url: URL, defaultNext = "/app"): AuthCal
     error: url.searchParams.get("error")?.trim() || null,
     errorCode: url.searchParams.get("error_code")?.trim() || null,
     errorDescription: url.searchParams.get("error_description")?.trim() || null,
-    next: safeInternalPath(url.searchParams.get("next"), defaultNext),
+    next: safeInternalPath(url.searchParams.get("next"), defaultForType),
   };
 }
 

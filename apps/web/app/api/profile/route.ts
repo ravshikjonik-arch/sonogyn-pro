@@ -12,6 +12,7 @@ import {
   detectAndNotifyCareerMilestone,
   loadCareerProfileInput,
 } from "@/lib/career/milestones";
+import { autoGrantPilotMedicalAccess } from "@/lib/auth/pilot-medical-access";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { requireSupabaseUser } from "@/lib/security/require-user";
@@ -21,6 +22,8 @@ export const runtime = "nodejs";
 
 const PROFILE_SELECT =
   "id, role, full_name, institution, specialization, birth_year, clinical_preferences, subscription_tier, subscription_expires_at, trial_ends_at, created_at, updated_at";
+const PROFILE_BASE_SELECT =
+  "id, role, full_name, institution, specialization, subscription_tier, subscription_expires_at, trial_ends_at, created_at, updated_at";
 
 type ProfileRow = {
   id: string;
@@ -37,6 +40,16 @@ type ProfileRow = {
   updated_at: string;
 };
 
+type ProfileBaseRow = Omit<ProfileRow, "birth_year" | "clinical_preferences">;
+
+function normalizeProfileRow(row: ProfileBaseRow & Partial<Pick<ProfileRow, "birth_year" | "clinical_preferences">>): ProfileRow {
+  return {
+    ...row,
+    birth_year: row.birth_year ?? null,
+    clinical_preferences: row.clinical_preferences ?? null,
+  };
+}
+
 /** Текущий профиль врача (включая clinical_preferences). */
 export async function GET() {
   const supabase = await createClient();
@@ -49,18 +62,51 @@ export async function GET() {
     .eq("id", auth.userId)
     .maybeSingle();
 
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  if (!error && data) {
+    const profile = normalizeProfileRow(data as ProfileRow);
+    return NextResponse.json({
+      profile: {
+        ...profile,
+        clinical_preferences: parseClinicalPreferences(profile.clinical_preferences),
+      },
+    });
   }
 
-  if (!data) {
-    return NextResponse.json({ error: "Profile not found" }, { status: 404 });
+  const { data: baseData, error: baseError } = await supabase
+    .from("profiles")
+    .select(PROFILE_BASE_SELECT)
+    .eq("id", auth.userId)
+    .maybeSingle();
+
+  if (baseError) {
+    return NextResponse.json({ error: baseError.message }, { status: 500 });
   }
 
+  if (!baseData) {
+    const nowIso = new Date().toISOString();
+    return NextResponse.json({
+      profile: {
+        id: auth.userId,
+        role: "user",
+        full_name: auth.email,
+        institution: null,
+        specialization: null,
+        birth_year: null,
+        clinical_preferences: {},
+        subscription_tier: "free",
+        subscription_expires_at: null,
+        trial_ends_at: null,
+        created_at: nowIso,
+        updated_at: nowIso,
+      },
+    });
+  }
+
+  const profile = normalizeProfileRow(baseData as ProfileBaseRow);
   return NextResponse.json({
     profile: {
-      ...data,
-      clinical_preferences: parseClinicalPreferences(data.clinical_preferences),
+      ...profile,
+      clinical_preferences: parseClinicalPreferences(profile.clinical_preferences),
     },
   });
 }
@@ -250,11 +296,14 @@ export async function PATCH(request: Request) {
       })
     : null;
 
+  const pilotChatUnlocked = await autoGrantPilotMedicalAccess(auth.userId);
+
   return NextResponse.json({
     profile: {
       ...profileRow,
       clinical_preferences: parseClinicalPreferences(profileRow.clinical_preferences),
     },
     career,
+    pilotChatUnlocked,
   });
 }

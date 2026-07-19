@@ -8,13 +8,28 @@ import {
 } from "@/lib/security/api-body-schemas";
 import { createSupabaseRouteHandlerClient, nextJsonWithAuthCookies } from "@/lib/route-handler-supabase";
 
+const DISABLED_RESULT = {
+  newlyUnlocked: [],
+  progress: {
+    totalXp: 0,
+    level: 1,
+    streakDays: 0,
+    xpInCurrentLevel: 0,
+    xpToNextLevel: 100,
+    xpProgressPercent: 0,
+  },
+  stats: {
+    casesByModule: {},
+    lessonsCompleted: 0,
+    fmfCompleted: 0,
+    fmfTotal: 0,
+  },
+};
+
 /** Вызывается после кейса, теста, урока или входа — проверяет новые бейджи */
 export async function POST(req: Request) {
   if (!isPrismaConfigured()) {
-    return NextResponse.json(
-      { error: "DATABASE_URL не настроен — геймификация недоступна." },
-      { status: 503 },
-    );
+    return NextResponse.json({ ...DISABLED_RESULT, disabled: true });
   }
 
   const client = await createSupabaseRouteHandlerClient();

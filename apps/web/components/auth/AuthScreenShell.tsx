@@ -5,12 +5,13 @@ import { useEffect, useState, type ReactNode } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import {
+  AUTH_TAB_ORDER,
   REGISTRATION_METHOD_HINTS,
   REGISTRATION_METHOD_LABELS,
   type AuthRegistrationMethod,
 } from "@/lib/auth/registration-methods";
 import { isAuthEmailOnlyClient } from "@/lib/auth/auth-methods-config";
-import { isPilotClosedAccessClient, isPilotTelegramPrimary, PILOT_TELEGRAM_TAB_BADGE } from "@/lib/auth/auth-pilot-config";
+import { isPilotClosedAccessClient } from "@/lib/auth/auth-pilot-config";
 
 type AuthScreenShellProps = {
   title: string;
@@ -18,11 +19,18 @@ type AuthScreenShellProps = {
   telegramTab: ReactNode;
   emailTab: ReactNode;
   phoneTab: ReactNode;
-  socialTab: ReactNode;
+  socialTab?: ReactNode;
   footer: ReactNode;
   defaultTab?: AuthRegistrationMethod;
   onTabChange?: (tab: AuthRegistrationMethod) => void;
   showMethodHints?: boolean;
+};
+
+const TAB_UI: Record<AuthRegistrationMethod, { emoji: string; short: string }> = {
+  phone: { emoji: "📱", short: "SMS" },
+  social: { emoji: "🇷🇺", short: "Яндекс ID" },
+  telegram: { emoji: "✈️", short: "Telegram" },
+  email: { emoji: "📧", short: "Почта" },
 };
 
 export function AuthScreenShell({
@@ -33,7 +41,7 @@ export function AuthScreenShell({
   phoneTab,
   socialTab,
   footer,
-  defaultTab = "telegram",
+  defaultTab = "phone",
   onTabChange,
   showMethodHints = false,
 }: AuthScreenShellProps) {
@@ -51,6 +59,8 @@ export function AuthScreenShell({
     setTab(value);
     onTabChange?.(value);
   }
+
+  const visibleTabs = AUTH_TAB_ORDER.filter((id) => (id === "social" ? Boolean(socialTab) : true));
 
   return (
     <section className="sonogyn-glass-card relative w-full max-w-md rounded-3xl border border-white/20 p-8 shadow-2xl dark:border-white/10">
@@ -76,32 +86,30 @@ export function AuthScreenShell({
       ) : closedPilot ? (
         <div className="w-full">{telegramTab}</div>
       ) : (
-      <Tabs value={tab} onValueChange={handleTabChange} className="w-full">
-        <TabsList className="mb-6 grid w-full grid-cols-2 gap-1 rounded-2xl bg-[var(--clinical-muted)] p-1 sm:grid-cols-4">
-          <TabsTrigger value="telegram" className="relative rounded-xl text-xs sm:text-sm">
-            ✈️ Telegram
-            {isPilotTelegramPrimary() ? (
-              <span className="ml-1 hidden rounded-full bg-emerald-100 px-1.5 py-0.5 text-[10px] font-bold text-emerald-800 sm:inline">
-                {PILOT_TELEGRAM_TAB_BADGE}
-              </span>
-            ) : null}
-          </TabsTrigger>
-          <TabsTrigger value="phone" className="rounded-xl text-xs sm:text-sm">
-            📱 SMS
-          </TabsTrigger>
-          <TabsTrigger value="email" className="rounded-xl text-xs sm:text-sm">
-            📧 Почта
-          </TabsTrigger>
-          <TabsTrigger value="social" className="rounded-xl text-xs sm:text-sm">
-            🔵 Google
-          </TabsTrigger>
-        </TabsList>
+        <Tabs value={tab} onValueChange={handleTabChange} className="w-full">
+          <TabsList
+            className={`mb-6 grid w-full gap-1 rounded-2xl bg-[var(--clinical-muted)] p-1 ${
+              visibleTabs.length === 4 ? "grid-cols-2 sm:grid-cols-4" : "grid-cols-3"
+            }`}
+          >
+            {visibleTabs.map((id) => (
+              <TabsTrigger key={id} value={id} className="relative rounded-xl text-[11px] sm:text-xs">
+                <span className="mr-0.5">{TAB_UI[id].emoji}</span>
+                {TAB_UI[id].short}
+                {id === "phone" ? (
+                  <span className="ml-1 hidden rounded-full bg-emerald-100 px-1.5 py-0.5 text-[9px] font-bold text-emerald-800 sm:inline">
+                    РФ
+                  </span>
+                ) : null}
+              </TabsTrigger>
+            ))}
+          </TabsList>
 
-        <TabsContent value="telegram">{telegramTab}</TabsContent>
-        <TabsContent value="email">{emailTab}</TabsContent>
-        <TabsContent value="phone">{phoneTab}</TabsContent>
-        <TabsContent value="social">{socialTab}</TabsContent>
-      </Tabs>
+          <TabsContent value="phone">{phoneTab}</TabsContent>
+          {socialTab ? <TabsContent value="social">{socialTab}</TabsContent> : null}
+          <TabsContent value="telegram">{telegramTab}</TabsContent>
+          <TabsContent value="email">{emailTab}</TabsContent>
+        </Tabs>
       )}
 
       <p className="mt-6 text-center text-xs text-slate-500">
@@ -118,7 +126,7 @@ export function AuthScreenShell({
 }
 
 export const authInputClass =
-  "mt-2 w-full rounded-2xl border border-[var(--clinical-border)] bg-[var(--clinical-card)] px-4 py-3 text-[var(--clinical-foreground)] outline-none transition focus:border-[var(--clinical-primary)] focus:ring-4 focus:ring-[var(--clinical-ring)]";
+  "sonogyn-auth-input mt-2 w-full rounded-2xl border border-[var(--clinical-border)] bg-white px-4 py-3 text-slate-950 placeholder:text-slate-500 outline-none transition focus:border-[var(--clinical-primary)] focus:ring-4 focus:ring-[var(--clinical-ring)] dark:bg-slate-950/80 dark:text-slate-50 dark:placeholder:text-slate-400";
 
 export function AuthMessage({ message, tone = "error" }: { message: string; tone?: "error" | "success" }) {
   const cls =

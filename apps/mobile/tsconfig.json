@@ -9,7 +9,11 @@
       "@repo/tirads-acr": ["../../packages/tirads-acr/src/index.ts"],
       "@repo/tirads-acr/*": ["../../packages/tirads-acr/*"],
       "@repo/thyroid-tirads": ["../../packages/thyroid-tirads/src/index.ts"],
-      "@repo/thyroid-tirads/*": ["../../packages/thyroid-tirads/*"]
+      "@repo/thyroid-tirads/*": ["../../packages/thyroid-tirads/*"],
+      "@repo/cervix-pathology-reference": ["../../packages/cervix-pathology-reference/src/index.ts"],
+      "@repo/cervix-pathology-reference/*": ["../../packages/cervix-pathology-reference/*"],
+      "@repo/cervix-pathology-reference/cytology": ["../../packages/cervix-pathology-reference/src/cytology/index.ts"],
+      "@repo/cervix-pathology-reference/self-assessment": ["../../packages/cervix-pathology-reference/src/self-assessment/index.ts"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx", "src/react-three-fiber.d.ts", "src/expo-modules.d.ts"],

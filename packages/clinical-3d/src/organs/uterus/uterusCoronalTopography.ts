@@ -200,4 +200,4 @@ export function strokeToSvgPath(points: UterusNormPoint[], w: number, h: number)
   return `M ${f.x * w} ${f.y * h} ${rest.map((p) => `L ${p.x * w} ${p.y * h}`).join(" ")}`;
 }
 
-export const UTERUS_CORONAL_ANATOMY_SRC = "/clinical/uterus-coronal-anatomy.png";
+export const UTERUS_CORONAL_ANATOMY_SRC = "/clinical/uterus-coronal-anatomy.jpg";

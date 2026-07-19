@@ -11,13 +11,11 @@ import { AlertWithTeach, MedvedevPanel } from "../components/MedvedevPanel";
 import { FmfPercentilePanel } from "../components/FmfPercentilePanel";
 import { pregnancyUltrasoundModule } from "../core/pregnancyModule";
 import { FMF_SCREENING_3034_SOURCE_NOTE, fmfScreening3034Examples } from "../data/fmfScreening3034Examples";
+import { formatMmValue, parseDecimal } from "../numericInput";
 
 type Props = NativeStackScreenProps<RootStackParamList, "FMFAssistant">;
 
-function num(v: string): number | undefined {
-  const n = Number(v.replace(",", "."));
-  return Number.isFinite(n) ? n : undefined;
-}
+const num = parseDecimal;
 
 function f(v: string | number | undefined, suffix = ""): string {
   if (v === undefined || v === "") return "___";
@@ -260,18 +258,18 @@ export default function FMFAssistantScreen({ navigation }: Props) {
               <SelectChip label="Плодное яйцо: да" selected={early.gestationalSacPresent === true} onPress={() => setEarly((p) => ({ ...p, gestationalSacPresent: true }))} />
               <SelectChip label="Плодное яйцо: нет" selected={early.gestationalSacPresent === false} onPress={() => setEarly((p) => ({ ...p, gestationalSacPresent: false }))} />
             </View>
-            <TextInput style={styles.input} placeholder="Средний диаметр плодного яйца, СДП (мм)" keyboardType="numeric" value={early.msdMm != null ? String(early.msdMm) : ""} onChangeText={(v) => setEarly((p) => ({ ...p, msdMm: num(v) }))} />
+            <TextInput style={styles.input} placeholder="Средний диаметр плодного яйца, СДП (мм)" keyboardType="decimal-pad" value={early.msdMm != null ? formatMmValue(early.msdMm) : ""} onChangeText={(v) => setEarly((p) => ({ ...p, msdMm: num(v) }))} />
             <View style={styles.rowWrap}>
               <SelectChip label="Желточный мешок: да" selected={early.yolkSacSeen === true} onPress={() => setEarly((p) => ({ ...p, yolkSacSeen: true }))} />
               <SelectChip label="Желточный мешок: нет" selected={early.yolkSacSeen === false} onPress={() => setEarly((p) => ({ ...p, yolkSacSeen: false }))} />
             </View>
-            <TextInput style={styles.input} placeholder="YSD, диаметр ЖМ (мм)" keyboardType="numeric" value={early.ysdMm != null ? String(early.ysdMm) : ""} onChangeText={(v) => setEarly((p) => ({ ...p, ysdMm: num(v) }))} />
+            <TextInput style={styles.input} placeholder="YSD, диаметр ЖМ (мм)" keyboardType="decimal-pad" value={early.ysdMm != null ? formatMmValue(early.ysdMm) : ""} onChangeText={(v) => setEarly((p) => ({ ...p, ysdMm: num(v) }))} />
             <View style={styles.rowWrap}>
               <SelectChip label="Эмбрион: да" selected={early.embryoPresent === true} onPress={() => setEarly((p) => ({ ...p, embryoPresent: true }))} />
               <SelectChip label="Эмбрион: нет" selected={early.embryoPresent === false} onPress={() => setEarly((p) => ({ ...p, embryoPresent: false }))} />
             </View>
-            <TextInput style={styles.input} placeholder="КТР (мм)" keyboardType="numeric" value={early.crlMm != null ? String(early.crlMm) : ""} onChangeText={(v) => setEarly((p) => ({ ...p, crlMm: num(v) }))} />
-            <TextInput style={styles.input} placeholder="ЧСС (уд/мин)" keyboardType="numeric" value={early.fhr != null ? String(early.fhr) : ""} onChangeText={(v) => setEarly((p) => ({ ...p, fhr: num(v) }))} />
+            <TextInput style={styles.input} placeholder="КТР (мм)" keyboardType="decimal-pad" value={early.crlMm != null ? formatMmValue(early.crlMm) : ""} onChangeText={(v) => setEarly((p) => ({ ...p, crlMm: num(v) }))} />
+            <TextInput style={styles.input} placeholder="ЧСС (уд/мин)" keyboardType="decimal-pad" value={early.fhr != null ? String(early.fhr) : ""} onChangeText={(v) => setEarly((p) => ({ ...p, fhr: num(v) }))} />
             <Text style={styles.fieldLabel}>Яичники — желтое тело</Text>
             <View style={styles.rowWrap}>
               <SelectChip label="Желтое тело: да" selected={early.corpusLuteumPresent === true} onPress={() => setEarly((p) => ({ ...p, corpusLuteumPresent: true }))} />
@@ -283,7 +281,7 @@ export default function FMFAssistantScreen({ navigation }: Props) {
                   <SelectChip label="Правый яичник" selected={early.corpusLuteumSide === "right"} onPress={() => setEarly((p) => ({ ...p, corpusLuteumSide: "right" }))} />
                   <SelectChip label="Левый яичник" selected={early.corpusLuteumSide === "left"} onPress={() => setEarly((p) => ({ ...p, corpusLuteumSide: "left" }))} />
                 </View>
-                <TextInput style={styles.input} placeholder="Диаметр желтого тела (мм)" keyboardType="numeric" value={early.corpusLuteumSizeMm != null ? String(early.corpusLuteumSizeMm) : ""} onChangeText={(v) => setEarly((p) => ({ ...p, corpusLuteumSizeMm: num(v) }))} />
+                <TextInput style={styles.input} placeholder="Диаметр желтого тела (мм)" keyboardType="decimal-pad" value={early.corpusLuteumSizeMm != null ? formatMmValue(early.corpusLuteumSizeMm) : ""} onChangeText={(v) => setEarly((p) => ({ ...p, corpusLuteumSizeMm: num(v) }))} />
               </>
             ) : null}
             <View style={styles.rowWrap}>
@@ -303,9 +301,9 @@ export default function FMFAssistantScreen({ navigation }: Props) {
 
         {section === "first" ? (
           <Card title="Входные данные: I скрининг">
-            <TextInput style={styles.input} placeholder="КТР (мм)" keyboardType="numeric" onChangeText={(v) => setFirst((p) => ({ ...p, crlMm: num(v) }))} />
-            <TextInput style={styles.input} placeholder="ТВП (мм)" keyboardType="numeric" onChangeText={(v) => setFirst((p) => ({ ...p, ntMm: num(v) }))} />
-            <TextInput style={styles.input} placeholder="ЧСС (уд/мин)" keyboardType="numeric" onChangeText={(v) => setFirst((p) => ({ ...p, fhr: num(v) }))} />
+            <TextInput style={styles.input} placeholder="КТР (мм)" keyboardType="decimal-pad" onChangeText={(v) => setFirst((p) => ({ ...p, crlMm: num(v) }))} />
+            <TextInput style={styles.input} placeholder="ТВП (мм)" keyboardType="decimal-pad" onChangeText={(v) => setFirst((p) => ({ ...p, ntMm: num(v) }))} />
+            <TextInput style={styles.input} placeholder="ЧСС (уд/мин)" keyboardType="decimal-pad" onChangeText={(v) => setFirst((p) => ({ ...p, fhr: num(v) }))} />
             <View style={styles.rowWrap}>
               <SelectChip label="НК: визуализируется" selected={first.nasalBone === "seen" || first.nasalBoneCategory === "present"} onPress={() => setFirst((p) => ({ ...p, nasalBone: "seen", nasalBoneCategory: "present" }))} />
               <SelectChip label="НК: не визуализируется" selected={first.nasalBone === "not_seen" || first.nasalBoneCategory === "absent"} onPress={() => setFirst((p) => ({ ...p, nasalBone: "not_seen", nasalBoneCategory: "absent" }))} />
@@ -334,8 +332,8 @@ export default function FMFAssistantScreen({ navigation }: Props) {
               <TextInput style={styles.inputFlex} placeholder="TR dur/syst" keyboardType="decimal-pad" onChangeText={(v) => setFirst((p) => ({ ...p, tricuspidDurationFraction: num(v) }))} />
             </View>
             <View style={styles.row}>
-              <TextInput style={styles.inputFlex} placeholder="САД, мм рт.ст." keyboardType="numeric" onChangeText={(v) => setFirst((p) => ({ ...p, sbpMmHg: num(v) }))} />
-              <TextInput style={styles.inputFlex} placeholder="ДАД, мм рт.ст." keyboardType="numeric" onChangeText={(v) => setFirst((p) => ({ ...p, dbpMmHg: num(v) }))} />
+              <TextInput style={styles.inputFlex} placeholder="САД, мм рт.ст." keyboardType="decimal-pad" onChangeText={(v) => setFirst((p) => ({ ...p, sbpMmHg: num(v) }))} />
+              <TextInput style={styles.inputFlex} placeholder="ДАД, мм рт.ст." keyboardType="decimal-pad" onChangeText={(v) => setFirst((p) => ({ ...p, dbpMmHg: num(v) }))} />
             </View>
           </Card>
         ) : null}
@@ -351,14 +349,14 @@ export default function FMFAssistantScreen({ navigation }: Props) {
               <TextInput
                 style={styles.inputFlex}
                 placeholder="Срок по ДПМ: нед"
-                keyboardType="numeric"
+                keyboardType="decimal-pad"
                 value={st.gaWeeksByLmp != null ? String(st.gaWeeksByLmp) : ""}
                 onChangeText={(v) => setSt((p) => ({ ...p, gaWeeksByLmp: num(v) }))}
               />
               <TextInput
                 style={styles.inputFlex}
                 placeholder="Срок по ДПМ: дни"
-                keyboardType="numeric"
+                keyboardType="decimal-pad"
                 value={st.gaDaysByLmp != null ? String(st.gaDaysByLmp) : ""}
                 onChangeText={(v) => setSt((p) => ({ ...p, gaDaysByLmp: num(v) }))}
               />
@@ -367,28 +365,28 @@ export default function FMFAssistantScreen({ navigation }: Props) {
               <TextInput
                 style={styles.inputFlex}
                 placeholder="BPD"
-                keyboardType="numeric"
+                keyboardType="decimal-pad"
                 value={st.bpd != null ? String(st.bpd) : ""}
                 onChangeText={(v) => setSt((p) => ({ ...p, bpd: num(v) }))}
               />
               <TextInput
                 style={styles.inputFlex}
                 placeholder="HC"
-                keyboardType="numeric"
+                keyboardType="decimal-pad"
                 value={st.hc != null ? String(st.hc) : ""}
                 onChangeText={(v) => setSt((p) => ({ ...p, hc: num(v) }))}
               />
               <TextInput
                 style={styles.inputFlex}
                 placeholder="AC"
-                keyboardType="numeric"
+                keyboardType="decimal-pad"
                 value={st.ac != null ? String(st.ac) : ""}
                 onChangeText={(v) => setSt((p) => ({ ...p, ac: num(v) }))}
               />
               <TextInput
                 style={styles.inputFlex}
                 placeholder="FL"
-                keyboardType="numeric"
+                keyboardType="decimal-pad"
                 value={st.fl != null ? String(st.fl) : ""}
                 onChangeText={(v) => setSt((p) => ({ ...p, fl: num(v) }))}
               />
@@ -397,28 +395,28 @@ export default function FMFAssistantScreen({ navigation }: Props) {
               <TextInput
                 style={styles.inputFlex}
                 placeholder="Лат. желудочки (мм)"
-                keyboardType="numeric"
+                keyboardType="decimal-pad"
                 value={st.lateralVentriclesMm != null ? String(st.lateralVentriclesMm) : ""}
                 onChangeText={(v) => setSt((p) => ({ ...p, lateralVentriclesMm: num(v) }))}
               />
               <TextInput
                 style={styles.inputFlex}
                 placeholder="ИАЖ (см)"
-                keyboardType="numeric"
+                keyboardType="decimal-pad"
                 value={st.afiCm != null ? String(st.afiCm) : ""}
                 onChangeText={(v) => setSt((p) => ({ ...p, afiCm: num(v) }))}
               />
               <TextInput
                 style={styles.inputFlex}
                 placeholder="Толщ. плаценты мм"
-                keyboardType="numeric"
+                keyboardType="decimal-pad"
                 value={st.placentaThicknessMm != null ? String(st.placentaThicknessMm) : ""}
                 onChangeText={(v) => setSt((p) => ({ ...p, placentaThicknessMm: num(v) }))}
               />
               <TextInput
                 style={styles.inputFlex}
                 placeholder="ЧСС"
-                keyboardType="numeric"
+                keyboardType="decimal-pad"
                 value={st.fhr != null ? String(st.fhr) : ""}
                 onChangeText={(v) => setSt((p) => ({ ...p, fhr: num(v) }))}
               />
@@ -427,21 +425,21 @@ export default function FMFAssistantScreen({ navigation }: Props) {
               <TextInput
                 style={styles.inputFlex}
                 placeholder="PI мат. артерий (ср.)"
-                keyboardType="numeric"
+                keyboardType="decimal-pad"
                 value={st.uterinePiMean != null ? String(st.uterinePiMean) : ""}
                 onChangeText={(v) => setSt((p) => ({ ...p, uterinePiMean: num(v) }))}
               />
               <TextInput
                 style={styles.inputFlex}
                 placeholder="PI АП"
-                keyboardType="numeric"
+                keyboardType="decimal-pad"
                 value={st.uaPi != null ? String(st.uaPi) : ""}
                 onChangeText={(v) => setSt((p) => ({ ...p, uaPi: num(v) }))}
               />
               <TextInput
                 style={styles.inputFlex}
                 placeholder="ИР АП (RI) · Прил. 37"
-                keyboardType="numeric"
+                keyboardType="decimal-pad"
                 value={st.uaRi != null ? String(st.uaRi) : ""}
                 onChangeText={(v) => setSt((p) => ({ ...p, uaRi: num(v) }))}
               />
@@ -450,14 +448,14 @@ export default function FMFAssistantScreen({ navigation }: Props) {
               <TextInput
                 style={styles.inputFlex}
                 placeholder="PI СМА"
-                keyboardType="numeric"
+                keyboardType="decimal-pad"
                 value={st.mcaPi != null ? String(st.mcaPi) : ""}
                 onChangeText={(v) => setSt((p) => ({ ...p, mcaPi: num(v) }))}
               />
               <TextInput
                 style={styles.inputFlex}
                 placeholder="PSV СМА · Прил. 38"
-                keyboardType="numeric"
+                keyboardType="decimal-pad"
                 value={st.mcaPsv != null ? String(st.mcaPsv) : ""}
                 onChangeText={(v) => setSt((p) => ({ ...p, mcaPsv: num(v) }))}
               />
@@ -497,12 +495,12 @@ export default function FMFAssistantScreen({ navigation }: Props) {
         {section === "doppler" ? (
           <Card title="Входные данные: Допплер">
             <View style={styles.row}>
-              <TextInput style={styles.inputFlex} placeholder="Срок, нед" keyboardType="numeric" onChangeText={(v) => setDoppler((p) => ({ ...p, gaWeeks: num(v) }))} />
-              <TextInput style={styles.inputFlex} placeholder="Срок, дни" keyboardType="numeric" onChangeText={(v) => setDoppler((p) => ({ ...p, gaDays: num(v) }))} />
+              <TextInput style={styles.inputFlex} placeholder="Срок, нед" keyboardType="decimal-pad" onChangeText={(v) => setDoppler((p) => ({ ...p, gaWeeks: num(v) }))} />
+              <TextInput style={styles.inputFlex} placeholder="Срок, дни" keyboardType="decimal-pad" onChangeText={(v) => setDoppler((p) => ({ ...p, gaDays: num(v) }))} />
             </View>
             <View style={styles.row}>
-              <TextInput style={styles.inputFlex} placeholder="PI маточной справа" keyboardType="numeric" onChangeText={(v) => setDoppler((p) => ({ ...p, piRight: num(v) }))} />
-              <TextInput style={styles.inputFlex} placeholder="PI маточной слева" keyboardType="numeric" onChangeText={(v) => setDoppler((p) => ({ ...p, piLeft: num(v) }))} />
+              <TextInput style={styles.inputFlex} placeholder="PI маточной справа" keyboardType="decimal-pad" onChangeText={(v) => setDoppler((p) => ({ ...p, piRight: num(v) }))} />
+              <TextInput style={styles.inputFlex} placeholder="PI маточной слева" keyboardType="decimal-pad" onChangeText={(v) => setDoppler((p) => ({ ...p, piLeft: num(v) }))} />
             </View>
             <View style={styles.row}>
               <TextInput style={styles.inputFlex} placeholder="ИР АП (RI) · Прил. 37" keyboardType="decimal-pad" onChangeText={(v) => setDoppler((p) => ({ ...p, uaRi: num(v) }))} />
@@ -518,7 +516,7 @@ export default function FMFAssistantScreen({ navigation }: Props) {
 
         {section === "cervix" ? (
           <Card title="Входные данные: Шейка матки">
-            <TextInput style={styles.input} placeholder="Длина шейки (мм)" keyboardType="numeric" onChangeText={(v) => setCervix((p) => ({ ...p, lengthMm: num(v) }))} />
+            <TextInput style={styles.input} placeholder="Длина шейки (мм)" keyboardType="decimal-pad" onChangeText={(v) => setCervix((p) => ({ ...p, lengthMm: num(v) }))} />
             <View style={styles.rowWrap}>
               <SelectChip label="Funneling: нет" selected={cervix.funneling === false} onPress={() => setCervix((p) => ({ ...p, funneling: false }))} />
               <SelectChip label="Funneling: есть" selected={cervix.funneling === true} onPress={() => setCervix((p) => ({ ...p, funneling: true }))} />
@@ -528,7 +526,13 @@ export default function FMFAssistantScreen({ navigation }: Props) {
 
         {section === "scar" ? (
           <Card title="Входные данные: Рубец на матке">
-            <TextInput style={styles.input} placeholder="Толщина рубца (мм)" keyboardType="numeric" onChangeText={(v) => setScar((p) => ({ ...p, thicknessMm: num(v) }))} />
+            <TextInput
+              style={styles.input}
+              placeholder="Толщина рубца (мм)"
+              keyboardType="decimal-pad"
+              value={scar.thicknessMm != null ? formatMmValue(scar.thicknessMm) : ""}
+              onChangeText={(v) => setScar((p) => ({ ...p, thicknessMm: num(v) }))}
+            />
             <View style={styles.rowWrap}>
               <SelectChip label="Структура: однородный" selected={scar.structure === "homogeneous"} onPress={() => setScar((p) => ({ ...p, structure: "homogeneous" }))} />
               <SelectChip label="Структура: неоднородный" selected={scar.structure === "heterogeneous"} onPress={() => setScar((p) => ({ ...p, structure: "heterogeneous" }))} />

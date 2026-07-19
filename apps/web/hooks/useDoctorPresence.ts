@@ -19,16 +19,17 @@ export function useDoctorPresence() {
   const [error, setError] = useState<string | null>(null);
 
   const load = useCallback(async () => {
-    const { data, error: qErr } = await supabase
-      .from("doctor_presence")
-      .select("user_id,display_name,status,last_seen_at,updated_at")
-      .order("last_seen_at", { ascending: false });
+    const response = await fetch("/api/doctor-presence", { cache: "no-store" });
+    const payload = (await response.json().catch(() => null)) as
+      | { rows?: DoctorPresenceRow[]; error?: string }
+      | null;
 
-    if (qErr) {
-      if (qErr.message.includes("doctor_presence") || qErr.code === "42P01") {
+    if (!response.ok || !payload?.rows) {
+      const message = payload?.error ?? "Не удалось загрузить presence";
+      if (message.includes("doctor_presence")) {
         setError("Примените миграцию doctor_presence в Supabase.");
       } else {
-        setError(qErr.message);
+        setError(message);
       }
       setRows([]);
       setLoading(false);
@@ -36,47 +37,27 @@ export function useDoctorPresence() {
     }
 
     setError(null);
-    setRows((data ?? []) as DoctorPresenceRow[]);
+    setRows(payload.rows);
     setLoading(false);
-  }, [supabase]);
+  }, []);
 
   const pulse = useCallback(async () => {
     if (!user) return;
-
-    let displayName =
-      typeof user.user_metadata?.full_name === "string" ? user.user_metadata.full_name : "";
-    if (!displayName) {
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("full_name")
-        .eq("id", user.id)
-        .maybeSingle();
-      displayName = profile?.full_name ?? user.email?.split("@")[0] ?? "Врач";
-    }
-
-    await supabase.from("doctor_presence").upsert(
-      {
-        user_id: user.id,
-        display_name: displayName,
-        status: "online",
-        last_seen_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      },
-      { onConflict: "user_id" },
-    );
-  }, [supabase, user]);
+    await fetch("/api/doctor-presence", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: "online" }),
+    });
+  }, [user]);
 
   const goOffline = useCallback(async () => {
     if (!user) return;
-    await supabase
-      .from("doctor_presence")
-      .update({
-        status: "offline",
-        last_seen_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      })
-      .eq("user_id", user.id);
-  }, [supabase, user]);
+    await fetch("/api/doctor-presence", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: "offline" }),
+    });
+  }, [user]);
 
   useEffect(() => {
     queueMicrotask(() => void load());

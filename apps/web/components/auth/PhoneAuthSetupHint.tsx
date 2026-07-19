@@ -37,8 +37,8 @@ SMSRU_API_ID=ваш_api_id_с_sms.ru
           </Link>
         </li>
         <li>
-          <Link href="/register?method=social" className="font-semibold underline">
-            Вход через Google
+          <Link href="/register?method=telegram" className="font-semibold underline">
+            Вход через Telegram
           </Link>
         </li>
       </ul>

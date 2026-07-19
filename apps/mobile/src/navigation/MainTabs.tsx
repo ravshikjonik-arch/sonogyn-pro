@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { Platform } from "react-native";
 import { ClinicalPhiGate } from "../components/ClinicalPhiGate";
 import { useCases } from "../hooks/useCases";
-import CommunityHubScreen from "../screens/CommunityHubScreen";
+import CasesScreen from "../screens/CasesScreen";
 import ToolsScreen from "../screens/ToolsScreen";
 import AssistantHubScreen from "../screens/AssistantHubScreen";
 import KnowledgeScreen from "../screens/KnowledgeScreen";
@@ -76,7 +76,7 @@ function MainTabsInner() {
     >
       <Tab.Screen
         name="ChatTab"
-        component={CommunityHubScreen}
+        component={CasesScreen}
         options={{
           tabBarBadge: casesCommentBadge,
           tabBarBadgeStyle: {
@@ -87,8 +87,8 @@ function MainTabsInner() {
           },
         }}
       />
-      <Tab.Screen name="ToolsTab" component={ToolsScreen} />
       <Tab.Screen name="AssistantTab" component={AssistantHubScreen} />
+      <Tab.Screen name="ToolsTab" component={ToolsScreen} />
       <Tab.Screen name="KnowledgeTab" component={KnowledgeScreen} />
       <Tab.Screen name="ProfileTab" component={ProfileScreen} />
     </Tab.Navigator>

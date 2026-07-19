@@ -7,7 +7,7 @@ type Props = {
   visible: boolean;
 };
 
-/** Линейный замер между двумя точками в локальных координатах матки */
+/** Linear distance overlay between two local uterus points. */
 export default function MeasureDistanceOverlay({ a, b, visible }: Props) {
   if (!visible || !a || !b) return null;
   return (

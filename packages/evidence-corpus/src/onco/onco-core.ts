@@ -21,7 +21,7 @@ export const ONCO_CORE_EVIDENCE: EvidenceEntry[] = [
     },
     tags: ["O-RADS", "придатки", "яичник", "категория", "risk"],
     relatedLinks: [
-      { label: "O-RADS Pro", href: "/calculators/o-rads" },
+      { label: "O-RADS Pro", href: "/tools/calc/rads/o-rads" },
       { label: "Атлас яичника", href: "/ovary-atlas" },
       { label: "O-RADS эхограммы", href: "/library/orads-echograms" },
       { label: "IOTA 2026 · термины", href: "/library/iota-terms-2026" },
@@ -40,7 +40,7 @@ export const ONCO_CORE_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ACR O-RADS US", organization: "ACR", year: 2022 },
     tags: ["O-RADS 2", "benign", "simple cyst", "dermoid"],
-    relatedLinks: [{ label: "O-RADS Pro", href: "/calculators/o-rads" }],
+    relatedLinks: [{ label: "O-RADS Pro", href: "/tools/calc/rads/o-rads" }],
   },
   {
     id: "onco-orads-3",
@@ -55,7 +55,7 @@ export const ONCO_CORE_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ACR O-RADS US", organization: "ACR", year: 2022 },
     tags: ["O-RADS 3", "low risk", "large cyst", "follow-up"],
-    relatedLinks: [{ label: "O-RADS Pro", href: "/calculators/o-rads" }],
+    relatedLinks: [{ label: "O-RADS Pro", href: "/tools/calc/rads/o-rads" }],
   },
   {
     id: "onco-orads-4",
@@ -70,7 +70,7 @@ export const ONCO_CORE_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ACR O-RADS US", organization: "ACR", year: 2022 },
     tags: ["O-RADS 4", "intermediate", "multilocular", "solid"],
-    relatedLinks: [{ label: "O-RADS Pro", href: "/calculators/o-rads" }],
+    relatedLinks: [{ label: "O-RADS Pro", href: "/tools/calc/rads/o-rads" }],
   },
   {
     id: "onco-orads-5",
@@ -86,7 +86,7 @@ export const ONCO_CORE_EVIDENCE: EvidenceEntry[] = [
     source: { label: "ACR O-RADS US", organization: "ACR", year: 2022 },
     tags: ["O-RADS 5", "malignancy", "ascites", "solid", "high risk"],
     relatedLinks: [
-      { label: "O-RADS Pro", href: "/calculators/o-rads" },
+      { label: "O-RADS Pro", href: "/tools/calc/rads/o-rads" },
       { label: "IOTA 2026 · термины", href: "/library/iota-terms-2026" },
     ],
   },
@@ -104,7 +104,7 @@ export const ONCO_CORE_EVIDENCE: EvidenceEntry[] = [
     source: { label: "IOTA Simple Rules / consensus 2026", organization: "IOTA", year: 2026, pmid: "21481708" },
     tags: ["IOTA", "Simple Rules", "B-features", "benign"],
     relatedLinks: [
-      { label: "O-RADS Pro", href: "/calculators/o-rads" },
+      { label: "O-RADS Pro", href: "/tools/calc/rads/o-rads" },
       { label: "IOTA 2026 · термины", href: "/library/iota-terms-2026" },
     ],
   },
@@ -122,7 +122,7 @@ export const ONCO_CORE_EVIDENCE: EvidenceEntry[] = [
     source: { label: "IOTA Simple Rules", organization: "IOTA", year: 2026, pmid: "23896425" },
     tags: ["IOTA", "M-features", "malignant", "papillary", "ascites"],
     relatedLinks: [
-      { label: "O-RADS Pro", href: "/calculators/o-rads" },
+      { label: "O-RADS Pro", href: "/tools/calc/rads/o-rads" },
       { label: "IOTA 2026 · термины", href: "/library/iota-terms-2026" },
     ],
   },
@@ -146,7 +146,7 @@ export const ONCO_CORE_EVIDENCE: EvidenceEntry[] = [
     tags: ["IOTA", "2026", "terms", "solid component", "papillary", "ADNEX", "consensus"],
     relatedLinks: [
       { label: "IOTA 2026 · справочник", href: "/library/iota-terms-2026" },
-      { label: "O-RADS Pro", href: "/calculators/orads-pro" },
+      { label: "O-RADS Pro", href: "/tools/calc/rads/o-rads" },
       { label: "O-RADS эхограммы", href: "/library/orads-echograms" },
     ],
   },
@@ -164,7 +164,7 @@ export const ONCO_CORE_EVIDENCE: EvidenceEntry[] = [
     source: { label: "ACR O-RADS US color score", organization: "ACR", year: 2022 },
     tags: ["color score", "допплер", "vascularity", "papillary"],
     relatedLinks: [
-      { label: "O-RADS Pro", href: "/calculators/o-rads" },
+      { label: "O-RADS Pro", href: "/tools/calc/rads/o-rads" },
       { label: "IOTA 2026 · термины", href: "/library/iota-terms-2026" },
     ],
   },
@@ -196,7 +196,7 @@ export const ONCO_CORE_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ACR O-RADS US dermoid", organization: "ACR", year: 2022 },
     tags: ["dermoid", "teratoma", "Rokitansky", "O-RADS 2"],
-    relatedLinks: [{ label: "O-RADS Pro", href: "/calculators/o-rads" }],
+    relatedLinks: [{ label: "O-RADS Pro", href: "/tools/calc/rads/o-rads" }],
   },
   {
     id: "onco-endometrial-cancer-us",
@@ -254,7 +254,7 @@ export const ONCO_CORE_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ACOG acute adnexal mass", organization: "ACOG", year: 2021 },
     tags: ["emergency", "torsion", "acute pain", "adnexal"],
-    relatedLinks: [{ label: "O-RADS Pro", href: "/calculators/o-rads" }],
+    relatedLinks: [{ label: "O-RADS Pro", href: "/tools/calc/rads/o-rads" }],
   },
   {
     id: "onco-hydrosalpinx",
@@ -269,6 +269,6 @@ export const ONCO_CORE_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ACR O-RADS US hydrosalpinx", organization: "ACR", year: 2022 },
     tags: ["hydrosalpinx", "гидrosalpinx", "tube", "O-RADS 2"],
-    relatedLinks: [{ label: "O-RADS Pro", href: "/calculators/o-rads" }],
+    relatedLinks: [{ label: "O-RADS Pro", href: "/tools/calc/rads/o-rads" }],
   },
 ];

@@ -3,11 +3,14 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 const DEFAULT_TTL_SEC = 3600;
 
 function playbackSecret(): string {
-  return (
-    process.env.PLAYBACK_TOKEN_SECRET?.trim() ||
-    process.env.SUPABASE_SERVICE_ROLE_KEY?.trim()?.slice(0, 32) ||
-    "dev-playback-secret-change-me"
-  );
+  const secret = process.env.PLAYBACK_TOKEN_SECRET?.trim();
+  if (secret) return secret;
+
+  if (process.env.NODE_ENV === "production" || process.env.VERCEL_ENV === "production") {
+    throw new Error("[security] PLAYBACK_TOKEN_SECRET is required in production");
+  }
+
+  return "dev-playback-secret-local-only";
 }
 
 export function createPlaybackToken(lessonId: string, userId: string, ttlSec = DEFAULT_TTL_SEC): string {

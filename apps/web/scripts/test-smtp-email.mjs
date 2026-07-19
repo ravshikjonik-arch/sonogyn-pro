@@ -38,13 +38,14 @@ function loadEnv(filePath) {
 const env = { ...process.env, ...loadEnv(envPath) };
 
 const host = env.SMTP_HOST?.trim();
+const connectHost = env.SMTP_CONNECT_HOST?.trim();
 const port = Number.parseInt(env.SMTP_PORT?.trim() ?? "587", 10);
 const user = env.SMTP_USER?.trim();
 const password = (env.SMTP_PASSWORD ?? env.SMTP_PASS)?.trim();
 const from = env.SMTP_FROM?.trim() || (user ? `SonoGyn Pro <${user}>` : undefined);
 const to = process.argv[2]?.trim() || env.DEV_LOGIN_EMAIL?.trim();
 
-console.log("📧 SMTP test (Mailgun)\n");
+console.log("📧 SMTP test (Mail.ru)\n");
 
 if (!host || !user || !password || !from) {
   console.error("✗ Не хватает переменных: SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASSWORD");
@@ -57,13 +58,14 @@ if (!to) {
   process.exit(1);
 }
 
-console.log(`  Host: ${host}:${port}`);
+console.log(`  Host: ${host}:${port}${connectHost ? ` via ${connectHost}` : ""}`);
 console.log(`  User: ${user}`);
 console.log(`  From: ${from}`);
 console.log(`  To:   ${to}\n`);
 
 const portsToTry = [
   port,
+  ...(port !== 587 ? [587] : []),
   ...(port !== 2525 ? [2525] : []),
   ...(port !== 465 ? [465] : []),
 ].filter((p, i, arr) => arr.indexOf(p) === i);
@@ -86,10 +88,12 @@ let lastError = null;
 
 for (const tryPort of portsToTry) {
   const transport = nodemailer.createTransport({
-    host,
+    host: connectHost || host,
     port: tryPort,
     secure: tryPort === 465,
+    family: 4,
     auth: { user, pass: password },
+    tls: connectHost ? { servername: host } : undefined,
     requireTLS: tryPort === 587,
     connectionTimeout: 15_000,
     greetingTimeout: 15_000,

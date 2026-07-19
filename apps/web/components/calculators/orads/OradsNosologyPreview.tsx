@@ -45,6 +45,18 @@ export function OradsNosologyPreview({ entry, compact }: Props) {
             </Button>
           </div>
           <p className="text-xs leading-relaxed text-[var(--clinical-foreground-muted)]">{entry.protocolText}</p>
+          {entry.keySignsRu?.length ? (
+            <div className="flex flex-wrap gap-1.5">
+              {entry.keySignsRu.map((sign) => (
+                <span
+                  key={sign}
+                  className="rounded-full border border-emerald-200 bg-white/80 px-2 py-1 text-[10px] font-semibold text-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-100"
+                >
+                  {sign}
+                </span>
+              ))}
+            </div>
+          ) : null}
           <p className="text-[10px] text-slate-500">Учебная эхограмма · не заменяет заключение врача</p>
         </div>
       </div>

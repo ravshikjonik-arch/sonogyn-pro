@@ -1,0 +1,20 @@
+{
+  "topics": [
+    { "id": "anatomy", "title": "Анатомия шейки матки", "icon": "anatomy", "summary": "Экто-/эндоцервикс, SCJ, зона трансформации" },
+    { "id": "transformation-zone", "title": "Зона трансформации", "icon": "timeline", "summary": "Почему именно здесь развивается CIN" },
+    { "id": "hpv", "title": "ВПЧ и РШМ", "icon": "virus", "summary": "HR-HPV, персистенция, прогрессия" },
+    { "id": "screening", "title": "Скрининг РШМ", "icon": "algorithm", "summary": "Интерактивный алгоритм тактики" },
+    { "id": "liquid-cytology", "title": "Жидкостная цитология", "icon": "vial", "summary": "ThinPrep vs SurePath" },
+    { "id": "conventional", "title": "Традиционная цитология", "icon": "slide", "summary": "Мазок на стекло" },
+    { "id": "sampling", "title": "Забор материала", "icon": "steps", "summary": "10 шагов + чеклист" },
+    { "id": "sampling-errors", "title": "Ошибки при заборе", "icon": "alert", "summary": "Карточки типичных ошибок" },
+    { "id": "bethesda", "title": "Bethesda", "icon": "book", "summary": "Категории и тактика" },
+    { "id": "hpv-testing", "title": "ВПЧ-тестирование", "icon": "pcr", "summary": "ПЦР, Digene, генотипирование" },
+    { "id": "co-testing", "title": "Ко-тестирование", "icon": "matrix", "summary": "Цитология + HPV" },
+    { "id": "algorithms", "title": "Клинические алгоритмы", "icon": "flow", "summary": "Цепочка до гистологии" },
+    { "id": "cases", "title": "Клинические кейсы", "icon": "case", "summary": "10 обезличенных сценариев" },
+    { "id": "quiz", "title": "Самопроверка", "icon": "quiz", "summary": "Тест по модулю" },
+    { "id": "ai-assist", "title": "AI-консультант Bethesda", "icon": "ai", "summary": "Интерпретация без PHI" },
+    { "id": "lecture", "title": "Режим лекции", "icon": "presentation", "summary": "Презентация для аудитории" }
+  ]
+}

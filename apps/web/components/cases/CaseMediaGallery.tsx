@@ -4,19 +4,15 @@ import { ImageIcon, Loader2, Upload, Video } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 
-import { useSupabase } from "@/app/providers";
 import { CaseMediaAnonymizationPanel } from "@/components/cases/CaseMediaAnonymizationPanel";
+import { CaseMediaViewer } from "@/components/cases/CaseMediaViewer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   anonymizationLabel,
   isAnonymizationOk,
 } from "@/lib/cases/anonymization-gate";
-import {
-  getCaseMediaSignedUrl,
-  uploadCaseMedia,
-  type CaseMediaRow,
-} from "@/lib/supabase/case-media-storage";
+import type { CaseMediaRow } from "@/lib/supabase/case-media-storage";
 
 type Props = {
   caseId: string;
@@ -26,37 +22,25 @@ type Props = {
 
 type MediaView = CaseMediaRow & { url: string | null };
 
-export function CaseMediaGallery({ caseId, userId, canUpload }: Props) {
-  const supabase = useSupabase();
+export function CaseMediaGallery({ caseId, canUpload }: Props) {
   const [items, setItems] = useState<MediaView[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
 
   const refresh = useCallback(async () => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from("case_media")
-      .select("id,case_id,storage_path,media_type,order_index,uploaded_at,anonymization_status")
-      .eq("case_id", caseId)
-      .order("order_index", { ascending: true });
-
-    if (error) {
+    const res = await fetch(`/api/cases/${caseId}/media`, { cache: "no-store" });
+    if (!res.ok) {
       toast.error("Не удалось загрузить снимки кейса");
       setItems([]);
       setLoading(false);
       return;
     }
 
-    const rows = (data ?? []) as CaseMediaRow[];
-    const withUrls = await Promise.all(
-      rows.map(async (row) => ({
-        ...row,
-        url: await getCaseMediaSignedUrl(supabase, row.storage_path),
-      })),
-    );
-    setItems(withUrls);
+    const data = (await res.json()) as { media?: MediaView[] };
+    setItems(data.media ?? []);
     setLoading(false);
-  }, [caseId, supabase]);
+  }, [caseId]);
 
   useEffect(() => {
     queueMicrotask(() => void refresh());
@@ -67,10 +51,13 @@ export function CaseMediaGallery({ caseId, userId, canUpload }: Props) {
     setUploading(true);
     try {
       for (const file of Array.from(fileList)) {
-        const res = await uploadCaseMedia(supabase, { userId, caseId, file });
-        if ("error" in res) {
-          toast.error(res.error);
-        } else {
+        const form = new FormData();
+        form.append("file", file);
+        const res = await fetch(`/api/cases/${caseId}/media`, {
+          method: "POST",
+          body: form,
+        });
+        if (res.ok) {
           toast.success(
             file.type.startsWith("video/")
               ? "Видео добавлено — подтвердите анонимизацию"
@@ -78,6 +65,9 @@ export function CaseMediaGallery({ caseId, userId, canUpload }: Props) {
                 ? "DICOM добавлен — подтвердите анонимизацию"
                 : "Снимок добавлен — подтвердите анонимизацию",
           );
+        } else {
+          const data = (await res.json().catch(() => null)) as { error?: string } | null;
+          toast.error(data?.error ?? "Не удалось загрузить файл");
         }
       }
       await refresh();
@@ -148,15 +138,35 @@ export function CaseMediaGallery({ caseId, userId, canUpload }: Props) {
             </p>
           </div>
         ) : (
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div className="space-y-3">
+            {items.length > 2 ? (
+              <div className="flex gap-2 overflow-x-auto pb-1">
+                {items.map((item, index) =>
+                  item.url && item.media_type === "image" ? (
+                    <div
+                      key={`thumb-${item.id}`}
+                      className="w-24 shrink-0 overflow-hidden rounded-lg border border-[var(--clinical-border)]"
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={item.url} alt={`Снимок ${index + 1}`} className="h-16 w-full object-cover" />
+                    </div>
+                  ) : null,
+                )}
+              </div>
+            ) : null}
+            <div className="grid gap-3 sm:grid-cols-2">
             {items.map((item) => (
               <div
                 key={item.id}
                 className="overflow-hidden rounded-xl border border-[var(--clinical-border)] bg-black/5"
               >
                 {item.url && item.media_type === "image" ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={item.url} alt="Снимок кейса" className="max-h-56 w-full object-contain" />
+                  <CaseMediaViewer
+                    mediaId={item.id}
+                    url={item.url}
+                    alt="Снимок кейса"
+                    canAnnotate
+                  />
                 ) : item.url && item.media_type === "video" ? (
                   <video src={item.url} controls className="max-h-56 w-full" />
                 ) : (
@@ -181,12 +191,13 @@ export function CaseMediaGallery({ caseId, userId, canUpload }: Props) {
                 {canUpload && !isAnonymizationOk(item.anonymization_status) ? (
                   <CaseMediaAnonymizationPanel
                     mediaId={item.id}
-                    userId={userId}
+                    caseId={caseId}
                     onConfirmed={() => void refresh()}
                   />
                 ) : null}
               </div>
             ))}
+            </div>
           </div>
         )}
         {uploading ? (

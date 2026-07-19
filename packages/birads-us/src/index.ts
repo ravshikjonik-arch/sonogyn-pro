@@ -29,6 +29,11 @@ export {
   type BiradsPathologyId,
 } from "./knowledge/differential";
 export { BIRADS_ATLAS_INTRO, atlasCategoryTabs, atlasPathologies, pathologyImageUrl } from "./knowledge/atlas";
+export {
+  BIRADS_LYMPH_NODES_KNOWLEDGE,
+  getBiradsLymphNodesKnowledge,
+  type BiradsLymphNodesKnowledge,
+} from "./knowledge/lymph-nodes";
 
 export { enrichEngineResult, matchDifferential, type BiradsEngineInput, type BiradsEngineOutput } from "./engine/enrich-result";
 export { generateStructuredReport, type StructuredBiradsReport } from "./engine/structured-report";

@@ -1,15 +1,18 @@
 "use client";
 
+import type { ReactNode } from "react";
+
 import { cn } from "@/lib/utils/cn";
 
 type Props = {
   label: string;
   onClick: () => void;
   className?: string;
+  imageSlot?: ReactNode;
 };
 
 /** Крупная кнопка шага O-RADS — контраст текста в light/dark обязателен (PWA). */
-export function OradsWizardOptionButton({ label, onClick, className }: Props) {
+export function OradsWizardOptionButton({ label, onClick, className, imageSlot }: Props) {
   return (
     <button
       type="button"
@@ -23,6 +26,7 @@ export function OradsWizardOptionButton({ label, onClick, className }: Props) {
         className,
       )}
     >
+      {imageSlot ? <div className="mb-3">{imageSlot}</div> : null}
       {label}
     </button>
   );

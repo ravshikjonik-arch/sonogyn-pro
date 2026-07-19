@@ -23,8 +23,8 @@
     "dev:video": "npx --yes pnpm@10.6.5 --filter @repo/video studio",
     "render:video": "npx --yes pnpm@10.6.5 --filter @repo/video render",
     "terminal:info": "bash scripts/terminal-info.sh",
-    "dev:mobile": "env -u CI npx --yes pnpm@10.6.5 --filter @repo/mobile start",
-    "dev:mobile:clear": "env -u CI npx --yes pnpm@10.6.5 --filter @repo/mobile start:clear",
+    "dev:mobile": "env -u CI EXPO_OFFLINE=1 npx --yes pnpm@10.6.5 --filter @repo/mobile start",
+    "dev:mobile:clear": "env -u CI EXPO_OFFLINE=1 npx --yes pnpm@10.6.5 --filter @repo/mobile start:clear",
     "expo": "bash scripts/expo-start.sh",
     "start:mobile": "bash scripts/expo-start.sh",
     "build": "npx --yes pnpm@10.6.5 exec turbo build",
@@ -44,7 +44,9 @@
   "pnpm": {
     "overrides": {
       "@babel/plugin-transform-regenerator": "7.28.4",
-      "@eslint/config-array": "0.23.5"
+      "@eslint/config-array": "0.23.5",
+      "react": "19.1.0",
+      "react-dom": "19.1.0"
     }
   }
 }

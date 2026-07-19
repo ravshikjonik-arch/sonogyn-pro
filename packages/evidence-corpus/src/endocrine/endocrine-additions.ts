@@ -160,7 +160,7 @@ export const ENDOCRINE_ADDITIONAL_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "Endocrine Society androgen excess", organization: "Endocrine Society", year: 2018 },
     tags: ["virilization", "tumor", "testosterone", "DHEAS", "red flags"],
-    relatedLinks: [{ label: "O-RADS Pro", href: "/calculators/o-rads" }],
+    relatedLinks: [{ label: "O-RADS Pro", href: "/tools/calc/rads/o-rads" }],
   },
   {
     id: "endo-pcos-adolescent",

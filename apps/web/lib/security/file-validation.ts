@@ -5,11 +5,16 @@
 
 export const MAX_CHAT_MEDIA_BYTES = 20 * 1024 * 1024;
 export const MAX_ULTRASOUND_IMAGE_BYTES = 50 * 1024 * 1024;
+export const MAX_CASE_MEDIA_BYTES = 100 * 1024 * 1024;
 export const MAX_AVATAR_BYTES = 5 * 1024 * 1024;
 
 export type FileValidationResult = { ok: true } | { ok: false; error: string };
 
 function readHead(file: File, n: number): Promise<Uint8Array> {
+  if (typeof file.slice === "function" && typeof file.arrayBuffer === "function") {
+    return file.slice(0, n).arrayBuffer().then((buffer) => new Uint8Array(buffer));
+  }
+
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => {
@@ -113,6 +118,32 @@ export async function validateChatMediaUpload(file: File): Promise<FileValidatio
   }
   if (type.startsWith("video/") && !["mp4", "webm"].includes(kind)) {
     return { ok: false, error: "Сигнатура файла не совпадает с типом видео" };
+  }
+
+  return { ok: true };
+}
+
+export async function validateCaseMediaUpload(file: File): Promise<FileValidationResult> {
+  if (file.size <= 0) return { ok: false, error: "Пустой файл" };
+  if (file.size > MAX_CASE_MEDIA_BYTES) {
+    return { ok: false, error: "Файл слишком большой (макс. 100 МБ)" };
+  }
+
+  const head = await readHead(file, 132);
+  const kind = detectKind(head);
+  if (!kind || !["png", "jpeg", "webp", "gif", "dicom", "mp4", "webm"].includes(kind)) {
+    return { ok: false, error: "Допустимы только PNG/JPEG/WebP/GIF, DICOM или видео MP4/WebM" };
+  }
+
+  const type = file.type.toLowerCase();
+  if (type.startsWith("image/") && !["png", "jpeg", "webp", "gif"].includes(kind)) {
+    return { ok: false, error: "Сигнатура файла не совпадает с типом изображения" };
+  }
+  if (type.startsWith("video/") && !["mp4", "webm"].includes(kind)) {
+    return { ok: false, error: "Сигнатура файла не совпадает с типом видео" };
+  }
+  if (type.includes("dicom") && kind !== "dicom") {
+    return { ok: false, error: "Сигнатура файла не совпадает с DICOM content-type" };
   }
 
   return { ok: true };

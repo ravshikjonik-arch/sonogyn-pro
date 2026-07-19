@@ -193,6 +193,7 @@ export function UterusCoronalAtlas() {
           fill
           className="object-contain"
           sizes="(max-width: 768px) 100vw, 768px"
+          unoptimized
           priority
         />
         <svg className="pointer-events-none absolute inset-0 h-full w-full" viewBox="0 0 1000 750" preserveAspectRatio="xMidYMid meet">

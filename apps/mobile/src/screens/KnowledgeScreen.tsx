@@ -84,6 +84,18 @@ export default function KnowledgeScreen({ navigation, route }: KnowledgeTabScree
       onPress: () => navigation.navigate("ClinicalReference"),
     },
     {
+      id: "cervix-quiz",
+      title: "Самопроверка · цитология РШМ",
+      sub: "Quiz для врача, ординатора, студента",
+      onPress: () => navigation.navigate("CervixCytologyModule", { topic: "quiz" }),
+    },
+    {
+      id: "cervix-pathology",
+      title: "Патология шейки · цитология",
+      sub: "Native: Bethesda, HPV, скрининг, кейсы, quiz",
+      onPress: () => navigation.navigate("CervixCytologyModule"),
+    },
+    {
       id: "medvedev",
       title: "Консенсусы УЗИ",
       sub: "MUSA · IETA · IOTA · IDEA",

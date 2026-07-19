@@ -1,3 +1,5 @@
+import { Platform } from "react-native";
+
 export function getChatApiBase(): string {
   return (process.env.EXPO_PUBLIC_CHAT_API_URL || "").replace(/\/$/, "");
 }
@@ -235,10 +237,19 @@ export async function apiTelegramAuthPoll(nonce: string): Promise<TelegramAuthPo
   return data as TelegramAuthPoll;
 }
 
+const PRODUCTION_WEB_API = "https://sonogyn-pro-web-ravshan-s-projects3.vercel.app";
+
 export function getWebApiBase(): string {
   const configured = (process.env.EXPO_PUBLIC_API_BASE_URL || "").replace(/\/$/, "");
-  if (configured) return configured;
-  if (typeof __DEV__ !== "undefined" && __DEV__) return "http://localhost:3000";
+  if (configured) {
+    if (Platform.OS !== "web" && /localhost|127\.0\.0\.1/.test(configured)) {
+      return PRODUCTION_WEB_API;
+    }
+    return configured;
+  }
+  if (typeof __DEV__ !== "undefined" && __DEV__) {
+    return Platform.OS === "web" ? "http://localhost:3000" : PRODUCTION_WEB_API;
+  }
   return "";
 }
 

@@ -50,10 +50,10 @@ async function main() {
     console.log(`${mark} ${result.name}: ${result.detail}`);
   }
   console.log(failed ? `\n${failed} failed\n` : "\nAll checks passed\n");
-  console.log("Ручные шаги пилота (TODO.md):");
-  console.log("  1. SMS auth на /register с реальным +7");
-  console.log("  2. EAS: cd apps/mobile && npm run eas:android:preview");
-  console.log("  3. Discussions: кейс → вопрос → push → deep link\n");
+  console.log("Ручные шаги пилота (email-only):");
+  console.log("  1. Регистрация: /register → письмо Sonogyn-pro@mail.ru → подтверждение");
+  console.log("  2. Библиотека: /tools/refs — чек-листы, learning paths, set-pieces");
+  console.log("  3. Mobile (опц.): EAS build + login\n");
   process.exit(failed ? 1 : 0);
 }
 

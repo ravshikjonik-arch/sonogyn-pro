@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" role="img" aria-label="Breast metastasis axillary node">
+  <rect width="320" height="200" fill="#0f172a"/>
+  <text x="16" y="22" font-family="system-ui,sans-serif" font-size="11" fill="#7dd3fc">B-mode · LN-RADS 4 · Axilla</text>
+  <circle cx="160" cy="95" r="44" fill="#475569" stroke="#1e293b" stroke-width="2"/>
+  <path d="M160 51 A44 44 0 0 1 204 95 L160 95 Z" fill="#334155"/>
+  <ellipse cx="178" cy="98" rx="11" ry="7" fill="#64748b"/>
+  <line x1="204" y1="85" x2="120" y2="105" stroke="#f97316" stroke-width="2"/>
+  <line x1="198" y1="108" x2="118" y2="88" stroke="#f97316" stroke-width="2"/>
+  <text x="24" y="155" font-family="system-ui,sans-serif" font-size="10" fill="#64748b">correlate BI-RADS primary</text>
+  <text x="160" y="175" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" fill="#cbd5e1">Breast CA · round axillary · hilum lost</text>
+</svg>

@@ -22,9 +22,9 @@ export const TOOLS_HOME_DOMAINS = [
     accent: "from-rose-500 to-pink-400",
   },
   {
-    href: "/tools/o-rads",
+    href: "/tools/calc/rads/o-rads",
     title: "O-RADS · всё в одном месте",
-    description: "Калькулятор, эхограммы Озерской, реферат, IOTA 2026",
+    description: "Калькулятор, картинки, расчет по тексту, таблицы, IOTA 2026",
     accent: "from-violet-600 to-indigo-500",
   },
   {
@@ -103,9 +103,9 @@ export const GYNECOLOGY_HUB: DomainHubCard[] = [
     badge: "AI",
   },
   {
-    href: "/tools/o-rads",
-    title: "O-RADS · эхограммы и калькулятор",
-    description: "Все карточки O-RADS/IOTA в одном хабе",
+    href: "/tools/calc/rads/o-rads",
+    title: "O-RADS US",
+    description: "Калькулятор, картинки, расчет по тексту, таблицы, IOTA",
     primary: true,
     badge: "O-RADS",
   },
@@ -126,9 +126,9 @@ export const GYNECOLOGY_HUB: DomainHubCard[] = [
     description: "ENZIAN mapping",
   },
   {
-    href: "/tools/refs/cervix-pathology",
+    href: "/tools/refs/cervix-pathology?tab=cytology",
     title: "Патология шейки",
-    description: "Учебные срезы и алгоритмы",
+    description: "8 глав + цитология, Bethesda, скрининг, кейсы",
   },
   {
     href: "/tools/refs/nosologies",

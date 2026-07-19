@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { WebinarRoomClient } from "@/components/webinars/WebinarRoomClient";
 import { createClient } from "@/utils/supabase/server";
@@ -25,9 +26,9 @@ export default async function WebinarRoomPage({ params }: Props) {
     return (
       <div className="px-4 py-10 text-center text-sm">
         Вебинар не найден.{" "}
-        <a href="/tools/refs/webinars" className="text-[var(--clinical-primary)] underline">
+        <Link href="/tools/refs/webinars" className="text-[var(--clinical-primary)] underline">
           К каталогу
-        </a>
+        </Link>
       </div>
     );
   }

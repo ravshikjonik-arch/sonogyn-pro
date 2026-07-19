@@ -8,4 +8,5 @@ export const CERVIX_CHAPTER_CATALOG: CervixChapterMeta[] = [
   { id: "05-special-populations", number: 5, title: "Особые группы пациенток", shortTitle: "Особые группы" },
   { id: "06-precancerous", number: 6, title: "Предраковые заболевания (ЦИН)", shortTitle: "ЦИН" },
   { id: "07-cervical-cancer", number: 7, title: "Рак шейки матки", shortTitle: "Рак шейки" },
+  { id: "08-cytology-screening", number: 8, title: "Цитология и скрининг РШМ", shortTitle: "Цитология · скрининг" },
 ];

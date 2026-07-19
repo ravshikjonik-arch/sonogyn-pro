@@ -57,6 +57,19 @@ export {
 export { BreastModel, createBreastGeometry } from "./organs/breast/BreastModel";
 export type { BreastModelProps } from "./organs/breast/BreastModel";
 
+// ─── Щитовидная железа (TI-RADS) ───────────────────────────────────────────
+export {
+  buildThyroidProtocolBlock,
+  centroidOfStroke as thyroidCentroidOfStroke,
+  formatThyroidLocationRu,
+  getThyroidLocation,
+  strokeToSvgPath as thyroidStrokeToSvgPath,
+  type ThyroidLocationResult,
+  type ThyroidNormPoint,
+  type ThyroidSide,
+  type ThyroidTopographyMarker,
+} from "./organs/thyroid/thyroidTopography";
+
 // ─── Беременность (FMF) ─────────────────────────────────────────────────────
 export * from "./organs/pregnancy/fmfReferenceData";
 export { FetusModel } from "./organs/pregnancy/FetusModel";

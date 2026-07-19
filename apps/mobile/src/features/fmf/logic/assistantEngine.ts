@@ -583,8 +583,8 @@ export function analyzeScar(input: { thicknessMm?: number; structure?: "homogene
   if (typeof input.thicknessMm !== "number") missingQuestions.push("Введите толщину рубца (мм).");
   if (!input.structure) missingQuestions.push("Уточните структуру рубца (однородный/неоднородный).");
   const alerts: string[] = [];
-  if ((input.thicknessMm ?? 99) < 2.5) alerts.push("⚠️ Несостоятельность рубца (толщина <2.5 мм)");
-  if (input.structure === "heterogeneous") alerts.push("⚠️ Неоднородная структура рубца");
+  if ((input.thicknessMm ?? 99) < 2) alerts.push("⚠️ Несостоятельность рубца (толщина <2 мм)");
+  if (input.structure === "heterogeneous") alerts.push("⚠️ Несостоятельность рубца (неоднородная структура)");
   return {
     nextPrompt: "Введите толщину рубца и характер структуры.",
     alerts,

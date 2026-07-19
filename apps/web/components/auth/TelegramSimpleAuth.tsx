@@ -16,7 +16,7 @@ type Props = {
 
 export function TelegramSimpleAuth({
   mode,
-  nextPath = "/cases",
+  nextPath = "/app",
   message,
   onRegisterClick,
   registerLoading = false,
@@ -64,7 +64,7 @@ export function TelegramSimpleAuth({
           {registerLoading ? "Подготовка…" : "Подтвердить через Telegram"}
         </button>
       ) : (
-        <TelegramLoginButton nextPath={nextPath} mode="redirect" enabled />
+        <TelegramLoginButton botUsername={botName} nextPath={nextPath} mode="redirect" enabled />
       )}
 
       {mode === "login" ? (

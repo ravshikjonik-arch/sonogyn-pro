@@ -1,0 +1,12 @@
+{
+  "lectures": [
+    { "id": "anatomy", "title": "Анатомия шейки матки", "slides": ["SCJ и зона трансформации", "Типы эпителия", "ЗТ 1–3 типа", "Где брать материал"] },
+    { "id": "hpv", "title": "HPV и РШМ", "slides": ["HR-HPV", "Персистенция", "Прогрессия CIN", "Статистика"] },
+    { "id": "screening", "title": "Скрининг", "slides": ["WHO criteria", "Возрастные группы", "Co-test", "Triage"] },
+    { "id": "cytology", "title": "Цитология", "slides": ["Bethesda", "NILM–HSIL", "AGC", "Unsatisfactory"] },
+    { "id": "liquid", "title": "Жидкостная цитология", "slides": ["ThinPrep", "SurePath", "Адекватность", "HPV из виалы"] },
+    { "id": "errors", "title": "Ошибки забора", "slides": ["Слизь/кровь", "ЗТ", "Фиксация", "Маркировка"] },
+    { "id": "bethesda", "title": "Bethesda", "slides": ["Категории", "Тактика", "Кольпоскопия"] },
+    { "id": "cases", "title": "Клинические случаи", "slides": ["ASC-US HPV+", "HSIL", "AGC", "Post-treatment"] }
+  ]
+}

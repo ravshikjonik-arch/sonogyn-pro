@@ -3,19 +3,17 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, Suspense, useCallback, useEffect, useMemo, useState } from "react";
-import type { AuthProvider } from "@repo/ui";
-import { AuthButtons } from "@repo/ui";
 
-import { useAuth, useSupabase } from "@/app/providers";
+import { useAuth } from "@/app/providers";
 import { AuthMessage, AuthScreenShell, authInputClass } from "@/components/auth/AuthScreenShell";
 import { AuthSetupBanner } from "@/components/auth/AuthSetupBanner";
 import { PhoneAuthSetupHint } from "@/components/auth/PhoneAuthSetupHint";
 import { PhoneInput } from "@/components/auth/PhoneInput";
+import { RussianIdpPanel } from "@/components/auth/RussianIdpPanel";
 import { SocialAuthSetupHint } from "@/components/auth/SocialAuthSetupHint";
-import { TelegramSimpleAuth } from "@/components/auth/TelegramSimpleAuth";
 import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
 import { Button } from "@/components/ui/button";
-import { buildOAuthRedirect, normalizePhone, oauthProviderToSupabase } from "@/lib/auth/oauth-providers";
+import { normalizePhone } from "@/lib/auth/oauth-providers";
 import { looksLikePhoneInput, USE_PHONE_TAB_MSG } from "@/lib/auth/auth-error-text";
 import { postForgotPassword, postMfaVerifyLogin, postPhoneSendOtp, postPhoneVerifyOtp, postSendCode, postSignIn, postTelegramVerifyOtp } from "@/lib/auth/client-auth-api";
 import { CAPTCHA_FAILURE_THRESHOLD } from "@/lib/auth/auth-attempts";
@@ -23,6 +21,7 @@ import { markSessionAnchorNow } from "@/lib/security/session-anchor";
 import { parseRegistrationMethod, readTelegramBotDisplayName, type AuthRegistrationMethod } from "@/lib/auth/registration-methods";
 import { isAuthEmailOnlyClient } from "@/lib/auth/auth-methods-config";
 import { isPilotClosedAccessClient, isPilotTelegramPrimary, PILOT_AUTH_SUBTITLE } from "@/lib/auth/auth-pilot-config";
+import { RU_IDP_SUBTITLE } from "@/lib/auth/russian-idp";
 import { isRuPhoneMaskComplete } from "@/lib/auth/ru-phone-mask";
 import {
   EMAIL_NOT_CONFIRMED_MSG,
@@ -32,12 +31,12 @@ import {
   requireOnlineForAuth,
   translateAuthError,
 } from "@/lib/auth/translate-auth-error";
+import { telegramAuthErrorMessage } from "@/lib/auth/telegram-widget";
 import { safeInternalPath } from "@/lib/nav/safe-redirect";
 
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const supabase = useSupabase();
   const { refresh, user, ready } = useAuth();
 
   const [email, setEmail] = useState("");
@@ -51,7 +50,6 @@ function LoginForm() {
   const [otpSent, setOtpSent] = useState(false);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [oauthLoading, setOauthLoading] = useState<AuthProvider | null>(null);
   const [failedAttempts, setFailedAttempts] = useState(0);
   const [requiresCaptcha, setRequiresCaptcha] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState<string | undefined>();
@@ -74,7 +72,9 @@ function LoginForm() {
   const authCallbackError = searchParams.get("error") === "auth_callback";
   const telegramBotName = readTelegramBotDisplayName();
   const simpleTelegramLogin = isPilotTelegramPrimary() || isPilotClosedAccessClient();
-  const telegramWidgetMessage = searchParams.get("telegram_message") ?? "";
+  const telegramWidgetMessage =
+    searchParams.get("telegram_message")?.trim() ||
+    telegramAuthErrorMessage(searchParams.get("telegram_error"));
 
   useEffect(() => {
     if (!ready || !user) return;
@@ -103,12 +103,9 @@ function LoginForm() {
 
   useEffect(() => {
     if (authCallbackError) {
-      const oauthMsg = searchParams.get("oauth_message");
       setMessage(
-        oauthMsg?.includes("redirect") || oauthMsg?.includes("OAuth")
-          ? "Google: ошибка redirect_uri. Добавьте callback Supabase в Google Cloud (см. подсказку ниже)."
-          : oauthMsg ||
-            "OAuth не завершился. Проверьте Google redirect URI и Supabase Site URL (https://sonogyn-pro.ru).",
+        searchParams.get("oauth_message") ||
+          "Вход через Google/VK отключён. Используйте SMS (+7), Яндекс ID, Telegram или почту.",
       );
     }
   }, [authCallbackError, searchParams]);
@@ -359,48 +356,56 @@ function LoginForm() {
     }
   }
 
-  async function onOAuth(provider: Exclude<AuthProvider, "telegram">) {
-    setMessage("");
-    if (!guardOnline()) return;
-
-    setOauthLoading(provider);
-    try {
-      const origin = window.location.origin;
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: oauthProviderToSupabase(provider),
-        options: { redirectTo: buildOAuthRedirect(origin, nextPath) },
-      });
-      if (error) setMessage(translateAuthError(error.message));
-    } finally {
-      setOauthLoading(null);
-    }
-  }
-
   return (
     <AuthScreenShell
       title="Вход"
       subtitle={
         isAuthEmailOnlyClient()
           ? "Email и пароль — один аккаунт для web и mobile."
-          : isPilotTelegramPrimary()
+          : isPilotClosedAccessClient()
             ? PILOT_AUTH_SUBTITLE
-            : "Telegram, SMS или Google — один аккаунт для web и mobile."
+            : isPilotTelegramPrimary()
+              ? PILOT_AUTH_SUBTITLE
+              : RU_IDP_SUBTITLE
       }
       defaultTab={defaultTab}
       onTabChange={onTabChange}
       showMethodHints
+      socialTab={
+        !isAuthEmailOnlyClient() && !isPilotClosedAccessClient() ? (
+          <div className="space-y-4">
+            <RussianIdpPanel variant="login" nextPath={nextPath} />
+            <SocialAuthSetupHint showRussianIdp />
+            {authCallbackError ? <SocialAuthSetupHint showGoogle /> : null}
+          </div>
+        ) : undefined
+      }
       telegramTab={
         simpleTelegramLogin ? (
           <div className="space-y-4">
-            <TelegramSimpleAuth
-              mode="login"
-              nextPath={nextPath}
-              message={telegramWidgetMessage || (message && activeTab === "telegram" ? message : undefined)}
-            />
-            {!isPilotClosedAccessClient() ? (
-              <details className="rounded-2xl border border-slate-200 p-3 text-sm dark:border-slate-800">
+            <div className="rounded-2xl border border-emerald-200 bg-emerald-50/80 p-4 text-sm text-emerald-950 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-100">
+              <p className="font-semibold">Вход через Telegram-код</p>
+              <ol className="mt-2 list-decimal space-y-1 pl-4 text-emerald-900 dark:text-emerald-200">
+                <li>
+                  Откройте {telegramBotName} в Telegram и нажмите <strong>Start</strong>
+                </li>
+                <li>Укажите числовой Telegram ID ниже</li>
+                <li>Получите код в Telegram и войдите</li>
+              </ol>
+              <p className="mt-2 text-xs text-emerald-800 dark:text-emerald-300">
+                Прямая OAuth-кнопка Telegram больше не используется: Telegram отдаёт deprecated для старого
+                endpoint. Код через бота работает стабильнее.
+              </p>
+            </div>
+            {telegramWidgetMessage ? (
+              <p className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-100">
+                {telegramWidgetMessage}
+              </p>
+            ) : null}
+            {message && activeTab === "telegram" ? <AuthMessage message={message} /> : null}
+            <details open className="rounded-2xl border border-slate-200 p-3 text-sm dark:border-slate-800">
                 <summary className="cursor-pointer font-medium text-slate-600 dark:text-slate-300">
-                  Вход по коду (если кнопка не работает)
+                  Вход по коду через Telegram
                 </summary>
                 <form className="mt-4 space-y-4" onSubmit={(e) => void onVerifyTelegramOtp(e)}>
                   <label className="block">
@@ -444,7 +449,6 @@ function LoginForm() {
                   )}
                 </form>
               </details>
-            ) : null}
             {needsTelegramRegistration && activeTab === "telegram" ? (
               <p className="text-center text-sm text-[var(--clinical-foreground-muted)]">
                 <Link className="font-bold text-[var(--clinical-primary-deep)] hover:underline" href="/register?method=telegram">
@@ -547,7 +551,11 @@ function LoginForm() {
           {message && activeTab === "telegram" ? (
             <AuthMessage
               message={message}
-              tone={message.includes("отправлен") || message.includes("Telegram") ? "success" : "error"}
+              tone={
+                /код\s+отправлен/i.test(message) || /код\s+готов/i.test(message)
+                  ? "success"
+                  : "error"
+              }
             />
           ) : null}
           {needsTelegramRegistration && activeTab === "telegram" ? (
@@ -597,7 +605,7 @@ function LoginForm() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="doctor@example.com"
+              placeholder="doctor@mail.ru"
               required
               aria-label="Email"
               data-testid="email-input"
@@ -739,23 +747,6 @@ function LoginForm() {
           ) : null}
         </form>
       }
-      socialTab={
-        <div className="space-y-4">
-          <SocialAuthSetupHint showGoogle={authCallbackError} />
-          <p className="text-sm text-[var(--clinical-foreground-muted)]">
-            Вход через Google-аккаунт. После подтверждения вернётесь в кабинет.
-          </p>
-          <AuthButtons
-            providers={["google"]}
-            onProviderPress={(p) => {
-              if (p === "google") void onOAuth(p);
-            }}
-            loading={oauthLoading}
-            variant="login"
-          />
-          {message ? <AuthMessage message={message} tone={message.includes("отправлен") ? "success" : "error"} /> : null}
-        </div>
-      }
       footer={
         <>
           <p className="mt-6 text-center text-sm text-[var(--clinical-foreground-muted)]">
@@ -767,17 +758,17 @@ function LoginForm() {
           <div className="mt-3 flex flex-wrap justify-center gap-2 text-xs">
             {!isAuthEmailOnlyClient() && !isPilotClosedAccessClient() ? (
               <>
+            <Link href="/login?method=phone" className="rounded-full bg-slate-100 px-3 py-1 text-slate-600 hover:underline dark:bg-slate-800 dark:text-slate-300">
+              SMS
+            </Link>
+            <Link href="/login?method=social" className="rounded-full bg-slate-100 px-3 py-1 text-slate-600 hover:underline dark:bg-slate-800 dark:text-slate-300">
+              Яндекс ID
+            </Link>
             <Link href="/login?method=telegram" className="rounded-full bg-slate-100 px-3 py-1 text-slate-600 hover:underline dark:bg-slate-800 dark:text-slate-300">
               Telegram
             </Link>
             <Link href="/login?method=email" className="rounded-full bg-slate-100 px-3 py-1 text-slate-600 hover:underline dark:bg-slate-800 dark:text-slate-300">
               Email
-            </Link>
-            <Link href="/login?method=phone" className="rounded-full bg-slate-100 px-3 py-1 text-slate-600 hover:underline dark:bg-slate-800 dark:text-slate-300">
-              SMS
-            </Link>
-            <Link href="/register?method=social" className="rounded-full bg-slate-100 px-3 py-1 text-slate-600 hover:underline dark:bg-slate-800 dark:text-slate-300">
-              Google
             </Link>
               </>
             ) : null}

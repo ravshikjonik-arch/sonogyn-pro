@@ -3,13 +3,18 @@
 import { useCallback, useState } from "react";
 
 import {
+  applyOradsClinicalMemory,
   runOradsAssistPipeline,
   type OradsAssistPipelineResult,
   type OradsProtocolDraftSource,
   type OradsWizardHint,
 } from "@repo/orads-us";
 
-import { createOradsEvent, fetchOradsProtocolDraft } from "@/lib/orads/oradsEventsApi";
+import {
+  createOradsEvent,
+  fetchOradsClinicalMemory,
+  fetchOradsProtocolDraft,
+} from "@/lib/orads/oradsEventsApi";
 
 export type OradsAssistState = {
   loading: boolean;
@@ -76,11 +81,25 @@ export function useOradsAssist(platform: "web" | "mobile" = "web") {
           }
         }
 
-        const full: OradsAssistFullResult = {
+        let full: OradsAssistFullResult = {
           ...pipeline,
           protocolDraft,
           protocolDraftSource,
         };
+
+        const memoryInsights = await fetchOradsClinicalMemory({
+          patientId: params.patientId,
+          aiCategoryNumber: full.categoryNumber,
+          extracted: full.extracted as unknown as Record<string, unknown>,
+          unresolvedNodes: full.unresolvedNodes,
+        });
+
+        if (memoryInsights.length) {
+          full = {
+            ...full,
+            clinicalReasoning: applyOradsClinicalMemory(full.clinicalReasoning, memoryInsights),
+          };
+        }
 
         const event = await createOradsEvent({
           platform,

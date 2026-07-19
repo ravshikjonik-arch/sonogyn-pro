@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 
 import { canAccessLessonPlayback } from "@/lib/lessons/playback-access";
 import { getBucket, getS3Client } from "@/lib/storage/s3";
+import { resolveHlsObjectKey } from "@/lib/video/hls-object-key";
 import { rewriteHlsPlaylist } from "@/lib/video/hls-playlist";
 import { verifyPlaybackToken } from "@/lib/video/playback-token";
 import { requireSupabaseUser } from "@/lib/security/require-user";
@@ -38,10 +39,10 @@ export async function GET(req: Request, { params }: Params) {
   });
   if (!allowed) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 
-  const hlsBase = lesson.hls_playlist_key as string;
-  const hlsDir = hlsBase.replace(/\/[^/]+$/, "/");
-  const relPath = path?.length ? path.join("/") : "master.m3u8";
-  const objectKey = relPath === "master.m3u8" ? hlsBase : `${hlsDir}${relPath}`;
+  const objectKey = resolveHlsObjectKey(lesson.hls_playlist_key as string, path);
+  if (!objectKey) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
 
   const client = getS3Client();
   const res = await client.send(new GetObjectCommand({ Bucket: getBucket(), Key: objectKey }));

@@ -109,6 +109,9 @@ export type ModuleId =
   | "education.fetal-doppler-1t"
   | "education.obstetric-atlas"
   | "education.fetal-spine"
+  | "education.exam-checklists"
+  | "education.case-library"
+  | "education.clinic-accreditation"
   | "education.orads-flow"
   | "education.calculators-shelf";
 
@@ -399,8 +402,8 @@ export const MODULES: ModuleEntry[] = [
     id: "calculator.o-rads",
     domain: "rads",
     kind: "calculator",
-    title: "O-RADS Pro",
-    href: "/calculators/o-rads",
+    title: "O-RADS US",
+    href: "/tools/calc/rads/o-rads",
     ref: { catalog: "registry", slug: "o-rads" },
     surfaces: { sidebar: true, sidebarGroup: "appointment", clinicalSearch: true },
     legacy: { clinicalTools: ["orads-wizard", "orads"] },
@@ -716,8 +719,8 @@ export const MODULES: ModuleEntry[] = [
     id: "education.cervix-pathology",
     domain: "education",
     kind: "education",
-    title: "Патология шейки · справочник",
-    href: "/library/cervix-pathology",
+    title: "Патология шейки · справочник и цитология",
+    href: "/tools/refs/cervix-pathology?tab=cytology",
     surfaces: { educationShelf: "reference" },
     legacy: { education: "cervix-pathology-quiz" },
   },
@@ -754,8 +757,35 @@ export const MODULES: ModuleEntry[] = [
     kind: "education",
     title: "УЗИ позвоночника плода",
     href: "/library/fetal-spine",
-    surfaces: { educationShelf: "atlases" },
+    surfaces: { educationShelf: "courses" },
     legacy: { education: "fetal-spine-atlas" },
+  },
+  {
+    id: "education.exam-checklists",
+    domain: "education",
+    kind: "education",
+    title: "Чек-листы полного УЗИ (AIUM / ISUOG)",
+    href: "/tools/refs/exam-checklists",
+    surfaces: { educationShelf: "courses", clinicalSearch: true },
+    legacy: { education: "exam-checklists" },
+  },
+  {
+    id: "education.case-library",
+    domain: "education",
+    kind: "education",
+    title: "Teaching Case Library",
+    href: "/tools/refs/case-library",
+    surfaces: { educationShelf: "courses", clinicalSearch: true },
+    legacy: { education: "case-library" },
+  },
+  {
+    id: "education.clinic-accreditation",
+    domain: "education",
+    kind: "education",
+    title: "Аккредитация кабинета УЗИ (AIUM-style)",
+    href: "/tools/refs/clinic-accreditation",
+    surfaces: { educationShelf: "courses", clinicalSearch: true },
+    legacy: { education: "clinic-accreditation" },
   },
   {
     id: "education.orads-flow",

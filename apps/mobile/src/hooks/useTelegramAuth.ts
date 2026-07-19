@@ -52,7 +52,7 @@ export function useTelegramAuth() {
   );
 
   const verifyOtp = useCallback(
-    async (registration?: TelegramRegistrationMeta) => {
+    async (registration?: TelegramRegistrationMeta, createUser = false) => {
       if (!supabaseMobile) {
         setError("Supabase не настроен.");
         return false;
@@ -61,9 +61,10 @@ export function useTelegramAuth() {
       setBusy(true);
       setError(null);
       try {
+        const shouldCreate = createUser || Boolean(registration?.full_name?.trim());
         const result = await verifyTelegramOtpViaApi(chatId.trim(), otp.trim(), {
           ...registration,
-          createUser: true,
+          createUser: shouldCreate,
         });
         if (!result.ok) {
           setError(result.error);

@@ -283,6 +283,7 @@ export function UterusSliceAtlas({
               fill
               sizes="(max-width: 1200px) 100vw"
               className="pointer-events-none object-contain object-center select-none"
+              unoptimized
               priority
               draggable={false}
             />
