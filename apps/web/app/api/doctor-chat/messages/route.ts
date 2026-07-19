@@ -122,6 +122,27 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: error?.message ?? "Send failed" }, { status: 500 });
     }
 
+    // Auto-subscribe author so they get push for later messages from colleagues.
+    const { data: existingSub } = await supabase
+      .from("channel_subscriptions")
+      .select("user_id")
+      .eq("user_id", auth.userId)
+      .eq("channel_id", parsed.data.channelId)
+      .maybeSingle();
+
+    let autoSubscribed = false;
+    if (!existingSub) {
+      const { error: subError } = await supabase.from("channel_subscriptions").insert({
+        user_id: auth.userId,
+        channel_id: parsed.data.channelId,
+      });
+      if (subError) {
+        safeLog("doctor chat auto-subscribe error", { message: subError.message });
+      } else {
+        autoSubscribed = true;
+      }
+    }
+
     return NextResponse.json(
       {
         message: {
@@ -130,6 +151,7 @@ export async function POST(request: Request) {
             ? await getChatMediaSignedUrl(supabase, data.media_storage_path)
             : null,
         },
+        autoSubscribed,
       },
       { status: 201 },
     );
