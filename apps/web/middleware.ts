@@ -52,6 +52,7 @@ const PUBLIC_WITHIN_PROTECTED = [
   "/tools/calc/rads/ln-rads",
   "/tools/adjunct/ti-rads",
   "/tools/calc/gyn/elastography",
+  "/tools/calc/gyn/cervical-intelligence",
 ];
 
 function isPublicWithinProtected(pathname: string): boolean {
