@@ -1,5 +1,6 @@
 import type { IotaConsensusResult } from "@/lib/orads-pro";
 import { cn } from "@/lib/utils/cn";
+import Link from "next/link";
 
 export function IotaConsensusWebPanel({ consensus }: { consensus: IotaConsensusResult }) {
   const ready = consensus.readiness === "complete";
@@ -13,12 +14,12 @@ export function IotaConsensusWebPanel({ consensus }: { consensus: IotaConsensusR
       <div className="flex flex-wrap items-center justify-between gap-2">
         <p className="text-[10px] font-black uppercase tracking-widest text-violet-800">Консенсус IOTA 2026</p>
         <div className="flex items-center gap-2">
-          <a
+          <Link
             href="/tools/refs/iota-terms-2026"
             className="text-[10px] font-bold text-violet-700 underline underline-offset-2 hover:text-violet-900"
           >
             Справочник терминов →
-          </a>
+          </Link>
           <span
           className={cn(
             "rounded-full px-2 py-0.5 text-[10px] font-black",

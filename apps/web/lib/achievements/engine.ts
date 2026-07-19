@@ -106,7 +106,7 @@ export async function checkAndAwardAchievements(
   await ensureAchievementCatalog();
 
   let progress = await getOrCreateProgress(userId);
-  let stats = parseStats(progress.stats);
+  const stats = parseStats(progress.stats);
   let streakDays = progress.streakDays;
   let iotaCorrectStreak = progress.iotaCorrectStreak;
   let totalXp = progress.totalXp;
