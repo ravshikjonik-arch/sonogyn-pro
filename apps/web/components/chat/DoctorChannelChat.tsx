@@ -35,6 +35,8 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [sending, setSending] = useState(false);
+  const [pushSubscribed, setPushSubscribed] = useState(false);
+  const [pushBusy, setPushBusy] = useState(false);
 
   const enrich = useCallback(
     (rows: RawMessage[]) => {
@@ -85,11 +87,62 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
   }, [load]);
 
   useEffect(() => {
+    if (!user?.id) {
+      setPushSubscribed(false);
+      return;
+    }
+    let cancelled = false;
+    void (async () => {
+      const { data } = await supabase
+        .from("channel_subscriptions")
+        .select("user_id")
+        .eq("user_id", user.id)
+        .eq("channel_id", channelId)
+        .maybeSingle();
+      if (!cancelled) setPushSubscribed(Boolean(data));
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [channelId, supabase, user?.id]);
+
+  useEffect(() => {
     const id = window.setInterval(() => {
       void load(true);
     }, 10000);
     return () => window.clearInterval(id);
   }, [load]);
+
+  async function togglePushSubscription() {
+    if (!userId) {
+      toast.message("Нужна авторизация");
+      return;
+    }
+    setPushBusy(true);
+    try {
+      const response = await fetch("/api/doctor-chat/subscriptions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ channelId }),
+      });
+      const payload = (await response.json().catch(() => null)) as
+        | { subscribed?: boolean; error?: string }
+        | null;
+      if (!response.ok) {
+        toast.error(payload?.error ?? "Не удалось изменить подписку");
+        return;
+      }
+      const next = Boolean(payload?.subscribed);
+      setPushSubscribed(next);
+      toast.success(
+        next
+          ? "Push на сообщения канала включён (на телефон с приложением)"
+          : "Push на этот канал отключён",
+      );
+    } finally {
+      setPushBusy(false);
+    }
+  }
 
   useEffect(() => {
     const channel = supabase
@@ -181,10 +234,27 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
   return (
     <div className="doctor-chat-panel flex min-h-[520px] flex-col rounded-2xl border border-[var(--clinical-border)] shadow-sm">
       <div className="border-b border-[var(--clinical-border)] px-5 py-4">
-        <p className="text-sm font-black text-[var(--clinical-foreground)]">{channelTitle}</p>
-        {channelDescription ? (
-          <p className="mt-1 text-xs text-[var(--clinical-foreground-muted)]">{channelDescription}</p>
-        ) : null}
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-black text-[var(--clinical-foreground)]">{channelTitle}</p>
+            {channelDescription ? (
+              <p className="mt-1 text-xs text-[var(--clinical-foreground-muted)]">{channelDescription}</p>
+            ) : null}
+            <p className="mt-1 text-[11px] text-[var(--clinical-foreground-muted)]">
+              Push приходит на телефон (Expo), если подписаны. В браузере — только открытый чат.
+            </p>
+          </div>
+          {userId ? (
+            <button
+              type="button"
+              disabled={pushBusy}
+              onClick={() => void togglePushSubscription()}
+              className="shrink-0 rounded-lg border border-[var(--clinical-border)] bg-[var(--clinical-card)] px-3 py-1.5 text-xs font-semibold text-[var(--clinical-foreground)] hover:bg-[var(--clinical-muted)] disabled:opacity-60"
+            >
+              {pushSubscribed ? "Push · вкл" : "Подписаться на push"}
+            </button>
+          ) : null}
+        </div>
       </div>
 
       <div

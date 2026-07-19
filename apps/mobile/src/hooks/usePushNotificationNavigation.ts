@@ -6,10 +6,10 @@ import * as Linking from "expo-linking";
 
 import type { RootStackParamList } from "../navigation/paramLists";
 import {
-  navigateToDiscussionCase,
+  navigateToCommunityPush,
   parseDiscussionDeepLink,
   parseDiscussionPushData,
-  type DiscussionPushPayload,
+  type CommunityPushPayload,
 } from "../lib/push/discussionPushNavigation";
 
 type Options = {
@@ -21,25 +21,25 @@ function responseIdentifier(response: Notifications.NotificationResponse): strin
   return response.notification.request.identifier;
 }
 
-function payloadFromResponse(response: Notifications.NotificationResponse): DiscussionPushPayload | null {
+function payloadFromResponse(response: Notifications.NotificationResponse): CommunityPushPayload | null {
   return parseDiscussionPushData(response.notification.request.content.data);
 }
 
 /**
- * Opens teaching-case discussion on web when user taps doctor-discussion push
- * or follows com.yakrav7700.usriskcalc://discussions/case/<id>.
+ * Opens case discussion or live doctor chat (web) when user taps community push
+ * or follows deep links (discussions/case/<id>, chat/<channelId>).
  */
 export function usePushNotificationNavigation({ enabled, navigationRef }: Options): void {
   const handledIds = useRef(new Set<string>());
-  const pendingPayload = useRef<DiscussionPushPayload | null>(null);
+  const pendingPayload = useRef<CommunityPushPayload | null>(null);
 
   const openPayload = useCallback(
-    async (payload: DiscussionPushPayload) => {
+    async (payload: CommunityPushPayload) => {
       if (!enabled) {
         pendingPayload.current = payload;
         return;
       }
-      await navigateToDiscussionCase(navigationRef, payload);
+      await navigateToCommunityPush(navigationRef, payload);
     },
     [enabled, navigationRef],
   );
