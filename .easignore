@@ -48,6 +48,12 @@ package-lock.json
 * 3.*
 * 4.*
 * 5.*
+* 2
+* 3
+* 4
+* 5
+"**/ * 2"
+"**/ * 3"
 pnpm-lock 2.yaml
 # apps/web/packages нужен для pnpm workspace (clinical-uterus); дубли « 3/4» режет * 3.* выше
 apps/web/lt*
