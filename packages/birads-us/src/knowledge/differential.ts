@@ -14,7 +14,8 @@ export type BiradsPathologyId =
   | "dcis"
   | "idc"
   | "ilc"
-  | "metastatic_node";
+  | "metastatic_node"
+  | "birads5_cancer_example";
 
 export type BiradsPathologyEntry = {
   id: BiradsPathologyId;
