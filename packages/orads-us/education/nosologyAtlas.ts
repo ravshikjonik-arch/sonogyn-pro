@@ -36,10 +36,17 @@ export type OradsNosologyAtlasEntry = {
   realExampleCaptions?: string[];
   /** Учебная категория для фильтрации UI. */
   category?: string;
+  /** Краткая подсказка для AI-ассистента (не диагноз). */
+  aiAssistantNoteRu?: string;
+  /** Учебный дисклеймер к примеру. */
+  disclaimerRu?: string;
 };
 
 const DERMOID_DISCLAIMER_RU =
   "Обучающий пример для распознавания типичной картины дермоидной кисты. Не заменяет заключение специалиста и не является диагнозом.";
+
+const EDUCATIONAL_DISCLAIMER_RU =
+  "Обучающий пример. Не заменяет заключение специалиста и не является диагнозом.";
 
 /** Подтипы без эхограммы — добавить в ORADS_NOSOLOGY_ATLAS, когда будут материалы. */
 export const ORADS_NOSOLOGY_PENDING_SUBTYPES: OradsNosologySubtype[] = ["peritoneal_inclusion"];
@@ -64,29 +71,24 @@ export const ORADS_NOSOLOGY_ATLAS: OradsNosologyAtlasEntry[] = [
     id: "hemorrhagic_cyst_reticular",
     subtype: "hemorrhagic",
     titleRu: "Геморрагическая киста / ретикулярный тип",
-    oradsHint: "O-RADS 2 · кистозное образование со вторичными изменениями",
+    oradsHint: "O-RADS 2 · типичная геморрагическая киста",
     keySignsRu: [
       "Кистозное образование",
-      "Ретикулярная сетка / нити в просвете",
-      "Гнистые слои / уровень жидкости",
+      "Ретикулярный рисунок / фибриновые нити или сгусток",
+      "Без внутреннего кровотока",
       "Характерно у молодых/репродуктивного возраста",
+      "Типично <10 см",
     ],
-    aiAssistantNoteRu:
-      "Похоже на геморрагическую кисту: сетчатость/нити в кисте. При типичном ретикулярном/гнилевом типе без выпячиваний O-RADS обычно 2.",
-    disclaimerRu: DERMOID_DISCLAIMER_RU,
-    realExampleImage: `${ORADS_NOSOLOGY_PUBLIC_IMAGE_BASE}/hemorrhagic-cyst-real.jpg`,
-    realExampleCaption:
-      "Реальная эхограмма: геморрагическая киста — ретикулярный внутренний рисунок без солидных зон.",
-  },
-  {
-    subtype: "hemorrhagic",
-    titleRu: "Геморрагическая киста",
-    oradsHint: "O-RADS 2 · типичная геморрагическая киста",
-    keySignsRu: ["Ретикулярный рисунок", "Фибриновые нити или сгусток", "Без внутреннего кровотока", "Типично <10 см"],
     protocolText:
       "Геморрагическая киста. В проекции яичника визуализируется округлое образование с неоднородной внутренней структурой в виде фибринового сгустка, размерами 32×30 мм. Корковый слой яичника не прослеживается, фолликулы не визуализируются. Гематоперитонеум?",
     imageSrc: `${ORADS_NOSOLOGY_PUBLIC_IMAGE_BASE}/hemorrhagic-cyst.jpg`,
     imageAlt: "УЗИ: геморрагическая киста яичника с сетчатым рисунком",
+    aiAssistantNoteRu:
+      "Похоже на геморрагическую кисту: сетчатость/нити в кисте. При типичном ретикулярном/гнилевом типе без выпячиваний O-RADS обычно 2.",
+    disclaimerRu: EDUCATIONAL_DISCLAIMER_RU,
+    realExampleImage: `${ORADS_NOSOLOGY_PUBLIC_IMAGE_BASE}/hemorrhagic-cyst-real.jpg`,
+    realExampleCaption:
+      "Реальная эхограмма: геморрагическая киста — ретикулярный внутренний рисунок без солидных зон.",
   },
   {
     id: "endometrioid_cyst",
@@ -149,7 +151,7 @@ export const ORADS_NOSOLOGY_ATLAS: OradsNosologyAtlasEntry[] = [
   },
   {
     id: "orads5_ovarian_cancer",
-    subtype: "dermoid",
+    subtype: "orads5_ovarian_cancer",
     titleRu: "Архетип O-RADS 5: подозрение на рак яичника",
     oradsHint: "O-RADS 5 · высокий риск ·-solid/cystic, сосочковые выпячивания, асцит",
     keySignsRu: [
