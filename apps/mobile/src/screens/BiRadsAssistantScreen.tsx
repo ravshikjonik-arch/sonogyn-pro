@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import Svg, { Circle, Ellipse, Line, Path, Text as SvgText } from "react-native-svg";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { BiRadsMmgMobilePanel } from "../components/birads/BiRadsMmgMobilePanel";
 import { branding } from "../config/branding";
 import {
   BI_RADS_VERSION,
@@ -23,12 +24,18 @@ import {
   type BiradsInput,
   type BiradsBrochureInput,
 } from "../guidelines/birads";
+import {
+  BIRADS_MMG_CATEGORY_RECOMMENDATIONS,
+  combineBiradsCategories,
+  type BiradsCategoryCode,
+} from "@repo/birads-mmg";
 import type { RootStackParamList } from "../navigation/paramLists";
 import { theme } from "../theme";
 
 type Props = NativeStackScreenProps<RootStackParamList, "BiRadsAssistant">;
 type BreastSide = "right" | "left";
 type BreastPoint = { x: number; y: number };
+type Modality = "us" | "mmg" | "combo";
 
 const FIELD_ORDER: (keyof BiradsInput)[] = [
   "findingType",
@@ -234,12 +241,18 @@ function BreastLocator({
 
 export default function BiRadsAssistantScreen({ navigation }: Props) {
   const { width } = useWindowDimensions();
+  const [modality, setModality] = useState<Modality>("us");
   const [input, setInput] = useState<BiradsInput>({ ...defaultInput });
   const [breastSide, setBreastSide] = useState<BreastSide>("right");
   const [breastPoint, setBreastPoint] = useState<BreastPoint>({ x: 0.34, y: 0.34 });
+  const [comboMmg, setComboMmg] = useState("BI-RADS 2");
   const result = useMemo(() => evaluateBirads(input), [input]);
   const localizationText = useMemo(() => formatBreastLocation(breastPoint, breastSide), [breastPoint, breastSide]);
   const locatorSize = Math.min(width - theme.spacing.md * 2 - 34, 340);
+  const combined = useMemo(
+    () => combineBiradsCategories({ usCategory: result.category, mmgCategory: comboMmg }),
+    [result.category, comboMmg],
+  );
 
   function setField<K extends keyof BiradsInput>(key: K, value: BiradsInput[K]) {
     setInput((prev) => ({ ...prev, [key]: value }));
@@ -269,15 +282,66 @@ export default function BiRadsAssistantScreen({ navigation }: Props) {
           <Text style={styles.backText}>←</Text>
         </Pressable>
         <View style={styles.headerCenter}>
-          <Text style={styles.title}>BI-RADS US</Text>
+          <Text style={styles.title}>МЖ · BI-RADS</Text>
           <Text style={styles.version} numberOfLines={2}>
-            {BI_RADS_VERSION} · алгоритм 8 шагов (брошюра v2025) — полный протокол на web
+            УЗИ и ММГ молочных желёз · для врачей
           </Text>
         </View>
         <View style={styles.headerSpacer} />
       </View>
 
+      <View style={styles.modalityRow}>
+        {(
+          [
+            ["us", "УЗИ"],
+            ["mmg", "ММГ"],
+            ["combo", "Комбо"],
+          ] as const
+        ).map(([id, label]) => (
+          <Pressable
+            key={id}
+            style={[styles.modalityChip, modality === id && styles.modalityChipOn]}
+            onPress={() => setModality(id)}
+          >
+            <Text style={[styles.modalityText, modality === id && styles.modalityTextOn]}>{label}</Text>
+          </Pressable>
+        ))}
+      </View>
+
+      {modality === "mmg" ? <BiRadsMmgMobilePanel /> : null}
+
+      {modality === "combo" ? (
+        <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
+          <Text style={styles.blockTitle}>УЗИ: {result.category}</Text>
+          <Text style={styles.helpText}>Категория из блока УЗИ (переключитесь и заполните дескрипторы).</Text>
+          <Text style={styles.blockTitle}>ММГ (введите категорию)</Text>
+          <View style={styles.chips}>
+            {(["0", "1", "2", "3", "4A", "4B", "4C", "5", "6"] as BiradsCategoryCode[]).map((code) => {
+              const selected = comboMmg === `BI-RADS ${code}` || comboMmg === code;
+              return (
+                <Pressable
+                  key={code}
+                  style={[styles.chip, selected && styles.chipOn]}
+                  onPress={() => setComboMmg(`BI-RADS ${code}`)}
+                >
+                  <Text style={[styles.chipText, selected && styles.chipTextOn]}>{code}</Text>
+                </Pressable>
+              );
+            })}
+          </View>
+          <View style={styles.resultCard}>
+            <Text style={styles.resultTitle}>Итог: BI-RADS {combined.suggestedCode}</Text>
+            <Text style={styles.helpText}>{combined.reasonRu}</Text>
+            <Text style={styles.helpText}>{BIRADS_MMG_CATEGORY_RECOMMENDATIONS[combined.suggestedCode]}</Text>
+          </View>
+        </ScrollView>
+      ) : null}
+
+      {modality === "us" ? (
       <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
+        <Text style={styles.helpText}>
+          УЗИ молочных желёз · {BI_RADS_VERSION} · полный протокол также на web
+        </Text>
         <BreastLocator
           side={breastSide}
           point={breastPoint}
@@ -333,6 +397,7 @@ export default function BiRadsAssistantScreen({ navigation }: Props) {
           </Pressable>
         </View>
       </ScrollView>
+      ) : null}
     </SafeAreaView>
   );
 }
@@ -363,6 +428,36 @@ const styles = StyleSheet.create({
   title: { fontSize: 17, fontWeight: "800", color: branding.colors.text },
   version: { fontSize: 9, color: branding.colors.textSecondary, marginTop: 2, paddingHorizontal: 8 },
   headerSpacer: { width: 40 },
+  modalityRow: {
+    flexDirection: "row",
+    gap: 8,
+    paddingHorizontal: theme.spacing.md,
+    paddingVertical: 10,
+    backgroundColor: "#fff",
+    borderBottomWidth: 1,
+    borderBottomColor: "#e8ecf1",
+  },
+  modalityChip: {
+    flex: 1,
+    alignItems: "center",
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: "#e2e8f0",
+    paddingVertical: 8,
+    backgroundColor: "#fff",
+  },
+  modalityChipOn: { backgroundColor: "#be123c", borderColor: "#be123c" },
+  modalityText: { fontSize: 13, fontWeight: "800", color: "#64748b" },
+  modalityTextOn: { color: "#fff" },
+  resultCard: {
+    marginTop: 12,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: "#fecdd3",
+    backgroundColor: "#fff1f2",
+    padding: 14,
+    gap: 6,
+  },
   scroll: { padding: theme.spacing.md, paddingBottom: 32 },
   locatorCard: {
     backgroundColor: "#fff",

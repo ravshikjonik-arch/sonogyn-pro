@@ -68,6 +68,8 @@ const nextConfig: NextConfig = {
     "@repo/adnex-education",
     "@repo/types",
     "@repo/orads-us",
+    "@repo/birads-us",
+    "@repo/birads-mmg",
   ],
   env: {
     NEXT_PUBLIC_AUTH_EMAIL_ONLY: process.env.AUTH_EMAIL_ONLY ?? "false",
@@ -101,6 +103,8 @@ const nextConfig: NextConfig = {
       "@repo/report-engine": path.join(packagesRoot, "report-engine/src/index.ts"),
       "@repo/evidence-retrieval": path.join(packagesRoot, "evidence-retrieval/src/index.ts"),
       "@repo/types": path.join(packagesRoot, "types/src/index.ts"),
+      "@repo/birads-us": path.join(packagesRoot, "birads-us/src/index.ts"),
+      "@repo/birads-mmg": path.join(packagesRoot, "birads-mmg/src/index.ts"),
       // Явные subpath для Vercel/webpack (wildcard exports из package.json не всегда резолвятся)
       "@repo/clinical-3d/organs/ovary": path.join(clinical3dSrc, "organs/ovary/index.ts"),
       "@repo/clinical-3d/shared/locale": path.join(clinical3dSrc, "shared/locale.ts"),

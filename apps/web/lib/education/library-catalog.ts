@@ -237,7 +237,7 @@ export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
     title: "BI-RADS · лимфатические узлы",
     description:
       "Интрамаммарные и аксиллярные ЛУ: 9 параметров v2025, кора, ворота, L/S ratio, уровни I–III, красные флаги метастаза.",
-    href: "/tools/calc/rads/bi-rads?tab=lymph",
+    href: "/tools/calc/rads/bi-rads?modality=us&tab=lymph",
     tags: ["BI-RADS", "лимфоузлы", "аксилла", "молочная железа", "v2025"],
     primary: true,
     badge: "v2025",

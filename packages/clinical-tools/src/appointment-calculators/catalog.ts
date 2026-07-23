@@ -278,13 +278,13 @@ export const EXTRA_PROJECT_CALCULATORS: AppointmentCalculator[] = [
   },
   {
     id: "bi-rads",
-    title: "BI-RADS US",
-    description: "Алгоритм v2025 · молочная железа",
+    title: "МЖ · BI-RADS",
+    description: "УЗИ и ММГ молочных желёз · для врачей",
     category: "gynecologic",
     status: "implemented",
-    webHref: "/calculators/bi-rads",
+    webHref: "/tools/calc/rads/bi-rads",
     icon: "breast",
-    searchTerms: ["bi-rads", "мж"],
+    searchTerms: ["bi-rads", "мж", "маммография", "ммг"],
   },
   {
     id: "colposcopy",

@@ -45,7 +45,12 @@ package-lock.json
 
 # --- дубликаты Finder / копии ---
 * 2.*
+* 3.*
+* 4.*
+* 5.*
 pnpm-lock 2.yaml
+# apps/web/packages нужен для pnpm workspace (clinical-uterus); дубли « 3/4» режет * 3.* выше
+apps/web/lt*
 
 # --- не нужно для EAS mobile (монорепо) ---
 # apps/web: НЕ исключать целиком — pnpm-lock.yaml ссылается на apps/web/packages/clinical-uterus

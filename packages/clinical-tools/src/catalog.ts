@@ -177,13 +177,13 @@ export const CLINICAL_TOOLS: ClinicalTool[] = [
   },
   {
     id: "birads",
-    title: "BI-RADS US",
-    subtitle: "Алгоритм v2025 · молочная железа",
+    title: "МЖ · BI-RADS",
+    subtitle: "УЗИ и ММГ молочных желёз · для врачей",
     category: "breast",
     roles: ["ultrasound", "allied", "gynecologist"],
-    synonyms: ["мж", "молочная", "бирэдс", "bi-rads", "узел мж"],
-    keywords: ["breast", "birads"],
-    webHref: "/calculators/bi-rads",
+    synonyms: ["мж", "молочная", "бирэдс", "bi-rads", "узел мж", "маммография", "ммг"],
+    keywords: ["breast", "birads", "mammography"],
+    webHref: "/tools/calc/rads/bi-rads",
     mobileAction: "birads",
   },
   {
