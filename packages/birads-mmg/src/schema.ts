@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import type { BiradsCategoryCode, BiradsMmgFindingType } from "./types.js";
+import type { BiradsCategoryCode, BiradsMmgFindingType } from "./types";
 
 const findingTypeSchema = z.enum([
   "negative",

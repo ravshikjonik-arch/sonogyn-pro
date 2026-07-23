@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
-import { combineBiradsCategories } from "./combine.js";
-import { evaluateBiradsMmg } from "./evaluate.js";
-import { defaultBiradsMmgInput } from "./options.js";
+import { combineBiradsCategories } from "./combine";
+import { evaluateBiradsMmg } from "./evaluate";
+import { defaultBiradsMmgInput } from "./options";
 
 describe("evaluateBiradsMmg", () => {
   it("maps spiculated mass to BI-RADS 5", () => {

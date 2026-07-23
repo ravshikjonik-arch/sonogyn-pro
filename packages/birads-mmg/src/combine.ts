@@ -1,4 +1,4 @@
-import type { BiradsCategoryCode } from "./types.js";
+import type { BiradsCategoryCode } from "./types";
 
 const RANK: Record<BiradsCategoryCode, number> = {
   "1": 1,

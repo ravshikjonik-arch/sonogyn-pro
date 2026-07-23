@@ -16,8 +16,8 @@ import {
   type BiradsMmgInput,
 } from "@repo/birads-mmg";
 
-import { branding } from "../config/branding";
-import { theme } from "../theme";
+import { branding } from "../../config/branding";
+import { theme } from "../../theme";
 
 function Chips({
   options,

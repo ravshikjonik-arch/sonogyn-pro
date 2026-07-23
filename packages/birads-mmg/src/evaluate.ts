@@ -1,5 +1,5 @@
-import { BIRADS_MMG_CATEGORY_RECOMMENDATIONS } from "./options.js";
-import type { BiradsCategoryCode, BiradsMmgInput, BiradsMmgResult } from "./types.js";
+import { BIRADS_MMG_CATEGORY_RECOMMENDATIONS } from "./options";
+import type { BiradsCategoryCode, BiradsMmgInput, BiradsMmgResult } from "./types";
 
 function riskFor(code: BiradsCategoryCode): string {
   switch (code) {

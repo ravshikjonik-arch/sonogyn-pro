@@ -1,4 +1,4 @@
-import type { BiradsMmgInput } from "./types.js";
+import type { BiradsMmgInput } from "./types";
 
 type Opt = { value: string; label: string };
 

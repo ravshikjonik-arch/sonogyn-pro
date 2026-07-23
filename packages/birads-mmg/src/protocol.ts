@@ -1,6 +1,6 @@
-import { evaluateBiradsMmg } from "./evaluate.js";
-import { BIRADS_MMG_DISCLAIMER, BIRADS_MMG_SOURCE, mmgOptions } from "./options.js";
-import type { BiradsMmgInput } from "./types.js";
+import { evaluateBiradsMmg } from "./evaluate";
+import { BIRADS_MMG_DISCLAIMER, BIRADS_MMG_SOURCE, mmgOptions } from "./options";
+import type { BiradsMmgInput } from "./types";
 
 function labelFor(options: { value: string; label: string }[], value?: string): string {
   if (!value) return "—";

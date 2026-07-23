@@ -3,7 +3,7 @@ export type {
   BiradsMmgFindingType,
   BiradsMmgInput,
   BiradsMmgResult,
-} from "./types.js";
+} from "./types";
 
 export {
   BIRADS_MMG_CATEGORY_RECOMMENDATIONS,
@@ -12,9 +12,9 @@ export {
   BIRADS_MMG_STEPS,
   defaultBiradsMmgInput,
   mmgOptions,
-} from "./options.js";
+} from "./options";
 
-export { evaluateBiradsMmg } from "./evaluate.js";
-export { buildBiradsMmgProtocol } from "./protocol.js";
-export { BiradsMmgInputSchema, type BiradsMmgInputParsed } from "./schema.js";
-export { combineBiradsCategories, type CombinedBiradsSuggestion } from "./combine.js";
+export { evaluateBiradsMmg } from "./evaluate";
+export { buildBiradsMmgProtocol } from "./protocol";
+export { BiradsMmgInputSchema, type BiradsMmgInputParsed } from "./schema";
+export { combineBiradsCategories, type CombinedBiradsSuggestion } from "./combine";
