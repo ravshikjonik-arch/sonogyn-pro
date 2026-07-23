@@ -10,15 +10,6 @@ import { writeSecurityAuditLog } from "@/lib/security/security-audit-log";
 
 type Params = { userId: string };
 
-const MEDICAL_ACCESS_STATUSES = new Set([
-  "pending",
-  "student",
-  "resident",
-  "doctor",
-  "verified_doctor",
-  "suspended",
-]);
-
 const AdminMedicalAccessBodySchema = z.object({
   status: z.enum([
     "pending",
@@ -66,7 +57,7 @@ export async function POST(request: Request, context: { params: Promise<Params> 
   const parsed = AdminMedicalAccessBodySchema.safeParse(
     await request.json().catch(() => null),
   );
-  if (!parsed.ok) {
+  if (!parsed.success) {
     await writeSecurityAuditLog({
       category: "admin",
       action: "medical-access.bad_payload",
@@ -74,12 +65,12 @@ export async function POST(request: Request, context: { params: Promise<Params> 
       success: false,
     });
     return NextResponse.json(
-      { error: parsed.error!.flatten() },
+      { error: parsed.error.flatten() },
       { status: 400 },
     );
   }
 
-  const { status } = parsed.data!;
+  const { status } = parsed.data;
 
   const { error } = await supabase.rpc("set_medical_access_status", {
     p_user_id: targetUserId,
