@@ -17,8 +17,9 @@ function baseDomain(): string {
 
 const EXPLICIT_ORIGINS = (): string[] => {
   const additional =
-    (process.env.CORS_ALLOWED_ORIGINS?.split(",").map((s) => s.trim()).filter(Boolean) ?? []);
-  const base = [process.env.NEXT_PUBLIC_APP_URL?.trim()].filter(Boolean);
+    process.env.CORS_ALLOWED_ORIGINS?.split(",").map((s) => s.trim()).filter(Boolean) ?? [];
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL?.trim();
+  const base = appUrl ? [appUrl] : [];
   return [...base, ...additional].map((v) => v.replace(/\/$/, "").toLowerCase());
 };
 
