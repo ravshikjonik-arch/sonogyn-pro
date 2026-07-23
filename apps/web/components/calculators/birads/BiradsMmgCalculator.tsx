@@ -265,7 +265,7 @@ export function BiradsMmgCalculator({ onCategoryChange }: Props) {
               {protocol}
             </pre>
             <DocumentExportToolbar
-              document={plainTextToDocumentSpec({
+              spec={plainTextToDocumentSpec({
                 filenameBase: `bi-rads-mmg-${result.categoryCode}`,
                 title: `Протокол ММГ · ${result.category}`,
                 text: protocol,
