@@ -10,6 +10,7 @@ import {
   createSupabaseRouteHandlerClient,
   nextJsonWithAuthCookies,
 } from "@/lib/route-handler-supabase";
+import { writeSecurityAuditLog } from "@/lib/security/security-audit-log";
 
 function recoveryRedirectTo(request: Request): string {
   const configured = process.env.NEXT_PUBLIC_APP_URL?.trim();
@@ -26,6 +27,12 @@ export async function POST(request: Request) {
     RL.authSignUp.windowMs,
   );
   if (!rl.ok) {
+    await writeSecurityAuditLog({
+      category: "auth",
+      action: "forgot-password.rate_limited",
+      success: false,
+      metadata: { retryAfterSec: rl.retryAfterSec },
+    });
     return NextResponse.json(
       { ok: true, message: PASSWORD_RESET_GENERIC_MSG },
       { status: 200, headers: { "Retry-After": String(rl.retryAfterSec) } },
@@ -36,9 +43,7 @@ export async function POST(request: Request) {
   if (!raw.ok) return raw.response;
 
   const parsed = ForgotPasswordBodySchema.safeParse(raw.data);
-  if (!parsed.success) {
-    return zodErrorResponse(parsed.error);
-  }
+  if (!parsed.success) return zodErrorResponse(parsed.error);
 
   const email = parsed.data.email;
 
@@ -50,6 +55,13 @@ export async function POST(request: Request) {
   const { supabase, cookiesToSet } = client;
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
     redirectTo: recoveryRedirectTo(request),
+  });
+
+  await writeSecurityAuditLog({
+    category: "auth",
+    action: "forgot-password.requested",
+    success: !error,
+    metadata: { hasError: Boolean(error) },
   });
 
   if (error) {

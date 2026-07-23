@@ -221,7 +221,7 @@ export function MedvedevNormsLookup() {
             ) : null}
             {highlightThird ? (
               <span className="rounded-full bg-violet-100 px-2 py-1 font-semibold text-violet-900 dark:bg-violet-950/50 dark:text-violet-100">
-                III скрининг 30–34
+                III скрининг 34–36
               </span>
             ) : null}
           </div>

@@ -1,6 +1,7 @@
 export * from "./types";
 export * from "./topics";
 export * from "./fieldMap";
+export * from "./endometrium-atlas";
 
 import { PROTOCOL_FIELD_TO_TOPIC } from "./fieldMap";
 import { CLINICAL_REFERENCE } from "./topics";

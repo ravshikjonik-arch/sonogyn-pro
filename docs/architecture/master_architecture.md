@@ -20,7 +20,7 @@
 
 ### Architecture
 
-**Product name:** O-RADS Navigator  
+**Product name:** O-RADS Navigator
 **Package:** extend `@repo/orads-us` → export `OradsNavigator` API
 
 ```
@@ -75,7 +75,7 @@ Optional v1: **localStorage only**; Supabase sync in v1.1.
 
 ### UI flow
 
-**Web:** `/calculators/o-rads` → wizard mode toggle (exists partially) → stepper + help panel + atlas link  
+**Web:** `/tools/calc/rads/o-rads` → wizard mode toggle (exists partially) → stepper + help panel + atlas link
 **Mobile:** `OradsWizardScreen` — unify with `@repo/orads-us` tree (replace legacy calculator path)
 
 ### Shared package design
@@ -121,7 +121,7 @@ Reuse `oradsManagementForCategory` + handoff to SRE (`structured_reporting.md`).
 ### State machine (simplified)
 
 ```
-LesionPresent → UnilocularCyst? → SolidComponent? → Papillary? 
+LesionPresent → UnilocularCyst? → SolidComponent? → Papillary?
   → ColorScore → SimpleRulesTally → Verdict(benign|malignant|inconclusive)
   → TriangulateWithOrads → Pitfalls[]
 ```
@@ -132,7 +132,7 @@ Reuse `calculator_entries` with `calculator_id = 'iota-navigator'` OR joint sess
 
 ### UI flow
 
-- Web: tab inside `/calculators/o-rads` — «IOTA» | «O-RADS» | «Согласование»
+- Web: tab inside `/tools/calc/rads/o-rads` — «IOTA» | «O-RADS» | «Согласование»
 - Mobile: stack screen after O-RADS wizard
 
 ---
@@ -267,7 +267,7 @@ UI: `/library/map` interactive (phase 2)
 
 ### Web experience
 
-`/library` hub → track cards → module path → lesson → quiz CTA  
+`/library` hub → track cards → module path → lesson → quiz CTA
 Persona `learner`: hide patient EMR nav, emphasize courses + atlas.
 
 ### Mobile experience
@@ -450,7 +450,7 @@ Output: ClinicalDecisionPackage {
 
 ### Placement
 
-**Package:** `@repo/clinical-decision-engine`  
+**Package:** `@repo/clinical-decision-engine`
 **Phase 3** — after SRE + navigators stabilize inputs.
 
 ### Integration

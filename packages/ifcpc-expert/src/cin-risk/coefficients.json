@@ -5,12 +5,17 @@
     "title": "SonoGyn CIN Risk Model v1",
     "version": "1.0.0",
     "method": "multinomial-logit",
-    "disclaimer": "Клиническая DSS-модель для стратификации риска на кольпоскопии. Калибровка по публикациям ASCCP 2019, Swede Score, IFCPC 2011. Не заменяет гистологию.",
+    "disclaimer": "Клиническая DSS-модель для стратификации риска на кольпоскопии. Калибровка по публикациям ASCCP 2019, Enduring Guidelines 2024–2025, Swede Score, IFCPC 2011, NCCN 2026, ESGO 2023. Не заменяет гистологию.",
     "references": [
-      "ASCCP 2019 Risk-Based Management Consensus",
-      "Bornstein J et al. 2011 IFCPC Colposcopy Nomenclature",
+      "ASCCP 2019 Risk-Based Management Consensus (Perkins et al.)",
+      "ASCCP Enduring Guidelines 2024 (Dual Stain, Clarke et al.)",
+      "ASCCP Enduring Guidelines 2025 (Self-Collection, Wentzensen et al.; Extended Genotyping, Massad et al.)",
+      "Bornstein J et al. 2011 IFCPC Colposcopic Nomenclature",
       "Strander B et al. Swede Score validation",
-      "Katki HA et al. CIN3+ risk estimates (NCI)"
+      "Katki HA et al. CIN3+ risk estimates (NCI)",
+      "Cibula D et al. ESGO/ESTRO/ESP 2023 Update",
+      "Abu-Rustum NR et al. NCCN v2.2026 Cervical Cancer",
+      "WHO 2025 HPV DNA Genotyping Guideline"
     ],
     "formula": {
       "description": "Мультиномиальная логистическая модель по 6 исходам гистологии",

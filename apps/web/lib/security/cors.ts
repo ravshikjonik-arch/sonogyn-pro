@@ -15,12 +15,15 @@ function baseDomain(): string {
   return (process.env.CORS_BASE_DOMAIN?.trim() || DEFAULT_BASE_DOMAIN).toLowerCase();
 }
 
+const EXPLICIT_ORIGINS = (): string[] => {
+  const additional =
+    (process.env.CORS_ALLOWED_ORIGINS?.split(",").map((s) => s.trim()).filter(Boolean) ?? []);
+  const base = [process.env.NEXT_PUBLIC_APP_URL?.trim()].filter(Boolean);
+  return [...base, ...additional].map((v) => v.replace(/\/$/, "").toLowerCase());
+};
+
 function explicitOrigins(): string[] {
-  const list = [
-    process.env.NEXT_PUBLIC_APP_URL?.trim(),
-    ...(process.env.CORS_ALLOWED_ORIGINS?.split(",").map((s) => s.trim()) ?? []),
-  ].filter((v): v is string => Boolean(v));
-  return list.map((v) => v.replace(/\/$/, "").toLowerCase());
+  return EXPLICIT_ORIGINS();
 }
 
 function isAllowedOrigin(origin: string): boolean {
@@ -40,7 +43,7 @@ function isAllowedOrigin(origin: string): boolean {
 
   if (protocol !== "https:" && process.env.NODE_ENV === "production") return false;
 
-  if (explicitOrigins().includes(origin.replace(/\/$/, "").toLowerCase())) return true;
+  if (EXPLICIT_ORIGINS().includes(origin.replace(/\/$/, "").toLowerCase())) return true;
 
   const domain = baseDomain();
   const hostname = host.split(":")[0];

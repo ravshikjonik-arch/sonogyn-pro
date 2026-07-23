@@ -61,7 +61,7 @@ export const ISUOG_COURSE_MODULES: BasicCourseModule[] = [
   {
     id: "third-trimester",
     title: "III триместр · рост",
-    description: "30–34 нед: рост плода, AFI, допплер.",
+    description: "34–36 нед: рост плода, AFI, допплер.",
     lectureIds: [],
     comingSoon: true,
   },

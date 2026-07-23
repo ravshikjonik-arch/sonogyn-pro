@@ -47,10 +47,13 @@ export type CpiPatientInput = {
   hpv18Positive: boolean;
   hpv3133455258Positive: boolean;
   otherHrHpvPositive: boolean;
+  hpv565966Positive?: boolean;
+  collectionMethod?: "clinician" | "self";
   viralLoad: CpiHpvViralLoad;
 
   /** Block 3 — Bethesda cytology */
   cytology: "nilm" | "ascus" | "lsil" | "asc_h" | "hsil" | "agc" | "ais" | "unsatisfactory";
+  dualStainResult?: "not_done" | "positive" | "negative";
 
   /** Block 4 — glandular / AIS pathway */
   glandularSuspicion: CpiGlandularSuspicion;
@@ -74,7 +77,7 @@ export type CpiPatientInput = {
 
 export type CpiGuidelineSource = {
   id: string;
-  organization: "IFCPC" | "ASCCP" | "WHO" | "ESGO" | "MZ_RF" | "NCCN";
+  organization: "IFCPC" | "ASCCP" | "WHO" | "ESGO" | "MZ_RF" | "NCCN" | "ACS" | "ACOG" | "USPSTF" | "FIGO";
   title: string;
   year: number;
   url?: string;

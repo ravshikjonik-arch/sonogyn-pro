@@ -33,6 +33,7 @@ import {
   zodErrorResponse,
 } from "@/lib/security/api-body-schemas";
 import { logError } from "@/services/logger";
+import { writeSecurityAuditLog } from "@/lib/security/security-audit-log";
 
 export async function POST(req: Request) {
   const failKey = rateLimitKeyFromRequest(req, "auth-phone-verify-fail");
@@ -41,7 +42,14 @@ export async function POST(req: Request) {
   if (!raw.ok) return raw.response;
 
   const parsed = PhoneVerifyOtpBodySchema.safeParse(raw.data);
-  if (!parsed.success) return zodErrorResponse(parsed.error);
+  if (!parsed.success) {
+    await writeSecurityAuditLog({
+      category: "auth",
+      action: "phone.verify_otp.bad_payload",
+      success: false,
+    });
+    return zodErrorResponse(parsed.error);
+  }
 
   const body = parsed.data;
 
@@ -63,6 +71,12 @@ export async function POST(req: Request) {
     RL.authPhoneVerify.windowMs,
   );
   if (!rl.ok) {
+    await writeSecurityAuditLog({
+      category: "auth",
+      action: "phone.verify_otp.rate_limited",
+      success: false,
+      metadata: { retryAfterSec: rl.retryAfterSec },
+    });
     return NextResponse.json(
       { error: "Слишком много попыток. Подождите и попробуйте снова." },
       { status: 429, headers: { "Retry-After": String(rl.retryAfterSec) } },
@@ -84,7 +98,7 @@ export async function POST(req: Request) {
   }
   if (!isValidPhoneE164(phone)) {
     return NextResponse.json(
-      { error: "Неверный формат номера. Используйте +79001234567." },
+      { error: "Неверный формат номера. Используйте +790****4567." },
       { status: 400 },
     );
   }
@@ -99,6 +113,12 @@ export async function POST(req: Request) {
         code: token,
       });
       if (!linked.ok) {
+        await writeSecurityAuditLog({
+          category: "auth",
+          action: "phone.verify_otp.link_failed",
+          success: false,
+          metadata: { status: linked.status ?? null },
+        });
         await recordAuthFailure(failKey);
         return NextResponse.json({ error: linked.error }, { status: linked.status ?? 401 });
       }
@@ -128,6 +148,11 @@ export async function POST(req: Request) {
   if (isCustomSmsAuthEnabled()) {
     const codeOk = await verifyStoredCode({ purpose, contact: phone, code: token });
     if (!codeOk) {
+      await writeSecurityAuditLog({
+        category: "auth",
+        action: "phone.verify_otp.invalid_code",
+        success: false,
+      });
       await recordAuthFailure(failKey);
       return NextResponse.json({ error: "Неверный или просроченный код." }, { status: 401 });
     }
@@ -135,10 +160,15 @@ export async function POST(req: Request) {
     const ensured = await ensurePhoneAuthUser({
       phoneE164: phone,
       registration: registrationMeta,
-      // OTP verified — phone ownership proven; provision account if deleted / first SMS login.
       createUser: true,
     });
     if ("error" in ensured) {
+      await writeSecurityAuditLog({
+        category: "auth",
+        action: "phone.verify_otp.provision_failed",
+        success: false,
+        metadata: { needsRegistration: ensured.needsRegistration },
+      });
       return NextResponse.json(
         { error: ensured.error, needsRegistration: ensured.needsRegistration },
         { status: ensured.needsRegistration ? 400 : 500 },
@@ -157,6 +187,11 @@ export async function POST(req: Request) {
     });
 
     if (error) {
+      await writeSecurityAuditLog({
+        category: "auth",
+        action: "phone.verify_otp.invalid",
+        success: false,
+      });
       await recordAuthFailure(failKey);
       const net = isLikelySupabaseNetworkError(error.message);
       const mapped = translatePhoneAuthError(
@@ -179,6 +214,12 @@ export async function POST(req: Request) {
     }
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);
+    await writeSecurityAuditLog({
+      category: "auth",
+      action: "phone.verify_otp.exception",
+      success: false,
+      metadata: { message: msg },
+    });
     await recordAuthFailure(failKey);
     logError("phone/verify-otp: исключение при проверке OTP", e, {
       channel: "sms",

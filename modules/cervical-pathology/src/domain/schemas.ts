@@ -39,12 +39,16 @@ export const HpvGenotypeSchema = z.enum([
   "hpv45",
   "hpv52",
   "hpv58",
+  "hpv56",
+  "hpv59",
+  "hpv66",
   "other_hr",
 ]);
 
 export const HpvTestSchema = z.object({
   status: z.enum(["negative", "positive", "not_tested"]),
   genotypes: z.array(HpvGenotypeSchema).max(12),
+  collectionMethod: z.enum(["clinician", "self"]).default("clinician"),
   viralLoad: z.enum(["not_available", "low", "high"]).default("not_available"),
   persistent: z.boolean().default(false),
   previousPositiveAt: z.string().datetime({ offset: true }).optional(),
@@ -69,6 +73,7 @@ export const CytologySchema = z.object({
   result: BethesdaResultSchema,
   specimenAdequacy: z.enum(["satisfactory", "unsatisfactory"]).optional(),
   endocervicalComponent: z.boolean().nullable().optional(),
+  dualStainResult: z.enum(["not_done", "positive", "negative"]).default("not_done"),
 });
 
 export type Cytology = z.infer<typeof CytologySchema>;

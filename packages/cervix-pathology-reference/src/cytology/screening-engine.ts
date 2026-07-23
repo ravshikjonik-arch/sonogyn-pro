@@ -6,7 +6,7 @@ import type {
 } from "./types";
 
 const DISCLAIMER =
-  "Алгоритм является образовательной clinical decision support поддержкой врача и не заменяет клиническое решение. Учитывайте локальные клинические рекомендации и сверяйте тактику с действующими КР МЗ РФ и ASCCP 2019.";
+  "Алгоритм является образовательной clinical decision support поддержкой врача и не заменяет клиническое решение. Учитывайте локальные клинические рекомендации и сверяйте тактику с действующими КР МЗ РФ, ASCCP 2019 / Enduring Guidelines 2024–2025 (dual stain, extended genotyping, self-collection), WHO 2025, ESGO 2023, NCCN v2.2026.";
 
 function normalizeHpvStatus(input: CytologyScreeningInput): NonNullable<CytologyScreeningInput["hpvStatus"]> {
   if (input.hpv16Positive) return "16-positive";

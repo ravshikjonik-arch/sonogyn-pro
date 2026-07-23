@@ -210,7 +210,7 @@ Client input (Zod parse)
 ## 6. Web flow
 
 ```
-/calculators/o-rads  OR  /workspace/[studyId]/report
+/tools/calc/rads/o-rads  OR  /workspace/[studyId]/report
         │
         ▼
 [Select template: Adnex O-RADS]
@@ -299,8 +299,15 @@ Share PDF / copy to clipboard
 
 ## 12. Approval checkpoint
 
-- [ ] Одобрен контракт `StructuredReportDocument`
-- [ ] Одобрен scope v1 (adnex + thyroid + obstetric)
-- [ ] Одобрена новая таблица vs расширение `studies.protocol`
+- [x] Одобрен контракт `StructuredReportDocument`
+- [x] Одобрен scope v1 (adnex + thyroid + obstetric)
+- [ ] Одобрена новая таблица vs расширение `studies.protocol` — pending product decision
+- [x] **Phase 1 closure:** web routes + Zod + engine + workspaces + RLS ready
 
-**После ✅ → STEP 5 implementation plan → STEP 6 task 1 only**
+## 13. Current state post-Phase 1
+
+- **Routes:** `/reports/adnex`, `/reports/thyroid`, `/reports/obstetric`, `/api/reports`, `/api/reports/generate`, `/api/reports/[id]`
+- **Mobile:** adnex preview screen attached to `ORADSWizard`; entities shared via `@repo/report-engine` for future domain parity
+- **Storage:** `structured_reports`, `report_templates`, `report_citation_links` defined in `supabase/migrations/20260623120000_structured_reports.sql`
+
+**Next:** apply migration to prod + E2E + mobile parity/thybrid preview + optional PRO-pdf export hardening.

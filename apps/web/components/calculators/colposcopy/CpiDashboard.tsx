@@ -41,6 +41,9 @@ const HPV_GENOTYPES = [
   "hpv45",
   "hpv52",
   "hpv58",
+  "hpv56",
+  "hpv59",
+  "hpv66",
   "other_hr",
 ] as const;
 
@@ -56,8 +59,8 @@ function defaultInput(patientId?: string): CpiCaseInput {
       transformationZoneTypeId: "tz2",
       findingSignIds: [],
     },
-    hpv: { status: "positive", genotypes: ["other_hr"], viralLoad: "not_available", persistent: false },
-    cytology: { result: "lsil" },
+    hpv: { status: "positive", genotypes: ["other_hr"], collectionMethod: "clinician", viralLoad: "not_available", persistent: false },
+    cytology: { result: "lsil", dualStainResult: "not_done" },
     histology: { result: "none" },
     swede: { acetowhite: 0, margins: 0, vessels: 0, lesionSize: 0, iodine: 0 },
     clinical: {
@@ -408,6 +411,13 @@ export function CpiDashboard({ initialPatientId, initialStudyId }: CpiDashboardP
                   onClick={() => setInput((p) => ({ ...p, hpv: { ...p.hpv, status: s, genotypes: s === "negative" ? ["negative"] : p.hpv.genotypes.filter((g) => g !== "negative") } }))}
                 />
               ))}
+              <BoolChip
+                label="Self-collected (FDA 2024)"
+                value={input.hpv.collectionMethod === "self"}
+                onChange={(v) =>
+                  setInput((p) => ({ ...p, hpv: { ...p.hpv, collectionMethod: v ? "self" : "clinician" } }))
+                }
+              />
             </div>
             {input.hpv.status === "positive" && (
               <div className="mt-3 flex flex-wrap gap-2">
@@ -431,6 +441,11 @@ export function CpiDashboard({ initialPatientId, initialStudyId }: CpiDashboardP
                 />
               </div>
             )}
+            {input.hpv.collectionMethod === "self" && input.hpv.status === "positive" && (
+              <p className="mt-2 text-xs text-muted-foreground">
+                Self-collected HPV+ с 16/18 → немедленная кольпоскопия с биопсией без triage (ASCCP Enduring 2025).
+              </p>
+            )}
           </CalcStepCard>
 
           <CalcStepCard title="Bethesda (cytology)">
@@ -444,6 +459,24 @@ export function CpiDashboard({ initialPatientId, initialStudyId }: CpiDashboardP
                 />
               ))}
             </div>
+            {(input.cytology.result === "nilm" || input.cytology.result === "ascus") && input.hpv.status === "positive" && (
+              <div className="mt-3">
+                <CalcSubLabel>p16/Ki67 Dual Stain (ASCCP 2024)</CalcSubLabel>
+                <div className="mt-1 flex flex-wrap gap-2">
+                  {(["not_done", "positive", "negative"] as const).map((s) => (
+                    <CalcChip
+                      key={s}
+                      label={s === "not_done" ? "не делали" : s === "positive" ? "p16/Ki67+" : "p16/Ki67−"}
+                      selected={(input.cytology.dualStainResult ?? "not_done") === s}
+                      onClick={() => setInput((p) => ({ ...p, cytology: { ...p.cytology, dualStainResult: s } }))}
+                    />
+                  ))}
+                </div>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Dual stain+ при HPV+ NILM/ASC-US → кольпоскопия. Dual stain− → повтор HPV 12 мес (ASCCP Enduring 2024).
+                </p>
+              </div>
+            )}
           </CalcStepCard>
 
           <CalcStepCard title="Colposcopy / IFCPC">

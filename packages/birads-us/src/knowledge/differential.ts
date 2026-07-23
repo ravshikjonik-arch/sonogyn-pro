@@ -20,6 +20,10 @@ export type BiradsPathologyEntry = {
   id: BiradsPathologyId;
   nameRu: string;
   imageFile: string;
+  /** Реальная эхограмма (jpg/png). Если задано — показывается вместо SVG-заглушки. */
+  realExampleImage?: string;
+  /** Описание реального примера (подпись к эхограмме). */
+  realExampleCaption?: string;
   typicalBirads: string;
   ultrasoundAppearance: string[];
   keySigns: string[];
@@ -33,6 +37,8 @@ export const BIRADS_PATHOLOGY_LIBRARY: BiradsPathologyEntry[] = [
     id: "simple_cyst",
     nameRu: "Простая киста",
     imageFile: "simple_cyst.svg",
+    realExampleImage: "/images/breast/fibroadenoma_cyst_example.jpg",
+    realExampleCaption: "Реальная эхограмма: анэхогенное образование с гиперэхогенным ободком (справа) — простая киста. Слева — фиброаденома для сравнения.",
     typicalBirads: "BI-RADS 2",
     ultrasoundAppearance: [
       "Овальная/круглая, анэхогенная",
@@ -73,6 +79,8 @@ export const BIRADS_PATHOLOGY_LIBRARY: BiradsPathologyEntry[] = [
     id: "fibroadenoma",
     nameRu: "Фиброаденома",
     imageFile: "fibroadenoma.svg",
+    realExampleImage: "/images/breast/fibroadenoma_cyst_example.jpg",
+    realExampleCaption: "Реальная эхограмма: изоэхогенное солидное образование (слева) — фиброаденома. Справа — простая киста для сравнения.",
     typicalBirads: "BI-RADS 3",
     ultrasoundAppearance: [
       "Овальное гипоэхогенное образование",
@@ -175,6 +183,24 @@ export const BIRADS_PATHOLOGY_LIBRARY: BiradsPathologyEntry[] = [
     differential: ["Papilloma", "IDC", "Atypical ductal hyperplasia"],
     educationSummary: "DCIS часто проявляется как NML или протоковые изменения; верификация обязательна.",
     searchTags: ["dcis", "in situ", "протоковый"],
+  },
+  {
+    id: "birads5_cancer_example",
+    nameRu: "Архетип BI-RADS 5: высокий риск",
+    imageFile: "idc.svg",
+    realExampleImage: "/images/breast/birads5-ovarian-cancer-1.jpg",
+    realExampleCaption: "Реальная эхограмма: высокая вероятность ЗНО — BI-RADS 5.",
+    typicalBirads: "BI-RADS 5",
+    ultrasoundAppearance: [
+      "Сложное солидно-кистозное образование",
+      "Выпячивания стенки / папиллярные элементы",
+      "Усиленная васкуляризация",
+      "Возможен асцит / нодальная диссеминация",
+    ],
+    keySigns: ["High suspicion mass", "Spiculated or microlobulated", "Axillary node suspicious"],
+    differential: ["IDC", "ILC", "Metastatic node"],
+    educationSummary: "Пациентке показана морфологическая верификация и онкомаршрут. Интерпретация — специалистом; не диагноз.",
+    searchTags: ["бирадс 5", "рак молочной железы", "подозрение"],
   },
   {
     id: "idc",

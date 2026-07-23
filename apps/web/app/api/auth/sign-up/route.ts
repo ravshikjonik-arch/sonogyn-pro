@@ -31,6 +31,7 @@ import {
   createSupabaseRouteHandlerClient,
   nextJsonWithAuthCookies,
 } from "@/lib/route-handler-supabase";
+import { writeSecurityAuditLog } from "@/lib/security/security-audit-log";
 
 async function finishSignUpResponse(params: {
   wantsMobileSession: boolean;
@@ -59,7 +60,14 @@ export async function POST(req: Request) {
   if (!raw.ok) return raw.response;
 
   const parsed = SignUpBodySchema.safeParse(raw.data);
-  if (!parsed.success) return zodErrorResponse(parsed.error);
+  if (!parsed.success) {
+    await writeSecurityAuditLog({
+      category: "auth",
+      action: "sign-up.bad_payload",
+      success: false,
+    });
+    return zodErrorResponse(parsed.error);
+  }
 
   const body = parsed.data;
 
@@ -69,6 +77,12 @@ export async function POST(req: Request) {
     RL.authSignUp.windowMs,
   );
   if (!rl.ok) {
+    await writeSecurityAuditLog({
+      category: "auth",
+      action: "sign-up.rate_limited",
+      success: false,
+      metadata: { retryAfterSec: rl.retryAfterSec },
+    });
     return NextResponse.json(
       { error: "Слишком много попыток регистрации. Попробуйте позже.", requiresCaptcha: true },
       { status: 429, headers: { "Retry-After": String(rl.retryAfterSec) } },
@@ -78,6 +92,11 @@ export async function POST(req: Request) {
   if (await isCaptchaRequired(failKey)) {
     const ok = await verifyTurnstileIfConfigured(body.turnstileToken);
     if (!ok) {
+      await writeSecurityAuditLog({
+        category: "auth",
+        action: "sign-up.captcha_required",
+        success: false,
+      });
       return NextResponse.json(
         { error: CAPTCHA_REQUIRED_MSG, requiresCaptcha: true },
         { status: 403 },
@@ -140,6 +159,12 @@ export async function POST(req: Request) {
     if (error) {
       const failCount = await recordAuthFailure(failKey);
       const net = isLikelySupabaseNetworkError(error.message);
+      await writeSecurityAuditLog({
+        category: "auth",
+        action: "sign-up.supabase_error",
+        success: false,
+        metadata: { net },
+      });
       return NextResponse.json(
         {
           error: translateAuthError(error.message, "sign-up"),
@@ -245,6 +270,12 @@ export async function POST(req: Request) {
     const msg = e instanceof Error ? e.message : String(e);
     await recordAuthFailure(failKey);
     const net = isLikelySupabaseNetworkError(msg);
+    await writeSecurityAuditLog({
+      category: "auth",
+      action: "sign-up.exception",
+      success: false,
+      metadata: { net, message: msg },
+    });
     return NextResponse.json(
       {
         error: translateAuthError(msg, "sign-up"),

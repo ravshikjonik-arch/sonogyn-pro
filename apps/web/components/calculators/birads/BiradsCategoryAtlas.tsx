@@ -9,6 +9,18 @@ import { useBiradsFlow } from "@/components/calculators/birads/BiradsFlowContext
 import { BIRADS_ATLAS_INTRO, BIRADS_CATEGORIES, pathologyImageUrl, searchPathology, type BiradsCategoryCode, type BiradsPathologyEntry } from "@/lib/birads-us";
 import { cn } from "@/lib/utils/cn";
 
+const CATEGORY_COLORS: Record<BiradsCategoryCode, string> = {
+  "0": "bg-slate-100 text-slate-800 border-slate-300",
+  "1": "bg-emerald-100 text-emerald-900 border-emerald-300",
+  "2": "bg-emerald-100 text-emerald-900 border-emerald-300",
+  "3": "bg-amber-100 text-amber-900 border-amber-300",
+  "4A": "bg-orange-100 text-orange-900 border-orange-300",
+  "4B": "bg-orange-100 text-orange-900 border-orange-300",
+  "4C": "bg-rose-100 text-rose-900 border-rose-300",
+  "5": "bg-rose-200 text-rose-950 border-rose-400",
+  "6": "bg-violet-100 text-violet-900 border-violet-300",
+};
+
 function PathologyCard({
   entry,
   onApplyQuick,
@@ -28,6 +40,11 @@ function PathologyCard({
           className="object-contain p-2"
           sizes="(max-width:768px) 100vw, 400px"
         />
+        {entry.realExampleImage && (
+          <span className="absolute left-2 top-2 rounded-md bg-emerald-600 px-2 py-0.5 text-[10px] font-bold text-white">
+            Реальная эхограмма
+          </span>
+        )}
       </div>
       <div className="space-y-2 p-3">
         <div className="flex items-start justify-between gap-2">
@@ -36,6 +53,11 @@ function PathologyCard({
             {entry.typicalBirads}
           </span>
         </div>
+        {entry.realExampleCaption && (
+          <p className="rounded-md bg-emerald-50 px-2 py-1 text-xs italic leading-relaxed text-emerald-900">
+            {entry.realExampleCaption}
+          </p>
+        )}
         <ul className="list-inside list-disc text-xs leading-relaxed text-[var(--clinical-foreground-muted)]">
           {entry.ultrasoundAppearance.slice(0, 3).map((f) => (
             <li key={f}>{f}</li>
@@ -106,6 +128,19 @@ export function BiradsCategoryAtlas() {
           <p className="mt-1 text-xs">Риск: {category.malignancyRisk}</p>
           <p className="mt-1 text-xs">Тактика: {category.managementRu}</p>
         </div>
+        {catTab === "5" ? (
+          <div className="rounded-2xl border-2 border-rose-300 bg-gradient-to-br from-rose-50 to-white p-4 shadow-sm">
+            <p className="text-sm font-black text-rose-900">BI-RADS 5 · Высокий риск · премиум-пример</p>
+            <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
+              {["/images/breast/idc.svg", "/images/breast/ilc.svg", "/images/breast/fibroadenoma_cyst_example.jpg"].map((src, idx) => (
+                <div key={idx} className="relative aspect-[4/3] overflow-hidden rounded-xl border border-rose-200 bg-black/5">
+                  <Image src={src} alt={`BI-RADS 5 пример ${idx + 1}`} fill className="object-contain" sizes="(max-width:768px) 50vw, 200px" />
+                </div>
+              ))}
+            </div>
+            <p className="mt-2 text-xs italic text-rose-900">Обучающие иллюстрации BI-RADS 5. Не заменяют врачебное заключение.</p>
+          </div>
+        ) : null}
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">

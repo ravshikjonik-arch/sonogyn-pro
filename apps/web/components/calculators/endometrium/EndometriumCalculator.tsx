@@ -21,6 +21,10 @@ import {
   evaluateTamoxifenTactic,
   type EndometriumAssessmentInput,
 } from "@/lib/endometrium";
+import {
+  ENDOMETRIUM_ATLAS,
+} from "@repo/clinical-reference";
+import { EndometriumAtlasCard } from "@/components/calculators/endometrium/EndometriumAtlasCard";
 import { plainTextToDocumentSpec } from "@/lib/reporting/document-spec-builders";
 import { cn } from "@/lib/utils/cn";
 
@@ -112,6 +116,20 @@ export function EndometriumCalculator() {
         </p>
         <p className="text-xs text-[var(--clinical-foreground-muted)]">{ENDOMETRIUM_SOURCE}</p>
       </header>
+
+      {ENDOMETRIUM_ATLAS.length > 0 && (
+        <div className="mx-auto max-w-3xl space-y-3">
+          <div className="flex items-center gap-2">
+            <h2 className="text-lg font-bold">Примеры эхограмм</h2>
+            <Badge variant="outline">из практики</Badge>
+          </div>
+          <div className="grid gap-4">
+            {ENDOMETRIUM_ATLAS.map((entry) => (
+              <EndometriumAtlasCard key={entry.id} entry={entry} />
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="mx-auto flex max-w-3xl flex-wrap gap-2">
         {[1, 2, 3, 4].map((n) => (

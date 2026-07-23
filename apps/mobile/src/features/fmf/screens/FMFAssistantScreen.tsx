@@ -212,7 +212,7 @@ export default function FMFAssistantScreen({ navigation }: Props) {
       </View>
 
       <ScrollView contentContainerStyle={styles.content}>
-        <Card title={`Примеры: III скрининг 30–34 н. (Uzicenter)`}>
+        <Card title={`Примеры: III скрининг 34–36 н. (Uzicenter)`}>
           <Text style={styles.exampleNote}>{FMF_SCREENING_3034_SOURCE_NOTE}</Text>
           <View style={styles.rowWrap}>
             {fmfScreening3034Examples.map((ex) => (

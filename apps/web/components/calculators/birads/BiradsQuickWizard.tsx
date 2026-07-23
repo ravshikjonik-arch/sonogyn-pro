@@ -46,14 +46,24 @@ function ChipField({
   const selected = multi ? (Array.isArray(value) ? value : []) : [value].filter(Boolean);
   return (
     <div className="flex flex-wrap gap-2">
-      {options.map((opt) => (
-        <CalcChip
-          key={opt.value}
-          label={opt.label}
-          selected={selected.includes(opt.value)}
-          onClick={() => onChange(opt.value)}
-        />
-      ))}
+      {options.map((opt) => {
+        const isActive = selected.includes(opt.value);
+        return (
+          <button
+            key={opt.value}
+            type="button"
+            onClick={() => onChange(opt.value)}
+            className={cn(
+              "rounded-xl border px-3 py-2 text-xs font-semibold transition",
+              isActive
+                ? "border-rose-500 bg-rose-600 text-white shadow-sm"
+                : "border-[var(--clinical-border)] bg-white hover:border-rose-300 hover:bg-rose-50",
+            )}
+          >
+            {opt.label}
+          </button>
+        );
+      })}
     </div>
   );
 }
@@ -228,15 +238,22 @@ export function BiradsQuickWizard() {
 
       {step === 5 ? (
         <div className="space-y-4">
-          <div className="rounded-2xl border-2 border-rose-300 bg-gradient-to-br from-rose-50 to-white p-5 shadow-sm">
+          <div
+            className={cn(
+              "rounded-2xl border-2 p-5 shadow-sm",
+              engine.category.includes("5") || engine.category.includes("6")
+                ? "border-rose-400 bg-gradient-to-br from-rose-50 to-white"
+                : "border-rose-200 bg-gradient-to-br from-white to-rose-50",
+            )}
+          >
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-3xl font-black text-rose-800">{engine.category}</span>
+              <span className="text-3xl font-black text-rose-950">{engine.category}</span>
               <Badge variant="outline">риск {engine.malignancyRisk}</Badge>
               {engine.biopsyRecommended ? (
                 <Badge className="bg-amber-100 text-amber-900">Биопсия</Badge>
               ) : null}
             </div>
-            <p className="mt-2 text-sm font-semibold">{engine.management}</p>
+            <p className="mt-2 text-sm font-semibold text-rose-900">{engine.management}</p>
             <p className="mt-1 text-xs text-[var(--clinical-foreground-muted)]">{engine.followUp}</p>
           </div>
 

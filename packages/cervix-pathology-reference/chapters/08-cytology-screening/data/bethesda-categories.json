@@ -6,8 +6,8 @@
       "title": "Negative for intraepithelial lesion or malignancy",
       "plain": "В пределах нормы, без предрака",
       "histology": "Норма или реактивные изменения",
-      "hpvLink": "Может быть HPV+ при NILM — triage по протоколу",
-      "doctorAction": "Плановый скрининг по возрасту",
+      "hpvLink": "Может быть HPV+ при NILM — triage по протоколу: HPV 16/18 → кольпоскопия; HPV 56, 59, 66 → повтор через 12 мес (extended genotyping, ASCCP 2025)",
+      "doctorAction": "Плановый скрининг по возрасту: 21–29 — цитология 3 года; 30–65 — primary hrHPV 5 лет (ACOG 2026, ACS 2025)",
       "colposcopy": "Нет (если нет других показаний)",
       "biopsy": "Нет",
       "referral": "Нет"
@@ -18,8 +18,8 @@
       "title": "Atypical squamous cells — undetermined significance",
       "plain": "Лёгкие изменения, неясно — доброкачественное или нет",
       "histology": "CIN1 или реактивность",
-      "hpvLink": "HPV triage обязателен (≥25 лет)",
-      "doctorAction": "HPV-test; HPV+ → кольпоскопия",
+      "hpvLink": "HPV triage обязателен (≥25 лет); self-collection HPV-тест допустим (FDA 2024, ASCCP Enduring 2025)",
+      "doctorAction": "HPV-test; HPV+ → кольпоскопия или triage p16/Ki67 dual stain (ASCCP 2024). Self-collected HPV+ 16/18 → биопсия без triage",
       "colposcopy": "При HPV+",
       "biopsy": "По кольпоскопии",
       "referral": "При HSIL+ на биопсии"
@@ -55,10 +55,10 @@
       "plain": "Тяжёлая дисплазия (CIN2/3)",
       "histology": "CIN2, CIN3",
       "hpvLink": "HPV+",
-      "doctorAction": "Кольпоскопия + биопсия",
+      "doctorAction": "Кольпоскопия + биопсия; при CIN2+ → excision (LLETZ/conization) с negative margins. При планировании беременности — manage-or-observe (ASCCP 2019)",
       "colposcopy": "Да",
       "biopsy": "Да",
-      "referral": "Онкогинеколог при CIN2+"
+      "referral": "Онкогинеколог при CIN2+ или persistent CIN2 >24 мес"
     },
     {
       "id": "agc",
@@ -91,7 +91,7 @@
       "plain": "Цитологическое подозрение на инвазивную опухоль",
       "histology": "Invasive cancer",
       "hpvLink": "Часто HPV+",
-      "doctorAction": "Срочное направление к онкогинекологу для верификации и маршрутизации",
+      "doctorAction": "Срочное направление к онкогинекологу для верификации и маршрутизации. Стадирование по FIGO 2018 (IB1/IB2/IB3, IIIC1/IIIC2). При recurrent/metastatic — pembrolizumab ± bev, tisotumab vedotin (NCCN v2.2026)",
       "colposcopy": "Да",
       "biopsy": "Да",
       "referral": "Онкогинеколог срочно"

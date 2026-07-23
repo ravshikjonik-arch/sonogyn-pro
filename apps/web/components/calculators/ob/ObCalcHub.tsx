@@ -550,7 +550,7 @@ export function ObCalcHub({ initialTab = "lmp" }: { initialTab?: TabId }) {
             <Link href="/ai/consultants/fmf?section=second">II скрининг (18–22 нед.)</Link>
           </Button>
           <Button size="sm" variant="outline" asChild>
-            <Link href="/ai/consultants/fmf?section=third">III скрининг (30–34 нед.)</Link>
+            <Link href="/ai/consultants/fmf?section=third">III скрининг (34–36 нед.)</Link>
           </Button>
         </CardContent>
       </Card>

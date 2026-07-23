@@ -1,15 +1,18 @@
 {
-  "title": "Ко-тестирование: цитология × HPV",
+  "title": "Ко-тестирование и triage: цитология × HPV (актуализировано 2026)",
   "rows": [
-    { "cytology": "NILM", "hpv": "negative", "action": "Рутинный скрининг через 3–5 лет (по возрасту/протоколу)" },
-    { "cytology": "NILM", "hpv": "positive", "action": "Кольпоскопия или HPV16/18 genotyping + triage" },
-    { "cytology": "NILM", "hpv": "16/18+", "action": "Кольпоскопия" },
-    { "cytology": "ASC-US", "hpv": "negative", "action": "Повтор co-test через 3 года (≥30 лет) или 1 год" },
-    { "cytology": "ASC-US", "hpv": "positive", "action": "Кольпоскопия" },
-    { "cytology": "LSIL", "hpv": "negative", "action": "Кольпоскопия (молодые — наблюдение по ASCCP)" },
+    { "cytology": "NILM", "hpv": "negative", "action": "Рутинный скрининг: 21–29 цитология 3 года; 30–65 primary hrHPV 5 лет (ACOG 2026, ACS 2025)" },
+    { "cytology": "NILM", "hpv": "positive (other HR)", "action": "Triage: p16/Ki67 dual stain (ASCCP 2024) или genotyping. 56/59/66+ → повтор HPV 12 мес (ASCCP 2025)" },
+    { "cytology": "NILM", "hpv": "16/18+", "action": "Кольпоскопия с биопсией (ASCCP 2019, WHO 2025)" },
+    { "cytology": "NILM", "hpv": "self-collected positive", "action": "Cytology triage или dual stain; HPV 16/18+ → биопсия без triage (ASCCP Enduring 2025)" },
+    { "cytology": "ASC-US", "hpv": "negative", "action": "Повтор co-test через 3 года (≥30 лет) или 1 год (молодые)" },
+    { "cytology": "ASC-US", "hpv": "positive", "action": "Triage: p16/Ki67 dual stain+ → кольпоскопия; dual stain− → повтор 12 мес (ASCCP 2024)" },
+    { "cytology": "ASC-US", "hpv": "16/18+", "action": "Кольпоскопия с биопсией" },
+    { "cytology": "LSIL", "hpv": "negative", "action": "Кольпоскопия (≥25); молодые <25 — наблюдение по ASCCP" },
     { "cytology": "LSIL", "hpv": "positive", "action": "Кольпоскопия" },
-    { "cytology": "HSIL", "hpv": "any", "action": "Кольпоскопия + биопсия независимо от HPV" },
-    { "cytology": "AGC", "hpv": "any", "action": "Кольпоскопия + ECC ± endometrial sampling" },
-    { "cytology": "Unsatisfactory", "hpv": "any", "action": "Повторить забор" }
+    { "cytology": "HSIL", "hpv": "any", "action": "Кольпоскопия + биопсия независимо от HPV; при CIN2+ → excision (manage-or-observe для CIN2 у молодых)" },
+    { "cytology": "AGC", "hpv": "any", "action": "Кольпоскопия + ECC ± endometrial sampling; AIS → excision с negative margins" },
+    { "cytology": "AIS", "hpv": "any", "action": "Кольпоскопия + ECC + диагностическая excision (conization); онкогинеколог" },
+    { "cytology": "Unsatisfactory", "hpv": "any", "action": "Повторить забор через 2–4 мес; проверить технику" }
   ]
 }

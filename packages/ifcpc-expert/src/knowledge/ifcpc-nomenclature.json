@@ -2,14 +2,15 @@
   "$schema": "https://sonogyn.pro/schemas/ifcpc-nomenclature.v1.json",
   "meta": {
     "sourceId": "ifcpc-rio-2011",
-    "title": "IFCPC Colposcopy Nomenclature — Rio de Janeiro 2011",
+    "title": "IFCPC Colposcopy Nomenclature — Rio de Janeiro 2011 (действует; proposed TZ review 2023)",
     "version": "1.0.0",
     "publishedYear": 2011,
-    "disclaimer": "Справочник по номенклатуре IFCPC 2011 для структурирования кольпоскопического протокола. Не заменяет гистологическую верификацию и клиническое решение врача; интерпретация — специалист.",
+    "disclaimer": "Справочник по номенклатуре IFCPC 2011 для структурирования кольпоскопического протокола. Не заменяет гистологическую верификацию и клиническое решение врача; интерпретация — специалист. Актуальная номенклатура — Rio 2011; предложена ревизия TZ-классификации для low-resource settings (Effah et al. 2023).",
     "references": [
       "IFCPC Colposcopy Nomenclature, Rio de Janeiro, 2011",
-      "Bornstein J et al. 2011 Colposcopic Terminology of the IFCPC",
-      "Swede Score (Strander B et al.) — 5 признаков IFCPC для оценки риска CIN 2+"
+      "Bornstein J et al. 2011 Colposcopic Terminology of the IFCPC — J Low Genit Tract Dis 2012;16(3):290-295",
+      "Swede Score (Strander B et al.) — 5 признаков IFCPC для оценки риска CIN 2+",
+      "Effah K et al. 2023 — Transformation zone types: call for review of IFCPC terminology (ecancer 17:ed101)"
     ]
   },
   "sections": [

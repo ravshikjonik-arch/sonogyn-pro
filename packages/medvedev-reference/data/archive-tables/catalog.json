@@ -13,7 +13,8 @@
       "tableType": "percentile_by_ga",
       "extractionStatus": "extracted",
       "dataFile": "table-2-5.json",
-      "verified": false
+      "verified": true,
+      "verificationSource": "PDF: Ультразвуковая фетометрия, под ред. Алтынник, 2024"
     },
     {
       "cardIndex": 2,
@@ -25,7 +26,8 @@
       "tableType": "dating_inverse",
       "extractionStatus": "extracted",
       "dataFile": "table-1-1.json",
-      "verified": false
+      "verified": true,
+      "verificationSource": "PDF: Ультразвуковая фетометрия, под ред. Алтынник, 2024"
     },
     {
       "cardIndex": 3,
@@ -73,7 +75,8 @@
       "tableType": "percentile_by_ga",
       "extractionStatus": "extracted",
       "dataFile": "table-2-29.json",
-      "verified": false
+      "verified": true,
+      "verificationSource": "PDF: Ультразвуковая фетометрия, под ред. Алтынник, 2024"
     },
     {
       "cardIndex": 7,
@@ -85,7 +88,8 @@
       "tableType": "percentile_by_ga",
       "extractionStatus": "extracted",
       "dataFile": "table-2-11.json",
-      "verified": false
+      "verified": true,
+      "verificationSource": "PDF: Ультразвуковая фетометрия, под ред. Алтынник, 2024"
     },
     {
       "cardIndex": 8,
@@ -97,7 +101,8 @@
       "tableType": "percentile_by_ga",
       "extractionStatus": "extracted",
       "dataFile": "table-1-9.json",
-      "verified": false
+      "verified": true,
+      "verificationSource": "PDF: Ультразвуковая фетометрия, под ред. Алтынник, 2024"
     },
     {
       "cardIndex": 9,
@@ -133,7 +138,8 @@
       "tableType": "percentile_by_ga",
       "extractionStatus": "extracted",
       "dataFile": "table-2-35.json",
-      "verified": false
+      "verified": true,
+      "verificationSource": "PDF: Ультразвуковая фетометрия, под ред. Алтынник, 2024"
     },
     {
       "cardIndex": 12,
@@ -145,7 +151,8 @@
       "tableType": "percentile_by_ga",
       "extractionStatus": "extracted",
       "dataFile": "table-2-17.json",
-      "verified": false
+      "verified": true,
+      "verificationSource": "PDF: Ультразвуковая фетометрия, под ред. Алтынник, 2024"
     },
     {
       "cardIndex": 13,
@@ -193,7 +200,8 @@
       "tableType": "percentile_by_ga",
       "extractionStatus": "extracted",
       "dataFile": "table-2-41.json",
-      "verified": false
+      "verified": true,
+      "verificationSource": "PDF: Ультразвуковая фетометрия, под ред. Алтынник, 2024"
     },
     {
       "cardIndex": 17,
@@ -205,7 +213,8 @@
       "tableType": "percentile_partial",
       "extractionStatus": "extracted",
       "dataFile": "table-2-24.json",
-      "verified": false
+      "verified": true,
+      "verificationSource": "PDF: Ультразвуковая фетометрия, под ред. Алтынник, 2024"
     },
     {
       "cardIndex": 18,
@@ -217,7 +226,8 @@
       "tableType": "percentile_by_ga",
       "extractionStatus": "extracted",
       "dataFile": "table-2-6.json",
-      "verified": false
+      "verified": true,
+      "verificationSource": "PDF: Ультразвуковая фетометрия, под ред. Алтынник, 2024"
     },
     {
       "cardIndex": 19,
@@ -277,7 +287,8 @@
       "tableType": "percentile_by_ga",
       "extractionStatus": "extracted",
       "dataFile": "table-2-30.json",
-      "verified": false
+      "verified": true,
+      "verificationSource": "PDF: Ультразвуковая фетометрия, под ред. Алтынник, 2024"
     },
     {
       "cardIndex": 24,
@@ -305,7 +316,8 @@
       "tableType": "percentile_by_ga",
       "extractionStatus": "extracted",
       "dataFile": "table-1-10.json",
-      "verified": false
+      "verified": true,
+      "verificationSource": "PDF: Ультразвуковая фетометрия, под ред. Алтынник, 2024"
     },
     {
       "cardIndex": 26,
@@ -341,7 +353,8 @@
       "tableType": "percentile_by_ga",
       "extractionStatus": "extracted",
       "dataFile": "table-2-36.json",
-      "verified": false
+      "verified": true,
+      "verificationSource": "PDF: Ультразвуковая фетометрия, под ред. Алтынник, 2024"
     },
     {
       "cardIndex": 29,
@@ -353,7 +366,8 @@
       "tableType": "percentile_by_ga",
       "extractionStatus": "extracted",
       "dataFile": "table-2-18.json",
-      "verified": false
+      "verified": true,
+      "verificationSource": "PDF: Ультразвуковая фетометрия, под ред. Алтынник, 2024"
     },
     {
       "cardIndex": 30,
@@ -413,7 +427,8 @@
       "tableType": "percentile_partial",
       "extractionStatus": "extracted",
       "dataFile": "table-2-25.json",
-      "verified": false
+      "verified": true,
+      "verificationSource": "PDF: Ультразвуковая фетометрия, под ред. Алтынник, 2024"
     },
     {
       "cardIndex": 35,
@@ -489,7 +504,8 @@
       "tableType": "percentile_by_ga",
       "extractionStatus": "partial",
       "dataFile": "table-2-31.json",
-      "verified": false
+      "verified": true,
+      "verificationSource": "PDF: Ультразвуковая фетометрия, под ред. Алтынник, 2024"
     },
     {
       "cardIndex": 41,
@@ -501,7 +517,8 @@
       "tableType": "percentile_by_ga",
       "extractionStatus": "partial",
       "dataFile": "table-2-13.json",
-      "verified": false
+      "verified": true,
+      "verificationSource": "PDF: Ультразвуковая фетометрия, под ред. Алтынник, 2024"
     },
     {
       "cardIndex": 42,
@@ -513,7 +530,8 @@
       "tableType": "percentile_by_crl",
       "extractionStatus": "extracted",
       "dataFile": "table-1-11.json",
-      "verified": false
+      "verified": true,
+      "verificationSource": "PDF: Ультразвуковая фетометрия, под ред. Алтынник, 2024"
     },
     {
       "cardIndex": 43,
@@ -549,7 +567,8 @@
       "tableType": "percentile_by_ga",
       "extractionStatus": "extracted",
       "dataFile": "table-2-37.json",
-      "verified": false
+      "verified": true,
+      "verificationSource": "PDF: Ультразвуковая фетометрия, под ред. Алтынник, 2024"
     },
     {
       "cardIndex": 46,
@@ -561,7 +580,8 @@
       "tableType": "mean_sd_by_ga",
       "extractionStatus": "extracted",
       "dataFile": "table-2-19.json",
-      "verified": false
+      "verified": true,
+      "verificationSource": "PDF: Ультразвуковая фетометрия, под ред. Алтынник, 2024"
     },
     {
       "cardIndex": 47,
@@ -621,7 +641,8 @@
       "tableType": "percentile_partial",
       "extractionStatus": "extracted",
       "dataFile": "table-2-26.json",
-      "verified": false
+      "verified": true,
+      "verificationSource": "PDF: Ультразвуковая фетометрия, под ред. Алтынник, 2024"
     },
     {
       "cardIndex": 52,
@@ -633,7 +654,8 @@
       "tableType": "percentile_by_ga",
       "extractionStatus": "partial",
       "dataFile": "table-2-12.json",
-      "verified": false
+      "verified": true,
+      "verificationSource": "PDF: Ультразвуковая фетометрия, под ред. Алтынник, 2024"
     },
     {
       "cardIndex": 53,
@@ -717,7 +739,8 @@
       "tableType": "percentile_by_crl",
       "extractionStatus": "extracted",
       "dataFile": "table-1-11.json",
-      "verified": false
+      "verified": true,
+      "verificationSource": "PDF: Ультразвуковая фетометрия, под ред. Алтынник, 2024"
     },
     {
       "cardIndex": 60,
@@ -753,7 +776,8 @@
       "tableType": "percentile_by_ga",
       "extractionStatus": "extracted",
       "dataFile": "table-2-38.json",
-      "verified": false
+      "verified": true,
+      "verificationSource": "PDF: Ультразвуковая фетометрия, под ред. Алтынник, 2024"
     },
     {
       "cardIndex": 63,
@@ -765,7 +789,8 @@
       "tableType": "percentile_partial",
       "extractionStatus": "extracted",
       "dataFile": "table-2-20.json",
-      "verified": false
+      "verified": true,
+      "verificationSource": "PDF: Ультразвуковая фетометрия, под ред. Алтынник, 2024"
     },
     {
       "cardIndex": 64,
@@ -825,7 +850,8 @@
       "tableType": "percentile_by_ga",
       "extractionStatus": "partial",
       "dataFile": "table-2-27.json",
-      "verified": false
+      "verified": true,
+      "verificationSource": "PDF: Ультразвуковая фетометрия, под ред. Алтынник, 2024"
     },
     {
       "cardIndex": 69,
@@ -897,7 +923,8 @@
       "tableType": "percentile_by_ga",
       "extractionStatus": "partial",
       "dataFile": "table-2-33.json",
-      "verified": false
+      "verified": true,
+      "verificationSource": "PDF: Ультразвуковая фетометрия, под ред. Алтынник, 2024"
     },
     {
       "cardIndex": 75,
@@ -909,7 +936,8 @@
       "tableType": "percentile_by_ga",
       "extractionStatus": "extracted",
       "dataFile": "table-2-15.json",
-      "verified": false
+      "verified": true,
+      "verificationSource": "PDF: Ультразвуковая фетометрия, под ред. Алтынник, 2024"
     },
     {
       "cardIndex": 76,
@@ -957,7 +985,8 @@
       "tableType": "percentile_by_ga",
       "extractionStatus": "extracted",
       "dataFile": "table-2-39.json",
-      "verified": false
+      "verified": true,
+      "verificationSource": "PDF: Ультразвуковая фетометрия, под ред. Алтынник, 2024"
     },
     {
       "cardIndex": 80,
@@ -1089,7 +1118,8 @@
       "tableType": "percentile_by_ga",
       "extractionStatus": "partial",
       "dataFile": "table-2-34.json",
-      "verified": false
+      "verified": true,
+      "verificationSource": "PDF: Ультразвуковая фетометрия, под ред. Алтынник, 2024"
     },
     {
       "cardIndex": 91,
@@ -1149,7 +1179,8 @@
       "tableType": "percentile_by_ga",
       "extractionStatus": "extracted",
       "dataFile": "table-2-40.json",
-      "verified": false
+      "verified": true,
+      "verificationSource": "PDF: Ультразвуковая фетометрия, под ред. Алтынник, 2024"
     },
     {
       "cardIndex": 96,

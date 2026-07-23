@@ -3,9 +3,11 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
 import { CervixPathologyLibraryClient } from "@/components/education/CervixPathologyLibraryClient";
+import { CervixAtlasCard } from "@/components/education/CervixAtlasCard";
 import { CERVIX_PATHOLOGY_QUIZ_LINKS } from "@/lib/education/cervix-pathology-quiz";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { CERVIX_ATLAS } from "@repo/cervix-pathology-reference";
 
 export const metadata: Metadata = {
   title: "Патология шейки матки · справочник, цитология, самопроверка",
@@ -55,6 +57,20 @@ export default function CervixPathologyPage() {
             </div>
           </div>
         </header>
+
+        {CERVIX_ATLAS.length > 0 && (
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <h2 className="text-lg font-bold">Примеры эхограмм</h2>
+              <Badge variant="outline">из практики</Badge>
+            </div>
+            <div className="grid gap-4">
+              {CERVIX_ATLAS.map((entry) => (
+                <CervixAtlasCard key={entry.id} entry={entry} />
+              ))}
+            </div>
+          </div>
+        )}
 
         <CervixPathologyLibraryClient />
       </div>

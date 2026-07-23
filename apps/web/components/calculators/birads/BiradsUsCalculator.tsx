@@ -32,6 +32,18 @@ import {
 } from "@/lib/birads-us";
 import { cn } from "@/lib/utils/cn";
 
+const RESULT_BADGE: Record<string, string> = {
+  "BI-RADS 0": "bg-slate-100 text-slate-800 border-slate-300",
+  "BI-RADS 1": "bg-emerald-100 text-emerald-900 border-emerald-300",
+  "BI-RADS 2": "bg-emerald-100 text-emerald-900 border-emerald-300",
+  "BI-RADS 3": "bg-amber-100 text-amber-900 border-amber-300",
+  "BI-RADS 4A": "bg-orange-100 text-orange-900 border-orange-300",
+  "BI-RADS 4B": "bg-orange-100 text-orange-900 border-orange-300",
+  "BI-RADS 4C": "bg-rose-100 text-rose-900 border-rose-300",
+  "BI-RADS 5": "bg-rose-600 text-white border-rose-700",
+  "BI-RADS 6": "bg-violet-600 text-white border-violet-700",
+} as const;
+
 function toggleInList(list: string[], value: string) {
   return list.includes(value) ? list.filter((v) => v !== value) : [...list, value];
 }
@@ -444,10 +456,14 @@ export function BiradsUsCalculator({ embedded }: { embedded?: boolean } = {}) {
           </Button>
         </div>
 
-        <section className="rounded-2xl border border-rose-200 bg-rose-50/90 p-5">
-          <p className="text-2xl font-black text-rose-950">{result.category}</p>
-          <p className="font-bold text-rose-800">{result.riskRange}</p>
-          <p className="mt-2 text-sm">{result.impression}</p>
+        <section className="rounded-2xl border border-[var(--clinical-border)] bg-gradient-to-br from-white to-rose-50 p-5">
+          <div className="flex flex-wrap items-center gap-3">
+            <p className="text-2xl font-black text-rose-950">{result.category}</p>
+            <span className={cn("rounded-xl border px-3 py-1 text-xs font-bold", RESULT_BADGE[result.category] ?? "bg-slate-100")}>
+              риск {result.riskRange}
+            </span>
+          </div>
+          <p className="mt-2 text-sm font-semibold text-rose-900">{result.impression}</p>
         </section>
 
         <pre className="clinical-pre max-h-64 overflow-auto whitespace-pre-wrap rounded-xl p-4 text-xs leading-relaxed">

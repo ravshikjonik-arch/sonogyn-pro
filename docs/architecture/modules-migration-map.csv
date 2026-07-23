@@ -25,7 +25,7 @@ calculator.bishop,obstetrics,calculator,Шкала Бишопа,/calculators/bis
 calculator.vbac,obstetrics,calculator,VBAC / TOLAC,/calculators/vbac,/tools/calc/ob/vbac,P0.5,no,
 calculator.pregnancy-meds,obstetrics,calculator,Лекарства при беременности,/calculators/pregnancy-medications,/tools/calc/ob/pregnancy-medications,P0.5,no,
 calculator.cervical-length,obstetrics,calculator,Длина шейки (CL),/calculators/cervical-length,/tools/calc/ob/cervical-length,P0.5,yes,cervical-length
-calculator.o-rads,rads,calculator,O-RADS Pro,/calculators/o-rads,/tools/calc/rads/o-rads,P0.5,yes,orads-wizard|orads
+calculator.o-rads,rads,calculator,O-RADS US,/calculators/o-rads,/tools/calc/rads/o-rads,P0.5,yes,orads-wizard|orads
 calculator.bi-rads,rads,calculator,BI-RADS US Pro,/calculators/bi-rads,/tools/calc/rads/bi-rads,P0.5,yes,birads
 calculator.ti-rads,rads,calculator,TI-RADS ЩЖ,/calculators/ti-rads,/tools/adjunct/ti-rads,P0.5,yes,tirads
 calculator.ln-rads,rads,calculator,LN-RADS US Pro,/calculators/ln-rads,/tools/calc/rads/ln-rads,P0.5,yes,ln-rads

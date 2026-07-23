@@ -3,27 +3,42 @@
     {
       "id": "dna-test",
       "title": "HPV DNA test",
-      "body": "Выявляет высокоонкогенные типы ВПЧ в клеточном материале; screening/triage, не диагноз CIN."
+      "body": "Выявляет высокоонкогенные типы ВПЧ в клеточном материале; screening/triage, не диагноз CIN. FDA-approved platforms: Cobas, Onclarity, Aptima."
     },
     {
       "id": "genotyping",
-      "title": "Генотипирование 16/18",
-      "body": "Уточняет наиболее онкогенные типы; при NILM+16/18+ — кольпоскопия."
+      "title": "Генотипирование 16/18 (limited genotyping)",
+      "body": "Уточняет наиболее онкогенные типы; при NILM+16/18+ — кольпоскопия. На 16/18 приходится >70% случаев РШМ."
+    },
+    {
+      "id": "extended-genotyping",
+      "title": "Extended genotyping (ASCCP Enduring 2025, WHO 2025)",
+      "body": "Расширенное генотипирование: HPV 31/33/45/52/58 (HR-группа) и HPV 56/59/66 (intermediate-risk). При 56/59/66+ и NILM — повтор HPV через 12 мес (ASCCP Enduring 2025, Massad et al.). WHO 2025 рекомендует genotyping для risk stratification и molecular triage."
+    },
+    {
+      "id": "self-collection",
+      "title": "Self-collected HPV testing (FDA 2024, ASCCP 2025)",
+      "body": "FDA одобрило самостоятельный забор вагинального материала для HPV-скрининга (May 2024). ASCCP Enduring Guidelines (Wentzensen et al. 2025): self-collection в медицинском кабинете/лаборатории. При HPV+ → cytology triage или dual stain; при HPV 16/18+ → немедленная кольпоскопия с биопсией без промежуточного triage. Self-collection не показана при аномальных кровотечениях, иммунодефиците, недавнем аномальном скрининге."
+    },
+    {
+      "id": "dual-stain",
+      "title": "p16/Ki67 Dual Stain (ASCCP Enduring 2024)",
+      "body": "Иммунноцитохимический triage HPV+ пациенток: p16+/Ki67+ → высокий риск CIN2+, направление в кольпоскопию. Dual stain− при HPV+ NILM/ASC-US → повтор HPV через 12 мес вместо немедленной кольпоскопии (Clarke et al. 2024). Снижает количество избыточных кольпоскопий."
     },
     {
       "id": "digene",
-      "title": "Digene / Hybrid Capture",
-      "body": "Классическая платформа HPV DNA; клиническая корреляция обязательна."
+      "title": "Digene / Hybrid Capture (legacy)",
+      "body": "Классическая платформа HPV DNA; клиническая корреляция обязательна. Вытесняется PCR-based genotyping платформами."
     },
     {
       "id": "positive",
       "title": "Положительный HPV",
-      "body": "Не равен раку; нужен triage (кольпоскопия, повтор, genotyping)."
+      "body": "Не равен раку; нужен triage (кольпоскопия, genotyping, dual stain, повтор). Риск CIN3+ зависит от типа HPV и длительности персистенции."
     },
     {
       "id": "negative",
       "title": "Отрицательный HPV",
-      "body": "Низкий риск CIN3+ в ближайшие годы при адекватном скрининге."
+      "body": "Низкий риск CIN3+ в ближайшие годы при адекватном скрининге. Интервал — 3 года (self-collection, ACS 2025) или 5 лет (clinician-collected, ACOG 2026)."
     }
   ]
 }

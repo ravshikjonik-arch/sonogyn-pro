@@ -95,7 +95,7 @@ const SECTIONS: { id: FmfAssistantSection; label: string; hint: string }[] = [
   { id: "early", label: "Малый срок", hint: "до 11 нед." },
   { id: "first", label: "I скрининг", hint: "11+0 — 13+6" },
   { id: "second", label: "II скрининг", hint: "18–22 нед." },
-  { id: "third", label: "III скрининг", hint: "30–34 нед." },
+  { id: "third", label: "III скрининг", hint: "34–36 нед." },
   { id: "doppler", label: "Допплер", hint: "UtA · UA · MCA" },
   { id: "cervix", label: "Шейка", hint: "CL · funneling" },
   { id: "scar", label: "Рубец", hint: "КС · миометрий" },
@@ -119,7 +119,7 @@ const SECTION_META: Record<
   },
   third: {
     formTitle: "III скрининг — входные данные",
-    formDescription: "Рост, AFI, допплер — перцентили по Медведеву (Прил. 1). Окно 30–34 нед.",
+    formDescription: "Рост, AFI, допплер — перцентили по Медведеву (Прил. 1). Окно 34–36 нед.",
   },
   doppler: {
     formTitle: "Допплер — входные данные",

@@ -164,7 +164,7 @@ export function buildYakubovSecondThirdProtocol(
   const dopplerNotes = dopplerAssessments.map(formatMedvedevDopplerForProtocol);
 
   const trimesterNote =
-    trimester === "second" ? "II триместр (18–22 нед.)" : "III триместр (30–34 нед.)";
+    trimester === "second" ? "II триместр (18–22 нед.)" : "III триместр (34–36 нед.)";
 
   const utRight = input.uterinePiRight ?? input.uterinePiMean;
   const utLeft = input.uterinePiLeft ?? input.uterinePiMean;

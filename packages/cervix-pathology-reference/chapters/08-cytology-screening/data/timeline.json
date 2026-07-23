@@ -46,5 +46,21 @@
     "ВПЧ получает доступ к базальным клеткам именно в активной зоне трансформации.",
     "CIN развивается годами — окно для скрининга и лечения до инвазии.",
     "Скрининг + triage (HPV, кольпоскопия) снижает заболеваемость и смертность от РШМ."
+  ],
+  "guidelineMilestones": [
+    {"year": 2011, "event": "IFCPC Colposcopy Nomenclature, Rio de Janeiro — структурированная терминология (TZ1/2/3, Grade 1/2)"},
+    {"year": 2018, "event": "FIGO Revision — подкатегории IB1/IB2/IB3, новая категория IIIC1/IIIC2 (lymph nodes)"},
+    {"year": 2019, "event": "ASCCP Risk-Based Management Consensus Guidelines — «equal management for equal risk», CIN3+ пороги"},
+    {"year": 2021, "event": "WHO 2nd ed. guideline for screening and treatment of cervical pre-cancer lesions"},
+    {"year": 2023, "event": "ESGO/ESTRO/ESP Cervical Cancer Guidelines Update 2023 (Cibula et al.)"},
+    {"year": 2023, "event": "IFCPC TZ-классификация — предложена ревизия для low-resource settings (Effah et al.)"},
+    {"year": 2024, "event": "FDA approves self-collected HPV testing (May 2024) — новый вектор скрининга"},
+    {"year": 2024, "event": "ASCCP Enduring Guidelines — p16/Ki67 Dual Stain для триажа HPV+ (Clarke et al.)"},
+    {"year": 2025, "event": "ASCCP Enduring Guidelines — Self-Collection (Wentzensen et al.) и Extended Genotyping 56/59/66 (Massad et al.)"},
+    {"year": 2025, "event": "ACS Updated Screening Guideline — primary HPV с 25 лет, self-collection, exit screening"},
+    {"year": 2025, "event": "WHO Guideline — HPV DNA genotyping (limited/extended, molecular triage)"},
+    {"year": 2025, "event": "USPSTF Draft Recommendation — primary HPV 30–65 каждые 5 лет, self-collection acceptable"},
+    {"year": 2026, "event": "ACOG Committee Statement No. 28 — WPSI endorsement: 30–65 primary hrHPV 5 лет, self-collection 3 года"},
+    {"year": 2026, "event": "NCCN Cervical Cancer v2.2026 — pembrolizumab, tisotumab vedotin, trastuzumab deruxtecan (emerging)"}
   ]
 }

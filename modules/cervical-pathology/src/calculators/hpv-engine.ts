@@ -15,6 +15,9 @@ const GENOTYPE_LABELS: Record<string, string> = {
   hpv45: "HPV 45",
   hpv52: "HPV 52",
   hpv58: "HPV 58",
+  hpv56: "HPV 56",
+  hpv59: "HPV 59",
+  hpv66: "HPV 66",
   other_hr: "Other HR-HPV",
 };
 
@@ -54,7 +57,7 @@ export function evaluateHpvRisk(hpv: HpvTest): HpvRiskProfile {
   }
 
   const otherHr = genotypes.filter((g) =>
-    ["hpv31", "hpv33", "hpv45", "hpv52", "hpv58", "other_hr"].includes(g),
+    ["hpv31", "hpv33", "hpv45", "hpv52", "hpv58", "hpv56", "hpv59", "hpv66", "other_hr"].includes(g),
   );
   if (otherHr.length > 0) {
     evidence.push(`Other HR genotypes: ${otherHr.map((g) => GENOTYPE_LABELS[g]).join(", ")}`);
@@ -86,5 +89,7 @@ export function hpvToLegacyFlags(hpv: HpvTest) {
     hpv18Positive: g.has("hpv18"),
     hpv3133455258Positive: ["hpv31", "hpv33", "hpv45", "hpv52", "hpv58"].some((x) => g.has(x as never)),
     otherHrHpvPositive: g.has("other_hr"),
+    hpv565966Positive: ["hpv56", "hpv59", "hpv66"].some((x) => g.has(x as never)),
+    collectionMethod: hpv.collectionMethod ?? "clinician",
   };
 }

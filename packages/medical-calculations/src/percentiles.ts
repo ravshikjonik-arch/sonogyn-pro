@@ -126,7 +126,7 @@ export function screeningHintsRu(totalDays: number): string[] {
     lines.push("1-й скрининг: ~11–13+6 нед (77–97 дн.)");
   }
   if (w >= 18 && w <= 22) lines.push("2-й скрининг (аномалии): ~18–22 нед");
-  if (w >= 30 && w <= 34) lines.push("3-й скрининг: ~30–34 нед");
+  if (w >= 30 && w <= 34) lines.push("3-й скрининг: ~34–36 нед");
   if (lines.length === 0) {
     lines.push("Уточните срок по КТР/УЗИ для планирования скринингов");
   }

@@ -21,7 +21,7 @@
 
 ## Дублирующиеся реализации
 
-- **O-RADS Pro**: Три записи в CLINICAL_TOOLS с одним webHref /calculators/o-rads
+- **O-RADS US**: Три записи в CLINICAL_TOOLS с одним webHref /tools/calc/rads/o-rads
 - **Срок по фетометрии / УЗИ (mobile)**: ga-feto и ga-ivf в catalog.ts используют mobileAction ga_us
 - **Расчёт срока беременности**: Дублирование логики: mobile/gynecology/pregnancyCalc vs medical-calculations/pregnancyDating
 - **Кольпоскопия / CIN follow-up**: cin-follow-up частично перекрывается Swede Score colposcopy

@@ -45,6 +45,90 @@ export function OradsNosologyPreview({ entry, compact }: Props) {
             </Button>
           </div>
           <p className="text-xs leading-relaxed text-[var(--clinical-foreground-muted)]">{entry.protocolText}</p>
+          {entry.realExampleImage && (
+            <div className="rounded-xl border border-emerald-300 bg-emerald-50/60 p-3 dark:border-emerald-800 dark:bg-emerald-950/30">
+              <div className="mb-2 flex items-center gap-2">
+                <span className="rounded-md bg-emerald-600 px-2 py-0.5 text-[10px] font-bold text-white">
+                  Реальная эхограмма
+                </span>
+                <span className="text-[10px] text-emerald-700 dark:text-emerald-300">из практики</span>
+              </div>
+              <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-emerald-200 bg-black/5 dark:border-emerald-900">
+                <Image
+                  src={entry.realExampleImage}
+                  alt={entry.imageAlt}
+                  fill
+                  className="object-contain"
+                  sizes={compact ? "140px" : "(max-width: 768px) 100vw, 240px"}
+                />
+              </div>
+              {entry.realExampleCaption && (
+                <p className="mt-2 text-xs italic leading-relaxed text-emerald-900 dark:text-emerald-100">
+                  {entry.realExampleCaption}
+                </p>
+              )}
+            </div>
+          )}
+          {entry.realExampleImage2 && (
+            <div className="rounded-xl border border-emerald-300 bg-emerald-50/60 p-3 dark:border-emerald-800 dark:bg-emerald-950/30">
+              <div className="mb-2 flex items-center gap-2">
+                <span className="rounded-md bg-emerald-600 px-2 py-0.5 text-[10px] font-bold text-white">
+                  Реальная эхограмма
+                </span>
+                <span className="text-[10px] text-emerald-700 dark:text-emerald-300">второй ракурс</span>
+              </div>
+              <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-emerald-200 bg-black/5 dark:border-emerald-900">
+                <Image
+                  src={entry.realExampleImage2}
+                  alt={entry.imageAlt}
+                  fill
+                  className="object-contain"
+                  sizes={compact ? "140px" : "(max-width: 768px) 100vw, 240px"}
+                />
+              </div>
+              {entry.realExampleCaption2 && (
+                <p className="mt-2 text-xs italic leading-relaxed text-emerald-900 dark:text-emerald-100">
+                  {entry.realExampleCaption2}
+                </p>
+              )}
+            </div>
+          )}
+          {entry.realExampleImages?.length ? (
+            <div className="rounded-xl border border-emerald-300 bg-emerald-50/60 p-3 dark:border-emerald-800 dark:bg-emerald-950/30">
+              <div className="mb-2 flex items-center gap-2">
+                <span className="rounded-md bg-emerald-600 px-2 py-0.5 text-[10px] font-bold text-white">
+                  Галерея реальных эхограмм
+                </span>
+                <span className="text-[10px] text-emerald-700 dark:text-emerald-300">O-RADS 5 · рак яичника</span>
+              </div>
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                {entry.realExampleImages.map((src, idx) => (
+                  <div
+                    key={`${src}-${idx}`}
+                    className="relative aspect-[4/3] overflow-hidden rounded-lg border border-emerald-200 bg-black/5 dark:border-emerald-900"
+                  >
+                    <Image
+                      src={src}
+                      alt={`${entry.imageAlt} ${idx + 1}`}
+                      fill
+                      className="object-contain"
+                      sizes="(max-width: 768px) 50vw, 200px"
+                    />
+                  </div>
+                ))}
+              </div>
+              {entry.realExampleCaptions?.length
+                ? entry.realExampleCaptions.map((caption, idx) => (
+                    <p
+                      key={idx}
+                      className="mt-1 text-[10px] italic leading-relaxed text-emerald-900 dark:text-emerald-100"
+                    >
+                      {caption}
+                    </p>
+                  ))
+                : null}
+            </div>
+          ) : null}
           {entry.keySignsRu?.length ? (
             <div className="flex flex-wrap gap-1.5">
               {entry.keySignsRu.map((sign) => (

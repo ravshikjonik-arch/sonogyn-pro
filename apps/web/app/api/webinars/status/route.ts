@@ -10,6 +10,10 @@ export const runtime = "nodejs";
 /** Публичная диагностика вебинаров (без секретов). */
 export async function GET(req: Request) {
   const full = isFullDiagnosticsAllowed(req);
+  if (!full) {
+    return NextResponse.json({ ok: false, error: "Forbidden" }, { status: 403 });
+  }
+
   const issues: string[] = [];
   const liveKitConfigured = isLiveKitConfigured();
   const liveKitUrl = getLiveKitConfig()?.url ?? null;

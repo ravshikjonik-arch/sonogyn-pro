@@ -34,6 +34,7 @@ import {
   zodErrorResponse,
 } from "@/lib/security/api-body-schemas";
 import { logError } from "@/services/logger";
+import { writeSecurityAuditLog } from "@/lib/security/security-audit-log";
 
 export async function POST(req: Request) {
   const failKey = rateLimitKeyFromRequest(req, "auth-phone-fail");
@@ -42,7 +43,14 @@ export async function POST(req: Request) {
   if (!raw.ok) return raw.response;
 
   const parsed = PhoneSendOtpBodySchema.safeParse(raw.data);
-  if (!parsed.success) return zodErrorResponse(parsed.error);
+  if (!parsed.success) {
+    await writeSecurityAuditLog({
+      category: "auth",
+      action: "phone.send_otp.bad_payload",
+      success: false,
+    });
+    return zodErrorResponse(parsed.error);
+  }
 
   const body = parsed.data;
 
@@ -65,6 +73,12 @@ export async function POST(req: Request) {
     RL.authPhoneSend.windowMs,
   );
   if (!rl.ok) {
+    await writeSecurityAuditLog({
+      category: "auth",
+      action: "phone.send_otp.rate_limited",
+      success: false,
+      metadata: { retryAfterSec: rl.retryAfterSec },
+    });
     return NextResponse.json(
       { error: "Слишком много попыток. Подождите и попробуйте снова.", requiresCaptcha: true },
       { status: 429, headers: { "Retry-After": String(rl.retryAfterSec) } },
@@ -74,6 +88,11 @@ export async function POST(req: Request) {
   if (await isCaptchaRequired(failKey)) {
     const ok = await verifyTurnstileIfConfigured(body.turnstileToken);
     if (!ok) {
+      await writeSecurityAuditLog({
+        category: "auth",
+        action: "phone.send_otp.captcha_required",
+        success: false,
+      });
       return NextResponse.json(
         { error: CAPTCHA_REQUIRED_MSG, requiresCaptcha: true },
         { status: 403 },

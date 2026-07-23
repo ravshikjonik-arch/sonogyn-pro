@@ -22,6 +22,7 @@ import {
   createSupabaseRouteHandlerClient,
   nextJsonWithAuthCookies,
 } from "@/lib/route-handler-supabase";
+import { writeSecurityAuditLog } from "@/lib/security/security-audit-log";
 
 export async function POST(req: Request) {
   const failKey = rateLimitKeyFromRequest(req, "auth-fail");
@@ -30,7 +31,15 @@ export async function POST(req: Request) {
   if (!raw.ok) return raw.response;
 
   const parsed = SignInBodySchema.safeParse(raw.data);
-  if (!parsed.success) return zodErrorResponse(parsed.error);
+  if (!parsed.success) {
+    await writeSecurityAuditLog({
+      category: "auth",
+      action: "sign-in.bad_payload",
+      success: false,
+      metadata: { zodErrors: parsed.error.flatten().fieldErrors },
+    });
+    return zodErrorResponse(parsed.error);
+  }
 
   const body = parsed.data;
 
@@ -40,6 +49,12 @@ export async function POST(req: Request) {
     RL.authSignIn.windowMs,
   );
   if (!rl.ok) {
+    await writeSecurityAuditLog({
+      category: "auth",
+      action: "sign-in.rate_limited",
+      success: false,
+      metadata: { retryAfterSec: rl.retryAfterSec },
+    });
     return NextResponse.json(
       { error: "Слишком много попыток входа. Подождите и попробуйте снова.", requiresCaptcha: true },
       { status: 429, headers: { "Retry-After": String(rl.retryAfterSec) } },
@@ -49,6 +64,11 @@ export async function POST(req: Request) {
   if (await isCaptchaRequired(failKey)) {
     const ok = await verifyTurnstileIfConfigured(body.turnstileToken);
     if (!ok) {
+      await writeSecurityAuditLog({
+        category: "auth",
+        action: "sign-in.captcha_required",
+        success: false,
+      });
       return NextResponse.json(
         { error: CAPTCHA_REQUIRED_MSG, requiresCaptcha: true },
         { status: 403 },
@@ -82,6 +102,15 @@ export async function POST(req: Request) {
       const failCount = await recordAuthFailure(failKey);
       const net = isLikelySupabaseNetworkError(error.message);
       const needsEmailConfirmation = /email not confirmed/i.test(error.message);
+      await writeSecurityAuditLog({
+        category: "auth",
+        action: "sign-in.invalid_credentials",
+        success: false,
+        metadata: {
+          needsEmailConfirmation,
+          rateLimited: failCount >= 3,
+        },
+      });
       return NextResponse.json(
         {
           error: toSafeAuthErrorMessage(error.message, "sign-in"),
@@ -95,6 +124,12 @@ export async function POST(req: Request) {
     const msg = e instanceof Error ? e.message : String(e);
     await recordAuthFailure(failKey);
     const net = isLikelySupabaseNetworkError(msg);
+    await writeSecurityAuditLog({
+      category: "auth",
+      action: "sign-in.exception",
+      success: false,
+      metadata: { message: msg },
+    });
     return NextResponse.json(
       {
         error: toSafeAuthErrorMessage(msg, "sign-in"),

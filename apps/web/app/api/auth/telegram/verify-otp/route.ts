@@ -22,6 +22,7 @@ import {
   establishTelegramAuthSession,
 } from "@/lib/auth/telegram-custom-auth";
 import { logError } from "@/services/logger";
+import { writeSecurityAuditLog } from "@/lib/security/security-audit-log";
 
 export async function POST(req: Request) {
   const failKey = rateLimitKeyFromRequest(req, "auth-telegram-verify-fail");
@@ -32,7 +33,14 @@ export async function POST(req: Request) {
   if (!raw.ok) return raw.response;
 
   const parsed = TelegramVerifyOtpBodySchema.safeParse(raw.data);
-  if (!parsed.success) return zodErrorResponse(parsed.error);
+  if (!parsed.success) {
+    await writeSecurityAuditLog({
+      category: "auth",
+      action: "telegram.verify_otp.bad_payload",
+      success: false,
+    });
+    return zodErrorResponse(parsed.error);
+  }
 
   const body = parsed.data;
 
@@ -42,6 +50,12 @@ export async function POST(req: Request) {
     RL.authPhoneVerify.windowMs,
   );
   if (!rl.ok) {
+    await writeSecurityAuditLog({
+      category: "auth",
+      action: "telegram.verify_otp.rate_limited",
+      success: false,
+      metadata: { retryAfterSec: rl.retryAfterSec },
+    });
     return NextResponse.json(
       { error: "Слишком много попыток. Подождите и попробуйте снова." },
       { status: 429, headers: { "Retry-After": String(rl.retryAfterSec) } },
@@ -68,6 +82,11 @@ export async function POST(req: Request) {
   try {
     const codeOk = await verifyStoredCode({ purpose, contact: chatId, code: token });
     if (!codeOk) {
+      await writeSecurityAuditLog({
+        category: "auth",
+        action: "telegram.verify_otp.invalid_code",
+        success: false,
+      });
       await recordAuthFailure(failKey);
       return NextResponse.json({ error: "Неверный или просроченный код." }, { status: 401 });
     }
@@ -78,6 +97,12 @@ export async function POST(req: Request) {
       createUser: isRegistration ? true : body.createUser !== false,
     });
     if ("error" in ensured) {
+      await writeSecurityAuditLog({
+        category: "auth",
+        action: "telegram.verify_otp.provision_failed",
+        success: false,
+        metadata: { needsRegistration: ensured.needsRegistration },
+      });
       return NextResponse.json(
         { error: ensured.error, needsRegistration: ensured.needsRegistration },
         { status: ensured.needsRegistration ? 400 : 500 },
@@ -85,6 +110,12 @@ export async function POST(req: Request) {
     }
 
     await clearAuthFailures(failKey);
+    await writeSecurityAuditLog({
+      category: "auth",
+      action: "telegram.verify_otp.success",
+      success: true,
+      resource: ensured.userId,
+    });
     return establishTelegramAuthSession(
       ensured.email,
       req,
@@ -93,6 +124,12 @@ export async function POST(req: Request) {
       chatId,
     );
   } catch (e) {
+    await writeSecurityAuditLog({
+      category: "auth",
+      action: "telegram.verify_otp.exception",
+      success: false,
+      metadata: { message: e instanceof Error ? e.message : "unknown" },
+    });
     await recordAuthFailure(failKey);
     logError("telegram/verify-otp: exception", e, { context: { chatId } });
     return NextResponse.json({ error: "Не удалось подтвердить код." }, { status: 500 });

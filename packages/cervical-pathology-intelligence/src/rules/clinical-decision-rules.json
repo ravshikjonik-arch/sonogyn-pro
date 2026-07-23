@@ -5,38 +5,130 @@
     {
       "id": "ifcpc-2011",
       "organization": "IFCPC",
-      "title": "Colposcopic Nomenclature of the Cervix, Rio de Janeiro 2011",
+      "title": "Colposcopic Nomenclature of the Cervix, Rio de Janeiro 2011 (действует)",
       "year": 2011,
-      "citation": "Bornstein J et al. 2011 Colposcopic Terminology of the IFCPC. J Low Genit Tract Dis. 2012."
+      "url": "https://ifcpc.org/Colposcopy-guidelines-and-Terminology",
+      "citation": "Bornstein J et al. 2011 Colposcopic Terminology of the IFCPC. J Low Genit Tract Dis. 2012;16(3):290-295."
+    },
+    {
+      "id": "ifcpc-tz-review-2023",
+      "organization": "IFCPC",
+      "title": "Transformation zone types: a call for review of the IFCPC terminology (low-resource settings)",
+      "year": 2023,
+      "url": "https://ecancer.org/es/journal/article/1612",
+      "citation": "Effah K et al. 2023. ecancer 17:ed101."
     },
     {
       "id": "asccp-2019",
       "organization": "ASCCP",
-      "title": "2019 ASCCP Risk-Based Management Consensus Guidelines",
+      "title": "2019 ASCCP Risk-Based Management Consensus Guidelines (базовые пороги CIN3+ риска)",
       "year": 2019,
       "url": "https://www.asccp.org/guidelines",
-      "citation": "Perkins RB et al. 2019 ASCCP Risk-Based Management Consensus Guidelines. J Low Genit Tract Dis. 2020."
+      "citation": "Perkins RB et al. 2019 ASCCP Risk-Based Management Consensus Guidelines. J Low Genit Tract Dis. 2020;24(2):102-131."
+    },
+    {
+      "id": "asccp-enduring-2024-dual-stain",
+      "organization": "ASCCP",
+      "title": "Enduring Guidelines: p16/Ki67 Dual Stain for management of HPV-positive individuals",
+      "year": 2024,
+      "url": "https://journals.lww.com/jlgtd/fulltext/9900/recommendations_for_use_of_p16_ki67_dual_stain_for.104.aspx",
+      "citation": "Clarke M et al. Recommendations for Use of p16/Ki67 Dual Stain. J Low Genit Tract Dis. 2024."
+    },
+    {
+      "id": "asccp-enduring-2025-self-collection",
+      "organization": "ASCCP",
+      "title": "Enduring Guidelines: Self-collected vaginal specimens for HPV testing",
+      "year": 2025,
+      "url": "https://pubmed.ncbi.nlm.nih.gov/39982254/",
+      "citation": "Wentzensen N et al. Self-Collected Vaginal Specimens for HPV Testing. J Low Genit Tract Dis. 2025."
+    },
+    {
+      "id": "asccp-enduring-2025-genotyping",
+      "organization": "ASCCP",
+      "title": "Enduring Guidelines: Extended genotyping for management of positive HPV results (HPV 56/59/66)",
+      "year": 2025,
+      "url": "https://pubmed.ncbi.nlm.nih.gov/39791481/",
+      "citation": "Massad LS et al. Applying Results of Extended Genotyping. J Low Genit Tract Dis. 2025."
+    },
+    {
+      "id": "who-2025-genotyping",
+      "organization": "WHO",
+      "title": "WHO guideline: HPV DNA genotyping in screening programmes for cervical pre-cancer prevention",
+      "year": 2025,
+      "url": "https://www.who.int/publications/i/item/9789240121744",
+      "citation": "WHO 2025. Use of HPV DNA genotyping — limited and extended genotyping, risk stratification, molecular triage. ISBN 978-92-4-012174-4."
     },
     {
       "id": "who-2021",
       "organization": "WHO",
-      "title": "WHO guideline for screening and treatment of cervical pre-cancer lesions",
+      "title": "WHO guideline for screening and treatment of cervical pre-cancer lesions, 2nd ed. (screen-and-treat)",
       "year": 2021,
-      "citation": "WHO 2021 — screen-and-treat / triage strategies for cervical cancer prevention."
+      "url": "https://www.who.int/publications/i/item/9789240030824",
+      "citation": "WHO 2021. Screen-and-treat / triage strategies for cervical cancer prevention. ISBN 978-92-4-003082-4."
     },
     {
-      "id": "esgo-cervical",
+      "id": "esgo-cervical-2023",
       "organization": "ESGO",
-      "title": "ESGO guidelines for cervical cancer (management pathways)",
+      "title": "ESGO/ESTRO/ESP Guidelines for the management of patients with cervical cancer — Update 2023",
       "year": 2023,
-      "citation": "ESGO/ESTRO/ESP guidelines — management of patients with cervical cancer."
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10176411/",
+      "citation": "Cibula D et al. ESGO/ESTRO/ESP Guidelines. Int J Gynecol Cancer. 2023;33(5):649-666."
     },
     {
-      "id": "mz-rf-cervical",
+      "id": "esgo-resource-2025",
+      "organization": "ESGO",
+      "title": "ESGO resource-stratified guidelines for the management of patients with cervical cancer",
+      "year": 2025,
+      "url": "https://www.esgo.org/esgo-resource-stratified-guidelines-for-the-management-of-patients-with-cervical-cancer/",
+      "citation": "Cibula D et al. ESGO resource-stratified guidelines. Int J Gynecol Cancer. 2025."
+    },
+    {
+      "id": "nccn-2026",
+      "organization": "NCCN",
+      "title": "NCCN Guidelines for Cervical Cancer, Version 2.2026",
+      "year": 2026,
+      "url": "https://www.nccn.org/guidelines/guidelines-detail?category=1&id=1426",
+      "citation": "Abu-Rustum NR et al. Cervical Cancer, Version 2.2026, NCCN Clinical Practice Guidelines In Oncology. J Natl Compr Canc Netw. 2025."
+    },
+    {
+      "id": "acs-2025",
+      "organization": "ACS",
+      "title": "ACS Updated Cervical Cancer Screening Guideline 2025 (primary HPV, self-collection, exit screening)",
+      "year": 2025,
+      "url": "https://acsjournals.onlinelibrary.wiley.com/doi/10.3322/caac.70041",
+      "citation": "Perkins RB et al. Self-collected vaginal specimens for HPV testing. CA Cancer J Clin. 2026."
+    },
+    {
+      "id": "acog-2026",
+      "organization": "ACOG",
+      "title": "ACOG Committee Statement No. 28 — Screening for Cervical Cancer (WPSI 2026 endorsement)",
+      "year": 2026,
+      "url": "https://www.acog.org/clinical/clinical-guidance/committee-statement/articles/2026/07/screening-for-cervical-cancer",
+      "citation": "ACOG. Screening for Cervical Cancer. Obstet Gynecol. 2026;148:e63-e67."
+    },
+    {
+      "id": "uspstf-2025-draft",
+      "organization": "USPSTF",
+      "title": "USPSTF Draft Recommendation: Cervical Cancer Screening (primary HPV 30–65 every 5 yr, self-collection acceptable)",
+      "year": 2025,
+      "url": "https://www.uspreventiveservicestaskforce.org/uspstf/draft-recommendation/cervical-cancer-screening-adults-adolescents",
+      "citation": "USPSTF 2025 Draft Recommendation Statement. Cervical Cancer: Screening."
+    },
+    {
+      "id": "figo-2018",
+      "organization": "FIGO",
+      "title": "FIGO Staging Classification for Cervical Cancer (2018, с подкатегориями IB1/IB2/IB3 и IIIC1/IIIC2)",
+      "year": 2018,
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9131753/",
+      "citation": "Bhatla N et al. Revised FIGO staging for carcinoma of the cervix uteri. Int J Gynecol Obstet. 2019;145(1):129-135."
+    },
+    {
+      "id": "mz-rf-cervical-2024",
       "organization": "MZ_RF",
-      "title": "КР МЗ РФ — профилактика и лечение патологии шейки матки",
-      "year": 2021,
-      "citation": "Клинические рекомендации МЗ РФ: профилактика, скрининг и лечение CIN/РШМ."
+      "title": "КР МЗ РФ «Рак шейки матки» (ID: 537_3, утверждена 2024, действует до 2026)",
+      "year": 2024,
+      "url": "https://cr.minzdrav.gov.ru/preview-cr/537_3",
+      "citation": "Ассоциация онкологов России, RUSSCO, РОПР. КР МЗ РФ «Рак шейки матки». Утверждена 2024, пересмотр не позднее 2026. МКБ-10: C53, D06. FIGO 2019 + TNM 8-е издание (2021)."
     },
     {
       "id": "swede-score",
@@ -66,7 +158,7 @@
       "actions": ["targeted_biopsy", "oncology_referral", "conization"],
       "actionPriority": "primary",
       "explanation": "При IFCPC-признаках инвазии (атипичные сосуды, некроз, экзофитный рост, язва) — срочная биопсия и консультация онкогинecologa до подтверждения стадии.",
-      "sourceIds": ["ifcpc-2011", "esgo-cervical", "mz-rf-cervical"]
+      "sourceIds": ["ifcpc-2011", "esgo-cervical-2023", "mz-rf-cervical-2024"]
     },
     {
       "id": "invasion-risk-threshold",
@@ -77,7 +169,7 @@
       "actions": ["targeted_biopsy", "oncology_referral"],
       "actionPriority": "primary",
       "explanation": "Модель риска: инвазия ≥5% — приоритетная гистологическая верификация и онкологический маршрут.",
-      "sourceIds": ["asccp-2019", "esgo-cervical"]
+      "sourceIds": ["asccp-2019", "esgo-cervical-2023"]
     },
     {
       "id": "confirmed-invasion",
@@ -88,7 +180,7 @@
       "actions": ["oncology_referral"],
       "actionPriority": "primary",
       "explanation": "Инвазивный рак на гистологии — направление в онкогинecologию по ESGO/КР МЗ РФ.",
-      "sourceIds": ["esgo-cervical", "mz-rf-cervical"]
+      "sourceIds": ["esgo-cervical-2023", "mz-rf-cervical-2024"]
     },
     {
       "id": "ais-confirmed-conization",
@@ -105,7 +197,7 @@
       "actions": ["conization", "oncology_referral", "ecc"],
       "actionPriority": "primary",
       "explanation": "AIS требует excisional treatment с negative margins; HPV18/AGC-маршрут — ECC и консультация онкогинecologa при fertility-sparing вопросах.",
-      "sourceIds": ["asccp-2019", "esgo-cervical", "mz-rf-cervical"]
+      "sourceIds": ["asccp-2019", "esgo-cervical-2023", "mz-rf-cervical-2024"]
     },
     {
       "id": "agc-glandular-pathway",
@@ -206,7 +298,7 @@
       "actions": ["lletz", "conization", "hpv_test_12mo"],
       "actionPriority": "primary",
       "explanation": "CIN2+ на гистологии — excisional treatment (LLETZ/conization) + post-treatment HPV/co-test по ASCCP.",
-      "sourceIds": ["asccp-2019", "mz-rf-cervical"]
+      "sourceIds": ["asccp-2019", "mz-rf-cervical-2024"]
     },
     {
       "id": "cin3-conization",
@@ -222,7 +314,7 @@
       "actions": ["conization", "hpv_test_12mo"],
       "actionPriority": "primary",
       "explanation": "CIN3/HSIL — excision с отрицательными margins; контроль HPV 12–24 мес.",
-      "sourceIds": ["asccp-2019", "esgo-cervical"]
+      "sourceIds": ["asccp-2019", "esgo-cervical-2023"]
     },
     {
       "id": "hpv16-lsil-high",
@@ -336,7 +428,7 @@
       "actions": ["observation", "repeat_colposcopy"],
       "actionPriority": "conditional",
       "explanation": "Беременность: CIN2–3 — отложенное excision до postpartum (6–8 нед) unless invasion suspected.",
-      "sourceIds": ["asccp-2019", "esgo-cervical"]
+      "sourceIds": ["asccp-2019", "esgo-cervical-2023"]
     },
     {
       "id": "inadequate-colposcopy-repeat",
@@ -362,7 +454,7 @@
       "actions": ["hpv_test_12mo", "repeat_colposcopy"],
       "actionPriority": "secondary",
       "explanation": "Post-treatment surveillance: HPV-primary 12–24 мес (ASCCP).",
-      "sourceIds": ["asccp-2019", "mz-rf-cervical"]
+      "sourceIds": ["asccp-2019", "mz-rf-cervical-2024"]
     },
     {
       "id": "cin1-observe",
@@ -429,6 +521,87 @@
       "actionPriority": "conditional",
       "explanation": "Quality score <70 — неполная документация; повторить/дополнить фото, TZ, adequacy (best practice IFCPC).",
       "sourceIds": ["ifcpc-2011"]
+    },
+    {
+      "id": "self-collection-hpv16-18-biopsy",
+      "titleRu": "Self-collection HPV+ 16/18 → биопсия без triage",
+      "priority": 86,
+      "blockId": "block2-hpv",
+      "when": {
+        "all": [
+          { "field": "input.hpv16Positive", "op": "eq", "value": true },
+          { "field": "input.collectionMethod", "op": "eq", "value": "self" },
+          { "field": "flags.invasionSignsPresent", "op": "eq", "value": false }
+        ]
+      },
+      "actions": ["targeted_biopsy", "repeat_colposcopy"],
+      "actionPriority": "primary",
+      "explanation": "Self-collected HPV+ с генотипированием 16/18+ → немедленная кольпоскопия с биопсией без промежуточного cytology triage (ASCCP Enduring Guidelines 2025; FDA self-collection 2024).",
+      "sourceIds": ["asccp-enduring-2025-self-collection", "acs-2025", "acog-2026"]
+    },
+    {
+      "id": "extended-genotyping-56-59-66-repeat",
+      "titleRu": "Extended genotyping: HPV 56/59/66+ → повтор через 12 мес",
+      "priority": 38,
+      "blockId": "block2-hpv",
+      "when": {
+        "all": [
+          { "field": "input.hpv3133455258Positive", "op": "eq", "value": false },
+          { "field": "input.hpv16Positive", "op": "eq", "value": false },
+          { "field": "input.hpv18Positive", "op": "eq", "value": false },
+          { "field": "input.otherHrHpvPositive", "op": "eq", "value": true },
+          { "field": "input.cytology", "op": "eq", "value": "nilm" }
+        ]
+      },
+      "actions": ["hpv_test_12mo", "observation"],
+      "actionPriority": "secondary",
+      "explanation": "Extended genotyping: HPV 56/59/66+ при NILM — низкий риск CIN3+, повтор HPV через 12 мес (ASCCP Enduring Guidelines 2025, Massad et al.).",
+      "sourceIds": ["asccp-enduring-2025-genotyping", "asccp-2019"]
+    },
+    {
+      "id": "dual-stain-triage-hpv-positive",
+      "titleRu": "p16/Ki67 Dual Stain+ при HPV+ → кольпоскопия",
+      "priority": 62,
+      "blockId": "block2-hpv",
+      "when": {
+        "all": [
+          { "field": "input.hpvStatus", "op": "eq", "value": "positive" },
+          { "field": "input.cytology", "op": "in", "value": ["nilm", "ascus"] },
+          { "field": "input.dualStainResult", "op": "eq", "value": "positive" },
+          { "field": "flags.invasionSignsPresent", "op": "eq", "value": false }
+        ]
+      },
+      "actions": ["repeat_colposcopy", "targeted_biopsy"],
+      "actionPriority": "primary",
+      "explanation": "p16/Ki67 dual stain+ при HPV+ и NILM/ASC-US — триаж в кольпоскопию вместо выжидания (ASCCP Enduring Guidelines 2024, Clarke et al.). Dual stain− → повтор через 12 мес.",
+      "sourceIds": ["asccp-enduring-2024-dual-stain", "asccp-2019"]
+    },
+    {
+      "id": "nccn-immunotherapy-advanced",
+      "titleRu": "Подтверждённый advanced РШМ — иммунотерапия + онкология",
+      "priority": 97,
+      "blockId": "block8-risk",
+      "when": { "field": "input.currentBiopsyResult", "op": "eq", "value": "invasion" },
+      "actions": ["oncology_referral", "conization"],
+      "actionPriority": "primary",
+      "explanation": "Подтверждённая инвазия: направление к онкогинекологу. При recurrent/metastatic — рассмотреть pembrolizumab ± bev, tisotumab vedotin (NCCN v2.2026). Стадирование по FIGO 2018 с подкатегориями IB1/IB2/IB3, IIIC1/IIIC2.",
+      "sourceIds": ["nccn-2026", "esgo-cervical-2023", "figo-2018"]
+    },
+    {
+      "id": "cin2-manage-or-observe",
+      "titleRu": "CIN2 — manage-or-observe (фертильность/возраст)",
+      "priority": 73,
+      "blockId": "block8-risk",
+      "when": {
+        "all": [
+          { "field": "input.currentBiopsyResult", "op": "eq", "value": "cin2" },
+          { "field": "input.pregnancy", "op": "eq", "value": false }
+        ]
+      },
+      "actions": ["targeted_biopsy", "hpv_test_12mo", "repeat_colposcopy"],
+      "actionPriority": "conditional",
+      "explanation": "CIN2 у молодых / планирующих беременность — наблюдение 12 мес с repeat colposcopy (ASCCP 2019 manage-or-observe). При persistence >24 мес или non-compliance — excision (LLETZ).",
+      "sourceIds": ["asccp-2019", "esgo-cervical-2023"]
     }
   ]
 }

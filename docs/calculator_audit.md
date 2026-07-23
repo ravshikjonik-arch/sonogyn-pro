@@ -46,8 +46,8 @@ _Нет._
 
 ## 4. Дубликаты
 
-- **O-RADS Pro**: orads-guide, orads-wizard, orads
-  - Три записи в CLINICAL_TOOLS с одним webHref /calculators/o-rads
+- **O-RADS US**: orads-guide, orads-wizard, orads
+  - Три записи в CLINICAL_TOOLS с одним webHref /tools/calc/rads/o-rads
 - **Срок по фетометрии / УЗИ (mobile)**: ga-feto, ga-us
   - ga-feto и ga-ivf в catalog.ts используют mobileAction ga_us
 - **Расчёт срока беременности**: pregnancyCalc.ts (mobile), @repo/medical-calculations
@@ -65,7 +65,7 @@ _Нет._
 
 ## Дополнительные калькуляторы проекта (вне референса)
 
-- **O-RADS Pro** (implemented) — `/calculators/o-rads`
+- **O-RADS US** (implemented) — `/tools/calc/rads/o-rads`
 - **BI-RADS US** (implemented) — `/calculators/bi-rads`
 - **Кольпоскопия · Swede Score** (implemented) — `/calculators/colposcopy`
 - **Длина шейки матки (CL)** (implemented) — `/calculators/cervical-length`

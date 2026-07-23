@@ -317,6 +317,11 @@ export default function BiRadsAssistantScreen({ navigation }: Props) {
           <Text style={styles.resultRisk}>{result.riskRange}</Text>
           <Text style={styles.resultBody}>{result.description}</Text>
           <Text style={styles.resultImp}>{result.impression}</Text>
+          {result.category.includes("BI-RADS 5") || result.category.includes("BI-RADS 6") ? (
+            <View style={styles.premiumNote}>
+              <Text style={styles.premiumNoteText}>Высокий риск · онкомаршрут · верификация</Text>
+            </View>
+          ) : null}
         </View>
 
         <View style={styles.actions}>
@@ -436,6 +441,15 @@ const styles = StyleSheet.create({
   resultRisk: { fontSize: 14, fontWeight: "700", color: branding.colors.primary, marginTop: 4 },
   resultBody: { fontSize: 14, color: branding.colors.textSecondary, marginTop: 12, lineHeight: 21 },
   resultImp: { fontSize: 14, color: branding.colors.text, marginTop: 12, lineHeight: 21, fontWeight: "600" },
+  premiumNote: {
+    marginTop: 12,
+    padding: 12,
+    borderRadius: 14,
+    backgroundColor: "#ffe4e6",
+    borderWidth: 1,
+    borderColor: "#fda4af",
+  },
+  premiumNoteText: { fontSize: 13, fontWeight: "800", color: "#9f1239", lineHeight: 18 },
   actions: { marginTop: 20, gap: 10 },
   primary: {
     backgroundColor: branding.colors.primary,
