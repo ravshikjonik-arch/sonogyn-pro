@@ -35,7 +35,7 @@ type Props = {
   onCategoryHint?: (category: string | null) => void;
 };
 
-/** BI-RADS US: быстрый калькулятор + брошюра v2025 + атлас + AI Assistant. */
+/** BI-RADS US: быстрый калькулятор + пошаговый протокол + атлас + AI Assistant. */
 export function BiradsProFlow({ embeddedInHub = false, onCategoryHint }: Props) {
   const searchParams = useSearchParams();
   const [mode, setMode] = useState<BiradsMode>(embeddedInHub ? "assistant" : "quick");

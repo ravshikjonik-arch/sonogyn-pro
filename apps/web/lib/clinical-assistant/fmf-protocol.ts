@@ -30,7 +30,7 @@ export { formatProtocolField, presentProtocolText } from "./fmf-protocol-format"
 export type DopplerInput = {
   piRight?: number;
   piLeft?: number;
-  /** Legacy PI UA — в Медведеве 2016 таблица RI (Прил. 37), см. uaRi. */
+  /** Legacy PI UA — в справочнике таблица RI АП, см. uaRi. */
   piUmb?: number;
   uaRi?: number;
   piMca?: number;
@@ -159,11 +159,11 @@ export function buildFirstTrimesterProtocol(
     `- Кровоток DV (качественно): ${dvFlowText(input.dvFlow)}`,
     `- Трикуспидальная регургитация: ${tricuspidText(input.tricuspidRegurg)}`,
     "",
-    "2a. ПЕРЦЕНТИЛИ (Медведев, Прил. 11)",
+    "2a. ПЕРЦЕНТИЛИ (I скрининг)",
     ...medvedevLines,
     `- Источник: ${MEDVEDEV_FIRST_TRIMESTER_SOURCE}`,
     ...(dopplerLines.length
-      ? ["", "2b. ДОППЛЕР (Медведев, Прил. 40 / 36)", ...dopplerLines, `- DV: ${MEDVEDEV_DV_SOURCE}`, `- UtA: ${MEDVEDEV_UTA_SOURCE}`]
+      ? ["", "2b. ДОППЛЕР (DV / UtA)", ...dopplerLines, `- DV: ${MEDVEDEV_DV_SOURCE}`, `- UtA: ${MEDVEDEV_UTA_SOURCE}`]
       : []),
     "",
     "3. БИОХИМИЯ (комбинированный скрининг)",
@@ -238,7 +238,7 @@ function buildSonogynCompactSecondThirdProtocol(
     `- FL: ${formatProtocolField(input.fl, " мм")}`,
     ...(efw ? [`- EFW (Hadlock): ~${efw} г`] : []),
     "",
-    "3a. ПЕРЦЕНТИЛИ (Медведев, Прил. 1 + 5–12)",
+    "3a. ПЕРЦЕНТИЛИ (фетометрия + анатомия)",
     ...(biometryLines.length ? biometryLines : ["- Укажите срок и фетометрию для расчёта перцентилей."]),
     `- Источник: ${MEDVEDEV_BIOMETRY_SOURCE}`,
     "",
@@ -323,7 +323,7 @@ export function buildDopplerProtocol(
     `- PSV среднемозговой артерии (Прил. 38): ${formatProtocolField(input.mcaPsv, " см/с")}`,
     `- PI венозного протока: ${formatProtocolField(input.dvPi)}`,
     ...(dopplerLines.length
-      ? ["", "3a. ПЕРЦЕНТИЛИ (Медведев)", ...dopplerLines, `- DV: ${MEDVEDEV_DV_SOURCE}`, `- UtA: ${MEDVEDEV_UTA_SOURCE}`]
+      ? ["", "3a. ПЕРЦЕНТИЛИ", ...dopplerLines, `- DV: ${MEDVEDEV_DV_SOURCE}`, `- UtA: ${MEDVEDEV_UTA_SOURCE}`]
       : []),
     "",
     "4. ЗАКЛЮЧЕНИЕ",

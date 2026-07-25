@@ -34,7 +34,7 @@ function hadlockEfwGrams(input: {
 }
 
 export const MEDVEDEV_BIOMETRY_SOURCE =
-  "Медведев М.В. Пренатальная эхография, 2016. Прил. 1 (Медведев и соавт., 1999).";
+  "Фетометрия · перцентили (учебный справочник SonoGyn).";
 
 export const MEDVEDEV_BIOMETRY_MIN_WEEK = 16;
 export const MEDVEDEV_BIOMETRY_MAX_WEEK = 40;
@@ -363,7 +363,7 @@ export function listBiometryAtWeek(week: number): MedvedevBiometryAssessment[] {
 export function formatMedvedevBiometryForProtocol(item: MedvedevBiometryAssessment): string {
   if (item.value !== undefined && item.percentile !== undefined) {
     const unit = item.unit === "г" ? " г" : " мм";
-    return `- ${item.label}: ${item.value}${unit} (~${item.percentile}-й перц., Медведев Прил. 1)`;
+    return `- ${item.label}: ${item.value}${unit} (~${item.percentile}-й перц.)`;
   }
   if (item.reference) {
     return `- ${item.label}: ${item.summary.replace(/^[^:]+:\s*/, "")}`;

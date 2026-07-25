@@ -147,7 +147,7 @@ export function ObCalcHub({ initialTab = "lmp" }: { initialTab?: TabId }) {
     const mm = Number.parseFloat(msdMm.replace(",", "."));
     if (!us) return ["Проверьте дату УЗИ"];
     const dating = datingFromMsdAndUsDate(us, mm);
-    if (!dating) return ["СВД вне диапазона 6–50 мм (табл. 1.1 Medvedev)"];
+    if (!dating) return ["СВД вне диапазона 6–50 мм (табл. раннего срока)"];
     const atStudy = splitGaDays(dating.gaAtStudyDays);
     const gaToday = formatGaTodayLabel(dating);
     return [
@@ -366,7 +366,7 @@ export function ObCalcHub({ initialTab = "lmp" }: { initialTab?: TabId }) {
           <Card>
             <CardHeader>
               <CardTitle className="text-base">Срок по СВД плодного яйца</CardTitle>
-              <CardDescription>Ранний срок · табл. 1.1 Medvedev (Grisolia), СВД 6–50 мм</CardDescription>
+              <CardDescription>Ранний срок · табл. СВД (Grisolia), 6–50 мм</CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
               <label className="block text-sm font-semibold">
@@ -542,7 +542,7 @@ export function ObCalcHub({ initialTab = "lmp" }: { initialTab?: TabId }) {
         <CardHeader className="pb-2">
           <CardTitle className="text-base">II–III скрининг · протокол Якубова</CardTitle>
           <CardDescription>
-            После расчёта срока откройте FMF-помощник: шаблон «УЗИ + допплер II–III скрин», перцентили Медведева.
+            После расчёта срока откройте FMF-помощник: шаблон «УЗИ + допплер II–III скрин», перцентили фетометрии.
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-wrap gap-2">

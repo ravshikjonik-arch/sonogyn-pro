@@ -76,7 +76,7 @@ export default async function PregnancyPage(props: { params: Promise<Params> }) 
       <section className="mt-8 rounded-2xl border border-[var(--clinical-border)] bg-[var(--clinical-card)] p-4">
         <h2 className="font-semibold">Кривая роста плода (EFW)</h2>
         <p className="mt-1 text-xs text-[var(--clinical-foreground-muted)]">
-          Полоса p5–p95 по Медведеву (Прил. 1); точки — ваши исследования.
+          Полоса p5–p95 фетометрии; точки — ваши исследования.
         </p>
         <FetalGrowthChart points={growthPoints} />
         {growthPoints.length === 0 ? (

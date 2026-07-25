@@ -69,7 +69,7 @@ export function OradsEchogramsWidget({ initialChapter = "all", initialPageId }: 
           <Link href="/tools/refs/orads-guide" className="font-semibold text-[var(--clinical-primary-deep)] hover:underline">
             руководстве O-RADS US
           </Link>
-          . Здесь — учебные эхограммы по типичным кистам O-RADS 2 и атлас Озерской.
+          . Здесь — учебные эхограммы по типичным кистам O-RADS 2 и учебный атлас придатков.
         </p>
         {supplementary ? (
           <p className="text-xs text-slate-500">

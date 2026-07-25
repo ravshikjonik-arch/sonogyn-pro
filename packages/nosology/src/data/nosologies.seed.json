@@ -534,14 +534,14 @@
       "перцентиль",
       "efw"
     ],
-    "description": "Биометрия и/или EFW ниже 5-го перцентиля или decelerating growth — по ISUOG / Медведеву.",
+    "description": "Биометрия и/или EFW ниже 5-го перцентиля или decelerating growth — по ISUOG / справочнику перцентилей.",
     "diagnosisLine": "Задержка роста плода",
     "protocolTemplate": "Фетометрия: показатели ниже 5-го перцентиля для срока (AC/EFW). Допплер по показаниям. Рекомендовано: динамика 1–2 нед, акушерское ведение, КТГ.",
     "examinationScheme": {
       "intro": "Маршрут при подозрении на ЗВУР на II/III скрининге.",
       "checklist": [
         "Уточнить датировку (КТР I трим. vs фетометрия)",
-        "BPD, HC, AC, FL + EFW Hadlock — перцентили по Медведеву (Прил. 1)",
+        "BPD, HC, AC, FL + EFW Hadlock — перцентили фетометрии",
         "Анатомия, AFI, допплер UA/MCA/UtA",
         "Повторное УЗИ через 1–2 нед при пограничных значениях"
       ],
@@ -568,7 +568,7 @@
     "guidelines": {
       "bullets": [
         "ISUOG FGR guideline",
-        "Медведев М.В. Пренатальная эхография, 2016, Прил. 1"
+        "Справочник перцентилей фетометрии SonoGyn"
       ]
     },
     "pubmedQuery": "fetal growth restriction ultrasound ISUOG doppler"
@@ -590,7 +590,7 @@
     "protocolTemplate": "EFW/AC выше 95-го перцентиля для {срок} нед. Рекомендовано: исключить ГСД, повторная фетометрия, план родоразрешения с акушером.",
     "examinationScheme": {
       "checklist": [
-        "EFW Hadlock + перцентиль Медведев",
+        "EFW Hadlock + перцентиль фетометрии",
         "AC, FL, оценка жировой ткани",
         "Глюкоза / ГТТ по показаниям",
         "Тазовые размеры матери — клинически"
@@ -618,7 +618,7 @@
     "guidelines": {
       "bullets": [
         "ISUOG biometry",
-        "Медведев, Прил. 1"
+        "Справочник перцентилей фетометрии"
       ]
     },
     "pubmedQuery": "fetal macrosomia ultrasound estimated fetal weight"

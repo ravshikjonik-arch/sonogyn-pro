@@ -41,7 +41,7 @@ export const FMF_SECOND_THIRD_PROTOCOL_TEMPLATES: FmfProtocolTemplateMeta[] = [
   {
     id: "sonogyn-compact",
     label: "SonoGyn · компактный",
-    description: "Краткая структура с перцентилями Медведева — для быстрой вставки.",
+    description: "Краткая структура с перцентилями фетометрии — для быстрой вставки.",
   },
 ];
 
@@ -195,7 +195,7 @@ export function buildYakubovSecondThirdProtocol(
     `ПМП (EFW) – ${efwPct}.`,
     `Длина плода – ${formatProtocolField(input.fetalLengthCm, " см")}.`,
     ...(biometryLines.length
-      ? ["", "Перцентили фетометрии (Медведев):", ...biometryLines, `- Источник: ${MEDVEDEV_BIOMETRY_SOURCE}`]
+      ? ["", "Перцентили фетометрии:", ...biometryLines, `- Источник: ${MEDVEDEV_BIOMETRY_SOURCE}`]
       : []),
     "",
     "АНАТОМИЯ ПЛОДА:",
@@ -275,7 +275,7 @@ export function buildYakubovSecondThirdProtocol(
     "4) ВЕНОЗНЫЙ ПРОТОК:",
     `ПИ (PI) = ${formatRuDecimal(input.dvPi)}.`,
     "Профиль спектра кровотока соответствует гестационному сроку.",
-    ...(dopplerNotes.length ? ["", "Оценка по Медведеву:", ...dopplerNotes] : []),
+    ...(dopplerNotes.length ? ["", "Оценка по перцентилям:", ...dopplerNotes] : []),
     "",
     "ЗАКЛЮЧЕНИЕ:",
     conclusion,

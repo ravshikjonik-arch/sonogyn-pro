@@ -152,7 +152,7 @@ export const ORADS_HUB: DomainHubCard[] = [
   },
   {
     href: "/tools/refs/orads-echograms",
-    title: "Эхограммы и случаи Озерской",
+    title: "Учебные эхограммы и случаи придатков",
     description: "Учебные карточки по нозологиям — то, что вы искали",
     primary: true,
     badge: "Карточки",

@@ -8,22 +8,22 @@ import type { PercentileBand } from "./medvedevFirstTrimester";
 import { percentileFromMedvedevBand } from "./medvedevFirstTrimester";
 
 export const MEDVEDEV_DV_SOURCE =
-  "Медведев М.В. Пренатальная эхография, 2016. Прил. 40 (FMF, 11–14 нед).";
+  "DV · перцентили I скрининга (учебный справочник SonoGyn).";
 
 export const MEDVEDEV_DV_LATE_SOURCE =
-  "Медведев М.В. Пренатальная эхография, 2016. Прил. 41 (Kessler, 21–39 нед).";
+  "DV · перцентили II–III триместра (учебный справочник SonoGyn).";
 
 export const MEDVEDEV_MCA_SOURCE =
-  "Медведев М.В. Пренатальная эхография, 2016. Прил. 39 (1996).";
+  "СМА PI · перцентили (учебный справочник SonoGyn).";
 
 export const MEDVEDEV_MCA_PSV_SOURCE =
-  "Медведев М.В. Пренатальная эхография, 2016. Прил. 38 (Mari, 2000).";
+  "СМА PSV · перцентили (учебный справочник SonoGyn).";
 
 export const MEDVEDEV_UTA_SOURCE =
-  "Медведев М.В. Пренатальная эхография, 2016. Прил. 36 (1996).";
+  "Маточные артерии PI · перцентили (учебный справочник SonoGyn).";
 
 export const MEDVEDEV_UA_RI_SOURCE =
-  "Медведев М.В. Пренатальная эхография, 2016. Прил. 37 — ИР артерии пуповины (1996).";
+  "Артерия пуповины RI · перцентили (учебный справочник SonoGyn).";
 
 export type MedvedevDopplerMarker =
   | "dvPi"

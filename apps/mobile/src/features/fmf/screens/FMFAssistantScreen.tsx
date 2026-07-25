@@ -191,7 +191,7 @@ export default function FMFAssistantScreen({ navigation }: Props) {
                     ? "Шейка матки"
                     : "Рубец на матке"
       }`,
-      `Режим расчета: ${calcMode === "strict" ? "Медведев (Прил. 1)" : "Быстрая оценка"}`,
+      `Режим расчета: ${calcMode === "strict" ? "Стр. перцентили" : "Быстрая оценка"}`,
       `Следующий шаг: ${out.nextPrompt}`,
       out.alerts.length ? `Отклонения: ${out.alerts.join("; ")}` : "Отклонения: не выявлены",
       out.hypotheses.length ? `Клинические гипотезы: ${out.hypotheses.join("; ")}` : "Клинические гипотезы: нет",
@@ -233,9 +233,9 @@ export default function FMFAssistantScreen({ navigation }: Props) {
         </Card>
 
         <Card title={`Раздел: ${pregnancyUltrasoundModule.title}`}>
-          <Text style={styles.subtitle}>Помощник врача и учитель: перцентили Медведева + подсказки «как мерить».</Text>
+          <Text style={styles.subtitle}>Помощник врача и учитель: перцентили фетометрии + подсказки «как мерить».</Text>
           <View style={styles.rowWrap}>
-            <SelectChip label="Медведев (Прил. 1)" selected={calcMode === "strict"} onPress={() => setCalcMode("strict")} />
+            <SelectChip label="Стр. перцентили" selected={calcMode === "strict"} onPress={() => setCalcMode("strict")} />
             <SelectChip label="Быстрая оценка" selected={calcMode === "quick"} onPress={() => setCalcMode("quick")} />
             <SelectChip label="Учебник: вкл" selected={teachMode} onPress={() => setTeachMode(true)} />
             <SelectChip label="Учебник: выкл" selected={!teachMode} onPress={() => setTeachMode(false)} />
@@ -550,7 +550,7 @@ export default function FMFAssistantScreen({ navigation }: Props) {
         ) : null}
 
         {section === "first" && out.medvedevMarkers?.length ? (
-          <Card title="Медведев · I скрининг">
+          <Card title="Перцентили · I скрининг">
             <MedvedevPanel title="Перцентили · Прил. 11" markers={out.medvedevMarkers} teachMode={teachMode} />
             {out.medvedevDoppler?.length ? (
               <MedvedevPanel title="Допплер · Прил. 40 / 36" doppler={out.medvedevDoppler} teachMode={teachMode} />
@@ -559,7 +559,7 @@ export default function FMFAssistantScreen({ navigation }: Props) {
         ) : null}
 
         {(section === "second" || section === "third") && out.medvedevBiometry?.length ? (
-          <Card title="Медведев · фетометрия и анатомия">
+          <Card title="Перцентили · фетометрия и анатомия">
             <MedvedevPanel
               title={section === "second" ? "Перцентили · Прил. 1 + 5–20" : "Перцентили · Прил. 1"}
               biometry={out.medvedevBiometry}
@@ -569,19 +569,19 @@ export default function FMFAssistantScreen({ navigation }: Props) {
         ) : null}
 
         {(section === "second" || section === "third") && out.medvedevPlacentaAfi?.length ? (
-          <Card title="Медведев · плацента и воды">
+          <Card title="Перцентили · плацента и воды">
             <MedvedevPanel title="Прил. 34 / 35" placentaAfi={out.medvedevPlacentaAfi} teachMode={teachMode} />
           </Card>
         ) : null}
 
         {(section === "second" || section === "third") && out.medvedevDoppler?.length ? (
-          <Card title="Медведев · допплер">
+          <Card title="Перцентили · допплер">
             <MedvedevPanel title="Допплер · Прил. 36 / 37 / 38 / 39 / 41" doppler={out.medvedevDoppler} teachMode={teachMode} />
           </Card>
         ) : null}
 
         {section === "doppler" && out.medvedevDoppler?.length ? (
-          <Card title="Медведев · допплер">
+          <Card title="Перцентили · допплер">
             <MedvedevPanel title="Допплер" doppler={out.medvedevDoppler} teachMode={teachMode} />
           </Card>
         ) : null}

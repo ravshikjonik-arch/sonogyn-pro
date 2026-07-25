@@ -1,14 +1,12 @@
 /**
- * Алгоритм УЗИ молочной железы по BI-RADS — брошюра цикла
- * Солнцева И.А., BI-RADS v2025 (практическое руководство), Санкт-Петербург 2026.
- * Учебный протокол; итоговая категория — решение врача.
+ * Учебный протокол BI-RADS US (SonoGyn); итоговая категория — решение врача.
  */
 
 import { biradsOptions, buildBiradsDecisionPath, evaluateBirads, type BiradsInput } from "./birads-core";
 import type { RiskResult } from "./types";
 
 export const BIRADS_BROCHURE_SOURCE =
-  "Солнцева И.А. Алгоритм УЗИ МЖ по BI-RADS v2025 (брошюра цикла, СПб 2026). ACR BI-RADS US — ориентир категорий.";
+  "ACR BI-RADS Ultrasound — учебный протокол SonoGyn. Итоговая категория — решение врача.";
 
 export type BiradsBrochureInput = BiradsInput & {
   prevailingTissue?: string;
@@ -249,7 +247,7 @@ export function buildBiradsBrochureProtocol(input: BiradsBrochureInput): string 
   const auto = evaluateBiradsBrochure(input);
   const result = resolveBiradsBrochureCategory(input, auto);
   const lines: string[] = [
-    "ПРОТОКОЛ УЗИ МОЛОЧНОЙ ЖЕЛЕЗЫ (алгоритм BI-RADS v2025)",
+    "ПРОТОКОЛ УЗИ МОЛОЧНОЙ ЖЕЛЕЗЫ (BI-RADS US)",
     BIRADS_BROCHURE_SOURCE,
     "",
   ];
@@ -356,7 +354,7 @@ export function buildBiradsBrochureProtocol(input: BiradsBrochureInput): string 
 export function buildBiradsBrochureChecklist(input: BiradsBrochureInput): string[] {
   const base = buildBiradsDecisionPath(syncVascularityFromAssociated(input));
   return [
-    "Чеклист по брошюре BI-RADS v2025 (8 шагов):",
+    "Чеклист BI-RADS US (8 шагов):",
     ...BIRADS_BROCHURE_STEPS.map((s) => `${s.title}: ${s.subtitle}`),
     "",
     ...base,

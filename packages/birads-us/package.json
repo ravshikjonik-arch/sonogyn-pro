@@ -2,7 +2,7 @@
   "name": "@repo/birads-us",
   "version": "1.0.0",
   "private": true,
-  "description": "BI-RADS US ruleset, brochure v2025, knowledge base, and decision engine (no UI).",
+  "description": "BI-RADS US ruleset, protocol helpers, knowledge base, and decision engine (no UI).",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "exports": {

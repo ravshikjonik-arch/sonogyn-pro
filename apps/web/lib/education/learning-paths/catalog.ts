@@ -91,7 +91,7 @@ export const LEARNING_PATHS: LearningPath[] = [
       {
         id: "orads-3",
         type: "case",
-        title: "Эхограммы Озерской",
+        title: "Учебные эхограммы придатков",
         description: "Учебные карточки по нозологиям.",
         href: "/tools/refs/orads-echograms",
         estimatedMinutes: 15,

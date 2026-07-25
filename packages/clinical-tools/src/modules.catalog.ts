@@ -243,7 +243,7 @@ export const MODULES: ModuleEntry[] = [
     domain: "obstetrics",
     kind: "calculator",
     title: "FMF · скрининги",
-    description: "I–III скрининг, допплер, шейка — перцентили Медведева, протокол одним кликом.",
+    description: "I–III скрининг, допплер, шейка — перцентили фетометрии, протокол одним кликом.",
     href: "/assistant/fmf",
     ref: { catalog: "registry", slug: "fmf" },
     surfaces: { educationShelf: "assistant", clinicalSearch: true },

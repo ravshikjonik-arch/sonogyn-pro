@@ -111,19 +111,19 @@ const SECTION_META: Record<
   },
   first: {
     formTitle: "I скрининг — входные данные",
-    formDescription: "КТР, NT, DV, UtA, MAP — FMF Percentile Engine (z-score, MoM, P3–P97) + Медведев Прил. 11.",
+    formDescription: "КТР, NT, DV, UtA, MAP — FMF Percentile Engine (z-score, MoM, P3–P97) + перцентили I скрининга.",
   },
   second: {
     formTitle: "II скрининг — входные данные",
-    formDescription: "Фетометрия, анатомия, плацента — перцентили по Медведеву (Прил. 1, 16–40 нед).",
+    formDescription: "Фетометрия, анатомия, плацента — перцентили (16–40 нед).",
   },
   third: {
     formTitle: "III скрининг — входные данные",
-    formDescription: "Рост, AFI, допплер — перцентили по Медведеву (Прил. 1). Окно 34–36 нед.",
+    formDescription: "Рост, AFI, допплер — перцентили фетометрии. Окно 34–36 нед.",
   },
   doppler: {
     formTitle: "Допплер — входные данные",
-    formDescription: "UtA, DV, АП, СМА — перцентили UtA/DV по Медведеву (Прил. 36 / 40).",
+    formDescription: "UtA, DV, АП, СМА — перцентили UtA/DV.",
   },
   cervix: {
     formTitle: "Шейка матки — входные данные",
@@ -307,7 +307,7 @@ export function FmfAssistantClient({ initialSection = "early" }: Props) {
         <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/70">FMF · беременность</p>
         <h1 className="mt-2 text-2xl font-black sm:text-3xl">FMF · беременность</h1>
         <p className="mt-2 max-w-3xl text-sm leading-relaxed text-white/90">
-          Помощник врача и учитель одновременно: перцентили Медведева, алерты по протоколу FMF и подсказки «как
+          Помощник врача и учитель одновременно: перцентили фетометрии, алерты по протоколу FMF и подсказки «как
           мерить / что значит» на каждом срезе.
         </p>
         <div className="mt-4 flex flex-wrap items-center gap-2">
@@ -418,7 +418,7 @@ export function FmfAssistantClient({ initialSection = "early" }: Props) {
         <Card className="border-violet-200/80 bg-violet-50/40 dark:border-violet-900/40 dark:bg-violet-950/20">
           <CardHeader className="pb-2">
             <CardTitle className="text-base">Атлас срезов · II скрининг</CardTitle>
-            <CardDescription>18–22 нед — срезы, нормы Медведева (Прил. 1, 5–20)</CardDescription>
+            <CardDescription>18–22 нед — срезы, нормы фетометрии</CardDescription>
           </CardHeader>
           <CardContent>
             <FetalSliceAtlasPanel teachMode={teachMode} />
@@ -444,7 +444,7 @@ export function FmfAssistantClient({ initialSection = "early" }: Props) {
                   syncedToProfile={syncedToProfile}
                 />
                 <FieldGroup label="Режим перцентилей">
-                  <Chip label="Медведев (Прил. 1)" selected={calcMode === "strict"} onClick={() => setCalcMode("strict")} />
+                  <Chip label="Стр. перцентили" selected={calcMode === "strict"} onClick={() => setCalcMode("strict")} />
                   <Chip label="Быстрая оценка" selected={calcMode === "quick"} onClick={() => setCalcMode("quick")} />
                 </FieldGroup>
               </>
@@ -506,7 +506,7 @@ export function FmfAssistantClient({ initialSection = "early" }: Props) {
               ) : null}
               {section === "doppler" && dopplerOut.medvedevDoppler?.length ? (
                 <MedvedevReferencePanel
-                  title="Допплер · Медведев"
+                  title="Допплер · перцентили"
                   doppler={dopplerOut.medvedevDoppler}
                   teachMode={teachMode}
                 />
@@ -1130,7 +1130,7 @@ function SecondThirdForm({
       {showAnatomy ? (
         <>
           <p className="text-xs font-bold uppercase tracking-wide text-[var(--clinical-foreground-muted)]">
-            Мозг и лицо · II трим. (опц., Медведев Прил. 5–12)
+            Мозг и лицо · II трим. (опц.)
           </p>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <NumField label="ДМТ, мм" value={secondThird.corpusCallosumLengthMm} onChange={setNum("corpusCallosumLengthMm")} />
@@ -1249,7 +1249,7 @@ function DopplerForm({
         <NumField label="PI АП (legacy)" value={doppler.piUmb} onChange={setNum("piUmb")} />
       </div>
       <p className="text-[10px] text-[var(--clinical-foreground-muted)]">
-        Медведев 2016: для пуповины — таблица <strong>RI</strong> (Прил. 37), не PI. PI UA — для локальных протоколов.
+        Для пуповины в справочнике SonoGyn — таблица <strong>RI</strong>, не PI. PI UA — для локальных протоколов.
       </p>
     </div>
   );

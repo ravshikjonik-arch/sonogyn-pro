@@ -435,7 +435,7 @@ function PracticeTab({
     const seen = new Set<string>();
     const links: { label: string; href: string }[] = [
       { label: "FMF · малый срок и скрининги", href: "/ai/consultants/fmf" },
-      { label: "Нормы по сроку · Медведев", href: "/reference/norms" },
+      { label: "Нормы по сроку", href: "/reference/norms" },
       { label: "Клин. нормы УЗИ", href: "/reference" },
     ];
     for (const t of lecture.topics) {

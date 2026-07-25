@@ -151,7 +151,7 @@ export function NosologyDetailClient({ id, isAdmin }: Props) {
             {nosology.description.split(/(\/(?:reference|assistant|nosologies)[^\s)\],]+)/g).map((part, i) => {
               if (!part.startsWith("/")) return part;
               const label = part.includes("/norms")
-                ? "Нормы Медведева"
+                ? "Нормы по сроку"
                 : part.includes("/assistant") || part.includes("/ai/consultants")
                   ? "Ассистент"
                   : "Ссылка";

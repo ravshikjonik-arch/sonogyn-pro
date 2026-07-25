@@ -84,7 +84,7 @@ export const FETAL_DOPPLER_EDUCATIONAL_CARDS: FetalDopplerEducationalCard[] = [
       "Reversed A-wave — red flag; всегда сочетайте с морфологией и генетическим контекстом.",
     ],
     residentTips: ["Если PI «скачет» — проверьте, не захватили ли печёnoчную вену."],
-    examPearls: ["PI VP — перцентили FMF / Медведев 11–14 нед."],
+    examPearls: ["PI VP — перцентили FMF / справочник SonoGyn, 11–14 нед."],
     faq: [
       {
         q: "Сколько циклов записывать?",

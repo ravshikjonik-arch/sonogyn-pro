@@ -80,11 +80,6 @@ export function IotaSimpleRulesPanel() {
 
       <div className={cn("mt-4 rounded-xl border p-3 text-sm", tone)}>
         <p className="font-bold">{result.summaryRu}</p>
-        {result.supplementaryNote ?? result.ozerskayaNote ? (
-          <p className="mt-1 text-xs text-[var(--clinical-foreground-muted)]">
-            {result.supplementaryNote ?? result.ozerskayaNote}
-          </p>
-        ) : null}
       </div>
 
       {SUPPLEMENTARY_READING[0]?.href ? (

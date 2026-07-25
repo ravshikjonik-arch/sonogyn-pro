@@ -40,7 +40,7 @@ export function ClinicalReferenceReader() {
             </Link>
             {" · "}
             <Link href="/tools/refs/consensus" className="font-medium text-[var(--clinical-primary)] underline">
-              Нормы по сроку (Медведев) →
+              Нормы по сроку →
             </Link>
           </p>
           <div className="relative mt-2">

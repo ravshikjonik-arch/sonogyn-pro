@@ -38,7 +38,7 @@ export default function KnowledgeScreen({ navigation, route }: KnowledgeTabScree
     {
       id: "orads-hub",
       title: "O-RADS · эхограммы и calc",
-      sub: "Калькулятор + карточки Озерской + реферат — один хаб",
+      sub: "Калькулятор + учебные карточки + реферат — один хаб",
       onPress: () => void openWebPath("/tools/o-rads"),
     },
     {
@@ -104,7 +104,7 @@ export default function KnowledgeScreen({ navigation, route }: KnowledgeTabScree
     {
       id: "orads-echograms",
       title: "O-RADS · эхограммы",
-      sub: "Карточки Озерской по нозологиям",
+      sub: "Учебные карточки по нозологиям",
       onPress: () => void openWebPath("/tools/refs/orads-echograms"),
     },
     {

@@ -199,7 +199,7 @@ export function MedvedevNormsLookup() {
       <header className="border-b border-[var(--clinical-border)] bg-[var(--clinical-sidebar)] px-4 py-4">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
-            <h1 className="text-lg font-bold">Нормы по сроку · Медведев</h1>
+            <h1 className="text-lg font-bold">Нормы по сроку</h1>
             <p className="mt-1 text-xs text-[var(--clinical-foreground-muted)]">
               Прил. 1 — фетометрия и мозг II/III скрининга (p5 / p50 / p95)
             </p>

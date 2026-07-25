@@ -17,7 +17,7 @@ export const FETAL_DOPPLER_QUIZ_BANK: QuizBank = {
     },
     {
       id: "medvedev",
-      title: "Медведев М.В. Пренатальная эхография — нормы PI",
+      title: "Справочник перцентилей — нормы PI",
       year: 2016,
     },
   ],

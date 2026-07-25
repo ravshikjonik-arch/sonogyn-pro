@@ -37,7 +37,7 @@ export const CLINICAL_TOOLS: ClinicalTool[] = [
   {
     id: "orads-echograms",
     title: "O-RADS · эхограммы",
-    subtitle: "Учебные карточки придатков по нозологиям (Озерская)",
+    subtitle: "Учебные карточки придатков по нозологиям",
     category: "ovary",
     roles: ["ultrasound", "gynecologist", "allied"],
     synonyms: ["эхограммы", "ozerskaya", "карточки придатков", "iota cases"],

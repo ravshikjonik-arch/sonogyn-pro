@@ -271,7 +271,7 @@ export default function BiRadsAssistantScreen({ navigation }: Props) {
         <View style={styles.headerCenter}>
           <Text style={styles.title}>BI-RADS US</Text>
           <Text style={styles.version} numberOfLines={2}>
-            {BI_RADS_VERSION} · алгоритм 8 шагов (брошюра v2025) — полный протокол на web
+            {BI_RADS_VERSION} · протокол 8 шагов — полный протокол на web
           </Text>
         </View>
         <View style={styles.headerSpacer} />

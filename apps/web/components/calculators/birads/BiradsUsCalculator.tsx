@@ -104,7 +104,7 @@ export function BiradsUsCalculator({ embedded }: { embedded?: boolean } = {}) {
         filenameBase: `birads-brochure-${result.category.replace(/\s+/g, "-")}`,
         title: `Протокол УЗИ МЖ · ${result.category}`,
         meta: [
-          { label: "Методика", value: "BI-RADS v2025 (брошюра)" },
+          { label: "Методика", value: "BI-RADS US" },
           { label: "Ruleset", value: BI_RADS_VERSION },
         ],
         text: reportText,
@@ -118,7 +118,7 @@ export function BiradsUsCalculator({ embedded }: { embedded?: boolean } = {}) {
         slug: "bi-rads",
         calculatorCode: "BI_RADS_US",
         payload: { input, result, autoResult, reportText },
-        summary: `${result.category} · брошюра v2025`,
+        summary: `${result.category} · BI-RADS US`,
       }).then((res) => {
         if (res.ok) toast.success("Сохранено в истории");
         else toast.error(res.message);
@@ -136,7 +136,7 @@ export function BiradsUsCalculator({ embedded }: { embedded?: boolean } = {}) {
             <Button variant="ghost" size="sm" asChild>
               <Link href="/tools/calc">← Каталог</Link>
             </Button>
-            <Badge variant="outline">BI-RADS v2025</Badge>
+            <Badge variant="outline">BI-RADS US</Badge>
             <Badge className="bg-rose-100 text-rose-900">Брошюра цикла</Badge>
           </div>
 
@@ -149,7 +149,7 @@ export function BiradsUsCalculator({ embedded }: { embedded?: boolean } = {}) {
         </>
       ) : (
         <header className="mx-auto max-w-4xl space-y-2">
-          <h2 className="text-xl font-black">Брошюра v2025 · 8 шагов</h2>
+          <h2 className="text-xl font-black">Протокол · 8 шагов</h2>
           <p className="text-xs text-[var(--clinical-foreground-muted)]">{BIRADS_BROCHURE_SOURCE}</p>
           {flow?.applySource ? (
             <p className="text-xs font-semibold text-rose-700">Источник: {flow.applySource.label}</p>
@@ -322,7 +322,7 @@ export function BiradsUsCalculator({ embedded }: { embedded?: boolean } = {}) {
         {step === 6 ? (
           <CalcStepCard title="Шаг 6 — Регионарные лимфатические узлы">
             <p className="text-xs leading-relaxed text-[var(--clinical-foreground-muted)]">
-              9 параметров BI-RADS v2025: размер, форма, кора &gt;3 мм, контур, ворота, эхогенные фокусы, симметрия,
+              9 параметров BI-RADS US: размер, форма, кора &gt;3 мм, контур, ворота, эхогенные фокусы, симметрия,
               динамика, клиническая корреляция.{" "}
               {flow?.setMode ? (
                 <button

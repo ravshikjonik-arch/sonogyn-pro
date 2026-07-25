@@ -17,7 +17,7 @@ export const MEDVEDEV_TEACH_BY_MARKER: Record<string, MedvedevTeachCard> = {
   nt: {
     title: "ТВП (NT)",
     howToMeasure: "Сагитталь, нейтральная голова. КТР 45–84 мм. Калиперы on-to-on по внутренним контурам гиперэхогенных линий, без амниотической оболочки.",
-    clinicalMeaning: "Маркер I скрининга. Интерпретация — по перцентилю Медведева (Прил. 11), не только порог 3,5 мм.",
+    clinicalMeaning: "Маркер I скрининга. Интерпретация — по перцентилю справочника (I скрининг), не только порог 3,5 мм.",
     redFlags: [">95-го перц. или отсутствие НК — комбинированный риск хромосомопатий"],
     appendix: "Прил. 11",
     referenceTopicId: "nt",
@@ -61,7 +61,7 @@ export const MEDVEDEV_TEACH_BY_MARKER: Record<string, MedvedevTeachCard> = {
   },
   efw: {
     title: "EFW (масса)",
-    howToMeasure: "Hadlock III/IV из BPD, HC, AC, FL. Перцентиль — по полосам компонентов Медведева.",
+    howToMeasure: "Hadlock III/IV из BPD, HC, AC, FL. Перцентиль — по полосам компонентов фетометрии.",
     clinicalMeaning: "Итоговая оценка роста. <10-го перц. — ЗВУР; >90-го — крупный плод.",
     redFlags: ["EFW <5–10 перц.", "EFW >90–95 перц."],
     appendix: "Прил. 1 + Hadlock",
@@ -70,7 +70,7 @@ export const MEDVEDEV_TEACH_BY_MARKER: Record<string, MedvedevTeachCard> = {
   lateralVentricle: {
     title: "Лат. желудочки",
     howToMeasure: "Axial head: ширина atrium/atrium horn, мм. Не путать с субэpendимальными кистами.",
-    clinicalMeaning: ">10 мм — вентрикуломегалия; сравнивайте и с p95 Медведева для срока.",
+    clinicalMeaning: ">10 мм — вентрикуломегалия; сравнивайте и с p95 справочника для срока.",
     redFlags: [">10 мм", ">95-го перцентиля"],
     appendix: "стр. 622 / Прил. 1",
   },
@@ -168,7 +168,7 @@ export const MEDVEDEV_TEACH_BY_MARKER: Record<string, MedvedevTeachCard> = {
   },
   uaRi: {
     title: "ИР артерии пуповины (UA RI)",
-    howToMeasure: "Free loop пуповины, Doppler gate на всю width сосуда. Медведев — Прил. 37 (RI, не PI).",
+    howToMeasure: "Free loop пуповины, Doppler gate на всю width сосуда. Справочник SonoGyn — RI АП (не PI).",
     clinicalMeaning: "RI >95-го перц. — плацентарная недостаточность, ЗВУР; сочетать с PI СМА и DV.",
     redFlags: [">95-го перц. RI UA", "reversed end-diastolic flow"],
     appendix: "Прил. 37",
@@ -176,7 +176,7 @@ export const MEDVEDEV_TEACH_BY_MARKER: Record<string, MedvedevTeachCard> = {
   },
   uaPi: {
     title: "PI артерии пуповины",
-    howToMeasure: "Стандартный PI UA; в книге Медведева 2016 — таблица RI (Прил. 37), не PI. Используйте поле «ИР АП».",
+    howToMeasure: "Стандартный PI UA; в справочнике SonoGyn — таблица RI АП, не PI. Используйте поле «ИР АП».",
     clinicalMeaning: "Повышение PI — placental insufficiency (оценка по локальным протоколам / Marsal).",
     appendix: "см. Прил. 37 (RI)",
     referenceTopicId: "doppler-ob",
@@ -322,7 +322,7 @@ export function teachHintForAlert(alert: string): string | null {
     return "Анемия плода: PSV >1,5 MoM — переливание, амниоцентез HbF, консультация гематолога/акушера по протоколу.";
   }
   if (a.includes("допплер") || a.includes("pi") || a.includes("ир ап") || a.includes("пуповин")) {
-    return "Допплер: динамика через 48–72 ч, КТГ, решение с акушером о сроках родов. Медведев — ИР АП (Прил. 37), не PI.";
+    return "Допплер: динамика через 48–72 ч, КТГ, решение с акушером о сроках родов. Справочник SonoGyn — ИР АП (RI), не PI.";
   }
   return null;
 }

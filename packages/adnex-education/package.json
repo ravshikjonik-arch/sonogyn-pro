@@ -2,7 +2,7 @@
   "name": "@repo/adnex-education",
   "version": "0.1.0",
   "private": true,
-  "description": "Методичка Озерской И.А. — IOTA, O-RADS US, учебный слой и простые правила",
+  "description": "IOTA, O-RADS US — учебный слой и простые правила SonoGyn",
   "type": "module",
   "exports": {
     ".": "./src/index.ts",

@@ -218,7 +218,7 @@ export function analyzeFirst(input: FirstTrimesterInput): AssistantOutput {
   const ivMarker = medvedevMarkers.find((m) => m.marker === "ivVentricle");
 
   if (ntMarker?.flag === "high") {
-    alerts.push(`⚠️ ТВП выше 95-го перцентиля (~${ntMarker.percentile ?? ">95"}-й, Медведев Прил. 11)`);
+    alerts.push(`⚠️ ТВП выше 95-го перцентиля (~${ntMarker.percentile ?? ">95"}-й)`);
   } else if (typeof input.ntMm === "number" && input.ntMm >= 3.5) {
     alerts.push("⚠️ ТВП увеличено (≥3,5 мм)");
   }
@@ -319,7 +319,7 @@ export function analyzeSecondThird(input: SecondThirdInput, trimester: "second" 
   if (latMarker?.flag === "high" || (input.lateralVentriclesMm ?? 0) > 10) {
     alerts.push(
       latMarker?.flag === "high"
-        ? `⚠️ Лат. желудочки выше 95-го перцентиля (~${latMarker.percentile ?? ">95"}-й, Медведев)`
+        ? `⚠️ Лат. желудочки выше 95-го перцентиля (~${latMarker.percentile ?? ">95"}-й)`
         : "⚠️ Вентрикуломегалия (>10 мм)",
     );
   }
@@ -388,7 +388,7 @@ export function analyzeSecondThird(input: SecondThirdInput, trimester: "second" 
     alerts.push("⚠️ PI СМА снижен (централизация кровотока)");
   }
   if ((input.uaPi ?? 0) > 1.3 && !medvedevDoppler.some((d) => d.marker === "uaRi")) {
-    alerts.push("⚠️ PI артерии пуповины повышен (для Медведева введите ИР АП — Прил. 37)");
+    alerts.push("⚠️ PI артерии пуповины повышен (введите ИР АП (таблица RI))");
   }
 
   for (const marker of medvedevBiometry) {
@@ -519,7 +519,7 @@ export function analyzeDoppler(input: {
 
   if (medvedevDoppler.length === 0) {
     if ((input.piRight ?? 0) > 1.4 || (input.piLeft ?? 0) > 1.4) {
-      alerts.push("⚠️ Риск преэклампсии (маточные PI >1,4 — укажите срок для перцентиля Медведева)");
+      alerts.push("⚠️ Риск преэклампсии (маточные PI >1,4 — укажите срок для перцентиля)");
     }
   }
 

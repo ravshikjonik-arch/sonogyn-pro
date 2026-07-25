@@ -1,6 +1,6 @@
 /**
  * O-RADS US v2022 и IOTA — международные протоколы (ACR O-RADS US, IOTA group).
- * Авторские методички — только в SUPPLEMENTARY_READING.
+ * Дополнительная литература отключена.
  */
 
 export const ORADS_US_VERSION = "O-RADS US v2022";
@@ -52,15 +52,7 @@ export type SupplementaryReadingItem = {
 };
 
 /** Дополнительная литература — для углубления, не для замены ACR/IOTA. */
-export const SUPPLEMENTARY_READING: SupplementaryReadingItem[] = [
-  {
-    id: "orads-echograms",
-    citation:
-      "Озерская И.А. Стандартизация ультразвукового исследования патологии придатков матки по IOTA, O-RADS. Методические рекомендации, ч. 1.",
-    note: "Русскоязычные эхограммы и разбор типичных ошибок — сверяйте с актуальной версией O-RADS US.",
-    href: ORADS_ECHOGRAMS_LIBRARY_PATH,
-  },
-];
+export const SUPPLEMENTARY_READING: SupplementaryReadingItem[] = [];
 
 export function oradsManagementForCategory(category: 1 | 2 | 3 | 4 | 5): string {
   return ORADS_US_MANAGEMENT[category];

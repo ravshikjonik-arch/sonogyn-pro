@@ -14,7 +14,7 @@ export const MAMMO_CORE_EVIDENCE: EvidenceEntry[] = [
       "BI-RADS ultrasound assessment categories standardize reporting and management recommendations for breast lesions.",
     tier: 1,
     source: {
-      label: "ACR BI-RADS Ultrasound v2025",
+      label: "ACR BI-RADS Ultrasound",
       organization: "ACR",
       year: 2025,
       pmid: "31797521",

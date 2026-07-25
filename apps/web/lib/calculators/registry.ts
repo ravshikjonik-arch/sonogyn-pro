@@ -30,7 +30,7 @@ export const CALCULATORS: CalculatorDefinition[] = [
     slug: "bi-rads",
     code: "BI_RADS_US",
     title: "BI-RADS US Pro",
-    subtitle: "Быстрый калькулятор · брошюра v2025 · атлас · AI Assistant + US Worker",
+    subtitle: "Быстрый калькулятор · протокол · атлас · AI Assistant + US Worker",
     externalHref: "/tools/calc/rads/bi-rads",
     fields: [],
   },

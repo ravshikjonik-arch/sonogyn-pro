@@ -4,7 +4,7 @@
  */
 
 export const MEDVEDEV_FIRST_TRIMESTER_SOURCE =
-  "Медведев М.В. Пренатальная эхография, 2016. Прил. 11 (Алтынник, Медведев, 2012).";
+  "I скрининг · перцентили (учебный справочник SonoGyn).";
 
 export const MEDVEDEV_CRL_MIN_MM = 45;
 export const MEDVEDEV_CRL_MAX_MM = 84;
@@ -198,7 +198,7 @@ function assessValueMarker(
       valueMm,
       reference: null,
       flag: "unknown",
-      summary: `${label}: укажите КТР для расчёта по таблице Медведева.`,
+      summary: `${label}: укажите КТР для расчёта по таблице перцентилей.`,
     };
   }
 
@@ -268,7 +268,7 @@ export function assessFirstTrimesterMedvedev(input: FirstTrimesterMedvedevInput)
 
 export function formatMedvedevMarkerForProtocol(item: MedvedevMarkerAssessment): string {
   if (item.valueMm !== undefined && item.percentile !== undefined) {
-    return `- ${item.label}: ${formatMm(item.valueMm)} мм (~${item.percentile}-й перц., Медведев Прил. 11)`;
+    return `- ${item.label}: ${formatMm(item.valueMm)} мм (~${item.percentile}-й перц.)`;
   }
   if (item.reference && item.marker === "nasalBone") {
     return `- ${item.label}: ${item.summary.replace(/^Длина носовой кости \(ДНК\): /, "")}`;

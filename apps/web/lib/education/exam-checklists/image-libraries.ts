@@ -13,7 +13,7 @@ export const PROTOCOL_IMAGE_LIBRARIES: ProtocolImageLibraryLink[] = [
     protocolId: "gynecologic-pelvic",
     label: "O-RADS эхограммы",
     href: "/tools/refs/orads-echograms",
-    description: "Учебные снимки аднексальных масс (Озерская).",
+    description: "Учебные снимки аднексальных масс.",
   },
   {
     protocolId: "gynecologic-pelvic",

@@ -7,7 +7,7 @@ import { percentileFromMedvedevBand, type PercentileBand } from "./medvedevFirst
 import type { MedvedevBiometryAssessment } from "./medvedevBiometry";
 
 export const MEDVEDEV_ANATOMY_SOURCE =
-  "Медведев М.В. Пренатальная эхография, 2016. Прил. 5–10, 12 (Козлова, Медведев и соавт.).";
+  "Анатомия II триместра · перцентили (учебный справочник SonoGyn).";
 
 export type MedvedevAnatomyMarker =
   | "corpusCallosum"
@@ -406,7 +406,7 @@ export function listAnatomyAtWeek(week: number): MedvedevBiometryAssessment[] {
 
 export function formatMedvedevAnatomyForProtocol(item: MedvedevBiometryAssessment): string {
   if (item.value !== undefined && item.percentile !== undefined) {
-    return `- ${item.label}: ${item.value} ${item.unit} (~${item.percentile}-й перц., Медведев)`;
+    return `- ${item.label}: ${item.value} ${item.unit} (~${item.percentile}-й перц.)`;
   }
   if (item.reference) {
     return `- ${item.label}: ${item.summary.replace(/^[^:]+:\s*/, "")}`;

@@ -33,6 +33,32 @@ import {
 import { plainTextToDocumentSpec } from "@/lib/reporting/document-spec-builders";
 import { saveOradsBridgePayload } from "@/lib/reports/sre-orads-bridge";
 import { cn } from "@/lib/utils/cn";
+import Image from "next/image";
+
+const ORAIDS_HERO_SRC = "/clinical/orads-hero/ovary-us-waves.jpg";
+const ORAIDS_HERO_ALT = "O-RADS: яичник, УЗ-зонд и цветовая кодификация риска 1–5";
+
+function OradsHero() {
+  return (
+    <div className="overflow-hidden rounded-2xl border border-[var(--clinical-border)] bg-[var(--clinical-surface-muted)]/40">
+      <div className="relative h-48 sm:h-56 w-full">
+        <Image src={ORAIDS_HERO_SRC} alt={ORAIDS_HERO_ALT} fill className="object-cover" priority sizes="100vw" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 p-4 text-white">
+          <p className="text-xs font-black uppercase tracking-widest text-sky-200">O-RADS US</p>
+          <h1 className="text-xl font-black sm:text-2xl">Оценка придатков · ACR / IOTA</h1>
+          <p className="mt-1 text-xs text-sky-100 sm:text-sm">
+            Выберите паттерн, который видите на УЗИ. Итоговая категория O-RADS и проверка IOTA появятся автоматически.
+          </p>
+        </div>
+      </div>
+      <div className="flex flex-wrap items-center gap-2 border-t border-[var(--clinical-border)] bg-white/60 px-4 py-3 text-xs text-[var(--clinical-foreground-muted)]">
+        <span className="font-bold text-[var(--clinical-foreground)]">Подсказка:</span>
+        начните с менопаузы и типа образования, затем структуру, солидный компонент, размер и ЦДК.
+      </div>
+    </div>
+  );
+}
 
 function categoryColors(cat: number) {
   if (cat <= 2) return "border-emerald-400 bg-emerald-50";
@@ -113,6 +139,7 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
 
   return (
     <div className="space-y-4 px-4 py-4 lg:px-10">
+      <OradsHero />
       <div className="mx-auto max-w-3xl space-y-2">
         <p className="text-sm font-bold text-[var(--clinical-foreground)]">
           {ORADS_VERSION_LABEL} + IOTA Simple Rules / IOTA 2026

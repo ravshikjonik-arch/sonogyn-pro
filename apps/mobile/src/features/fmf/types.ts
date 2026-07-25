@@ -23,7 +23,7 @@ export type EarlyInput = {
 export type FirstTrimesterInput = {
   crlMm?: number;
   ntMm?: number;
-  /** Длина носовой кости, мм — для перцентиля по Медведеву, Прил. 11. */
+  /** Длина носовой кости, мм — для перцентиля I скрининга. */
   nasalBoneLengthMm?: number;
   /** Передне-задний размер IV желудочка, мм — Прил. 11. */
   ivVentricleMm?: number;
@@ -131,7 +131,7 @@ export type AssistantOutput = {
   recommendations: string[];
   visualHints: string[];
   missingQuestions: string[];
-  /** I скрининг: перцентили по Медведеву, Прил. 11. */
+  /** I скрининг: перцентили фетометрии. */
   medvedevMarkers?: MedvedevMarkerAssessment[];
   /** Допплер: Прил. 40 (DV) и Прил. 36 (UtA). */
   medvedevDoppler?: MedvedevDopplerAssessment[];

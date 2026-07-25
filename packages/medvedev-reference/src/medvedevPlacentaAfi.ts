@@ -8,13 +8,13 @@
 import { percentileFromMedvedevBand, type PercentileBand } from "./medvedevFirstTrimester";
 
 export const MEDVEDEV_FINGER_SOURCE =
-  "Медведев М.В. Пренатальная эхография, 2016. Прил. 33 (Tovbin, 14–27 нед).";
+  "Длина пальцев · перцентили (учебный справочник SonoGyn).";
 
 export const MEDVEDEV_PLACENTA_SOURCE =
-  "Медведев М.В. Пренатальная эхография, 2016. Прил. 34 (Яковенко, 1994).";
+  "Плацента · толщина (учебный справочник SonoGyn).";
 
 export const MEDVEDEV_AFI_SOURCE =
-  "Медведев М.В. Пренатальная эхография, 2016. Прил. 35 (Moore, 1990).";
+  "AFI · перцентили (учебный справочник SonoGyn).";
 
 export type MedvedevFingerId = "fingerI" | "fingerII" | "fingerIII" | "fingerIV" | "fingerV";
 

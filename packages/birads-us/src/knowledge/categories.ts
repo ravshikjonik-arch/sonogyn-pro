@@ -1,4 +1,4 @@
-/** BI-RADS US категории — ACR Atlas 5th Ed + брошюра v2025 (Солнцева). */
+/** BI-RADS US категории — ACR Atlas 5th Ed + учебный протокол SonoGyn. */
 
 export type BiradsCategoryCode = "0" | "1" | "2" | "3" | "4A" | "4B" | "4C" | "5" | "6";
 

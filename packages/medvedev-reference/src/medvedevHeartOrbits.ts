@@ -7,7 +7,7 @@ import { percentileFromMedvedevBand, type PercentileBand } from "./medvedevFirst
 import type { MedvedevBiometryAssessment } from "./medvedevBiometry";
 
 export const MEDVEDEV_HEART_ORBITS_SOURCE =
-  "Медведев М.В. Пренатальная эхография, 2016. Прил. 13–20 (Потапова, Zalel, Cho, Shapiro, Медведев).";
+  "Сердце и орбиты · перцентили (учебный справочник SonoGyn).";
 
 export type MedvedevHeartOrbitMarker =
   | "orbitExtra"

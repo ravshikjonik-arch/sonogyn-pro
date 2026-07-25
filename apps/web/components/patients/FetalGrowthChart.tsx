@@ -2,7 +2,7 @@
 
 import { getMedvedevBiometryBand, MEDVEDEV_BIOMETRY_MIN_WEEK, MEDVEDEV_BIOMETRY_MAX_WEEK } from "@repo/medvedev-reference";
 
-/** EFW growth curves: p5 / p50 / p95 по Медведеву (Hadlock IV). */
+/** EFW growth curves: p5 / p50 / p95 (Hadlock IV). */
 const WEEKS = Array.from(
   { length: MEDVEDEV_BIOMETRY_MAX_WEEK - MEDVEDEV_BIOMETRY_MIN_WEEK + 1 },
   (_, i) => MEDVEDEV_BIOMETRY_MIN_WEEK + i,
@@ -58,7 +58,7 @@ export function FetalGrowthChart({ points, width = 480, height = 220 }: Props) {
         <circle key={`${p.week}-${p.grams}`} cx={x(p.week)} cy={y(p.grams)} r={5} fill="#f59e0b" />
       ))}
       <text x={pad.l} y={height - 8} className="fill-[var(--clinical-foreground-muted)] text-[10px]">
-        Недели → · полоса p5–p95 (Медведев)
+        Недели → · полоса p5–p95
       </text>
       <text
         x={12}

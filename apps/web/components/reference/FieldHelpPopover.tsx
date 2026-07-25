@@ -13,7 +13,7 @@ import { normsUrlForField, PROTOCOL_FIELD_TO_MEDVEDEV_MARKER } from "@repo/medve
 type Props = {
   fieldName: string;
   label?: string;
-  /** Срок для перцентилей Медведева (нед + дни → decimal). */
+  /** Срок для перцентилей фетометрии (нед + дни → decimal). */
   gaWeeks?: number;
   gaDays?: number;
 };
@@ -78,7 +78,7 @@ export function FieldHelpPopover({ fieldName, label, gaWeeks, gaDays }: Props) {
                 {normBand && gaDecimal != null ? (
                   <div className="mt-3 rounded-lg bg-indigo-50/80 p-3 text-xs dark:bg-indigo-950/30">
                     <p className="font-bold text-indigo-950 dark:text-indigo-100">
-                      Норма при {gaDecimal.toFixed(1)} нед (Медведев)
+                      Норма при {gaDecimal.toFixed(1)} нед
                     </p>
                     <p className="mt-1 font-mono text-indigo-900 dark:text-indigo-200">
                       {formatBand(normBand.p5, normBand.p50, normBand.p95, medvedevMarker === "efw" ? "г" : "мм")}

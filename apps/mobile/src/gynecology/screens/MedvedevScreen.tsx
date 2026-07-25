@@ -10,10 +10,10 @@ export function ScreenMedvedevConsensus({ setPage }: { setPage: (p: PageType) =>
       <GynBackToHub onPress={() => setPage("gyn_hub")} />
       <Text style={s.title}>{MEDVEDEV_BOOK_META.title}</Text>
       <Text style={s.meta}>
-        {MEDVEDEV_BOOK_META.authors}, {MEDVEDEV_BOOK_META.publisher}, {MEDVEDEV_BOOK_META.year}. ISBN {MEDVEDEV_BOOK_META.isbn}
+        {MEDVEDEV_BOOK_META.authors} · {MEDVEDEV_BOOK_META.year}
       </Text>
       <Text style={[s.result, { marginTop: 10 }]}>
-        Ниже — сжатая структура по оглавлению и предисловию книги (образовательно). Полный текст и иллюстрации — в оригинальном издании и в первоисточниках консенсусов MUSA, IETA, IOTA, IDEA.
+        Ниже — сжатая структура (образовательно). Клинические решения — по первоисточникам консенсусов MUSA, IETA, IOTA, IDEA и локальным протоколам.
       </Text>
       <ScrollView style={{ maxHeight: 520 }} nestedScrollEnabled showsVerticalScrollIndicator>
         {medvedevConsensusChapters.map((ch) => (

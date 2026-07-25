@@ -15,7 +15,7 @@ function linkifyClinicalText(text: string): ReactNode[] {
       return part;
     }
     const label = part.includes("/norms")
-      ? "Таблица норм Медведева →"
+      ? "Таблица норм по сроку →"
       : part.includes("/assistant/fmf") || part.includes("/ai/consultants/fmf")
         ? "FMF-ассистент →"
         : part.includes("/nosologies")

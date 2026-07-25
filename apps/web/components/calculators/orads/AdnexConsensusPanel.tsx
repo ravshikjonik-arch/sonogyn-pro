@@ -7,7 +7,6 @@ import {
   IOTA_BENIGN_DESCRIPTORS,
   IOTA_MALIGNANT_DESCRIPTORS,
   ORADS_US_VERSION,
-  SUPPLEMENTARY_READING,
   getAdnexPage,
   type AdnexTriangulation,
 } from "@repo/adnex-education";
@@ -29,7 +28,7 @@ const VERDICT_RU = {
 function descriptorLabel(code: string, kind: "benign" | "malignant") {
   const list = kind === "benign" ? IOTA_BENIGN_DESCRIPTORS : IOTA_MALIGNANT_DESCRIPTORS;
   const d = list.find((x) => x.code === code);
-  return d ? `${code}: ${d.labelRu}` : code;
+  return d ? `${d.code}: ${d.labelRu}` : code;
 }
 
 type Props = {
@@ -166,20 +165,10 @@ export function AdnexConsensusPanel({ triangulation: tri, disabled }: Props) {
       </div>
 
       <div className="border-t border-slate-200 bg-slate-100/80 px-4 py-3">
-        <p className="text-[10px] font-black uppercase tracking-wide text-slate-500">Дополнительная литература</p>
-        <ul className="mt-2 space-y-2 text-xs text-[var(--clinical-foreground-muted)]">
-          {SUPPLEMENTARY_READING.map((r) => (
-            <li key={r.id}>
-              <span className="text-[var(--clinical-foreground)]">{r.citation}</span>
-              <span className="block mt-0.5">{r.note}</span>
-              {r.href ? (
-                <Link href={r.href} className="mt-1 inline-block font-semibold text-[var(--clinical-primary-deep)] hover:underline">
-                  Читать с эхограммами →
-                </Link>
-              ) : null}
-            </li>
-          ))}
-        </ul>
+        <p className="text-[10px] font-black uppercase tracking-wide text-slate-500">Примечание</p>
+        <p className="mt-1 text-xs leading-relaxed text-[var(--clinical-foreground-muted)]">
+          Интерпретация — специалистом; не заменяет клиническое решение.
+        </p>
       </div>
     </section>
   );

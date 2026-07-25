@@ -3,7 +3,7 @@ import { Suspense } from "react";
 import { MedvedevNormsLookup } from "@/components/reference/MedvedevNormsLookup";
 
 export const metadata = {
-  title: "Нормы по сроку · Медведев",
+  title: "Нормы по сроку",
   description: "Перцентили фетометрии II/III скрининга (Прил. 1, 5–12)",
 };
 
