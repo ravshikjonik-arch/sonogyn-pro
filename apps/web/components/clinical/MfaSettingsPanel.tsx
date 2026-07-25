@@ -25,12 +25,24 @@ export function MfaSettingsPanel() {
   const refresh = useCallback(async () => {
     setLoading(true);
     try {
+      const { data: sessionData } = await supabase.auth.getSession();
+      if (!sessionData.session) {
+        setMessage("Сессия браузера не найдена. Обновите страницу или войдите снова — затем подключите TOTP.");
+        setFactors([]);
+        return;
+      }
       const { data, error } = await supabase.auth.mfa.listFactors();
       if (error) throw error;
       const totp = (data?.totp ?? []) as TotpFactor[];
       setFactors(totp.filter((f) => f.status === "verified"));
+      setMessage(null);
     } catch (e) {
-      setMessage(e instanceof Error ? e.message : "Не удалось загрузить MFA");
+      const raw = e instanceof Error ? e.message : "Не удалось загрузить MFA";
+      setMessage(
+        /auth session missing/i.test(raw)
+          ? "Сессия браузера не найдена. Обновите страницу или войдите снова — затем подключите TOTP."
+          : raw,
+      );
     } finally {
       setLoading(false);
     }

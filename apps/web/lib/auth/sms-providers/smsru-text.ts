@@ -15,26 +15,36 @@ export async function sendSmsRuText(params: { toE164: string; text: string }): P
   const qs = new URLSearchParams({ api_id: cfg.apiId, to, msg, json: "1" });
   if (cfg.from) qs.set("from", cfg.from);
 
-  let res: Response;
-  try {
-    res = await fetchWithRetry(`https://sms.ru/sms/send?${qs.toString()}`, { method: "GET" });
-  } catch {
-    return { ok: false, errorCode: "smsru_network_error" };
+  const attempt = async (paramsQs: URLSearchParams): Promise<SmsTextResult> => {
+    let res: Response;
+    try {
+      res = await fetchWithRetry(`https://sms.ru/sms/send?${paramsQs.toString()}`, { method: "GET" });
+    } catch {
+      return { ok: false, errorCode: "smsru_network_error" };
+    }
+
+    const json = (await res.json().catch(() => null)) as {
+      status?: string;
+      status_code?: number;
+      sms?: Record<string, { status?: string; status_code?: number; sms_id?: string }>;
+    } | null;
+
+    if (!json || json.status !== "OK") {
+      return { ok: false, errorCode: `smsru_${json?.status_code ?? "send_failed"}` };
+    }
+
+    const first = json.sms ? Object.values(json.sms)[0] : undefined;
+    if (first && first.status !== "OK") {
+      return { ok: false, errorCode: `smsru_${first.status_code ?? "send_failed"}` };
+    }
+
+    return { ok: true, providerMessageId: first?.sms_id };
+  };
+
+  const firstTry = await attempt(qs);
+  if (!firstTry.ok && firstTry.errorCode === "smsru_204" && qs.has("from")) {
+    qs.delete("from");
+    return attempt(qs);
   }
-
-  const json = (await res.json().catch(() => null)) as {
-    status?: string;
-    sms?: Record<string, { status?: string; status_code?: number; sms_id?: string }>;
-  } | null;
-
-  if (!json || json.status !== "OK") {
-    return { ok: false, errorCode: "smsru_send_failed" };
-  }
-
-  const first = json.sms ? Object.values(json.sms)[0] : undefined;
-  if (first && first.status !== "OK") {
-    return { ok: false, errorCode: `smsru_${first.status_code ?? "send_failed"}` };
-  }
-
-  return { ok: true, providerMessageId: first?.sms_id };
+  return firstTry;
 }

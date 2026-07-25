@@ -4,9 +4,21 @@ import { MfaSettingsPanel } from "@/components/clinical/MfaSettingsPanel";
 import { ProfileClinicalPreferencesSection } from "@/components/clinical/ProfileClinicalPreferencesSection";
 import { ProfileSettingsForm } from "@/components/clinical/profile-settings-form";
 import { BirthDateDisplay } from "@/components/ui/BirthDateField";
+import { ensureFounderAdminAccess } from "@/lib/auth/founder-admins";
 import { CLINICAL_AVATARS_BUCKET } from "@/lib/supabase/medical-storage";
 import { parseClinicalPreferences, resolveBirthDateIso } from "@repo/types";
 import { createClient } from "@/utils/supabase/server";
+
+type ProfileCard = {
+  id: string;
+  full_name: string | null;
+  institution: string | null;
+  specialization: string | null;
+  birth_year: number | null;
+  role: string | null;
+  subscription_tier: string | null;
+  clinical_preferences?: unknown;
+};
 
 export default async function ProfilePage() {
   const supabase = await createClient();
@@ -18,18 +30,34 @@ export default async function ProfilePage() {
     redirect("/login");
   }
 
-  const [{ data: profile, error: profileError }, { data: doctor }] = await Promise.all([
-    supabase
-      .from("profiles")
-      .select("id, full_name, institution, specialization, birth_year, role, subscription_tier, clinical_preferences")
-      .eq("id", user.id)
-      .maybeSingle(),
-    supabase
-      .from("users")
-      .select("full_name, institution, specialization, birth_year, avatar_storage_path")
-      .eq("id", user.id)
-      .maybeSingle(),
-  ]);
+  await ensureFounderAdminAccess(user.id);
+
+  const full = await supabase
+    .from("profiles")
+    .select(
+      "id, full_name, institution, specialization, birth_year, role, subscription_tier, clinical_preferences",
+    )
+    .eq("id", user.id)
+    .maybeSingle();
+
+  // Prod без миграции clinical_preferences — не ломаем кабинет.
+  const base =
+    full.error && /clinical_preferences/i.test(full.error.message)
+      ? await supabase
+          .from("profiles")
+          .select("id, full_name, institution, specialization, birth_year, role, subscription_tier")
+          .eq("id", user.id)
+          .maybeSingle()
+      : null;
+
+  const profile = (base?.data ?? full.data) as ProfileCard | null;
+  const profileError = !profile ? (base?.error ?? full.error) : null;
+
+  const { data: doctor } = await supabase
+    .from("users")
+    .select("full_name, institution, specialization, birth_year, avatar_storage_path")
+    .eq("id", user.id)
+    .maybeSingle();
 
   const displayName =
     doctor?.full_name?.trim() || profile?.full_name?.trim() || "Заполните профиль";

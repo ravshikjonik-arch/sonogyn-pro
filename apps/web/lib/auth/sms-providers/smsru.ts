@@ -17,10 +17,10 @@ export function smsRuPhoneDigits(e164: string): string {
   return digits;
 }
 
-/** SMS.ru надёжно работает с мобильными РФ (+7, 11 цифр). */
+/** SMS.ru: мобильные РФ — 11 цифр, код страны 7 + DEF 9xx (79…). */
 export function isRuMobileForSmsRu(e164: string): boolean {
   const digits = smsRuPhoneDigits(e164);
-  return digits.length === 11 && digits.startsWith("7");
+  return digits.length === 11 && digits.startsWith("79");
 }
 
 export async function sendSmsRu(params: {
@@ -52,26 +52,36 @@ export async function sendSmsRu(params: {
     qs.set("ip", ip);
   }
 
-  let res: Response;
-  try {
-    res = await fetchWithRetry(`https://sms.ru/sms/send?${qs.toString()}`, { method: "GET" });
-  } catch {
-    return { ok: false, errorCode: "smsru_network_error" };
-  }
-  const json = (await res.json().catch(() => null)) as {
-    status?: string;
-    status_code?: number;
-    sms?: Record<string, { status?: string; status_code?: number; sms_id?: string }>;
-  } | null;
+  const attempt = async (paramsQs: URLSearchParams) => {
+    let res: Response;
+    try {
+      res = await fetchWithRetry(`https://sms.ru/sms/send?${paramsQs.toString()}`, { method: "GET" });
+    } catch {
+      return { ok: false as const, errorCode: "smsru_network_error" };
+    }
+    const json = (await res.json().catch(() => null)) as {
+      status?: string;
+      status_code?: number;
+      sms?: Record<string, { status?: string; status_code?: number; sms_id?: string }>;
+    } | null;
 
-  if (!json || json.status !== "OK") {
-    return { ok: false, errorCode: `smsru_${json?.status_code ?? res.status}` };
-  }
+    if (!json || json.status !== "OK") {
+      return { ok: false as const, errorCode: `smsru_${json?.status_code ?? res.status}` };
+    }
 
-  const first = json.sms ? Object.values(json.sms)[0] : undefined;
-  if (first && first.status !== "OK") {
-    return { ok: false, errorCode: `smsru_${first.status_code ?? "send_failed"}` };
-  }
+    const first = json.sms ? Object.values(json.sms)[0] : undefined;
+    if (first && first.status !== "OK") {
+      return { ok: false as const, errorCode: `smsru_${first.status_code ?? "send_failed"}` };
+    }
 
-  return { ok: true, providerMessageId: first?.sms_id, provider: "smsru" };
+    return { ok: true as const, providerMessageId: first?.sms_id, provider: "smsru" as const };
+  };
+
+  const firstTry = await attempt(qs);
+  // 204: имя отправителя (SMSRU_FROM) не подключено к оператору — повтор без from (дефолт sms.ru).
+  if (!firstTry.ok && firstTry.errorCode === "smsru_204" && qs.has("from")) {
+    qs.delete("from");
+    return attempt(qs);
+  }
+  return firstTry;
 }

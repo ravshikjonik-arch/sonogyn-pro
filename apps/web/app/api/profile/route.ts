@@ -12,11 +12,16 @@ import {
   detectAndNotifyCareerMilestone,
   loadCareerProfileInput,
 } from "@/lib/career/milestones";
+import { ensureFounderAdminAccess } from "@/lib/auth/founder-admins";
 import { autoGrantPilotMedicalAccess } from "@/lib/auth/pilot-medical-access";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { requireSupabaseUser } from "@/lib/security/require-user";
 import { createClient } from "@/utils/supabase/server";
+
+function isMissingClinicalPreferencesColumn(message: string | undefined): boolean {
+  return Boolean(message && /clinical_preferences/i.test(message));
+}
 
 export const runtime = "nodejs";
 
@@ -56,6 +61,8 @@ export async function GET() {
   const auth = await requireSupabaseUser(supabase);
   if (!auth.ok) return auth.response;
 
+  await ensureFounderAdminAccess(auth.userId);
+
   const { data, error } = await supabase
     .from("profiles")
     .select(PROFILE_SELECT)
@@ -72,9 +79,13 @@ export async function GET() {
     });
   }
 
+  const baseSelect = isMissingClinicalPreferencesColumn(error?.message)
+    ? `${PROFILE_BASE_SELECT}, birth_year`
+    : PROFILE_BASE_SELECT;
+
   const { data: baseData, error: baseError } = await supabase
     .from("profiles")
-    .select(PROFILE_BASE_SELECT)
+    .select(baseSelect)
     .eq("id", auth.userId)
     .maybeSingle();
 
@@ -171,19 +182,21 @@ export async function PATCH(request: Request) {
       .eq("id", auth.userId)
       .maybeSingle();
 
-    if (readError) {
+    if (readError && isMissingClinicalPreferencesColumn(readError.message)) {
+      // Колонка ещё не на prod — не блокируем сохранение ФИО/специализации.
+    } else if (readError) {
       return NextResponse.json({ error: readError.message }, { status: 500 });
+    } else {
+      const merged = {
+        ...parseClinicalPreferences(currentRow?.clinical_preferences),
+        ...d.clinical_preferences,
+      };
+      const validated = ClinicalPreferencesSchema.safeParse(merged);
+      if (!validated.success) {
+        return NextResponse.json({ error: validated.error.flatten() }, { status: 400 });
+      }
+      profilePatch.clinical_preferences = validated.data;
     }
-
-    const merged = {
-      ...parseClinicalPreferences(currentRow?.clinical_preferences),
-      ...d.clinical_preferences,
-    };
-    const validated = ClinicalPreferencesSchema.safeParse(merged);
-    if (!validated.success) {
-      return NextResponse.json({ error: validated.error.flatten() }, { status: 400 });
-    }
-    profilePatch.clinical_preferences = validated.data;
   }
 
   if (d.avatar_storage_path !== undefined) {
@@ -200,6 +213,16 @@ export async function PATCH(request: Request) {
     Object.keys(profilePatch).length === 0 &&
     d.avatar_storage_path === undefined
   ) {
+    // Только clinical_preferences, а колонки ещё нет — не валим UI шаблонов (localStorage).
+    if (d.clinical_preferences !== undefined) {
+      return NextResponse.json({
+        profile: {
+          id: auth.userId,
+          clinical_preferences: parseClinicalPreferences(d.clinical_preferences),
+        },
+        clinicalPreferencesPendingMigration: true,
+      });
+    }
     return NextResponse.json({ error: "No supported fields provided" }, { status: 400 });
   }
 
@@ -209,28 +232,50 @@ export async function PATCH(request: Request) {
 
   if (Object.keys(profilePatch).length > 0) {
     profilePatch.updated_at = nowIso;
-    const { data, error } = await supabase
+    let { data, error } = await supabase
       .from("profiles")
       .update(profilePatch)
       .eq("id", auth.userId)
       .select(PROFILE_SELECT)
       .single();
 
+    if (error && isMissingClinicalPreferencesColumn(error.message)) {
+      delete profilePatch.clinical_preferences;
+      const retry = await supabase
+        .from("profiles")
+        .update(profilePatch)
+        .eq("id", auth.userId)
+        .select(`${PROFILE_BASE_SELECT}, birth_year`)
+        .single();
+      data = retry.data as typeof data;
+      error = retry.error;
+    }
+
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
-    profileRow = data as ProfileRow;
+    profileRow = normalizeProfileRow(data as ProfileRow);
   } else {
-    const { data, error } = await supabase
+    let { data, error } = await supabase
       .from("profiles")
       .select(PROFILE_SELECT)
       .eq("id", auth.userId)
       .single();
 
+    if (error && isMissingClinicalPreferencesColumn(error.message)) {
+      const retry = await supabase
+        .from("profiles")
+        .select(`${PROFILE_BASE_SELECT}, birth_year`)
+        .eq("id", auth.userId)
+        .single();
+      data = retry.data as typeof data;
+      error = retry.error;
+    }
+
     if (error || !data) {
       return NextResponse.json({ error: error?.message ?? "Profile not found" }, { status: 404 });
     }
-    profileRow = data as ProfileRow;
+    profileRow = normalizeProfileRow(data as ProfileRow);
   }
 
   const { data: existingUser } = await supabase
