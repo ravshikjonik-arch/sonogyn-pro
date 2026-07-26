@@ -141,7 +141,12 @@ if (authStatus.status === 200) {
   fail("/api/auth/status", `HTTP ${authStatus.status}`);
 }
 
-const webinarStatus = await request("GET", "/api/webinars/status");
+const webinarHeaders = {};
+const webinarSecret =
+  process.env.SONOGYN_AUTH_INTERNAL_SECRET?.trim() ||
+  (typeof loadEnv === "function" ? loadEnv().SONOGYN_AUTH_INTERNAL_SECRET?.trim() : "");
+if (webinarSecret) webinarHeaders["x-sonogyn-internal-secret"] = webinarSecret;
+const webinarStatus = await request("GET", "/api/webinars/status", { headers: webinarHeaders });
 if (webinarStatus.status === 200) {
   ok("/api/webinars/status → 200");
   const w = webinarStatus.json ?? {};
@@ -155,6 +160,8 @@ if (webinarStatus.status === 200) {
   }
 } else if (webinarStatus.status === 404) {
   warn("/api/webinars/status", "404 — задеployьте последний main на Vercel");
+} else if (webinarStatus.status === 403 && !webinarSecret) {
+  warn("/api/webinars/status", "403 — diagnostics gated (ожидаемо без SONOGYN_AUTH_INTERNAL_SECRET)");
 } else {
   fail("/api/webinars/status", `HTTP ${webinarStatus.status}`);
 }

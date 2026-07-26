@@ -37,6 +37,8 @@ const env = mergeWebEnv(webRoot);
 const url = env.NEXT_PUBLIC_SUPABASE_URL?.trim();
 const serviceKey = env.SUPABASE_SERVICE_ROLE_KEY?.trim();
 const devEmail = env.DEV_LOGIN_EMAIL?.trim();
+/** Fallback: founder verified_doctor на prod (пилот без DEV_LOGIN_*). */
+const FOUNDER_ID = env.PILOT_FOUNDER_USER_ID?.trim() || "55d7a4c9-3dbb-4627-b0f6-a0a1efe01993";
 
 let failed = 0;
 function ok(msg) {
@@ -47,8 +49,8 @@ function fail(msg, detail) {
   failed += 1;
 }
 
-if (!url || !serviceKey || !devEmail) {
-  console.error("Нужны NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, DEV_LOGIN_EMAIL в .env.local");
+if (!url || !serviceKey) {
+  console.error("Нужны NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY в .env.local");
   process.exit(1);
 }
 
@@ -71,12 +73,30 @@ async function findUserIdByEmail(targetEmail) {
 async function main() {
   console.log("\n🧪 Pilot case E2E (task #12)\n");
 
-  const userId = await findUserIdByEmail(devEmail);
-  if (!userId) {
-    fail("Dev user", `не найден: ${devEmail} — запустите npm run setup:dev-login`);
-    process.exit(1);
+  let userId = null;
+  if (devEmail) {
+    userId = await findUserIdByEmail(devEmail);
+    if (userId) ok(`Dev user ${devEmail}`);
+    else fail("Dev user", `не найден: ${devEmail} — fallback founder`);
   }
-  ok(`Dev user ${devEmail}`);
+  if (!userId) {
+    const { data: founder, error: fErr } = await admin
+      .from("profiles")
+      .select("id, medical_access_status, role")
+      .eq("id", FOUNDER_ID)
+      .maybeSingle();
+    if (fErr || !founder) {
+      fail("Founder user", fErr?.message ?? "not found");
+      process.exit(1);
+    }
+    userId = founder.id;
+    ok(`Founder user ${userId.slice(0, 8)}… (${founder.medical_access_status}/${founder.role})`);
+    if (!["verified_doctor", "doctor", "admin", "resident"].includes(founder.medical_access_status || founder.role)) {
+      fail("medical_access", "блокирует чат/кейсы");
+    } else {
+      ok("medical_access допускает cases/chat");
+    }
+  }
 
   const stamp = new Date().toISOString().slice(0, 19);
   const { data: caseRow, error: caseErr } = await admin

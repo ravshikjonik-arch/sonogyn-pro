@@ -9,7 +9,7 @@ module.exports = function withGradleJvmArgs(config) {
     cfg.modResults.push({
       type: "property",
       key: "org.gradle.jvmargs",
-      value: "-Xmx4096m -XX:MaxMetaspaceSize=1024m -XX:+HeapDumpOnOutOfMemoryError",
+      value: "-Xmx6144m -XX:MaxMetaspaceSize=1536m -XX:+HeapDumpOnOutOfMemoryError",
     });
     return cfg;
   });

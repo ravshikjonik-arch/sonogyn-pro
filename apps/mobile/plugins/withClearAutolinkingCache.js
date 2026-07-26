@@ -13,9 +13,14 @@ module.exports = function withClearAutolinkingCache(config) {
       return cfg;
     }
     const snippet = `// ${marker} so it always regenerates with correct paths on the build machine.
+// Also clear app CMake/.cxx leftovers that EAS cache restore can poison (SDK 54).
 def autolinkingCacheDir = new File(rootDir, "build/generated/autolinking")
+def appCxxDir = new File(rootDir, "app/.cxx")
+def appBuildGenerated = new File(rootDir, "app/build/generated")
 if (!System.getProperty("os.name").toLowerCase().contains("windows")) {
   autolinkingCacheDir.deleteDir()
+  appCxxDir.deleteDir()
+  appBuildGenerated.deleteDir()
 }
 
 `;

@@ -11,9 +11,9 @@
 
 - [x] **Vercel prod env** — SMSRU_API_ID, AUTH_EMAIL_ONLY=false, Upstash/KV, redeploy (проверено: smsReady=true).
 - [x] **Supabase prod** — `cases_orads_tags` + `security_hardening` применены (MCP, 2026-06-26).
-- [ ] **Auth SMS** — прогнать вход/регистрацию по SMS на реальном номере (sms.ru, до 10 мин).
-- [ ] **EAS build** — `cd apps/mobile && npm run eas:android:preview` (или `eas:all:preview`); на устройстве проверить push-токен в `user_push_tokens`.
-- [ ] **Discussions e2e** — web + mobile: вопрос → ответ → push → deep link.
+- [ ] **Auth SMS** — прогнать вход/регистрацию по SMS на реальном `+79…` (sms.ru, до 10 мин). Инфра: `smsReady=true`; при `204` — убрать/одобрить `SMSRU_FROM` на Vercel.
+- [ ] **EAS build** — Gradle всё ещё падает (`EAS_BUILD_UNKNOWN_GRADLE_ERROR`). Архив починен (`.easignore`: было ~200MB с `.git`, стало ~20MB). Нужен хвост фазы **Run gradlew** (`FAILURE:`). Сборка: https://expo.dev/accounts/yakrav7700/projects/us-risk-calc/builds/b6e00e65-dfec-493a-ac01-5869082ad969
+- [x] **Discussions web↔web e2e** — `npm run pilot:discussions-e2e` (вопрос+ответ двух авторов). Push/deep-link — после APK + строка в `user_push_tokens`.
 
 #### Гайд пилота (волна 1)
 
@@ -42,6 +42,9 @@
 - [x] **Pilot wave-1 smoke** — `npm run pilot:smoke` на prod (2026-06-29): 6/6 OK, `smsReady=true`
 - [x] **Pilot case E2E** — lifecycle R6 + feed (2026-06-29)
 - [x] **FMF fetal slices seed** — курс `1d67a487…` на prod, 10 уроков (видео ISUOG — загрузка после mkv→mp4)
+- [ ] **ISUOG mkv→mp4 upload** — отложено (нужно явное «да» на долгий seed `npm run seed:fmf-fetal-slices`)
+- [x] **Pilot closeout T0–T5** — prod smoke + Evidence Perplexity + case E2E + RADS/FMF/library (2026-07-26)
+- [x] **Discussions web↔web e2e** — `npm run pilot:discussions-e2e` (вопрос+ответ двух авторов); push/deep-link — после APK
 - [x] CI lockfile + wave 3 Zod (mobile exchange, webhook)
 - [x] Wave 4 Zod (send-code, verify-code, resend-confirmation, mfa/verify-login, notify)
 - [x] Security E2E fix (webhook 400, E2E_DEV_SKIP_AUTH=false)
