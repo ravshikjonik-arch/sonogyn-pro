@@ -1,4 +1,9 @@
-import { createServiceSupabase, sendExpoPushBatch, verifyDiscussionWebhook } from "../_shared/expo-push.ts";
+import {
+  createServiceSupabase,
+  filterUsersWithMessageNotifications,
+  sendExpoPushBatch,
+  verifyDiscussionWebhook,
+} from "../_shared/expo-push.ts";
 
 const CHAT_PUSH_COOLDOWN_MS = 5 * 60 * 1000;
 
@@ -71,14 +76,25 @@ Deno.serve(async (req) => {
     return Number.isFinite(last) && now - last >= CHAT_PUSH_COOLDOWN_MS;
   });
 
-  const userIds = eligible.map((s) => s.user_id);
-  const suppressed = (subscribers?.length ?? 0) - userIds.length;
+  const cooldownEligibleIds = eligible.map((s) => s.user_id);
+  const cooldownSuppressed = (subscribers?.length ?? 0) - cooldownEligibleIds.length;
+
+  const { allowed: userIds, suppressed: prefSuppressed } = await filterUsersWithMessageNotifications(
+    supabase,
+    cooldownEligibleIds,
+  );
+  const suppressed = cooldownSuppressed + prefSuppressed;
 
   if (userIds.length === 0) {
     return new Response(
       JSON.stringify({
         sent: 0,
-        reason: (subscribers?.length ?? 0) === 0 ? "no_subscribers" : "cooldown",
+        reason:
+          (subscribers?.length ?? 0) === 0
+            ? "no_subscribers"
+            : prefSuppressed > 0 && cooldownEligibleIds.length === prefSuppressed
+              ? "notifications_disabled"
+              : "cooldown",
         suppressed,
       }),
       { headers: { "Content-Type": "application/json" } },

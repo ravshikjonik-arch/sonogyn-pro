@@ -33,6 +33,7 @@ import { resolveBirthDateIso } from "@repo/types";
 
 import { BirthDateDisplay } from "../components/BirthDateField";
 import { DoctorRoleSettings } from "../components/clinical/DoctorRoleSettings";
+import { MessageNotificationsSettings } from "../components/clinical/MessageNotificationsSettings";
 
 type Props = CompositeScreenProps<
   BottomTabScreenProps<MainTabParamList, "ProfileTab">,
@@ -210,6 +211,8 @@ export default function ProfileScreen({ navigation }: Props) {
         </Pressable>
 
         <DoctorRoleSettings />
+
+        {supabaseLoggedIn ? <MessageNotificationsSettings /> : null}
 
         {supabaseLoggedIn ? (
           <View style={styles.securityBox}>

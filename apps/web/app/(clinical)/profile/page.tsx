@@ -2,11 +2,16 @@ import { redirect } from "next/navigation";
 
 import { MfaSettingsPanel } from "@/components/clinical/MfaSettingsPanel";
 import { ProfileClinicalPreferencesSection } from "@/components/clinical/ProfileClinicalPreferencesSection";
+import { ProfileMessageNotificationsToggle } from "@/components/clinical/ProfileMessageNotificationsToggle";
 import { ProfileSettingsForm } from "@/components/clinical/profile-settings-form";
 import { BirthDateDisplay } from "@/components/ui/BirthDateField";
 import { ensureFounderAdminAccess } from "@/lib/auth/founder-admins";
 import { CLINICAL_AVATARS_BUCKET } from "@/lib/supabase/medical-storage";
-import { parseClinicalPreferences, resolveBirthDateIso } from "@repo/types";
+import {
+  isMessageNotificationsEnabled,
+  parseClinicalPreferences,
+  resolveBirthDateIso,
+} from "@repo/types";
 import { createClient } from "@/utils/supabase/server";
 
 type ProfileCard = {
@@ -162,6 +167,10 @@ export default async function ProfilePage() {
             birth_year: birthYear,
             birth_date_iso: birthDateIso,
           }}
+        />
+
+        <ProfileMessageNotificationsToggle
+          initialEnabled={isMessageNotificationsEnabled(clinicalPrefs)}
         />
 
         <ProfileClinicalPreferencesSection initialTemplateId={fmfTemplateId} />

@@ -1,4 +1,9 @@
-import { createServiceSupabase, sendExpoPushBatch, verifyDiscussionWebhook } from "../_shared/expo-push.ts";
+import {
+  createServiceSupabase,
+  filterUsersWithMessageNotifications,
+  sendExpoPushBatch,
+  verifyDiscussionWebhook,
+} from "../_shared/expo-push.ts";
 
 type WebhookPayload = {
   type: "INSERT";
@@ -49,11 +54,22 @@ Deno.serve(async (req) => {
     .eq("case_id", case_id)
     .neq("user_id", author_id);
 
-  const userIds = (subscribers ?? []).map((s) => s.user_id as string);
-  if (userIds.length === 0) {
+  const subscriberIds = (subscribers ?? []).map((s) => s.user_id as string);
+  if (subscriberIds.length === 0) {
     return new Response(JSON.stringify({ sent: 0, reason: "no_subscribers" }), {
       headers: { "Content-Type": "application/json" },
     });
+  }
+
+  const { allowed: userIds, suppressed } = await filterUsersWithMessageNotifications(
+    supabase,
+    subscriberIds,
+  );
+  if (userIds.length === 0) {
+    return new Response(
+      JSON.stringify({ sent: 0, reason: "notifications_disabled", suppressed }),
+      { headers: { "Content-Type": "application/json" } },
+    );
   }
 
   const { data: tokens } = await supabase

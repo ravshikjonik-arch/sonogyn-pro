@@ -1,3 +1,4 @@
+import { isMessageNotificationsEnabled, parseClinicalPreferences } from "@repo/types";
 import Constants from "expo-constants";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
@@ -18,9 +19,17 @@ export function configurePushNotificationHandler(): void {
   });
 }
 
+/** Remove stored Expo tokens for user (opt-out from message push). */
+export async function unregisterPushTokensForUser(userId: string): Promise<void> {
+  if (!supabaseMobile) return;
+  const { error } = await supabaseMobile.from("user_push_tokens").delete().eq("user_id", userId);
+  if (error) console.warn("[push] delete tokens failed", error.message);
+}
+
 /**
  * Request Expo push token and upsert into Supabase `user_push_tokens`.
  * No-op on web, simulator without push, or without Supabase session config.
+ * Respects profiles.clinical_preferences.notifications.messagesEnabled.
  */
 export async function registerPushTokenWithSupabase(userId: string): Promise<boolean> {
   if (!supabaseMobile) {
@@ -35,6 +44,16 @@ export async function registerPushTokenWithSupabase(userId: string): Promise<boo
 
   if (!Device.isDevice) {
     if (__DEV__) console.info("[push] skip — not a physical device");
+    return false;
+  }
+
+  const { data: profile } = await supabaseMobile
+    .from("profiles")
+    .select("clinical_preferences")
+    .eq("id", userId)
+    .maybeSingle();
+  if (!isMessageNotificationsEnabled(parseClinicalPreferences(profile?.clinical_preferences))) {
+    if (__DEV__) console.info("[push] skip — messagesEnabled=false");
     return false;
   }
 

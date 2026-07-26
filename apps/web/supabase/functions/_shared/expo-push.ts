@@ -72,3 +72,37 @@ export async function verifyDiscussionWebhook(
   });
   return !error && data === true;
 }
+
+/**
+ * Filter recipients by profiles.clinical_preferences.notifications.messagesEnabled.
+ * Default (missing / true) = allow; only explicit false opts out.
+ */
+export async function filterUsersWithMessageNotifications(
+  supabase: SupabaseClient,
+  userIds: string[],
+): Promise<{ allowed: string[]; suppressed: number }> {
+  if (userIds.length === 0) return { allowed: [], suppressed: 0 };
+
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("id, clinical_preferences")
+    .in("id", userIds);
+
+  if (error) {
+    console.warn("[push] clinical_preferences filter failed — allow all", error.message);
+    return { allowed: userIds, suppressed: 0 };
+  }
+
+  const disabled = new Set<string>();
+  for (const row of data ?? []) {
+    const prefs = row.clinical_preferences as
+      | { notifications?: { messagesEnabled?: boolean } }
+      | null;
+    if (prefs?.notifications?.messagesEnabled === false) {
+      disabled.add(row.id as string);
+    }
+  }
+
+  const allowed = userIds.filter((id) => !disabled.has(id));
+  return { allowed, suppressed: userIds.length - allowed.length };
+}

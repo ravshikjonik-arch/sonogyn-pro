@@ -26,9 +26,12 @@ import { ClinicalPreferencesSchema } from "./clinical-preferences";
 export {
   ClinicalPreferencesSchema,
   DEFAULT_SECOND_THIRD_PROTOCOL_TEMPLATE,
+  NotificationPreferencesSchema,
   SecondThirdProtocolTemplateIdSchema,
+  isMessageNotificationsEnabled,
   parseClinicalPreferences,
   type ClinicalPreferences,
+  type NotificationPreferences,
   type SecondThirdProtocolTemplateId,
 } from "./clinical-preferences";
 
