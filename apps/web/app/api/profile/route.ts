@@ -27,8 +27,9 @@ export const runtime = "nodejs";
 
 const PROFILE_SELECT =
   "id, role, full_name, institution, specialization, birth_year, clinical_preferences, subscription_tier, subscription_expires_at, trial_ends_at, created_at, updated_at";
+/** Без clinical_preferences — fallback, если колонка ещё не на prod. */
 const PROFILE_BASE_SELECT =
-  "id, role, full_name, institution, specialization, subscription_tier, subscription_expires_at, trial_ends_at, created_at, updated_at";
+  "id, role, full_name, institution, specialization, birth_year, subscription_tier, subscription_expires_at, trial_ends_at, created_at, updated_at";
 
 type ProfileRow = {
   id: string;
@@ -45,9 +46,11 @@ type ProfileRow = {
   updated_at: string;
 };
 
-type ProfileBaseRow = Omit<ProfileRow, "birth_year" | "clinical_preferences">;
+type ProfileBaseRow = Omit<ProfileRow, "clinical_preferences">;
 
-function normalizeProfileRow(row: ProfileBaseRow & Partial<Pick<ProfileRow, "birth_year" | "clinical_preferences">>): ProfileRow {
+function normalizeProfileRow(
+  row: ProfileBaseRow & Partial<Pick<ProfileRow, "clinical_preferences">>,
+): ProfileRow {
   return {
     ...row,
     birth_year: row.birth_year ?? null,
@@ -79,13 +82,9 @@ export async function GET() {
     });
   }
 
-  const baseSelect = isMissingClinicalPreferencesColumn(error?.message)
-    ? `${PROFILE_BASE_SELECT}, birth_year`
-    : PROFILE_BASE_SELECT;
-
   const { data: baseData, error: baseError } = await supabase
     .from("profiles")
-    .select(baseSelect)
+    .select(PROFILE_BASE_SELECT)
     .eq("id", auth.userId)
     .maybeSingle();
 
@@ -113,7 +112,7 @@ export async function GET() {
     });
   }
 
-  const profile = normalizeProfileRow(baseData as ProfileBaseRow);
+  const profile = normalizeProfileRow(baseData as unknown as ProfileBaseRow);
   return NextResponse.json({
     profile: {
       ...profile,
@@ -245,7 +244,7 @@ export async function PATCH(request: Request) {
         .from("profiles")
         .update(profilePatch)
         .eq("id", auth.userId)
-        .select(`${PROFILE_BASE_SELECT}, birth_year`)
+        .select(PROFILE_BASE_SELECT)
         .single();
       data = retry.data as typeof data;
       error = retry.error;
@@ -254,7 +253,7 @@ export async function PATCH(request: Request) {
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
-    profileRow = normalizeProfileRow(data as ProfileRow);
+    profileRow = normalizeProfileRow(data as unknown as ProfileRow);
   } else {
     let { data, error } = await supabase
       .from("profiles")
@@ -265,7 +264,7 @@ export async function PATCH(request: Request) {
     if (error && isMissingClinicalPreferencesColumn(error.message)) {
       const retry = await supabase
         .from("profiles")
-        .select(`${PROFILE_BASE_SELECT}, birth_year`)
+        .select(PROFILE_BASE_SELECT)
         .eq("id", auth.userId)
         .single();
       data = retry.data as typeof data;
@@ -275,7 +274,7 @@ export async function PATCH(request: Request) {
     if (error || !data) {
       return NextResponse.json({ error: error?.message ?? "Profile not found" }, { status: 404 });
     }
-    profileRow = normalizeProfileRow(data as ProfileRow);
+    profileRow = normalizeProfileRow(data as unknown as ProfileRow);
   }
 
   const { data: existingUser } = await supabase
