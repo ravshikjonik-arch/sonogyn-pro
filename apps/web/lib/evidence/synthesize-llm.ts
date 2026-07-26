@@ -1,8 +1,7 @@
 import type { AssistantAnswer, EvidenceRecord, UnifiedSearchResult } from "@repo/evidence-retrieval";
 import { synthesizeEvidenceAnswer } from "@repo/evidence-retrieval";
 
-const OPENROUTER_URL =
-  process.env.OPENROUTER_API_URL?.trim() || "https://openrouter.ai/api/v1/chat/completions";
+import { llmSupportsJsonObjectMode, resolveLlmProvider } from "@/lib/ai/llm-provider";
 
 function citationsForPrompt(records: EvidenceRecord[]): string {
   return records
@@ -123,19 +122,14 @@ export async function synthesizeWithLlm(
   options: { translateToRussian?: boolean } = {},
 ): Promise<AssistantAnswer> {
   const fallback = synthesizeEvidenceAnswer(query, searchResult);
-  const apiKey = process.env.OPENROUTER_API_KEY?.trim();
+  const llm = resolveLlmProvider("evidence");
   const translateToRussian = options.translateToRussian !== false;
-  if (!apiKey || searchResult.records.length === 0) {
+  if (!llm || searchResult.records.length === 0) {
     return withFallbackTranslations(fallback, searchResult, translateToRussian);
   }
 
-  const model =
-    process.env.OPENROUTER_EVIDENCE_MODEL?.trim() ||
-    process.env.OPENROUTER_ORADS_MODEL?.trim() ||
-    "openai/gpt-4o-mini";
-
   const system = `You are a clinical evidence synthesis assistant for physicians (Russian UI).
-Use ONLY the provided citations. Return strict JSON:
+Use ONLY the provided citations. Return strict JSON only (no markdown fences):
 {
   "summary": "3-5 sentences in Russian",
   "evidenceStrength": "high|moderate|low|insufficient",
@@ -157,21 +151,25 @@ Citations:
 ${citationsForPrompt(searchResult.records)}`;
 
   try {
-    const res = await fetch(OPENROUTER_URL, {
+    const body: Record<string, unknown> = {
+      model: llm.model,
+      temperature: 0.2,
+      messages: [
+        { role: "system", content: system },
+        { role: "user", content: user },
+      ],
+    };
+    if (llmSupportsJsonObjectMode(llm.provider)) {
+      body.response_format = { type: "json_object" };
+    }
+
+    const res = await fetch(llm.url, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${apiKey}`,
+        Authorization: `Bearer ${llm.apiKey}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        model,
-        temperature: 0.2,
-        response_format: { type: "json_object" },
-        messages: [
-          { role: "system", content: system },
-          { role: "user", content: user },
-        ],
-      }),
+      body: JSON.stringify(body),
     });
 
     if (!res.ok) return withFallbackTranslations(fallback, searchResult, translateToRussian);
@@ -182,7 +180,8 @@ ${citationsForPrompt(searchResult.records)}`;
     const content = json.choices?.[0]?.message?.content;
     if (!content) return withFallbackTranslations(fallback, searchResult, translateToRussian);
 
-    const parsed = JSON.parse(content) as LlmPayload;
+    const jsonText = content.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/i, "").trim();
+    const parsed = JSON.parse(jsonText) as LlmPayload;
     const citationIds = new Set(searchResult.records.slice(0, 12).map((c) => c.id));
     const sourceTranslationCandidates =
       parsed.sourceTranslations?.length

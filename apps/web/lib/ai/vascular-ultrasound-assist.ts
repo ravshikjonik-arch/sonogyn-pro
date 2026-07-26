@@ -17,6 +17,7 @@ import {
   buildVascularUltrasoundSystemPrompt,
   VASCULAR_US_DISCLAIMER,
 } from "@/lib/ai/vascular-ultrasound/system-prompt";
+import { resolveLlmProvider } from "@/lib/ai/llm-provider";
 
 export type VascularAssistMode = "clinical" | "teaching" | "report";
 
@@ -88,22 +89,21 @@ function buildFallbackSummary(
 }
 
 async function callOpenRouter(systemPrompt: string, userContent: string): Promise<string | null> {
-  const apiKey = process.env.OPENROUTER_API_KEY?.trim();
-  if (!apiKey) return null;
+  const llm = resolveLlmProvider("text");
+  if (!llm) return null;
 
-  const url = process.env.OPENROUTER_API_URL?.trim() || "https://openrouter.ai/api/v1/chat/completions";
   const appUrl = process.env.NEXT_PUBLIC_APP_URL?.trim();
 
-  const res = await fetch(url, {
+  const res = await fetch(llm.url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${apiKey}`,
-      ...(appUrl ? { "HTTP-Referer": appUrl } : {}),
+      Authorization: `Bearer ${llm.apiKey}`,
+      ...(llm.provider === "openrouter" && appUrl ? { "HTTP-Referer": appUrl } : {}),
       "X-Title": "Sonogyn Vascular US",
     },
     body: JSON.stringify({
-      model: process.env.OPENROUTER_ORADS_MODEL?.trim() || "openai/gpt-4o-mini",
+      model: llm.model,
       messages: [
         { role: "system", content: systemPrompt },
         { role: "user", content: userContent },

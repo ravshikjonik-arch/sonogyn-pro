@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { handleApiError } from "@/lib/api/error-handler";
 import { userMessageForAiError } from "@/lib/ai/sonogyn-chat/errors";
 import { logAiChatEvent } from "@/lib/ai/sonogyn-chat/log-event";
+import { resolveLlmProvider } from "@/lib/ai/llm-provider";
 import { callOpenRouterChat, type OpenRouterMessage } from "@/lib/ai/sonogyn-chat/openrouter-client";
 import { inferClinicalDomain, type SonogynClinicalDomain } from "@/lib/ai/sonogyn-chat/rag-context";
 import { SonogynChatRequestSchema } from "@/lib/ai/sonogyn-chat/request-schema";
@@ -67,15 +68,19 @@ function buildProviderMessages(params: {
 }
 
 function selectModel(hasImages: boolean, requested?: string): string {
-  if (requested?.trim()) return requested.trim();
   if (hasImages) {
     return (
+      resolveLlmProvider("vision")?.model ||
       process.env.OPENROUTER_US_VISION_MODEL?.trim() ||
       process.env.OPENROUTER_ORADS_MODEL?.trim() ||
       "openai/gpt-4o-mini"
     );
   }
-  return process.env.OPENROUTER_ORADS_MODEL?.trim() || "openai/gpt-4o-mini";
+  // Клиентский model (часто openrouter id) не подставляем в Perplexity.
+  const llm = resolveLlmProvider("text");
+  if (llm?.provider === "perplexity") return llm.model;
+  if (requested?.trim()) return requested.trim();
+  return llm?.model || process.env.OPENROUTER_ORADS_MODEL?.trim() || "openai/gpt-4o-mini";
 }
 
 export async function POST(request: Request) {
@@ -159,8 +164,8 @@ export async function POST(request: Request) {
     }
   }
 
-  const apiKey = process.env.OPENROUTER_API_KEY?.trim();
-  if (!apiKey) {
+  const llm = resolveLlmProvider(hasImages ? "vision" : "text");
+  if (!llm) {
     await logAiChatEvent({
       userId: auth.userId,
       domain,
@@ -171,7 +176,20 @@ export async function POST(request: Request) {
       hasImages,
     });
     return NextResponse.json(
-      { error: userMessageForAiError("config"), code: "config" },
+      {
+        error:
+          "AI не настроен: задайте PERPLEXITY_API_KEY (текст) и/или OPENROUTER_API_KEY (vision) на Vercel.",
+        code: "config",
+      },
+      { status: 503 },
+    );
+  }
+  if (hasImages && llm.provider !== "openrouter") {
+    return NextResponse.json(
+      {
+        error: "Анализ изображений требует OPENROUTER_API_KEY (vision). Текст может идти через Perplexity.",
+        code: "config",
+      },
       { status: 503 },
     );
   }
@@ -232,12 +250,11 @@ export async function POST(request: Request) {
   });
 
   const selectedModel = selectModel(hasImages, model);
-  const openRouterUrl = process.env.OPENROUTER_API_URL?.trim() || "https://openrouter.ai/api/v1/chat/completions";
   const appUrl = process.env.NEXT_PUBLIC_APP_URL?.trim();
 
   const result = await callOpenRouterChat({
-    apiKey,
-    url: openRouterUrl,
+    apiKey: llm.apiKey,
+    url: llm.url,
     appUrl,
     body: {
       model: selectedModel,
@@ -251,6 +268,7 @@ export async function POST(request: Request) {
     safeLog("ai chat provider error", {
       status: result.status,
       code: result.code,
+      provider: llm.provider,
       userId: auth.userId,
     });
     await logAiChatEvent({
@@ -258,7 +276,7 @@ export async function POST(request: Request) {
       domain,
       success: false,
       durationMs: Date.now() - started,
-      model: selectedModel,
+      model: `${llm.provider}:${selectedModel}`,
       errorCode: result.code,
       hasImages,
     });
@@ -273,7 +291,7 @@ export async function POST(request: Request) {
     domain,
     success: true,
     durationMs: Date.now() - started,
-    model: selectedModel,
+    model: `${llm.provider}:${selectedModel}`,
     hasImages,
   });
 
