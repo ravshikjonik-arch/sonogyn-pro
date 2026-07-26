@@ -11,7 +11,7 @@ import {
   type UterusNormPoint,
 } from "@repo/clinical-3d";
 
-const ANATOMY = require("../../assets/uterus-coronal-anatomy.png");
+const ANATOMY = require("../../assets/uterus-coronal-anatomy.jpg");
 const VB_W = 1000;
 const VB_H = 750;
 

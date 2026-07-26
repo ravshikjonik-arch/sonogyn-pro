@@ -88,6 +88,10 @@ export async function GET() {
   return NextResponse.json({
     catalog: getAdapterCatalog(),
     disclaimer:
-      "Evidence Assistant — CDS. Использует PubMed, Europe PMC, Cochrane (via EPMC), Semantic Scholar, ClinicalTrials.gov, КР МЗ РФ, SonoEvidence, OpenFDA, DailyMed.",
+      "Evidence Assistant — CDS. Использует PubMed, Europe PMC, Cochrane (via EPMC), Semantic Scholar, ClinicalTrials.gov, КР МЗ РФ, SonoEvidence, OpenFDA, DailyMed. Не диагноз; интерпретация — специалист.",
+    rateLimit: {
+      limit: RL.evidenceAssistant.limit,
+      windowSec: Math.round(RL.evidenceAssistant.windowMs / 1000),
+    },
   });
 }

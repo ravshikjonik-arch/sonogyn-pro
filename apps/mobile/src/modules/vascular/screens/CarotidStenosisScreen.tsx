@@ -8,7 +8,7 @@ import {
   buildCarotidStenosisReport,
   gradeCarotidStenosis,
   type CarotidStenosisInput,
-} from "../carotidStenosis";
+} from "@repo/vascular-kulikov";
 
 type Props = NativeStackScreenProps<RootStackParamList, "VascularCarotidCalc">;
 

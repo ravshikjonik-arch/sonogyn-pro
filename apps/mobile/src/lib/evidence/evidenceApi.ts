@@ -39,6 +39,16 @@ export type MobileEvidenceBookmark = {
   created_at?: string;
 };
 
+export type MobileEvidenceHistoryRow = {
+  id: string;
+  query: string;
+  sources: string[];
+  result_count: number;
+  synthesis_mode: string;
+  evidence_strength: string | null;
+  created_at: string;
+};
+
 const PROVIDER_LABEL: Record<string, string> = {
   pubmed: "PubMed",
   europe_pmc: "Europe PMC",
@@ -140,4 +150,25 @@ export async function removeEvidenceBookmark(recordId: string): Promise<void> {
   });
   const data = (await res.json().catch(() => null)) as { error?: string };
   if (!res.ok) throw new Error(data?.error ?? `HTTP ${res.status}`);
+}
+
+export async function listEvidenceHistory(limit = 15): Promise<{
+  history: MobileEvidenceHistoryRow[];
+  rateLimitHint: string | null;
+}> {
+  const params = new URLSearchParams({ limit: String(limit) });
+  const res = await fetch(`${apiBase()}/api/evidence/history?${params.toString()}`, {
+    headers: await authHeaders(),
+  });
+  const data = (await res.json().catch(() => null)) as {
+    history?: MobileEvidenceHistoryRow[];
+    rateLimitHint?: { assistantLimit: number; assistantWindowSec: number };
+    error?: string;
+  };
+  if (res.status === 401) return { history: [], rateLimitHint: null };
+  if (!res.ok) throw new Error(data?.error ?? `HTTP ${res.status}`);
+  const hint = data.rateLimitHint
+    ? `Лимит: до ${data.rateLimitHint.assistantLimit} / ${data.rateLimitHint.assistantWindowSec} с`
+    : null;
+  return { history: data.history ?? [], rateLimitHint: hint };
 }

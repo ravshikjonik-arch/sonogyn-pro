@@ -40,7 +40,7 @@ import type {
   Structure,
   UnilocularSubtype,
 } from "../types";
-import { buildReportText, calculateORADS } from "../logic/oradsCalculator";
+import { buildReportText, calculateORADS } from "@repo/orads-us/pro";
 import { resolveOradsNosologyPreview } from "../resolveOradsNosology";
 import { buildIotaConsensusReportText, evaluateIotaConsensus2026 } from "../consensus/iotaConsensus2026";
 import { appendCaseToHistory, loadUXMetric, pushTimeToResult } from "../storage/oradsStorage";

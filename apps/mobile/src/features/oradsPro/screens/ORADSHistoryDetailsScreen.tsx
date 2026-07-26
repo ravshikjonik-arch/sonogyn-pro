@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
 import type { RootStackParamList } from "../../../navigation/AppStack";
-import { buildReportText } from "../logic/oradsCalculator";
+import { buildReportText } from "@repo/orads-us/pro";
 import { useOradsCaseHistory } from "./useOradsCaseHistory";
 
 type Props = NativeStackScreenProps<RootStackParamList, "ORADSHistoryDetails">;

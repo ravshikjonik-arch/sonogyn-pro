@@ -83,10 +83,10 @@ importers:
         version: 7.14.14(@react-navigation/native@7.2.4(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0))(react-native-safe-area-context@5.6.2(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0))(react-native-screens@4.16.0(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
       '@react-three/drei':
         specifier: ^10.7.7
-        version: 10.7.7(@react-three/fiber@9.6.1(wempe5pzcdgws7roczscusovwm))(@types/react@19.1.17)(@types/three@0.184.1)(immer@11.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.184.0)
+        version: 10.7.7(@react-three/fiber@9.6.1(934655258317ea7396a08c980ac948d4))(@types/react@19.1.17)(@types/three@0.184.1)(immer@11.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.184.0)
       '@react-three/fiber':
         specifier: ^9.6.1
-        version: 9.6.1(wempe5pzcdgws7roczscusovwm)
+        version: 9.6.1(934655258317ea7396a08c980ac948d4)
       '@repo/adnex-education':
         specifier: workspace:*
         version: link:../../packages/adnex-education
@@ -144,6 +144,9 @@ importers:
       '@repo/upload-validation':
         specifier: workspace:*
         version: link:../../packages/upload-validation
+      '@repo/vascular-kulikov':
+        specifier: workspace:*
+        version: link:../../packages/vascular-kulikov
       '@supabase/supabase-js':
         specifier: ^2.105.3
         version: 2.105.4
@@ -304,7 +307,7 @@ importers:
         version: 3.1072.0
       '@clinical/uterus':
         specifier: file:./packages/clinical-uterus
-        version: file:apps/web/packages/clinical-uterus(@react-three/drei@10.7.7(@react-three/fiber@9.6.1(zgc7tkmclv2fwmyqfsse7ekk74))(@types/react@19.2.14)(@types/three@0.184.1)(immer@11.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.184.0))(@react-three/fiber@9.6.1(zgc7tkmclv2fwmyqfsse7ekk74))(@repo/clinical-3d@packages+clinical-3d)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.184.0)
+        version: file:apps/web/packages/clinical-uterus(@react-three/drei@10.7.7(@react-three/fiber@9.6.1(56eb5854abdb05171aa7005330af3927))(@types/react@19.2.14)(@types/three@0.184.1)(immer@11.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.184.0))(@react-three/fiber@9.6.1(56eb5854abdb05171aa7005330af3927))(@repo/clinical-3d@packages+clinical-3d)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.184.0)
       '@dnd-kit/core':
         specifier: ^6.3.1
         version: 6.3.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -367,10 +370,10 @@ importers:
         version: 4.5.1(react@19.1.0)
       '@react-three/drei':
         specifier: ^10.7.7
-        version: 10.7.7(@react-three/fiber@9.6.1(zgc7tkmclv2fwmyqfsse7ekk74))(@types/react@19.2.14)(@types/three@0.184.1)(immer@11.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.184.0)
+        version: 10.7.7(@react-three/fiber@9.6.1(56eb5854abdb05171aa7005330af3927))(@types/react@19.2.14)(@types/three@0.184.1)(immer@11.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.184.0)
       '@react-three/fiber':
         specifier: ^9.6.1
-        version: 9.6.1(zgc7tkmclv2fwmyqfsse7ekk74)
+        version: 9.6.1(56eb5854abdb05171aa7005330af3927)
       '@repo/adnex-education':
         specifier: workspace:*
         version: link:../../packages/adnex-education
@@ -458,6 +461,9 @@ importers:
       '@repo/upload-validation':
         specifier: workspace:*
         version: link:../../packages/upload-validation
+      '@repo/vascular-kulikov':
+        specifier: workspace:*
+        version: link:../../packages/vascular-kulikov
       '@supabase/ssr':
         specifier: ^0.10.2
         version: 0.10.3(@supabase/supabase-js@2.105.4)
@@ -745,14 +751,14 @@ importers:
     dependencies:
       '@react-three/drei':
         specifier: '>=10.0.0'
-        version: 10.7.7(@react-three/fiber@9.6.1(zgc7tkmclv2fwmyqfsse7ekk74))(@types/react@19.2.14)(@types/three@0.184.1)(immer@11.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.184.0)
+        version: 10.7.7(@react-three/fiber@9.6.1(56eb5854abdb05171aa7005330af3927))(@types/react@19.2.14)(@types/three@0.184.1)(immer@11.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.184.0)
       '@repo/medical-calculations':
         specifier: workspace:*
         version: link:../medical-calculations
     devDependencies:
       '@react-three/fiber':
         specifier: ^9.6.1
-        version: 9.6.1(zgc7tkmclv2fwmyqfsse7ekk74)
+        version: 9.6.1(56eb5854abdb05171aa7005330af3927)
       '@types/react':
         specifier: ^19.1.0
         version: 19.2.14
@@ -1065,6 +1071,18 @@ importers:
 
   packages/upload-validation:
     devDependencies:
+      tsx:
+        specifier: ^4.19.4
+        version: 4.21.0
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.3
+
+  packages/vascular-kulikov:
+    devDependencies:
+      '@types/node':
+        specifier: ^20
+        version: 20.19.40
       tsx:
         specifier: ^4.19.4
         version: 4.21.0
@@ -12309,10 +12327,10 @@ snapshots:
 
   '@bufbuild/protobuf@1.10.1': {}
 
-  '@clinical/uterus@file:apps/web/packages/clinical-uterus(@react-three/drei@10.7.7(@react-three/fiber@9.6.1(zgc7tkmclv2fwmyqfsse7ekk74))(@types/react@19.2.14)(@types/three@0.184.1)(immer@11.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.184.0))(@react-three/fiber@9.6.1(zgc7tkmclv2fwmyqfsse7ekk74))(@repo/clinical-3d@packages+clinical-3d)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.184.0)':
+  '@clinical/uterus@file:apps/web/packages/clinical-uterus(@react-three/drei@10.7.7(@react-three/fiber@9.6.1(56eb5854abdb05171aa7005330af3927))(@types/react@19.2.14)(@types/three@0.184.1)(immer@11.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.184.0))(@react-three/fiber@9.6.1(56eb5854abdb05171aa7005330af3927))(@repo/clinical-3d@packages+clinical-3d)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.184.0)':
     dependencies:
-      '@react-three/drei': 10.7.7(@react-three/fiber@9.6.1(zgc7tkmclv2fwmyqfsse7ekk74))(@types/react@19.2.14)(@types/three@0.184.1)(immer@11.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.184.0)
-      '@react-three/fiber': 9.6.1(zgc7tkmclv2fwmyqfsse7ekk74)
+      '@react-three/drei': 10.7.7(@react-three/fiber@9.6.1(56eb5854abdb05171aa7005330af3927))(@types/react@19.2.14)(@types/three@0.184.1)(immer@11.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.184.0)
+      '@react-three/fiber': 9.6.1(56eb5854abdb05171aa7005330af3927)
       '@repo/clinical-3d': link:packages/clinical-3d
       '@repo/medical-calculations': link:packages/medical-calculations
       react: 19.1.0
@@ -15234,45 +15252,12 @@ snapshots:
       '@react-pdf/primitives': 4.3.0
       '@react-pdf/stylesheet': 6.2.1
 
-  '@react-three/drei@10.7.7(@react-three/fiber@9.6.1(wempe5pzcdgws7roczscusovwm))(@types/react@19.1.17)(@types/three@0.184.1)(immer@11.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.184.0)':
+  '@react-three/drei@10.7.7(@react-three/fiber@9.6.1(56eb5854abdb05171aa7005330af3927))(@types/react@19.2.14)(@types/three@0.184.1)(immer@11.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.184.0)':
     dependencies:
       '@babel/runtime': 7.29.2
       '@mediapipe/tasks-vision': 0.10.17
       '@monogrid/gainmap-js': 3.4.0(three@0.184.0)
-      '@react-three/fiber': 9.6.1(wempe5pzcdgws7roczscusovwm)
-      '@use-gesture/react': 10.3.1(react@19.1.0)
-      camera-controls: 3.1.2(three@0.184.0)
-      cross-env: 7.0.3
-      detect-gpu: 5.0.70
-      glsl-noise: 0.0.0
-      hls.js: 1.6.16
-      maath: 0.10.8(@types/three@0.184.1)(three@0.184.0)
-      meshline: 3.3.1(three@0.184.0)
-      react: 19.1.0
-      stats-gl: 2.4.2(@types/three@0.184.1)(three@0.184.0)
-      stats.js: 0.17.0
-      suspend-react: 0.1.3(react@19.1.0)
-      three: 0.184.0
-      three-mesh-bvh: 0.8.3(three@0.184.0)
-      three-stdlib: 2.36.1(three@0.184.0)
-      troika-three-text: 0.52.4(three@0.184.0)
-      tunnel-rat: 0.1.2(@types/react@19.1.17)(immer@11.1.8)(react@19.1.0)
-      use-sync-external-store: 1.6.0(react@19.1.0)
-      utility-types: 3.11.0
-      zustand: 5.0.13(@types/react@19.1.17)(immer@11.1.8)(react@19.1.0)(use-sync-external-store@1.6.0(react@19.1.0))
-    optionalDependencies:
-      react-dom: 19.1.0(react@19.1.0)
-    transitivePeerDependencies:
-      - '@types/react'
-      - '@types/three'
-      - immer
-
-  '@react-three/drei@10.7.7(@react-three/fiber@9.6.1(zgc7tkmclv2fwmyqfsse7ekk74))(@types/react@19.2.14)(@types/three@0.184.1)(immer@11.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.184.0)':
-    dependencies:
-      '@babel/runtime': 7.29.2
-      '@mediapipe/tasks-vision': 0.10.17
-      '@monogrid/gainmap-js': 3.4.0(three@0.184.0)
-      '@react-three/fiber': 9.6.1(zgc7tkmclv2fwmyqfsse7ekk74)
+      '@react-three/fiber': 9.6.1(56eb5854abdb05171aa7005330af3927)
       '@use-gesture/react': 10.3.1(react@19.1.0)
       camera-controls: 3.1.2(three@0.184.0)
       cross-env: 7.0.3
@@ -15300,32 +15285,40 @@ snapshots:
       - '@types/three'
       - immer
 
-  '@react-three/fiber@9.6.1(wempe5pzcdgws7roczscusovwm)':
+  '@react-three/drei@10.7.7(@react-three/fiber@9.6.1(934655258317ea7396a08c980ac948d4))(@types/react@19.1.17)(@types/three@0.184.1)(immer@11.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.184.0)':
     dependencies:
       '@babel/runtime': 7.29.2
-      '@types/webxr': 0.5.24
-      base64-js: 1.5.1
-      buffer: 6.0.3
-      its-fine: 2.0.0(@types/react@19.1.17)(react@19.1.0)
+      '@mediapipe/tasks-vision': 0.10.17
+      '@monogrid/gainmap-js': 3.4.0(three@0.184.0)
+      '@react-three/fiber': 9.6.1(934655258317ea7396a08c980ac948d4)
+      '@use-gesture/react': 10.3.1(react@19.1.0)
+      camera-controls: 3.1.2(three@0.184.0)
+      cross-env: 7.0.3
+      detect-gpu: 5.0.70
+      glsl-noise: 0.0.0
+      hls.js: 1.6.16
+      maath: 0.10.8(@types/three@0.184.1)(three@0.184.0)
+      meshline: 3.3.1(three@0.184.0)
       react: 19.1.0
-      react-use-measure: 2.1.7(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      scheduler: 0.27.0
+      stats-gl: 2.4.2(@types/three@0.184.1)(three@0.184.0)
+      stats.js: 0.17.0
       suspend-react: 0.1.3(react@19.1.0)
       three: 0.184.0
+      three-mesh-bvh: 0.8.3(three@0.184.0)
+      three-stdlib: 2.36.1(three@0.184.0)
+      troika-three-text: 0.52.4(three@0.184.0)
+      tunnel-rat: 0.1.2(@types/react@19.1.17)(immer@11.1.8)(react@19.1.0)
       use-sync-external-store: 1.6.0(react@19.1.0)
+      utility-types: 3.11.0
       zustand: 5.0.13(@types/react@19.1.17)(immer@11.1.8)(react@19.1.0)(use-sync-external-store@1.6.0(react@19.1.0))
     optionalDependencies:
-      expo: 54.0.36(@babel/core@7.29.0)(graphql@16.8.1)(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)(typescript@5.9.3)
-      expo-asset: 12.0.13(expo@54.0.36(@babel/core@7.29.0)(graphql@16.8.1)(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)(typescript@5.9.3))(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)(typescript@5.9.3)
-      expo-file-system: 19.0.23(expo@54.0.36(@babel/core@7.29.0)(graphql@16.8.1)(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)(typescript@5.9.3))(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))
-      expo-gl: 16.0.10(expo@54.0.36(@babel/core@7.29.0)(graphql@16.8.1)(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)(typescript@5.9.3))(react-dom@19.1.0(react@19.1.0))(react-native-web@0.21.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
       react-dom: 19.1.0(react@19.1.0)
-      react-native: 0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0)
     transitivePeerDependencies:
       - '@types/react'
+      - '@types/three'
       - immer
 
-  '@react-three/fiber@9.6.1(zgc7tkmclv2fwmyqfsse7ekk74)':
+  '@react-three/fiber@9.6.1(56eb5854abdb05171aa7005330af3927)':
     dependencies:
       '@babel/runtime': 7.29.2
       '@types/webxr': 0.5.24
@@ -15346,6 +15339,31 @@ snapshots:
       expo-gl: 16.0.10(expo@54.0.36(@babel/core@7.29.0)(graphql@16.8.1)(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.1.0))(react@19.1.0)(typescript@5.9.3))(react-dom@19.1.0(react@19.1.0))(react-native-web@0.21.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.1.0))(react@19.1.0)
       react-dom: 19.1.0(react@19.1.0)
       react-native: 0.81.5(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.1.0)
+    transitivePeerDependencies:
+      - '@types/react'
+      - immer
+
+  '@react-three/fiber@9.6.1(934655258317ea7396a08c980ac948d4)':
+    dependencies:
+      '@babel/runtime': 7.29.2
+      '@types/webxr': 0.5.24
+      base64-js: 1.5.1
+      buffer: 6.0.3
+      its-fine: 2.0.0(@types/react@19.1.17)(react@19.1.0)
+      react: 19.1.0
+      react-use-measure: 2.1.7(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      scheduler: 0.27.0
+      suspend-react: 0.1.3(react@19.1.0)
+      three: 0.184.0
+      use-sync-external-store: 1.6.0(react@19.1.0)
+      zustand: 5.0.13(@types/react@19.1.17)(immer@11.1.8)(react@19.1.0)(use-sync-external-store@1.6.0(react@19.1.0))
+    optionalDependencies:
+      expo: 54.0.36(@babel/core@7.29.0)(graphql@16.8.1)(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)(typescript@5.9.3)
+      expo-asset: 12.0.13(expo@54.0.36(@babel/core@7.29.0)(graphql@16.8.1)(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)(typescript@5.9.3))(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)(typescript@5.9.3)
+      expo-file-system: 19.0.23(expo@54.0.36(@babel/core@7.29.0)(graphql@16.8.1)(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)(typescript@5.9.3))(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))
+      expo-gl: 16.0.10(expo@54.0.36(@babel/core@7.29.0)(graphql@16.8.1)(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)(typescript@5.9.3))(react-dom@19.1.0(react@19.1.0))(react-native-web@0.21.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
+      react-dom: 19.1.0(react@19.1.0)
+      react-native: 0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0)
     transitivePeerDependencies:
       - '@types/react'
       - immer
@@ -16569,7 +16587,7 @@ snapshots:
       '@typescript-eslint/visitor-keys': 8.59.2
       debug: 4.4.3(supports-color@8.1.1)
       minimatch: 10.2.5
-      semver: 7.8.0
+      semver: 7.8.1
       tinyglobby: 0.2.16
       ts-api-utils: 2.5.0(typescript@5.9.3)
       typescript: 5.9.3
@@ -18347,7 +18365,7 @@ snapshots:
       '@next/eslint-plugin-next': 16.2.5
       eslint: 9.39.4(jiti@2.7.0)
       eslint-import-resolver-node: 0.3.10
-      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0)(eslint@9.39.4(jiti@2.7.0))
+      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.59.2(eslint@9.39.4(jiti@2.7.0))(typescript@5.9.3))(eslint@9.39.4(jiti@2.7.0)))(eslint@9.39.4(jiti@2.7.0))
       eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.59.2(eslint@9.39.4(jiti@2.7.0))(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.4(jiti@2.7.0))
       eslint-plugin-jsx-a11y: 6.10.2(eslint@9.39.4(jiti@2.7.0))
       eslint-plugin-react: 7.37.5(eslint@9.39.4(jiti@2.7.0))
@@ -18370,7 +18388,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0)(eslint@9.39.4(jiti@2.7.0)):
+  eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.59.2(eslint@9.39.4(jiti@2.7.0))(typescript@5.9.3))(eslint@9.39.4(jiti@2.7.0)))(eslint@9.39.4(jiti@2.7.0)):
     dependencies:
       '@nolyfill/is-core-module': 1.0.39
       debug: 4.4.3(supports-color@8.1.1)
@@ -18385,14 +18403,14 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.12.1(@typescript-eslint/parser@8.59.2(eslint@9.39.4(jiti@2.7.0))(typescript@5.9.3))(eslint-import-resolver-node@0.3.10)(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.4(jiti@2.7.0)):
+  eslint-module-utils@2.12.1(@typescript-eslint/parser@8.59.2(eslint@9.39.4(jiti@2.7.0))(typescript@5.9.3))(eslint-import-resolver-node@0.3.10)(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.59.2(eslint@9.39.4(jiti@2.7.0))(typescript@5.9.3))(eslint@9.39.4(jiti@2.7.0)))(eslint@9.39.4(jiti@2.7.0)))(eslint@9.39.4(jiti@2.7.0)):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
       '@typescript-eslint/parser': 8.59.2(eslint@9.39.4(jiti@2.7.0))(typescript@5.9.3)
       eslint: 9.39.4(jiti@2.7.0)
       eslint-import-resolver-node: 0.3.10
-      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0)(eslint@9.39.4(jiti@2.7.0))
+      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.59.2(eslint@9.39.4(jiti@2.7.0))(typescript@5.9.3))(eslint@9.39.4(jiti@2.7.0)))(eslint@9.39.4(jiti@2.7.0))
     transitivePeerDependencies:
       - supports-color
 
@@ -18407,7 +18425,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 9.39.4(jiti@2.7.0)
       eslint-import-resolver-node: 0.3.10
-      eslint-module-utils: 2.12.1(@typescript-eslint/parser@8.59.2(eslint@9.39.4(jiti@2.7.0))(typescript@5.9.3))(eslint-import-resolver-node@0.3.10)(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.4(jiti@2.7.0))
+      eslint-module-utils: 2.12.1(@typescript-eslint/parser@8.59.2(eslint@9.39.4(jiti@2.7.0))(typescript@5.9.3))(eslint-import-resolver-node@0.3.10)(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.59.2(eslint@9.39.4(jiti@2.7.0))(typescript@5.9.3))(eslint@9.39.4(jiti@2.7.0)))(eslint@9.39.4(jiti@2.7.0)))(eslint@9.39.4(jiti@2.7.0))
       hasown: 2.0.3
       is-core-module: 2.16.2
       is-glob: 4.0.3
@@ -19680,7 +19698,7 @@ snapshots:
 
   is-bun-module@2.0.0:
     dependencies:
-      semver: 7.8.0
+      semver: 7.8.1
 
   is-callable@1.2.7: {}
 

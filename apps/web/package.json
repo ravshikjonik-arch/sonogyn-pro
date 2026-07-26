@@ -107,6 +107,7 @@
     "@repo/types": "workspace:*",
     "@repo/ui": "workspace:*",
     "@repo/upload-validation": "workspace:*",
+    "@repo/vascular-kulikov": "workspace:*",
     "@supabase/ssr": "^0.10.2",
     "@supabase/supabase-js": "^2.105.3",
     "@swc/helpers": "0.5.17",

@@ -1,8 +1,3 @@
-/**
- * Re-export shared Kulikov / Grant carotid stenosis grading.
- * Source of truth: @repo/vascular-kulikov
- */
-
 export {
   ICA_PSV_NORMAL_MAX_CM_S,
   buildCarotidStenosisReport,
@@ -10,4 +5,4 @@ export {
   type CarotidStenosisGrade,
   type CarotidStenosisInput,
   type CarotidStenosisResult,
-} from "@repo/vascular-kulikov";
+} from "./carotid-stenosis";

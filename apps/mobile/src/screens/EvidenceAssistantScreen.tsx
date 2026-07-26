@@ -17,11 +17,13 @@ import {
   addEvidenceBookmark,
   askEvidenceAssistant,
   listEvidenceBookmarks,
+  listEvidenceHistory,
   providerLabel,
   removeEvidenceBookmark,
   searchEvidence,
   type MobileAssistantAnswer,
   type MobileEvidenceBookmark,
+  type MobileEvidenceHistoryRow,
   type MobileEvidenceRecord,
   type MobileSearchResult,
 } from "../lib/evidence/evidenceApi";
@@ -93,15 +95,27 @@ export default function EvidenceAssistantScreen({ navigation }: Props) {
   const [searchResult, setSearchResult] = useState<MobileSearchResult | null>(null);
   const [bookmarks, setBookmarks] = useState<MobileEvidenceBookmark[]>([]);
   const [bookmarkIds, setBookmarkIds] = useState<Set<string>>(new Set());
+  const [history, setHistory] = useState<MobileEvidenceHistoryRow[]>([]);
+  const [rateLimitHint, setRateLimitHint] = useState<string | null>(null);
 
-  useEffect(() => {
+  const refreshMeta = useCallback(() => {
     void listEvidenceBookmarks()
       .then((rows) => {
         setBookmarks(rows);
         setBookmarkIds(new Set(rows.map((b) => b.record_id)));
       })
       .catch(() => {});
+    void listEvidenceHistory(12)
+      .then(({ history: rows, rateLimitHint: hint }) => {
+        setHistory(rows);
+        setRateLimitHint(hint);
+      })
+      .catch(() => {});
   }, []);
+
+  useEffect(() => {
+    refreshMeta();
+  }, [refreshMeta]);
 
   const toggleBookmark = useCallback(
     async (record: MobileEvidenceRecord) => {
@@ -129,16 +143,18 @@ export default function EvidenceAssistantScreen({ navigation }: Props) {
   );
 
   const run = useCallback(
-    async (q: string) => {
+    async (q: string, forceMode?: Mode) => {
       const trimmed = q.trim();
       if (trimmed.length < 3) return;
+      const activeMode = forceMode ?? mode;
       setLoading(true);
       setError(null);
       setAnswer(null);
       setSearchResult(null);
       try {
-        if (mode === "assistant") {
+        if (activeMode === "assistant") {
           setAnswer(await askEvidenceAssistant(trimmed));
+          refreshMeta();
         } else {
           setSearchResult(await searchEvidence(trimmed));
         }
@@ -149,7 +165,7 @@ export default function EvidenceAssistantScreen({ navigation }: Props) {
         setLoading(false);
       }
     },
-    [mode],
+    [mode, refreshMeta],
   );
 
   return (
@@ -204,6 +220,11 @@ export default function EvidenceAssistantScreen({ navigation }: Props) {
       </View>
 
       <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
+        <Text style={styles.banner}>
+          CDS / справочная помощь. Не диагноз; решение — за врачом.
+          {rateLimitHint ? ` ${rateLimitHint}.` : ""}
+        </Text>
+
         <View style={styles.chips}>
           {SUGGESTED.map((s) => (
             <Pressable
@@ -249,7 +270,34 @@ export default function EvidenceAssistantScreen({ navigation }: Props) {
                 onToggleBookmark={toggleBookmark}
               />
             ))}
-            {answer.disclaimers[0] ? <Text style={styles.disclaimer}>{answer.disclaimers[0]}</Text> : null}
+            {answer.disclaimers.map((d) => (
+              <Text key={d} style={styles.disclaimer}>
+                {d}
+              </Text>
+            ))}
+            <Text style={styles.disclaimer}>Не диагноз. Интерпретация — специалист.</Text>
+          </View>
+        ) : null}
+
+        {history.length > 0 ? (
+          <View style={styles.card}>
+            <Text style={styles.sectionTitle}>История запросов ({history.length})</Text>
+            {history.map((h) => (
+              <Pressable
+                key={h.id}
+                style={styles.historyRow}
+                onPress={() => {
+                  setQuery(h.query);
+                  setMode("assistant");
+                  void run(h.query, "assistant");
+                }}
+              >
+                <Text style={styles.citationTitle}>{h.query}</Text>
+                <Text style={styles.citationYear}>
+                  {new Date(h.created_at).toLocaleString("ru-RU")} · {h.synthesis_mode}
+                </Text>
+              </Pressable>
+            ))}
           </View>
         ) : null}
 
@@ -362,6 +410,23 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   chipText: { fontSize: 12, color: "#334155" },
+  banner: {
+    fontSize: 12,
+    lineHeight: 18,
+    color: "#92400e",
+    backgroundColor: "#fffbeb",
+    borderColor: "#fcd34d",
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+  },
+  historyRow: {
+    borderTopWidth: 1,
+    borderTopColor: "#f1f5f9",
+    paddingTop: 10,
+    gap: 2,
+  },
   error: { color: "#dc2626", fontSize: 14 },
   card: {
     backgroundColor: "#fff",

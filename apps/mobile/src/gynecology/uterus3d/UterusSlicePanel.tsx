@@ -27,7 +27,7 @@ import {
   type SliceStroke,
 } from "./sliceStrokeHelpers";
 
-const SLICE_SOURCE = require("../../../assets/uterus-sagittal-slice.png");
+const SLICE_SOURCE = require("../../../assets/uterus-sagittal-slice.jpg");
 
 type MarkerType = "myoma" | "adenomyosis" | "polyp" | "scar" | "other";
 

@@ -43,6 +43,16 @@ type BookmarkRow = {
   created_at: string;
 };
 
+type HistoryRow = {
+  id: string;
+  query: string;
+  sources: string[];
+  result_count: number;
+  synthesis_mode: string;
+  evidence_strength: string | null;
+  created_at: string;
+};
+
 type EvidenceAssistantAnswer = AssistantAnswer & {
   sourceTranslations?: { id: string; titleRu: string; keyPointRu: string }[];
 };
@@ -114,6 +124,8 @@ export function EvidenceAssistantWorkspace() {
   const [searchResult, setSearchResult] = useState<UnifiedSearchResult | null>(null);
   const [bookmarks, setBookmarks] = useState<BookmarkRow[]>([]);
   const [bookmarkIds, setBookmarkIds] = useState<Set<string>>(new Set());
+  const [history, setHistory] = useState<HistoryRow[]>([]);
+  const [rateLimitHint, setRateLimitHint] = useState<string | null>(null);
   const [translateToRussian, setTranslateToRussian] = useState(true);
 
   const loadBookmarks = useCallback(async () => {
@@ -129,9 +141,29 @@ export function EvidenceAssistantWorkspace() {
     }
   }, []);
 
+  const loadHistory = useCallback(async () => {
+    try {
+      const res = await fetch("/api/evidence/history?limit=15", { credentials: "same-origin" });
+      if (!res.ok) return;
+      const data = (await res.json()) as {
+        history?: HistoryRow[];
+        rateLimitHint?: { assistantLimit: number; assistantWindowSec: number };
+      };
+      setHistory(data.history ?? []);
+      if (data.rateLimitHint) {
+        setRateLimitHint(
+          `Лимит: до ${data.rateLimitHint.assistantLimit} запросов / ${data.rateLimitHint.assistantWindowSec} с на пользователя.`,
+        );
+      }
+    } catch {
+      /* guest or offline */
+    }
+  }, []);
+
   useEffect(() => {
     void loadBookmarks();
-  }, [loadBookmarks]);
+    void loadHistory();
+  }, [loadBookmarks, loadHistory]);
 
   const toggleBookmark = useCallback(
     async (record: EvidenceRecord) => {
@@ -192,12 +224,13 @@ export function EvidenceAssistantWorkspace() {
       const data = (await res.json()) as EvidenceAssistantAnswer & { error?: string };
       if (!res.ok) throw new Error(data.error ?? `HTTP ${res.status}`);
       setAnswer(data);
+      void loadHistory();
     } catch (e) {
       setError(e instanceof Error ? e.message : "Ошибка запроса");
     } finally {
       setLoading(false);
     }
-  }, [translateToRussian]);
+  }, [translateToRussian, loadHistory]);
 
   const runSearch = useCallback(async (q: string) => {
     setLoading(true);
@@ -240,6 +273,10 @@ export function EvidenceAssistantWorkspace() {
             SonoEvidence · база знаний
           </Link>{" "}
           — статический корпус; здесь — live-retrieval + AI-резюме.
+        </p>
+        <p className="rounded-md border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs text-amber-950 dark:text-amber-100">
+          CDS / справочная помощь. Не ставит диагноз и не заменяет клиническое решение специалиста.
+          {rateLimitHint ? ` ${rateLimitHint}` : ""}
         </p>
       </header>
 
@@ -411,8 +448,43 @@ export function EvidenceAssistantWorkspace() {
               ))}
             </ul>
           </CardContent>
-          <CardContent className="border-t pt-2 text-[11px] text-[var(--clinical-foreground-muted)]">
-            {answer.disclaimers.join(" ")}
+          <CardContent className="border-t space-y-1 pt-2 text-[11px] text-[var(--clinical-foreground-muted)]">
+            {answer.disclaimers.map((d) => (
+              <p key={d}>{d}</p>
+            ))}
+            <p>Не диагноз. Интерпретация и решение — за лечащим врачом.</p>
+          </CardContent>
+        </Card>
+      ) : null}
+
+      {history.length > 0 ? (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">История запросов</CardTitle>
+            <CardDescription>Последние вопросы к Evidence Assistant (только ваши)</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ul className="space-y-2">
+              {history.map((h) => (
+                <li key={h.id}>
+                  <button
+                    type="button"
+                    className="w-full rounded-lg border border-[var(--clinical-border)] px-3 py-2 text-left text-sm hover:bg-[var(--clinical-surface)]"
+                    onClick={() => {
+                      setQuery(h.query);
+                      setMode("assistant");
+                      void runAssistant(h.query);
+                    }}
+                  >
+                    <span className="font-medium">{h.query}</span>
+                    <span className="mt-1 block text-[11px] text-[var(--clinical-foreground-muted)]">
+                      {new Date(h.created_at).toLocaleString("ru-RU")} · {h.synthesis_mode}
+                      {h.evidence_strength ? ` · ${h.evidence_strength}` : ""} · цитат: {h.result_count}
+                    </span>
+                  </button>
+                </li>
+              ))}
+            </ul>
           </CardContent>
         </Card>
       ) : null}

@@ -1,4 +1,4 @@
-import { calculateORADS } from "./oradsCalculator";
+import { calculateORADS } from "@repo/orads-us/pro";
 
 function expectEq(name: string, actual: unknown, expected: unknown) {
   if (actual !== expected) {
