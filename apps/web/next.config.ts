@@ -72,7 +72,9 @@ const nextConfig: NextConfig = {
     "@repo/birads-mmg",
   ],
   env: {
-    NEXT_PUBLIC_AUTH_EMAIL_ONLY: process.env.AUTH_EMAIL_ONLY ?? "false",
+    // Mail-first: hide SMS/Yandex/Telegram unless AUTH_ALLOW_PHONE=true.
+    NEXT_PUBLIC_AUTH_ALLOW_PHONE: process.env.AUTH_ALLOW_PHONE === "true" ? "true" : "false",
+    NEXT_PUBLIC_AUTH_EMAIL_ONLY: process.env.AUTH_ALLOW_PHONE === "true" ? "false" : "true",
     NEXT_PUBLIC_AUTH_PILOT_CLOSED: process.env.AUTH_PILOT_TELEGRAM_ALLOWLIST?.trim() ? "true" : "false",
   },
   experimental: {

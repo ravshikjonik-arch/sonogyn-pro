@@ -16,6 +16,7 @@
     "smtp:configure": "node scripts/configure-supabase-smtp.mjs --apply",
     "test:auth": "node scripts/auth-smoke-test.mjs",
     "test:auth:mailru-prod": "node scripts/test-mailru-auth-prod.mjs",
+    "test:auth:mail-e2e-prod": "node scripts/e2e-mail-registration-prod.mjs",
     "test:pilot-smoke": "node scripts/pilot-smoke.mjs",
     "test:clinical-memory-prod": "node scripts/test-clinical-memory-prod.mjs",
     "pilot:launch-check": "node scripts/pilot-smoke.mjs && node scripts/test-mailru-auth-prod.mjs",

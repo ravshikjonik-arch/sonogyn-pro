@@ -6,6 +6,7 @@ import {
   parseAuthCallbackParams,
   recoveryResetPath,
 } from "@/lib/auth/auth-callback";
+import { autoGrantPilotMedicalAccess } from "@/lib/auth/pilot-medical-access";
 import { supabaseCookieOptions, withSecureCookieOptions } from "@/utils/supabase/cookie-options";
 
 function authErrorRedirect(
@@ -72,6 +73,15 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(
       authErrorRedirect(url.origin, result.message, result.errorCode, isRecoveryFlow),
     );
+  }
+
+  if (!isRecoveryFlow) {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (user?.id) {
+      await autoGrantPilotMedicalAccess(user.id);
+    }
   }
 
   return response;

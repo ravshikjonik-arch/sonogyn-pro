@@ -14,6 +14,7 @@ import {
 } from "@/lib/auth/email-confirmation";
 import { TelegramService } from "@/services/telegram";
 import { tryAutoConfirmRegistration, shouldAutoConfirmEmail } from "@/lib/auth/auto-confirm-email";
+import { autoGrantPilotMedicalAccess } from "@/lib/auth/pilot-medical-access";
 import { resolveUserIdByEmail } from "@/lib/auth/resolve-user-by-email";
 import { SIGN_UP_GENERIC_MSG, CAPTCHA_REQUIRED_MSG, RESEND_CONFIRMATION_MSG } from "@/lib/auth/safe-auth-messages";
 import { translateAuthError } from "@/lib/auth/translate-auth-error";
@@ -230,6 +231,7 @@ export async function POST(req: Request) {
       });
       if (autoOk) {
         needsEmailConfirmation = false;
+        await autoGrantPilotMedicalAccess(data.user.id);
         const { data: sessionData } = await supabase.auth.getSession();
         return finishSignUpResponse({
           wantsMobileSession,

@@ -1,19 +1,17 @@
 import { NextResponse } from "next/server";
 
-const FALSE = new Set(["false", "0", "no"]);
+const TRUE = new Set(["true", "1", "yes"]);
 
-function parseEmailOnly(raw: string | undefined): boolean | undefined {
-  if (!raw?.trim()) return undefined;
-  return !FALSE.has(raw.trim().toLowerCase());
-}
-
-/** Email-only auth (Google / SMS отключены). По умолчанию false — все способы включены. */
+/**
+ * Mail-first product: registration/login via email + password.
+ * SMS / Telegram / Yandex stay off unless AUTH_ALLOW_PHONE=true.
+ * (Ignores stale AUTH_EMAIL_ONLY=false on older Vercel deploys.)
+ */
 export function isAuthEmailOnly(): boolean {
-  return (
-    parseEmailOnly(process.env.AUTH_EMAIL_ONLY) ??
-    parseEmailOnly(process.env.NEXT_PUBLIC_AUTH_EMAIL_ONLY) ??
-    false
-  );
+  const allowPhone =
+    TRUE.has((process.env.AUTH_ALLOW_PHONE ?? "").trim().toLowerCase()) ||
+    TRUE.has((process.env.NEXT_PUBLIC_AUTH_ALLOW_PHONE ?? "").trim().toLowerCase());
+  return !allowPhone;
 }
 
 export const AUTH_METHOD_DISABLED_MSG =
@@ -26,10 +24,8 @@ export function disabledAuthMethodResponse(method: "phone" | "google" | "sms" | 
   );
 }
 
-/** Client-safe (NEXT_PUBLIC_AUTH_EMAIL_ONLY через next.config env). */
+/** Client-safe (NEXT_PUBLIC_* via next.config env). */
 export function isAuthEmailOnlyClient(): boolean {
-  const raw = process.env.NEXT_PUBLIC_AUTH_EMAIL_ONLY?.trim().toLowerCase();
-  if (!raw) return false;
-  if (raw === "false" || raw === "0" || raw === "no") return false;
-  return true;
+  const allowPhone = TRUE.has((process.env.NEXT_PUBLIC_AUTH_ALLOW_PHONE ?? "").trim().toLowerCase());
+  return !allowPhone;
 }

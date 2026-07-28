@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { isLikelySupabaseNetworkError } from "@/lib/auth-network-error";
 import { confirmUserEmail, shouldAutoConfirmEmail } from "@/lib/auth/auto-confirm-email";
+import { autoGrantPilotMedicalAccess } from "@/lib/auth/pilot-medical-access";
 import { resolveUserIdByEmail } from "@/lib/auth/resolve-user-by-email";
 import {
   clearAuthFailures,
@@ -168,6 +169,13 @@ export async function POST(req: Request) {
   }
 
   await clearAuthFailures(failKey);
+
+  const {
+    data: { user: signedInUser },
+  } = await supabase.auth.getUser();
+  if (signedInUser?.id) {
+    await autoGrantPilotMedicalAccess(signedInUser.id);
+  }
 
   if (wantsMobileSession) {
     const { data: sessionData } = await supabase.auth.getSession();
