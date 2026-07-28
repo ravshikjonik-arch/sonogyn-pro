@@ -34,7 +34,9 @@ function loadEnv() {
 
 const env = loadEnv();
 const stamp = Date.now();
-const email = `sonogyn.mail.e2e+${stamp}@mail.ru`.toLowerCase();
+const smtpUser = (env.SMTP_USER || "sonogyn-pro@mail.ru").trim().toLowerCase();
+const localPart = smtpUser.includes("@") ? smtpUser.split("@")[0] : smtpUser;
+const email = `${localPart}+maile2e${stamp}@mail.ru`.toLowerCase();
 const password = `MailE2E-${stamp.toString(36)}!Aa`;
 
 let failed = 0;
