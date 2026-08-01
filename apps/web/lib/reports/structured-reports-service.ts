@@ -214,17 +214,35 @@ function mergeEditedBlocks(
   };
 }
 
+function sanitizeStoredOutputJson(raw: unknown): unknown {
+  if (!raw || typeof raw !== "object") return raw;
+  const output = { ...(raw as Record<string, unknown>) };
+  if (!Array.isArray(output.citations)) return output;
+
+  output.citations = output.citations.map((item) => {
+    if (!item || typeof item !== "object") return item;
+    const citation = { ...(item as Record<string, unknown>) };
+    const url = citation.url;
+    if (typeof url !== "string" || !/^https?:\/\//i.test(url)) {
+      delete citation.url;
+    }
+    return citation;
+  });
+  return output;
+}
+
 export function rowToStructuredReportDocument(
   row: DbReportRow,
   templateSlug: string,
   citations: ReportCitation[] = [],
 ): StructuredReportDocument {
   const input = StructuredReportInputSchema.parse(row.input_json);
-  const output = StructuredReportOutputSchema.parse(row.output_json);
+  const output = StructuredReportOutputSchema.parse(sanitizeStoredOutputJson(row.output_json));
   const editedBlocks = row.edited_blocks_json ?? {};
 
   const mergedOutput = mergeEditedBlocks(output, editedBlocks);
-  if (citations.length > 0) {
+  // Prefer engine citations (richer); fall back to denormalized links.
+  if ((!mergedOutput.citations || mergedOutput.citations.length === 0) && citations.length > 0) {
     mergedOutput.citations = citations;
   }
 
@@ -314,11 +332,12 @@ export async function getStructuredReportById(
     .eq("id", row.template_id)
     .maybeSingle();
 
+  const dbSlug = (templateRow as { slug?: string } | null)?.slug;
   const templateSlug =
-    (templateRow as { slug?: string } | null)?.slug ??
-    (row.input_json as { domain?: string }).domain === "adnex"
+    dbSlug ??
+    ((row.input_json as { domain?: string }).domain === "adnex"
       ? ADNEX_ORADS_V1_TEMPLATE_SLUG
-      : "unknown";
+      : "unknown");
 
   const { data: citationRows } = await supabase
     .from("report_citation_links")
@@ -326,12 +345,15 @@ export async function getStructuredReportById(
     .eq("report_id", reportId);
 
   const citations: ReportCitation[] = ((citationRows ?? []) as Pick<DbCitationRow, "corpus_id" | "label" | "url">[]).map(
-    (c) => ({
-      id: c.corpus_id,
-      standard: c.label,
-      label: c.label,
-      url: c.url ?? undefined,
-    }),
+    (c) => {
+      const url = typeof c.url === "string" && /^https?:\/\//i.test(c.url) ? c.url : undefined;
+      return {
+        id: c.corpus_id,
+        standard: c.label,
+        label: c.label,
+        ...(url ? { url } : {}),
+      };
+    },
   );
 
   return {

@@ -11,6 +11,7 @@ import { RL } from "@/lib/security/rate-limit-config";
 import { requireSupabaseUserFromRequest } from "@/lib/security/require-user";
 import { safeLog } from "@/lib/security/safeLog";
 import { createClient } from "@/utils/supabase/server";
+import { resolveDataSupabaseClient } from "@/utils/supabase/user-scoped";
 
 type RouteContext = {
   params: Promise<{ id: string }>;
@@ -20,8 +21,9 @@ export async function GET(request: Request, context: RouteContext) {
   const limited = await rejectIfRateLimitedPreset(request, "reports-detail", RL.reportsRead);
   if (limited) return limited;
 
-  const supabase = await createClient();
-  const auth = await requireSupabaseUserFromRequest(request, supabase);
+  const cookieClient = await createClient();
+  const auth = await requireSupabaseUserFromRequest(request, cookieClient);
+  const supabase = resolveDataSupabaseClient(request, cookieClient);
   if (!auth.ok && !isDevSkipAuthEnabled()) {
     return auth.response;
   }
@@ -61,8 +63,9 @@ export async function PATCH(request: Request, context: RouteContext) {
   const limited = await rejectIfRateLimitedPreset(request, "reports-update", RL.reportsWrite);
   if (limited) return limited;
 
-  const supabase = await createClient();
-  const auth = await requireSupabaseUserFromRequest(request, supabase);
+  const cookieClient = await createClient();
+  const auth = await requireSupabaseUserFromRequest(request, cookieClient);
+  const supabase = resolveDataSupabaseClient(request, cookieClient);
   if (!auth.ok && !isDevSkipAuthEnabled()) {
     return auth.response;
   }

@@ -21,14 +21,19 @@ SQL-источник: `apps/web/supabase/migrations/20260623120000_structured_re
 |----------|-----------|
 | `GET /api/reports/templates` (local → prod DB) | ✅ 200, seed `adnex-orads-v1` |
 | `POST /api/reports/generate` preview | ✅ 200, description/impression/recommendations + 6 citations |
-| Persist draft / finalize под сессией врача | ⏳ вручную: войти → `/tools/calc/rads/adnex-report` → сохранить |
+| Persist draft → finalize → GET (Bearer smoke) | ✅ `node scripts/sre-persist-smoke.mjs` |
 
-Без сессии curl на prod даёт 403 (bot/auth) — ожидаемо.
+Автономный smoke: magic-link JWT → `POST /api/reports` → `PATCH finalized` → `GET` + проверка строк в БД.
 
 ## A3 — IDOR harden
 
 `POST /api/reports`: перед persist проверяются `assertStudyOwnedByUser` / `assertPatientOwnedByUser`, если переданы `studyId` / `patientId`.
 
+## Фиксы по пути smoke
+
+- Bearer JWT → PostgREST: `utils/supabase/user-scoped.ts` (иначе RLS insert/select без cookie ломался).
+- Чтение отчёта: sanitize невалидных `citations[].url` из output_json.
+
 ## Следующий шаг
 
-A2 persist под вашим логином, затем **T1.4 polish / thyroid+obstetric seed** по желанию.
+Seed thyroid/obstetric templates **или** polish UI T1.4 — по выбору.
