@@ -28,6 +28,15 @@ export type EvidenceRecordType =
 
 export type EvidenceLevel = "I" | "II" | "III" | "IV" | "V";
 
+/**
+ * Corpus mode for IQDOC-like RF navigation.
+ * - all: default multi-provider search
+ * - rf_kr: clinical recommendations МЗ РФ only
+ * - rf_npa: orders / НПА (ДЗМ, МЗ РФ)
+ * - rf_all: КР + НПА + protocols (RF shelf group)
+ */
+export type EvidenceCorpusMode = "all" | "rf_kr" | "rf_npa" | "rf_all";
+
 /** Unified normalized record from any provider. */
 export type EvidenceRecord = {
   id: string;
@@ -51,6 +60,12 @@ export type EvidenceRecord = {
   isOpenAccess?: boolean;
   retrievedAt: string;
   relevanceScore: number;
+  /** Guideline section title (RF КР/НПА). */
+  section?: string;
+  /** Short quote / bullet from the cited section. */
+  quote?: string;
+  /** Shelf from @repo/clinical-guidelines when provider is kr_mz_rf. */
+  guidelineShelf?: string;
 };
 
 export type EvidenceSearchQuery = {
@@ -58,6 +73,8 @@ export type EvidenceSearchQuery = {
   limit?: number;
   /** Restrict to specific providers (default: all enabled). */
   providers?: EvidenceProviderId[];
+  /** RF corpus modes — restrict adapters + guideline shelves. */
+  corpusMode?: EvidenceCorpusMode;
   /** Prefer recent publications (years). */
   maxAgeYears?: number;
   /** Boost guidelines and systematic reviews. */
@@ -93,11 +110,13 @@ export type AssistantAnswer = {
   contraindications: string[];
   alternatives: { name: string; rationale: string }[];
   citations: EvidenceRecord[];
-  guidelines: { title: string; url: string; org: string }[];
+  guidelines: { title: string; url: string; org: string; section?: string }[];
   disclaimers: string[];
   sourcesUsed: Partial<Record<EvidenceProviderId, ProviderStatus>>;
   searchedAt: string;
   synthesisMode: "llm" | "rules";
+  /** Echo of request corpus mode (for UI empty-state copy). */
+  corpusMode?: EvidenceCorpusMode;
 };
 
 export type RetrievalConfig = {

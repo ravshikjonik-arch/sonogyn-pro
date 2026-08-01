@@ -76,6 +76,9 @@ export function buildEvidenceRecord(input: {
   population?: string;
   intervention?: string;
   outcome?: string;
+  section?: string;
+  quote?: string;
+  guidelineShelf?: string;
 }): EvidenceRecord {
   const recordType =
     input.recordType ??
@@ -108,5 +111,8 @@ export function buildEvidenceRecord(input: {
     isOpenAccess: input.isOpenAccess,
     retrievedAt: new Date().toISOString(),
     relevanceScore: input.relevanceScore ?? 0.5,
+    section: input.section?.trim() || undefined,
+    quote: input.quote?.trim() || undefined,
+    guidelineShelf: input.guidelineShelf?.trim() || undefined,
   };
 }

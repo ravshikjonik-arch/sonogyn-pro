@@ -12,6 +12,8 @@ export type EvidenceRecordLike = {
   doi?: string;
   pmid?: string;
   recordType?: string;
+  section?: string;
+  quote?: string;
 };
 
 const PROVIDER_STANDARD: Record<string, string> = {
@@ -43,7 +45,8 @@ export function mapEvidenceRecordsToReportCitations(
     version: r.year ? String(r.year) : undefined,
     label: r.title,
     url: r.url,
-    quote: r.abstract?.slice(0, 280) || r.journal || undefined,
+    section: r.section,
+    quote: r.quote?.slice(0, 280) || r.abstract?.slice(0, 280) || r.journal || undefined,
   }));
 }
 

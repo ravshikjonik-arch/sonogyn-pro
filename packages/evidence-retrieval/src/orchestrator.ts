@@ -11,12 +11,14 @@ import {
 import { niceAdapter, whoAdapter, emaAdapter } from "./adapters/external-guidelines.adapter.js";
 import { enrichRecordsWithCrossref } from "./adapters/crossref.adapter.js";
 import type { EvidenceAdapter } from "./adapters/types.js";
+import { emptyCorpusMessage, providersForCorpusMode } from "./corpus-mode.js";
 import { dedupeEvidenceRecords } from "./dedup.js";
 import { createMemoryCacheStore } from "./infra/cache.js";
 import { rankEvidenceRecords, evidenceStrengthFromRecords } from "./ranker.js";
 import type {
   AssistantAnswer,
   CacheStore,
+  EvidenceCorpusMode,
   EvidenceProviderId,
   EvidenceSearchQuery,
   ProviderSearchResult,
@@ -56,9 +58,12 @@ function resolveAdapters(
   query: EvidenceSearchQuery,
   config: RetrievalConfig,
 ): EvidenceAdapter[] {
+  const corpusProviders = providersForCorpusMode(query.corpusMode);
+  if (corpusProviders?.length) {
+    return ALL_ADAPTERS.filter((a) => corpusProviders.includes(a.id));
+  }
   const enabled = new Set(config.enabledProviders ?? DEFAULT_ENABLED_PROVIDERS);
   if (query.providers?.length) {
-    for (const p of query.providers) enabled.add(p);
     return ALL_ADAPTERS.filter((a) => query.providers!.includes(a.id));
   }
   return ALL_ADAPTERS.filter((a) => enabled.has(a.id));
@@ -150,9 +155,14 @@ const EBM_DISCLAIMER =
 export function synthesizeEvidenceAnswer(
   query: string,
   searchResult: UnifiedSearchResult,
+  options?: { corpusMode?: EvidenceCorpusMode },
 ): AssistantAnswer {
+  const resolvedMode = options?.corpusMode;
   const citations = searchResult.records.slice(0, 12);
-  const { strength, gradeLabel } = evidenceStrengthFromRecords(citations);
+  const { strength, gradeLabel } =
+    citations.length === 0
+      ? { strength: "insufficient" as const, gradeLabel: "Недостаточно данных" }
+      : evidenceStrengthFromRecords(citations);
 
   const guidelines = citations
     .filter((c) => c.recordType === "guideline" || c.provider === "kr_mz_rf")
@@ -161,18 +171,25 @@ export function synthesizeEvidenceAnswer(
       title: c.title,
       url: c.url,
       org: c.provider === "kr_mz_rf" ? "МЗ РФ" : c.journal || c.provider,
+      section: c.section,
     }));
 
   const topSummaries = citations
     .slice(0, 5)
-    .map((c, i) => `${i + 1}. ${c.title}${c.year ? ` (${c.year})` : ""}${c.journal ? ` — ${c.journal}` : ""}`)
+    .map((c, i) => {
+      const section = c.section ? ` · ${c.section}` : "";
+      const quote = c.quote ? `\n   «${c.quote}»` : "";
+      return `${i + 1}. ${c.title}${c.year ? ` (${c.year})` : ""}${section}${quote}`;
+    })
     .join("\n");
 
   const drugRecords = citations.filter((c) => c.recordType === "drug_label");
   const recommendations: string[] = [];
   const contraindications: string[] = [];
 
-  if (drugRecords.length > 0) {
+  if (citations.length === 0) {
+    // Honest empty: no invented recommendations
+  } else if (drugRecords.length > 0) {
     recommendations.push("Сверьте дозировку и показания с официальной инструкцией (FDA/DailyMed).");
     if (drugRecords[0]?.abstract?.toLowerCase().includes("pregnan")) {
       contraindications.push("Проверьте раздел pregnancy/lactation в label — см. цитаты.");
@@ -180,7 +197,7 @@ export function synthesizeEvidenceAnswer(
   }
 
   if (guidelines.length > 0) {
-    recommendations.push(`Ориентируйтесь на действующие КР (${guidelines.length} найдено).`);
+    recommendations.push(`Ориентируйтесь на действующие КР/НПА (${guidelines.length} найдено) — см. разделы в цитатах.`);
   }
 
   if (recommendations.length === 0 && citations.length > 0) {
@@ -189,8 +206,8 @@ export function synthesizeEvidenceAnswer(
 
   const summary =
     citations.length === 0
-      ? `По запросу «${query}» live-источники не вернули результатов. Попробуйте переформулировать или уточнить клинический контекст.`
-      : `По запросу «${query}» найдено ${citations.length} релевантных источников (${gradeLabel}).\n\nКлючевые публикации:\n${topSummaries}`;
+      ? emptyCorpusMessage(query, resolvedMode)
+      : `По запросу «${query}» найдено ${citations.length} релевантных источников (${gradeLabel}).\n\nКлючевые источники:\n${topSummaries}`;
 
   const sourcesUsed: AssistantAnswer["sourcesUsed"] = {};
   for (const p of searchResult.providers) {
@@ -211,23 +228,26 @@ export function synthesizeEvidenceAnswer(
     sourcesUsed,
     searchedAt: searchResult.searchedAt,
     synthesisMode: "rules",
+    corpusMode: resolvedMode,
   };
 }
 
 export async function askEvidenceAssistant(
   query: string,
-  options: SearchOrchestratorOptions & { limit?: number } = {},
+  options: SearchOrchestratorOptions & { limit?: number; corpusMode?: EvidenceCorpusMode } = {},
 ): Promise<AssistantAnswer> {
+  const corpusMode = options.corpusMode ?? "all";
   const searchResult = await searchEvidenceUnified(
     {
       query,
       limit: options.limit ?? 25,
       preferHighEvidence: true,
       maxAgeYears: 10,
+      corpusMode,
     },
     options,
   );
-  return synthesizeEvidenceAnswer(query, searchResult);
+  return synthesizeEvidenceAnswer(query, searchResult, { corpusMode });
 }
 
 export function getAdapterCatalog(): { id: EvidenceProviderId; label: string }[] {

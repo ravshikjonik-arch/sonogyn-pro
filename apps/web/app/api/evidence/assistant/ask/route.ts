@@ -1,7 +1,13 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
-import { getAdapterCatalog, searchEvidenceUnified, synthesizeEvidenceAnswer } from "@repo/evidence-retrieval";
+import {
+  EVIDENCE_CORPUS_MODES,
+  getAdapterCatalog,
+  searchEvidenceUnified,
+  synthesizeEvidenceAnswer,
+  type EvidenceCorpusMode,
+} from "@repo/evidence-retrieval";
 
 import { buildRetrievalConfigAsync } from "@/lib/evidence/retrieval-config";
 import { logEvidenceQuery, sourcesFromAssistantAnswer } from "@/lib/evidence/log-evidence-query";
@@ -14,11 +20,16 @@ import { createClient } from "@/utils/supabase/server";
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
+const CorpusModeSchema = z.enum(
+  EVIDENCE_CORPUS_MODES as [EvidenceCorpusMode, ...EvidenceCorpusMode[]],
+);
+
 const BodySchema = z.object({
   query: z.string().min(3).max(800),
   limit: z.number().int().min(1).max(30).optional(),
   useLlm: z.boolean().optional(),
   translateToRussian: z.boolean().optional(),
+  corpusMode: CorpusModeSchema.optional().default("all"),
 });
 
 export async function POST(request: Request) {
@@ -51,22 +62,25 @@ export async function POST(request: Request) {
   }
 
   const config = await buildRetrievalConfigAsync();
+  const corpusMode = parsed.data.corpusMode;
   const searchResult = await searchEvidenceUnified(
     {
       query: parsed.data.query,
       limit: parsed.data.limit ?? 25,
       preferHighEvidence: true,
       maxAgeYears: 10,
+      corpusMode,
     },
     { config },
   );
 
-  const useLlm = parsed.data.useLlm !== false;
+  const useLlm = parsed.data.useLlm !== false && searchResult.records.length > 0;
   const answer = useLlm
     ? await synthesizeWithLlm(parsed.data.query, searchResult, {
         translateToRussian: parsed.data.translateToRussian !== false,
+        corpusMode,
       })
-    : synthesizeEvidenceAnswer(parsed.data.query, searchResult);
+    : synthesizeEvidenceAnswer(parsed.data.query, searchResult, { corpusMode });
 
   try {
     await logEvidenceQuery(supabase, {
@@ -87,6 +101,7 @@ export async function POST(request: Request) {
 export async function GET() {
   return NextResponse.json({
     catalog: getAdapterCatalog(),
+    corpusModes: EVIDENCE_CORPUS_MODES,
     disclaimer:
       "Evidence Assistant — CDS. Использует PubMed, Europe PMC, Cochrane (via EPMC), Semantic Scholar, ClinicalTrials.gov, КР МЗ РФ, SonoEvidence, OpenFDA, DailyMed. Не диагноз; интерпретация — специалист.",
     rateLimit: {

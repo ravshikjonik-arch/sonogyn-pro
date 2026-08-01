@@ -1,4 +1,9 @@
-import type { AssistantAnswer, EvidenceRecord, UnifiedSearchResult } from "@repo/evidence-retrieval";
+import type {
+  AssistantAnswer,
+  EvidenceCorpusMode,
+  EvidenceRecord,
+  UnifiedSearchResult,
+} from "@repo/evidence-retrieval";
 import { synthesizeEvidenceAnswer } from "@repo/evidence-retrieval";
 
 import { llmSupportsJsonObjectMode, resolveLlmProvider } from "@/lib/ai/llm-provider";
@@ -6,10 +11,12 @@ import { llmSupportsJsonObjectMode, resolveLlmProvider } from "@/lib/ai/llm-prov
 function citationsForPrompt(records: EvidenceRecord[]): string {
   return records
     .slice(0, 12)
-    .map(
-      (r, i) =>
-        `[${i + 1}] ${r.title} (${r.provider}${r.year ? `, ${r.year}` : ""})${r.abstract ? `\n    ${r.abstract.slice(0, 400)}` : ""}\n    URL: ${r.url}`,
-    )
+    .map((r, i) => {
+      const section = r.section ? `\n    Section: ${r.section}` : "";
+      const quote = r.quote ? `\n    Quote: ${r.quote.slice(0, 280)}` : "";
+      const abs = r.abstract ? `\n    Abstract: ${r.abstract.slice(0, 400)}` : "";
+      return `[${i + 1}] id=${r.id}\n    ${r.title} (${r.provider}${r.year ? `, ${r.year}` : ""})${section}${quote}${abs}\n    URL: ${r.url}`;
+    })
     .join("\n\n");
 }
 
@@ -119,9 +126,11 @@ type LlmPayload = {
 export async function synthesizeWithLlm(
   query: string,
   searchResult: UnifiedSearchResult,
-  options: { translateToRussian?: boolean } = {},
+  options: { translateToRussian?: boolean; corpusMode?: EvidenceCorpusMode } = {},
 ): Promise<AssistantAnswer> {
-  const fallback = synthesizeEvidenceAnswer(query, searchResult);
+  const fallback = synthesizeEvidenceAnswer(query, searchResult, {
+    corpusMode: options.corpusMode,
+  });
   const llm = resolveLlmProvider("evidence");
   const translateToRussian = options.translateToRussian !== false;
   if (!llm || searchResult.records.length === 0) {
@@ -131,15 +140,15 @@ export async function synthesizeWithLlm(
   const system = `You are a clinical evidence synthesis assistant for physicians (Russian UI).
 Use ONLY the provided citations. Return strict JSON only (no markdown fences):
 {
-  "summary": "3-5 sentences in Russian",
+  "summary": "3-5 sentences in Russian; when Section/Quote present, mention the section",
   "evidenceStrength": "high|moderate|low|insufficient",
   "gradeLabel": "short Russian label",
   "recommendations": ["..."],
   "contraindications": ["..."],
   "alternatives": [{"name":"...","rationale":"..."}],
-  "sourceTranslations": [{"id":"citation id exactly as provided","titleRu":"Russian title translation","keyPointRu":"1-2 concise Russian sentences with the clinically relevant point from title/abstract"}]
+  "sourceTranslations": [{"id":"citation id exactly as provided","titleRu":"Russian title translation","keyPointRu":"1-2 concise Russian sentences with the clinically relevant point from title/abstract/quote"}]
 }
-Never invent PMIDs or guidelines not in citations. CDS disclaimer implied.
+Never invent PMIDs, sections, or guidelines not in citations. If a citation has Section/Quote — use them. CDS disclaimer implied.
 If translation is requested, translate the clinical meaning into Russian, but keep drug names, guideline acronyms, classifications, and study names recognizable.`;
 
   const user = `Clinical question: ${query}
@@ -197,6 +206,7 @@ ${citationsForPrompt(searchResult.records)}`;
         title: c.title,
         url: c.url,
         org: c.provider === "kr_mz_rf" ? "МЗ РФ" : c.journal || c.provider,
+        section: c.section,
       }));
 
     const sourcesUsed: AssistantAnswer["sourcesUsed"] = {};
@@ -218,6 +228,7 @@ ${citationsForPrompt(searchResult.records)}`;
       sourcesUsed,
       searchedAt: searchResult.searchedAt,
       synthesisMode: "llm",
+      corpusMode: options.corpusMode,
       ...(translateToRussian && sourceTranslations.length > 0
         ? { sourceTranslations }
         : {}),

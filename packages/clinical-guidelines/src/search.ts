@@ -50,16 +50,36 @@ export function searchGuidelinesRanked(
   items: ClinicalGuideline[],
   query: string,
   limit = 20,
+  options?: {
+    shelves?: GuidelineShelf[];
+    activeOnly?: boolean;
+  },
 ): GuidelineSearchHit[] {
   const q = query.trim();
   if (!q) return [];
 
+  const shelfSet = options?.shelves?.length ? new Set(options.shelves) : null;
+  const activeOnly = options?.activeOnly ?? false;
   const hits: GuidelineSearchHit[] = [];
 
   for (const g of items) {
-    const hay = [g.title, g.summary, ...(g.tags ?? [])].join(" ");
-    const score = scoreMatch(hay, q);
-    if (score <= 0) continue;
+    if (shelfSet && !shelfSet.has(g.shelf)) continue;
+    if (activeOnly && g.status !== "active") continue;
+
+    const sectionBlob =
+      g.sections?.flatMap((s) => [s.title, ...s.bullets]).join(" ") ?? "";
+    const hay = [g.title, g.summary, sectionBlob, ...(g.tags ?? [])].join(" ");
+    let score = scoreMatch(hay, q);
+    // Token fallback: score partial clinical queries (e.g. "миома УЗИ")
+    if (score <= 0) {
+      const tokens = q.toLowerCase().split(/\s+/).filter((t) => t.length >= 3);
+      let tokenHits = 0;
+      for (const t of tokens) {
+        if (hay.toLowerCase().includes(t)) tokenHits += 1;
+      }
+      if (tokenHits === 0) continue;
+      score = Math.min(45, 15 * tokenHits);
+    }
     hits.push({
       id: g.id,
       title: g.title,

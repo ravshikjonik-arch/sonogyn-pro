@@ -5,6 +5,7 @@ import {
   Linking,
   Pressable,
   ScrollView,
+  Share,
   StyleSheet,
   Text,
   TextInput,
@@ -16,6 +17,9 @@ import type { RootStackParamList } from "../navigation/paramLists";
 import {
   addEvidenceBookmark,
   askEvidenceAssistant,
+  CORPUS_MODE_LABELS,
+  CORPUS_MODES,
+  formatMobileEvidenceAnswer,
   listEvidenceBookmarks,
   listEvidenceHistory,
   providerLabel,
@@ -23,6 +27,7 @@ import {
   searchEvidence,
   type MobileAssistantAnswer,
   type MobileEvidenceBookmark,
+  type MobileEvidenceCorpusMode,
   type MobileEvidenceHistoryRow,
   type MobileEvidenceRecord,
   type MobileSearchResult,
@@ -64,7 +69,12 @@ function CitationRow({
             {record.year ? <Text style={styles.citationYear}>{record.year}</Text> : null}
           </View>
           <Text style={styles.citationTitle}>{record.title}</Text>
-          {record.abstract ? (
+          {record.section ? <Text style={styles.citationSection}>Раздел: {record.section}</Text> : null}
+          {record.quote ? (
+            <Text style={styles.citationQuote} numberOfLines={4}>
+              «{record.quote}»
+            </Text>
+          ) : record.abstract ? (
             <Text style={styles.citationAbstract} numberOfLines={3}>
               {record.abstract}
             </Text>
@@ -97,6 +107,7 @@ export default function EvidenceAssistantScreen({ navigation }: Props) {
   const [bookmarkIds, setBookmarkIds] = useState<Set<string>>(new Set());
   const [history, setHistory] = useState<MobileEvidenceHistoryRow[]>([]);
   const [rateLimitHint, setRateLimitHint] = useState<string | null>(null);
+  const [corpusMode, setCorpusMode] = useState<MobileEvidenceCorpusMode>("rf_kr");
 
   const refreshMeta = useCallback(() => {
     void listEvidenceBookmarks()
@@ -153,10 +164,10 @@ export default function EvidenceAssistantScreen({ navigation }: Props) {
       setSearchResult(null);
       try {
         if (activeMode === "assistant") {
-          setAnswer(await askEvidenceAssistant(trimmed));
+          setAnswer(await askEvidenceAssistant(trimmed, { corpusMode }));
           refreshMeta();
         } else {
-          setSearchResult(await searchEvidence(trimmed));
+          setSearchResult(await searchEvidence(trimmed, { corpusMode }));
         }
       } catch (e) {
         const msg = e instanceof Error ? e.message : "Ошибка запроса";
@@ -165,8 +176,17 @@ export default function EvidenceAssistantScreen({ navigation }: Props) {
         setLoading(false);
       }
     },
-    [mode, refreshMeta],
+    [mode, corpusMode, refreshMeta],
   );
+
+  const shareAnswer = useCallback(async () => {
+    if (!answer) return;
+    try {
+      await Share.share({ message: formatMobileEvidenceAnswer(answer) });
+    } catch {
+      /* dismissed */
+    }
+  }, [answer]);
 
   return (
     <SafeAreaView style={styles.safe} edges={["top", "left", "right"]}>
@@ -176,7 +196,7 @@ export default function EvidenceAssistantScreen({ navigation }: Props) {
         </Pressable>
         <View style={styles.headerCenter}>
           <Text style={styles.title}>Evidence Assistant</Text>
-          <Text style={styles.sub}>PubMed · Cochrane · КР · WHO · NICE</Text>
+          <Text style={styles.sub}>КР / НПА со ссылкой на раздел</Text>
         </View>
         <View style={styles.headerSpacer} />
       </View>
@@ -195,6 +215,20 @@ export default function EvidenceAssistantScreen({ navigation }: Props) {
           <Text style={[styles.modeBtnText, mode === "search" && styles.modeBtnTextOn]}>Поиск</Text>
         </Pressable>
       </View>
+
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.corpusRow}>
+        {CORPUS_MODES.map((m) => (
+          <Pressable
+            key={m}
+            style={[styles.corpusChip, corpusMode === m && styles.corpusChipOn]}
+            onPress={() => setCorpusMode(m)}
+          >
+            <Text style={[styles.corpusChipText, corpusMode === m && styles.corpusChipTextOn]}>
+              {CORPUS_MODE_LABELS[m]}
+            </Text>
+          </Pressable>
+        ))}
+      </ScrollView>
 
       <View style={styles.searchRow}>
         <TextInput
@@ -249,8 +283,15 @@ export default function EvidenceAssistantScreen({ navigation }: Props) {
                 {answer.gradeLabel}
               </Text>
               <Text style={styles.modeTag}>{answer.synthesisMode === "llm" ? "AI + citations" : "rules"}</Text>
+              <Pressable style={styles.shareBtn} onPress={() => void shareAnswer()}>
+                <Text style={styles.shareBtnText}>Поделиться</Text>
+              </Pressable>
             </View>
-            <Text style={styles.summary}>{answer.summary}</Text>
+            {answer.citations.length === 0 ? (
+              <Text style={styles.emptyBanner}>{answer.summary}</Text>
+            ) : (
+              <Text style={styles.summary}>{answer.summary}</Text>
+            )}
             {answer.recommendations.length > 0 ? (
               <View style={styles.section}>
                 <Text style={styles.sectionTitle}>Рекомендации</Text>
@@ -377,6 +418,18 @@ const styles = StyleSheet.create({
   modeBtnOn: { backgroundColor: "#0f2744", borderColor: "#0f2744" },
   modeBtnText: { fontWeight: "700", color: "#64748b", fontSize: 13 },
   modeBtnTextOn: { color: "#fff" },
+  corpusRow: { paddingHorizontal: 16, gap: 8, marginBottom: 10 },
+  corpusChip: {
+    borderWidth: 1,
+    borderColor: "#e2e8f0",
+    borderRadius: 999,
+    paddingHorizontal: 12,
+    paddingVertical: 7,
+    backgroundColor: "#fff",
+  },
+  corpusChipOn: { backgroundColor: "#0f2744", borderColor: "#0f2744" },
+  corpusChipText: { fontSize: 12, fontWeight: "700", color: "#64748b" },
+  corpusChipTextOn: { color: "#fff" },
   searchRow: { flexDirection: "row", gap: 8, paddingHorizontal: 16, marginBottom: 8 },
   input: {
     flex: 1,
@@ -439,7 +492,24 @@ const styles = StyleSheet.create({
   answerHeader: { flexDirection: "row", alignItems: "center", gap: 8, flexWrap: "wrap" },
   grade: { fontSize: 13, fontWeight: "800" },
   modeTag: { fontSize: 11, color: "#64748b" },
+  shareBtn: {
+    marginLeft: "auto",
+    borderWidth: 1,
+    borderColor: "#e2e8f0",
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+  },
+  shareBtnText: { fontSize: 12, fontWeight: "700", color: "#0f2744" },
   summary: { fontSize: 14, lineHeight: 21, color: "#0f172a" },
+  emptyBanner: {
+    fontSize: 14,
+    lineHeight: 21,
+    color: "#334155",
+    backgroundColor: "#f1f5f9",
+    borderRadius: 10,
+    padding: 10,
+  },
   section: { gap: 4 },
   sectionTitle: { fontSize: 12, fontWeight: "800", color: "#64748b", textTransform: "uppercase" },
   bullet: { fontSize: 14, color: "#334155", lineHeight: 20 },
@@ -465,6 +535,8 @@ const styles = StyleSheet.create({
   citationProvider: { fontSize: 11, fontWeight: "700", color: "#0f2744" },
   citationYear: { fontSize: 11, color: "#94a3b8" },
   citationTitle: { fontSize: 14, fontWeight: "700", color: "#0f172a" },
+  citationSection: { fontSize: 12, fontWeight: "700", color: "#0f2744" },
+  citationQuote: { fontSize: 12, color: "#64748b", lineHeight: 18, fontStyle: "italic" },
   citationAbstract: { fontSize: 12, color: "#64748b", lineHeight: 18 },
   citationLink: { fontSize: 12, color: "#2563eb", fontWeight: "600" },
   disclaimer: { fontSize: 11, color: "#94a3b8", marginTop: 4 },

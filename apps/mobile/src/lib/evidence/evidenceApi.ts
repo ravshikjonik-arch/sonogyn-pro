@@ -1,6 +1,8 @@
 import { getWebApiBase } from "../../api/chatBackend";
 import { supabaseMobile } from "../supabase/mobileClient";
 
+export type MobileEvidenceCorpusMode = "all" | "rf_kr" | "rf_npa" | "rf_all";
+
 export type MobileEvidenceRecord = {
   id: string;
   provider: string;
@@ -9,6 +11,8 @@ export type MobileEvidenceRecord = {
   year?: number;
   abstract?: string;
   evidenceLevel?: string;
+  section?: string;
+  quote?: string;
 };
 
 export type MobileAssistantAnswer = {
@@ -19,9 +23,10 @@ export type MobileAssistantAnswer = {
   recommendations: string[];
   contraindications: string[];
   citations: MobileEvidenceRecord[];
-  guidelines: { title: string; url: string; org: string }[];
+  guidelines: { title: string; url: string; org: string; section?: string }[];
   disclaimers: string[];
   synthesisMode: "llm" | "rules";
+  corpusMode?: MobileEvidenceCorpusMode;
 };
 
 export type MobileSearchResult = {
@@ -64,8 +69,42 @@ const PROVIDER_LABEL: Record<string, string> = {
   ema: "EMA",
 };
 
+export const CORPUS_MODE_LABELS: Record<MobileEvidenceCorpusMode, string> = {
+  all: "Все источники",
+  rf_kr: "КР МЗ РФ",
+  rf_npa: "НПА / приказы",
+  rf_all: "КР + НПА РФ",
+};
+
+export const CORPUS_MODES: MobileEvidenceCorpusMode[] = ["all", "rf_kr", "rf_npa", "rf_all"];
+
 export function providerLabel(provider: string): string {
   return PROVIDER_LABEL[provider] ?? provider;
+}
+
+/** Clipboard / Share card (parity with web formatEvidenceAnswerForClipboard). */
+export function formatMobileEvidenceAnswer(answer: MobileAssistantAnswer): string {
+  const lines = [
+    "SonoGyn Evidence Assistant",
+    `Вопрос: ${answer.query}`,
+  ];
+  if (answer.corpusMode) {
+    lines.push(`Корпус: ${CORPUS_MODE_LABELS[answer.corpusMode]}`);
+  }
+  lines.push(`Сила доказательств: ${answer.gradeLabel}`, "", answer.summary.trim());
+  if (answer.citations.length > 0) {
+    lines.push("", "Источники:");
+    answer.citations.slice(0, 8).forEach((c, i) => {
+      lines.push(`${i + 1}. ${c.title}`);
+      if (c.section) lines.push(`   Раздел: ${c.section}`);
+      if (c.quote) lines.push(`   «${c.quote}»`);
+      lines.push(`   ${c.url}`);
+    });
+  } else {
+    lines.push("", "Источники: не найдены в выбранном корпусе.");
+  }
+  lines.push("", "Справочная информация (CDS). Не диагноз; интерпретация — специалист.");
+  return lines.join("\n");
 }
 
 async function authHeaders(): Promise<Record<string, string>> {
@@ -87,19 +126,33 @@ function apiBase(): string {
   return base;
 }
 
-export async function askEvidenceAssistant(query: string): Promise<MobileAssistantAnswer> {
+export async function askEvidenceAssistant(
+  query: string,
+  options?: { corpusMode?: MobileEvidenceCorpusMode },
+): Promise<MobileAssistantAnswer> {
   const res = await fetch(`${apiBase()}/api/evidence/assistant/ask`, {
     method: "POST",
     headers: await authHeaders(),
-    body: JSON.stringify({ query, useLlm: true }),
+    body: JSON.stringify({
+      query,
+      useLlm: true,
+      corpusMode: options?.corpusMode ?? "rf_kr",
+    }),
   });
   const data = (await res.json().catch(() => null)) as MobileAssistantAnswer & { error?: string };
   if (!res.ok) throw new Error(data?.error ?? `HTTP ${res.status}`);
   return data;
 }
 
-export async function searchEvidence(query: string): Promise<MobileSearchResult> {
-  const params = new URLSearchParams({ q: query, limit: "20" });
+export async function searchEvidence(
+  query: string,
+  options?: { corpusMode?: MobileEvidenceCorpusMode },
+): Promise<MobileSearchResult> {
+  const params = new URLSearchParams({
+    q: query,
+    limit: "20",
+    corpusMode: options?.corpusMode ?? "rf_kr",
+  });
   const res = await fetch(`${apiBase()}/api/evidence/search?${params.toString()}`, {
     headers: await authHeaders(),
   });

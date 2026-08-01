@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+
 import { EvidenceAssistantWorkspace } from "@/components/evidence/EvidenceAssistantWorkspace";
 
 export const metadata = {
@@ -6,5 +8,9 @@ export const metadata = {
 };
 
 export default function EvidenceAssistantPage() {
-  return <EvidenceAssistantWorkspace />;
+  return (
+    <Suspense fallback={<div className="p-6 text-sm text-[var(--clinical-foreground-muted)]">Загрузка…</div>}>
+      <EvidenceAssistantWorkspace />
+    </Suspense>
+  );
 }

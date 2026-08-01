@@ -1,8 +1,19 @@
 "use client";
 
-import type { AssistantAnswer, EvidenceRecord, UnifiedSearchResult } from "@repo/evidence-retrieval";
-import { ExternalLink, Loader2, Search, Sparkles, Star } from "lucide-react";
+import type {
+  AssistantAnswer,
+  EvidenceCorpusMode,
+  EvidenceRecord,
+  UnifiedSearchResult,
+} from "@repo/evidence-retrieval";
+import {
+  EVIDENCE_CORPUS_MODE_LABELS,
+  EVIDENCE_CORPUS_MODES,
+  formatEvidenceAnswerForClipboard,
+} from "@repo/evidence-retrieval";
+import { Copy, ExternalLink, Loader2, Search, Sparkles, Star } from "lucide-react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { FormEvent, useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -58,12 +69,19 @@ type EvidenceAssistantAnswer = AssistantAnswer & {
 };
 
 const SUGGESTED = [
-  "Лечение хронического простатита по последним рекомендациям",
-  "Амоксициллин при беременности — доказательства",
-  "Скрининг I триместра ISUOG 2023",
-  "Преэклампсия профилактика аспирин",
   "O-RADS 3 тактика наблюдения",
+  "Миома матки УЗИ диагностика",
+  "Амоксициллин при беременности — доказательства",
+  "Преэклампсия профилактика аспирин",
+  "Скрининг I триместра ISUOG 2023",
 ];
+
+const CORPUS_HINT: Record<EvidenceCorpusMode, string> = {
+  all: "PubMed, Cochrane, КР МЗ РФ, WHO/NICE и др.",
+  rf_kr: "Только клинические рекомендации МЗ РФ — со ссылкой на раздел.",
+  rf_npa: "Приказы ДЗМ / МЗ РФ (НПА).",
+  rf_all: "КР + приказы + протоколы РФ (без PubMed).",
+};
 
 function RecordRow({
   record,
@@ -100,7 +118,14 @@ function RecordRow({
         ) : null}
       </div>
       <p className="mt-2 text-sm font-medium leading-snug">{record.title}</p>
-      {record.abstract ? (
+      {record.section ? (
+        <p className="mt-1 text-xs font-medium text-[var(--clinical-primary)]">Раздел: {record.section}</p>
+      ) : null}
+      {record.quote ? (
+        <p className="mt-1 line-clamp-4 text-xs italic text-[var(--clinical-foreground-muted)]">
+          «{record.quote}»
+        </p>
+      ) : record.abstract ? (
         <p className="mt-1 line-clamp-3 text-xs text-[var(--clinical-foreground-muted)]">{record.abstract}</p>
       ) : null}
       <a
@@ -115,7 +140,156 @@ function RecordRow({
   );
 }
 
+/** Dev-only mock states for UI screenshots (?demo=idle|success|empty|search|loading). */
+function applyDemoState(
+  demo: string | null,
+  setters: {
+    setQuery: (v: string) => void;
+    setMode: (v: "assistant" | "search") => void;
+    setCorpusMode: (v: EvidenceCorpusMode) => void;
+    setAnswer: (v: EvidenceAssistantAnswer | null) => void;
+    setSearchResult: (v: UnifiedSearchResult | null) => void;
+    setLoading: (v: boolean) => void;
+    setError: (v: string | null) => void;
+    setHistory: (v: HistoryRow[]) => void;
+  },
+) {
+  if (process.env.NODE_ENV !== "development" || !demo) return;
+  setters.setError(null);
+  setters.setLoading(demo === "loading");
+  setters.setCorpusMode("rf_kr");
+
+  if (demo === "idle" || demo === "loading") {
+    setters.setQuery(demo === "loading" ? "O-RADS 3 тактика наблюдения" : "");
+    setters.setMode("assistant");
+    setters.setAnswer(null);
+    setters.setSearchResult(null);
+    return;
+  }
+
+  if (demo === "empty") {
+    setters.setQuery("zzzz несуществующий запрос xyz");
+    setters.setMode("assistant");
+    setters.setSearchResult(null);
+    setters.setAnswer({
+      query: "zzzz несуществующий запрос xyz",
+      summary:
+        "В режиме «КР МЗ РФ» по запросу «zzzz несуществующий запрос xyz» релевантных документов не найдено. Ответ не сформирован — нет данных в выбранном корпусе. Уточните формулировку или переключитесь на «Все источники».",
+      evidenceStrength: "insufficient",
+      gradeLabel: "Недостаточно данных",
+      recommendations: [],
+      contraindications: [],
+      alternatives: [],
+      citations: [],
+      guidelines: [],
+      disclaimers: [
+        "Справочная информация (CDS). Не заменяет клиническое суждение врача. Проверяйте первоисточники и локальные протоколы.",
+      ],
+      sourcesUsed: { kr_mz_rf: "ok" },
+      searchedAt: new Date().toISOString(),
+      synthesisMode: "rules",
+      corpusMode: "rf_kr",
+    });
+    return;
+  }
+
+  if (demo === "search") {
+    setters.setQuery("миома матки УЗИ");
+    setters.setMode("search");
+    setters.setAnswer(null);
+    setters.setSearchResult({
+      query: "миома матки УЗИ",
+      totalBeforeDedup: 2,
+      searchedAt: new Date().toISOString(),
+      providers: [{ provider: "kr_mz_rf", status: "ok", records: [], latencyMs: 12 }],
+      records: [
+        {
+          id: "kr_mz_rf:kr-mz-myoma",
+          provider: "kr_mz_rf",
+          sourceId: "kr-mz-myoma",
+          recordType: "guideline",
+          title: "Лейомиома матки",
+          abstract: "Диагностика, наблюдение и лечение миомы матки. УЗИ, FIGO, тактика.",
+          year: 2024,
+          url: "https://cr.minzdrav.gov.ru/",
+          evidenceLevel: "I",
+          retrievedAt: new Date().toISOString(),
+          relevanceScore: 0.9,
+          section: "Диагностика (УЗИ)",
+          quote: "ТВ-УЗИ — метод первой линии; оценка количества, размеров, локализации узлов (FIGO).",
+          guidelineShelf: "kr_mz_rf",
+        },
+      ],
+    });
+    return;
+  }
+
+  if (demo === "success") {
+    setters.setQuery("O-RADS 3 тактика наблюдения");
+    setters.setMode("assistant");
+    setters.setSearchResult(null);
+    setters.setHistory([
+      {
+        id: "demo-h1",
+        query: "O-RADS 3 тактика наблюдения",
+        sources: ["kr_mz_rf"],
+        result_count: 1,
+        synthesis_mode: "rules",
+        evidence_strength: "moderate",
+        created_at: new Date().toISOString(),
+      },
+    ]);
+    setters.setAnswer({
+      query: "O-RADS 3 тактика наблюдения",
+      summary:
+        "По запросу «O-RADS 3 тактика наблюдения» найдено 1 релевантных источников (умеренная сила).\n\nКлючевые источники:\n1. Ультразвуковая диагностика в гинекологии (обобщающие КР) (2024) · O-RADS / IOTA — тактика\n   «O-RADS 3: низкий риск — наблюдение по локальному протоколу; при росте или новых признаках — повторная оценка / эскалация.»",
+      evidenceStrength: "moderate",
+      gradeLabel: "Умеренная сила доказательств",
+      recommendations: [
+        "Ориентируйтесь на действующие КР/НПА (1 найдено) — см. разделы в цитатах.",
+      ],
+      contraindications: [],
+      alternatives: [],
+      citations: [
+        {
+          id: "kr_mz_rf:kr-mz-gynecologic-us",
+          provider: "kr_mz_rf",
+          sourceId: "kr-mz-gynecologic-us",
+          recordType: "guideline",
+          title: "Ультразвуковая диагностика в гинекологии (обобщающие КР)",
+          abstract: "Стандарт описания органов малого таза, IOTA, O-RADS, документирование.",
+          year: 2024,
+          url: "https://cr.minzdrav.gov.ru/",
+          evidenceLevel: "I",
+          retrievedAt: new Date().toISOString(),
+          relevanceScore: 0.95,
+          section: "O-RADS / IOTA — тактика",
+          quote:
+            "O-RADS 3: низкий риск — наблюдение по локальному протоколу; при росте или новых признаках — повторная оценка / эскалация.",
+          guidelineShelf: "kr_mz_rf",
+        },
+      ],
+      guidelines: [
+        {
+          title: "Ультразвуковая диагностика в гинекологии (обобщающие КР)",
+          url: "https://cr.minzdrav.gov.ru/",
+          org: "МЗ РФ",
+          section: "O-RADS / IOTA — тактика",
+        },
+      ],
+      disclaimers: [
+        "Справочная информация (CDS). Не заменяет клиническое суждение врача. Проверяйте первоисточники и локальные протоколы.",
+      ],
+      sourcesUsed: { kr_mz_rf: "ok" },
+      searchedAt: new Date().toISOString(),
+      synthesisMode: "rules",
+      corpusMode: "rf_kr",
+    });
+  }
+}
+
 export function EvidenceAssistantWorkspace() {
+  const searchParams = useSearchParams();
   const [query, setQuery] = useState("");
   const [mode, setMode] = useState<"assistant" | "search">("assistant");
   const [loading, setLoading] = useState(false);
@@ -127,6 +301,7 @@ export function EvidenceAssistantWorkspace() {
   const [history, setHistory] = useState<HistoryRow[]>([]);
   const [rateLimitHint, setRateLimitHint] = useState<string | null>(null);
   const [translateToRussian, setTranslateToRussian] = useState(true);
+  const [corpusMode, setCorpusMode] = useState<EvidenceCorpusMode>("rf_kr");
 
   const loadBookmarks = useCallback(async () => {
     try {
@@ -164,6 +339,19 @@ export function EvidenceAssistantWorkspace() {
     void loadBookmarks();
     void loadHistory();
   }, [loadBookmarks, loadHistory]);
+
+  useEffect(() => {
+    applyDemoState(searchParams.get("demo"), {
+      setQuery,
+      setMode,
+      setCorpusMode,
+      setAnswer,
+      setSearchResult,
+      setLoading,
+      setError,
+      setHistory,
+    });
+  }, [searchParams]);
 
   const toggleBookmark = useCallback(
     async (record: EvidenceRecord) => {
@@ -219,7 +407,7 @@ export function EvidenceAssistantWorkspace() {
       const res = await fetch("/api/evidence/assistant/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query: q, useLlm: true, translateToRussian }),
+        body: JSON.stringify({ query: q, useLlm: true, translateToRussian, corpusMode }),
       });
       const data = (await res.json()) as EvidenceAssistantAnswer & { error?: string };
       if (!res.ok) throw new Error(data.error ?? `HTTP ${res.status}`);
@@ -230,7 +418,7 @@ export function EvidenceAssistantWorkspace() {
     } finally {
       setLoading(false);
     }
-  }, [translateToRussian, loadHistory]);
+  }, [translateToRussian, corpusMode, loadHistory]);
 
   const runSearch = useCallback(async (q: string) => {
     setLoading(true);
@@ -238,7 +426,8 @@ export function EvidenceAssistantWorkspace() {
     setAnswer(null);
     setSearchResult(null);
     try {
-      const res = await fetch(`/api/evidence/search?q=${encodeURIComponent(q)}&limit=25`);
+      const params = new URLSearchParams({ q, limit: "25", corpusMode });
+      const res = await fetch(`/api/evidence/search?${params.toString()}`);
       const data = (await res.json()) as UnifiedSearchResult & { error?: string };
       if (!res.ok) throw new Error(data.error ?? `HTTP ${res.status}`);
       setSearchResult(data);
@@ -247,7 +436,17 @@ export function EvidenceAssistantWorkspace() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [corpusMode]);
+
+  const copyAnswer = useCallback(async () => {
+    if (!answer) return;
+    try {
+      await navigator.clipboard.writeText(formatEvidenceAnswerForClipboard(answer));
+      toast.success("Карточка ответа скопирована");
+    } catch {
+      toast.error("Не удалось скопировать");
+    }
+  }, [answer]);
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -265,8 +464,8 @@ export function EvidenceAssistantWorkspace() {
           <h1 className="text-2xl font-semibold tracking-tight">Evidence Assistant</h1>
         </div>
         <p className="text-sm text-[var(--clinical-foreground-muted)]">
-          Единый поиск: PubMed, Europe PMC, Cochrane, Semantic Scholar, ClinicalTrials.gov, КР МЗ РФ, SonoEvidence,
-          OpenFDA, DailyMed, WHO, NICE, EMA. Без ручного обхода сайтов.
+          Навигатор по КР/НПА и литературе: ответ со ссылкой на раздел источника. Режим «КР МЗ РФ» — как IQDOC, но
+          глубже в УЗИ/АГ.
         </p>
         <p className="text-xs text-[var(--clinical-foreground-muted)]">
           <Link href="/tools/refs/evidence" className="underline">
@@ -280,7 +479,7 @@ export function EvidenceAssistantWorkspace() {
         </p>
       </header>
 
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2">
         <Button
           type="button"
           variant={mode === "assistant" ? "default" : "outline"}
@@ -297,6 +496,26 @@ export function EvidenceAssistantWorkspace() {
         >
           Unified search
         </Button>
+      </div>
+
+      <div className="space-y-2">
+        <p className="text-xs font-medium uppercase tracking-wide text-[var(--clinical-foreground-muted)]">
+          Корпус
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {EVIDENCE_CORPUS_MODES.map((m) => (
+            <Button
+              key={m}
+              type="button"
+              variant={corpusMode === m ? "default" : "outline"}
+              size="sm"
+              onClick={() => setCorpusMode(m)}
+            >
+              {EVIDENCE_CORPUS_MODE_LABELS[m]}
+            </Button>
+          ))}
+        </div>
+        <p className="text-xs text-[var(--clinical-foreground-muted)]">{CORPUS_HINT[corpusMode]}</p>
       </div>
 
       {mode === "assistant" ? (
@@ -354,10 +573,30 @@ export function EvidenceAssistantWorkspace() {
               <Badge variant="outline" className="text-[10px]">
                 {answer.synthesisMode === "llm" ? "AI + citations" : "rules"}
               </Badge>
+              {answer.corpusMode ? (
+                <Badge variant="outline" className="text-[10px]">
+                  {EVIDENCE_CORPUS_MODE_LABELS[answer.corpusMode]}
+                </Badge>
+              ) : null}
+              <Button type="button" variant="outline" size="sm" className="ml-auto" onClick={() => void copyAnswer()}>
+                <Copy className="mr-1 h-3.5 w-3.5" />
+                Копировать
+              </Button>
             </div>
             <CardDescription>{answer.query}</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4 text-sm whitespace-pre-wrap">{answer.summary}</CardContent>
+          {answer.citations.length === 0 ? (
+            <CardContent className="space-y-2">
+              <p className="rounded-lg border border-zinc-300/60 bg-zinc-500/10 px-3 py-3 text-sm whitespace-pre-wrap">
+                {answer.summary}
+              </p>
+              <p className="text-xs text-[var(--clinical-foreground-muted)]">
+                Честный empty-state: без документов в выбранном корпусе ответ не выдумывается.
+              </p>
+            </CardContent>
+          ) : (
+            <CardContent className="space-y-4 text-sm whitespace-pre-wrap">{answer.summary}</CardContent>
+          )}
           {answer.recommendations.length > 0 ? (
             <CardContent className="border-t pt-4">
               <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-[var(--clinical-foreground-muted)]">
@@ -437,16 +676,22 @@ export function EvidenceAssistantWorkspace() {
             <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-[var(--clinical-foreground-muted)]">
               Цитаты ({answer.citations.length})
             </p>
-            <ul className="space-y-2">
-              {answer.citations.map((c) => (
-                <RecordRow
-                  key={c.id}
-                  record={c}
-                  bookmarked={bookmarkIds.has(c.id)}
-                  onToggleBookmark={toggleBookmark}
-                />
-              ))}
-            </ul>
+            {answer.citations.length === 0 ? (
+              <p className="text-sm text-[var(--clinical-foreground-muted)]">
+                Источники не найдены. Смените корпус на «Все источники» или уточните вопрос.
+              </p>
+            ) : (
+              <ul className="space-y-2">
+                {answer.citations.map((c) => (
+                  <RecordRow
+                    key={c.id}
+                    record={c}
+                    bookmarked={bookmarkIds.has(c.id)}
+                    onToggleBookmark={toggleBookmark}
+                  />
+                ))}
+              </ul>
+            )}
           </CardContent>
           <CardContent className="border-t space-y-1 pt-2 text-[11px] text-[var(--clinical-foreground-muted)]">
             {answer.disclaimers.map((d) => (
@@ -494,20 +739,27 @@ export function EvidenceAssistantWorkspace() {
           <CardHeader>
             <CardTitle className="text-lg">Результаты поиска</CardTitle>
             <CardDescription>
-              {searchResult.records.length} записей · до dedup: {searchResult.totalBeforeDedup}
+              {searchResult.records.length} записей · до dedup: {searchResult.totalBeforeDedup} ·{" "}
+              {EVIDENCE_CORPUS_MODE_LABELS[corpusMode]}
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <ul className="space-y-2">
-              {searchResult.records.map((r) => (
-                <RecordRow
-                  key={r.id}
-                  record={r}
-                  bookmarked={bookmarkIds.has(r.id)}
-                  onToggleBookmark={toggleBookmark}
-                />
-              ))}
-            </ul>
+            {searchResult.records.length === 0 ? (
+              <p className="rounded-lg border border-zinc-300/60 bg-zinc-500/10 px-3 py-3 text-sm">
+                В выбранном корпусе совпадений нет. Ответ не формируется без источников.
+              </p>
+            ) : (
+              <ul className="space-y-2">
+                {searchResult.records.map((r) => (
+                  <RecordRow
+                    key={r.id}
+                    record={r}
+                    bookmarked={bookmarkIds.has(r.id)}
+                    onToggleBookmark={toggleBookmark}
+                  />
+                ))}
+              </ul>
+            )}
           </CardContent>
         </Card>
       ) : null}

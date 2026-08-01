@@ -2,8 +2,10 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 
 import {
+  EVIDENCE_CORPUS_MODES,
   getAdapterCatalog,
   searchEvidenceUnified,
+  type EvidenceCorpusMode,
   type EvidenceProviderId,
 } from "@repo/evidence-retrieval";
 
@@ -31,9 +33,14 @@ const PROVIDER_IDS = [
   "ema",
 ] as const satisfies readonly EvidenceProviderId[];
 
+const CorpusModeSchema = z.enum(
+  EVIDENCE_CORPUS_MODES as [EvidenceCorpusMode, ...EvidenceCorpusMode[]],
+);
+
 const QuerySchema = z.object({
   q: z.string().min(2).max(500),
   limit: z.coerce.number().int().min(1).max(40).optional(),
+  corpusMode: CorpusModeSchema.optional().default("all"),
   providers: z
     .string()
     .optional()
@@ -68,6 +75,7 @@ export async function GET(request: Request) {
   const parsed = QuerySchema.safeParse({
     q: url.searchParams.get("q") ?? "",
     limit: url.searchParams.get("limit") ?? undefined,
+    corpusMode: url.searchParams.get("corpusMode") ?? undefined,
     providers: url.searchParams.get("providers") ?? undefined,
   });
 
@@ -80,6 +88,7 @@ export async function GET(request: Request) {
       query: parsed.data.q,
       limit: parsed.data.limit ?? 25,
       providers: parsed.data.providers,
+      corpusMode: parsed.data.corpusMode,
       preferHighEvidence: true,
       maxAgeYears: 12,
     },
