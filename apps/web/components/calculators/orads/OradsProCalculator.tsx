@@ -30,6 +30,7 @@ import {
   type SeptaCount,
   type UnilocularSubtype,
 } from "@/lib/orads-pro";
+import { formatOradsShareCard } from "@/lib/orads-pro/format-share";
 import { plainTextToDocumentSpec } from "@/lib/reporting/document-spec-builders";
 import { saveOradsBridgePayload } from "@/lib/reports/sre-orads-bridge";
 import { cn } from "@/lib/utils/cn";
@@ -126,6 +127,23 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
 
   function copyProtocolLine() {
     void navigator.clipboard.writeText(protocolLine).then(() => toast.success("Строка скопирована в буфер"));
+  }
+
+  function copyShareCard() {
+    const categoryLabel = oradsZero && zeroMeta ? zeroMeta.label : `O-RADS ${f.result.category}`;
+    const riskText = oradsZero && zeroMeta ? "O-RADS 0" : f.result.riskText;
+    const recommendation = oradsZero && zeroMeta ? zeroMeta.recommendation : f.result.recommendation;
+    const text = formatOradsShareCard({
+      categoryLabel,
+      riskText,
+      recommendation,
+      protocolLine,
+      sizeSummary,
+      patternLabel: oradsZero ? null : f.result.patternLabel,
+      warning: oradsZero ? null : f.result.warning,
+      versionLabel: ORADS_VERSION_LABEL,
+    });
+    void navigator.clipboard.writeText(text).then(() => toast.success("Карточка результата скопирована"));
   }
 
   function openStructuredReport() {
@@ -600,14 +618,25 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
               <p className="truncate text-xs font-bold tabular-nums text-[var(--clinical-primary-deep)]">{sizeSummary}</p>
             ) : null}
           </div>
-          <Button
-            type="button"
-            size="lg"
-            className="shrink-0 rounded-full bg-[var(--clinical-primary)] px-6 font-bold text-white hover:bg-[var(--clinical-primary-hover)]"
-            onClick={copyProtocolLine}
-          >
-            В протокол
-          </Button>
+          <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
+            <Button
+              type="button"
+              size="lg"
+              variant="outline"
+              className="rounded-full px-5 font-bold"
+              onClick={copyShareCard}
+            >
+              Поделиться
+            </Button>
+            <Button
+              type="button"
+              size="lg"
+              className="rounded-full bg-[var(--clinical-primary)] px-6 font-bold text-white hover:bg-[var(--clinical-primary-hover)]"
+              onClick={copyProtocolLine}
+            >
+              В протокол
+            </Button>
+          </div>
         </div>
       </div>
     </div>
