@@ -6,6 +6,13 @@ export {
   resolveOradsCategory,
 } from "./adnex/renderAdnexReport";
 
+export { mapOradsTreeToCalcInput } from "./adnex/mapOradsTreeToCalcInput";
+export { mapOradsTreeToSreInput } from "./adnex/mapOradsTreeToSreInput";
+export {
+  classificationFromTriangulation,
+  evaluateWizardTriangulation,
+} from "./adnex/sreClassification";
+
 export {
   renderThyroidStructuredDocument,
   renderThyroidStructuredReport,

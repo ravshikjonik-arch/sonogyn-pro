@@ -1,7 +1,10 @@
+import type { AdnexTriangulation } from "@repo/adnex-education";
 import {
   ADNEX_ORADS_V1_TEMPLATE_SLUG,
   OBSTETRIC_BIOMETRY_V1_TEMPLATE_SLUG,
   THYROID_TIRADS_V1_TEMPLATE_SLUG,
+  evaluateWizardTriangulation,
+  mapOradsTreeToSreInput,
   renderAdnexStructuredDocument,
   renderObstetricStructuredDocument,
   renderThyroidStructuredDocument,
@@ -13,8 +16,6 @@ import type {
   ThyroidStructuredReportInput,
 } from "@repo/types";
 import type { OradsTreePathStep, OradsTreeResult } from "@repo/orads-us";
-
-import { mapOradsTreeToSreInput } from "./mapOradsTreeToSreInput";
 
 export type SreDomain = "adnex" | "thyroid" | "obstetric";
 
@@ -29,8 +30,10 @@ export function buildStructuredReportFromOradsWizard(
   result: OradsTreeResult,
   pathSummary: string[] = [],
   locale: ReportLocale = "ru",
+  triangulation?: AdnexTriangulation | null,
 ): StructuredReportDocument {
-  const input = mapOradsTreeToSreInput(path, result, pathSummary);
+  const tri = triangulation ?? evaluateWizardTriangulation(path, result.categoryNumber);
+  const input = mapOradsTreeToSreInput(path, result, pathSummary, tri);
   return renderAdnexStructuredDocument(input, {
     locale,
     templateSlug: ADNEX_ORADS_V1_TEMPLATE_SLUG,

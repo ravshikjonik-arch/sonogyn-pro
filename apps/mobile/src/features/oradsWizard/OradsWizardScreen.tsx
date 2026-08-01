@@ -1,4 +1,5 @@
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { evaluateWizardTriangulation } from "@repo/report-engine";
 import { ageFromBirthDateIso } from "@repo/types";
 import { useMemo, useState } from "react";
 import {
@@ -23,6 +24,7 @@ import { getWebApiBase } from "../../api/chatBackend";
 import OradsAssistPanel from "./OradsAssistPanel";
 import OradsAtlasImage from "./OradsAtlasImage";
 import OradsOptionCard from "./OradsOptionCard";
+import OradsWizardIotaPanel from "./OradsWizardIotaPanel";
 import OradsWizardProgress from "./OradsWizardProgress";
 import OradsWizardResultPanel from "./OradsWizardResultPanel";
 import { resolveOradsAtlasPreview } from "./resolveOradsAtlas";
@@ -33,6 +35,7 @@ type Props = NativeStackScreenProps<RootStackParamList, "ORADSWizard">;
 export default function OradsWizardScreen({ navigation, route }: Props) {
   const locale = useOradsLocaleStrings();
   const [mode, setMode] = useState<"stepper" | "assist">("stepper");
+  const [resultTab, setResultTab] = useState<"summary" | "iota">("summary");
   const profileAgeYears = useMemo(() => {
     const iso = route.params?.patientBirthDateIso;
     return iso ? ageFromBirthDateIso(iso) ?? undefined : undefined;
@@ -44,6 +47,11 @@ export default function OradsWizardScreen({ navigation, route }: Props) {
   });
 
   const view = nav.view;
+
+  const triangulation = useMemo(() => {
+    if (view.kind !== "result") return null;
+    return evaluateWizardTriangulation(nav.state.path, view.result.categoryNumber);
+  }, [view, nav.state.path]);
 
   const atlasPreview = useMemo(() => {
     if (view.kind !== "question") return null;
@@ -145,17 +153,41 @@ export default function OradsWizardScreen({ navigation, route }: Props) {
               <Text style={[styles.version, rtl && styles.textRtl]}>{locale.t("orads.meta.version")}</Text>
 
               {view.kind === "result" ? (
-                <OradsWizardResultPanel
-                  result={view.result}
-                  locale={locale}
-                  pathSummary={nav.pathSummary}
-                  onRestart={nav.restart}
-                  onBack={goBack}
-                  onShare={shareToColleaguesTodo}
-                  onBuildReport={openStructuredReport}
-                  onOpenGuide={() => navigation.navigate("ORADSGuide", { sectionId: "categories" })}
-                  onAskAscites={nav.startAscitesModifier}
-                />
+                <>
+                  <View style={styles.resultTabs}>
+                    <Pressable
+                      style={[styles.resultTab, resultTab === "summary" && styles.resultTabOn]}
+                      onPress={() => setResultTab("summary")}
+                    >
+                      <Text style={[styles.resultTabText, resultTab === "summary" && styles.resultTabTextOn]}>
+                        Итог O-RADS
+                      </Text>
+                    </Pressable>
+                    <Pressable
+                      style={[styles.resultTab, resultTab === "iota" && styles.resultTabOn]}
+                      onPress={() => setResultTab("iota")}
+                    >
+                      <Text style={[styles.resultTabText, resultTab === "iota" && styles.resultTabTextOn]}>
+                        IOTA × O-RADS
+                      </Text>
+                    </Pressable>
+                  </View>
+                  {resultTab === "iota" && triangulation ? (
+                    <OradsWizardIotaPanel triangulation={triangulation} onBuildReport={openStructuredReport} />
+                  ) : (
+                    <OradsWizardResultPanel
+                      result={view.result}
+                      locale={locale}
+                      pathSummary={nav.pathSummary}
+                      onRestart={nav.restart}
+                      onBack={goBack}
+                      onShare={shareToColleaguesTodo}
+                      onBuildReport={openStructuredReport}
+                      onOpenGuide={() => navigation.navigate("ORADSGuide", { sectionId: "categories" })}
+                      onAskAscites={nav.startAscitesModifier}
+                    />
+                  )}
+                </>
               ) : (
                 <>
                   <View style={[styles.questionRow, { flexDirection: rowDirection }]}>
@@ -259,4 +291,16 @@ const styles = StyleSheet.create({
   textRtl: { textAlign: "right", writingDirection: "rtl" },
   proLink: { marginTop: 16, alignSelf: "center" },
   proLinkText: { color: "#2563EB", fontWeight: "700", fontSize: 13 },
+  resultTabs: {
+    flexDirection: "row",
+    gap: 6,
+    marginBottom: 12,
+    padding: 4,
+    borderRadius: 12,
+    backgroundColor: "#E2E8F0",
+  },
+  resultTab: { flex: 1, paddingVertical: 8, borderRadius: 8, alignItems: "center" },
+  resultTabOn: { backgroundColor: "#fff" },
+  resultTabText: { fontSize: 12, fontWeight: "700", color: "#64748b" },
+  resultTabTextOn: { color: "#0f172a" },
 });

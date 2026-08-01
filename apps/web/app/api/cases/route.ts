@@ -17,6 +17,8 @@ const CreateCaseBodySchema = z.object({
   anatomy: z.string().trim().max(160).nullable().optional(),
   pathology: z.string().trim().max(200).nullable().optional(),
   channel_id: z.string().uuid().nullable().optional(),
+  orads_category: z.number().int().min(0).max(5).nullable().optional(),
+  tags: z.array(z.string().trim().min(1).max(40)).max(12).optional(),
 });
 
 function emptyToNull(value: string | null | undefined): string | null {
@@ -129,6 +131,8 @@ export async function POST(request: Request) {
         anatomy: emptyToNull(parsed.data.anatomy),
         pathology: emptyToNull(parsed.data.pathology),
         channel_id: parsed.data.channel_id ?? null,
+        orads_category: parsed.data.orads_category ?? null,
+        tags: (parsed.data.tags ?? []).map((t) => t.toLowerCase()),
         status: "draft",
         is_public: false,
       })

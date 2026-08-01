@@ -3,7 +3,15 @@
  * All linear biometry inputs: millimetres (mm) unless noted.
  */
 
-export * from "./units";
+export {
+  fromMillimetres,
+  formatMeasurementDecimal,
+  formatMm,
+  parseMeasurementMm,
+  roundMeasurementMm,
+  toMillimetres,
+  type LengthUnit,
+} from "./units";
 export * from "./gestationalAge";
 export * from "./pregnancyDating";
 export * from "./estimatedFetalWeight";

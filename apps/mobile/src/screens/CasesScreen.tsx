@@ -60,6 +60,8 @@ export default function CasesScreen({ navigation, route }: CasesTabScreenProps) 
   const [questionAnatomy, setQuestionAnatomy] = useState("");
   const [anonChecks, setAnonChecks] = useState<boolean[]>([false, false, false]);
   const [questionBusy, setQuestionBusy] = useState(false);
+  const [galleryOrads, setGalleryOrads] = useState<number | undefined>(undefined);
+  const [galleryTags, setGalleryTags] = useState("");
 
   const { channels } = useDiscussionChannels();
   const { cases, loading, reload, error } = useCases();
@@ -69,9 +71,11 @@ export default function CasesScreen({ navigation, route }: CasesTabScreenProps) 
         ? {
             feedMode,
             channelId: feedMode === "discussions" && channelId ? channelId : undefined,
+            orads: feedMode === "library" ? galleryOrads : undefined,
+            tags: feedMode === "library" && galleryTags.trim() ? galleryTags.trim() : undefined,
           }
         : {},
-    [view, feedMode, channelId],
+    [view, feedMode, channelId, galleryOrads, galleryTags],
   );
   const {
     cases: galleryCases,
@@ -245,6 +249,42 @@ export default function CasesScreen({ navigation, route }: CasesTabScreenProps) 
           </Text>
         </Pressable>
       </View>
+
+      {feedMode === "library" ? (
+        <View style={styles.filterBlock}>
+          <Text style={styles.filterLabel}>O-RADS</Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.channelRow}>
+            <Pressable
+              style={[styles.channelChip, galleryOrads === undefined && styles.channelChipActive]}
+              onPress={() => setGalleryOrads(undefined)}
+            >
+              <Text style={[styles.channelChipText, galleryOrads === undefined && styles.channelChipTextActive]}>
+                Все
+              </Text>
+            </Pressable>
+            {[0, 1, 2, 3, 4, 5].map((n) => (
+              <Pressable
+                key={n}
+                style={[styles.channelChip, galleryOrads === n && styles.channelChipActive]}
+                onPress={() => setGalleryOrads(n)}
+              >
+                <Text style={[styles.channelChipText, galleryOrads === n && styles.channelChipTextActive]}>
+                  {n}
+                </Text>
+              </Pressable>
+            ))}
+          </ScrollView>
+          <TextInput
+            style={styles.input}
+            placeholder="Теги: cystic, adnexa"
+            placeholderTextColor="#94a3b8"
+            value={galleryTags}
+            onChangeText={setGalleryTags}
+            autoCapitalize="none"
+            autoCorrect={false}
+          />
+        </View>
+      ) : null}
 
       {feedMode === "discussions" ? (
         <>
@@ -563,6 +603,8 @@ const styles = StyleSheet.create({
   segmentText: { fontSize: 13, fontWeight: "600", color: branding.colors.textSecondary },
   segmentTextActive: { color: branding.colors.text },
   galleryControls: { gap: 12, marginBottom: 8 },
+  filterBlock: { gap: 8 },
+  filterLabel: { fontSize: 11, fontWeight: "800", color: "#94a3b8", letterSpacing: 0.6 },
   channelRow: { gap: 8, paddingVertical: 2 },
   channelChip: {
     borderWidth: 1,

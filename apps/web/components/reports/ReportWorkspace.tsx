@@ -59,19 +59,22 @@ export function ReportWorkspace({ initialInput, className }: Props) {
       exportFilenameBase={`sre-adnex${cat != null ? `-orads-${cat}` : ""}`}
       exportTitle="Структурированный протокол · придатки O-RADS"
       exportMeta={cat != null ? [{ label: "O-RADS US", value: String(cat) }] : undefined}
-      inputMissingMessage="Нет данных для генерации. Заполните O-RADS Pro или передайте input."
+      inputMissingMessage="Нет данных для генерации. Пройдите мастер O-RADS US или O-RADS Pro."
       emptyState={
         <Card className="border-dashed border-[var(--clinical-border)]">
           <CardHeader>
             <CardTitle className="text-base">Нет входных данных</CardTitle>
             <CardDescription>
-              Заполните калькулятор O-RADS Pro и нажмите «Структурированный протокол», либо откройте эту страницу после
-              расчёта.
+              Откройте мастер O-RADS US (дерево) или O-RADS Pro и нажмите «Структурированный протокол» — данные
+              подставятся автоматически.
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="flex flex-wrap gap-2">
             <Button asChild>
-              <Link href="/tools/calc/rads/o-rads">Перейти к O-RADS Pro</Link>
+              <Link href="/tools/calc/rads/o-rads">Мастер O-RADS US</Link>
+            </Button>
+            <Button asChild variant="outline">
+              <Link href="/tools/calc/rads/o-rads">O-RADS Pro</Link>
             </Button>
           </CardContent>
         </Card>

@@ -449,15 +449,6 @@ const styles = StyleSheet.create({
   modalityChipOn: { backgroundColor: "#be123c", borderColor: "#be123c" },
   modalityText: { fontSize: 13, fontWeight: "800", color: "#64748b" },
   modalityTextOn: { color: "#fff" },
-  resultCard: {
-    marginTop: 12,
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: "#fecdd3",
-    backgroundColor: "#fff1f2",
-    padding: 14,
-    gap: 6,
-  },
   scroll: { padding: theme.spacing.md, paddingBottom: 32 },
   locatorCard: {
     backgroundColor: "#fff",
@@ -531,6 +522,7 @@ const styles = StyleSheet.create({
     borderColor: "#e8ecf1",
     ...theme.shadow.card,
   },
+  resultTitle: { fontSize: 18, fontWeight: "800", color: branding.colors.text, marginBottom: 6 },
   resultCat: { fontSize: 22, fontWeight: "800", color: branding.colors.text },
   resultLocation: { fontSize: 13, fontWeight: "800", color: "#be123c", marginTop: 8, lineHeight: 19 },
   resultRisk: { fontSize: 14, fontWeight: "700", color: branding.colors.primary, marginTop: 4 },

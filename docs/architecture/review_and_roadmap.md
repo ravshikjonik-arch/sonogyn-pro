@@ -97,15 +97,15 @@ T1.11 cases schema extend
 | **T1.3** | Supabase migration structured_reports + RLS + POST generate API | T1.2 | 4h | 4 | ✅ prod 2026-08-01 |
 | **T1.4** | Web ReportWorkspace (3 blocks editable) | T1.3 | 4h | 2 | ✅ + thyroid/OB seed 2026-08-01 |
 | **T1.5** | Mobile ReportPreview + share | T1.2 | 4h | 3 | ✅ cloud persist + TI-RADS/OB 2026-08-01 |
-| **T1.6** | `useOradsNavigator` headless hook in orads-us | — | 3h | 2 |
-| **T1.7** | Web O-RADS stepper → orads-us tree only | T1.6 | 4h | 3 |
-| **T1.8** | Mobile OradsWizard → orads-us (remove legacy) | T1.6 | 4h | 4 |
-| **T1.9** | IOTA tab + triangulation panel (web) | T1.7 | 4h | 3 |
-| **T1.10** | O-RADS result → SRE prefill | T1.4, T1.7 | 3h | 2 |
-| **T1.11** | Cases: orads/tags columns + RLS review | — | 3h | 3 |
-| **T1.12** | GET /api/cases search + filters | T1.11 | 4h | 3 |
-| **T1.13** | Web cases filter UI + expert queue stub | T1.12 | 4h | 2 |
-| **T1.14** | Mobile cases browse | T1.12 | 4h | 3 |
+| **T1.6** | `useOradsNavigator` headless hook in orads-us | — | 3h | 2 | ✅ |
+| **T1.7** | Web O-RADS stepper → orads-us tree only | T1.6 | 4h | 3 | ✅ |
+| **T1.8** | Mobile OradsWizard → orads-us (remove legacy) | T1.6 | 4h | 4 | ✅ |
+| **T1.9** | IOTA tab + triangulation panel (web) | T1.7 | 4h | 3 | ✅ + mobile 2026-08-01 |
+| **T1.10** | O-RADS result → SRE prefill | T1.4, T1.7 | 3h | 2 | ✅ shared mapper in report-engine |
+| **T1.11** | Cases: orads/tags columns + RLS review | — | 3h | 3 | ✅ prod + packages/database mirror |
+| **T1.12** | GET /api/cases search + filters | T1.11 | 4h | 3 | ✅ |
+| **T1.13** | Web cases filter UI + expert queue stub | T1.12 | 4h | 2 | ✅ stub = toast Phase 2 |
+| **T1.14** | Mobile cases browse | T1.12 | 4h | 3 | ✅ + O-RADS/tags filters |
 
 **Phase 1 total:** ~14 tasks ≈ 49h (~6–7 dev-days)
 
@@ -156,9 +156,9 @@ T1.11 cases schema extend
 
 ## 10. Approval checklist
 
-- [ ] Phase 1 scope approved (SRE + O-RADS + IOTA + Cases)
-- [ ] New packages naming approved
-- [ ] Supabase new tables approved
-- [ ] Mobile parity timeline accepted (SRE v1.1 ok?)
+- [x] Phase 1 scope approved (SRE + O-RADS + IOTA + Cases)
+- [x] New packages naming approved
+- [x] Supabase new tables approved
+- [x] Mobile parity timeline accepted (SRE v1.1 ok?)
 
-**Status: APPROVED · T1.1 done**
+**Status: PHASE 1 CLOSED · 2026-08-01** — see `docs/ux-sre-gate/PHASE1_CLOSEOUT.md`
