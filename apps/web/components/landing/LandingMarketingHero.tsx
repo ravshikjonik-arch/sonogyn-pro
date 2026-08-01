@@ -1,39 +1,50 @@
 import Image from "next/image";
+import Link from "next/link";
 import {
   BookOpen,
   Calculator,
   Lock,
   MessageSquare,
+  ShieldCheck,
   Sparkles,
+  Stethoscope,
 } from "lucide-react";
 
 import { LandingAuthCard } from "@/components/landing/LandingAuthCard";
 
+const TOP_PILLS = [
+  { icon: Sparkles, label: "AI 24/7" },
+  { icon: MessageSquare, label: "Чат врачей" },
+  { icon: Calculator, label: "Калькуляторы" },
+  { icon: ShieldCheck, label: "Evidence" },
+  { icon: BookOpen, label: "Обучение" },
+] as const;
+
 const FEATURES = [
   {
     icon: Sparkles,
-    title: "AI-ассистент",
+    title: "AI-ассистент врача",
     text: "Умный анализ и поддержка клинических решений",
   },
   {
     icon: MessageSquare,
-    title: "Чат врачей",
-    text: "Профессиональное сообщество и обсуждение кейсов",
+    title: "Чат и сообщество",
+    text: "Обсуждение кейсов с коллегами 24/7",
   },
   {
     icon: Calculator,
-    title: "Калькуляторы и шкалы",
-    text: "O-RADS, BI-RADS, TI-RADS, IOTA, FMF и другие инструменты",
+    title: "Калькуляторы и классификации",
+    text: "30+ инструментов: O-RADS, BI-RADS, TI-RADS, IOTA, FMF",
   },
   {
     icon: BookOpen,
     title: "Обучение и гайды",
-    text: "Курсы, атласы и клинические рекомендации",
+    text: "Курсы, 3D-анатомия и клинические рекомендации",
   },
   {
     icon: Lock,
-    title: "Безопасность",
-    text: "Защита данных и доступ только для специалистов",
+    title: "Безопасность и конфиденциальность",
+    text: "Защита данных и доступ для специалистов",
   },
 ] as const;
 
@@ -54,7 +65,7 @@ const STATS = [
   { value: "30+", label: "калькуляторов и шкал" },
   { value: "Кейсы", label: "галерея и обсуждения" },
   { value: "Пилот", label: "доступ для врачей" },
-  { value: "AI + чат", label: "ассистент и коллеги" },
+  { value: "24/7", label: "AI и чат коллег" },
 ] as const;
 
 const HERO_ART = "/marketing/sonogyn-universe-hero.png";
@@ -66,135 +77,166 @@ type Props = {
 export function LandingMarketingHero({ isAuthenticated }: Props) {
   return (
     <section
-      className="relative isolate overflow-hidden bg-[#05030a] text-white"
+      className="relative isolate min-h-[100svh] overflow-hidden bg-[#05030a] text-white"
       aria-labelledby="landing-marketing-heading"
     >
-      <div
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_20%,rgba(124,58,237,0.35),transparent_55%),radial-gradient(ellipse_at_80%_10%,rgba(168,85,247,0.22),transparent_45%),radial-gradient(ellipse_at_70%_80%,rgba(91,33,182,0.25),transparent_50%)]"
-        aria-hidden
-      />
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.07]"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)",
-          backgroundSize: "48px 48px",
-        }}
-        aria-hidden
-      />
+      {/* Full-bleed creative */}
+      <div className="absolute inset-0">
+        <Image
+          src={HERO_ART}
+          alt=""
+          fill
+          priority
+          className="object-cover object-[58%_center] opacity-90 sm:object-[62%_center] lg:object-center"
+          sizes="100vw"
+        />
+        <div
+          className="absolute inset-0 bg-[#05030a]/55 lg:bg-[#05030a]/35"
+          aria-hidden
+        />
+        <div
+          className="absolute inset-0 bg-gradient-to-r from-[#05030a] via-[#05030a]/88 to-[#05030a]/25 lg:via-[#05030a]/70 lg:to-transparent"
+          aria-hidden
+        />
+        <div
+          className="absolute inset-0 bg-gradient-to-t from-[#05030a] via-transparent to-[#05030a]/50"
+          aria-hidden
+        />
+        <div
+          className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_40%,rgba(124,58,237,0.22),transparent_55%)]"
+          aria-hidden
+        />
+      </div>
 
-      <div className="relative mx-auto max-w-7xl px-4 pb-10 pt-24 sm:px-6 sm:pb-14 sm:pt-28 lg:px-8">
-        <div className="grid items-start gap-8 lg:grid-cols-12 lg:gap-6 xl:gap-8">
-          {/* Left copy — order 2 on mobile after auth */}
-          <div className="order-2 space-y-6 lg:order-1 lg:col-span-3 lg:pt-4">
-            <div className="flex items-center gap-2.5">
-              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-600 text-sm font-black shadow-[0_0_24px_rgba(168,85,247,0.55)]">
-                S
-              </span>
-              <div>
-                <p className="text-sm font-black tracking-tight">SonoGyn Pro</p>
-                <p className="text-[11px] font-semibold text-violet-300/80">Клиническая платформа</p>
-              </div>
-            </div>
-
-            <h1
-              id="landing-marketing-heading"
-              className="hidden text-[1.65rem] font-black leading-[1.12] tracking-tight sm:text-3xl lg:block xl:text-[2rem]"
-            >
-              Ваша вселенная женского здоровья
-            </h1>
-            <p className="text-sm leading-relaxed text-violet-100/75 sm:text-[15px]">
-              Всё, что нужно врачу — в одной платформе с искусственным интеллектом
-            </p>
-
-            <ul className="space-y-3">
-              {FEATURES.map(({ icon: Icon, title, text }) => (
-                <li key={title} className="flex gap-3">
-                  <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-violet-400/30 bg-violet-500/15 text-violet-200 shadow-[0_0_16px_rgba(139,92,246,0.35)]">
-                    <Icon className="h-4 w-4" aria-hidden />
-                  </span>
-                  <div>
-                    <p className="text-sm font-bold text-white">{title}</p>
-                    <p className="text-xs leading-snug text-violet-100/60">{text}</p>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Center creative */}
-          <div className="relative order-3 lg:order-2 lg:col-span-5">
-            <div className="relative mx-auto aspect-[4/3] max-w-xl overflow-hidden rounded-2xl border border-violet-400/25 bg-black/40 shadow-[0_0_60px_rgba(124,58,237,0.35)] sm:aspect-[16/11] lg:max-w-none">
-              <Image
-                src={HERO_ART}
-                alt="SonoGyn Pro — кабинет врача, мобильный ассистент и клинические инструменты"
-                fill
-                priority
-                className="object-cover object-center"
-                sizes="(max-width: 1024px) 100vw, 42vw"
-              />
-              <div
-                className="absolute inset-0 bg-gradient-to-t from-[#05030a]/80 via-transparent to-[#05030a]/20"
-                aria-hidden
-              />
-            </div>
-            <p className="mt-3 text-center text-[11px] text-violet-200/45 lg:text-left">
-              Макет интерфейса · реальный продукт доступен после входа
-            </p>
-          </div>
-
-          {/* Auth first on mobile for conversion */}
-          <div className="order-1 space-y-4 lg:order-3 lg:col-span-4">
-            <div className="lg:hidden">
-              <h1 className="text-2xl font-black leading-tight tracking-tight">
-                Ваша вселенная женского здоровья
-              </h1>
-              <p className="mt-2 text-sm text-violet-100/75">
-                Всё, что нужно врачу — в одной платформе с ИИ
+      <div className="relative mx-auto flex min-h-[100svh] max-w-[1400px] flex-col px-4 pb-8 pt-20 sm:px-6 sm:pb-10 sm:pt-24 lg:px-8 lg:pt-28">
+        {/* Top brand strip */}
+        <div className="mb-6 flex flex-col gap-4 lg:mb-8 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex items-start gap-3">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-600 text-base font-black shadow-[0_0_28px_rgba(168,85,247,0.6)] ring-1 ring-white/20">
+              S
+            </span>
+            <div>
+              <p className="text-base font-black tracking-tight">SonoGyn Pro</p>
+              <p className="mt-0.5 max-w-md text-[10px] font-bold uppercase leading-snug tracking-[0.06em] text-violet-200/75 sm:text-[11px]">
+                Интеллектуальная платформа для акушеров-гинекологов и врачей УЗИ
               </p>
             </div>
-            <LandingAuthCard />
-            {!isAuthenticated ? (
-              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-                <aside className="rounded-xl border border-white/10 bg-white/[0.04] p-4">
-                  <p className="text-[11px] font-black uppercase tracking-wider text-violet-300">3D-анатомия</p>
-                  <p className="mt-1 text-sm font-semibold text-white">Интерактивные модели и FIGO</p>
-                  <p className="mt-1 text-xs text-violet-100/55">Атласы и визуализация для приёма и обучения</p>
-                </aside>
-                <aside className="rounded-xl border border-white/10 bg-white/[0.04] p-4">
-                  <p className="text-[11px] font-black uppercase tracking-wider text-violet-300">Evidence</p>
-                  <p className="mt-1 text-sm font-semibold text-white">Доказательная база</p>
-                  <p className="mt-1 text-xs text-violet-100/55">КР, PubMed и гайдлайны — рядом с калькулятором</p>
-                </aside>
-              </div>
-            ) : null}
+          </div>
+          <div className="hidden flex-wrap items-center gap-2 lg:flex">
+            {TOP_PILLS.map(({ icon: Icon, label }) => (
+              <span
+                key={label}
+                className="inline-flex items-center gap-1.5 rounded-full border border-violet-300/25 bg-black/35 px-3 py-1.5 text-[11px] font-bold text-violet-50 shadow-[0_0_20px_rgba(139,92,246,0.2)] backdrop-blur-md"
+              >
+                <Icon className="h-3.5 w-3.5 text-violet-300" aria-hidden />
+                {label}
+              </span>
+            ))}
           </div>
         </div>
 
-        {/* Ribbon */}
-        <div className="mt-10 space-y-5 border-t border-violet-500/20 pt-6">
-          <div className="flex flex-wrap items-center justify-center gap-2 sm:justify-start">
+        <div className="grid flex-1 items-stretch gap-6 lg:grid-cols-12 lg:gap-5 xl:gap-8">
+          {/* Left glass panel */}
+          <div className="order-2 flex flex-col justify-center lg:order-1 lg:col-span-4 xl:col-span-3">
+            <div className="rounded-2xl border border-violet-300/20 bg-black/45 p-5 shadow-[0_0_48px_rgba(88,28,135,0.45)] backdrop-blur-xl sm:p-6">
+              <p className="mb-3 inline-flex items-center gap-1.5 text-[11px] font-black uppercase tracking-[0.12em] text-violet-300">
+                <Stethoscope className="h-3.5 w-3.5" aria-hidden />
+                Для врача, не для пациента
+              </p>
+              <h1
+                id="landing-marketing-heading"
+                className="text-[1.75rem] font-black uppercase leading-[1.08] tracking-tight sm:text-3xl xl:text-[2.05rem]"
+              >
+                Ваша вселенная женского здоровья
+              </h1>
+              <p className="mt-3 text-sm leading-relaxed text-violet-50/80 sm:text-[15px]">
+                Всё, что нужно врачу — в одной платформе с искусственным интеллектом
+              </p>
+
+              <ul className="mt-5 space-y-3">
+                {FEATURES.map(({ icon: Icon, title, text }) => (
+                  <li key={title} className="flex gap-3">
+                    <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-violet-400/35 bg-violet-500/20 text-violet-100 shadow-[0_0_18px_rgba(139,92,246,0.45)]">
+                      <Icon className="h-4 w-4" aria-hidden />
+                    </span>
+                    <div>
+                      <p className="text-sm font-bold text-white">{title}</p>
+                      <p className="text-xs leading-snug text-violet-100/65">{text}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* Center — keep creative visible (desktop) */}
+          <div className="order-3 hidden min-h-[280px] lg:order-2 lg:col-span-4 lg:block xl:col-span-5" aria-hidden>
+            <div className="h-full w-full" />
+          </div>
+
+          {/* Auth over join zone */}
+          <div className="order-1 flex flex-col justify-center gap-3 lg:order-3 lg:col-span-4 xl:col-span-4">
+            <div className="lg:hidden">
+              <h2 className="text-2xl font-black uppercase leading-tight tracking-tight">
+                Ваша вселенная женского здоровья
+              </h2>
+              <p className="mt-2 text-sm text-violet-100/80">
+                Всё, что нужно врачу — в одной платформе с ИИ
+              </p>
+            </div>
+
+            <LandingAuthCard className="shadow-[0_0_56px_rgba(124,58,237,0.55)]" />
+
+            {!isAuthenticated ? (
+              <div className="grid grid-cols-2 gap-2">
+                <aside className="rounded-xl border border-white/10 bg-black/40 p-3 backdrop-blur-md">
+                  <p className="text-[10px] font-black uppercase tracking-wider text-violet-300">3D-анатомия</p>
+                  <p className="mt-1 text-xs font-semibold text-white">FIGO · модели</p>
+                </aside>
+                <aside className="rounded-xl border border-white/10 bg-black/40 p-3 backdrop-blur-md">
+                  <p className="text-[10px] font-black uppercase tracking-wider text-violet-300">Evidence</p>
+                  <p className="mt-1 text-xs font-semibold text-white">КР · PubMed</p>
+                </aside>
+              </div>
+            ) : null}
+
+            <div className="flex flex-wrap items-center gap-2 text-[11px] text-violet-100/55">
+              <span>Также:</span>
+              <Link href="/login" className="font-semibold text-violet-200 underline-offset-2 hover:underline">
+                полная форма входа
+              </Link>
+              <span>·</span>
+              <Link href="/app" className="font-semibold text-violet-200 underline-offset-2 hover:underline">
+                веб-кабинет
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom ribbon */}
+        <div className="mt-8 space-y-4 border-t border-violet-400/20 pt-5">
+          <div className="flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {SCALES.map((name) => (
               <span
                 key={name}
-                className="rounded-full border border-violet-400/25 bg-violet-500/10 px-3 py-1 text-[11px] font-bold tracking-wide text-violet-100"
+                className="shrink-0 rounded-full border border-violet-300/30 bg-violet-500/15 px-3 py-1 text-[11px] font-bold tracking-wide text-violet-50 shadow-[0_0_14px_rgba(139,92,246,0.25)]"
               >
                 {name}
               </span>
             ))}
           </div>
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
             {STATS.map((s) => (
               <div
                 key={s.label}
-                className="rounded-xl border border-white/10 bg-black/30 px-3 py-3 text-center sm:text-left"
+                className="rounded-xl border border-white/10 bg-black/40 px-3 py-3 text-center backdrop-blur-md sm:text-left"
               >
                 <p className="text-lg font-black text-white sm:text-xl">{s.value}</p>
-                <p className="text-[11px] font-medium text-violet-100/60">{s.label}</p>
+                <p className="text-[11px] font-medium text-violet-100/65">{s.label}</p>
               </div>
             ))}
           </div>
-          <p className="text-center text-[11px] leading-relaxed text-violet-200/40 sm:text-left">
+          <p className="text-center text-[11px] leading-relaxed text-violet-200/45 sm:text-left">
             Справочная информация (CDS). Не ставит диагноз; интерпретация — лечащий специалист.
           </p>
         </div>

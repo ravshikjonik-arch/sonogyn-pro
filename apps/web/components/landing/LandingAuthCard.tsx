@@ -46,11 +46,11 @@ export function LandingAuthCard({ className }: Props) {
       <div
         id="join"
         className={cn(
-          "rounded-2xl border border-violet-400/30 bg-[#12081f]/90 p-5 shadow-[0_0_40px_rgba(124,58,237,0.35)] backdrop-blur-md",
+          "rounded-2xl border border-violet-400/40 bg-[#12081f]/92 p-5 shadow-[0_0_48px_rgba(124,58,237,0.45)] backdrop-blur-xl",
           className,
         )}
       >
-        <p className="text-[11px] font-black uppercase tracking-[0.14em] text-violet-300">SonoGyn Pro</p>
+        <p className="text-[11px] font-black uppercase tracking-[0.16em] text-violet-300">SonoGyn Pro</p>
         <h2 className="mt-2 text-lg font-black text-white">Вы уже вошли</h2>
         <p className="mt-1 text-sm text-violet-100/70">Продолжите работу в кабинете.</p>
         <Button className="mt-4 w-full font-bold" asChild>
@@ -144,15 +144,15 @@ export function LandingAuthCard({ className }: Props) {
     <div
       id="join"
       className={cn(
-        "rounded-2xl border border-violet-400/30 bg-[#12081f]/92 p-5 shadow-[0_0_48px_rgba(124,58,237,0.4)] backdrop-blur-md",
+        "rounded-2xl border border-violet-400/40 bg-[#12081f]/92 p-5 shadow-[0_0_56px_rgba(124,58,237,0.5)] backdrop-blur-xl ring-1 ring-violet-400/20",
         className,
       )}
     >
-      <p className="text-[11px] font-black uppercase tracking-[0.14em] text-violet-300">
+      <p className="text-[11px] font-black uppercase tracking-[0.16em] text-violet-300">
         Присоединяйтесь к SonoGyn Pro
       </p>
-      <h2 className="mt-2 text-lg font-black leading-snug text-white">Вход и регистрация</h2>
-      <p className="mt-1 text-xs leading-relaxed text-violet-100/65">
+      <h2 className="mt-2 text-xl font-black leading-snug text-white">Вход и регистрация</h2>
+      <p className="mt-1 text-xs leading-relaxed text-violet-100/70">
         Для врачей УЗИ и АГ. Не диагноз — инструмент специалиста.
       </p>
 
