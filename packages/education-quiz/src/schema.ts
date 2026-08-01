@@ -57,3 +57,29 @@ export function parseQuizBank(raw: unknown): QuizBankParsed {
 export function safeParseQuizBank(raw: unknown) {
   return QuizBankSchema.safeParse(raw);
 }
+
+export const QuizAnswerRecordSchema = z.enum(["correct", "incorrect"]);
+
+export const QuizProgressSchema = z.record(z.string().min(1).max(80), QuizAnswerRecordSchema);
+
+export const ExamAttemptModeSchema = z.enum([
+  "self_assessment",
+  "quick",
+  "certification",
+  "mock",
+]);
+
+/** Upsert payload for /api/education/exam-attempts (T2.2). */
+export const ExamAttemptUpsertSchema = z.object({
+  blueprintId: z.string().min(1).max(200),
+  mode: ExamAttemptModeSchema.default("self_assessment"),
+  level: QuizLevelSchema.optional(),
+  answers: QuizProgressSchema,
+  score: z.number().min(0).max(100).nullable().optional(),
+  totalQuestions: z.number().int().min(0).max(500).optional(),
+  correctCount: z.number().int().min(0).max(500).optional(),
+  finished: z.boolean().optional(),
+});
+
+export type ExamAttemptUpsert = z.infer<typeof ExamAttemptUpsertSchema>;
+export type ExamAttemptMode = z.infer<typeof ExamAttemptModeSchema>;

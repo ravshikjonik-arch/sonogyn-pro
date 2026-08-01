@@ -14,18 +14,25 @@ export {
   filterQuizQuestions,
   filterQuizQuestionsByLevel,
   formatQuizCategory,
+  mergeQuizProgress,
   quizProgressPercent,
   quizProgressStats,
   resolveQuizSource,
 } from "./helpers";
 
 export {
+  ExamAttemptModeSchema,
+  ExamAttemptUpsertSchema,
+  QuizAnswerRecordSchema,
   QuizBankSchema,
   QuizLevelSchema,
+  QuizProgressSchema,
   QuizQuestionSchema,
   QuizSourceSchema,
   parseQuizBank,
   safeParseQuizBank,
+  type ExamAttemptMode,
+  type ExamAttemptUpsert,
   type QuizBankParsed,
 } from "./schema";
 

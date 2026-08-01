@@ -76,3 +76,21 @@ export function filterQuizQuestionsByLevel(
   if (level === "all") return questions;
   return questions.filter((q) => q.level === level);
 }
+
+/**
+ * Merge local + cloud quiz progress.
+ * Prefer "correct" if either side has it (learning progress should not regress).
+ */
+export function mergeQuizProgress(a: QuizProgress, b: QuizProgress): QuizProgress {
+  const out: QuizProgress = { ...a };
+  for (const [id, record] of Object.entries(b)) {
+    const existing = out[id];
+    if (existing == null) {
+      out[id] = record;
+      continue;
+    }
+    if (existing === "correct" || record === "correct") out[id] = "correct";
+    else out[id] = "incorrect";
+  }
+  return out;
+}

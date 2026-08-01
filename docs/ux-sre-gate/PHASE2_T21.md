@@ -29,4 +29,4 @@ corepack pnpm --filter @repo/mobile typecheck
 
 ## Следующее
 
-T2.2 — `exam_attempts` migration + RLS.
+T2.2 — `exam_attempts` migration + RLS → см. `PHASE2_T22.md`.

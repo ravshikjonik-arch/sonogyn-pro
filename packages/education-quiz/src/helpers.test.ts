@@ -4,6 +4,7 @@ import { describe, it } from "node:test";
 import {
   filterQuizQuestions,
   filterQuizQuestionsByLevel,
+  mergeQuizProgress,
   quizProgressPercent,
   quizProgressStats,
   resolveQuizSource,
@@ -61,5 +62,15 @@ describe("education-quiz helpers", () => {
     assert.equal(filterQuizQuestions(questions, progress, "mistakes").length, 1);
     assert.equal(filterQuizQuestions(questions, progress, "new")[0]?.id, "q2");
     assert.equal(filterQuizQuestionsByLevel(questions, "student").length, 1);
+  });
+
+  it("mergeQuizProgress prefers correct", () => {
+    const merged = mergeQuizProgress(
+      { q1: "incorrect", q2: "correct" },
+      { q1: "correct", q3: "incorrect" },
+    );
+    assert.equal(merged.q1, "correct");
+    assert.equal(merged.q2, "correct");
+    assert.equal(merged.q3, "incorrect");
   });
 });

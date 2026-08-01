@@ -19,6 +19,7 @@ import { Progress } from "@/components/ui/progress";
 import {
   filterQuizQuestions,
   formatQuizCategory,
+  mergeQuizProgress,
   quizProgressStats,
   resolveQuizSource,
   type QuizAnswerRecord,
@@ -28,6 +29,41 @@ import {
   type QuizReviewMode,
 } from "@repo/education-quiz";
 import { cn } from "@/lib/utils/cn";
+
+async function fetchCloudProgress(storageKey: string): Promise<QuizProgress | null> {
+  try {
+    const res = await fetch(
+      `/api/education/exam-attempts?blueprintId=${encodeURIComponent(storageKey)}&mode=self_assessment`,
+      { credentials: "same-origin" },
+    );
+    if (res.status === 401) return null;
+    if (!res.ok) return null;
+    const json = (await res.json()) as { attempts?: Array<{ answers?: QuizProgress }> };
+    return json.attempts?.[0]?.answers ?? {};
+  } catch {
+    return null;
+  }
+}
+
+function syncCloudProgress(storageKey: string, progress: QuizProgress, level: QuizLevel) {
+  const stats = quizProgressStats(progress, Object.keys(progress));
+  void fetch("/api/education/exam-attempts", {
+    method: "POST",
+    credentials: "same-origin",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      blueprintId: storageKey,
+      mode: "self_assessment",
+      level,
+      answers: progress,
+      correctCount: stats.correct,
+      totalQuestions: stats.answered,
+      score: stats.percentCorrect,
+    }),
+  }).catch(() => {
+    /* offline / unauth — localStorage remains source of truth */
+  });
+}
 
 type SelfAssessmentWidgetProps = {
   bank: QuizBank;
@@ -69,7 +105,26 @@ export function SelfAssessmentWidget({
   const [progress, setProgress] = useState<QuizProgress>({});
 
   useEffect(() => {
-    setProgress(loadProgress(storageKey));
+    let cancelled = false;
+    const local = loadProgress(storageKey);
+    setProgress(local);
+
+    void (async () => {
+      const cloud = await fetchCloudProgress(storageKey);
+      if (cancelled || cloud == null) return;
+      const merged = mergeQuizProgress(local, cloud);
+      setProgress(merged);
+      saveProgress(storageKey, merged);
+      if (Object.keys(merged).length > Object.keys(cloud).length) {
+        syncCloudProgress(storageKey, merged, level);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+    // level intentionally omitted — initial sync uses current level for optional metadata only
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- remount on storageKey change
   }, [storageKey]);
 
   const levelQuestions = useMemo(
@@ -114,10 +169,11 @@ export function SelfAssessmentWidget({
       setProgress((prev) => {
         const next = { ...prev, [current.id]: record };
         saveProgress(storageKey, next);
+        syncCloudProgress(storageKey, next, level);
         return next;
       });
     },
-    [current, selectedIndex, storageKey],
+    [current, selectedIndex, storageKey, level],
   );
 
   const goTo = useCallback(
@@ -130,12 +186,16 @@ export function SelfAssessmentWidget({
   );
 
   const handleResetProgress = useCallback(() => {
-    if (!window.confirm("Сбросить прогресс по всем вопросам этого банка на этом устройстве?")) return;
+    if (!window.confirm("Сбросить прогресс по всем вопросам этого банка на этом устройстве и в облаке?")) return;
     setProgress({});
     localStorage.removeItem(storageKey);
     setIndex(0);
     setReviewMode("all");
     resetQuestionState();
+    void fetch(
+      `/api/education/exam-attempts?blueprintId=${encodeURIComponent(storageKey)}&mode=self_assessment`,
+      { method: "DELETE", credentials: "same-origin" },
+    ).catch(() => undefined);
   }, [storageKey, resetQuestionState]);
 
   const reviewModes: Array<{ id: QuizReviewMode; label: string; count: number }> = useMemo(
