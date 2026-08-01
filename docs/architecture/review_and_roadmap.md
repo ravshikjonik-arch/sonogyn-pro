@@ -94,7 +94,7 @@ T1.11 cases schema extend
 |----|------|------|-----|------------|
 | **T1.1** | Zod schemas: StructuredReport*, ReportTemplate | — | 3h | 2 | ✅ |
 | **T1.2** | `@repo/report-engine` adnex renderer + i18n ru | T1.1 | 4h | 3 | ✅ |
-| **T1.3** | Supabase migration structured_reports + RLS + POST generate API | T1.2 | 4h | 4 |
+| **T1.3** | Supabase migration structured_reports + RLS + POST generate API | T1.2 | 4h | 4 | ✅ prod 2026-08-01 |
 | **T1.4** | Web ReportWorkspace (3 blocks editable) | T1.3 | 4h | 2 |
 | **T1.5** | Mobile ReportPreview + share | T1.2 | 4h | 3 |
 | **T1.6** | `useOradsNavigator` headless hook in orads-us | — | 3h | 2 |

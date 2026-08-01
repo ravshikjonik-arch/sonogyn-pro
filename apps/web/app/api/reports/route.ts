@@ -7,6 +7,7 @@ import {
   persistStructuredReport,
   resolveTemplateBySlug,
 } from "@/lib/reports/structured-reports-service";
+import { assertPatientOwnedByUser, assertStudyOwnedByUser } from "@/lib/security/assert-study-owner";
 import { rejectIfRateLimitedForUser, rejectIfRateLimitedPreset } from "@/lib/security/api-rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { requireSupabaseUserFromRequest } from "@/lib/security/require-user";
@@ -37,6 +38,19 @@ export async function POST(request: Request) {
   }
 
   try {
+    if (parsed.data.studyId) {
+      const studyOwned = await assertStudyOwnedByUser(supabase, parsed.data.studyId, auth.userId);
+      if (!studyOwned) {
+        return NextResponse.json({ error: "Study not found" }, { status: 404 });
+      }
+    }
+    if (parsed.data.patientId) {
+      const patientOwned = await assertPatientOwnedByUser(supabase, parsed.data.patientId, auth.userId);
+      if (!patientOwned) {
+        return NextResponse.json({ error: "Patient not found" }, { status: 404 });
+      }
+    }
+
     const document = await generateReportDocumentAsync(parsed.data);
     const template = await resolveTemplateBySlug(supabase, parsed.data.templateSlug);
     if (!template) {
