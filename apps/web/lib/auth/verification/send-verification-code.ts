@@ -27,7 +27,7 @@ export type SendVerificationCodeParams = {
 
 function telegramBotHint(): string {
   const username = readTelegramBotUsername();
-  return username ? `@${username}` : "@Sonogyn_bot";
+  return username ? `@${username}` : "@SonogynProBot";
 }
 
 async function dispatchOnce(params: SendVerificationCodeParams): Promise<SendVerificationResult> {

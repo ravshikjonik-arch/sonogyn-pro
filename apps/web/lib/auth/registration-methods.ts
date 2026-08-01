@@ -30,5 +30,5 @@ export function parseRegistrationMethod(raw: string | null): AuthRegistrationMet
 /** Имя бота для подсказок в UI (client-safe). */
 export function readTelegramBotDisplayName(): string {
   const username = process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME?.trim().replace(/^@/, "");
-  return username ? `@${username}` : "@Sonogyn_bot";
+  return username ? `@${username}` : "@SonogynProBot";
 }

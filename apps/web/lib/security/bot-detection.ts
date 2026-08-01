@@ -6,6 +6,8 @@ const API_BOT_ALLOWLIST_PREFIXES = [
   "/api/payment/webhook",
   "/api/yookassa/webhook",
   "/api/auth/telegram/bot",
+  "/api/telegram/hermes",
+  "/api/ingest/telegram-example",
   "/api/cron/",
   "/api/health",
   "/api/webinars/status",

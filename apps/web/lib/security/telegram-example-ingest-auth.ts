@@ -7,7 +7,11 @@ import { timingSafeEqual } from "@/lib/security/timing-safe";
 export function isTelegramExampleIngestAuthorized(req: Request): boolean {
   const secret = process.env.TELEGRAM_EXAMPLE_INGEST_SECRET?.trim();
   if (!secret) {
-    return process.env.NODE_ENV !== "production";
+    const allowed = process.env.NODE_ENV !== "production";
+    if (!allowed) {
+      console.warn("[telegram-example] unauthorized", { reason: "server_secret_missing" });
+    }
+    return allowed;
   }
 
   const auth = req.headers.get("authorization")?.trim() ?? "";
@@ -15,8 +19,24 @@ export function isTelegramExampleIngestAuthorized(req: Request): boolean {
     return true;
   }
 
-  const header = req.headers.get("x-sonogyn-telegram-example-secret")?.trim() ?? "";
-  return timingSafeEqual(secret, header);
+  const headerCandidates = [
+    req.headers.get("x-sonogyn-telegram-example-secret"),
+    req.headers.get("x-telegram-bot-api-secret-token"),
+    req.headers.get("x-hermes-secret"),
+    req.headers.get("x-api-key"),
+  ]
+    .map((value) => value?.trim() ?? "")
+    .filter(Boolean);
+
+  const ok = headerCandidates.some((header) => timingSafeEqual(secret, header));
+  if (!ok) {
+    console.warn("[telegram-example] unauthorized", {
+      reason: auth || headerCandidates.length ? "secret_mismatch" : "secret_header_missing",
+      hasBearer: auth.startsWith("Bearer "),
+      hasCustomHeader: headerCandidates.length > 0,
+    });
+  }
+  return ok;
 }
 
 /** Comma-separated Telegram user IDs allowed to ingest examples. */

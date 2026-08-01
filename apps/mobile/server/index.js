@@ -483,7 +483,7 @@ const telegramPending = new Map();
 const WEB_API_BASE_URL = (process.env.WEB_API_BASE_URL || "http://localhost:3000").replace(/\/$/, "");
 const SONOGYN_AUTH_INTERNAL_SECRET = process.env.SONOGYN_AUTH_INTERNAL_SECRET || "";
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || "";
-const TELEGRAM_BOT_USERNAME = process.env.TELEGRAM_BOT_USERNAME || "Sonogyn_bot";
+const TELEGRAM_BOT_USERNAME = process.env.TELEGRAM_BOT_USERNAME || "SonogynProBot";
 const TELEGRAM_WEBHOOK_SECRET = process.env.TELEGRAM_WEBHOOK_SECRET || "";
 
 function purgeTelegramPending() {

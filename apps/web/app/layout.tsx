@@ -64,7 +64,7 @@ export default function RootLayout({
         />
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var m=localStorage.getItem("clinical-theme-mode");var p=location.pathname;var pub=p==="/"||/^\\/(landing|login|register|verify-phone|pricing|auth)(\\/|$)/.test(p);var sys=window.matchMedia("(prefers-color-scheme: dark)").matches;var d;if(m==="dark")d=true;else if(m==="light")d=false;else d=pub?sys:true;document.documentElement.setAttribute("data-theme",d?"dark":"light");document.documentElement.classList.toggle("dark",d);if(m==="light"||m==="dark")document.documentElement.setAttribute("data-theme-forced",m);}catch(e){}})();`,
+              __html: `(function(){try{var m=localStorage.getItem("clinical-theme-mode");var p=location.pathname;var pub=p==="/"||/^\\/(landing|lp|login|register|verify-phone|pricing|auth)(\\/|$)/.test(p);var sys=window.matchMedia("(prefers-color-scheme: dark)").matches;var d;if(m==="dark")d=true;else if(m==="light")d=false;else d=pub?sys:true;document.documentElement.setAttribute("data-theme",d?"dark":"light");document.documentElement.classList.toggle("dark",d);if(m==="light"||m==="dark")document.documentElement.setAttribute("data-theme-forced",m);}catch(e){}})();`,
           }}
         />
         <style

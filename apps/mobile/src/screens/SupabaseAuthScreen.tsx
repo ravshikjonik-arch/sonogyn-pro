@@ -35,7 +35,7 @@ type Props = NativeStackScreenProps<RootStackParamList, "SupabaseAuth">;
 type Tab = "telegram" | "email" | "phone" | "social";
 
 const TELEGRAM_BOT_NAME =
-  process.env.EXPO_PUBLIC_TELEGRAM_BOT_USERNAME?.replace(/^@/, "") ?? "Sonogyn_bot";
+  process.env.EXPO_PUBLIC_TELEGRAM_BOT_USERNAME?.replace(/^@/, "") ?? "SonogynProBot";
 
 function translateAuthError(message: string): string {
   if (/invalid login credentials/i.test(message)) return "Неверные учётные данные.";
