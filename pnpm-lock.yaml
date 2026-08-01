@@ -380,6 +380,9 @@ importers:
       '@repo/adnex-education':
         specifier: workspace:*
         version: link:../../packages/adnex-education
+      '@repo/ai-tutor':
+        specifier: workspace:*
+        version: link:../../packages/ai-tutor
       '@repo/birads-mmg':
         specifier: workspace:*
         version: link:../../packages/birads-mmg
@@ -670,6 +673,22 @@ importers:
       '@repo/medical-calculations':
         specifier: workspace:*
         version: link:../medical-calculations
+    devDependencies:
+      '@types/node':
+        specifier: ^20
+        version: 20.19.40
+      tsx:
+        specifier: ^4.19.4
+        version: 4.21.0
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.3
+
+  packages/ai-tutor:
+    dependencies:
+      zod:
+        specifier: ^3.24.4
+        version: 3.25.76
     devDependencies:
       '@types/node':
         specifier: ^20

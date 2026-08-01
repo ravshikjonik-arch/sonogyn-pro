@@ -126,7 +126,7 @@ T1.11 cases schema extend
 | T2.1 | `@repo/education-quiz` extract | 4h | ✅ 2026-08-01 |
 | T2.2 | exam_attempts migration + RLS | 4h | ✅ 2026-08-01 |
 | T2.3 | ExamEngine MCQ + image Q | 4h | ✅ 2026-08-01 |
-| T2.4 | AI Tutor API + Explain mode | 4h |
+| T2.4 | AI Tutor API + Explain mode | 4h | ✅ 2026-08-01 |
 | T2.5 | Tutor Quiz + Exam modes | 4h |
 | T2.6 | Daily challenge cron + UI | 4h |
 | T2.7 | Atlas 2.0 annotation model | 4h |

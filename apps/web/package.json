@@ -93,6 +93,7 @@
     "@repo/clinical-guidelines": "workspace:*",
     "@repo/clinical-reference": "workspace:*",
     "@repo/clinical-tools": "workspace:*",
+    "@repo/ai-tutor": "workspace:*",
     "@repo/education-quiz": "workspace:*",
     "@repo/examination-engine": "workspace:*",
     "@repo/evidence-corpus": "workspace:*",

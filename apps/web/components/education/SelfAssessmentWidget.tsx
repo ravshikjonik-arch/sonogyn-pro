@@ -28,6 +28,7 @@ import {
   type QuizProgress,
   type QuizReviewMode,
 } from "@repo/education-quiz";
+import { TutorExplainPanel } from "@/components/education/TutorExplainPanel";
 import { cn } from "@/lib/utils/cn";
 
 async function fetchCloudProgress(storageKey: string): Promise<QuizProgress | null> {
@@ -392,6 +393,21 @@ export function SelfAssessmentWidget({
                 {source.status ? ` — ${source.status}` : ""}
               </p>
             ) : null}
+            <TutorExplainPanel
+              level={level === "doctor" ? "doctor" : "student"}
+              question={{
+                id: current.id,
+                stem: current.question,
+                options: current.options,
+                correctIndex: current.correctIndex,
+                explanation: current.explanation,
+                sourceTitle: source?.title,
+                sourceYear: source?.year,
+                userSelectedIndex: selectedIndex,
+                mediaCaption: current.media?.caption ?? current.media?.alt,
+                topic: bank.topic,
+              }}
+            />
           </div>
         ) : null}
 

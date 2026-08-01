@@ -16,6 +16,7 @@ import type { QuizLevel } from "@repo/education-quiz";
 import { CheckCircle2, Clock3, ImageIcon, RotateCcw, Trophy, XCircle } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
+import { TutorExplainPanel } from "@/components/education/TutorExplainPanel";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -222,9 +223,24 @@ export function ExamEngineWidget({ blueprint, className }: Props) {
                   ) : (
                     <XCircle className="mt-0.5 h-4 w-4 shrink-0 text-rose-500" />
                   )}
-                  <div>
+                  <div className="min-w-0 flex-1 space-y-2">
                     <p className="font-medium">{q.question}</p>
-                    <p className="mt-1 text-xs text-[var(--clinical-foreground-muted)]">{q.explanation}</p>
+                    <p className="text-xs text-[var(--clinical-foreground-muted)]">{q.explanation}</p>
+                    <TutorExplainPanel
+                      level={session.level === "doctor" ? "doctor" : "student"}
+                      question={{
+                        id: q.id,
+                        stem: q.question,
+                        options: q.options,
+                        correctIndex: q.correctIndex,
+                        explanation: q.explanation,
+                        sourceTitle: blueprint.bank.sources.find((s) => s.id === q.sourceId)?.title,
+                        sourceYear: blueprint.bank.sources.find((s) => s.id === q.sourceId)?.year,
+                        userSelectedIndex: sel?.selectedIndex ?? null,
+                        mediaCaption: q.media?.caption ?? q.media?.alt,
+                        topic: blueprint.bank.topic,
+                      }}
+                    />
                   </div>
                 </li>
               );

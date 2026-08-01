@@ -29,4 +29,4 @@ corepack pnpm --filter @repo/web exec tsc --noEmit
 
 ## Следующее
 
-T2.4 — AI Tutor API + Explain mode.
+T2.4 — AI Tutor API + Explain mode → см. `PHASE2_T24.md`.
