@@ -16,12 +16,14 @@
 |---|---|
 | Title содержит SonoGyn Pro | ✅ |
 | CTA guest: `/register`, `/login` | ✅ |
-| Hero image loaded (next/image) | ✅ |
+| Hero image local (next/image) | ✅ |
 | Light tokens (`data-theme=light`) | ✅ `--clinical-canvas: #dceef7` |
 | Dark tokens (`data-theme=dark`) | ✅ `--clinical-canvas: #0b0f19` |
 | Auth-ветки не менялись | ✅ `isAuthenticated` → `/app` / `/paywall` |
+| Production deploy `1f6daf8` | ✅ READY → aliases `sonogyn-pro.ru`, vercel.app |
+| Production hero JPG | 🔧 сначала 404 (файл не был в git) → добавлен в `public/clinical/orads-hero/` |
 
-Скриншоты: `landing-wow-light.png`, `landing-wow-dark.png` (в этой папке).
+Скриншоты: `landing-wow-light.png`, `landing-wow-dark.png`, `landing-wow-prod.png` (в этой папке).
 
 ## Вне scope / не трогали
 
