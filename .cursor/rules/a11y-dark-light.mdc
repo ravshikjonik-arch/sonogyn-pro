@@ -1,0 +1,25 @@
+---
+description: Accessibility, keyboard, contrast, dark/light для SonoGyn Pro web/mobile
+alwaysApply: true
+---
+
+# A11y / dark-light — SonoGyn Pro
+
+## Accessibility
+
+- Интерактивные элементы: доступны с клавиатуры, видимый focus.
+- Кнопки/ссылки — понятный accessible name (не только иконка без `aria-label`).
+- Не полагаться только на цвет для статуса (ошибка/успех).
+- Учитывать `prefers-reduced-motion`: не форсировать тяжёлую анимацию.
+- Новые UI-потоки: прогон `pnpm --filter @repo/web test:e2e:a11y` (soft; strict — `A11Y_STRICT=true`).
+
+## Dark / light
+
+- Не хардкодить цвета вне design tokens / CSS variables проекта.
+- Проверять оба режима на ключевых экранах при UI-изменениях.
+- Контраст текста и контролов — достаточный в light и dark.
+
+## Не ломать
+
+- Не включать `A11Y_STRICT` / `LIGHTHOUSE_STRICT` в CI без явного запроса.
+- Медицинский контент и дисклеймеры остаются читаемыми в обоих темах.

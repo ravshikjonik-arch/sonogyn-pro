@@ -1,0 +1,72 @@
+---
+description: Безопасность MCP для SonoGyn Pro — read-only по умолчанию, без секретов и медданных
+alwaysApply: true
+---
+
+# MCP Safety — SonoGyn Pro
+
+## Общие правила
+
+- Не выводить API-ключи, токены, cookies, `SERVICE_ROLE`, connection strings.
+- В отчётах — только имя переменной и статус: найдено / отсутствует / пусто.
+- Не читать и не вставлять в чат персональные или медицинские данные пациентов.
+- Не выполнять deploy, migration, push, merge без явного запроса пользователя.
+- Slack: не вызывать `mcp_auth` без явного запроса.
+
+## Supabase MCP (`plugin-supabase-supabase`)
+
+Без явного запроса пользователя **запрещены**:
+
+- `execute_sql`
+- `apply_migration`
+- `merge_branch`
+- `delete_branch`
+- `reset_branch`
+- `pause_project`
+- `restore_project`
+- `deploy_edge_function`
+- `create_project` / `create_branch` (если меняют prod)
+
+**Разрешены по умолчанию** (metadata / docs, без дампа PHI):
+
+- `list_*`, `get_*` (проекты, таблицы-схема без строк данных)
+- `search_docs`
+- `get_advisors`
+- `get_logs` — только для отладки инфраструктуры; не цитировать содержимое с ПДн
+
+Если нужен SQL или миграция — сначала спросить пользователя и предпочтительно staging branch.
+
+## Vercel MCP (`plugin-vercel-vercel`)
+
+Без явного запроса **запрещены**: `deploy_to_vercel`, `buy_*`, изменение доменов/биллинга.  
+Разрешены: `list_*`, `get_deployment*`, `get_runtime_*`, `search_vercel_documentation`, analytics read-only.
+
+## Browser / Playwright MCP
+
+- Smoke без изменения prod-данных и без заполнения реальных форм пациентов.
+- Не использовать реальный Chrome-профиль пользователя без запроса.
+- Предпочитать localhost / preview / demo fixtures.
+
+## Research / docs MCP (Perplexity / Firecrawl / Context7)
+
+- Context7: актуальная документация библиотек (Next.js, Expo, Supabase и т.д.); не замена официальных docs при критических изменениях.
+- Только нейтральный поиск документации и публичных источников.
+- Не подменять утверждённый clinical content репозитория сырым web-результатом без проверки гайдлайна/КР.
+
+## Firecrawl MCP
+
+- Только публичные https-страницы (docs, гайдлайны-сайты).
+- Запрещено: localhost, private IP, metadata endpoints, внутренние сети, prod patient URLs.
+- Не сканировать массово без запроса.
+
+## Figma MCP
+
+- По умолчанию только чтение макетов/компонентов.
+- Не изменять Figma-файлы без явного запроса.
+- Не коммитить токены; remote MCP — через OAuth в UI.
+
+## Sentry MCP
+
+- Issues/events — без копирования ПДн пользователей в чат.
+- Не закрывать issues и не менять project settings без запроса.
+- Slack MCP auth — только по явному запросу.

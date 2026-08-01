@@ -37,12 +37,14 @@ export default defineConfig({
         storageState: path.join(__dirname, "tests/e2e/.auth/doctor.json"),
       },
       dependencies: ["setup"],
-      testIgnore: /auth\.spec\.ts/,
+      testIgnore:
+        /auth\.spec\.ts|cpi-evaluate\.spec\.ts|security-smoke\.spec\.ts|a11y-smoke\.spec\.ts|visual-smoke\.spec\.ts/,
     },
     {
       name: "chromium-no-auth",
       use: { ...devices["Desktop Chrome"] },
-      testMatch: /auth\.spec\.ts|cpi-evaluate\.spec\.ts|security-smoke\.spec\.ts/,
+      testMatch:
+        /auth\.spec\.ts|cpi-evaluate\.spec\.ts|security-smoke\.spec\.ts|a11y-smoke\.spec\.ts|visual-smoke\.spec\.ts/,
     },
   ],
   webServer: {

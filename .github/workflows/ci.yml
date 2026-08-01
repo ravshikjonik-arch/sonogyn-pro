@@ -88,6 +88,12 @@ jobs:
       - name: Run E2E tests
         run: pnpm test:e2e:cpi
 
+      - name: Auth E2E smoke
+        run: pnpm test:e2e:auth
+
+      - name: A11y E2E smoke (soft)
+        run: pnpm test:e2e:a11y
+
       - name: Security E2E smoke
         run: pnpm test:e2e:security
 
