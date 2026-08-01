@@ -40,9 +40,15 @@ export type RootStackParamList = {
       }
     | undefined;
   StructuredReportPreview: {
-    path: import("@repo/orads-us").OradsTreePathStep[];
-    result: import("@repo/orads-us").OradsTreeResult;
-    pathSummary: string[];
+    /** Defaults to adnex when path/result present. */
+    domain?: "adnex" | "thyroid" | "obstetric";
+    /** O-RADS wizard handoff */
+    path?: import("@repo/orads-us").OradsTreePathStep[];
+    result?: import("@repo/orads-us").OradsTreeResult;
+    pathSummary?: string[];
+    /** TI-RADS / obstetric SRE inputs (already mapped) */
+    thyroidInput?: import("@repo/types").ThyroidStructuredReportInput;
+    obstetricInput?: import("@repo/types").ObstetricStructuredReportInput;
   };
   ORADSGuide: { sectionId?: string; caseId?: string } | undefined;
   ORADSPro: { prefill?: import("../features/oradsPro/types").OradsInput } | undefined;

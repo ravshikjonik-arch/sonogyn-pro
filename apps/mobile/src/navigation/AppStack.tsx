@@ -151,7 +151,15 @@ const linking: LinkingOptions<RootStackParamList> = {
       Language: "language",
       ORADSFlow: "orads-basic",
       ORADSWizard: "orads-wizard",
-      StructuredReportPreview: "reports/adnex",
+      StructuredReportPreview: {
+        path: "reports/:domain?",
+        parse: {
+          domain: (value?: string) => {
+            if (value === "thyroid" || value === "obstetric" || value === "adnex") return value;
+            return "adnex";
+          },
+        },
+      },
       ORADSGuide: {
         path: "library/orads-guide",
         parse: {

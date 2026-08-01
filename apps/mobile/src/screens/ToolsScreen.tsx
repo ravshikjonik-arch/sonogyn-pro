@@ -125,6 +125,17 @@ export default function ToolsScreen({ navigation }: ToolsTabScreenProps) {
           <Pressable style={styles.domainChip} onPress={() => void openWebPath("/tools/obstetrics")}>
             <Text style={styles.domainChipText}>Акушерство</Text>
           </Pressable>
+          <Pressable
+            style={styles.domainChip}
+            onPress={() =>
+              navigation.navigate("StructuredReportPreview", {
+                domain: "obstetric",
+                obstetricInput: { domain: "obstetric", biometry: {} },
+              })
+            }
+          >
+            <Text style={styles.domainChipText}>SRE Акуш.</Text>
+          </Pressable>
           <Pressable style={styles.domainChip} onPress={() => void openWebPath("/tools/gynecology")}>
             <Text style={styles.domainChipText}>Гинекология</Text>
           </Pressable>

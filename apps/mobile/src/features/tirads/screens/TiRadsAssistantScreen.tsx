@@ -14,6 +14,7 @@ import TiradsPatternPanel from "../components/TiradsPatternPanel";
 import TiradsRuPanel from "../components/TiradsRuPanel";
 import ThyroidTopographyPanel from "../components/ThyroidTopographyPanel";
 import type { ThyroidAiAssistResult } from "../ai/thyroidAiService";
+import { mapTiradsToSreInput } from "../../../reporting/mapTiradsToSreInput";
 import {
   applyAiResultToMobileInput,
   applyPatternToMobileInput,
@@ -49,6 +50,14 @@ export default function TiRadsAssistantScreen({ navigation }: Props) {
   async function copyReport(text: string) {
     await Clipboard.setStringAsync(text);
     Alert.alert("Скопировано", "Заключение ACR TI-RADS в буфере обмена.");
+  }
+
+  function openStructuredReport() {
+    const sizeMm = sizeText.trim() ? Number(sizeText.replace(",", ".")) : undefined;
+    navigation.navigate("StructuredReportPreview", {
+      domain: "thyroid",
+      thyroidInput: mapTiradsToSreInput(acrInput, Number.isFinite(sizeMm) ? sizeMm : undefined),
+    });
   }
 
   return (
@@ -124,6 +133,7 @@ export default function TiRadsAssistantScreen({ navigation }: Props) {
               onSizeTextChange={setSizeText}
               patternSource={patternSource}
               onCopyReport={(t) => void copyReport(t)}
+              onOpenStructuredReport={openStructuredReport}
             />
           )}
         </ScrollView>

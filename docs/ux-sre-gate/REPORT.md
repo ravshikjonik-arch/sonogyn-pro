@@ -32,6 +32,13 @@
 - `20260623120000_structured_reports.sql`  
 - `20260801121000_sre_thyroid_obstetric_templates.sql`  
 
-## Следующее (после Phase 1)
+## T1.5 Mobile ReportPreview (2026-08-01)
 
-Mobile ReportPreview parity (T1.5) или O-RADS→SRE polish — по приоритету приёма.
+- Экран `StructuredReportPreview`: RU/EN, offline cache, PDF share
+- Cloud: `POST /api/reports` + `PATCH` правки/finalize (Bearer)
+- Handoff: O-RADS wizard, TI-RADS ACR panel, Tools → «SRE Акуш.»
+- Deep link: `reports/:domain?` (adnex|thyroid|obstetric)
+
+## Следующее
+
+T1.6+ (orads-us navigator) или polish O-RADS→SRE на web — по приоритету приёма.

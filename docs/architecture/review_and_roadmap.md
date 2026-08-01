@@ -96,7 +96,7 @@ T1.11 cases schema extend
 | **T1.2** | `@repo/report-engine` adnex renderer + i18n ru | T1.1 | 4h | 3 | ✅ |
 | **T1.3** | Supabase migration structured_reports + RLS + POST generate API | T1.2 | 4h | 4 | ✅ prod 2026-08-01 |
 | **T1.4** | Web ReportWorkspace (3 blocks editable) | T1.3 | 4h | 2 | ✅ + thyroid/OB seed 2026-08-01 |
-| **T1.5** | Mobile ReportPreview + share | T1.2 | 4h | 3 |
+| **T1.5** | Mobile ReportPreview + share | T1.2 | 4h | 3 | ✅ cloud persist + TI-RADS/OB 2026-08-01 |
 | **T1.6** | `useOradsNavigator` headless hook in orads-us | — | 3h | 2 |
 | **T1.7** | Web O-RADS stepper → orads-us tree only | T1.6 | 4h | 3 |
 | **T1.8** | Mobile OradsWizard → orads-us (remove legacy) | T1.6 | 4h | 4 |

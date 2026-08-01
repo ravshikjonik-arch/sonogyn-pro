@@ -85,6 +85,7 @@ export default function OradsWizardScreen({ navigation, route }: Props) {
   function openStructuredReport() {
     if (view.kind !== "result") return;
     navigation.navigate("StructuredReportPreview", {
+      domain: "adnex",
       path: nav.state.path,
       result: view.result,
       pathSummary: nav.pathSummary,

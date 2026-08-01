@@ -91,6 +91,7 @@ type Props = {
   onSizeTextChange: (v: string) => void;
   patternSource?: string | null;
   onCopyReport: (text: string) => void;
+  onOpenStructuredReport?: () => void;
 };
 
 export default function TiradsAcrPanel({
@@ -100,6 +101,7 @@ export default function TiradsAcrPanel({
   onSizeTextChange,
   patternSource,
   onCopyReport,
+  onOpenStructuredReport,
 }: Props) {
   const inputWithSize = useMemo(
     () => ({ ...input, largestDiameterMm: num(sizeText) }),
@@ -163,6 +165,11 @@ export default function TiradsAcrPanel({
         <Pressable style={styles.primary} onPress={() => onCopyReport(reportText)}>
           <Text style={styles.primaryText}>Копировать заключение</Text>
         </Pressable>
+        {onOpenStructuredReport ? (
+          <Pressable style={styles.sreBtn} onPress={onOpenStructuredReport}>
+            <Text style={styles.sreBtnText}>Структурированный протокол</Text>
+          </Pressable>
+        ) : null}
       </View>
     </>
   );
@@ -235,4 +242,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   secondaryText: { color: branding.colors.text, fontWeight: "700", fontSize: 14 },
+  sreBtn: {
+    borderRadius: 14,
+    paddingVertical: 14,
+    alignItems: "center",
+    backgroundColor: "#2563EB",
+  },
+  sreBtnText: { color: "#fff", fontWeight: "800", fontSize: 15 },
 });

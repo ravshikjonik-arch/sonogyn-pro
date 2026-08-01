@@ -5,5 +5,8 @@ export type SreDraftCache = {
   impression: string;
   recommendations: string;
   templateSlug: string;
+  domain?: "adnex" | "thyroid" | "obstetric";
+  persistedId?: string;
+  locale?: "ru" | "en";
   savedAt: string;
 };
