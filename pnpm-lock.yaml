@@ -419,6 +419,9 @@ importers:
       '@repo/evidence-retrieval':
         specifier: workspace:*
         version: link:../../packages/evidence-retrieval
+      '@repo/examination-engine':
+        specifier: workspace:*
+        version: link:../../packages/examination-engine
       '@repo/fmf':
         specifier: workspace:*
         version: link:../../packages/fmf
@@ -857,6 +860,25 @@ importers:
         specifier: workspace:*
         version: link:../evidence-engine
     devDependencies:
+      tsx:
+        specifier: ^4.19.4
+        version: 4.21.0
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.3
+
+  packages/examination-engine:
+    dependencies:
+      '@repo/education-quiz':
+        specifier: workspace:*
+        version: link:../education-quiz
+      zod:
+        specifier: ^3.24.4
+        version: 3.25.76
+    devDependencies:
+      '@types/node':
+        specifier: ^20
+        version: 20.19.40
       tsx:
         specifier: ^4.19.4
         version: 4.21.0

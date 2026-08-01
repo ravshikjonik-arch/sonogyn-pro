@@ -9,6 +9,19 @@ export const QuizSourceSchema = z.object({
   status: z.string().max(80).optional(),
 });
 
+export const QuizQuestionMediaSchema = z.object({
+  type: z.literal("image"),
+  src: z
+    .string()
+    .min(1)
+    .max(500)
+    .refine((value) => value.startsWith("/") || /^https:\/\//i.test(value), {
+      message: "media.src must be a site path or https URL",
+    }),
+  alt: z.string().min(1).max(300),
+  caption: z.string().max(400).optional(),
+});
+
 export const QuizQuestionSchema = z.object({
   id: z.string().min(1).max(80),
   category: z.string().min(1).max(80),
@@ -18,6 +31,7 @@ export const QuizQuestionSchema = z.object({
   correctIndex: z.number().int().min(0).max(7),
   explanation: z.string().min(1).max(4000),
   sourceId: z.string().min(1).max(80),
+  media: QuizQuestionMediaSchema.optional(),
 });
 
 export const QuizBankSchema = z

@@ -307,6 +307,22 @@ export function SelfAssessmentWidget({
           </span>
         </div>
 
+        {current.media?.type === "image" ? (
+          <figure className="overflow-hidden rounded-xl border border-[var(--clinical-border)] bg-[var(--clinical-muted)]/40">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={current.media.src}
+              alt={current.media.alt}
+              className="mx-auto max-h-72 w-full object-contain p-3"
+            />
+            {current.media.caption ? (
+              <figcaption className="border-t border-[var(--clinical-border)] px-3 py-2 text-xs text-[var(--clinical-foreground-muted)]">
+                {current.media.caption}
+              </figcaption>
+            ) : null}
+          </figure>
+        ) : null}
+
         <p className="text-base font-medium leading-relaxed text-[var(--clinical-foreground)]">{current.question}</p>
 
         <ul className="space-y-2">

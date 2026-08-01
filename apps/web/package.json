@@ -94,6 +94,7 @@
     "@repo/clinical-reference": "workspace:*",
     "@repo/clinical-tools": "workspace:*",
     "@repo/education-quiz": "workspace:*",
+    "@repo/examination-engine": "workspace:*",
     "@repo/evidence-corpus": "workspace:*",
     "@repo/evidence-engine": "workspace:*",
     "@repo/evidence-retrieval": "workspace:*",

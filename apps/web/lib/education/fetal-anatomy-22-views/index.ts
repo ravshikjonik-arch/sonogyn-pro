@@ -19,6 +19,7 @@ export {
 export { FETAL_ANATOMY_ANOMALIES, FETAL_ANATOMY_ANOMALY_COUNT, searchAnomalies, getAnomaly, anomaliesForView } from "./anomalies";
 export { FETAL_ANATOMY_CASES, casesByLevel } from "./cases";
 export { FETAL_ANATOMY_QUIZ_BANK, FETAL_ANATOMY_ORAL_QUESTIONS } from "./quiz-bank";
+export { FETAL_ANATOMY_EXAM_BLUEPRINT } from "./exam-blueprint";
 export { FETAL_ANATOMY_SURVEY_ALGORITHM, FETAL_ANATOMY_INTRODUCTION, FETAL_ANATOMY_LEMON_SIGN_ALGORITHM } from "./algorithms";
 export {
   FETAL_ANATOMY_PROGRESS_KEY,

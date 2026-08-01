@@ -93,29 +93,49 @@ export async function POST(request: Request) {
 
   const now = new Date().toISOString();
   const finishedAt = parsed.data.finished ? now : null;
+  const row = {
+    user_id: auth.userId,
+    blueprint_id: parsed.data.blueprintId,
+    mode: parsed.data.mode,
+    level: parsed.data.level ?? null,
+    answers: parsed.data.answers,
+    score: parsed.data.score ?? null,
+    total_questions: parsed.data.totalQuestions ?? null,
+    correct_count: parsed.data.correctCount ?? null,
+    finished_at: finishedAt,
+    updated_at: now,
+  };
+  const selectCols =
+    "id, blueprint_id, mode, level, answers, score, total_questions, correct_count, started_at, finished_at, updated_at";
 
-  const { data, error } = await supabase
-    .from("exam_attempts")
-    .upsert(
-      {
-        user_id: auth.userId,
-        blueprint_id: parsed.data.blueprintId,
-        mode: parsed.data.mode,
-        level: parsed.data.level ?? null,
-        answers: parsed.data.answers,
-        score: parsed.data.score ?? null,
-        total_questions: parsed.data.totalQuestions ?? null,
-        correct_count: parsed.data.correctCount ?? null,
-        finished_at: finishedAt,
-        updated_at: now,
-      },
-      { onConflict: "user_id,blueprint_id,mode" },
-    )
-    .select(
-      "id, blueprint_id, mode, level, answers, score, total_questions, correct_count, started_at, finished_at, updated_at",
-    )
-    .single();
+  // self_assessment: upsert one row (partial unique index). Other modes: append history.
+  if (parsed.data.mode === "self_assessment") {
+    const existing = await supabase
+      .from("exam_attempts")
+      .select("id")
+      .eq("user_id", auth.userId)
+      .eq("blueprint_id", parsed.data.blueprintId)
+      .eq("mode", "self_assessment")
+      .maybeSingle();
 
+    if (existing.error) {
+      return NextResponse.json({ error: existing.error.message }, { status: 500 });
+    }
+
+    if (existing.data?.id) {
+      const { data, error } = await supabase
+        .from("exam_attempts")
+        .update(row)
+        .eq("id", existing.data.id)
+        .eq("user_id", auth.userId)
+        .select(selectCols)
+        .single();
+      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ attempt: mapRow(data as Record<string, unknown>) });
+    }
+  }
+
+  const { data, error } = await supabase.from("exam_attempts").insert(row).select(selectCols).single();
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

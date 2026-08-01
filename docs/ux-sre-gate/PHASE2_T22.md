@@ -30,4 +30,4 @@ Prod: применить миграцию в Supabase (`ocqlsqqloqvlzutbgrnp`).
 
 ## Следующее
 
-T2.3 — ExamEngine MCQ + image Q (история попыток certification без unique overwrite).
+T2.3 — ExamEngine MCQ + image Q → см. `PHASE2_T23.md`.

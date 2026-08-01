@@ -5,6 +5,7 @@ export type {
   QuizProgress,
   QuizProgressStats,
   QuizQuestion,
+  QuizQuestionMedia,
   QuizReviewMode,
   QuizSource,
 } from "./types";
@@ -27,6 +28,7 @@ export {
   QuizBankSchema,
   QuizLevelSchema,
   QuizProgressSchema,
+  QuizQuestionMediaSchema,
   QuizQuestionSchema,
   QuizSourceSchema,
   parseQuizBank,

@@ -6,6 +6,7 @@ import { BookOpen, CheckCircle2, Circle, Mic, Search } from "lucide-react";
 
 import { FetalAnatomyAnomalyCard } from "@/components/education/fetal-anatomy/FetalAnatomyAnomalyCard";
 import { FetalAnatomyAtlasImage } from "@/components/education/fetal-anatomy/FetalAnatomyAtlasImage";
+import { ExamEngineWidget } from "@/components/education/ExamEngineWidget";
 import { SelfAssessmentWidget } from "@/components/education/SelfAssessmentWidget";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -22,6 +23,7 @@ import {
   FETAL_ANATOMY_ISUOG_LECTURE_ID,
   FETAL_ANATOMY_LEMON_SIGN_ALGORITHM,
   FETAL_ANATOMY_LINKS,
+  FETAL_ANATOMY_EXAM_BLUEPRINT,
   FETAL_ANATOMY_ORAL_QUESTIONS,
   FETAL_ANATOMY_QUIZ_BANK,
   FETAL_ANATOMY_REGION_LABELS,
@@ -449,11 +451,12 @@ export function FetalAnatomy22ViewsClient() {
       </TabsContent>
 
       <TabsContent value="quiz" className="mt-0 space-y-6">
+        <ExamEngineWidget blueprint={FETAL_ANATOMY_EXAM_BLUEPRINT} />
         <SelfAssessmentWidget
           bank={FETAL_ANATOMY_QUIZ_BANK}
           storageKey="sonogyn:fetal-anatomy-22-views:quiz"
           title="Самопроверка · 22 среза"
-          description="Протокол II триместра · Емельяненко · 20 вопросов"
+          description="Протокол II триместра · Емельяненко · текстовые + image-MCQ"
           relatedLinks={[
             FETAL_ANATOMY_LINKS.fmf,
             FETAL_ANATOMY_LINKS.fetalSpine,
