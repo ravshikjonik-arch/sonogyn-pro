@@ -19,3 +19,12 @@ export {
   buildRuleFirstExplain,
   mergeLlmExplain,
 } from "./explain";
+
+export {
+  TutorGeneratedQuestionSchema,
+  TutorQuizExamRequestSchema,
+  TutorQuizExamResponseSchema,
+  buildTutorQuizExam,
+  type TutorQuizExamRequest,
+  type TutorQuizExamResponse,
+} from "./quiz-exam";

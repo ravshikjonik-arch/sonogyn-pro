@@ -176,8 +176,9 @@ upsertEnv(
   local.NEXT_PUBLIC_AUTH_EMAIL_ONLY?.trim() || authEmailOnly,
   targets,
 );
+// Mail-first: production must NOT auto-confirm email (user clicks letter).
 if (!local.AUTH_AUTO_CONFIRM_EMAIL?.trim()) {
-  upsertEnv("AUTH_AUTO_CONFIRM_EMAIL", "true", ["production"]);
+  upsertEnv("AUTH_AUTO_CONFIRM_EMAIL", "false", ["production"]);
 } else {
   upsertEnv("AUTH_AUTO_CONFIRM_EMAIL", local.AUTH_AUTO_CONFIRM_EMAIL.trim(), targets);
 }

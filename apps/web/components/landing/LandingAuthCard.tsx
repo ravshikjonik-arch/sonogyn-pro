@@ -8,19 +8,21 @@ import { useAuth } from "@/app/providers";
 import { AuthMessage } from "@/components/auth/AuthScreenShell";
 import { BirthDateField } from "@/components/ui/BirthDateField";
 import { Button } from "@/components/ui/button";
-import { postSignIn, postSignUp } from "@/lib/auth/client-auth-api";
+import { postResendConfirmation, postSignIn, postSignUp } from "@/lib/auth/client-auth-api";
 import { parseBirthDateInput, validateBirthDateIso } from "@/lib/auth/birth-date";
 import { birthDateErrorMessage } from "@repo/types";
 import { normalizeRussianFio } from "@/lib/auth/doctor-display";
 import { markSessionAnchorNow } from "@/lib/security/session-anchor";
 import {
+  EMAIL_NOT_CONFIRMED_MSG,
   requireOnlineForAuth,
+  RESEND_CONFIRMATION_MSG,
   SIGN_UP_GENERIC_MSG,
   translateAuthError,
 } from "@/lib/auth/translate-auth-error";
 import { cn } from "@/lib/utils/cn";
 
-type Mode = "login" | "register";
+type Mode = "login" | "register" | "pending";
 
 const inputClass =
   "mt-1.5 w-full rounded-xl border border-white/15 bg-black/40 px-3 py-2.5 text-sm text-white placeholder:text-violet-200/40 outline-none transition focus:border-violet-400 focus:ring-2 focus:ring-violet-500/40";
@@ -60,6 +62,35 @@ export function LandingAuthCard({ className }: Props) {
     );
   }
 
+  async function onResend() {
+    setMessage("");
+    const online = requireOnlineForAuth();
+    if (online) {
+      setTone("error");
+      setMessage(online);
+      return;
+    }
+    const trimmed = email.trim();
+    if (!trimmed) {
+      setTone("error");
+      setMessage("Укажите email для повторной отправки.");
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await postResendConfirmation({ email: trimmed });
+      if (!res.ok) {
+        setTone("error");
+        setMessage(translateAuthError(res.error) || "Не удалось отправить письмо.");
+        return;
+      }
+      setTone("success");
+      setMessage(res.message ?? RESEND_CONFIRMATION_MSG);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
     setMessage("");
@@ -76,12 +107,22 @@ export function LandingAuthCard({ className }: Props) {
         const res = await postSignIn({ email: email.trim(), password });
         if (!res.ok) {
           setTone("error");
-          setMessage(translateAuthError(res.error) || "Не удалось войти");
+          const err = translateAuthError(res.error) || "Не удалось войти";
+          setMessage(err);
+          if (/не подтвержд/i.test(err) || /email not confirmed/i.test(res.error ?? "")) {
+            setMode("pending");
+            setMessage(EMAIL_NOT_CONFIRMED_MSG);
+          }
           return;
         }
         markSessionAnchorNow();
         await refresh();
         router.replace("/app");
+        return;
+      }
+
+      if (mode === "pending") {
+        await onResend();
         return;
       }
 
@@ -91,30 +132,32 @@ export function LandingAuthCard({ className }: Props) {
         setMessage("Укажите ФИО (фамилия и имя)");
         return;
       }
-      if (!birthDateIso.trim()) {
-        setTone("error");
-        setMessage(birthDateErrorMessage("empty"));
-        return;
-      }
-      const birthIssue = validateBirthDateIso(birthDateIso);
-      if (birthIssue) {
-        setTone("error");
-        setMessage(birthDateErrorMessage(birthIssue));
-        return;
-      }
-      const birth = parseBirthDateInput(birthDateIso);
-      if (!birth) {
-        setTone("error");
-        setMessage(birthDateErrorMessage("invalid"));
-        return;
+
+      let birthYear: number | undefined;
+      let birthIso: string | undefined;
+      if (birthDateIso.trim()) {
+        const birthIssue = validateBirthDateIso(birthDateIso);
+        if (birthIssue) {
+          setTone("error");
+          setMessage(birthDateErrorMessage(birthIssue));
+          return;
+        }
+        const birth = parseBirthDateInput(birthDateIso);
+        if (!birth) {
+          setTone("error");
+          setMessage(birthDateErrorMessage("invalid"));
+          return;
+        }
+        birthYear = birth.year;
+        birthIso = birth.iso;
       }
 
       const res = await postSignUp({
         email: email.trim(),
         password,
         full_name: fio,
-        birth_year: birth.year,
-        birth_date: birth.iso,
+        birth_year: birthYear,
+        birth_date: birthIso,
         specialization: "Акушер-гинеколог",
         preferred_locale: "ru",
       });
@@ -125,8 +168,8 @@ export function LandingAuthCard({ className }: Props) {
       }
       if (res.needsEmailConfirmation) {
         setTone("success");
-        setMessage("Проверьте почту и подтвердите email — затем войдите.");
-        setMode("login");
+        setMessage(res.message ?? SIGN_UP_GENERIC_MSG);
+        setMode("pending");
         return;
       }
       markSessionAnchorNow();
@@ -151,39 +194,45 @@ export function LandingAuthCard({ className }: Props) {
       <p className="text-[11px] font-black uppercase tracking-[0.16em] text-violet-300">
         Присоединяйтесь к SonoGyn Pro
       </p>
-      <h2 className="mt-2 text-xl font-black leading-snug text-white">Вход и регистрация</h2>
+      <h2 className="mt-2 text-xl font-black leading-snug text-white">
+        {mode === "pending" ? "Подтвердите email" : "Вход и регистрация"}
+      </h2>
       <p className="mt-1 text-xs leading-relaxed text-violet-100/70">
-        Для врачей УЗИ и АГ. Не диагноз — инструмент специалиста.
+        {mode === "pending"
+          ? "Откройте письмо SonoGyn Pro, нажмите ссылку, затем войдите. Проверьте папку «Спам»."
+          : "Для врачей УЗИ и АГ. Регистрация по почте — с подтверждением письма."}
       </p>
 
-      <div className="mt-4 grid grid-cols-2 gap-1 rounded-xl bg-black/35 p-1">
-        <button
-          type="button"
-          className={cn(
-            "rounded-lg py-2 text-xs font-bold transition",
-            mode === "login" ? "bg-violet-600 text-white" : "text-violet-200/70 hover:text-white",
-          )}
-          onClick={() => {
-            setMode("login");
-            setMessage("");
-          }}
-        >
-          Войти
-        </button>
-        <button
-          type="button"
-          className={cn(
-            "rounded-lg py-2 text-xs font-bold transition",
-            mode === "register" ? "bg-violet-600 text-white" : "text-violet-200/70 hover:text-white",
-          )}
-          onClick={() => {
-            setMode("register");
-            setMessage("");
-          }}
-        >
-          Регистрация
-        </button>
-      </div>
+      {mode !== "pending" ? (
+        <div className="mt-4 grid grid-cols-2 gap-1 rounded-xl bg-black/35 p-1">
+          <button
+            type="button"
+            className={cn(
+              "rounded-lg py-2 text-xs font-bold transition",
+              mode === "login" ? "bg-violet-600 text-white" : "text-violet-200/70 hover:text-white",
+            )}
+            onClick={() => {
+              setMode("login");
+              setMessage("");
+            }}
+          >
+            Войти
+          </button>
+          <button
+            type="button"
+            className={cn(
+              "rounded-lg py-2 text-xs font-bold transition",
+              mode === "register" ? "bg-violet-600 text-white" : "text-violet-200/70 hover:text-white",
+            )}
+            onClick={() => {
+              setMode("register");
+              setMessage("");
+            }}
+          >
+            Регистрация
+          </button>
+        </div>
+      ) : null}
 
       <form className="mt-4 space-y-3" onSubmit={(e) => void onSubmit(e)}>
         {mode === "register" ? (
@@ -202,10 +251,11 @@ export function LandingAuthCard({ className }: Props) {
             <BirthDateField
               value={birthDateIso}
               onChange={setBirthDateIso}
-              required
+              required={false}
               className={inputClass}
               labelClassName="text-xs font-semibold text-violet-100/80"
             />
+            <p className="text-[11px] text-violet-200/50">Дата рождения можно указать позже в профиле.</p>
           </>
         ) : null}
 
@@ -221,25 +271,48 @@ export function LandingAuthCard({ className }: Props) {
             required
           />
         </label>
-        <label className="block">
-          <span className="text-xs font-semibold text-violet-100/80">Пароль</span>
-          <input
-            className={inputClass}
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder={mode === "register" ? "Минимум 8 символов" : "••••••••"}
-            autoComplete={mode === "register" ? "new-password" : "current-password"}
-            minLength={mode === "register" ? 8 : 1}
-            required
-          />
-        </label>
+
+        {mode !== "pending" ? (
+          <label className="block">
+            <span className="text-xs font-semibold text-violet-100/80">Пароль</span>
+            <input
+              className={inputClass}
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder={mode === "register" ? "Минимум 8 символов" : "••••••••"}
+              autoComplete={mode === "register" ? "new-password" : "current-password"}
+              minLength={mode === "register" ? 8 : 1}
+              required
+            />
+          </label>
+        ) : null}
 
         {message ? <AuthMessage message={message} tone={tone} /> : null}
 
-        <Button type="submit" className="w-full font-bold" disabled={loading || !ready}>
-          {loading ? "…" : mode === "login" ? "Войти" : "Создать аккаунт"}
-        </Button>
+        {mode === "pending" ? (
+          <div className="space-y-2">
+            <Button type="button" className="w-full font-bold" disabled={loading} onClick={() => void onResend()}>
+              {loading ? "…" : "Отправить письмо снова"}
+            </Button>
+            <Button
+              type="button"
+              variant="secondary"
+              className="w-full font-bold"
+              onClick={() => {
+                setMode("login");
+                setMessage("После подтверждения email войдите с паролем.");
+                setTone("success");
+              }}
+            >
+              Перейти ко входу
+            </Button>
+          </div>
+        ) : (
+          <Button type="submit" className="w-full font-bold" disabled={loading || !ready}>
+            {loading ? "…" : mode === "login" ? "Войти" : "Создать аккаунт"}
+          </Button>
+        )}
       </form>
 
       <p className="mt-3 text-center text-[11px] text-violet-200/55">

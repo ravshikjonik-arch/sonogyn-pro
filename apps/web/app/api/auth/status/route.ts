@@ -134,7 +134,7 @@ export async function GET(req: Request) {
       devAuthEnv: [
         "DEV_AUTH_MODE=true          # только local npm run dev",
         "AUTH_SESSION_MAX_AGE_DAYS=90",
-        "AUTH_AUTO_CONFIRM_EMAIL=true",
+        "AUTH_AUTO_CONFIRM_EMAIL=true  # только local DEV; на prod = false (письмо)",
         "SUPABASE_SERVICE_ROLE_KEY=… # из Dashboard → API",
         "DEV_AUTO_LOGIN=true         # опционально: вход без формы при открытии /",
       ],

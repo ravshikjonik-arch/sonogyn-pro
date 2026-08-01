@@ -68,7 +68,10 @@ function LoginForm() {
   );
   const [activeTab, setActiveTab] = useState<AuthRegistrationMethod>(defaultTab);
 
-  const nextPath = safeInternalPath(searchParams.get("redirectedFrom"), "/app");
+  const nextPath = safeInternalPath(
+    searchParams.get("next") ?? searchParams.get("redirectedFrom"),
+    "/app",
+  );
   const authCallbackError = searchParams.get("error") === "auth_callback";
   const telegramBotName = readTelegramBotDisplayName();
   const simpleTelegramLogin = isPilotTelegramPrimary() || isPilotClosedAccessClient();

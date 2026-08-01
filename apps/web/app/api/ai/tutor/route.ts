@@ -1,5 +1,11 @@
 import { NextResponse } from "next/server";
-import { TutorRequestSchema, TutorResponseSchema } from "@repo/ai-tutor";
+import {
+  TutorQuizExamRequestSchema,
+  TutorQuizExamResponseSchema,
+  TutorRequestSchema,
+  TutorResponseSchema,
+  buildTutorQuizExam,
+} from "@repo/ai-tutor";
 
 import { orchestrateTutorExplain } from "@/lib/ai/tutor/orchestrate";
 import { isDevSkipAuthEnabled } from "@/lib/auth/dev-account";
@@ -36,19 +42,45 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
-  const parsed = TutorRequestSchema.safeParse(json);
-  if (!parsed.success) {
-    return NextResponse.json({ error: "Invalid tutor payload", details: parsed.error.flatten() }, { status: 400 });
+  const mode =
+    typeof json === "object" && json && "mode" in json
+      ? String((json as { mode?: unknown }).mode ?? "explain")
+      : "explain";
+
+  if (mode === "quiz" || mode === "exam") {
+    const parsed = TutorQuizExamRequestSchema.safeParse(json);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: "Invalid tutor quiz/exam payload", details: parsed.error.flatten() },
+        { status: 400 },
+      );
+    }
+    const phiCheck = detectPhiInUnknown(parsed.data.questions);
+    if (!phiCheck.ok) {
+      safeLog("ai tutor phi blocked", { reasons: phiCheck.reasons, userId: userKey });
+      return NextResponse.json({ error: PHI_BLOCK_MESSAGE, code: "phi_detected" }, { status: 400 });
+    }
+    const response = buildTutorQuizExam(parsed.data);
+    const validated = TutorQuizExamResponseSchema.safeParse(response);
+    if (!validated.success) {
+      return NextResponse.json({ error: "Tutor quiz response validation failed" }, { status: 502 });
+    }
+    return NextResponse.json(validated.data);
   }
 
-  if (parsed.data.mode !== "explain") {
+  if (mode === "teach" || mode === "clinical_reasoning") {
     return NextResponse.json(
       {
-        error: `Режим «${parsed.data.mode}» будет в T2.5. Сейчас доступен только Explain.`,
+        error: `Режим «${mode}» ещё в разработке. Доступны: explain, quiz, exam.`,
         code: "mode_not_implemented",
       },
       { status: 501 },
     );
+  }
+
+  const parsed = TutorRequestSchema.safeParse(json);
+  if (!parsed.success) {
+    return NextResponse.json({ error: "Invalid tutor payload", details: parsed.error.flatten() }, { status: 400 });
   }
 
   const phiCheck = detectPhiInUnknown(parsed.data.question);

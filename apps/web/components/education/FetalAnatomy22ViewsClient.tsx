@@ -8,6 +8,7 @@ import { FetalAnatomyAnomalyCard } from "@/components/education/fetal-anatomy/Fe
 import { FetalAnatomyAtlasImage } from "@/components/education/fetal-anatomy/FetalAnatomyAtlasImage";
 import { ExamEngineWidget } from "@/components/education/ExamEngineWidget";
 import { SelfAssessmentWidget } from "@/components/education/SelfAssessmentWidget";
+import { TutorQuizExamLauncher } from "@/components/education/TutorQuizExamLauncher";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -451,6 +452,7 @@ export function FetalAnatomy22ViewsClient() {
       </TabsContent>
 
       <TabsContent value="quiz" className="mt-0 space-y-6">
+        <TutorQuizExamLauncher bank={FETAL_ANATOMY_QUIZ_BANK} />
         <ExamEngineWidget blueprint={FETAL_ANATOMY_EXAM_BLUEPRINT} />
         <SelfAssessmentWidget
           bank={FETAL_ANATOMY_QUIZ_BANK}

@@ -33,4 +33,4 @@ corepack pnpm --filter @repo/web exec tsc --noEmit
 
 ## Следующее
 
-T2.5 — Tutor Quiz + Exam modes.
+T2.5 — Tutor Quiz + Exam modes → см. `PHASE2_T25.md`.

@@ -22,13 +22,25 @@ test.describe("Security smoke — API boundaries", () => {
     expect(res.status()).toBe(400);
   });
 
-  test("POST /api/auth/sign-up — без birth_date → 400", async ({ request }) => {
+  test("POST /api/auth/sign-up — без full_name → 400", async ({ request }) => {
+    const res = await request.post("/api/auth/sign-up", {
+      data: {
+        email: "doctor@example.com",
+        password: "secret123",
+        specialization: "obgyn",
+      },
+    });
+    expect(res.status()).toBe(400);
+  });
+
+  test("POST /api/auth/sign-up — невалидная birth_date → 400", async ({ request }) => {
     const res = await request.post("/api/auth/sign-up", {
       data: {
         email: "doctor@example.com",
         password: "secret123",
         full_name: "Тест Тестов",
         specialization: "obgyn",
+        birth_date: "not-a-date",
       },
     });
     expect(res.status()).toBe(400);

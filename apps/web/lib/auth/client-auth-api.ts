@@ -78,7 +78,7 @@ export async function postSignUp(params: {
   email: string;
   password: string;
   full_name: string;
-  birth_year: number;
+  birth_year?: number;
   birth_date?: string;
   specialization: string;
   institution?: string;

@@ -80,9 +80,10 @@ export function DoctorRegistrationFields({
       <BirthDateField
         value={birthDateIso}
         onChange={onBirthDateIsoChange}
-        required
+        required={false}
         className={`${authInputClass} mt-2`}
       />
+      <p className="mt-1 text-xs text-slate-500">Можно заполнить позже в профиле.</p>
       <label className="block">
         <span className="text-sm font-medium text-slate-700 dark:text-slate-200">Специализация</span>
         <select

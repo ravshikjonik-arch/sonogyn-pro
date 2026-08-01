@@ -85,7 +85,10 @@ function RegisterForm() {
   const [smsNotConfigured, setSmsNotConfigured] = useState(false);
   const [sendCooldownSec, setSendCooldownSec] = useState(0);
 
-  const afterAuthPath = safeInternalPath(searchParams.get("next"), "/app");
+  const afterAuthPath = safeInternalPath(
+    searchParams.get("next") ?? searchParams.get("redirectedFrom"),
+    "/app",
+  );
   const simpleTelegramRegister = isPilotTelegramPrimary() || isPilotClosedAccessClient();
   const telegramBotName = readTelegramBotDisplayName();
 
@@ -155,10 +158,13 @@ function RegisterForm() {
     const trimmedName = validateDoctorName();
     if (!trimmedName) return;
 
-    const parsedBirth = validateDoctorBirthDateIso(birthDateIso);
-    if (!parsedBirth) {
-      setMessage(birthDateErrorMessage(birthDateIso));
-      return;
+    let parsedBirth: ReturnType<typeof validateDoctorBirthDateIso> = null;
+    if (birthDateIso.trim()) {
+      parsedBirth = validateDoctorBirthDateIso(birthDateIso);
+      if (!parsedBirth) {
+        setMessage(birthDateErrorMessage(birthDateIso));
+        return;
+      }
     }
 
     if (!specialization.trim()) {
@@ -177,8 +183,8 @@ function RegisterForm() {
         email: email.trim(),
         password,
         full_name: trimmedName,
-        birth_year: parsedBirth.year,
-        birth_date: parsedBirth.iso,
+        birth_year: parsedBirth?.year,
+        birth_date: parsedBirth?.iso,
         specialization: specialization.trim(),
         preferred_locale: locale,
         turnstileToken,

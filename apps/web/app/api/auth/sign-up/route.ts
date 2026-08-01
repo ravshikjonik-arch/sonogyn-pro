@@ -125,9 +125,10 @@ export async function POST(req: Request) {
   const parsedBirth = birthDateRaw ? parseBirthDateInput(birthDateRaw) : null;
   const birth_date = parsedBirth?.iso ?? "";
 
-  if (!birth_year || !birth_date) {
+  // Дата рождения опциональна на первом шаге; если передана — валидируем.
+  if (birthDateRaw.trim() && (!birth_year || !birth_date)) {
     return NextResponse.json(
-      { error: birthDateErrorMessageForValue(birthDateRaw || " ") },
+      { error: birthDateErrorMessageForValue(birthDateRaw) },
       { status: 400 },
     );
   }
@@ -149,7 +150,7 @@ export async function POST(req: Request) {
         data: {
           full_name,
           specialization,
-          birth_year,
+          ...(birth_year ? { birth_year } : {}),
           ...(birth_date ? { birth_date } : {}),
           ...(institution ? { institution } : {}),
           ...(preferred_locale ? { preferred_locale } : {}),

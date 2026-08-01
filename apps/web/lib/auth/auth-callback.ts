@@ -1,5 +1,6 @@
 import type { EmailOtpType, SupabaseClient } from "@supabase/supabase-js";
 
+import { toSafeAuthErrorMessage } from "@/lib/auth/safe-auth-messages";
 import { safeInternalPath } from "@/lib/nav/safe-redirect";
 
 const OTP_TYPES = new Set<string>([
@@ -67,7 +68,11 @@ export async function completeAuthCallback(
       type: params.type,
     });
     if (error) {
-      return { ok: false, message: error.message, errorCode: "verify_otp_failed" };
+      return {
+        ok: false,
+        message: toSafeAuthErrorMessage(error.message, "otp"),
+        errorCode: "verify_otp_failed",
+      };
     }
     return { ok: true, recovery: params.type === "recovery" };
   }
@@ -79,7 +84,11 @@ export async function completeAuthCallback(
       type: otpType,
     });
     if (error) {
-      return { ok: false, message: error.message, errorCode: "verify_otp_failed" };
+      return {
+        ok: false,
+        message: toSafeAuthErrorMessage(error.message, "otp"),
+        errorCode: "verify_otp_failed",
+      };
     }
     return { ok: true, recovery: otpType === "recovery" };
   }
@@ -89,11 +98,11 @@ export async function completeAuthCallback(
     if (error) {
       const pkceHint =
         /code verifier|both auth code and code verifier/i.test(error.message)
-          ? " Откройте ссылку в том же браузере, где запрашивали сброс, или обновите шаблон письма Supabase (TokenHash → /auth/callback)."
+          ? " Откройте ссылку в том же браузере, где регистрировались или запрашивали сброс. При необходимости запросите письмо снова."
           : "";
       return {
         ok: false,
-        message: `${error.message}${pkceHint}`,
+        message: `${toSafeAuthErrorMessage(error.message, "otp")}${pkceHint}`,
         errorCode: "exchange_code_failed",
       };
     }
