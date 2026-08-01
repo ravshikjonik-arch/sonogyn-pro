@@ -21,7 +21,8 @@ SQL-источник: `apps/web/supabase/migrations/20260623120000_structured_re
 |----------|-----------|
 | `GET /api/reports/templates` (local → prod DB) | ✅ 200, seed `adnex-orads-v1` |
 | `POST /api/reports/generate` preview | ✅ 200, description/impression/recommendations + 6 citations |
-| Persist draft → finalize → GET (Bearer smoke) | ✅ `node scripts/sre-persist-smoke.mjs` |
+| Persist draft → finalize → GET (local) | ✅ `node scripts/sre-persist-smoke.mjs` |
+| Persist draft → finalize → GET (prod) | ✅ `BASE_URL=https://sonogyn-pro.ru` → report `bd47a58e-…` |
 
 Автономный smoke: magic-link JWT → `POST /api/reports` → `PATCH finalized` → `GET` + проверка строк в БД.
 
