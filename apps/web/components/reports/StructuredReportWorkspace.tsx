@@ -155,7 +155,7 @@ export function StructuredReportWorkspace({
     <div className={cn("mx-auto max-w-6xl space-y-6 px-4 py-8 lg:px-10", className)}>
       <header className="space-y-2">
         <Badge variant="outline">Structured Reporting · Phase 1</Badge>
-        <h1 className="text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">{title}</h1>
+        <h1 className="text-2xl font-semibold tracking-tight text-[var(--clinical-foreground)]">{title}</h1>
         <p className="max-w-3xl text-sm text-[var(--clinical-foreground-muted)]">{description}</p>
         <div className="flex flex-wrap gap-2">
           {backHref ? (

@@ -26,7 +26,7 @@ function NumField({
         min={0}
         max={max}
         step="any"
-        className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950"
+        className="clinical-form-control mt-1 w-full rounded-xl px-3 py-2"
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />
@@ -103,7 +103,7 @@ export function ObstetricReportWorkspace() {
             <label className="block text-sm sm:col-span-2">
               <span className="font-medium">Плацента</span>
               <input
-                className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950"
+                className="clinical-form-control mt-1 w-full rounded-xl px-3 py-2"
                 value={placenta}
                 onChange={(e) => setPlacenta(e.target.value)}
               />
@@ -111,7 +111,7 @@ export function ObstetricReportWorkspace() {
             <label className="block text-sm sm:col-span-2">
               <span className="font-medium">Околоплодные воды</span>
               <input
-                className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950"
+                className="clinical-form-control mt-1 w-full rounded-xl px-3 py-2"
                 value={fluid}
                 onChange={(e) => setFluid(e.target.value)}
               />
@@ -119,7 +119,7 @@ export function ObstetricReportWorkspace() {
             <label className="block text-sm sm:col-span-full">
               <span className="font-medium">Доп. находки</span>
               <textarea
-                className="mt-1 min-h-[72px] w-full rounded-xl border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950"
+                className="clinical-form-control mt-1 min-h-[72px] w-full rounded-xl px-3 py-2"
                 value={freeText}
                 onChange={(e) => setFreeText(e.target.value)}
               />

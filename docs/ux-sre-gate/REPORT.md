@@ -1,40 +1,37 @@
-# SRE Gate — A1–A3 (2026-08-01)
+# SRE Gate — Phase 1 closeout (2026-08-01)
 
 **Персона:** врач-практик  
-**Цель:** включить Structured Reporting на prod Supabase.
 
-## A1 — миграция prod
+## Сделано по очереди
 
-Применено через Supabase MCP `apply_migration` → `structured_reports_sre_t13` на `ocqlsqqloqvlzutbgrnp`.
+1. **A1** — миграция `structured_reports` + RLS на prod  
+2. **A2/A3** — persist draft→finalize + ownership checks + Bearer JWT  
+3. **Seed** — `thyroid-tirads-v1`, `obstetric-biometry-v1` в `report_templates`  
+4. **UX** — hub `/reports` + clinical form controls на thyroid/OB workspaces  
 
-| Таблица | RLS | Строки |
-|--------|-----|--------|
-| `report_templates` | ✅ | 1 (`adnex-orads-v1`) |
-| `structured_reports` | ✅ | 0 |
-| `report_citation_links` | ✅ | 0 |
+## Templates (prod DB)
 
-SQL-источник: `apps/web/supabase/migrations/20260623120000_structured_reports.sql`
+| slug | domain |
+|------|--------|
+| `adnex-orads-v1` | adnex |
+| `thyroid-tirads-v1` | thyroid |
+| `obstetric-biometry-v1` | obstetric |
 
-## A2 — smoke
+## Smoke prod (`BASE_URL=https://sonogyn-pro.ru`)
 
-| Проверка | Результат |
-|----------|-----------|
-| `GET /api/reports/templates` (local → prod DB) | ✅ 200, seed `adnex-orads-v1` |
-| `POST /api/reports/generate` preview | ✅ 200, description/impression/recommendations + 6 citations |
-| Persist draft → finalize → GET (local) | ✅ `node scripts/sre-persist-smoke.mjs` |
-| Persist draft → finalize → GET (prod) | ✅ `BASE_URL=https://sonogyn-pro.ru` → report `bd47a58e-…` |
+| Domain | Persist → finalize → GET |
+|--------|---------------------------|
+| adnex | ✅ citations 6 |
+| thyroid | ✅ citations 3 |
+| obstetric | ✅ citations 9 |
 
-Автономный smoke: magic-link JWT → `POST /api/reports` → `PATCH finalized` → `GET` + проверка строк в БД.
+Скрипт: `apps/web/scripts/sre-persist-smoke.mjs`
 
-## A3 — IDOR harden
+## Миграции
 
-`POST /api/reports`: перед persist проверяются `assertStudyOwnedByUser` / `assertPatientOwnedByUser`, если переданы `studyId` / `patientId`.
+- `20260623120000_structured_reports.sql`  
+- `20260801121000_sre_thyroid_obstetric_templates.sql`  
 
-## Фиксы по пути smoke
+## Следующее (после Phase 1)
 
-- Bearer JWT → PostgREST: `utils/supabase/user-scoped.ts` (иначе RLS insert/select без cookie ломался).
-- Чтение отчёта: sanitize невалидных `citations[].url` из output_json.
-
-## Следующий шаг
-
-Seed thyroid/obstetric templates **или** polish UI T1.4 — по выбору.
+Mobile ReportPreview parity (T1.5) или O-RADS→SRE polish — по приоритету приёма.

@@ -29,7 +29,7 @@ function SelectField<T extends string>({
     <label className="block text-sm">
       <span className="font-medium">{label}</span>
       <select
-        className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950"
+        className="clinical-form-control mt-1 w-full rounded-xl px-3 py-2"
         value={value}
         onChange={(e) => onChange(e.target.value as T)}
       >
@@ -61,7 +61,7 @@ function NumField({
         type="number"
         min={0}
         step="any"
-        className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950"
+        className="clinical-form-control mt-1 w-full rounded-xl px-3 py-2"
         value={value}
         placeholder={placeholder}
         onChange={(e) => onChange(e.target.value)}
@@ -135,7 +135,7 @@ export function ThyroidReportWorkspace() {
             <label className="block text-sm sm:col-span-2">
               <span className="font-medium">Локализация</span>
               <input
-                className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950"
+                className="clinical-form-control mt-1 w-full rounded-xl px-3 py-2"
                 value={noduleLocation}
                 onChange={(e) => setNoduleLocation(e.target.value)}
               />
@@ -143,7 +143,7 @@ export function ThyroidReportWorkspace() {
             <label className="block text-sm sm:col-span-full">
               <span className="font-medium">Доп. находки</span>
               <textarea
-                className="mt-1 min-h-[72px] w-full rounded-xl border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950"
+                className="clinical-form-control mt-1 min-h-[72px] w-full rounded-xl px-3 py-2"
                 value={freeText}
                 onChange={(e) => setFreeText(e.target.value)}
               />

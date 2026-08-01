@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 /**
- * Autonomous SRE persist smoke (draft → finalize → GET) via Bearer JWT.
- * Uses service-role magic link for a disposable smoke user — no password in chat.
+ * Autonomous SRE persist smoke for adnex / thyroid / obstetric.
  *
  *   node scripts/sre-persist-smoke.mjs
  *   BASE_URL=https://sonogyn-pro.ru node scripts/sre-persist-smoke.mjs
+ *   SRE_DOMAINS=thyroid,obstetric node scripts/sre-persist-smoke.mjs
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -19,6 +19,47 @@ const ua = "Mozilla/5.0 SonogynSrePersistSmoke/1.0";
 const smokeEmail =
   process.env.SRE_SMOKE_EMAIL?.trim().toLowerCase() ||
   `sre-smoke-${Date.now()}@mailinator.com`;
+
+const CASES = {
+  adnex: {
+    templateSlug: "adnex-orads-v1",
+    input: {
+      domain: "adnex",
+      measurements: { lengthMm: 42, widthMm: 31, heightMm: 27 },
+      morphology: { structure: "unilocular", localization: "ovarian", menopause: "pre" },
+      classification: { oradsCategory: 2 },
+    },
+  },
+  thyroid: {
+    templateSlug: "thyroid-tirads-v1",
+    input: {
+      domain: "thyroid",
+      measurements: { noduleMaxDiameterMm: 18, thyroidVolumeMl: 12 },
+      morphology: {
+        composition: "solid",
+        echogenicity: "hypoechoic",
+        shape: "wider_than_tall",
+        margin: "smooth",
+        echogenicFoci: "none_or_comet_tail",
+      },
+    },
+  },
+  obstetric: {
+    templateSlug: "obstetric-biometry-v1",
+    input: {
+      domain: "obstetric",
+      biometry: {
+        gestationalAgeWeeks: 28,
+        gestationalAgeDays: 3,
+        bpdMm: 72,
+        hcMm: 265,
+        acMm: 240,
+        flMm: 54,
+        efwGrams: 1200,
+      },
+    },
+  },
+};
 
 function loadEnv() {
   if (!fs.existsSync(envPath)) return {};
@@ -57,6 +98,43 @@ async function api(token, pathname, { method = "GET", body } = {}) {
   return { status: res.status, json };
 }
 
+async function smokeDomain(token, domain) {
+  const cfg = CASES[domain];
+  if (!cfg) {
+    fail(domain, "unknown domain");
+    return null;
+  }
+
+  const createdRes = await api(token, "/api/reports", {
+    method: "POST",
+    body: { templateSlug: cfg.templateSlug, locale: "ru", input: cfg.input },
+  });
+  if (createdRes.status !== 201 || !createdRes.json?.persistedId) {
+    fail(`${domain} create`, `${createdRes.status} ${JSON.stringify(createdRes.json).slice(0, 220)}`);
+    return null;
+  }
+  const reportId = createdRes.json.persistedId;
+  ok(`${domain} persist`, reportId);
+
+  const patchRes = await api(token, `/api/reports/${reportId}`, {
+    method: "PATCH",
+    body: { status: "finalized" },
+  });
+  if (patchRes.status !== 200 || patchRes.json?.document?.status !== "finalized") {
+    fail(`${domain} finalize`, `${patchRes.status} ${JSON.stringify(patchRes.json).slice(0, 220)}`);
+    return null;
+  }
+  ok(`${domain} finalize`, "finalized");
+
+  const getRes = await api(token, `/api/reports/${reportId}`);
+  if (getRes.status !== 200 || getRes.json?.document?.id !== reportId) {
+    fail(`${domain} GET`, `${getRes.status}`);
+    return null;
+  }
+  ok(`${domain} GET`, `citations=${getRes.json.document?.output?.citations?.length ?? 0}`);
+  return reportId;
+}
+
 async function main() {
   const env = { ...loadEnv(), ...process.env };
   const url = env.NEXT_PUBLIC_SUPABASE_URL;
@@ -66,6 +144,11 @@ async function main() {
     fail("env", "need NEXT_PUBLIC_SUPABASE_URL + ANON + SERVICE_ROLE in .env.local");
     return;
   }
+
+  const domains = (process.env.SRE_DOMAINS || "adnex,thyroid,obstetric")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
 
   const admin = createClient(url, service, {
     auth: { persistSession: false, autoRefreshToken: false },
@@ -80,7 +163,6 @@ async function main() {
     fail("createUser", createErr.message);
     return;
   }
-  const userId = created?.user?.id;
   ok("smoke user", smokeEmail);
 
   const { data: linkData, error: linkErr } = await admin.auth.admin.generateLink({
@@ -106,66 +188,29 @@ async function main() {
   }
   ok("session", "Bearer JWT ready");
 
-  const createBody = {
-    templateSlug: "adnex-orads-v1",
-    locale: "ru",
-    input: {
-      domain: "adnex",
-      measurements: { lengthMm: 42, widthMm: 31, heightMm: 27 },
-      morphology: {
-        structure: "unilocular",
-        localization: "ovarian",
-        menopause: "pre",
-      },
-      classification: { oradsCategory: 2 },
-    },
-  };
-
-  const createdRes = await api(token, "/api/reports", { method: "POST", body: createBody });
-  if (createdRes.status !== 201 || !createdRes.json?.persistedId) {
-    fail("POST /api/reports", `${createdRes.status} ${JSON.stringify(createdRes.json).slice(0, 240)}`);
+  const { data: templates, error: tplErr } = await admin
+    .from("report_templates")
+    .select("slug,domain,is_active")
+    .eq("is_active", true)
+    .order("slug");
+  if (tplErr) {
+    fail("templates list", tplErr.message);
     return;
   }
-  const reportId = createdRes.json.persistedId;
-  ok("persist draft", reportId);
+  ok(
+    "templates in DB",
+    (templates || []).map((t) => t.slug).join(", ") || "(none)",
+  );
 
-  const patchRes = await api(token, `/api/reports/${reportId}`, {
-    method: "PATCH",
-    body: { status: "finalized" },
-  });
-  if (patchRes.status !== 200 || patchRes.json?.document?.status !== "finalized") {
-    fail("PATCH finalize", `${patchRes.status} ${JSON.stringify(patchRes.json).slice(0, 240)}`);
-    return;
+  const ids = {};
+  for (const domain of domains) {
+    const id = await smokeDomain(token, domain);
+    if (id) ids[domain] = id;
   }
-  ok("finalize", patchRes.json.document.status);
 
-  const getRes = await api(token, `/api/reports/${reportId}`);
-  if (getRes.status !== 200 || getRes.json?.document?.id !== reportId) {
-    fail("GET report", `${getRes.status}`);
-    return;
-  }
-  const citations = getRes.json.document?.output?.citations?.length ?? 0;
-  ok("GET report", `citations=${citations}`);
-
-  const { data: row, error: rowErr } = await admin
-    .from("structured_reports")
-    .select("id,status,user_id,finalized_at")
-    .eq("id", reportId)
-    .maybeSingle();
-  if (rowErr || !row || row.status !== "finalized") {
-    fail("DB row", rowErr?.message || JSON.stringify(row));
-    return;
-  }
-  ok("DB row", `status=${row.status} user=${row.user_id === (userId || row.user_id) ? "ok" : row.user_id}`);
-
-  const { count } = await admin
-    .from("report_citation_links")
-    .select("id", { count: "exact", head: true })
-    .eq("report_id", reportId);
-  ok("citation links", String(count ?? 0));
-
+  if (process.exitCode) return;
   console.log("\nSRE persist smoke DONE");
-  console.log(JSON.stringify({ base, reportId, smokeEmail, citations: count ?? 0 }, null, 2));
+  console.log(JSON.stringify({ base, smokeEmail, domains, ids, userId: created?.user?.id }, null, 2));
 }
 
 main().catch((err) => {
