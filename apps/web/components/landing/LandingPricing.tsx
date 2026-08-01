@@ -13,10 +13,12 @@ type LandingPricingProps = {
 export function LandingPricing({ isAuthenticated }: LandingPricingProps) {
   return (
     <section id="pricing" className="scroll-mt-24">
-      <div className="mb-10 text-center">
+      <div className="mb-12 max-w-2xl">
         <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--clinical-primary-deep)]">Тарифы</p>
-        <h2 className="mt-2 text-2xl font-bold text-slate-950 dark:text-white sm:text-3xl">Free и PRO</h2>
-        <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
+        <h2 className="mt-3 text-2xl font-black tracking-tight text-[var(--clinical-foreground)] sm:text-3xl">
+          Free и PRO
+        </h2>
+        <p className="mt-3 text-sm leading-relaxed text-[var(--clinical-foreground-muted)] sm:text-base">
           Сначала — бесплатное знакомство. PRO оформляется после входа через ЮKassa.
         </p>
       </div>
@@ -40,8 +42,8 @@ export function LandingPricing({ isAuthenticated }: LandingPricingProps) {
               key={plan.id}
               className={
                 plan.highlighted
-                  ? "border-[var(--clinical-primary)] shadow-lg shadow-blue-900/5"
-                  : "border-slate-200"
+                  ? "border-[var(--clinical-primary)] bg-[var(--clinical-card)] shadow-[var(--clinical-card-shadow)]"
+                  : "border-[var(--clinical-border)] bg-[var(--clinical-card)]"
               }
             >
               <CardHeader>

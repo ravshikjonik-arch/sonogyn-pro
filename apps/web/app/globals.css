@@ -556,11 +556,23 @@ html.dark .sonogyn-clinical-app input:-webkit-autofill:focus {
   animation: ai-breathe 3.2s ease-in-out infinite;
 }
 
+@keyframes sonogyn-kenburns {
+  from { transform: scale(1.05); }
+  to { transform: scale(1.12); }
+}
+
+.sonogyn-hero-kenburns {
+  animation: sonogyn-kenburns 22s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .sonogyn-enter,
   .ai-breathe,
   .skeleton-shimmer::after,
-  .sonogyn-shimmer-bar {
+  .sonogyn-shimmer-bar,
+  .sonogyn-hero-kenburns,
+  .sonogyn-hero-orbs::after {
     animation: none !important;
   }
 }

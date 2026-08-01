@@ -22,8 +22,8 @@ export default async function LandingPage() {
   return (
     <div className="sonogyn-mesh-bg min-h-screen text-[var(--clinical-foreground)]">
       <LandingHeader isAuthenticated={isAuthenticated} />
-      <main className="mx-auto max-w-6xl space-y-24 px-4 py-16 sm:py-20">
-        <LandingHero isAuthenticated={isAuthenticated} />
+      <LandingHero isAuthenticated={isAuthenticated} />
+      <main className="mx-auto max-w-6xl space-y-28 px-4 py-20 sm:py-24">
         <LandingCareerPath isAuthenticated={isAuthenticated} progress={career?.progress} />
         <LandingFeatures />
         <LandingHowItWorks />
