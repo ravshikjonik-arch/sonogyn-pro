@@ -21,7 +21,7 @@
 | Dark tokens (`data-theme=dark`) | ✅ `--clinical-canvas: #0b0f19` |
 | Auth-ветки не менялись | ✅ `isAuthenticated` → `/app` / `/paywall` |
 | Production deploy `1f6daf8` | ✅ READY → aliases `sonogyn-pro.ru`, vercel.app |
-| Production hero JPG | 🔧 сначала 404 (файл не был в git) → добавлен в `public/clinical/orads-hero/` |
+| Production hero JPG | ✅ 200 (`/clinical/...jpg` + `/_next/image`) после `994e0af`/`64c51e3` |
 
 Скриншоты: `landing-wow-light.png`, `landing-wow-dark.png`, `landing-wow-prod.png` (в этой папке).
 
