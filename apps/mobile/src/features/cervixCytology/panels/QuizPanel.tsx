@@ -1,4 +1,5 @@
-import { getQuizBank, type QuizLevel } from "@repo/cervix-pathology-reference/self-assessment";
+import { getQuizBank } from "@repo/cervix-pathology-reference/self-assessment";
+import { filterQuizQuestionsByLevel, type QuizLevel } from "@repo/education-quiz";
 import { useMemo, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
@@ -20,10 +21,7 @@ export function QuizPanel({ theme }: Props) {
   );
 
   const [level, setLevel] = useState<QuizLevel | "all">("all");
-  const filtered = useMemo(
-    () => (level === "all" ? questions : questions.filter((q) => q.level === level)),
-    [level, questions],
-  );
+  const filtered = useMemo(() => filterQuizQuestionsByLevel(questions, level), [level, questions]);
 
   const [idx, setIdx] = useState(0);
   const [picked, setPicked] = useState<number | null>(null);

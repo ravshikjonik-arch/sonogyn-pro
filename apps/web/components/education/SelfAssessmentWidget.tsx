@@ -26,7 +26,7 @@ import {
   type QuizLevel,
   type QuizProgress,
   type QuizReviewMode,
-} from "@/lib/education/quiz-bank-types";
+} from "@repo/education-quiz";
 import { cn } from "@/lib/utils/cn";
 
 type SelfAssessmentWidgetProps = {

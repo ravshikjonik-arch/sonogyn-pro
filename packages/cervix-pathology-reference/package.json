@@ -13,6 +13,7 @@
     "./cytology": "./src/cytology/index.ts"
   },
   "dependencies": {
+    "@repo/education-quiz": "workspace:*",
     "zod": "^3.24.4"
   },
   "scripts": {

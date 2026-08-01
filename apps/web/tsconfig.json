@@ -74,6 +74,12 @@
       "@repo/report-engine/*": [
         "../../packages/report-engine/src/*"
       ],
+      "@repo/education-quiz": [
+        "../../packages/education-quiz/src/index.ts"
+      ],
+      "@repo/education-quiz/*": [
+        "../../packages/education-quiz/src/*"
+      ],
       "@repo/types": [
         "../../packages/types/src/index.ts"
       ],

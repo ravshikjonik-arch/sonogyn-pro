@@ -71,6 +71,7 @@
     "@repo/clinical-guidelines": "workspace:*",
     "@repo/clinical-reference": "workspace:*",
     "@repo/clinical-tools": "workspace:*",
+    "@repo/education-quiz": "workspace:*",
     "@repo/fmf": "workspace:*",
     "@repo/medical-calculations": "workspace:*",
     "@repo/medvedev-reference": "workspace:*",

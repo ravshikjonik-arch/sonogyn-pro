@@ -111,6 +111,9 @@ importers:
       '@repo/clinical-tools':
         specifier: workspace:*
         version: link:../../packages/clinical-tools
+      '@repo/education-quiz':
+        specifier: workspace:*
+        version: link:../../packages/education-quiz
       '@repo/fmf':
         specifier: workspace:*
         version: link:../../packages/fmf
@@ -404,6 +407,9 @@ importers:
       '@repo/clinical-tools':
         specifier: workspace:*
         version: link:../../packages/clinical-tools
+      '@repo/education-quiz':
+        specifier: workspace:*
+        version: link:../../packages/education-quiz
       '@repo/evidence-corpus':
         specifier: workspace:*
         version: link:../../packages/evidence-corpus
@@ -739,6 +745,9 @@ importers:
 
   packages/cervix-pathology-reference:
     dependencies:
+      '@repo/education-quiz':
+        specifier: workspace:*
+        version: link:../education-quiz
       zod:
         specifier: ^3.24.4
         version: 3.25.76
@@ -803,6 +812,22 @@ importers:
         version: 5.9.3
 
   packages/database: {}
+
+  packages/education-quiz:
+    dependencies:
+      zod:
+        specifier: ^3.24.4
+        version: 3.25.76
+    devDependencies:
+      '@types/node':
+        specifier: ^20
+        version: 20.19.40
+      tsx:
+        specifier: ^4.19.4
+        version: 4.21.0
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.3
 
   packages/evidence-corpus:
     devDependencies:
@@ -988,6 +1013,9 @@ importers:
       '@repo/medical-calculations':
         specifier: workspace:*
         version: link:../medical-calculations
+      '@repo/orads-us':
+        specifier: workspace:*
+        version: link:../orads-us
       '@repo/tirads-acr':
         specifier: workspace:*
         version: link:../tirads-acr
