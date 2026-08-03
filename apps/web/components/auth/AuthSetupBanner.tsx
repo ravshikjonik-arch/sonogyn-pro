@@ -5,7 +5,9 @@ import Link from "next/link";
 
 type AuthStatus = {
   ok?: boolean;
+  appOrigin?: string;
   issues?: string[];
+  notes?: string[];
   devAuth?: {
     enabled?: boolean;
     sessionMaxAgeDays?: number | null;
@@ -13,7 +15,8 @@ type AuthStatus = {
   };
   features?: {
     emailAutoConfirm?: boolean;
-    telegramReady?: boolean;
+    authEmailOnly?: boolean;
+    smtpConfigured?: boolean;
   };
   hints?: {
     supabaseSiteUrl?: string;
@@ -38,61 +41,81 @@ export function AuthSetupBanner() {
 
   if (!status) return null;
 
-  const devOn = status.devAuth?.enabled;
+  const isBrowserLocal =
+    typeof window !== "undefined" &&
+    (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
+  const appOrigin = status.appOrigin ?? status.hints?.supabaseSiteUrl ?? "";
+  const originIsLocal = appOrigin.includes("localhost") || appOrigin.includes("127.0.0.1");
   const issues = status.issues ?? [];
-  const showEmailHint = !status.features?.emailAutoConfirm && !devOn;
+  const blockingIssues = issues.filter(
+    (issue) => !issue.includes("AUTH_EMAIL_ONLY") && !issue.includes("SMS и Google отключены"),
+  );
 
-  if (devOn) {
+  // Local mail-first: Confirm email ON is intentional — don't scare with DEV_AUTH_MODE / turn Confirm OFF.
+  if (isBrowserLocal) {
     return (
       <div className="mb-4 rounded-2xl border border-sky-300 bg-sky-50 p-4 text-sm text-sky-950 dark:border-sky-800 dark:bg-sky-950/30 dark:text-sky-100">
-        <p className="font-semibold">Локальная разработка (ваш компьютер)</p>
-        <p className="mt-1 text-xs">Это не «тестовый пациент» — сайт на localhost. На production этого блока не будет.</p>
+        <p className="font-semibold">Локальная разработка · регистрация по Email</p>
         <ul className="mt-2 list-inside list-disc space-y-1 text-xs">
           <li>
-            Сессия в cookie: до <strong>{status.devAuth?.sessionMaxAgeDays ?? 90} дней</strong>
+            Сейчас origin: <span className="font-mono">{appOrigin || "http://localhost:3000"}</span>
           </li>
-          <li>Email confirm: {status.features?.emailAutoConfirm ? "auto на сервере" : "нужен service role"}</li>
-          {!status.features?.emailAutoConfirm ? (
-            <li className="text-amber-900 dark:text-amber-200">
-              Раскомментируйте <span className="font-mono">SUPABASE_SERVICE_ROLE_KEY</span> в .env.local →{" "}
-              <span className="font-mono">npm run setup:dev-login</span>
-            </li>
-          ) : null}
-          <li>Повторный вход не нужен — cookie сохраняется между перезапусками браузера</li>
-          {status.devAuth?.autoLogin ? <li>DEV_AUTO_LOGIN: вход с / без формы</li> : null}
+          <li>
+            В Supabase Dashboard → Authentication → URL Configuration поставьте{" "}
+            <span className="font-mono">Site URL = https://sonogyn-pro.ru</span> (не localhost).
+          </li>
+          <li>
+            Redirect URLs:{" "}
+            <span className="font-mono">https://sonogyn-pro.ru/**</span>,{" "}
+            <span className="font-mono">http://localhost:3000/**</span>
+          </li>
+          <li>
+            Confirm email: <strong>ON</strong> · письмо обязательно (mail-first). Не отключайте для «удобства».
+          </li>
+          <li>
+            На Vercel: <span className="font-mono">NEXT_PUBLIC_APP_URL=https://sonogyn-pro.ru</span>,{" "}
+            <span className="font-mono">AUTH_AUTO_CONFIRM_EMAIL=false</span>
+          </li>
+          {status.features?.smtpConfigured === false ? (
+            <li className="text-amber-900 dark:text-amber-200">SMTP не виден приложению — проверьте SMTP_* / Supabase Custom SMTP.</li>
+          ) : (
+            <li>SMTP настроен — письмо должно уходить через Supabase Auth.</li>
+          )}
         </ul>
-        <Link href="/api/auth/status" className="mt-2 inline-block text-xs font-semibold underline" target="_blank">
-          Чеклист Supabase (JSON)
-        </Link>
+        <div className="mt-3 flex flex-wrap gap-3 text-xs font-semibold">
+          <Link href="/register?method=email" className="underline">
+            Регистрация по Email
+          </Link>
+          <a
+            href="https://supabase.com/dashboard/project/ocqlsqqloqvlzutbgrnp/auth/url-configuration"
+            className="underline"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Supabase URL Configuration
+          </a>
+        </div>
       </div>
     );
   }
 
-  if (status.ok) return null;
+  if (status.ok || blockingIssues.length === 0) return null;
 
   return (
     <div className="mb-4 rounded-2xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-950 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-100">
       <p className="font-semibold">Нужна настройка сервера (Vercel / Supabase)</p>
       <ul className="mt-2 list-inside list-disc space-y-1 text-xs">
-        {issues.map((issue) => (
+        {blockingIssues.map((issue) => (
           <li key={issue}>{issue}</li>
         ))}
       </ul>
-      {showEmailHint ? (
+      {originIsLocal ? (
         <p className="mt-2 text-xs">
-          Email: задайте <span className="font-mono">DEV_AUTH_MODE=true</span> +{" "}
-          <span className="font-mono">SUPABASE_SERVICE_ROLE_KEY</span> в <span className="font-mono">.env.local</span>,
-          или отключите Confirm email в Supabase Dashboard.
-        </p>
-      ) : null}
-      {status.features?.emailAutoConfirm ? (
-        <p className="mt-2 text-xs text-emerald-800 dark:text-emerald-200">
-          ✓ Email auto-confirm включён — после регистрации по почте вход сразу, без письма.
+          Задайте на Vercel <span className="font-mono">NEXT_PUBLIC_APP_URL=https://sonogyn-pro.ru</span> и в Supabase Site URL то же значение.
         </p>
       ) : null}
       <p className="mt-2 text-xs">
-        Supabase Site URL:{" "}
-        <span className="font-mono">{status.hints?.supabaseSiteUrl ?? "—"}</span>
+        Mail-first: Confirm email = ON, <span className="font-mono">AUTH_AUTO_CONFIRM_EMAIL=false</span>. После регистрации откройте письмо и войдите.
       </p>
       <Link href="/register?method=email" className="mt-2 inline-block text-xs font-semibold underline">
         Регистрация по Email

@@ -30,6 +30,7 @@ export async function GET(req: Request) {
   const emailRedirectTo = resolveEmailConfirmRedirect(req, "/app");
 
   const issues: string[] = [];
+  const notes: string[] = [];
 
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL?.trim()) {
     issues.push("NEXT_PUBLIC_SUPABASE_URL не задан");
@@ -38,8 +39,9 @@ export async function GET(req: Request) {
     issues.push("NEXT_PUBLIC_SUPABASE_ANON_KEY не задан");
   }
   if (!process.env.SUPABASE_SERVICE_ROLE_KEY?.trim()) {
-    issues.push(
-      "SUPABASE_SERVICE_ROLE_KEY не задан — вход по SMS/Google/Telegram и auto-confirm email не работают",
+    // Mail-first signup/login does not require service role; SMS/auto-confirm do.
+    notes.push(
+      "SUPABASE_SERVICE_ROLE_KEY не задан — SMS/Telegram/auto-confirm недоступны; email + пароль работает через Supabase Auth.",
     );
   }
 
@@ -47,8 +49,9 @@ export async function GET(req: Request) {
   const customSms = isCustomSmsAuthEnabled();
   const smsIssues: string[] = [];
 
+  // Mail-first is intentional — keep as note, not a blocking issue.
   if (isAuthEmailOnly()) {
-    smsIssues.push("AUTH_EMAIL_ONLY: SMS и Google отключены — только email + пароль");
+    notes.push("Mail-first: доступна регистрация/вход по email + пароль (SMS/Google выключены флагом).");
   } else if (process.env.NODE_ENV === "production") {
     if (!customSms || smsProvider === "mock") {
       smsIssues.push(
@@ -65,10 +68,16 @@ export async function GET(req: Request) {
   }
 
   if (!process.env.TELEGRAM_BOT_TOKEN?.trim()) {
-    smsIssues.push("TELEGRAM_BOT_TOKEN не задан (опционально, Telegram убран из UI)");
+    notes.push("TELEGRAM_BOT_TOKEN не задан (опционально — админ-уведомления).");
   }
-  if (appOrigin.includes("localhost")) {
-    issues.push("APP origin указывает на localhost — ссылки в письмах будут неверными");
+  // Localhost origin is normal for `npm run dev`. On Vercel production it is a real misconfig.
+  const isVercelProduction = process.env.VERCEL === "1" && process.env.VERCEL_ENV === "production";
+  if (appOrigin.includes("localhost") && isVercelProduction) {
+    issues.push("APP origin указывает на localhost — задайте NEXT_PUBLIC_APP_URL=https://sonogyn-pro.ru на Vercel");
+  } else if (appOrigin.includes("localhost") && !isVercelProduction) {
+    notes.push(
+      "Локальный origin (localhost). В Supabase Site URL должен быть https://sonogyn-pro.ru — иначе ссылки в письмах ведут на localhost.",
+    );
   }
 
   if (!full) {
@@ -124,9 +133,17 @@ export async function GET(req: Request) {
       telegramAdminCount: readTelegramAdminIds().length,
     },
     issues: [...issues, ...smsIssues],
+    notes,
     hints: {
-      supabaseSiteUrl: appOrigin,
-      supabaseRedirectUrls: [`${appOrigin}/auth/callback`, `${appOrigin}/**`],
+      // Always recommend production Site URL in checklist hints for email links.
+      supabaseSiteUrl: isVercelProduction || !appOrigin.includes("localhost") ? appOrigin : "https://sonogyn-pro.ru",
+      supabaseRedirectUrls: [
+        "https://sonogyn-pro.ru/auth/callback",
+        "https://sonogyn-pro.ru/**",
+        "http://localhost:3000/auth/callback",
+        "http://localhost:3000/**",
+        "https://*.vercel.app/**",
+      ],
       supabaseDashboard:
         process.env.NODE_ENV === "production"
           ? SUPABASE_PRODUCTION_AUTH_CHECKLIST
