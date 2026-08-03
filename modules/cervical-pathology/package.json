@@ -20,7 +20,7 @@
     "@repo/cervical-pathology-intelligence": "workspace:*",
     "@repo/ifcpc-expert": "workspace:*",
     "@repo/medical-calculations": "workspace:*",
-    "@supabase/supabase-js": "^2.105.3",
+    "@supabase/supabase-js": "^2.111.0",
     "zod": "^3.24.4"
   },
   "devDependencies": {
