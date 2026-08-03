@@ -258,7 +258,7 @@ export function ExamChecklistsClient() {
             title="Самопроверка · чек-листы AIUM / ISUOG"
             disclaimer={EXAM_CHECKLISTS_DISCLAIMER}
             relatedLinks={[
-              EXAM_CHECKLISTS_LINKS.basicCourse,
+              EXAM_CHECKLISTS_LINKS.fmf,
               EXAM_CHECKLISTS_LINKS.fetalAnatomy,
               EXAM_CHECKLISTS_LINKS.norms,
             ]}

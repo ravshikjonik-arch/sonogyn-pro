@@ -12,9 +12,9 @@ export const EXAM_CHECKLISTS_DISCLAIMER =
 export const EXAM_CHECKLISTS_LINKS = {
   library: { href: "/tools/refs", label: "Библиотека" },
   reports: { href: "/reports", label: "Structured Reporting" },
-  basicCourse: { href: "/tools/refs/basic-course", label: "ISUOG Basic Training" },
   fetalAnatomy: { href: "/tools/refs/fetal-anatomy-22-views", label: "22 среза · II триместр" },
   norms: { href: "/tools/refs/norms", label: "Клинические нормы" },
+  fmf: { href: "/ai/consultants/fmf", label: "FMF · скрининг" },
   moduleRoute: "/tools/refs/exam-checklists",
 } as const;
 

@@ -18,7 +18,6 @@ import {
   FETAL_DOPPLER_DISCLAIMER,
   FETAL_DOPPLER_EDUCATIONAL_CARDS,
   FETAL_DOPPLER_GLOSSARY,
-  FETAL_DOPPLER_ISUOG_LECTURE_ID,
   FETAL_DOPPLER_LINKS,
   FETAL_DOPPLER_QUIZ_BANK,
   FETAL_DOPPLER_SECTIONS,
@@ -121,12 +120,6 @@ export function FetalDopplerFirstTrimesterClient() {
                   <span>{corePercent}%</span>
                 </div>
                 <Progress value={corePercent} className="h-2" />
-                <Link
-                  href={`/tools/refs/basic-course?lecture=${FETAL_DOPPLER_ISUOG_LECTURE_ID}&tab=practice`}
-                  className="text-xs text-[var(--clinical-primary)] underline"
-                >
-                  Прогресс синхронизирован с лекцией 7
-                </Link>
               </div>
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-xs font-medium">

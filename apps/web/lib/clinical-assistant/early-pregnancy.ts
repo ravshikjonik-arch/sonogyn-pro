@@ -19,7 +19,7 @@ export function getIsuogEarlyLectureLink() {
   const lecture = getBasicCourseLecture(ISUOG_EARLY_LECTURE_ID);
   return {
     lecture,
-    courseHref: `/tools/refs/basic-course?lecture=${ISUOG_EARLY_LECTURE_ID}`,
+    courseHref: "/ai/consultants/fmf?section=early",
     fmfHref: FMF_EARLY_ASSISTANT_HREF,
   };
 }

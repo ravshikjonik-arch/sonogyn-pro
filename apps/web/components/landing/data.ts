@@ -116,7 +116,7 @@ export const GUEST_ACCESS_TIERS: GuestAccessTier[] = [
     badge: "Шаг 1 · 0 ₽",
     description: "Регистрация и знакомство — без оплаты.",
     items: [
-      { label: "Курсы авторов", href: "/tools/refs/courses" },
+      { label: "Клин. нормы УЗИ", href: "/tools/refs/norms" },
       { label: "Калькулятор эластографии", href: "/tools/calc/gyn/elastography" },
       { label: "Клинический кабинет", href: "/register?next=/app", note: "после регистрации" },
     ],
@@ -128,7 +128,7 @@ export const GUEST_ACCESS_TIERS: GuestAccessTier[] = [
     items: [
       { label: "Заполнить профиль", href: "/register?next=/profile" },
       { label: "Кабинет и кейсы", href: "/register?next=/app" },
-      { label: "Курсы авторов", href: "/register?next=/author/courses", note: "лимиты Free" },
+      { label: "FMF · скрининг", href: "/ai/consultants/fmf" },
     ],
   },
   {

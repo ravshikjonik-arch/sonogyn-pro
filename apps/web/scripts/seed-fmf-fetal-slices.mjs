@@ -54,6 +54,12 @@ function lessonVideoPath(lesson) {
 }
 
 async function main() {
+  console.error(
+    "\n✗ Курс «FMF Ambassador · плодовые срезы» снят с публикации (archived).\n" +
+      "  Не пересоздавайте. См. scripts/archive-unwanted-courses.mjs\n",
+  );
+  process.exit(1);
+
   console.log("\n🎬 Seed FMF Ambassador · плодовые срезы\n");
 
   const manifestPath = (process.env.MANIFEST_PATH ?? defaultManifestPath()).trim();

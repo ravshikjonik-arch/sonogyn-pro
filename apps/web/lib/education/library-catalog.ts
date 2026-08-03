@@ -12,7 +12,6 @@ export type EducationLibraryItem = {
 };
 
 export const EDUCATION_SHELF_ORDER: EducationShelf[] = [
-  "courses",
   "assistant",
   "reference",
   "atlases",
@@ -28,14 +27,14 @@ export const EDUCATION_SHELF_LABELS: Record<EducationShelf, string> = {
 };
 
 export const EDUCATION_SHELF_DESCRIPTIONS: Record<EducationShelf, string> = {
-  courses: "ISUOG Basic Training и другие лекции — презентации, чеклисты, прогресс.",
+  courses: "Курсы временно скрыты.",
   assistant: "Маршрут обследования, красные флаги, протокол, голосовой ввод.",
   reference: "Клинические нормы УЗИ, нозологии, КР МЗ РФ и международные гайдлайны.",
   atlases: "Срезы, 3D-макеты матки, яичника, молочной железы.",
   calculators: "O-RADS, BI-RADS, FIGO, FMF, эластография и др.",
 };
 
-export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
+const EDUCATION_LIBRARY_ITEMS_RAW: EducationLibraryItem[] = [
   {
     id: "webinars",
     shelf: "courses",
@@ -88,16 +87,6 @@ export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
     tags: ["AIUM", "ISUOG", "чек-лист", "протокол", "practice parameters", "экзамен"],
     primary: true,
     badge: "NEW",
-  },
-  {
-    id: "fmf-fetal-slices",
-    shelf: "courses",
-    title: "FMF Ambassador · плодовые срезы",
-    description:
-      "Видеоуроки по ключевым плодовым срезам (FMF / ISUOG). Дополняет модуль 22 среза и FMF-ассистент.",
-    href: "/library/courses/1d67a487-194c-4cd9-9db3-080b17b1698a",
-    tags: ["FMF", "плод", "срезы", "ISUOG", "видео"],
-    badge: "FMF",
   },
   {
     id: "assistant",
@@ -375,6 +364,11 @@ export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = [
     tags: ["O-RADS", "BI-RADS", "FIGO"],
   },
 ];
+
+/** Курсы и лекции скрыты из публичного каталога (ссылки на учёбу / Яндекс.Диск убраны). */
+export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = EDUCATION_LIBRARY_ITEMS_RAW.filter(
+  (item) => item.shelf !== "courses",
+);
 
 export function groupEducationByShelf(items: EducationLibraryItem[]): Map<EducationShelf, EducationLibraryItem[]> {
   const map = new Map<EducationShelf, EducationLibraryItem[]>();

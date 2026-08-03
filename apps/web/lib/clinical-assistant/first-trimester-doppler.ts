@@ -9,7 +9,7 @@ export function getFetalDopplerFirstTrimesterEducationalLink() {
   return {
     lecture,
     moduleHref: FETAL_DOPPLER_EDUCATIONAL_HREF,
-    courseHref: `/tools/refs/basic-course?lecture=${FETAL_DOPPLER_FIRST_TRIMESTER_LECTURE_ID}&tab=lecture`,
+    courseHref: "/tools/refs/fetal-doppler-first-trimester",
     fmfFirstHref: "/ai/consultants/fmf?section=first",
     fmfDopplerHref: "/ai/consultants/fmf?section=doppler",
   };

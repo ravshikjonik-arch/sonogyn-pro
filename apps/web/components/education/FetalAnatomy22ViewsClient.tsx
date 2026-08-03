@@ -21,7 +21,6 @@ import {
   FETAL_ANATOMY_ATLAS,
   FETAL_ANATOMY_CASES,
   FETAL_ANATOMY_INTRODUCTION,
-  FETAL_ANATOMY_ISUOG_LECTURE_ID,
   FETAL_ANATOMY_LEMON_SIGN_ALGORITHM,
   FETAL_ANATOMY_LINKS,
   FETAL_ANATOMY_EXAM_BLUEPRINT,
@@ -459,14 +458,7 @@ export function FetalAnatomy22ViewsClient() {
           storageKey="sonogyn:fetal-anatomy-22-views:quiz"
           title="Самопроверка · 22 среза"
           description="Протокол II триместра · Емельяненко · текстовые + image-MCQ"
-          relatedLinks={[
-            FETAL_ANATOMY_LINKS.fmf,
-            FETAL_ANATOMY_LINKS.fetalSpine,
-            {
-              href: `/tools/refs/basic-course?lecture=${FETAL_ANATOMY_ISUOG_LECTURE_ID}&tab=practice`,
-              label: "ISUOG · лекция 8",
-            },
-          ]}
+          relatedLinks={[FETAL_ANATOMY_LINKS.fmf, FETAL_ANATOMY_LINKS.fetalSpine]}
         />
         <Card className="border-[var(--clinical-border)]">
           <CardHeader>

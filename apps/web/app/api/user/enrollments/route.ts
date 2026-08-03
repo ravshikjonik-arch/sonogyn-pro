@@ -35,31 +35,33 @@ export async function GET() {
 
   const courseMap = new Map((courses ?? []).map((c) => [c.id as string, c]));
 
-  const rows = await Promise.all(
-    (enrollments ?? []).map(async (e) => {
-      const course = courseMap.get(e.course_id as string);
-      const coverUrl = course?.cover_storage_path
-        ? await getCourseMediaSignedUrl(client.supabase, course.cover_storage_path as string, 3600)
-        : null;
-      return {
-        enrollmentId: e.id,
-        courseId: e.course_id,
-        progressPercent: e.progress_percent,
-        enrolledAt: e.enrolled_at,
-        lastActivityAt: e.last_activity_at,
-        course: course
-          ? {
-              id: course.id,
-              title: course.title,
-              description_html: course.description_html,
-              price_rub: course.price_rub,
-              status: course.status,
-              coverUrl,
-            }
-          : null,
-      };
-    }),
-  );
+  const rows = (
+    await Promise.all(
+      (enrollments ?? []).map(async (e) => {
+        const course = courseMap.get(e.course_id as string);
+        // Archived / draft courses must not appear in «Мои курсы».
+        if (!course || course.status !== "published") return null;
+        const coverUrl = course.cover_storage_path
+          ? await getCourseMediaSignedUrl(client.supabase, course.cover_storage_path as string, 3600)
+          : null;
+        return {
+          enrollmentId: e.id,
+          courseId: e.course_id,
+          progressPercent: e.progress_percent,
+          enrolledAt: e.enrolled_at,
+          lastActivityAt: e.last_activity_at,
+          course: {
+            id: course.id,
+            title: course.title,
+            description_html: course.description_html,
+            price_rub: course.price_rub,
+            status: course.status,
+            coverUrl,
+          },
+        };
+      }),
+    )
+  ).filter((row): row is NonNullable<typeof row> => row != null);
 
   return NextResponse.json({ ok: true, enrollments: rows });
 }

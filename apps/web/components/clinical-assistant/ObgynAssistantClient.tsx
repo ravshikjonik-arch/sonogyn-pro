@@ -6,7 +6,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { BasicCourseLinkPanel } from "@/components/education/BasicCourseLinkPanel";
 import { ClinicalAssistStrip } from "@/components/clinical-assistant/ClinicalAssistStrip";
 import {
   assistantCardHref,
@@ -134,7 +133,6 @@ export function ObgynAssistantClient({ mode, initialQuery = "", initialPatientId
                 <Link href={FMF_EARLY_ASSISTANT_HREF}>Открыть FMF-модуль →</Link>
               </Button>
             </div>
-            <BasicCourseLinkPanel variant="inline" />
           </div>
         ) : null}
 

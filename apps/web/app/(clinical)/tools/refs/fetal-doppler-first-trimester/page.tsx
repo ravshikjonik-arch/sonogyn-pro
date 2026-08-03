@@ -3,7 +3,6 @@ import Link from "next/link";
 import { ArrowLeft, Stethoscope } from "lucide-react";
 
 import { FetalDopplerFirstTrimesterClient } from "@/components/education/FetalDopplerFirstTrimesterClient";
-import { FETAL_DOPPLER_FIRST_TRIMESTER_LECTURE_ID } from "@/lib/clinical-assistant/first-trimester-doppler";
 import { FETAL_DOPPLER_DISCLAIMER, FETAL_DOPPLER_LINKS } from "@/lib/education/fetal-doppler-first-trimester";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -42,12 +41,6 @@ export default function FetalDopplerFirstTrimesterPage() {
             </p>
             <p className="text-xs text-[var(--clinical-foreground-muted)]">{FETAL_DOPPLER_DISCLAIMER}</p>
             <div className="flex flex-wrap gap-3 text-sm">
-              <Link
-                href={`/tools/refs/basic-course?lecture=${FETAL_DOPPLER_FIRST_TRIMESTER_LECTURE_ID}&tab=lecture`}
-                className="font-medium text-[var(--clinical-primary)] underline"
-              >
-                ISUOG Basic Training · лекция 7
-              </Link>
               <Link href={FETAL_DOPPLER_LINKS.fmf.href} className="font-medium text-[var(--clinical-primary)] underline">
                 {FETAL_DOPPLER_LINKS.fmf.label}
               </Link>

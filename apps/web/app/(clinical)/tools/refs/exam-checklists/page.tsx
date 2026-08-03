@@ -59,10 +59,10 @@ export default function ExamChecklistsPage() {
                 {EXAM_CHECKLISTS_LINKS.fetalAnatomy.label}
               </Link>
               <Link
-                href={EXAM_CHECKLISTS_LINKS.basicCourse.href}
+                href={EXAM_CHECKLISTS_LINKS.fmf.href}
                 className="font-medium text-[var(--clinical-primary)] underline"
               >
-                {EXAM_CHECKLISTS_LINKS.basicCourse.label}
+                {EXAM_CHECKLISTS_LINKS.fmf.label}
               </Link>
             </div>
           </div>

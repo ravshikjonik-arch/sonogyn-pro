@@ -18,10 +18,8 @@ export type BasicCourseLecture = {
   subtitle: string;
   topics: BasicCourseTopic[];
   objectives: string[];
-  /** PDF на Яндекс.Диске (если нет platformModuleHref). */
   fileName?: string;
-  yandexDiskUrl?: string;
-  /** Встроенный модуль SonoGyn-Pro (курс в библиотеке). */
+  /** Встроенный модуль SonoGyn-Pro (клинический инструмент). */
   platformModuleHref?: string;
 };
 
@@ -31,7 +29,7 @@ export type BasicCourseModule = {
   description: string;
   lectureIds: string[];
   comingSoon?: boolean;
-  /** Linked SonoGyn-Pro educational module when no Yandex lecture yet. */
+  /** Linked SonoGyn-Pro clinical module. */
   platformModuleHref?: string;
 };
 
@@ -151,7 +149,7 @@ export const ISUOG_BASIC_COURSE = {
         },
       ],
       fileName: "Lecture-6-4-10.pdf",
-      yandexDiskUrl: "https://disk.yandex.ru/i/HBUWonJavsL1DA",
+      platformModuleHref: "/ai/consultants/fmf?section=early",
     },
     {
       id: "lecture-7-fetal-doppler-first-trimester",
@@ -336,10 +334,6 @@ export const ISUOG_BASIC_COURSE = {
 
 export function getBasicCourseLecture(id: string): BasicCourseLecture | undefined {
   return ISUOG_BASIC_COURSE.lectures.find((lecture) => lecture.id === id);
-}
-
-export function yandexDiskViewerUrl(publicUrl: string): string {
-  return `https://disk.yandex.ru/iframe/i/${publicUrl.split("/i/")[1]?.split("?")[0] ?? ""}`;
 }
 
 export function lectureProgressPercent(

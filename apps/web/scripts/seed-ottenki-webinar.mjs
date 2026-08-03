@@ -117,6 +117,12 @@ async function findExistingCourse(admin, authorId) {
 }
 
 async function main() {
+  console.error(
+    "\n✗ Курс «ОТТЕНКИ 2024» снят с публикации (archived).\n" +
+      "  Не пересоздавайте. См. scripts/archive-unwanted-courses.mjs\n",
+  );
+  process.exit(1);
+
   console.log("\n🎬 Seed ОТТЕНКИ 2024 webinar\n");
 
   const env = mergeEnv();

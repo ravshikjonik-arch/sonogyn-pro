@@ -4,7 +4,6 @@ import {
   BookOpen,
   CheckCircle2,
   Circle,
-  ExternalLink,
   GraduationCap,
   Layers,
   PlayCircle,
@@ -25,7 +24,6 @@ import {
   ISUOG_BASIC_COURSE,
   ISUOG_COURSE_MODULES,
   lectureProgressPercent,
-  yandexDiskViewerUrl,
   type BasicCourseLecture,
   type BasicCourseTopic,
 } from "@/lib/education/basic-course";
@@ -342,16 +340,8 @@ function LectureTab({
                 <Button asChild size="sm">
                   <Link href={lecture.platformModuleHref}>
                     <Stethoscope className="mr-2 h-4 w-4" />
-                    Образовательный модуль SonoGyn-Pro
+                    Клинический модуль SonoGyn-Pro
                   </Link>
-                </Button>
-              ) : null}
-              {lecture.yandexDiskUrl ? (
-                <Button asChild size="sm" variant={lecture.platformModuleHref ? "secondary" : "default"}>
-                  <a href={lecture.yandexDiskUrl} target="_blank" rel="noopener noreferrer">
-                    <ExternalLink className="mr-2 h-4 w-4" />
-                    Яндекс.Диск
-                  </a>
                 </Button>
               ) : null}
             </div>
@@ -371,52 +361,21 @@ function LectureTab({
           </CardContent>
         </Card>
 
-        <Card className="overflow-hidden border-[var(--clinical-border)]">
-          <CardHeader className="space-y-2 py-3">
-            <CardTitle className="text-sm">Презентация</CardTitle>
-            {lecture.yandexDiskUrl ? (
-              <Button asChild size="sm" variant="outline" className="w-fit">
-                <a href={lecture.yandexDiskUrl} target="_blank" rel="noopener noreferrer">
-                  <ExternalLink className="mr-2 h-4 w-4" />
-                  Открыть PDF на Яндекс.Диске
-                </a>
-              </Button>
-            ) : null}
-          </CardHeader>
-          {lecture.platformModuleHref ? (
+        {lecture.platformModuleHref ? (
+          <Card className="overflow-hidden border-[var(--clinical-border)]">
+            <CardHeader className="space-y-2 py-3">
+              <CardTitle className="text-sm">Клинический модуль</CardTitle>
+            </CardHeader>
             <CardContent className="space-y-3 pb-6">
               <p className="text-sm text-[var(--clinical-foreground-muted)]">
-                Полный курс: 13 секций, 9 случаев, 16 вопросов самопроверки, алгоритмы и глоссарий.
+                Практика на платформе: протокол, чеклисты и калькуляторы FMF / анатомии.
               </p>
               <Button asChild>
-                <Link href={lecture.platformModuleHref}>
-                  Перейти к модулю SonoGyn-Pro →
-                </Link>
+                <Link href={lecture.platformModuleHref}>Перейти к модулю SonoGyn-Pro →</Link>
               </Button>
             </CardContent>
-          ) : lecture.yandexDiskUrl ? (
-            <div className="space-y-2">
-              <iframe
-                title={`${lecture.fileName ?? lecture.title} — ISUOG`}
-                src={yandexDiskViewerUrl(lecture.yandexDiskUrl)}
-                className="h-[min(65vh,680px)] w-full bg-white"
-                loading="lazy"
-                allow="fullscreen"
-              />
-              <p className="border-t border-[var(--clinical-border)] px-4 py-2 text-xs text-[var(--clinical-foreground-muted)]">
-                Не открывается в окне?{" "}
-                <a
-                  href={lecture.yandexDiskUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-semibold text-[var(--clinical-primary)] underline"
-                >
-                  Открыть PDF на Яндекс.Диске
-                </a>
-              </p>
-            </div>
-          ) : null}
-        </Card>
+          </Card>
+        ) : null}
       </section>
     </div>
   );

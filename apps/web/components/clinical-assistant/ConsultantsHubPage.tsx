@@ -106,9 +106,6 @@ export function ConsultantsHubPage() {
             <Button variant="outline" size="sm" asChild>
               <Link href="/ai/consultants/fmf">FMF · I скрининг</Link>
             </Button>
-            <Button variant="outline" size="sm" asChild>
-              <Link href="/tools/refs/basic-course">ISUOG курс</Link>
-            </Button>
           </CardContent>
         </Card>
       </div>

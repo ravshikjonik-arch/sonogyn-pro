@@ -87,6 +87,7 @@ const navGroups: { title: string; items: { href: string; label: string; icon: ty
       { href: "/tools/calc", label: "Все калькуляторы", icon: Calculator },
       { href: "/tools/calc/rads/o-rads", label: "O-RADS US", icon: ScanLine },
       { href: "/tools/calc/rads/bi-rads", label: "BI-RADS", icon: ScanLine },
+      { href: "/tools/calc/rads/ti-rads", label: "TI-RADS ЩЖ", icon: ScanLine },
       { href: "/tools/calc/appointment", label: "Приём · быстрые", icon: ClipboardList },
     ],
   },
@@ -104,7 +105,6 @@ const navGroups: { title: string; items: { href: string; label: string; icon: ty
       { href: "/tools/refs/guidelines", label: "КР и приказы", icon: FileText },
       { href: "/tools/refs/norms", label: "Клин. нормы", icon: BookOpen },
       { href: "/tools/refs/nosologies", label: "Нозологии", icon: ClipboardList },
-      { href: "/tools/refs/courses", label: "Курсы", icon: BookOpen },
     ],
   },
   {

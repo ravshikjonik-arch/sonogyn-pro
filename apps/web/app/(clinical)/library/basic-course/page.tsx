@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
-export default function LegacyLibraryRedirect() {
-  redirect("/tools/refs/basic-course");
+
+export default function LibraryBasicCoursePage() {
+  redirect("/tools/refs");
 }

@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
 
-export default function AppCoursesRedirect() {
-  redirect("/tools/refs/courses");
+export default function AppCoursesPage() {
+  redirect("/tools/refs");
 }

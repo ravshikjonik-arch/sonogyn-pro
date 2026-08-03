@@ -157,11 +157,11 @@ export function CmeTrackerClient() {
       </ul>
 
       <div className="flex flex-wrap gap-3 text-sm">
-        <Link href="/tools/refs/learning-paths" className="text-[var(--clinical-primary)] underline">
-          Learning Paths
+        <Link href="/tools/refs" className="text-[var(--clinical-primary)] underline">
+          Библиотека
         </Link>
-        <Link href="/tools/refs/webinars" className="text-[var(--clinical-primary)] underline">
-          Вебинары
+        <Link href="/ai/consultants/fmf" className="text-[var(--clinical-primary)] underline">
+          FMF · скрининг
         </Link>
       </div>
     </div>

@@ -16,7 +16,6 @@ import { toast } from "sonner";
 
 import { AssistantProtocolSavePanel } from "@/components/clinical-assistant/AssistantProtocolSavePanel";
 import { ClinicalAssistStrip } from "@/components/clinical-assistant/ClinicalAssistStrip";
-import { BasicCourseLinkPanel } from "@/components/education/BasicCourseLinkPanel";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { buildAssistantProtocolText } from "@/lib/clinical-assistant/build-protocol";
@@ -291,7 +290,6 @@ h1{font-size:18px}h2{font-size:14px;margin-top:18px;color:#334155}ul{padding-lef
               <Link href={FMF_EARLY_ASSISTANT_HREF}>Открыть FMF →</Link>
             </Button>
           </div>
-          <BasicCourseLinkPanel variant="inline" />
         </div>
       ) : null}
 

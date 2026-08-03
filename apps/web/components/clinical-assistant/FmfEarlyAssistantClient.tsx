@@ -6,10 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState, type Dispatch, type ReactNode, type SetStateAction } from "react";
 import { toast } from "sonner";
 
-import { BasicCourseLinkPanel } from "@/components/education/BasicCourseLinkPanel";
 import { ClinicalAssistStrip } from "@/components/clinical-assistant/ClinicalAssistStrip";
-import { FetalDopplerEducationalLinkPanel } from "@/components/education/FetalDopplerEducationalLinkPanel";
-import { FetalAnatomyEducationalLinkPanel } from "@/components/education/FetalAnatomyEducationalLinkPanel";
 import { CalculatorLiteraturePanel } from "@/components/pubmed/CalculatorLiteraturePanel";
 import { EarlyGrowthReferencePanel } from "@/components/clinical-assistant/EarlyGrowthReferencePanel";
 import { FirstTrimesterPercentilePanel } from "@/components/clinical-assistant/FirstTrimesterPercentilePanel";
@@ -298,9 +295,6 @@ export function FmfAssistantClient({ initialSection = "early" }: Props) {
         <Button variant="outline" size="sm" asChild>
           <Link href="/tools/refs/norms">Клин. нормы УЗИ</Link>
         </Button>
-        <Button variant="outline" size="sm" asChild>
-          <Link href="/tools/refs/basic-course">ISUOG · лекция 6</Link>
-        </Button>
       </div>
 
       <div className="rounded-3xl bg-gradient-to-br from-teal-700 to-emerald-800 p-6 text-white shadow-xl sm:p-8">
@@ -389,12 +383,6 @@ export function FmfAssistantClient({ initialSection = "early" }: Props) {
           </CardContent>
         </Card>
       ) : null}
-
-      {section === "early" ? <BasicCourseLinkPanel variant="inline" /> : null}
-      {section === "first" || section === "doppler" ? (
-        <FetalDopplerEducationalLinkPanel variant="inline" />
-      ) : null}
-      {section === "second" ? <FetalAnatomyEducationalLinkPanel variant="inline" /> : null}
 
       {section === "first" ? (
         <Card className="border-indigo-200/80 bg-indigo-50/40 dark:border-indigo-900/40 dark:bg-indigo-950/20">

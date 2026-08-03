@@ -21,10 +21,7 @@ export const US_FMF_CORE_EVIDENCE: EvidenceEntry[] = [
       pmid: "15723746",
     },
     tags: ["NT", "ТВП", "I скрининг", "КТР", "11 нед", "13 нед", "FMF"],
-    relatedLinks: [
-      { label: "FMF · скрининги", href: "/assistant/fmf" },
-      { label: "ISUOG курс", href: "/library/basic-course" },
-    ],
+    relatedLinks: [{ label: "FMF · скрининги", href: "/assistant/fmf" }],
   },
   {
     id: "fmf-combined-test",
@@ -141,10 +138,7 @@ export const US_FMF_CORE_EVIDENCE: EvidenceEntry[] = [
       url: "https://www.isuog.org/",
     },
     tags: ["ранняя беременность", "PUL", "внематочная", "β-hCG", "пустая матка"],
-    relatedLinks: [
-      { label: "Помощник акушера", href: "/assistant/obstetrics" },
-      { label: "ISUOG лекция 6", href: "/library/basic-course" },
-    ],
+    relatedLinks: [{ label: "Помощник акушера", href: "/assistant/obstetrics" }],
   },
   {
     id: "isuog-crl-dating",
@@ -221,7 +215,7 @@ export const US_FMF_CORE_EVIDENCE: EvidenceEntry[] = [
       year: 2023,
     },
     tags: ["II триместр", "anomaly scan", "18 нед", "22 нед", "структурные аномалии"],
-    relatedLinks: [{ label: "ISUOG курс", href: "/library/basic-course" }],
+    relatedLinks: [{ label: "FMF · II скрининг", href: "/assistant/fmf?section=second" }],
   },
   {
     id: "fmf-nt-quality",

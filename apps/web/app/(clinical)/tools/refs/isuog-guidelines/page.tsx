@@ -12,8 +12,6 @@ const ISUOG_GUIDELINES = CLINICAL_GUIDELINES.filter(
 
 const INTERNAL_LINKS = [
   { href: "/tools/refs/exam-checklists", label: "Чек-листы AIUM/ISUOG" },
-  { href: "/tools/refs/learning-paths", label: "Learning Paths" },
-  { href: "/tools/refs/basic-course", label: "ISUOG Basic Training" },
   { href: "/tools/refs/fetal-biometry-formulas", label: "Формулы биометрии" },
   { href: "/tools/refs/ultrasound-safety", label: "Безопасность УЗИ" },
 ];

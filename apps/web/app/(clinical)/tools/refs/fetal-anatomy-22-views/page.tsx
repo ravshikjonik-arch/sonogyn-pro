@@ -3,7 +3,6 @@ import Link from "next/link";
 import { ArrowLeft, Scan } from "lucide-react";
 
 import { FetalAnatomy22ViewsClient } from "@/components/education/FetalAnatomy22ViewsClient";
-import { FETAL_ANATOMY_22_VIEWS_LECTURE_ID } from "@/lib/clinical-assistant/second-trimester-anatomy";
 import {
   FETAL_ANATOMY_ANOMALY_COUNT,
   FETAL_ANATOMY_CASES,
@@ -40,7 +39,6 @@ export default function FetalAnatomy22ViewsPage() {
               <Badge variant="outline">II триместр · 18–22 нед</Badge>
               <Badge variant="outline">{FETAL_ANATOMY_VIEW_COUNT} views</Badge>
               <Badge variant="outline">{FETAL_ANATOMY_ANOMALY_COUNT} ВПР</Badge>
-              <Badge variant="outline">ISUOG · лекция 8</Badge>
             </div>
             <h1 className="flex items-center gap-2 text-3xl font-semibold tracking-tight">
               <Scan className="h-8 w-8 text-[var(--clinical-primary)]" />
@@ -56,12 +54,6 @@ export default function FetalAnatomy22ViewsPage() {
             </p>
             <p className="text-xs text-[var(--clinical-foreground-muted)]">{FETAL_ANATOMY_DISCLAIMER}</p>
             <div className="flex flex-wrap gap-3 text-sm">
-              <Link
-                href={`/tools/refs/basic-course?lecture=${FETAL_ANATOMY_22_VIEWS_LECTURE_ID}&tab=practice`}
-                className="font-medium text-[var(--clinical-primary)] underline"
-              >
-                ISUOG Basic Training · лекция 8
-              </Link>
               <Link href={FETAL_ANATOMY_LINKS.fmf.href} className="font-medium text-[var(--clinical-primary)] underline">
                 {FETAL_ANATOMY_LINKS.fmf.label}
               </Link>

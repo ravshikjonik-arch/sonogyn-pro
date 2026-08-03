@@ -171,7 +171,7 @@ export function ExamSetPieceClient() {
           disclaimer={EXAM_SET_PIECE_DISCLAIMER}
           relatedLinks={[
             { href: "/tools/refs/exam-checklists", label: "Чек-листы AIUM/ISUOG" },
-            { href: "/tools/refs/learning-paths", label: "Learning Paths" },
+            { href: "/ai/consultants/fmf", label: "FMF · скрининг" },
           ]}
         />
       </TabsContent>
