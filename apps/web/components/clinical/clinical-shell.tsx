@@ -193,7 +193,7 @@ export function ClinicalShell({
       await fetch("/api/auth/sign-out", { method: "POST", credentials: "same-origin" });
       await supabase.auth.signOut();
       router.refresh();
-      router.push("/app");
+      router.push("/home");
     } finally {
       setBusy(false);
     }

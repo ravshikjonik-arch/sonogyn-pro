@@ -19,5 +19,5 @@ export default function RootPage() {
     redirect("/login?dev_setup=service_role");
   }
 
-  redirect("/app");
+  redirect("/home");
 }

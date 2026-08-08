@@ -24,13 +24,13 @@ export function OpenAccessEntryCard({ className }: Props) {
       </p>
       <div className="mt-5 flex flex-col gap-2">
         <Button asChild size="lg" className="w-full bg-white font-semibold text-violet-900 hover:bg-white/95">
-          <Link href="/app">
+          <Link href="/home">
             Открыть кабинет
             <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
         </Button>
         <Button asChild variant="outline" size="sm" className="w-full border-white/30 bg-transparent text-white hover:bg-white/10">
-          <Link href="/login?redirectedFrom=/app">Войти (сохранение кейсов)</Link>
+          <Link href="/login?redirectedFrom=/home">Войти (сохранение кейсов)</Link>
         </Button>
       </div>
       <p className="mt-3 text-[11px] leading-relaxed text-violet-100/55">

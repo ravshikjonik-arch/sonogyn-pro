@@ -9,7 +9,7 @@ function legacyCalculatorRedirects(): Redirect[] {
     "pregnancy-medications",
     "cervical-length",
   ];
-  const radsSlugs = ["o-rads", "bi-rads", "ln-rads"];
+  const radsSlugs = ["o-rads", "bi-rads", "ln-rads", "ti-rads"];
   const gynSlugs = [
     "endometrium",
     "pop-q",
@@ -28,7 +28,7 @@ function legacyCalculatorRedirects(): Redirect[] {
     { source: "/calculators/appointment", destination: "/tools/calc/appointment", permanent: false },
     { source: "/calculators/orads-pro", destination: "/tools/calc/rads/o-rads", permanent: false },
     { source: "/calculators/ob", destination: "/tools/calc/ob", permanent: false },
-    { source: "/calculators/ti-rads", destination: "/tools/adjunct/ti-rads", permanent: false },
+    { source: "/tools/adjunct/ti-rads", destination: "/tools/calc/rads/ti-rads", permanent: false },
   ];
 
   for (const slug of obSlugs) {
@@ -61,8 +61,10 @@ function legacyCalculatorRedirects(): Redirect[] {
  * Bridge pages at new_href serve legacy UI until full move.
  */
 export const IA_V2_REDIRECTS: Redirect[] = [
+  // Open access home — override any stale /app → /cases static redirect from older builds
+  { source: "/app", destination: "/home", permanent: false },
+
   // P0
-  { source: "/app", destination: "/cases", permanent: false },
   { source: "/community", destination: "/cases", permanent: false },
   { source: "/community/:path*", destination: "/cases/:path*", permanent: false },
 

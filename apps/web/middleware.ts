@@ -13,6 +13,7 @@ assertProductionSecretsConfigured();
 
 const roots = [
   "/app",
+  "/home",
   "/feed",
   "/ai",
   "/tools",
@@ -58,6 +59,7 @@ const AUTH_REQUIRED_PREFIXES = [
 /** Legacy whitelist (остаётся для совместимости; soft-gate шире). */
 const PUBLIC_WITHIN_PROTECTED = [
   "/app",
+  "/home",
   "/tools",
   "/calculators",
   "/ai",
@@ -319,6 +321,8 @@ export const config = {
     "/verify-phone",
     "/app",
     "/app/:path*",
+    "/home",
+    "/home/:path*",
     "/feed",
     "/feed/:path*",
     "/tools",
