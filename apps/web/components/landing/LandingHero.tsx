@@ -11,9 +11,9 @@ type LandingHeroProps = {
 const HERO_IMAGE = "/clinical/orads-hero/ovary-us-waves.jpg";
 
 export function LandingHero({ isAuthenticated }: LandingHeroProps) {
-  const primaryHref = "/app";
+  const primaryHref = "/home";
   const primaryLabel = isAuthenticated ? "В личный кабинет" : "Открыть кабинет";
-  const secondaryHref = isAuthenticated ? "/profile/pro" : "/login?redirectedFrom=/app";
+  const secondaryHref = isAuthenticated ? "/profile/pro" : "/login?redirectedFrom=/home";
   const secondaryLabel = isAuthenticated ? "Тариф PRO" : "Войти";
 
   return (
