@@ -1,6 +1,6 @@
-import { redirect } from "next/navigation";
+import { CommandCenter } from "@/components/spatial";
 
-/** P0: legacy command center → default home is Cases. Subroutes (/app/courses) unchanged. */
-export default function AppHomeRedirectPage() {
-  redirect("/cases");
+/** Open access home: кабинет сразу, без редиректа на /cases. */
+export default function AppHomePage() {
+  return <CommandCenter />;
 }

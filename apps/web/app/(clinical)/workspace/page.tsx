@@ -1,7 +1,5 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { CreateStudyForm } from "@/components/copilot/CreateStudyForm";
-import { isDevSkipAuthEnabled } from "@/lib/auth/dev-account";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function WorkspacePage() {
@@ -9,10 +7,6 @@ export default async function WorkspacePage() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
-  if (!user && !isDevSkipAuthEnabled()) {
-    redirect("/login?redirectedFrom=/ai/workspace");
-  }
 
   let rows: { id: string; title: string; study_type: string; status: string; created_at: string }[] = [];
   let error: { message: string } | null = null;
@@ -56,7 +50,9 @@ export default async function WorkspacePage() {
 
             {!error && rows.length === 0 ? (
               <p className="mt-4 text-sm text-slate-600">
-                Пока нет исследований — создайте первое справа.
+                {user
+                  ? "Пока нет исследований — создайте первое справа."
+                  : "Войдите, чтобы видеть свои исследования и загружать снимки."}
               </p>
             ) : null}
 

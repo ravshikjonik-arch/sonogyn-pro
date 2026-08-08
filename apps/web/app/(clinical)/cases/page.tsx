@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 import { DoctorsCommunityHub } from "@/components/chat/DoctorsCommunityHub";
 import { Button } from "@/components/ui/button";
@@ -86,7 +85,30 @@ export default async function CasesPage() {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect("/login?redirectedFrom=/cases");
+    return (
+      <div className="min-h-screen bg-[var(--clinical-bg)] px-4 py-12 lg:px-10">
+        <div className="mx-auto max-w-3xl rounded-2xl border border-[var(--clinical-border)] bg-[var(--clinical-card)] p-6 shadow-sm sm:p-8">
+          <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--clinical-foreground-muted)]">
+            Чат врачей
+          </p>
+          <h1 className="mt-3 text-3xl font-black tracking-tight text-[var(--clinical-foreground)]">
+            Сообщество доступно после входа
+          </h1>
+          <p className="mt-3 text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
+            Калькуляторы и справочники уже открыты без регистрации. Чат коллег и кейсы — после входа (скоро Яндекс ID и
+            SMS).
+          </p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Button asChild>
+              <Link href="/login?redirectedFrom=/cases">Войти</Link>
+            </Button>
+            <Button asChild variant="outline">
+              <Link href="/app">В кабинет</Link>
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   const { data: profile } = await supabase
