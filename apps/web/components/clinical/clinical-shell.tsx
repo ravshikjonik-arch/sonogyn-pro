@@ -135,10 +135,11 @@ export function ClinicalShell({
   const router = useRouter();
   const supabase = useSupabase();
   const { user } = useAuth();
+  const isGuest = !user && !devProfile;
   const email = user?.email ?? devProfile?.email ?? "";
   const metaFullName =
     typeof user?.user_metadata?.full_name === "string" ? user.user_metadata.full_name : undefined;
-  const displayName = metaFullName ?? devProfile?.full_name ?? email;
+  const displayName = metaFullName ?? devProfile?.full_name ?? (isGuest ? "Гость" : email);
   const [busy, setBusy] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
@@ -148,7 +149,8 @@ export function ClinicalShell({
   );
 
   const headerDisplayName =
-    (cabinetLabel.doctorLine ?? cabinetLabel.abbrev ?? displayName) || email || "Врач";
+    (cabinetLabel.doctorLine ?? cabinetLabel.abbrev ?? displayName) || email || (isGuest ? "Гость" : "Врач");
+  const loginHref = `/login?redirectedFrom=${encodeURIComponent(pathname || "/app")}`;
 
   useEffect(() => {
     if (devProfile?.full_name) {
@@ -191,7 +193,7 @@ export function ClinicalShell({
       await fetch("/api/auth/sign-out", { method: "POST", credentials: "same-origin" });
       await supabase.auth.signOut();
       router.refresh();
-      router.push("/landing");
+      router.push("/app");
     } finally {
       setBusy(false);
     }
@@ -244,6 +246,14 @@ export function ClinicalShell({
             </p>
             {group.items.map((item) => {
               const Icon = item.icon;
+              const needsLogin =
+                isGuest &&
+                (item.href.startsWith("/profile") ||
+                  item.href.startsWith("/patients") ||
+                  item.href.startsWith("/paywall"));
+              const href = needsLogin
+                ? `/login?redirectedFrom=${encodeURIComponent(item.href)}`
+                : item.href;
               const active =
                 item.href === "/ai/workspace" || item.href.startsWith("/ai/workspace")
                   ? pathname.startsWith("/ai/workspace") || pathname.startsWith("/workspace")
@@ -256,7 +266,7 @@ export function ClinicalShell({
               return (
                 <Link
                   key={item.href}
-                  href={item.href}
+                  href={href}
                   onClick={() => setMobileOpen(false)}
                   className={cn(
                     "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200",
@@ -264,9 +274,15 @@ export function ClinicalShell({
                       ? "sonogyn-nav-active text-[var(--clinical-primary-deep)]"
                       : "text-[var(--clinical-foreground-muted)] hover:bg-black/[0.04] hover:text-[var(--clinical-foreground)]",
                   )}
+                  title={needsLogin ? "Чтобы открыть — войдите в аккаунт" : undefined}
                 >
                   <Icon className="h-4 w-4 shrink-0 opacity-80" />
                   {item.label}
+                  {needsLogin ? (
+                    <span className="ml-auto text-[10px] font-semibold uppercase tracking-wide text-[var(--clinical-foreground-muted)]">
+                      вход
+                    </span>
+                  ) : null}
                 </Link>
               );
             })}
@@ -358,31 +374,46 @@ export function ClinicalShell({
             </span>
           </div>
           <GlobalSearchTrigger />
-          <ProBadge className="hidden sm:inline-flex" />
+          {!isGuest ? <ProBadge className="hidden sm:inline-flex" /> : null}
           <ThemeToggle />
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="secondary" size="sm" className="ml-auto gap-2 font-normal" data-testid="user-menu-trigger">
-                <span className="hidden max-w-[180px] truncate text-left text-xs font-semibold sm:inline">
-                  {headerDisplayName}
-                </span>
-                <UserRound className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-52">
-              <DropdownMenuItem asChild>
-                <Link href="/profile">Profile & credentials</Link>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem disabled>{email}</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => void signOut()} disabled={busy} data-testid="logout-button">
-                <LogOut className="mr-2 h-4 w-4" />
-                Sign out
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          {isGuest ? (
+            <Button asChild size="sm" className="ml-auto" data-testid="guest-login-cta">
+              <Link href={loginHref}>Войти</Link>
+            </Button>
+          ) : (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="secondary" size="sm" className="ml-auto gap-2 font-normal" data-testid="user-menu-trigger">
+                  <span className="hidden max-w-[180px] truncate text-left text-xs font-semibold sm:inline">
+                    {headerDisplayName}
+                  </span>
+                  <UserRound className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-52">
+                <DropdownMenuItem asChild>
+                  <Link href="/profile">Profile & credentials</Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem disabled>{email}</DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => void signOut()} disabled={busy} data-testid="logout-button">
+                  <LogOut className="mr-2 h-4 w-4" />
+                  Sign out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </header>
+        {isGuest ? (
+          <div className="border-b border-amber-200/70 bg-amber-50/90 px-4 py-2 text-center text-xs text-amber-950 dark:border-amber-900/40 dark:bg-amber-950/30 dark:text-amber-100">
+            Открытый доступ: калькуляторы и справочники без регистрации.{" "}
+            <Link href={loginHref} className="font-semibold underline underline-offset-2">
+              Войдите
+            </Link>
+            , чтобы сохранить кейсы и пациентов. Скоро — Яндекс ID и SMS.
+          </div>
+        ) : null}
         <main className="flex-1 pb-[calc(4.5rem+env(safe-area-inset-bottom))] sonogyn-enter lg:pb-0" data-voice-content>
           {children}
         </main>

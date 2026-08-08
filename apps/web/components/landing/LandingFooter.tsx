@@ -38,13 +38,13 @@ export function LandingFooter({ isAuthenticated }: LandingFooterProps) {
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <Link
-            href={isAuthenticated ? "/app" : "/register"}
+            href="/app"
             className="inline-flex h-11 items-center justify-center rounded-xl bg-white px-6 text-sm font-semibold text-[var(--clinical-primary-deep)] shadow transition hover:bg-white/95"
           >
-            {isAuthenticated ? "В личный кабинет" : "Зарегистрироваться"}
+            {isAuthenticated ? "В личный кабинет" : "Открыть кабинет"}
           </Link>
           <Link
-            href={isAuthenticated ? "/paywall" : "/login?next=/paywall"}
+            href={isAuthenticated ? "/profile/pro" : "/login?redirectedFrom=/profile/pro"}
             className="inline-flex h-11 items-center justify-center rounded-xl border border-white/40 bg-transparent px-6 text-sm font-semibold text-white transition hover:bg-white/10"
           >
             {isAuthenticated ? "Тариф PRO" : "Войти для PRO"}
@@ -66,12 +66,12 @@ export function LandingFooter({ isAuthenticated }: LandingFooterProps) {
           <Link href="/pricing" className="hover:text-[var(--clinical-primary-deep)]">
             Страница тарифов
           </Link>
-          <Link href={isAuthenticated ? "/app" : "/login"} className="hover:text-[var(--clinical-primary-deep)]">
-            {isAuthenticated ? "Кабинет" : "Вход"}
+          <Link href="/app" className="hover:text-[var(--clinical-primary-deep)]">
+            Кабинет
           </Link>
           {!isAuthenticated ? (
-            <Link href="/register" className="hover:text-[var(--clinical-primary-deep)]">
-              Регистрация
+            <Link href="/login?redirectedFrom=/app" className="hover:text-[var(--clinical-primary-deep)]">
+              Войти
             </Link>
           ) : null}
           <a href="mailto:support@sonogyn-pro.ru" className="hover:text-[var(--clinical-primary-deep)]">

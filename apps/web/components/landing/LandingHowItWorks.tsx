@@ -17,7 +17,7 @@ export function LandingHowItWorks() {
           </h2>
         </div>
         <Button variant="outline" size="sm" className="self-start font-semibold sm:self-auto" asChild>
-          <Link href="/register">Создать аккаунт</Link>
+          <Link href="/app">Открыть кабинет</Link>
         </Button>
       </div>
 

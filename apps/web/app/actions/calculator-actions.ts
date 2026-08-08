@@ -20,7 +20,10 @@ export async function saveCalculatorEntry(input: {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return { ok: false, message: "Unauthorized" };
+    return {
+      ok: false,
+      message: "Чтобы сохранить результат — войдите в аккаунт. Скоро: Яндекс ID и SMS.",
+    };
   }
 
   const { data, error } = await supabase
@@ -41,6 +44,7 @@ export async function saveCalculatorEntry(input: {
   revalidatePath("/tools/calc");
   revalidatePath("/tools/calc/gyn/elastography");
   revalidatePath("/tools/calc/gyn/pop-q");
+  revalidatePath("/tools/calc/rads/ti-rads");
   revalidatePath("/tools/adjunct/ti-rads");
   revalidatePath(`/tools/calc/${input.slug}`);
   return { ok: true, id: data.id as string };

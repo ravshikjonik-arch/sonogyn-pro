@@ -10,7 +10,8 @@ import {
   Stethoscope,
 } from "lucide-react";
 
-import { LandingAuthCard } from "@/components/landing/LandingAuthCard";
+import { OpenAccessEntryCard } from "@/components/landing/OpenAccessEntryCard";
+import { Button } from "@/components/ui/button";
 
 const TOP_PILLS = [
   { icon: Sparkles, label: "AI 24/7" },
@@ -185,31 +186,17 @@ export function LandingMarketingHero({ isAuthenticated }: Props) {
               </p>
             </div>
 
-            <LandingAuthCard className="shadow-[0_0_56px_rgba(124,58,237,0.55)]" />
-
-            {!isAuthenticated ? (
-              <div className="grid grid-cols-2 gap-2">
-                <aside className="rounded-xl border border-white/10 bg-black/40 p-3 backdrop-blur-md">
-                  <p className="text-[10px] font-black uppercase tracking-wider text-violet-300">3D-анатомия</p>
-                  <p className="mt-1 text-xs font-semibold text-white">FIGO · модели</p>
-                </aside>
-                <aside className="rounded-xl border border-white/10 bg-black/40 p-3 backdrop-blur-md">
-                  <p className="text-[10px] font-black uppercase tracking-wider text-violet-300">Evidence</p>
-                  <p className="mt-1 text-xs font-semibold text-white">КР · PubMed</p>
-                </aside>
+            {isAuthenticated ? (
+              <div className="rounded-3xl border border-white/15 bg-black/45 p-5 text-white shadow-xl backdrop-blur-md">
+                <p className="text-[10px] font-black uppercase tracking-[0.22em] text-violet-200/80">Сессия активна</p>
+                <h3 className="mt-2 text-xl font-black tracking-tight">С возвращением</h3>
+                <Button asChild size="lg" className="mt-5 w-full bg-white font-semibold text-violet-900 hover:bg-white/95">
+                  <Link href="/app">В личный кабинет</Link>
+                </Button>
               </div>
-            ) : null}
-
-            <div className="flex flex-wrap items-center gap-2 text-[11px] text-violet-100/55">
-              <span>Также:</span>
-              <Link href="/login" className="font-semibold text-violet-200 underline-offset-2 hover:underline">
-                полная форма входа
-              </Link>
-              <span>·</span>
-              <Link href="/app" className="font-semibold text-violet-200 underline-offset-2 hover:underline">
-                веб-кабинет
-              </Link>
-            </div>
+            ) : (
+              <OpenAccessEntryCard className="shadow-[0_0_56px_rgba(124,58,237,0.55)]" />
+            )}
           </div>
         </div>
 

@@ -118,17 +118,17 @@ export const GUEST_ACCESS_TIERS: GuestAccessTier[] = [
     items: [
       { label: "Клин. нормы УЗИ", href: "/tools/refs/norms" },
       { label: "Калькулятор эластографии", href: "/tools/calc/gyn/elastography" },
-      { label: "Клинический кабинет", href: "/register?next=/app", note: "после регистрации" },
+      { label: "Клинический кабинет", href: "/app", note: "без регистрации" },
     ],
   },
   {
     title: "Ординатор / Врач",
     badge: "Шаг 2–3 · 0 ₽",
-    description: "Профиль врача → полный кабинет на Free.",
+    description: "Кабинет открыт сразу; профиль — когда сохраняете кейсы.",
     items: [
-      { label: "Заполнить профиль", href: "/register?next=/profile" },
-      { label: "Кабинет и кейсы", href: "/register?next=/app" },
+      { label: "Открыть кабинет", href: "/app" },
       { label: "FMF · скрининг", href: "/ai/consultants/fmf" },
+      { label: "Войти для сохранения", href: "/login?redirectedFrom=/app" },
     ],
   },
   {
@@ -136,8 +136,8 @@ export const GUEST_ACCESS_TIERS: GuestAccessTier[] = [
     badge: "Шаг 4 · оплата",
     description: "Снимите лимиты — когда готовы к потоку кейсов.",
     items: [
-      { label: "Оформить PRO", href: "/login?next=/paywall" },
-      { label: "Безлимит AI", href: "/login?next=/paywall", locked: true },
+      { label: "Оформить PRO", href: "/login?redirectedFrom=/profile/pro" },
+      { label: "Безлимит AI", href: "/login?redirectedFrom=/profile/pro", locked: true },
       { label: "ЮKassa · 30 дней", href: "/landing#pricing" },
     ],
   },
@@ -169,8 +169,8 @@ export const PRICING_PLANS = [
     period: "навсегда",
     description: "Знакомство с калькуляторами и открытыми материалами.",
     features: ["Клинический shell", "Базовые калькуляторы", "Лимиты на AI и кейсы PRO"],
-    cta: "Начать бесплатно",
-    href: "/register",
+    cta: "Открыть кабинет",
+    href: "/app",
     highlighted: false,
   },
   {
@@ -185,7 +185,7 @@ export const PRICING_PLANS = [
       "Оплата картой РФ, чек на email",
     ],
     cta: "Войти и оформить PRO",
-    href: "/login?next=/paywall",
+    href: "/login?redirectedFrom=/profile/pro",
     highlighted: true,
     icon: CreditCard,
   },

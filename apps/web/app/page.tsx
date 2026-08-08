@@ -1,18 +1,12 @@
 import { redirect } from "next/navigation";
 
 import { canDevAutoLoginRedirect, getDevLoginConfig, isDevAutoLoginEnabled, isDevSkipAuthEnabled } from "@/lib/auth/dev-account";
-import { createClient } from "@/utils/supabase/server";
 
-export default async function RootPage() {
-  const supabase = await createClient();
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  if (session) {
-    redirect("/app");
-  }
-
+/**
+ * Open access: врач открывает sonogyn-pro.ru → сразу кабинет.
+ * Логин нужен только для PHI / сохранения / PRO (см. middleware AUTH_REQUIRED).
+ */
+export default function RootPage() {
   if (isDevSkipAuthEnabled()) {
     redirect("/app");
   }
@@ -25,5 +19,5 @@ export default async function RootPage() {
     redirect("/login?dev_setup=service_role");
   }
 
-  redirect("/landing");
+  redirect("/app");
 }

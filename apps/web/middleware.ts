@@ -42,23 +42,66 @@ const roots = [
   "/demo",
 ];
 
-/** Калькуляторы, доступные без Supabase-логина (как elastography / O-RADS Pro). */
+/**
+ * Soft-gate: клинический shell открыт без логина.
+ * PHI / профиль / PRO / admin / author — только после входа.
+ */
+const AUTH_REQUIRED_PREFIXES = [
+  "/patients",
+  "/profile",
+  "/admin",
+  "/author",
+  "/paywall",
+  "/dashboard",
+] as const;
+
+/** Legacy whitelist (остаётся для совместимости; soft-gate шире). */
 const PUBLIC_WITHIN_PROTECTED = [
+  "/app",
+  "/tools",
+  "/calculators",
+  "/ai",
+  "/assistant",
+  "/library",
+  "/feed",
+  "/cases",
+  "/community",
+  "/mockups",
+  "/uterus-3d",
+  "/breast-3d",
+  "/ovary-atlas",
+  "/reference",
+  "/nosologies",
+  "/guidelines",
+  "/evidence",
+  "/workspace",
+  "/voice-reader",
+  "/idea-deep-endometriosis",
+  "/musa",
+  "/demo",
   "/calculators/elastography",
   "/calculators/bi-rads",
   "/calculators/ti-rads",
   "/tools/calc/rads/o-rads",
   "/tools/calc/rads/bi-rads",
   "/tools/calc/rads/ln-rads",
+  "/tools/calc/rads/ti-rads",
   "/tools/adjunct/ti-rads",
   "/tools/calc/gyn/elastography",
   "/tools/calc/gyn/cervical-intelligence",
 ];
 
+function matchesPrefix(pathname: string, prefix: string): boolean {
+  return pathname === prefix || pathname.startsWith(`${prefix}/`);
+}
+
+function isAuthRequiredPath(pathname: string): boolean {
+  return AUTH_REQUIRED_PREFIXES.some((prefix) => matchesPrefix(pathname, prefix));
+}
+
 function isPublicWithinProtected(pathname: string): boolean {
-  return PUBLIC_WITHIN_PROTECTED.some(
-    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`),
-  );
+  if (isAuthRequiredPath(pathname)) return false;
+  return PUBLIC_WITHIN_PROTECTED.some((prefix) => matchesPrefix(pathname, prefix));
 }
 
 function redirectWithSessionCookies(request: NextRequest, response: NextResponse, pathname: string, search = "") {

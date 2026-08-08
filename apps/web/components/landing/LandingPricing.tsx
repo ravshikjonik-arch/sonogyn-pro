@@ -26,7 +26,7 @@ export function LandingPricing({ isAuthenticated }: LandingPricingProps) {
         {PRICING_PLANS.map((plan) => {
           const href =
             plan.id === "pro" && isAuthenticated
-              ? "/paywall"
+              ? "/profile/pro"
               : plan.id === "free" && isAuthenticated
                 ? "/app"
                 : plan.href;

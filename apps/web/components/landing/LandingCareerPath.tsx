@@ -18,8 +18,8 @@ export function LandingCareerPath({ isAuthenticated, progress }: LandingCareerPa
     headline: "От студента — к ординатору, врачу и PRO",
     subline:
       "Четыре понятных шага: сначала бесплатно, потом кабинет, потом практика, потом подписка без лимитов.",
-    ctaLabel: "Начать как студент — бесплатно",
-    ctaHref: "/register",
+    ctaLabel: "Открыть кабинет — без регистрации",
+    ctaHref: "/app",
   };
 
   const displayProgress = progress ?? (isAuthenticated ? buildCareerProgress(null, true) : guestPitch);
