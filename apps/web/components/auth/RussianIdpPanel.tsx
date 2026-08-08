@@ -14,7 +14,7 @@ type RussianIdpPanelProps = {
 };
 
 /** Яндекс ID через Supabase OAuth (без Google/VK для пилота). */
-export function RussianIdpPanel({ variant = "login", nextPath = "/app" }: RussianIdpPanelProps) {
+export function RussianIdpPanel({ variant = "login", nextPath = "/home" }: RussianIdpPanelProps) {
   const [loading, setLoading] = useState<AuthProvider | null>(null);
   const [message, setMessage] = useState("");
 
@@ -51,7 +51,7 @@ export function RussianIdpPanel({ variant = "login", nextPath = "/app" }: Russia
   return (
     <div className="space-y-4">
       <p className="text-sm text-[var(--clinical-foreground-muted)]">
-        Для пилота доступен Яндекс ID. Google и Apple отключены; VK подключим отдельной интеграцией позже.
+        Быстрый вход через Яндекс ID — без письма. Google отключён (199-ФЗ).
       </p>
       <AuthButtons
         providers={["yandex"]}
@@ -60,10 +60,6 @@ export function RussianIdpPanel({ variant = "login", nextPath = "/app" }: Russia
         variant={variant}
       />
       {message ? <AuthMessage message={message} /> : null}
-      <p className="text-xs text-slate-500">
-        Нужно один раз включить VK и Yandex в Supabase Dashboard и указать Client ID / Secret из кабинетов
-        разработчика.
-      </p>
     </div>
   );
 }

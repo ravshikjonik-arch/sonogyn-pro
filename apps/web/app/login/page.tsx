@@ -70,7 +70,7 @@ function LoginForm() {
 
   const nextPath = safeInternalPath(
     searchParams.get("next") ?? searchParams.get("redirectedFrom"),
-    "/app",
+    "/home",
   );
   const authCallbackError = searchParams.get("error") === "auth_callback";
   const telegramBotName = readTelegramBotDisplayName();
@@ -364,7 +364,7 @@ function LoginForm() {
       title="Вход"
       subtitle={
         isAuthEmailOnlyClient()
-          ? "Email и пароль — один аккаунт для web и mobile."
+          ? "Яндекс ID или email и пароль — один аккаунт для web и mobile."
           : isPilotClosedAccessClient()
             ? PILOT_AUTH_SUBTITLE
             : isPilotTelegramPrimary()
@@ -375,11 +375,10 @@ function LoginForm() {
       onTabChange={onTabChange}
       showMethodHints
       socialTab={
-        !isAuthEmailOnlyClient() && !isPilotClosedAccessClient() ? (
+        !isPilotClosedAccessClient() ? (
           <div className="space-y-4">
             <RussianIdpPanel variant="login" nextPath={nextPath} />
-            <SocialAuthSetupHint showRussianIdp />
-            {authCallbackError ? <SocialAuthSetupHint showGoogle /> : null}
+            {authCallbackError ? <SocialAuthSetupHint showRussianIdp /> : null}
           </div>
         ) : undefined
       }
@@ -759,20 +758,36 @@ function LoginForm() {
             </Link>
           </p>
           <div className="mt-3 flex flex-wrap justify-center gap-2 text-xs">
-            {!isAuthEmailOnlyClient() && !isPilotClosedAccessClient() ? (
+            {!isPilotClosedAccessClient() ? (
               <>
-            <Link href="/login?method=phone" className="rounded-full bg-slate-100 px-3 py-1 text-slate-600 hover:underline dark:bg-slate-800 dark:text-slate-300">
-              SMS
-            </Link>
-            <Link href="/login?method=social" className="rounded-full bg-slate-100 px-3 py-1 text-slate-600 hover:underline dark:bg-slate-800 dark:text-slate-300">
-              Яндекс ID
-            </Link>
-            <Link href="/login?method=telegram" className="rounded-full bg-slate-100 px-3 py-1 text-slate-600 hover:underline dark:bg-slate-800 dark:text-slate-300">
-              Telegram
-            </Link>
-            <Link href="/login?method=email" className="rounded-full bg-slate-100 px-3 py-1 text-slate-600 hover:underline dark:bg-slate-800 dark:text-slate-300">
-              Email
-            </Link>
+                {!isAuthEmailOnlyClient() ? (
+                  <>
+                    <Link
+                      href="/login?method=phone"
+                      className="rounded-full bg-slate-100 px-3 py-1 text-slate-600 hover:underline dark:bg-slate-800 dark:text-slate-300"
+                    >
+                      SMS
+                    </Link>
+                    <Link
+                      href="/login?method=telegram"
+                      className="rounded-full bg-slate-100 px-3 py-1 text-slate-600 hover:underline dark:bg-slate-800 dark:text-slate-300"
+                    >
+                      Telegram
+                    </Link>
+                  </>
+                ) : null}
+                <Link
+                  href="/login?method=social"
+                  className="rounded-full bg-slate-100 px-3 py-1 text-slate-600 hover:underline dark:bg-slate-800 dark:text-slate-300"
+                >
+                  Яндекс ID
+                </Link>
+                <Link
+                  href="/login?method=email"
+                  className="rounded-full bg-slate-100 px-3 py-1 text-slate-600 hover:underline dark:bg-slate-800 dark:text-slate-300"
+                >
+                  Email
+                </Link>
               </>
             ) : null}
           </div>

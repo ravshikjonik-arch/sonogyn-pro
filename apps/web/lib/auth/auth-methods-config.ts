@@ -4,7 +4,8 @@ const TRUE = new Set(["true", "1", "yes"]);
 
 /**
  * Mail-first product: registration/login via email + password.
- * SMS / Telegram / Yandex stay off unless AUTH_ALLOW_PHONE=true.
+ * SMS / Telegram stay off unless AUTH_ALLOW_PHONE=true.
+ * Yandex ID is shown even in mail-first (see login/register socialTab).
  * (Ignores stale AUTH_EMAIL_ONLY=false on older Vercel deploys.)
  */
 export function isAuthEmailOnly(): boolean {

@@ -82,7 +82,19 @@ export function AuthScreenShell({
       ) : null}
 
       {emailOnly ? (
-        <div className="w-full">{emailTab}</div>
+        <div className="w-full space-y-6">
+          {socialTab ? (
+            <>
+              {socialTab}
+              <div className="flex items-center gap-3 text-[11px] font-medium uppercase tracking-wide text-slate-400">
+                <span className="h-px flex-1 bg-slate-200 dark:bg-slate-700" />
+                или email
+                <span className="h-px flex-1 bg-slate-200 dark:bg-slate-700" />
+              </div>
+            </>
+          ) : null}
+          {emailTab}
+        </div>
       ) : closedPilot ? (
         <div className="w-full">{telegramTab}</div>
       ) : (

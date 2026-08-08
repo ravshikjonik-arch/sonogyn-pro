@@ -42,9 +42,9 @@ export const SUPABASE_PRODUCTION_AUTH_CHECKLIST: SupabaseAuthChecklistItem[] = [
   {
     id: "providers-ru",
     area: "Authentication → Providers",
-    setting: "Google OFF · VK ON · Yandex ON · Phone OFF (custom SMS.ru)",
-    recommended: "Email + VK + Yandex; Phone через apps/web SMS.ru, не Supabase Phone",
-    why: "199-ФЗ / КоАП 13.55: иностранные IdP (Google, Apple) для пользователей из РФ не использовать. SMS.ru — основной телефонный вход.",
+    setting: "Google OFF · Yandex ON · Phone OFF (custom SMS.ru)",
+    recommended: "Email + Yandex ID; Phone через apps/web SMS.ru позже, не Supabase Phone",
+    why: "199-ФЗ: Google/Apple OFF. Яндекс ID — основной быстрый вход без письма. Redirect: /auth/callback.",
   },
   {
     id: "providers-off",

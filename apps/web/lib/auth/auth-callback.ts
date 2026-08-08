@@ -22,7 +22,7 @@ export type AuthCallbackParams = {
   next: string;
 };
 
-export function parseAuthCallbackParams(url: URL, defaultNext = "/app"): AuthCallbackParams {
+export function parseAuthCallbackParams(url: URL, defaultNext = "/home"): AuthCallbackParams {
   const rawType = url.searchParams.get("type")?.trim() ?? null;
   const type = rawType && OTP_TYPES.has(rawType) ? (rawType as EmailOtpType) : null;
   const defaultForType = type === "recovery" ? recoveryResetPath() : defaultNext;

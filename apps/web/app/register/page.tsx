@@ -12,7 +12,6 @@ import { EmailRegistrationHint } from "@/components/auth/EmailRegistrationHint";
 import { PhoneAuthSetupHint } from "@/components/auth/PhoneAuthSetupHint";
 import { PhoneInput } from "@/components/auth/PhoneInput";
 import { RussianIdpPanel } from "@/components/auth/RussianIdpPanel";
-import { SocialAuthSetupHint } from "@/components/auth/SocialAuthSetupHint";
 import {
   birthDateErrorMessage,
   DoctorRegistrationFields,
@@ -87,7 +86,7 @@ function RegisterForm() {
 
   const afterAuthPath = safeInternalPath(
     searchParams.get("next") ?? searchParams.get("redirectedFrom"),
-    "/app",
+    "/home",
   );
   const simpleTelegramRegister = isPilotTelegramPrimary() || isPilotClosedAccessClient();
   const telegramBotName = readTelegramBotDisplayName();
@@ -482,13 +481,12 @@ function RegisterForm() {
       onTabChange={onTabChange}
       showMethodHints
       socialTab={
-        !isAuthEmailOnlyClient() && !isPilotClosedAccessClient() ? (
+        !isPilotClosedAccessClient() ? (
           <div className="space-y-4">
-            <RegisterCareerTeaser />
+            {!isAuthEmailOnlyClient() ? <RegisterCareerTeaser /> : null}
             <RussianIdpPanel variant="register" nextPath={afterAuthPath} />
-            <SocialAuthSetupHint showRussianIdp />
             <p className="text-xs text-slate-500">
-              После входа через Яндекс ID заполните ФИО и специализацию в профиле.
+              ФИО подставим из Яндекса. Специализацию укажите в профиле — откроется полный кабинет.
             </p>
           </div>
         ) : undefined
@@ -792,7 +790,9 @@ function RegisterForm() {
       footer={
         <>
           <div className="mt-4 flex flex-wrap justify-center gap-2 text-xs">
-            {!isAuthEmailOnlyClient() && !isPilotClosedAccessClient() ? (
+            {!isPilotClosedAccessClient() ? (
+              <>
+            {!isAuthEmailOnlyClient() ? (
               <>
             <Link
               href="/register?method=phone"
@@ -801,16 +801,18 @@ function RegisterForm() {
               SMS
             </Link>
             <Link
-              href="/register?method=social"
-              className={`rounded-full px-3 py-1 ${activeTab === "social" ? "bg-[var(--clinical-primary-deep)] text-white" : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"}`}
-            >
-              Яндекс ID
-            </Link>
-            <Link
               href="/register?method=telegram"
               className={`rounded-full px-3 py-1 ${activeTab === "telegram" ? "bg-[var(--clinical-primary-deep)] text-white" : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"}`}
             >
               Telegram
+            </Link>
+              </>
+            ) : null}
+            <Link
+              href="/register?method=social"
+              className={`rounded-full px-3 py-1 ${activeTab === "social" ? "bg-[var(--clinical-primary-deep)] text-white" : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"}`}
+            >
+              Яндекс ID
             </Link>
             <Link
               href="/register?method=email"

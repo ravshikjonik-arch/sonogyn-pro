@@ -6,6 +6,7 @@ import {
   parseAuthCallbackParams,
   recoveryResetPath,
 } from "@/lib/auth/auth-callback";
+import { finalizeOAuthLogin } from "@/lib/auth/oauth-post-login";
 import { autoGrantPilotMedicalAccess } from "@/lib/auth/pilot-medical-access";
 import { supabaseCookieOptions, withSecureCookieOptions } from "@/utils/supabase/cookie-options";
 
@@ -33,7 +34,7 @@ function authErrorRedirect(
 
 export async function GET(request: NextRequest) {
   const url = new URL(request.url);
-  const params = parseAuthCallbackParams(url, recoveryResetPath());
+  const params = parseAuthCallbackParams(url, "/home");
 
   const hasAuthPayload = Boolean(params.code || params.tokenHash);
   if (!hasAuthPayload && !params.error && !params.errorCode) {
@@ -44,10 +45,9 @@ export async function GET(request: NextRequest) {
     params.type === "recovery" ||
     params.next.includes("reset-password");
 
-  const redirectTarget = isRecoveryFlow ? recoveryResetPath() : params.next;
-
-  const redirectUrl = new URL(redirectTarget, url.origin);
-  const response = NextResponse.redirect(redirectUrl);
+  /** Placeholder; final Location set after session + OAuth profile sync. */
+  let redirectTarget = isRecoveryFlow ? recoveryResetPath() : params.next;
+  let response = NextResponse.redirect(new URL(redirectTarget, url.origin));
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -80,6 +80,12 @@ export async function GET(request: NextRequest) {
       data: { user },
     } = await supabase.auth.getUser();
     if (user?.id) {
+      redirectTarget = await finalizeOAuthLogin(supabase, user, params.next);
+      const nextResponse = NextResponse.redirect(new URL(redirectTarget, url.origin));
+      response.cookies.getAll().forEach((cookie) => {
+        nextResponse.cookies.set(cookie);
+      });
+      response = nextResponse;
       await autoGrantPilotMedicalAccess(user.id);
     }
   }
