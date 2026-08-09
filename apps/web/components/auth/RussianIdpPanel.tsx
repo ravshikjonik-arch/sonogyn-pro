@@ -37,7 +37,7 @@ export function RussianIdpPanel({ variant = "login", nextPath = "/home" }: Russi
       if (error) {
         setMessage(
           /provider.*not enabled|unsupported/i.test(error.message)
-            ? "Провайдер не включён в Supabase Dashboard (Authentication → Providers → VK / Yandex)."
+            ? "Яндекс не настроен в Supabase: Authentication → Providers → New Provider → custom:yandex."
             : error.message || "Не удалось начать вход.",
         );
       }

@@ -2,10 +2,14 @@ import type { Provider } from "@supabase/supabase-js";
 
 import type { AuthProvider } from "@repo/ui";
 
+/**
+ * Yandex is not a built-in Supabase provider on newer projects —
+ * create Custom OAuth provider with identifier `custom:yandex` in Dashboard.
+ */
 const OAUTH_MAP: Record<Exclude<AuthProvider, "telegram">, Provider> = {
   google: "google",
   vk: "vk" as Provider,
-  yandex: "yandex" as Provider,
+  yandex: "custom:yandex" as Provider,
 };
 
 export function oauthProviderToSupabase(provider: Exclude<AuthProvider, "telegram">): Provider {
