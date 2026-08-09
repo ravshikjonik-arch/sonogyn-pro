@@ -13,26 +13,29 @@ export function SocialAuthSetupHint({ showGoogle, showRussianIdp }: SocialAuthSe
   if (!showGoogle && !showRussianIdp) return null;
 
   const callback = supabaseOAuthCallbackUrl();
+  const appOrigin =
+    (typeof process !== "undefined" && process.env.NEXT_PUBLIC_APP_URL?.replace(/\/$/, "")) ||
+    "https://sonogyn-pro.ru";
+  const yandexUserinfo = `${appOrigin}/api/auth/yandex/userinfo`;
 
   if (showRussianIdp) {
     return (
       <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-950 dark:border-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-100">
-        <p className="font-semibold">Яндекс ID — настройка (один раз)</p>
+        <p className="font-semibold">Яндекс ID — если вход оборвался</p>
         <ol className="mt-2 list-inside list-decimal space-y-1 text-xs">
           <li>
-            Supabase → Authentication → Providers → <strong>New Provider</strong> (Custom) →
-            Identifier <span className="font-mono">yandex</span> (в SDK:{" "}
-            <span className="font-mono">custom:yandex</span>), Manual:
-            authorize / token / userinfo Яндекса + Client ID + Secret.
+            Supabase → Providers → Custom → <span className="font-mono">custom:yandex</span>{" "}
+            (не встроенный «Yandex»).
           </li>
-          <li>Yandex OAuth → Redirect URI (строго как ниже):</li>
+          <li>
+            UserInfo URL должен быть прокси приложения (Яндекс не принимает Bearer):
+          </li>
         </ol>
-        <pre className="mt-2 overflow-x-auto rounded-lg bg-white/70 p-2 text-[10px] dark:bg-black/20">{callback}</pre>
-        <p className="mt-2 text-xs">
-          Vercel env (опционально для подсказки):{" "}
-          <span className="font-mono">NEXT_PUBLIC_YANDEX_CLIENT_ID</span>. Встроенного пункта
-          «Yandex» в Providers больше нет.
-        </p>
+        <pre className="mt-2 overflow-x-auto rounded-lg bg-white/70 p-2 text-[10px] dark:bg-black/20">
+          {yandexUserinfo}
+        </pre>
+        <p className="mt-2 text-xs">Yandex Redirect URI:</p>
+        <pre className="mt-1 overflow-x-auto rounded-lg bg-white/70 p-2 text-[10px] dark:bg-black/20">{callback}</pre>
       </div>
     );
   }
