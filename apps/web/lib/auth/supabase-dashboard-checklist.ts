@@ -41,10 +41,11 @@ export const SUPABASE_PRODUCTION_AUTH_CHECKLIST: SupabaseAuthChecklistItem[] = [
   },
   {
     id: "providers-ru",
-    area: "Authentication → Providers",
-    setting: "Google OFF · Yandex ON · Phone OFF (custom SMS.ru)",
-    recommended: "Email + Yandex ID; Phone через apps/web SMS.ru позже, не Supabase Phone",
-    why: "199-ФЗ: Google/Apple OFF. Яндекс ID — основной быстрый вход без письма. Redirect: /auth/callback.",
+    area: "Authentication → Providers → Custom Provider",
+    setting: "Google OFF · custom:yandex ON · Phone OFF (custom SMS.ru)",
+    recommended:
+      "Identifier yandex (SDK custom:yandex), Manual OAuth: authorize/token/userinfo Яндекса + Client ID/Secret. Redirect URI в oauth.yandex.ru = …/auth/v1/callback",
+    why: "199-ФЗ: Google/Apple OFF. Встроенного Yandex в новых проектах нет — только Custom Provider. Env: NEXT_PUBLIC_YANDEX_CLIENT_ID (опционально).",
   },
   {
     id: "providers-off",
