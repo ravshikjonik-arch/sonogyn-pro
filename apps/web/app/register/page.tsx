@@ -12,6 +12,7 @@ import { EmailRegistrationHint } from "@/components/auth/EmailRegistrationHint";
 import { PhoneAuthSetupHint } from "@/components/auth/PhoneAuthSetupHint";
 import { PhoneInput } from "@/components/auth/PhoneInput";
 import { RussianIdpPanel } from "@/components/auth/RussianIdpPanel";
+import { isAuthSocialEnabledClient } from "@/lib/auth/open-access";
 import {
   birthDateErrorMessage,
   DoctorRegistrationFields,
@@ -481,13 +482,23 @@ function RegisterForm() {
       onTabChange={onTabChange}
       showMethodHints
       socialTab={
-        !isPilotClosedAccessClient() ? (
+        isAuthSocialEnabledClient() && !isPilotClosedAccessClient() ? (
           <div className="space-y-4">
             {!isAuthEmailOnlyClient() ? <RegisterCareerTeaser /> : null}
             <RussianIdpPanel variant="register" nextPath={afterAuthPath} />
             <p className="text-xs text-slate-500">
               ФИО подставим из Яндекса. Специализацию укажите в профиле — откроется полный кабинет.
             </p>
+          </div>
+        ) : !isPilotClosedAccessClient() ? (
+          <div className="space-y-3 rounded-2xl border border-emerald-200 bg-emerald-50/80 p-4 text-sm text-emerald-950 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-100">
+            <p className="font-semibold">Регистрация не обязательна</p>
+            <p className="text-xs">
+              Можно сразу работать в кабинете. Email — когда понадобятся пациенты и сохранение.
+            </p>
+            <Button asChild className="w-full" variant="secondary">
+              <Link href="/home">В кабинет без регистрации</Link>
+            </Button>
           </div>
         ) : undefined
       }

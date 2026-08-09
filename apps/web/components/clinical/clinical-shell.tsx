@@ -377,8 +377,8 @@ export function ClinicalShell({
           {!isGuest ? <ProBadge className="hidden sm:inline-flex" /> : null}
           <ThemeToggle />
           {isGuest ? (
-            <Button asChild size="sm" className="ml-auto" data-testid="guest-login-cta">
-              <Link href={loginHref}>Войти</Link>
+            <Button asChild size="sm" variant="ghost" className="ml-auto" data-testid="guest-login-cta">
+              <Link href={loginHref}>Войти позже</Link>
             </Button>
           ) : (
             <DropdownMenu>
@@ -406,12 +406,9 @@ export function ClinicalShell({
           )}
         </header>
         {isGuest ? (
-          <div className="border-b border-amber-200/70 bg-amber-50/90 px-4 py-2 text-center text-xs text-amber-950 dark:border-amber-900/40 dark:bg-amber-950/30 dark:text-amber-100">
-            Открытый доступ: калькуляторы и справочники без регистрации.{" "}
-            <Link href={loginHref} className="font-semibold underline underline-offset-2">
-              Войдите
-            </Link>
-            , чтобы сохранить кейсы и пациентов. Скоро — Яндекс ID и SMS.
+          <div className="border-b border-emerald-200/70 bg-emerald-50/90 px-4 py-2 text-center text-xs text-emerald-950 dark:border-emerald-900/40 dark:bg-emerald-950/30 dark:text-emerald-100">
+            Открытый доступ — считайте и смотрите справочники без регистрации. Пациенты и облачное
+            сохранение — позже через вход.
           </div>
         ) : null}
         <main className="flex-1 pb-[calc(4.5rem+env(safe-area-inset-bottom))] sonogyn-enter lg:pb-0" data-voice-content>

@@ -4,8 +4,6 @@ import { notFound, redirect } from "next/navigation";
 import { CalculatorEntryForm, type CalculatorHistoryRow } from "@/components/calculators/calculator-entry-form";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { isDevSkipAuthEnabled } from "@/lib/auth/dev-account";
-import { resolveCalculatorHref } from "@/lib/calculators/resolve-calculator-href";
 import { getCalculatorBySlug } from "@/lib/calculators/registry";
 import { createClient } from "@/utils/supabase/server";
 
@@ -25,11 +23,7 @@ export default async function CalculatorDetailPage(props: Props) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const devBypass = isDevSkipAuthEnabled();
-  if (!user && !devBypass) {
-    redirect(`/login?redirectedFrom=${encodeURIComponent(resolveCalculatorHref(definition))}`);
-  }
-
+  // Open access: guests can calculate; cloud history only when signed in.
   let history: CalculatorHistoryRow[] = [];
   if (user) {
     const { data: rows } = await supabase
@@ -49,9 +43,9 @@ export default async function CalculatorDetailPage(props: Props) {
           <Link href="/tools/calc">← Каталог</Link>
         </Button>
         <Badge variant="outline">{definition.code}</Badge>
-        {devBypass && !user ? (
+        {!user ? (
           <Badge variant="outline" className="border-amber-300 text-amber-800">
-            Dev · без сохранения в облако
+            Гость · без сохранения в облако
           </Badge>
         ) : null}
       </div>

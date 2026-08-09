@@ -21,6 +21,7 @@ import { markSessionAnchorNow } from "@/lib/security/session-anchor";
 import { parseRegistrationMethod, readTelegramBotDisplayName, type AuthRegistrationMethod } from "@/lib/auth/registration-methods";
 import { isAuthEmailOnlyClient } from "@/lib/auth/auth-methods-config";
 import { isPilotClosedAccessClient, isPilotTelegramPrimary, PILOT_AUTH_SUBTITLE } from "@/lib/auth/auth-pilot-config";
+import { isAuthSocialEnabledClient } from "@/lib/auth/open-access";
 import { RU_IDP_SUBTITLE } from "@/lib/auth/russian-idp";
 import { isRuPhoneMaskComplete } from "@/lib/auth/ru-phone-mask";
 import {
@@ -363,19 +364,21 @@ function LoginForm() {
     <AuthScreenShell
       title="Вход"
       subtitle={
-        isAuthEmailOnlyClient()
-          ? "Яндекс ID или email и пароль — один аккаунт для web и mobile."
-          : isPilotClosedAccessClient()
-            ? PILOT_AUTH_SUBTITLE
-            : isPilotTelegramPrimary()
+        isAuthSocialEnabledClient()
+          ? isAuthEmailOnlyClient()
+            ? "Яндекс ID или email и пароль — один аккаунт для web и mobile."
+            : isPilotClosedAccessClient()
               ? PILOT_AUTH_SUBTITLE
-              : RU_IDP_SUBTITLE
+              : isPilotTelegramPrimary()
+                ? PILOT_AUTH_SUBTITLE
+                : RU_IDP_SUBTITLE
+          : "Сайт открыт без регистрации. Вход нужен только для пациентов и облачного сохранения."
       }
       defaultTab={defaultTab}
       onTabChange={onTabChange}
       showMethodHints
       socialTab={
-        !isPilotClosedAccessClient() ? (
+        isAuthSocialEnabledClient() && !isPilotClosedAccessClient() ? (
           <div className="space-y-4">
             <RussianIdpPanel variant="login" nextPath={nextPath} />
             {authCallbackError ? (
@@ -392,7 +395,17 @@ function LoginForm() {
               </>
             ) : null}
           </div>
-        ) : undefined
+        ) : (
+          <div className="space-y-3 rounded-2xl border border-emerald-200 bg-emerald-50/80 p-4 text-sm text-emerald-950 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-100">
+            <p className="font-semibold">Кабинет открыт без входа</p>
+            <p className="text-xs">
+              Калькуляторы, FMF и справочники — сразу. Яндекс ID временно отключён.
+            </p>
+            <Button asChild className="w-full">
+              <Link href="/home">Перейти в кабинет</Link>
+            </Button>
+          </div>
+        )
       }
       telegramTab={
         simpleTelegramLogin ? (

@@ -73,10 +73,12 @@ const nextConfig: NextConfig = {
     "@repo/birads-mmg",
   ],
   env: {
-    // Mail-first: hide SMS/Telegram unless AUTH_ALLOW_PHONE=true. Yandex UI stays available.
+    // Mail-first: hide SMS/Telegram unless AUTH_ALLOW_PHONE=true.
+    // Yandex UI: opt-in via NEXT_PUBLIC_AUTH_SOCIAL_ENABLED=true (default off — open access first).
     NEXT_PUBLIC_AUTH_ALLOW_PHONE: process.env.AUTH_ALLOW_PHONE === "true" ? "true" : "false",
     NEXT_PUBLIC_AUTH_EMAIL_ONLY: process.env.AUTH_ALLOW_PHONE === "true" ? "false" : "true",
     NEXT_PUBLIC_AUTH_PILOT_CLOSED: process.env.AUTH_PILOT_TELEGRAM_ALLOWLIST?.trim() ? "true" : "false",
+    NEXT_PUBLIC_AUTH_SOCIAL_ENABLED: process.env.NEXT_PUBLIC_AUTH_SOCIAL_ENABLED === "true" ? "true" : "false",
   },
   experimental: {
     optimizePackageImports: ["lucide-react", "@react-three/drei"],
