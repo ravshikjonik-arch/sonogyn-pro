@@ -6,6 +6,8 @@ const API_BOT_ALLOWLIST_PREFIXES = [
   "/api/payment/webhook",
   "/api/yookassa/webhook",
   "/api/auth/telegram/bot",
+  /** Supabase GoTrue (Go-http-client) fetches Yandex profile via this proxy. */
+  "/api/auth/yandex/userinfo",
   "/api/telegram/hermes",
   "/api/ingest/telegram-example",
   "/api/cron/",
