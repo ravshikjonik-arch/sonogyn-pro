@@ -69,7 +69,17 @@ const patch = {
   scopes: ["login:info", "login:email"],
   email_optional: true,
   enabled: true,
-  pkce_enabled: true,
+  // Provider-side PKCE with Yandex has been flaky through GoTrue; keep off.
+  pkce_enabled: false,
+  attribute_mapping: {
+    sub: "sub",
+    email: "email",
+    name: "name",
+    preferred_username: "preferred_username",
+    given_name: "given_name",
+    family_name: "family_name",
+    picture: "picture",
+  },
 };
 
 const id = existing?.identifier || identifier;

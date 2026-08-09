@@ -378,7 +378,19 @@ function LoginForm() {
         !isPilotClosedAccessClient() ? (
           <div className="space-y-4">
             <RussianIdpPanel variant="login" nextPath={nextPath} />
-            {authCallbackError ? <SocialAuthSetupHint showRussianIdp /> : null}
+            {authCallbackError ? (
+              <>
+                {(searchParams.get("oauth_message") || searchParams.get("error_code")) && (
+                  <p className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs text-rose-900 dark:border-rose-900 dark:bg-rose-950/40 dark:text-rose-100">
+                    {searchParams.get("error_code") ? (
+                      <span className="font-mono">{searchParams.get("error_code")}: </span>
+                    ) : null}
+                    {searchParams.get("oauth_message") || "Ошибка OAuth callback"}
+                  </p>
+                )}
+                <SocialAuthSetupHint showRussianIdp />
+              </>
+            ) : null}
           </div>
         ) : undefined
       }
