@@ -38,7 +38,7 @@
     "test:cpi": "npx --yes pnpm@10.6.5 --filter @repo/cervical-pathology test"
   },
   "devDependencies": {
-    "turbo": "^2.5.4",
+    "turbo": "^2.10.8",
     "typescript": "^5.9.2"
   },
   "pnpm": {
