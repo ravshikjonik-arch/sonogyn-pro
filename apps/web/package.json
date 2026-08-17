@@ -154,11 +154,11 @@
     "zod": "^3.24.4"
   },
   "devDependencies": {
-    "@axe-core/playwright": "^4.12.1",
-    "@babel/preset-modules": "^0.1.6",
+    "@axe-core/playwright": "^4.13.0",
+    "@babel/preset-modules": "^0.2.0",
     "@ducanh2912/next-pwa": "^10.2.9",
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
-    "@playwright/test": "^1.52.0",
+    "@playwright/test": "^1.62.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/nodemailer": "^8.0.1",
@@ -166,7 +166,7 @@
     "@types/react-dom": "^19",
     "@types/three": "^0.184.0",
     "eslint": "^9",
-    "eslint-config-next": "16.2.5",
+    "eslint-config-next": "16.3.1",
     "prisma": "^6.19.3",
     "tailwindcss": "^4",
     "tsx": "^4.19.4",
