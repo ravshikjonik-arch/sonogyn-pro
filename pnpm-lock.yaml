@@ -437,6 +437,9 @@ importers:
       '@repo/medical-calculations':
         specifier: workspace:*
         version: link:../../packages/medical-calculations
+      '@repo/medical-knowledge':
+        specifier: workspace:*
+        version: link:../../packages/medical-knowledge
       '@repo/medvedev-reference':
         specifier: workspace:*
         version: link:../../packages/medvedev-reference
@@ -950,6 +953,22 @@ importers:
       '@types/node':
         specifier: ^20
         version: 20.19.40
+      tsx:
+        specifier: ^4.19.4
+        version: 4.21.0
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.3
+
+  packages/medical-knowledge:
+    dependencies:
+      '@repo/evidence-corpus':
+        specifier: workspace:*
+        version: link:../evidence-corpus
+      '@repo/evidence-retrieval':
+        specifier: workspace:*
+        version: link:../evidence-retrieval
+    devDependencies:
       tsx:
         specifier: ^4.19.4
         version: 4.21.0

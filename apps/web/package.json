@@ -97,6 +97,7 @@
     "@repo/examination-engine": "workspace:*",
     "@repo/evidence-corpus": "workspace:*",
     "@repo/evidence-engine": "workspace:*",
+    "@repo/medical-knowledge": "workspace:*",
     "@repo/evidence-retrieval": "workspace:*",
     "@repo/fmf": "workspace:*",
     "@repo/ifcpc-expert": "workspace:*",
