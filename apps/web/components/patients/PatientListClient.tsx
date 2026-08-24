@@ -9,7 +9,7 @@ import { PatientAvatar } from "@/components/patients/PatientAvatar";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Stagger, StaggerItem } from "@/components/ui/motion";
-import { ageFromDob, gestationFromLmp } from "@/lib/patients/insights";
+import { gestationFromLmp } from "@/lib/patients/insights";
 
 const e2eFixtures = process.env.NEXT_PUBLIC_E2E_FIXTURES === "true";
 
@@ -21,10 +21,8 @@ type ListResponse = {
 
 function patientChips(meta: PatientRow["meta"]): string[] {
   const chips: string[] = [];
-  const age = ageFromDob(meta?.date_of_birth);
-  if (age !== null) chips.push(`${age} лет`);
   const gest = gestationFromLmp(meta?.lmp);
-  if (gest) chips.push(`беременность ≈ ${gest.weeks} нед`);
+  if (gest) chips.push(`срок ≈ ${gest.weeks} нед`);
   return chips;
 }
 
@@ -64,15 +62,15 @@ export function PatientListClient() {
     <div className="mx-auto max-w-5xl px-4 py-8" data-testid="patients-page">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black tracking-tight text-[var(--clinical-foreground)]">Пациенты</h1>
+          <h1 className="text-3xl font-black tracking-tight text-[var(--clinical-foreground)]">Мои кейсы</h1>
           <p className="mt-1 text-sm text-[var(--clinical-foreground-muted)]">
-            Поиск по ФИО / метке. Данные — в вашем Supabase-проекте.
+            Обезличенные метки для учёта. ФИО и ПДн пациентов запрещены — блокировка аккаунта.
           </p>
         </div>
         <Button asChild className="sonogyn-cta-glow gap-2">
           <Link href="/profile/patients/new">
             <UserPlus className="h-4 w-4" />
-            Новый пациент
+            Новый кейс
           </Link>
         </Button>
       </div>
@@ -81,7 +79,7 @@ export function PatientListClient() {
         <Search className="h-4 w-4 shrink-0 text-[var(--clinical-foreground-muted)]" />
         <input
           className="flex-1 bg-transparent text-base text-[var(--clinical-foreground)] outline-none placeholder:text-[var(--clinical-foreground-muted)]"
-          placeholder="Поиск пациента…"
+          placeholder="Поиск по метке кейса…"
           value={q}
           onChange={(e) => setQ(e.target.value)}
           autoFocus
@@ -97,11 +95,11 @@ export function PatientListClient() {
         </div>
       ) : patients.length === 0 ? (
         <div className="mt-8 rounded-2xl border border-dashed border-[var(--clinical-border)] p-10 text-center">
-          <p className="text-sm text-[var(--clinical-foreground-muted)]">Пациенты не найдены. Создайте первую карту.</p>
+          <p className="text-sm text-[var(--clinical-foreground-muted)]">Кейсы не найдены. Создайте первый обезличенный кейс.</p>
           <Button asChild className="mt-4 gap-2">
             <Link href="/profile/patients/new">
               <UserPlus className="h-4 w-4" />
-              Новый пациент
+              Новый кейс
             </Link>
           </Button>
         </div>

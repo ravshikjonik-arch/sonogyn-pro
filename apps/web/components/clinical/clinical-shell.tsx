@@ -111,7 +111,7 @@ const navGroups: { title: string; items: { href: string; label: string; icon: ty
     title: "Ещё",
     items: [
       { href: "/tools", label: "Все инструменты", icon: Library },
-      { href: "/profile/patients", label: "Пациенты", icon: Users },
+      { href: "/profile/patients", label: "Мои кейсы", icon: Users },
       { href: "/profile/dashboard", label: "Дашборд", icon: LayoutDashboard },
       { href: "/profile/pro", label: "PRO", icon: Sparkles },
       { href: "/profile", label: "Профиль", icon: UserRound },
@@ -331,7 +331,7 @@ export function ClinicalShell({
             Только для врачей
           </p>
           <p className="mt-1 text-xs leading-relaxed text-[var(--clinical-foreground-muted)]">
-            Не вводите персональные данные пациентов. Калькуляторы и кейсы — в обезличенном виде.
+            Не вводите ПДн пациентов (ФИО, СНИЛС, карта). Нарушение — блокировка аккаунта.
           </p>
         </div>
       </div>
@@ -406,8 +406,8 @@ export function ClinicalShell({
         </header>
         {isGuest ? (
           <div className="border-b border-emerald-200/70 bg-emerald-50/90 px-4 py-2 text-center text-xs text-emerald-950 dark:border-emerald-900/40 dark:bg-emerald-950/30 dark:text-emerald-100">
-            Открытый доступ — считайте и смотрите справочники без регистрации. Пациенты и облачное
-            сохранение — позже через вход.
+            Открытый доступ для врачей — калькуляторы и справочники без регистрации. ПДн пациентов
+            запрещены; вход — для профиля и облачных кейсов.
           </div>
         ) : null}
         <main className="flex-1 pb-[calc(4.5rem+env(safe-area-inset-bottom))] sonogyn-enter lg:pb-0" data-voice-content>

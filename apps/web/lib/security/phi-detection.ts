@@ -12,6 +12,10 @@ const DETECTORS: Array<{ label: string; pattern: RegExp }> = [
   { label: "номер карты", pattern: /\b(?:номер\s+карты|мед(?:ицинск(?:ая|ой))?\s+карта|история\s+болезни)\D{0,20}\d{4,}\b/i },
   { label: "дата рождения", pattern: /\b(?:дата\s+рождения|др|dob)\D{0,20}\d{1,2}[./-]\d{1,2}[./-]\d{2,4}\b/i },
   { label: "ФИО", pattern: /(?:фио|пациент(?:ка)?|patient\s*name)\s*[:—-]\s*[А-ЯA-Z][А-Яа-яA-Za-z-]+(?:\s+[А-ЯA-Z][А-Яа-яA-Za-z-]+){1,2}/i },
+  {
+    label: "ФИО (три слова)",
+    pattern: /\b[А-ЯЁ][а-яё]{1,30}\s+[А-ЯЁ][а-яё]{1,30}\s+[А-ЯЁ][а-яё]{1,30}\b/,
+  },
 ];
 
 export function detectPhi(text: string): PhiDetectionResult {

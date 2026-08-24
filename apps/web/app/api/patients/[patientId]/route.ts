@@ -6,6 +6,12 @@ import {
   rejectIfSyncBurstForUser,
 } from "@/lib/security/api-rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
+import {
+  assessPatientPhiPayload,
+  PHI_ACCOUNT_BAN_MESSAGE,
+  patientPhiRejectMessage,
+  suspendAccountForPhiViolation,
+} from "@/lib/security/patient-phi-guard";
 import { safeLog } from "@/lib/security/safeLog";
 import { isUuid } from "@/lib/security/uuid";
 import { createClient } from "@/utils/supabase/server";
@@ -76,9 +82,17 @@ export async function PATCH(request: Request, context: { params: Promise<Params>
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
   }
 
+  const phi = assessPatientPhiPayload(parsed.data);
+  if (!phi.ok) {
+    if (phi.ban) await suspendAccountForPhiViolation(user.id, phi.reasons);
+    return NextResponse.json(
+      { error: phi.ban ? PHI_ACCOUNT_BAN_MESSAGE : patientPhiRejectMessage(phi.reasons) },
+      { status: 403 },
+    );
+  }
+
   const patch: Record<string, unknown> = { updated_at: new Date().toISOString() };
   if (parsed.data.display_label !== undefined) patch.display_label = parsed.data.display_label;
-  if (parsed.data.external_ref !== undefined) patch.external_ref = parsed.data.external_ref;
   if (parsed.data.meta !== undefined) patch.meta = parsed.data.meta;
 
   const { data, error } = await supabase

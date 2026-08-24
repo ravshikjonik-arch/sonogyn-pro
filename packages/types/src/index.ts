@@ -313,6 +313,15 @@ export const PatientMetaSchema = z.object({
 });
 export type PatientMeta = z.infer<typeof PatientMetaSchema>;
 
+/** Write path: only anonymized clinical context — no patient PHI. */
+export const AnonymizedPatientMetaSchema = z
+  .object({
+    lmp: OptionalIsoDateStringSchema,
+    notes: clinicalPlainText(4000).optional(),
+  })
+  .strict();
+export type AnonymizedPatientMeta = z.infer<typeof AnonymizedPatientMetaSchema>;
+
 export const PatientRowSchema = z.object({
   id: z.string().uuid(),
   external_ref: z.string().nullable(),
@@ -324,15 +333,16 @@ export const PatientRowSchema = z.object({
 });
 export type PatientRow = z.infer<typeof PatientRowSchema>;
 
-export const CreatePatientBodySchema = z.object({
-  display_label: z
-    .string()
-    .min(1)
-    .max(240)
-    .refine(isPlainClinicalText, "Недопустимые символы в имени"),
-  external_ref: ExternalRefSchema,
-  meta: PatientMetaSchema.optional(),
-});
+export const CreatePatientBodySchema = z
+  .object({
+    display_label: z
+      .string()
+      .min(1)
+      .max(120)
+      .refine(isPlainClinicalText, "Недопустимые символы в метке кейса"),
+    meta: AnonymizedPatientMetaSchema.optional(),
+  })
+  .strict();
 export type CreatePatientBody = z.infer<typeof CreatePatientBodySchema>;
 
 export const UpdatePatientBodySchema = CreatePatientBodySchema.partial();

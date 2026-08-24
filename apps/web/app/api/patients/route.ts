@@ -6,8 +6,15 @@ import {
   rejectIfRateLimitedPreset,
   rejectIfSyncBurstForUser,
 } from "@/lib/security/api-rate-limit";
+import { isFullOpenAccessEnabled } from "@/lib/auth/dev-account";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
+import {
+  assessPatientPhiPayload,
+  PHI_ACCOUNT_BAN_MESSAGE,
+  patientPhiRejectMessage,
+  suspendAccountForPhiViolation,
+} from "@/lib/security/patient-phi-guard";
 import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
 import { safeLog } from "@/lib/security/safeLog";
 import { createClient } from "@/utils/supabase/server";
@@ -20,6 +27,10 @@ export async function GET(request: Request) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
+  if (!user && isFullOpenAccessEnabled()) {
+    return NextResponse.json({ patients: [], nextCursor: null, hasMore: false });
+  }
 
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -92,6 +103,16 @@ export async function POST(request: Request) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  if (!user && isFullOpenAccessEnabled()) {
+    return NextResponse.json(
+      {
+        error:
+          "Открытый доступ: сохранение кейсов — после входа. ПДн пациентов на платформе запрещены.",
+      },
+      { status: 403 },
+    );
+  }
+
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
@@ -105,13 +126,22 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
   }
 
-  const { display_label, external_ref, meta } = parsed.data;
+  const phi = assessPatientPhiPayload(parsed.data);
+  if (!phi.ok) {
+    if (phi.ban) await suspendAccountForPhiViolation(user.id, phi.reasons);
+    return NextResponse.json(
+      { error: phi.ban ? PHI_ACCOUNT_BAN_MESSAGE : patientPhiRejectMessage(phi.reasons) },
+      { status: 403 },
+    );
+  }
+
+  const { display_label, meta } = parsed.data;
 
   const { data, error } = await supabase
     .from("patients")
     .insert({
       display_label,
-      external_ref: external_ref ?? null,
+      external_ref: null,
       meta: meta ?? {},
       created_by: user.id,
     })
