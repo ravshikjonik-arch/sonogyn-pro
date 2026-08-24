@@ -66,6 +66,9 @@ export function LandingFooter({ isAuthenticated }: LandingFooterProps) {
           <Link href="/pricing" className="hover:text-[var(--clinical-primary-deep)]">
             Страница тарифов
           </Link>
+          <Link href="/privacy" className="hover:text-[var(--clinical-primary-deep)]">
+            Конфиденциальность
+          </Link>
           <Link href="/app" className="hover:text-[var(--clinical-primary-deep)]">
             Кабинет
           </Link>

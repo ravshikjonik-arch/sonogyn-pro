@@ -39,6 +39,8 @@ export function ProfileSettingsForm({ initial }: Props) {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [revoking, setRevoking] = useState(false);
+  const [exporting, setExporting] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -148,6 +150,64 @@ export function ProfileSettingsForm({ initial }: Props) {
     }
   }
 
+  async function onExportData() {
+    setMessage("");
+    setExporting(true);
+    try {
+      const res = await fetch("/api/profile/export", { credentials: "same-origin" });
+      if (!res.ok) {
+        const payload = (await res.json().catch(() => null)) as { error?: string } | null;
+        setMessage(payload?.error ?? `HTTP ${res.status}`);
+        return;
+      }
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `sonogyn-data-export.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      setMessage("Выгрузка скачана.");
+    } finally {
+      setExporting(false);
+    }
+  }
+
+  async function onDeleteAccount() {
+    const confirmed = window.confirm(
+      "Удалить аккаунт навсегда? Профиль и связанные пациенты будут удалены. Это действие нельзя отменить.",
+    );
+    if (!confirmed) return;
+    const typed = window.prompt('Для подтверждения введите слово DELETE заглавными буквами:');
+    if (typed !== "DELETE") {
+      setMessage("Удаление отменено: нужно ввести DELETE.");
+      return;
+    }
+
+    setMessage("");
+    setDeleting(true);
+    try {
+      const res = await fetch("/api/profile/account", {
+        method: "DELETE",
+        credentials: "same-origin",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ confirm: "DELETE" }),
+      });
+      const payload = (await res.json().catch(() => null)) as { error?: string } | null;
+      if (!res.ok) {
+        setMessage(payload?.error ?? `HTTP ${res.status}`);
+        return;
+      }
+      wipeWebClinicalLocalData();
+      await fetch("/api/auth/sign-out", { method: "POST", credentials: "same-origin" }).catch(() => undefined);
+      await supabase.auth.signOut().catch(() => undefined);
+      router.replace("/home?account=deleted");
+      router.refresh();
+    } finally {
+      setDeleting(false);
+    }
+  }
+
   async function onAvatarPick(file: File | null) {
     if (!file || !user?.id) return;
     setMessage("");
@@ -253,7 +313,10 @@ export function ProfileSettingsForm({ initial }: Props) {
       {message ? (
         <p
           className={`rounded-2xl px-4 py-3 text-sm font-medium ${
-            message.startsWith("Saved") || message.startsWith("Avatar")
+            message.startsWith("Saved") ||
+            message.startsWith("Avatar") ||
+            message.startsWith("Выгрузка") ||
+            message.startsWith("Профиль")
               ? "border border-emerald-200 bg-emerald-50 text-emerald-900"
               : "border border-red-200 bg-red-50 text-red-700"
           }`}
@@ -262,7 +325,7 @@ export function ProfileSettingsForm({ initial }: Props) {
         </p>
       ) : null}
 
-      <Button type="submit" className="rounded-2xl px-8" disabled={loading || revoking}>
+      <Button type="submit" className="rounded-2xl px-8" disabled={loading || revoking || exporting || deleting}>
         {loading ? "Сохранение…" : "Сохранить профиль"}
       </Button>
 
@@ -276,11 +339,38 @@ export function ProfileSettingsForm({ initial }: Props) {
           type="button"
           variant="outline"
           className="mt-4 rounded-2xl border-amber-300 text-amber-950 hover:bg-amber-100 dark:border-amber-700 dark:text-amber-100"
-          disabled={loading || revoking}
+          disabled={loading || revoking || deleting}
           onClick={() => void onRevokeAllSessions()}
         >
           {revoking ? "Выход…" : "Выйти на всех устройствах"}
         </Button>
+      </div>
+
+      <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-5 dark:border-slate-800 dark:bg-slate-900/40">
+        <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">Ваши данные (152-ФЗ)</p>
+        <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">
+          Выгрузка JSON с профилем и сводкой. Удаление аккаунта необратимо (пациенты и профиль каскадом).
+        </p>
+        <div className="mt-4 flex flex-wrap gap-2">
+          <Button
+            type="button"
+            variant="secondary"
+            className="rounded-2xl"
+            disabled={loading || revoking || deleting || exporting}
+            onClick={() => void onExportData()}
+          >
+            {exporting ? "Выгрузка…" : "Скачать мои данные"}
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            className="rounded-2xl border-red-300 text-red-800 hover:bg-red-50 dark:border-red-800 dark:text-red-200"
+            disabled={loading || revoking || deleting || exporting}
+            onClick={() => void onDeleteAccount()}
+          >
+            {deleting ? "Удаление…" : "Удалить аккаунт"}
+          </Button>
+        </div>
       </div>
     </form>
   );

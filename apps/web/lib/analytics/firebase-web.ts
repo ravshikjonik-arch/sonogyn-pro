@@ -42,6 +42,13 @@ export async function logProductAnalyticsWeb(
   name: ProductAnalyticsEvent,
   params?: Record<string, string | number | boolean>,
 ): Promise<void> {
+  if (typeof window === "undefined") return;
+  try {
+    const { hasAnalyticsConsentGranted } = await import("@/lib/privacy/analytics-consent");
+    if (!hasAnalyticsConsentGranted()) return;
+  } catch {
+    return;
+  }
   const analytics = await getAnalyticsIfSupported();
   if (!analytics) return;
   firebaseLogEvent(analytics, name, params ?? {});

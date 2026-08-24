@@ -43,7 +43,46 @@ export const metadata: Metadata = {
   },
 };
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      name: "SonoGyn Pro",
+      url: siteUrl,
+      email: "Sonogyn-pro@mail.ru",
+      description:
+        "Клиническая платформа поддержки решений для врачей УЗИ и акушерства-гинекологии.",
+    },
+    {
+      "@type": "WebApplication",
+      name: "SonoGyn Pro",
+      applicationCategory: "HealthApplication",
+      operatingSystem: "Web",
+      url: `${siteUrl}/landing`,
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "RUB",
+        description: "Открытый доступ к калькуляторам и справочникам для специалистов",
+      },
+      audience: {
+        "@type": "Audience",
+        audienceType: "Healthcare professionals",
+      },
+    },
+  ],
+};
+
 /** Лендинг доступен и гостям, и авторизованным (без редиректа в кабинет). */
 export default function LandingLayout({ children }: { children: ReactNode }) {
-  return children;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      {children}
+    </>
+  );
 }

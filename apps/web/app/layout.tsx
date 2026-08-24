@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import { AppToaster } from "@/components/providers/app-toaster";
+import { CookieConsentBanner } from "@/components/privacy/CookieConsentBanner";
 import { ThemeProvider } from "@/lib/theme/theme-provider";
 import { SessionProvider } from "./providers";
 import "./globals.css";
@@ -65,7 +66,7 @@ export default function RootLayout({
         />
         <script
           dangerouslySetInnerHTML={{
-              __html: `(function(){try{var m=localStorage.getItem("clinical-theme-mode");var p=location.pathname;var pub=p==="/"||/^\\/(landing|lp|login|register|verify-phone|pricing|auth)(\\/|$)/.test(p);var sys=window.matchMedia("(prefers-color-scheme: dark)").matches;var d;if(m==="dark")d=true;else if(m==="light")d=false;else d=pub?sys:true;document.documentElement.setAttribute("data-theme",d?"dark":"light");document.documentElement.classList.toggle("dark",d);if(m==="light"||m==="dark")document.documentElement.setAttribute("data-theme-forced",m);}catch(e){}})();`,
+            __html: `(function(){try{var m=localStorage.getItem("clinical-theme-mode");var p=location.pathname;var pub=p==="/"||/^\\/(landing|lp|login|register|verify-phone|pricing|auth|privacy)(\\/|$)/.test(p);var sys=window.matchMedia("(prefers-color-scheme: dark)").matches;var d;if(m==="dark")d=true;else if(m==="light")d=false;else d=pub?sys:true;document.documentElement.setAttribute("data-theme",d?"dark":"light");document.documentElement.classList.toggle("dark",d);if(m==="light"||m==="dark")document.documentElement.setAttribute("data-theme-forced",m);}catch(e){}})();`,
           }}
         />
         <style
@@ -75,11 +76,12 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col">
+          <body className="min-h-full flex flex-col">
         <ThemeProvider>
           <SessionProvider>
             {children}
             <AppToaster />
+            <CookieConsentBanner />
           </SessionProvider>
         </ThemeProvider>
       </body>
