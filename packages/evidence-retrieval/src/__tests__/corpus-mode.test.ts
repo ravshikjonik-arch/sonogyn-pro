@@ -27,15 +27,7 @@ describe("corpus mode", () => {
   it("picks section + quote from guideline", () => {
     const cite = pickGuidelineCitation(
       {
-        id: "demo",
-        title: "УЗИ в гинекологии",
         summary: "O-RADS и IOTA",
-        shelf: "kr_mz_rf",
-        documentKind: "clinical_recommendation",
-        issuer: "mz_rf",
-        specialty: "ultrasound",
-        year: 2024,
-        status: "active",
         sections: [
           {
             title: "O-RADS / IOTA — тактика",

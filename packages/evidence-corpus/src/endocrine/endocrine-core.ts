@@ -87,7 +87,7 @@ export const ENDOCRINE_CORE_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ATA pregnancy thyroid guidelines", organization: "ATA", year: 2022 },
     tags: ["hypothyroid", "гипотиреоз", "TSH", "беременность", "levothyroxine"],
-    relatedLinks: [{ label: "TI-RADS", href: "/calculators/ti-rads" }],
+    relatedLinks: [{ label: "TI-RADS", href: "/tools/calc/rads/ti-rads" }],
   },
   {
     id: "endo-hyperthyroid-pregnancy",
@@ -102,7 +102,7 @@ export const ENDOCRINE_CORE_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ATA hyperthyroidism in pregnancy", organization: "ATA", year: 2022 },
     tags: ["hyperthyroid", "Graves", "hCG", "тиреotoxicosis", "TRAb"],
-    relatedLinks: [{ label: "TI-RADS", href: "/calculators/ti-rads" }],
+    relatedLinks: [{ label: "TI-RADS", href: "/tools/calc/rads/ti-rads" }],
   },
   {
     id: "endo-subclinical-hypothyroid",
@@ -174,7 +174,7 @@ export const ENDOCRINE_CORE_EVIDENCE: EvidenceEntry[] = [
     source: { label: "ACR TI-RADS", organization: "ACR", year: 2017 },
     tags: ["TI-RADS", "thyroid nodule", "узел", "щитовидная", "FNA"],
     relatedLinks: [
-      { label: "Калькулятор TI-RADS", href: "/calculators/ti-rads" },
+      { label: "Калькулятор TI-RADS", href: "/tools/calc/rads/ti-rads" },
       { label: "Клинические нормы", href: "/reference" },
     ],
   },
@@ -191,7 +191,7 @@ export const ENDOCRINE_CORE_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ACR TI-RADS FNA recommendations", organization: "ACR", year: 2017 },
     tags: ["FNA", "ТАБ", "biopsy", "thyroid", "TR5"],
-    relatedLinks: [{ label: "TI-RADS", href: "/calculators/ti-rads" }],
+    relatedLinks: [{ label: "TI-RADS", href: "/tools/calc/rads/ti-rads" }],
   },
   {
     id: "endo-hirsutism-workup",

@@ -28,6 +28,17 @@ export const CASE_PLAYLISTS: CasePlaylist[] = [
     ],
   },
   {
+    id: "tirads-thyroid",
+    titleRu: "TI-RADS · щитовидная железа",
+    description: "Узлы ЩЖ: TR3–TR5, FNA, папиллярный паттерн, коллоид/spongiform.",
+    topic: "general",
+    filters: { tags: "tirads,thyroid" },
+    educationLinks: [
+      { href: "/tools/calc/rads/ti-rads", label: "Калькулятор ACR TI-RADS" },
+      { href: "/reports/thyroid", label: "Структурированный доклад" },
+    ],
+  },
+  {
     id: "obstetric-doppler",
     titleRu: "Акушерский допpler · FGR / IUGR",
     description: "Задержка роста, критический допpler ПА, oligo/polyhydramnios.",

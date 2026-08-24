@@ -40,7 +40,8 @@ export type TiradsAcrInput = {
   echogenicity: TiradsEchogenicity;
   shape: TiradsShape;
   margin: TiradsMargin;
-  echogenicFoci: TiradsEchogenicFoci;
+  /** ACR: choose all that apply; points are summed. */
+  echogenicFoci: TiradsEchogenicFoci[];
   largestDiameterMm?: number;
   /** Объём ЩЖ (мл) — для протокола. */
   thyroidVolumeMl?: number;
@@ -75,4 +76,6 @@ export type TiradsAcrResult = {
   lymphNodeNote?: string;
   rationale: string[];
   clinicalSignificance: string;
+  /** Engine stamp for protocol / changelog. */
+  engineVersion: string;
 };

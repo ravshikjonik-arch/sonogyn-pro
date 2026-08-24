@@ -26,6 +26,32 @@ export function isDevSkipAuthEnabled(): boolean {
   return process.env.NODE_ENV === "development" && process.env.DEV_SKIP_AUTH === "true";
 }
 
+/** Product mode: temporarily open the doctor-facing platform without registration. */
+export function isFullOpenAccessEnabled(): boolean {
+  const raw = (
+    process.env.NEXT_PUBLIC_OPEN_ACCESS_FULL ??
+    process.env.OPEN_ACCESS_FULL ??
+    "true"
+  )
+    .trim()
+    .toLowerCase();
+  return raw !== "false" && raw !== "0" && raw !== "no";
+}
+
+export function getOpenAccessProfile(): Pick<
+  DevLoginConfig,
+  "email" | "full_name" | "specialization" | "institution" | "birth_year"
+> | null {
+  if (!isFullOpenAccessEnabled()) return null;
+  return {
+    email: "open-access@sonogyn.pro",
+    full_name: "Открытый доступ",
+    specialization: "Акушер-гинеколог / врач УЗД",
+    institution: "SonoGyn Pro",
+    birth_year: 1988,
+  };
+}
+
 export function hasDevServiceRoleKey(): boolean {
   return Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY?.trim());
 }
@@ -39,6 +65,7 @@ export function getDevBypassProfile(): Pick<
   DevLoginConfig,
   "email" | "full_name" | "specialization" | "institution" | "birth_year"
 > | null {
+  if (isFullOpenAccessEnabled()) return getOpenAccessProfile();
   if (!isDevSkipAuthEnabled()) return null;
   return getDevLoginConfig();
 }

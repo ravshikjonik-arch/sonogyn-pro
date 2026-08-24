@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { PatientAiSummary } from "@/components/patients/PatientAiSummary";
 import { PatientForm } from "@/components/patients/PatientForm";
 import { Button } from "@/components/ui/button";
+import { isFullOpenAccessEnabled } from "@/lib/auth/dev-account";
 import { createClient } from "@/utils/supabase/server";
 
 type Params = { patientId: string };
@@ -14,6 +15,22 @@ export default async function PatientDetailPage(props: { params: Promise<Params>
   const {
     data: { user },
   } = await supabase.auth.getUser();
+  if (!user && isFullOpenAccessEnabled()) {
+    return (
+      <main className="px-4 py-10">
+        <div className="mx-auto max-w-3xl rounded-2xl border border-emerald-200 bg-emerald-50 p-6 text-sm leading-6 text-emerald-950">
+          <p className="font-bold">Открытый доступ включён</p>
+          <p className="mt-2">
+            Реальные карты пациентов без аккаунта не загружаются и не сохраняются. Используйте
+            калькуляторы и демо-экраны без регистрации.
+          </p>
+          <Link href="/profile/patients" className="mt-4 inline-block font-bold text-blue-700">
+            ← К списку пациентов
+          </Link>
+        </div>
+      </main>
+    );
+  }
   if (!user) redirect("/login");
 
   const { data: patient } = await supabase

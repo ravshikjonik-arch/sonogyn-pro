@@ -1,7 +1,16 @@
 export * from "./types";
 export * from "./lexicon";
 export * from "./categories";
-export { defaultTiradsAcrInput, computeScoreBreakdown, categoryFromPoints, evaluateAcrTirads } from "./score";
+export {
+  ACR_TIRADS_ENGINE_VERSION,
+  defaultTiradsAcrInput,
+  computeScoreBreakdown,
+  categoryFromPoints,
+  evaluateAcrTirads,
+  normalizeEchogenicFoci,
+  sumEchogenicFociPoints,
+  primaryEchogenicFocus,
+} from "./score";
 export { decideFnaAndFollowUp } from "./fna";
 export { LYMPH_NODE_FEATURES, lymphNodeNote, classifyLymphNodesFromKeywords } from "./lymph-node";
 export {

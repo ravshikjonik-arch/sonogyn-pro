@@ -196,18 +196,19 @@ export const CALCULATORS_HUB: DomainHubCard[] = [
   {
     href: "/tools/calc/rads",
     title: "RADS",
-    description: "O-RADS, BI-RADS, LN-RADS",
+    description: "O-RADS, BI-RADS, TI-RADS, LN-RADS",
+    primary: true,
+  },
+  {
+    href: "/tools/calc/rads/ti-rads",
+    title: "TI-RADS · щитовидная",
+    description: "ACR Score · Анализ → Доклад → Store",
     primary: true,
   },
   {
     href: "/tools/calc/appointment",
     title: "Приём · быстрые расчёты",
     description: "Калькуляторы на одном экране приёма",
-  },
-  {
-    href: "/tools/adjunct/ti-rads",
-    title: "TI-RADS · щитовидная",
-    description: "Adjunct-модуль ACR TI-RADS",
   },
 ];
 

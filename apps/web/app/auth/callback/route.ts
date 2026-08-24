@@ -34,7 +34,7 @@ function authErrorRedirect(
 
 export async function GET(request: NextRequest) {
   const url = new URL(request.url);
-  const params = parseAuthCallbackParams(url, "/home");
+  const params = parseAuthCallbackParams(url, "/app");
 
   const hasAuthPayload = Boolean(params.code || params.tokenHash);
   if (!hasAuthPayload && !params.error && !params.errorCode) {

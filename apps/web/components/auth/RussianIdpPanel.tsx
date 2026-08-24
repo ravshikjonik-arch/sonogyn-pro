@@ -13,13 +13,19 @@ type RussianIdpPanelProps = {
   nextPath?: string;
 };
 
-/** Яндекс ID через Supabase OAuth (без Google/VK для пилота). */
-export function RussianIdpPanel({ variant = "login", nextPath = "/home" }: RussianIdpPanelProps) {
+function isGoogleOAuthEnabledClient(): boolean {
+  const raw = process.env.NEXT_PUBLIC_AUTH_GOOGLE_OAUTH_ENABLED?.trim().toLowerCase();
+  return raw !== "false" && raw !== "0" && raw !== "no";
+}
+
+/** Яндекс ID и Google Sign-In через Supabase OAuth. */
+export function RussianIdpPanel({ variant = "login", nextPath = "/app" }: RussianIdpPanelProps) {
   const [loading, setLoading] = useState<AuthProvider | null>(null);
   const [message, setMessage] = useState("");
+  const providers: AuthProvider[] = isGoogleOAuthEnabledClient() ? ["yandex", "google"] : ["yandex"];
 
   async function onProviderPress(provider: AuthProvider) {
-    if (provider === "telegram" || provider === "google") return;
+    if (provider === "telegram") return;
     setLoading(provider);
     setMessage("");
     try {
@@ -35,9 +41,10 @@ export function RussianIdpPanel({ variant = "login", nextPath = "/home" }: Russi
         options: { redirectTo },
       });
       if (error) {
+        const label = provider === "google" ? "Google" : "Яндекс";
         setMessage(
           /provider.*not enabled|unsupported/i.test(error.message)
-            ? "Яндекс не настроен в Supabase: Authentication → Providers → New Provider → custom:yandex."
+            ? `${label} не настроен в Supabase Authentication → Providers.`
             : error.message || "Не удалось начать вход.",
         );
       }
@@ -51,10 +58,10 @@ export function RussianIdpPanel({ variant = "login", nextPath = "/home" }: Russi
   return (
     <div className="space-y-4">
       <p className="text-sm text-[var(--clinical-foreground-muted)]">
-        Быстрый вход через Яндекс ID — без письма. Google отключён (199-ФЗ).
+        Быстрый вход через Яндекс ID или Google — без письма и пароля.
       </p>
       <AuthButtons
-        providers={["yandex"]}
+        providers={providers}
         onProviderPress={onProviderPress}
         loading={loading}
         variant={variant}

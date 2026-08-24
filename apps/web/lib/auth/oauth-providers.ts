@@ -17,7 +17,14 @@ export function oauthProviderToSupabase(provider: Exclude<AuthProvider, "telegra
 }
 
 export function buildOAuthRedirect(origin: string, nextPath: string): string {
-  return `${origin}/auth/callback?next=${encodeURIComponent(nextPath)}`;
+  const configured = process.env.NEXT_PUBLIC_SUPABASE_REDIRECT_URL?.trim();
+  const callbackUrl =
+    configured && configured.includes("://")
+      ? configured
+      : `${origin}${configured?.startsWith("/") ? configured : "/auth/callback"}`;
+  const url = new URL(callbackUrl);
+  url.searchParams.set("next", nextPath);
+  return url.toString();
 }
 
 export function normalizePhone(raw: string): string {

@@ -6,6 +6,9 @@ export function hasProEntitlement(profile: {
   subscription_tier: string;
   trial_ends_at: string | null;
 }): boolean {
+  if (process.env.NEXT_PUBLIC_OPEN_ACCESS_FULL !== "false" && process.env.OPEN_ACCESS_FULL !== "false") {
+    return true;
+  }
   if (profile.subscription_tier === "pro") return true;
   if (profile.trial_ends_at) {
     const end = new Date(profile.trial_ends_at).getTime();

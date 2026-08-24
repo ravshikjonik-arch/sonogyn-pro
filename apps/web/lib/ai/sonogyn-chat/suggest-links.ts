@@ -12,7 +12,7 @@ export function suggestModuleLinks(prompt: string): Suggestion[] {
     return [{ label: "Калькулятор BI-RADS", href: "/tools/calc/rads/bi-rads" }];
   }
   if (/ti-?rads|щитовид/i.test(prompt)) {
-    return [{ label: "Калькулятор TI-RADS", href: "/tools/adjunct/ti-rads" }];
+    return [{ label: "Калькулятор TI-RADS", href: "/tools/calc/rads/ti-rads" }];
   }
   if (/fmf|скрининг|беремен/i.test(prompt)) {
     return [{ label: "FMF ассистент", href: "/ai/consultants/fmf" }];

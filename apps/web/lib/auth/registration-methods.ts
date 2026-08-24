@@ -11,20 +11,20 @@ export const REGISTRATION_METHOD_LABELS: Record<AuthRegistrationMethod, string> 
 
 export const REGISTRATION_METHOD_HINTS: Record<AuthRegistrationMethod, string> = {
   phone: "SMS на номера РФ (+7) через SMS.ru — дополнительный быстрый вход.",
-  social: "Яндекс ID — российский аккаунт в один клик. VK ID подключим отдельной интеграцией позже.",
+  social: "Яндекс ID — вход в один клик без ожидания письма. Это основной быстрый сценарий для пилота.",
   telegram:
     "Дополнительный канал: бот и код. Удобно, если врач не хочет ждать SMS.",
   email: "Email и пароль: после регистрации подтвердите почту по ссылке из письма (от Sonogyn-pro@mail.ru).",
 };
 
-/** Порядок вкладок на экране входа/регистрации (email первым для пилота). */
-export const AUTH_TAB_ORDER: AuthRegistrationMethod[] = ["email", "phone", "social", "telegram"];
+/** Порядок вкладок на экране входа/регистрации: OAuth первым, email — запасной путь. */
+export const AUTH_TAB_ORDER: AuthRegistrationMethod[] = ["social", "phone", "telegram", "email"];
 
 export function parseRegistrationMethod(raw: string | null): AuthRegistrationMethod {
   if (isAuthEmailOnly()) return "email";
   if (raw === "google") return "social";
   if (raw === "email" || raw === "phone" || raw === "telegram" || raw === "social") return raw;
-  return "email";
+  return "social";
 }
 
 /** Имя бота для подсказок в UI (client-safe). */

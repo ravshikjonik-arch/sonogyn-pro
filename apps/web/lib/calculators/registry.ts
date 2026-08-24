@@ -35,6 +35,14 @@ export const CALCULATORS: CalculatorDefinition[] = [
     fields: [],
   },
   {
+    slug: "ti-rads",
+    code: "TI_RADS",
+    title: "TI-RADS ЩЖ",
+    subtitle: "ACR TI-RADS Pro · Pattern Recognition · FNA · РФ 2023",
+    externalHref: "/tools/calc/rads/ti-rads",
+    fields: [],
+  },
+  {
     slug: "endometrium",
     code: "ENDOMETRIUM_ISUOG",
     title: "Эндометрий · ISUOG / КР РФ",
@@ -72,14 +80,6 @@ export const CALCULATORS: CalculatorDefinition[] = [
     title: "LN-RADS US Pro",
     subtitle: "Morphology · Doppler · Atlas · Academy · AI · Cases · Board",
     externalHref: "/tools/calc/rads/ln-rads",
-    fields: [],
-  },
-  {
-    slug: "ti-rads",
-    code: "TI_RADS",
-    title: "TI-RADS ЩЖ",
-    subtitle: "ACR TI-RADS Pro · Pattern Recognition · FNA · РФ 2023",
-    externalHref: "/tools/adjunct/ti-rads",
     fields: [],
   },
   {

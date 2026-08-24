@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { FetalGrowthChart } from "@/components/patients/FetalGrowthChart";
 import { gaDaysFromLmp, screeningHintsRu } from "@repo/medical-calculations";
 import { Button } from "@/components/ui/button";
+import { isFullOpenAccessEnabled } from "@/lib/auth/dev-account";
 import { createClient } from "@/utils/supabase/server";
 
 type Params = { patientId: string };
@@ -14,6 +15,9 @@ export default async function PregnancyPage(props: { params: Promise<Params> }) 
   const {
     data: { user },
   } = await supabase.auth.getUser();
+  if (!user && isFullOpenAccessEnabled()) {
+    redirect("/profile/patients");
+  }
   if (!user) redirect("/login");
 
   const { data: patient } = await supabase

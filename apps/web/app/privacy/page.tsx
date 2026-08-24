@@ -78,6 +78,7 @@ export default function PrivacyPage() {
               </a>
               .
             </p>
+          </section>
 
           <section className="space-y-2">
             <h2 className="text-lg font-semibold text-white">3. Какие данные обрабатываем</h2>

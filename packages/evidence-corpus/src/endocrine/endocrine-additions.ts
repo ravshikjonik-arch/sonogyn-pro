@@ -15,7 +15,7 @@ export const ENDOCRINE_ADDITIONAL_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ATA pregnancy thyroid disease", organization: "ATA", year: 2022 },
     tags: ["Hashimoto", "TPO", "autoimmune", "thyroid", "беременность"],
-    relatedLinks: [{ label: "TI-RADS", href: "/calculators/ti-rads" }],
+    relatedLinks: [{ label: "TI-RADS", href: "/tools/calc/rads/ti-rads" }],
   },
   {
     id: "endo-gdm-endocrine-link",
@@ -73,7 +73,7 @@ export const ENDOCRINE_ADDITIONAL_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ATA thyroid cancer pregnancy", organization: "ATA", year: 2022 },
     tags: ["thyroid cancer", "PTC", "беременность", "surgery", "TSH suppression"],
-    relatedLinks: [{ label: "TI-RADS", href: "/calculators/ti-rads" }],
+    relatedLinks: [{ label: "TI-RADS", href: "/tools/calc/rads/ti-rads" }],
   },
   {
     id: "endo-ovarian-hyperthecosis",
@@ -131,7 +131,7 @@ export const ENDOCRINE_ADDITIONAL_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ATA pregnancy nodule management", organization: "ATA", year: 2022 },
     tags: ["thyroid US", "беременность", "узел", "щитовидная"],
-    relatedLinks: [{ label: "TI-RADS", href: "/calculators/ti-rads" }],
+    relatedLinks: [{ label: "TI-RADS", href: "/tools/calc/rads/ti-rads" }],
   },
   {
     id: "endo-weight-pcos-fertility",

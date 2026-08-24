@@ -43,7 +43,7 @@ export function resolveModuleSearchHref(mod: ModuleEntry): string | null {
     return h.startsWith("/assistant") ? h.replace("/assistant", "/ai/consultants") : "/ai/consultants";
   }
   if (id === "workspace.ai") return "/ai/workspace";
-  if (id === "calculator.ti-rads") return "/tools/adjunct/ti-rads";
+  if (id === "calculator.ti-rads") return "/tools/calc/rads/ti-rads";
   if (id === "mockup.uterus" || id === "calculator.figo") return "/tools/mapping/uterus";
   if (id === "mockup.ovary") return "/tools/mapping/ovary";
   if (id === "mockup.breast") return "/tools/mapping/breast";

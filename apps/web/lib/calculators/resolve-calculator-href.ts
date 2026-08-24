@@ -5,7 +5,7 @@ const SLUG_TO_CANONICAL: Record<string, string> = {
   "bi-rads": "/tools/calc/rads/bi-rads",
   "ln-rads": "/tools/calc/rads/ln-rads",
   "orads-pro": "/tools/calc/rads/o-rads",
-  "ti-rads": "/tools/adjunct/ti-rads",
+  "ti-rads": "/tools/calc/rads/ti-rads",
   "ob-calc": "/tools/calc/ob",
   "fetal-weight": "/tools/calc/ob/fetal-weight",
   bishop: "/tools/calc/ob/bishop",

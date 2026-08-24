@@ -81,7 +81,19 @@ export default async function WorkspacePage() {
               Используйте псевдонимы случаев; PHI загружайте только при юридическом
               разрешении и с включённым шифрованием по политике клиники.
             </p>
-            <CreateStudyForm />
+            {user ? (
+              <CreateStudyForm />
+            ) : (
+              <div className="mt-4 space-y-3 rounded-xl border border-amber-200 bg-amber-50/80 p-4 text-sm text-amber-950">
+                <p>Загрузка снимков доступна после входа. Скоро — Яндекс ID и SMS.</p>
+                <Link
+                  href="/login?redirectedFrom=/ai/workspace"
+                  className="inline-flex font-semibold text-blue-700 underline underline-offset-2"
+                >
+                  Войти →
+                </Link>
+              </div>
+            )}
           </section>
         </div>
       </div>

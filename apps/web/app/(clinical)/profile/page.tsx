@@ -5,7 +5,10 @@ import { ProfileClinicalPreferencesSection } from "@/components/clinical/Profile
 import { ProfileMessageNotificationsToggle } from "@/components/clinical/ProfileMessageNotificationsToggle";
 import { ProfileSettingsForm } from "@/components/clinical/profile-settings-form";
 import { BirthDateDisplay } from "@/components/ui/BirthDateField";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { ensureFounderAdminAccess } from "@/lib/auth/founder-admins";
+import { getOpenAccessProfile } from "@/lib/auth/dev-account";
 import { CLINICAL_AVATARS_BUCKET } from "@/lib/supabase/medical-storage";
 import {
   isMessageNotificationsEnabled,
@@ -30,6 +33,51 @@ export default async function ProfilePage() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+  const openProfile = getOpenAccessProfile();
+
+  if (!user && openProfile) {
+    const initials = openProfile.full_name
+      .split(/\s+/)
+      .filter(Boolean)
+      .map((part) => part[0])
+      .join("")
+      .slice(0, 2)
+      .toUpperCase();
+
+    return (
+      <main className="px-4 py-10">
+        <section className="mx-auto w-full max-w-4xl rounded-3xl border border-[var(--clinical-border)] bg-[var(--clinical-card)] p-8 shadow-xl sm:p-10">
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
+            <div className="flex h-24 w-24 items-center justify-center rounded-3xl bg-[var(--clinical-primary-muted)] text-3xl font-black text-[var(--clinical-primary-deep)] ring-4 ring-[var(--clinical-ring)]">
+              {initials}
+            </div>
+            <div>
+              <Badge variant="outline">Полный доступ без регистрации</Badge>
+              <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-950 dark:text-white">
+                {openProfile.full_name}
+              </h1>
+              <p className="mt-2 text-base leading-7 text-[var(--clinical-foreground-muted)]">
+                {openProfile.specialization}
+              </p>
+            </div>
+          </div>
+          <div className="mt-8 rounded-2xl border border-emerald-200 bg-emerald-50 p-5 text-sm leading-6 text-emerald-950 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-100">
+            Регистрация временно не требуется: калькуляторы, справочники, 3D и основные рабочие
+            экраны открыты сразу. Сохранение персональных данных, реальные пациенты и платежи
+            лучше включить позже, когда вернём аккаунты.
+          </div>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Button asChild>
+              <a href="/app">В рабочий кабинет</a>
+            </Button>
+            <Button asChild variant="secondary">
+              <a href="/tools/calc">Калькуляторы</a>
+            </Button>
+          </div>
+        </section>
+      </main>
+    );
+  }
 
   if (!user) {
     redirect("/login");

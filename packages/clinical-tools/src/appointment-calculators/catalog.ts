@@ -334,10 +334,10 @@ export const EXTRA_PROJECT_CALCULATORS: AppointmentCalculator[] = [
   {
     id: "ti-rads",
     title: "TI-RADS ЩЖ",
-    description: "Российская адаптация 2023 · ТАБ",
+    description: "ACR TI-RADS · Анализ → Доклад → Store · ТАБ",
     category: "gynecologic",
     status: "implemented",
-    webHref: "/calculators/ti-rads",
+    webHref: "/tools/calc/rads/ti-rads",
     icon: "circle",
   },
   {

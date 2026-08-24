@@ -40,6 +40,32 @@
   --ai-glow: 0 0 0 1px rgba(99, 102, 241, 0.22), 0 18px 50px rgba(99, 102, 241, 0.22);
   --premium-shadow: 0 10px 40px rgba(15, 23, 42, 0.14);
   --premium-shadow-strong: 0 24px 70px rgba(15, 23, 42, 0.26);
+
+  /* SonoGyn Spatial Design System */
+  --sg-surface-canvas: color-mix(in srgb, var(--clinical-canvas) 92%, white);
+  --sg-surface-base: color-mix(in srgb, var(--clinical-card) 88%, white);
+  --sg-surface-raised: rgba(255, 255, 255, 0.78);
+  --sg-surface-glass: rgba(255, 255, 255, 0.64);
+  --sg-surface-control: rgba(255, 255, 255, 0.92);
+  --sg-depth-1: 0 1px 2px rgba(8, 70, 94, 0.08), 0 8px 24px rgba(8, 70, 94, 0.08);
+  --sg-depth-2: 0 10px 34px rgba(8, 70, 94, 0.12);
+  --sg-depth-3: 0 22px 60px rgba(8, 70, 94, 0.16);
+  --sg-depth-modal: 0 28px 80px rgba(2, 20, 34, 0.28);
+  --sg-glow-primary: 0 0 0 1px rgba(14, 165, 233, 0.2), 0 18px 48px rgba(14, 165, 233, 0.16);
+  --sg-glow-ai: 0 0 0 1px rgba(99, 102, 241, 0.24), 0 18px 52px rgba(99, 102, 241, 0.18);
+  --sg-radius-xs: 0.5rem;
+  --sg-radius-sm: 0.75rem;
+  --sg-radius-md: 1rem;
+  --sg-radius-lg: 1.25rem;
+  --sg-radius-xl: 1.5rem;
+  --sg-blur-card: 16px;
+  --sg-blur-modal: 22px;
+  --sg-motion-fast: 140ms;
+  --sg-motion-base: 220ms;
+  --sg-motion-slow: 420ms;
+  --sg-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --sg-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --sg-effect-level: 1;
 }
 
 @theme inline {
@@ -74,6 +100,17 @@
     --mesh-base-end: #0f172a;
     --background: var(--clinical-canvas);
     --foreground: var(--clinical-foreground);
+    --sg-surface-canvas: #0b0f19;
+    --sg-surface-base: rgba(17, 24, 39, 0.72);
+    --sg-surface-raised: rgba(15, 23, 42, 0.82);
+    --sg-surface-glass: rgba(15, 23, 42, 0.62);
+    --sg-surface-control: rgba(15, 23, 42, 0.92);
+    --sg-depth-1: 0 1px 2px rgba(2, 6, 23, 0.28), 0 8px 24px rgba(2, 6, 23, 0.22);
+    --sg-depth-2: 0 14px 40px rgba(2, 6, 23, 0.34);
+    --sg-depth-3: 0 28px 70px rgba(2, 6, 23, 0.44);
+    --sg-depth-modal: 0 32px 90px rgba(2, 6, 23, 0.72);
+    --sg-glow-primary: 0 0 0 1px rgba(59, 130, 246, 0.22), 0 18px 48px rgba(59, 130, 246, 0.12);
+    --sg-glow-ai: 0 0 0 1px rgba(139, 92, 246, 0.24), 0 18px 52px rgba(99, 102, 241, 0.14);
   }
 }
 
@@ -103,6 +140,17 @@ html[data-theme-forced="dark"] {
   --mesh-base-end: #0f172a;
   --background: var(--clinical-canvas);
   --foreground: var(--clinical-foreground);
+  --sg-surface-canvas: #0b0f19;
+  --sg-surface-base: rgba(17, 24, 39, 0.72);
+  --sg-surface-raised: rgba(15, 23, 42, 0.82);
+  --sg-surface-glass: rgba(15, 23, 42, 0.62);
+  --sg-surface-control: rgba(15, 23, 42, 0.92);
+  --sg-depth-1: 0 1px 2px rgba(2, 6, 23, 0.28), 0 8px 24px rgba(2, 6, 23, 0.22);
+  --sg-depth-2: 0 14px 40px rgba(2, 6, 23, 0.34);
+  --sg-depth-3: 0 28px 70px rgba(2, 6, 23, 0.44);
+  --sg-depth-modal: 0 32px 90px rgba(2, 6, 23, 0.72);
+  --sg-glow-primary: 0 0 0 1px rgba(59, 130, 246, 0.22), 0 18px 48px rgba(59, 130, 246, 0.12);
+  --sg-glow-ai: 0 0 0 1px rgba(139, 92, 246, 0.24), 0 18px 52px rgba(99, 102, 241, 0.14);
 }
 
 html[data-theme="light"],
@@ -131,6 +179,17 @@ html[data-theme-forced="light"] {
   --mesh-base-end: #d9f5ef;
   --background: var(--clinical-canvas);
   --foreground: var(--clinical-foreground);
+  --sg-surface-canvas: color-mix(in srgb, var(--clinical-canvas) 92%, white);
+  --sg-surface-base: color-mix(in srgb, var(--clinical-card) 88%, white);
+  --sg-surface-raised: rgba(255, 255, 255, 0.78);
+  --sg-surface-glass: rgba(255, 255, 255, 0.64);
+  --sg-surface-control: rgba(255, 255, 255, 0.92);
+  --sg-depth-1: 0 1px 2px rgba(8, 70, 94, 0.08), 0 8px 24px rgba(8, 70, 94, 0.08);
+  --sg-depth-2: 0 10px 34px rgba(8, 70, 94, 0.12);
+  --sg-depth-3: 0 22px 60px rgba(8, 70, 94, 0.16);
+  --sg-depth-modal: 0 28px 80px rgba(2, 20, 34, 0.28);
+  --sg-glow-primary: 0 0 0 1px rgba(14, 165, 233, 0.2), 0 18px 48px rgba(14, 165, 233, 0.16);
+  --sg-glow-ai: 0 0 0 1px rgba(99, 102, 241, 0.24), 0 18px 52px rgba(99, 102, 241, 0.18);
 }
 
 body {
@@ -511,6 +570,45 @@ html.dark .sonogyn-clinical-app input:-webkit-autofill:focus {
   border-color: var(--clinical-primary-muted);
 }
 
+.sg-spatial-card {
+  border: 1px solid var(--clinical-border);
+  background: var(--sg-surface-base);
+  color: var(--clinical-foreground);
+  box-shadow: var(--sg-depth-1);
+  backdrop-filter: blur(var(--sg-blur-card));
+  transition:
+    transform var(--sg-motion-base) var(--sg-ease-out),
+    box-shadow var(--sg-motion-base) var(--sg-ease-out),
+    border-color var(--sg-motion-base) var(--sg-ease-out),
+    background-color var(--sg-motion-base) var(--sg-ease-out);
+}
+
+.sg-spatial-card[data-depth="2"] {
+  box-shadow: var(--sg-depth-2);
+}
+
+.sg-spatial-card[data-depth="3"] {
+  box-shadow: var(--sg-depth-3);
+}
+
+.sg-spatial-card[data-interactive="true"]:hover {
+  transform: translateY(calc(-2px * var(--sg-effect-level)));
+  border-color: color-mix(in srgb, var(--clinical-primary) 42%, var(--clinical-border));
+  box-shadow: var(--sg-depth-2);
+}
+
+.sg-focus-ring:focus-visible {
+  outline: 2px solid var(--clinical-ring);
+  outline-offset: 3px;
+}
+
+.sg-orb {
+  background:
+    radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.9), transparent 18%),
+    linear-gradient(135deg, var(--clinical-primary), var(--clinical-accent-teal) 55%, var(--ai-indigo));
+  box-shadow: var(--sg-glow-primary);
+}
+
 .ai-orb {
   background: var(--ai-gradient);
   box-shadow: 0 12px 36px rgba(99, 102, 241, 0.45);
@@ -567,6 +665,13 @@ html.dark .sonogyn-clinical-app input:-webkit-autofill:focus {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  :root {
+    --sg-effect-level: 0;
+    --sg-motion-fast: 1ms;
+    --sg-motion-base: 1ms;
+    --sg-motion-slow: 1ms;
+  }
+
   .sonogyn-enter,
   .ai-breathe,
   .skeleton-shimmer::after,

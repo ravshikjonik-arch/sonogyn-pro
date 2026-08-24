@@ -13,7 +13,7 @@ export type TiradsNlpResult = {
   report: ReturnType<typeof generateStructuredThyroidReport>;
 };
 
-type Rule = { patterns: RegExp[]; field: keyof TiradsAcrInput; value: string; label: string };
+type Rule = { patterns: RegExp[]; field: keyof TiradsAcrInput; value: string; label: string; asFociArray?: boolean };
 
 const RULES: Rule[] = [
   { patterns: [/spongiform|губчат/i], field: "composition", value: "spongiform", label: "spongiform" },
@@ -27,8 +27,10 @@ const RULES: Rule[] = [
   { patterns: [/шире.*выше|wider.?than.?tall/i], field: "shape", value: "wider_than_tall", label: "wider-than-tall" },
   { patterns: [/неровн|irregular|lobulated/i], field: "margin", value: "lobulated_or_irregular", label: "неровные контуры" },
   { patterns: [/extrathyroid|экстра/i], field: "margin", value: "extrathyroidal_extension", label: "ETE" },
-  { patterns: [/микрокальц|punctate/i], field: "echogenicFoci", value: "punctate", label: "пунктатные foci" },
-  { patterns: [/comet.?tail|коллоид/i], field: "echogenicFoci", value: "none_or_comet_tail", label: "comet-tail" },
+  { patterns: [/микрокальц|punctate/i], field: "echogenicFoci", value: "punctate", label: "пунктатные foci", asFociArray: true },
+  { patterns: [/макрокальц|macro.?calc/i], field: "echogenicFoci", value: "macrocalcifications", label: "макрокальцинаты", asFociArray: true },
+  { patterns: [/rim.?calc|периферич.*кальц/i], field: "echogenicFoci", value: "peripheral_rim", label: "rim calcifications", asFociArray: true },
+  { patterns: [/comet.?tail/i], field: "echogenicFoci", value: "none_or_comet_tail", label: "comet-tail", asFociArray: true },
   { patterns: [/папилляр|ptc|papillary/i], field: "patternId", value: "papillary_carcinoma", label: "PTC pattern" },
   { patterns: [/коллоид/i], field: "patternId", value: "colloid_nodule", label: "colloid" },
 ];
@@ -36,11 +38,19 @@ const RULES: Rule[] = [
 export function parseTiradsFreeText(text: string): { parsed: Partial<TiradsAcrInput>; keywords: string[] } {
   const parsed: Partial<TiradsAcrInput> = {};
   const keywords: string[] = [];
+  const foci: string[] = [];
   for (const rule of RULES) {
     if (rule.patterns.some((p) => p.test(text))) {
       keywords.push(rule.label);
-      (parsed as Record<string, unknown>)[rule.field] = rule.value;
+      if (rule.asFociArray) {
+        foci.push(rule.value);
+      } else {
+        (parsed as Record<string, unknown>)[rule.field] = rule.value;
+      }
     }
+  }
+  if (foci.length) {
+    parsed.echogenicFoci = foci as TiradsAcrInput["echogenicFoci"];
   }
   const size = text.match(/(\d+(?:[.,]\d+)?)\s*мм/i);
   if (size) {

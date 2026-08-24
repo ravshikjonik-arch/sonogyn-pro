@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 import { AchievementsDashboard } from "@/components/achievements/AchievementsDashboard";
+import { isFullOpenAccessEnabled } from "@/lib/auth/dev-account";
 import { createClient } from "@/utils/supabase/server";
 
 export const metadata: Metadata = {
@@ -15,7 +16,7 @@ export default async function AchievementsPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) {
+  if (!user && !isFullOpenAccessEnabled()) {
     redirect("/login?redirectedFrom=/achievements");
   }
 

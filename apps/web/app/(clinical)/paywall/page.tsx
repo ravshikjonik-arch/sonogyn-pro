@@ -19,6 +19,7 @@ type BillingStatus = {
  */
 export default function PaywallPage() {
   const searchParams = useSearchParams();
+  const openAccess = process.env.NEXT_PUBLIC_OPEN_ACCESS_FULL !== "false";
   const checkout = searchParams.get("checkout");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -87,6 +88,10 @@ export default function PaywallPage() {
   }
 
   async function startCheckout() {
+    if (openAccess) {
+      setError("Открытый доступ включён: PRO временно доступен без оплаты и регистрации.");
+      return;
+    }
     if (yookassaReady) {
       await startYooKassaCheckout();
       return;
@@ -104,11 +109,17 @@ export default function PaywallPage() {
         </p>
         <h1 className="text-3xl font-black tracking-tight text-[var(--clinical-foreground)]">
           {yookassaReady
-            ? "Финальный уровень — PRO для потока кейсов без лимитов"
-            : "Unlock AI-assisted teaching cases and unlimited analyses"}
+            ? openAccess
+              ? "PRO временно открыт без регистрации"
+              : "Финальный уровень — PRO для потока кейсов без лимитов"
+            : openAccess
+              ? "PRO временно открыт без регистрации"
+              : "Unlock AI-assisted teaching cases and unlimited analyses"}
         </h1>
         <p className="text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
-          {yookassaReady
+          {openAccess
+            ? "На время проверки продукта регистрация и оплата сняты как барьер. Пользуйтесь калькуляторами, справочниками и рабочими экранами сразу."
+            : yookassaReady
             ? "Вы уже прошли путь студент → врач. PRO снимает потолок AI и кейсов — оплата через ЮKassa, 30 дней доступа."
             : "PHI-safe architecture with audit trails, HIPAA-aligned controls, and Stripe-backed subscriptions with a seven-day evaluation window for qualified clinicians."}
         </p>
@@ -150,7 +161,13 @@ export default function PaywallPage() {
           </div>
           <div className="space-y-3">
             <Button className="w-full" size="lg" type="button" disabled={busy} onClick={() => void startCheckout()}>
-              {busy ? "Переход…" : yookassaReady ? "Оплатить через ЮKassa" : "Start 7-day trial"}
+              {busy
+                ? "Переход…"
+                : openAccess
+                  ? "PRO уже открыт"
+                  : yookassaReady
+                    ? "Оплатить через ЮKassa"
+                    : "Start 7-day trial"}
             </Button>
             <Button variant="outline" className="w-full" asChild>
               <Link href="/profile">Back to profile</Link>

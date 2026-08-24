@@ -1,10 +1,13 @@
-import { defaultTiradsAcrInput, evaluateAcrTirads } from "../score";
-import type { TiradsAcrInput } from "../types";
+import { defaultTiradsAcrInput, evaluateAcrTirads, normalizeEchogenicFoci } from "../score";
+import type { TiradsAcrInput, TiradsEchogenicFoci } from "../types";
 import { formatMm } from "@repo/medical-calculations";
 import { COMPOSITION_OPTIONS, ECHOGENICITY_OPTIONS, ECHOGENIC_FOCI_OPTIONS, MARGIN_OPTIONS, SHAPE_OPTIONS } from "../lexicon";
 
 export function mergeTiradsInput(parsed: Partial<TiradsAcrInput>, base: TiradsAcrInput = defaultTiradsAcrInput): TiradsAcrInput {
-  return { ...base, ...parsed };
+  const merged = { ...base, ...parsed };
+  const rawFoci = (parsed.echogenicFoci ?? base.echogenicFoci) as TiradsEchogenicFoci | TiradsEchogenicFoci[] | undefined;
+  merged.echogenicFoci = normalizeEchogenicFoci(rawFoci);
+  return merged;
 }
 
 export function presetToInput(patternId: string, patterns: { id: string; preset: Partial<TiradsAcrInput> }[]): TiradsAcrInput | null {
@@ -17,14 +20,21 @@ function labelFor<T extends string>(options: { value: T; labelRu: string }[], va
   return options.find((o) => o.value === value)?.labelRu ?? value;
 }
 
+function fociLabels(foci: TiradsEchogenicFoci[]): string {
+  return normalizeEchogenicFoci(foci)
+    .map((f) => labelFor(ECHOGENIC_FOCI_OPTIONS, f))
+    .join("; ");
+}
+
 export function generateStructuredThyroidReport(input: TiradsAcrInput) {
   const result = evaluateAcrTirads(input);
   const lines: string[] = [
     "ПРОТОКОЛ УЗИ ЩИТОВИДНОЙ ЖЕЛЕЗЫ (ACR TI-RADS)",
+    `Движок: ${result.engineVersion}`,
     "",
     "ЩИТОВИДНАЯ ЖЕЛЕЗА",
     `Объём: ${input.thyroidVolumeMl !== undefined ? `${input.thyroidVolumeMl} мл` : "не указан"}`,
-    `Пarenchyma echogenicity: ${input.parenchymaEchogenicity ?? "не описана"}`,
+    `Parenchyma echogenicity: ${input.parenchymaEchogenicity ?? "не описана"}`,
     `Parenchyma vascularity: ${input.parenchymaVascularity ?? "не описана"}`,
     "",
     "УЗЛОВОЕ ОБРАЗОВАНИЕ",
@@ -33,7 +43,7 @@ export function generateStructuredThyroidReport(input: TiradsAcrInput) {
     `Echogenicity: ${labelFor(ECHOGENICITY_OPTIONS, input.echogenicity)} (+${result.scoreBreakdown.echogenicity})`,
     `Shape: ${labelFor(SHAPE_OPTIONS, input.shape)} (+${result.scoreBreakdown.shape})`,
     `Margin: ${labelFor(MARGIN_OPTIONS, input.margin)} (+${result.scoreBreakdown.margin})`,
-    `Echogenic foci: ${labelFor(ECHOGENIC_FOCI_OPTIONS, input.echogenicFoci)} (+${result.scoreBreakdown.echogenicFoci})`,
+    `Echogenic foci: ${fociLabels(input.echogenicFoci)} (+${result.scoreBreakdown.echogenicFoci})`,
     input.largestDiameterMm !== undefined ? `Наибольший диаметр: ${formatMm(input.largestDiameterMm)}` : "Размер: не указан",
     "",
     "РЕГИОНАРНЫЕ ЛИМФОУЗЛЫ",
@@ -46,7 +56,7 @@ export function generateStructuredThyroidReport(input: TiradsAcrInput) {
     result.fnaRecommended ? `FNA: рекомендована. ${result.fnaRationale}` : `FNA: не показана. ${result.fnaRationale}`,
     `Follow-up: ${result.followUpRecommendation}`,
     "",
-    "Заключение носит характер клинической поддержки; интерпретация — специалистом.",
+    "Заключение носит характер клинической поддержки; интерпретация — специалистом. Не является диагнозом.",
   ];
   return { result, fullProtocol: lines.join("\n") };
 }

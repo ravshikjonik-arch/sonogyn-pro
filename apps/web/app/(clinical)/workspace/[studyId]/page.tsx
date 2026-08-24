@@ -4,6 +4,7 @@ import { StudyAiPanel } from "@/components/clinical/StudyAiPanel";
 import { CdsPreviewPanel } from "@/components/copilot/CdsPreviewPanel";
 import { ImageSeriesUploader } from "@/components/copilot/ImageSeriesUploader";
 import { StudyProtocolSection } from "@/components/protocol/StudyProtocolSection";
+import { isFullOpenAccessEnabled } from "@/lib/auth/dev-account";
 import { ULTRASOUND_MEDIA_BUCKET } from "@/lib/copilot/types";
 import { createClient } from "@/utils/supabase/server";
 
@@ -24,6 +25,23 @@ export default async function StudyWorkspacePage(props: {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
+  if (!user && isFullOpenAccessEnabled()) {
+    return (
+      <main className="px-4 py-10">
+        <div className="mx-auto max-w-3xl rounded-2xl border border-emerald-200 bg-emerald-50 p-6 text-sm leading-6 text-emerald-950">
+          <p className="font-bold">Открытый доступ включён</p>
+          <p className="mt-2">
+            Сохранённые исследования без аккаунта не загружаются. Создавать протоколы и
+            пользоваться калькуляторами можно через общий workspace.
+          </p>
+          <Link className="mt-4 inline-flex font-bold text-blue-700" href="/ai/workspace">
+            ← Открыть AI workspace
+          </Link>
+        </div>
+      </main>
+    );
+  }
 
   if (!user) {
     redirect("/login");

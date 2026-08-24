@@ -2,7 +2,7 @@ import type { SupabaseClient, User } from "@supabase/supabase-js";
 
 import { safeInternalPath } from "@/lib/nav/safe-redirect";
 
-const OPEN_HOME = "/home";
+const APP_HOME = "/app";
 const PROFILE_PATH = "/profile";
 
 /** Имя из user_metadata Яндекс / других IdP. */
@@ -37,7 +37,7 @@ export function isClinicalProfileReady(input: {
 
 /**
  * После OAuth: подставить ФИО из IdP, если пусто;
- * готовый профиль → requestedNext (/home), иначе → /profile.
+ * готовый профиль → requestedNext (/app по умолчанию), иначе → /profile.
  */
 export async function finalizeOAuthLogin(
   supabase: SupabaseClient,
@@ -77,10 +77,9 @@ export async function finalizeOAuthLogin(
     return PROFILE_PATH;
   }
 
-  let next = safeInternalPath(requestedNext, OPEN_HOME);
-  if (next === "/app" || next.startsWith("/app?")) next = OPEN_HOME;
+  const next = safeInternalPath(requestedNext, APP_HOME);
   if (next === "/login" || next === "/register" || next.startsWith("/login?") || next.startsWith("/register?")) {
-    return OPEN_HOME;
+    return APP_HOME;
   }
   return next;
 }

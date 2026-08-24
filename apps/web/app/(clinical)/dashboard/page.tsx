@@ -15,6 +15,7 @@ import { AchievementsDashboard } from "@/components/achievements/AchievementsDas
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { getOpenAccessProfile } from "@/lib/auth/dev-account";
 import { createClient } from "@/utils/supabase/server";
 
 const quickLinks = [
@@ -49,29 +50,33 @@ export default async function MedicalDashboardPage() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+  const openProfile = getOpenAccessProfile();
 
-  if (!user) {
+  if (!user && !openProfile) {
     redirect("/login?redirectedFrom=/profile/dashboard");
   }
 
-  const [{ data: profile }, { data: doctor }] = await Promise.all([
-    supabase
-      .from("profiles")
-      .select("full_name, specialization, institution, subscription_tier, trial_ends_at, role")
-      .eq("id", user.id)
-      .maybeSingle(),
-    supabase.from("users").select("full_name, specialization, institution").eq("id", user.id).maybeSingle(),
-  ]);
+  const [{ data: profile }, { data: doctor }] = user
+    ? await Promise.all([
+        supabase
+          .from("profiles")
+          .select("full_name, specialization, institution, subscription_tier, trial_ends_at, role")
+          .eq("id", user.id)
+          .maybeSingle(),
+        supabase.from("users").select("full_name, specialization, institution").eq("id", user.id).maybeSingle(),
+      ])
+    : [{ data: null }, { data: null }];
 
   const displayName =
     doctor?.full_name?.trim() ||
     profile?.full_name?.trim() ||
-    user.email?.split("@")[0] ||
+    openProfile?.full_name ||
+    user?.email?.split("@")[0] ||
     "Colleague";
 
   const specialization =
-    doctor?.specialization?.trim() || profile?.specialization?.trim() || null;
-  const institution = doctor?.institution?.trim() || profile?.institution?.trim() || null;
+    doctor?.specialization?.trim() || profile?.specialization?.trim() || openProfile?.specialization || null;
+  const institution = doctor?.institution?.trim() || profile?.institution?.trim() || openProfile?.institution || null;
 
   const trialLabel = profile?.trial_ends_at
     ? new Date(profile.trial_ends_at).toLocaleDateString(undefined, {
@@ -113,7 +118,7 @@ export default async function MedicalDashboardPage() {
                   </Badge>
                 ) : null}
                 <Badge variant="outline" className="font-normal capitalize">
-                  Plan: {profile?.subscription_tier ?? "free"}
+                  Plan: {profile?.subscription_tier ?? (openProfile ? "pro / open access" : "free")}
                 </Badge>
                 {profile?.role === "admin" ? (
                   <Badge className="gap-1 font-normal">
@@ -141,14 +146,20 @@ export default async function MedicalDashboardPage() {
           <Card className="border-[var(--clinical-border)] bg-[var(--clinical-card)] shadow-sm">
             <CardHeader>
               <CardTitle className="text-lg">Account & session</CardTitle>
-              <CardDescription>Supabase Auth + Row Level Security backed profile rows.</CardDescription>
+              <CardDescription>
+                {openProfile
+                  ? "Открытый режим без регистрации: персональное сохранение отключено."
+                  : "Supabase Auth + Row Level Security backed profile rows."}
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-3 text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
               <p>
                 <span className="font-semibold text-[var(--clinical-foreground)]">Email:</span>{" "}
-                <span className="break-all">{user.email}</span>
+                <span className="break-all">{user?.email ?? openProfile?.email}</span>
               </p>
-              <p className="font-mono text-xs text-slate-500 dark:text-slate-400">UID {user.id}</p>
+              <p className="font-mono text-xs text-slate-500 dark:text-slate-400">
+                UID {user?.id ?? "open-access"}
+              </p>
               {trialLabel ? (
                 <p>
                   <span className="font-semibold text-[var(--clinical-foreground)]">Trial window:</span> until{" "}

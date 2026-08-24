@@ -187,7 +187,7 @@ export function detectOrphanScreens(registeredRoutes: Set<string>, menuLinkedRou
     "/calculators/bi-rads",
     "/calculators/endometrium",
     "/calculators/cervical-length",
-    "/calculators/ti-rads",
+    "/tools/calc/rads/ti-rads",
     "/calculators/pop-q",
     "/calculators/colposcopy",
     "/calculators/ob",

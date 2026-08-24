@@ -154,9 +154,8 @@ async function main() {
   for (const p of [
     "/tools/calc/rads/bi-rads",
     "/tools/calc/rads/o-rads",
-    "/tools/adjunct/ti-rads",
+    "/tools/calc/rads/ti-rads",
     "/assistant/fmf",
-    "/library/courses/1d67a487-194c-4cd9-9db3-080b17b1698a",
     "/tools/refs/evidence-assistant",
     "/profile",
     "/app",

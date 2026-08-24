@@ -12,6 +12,7 @@ import {
   detectAndNotifyCareerMilestone,
   loadCareerProfileInput,
 } from "@/lib/career/milestones";
+import { getOpenAccessProfile, isFullOpenAccessEnabled } from "@/lib/auth/dev-account";
 import { ensureFounderAdminAccess } from "@/lib/auth/founder-admins";
 import { autoGrantPilotMedicalAccess } from "@/lib/auth/pilot-medical-access";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
@@ -62,6 +63,26 @@ function normalizeProfileRow(
 export async function GET() {
   const supabase = await createClient();
   const auth = await requireSupabaseUser(supabase);
+  if (!auth.ok && isFullOpenAccessEnabled()) {
+    const openProfile = getOpenAccessProfile();
+    const nowIso = new Date().toISOString();
+    return NextResponse.json({
+      profile: {
+        id: "open-access",
+        role: "user",
+        full_name: openProfile?.full_name ?? "Открытый доступ",
+        institution: openProfile?.institution ?? "SonoGyn Pro",
+        specialization: openProfile?.specialization ?? "Врач",
+        birth_year: openProfile?.birth_year ?? null,
+        clinical_preferences: {},
+        subscription_tier: "pro",
+        subscription_expires_at: null,
+        trial_ends_at: null,
+        created_at: nowIso,
+        updated_at: nowIso,
+      },
+    });
+  }
   if (!auth.ok) return auth.response;
 
   await ensureFounderAdminAccess(auth.userId);
@@ -139,6 +160,12 @@ export async function PATCH(request: Request) {
 
   const supabase = await createClient();
   const auth = await requireSupabaseUser(supabase);
+  if (!auth.ok && isFullOpenAccessEnabled()) {
+    return NextResponse.json(
+      { error: "Открытый доступ включён: профиль временно не сохраняем без аккаунта." },
+      { status: 403 },
+    );
+  }
   if (!auth.ok) return auth.response;
 
   const rl = await consumeRateLimit(

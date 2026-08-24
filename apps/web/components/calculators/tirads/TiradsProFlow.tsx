@@ -29,6 +29,12 @@ export function TiradsProFlow() {
             <Button variant="secondary" size="sm" asChild className="h-8 rounded-full text-xs">
               <Link href="/tools/calc">← Калькуляторы</Link>
             </Button>
+            <Button variant="ghost" size="sm" asChild className="h-8 rounded-full text-xs text-white hover:bg-white/20">
+              <Link href="/tools/calc/rads/o-rads">O-RADS</Link>
+            </Button>
+            <Button variant="ghost" size="sm" asChild className="h-8 rounded-full text-xs text-white hover:bg-white/20">
+              <Link href="/tools/calc/rads/bi-rads">BI-RADS</Link>
+            </Button>
             <span className="text-sm font-bold">{ACR_TIRADS_VERSION}</span>
             <div className="ml-auto flex flex-wrap gap-1">
               {(

@@ -1,4 +1,4 @@
-import { defaultTiradsAcrInput, evaluateAcrTirads } from "@repo/tirads-acr";
+import { defaultTiradsAcrInput, evaluateAcrTirads, normalizeEchogenicFoci } from "@repo/tirads-acr";
 import type { ThyroidStructuredReportInput } from "@repo/types";
 import type { TiradsAcrInput } from "@repo/tirads-acr";
 
@@ -10,7 +10,7 @@ export function mapThyroidInputToTirads(input: ThyroidStructuredReportInput): Ti
     echogenicity: m.echogenicity ?? defaultTiradsAcrInput.echogenicity,
     shape: m.shape ?? defaultTiradsAcrInput.shape,
     margin: m.margin ?? defaultTiradsAcrInput.margin,
-    echogenicFoci: m.echogenicFoci ?? defaultTiradsAcrInput.echogenicFoci,
+    echogenicFoci: normalizeEchogenicFoci(m.echogenicFoci ?? defaultTiradsAcrInput.echogenicFoci),
     largestDiameterMm: input.measurements.noduleMaxDiameterMm,
     thyroidVolumeMl: input.measurements.thyroidVolumeMl,
     parenchymaEchogenicity: m.parenchymaEchogenicity,

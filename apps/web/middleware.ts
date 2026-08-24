@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { updateSession } from "@/utils/supabase/middleware";
-import { isDevSkipAuthEnabled } from "@/lib/auth/dev-account";
+import { isDevSkipAuthEnabled, isFullOpenAccessEnabled } from "@/lib/auth/dev-account";
 import { needsPhoneVerification } from "@/lib/auth/phone-verified";
 import { safeInternalPath } from "@/lib/nav/safe-redirect";
 import { resolveCorsHeaders } from "@/lib/security/cors";
@@ -98,6 +98,13 @@ function matchesPrefix(pathname: string, prefix: string): boolean {
 }
 
 function isAuthRequiredPath(pathname: string): boolean {
+  if (
+    isFullOpenAccessEnabled() &&
+    !matchesPrefix(pathname, "/admin") &&
+    !matchesPrefix(pathname, "/author")
+  ) {
+    return false;
+  }
   return AUTH_REQUIRED_PREFIXES.some((prefix) => matchesPrefix(pathname, prefix));
 }
 
@@ -231,6 +238,10 @@ export default async function middleware(request: NextRequest) {
   }
 
   if (pathname === "/login" || pathname === "/register") {
+    if (isFullOpenAccessEnabled()) {
+      return redirectWithSessionCookies(request, response, "/app");
+    }
+
     if (!isDevSkipAuthEnabled()) {
       const {
         data: { user },
@@ -266,7 +277,12 @@ export default async function middleware(request: NextRequest) {
     return response;
   }
 
-  if (isDevSkipAuthEnabled()) {
+  if (
+    isDevSkipAuthEnabled() ||
+    (isFullOpenAccessEnabled() &&
+      !matchesPrefix(pathname, "/admin") &&
+      !matchesPrefix(pathname, "/author"))
+  ) {
     return response;
   }
 

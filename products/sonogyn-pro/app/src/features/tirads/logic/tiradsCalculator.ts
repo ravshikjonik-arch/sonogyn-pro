@@ -62,7 +62,7 @@ function toAcrInput(input: TiradsInput): TiradsAcrInput {
     lobulated_irregular: "lobulated_or_irregular",
     ete: "extrathyroidal_extension",
   };
-  const fociMap: Record<TiradsFoci, TiradsAcrInput["echogenicFoci"]> = {
+  const fociMap: Record<TiradsFoci, TiradsAcrInput["echogenicFoci"][number]> = {
     none: "none_or_comet_tail",
     comet_small: "none_or_comet_tail",
     coarse: "macrocalcifications",
@@ -75,7 +75,7 @@ function toAcrInput(input: TiradsInput): TiradsAcrInput {
     echogenicity: echogenicityMap[input.echogenicity],
     shape: shapeMap[input.shape],
     margin: marginMap[input.margin],
-    echogenicFoci: fociMap[input.echogenicFoci],
+    echogenicFoci: [fociMap[input.echogenicFoci]],
     largestDiameterMm: input.largestDiameterMm,
     lymphNodes: "not_assessed",
   };
@@ -105,19 +105,24 @@ export function fromAcrInput(acr: TiradsAcrInput): TiradsInput {
     lobulated_or_irregular: "lobulated_irregular",
     extrathyroidal_extension: "ete",
   };
-  const fociRev: Record<TiradsAcrInput["echogenicFoci"], TiradsFoci> = {
+  const fociRev: Record<TiradsAcrInput["echogenicFoci"][number], TiradsFoci> = {
     none_or_comet_tail: "none",
     macrocalcifications: "coarse",
     peripheral_rim: "rim",
     punctate: "punctate",
   };
+  const ranked = [...acr.echogenicFoci].sort((a, b) => {
+    const order = { none_or_comet_tail: 0, macrocalcifications: 1, peripheral_rim: 2, punctate: 3 } as const;
+    return order[b] - order[a];
+  });
+  const primaryFocus = ranked[0] ?? "none_or_comet_tail";
 
   return {
     composition: compositionRev[acr.composition],
     echogenicity: echogenicityRev[acr.echogenicity],
     shape: shapeRev[acr.shape],
     margin: marginRev[acr.margin],
-    echogenicFoci: fociRev[acr.echogenicFoci],
+    echogenicFoci: fociRev[primaryFocus],
     largestDiameterMm: acr.largestDiameterMm,
   };
 }

@@ -200,12 +200,12 @@ export const CLINICAL_TOOLS: ClinicalTool[] = [
   {
     id: "tirads",
     title: "TI-RADS ЩЖ",
-    subtitle: "Российская адаптация 2023 · ТАБ · TI-MDS",
+    subtitle: "ACR TI-RADS · Анализ → Доклад → Store · ТАБ",
     category: "thyroid",
     roles: ["ultrasound", "allied"],
-    synonyms: ["щитовидка", "узел щж", "ти радс", "тиреоид", "таб щж"],
+    synonyms: ["щитовидка", "узел щж", "ти радс", "тиреоид", "таб щж", "ti-rads"],
     keywords: ["thyroid", "tirads"],
-    webHref: "/calculators/ti-rads",
+    webHref: "/tools/calc/rads/ti-rads",
     mobileAction: "tirads",
   },
   {

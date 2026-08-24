@@ -29,3 +29,4 @@ export * from "./cancerRiskEducation";
 export * from "./cinFollowUp";
 export * from "./pregnancyMedications";
 export * from "./ovarianVolume";
+export * from "./thyroidVolume";

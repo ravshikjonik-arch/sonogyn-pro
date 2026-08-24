@@ -26,7 +26,7 @@ export async function writeSecurityAuditLog(input: SecurityAuditInput): Promise<
   }
 
   let actorId: string | null = null;
-  let actorRole: string | null = null;
+  const actorRole: string | null = null;
   try {
     const {
       data: { user },

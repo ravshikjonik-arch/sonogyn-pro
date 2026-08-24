@@ -6,7 +6,7 @@ import type {
   TiradsShape,
 } from "./types";
 
-export const ACR_TIRADS_VERSION = "ACR TI-RADS (2017/2023)";
+export const ACR_TIRADS_VERSION = "ACR TI-RADS (2017)";
 
 export type LexiconOption<T extends string> = { value: T; labelRu: string; points: number; definitionRu: string };
 

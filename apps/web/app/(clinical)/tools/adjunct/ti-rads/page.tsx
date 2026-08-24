@@ -1,10 +1,6 @@
-import { TiradsProFlow } from "@/components/calculators/tirads/TiradsProFlow";
+import { redirect } from "next/navigation";
 
-export const metadata = {
-  title: "TI-RADS ЩЖ · SonoGyn",
-  description: "ACR TI-RADS Pro: scoring TR1–TR5, Pattern Recognition, FNA, AI Assistant, обучение · РФ 2023",
-};
-
-export default function TiradsPage() {
-  return <TiradsProFlow />;
+/** Legacy adjunct URL → canonical RADS hub. */
+export default function TiradsAdjunctRedirectPage() {
+  redirect("/tools/calc/rads/ti-rads");
 }
