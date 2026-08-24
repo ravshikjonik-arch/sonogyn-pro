@@ -175,7 +175,7 @@ export function ProfileSettingsForm({ initial }: Props) {
 
   async function onDeleteAccount() {
     const confirmed = window.confirm(
-      "Удалить аккаунт навсегда? Профиль и связанные пациенты будут удалены. Это действие нельзя отменить.",
+      "Удалить аккаунт навсегда? Профиль и связанные данные будут удалены. Это действие нельзя отменить.",
     );
     if (!confirmed) return;
     const typed = window.prompt('Для подтверждения введите слово DELETE заглавными буквами:');
@@ -349,7 +349,7 @@ export function ProfileSettingsForm({ initial }: Props) {
       <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-5 dark:border-slate-800 dark:bg-slate-900/40">
         <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">Ваши данные (152-ФЗ)</p>
         <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">
-          Выгрузка JSON с профилем и сводкой. Удаление аккаунта необратимо (пациенты и профиль каскадом).
+          Выгрузка JSON с профилем аккаунта. Удаление аккаунта необратимо.
         </p>
         <div className="mt-4 flex flex-wrap gap-2">
           <Button

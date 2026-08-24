@@ -328,11 +328,10 @@ export function ClinicalShell({
         <TelegramChannelLink compact />
         <div className="rounded-xl bg-[var(--clinical-muted)] px-3 py-3">
           <p className="text-[10px] font-bold uppercase tracking-wider text-[var(--clinical-foreground-muted)]">
-            PHI Notice
+            Только для врачей
           </p>
           <p className="mt-1 text-xs leading-relaxed text-[var(--clinical-foreground-muted)]">
-            For demonstrations only — integrate BAAs, audit trails, and data residency before
-            production clinical use.
+            Не вводите персональные данные пациентов. Калькуляторы и кейсы — в обезличенном виде.
           </p>
         </div>
       </div>

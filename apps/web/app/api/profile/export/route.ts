@@ -6,7 +6,7 @@ import { requireSupabaseUserFromRequest } from "@/lib/security/require-user";
 import { createClient } from "@/utils/supabase/server";
 
 /**
- * Выгрузка своих данных аккаунта (152-ФЗ): профиль + сводка пациентов, без сырого PHI dump всех исследований.
+ * Выгрузка данных аккаунта врача (152-ФЗ): профиль и контакт auth.
  */
 export async function GET(request: Request) {
   const supabase = await createClient();
@@ -30,11 +30,6 @@ export async function GET(request: Request) {
     .eq("id", auth.userId)
     .maybeSingle();
 
-  const { count: patientsCount } = await supabase
-    .from("patients")
-    .select("id", { count: "exact", head: true })
-    .eq("created_by", auth.userId);
-
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -47,10 +42,6 @@ export async function GET(request: Request) {
       phone: user?.phone ?? null,
     },
     profile: profile ?? null,
-    patients: {
-      count: patientsCount ?? 0,
-      note: "Полный список пациентов доступен в кабинете /patients при авторизации.",
-    },
   };
 
   return new NextResponse(JSON.stringify(payload, null, 2), {

@@ -12,7 +12,7 @@ import { createServiceRoleClient } from "@/utils/supabase/admin";
 import { createClient } from "@/utils/supabase/server";
 
 /**
- * Удаление аккаунта (152-ФЗ): auth.users → cascade profiles/patients(created_by).
+ * Удаление аккаунта врача (152-ФЗ): auth.users → cascade profiles.
  * Требует подтверждение body.confirm === "DELETE".
  */
 export async function DELETE(request: Request) {

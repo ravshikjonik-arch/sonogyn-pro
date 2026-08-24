@@ -372,7 +372,7 @@ function LoginForm() {
               : isPilotTelegramPrimary()
                 ? PILOT_AUTH_SUBTITLE
                 : RU_IDP_SUBTITLE
-          : "Сайт открыт без регистрации. Вход нужен только для пациентов и облачного сохранения."
+          : "Сайт открыт без регистрации. Вход — для профиля, PRO и облачного сохранения настроек."
       }
       defaultTab={defaultTab}
       onTabChange={onTabChange}

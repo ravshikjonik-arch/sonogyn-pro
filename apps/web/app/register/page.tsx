@@ -494,7 +494,7 @@ function RegisterForm() {
           <div className="space-y-3 rounded-2xl border border-emerald-200 bg-emerald-50/80 p-4 text-sm text-emerald-950 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-100">
             <p className="font-semibold">Регистрация не обязательна</p>
             <p className="text-xs">
-              Можно сразу работать в кабинете. Email — когда понадобятся пациенты и сохранение.
+              Можно сразу работать в кабинете. Email — когда понадобится профиль и облачное сохранение.
             </p>
             <Button asChild className="w-full" variant="secondary">
               <Link href="/home">В кабинет без регистрации</Link>
