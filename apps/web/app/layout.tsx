@@ -18,16 +18,17 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Medical Ultrasound Platform",
-    template: "%s | Medical Ultrasound Platform",
+    default: "SonoGyn Pro",
+    template: "%s | SonoGyn Pro",
   },
-  description: "Medical ultrasound clinical platform with Supabase auth and protected workspace.",
+  description:
+    "Клиническая платформа УЗИ и акушерства-гинекологии: калькуляторы по гайдлайнам, справочники и рабочий кабинет для врачей.",
   manifest: "/manifest.json",
-  applicationName: "Medical Ultrasound Platform",
+  applicationName: "SonoGyn Pro",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "Ultrasound",
+    title: "SonoGyn Pro",
   },
   formatDetection: {
     telephone: false,

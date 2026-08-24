@@ -126,7 +126,7 @@ export function AuthScreenShell({
 
       <p className="mt-6 text-center text-xs text-slate-500">
         Регистрируясь или входя, вы соглашаетесь с{" "}
-        <Link href="/landing" className="underline">
+        <Link href="/privacy" className="underline">
           политикой конфиденциальности
         </Link>
         .
