@@ -4,15 +4,17 @@ import { canAccessLessonPlayback } from "@/lib/lessons/playback-access";
 import { markLessonCompleted } from "@/lib/courses/progress";
 import { isEnrolledInCourse } from "@/lib/courses/student-access";
 import { createSupabaseRouteHandlerClient } from "@/lib/route-handler-supabase";
-import { isUuid } from "@/lib/security/uuid";
+import { UuidPathSchema, zodErrorResponse } from "@/lib/security/api-body-schemas";
 
 type Params = { params: Promise<{ lessonId: string }> };
 
 export async function POST(_req: Request, { params }: Params) {
-  const { lessonId } = await params;
-  if (!isUuid(lessonId)) {
-    return NextResponse.json({ error: "Урок не найден." }, { status: 404 });
+  const { lessonId: rawLessonId } = await params;
+  const lessonIdParsed = UuidPathSchema.safeParse(rawLessonId);
+  if (!lessonIdParsed.success) {
+    return zodErrorResponse(lessonIdParsed.error, 404);
   }
+  const lessonId = lessonIdParsed.data;
   const client = await createSupabaseRouteHandlerClient();
   if (!client.ok) {
     return NextResponse.json({ error: client.message }, { status: client.status });

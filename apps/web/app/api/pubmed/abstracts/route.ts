@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { fetchPubmedArticles } from "@/lib/pubmed/ncbi-client";
+import { PubmedPmidQuerySchema, zodErrorResponse } from "@/lib/security/api-body-schemas";
 import { rejectIfRateLimited } from "@/lib/security/api-rate-limit";
 
 const MAX_PMIDS = 12;
@@ -14,8 +15,14 @@ export async function GET(req: Request) {
   if (limited) return limited;
 
   const url = new URL(req.url);
-  const raw = url.searchParams.get("pmid") ?? "";
-  const pmids = raw
+  const parsed = PubmedPmidQuerySchema.safeParse({
+    pmid: url.searchParams.get("pmid") ?? "",
+  });
+  if (!parsed.success) {
+    return zodErrorResponse(parsed.error);
+  }
+
+  const pmids = parsed.data.pmid
     .split(/[,\s]+/)
     .map((p) => p.replace(/\D/g, ""))
     .filter(Boolean)

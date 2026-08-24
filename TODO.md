@@ -41,8 +41,7 @@
 
 - [x] **Pilot wave-1 smoke** — `npm run pilot:smoke` на prod (2026-06-29): 6/6 OK, `smsReady=true`
 - [x] **Pilot case E2E** — lifecycle R6 + feed (2026-06-29)
-- [x] **FMF fetal slices seed** — курс `1d67a487…` на prod, 10 уроков (видео ISUOG — загрузка после mkv→mp4)
-- [ ] **ISUOG mkv→mp4 upload** — отложено (нужно явное «да» на долгий seed `npm run seed:fmf-fetal-slices`)
+- [x] **FMF fetal slices / ОТТЕНКИ 2024** — сняты с публикации (`archived`, 2026-08-03); карточка убрана из library-catalog
 - [x] **Pilot closeout T0–T5** — prod smoke + Evidence Perplexity + case E2E + RADS/FMF/library (2026-07-26)
 - [x] **Discussions web↔web e2e** — `npm run pilot:discussions-e2e` (вопрос+ответ двух авторов); push/deep-link — после APK
 - [x] CI lockfile + wave 3 Zod (mobile exchange, webhook)
@@ -70,7 +69,8 @@
 
 ## Открыто (v2 / не блокер пилота)
 
-- [ ] Zod на оставшихся ~10 API routes (sign-out, stripe webhook, author cover formData)
+- [x] Zod на оставшихся API (sign-out, author cover, account delete, pubmed pmid, enroll/complete UUID, admin revoke)
+- [ ] Stripe/YooKassa webhooks — подпись провайдера (не Zod body); вне wave
 - [ ] Full Playwright CI (сейчас только CPI)
 - [ ] Vascular Kulikov mobile parity
 - [ ] Duplicate O-RADS mobile `oradsCalculator` → `@repo/orads-us`

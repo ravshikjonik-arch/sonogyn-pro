@@ -1,5 +1,10 @@
 import { NextResponse } from "next/server";
 
+import {
+  AccountDeleteBodySchema,
+  parseJsonBody,
+  zodErrorResponse,
+} from "@/lib/security/api-body-schemas";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { requireSupabaseUserFromRequest } from "@/lib/security/require-user";
@@ -24,17 +29,12 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ error: "Слишком много запросов. Подождите час." }, { status: 429 });
   }
 
-  let body: { confirm?: string } = {};
-  try {
-    body = (await request.json()) as { confirm?: string };
-  } catch {
-    body = {};
-  }
-  if (body.confirm !== "DELETE") {
-    return NextResponse.json(
-      { error: 'Подтвердите удаление: передайте { "confirm": "DELETE" }.' },
-      { status: 400 },
-    );
+  const raw = await parseJsonBody(request);
+  if (!raw.ok) return raw.response;
+
+  const parsed = AccountDeleteBodySchema.safeParse(raw.data);
+  if (!parsed.success) {
+    return zodErrorResponse(parsed.error);
   }
 
   try {

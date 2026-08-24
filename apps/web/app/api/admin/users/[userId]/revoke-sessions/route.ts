@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { requireAdminRole } from "@/lib/security/require-clinical-role";
-import { isUuid } from "@/lib/security/uuid";
+import { UuidPathSchema, zodErrorResponse } from "@/lib/security/api-body-schemas";
 import { createServiceRoleClient } from "@/utils/supabase/admin";
 import { createClient } from "@/utils/supabase/server";
 import { writeSecurityAuditLog } from "@/lib/security/security-audit-log";
@@ -15,11 +15,12 @@ type Params = { userId: string };
  * Requires profiles.role = admin and SUPABASE_SERVICE_ROLE_KEY on server.
  */
 export async function POST(_request: Request, context: { params: Promise<Params> }) {
-  const { userId: targetUserId } = await context.params;
-
-  if (!isUuid(targetUserId)) {
-    return NextResponse.json({ error: "Invalid user id" }, { status: 400 });
+  const { userId: rawTarget } = await context.params;
+  const targetParsed = UuidPathSchema.safeParse(rawTarget);
+  if (!targetParsed.success) {
+    return zodErrorResponse(targetParsed.error);
   }
+  const targetUserId = targetParsed.data;
 
   const supabase = await createClient();
   const {

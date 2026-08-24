@@ -2,16 +2,26 @@ import { NextResponse } from "next/server";
 
 import { withAuthorCourseApi } from "@/lib/courses/api-handler";
 import { uploadCourseCover } from "@/lib/courses/storage";
+import { UuidPathSchema, zodErrorResponse } from "@/lib/security/api-body-schemas";
 
 type Params = { params: Promise<{ courseId: string }> };
 
 export async function POST(req: Request, { params }: Params) {
-  const { courseId } = await params;
+  const { courseId: rawCourseId } = await params;
+  const courseIdParsed = UuidPathSchema.safeParse(rawCourseId);
+  if (!courseIdParsed.success) {
+    return zodErrorResponse(courseIdParsed.error, 404);
+  }
+  const courseId = courseIdParsed.data;
+
   return withAuthorCourseApi(courseId, async ({ supabase, userId }) => {
     const form = await req.formData();
     const file = form.get("file");
     if (!(file instanceof File)) {
       return NextResponse.json({ error: "Передайте файл в поле file." }, { status: 400 });
+    }
+    if (file.size <= 0 || file.size > 5 * 1024 * 1024) {
+      return NextResponse.json({ error: "Обложка: файл до 5 МБ." }, { status: 400 });
     }
 
     const uploaded = await uploadCourseCover(supabase, { userId, courseId, file });

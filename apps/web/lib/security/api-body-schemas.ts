@@ -495,3 +495,25 @@ export async function parseJsonBodyOrEmpty(request: Request): Promise<
 export function zodErrorResponse(error: z.ZodError, status = 400) {
   return NextResponse.json({ error: error.flatten() }, { status });
 }
+
+/** DELETE /api/profile/account */
+export const AccountDeleteBodySchema = z.object({
+  confirm: z.literal("DELETE"),
+});
+
+/** Path UUID params (courseId, lessonId, userId, …). */
+export const UuidPathSchema = z.string().uuid();
+
+/** GET /api/pubmed/abstracts?pmid= */
+export const PubmedPmidQuerySchema = z.object({
+  pmid: z
+    .string()
+    .trim()
+    .min(1)
+    .max(200)
+    .regex(/^[\d,\s]+$/, { message: "pmid — цифры через запятую." }),
+});
+
+/** Optional empty JSON body for POST without payload (sign-out). */
+export const EmptyJsonBodySchema = z.object({}).strict();
+

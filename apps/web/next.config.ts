@@ -41,6 +41,31 @@ function liveKitConnectExtra(): string {
   }
 }
 
+function buildContentSecurityPolicy(): string {
+  const isProd = process.env.NODE_ENV === "production";
+  // Next inline theme/SW scripts still need 'unsafe-inline'. Drop 'unsafe-eval' in prod.
+  const scriptSrc = isProd
+    ? "script-src 'self' 'unsafe-inline' https://js.stripe.com https://challenges.cloudflare.com https://telegram.org https://www.googletagmanager.com https://www.google-analytics.com"
+    : "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://challenges.cloudflare.com https://telegram.org https://www.googletagmanager.com https://www.google-analytics.com";
+
+  const parts = [
+    "default-src 'self'",
+    "base-uri 'self'",
+    "form-action 'self'",
+    "frame-ancestors 'none'",
+    "object-src 'none'",
+    "font-src 'self' data:",
+    "worker-src 'self' blob:",
+    "img-src 'self' data: https://*.supabase.co https://telegram.org https://*.telesco.pe https://*.yandex.ru https://yastatic.net blob:",
+    "media-src 'self' blob:",
+    `connect-src 'self' https://*.supabase.co wss://*.supabase.co${supabaseConnectOriginExtra()}${liveKitConnectExtra()} https://*.google-analytics.com https://www.google-analytics.com https://*.googleapis.com https://*.firebaseio.com https://firebasestorage.googleapis.com https://*.ingest.sentry.io https://challenges.cloudflare.com https://*.yandex.ru`,
+    scriptSrc,
+    "frame-src 'self' https://js.stripe.com https://challenges.cloudflare.com https://oauth.telegram.org https://disk.yandex.ru https://*.yandex.ru",
+  ];
+  if (isProd) parts.push("upgrade-insecure-requests");
+  return `${parts.join("; ")};`;
+}
+
 function supabaseConnectOriginExtra(): string {
   const raw = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
   if (!raw) return "";
@@ -74,11 +99,19 @@ const nextConfig: NextConfig = {
   ],
   env: {
     // Mail-first: hide SMS/Telegram unless AUTH_ALLOW_PHONE=true.
-    // Yandex UI: opt-in via NEXT_PUBLIC_AUTH_SOCIAL_ENABLED=true (default off — open access first).
+    // OAuth UI: default on; set NEXT_PUBLIC_AUTH_SOCIAL_ENABLED=false only for incident rollback.
     NEXT_PUBLIC_AUTH_ALLOW_PHONE: process.env.AUTH_ALLOW_PHONE === "true" ? "true" : "false",
     NEXT_PUBLIC_AUTH_EMAIL_ONLY: process.env.AUTH_ALLOW_PHONE === "true" ? "false" : "true",
     NEXT_PUBLIC_AUTH_PILOT_CLOSED: process.env.AUTH_PILOT_TELEGRAM_ALLOWLIST?.trim() ? "true" : "false",
-    NEXT_PUBLIC_AUTH_SOCIAL_ENABLED: process.env.NEXT_PUBLIC_AUTH_SOCIAL_ENABLED === "true" ? "true" : "false",
+    NEXT_PUBLIC_AUTH_SOCIAL_ENABLED: process.env.NEXT_PUBLIC_AUTH_SOCIAL_ENABLED === "false" ? "false" : "true",
+    NEXT_PUBLIC_AUTH_GOOGLE_OAUTH_ENABLED:
+      process.env.NEXT_PUBLIC_AUTH_GOOGLE_OAUTH_ENABLED === "false" ? "false" : "true",
+    NEXT_PUBLIC_SUPABASE_REDIRECT_URL:
+      process.env.NEXT_PUBLIC_SUPABASE_REDIRECT_URL?.trim() || "/auth/callback",
+    NEXT_PUBLIC_OPEN_ACCESS_FULL:
+      process.env.NEXT_PUBLIC_OPEN_ACCESS_FULL === "false" || process.env.OPEN_ACCESS_FULL === "false"
+        ? "false"
+        : "true",
   },
   experimental: {
     optimizePackageImports: ["lucide-react", "@react-three/drei"],
@@ -139,8 +172,7 @@ const nextConfig: NextConfig = {
       },
       {
         key: "Content-Security-Policy",
-        value:
-          `default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data: https://*.supabase.co https://telegram.org https://*.telesco.pe https://*.yandex.ru https://yastatic.net blob:; media-src 'self' blob:; connect-src 'self' https://*.supabase.co wss://*.supabase.co${supabaseConnectOriginExtra()}${liveKitConnectExtra()} https://*.google-analytics.com https://*.firebaseio.com https://firebasestorage.googleapis.com https://*.ingest.sentry.io https://challenges.cloudflare.com https://*.yandex.ru; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://challenges.cloudflare.com https://telegram.org; frame-src 'self' https://js.stripe.com https://challenges.cloudflare.com https://oauth.telegram.org https://disk.yandex.ru https://*.yandex.ru;`,
+        value: buildContentSecurityPolicy(),
       },
     ];
 

@@ -8,15 +8,17 @@ import { isYooKassaConfigured } from "@/lib/payment/config";
 import { createPaymentViaSdk } from "@/lib/payment/yookassa-sdk-client";
 import { createSupabaseRouteHandlerClient } from "@/lib/route-handler-supabase";
 import { createServiceRoleClient } from "@/utils/supabase/admin";
-import { isUuid } from "@/lib/security/uuid";
+import { UuidPathSchema, zodErrorResponse } from "@/lib/security/api-body-schemas";
 
 type Params = { params: Promise<{ courseId: string }> };
 
 export async function POST(req: Request, { params }: Params) {
-  const { courseId } = await params;
-  if (!isUuid(courseId)) {
-    return NextResponse.json({ error: "Курс недоступен." }, { status: 404 });
+  const { courseId: rawCourseId } = await params;
+  const courseIdParsed = UuidPathSchema.safeParse(rawCourseId);
+  if (!courseIdParsed.success) {
+    return zodErrorResponse(courseIdParsed.error, 404);
   }
+  const courseId = courseIdParsed.data;
   const client = await createSupabaseRouteHandlerClient();
   if (!client.ok) {
     return NextResponse.json({ error: client.message }, { status: client.status });
