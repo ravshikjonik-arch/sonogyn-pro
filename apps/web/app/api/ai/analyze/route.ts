@@ -3,19 +3,24 @@ import { NextResponse } from "next/server";
 
 import { AiAnalyzeRequestSchema } from "@repo/types";
 
+import {
+  fetchCaseClinicalContext,
+  runCaseUsVisionAnalysis,
+} from "@/lib/ai/us-vision/run-case-analysis";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { requireSupabaseUser } from "@/lib/security/require-user";
+import type { CaseMediaRow } from "@/lib/supabase/case-media-storage";
 import { hasProEntitlement } from "@/lib/subscription/access";
 import { createClient } from "@/utils/supabase/server";
 import { createServiceRoleClient } from "@/utils/supabase/admin";
 
 export const runtime = "nodejs";
-
-const MOCK_DELAY_MS = 30_000;
+/** Vision + worker round-trip may exceed default serverless budget. */
+export const maxDuration = 300;
 
 /**
- * Queues a mocked asynchronous AI segmentation job (HTTP 202). Completion is written via service role after response flush.
+ * Queues an asynchronous US vision job (HTTP 202). Completion runs via service role after response flush.
  */
 export async function POST(request: Request) {
   let json: unknown;
@@ -40,7 +45,10 @@ export async function POST(request: Request) {
     RL.aiAnalyze.windowMs,
   );
   if (!rl.ok) {
-    return NextResponse.json({ error: "Too many requests" }, { status: 429, headers: { "Retry-After": String(rl.retryAfterSec) } });
+    return NextResponse.json(
+      { error: "Too many requests" },
+      { status: 429, headers: { "Retry-After": String(rl.retryAfterSec) } },
+    );
   }
 
   const { data: profile, error: profileErr } = await supabase
@@ -75,7 +83,7 @@ export async function POST(request: Request) {
 
   const { data: mediaRows, error: mediaErr } = await supabase
     .from("case_media")
-    .select("id")
+    .select("id,case_id,storage_path,media_type,order_index,uploaded_at")
     .eq("case_id", parsed.data.caseId)
     .in("id", parsed.data.mediaIds);
 
@@ -101,35 +109,53 @@ export async function POST(request: Request) {
   }
 
   const jobId = inserted.id as string;
+  const caseId = parsed.data.caseId;
+  const mediaIds = parsed.data.mediaIds;
+  const mediaSnapshot = mediaRows as CaseMediaRow[];
 
   after(async () => {
     const admin = createServiceRoleClient();
     await admin.from("ai_analyses").update({ status: "processing" }).eq("id", jobId);
-    await new Promise((resolve) => setTimeout(resolve, MOCK_DELAY_MS));
-    const completedAt = new Date().toISOString();
-    await admin
-      .from("ai_analyses")
-      .update({
-        status: "completed",
-        completed_at: completedAt,
-        results: {
-          mock: true,
-          modelVersion: "mock-v1",
-          overlays: [
-            {
-              type: "bbox",
-              xNorm: 0.12,
-              yNorm: 0.18,
-              widthNorm: 0.42,
-              heightNorm: 0.31,
-              labelKey: "roi.ultrasound.region",
-            },
-          ],
-          measurementsMm: { longestAxis: 42 },
-          mediaIds: parsed.data.mediaIds,
-        },
-      })
-      .eq("id", jobId);
+
+    try {
+      const clinicalContext = await fetchCaseClinicalContext(admin, caseId);
+      const analysisResult = await runCaseUsVisionAnalysis({
+        admin,
+        mediaRows: mediaSnapshot,
+        mediaIds,
+        clinicalContext,
+      });
+
+      if ("error" in analysisResult) {
+        await admin
+          .from("ai_analyses")
+          .update({
+            status: "failed",
+            error_message: analysisResult.error,
+            completed_at: new Date().toISOString(),
+          })
+          .eq("id", jobId);
+        return;
+      }
+
+      await admin
+        .from("ai_analyses")
+        .update({
+          status: "completed",
+          completed_at: new Date().toISOString(),
+          results: analysisResult,
+        })
+        .eq("id", jobId);
+    } catch (err) {
+      await admin
+        .from("ai_analyses")
+        .update({
+          status: "failed",
+          error_message: err instanceof Error ? err.message : "Analysis failed",
+          completed_at: new Date().toISOString(),
+        })
+        .eq("id", jobId);
+    }
   });
 
   return NextResponse.json({ accepted: true, jobId, pollAfterMs: 2000 }, { status: 202 });

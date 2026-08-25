@@ -22,8 +22,8 @@ COPY . .
 # SonoNet weights baked into image (~57MB) — required for fetal planes
 RUN bash scripts/setup-sononet-weights.sh
 
-# USTri: clone MacDunno/USTri + USpec.pth (~1.2GB). CI: --build-arg INSTALL_USTRI=0
-ARG INSTALL_USTRI=1
+# USTri: clone MacDunno/USTri + USpec.pth (~1.2GB). Default off for Railway; set INSTALL_USTRI=1 to enable.
+ARG INSTALL_USTRI=0
 ENV INSTALL_USTRI=${INSTALL_USTRI}
 ENV USTRI_PATH=/app/ustri
 ENV USTRI_USPEC_WEIGHTS=/app/ustri/USpec.pth

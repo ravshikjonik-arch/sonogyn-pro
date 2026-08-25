@@ -4,13 +4,22 @@ export const COPYRIGHT_BLOCK_MESSAGE =
 const REPRODUCTION_REQUEST_PATTERNS = [
   /покажи\s+(?:всю|полную)\s+глав/i,
   /дай\s+(?:всю|полную)\s+страниц/i,
+  /дай\s+страниц(?:ы|у)?\s*\d+\s*[-–—]\s*\d+/i,
+  /покажи\s+страниц(?:ы|у)?\s*\d+\s*[-–—]\s*\d+/i,
+  /покажи\s+в(?:есь|сю)\s+исходн/i,
+  /весь\s+исходн(?:ый|ого)?\s+текст/i,
+  /продолжи\s+(?:следующ(?:ий|его)\s+)?абзац/i,
   /перепиши\s+книг/i,
   /скопируй\s+книг/i,
   /весь\s+текст\s+глав/i,
   /полный\s+pdf/i,
   /download\s+pdf/i,
   /show\s+full\s+chapter/i,
+  /page\s*\d+\s*[-–—]\s*\d+/i,
 ];
+
+/** Detect sequential page-by-page reconstruction attempts within one query. */
+const SEQUENTIAL_PAGE_PATTERN = /(?:страниц(?:а|ы|у)?|page)\s*#?\s*\d+/gi;
 
 export type CopyrightGuardResult =
   | { allowed: true }
@@ -19,6 +28,10 @@ export type CopyrightGuardResult =
 export function assessCopyrightRequest(query: string): CopyrightGuardResult {
   const q = query.trim();
   if (REPRODUCTION_REQUEST_PATTERNS.some((re) => re.test(q))) {
+    return { allowed: false, reason: "reproduction_request", message: COPYRIGHT_BLOCK_MESSAGE };
+  }
+  const pageRefs = q.match(SEQUENTIAL_PAGE_PATTERN) ?? [];
+  if (pageRefs.length >= 2) {
     return { allowed: false, reason: "reproduction_request", message: COPYRIGHT_BLOCK_MESSAGE };
   }
   return { allowed: true };

@@ -2,13 +2,25 @@ import { NextResponse } from "next/server";
 
 import { SourceCitationPublicSchema, TEST_GUIDELINE_SOURCE } from "@repo/medical-knowledge";
 
+import { consumeRateLimit } from "@/lib/security/rate-limit";
+import { RL } from "@/lib/security/rate-limit-config";
+import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
 import { isUuid } from "@/lib/security/uuid";
 import { createClient } from "@/utils/supabase/server";
 
 type Params = { sourceId: string };
 
 /** Public bibliographic card — never returns storage_path or chunk text. */
-export async function GET(_request: Request, context: { params: Promise<Params> }) {
+export async function GET(request: Request, context: { params: Promise<Params> }) {
+  const rl = await consumeRateLimit(
+    rateLimitKeyFromRequest(request, "medical-knowledge-source"),
+    RL.evidenceAssistant.limit,
+    RL.evidenceAssistant.windowMs,
+  );
+  if (!rl.ok) {
+    return NextResponse.json({ error: "Слишком много запросов." }, { status: 429 });
+  }
+
   const { sourceId } = await context.params;
   if (!isUuid(sourceId)) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });

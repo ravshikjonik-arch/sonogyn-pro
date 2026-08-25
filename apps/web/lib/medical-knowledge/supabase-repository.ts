@@ -4,11 +4,22 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 
 import {
   CLINICAL_RAG_KNOWLEDGE_STATUSES,
+  CLINICAL_RAG_SOURCE_STATUSES,
   type CanonicalKnowledgeArticle,
   type KnowledgeRepository,
   type SourceCitationPublic,
   createFixtureKnowledgeRepository,
 } from "@repo/medical-knowledge";
+
+function shouldUseFixtureFallback(error: { code?: string; message?: string } | null): boolean {
+  if (!error) return false;
+  if (process.env.MEDICAL_KNOWLEDGE_USE_FIXTURES === "true") return true;
+  if (process.env.NODE_ENV !== "production") {
+    const msg = `${error.code ?? ""} ${error.message ?? ""}`.toLowerCase();
+    return msg.includes("does not exist") || msg.includes("relation") || error.code === "42P01";
+  }
+  return false;
+}
 
 function mapSourceRow(row: Record<string, unknown>): SourceCitationPublic {
   return {
@@ -53,8 +64,14 @@ export function createSupabaseKnowledgeRepository(supabase: SupabaseClient): Kno
       if (specialty) articleQuery = articleQuery.eq("specialty", specialty);
 
       const { data: articles, error } = await articleQuery;
-      if (error || !articles?.length) {
-        return fallback.findPublishedArticles({ query, specialty, limit });
+      if (error) {
+        if (shouldUseFixtureFallback(error)) {
+          return fallback.findPublishedArticles({ query, specialty, limit });
+        }
+        return [];
+      }
+      if (!articles?.length) {
+        return [];
       }
 
       const filtered = articles.filter((a) => {
@@ -104,6 +121,7 @@ export function createSupabaseKnowledgeRepository(supabase: SupabaseClient): Kno
             .map((link) => {
               const src = Array.isArray(link.sources) ? link.sources[0] : link.sources;
               if (!src) return null;
+              if (!CLINICAL_RAG_SOURCE_STATUSES.has(String(src.review_status))) return null;
               return mapSourceRow({
                 ...src,
                 chapter: link.chapter,
@@ -125,8 +143,14 @@ export function createSupabaseKnowledgeRepository(supabase: SupabaseClient): Kno
         .from("source_catalog_public")
         .select("*")
         .in("id", sourceIds);
-      if (error || !data?.length) {
-        return fallback.findPublishedSourceCitations(sourceIds);
+      if (error) {
+        if (shouldUseFixtureFallback(error)) {
+          return fallback.findPublishedSourceCitations(sourceIds);
+        }
+        return [];
+      }
+      if (!data?.length) {
+        return [];
       }
       return data.map((row) =>
         mapSourceRow({
