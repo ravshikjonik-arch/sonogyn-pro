@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 
 import { createClient } from "@/utils/supabase/server";
-import { isDevSkipAuthEnabled } from "@/lib/auth/dev-account";
+import { isDevSkipAuthEnabled, isFullOpenAccessEnabled } from "@/lib/auth/dev-account";
 
 import { CaseDetailClient, type CaseDetailData } from "./case-detail-client";
 
@@ -19,7 +19,7 @@ export default async function CaseDetailPage(props: {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user && !isDevSkipAuthEnabled()) {
+  if (!user && !isDevSkipAuthEnabled() && !isFullOpenAccessEnabled()) {
     notFound();
   }
 

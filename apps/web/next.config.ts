@@ -103,9 +103,17 @@ const nextConfig: NextConfig = {
     NEXT_PUBLIC_AUTH_ALLOW_PHONE: process.env.AUTH_ALLOW_PHONE === "true" ? "true" : "false",
     NEXT_PUBLIC_AUTH_EMAIL_ONLY: process.env.AUTH_ALLOW_PHONE === "true" ? "false" : "true",
     NEXT_PUBLIC_AUTH_PILOT_CLOSED: process.env.AUTH_PILOT_TELEGRAM_ALLOWLIST?.trim() ? "true" : "false",
-    NEXT_PUBLIC_AUTH_SOCIAL_ENABLED: process.env.NEXT_PUBLIC_AUTH_SOCIAL_ENABLED === "false" ? "false" : "true",
-    NEXT_PUBLIC_AUTH_GOOGLE_OAUTH_ENABLED:
-      process.env.NEXT_PUBLIC_AUTH_GOOGLE_OAUTH_ENABLED === "false" ? "false" : "true",
+    // Mail-first pilot: OAuth UI off unless explicitly enabled (Yandex optional later).
+    NEXT_PUBLIC_AUTH_SOCIAL_ENABLED:
+      process.env.NEXT_PUBLIC_AUTH_SOCIAL_ENABLED === "true"
+        ? "true"
+        : process.env.AUTH_ALLOW_PHONE === "true"
+          ? process.env.NEXT_PUBLIC_AUTH_SOCIAL_ENABLED === "false"
+            ? "false"
+            : "true"
+          : "false",
+    // Google Sign-In disabled (199-FZ / product policy).
+    NEXT_PUBLIC_AUTH_GOOGLE_OAUTH_ENABLED: "false",
     NEXT_PUBLIC_SUPABASE_REDIRECT_URL:
       process.env.NEXT_PUBLIC_SUPABASE_REDIRECT_URL?.trim() || "/auth/callback",
     NEXT_PUBLIC_OPEN_ACCESS_FULL:

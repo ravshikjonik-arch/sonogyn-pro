@@ -482,7 +482,7 @@ function RegisterForm() {
       onTabChange={onTabChange}
       showMethodHints
       socialTab={
-        isAuthSocialEnabledClient() && !isPilotClosedAccessClient() ? (
+        isAuthSocialEnabledClient() && !isAuthEmailOnlyClient() && !isPilotClosedAccessClient() ? (
           <div className="space-y-4">
             {!isAuthEmailOnlyClient() ? <RegisterCareerTeaser /> : null}
             <RussianIdpPanel variant="register" nextPath={afterAuthPath} />

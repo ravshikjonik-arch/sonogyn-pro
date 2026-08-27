@@ -69,6 +69,9 @@ export function CaseDetailClient({
     return (
       <div className="mx-auto max-w-lg px-6 py-16 text-center">
         <p className="font-semibold">Нужен вход врача</p>
+        <p className="mt-2 text-sm text-[var(--clinical-foreground-muted)]">
+          ИИ-разбор и чат — после входа по email. Калькуляторы доступны без регистрации.
+        </p>
         <Button className="mt-4" asChild>
           <Link
             href={`/login?redirectedFrom=${encodeURIComponent(`/cases/${teachingCase.id}`)}`}

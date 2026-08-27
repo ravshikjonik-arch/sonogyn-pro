@@ -13,19 +13,14 @@ type RussianIdpPanelProps = {
   nextPath?: string;
 };
 
-function isGoogleOAuthEnabledClient(): boolean {
-  const raw = process.env.NEXT_PUBLIC_AUTH_GOOGLE_OAUTH_ENABLED?.trim().toLowerCase();
-  return raw !== "false" && raw !== "0" && raw !== "no";
-}
-
-/** Яндекс ID и Google Sign-In через Supabase OAuth. */
+/** Яндекс ID через Supabase Custom OAuth (`custom:yandex`). Google не используется. */
 export function RussianIdpPanel({ variant = "login", nextPath = "/app" }: RussianIdpPanelProps) {
   const [loading, setLoading] = useState<AuthProvider | null>(null);
   const [message, setMessage] = useState("");
-  const providers: AuthProvider[] = isGoogleOAuthEnabledClient() ? ["yandex", "google"] : ["yandex"];
+  const providers: AuthProvider[] = ["yandex"];
 
   async function onProviderPress(provider: AuthProvider) {
-    if (provider === "telegram") return;
+    if (provider !== "yandex") return;
     setLoading(provider);
     setMessage("");
     try {
@@ -41,10 +36,9 @@ export function RussianIdpPanel({ variant = "login", nextPath = "/app" }: Russia
         options: { redirectTo },
       });
       if (error) {
-        const label = provider === "google" ? "Google" : "Яндекс";
         setMessage(
           /provider.*not enabled|unsupported/i.test(error.message)
-            ? `${label} не настроен в Supabase Authentication → Providers.`
+            ? "Яндекс ID не настроен в Supabase Authentication → Providers."
             : error.message || "Не удалось начать вход.",
         );
       }
@@ -58,7 +52,7 @@ export function RussianIdpPanel({ variant = "login", nextPath = "/app" }: Russia
   return (
     <div className="space-y-4">
       <p className="text-sm text-[var(--clinical-foreground-muted)]">
-        Быстрый вход через Яндекс ID или Google — без письма и пароля.
+        Быстрый вход через Яндекс ID — без письма и пароля.
       </p>
       <AuthButtons
         providers={providers}

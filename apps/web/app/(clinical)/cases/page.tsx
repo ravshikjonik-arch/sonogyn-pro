@@ -95,12 +95,12 @@ export default async function CasesPage() {
             Сообщество доступно после входа
           </h1>
           <p className="mt-3 text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
-            Калькуляторы и справочники уже открыты без регистрации. Чат коллег и кейсы — после входа (скоро Яндекс ID и
-            SMS).
+            Калькуляторы и справочники уже открыты без регистрации. Чат коллег, кейсы и ИИ-разбор — после
+            входа по email.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Button asChild>
-              <Link href="/login?redirectedFrom=/cases">Войти</Link>
+              <Link href="/login?redirectedFrom=/cases">Войти по email</Link>
             </Button>
             <Button asChild variant="outline">
               <Link href="/app">В кабинет</Link>

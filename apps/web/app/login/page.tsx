@@ -109,7 +109,7 @@ function LoginForm() {
     if (authCallbackError) {
       setMessage(
         searchParams.get("oauth_message") ||
-          "Вход через Google/VK отключён. Используйте SMS (+7), Яндекс ID, Telegram или почту.",
+          "OAuth вход недоступен. Используйте email и пароль (Sonogyn-pro@mail.ru).",
       );
     }
   }, [authCallbackError, searchParams]);
@@ -364,21 +364,21 @@ function LoginForm() {
     <AuthScreenShell
       title="Вход"
       subtitle={
-        isAuthSocialEnabledClient()
-          ? isAuthEmailOnlyClient()
-            ? "Яндекс ID или email и пароль — один аккаунт для web и mobile."
-            : isPilotClosedAccessClient()
+        isAuthEmailOnlyClient()
+          ? "Тестовый режим: email и пароль (Sonogyn-pro@mail.ru). Калькуляторы — без входа."
+          : isAuthSocialEnabledClient()
+            ? isPilotClosedAccessClient()
               ? PILOT_AUTH_SUBTITLE
               : isPilotTelegramPrimary()
                 ? PILOT_AUTH_SUBTITLE
                 : RU_IDP_SUBTITLE
-          : "Сайт открыт без регистрации. Вход — для профиля, PRO и облачного сохранения настроек."
+            : "Сайт открыт без регистрации. Вход — для профиля, PRO и облачного сохранения настроек."
       }
       defaultTab={defaultTab}
       onTabChange={onTabChange}
       showMethodHints
       socialTab={
-        isAuthSocialEnabledClient() && !isPilotClosedAccessClient() ? (
+        isAuthSocialEnabledClient() && !isAuthEmailOnlyClient() && !isPilotClosedAccessClient() ? (
           <div className="space-y-4">
             <RussianIdpPanel variant="login" nextPath={nextPath} />
             {authCallbackError ? (
@@ -399,7 +399,7 @@ function LoginForm() {
           <div className="space-y-3 rounded-2xl border border-emerald-200 bg-emerald-50/80 p-4 text-sm text-emerald-950 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-100">
             <p className="font-semibold">Кабинет открыт без входа</p>
             <p className="text-xs">
-              Калькуляторы, FMF и справочники — сразу. Яндекс ID временно отключён.
+              Калькуляторы и справочники — сразу. ИИ-разбор и чат врачей — после входа по email.
             </p>
             <Button asChild className="w-full">
               <Link href="/home">Перейти в кабинет</Link>

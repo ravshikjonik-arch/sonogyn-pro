@@ -1,4 +1,5 @@
 import { isAuthEmailOnly } from "@/lib/auth/auth-methods-config";
+import { isFullOpenAccessEnabled } from "@/lib/auth/dev-account";
 import { createServiceRoleClient } from "@/utils/supabase/admin";
 
 const CHAT_READY_STATUSES = new Set(["resident", "doctor", "verified_doctor"]);
@@ -22,8 +23,24 @@ export async function autoGrantPilotMedicalAccess(userId: string): Promise<boole
     .eq("id", userId)
     .maybeSingle();
 
-  if (error || !profile || !isProfileReadyForPilotChat(profile)) return false;
+  if (error || !profile) return false;
   if (CHAT_READY_STATUSES.has(profile.medical_access_status ?? "")) return true;
+
+  // Test mode: email login opens chat/AI without manual admin review.
+  if (isFullOpenAccessEnabled()) {
+    const { error: testUpdateError } = await admin
+      .from("profiles")
+      .update({
+        medical_access_status: "doctor",
+        medical_verified_at: new Date().toISOString(),
+        medical_verification_note: "Pilot test · open access auto",
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", userId);
+    return !testUpdateError;
+  }
+
+  if (!isProfileReadyForPilotChat(profile)) return false;
 
   const { error: updateError } = await admin
     .from("profiles")
