@@ -70,7 +70,11 @@ export function CaseDetailClient({
       <div className="mx-auto max-w-lg px-6 py-16 text-center">
         <p className="font-semibold">Нужен вход врача</p>
         <Button className="mt-4" asChild>
-          <Link href="/login?redirectedFrom=/cases">Войти</Link>
+          <Link
+            href={`/login?redirectedFrom=${encodeURIComponent(`/cases/${teachingCase.id}`)}`}
+          >
+            Войти по email
+          </Link>
         </Button>
       </div>
     );

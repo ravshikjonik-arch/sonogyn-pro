@@ -238,10 +238,7 @@ export default async function middleware(request: NextRequest) {
   }
 
   if (pathname === "/login" || pathname === "/register") {
-    if (isFullOpenAccessEnabled()) {
-      return redirectWithSessionCookies(request, response, "/app");
-    }
-
+    // Open access: калькуляторы без логина, но /login остаётся для ИИ-разбора и чата врачей.
     if (!isDevSkipAuthEnabled()) {
       const {
         data: { user },
