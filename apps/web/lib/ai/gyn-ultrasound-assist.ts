@@ -1,6 +1,9 @@
 import { randomUUID } from "node:crypto";
 
-import { runOradsAssistPipeline, type OradsAssistPipelineResult } from "@repo/orads-us";
+import {
+  runOradsAssistPipeline,
+  type OradsAssistPipelineResult,
+} from "@repo/orads-us/assist/runOradsAssistPipeline";
 
 import type { UsVisionAnalysisResult } from "@/lib/ai/us-vision/types";
 import { analyzeFramesWithWorker, readUsAiWorkerConfig } from "@/lib/ai/us-vision/worker-client";
