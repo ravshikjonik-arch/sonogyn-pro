@@ -109,8 +109,8 @@ export function OradsProFlow() {
           mode === "wizard" || mode === "text" ? (
             <>
               <FloatingInsight title="Пилотный сценарий" tone="ai">
-                Main → O-RADS → AI → похожие кейсы → черновик протокола. Категория берётся из текущего
-                O-RADS engine после подтверждения врача.
+                Пошагово · из описания · по фото → подсказки в wizard → черновик протокола. Категория — из O-RADS
+                engine после подтверждения врача.
               </FloatingInsight>
               <FloatingInsight title="Без PHI" tone="safety">
                 В AI-текст лучше вставлять только описание УЗИ без ФИО, телефона, адреса и номера карты.
