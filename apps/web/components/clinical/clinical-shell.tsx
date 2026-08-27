@@ -54,6 +54,7 @@ import {
   resolveDoctorFullName,
   type DoctorCabinetLabel,
 } from "@/lib/auth/doctor-display";
+import { isFullOpenAccessEnabledClient } from "@/lib/auth/guest-demo-account";
 
 const navGroups: { title: string; items: { href: string; label: string; icon: typeof MessageCircle }[] }[] = [
   {
@@ -135,7 +136,9 @@ export function ClinicalShell({
   const router = useRouter();
   const supabase = useSupabase();
   const { user } = useAuth();
+  const openAccess = isFullOpenAccessEnabledClient();
   const isGuest = !user && !devProfile;
+  const showOpenAccessBanner = openAccess || isGuest;
   const email = user?.email ?? devProfile?.email ?? "";
   const metaFullName =
     typeof user?.user_metadata?.full_name === "string" ? user.user_metadata.full_name : undefined;
@@ -190,6 +193,7 @@ export function ClinicalShell({
     try {
       const { wipeWebClinicalLocalData } = await import("@/lib/security/wipe-clinical-local");
       wipeWebClinicalLocalData();
+      sessionStorage.removeItem("sonogyn-guest-demo-attempted");
       await fetch("/api/auth/sign-out", { method: "POST", credentials: "same-origin" });
       await supabase.auth.signOut();
       router.refresh();
@@ -375,11 +379,11 @@ export function ClinicalShell({
           <GlobalSearchTrigger />
           {!isGuest ? <ProBadge className="hidden sm:inline-flex" /> : null}
           <ThemeToggle />
-          {isGuest ? (
+          {isGuest && !openAccess ? (
             <Button asChild size="sm" variant="ghost" className="ml-auto" data-testid="guest-login-cta">
               <Link href={loginHref}>Войти позже</Link>
             </Button>
-          ) : (
+          ) : !isGuest || user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="secondary" size="sm" className="ml-auto gap-2 font-normal" data-testid="user-menu-trigger">
@@ -402,12 +406,12 @@ export function ClinicalShell({
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-          )}
+          ) : null}
         </header>
-        {isGuest ? (
+        {showOpenAccessBanner ? (
           <div className="border-b border-emerald-200/70 bg-emerald-50/90 px-4 py-2 text-center text-xs text-emerald-950 dark:border-emerald-900/40 dark:bg-emerald-950/30 dark:text-emerald-100">
-            Открытый доступ для врачей — калькуляторы и справочники без регистрации. ПДн пациентов
-            запрещены; вход — для профиля и облачных кейсов.
+            Полный демо-доступ до 1 сентября — ИИ, чат врачей и калькуляторы без регистрации. Не
+            вводите ПДн пациентов; данные демо-сессии общие для всех гостей.
           </div>
         ) : null}
         <main className="flex-1 pb-[calc(4.5rem+env(safe-area-inset-bottom))] sonogyn-enter lg:pb-0" data-voice-content>

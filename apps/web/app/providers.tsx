@@ -11,6 +11,7 @@ import {
   type ReactNode,
 } from "react";
 
+import { GuestDemoBootstrap } from "@/components/auth/GuestDemoBootstrap";
 import { fetchAuthSession } from "@/lib/auth/client-auth-api";
 import { createClient } from "@/utils/supabase/client";
 
@@ -116,7 +117,12 @@ function AuthStateInner({ children }: { children: ReactNode }) {
     [session, user, ready, refresh],
   );
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={value}>
+      <GuestDemoBootstrap />
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 export function SessionProvider({ children }: { children: ReactNode }) {

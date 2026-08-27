@@ -15,6 +15,7 @@ import type { ClinicalModuleId } from "@/lib/achievements/types";
 import { useAuth } from "@/app/providers";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { isFullOpenAccessEnabledClient } from "@/lib/auth/guest-demo-account";
 export type CaseDetailData = {
   id: string;
   title: string;
@@ -65,7 +66,9 @@ export function CaseDetailClient({
     return <p className="px-6 py-16 text-sm text-[var(--clinical-foreground-muted)]">Загрузка…</p>;
   }
 
-  if (!user && !devSkip) {
+  const openAccess = isFullOpenAccessEnabledClient();
+
+  if (!user && !devSkip && !openAccess) {
     return (
       <div className="mx-auto max-w-lg px-6 py-16 text-center">
         <p className="font-semibold">Нужен вход врача</p>
@@ -81,6 +84,10 @@ export function CaseDetailClient({
         </Button>
       </div>
     );
+  }
+
+  if (!user && !devSkip && openAccess) {
+    return <p className="px-6 py-16 text-sm text-[var(--clinical-foreground-muted)]">Подключаем демо-сессию…</p>;
   }
 
   const assistContext = {

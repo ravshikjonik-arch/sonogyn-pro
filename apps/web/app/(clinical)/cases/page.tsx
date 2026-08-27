@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { DoctorsCommunityHub } from "@/components/chat/DoctorsCommunityHub";
 import { Button } from "@/components/ui/button";
+import { isFullOpenAccessEnabled } from "@/lib/auth/dev-account";
 import { createClient } from "@/utils/supabase/server";
 
 type MedicalAccessStatus =
@@ -85,6 +86,10 @@ export default async function CasesPage() {
   } = await supabase.auth.getUser();
 
   if (!user) {
+    if (isFullOpenAccessEnabled()) {
+      return <DoctorsCommunityHub />;
+    }
+
     return (
       <div className="min-h-screen bg-[var(--clinical-bg)] px-4 py-12 lg:px-10">
         <div className="mx-auto max-w-3xl rounded-2xl border border-[var(--clinical-border)] bg-[var(--clinical-card)] p-6 shadow-sm sm:p-8">
