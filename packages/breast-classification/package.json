@@ -24,7 +24,7 @@
   "devDependencies": {
     "@types/node": "^20.14.9",
     "eslint": "^8.57.0",
-    "@tsconfig/node18": "^18.2.2",
+    "@tsconfig/node18": "^18.2.7",
     "tsup": "^8.1.0",
     "typescript": "^5.5.3"
   },
