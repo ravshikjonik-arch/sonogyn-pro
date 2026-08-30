@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 
+import { useSafeSentryCapture } from "@/lib/sentry/use-safe-sentry-capture";
 import { Button } from "@/components/ui/button";
 
 export default function ClinicalSegmentError({
@@ -11,9 +12,7 @@ export default function ClinicalSegmentError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  useEffect(() => {
-    console.error(error);
-  }, [error]);
+  useSafeSentryCapture(error, { boundary: "clinical-segment" });
 
   return (
     <div className="flex min-h-[50vh] flex-col items-center justify-center gap-4 px-6 py-16 text-center">
