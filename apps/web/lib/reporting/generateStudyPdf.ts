@@ -2,6 +2,11 @@ import { formatMeasurementDecimal } from "@repo/medical-calculations";
 import type { UltrasoundProtocolPayload } from "@repo/types";
 import { isSafeClinicalImageDataUrl } from "@repo/types";
 
+import {
+  resolveProtocolConclusionHtml,
+  resolveProtocolConclusionPlain,
+} from "@/lib/clinical-editor/conclusion-for-export";
+
 export type PdfReportInput = {
   clinicName: string;
   patientLabel: string;
@@ -49,6 +54,12 @@ export function buildStudyReportHtml(input: PdfReportInput): string {
       ? `<h2 style="font-size:15px;margin:20px 0 8px">Схема матки (3D)</h2><img src="${protocol.uterus_visualization.snapshotDataUrl}" alt="Схема матки" style="max-width:100%;max-height:320px;border:1px solid #cbd5e1;border-radius:8px"/>`
       : "";
 
+  const conclusionPlain = resolveProtocolConclusionPlain(protocol);
+  const conclusionHtml = resolveProtocolConclusionHtml(protocol);
+  const conclusionBlock = conclusionHtml
+    ? `<div class="conclusion conclusion-rich"><strong>Заключение</strong><div style="margin:8px 0 0;line-height:1.5">${conclusionHtml}</div></div>`
+    : `<div class="conclusion"><strong>Заключение</strong><p style="margin:8px 0 0;white-space:pre-wrap">${escapeHtml(conclusionPlain || "Без заключения.")}</p></div>`;
+
   return `<!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -76,10 +87,7 @@ export function buildStudyReportHtml(input: PdfReportInput): string {
   ${organBlocks}
   ${uterusSnapshot}
   ${protocol.diagnosis?.trim() ? `<div class="conclusion"><strong>Диагноз</strong><p style="margin:8px 0 0;white-space:pre-wrap">${escapeHtml(protocol.diagnosis)}</p></div>` : ""}
-  <div class="conclusion">
-    <strong>Заключение</strong>
-    <p style="margin:8px 0 0;white-space:pre-wrap">${escapeHtml(protocol.conclusion ?? "Без заключения.")}</p>
-  </div>
+  ${conclusionBlock}
   <p class="footer">Документ сформирован автоматически. Не является юридически заверенной медицинской записью без подписи врача и печати учреждения.</p>
 </body>
 </html>`;

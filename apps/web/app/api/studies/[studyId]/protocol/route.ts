@@ -1,6 +1,8 @@
 import { UltrasoundProtocolPayloadSchema } from "@repo/types";
 import { NextResponse } from "next/server";
 
+import { syncProtocolConclusionFields } from "@/lib/clinical-editor/conclusion-for-export";
+import { sanitizeClinicalHtml } from "@/lib/clinical-editor/sanitize-clinical-html";
 import { rejectIfRateLimitedPreset, rejectIfSyncBurstForUser } from "@/lib/security/api-rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { isUuid } from "@/lib/security/uuid";
@@ -79,6 +81,13 @@ export async function PUT(request: Request, context: { params: Promise<Params> }
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
   }
 
+  const payload = syncProtocolConclusionFields({
+    ...parsed.data,
+    conclusion_html: parsed.data.conclusion_html?.trim()
+      ? sanitizeClinicalHtml(parsed.data.conclusion_html)
+      : undefined,
+  });
+
   const { data: existing } = await supabase
     .from("measurements")
     .select("id")
@@ -93,7 +102,7 @@ export async function PUT(request: Request, context: { params: Promise<Params> }
   if (existing?.id) {
     const { error } = await supabase
       .from("measurements")
-      .update({ payload: parsed.data })
+      .update({ payload })
       .eq("id", existing.id);
     if (error) {
       safeLog("protocol update error", { code: error.code });
@@ -106,7 +115,7 @@ export async function PUT(request: Request, context: { params: Promise<Params> }
       .insert({
         study_id: studyId,
         kind: "ultrasound_protocol",
-        payload: parsed.data,
+        payload,
         source: "manual",
         created_by: user.id,
       })
@@ -126,5 +135,5 @@ export async function PUT(request: Request, context: { params: Promise<Params> }
     })
     .eq("id", studyId);
 
-  return NextResponse.json({ ok: true, measurementId, protocol: parsed.data });
+  return NextResponse.json({ ok: true, measurementId, protocol: payload });
 }
