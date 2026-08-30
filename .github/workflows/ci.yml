@@ -51,6 +51,8 @@ jobs:
         run: pnpm exec npm run test --prefix packages/upload-validation
 
       - name: Build web (webpack + PWA plugin)
+        env:
+          SENTRY_RELEASE: ${{ github.sha }}
         run: pnpm exec turbo build --filter=@repo/web
 
   e2e:

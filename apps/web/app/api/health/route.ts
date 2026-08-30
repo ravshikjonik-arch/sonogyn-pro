@@ -1,5 +1,11 @@
 import { NextResponse } from "next/server";
 
+import {
+  isSentryEnabled,
+  resolveSentryEnvironment,
+  resolveSentryRelease,
+} from "@/lib/sentry/flags";
+
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
@@ -28,6 +34,12 @@ export function GET() {
       commit: process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7) ?? null,
       time: new Date().toISOString(),
       checks,
+      observability: {
+        sentryEnabled: isSentryEnabled(),
+        environment: resolveSentryEnvironment(),
+        release: resolveSentryRelease()?.slice(0, 12) ?? null,
+        replayBlockedRoutes: "clinical-denylist",
+      },
     },
     {
       status: ok ? 200 : 503,
