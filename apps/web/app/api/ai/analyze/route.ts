@@ -9,6 +9,7 @@ import {
 } from "@/lib/ai/us-vision/run-case-analysis";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
+import { rejectIfPhiInTextFields } from "@/lib/security/reject-phi-payload";
 import { requireSupabaseUser } from "@/lib/security/require-user";
 import type { CaseMediaRow } from "@/lib/supabase/case-media-storage";
 import { hasProEntitlement } from "@/lib/subscription/access";
@@ -94,6 +95,10 @@ export async function POST(request: Request) {
   if (!mediaRows || mediaRows.length !== parsed.data.mediaIds.length) {
     return NextResponse.json({ error: "One or more media ids are invalid for this case" }, { status: 400 });
   }
+
+  const clinicalContext = await fetchCaseClinicalContext(supabase, parsed.data.caseId);
+  const phiBlocked = rejectIfPhiInTextFields([clinicalContext]);
+  if (phiBlocked) return phiBlocked;
 
   const { data: inserted, error: insertErr } = await supabase
     .from("ai_analyses")

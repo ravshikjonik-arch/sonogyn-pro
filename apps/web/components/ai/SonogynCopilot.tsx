@@ -9,8 +9,10 @@ import {
   ImagePlus,
   Lock,
   MessageSquare,
+  RotateCcw,
   Send,
   Sparkles,
+  Square,
   X,
 } from "lucide-react";
 import Link from "next/link";
@@ -18,23 +20,32 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import type { AssistantAnswer } from "@repo/evidence-retrieval";
 
-import { SonogynStructuredCard } from "@/components/ai/SonogynStructuredCard";
+import { AiChatStatusBadge, type AiChatStatus } from "@/components/ai/AiChatStatusBadge";
+import { AiMessageFeedback } from "@/components/ai/AiMessageFeedback";
+import { AiToolResultList } from "@/components/ai/AiToolResultCard";
 import { useProStatus } from "@/components/pro/use-pro-status";
 import { onCopilotOpen } from "@/lib/ai/copilot-bus";
 import {
   messageFromApiErrorBody,
   parseClientFetchError,
 } from "@/lib/ai/sonogyn-chat/errors";
+import { consumeAiSdkTextStream } from "@/lib/ai/sonogyn-chat/consume-ai-sdk-stream";
 import {
   extractOpenRouterChatContent,
   type OpenRouterChatCompletion,
 } from "@/lib/ai/sonogyn-chat/openrouter-client";
+import { isAiSdkEnabledClient } from "@/lib/ai/sdk/flags";
 import { consumeSonogynChatStream } from "@/lib/ai/sonogyn-chat/stream-client";
 import {
   prepareChatImage,
   type PreparedChatImage,
 } from "@/lib/ai/sonogyn-chat/prepare-image";
 import { suggestModuleLinks } from "@/lib/ai/sonogyn-chat/suggest-links";
+import { SonogynStructuredCard } from "@/components/ai/SonogynStructuredCard";
+import {
+  extractToolsFromAssistantText,
+} from "@/lib/ai/sonogyn-chat/tool-results";
+import type { ToolExecutionResult } from "@/lib/ai/sonogyn-chat/tools/schemas";
 import {
   extractStructuredFromAssistantText,
   type SonogynStructuredResponse,
@@ -50,12 +61,16 @@ type Message = {
   text: string;
   links?: Suggestion[];
   structured?: SonogynStructuredResponse | null;
+  tools?: ToolExecutionResult[];
+  isAiDraft?: boolean;
+  dbMessageId?: string;
   pro?: boolean;
   upsell?: boolean;
   stream?: boolean;
   evidence?: AssistantAnswer;
 };
 type HistoryItem = { id: string; title: string; ts: number };
+type ServerSession = { id: string; title: string; updated_at: string };
 
 const HISTORY_KEY = "sonogyn-copilot-history";
 const QUICK_COMMANDS: { label: string; prompt: string }[] = [
@@ -86,6 +101,10 @@ export function SonogynCopilot() {
     }
   });
   const [typing, setTyping] = useState(false);
+  const [chatStatus, setChatStatus] = useState<AiChatStatus>("idle");
+  const [sessionId, setSessionId] = useState<string | null>(null);
+  const [serverSessions, setServerSessions] = useState<ServerSession[]>([]);
+  const abortRef = useRef<AbortController | null>(null);
   const [evidenceMode, setEvidenceMode] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -101,6 +120,28 @@ export function SonogynCopilot() {
     });
   }, []);
 
+  const loadServerSessions = useCallback(async () => {
+    try {
+      const res = await fetch("/api/ai/chat/sessions", { credentials: "same-origin" });
+      if (!res.ok) return;
+      const data = (await res.json()) as { sessions?: ServerSession[] };
+      setServerSessions(data.sessions ?? []);
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
+  useEffect(() => {
+    if (open && tab === "history") void loadServerSessions();
+  }, [open, tab, loadServerSessions]);
+
+  const stopGeneration = useCallback(() => {
+    abortRef.current?.abort();
+    abortRef.current = null;
+    setTyping(false);
+    setChatStatus("stopped");
+  }, []);
+
   const onPickImages = useCallback(async (files: FileList | null) => {
     if (!files?.length) return;
     try {
@@ -112,10 +153,11 @@ export function SonogynCopilot() {
   }, []);
 
   const send = useCallback(
-    async (raw: string) => {
+    async (raw: string, opts?: { retry?: boolean }) => {
       const prompt = raw.trim();
       if (!prompt && pendingImages.length === 0) return;
       setTab("chat");
+      setChatStatus("connecting");
 
       const userMsg: Message = {
         id: `u_${Date.now()}`,
@@ -134,6 +176,7 @@ export function SonogynCopilot() {
             upsell: true,
           },
         ]);
+        setChatStatus("idle");
         openUpgrade({ feature: "Безлимитные AI-запросы" });
         return;
       }
@@ -142,32 +185,50 @@ export function SonogynCopilot() {
         mediaType: img.mediaType,
         data: img.data,
       }));
+      const hasImagesNow = imagesPayload.length > 0;
 
-      const apiMessages = [...messages, userMsg].map((m) => ({
+      const historyForApi = opts?.retry
+        ? (() => {
+            const copy = [...messages];
+            const idx = copy.map((m) => m.role).lastIndexOf("assistant");
+            if (idx >= 0) copy.splice(idx, 1);
+            return copy;
+          })()
+        : [...messages, userMsg];
+
+      const apiMessages = historyForApi.map((m) => ({
         role: m.role,
         content: m.text,
       }));
 
-      setMessages((prev) => [...prev, userMsg]);
+      if (!opts?.retry) {
+        setMessages((prev) => [...prev, userMsg]);
+      }
       setInput("");
       setPendingImages([]);
-      pushHistory(prompt || "Снимок УЗИ");
+      if (!opts?.retry) pushHistory(prompt || "Снимок УЗИ");
 
       if (!isPro) incrementAiUsage();
       setTyping(true);
+      setChatStatus("connecting");
+
+      abortRef.current?.abort();
+      const abortController = new AbortController();
+      abortRef.current = abortController;
 
       const assistantId = `a_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
       setMessages((prev) => [
         ...prev,
-        { id: assistantId, role: "assistant", text: "", stream: true },
+        { id: assistantId, role: "assistant", text: "", stream: true, isAiDraft: true },
       ]);
 
       try {
-        const useStream = evidenceMode && pendingImages.length === 0;
+        const useStream = !hasImagesNow;
         const res = await fetch("/api/ai/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "same-origin",
+          signal: abortController.signal,
           body: JSON.stringify({
             messages: apiMessages,
             stream: useStream,
@@ -175,8 +236,17 @@ export function SonogynCopilot() {
             modality: "auto",
             mode: evidenceMode ? "evidence" : "clinical",
             includeEvidence: !evidenceMode && imagesPayload.length === 0,
+            sessionId: sessionId ?? undefined,
+            retry: opts?.retry ?? false,
           }),
         });
+
+        const returnedSession = res.headers.get("x-sonogyn-session-id");
+        if (returnedSession && !sessionId) setSessionId(returnedSession);
+
+        if (res.headers.get("x-sonogyn-model-fallback") === "1") {
+          setChatStatus("fallback");
+        }
 
         if (!res.ok) {
           let errMsg = parseClientFetchError(new Error(String(res.status))).message;
@@ -195,35 +265,80 @@ export function SonogynCopilot() {
               code: data.code as import("@/lib/ai/sonogyn-chat/errors").SonogynAiErrorCode | undefined,
             });
           }
+          setChatStatus("error");
           throw new Error(errMsg);
         }
 
-        if (useStream && res.headers.get("content-type")?.includes("text/event-stream")) {
-          let fullText = "";
-          const streamMeta = await consumeSonogynChatStream(res, (delta) => {
-            fullText += delta;
-            setMessages((prev) =>
-              prev.map((msg) => (msg.id === assistantId ? { ...msg, text: fullText } : msg)),
-            );
-          });
+        setChatStatus("streaming");
 
-          const { displayText, structured } = extractStructuredFromAssistantText(fullText);
-          const links = suggestModuleLinks(prompt);
-          setMessages((prev) =>
-            prev.map((msg) =>
-              msg.id === assistantId
-                ? {
-                    ...msg,
-                    text: displayText || fullText || "Ответ пустой — уточните запрос.",
-                    structured: streamMeta.evidence ? null : structured,
-                    links,
-                    evidence: streamMeta.evidence,
-                    stream: false,
-                  }
-                : msg,
-            ),
-          );
-          return;
+        if (useStream && res.ok) {
+          const transport = res.headers.get("x-sonogyn-ai-transport");
+          const contentType = res.headers.get("content-type") ?? "";
+          const aiSdkStream =
+            isAiSdkEnabledClient() &&
+            (transport === "ai-sdk" || contentType.includes("text/plain"));
+
+          if (aiSdkStream) {
+            let fullText = "";
+            await consumeAiSdkTextStream(res, (delta) => {
+              fullText += delta;
+              setMessages((prev) =>
+                prev.map((msg) => (msg.id === assistantId ? { ...msg, text: fullText } : msg)),
+              );
+            });
+            const { displayText, structured } = extractStructuredFromAssistantText(fullText);
+            const { displayText: textNoTools, tools } = extractToolsFromAssistantText(displayText);
+            const links = suggestModuleLinks(prompt);
+            setMessages((prev) =>
+              prev.map((msg) =>
+                msg.id === assistantId
+                  ? {
+                      ...msg,
+                      text: textNoTools || displayText || fullText || "Ответ пустой — уточните запрос.",
+                      structured,
+                      tools,
+                      links,
+                      stream: false,
+                      isAiDraft: true,
+                    }
+                  : msg,
+              ),
+            );
+            setChatStatus("idle");
+            return;
+          }
+
+          if (contentType.includes("text/event-stream")) {
+            let fullText = "";
+            const streamMeta = await consumeSonogynChatStream(res, (delta) => {
+              fullText += delta;
+              setMessages((prev) =>
+                prev.map((msg) => (msg.id === assistantId ? { ...msg, text: fullText } : msg)),
+              );
+            });
+
+            const { displayText, structured } = extractStructuredFromAssistantText(fullText);
+            const { displayText: textNoTools, tools } = extractToolsFromAssistantText(displayText);
+            const links = suggestModuleLinks(prompt);
+            setMessages((prev) =>
+              prev.map((msg) =>
+                msg.id === assistantId
+                  ? {
+                      ...msg,
+                      text: textNoTools || displayText || fullText || "Ответ пустой — уточните запрос.",
+                      structured: streamMeta.evidence ? null : structured,
+                      tools,
+                      links,
+                      evidence: streamMeta.evidence,
+                      stream: false,
+                      isAiDraft: true,
+                    }
+                  : msg,
+              ),
+            );
+            setChatStatus("idle");
+            return;
+          }
         }
 
         let data: OpenRouterChatCompletion & {
@@ -231,6 +346,7 @@ export function SonogynCopilot() {
           code?: string;
           evidence?: AssistantAnswer;
           mode?: string;
+          sessionId?: string;
         } | null = null;
         try {
           data = (await res.json()) as OpenRouterChatCompletion & {
@@ -238,10 +354,13 @@ export function SonogynCopilot() {
             code?: string;
             evidence?: AssistantAnswer;
             mode?: string;
+            sessionId?: string;
           };
         } catch {
           /* non-JSON body */
         }
+
+        if (data?.sessionId && !sessionId) setSessionId(data.sessionId);
 
         const fullText = extractOpenRouterChatContent(data ?? {});
         if (!fullText) {
@@ -253,6 +372,7 @@ export function SonogynCopilot() {
         );
 
         const { displayText, structured } = extractStructuredFromAssistantText(fullText);
+        const { displayText: textNoTools, tools } = extractToolsFromAssistantText(displayText);
         const links = suggestModuleLinks(prompt);
         const evidenceAnswer = data?.mode === "evidence" ? data.evidence : undefined;
 
@@ -261,16 +381,30 @@ export function SonogynCopilot() {
             msg.id === assistantId
               ? {
                   ...msg,
-                  text: displayText || fullText || "Ответ пустой — уточните запрос.",
+                  text: textNoTools || displayText || fullText || "Ответ пустой — уточните запрос.",
                   structured: evidenceAnswer ? null : structured,
+                  tools,
                   links,
                   evidence: evidenceAnswer,
                   stream: false,
+                  isAiDraft: true,
                 }
               : msg,
           ),
         );
+        setChatStatus("idle");
       } catch (error) {
+        if (error instanceof DOMException && error.name === "AbortError") {
+          setMessages((prev) =>
+            prev.map((msg) =>
+              msg.id === assistantId
+                ? { ...msg, text: msg.text || "Генерация остановлена.", stream: false }
+                : msg,
+            ),
+          );
+          setChatStatus("stopped");
+          return;
+        }
         const { message } = parseClientFetchError(error);
         setMessages((prev) =>
           prev.map((msg) =>
@@ -279,12 +413,25 @@ export function SonogynCopilot() {
               : msg,
           ),
         );
+        setChatStatus("error");
       } finally {
         setTyping(false);
+        abortRef.current = null;
       }
     },
-    [pushHistory, isPro, messages, pendingImages, evidenceMode],
+    [pushHistory, isPro, messages, pendingImages, evidenceMode, sessionId],
   );
+
+  const retryLast = useCallback(() => {
+    const lastUser = [...messages].reverse().find((m) => m.role === "user");
+    if (!lastUser) return;
+    setMessages((prev) => {
+      const lastAssistantIdx = prev.map((m) => m.role).lastIndexOf("assistant");
+      if (lastAssistantIdx < 0) return prev;
+      return prev.slice(0, lastAssistantIdx);
+    });
+    void send(lastUser.text, { retry: true });
+  }, [messages, send]);
 
   useEffect(() => {
     return onCopilotOpen((detail) => {
@@ -357,9 +504,12 @@ export function SonogynCopilot() {
                 </span>
                 <div className="flex-1">
                   <p className="text-sm font-bold text-[var(--clinical-foreground)]">Sonogyn AI</p>
-                  <p className="text-[11px] text-[var(--clinical-foreground-muted)]">
-                    Decision support · O-RADS / BI-RADS / IOTA
-                  </p>
+                  <div className="flex items-center gap-2">
+                    <p className="text-[11px] text-[var(--clinical-foreground-muted)]">
+                      Decision support · O-RADS / BI-RADS / IOTA
+                    </p>
+                    <AiChatStatusBadge status={chatStatus} />
+                  </div>
                 </div>
                 <button
                   type="button"
@@ -427,6 +577,12 @@ export function SonogynCopilot() {
                           )}
                         >
                           <p className="whitespace-pre-wrap">{m.text}</p>
+                          {m.isAiDraft && m.role === "assistant" && !m.stream ? (
+                            <span className="mt-1 inline-flex rounded-full bg-amber-500/15 px-2 py-0.5 text-[10px] font-semibold text-amber-900 dark:text-amber-100">
+                              AI-черновик · подтверждает врач
+                            </span>
+                          ) : null}
+                          {m.tools?.length ? <AiToolResultList tools={m.tools} /> : null}
                           {m.structured ? <SonogynStructuredCard data={m.structured} /> : null}
                           {m.evidence ? (
                             <div className="mt-3 space-y-2 border-t border-[var(--clinical-border)] pt-2">
@@ -500,6 +656,20 @@ export function SonogynCopilot() {
                               Перейти на PRO
                             </button>
                           )}
+                          {m.role === "assistant" && !m.stream && !m.upsell ? (
+                            <div className="mt-1 flex flex-wrap items-center gap-2">
+                              <button
+                                type="button"
+                                onClick={() => retryLast()}
+                                className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-[10px] font-medium text-[var(--clinical-primary-deep)] hover:bg-[var(--clinical-muted)]"
+                                aria-label="Повторить ответ"
+                              >
+                                <RotateCcw className="h-3 w-3" />
+                                Повторить
+                              </button>
+                              <AiMessageFeedback messageId={m.dbMessageId} />
+                            </div>
+                          ) : null}
                         </div>
                       </div>
                     ))}
@@ -591,12 +761,12 @@ export function SonogynCopilot() {
                       />
                       <button
                         type="button"
-                        onClick={() => void send(input)}
-                        disabled={!input.trim() && pendingImages.length === 0}
+                        onClick={() => (typing ? stopGeneration() : void send(input))}
+                        disabled={!typing && !input.trim() && pendingImages.length === 0}
                         className="ai-gradient-bg flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-white transition disabled:opacity-40"
-                        aria-label="Отправить"
+                        aria-label={typing ? "Остановить генерацию" : "Отправить"}
                       >
-                        <Send className="h-4 w-4" />
+                        {typing ? <Square className="h-3.5 w-3.5" /> : <Send className="h-4 w-4" />}
                       </button>
                     </div>
                   </div>
@@ -627,22 +797,75 @@ export function SonogynCopilot() {
 
               {tab === "history" && (
                 <div className="flex-1 space-y-2 overflow-y-auto p-4">
-                  {history.length === 0 ? (
+                  {serverSessions.length > 0 ? (
+                    <>
+                      <p className="text-xs font-semibold uppercase tracking-wider text-[var(--clinical-foreground-muted)]">
+                        Сохранённые чаты
+                      </p>
+                      {serverSessions.map((s) => (
+                        <button
+                          key={s.id}
+                          type="button"
+                          onClick={async () => {
+                            setSessionId(s.id);
+                            setTab("chat");
+                            try {
+                              const res = await fetch(`/api/ai/chat/sessions/${s.id}`, {
+                                credentials: "same-origin",
+                              });
+                              if (!res.ok) return;
+                              const data = (await res.json()) as {
+                                messages?: Array<{
+                                  id: string;
+                                  role: "user" | "assistant";
+                                  content: string;
+                                  tool_results?: ToolExecutionResult[];
+                                  is_ai_draft?: boolean;
+                                }>;
+                              };
+                              setMessages(
+                                (data.messages ?? []).map((row) => ({
+                                  id: row.id,
+                                  dbMessageId: row.id,
+                                  role: row.role,
+                                  text: row.content,
+                                  tools: row.tool_results ?? undefined,
+                                  isAiDraft: row.is_ai_draft,
+                                })),
+                              );
+                            } catch {
+                              toast.error("Не удалось загрузить чат");
+                            }
+                          }}
+                          className="flex w-full items-start gap-2 rounded-xl border border-[var(--clinical-border)] bg-[var(--clinical-card)] px-3 py-2.5 text-left transition hover:bg-[var(--clinical-muted)]"
+                        >
+                          <Clock className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[var(--clinical-foreground-muted)]" />
+                          <span className="text-sm text-[var(--clinical-foreground)]">{s.title}</span>
+                        </button>
+                      ))}
+                    </>
+                  ) : null}
+                  {history.length === 0 && serverSessions.length === 0 ? (
                     <p className="pt-8 text-center text-sm text-[var(--clinical-foreground-muted)]">
                       История запросов пуста.
                     </p>
                   ) : (
-                    history.map((h) => (
-                      <button
-                        key={h.id}
-                        type="button"
-                        onClick={() => void send(h.title)}
-                        className="flex w-full items-start gap-2 rounded-xl border border-[var(--clinical-border)] bg-[var(--clinical-card)] px-3 py-2.5 text-left transition hover:bg-[var(--clinical-muted)]"
-                      >
-                        <Clock className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[var(--clinical-foreground-muted)]" />
-                        <span className="text-sm text-[var(--clinical-foreground)]">{h.title}</span>
-                      </button>
-                    ))
+                    <>
+                      <p className="text-xs font-semibold uppercase tracking-wider text-[var(--clinical-foreground-muted)]">
+                        Недавние запросы
+                      </p>
+                      {history.map((h) => (
+                        <button
+                          key={h.id}
+                          type="button"
+                          onClick={() => void send(h.title)}
+                          className="flex w-full items-start gap-2 rounded-xl border border-[var(--clinical-border)] bg-[var(--clinical-card)] px-3 py-2.5 text-left transition hover:bg-[var(--clinical-muted)]"
+                        >
+                          <Clock className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[var(--clinical-foreground-muted)]" />
+                          <span className="text-sm text-[var(--clinical-foreground)]">{h.title}</span>
+                        </button>
+                      ))}
+                    </>
                   )}
                 </div>
               )}

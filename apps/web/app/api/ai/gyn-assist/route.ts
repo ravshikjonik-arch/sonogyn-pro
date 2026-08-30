@@ -5,6 +5,7 @@ import { analyzeGynUltrasoundAssist } from "@/lib/ai/gyn-ultrasound-assist";
 import { isDevSkipAuthEnabled, isFullOpenAccessEnabled } from "@/lib/auth/dev-account";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
+import { rejectIfPhiInTextFields } from "@/lib/security/reject-phi-payload";
 import { requireSupabaseUser } from "@/lib/security/require-user";
 import { createClient } from "@/utils/supabase/server";
 
@@ -50,6 +51,9 @@ export async function POST(request: Request) {
   if (!parsed.success) {
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
   }
+
+  const phiBlocked = rejectIfPhiInTextFields([parsed.data.freeText, parsed.data.clinicalContext]);
+  if (phiBlocked) return phiBlocked;
 
   const result = await analyzeGynUltrasoundAssist(parsed.data);
   return NextResponse.json({
