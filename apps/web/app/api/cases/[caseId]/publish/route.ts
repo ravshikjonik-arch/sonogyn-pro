@@ -45,7 +45,9 @@ export async function POST(request: Request, { params }: Params) {
 
   const { data: mediaRows, error: mediaError } = await supabase
     .from("case_media")
-    .select("anonymization_status")
+    .select(
+      "anonymization_status,media_type,deidentify_status,burned_in_flag,burned_in_acknowledged",
+    )
     .eq("case_id", routeParams.data.caseId);
 
   if (mediaError) {

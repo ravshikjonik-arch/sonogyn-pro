@@ -95,6 +95,29 @@ export function useTeachingCases(filters: TeachingCasesFilters = {}): TeachingCa
     void reload();
   }, [reload]);
 
+  useEffect(() => {
+    const client = supabaseMobile;
+    if (!client) return;
+
+    const channel = client
+      .channel("mobile_teaching_cases_feed")
+      .on("postgres_changes", { event: "*", schema: "public", table: "cases" }, () => {
+        void reload();
+      })
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "teaching_case_comments" },
+        () => {
+          void reload();
+        },
+      )
+      .subscribe();
+
+    return () => {
+      void client.removeChannel(channel);
+    };
+  }, [reload]);
+
   return useMemo(
     () => ({
       cases,
