@@ -20,6 +20,10 @@ export const SonogynChatRequestSchema = z.object({
   mode: z.enum(["clinical", "evidence"]).default("clinical"),
   /** In clinical mode: append compact live EBM hits to system prompt */
   includeEvidence: z.boolean().optional(),
+  /** Persisted chat thread (optional) */
+  sessionId: z.string().uuid().optional(),
+  /** Retry last assistant turn — client sends same user messages without duplicating */
+  retry: z.boolean().optional(),
 });
 
 export type SonogynChatRequest = z.infer<typeof SonogynChatRequestSchema>;
