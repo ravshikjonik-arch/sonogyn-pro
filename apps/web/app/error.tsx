@@ -1,5 +1,7 @@
 "use client";
 
+import { useSafeSentryCapture } from "@/lib/sentry/use-safe-sentry-capture";
+
 export default function AppError({
   error,
   reset,
@@ -7,6 +9,8 @@ export default function AppError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  useSafeSentryCapture(error, { boundary: "app-error" });
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-slate-100 px-6 py-16 text-slate-900">
       <div className="max-w-lg rounded-2xl border border-slate-300 bg-white p-8 shadow-lg">
