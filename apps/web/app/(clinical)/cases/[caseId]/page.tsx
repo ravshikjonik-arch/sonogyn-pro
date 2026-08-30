@@ -50,16 +50,9 @@ export default async function CaseDetailPage(props: {
 
   let isModerator = false;
   if (user) {
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("role,medical_access_status,medical_verified_at")
-      .eq("id", user.id)
-      .maybeSingle();
+    const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
     const role = profile?.role as string | undefined;
     isModerator = role === "moderator" || role === "admin";
-    isExpert =
-      isModerator ||
-      (profile?.medical_access_status === "verified_doctor" && Boolean(profile?.medical_verified_at));
   }
 
   let channelTitle: string | null = null;
@@ -79,7 +72,6 @@ export default async function CaseDetailPage(props: {
       openedFromPush={search.from === "push"}
       devSkip={isDevSkipAuthEnabled()}
       isModerator={isModerator}
-      isExpert={isExpert}
     />
   );
 }

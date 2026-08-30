@@ -44,7 +44,6 @@ type Props = {
   openedFromPush?: boolean;
   devSkip?: boolean;
   isModerator?: boolean;
-  isExpert?: boolean;
 };
 
 function caseModuleId(anatomy: string | null, pathology: string | null): ClinicalModuleId {
@@ -63,7 +62,6 @@ export function CaseDetailClient({
   openedFromPush = false,
   devSkip = false,
   isModerator = false,
-  isExpert = false,
 }: Props) {
   const { user, ready } = useAuth();
 
@@ -139,10 +137,7 @@ export function CaseDetailClient({
               ownerId={teachingCase.user_id}
               status={teachingCase.status}
               lifecycleStatus={teachingCase.lifecycle_status}
-              confirmedDiagnosis={teachingCase.confirmed_diagnosis}
-              knowledgeBaseAt={teachingCase.knowledge_base_at}
               isModerator={isModerator}
-              isExpert={isExpert}
             />
           ) : null}
           <Badge variant="outline">{teachingCase.anatomy ?? "УЗИ"}</Badge>
@@ -222,8 +217,6 @@ export function CaseDetailClient({
               caseId={teachingCase.id}
               userId={user.id}
               caseAuthorId={teachingCase.user_id}
-              isExpert={isExpert}
-              isModerator={isModerator}
             />
             <ModuleProgressWidget moduleId={caseModule} eventType="case_complete" />
             <Button
