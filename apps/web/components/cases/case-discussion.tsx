@@ -1,3 +1,4 @@
+/** @deprecated Legacy demo UI for `case_comments` table. Production uses `TeachingCaseDiscussion`. */
 "use client";
 
 import { FormEvent, useCallback, useEffect, useState } from "react";

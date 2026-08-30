@@ -24,11 +24,15 @@ export default async function CaseDetailPage(props: {
   }
 
   let selectCols =
-    "id,title,description,anatomy,pathology,difficulty,status,is_public,created_at,user_id,flag_reason,channel_id,lifecycle_status,is_rare,rare_slot,editorial_priority";
+    "id,title,description,anatomy,pathology,difficulty,status,is_public,created_at,user_id,flag_reason,channel_id,lifecycle_status,confirmed_diagnosis,knowledge_base_at,is_rare,rare_slot,editorial_priority";
 
   let { data: row, error } = await supabase.from("cases").select(selectCols).eq("id", caseId).maybeSingle();
 
-  if (error?.message?.includes("lifecycle_status")) {
+  if (error?.message?.includes("confirmed_diagnosis") || error?.message?.includes("knowledge_base_at")) {
+    selectCols =
+      "id,title,description,anatomy,pathology,difficulty,status,is_public,created_at,user_id,flag_reason,channel_id,lifecycle_status,is_rare,rare_slot,editorial_priority";
+    ({ data: row, error } = await supabase.from("cases").select(selectCols).eq("id", caseId).maybeSingle());
+  } else if (error?.message?.includes("lifecycle_status")) {
     selectCols =
       "id,title,description,anatomy,pathology,difficulty,status,is_public,created_at,user_id,flag_reason,channel_id";
     ({ data: row, error } = await supabase.from("cases").select(selectCols).eq("id", caseId).maybeSingle());
@@ -45,10 +49,18 @@ export default async function CaseDetailPage(props: {
   const teachingCase = row as unknown as CaseDetailData;
 
   let isModerator = false;
+  let isExpert = false;
   if (user) {
-    const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role,medical_access_status,medical_verified_at")
+      .eq("id", user.id)
+      .maybeSingle();
     const role = profile?.role as string | undefined;
     isModerator = role === "moderator" || role === "admin";
+    isExpert =
+      isModerator ||
+      (profile?.medical_access_status === "verified_doctor" && Boolean(profile?.medical_verified_at));
   }
 
   let channelTitle: string | null = null;
@@ -68,6 +80,7 @@ export default async function CaseDetailPage(props: {
       openedFromPush={search.from === "push"}
       devSkip={isDevSkipAuthEnabled()}
       isModerator={isModerator}
+      isExpert={isExpert}
     />
   );
 }

@@ -587,3 +587,26 @@ export {
   type IfcpcSignLookupQuery,
   type UpdateIfcpcExamBody,
 } from "./ifcpc-expert";
+
+export {
+  CASE_CONFIRMATION_METHOD_LABELS,
+  CASE_LIFECYCLE_TRANSITIONS,
+  CaseCommentReactionEmojiSchema,
+  CaseConfirmationMethodSchema,
+  CaseDiscussionRoleSchema,
+  CaseLifecycleActionSchema,
+  CaseLifecycleEventSchema,
+  CaseLifecycleTransitionBodySchema,
+  CaseReportBodySchema,
+  REACTION_EMOJI,
+  TeachingCaseCommentBodySchema,
+  canTransitionLifecycle,
+  type CaseCommentReactionEmoji,
+  type CaseConfirmationMethod,
+  type CaseDiscussionRole,
+  type CaseLifecycleAction,
+  type CaseLifecycleEvent,
+  type CaseLifecycleTransitionBody,
+  type CaseReportBody,
+  type TeachingCaseCommentBody,
+} from "./case-discussions";
