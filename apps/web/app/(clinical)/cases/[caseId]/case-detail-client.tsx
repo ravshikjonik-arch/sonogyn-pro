@@ -3,6 +3,7 @@
 import Link from "next/link";
 
 import { CaseAiAnalysisPanel } from "@/components/cases/CaseAiAnalysisPanel";
+import { StructuredCaseEditor } from "@/components/structured-editor/StructuredCaseEditor";
 import { CaseEditorialPanel } from "@/components/cases/CaseEditorialPanel";
 import { CaseLifecyclePanel } from "@/components/cases/CaseLifecyclePanel";
 import { CaseMediaGallery } from "@/components/cases/CaseMediaGallery";
@@ -12,6 +13,7 @@ import { ModuleProgressWidget } from "@/components/achievements/ModuleProgressWi
 import { ClinicalAssistStrip } from "@/components/clinical-assistant/ClinicalAssistStrip";
 import { reportAchievementCheck } from "@/hooks/useAchievements";
 import type { ClinicalModuleId } from "@/lib/achievements/types";
+import { sanitizeClinicalHtml } from "@/lib/clinical-editor/sanitize-clinical-html";
 import { useAuth } from "@/app/providers";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -20,6 +22,7 @@ export type CaseDetailData = {
   id: string;
   title: string;
   description: string | null;
+  description_html?: string | null;
   anatomy: string | null;
   pathology: string | null;
   difficulty: string | null;
@@ -173,15 +176,32 @@ export function CaseDetailClient({
               </p>
             ) : null}
           </div>
-          <div className="mt-6 whitespace-pre-wrap text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
-            {teachingCase.description ?? "Добавьте клинический вопрос — что хотите обсудить с коллегами."}
-          </div>
+          {teachingCase.description_html?.trim() ? (
+            <div
+              className="prose prose-sm mt-6 max-w-none leading-relaxed text-[var(--clinical-foreground-muted)] dark:prose-invert"
+              dangerouslySetInnerHTML={{
+                __html: sanitizeClinicalHtml(teachingCase.description_html),
+              }}
+            />
+          ) : (
+            <div className="mt-6 whitespace-pre-wrap text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
+              {teachingCase.description ?? "Добавьте клинический вопрос — что хотите обсудить с коллегами."}
+            </div>
+          )}
           {teachingCase.flag_reason ? (
             <p className="mt-6 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-950">
               Флаг модерации: {teachingCase.flag_reason}
             </p>
           ) : null}
         </article>
+
+        {user ? (
+          <StructuredCaseEditor
+            caseId={teachingCase.id}
+            caseTitle={teachingCase.title}
+            canEdit={user.id === teachingCase.user_id}
+          />
+        ) : null}
 
         {user ? (
           <>
