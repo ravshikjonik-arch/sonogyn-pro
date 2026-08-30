@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { MfaSettingsPanel } from "@/components/clinical/MfaSettingsPanel";
@@ -68,10 +69,10 @@ export default async function ProfilePage() {
           </div>
           <div className="mt-6 flex flex-wrap gap-3">
             <Button asChild>
-              <a href="/app">В рабочий кабинет</a>
+              <Link href="/app">В рабочий кабинет</Link>
             </Button>
             <Button asChild variant="secondary">
-              <a href="/tools/calc">Калькуляторы</a>
+              <Link href="/tools/calc">Калькуляторы</Link>
             </Button>
           </div>
         </section>
