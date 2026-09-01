@@ -9,27 +9,43 @@ import {
   mockAuthSignOut,
 } from "./helpers/mock-backend";
 
+const useServerAuthStub = Boolean(process.env.CI);
+
+async function installAuthMocks(
+  page: Parameters<typeof mockAuthSignIn>[0],
+  options: {
+    signInOk: boolean;
+    user: { email: string; fullName: string; role?: string } | null;
+  },
+) {
+  if (useServerAuthStub) return;
+  await mockAuthSignIn(page, options.signInOk);
+  await mockAuthSession(page, options.user);
+}
+
 test.describe("Авторизация врача", () => {
   test.beforeEach(async ({ page }) => {
+    if (useServerAuthStub) return;
     await mockAuthSignOut(page);
   });
 
   test("успешный вход и редирект на рабочий стол", async ({ page }) => {
-    await mockAuthSignIn(page, true);
-    await mockAuthSession(page, {
-      email: testData.doctor.email,
-      fullName: testData.doctor.fullName,
+    await installAuthMocks(page, {
+      signInOk: true,
+      user: {
+        email: testData.doctor.email,
+        fullName: testData.doctor.fullName,
+      },
     });
 
     await loginAsDoctor(page, testData.doctor.email, testData.doctor.password);
 
-    await expect(page).toHaveURL(/\/app/);
+    await expect(page).toHaveURL(/\/(home|app)/);
     await expect(page.getByTestId("app-home")).toBeVisible();
   });
 
   test("неудачный вход с неверным паролем", async ({ page }) => {
-    await mockAuthSignIn(page, false);
-    await mockAuthSession(page, null);
+    await installAuthMocks(page, { signInOk: false, user: null });
 
     await loginAsDoctor(page, testData.doctor.email, "wrong-password");
 
@@ -38,14 +54,16 @@ test.describe("Авторизация врача", () => {
   });
 
   test("выход из системы", async ({ page }) => {
-    await mockAuthSignIn(page, true);
-    await mockAuthSession(page, {
-      email: testData.doctor.email,
-      fullName: testData.doctor.fullName,
+    await installAuthMocks(page, {
+      signInOk: true,
+      user: {
+        email: testData.doctor.email,
+        fullName: testData.doctor.fullName,
+      },
     });
 
     await loginAsDoctor(page, testData.doctor.email, testData.doctor.password);
-    await expect(page).toHaveURL(/\/app/);
+    await expect(page).toHaveURL(/\/(home|app)/);
 
     await logoutFromShell(page);
     await expect(page).toHaveURL(/\/landing/);

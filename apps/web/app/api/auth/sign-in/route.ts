@@ -24,6 +24,12 @@ import {
   nextJsonWithAuthCookies,
 } from "@/lib/route-handler-supabase";
 import { writeSecurityAuditLog } from "@/lib/security/security-audit-log";
+import {
+  E2E_AUTH_COOKIE,
+  e2eStubAuthCookieOptions,
+  e2eStubValidateSignIn,
+} from "@/lib/e2e/auth-stub";
+import { isE2eCiStubMode } from "@/lib/e2e/ci-stub";
 
 export async function POST(req: Request) {
   const failKey = rateLimitKeyFromRequest(req, "auth-fail");
@@ -43,6 +49,16 @@ export async function POST(req: Request) {
   }
 
   const body = parsed.data;
+
+  if (isE2eCiStubMode()) {
+    const stub = e2eStubValidateSignIn(body.email, body.password);
+    if (!stub.ok) {
+      return NextResponse.json({ error: stub.error }, { status: 401 });
+    }
+    const response = NextResponse.json({ ok: true });
+    response.cookies.set(E2E_AUTH_COOKIE, stub.role, e2eStubAuthCookieOptions());
+    return response;
+  }
 
   const rl = await consumeAuthRateLimit(
     rateLimitKeyFromRequest(req, "auth-sign-in"),
