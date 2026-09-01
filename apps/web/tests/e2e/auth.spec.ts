@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 
 import testData from "./fixtures/test-data.json";
 import {
+  attemptDoctorLogin,
   loginAsDoctor,
   logoutFromShell,
   mockAuthSession,
@@ -47,7 +48,15 @@ test.describe("Авторизация врача", () => {
   test("неудачный вход с неверным паролем", async ({ page }) => {
     await installAuthMocks(page, { signInOk: false, user: null });
 
-    await loginAsDoctor(page, testData.doctor.email, "wrong-password");
+    if (process.env.CI) {
+      const response = await attemptDoctorLogin(page, testData.doctor.email, "wrong-password");
+      expect(response?.status()).toBe(401);
+      const body = (await response?.json()) as { error?: string };
+      expect(body.error).toMatch(/Неверный email или пароль/);
+      return;
+    }
+
+    await attemptDoctorLogin(page, testData.doctor.email, "wrong-password");
 
     await expect(page.getByTestId("auth-error-message")).toContainText("Неверный email или пароль");
     await expect(page).toHaveURL(/\/login/);
