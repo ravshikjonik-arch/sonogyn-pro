@@ -45,7 +45,7 @@
     "typecheck": "tsc --noEmit",
     "audit:navigation-icons": "node --import tsx scripts/audit-navigation-icons.ts",
     "test:navigation": "node --import tsx --test lib/modules/navigation-icon-audit.test.ts",
-    "test:security": "node --import tsx --test lib/security/__tests__/api-body-schemas.test.ts lib/security/__tests__/sanitize-course-html.test.ts lib/security/__tests__/security-hardening.test.ts lib/e2e/__tests__/ci-stub.test.ts lib/payment/__tests__/webhook-handler.test.ts lib/ai/__tests__/ai-assistant-hardening.test.ts lib/sentry/__tests__/scrub-event.test.ts lib/sentry/__tests__/observability-privacy.test.ts",
+    "test:security": "node --import tsx --test lib/security/__tests__/api-body-schemas.test.ts lib/security/__tests__/sanitize-course-html.test.ts lib/security/__tests__/security-hardening.test.ts lib/e2e/__tests__/ci-stub.test.ts lib/e2e/__tests__/auth-stub.test.ts lib/payment/__tests__/webhook-handler.test.ts lib/ai/__tests__/ai-assistant-hardening.test.ts lib/sentry/__tests__/scrub-event.test.ts lib/sentry/__tests__/observability-privacy.test.ts",
     "test:e2e": "playwright test",
     "test:e2e:cpi": "playwright test tests/e2e/cpi-evaluate.spec.ts --project=chromium-no-auth",
     "test:e2e:auth": "playwright test tests/e2e/auth.spec.ts --project=chromium-no-auth",

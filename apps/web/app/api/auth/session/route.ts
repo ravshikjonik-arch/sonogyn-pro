@@ -4,9 +4,14 @@ import { consumeAuthRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
 import { createSupabaseRouteHandlerClient } from "@/lib/route-handler-supabase";
+import { e2eStubUserFromRequest } from "@/lib/e2e/auth-stub";
+import { isE2eCiStubMode } from "@/lib/e2e/ci-stub";
 
 /** Server-validated user for HttpOnly cookie sessions (client JS не читает refresh). */
 export async function GET(request: Request) {
+  if (isE2eCiStubMode()) {
+    return NextResponse.json({ user: e2eStubUserFromRequest(request) });
+  }
   const rl = await consumeAuthRateLimit(
     rateLimitKeyFromRequest(request, "auth-session"),
     RL.authSession.limit,

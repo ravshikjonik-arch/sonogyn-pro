@@ -1,4 +1,5 @@
 import type { Page, Route } from "@playwright/test";
+import { expect } from "@playwright/test";
 
 import testData from "../../../lib/e2e/fixtures/test-data.json";
 
@@ -234,10 +235,37 @@ export async function mockPatientsApi(page: Page) {
 }
 
 export async function loginAsDoctor(page: Page, email: string, password: string) {
-  await page.goto("/login");
-  await page.getByTestId("email-input").fill(email);
+  if (process.env.CI) {
+    const response = await page.request.post("/api/auth/sign-in", {
+      data: { email, password },
+    });
+    expect(response.ok()).toBeTruthy();
+    await page.goto("/home");
+    return;
+  }
+
+  await page.goto("/login?method=email");
+  const emailInput = page.getByTestId("email-input");
+  await emailInput.waitFor({ state: "visible", timeout: 15_000 });
+  await emailInput.fill(email);
   await page.getByTestId("password-input").fill(password);
   await page.getByTestId("login-button").click();
+}
+
+export async function attemptDoctorLogin(page: Page, email: string, password: string) {
+  if (process.env.CI) {
+    return page.request.post("/api/auth/sign-in", {
+      data: { email, password },
+    });
+  }
+
+  await page.goto("/login?method=email");
+  const emailInput = page.getByTestId("email-input");
+  await emailInput.waitFor({ state: "visible", timeout: 15_000 });
+  await emailInput.fill(email);
+  await page.getByTestId("password-input").fill(password);
+  await page.getByTestId("login-button").click();
+  return null;
 }
 
 export async function openUserMenu(page: Page) {
