@@ -234,8 +234,11 @@ export async function mockPatientsApi(page: Page) {
 }
 
 export async function loginAsDoctor(page: Page, email: string, password: string) {
-  await page.goto("/login");
-  await page.getByTestId("email-input").fill(email);
+  await page.goto("/login?method=email");
+  await page.getByRole("tab", { name: "Почта" }).click();
+  const emailInput = page.getByTestId("email-input");
+  await emailInput.waitFor({ state: "visible" });
+  await emailInput.fill(email);
   await page.getByTestId("password-input").fill(password);
   await page.getByTestId("login-button").click();
 }
