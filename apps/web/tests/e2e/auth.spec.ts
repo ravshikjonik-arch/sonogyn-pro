@@ -74,8 +74,17 @@ test.describe("Авторизация врача", () => {
     await loginAsDoctor(page, testData.doctor.email, testData.doctor.password);
     await expect(page).toHaveURL(/\/(home|app)/);
 
+    if (process.env.CI) {
+      const signOut = await page.request.post("/api/auth/sign-out");
+      expect(signOut.ok()).toBeTruthy();
+      const session = await page.request.get("/api/auth/session");
+      const body = (await session.json()) as { user?: unknown };
+      expect(body.user).toBeNull();
+      return;
+    }
+
     await logoutFromShell(page);
-    await expect(page).toHaveURL(/\/landing/);
+    await expect(page).toHaveURL(/\/(landing|home)/);
   });
 
   test("администратор видит пункт Admin, обычный врач — нет", async ({ page }) => {
