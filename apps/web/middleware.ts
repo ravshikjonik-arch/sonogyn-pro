@@ -238,10 +238,6 @@ export default async function middleware(request: NextRequest) {
   }
 
   if (pathname === "/login" || pathname === "/register") {
-    if (isFullOpenAccessEnabled() && !isDevSkipAuthEnabled()) {
-      return redirectWithSessionCookies(request, response, "/home");
-    }
-
     if (!isDevSkipAuthEnabled()) {
       const {
         data: { user },
