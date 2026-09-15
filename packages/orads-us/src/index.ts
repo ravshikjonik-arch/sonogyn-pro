@@ -66,23 +66,35 @@ export {
   getOradsReferat,
   getOradsNosologyById,
   getOradsNosologyBySubtype,
+  getOradsCategoryPhotoCards,
+  listOradsCategoryPhotoCards,
   getReferatCaseIdForImageRef,
   getReferatImagePath,
   getReferatSectionIdForWizardNode,
   isOradsNosologyPending,
+  ORADS_ACR_CATEGORY_META,
   ORADS_NOSOLOGY_ATLAS,
   ORADS_NOSOLOGY_PENDING_SUBTYPES,
   ORADS_NOSOLOGY_PUBLIC_IMAGE_BASE,
+  ORADS_PHOTO_CARD_DISCLAIMER_RU,
   ORADS_REFERAT_CAPTION_BY_REF,
   ORADS_REFERAT_IMAGE_BY_REF,
   ORADS_REFERAT_LOCALES,
   ORADS_REFERAT_PUBLIC_IMAGE_BASE,
   ORADS_REFERAT_RU,
+  parseOradsCategoryFromHint,
   referatGuideHref,
   resolveOradsNosologyImageUri,
 } from "../education";
 export type { OradsReferatLocale } from "../education";
-export type { OradsNosologyAtlasEntry, OradsNosologySubtype } from "../education";
+export type {
+  OradsAcrCategoryMeta,
+  OradsAcrDescriptorGroup,
+  OradsCategoryPhotoCard,
+  OradsNosologyAtlasEntry,
+  OradsNosologySubtype,
+  OradsPhotoCategoryId,
+} from "../education";
 export type {
   OradsReferatCase,
   OradsReferatCategoryRow,
