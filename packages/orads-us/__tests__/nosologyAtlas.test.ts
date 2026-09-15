@@ -10,10 +10,10 @@ import {
 } from "../education/nosologyAtlas";
 
 describe("nosologyAtlas", () => {
-  it("maps seven ready atlas entries with unique ids", () => {
-    assert.equal(ORADS_NOSOLOGY_ATLAS.length, 7);
+  it("maps ready atlas entries with unique ids", () => {
+    assert.equal(ORADS_NOSOLOGY_ATLAS.length, 8);
     const ids = new Set(ORADS_NOSOLOGY_ATLAS.map((e) => e.id));
-    assert.equal(ids.size, 7);
+    assert.equal(ids.size, 8);
   });
 
   it("resolves functional cyst by subtype", () => {
