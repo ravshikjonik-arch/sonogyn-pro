@@ -238,6 +238,10 @@ export default async function middleware(request: NextRequest) {
   }
 
   if (pathname === "/login" || pathname === "/register") {
+    // Open cabinet: no password wall. Keep /login only for local e2e (DEV_SKIP_AUTH).
+    if (isFullOpenAccessEnabled() && !isDevSkipAuthEnabled()) {
+      return redirectWithSessionCookies(request, response, "/home");
+    }
     if (!isDevSkipAuthEnabled()) {
       const {
         data: { user },

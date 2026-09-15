@@ -379,7 +379,7 @@ export function ClinicalShell({
           <GlobalSearchTrigger />
           {!isGuest ? <ProBadge className="hidden sm:inline-flex" /> : null}
           <ThemeToggle />
-          {isGuest ? (
+          {isGuest && !openAccess ? (
             <Button asChild size="sm" variant="ghost" className="ml-auto" data-testid="guest-login-cta">
               <Link href={loginHref}>Войти</Link>
             </Button>
@@ -410,8 +410,7 @@ export function ClinicalShell({
         </header>
         {showOpenAccessBanner ? (
           <div className="border-b border-emerald-200/70 bg-emerald-50/90 px-4 py-2 text-center text-xs text-emerald-950 dark:border-emerald-900/40 dark:bg-emerald-950/30 dark:text-emerald-100">
-            Можно смотреть калькуляторы, ИИ и чат без входа. Чтобы создать свой кабинет — нажмите
-            «Войти» или зарегистрируйтесь. Не вводите ПДн пациентов.
+            Сайт открыт без пароля. Калькуляторы, справочники и ИИ — сразу. Не вводите ПДн пациентов.
           </div>
         ) : null}
         <main className="flex-1 pb-[calc(4.5rem+env(safe-area-inset-bottom))] sonogyn-enter lg:pb-0" data-voice-content>
