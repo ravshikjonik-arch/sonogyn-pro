@@ -41,11 +41,16 @@ function liveKitConnectExtra(): string {
   }
 }
 
+function vercelAssetCsp(): string {
+  return " https://*.vercel.app";
+}
+
 function buildContentSecurityPolicy(): string {
   const isProd = process.env.NODE_ENV === "production";
+  const vercelAssets = isProd ? vercelAssetCsp() : "";
   // Next inline theme/SW scripts still need 'unsafe-inline'. Drop 'unsafe-eval' in prod.
   const scriptSrc = isProd
-    ? "script-src 'self' 'unsafe-inline' https://js.stripe.com https://challenges.cloudflare.com https://telegram.org https://www.googletagmanager.com https://www.google-analytics.com"
+    ? `script-src 'self' 'unsafe-inline' https://js.stripe.com https://challenges.cloudflare.com https://telegram.org https://www.googletagmanager.com https://www.google-analytics.com${vercelAssets}`
     : "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://challenges.cloudflare.com https://telegram.org https://www.googletagmanager.com https://www.google-analytics.com";
 
   const parts = [
@@ -54,16 +59,27 @@ function buildContentSecurityPolicy(): string {
     "form-action 'self'",
     "frame-ancestors 'none'",
     "object-src 'none'",
-    "font-src 'self' data:",
+    `font-src 'self' data:${vercelAssets}`,
     "worker-src 'self' blob:",
-    "img-src 'self' data: https://*.supabase.co https://telegram.org https://*.telesco.pe https://*.yandex.ru https://yastatic.net blob:",
+    `img-src 'self' data: https://*.supabase.co https://telegram.org https://*.telesco.pe https://*.yandex.ru https://yastatic.net blob:${vercelAssets}`,
     "media-src 'self' blob:",
-    `connect-src 'self' https://*.supabase.co wss://*.supabase.co${supabaseConnectOriginExtra()}${liveKitConnectExtra()} https://*.google-analytics.com https://www.google-analytics.com https://*.googleapis.com https://*.firebaseio.com https://firebasestorage.googleapis.com https://*.ingest.sentry.io https://challenges.cloudflare.com https://*.yandex.ru`,
+    `connect-src 'self' https://*.supabase.co wss://*.supabase.co${supabaseConnectOriginExtra()}${liveKitConnectExtra()} https://*.google-analytics.com https://www.google-analytics.com https://*.googleapis.com https://*.firebaseio.com https://firebasestorage.googleapis.com https://*.ingest.sentry.io https://challenges.cloudflare.com https://*.yandex.ru${vercelAssets}`,
     scriptSrc,
+    `style-src 'self' 'unsafe-inline'${vercelAssets}`,
     "frame-src 'self' https://js.stripe.com https://challenges.cloudflare.com https://oauth.telegram.org https://disk.yandex.ru https://*.yandex.ru",
   ];
   if (isProd) parts.push("upgrade-insecure-requests");
   return `${parts.join("; ")};`;
+}
+
+/** Custom domain truncates bodies ~16–20KB; static files on *.vercel.app complete. */
+function productionAssetPrefix(): string | undefined {
+  if (process.env.VERCEL !== "1") return undefined;
+  const raw = process.env.VERCEL_URL?.trim();
+  if (!raw) return undefined;
+  const host = raw.replace(/^https?:\/\//, "").split("/")[0];
+  if (!host || host.endsWith("sonogyn-pro.ru")) return undefined;
+  return `https://${host}`;
 }
 
 function supabaseConnectOriginExtra(): string {
@@ -77,6 +93,7 @@ function supabaseConnectOriginExtra(): string {
 }
 
 const nextConfig: NextConfig = {
+  assetPrefix: productionAssetPrefix(),
   transpilePackages: [
     "three",
     "@clinical/uterus",
