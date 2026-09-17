@@ -125,6 +125,31 @@ function redirectWithSessionCookies(request: NextRequest, response: NextResponse
   return redirectResponse;
 }
 
+const CUSTOM_DOMAIN_BOOT_HOSTS = new Set(["sonogyn-pro.ru", "www.sonogyn-pro.ru"]);
+const CUSTOM_DOMAIN_APP_ORIGIN = "https://sonogyn-pro-web-ravshan-s-projects3.vercel.app";
+const CUSTOM_DOMAIN_BOOT_HTML = `<!DOCTYPE html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>SonoGyn Pro</title><style>html,body{min-height:100%;margin:0;background:#0b0f19;color:#e2e8f0;font:16px/1.45 system-ui,sans-serif;display:flex;align-items:center;justify-content:center}</style></head><body><p>Открываем кабинет…</p><script>location.replace(${JSON.stringify(`${CUSTOM_DOMAIN_APP_ORIGIN}/home`)});</script></body></html>`;
+
+/** Custom-domain edge truncates chunked bodies ~16KB; a tiny Content-Length document completes. */
+function customDomainCabinetBoot(request: NextRequest): NextResponse | null {
+  if (request.method !== "GET") return null;
+  const host = (request.headers.get("host") ?? "").split(":")[0]?.toLowerCase() ?? "";
+  if (!CUSTOM_DOMAIN_BOOT_HOSTS.has(host)) return null;
+  const pathname = request.nextUrl.pathname;
+  if (pathname !== "/" && pathname !== "/home") return null;
+
+  const body = CUSTOM_DOMAIN_BOOT_HTML;
+  const res = new NextResponse(body, {
+    status: 200,
+    headers: {
+      "Content-Type": "text/html; charset=utf-8",
+      "Content-Length": String(new TextEncoder().encode(body).length),
+      "Cache-Control": "public, max-age=60",
+    },
+  });
+  applySecurityHeaders(res);
+  return res;
+}
+
 function applySecurityHeaders(response: NextResponse): void {
   // Базовые заголовки и CSP централизованно заданы в next.config.ts (headers()).
   // Здесь дублируем минимум для middleware-ответов (redirect/429/403), где конфиг
@@ -208,6 +233,9 @@ export default async function middleware(request: NextRequest) {
     applyCorsHeaders(response, corsHeaders);
     return response;
   }
+
+  const customDomainBoot = customDomainCabinetBoot(request);
+  if (customDomainBoot) return customDomainBoot;
 
   const isProtectedRoute = roots.some((root) => pathname === root || pathname.startsWith(`${root}/`));
   const skipAuthRoundTrip =
