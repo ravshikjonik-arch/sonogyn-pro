@@ -209,6 +209,25 @@ export default async function middleware(request: NextRequest) {
     return response;
   }
 
+  const isProtectedRoute = roots.some((root) => pathname === root || pathname.startsWith(`${root}/`));
+  const skipAuthRoundTrip =
+    request.method === "GET" &&
+    pathname !== "/login" &&
+    pathname !== "/register" &&
+    pathname !== "/verify-phone" &&
+    (!isProtectedRoute || isPublicWithinProtected(pathname));
+
+  // Public cabinet HTML hydrates session on the client. Skipping Supabase here
+  // avoids a 8–10s TTFB and a stalled chunked body on the custom domain.
+  if (skipAuthRoundTrip) {
+    const response = NextResponse.next({ request });
+    applySecurityHeaders(response);
+    if (isPublicWithinProtected(pathname)) {
+      response.headers.set("Cache-Control", "public, s-maxage=60, stale-while-revalidate=300");
+    }
+    return response;
+  }
+
   const { supabase, response } = await updateSession(request);
   applySecurityHeaders(response);
 
@@ -265,8 +284,6 @@ export default async function middleware(request: NextRequest) {
     }
     return response;
   }
-
-  const isProtectedRoute = roots.some((root) => pathname === root || pathname.startsWith(`${root}/`));
 
   if (isProtectedRoute) {
     response.headers.set("Cache-Control", "private, no-store, max-age=0");

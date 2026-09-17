@@ -166,7 +166,14 @@ const nextConfig: NextConfig = {
     return config;
   },
   async redirects() {
-    return IA_V2_REDIRECTS;
+    // Production: `/` is an edge redirect so the custom domain does not wait
+    // on a Node function that was hanging with 0 bytes. Keep the page handler
+    // for local DEV_SKIP_AUTH / auto-login.
+    const apexHome =
+      process.env.VERCEL === "1" || process.env.NODE_ENV === "production"
+        ? [{ source: "/", destination: "/home", permanent: false as const }]
+        : [];
+    return [...apexHome, ...IA_V2_REDIRECTS];
   },
   async headers() {
     const headers = [
