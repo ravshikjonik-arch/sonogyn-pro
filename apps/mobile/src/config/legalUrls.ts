@@ -5,9 +5,13 @@
  * Placeholder `example.com` links are disabled in-app (Android was hanging on
  * slow / blocked resolves). Use real URLs before enabling external opens.
  */
+/** Stable HTTPS URLs for store review and in-app consent (Play / TestFlight). */
+const LEGAL_BASE = "https://sonogyn-pro-web-ravshan-s-projects3.vercel.app";
+
 export const LEGAL_PUBLIC_URLS = {
-  privacyPolicy: "https://example.com/privacy-policy",
-  termsOfUse: "https://example.com/terms-of-use",
+  privacyPolicy: `${LEGAL_BASE}/privacy`,
+  /** Dedicated /terms on web — TBD; privacy page covers 152-FZ for pilot builds. */
+  termsOfUse: `${LEGAL_BASE}/privacy`,
 } as const;
 
 export function legalPublicUrlsAreConfigured(): boolean {
