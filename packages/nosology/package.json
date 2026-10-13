@@ -19,7 +19,7 @@
     "test": "node --import tsx --test src/*.test.ts"
   },
   "dependencies": {
-    "idb": "^8.0.3"
+    "idb": "^8.0.4"
   },
   "devDependencies": {
     "tsx": "^4.19.4",
