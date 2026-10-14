@@ -45,8 +45,12 @@
     "overrides": {
       "@babel/plugin-transform-regenerator": "7.28.4",
       "@eslint/config-array": "0.23.5",
-      "react": "19.1.0",
-      "react-dom": "19.1.0"
+      "react": "19.2.3",
+      "react-dom": "19.2.3",
+      "metro-cache-key": "0.84.5"
     }
+  },
+  "dependencies": {
+    "metro-cache-key": "0.84.5"
   }
 }

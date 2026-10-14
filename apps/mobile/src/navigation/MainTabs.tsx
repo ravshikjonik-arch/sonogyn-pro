@@ -3,8 +3,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useMemo } from "react";
 import { Platform } from "react-native";
 import { ClinicalPhiGate } from "../components/ClinicalPhiGate";
+import { canAccessClinicalPhi } from "../lib/security/clinicalAccessGuard";
 import { useCases } from "../hooks/useCases";
-import CasesScreen from "../screens/CasesScreen";
+import CasesScreen, { type CasesTabScreenProps } from "../screens/CasesScreen";
 import ToolsScreen from "../screens/ToolsScreen";
 import AssistantHubScreen from "../screens/AssistantHubScreen";
 import KnowledgeScreen from "../screens/KnowledgeScreen";
@@ -33,12 +34,20 @@ const labels: Record<keyof MainTabParamList, string> = {
   ProfileTab: "Профиль",
 };
 
-export default function MainTabs() {
+function GuardedCasesScreen(props: CasesTabScreenProps) {
   return (
     <ClinicalPhiGate>
+      <CasesScreen {...props} />
+    </ClinicalPhiGate>
+  );
+}
+
+export default function MainTabs() {
+  return (
+    <>
       <DoctorRoleOnboarding />
       <MainTabsInner />
-    </ClinicalPhiGate>
+    </>
   );
 }
 
@@ -52,7 +61,7 @@ function MainTabsInner() {
 
   return (
     <Tab.Navigator
-      initialRouteName="ChatTab"
+      initialRouteName={canAccessClinicalPhi() ? "ChatTab" : "ToolsTab"}
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarLabel: labels[route.name as keyof MainTabParamList],
@@ -76,7 +85,7 @@ function MainTabsInner() {
     >
       <Tab.Screen
         name="ChatTab"
-        component={CasesScreen}
+        component={GuardedCasesScreen}
         options={{
           tabBarBadge: casesCommentBadge,
           tabBarBadgeStyle: {
