@@ -61,6 +61,7 @@ export async function GET(request: Request) {
     topic: searchParams.get("topic") ?? undefined,
     channelId: searchParams.get("channelId") ?? undefined,
     feedMode: searchParams.get("feedMode") ?? undefined,
+    knowledgeBase: searchParams.get("knowledgeBase") ?? undefined,
     limit: searchParams.get("limit") ?? undefined,
     cursor: searchParams.get("cursor") ?? undefined,
   });

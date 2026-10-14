@@ -1,6 +1,7 @@
 "use client";
 
 import { Archive, BookOpen, ShieldCheck } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -105,9 +106,12 @@ export function CaseLifecyclePanel({
           </Badge>
         ) : null}
         {knowledgeBaseAt ? (
-          <Badge variant="outline" className="border-blue-600 text-blue-900">
+          <Link
+            href="/cases?tab=cases&knowledgeBase=1"
+            className="inline-flex items-center rounded-md border border-blue-600 px-2 py-0.5 text-xs font-semibold text-blue-900 hover:underline"
+          >
             База знаний
-          </Badge>
+          </Link>
         ) : null}
       </div>
 

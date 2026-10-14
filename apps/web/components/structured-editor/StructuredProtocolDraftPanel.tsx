@@ -13,9 +13,11 @@ import { AutosaveStatusBadge } from "@/components/structured-editor/AutosaveStat
 import { StructuredSectionField } from "@/components/structured-editor/StructuredSectionField";
 import { VersionHistoryPanel } from "@/components/structured-editor/VersionHistoryPanel";
 import { Button } from "@/components/ui/button";
+import { DocumentExportToolbar } from "@/components/reporting/DocumentExportToolbar";
 import { Input } from "@/components/ui/input";
 import { RuDateInput } from "@/components/ui/ru-date-input";
 import { PROTOCOL_SECTION_DEFS } from "@/lib/structured-editor/sections";
+import { structuredProtocolToDocumentSpec } from "@/lib/structured-editor/protocol-to-pdf-spec";
 import { useStructuredAutosave } from "@/lib/structured-editor/use-structured-autosave";
 
 type Props = {
@@ -95,6 +97,8 @@ export function StructuredProtocolDraftPanel({ studyId }: Props) {
 
   if (loading) return null;
 
+  const pdfSpec = structuredProtocolToDocumentSpec({ studyLabel: studyId.slice(0, 8), draft });
+
   return (
     <div className="space-y-4 rounded-2xl border border-[var(--clinical-border)] bg-[var(--clinical-card)] p-4 sm:p-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
@@ -111,6 +115,7 @@ export function StructuredProtocolDraftPanel({ studyId }: Props) {
         <Button type="button" size="sm" variant="secondary" onClick={() => setOpen((v) => !v)}>
           {open ? "Свернуть" : "Открыть редактор"}
         </Button>
+        {open ? <DocumentExportToolbar spec={pdfSpec} compact /> : null}
       </div>
 
       {open ? (

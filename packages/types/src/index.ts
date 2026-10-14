@@ -626,6 +626,21 @@ export {
 } from "./structured-clinical-editor";
 
 export {
+  KnowledgeGraphLinkSchema,
+  KnowledgeLinkKindSchema,
+  KnowledgeLinkMetaSchema,
+  KnowledgeLinkRowSchema,
+  KnowledgeLinksQuerySchema,
+  KnowledgeLinksResponseSchema,
+  type KnowledgeGraphLink,
+  type KnowledgeLinkKind,
+  type KnowledgeLinkMeta,
+  type KnowledgeLinkRow,
+  type KnowledgeLinksQuery,
+  type KnowledgeLinksResponse,
+} from "./knowledge-graph";
+
+export {
   CASE_CONFIRMATION_METHOD_LABELS,
   CASE_LIFECYCLE_TRANSITIONS,
   CaseCommentReactionEmojiSchema,

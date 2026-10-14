@@ -8,3 +8,4 @@ export * from "./appointment-calculators/catalog";
 export * from "./appointment-calculators/audit";
 export * from "./modules.catalog";
 export * from "./modules-catalog-audit";
+export * from "./knowledge-links";

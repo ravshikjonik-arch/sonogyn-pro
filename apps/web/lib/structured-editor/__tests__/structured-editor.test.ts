@@ -67,3 +67,38 @@ describe("large html fragment", () => {
     assert.ok(safe.length <= 12000);
   });
 });
+
+describe("protocol pdf spec", () => {
+  it("builds export spec with algorithm meta", async () => {
+    const { emptyStructuredProtocolDraft } = await import("@repo/types");
+    const { structuredProtocolToDocumentSpec } = await import(
+      "@/lib/structured-editor/protocol-to-pdf-spec"
+    );
+    const draft = emptyStructuredProtocolDraft();
+    draft.scaleSource = "ACR O-RADS";
+    draft.algorithmVersion = "2022";
+    draft.sections.description = { blocks: [], mediaRefs: [], plain: "Матка без особенностей" };
+    const spec = structuredProtocolToDocumentSpec({ studyLabel: "study-1", draft });
+    assert.match(spec.title, /Протокол/);
+    assert.ok(spec.meta?.some((m) => m.label === "Версия алгоритма"));
+  });
+});
+
+describe("calculator bridge", () => {
+  it("maps O-RADS bridge payload to immutable block", async () => {
+    const { oradsBridgeToStructuredBlock } = await import("@/lib/structured-editor/calculator-bridge");
+    const block = oradsBridgeToStructuredBlock({
+      input: {} as never,
+      result: {
+        category: 4,
+        patternLabel: "Cystic and solid",
+        riskText: "~50%",
+        recommendation: "Refer to gyn oncologist",
+      } as never,
+      savedAt: "2026-01-01T00:00:00.000Z",
+    });
+    assert.equal(block.system, "O-RADS");
+    assert.match(block.category, /O-RADS 4/);
+    assert.equal(block.immutable, true);
+  });
+});

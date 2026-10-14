@@ -18,7 +18,10 @@ import { cn } from "@/lib/utils/cn";
 function HubInner() {
   const searchParams = useSearchParams();
   const initialTab =
-    searchParams.get("tab") === "cases" || searchParams.get("lifecycle") || searchParams.get("playlist")
+    searchParams.get("tab") === "cases" ||
+    searchParams.get("lifecycle") ||
+    searchParams.get("playlist") ||
+    searchParams.get("knowledgeBase")
       ? "cases"
       : "chat";
   const caseTopic = searchParams.get("topic") === "prolapse" ? "prolapse" : "all";
@@ -27,6 +30,8 @@ function HubInner() {
     searchParams.get("feed") === "discussions" ? ("discussions" as const) : ("library" as const);
   const initialChannelId = searchParams.get("channelId") || null;
   const initialLifecycle = searchParams.get("lifecycle") || null;
+  const initialKnowledgeBase =
+    searchParams.get("knowledgeBase") === "1" || searchParams.get("knowledgeBase") === "true";
   const channelFromSlug = searchParams.get("channel") as DoctorChatChannelSlug | null;
   const channelFromId = initialChannelId
     ? DOCTOR_CHAT_CHANNELS.find((c) => c.id === initialChannelId)?.slug
@@ -103,6 +108,7 @@ function HubInner() {
           initialFeedMode={initialFeedMode}
           initialChannelId={initialChannelId}
           initialLifecycle={initialLifecycle}
+          initialKnowledgeBase={initialKnowledgeBase}
           initialPlaylistId={initialPlaylistId}
         />
       </TabsContent>

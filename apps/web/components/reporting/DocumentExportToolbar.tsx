@@ -19,9 +19,10 @@ type Props = {
   spec: ClinicalDocumentSpec | null;
   className?: string;
   compact?: boolean;
+  onPdfSuccess?: () => void;
 };
 
-export function DocumentExportToolbar({ spec, className, compact }: Props) {
+export function DocumentExportToolbar({ spec, className, compact, onPdfSuccess }: Props) {
   const [pending, startTransition] = useTransition();
   const [busy, setBusy] = useState<"pdf" | "share" | null>(null);
 
@@ -42,7 +43,10 @@ export function DocumentExportToolbar({ spec, className, compact }: Props) {
     setBusy("pdf");
     startTransition(() => {
       void downloadClinicalPdf(spec!)
-        .then(() => toast.success("PDF скачан"))
+        .then(() => {
+          toast.success("PDF скачан");
+          onPdfSuccess?.();
+        })
         .catch(() => toast.error("Не удалось сформировать PDF. Используйте «Печать» → Сохранить как PDF."))
         .finally(() => setBusy(null));
     });

@@ -285,3 +285,15 @@ export async function restoreCaseStructuredVersion(
 
   return { document: result.document, updatedAt: result.updatedAt };
 }
+
+export async function recordCaseStructuredExport(
+  supabase: SupabaseClient,
+  input: { caseId: string; userId: string; templateVersion: string },
+): Promise<void> {
+  await supabase.from("case_structured_document_audit_events").insert({
+    case_id: input.caseId,
+    user_id: input.userId,
+    event_type: "export",
+    meta: { templateVersion: input.templateVersion },
+  });
+}

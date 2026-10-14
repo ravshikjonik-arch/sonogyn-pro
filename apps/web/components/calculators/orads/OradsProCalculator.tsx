@@ -33,6 +33,7 @@ import {
 import { formatOradsShareCard } from "@/lib/orads-pro/format-share";
 import { plainTextToDocumentSpec } from "@/lib/reporting/document-spec-builders";
 import { saveOradsBridgePayload } from "@/lib/reports/sre-orads-bridge";
+import { saveStructuredCalcPending } from "@/lib/structured-editor/calculator-bridge";
 import { cn } from "@/lib/utils/cn";
 import Image from "next/image";
 
@@ -151,7 +152,15 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
       toast.error("Заполните менопаузу и тип образования для протокола");
       return;
     }
+    const categoryLabel = oradsZero && zeroMeta ? zeroMeta.label : `O-RADS ${f.result.category}`;
+    const riskText = oradsZero && zeroMeta ? "O-RADS 0" : f.result.riskText;
+    const recommendation = oradsZero && zeroMeta ? zeroMeta.recommendation : f.result.recommendation;
     saveOradsBridgePayload({ input: f.input, result: f.result, triangulation: f.triangulation });
+    saveStructuredCalcPending({
+      system: "O-RADS",
+      category: categoryLabel,
+      summary: [riskText, recommendation].filter(Boolean).join(" · "),
+    });
     router.push("/reports/adnex");
   }
 
