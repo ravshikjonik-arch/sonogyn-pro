@@ -19,4 +19,3 @@ export function legalPublicUrlsAreConfigured(): boolean {
   const t = LEGAL_PUBLIC_URLS.termsOfUse;
   return !p.includes("example.com") && !t.includes("example.com");
 }
-

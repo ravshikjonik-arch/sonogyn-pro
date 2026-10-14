@@ -51,6 +51,8 @@
     }
   },
   "dependencies": {
+    "autoprefixer": "^10.6.1",
+    "big.js": "^7.0.1",
     "metro-cache-key": "0.84.5"
   }
 }

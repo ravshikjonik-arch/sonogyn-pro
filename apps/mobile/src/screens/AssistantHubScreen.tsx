@@ -9,7 +9,7 @@ import { openClinicalToolAction } from "../lib/clinical-tools/openClinicalTool";
 import type { MainTabParamList, RootStackParamList } from "../navigation/paramLists";
 
 export type AssistantTabScreenProps = CompositeScreenProps<
-  BottomTabScreenProps<MainTabParamList, "AssistantTab">,
+  BottomTabScreenProps<MainTabParamList, "AiTab">,
   NativeStackScreenProps<RootStackParamList>
 >;
 

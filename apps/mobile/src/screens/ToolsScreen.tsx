@@ -4,6 +4,8 @@ import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useEffect, useMemo, useState } from "react";
 import { Platform, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import GuidelinesTabScreen from "../modules/clinicalGuidelines/screens/GuidelinesTabScreen";
+import { ReferenceHubPanel } from "./reference/ReferenceHubPanel";
 import {
   CLINICAL_TOOLS,
   TOOL_CATEGORY_LABELS,
@@ -18,7 +20,8 @@ import {
   type OrganIllustrationVariant,
 } from "../components/calculators/OrganMedicalIllustration";
 import { ClinicalToolSearchBar, PinnedToolsRow } from "../components/clinical/ClinicalToolSearch";
-import { loadDoctorRole, resolvePinnedIds } from "../lib/doctorWorkspacePrefs";
+import { loadDoctorRole, loadRecentToolActions, resolvePinnedIds } from "../lib/doctorWorkspacePrefs";
+import type { MobileToolAction } from "@repo/clinical-tools";
 import { openClinicalToolAction, openWebPath } from "../lib/clinical-tools/openClinicalTool";
 import type { MainTabParamList, RootStackParamList } from "../navigation/paramLists";
 
@@ -76,18 +79,65 @@ function ToolCard({
   );
 }
 
-export default function ToolsScreen({ navigation }: ToolsTabScreenProps) {
+type ToolsPanel = "calculators" | "reference";
+
+function ToolsPanelSwitch({
+  panel,
+  onChange,
+}: {
+  panel: ToolsPanel;
+  onChange: (next: ToolsPanel) => void;
+}) {
+  return (
+    <View style={styles.panelRow}>
+      <Pressable
+        style={[styles.panelChip, panel === "calculators" && styles.panelChipActive]}
+        onPress={() => onChange("calculators")}
+        accessibilityRole="button"
+        accessibilityState={{ selected: panel === "calculators" }}
+      >
+        <Text style={[styles.panelChipText, panel === "calculators" && styles.panelChipTextActive]}>
+          Калькуляторы
+        </Text>
+      </Pressable>
+      <Pressable
+        style={[styles.panelChip, panel === "reference" && styles.panelChipActive]}
+        onPress={() => onChange("reference")}
+        accessibilityRole="button"
+        accessibilityState={{ selected: panel === "reference" }}
+      >
+        <Text style={[styles.panelChipText, panel === "reference" && styles.panelChipTextActive]}>
+          Справочник
+        </Text>
+      </Pressable>
+    </View>
+  );
+}
+
+export default function ToolsScreen({ navigation, route }: ToolsTabScreenProps) {
+  const panel: ToolsPanel = route.params?.panel ?? "calculators";
+  const referenceSection = route.params?.referenceSection;
+
   const { width: winW } = useWindowDimensions();
   const colW = Math.floor((winW - 32 - 14) / 2);
   const [role, setRole] = useState<DoctorRole | null>(null);
   const [pins, setPins] = useState<string[]>([]);
+  const [recent, setRecent] = useState<MobileToolAction[]>([]);
 
   useEffect(() => {
     void loadDoctorRole().then((r) => {
       setRole(r);
       void resolvePinnedIds(r).then(setPins);
     });
+    void loadRecentToolActions().then(setRecent);
   }, []);
+
+  useEffect(() => {
+    const unsub = navigation.addListener("focus", () => {
+      void loadRecentToolActions().then(setRecent);
+    });
+    return unsub;
+  }, [navigation]);
 
   const byCategory = useMemo(() => {
     const map = new Map<ToolCategory, ClinicalTool[]>();
@@ -104,12 +154,47 @@ export default function ToolsScreen({ navigation }: ToolsTabScreenProps) {
     }));
   }, [role]);
 
+  const setPanel = (next: ToolsPanel) => {
+    navigation.setParams({
+      panel: next,
+      referenceSection: next === "reference" ? referenceSection : undefined,
+    });
+  };
+
+  if (panel === "reference" && referenceSection === "guidelines") {
+    return (
+      <View style={{ flex: 1 }}>
+        <Pressable
+          style={styles.backBar}
+          onPress={() => navigation.setParams({ panel: "reference", referenceSection: undefined })}
+        >
+          <Text style={styles.backBarText}>← Справочник</Text>
+        </Pressable>
+        <GuidelinesTabScreen navigation={navigation} route={route as never} />
+      </View>
+    );
+  }
+
+  if (panel === "reference") {
+    return (
+      <SafeAreaView style={styles.safe} edges={["top", "left", "right"]}>
+        <View style={styles.header}>
+          <Text style={styles.kicker}>Инструменты</Text>
+          <Text style={styles.title}>Справочник</Text>
+          <ToolsPanelSwitch panel={panel} onChange={setPanel} />
+        </View>
+        <ReferenceHubPanel navigation={navigation} embedded />
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.safe} edges={["top", "left", "right"]}>
       <View style={styles.header}>
         <Text style={styles.kicker}>Приём · УЗИ</Text>
         <Text style={styles.title}>Инструменты</Text>
-        <Text style={styles.sub}>Калькуляторы отдельно · O-RADS хаб · поиск по синонимам</Text>
+        <Text style={styles.sub}>Калькуляторы · O-RADS · поиск по синонимам</Text>
+        <ToolsPanelSwitch panel={panel} onChange={setPanel} />
       </View>
       <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
         <View style={styles.domainRow}>
@@ -144,7 +229,7 @@ export default function ToolsScreen({ navigation }: ToolsTabScreenProps) {
           </Pressable>
         </View>
         <ClinicalToolSearchBar navigation={navigation} role={role} />
-        <PinnedToolsRow navigation={navigation} toolIds={pins} />
+        <PinnedToolsRow navigation={navigation} toolIds={pins} recentActions={recent} />
 
         {byCategory.map(({ category, tools }) => (
           <View key={category} style={styles.section}>
@@ -210,4 +295,25 @@ const styles = StyleSheet.create({
   usBadge: { position: "absolute", right: 8, bottom: 6 },
   cardTitle: { fontSize: 15, fontWeight: "800", color: "#0F2744", paddingHorizontal: 12, marginTop: 4 },
   cardSub: { fontSize: 11, color: "#64748b", paddingHorizontal: 12, marginTop: 4, lineHeight: 15 },
+  panelRow: { flexDirection: "row", gap: 8, marginTop: 10 },
+  panelChip: {
+    flex: 1,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: "#cbd5e1",
+    backgroundColor: "#fff",
+    paddingVertical: 10,
+    alignItems: "center",
+  },
+  panelChipActive: { borderColor: "#059669", backgroundColor: "#ecfdf5" },
+  panelChipText: { fontSize: 13, fontWeight: "700", color: "#64748b" },
+  panelChipTextActive: { color: "#047857" },
+  backBar: {
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    backgroundColor: "#fff",
+    borderBottomWidth: 1,
+    borderBottomColor: "#e2e8f0",
+  },
+  backBarText: { fontWeight: "700", color: "#0f172a" },
 });

@@ -110,6 +110,7 @@ export type ModuleId =
   | "education.obstetric-atlas"
   | "education.fetal-spine"
   | "education.exam-checklists"
+  | "education.quiz-hub"
   | "education.case-library"
   | "education.clinic-accreditation"
   | "education.orads-flow"
@@ -768,6 +769,15 @@ export const MODULES: ModuleEntry[] = [
     href: "/tools/refs/exam-checklists",
     surfaces: { educationShelf: "courses", clinicalSearch: true },
     legacy: { education: "exam-checklists" },
+  },
+  {
+    id: "education.quiz-hub",
+    domain: "education",
+    kind: "education",
+    title: "Клинические задачи · Quiz hub",
+    description: "Самопроверка и exam practice без дублирования банков",
+    href: "/tools/refs/quiz-hub",
+    surfaces: { educationShelf: "courses", clinicalSearch: true },
   },
   {
     id: "education.case-library",

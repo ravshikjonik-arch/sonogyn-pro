@@ -7,6 +7,7 @@ import type { NavigationProp, ParamListBase } from "@react-navigation/native";
 import { openTelegramChannel } from "../../config/community";
 import { PRODUCT } from "../../config/product";
 import type { PageType } from "../../navigationTypes";
+import { pushRecentToolAction } from "../doctorWorkspacePrefs";
 
 const WEB_APP =
   (process.env.EXPO_PUBLIC_WEB_APP_URL || "https://sonogyn-pro-web-ravshan-s-projects3.vercel.app").replace(/\/$/, "");
@@ -32,7 +33,7 @@ export type ClinicalToolNav = NavigationProp<ParamListBase> & {
 
 function openMainTab(
   navigation: ClinicalToolNav,
-  tab: "ChatTab" | "KnowledgeTab",
+  tab: "CasesTab" | "ToolsTab",
   params?: Record<string, unknown>,
 ): void {
   if (navigation.getState().routeNames.includes(tab)) {
@@ -43,9 +44,10 @@ function openMainTab(
 }
 
 export function openClinicalToolAction(navigation: ClinicalToolNav, action: MobileToolAction): void {
+  void pushRecentToolAction(action);
   switch (action) {
     case "chat_web":
-      openMainTab(navigation, "ChatTab", { section: "discussions" });
+      openMainTab(navigation, "CasesTab", { section: "discussions" });
       return;
     case "new_case":
       navigation.navigate("Case", { caseId: undefined });
@@ -144,7 +146,7 @@ export function openClinicalToolAction(navigation: ClinicalToolNav, action: Mobi
       navigation.navigate("ClinicalReference");
       return;
     case "guidelines":
-      openMainTab(navigation, "KnowledgeTab", { section: "guidelines" });
+      openMainTab(navigation, "ToolsTab", { panel: "reference", referenceSection: "guidelines" });
       return;
     case "medvedev":
       navigation.navigate("GynecologyCalc", { initialPage: "gyn_medvedev_consensus" });

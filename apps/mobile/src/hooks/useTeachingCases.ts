@@ -28,6 +28,12 @@ function mapApiRow(row: Record<string, unknown>): TeachingCasePreview {
     anatomy: row.anatomy != null ? String(row.anatomy) : null,
     pathology: row.pathology != null ? String(row.pathology) : null,
     status: String(row.status ?? "published"),
+    lifecycleStatus:
+      row.lifecycle_status != null
+        ? String(row.lifecycle_status)
+        : row.lifecycleStatus != null
+          ? String(row.lifecycleStatus)
+          : null,
     channelId: row.channel_id != null ? String(row.channel_id) : null,
     oradsCategory: typeof row.orads_category === "number" ? row.orads_category : null,
     tags: Array.isArray(row.tags) ? row.tags.map(String) : [],

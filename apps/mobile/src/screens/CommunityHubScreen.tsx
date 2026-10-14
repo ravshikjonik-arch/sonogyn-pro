@@ -25,7 +25,7 @@ import type { DoctorRole } from "@repo/clinical-tools";
 import type { MainTabParamList, RootStackParamList } from "../navigation/paramLists";
 
 export type ChatTabScreenProps = CompositeScreenProps<
-  BottomTabScreenProps<MainTabParamList, "ChatTab">,
+  BottomTabScreenProps<MainTabParamList, "CasesTab">,
   NativeStackScreenProps<RootStackParamList>
 >;
 

@@ -1,4 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
+import { CLINICAL_PRIMARY_NAV, getMobileTabLabel } from "@repo/clinical-tools";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useMemo } from "react";
 import { Platform } from "react-native";
@@ -8,7 +9,7 @@ import { useCases } from "../hooks/useCases";
 import CasesScreen, { type CasesTabScreenProps } from "../screens/CasesScreen";
 import ToolsScreen from "../screens/ToolsScreen";
 import AssistantHubScreen from "../screens/AssistantHubScreen";
-import KnowledgeScreen from "../screens/KnowledgeScreen";
+import HomeScreen from "../screens/HomeScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import { DoctorRoleOnboarding } from "../components/clinical/DoctorRoleOnboarding";
 import type { MainTabParamList } from "./paramLists";
@@ -19,20 +20,15 @@ const icons: Record<
   keyof MainTabParamList,
   { focused: keyof typeof Ionicons.glyphMap; outline: keyof typeof Ionicons.glyphMap }
 > = {
-  ChatTab: { focused: "chatbubbles", outline: "chatbubbles-outline" },
+  FeedTab: { focused: "newspaper", outline: "newspaper-outline" },
+  CasesTab: { focused: "chatbubbles", outline: "chatbubbles-outline" },
+  AiTab: { focused: "sparkles", outline: "sparkles-outline" },
   ToolsTab: { focused: "medkit", outline: "medkit-outline" },
-  AssistantTab: { focused: "hand-left", outline: "hand-left-outline" },
-  KnowledgeTab: { focused: "book", outline: "book-outline" },
   ProfileTab: { focused: "person", outline: "person-outline" },
 };
 
-const labels: Record<keyof MainTabParamList, string> = {
-  ChatTab: "Чат",
-  ToolsTab: "Инструменты",
-  AssistantTab: "Помощник",
-  KnowledgeTab: "Справочник",
-  ProfileTab: "Профиль",
-};
+/** Tab order from SSOT — same sequence as web bottom nav. */
+const TAB_ORDER = CLINICAL_PRIMARY_NAV.map((e) => e.mobileTab);
 
 function GuardedCasesScreen(props: CasesTabScreenProps) {
   return (
@@ -59,12 +55,14 @@ function MainTabsInner() {
     return n > 99 ? "99+" : String(n);
   }, [cases]);
 
+  const initialRouteName: keyof MainTabParamList = canAccessClinicalPhi() ? "FeedTab" : "ToolsTab";
+
   return (
     <Tab.Navigator
-      initialRouteName={canAccessClinicalPhi() ? "ChatTab" : "ToolsTab"}
+      initialRouteName={initialRouteName}
       screenOptions={({ route }) => ({
         headerShown: false,
-        tabBarLabel: labels[route.name as keyof MainTabParamList],
+        tabBarLabel: getMobileTabLabel(route.name as keyof MainTabParamList),
         tabBarActiveTintColor: "#059669",
         tabBarInactiveTintColor: "#94a3b8",
         tabBarLabelStyle: { fontSize: 10, fontWeight: "600", letterSpacing: 0.2 },
@@ -83,23 +81,36 @@ function MainTabsInner() {
         },
       })}
     >
-      <Tab.Screen
-        name="ChatTab"
-        component={GuardedCasesScreen}
-        options={{
-          tabBarBadge: casesCommentBadge,
-          tabBarBadgeStyle: {
-            backgroundColor: "#dc2626",
-            color: "#fff",
-            fontSize: 10,
-            fontWeight: "800",
-          },
-        }}
-      />
-      <Tab.Screen name="AssistantTab" component={AssistantHubScreen} />
-      <Tab.Screen name="ToolsTab" component={ToolsScreen} />
-      <Tab.Screen name="KnowledgeTab" component={KnowledgeScreen} />
-      <Tab.Screen name="ProfileTab" component={ProfileScreen} />
+      {TAB_ORDER.map((name) => {
+        if (name === "FeedTab") {
+          return <Tab.Screen key={name} name="FeedTab" component={HomeScreen} />;
+        }
+        if (name === "CasesTab") {
+          return (
+            <Tab.Screen
+              key={name}
+              name="CasesTab"
+              component={GuardedCasesScreen}
+              options={{
+                tabBarBadge: casesCommentBadge,
+                tabBarBadgeStyle: {
+                  backgroundColor: "#dc2626",
+                  color: "#fff",
+                  fontSize: 10,
+                  fontWeight: "800",
+                },
+              }}
+            />
+          );
+        }
+        if (name === "AiTab") {
+          return <Tab.Screen key={name} name="AiTab" component={AssistantHubScreen} />;
+        }
+        if (name === "ToolsTab") {
+          return <Tab.Screen key={name} name="ToolsTab" component={ToolsScreen} />;
+        }
+        return <Tab.Screen key={name} name="ProfileTab" component={ProfileScreen} />;
+      })}
     </Tab.Navigator>
   );
 }

@@ -7,6 +7,8 @@ export type TeachingCasePreview = {
   anatomy: string | null;
   pathology: string | null;
   status: string;
+  /** Case discussion lifecycle (web parity). */
+  lifecycleStatus?: string | null;
   channelId: string | null;
   oradsCategory: number | null;
   tags: string[];

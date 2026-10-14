@@ -1,10 +1,15 @@
 import type { NavigatorScreenParams } from "@react-navigation/native";
 
 export type MainTabParamList = {
-  ChatTab: { section?: "discussions" | "local" | "gallery" } | undefined;
-  ToolsTab: undefined;
-  AssistantTab: undefined;
-  KnowledgeTab: { section?: "guidelines" | "library" } | undefined;
+  FeedTab: undefined;
+  CasesTab: { section?: "discussions" | "local" | "gallery" } | undefined;
+  AiTab: undefined;
+  ToolsTab:
+    | {
+        panel?: "calculators" | "reference";
+        referenceSection?: "guidelines" | "library";
+      }
+    | undefined;
   ProfileTab: undefined;
 };
 

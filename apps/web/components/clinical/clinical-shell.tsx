@@ -103,6 +103,7 @@ const navGroups: { title: string; items: { href: string; label: string; icon: ty
   {
     title: "Справочник",
     items: [
+      { href: "/tools/refs", label: "Практика", icon: BookMarked },
       { href: "/tools/refs/guidelines", label: "КР и приказы", icon: FileText },
       { href: "/tools/refs/norms", label: "Клин. нормы", icon: BookOpen },
       { href: "/tools/refs/nosologies", label: "Нозологии", icon: ClipboardList },
@@ -113,7 +114,7 @@ const navGroups: { title: string; items: { href: string; label: string; icon: ty
     items: [
       { href: "/tools", label: "Все инструменты", icon: Library },
       { href: "/profile/patients", label: "Мои кейсы", icon: Users },
-      { href: "/profile/dashboard", label: "Дашборд", icon: LayoutDashboard },
+      { href: "/profile/dashboard", label: "Кабинет", icon: LayoutDashboard },
       { href: "/profile/pro", label: "PRO", icon: Sparkles },
       { href: "/profile", label: "Профиль", icon: UserRound },
     ],
@@ -236,7 +237,7 @@ export function ClinicalShell({
           type="button"
           className="ml-auto rounded-lg p-2 text-[var(--clinical-foreground-muted)] hover:bg-black/[0.04] lg:hidden"
           onClick={() => setMobileOpen(false)}
-          aria-label="Close menu"
+          aria-label="Закрыть меню"
         >
           <X className="h-5 w-5" />
         </button>
@@ -324,7 +325,7 @@ export function ClinicalShell({
             )}
           >
             <Shield className="h-4 w-4 shrink-0 opacity-80" />
-            Admin
+            Админ-раздел
           </Link>
         ) : null}
       </nav>
@@ -366,20 +367,20 @@ export function ClinicalShell({
             className="lg:hidden"
             type="button"
             onClick={() => setMobileOpen(true)}
-            aria-label="Open menu"
+            aria-label="Открыть меню"
           >
             <Menu className="h-5 w-5" />
           </Button>
           <div className="hidden flex-1 items-center gap-2 md:flex">
             <Bookmark className="h-4 w-4 text-[var(--clinical-foreground-muted)]" />
             <span className="text-xs font-medium text-[var(--clinical-foreground-muted)]">
-              Federated learning opt-out · Audit stream enabled (stub)
+              Безопасный режим: не вводите персональные данные пациентки
             </span>
           </div>
           <GlobalSearchTrigger />
           {!isGuest ? <ProBadge className="hidden sm:inline-flex" /> : null}
           <ThemeToggle />
-          {isGuest && !openAccess ? (
+          {isGuest ? (
             <Button asChild size="sm" variant="ghost" className="ml-auto" data-testid="guest-login-cta">
               <Link href={loginHref}>Войти</Link>
             </Button>
@@ -395,14 +396,14 @@ export function ClinicalShell({
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-52">
                 <DropdownMenuItem asChild>
-                  <Link href="/profile">Profile & credentials</Link>
+                  <Link href="/profile">Профиль и доступ</Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem disabled>{email}</DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => void signOut()} disabled={busy} data-testid="logout-button">
                   <LogOut className="mr-2 h-4 w-4" />
-                  Sign out
+                  Выйти
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -410,7 +411,8 @@ export function ClinicalShell({
         </header>
         {showOpenAccessBanner ? (
           <div className="border-b border-emerald-200/70 bg-emerald-50/90 px-4 py-2 text-center text-xs text-emerald-950 dark:border-emerald-900/40 dark:bg-emerald-950/30 dark:text-emerald-100">
-            Сайт открыт без пароля. Калькуляторы, справочники и ИИ — сразу. Не вводите ПДн пациентов.
+            Можно смотреть калькуляторы, ИИ и чат без входа. Чтобы сохранить свои кейсы — нажмите
+            «Войти». Не вводите ПДн пациентов.
           </div>
         ) : null}
         <main className="flex-1 pb-[calc(4.5rem+env(safe-area-inset-bottom))] sonogyn-enter lg:pb-0" data-voice-content>

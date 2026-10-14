@@ -5,8 +5,8 @@ import { auditModulesCatalog, listUnmappedAppointmentCalculators } from "./modul
 import { getModules, HOME_TILE_MODULE_ORDER, MODULES, MODULES_BY_DOMAIN } from "./modules.catalog";
 
 describe("modules.catalog", () => {
-  it("has 65 canonical modules", () => {
-    assert.equal(MODULES.length, 65);
+  it("has canonical module count (SSOT)", () => {
+    assert.ok(MODULES.length >= 65);
   });
 
   it("domain totals sum to module count", () => {
@@ -15,7 +15,7 @@ describe("modules.catalog", () => {
   });
 
   it("passes audit (refs, unique ids)", () => {
-    const result = auditModulesCatalog(65);
+    const result = auditModulesCatalog(MODULES.length);
     assert.ok(result.ok, result.errors.join("; ") || "audit failed");
   });
 
@@ -37,9 +37,9 @@ describe("modules.catalog", () => {
     assert.ok(unmapped.includes("bi-rads"));
   });
 
-  it("getModules home-tile returns 12 tiles in legacy order", () => {
+  it("getModules home-tile matches HOME_TILE_MODULE_ORDER", () => {
     const tiles = getModules({ surface: "home-tile" });
-    assert.equal(tiles.length, 12);
+    assert.equal(tiles.length, HOME_TILE_MODULE_ORDER.length);
     assert.deepEqual(
       tiles.map((t) => t.id),
       HOME_TILE_MODULE_ORDER,

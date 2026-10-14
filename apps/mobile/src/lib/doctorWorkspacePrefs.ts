@@ -2,11 +2,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   DEFAULT_PINNED_TOOL_IDS,
   type DoctorRole,
+  type MobileToolAction,
 } from "@repo/clinical-tools";
 
 const ROLE_KEY = "sonogyn_doctor_role_v1";
 const PINS_KEY = "sonogyn_pinned_tools_v1";
 const ONBOARDED_KEY = "sonogyn_workspace_onboarded_v1";
+const RECENT_KEY = "sonogyn_recent_tool_actions_v1";
+const RECENT_MAX = 8;
 
 export async function loadDoctorRole(): Promise<DoctorRole | null> {
   const v = await AsyncStorage.getItem(ROLE_KEY);
@@ -50,4 +53,21 @@ export async function resolvePinnedIds(role: DoctorRole | null): Promise<string[
   if (custom.length) return custom;
   if (role) return DEFAULT_PINNED_TOOL_IDS[role];
   return DEFAULT_PINNED_TOOL_IDS.ultrasound;
+}
+
+export async function loadRecentToolActions(): Promise<MobileToolAction[]> {
+  const raw = await AsyncStorage.getItem(RECENT_KEY);
+  if (!raw) return [];
+  try {
+    const parsed = JSON.parse(raw) as unknown;
+    return Array.isArray(parsed) ? (parsed.filter((x) => typeof x === "string") as MobileToolAction[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+export async function pushRecentToolAction(action: MobileToolAction): Promise<void> {
+  const prev = await loadRecentToolActions();
+  const next = [action, ...prev.filter((a) => a !== action)].slice(0, RECENT_MAX);
+  await AsyncStorage.setItem(RECENT_KEY, JSON.stringify(next));
 }
