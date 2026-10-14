@@ -3,7 +3,7 @@
 import type { KnowledgeLink } from "@repo/clinical-tools";
 import { Calculator, GraduationCap, Link2, Loader2 } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -40,17 +40,14 @@ export function KnowledgeLinksCard({
 }: KnowledgeLinksCardProps) {
   const [links, setLinks] = useState<KnowledgeLink[]>(initialLinks);
   const [loading, setLoading] = useState(initialLinks.length === 0);
-  const fallbackRef = useRef(initialLinks);
-  fallbackRef.current = initialLinks;
-
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
+    const fallback = initialLinks;
 
     const params = new URLSearchParams({ fromType, fromId });
     void fetch(`/api/knowledge/links?${params.toString()}`, { credentials: "include" })
       .then(async (res) => {
-        const fallback = fallbackRef.current;
         if (!res.ok) return fallback;
         const json = (await res.json()) as { links?: KnowledgeLink[] };
         return json.links?.length ? json.links : fallback;
@@ -59,7 +56,7 @@ export function KnowledgeLinksCard({
         if (!cancelled) setLinks(next);
       })
       .catch(() => {
-        if (!cancelled) setLinks(fallbackRef.current);
+        if (!cancelled) setLinks(fallback);
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
@@ -68,7 +65,7 @@ export function KnowledgeLinksCard({
     return () => {
       cancelled = true;
     };
-  }, [fromType, fromId]);
+  }, [fromType, fromId, initialLinks]);
 
   if (!links.length && !loading) return null;
 
