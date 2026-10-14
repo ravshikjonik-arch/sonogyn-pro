@@ -44,6 +44,5 @@ server/.env.local
 # local PDF text extracts (copyright / size)
 scripts/_medvedev_extract_raw.txt
 
-# generated native folders
+# generated native folders (android committed for EAS — cloud prebuild UNKNOWN_ERROR)
 /ios
-/android

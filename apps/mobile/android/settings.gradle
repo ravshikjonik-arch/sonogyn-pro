@@ -1,0 +1,52 @@
+pluginManagement {
+  def reactNativeGradlePlugin = new File(
+    providers.exec {
+      workingDir(rootDir)
+      commandLine("node", "--print", "require.resolve('@react-native/gradle-plugin/package.json', { paths: [require.resolve('react-native/package.json')] })")
+    }.standardOutput.asText.get().trim()
+  ).getParentFile().absolutePath
+  includeBuild(reactNativeGradlePlugin)
+  
+  def expoPluginsPath = new File(
+    providers.exec {
+      workingDir(rootDir)
+      commandLine("node", "--print", "require.resolve('expo-modules-autolinking/package.json', { paths: [require.resolve('expo/package.json')] })")
+    }.standardOutput.asText.get().trim(),
+    "../android/expo-gradle-plugin"
+  ).absolutePath
+  includeBuild(expoPluginsPath)
+}
+
+plugins {
+  id("com.facebook.react.settings")
+  id("expo-autolinking-settings")
+}
+
+
+// Force-delete the autolinking cache so it always regenerates with correct paths on the build machine.
+// Also clear app CMake/.cxx leftovers that EAS cache restore can poison (SDK 54).
+// Placed after plugins {} — pluginManagement must stay first (Gradle 8+).
+def autolinkingCacheDir = new File(rootDir, "build/generated/autolinking")
+def appCxxDir = new File(rootDir, "app/.cxx")
+def appBuildGenerated = new File(rootDir, "app/build/generated")
+if (!System.getProperty("os.name").toLowerCase().contains("windows")) {
+  autolinkingCacheDir.deleteDir()
+  appCxxDir.deleteDir()
+  appBuildGenerated.deleteDir()
+}
+
+extensions.configure(com.facebook.react.ReactSettingsExtension) { ex ->
+  if (System.getenv('EXPO_USE_COMMUNITY_AUTOLINKING') == '1') {
+    ex.autolinkLibrariesFromCommand()
+  } else {
+    ex.autolinkLibrariesFromCommand(expoAutolinking.rnConfigCommand)
+  }
+}
+expoAutolinking.useExpoModules()
+
+rootProject.name = 'SonoGyn Pro'
+
+expoAutolinking.useExpoVersionCatalog()
+
+include ':app'
+includeBuild(expoAutolinking.reactNativeGradlePlugin)
