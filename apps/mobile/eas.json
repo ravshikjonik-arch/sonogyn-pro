@@ -8,6 +8,7 @@
       "distribution": "internal",
       "channel": "preview",
       "pnpm": "10.6.5",
+      "node": "22.14.0",
       "env": {
         "NODE_OPTIONS": "--max-old-space-size=8192",
         "GRADLE_OPTS": "-Xmx6144m -XX:MaxMetaspaceSize=1536m -Dorg.gradle.jvmargs=-Xmx6144m -XX:MaxMetaspaceSize=1536m",
