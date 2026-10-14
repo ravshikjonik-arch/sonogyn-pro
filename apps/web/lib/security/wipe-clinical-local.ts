@@ -2,6 +2,7 @@ import { IDEA_STORAGE_KEY } from "@/features/idea-deep-endometriosis/lib/default
 
 const PROTOCOL_DRAFT_PREFIX = "protocol-draft-";
 const NOSOLOGY_NOTES_PREFIX = "nosology:notes:";
+const STRUCTURED_EDITOR_PREFIX = "sonogyn-structured-editor";
 
 /** Удалить локальные клинические черновики в браузере (при выходе). */
 export function wipeWebClinicalLocalData(): void {
@@ -12,7 +13,11 @@ export function wipeWebClinicalLocalData(): void {
     for (let i = 0; i < window.localStorage.length; i++) {
       const key = window.localStorage.key(i);
       if (!key) continue;
-      if (key.startsWith(PROTOCOL_DRAFT_PREFIX) || key.startsWith(NOSOLOGY_NOTES_PREFIX)) {
+      if (
+        key.startsWith(PROTOCOL_DRAFT_PREFIX) ||
+        key.startsWith(NOSOLOGY_NOTES_PREFIX) ||
+        key.startsWith(STRUCTURED_EDITOR_PREFIX)
+      ) {
         keysToRemove.push(key);
       }
     }

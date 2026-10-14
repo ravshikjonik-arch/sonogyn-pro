@@ -201,29 +201,59 @@ const nextConfig: NextConfig = {
 };
 
 export default ((): NextConfig => {
-  if (process.env.NODE_ENV === "development") {
-    return nextConfig;
-  }
+  const base =
+    process.env.NODE_ENV === "development"
+      ? nextConfig
+      : (() => {
+          // eslint-disable-next-line @typescript-eslint/no-require-imports
+          const withPWAInit = require("@ducanh2912/next-pwa").default as WithPWAFactory;
+          const withPWA = withPWAInit({
+            dest: "public",
+            // Временно выключено: stale SW + precache ломали CSS после каждого деплоя (чёрный экран).
+            disable: true,
+            register: false,
+            workboxOptions: {
+              // App Router: fallback на /landing подменяет HTML для /login, /register и клиники → чёрный экран.
+              navigateFallback: null,
+              navigateFallbackDenylist: [/^\/api\//, /^\/_next\//, /^\/auth\//],
+              runtimeCaching: [
+                {
+                  urlPattern: ({ url }: { url: URL }) => url.pathname.startsWith("/api/"),
+                  handler: "NetworkOnly",
+                  options: { cacheName: "api-no-cache" },
+                },
+              ],
+            },
+          });
+          return withPWA(nextConfig);
+        })();
+
+  return wrapSentryConfig(base);
+})();
+
+function wrapSentryConfig(config: NextConfig): NextConfig {
+  const enabled = process.env.SENTRY_ENABLED?.trim().toLowerCase();
+  if (enabled !== "1" && enabled !== "true") return config;
 
   // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const withPWAInit = require("@ducanh2912/next-pwa").default as WithPWAFactory;
-  const withPWA = withPWAInit({
-    dest: "public",
-    // Временно выключено: stale SW + precache ломали CSS после каждого деплоя (чёрный экран).
-    disable: true,
-    register: false,
-    workboxOptions: {
-      // App Router: fallback на /landing подменяет HTML для /login, /register и клиники → чёрный экран.
-      navigateFallback: null,
-      navigateFallbackDenylist: [/^\/api\//, /^\/_next\//, /^\/auth\//],
-      runtimeCaching: [
-        {
-          urlPattern: ({ url }: { url: URL }) => url.pathname.startsWith("/api/"),
-          handler: "NetworkOnly",
-          options: { cacheName: "api-no-cache" },
-        },
-      ],
+  const { withSentryConfig } = require("@sentry/nextjs") as {
+    withSentryConfig: (cfg: NextConfig, opts: Record<string, unknown>) => NextConfig;
+  };
+
+  return withSentryConfig(config, {
+    org: process.env.SENTRY_ORG,
+    project: process.env.SENTRY_PROJECT,
+    authToken: process.env.SENTRY_AUTH_TOKEN,
+    silent: !process.env.CI,
+    widenClientFileUpload: true,
+    hideSourceMaps: true,
+    disableLogger: true,
+    automaticVercelMonitors: false,
+    release: {
+      name: process.env.SENTRY_RELEASE ?? process.env.VERCEL_GIT_COMMIT_SHA,
+    },
+    sourcemaps: {
+      deleteSourcemapsAfterUpload: true,
     },
   });
-  return withPWA(nextConfig);
-})();
+}

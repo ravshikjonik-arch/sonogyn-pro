@@ -111,7 +111,13 @@ export function StructuredCaseEditor({ caseId, caseTitle, canEdit }: Props) {
               {expanded ? "Свернуть" : "Редактировать"}
             </Button>
           ) : null}
-          <DocumentExportToolbar spec={pdfSpec} compact />
+          <DocumentExportToolbar
+            spec={pdfSpec}
+            compact
+            onPdfSuccess={() => {
+              void fetch(`/api/cases/${caseId}/structured/export`, { method: "POST" });
+            }}
+          />
         </div>
       </div>
 
@@ -130,6 +136,7 @@ export function StructuredCaseEditor({ caseId, caseTitle, canEdit }: Props) {
                   readOnly={!canEdit}
                   showCalculatorInsert={def.id === "calculator_result" && canEdit}
                   showMediaInsert={def.id === "deidentified_images" && canEdit}
+                  caseId={caseId}
                   onChange={(next) => updateSection(sectionId, next)}
                 />
               );

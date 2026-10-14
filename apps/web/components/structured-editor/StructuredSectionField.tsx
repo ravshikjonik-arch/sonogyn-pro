@@ -8,7 +8,7 @@ import {
   CalculatorBlockList,
   CalculatorInsertPanel,
 } from "@/components/structured-editor/CalculatorInsertPanel";
-import { structuredEditorUuid } from "@/lib/structured-editor/uuid";
+import { StructuredCaseMediaInsert } from "@/components/structured-editor/StructuredCaseMediaInsert";
 import { cn } from "@/lib/utils/cn";
 
 type Props = {
@@ -19,6 +19,7 @@ type Props = {
   richText?: boolean;
   showCalculatorInsert?: boolean;
   showMediaInsert?: boolean;
+  caseId?: string;
   readOnly?: boolean;
   className?: string;
 };
@@ -31,6 +32,7 @@ export function StructuredSectionField({
   richText = true,
   showCalculatorInsert = false,
   showMediaInsert = false,
+  caseId,
   readOnly = false,
   className,
 }: Props) {
@@ -41,12 +43,7 @@ export function StructuredSectionField({
     });
   }
 
-  function insertMediaPlaceholder() {
-    const ref: StructuredMediaRef = {
-      id: structuredEditorUuid(),
-      label: "Ключевой кадр DICOM (обезличенный)",
-      insertedAt: new Date().toISOString(),
-    };
+  function insertMediaRef(ref: StructuredMediaRef) {
     onChange({
       ...section,
       mediaRefs: [...(section.mediaRefs ?? []), ref],
@@ -63,14 +60,8 @@ export function StructuredSectionField({
       {showCalculatorInsert && !readOnly ? <CalculatorInsertPanel onInsert={insertBlock} /> : null}
       <CalculatorBlockList blocks={section.blocks ?? []} />
 
-      {showMediaInsert && !readOnly ? (
-        <button
-          type="button"
-          className="text-xs font-semibold text-[var(--clinical-primary-deep)] underline-offset-2 hover:underline"
-          onClick={insertMediaPlaceholder}
-        >
-          + Добавить ссылку на ключевой кадр DICOM
-        </button>
+      {showMediaInsert && !readOnly && caseId ? (
+        <StructuredCaseMediaInsert caseId={caseId} onInsert={insertMediaRef} />
       ) : null}
 
       {(section.mediaRefs ?? []).length > 0 ? (

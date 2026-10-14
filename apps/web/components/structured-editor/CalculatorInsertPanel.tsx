@@ -2,11 +2,15 @@
 
 import type { CalculatorSystem, StructuredCalculatorBlock } from "@repo/types";
 import { CALCULATOR_ALGORITHM_CATALOG } from "@repo/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { createCalculatorBlock } from "@/lib/structured-editor/document-sanitize";
+import {
+  clearStructuredCalcPending,
+  loadPendingCalculatorBlock,
+} from "@/lib/structured-editor/calculator-bridge";
 
 const SYSTEMS: CalculatorSystem[] = ["O-RADS", "BI-RADS", "TI-RADS", "FIGO", "IOTA", "FMF", "other"];
 
@@ -34,6 +38,20 @@ export function CalculatorInsertPanel({ onInsert, disabled }: Props) {
     setCategory("");
     setSummary("");
   }
+
+  function handleInsertPending() {
+    const block = loadPendingCalculatorBlock();
+    if (!block) return;
+    onInsert(block);
+    clearStructuredCalcPending();
+    setHasPending(false);
+  }
+
+  const [hasPending, setHasPending] = useState(false);
+
+  useEffect(() => {
+    setHasPending(Boolean(loadPendingCalculatorBlock()));
+  }, []);
 
   return (
     <div className="space-y-3 rounded-xl border border-dashed border-[var(--clinical-border)] bg-[var(--clinical-muted)]/40 p-4">
@@ -81,6 +99,11 @@ export function CalculatorInsertPanel({ onInsert, disabled }: Props) {
       <Button type="button" size="sm" disabled={disabled || !category.trim() || !summary.trim()} onClick={handleInsert}>
         Вставить блок
       </Button>
+      {hasPending ? (
+        <Button type="button" size="sm" variant="secondary" disabled={disabled} onClick={handleInsertPending}>
+          Вставить из последнего расчёта O-RADS / калькулятора
+        </Button>
+      ) : null}
     </div>
   );
 }

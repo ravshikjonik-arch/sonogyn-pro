@@ -1,15 +1,31 @@
 import { NextResponse } from "next/server";
+import { z } from "zod";
 
 import { handleApiError } from "@/lib/api/error-handler";
 import { userMessageForAiError } from "@/lib/ai/sonogyn-chat/errors";
+import {
+  appendChatMessage,
+  createChatSession,
+  touchChatSession,
+} from "@/lib/ai/sonogyn-chat/chat-sessions";
+import { assertAiChatQuota, estimateTokenCostUsd } from "@/lib/ai/sonogyn-chat/cost-control";
 import { logAiChatEvent } from "@/lib/ai/sonogyn-chat/log-event";
+import { buildModelFallbackChain, isRetryableProviderError } from "@/lib/ai/sonogyn-chat/model-fallback";
 import { resolveLlmProvider } from "@/lib/ai/llm-provider";
+import { isAiSdkEnabled } from "@/lib/ai/sdk/flags";
+import { aiSdkTextStreamResponse, runAiSdkStreamText } from "@/lib/ai/sdk/stream-chat";
 import { callOpenRouterChat, type OpenRouterMessage } from "@/lib/ai/sonogyn-chat/openrouter-client";
 import { inferClinicalDomain, type SonogynClinicalDomain } from "@/lib/ai/sonogyn-chat/rag-context";
 import { SonogynChatRequestSchema } from "@/lib/ai/sonogyn-chat/request-schema";
 import { buildSonogynSystemPrompt } from "@/lib/ai/sonogyn-chat/system-prompt";
 import { buildEvidenceModeSystemPrompt, formatEvidenceContextForPrompt } from "@/lib/ai/sonogyn-chat/evidence-context";
 import { wrapOpenRouterStreamWithEvidence } from "@/lib/ai/sonogyn-chat/stream-client";
+import { extractToolsFromAssistantText } from "@/lib/ai/sonogyn-chat/tool-results";
+import {
+  detectPromptInjection,
+  PROMPT_INJECTION_BLOCK_MESSAGE,
+} from "@/lib/ai/sonogyn-chat/security/prompt-injection";
+import { redactForAiLog } from "@/lib/ai/sonogyn-chat/security/redact-log";
 import { buildRetrievalConfigAsync } from "@/lib/evidence/retrieval-config";
 import { fetchClinicalEvidenceSupplement } from "@/lib/evidence/clinical-evidence-supplement";
 import { logEvidenceQuery, sourcesFromAssistantAnswer } from "@/lib/evidence/log-evidence-query";
@@ -67,20 +83,20 @@ function buildProviderMessages(params: {
   return out;
 }
 
-function selectModel(hasImages: boolean, requested?: string): string {
-  if (hasImages) {
-    return (
-      resolveLlmProvider("vision")?.model ||
-      process.env.OPENROUTER_US_VISION_MODEL?.trim() ||
-      process.env.OPENROUTER_ORADS_MODEL?.trim() ||
-      "openai/gpt-4o-mini"
-    );
-  }
-  // Клиентский model (часто openrouter id) не подставляем в Perplexity.
-  const llm = resolveLlmProvider("text");
-  if (llm?.provider === "perplexity") return llm.model;
-  if (requested?.trim()) return requested.trim();
-  return llm?.model || process.env.OPENROUTER_ORADS_MODEL?.trim() || "openai/gpt-4o-mini";
+async function ensureSessionId(params: {
+  supabase: Awaited<ReturnType<typeof createClient>>;
+  userId: string;
+  sessionId?: string;
+  title: string;
+  domain: string;
+}): Promise<string | null> {
+  if (params.sessionId) return params.sessionId;
+  const created = await createChatSession(params.supabase, {
+    userId: params.userId,
+    title: params.title,
+    domain: params.domain,
+  });
+  return created?.id ?? null;
 }
 
 export async function POST(request: Request) {
@@ -106,6 +122,19 @@ export async function POST(request: Request) {
     );
   }
 
+  const quota = await assertAiChatQuota(auth.userId);
+  if (!quota.ok) {
+    return NextResponse.json(
+      {
+        error: "Достигнут лимит бесплатных AI-запросов. Перейдите на PRO.",
+        code: "quota_exceeded",
+        used: quota.used,
+        limit: quota.limit,
+      },
+      { status: 402 },
+    );
+  }
+
   let json: unknown;
   try {
     json = await request.json();
@@ -124,9 +153,23 @@ export async function POST(request: Request) {
     );
   }
 
-  const { messages, model, stream, images, modality, mode, includeEvidence } = parsed.data;
+  const { messages, model, stream, images, modality, mode, includeEvidence, sessionId, retry } =
+    parsed.data;
   const lastUser = [...messages].reverse().find((m) => m.role === "user");
   const lastUserText = lastUser?.content ?? "";
+
+  const injection = detectPromptInjection(lastUserText);
+  if (!injection.ok) {
+    safeLog("ai chat injection blocked", {
+      userId: auth.userId,
+      reasons: injection.reasons,
+    });
+    return NextResponse.json(
+      { error: PROMPT_INJECTION_BLOCK_MESSAGE, code: "prompt_injection" },
+      { status: 400 },
+    );
+  }
+
   const phiCheck = detectPhi(messages.map((message) => message.content).join("\n"));
   if (!phiCheck.ok) {
     safeLog("ai chat phi blocked", { reasons: phiCheck.reasons, userId: auth.userId });
@@ -135,8 +178,10 @@ export async function POST(request: Request) {
       { status: 400 },
     );
   }
+
   const domain = mode === "evidence" ? "general" : resolveDomain(modality, lastUserText);
   const hasImages = Boolean(images?.length);
+  const useStream = stream && !hasImages;
 
   if (mode === "evidence") {
     const rl = await consumeRateLimit(
@@ -152,7 +197,10 @@ export async function POST(request: Request) {
     }
     if (hasImages) {
       return NextResponse.json(
-        { error: "Evidence mode не поддерживает изображения — используйте текстовый вопрос.", code: "invalid_request" },
+        {
+          error: "Evidence mode не поддерживает изображения — используйте текстовый вопрос.",
+          code: "invalid_request",
+        },
         { status: 400 },
       );
     }
@@ -174,6 +222,7 @@ export async function POST(request: Request) {
       model: "none",
       errorCode: "config",
       hasImages,
+      sessionId,
     });
     return NextResponse.json(
       {
@@ -195,6 +244,7 @@ export async function POST(request: Request) {
   }
 
   let evidenceAnswer: Awaited<ReturnType<typeof synthesizeWithLlm>> | null = null;
+  let promptVersion = "evidence-v1";
 
   let systemPrompt =
     mode === "evidence"
@@ -203,7 +253,15 @@ export async function POST(request: Request) {
           domain,
           userText: lastUserText,
           hasImages,
-        });
+        }).prompt;
+
+  if (mode === "clinical") {
+    promptVersion = buildSonogynSystemPrompt({
+      domain,
+      userText: lastUserText,
+      hasImages,
+    }).promptVersion;
+  }
 
   const clinicalHintsEnabled =
     mode === "clinical" &&
@@ -243,42 +301,190 @@ export async function POST(request: Request) {
     });
   }
 
-  const providerMessages = buildProviderMessages({
-    history: messages,
-    images,
-    systemPrompt,
+  const activeSessionId = await ensureSessionId({
+    supabase,
+    userId: auth.userId,
+    sessionId,
+    title: lastUserText.slice(0, 60) || "Новый чат",
+    domain,
   });
 
-  const selectedModel = selectModel(hasImages, model);
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL?.trim();
-
-  const result = await callOpenRouterChat({
-    apiKey: llm.apiKey,
-    url: llm.url,
-    appUrl,
-    body: {
-      model: selectedModel,
-      messages: providerMessages,
-      stream,
-      max_tokens: 4096,
-    },
-  });
-
-  if (!result.ok) {
-    safeLog("ai chat provider error", {
-      status: result.status,
-      code: result.code,
-      provider: llm.provider,
+  if (activeSessionId && !retry) {
+    await appendChatMessage(supabase, {
+      sessionId: activeSessionId,
       userId: auth.userId,
+      role: "user",
+      content: lastUserText,
     });
+  }
+
+  const modelChain = buildModelFallbackChain(hasImages, model);
+  const selectedModel = modelChain[0]?.modelId ?? model ?? llm.model;
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL?.trim();
+  const enableTools = mode === "clinical" && !hasImages;
+
+  const logSuccess = async (opts: {
+    modelLabel: string;
+    promptTokens?: number | null;
+    completionTokens?: number | null;
+    usedFallback?: boolean;
+  }) => {
+    await logAiChatEvent({
+      userId: auth.userId,
+      domain,
+      success: true,
+      durationMs: Date.now() - started,
+      model: opts.usedFallback ? `${opts.modelLabel}:fallback` : opts.modelLabel,
+      hasImages,
+      promptVersion,
+      estimatedCostUsd: estimateTokenCostUsd(opts.promptTokens, opts.completionTokens),
+      sessionId: activeSessionId,
+    });
+    if (activeSessionId) {
+      await touchChatSession(supabase, activeSessionId, auth.userId, {
+        model_id: opts.modelLabel,
+        prompt_version: promptVersion,
+      });
+    }
+  };
+
+  if (useStream && isAiSdkEnabled() && mode !== "evidence") {
+    let lastError: unknown;
+    for (let i = 0; i < modelChain.length; i++) {
+      const attempt = modelChain[i]!;
+      try {
+        const { result, collectedTools } = runAiSdkStreamText({
+          llm,
+          modelId: attempt.modelId,
+          systemPrompt,
+          history: messages,
+          images,
+          enableTools,
+        });
+
+        void Promise.resolve(result.usage)
+          .then((usage) =>
+            logSuccess({
+              modelLabel: `${llm.provider}:${attempt.modelId}:ai-sdk`,
+              promptTokens: usage.inputTokens,
+              completionTokens: usage.outputTokens,
+              usedFallback: i > 0,
+            }),
+          )
+          .catch(() => undefined);
+
+        void Promise.resolve(result.text)
+          .then(async (fullText) => {
+            if (!activeSessionId) return;
+            const { displayText, tools } = extractToolsFromAssistantText(fullText);
+            const mergedTools = tools.length ? tools : collectedTools;
+            await appendChatMessage(supabase, {
+              sessionId: activeSessionId,
+              userId: auth.userId,
+              role: "assistant",
+              content: displayText || fullText,
+              toolResults: mergedTools,
+              isAiDraft: true,
+              modelId: attempt.modelId,
+              promptVersion,
+            });
+          })
+          .catch(() => undefined);
+
+        return aiSdkTextStreamResponse(result, collectedTools, {
+          "X-Sonogyn-Ai-Transport": "ai-sdk",
+          "X-Sonogyn-Prompt-Version": promptVersion,
+          "X-Sonogyn-Session-Id": activeSessionId ?? "",
+          ...(i > 0 ? { "X-Sonogyn-Model-Fallback": "1" } : {}),
+        });
+      } catch (error) {
+        lastError = error;
+        safeLog("ai chat ai-sdk stream error", redactForAiLog({
+          message: error instanceof Error ? error.message : "unknown",
+          userId: auth.userId,
+          attempt: attempt.modelId,
+        }) as Record<string, unknown>);
+        if (i < modelChain.length - 1) continue;
+      }
+    }
+
     await logAiChatEvent({
       userId: auth.userId,
       domain,
       success: false,
       durationMs: Date.now() - started,
-      model: `${llm.provider}:${selectedModel}`,
+      model: `${llm.provider}:${selectedModel}:ai-sdk`,
+      errorCode: "provider",
+      hasImages,
+      promptVersion,
+      sessionId: activeSessionId,
+    });
+    safeLog("ai chat ai-sdk exhausted", {
+      userId: auth.userId,
+      message: lastError instanceof Error ? lastError.message : "unknown",
+    });
+    return NextResponse.json(
+      { error: userMessageForAiError("provider"), code: "provider" },
+      { status: 502 },
+    );
+  }
+
+  let providerResult: Awaited<ReturnType<typeof callOpenRouterChat>> | null = null;
+  let usedFallback = false;
+
+  for (let i = 0; i < modelChain.length; i++) {
+    const attempt = modelChain[i]!;
+    const providerMessages = buildProviderMessages({
+      history: messages,
+      images,
+      systemPrompt,
+    });
+
+    const result = await callOpenRouterChat({
+      apiKey: llm.apiKey,
+      url: llm.url,
+      appUrl,
+      body: {
+        model: attempt.modelId,
+        messages: providerMessages,
+        stream: useStream,
+        max_tokens: 4096,
+      },
+    });
+
+    if (result.ok) {
+      providerResult = result;
+      usedFallback = i > 0;
+      break;
+    }
+
+    if (isRetryableProviderError(result.status) && i < modelChain.length - 1) {
+      safeLog("ai chat provider fallback", {
+        userId: auth.userId,
+        status: result.status,
+        from: attempt.modelId,
+        to: modelChain[i + 1]?.modelId,
+      });
+      continue;
+    }
+
+    safeLog("ai chat provider error", redactForAiLog({
+      status: result.status,
+      code: result.code,
+      provider: llm.provider,
+      userId: auth.userId,
+    }) as Record<string, unknown>);
+
+    await logAiChatEvent({
+      userId: auth.userId,
+      domain,
+      success: false,
+      durationMs: Date.now() - started,
+      model: `${llm.provider}:${attempt.modelId}`,
       errorCode: result.code,
       hasImages,
+      promptVersion,
+      sessionId: activeSessionId,
     });
     return NextResponse.json(
       { error: userMessageForAiError(result.code), code: result.code },
@@ -286,17 +492,20 @@ export async function POST(request: Request) {
     );
   }
 
-  await logAiChatEvent({
-    userId: auth.userId,
-    domain,
-    success: true,
-    durationMs: Date.now() - started,
-    model: `${llm.provider}:${selectedModel}`,
-    hasImages,
+  if (!providerResult?.ok) {
+    return NextResponse.json(
+      { error: userMessageForAiError("provider"), code: "provider" },
+      { status: 502 },
+    );
+  }
+
+  await logSuccess({
+    modelLabel: `${llm.provider}:${modelChain.find((_, idx) => idx === 0)?.modelId ?? selectedModel}`,
+    usedFallback,
   });
 
-  if (stream) {
-    const body = result.response.body;
+  if (useStream) {
+    const body = providerResult.response.body;
     if (!body) {
       return NextResponse.json({ error: "Empty stream" }, { status: 502 });
     }
@@ -309,17 +518,105 @@ export async function POST(request: Request) {
         "Content-Type": "text/event-stream",
         "Cache-Control": "no-cache, no-transform",
         Connection: "keep-alive",
+        "X-Sonogyn-Prompt-Version": promptVersion,
+        "X-Sonogyn-Session-Id": activeSessionId ?? "",
+        ...(usedFallback ? { "X-Sonogyn-Model-Fallback": "1" } : {}),
       },
     });
   }
 
   try {
-    const data = await result.response.json();
-    if (evidenceAnswer) {
-      return NextResponse.json({ ...data, evidence: evidenceAnswer, mode: "evidence" });
+    const data = await providerResult.response.json();
+    const assistantText =
+      typeof data === "object" && data && "choices" in data
+        ? ((data as { choices?: { message?: { content?: string } }[] }).choices?.[0]?.message
+            ?.content ?? "")
+        : "";
+
+    if (activeSessionId && assistantText) {
+      const { displayText, tools } = extractToolsFromAssistantText(assistantText);
+      await appendChatMessage(supabase, {
+        sessionId: activeSessionId,
+        userId: auth.userId,
+        role: "assistant",
+        content: displayText || assistantText,
+        toolResults: tools,
+        evidence: evidenceAnswer ?? undefined,
+        isAiDraft: true,
+        modelId: selectedModel,
+        promptVersion,
+      });
     }
-    return NextResponse.json(data);
+
+    if (evidenceAnswer) {
+      return NextResponse.json({
+        ...data,
+        evidence: evidenceAnswer,
+        mode: "evidence",
+        sessionId: activeSessionId,
+        promptVersion,
+        isAiDraft: true,
+      });
+    }
+    return NextResponse.json({
+      ...data,
+      sessionId: activeSessionId,
+      promptVersion,
+      isAiDraft: true,
+    });
   } catch (error) {
     return handleApiError(error, 500, { route: "POST /api/ai/chat", channel: "ai-chat" });
   }
+}
+
+const FeedbackSchema = z.object({
+  messageId: z.string().uuid(),
+  rating: z.union([z.literal(-1), z.literal(1)]),
+});
+
+export async function PUT(request: Request) {
+  const supabase = await createClient();
+  const auth = await requireSupabaseUser(supabase);
+  if (!auth.ok) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  let json: unknown;
+  try {
+    json = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+  }
+
+  const parsed = FeedbackSchema.safeParse(json);
+  if (!parsed.success) {
+    return NextResponse.json({ error: "Invalid feedback payload" }, { status: 400 });
+  }
+
+  const { messageId, rating } = parsed.data;
+  const { data: msg } = await supabase
+    .from("ai_chat_messages")
+    .select("id")
+    .eq("id", messageId)
+    .eq("user_id", auth.userId)
+    .maybeSingle();
+
+  if (!msg) {
+    return NextResponse.json({ error: "Message not found" }, { status: 404 });
+  }
+
+  const { error } = await supabase.from("ai_chat_message_feedback").upsert(
+    {
+      message_id: messageId,
+      user_id: auth.userId,
+      rating,
+    },
+    { onConflict: "message_id,user_id" },
+  );
+
+  if (error) {
+    return NextResponse.json({ error: "Failed to save feedback" }, { status: 500 });
+  }
+
+  return NextResponse.json({ ok: true });
 }

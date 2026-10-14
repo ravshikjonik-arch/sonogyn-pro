@@ -9,6 +9,8 @@ import {
   createSupabaseRouteHandlerClient,
   nextJsonWithAuthCookies,
 } from "@/lib/route-handler-supabase";
+import { E2E_AUTH_COOKIE } from "@/lib/e2e/auth-stub";
+import { isE2eCiStubMode } from "@/lib/e2e/ci-stub";
 
 /**
  * Clears Supabase auth cookies on the server (HttpOnly session). Call from the browser with credentials,
@@ -19,6 +21,12 @@ export async function POST(request: Request) {
   if (!raw.ok) return raw.response;
   const parsed = EmptyJsonBodySchema.safeParse(raw.data);
   if (!parsed.success) return zodErrorResponse(parsed.error);
+
+  if (isE2eCiStubMode()) {
+    const response = NextResponse.json({ ok: true });
+    response.cookies.set(E2E_AUTH_COOKIE, "", { path: "/", maxAge: 0 });
+    return response;
+  }
 
   const client = await createSupabaseRouteHandlerClient();
   if (!client.ok) {

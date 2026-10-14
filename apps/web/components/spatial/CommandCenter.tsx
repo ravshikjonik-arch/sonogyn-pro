@@ -61,7 +61,7 @@ const routeSteps = [
 
 export function CommandCenter() {
   return (
-    <div className="px-4 py-6 sm:px-6 lg:px-10 lg:py-8">
+    <div className="px-4 py-6 sm:px-6 lg:px-10 lg:py-8" data-testid="app-home">
       <div className="mx-auto max-w-7xl space-y-6">
         <header className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_360px]">
           <SpatialCard depth={3} className="overflow-hidden p-5 sm:p-7">

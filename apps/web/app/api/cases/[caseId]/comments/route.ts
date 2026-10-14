@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
+import { TeachingCaseCommentBodySchema } from "@repo/types";
+
 import { rejectIfRateLimitedForUser, rejectIfRateLimitedPreset } from "@/lib/security/api-rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { requireSupabaseUserFromRequest } from "@/lib/security/require-user";
@@ -15,12 +17,6 @@ type Params = { params: Promise<{ caseId: string }> };
 
 const ParamsSchema = z.object({
   caseId: z.string().uuid(),
-});
-
-const TeachingCommentBodySchema = z.object({
-  body: z.string().trim().max(5000).nullable().optional(),
-  media_storage_path: z.string().trim().max(1000).nullable().optional(),
-  media_type: z.enum(["image", "video"]).nullable().optional(),
 });
 
 /** Load case discussion comments with server-side auth/RLS context. */
@@ -43,7 +39,9 @@ export async function GET(request: Request, { params }: Params) {
   try {
     const { data, error } = await supabase
       .from("teaching_case_comments")
-      .select("id,body,created_at,author_id,media_storage_path,media_type,is_best_answer")
+      .select(
+        "id,body,created_at,author_id,media_storage_path,media_type,is_best_answer,parent_comment_id,is_pinned_expert,mention_user_ids",
+      )
       .eq("case_id", routeParams.data.caseId)
       .order("created_at", { ascending: true });
 
@@ -52,9 +50,29 @@ export async function GET(request: Request, { params }: Params) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
+    const commentIds = (data ?? []).map((row) => row.id);
+    let reactions: { comment_id: string; emoji: string; user_id: string }[] = [];
+    if (commentIds.length) {
+      const { data: reactionRows } = await supabase
+        .from("teaching_case_comment_reactions")
+        .select("comment_id,emoji,user_id")
+        .in("comment_id", commentIds);
+      reactions = reactionRows ?? [];
+    }
+
+    const reactionsByComment = reactions.reduce<Record<string, Record<string, number>>>(
+      (acc, row) => {
+        acc[row.comment_id] ??= {};
+        acc[row.comment_id]![row.emoji] = (acc[row.comment_id]![row.emoji] ?? 0) + 1;
+        return acc;
+      },
+      {},
+    );
+
     const comments = await Promise.all(
       (data ?? []).map(async (row) => ({
         ...row,
+        reactions: reactionsByComment[row.id] ?? {},
         media_url: row.media_storage_path
           ? await getChatMediaSignedUrl(supabase, row.media_storage_path)
           : null,
@@ -71,7 +89,7 @@ export async function GET(request: Request, { params }: Params) {
 
 /** Send a comment to a teaching case discussion with server-side auth/RLS context. */
 export async function POST(request: Request, { params }: Params) {
-  const limited = await rejectIfRateLimitedPreset(request, "case-comment-send", RL.syncBurst);
+  const limited = await rejectIfRateLimitedPreset(request, "case-comment-send", RL.caseCommentSend);
   if (limited) return limited;
 
   const routeParams = ParamsSchema.safeParse(await params);
@@ -83,11 +101,11 @@ export async function POST(request: Request, { params }: Params) {
   const auth = await requireSupabaseUserFromRequest(request, supabase);
   if (!auth.ok) return auth.response;
 
-  const userRl = await rejectIfRateLimitedForUser(auth.userId, "case-comment-send", RL.syncBurst);
+  const userRl = await rejectIfRateLimitedForUser(auth.userId, "case-comment-send", RL.caseCommentSend);
   if (userRl) return userRl;
 
   const json = await request.json().catch(() => null);
-  const parsed = TeachingCommentBodySchema.safeParse(json);
+  const parsed = TeachingCaseCommentBodySchema.safeParse(json);
   if (!parsed.success) {
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
   }
@@ -117,8 +135,12 @@ export async function POST(request: Request, { params }: Params) {
         body: body ?? (parsed.data.media_type === "video" ? "Видео УЗИ" : "Снимок УЗИ"),
         media_storage_path: mediaStoragePath,
         media_type: parsed.data.media_type ?? null,
+        parent_comment_id: parsed.data.parentCommentId ?? null,
+        mention_user_ids: parsed.data.mentionUserIds ?? [],
       })
-      .select("id,body,created_at,author_id,media_storage_path,media_type,is_best_answer")
+      .select(
+        "id,body,created_at,author_id,media_storage_path,media_type,is_best_answer,parent_comment_id,is_pinned_expert,mention_user_ids",
+      )
       .single();
 
     if (error || !data) {
