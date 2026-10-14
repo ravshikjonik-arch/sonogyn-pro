@@ -61,6 +61,18 @@ function legacyCalculatorRedirects(): Redirect[] {
  * Bridge pages at new_href serve legacy UI until full move.
  */
 export const IA_V2_REDIRECTS: Redirect[] = [
+  {
+    source: "/",
+    has: [{ type: "host", value: "www.sonogyn-pro.ru" }],
+    destination: "https://sonogyn-pro.ru/home",
+    permanent: true,
+  },
+  {
+    source: "/:path*",
+    has: [{ type: "host", value: "www.sonogyn-pro.ru" }],
+    destination: "https://sonogyn-pro.ru/:path*",
+    permanent: true,
+  },
   // Open access home — override any stale /app → /cases static redirect from older builds
   { source: "/app", destination: "/home", permanent: false },
 

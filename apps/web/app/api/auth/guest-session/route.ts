@@ -41,11 +41,7 @@ export async function POST() {
     return nextJsonWithAuthCookies({ ok: true, existing: true }, cookiesToSet);
   }
 
-  const ensured = await ensureDevUserExists(config);
-  if (!ensured.ok) {
-    return NextResponse.json({ error: ensured.message }, { status: 503 });
-  }
-
+  // Fast path first — avoid ensureDevUserExists(listUsers) on every cold guest visit.
   let signedIn = await supabase.auth.signInWithPassword({
     email: config.email,
     password: config.password,
@@ -54,10 +50,25 @@ export async function POST() {
   if (signedIn.error) {
     const viaAdmin = await signInDevUserViaAdminLink(supabase, config);
     if (!viaAdmin.ok) {
-      return NextResponse.json(
-        { error: `${signedIn.error.message}. ${viaAdmin.message}` },
-        { status: 401 },
-      );
+      const ensured = await ensureDevUserExists(config);
+      if (!ensured.ok) {
+        return NextResponse.json({ error: ensured.message }, { status: 503 });
+      }
+
+      signedIn = await supabase.auth.signInWithPassword({
+        email: config.email,
+        password: config.password,
+      });
+
+      if (signedIn.error) {
+        const retryAdmin = await signInDevUserViaAdminLink(supabase, config);
+        if (!retryAdmin.ok) {
+          return NextResponse.json(
+            { error: `${signedIn.error.message}. ${retryAdmin.message}` },
+            { status: 401 },
+          );
+        }
+      }
     }
   }
 

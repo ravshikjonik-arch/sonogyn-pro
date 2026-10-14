@@ -5,9 +5,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { useAuth } from "@/app/providers";
+import { ClinicalRichTextEditor } from "@/components/clinical/ClinicalRichTextEditor";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { PILOT_CASE_DISCUSSION_CHANNELS } from "@/lib/chat/pilot-channels";
 import { CASE_ANON_CHECKS } from "@/lib/cases/anonymization-gate";
 import { cn } from "@/lib/utils/cn";
@@ -26,6 +26,7 @@ export function NewCaseWizard() {
   const [step, setStep] = useState(0);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [descriptionHtml, setDescriptionHtml] = useState("");
   const [anatomy, setAnatomy] = useState("");
   const [caseKind, setCaseKind] = useState<CaseKind>("discussion");
   const [channelId, setChannelId] = useState<string>(PILOT_CASE_DISCUSSION_CHANNELS[0]!.id);
@@ -42,7 +43,10 @@ export function NewCaseWizard() {
     const d = searchParams.get("description");
     const a = searchParams.get("anatomy");
     if (t) setTitle(t);
-    if (d) setDescription(d);
+    if (d) {
+      setDescription(d);
+      setDescriptionHtml("");
+    }
     if (a) setAnatomy(a);
 
     const feed = searchParams.get("feed");
@@ -95,6 +99,7 @@ export function NewCaseWizard() {
       body: JSON.stringify({
         title: title.trim() || "Кейс без названия",
         description: description.trim() || null,
+        description_html: descriptionHtml.trim() || null,
         anatomy: anatomy.trim() || null,
         pathology: searchParams.get("pathology")?.trim() || null,
         channel_id: caseKind === "discussion" ? channelId : null,
@@ -204,11 +209,12 @@ export function NewCaseWizard() {
             </label>
             <label className="flex flex-col gap-2 text-sm font-semibold text-[var(--clinical-foreground)]">
               Клинический вопрос
-              <Textarea
-                className="min-h-[120px] resize-y"
+              <ClinicalRichTextEditor
+                value={descriptionHtml}
+                onChange={setDescriptionHtml}
+                onPlainTextChange={setDescription}
                 placeholder="Что хотите обсудить с коллегами? Возрастная группа, находка, сомнения по тактике…"
-                value={description}
-                onChange={(event) => setDescription(event.target.value)}
+                minHeightClassName="min-h-[120px]"
               />
             </label>
             <label className="flex flex-col gap-2 text-sm font-semibold text-[var(--clinical-foreground)]">

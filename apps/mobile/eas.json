@@ -27,6 +27,11 @@
     "production": {
       "channel": "production",
       "pnpm": "10.6.5",
+      "env": {
+        "EXPO_PUBLIC_API_BASE_URL": "https://sonogyn-pro-web-ravshan-s-projects3.vercel.app",
+        "EXPO_PUBLIC_WEB_APP_URL": "https://sonogyn-pro-web-ravshan-s-projects3.vercel.app",
+        "EXPO_PUBLIC_SUPABASE_URL": "https://grnwcbyslttbrqznnunq.supabase.co"
+      },
       "android": {
         "buildType": "app-bundle"
       },

@@ -3,6 +3,7 @@
   "installCommand": "cd ../.. && npx --yes pnpm@10.6.5 install --frozen-lockfile",
   "buildCommand": "cd ../.. && pnpm exec prisma generate --schema=apps/web/prisma/schema.prisma && pnpm --filter @repo/web build",
   "framework": "nextjs",
+  "regions": ["fra1"],
   "crons": [
     {
       "path": "/api/cron/daily-summary",

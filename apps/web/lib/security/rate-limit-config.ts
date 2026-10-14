@@ -111,6 +111,12 @@ export const RL = {
     "RATE_LIMIT_COPILOT_IMAGE_WINDOW_SEC",
     60,
   ),
+  dicomDeidentify: preset(
+    "RATE_LIMIT_DICOM_DEIDENTIFY",
+    20,
+    "RATE_LIMIT_DICOM_DEIDENTIFY_WINDOW_SEC",
+    3600,
+  ),
   protocolRead: preset("RATE_LIMIT_PROTOCOL_READ", 120, "RATE_LIMIT_PROTOCOL_READ_WINDOW_SEC", 60),
   protocolWrite: preset("RATE_LIMIT_PROTOCOL_WRITE", 60, "RATE_LIMIT_PROTOCOL_WRITE_WINDOW_SEC", 60),
   aiOrads: preset("RATE_LIMIT_AI_ORADS", 40, "RATE_LIMIT_AI_ORADS_WINDOW_SEC", 60),
@@ -156,4 +162,6 @@ export const RL = {
   ),
   /** Per-user burst bucket when mobile/web flushes offline write queue (reconnect). */
   syncBurst: preset("RATE_LIMIT_SYNC_BURST", 30, "RATE_LIMIT_SYNC_BURST_WINDOW_SEC", 60),
+  /** Case discussion comments — tighter than generic sync burst. */
+  caseCommentSend: preset("RATE_LIMIT_CASE_COMMENT_SEND", 20, "RATE_LIMIT_CASE_COMMENT_SEND_WINDOW_SEC", 60),
 } as const;

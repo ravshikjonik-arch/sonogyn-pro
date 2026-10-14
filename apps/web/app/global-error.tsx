@@ -1,5 +1,7 @@
 "use client";
 
+import { useSafeSentryCapture } from "@/lib/sentry/use-safe-sentry-capture";
+
 export default function GlobalError({
   error,
   reset,
@@ -7,6 +9,8 @@ export default function GlobalError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  useSafeSentryCapture(error, { boundary: "global-error" });
+
   return (
     <html lang="ru">
       <body style={{ margin: 0, fontFamily: "system-ui,sans-serif", background: "#f1f5f9", color: "#0f172a" }}>

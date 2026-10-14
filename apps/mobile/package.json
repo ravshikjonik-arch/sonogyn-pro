@@ -1,6 +1,6 @@
 {
   "name": "@repo/mobile",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "main": "index.ts",
   "scripts": {
     "start": "EXPO_OFFLINE=1 expo start --port 19001 --lan",

@@ -9,6 +9,7 @@ import {
 } from "@/lib/security/api-body-schemas";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
+import { rejectIfPhiInTextFields } from "@/lib/security/reject-phi-payload";
 import { requireSupabaseUser } from "@/lib/security/require-user";
 import { createClient } from "@/utils/supabase/server";
 
@@ -34,6 +35,9 @@ export async function POST(request: Request) {
   const parsed = StructuredReportBodySchema.safeParse(parsedJson.data ?? {});
   if (!parsed.success) return zodErrorResponse(parsed.error);
   const body = parsed.data;
+
+  const phiBlocked = rejectIfPhiInTextFields([body.studyNotes]);
+  if (phiBlocked) return phiBlocked;
 
   const demo = buildDemoStructuredReport();
   const extraFindings =

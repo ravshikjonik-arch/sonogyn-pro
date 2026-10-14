@@ -1,9 +1,10 @@
-import { CommandCenter } from "@/components/spatial";
+import { OpenAccessHomeClient } from "@/components/clinical/OpenAccessHomeClient";
 
-/** Open access: no static redirect cache from the old /app → /cases bridge. */
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+/** /app is redirected to /home; keep a static fallback if the redirect is skipped. */
+export const dynamic = "force-static";
+export const revalidate = 60;
+export const preferredRegion = "fra1";
 
 export default function AppHomePage() {
-  return <CommandCenter />;
+  return <OpenAccessHomeClient />;
 }

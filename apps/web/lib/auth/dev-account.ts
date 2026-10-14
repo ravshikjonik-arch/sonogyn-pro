@@ -1,5 +1,7 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
+import { resolveUserIdByEmail } from "@/lib/auth/resolve-user-by-email";
+
 export type DevLoginConfig = {
   email: string;
   password: string;
@@ -117,9 +119,13 @@ type AdminAuthClient = {
 };
 
 async function findUserIdByEmail(admin: AdminAuthClient, email: string): Promise<string | null> {
+  const fromIndex = await resolveUserIdByEmail(email);
+  if (fromIndex) return fromIndex;
+
   const target = email.toLowerCase();
 
-  for (let page = 1; page <= 10; page++) {
+  // Fallback: paginated scan (slow — only when user_metadata index is missing).
+  for (let page = 1; page <= 3; page++) {
     const { data, error } = await admin.auth.admin.listUsers({ page, perPage: 200 });
     if (error) throw new Error(error.message);
 

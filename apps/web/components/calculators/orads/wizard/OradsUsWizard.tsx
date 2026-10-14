@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 
 import { OradsAssistPanel } from "@/components/calculators/orads/wizard/OradsAssistPanel";
+import { OradsPhotoPanel } from "@/components/calculators/orads/wizard/OradsPhotoPanel";
 import { OradsWizardAtlasImage } from "@/components/calculators/orads/wizard/OradsWizardAtlasImage";
 import { OradsWizardOptionButton } from "@/components/calculators/orads/wizard/OradsWizardOptionButton";
 import { resolveOradsAtlasPreview } from "@/lib/orads-us/resolveOradsAtlasPreview";
@@ -26,7 +27,7 @@ type Props = {
 export function OradsUsWizard({ onOpenPro, className }: Props) {
   const locale = useOradsLocaleWeb("ru");
   const router = useRouter();
-  const [mode, setMode] = useState<"stepper" | "assist">("stepper");
+  const [mode, setMode] = useState<"stepper" | "assist" | "photo">("stepper");
 
   const nav = useOradsNavigator({
     estimatedSteps: 6,
@@ -82,7 +83,7 @@ export function OradsUsWizard({ onOpenPro, className }: Props) {
           type="button"
           size="sm"
           variant={mode === "stepper" ? "default" : "outline"}
-          className="flex-1 rounded-lg"
+          className="flex-1 rounded-lg text-xs sm:text-sm"
           onClick={() => setMode("stepper")}
         >
           Пошагово
@@ -91,15 +92,28 @@ export function OradsUsWizard({ onOpenPro, className }: Props) {
           type="button"
           size="sm"
           variant={mode === "assist" ? "default" : "outline"}
-          className="flex-1 rounded-lg"
+          className="flex-1 rounded-lg text-xs sm:text-sm"
           onClick={() => setMode("assist")}
         >
           Из описания
+        </Button>
+        <Button
+          type="button"
+          size="sm"
+          variant={mode === "photo" ? "default" : "outline"}
+          className="flex-1 rounded-lg text-xs sm:text-sm"
+          onClick={() => setMode("photo")}
+        >
+          По фото
         </Button>
       </div>
 
       {mode === "assist" ? (
         <OradsAssistPanel nav={nav} />
+      ) : null}
+
+      {mode === "photo" ? (
+        <OradsPhotoPanel nav={nav} />
       ) : null}
 
       {mode === "stepper" ? (

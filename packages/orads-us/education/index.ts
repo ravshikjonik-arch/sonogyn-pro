@@ -23,5 +23,16 @@ export {
   type OradsNosologyAtlasEntry,
   type OradsNosologySubtype,
 } from "./nosologyAtlas";
+export {
+  getOradsCategoryPhotoCards,
+  listOradsCategoryPhotoCards,
+  ORADS_ACR_CATEGORY_META,
+  ORADS_PHOTO_CARD_DISCLAIMER_RU,
+  parseOradsCategoryFromHint,
+  type OradsAcrCategoryMeta,
+  type OradsAcrDescriptorGroup,
+  type OradsPhotoCategoryId,
+  type OradsCategoryPhotoCard,
+} from "./categoryPhotoCards";
 
 export const ORADS_REFERAT_RU = referatRu as OradsReferatDocument;

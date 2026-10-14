@@ -81,10 +81,21 @@ function AuthStateInner({ children }: { children: ReactNode }) {
     let mounted = true;
 
     async function load() {
-      const { user: serverUser } = await fetchAuthSession();
-      if (!mounted) return;
-      setUser(mapServerUser(serverUser));
-      setReady(true);
+      try {
+        const { user: serverUser } = await Promise.race([
+          fetchAuthSession(),
+          new Promise<{ user: null }>((resolve) => {
+            setTimeout(() => resolve({ user: null }), 2500);
+          }),
+        ]);
+        if (!mounted) return;
+        setUser(mapServerUser(serverUser));
+      } catch {
+        if (!mounted) return;
+        setUser(null);
+      } finally {
+        if (mounted) setReady(true);
+      }
     }
 
     void load();

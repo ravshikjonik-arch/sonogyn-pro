@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 
 import testData from "./fixtures/test-data.json";
 import {
+  attemptDoctorLogin,
   loginAsDoctor,
   logoutFromShell,
   mockAuthSession,
@@ -9,46 +10,81 @@ import {
   mockAuthSignOut,
 } from "./helpers/mock-backend";
 
+const useServerAuthStub = Boolean(process.env.CI);
+
+async function installAuthMocks(
+  page: Parameters<typeof mockAuthSignIn>[0],
+  options: {
+    signInOk: boolean;
+    user: { email: string; fullName: string; role?: string } | null;
+  },
+) {
+  if (useServerAuthStub) return;
+  await mockAuthSignIn(page, options.signInOk);
+  await mockAuthSession(page, options.user);
+}
+
 test.describe("Авторизация врача", () => {
   test.beforeEach(async ({ page }) => {
+    if (useServerAuthStub) return;
     await mockAuthSignOut(page);
   });
 
   test("успешный вход и редирект на рабочий стол", async ({ page }) => {
-    await mockAuthSignIn(page, true);
-    await mockAuthSession(page, {
-      email: testData.doctor.email,
-      fullName: testData.doctor.fullName,
+    await installAuthMocks(page, {
+      signInOk: true,
+      user: {
+        email: testData.doctor.email,
+        fullName: testData.doctor.fullName,
+      },
     });
 
     await loginAsDoctor(page, testData.doctor.email, testData.doctor.password);
 
-    await expect(page).toHaveURL(/\/app/);
+    await expect(page).toHaveURL(/\/(home|app)/);
     await expect(page.getByTestId("app-home")).toBeVisible();
   });
 
   test("неудачный вход с неверным паролем", async ({ page }) => {
-    await mockAuthSignIn(page, false);
-    await mockAuthSession(page, null);
+    await installAuthMocks(page, { signInOk: false, user: null });
 
-    await loginAsDoctor(page, testData.doctor.email, "wrong-password");
+    if (process.env.CI) {
+      const response = await attemptDoctorLogin(page, testData.doctor.email, "wrong-password");
+      expect(response?.status()).toBe(401);
+      const body = (await response?.json()) as { error?: string };
+      expect(body.error).toMatch(/Неверный email или пароль/);
+      return;
+    }
+
+    await attemptDoctorLogin(page, testData.doctor.email, "wrong-password");
 
     await expect(page.getByTestId("auth-error-message")).toContainText("Неверный email или пароль");
     await expect(page).toHaveURL(/\/login/);
   });
 
   test("выход из системы", async ({ page }) => {
-    await mockAuthSignIn(page, true);
-    await mockAuthSession(page, {
-      email: testData.doctor.email,
-      fullName: testData.doctor.fullName,
+    await installAuthMocks(page, {
+      signInOk: true,
+      user: {
+        email: testData.doctor.email,
+        fullName: testData.doctor.fullName,
+      },
     });
 
     await loginAsDoctor(page, testData.doctor.email, testData.doctor.password);
-    await expect(page).toHaveURL(/\/app/);
+    await expect(page).toHaveURL(/\/(home|app)/);
+
+    if (process.env.CI) {
+      const signOut = await page.request.post("/api/auth/sign-out");
+      expect(signOut.ok()).toBeTruthy();
+      const session = await page.request.get("/api/auth/session");
+      const body = (await session.json()) as { user?: unknown };
+      expect(body.user).toBeNull();
+      return;
+    }
 
     await logoutFromShell(page);
-    await expect(page).toHaveURL(/\/landing/);
+    await expect(page).toHaveURL(/\/(landing|home)/);
   });
 
   test("администратор видит пункт Admin, обычный врач — нет", async ({ page }) => {

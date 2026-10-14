@@ -2,6 +2,10 @@ import type { UltrasoundProtocolPayload } from "@repo/types";
 import { formatMeasurementDecimal } from "@repo/medical-calculations";
 
 import { buildAssistantProtocolText } from "@/lib/clinical-assistant/build-protocol";
+import {
+  resolveProtocolConclusionHtml,
+  resolveProtocolConclusionPlain,
+} from "@/lib/clinical-editor/conclusion-for-export";
 import type { ObgynNosologyCard } from "@/lib/clinical-assistant";
 import type { ClinicalDocumentSpec } from "./clinical-document";
 import type { PdfReportInput } from "./generateStudyPdf";
@@ -59,7 +63,15 @@ export function studyProtocolToDocumentSpec(input: PdfReportInput): ClinicalDocu
   if (biometryLines) sections.push({ heading: "Фетометрия", body: biometryLines });
   if (organLines) sections.push({ heading: "Описание", body: organLines });
   if (protocol.diagnosis?.trim()) sections.push({ heading: "Диагноз", body: protocol.diagnosis.trim() });
-  if (protocol.conclusion?.trim()) sections.push({ heading: "Заключение", body: protocol.conclusion.trim() });
+  const conclusionPlain = resolveProtocolConclusionPlain(protocol);
+  const conclusionHtml = resolveProtocolConclusionHtml(protocol);
+  if (conclusionPlain) {
+    sections.push({
+      heading: "Заключение",
+      body: conclusionPlain,
+      bodyHtml: conclusionHtml ?? undefined,
+    });
+  }
   if (!sections.length) sections.push({ body: "Протокол без заполненных полей." });
 
   return {

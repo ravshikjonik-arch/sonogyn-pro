@@ -3,6 +3,8 @@ import { escapeHtml } from "@/lib/security/escape-html";
 export type ClinicalDocumentSection = {
   heading?: string;
   body: string;
+  /** Pre-sanitized HTML; when set, used instead of escaping `body`. */
+  bodyHtml?: string;
 };
 
 export type ClinicalDocumentSpec = {
@@ -37,7 +39,10 @@ export function buildClinicalDocumentHtml(spec: ClinicalDocumentSpec): string {
   const sections = doc.sections
     .map((s) => {
       const head = s.heading ? `<h2>${escapeHtml(s.heading)}</h2>` : "";
-      return `${head}<div class="body">${textToHtmlParagraphs(s.body)}</div>`;
+      const content = s.bodyHtml?.trim()
+        ? `<div class="body rich">${s.bodyHtml}</div>`
+        : `<div class="body">${textToHtmlParagraphs(s.body)}</div>`;
+      return `${head}${content}`;
     })
     .join("");
 
@@ -55,6 +60,8 @@ export function buildClinicalDocumentHtml(spec: ClinicalDocumentSpec): string {
     h1 { font-size: 22px; margin: 20px 0 12px; }
     h2 { font-size: 15px; margin: 20px 0 8px; color: #334155; text-transform: uppercase; letter-spacing: 0.03em; }
     .body p { margin: 0 0 8px; white-space: pre-wrap; }
+    .body.rich ul, .body.rich ol { margin: 0 0 8px 1.25rem; }
+    .body.rich h2 { font-size: 14px; margin: 12px 0 6px; text-transform: none; letter-spacing: 0; }
     .footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid #e2e8f0; font-size: 11px; color: #64748b; }
     @media print { body { margin: 18mm; } .no-print { display: none; } }
   </style>

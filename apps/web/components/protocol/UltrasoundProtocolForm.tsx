@@ -33,9 +33,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { RuDateInput } from "@/components/ui/ru-date-input";
 import { GestationalAgeSummary } from "@/components/clinical/GestationalAgeSummary";
+import { ClinicalRichTextEditor } from "@/components/clinical/ClinicalRichTextEditor";
 import { LmpDateField } from "@/components/clinical/LmpDateField";
+import {
+  appendClinicalConclusion,
+  syncProtocolConclusionFields,
+} from "@/lib/clinical-editor/conclusion-for-export";
+import { descriptionToSafeHtml } from "@/lib/clinical-editor/sanitize-clinical-html";
 import { studyProtocolToDocumentSpec } from "@/lib/reporting/document-spec-builders";
 import { DocumentExportToolbar } from "@/components/reporting/DocumentExportToolbar";
+import { StructuredProtocolDraftPanel } from "@/components/structured-editor/StructuredProtocolDraftPanel";
 import { encryptJson, decryptJson } from "@/lib/security/encryptedStorage";
 import { cn } from "@/lib/utils/cn";
 
@@ -57,7 +64,14 @@ const emptyProtocol = (): UltrasoundProtocolPayload => ({
   organs: {},
   diagnosis: "",
   conclusion: "",
+  conclusion_html: "",
 });
+
+function conclusionEditorValue(protocol: UltrasoundProtocolPayload): string {
+  if (protocol.conclusion_html?.trim()) return protocol.conclusion_html;
+  if (protocol.conclusion?.trim()) return descriptionToSafeHtml(protocol.conclusion);
+  return "";
+}
 
 type Props = {
   studyId: string;
@@ -119,9 +133,7 @@ export function UltrasoundProtocolForm({
         diagnosis: p.diagnosis?.trim()
           ? `${p.diagnosis}\n${pending.diagnosis}`
           : pending.diagnosis,
-        conclusion: p.conclusion?.trim()
-          ? `${p.conclusion}\n\n${pending.conclusion}`
-          : pending.conclusion,
+        ...appendClinicalConclusion(p, pending.conclusion),
       }));
       toast.success("Текст из справочника нозологий добавлен в протокол");
     } catch {
@@ -133,7 +145,7 @@ export function UltrasoundProtocolForm({
     setProtocol((p) => ({
       ...p,
       diagnosis: p.diagnosis?.trim() ? `${p.diagnosis}\n${payload.diagnosis}` : payload.diagnosis,
-      conclusion: p.conclusion?.trim() ? `${p.conclusion}\n\n${payload.conclusion}` : payload.conclusion,
+      ...appendClinicalConclusion(p, payload.conclusion),
     }));
     toast.success("Нозология вставлена в протокол");
   }, []);
@@ -220,12 +232,12 @@ export function UltrasoundProtocolForm({
   async function save() {
     setSaving(true);
     try {
-      const payload: UltrasoundProtocolPayload = {
+      const payload: UltrasoundProtocolPayload = syncProtocolConclusionFields({
         ...protocol,
         ga_days: computedGaDays ?? undefined,
         efw_grams: computedEfw?.grams,
         efw_formula: computedEfw?.label,
-      };
+      });
       const res = await fetch(`/api/studies/${studyId}/protocol`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -555,12 +567,12 @@ export function UltrasoundProtocolForm({
         <h3 className="mb-2 text-sm font-bold uppercase tracking-wider text-[var(--clinical-foreground-muted)]">
           Заключение
         </h3>
-        <textarea
-          className="w-full rounded-lg border border-[var(--clinical-border)] bg-[var(--clinical-card)] p-3 text-sm"
-          rows={4}
-          value={protocol.conclusion ?? ""}
-          onChange={(e) => setProtocol((p) => ({ ...p, conclusion: e.target.value }))}
+        <ClinicalRichTextEditor
+          value={conclusionEditorValue(protocol)}
+          onChange={(html) => setProtocol((p) => ({ ...p, conclusion_html: html }))}
+          onPlainTextChange={(plain) => setProtocol((p) => ({ ...p, conclusion: plain }))}
           placeholder="Текст заключения врача…"
+          minHeightClassName="min-h-[160px]"
         />
       </section>
 
@@ -595,6 +607,8 @@ export function UltrasoundProtocolForm({
         studyId={studyId}
         onInsert={onNosologyInsert}
       />
+
+      <StructuredProtocolDraftPanel studyId={studyId} />
 
       <UterusVisualizationModal
         open={uterus3dOpen}

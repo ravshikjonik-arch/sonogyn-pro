@@ -3,6 +3,7 @@ import { z } from "zod";
 
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
+import { rejectIfPhiInTextFields } from "@/lib/security/reject-phi-payload";
 import { requireSupabaseUserFromRequest } from "@/lib/security/require-user";
 import { isUuid } from "@/lib/security/uuid";
 import { createClient } from "@/utils/supabase/server";
@@ -86,6 +87,9 @@ export async function POST(request: Request) {
   }
 
   const body = parsed.data;
+
+  const phiBlocked = rejectIfPhiInTextFields([body.title, body.detail]);
+  if (phiBlocked) return phiBlocked;
 
   if (body.patientId) {
     const { data: patient } = await supabase

@@ -41,11 +41,16 @@ function liveKitConnectExtra(): string {
   }
 }
 
+function vercelAssetCsp(): string {
+  return " https://*.vercel.app";
+}
+
 function buildContentSecurityPolicy(): string {
   const isProd = process.env.NODE_ENV === "production";
+  const vercelAssets = isProd ? vercelAssetCsp() : "";
   // Next inline theme/SW scripts still need 'unsafe-inline'. Drop 'unsafe-eval' in prod.
   const scriptSrc = isProd
-    ? "script-src 'self' 'unsafe-inline' https://js.stripe.com https://challenges.cloudflare.com https://telegram.org https://www.googletagmanager.com https://www.google-analytics.com"
+    ? `script-src 'self' 'unsafe-inline' https://js.stripe.com https://challenges.cloudflare.com https://telegram.org https://www.googletagmanager.com https://www.google-analytics.com${vercelAssets}`
     : "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://challenges.cloudflare.com https://telegram.org https://www.googletagmanager.com https://www.google-analytics.com";
 
   const parts = [
@@ -54,16 +59,27 @@ function buildContentSecurityPolicy(): string {
     "form-action 'self'",
     "frame-ancestors 'none'",
     "object-src 'none'",
-    "font-src 'self' data:",
+    `font-src 'self' data:${vercelAssets}`,
     "worker-src 'self' blob:",
-    "img-src 'self' data: https://*.supabase.co https://telegram.org https://*.telesco.pe https://*.yandex.ru https://yastatic.net blob:",
+    `img-src 'self' data: https://*.supabase.co https://telegram.org https://*.telesco.pe https://*.yandex.ru https://yastatic.net blob:${vercelAssets}`,
     "media-src 'self' blob:",
-    `connect-src 'self' https://*.supabase.co wss://*.supabase.co${supabaseConnectOriginExtra()}${liveKitConnectExtra()} https://*.google-analytics.com https://www.google-analytics.com https://*.googleapis.com https://*.firebaseio.com https://firebasestorage.googleapis.com https://*.ingest.sentry.io https://challenges.cloudflare.com https://*.yandex.ru`,
+    `connect-src 'self' https://*.supabase.co wss://*.supabase.co${supabaseConnectOriginExtra()}${liveKitConnectExtra()} https://*.google-analytics.com https://www.google-analytics.com https://*.googleapis.com https://*.firebaseio.com https://firebasestorage.googleapis.com https://*.ingest.sentry.io https://challenges.cloudflare.com https://*.yandex.ru${vercelAssets}`,
     scriptSrc,
+    `style-src 'self' 'unsafe-inline'${vercelAssets}`,
     "frame-src 'self' https://js.stripe.com https://challenges.cloudflare.com https://oauth.telegram.org https://disk.yandex.ru https://*.yandex.ru",
   ];
   if (isProd) parts.push("upgrade-insecure-requests");
   return `${parts.join("; ")};`;
+}
+
+/** Custom domain truncates bodies ~16–20KB; static files on *.vercel.app complete. */
+function productionAssetPrefix(): string | undefined {
+  if (process.env.VERCEL !== "1") return undefined;
+  const raw = process.env.VERCEL_URL?.trim();
+  if (!raw) return undefined;
+  const host = raw.replace(/^https?:\/\//, "").split("/")[0];
+  if (!host || host.endsWith("sonogyn-pro.ru")) return undefined;
+  return `https://${host}`;
 }
 
 function supabaseConnectOriginExtra(): string {
@@ -77,6 +93,7 @@ function supabaseConnectOriginExtra(): string {
 }
 
 const nextConfig: NextConfig = {
+  assetPrefix: productionAssetPrefix(),
   transpilePackages: [
     "three",
     "@clinical/uterus",
@@ -166,7 +183,14 @@ const nextConfig: NextConfig = {
     return config;
   },
   async redirects() {
-    return IA_V2_REDIRECTS;
+    // Production: `/` is an edge redirect so the custom domain does not wait
+    // on a Node function that was hanging with 0 bytes. Keep the page handler
+    // for local DEV_SKIP_AUTH / auto-login.
+    const apexHome =
+      process.env.VERCEL === "1" || process.env.NODE_ENV === "production"
+        ? [{ source: "/", destination: "/home", permanent: false as const }]
+        : [];
+    return [...apexHome, ...IA_V2_REDIRECTS];
   },
   async headers() {
     const headers = [
@@ -201,29 +225,59 @@ const nextConfig: NextConfig = {
 };
 
 export default ((): NextConfig => {
-  if (process.env.NODE_ENV === "development") {
-    return nextConfig;
-  }
+  const base =
+    process.env.NODE_ENV === "development"
+      ? nextConfig
+      : (() => {
+          // eslint-disable-next-line @typescript-eslint/no-require-imports
+          const withPWAInit = require("@ducanh2912/next-pwa").default as WithPWAFactory;
+          const withPWA = withPWAInit({
+            dest: "public",
+            // Временно выключено: stale SW + precache ломали CSS после каждого деплоя (чёрный экран).
+            disable: true,
+            register: false,
+            workboxOptions: {
+              // App Router: fallback на /landing подменяет HTML для /login, /register и клиники → чёрный экран.
+              navigateFallback: null,
+              navigateFallbackDenylist: [/^\/api\//, /^\/_next\//, /^\/auth\//],
+              runtimeCaching: [
+                {
+                  urlPattern: ({ url }: { url: URL }) => url.pathname.startsWith("/api/"),
+                  handler: "NetworkOnly",
+                  options: { cacheName: "api-no-cache" },
+                },
+              ],
+            },
+          });
+          return withPWA(nextConfig);
+        })();
+
+  return wrapSentryConfig(base);
+})();
+
+function wrapSentryConfig(config: NextConfig): NextConfig {
+  const enabled = process.env.SENTRY_ENABLED?.trim().toLowerCase();
+  if (enabled !== "1" && enabled !== "true") return config;
 
   // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const withPWAInit = require("@ducanh2912/next-pwa").default as WithPWAFactory;
-  const withPWA = withPWAInit({
-    dest: "public",
-    // Временно выключено: stale SW + precache ломали CSS после каждого деплоя (чёрный экран).
-    disable: true,
-    register: false,
-    workboxOptions: {
-      // App Router: fallback на /landing подменяет HTML для /login, /register и клиники → чёрный экран.
-      navigateFallback: null,
-      navigateFallbackDenylist: [/^\/api\//, /^\/_next\//, /^\/auth\//],
-      runtimeCaching: [
-        {
-          urlPattern: ({ url }: { url: URL }) => url.pathname.startsWith("/api/"),
-          handler: "NetworkOnly",
-          options: { cacheName: "api-no-cache" },
-        },
-      ],
+  const { withSentryConfig } = require("@sentry/nextjs") as {
+    withSentryConfig: (cfg: NextConfig, opts: Record<string, unknown>) => NextConfig;
+  };
+
+  return withSentryConfig(config, {
+    org: process.env.SENTRY_ORG,
+    project: process.env.SENTRY_PROJECT,
+    authToken: process.env.SENTRY_AUTH_TOKEN,
+    silent: !process.env.CI,
+    widenClientFileUpload: true,
+    hideSourceMaps: true,
+    disableLogger: true,
+    automaticVercelMonitors: false,
+    release: {
+      name: process.env.SENTRY_RELEASE ?? process.env.VERCEL_GIT_COMMIT_SHA,
+    },
+    sourcemaps: {
+      deleteSourcemapsAfterUpload: true,
     },
   });
-  return withPWA(nextConfig);
-})();
+}

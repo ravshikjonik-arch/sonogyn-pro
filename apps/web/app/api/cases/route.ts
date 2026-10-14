@@ -3,6 +3,8 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 
 import { listTeachingCases } from "@/lib/cases/teaching-cases-service";
+import { htmlToPlainText } from "@/lib/clinical-editor/html-to-plain";
+import { sanitizeClinicalHtml } from "@/lib/clinical-editor/sanitize-clinical-html";
 import { isE2eCiStubMode } from "@/lib/e2e/ci-stub";
 import { rejectIfRateLimitedForUser, rejectIfRateLimitedPreset } from "@/lib/security/api-rate-limit";
 import { getClinicalRole, roleMeetsMinimum } from "@/lib/security/require-clinical-role";
@@ -14,6 +16,7 @@ import { createClient } from "@/utils/supabase/server";
 const CreateCaseBodySchema = z.object({
   title: z.string().trim().min(1).max(200),
   description: z.string().trim().max(5000).nullable().optional(),
+  description_html: z.string().max(12000).nullable().optional(),
   anatomy: z.string().trim().max(160).nullable().optional(),
   pathology: z.string().trim().max(200).nullable().optional(),
   channel_id: z.string().uuid().nullable().optional(),
@@ -122,12 +125,20 @@ export async function POST(request: Request) {
   }
 
   try {
+    const descriptionHtml = parsed.data.description_html?.trim()
+      ? sanitizeClinicalHtml(parsed.data.description_html)
+      : null;
+    const descriptionPlain = descriptionHtml
+      ? htmlToPlainText(descriptionHtml) || null
+      : emptyToNull(parsed.data.description);
+
     const { data, error } = await supabase
       .from("cases")
       .insert({
         user_id: auth.userId,
         title: parsed.data.title,
-        description: emptyToNull(parsed.data.description),
+        description: descriptionPlain,
+        description_html: descriptionHtml,
         anatomy: emptyToNull(parsed.data.anatomy),
         pathology: emptyToNull(parsed.data.pathology),
         channel_id: parsed.data.channel_id ?? null,

@@ -3,7 +3,7 @@
     "name": "SonoGyn Pro",
     "slug": "us-risk-calc",
     "scheme": "com.yakrav7700.usriskcalc",
-    "version": "0.2.0",
+    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -13,7 +13,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.yakrav7700.usriskcalc",
-      "buildNumber": "4",
+      "buildNumber": "5",
       "infoPlist": {
         "NSCameraUsageDescription": "Камера: съёмка снимков для разделов AI и чата врачей.",
         "NSPhotoLibraryUsageDescription": "Галерея: выбор изображений для AI и чата.",
@@ -22,7 +22,7 @@
     },
     "android": {
       "package": "com.yakrav7700.usriskcalc",
-      "versionCode": 4,
+      "versionCode": 5,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -37,7 +37,9 @@
         "expo-build-properties",
         {
           "android": {
-            "buildArchs": ["arm64-v8a"],
+            "buildArchs": [
+              "arm64-v8a"
+            ],
             "minSdkVersion": 24
           }
         }
