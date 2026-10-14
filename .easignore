@@ -70,6 +70,7 @@ apps/web/docs
 apps/web/node_modules
 apps/web/packages/clinical-uterus/node_modules
 apps/video
+apps/video/out
 apps/fetal-spine-cards
 USTri
 Medical-Imaging-Diagnosis-Agent
