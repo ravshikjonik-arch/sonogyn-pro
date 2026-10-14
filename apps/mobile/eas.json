@@ -11,7 +11,10 @@
       "env": {
         "NODE_OPTIONS": "--max-old-space-size=8192",
         "GRADLE_OPTS": "-Xmx6144m -XX:MaxMetaspaceSize=1536m -Dorg.gradle.jvmargs=-Xmx6144m -XX:MaxMetaspaceSize=1536m",
-        "EXPO_NO_CAPABILITY_SYNC": "1"
+        "EXPO_NO_CAPABILITY_SYNC": "1",
+        "EXPO_PUBLIC_API_BASE_URL": "https://sonogyn-pro-web-ravshan-s-projects3.vercel.app",
+        "EXPO_PUBLIC_WEB_APP_URL": "https://sonogyn-pro-web-ravshan-s-projects3.vercel.app",
+        "EXPO_PUBLIC_SUPABASE_URL": "https://grnwcbyslttbrqznnunq.supabase.co"
       },
       "android": {
         "buildType": "apk",
