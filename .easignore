@@ -18,8 +18,7 @@ apps/mobile/.pdf_extract
 apps/mobile/.pdf_extract2
 apps/mobile/.pdf_extract*
 
-# mobile generated (EAS prebuild сам создаст android)
-apps/mobile/android
+# ios: EAS prebuild on builder; android committed (CNG prebuild fails on EAS)
 apps/mobile/ios
 apps/mobile/dist
 apps/mobile/docs
