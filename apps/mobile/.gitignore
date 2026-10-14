@@ -44,5 +44,5 @@ server/.env.local
 # local PDF text extracts (copyright / size)
 scripts/_medvedev_extract_raw.txt
 
-# generated native folders (android committed for EAS — cloud prebuild UNKNOWN_ERROR)
-/ios
+# generated native folders (committed for EAS — cloud prebuild UNKNOWN_ERROR)
+# Pods/ stays in ios/.gitignore
