@@ -8,6 +8,4 @@ export * from "./appointment-calculators/catalog";
 export * from "./appointment-calculators/audit";
 export * from "./modules.catalog";
 export * from "./modules-catalog-audit";
-export * from "./primary-nav";
-export * from "./module-search";
 export * from "./knowledge-links";
