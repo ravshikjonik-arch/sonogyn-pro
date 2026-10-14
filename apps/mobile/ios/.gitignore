@@ -23,6 +23,9 @@ DerivedData
 project.xcworkspace
 .xcode.env.local
 
+# Never commit machine-local Node path (breaks EAS builders)
+/.xcode.env.local
+
 # Bundle artifacts
 *.jsbundle
 
