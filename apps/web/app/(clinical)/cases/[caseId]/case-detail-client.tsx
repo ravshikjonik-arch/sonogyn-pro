@@ -11,6 +11,7 @@ import { CasePublishPanel } from "@/components/cases/CasePublishPanel";
 import { TeachingCaseDiscussion } from "@/components/cases/teaching-case-discussion";
 import { ModuleProgressWidget } from "@/components/achievements/ModuleProgressWidget";
 import { ClinicalAssistStrip } from "@/components/clinical-assistant/ClinicalAssistStrip";
+import { KnowledgeLinksCard } from "@/components/knowledge/KnowledgeLinksCard";
 import { reportAchievementCheck } from "@/hooks/useAchievements";
 import type { ClinicalModuleId } from "@/lib/achievements/types";
 import { sanitizeClinicalHtml } from "@/lib/clinical-editor/sanitize-clinical-html";
@@ -125,6 +126,12 @@ export function CaseDetailClient({
             Открыто из push-уведомления — ответьте коллеге в обсуждении ниже.
           </p>
         ) : null}
+        {teachingCase.knowledge_base_at ? (
+          <p className="rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-950 dark:border-blue-900 dark:bg-blue-950/40 dark:text-blue-100">
+            Кейс в базе знаний — подтверждённый учебный материал для коллег. Не заменяет очный разбор и не
+            является диагнозом для конкретного пациента.
+          </p>
+        ) : null}
         <div className="flex flex-wrap items-center gap-3">
           <Button variant="ghost" size="sm" asChild>
             <Link href={casesBackHref}>← {isDiscussion ? "Вопросы коллегам" : "Кейсы"}</Link>
@@ -194,6 +201,15 @@ export function CaseDetailClient({
             </p>
           ) : null}
         </article>
+
+        {teachingCase.knowledge_base_at ? (
+          <KnowledgeLinksCard
+            fromType="teaching_case"
+            fromId={teachingCase.id}
+            title="Связи в графе знаний"
+            description="Каталог кейсов и смежные учебные разделы."
+          />
+        ) : null}
 
         {user ? (
           <StructuredCaseEditor

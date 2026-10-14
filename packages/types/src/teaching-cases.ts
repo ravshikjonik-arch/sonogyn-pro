@@ -29,6 +29,11 @@ export const ListTeachingCasesQuerySchema = z.object({
   /** Filter by doctor_chat_channels.id (colleague questions). */
   channelId: z.string().uuid().optional(),
   feedMode: TeachingCaseFeedModeSchema.optional(),
+  /** When `1` or `true`, only cases with knowledge_base_at set. */
+  knowledgeBase: z.preprocess(
+    (v) => (v === "1" || v === "true" ? true : undefined),
+    z.boolean().optional(),
+  ),
   limit: z.coerce.number().int().min(1).max(60).optional(),
   cursor: z.string().trim().max(64).optional(),
 });
@@ -50,6 +55,7 @@ export const TeachingCaseListItemSchema = z.object({
   orads_category: z.number().int().min(0).max(5).nullable(),
   tags: z.array(z.string()),
   lifecycle_status: CaseLifecycleStatusSchema.nullable().optional(),
+  knowledge_base_at: z.string().nullable().optional(),
 });
 
 export type TeachingCaseListItem = z.infer<typeof TeachingCaseListItemSchema>;

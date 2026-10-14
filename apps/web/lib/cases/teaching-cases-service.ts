@@ -4,7 +4,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 
 const DEFAULT_LIMIT = 40;
 const SELECT_COLS_WITH_LIFECYCLE =
-  "id,title,description,anatomy,pathology,difficulty,status,is_public,created_at,user_id,orads_category,tags,channel_id,lifecycle_status";
+  "id,title,description,anatomy,pathology,difficulty,status,is_public,created_at,user_id,orads_category,tags,channel_id,lifecycle_status,confirmed_diagnosis,knowledge_base_at";
 const SELECT_COLS_LEGACY =
   "id,title,description,anatomy,pathology,difficulty,status,is_public,created_at,user_id,orads_category,tags,channel_id";
 
@@ -23,6 +23,8 @@ export type TeachingCaseRow = {
   tags: string[] | null;
   channel_id: string | null;
   lifecycle_status: string | null;
+  confirmed_diagnosis?: string | null;
+  knowledge_base_at?: string | null;
 };
 
 export async function listTeachingCases(
@@ -49,7 +51,11 @@ export async function listTeachingCases(
     feedMode,
   });
 
-  if (result.error?.message?.includes("lifecycle_status")) {
+  if (
+    result.error?.message?.includes("lifecycle_status") ||
+    result.error?.message?.includes("knowledge_base_at") ||
+    result.error?.message?.includes("confirmed_diagnosis")
+  ) {
     result = await runCasesListQuery(supabase, SELECT_COLS_LEGACY, {
       userId,
       query,
@@ -111,6 +117,7 @@ async function runCasesListQuery(
   else if (feedMode === "discussions") dbQuery = dbQuery.not("channel_id", "is", null);
   if (query.orads !== undefined) dbQuery = dbQuery.eq("orads_category", query.orads);
   if (query.lifecycle) dbQuery = dbQuery.eq("lifecycle_status", query.lifecycle);
+  if (query.knowledgeBase) dbQuery = dbQuery.not("knowledge_base_at", "is", null);
   if (tags.length > 0) dbQuery = dbQuery.overlaps("tags", tags);
   if (query.status) dbQuery = dbQuery.eq("status", query.status);
   else if (!userId) dbQuery = dbQuery.eq("status", "published").eq("is_public", true);

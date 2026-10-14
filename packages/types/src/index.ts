@@ -602,6 +602,10 @@ export {
   StructuredCaseSectionIdSchema,
   StructuredDocumentVersionSchema,
   StructuredMediaRefSchema,
+  PROTOCOL_LIFECYCLE_STATUS_LABELS,
+  ProtocolLifecycleActionSchema,
+  ProtocolLifecycleStatusSchema,
+  ProtocolLifecycleTransitionBodySchema,
   StructuredProtocolDraftSchema,
   StructuredProtocolSectionIdSchema,
   StructuredSectionContentSchema,
@@ -617,6 +621,9 @@ export {
   type StructuredCaseSections,
   type StructuredDocumentVersion,
   type StructuredMediaRef,
+  type ProtocolLifecycleAction,
+  type ProtocolLifecycleStatus,
+  type ProtocolLifecycleTransitionBody,
   type StructuredProtocolDraft,
   type StructuredProtocolSectionId,
   type StructuredProtocolSections,
@@ -624,6 +631,21 @@ export {
   type UpsertStructuredCaseBody,
   type UpsertStructuredProtocolDraftBody,
 } from "./structured-clinical-editor";
+
+export {
+  KnowledgeGraphLinkSchema,
+  KnowledgeLinkKindSchema,
+  KnowledgeLinkMetaSchema,
+  KnowledgeLinkRowSchema,
+  KnowledgeLinksQuerySchema,
+  KnowledgeLinksResponseSchema,
+  type KnowledgeGraphLink,
+  type KnowledgeLinkKind,
+  type KnowledgeLinkMeta,
+  type KnowledgeLinkRow,
+  type KnowledgeLinksQuery,
+  type KnowledgeLinksResponse,
+} from "./knowledge-graph";
 
 export {
   CASE_CONFIRMATION_METHOD_LABELS,

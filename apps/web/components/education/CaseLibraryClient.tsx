@@ -11,10 +11,12 @@ import {
   CASE_LIBRARY_DISCLAIMER,
   CASE_LIBRARY_TOTAL,
 } from "@/lib/education/case-library/bundles";
+import { CaseLibraryKnowledgeBaseSection } from "@/components/education/CaseLibraryKnowledgeBaseSection";
 
 export function CaseLibraryClient() {
   return (
     <div className="space-y-6">
+      <CaseLibraryKnowledgeBaseSection />
       <p className="text-sm text-[var(--clinical-foreground-muted)]">
         {CASE_LIBRARY_BUNDLES.length} подборок · ~{CASE_LIBRARY_TOTAL}+ учебных кейсов из модулей SonoGyn Pro.
       </p>

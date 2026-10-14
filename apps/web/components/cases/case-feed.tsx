@@ -1,6 +1,6 @@
 "use client";
 
-import { MessageCircle, Search, ShieldCheck } from "lucide-react";
+import { BookOpen, MessageCircle, Search, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
@@ -32,6 +32,8 @@ export type TeachingGalleryCaseRow = {
   orads_category: number | null;
   tags: string[];
   lifecycle_status?: string | null;
+  knowledge_base_at?: string | null;
+  confirmed_diagnosis?: string | null;
 };
 
 type FeedMode = "library" | "discussions";
@@ -44,6 +46,8 @@ type CaseFeedProps = {
   initialFeedMode?: FeedMode;
   /** IA v2: filter by lifecycle_status (e.g. confirmed). */
   initialLifecycle?: string | null;
+  /** Only cases published to knowledge base. */
+  initialKnowledgeBase?: boolean;
   /** Pre-selected Radiopaedia-style playlist. */
   initialPlaylistId?: string | null;
 };
@@ -56,6 +60,7 @@ type FeedFilters = {
   feedMode: FeedMode;
   channelId: string | null;
   lifecycle: string | null;
+  knowledgeBase: boolean;
 };
 
 const ORADS_OPTIONS = ["", "0", "1", "2", "3", "4", "5"] as const;
@@ -65,6 +70,7 @@ export function CaseFeed({
   initialChannelId = null,
   initialFeedMode = "library",
   initialLifecycle = null,
+  initialKnowledgeBase = false,
   initialPlaylistId = null,
 }: CaseFeedProps) {
   const supabase = useSupabase();
@@ -91,6 +97,7 @@ export function CaseFeed({
     feedMode: initialFeedMode,
     channelId: initialChannelId,
     lifecycle: initialLifecycle,
+    knowledgeBase: initialKnowledgeBase,
   });
 
   const refresh = useCallback(async () => {
@@ -117,6 +124,7 @@ export function CaseFeed({
     if (appliedFilters.tags.trim()) params.set("tags", appliedFilters.tags.trim());
     if (appliedFilters.queue === "review") params.set("status", "review");
     if (appliedFilters.lifecycle) params.set("lifecycle", appliedFilters.lifecycle);
+    if (appliedFilters.knowledgeBase) params.set("knowledgeBase", "1");
     if (topic === "prolapse") params.set("topic", "prolapse");
     if (appliedFilters.feedMode === "library") params.set("feedMode", "library");
     if (appliedFilters.feedMode === "discussions") {
@@ -192,6 +200,7 @@ export function CaseFeed({
     if (appliedFilters.tags.trim()) parts.push(`теги: ${appliedFilters.tags.trim()}`);
     if (appliedFilters.queue === "review") parts.push("очередь эксперта");
     if (appliedFilters.lifecycle === "confirmed") parts.push("CONFIRMED");
+    if (appliedFilters.knowledgeBase) parts.push("база знаний");
     if (appliedFilters.feedMode === "discussions") {
       const ch = channels.find((c) => c.id === appliedFilters.channelId);
       parts.push(ch ? `вопросы · ${ch.title}` : "вопросы коллегам");
@@ -221,6 +230,15 @@ export function CaseFeed({
     setAppliedFilters((prev) => ({
       ...prev,
       lifecycle: prev.lifecycle === "confirmed" ? null : "confirmed",
+    }));
+  }
+
+  function toggleKnowledgeBaseFilter() {
+    setAppliedFilters((prev) => ({
+      ...prev,
+      knowledgeBase: !prev.knowledgeBase,
+      feedMode: "library",
+      channelId: null,
     }));
   }
 
@@ -449,6 +467,16 @@ export function CaseFeed({
               <ShieldCheck className="h-3.5 w-3.5" />
               Подтверждённые
             </Button>
+            <Button
+              size="sm"
+              variant={appliedFilters.knowledgeBase ? "default" : "secondary"}
+              type="button"
+              className="gap-1"
+              onClick={toggleKnowledgeBaseFilter}
+            >
+              <BookOpen className="h-3.5 w-3.5" />
+              База знаний
+            </Button>
           </div>
           {appliedFilters.feedMode === "discussions" ? (
             <div className="space-y-2">
@@ -613,6 +641,11 @@ export function CaseFeed({
                     {c.user_id === userId ? <Badge variant="outline">мой кейс</Badge> : null}
                     {c.channel_id ? (
                       <Badge className="bg-emerald-700">вопрос коллегам</Badge>
+                    ) : null}
+                    {c.knowledge_base_at ? (
+                      <Badge variant="outline" className="border-blue-600 text-blue-900">
+                        база знаний
+                      </Badge>
                     ) : null}
                     {(commentCounts[c.id] ?? 0) > 0 ? (
                       <Badge variant="outline" className="gap-1">
