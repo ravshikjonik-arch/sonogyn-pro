@@ -1,5 +1,8 @@
 import Link from "next/link";
 
+/** Query `role=` must be evaluated per request (CI auth e2e). */
+export const dynamic = "force-dynamic";
+
 type Props = { searchParams: Promise<{ role?: string }> };
 
 export default async function RolesDemoPage(props: Props) {

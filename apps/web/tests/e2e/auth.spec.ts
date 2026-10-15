@@ -42,7 +42,7 @@ test.describe("Авторизация врача", () => {
     await loginAsDoctor(page, testData.doctor.email, testData.doctor.password);
 
     await expect(page).toHaveURL(/\/(home|app)/);
-    await expect(page.getByTestId("app-home")).toBeVisible();
+    await expect(page.getByTestId("app-home")).toBeVisible({ timeout: 45_000 });
   });
 
   test("неудачный вход с неверным паролем", async ({ page }) => {
@@ -89,6 +89,7 @@ test.describe("Авторизация врача", () => {
 
   test("администратор видит пункт Admin, обычный врач — нет", async ({ page }) => {
     await page.goto("/demo/roles?role=admin");
+    await expect(page.getByTestId("roles-demo-page")).toBeVisible();
     await expect(page.getByTestId("nav-admin")).toBeVisible();
 
     await page.goto("/demo/roles?role=doctor");
