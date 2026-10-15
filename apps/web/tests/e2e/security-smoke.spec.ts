@@ -46,9 +46,11 @@ test.describe("Security smoke — API boundaries", () => {
     expect(res.status()).toBe(400);
   });
 
-  test("POST /api/auth/telegram/verify-otp — пустое тело → 400", async ({ request }) => {
+  test("POST /api/auth/telegram/verify-otp — пустое тело → 400 или метод отключён", async ({
+    request,
+  }) => {
     const res = await request.post("/api/auth/telegram/verify-otp", { data: {} });
-    expect(res.status()).toBe(400);
+    expect([400, 503]).toContain(res.status());
   });
 
   test("POST /api/auth/phone/send-otp — без phone → 400", async ({ request }) => {
