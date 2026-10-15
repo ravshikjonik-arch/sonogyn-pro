@@ -24,14 +24,13 @@ import {
   SonoOrb,
   SpatialCard,
 } from "@/components/spatial";
-import { DoctorStartPanel } from "@/components/clinical/DoctorStartPanel";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
 const primaryActions = [
   {
     title: "O-RADS US",
-    description: "Пошаговый разбор, описание текстом, IOTA и таблицы ACR в одном сценарии.",
+    description: "Wizard, текстовый разбор, IOTA и таблицы ACR в одном сценарии.",
     href: "/tools/calc/rads/o-rads",
     icon: ScanLine,
   },
@@ -64,10 +63,8 @@ const routeSteps = [
 
 export function CommandCenter() {
   return (
-    <div className="px-4 py-6 sm:px-6 lg:px-10 lg:py-8" data-testid="app-home">
+    <div className="px-4 py-6 sm:px-6 lg:px-10 lg:py-8">
       <div className="mx-auto max-w-7xl space-y-6">
-        <DoctorStartPanel />
-
         <header className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_360px]">
           <SpatialCard depth={3} className="overflow-hidden p-5 sm:p-7">
             <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
@@ -76,7 +73,7 @@ export function CommandCenter() {
                   <SonoOrb label="SG" size="lg" />
                   <div>
                     <Badge variant="outline" className="border-[var(--clinical-border)]">
-                      Рабочий кабинет
+                      Command Center
                     </Badge>
                     <h1 className="mt-2 text-2xl font-black tracking-tight text-[var(--clinical-foreground)] sm:text-4xl">
                       SonoGyn Pro
@@ -145,7 +142,7 @@ export function CommandCenter() {
               </div>
             </ClinicalSheet>
 
-            <ClinicalSheet title="Маршрут O-RADS" eyebrow="Задача → подсказка → кейсы → протокол">
+            <ClinicalSheet title="O-RADS pilot flow" eyebrow="Main → AI → Cases → Draft">
               <KnowledgeConstellation
                 nodes={routeSteps.map((step) => {
                   const Icon = step.icon;
@@ -163,7 +160,7 @@ export function CommandCenter() {
         <ContinuationDock>
           <Button asChild size="sm" className="gap-2">
             <Link href="/tools/calc/rads/o-rads">
-              Открыть O-RADS
+              O-RADS wizard
               <ScanLine className="h-4 w-4" />
             </Link>
           </Button>
@@ -175,7 +172,7 @@ export function CommandCenter() {
           </Button>
           <span className="ml-auto hidden items-center gap-1.5 text-xs font-semibold text-[var(--clinical-foreground-muted)] sm:flex">
             <ShieldCheck className="h-4 w-4" />
-            Без персональных данных пациентки
+            PHI-aware workspace
           </span>
         </ContinuationDock>
       </div>
