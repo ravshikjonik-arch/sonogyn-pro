@@ -3,6 +3,15 @@
 export type CaseLifecycleStatus = "open" | "discussion" | "resolved" | "confirmed" | "archived";
 
 const LABELS: Record<CaseLifecycleStatus, string> = {
+  open: "Открыт",
+  discussion: "Обсуждение",
+  resolved: "Решён",
+  confirmed: "Диагноз подтверждён",
+  archived: "Архив",
+};
+
+/** Uppercase badge variant for compact UI */
+const LABELS_COMPACT: Record<CaseLifecycleStatus, string> = {
   open: "OPEN",
   discussion: "DISCUSSION",
   resolved: "RESOLVED",
@@ -13,6 +22,11 @@ const LABELS: Record<CaseLifecycleStatus, string> = {
 export function formatLifecycleLabel(status: string | null | undefined): string | null {
   if (!status) return null;
   return LABELS[status as CaseLifecycleStatus] ?? status.toUpperCase();
+}
+
+export function formatLifecycleLabelCompact(status: string | null | undefined): string | null {
+  if (!status) return null;
+  return LABELS_COMPACT[status as CaseLifecycleStatus] ?? status.toUpperCase();
 }
 
 /** Fallback when lifecycle_status column not migrated yet. */

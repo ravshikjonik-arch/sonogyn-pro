@@ -21,6 +21,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { resolveCitationLink, resolveGuidelineEntryLink } from "@/lib/evidence/citation-links";
 import { cn } from "@/lib/utils/cn";
 
 const STRENGTH_STYLE: Record<AssistantAnswer["evidenceStrength"], string> = {
@@ -128,14 +129,26 @@ function RecordRow({
       ) : record.abstract ? (
         <p className="mt-1 line-clamp-3 text-xs text-[var(--clinical-foreground-muted)]">{record.abstract}</p>
       ) : null}
-      <a
-        href={record.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="mt-2 inline-flex items-center gap-1 text-xs text-[var(--clinical-primary)] underline"
-      >
-        Источник <ExternalLink className="h-3 w-3" />
-      </a>
+      {(() => {
+        const link = resolveCitationLink(record);
+        return link.external ? (
+          <a
+            href={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-2 inline-flex items-center gap-1 text-xs text-[var(--clinical-primary)] underline"
+          >
+            {link.label} <ExternalLink className="h-3 w-3" aria-hidden />
+          </a>
+        ) : (
+          <Link
+            href={link.href}
+            className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-[var(--clinical-primary-deep)] underline"
+          >
+            {link.label}
+          </Link>
+        );
+      })()}
     </li>
   );
 }
@@ -625,14 +638,28 @@ export function EvidenceAssistantWorkspace() {
                 Клинические рекомендации
               </p>
               <ul className="space-y-2">
-                {answer.guidelines.map((g) => (
-                  <li key={g.url}>
-                    <a href={g.url} target="_blank" rel="noopener noreferrer" className="text-sm underline">
-                      {g.title}
-                    </a>
-                    <span className="ml-2 text-xs text-[var(--clinical-foreground-muted)]">{g.org}</span>
-                  </li>
-                ))}
+                {answer.guidelines.map((g) => {
+                  const link = resolveGuidelineEntryLink(g);
+                  return (
+                    <li key={g.url}>
+                      {link.external ? (
+                        <a
+                          href={link.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm underline"
+                        >
+                          {g.title}
+                        </a>
+                      ) : (
+                        <Link href={link.href} className="text-sm font-medium underline">
+                          {g.title}
+                        </Link>
+                      )}
+                      <span className="ml-2 text-xs text-[var(--clinical-foreground-muted)]">{g.org}</span>
+                    </li>
+                  );
+                })}
               </ul>
             </CardContent>
           ) : null}

@@ -75,6 +75,7 @@ function validateNosology(raw: unknown): Nosology {
     guidelines: n.guidelines ?? {},
     diagnosisLine: n.diagnosisLine ?? n.title,
     protocolTemplate: n.protocolTemplate ?? n.description,
+    shortGuideline: n.shortGuideline,
     updatedAt: n.updatedAt ?? new Date().toISOString(),
   };
 }

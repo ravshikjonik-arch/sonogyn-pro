@@ -114,11 +114,25 @@ export async function POST(request: Request, { params }: Params) {
     return NextResponse.json({ error: validation.error }, { status: 400 });
   }
 
+  let uploadBody: Buffer | File = file;
+  let uploadContentType = file.type || "application/octet-stream";
+
+  if (mediaType === "image") {
+    const raw = Buffer.from(await file.arrayBuffer());
+    const { stripImageMetadata } = await import("@/lib/security/strip-image-metadata");
+    const stripped = await stripImageMetadata(raw, uploadContentType);
+    if (!stripped.ok) {
+      return NextResponse.json({ error: stripped.error }, { status: 400 });
+    }
+    uploadBody = stripped.buffer;
+    uploadContentType = stripped.contentType;
+  }
+
   const storagePath = caseMediaObjectPath(auth.userId, routeParams.data.caseId, file.name);
   const { error: uploadError } = await supabase.storage
     .from(TEACHING_CASE_MEDIA_BUCKET)
-    .upload(storagePath, file, {
-      contentType: file.type || "application/octet-stream",
+    .upload(storagePath, uploadBody, {
+      contentType: uploadContentType,
       upsert: false,
     });
 

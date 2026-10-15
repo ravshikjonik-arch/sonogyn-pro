@@ -21,6 +21,15 @@ const CLASSIFICATIONS: Omit<ClassificationHit, "score">[] = [
   { id: "tirads-4", system: "TI-RADS", label: "TI-RADS 4", subtitle: "Щитовидная · подозрительно", href: "/tools/calc/rads/ti-rads" },
   { id: "iota-benign", system: "IOTA", label: "IOTA Simple Rules · benign", subtitle: "Правила IOTA", href: "/tools/refs/iota-terms-2026" },
   { id: "iota-malignant", system: "IOTA", label: "IOTA Simple Rules · malignant", subtitle: "Правила IOTA", href: "/tools/refs/iota-terms-2026" },
+  { id: "figo-0", system: "FIGO", label: "FIGO type 0", subtitle: "Submucosal · pedunculated", href: "/tools/mapping/uterus" },
+  { id: "figo-1", system: "FIGO", label: "FIGO type 1", subtitle: "Submucosal · <50% myometrium", href: "/tools/mapping/uterus" },
+  { id: "figo-2", system: "FIGO", label: "FIGO type 2", subtitle: "Submucosal · ≥50% myometrium", href: "/tools/mapping/uterus" },
+  { id: "figo-3", system: "FIGO", label: "FIGO type 3", subtitle: "Intramural · contacts endometrium", href: "/tools/mapping/uterus" },
+  { id: "figo-4", system: "FIGO", label: "FIGO type 4", subtitle: "Intramural", href: "/tools/mapping/uterus" },
+  { id: "figo-5", system: "FIGO", label: "FIGO type 5", subtitle: "Subserosal · ≥50% intramural", href: "/tools/mapping/uterus" },
+  { id: "figo-6", system: "FIGO", label: "FIGO type 6", subtitle: "Subserosal · pedunculated", href: "/tools/mapping/uterus" },
+  { id: "figo-7", system: "FIGO", label: "FIGO type 7", subtitle: "Subserosal · <50% intramural", href: "/tools/mapping/uterus" },
+  { id: "figo-8", system: "FIGO", label: "FIGO type 8", subtitle: "Other", href: "/tools/mapping/uterus" },
 ];
 
 function norm(s: string): string {

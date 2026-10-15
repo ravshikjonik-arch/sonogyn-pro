@@ -16,9 +16,11 @@ import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { NosologyEducationCard } from "@/components/nosology/NosologyEducationCard";
+import { NosologyKnowledgeLinksCard } from "@/components/nosology/NosologyKnowledgeLinksCard";
 import { NosologySectionView } from "@/components/nosology/NosologySectionView";
 import { NosologyLiteraturePanel } from "@/components/nosology/NosologyLiteraturePanel";
 import { PdfSourcePanel } from "@/components/nosology/PdfSourcePanel";
+import { ShortGuidelineCard } from "@/components/nosology/ShortGuidelineCard";
 import { ClinicalAssistStrip } from "@/components/clinical-assistant/ClinicalAssistStrip";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -200,7 +202,11 @@ export function NosologyDetailClient({ id, isAdmin }: Props) {
         }}
       />
 
+      <ShortGuidelineCard nosology={nosology} />
+
       <NosologyEducationCard nosologyId={nosology.id} />
+
+      <NosologyKnowledgeLinksCard nosologyId={nosology.id} />
 
       <div className="grid gap-4 rounded-xl border border-[var(--clinical-border)] bg-[var(--clinical-card)] p-4 md:grid-cols-3">
         <label className="text-sm">

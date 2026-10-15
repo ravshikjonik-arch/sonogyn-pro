@@ -25,6 +25,12 @@
 # production
 /build
 
+# vercel env pull (secrets)
+.env.vercel.production
+.env.vercel.local
+.env.vercel.pull
+.env.supabase-new
+
 # misc
 .DS_Store
 *.pem

@@ -37,25 +37,18 @@ export async function writeSecurityAuditLog(input: SecurityAuditInput): Promise<
   }
 
   try {
-    const { data, error } = await supabase
-      .from("security_audit_log")
-      .insert({
-        actor_id: actorId,
-        actor_role: actorRole,
-        ip_hash: "",
-        user_agent: "",
-        category: input.category,
-        action: input.action,
-        resource: input.resource ?? null,
-        resource_id: input.resourceId ?? null,
-        success: input.success ?? true,
-        metadata: {
-          ...(input.metadata ?? {}),
-          environment: process.env.NODE_ENV,
-        },
-      })
-      .select("id")
-      .maybeSingle();
+    const { error } = await supabase.rpc("insert_security_audit_event", {
+      p_category: input.category,
+      p_action: input.action,
+      p_resource: input.resource ?? null,
+      p_resource_id: input.resourceId ?? null,
+      p_success: input.success ?? true,
+      p_metadata: {
+        ...(input.metadata ?? {}),
+        environment: process.env.NODE_ENV,
+      },
+      p_request_id: null,
+    });
 
     if (error) {
       safeLog("security audit insert error", { code: error.code, message: error.message });

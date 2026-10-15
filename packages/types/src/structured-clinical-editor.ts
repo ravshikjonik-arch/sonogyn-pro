@@ -6,6 +6,37 @@ import { clinicalPlainText, IsoDateStringSchema } from "./clinical-validation";
 export const STRUCTURED_CASE_TEMPLATE_VERSION = "case-v1" as const;
 export const STRUCTURED_PROTOCOL_TEMPLATE_VERSION = "protocol-v1" as const;
 
+export const ProtocolLifecycleStatusSchema = z.enum([
+  "draft",
+  "review",
+  "finalized",
+  "amended",
+  "archived",
+]);
+export type ProtocolLifecycleStatus = z.infer<typeof ProtocolLifecycleStatusSchema>;
+
+export const PROTOCOL_LIFECYCLE_STATUS_LABELS: Record<ProtocolLifecycleStatus, string> = {
+  draft: "Черновик",
+  review: "На проверке",
+  finalized: "Финализирован",
+  amended: "Исправленная версия",
+  archived: "Архив",
+};
+
+export const ProtocolLifecycleActionSchema = z.enum([
+  "submit_review",
+  "finalize",
+  "amend",
+  "archive",
+]);
+export type ProtocolLifecycleAction = z.infer<typeof ProtocolLifecycleActionSchema>;
+
+export const ProtocolLifecycleTransitionBodySchema = z.object({
+  action: ProtocolLifecycleActionSchema,
+  amendmentReason: clinicalPlainText(1000).optional(),
+});
+export type ProtocolLifecycleTransitionBody = z.infer<typeof ProtocolLifecycleTransitionBodySchema>;
+
 export const CalculatorSystemSchema = z.enum([
   "O-RADS",
   "BI-RADS",

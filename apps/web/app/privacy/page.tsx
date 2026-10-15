@@ -124,7 +124,7 @@ export default function PrivacyPage() {
             <p>
               Данные обрабатываются с использованием облачной инфраструктуры: приложение (Vercel) и
               Auth/БД (Supabase, проект{" "}
-              <span className="font-mono text-xs">ocqlsqqloqvlzutbgrnp</span>
+              <span className="font-mono text-xs">grnwcbyslttbrqznnunq</span>
               ). Регион размещения БД и аутентификации Supabase:{" "}
               <span className="font-mono text-xs">eu-west-1</span> (Ирландия, ЕС). Обрабатываются
               преимущественно данные аккаунтов врачей; это может означать трансграничную передачу

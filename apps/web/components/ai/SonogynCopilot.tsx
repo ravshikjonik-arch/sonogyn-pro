@@ -21,6 +21,7 @@ import { toast } from "sonner";
 import type { AssistantAnswer } from "@repo/evidence-retrieval";
 
 import { AiChatStatusBadge, type AiChatStatus } from "@/components/ai/AiChatStatusBadge";
+import { AiEvidenceSourcesPanel } from "@/components/ai/AiEvidenceSourcesPanel";
 import { AiMessageFeedback } from "@/components/ai/AiMessageFeedback";
 import { AiToolResultList } from "@/components/ai/AiToolResultCard";
 import { useProStatus } from "@/components/pro/use-pro-status";
@@ -585,41 +586,10 @@ export function SonogynCopilot() {
                           {m.tools?.length ? <AiToolResultList tools={m.tools} /> : null}
                           {m.structured ? <SonogynStructuredCard data={m.structured} /> : null}
                           {m.evidence ? (
-                            <div className="mt-3 space-y-2 border-t border-[var(--clinical-border)] pt-2">
-                              <div className="flex flex-wrap items-center gap-1.5">
-                                <span className="inline-flex items-center gap-1 rounded-full bg-emerald-600/15 px-2 py-0.5 text-[10px] font-semibold text-emerald-800 dark:text-emerald-300">
-                                  <BookOpen className="h-3 w-3" />
-                                  EBM · {m.evidence.gradeLabel}
-                                </span>
-                                <span className="text-[10px] text-[var(--clinical-foreground-muted)]">
-                                  {m.evidence.citations.length} источников
-                                </span>
-                              </div>
-                              <ul className="space-y-1.5">
-                                {m.evidence.citations.slice(0, 4).map((c) => (
-                                  <li key={c.id}>
-                                    <a
-                                      href={c.url}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                      className="text-xs text-[var(--clinical-primary)] underline"
-                                    >
-                                      {c.title}
-                                    </a>
-                                  </li>
-                                ))}
-                              </ul>
-                              {m.evidence.citations.length > 4 ? (
-                                <Link
-                                  href="/tools/refs/evidence-assistant"
-                                  onClick={() => setOpen(false)}
-                                  className="inline-flex items-center gap-1 text-[10px] text-[var(--clinical-primary-deep)] underline"
-                                >
-                                  Все цитаты в Evidence Assistant
-                                  <ArrowUpRight className="h-3 w-3" />
-                                </Link>
-                              ) : null}
-                            </div>
+                            <AiEvidenceSourcesPanel
+                              evidence={m.evidence}
+                              onNavigate={() => setOpen(false)}
+                            />
                           ) : null}
                           {m.links && m.links.length > 0 && (
                             <div className="mt-2 flex flex-wrap gap-1.5">

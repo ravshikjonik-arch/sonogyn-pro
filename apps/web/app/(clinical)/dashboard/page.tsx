@@ -20,14 +20,14 @@ import { createClient } from "@/utils/supabase/server";
 
 const quickLinks = [
   {
-    title: "Calculators",
-    description: "Evidence-aligned scoring and gestational tools.",
+    title: "Калькуляторы",
+    description: "O-RADS, BI-RADS, TI-RADS, акушерские и гинекологические расчёты.",
     href: "/tools/calc",
     icon: Calculator,
   },
   {
-    title: "AI workspace",
-    description: "Ultrasound studies with multimodal inputs.",
+    title: "AI-зона УЗИ",
+    description: "Разбор описания и изображений без персональных данных пациентки.",
     href: "/workspace",
     icon: Brain,
   },
@@ -38,8 +38,8 @@ const quickLinks = [
     icon: Activity,
   },
   {
-    title: "Clinical library",
-    description: "Protocols and imaging references.",
+    title: "КР и справочник",
+    description: "Нозологии, протоколы, нормы и практические алгоритмы.",
     href: "/tools/refs",
     icon: Layers,
   },
@@ -72,14 +72,14 @@ export default async function MedicalDashboardPage() {
     profile?.full_name?.trim() ||
     openProfile?.full_name ||
     user?.email?.split("@")[0] ||
-    "Colleague";
+    "коллега";
 
   const specialization =
     doctor?.specialization?.trim() || profile?.specialization?.trim() || openProfile?.specialization || null;
   const institution = doctor?.institution?.trim() || profile?.institution?.trim() || openProfile?.institution || null;
 
   const trialLabel = profile?.trial_ends_at
-    ? new Date(profile.trial_ends_at).toLocaleDateString(undefined, {
+    ? new Date(profile.trial_ends_at).toLocaleDateString("ru-RU", {
         year: "numeric",
         month: "short",
         day: "numeric",
@@ -93,14 +93,14 @@ export default async function MedicalDashboardPage() {
           <div className="relative z-[1] flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div className="space-y-3">
               <Badge variant="outline" className="border-[var(--clinical-primary)] text-[var(--clinical-primary-deep)]">
-                Clinical Dashboard
+                Кабинет врача
               </Badge>
               <h1 className="text-3xl font-semibold tracking-tight text-slate-950 dark:text-white md:text-4xl">
-                Welcome back, {displayName}
+                Добро пожаловать, {displayName}
               </h1>
               <p className="max-w-2xl text-base leading-relaxed text-[var(--clinical-foreground-muted)]">
-                Signed-in medical workspace — calculators, teaching cases, imaging workspace, and subscription status in
-                one calm overview. Session is restored from secure cookies on each navigation.
+                Здесь собраны основные рабочие зоны: калькуляторы, кейсы, AI-помощник, справочник и статус доступа.
+                Начинайте с клинической задачи, а не с поиска нужного раздела.
               </p>
               <div className="flex flex-wrap gap-2 pt-1">
                 {specialization ? (
@@ -109,7 +109,7 @@ export default async function MedicalDashboardPage() {
                   </Badge>
                 ) : (
                   <Badge variant="outline" className="font-normal">
-                    Specialty not set
+                    Специальность не указана
                   </Badge>
                 )}
                 {institution ? (
@@ -118,12 +118,12 @@ export default async function MedicalDashboardPage() {
                   </Badge>
                 ) : null}
                 <Badge variant="outline" className="font-normal capitalize">
-                  Plan: {profile?.subscription_tier ?? (openProfile ? "pro / open access" : "free")}
+                  Доступ: {profile?.subscription_tier ?? (openProfile ? "открытый режим" : "базовый")}
                 </Badge>
                 {profile?.role === "admin" ? (
                   <Badge className="gap-1 font-normal">
                     <Shield className="h-3 w-3" />
-                    Admin
+                    Администратор
                   </Badge>
                 ) : null}
               </div>
@@ -131,12 +131,12 @@ export default async function MedicalDashboardPage() {
             <div className="flex shrink-0 flex-col gap-3 sm:flex-row md:flex-col">
               <Button asChild className="rounded-2xl px-6 shadow-md">
                 <Link href="/app">
-                  Command Center
+                  Рабочий кабинет
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
               <Button variant="secondary" asChild className="rounded-2xl px-6">
-                <Link href="/profile">Edit credentials</Link>
+                <Link href="/profile">Профиль и доступ</Link>
               </Button>
             </div>
           </div>
@@ -145,11 +145,11 @@ export default async function MedicalDashboardPage() {
         <div className="grid gap-5 md:grid-cols-2">
           <Card className="border-[var(--clinical-border)] bg-[var(--clinical-card)] shadow-sm">
             <CardHeader>
-              <CardTitle className="text-lg">Account & session</CardTitle>
+              <CardTitle className="text-lg">Профиль и сессия</CardTitle>
               <CardDescription>
                 {openProfile
                   ? "Открытый режим без регистрации: персональное сохранение отключено."
-                  : "Supabase Auth + Row Level Security backed profile rows."}
+                  : "Вы вошли в аккаунт; персональные разделы открываются через защищённую сессию."}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-3 text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
@@ -158,11 +158,11 @@ export default async function MedicalDashboardPage() {
                 <span className="break-all">{user?.email ?? openProfile?.email}</span>
               </p>
               <p className="font-mono text-xs text-slate-500 dark:text-slate-400">
-                UID {user?.id ?? "open-access"}
+                ID сессии {user?.id ?? "открытый режим"}
               </p>
               {trialLabel ? (
                 <p>
-                  <span className="font-semibold text-[var(--clinical-foreground)]">Trial window:</span> until{" "}
+                  <span className="font-semibold text-[var(--clinical-foreground)]">Пробный доступ:</span> до{" "}
                   {trialLabel}
                 </p>
               ) : null}
@@ -171,18 +171,18 @@ export default async function MedicalDashboardPage() {
 
           <Card className="border-[var(--clinical-border)] bg-[var(--clinical-card)] shadow-sm">
             <CardHeader>
-              <CardTitle className="text-lg">Compliance note</CardTitle>
-              <CardDescription>Demo-grade wiring — harden before PHI.</CardDescription>
+              <CardTitle className="text-lg">Безопасность данных</CardTitle>
+              <CardDescription>Работайте без ФИО, телефона, адреса и номера карты пациентки.</CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col gap-4 text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
               <p>
-                Pair BAAs, residency rules, audit exports, and break-glass policies before exposing identifiable imaging.
-                Storage buckets remain private; access uses folder-scoped RLS.
+                Для пилота используйте обезличенные кейсы. Изображения и обсуждения должны храниться без данных,
+                по которым можно прямо идентифицировать пациентку.
               </p>
               <Button variant="outline" size="sm" className="w-fit rounded-xl" asChild>
                 <Link href="/paywall">
                   <Sparkles className="mr-2 h-4 w-4" />
-                  Upgrade path (Stripe stub)
+                  Тарифы и доступ
                 </Link>
               </Button>
             </CardContent>
@@ -201,11 +201,11 @@ export default async function MedicalDashboardPage() {
 
         <section className="space-y-4">
           <div className="flex items-center justify-between gap-4">
-            <h2 className="text-lg font-semibold text-slate-950 dark:text-white">Shortcuts</h2>
+            <h2 className="text-lg font-semibold text-slate-950 dark:text-white">Быстрый доступ</h2>
             <Button variant="ghost" size="sm" className="text-[var(--clinical-primary-deep)]" asChild>
               <Link href="/tools/mapping/uterus">
                 <Stethoscope className="mr-2 h-4 w-4" />
-                3D uterus
+                3D матка
               </Link>
             </Button>
           </div>
@@ -226,7 +226,7 @@ export default async function MedicalDashboardPage() {
                   </CardHeader>
                   <CardContent className="mt-auto pt-0">
                     <Button variant="secondary" size="sm" className="w-full rounded-xl" asChild>
-                      <Link href={item.href}>Open</Link>
+                      <Link href={item.href}>Открыть</Link>
                     </Button>
                   </CardContent>
                 </Card>
