@@ -56,6 +56,8 @@ function HitLink({
   badge?: string;
   onPick: () => void;
 }) {
+  const badgeLabel = badge?.toLowerCase() === "confirmed" ? "Проверено" : badge;
+
   return (
     <Link
       href={href}
@@ -64,9 +66,9 @@ function HitLink({
     >
       <div className="flex items-start justify-between gap-2">
         <p className="font-semibold text-[var(--clinical-foreground)]">{title}</p>
-        {badge ? (
+        {badgeLabel ? (
           <span className="shrink-0 rounded-full bg-[var(--clinical-primary-muted)] px-2 py-0.5 text-[10px] font-bold uppercase text-[var(--clinical-primary-deep)]">
-            {badge}
+            {badgeLabel}
           </span>
         ) : null}
       </div>
@@ -140,6 +142,10 @@ export function GlobalSearchDialog({ open, onOpenChange }: Props) {
     local.tools.length > 0 ||
     local.ai.length > 0 ||
     local.classifications.length > 0 ||
+    local.guidelines.length > 0 ||
+    local.nosologies.length > 0 ||
+    local.education.length > 0 ||
+    local.quizzes.length > 0 ||
     cases.length > 0 ||
     confirmedCases.length > 0;
 
@@ -162,7 +168,7 @@ export function GlobalSearchDialog({ open, onOpenChange }: Props) {
             Поиск
           </DialogTitle>
           <DialogDescription>
-            Инструменты · кейсы · AI · классификации (P0.5 MVP)
+            Калькуляторы, КР, нозологии, атласы, quiz, AI и кейсы — один поиск.
           </DialogDescription>
         </DialogHeader>
         <div className="p-4">
@@ -177,16 +183,40 @@ export function GlobalSearchDialog({ open, onOpenChange }: Props) {
           {showDefault ? (
             <ResultSection title="Быстрый старт">
               <HitLink
+                href="/feed"
+                title="Лента"
+                subtitle="Подборка кейсов, материалов и быстрых ссылок"
+                onPick={onPick}
+              />
+              <HitLink
+                href="/tools/refs"
+                title="Практика · КР и алгоритмы"
+                subtitle="Короткие карточки, нозологии, нормы, источники и Evidence AI"
+                onPick={onPick}
+              />
+              <HitLink
+                href="/ai/consultants"
+                title="Помощник врача"
+                subtitle="Акушерство, гинекология, FMF и сосудистое УЗД"
+                onPick={onPick}
+              />
+              <HitLink
                 href="/cases?tab=cases&lifecycle=confirmed"
                 title="Подтверждённые кейсы"
-                subtitle="Expert-reviewed teaching cases"
-                badge="CONFIRMED"
+                subtitle="Обучающие случаи, проверенные экспертно"
+                badge="Проверено"
                 onPick={onPick}
               />
               <HitLink
                 href="/cases/new"
                 title="Новый кейс УЗИ"
-                subtitle="Wizard с анонимизацией (R6)"
+                subtitle="Пошаговое создание кейса с напоминанием об анонимизации"
+                onPick={onPick}
+              />
+              <HitLink
+                href="/tools/refs/quiz-hub"
+                title="Клинические задачи"
+                subtitle="Quiz hub · O-RADS · IOTA · exam practice"
                 onPick={onPick}
               />
             </ResultSection>
@@ -261,6 +291,62 @@ export function GlobalSearchDialog({ open, onOpenChange }: Props) {
                   href={t.href}
                   title={t.label}
                   subtitle={`${t.system} · ${t.subtitle}`}
+                  onPick={onPick}
+                />
+              ))}
+            </ResultSection>
+          ) : null}
+
+          {(showDefault ? emptyDefault.guidelines : local.guidelines).length > 0 ? (
+            <ResultSection title="Клинические рекомендации">
+              {(showDefault ? emptyDefault.guidelines : local.guidelines).map((g) => (
+                <HitLink
+                  key={g.id}
+                  href={g.href}
+                  title={g.title}
+                  subtitle={g.subtitle}
+                  onPick={onPick}
+                />
+              ))}
+            </ResultSection>
+          ) : null}
+
+          {(showDefault ? emptyDefault.nosologies : local.nosologies).length > 0 ? (
+            <ResultSection title="Нозологии">
+              {(showDefault ? emptyDefault.nosologies : local.nosologies).map((n) => (
+                <HitLink
+                  key={n.id}
+                  href={n.href}
+                  title={n.title}
+                  subtitle={n.subtitle}
+                  onPick={onPick}
+                />
+              ))}
+            </ResultSection>
+          ) : null}
+
+          {(showDefault ? emptyDefault.education : local.education).length > 0 ? (
+            <ResultSection title="Обучение и атласы">
+              {(showDefault ? emptyDefault.education : local.education).map((e) => (
+                <HitLink
+                  key={e.id}
+                  href={e.href}
+                  title={e.title}
+                  subtitle={e.description}
+                  onPick={onPick}
+                />
+              ))}
+            </ResultSection>
+          ) : null}
+
+          {(showDefault ? emptyDefault.quizzes : local.quizzes).length > 0 ? (
+            <ResultSection title="Самопроверка">
+              {(showDefault ? emptyDefault.quizzes : local.quizzes).map((q) => (
+                <HitLink
+                  key={q.id}
+                  href={q.href}
+                  title={q.title}
+                  subtitle={q.subtitle}
                   onPick={onPick}
                 />
               ))}

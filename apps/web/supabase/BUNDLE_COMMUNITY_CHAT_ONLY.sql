@@ -1,6 +1,6 @@
 -- SonoGyn Pro · все миграции (порядок по имени файла)
 -- Supabase Dashboard → SQL Editor → вставить и Run
--- Сгенерировано: 2026-06-24T12:59:31.223Z
+-- Сгенерировано: 2026-09-13T07:23:22.974Z
 
 -- ========== 20260605120000_teaching_case_media_storage.sql ==========
 -- Storage for teaching case ultrasound images/videos (anonymized, no PHI in production policy).

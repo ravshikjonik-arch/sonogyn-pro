@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
-
 import { useSafeSentryCapture } from "@/lib/sentry/use-safe-sentry-capture";
 import { Button } from "@/components/ui/button";
 
@@ -17,18 +15,18 @@ export default function ClinicalSegmentError({
   return (
     <div className="flex min-h-[50vh] flex-col items-center justify-center gap-4 px-6 py-16 text-center">
       <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--clinical-primary-deep)]">
-        Clinical workspace
+        Рабочий кабинет
       </p>
-      <h1 className="text-2xl font-semibold text-slate-950 dark:text-white">Something went wrong</h1>
+      <h1 className="text-2xl font-semibold text-slate-950 dark:text-white">Что-то пошло не так</h1>
       <p className="max-w-md text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
-        {error.message || "An unexpected error occurred. Your session may still be valid — try again or return home."}
+        {error.message || "Произошла ошибка. Попробуйте ещё раз или вернитесь в рабочий кабинет."}
       </p>
       <div className="flex flex-wrap justify-center gap-3">
         <Button type="button" onClick={() => reset()} className="rounded-xl">
-          Try again
+          Попробовать снова
         </Button>
         <Button type="button" variant="secondary" className="rounded-xl" asChild>
-          <a href="/app">Command Center</a>
+          <a href="/app">Рабочий кабинет</a>
         </Button>
       </div>
     </div>

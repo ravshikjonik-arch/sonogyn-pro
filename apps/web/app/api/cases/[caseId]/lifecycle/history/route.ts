@@ -28,7 +28,7 @@ export async function GET(request: Request, { params }: Params) {
 
   const { data, error } = await supabase
     .from("case_lifecycle_events")
-    .select("id,case_id,from_status,to_status,actor_id,note,meta,created_at")
+    .select("id,case_id,from_status,to_status,actor_id,note,reason,request_id,meta,created_at")
     .eq("case_id", routeParams.data.caseId)
     .order("created_at", { ascending: false })
     .limit(40);
@@ -46,6 +46,8 @@ export async function GET(request: Request, { params }: Params) {
       toStatus: row.to_status,
       actorId: row.actor_id,
       note: row.note,
+      reason: row.reason ?? row.note,
+      requestId: row.request_id,
       meta: row.meta,
       createdAt: row.created_at,
     })),

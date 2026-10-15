@@ -23,6 +23,13 @@ function sanitizeProtocolDraft(raw: StructuredProtocolDraft): StructuredProtocol
   });
 }
 
+export type ProtocolDraftMeta = {
+  lifecycleStatus: string;
+  versionNumber: number;
+  contentHash: string | null;
+  finalizedAt: string | null;
+};
+
 function rowToDraft(row: {
   sections_json: unknown;
   editor_state_json: unknown;
@@ -33,6 +40,10 @@ function rowToDraft(row: {
   scale_source: string | null;
   physician_confirmed_conclusion: boolean;
   updated_at: string;
+  lifecycle_status?: string | null;
+  version_number?: number | null;
+  content_hash?: string | null;
+  finalized_at?: string | null;
 }): StructuredProtocolDraft {
   const sections = ensureProtocolSections(
     typeof row.sections_json === "object" && row.sections_json !== null
@@ -59,26 +70,53 @@ function rowToDraft(row: {
 export async function getProtocolStructuredDraft(
   supabase: SupabaseClient,
   studyId: string,
-): Promise<{ draft: StructuredProtocolDraft | null; updatedAt: string | null; id: string | null }> {
+): Promise<{
+  draft: StructuredProtocolDraft | null;
+  updatedAt: string | null;
+  id: string | null;
+  meta: ProtocolDraftMeta | null;
+}> {
   const { data, error } = await supabase
     .from("protocol_structured_drafts")
     .select(
-      "id,sections_json,editor_state_json,search_text,template_version,algorithm_version,algorithm_date,scale_source,physician_confirmed_conclusion,updated_at",
+      "id,sections_json,editor_state_json,search_text,template_version,algorithm_version,algorithm_date,scale_source,physician_confirmed_conclusion,updated_at,lifecycle_status,version_number,content_hash,finalized_at",
     )
     .eq("study_id", studyId)
     .maybeSingle();
 
   if (error) {
-    if (error.code === "42P01") return { draft: null, updatedAt: null, id: null };
+    if (error.code === "42P01") return { draft: null, updatedAt: null, id: null, meta: null };
+    if (error.code === "42703") {
+      const { data: legacy, error: legacyErr } = await supabase
+        .from("protocol_structured_drafts")
+        .select(
+          "id,sections_json,editor_state_json,search_text,template_version,algorithm_version,algorithm_date,scale_source,physician_confirmed_conclusion,updated_at",
+        )
+        .eq("study_id", studyId)
+        .maybeSingle();
+      if (legacyErr || !legacy) return { draft: null, updatedAt: null, id: null, meta: null };
+      return {
+        id: legacy.id,
+        updatedAt: legacy.updated_at,
+        draft: rowToDraft(legacy),
+        meta: { lifecycleStatus: "draft", versionNumber: 1, contentHash: null, finalizedAt: null },
+      };
+    }
     throw new Error(error.message);
   }
 
-  if (!data) return { draft: null, updatedAt: null, id: null };
+  if (!data) return { draft: null, updatedAt: null, id: null, meta: null };
 
   return {
     id: data.id,
     updatedAt: data.updated_at,
     draft: rowToDraft(data),
+    meta: {
+      lifecycleStatus: data.lifecycle_status ?? "draft",
+      versionNumber: data.version_number ?? 1,
+      contentHash: data.content_hash ?? null,
+      finalizedAt: data.finalized_at ?? null,
+    },
   };
 }
 
@@ -103,9 +141,17 @@ export async function upsertProtocolStructuredDraft(
 
   const { data: existing } = await supabase
     .from("protocol_structured_drafts")
-    .select("id,updated_at")
+    .select("id,updated_at,lifecycle_status")
     .eq("study_id", input.studyId)
     .maybeSingle();
+
+  if (existing?.lifecycle_status === "finalized" || existing?.lifecycle_status === "archived") {
+    return {
+      ok: false,
+      conflict: false,
+      error: "Финализированный протокол нельзя редактировать. Создайте исправленную версию.",
+    };
+  }
 
   if (
     parsed.data.expectedUpdatedAt &&

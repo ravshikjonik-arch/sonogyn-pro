@@ -87,7 +87,7 @@ export function AuthSetupBanner() {
             Регистрация по Email
           </Link>
           <a
-            href="https://supabase.com/dashboard/project/ocqlsqqloqvlzutbgrnp/auth/url-configuration"
+            href="https://supabase.com/dashboard/project/grnwcbyslttbrqznnunq/auth/url-configuration"
             className="underline"
             target="_blank"
             rel="noreferrer"

@@ -39,8 +39,8 @@ export async function GET(request: Request, context: { params: Promise<{ studyId
   }
 
   try {
-    const { draft, updatedAt } = await getProtocolStructuredDraft(supabase, studyId);
-    return NextResponse.json({ draft, updatedAt });
+    const { draft, updatedAt, meta } = await getProtocolStructuredDraft(supabase, studyId);
+    return NextResponse.json({ draft, updatedAt, meta });
   } catch (err) {
     safeLog("protocol structured get error", { message: err instanceof Error ? err.message : "unknown" });
     return NextResponse.json({ error: "Не удалось загрузить черновик" }, { status: 500 });

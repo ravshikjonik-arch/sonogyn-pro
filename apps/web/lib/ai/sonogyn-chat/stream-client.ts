@@ -55,6 +55,27 @@ export async function consumeSonogynChatStream(
   return meta;
 }
 
+/** SSE stream when LLM is skipped (insufficient retrieval) — still sends evidence metadata to client. */
+export function createStaticEvidenceChatStream(
+  assistantText: string,
+  evidence: AssistantAnswer,
+): ReadableStream<Uint8Array> {
+  const encoder = new TextEncoder();
+  return new ReadableStream({
+    start(controller) {
+      controller.enqueue(
+        encoder.encode(
+          `data: ${JSON.stringify({ type: "sonogyn.evidence", mode: "evidence", evidence })}\n\n`,
+        ),
+      );
+      const chunk = { choices: [{ delta: { content: assistantText } }] };
+      controller.enqueue(encoder.encode(`data: ${JSON.stringify(chunk)}\n\n`));
+      controller.enqueue(encoder.encode("data: [DONE]\n\n"));
+      controller.close();
+    },
+  });
+}
+
 export function wrapOpenRouterStreamWithEvidence(
   upstream: ReadableStream<Uint8Array>,
   evidence: AssistantAnswer,

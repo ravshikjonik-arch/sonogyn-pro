@@ -37,6 +37,23 @@ export type NosologyLiteratureItem = {
   tier?: 1 | 2 | 3;
 };
 
+export type NosologyShortGuideline = {
+  /** Суть нозологии в 1-2 предложениях для быстрого входа на приёме. */
+  summary?: string;
+  /** Первичные шаги обследования: осмотр, лаборатория, маршрутизация. */
+  workup?: string[];
+  /** УЗ-критерии и дифференциальная диагностика. */
+  ultrasound?: string[];
+  /** Тактика: наблюдение, дообследование, направление, лечение. */
+  management?: string[];
+  /** Красные флаги и ситуации, требующие срочной маршрутизации. */
+  redFlags?: string[];
+  /** Что объяснить пациентке простым языком. */
+  patientInfo?: string[];
+  /** КР, гайдлайны и первоисточники для карточки. */
+  sources?: string[];
+};
+
 export type Nosology = {
   id: string;
   title: string;
@@ -60,6 +77,8 @@ export type Nosology = {
   pubmedQuery?: string;
   /** Дополнительная литература (PMID), поверх курируемого сида. */
   literature?: NosologyLiteratureItem[];
+  /** Короткая КР-карточка для режима "на приёме". Если не заполнена — UI собирает её из основных блоков. */
+  shortGuideline?: NosologyShortGuideline;
   updatedAt?: string;
 };
 

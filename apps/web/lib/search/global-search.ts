@@ -1,7 +1,10 @@
 import { formatLifecycleLabel } from "@/lib/cases/lifecycle-labels";
+import { searchEducationModules, searchModules, type ModuleSearchHit } from "./search-modules";
 import { searchClassifications, type ClassificationHit } from "./search-classifications";
 import { searchAiRoutes, type AiRouteHit } from "./search-ai-routes";
-import { searchModules, type ModuleSearchHit } from "./search-modules";
+import { searchGuidelinesLocal, type GuidelineLocalHit } from "./search-guidelines-local";
+import { searchNosologyLocal, type NosologyLocalHit } from "./search-nosology-local";
+import { searchQuizLocal, type QuizSearchHit } from "./search-quiz-local";
 
 export type CaseSearchHit = {
   id: string;
@@ -16,6 +19,10 @@ export type GlobalSearchResult = {
   ai: AiRouteHit[];
   cases: CaseSearchHit[];
   classifications: ClassificationHit[];
+  guidelines: GuidelineLocalHit[];
+  nosologies: NosologyLocalHit[];
+  education: ModuleSearchHit[];
+  quizzes: QuizSearchHit[];
 };
 
 export async function fetchCaseSearchHits(query: string, limit = 6): Promise<CaseSearchHit[]> {
@@ -65,5 +72,9 @@ export function searchGlobalLocal(query: string): Omit<GlobalSearchResult, "case
     tools: searchModules(query, 8),
     ai: searchAiRoutes(query, 6),
     classifications: searchClassifications(query, 6),
+    guidelines: searchGuidelinesLocal(query, 6),
+    nosologies: searchNosologyLocal(query, 6),
+    education: searchEducationModules(query, 5),
+    quizzes: searchQuizLocal(query, 5),
   };
 }

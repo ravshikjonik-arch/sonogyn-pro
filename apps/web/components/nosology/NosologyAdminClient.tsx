@@ -15,7 +15,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-const ZONES: NosologyZone[] = ["uterus", "endometrium", "ovaries", "tubes", "cervix", "other"];
+const ZONES: NosologyZone[] = ["uterus", "endometrium", "ovaries", "tubes", "cervix", "obstetrics", "other"];
 
 const emptyForm = (): Nosology => ({
   id: "",
@@ -29,6 +29,7 @@ const emptyForm = (): Nosology => ({
   guidelines: {},
   diagnosisLine: "",
   protocolTemplate: "",
+  shortGuideline: {},
 });
 
 type Props = { initialEditId?: string | null };
@@ -112,6 +113,39 @@ export function NosologyAdminClient({ initialEditId }: Props) {
       />
     </label>
   );
+
+  const shortGuidelineField = (
+    key: keyof NonNullable<Nosology["shortGuideline"]>,
+    label: string,
+    rows = 3,
+    placeholder?: string,
+  ) => {
+    const value = form.shortGuideline?.[key];
+    const text = Array.isArray(value) ? value.join("\n") : value ?? "";
+    return (
+      <label className="block text-sm">
+        {label}
+        <textarea
+          className="mt-1 w-full rounded-lg border border-[var(--clinical-border)] bg-[var(--clinical-muted)] p-2 text-sm"
+          rows={rows}
+          placeholder={placeholder}
+          value={text}
+          onChange={(e) =>
+            setForm((f) => ({
+              ...f,
+              shortGuideline: {
+                ...f.shortGuideline,
+                [key]:
+                  key === "summary"
+                    ? e.target.value
+                    : e.target.value.split("\n").map((x) => x.trim()).filter(Boolean),
+              },
+            }))
+          }
+        />
+      </label>
+    );
+  };
 
   return (
     <div className="mx-auto max-w-6xl space-y-8 px-4 py-8">
@@ -208,6 +242,22 @@ export function NosologyAdminClient({ initialEditId }: Props) {
           {blockField("diagnostics", "Диагностика")}
           {blockField("treatment", "Лечение")}
           {blockField("guidelines", "Рекомендации")}
+          <div className="space-y-3 rounded-xl border border-dashed border-[var(--clinical-border)] p-3">
+            <div>
+              <h3 className="text-sm font-bold">Короткая КР-карточка</h3>
+              <p className="mt-1 text-xs leading-relaxed text-[var(--clinical-foreground-muted)]">
+                Reclin-формат для приёма: суть, УЗИ, тактика, red flags, пациентке, источники. Если оставить пустым,
+                карточка соберётся автоматически из основных блоков.
+              </p>
+            </div>
+            {shortGuidelineField("summary", "Суть за 30 секунд", 2, "1–2 предложения для врача на приёме")}
+            {shortGuidelineField("workup", "Обследование", 4, "Каждый пункт с новой строки")}
+            {shortGuidelineField("ultrasound", "УЗИ и диагностика", 4, "Ключевые УЗ-критерии")}
+            {shortGuidelineField("management", "Тактика", 4, "Наблюдение / дообследование / направление")}
+            {shortGuidelineField("redFlags", "Red flags", 3, "Срочная маршрутизация, онкориск, кровотечение…")}
+            {shortGuidelineField("patientInfo", "Пациентке", 3, "Простые объяснения и следующий шаг")}
+            {shortGuidelineField("sources", "Источники", 3, "КР / FIGO / ISUOG / ACR / IOTA")}
+          </div>
           <div className="flex gap-2">
             <Button type="button" onClick={() => void save()}>
               Сохранить

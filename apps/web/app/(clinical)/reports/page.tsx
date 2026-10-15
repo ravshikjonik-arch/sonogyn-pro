@@ -7,36 +7,36 @@ const TEMPLATES = [
   {
     href: "/tools/calc/rads/adnex-report",
     title: "Придатки · O-RADS US",
-    description: "Из O-RADS Pro / wizard — описание, заключение, рекомендации по ACR O-RADS.",
-    badge: "Adnex",
+    description: "Из O-RADS Pro или пошагового разбора — описание, заключение, рекомендации по ACR O-RADS.",
+    badge: "Придатки",
     step: "1",
   },
   {
     href: "/reports/thyroid",
     title: "Щитовидная · ACR TI-RADS",
-    description: "Composition → echogenicity → shape → margin → foci → категория и ТАБ.",
-    badge: "Thyroid",
+    description: "Состав, эхогенность, форма, контуры, фокусы → категория и показания к ТАБ.",
+    badge: "ЩЖ",
     step: "2",
   },
   {
     href: "/reports/obstetric",
     title: "Акушерство · биометрия",
     description: "Срок, КТР, БПР, ОЖ, ДБ, масса — структурированный протокол плода.",
-    badge: "OB",
+    badge: "Акушерство",
     step: "3",
   },
 ] as const;
 
 export const metadata = {
   title: "Структурированные протоколы · SonoGyn",
-  description: "Structured Reporting Engine — шаблоны Phase 1",
+  description: "Шаблоны структурированных УЗИ-протоколов",
 };
 
 export default function ReportsHubPage() {
   return (
     <div className="mx-auto max-w-4xl space-y-8 px-4 py-10 lg:px-10">
       <header className="space-y-3">
-        <Badge variant="outline">SRE · Phase 1</Badge>
+        <Badge variant="outline">Протоколы УЗИ</Badge>
         <h1 className="text-2xl font-semibold tracking-tight text-[var(--clinical-foreground)]">
           Структурированные протоколы
         </h1>

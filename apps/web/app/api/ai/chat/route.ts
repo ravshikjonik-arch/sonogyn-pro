@@ -19,7 +19,14 @@ import { inferClinicalDomain, type SonogynClinicalDomain } from "@/lib/ai/sonogy
 import { SonogynChatRequestSchema } from "@/lib/ai/sonogyn-chat/request-schema";
 import { buildSonogynSystemPrompt } from "@/lib/ai/sonogyn-chat/system-prompt";
 import { buildEvidenceModeSystemPrompt, formatEvidenceContextForPrompt } from "@/lib/ai/sonogyn-chat/evidence-context";
-import { wrapOpenRouterStreamWithEvidence } from "@/lib/ai/sonogyn-chat/stream-client";
+import {
+  formatInsufficientEvidenceChatReply,
+  isInsufficientEvidence,
+} from "@/lib/ai/sonogyn-chat/evidence-insufficient";
+import {
+  createStaticEvidenceChatStream,
+  wrapOpenRouterStreamWithEvidence,
+} from "@/lib/ai/sonogyn-chat/stream-client";
 import { extractToolsFromAssistantText } from "@/lib/ai/sonogyn-chat/tool-results";
 import {
   detectPromptInjection,
@@ -290,7 +297,11 @@ export async function POST(request: Request) {
       { config },
     );
     evidenceAnswer = await synthesizeWithLlm(lastUserText, searchResult);
-    systemPrompt = buildEvidenceModeSystemPrompt(formatEvidenceContextForPrompt(evidenceAnswer));
+    systemPrompt = buildEvidenceModeSystemPrompt(
+      formatEvidenceContextForPrompt(evidenceAnswer),
+      lastUserText,
+    );
+    promptVersion = "evidence-v2";
     void logEvidenceQuery(supabase, {
       userId: auth.userId,
       query: lastUserText,
@@ -315,6 +326,56 @@ export async function POST(request: Request) {
       userId: auth.userId,
       role: "user",
       content: lastUserText,
+    });
+  }
+
+  if (mode === "evidence" && evidenceAnswer && isInsufficientEvidence(evidenceAnswer)) {
+    const assistantText = formatInsufficientEvidenceChatReply(evidenceAnswer);
+    promptVersion = "evidence-insufficient-v1";
+
+    if (activeSessionId) {
+      await appendChatMessage(supabase, {
+        sessionId: activeSessionId,
+        userId: auth.userId,
+        role: "assistant",
+        content: assistantText,
+        evidence: evidenceAnswer,
+        isAiDraft: true,
+        modelId: "retrieval-only",
+        promptVersion,
+      });
+    }
+
+    await logAiChatEvent({
+      userId: auth.userId,
+      domain,
+      success: true,
+      durationMs: Date.now() - started,
+      model: "evidence:insufficient",
+      hasImages: false,
+      promptVersion,
+      sessionId: activeSessionId,
+    });
+
+    if (useStream) {
+      return new NextResponse(createStaticEvidenceChatStream(assistantText, evidenceAnswer), {
+        headers: {
+          "Content-Type": "text/event-stream",
+          "Cache-Control": "no-cache, no-transform",
+          Connection: "keep-alive",
+          "X-Sonogyn-Prompt-Version": promptVersion,
+          "X-Sonogyn-Session-Id": activeSessionId ?? "",
+        },
+      });
+    }
+
+    return NextResponse.json({
+      choices: [{ message: { role: "assistant", content: assistantText } }],
+      evidence: evidenceAnswer,
+      mode: "evidence",
+      sessionId: activeSessionId,
+      promptVersion,
+      isAiDraft: true,
     });
   }
 
