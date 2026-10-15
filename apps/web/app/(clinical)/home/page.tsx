@@ -10,5 +10,9 @@ export const revalidate = 60;
 export const preferredRegion = "fra1";
 
 export default function OpenAccessHomePage() {
-  return <OpenAccessHomeClient />;
+  return (
+    <div data-testid="app-home">
+      <OpenAccessHomeClient />
+    </div>
+  );
 }
