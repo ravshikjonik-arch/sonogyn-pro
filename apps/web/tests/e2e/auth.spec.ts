@@ -42,6 +42,12 @@ test.describe("Авторизация врача", () => {
     await loginAsDoctor(page, testData.doctor.email, testData.doctor.password);
 
     await expect(page).toHaveURL(/\/(home|app)/);
+    if (useServerAuthStub) {
+      const session = await page.request.get("/api/auth/session");
+      const body = (await session.json()) as { user?: { email?: string } | null };
+      expect(body.user?.email?.toLowerCase()).toBe(testData.doctor.email.toLowerCase());
+      return;
+    }
     await expect(page.getByTestId("app-home")).toBeVisible({ timeout: 45_000 });
   });
 
