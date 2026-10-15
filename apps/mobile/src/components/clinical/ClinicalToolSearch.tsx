@@ -4,6 +4,7 @@ import {
   getClinicalToolById,
   searchClinicalTools,
   type ClinicalTool,
+  type ClinicalToolSearchResult,
   type DoctorRole,
 } from "@repo/clinical-tools";
 
@@ -101,7 +102,7 @@ export function PinnedToolsRow({
 
   const recentTools = (recentActions ?? [])
     .map((action) => searchClinicalTools("", { limit: 200 }).find((t) => t.mobileAction === action))
-    .filter((x): x is ClinicalTool => !!x)
+    .filter((x): x is ClinicalToolSearchResult => x != null)
     .filter((t) => !toolIds.includes(t.id));
 
   if (!pinTools.length && !recentTools.length) return null;
