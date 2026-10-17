@@ -5,6 +5,10 @@ import { canPublishCaseMedia, formatPublishBlockedError } from "@/lib/cases/anon
 import { rejectIfRateLimitedForUser, rejectIfRateLimitedPreset } from "@/lib/security/api-rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { requireSupabaseUserFromRequest } from "@/lib/security/require-user";
+import {
+  assessTeachingCasePhi,
+  TEACHING_CASE_PHI_REJECT_MESSAGE,
+} from "@/lib/security/teaching-case-phi-guard";
 import { safeLog } from "@/lib/security/safeLog";
 import { createClient } from "@/utils/supabase/server";
 
@@ -32,7 +36,7 @@ export async function POST(request: Request, { params }: Params) {
 
   const { data: caseRow, error: caseError } = await supabase
     .from("cases")
-    .select("id,user_id")
+    .select("id,user_id,title,description,anatomy,pathology")
     .eq("id", routeParams.data.caseId)
     .maybeSingle();
 
@@ -41,6 +45,19 @@ export async function POST(request: Request, { params }: Params) {
   }
   if (caseRow.user_id !== auth.userId) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
+  const phi = assessTeachingCasePhi({
+    title: caseRow.title ?? undefined,
+    description: caseRow.description,
+    anatomy: caseRow.anatomy,
+    pathology: caseRow.pathology,
+  });
+  if (!phi.ok) {
+    return NextResponse.json(
+      { error: TEACHING_CASE_PHI_REJECT_MESSAGE, code: "phi_detected", reasons: phi.reasons },
+      { status: 400 },
+    );
   }
 
   const { data: mediaRows, error: mediaError } = await supabase

@@ -10,6 +10,10 @@ import { rejectIfRateLimitedForUser, rejectIfRateLimitedPreset } from "@/lib/sec
 import { getClinicalRole, roleMeetsMinimum } from "@/lib/security/require-clinical-role";
 import { RL } from "@/lib/security/rate-limit-config";
 import { requireSupabaseUserFromRequest } from "@/lib/security/require-user";
+import {
+  assessTeachingCasePhi,
+  TEACHING_CASE_PHI_REJECT_MESSAGE,
+} from "@/lib/security/teaching-case-phi-guard";
 import { safeLog } from "@/lib/security/safeLog";
 import { createClient } from "@/utils/supabase/server";
 
@@ -125,6 +129,19 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
   }
 
+  const phi = assessTeachingCasePhi({
+    title: parsed.data.title,
+    description: parsed.data.description,
+    anatomy: parsed.data.anatomy,
+    pathology: parsed.data.pathology,
+  });
+  if (!phi.ok) {
+    return NextResponse.json(
+      { error: TEACHING_CASE_PHI_REJECT_MESSAGE, code: "phi_detected", reasons: phi.reasons },
+      { status: 400 },
+    );
+  }
+
   try {
     const descriptionHtml = parsed.data.description_html?.trim()
       ? sanitizeClinicalHtml(parsed.data.description_html)
@@ -132,6 +149,19 @@ export async function POST(request: Request) {
     const descriptionPlain = descriptionHtml
       ? htmlToPlainText(descriptionHtml) || null
       : emptyToNull(parsed.data.description);
+
+    const phiHtml = assessTeachingCasePhi({
+      title: parsed.data.title,
+      description: descriptionPlain,
+      anatomy: parsed.data.anatomy,
+      pathology: parsed.data.pathology,
+    });
+    if (!phiHtml.ok) {
+      return NextResponse.json(
+        { error: TEACHING_CASE_PHI_REJECT_MESSAGE, code: "phi_detected", reasons: phiHtml.reasons },
+        { status: 400 },
+      );
+    }
 
     const { data, error } = await supabase
       .from("cases")

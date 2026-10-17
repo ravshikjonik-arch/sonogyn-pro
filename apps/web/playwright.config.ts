@@ -46,7 +46,7 @@ export default defineConfig({
       name: "chromium-no-auth",
       use: { ...devices["Desktop Chrome"] },
       testMatch:
-        /auth\.spec\.ts|cpi-evaluate\.spec\.ts|security-smoke\.spec\.ts|a11y-smoke\.spec\.ts|visual-smoke\.spec\.ts/,
+        /auth\.spec\.ts|cpi-evaluate\.spec\.ts|security-smoke\.spec\.ts|emr-idor-smoke\.spec\.ts|a11y-smoke\.spec\.ts|visual-smoke\.spec\.ts/,
     },
   ],
   webServer: {
@@ -59,6 +59,11 @@ export default defineConfig({
       ...process.env,
       E2E_FIXTURES: "true",
       NEXT_PUBLIC_E2E_FIXTURES: "true",
+      /** Stub auth + EMR fixtures (matches GitHub Actions CI e2e job). */
+      NEXT_PUBLIC_SUPABASE_URL: "https://example.supabase.co",
+      NEXT_PUBLIC_SUPABASE_ANON_KEY:
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ??
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ci-placeholder",
       DEV_SKIP_AUTH: devSkipAuthForWebServer,
       DEV_AUTO_LOGIN: "false",
       ...(securityE2e
