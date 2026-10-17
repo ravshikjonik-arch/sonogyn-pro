@@ -1,18 +1,29 @@
 # @repo/database
 
-Versioned Postgres migrations for the ultrasound SaaS platform.
+Versioned Postgres migrations — **mirror** of the web SSOT.
 
-## Apply
+## Source of truth
+
+**Authoritative path:** `apps/web/supabase/migrations/`  
+See `docs/architecture/migrations-source-of-truth.md`.
+
+This package exists so teams can run `supabase db push` from a dedicated folder and to document the SaaS schema. **Do not edit SQL here first.**
+
+## Sync mirror from web
 
 ```bash
-# From repo root (linked Supabase project)
-supabase db push
-
-# Or paste SQL files in order into Supabase Dashboard → SQL → New query
+pnpm --filter @repo/database sync-from-web
+pnpm check:migration-drift   # from repo root — must pass before merge
 ```
 
-**Source of truth:** `packages/database/supabase/migrations/*.sql`
+## Apply (staging / manual)
 
-Apply SaaS core first (`20260208100000_saas_platform_core.sql`), then teaching-gallery social tables (`20260210120000_teaching_social_on_cases.sql`). Legacy `clinical_cases` migrations remain for older demos only.
+```bash
+# From repo root (linked Supabase project — staging only unless explicitly approved)
+supabase db push
 
-Duplicate migrations are mirrored under `apps/web/supabase/migrations/` so teams running CLI only against the Next app stay aligned — prefer consolidating edits here then copying into `apps/web` when iterating locally.
+# Or paste files in order into Supabase Dashboard → SQL (prefer apps/web bundle)
+cd apps/web && npm run db:bundle
+```
+
+Apply SaaS core first (`20260208100000_saas_platform_core.sql`), then teaching-gallery social tables. Legacy `clinical_cases` migrations remain for older demos only.

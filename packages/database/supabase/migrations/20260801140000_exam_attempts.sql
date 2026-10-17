@@ -1,5 +1,6 @@
 -- Phase 2 · T2.2 — exam_attempts + RLS (self-assessment progress sync)
 -- Persona: студент / самопроверка. No PHI — only quiz answer marks.
+-- Mirror of packages/database/supabase/migrations/20260801140000_exam_attempts.sql
 
 create table if not exists public.exam_attempts (
   id uuid primary key default gen_random_uuid(),
@@ -49,7 +50,6 @@ drop policy if exists exam_attempts_delete_own on public.exam_attempts;
 create policy exam_attempts_delete_own on public.exam_attempts
   for delete to authenticated using (auth.uid() = user_id);
 
--- Admin read for support / analytics (reuse is_admin if present)
 do $$
 begin
   if exists (

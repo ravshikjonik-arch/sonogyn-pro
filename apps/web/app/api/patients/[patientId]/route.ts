@@ -12,6 +12,8 @@ import {
   patientPhiRejectMessage,
   suspendAccountForPhiViolation,
 } from "@/lib/security/patient-phi-guard";
+import { getE2eEmrPatientForUser } from "@/lib/e2e/emr-patient-fixtures";
+import { resolveE2eCiStubApiUser } from "@/lib/e2e/resolve-e2e-api-user";
 import { safeLog } from "@/lib/security/safeLog";
 import { isUuid } from "@/lib/security/uuid";
 import { createClient } from "@/utils/supabase/server";
@@ -26,6 +28,17 @@ export async function GET(request: Request, context: { params: Promise<Params> }
   if (!isUuid(patientId)) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
+
+  const stubUser = resolveE2eCiStubApiUser(request);
+  if (stubUser !== null) {
+    if (!stubUser.ok) return stubUser.response;
+    const patient = getE2eEmrPatientForUser(patientId, stubUser.userId);
+    if (!patient) {
+      return NextResponse.json({ error: "Not found" }, { status: 404 });
+    }
+    return NextResponse.json({ patient, studies: [] });
+  }
+
   const supabase = await createClient();
   const {
     data: { user },

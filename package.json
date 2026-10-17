@@ -35,7 +35,8 @@
     "audit:navigation": "npx --yes pnpm@10.6.5 --filter @repo/types test && npx --yes pnpm@10.6.5 --filter @repo/web audit:navigation-icons && npx --yes pnpm@10.6.5 --filter @repo/web test:navigation",
     "setup:githooks": "git config core.hooksPath .githooks && chmod +x .githooks/pre-commit",
     "test:e2e": "npx --yes pnpm@10.6.5 --filter @repo/web test:e2e",
-    "test:cpi": "npx --yes pnpm@10.6.5 --filter @repo/cervical-pathology test"
+    "test:cpi": "npx --yes pnpm@10.6.5 --filter @repo/cervical-pathology test",
+    "check:migration-drift": "node scripts/check-migration-drift.mjs"
   },
   "devDependencies": {
     "turbo": "^2.5.4",

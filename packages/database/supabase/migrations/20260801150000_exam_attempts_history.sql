@@ -1,10 +1,9 @@
 -- Phase 2 · T2.3 — allow certification/mock/quick history (append-only)
--- Keep single upsertable row for self_assessment via partial unique index.
+-- Mirror of packages/database/supabase/migrations/20260801150000_exam_attempts_history.sql
 
 alter table public.exam_attempts
   drop constraint if exists exam_attempts_user_id_blueprint_id_mode_key;
 
--- Some environments name the unique constraint differently
 do $$
 declare
   cname text;

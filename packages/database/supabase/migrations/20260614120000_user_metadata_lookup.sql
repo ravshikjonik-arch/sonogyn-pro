@@ -1,4 +1,5 @@
 -- Быстрый lookup email → user id (замена auth.admin.listUsers в sign-up).
+-- Синхронизация из auth.users через trigger.
 
 CREATE TABLE IF NOT EXISTS public.user_metadata (
   id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
@@ -15,6 +16,7 @@ CREATE INDEX IF NOT EXISTS idx_user_metadata_phone ON public.user_metadata(phone
 
 ALTER TABLE public.user_metadata ENABLE ROW LEVEL SECURITY;
 
+-- Только service role / backend (RLS без policies для anon/authenticated).
 REVOKE ALL ON public.user_metadata FROM anon, authenticated;
 GRANT SELECT, INSERT, UPDATE, DELETE ON public.user_metadata TO service_role;
 
@@ -55,6 +57,7 @@ CREATE TRIGGER on_auth_user_metadata_sync
   FOR EACH ROW
   EXECUTE FUNCTION public.handle_auth_user_metadata_sync();
 
+-- Backfill существующих пользователей (идемпотентно).
 INSERT INTO public.user_metadata (id, email, phone, full_name, specialty, updated_at)
 SELECT
   u.id,

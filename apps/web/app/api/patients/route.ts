@@ -15,6 +15,8 @@ import {
   patientPhiRejectMessage,
   suspendAccountForPhiViolation,
 } from "@/lib/security/patient-phi-guard";
+import { listE2eEmrPatientsForUser } from "@/lib/e2e/emr-patient-fixtures";
+import { resolveE2eCiStubApiUser } from "@/lib/e2e/resolve-e2e-api-user";
 import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
 import { safeLog } from "@/lib/security/safeLog";
 import { createClient } from "@/utils/supabase/server";
@@ -23,6 +25,13 @@ const DEFAULT_LIMIT = 50;
 const MAX_LIMIT = 100;
 
 export async function GET(request: Request) {
+  const stubUser = resolveE2eCiStubApiUser(request);
+  if (stubUser !== null) {
+    if (!stubUser.ok) return stubUser.response;
+    const patients = listE2eEmrPatientsForUser(stubUser.userId);
+    return NextResponse.json({ patients, nextCursor: null, hasMore: false });
+  }
+
   const supabase = await createClient();
   const {
     data: { user },

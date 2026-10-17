@@ -6,7 +6,7 @@ Use this as the human-facing gate before exposing the platform to clinicians or 
 
 - [ ] `pnpm install` succeeds from repository root (`pnpm@10.6.5` via `packageManager` field).
 - [ ] Workspace packages resolve: `@repo/types`, `@repo/ui`, `@repo/database`, `@repo/web`, `@repo/mobile`.
-- [ ] Duplicate migration mirrors stay aligned: `packages/database/supabase/migrations/` ↔ `apps/web/supabase/migrations/` for whichever CLI path you standardize on.
+- [ ] Migration mirror aligned: SSOT `apps/web/supabase/migrations/` → `pnpm --filter @repo/database sync-from-web` → `pnpm check:migration-drift` (see `docs/architecture/migrations-source-of-truth.md`).
 
 ## Environment files
 
