@@ -111,6 +111,19 @@ async function main() {
   }
   console.log("✅ User B blocked from studies under A patient");
 
+  const cleanup = env.STAGING_CLEANUP !== "0" && env.STAGING_CLEANUP !== "false";
+  if (cleanup && patientAId) {
+    const del = await fetch(`${baseUrl}/api/patients/${patientAId}`, {
+      method: "DELETE",
+      headers: cookieA ? { Cookie: cookieA } : {},
+    });
+    if (del.status === 200 || del.status === 204) {
+      console.log("✅ Cleaned up synthetic patient (DELETE)");
+    } else {
+      console.warn(`⚠️  Cleanup DELETE returned HTTP ${del.status} — remove patient ${patientAId} manually if needed`);
+    }
+  }
+
   console.log("\nDone.\n");
 }
 

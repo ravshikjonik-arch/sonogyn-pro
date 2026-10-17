@@ -38,8 +38,8 @@ npm run db:verify-hardening   # SERVICE_ROLE staging only
 
 - [ ] `cd apps/web && npm run test:staging-emr-idor` (см. `.env.staging-idor.example` — создайте `.env.staging-idor` локально, не в git).
 - [ ] User A: создать patient → User B: `GET /api/patients/{id}` → **404**.
-- [ ] Teaching: publish case только после anonymization gate; PHI в title → **400**.
-- [ ] `GET /api/patients` без cookie → **401**.
+- [ ] Teaching: `npm run test:staging-teaching-phi` (PHI create/publish → **400**, patients list → **401**).
+- [ ] Supabase branch (Pro): см. `docs/operations/staging-supabase-branch.md` — пока **blocked**, localhost smoke OK.
 
 ## 6. App smoke
 
