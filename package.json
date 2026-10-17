@@ -48,12 +48,12 @@
       "@eslint/config-array": "0.23.5",
       "react": "19.2.3",
       "react-dom": "19.2.3",
-      "metro-cache-key": "0.84.5"
+      "metro-cache-key": "0.87.1"
     }
   },
   "dependencies": {
     "autoprefixer": "^10.6.1",
     "big.js": "^7.0.1",
-    "metro-cache-key": "0.84.5"
+    "metro-cache-key": "0.87.1"
   }
 }
