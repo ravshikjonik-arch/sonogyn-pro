@@ -1,15 +1,11 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type APIRequestContext } from "@playwright/test";
 
 import testData from "./fixtures/test-data.json";
 
 const DOCTOR_PATIENT_ID = "11111111-1111-4111-8111-111111111111";
 const ADMIN_PATIENT_ID = "22222222-2222-4222-8222-222222222222";
 
-async function signIn(
-  request: Parameters<Parameters<typeof test>[1]>[0]["request"],
-  email: string,
-  password: string,
-) {
+async function signIn(request: APIRequestContext, email: string, password: string) {
   const res = await request.post("/api/auth/sign-in", {
     data: { email, password },
   });

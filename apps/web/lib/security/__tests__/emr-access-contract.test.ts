@@ -23,7 +23,8 @@ describe("emr-scope constants", () => {
     assert.ok(EMR_OWNER_SCOPED_TABLES.includes("patients"));
     assert.ok(EMR_OWNER_SCOPED_TABLES.includes("studies"));
     assert.ok(TEACHING_API_ROUTE_PREFIXES.includes("/api/cases"));
-    assert.ok(!EMR_API_ROUTE_PREFIXES.includes("/api/cases"));
+    const emrRoutes: readonly string[] = EMR_API_ROUTE_PREFIXES;
+    assert.ok(!emrRoutes.includes("/api/cases"));
   });
 
   it("documents owner filter contract strings", () => {
