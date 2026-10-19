@@ -68,6 +68,17 @@ PLAYWRIGHT_SECURITY_E2E=true pnpm --filter @repo/web test:e2e:security
 
 ## 10. Production (отдельное GO)
 
-- [ ] Staging checklist полностью ✅.
-- [ ] Запись: дата, operator, commit SHA, результат `db:verify-hardening` (без секретов).
+- [ ] Staging checklist полностью ✅ (isolated DB — после Pro branch; см. closeout).
+- [x] **Запись closeout:** [`staging-closeout-2026-10-18.md`](./staging-closeout-2026-10-18.md) — SHA `e98492b9`, hardening ✅, localhost smokes ✅.
 - [ ] Apply prod только по окну изменений с мониторингом.
+
+### Быстрый localhost-пакет (повтор)
+
+```bash
+npm run check:migration-drift
+cd apps/web && npm run db:verify-hardening && npm run test:security
+npm run setup:staging-idor   # если нет .env.staging-idor
+npm run test:staging-emr-idor && npm run test:staging-teaching-phi
+PLAYWRIGHT_SECURITY_E2E=true npm run test:e2e:security
+PLAYWRIGHT_SECURITY_E2E=true npm run test:e2e:emr-idor
+```

@@ -60,16 +60,15 @@ jobs:
       - name: Install Railway CLI
         run: npm install -g @railway/cli@4.5.4
 
-      - name: Deploy to Railway
-        if: ${{ secrets.RAILWAY_TOKEN != '' && secrets.RAILWAY_SERVICE_ID != '' }}
+      - name: Deploy to Railway (optional)
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
           RAILWAY_SERVICE_ID: ${{ secrets.RAILWAY_SERVICE_ID }}
-        run: railway redeploy --service "$RAILWAY_SERVICE_ID" --yes
-
-      - name: Deploy skipped (no secrets)
-        if: ${{ secrets.RAILWAY_TOKEN == '' || secrets.RAILWAY_SERVICE_ID == '' }}
         run: |
-          echo "Railway auto-deploy skipped. Set GitHub Secrets:"
-          echo "  RAILWAY_TOKEN, RAILWAY_SERVICE_ID"
-          echo "First deploy: Railway UI → GitHub → Root Directory services/us-ai-worker"
+          if [ -z "${RAILWAY_TOKEN:-}" ] || [ -z "${RAILWAY_SERVICE_ID:-}" ]; then
+            echo "Railway auto-deploy skipped. Set GitHub Secrets:"
+            echo "  RAILWAY_TOKEN, RAILWAY_SERVICE_ID"
+            echo "First deploy: Railway UI → GitHub → Root Directory services/us-ai-worker"
+            exit 0
+          fi
+          railway redeploy --service "$RAILWAY_SERVICE_ID" --yes
