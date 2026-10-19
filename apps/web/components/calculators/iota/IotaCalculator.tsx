@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   calculateAdnex,
   calculateLr2,
@@ -28,6 +28,7 @@ type Props = {
 };
 
 export function IotaCalculator({ initial, oradsCategory = null }: Props) {
+  const [hydrated, setHydrated] = useState(false);
   const [ageYears, setAgeYears] = useState(String(initial?.ageYears ?? 45));
   const [oncologyCenter, setOncologyCenter] = useState(initial?.oncologyCenter ?? false);
   const [maxDiameterMm, setMaxDiameterMm] = useState(String(initial?.maxDiameterMm ?? ""));
@@ -47,6 +48,10 @@ export function IotaCalculator({ initial, oradsCategory = null }: Props) {
   const [oradsManual, setOradsManual] = useState(
     oradsCategory != null ? String(oradsCategory) : "",
   );
+
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
 
   const adnexPayload = useMemo(
     (): Partial<AdnexInput> => ({
@@ -111,7 +116,7 @@ export function IotaCalculator({ initial, oradsCategory = null }: Props) {
   }
 
   return (
-    <div className="mx-auto max-w-3xl space-y-6 px-4 py-8">
+    <div className="mx-auto max-w-3xl space-y-6 px-4 py-8" data-iota-calculator-hydrated={hydrated ? "true" : "false"}>
       <header>
         <h1 className="text-2xl font-black text-[var(--clinical-foreground)]">IOTA · ADNEX / LR2 / Simple Rules</h1>
         <p className="mt-2 text-sm text-[var(--clinical-foreground-muted)]">
@@ -133,11 +138,29 @@ export function IotaCalculator({ initial, oradsCategory = null }: Props) {
             Макс. солидный компонент (мм)
             <Input className="mt-1" inputMode="decimal" value={maxSolidMm} onChange={(e) => setMaxSolidMm(e.target.value)} aria-label="Максимальный диаметр солидного компонента в миллиметрах" />
           </label>
-          <label className="flex items-center gap-2 text-xs font-bold">
-            <input type="checkbox" checked={useCa125} onChange={(e) => setUseCa125(e.target.checked)} aria-label="Использовать CA-125 в модели ADNEX" />
-            CA-125 (Ед/мл)
-            <Input className="mt-0 flex-1" disabled={!useCa125} value={ca125Uml} onChange={(e) => setCa125Uml(e.target.value)} aria-label="Уровень CA-125" />
-          </label>
+          <div className="flex flex-col gap-2 sm:col-span-2">
+            <label className="flex cursor-pointer items-center gap-2 text-xs font-bold">
+              <input
+                type="checkbox"
+                checked={useCa125}
+                onChange={(e) => setUseCa125(e.target.checked)}
+                aria-label="Использовать CA-125 в модели ADNEX"
+              />
+              <span>Использовать CA-125 в модели ADNEX</span>
+            </label>
+            {useCa125 ? (
+              <label className="text-xs font-bold">
+                CA-125 (Ед/мл)
+                <Input
+                  className="mt-1"
+                  inputMode="decimal"
+                  value={ca125Uml}
+                  onChange={(e) => setCa125Uml(e.target.value)}
+                  aria-label="Уровень CA-125"
+                />
+              </label>
+            ) : null}
+          </div>
         </div>
         <div className="flex flex-wrap gap-2 pt-2">
           <CalcChip label="Онкологический центр" selected={oncologyCenter} onClick={() => setOncologyCenter(true)} />

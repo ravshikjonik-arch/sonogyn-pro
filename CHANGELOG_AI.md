@@ -23,6 +23,12 @@
 - Mobile IOTA: опциональный **CA-125** в ADNEX; E2E smoke проверяет «ADNEX|IOTA» в HTML.
 - Тест: `apps/mobile` → `npm run test:iota-wizard-bridge`.
 
+### IOTA Block 1e — Playwright UI E2E
+
+- Полный UI: golden ADNEX **~81%**, сопоставление **O-RADS US 2**; request-smoke сохранён.
+- CI/dev: `E2eClinicalShell`, `allowedDevOrigins` для 127.0.0.1, ожидание `data-iota-calculator-hydrated`.
+- Web: разметка CA-125 (checkbox отдельно от поля).
+
 ---
 
 Дата: 2026-05-20

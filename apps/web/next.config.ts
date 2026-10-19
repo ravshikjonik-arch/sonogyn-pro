@@ -93,6 +93,8 @@ function supabaseConnectOriginExtra(): string {
 }
 
 const nextConfig: NextConfig = {
+  /** Playwright / LAN dev hits 127.0.0.1 — without this, client chunks may not load in Next 16 dev. */
+  allowedDevOrigins: ["127.0.0.1", "localhost"],
   assetPrefix: productionAssetPrefix(),
   transpilePackages: [
     "three",

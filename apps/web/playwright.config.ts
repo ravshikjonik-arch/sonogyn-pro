@@ -66,6 +66,8 @@ export default defineConfig({
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ci-placeholder",
       DEV_SKIP_AUTH: devSkipAuthForWebServer,
       DEV_AUTO_LOGIN: "false",
+      OPEN_ACCESS_FULL: "true",
+      NEXT_PUBLIC_OPEN_ACCESS_FULL: "true",
       ...(securityE2e
         ? {
             OPEN_ACCESS_FULL: "false",
