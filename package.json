@@ -39,7 +39,7 @@
     "check:migration-drift": "node scripts/check-migration-drift.mjs"
   },
   "devDependencies": {
-    "turbo": "^2.5.4",
+    "turbo": "^2.11.8",
     "typescript": "^5.9.2"
   },
   "pnpm": {
