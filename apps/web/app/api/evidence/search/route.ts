@@ -13,7 +13,7 @@ import { buildRetrievalConfigAsync } from "@/lib/evidence/retrieval-config";
 import { logEvidenceQuery, sourcesFromProviderResults } from "@/lib/evidence/log-evidence-query";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
-import { requireSupabaseUserFromRequest } from "@/lib/security/require-user";
+import { requireSupabaseUserOrOpenAccess } from "@/lib/security/require-user";
 import { createClient } from "@/utils/supabase/server";
 
 export const runtime = "nodejs";
@@ -56,7 +56,7 @@ const QuerySchema = z.object({
 
 export async function GET(request: Request) {
   const supabase = await createClient();
-  const auth = await requireSupabaseUserFromRequest(request, supabase);
+  const auth = await requireSupabaseUserOrOpenAccess(request, supabase);
   if (!auth.ok) return auth.response;
 
   const rl = await consumeRateLimit(
@@ -95,14 +95,16 @@ export async function GET(request: Request) {
     { config: await buildRetrievalConfigAsync() },
   );
 
-  void logEvidenceQuery(supabase, {
-    userId: auth.userId,
-    query: parsed.data.q,
-    sources: sourcesFromProviderResults(result.providers),
-    resultCount: result.records.length,
-    synthesisMode: "search",
-    evidenceStrength: null,
-  });
+  if (!auth.openAccess) {
+    void logEvidenceQuery(supabase, {
+      userId: auth.userId,
+      query: parsed.data.q,
+      sources: sourcesFromProviderResults(result.providers),
+      resultCount: result.records.length,
+      synthesisMode: "search",
+      evidenceStrength: null,
+    });
+  }
 
   return NextResponse.json({
     ...result,

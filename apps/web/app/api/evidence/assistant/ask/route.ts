@@ -14,7 +14,7 @@ import { logEvidenceQuery, sourcesFromAssistantAnswer } from "@/lib/evidence/log
 import { synthesizeWithLlm } from "@/lib/evidence/synthesize-llm";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
-import { requireSupabaseUserFromRequest } from "@/lib/security/require-user";
+import { requireSupabaseUserOrOpenAccess } from "@/lib/security/require-user";
 import { createClient } from "@/utils/supabase/server";
 
 export const runtime = "nodejs";
@@ -34,7 +34,7 @@ const BodySchema = z.object({
 
 export async function POST(request: Request) {
   const supabase = await createClient();
-  const auth = await requireSupabaseUserFromRequest(request, supabase);
+  const auth = await requireSupabaseUserOrOpenAccess(request, supabase);
   if (!auth.ok) return auth.response;
 
   const rl = await consumeRateLimit(
@@ -82,17 +82,19 @@ export async function POST(request: Request) {
       })
     : synthesizeEvidenceAnswer(parsed.data.query, searchResult, { corpusMode });
 
-  try {
-    await logEvidenceQuery(supabase, {
-      userId: auth.userId,
-      query: parsed.data.query,
-      sources: sourcesFromAssistantAnswer(answer),
-      resultCount: answer.citations.length,
-      synthesisMode: answer.synthesisMode,
-      evidenceStrength: answer.evidenceStrength,
-    });
-  } catch {
-    /* non-fatal */
+  if (!auth.openAccess) {
+    try {
+      await logEvidenceQuery(supabase, {
+        userId: auth.userId,
+        query: parsed.data.query,
+        sources: sourcesFromAssistantAnswer(answer),
+        resultCount: answer.citations.length,
+        synthesisMode: answer.synthesisMode,
+        evidenceStrength: answer.evidenceStrength,
+      });
+    } catch {
+      /* non-fatal */
+    }
   }
 
   return NextResponse.json(answer);

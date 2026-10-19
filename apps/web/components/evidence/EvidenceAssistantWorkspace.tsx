@@ -77,6 +77,19 @@ const SUGGESTED = [
   "Скрининг I триместра ISUOG 2023",
 ];
 
+function formatEvidenceFetchError(status: number, message: string): string {
+  if (status === 401) {
+    return "Нужен вход в кабинет. Откройте «Профиль» → войдите по почте, затем повторите запрос.";
+  }
+  if (status === 403) {
+    return "Доступ временно заблокирован. Обновите страницу или войдите в кабинет.";
+  }
+  if (status === 429) {
+    return message || "Слишком много запросов — подождите минуту.";
+  }
+  return message;
+}
+
 const CORPUS_HINT: Record<EvidenceCorpusMode, string> = {
   all: "PubMed, Cochrane, КР МЗ РФ, WHO/NICE и др.",
   rf_kr: "Только клинические рекомендации МЗ РФ — со ссылкой на раздел.",
@@ -419,11 +432,14 @@ export function EvidenceAssistantWorkspace() {
     try {
       const res = await fetch("/api/evidence/assistant/ask", {
         method: "POST",
+        credentials: "same-origin",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ query: q, useLlm: true, translateToRussian, corpusMode }),
       });
       const data = (await res.json()) as EvidenceAssistantAnswer & { error?: string };
-      if (!res.ok) throw new Error(data.error ?? `HTTP ${res.status}`);
+      if (!res.ok) {
+        throw new Error(formatEvidenceFetchError(res.status, data.error ?? `HTTP ${res.status}`));
+      }
       setAnswer(data);
       void loadHistory();
     } catch (e) {
@@ -440,9 +456,11 @@ export function EvidenceAssistantWorkspace() {
     setSearchResult(null);
     try {
       const params = new URLSearchParams({ q, limit: "25", corpusMode });
-      const res = await fetch(`/api/evidence/search?${params.toString()}`);
+      const res = await fetch(`/api/evidence/search?${params.toString()}`, { credentials: "same-origin" });
       const data = (await res.json()) as UnifiedSearchResult & { error?: string };
-      if (!res.ok) throw new Error(data.error ?? `HTTP ${res.status}`);
+      if (!res.ok) {
+        throw new Error(formatEvidenceFetchError(res.status, data.error ?? `HTTP ${res.status}`));
+      }
       setSearchResult(data);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Ошибка поиска");

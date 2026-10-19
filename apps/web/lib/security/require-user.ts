@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 
 import type { SupabaseClient } from "@supabase/supabase-js";
 
+import { isDevSkipAuthEnabled, isFullOpenAccessEnabled } from "@/lib/auth/dev-account";
+
 /**
  * Ensures the incoming request maps to an authenticated Supabase user using `getUser()` (JWT verified server-side).
  */
@@ -52,4 +54,22 @@ export async function requireSupabaseUserFromRequest(
   }
 
   return { ok: true, userId: user.id, email: user.email ?? null };
+}
+
+/** Logged-in user, or synthetic open-access actor when cabinet is open without login. */
+export async function requireSupabaseUserOrOpenAccess(
+  request: Request,
+  supabase: SupabaseClient,
+): Promise<
+  | { ok: true; userId: string; email: string | null; openAccess: boolean }
+  | { ok: false; response: NextResponse }
+> {
+  const auth = await requireSupabaseUserFromRequest(request, supabase);
+  if (auth.ok) {
+    return { ok: true, userId: auth.userId, email: auth.email, openAccess: false };
+  }
+  if (isDevSkipAuthEnabled() || isFullOpenAccessEnabled()) {
+    return { ok: true, userId: "open-access", email: null, openAccess: true };
+  }
+  return { ok: false, response: auth.response };
 }
