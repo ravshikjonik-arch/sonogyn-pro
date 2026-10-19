@@ -105,6 +105,9 @@ jobs:
       - name: A11y E2E smoke (soft)
         run: pnpm test:e2e:a11y
 
+      - name: IOTA calculator E2E smoke
+        run: pnpm test:e2e:iota
+
       - name: Security E2E smoke
         run: pnpm test:e2e:security
 

@@ -76,6 +76,7 @@
     "@repo/medical-calculations": "workspace:*",
     "@repo/medvedev-reference": "workspace:*",
     "@repo/nosology": "workspace:*",
+    "@repo/iota-models": "workspace:*",
     "@repo/orads-us": "workspace:*",
     "@repo/report-engine": "workspace:*",
     "@repo/thyroid-tirads": "workspace:*",

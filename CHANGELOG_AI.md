@@ -12,6 +12,11 @@
 - Sonogyn chat: **`calculate_adnex`**, **`calculate_lr2`**, **`calculate_srrisk`** (Zod + ACL, `@repo/iota-models`).
 - Тест hardening: golden ADNEX + compare O-RADS в `ai-assistant-hardening.test.ts`.
 
+### IOTA Block 1c — mobile + E2E
+
+- Mobile: `IotaCalculatorScreen`, tools catalog `iota-adnex`, prefill из O-RADS Pro.
+- E2E: `test:e2e:iota` (Playwright + soft axe); расширены unit-тесты ADNEX/LR2.
+
 ---
 
 Дата: 2026-05-20

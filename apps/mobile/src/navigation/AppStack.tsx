@@ -42,6 +42,7 @@ import CervixCytologyScreen from "../features/cervixCytology/CervixCytologyScree
 import type { CytologyTopicId } from "@repo/cervix-pathology-reference/cytology";
 import ElastographyScreen from "../modules/elastography/screens/ElastographyScreen";
 import CarotidStenosisScreen from "../modules/vascular/screens/CarotidStenosisScreen";
+import IotaCalculatorScreen from "../features/iota/IotaCalculatorScreen";
 import { ClinicalPhiGate } from "../components/ClinicalPhiGate";
 import MainTabs from "./MainTabs";
 import type { RootStackParamList } from "./paramLists";
@@ -74,6 +75,7 @@ const GuardedORADSWizard = withClinicalPhiGate(OradsWizardScreen);
 const GuardedStructuredReportPreview = withClinicalPhiGate(StructuredReportPreviewScreen);
 const GuardedORADSHistory = withClinicalPhiGate(ORADSHistoryScreen);
 const GuardedORADSHistoryDetails = withClinicalPhiGate(ORADSHistoryDetailsScreen);
+const GuardedIotaCalculator = withClinicalPhiGate(IotaCalculatorScreen);
 
 const CYTOLOGY_TOPIC_IDS = new Set([
   "anatomy",
@@ -168,6 +170,7 @@ const linking: LinkingOptions<RootStackParamList> = {
         },
       },
       ORADSPro: "orads",
+      IotaCalculator: "iota",
       ORADSHistory: "orads/history",
       ORADSHistoryDetails: "orads/history/:caseId",
       FMFAssistant: "fmf",
@@ -344,6 +347,7 @@ export default function AppStack() {
           <Stack.Screen name="StructuredReportPreview" component={GuardedStructuredReportPreview} />
           <Stack.Screen name="ORADSGuide" component={OradsGuideScreen} />
           <Stack.Screen name="ORADSPro" component={GuardedORADSPro} />
+          <Stack.Screen name="IotaCalculator" component={GuardedIotaCalculator} />
           <Stack.Screen name="ORADSHistory" component={GuardedORADSHistory} />
           <Stack.Screen name="ORADSHistoryDetails" component={GuardedORADSHistoryDetails} />
           <Stack.Screen name="FMFAssistant" component={FMFAssistantScreen} />

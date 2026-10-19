@@ -79,6 +79,17 @@ export const CLINICAL_TOOLS: ClinicalTool[] = [
     mobileAction: "orads",
   },
   {
+    id: "iota-adnex",
+    title: "IOTA · ADNEX / LR2",
+    subtitle: "Вероятности IOTA + сопоставление O-RADS",
+    category: "ovary",
+    roles: ["ultrasound", "gynecologist", "allied"],
+    synonyms: ["adnex", "iota", "lr2", "simple rules risk", "ca-125"],
+    keywords: ["iota", "adnex", "malignancy"],
+    webHref: "/tools/calc/rads/iota",
+    mobileAction: "iota",
+  },
+  {
     id: "endometrium",
     title: "Эндометрий",
     subtitle: "M-эхо, пороги, очаг, тамоксифен · ISUOG / КР РФ",

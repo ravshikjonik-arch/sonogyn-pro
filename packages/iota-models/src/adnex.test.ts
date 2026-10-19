@@ -97,6 +97,36 @@ describe("calculateAdnex", () => {
     assert.equal(withCa.usedCa125, true);
   });
 
+  it("oncology center flag shifts coefficients (same inputs, different risk)", () => {
+    const base = {
+      ageYears: 50,
+      maxDiameterMm: 70,
+      maxSolidDiameterMm: 20,
+      moreThan10Locules: false,
+      papillaryCount: 1 as const,
+      acousticShadows: false,
+      ascites: false,
+    };
+    const community = assertAdnex(calculateAdnex({ ...base, oncologyCenter: false }));
+    const oncology = assertAdnex(calculateAdnex({ ...base, oncologyCenter: true }));
+    assert.notEqual(community.malignancyRisk, oncology.malignancyRisk);
+  });
+
+  it("more than 10 locules increases malignancy vs same case without", () => {
+    const base = {
+      ageYears: 55,
+      oncologyCenter: false,
+      maxDiameterMm: 60,
+      maxSolidDiameterMm: 15,
+      papillaryCount: 0 as const,
+      acousticShadows: false,
+      ascites: false,
+    };
+    const few = assertAdnex(calculateAdnex({ ...base, moreThan10Locules: false }));
+    const many = assertAdnex(calculateAdnex({ ...base, moreThan10Locules: true }));
+    assert.ok(many.malignancyRisk > few.malignancyRisk);
+  });
+
   it("rejects invalid solid > lesion", () => {
     const r = calculateAdnex({
       ageYears: 40,

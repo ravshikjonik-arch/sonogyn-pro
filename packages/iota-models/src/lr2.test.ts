@@ -45,4 +45,37 @@ describe("calculateLr2", () => {
     assert.ok("malignancyRisk" in low && "malignancyRisk" in high);
     assert.ok(high.malignancyRisk > low.malignancyRisk);
   });
+
+  it("older age increases risk with otherwise benign features", () => {
+    const young = calculateLr2({
+      ageYears: 30,
+      ascites: false,
+      bloodFlowInSolidPapillary: false,
+      maxSolidDiameterMm: 0,
+      irregularInternalWalls: false,
+      acousticShadows: true,
+    });
+    const older = calculateLr2({
+      ageYears: 70,
+      ascites: false,
+      bloodFlowInSolidPapillary: false,
+      maxSolidDiameterMm: 0,
+      irregularInternalWalls: false,
+      acousticShadows: true,
+    });
+    assert.ok("malignancyRisk" in young && "malignancyRisk" in older);
+    assert.ok(older.malignancyRisk > young.malignancyRisk);
+  });
+
+  it("returns validation errors for out-of-range age", () => {
+    const r = calculateLr2({
+      ageYears: 10,
+      ascites: false,
+      bloodFlowInSolidPapillary: false,
+      maxSolidDiameterMm: 0,
+      irregularInternalWalls: false,
+      acousticShadows: false,
+    });
+    assert.ok("errors" in r);
+  });
 });

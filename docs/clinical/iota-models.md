@@ -20,6 +20,12 @@ Deterministic calculators aligned with published IOTA work — **assistive only*
 - Route: `/tools/calc/rads/iota`
 - Structured adnex protocol: `/reports/adnex` → **Калькулятор IOTA / ADNEX** (session bridge, no PHI in storage keys beyond morphometry already in SRE).
 
+## Mobile (Expo)
+
+- Stack: `IotaCalculator` (`/iota` deep link)
+- Tools search: **IOTA · ADNEX / LR2** → native screen (`@repo/iota-models`)
+- O-RADS Pro → **ADNEX / LR2 (вероятности IOTA)** with prefill
+
 ## Tests
 
 ```bash

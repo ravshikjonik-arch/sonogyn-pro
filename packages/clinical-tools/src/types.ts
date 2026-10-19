@@ -26,6 +26,7 @@ export type MobileToolAction =
   | "orads_guide"
   | "orads_echograms"
   | "orads_hub"
+  | "iota"
   | "birads"
   | "breast_3d"
   | "tirads"

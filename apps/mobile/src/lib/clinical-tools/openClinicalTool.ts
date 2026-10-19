@@ -64,6 +64,9 @@ export function openClinicalToolAction(navigation: ClinicalToolNav, action: Mobi
     case "orads":
       navigation.navigate("ORADSPro");
       return;
+    case "iota":
+      navigation.navigate("IotaCalculator");
+      return;
     case "orads_wizard":
       navigation.navigate("ORADSPro");
       return;

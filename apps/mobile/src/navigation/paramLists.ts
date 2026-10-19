@@ -57,6 +57,12 @@ export type RootStackParamList = {
   };
   ORADSGuide: { sectionId?: string; caseId?: string } | undefined;
   ORADSPro: { prefill?: import("../features/oradsPro/types").OradsInput } | undefined;
+  IotaCalculator:
+    | {
+        prefill?: Partial<import("@repo/iota-models").AdnexInput>;
+        oradsCategory?: number | null;
+      }
+    | undefined;
   ORADSHistory: undefined;
   ORADSHistoryDetails: { caseId: string };
   FMFAssistant: undefined;

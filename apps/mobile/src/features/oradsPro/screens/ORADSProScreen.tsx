@@ -45,6 +45,7 @@ import { resolveOradsNosologyPreview } from "../resolveOradsNosology";
 import { buildIotaConsensusReportText, evaluateIotaConsensus2026 } from "../consensus/iotaConsensus2026";
 import { appendCaseToHistory, loadUXMetric, pushTimeToResult } from "../storage/oradsStorage";
 import { flushAIQueue, getAIQueueSize, getAIQueueStatus, requestAIOrQueue } from "../ai/aiService";
+import { mapOradsProToAdnexInput } from "../../iota/mapOradsProToAdnexInput";
 import type { RootStackParamList } from "../../../navigation/AppStack";
 
 type Props = NativeStackScreenProps<RootStackParamList, "ORADSPro">;
@@ -730,6 +731,18 @@ export default function ORADSProScreen({ navigation, route }: Props) {
 
         <IotaConsensusPanel consensus={iotaConsensus} />
 
+        <Pressable
+          style={styles.iotaAdnexBtn}
+          onPress={() =>
+            navigation.navigate("IotaCalculator", {
+              prefill: mapOradsProToAdnexInput(input),
+              oradsCategory: result.category,
+            })
+          }
+        >
+          <Text style={styles.iotaAdnexText}>ADNEX / LR2 (вероятности IOTA)</Text>
+        </Pressable>
+
         <Pressable style={styles.export} onPress={onExport}>
           <Text style={styles.exportText}>Экспорт O-RADS + IOTA (копировать)</Text>
         </Pressable>
@@ -814,6 +827,15 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   exportText: { color: "#fff", fontWeight: "800" },
+  iotaAdnexBtn: {
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#2563EB",
+    alignItems: "center",
+    paddingVertical: 12,
+    backgroundColor: "#eff6ff",
+  },
+  iotaAdnexText: { color: "#1d4ed8", fontWeight: "800" },
   saveCaseBtn: {
     borderRadius: 10,
     backgroundColor: "#0f766e",

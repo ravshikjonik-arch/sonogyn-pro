@@ -38,7 +38,8 @@
     "test:cpi": "npx --yes pnpm@10.6.5 --filter @repo/cervical-pathology test",
     "check:migration-drift": "node scripts/check-migration-drift.mjs",
     "test:iota": "pnpm --filter @repo/iota-models test",
-    "test:orads-us": "pnpm --filter @repo/orads-us test"
+    "test:orads-us": "pnpm --filter @repo/orads-us test",
+    "test:e2e:iota": "pnpm --filter @repo/web test:e2e:iota"
   },
   "devDependencies": {
     "turbo": "^2.5.4",
