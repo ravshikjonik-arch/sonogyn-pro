@@ -39,7 +39,7 @@ import { logEvidenceQuery, sourcesFromAssistantAnswer } from "@/lib/evidence/log
 import { synthesizeWithLlm } from "@/lib/evidence/synthesize-llm";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
-import { requireSupabaseUser } from "@/lib/security/require-user";
+import { requireSupabaseUser, requireSupabaseUserOrOpenAccess } from "@/lib/security/require-user";
 import { detectPhi, PHI_BLOCK_MESSAGE } from "@/lib/security/phi-detection";
 import { safeLog } from "@/lib/security/safeLog";
 import { searchEvidenceUnified } from "@repo/evidence-retrieval";
@@ -109,13 +109,14 @@ async function ensureSessionId(params: {
 export async function POST(request: Request) {
   const started = Date.now();
   const supabase = await createClient();
-  const auth = await requireSupabaseUser(supabase);
+  const auth = await requireSupabaseUserOrOpenAccess(request, supabase);
   if (!auth.ok) {
     return NextResponse.json(
       { error: userMessageForAiError("auth"), code: "auth" },
       { status: 401 },
     );
   }
+  const persistChat = !auth.openAccess;
 
   const chatRl = await consumeRateLimit(
     `ai-chat:${auth.userId}`,
@@ -126,19 +127,6 @@ export async function POST(request: Request) {
     return NextResponse.json(
       { error: userMessageForAiError("rate_limit"), code: "rate_limit" },
       { status: 429, headers: { "Retry-After": String(chatRl.retryAfterSec) } },
-    );
-  }
-
-  const quota = await assertAiChatQuota(auth.userId);
-  if (!quota.ok) {
-    return NextResponse.json(
-      {
-        error: "Достигнут лимит бесплатных AI-запросов. Перейдите на PRO.",
-        code: "quota_exceeded",
-        used: quota.used,
-        limit: quota.limit,
-      },
-      { status: 402 },
     );
   }
 
@@ -162,6 +150,31 @@ export async function POST(request: Request) {
 
   const { messages, model, stream, images, modality, mode, includeEvidence, sessionId, retry } =
     parsed.data;
+
+  if (!persistChat && mode !== "evidence") {
+    return NextResponse.json(
+      {
+        error: "Клинический чат доступен после входа. Режим EBM (Evidence) — без регистрации.",
+        code: "auth",
+      },
+      { status: 401 },
+    );
+  }
+
+  if (persistChat) {
+    const quota = await assertAiChatQuota(auth.userId);
+    if (!quota.ok) {
+      return NextResponse.json(
+        {
+          error: "Достигнут лимит бесплатных AI-запросов. Перейдите на PRO.",
+          code: "quota_exceeded",
+          used: quota.used,
+          limit: quota.limit,
+        },
+        { status: 402 },
+      );
+    }
+  }
   const lastUser = [...messages].reverse().find((m) => m.role === "user");
   const lastUserText = lastUser?.content ?? "";
 
@@ -219,18 +232,21 @@ export async function POST(request: Request) {
     }
   }
 
-  const llm = resolveLlmProvider(hasImages ? "vision" : "text");
-  if (!llm) {
-    await logAiChatEvent({
-      userId: auth.userId,
-      domain,
-      success: false,
-      durationMs: Date.now() - started,
-      model: "none",
-      errorCode: "config",
-      hasImages,
-      sessionId,
-    });
+  const llmPurpose = hasImages ? "vision" : mode === "evidence" ? "evidence" : "text";
+  let llm = resolveLlmProvider(llmPurpose);
+  if (!llm && mode !== "evidence") {
+    if (persistChat) {
+      await logAiChatEvent({
+        userId: auth.userId,
+        domain,
+        success: false,
+        durationMs: Date.now() - started,
+        model: "none",
+        errorCode: "config",
+        hasImages,
+        sessionId,
+      });
+    }
     return NextResponse.json(
       {
         error:
@@ -240,7 +256,7 @@ export async function POST(request: Request) {
       { status: 503 },
     );
   }
-  if (hasImages && llm.provider !== "openrouter") {
+  if (llm && hasImages && llm.provider !== "openrouter") {
     return NextResponse.json(
       {
         error: "Анализ изображений требует OPENROUTER_API_KEY (vision). Текст может идти через Perplexity.",
@@ -302,25 +318,29 @@ export async function POST(request: Request) {
       lastUserText,
     );
     promptVersion = "evidence-v2";
-    void logEvidenceQuery(supabase, {
-      userId: auth.userId,
-      query: lastUserText,
-      sources: sourcesFromAssistantAnswer(evidenceAnswer),
-      resultCount: evidenceAnswer.citations.length,
-      synthesisMode: `chat-${evidenceAnswer.synthesisMode}`,
-      evidenceStrength: evidenceAnswer.evidenceStrength,
-    });
+    if (persistChat) {
+      void logEvidenceQuery(supabase, {
+        userId: auth.userId,
+        query: lastUserText,
+        sources: sourcesFromAssistantAnswer(evidenceAnswer),
+        resultCount: evidenceAnswer.citations.length,
+        synthesisMode: `chat-${evidenceAnswer.synthesisMode}`,
+        evidenceStrength: evidenceAnswer.evidenceStrength,
+      });
+    }
   }
 
-  const activeSessionId = await ensureSessionId({
-    supabase,
-    userId: auth.userId,
-    sessionId,
-    title: lastUserText.slice(0, 60) || "Новый чат",
-    domain,
-  });
+  const activeSessionId = persistChat
+    ? await ensureSessionId({
+        supabase,
+        userId: auth.userId,
+        sessionId,
+        title: lastUserText.slice(0, 60) || "Новый чат",
+        domain,
+      })
+    : null;
 
-  if (activeSessionId && !retry) {
+  if (persistChat && activeSessionId && !retry) {
     await appendChatMessage(supabase, {
       sessionId: activeSessionId,
       userId: auth.userId,
@@ -333,7 +353,7 @@ export async function POST(request: Request) {
     const assistantText = formatInsufficientEvidenceChatReply(evidenceAnswer);
     promptVersion = "evidence-insufficient-v1";
 
-    if (activeSessionId) {
+    if (persistChat && activeSessionId) {
       await appendChatMessage(supabase, {
         sessionId: activeSessionId,
         userId: auth.userId,
@@ -346,16 +366,18 @@ export async function POST(request: Request) {
       });
     }
 
-    await logAiChatEvent({
-      userId: auth.userId,
-      domain,
-      success: true,
-      durationMs: Date.now() - started,
-      model: "evidence:insufficient",
-      hasImages: false,
-      promptVersion,
-      sessionId: activeSessionId,
-    });
+    if (persistChat) {
+      await logAiChatEvent({
+        userId: auth.userId,
+        domain,
+        success: true,
+        durationMs: Date.now() - started,
+        model: "evidence:insufficient",
+        hasImages: false,
+        promptVersion,
+        sessionId: activeSessionId,
+      });
+    }
 
     if (useStream) {
       return new NextResponse(createStaticEvidenceChatStream(assistantText, evidenceAnswer), {
@@ -379,6 +401,43 @@ export async function POST(request: Request) {
     });
   }
 
+  if (mode === "evidence" && evidenceAnswer && !llm) {
+    const assistantText = evidenceAnswer.summary;
+    promptVersion = "evidence-retrieval-v1";
+
+    if (useStream) {
+      return new NextResponse(createStaticEvidenceChatStream(assistantText, evidenceAnswer), {
+        headers: {
+          "Content-Type": "text/event-stream",
+          "Cache-Control": "no-cache, no-transform",
+          Connection: "keep-alive",
+          "X-Sonogyn-Prompt-Version": promptVersion,
+          "X-Sonogyn-Session-Id": "",
+        },
+      });
+    }
+
+    return NextResponse.json({
+      choices: [{ message: { role: "assistant", content: assistantText } }],
+      evidence: evidenceAnswer,
+      mode: "evidence",
+      sessionId: null,
+      promptVersion,
+      isAiDraft: true,
+    });
+  }
+
+  if (!llm) {
+    return NextResponse.json(
+      {
+        error:
+          "AI не настроен: задайте PERPLEXITY_API_KEY или OPENROUTER_API_KEY для режима Evidence.",
+        code: "config",
+      },
+      { status: 503 },
+    );
+  }
+
   const modelChain = buildModelFallbackChain(hasImages, model);
   const selectedModel = modelChain[0]?.modelId ?? model ?? llm.model;
   const appUrl = process.env.NEXT_PUBLIC_APP_URL?.trim();
@@ -390,6 +449,7 @@ export async function POST(request: Request) {
     completionTokens?: number | null;
     usedFallback?: boolean;
   }) => {
+    if (!persistChat) return;
     await logAiChatEvent({
       userId: auth.userId,
       domain,
@@ -536,17 +596,19 @@ export async function POST(request: Request) {
       userId: auth.userId,
     }) as Record<string, unknown>);
 
-    await logAiChatEvent({
-      userId: auth.userId,
-      domain,
-      success: false,
-      durationMs: Date.now() - started,
-      model: `${llm.provider}:${attempt.modelId}`,
-      errorCode: result.code,
-      hasImages,
-      promptVersion,
-      sessionId: activeSessionId,
-    });
+    if (persistChat) {
+      await logAiChatEvent({
+        userId: auth.userId,
+        domain,
+        success: false,
+        durationMs: Date.now() - started,
+        model: `${llm.provider}:${attempt.modelId}`,
+        errorCode: result.code,
+        hasImages,
+        promptVersion,
+        sessionId: activeSessionId,
+      });
+    }
     return NextResponse.json(
       { error: userMessageForAiError(result.code), code: result.code },
       { status: result.status >= 400 && result.status < 600 ? result.status : 502 },

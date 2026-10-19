@@ -108,6 +108,9 @@ jobs:
       - name: IOTA calculator E2E smoke
         run: pnpm test:e2e:iota
 
+      - name: Evidence Assistant E2E smoke
+        run: pnpm --filter @repo/web test:e2e:evidence
+
       - name: Security E2E smoke
         run: pnpm test:e2e:security
 

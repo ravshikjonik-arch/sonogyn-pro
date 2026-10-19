@@ -23,6 +23,12 @@
 - Mobile IOTA: опциональный **CA-125** в ADNEX; E2E smoke проверяет «ADNEX|IOTA» в HTML.
 - Тест: `apps/mobile` → `npm run test:iota-wizard-bridge`.
 
+### Evidence Assistant — open access (2026-10-19)
+
+- Search/Ask API и Copilot **mode=evidence** без логина при `OPEN_ACCESS_FULL`.
+- Без LLM-ключей: ответ из retrieval (rules), не 503.
+- E2E: `pnpm --filter @repo/web test:e2e:evidence`.
+
 ### IOTA Block 1e — Playwright UI E2E
 
 - Полный UI: golden ADNEX **~81%**, сопоставление **O-RADS US 2**; request-smoke сохранён.
