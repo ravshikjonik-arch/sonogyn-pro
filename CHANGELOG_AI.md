@@ -7,6 +7,11 @@
 - SRE: строка ADNEX в заключении при достаточных полях; CI: `pnpm test:iota`, `pnpm test:orads-us`.
 - Док: `docs/clinical/iota-models.md`.
 
+### IOTA Block 1b — AI tools
+
+- Sonogyn chat: **`calculate_adnex`**, **`calculate_lr2`**, **`calculate_srrisk`** (Zod + ACL, `@repo/iota-models`).
+- Тест hardening: golden ADNEX + compare O-RADS в `ai-assistant-hardening.test.ts`.
+
 ---
 
 Дата: 2026-05-20

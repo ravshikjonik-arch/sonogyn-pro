@@ -5,6 +5,9 @@ export const ALLOWED_AI_TOOLS = [
   "calculate_orads",
   "calculate_birads",
   "calculate_tirads",
+  "calculate_adnex",
+  "calculate_lr2",
+  "calculate_srrisk",
   "assess_fmf_screening",
 ] as const;
 
@@ -48,6 +51,45 @@ export const FmfScreeningToolInputSchema = z.object({
   dbpMmHg: z.number().positive().optional(),
 });
 
+const IotaPapillaryCountSchema = z.union([
+  z.literal(0),
+  z.literal(1),
+  z.literal(2),
+  z.literal(3),
+  z.literal("4plus"),
+]);
+
+const SimpleRulesFeatureSchema = z.enum(["B1", "B2", "B3", "B4", "B5", "M1", "M2", "M3", "M4", "M5"]);
+
+export const AdnexToolInputSchema = z.object({
+  ageYears: z.number().int().min(18).max(100),
+  oncologyCenter: z.boolean(),
+  maxDiameterMm: z.number().min(8).max(400),
+  maxSolidDiameterMm: z.number().min(0).max(400),
+  moreThan10Locules: z.boolean(),
+  papillaryCount: IotaPapillaryCountSchema,
+  acousticShadows: z.boolean(),
+  ascites: z.boolean(),
+  ca125Uml: z.number().min(1).max(30000).optional(),
+  oradsCategory: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]).optional(),
+});
+
+export const Lr2ToolInputSchema = z.object({
+  ageYears: z.number().int().min(18).max(100),
+  ascites: z.boolean(),
+  bloodFlowInSolidPapillary: z.boolean(),
+  maxSolidDiameterMm: z.number().min(0).max(400),
+  irregularInternalWalls: z.boolean(),
+  acousticShadows: z.boolean(),
+});
+
+export const SimpleRulesRiskToolInputSchema = z.object({
+  oncologyCenter: z.boolean(),
+  benignFeatures: z.array(SimpleRulesFeatureSchema).default([]),
+  malignantFeatures: z.array(SimpleRulesFeatureSchema).default([]),
+  oradsCategory: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]).optional(),
+});
+
 export const ToolCallRequestSchema = z.object({
   tool: z.enum(ALLOWED_AI_TOOLS),
   input: z.record(z.unknown()),
@@ -79,7 +121,13 @@ export function validateToolCall(
         ? BiradsToolInputSchema
         : name === "calculate_tirads"
           ? TiradsToolInputSchema
-          : FmfScreeningToolInputSchema;
+          : name === "calculate_adnex"
+            ? AdnexToolInputSchema
+            : name === "calculate_lr2"
+              ? Lr2ToolInputSchema
+              : name === "calculate_srrisk"
+                ? SimpleRulesRiskToolInputSchema
+                : FmfScreeningToolInputSchema;
 
   const parsed = schema.safeParse(input);
   if (!parsed.success) {

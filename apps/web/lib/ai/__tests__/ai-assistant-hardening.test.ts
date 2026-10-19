@@ -62,4 +62,23 @@ describe("tool ACL + server validation", () => {
     const out = executeClinicalTool("run_shell", { cmd: "rm -rf /" });
     assert.equal(out.ok, false);
   });
+
+  it("executes ADNEX via @repo/iota-models", () => {
+    const out = executeClinicalTool("calculate_adnex", {
+      ageYears: 61,
+      oncologyCenter: false,
+      maxDiameterMm: 50,
+      maxSolidDiameterMm: 45,
+      moreThan10Locules: true,
+      papillaryCount: 0,
+      acousticShadows: false,
+      ascites: true,
+      ca125Uml: 20,
+      oradsCategory: 5,
+    });
+    assert.equal(out.ok, true);
+    assert.ok(typeof out.result?.malignancyRisk === "number");
+    assert.ok(out.result?.compareWithOrads);
+    assert.match(out.sourceLabel, /iota-models/);
+  });
 });

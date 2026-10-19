@@ -3,6 +3,12 @@ import { assessFirstTrimesterScreening, FMF_ENGINE_DISCLAIMER } from "@repo/fmf"
 import { calculateORADS } from "@repo/orads-us/pro";
 import type { OradsInput } from "@repo/orads-us/pro";
 import {
+  calculateAdnex,
+  calculateLr2,
+  calculateSimpleRulesRisk,
+  compareIotaRiskWithOrads,
+} from "@repo/iota-models";
+import {
   ACR_TIRADS_ENGINE_VERSION,
   evaluateAcrTirads,
   type TiradsAcrInput,
@@ -16,6 +22,7 @@ import {
 
 const ORADS_ENGINE_VERSION = "O-RADS US v2022";
 const FMF_ENGINE_VERSION = "fmf-percentile-engine-v1";
+const IOTA_MODELS_SOURCE = "@repo/iota-models";
 
 function missingOradsFields(input: Record<string, unknown>): string[] {
   const missing: string[] = [];
@@ -112,6 +119,103 @@ export function executeClinicalTool(tool: string, input: unknown): ToolExecution
     };
   }
 
+  if (name === "calculate_adnex") {
+    const { oradsCategory, ...adnexInput } = parsed as Record<string, unknown> & {
+      oradsCategory?: number;
+    };
+    const computed = calculateAdnex(adnexInput);
+    if ("errors" in computed) {
+      return {
+        tool: name,
+        ok: false,
+        engineVersion: "IOTA ADNEX",
+        sourceLabel: IOTA_MODELS_SOURCE,
+        inputEcho: parsed,
+        error: computed.errors.map((e) => e.messageKey).join("; "),
+      };
+    }
+    const compare =
+      oradsCategory != null
+        ? compareIotaRiskWithOrads(computed.malignancyRisk, { categoryNumber: oradsCategory })
+        : undefined;
+    return {
+      tool: name,
+      ok: true,
+      engineVersion: `${computed.modelId} ${computed.modelVersion}`,
+      sourceLabel: IOTA_MODELS_SOURCE,
+      inputEcho: parsed,
+      result: {
+        malignancyRisk: computed.malignancyRisk,
+        probabilities: computed.probabilities,
+        usedCa125: computed.usedCa125,
+        compareWithOrads: compare,
+        disclaimer:
+          "Assistive estimate; not a histologic diagnosis. Clinical decision remains with the treating specialist.",
+      },
+    };
+  }
+
+  if (name === "calculate_lr2") {
+    const computed = calculateLr2(parsed);
+    if ("errors" in computed) {
+      return {
+        tool: name,
+        ok: false,
+        engineVersion: "IOTA LR2",
+        sourceLabel: IOTA_MODELS_SOURCE,
+        inputEcho: parsed,
+        error: computed.errors.map((e) => e.messageKey).join("; "),
+      };
+    }
+    return {
+      tool: name,
+      ok: true,
+      engineVersion: `${computed.modelId} ${computed.modelVersion}`,
+      sourceLabel: IOTA_MODELS_SOURCE,
+      inputEcho: parsed,
+      result: {
+        malignancyRisk: computed.malignancyRisk,
+        disclaimer:
+          "Assistive estimate; not a histologic diagnosis. Clinical decision remains with the treating specialist.",
+      },
+    };
+  }
+
+  if (name === "calculate_srrisk") {
+    const { oradsCategory, ...srrInput } = parsed as Record<string, unknown> & {
+      oradsCategory?: number;
+    };
+    const computed = calculateSimpleRulesRisk(srrInput);
+    if ("errors" in computed) {
+      return {
+        tool: name,
+        ok: false,
+        engineVersion: "IOTA Simple Rules Risk",
+        sourceLabel: IOTA_MODELS_SOURCE,
+        inputEcho: parsed,
+        error: computed.errors.map((e) => e.messageKey).join("; "),
+      };
+    }
+    const compare =
+      oradsCategory != null
+        ? compareIotaRiskWithOrads(computed.malignancyRisk, { categoryNumber: oradsCategory })
+        : undefined;
+    return {
+      tool: name,
+      ok: true,
+      engineVersion: `${computed.modelId} ${computed.modelVersion}`,
+      sourceLabel: IOTA_MODELS_SOURCE,
+      inputEcho: parsed,
+      result: {
+        malignancyRisk: computed.malignancyRisk,
+        regressionScore: computed.regressionScore,
+        compareWithOrads: compare,
+        disclaimer:
+          "Assistive estimate; not a histologic diagnosis. Clinical decision remains with the treating specialist.",
+      },
+    };
+  }
+
   if (name === "assess_fmf_screening") {
     const missing = missingFmfFields(parsed);
     if (missing.length) {
@@ -164,6 +268,9 @@ export function isAllowedToolName(name: string): name is AllowedAiToolName {
     name === "calculate_orads" ||
     name === "calculate_birads" ||
     name === "calculate_tirads" ||
+    name === "calculate_adnex" ||
+    name === "calculate_lr2" ||
+    name === "calculate_srrisk" ||
     name === "assess_fmf_screening"
   );
 }

@@ -6,6 +6,9 @@ const TOOL_LABELS: Record<string, string> = {
   calculate_orads: "O-RADS US engine",
   calculate_birads: "BI-RADS US engine",
   calculate_tirads: "ACR TI-RADS engine",
+  calculate_adnex: "IOTA ADNEX model",
+  calculate_lr2: "IOTA LR2 model",
+  calculate_srrisk: "IOTA Simple Rules Risk",
   assess_fmf_screening: "FMF percentile engine",
 };
 
