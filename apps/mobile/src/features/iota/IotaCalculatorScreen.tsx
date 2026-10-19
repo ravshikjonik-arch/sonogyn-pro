@@ -48,6 +48,8 @@ export default function IotaCalculatorScreen({ route, navigation }: Props) {
   );
   const [acousticShadows, setAcousticShadows] = useState(prefill?.acousticShadows ?? false);
   const [ascites, setAscites] = useState(prefill?.ascites ?? false);
+  const [useCa125, setUseCa125] = useState(prefill?.ca125Uml != null);
+  const [ca125Uml, setCa125Uml] = useState(prefill?.ca125Uml != null ? String(prefill.ca125Uml) : "");
   const [benign, setBenign] = useState<SimpleRulesFeature[]>([]);
   const [malignant, setMalignant] = useState<SimpleRulesFeature[]>([]);
   const [irregularWalls, setIrregularWalls] = useState(false);
@@ -63,8 +65,20 @@ export default function IotaCalculatorScreen({ route, navigation }: Props) {
       papillaryCount,
       acousticShadows,
       ascites,
+      ca125Uml: useCa125 ? Number.parseFloat(ca125Uml) : undefined,
     }),
-    [ageYears, oncologyCenter, maxDiameterMm, maxSolidMm, moreThan10Locules, papillaryCount, acousticShadows, ascites],
+    [
+      ageYears,
+      oncologyCenter,
+      maxDiameterMm,
+      maxSolidMm,
+      moreThan10Locules,
+      papillaryCount,
+      acousticShadows,
+      ascites,
+      useCa125,
+      ca125Uml,
+    ],
   );
 
   const adnex = useMemo(() => calculateAdnex(adnexPayload), [adnexPayload]);
@@ -115,6 +129,21 @@ export default function IotaCalculatorScreen({ route, navigation }: Props) {
           <TextInput style={styles.input} keyboardType="decimal-pad" value={maxDiameterMm} onChangeText={setMaxDiameterMm} />
           <Text style={styles.sub}>Макс. солидный (мм)</Text>
           <TextInput style={styles.input} keyboardType="decimal-pad" value={maxSolidMm} onChangeText={setMaxSolidMm} />
+          <View style={styles.rowWrap}>
+            <SelectChip label="CA-125 в ADNEX" selected={useCa125} onPress={() => setUseCa125((v) => !v)} />
+          </View>
+          {useCa125 ? (
+            <>
+              <Text style={styles.sub}>CA-125 (Ед/мл)</Text>
+              <TextInput
+                style={styles.input}
+                keyboardType="decimal-pad"
+                value={ca125Uml}
+                onChangeText={setCa125Uml}
+                accessibilityLabel="Уровень CA-125"
+              />
+            </>
+          ) : null}
           <View style={styles.rowWrap}>
             <SelectChip label="Онкоцентр" selected={oncologyCenter} onPress={() => setOncologyCenter(true)} />
             <SelectChip label="Другой центр" selected={!oncologyCenter} onPress={() => setOncologyCenter(false)} />

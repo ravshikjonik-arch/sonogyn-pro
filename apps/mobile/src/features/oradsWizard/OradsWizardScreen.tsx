@@ -24,6 +24,7 @@ import { getWebApiBase } from "../../api/chatBackend";
 import OradsAssistPanel from "./OradsAssistPanel";
 import OradsAtlasImage from "./OradsAtlasImage";
 import OradsOptionCard from "./OradsOptionCard";
+import { mapOradsWizardToAdnexInput } from "../iota/mapOradsWizardToAdnexInput";
 import OradsWizardIotaPanel from "./OradsWizardIotaPanel";
 import OradsWizardProgress from "./OradsWizardProgress";
 import OradsWizardResultPanel from "./OradsWizardResultPanel";
@@ -100,6 +101,14 @@ export default function OradsWizardScreen({ navigation, route }: Props) {
     });
   }
 
+  function openIotaAdnex() {
+    if (view.kind !== "result" || !triangulation) return;
+    navigation.navigate("IotaCalculator", {
+      prefill: mapOradsWizardToAdnexInput(nav.state.path, view.result, nav.pathSummary, triangulation),
+      oradsCategory: view.result.categoryNumber,
+    });
+  }
+
   return (
     <SafeAreaView style={styles.safe}>
       <View style={[styles.header, { flexDirection: rowDirection }]}>
@@ -173,7 +182,11 @@ export default function OradsWizardScreen({ navigation, route }: Props) {
                     </Pressable>
                   </View>
                   {resultTab === "iota" && triangulation ? (
-                    <OradsWizardIotaPanel triangulation={triangulation} onBuildReport={openStructuredReport} />
+                    <OradsWizardIotaPanel
+                      triangulation={triangulation}
+                      onBuildReport={openStructuredReport}
+                      onOpenAdnex={openIotaAdnex}
+                    />
                   ) : (
                     <OradsWizardResultPanel
                       result={view.result}

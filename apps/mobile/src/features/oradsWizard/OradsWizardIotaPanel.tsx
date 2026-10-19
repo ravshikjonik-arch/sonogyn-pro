@@ -27,9 +27,10 @@ function descriptorLabel(code: string, kind: "benign" | "malignant") {
 type Props = {
   triangulation: AdnexTriangulation;
   onBuildReport: () => void;
+  onOpenAdnex?: () => void;
 };
 
-export default function OradsWizardIotaPanel({ triangulation: tri, onBuildReport }: Props) {
+export default function OradsWizardIotaPanel({ triangulation: tri, onBuildReport, onOpenAdnex }: Props) {
   return (
     <View style={styles.wrap}>
       <Text style={styles.kicker}>{ORADS_US_VERSION} · ACR / IOTA</Text>
@@ -75,6 +76,11 @@ export default function OradsWizardIotaPanel({ triangulation: tri, onBuildReport
       <Pressable style={styles.primary} onPress={onBuildReport}>
         <Text style={styles.primaryText}>Структурированный протокол (с IOTA)</Text>
       </Pressable>
+      {onOpenAdnex ? (
+        <Pressable style={styles.secondary} onPress={onOpenAdnex}>
+          <Text style={styles.secondaryText}>ADNEX / LR2 (вероятности IOTA)</Text>
+        </Pressable>
+      ) : null}
     </View>
   );
 }
@@ -117,4 +123,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   primaryText: { color: "#fff", fontWeight: "800", fontSize: 14 },
+  secondary: {
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: "#2563EB",
+    backgroundColor: "#fff",
+    paddingVertical: 14,
+    alignItems: "center",
+  },
+  secondaryText: { color: "#2563EB", fontWeight: "800", fontSize: 14 },
 });

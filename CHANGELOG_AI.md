@@ -17,6 +17,12 @@
 - Mobile: `IotaCalculatorScreen`, tools catalog `iota-adnex`, prefill из O-RADS Pro.
 - E2E: `test:e2e:iota` (Playwright + soft axe); расширены unit-тесты ADNEX/LR2.
 
+### IOTA Block 1d — wizard bridge + CA-125 mobile
+
+- Mobile O-RADS wizard → **ADNEX / LR2** с prefill (`mapOradsWizardToAdnexInput`, parity с web).
+- Mobile IOTA: опциональный **CA-125** в ADNEX; E2E smoke проверяет «ADNEX|IOTA» в HTML.
+- Тест: `apps/mobile` → `npm run test:iota-wizard-bridge`.
+
 ---
 
 Дата: 2026-05-20

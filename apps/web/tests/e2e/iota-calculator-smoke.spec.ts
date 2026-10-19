@@ -10,5 +10,6 @@ test.describe("IOTA calculator smoke", () => {
     expect(res.status()).toBe(200);
     const html = await res.text();
     expect(html.toLowerCase()).toContain("html");
+    expect(html).toMatch(/ADNEX|IOTA/i);
   });
 });
