@@ -27,6 +27,14 @@ export const CALCULATORS: CalculatorDefinition[] = [
     fields: [],
   },
   {
+    slug: "iota",
+    code: "IOTA_MODELS",
+    title: "IOTA · ADNEX / LR2",
+    subtitle: "ADNEX, Simple Rules Risk, LR2 — вероятности и сопоставление с O-RADS US",
+    externalHref: "/tools/calc/rads/iota",
+    fields: [],
+  },
+  {
     slug: "bi-rads",
     code: "BI_RADS_US",
     title: "BI-RADS US Pro",

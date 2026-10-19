@@ -85,6 +85,7 @@ const PUBLIC_WITHIN_PROTECTED = [
   "/calculators/bi-rads",
   "/calculators/ti-rads",
   "/tools/calc/rads/o-rads",
+  "/tools/calc/rads/iota",
   "/tools/calc/rads/bi-rads",
   "/tools/calc/rads/ln-rads",
   "/tools/calc/rads/ti-rads",

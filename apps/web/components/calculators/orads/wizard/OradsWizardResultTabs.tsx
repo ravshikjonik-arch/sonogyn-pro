@@ -1,7 +1,9 @@
 "use client";
 
 import type { AdnexTriangulation } from "@repo/adnex-education";
+import { mapOradsTreeToSreInput } from "@repo/report-engine";
 import type { OradsTreePathStep, OradsTreeResult } from "@repo/orads-us";
+import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 
 import { AdnexConsensusPanel } from "@/components/calculators/orads/AdnexConsensusPanel";
@@ -9,7 +11,10 @@ import { OradsWizardResultPanel } from "@/components/calculators/orads/wizard/Or
 import { IotaSimpleRulesPanel } from "@/components/calculators/orads/IotaSimpleRulesPanel";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { OradsLocaleWeb } from "@/lib/orads-us/useOradsLocaleWeb";
+import { mapSreToAdnexInput } from "@/lib/iota/map-sre-to-adnex-input";
+import { saveIotaBridgePayload } from "@/lib/reports/sre-iota-bridge";
 import { evaluateWizardTriangulation } from "@/lib/reports/sre-classification";
+import { Button } from "@/components/ui/button";
 
 type Props = {
   path: OradsTreePathStep[];
@@ -32,12 +37,22 @@ export function OradsWizardResultTabs({
   onBuildReport,
   onAskAscites,
 }: Props) {
+  const router = useRouter();
   const [tab, setTab] = useState("summary");
 
   const triangulation = useMemo(
     () => evaluateWizardTriangulation(path, result.categoryNumber),
     [path, result.categoryNumber],
   );
+
+  function openIotaAdnex() {
+    const sre = mapOradsTreeToSreInput(path, result, pathSummary, triangulation);
+    saveIotaBridgePayload({
+      adnex: mapSreToAdnexInput(sre),
+      oradsCategory: result.categoryNumber,
+    });
+    router.push("/tools/calc/rads/iota");
+  }
 
   return (
     <Tabs value={tab} onValueChange={setTab} className="space-y-4">
@@ -68,13 +83,12 @@ export function OradsWizardResultTabs({
             <IotaSimpleRulesPanel />
           </div>
         </details>
-        <button
-          type="button"
-          className="w-full rounded-xl bg-[var(--clinical-primary)] px-4 py-3 text-sm font-bold text-white hover:bg-[var(--clinical-primary-hover)]"
-          onClick={() => onBuildReport(triangulation)}
-        >
+        <Button type="button" className="w-full" onClick={() => onBuildReport(triangulation)}>
           Структурированный протокол (с IOTA)
-        </button>
+        </Button>
+        <Button type="button" variant="outline" className="w-full" onClick={openIotaAdnex}>
+          ADNEX / LR2 (вероятности IOTA)
+        </Button>
       </TabsContent>
     </Tabs>
   );

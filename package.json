@@ -36,7 +36,9 @@
     "setup:githooks": "git config core.hooksPath .githooks && chmod +x .githooks/pre-commit",
     "test:e2e": "npx --yes pnpm@10.6.5 --filter @repo/web test:e2e",
     "test:cpi": "npx --yes pnpm@10.6.5 --filter @repo/cervical-pathology test",
-    "check:migration-drift": "node scripts/check-migration-drift.mjs"
+    "check:migration-drift": "node scripts/check-migration-drift.mjs",
+    "test:iota": "pnpm --filter @repo/iota-models test",
+    "test:orads-us": "pnpm --filter @repo/orads-us test"
   },
   "devDependencies": {
     "turbo": "^2.5.4",

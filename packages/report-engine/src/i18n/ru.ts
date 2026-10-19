@@ -34,6 +34,8 @@ export const ru = {
     orads_line: (cat: number, version: string) => `Категория O-RADS US: ${cat} (${version}).`,
     iota_line: (verdict: string, benign: string, malignant: string) =>
       `IOTA Simple Rules: ${verdict} (B: ${benign || "—"}; M: ${malignant || "—"}).`,
+    adnex_model_line: (malignancyPct: string, usedCa125: boolean) =>
+      `Модель ADNEX (IOTA): риск злокачественности ~${malignancyPct}%${usedCa125 ? "" : " (без CA-125)"}; assistive-оценка, не заменяет клиническое решение.`,
     agreement: {
       full: "Классификации O-RADS US и IOTA согласованы.",
       partial: "Частичное согласование O-RADS и IOTA — уточните плоскости сканирования и морфологию.",

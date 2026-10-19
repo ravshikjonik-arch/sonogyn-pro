@@ -43,6 +43,8 @@ export const en = {
     orads_line: (cat: number, version: string) => `O-RADS US category: ${cat} (${version}).`,
     iota_line: (verdict: string, benign: string, malignant: string) =>
       `IOTA Simple Rules: ${verdict} (B: ${benign || "—"}; M: ${malignant || "—"}).`,
+    adnex_model_line: (malignancyPct: string, usedCa125: boolean) =>
+      `ADNEX model (IOTA): estimated malignancy risk ~${malignancyPct}%${usedCa125 ? "" : " (without CA-125)"}; assistive only.`,
     agreement: {
       full: "O-RADS US and IOTA classifications are concordant.",
       partial: "Partial agreement — verify scanning planes and morphology.",

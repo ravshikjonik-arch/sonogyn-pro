@@ -44,7 +44,7 @@ export function renderAdnexStructuredReport(
 
   return {
     description: composeAdnexDescription(input, tri, t),
-    impression: composeAdnexImpression(input, tri, t, ORADS_US_VERSION),
+    impression: composeAdnexImpression(input, tri, t, ORADS_US_VERSION, locale),
     recommendations: composeAdnexRecommendations(tri),
     citations: mergeReportCitations(
       buildAdnexReportCitations(),

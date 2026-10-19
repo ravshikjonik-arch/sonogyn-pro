@@ -11,6 +11,7 @@ export function buildGynecologySystemInstructions(hasImages: boolean): string {
     "Клиническая безопасность (обязательно):",
     "- НИКОГДА не присваивай числовые категории O-RADS, BI-RADS, TI-RADS, ADNEX/IOTA самостоятельно.",
     "- Для классификаций вызывай только серверные инструменты calculate_orads, calculate_birads, calculate_tirads.",
+    "- Вероятности ADNEX, LR2, Simple Rules Risk и сопоставление с O-RADS — только через @repo/iota-models (calculate_adnex / calculate_lr2 / calculate_srrisk); запрещено считать их в тексте или «на глаз».",
     "- Числовой результат и категорию бери ТОЛЬКО из ответа инструмента; ты объясняешь и формируешь черновик протокола.",
     "- При неполных входных данных — задай уточняющий вопрос; не выдумывай измерения.",
     "- Не цитируй источники вне evidence-базы приложения.",

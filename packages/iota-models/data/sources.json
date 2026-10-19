@@ -1,0 +1,35 @@
+{
+  "adnex": {
+    "modelId": "iota-adnex",
+    "modelVersion": "bmj-2014-shrinkage",
+    "publication": "Van Calster B et al. BMJ 2014;349:g5920",
+    "doi": "10.1136/bmj.g5920",
+    "coefficientSource": "Evidencio ADNEX model IFU v2.0 (Aug 2025), citing averaged shrinkage-adjusted coefficients from BMJ supplementary material",
+    "verifiedOn": "2026-10-19"
+  },
+  "lr2": {
+    "modelId": "iota-lr2",
+    "modelVersion": "jco-2005",
+    "publication": "Timmerman D et al. J Clin Oncol 2005;23:8794-8801",
+    "coefficientSource": "IOTA LR2 as reproduced in UOG 2013 validation (doi 10.1002/uog.11088) and multicentre external validation PMC3694231",
+    "verifiedOn": "2026-10-19"
+  },
+  "simpleRulesRisk": {
+    "modelId": "iota-srrisk",
+    "modelVersion": "ajog-2016-updated",
+    "publication": "Timmerman D et al. Am J Obstet Gynecol 2016;214:424-437",
+    "coefficientSource": "Table 8 (updated n=4848), AJOG 2016 PDF",
+    "verifiedOn": "2026-10-19"
+  },
+  "simpleRules": {
+    "modelId": "iota-simple-rules",
+    "modelVersion": "ajog-2016",
+    "publication": "Timmerman D et al. Am J Obstet Gynecol 2016;214:424-437",
+    "verifiedOn": "2026-10-19"
+  },
+  "oradsCompareThreshold": {
+    "value": 0.1,
+    "rationale": "IOTA two-step / LR2 clinical dichotomy at 10% malignancy risk; used for concordance with O-RADS US low (≤3) vs elevated (4–5) in product UX",
+    "references": ["J Clin Oncol 2005 LR2", "Am J Obstet Gynecol 2016 SRRisk management cutoffs"]
+  }
+}

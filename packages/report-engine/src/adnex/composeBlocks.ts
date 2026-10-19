@@ -1,7 +1,8 @@
 import type { AdnexTriangulation } from "@repo/adnex-education";
-import type { AdnexStructuredReportInput } from "@repo/types";
+import type { AdnexStructuredReportInput, ReportLocale } from "@repo/types";
 
 import type { ReportCatalog } from "../i18n";
+import { formatAdnexModelLine } from "./formatAdnexModelLine";
 import { maxMeasurementMm } from "./mapInput";
 
 export function composeAdnexDescription(
@@ -71,6 +72,7 @@ export function composeAdnexImpression(
   tri: AdnexTriangulation,
   t: ReportCatalog,
   oradsVersion: string,
+  locale: ReportLocale = "ru",
 ): string {
   const lines: string[] = [tri.headline];
 
@@ -87,6 +89,9 @@ export function composeAdnexImpression(
     ),
   );
   lines.push(t.adnex.agreement[tri.agreement]);
+
+  const adnexLine = formatAdnexModelLine(input, locale);
+  if (adnexLine) lines.push(adnexLine);
 
   return lines.join("\n");
 }

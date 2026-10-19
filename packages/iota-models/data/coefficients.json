@@ -1,0 +1,135 @@
+{
+  "adnexWithCa125": {
+    "sourceRef": "adnex",
+    "predictors": ["z1_borderline", "z2_stage1", "z3_stage2_4", "z4_metastatic"],
+    "z1_borderline": {
+      "intercept": -7.577663,
+      "age": 0.004506,
+      "log2Ca125": 0.111642,
+      "log2MaxDiameterMm": 0.372046,
+      "solidRatio": 6.967853,
+      "solidRatioSquared": -5.65588,
+      "moreThan10Locules": 1.375079,
+      "papillaryCount": 0.604238,
+      "acousticShadows": -2.04157,
+      "ascites": 0.971061,
+      "oncologyCenter": 0.953043
+    },
+    "z2_stage1": {
+      "intercept": -12.276041,
+      "age": 0.01726,
+      "log2Ca125": 0.197249,
+      "log2MaxDiameterMm": 0.87353,
+      "solidRatio": 9.583053,
+      "solidRatioSquared": -5.83319,
+      "moreThan10Locules": 0.791873,
+      "papillaryCount": 0.400369,
+      "acousticShadows": -1.87763,
+      "ascites": 0.452731,
+      "oncologyCenter": 0.452484
+    },
+    "z3_stage2_4": {
+      "intercept": -14.91583,
+      "age": 0.051239,
+      "log2Ca125": 0.765456,
+      "log2MaxDiameterMm": 0.430477,
+      "solidRatio": 10.37696,
+      "solidRatioSquared": -5.70975,
+      "moreThan10Locules": 0.273692,
+      "papillaryCount": 0.389874,
+      "acousticShadows": -2.35516,
+      "ascites": 1.348408,
+      "oncologyCenter": 0.459021
+    },
+    "z4_metastatic": {
+      "intercept": -11.909267,
+      "age": 0.033601,
+      "log2Ca125": 0.276166,
+      "log2MaxDiameterMm": 0.449025,
+      "solidRatio": 6.644939,
+      "solidRatioSquared": -2.3033,
+      "moreThan10Locules": 0.89998,
+      "papillaryCount": 0.215645,
+      "acousticShadows": -2.49845,
+      "ascites": 1.636407,
+      "oncologyCenter": 0.808887
+    }
+  },
+  "adnexWithoutCa125": {
+    "sourceRef": "adnex",
+    "z1_borderline": {
+      "intercept": -7.412534,
+      "age": 0.003489,
+      "log2MaxDiameterMm": 0.430701,
+      "solidRatio": 7.117925,
+      "solidRatioSquared": -5.74135,
+      "moreThan10Locules": 1.343699,
+      "papillaryCount": 0.607211,
+      "acousticShadows": -2.11885,
+      "ascites": 1.167767,
+      "oncologyCenter": 0.983227
+    },
+    "z2_stage1": {
+      "intercept": -12.201607,
+      "age": 0.017607,
+      "log2MaxDiameterMm": 0.98728,
+      "solidRatio": 10.07145,
+      "solidRatioSquared": -6.17742,
+      "moreThan10Locules": 0.763081,
+      "papillaryCount": 0.410449,
+      "acousticShadows": -1.98073,
+      "ascites": 0.77054,
+      "oncologyCenter": 0.543677
+    },
+    "z3_stage2_4": {
+      "intercept": -12.826207,
+      "age": 0.045172,
+      "log2MaxDiameterMm": 0.759002,
+      "solidRatio": 11.83296,
+      "solidRatioSquared": -6.64336,
+      "moreThan10Locules": 0.316444,
+      "papillaryCount": 0.390959,
+      "acousticShadows": -2.94082,
+      "ascites": 2.691276,
+      "oncologyCenter": 0.929483
+    },
+    "z4_metastatic": {
+      "intercept": -11.424379,
+      "age": 0.033407,
+      "log2MaxDiameterMm": 0.560396,
+      "solidRatio": 7.264105,
+      "solidRatioSquared": -2.77392,
+      "moreThan10Locules": 0.983394,
+      "papillaryCount": 0.199164,
+      "acousticShadows": -2.63702,
+      "ascites": 2.185574,
+      "oncologyCenter": 0.906249
+    }
+  },
+  "lr2": {
+    "sourceRef": "lr2",
+    "intercept": -5.3718,
+    "ageYears": 0.0354,
+    "ascites": 1.6159,
+    "bloodFlowInSolidPapillary": 1.1768,
+    "maxSolidDiameterMm": 0.0697,
+    "maxSolidCapMm": 50,
+    "irregularInternalWalls": 0.9586,
+    "acousticShadows": -2.9486
+  },
+  "simpleRulesRisk": {
+    "sourceRef": "simpleRulesRisk",
+    "intercept": -0.97,
+    "B1": -3.41,
+    "B2": -2.25,
+    "B3": -1.66,
+    "B4": -2.75,
+    "B5": -1.86,
+    "M1": 2.19,
+    "M2": 2.65,
+    "M3": 1.53,
+    "M4": 0.98,
+    "M5": 1.55,
+    "oncologyCenter": 0.92
+  }
+}

@@ -73,6 +73,7 @@ export type ModuleId =
   | "calculator.pregnancy-meds"
   | "calculator.cervical-length"
   | "calculator.o-rads"
+  | "calculator.iota"
   | "calculator.bi-rads"
   | "calculator.ti-rads"
   | "calculator.ln-rads"
@@ -408,6 +409,16 @@ export const MODULES: ModuleEntry[] = [
     ref: { catalog: "registry", slug: "o-rads" },
     surfaces: { sidebar: true, sidebarGroup: "appointment", clinicalSearch: true },
     legacy: { clinicalTools: ["orads-wizard", "orads"] },
+  },
+  {
+    id: "calculator.iota",
+    domain: "rads",
+    kind: "calculator",
+    title: "IOTA · ADNEX / LR2",
+    href: "/tools/calc/rads/iota",
+    ref: { catalog: "registry", slug: "iota" },
+    surfaces: { sidebar: true, sidebarGroup: "appointment", clinicalSearch: true },
+    legacy: { clinicalTools: ["iota-adnex"] },
   },
   {
     id: "calculator.bi-rads",

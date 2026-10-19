@@ -1,5 +1,14 @@
 # CHANGELOG — доработка AI (клинический продукт УЗИ/АГ)
 
+## 2026-10-19 — IOTA Block 1
+
+- Пакет **`@repo/iota-models`**: ADNEX (±CA-125), LR2, Simple Rules Risk, сопоставление с O-RADS US (порог 10%).
+- Веб: `/tools/calc/rads/iota`, мост из `/reports/adnex`, промпт Sonogyn AI — только deterministic models.
+- SRE: строка ADNEX в заключении при достаточных полях; CI: `pnpm test:iota`, `pnpm test:orads-us`.
+- Док: `docs/clinical/iota-models.md`.
+
+---
+
 Дата: 2026-05-20
 
 ## Исправлено

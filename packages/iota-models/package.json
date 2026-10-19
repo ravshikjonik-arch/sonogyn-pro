@@ -1,0 +1,28 @@
+{
+  "name": "@repo/iota-models",
+  "version": "0.1.0",
+  "private": true,
+  "description": "IOTA ADNEX, LR2, Simple Rules Risk — deterministic probability models",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./locales/ru": "./locales/ru.json",
+    "./locales/en": "./locales/en.json"
+  },
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "sideEffects": false,
+  "dependencies": {
+    "@repo/orads-us": "workspace:*",
+    "@repo/types": "workspace:*"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test src/**/*.test.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "tsx": "^4.19.4",
+    "typescript": "^5.9.2"
+  }
+}

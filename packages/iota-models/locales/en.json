@@ -1,0 +1,10 @@
+{
+  "iota": {
+    "compare": {
+      "concordant": "IOTA risk ({risk}%) aligns with O-RADS US category {category} (10% threshold).",
+      "discordant_iota_higher": "IOTA risk ({risk}%) exceeds 10% while O-RADS US {category} is low/intermediate (≤3).",
+      "discordant_orads_higher": "O-RADS US {category} is elevated (4–5) while IOTA risk ({risk}%) is below 10%.",
+      "missing_orads": "Enter O-RADS US category to compare (IOTA risk {risk}%)."
+    }
+  }
+}

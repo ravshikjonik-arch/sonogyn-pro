@@ -47,6 +47,12 @@ jobs:
       - name: CPI module tests
         run: pnpm test:cpi
 
+      - name: IOTA models tests
+        run: pnpm test:iota
+
+      - name: O-RADS US package tests
+        run: pnpm test:orads-us
+
       - name: Security schema tests
         run: pnpm exec npm run test:security --prefix apps/web
 

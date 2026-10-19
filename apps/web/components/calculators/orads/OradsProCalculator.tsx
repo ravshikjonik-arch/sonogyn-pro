@@ -32,6 +32,8 @@ import {
 } from "@/lib/orads-pro";
 import { formatOradsShareCard } from "@/lib/orads-pro/format-share";
 import { plainTextToDocumentSpec } from "@/lib/reporting/document-spec-builders";
+import { mapOradsProToAdnexInput } from "@/lib/iota/map-orads-pro-to-adnex-input";
+import { saveIotaBridgePayload } from "@/lib/reports/sre-iota-bridge";
 import { saveOradsBridgePayload } from "@/lib/reports/sre-orads-bridge";
 import { saveStructuredCalcPending } from "@/lib/structured-editor/calculator-bridge";
 import { cn } from "@/lib/utils/cn";
@@ -145,6 +147,14 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
       versionLabel: ORADS_VERSION_LABEL,
     });
     void navigator.clipboard.writeText(text).then(() => toast.success("Карточка результата скопирована"));
+  }
+
+  function openIotaAdnexCalculator() {
+    saveIotaBridgePayload({
+      adnex: mapOradsProToAdnexInput(f.input),
+      oradsCategory: oradsZero ? null : f.result.category,
+    });
+    router.push("/tools/calc/rads/iota");
   }
 
   function openStructuredReport() {
@@ -579,6 +589,14 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
               </Button>
               <Button type="button" variant="default" disabled={pending || !showTriangulation} onClick={openStructuredReport}>
                 Структурированный протокол
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                disabled={!showTriangulation}
+                onClick={openIotaAdnexCalculator}
+              >
+                ADNEX / LR2 (IOTA)
               </Button>
               <Button variant="outline" size="sm" asChild>
                 <Link href="/ai/consultants/gynecology">Помощник АГ</Link>

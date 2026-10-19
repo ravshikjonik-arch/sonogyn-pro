@@ -1,0 +1,24 @@
+{
+  "iota": {
+    "compare": {
+      "concordant": "Риск IOTA ({risk}%) согласуется с категорией O-RADS US {category} (порог 10%).",
+      "discordant_iota_higher": "Риск IOTA ({risk}%) выше порога 10%, тогда как O-RADS US {category} — низко/промежуточная группа (≤3).",
+      "discordant_orads_higher": "O-RADS US {category} указывает на повышенный риск (4–5), тогда как расчёт IOTA ({risk}%) < 10%.",
+      "missing_orads": "Укажите категорию O-RADS US для сопоставления (риск IOTA {risk}%)."
+    },
+    "validation": {
+      "adnex": {
+        "ageRange": "Возраст: 18–100 лет.",
+        "oncologyCenterRequired": "Укажите тип центра (онкологический / другой).",
+        "maxDiameterMm": "Максимальный диаметр образования: 8–400 мм.",
+        "maxSolidMm": "Диаметр солидного компонента: 0–400 мм.",
+        "solidExceedsLesion": "Солидный компонент не может превышать диаметр образования.",
+        "loculesRequired": "Укажите, более 10 камер или нет.",
+        "papillaryRequired": "Укажите число папиллярных выростов (0–3 или ≥4).",
+        "shadowsRequired": "Укажите наличие акустической тени.",
+        "ascitesRequired": "Укажите наличие асцита вне таза.",
+        "ca125Range": "CA-125: 1–30000 Ед/мл или оставьте пустым."
+      }
+    }
+  }
+}

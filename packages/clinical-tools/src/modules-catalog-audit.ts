@@ -9,6 +9,7 @@ import { MODULES, type ModuleEntry } from "./modules.catalog";
 export const REGISTRY_CALCULATOR_SLUGS = [
   "elastography",
   "o-rads",
+  "iota",
   "bi-rads",
   "endometrium",
   "cervical-length",
