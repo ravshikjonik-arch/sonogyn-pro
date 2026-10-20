@@ -8,6 +8,8 @@ import { smsSendEdgeRateLimit } from "@/lib/security/edge-sms-rate-limit";
 import { shouldBlockSuspiciousApiBot } from "@/lib/security/bot-detection";
 import { assertProductionSecretsConfigured } from "@/lib/security/production-secrets";
 import { getClinicalRole, roleMeetsMinimum } from "@/lib/security/require-clinical-role";
+import { isSonogynCustomDomainHost } from "@/lib/shell/custom-domain";
+import { proxyCustomDomainDocument } from "@/lib/shell/custom-domain-proxy";
 
 assertProductionSecretsConfigured();
 
@@ -146,6 +148,12 @@ function applyCorsHeaders(response: NextResponse, corsHeaders: Record<string, st
 export default async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
+  const proxied = await proxyCustomDomainDocument(request);
+  if (proxied) {
+    applySecurityHeaders(proxied);
+    return proxied;
+  }
+
   if (pathname.startsWith("/api/")) {
     const corsHeaders = resolveCorsHeaders(request);
 
@@ -223,7 +231,13 @@ export default async function middleware(request: NextRequest) {
   if (skipAuthRoundTrip) {
     const response = NextResponse.next({ request });
     applySecurityHeaders(response);
-    if (isPublicWithinProtected(pathname)) {
+    if (
+      process.env.VERCEL === "1" &&
+      isSonogynCustomDomainHost(request.headers.get("host")) &&
+      (pathname === "/home" || pathname === "/home/")
+    ) {
+      response.headers.set("Cache-Control", "public, s-maxage=60, stale-while-revalidate=300, no-transform");
+    } else if (isPublicWithinProtected(pathname)) {
       response.headers.set("Cache-Control", "public, s-maxage=60, stale-while-revalidate=300");
     }
     return response;
@@ -349,6 +363,7 @@ export default async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
+    "/",
     "/api/:path*",
     "/login",
     "/register",
@@ -411,5 +426,10 @@ export const config = {
     "/musa/:path*",
     "/demo",
     "/demo/:path*",
+    "/landing",
+    "/landing/:path*",
+    "/lp/:path*",
+    "/privacy",
+    "/auth/:path*",
   ],
 };

@@ -95,14 +95,31 @@ try {
   fail(`Vercel deploy недоступен → ${e instanceof Error ? e.message : e}`);
 }
 
-console.log("\n📋 Исправление в Nethouse (domains.nethouse.ru):");
+const cfProxied =
+  apexA.some((ip) => ip.startsWith("104.21.") || ip.startsWith("172.67.")) ||
+  wwwA.some((ip) => ip.startsWith("104.21.") || ip.startsWith("172.67."));
+
+if (cfProxied) {
+  warn(
+    "DNS через Cloudflare proxy (оранжевое облако). На sonogyn-pro.ru HTML обрезается ~20KB — сайт «висит» белым экраном.",
+  );
+  console.log("     Исправление (Cloudflare → DNS):");
+  console.log("       @  A     → 76.76.21.21  (Proxy status: DNS only / серое облако)");
+  console.log("       www CNAME → cname.vercel-dns.com (DNS only)");
+  console.log("     Либо оставить proxy, но отключить Rocket Loader / Auto Minify / HTML rewrite в Speed.");
+} else {
+  ok("A/CNAME не на Cloudflare proxy (или серое облако) — ок для Vercel");
+}
+
+console.log("\n📋 Альтернатива — Nethouse / прямой DNS на Vercel:");
 console.log("  1. Домен sonogyn-pro.ru → DNS / Зона");
 console.log("  2. Удалить A → 216.198.79.1 и 216.198.79.65");
 console.log("  3. Удалить CNAME apex, если добавляете A (нельзя A+CNAME вместе)");
 console.log(`  4. Добавить A @ → ${VERCEL_A[0]}`);
 console.log("  5. www → CNAME → cname.vercel-dns.com (без лишних A)");
 console.log("  6. Vercel → Project → Settings → Domains → sonogyn-pro.ru → Valid Configuration");
-console.log("  7. Подождать 15–60 мин, снова: node scripts/check-production-dns.mjs\n");
+console.log("  7. Vercel env (Production): NEXT_PUBLIC_SONOGYN_ASSET_PREFIX=https://<ваш>.vercel.app");
+console.log("  8. Подождать 15–60 мин, снова: node scripts/check-production-dns.mjs\n");
 
 const exitBad = badApex.length > 0 || hasConflict;
 process.exit(exitBad ? 1 : 0);

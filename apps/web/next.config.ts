@@ -75,10 +75,19 @@ function buildContentSecurityPolicy(): string {
 /** Custom domain truncates bodies ~16–20KB; static files on *.vercel.app complete. */
 function productionAssetPrefix(): string | undefined {
   if (process.env.VERCEL !== "1") return undefined;
+  const forced =
+    process.env.SONOGYN_ASSET_PREFIX?.trim() || process.env.NEXT_PUBLIC_SONOGYN_ASSET_PREFIX?.trim();
+  if (forced) return forced.replace(/\/$/, "");
+
   const raw = process.env.VERCEL_URL?.trim();
   if (!raw) return undefined;
   const host = raw.replace(/^https?:\/\//, "").split("/")[0];
-  if (!host || host.endsWith("sonogyn-pro.ru")) return undefined;
+  if (!host) return undefined;
+  if (host.endsWith("sonogyn-pro.ru")) {
+    const fallback = process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim();
+    if (fallback) return fallback.replace(/\/$/, "");
+    return undefined;
+  }
   return `https://${host}`;
 }
 
