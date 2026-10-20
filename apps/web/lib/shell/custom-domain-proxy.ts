@@ -41,7 +41,10 @@ function shouldProxyCustomDomainRequest(request: NextRequest): boolean {
   if (request.headers.get("RSC") === "1") return true;
 
   const accept = request.headers.get("accept") ?? "";
-  return accept.includes("text/html");
+  if (accept.includes("text/html")) return true;
+  // curl -I и часть CDN шлют */* или пустой Accept — без прокси HTML снова обрезается.
+  if (accept.includes("*/*") || accept.trim() === "") return true;
+  return false;
 }
 
 const FORWARD_REQUEST_HEADERS = [
@@ -99,6 +102,7 @@ export async function proxyCustomDomainDocument(request: NextRequest): Promise<N
     if (!STRIP_RESPONSE_HEADERS.has(key.toLowerCase())) outHeaders.set(key, value);
   });
   outHeaders.set("x-sonogyn-cd-proxy", "1");
+  outHeaders.set("Cache-Control", "private, no-store, no-transform");
 
   return new NextResponse(request.method === "HEAD" ? null : upstream.body, {
     status: upstream.status,
