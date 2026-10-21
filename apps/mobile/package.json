@@ -29,6 +29,7 @@
     "doctor": "npx expo-doctor",
     "test:orads-pro": "node --import tsx ./src/features/oradsPro/logic/oradsCalculator.test.ts",
     "test:iota-wizard-bridge": "node --import tsx ./src/features/iota/mapOradsWizardToAdnexInput.test.ts",
+    "test:mobile-auth-gate": "node --import tsx --test ./src/lib/auth/mobileAuthGate.test.ts",
     "chat-server": "cd server && npm install && npm start",
     "eas:login": "npx eas-cli login",
     "eas:init": "npx eas-cli init",

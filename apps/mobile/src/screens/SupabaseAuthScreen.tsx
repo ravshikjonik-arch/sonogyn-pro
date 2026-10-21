@@ -29,7 +29,9 @@ import { isTurnstileConfiguredOnMobile, obtainTurnstileToken } from "../lib/auth
 import { markSessionAnchorNow } from "../lib/security/sessionAnchor";
 import { supabaseMobile } from "../lib/supabase/mobileClient";
 import type { RootStackParamList } from "../navigation/paramLists";
+import { isMobileSimpleEmailAuth, isNativeStoreApp } from "../lib/auth/mobileAuthGate";
 import { useAppGate } from "../navigation/AppGateContext";
+import { resetAfterSuccessfulAuth } from "../navigation/resetToMain";
 
 type Props = NativeStackScreenProps<RootStackParamList, "SupabaseAuth">;
 type Tab = "telegram" | "email" | "phone" | "social";
@@ -49,9 +51,12 @@ function translateAuthError(message: string): string {
 type AuthLocale = Clinical3dLocale | "es";
 
 export default function SupabaseAuthScreen({ navigation }: Props) {
-  const { refreshSupabaseSession } = useAppGate();
-  const [tab, setTab] = useState<Tab>("phone");
-  const [mode, setMode] = useState<"sign-in" | "sign-up">("sign-in");
+  const { refreshSupabaseSession, supabaseSession } = useAppGate();
+  const simpleEmail = isMobileSimpleEmailAuth();
+  const [tab, setTab] = useState<Tab>(simpleEmail ? "email" : "phone");
+  const [mode, setMode] = useState<"sign-in" | "sign-up">(
+    isNativeStoreApp() ? "sign-up" : "sign-in",
+  );
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
@@ -108,8 +113,9 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
   const finishAuth = useCallback(async () => {
     await markSessionAnchorNow();
     await refreshSupabaseSession();
-    navigation.navigate("Main");
-  }, [navigation, refreshSupabaseSession]);
+    const { data } = supabaseMobile ? await supabaseMobile.auth.getSession() : { data: { session: null } };
+    resetAfterSuccessfulAuth(navigation, data.session ?? supabaseSession);
+  }, [navigation, refreshSupabaseSession, supabaseSession]);
 
   async function runTurnstileChallenge() {
     if (!isTurnstileConfiguredOnMobile()) {
@@ -287,29 +293,35 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.kicker}>SonoGyn Pro</Text>
-      <Text style={styles.title}>Вход / регистрация</Text>
+      <Text style={styles.title}>{mode === "sign-up" ? "Регистрация врача" : "Вход"}</Text>
       <Text style={styles.body}>
-        SMS (+7), Яндекс ID, Telegram или email — способы входа для пилота.
+        {simpleEmail
+          ? "Email и пароль — один аккаунт для iOS и Android. После регистрации сразу откроется кабинет."
+          : "SMS (+7), Яндекс ID, Telegram или email — способы входа для пилота."}
       </Text>
 
-      <View style={styles.tabRow}>
-        {([
-          ["phone", "SMS"],
-          ["social", "Яндекс ID"],
-          ["telegram", "Telegram"],
-          ["email", "Почта"],
-        ] as const).map(([id, label]) => (
-          <Pressable
-            key={id}
-            accessibilityRole="button"
-            accessibilityLabel={`Вкладка ${label}`}
-            style={[styles.tab, tab === id && styles.tabActive]}
-            onPress={() => setTab(id)}
-          >
-            <Text style={[styles.tabText, tab === id && styles.tabTextActive]}>{label}</Text>
-          </Pressable>
-        ))}
-      </View>
+      {!simpleEmail ? (
+        <View style={styles.tabRow}>
+          {(
+            [
+              ["phone", "SMS"],
+              ["social", "Яндекс ID"],
+              ["telegram", "Telegram"],
+              ["email", "Почта"],
+            ] as const
+          ).map(([id, label]) => (
+            <Pressable
+              key={id}
+              accessibilityRole="button"
+              accessibilityLabel={`Вкладка ${label}`}
+              style={[styles.tab, tab === id && styles.tabActive]}
+              onPress={() => setTab(id)}
+            >
+              <Text style={[styles.tabText, tab === id && styles.tabTextActive]}>{label}</Text>
+            </Pressable>
+          ))}
+        </View>
+      ) : null}
 
       <View style={styles.toggleRow}>
         <Pressable

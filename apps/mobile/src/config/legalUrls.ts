@@ -6,7 +6,7 @@
  * slow / blocked resolves). Use real URLs before enabling external opens.
  */
 /** Stable HTTPS URLs for store review and in-app consent (Play / TestFlight). */
-const LEGAL_BASE = "https://sonogyn-pro-web-ravshan-s-projects3.vercel.app";
+const LEGAL_BASE = "https://sonogyn-pro.ru";
 
 export const LEGAL_PUBLIC_URLS = {
   privacyPolicy: `${LEGAL_BASE}/privacy`,

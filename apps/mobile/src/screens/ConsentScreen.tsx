@@ -15,6 +15,8 @@ import { branding } from "../config/branding";
 import { LEGAL_PUBLIC_URLS, legalPublicUrlsAreConfigured } from "../config/legalUrls";
 import { saveConsent } from "../legal/consentStorage";
 import i18n from "../i18n";
+import { useAppGate } from "../navigation/AppGateContext";
+import { resetAfterOnboarding } from "../navigation/resetToMain";
 import type { RootStackParamList } from "../navigation/paramLists";
 import { theme } from "../theme";
 
@@ -42,6 +44,7 @@ function CheckboxRow({
 }
 
 export default function ConsentScreen({ navigation }: Props) {
+  const { supabaseSession } = useAppGate();
   const [terms, setTerms] = useState(false);
   const [privacy, setPrivacy] = useState(false);
   const [ai, setAi] = useState(false);
@@ -59,7 +62,7 @@ export default function ConsentScreen({ navigation }: Props) {
         acceptedAiAuxiliary: true,
         acceptedAt: Date.now(),
       });
-      navigation.reset({ index: 0, routes: [{ name: "Main" }] });
+      resetAfterOnboarding(navigation, supabaseSession);
     } catch (e) {
       Alert.alert(i18n.t("error"), e instanceof Error ? e.message : "Не удалось сохранить согласие");
     } finally {

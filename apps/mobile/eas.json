@@ -13,8 +13,10 @@
         "NODE_OPTIONS": "--max-old-space-size=8192",
         "GRADLE_OPTS": "-Xmx6144m -XX:MaxMetaspaceSize=1536m -Dorg.gradle.jvmargs=-Xmx6144m -XX:MaxMetaspaceSize=1536m",
         "EXPO_NO_CAPABILITY_SYNC": "1",
-        "EXPO_PUBLIC_API_BASE_URL": "https://sonogyn-pro-web-ravshan-s-projects3.vercel.app",
-        "EXPO_PUBLIC_WEB_APP_URL": "https://sonogyn-pro-web-ravshan-s-projects3.vercel.app",
+        "EXPO_PUBLIC_API_BASE_URL": "https://sonogyn-pro.ru",
+        "EXPO_PUBLIC_WEB_APP_URL": "https://sonogyn-pro.ru",
+        "EXPO_PUBLIC_MOBILE_REQUIRE_REGISTRATION": "true",
+        "EXPO_PUBLIC_MOBILE_SIMPLE_EMAIL_AUTH": "true",
         "EXPO_PUBLIC_SUPABASE_URL": "https://grnwcbyslttbrqznnunq.supabase.co"
       },
       "android": {
@@ -35,8 +37,10 @@
       "channel": "production",
       "pnpm": "10.6.5",
       "env": {
-        "EXPO_PUBLIC_API_BASE_URL": "https://sonogyn-pro-web-ravshan-s-projects3.vercel.app",
-        "EXPO_PUBLIC_WEB_APP_URL": "https://sonogyn-pro-web-ravshan-s-projects3.vercel.app",
+        "EXPO_PUBLIC_API_BASE_URL": "https://sonogyn-pro.ru",
+        "EXPO_PUBLIC_WEB_APP_URL": "https://sonogyn-pro.ru",
+        "EXPO_PUBLIC_MOBILE_REQUIRE_REGISTRATION": "true",
+        "EXPO_PUBLIC_MOBILE_SIMPLE_EMAIL_AUTH": "true",
         "EXPO_PUBLIC_SUPABASE_URL": "https://grnwcbyslttbrqznnunq.supabase.co"
       },
       "android": {

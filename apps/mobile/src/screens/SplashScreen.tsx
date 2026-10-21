@@ -4,6 +4,7 @@ import { ActivityIndicator, Pressable, StyleSheet, Text, View } from "react-nati
 import { SafeAreaView } from "react-native-safe-area-context";
 import { branding } from "../config/branding";
 import { useAppGate } from "../navigation/AppGateContext";
+import { resetAfterOnboarding } from "../navigation/resetToMain";
 import type { RootStackParamList } from "../navigation/paramLists";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Splash">;
@@ -28,10 +29,14 @@ export function SplashLoadingView() {
 }
 
 export default function SplashScreen({ navigation }: Props) {
-  const { consentOk } = useAppGate();
+  const { consentOk, supabaseSession } = useAppGate();
 
   function onContinue() {
-    navigation.replace(consentOk ? "Main" : "Consent");
+    if (!consentOk) {
+      navigation.replace("Consent");
+      return;
+    }
+    resetAfterOnboarding(navigation, supabaseSession);
   }
 
   return (
@@ -44,7 +49,7 @@ export default function SplashScreen({ navigation }: Props) {
           <Text style={styles.appLine1}>{branding.appName}</Text>
           <Text style={styles.appLine2}>Clinical tools</Text>
           <Text style={styles.appLine3}>УЗИ · шкалы · кейсы</Text>
-          <Text style={styles.tapHint}>Нажмите, чтобы продолжить</Text>
+          <Text style={styles.tapHint}>Нажмите — далее регистрация или вход</Text>
         </SplashCard>
       </Pressable>
     </SafeAreaView>

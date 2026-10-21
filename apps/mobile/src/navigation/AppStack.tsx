@@ -44,7 +44,7 @@ import ElastographyScreen from "../modules/elastography/screens/ElastographyScre
 import CarotidStenosisScreen from "../modules/vascular/screens/CarotidStenosisScreen";
 import IotaCalculatorScreen from "../features/iota/IotaCalculatorScreen";
 import { ClinicalPhiGate } from "../components/ClinicalPhiGate";
-import MainTabs from "./MainTabs";
+import MainTabsWithAuthGate from "./MainTabsWithAuthGate";
 import type { RootStackParamList } from "./paramLists";
 import type { PageType } from "../navigationTypes";
 import { hasValidConsent } from "../legal/consentStorage";
@@ -337,10 +337,14 @@ export default function AppStack() {
           <Stack.Screen name="TermsOfUse" component={TermsScreen} />
           <Stack.Screen name="PrivacyPolicy" component={PrivacyScreen} />
           <Stack.Screen name="MedicalDisclaimer" component={DisclaimerScreen} />
-          <Stack.Screen name="Main" component={MainTabs} />
+          <Stack.Screen name="Main" component={MainTabsWithAuthGate} />
           <Stack.Screen name="Case" component={CaseScreen} />
           <Stack.Screen name="Paywall" component={PaywallScreen} />
-          <Stack.Screen name="SupabaseAuth" component={SupabaseAuthScreen} />
+          <Stack.Screen
+            name="SupabaseAuth"
+            component={SupabaseAuthScreen}
+            options={{ gestureEnabled: false }}
+          />
           <Stack.Screen name="Language" component={LanguageScreen} />
           <Stack.Screen name="ORADSFlow" component={ORADSFlowScreen} />
           <Stack.Screen name="ORADSWizard" component={GuardedORADSWizard} />
