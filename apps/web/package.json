@@ -106,6 +106,7 @@
     "@repo/cervical-pathology-intelligence": "workspace:*",
     "@repo/cervix-pathology-reference": "workspace:*",
     "@repo/cervix-morphology-atlas": "workspace:*",
+    "@repo/mammology-national-atlas": "workspace:*",
     "@repo/clinical-3d": "workspace:*",
     "@repo/clinical-guidelines": "workspace:*",
     "@repo/clinical-reference": "workspace:*",

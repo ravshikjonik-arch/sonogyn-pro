@@ -380,6 +380,14 @@ const EDUCATION_LIBRARY_ITEMS_RAW: EducationLibraryItem[] = [
     tags: ["шейка", "гистология", "CIN", "HPV", "атлас"],
   },
   {
+    id: "mammology-national-atlas",
+    shelf: "atlases",
+    title: "Маммология: национальное руководство",
+    description: "26 глав OCR: УЗИ МЖ, BI-RADS, синдромы, развороты скана (Каприн 2019).",
+    href: "/tools/refs/mammology-national-atlas",
+    tags: ["маммология", "BI-RADS", "УЗИ", "атлас"],
+  },
+  {
     id: "calculators",
     shelf: "calculators",
     title: "Калькуляторы RADS",
