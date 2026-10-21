@@ -43,7 +43,24 @@ async function main() {
   const okAsk = ask.ok && (askJson.summary?.length ?? 0) > 10;
   console.log(okAsk ? "✅" : "❌", `POST evidence/ask → ${ask.status}`, askJson.error ?? "");
 
-  const failed = !health.ok || !complete || !okAsk;
+  const fetometry = await fetch(`${base}/tools/calc/ob/fetometry-norms`, {
+    headers: { "User-Agent": browserUa, Accept: "text/html", "Cache-Control": "no-cache" },
+    signal: AbortSignal.timeout(45_000),
+  });
+  const fetometryHtml = await fetometry.text();
+  const fetometryComplete = fetometryHtml.includes("</html>");
+  const fetometryTitle = /Калькулятор норм фетометрии/i.test(fetometryHtml);
+  const fetometryRoute = fetometryHtml.includes("fetometry-norms");
+  const fetometryNoPhotos =
+    !/\.jpeg|medvedev-archive|image-26-06-26/i.test(fetometryHtml);
+  const okFetometry =
+    fetometry.ok && fetometryComplete && fetometryTitle && fetometryRoute && fetometryNoPhotos;
+  console.log(
+    okFetometry ? "✅" : "❌",
+    `/tools/calc/ob/fetometry-norms → ${fetometry.status}, ${fetometryHtml.length} B, title=${fetometryTitle}, route=${fetometryRoute}, no-photos=${fetometryNoPhotos}`,
+  );
+
+  const failed = !health.ok || !complete || !okAsk || !okFetometry;
   process.exit(failed ? 1 : 0);
 }
 
