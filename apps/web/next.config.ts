@@ -151,8 +151,13 @@ const nextConfig: NextConfig = {
   },
   experimental: {
     optimizePackageImports: ["lucide-react", "@react-three/drei"],
+    webpackMemoryOptimizations: true,
+    webpackBuildWorker: true,
   },
-  webpack: (config) => {
+  webpack: (config, { dev }) => {
+    if (config.cache && !dev) {
+      config.cache = Object.freeze({ type: "memory" });
+    }
     config.module ??= { rules: [] };
     config.module.rules ??= [];
     config.module.rules.push({
@@ -192,6 +197,18 @@ const nextConfig: NextConfig = {
       /* optional peer of @react-pdf — pages without PDF export still work */
     }
     return config;
+  },
+  async rewrites() {
+    const supa = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim().replace(/\/$/, "");
+    if (process.env.VERCEL === "1" && supa) {
+      return [
+        {
+          source: "/clinical-atlas/prenatal-echo-ru/:path*",
+          destination: `${supa}/storage/v1/object/public/clinical-atlas/prenatal-echo-ru/:path*`,
+        },
+      ];
+    }
+    return [];
   },
   async redirects() {
     // Production: `/` is an edge redirect so the custom domain does not wait
