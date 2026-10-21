@@ -42,6 +42,7 @@ cd apps/mobile
 
 | Поле | Значение |
 |------|----------|
-| Build ID | `da5e59df-4dc3-4025-bfe2-bed178208e76` |
+| ASC App ID | `6825292354` (в `eas.json` submit.production.ios) |
+| Build ID | `3b670cdb-1382-41c6-9a6d-6f8d9c1c2f89` (1.0.1 / 11, login-only) |
 | Версия в IPA | **1.0.1 (10)** — build 5 для 1.0.0 Apple уже занял, не переиспользуйте |
 | autoIncrement | `true` в `eas.json` production |
