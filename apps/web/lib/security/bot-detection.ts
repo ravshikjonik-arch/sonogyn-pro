@@ -15,6 +15,25 @@ const API_BOT_ALLOWLIST_PREFIXES = [
   "/api/webinars/status",
 ] as const;
 
+/** Native app auth (React Native fetch may omit or vary User-Agent). */
+const MOBILE_AUTH_API_PREFIXES = [
+  "/api/auth/sign-in",
+  "/api/auth/sign-up",
+  "/api/auth/mfa/",
+  "/api/auth/mobile/",
+  "/api/auth/revoke-all-sessions",
+] as const;
+
+function isMobileStoreClient(request: NextRequest): boolean {
+  return request.headers.get("x-sonogyn-client") === "mobile";
+}
+
+function isMobileAuthApiPath(pathname: string): boolean {
+  return MOBILE_AUTH_API_PREFIXES.some(
+    (prefix) => pathname === prefix || pathname.startsWith(prefix),
+  );
+}
+
 const CRAWLER_UA_PATTERNS = [
   /bot\b/i,
   /crawler/i,
@@ -43,6 +62,7 @@ const TRUSTED_CLIENT_UA_PATTERNS = [
   /darwin/i,
   /expo/i,
   /reactnative/i,
+  /SonogynMobile/i,
   /SonogynCustomDomainCheck/i,
   /SonogynProductionCheck/i,
 ] as const;
@@ -74,6 +94,7 @@ export function shouldBlockSuspiciousApiBot(request: NextRequest): boolean {
   const pathname = request.nextUrl.pathname;
   if (!pathname.startsWith("/api/")) return false;
   if (isAllowlistedApiPath(pathname)) return false;
+  if (isMobileStoreClient(request) && isMobileAuthApiPath(pathname)) return false;
 
   const userAgent = request.headers.get("user-agent") ?? "";
   return isSuspiciousUserAgent(userAgent);

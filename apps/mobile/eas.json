@@ -16,6 +16,7 @@
         "EXPO_PUBLIC_API_BASE_URL": "https://sonogyn-pro.ru",
         "EXPO_PUBLIC_WEB_APP_URL": "https://sonogyn-pro.ru",
         "EXPO_PUBLIC_MOBILE_REQUIRE_REGISTRATION": "true",
+        "EXPO_PUBLIC_MOBILE_SIGN_UP_ENABLED": "false",
         "EXPO_PUBLIC_MOBILE_SIMPLE_EMAIL_AUTH": "true",
         "EXPO_PUBLIC_SUPABASE_URL": "https://grnwcbyslttbrqznnunq.supabase.co"
       },
@@ -40,6 +41,7 @@
         "EXPO_PUBLIC_API_BASE_URL": "https://sonogyn-pro.ru",
         "EXPO_PUBLIC_WEB_APP_URL": "https://sonogyn-pro.ru",
         "EXPO_PUBLIC_MOBILE_REQUIRE_REGISTRATION": "true",
+        "EXPO_PUBLIC_MOBILE_SIGN_UP_ENABLED": "false",
         "EXPO_PUBLIC_MOBILE_SIMPLE_EMAIL_AUTH": "true",
         "EXPO_PUBLIC_SUPABASE_URL": "https://grnwcbyslttbrqznnunq.supabase.co"
       },

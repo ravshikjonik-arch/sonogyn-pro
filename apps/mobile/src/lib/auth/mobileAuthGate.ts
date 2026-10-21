@@ -28,6 +28,13 @@ export function isMobileSimpleEmailAuth(): boolean {
   return !["false", "0", "no"].includes(raw);
 }
 
+/** Самостоятельная регистрация в приложении (включаем позже; пилот — только вход по выданным аккаунтам). */
+export function isMobileSignUpEnabled(): boolean {
+  if (!isNativeStoreApp()) return true;
+  const raw = (process.env.EXPO_PUBLIC_MOBILE_SIGN_UP_ENABLED ?? "false").trim().toLowerCase();
+  return ["true", "1", "yes"].includes(raw);
+}
+
 export function postOnboardingRoute(session: Session | null): keyof RootStackParamList {
   return postOnboardingRouteCore(session, isMobileRegistrationRequired());
 }

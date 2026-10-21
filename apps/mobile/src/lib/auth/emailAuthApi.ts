@@ -1,4 +1,5 @@
 import { getWebApiBase } from "../../api/chatBackend";
+import { supabaseMobile } from "../supabase/mobileClient";
 
 export type EmailAuthResult =
   | {
@@ -8,7 +9,13 @@ export type EmailAuthResult =
       needsMfa?: boolean;
       factorId?: string;
     }
-  | { ok: false; error: string; requiresCaptcha?: boolean };
+  | { ok: false; error: string; requiresCaptcha?: boolean; needsEmailConfirmation?: boolean };
+
+const MOBILE_AUTH_HEADERS = {
+  "Content-Type": "application/json",
+  "x-sonogyn-client": "mobile",
+  "User-Agent": "SonoGynMobile/1.0 (ReactNative)",
+} as const;
 
 async function postAuth(
   path: "sign-in" | "sign-up",
@@ -21,10 +28,7 @@ async function postAuth(
 
   const res = await fetch(`${base}/api/auth/${path}`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-sonogyn-client": "mobile",
-    },
+    headers: { ...MOBILE_AUTH_HEADERS },
     body: JSON.stringify(body),
   });
 
@@ -39,10 +43,75 @@ async function postAuth(
   } | null;
 
   if (!res.ok || !payload?.ok) {
+    const apiError = payload?.error ?? "";
+    const blocked =
+      res.status === 403 ||
+      /forbidden/i.test(apiError) ||
+      res.status === 502 ||
+      res.status === 503;
+    if (blocked && supabaseMobile && path === "sign-in") {
+      const email = String(body.email ?? "").trim();
+      const password = String(body.password ?? "");
+      if (email && password) {
+        const { data, error } = await supabaseMobile.auth.signInWithPassword({ email, password });
+        if (!error && data.session) {
+          return {
+            ok: true,
+            session: {
+              access_token: data.session.access_token,
+              refresh_token: data.session.refresh_token,
+            },
+          };
+        }
+        if (error && /email not confirmed/i.test(error.message)) {
+          return {
+            ok: false,
+            error: "Email ещё не подтверждён. Откройте ссылку из письма или зарегистрируйтесь снова.",
+            needsEmailConfirmation: true,
+          };
+        }
+      }
+    }
+    if (blocked && supabaseMobile && path === "sign-up") {
+      const email = String(body.email ?? "").trim();
+      const password = String(body.password ?? "");
+      const full_name = String(body.full_name ?? "").trim();
+      if (email && password.length >= 6) {
+        const { data, error } = await supabaseMobile.auth.signUp({
+          email,
+          password,
+          options: {
+            data: {
+              full_name,
+              specialization: body.specialization,
+              birth_date: body.birth_date,
+              birth_year: body.birth_year,
+              preferred_locale: body.preferred_locale,
+            },
+          },
+        });
+        if (!error && data.session) {
+          return {
+            ok: true,
+            session: {
+              access_token: data.session.access_token,
+              refresh_token: data.session.refresh_token,
+            },
+          };
+        }
+        if (!error && data.user && !data.session) {
+          return {
+            ok: true,
+            needsEmailConfirmation: true,
+          };
+        }
+      }
+    }
     return {
       ok: false,
-      error: payload?.error ?? "Неверные учётные данные.",
+      error: mapAuthApiError(apiError, res.status),
       requiresCaptcha: payload?.requiresCaptcha,
+      needsEmailConfirmation: payload?.needsEmailConfirmation,
     };
   }
 
@@ -53,6 +122,26 @@ async function postAuth(
     needsMfa: payload.needsMfa,
     factorId: payload.factorId,
   };
+}
+
+function mapAuthApiError(message: string, status: number): string {
+  if (status === 403 || /forbidden/i.test(message)) {
+    return "Сервер временно отклонил запрос. Обновите приложение или попробуйте через минуту.";
+  }
+  if (/email not confirmed/i.test(message)) {
+    return "Email ещё не подтверждён. Откройте ссылку из письма.";
+  }
+  if (/invalid login credentials|invalid credentials/i.test(message)) {
+    return "Неверный email или пароль.";
+  }
+  if (/password should be at least/i.test(message)) {
+    return "Пароль слишком короткий. Минимум 6 символов.";
+  }
+  if (/too many|rate/i.test(message) || status === 429) {
+    return "Слишком много попыток. Подождите и попробуйте снова.";
+  }
+  if (message.trim()) return message;
+  return "Неверный email или пароль.";
 }
 
 export function signInViaApi(email: string, password: string, turnstileToken?: string) {

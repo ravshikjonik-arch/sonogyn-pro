@@ -29,7 +29,10 @@ import { isTurnstileConfiguredOnMobile, obtainTurnstileToken } from "../lib/auth
 import { markSessionAnchorNow } from "../lib/security/sessionAnchor";
 import { supabaseMobile } from "../lib/supabase/mobileClient";
 import type { RootStackParamList } from "../navigation/paramLists";
-import { isMobileSimpleEmailAuth, isNativeStoreApp } from "../lib/auth/mobileAuthGate";
+import {
+  isMobileSignUpEnabled,
+  isMobileSimpleEmailAuth,
+} from "../lib/auth/mobileAuthGate";
 import { useAppGate } from "../navigation/AppGateContext";
 import { resetAfterSuccessfulAuth } from "../navigation/resetToMain";
 
@@ -53,10 +56,9 @@ type AuthLocale = Clinical3dLocale | "es";
 export default function SupabaseAuthScreen({ navigation }: Props) {
   const { refreshSupabaseSession, supabaseSession } = useAppGate();
   const simpleEmail = isMobileSimpleEmailAuth();
+  const signUpEnabled = isMobileSignUpEnabled();
   const [tab, setTab] = useState<Tab>(simpleEmail ? "email" : "phone");
-  const [mode, setMode] = useState<"sign-in" | "sign-up">(
-    isNativeStoreApp() ? "sign-up" : "sign-in",
-  );
+  const [mode, setMode] = useState<"sign-in" | "sign-up">("sign-in");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
@@ -157,16 +159,35 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
     }
   }
 
+  function validateEmailPasswordFields(): boolean {
+    const trimmedEmail = email.trim();
+    if (!trimmedEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail)) {
+      Alert.alert("Email", "Введите корректный email.");
+      return false;
+    }
+    if (!password || password.length < 6) {
+      Alert.alert("Пароль", "Введите пароль не короче 6 символов.");
+      return false;
+    }
+    return true;
+  }
+
   async function submitEmail() {
     if (!supabaseMobile) {
       Alert.alert("Supabase", "Задайте EXPO_PUBLIC_SUPABASE_URL и EXPO_PUBLIC_SUPABASE_ANON_KEY.");
       return;
     }
+    if (!validateEmailPasswordFields()) return;
 
     setBusy(true);
     try {
       if (requiresCaptcha && !turnstileToken) {
         Alert.alert("CAPTCHA", "Подтвердите, что вы не робот, затем повторите вход.");
+        return;
+      }
+      if (mode === "sign-up" && !signUpEnabled) {
+        Alert.alert("Вход", "Регистрация временно отключена. Используйте выданный email и пароль.");
+        setMode("sign-in");
         return;
       }
       if (mode === "sign-up") {
@@ -182,7 +203,7 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
         if (!result.ok) {
           setRequiresCaptcha(Boolean(result.requiresCaptcha));
           if (result.requiresCaptcha) setTurnstileToken(undefined);
-          Alert.alert("Ошибка", translateAuthError(result.error));
+          Alert.alert("Регистрация", result.error || translateAuthError(result.error));
           return;
         }
         if (isAppLanguage(locale)) {
@@ -191,6 +212,14 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
         if (result.session) {
           await supabaseMobile.auth.setSession(result.session);
           await finishAuth();
+          return;
+        }
+        if (result.needsEmailConfirmation) {
+          Alert.alert(
+            "Подтвердите email",
+            "Откройте ссылку из письма, затем войдите с тем же паролем.",
+          );
+          setMode("sign-in");
           return;
         }
         Alert.alert(
@@ -202,7 +231,8 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
         if (!result.ok) {
           setRequiresCaptcha(Boolean(result.requiresCaptcha));
           if (result.requiresCaptcha) setTurnstileToken(undefined);
-          Alert.alert("Ошибка", translateAuthError(result.error));
+          const title = result.needsEmailConfirmation ? "Подтвердите email" : "Ошибка";
+          Alert.alert(title, result.error || translateAuthError(result.error));
           return;
         }
         if (result.needsMfa && result.factorId) {
@@ -213,7 +243,10 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
           return;
         }
         if (!result.session) {
-          Alert.alert("Ошибка", "Неверные учётные данные.");
+          Alert.alert(
+            "Ошибка",
+            "Сессия не получена. Проверьте пароль или подтвердите email из письма.",
+          );
           return;
         }
         await supabaseMobile.auth.setSession(result.session);
@@ -296,7 +329,9 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
       <Text style={styles.title}>{mode === "sign-up" ? "Регистрация врача" : "Вход"}</Text>
       <Text style={styles.body}>
         {simpleEmail
-          ? "Email и пароль — один аккаунт для iOS и Android. После регистрации сразу откроется кабинет."
+          ? signUpEnabled
+            ? "Email и пароль — один аккаунт для iOS и Android. После регистрации сразу откроется кабинет."
+            : "Вход по email и паролю для приглашённых врачей. Аккаунт выдаёт команда SonoGyn Pro."
           : "SMS (+7), Яндекс ID, Telegram или email — способы входа для пилота."}
       </Text>
 
@@ -323,22 +358,24 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
         </View>
       ) : null}
 
-      <View style={styles.toggleRow}>
-        <Pressable
-          style={[styles.toggle, mode === "sign-in" && styles.toggleActive]}
-          onPress={() => setMode("sign-in")}
-          accessibilityLabel="Режим входа"
-        >
-          <Text style={[styles.toggleText, mode === "sign-in" && styles.toggleTextActive]}>Войти</Text>
-        </Pressable>
-        <Pressable
-          style={[styles.toggle, mode === "sign-up" && styles.toggleActive]}
-          onPress={() => setMode("sign-up")}
-          accessibilityLabel="Режим регистрации"
-        >
-          <Text style={[styles.toggleText, mode === "sign-up" && styles.toggleTextActive]}>Регистрация</Text>
-        </Pressable>
-      </View>
+      {signUpEnabled ? (
+        <View style={styles.toggleRow}>
+          <Pressable
+            style={[styles.toggle, mode === "sign-in" && styles.toggleActive]}
+            onPress={() => setMode("sign-in")}
+            accessibilityLabel="Режим входа"
+          >
+            <Text style={[styles.toggleText, mode === "sign-in" && styles.toggleTextActive]}>Войти</Text>
+          </Pressable>
+          <Pressable
+            style={[styles.toggle, mode === "sign-up" && styles.toggleActive]}
+            onPress={() => setMode("sign-up")}
+            accessibilityLabel="Режим регистрации"
+          >
+            <Text style={[styles.toggleText, mode === "sign-up" && styles.toggleTextActive]}>Регистрация</Text>
+          </Pressable>
+        </View>
+      ) : null}
 
       {mode === "sign-up" && (tab === "email" || tab === "phone" || tab === "telegram") ? (
         <View style={styles.panel}>

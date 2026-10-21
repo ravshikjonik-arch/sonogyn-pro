@@ -4,7 +4,7 @@
 
 1. Установка из TestFlight / APK / Store.
 2. Splash → согласие (152-ФЗ, AI, условия).
-3. **Регистрация** (email, пароль, ФИО, дата рождения, специализация).
+3. **Вход** (email + пароль; аккаунты выдаёт команда). Регистрация в приложении: `EXPO_PUBLIC_MOBILE_SIGN_UP_ENABLED=true` (позже).
 4. Кабинет (калькуляторы, O-RADS, FMF и т.д.).
 
 Повторный запуск: Splash → **вход** (если сессия истекла).
@@ -18,6 +18,7 @@
 | `EXPO_PUBLIC_SUPABASE_ANON_KEY` | anon key |
 | `EXPO_PUBLIC_MOBILE_REQUIRE_REGISTRATION` | `true` |
 | `EXPO_PUBLIC_MOBILE_SIMPLE_EMAIL_AUTH` | `true` |
+| `EXPO_PUBLIC_MOBILE_SIGN_UP_ENABLED` | `false` (пилот) |
 
 ## Сборка (магазины)
 
@@ -29,6 +30,15 @@ EAS_SKIP_AUTO_FINGERPRINT=1 npx eas-cli build --platform android --profile produ
 ```
 
 После `finished` — загрузить AAB в [Play Console](https://play.google.com/console) (Internal testing → Production) или один раз настроить Google Service Account в EAS для `eas submit`.
+
+**Если в Connect «Необходимо выбрать сборку»** — IPA должна быть **загружена в Apple** (EAS Submit или Transporter). Сборка только на expo.dev в списке Connect не появится.
+
+```bash
+cd apps/mobile
+../../node_modules/.bin/eas submit --platform ios --id 0a8218f8-0a7f-46d6-8e08-29a5e1f27d15
+```
+
+После submit: TestFlight → **Обработка** 10–60 мин → Export Compliance → версия 1.0 → **Сборка** → **+**.
 
 **iOS (App Store / TestFlight)** — один раз нужен **интерактивный** вход Apple (подписка Developer):
 
