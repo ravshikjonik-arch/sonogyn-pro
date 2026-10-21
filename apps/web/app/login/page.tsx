@@ -21,6 +21,7 @@ import { markSessionAnchorNow } from "@/lib/security/session-anchor";
 import { parseRegistrationMethod, readTelegramBotDisplayName, type AuthRegistrationMethod } from "@/lib/auth/registration-methods";
 import { isAuthEmailOnlyClient } from "@/lib/auth/auth-methods-config";
 import { isPilotClosedAccessClient, isPilotTelegramPrimary, PILOT_AUTH_SUBTITLE } from "@/lib/auth/auth-pilot-config";
+import { isFullOpenAccessEnabledClient } from "@/lib/auth/guest-demo-account";
 import { isAuthSocialEnabledClient } from "@/lib/auth/open-access";
 import { RU_IDP_SUBTITLE } from "@/lib/auth/russian-idp";
 import { isRuPhoneMaskComplete } from "@/lib/auth/ru-phone-mask";
@@ -776,12 +777,21 @@ function LoginForm() {
       }
       footer={
         <>
-          <p className="mt-6 text-center text-sm text-[var(--clinical-foreground-muted)]">
-            Нет аккаунта?{" "}
-            <Link className="font-bold text-[var(--clinical-primary-deep)] hover:underline" href="/register">
-              Зарегистрироваться
-            </Link>
-          </p>
+          {!isFullOpenAccessEnabledClient() ? (
+            <p className="mt-6 text-center text-sm text-[var(--clinical-foreground-muted)]">
+              Нет аккаунта?{" "}
+              <Link className="font-bold text-[var(--clinical-primary-deep)] hover:underline" href="/register">
+                Зарегистрироваться
+              </Link>
+            </p>
+          ) : (
+            <p className="mt-6 text-center text-sm text-[var(--clinical-foreground-muted)]">
+              Вход не обязателен —{" "}
+              <Link className="font-bold text-[var(--clinical-primary-deep)] hover:underline" href="/home">
+                открыть кабинет
+              </Link>
+            </p>
+          )}
           <div className="mt-3 flex flex-wrap justify-center gap-2 text-xs">
             {!isPilotClosedAccessClient() ? (
               <>

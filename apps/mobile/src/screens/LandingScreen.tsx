@@ -5,6 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { openTelegramChannel } from "../config/community";
 import { TELEGRAM_CHANNEL } from "../config/telegram";
 import { PRODUCT } from "../config/product";
+import { isMobileRegistrationRequired } from "../lib/auth/mobileAuthGate";
 import { useAppGate } from "../navigation/AppGateContext";
 import type { RootStackParamList } from "../navigation/paramLists";
 
@@ -122,9 +123,11 @@ export default function LandingScreen({ navigation }: Props) {
                 <Text style={styles.secondaryText}>{installPrompt ? "Install PWA" : "Use as iPhone app"}</Text>
               </Pressable>
             </View>
-            <Pressable style={styles.pilotLink} onPress={() => navigation.navigate("SupabaseAuth")}>
-              <Text style={styles.pilotLinkText}>Supabase platform login (education workspace)</Text>
-            </Pressable>
+            {isMobileRegistrationRequired() ? (
+              <Pressable style={styles.pilotLink} onPress={() => navigation.navigate("SupabaseAuth")}>
+                <Text style={styles.pilotLinkText}>Вход (опционально)</Text>
+              </Pressable>
+            ) : null}
             <Text style={styles.installHint}>RU/EN interface · beta pilot · clinical decision support, not a diagnosis.</Text>
             {Platform.OS === "web" && (
               <Pressable

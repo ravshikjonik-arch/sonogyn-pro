@@ -15,7 +15,8 @@
         "EXPO_NO_CAPABILITY_SYNC": "1",
         "EXPO_PUBLIC_API_BASE_URL": "https://sonogyn-pro.ru",
         "EXPO_PUBLIC_WEB_APP_URL": "https://sonogyn-pro.ru",
-        "EXPO_PUBLIC_MOBILE_REQUIRE_REGISTRATION": "true",
+        "EXPO_PUBLIC_MOBILE_REQUIRE_REGISTRATION": "false",
+        "EXPO_PUBLIC_OPEN_ACCESS_FULL": "true",
         "EXPO_PUBLIC_MOBILE_SIMPLE_EMAIL_AUTH": "true",
         "EXPO_PUBLIC_SUPABASE_URL": "https://grnwcbyslttbrqznnunq.supabase.co"
       },
@@ -40,7 +41,8 @@
       "env": {
         "EXPO_PUBLIC_API_BASE_URL": "https://sonogyn-pro.ru",
         "EXPO_PUBLIC_WEB_APP_URL": "https://sonogyn-pro.ru",
-        "EXPO_PUBLIC_MOBILE_REQUIRE_REGISTRATION": "true",
+        "EXPO_PUBLIC_MOBILE_REQUIRE_REGISTRATION": "false",
+        "EXPO_PUBLIC_OPEN_ACCESS_FULL": "true",
         "EXPO_PUBLIC_MOBILE_SIMPLE_EMAIL_AUTH": "true",
         "EXPO_PUBLIC_SUPABASE_URL": "https://grnwcbyslttbrqznnunq.supabase.co"
       },

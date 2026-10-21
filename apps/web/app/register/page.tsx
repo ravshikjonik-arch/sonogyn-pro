@@ -12,6 +12,7 @@ import { EmailRegistrationHint } from "@/components/auth/EmailRegistrationHint";
 import { PhoneAuthSetupHint } from "@/components/auth/PhoneAuthSetupHint";
 import { PhoneInput } from "@/components/auth/PhoneInput";
 import { RussianIdpPanel } from "@/components/auth/RussianIdpPanel";
+import { isFullOpenAccessEnabledClient } from "@/lib/auth/guest-demo-account";
 import { isAuthSocialEnabledClient } from "@/lib/auth/open-access";
 import {
   birthDateErrorMessage,
@@ -89,6 +90,13 @@ function RegisterForm() {
     searchParams.get("next") ?? searchParams.get("redirectedFrom"),
     "/home",
   );
+
+  useEffect(() => {
+    if (isFullOpenAccessEnabledClient()) {
+      router.replace("/home");
+    }
+  }, [router]);
+
   const simpleTelegramRegister = isPilotTelegramPrimary() || isPilotClosedAccessClient();
   const telegramBotName = readTelegramBotDisplayName();
 

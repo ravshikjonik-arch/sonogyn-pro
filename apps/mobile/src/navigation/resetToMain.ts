@@ -1,6 +1,10 @@
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-import { hasAuthenticatedDoctor, postOnboardingRoute } from "../lib/auth/mobileAuthGate";
+import {
+  hasAuthenticatedDoctor,
+  isMobileRegistrationRequired,
+  postOnboardingRoute,
+} from "../lib/auth/mobileAuthGate";
 import type { Session } from "@supabase/supabase-js";
 import type { RootStackParamList } from "./paramLists";
 
@@ -16,7 +20,7 @@ export function resetAfterSuccessfulAuth(
   navigation: NativeStackNavigationProp<RootStackParamList>,
   session: Session | null,
 ) {
-  if (!hasAuthenticatedDoctor(session)) {
+  if (!hasAuthenticatedDoctor(session) && isMobileRegistrationRequired()) {
     navigation.reset({ index: 0, routes: [{ name: "SupabaseAuth" }] });
     return;
   }

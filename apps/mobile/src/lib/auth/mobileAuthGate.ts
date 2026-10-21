@@ -12,12 +12,14 @@ export function isNativeStoreApp(): boolean {
 }
 
 /**
- * Pilot: после установки и согласия — вход (email/пароль), затем кабинет.
- * Web-сборка приложения (Expo web) — без обязательного входа.
+ * Store builds: по умолчанию открытый доступ (согласие → кабинет без логина).
+ * EXPO_PUBLIC_MOBILE_REQUIRE_REGISTRATION=true — только для закрытого пилота.
  */
 export function isMobileRegistrationRequired(): boolean {
   if (!isNativeStoreApp()) return false;
-  const raw = (process.env.EXPO_PUBLIC_MOBILE_REQUIRE_REGISTRATION ?? "true").trim().toLowerCase();
+  const openAccessRaw = (process.env.EXPO_PUBLIC_OPEN_ACCESS_FULL ?? "").trim().toLowerCase();
+  if (["true", "1", "yes"].includes(openAccessRaw)) return false;
+  const raw = (process.env.EXPO_PUBLIC_MOBILE_REQUIRE_REGISTRATION ?? "false").trim().toLowerCase();
   return !["false", "0", "no"].includes(raw);
 }
 

@@ -90,8 +90,13 @@ async function postAuth(body: Record<string, unknown>): Promise<EmailAuthResult>
   };
 }
 
-const PILOT_LOGIN_HINT =
-  " В приложении нет регистрации — аккаунт создаётся на https://sonogyn-pro.ru/register (тот же email и пароль).";
+function pilotLoginHint(): string {
+  const open = (process.env.EXPO_PUBLIC_OPEN_ACCESS_FULL ?? "").trim().toLowerCase();
+  if (["true", "1", "yes"].includes(open)) {
+    return " Вход не обязателен — откройте кабинет без аккаунта.";
+  }
+  return "";
+}
 
 function mapAuthApiError(message: string, status: number, needsEmailConfirmation?: boolean): string {
   if (needsEmailConfirmation || /email not confirmed/i.test(message)) {
@@ -101,7 +106,7 @@ function mapAuthApiError(message: string, status: number, needsEmailConfirmation
     return "Сервер временно отклонил запрос. Обновите приложение или попробуйте через минуту.";
   }
   if (/invalid login credentials|invalid credentials|неверные учётные/i.test(message)) {
-    return `Неверный email или пароль.${PILOT_LOGIN_HINT}`;
+    return `Неверный email или пароль.${pilotLoginHint()}`;
   }
   if (/password should be at least/i.test(message)) {
     return "Пароль слишком короткий. Минимум 6 символов.";

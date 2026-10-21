@@ -32,6 +32,7 @@ import {
   createSupabaseRouteHandlerClient,
   nextJsonWithAuthCookies,
 } from "@/lib/route-handler-supabase";
+import { isFullOpenAccessEnabled } from "@/lib/auth/dev-account";
 import { writeSecurityAuditLog } from "@/lib/security/security-audit-log";
 
 async function finishSignUpResponse(params: {
@@ -55,6 +56,16 @@ async function finishSignUpResponse(params: {
 }
 
 export async function POST(req: Request) {
+  if (isFullOpenAccessEnabled()) {
+    return NextResponse.json(
+      {
+        error:
+          "Регистрация отключена. Калькуляторы и кабинет доступны без аккаунта — откройте sonogyn-pro.ru/home.",
+      },
+      { status: 403 },
+    );
+  }
+
   const failKey = rateLimitKeyFromRequest(req, "auth-fail-signup");
 
   const raw = await parseJsonBody(req);

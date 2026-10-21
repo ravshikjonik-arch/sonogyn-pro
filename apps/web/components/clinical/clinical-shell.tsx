@@ -398,8 +398,12 @@ export function ClinicalShell({
                 <DropdownMenuItem asChild>
                   <Link href="/profile">Профиль и доступ</Link>
                 </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem disabled>{email}</DropdownMenuItem>
+                {email ? (
+                  <>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem disabled>{email}</DropdownMenuItem>
+                  </>
+                ) : null}
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => void signOut()} disabled={busy} data-testid="logout-button">
                   <LogOut className="mr-2 h-4 w-4" />

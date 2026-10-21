@@ -17,7 +17,7 @@ import { useOAuthSignIn } from "../hooks/useOAuthSignIn";
 import { usePhoneAuth } from "../hooks/usePhoneAuth";
 import { useTelegramAuth } from "../hooks/useTelegramAuth";
 import { signInViaApi, verifyMfaViaApi } from "../lib/auth/emailAuthApi";
-import { isMobileSimpleEmailAuth } from "../lib/auth/mobileAuthGate";
+import { isMobileRegistrationRequired, isMobileSimpleEmailAuth } from "../lib/auth/mobileAuthGate";
 import { isTurnstileConfiguredOnMobile, obtainTurnstileToken } from "../lib/auth/turnstileMobile";
 import { markSessionAnchorNow } from "../lib/security/sessionAnchor";
 import { supabaseMobile } from "../lib/supabase/mobileClient";
@@ -204,9 +204,11 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
       <Text style={styles.kicker}>SonoGyn Pro</Text>
       <Text style={styles.title}>Вход</Text>
       <Text style={styles.body}>
-        {simpleEmail
-          ? "Вход по email и паролю. Регистрации в app нет — один раз создайте аккаунт на sonogyn-pro.ru/register, затем войдите здесь."
-          : "SMS (+7), Яндекс ID, Telegram или email — вход для пилота."}
+        {isMobileRegistrationRequired()
+          ? simpleEmail
+            ? "Вход по email и паролю (опционально — для сохранения кейсов)."
+            : "SMS (+7), Яндекс ID, Telegram или email."
+          : "Вход не обязателен. После согласия откройте кабинет с главного экрана или на sonogyn-pro.ru."}
       </Text>
 
       {!simpleEmail ? (
