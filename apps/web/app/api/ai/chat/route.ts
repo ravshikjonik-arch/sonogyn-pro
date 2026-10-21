@@ -233,7 +233,7 @@ export async function POST(request: Request) {
   }
 
   const llmPurpose = hasImages ? "vision" : mode === "evidence" ? "evidence" : "text";
-  let llm = resolveLlmProvider(llmPurpose);
+  const llm = resolveLlmProvider(llmPurpose);
   if (!llm && mode !== "evidence") {
     if (persistChat) {
       await logAiChatEvent({
