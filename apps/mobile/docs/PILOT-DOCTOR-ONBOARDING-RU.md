@@ -19,12 +19,30 @@
 | `EXPO_PUBLIC_MOBILE_REQUIRE_REGISTRATION` | `true` |
 | `EXPO_PUBLIC_MOBILE_SIMPLE_EMAIL_AUTH` | `true` |
 
-## Сборка
+## Сборка (магазины)
+
+**Android (Google Play, AAB):**
 
 ```bash
 cd apps/mobile
+EAS_SKIP_AUTO_FINGERPRINT=1 npx eas-cli build --platform android --profile production --non-interactive
+```
+
+После `finished` — загрузить AAB в [Play Console](https://play.google.com/console) (Internal testing → Production) или один раз настроить Google Service Account в EAS для `eas submit`.
+
+**iOS (App Store / TestFlight)** — один раз нужен **интерактивный** вход Apple (подписка Developer):
+
+```bash
+cd apps/mobile
+EAS_SKIP_AUTO_FINGERPRINT=1 npx eas-cli build --platform ios --profile production
+```
+
+Дальше: `npx eas-cli submit --platform ios --profile production --latest` или авто-submit из интерактивной сборки.
+
+**Внутренний APK (без магазина):**
+
+```bash
 npx eas-cli build --platform android --profile preview
-npx eas-cli build --platform ios --profile preview
 ```
 
 ## Backend
