@@ -42,6 +42,6 @@ cd apps/mobile
 
 | Поле | Значение |
 |------|----------|
-| Build ID | `5ff9ecd4-a1c1-45fa-851e-0a1e91696df2` |
-| Коммит | `e2166143` |
-| В IPA (сейчас) | 1.0.0 (5) — следующий rebuild подтянет 1.0.1 (8) из Xcode |
+| Build ID | `da5e59df-4dc3-4025-bfe2-bed178208e76` |
+| Версия в IPA | **1.0.1 (10)** — build 5 для 1.0.0 Apple уже занял, не переиспользуйте |
+| autoIncrement | `true` в `eas.json` production |
