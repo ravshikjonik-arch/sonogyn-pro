@@ -396,6 +396,14 @@ const EDUCATION_LIBRARY_ITEMS_RAW: EducationLibraryItem[] = [
     tags: ["акушерство", "УЗИ", "фетометрия", "атлас"],
   },
   {
+    id: "clinical-echocardiography-atlas",
+    shelf: "atlases",
+    title: "Клиническая эхокардиография (Otto 5ed)",
+    description: "44 глав RU: лаборатория, клапаны, КМП, стресс-ЭхоКГ, ВПС; глоссарий ASE.",
+    href: "/tools/refs/clinical-echocardiography-atlas",
+    tags: ["кардиология", "ЭхоКГ", "ASE", "учебник", "атлас"],
+  },
+  {
     id: "calculators",
     shelf: "calculators",
     title: "Калькуляторы RADS",

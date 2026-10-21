@@ -402,6 +402,9 @@ importers:
       '@repo/clinical-3d':
         specifier: workspace:*
         version: link:../../packages/clinical-3d
+      '@repo/clinical-echocardiography-atlas':
+        specifier: workspace:*
+        version: link:../../packages/clinical-echocardiography-atlas
       '@repo/clinical-guidelines':
         specifier: workspace:*
         version: link:../../packages/clinical-guidelines
@@ -839,6 +842,15 @@ importers:
       three:
         specifier: ^0.184.0
         version: 0.184.0
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.3
+
+  packages/clinical-echocardiography-atlas:
+    devDependencies:
+      '@types/node':
+        specifier: ^20
+        version: 20.19.40
       typescript:
         specifier: ^5.9.2
         version: 5.9.3

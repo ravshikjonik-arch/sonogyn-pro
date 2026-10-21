@@ -108,6 +108,7 @@
     "@repo/cervix-morphology-atlas": "workspace:*",
     "@repo/mammology-national-atlas": "workspace:*",
     "@repo/prenatal-echography-atlas": "workspace:*",
+    "@repo/clinical-echocardiography-atlas": "workspace:*",
     "@repo/clinical-3d": "workspace:*",
     "@repo/clinical-guidelines": "workspace:*",
     "@repo/clinical-reference": "workspace:*",

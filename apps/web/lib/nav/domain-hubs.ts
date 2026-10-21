@@ -105,6 +105,12 @@ export const OBSTETRICS_HUB: DomainHubCard[] = [
     description: "725 УЗИ · фетометрия, допpler, пороки",
   },
   {
+    href: "/tools/refs/clinical-echocardiography-atlas",
+    title: "Эхокардиография Otto (RU)",
+    description: "44 глав · клапаны, стресс, ВПС, глоссарий",
+    badge: "RU",
+  },
+  {
     href: "/reports/obstetric",
     title: "SRE · акушерский протокол",
     description: "Структурированный отчёт с EBM-цитатами",
