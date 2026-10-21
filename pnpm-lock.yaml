@@ -393,6 +393,9 @@ importers:
       '@repo/cervical-pathology-intelligence':
         specifier: workspace:*
         version: link:../../packages/cervical-pathology-intelligence
+      '@repo/cervix-morphology-atlas':
+        specifier: workspace:*
+        version: link:../../packages/cervix-morphology-atlas
       '@repo/cervix-pathology-reference':
         specifier: workspace:*
         version: link:../../packages/cervix-pathology-reference
@@ -777,6 +780,15 @@ importers:
       tsx:
         specifier: ^4.19.4
         version: 4.21.0
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.3
+
+  packages/cervix-morphology-atlas:
+    devDependencies:
+      '@types/node':
+        specifier: ^20
+        version: 20.19.40
       typescript:
         specifier: ^5.9.2
         version: 5.9.3

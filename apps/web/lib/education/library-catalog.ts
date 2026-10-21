@@ -372,6 +372,14 @@ const EDUCATION_LIBRARY_ITEMS_RAW: EducationLibraryItem[] = [
     tags: ["акушерство", "УЗИ", "I триместр", "атлас"],
   },
   {
+    id: "cervix-morphology-atlas",
+    shelf: "atlases",
+    title: "Морфологический атлас шейки матки",
+    description: "17 глав, 114 гистопрепаратов: CIN/AIS, карциномы, ИГХ, генетика.",
+    href: "/tools/refs/cervix-morphology-atlas",
+    tags: ["шейка", "гистология", "CIN", "HPV", "атлас"],
+  },
+  {
     id: "calculators",
     shelf: "calculators",
     title: "Калькуляторы RADS",

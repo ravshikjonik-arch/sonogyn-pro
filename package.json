@@ -10,6 +10,7 @@
     "import:blinov-atlas": "python3 scripts/import-blinov-atlas.py",
     "import:shaaban-gyn-atlas": "python3 scripts/import-shaaban-gyn-atlas.py",
     "import:woodward-ob-atlas": "python3 scripts/import-woodward-ob-atlas.py",
+    "import:cervix-morpho-atlas": "python3 scripts/import-cervix-morpho-atlas.py",
     "import:ozerskaya-adnex": "python3 scripts/import-ozerskaya-adnex.py",
     "knowledge:woodward:extract": "python3 scripts/extract-woodward-obstetrics.py",
     "knowledge:woodward:ru": "python3 scripts/localize-woodward-ru.py",
