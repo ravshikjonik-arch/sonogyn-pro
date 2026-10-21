@@ -41,37 +41,41 @@ async function postAuth(body: Record<string, unknown>): Promise<EmailAuthResult>
 
   if (!res.ok || !payload?.ok) {
     const apiError = payload?.error ?? "";
-    const blocked =
-      res.status === 403 ||
-      /forbidden/i.test(apiError) ||
-      res.status === 502 ||
-      res.status === 503;
-    if (blocked && supabaseMobile) {
-      const email = String(body.email ?? "").trim();
-      const password = String(body.password ?? "");
-      if (email && password) {
-        const { data, error } = await supabaseMobile.auth.signInWithPassword({ email, password });
-        if (!error && data.session) {
-          return {
-            ok: true,
-            session: {
-              access_token: data.session.access_token,
-              refresh_token: data.session.refresh_token,
-            },
-          };
-        }
-        if (error && /email not confirmed/i.test(error.message)) {
-          return {
-            ok: false,
-            error: "Email ещё не подтверждён. Откройте ссылку из письма.",
-            needsEmailConfirmation: true,
-          };
-        }
+    const email = String(body.email ?? "").trim();
+    const password = String(body.password ?? "");
+    const tryDirectSupabase =
+      supabaseMobile &&
+      email &&
+      password.length >= 6 &&
+      (res.status === 401 ||
+        res.status === 403 ||
+        res.status === 502 ||
+        res.status === 503 ||
+        /forbidden/i.test(apiError));
+
+    if (tryDirectSupabase) {
+      const { data, error } = await supabaseMobile.auth.signInWithPassword({ email, password });
+      if (!error && data.session) {
+        return {
+          ok: true,
+          session: {
+            access_token: data.session.access_token,
+            refresh_token: data.session.refresh_token,
+          },
+        };
+      }
+      if (error && /email not confirmed/i.test(error.message)) {
+        return {
+          ok: false,
+          error: "Email ещё не подтверждён. Откройте ссылку из письма (или войдите на sonogyn-pro.ru).",
+          needsEmailConfirmation: true,
+        };
       }
     }
+
     return {
       ok: false,
-      error: mapAuthApiError(apiError, res.status),
+      error: mapAuthApiError(apiError, res.status, payload?.needsEmailConfirmation),
       requiresCaptcha: payload?.requiresCaptcha,
       needsEmailConfirmation: payload?.needsEmailConfirmation,
     };
@@ -86,15 +90,18 @@ async function postAuth(body: Record<string, unknown>): Promise<EmailAuthResult>
   };
 }
 
-function mapAuthApiError(message: string, status: number): string {
+const PILOT_LOGIN_HINT =
+  " В приложении нет регистрации — аккаунт создаётся на https://sonogyn-pro.ru/register (тот же email и пароль).";
+
+function mapAuthApiError(message: string, status: number, needsEmailConfirmation?: boolean): string {
+  if (needsEmailConfirmation || /email not confirmed/i.test(message)) {
+    return "Email ещё не подтверждён. Откройте ссылку из письма или войдите на sonogyn-pro.ru.";
+  }
   if (status === 403 || /forbidden/i.test(message)) {
     return "Сервер временно отклонил запрос. Обновите приложение или попробуйте через минуту.";
   }
-  if (/email not confirmed/i.test(message)) {
-    return "Email ещё не подтверждён. Откройте ссылку из письма.";
-  }
-  if (/invalid login credentials|invalid credentials/i.test(message)) {
-    return "Неверный email или пароль.";
+  if (/invalid login credentials|invalid credentials|неверные учётные/i.test(message)) {
+    return `Неверный email или пароль.${PILOT_LOGIN_HINT}`;
   }
   if (/password should be at least/i.test(message)) {
     return "Пароль слишком короткий. Минимум 6 символов.";

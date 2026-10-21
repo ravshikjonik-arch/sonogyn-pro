@@ -205,7 +205,7 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
       <Text style={styles.title}>Вход</Text>
       <Text style={styles.body}>
         {simpleEmail
-          ? "Email и пароль — доступ для приглашённых врачей. Аккаунт выдаёт команда SonoGyn Pro."
+          ? "Вход по email и паролю. Регистрации в app нет — один раз создайте аккаунт на sonogyn-pro.ru/register, затем войдите здесь."
           : "SMS (+7), Яндекс ID, Telegram или email — вход для пилота."}
       </Text>
 
