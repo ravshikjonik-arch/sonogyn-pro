@@ -139,6 +139,14 @@ export const CALCULATORS: CalculatorDefinition[] = [
     fields: [],
   },
   {
+    slug: "fetometry-norms",
+    code: "FETOMETRY_NORMS",
+    title: "Нормы фетометрии (таблицы)",
+    subtitle: "Перцентили по СБ · 96 табличных норм · без PDF",
+    externalHref: "/tools/calc/ob/fetometry-norms",
+    fields: [],
+  },
+  {
     slug: "bishop",
     code: "BISHOP",
     title: "Шкала Бишопа",

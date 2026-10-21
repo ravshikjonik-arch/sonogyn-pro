@@ -68,6 +68,12 @@ export const OBSTETRICS_HUB: DomainHubCard[] = [
     primary: true,
   },
   {
+    href: "/tools/calc/ob/fetometry-norms",
+    title: "Нормы фетометрии (таблицы)",
+    description: "96 табличных калькуляторов: перцентиль по СБ, без PDF",
+    badge: "MVP",
+  },
+  {
     href: "/tools/refs/fetal-anatomy-22-views",
     title: "22 проекции фетальной анатомии",
     description: "ISUOG · чеклист срезов I триместра",

@@ -26,3 +26,7 @@ export * from "./medvedevPlacentaAfi";
 
 /** Каталог 96 archive-tables (JPEG → JSON) */
 export * from "./archiveTables";
+
+/** Калькуляторы норм по archive JSON (без фото/PDF) */
+export * from "./evaluateArchiveNorm";
+export type { ArchiveTableDocument } from "./archiveTableTypes";

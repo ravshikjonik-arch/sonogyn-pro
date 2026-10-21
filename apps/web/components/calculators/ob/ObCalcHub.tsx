@@ -267,6 +267,9 @@ export function ObCalcHub({ initialTab = "lmp" }: { initialTab?: TabId }) {
             ПМП, УЗИ, КТР, СВД, ЭКО, фетометрия, декрет. В поиске: <strong>срок</strong>, <strong>ПДР</strong>,{" "}
             <strong>ПМП</strong>, <strong>датировка</strong>.
           </p>
+          <Button variant="link" size="sm" className="mt-1 h-auto px-0" asChild>
+            <Link href="/tools/calc/ob/fetometry-norms">Нормы фетометрии · перцентили по таблицам →</Link>
+          </Button>
         </div>
       </div>
 
