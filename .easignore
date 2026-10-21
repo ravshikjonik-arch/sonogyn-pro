@@ -23,6 +23,11 @@ apps/mobile/dist
 apps/mobile/docs
 apps/mobile/server
 apps/mobile/yakrav7700
+apps/mobile/store-assets
+apps/mobile/ios/Pods
+apps/mobile/ios/build
+apps/mobile/android/build
+apps/mobile/android/.gradle
 .playwright-mcp
 agent-transcripts
 
