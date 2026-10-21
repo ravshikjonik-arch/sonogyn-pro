@@ -8,6 +8,8 @@
     "install:deps": "CI=1 npx --yes pnpm@10.6.5 install --config.confirmModulesPurge=false --no-frozen-lockfile",
     "import:petra": "python3 scripts/import-petra-assistant.py",
     "import:blinov-atlas": "python3 scripts/import-blinov-atlas.py",
+    "import:shaaban-gyn-atlas": "python3 scripts/import-shaaban-gyn-atlas.py",
+    "import:woodward-ob-atlas": "python3 scripts/import-woodward-ob-atlas.py",
     "import:ozerskaya-adnex": "python3 scripts/import-ozerskaya-adnex.py",
     "knowledge:woodward:extract": "python3 scripts/extract-woodward-obstetrics.py",
     "knowledge:woodward:ru": "python3 scripts/localize-woodward-ru.py",
@@ -42,6 +44,7 @@
     "test:e2e:iota": "pnpm --filter @repo/web test:e2e:iota"
   },
   "devDependencies": {
+    "@babel/traverse--for-generate-function-map": "npm:@babel/traverse@^7.25.3",
     "turbo": "^2.5.4",
     "typescript": "^5.9.2"
   },

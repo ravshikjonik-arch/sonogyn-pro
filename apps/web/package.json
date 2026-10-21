@@ -120,6 +120,8 @@
     "@repo/medical-calculations": "workspace:*",
     "@repo/medical-knowledge": "workspace:*",
     "@repo/medvedev-reference": "workspace:*",
+    "@repo/gynecology-imaging-atlas": "workspace:*",
+    "@repo/obstetrics-imaging-atlas": "workspace:*",
     "@repo/musa-framework": "workspace:*",
     "@repo/nosology": "workspace:*",
     "@repo/obstetric-atlas": "workspace:*",

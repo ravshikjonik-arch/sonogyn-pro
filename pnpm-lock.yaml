@@ -25,6 +25,9 @@ importers:
         specifier: 0.84.5
         version: 0.84.5
     devDependencies:
+      '@babel/traverse--for-generate-function-map':
+        specifier: npm:@babel/traverse@^7.25.3
+        version: '@babel/traverse@7.29.0'
       turbo:
         specifier: ^2.5.4
         version: 2.9.12
@@ -423,6 +426,9 @@ importers:
       '@repo/fmf':
         specifier: workspace:*
         version: link:../../packages/fmf
+      '@repo/gynecology-imaging-atlas':
+        specifier: workspace:*
+        version: link:../../packages/gynecology-imaging-atlas
       '@repo/ifcpc-expert':
         specifier: workspace:*
         version: link:../../packages/ifcpc-expert
@@ -453,6 +459,9 @@ importers:
       '@repo/obstetric-engine':
         specifier: workspace:*
         version: link:../../packages/obstetric-engine
+      '@repo/obstetrics-imaging-atlas':
+        specifier: workspace:*
+        version: link:../../packages/obstetrics-imaging-atlas
       '@repo/orads-us':
         specifier: workspace:*
         version: link:../../packages/orads-us
@@ -924,6 +933,15 @@ importers:
         specifier: ^5.9.2
         version: 5.9.3
 
+  packages/gynecology-imaging-atlas:
+    devDependencies:
+      '@types/node':
+        specifier: ^20
+        version: 20.19.40
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.3
+
   packages/ifcpc-expert:
     dependencies:
       zod:
@@ -1062,6 +1080,15 @@ importers:
       tsx:
         specifier: ^4.19.4
         version: 4.21.0
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.3
+
+  packages/obstetrics-imaging-atlas:
+    devDependencies:
+      '@types/node':
+        specifier: ^20
+        version: 20.19.40
       typescript:
         specifier: ^5.9.2
         version: 5.9.3

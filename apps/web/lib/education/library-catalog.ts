@@ -356,6 +356,22 @@ const EDUCATION_LIBRARY_ITEMS_RAW: EducationLibraryItem[] = [
     tags: ["O-RADS", "яичник"],
   },
   {
+    id: "gynecology-imaging-atlas",
+    shelf: "atlases",
+    title: "Атлас гинекологической визуализации",
+    description: "139 глав УЗИ/МРТ/КТ: ключевые положения, DDx и эхограммы (RU).",
+    href: "/tools/refs/gynecology-imaging-atlas",
+    tags: ["гинекология", "УЗИ", "O-RADS", "атлас"],
+  },
+  {
+    id: "obstetrics-imaging-atlas",
+    shelf: "atlases",
+    title: "Атлас акушерской визуализации (Woodward)",
+    description: "313 глав, 822 УЗИ: I–III триместр, плацента, плод, DDx (RU).",
+    href: "/tools/refs/obstetrics-imaging-atlas",
+    tags: ["акушерство", "УЗИ", "I триместр", "атлас"],
+  },
+  {
     id: "calculators",
     shelf: "calculators",
     title: "Калькуляторы RADS",
