@@ -388,6 +388,14 @@ const EDUCATION_LIBRARY_ITEMS_RAW: EducationLibraryItem[] = [
     tags: ["маммология", "BI-RADS", "УЗИ", "атлас"],
   },
   {
+    id: "prenatal-echography-atlas",
+    shelf: "atlases",
+    title: "Пренатальная эхография (атлас УЗИ)",
+    description: "20 глав, 725 эхограмм: фетометрия, допpler, пороки по системам (RU).",
+    href: "/tools/refs/prenatal-echography-atlas",
+    tags: ["акушерство", "УЗИ", "фетометрия", "атлас"],
+  },
+  {
     id: "calculators",
     shelf: "calculators",
     title: "Калькуляторы RADS",

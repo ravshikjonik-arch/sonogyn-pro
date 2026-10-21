@@ -100,6 +100,11 @@ export const OBSTETRICS_HUB: DomainHubCard[] = [
     badge: "RU",
   },
   {
+    href: "/tools/refs/prenatal-echography-atlas",
+    title: "Пренатальная эхография (RU)",
+    description: "725 УЗИ · фетометрия, допpler, пороки",
+  },
+  {
     href: "/reports/obstetric",
     title: "SRE · акушерский протокол",
     description: "Структурированный отчёт с EBM-цитатами",
