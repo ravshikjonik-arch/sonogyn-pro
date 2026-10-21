@@ -4,7 +4,7 @@
 
 1. Установка из TestFlight / APK / Store.
 2. Splash → согласие (152-ФЗ, AI, условия).
-3. **Вход** (email + пароль; аккаунты выдаёт команда). Регистрация в приложении: `EXPO_PUBLIC_MOBILE_SIGN_UP_ENABLED=true` (позже).
+3. **Вход** (email + пароль; аккаунты выдаёт команда). Регистрации в приложении нет.
 4. Кабинет (калькуляторы, O-RADS, FMF и т.д.).
 
 Повторный запуск: Splash → **вход** (если сессия истекла).
@@ -18,7 +18,6 @@
 | `EXPO_PUBLIC_SUPABASE_ANON_KEY` | anon key |
 | `EXPO_PUBLIC_MOBILE_REQUIRE_REGISTRATION` | `true` |
 | `EXPO_PUBLIC_MOBILE_SIMPLE_EMAIL_AUTH` | `true` |
-| `EXPO_PUBLIC_MOBILE_SIGN_UP_ENABLED` | `false` (пилот) |
 
 ## Сборка (магазины)
 
@@ -57,7 +56,7 @@ npx eas-cli build --platform android --profile preview
 
 ## Backend
 
-- Mobile дергает `POST /api/auth/sign-up` и `sign-in` на web API (`x-sonogyn-client: mobile`).
+- Mobile: только `POST /api/auth/sign-in` (`x-sonogyn-client: mobile`). Sign-up — на web/админке, не в приложении.
 - **UX «сразу в кабинет»:** в Supabase Auth можно отключить «Confirm email» для пилота **или** на Vercel задать `AUTH_AUTO_CONFIRM_EMAIL=true` + `SUPABASE_SERVICE_ROLE_KEY` (осознанно, только для пилота 50–100).
 - Иначе врач после регистрации получит письмо — это нормально, но шаг лишний для «простого» сценария.
 

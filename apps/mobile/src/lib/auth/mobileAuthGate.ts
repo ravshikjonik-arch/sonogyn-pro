@@ -12,7 +12,7 @@ export function isNativeStoreApp(): boolean {
 }
 
 /**
- * Pilot: после установки врач регистрируется / входит, затем Main.
+ * Pilot: после установки и согласия — вход (email/пароль), затем кабинет.
  * Web-сборка приложения (Expo web) — без обязательного входа.
  */
 export function isMobileRegistrationRequired(): boolean {
@@ -26,13 +26,6 @@ export function isMobileSimpleEmailAuth(): boolean {
   if (!isNativeStoreApp()) return false;
   const raw = (process.env.EXPO_PUBLIC_MOBILE_SIMPLE_EMAIL_AUTH ?? "true").trim().toLowerCase();
   return !["false", "0", "no"].includes(raw);
-}
-
-/** Самостоятельная регистрация в приложении (включаем позже; пилот — только вход по выданным аккаунтам). */
-export function isMobileSignUpEnabled(): boolean {
-  if (!isNativeStoreApp()) return true;
-  const raw = (process.env.EXPO_PUBLIC_MOBILE_SIGN_UP_ENABLED ?? "false").trim().toLowerCase();
-  return ["true", "1", "yes"].includes(raw);
 }
 
 export function postOnboardingRoute(session: Session | null): keyof RootStackParamList {

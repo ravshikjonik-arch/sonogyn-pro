@@ -17,16 +17,13 @@ const MOBILE_AUTH_HEADERS = {
   "User-Agent": "SonoGynMobile/1.0 (ReactNative)",
 } as const;
 
-async function postAuth(
-  path: "sign-in" | "sign-up",
-  body: Record<string, unknown>,
-): Promise<EmailAuthResult> {
+async function postAuth(body: Record<string, unknown>): Promise<EmailAuthResult> {
   const base = getWebApiBase();
   if (!base) {
     return { ok: false, error: "API не настроен (EXPO_PUBLIC_API_BASE_URL)." };
   }
 
-  const res = await fetch(`${base}/api/auth/${path}`, {
+  const res = await fetch(`${base}/api/auth/sign-in`, {
     method: "POST",
     headers: { ...MOBILE_AUTH_HEADERS },
     body: JSON.stringify(body),
@@ -49,7 +46,7 @@ async function postAuth(
       /forbidden/i.test(apiError) ||
       res.status === 502 ||
       res.status === 503;
-    if (blocked && supabaseMobile && path === "sign-in") {
+    if (blocked && supabaseMobile) {
       const email = String(body.email ?? "").trim();
       const password = String(body.password ?? "");
       if (email && password) {
@@ -66,42 +63,7 @@ async function postAuth(
         if (error && /email not confirmed/i.test(error.message)) {
           return {
             ok: false,
-            error: "Email ещё не подтверждён. Откройте ссылку из письма или зарегистрируйтесь снова.",
-            needsEmailConfirmation: true,
-          };
-        }
-      }
-    }
-    if (blocked && supabaseMobile && path === "sign-up") {
-      const email = String(body.email ?? "").trim();
-      const password = String(body.password ?? "");
-      const full_name = String(body.full_name ?? "").trim();
-      if (email && password.length >= 6) {
-        const { data, error } = await supabaseMobile.auth.signUp({
-          email,
-          password,
-          options: {
-            data: {
-              full_name,
-              specialization: body.specialization,
-              birth_date: body.birth_date,
-              birth_year: body.birth_year,
-              preferred_locale: body.preferred_locale,
-            },
-          },
-        });
-        if (!error && data.session) {
-          return {
-            ok: true,
-            session: {
-              access_token: data.session.access_token,
-              refresh_token: data.session.refresh_token,
-            },
-          };
-        }
-        if (!error && data.user && !data.session) {
-          return {
-            ok: true,
+            error: "Email ещё не подтверждён. Откройте ссылку из письма.",
             needsEmailConfirmation: true,
           };
         }
@@ -145,22 +107,7 @@ function mapAuthApiError(message: string, status: number): string {
 }
 
 export function signInViaApi(email: string, password: string, turnstileToken?: string) {
-  return postAuth("sign-in", { email, password, turnstileToken });
-}
-
-export function signUpViaApi(
-  email: string,
-  password: string,
-  full_name: string,
-  extra?: {
-    preferred_locale?: string;
-    turnstileToken?: string;
-    birth_date?: string;
-    birth_year?: number;
-    specialization?: string;
-  },
-) {
-  return postAuth("sign-up", { email, password, full_name, ...extra });
+  return postAuth({ email, password, turnstileToken });
 }
 
 export async function verifyMfaViaApi(

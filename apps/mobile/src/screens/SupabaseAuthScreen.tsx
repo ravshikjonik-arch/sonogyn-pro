@@ -1,5 +1,5 @@
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -10,29 +10,18 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { CLINICAL_3D_LOCALES, DEFAULT_CLINICAL_3D_LOCALE, type Clinical3dLocale } from "@repo/clinical-3d";
-import { DOCTOR_SPECIALIZATION_OPTIONS } from "@repo/clinical-tools";
 import type { AuthProvider } from "@repo/ui";
 import { AuthButtons, RU_AUTH_PROVIDERS } from "@repo/ui";
-import {
-  birthDateErrorMessage,
-  validateBirthDateIso,
-} from "@repo/types";
 
-import { BirthDateField } from "../components/BirthDateField";
 import { useOAuthSignIn } from "../hooks/useOAuthSignIn";
 import { usePhoneAuth } from "../hooks/usePhoneAuth";
 import { useTelegramAuth } from "../hooks/useTelegramAuth";
-import { changeLanguage, isAppLanguage, type AppLanguage } from "../i18n";
-import { signInViaApi, signUpViaApi, verifyMfaViaApi } from "../lib/auth/emailAuthApi";
+import { signInViaApi, verifyMfaViaApi } from "../lib/auth/emailAuthApi";
+import { isMobileSimpleEmailAuth } from "../lib/auth/mobileAuthGate";
 import { isTurnstileConfiguredOnMobile, obtainTurnstileToken } from "../lib/auth/turnstileMobile";
 import { markSessionAnchorNow } from "../lib/security/sessionAnchor";
 import { supabaseMobile } from "../lib/supabase/mobileClient";
 import type { RootStackParamList } from "../navigation/paramLists";
-import {
-  isMobileSignUpEnabled,
-  isMobileSimpleEmailAuth,
-} from "../lib/auth/mobileAuthGate";
 import { useAppGate } from "../navigation/AppGateContext";
 import { resetAfterSuccessfulAuth } from "../navigation/resetToMain";
 
@@ -44,29 +33,20 @@ const TELEGRAM_BOT_NAME =
 
 function translateAuthError(message: string): string {
   if (/invalid login credentials/i.test(message)) return "Неверные учётные данные.";
-  if (/user already registered/i.test(message)) return "Если аккаунт можно создать, вы получите письмо с инструкциями.";
   if (/network request failed|failed to fetch/i.test(message)) return "Нет сети. Требуется интернет для входа.";
   if (/captcha|turnstile/i.test(message)) return "Подтвердите, что вы не робот (CAPTCHA).";
   if (/too many attempts|rate/i.test(message)) return "Слишком много попыток. Подождите и попробуйте снова.";
   return "Неверные учётные данные.";
 }
 
-type AuthLocale = Clinical3dLocale | "es";
-
 export default function SupabaseAuthScreen({ navigation }: Props) {
   const { refreshSupabaseSession, supabaseSession } = useAppGate();
   const simpleEmail = isMobileSimpleEmailAuth();
-  const signUpEnabled = isMobileSignUpEnabled();
   const [tab, setTab] = useState<Tab>(simpleEmail ? "email" : "phone");
-  const [mode, setMode] = useState<"sign-in" | "sign-up">("sign-in");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [fullName, setFullName] = useState("");
-  const [birthDateIso, setBirthDateIso] = useState("");
-  const [specialization, setSpecialization] = useState("Акушер-гинеколог");
   const [busy, setBusy] = useState(false);
   const [oauthLoading, setOauthLoading] = useState<AuthProvider | null>(null);
-  const [locale, setLocale] = useState<AuthLocale>(DEFAULT_CLINICAL_3D_LOCALE);
   const [requiresCaptcha, setRequiresCaptcha] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState<string | undefined>();
   const [captchaBusy, setCaptchaBusy] = useState(false);
@@ -77,40 +57,9 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
     { access_token: string; refresh_token: string } | undefined
   >();
 
-  const localeOptions = useMemo(
-    (): Array<{ code: AuthLocale; label: string }> => [
-      ...CLINICAL_3D_LOCALES.map((l) => ({ code: l.code as AuthLocale, label: l.label })),
-      { code: "es", label: "Español" },
-    ],
-    [],
-  );
-
   const phoneAuth = usePhoneAuth();
   const telegramAuth = useTelegramAuth();
   const { signIn: signInOAuth } = useOAuthSignIn();
-
-  function validateSignUpDoctorFields(): { birth_date: string; birth_year: number } | null {
-    const trimmedName = fullName.trim();
-    if (!trimmedName) {
-      Alert.alert("Регистрация", "Укажите ФИО врача.");
-      return null;
-    }
-    if (!birthDateIso.trim() || validateBirthDateIso(birthDateIso)) {
-      Alert.alert(
-        "Регистрация",
-        birthDateErrorMessage(validateBirthDateIso(birthDateIso) ?? "empty"),
-      );
-      return null;
-    }
-    if (!specialization.trim()) {
-      Alert.alert("Регистрация", "Выберите специализацию.");
-      return null;
-    }
-    return {
-      birth_date: birthDateIso,
-      birth_year: Number.parseInt(birthDateIso.slice(0, 4), 10),
-    };
-  }
 
   const finishAuth = useCallback(async () => {
     await markSessionAnchorNow();
@@ -185,73 +134,30 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
         Alert.alert("CAPTCHA", "Подтвердите, что вы не робот, затем повторите вход.");
         return;
       }
-      if (mode === "sign-up" && !signUpEnabled) {
-        Alert.alert("Вход", "Регистрация временно отключена. Используйте выданный email и пароль.");
-        setMode("sign-in");
+      const result = await signInViaApi(email.trim(), password, turnstileToken);
+      if (!result.ok) {
+        setRequiresCaptcha(Boolean(result.requiresCaptcha));
+        if (result.requiresCaptcha) setTurnstileToken(undefined);
+        const title = result.needsEmailConfirmation ? "Подтвердите email" : "Ошибка";
+        Alert.alert(title, result.error || translateAuthError(result.error));
         return;
       }
-      if (mode === "sign-up") {
-        const birth = validateSignUpDoctorFields();
-        if (!birth) return;
-        const result = await signUpViaApi(email.trim(), password, fullName.trim(), {
-          preferred_locale: locale,
-          turnstileToken,
-          birth_date: birth.birth_date,
-          birth_year: birth.birth_year,
-          specialization: specialization.trim(),
-        });
-        if (!result.ok) {
-          setRequiresCaptcha(Boolean(result.requiresCaptcha));
-          if (result.requiresCaptcha) setTurnstileToken(undefined);
-          Alert.alert("Регистрация", result.error || translateAuthError(result.error));
-          return;
-        }
-        if (isAppLanguage(locale)) {
-          await changeLanguage(locale as AppLanguage);
-        }
-        if (result.session) {
-          await supabaseMobile.auth.setSession(result.session);
-          await finishAuth();
-          return;
-        }
-        if (result.needsEmailConfirmation) {
-          Alert.alert(
-            "Подтвердите email",
-            "Откройте ссылку из письма, затем войдите с тем же паролем.",
-          );
-          setMode("sign-in");
-          return;
-        }
-        Alert.alert(
-          "Готово",
-          "Если аккаунт можно создать, вы получите письмо с инструкциями.",
-        );
-      } else {
-        const result = await signInViaApi(email.trim(), password, turnstileToken);
-        if (!result.ok) {
-          setRequiresCaptcha(Boolean(result.requiresCaptcha));
-          if (result.requiresCaptcha) setTurnstileToken(undefined);
-          const title = result.needsEmailConfirmation ? "Подтвердите email" : "Ошибка";
-          Alert.alert(title, result.error || translateAuthError(result.error));
-          return;
-        }
-        if (result.needsMfa && result.factorId) {
-          setMfaRequired(true);
-          setMfaFactorId(result.factorId);
-          setMfaPendingSession(result.session);
-          Alert.alert("MFA", "Введите код из приложения аутентификатора.");
-          return;
-        }
-        if (!result.session) {
-          Alert.alert(
-            "Ошибка",
-            "Сессия не получена. Проверьте пароль или подтвердите email из письма.",
-          );
-          return;
-        }
-        await supabaseMobile.auth.setSession(result.session);
-        await finishAuth();
+      if (result.needsMfa && result.factorId) {
+        setMfaRequired(true);
+        setMfaFactorId(result.factorId);
+        setMfaPendingSession(result.session);
+        Alert.alert("MFA", "Введите код из приложения аутентификатора.");
+        return;
       }
+      if (!result.session) {
+        Alert.alert(
+          "Ошибка",
+          "Сессия не получена. Проверьте пароль или подтвердите email из письма.",
+        );
+        return;
+      }
+      await supabaseMobile.auth.setSession(result.session);
+      await finishAuth();
     } catch (e) {
       Alert.alert("Ошибка", translateAuthError(e instanceof Error ? e.message : "Не удалось войти"));
     } finally {
@@ -261,50 +167,20 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
 
   async function submitTelegram() {
     if (telegramAuth.otpSent) {
-      const registration =
-        mode === "sign-up"
-          ? (() => {
-              const birth = validateSignUpDoctorFields();
-              if (!birth) return null;
-              return {
-                full_name: fullName.trim(),
-                birth_date: birth.birth_date,
-                birth_year: birth.birth_year,
-                specialization: specialization.trim(),
-                preferred_locale: locale,
-              };
-            })()
-          : undefined;
-      if (mode === "sign-up" && !registration) return;
-      const ok = await telegramAuth.verifyOtp(registration ?? undefined, mode === "sign-up");
+      const ok = await telegramAuth.verifyOtp();
       if (ok) await finishAuth();
       return;
     }
-    await telegramAuth.sendOtp(mode === "sign-up");
+    await telegramAuth.sendOtp();
   }
 
   async function submitPhone() {
     if (phoneAuth.otpSent) {
-      const registration =
-        mode === "sign-up"
-          ? (() => {
-              const birth = validateSignUpDoctorFields();
-              if (!birth) return null;
-              return {
-                full_name: fullName.trim(),
-                birth_date: birth.birth_date,
-                birth_year: birth.birth_year,
-                specialization: specialization.trim(),
-                preferred_locale: locale,
-              };
-            })()
-          : undefined;
-      if (mode === "sign-up" && !registration) return;
-      const ok = await phoneAuth.verifyOtp(registration ?? undefined, mode === "sign-up");
+      const ok = await phoneAuth.verifyOtp();
       if (ok) await finishAuth();
       return;
     }
-    await phoneAuth.sendOtp(mode === "sign-up");
+    await phoneAuth.sendOtp();
   }
 
   async function onSocial(provider: Exclude<AuthProvider, "telegram">) {
@@ -326,13 +202,11 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.kicker}>SonoGyn Pro</Text>
-      <Text style={styles.title}>{mode === "sign-up" ? "Регистрация врача" : "Вход"}</Text>
+      <Text style={styles.title}>Вход</Text>
       <Text style={styles.body}>
         {simpleEmail
-          ? signUpEnabled
-            ? "Email и пароль — один аккаунт для iOS и Android. После регистрации сразу откроется кабинет."
-            : "Вход по email и паролю для приглашённых врачей. Аккаунт выдаёт команда SonoGyn Pro."
-          : "SMS (+7), Яндекс ID, Telegram или email — способы входа для пилота."}
+          ? "Email и пароль — доступ для приглашённых врачей. Аккаунт выдаёт команда SonoGyn Pro."
+          : "SMS (+7), Яндекс ID, Telegram или email — вход для пилота."}
       </Text>
 
       {!simpleEmail ? (
@@ -355,54 +229,6 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
               <Text style={[styles.tabText, tab === id && styles.tabTextActive]}>{label}</Text>
             </Pressable>
           ))}
-        </View>
-      ) : null}
-
-      {signUpEnabled ? (
-        <View style={styles.toggleRow}>
-          <Pressable
-            style={[styles.toggle, mode === "sign-in" && styles.toggleActive]}
-            onPress={() => setMode("sign-in")}
-            accessibilityLabel="Режим входа"
-          >
-            <Text style={[styles.toggleText, mode === "sign-in" && styles.toggleTextActive]}>Войти</Text>
-          </Pressable>
-          <Pressable
-            style={[styles.toggle, mode === "sign-up" && styles.toggleActive]}
-            onPress={() => setMode("sign-up")}
-            accessibilityLabel="Режим регистрации"
-          >
-            <Text style={[styles.toggleText, mode === "sign-up" && styles.toggleTextActive]}>Регистрация</Text>
-          </Pressable>
-        </View>
-      ) : null}
-
-      {mode === "sign-up" && (tab === "email" || tab === "phone" || tab === "telegram") ? (
-        <View style={styles.panel}>
-          <TextInput
-            placeholder="ФИО врача"
-            accessibilityLabel="ФИО врача"
-            style={styles.input}
-            value={fullName}
-            onChangeText={setFullName}
-          />
-          <BirthDateField value={birthDateIso} onChange={setBirthDateIso} />
-          <View style={styles.specBlock}>
-            <Text style={styles.specLabel}>Специализация</Text>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.specScroll}>
-              {DOCTOR_SPECIALIZATION_OPTIONS.map((opt) => (
-                <Pressable
-                  key={opt}
-                  style={[styles.specChip, specialization === opt && styles.specChipActive]}
-                  onPress={() => setSpecialization(opt)}
-                >
-                  <Text style={[styles.specChipText, specialization === opt && styles.specChipTextActive]}>
-                    {opt}
-                  </Text>
-                </Pressable>
-              ))}
-            </ScrollView>
-          </View>
         </View>
       ) : null}
 
@@ -459,25 +285,6 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
 
       {tab === "email" ? (
         <View style={styles.panel}>
-          {mode === "sign-up" ? (
-            <View style={styles.localeBlock}>
-              <Text style={styles.localeLabel}>Язык интерфейса</Text>
-              <View style={styles.localeRow}>
-                {localeOptions.map((opt) => (
-                  <Pressable
-                    key={opt.code}
-                    style={[styles.localeChip, locale === opt.code && styles.localeChipActive]}
-                    onPress={() => setLocale(opt.code)}
-                    accessibilityLabel={opt.label}
-                  >
-                    <Text style={[styles.localeChipText, locale === opt.code && styles.localeChipTextActive]}>
-                      {opt.label}
-                    </Text>
-                  </Pressable>
-                ))}
-              </View>
-            </View>
-          ) : null}
           {mfaRequired ? (
             <>
               <TextInput
@@ -503,52 +310,52 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
             </>
           ) : (
             <>
-          <TextInput
-            autoCapitalize="none"
-            keyboardType="email-address"
-            placeholder="Email"
-            accessibilityLabel="Email"
-            style={styles.input}
-            value={email}
-            onChangeText={setEmail}
-          />
-          <TextInput
-            secureTextEntry
-            placeholder="Пароль"
-            accessibilityLabel="Пароль"
-            style={styles.input}
-            value={password}
-            onChangeText={setPassword}
-          />
-          {requiresCaptcha ? (
-            <View style={styles.captchaBlock}>
-              <Text style={styles.captchaHint}>
-                {turnstileToken ? "CAPTCHA пройдена." : "После нескольких ошибок нужна CAPTCHA."}
-              </Text>
-              {!turnstileToken ? (
-                <Pressable
-                  style={[styles.secondaryBtn, (loading || captchaBusy) && styles.primaryDisabled]}
-                  disabled={loading || captchaBusy}
-                  onPress={() => void runTurnstileChallenge()}
-                  accessibilityLabel="Пройти CAPTCHA"
-                >
-                  {captchaBusy ? (
-                    <ActivityIndicator color="#005CB9" />
-                  ) : (
-                    <Text style={styles.secondaryBtnText}>Подтвердить CAPTCHA</Text>
-                  )}
-                </Pressable>
+              <TextInput
+                autoCapitalize="none"
+                keyboardType="email-address"
+                placeholder="Email"
+                accessibilityLabel="Email"
+                style={styles.input}
+                value={email}
+                onChangeText={setEmail}
+              />
+              <TextInput
+                secureTextEntry
+                placeholder="Пароль"
+                accessibilityLabel="Пароль"
+                style={styles.input}
+                value={password}
+                onChangeText={setPassword}
+              />
+              {requiresCaptcha ? (
+                <View style={styles.captchaBlock}>
+                  <Text style={styles.captchaHint}>
+                    {turnstileToken ? "CAPTCHA пройдена." : "После нескольких ошибок нужна CAPTCHA."}
+                  </Text>
+                  {!turnstileToken ? (
+                    <Pressable
+                      style={[styles.secondaryBtn, (loading || captchaBusy) && styles.primaryDisabled]}
+                      disabled={loading || captchaBusy}
+                      onPress={() => void runTurnstileChallenge()}
+                      accessibilityLabel="Пройти CAPTCHA"
+                    >
+                      {captchaBusy ? (
+                        <ActivityIndicator color="#005CB9" />
+                      ) : (
+                        <Text style={styles.secondaryBtnText}>Подтвердить CAPTCHA</Text>
+                      )}
+                    </Pressable>
+                  ) : null}
+                </View>
               ) : null}
-            </View>
-          ) : null}
-          <Pressable
-            style={[styles.primary, loading && styles.primaryDisabled]}
-            disabled={loading}
-            onPress={() => void submitEmail()}
-            accessibilityLabel={mode === "sign-in" ? "Войти" : "Зарегистрироваться"}
-          >
-            {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.primaryText}>{mode === "sign-in" ? "Войти" : "Зарегистрация"}</Text>}
-          </Pressable>
+              <Pressable
+                style={[styles.primary, loading && styles.primaryDisabled]}
+                disabled={loading}
+                onPress={() => void submitEmail()}
+                accessibilityLabel="Войти"
+              >
+                {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.primaryText}>Войти</Text>}
+              </Pressable>
             </>
           )}
         </View>
@@ -606,7 +413,7 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
               void onSocial(p);
             }}
             loading={oauthLoading}
-            variant={mode === "sign-up" ? "register" : "login"}
+            variant="login"
           />
         </View>
       ) : null}
@@ -637,19 +444,6 @@ const styles = StyleSheet.create({
   tabText: { fontWeight: "800", color: "#64748B", fontSize: 12 },
   tabTextActive: { color: "#075985" },
   panel: { gap: 12, marginTop: 4 },
-  toggleRow: { flexDirection: "row", gap: 10 },
-  toggle: {
-    flex: 1,
-    borderRadius: 999,
-    borderWidth: 1,
-    borderColor: "#CBD5F5",
-    paddingVertical: 10,
-    alignItems: "center",
-    backgroundColor: "#fff",
-  },
-  toggleActive: { borderColor: "#005CB9", backgroundColor: "#E0F2FE" },
-  toggleText: { fontWeight: "800", color: "#64748B" },
-  toggleTextActive: { color: "#075985" },
   input: {
     borderRadius: 14,
     borderWidth: 1,
@@ -682,33 +476,4 @@ const styles = StyleSheet.create({
   secondaryText: { color: "#005CB9", fontWeight: "800" },
   error: { color: "#B91C1C", fontSize: 13, fontWeight: "600" },
   hint: { color: "#64748B", fontSize: 12, lineHeight: 18 },
-  localeBlock: { gap: 8 },
-  localeLabel: { fontSize: 13, fontWeight: "700", color: "#334155" },
-  localeRow: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
-  localeChip: {
-    borderRadius: 999,
-    borderWidth: 1,
-    borderColor: "#CBD5F5",
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    backgroundColor: "#fff",
-  },
-  localeChipActive: { borderColor: "#005CB9", backgroundColor: "#E0F2FE" },
-  localeChipText: { fontSize: 12, fontWeight: "700", color: "#64748B" },
-  localeChipTextActive: { color: "#075985" },
-  specBlock: { gap: 6 },
-  specLabel: { fontSize: 13, fontWeight: "700", color: "#334155" },
-  specScroll: { flexGrow: 0 },
-  specChip: {
-    borderRadius: 999,
-    borderWidth: 1,
-    borderColor: "#CBD5F5",
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    marginRight: 8,
-    backgroundColor: "#fff",
-  },
-  specChipActive: { borderColor: "#005CB9", backgroundColor: "#E0F2FE" },
-  specChipText: { fontSize: 12, fontWeight: "600", color: "#64748B" },
-  specChipTextActive: { color: "#075985" },
 });

@@ -3,14 +3,6 @@ import { useCallback, useState } from "react";
 import { sendPhoneOtpViaApi, verifyPhoneOtpViaApi } from "../lib/auth/emailAuthApi";
 import { supabaseMobile } from "../lib/supabase/mobileClient";
 
-export type PhoneRegistrationMeta = {
-  full_name?: string;
-  birth_date?: string;
-  birth_year?: number;
-  specialization?: string;
-  preferred_locale?: string;
-};
-
 function normalizePhone(raw: string): string {
   const digits = raw.replace(/\D/g, "");
   if (digits.startsWith("8") && digits.length === 11) return `+7${digits.slice(1)}`;
@@ -27,7 +19,7 @@ export function usePhoneAuth() {
   const [error, setError] = useState<string | null>(null);
   const [requiresCaptcha, setRequiresCaptcha] = useState(false);
 
-  const sendOtp = useCallback(async (createUser = false, turnstileToken?: string) => {
+  const sendOtp = useCallback(async (turnstileToken?: string) => {
     if (!supabaseMobile) {
       setError("Supabase не настроен (EXPO_PUBLIC_SUPABASE_URL / ANON_KEY).");
       return false;
@@ -37,7 +29,7 @@ export function usePhoneAuth() {
     setError(null);
     try {
       const normalized = normalizePhone(phone);
-      const result = await sendPhoneOtpViaApi(normalized, createUser, turnstileToken);
+      const result = await sendPhoneOtpViaApi(normalized, false, turnstileToken);
       if (!result.ok) {
         setRequiresCaptcha(Boolean(result.requiresCaptcha));
         setError(result.error);
@@ -50,7 +42,7 @@ export function usePhoneAuth() {
     }
   }, [phone]);
 
-  const verifyOtp = useCallback(async (registration?: PhoneRegistrationMeta, createUser = false) => {
+  const verifyOtp = useCallback(async () => {
     if (!supabaseMobile) {
       setError("Supabase не настроен.");
       return false;
@@ -60,11 +52,7 @@ export function usePhoneAuth() {
     setError(null);
     try {
       const normalized = normalizePhone(phone);
-      const shouldCreate = createUser || Boolean(registration?.full_name?.trim());
-      const result = await verifyPhoneOtpViaApi(normalized, otp.trim(), {
-        ...registration,
-        createUser: shouldCreate,
-      });
+      const result = await verifyPhoneOtpViaApi(normalized, otp.trim(), { createUser: false });
       if (!result.ok) {
         setError(result.error);
         return false;

@@ -3,14 +3,6 @@ import { useCallback, useState } from "react";
 import { sendTelegramOtpViaApi, verifyTelegramOtpViaApi } from "../lib/auth/emailAuthApi";
 import { supabaseMobile } from "../lib/supabase/mobileClient";
 
-export type TelegramRegistrationMeta = {
-  full_name?: string;
-  birth_date?: string;
-  birth_year?: number;
-  specialization?: string;
-  preferred_locale?: string;
-};
-
 export function useTelegramAuth() {
   const [chatId, setChatId] = useState("");
   const [fallbackEmail, setFallbackEmail] = useState("");
@@ -21,7 +13,7 @@ export function useTelegramAuth() {
   const [requiresCaptcha, setRequiresCaptcha] = useState(false);
 
   const sendOtp = useCallback(
-    async (createUser = false, turnstileToken?: string) => {
+    async (turnstileToken?: string) => {
       if (!supabaseMobile) {
         setError("Supabase не настроен (EXPO_PUBLIC_SUPABASE_URL / ANON_KEY).");
         return false;
@@ -36,7 +28,12 @@ export function useTelegramAuth() {
       setBusy(true);
       setError(null);
       try {
-        const result = await sendTelegramOtpViaApi(normalized, createUser, turnstileToken, fallbackEmail.trim() || undefined);
+        const result = await sendTelegramOtpViaApi(
+          normalized,
+          false,
+          turnstileToken,
+          fallbackEmail.trim() || undefined,
+        );
         if (!result.ok) {
           setRequiresCaptcha(Boolean(result.requiresCaptcha));
           setError(result.error);
@@ -51,35 +48,28 @@ export function useTelegramAuth() {
     [chatId, fallbackEmail],
   );
 
-  const verifyOtp = useCallback(
-    async (registration?: TelegramRegistrationMeta, createUser = false) => {
-      if (!supabaseMobile) {
-        setError("Supabase не настроен.");
+  const verifyOtp = useCallback(async () => {
+    if (!supabaseMobile) {
+      setError("Supabase не настроен.");
+      return false;
+    }
+
+    setBusy(true);
+    setError(null);
+    try {
+      const result = await verifyTelegramOtpViaApi(chatId.trim(), otp.trim(), { createUser: false });
+      if (!result.ok) {
+        setError(result.error);
         return false;
       }
-
-      setBusy(true);
-      setError(null);
-      try {
-        const shouldCreate = createUser || Boolean(registration?.full_name?.trim());
-        const result = await verifyTelegramOtpViaApi(chatId.trim(), otp.trim(), {
-          ...registration,
-          createUser: shouldCreate,
-        });
-        if (!result.ok) {
-          setError(result.error);
-          return false;
-        }
-        if (result.session) {
-          await supabaseMobile.auth.setSession(result.session);
-        }
-        return true;
-      } finally {
-        setBusy(false);
+      if (result.session) {
+        await supabaseMobile.auth.setSession(result.session);
       }
-    },
-    [chatId, otp],
-  );
+      return true;
+    } finally {
+      setBusy(false);
+    }
+  }, [chatId, otp]);
 
   return {
     chatId,
