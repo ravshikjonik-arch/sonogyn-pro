@@ -4,7 +4,8 @@
   "buildCommand": "cd ../.. && export NODE_OPTIONS=\"--max-old-space-size=8192\" && pnpm exec prisma generate --schema=apps/web/prisma/schema.prisma && pnpm --filter @repo/web build",
   "build": {
     "env": {
-      "NODE_OPTIONS": "--max-old-space-size=8192"
+      "NODE_OPTIONS": "--max-old-space-size=8192",
+      "SENTRY_ENABLED": "false"
     }
   },
   "framework": "nextjs",
