@@ -10,7 +10,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.yakrav7700.usriskcalc",
-      "buildNumber": "11",
+      "buildNumber": "12",
       "infoPlist": {
         "NSCameraUsageDescription": "Камера: съёмка снимков для разделов AI и чата врачей.",
         "NSPhotoLibraryUsageDescription": "Галерея: выбор изображений для AI и чата.",
@@ -19,7 +19,7 @@
     },
     "android": {
       "package": "com.yakrav7700.usriskcalc",
-      "versionCode": 8,
+      "versionCode": 9,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
