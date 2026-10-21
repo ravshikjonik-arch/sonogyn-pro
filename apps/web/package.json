@@ -45,7 +45,7 @@
     "db:rpc-confirm": "node scripts/apply-rpc-confirm.mjs",
     "db:legacy-media-audit": "node scripts/legacy-media-audit-r5.mjs",
     "db:legacy-media-r5": "node scripts/legacy-media-audit-r5.mjs --apply-bundle",
-    "build": "prisma generate && next build --webpack",
+    "build": "prisma generate && NODE_OPTIONS=\"${NODE_OPTIONS:---max-old-space-size=8192}\" next build --webpack",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",

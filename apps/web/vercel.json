@@ -1,7 +1,12 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "installCommand": "cd ../.. && npx --yes pnpm@10.6.5 install --frozen-lockfile",
-  "buildCommand": "cd ../.. && pnpm exec prisma generate --schema=apps/web/prisma/schema.prisma && pnpm --filter @repo/web build",
+  "buildCommand": "cd ../.. && export NODE_OPTIONS=\"--max-old-space-size=8192\" && pnpm exec prisma generate --schema=apps/web/prisma/schema.prisma && pnpm --filter @repo/web build",
+  "build": {
+    "env": {
+      "NODE_OPTIONS": "--max-old-space-size=8192"
+    }
+  },
   "framework": "nextjs",
   "regions": ["fra1"],
   "crons": [
