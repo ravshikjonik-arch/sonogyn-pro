@@ -4,7 +4,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 EAS="$ROOT/../../node_modules/.bin/eas"
-BUILD_ID="${1:-da5e59df-4dc3-4025-bfe2-bed178208e76}"
+BUILD_ID="${1:-3b670cdb-1382-41c6-9a6d-6f8d9c1c2f89}"
 
 echo ""
 echo "📤 Submit iOS → App Store Connect (TestFlight)"
