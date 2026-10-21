@@ -24,6 +24,7 @@
 
 # Prenatal atlas images live in Supabase Storage (see scripts/upload-clinical-atlas-folder.mjs)
 /public/clinical-atlas/prenatal-echo-ru/
+/public/clinical-atlas/neishtadt-ovary/
 
 # production
 /build

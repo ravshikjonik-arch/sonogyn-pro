@@ -109,6 +109,7 @@
     "@repo/mammology-national-atlas": "workspace:*",
     "@repo/prenatal-echography-atlas": "workspace:*",
     "@repo/clinical-echocardiography-atlas": "workspace:*",
+    "@repo/ovarian-tumor-morphology-atlas": "workspace:*",
     "@repo/clinical-3d": "workspace:*",
     "@repo/clinical-guidelines": "workspace:*",
     "@repo/clinical-reference": "workspace:*",

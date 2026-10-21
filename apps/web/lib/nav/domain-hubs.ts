@@ -164,6 +164,12 @@ export const GYNECOLOGY_HUB: DomainHubCard[] = [
     description: "CIN, AIS, карциномы · атлас препаратов",
   },
   {
+    href: "/tools/refs/ovarian-tumor-morphology-atlas",
+    title: "Опухоли яичника (гистология)",
+    description: "Нейштадт 2017 · 337 препаратов, OCR",
+    badge: "RU",
+  },
+  {
     href: "/tools/refs/nosologies",
     title: "Нозологии",
     description: "Заболевания: обследование, УЗИ, лечение",

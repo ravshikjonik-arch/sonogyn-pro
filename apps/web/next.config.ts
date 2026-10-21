@@ -206,6 +206,10 @@ const nextConfig: NextConfig = {
           source: "/clinical-atlas/prenatal-echo-ru/:path*",
           destination: `${supa}/storage/v1/object/public/clinical-atlas/prenatal-echo-ru/:path*`,
         },
+        {
+          source: "/clinical-atlas/neishtadt-ovary/:path*",
+          destination: `${supa}/storage/v1/object/public/clinical-atlas/neishtadt-ovary/:path*`,
+        },
       ];
     }
     return [];

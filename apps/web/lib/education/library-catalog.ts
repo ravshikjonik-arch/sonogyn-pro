@@ -404,6 +404,14 @@ const EDUCATION_LIBRARY_ITEMS_RAW: EducationLibraryItem[] = [
     tags: ["кардиология", "ЭхоКГ", "ASE", "учебник", "атлас"],
   },
   {
+    id: "ovarian-tumor-morphology-atlas",
+    shelf: "atlases",
+    title: "Опухоли яичника (Нейштадт, 2017)",
+    description: "9 глав, 337 гистопрепаратов: эпителиальные, герминогенные, метастазы (OCR).",
+    href: "/tools/refs/ovarian-tumor-morphology-atlas",
+    tags: ["яичник", "гистология", "O-RADS", "атлас"],
+  },
+  {
     id: "calculators",
     shelf: "calculators",
     title: "Калькуляторы RADS",

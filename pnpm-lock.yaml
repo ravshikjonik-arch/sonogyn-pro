@@ -474,6 +474,9 @@ importers:
       '@repo/orads-us':
         specifier: workspace:*
         version: link:../../packages/orads-us
+      '@repo/ovarian-tumor-morphology-atlas':
+        specifier: workspace:*
+        version: link:../../packages/ovarian-tumor-morphology-atlas
       '@repo/prenatal-echography-atlas':
         specifier: workspace:*
         version: link:../../packages/prenatal-echography-atlas
@@ -1150,6 +1153,15 @@ importers:
       tsx:
         specifier: ^4.19.4
         version: 4.21.0
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.3
+
+  packages/ovarian-tumor-morphology-atlas:
+    devDependencies:
+      '@types/node':
+        specifier: ^20
+        version: 20.19.40
       typescript:
         specifier: ^5.9.2
         version: 5.9.3
