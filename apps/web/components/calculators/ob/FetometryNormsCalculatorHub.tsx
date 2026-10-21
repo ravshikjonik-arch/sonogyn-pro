@@ -1,22 +1,25 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 
 import { CalcStepCard } from "@/components/calculators/shared/calc-ui";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { cn } from "@/lib/utils/cn";
+
+const selectClassName =
+  "mt-1 flex h-10 w-full rounded-md border border-[var(--clinical-border)] bg-[var(--clinical-background)] px-3 py-2 text-sm";
+
+function FieldLabel({ htmlFor, children }: { htmlFor?: string; children: ReactNode }) {
+  return (
+    <label htmlFor={htmlFor} className="text-sm font-medium text-[var(--clinical-foreground)]">
+      {children}
+    </label>
+  );
+}
 import {
   ARCHIVE_CALCULATOR_DISCLAIMER,
   evaluateArchiveNorm,
@@ -156,19 +159,19 @@ export function FetometryNormsCalculatorHub({ initialTableId }: Props) {
               onChange={(e) => setQuery(e.target.value)}
               aria-label="Поиск таблицы"
             />
-            <Select value={block} onValueChange={setBlock}>
-              <SelectTrigger aria-label="Блок">
-                <SelectValue placeholder="Блок" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Все блоки</SelectItem>
-                {Object.entries(BLOCK_LABELS).map(([id, label]) => (
-                  <SelectItem key={id} value={id}>
-                    {label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <select
+              className={selectClassName}
+              aria-label="Блок"
+              value={block}
+              onChange={(e) => setBlock(e.target.value)}
+            >
+              <option value="all">Все блоки</option>
+              {Object.entries(BLOCK_LABELS).map(([id, label]) => (
+                <option key={id} value={id}>
+                  {label}
+                </option>
+              ))}
+            </select>
             <ul className="max-h-[420px] space-y-1 overflow-y-auto pr-1" role="listbox" aria-label="Таблицы">
               {filtered.map((c) => (
                 <li key={c.tableId}>
@@ -213,51 +216,49 @@ export function FetometryNormsCalculatorHub({ initialTableId }: Props) {
 
               {selected.multiTable?.length ? (
                 <div className="mb-4 space-y-1">
-                  <Label>Подтаблица</Label>
-                  <Select
+                  <FieldLabel htmlFor="sub-table">Подтаблица</FieldLabel>
+                  <select
+                    id="sub-table"
+                    className={selectClassName}
                     value={subTableId ?? selected.multiTable[0]}
-                    onValueChange={(v) => {
+                    onChange={(e) => {
+                      const v = e.target.value;
                       setSubTableId(v);
                       const params = listArchiveTableParameters(selected.tableId, v);
                       setParameterId(params[0]?.id);
                     }}
                   >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {selected.multiTable.map((id) => (
-                        <SelectItem key={id} value={id}>
-                          Таблица {id}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                    {selected.multiTable.map((id) => (
+                      <option key={id} value={id}>
+                        Таблица {id}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               ) : null}
 
               {parameters.length > 1 ? (
                 <div className="mb-4 space-y-1">
-                  <Label>Параметр</Label>
-                  <Select value={parameterId ?? parameters[0]?.id} onValueChange={setParameterId}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {parameters.map((p) => (
-                        <SelectItem key={p.id} value={p.id}>
-                          {p.labelRu}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <FieldLabel htmlFor="param">Параметр</FieldLabel>
+                  <select
+                    id="param"
+                    className={selectClassName}
+                    value={parameterId ?? parameters[0]?.id}
+                    onChange={(e) => setParameterId(e.target.value)}
+                  >
+                    {parameters.map((p) => (
+                      <option key={p.id} value={p.id}>
+                        {p.labelRu}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               ) : null}
 
               {needsGa(tableType) ? (
                 <div className="mb-4 grid grid-cols-2 gap-3">
                   <div className="space-y-1">
-                    <Label htmlFor="ga-weeks">Срок, нед</Label>
+                    <FieldLabel htmlFor="ga-weeks">Срок, нед</FieldLabel>
                     <Input
                       id="ga-weeks"
                       inputMode="numeric"
@@ -266,7 +267,7 @@ export function FetometryNormsCalculatorHub({ initialTableId }: Props) {
                     />
                   </div>
                   <div className="space-y-1">
-                    <Label htmlFor="ga-days">Дни</Label>
+                    <FieldLabel htmlFor="ga-days">Дни</FieldLabel>
                     <Input
                       id="ga-days"
                       inputMode="numeric"
@@ -279,14 +280,14 @@ export function FetometryNormsCalculatorHub({ initialTableId }: Props) {
 
               {needsCrl(tableType) ? (
                 <div className="mb-4 space-y-1">
-                  <Label htmlFor="crl">КТР, мм</Label>
+                  <FieldLabel htmlFor="crl">КТР, мм</FieldLabel>
                   <Input id="crl" inputMode="decimal" value={crlMm} onChange={(e) => setCrlMm(e.target.value)} />
                 </div>
               ) : null}
 
               {needsAxis(tableType) ? (
                 <div className="mb-4 space-y-1">
-                  <Label htmlFor="axis">{doc?.xAxis?.labelRu ?? "Ось X"}, мм</Label>
+                  <FieldLabel htmlFor="axis">{doc?.xAxis?.labelRu ?? "Ось X"}, мм</FieldLabel>
                   <Input
                     id="axis"
                     inputMode="decimal"
@@ -297,12 +298,12 @@ export function FetometryNormsCalculatorHub({ initialTableId }: Props) {
               ) : null}
 
               <div className="mb-4 space-y-1">
-                <Label htmlFor="measure">
+                <FieldLabel htmlFor="measure">
                   {isDating(tableType)
                     ? (doc?.parameter?.labelRu ?? "Измерение")
                     : (parameters.find((p) => p.id === parameterId)?.labelRu ?? "Измерение")}
                   {doc?.parameter?.unit || parameters[0]?.unit ? `, ${doc?.parameter?.unit ?? parameters[0]?.unit}` : ""}
-                </Label>
+                </FieldLabel>
                 <Input id="measure" inputMode="decimal" value={value} onChange={(e) => setValue(e.target.value)} />
               </div>
 

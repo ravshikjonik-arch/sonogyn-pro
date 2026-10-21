@@ -103,15 +103,15 @@ function tripletToBand(t: PercentileTriplet, labels?: ArchiveTableDocument["perc
   lowLabel?: string;
   highLabel?: string;
 } {
-  const low = t.p5 ?? t.p2_5 ?? t.p10 ?? t.p50;
-  const mid = t.p50 ?? low;
+  const mid = t.p50 ?? t.p5 ?? t.p2_5 ?? t.p10 ?? 0;
+  const low = t.p5 ?? t.p2_5 ?? t.p10 ?? mid;
   const high = t.p95 ?? t.p97_5 ?? t.p90 ?? mid;
   return {
     p5: low,
     p50: mid,
     p95: high,
-    lowLabel: labels?.low ?? (t.p2_5 != null ? "p2.5" : t.p10 != null ? "p10" : "p5"),
-    highLabel: labels?.high ?? (t.p97_5 != null ? "p97.5" : t.p90 != null ? "p90" : "p95"),
+    lowLabel: labels?.low ?? labels?.p5 ?? (t.p2_5 != null ? "p2.5" : t.p10 != null ? "p10" : "p5"),
+    highLabel: labels?.high ?? labels?.p95 ?? (t.p97_5 != null ? "p97.5" : t.p90 != null ? "p90" : "p95"),
   };
 }
 

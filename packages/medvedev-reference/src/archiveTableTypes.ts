@@ -36,7 +36,7 @@ export type ArchiveTableDocument = {
   gaAxis?: string;
   gaAxisNote?: string;
   outputGaFormat?: string;
-  percentileLabels?: { low?: string; mid?: string; high?: string };
+  percentileLabels?: Record<string, string>;
   partial?: boolean;
   partialNote?: string;
   rows: Record<string, unknown>[];
