@@ -11,7 +11,11 @@ async function fetchBody(path) {
   const res = await fetch(url, {
     redirect: "follow",
     signal: AbortSignal.timeout(45_000),
-    headers: { "User-Agent": "SonogynCustomDomainCheck/1.0" },
+    headers: {
+      "User-Agent":
+        "Mozilla/5.0 (compatible; SonogynCustomDomainCheck/1.0; +https://sonogyn-pro.ru)",
+      Accept: "text/html",
+    },
   });
   const text = await res.text();
   return { url: res.url, status: res.status, bytes: text.length, text };

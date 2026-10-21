@@ -43,6 +43,8 @@ const TRUSTED_CLIENT_UA_PATTERNS = [
   /darwin/i,
   /expo/i,
   /reactnative/i,
+  /SonogynCustomDomainCheck/i,
+  /SonogynProductionCheck/i,
 ] as const;
 
 function isBotDetectionDisabled(): boolean {
