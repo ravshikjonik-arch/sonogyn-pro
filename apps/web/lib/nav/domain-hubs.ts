@@ -94,6 +94,12 @@ export const OBSTETRICS_HUB: DomainHubCard[] = [
     description: "Срезы и протоколы",
   },
   {
+    href: "/tools/refs/obstetrics-imaging-atlas",
+    title: "Атлас акушерской визуализации",
+    description: "Woodward · 313 глав, УЗИ плода и I триместра",
+    badge: "RU",
+  },
+  {
     href: "/reports/obstetric",
     title: "SRE · акушерский протокол",
     description: "Структурированный отчёт с EBM-цитатами",
@@ -135,6 +141,16 @@ export const GYNECOLOGY_HUB: DomainHubCard[] = [
     href: "/tools/refs/cervix-pathology?tab=cytology",
     title: "Патология шейки",
     description: "8 глав + цитология, Bethesda, скрининг, кейсы",
+  },
+  {
+    href: "/tools/refs/gynecology-imaging-atlas",
+    title: "Атлас гинекологической визуализации",
+    description: "Shaaban · УЗИ/МРТ малого таза, O-RADS контекст",
+  },
+  {
+    href: "/tools/refs/cervix-morphology-atlas",
+    title: "Морфология шейки (гистология)",
+    description: "CIN, AIS, карциномы · атлас препаратов",
   },
   {
     href: "/tools/refs/nosologies",
@@ -204,6 +220,11 @@ export const CALCULATORS_HUB: DomainHubCard[] = [
     title: "RADS",
     description: "O-RADS, BI-RADS, TI-RADS, LN-RADS",
     primary: true,
+  },
+  {
+    href: "/tools/refs/mammology-national-atlas",
+    title: "Маммология · нац. руководство",
+    description: "Каприн · УЗИ МЖ, BI-RADS, развороты OCR",
   },
   {
     href: "/tools/calc/rads/ti-rads",

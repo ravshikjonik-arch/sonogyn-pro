@@ -53,7 +53,7 @@ async function postAuth(body: Record<string, unknown>): Promise<EmailAuthResult>
         res.status === 503 ||
         /forbidden/i.test(apiError));
 
-    if (tryDirectSupabase) {
+    if (tryDirectSupabase && supabaseMobile) {
       const { data, error } = await supabaseMobile.auth.signInWithPassword({ email, password });
       if (!error && data.session) {
         return {
