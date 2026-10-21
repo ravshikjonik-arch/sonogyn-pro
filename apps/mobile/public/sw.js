@@ -4,7 +4,7 @@
  *
  * Версию поднимайте при каждом релизе статики (иначе клиенты держат старый кэш).
  */
-const CACHE_VERSION = "pwa-ag-us-v7";
+const CACHE_VERSION = "pwa-ag-us-v8";
 
 /** Клинические маршруты — не кэшировать (SSR может содержать PHI). */
 const CLINICAL_PATH_PREFIXES = [

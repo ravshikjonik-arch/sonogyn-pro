@@ -22,6 +22,9 @@ apps/mobile/.pdf_extract*
 apps/mobile/dist
 apps/mobile/docs
 apps/mobile/server
+apps/mobile/yakrav7700
+.playwright-mcp
+agent-transcripts
 
 # secrets
 .env
