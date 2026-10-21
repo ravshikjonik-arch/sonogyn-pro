@@ -5,6 +5,9 @@ import { isSonogynCustomDomainHost } from "@/lib/shell/custom-domain";
 
 const SKIP_PREFIXES = ["/api/", "/_next/static/", "/_next/image", "/favicon", "/icon", "/manifest.json", "/robots.txt", "/sitemap"];
 
+/** Auth pages: middleware redirects (open access → /home); proxy breaks edge redirect chain. */
+const SKIP_EXACT_PATHS = new Set(["/login", "/register", "/verify-phone"]);
+
 /** Vercel deployment host (*.vercel.app) — полные ответы без обрезки ~20KB на custom domain. */
 export function resolveDeploymentOrigin(): string | null {
   const forced =
@@ -27,6 +30,7 @@ export function resolveDeploymentOrigin(): string | null {
 
 function shouldProxyPath(pathname: string): boolean {
   if (pathname.startsWith("/_next/")) return false;
+  if (SKIP_EXACT_PATHS.has(pathname)) return false;
   return !SKIP_PREFIXES.some((p) => pathname === p || pathname.startsWith(p));
 }
 
