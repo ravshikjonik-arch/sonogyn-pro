@@ -28,7 +28,20 @@ export function createSpeechEngine(
   if (server.isSupported() && options.serverTranscribeAvailable !== false) {
     return server;
   }
-  return server.isSupported() ? server : null;
+  return null;
+}
+
+/** Нужно ли для текущего режима отправлять аудио на сервер (согласие / PHI). */
+export function willUseCloudServerStt(
+  mode: SpeechEngineMode,
+  options: Pick<CreateSpeechEngineOptions, "serverTranscribeAvailable"> = {},
+): boolean {
+  if (options.serverTranscribeAvailable === false) return false;
+  const web = new WebSpeechEngine();
+  const server = new ServerWhisperEngine();
+  if (mode === "device") return false;
+  if (mode === "server") return server.isSupported();
+  return !web.isSupported() && server.isSupported();
 }
 
 export function isWebSpeechSupported(): boolean {

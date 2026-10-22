@@ -11,6 +11,7 @@ export {
   isWebSpeechSupported,
   isServerWhisperCaptureSupported,
   resolveSpeechEngineAvailability,
+  willUseCloudServerStt,
   type CreateSpeechEngineOptions,
 } from "./provider/create-speech-engine";
 export { loadDictationDraft, saveDictationDraft, clearDictationDraft } from "./draft/storage";

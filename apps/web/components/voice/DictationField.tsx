@@ -1,7 +1,7 @@
 "use client";
 
 import { useSpeechDictation } from "@repo/clinical-speech/react";
-import type { SpeechEngineMode } from "@repo/clinical-speech";
+import { willUseCloudServerStt, type SpeechEngineMode } from "@repo/clinical-speech";
 import { Copy, Mic, MicOff, Trash2 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
@@ -10,6 +10,7 @@ import { useOptionalVoiceReader } from "@/components/voice/VoiceReaderProvider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { grantCloudSttConsent, hasCloudSttConsent } from "@/lib/voice/cloud-stt-consent";
 import { cn } from "@/lib/utils/cn";
 
 function MicLevelBar({ level, active }: { level: number; active: boolean }) {
@@ -61,8 +62,13 @@ export function DictationField({
   valueRef.current = value;
 
   const [serverSttAvailable, setServerSttAvailable] = useState(true);
+  const [cloudConsent, setCloudConsent] = useState(false);
   const engineMode =
     (process.env.NEXT_PUBLIC_SPEECH_STT_MODE as SpeechEngineMode | undefined) ?? "auto";
+
+  useEffect(() => {
+    setCloudConsent(hasCloudSttConsent());
+  }, []);
 
   useEffect(() => {
     fetch("/api/ai/speech/transcribe", { credentials: "include" })
@@ -96,13 +102,23 @@ export function DictationField({
     [onChange, onClear, voice],
   );
 
+  const serverAllowed =
+    serverSttAvailable &&
+    (!willUseCloudServerStt(engineMode, { serverTranscribeAvailable: serverSttAvailable }) ||
+      cloudConsent);
+
+  const needsCloudConsent =
+    serverSttAvailable &&
+    willUseCloudServerStt(engineMode, { serverTranscribeAvailable: serverSttAvailable }) &&
+    !cloudConsent;
+
   const dictation = useSpeechDictation({
     continuous: true,
     interimResults: true,
     draftKey,
     enableMicLevel: true,
     engineMode,
-    serverTranscribeAvailable: serverSttAvailable,
+    serverTranscribeAvailable: serverAllowed,
     onSideEffect: handleSideEffect,
   });
 
@@ -111,7 +127,7 @@ export function DictationField({
     interimResults: false,
     enableMicLevel: false,
     engineMode,
-    serverTranscribeAvailable: serverSttAvailable,
+    serverTranscribeAvailable: serverAllowed,
   });
 
   useEffect(() => {
@@ -158,8 +174,21 @@ export function DictationField({
   const error = dictation.error ?? phrase.error;
   const listening = dictation.listening || phrase.listening;
 
+  const onGrantCloudConsent = () => {
+    grantCloudSttConsent();
+    setCloudConsent(true);
+  };
+
+  const startDictation = () => {
+    if (needsCloudConsent) {
+      toast.message("Подтвердите отправку аудио на сервер для расшифровки.");
+      return;
+    }
+    void dictation.start();
+  };
+
   return (
-    <div className={cn("space-y-2", className)}>
+    <div className={cn("space-y-2", className)} data-e2e="dictation-field">
       <div className="flex flex-wrap gap-2">
         <Button
           type="button"
@@ -167,7 +196,7 @@ export function DictationField({
           variant={dictation.listening ? "default" : "outline"}
           className="gap-1.5"
           disabled={!dictation.supported}
-          onClick={() => (dictation.listening ? dictation.stop() : void dictation.start())}
+          onClick={() => (dictation.listening ? dictation.stop() : startDictation())}
         >
           {dictation.listening ? <MicOff className="h-3.5 w-3.5" /> : <Mic className="h-3.5 w-3.5" />}
           {dictation.listening ? "Стоп · диктовка" : "Диктовка"}
@@ -195,6 +224,24 @@ export function DictationField({
       </div>
 
       <MicLevelBar level={dictation.level} active={dictation.listening} />
+
+      {needsCloudConsent ? (
+        <label className="flex cursor-pointer items-start gap-2 rounded-xl border border-amber-300/70 bg-amber-50/90 p-3 text-xs leading-relaxed text-amber-950 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-100">
+          <input
+            type="checkbox"
+            className="mt-0.5 h-4 w-4 rounded border-amber-400"
+            checked={cloudConsent}
+            onChange={(e) => {
+              if (e.target.checked) onGrantCloudConsent();
+            }}
+            data-e2e="cloud-stt-consent"
+          />
+          <span>
+            Аудио будет отправлено на сервер SonoGyn Pro / провайдера STT для расшифровки (Whisper). Не
+            диктуйте ФИО, телефон, полис и другие персональные данные. Согласие действует до закрытия вкладки.
+          </span>
+        </label>
+      ) : null}
 
       {dictation.activeEngineId === "server-whisper" ? (
         <p className="text-[10px] text-[var(--clinical-foreground-muted)]">
