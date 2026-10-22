@@ -8,6 +8,7 @@ import { ChatMessageBubble, type ChatBubbleMessage } from "@/components/chat/Cha
 import { ChatMessageComposer } from "@/components/chat/ChatMessageComposer";
 import { resolveAuthorNames } from "@/lib/chat/resolve-author-names";
 import { resolveAuthorTrust, type AuthorTrustMap } from "@/lib/trust/resolve-author-trust";
+import { requireOnlineForNetworkAction } from "@/lib/network/require-online-action";
 
 type RawMessage = {
   id: string;
@@ -202,6 +203,11 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
   async function handleSend({ text, file }: { text: string; file: File | null }) {
     if (!userId) {
       toast.message("Нужна авторизация");
+      return false;
+    }
+    const offline = requireOnlineForNetworkAction();
+    if (offline) {
+      toast.error(offline);
       return false;
     }
     setSending(true);

@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
+import { PwaInstallProvider } from "@/components/pwa/PwaInstallProvider";
+import { PwaRuntime } from "@/components/pwa/PwaRuntime";
 import { AppToaster } from "@/components/providers/app-toaster";
 import { CookieConsentBanner } from "@/components/privacy/CookieConsentBanner";
 import { ThemeProvider } from "@/lib/theme/theme-provider";
@@ -36,13 +38,19 @@ export const metadata: Metadata = {
     telephone: false,
   },
   icons: {
-    icon: "/icon.png",
-    apple: "/icon.png",
+    icon: [
+      { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icons/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: "/icons/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: [{ media: "(prefers-color-scheme: dark)", color: "#0d0f14" }, { color: "#ffffff" }],
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#0d0f14" },
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+  ],
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -62,11 +70,6 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{if("serviceWorker"in navigator){navigator.serviceWorker.getRegistrations().then(function(rs){rs.forEach(function(r){r.unregister();});});}if(typeof caches!=="undefined"&&caches.keys){caches.keys().then(function(keys){keys.forEach(function(k){caches.delete(k);});});}}catch(e){}})();`,
-          }}
-        />
-        <script
-          dangerouslySetInnerHTML={{
             __html: THEME_BOOT_SCRIPT,
           }}
         />
@@ -79,11 +82,14 @@ export default function RootLayout({
       </head>
           <body className="min-h-full flex flex-col">
         <ThemeProvider>
-          <SessionProvider>
-            {children}
-            <AppToaster />
-            <CookieConsentBanner />
-          </SessionProvider>
+          <PwaInstallProvider>
+            <SessionProvider>
+              {children}
+              <AppToaster />
+              <PwaRuntime />
+              <CookieConsentBanner />
+            </SessionProvider>
+          </PwaInstallProvider>
         </ThemeProvider>
       </body>
     </html>

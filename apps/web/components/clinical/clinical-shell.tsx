@@ -38,6 +38,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
+import { PwaInstallProfileMenuItem } from "@/components/pwa/PwaInstallProfileMenuItem";
+import { ClinicalOfflineBadge } from "@/components/network/ClinicalOfflineBadge";
+import { ClinicalRouteOfflineGate } from "@/components/network/ClinicalRouteOfflineGate";
 import { ClinicalBottomNav } from "@/components/clinical/ClinicalBottomNav";
 import { MockupNavSection } from "@/components/clinical/MockupNavSection";
 import { GlobalSearchTrigger } from "@/components/clinical/GlobalSearchDialog";
@@ -383,6 +386,7 @@ export function ClinicalShell({
               Безопасный режим: не вводите персональные данные пациентки
             </span>
           </div>
+          <ClinicalOfflineBadge className="shrink-0" />
           <GlobalSearchTrigger />
           {!isGuest ? <ProBadge className="hidden sm:inline-flex" /> : null}
           <ThemeToggle />
@@ -405,6 +409,7 @@ export function ClinicalShell({
                 <DropdownMenuItem asChild>
                   <Link href="/profile">Профиль и доступ</Link>
                 </DropdownMenuItem>
+                <PwaInstallProfileMenuItem />
                 {!isVerifiedDoctor ? (
                   <DropdownMenuItem asChild>
                     <Link href="/verify">Подтвердить статус врача</Link>
@@ -432,7 +437,7 @@ export function ClinicalShell({
           </div>
         ) : null}
         <main className="flex-1 pb-[calc(4.5rem+env(safe-area-inset-bottom))] sonogyn-enter lg:pb-0" data-voice-content>
-          {children}
+          <ClinicalRouteOfflineGate>{children}</ClinicalRouteOfflineGate>
         </main>
         <ClinicalVoiceDock />
         <ClinicalBottomNav className="lg:hidden" />
