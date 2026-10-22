@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { rejectIfRateLimitedForUser } from "@/lib/security/api-rate-limit";
+import { RL } from "@/lib/security/rate-limit-config";
 import { validateVerificationDiplomaUpload } from "@/lib/security/file-validation";
 import { requireSupabaseUserFromRequest } from "@/lib/security/require-user";
 import { DoctorVerificationSubmitFieldsSchema } from "@/lib/trust/verification-schemas";
@@ -15,7 +16,7 @@ export async function POST(request: Request) {
   const auth = await requireSupabaseUserFromRequest(request, supabase);
   if (!auth.ok) return auth.response;
 
-  const userRl = await rejectIfRateLimitedForUser(auth.userId, "verify-submit", 5, 60_000);
+  const userRl = await rejectIfRateLimitedForUser(auth.userId, "verify-submit", RL.syncBurst);
   if (userRl) return userRl;
 
   const form = await request.formData().catch(() => null);
