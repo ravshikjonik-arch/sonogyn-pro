@@ -166,6 +166,9 @@ def main() -> None:
             title_ru = parse_title_ru("", n)
             if n == 36:
                 title_ru = CHAPTER36_TITLE_RU
+            en_title = (ch.get("title") or "").strip()
+            if en_title and re.match(r"^Глава\s+\d+$", title_ru):
+                title_ru = en_title
             sections = [
                 {
                     "headingRu": "Перевод в работе",

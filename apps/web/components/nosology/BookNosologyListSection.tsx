@@ -86,9 +86,12 @@ export function BookNosologyListSection({ query, bookFilter = "all", clinicalOnl
   if (entries.length === 0) return null;
 
   return (
-    <section id="book-atlas" className="space-y-6 scroll-mt-8">
+    <section aria-labelledby="book-atlas-heading" className="space-y-6 scroll-mt-8">
       <div className="space-y-1">
-        <h2 className="text-sm font-bold uppercase tracking-wider text-[var(--clinical-foreground-muted)]">
+        <h2
+          id="book-atlas-heading"
+          className="text-sm font-bold uppercase tracking-wider text-[var(--clinical-foreground-muted)]"
+        >
           Учебные атласы · по нозологиям
         </h2>
         <p className="max-w-2xl text-sm text-[var(--clinical-foreground-muted)]">

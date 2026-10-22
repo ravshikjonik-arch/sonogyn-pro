@@ -91,7 +91,48 @@ async function main() {
     `/tools/calc/ob/fetometry-norms → ${fetometry.status}, ${fetometryHtml.length} B, title=${fetometryTitle}, route=${fetometryRoute}, catalog=${fetometryHasCatalog}`,
   );
 
-  const failed = !health.ok || !okWorker || !complete || !okAsk || !okFetometry;
+  const atlasRoutes = [
+    "/tools/refs/nosologies",
+    "/tools/refs/cervix-morphology-atlas",
+    "/tools/refs/mammology-national-atlas",
+    "/tools/refs/prenatal-echography-atlas",
+    "/tools/refs/clinical-echocardiography-atlas",
+  ];
+  let okAtlasHead = true;
+  for (const path of atlasRoutes) {
+    const r = await fetch(`${base}${path}`, {
+      method: "HEAD",
+      headers: { "User-Agent": browserUa },
+      signal: AbortSignal.timeout(30_000),
+    });
+    const lineOk = r.ok;
+    if (!lineOk) okAtlasHead = false;
+    console.log(lineOk ? "✅" : "❌", `HEAD ${path} → ${r.status}`);
+  }
+
+  const bookSamplePath = "/tools/refs/book-nosology/book%3Acervix-morpho%3Apredislovie";
+  const bookSample = await fetch(`${base}${bookSamplePath}`, {
+    method: "HEAD",
+    headers: { "User-Agent": browserUa },
+    signal: AbortSignal.timeout(30_000),
+  });
+  const okBookAtlas = bookSample.ok;
+  console.log(okBookAtlas ? "✅" : "❌", `HEAD book-nosology sample → ${bookSample.status}`);
+
+  const prenatalImg = await fetch(`${base}/clinical-atlas/prenatal-echo-ru/02-007a.jpg`, {
+    method: "HEAD",
+    headers: { "User-Agent": browserUa },
+    signal: AbortSignal.timeout(30_000),
+  });
+  const okPrenatalImg = prenatalImg.ok && (prenatalImg.headers.get("content-type") ?? "").includes("image");
+  console.log(
+    okPrenatalImg ? "✅" : "❌",
+    `HEAD prenatal Storage rewrite → ${prenatalImg.status}`,
+    prenatalImg.headers.get("content-type") ?? "",
+  );
+
+  const failed =
+    !health.ok || !okWorker || !complete || !okAsk || !okFetometry || !okAtlasHead || !okBookAtlas || !okPrenatalImg;
   process.exit(failed ? 1 : 0);
 }
 

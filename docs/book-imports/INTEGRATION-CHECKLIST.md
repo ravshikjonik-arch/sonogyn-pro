@@ -1,18 +1,19 @@
 # Чеклист интеграции книг → нозологии (SonoGyn Pro)
 
-Обновлено после волны: реестр `@repo/book-nosology-registry`, seed-нозологии МЖ/ВПС, пороки по CSV.
+Статус: **web + prod + Supabase (prenatal/neishtadt) закрыты**; Otto 46–49 — EN-заголовок + заглушка «перевод в работе».
 
 ## Данные Desktop
 
-- [ ] `~/Desktop/sonogyn-cervix` — `extracted/index.json`, `cervix-morpho-atlas/index.csv`
-- [ ] `~/Desktop/sonogyn-mammology` — OCR глав, `page_scans_by_chapter/`
-- [ ] `~/Desktop/sonogyn-prenatal` — **`sonogyn-us-atlas/index.csv`** (для пороков по снимкам)
-- [ ] `~/Desktop/sonogyn-echo` — `translated/*.md` (45/48 глав)
+- [x] `~/Desktop/sonogyn-cervix` — импорт в repo (`pnpm import:cervix-morpho-atlas`)
+- [x] `~/Desktop/sonogyn-mammology` — импорт Kaprin
+- [x] `~/Desktop/sonogyn-prenatal` — CSV → `prenatal-finding` в реестре
+- [x] `~/Desktop/sonogyn-echo` — **45/48** глав RU; 46–49 — заглушки
 
 ```bash
 pnpm verify:desktop-books
-pnpm import:desktop-books          # JSON атласов
-pnpm generate:book-nosology        # реестр 111+ глав + ~400 пороков
+pnpm import:desktop-books          # JSON атласов (--skip-copy-images если уже в public)
+pnpm generate:book-nosology        # реестр глав + пороки по CSV
+pnpm upload:clinical-atlas-supabase  # prenatal-echo-ru + neishtadt-ovary → Storage
 ```
 
 ## Web — маршруты
@@ -31,28 +32,28 @@ pnpm generate:book-nosology        # реестр 111+ глав + ~400 поро�
 
 ## Связи seed ↔ книги
 
-- [ ] `cervix-pathology` → 6 глав морфо-атласа
-- [ ] `breast-*` (4) → главы Каприна 4, 9–14
-- [ ] `fetal-chd-suspicion` → пренатал гл. 10, 15
-- [ ] FGR, воды, плацента, короткая шейка → главы пренатала (bridge)
+- [x] `cervix-pathology` → морфо-атлас
+- [x] `breast-*` (4) → Каприн
+- [x] `fetal-chd-suspicion` → пренатал
+- [x] FGR, воды, плацента, короткая шейка → bridge
 
 Файл: `packages/book-nosology-registry/data/seed-nosology-bridge.json`
 
-## Пороки по снимкам (пrenatal-finding)
+## Пороки по снимкам (prenatal-finding)
 
-- [ ] Фильтр **«Пороки (снимки)»** на странице нозологий
-- [ ] Карточка порока: галерея до 6 JPEG + ссылка на главу атласа
-- [ ] Подписи ~5% могут быть неточны — сверять с книгой
+- [x] Фильтр **«Пороки (снимки)»** на странице нозологий
+- [x] Карточка порока: до 6 JPEG + ссылка на атлас
+- [ ] Подписи ~5% могут быть неточны — сверять с книгой (ручная вычитка)
 
 ## Otto
 
-- [ ] Главы **46–49** без RU — в UI «перевод в работе»
-- [ ] Добавить `translated/46.md` … на Desktop → `pnpm import:otto-echo-atlas`
+- [x] Главы **46–49** — UI «перевод скоро» + текст «Перевод в работе»
+- [ ] Добавить `translated/46.md` … на Desktop → `pnpm import:otto-echo-atlas` → `pnpm generate:book-nosology`
 
 ## Mobile
 
-- [ ] Экран нозологий в Expo — **без** атласов книг (gap)
-- [ ] План: deep link на web `/tools/refs/nosologies`
+- [x] Баннер на экране нозологий → deep link web `#book-atlas`
+- [ ] Нативные галереи книг в Expo (будущий релиз)
 
 ## Тесты
 
@@ -60,14 +61,15 @@ pnpm generate:book-nosology        # реестр 111+ глав + ~400 поро�
 pnpm --filter @repo/book-nosology-registry test
 pnpm --filter @repo/clinical-tools test
 pnpm --filter @repo/nosology test
-pnpm --filter @repo/web test:e2e:fetometry-norms   # опционально
+cd apps/web && node scripts/check-production-smoke.mjs
 ```
 
 ## Prod
 
-- [ ] `git push` → Vercel green
-- [ ] Smoke: `/tools/refs/nosologies` содержит `#book-atlas`
-- [ ] Крупные JPEG prenatal/mammology уже в `public/clinical-atlas/`
+- [x] `git push` → Vercel green (`a50e2b5e`+)
+- [x] Smoke: book-atlas, 4 атласа HEAD, prenatal JPEG через rewrite
+- [x] `prenatal-echo-ru` + `neishtadt-ovary` в Supabase Storage
+- [x] Остальные JPEG в `public/clinical-atlas/` (Vercel static)
 
 ## Дисклеймер
 

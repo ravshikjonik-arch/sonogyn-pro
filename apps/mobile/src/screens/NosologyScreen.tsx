@@ -1,11 +1,14 @@
 import { getSeedNosologies, NOSOLOGY_ZONE_LABELS, searchNosologies, type Nosology } from "@repo/nosology";
 import { useMemo, useState } from "react";
-import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { Linking, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { theme } from "../theme";
 
 const ALL = getSeedNosologies();
+
+const WEB_APP_URL = (process.env.EXPO_PUBLIC_WEB_APP_URL ?? "https://sonogyn-pro.ru").replace(/\/$/, "");
+const BOOK_ATLAS_URL = `${WEB_APP_URL}/tools/refs/nosologies#book-atlas`;
 
 export default function NosologyScreen() {
   const [query, setQuery] = useState("");
@@ -46,6 +49,15 @@ export default function NosologyScreen() {
         value={query}
         onChangeText={setQuery}
       />
+      <Pressable
+        accessibilityRole="link"
+        accessibilityLabel="Атласы книг на сайте SonoGyn Pro"
+        style={styles.webAtlasBanner}
+        onPress={() => Linking.openURL(BOOK_ATLAS_URL)}
+      >
+        <Text style={styles.webAtlasTitle}>Атласы книг (шейка, МЖ, пренатал, Otto)</Text>
+        <Text style={styles.webAtlasSub}>Открыть полный справочник и пороки по снимкам в браузере →</Text>
+      </Pressable>
       <ScrollView>
         {list.map((n) => (
           <Pressable key={n.id} style={styles.row} onPress={() => setActive(n)}>
@@ -76,6 +88,16 @@ const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: theme.colors.background, padding: 16 },
   title: { fontSize: 22, fontWeight: "700", color: theme.colors.text },
   meta: { fontSize: 12, color: theme.colors.textSecondary, marginTop: 4 },
+  webAtlasBanner: {
+    marginBottom: 12,
+    padding: 12,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: theme.colors.primary,
+    backgroundColor: `${theme.colors.primary}12`,
+  },
+  webAtlasTitle: { fontSize: 14, fontWeight: "700", color: theme.colors.text },
+  webAtlasSub: { fontSize: 12, color: theme.colors.textSecondary, marginTop: 4 },
   search: {
     marginVertical: 12,
     borderWidth: 1,
