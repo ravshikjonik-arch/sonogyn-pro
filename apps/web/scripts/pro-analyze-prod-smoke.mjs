@@ -304,13 +304,24 @@ async function main() {
     let lastStatus = "pending";
     while (Date.now() < deadline) {
       await sleep(analyzeJson.pollAfterMs ?? 3000);
-      const pollRes = await fetch(`${base}/api/ai/analyze/${jobId}`, {
-        headers: authHeaders,
-        signal: AbortSignal.timeout(120_000),
-      });
-      const pollJson = await pollRes.json().catch(() => ({}));
+      let pollRes;
+      let pollJson = {};
+      try {
+        pollRes = await fetch(`${base}/api/ai/analyze/${jobId}`, {
+          headers: authHeaders,
+          signal: AbortSignal.timeout(25_000),
+        });
+        pollJson = await pollRes.json().catch(() => ({}));
+      } catch (pollErr) {
+        const msg = pollErr instanceof Error ? pollErr.message : String(pollErr);
+        console.log(`⏳ poll retry (${msg.slice(0, 40)})`);
+        continue;
+      }
       const row = pollJson.analysis ?? pollJson;
       lastStatus = row.status ?? "?";
+      if (lastStatus === "pending" || lastStatus === "processing") {
+        console.log(`⏳ job ${lastStatus}`);
+      }
       if (!pollRes.ok && pollRes.status !== 404) {
         fail("Poll job", `HTTP ${pollRes.status} ${pollJson.error ?? ""}`);
         break;
