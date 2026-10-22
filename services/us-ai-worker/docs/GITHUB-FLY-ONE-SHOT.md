@@ -1,9 +1,26 @@
 # Fly worker через GitHub (без fly login на Mac)
 
-## 1. Fly.io в браузере
+## 1. Токен Fly для GitHub
 
-1. [fly.io](https://fly.io) → Sign up (GitHub/Google).
-2. [Access Tokens](https://fly.io/user/personal_access_tokens) → **Create token** → скопировать (один раз).
+**Обычный путь:** [Personal Access Tokens](https://fly.io/user/personal_access_tokens) → Create token.
+
+**Если в UI пишут про SSO** («нельзя создать токены для учётной записи…») — нужен **org-токен**, не личный:
+
+```bash
+fly auth login   # уже залогинены — пропустить
+fly orgs list    # slug организации, у worker `sonogyn-us-ai` это обычно `personal`
+fly tokens org -o personal -n "github-actions-sonogyn-us-ai"
+```
+
+Скопировать выведенный токен **один раз** → GitHub secret `FLY_API_TOKEN`.
+
+Или из Mac (без копирования в чат):
+
+```bash
+fly tokens org -o personal -n "github-actions-sonogyn-us-ai" -j \
+  | python3 -c "import sys,json; print(json.load(sys.stdin)['token'])" \
+  | gh secret set FLY_API_TOKEN -R ravshikjonik-arch/sonogyn-pro
+```
 
 ## 2. GitHub Secrets
 

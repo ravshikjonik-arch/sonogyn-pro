@@ -35,7 +35,8 @@ fly secrets set \
 ## 4. Deploy + scale
 
 ```bash
-fly deploy
+# Если Depot падает (deadline_exceeded / handshake EOF) — добавьте --buildkit
+fly deploy --remote-only --buildkit --ha=false
 fly scale count 2   # Phase 1 масштаба (опционально)
 fly certs setup     # если нужен свой домен
 ```
@@ -63,7 +64,7 @@ US_AI_WORKER_URL=https://YOUR-APP.fly.dev node scripts/sync-vercel-env.mjs
 
 ## 7. GitHub CI (опционально)
 
-Secrets: `FLY_API_TOKEN`, `FLY_APP_NAME=sonogyn-us-ai` → workflow `.github/workflows/us-ai-worker-fly.yml`.
+Secrets: `FLY_API_TOKEN` (при SSO — org-токен: `fly tokens org -o personal`, см. [GITHUB-FLY-ONE-SHOT.md](./GITHUB-FLY-ONE-SHOT.md)), `FLY_APP_NAME=sonogyn-us-ai` → workflow `.github/workflows/us-ai-worker-fly.yml`.
 
 ## Стоимость (ориентир)
 

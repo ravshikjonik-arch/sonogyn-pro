@@ -55,7 +55,7 @@ jobs:
           else
             echo "::warning::US_AI_WORKER_SECRET or OPENROUTER_API_KEY missing in GitHub secrets"
           fi
-          flyctl deploy --app "$APP" --remote-only --ha=false
+          flyctl deploy --app "$APP" --remote-only --buildkit --ha=false
           HOST="$(flyctl status --app "$APP" 2>/dev/null | awk '/Hostname/ {print $2}')"
           echo "worker_url=https://${HOST}" >> "$GITHUB_OUTPUT"
           echo "## Fly worker" >> "$GITHUB_STEP_SUMMARY"

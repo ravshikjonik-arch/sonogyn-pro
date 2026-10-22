@@ -15,6 +15,8 @@
 | Railway Variables (user) | ✅ |
 | Fallback: health probe + OpenRouter без зависания на мёртвом worker | ✅ код |
 | Plan B: Fly (`fly.toml`, `FLY-DEPLOY-RU.md`, CI workflow) | ✅ |
+| Fly prod: `https://sonogyn-us-ai.fly.dev`, Vercel `US_AI_WORKER_URL`, worker-status `available: true` | ✅ 2026-10-22 |
+| GitHub `FLY_API_TOKEN` (org token при SSO), workflow green | ✅ |
 | Масштаб 100–1000 | `docs/architecture/US-AI-SCALE-100-1000.md` |
 
 ## Сделать сейчас (выбери один путь worker)
@@ -25,11 +27,11 @@
 2. `curl -sS https://sonogyn-us-ai-production.up.railway.app/health`
 3. Vercel `US_AI_WORKER_URL` без изменений (если тот же домен)
 
-### Путь B — Fly (рекомендуется, если Railway billing сломан)
+### Путь B — Fly (**текущий prod**, Railway billing сломан)
 
-1. [FLY-DEPLOY-RU.md](./FLY-DEPLOY-RU.md) — ~20 мин
-2. Vercel → **US_AI_WORKER_URL** = `https://sonogyn-us-ai.fly.dev` (или ваш hostname)
-3. Redeploy Vercel Production
+1. Worker: **https://sonogyn-us-ai.fly.dev** — `/health` ok
+2. Vercel **US_AI_WORKER_URL** уже на Fly; при смене URL — redeploy Production
+3. Повторный деплoy: Actions **US AI Worker (Fly)** или [FLY-DEPLOY-RU.md](./FLY-DEPLOY-RU.md)
 
 ### Путь C — только Vercel (временно, без DICOM)
 

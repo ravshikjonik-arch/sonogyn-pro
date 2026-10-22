@@ -40,7 +40,7 @@ fly secrets set \
   US_AI_WORKER_REFERER="${US_AI_WORKER_REFERER:-https://sonogyn-pro.ru}"
 
 echo "Building and deploying (10–20 min first time)..."
-fly deploy --app "$APP"
+fly deploy --app "$APP" --remote-only --buildkit --ha=false
 
 URL="https://$(fly status --app "$APP" 2>/dev/null | awk '/Hostname/ {print $2}')"
 echo ""
