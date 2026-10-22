@@ -33,7 +33,16 @@ pnpm --filter @repo/web test:security   # validate-audio
 pnpm --filter @repo/web test:e2e -- tests/e2e/clinical-speech-smoke.spec.ts
 ```
 
+## Mobile
+
+- `@repo/clinical-speech` — только **postprocess** (без Web Speech в RN).
+- `MobileDictationBar` + `expo-audio` → `POST /api/ai/speech/transcribe` (сессия Supabase).
+- Первый экран: **FMF Assistant** (`FMFAssistantScreen`).
+- Тест: `pnpm --filter @repo/mobile test:speech`
+
+Rollout: [CLINICAL-SPEECH-ROLLOUT.md](./CLINICAL-SPEECH-ROLLOUT.md)
+
 ## Дальше
 
-- Mobile: Expo + `@repo/clinical-speech` postprocess (без web-only engines).
 - Playwright с fake `getUserMedia` (opt-in).
+- O-RADS mobile wizard, expo-speech для «прочитать».

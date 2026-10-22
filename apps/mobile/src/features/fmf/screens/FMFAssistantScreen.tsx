@@ -6,6 +6,7 @@ import type { RootStackParamList } from "../../../navigation/AppStack";
 import type { EarlyInput, FMFSection, FirstTrimesterInput, SecondThirdInput } from "../types";
 import { analyzeCervix, analyzeDoppler, analyzeEarly, analyzeFirst, analyzeScar, analyzeSecondThird } from "../logic/assistantEngine";
 import { parseVoiceProtocol } from "../logic/voiceNlp";
+import { MobileDictationBar } from "../../speech/MobileDictationBar";
 import SelectChip from "../../oradsPro/components/SelectChip";
 import { AlertWithTeach, MedvedevPanel } from "../components/MedvedevPanel";
 import { FmfPercentilePanel } from "../components/FmfPercentilePanel";
@@ -474,6 +475,7 @@ export default function FMFAssistantScreen({ navigation }: Props) {
         ) : null}
 
         <Card title="Голосовой ввод (NLP)">
+          <MobileDictationBar value={voiceText} onChange={setVoiceText} style={{ marginBottom: 10 }} />
           <TextInput
             style={[styles.input, styles.voiceInput]}
             multiline
