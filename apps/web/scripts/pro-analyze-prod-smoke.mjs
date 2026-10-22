@@ -306,7 +306,7 @@ async function main() {
       await sleep(analyzeJson.pollAfterMs ?? 3000);
       const pollRes = await fetch(`${base}/api/ai/analyze/${jobId}`, {
         headers: authHeaders,
-        signal: AbortSignal.timeout(30_000),
+        signal: AbortSignal.timeout(120_000),
       });
       const pollJson = await pollRes.json().catch(() => ({}));
       const row = pollJson.analysis ?? pollJson;
