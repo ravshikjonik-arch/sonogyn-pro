@@ -22,6 +22,15 @@
 /.next/
 /out/
 
+# @ducanh2912/next-pwa (generated on production build)
+/public/sw.js
+/public/sw.js.map
+/public/workbox-*.js
+/public/workbox-*.js.map
+/public/worker-*.js
+/public/worker-*.js.map
+/public/fallback-*.js
+
 # Prenatal atlas images live in Supabase Storage (see scripts/upload-clinical-atlas-folder.mjs)
 /public/clinical-atlas/prenatal-echo-ru/
 /public/clinical-atlas/neishtadt-ovary/

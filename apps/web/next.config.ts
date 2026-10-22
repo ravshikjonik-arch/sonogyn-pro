@@ -13,20 +13,7 @@ const requireFromWeb = createRequire(path.join(__dirname, "package.json"));
  * pnpm часто сыпется MODULE_NOT_FOUND (`preset-modules`, `regenerator/visit.js`, …).
  * В development отдаём чистый nextConfig; PWA подключаем только для production build.
  */
-type WithPWAFactory = (options: {
-  dest: string;
-  disable?: boolean;
-  register?: boolean;
-  workboxOptions?: {
-    navigateFallback?: string | null;
-    navigateFallbackDenylist?: RegExp[];
-    runtimeCaching?: Array<{
-      urlPattern: (ctx: { url: URL }) => boolean;
-      handler: string;
-      options?: { cacheName?: string };
-    }>;
-  };
-}) => (config: NextConfig) => NextConfig;
+type WithPWAFactory = (options: import("@ducanh2912/next-pwa").PluginOptions) => (config: NextConfig) => NextConfig;
 
 function liveKitConnectExtra(): string {
   const raw = process.env.NEXT_PUBLIC_LIVEKIT_URL?.trim();
@@ -263,25 +250,11 @@ export default ((): NextConfig => {
       ? nextConfig
       : (() => {
           // eslint-disable-next-line @typescript-eslint/no-require-imports
-          const withPWAInit = require("@ducanh2912/next-pwa").default as WithPWAFactory;
-          const withPWA = withPWAInit({
-            dest: "public",
-            // Временно выключено: stale SW + precache ломали CSS после каждого деплоя (чёрный экран).
-            disable: true,
-            register: false,
-            workboxOptions: {
-              // App Router: fallback на /landing подменяет HTML для /login, /register и клиники → чёрный экран.
-              navigateFallback: null,
-              navigateFallbackDenylist: [/^\/api\//, /^\/_next\//, /^\/auth\//],
-              runtimeCaching: [
-                {
-                  urlPattern: ({ url }: { url: URL }) => url.pathname.startsWith("/api/"),
-                  handler: "NetworkOnly",
-                  options: { cacheName: "api-no-cache" },
-                },
-              ],
-            },
-          });
+          const { buildPwaPluginOptions } = requireFromWeb("./lib/pwa/build-plugin-options.cjs") as {
+            buildPwaPluginOptions: () => import("@ducanh2912/next-pwa").PluginOptions;
+          };
+          const withPWAInit = requireFromWeb("@ducanh2912/next-pwa").default as WithPWAFactory;
+          const withPWA = withPWAInit(buildPwaPluginOptions());
           return withPWA(nextConfig);
         })();
 

@@ -42,9 +42,8 @@ export const CDS_DISCLAIMER_RU =
 
 export const SUPPORT_EMAIL = "support@sonogyn-pro.ru";
 
-/** SW отключён в production-сборке (`next.config.ts`) — только «Add to Home Screen» без offline-кэша HTML. */
 export const PWA_INSTALL_HINT_RU =
-  "PWA: установка через браузер («На экран Домой»). Офлайн-кэш страниц временно отключён — нужна сеть.";
+  "PWA: установка через браузер («На экран Домой»). Офлайн: калькуляторы и локальная история; чат и кейсы — только онлайн.";
 
 export const STRIPE_FALLBACK_PUBLIC_NAME = "Stripe";
 
