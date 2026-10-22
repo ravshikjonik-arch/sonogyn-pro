@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useCallback, useState } from "react";
 
+import { OradsProFormProvider } from "@/components/calculators/orads/OradsProFormContext";
 import { OradsCategoryAtlas } from "@/components/calculators/orads/OradsCategoryAtlas";
 import { OradsDualGrid } from "@/components/calculators/orads/grids/OradsDualGrid";
 import { OradsProCalculator } from "@/components/calculators/orads/OradsProCalculator";
@@ -90,6 +91,7 @@ export function OradsProFlow() {
         </div>
       </div>
 
+      <OradsProFormProvider>
       <ClinicalWorkspace
         className={cn((mode === "wizard" || mode === "grids") && "xl:grid-cols-[minmax(0,1fr)_300px]")}
         side={
@@ -136,6 +138,7 @@ export function OradsProFlow() {
           </div>
         )}
       </ClinicalWorkspace>
+      </OradsProFormProvider>
 
       <SpatialModal
         open={panel !== null}

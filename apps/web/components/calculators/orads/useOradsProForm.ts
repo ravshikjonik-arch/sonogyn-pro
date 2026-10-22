@@ -51,7 +51,7 @@ function deriveIotaLesionType(
   return undefined;
 }
 
-export function useOradsProForm() {
+export function useOradsProFormState() {
   const [localization, setLocalization] = useState<Localization | undefined>("ovarian");
   const [ovarySide, setOvarySide] = useState<OvarySide | undefined>();
   const [ageYears, setAgeYears] = useState("");
@@ -302,4 +302,4 @@ export function useOradsProForm() {
   };
 }
 
-export type OradsProForm = ReturnType<typeof useOradsProForm>;
+export type OradsProForm = ReturnType<typeof useOradsProFormState>;

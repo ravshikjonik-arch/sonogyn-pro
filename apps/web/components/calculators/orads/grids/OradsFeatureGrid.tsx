@@ -16,7 +16,7 @@ import { IotaConsensusWebPanel } from "@/components/calculators/orads/IotaConsen
 import { OradsOvarySideField } from "@/components/calculators/orads/OradsOvarySideField";
 import { OradsGridPickCard } from "@/components/calculators/orads/grids/OradsGridPickCard";
 import { OradsSizeTripletInput } from "@/components/calculators/orads/OradsSizeTripletInput";
-import { useOradsProForm } from "@/components/calculators/orads/useOradsProForm";
+import { useOradsProForm } from "@/components/calculators/orads/OradsProFormContext";
 import { Button } from "@/components/ui/button";
 import { isOradsFeatureResultReady } from "@/lib/orads-pro/feature-grid-ready";
 import {
