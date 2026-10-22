@@ -53,6 +53,22 @@ jobs:
       - name: O-RADS US package tests
         run: pnpm test:orads-us
 
+      - name: O-RADS decision tree snapshot (drift guard)
+        run: pnpm verify:orads-tree-snapshot
+
+      - name: Imaging CDS unit tests
+        run: pnpm test:imaging-cds
+
+      - name: Imaging CDS golden-set gate (skip until labeled cases)
+        run: |
+          node scripts/imaging-cds-eval.mjs --manifest docs/clinical-imaging-cds/golden-set/manifest.example.json
+          code=$?
+          if [ "$code" = "2" ]; then
+            echo "Golden set empty — expected until expert labels are added."
+            exit 0
+          fi
+          exit "$code"
+
       - name: Security schema tests
         run: pnpm exec npm run test:security --prefix apps/web
 

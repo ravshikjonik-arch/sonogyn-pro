@@ -1,5 +1,6 @@
 import { stripImageMetadata } from "@/lib/security/strip-image-metadata";
 
+import { detectBurnedInTextHeuristic } from "./burned-in-heuristic";
 import { isImagingCdsStrictQcEnabled, isImagingCdsV2Enabled } from "./flags";
 import { runImagingQc, type ImagingQcIssue } from "./image-qc";
 
@@ -49,6 +50,9 @@ export async function prepareImagingFramesForAnalysis(
 
     const qc = await runImagingQc(strip.buffer, strip.contentType);
     allIssues.push(...qc.issues);
+
+    const burnedIn = await detectBurnedInTextHeuristic(strip.buffer, strip.contentType);
+    if (burnedIn) allIssues.push(burnedIn);
 
     if (!qc.ok && isImagingCdsStrictQcEnabled()) {
       const msg = qc.issues.find((i) => i.severity === "block")?.messageRu ?? "Качество изображения не подходит для анализа.";

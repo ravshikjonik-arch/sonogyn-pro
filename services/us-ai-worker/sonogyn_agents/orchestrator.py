@@ -22,6 +22,25 @@ DISCLAIMER_RU = (
     "Черновик ИИ-ассистента PRO. Не является диагнозом. Интерпретация и заключение — за врачом УЗИ."
 )
 
+_CATEGORY_IN_TEXT = ("O-RADS", "BI-RADS", "BIRADS")
+
+
+def _cds_strip_legacy_categories(report: StructuredReport) -> StructuredReport:
+    """CDS v2: vision must not emit final category numbers (web rule engine only)."""
+    if os.getenv("US_AI_WORKER_ALLOW_LEGACY_CATEGORIES", "").strip() in ("1", "true", "yes"):
+        return report
+    for frame in report.frames:
+        frame.birads = None
+        frame.orads = None
+    if report.scorecard:
+        upper = report.scorecard.upper()
+        if any(tag in upper for tag in _CATEGORY_IN_TEXT):
+            report.scorecard = (
+                "Сводка признаков без автоматической категории — подтверждение врачом в SonoGyn Pro."
+            )
+    report.pipeline = f"{report.pipeline}+cds-strip"
+    return report
+
 _AGENTS: dict[StudyDomain, DomainAgent] = {
     StudyDomain.FETAL: FetalAgent(),
     StudyDomain.BREAST: BreastAgent(),
@@ -304,7 +323,7 @@ CV-подсказки:
     if not frame_findings and (sononet_map or ustri_map):
         frame_findings = _cv_only_frames(sononet_map, ustri_map, frames)
 
-    return StructuredReport(
+    report = StructuredReport(
         domain=domain_enum,
         study_summary=study_summary,
         impression=impression,
@@ -319,3 +338,4 @@ CV-подсказки:
         media_ids=media_ids or [],
         sononet_available=sononet_available(),
     )
+    return _cds_strip_legacy_categories(report)

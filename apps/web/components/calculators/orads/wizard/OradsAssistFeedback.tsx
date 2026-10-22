@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { sendImagingCdsTelemetry } from "@/lib/ai/imaging-cds/telemetry";
 import { submitOradsEventFeedback } from "@/lib/orads/oradsEventsApi";
 
 type Props = {
@@ -46,8 +47,16 @@ export function OradsAssistFeedback({ eventId, aiCategoryNumber, manualCategoryN
         correct && aiCategoryNumber ? aiCategoryNumber : category && category >= 1 && category <= 5 ? category : undefined,
     });
     setPending(false);
-    if (ok) setDone(true);
-    else setError("Не удалось сохранить отзыв. Попробуйте позже.");
+    if (ok) {
+      void sendImagingCdsTelemetry({
+        domain: "gyn",
+        kind: "hint_feedback",
+        aiCategoryNumber,
+        manualCategoryNumber:
+          category && category >= 1 && category <= 5 ? category : manualCategoryNumber ?? null,
+      });
+      setDone(true);
+    } else setError("Не удалось сохранить отзыв. Попробуйте позже.");
   }
 
   return (

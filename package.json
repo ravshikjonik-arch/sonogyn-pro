@@ -53,6 +53,8 @@
     "check:migration-drift": "node scripts/check-migration-drift.mjs",
     "test:iota": "pnpm --filter @repo/iota-models test",
     "test:orads-us": "pnpm --filter @repo/orads-us test",
+    "verify:orads-tree-snapshot": "node --import tsx packages/orads-us/scripts/verify-decision-tree-snapshot.mjs",
+    "test:imaging-cds": "pnpm --filter @repo/web test:imaging-cds",
     "test:e2e:iota": "pnpm --filter @repo/web test:e2e:iota"
   },
   "devDependencies": {

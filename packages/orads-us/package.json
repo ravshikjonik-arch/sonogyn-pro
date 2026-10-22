@@ -29,7 +29,8 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "lint": "echo \"skip\"",
-    "test": "node --import tsx --test src/**/*.test.ts src/navigator/**/*.test.ts src/pro/**/*.test.ts education/**/*.test.ts __tests__/**/*.test.ts"
+    "test": "node --import tsx --test src/**/*.test.ts src/navigator/**/*.test.ts src/pro/**/*.test.ts education/**/*.test.ts __tests__/**/*.test.ts",
+    "verify:tree-snapshot": "node --import tsx scripts/verify-decision-tree-snapshot.mjs"
   },
   "devDependencies": {
     "@types/node": "^20",
