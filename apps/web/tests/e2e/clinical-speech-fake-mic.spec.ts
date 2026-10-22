@@ -33,7 +33,7 @@ test.describe("Clinical speech — fake Web Speech (opt-in)", () => {
             const event = {
               resultIndex: 0,
               results,
-            } as SpeechRecognitionEvent;
+            } as unknown as SpeechRecognitionEvent;
             this.onresult?.(event);
             this.onend?.();
           }, 80);
@@ -48,8 +48,12 @@ test.describe("Clinical speech — fake Web Speech (opt-in)", () => {
         }
       }
 
-      window.SpeechRecognition = FakeSpeechRecognition as unknown as typeof SpeechRecognition;
-      window.webkitSpeechRecognition = window.SpeechRecognition;
+      const w = window as unknown as {
+        SpeechRecognition: typeof FakeSpeechRecognition;
+        webkitSpeechRecognition: typeof FakeSpeechRecognition;
+      };
+      w.SpeechRecognition = FakeSpeechRecognition;
+      w.webkitSpeechRecognition = FakeSpeechRecognition;
     });
 
     await page.route("**/api/ai/speech/transcribe", async (route) => {

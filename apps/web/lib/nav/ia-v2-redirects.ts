@@ -137,6 +137,7 @@ export const IA_V2_REDIRECTS: Redirect[] = [
   { source: "/dashboard/:path*", destination: "/profile/dashboard/:path*", permanent: false },
 
   // Misc legacy alias
+  { source: "/orads", destination: "/tools/calc/rads/o-rads", permanent: false },
   { source: "/orads-calculator", destination: "/tools/calc/rads/o-rads", permanent: false },
   { source: "/orads-echograms", destination: "/tools/refs/orads-echograms", permanent: false },
   { source: "/evidence-assistant", destination: "/tools/refs/evidence-assistant", permanent: false },
