@@ -39,12 +39,15 @@
 2. Redeploy
 3. PRO работает для **JPEG/PNG** через OpenRouter; DICOM — экспорт в PNG или ждать worker
 
-## После восстановления worker
+## Дальше (гигиена + продукт)
 
-1. OpenRouter: revoke старые ключи
-2. GitHub: новый `RAILWAY_TOKEN` (если CI Railway)
-3. Smoke: PRO-кейс JPEG + PRO-кейс DICOM
-4. `US_AI_WORKER_ENABLED` вернуть `true` (или убрать переменную)
+| Задача | Кто | Статус |
+|--------|-----|--------|
+| Авто-smoke prod (`check-production-smoke.mjs` + worker-status) | CI / Mac | ✅ в скрипте |
+| OpenRouter: revoke старых ключей после утечки Railway | Вы, ~2 мин | ⏳ |
+| PRO UI: JPEG + DICOM анализ на sonogyn-pro.ru | Вы, ~5 мин | ⏳ |
+| Railway billing / `RAILWAY_TOKEN` | Только если вернётесь на Railway | опционально |
+| Масштаб Phase 1 (2× Fly machine) | По [US-AI-SCALE-100-1000.md](../../../docs/architecture/US-AI-SCALE-100-1000.md) | когда >50 PRO/день |
 
 ## OpenRouter
 

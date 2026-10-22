@@ -9,11 +9,22 @@
     → Supabase — case_media, ai_analyses
 ```
 
-**Масштаб 100–1000 врачей:** минимум сейчас — 1–2 replica worker + rate limits; рост — очередь и worker pool. См. [docs/architecture/US-AI-SCALE-100-1000.md](../../../docs/architecture/US-AI-SCALE-100-1000.md). Plan B PaaS: [fly.toml.example](../fly.toml.example).
+**Масштаб 100–1000 врачей:** минимум сейчас — 1–2 replica worker + rate limits; рост — очередь и worker pool. См. [docs/architecture/US-AI-SCALE-100-1000.md](../../../docs/architecture/US-AI-SCALE-100-1000.md).
+
+### Production worker (актуально, 2026-10)
+
+| | |
+|---|---|
+| **Платформа** | [Fly.io](https://sonogyn-us-ai.fly.dev) — `sonogyn-us-ai` |
+| **Деплой** | [FLY-DEPLOY-RU.md](./FLY-DEPLOY-RU.md), CI: `.github/workflows/us-ai-worker-fly.yml` |
+| **Vercel** | `US_AI_WORKER_URL=https://sonogyn-us-ai.fly.dev` |
+| **Smoke** | `curl -sS https://sonogyn-pro.ru/api/ai/worker-status` → `"available": true` |
+
+Railway ниже — **legacy** (trial/billing); не используется в prod, пока не восстановите оплату и не переключите URL.
 
 ---
 
-## Шаг 1. Railway (Python worker)
+## Шаг 1. Railway (legacy / опционально)
 
 ### A. Через UI (первый раз)
 

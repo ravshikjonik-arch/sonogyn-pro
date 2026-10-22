@@ -17,6 +17,19 @@ async function main() {
   const healthJson = await health.json().catch(() => ({}));
   console.log(health.ok ? "✅" : "❌", `/api/health → ${health.status}`, healthJson.commit ?? "");
 
+  const worker = await fetch(`${base}/api/ai/worker-status`, {
+    headers: { "User-Agent": browserUa, Accept: "application/json" },
+    signal: AbortSignal.timeout(20_000),
+  });
+  const workerJson = await worker.json().catch(() => ({}));
+  const okWorker =
+    worker.ok && workerJson.configured === true && workerJson.available === true;
+  console.log(
+    okWorker ? "✅" : "❌",
+    `/api/ai/worker-status → ${worker.status}`,
+    okWorker ? "available" : (workerJson.reason ?? workerJson.error ?? ""),
+  );
+
   const home = await fetch(`${base}/home`, {
     headers: { "User-Agent": browserUa, Accept: "text/html", "Cache-Control": "no-cache" },
     signal: AbortSignal.timeout(45_000),
@@ -60,7 +73,7 @@ async function main() {
     `/tools/calc/ob/fetometry-norms → ${fetometry.status}, ${fetometryHtml.length} B, title=${fetometryTitle}, route=${fetometryRoute}, no-photos=${fetometryNoPhotos}`,
   );
 
-  const failed = !health.ok || !complete || !okAsk || !okFetometry;
+  const failed = !health.ok || !okWorker || !complete || !okAsk || !okFetometry;
   process.exit(failed ? 1 : 0);
 }
 
