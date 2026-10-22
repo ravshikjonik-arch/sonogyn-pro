@@ -66,10 +66,19 @@ cd apps/web && node scripts/check-production-smoke.mjs
 
 ## Prod
 
-- [x] `git push` → Vercel green (`a50e2b5e`+)
+- [x] `git push` → Vercel green
 - [x] Smoke: book-atlas, 4 атласа HEAD, prenatal JPEG через rewrite
 - [x] `prenatal-echo-ru` + `neishtadt-ovary` в Supabase Storage
 - [x] Остальные JPEG в `public/clinical-atlas/` (Vercel static)
+
+## Регуляторика (RF pipeline)
+
+- [x] Миграция `regulation_ingest` на Supabase
+- [x] `/admin/regulations` + cron ingest
+- [x] Publish → Evidence (`rf_regulation`)
+- [ ] Первые документы: review → `pnpm sync:regulations-catalog` → commit
+
+См. `docs/architecture/REGULATION-INGEST-ONE-SHOT.md`
 
 ## Дисклеймер
 

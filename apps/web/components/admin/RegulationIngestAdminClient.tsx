@@ -48,6 +48,22 @@ export function RegulationIngestAdminClient({ initialQueue, initialExtractions }
     return map;
   }, [initialExtractions]);
 
+  async function runIngestNow() {
+    setBusy("ingest");
+    setMessage(null);
+    try {
+      const res = await fetch("/api/admin/regulations/run-ingest", { method: "POST" });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || res.statusText);
+      setMessage("Мониторинг источников завершён. Обновите список ниже.");
+      router.refresh();
+    } catch (e) {
+      setMessage(e instanceof Error ? e.message : String(e));
+    } finally {
+      setBusy(null);
+    }
+  }
+
   async function runImport() {
     setBusy("import");
     setMessage(null);
@@ -172,6 +188,15 @@ export function RegulationIngestAdminClient({ initialQueue, initialExtractions }
           {message}
         </p>
       ) : null}
+
+      <div className="flex flex-wrap gap-2">
+        <Button type="button" variant="outline" size="sm" disabled={busy !== null} onClick={runIngestNow}>
+          {busy === "ingest" ? "Мониторинг…" : "Запустить мониторинг источников"}
+        </Button>
+        <Button type="button" variant="ghost" size="sm" asChild>
+          <a href="/tools/refs/guidelines">Каталог guidelines →</a>
+        </Button>
+      </div>
 
       <section className="space-y-4">
         <h2 className="text-sm font-bold uppercase tracking-wider text-[var(--clinical-foreground-muted)]">
