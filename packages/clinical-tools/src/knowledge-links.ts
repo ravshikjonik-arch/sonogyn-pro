@@ -3,6 +3,8 @@
  * DB mirror: `public.knowledge_links` + GET `/api/knowledge/links` (merge).
  */
 
+import { bookAtlasKnowledgeLinksForSeed } from "@repo/book-nosology-registry";
+
 export type KnowledgeLinkKind = "calculator" | "guideline" | "quiz" | "atlas" | "tool" | "education";
 
 export type KnowledgeLink = {
@@ -80,10 +82,50 @@ const NOSOLOGY_LINKS: Record<string, KnowledgeLink[]> = {
     { kind: "calculator", title: "Акушерство · hub", href: "/tools/calc/ob" },
     { kind: "quiz", title: "Exam checklists", href: "/tools/refs/exam-checklists" },
   ],
+  "breast-fibroadenoma-us": [
+    { kind: "calculator", title: "BI-RADS US", href: "/tools/calc/rads/bi-rads" },
+    { kind: "atlas", title: "Маммология · Каприн", href: "/tools/refs/mammology-national-atlas" },
+  ],
+  "breast-cyst-us": [
+    { kind: "calculator", title: "BI-RADS US", href: "/tools/calc/rads/bi-rads" },
+    { kind: "atlas", title: "Маммология · Каприн", href: "/tools/refs/mammology-national-atlas" },
+  ],
+  "breast-malignancy-suspicion-us": [
+    { kind: "calculator", title: "BI-RADS US", href: "/tools/calc/rads/bi-rads" },
+    { kind: "atlas", title: "Маммология · Каприн", href: "/tools/refs/mammology-national-atlas" },
+    { kind: "guideline", title: "КР · ЗНО МЖ", href: "/tools/refs/guidelines" },
+  ],
+  "breast-dense-tissue-us": [
+    { kind: "calculator", title: "BI-RADS US", href: "/tools/calc/rads/bi-rads" },
+    { kind: "atlas", title: "Маммология · Каприн", href: "/tools/refs/mammology-national-atlas" },
+  ],
+  "fetal-chd-suspicion": [
+    { kind: "atlas", title: "Пренатал · сердце", href: "/tools/refs/prenatal-echography-atlas?slug=glava-15" },
+    { kind: "atlas", title: "22 проекции сердца", href: "/tools/refs/fetal-anatomy-22-views" },
+    { kind: "education", title: "Otto · эхокардиография", href: "/tools/refs/clinical-echocardiography-atlas" },
+  ],
 };
 
+function mergeUniqueLinks(base: KnowledgeLink[], extra: KnowledgeLink[]): KnowledgeLink[] {
+  const seen = new Set(base.map((l) => l.href));
+  const out = [...base];
+  for (const link of extra) {
+    if (seen.has(link.href)) continue;
+    seen.add(link.href);
+    out.push(link);
+  }
+  return out;
+}
+
 export function getKnowledgeLinksForNosology(nosologyId: string): KnowledgeLink[] {
-  return NOSOLOGY_LINKS[nosologyId] ?? [];
+  const base = NOSOLOGY_LINKS[nosologyId] ?? [];
+  const fromBooks = bookAtlasKnowledgeLinksForSeed(nosologyId).map((l) => ({
+    kind: l.kind,
+    title: l.title,
+    href: l.href,
+    description: l.description,
+  })) satisfies KnowledgeLink[];
+  return mergeUniqueLinks(base, fromBooks);
 }
 
 export function listNosologyIdsWithKnowledgeLinks(): string[] {

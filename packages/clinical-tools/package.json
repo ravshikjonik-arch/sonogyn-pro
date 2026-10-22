@@ -13,6 +13,9 @@
     "test": "node --import tsx --test src/**/*.test.ts",
     "audit:modules": "node --import tsx --test src/modules.catalog.test.ts"
   },
+  "dependencies": {
+    "@repo/book-nosology-registry": "workspace:*"
+  },
   "devDependencies": {
     "@types/node": "^20",
     "tsx": "^4.19.4",

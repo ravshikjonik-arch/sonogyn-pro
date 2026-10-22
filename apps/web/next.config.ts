@@ -111,6 +111,7 @@ const nextConfig: NextConfig = {
     "@repo/ui",
     "@repo/clinical-3d",
     "@repo/nosology",
+    "@repo/book-nosology-registry",
     "@repo/cervix-pathology-reference",
     "@repo/musa-framework",
     "@repo/fmf",

@@ -58,6 +58,10 @@ export function PrenatalEchographyAtlasWidget({ initialSection = "all", initialS
           <Link href="/tools/refs/obstetrics-imaging-atlas" className="font-semibold text-[var(--clinical-primary-deep)] hover:underline">
             атласом Woodward
           </Link>
+          . По нозологиям:{" "}
+          <Link href="/tools/refs/nosologies#book-atlas" className="font-semibold text-[var(--clinical-primary-deep)] hover:underline">
+            справочник атласов книг
+          </Link>
           .
         </p>
         <p className="text-xs text-[var(--clinical-foreground-muted)]">{doc.meta.disclaimerRu}</p>

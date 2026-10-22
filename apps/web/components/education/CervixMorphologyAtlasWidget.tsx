@@ -64,6 +64,10 @@ export function CervixMorphologyAtlasWidget({ initialSection = "all", initialSlu
           >
             Патология шейки · цитология
           </Link>
+          . По нозологиям:{" "}
+          <Link href="/tools/refs/nosologies#book-atlas" className="font-semibold text-[var(--clinical-primary-deep)] hover:underline">
+            атлас книг
+          </Link>
           .
         </p>
         <p className="text-xs text-[var(--clinical-foreground-muted)]">{doc.meta.disclaimerRu}</p>

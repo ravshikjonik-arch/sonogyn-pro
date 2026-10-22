@@ -6,6 +6,7 @@ export type NosologyZone =
   | "tubes"
   | "cervix"
   | "obstetrics"
+  | "breast"
   | "other";
 
 export const NOSOLOGY_ZONE_LABELS: Record<NosologyZone, string> = {
@@ -15,6 +16,7 @@ export const NOSOLOGY_ZONE_LABELS: Record<NosologyZone, string> = {
   tubes: "Маточные трубы",
   cervix: "Шейка матки",
   obstetrics: "Акушерство / плод",
+  breast: "Молочная железа",
   other: "Прочее",
 };
 

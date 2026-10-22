@@ -1,0 +1,25 @@
+{
+  "cervix-pathology": [
+    "book:cervix-morpho:predopukholevye-ploskogo",
+    "book:cervix-morpho:predopukholevye-zhelezistogo",
+    "book:cervix-morpho:ploskokletochnaya-kartsinoma",
+    "book:cervix-morpho:adenokartsinoma",
+    "book:cervix-morpho:igkh",
+    "book:cervix-morpho:genetika"
+  ],
+  "short-cervix-pregnancy": ["book:prenatal-echo:glava-08"],
+  "fetal-growth-restriction": ["book:prenatal-echo:glava-02", "book:prenatal-echo:glava-06"],
+  "macrosomia": ["book:prenatal-echo:glava-02"],
+  "oligohydramnios": ["book:prenatal-echo:glava-03"],
+  "polyhydramnios": ["book:prenatal-echo:glava-03"],
+  "placenta-previa": ["book:prenatal-echo:glava-03"],
+  "fetal-chd-suspicion": ["book:prenatal-echo:glava-15", "book:prenatal-echo:glava-10"],
+  "breast-fibroadenoma-us": ["book:kaprin-mammology:glava-13-sindromy", "book:kaprin-mammology:glava-14-dobrokachestvennye"],
+  "breast-cyst-us": ["book:kaprin-mammology:glava-13-sindromy"],
+  "breast-malignancy-suspicion-us": [
+    "book:kaprin-mammology:glava-9-algoritmy",
+    "book:kaprin-mammology:glava-10-morfologiya",
+    "book:kaprin-mammology:glava-4-uzi"
+  ],
+  "breast-dense-tissue-us": ["book:kaprin-mammology:glava-12-nezhirovye", "book:kaprin-mammology:glava-3-luchevye"]
+}

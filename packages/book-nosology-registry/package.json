@@ -1,0 +1,23 @@
+{
+  "name": "@repo/book-nosology-registry",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Нозологический индекс учебных атласов (4 книги Desktop → SonoGyn)",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "sideEffects": false,
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "generate": "node scripts/generate-registry.mjs",
+    "test": "node --import tsx --test src/*.test.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "tsx": "^4.19.4",
+    "typescript": "^5.9.2"
+  }
+}

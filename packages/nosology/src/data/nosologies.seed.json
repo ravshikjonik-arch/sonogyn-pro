@@ -986,5 +986,142 @@
       ]
     },
     "pubmedQuery": "placenta previa low lying placenta ultrasound ISUOG"
+  },
+  {
+    "id": "breast-fibroadenoma-us",
+    "title": "Фибroadenoma молочной железы (УЗИ)",
+    "zone": "breast",
+    "icd10": "D24",
+    "keywords": ["фибroadenoma", "фибroadenoma", "ФА", "молочная железа", "УЗИ МЖ", "BI-RADS"],
+    "description": "Доброкачественное образование МЖ с типичной эхоструктурой; тактика — по BI-RADS US и возрасту.",
+    "diagnosisLine": "Фибroadenoma молочной железы (предположительно)",
+    "protocolTemplate": "В {локализация} молочной железы определяется образование {размер} мм, овальной формы, чёткими контурами, однородной/слабо неоднородной структурой. BI-RADS US — по калькулятору. Рекомендовано: корреляция с возрастом, наблюдение или гистология по категории.",
+    "examinationScheme": {
+      "checklist": [
+        "УЗИ МЖ по квадрантам + axilla по протоколу",
+        "Описать форму, ориентацию, края, эхогенность, заднюю акустическую тень",
+        "ЦДК: периферический/внутриузловой кровоток",
+        "При подозрении — BI-RADS US, направление на CORE/vacuum по локальному алгоритму"
+      ]
+    },
+    "diagnostics": {
+      "bullets": [
+        "Классика: овальное «конфетное» образование, ширина > высоты, чёткий контур",
+        "Дифференциально: простая киста, фиброзно-кистозные изменения, рак (неровные края, тени, жёсткость)"
+      ]
+    },
+    "treatment": {
+      "bullets": ["BI-RADS 2–3: наблюдение по возрасту и росту", "BI-RADS 4+: биопсия"]
+    },
+    "guidelines": {
+      "bullets": ["ACR BI-RADS US", "КР РФ: рак молочной железы (скрининг)"]
+    },
+    "pubmedQuery": "fibroadenoma breast ultrasound BI-RADS"
+  },
+  {
+    "id": "breast-cyst-us",
+    "title": "Киста молочной железы (УЗИ)",
+    "zone": "breast",
+    "icd10": "N60.0",
+    "keywords": ["киста", "МЖ", "анэхогенное", "BI-RADS"],
+    "description": "Простая или осложнённая киста — частая находка; классификация по BI-RADS US.",
+    "diagnosisLine": "Киста молочной железы",
+    "protocolTemplate": "Образование {размер} мм в {локализация}, анэхогенное с dorsal enhancement, тонкие стенки. BI-RADS US по признакам. Рекомендовано: при типичной простой кисте — наблюдение; при осложнённой — тактика по BI-RADS.",
+    "examinationScheme": {
+      "checklist": ["Подтвердить анэхогенность, стенки, septa, внутрисосудистые включения", "Корреляция с маммографией при плотной железе"]
+    },
+    "diagnostics": {
+      "bullets": ["Простая киста: BI-RADS 2", "Сложная/геморraghagic — повышенная категория до гистологии"]
+    },
+    "treatment": {
+      "bullets": ["Симптоматическая киста — пункция по показаниям", "Подозрительные признаки — биопсия"]
+    },
+    "guidelines": {
+      "bullets": ["ACR BI-RADS US"]
+    },
+    "pubmedQuery": "breast cyst ultrasound complicated cyst BI-RADS"
+  },
+  {
+    "id": "breast-malignancy-suspicion-us",
+    "title": "Подозрение на рак молочной железы (УЗИ)",
+    "zone": "breast",
+    "icd10": "C50",
+    "keywords": ["рак МЖ", "BI-RADS 4", "BI-RADS 5", "микрокальцинаты", "инвазия"],
+    "description": "УЗ-признаки злокачественности; обязательна BI-RADS US и маршрут биопсии.",
+    "diagnosisLine": "Образование молочной железы, подозрение на злокачественность (BI-RADS 4–5)",
+    "protocolTemplate": "Образование {размер} мм, {локализация}: неровные/угловатые края, вертикальная ориентация, неоднородная эхоструктура, {степень} кровотока. BI-RADS US: высокая подозрительность. Рекомендовано: гистологическая верификация, онкологический консилиум.",
+    "examinationScheme": {
+      "checklist": [
+        "Полное УЗИ обеих МЖ и axilla",
+        "BI-RADS US + плотность ACR при маммографии",
+        "Биопсия под контролем imaging",
+        "Не задерживать направление при BI-RADS 5"
+      ]
+    },
+    "diagnostics": {
+      "bullets": [
+        "Подозрительные признаки: spiculation, microlobulation, толстые septa, calcifications in mass",
+        "Axillary nodes — отдельное описание"
+      ]
+    },
+    "treatment": {
+      "bullets": ["Гистология обязательна", "Staging по КР/oncology pathway"]
+    },
+    "guidelines": {
+      "bullets": ["ACR BI-RADS US/MG", "КР РФ: ЗНО молочной железы"]
+    },
+    "pubmedQuery": "breast cancer ultrasound BI-RADS suspicious mass"
+  },
+  {
+    "id": "breast-dense-tissue-us",
+    "title": "Плотная молочная железа (ACR C/D) и роль УЗИ",
+    "zone": "breast",
+    "keywords": ["плотная железа", "ACR C", "ACR D", "скрининг", "УЗИ"],
+    "description": "Ограниченная чувствительность маммографии; УЗИ — ключевой метод дообследования.",
+    "diagnosisLine": "Плотные фибroglandularные ткани молочной железы (ACR C/D)",
+    "protocolTemplate": "Маммографическая плотность по ACR: {степень}. УЗИ МЖ выполнено/рекомендовано для дополнительной визуализации. Заключение — не заменяет скрининговый алгоритм.",
+    "examinationScheme": {
+      "checklist": ["Указать ACR density на маммографии", "УЗИ для непальpируемых и palpable findings", "Сверка с национальными программами скрининга"]
+    },
+    "diagnostics": {
+      "bullets": ["ACR C/D: ↑ риск пропуска на MG", "УЗИ повышает выявляемость в плотной железе"]
+    },
+    "treatment": {
+      "bullets": ["Индивидуальный скрининг по риску и возрасту"]
+    },
+    "guidelines": {
+      "bullets": ["ACR breast density", "Каприн — нац. руководство по маммологии"]
+    },
+    "pubmedQuery": "dense breast ultrasound supplemental screening"
+  },
+  {
+    "id": "fetal-chd-suspicion",
+    "title": "Подозрение на ВПС плода (УЗИ сердца)",
+    "zone": "obstetrics",
+    "icd10": "Q24",
+    "keywords": ["ВПС", "фетальное сердце", "4 камеры", "outflow", "ISUOG"],
+    "description": "Отклонения фетальной эхокардиографии; нужен structured cardiac scan и маршрутизация.",
+    "diagnosisLine": "Подозрение на врождённый порок сердца плода",
+    "protocolTemplate": "Фетальная эхокардиография: {локализация} — описать 4-камерный срез, outflow tract, смещение septum, размеры камер {размер}. Рекомендовано: expert fetal echo, кардиогенетика по находке.",
+    "examinationScheme": {
+      "checklist": [
+        "Стандартные проекции: 4CH, LVOT, RVOT, три vessel view",
+        "Оценить ритм, перicardial effusion, венозный проток",
+        "При находке — referral fetal cardiology / МГЦ"
+      ]
+    },
+    "diagnostics": {
+      "bullets": [
+        "Красные флаги: гипертрофия, гипопlasia ventricle, abnormal axis, large VSD, outflow obstruction",
+        "См. атлас пренатала гл. 15 и 22 проекции"
+      ]
+    },
+    "treatment": {
+      "bullets": ["План родов в перинatal center III уровня при тяжёлых ВПС"]
+    },
+    "guidelines": {
+      "bullets": ["ISUOG fetal heart", "КР: перинatal cardiology"]
+    },
+    "pubmedQuery": "fetal congenital heart disease ultrasound screening"
   }
 ]

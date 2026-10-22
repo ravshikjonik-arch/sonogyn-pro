@@ -62,6 +62,10 @@ export function MammologyNationalAtlasWidget({ initialSection = "all", initialSl
           <Link href="/tools/calc/rads/bi-rads" className="font-semibold text-[var(--clinical-primary-deep)] hover:underline">
             калькулятор BI-RADS
           </Link>
+          .{" "}
+          <Link href="/tools/refs/nosologies#book-atlas" className="font-semibold text-[var(--clinical-primary-deep)] hover:underline">
+            Нозологии · маммология
+          </Link>
           .
         </p>
         <p className="text-xs text-[var(--clinical-foreground-muted)]">{doc.meta.disclaimerRu}</p>

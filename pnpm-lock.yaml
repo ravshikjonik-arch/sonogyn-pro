@@ -387,6 +387,9 @@ importers:
       '@repo/birads-us':
         specifier: workspace:*
         version: link:../../packages/birads-us
+      '@repo/book-nosology-registry':
+        specifier: workspace:*
+        version: link:../../packages/book-nosology-registry
       '@repo/cervical-pathology':
         specifier: workspace:*
         version: link:../../modules/cervical-pathology
@@ -759,6 +762,18 @@ importers:
         specifier: ^5.9.2
         version: 5.9.3
 
+  packages/book-nosology-registry:
+    devDependencies:
+      '@types/node':
+        specifier: ^20
+        version: 20.19.40
+      tsx:
+        specifier: ^4.19.4
+        version: 4.21.0
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.3
+
   packages/breast-classification:
     devDependencies:
       '@tsconfig/node18':
@@ -871,6 +886,10 @@ importers:
         version: 5.9.3
 
   packages/clinical-tools:
+    dependencies:
+      '@repo/book-nosology-registry':
+        specifier: workspace:*
+        version: link:../book-nosology-registry
     devDependencies:
       '@types/node':
         specifier: ^20

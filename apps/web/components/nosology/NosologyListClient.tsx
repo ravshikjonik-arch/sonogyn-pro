@@ -3,7 +3,9 @@
 import { NOSOLOGY_ZONE_LABELS, getFavoriteNosologyIds, getRecentNosologyIds, type Nosology, type NosologyZone } from "@repo/nosology";
 import { HeartPulse, Search } from "lucide-react";
 import Link from "next/link";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+
+import { BookNosologyListSection } from "@/components/nosology/BookNosologyListSection";
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -11,7 +13,16 @@ import { Input } from "@/components/ui/input";
 import { useNosologyList } from "@/hooks/useNosologies";
 import { cn } from "@/lib/utils/cn";
 
-const ZONE_ORDER: NosologyZone[] = ["obstetrics", "uterus", "endometrium", "ovaries", "tubes", "cervix", "other"];
+const ZONE_ORDER: NosologyZone[] = [
+  "obstetrics",
+  "breast",
+  "uterus",
+  "endometrium",
+  "ovaries",
+  "tubes",
+  "cervix",
+  "other",
+];
 
 function NosologyCard({ n, studyId }: { n: Nosology; studyId?: string | null }) {
   const href = studyId ? `/nosologies/${n.id}?studyId=${studyId}` : `/nosologies/${n.id}`;
@@ -35,8 +46,18 @@ function NosologyCard({ n, studyId }: { n: Nosology; studyId?: string | null }) 
 
 type Props = { studyId?: string | null };
 
+const BOOK_FILTERS = [
+  { id: "all", label: "Все книги" },
+  { id: "cervix-morpho", label: "Шейка · гистология" },
+  { id: "kaprin-mammology", label: "Маммология" },
+  { id: "prenatal-echo", label: "Пренатал" },
+  { id: "otto-echo", label: "Эхо Otto" },
+  { id: "prenatal-finding", label: "Пороки (снимки)" },
+] as const;
+
 export function NosologyListClient({ studyId }: Props) {
   const { items, loading, error, query, setQuery, hits } = useNosologyList();
+  const [bookFilter, setBookFilter] = useState<string>("all");
 
   const displayItems = useMemo(() => {
     if (query.trim()) {
@@ -69,8 +90,8 @@ export function NosologyListClient({ studyId }: Props) {
         <Badge variant="outline">Справочник</Badge>
         <h1 className="text-3xl font-bold tracking-tight">Нозологии</h1>
         <p className="max-w-2xl text-sm text-[var(--clinical-foreground-muted)]">
-          Клинические алгоритмы: обследование, УЗ-диагностика, лечение и маршрутизация. Работает офлайн после первой
-          загрузки.
+          Клинические алгоритмы и учебные атласы (цервикс, маммология, пренатал, эхокардиография) — по зонам и
+          нозологиям. Офлайн после первой загрузки карточек.
         </p>
         {studyId ? (
           <p className="text-sm">
@@ -142,7 +163,7 @@ export function NosologyListClient({ studyId }: Props) {
         </p>
       ) : null}
 
-      {!loading && !error
+      {!loading && !error && !query.trim()
         ? ZONE_ORDER.map((zone) => {
             const list = grouped.get(zone) ?? [];
             if (list.length === 0) return null;
@@ -164,6 +185,29 @@ export function NosologyListClient({ studyId }: Props) {
             );
           })
         : null}
+
+      {!loading && !error ? (
+        <>
+          <div className="flex flex-wrap gap-2">
+            {BOOK_FILTERS.map((f) => (
+              <button
+                key={f.id}
+                type="button"
+                className={cn(
+                  "rounded-full border px-3 py-1 text-xs font-medium transition-colors",
+                  bookFilter === f.id
+                    ? "border-[var(--clinical-primary)] bg-[var(--clinical-primary-muted)] text-[var(--clinical-primary-deep)]"
+                    : "border-[var(--clinical-border)] hover:bg-[var(--clinical-muted)]",
+                )}
+                onClick={() => setBookFilter(f.id)}
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
+          <BookNosologyListSection query={query} bookFilter={bookFilter} clinicalOnly={!query.trim()} />
+        </>
+      ) : null}
     </div>
   );
 }

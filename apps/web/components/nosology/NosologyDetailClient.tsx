@@ -15,6 +15,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 
+import { NosologyBookModulesCard } from "@/components/nosology/NosologyBookModulesCard";
 import { NosologyEducationCard } from "@/components/nosology/NosologyEducationCard";
 import { NosologyKnowledgeLinksCard } from "@/components/nosology/NosologyKnowledgeLinksCard";
 import { NosologySectionView } from "@/components/nosology/NosologySectionView";
@@ -205,6 +206,7 @@ export function NosologyDetailClient({ id, isAdmin }: Props) {
       <ShortGuidelineCard nosology={nosology} />
 
       <NosologyEducationCard nosologyId={nosology.id} />
+      <NosologyBookModulesCard nosologyId={nosology.id} />
 
       <NosologyKnowledgeLinksCard nosologyId={nosology.id} />
 

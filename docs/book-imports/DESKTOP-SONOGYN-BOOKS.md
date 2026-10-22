@@ -44,6 +44,17 @@ python3 scripts/import-prenatal-echo-atlas.py --skip-copy-images
 
 # Проверка
 node scripts/verify-desktop-book-imports.mjs
+
+# Индекс «глава книги → нозологическая зона» (111 тем)
+pnpm generate:book-nosology
+```
+
+## Интеграция в нозологии
+
+- Список: `/tools/refs/nosologies` → блок **«Учебные атласы · по нозологиям»** (`#book-atlas`)
+- Карточка темы: `/tools/refs/book-nosology/{id}` → атлас + связанные seed-нозологии
+- Пакет: `@repo/book-nosology-registry` + `seed-nosology-bridge.json`
+- На карточках клинических нozологий (16): блок «Учебные атласы» и knowledge links
 ```
 
 ## Ограничения (из for-sonogyn-pro.md)
