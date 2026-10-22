@@ -20,6 +20,7 @@
     "upload:clinical-atlas-supabase": "node apps/web/scripts/upload-clinical-atlas-all.mjs",
     "ingest:rf-regulations": "node apps/web/scripts/ingest-rf-regulations.mjs",
     "sync:regulations-catalog": "node --import tsx apps/web/scripts/sync-regulations-to-catalog.ts",
+    "run:regulation-pipeline-once": "node --import tsx apps/web/scripts/run-regulation-pipeline-once.ts",
     "import:neishtadt-ovarian-atlas": "python3 scripts/import-neishtadt-ovarian-atlas.py",
     "import:ozerskaya-adnex": "python3 scripts/import-ozerskaya-adnex.py",
     "knowledge:woodward:extract": "python3 scripts/extract-woodward-obstetrics.py",
