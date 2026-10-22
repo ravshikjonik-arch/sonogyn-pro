@@ -498,6 +498,9 @@ importers:
       '@repo/report-engine':
         specifier: workspace:*
         version: link:../../packages/report-engine
+      '@repo/report-generator':
+        specifier: workspace:*
+        version: link:../../packages/report-generator
       '@repo/thyroid-tirads':
         specifier: workspace:*
         version: link:../../packages/thyroid-tirads
@@ -1239,6 +1242,46 @@ importers:
       '@repo/orads-us':
         specifier: workspace:*
         version: link:../orads-us
+      '@repo/tirads-acr':
+        specifier: workspace:*
+        version: link:../tirads-acr
+      '@repo/types':
+        specifier: workspace:*
+        version: link:../types
+    devDependencies:
+      '@types/node':
+        specifier: ^20
+        version: 20.19.40
+      tsx:
+        specifier: ^4.19.4
+        version: 4.21.0
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.3
+
+  packages/report-generator:
+    dependencies:
+      '@repo/adnex-education':
+        specifier: workspace:*
+        version: link:../adnex-education
+      '@repo/birads-us':
+        specifier: workspace:*
+        version: link:../birads-us
+      '@repo/clinical-3d':
+        specifier: workspace:*
+        version: link:../clinical-3d
+      '@repo/iota-models':
+        specifier: workspace:*
+        version: link:../iota-models
+      '@repo/medical-calculations':
+        specifier: workspace:*
+        version: link:../medical-calculations
+      '@repo/orads-us':
+        specifier: workspace:*
+        version: link:../orads-us
+      '@repo/report-engine':
+        specifier: workspace:*
+        version: link:../report-engine
       '@repo/tirads-acr':
         specifier: workspace:*
         version: link:../tirads-acr

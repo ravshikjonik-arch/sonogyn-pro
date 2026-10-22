@@ -17,8 +17,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { UterusSliceAtlas } from "@/components/uterus/UterusSliceAtlas";
+import { CalculatorReportPanel } from "@/components/calculators/CalculatorReportPanel";
 import { FigoResultCard } from "@/components/uterus/FigoResultCard";
 import { useUterusAnnotations } from "@/components/uterus/useUterusAnnotations";
+import { buildCalculatorGeneratedReport } from "@/lib/reports/calculator-report-bridge";
 
 const SAGITTAL_PATHOLOGY_TYPES: PathologyType[] = ["myoma", "adenomyosis", "polyp"];
 
@@ -30,6 +32,25 @@ export function ClinicalUterusWorkspace() {
     if (!ua.selectedEnriched || ua.selectedEnriched.type !== "myoma") return [];
     const figo = ua.selectedEnriched.figoOverride ?? ua.selectedEnriched.figoType ?? 4;
     return suggestFigoAlternatives(figo);
+  }, [ua.selectedEnriched]);
+
+  const figoReportText = useMemo(() => {
+    const sel = ua.selectedEnriched;
+    if (!sel || sel.type !== "myoma") return null;
+    const figoType = sel.figoOverride ?? sel.figoType ?? 4;
+    const sizeLine = `${sel.sizeMm.length}×${sel.sizeMm.width}×${sel.sizeMm.depth} mm`;
+    const generated = buildCalculatorGeneratedReport(
+      "figo-myoma",
+      {
+        figoType,
+        figoVariant: sel.figoVariant,
+        localizationRu: sel.localizationRu,
+        sizeLine,
+      },
+      { figoType },
+      String(figoType),
+    );
+    return generated?.plainText ?? null;
   }, [ua.selectedEnriched]);
 
   const onAddLesion = useCallback(
@@ -131,6 +152,18 @@ export function ClinicalUterusWorkspace() {
                     localizationRu={ua.selectedEnriched.localizationRu}
                     mode="clinical"
                   />
+                  {figoReportText ? (
+                    <CalculatorReportPanel
+                      title={`FIGO ${ua.selectedEnriched.figoOverride ?? ua.selectedEnriched.figoType ?? 4} — черновик`}
+                      reportText={figoReportText}
+                      filenameBase="figo-myoma-uterus-map"
+                      sharePath="/uterus-3d"
+                      shareParams={{
+                        figo: ua.selectedEnriched.figoOverride ?? ua.selectedEnriched.figoType ?? 4,
+                      }}
+                      repeatHref="/uterus-3d"
+                    />
+                  ) : null}
                 </>
               ) : null}
 

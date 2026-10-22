@@ -9,6 +9,7 @@ import { toast } from "sonner";
 
 import { saveCalculatorEntry } from "@/app/actions/calculator-actions";
 import { useTiradsFlow } from "@/components/calculators/tirads/TiradsFlowContext";
+import { CalculatorReportPanel } from "@/components/calculators/CalculatorReportPanel";
 import { CalcChip, CalcStepCard, CalcSubLabel } from "@/components/calculators/shared/calc-ui";
 import { DocumentExportToolbar } from "@/components/reporting/DocumentExportToolbar";
 import { Badge } from "@/components/ui/badge";
@@ -26,6 +27,7 @@ import {
   normalizeEchogenicFoci,
   type TiradsAcrInput,
 } from "@/lib/tirads-acr";
+import { buildCalculatorGeneratedReport } from "@/lib/reports/calculator-report-bridge";
 import { saveTiradsBridgePayload } from "@/lib/reports/sre-tirads-bridge";
 import { plainTextToDocumentSpec } from "@/lib/reporting/document-spec-builders";
 import { cn } from "@/lib/utils/cn";
@@ -134,6 +136,16 @@ export function TiradsAcrWizard() {
   const { result } = report;
   const live = useMemo(() => evaluateAcrTirads(input), [input]);
 
+  const reportText = useMemo(() => {
+    const generated = buildCalculatorGeneratedReport(
+      "ti-rads",
+      input as unknown as Record<string, unknown>,
+      { result, fullProtocol: report.fullProtocol },
+      result.category,
+    );
+    return generated?.plainText ?? report.fullProtocol;
+  }, [input, report.fullProtocol, result]);
+
   const phaseId = step <= 7 ? "analysis" : "report";
 
   const exportSpec = useMemo(
@@ -146,9 +158,9 @@ export function TiradsAcrWizard() {
           { label: "FNA", value: result.fnaRecommended ? "да" : "нет" },
           { label: "Engine", value: result.engineVersion ?? ACR_TIRADS_ENGINE_VERSION },
         ],
-        text: report.fullProtocol,
+        text: reportText,
       }),
-    [report.fullProtocol, result],
+    [reportText, result],
   );
 
   function onSave() {
@@ -303,10 +315,20 @@ export function TiradsAcrWizard() {
               {result.fnaRecommended ? "FNA рекомендована" : "FNA не показана"} — {result.fnaRationale}
             </p>
             <p className="text-xs text-[var(--clinical-foreground-muted)]">{result.followUpRecommendation}</p>
-            <p className="mt-2 text-[11px] text-[var(--clinical-foreground-muted)]">
-              Рекомендация CDS по ACR TI-RADS; не является диагнозом. Интерпретация — специалистом.
-            </p>
           </div>
+
+          <CalculatorReportPanel
+            title={`ACR TI-RADS · ${result.category}`}
+            reportText={reportText}
+            filenameBase={`tirads-acr-${result.category}`}
+            sharePath="/tools/calc/rads/ti-rads"
+            shareParams={{
+              category: result.category,
+              points: result.totalPoints,
+            }}
+            repeatHref="/tools/calc/rads/ti-rads"
+            onSaveToHistory={onSave}
+          />
 
           <div className="rounded-2xl border border-[var(--clinical-border)] p-4">
             <p className="text-[10px] font-bold uppercase tracking-wide text-[var(--clinical-foreground-muted)]">
@@ -324,15 +346,12 @@ export function TiradsAcrWizard() {
             </div>
           </div>
 
-          <CalcStepCard title="Баллы">
+          <CalcStepCard title="Баллы и rationale">
             <ul className="text-xs">
               {result.rationale.map((r) => (
                 <li key={r}>{r}</li>
               ))}
             </ul>
-          </CalcStepCard>
-          <CalcStepCard title="Протокол">
-            <pre className="whitespace-pre-wrap text-xs">{report.fullProtocol}</pre>
           </CalcStepCard>
         </div>
       ) : null}

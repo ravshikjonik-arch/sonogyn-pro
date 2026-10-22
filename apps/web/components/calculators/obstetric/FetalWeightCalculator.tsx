@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { toast } from "sonner";
 
 import { CalculatorFavoriteButton } from "@/components/calculators/CalculatorFavoriteButton";
 import { CalculatorReportPanel } from "@/components/calculators/CalculatorReportPanel";
@@ -9,6 +10,7 @@ import { CalculatorSourcesPanel } from "@/components/calculators/CalculatorSourc
 import { CalcChip, CalcStepCard } from "@/components/calculators/shared/calc-ui";
 import { parseShareBool, readShareParamsFromUrl } from "@/lib/calculators/apply-url-params";
 import { useCalculatorWorkspace } from "@/lib/hooks/use-calculator-workspace";
+import { buildCalculatorGeneratedReport } from "@/lib/reports/calculator-report-bridge";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -112,30 +114,31 @@ export function FetalWeightCalculator() {
     [tab, bpd, hc, ac, fl, vdm, ozh, weight, height, presentation, nulliparous],
   );
 
-  const reportText = useMemo(() => {
-    if (tab === "hadlock" && hadlockResults.length > 0) {
-      return [
-        "Предполагаемая масса плода (Hadlock, УЗИ):",
-        ...hadlockResults.map((r) => `• ${r.label}: ${r.grams} г`),
-      ].join("\n");
-    }
-    if (tab === "rudakov" && rudakov) {
-      return [`EFW (Рудаков): ${rudakov.grams} г`, rudakov.formula, rudakov.note ?? ""].filter(Boolean).join("\n");
-    }
-    if (tab === "maternal" && maternal) {
-      return [`EFW (антропометрия матери): ${maternal.grams} г`, maternal.formula, maternal.note ?? ""]
-        .filter(Boolean)
-        .join("\n");
-    }
-    return "Введите параметры для расчёта массы плода.";
-  }, [tab, hadlockResults, rudakov, maternal]);
-
   const summary = useMemo(() => {
     if (tab === "hadlock" && hadlockResults[0]) return `${hadlockResults[0].grams} г · ${hadlockResults[0].label}`;
     if (tab === "rudakov" && rudakov) return `${rudakov.grams} г · Рудаков`;
     if (tab === "maternal" && maternal) return `${maternal.grams} г · антропометрия`;
     return "Нет результата";
   }, [tab, hadlockResults, rudakov, maternal]);
+
+  const efwOutputs = useMemo((): Record<string, unknown> => {
+    if (tab === "hadlock") return { hadlockResults };
+    if (tab === "rudakov" && rudakov) return { ...rudakov };
+    if (tab === "maternal" && maternal) return { ...maternal };
+    return {};
+  }, [tab, hadlockResults, rudakov, maternal]);
+
+  const generatedReport = useMemo(
+    () =>
+      buildCalculatorGeneratedReport(
+        CALC_ID,
+        shareParams as Record<string, unknown>,
+        efwOutputs,
+        summary !== "Нет результата" ? summary : null,
+      ),
+    [efwOutputs, shareParams, summary],
+  );
+  const reportText = generatedReport?.plainText ?? "Введите параметры для расчёта массы плода.";
 
   const hasResult =
     (tab === "hadlock" && hadlockResults.length > 0) ||
@@ -151,6 +154,16 @@ export function FetalWeightCalculator() {
       params: shareParams,
     });
   }, [hasResult, recordRun, shareParams, summary]);
+
+  const onSaveToHistory = useCallback(() => {
+    recordRun({
+      path: SHARE_PATH,
+      title: "Масса плода (EFW)",
+      summary,
+      params: shareParams,
+    });
+    toast.success("Добавлено в локальную историю");
+  }, [recordRun, shareParams, summary]);
 
   return (
     <div className="space-y-6 px-4 py-10 lg:px-10">
@@ -246,6 +259,8 @@ export function FetalWeightCalculator() {
             filenameBase="efw-estimate"
             sharePath={SHARE_PATH}
             shareParams={shareParams}
+            repeatHref={SHARE_PATH}
+            onSaveToHistory={onSaveToHistory}
           />
         ) : null}
         <CalculatorSourcesPanel calculatorId={CALC_ID} />

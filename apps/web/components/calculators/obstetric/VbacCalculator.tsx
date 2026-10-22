@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { toast } from "sonner";
 
 import { CalculatorFavoriteButton } from "@/components/calculators/CalculatorFavoriteButton";
 import { CalculatorReportPanel } from "@/components/calculators/CalculatorReportPanel";
@@ -9,6 +10,7 @@ import { CalculatorSourcesPanel } from "@/components/calculators/CalculatorSourc
 import { CalcChip, CalcStepCard } from "@/components/calculators/shared/calc-ui";
 import { parseShareBool, readShareParamsFromUrl } from "@/lib/calculators/apply-url-params";
 import { useCalculatorWorkspace } from "@/lib/hooks/use-calculator-workspace";
+import { buildCalculatorGeneratedReport } from "@/lib/reports/calculator-report-bridge";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils/cn";
@@ -98,20 +100,17 @@ export function VbacCalculator() {
 
   const shareParams = useMemo(() => vbacShareParams(tab, pre, labor), [tab, pre, labor]);
 
-  const reportText = useMemo(() => {
-    if (tab === "pre") {
-      return [
-        "TOLAC / VBAC — оценка до родов:",
-        `${preResult.score}/${preResult.maxScore} · ${preResult.category}`,
-        preResult.lines.join("\n"),
-      ].join("\n");
-    }
-    return [
-      "TOLAC / VBAC — в родах:",
-      laborResult.continueTolac ? "TOLAC продолжается" : "Рассмотреть прекращение TOLAC",
-      [...laborResult.alerts, "", ...laborResult.monitoring].join("\n"),
-    ].join("\n");
-  }, [tab, preResult, laborResult]);
+  const generatedReport = useMemo(
+    () =>
+      buildCalculatorGeneratedReport(
+        CALC_ID,
+        shareParams as Record<string, unknown>,
+        (tab === "pre" ? preResult : laborResult) as unknown as Record<string, unknown>,
+        tab === "pre" ? preResult.category : laborResult.continueTolac ? "tolac-continue" : "tolac-review",
+      ),
+    [tab, preResult, laborResult, shareParams],
+  );
+  const reportText = generatedReport?.plainText ?? "";
 
   const summary = useMemo(() => {
     if (tab === "pre") return `${preResult.score}/${preResult.maxScore} · ${preResult.category}`;
@@ -125,6 +124,11 @@ export function VbacCalculator() {
       summary,
       params: shareParams,
     });
+  }, [recordRun, shareParams, summary]);
+
+  const onSaveToHistory = useCallback(() => {
+    recordRun({ path: SHARE_PATH, title: "VBAC / TOLAC", summary, params: shareParams });
+    toast.success("Добавлено в локальную историю");
   }, [recordRun, shareParams, summary]);
 
   const setPreBool = (key: keyof VbacPreInput) => (v: boolean) => setPre((p) => ({ ...p, [key]: v }));
@@ -210,6 +214,8 @@ export function VbacCalculator() {
           filenameBase="vbac-tolac"
           sharePath={SHARE_PATH}
           shareParams={shareParams}
+          repeatHref={SHARE_PATH}
+          onSaveToHistory={onSaveToHistory}
         />
         <CalculatorSourcesPanel calculatorId={CALC_ID} />
         <p className="mt-6 text-center text-xs text-[var(--clinical-foreground-muted)]">{VBAC_DISCLAIMER}</p>

@@ -2,6 +2,7 @@
   "name": "@repo/orads-us",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "description": "O-RADS US v2022 decision tree, results, and i18n locale bundles (no UI).",
   "main": "./src/index.ts",
   "types": "./src/index.ts",

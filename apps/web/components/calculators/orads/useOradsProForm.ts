@@ -3,11 +3,12 @@
 import { useMemo, useState } from "react";
 import { parseMeasurementMm } from "@repo/medical-calculations";
 
-import { buildAdnexTriangulationReport, evaluateAdnexTriangulation } from "@repo/adnex-education";
+import { evaluateAdnexTriangulation } from "@repo/adnex-education";
+
+import { buildCalculatorGeneratedReport } from "@/lib/reports/calculator-report-bridge";
 
 import {
   buildIotaConsensusReportText,
-  buildReportText,
   calculateORADS,
   evaluateIotaConsensus2026,
   type BloodFlow,
@@ -156,12 +157,16 @@ export function useOradsProForm() {
     [input, result.category],
   );
   const reportText = useMemo(() => {
-    return [
-      buildReportText(input, result),
-      buildAdnexTriangulationReport(triangulation),
-      buildIotaConsensusReportText(iotaConsensus),
-    ].join("\n\n");
-  }, [input, result, triangulation, iotaConsensus]);
+    const generated = buildCalculatorGeneratedReport(
+      "o-rads-us",
+      input as unknown as Record<string, unknown>,
+      { result, category: result.category },
+      result.category,
+    );
+    const iotaBlock = buildIotaConsensusReportText(iotaConsensus);
+    const base = generated?.plainText ?? "";
+    return iotaBlock ? `${base}\n\n---\nIOTA consensus (assistive):\n${iotaBlock}` : base;
+  }, [input, result, iotaConsensus]);
 
   function reset() {
     setLocalization("ovarian");

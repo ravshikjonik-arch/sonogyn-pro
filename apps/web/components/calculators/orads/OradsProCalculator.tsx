@@ -17,6 +17,7 @@ import { useIotaInterpretationAchievement } from "@/lib/achievements/use-calcula
 import { CalcChip, CalcStepCard, CalcSubLabel } from "@/components/calculators/shared/calc-ui";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { CalculatorReportPanel } from "@/components/calculators/CalculatorReportPanel";
 import { DocumentExportToolbar } from "@/components/reporting/DocumentExportToolbar";
 import {
   ORADS_ZERO_OPTIONS,
@@ -603,15 +604,19 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
               </Button>
             </div>
 
-            <details className="text-sm">
-              <summary className="cursor-pointer font-semibold text-[var(--clinical-foreground-muted)]">Полный текст и PDF</summary>
-              <div className="mt-2 space-y-2">
-                <Button type="button" variant="outline" size="sm" onClick={() => void navigator.clipboard.writeText(f.reportText)}>
-                  Копировать заключение
-                </Button>
-                <DocumentExportToolbar spec={exportSpec} compact />
-              </div>
-            </details>
+            {showTriangulation && f.reportText.trim() ? (
+              <CalculatorReportPanel
+                title={`O-RADS ${f.result.category} · черновик`}
+                reportText={f.reportText}
+                filenameBase={`orads-${f.result.category}`}
+                sharePath="/tools/calc/rads/o-rads"
+                shareParams={{ category: f.result.category }}
+                repeatHref="/tools/calc/rads/o-rads"
+                onSaveToHistory={onSave}
+                aiRefine={{ toolId: "o-rads-us", category: f.result.category }}
+              />
+            ) : null}
+            <DocumentExportToolbar spec={exportSpec} compact />
           </>
         ) : null}
       </div>

@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { toast } from "sonner";
 import {
   calculateAdnex,
   calculateLr2,
@@ -13,7 +14,13 @@ import {
 import { CalcChip, CalcStepCard } from "@/components/calculators/shared/calc-ui";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { CalculatorReportPanel } from "@/components/calculators/CalculatorReportPanel";
+import { buildCalculatorGeneratedReport } from "@/lib/reports/calculator-report-bridge";
+import { useCalculatorWorkspace } from "@/lib/hooks/use-calculator-workspace";
 import { cn } from "@/lib/utils/cn";
+
+const IOTA_CALC_ID = "iota-adnex";
+const IOTA_SHARE_PATH = "/tools/calc/rads/iota";
 
 const B_LIST: SimpleRulesFeature[] = ["B1", "B2", "B3", "B4", "B5"];
 const M_LIST: SimpleRulesFeature[] = ["M1", "M2", "M3", "M4", "M5"];
@@ -28,6 +35,7 @@ type Props = {
 };
 
 export function IotaCalculator({ initial, oradsCategory = null }: Props) {
+  const { recordRun } = useCalculatorWorkspace(IOTA_CALC_ID);
   const [hydrated, setHydrated] = useState(false);
   const [ageYears, setAgeYears] = useState(String(initial?.ageYears ?? 45));
   const [oncologyCenter, setOncologyCenter] = useState(initial?.oncologyCenter ?? false);
@@ -104,6 +112,72 @@ export function IotaCalculator({ initial, oradsCategory = null }: Props) {
   );
 
   const oradsForCompare = oradsCategory ?? (oradsManual ? Number.parseInt(oradsManual, 10) : null);
+  const shareParams = useMemo(
+    () => ({
+      ageYears,
+      oncologyCenter,
+      maxDiameterMm,
+      maxSolidMm,
+      moreThan10Locules,
+      papillaryCount,
+      acousticShadows,
+      ascites,
+      useCa125,
+      ca125Uml: useCa125 ? ca125Uml : "",
+      benignFeatures: benign,
+      malignantFeatures: malignant,
+      irregularInternalWalls: irregularWalls,
+      bloodFlowInSolidPapillary: bloodFlowPapillary,
+      oradsCategory: oradsForCompare,
+    }),
+    [
+      ageYears,
+      oncologyCenter,
+      maxDiameterMm,
+      maxSolidMm,
+      moreThan10Locules,
+      papillaryCount,
+      acousticShadows,
+      ascites,
+      useCa125,
+      ca125Uml,
+      benign,
+      malignant,
+      irregularWalls,
+      bloodFlowPapillary,
+      oradsForCompare,
+    ],
+  );
+
+  const generatedReport = useMemo(() => {
+    if (!("malignancyRisk" in adnex)) return null;
+    return buildCalculatorGeneratedReport(
+      "iota-adnex",
+      shareParams as unknown as Record<string, unknown>,
+      { adnex, simple, srr, lr2 },
+      oradsForCompare,
+    );
+  }, [adnex, simple, srr, lr2, oradsForCompare, shareParams]);
+
+  const iotaSummary = useMemo(() => {
+    if (!("malignancyRisk" in adnex)) return "IOTA ADNEX";
+    return `ADNEX ${pct(adnex.malignancyRisk)}`;
+  }, [adnex]);
+
+  const onSaveToHistory = useCallback(() => {
+    if (!("malignancyRisk" in adnex)) {
+      toast.error("Сначала заполните поля ADNEX");
+      return;
+    }
+    recordRun({
+      path: IOTA_SHARE_PATH,
+      title: "IOTA ADNEX",
+      summary: iotaSummary,
+      params: shareParams as unknown as Record<string, string | number | boolean | null>,
+    });
+    toast.success("Добавлено в локальную историю");
+  }, [adnex, iotaSummary, recordRun, shareParams]);
+
   const compare =
     "malignancyRisk" in adnex
       ? compareIotaRiskWithOrads(adnex.malignancyRisk, {
@@ -262,10 +336,22 @@ export function IotaCalculator({ initial, oradsCategory = null }: Props) {
             </p>
           ) : null}
           <p className="mt-4 text-xs text-[var(--clinical-foreground-muted)]">
-            Расчёт — вспомогательный инструмент; интерпретация и тактика остаются за специалистом. Не является диагнозом.
+            Расчёт — вспомогательный инструмент; интерпретация и тактика остаются за специалистом.
           </p>
         </section>
       )}
+
+      {generatedReport ? (
+        <CalculatorReportPanel
+          title="IOTA ADNEX — черновик заключения"
+          reportText={generatedReport.plainText}
+          filenameBase="iota-adnex"
+          sharePath={IOTA_SHARE_PATH}
+          shareParams={shareParams as unknown as Record<string, string | number | boolean | null>}
+          repeatHref={IOTA_SHARE_PATH}
+          onSaveToHistory={onSaveToHistory}
+        />
+      ) : null}
 
       <Button type="button" variant="outline" className="rounded-full" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
         К началу формы

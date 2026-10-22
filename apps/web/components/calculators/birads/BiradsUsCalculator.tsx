@@ -8,6 +8,7 @@ import { saveCalculatorEntry } from "@/app/actions/calculator-actions";
 import { BiradsImageAssistPanel } from "@/components/calculators/birads/BiradsImageAssistPanel";
 import { useBiradsFlowOptional } from "@/components/calculators/birads/BiradsFlowContext";
 import { BreastTopographyAtlas } from "@/components/breast/BreastTopographyAtlas";
+import { CalculatorReportPanel } from "@/components/calculators/CalculatorReportPanel";
 import { CalcChip, CalcStepCard, CalcSubLabel } from "@/components/calculators/shared/calc-ui";
 import { DocumentExportToolbar } from "@/components/reporting/DocumentExportToolbar";
 import { CalculatorLiteraturePanel } from "@/components/pubmed/CalculatorLiteraturePanel";
@@ -15,6 +16,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { buildCalculatorGeneratedReport } from "@/lib/reports/calculator-report-bridge";
 import { plainTextToDocumentSpec } from "@/lib/reporting/document-spec-builders";
 import {
   BIRADS_BROCHURE_SOURCE,
@@ -91,10 +93,18 @@ export function BiradsUsCalculator({ embedded }: { embedded?: boolean } = {}) {
   const autoResult = useMemo(() => evaluateBiradsBrochure(input), [input]);
   const result = useMemo(() => resolveBiradsBrochureCategory(input, autoResult), [input, autoResult]);
 
-  const reportText = useMemo(
-    () => buildBiradsBrochureProtocol({ ...input, localizationText: input.localizationText }),
-    [input],
-  );
+  const reportText = useMemo(() => {
+    const generated = buildCalculatorGeneratedReport(
+      "bi-rads-us",
+      input as unknown as Record<string, unknown>,
+      { result, autoResult },
+      result.category,
+    );
+    return (
+      generated?.plainText ??
+      buildBiradsBrochureProtocol({ ...input, localizationText: input.localizationText })
+    );
+  }, [input, result, autoResult]);
 
   const checklist = useMemo(() => buildBiradsBrochureChecklist(input), [input]);
 
@@ -466,9 +476,18 @@ export function BiradsUsCalculator({ embedded }: { embedded?: boolean } = {}) {
           <p className="mt-2 text-sm font-semibold text-rose-900">{result.impression}</p>
         </section>
 
-        <pre className="clinical-pre max-h-64 overflow-auto whitespace-pre-wrap rounded-xl p-4 text-xs leading-relaxed">
-          {reportText}
-        </pre>
+        <CalculatorReportPanel
+          title={`BI-RADS US · ${result.category}`}
+          reportText={reportText}
+          filenameBase={`bi-rads-us-${result.category}`}
+          sharePath="/tools/calc/rads/bi-rads"
+          shareParams={{
+            category: result.category,
+            risk: result.riskRange,
+          }}
+          repeatHref="/tools/calc/rads/bi-rads"
+          onSaveToHistory={onSave}
+        />
 
         <details className="rounded-xl border p-3 text-xs">
           <summary className="cursor-pointer font-bold">Чеклист и ruleset</summary>
@@ -476,12 +495,6 @@ export function BiradsUsCalculator({ embedded }: { embedded?: boolean } = {}) {
         </details>
 
         <div className="flex flex-wrap gap-2">
-          <Button type="button" onClick={() => void navigator.clipboard.writeText(reportText)}>
-            Копировать протокол
-          </Button>
-          <Button type="button" variant="secondary" disabled={pending} onClick={onSave}>
-            Сохранить
-          </Button>
           <Button variant="outline" onClick={() => setInput({ ...defaultBiradsBrochureInput })}>
             Сброс
           </Button>

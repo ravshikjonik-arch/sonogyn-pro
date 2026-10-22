@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { toast } from "sonner";
 
 import { CalculatorFavoriteButton } from "@/components/calculators/CalculatorFavoriteButton";
 import { CalculatorReportPanel } from "@/components/calculators/CalculatorReportPanel";
@@ -9,6 +10,7 @@ import { CalculatorSourcesPanel } from "@/components/calculators/CalculatorSourc
 import { CalcChip, CalcStepCard } from "@/components/calculators/shared/calc-ui";
 import { parseShareInt, readShareParamsFromUrl } from "@/lib/calculators/apply-url-params";
 import { useCalculatorWorkspace } from "@/lib/hooks/use-calculator-workspace";
+import { buildCalculatorGeneratedReport } from "@/lib/reports/calculator-report-bridge";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -86,15 +88,17 @@ export function BishopCalculator() {
     [dilation, effacement, station, consistency, position],
   );
 
-  const reportText = useMemo(() => {
-    const lines = [
-      "Шкала Bishop (modified):",
-      `Сумма баллов: ${result.total} / 13.`,
-      result.interpretation,
-      ...result.hints.map((h) => `• ${h}`),
-    ];
-    return lines.join("\n");
-  }, [result]);
+  const generatedReport = useMemo(
+    () =>
+      buildCalculatorGeneratedReport(
+        CALC_ID,
+        shareParams as Record<string, unknown>,
+        result as unknown as Record<string, unknown>,
+        result.total,
+      ),
+    [result, shareParams],
+  );
+  const reportText = generatedReport?.plainText ?? "";
 
   useEffect(() => {
     recordRun({
@@ -103,6 +107,16 @@ export function BishopCalculator() {
       summary: `${result.total}/13 · ${result.interpretation}`,
       params: shareParams,
     });
+  }, [recordRun, result.interpretation, result.total, shareParams]);
+
+  const onSaveToHistory = useCallback(() => {
+    recordRun({
+      path: SHARE_PATH,
+      title: "Шкала Bishop",
+      summary: `${result.total}/13 · ${result.interpretation}`,
+      params: shareParams,
+    });
+    toast.success("Добавлено в локальную историю");
   }, [recordRun, result.interpretation, result.total, shareParams]);
 
   return (
@@ -169,6 +183,8 @@ export function BishopCalculator() {
           filenameBase="bishop-score"
           sharePath={SHARE_PATH}
           shareParams={shareParams}
+          repeatHref={SHARE_PATH}
+          onSaveToHistory={onSaveToHistory}
         />
         <CalculatorSourcesPanel calculatorId={CALC_ID} />
         <p className="text-center text-xs text-[var(--clinical-foreground-muted)]">{BISHOP_DISCLAIMER}</p>

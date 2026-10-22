@@ -140,6 +140,7 @@
     "@repo/obstetric-engine": "workspace:*",
     "@repo/orads-us": "workspace:*",
     "@repo/report-engine": "workspace:*",
+    "@repo/report-generator": "workspace:*",
     "@repo/thyroid-tirads": "workspace:*",
     "@repo/tirads-acr": "workspace:*",
     "@repo/types": "workspace:*",
