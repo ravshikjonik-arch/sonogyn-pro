@@ -24,14 +24,35 @@ jobs:
 
       - uses: superfly/flyctl-actions/setup-flyctl@master
 
-      - name: Deploy to Fly (optional)
+      - name: Deploy to Fly
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
           FLY_APP_NAME: ${{ secrets.FLY_APP_NAME }}
+          US_AI_WORKER_SECRET: ${{ secrets.US_AI_WORKER_SECRET }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: |
+          set -euo pipefail
           if [ -z "${FLY_API_TOKEN:-}" ]; then
-            echo "Fly deploy skipped. Set GitHub secret FLY_API_TOKEN (and optional FLY_APP_NAME=sonogyn-us-ai)."
+            echo "::notice::Fly deploy skipped. Add GitHub secrets: FLY_API_TOKEN, US_AI_WORKER_SECRET, OPENROUTER_API_KEY"
             exit 0
           fi
           APP="${FLY_APP_NAME:-sonogyn-us-ai}"
-          flyctl deploy --app "$APP" --remote-only
+          flyctl apps create "$APP" 2>/dev/null || true
+          if [ -n "${US_AI_WORKER_SECRET:-}" ] && [ -n "${OPENROUTER_API_KEY:-}" ]; then
+            flyctl secrets set \
+              US_AI_WORKER_SECRET="$US_AI_WORKER_SECRET" \
+              OPENROUTER_API_KEY="$OPENROUTER_API_KEY" \
+              US_VISION_MODEL="openai/gpt-4o-mini" \
+              US_VISION_BACKEND="openrouter" \
+              US_AI_WORKER_REFERER="https://sonogyn-pro.ru" \
+              --app "$APP" --stage
+          else
+            echo "::warning::US_AI_WORKER_SECRET or OPENROUTER_API_KEY missing in GitHub secrets"
+          fi
+          flyctl deploy --app "$APP" --remote-only --ha=false
+          HOST="$(flyctl status --app "$APP" 2>/dev/null | awk '/Hostname/ {print $2}')"
+          echo "worker_url=https://${HOST}" >> "$GITHUB_OUTPUT"
+          echo "## Fly worker" >> "$GITHUB_STEP_SUMMARY"
+          echo "- URL: https://${HOST}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Health: \`curl -sS https://${HOST}/health\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Vercel: set US_AI_WORKER_URL=https://${HOST}" >> "$GITHUB_STEP_SUMMARY"
