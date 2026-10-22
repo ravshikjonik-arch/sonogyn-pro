@@ -1,0 +1,24 @@
+{
+  "system": "birads-us",
+  "version": "BI-RADS US — локальный ruleset (метод. основа: Е.П. Фисенко + ACR BI-RADS US; не замена официального атласа)",
+  "ruleCount": 16,
+  "ruleIdsHash": "5411775fc8d6c0e0987a68ed3ad24e789b8e8a5760e5ffd6e597371577fa4695",
+  "ruleIds": [
+    "birads-2-hyperechoic-benign",
+    "birads-2-simple-cyst",
+    "birads-3-circumscribed-oval-round-mild-doppler",
+    "birads-3-hypoechoic-shadow-benign-pattern",
+    "birads-3-probably-benign-hypoechoic",
+    "birads-4a-indistinct-alone",
+    "birads-4b-complex-cystic-solid",
+    "birads-4b-indistinct-solid",
+    "birads-4b-microlobulated",
+    "birads-4c-angular",
+    "birads-4c-indistinct-solid-shadow",
+    "birads-5-marked-flow-irregular",
+    "birads-5-nonparallel-indistinct",
+    "birads-5-nonparallel-irregular",
+    "birads-5-nonparallel-marked-flow",
+    "birads-5-spiculated"
+  ]
+}

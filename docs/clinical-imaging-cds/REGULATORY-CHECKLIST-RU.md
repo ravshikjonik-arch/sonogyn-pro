@@ -24,11 +24,12 @@
 ## Продуктовые меры уже в коде
 
 - Дисклеймеры report-generator, assistive meta в API.
-- PHI text guard; EXIF strip на assist routes (CDS v2).
-- Human-in-the-loop wizard/grids.
+- PHI text guard; EXIF strip + overlay-band mask на assist routes (CDS v2).
+- Human-in-the-loop wizard/grids; applicability gates; golden CI (34 synthetic).
+- Технический пакет: **`SAMD-TECHNICAL-COMPLETION.md`**.
 
-## Открыто
+## Открыто (RA / юрист)
 
-- OCR маска ФИО на пикселях.
-- Формальный risk management file (ISO 14971).
-- Golden-set clinical validation report.
+- Класс риска, регистрация, DPA, согласия — пункты чеклиста выше.
+- Формальный risk management file (ISO 14971) с подписью.
+- Pixel golden-set clinical validation report (κ в клинике).

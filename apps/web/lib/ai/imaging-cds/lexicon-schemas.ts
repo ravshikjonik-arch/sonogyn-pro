@@ -1,5 +1,13 @@
 import { z } from "zod";
 
+/** Normalized 0–1 region on frame (optional assistive bbox). */
+export const LexiconRegionSchema = z.object({
+  x: z.number().min(0).max(1),
+  y: z.number().min(0).max(1),
+  w: z.number().min(0).max(1),
+  h: z.number().min(0).max(1),
+});
+
 /** Assistive lexicon feature — not a final category. */
 export const LexiconFeatureSchema = z.object({
   id: z.string().min(1),
@@ -8,6 +16,7 @@ export const LexiconFeatureSchema = z.object({
   confidence: z.number().min(0).max(1).optional(),
   notAssessableOnFrame: z.boolean().optional(),
   evidenceRef: z.string().optional(),
+  region: LexiconRegionSchema.optional(),
 });
 
 export const GynLexiconFeatureIds = [

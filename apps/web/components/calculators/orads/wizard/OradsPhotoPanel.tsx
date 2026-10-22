@@ -5,6 +5,7 @@ import { useCallback, useState } from "react";
 import { toast } from "sonner";
 
 import { LexiconFeaturesList } from "@/components/calculators/orads/LexiconFeaturesList";
+import { LexiconImageOverlay } from "@/components/calculators/orads/LexiconImageOverlay";
 import { OradsAssistFeedback } from "@/components/calculators/orads/wizard/OradsAssistFeedback";
 import { Button } from "@/components/ui/button";
 import type { GynAiAssistResult } from "@/lib/ai/gyn-ultrasound-assist";
@@ -160,7 +161,12 @@ export function OradsPhotoPanel({ nav, profileAgeYears }: Props) {
       {previewUrl ? (
         <div className="relative mx-auto max-h-52 overflow-hidden rounded-xl border border-teal-200/80 bg-black/5">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={previewUrl} alt="Снимок для O-RADS" className="mx-auto max-h-52 object-contain" />
+          <LexiconImageOverlay
+            imageUrl={previewUrl}
+            imageAlt="Снимок для O-RADS"
+            features={result?.lexiconFeatures ?? []}
+            className="max-h-52"
+          />
         </div>
       ) : null}
 

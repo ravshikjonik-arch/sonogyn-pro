@@ -43,6 +43,7 @@ function collectLexiconFeatures(vision: UsVisionAnalysisResult): LexiconFeature[
         value: feat.value,
         confidence: feat.confidence,
         notAssessableOnFrame: feat.notAssessableOnFrame,
+        region: feat.region,
       });
     }
   }

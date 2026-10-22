@@ -14,7 +14,8 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "lint": "echo \"skip\"",
-    "test": "node --import tsx --test src/**/*.test.ts"
+    "test": "node --import tsx --test src/**/*.test.ts",
+    "verify:rules-snapshot": "node scripts/verify-rules-snapshot.mjs"
   },
   "devDependencies": {
     "@types/node": "^20",

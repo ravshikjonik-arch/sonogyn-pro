@@ -61,6 +61,7 @@
     "test:e2e:auth": "playwright test tests/e2e/auth.spec.ts --project=chromium-no-auth",
     "test:e2e:a11y": "playwright test tests/e2e/a11y-smoke.spec.ts --project=chromium-no-auth",
     "test:e2e:iota": "playwright test tests/e2e/iota-calculator-smoke.spec.ts --project=chromium-no-auth",
+    "test:e2e:orads-grid": "playwright test tests/e2e/orads-pro-grid-smoke.spec.ts --project=chromium-no-auth",
     "test:e2e:evidence": "playwright test tests/e2e/evidence-assistant-smoke.spec.ts --project=chromium-no-auth",
     "test:e2e:fetometry-norms": "playwright test tests/e2e/fetometry-norms-smoke.spec.ts --project=chromium-no-auth",
     "test:e2e:visual": "VISUAL_REGRESSION=true playwright test tests/e2e/visual-smoke.spec.ts --project=chromium-no-auth",

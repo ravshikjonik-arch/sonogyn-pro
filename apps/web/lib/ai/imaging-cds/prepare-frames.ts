@@ -1,7 +1,12 @@
 import { stripImageMetadata } from "@/lib/security/strip-image-metadata";
 
 import { detectBurnedInTextHeuristic } from "./burned-in-heuristic";
-import { isImagingCdsStrictQcEnabled, isImagingCdsV2Enabled } from "./flags";
+import {
+  isImagingCdsBurnedInMaskEnabled,
+  isImagingCdsStrictQcEnabled,
+  isImagingCdsV2Enabled,
+} from "./flags";
+import { maskBurnedInOverlayBands } from "./mask-burned-in-overlay";
 import { runImagingQc, type ImagingQcIssue } from "./image-qc";
 
 export type PreparedImagingFrame = {
@@ -54,6 +59,11 @@ export async function prepareImagingFramesForAnalysis(
     const burnedIn = await detectBurnedInTextHeuristic(strip.buffer, strip.contentType);
     if (burnedIn) allIssues.push(burnedIn);
 
+    let outbound = strip.buffer;
+    if (isImagingCdsBurnedInMaskEnabled()) {
+      outbound = await maskBurnedInOverlayBands(outbound, strip.contentType);
+    }
+
     if (!qc.ok && isImagingCdsStrictQcEnabled()) {
       const msg = qc.issues.find((i) => i.severity === "block")?.messageRu ?? "Качество изображения не подходит для анализа.";
       return { ok: false, error: msg, qcIssues: allIssues };
@@ -62,7 +72,7 @@ export async function prepareImagingFramesForAnalysis(
     out.push({
       fileName: frame.fileName,
       mimeType: strip.contentType,
-      base64: strip.buffer.toString("base64"),
+      base64: outbound.toString("base64"),
     });
   }
 

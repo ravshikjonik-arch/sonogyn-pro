@@ -21,3 +21,11 @@ export function isImagingCdsStrictQcEnabled(): boolean {
 export function isImagingCdsHintTelemetryEnabled(): boolean {
   return envTruthy(process.env.IMAGING_CDS_HINT_TELEMETRY);
 }
+
+/** Blur top/bottom bands before external vision API (default on with CDS v2). */
+export function isImagingCdsBurnedInMaskEnabled(): boolean {
+  if (!isImagingCdsV2Enabled()) return false;
+  const off = process.env.IMAGING_CDS_MASK_BURNED_IN?.trim().toLowerCase();
+  if (off === "0" || off === "false" || off === "off") return false;
+  return true;
+}

@@ -1,6 +1,6 @@
 # Шаг 0 — аудит модуля анализа снимков (SonoGyn Pro)
 
-Дата: 2026-10-22. Статус: **базовый аудит + CDS v2 (код)**. Полный golden-set и SaMD — **открытые пункты**.
+Дата: 2026-10-22. Статус: **STEP0 инженерно закрыт** (CDS v2 + golden synthetic + SaMD technical pack). **Юридический SaMD sign-off и pixel golden** — отдельный RA/клинический этап.
 
 ## 1. Что есть в репозитории
 
@@ -25,7 +25,7 @@
 | Правила в YAML | TS/JSON в пакетах | Реестр версий `RULES-VERSIONS.json`; полный YAML — backlog |
 | Golden set / метрики | нет | **manifest.example.json**, `scripts/imaging-cds-eval.mjs` |
 | SaMD docs | частично | `REGULATORY-CHECKLIST-RU.md`, `MODEL-CARD-US-AI-WORKER.md` |
-| OCR burned-in PHI | не реализовано | **Открыто** — только EXIF + текстовый PHI guard |
+| OCR burned-in PHI | не реализовано | **Band-mask** top/bottom + heuristic warn (не OCR-текст) |
 | Applicability (ТМ, EP…) | в UI/текстах | **Gates** gyn/breast в assist API + UI сообщения |
 | BI-RADS v2025 MRI 4A–4C | US модуль | **Вне scope** фото-pipeline |
 | FIGO staging по фото | не заявлено | OK — только миома/калькуляторы |
@@ -45,12 +45,12 @@
 
 1. ✅ **CDS v2 контракт** — QC, de-ID, sanitize vision, промпты worker (этот коммит).
 2. ✅ **Applicability API (gyn + breast)** — gates в `/api/ai/gyn-assist` и `/api/ai/breast-assist`.
-3. ✅ **Lexicon UI (без bbox)** — `LexiconFeaturesList` в `OradsPhotoPanel` и `BiradsImageAssistPanel`; bbox — backlog.
-4. ✅ **Правила как data** — `packages/orads-us/rules/orads-decision-tree.snapshot.json` + `verify-decision-tree-snapshot.mjs` в CI.
-5. **Golden set** — шаблон manifest + аннотация; **30+ кейсов** и метрики — backlog (экспертная разметка).
-6. **OCR de-ID (частично)** — EXIF + `burned-in-heuristic` warn; полная OCR-маска — backlog.
+3. ✅ **Lexicon UI + bbox** — `LexiconFeaturesList` + `LexiconImageOverlay` (normalized region).
+4. ✅ **Правила как data** — O-RADS tree + BI-RADS rules snapshots + verify scripts в CI.
+5. ✅ **Golden set (CI)** — 34 synthetic feature cases + `manifest.synthetic-ci.json`, κ/high-risk в eval; **pixel + двойное чтение** — RA backlog.
+6. ✅ **De-ID overlay mask** — EXIF + blur top/bottom bands (`IMAGING_CDS_MASK_BURNED_IN`, default on).
 7. ✅ **Telemetry (скелет)** — `/api/ai/imaging-cds-telemetry`, `sendImagingCdsTelemetry` (флаг off по умолчанию).
-8. **SaMD** — чеклист в docs; юридический sign-off — backlog.
+8. ✅ **SaMD technical** — `SAMD-TECHNICAL-COMPLETION.md`; юридический sign-off — RA backlog.
 9. ✅ **Регресс-gate (скелет)** — `imaging-cds-eval.mjs` в CI (exit 2 на пустом manifest → OK).
 10. ✅ **Retire legacy (worker)** — `_cds_strip_legacy_categories` в orchestrator; opt-in `US_AI_WORKER_ALLOW_LEGACY_CATEGORIES=1`.
 
@@ -69,6 +69,7 @@
 | `IMAGING_CDS_V2` | on (кроме `0`) | QC + de-ID + sanitize |
 | `IMAGING_CDS_STRICT_QC` | off | 422 при block-level QC |
 | `IMAGING_CDS_HINT_TELEMETRY` | off | будущая аналитика расхождений |
+| `IMAGING_CDS_MASK_BURNED_IN` | on (кроме `0`) | blur верх/низ кадра перед worker |
 | `US_AI_WORKER_ALLOW_LEGACY_CATEGORIES` | off | только dev: вернуть `orads`/`birads` на кадрах worker |
 
 См. также `ARCHITECTURE.md`, `MODEL-CARD-US-AI-WORKER.md`, `REGULATORY-CHECKLIST-RU.md`.

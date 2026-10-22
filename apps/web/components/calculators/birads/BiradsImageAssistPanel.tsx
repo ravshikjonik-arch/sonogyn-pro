@@ -5,6 +5,7 @@ import { useCallback, useState } from "react";
 import { toast } from "sonner";
 
 import { LexiconFeaturesList } from "@/components/calculators/orads/LexiconFeaturesList";
+import { LexiconImageOverlay } from "@/components/calculators/orads/LexiconImageOverlay";
 import { Button } from "@/components/ui/button";
 import type { BreastAiAssistResult } from "@/lib/ai/breast-ultrasound-assist";
 
@@ -95,7 +96,11 @@ export function BiradsImageAssistPanel({ freeText, onResult, disabled }: Props) 
       {previewUrl ? (
         <div className="relative mx-auto max-h-44 overflow-hidden rounded-lg border bg-black/5">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={previewUrl} alt="Снимок МЖ" className="mx-auto max-h-44 object-contain" />
+          <LexiconImageOverlay
+            imageUrl={previewUrl}
+            imageAlt="Снимок МЖ"
+            features={lastResult?.lexiconFeatures ?? []}
+          />
         </div>
       ) : null}
 

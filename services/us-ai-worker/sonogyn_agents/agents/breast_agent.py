@@ -28,7 +28,7 @@ vascularity, non-mass при наличии. Не видно — scanErrors, н�
     "planeGuess": "локализация / проекция",
     "findings": ["дескриптор: значение"],
     "scanErrors": ["..."],
-    "lexiconFeatures": [{"id": "margin", "labelRu": "...", "value": "circumscribed", "confidence": 0.75}],
+    "lexiconFeatures": [{"id": "margin", "labelRu": "...", "value": "circumscribed", "confidence": 0.75, "region": {"x": 0.25, "y": 0.35, "w": 0.35, "h": 0.3}}],
     "confidence": 0.0-1.0
   }]
 }"""
