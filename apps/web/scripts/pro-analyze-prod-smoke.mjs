@@ -309,9 +309,15 @@ async function main() {
         signal: AbortSignal.timeout(30_000),
       });
       const pollJson = await pollRes.json().catch(() => ({}));
-      lastStatus = pollJson.status ?? "?";
+      const row = pollJson.analysis ?? pollJson;
+      lastStatus = row.status ?? "?";
+      if (!pollRes.ok && pollRes.status !== 404) {
+        fail("Poll job", `HTTP ${pollRes.status} ${pollJson.error ?? ""}`);
+        break;
+      }
       if (lastStatus === "completed") {
-        const pipeline = pollJson.results?.pipeline ?? pollJson.results?.modelVersion ?? "";
+        const results = row.results ?? {};
+        const pipeline = results.pipeline ?? results.modelVersion ?? "";
         ok(`Job completed pipeline=${pipeline || "n/a"}`);
         if (String(pipeline).includes("us-ai-worker")) {
           ok("Worker path used");
@@ -321,24 +327,26 @@ async function main() {
         break;
       }
       if (lastStatus === "failed") {
-        fail("Job failed", pollJson.error_message ?? pollJson.error ?? "unknown");
+        fail("Job failed", row.error_message ?? pollJson.error ?? "unknown");
         break;
       }
     }
     if (lastStatus !== "completed" && lastStatus !== "failed") {
       fail("Job timeout", `last status=${lastStatus}`);
     }
-  } finally {
-    if (restoredTrial) {
-      await admin.from("profiles").update({ trial_ends_at: prevTrial }).eq("id", userId);
-      ok("Restored trial_ends_at");
-    }
-    if (!keep) {
-      await cleanup(admin, { caseId, storagePath, jobId });
-      ok("Cleanup (case + media + job)");
-    } else {
-      console.log(`\n📌 --keep: /cases/${caseId} job=${jobId}\n`);
-    }
+  } catch (e) {
+    fail("Smoke error", e instanceof Error ? e.message : String(e));
+  }
+
+  if (restoredTrial) {
+    await admin.from("profiles").update({ trial_ends_at: prevTrial }).eq("id", userId);
+    ok("Restored trial_ends_at");
+  }
+  if (!keep) {
+    await cleanup(admin, { caseId, storagePath, jobId });
+    ok("Cleanup (case + media + job)");
+  } else {
+    console.log(`\n📌 --keep: /cases/${caseId} job=${jobId}\n`);
   }
 
   console.log(failed ? `\n${failed} failed\n` : "\nAll PRO analyze checks passed\n");

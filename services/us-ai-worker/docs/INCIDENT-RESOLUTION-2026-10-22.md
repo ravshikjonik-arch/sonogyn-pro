@@ -45,7 +45,8 @@
 |--------|-----|--------|
 | Авто-smoke prod (`test:us-ai-worker-smoke`, `test:prod-smoke`) | Mac | ✅ прогнано |
 | OpenRouter: revoke старых ключей после утечки Railway | Вы, ~2 мин | ⏳ |
-| PRO UI: JPEG + DICOM анализ на sonogyn-pro.ru | Вы, ~5 мин | ⏳ |
+| PRO API smoke (`pnpm --filter @repo/web test:pro-analyze-smoke`) | Mac | ✅ |
+| PRO UI: DICOM на реальном кейсе | Вы, ~5 мин | ⏳ |
 | Railway billing / `RAILWAY_TOKEN` | Только если вернётесь на Railway | опционально |
 | Масштаб Phase 1 (2× Fly machine) | По [US-AI-SCALE-100-1000.md](../../../docs/architecture/US-AI-SCALE-100-1000.md) | когда >50 PRO/день |
 
