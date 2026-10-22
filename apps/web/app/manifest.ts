@@ -1,24 +1,32 @@
 import type { MetadataRoute } from "next";
 
-/** Progressive Web App installation manifest — paired with generated `/sw.js` via `@ducanh2912/next-pwa`. */
+/** PWA manifest (also see `public/manifest.json` linked from root layout). SW disabled in `next.config.ts`. */
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Ultrasound Clinical Education Suite",
-    short_name: "Ultrasound Edu",
+    name: "SonoGyn Pro",
+    short_name: "SonoGyn",
     description:
-      "Cloud ultrasound imaging education and clinical decision-support workspace for training cohorts.",
-    start_url: "/landing",
+      "Клиническая платформа УЗИ и акушерства-гинекологии: калькуляторы по гайдлайнам, кабинет врача и обучение.",
+    start_url: "/home",
+    scope: "/",
     display: "standalone",
-    orientation: "portrait-primary",
-    background_color: "#f8fafc",
-    theme_color: "#005CB9",
-    categories: ["medical", "education"],
+    orientation: "any",
+    background_color: "#0b1120",
+    theme_color: "#1d6fd8",
+    lang: "ru",
+    categories: ["medical", "education", "productivity"],
     icons: [
       {
-        src: "/next.svg",
-        type: "image/svg+xml",
+        src: "/icon.png",
         sizes: "512x512",
+        type: "image/png",
         purpose: "any",
+      },
+      {
+        src: "/icon.png",
+        sizes: "512x512",
+        type: "image/png",
+        purpose: "maskable",
       },
     ],
   };

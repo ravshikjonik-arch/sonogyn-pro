@@ -53,7 +53,10 @@ const proofItems = [
 
 export default function OradsIotaLandingPage() {
   return (
-    <div className="sonogyn-mesh-bg min-h-screen text-[var(--clinical-foreground)]">
+    <div
+      data-marketing-shell="true"
+      className="min-h-screen bg-[#05030a] text-slate-100 sonogyn-mesh-bg"
+    >
       <header className="border-b border-[var(--clinical-border)]/70 bg-[var(--clinical-header)]/85 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4">
           <Link href="/landing" className="flex items-center gap-2 font-bold tracking-tight" aria-label="SonoGyn Pro">

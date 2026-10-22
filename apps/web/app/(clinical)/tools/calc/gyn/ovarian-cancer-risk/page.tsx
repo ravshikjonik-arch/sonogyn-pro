@@ -1,6 +1,7 @@
 import { OvarianCancerRiskCalculator } from "@/components/calculators/gynecologic/CancerRiskCalculators";
 
-export const metadata = { title: "Риск рака яичников · SonoGyn" };
+import { calculatorPageMetadata } from "@/lib/seo/calculator-seo-registry";
+export const metadata = calculatorPageMetadata("/tools/calc/gyn/ovarian-cancer-risk");
 
 export default function OvarianCancerRiskPage() {
   return <OvarianCancerRiskCalculator />;

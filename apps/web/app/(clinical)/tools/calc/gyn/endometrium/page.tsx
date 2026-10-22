@@ -1,9 +1,8 @@
 import { EndometriumCalculator } from "@/components/calculators/endometrium/EndometriumCalculator";
 import { CalculatorLiteraturePanel } from "@/components/pubmed/CalculatorLiteraturePanel";
 
-export const metadata = {
-  title: "Эндометрий · ISUOG",
-};
+import { calculatorPageMetadata } from "@/lib/seo/calculator-seo-registry";
+export const metadata = calculatorPageMetadata("/tools/calc/gyn/endometrium");
 
 export default function EndometriumCalculatorPage() {
   return (

@@ -1,6 +1,7 @@
 import { VbacCalculator } from "@/components/calculators/obstetric/VbacCalculator";
 
-export const metadata = { title: "VBAC / TOLAC · SonoGyn" };
+import { calculatorPageMetadata } from "@/lib/seo/calculator-seo-registry";
+export const metadata = calculatorPageMetadata("/tools/calc/ob/vbac");
 
 export default function VbacPage() {
   return <VbacCalculator />;

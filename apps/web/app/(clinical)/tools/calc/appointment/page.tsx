@@ -1,10 +1,7 @@
 import { AppointmentQuickAccessHub } from "@/components/calculators/appointment/AppointmentQuickAccessHub";
 
-export const metadata = {
-  title: "Для приёма врача · Быстрый доступ к калькуляторам · SonoGyn",
-  description:
-    "Избранное, часто используемые, срок беременности, масса плода, Bishop, VBAC — один экран для приёма.",
-};
+import { calculatorPageMetadata } from "@/lib/seo/calculator-seo-registry";
+export const metadata = calculatorPageMetadata("/tools/calc/appointment");
 
 export default function ToolsCalcAppointmentPage() {
   return <AppointmentQuickAccessHub />;

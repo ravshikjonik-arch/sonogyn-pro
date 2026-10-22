@@ -1,4 +1,7 @@
 import { FmfAssistantClient, type FmfAssistantSection } from "@/components/clinical-assistant/FmfEarlyAssistantClient";
+import { calculatorPageMetadata } from "@/lib/seo/calculator-seo-registry";
+
+export const metadata = calculatorPageMetadata("/ai/consultants/fmf");
 
 type Props = { searchParams: Promise<{ section?: string }> };
 

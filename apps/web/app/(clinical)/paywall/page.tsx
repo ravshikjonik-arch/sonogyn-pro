@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 
 import { PaywallCareerBanner } from "@/components/career/PaywallCareerBanner";
 import { Button } from "@/components/ui/button";
+import { PAYMENT_PROVIDER_PUBLIC_NAME_RU, STRIPE_FALLBACK_PUBLIC_NAME } from "@/lib/config/platform";
 
 type BillingStatus = {
   features?: {
@@ -120,8 +121,8 @@ export default function PaywallPage() {
           {openAccess
             ? "На время проверки продукта регистрация и оплата сняты как барьер. Пользуйтесь калькуляторами, справочниками и рабочими экранами сразу."
             : yookassaReady
-            ? "Вы уже прошли путь студент → врач. PRO снимает потолок AI и кейсов — оплата через ЮKassa, 30 дней доступа."
-            : "PHI-safe architecture with audit trails, HIPAA-aligned controls, and Stripe-backed subscriptions with a seven-day evaluation window for qualified clinicians."}
+              ? `PRO снимает потолок AI и кейсов — оплата через ${PAYMENT_PROVIDER_PUBLIC_NAME_RU}, 30 дней доступа.`
+              : `ЮKassa не настроена на этом окружении — доступен запасной канал (${STRIPE_FALLBACK_PUBLIC_NAME}) при наличии Price ID.`}
         </p>
       </header>
 
@@ -137,11 +138,13 @@ export default function PaywallPage() {
             {yookassaReady ? "В PRO входит" : "Included with PRO"}
           </p>
           <ul className="space-y-2 text-sm text-[var(--clinical-foreground-muted)]">
-            <li>• Unlimited mocked AI segmentation jobs (production swaps model endpoint)</li>
-            <li>• Higher monthly teaching case quotas</li>
-            <li>• Priority moderation review lane</li>
+            <li>• Расширенные квоты AI-разбора и кейсов</li>
+            <li>• Приоритетная очередь модерации</li>
             <li>
-              • {yookassaReady ? "Оплата ЮKassa, чек на email" : "Stripe Customer Portal for invoices"}
+              •{" "}
+              {yookassaReady
+                ? `Оплата ${PAYMENT_PROVIDER_PUBLIC_NAME_RU}, чек на email`
+                : `Запасной канал: ${STRIPE_FALLBACK_PUBLIC_NAME} (если настроен)`}
             </li>
           </ul>
         </div>
@@ -166,8 +169,8 @@ export default function PaywallPage() {
                 : openAccess
                   ? "PRO уже открыт"
                   : yookassaReady
-                    ? "Оплатить через ЮKassa"
-                    : "Start 7-day trial"}
+                    ? `Оплатить через ${PAYMENT_PROVIDER_PUBLIC_NAME_RU}`
+                    : `Оплатить через ${STRIPE_FALLBACK_PUBLIC_NAME}`}
             </Button>
             <Button variant="outline" className="w-full" asChild>
               <Link href="/profile">Back to profile</Link>

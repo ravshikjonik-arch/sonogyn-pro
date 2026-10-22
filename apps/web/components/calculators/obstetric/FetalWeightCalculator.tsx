@@ -1,9 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
+import { CalculatorFavoriteButton } from "@/components/calculators/CalculatorFavoriteButton";
+import { CalculatorReportPanel } from "@/components/calculators/CalculatorReportPanel";
+import { CalculatorSourcesPanel } from "@/components/calculators/CalculatorSourcesPanel";
 import { CalcChip, CalcStepCard } from "@/components/calculators/shared/calc-ui";
+import { parseShareBool, readShareParamsFromUrl } from "@/lib/calculators/apply-url-params";
+import { useCalculatorWorkspace } from "@/lib/hooks/use-calculator-workspace";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,8 +23,12 @@ import {
 
 type Tab = "hadlock" | "rudakov" | "maternal";
 
+const CALC_ID = "fetal-weight";
+const SHARE_PATH = "/tools/calc/ob/fetal-weight";
+
 export function FetalWeightCalculator() {
   const [tab, setTab] = useState<Tab>("hadlock");
+  const { recordRun } = useCalculatorWorkspace(CALC_ID);
   const [bpd, setBpd] = useState("");
   const [hc, setHc] = useState("");
   const [ac, setAc] = useState("");
@@ -67,14 +76,93 @@ export function FetalWeightCalculator() {
     });
   }, [weight, height, vdm, nulliparous]);
 
+  useEffect(() => {
+    const p = readShareParamsFromUrl();
+    if (!p) return;
+    if (p.tab === "hadlock" || p.tab === "rudakov" || p.tab === "maternal") setTab(p.tab);
+    if (p.bpd) setBpd(p.bpd);
+    if (p.hc) setHc(p.hc);
+    if (p.ac) setAc(p.ac);
+    if (p.fl) setFl(p.fl);
+    if (p.vdm) setVdm(p.vdm);
+    if (p.ozh) setOzh(p.ozh);
+    if (p.weight) setWeight(p.weight);
+    if (p.height) setHeight(p.height);
+    if (p.presentation === "cephalic" || p.presentation === "breech" || p.presentation === "transverse") {
+      setPresentation(p.presentation);
+    }
+    const np = parseShareBool(p.nulliparous);
+    if (np !== undefined) setNulliparous(np);
+  }, []);
+
+  const shareParams = useMemo(
+    () => ({
+      tab,
+      bpd,
+      hc,
+      ac,
+      fl,
+      vdm,
+      ozh,
+      weight,
+      height,
+      presentation,
+      nulliparous,
+    }),
+    [tab, bpd, hc, ac, fl, vdm, ozh, weight, height, presentation, nulliparous],
+  );
+
+  const reportText = useMemo(() => {
+    if (tab === "hadlock" && hadlockResults.length > 0) {
+      return [
+        "Предполагаемая масса плода (Hadlock, УЗИ):",
+        ...hadlockResults.map((r) => `• ${r.label}: ${r.grams} г`),
+      ].join("\n");
+    }
+    if (tab === "rudakov" && rudakov) {
+      return [`EFW (Рудаков): ${rudakov.grams} г`, rudakov.formula, rudakov.note ?? ""].filter(Boolean).join("\n");
+    }
+    if (tab === "maternal" && maternal) {
+      return [`EFW (антропометрия матери): ${maternal.grams} г`, maternal.formula, maternal.note ?? ""]
+        .filter(Boolean)
+        .join("\n");
+    }
+    return "Введите параметры для расчёта массы плода.";
+  }, [tab, hadlockResults, rudakov, maternal]);
+
+  const summary = useMemo(() => {
+    if (tab === "hadlock" && hadlockResults[0]) return `${hadlockResults[0].grams} г · ${hadlockResults[0].label}`;
+    if (tab === "rudakov" && rudakov) return `${rudakov.grams} г · Рудаков`;
+    if (tab === "maternal" && maternal) return `${maternal.grams} г · антропометрия`;
+    return "Нет результата";
+  }, [tab, hadlockResults, rudakov, maternal]);
+
+  const hasResult =
+    (tab === "hadlock" && hadlockResults.length > 0) ||
+    (tab === "rudakov" && rudakov != null) ||
+    (tab === "maternal" && maternal != null);
+
+  useEffect(() => {
+    if (!hasResult) return;
+    recordRun({
+      path: SHARE_PATH,
+      title: "Масса плода (EFW)",
+      summary,
+      params: shareParams,
+    });
+  }, [hasResult, recordRun, shareParams, summary]);
+
   return (
     <div className="space-y-6 px-4 py-10 lg:px-10">
       <Button variant="ghost" size="sm" asChild>
         <Link href="/tools/calc/appointment">← Для приёма</Link>
       </Button>
-      <header className="mx-auto max-w-3xl space-y-2">
-        <Badge variant="outline">EFW · масса плода</Badge>
-        <h1 className="text-3xl font-black tracking-tight">Предполагаемая масса плода</h1>
+      <header className="mx-auto flex max-w-3xl flex-wrap items-start justify-between gap-3">
+        <div className="space-y-2">
+          <Badge variant="outline">EFW · масса плода</Badge>
+          <h1 className="text-3xl font-black tracking-tight">Предполагаемая масса плода</h1>
+        </div>
+        <CalculatorFavoriteButton calculatorId={CALC_ID} />
       </header>
       <div className="mx-auto max-w-3xl">
         <div className="mb-4 flex flex-wrap gap-1 rounded-lg bg-[var(--clinical-muted)] p-1">
@@ -151,6 +239,16 @@ export function FetalWeightCalculator() {
             ) : null}
           </div>
         ) : null}
+        {hasResult ? (
+          <CalculatorReportPanel
+            title="EFW — черновик для протокола"
+            reportText={reportText}
+            filenameBase="efw-estimate"
+            sharePath={SHARE_PATH}
+            shareParams={shareParams}
+          />
+        ) : null}
+        <CalculatorSourcesPanel calculatorId={CALC_ID} />
         <p className="mt-6 text-center text-xs text-[var(--clinical-foreground-muted)]">{CLINICAL_EFW_DISCLAIMER}</p>
       </div>
     </div>

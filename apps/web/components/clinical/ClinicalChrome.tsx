@@ -38,6 +38,11 @@ const UpgradeModal = dynamic(
   () => import("@/components/pro/UpgradeModal").then((mod) => mod.UpgradeModal),
   { ssr: false },
 );
+const FirstRunOnboardingGate = dynamic(
+  () =>
+    import("@/components/onboarding/FirstRunOnboardingGate").then((mod) => mod.FirstRunOnboardingGate),
+  { ssr: false },
+);
 
 export function ClinicalChrome({
   children,
@@ -61,6 +66,7 @@ export function ClinicalChrome({
       <AchievementToastListener />
       <SonogynCopilot />
       <UpgradeModal />
+      <FirstRunOnboardingGate />
     </>
   );
 }

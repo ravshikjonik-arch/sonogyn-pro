@@ -1,9 +1,8 @@
 import { CervicalLengthCalculator } from "@/components/calculators/cervix/CervicalLengthCalculator";
 import { CalculatorLiteraturePanel } from "@/components/pubmed/CalculatorLiteraturePanel";
 
-export const metadata = {
-  title: "Цервикальная длина",
-};
+import { calculatorPageMetadata } from "@/lib/seo/calculator-seo-registry";
+export const metadata = calculatorPageMetadata("/tools/calc/ob/cervical-length");
 
 export default function CervicalLengthCalculatorPage() {
   return (
