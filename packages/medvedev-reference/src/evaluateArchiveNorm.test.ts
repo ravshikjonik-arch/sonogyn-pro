@@ -4,12 +4,13 @@ import { describe, it } from "node:test";
 import { evaluateArchiveNorm, listArchiveCalculatorCards, listArchiveTableParameters } from "./evaluateArchiveNorm";
 
 describe("evaluateArchiveNorm", () => {
-  it("lists 96 calculator cards without image fields", () => {
+  it("lists 96 calculator cards with public scan URLs", () => {
     const cards = listArchiveCalculatorCards();
     assert.equal(cards.length, 96);
     for (const c of cards) {
       assert.ok(c.tableId);
       assert.ok(c.titleRu);
+      assert.ok(c.imageSrc?.includes("/clinical/medvedev-archive/"));
       assert.equal("filename" in c, false);
       assert.equal("imagePath" in c, false);
     }

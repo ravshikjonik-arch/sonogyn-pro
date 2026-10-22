@@ -82,13 +82,13 @@ async function main() {
   const fetometryComplete = fetometryHtml.includes("</html>");
   const fetometryTitle = /Калькулятор норм фетометрии/i.test(fetometryHtml);
   const fetometryRoute = fetometryHtml.includes("fetometry-norms");
-  const fetometryNoPhotos =
-    !/\.jpeg|medvedev-archive|image-26-06-26/i.test(fetometryHtml);
+  const fetometryHasCatalog =
+    /96 таблиц|96 калькуляторов|medvedev-archive|clinical\/medvedev-archive/i.test(fetometryHtml);
   const okFetometry =
-    fetometry.ok && fetometryComplete && fetometryTitle && fetometryRoute && fetometryNoPhotos;
+    fetometry.ok && fetometryComplete && fetometryTitle && fetometryRoute && fetometryHasCatalog;
   console.log(
     okFetometry ? "✅" : "❌",
-    `/tools/calc/ob/fetometry-norms → ${fetometry.status}, ${fetometryHtml.length} B, title=${fetometryTitle}, route=${fetometryRoute}, no-photos=${fetometryNoPhotos}`,
+    `/tools/calc/ob/fetometry-norms → ${fetometry.status}, ${fetometryHtml.length} B, title=${fetometryTitle}, route=${fetometryRoute}, catalog=${fetometryHasCatalog}`,
   );
 
   const failed = !health.ok || !okWorker || !complete || !okAsk || !okFetometry;

@@ -12,7 +12,8 @@
   "sideEffects": false,
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "test": "node --import tsx --test src/*.test.ts"
+    "test": "node --import tsx --test src/*.test.ts",
+    "sync:archive-images": "node scripts/sync-archive-images-to-web.mjs"
   },
   "devDependencies": {
     "@types/node": "^20",

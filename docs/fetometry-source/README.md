@@ -6,4 +6,10 @@ JPEG-карточки из «Основы ультразвуковой фето�
 - SSOT JSON: `packages/medvedev-reference/data/archive-tables/`.
 - Каталог: `node packages/medical-reference-curves/scripts/sync-archive-catalog.mjs`.
 
-JPEG в git не коммитятся (локальный рабочий архив); цифры — в JSON.
+JPEG в git не коммитятся в `docs/` (локальный рабочий архив); копия для web:
+
+```bash
+pnpm --filter @repo/medvedev-reference sync:archive-images
+```
+
+→ `apps/web/public/clinical/medvedev-archive/` (коммитятся для prod). Цифры SSOT — JSON в `packages/medvedev-reference/data/archive-tables/`. См. `ARCHIVE-BOOK.md` там же.

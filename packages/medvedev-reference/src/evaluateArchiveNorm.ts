@@ -4,6 +4,7 @@
  */
 
 import { ARCHIVE_CATALOG, findArchiveCardByTableId } from "./archiveTables";
+import { getMedvedevArchivePublicImageSrc } from "./medvedevArchiveMedia";
 import { ARCHIVE_TABLES_BY_ID } from "./archiveTableRegistry.generated";
 import type { ArchiveParameter, ArchiveTableDocument, GaPoint, MeanRangeTriplet, PercentileTriplet } from "./archiveTableTypes";
 import { gaWeeksDecimal } from "./medvedevBiometry";
@@ -23,6 +24,10 @@ export type ArchiveCalculatorCard = {
   verified: boolean;
   source?: string;
   partial?: boolean;
+  partialNote?: string;
+  cardIndex?: number;
+  /** Публичный URL скана страницы книги */
+  imageSrc?: string;
   /** Одна JPEG-карточка → несколько JSON (выбор подтаблицы в UI) */
   multiTable?: string[];
 };
@@ -195,12 +200,13 @@ export function getArchiveTableDocument(tableId: string, subTableId?: string): A
   return ARCHIVE_TABLES_BY_ID[resolved] ?? null;
 }
 
-/** Catalog entries safe for UI — no filenames or image paths. */
+/** Каталог для UI: метаданные + public URL скана. */
 export function listArchiveCalculatorCards(): ArchiveCalculatorCard[] {
   return ARCHIVE_CATALOG.cards.map((c) => {
     const doc = c.dataFile ? getArchiveTableDocument(c.tableId) : null;
     const multi =
       "multiTable" in c && Array.isArray(c.multiTable) ? (c.multiTable as string[]) : undefined;
+    const resolvedDoc = doc ?? (multi?.[0] ? getArchiveTableDocument(c.tableId, multi[0]) : null);
     return {
       tableId: c.tableId,
       titleRu: c.titleRu,
@@ -208,8 +214,11 @@ export function listArchiveCalculatorCards(): ArchiveCalculatorCard[] {
       tableType: c.tableType,
       extractionStatus: c.extractionStatus,
       verified: c.verified === true,
-      source: doc?.source,
-      partial: doc?.partial === true || c.extractionStatus === "partial",
+      source: resolvedDoc?.source,
+      partial: resolvedDoc?.partial === true || c.extractionStatus === "partial",
+      partialNote: resolvedDoc?.partialNote,
+      cardIndex: c.cardIndex,
+      imageSrc: c.filename ? getMedvedevArchivePublicImageSrc(c.filename) : undefined,
       multiTable: multi,
     };
   });

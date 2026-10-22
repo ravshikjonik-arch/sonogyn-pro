@@ -20,5 +20,9 @@ export function listArchiveTableFiles(): string[] {
 }
 
 export function findArchiveCardByTableId(tableId: string) {
-  return catalog.cards.find((c) => c.tableId === tableId);
+  return catalog.cards.find((c) => {
+    if (c.tableId === tableId) return true;
+    const multi = "multiTable" in c && Array.isArray(c.multiTable) ? c.multiTable : undefined;
+    return multi?.includes(tableId) ?? false;
+  });
 }

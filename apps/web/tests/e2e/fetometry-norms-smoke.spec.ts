@@ -9,7 +9,7 @@ test.describe("Fetometry norms calculator smoke", () => {
     const html = await res.text();
     expect(html).toMatch(/Калькулятор норм фетометрии/i);
     expect(html).toContain("fetometry-norms");
-    expect(html).not.toMatch(/\.jpeg|medvedev-archive|image-26-06-26/i);
+    expect(html).toMatch(/96 таблиц|medvedev-archive|clinical\/medvedev-archive/i);
   });
 
   test("table 2.17 sylvian @ 20w → ~50th percentile", async ({ page }) => {

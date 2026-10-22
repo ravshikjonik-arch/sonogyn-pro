@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState, type ReactNode } from "react";
 
@@ -26,6 +27,7 @@ import {
   getArchiveTableDocument,
   listArchiveCalculatorCards,
   listArchiveTableParameters,
+  medvedevArchiveBookStats,
   type ArchiveCalculatorCard,
 } from "@repo/medvedev-reference";
 
@@ -74,6 +76,7 @@ type Props = {
 };
 
 export function FetometryNormsCalculatorHub({ initialTableId }: Props) {
+  const bookStats = useMemo(() => medvedevArchiveBookStats(), []);
   const cards = useMemo(() => listArchiveCalculatorCards(), []);
   const [query, setQuery] = useState("");
   const [block, setBlock] = useState<string>("all");
@@ -140,8 +143,8 @@ export function FetometryNormsCalculatorHub({ initialTableId }: Props) {
         <p className="text-muted-foreground text-sm">Акушерство · табличные нормы</p>
         <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">Калькулятор фетометрии (нормы)</h1>
         <p className="text-muted-foreground max-w-3xl text-sm leading-relaxed">
-          Расчёт по структурированным таблицам учебного справочника (Медведев и соавт.). Без PDF и без
-          сканов — только цифры, перцентили и атрибуция источника.
+          {bookStats.totalCards} таблиц из «{bookStats.sourceBook}»: JSON для расчёта и скан страницы для
+          сверки с книгой. Перцентили и атрибуция источника в результате.
         </p>
         <p className="text-muted-foreground text-xs">{ARCHIVE_CALCULATOR_DISCLAIMER}</p>
       </div>
@@ -150,7 +153,10 @@ export function FetometryNormsCalculatorHub({ initialTableId }: Props) {
         <Card>
           <CardHeader className="pb-3">
             <CardTitle className="text-lg">Каталог таблиц</CardTitle>
-            <CardDescription>{cards.length} калькуляторов · JSON SSOT</CardDescription>
+            <CardDescription>
+              {cards.length} карточек · {bookStats.byStatus.extracted ?? 0} полных ·{" "}
+              {bookStats.byStatus.partial ?? 0} с усечённым диапазоном сроков
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
             <Input
@@ -206,13 +212,36 @@ export function FetometryNormsCalculatorHub({ initialTableId }: Props) {
                 ) : (
                   <Badge variant="outline">Не сверено</Badge>
                 )}
-                {selected.partial ? <Badge variant="outline">Partial</Badge> : null}
-                {selected.extractionStatus === "partial" ? (
-                  <Badge variant="outline">Извлечение partial</Badge>
+                {selected.partial ? (
+                  <Badge variant="outline">Диапазон сроков на скане неполный</Badge>
+                ) : null}
+                {selected.cardIndex != null ? (
+                  <Badge variant="outline">Карточка {selected.cardIndex}/96</Badge>
                 ) : null}
                 {doc?.source ? <Badge variant="outline">{doc.source}</Badge> : null}
               </div>
               <p className="text-muted-foreground mb-4 text-sm">{selected.titleRu}</p>
+
+              {selected.imageSrc ? (
+                <figure className="mb-4 overflow-hidden rounded-lg border border-[var(--clinical-border)] bg-[var(--clinical-background)]">
+                  <Image
+                    src={selected.imageSrc}
+                    alt={`Скан таблицы ${selected.tableId}: ${selected.titleRu}`}
+                    width={960}
+                    height={720}
+                    className="h-auto max-h-[min(420px,50vh)] w-full object-contain"
+                    sizes="(max-width: 1024px) 100vw, 540px"
+                    unoptimized
+                  />
+                  <figcaption className="text-muted-foreground border-t px-3 py-2 text-xs">
+                    Учебный скан · табл. {selected.tableId}. Сверьте цифры с монитором и протоколом.
+                  </figcaption>
+                </figure>
+              ) : null}
+
+              {selected.partialNote || doc?.partialNote ? (
+                <p className="text-muted-foreground mb-4 text-xs">{selected.partialNote ?? doc?.partialNote}</p>
+              ) : null}
 
               {selected.multiTable?.length ? (
                 <div className="mb-4 space-y-1">
