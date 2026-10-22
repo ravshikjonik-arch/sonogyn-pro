@@ -21,8 +21,21 @@ export const UsVisionFrameSchema = z.object({
   scanErrors: z.array(z.string()).default([]),
   biometryHints: z.array(z.string()).default([]),
   confidence: z.number().min(0).max(1).default(0.5),
+  /** @deprecated Vision must not set final category; stripped by sanitizeVisionForRuleEngine. */
   birads: z.string().optional(),
+  /** @deprecated Vision must not set final category; stripped by sanitizeVisionForRuleEngine. */
   orads: z.string().optional(),
+  lexiconFeatures: z
+    .array(
+      z.object({
+        id: z.string(),
+        labelRu: z.string(),
+        value: z.union([z.string(), z.number(), z.boolean(), z.null()]),
+        confidence: z.number().min(0).max(1).optional(),
+        notAssessableOnFrame: z.boolean().optional(),
+      }),
+    )
+    .optional(),
   sononet: SonoNetPredictionSchema.optional(),
 });
 

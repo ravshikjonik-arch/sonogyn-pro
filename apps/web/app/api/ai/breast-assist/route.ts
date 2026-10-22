@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 
 import { analyzeBreastUltrasoundAssist } from "@/lib/ai/breast-ultrasound-assist";
+import { prepareImagingFramesForAnalysis } from "@/lib/ai/imaging-cds/prepare-frames";
 import { isDevSkipAuthEnabled } from "@/lib/auth/dev-account";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
@@ -52,9 +53,26 @@ export async function POST(request: Request) {
   const phiBlocked = rejectIfPhiInTextFields([parsed.data.freeText, parsed.data.clinicalContext]);
   if (phiBlocked) return phiBlocked;
 
-  const result = await analyzeBreastUltrasoundAssist(parsed.data);
+  const prepared = await prepareImagingFramesForAnalysis(parsed.data.frames ?? []);
+  if (!prepared.ok) {
+    return NextResponse.json(
+      { error: prepared.error, qc: prepared.qcIssues },
+      { status: 422 },
+    );
+  }
+
+  const result = await analyzeBreastUltrasoundAssist({
+    ...parsed.data,
+    frames: prepared.frames.length ? prepared.frames : parsed.data.frames,
+  });
   return NextResponse.json({
     result,
-    meta: { pipeline: result.pipeline, assistive: true, domain: "breast" },
+    meta: {
+      pipeline: result.pipeline,
+      assistive: true,
+      domain: "breast",
+      qc: prepared.qcIssues,
+      metadataStripped: prepared.metadataStripped,
+    },
   });
 }

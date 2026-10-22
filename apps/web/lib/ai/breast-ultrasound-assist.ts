@@ -37,7 +37,7 @@ function visionToFreeText(vision: UsVisionAnalysisResult): string {
   for (const frame of vision.frames) {
     if (frame.planeGuess) parts.push(frame.planeGuess);
     parts.push(...frame.findings);
-    if (frame.birads) parts.push(`BI-RADS ${frame.birads}`);
+    // BI-RADS category from vision is not merged — NLP/rule engine after physician confirmation.
   }
   return parts.join(". ");
 }
@@ -48,7 +48,6 @@ export async function analyzeBreastUltrasoundAssist(input: BreastAiAssistInput):
   let workerImpression: string | undefined;
   let workerRecommendations: string[] | undefined;
   let workerScorecard: string | null | undefined;
-  let workerBiradsHints: string[] = [];
   let visionText = "";
 
   const frames = input.frames ?? [];
@@ -73,9 +72,6 @@ export async function analyzeBreastUltrasoundAssist(input: BreastAiAssistInput):
       workerImpression = workerResult.impression;
       workerRecommendations = workerResult.recommendations;
       workerScorecard = workerResult.scorecard ?? null;
-      workerBiradsHints = workerResult.frames
-        .map((f) => f.birads)
-        .filter((b): b is string => Boolean(b));
       visionText = visionToFreeText(workerResult);
     }
   }
@@ -85,10 +81,6 @@ export async function analyzeBreastUltrasoundAssist(input: BreastAiAssistInput):
   const parsedInput = nlp.parsedInput;
   const report = nlp.report;
   const keywords = [...nlp.detectedKeywords];
-
-  if (workerBiradsHints[0] && !mergedText.match(/bi-rads|birads/i)) {
-    keywords.push(`worker BI-RADS ${workerBiradsHints[0]}`);
-  }
 
   return {
     ...nlp,
@@ -100,7 +92,7 @@ export async function analyzeBreastUltrasoundAssist(input: BreastAiAssistInput):
     workerImpression,
     workerRecommendations,
     workerScorecard,
-    workerBiradsHints,
+    workerBiradsHints: [],
     mergedText,
   };
 }

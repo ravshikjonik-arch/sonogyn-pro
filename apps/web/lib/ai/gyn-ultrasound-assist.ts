@@ -39,7 +39,10 @@ function visionToFreeText(vision: UsVisionAnalysisResult): string {
   for (const frame of vision.frames) {
     if (frame.planeGuess) parts.push(frame.planeGuess);
     parts.push(...frame.findings);
-    if (frame.orads) parts.push(`O-RADS ${frame.orads}`);
+    for (const feat of frame.lexiconFeatures ?? []) {
+      parts.push(`${feat.labelRu}: ${String(feat.value)}`);
+    }
+    // Category numbers from vision are intentionally omitted — rule engine only after physician confirmation.
   }
   return parts.join(". ");
 }

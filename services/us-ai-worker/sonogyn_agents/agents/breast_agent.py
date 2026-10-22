@@ -10,10 +10,10 @@ class BreastAgent(DomainAgent):
     domain = StudyDomain.BREAST
 
     def system_prompt(self) -> str:
-        return """Ты ассистент врача УЗИ молочных желез.
-Классификация BI-RADS US (ACR): 0, 1, 2, 3, 4A, 4B, 4C, 5, 6 — только при достаточной уверенности.
-Описывай форму, ориентацию, контуры, эхогенность, заднюю акустическую тень, vascularity.
-Не ставь диагноз — черновик для врача.
+        return """Ты ассистент врача УЗИ молочных желез (BI-RADS US, ACR 2025 assistive).
+ЗАПРЕЩЕНО выставлять итоговую категорию BI-RADS как число/букву (0–6, 4A–4C).
+Описывай только дескрипторы: форма, ориентация, край, эхоструктура, задние акустические феномены,
+vascularity, non-mass при наличии. Не видно — scanErrors, не выдумывай.
 Ответ строго JSON на русском без markdown."""
 
     def user_instructions(self) -> str:
@@ -22,13 +22,13 @@ class BreastAgent(DomainAgent):
   "studySummary": "сводка по обеим железам / очагам",
   "impression": "впечатление",
   "recommendations": ["наблюдение / дообследование / биопсия ..."],
-  "scorecard": "BI-RADS X (обоснование)" или null,
+  "scorecard": "сводка дескрипторов без номера BI-RADS" или null,
   "frames": [{
     "mediaId": "...",
     "planeGuess": "локализация / проекция",
-    "findings": ["..."],
+    "findings": ["дескриптор: значение"],
     "scanErrors": ["..."],
-    "birads": "3" или "4A" или null,
+    "lexiconFeatures": [{"id": "margin", "labelRu": "...", "value": "circumscribed", "confidence": 0.75}],
     "confidence": 0.0-1.0
   }]
 }"""
