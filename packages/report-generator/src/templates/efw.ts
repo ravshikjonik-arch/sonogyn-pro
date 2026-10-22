@@ -58,7 +58,7 @@ export function renderEfwReport(payload: CalculatorReportPayload): GeneratedRepo
       "",
       "ЗАКЛЮЧЕНИЕ:",
       primary
-        ? `Расчётная масса плода ~${primary.grams} г (${primary.label}). Сопоставить с гestational age и перцентилями по локальной таблице. // VERIFY: перцентили — только если введён срок`
+        ? `Расчётная масса плода ~${primary.grams} г (${primary.label}). Сопоставить со сроком беременности и перцентилями по локальной таблице.`
         : `Расчётная масса плода: ${MISSING_VALUE_RU}`,
       "",
       "ДИСКЛЕЙМЕР:",

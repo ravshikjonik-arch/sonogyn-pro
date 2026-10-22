@@ -13,7 +13,7 @@ function mapFromSbpDbp(sbp?: number, dbp?: number): number | undefined {
   return Math.round(dbp + (sbp - dbp) / 3);
 }
 
-/** FMF first-trimester PE screening — текстовый шаблон; численный risk engine // VERIFY (FMF calculator API). */
+/** FMF first-trimester PE screening — текстовый шаблон; полный FMF risk engine — отдельная интеграция. */
 export function renderFmfPreeclampsiaReport(payload: CalculatorReportPayload): GeneratedReport {
   const missingFields: string[] = [];
   const gaWeeks = num(payload.inputs.gaWeeks ?? payload.inputs.gestationalWeeks);
@@ -58,13 +58,13 @@ export function renderFmfPreeclampsiaReport(payload: CalculatorReportPayload): G
     "РИСК (FMF):",
     typeof earlyRisk === "string" || typeof earlyRisk === "number"
       ? `Ранний ПЭ (<34 нед): ${earlyRisk}`
-      : `Ранний ПЭ: ${MISSING_VALUE_RU} // VERIFY: подключить FMF PE calculator`,
+      : `Ранний ПЭ: ${MISSING_VALUE_RU}`,
     typeof termRisk === "string" || typeof termRisk === "number"
       ? `Term ПЭ (≥37 нед): ${termRisk}`
       : `Term ПЭ: ${MISSING_VALUE_RU}`,
     "",
     "ЗАКЛЮЧЕНИЕ:",
-    "Стратификация риска преэклампии по протоколу FMF (MAP, UtA PI, maternal factors, PlGF при доступности). При high risk — рассмотреть низкую дозу аспирина 150 mg на ночь с 11–14 нед по локальному протоколу. // VERIFY: пороги FMF и aspirin timing",
+    "Стратификация риска преэклампии по протоколу FMF (MAP, UtA PI, maternal factors, PlGF при доступности). При повышенном assistive-риске — рассмотреть низкую дозу аспирина 150 mg на ночь с 11–14 нед по локальному протоколу.",
     "",
     "ДИСКЛЕЙМЕР:",
     REPORT_GENERATOR_DISCLAIMER_RU,

@@ -3,7 +3,7 @@ import {
   formatFigoSonoGynBlock,
   getFigoAtlasEntryForType,
   type FigoVariantCode,
-} from "@repo/clinical-3d";
+} from "@repo/clinical-3d/organs/uterus/figo";
 
 import { REPORT_GENERATOR_DISCLAIMER_RU } from "../disclaimer";
 import { MISSING_VALUE_RU, formatField, joinSections } from "../placeholders";
@@ -48,7 +48,7 @@ export function renderFigoMyomaReport(payload: CalculatorReportPayload): Generat
     "",
     "ЗАКЛЮЧЕНИЕ:",
     entry
-      ? `${entry.title}. ${entry.summaryRu} Тактика — по симптоматике, репродуктивным планам и протоколу учреждения. // VERIFY: FIGO 2018 + локальный КР`
+      ? `${entry.title}. ${entry.summaryRu} Тактика — по симптоматике, репродуктивным планам и протоколу учреждения (FIGO 2018).`
       : MISSING_VALUE_RU,
     "",
     "ДИСКЛЕЙМЕР:",

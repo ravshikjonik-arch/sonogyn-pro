@@ -25,6 +25,7 @@ type Props = {
   disclaimer?: string;
   repeatHref?: string;
   onSaveToHistory?: () => void;
+  saveHistoryLabel?: string;
   /** Включить AI «Улучшить формулировки» (O-RADS и др.). */
   aiRefine?: { toolId: string; category?: string | number | null };
 };
@@ -38,6 +39,7 @@ export function CalculatorReportPanel({
   disclaimer = REPORT_GENERATOR_DISCLAIMER_RU,
   repeatHref,
   onSaveToHistory,
+  saveHistoryLabel = "В историю",
   aiRefine,
 }: Props) {
   const [busy, setBusy] = useState<"pdf" | "share" | "refine" | null>(null);
@@ -208,7 +210,7 @@ export function CalculatorReportPanel({
         {onSaveToHistory ? (
           <Button type="button" size="sm" variant="outline" onClick={onSaveToHistory}>
             <BookmarkPlus className="mr-1.5 h-3.5 w-3.5" />
-            В историю
+            {saveHistoryLabel}
           </Button>
         ) : null}
       </div>

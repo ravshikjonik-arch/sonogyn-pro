@@ -328,6 +328,7 @@ export function TiradsAcrWizard() {
             }}
             repeatHref="/tools/calc/rads/ti-rads"
             onSaveToHistory={onSave}
+            saveHistoryLabel="Сохранить в облаке"
           />
 
           <div className="rounded-2xl border border-[var(--clinical-border)] p-4">
@@ -336,9 +337,6 @@ export function TiradsAcrWizard() {
             </p>
             <div className="mt-2 flex flex-wrap gap-2">
               <Button onClick={openStructuredReport}>Структурированный доклад</Button>
-              <Button variant="secondary" onClick={onSave} disabled={pending}>
-                Сохранить в историю
-              </Button>
               <Button variant="outline" asChild>
                 <Link href="/cases?tab=cases&playlist=tirads-thyroid">Кейсы TI-RADS</Link>
               </Button>

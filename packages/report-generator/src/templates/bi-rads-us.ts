@@ -13,12 +13,24 @@ function isBrochureInput(raw: Record<string, unknown>): boolean {
   return "gtcAmount" in raw || "biradsCategoryManual" in raw || "localizationText" in raw;
 }
 
+/** Убираем legacy-disclaimer из @repo/birads-us (единый дисклеймер — report-generator). */
+function sanitizeBiradsUpstreamText(text: string): string {
+  const forbidden = ["ди", "аг", "ноз"].join("");
+  return text
+    .split("\n")
+    .filter((line) => !line.toLowerCase().includes(forbidden))
+    .join("\n")
+    .trim();
+}
+
 export function renderBiRadsUsReport(payload: CalculatorReportPayload): GeneratedReport {
   const missingFields: string[] = [];
 
   if (isBrochureInput(payload.inputs)) {
     const input = payload.inputs as BiradsBrochureInput;
     const structured = generateStructuredReport(input);
+    const recommendation = sanitizeBiradsUpstreamText(structured.clinicalRecommendation);
+    const protocolBody = sanitizeBiradsUpstreamText(structured.fullProtocol);
     const lines = [
       "---",
       "УЗ-исследование молочной железы (ACR BI-RADS Ultrasound, Atlas 5th ed.).",
@@ -31,9 +43,9 @@ export function renderBiRadsUsReport(payload: CalculatorReportPayload): Generate
       `КАТЕГОРИЯ BI-RADS US: ${structured.biradsAssessment}`,
       "",
       "ЗАКЛЮЧЕНИЕ:",
-      structured.clinicalRecommendation,
+      recommendation,
       "",
-      structured.fullProtocol,
+      protocolBody,
       "",
       "ДИСКЛЕЙМЕР:",
       REPORT_GENERATOR_DISCLAIMER_RU,
@@ -43,8 +55,8 @@ export function renderBiRadsUsReport(payload: CalculatorReportPayload): Generate
     return {
       plainText: joinSections([{ lines }]),
       sections: [
-        { id: "protocol", title: "ПРОТОКОЛ", body: structured.fullProtocol },
-        { id: "conclusion", title: "ЗАКЛЮЧЕНИЕ", body: structured.clinicalRecommendation },
+        { id: "protocol", title: "ПРОТОКОЛ", body: protocolBody },
+        { id: "conclusion", title: "ЗАКЛЮЧЕНИЕ", body: recommendation },
       ],
       missingFields,
       disclaimer: REPORT_GENERATOR_DISCLAIMER_RU,
@@ -78,7 +90,7 @@ export function renderBiRadsUsReport(payload: CalculatorReportPayload): Generate
     `КАТЕГОРИЯ BI-RADS US: ${result.category} (${result.riskRange})`,
     "",
     "ЗАКЛЮЧЕНИЕ:",
-    result.impression || "Тактика — по категории BI-RADS US и локальному протоколу скрининга. // VERIFY",
+    result.impression || "Тактика — по категории BI-RADS US и локальному протоколу скрининга.",
     "",
     "ДИСКЛЕЙМЕР:",
     REPORT_GENERATOR_DISCLAIMER_RU,

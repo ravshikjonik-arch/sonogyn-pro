@@ -8,6 +8,7 @@
   "exports": {
     ".": "./src/index.ts",
     "./organs/ovary": "./src/organs/ovary/index.ts",
+    "./organs/uterus/figo": "./src/organs/uterus/figoClassification.ts",
     "./shared/locale": "./src/shared/locale.ts",
     "./organs/*": "./src/organs/*/index.ts",
     "./shared/*": "./src/shared/*"

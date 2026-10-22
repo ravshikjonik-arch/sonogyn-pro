@@ -954,7 +954,11 @@ function FirstForm({
       <FmfPreeclampsiaReportPanel
         first={first}
         screening={liveFmfScreening}
-        gaWeeks={first.crlMm ? Math.floor(gaDaysByCrl(first.crlMm) / 7) : undefined}
+        gaWeeks={
+          first.crlMm
+            ? Math.floor((gaDaysByCrl(first.crlMm) ?? 0) / 7) || undefined
+            : undefined
+        }
       />
     </>
   );

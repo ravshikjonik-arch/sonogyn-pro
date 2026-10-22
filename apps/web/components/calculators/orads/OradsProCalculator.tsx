@@ -585,9 +585,6 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
             ) : null}
 
             <div className="flex flex-wrap gap-2 pt-2">
-              <Button type="button" variant="secondary" disabled={pending} onClick={onSave}>
-                Сохранить
-              </Button>
               <Button type="button" variant="default" disabled={pending || !showTriangulation} onClick={openStructuredReport}>
                 Структурированный протокол
               </Button>
@@ -610,9 +607,15 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
                 reportText={f.reportText}
                 filenameBase={`orads-${f.result.category}`}
                 sharePath="/tools/calc/rads/o-rads"
-                shareParams={{ category: f.result.category }}
+                shareParams={{
+                  category: f.result.category,
+                  menopause: f.input.menopause ?? null,
+                  lesionKind: f.input.lesionKind ?? null,
+                  structure: f.input.structure ?? null,
+                }}
                 repeatHref="/tools/calc/rads/o-rads"
                 onSaveToHistory={onSave}
+                saveHistoryLabel="Сохранить в облаке"
                 aiRefine={{ toolId: "o-rads-us", category: f.result.category }}
               />
             ) : null}

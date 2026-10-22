@@ -125,7 +125,7 @@ export function renderIotaAdnexReport(payload: CalculatorReportPayload): Generat
     oradsCategory != null ? `Сопоставление: O-RADS US ${oradsCategory} (введено врачом).` : `O-RADS US для сопоставления: ${MISSING_VALUE_RU}`,
     "",
     "ЗАКЛЮЧЕНИЕ:",
-    "Результаты IOTA ADNEX / Simple Rules — assistive-стратификация риска. Тактика — по O-RADS US, клинике и локальному протоколу. // VERIFY: пороги направления к онкологу",
+    "Результаты IOTA ADNEX / Simple Rules — assistive-стратификация риска. Тактика — по O-RADS US, клинике и локальному протоколу.",
     "",
     "ДИСКЛЕЙМЕР:",
     REPORT_GENERATOR_DISCLAIMER_RU,

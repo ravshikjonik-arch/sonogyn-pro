@@ -487,6 +487,7 @@ export function BiradsUsCalculator({ embedded }: { embedded?: boolean } = {}) {
           }}
           repeatHref="/tools/calc/rads/bi-rads"
           onSaveToHistory={onSave}
+          saveHistoryLabel="Сохранить в облаке"
         />
 
         <details className="rounded-xl border p-3 text-xs">

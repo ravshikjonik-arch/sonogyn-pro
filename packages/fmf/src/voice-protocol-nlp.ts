@@ -1,6 +1,4 @@
-import Mcalc from "@repo/medical-calculations";
-
-const { efwHadlock3, efwHadlock4 } = Mcalc;
+import { efwHadlock3, efwHadlock4 } from "@repo/medical-calculations";
 
 export type VoiceProtocolResult = {
   data: Record<string, number | boolean | string | null>;

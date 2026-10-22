@@ -71,7 +71,7 @@ export function renderVbacReport(payload: CalculatorReportPayload): GeneratedRep
         : "Ориентир: TOLAC не рекомендуется без устранения противопоказаний / по протоколу центра.",
       "",
       "ЗАКЛЮЧЕНИЕ:",
-      `Стратификация TOLAC/VBAC: ${result.category}. Решение — после информированного согласия и протокола учреждения. // VERIFY: формулировки под ваш локальный КР/ACOG summary`,
+      `Стратификация TOLAC/VBAC: ${result.category}. Решение — после информированного согласия и протокола учреждения.`,
       "",
       "ДИСКЛЕЙМЕР:",
       REPORT_GENERATOR_DISCLAIMER_RU,
