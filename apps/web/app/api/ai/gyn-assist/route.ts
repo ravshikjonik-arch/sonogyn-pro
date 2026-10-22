@@ -2,7 +2,9 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 
 import { analyzeGynUltrasoundAssist } from "@/lib/ai/gyn-ultrasound-assist";
+import { evaluateOradsApplicability } from "@/lib/ai/imaging-cds/orads-applicability";
 import { prepareImagingFramesForAnalysis } from "@/lib/ai/imaging-cds/prepare-frames";
+import { buildGynAssistBlockedResult } from "@/lib/ai/gyn-ultrasound-assist";
 import { isDevSkipAuthEnabled, isFullOpenAccessEnabled } from "@/lib/auth/dev-account";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
@@ -64,6 +66,27 @@ export async function POST(request: Request) {
     );
   }
 
+  const applicability = evaluateOradsApplicability({
+    freeText: parsed.data.freeText,
+    clinicalContext: parsed.data.clinicalContext,
+    qcIssues: prepared.qcIssues,
+  });
+
+  if (applicability.blockAnalysis) {
+    const result = buildGynAssistBlockedResult(applicability);
+    return NextResponse.json({
+      result,
+      meta: {
+        pipeline: result.pipeline,
+        assistive: true,
+        domain: "gyn",
+        applicability,
+        qc: prepared.qcIssues,
+        skipped: "worker_and_rules",
+      },
+    });
+  }
+
   const result = await analyzeGynUltrasoundAssist({
     ...parsed.data,
     frames: prepared.frames.length ? prepared.frames : parsed.data.frames,
@@ -76,6 +99,7 @@ export async function POST(request: Request) {
       domain: "gyn",
       qc: prepared.qcIssues,
       metadataStripped: prepared.metadataStripped,
+      applicability,
     },
   });
 }

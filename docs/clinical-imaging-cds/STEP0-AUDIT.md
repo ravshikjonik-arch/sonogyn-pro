@@ -44,8 +44,8 @@
 ## 4. План этапов (6–10)
 
 1. ✅ **CDS v2 контракт** — QC, de-ID, sanitize vision, промпты worker (этот коммит).
-2. **Applicability API** — Zod-gates: беременность, extraovarian, inadequate study → O-RADS 0/N/A без LLM.
-3. **Lexicon UI** — подсветка `lexiconFeatures` + bbox (когда worker отдаёт).
+2. ✅ **Applicability API (gyn)** — `evaluateOradsApplicability` + gate в `/api/ai/gyn-assist` (без worker при block).
+3. **Lexicon UI (частично)** — `LexiconFeaturesList` в `OradsPhotoPanel`; bbox — backlog.
 4. **Правила как data** — экспорт decision tables в версионируемый JSON + diff в CI.
 5. **Golden set** — 30+ кейсов/система, двойное чтение; κ, sensitivity O-RADS 4–5 / BI-RADS 4+.
 6. **OCR de-ID** — burned-in text mask перед внешним API.
