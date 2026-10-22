@@ -1,0 +1,24 @@
+[
+  {
+    "id": "cr_minzdrav_hub",
+    "name": "КР МЗ РФ — рубрикатор",
+    "documentKind": "clinical_recommendation",
+    "type": "static_urls",
+    "urls": [
+      {
+        "externalId": "cr-hub",
+        "url": "https://cr.minzdrav.gov.ru/",
+        "title": "Официальный рубрикатор клинических рекомендаций МЗ РФ"
+      }
+    ]
+  },
+  {
+    "id": "rosminzdrav_documents",
+    "name": "Минздрав РФ — документы (мониторинг заголовков)",
+    "documentKind": "order",
+    "type": "html_links",
+    "url": "https://minzdrav.gov.ru/documents",
+    "linkPattern": "href=\"(/documents/[^\"]+)\"",
+    "maxLinks": 15
+  }
+]

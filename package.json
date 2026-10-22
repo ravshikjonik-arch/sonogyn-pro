@@ -18,6 +18,7 @@
     "verify:desktop-books": "node scripts/verify-desktop-book-imports.mjs",
     "generate:book-nosology": "node packages/book-nosology-registry/scripts/generate-registry.mjs",
     "upload:clinical-atlas-supabase": "node apps/web/scripts/upload-clinical-atlas-all.mjs",
+    "ingest:rf-regulations": "node apps/web/scripts/ingest-rf-regulations.mjs",
     "import:neishtadt-ovarian-atlas": "python3 scripts/import-neishtadt-ovarian-atlas.py",
     "import:ozerskaya-adnex": "python3 scripts/import-ozerskaya-adnex.py",
     "knowledge:woodward:extract": "python3 scripts/extract-woodward-obstetrics.py",
