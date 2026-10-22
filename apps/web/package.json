@@ -17,6 +17,7 @@
     "test:auth": "node scripts/auth-smoke-test.mjs",
     "test:prod-smoke": "node scripts/check-production-smoke.mjs",
     "test:us-ai-worker-smoke": "node scripts/us-ai-worker-prod-smoke.mjs",
+    "test:pro-analyze-smoke": "node scripts/pro-analyze-prod-smoke.mjs",
     "test:auth:mailru-prod": "node scripts/test-mailru-auth-prod.mjs",
     "test:auth:mail-e2e-prod": "node scripts/e2e-mail-registration-prod.mjs",
     "test:pilot-smoke": "node scripts/pilot-smoke.mjs",

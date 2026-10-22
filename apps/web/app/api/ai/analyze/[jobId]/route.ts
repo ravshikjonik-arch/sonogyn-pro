@@ -3,6 +3,7 @@ import { z } from "zod";
 
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
+import { requireSupabaseUserFromRequest } from "@/lib/security/require-user";
 import { createClient } from "@/utils/supabase/server";
 
 export const runtime = "nodejs";
@@ -12,24 +13,18 @@ const ParamsSchema = z.object({
 });
 
 /** Poll-friendly status endpoint — app-level case ownership check (defense-in-depth). */
-export async function GET(_request: Request, context: { params: Promise<{ jobId: string }> }) {
+export async function GET(request: Request, context: { params: Promise<{ jobId: string }> }) {
   const params = ParamsSchema.safeParse(await context.params);
   if (!params.success) {
     return NextResponse.json({ error: params.error.flatten() }, { status: 400 });
   }
 
   const supabase = await createClient();
-  const {
-    data: { user },
-    error: userErr,
-  } = await supabase.auth.getUser();
-
-  if (userErr || !user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const auth = await requireSupabaseUserFromRequest(request, supabase);
+  if (!auth.ok) return auth.response;
 
   const pollRl = await consumeRateLimit(
-    `ai-analyze-poll:${user.id}`,
+    `ai-analyze-poll:${auth.userId}`,
     RL.aiAnalyzePoll.limit,
     RL.aiAnalyzePoll.windowMs,
   );
@@ -58,7 +53,7 @@ export async function GET(_request: Request, context: { params: Promise<{ jobId:
     .from("cases")
     .select("id")
     .eq("id", analysis.case_id)
-    .eq("user_id", user.id)
+    .eq("user_id", auth.userId)
     .maybeSingle();
 
   if (!ownedCase) {

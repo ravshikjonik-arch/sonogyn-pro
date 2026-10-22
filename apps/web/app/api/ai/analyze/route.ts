@@ -10,7 +10,7 @@ import {
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { rejectIfPhiInTextFields } from "@/lib/security/reject-phi-payload";
-import { requireSupabaseUser } from "@/lib/security/require-user";
+import { requireSupabaseUserFromRequest } from "@/lib/security/require-user";
 import type { CaseMediaRow } from "@/lib/supabase/case-media-storage";
 import { hasProEntitlement } from "@/lib/subscription/access";
 import { createClient } from "@/utils/supabase/server";
@@ -39,7 +39,7 @@ export async function POST(request: Request) {
   }
 
   const supabase = await createClient();
-  const auth = await requireSupabaseUser(supabase);
+  const auth = await requireSupabaseUserFromRequest(request, supabase);
   if (!auth.ok) return auth.response;
 
   const rl = await consumeRateLimit(
