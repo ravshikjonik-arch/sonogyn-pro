@@ -59,7 +59,9 @@ export function DictationField({
 }: DictationFieldProps) {
   const voice = useOptionalVoiceReader();
   const valueRef = useRef(value);
-  valueRef.current = value;
+  useEffect(() => {
+    valueRef.current = value;
+  }, [value]);
 
   const [serverSttAvailable, setServerSttAvailable] = useState(true);
   const [cloudConsent, setCloudConsent] = useState(false);

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 
@@ -194,7 +195,7 @@ export function RegulationIngestAdminClient({ initialQueue, initialExtractions }
           {busy === "ingest" ? "Мониторинг…" : "Запустить мониторинг источников"}
         </Button>
         <Button type="button" variant="ghost" size="sm" asChild>
-          <a href="/tools/refs/guidelines">Каталог guidelines →</a>
+          <Link href="/tools/refs/guidelines">Каталог guidelines →</Link>
         </Button>
       </div>
 
