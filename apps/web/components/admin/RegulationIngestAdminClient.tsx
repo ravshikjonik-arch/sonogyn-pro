@@ -93,6 +93,31 @@ export function RegulationIngestAdminClient({ initialQueue, initialExtractions }
     }
   }
 
+  async function runPublish(queueId: string, extractionId: string) {
+    setBusy(`pub-${queueId}`);
+    setMessage(null);
+    try {
+      const res = await fetch("/api/admin/regulations/publish", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ queueId, extractionId }),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || res.statusText);
+      if (json.tsModule && typeof navigator?.clipboard?.writeText === "function") {
+        await navigator.clipboard.writeText(json.tsModule);
+        setMessage(`Опубликовано в Evidence (${json.guidelineId}). TS-модуль скопирован в буфер. ${json.hint ?? ""}`);
+      } else {
+        setMessage(`Опубликовано: ${json.guidelineId}. ${json.hint ?? ""}`);
+      }
+      router.refresh();
+    } catch (e) {
+      setMessage(e instanceof Error ? e.message : String(e));
+    } finally {
+      setBusy(null);
+    }
+  }
+
   async function runReview(queueId: string, extractionId: string, decision: "approved" | "rejected") {
     setBusy(`${decision}-${queueId}`);
     setMessage(null);
@@ -202,6 +227,20 @@ export function RegulationIngestAdminClient({ initialQueue, initialExtractions }
                             Отклонить
                           </Button>
                         </>
+                      ) : null}
+                      {ex && row.status === "approved" ? (
+                        <Button
+                          type="button"
+                          size="sm"
+                          variant="default"
+                          disabled={busy !== null}
+                          onClick={() => runPublish(row.id, ex.id)}
+                        >
+                          {busy === `pub-${row.id}` ? "…" : "Опубликовать в Evidence"}
+                        </Button>
+                      ) : null}
+                      {row.status === "published" ? (
+                        <span className="text-xs font-medium text-emerald-700 dark:text-emerald-300">published</span>
                       ) : null}
                     </div>
                   </div>

@@ -28,7 +28,12 @@ pnpm ingest:rf-regulations
 - Нет auto-publish в prod guidelines.
 - Не логировать полные тексты приказов в клиентские каналы.
 
-## Level 3 (следующий шаг)
+## Level 3
 
-- Экспорт approved JSON → PR в `packages/clinical-guidelines/src/catalog/`.
-- Adapter `rf_regulation_index` для Evidence (опционально).
+- **Опубликовать в Evidence** (`POST /api/admin/regulations/publish`) после статуса `approved` → `guidelines_external_index` (`source=rf_regulation`) + статус `published`.
+- Локально: `pnpm sync:regulations-catalog` → `ingested-regulations.json` → merge в `@repo/clinical-guidelines`.
+- Evidence: adapter `rf_regulation` в режимах КР/НПА РФ.
+
+## Фильтр мониторинга
+
+Ingest пропускает документы без ключевых слов АГ/УЗИ (см. `relevance-keywords.ts`). Рубрикатор КР — всегда включается (`static_urls`).

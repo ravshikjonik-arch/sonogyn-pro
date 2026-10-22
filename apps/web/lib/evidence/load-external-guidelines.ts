@@ -15,7 +15,7 @@ export async function loadExternalGuidelines(): Promise<ExternalGuidelineRecord[
     const { data, error } = await admin
       .from("guidelines_external_index")
       .select("source, external_id, title, url, body_text, published_at")
-      .in("source", ["who", "nice", "ema"])
+      .in("source", ["who", "nice", "ema", "rf_regulation"])
       .order("published_at", { ascending: false })
       .limit(500);
 

@@ -30,7 +30,7 @@ export function providersForCorpusMode(mode?: EvidenceCorpusMode): EvidenceProvi
     case "rf_kr":
     case "rf_npa":
     case "rf_all":
-      return ["kr_mz_rf"];
+      return ["kr_mz_rf", "rf_regulation"];
     default:
       return undefined;
   }

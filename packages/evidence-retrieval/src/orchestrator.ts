@@ -8,7 +8,7 @@ import {
   dailyMedAdapter,
   openFdaAdapter,
 } from "./adapters/regulatory.adapter.js";
-import { niceAdapter, whoAdapter, emaAdapter } from "./adapters/external-guidelines.adapter.js";
+import { emaAdapter, niceAdapter, rfRegulationAdapter, whoAdapter } from "./adapters/external-guidelines.adapter.js";
 import { enrichRecordsWithCrossref } from "./adapters/crossref.adapter.js";
 import type { EvidenceAdapter } from "./adapters/types.js";
 import { emptyCorpusMessage, providersForCorpusMode } from "./corpus-mode.js";
@@ -39,6 +39,7 @@ export const ALL_ADAPTERS: EvidenceAdapter[] = [
   emaAdapter,
   whoAdapter,
   niceAdapter,
+  rfRegulationAdapter,
 ];
 
 export const DEFAULT_ENABLED_PROVIDERS: EvidenceProviderId[] = [

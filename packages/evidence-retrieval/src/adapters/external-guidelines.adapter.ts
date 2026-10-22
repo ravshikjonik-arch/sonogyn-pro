@@ -82,3 +82,7 @@ export function createExternalGuidelineAdapter(
 export const whoAdapter = createExternalGuidelineAdapter("who", "WHO Guidelines");
 export const niceAdapter = createExternalGuidelineAdapter("nice", "NICE Guidelines");
 export const emaAdapter = createExternalGuidelineAdapter("ema", "EMA Medicines");
+export const rfRegulationAdapter = createExternalGuidelineAdapter(
+  "rf_regulation",
+  "Приказы и КР РФ (review pipeline)",
+);

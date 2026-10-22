@@ -12,7 +12,8 @@ export type EvidenceProviderId =
   | "dailymed"
   | "who"
   | "nice"
-  | "ema";
+  | "ema"
+  | "rf_regulation";
 
 export type EvidenceRecordType =
   | "systematic_review"
@@ -132,7 +133,7 @@ export type RetrievalConfig = {
 };
 
 export type ExternalGuidelineRecord = {
-  source: "who" | "nice" | "ema";
+  source: "who" | "nice" | "ema" | "rf_regulation";
   externalId: string;
   title: string;
   url: string;

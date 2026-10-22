@@ -16,6 +16,37 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const webRoot = path.join(__dirname, "..");
 const dryRun = process.argv.includes("--dry-run");
 
+const RELEVANCE_KEYWORDS = [
+  "акушер",
+  "гинекол",
+  "узи",
+  "ультразвук",
+  "беремен",
+  "шейк",
+  "матк",
+  "яичник",
+  "молочн",
+  "мамм",
+  "пренатал",
+  "плод",
+  "эндометри",
+  "миом",
+  "скрининг",
+  "фетом",
+  "допплер",
+  "o-rads",
+  "bi-rads",
+  "isuog",
+  "исуог",
+  "клиническ рекоменд",
+];
+
+function isRelevant(title, snippet, alwaysInclude) {
+  if (alwaysInclude) return true;
+  const hay = `${title} ${snippet || ""}`.toLowerCase();
+  return RELEVANCE_KEYWORDS.some((k) => hay.includes(k));
+}
+
 function loadEnv(filePath) {
   if (!fs.existsSync(filePath)) return {};
   const out = {};
@@ -161,7 +192,12 @@ async function main() {
       console.error("  fetch failed:", e instanceof Error ? e.message : e);
       continue;
     }
+    const alwaysInclude = source.filterRelevance === false || source.type === "static_urls";
     for (const row of rows) {
+      if (!isRelevant(row.title, row.raw_snippet || "", alwaysInclude)) {
+        skipped += 1;
+        continue;
+      }
       discovered += 1;
       const content_hash = sha256([row.source_url, row.title, row.raw_snippet?.slice(0, 500) || ""]);
       const payload = {

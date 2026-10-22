@@ -19,6 +19,7 @@
     "type": "html_links",
     "url": "https://minzdrav.gov.ru/documents",
     "linkPattern": "href=\"(/documents/[^\"]+)\"",
-    "maxLinks": 15
+    "maxLinks": 30,
+    "filterRelevance": true
   }
 ]
