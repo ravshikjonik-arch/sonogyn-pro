@@ -18,6 +18,7 @@ export type {
   Localization,
   Menopause,
   NormalOvaryPattern,
+  OvarySide,
   OradsInput,
   OradsResult,
   PapillaryProjectionCount,

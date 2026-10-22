@@ -11,6 +11,7 @@ import { AdnexConsensusPanel } from "@/components/calculators/orads/AdnexConsens
 import { IotaConsensusWebPanel } from "@/components/calculators/orads/IotaConsensusWebPanel";
 import { OradsNosologyPreview } from "@/components/calculators/orads/OradsNosologyPreview";
 import { OradsVisualSubtypePicker } from "@/components/calculators/orads/OradsVisualSubtypePicker";
+import { OradsOvarySideField } from "@/components/calculators/orads/OradsOvarySideField";
 import { OradsSizeTripletInput } from "@/components/calculators/orads/OradsSizeTripletInput";
 import { useOradsProForm } from "@/components/calculators/orads/useOradsProForm";
 import { useIotaInterpretationAchievement } from "@/lib/achievements/use-calculator-achievements";
@@ -283,6 +284,11 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
                   Возраст ≥50: при сомнении учитывайте как постменопаузу (O-RADS US v2022).
                 </p>
               ) : null}
+              <OradsOvarySideField
+                localization={f.localization}
+                value={f.ovarySide}
+                onChange={f.setOvarySide}
+              />
             </CalcStepCard>
 
             <CalcStepCard title="2. Что видите?" required={!f.lesionKind}>
@@ -609,6 +615,8 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
                 sharePath="/tools/calc/rads/o-rads"
                 shareParams={{
                   category: f.result.category,
+                  localization: f.input.localization ?? null,
+                  ovarySide: f.input.ovarySide ?? null,
                   menopause: f.input.menopause ?? null,
                   lesionKind: f.input.lesionKind ?? null,
                   structure: f.input.structure ?? null,

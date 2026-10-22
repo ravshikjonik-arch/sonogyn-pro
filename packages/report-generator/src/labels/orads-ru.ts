@@ -11,7 +11,12 @@ export function maxDiameterMm(input: OradsInput): number | null {
 
 export function formatLocalization(input: OradsInput): string | null {
   if (input.localization === "extraovarian") return "экстраовариальная локализация";
-  if (input.localization === "ovarian") return "яичник / придаток"; // VERIFY: сторона (правый/левый) — отдельное поле в UI
+  if (input.localization === "ovarian") {
+    if (input.ovarySide === "left") return "левый яичник / придаток";
+    if (input.ovarySide === "right") return "правый яичник / придаток";
+    if (input.ovarySide === "bilateral") return "оба яичника";
+    return "яичник / придаток";
+  }
   return null;
 }
 

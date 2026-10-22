@@ -13,6 +13,7 @@ export type {
   Localization,
   Menopause,
   NormalOvaryPattern,
+  OvarySide,
   OradsInput,
   OradsProResult,
   OradsResult,

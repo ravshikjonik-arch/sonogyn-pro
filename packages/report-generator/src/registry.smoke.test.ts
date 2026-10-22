@@ -23,6 +23,7 @@ const MIN_PAYLOADS: Record<string, { inputs: Record<string, unknown>; outputs?: 
   "o-rads-us": {
     inputs: {
       localization: "ovarian",
+      ovarySide: "right",
       menopause: "post",
       lesionKind: "nonphysiological",
       structure: "solid",

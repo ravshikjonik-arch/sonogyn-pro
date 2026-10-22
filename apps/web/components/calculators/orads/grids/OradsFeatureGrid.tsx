@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, useTransition, type ReactNode } from "react";
+import { toast } from "sonner";
 import {
   getReferatImagePath,
   ORADS_NOSOLOGY_ATLAS,
@@ -8,6 +9,11 @@ import {
 } from "@repo/orads-us";
 import { formatOvaryDimensionsMm } from "@repo/medical-calculations";
 
+import { saveCalculatorEntry } from "@/app/actions/calculator-actions";
+import { CalculatorReportPanel } from "@/components/calculators/CalculatorReportPanel";
+import { AdnexConsensusPanel } from "@/components/calculators/orads/AdnexConsensusPanel";
+import { IotaConsensusWebPanel } from "@/components/calculators/orads/IotaConsensusWebPanel";
+import { OradsOvarySideField } from "@/components/calculators/orads/OradsOvarySideField";
 import { OradsGridPickCard } from "@/components/calculators/orads/grids/OradsGridPickCard";
 import { OradsSizeTripletInput } from "@/components/calculators/orads/OradsSizeTripletInput";
 import { useOradsProForm } from "@/components/calculators/orads/useOradsProForm";
@@ -64,7 +70,22 @@ function Section({
 
 export function OradsFeatureGrid({ initialSubtype }: Props) {
   const f = useOradsProForm();
+  const [pending, startTransition] = useTransition();
   const [oradsZero, setOradsZero] = useState<(typeof ORADS_ZERO_OPTIONS)[number]["id"] | null>(null);
+
+  function onSave() {
+    startTransition(() => {
+      void saveCalculatorEntry({
+        slug: "o-rads",
+        calculatorCode: "O_RADS",
+        payload: { input: f.input, result: f.result, triangulation: f.triangulation },
+        summary: `O-RADS ${f.result.category} · ${f.result.riskText}`,
+      }).then((res) => {
+        if (res.ok) toast.success("Сохранено в истории калькуляторов");
+        else toast.error(res.message);
+      });
+    });
+  }
 
   useEffect(() => {
     if (!initialSubtype) return;
@@ -183,6 +204,11 @@ export function OradsFeatureGrid({ initialSubtype }: Props) {
                 }}
               />
             </div>
+            <OradsOvarySideField
+              localization={f.localization}
+              value={f.ovarySide}
+              onChange={f.setOvarySide}
+            />
           </Section>
 
           <Section n={2} title="Какое образование">
@@ -396,15 +422,39 @@ export function OradsFeatureGrid({ initialSubtype }: Props) {
               <p className="mt-2 text-xs">{f.result.rationale}</p>
               {sizeSummary ? <p className="mt-2 text-xs">Размер: {sizeSummary}</p> : null}
               <p className="mt-3 text-sm font-medium">{buildProtocolOneLiner(f.result)}</p>
-              <p className="mt-3 text-xs text-[var(--clinical-foreground-muted)]">
-                Не является диагнозом. Интерпретация — лечащий специалист.
-              </p>
             </div>
-          ) : (
+          ) : null}
+          {ready && f.menopause && f.lesionKind ? (
+            <div className="space-y-3">
+              <AdnexConsensusPanel triangulation={f.triangulation} />
+              <IotaConsensusWebPanel consensus={f.iotaConsensus} />
+              {f.reportText.trim() ? (
+                <CalculatorReportPanel
+                  title={`O-RADS ${f.result.category} · черновик`}
+                  reportText={f.reportText}
+                  filenameBase={`orads-${f.result.category}`}
+                  sharePath="/tools/calc/rads/o-rads"
+                  shareParams={{
+                    category: f.result.category,
+                    localization: f.input.localization ?? null,
+                    ovarySide: f.input.ovarySide ?? null,
+                    menopause: f.input.menopause ?? null,
+                    lesionKind: f.input.lesionKind ?? null,
+                    structure: f.input.structure ?? null,
+                  }}
+                  repeatHref="/tools/calc/rads/o-rads"
+                  onSaveToHistory={onSave}
+                  saveHistoryLabel="Сохранить в облаке"
+                  aiRefine={{ toolId: "o-rads-us", category: f.result.category }}
+                />
+              ) : null}
+            </div>
+          ) : null}
+          {!ready ? (
             <p className="rounded-xl border border-dashed border-[var(--clinical-border)] px-3 py-3 text-sm text-[var(--clinical-foreground-muted)]">
               Категория появится, когда отметите менопаузу, тип образования и содержимое / стенку.
             </p>
-          )}
+          ) : null}
         </>
       )}
     </div>
