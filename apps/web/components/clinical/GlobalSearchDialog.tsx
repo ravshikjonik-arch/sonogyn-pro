@@ -13,6 +13,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { PLATFORM_QUICK_LINKS } from "@/lib/config/platform-nav";
 import {
   fetchCaseSearchHits,
   fetchConfirmedCaseHits,
@@ -181,45 +182,58 @@ export function GlobalSearchDialog({ open, onOpenChange }: Props) {
         </div>
         <div className="max-h-[min(60vh,420px)] overflow-y-auto border-t border-[var(--clinical-border)]">
           {showDefault ? (
-            <ResultSection title="Быстрый старт">
-              <HitLink
-                href="/feed"
-                title="Лента"
-                subtitle="Подборка кейсов, материалов и быстрых ссылок"
-                onPick={onPick}
-              />
-              <HitLink
-                href="/tools/refs"
-                title="Практика · КР и алгоритмы"
-                subtitle="Короткие карточки, нозологии, нормы, источники и Evidence AI"
-                onPick={onPick}
-              />
-              <HitLink
-                href="/ai/consultants"
-                title="Помощник врача"
-                subtitle="Акушерство, гинекология, FMF и сосудистое УЗД"
-                onPick={onPick}
-              />
-              <HitLink
-                href="/cases?tab=cases&lifecycle=confirmed"
-                title="Подтверждённые кейсы"
-                subtitle="Обучающие случаи, проверенные экспертно"
-                badge="Проверено"
-                onPick={onPick}
-              />
-              <HitLink
-                href="/cases/new"
-                title="Новый кейс УЗИ"
-                subtitle="Пошаговое создание кейса с напоминанием об анонимизации"
-                onPick={onPick}
-              />
-              <HitLink
-                href="/tools/refs/quiz-hub"
-                title="Клинические задачи"
-                subtitle="Quiz hub · O-RADS · IOTA · exam practice"
-                onPick={onPick}
-              />
-            </ResultSection>
+            <>
+              <ResultSection title="Платформа">
+                {PLATFORM_QUICK_LINKS.map((link) => (
+                  <HitLink
+                    key={link.href}
+                    href={link.href}
+                    title={link.title}
+                    subtitle={link.subtitle}
+                    onPick={onPick}
+                  />
+                ))}
+              </ResultSection>
+              <ResultSection title="Коллеги и обучение">
+                <HitLink
+                  href="/feed"
+                  title="Лента"
+                  subtitle="Подборка кейсов, материалов и быстрых ссылок"
+                  onPick={onPick}
+                />
+                <HitLink
+                  href="/tools/refs"
+                  title="Практика · КР и алгоритмы"
+                  subtitle="Короткие карточки, нозологии, нормы, источники и Evidence AI"
+                  onPick={onPick}
+                />
+                <HitLink
+                  href="/ai/consultants"
+                  title="Помощник врача"
+                  subtitle="Акушерство, гинекология, FMF и сосудистое УЗД"
+                  onPick={onPick}
+                />
+                <HitLink
+                  href="/cases?tab=cases&lifecycle=confirmed"
+                  title="Подтверждённые кейсы"
+                  subtitle="Обучающие случаи, проверенные экспертно"
+                  badge="Проверено"
+                  onPick={onPick}
+                />
+                <HitLink
+                  href="/cases/new"
+                  title="Новый кейс УЗИ"
+                  subtitle="Пошаговое создание кейса с напоминанием об анонимизации"
+                  onPick={onPick}
+                />
+                <HitLink
+                  href="/tools/refs/quiz-hub"
+                  title="Клинические задачи"
+                  subtitle="Quiz hub · O-RADS · IOTA · exam practice"
+                  onPick={onPick}
+                />
+              </ResultSection>
+            </>
           ) : null}
 
           {showDefault && confirmedCases.length > 0 ? (
@@ -247,7 +261,7 @@ export function GlobalSearchDialog({ open, onOpenChange }: Props) {
             <ResultSection title="Инструменты">
               {(showDefault ? emptyDefault.tools : local.tools).map((t) => (
                 <HitLink
-                  key={t.id}
+                  key={t.href}
                   href={t.href}
                   title={t.title}
                   subtitle={t.description}

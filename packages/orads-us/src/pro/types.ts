@@ -1,4 +1,6 @@
 export type Localization = "ovarian" | "extraovarian";
+/** Сторона при овариальной локализации (протокол / share URL). */
+export type OvarySide = "left" | "right" | "bilateral";
 export type Menopause = "pre" | "post";
 export type LesionKind = "physiological" | "nonphysiological" | "normal_ovary";
 export type PhysiologicalType = "follicle" | "corpus_luteum";
@@ -33,6 +35,7 @@ export type UnilocularSubtype =
 
 export type OradsInput = {
   localization?: Localization;
+  ovarySide?: OvarySide;
   /** Полных лет; при ≥50 и сомнении в менопаузе — учитывать как постменопаузу (O-RADS US v2022). */
   ageYears?: number;
   /** День менструального цикла (1–35); только для пременопаузы. */

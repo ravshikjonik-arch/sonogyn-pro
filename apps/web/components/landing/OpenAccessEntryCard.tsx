@@ -2,6 +2,10 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import {
+  OPEN_ACCESS_DEMO_DETAIL_RU,
+  OPEN_ACCESS_DEMO_FOOTNOTE_RU,
+} from "@/lib/config/platform";
 import { cn } from "@/lib/utils/cn";
 
 type Props = {
@@ -19,9 +23,7 @@ export function OpenAccessEntryCard({ className }: Props) {
     >
       <p className="text-[10px] font-black uppercase tracking-[0.22em] text-violet-200/80">Без регистрации</p>
       <h3 className="mt-2 text-xl font-black tracking-tight">Сразу в кабинет</h3>
-      <p className="mt-2 text-sm leading-relaxed text-violet-100/80">
-        ИИ-разбор, чат врачей, калькуляторы и справочники — сразу, без регистрации до 1 сентября.
-      </p>
+      <p className="mt-2 text-sm leading-relaxed text-violet-100/80">{OPEN_ACCESS_DEMO_DETAIL_RU}</p>
       <div className="mt-5 flex flex-col gap-2">
         <Button asChild size="lg" className="w-full bg-white font-semibold text-violet-900 hover:bg-white/95">
           <Link href="/home">
@@ -30,9 +32,7 @@ export function OpenAccessEntryCard({ className }: Props) {
           </Link>
         </Button>
       </div>
-      <p className="mt-3 text-[11px] leading-relaxed text-violet-100/55">
-        Демо-режим: не вводите ПДн пациентов. Личные аккаунты — после официального запуска.
-      </p>
+      <p className="mt-3 text-[11px] leading-relaxed text-violet-100/55">{OPEN_ACCESS_DEMO_FOOTNOTE_RU}</p>
     </div>
   );
 }

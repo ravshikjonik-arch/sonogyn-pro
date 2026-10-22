@@ -122,6 +122,9 @@ importers:
       '@repo/clinical-reference':
         specifier: workspace:*
         version: link:../../packages/clinical-reference
+      '@repo/clinical-speech':
+        specifier: workspace:*
+        version: link:../../packages/clinical-speech
       '@repo/clinical-tools':
         specifier: workspace:*
         version: link:../../packages/clinical-tools
@@ -176,6 +179,9 @@ importers:
       expo-asset:
         specifier: ~57.0.19
         version: 57.0.19(expo@57.0.28)(react-native@0.86.3(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.3))(react@19.2.3)(typescript@6.0.3)
+      expo-audio:
+        specifier: ~57.0.5
+        version: 57.0.5(expo-asset@57.0.19(expo@57.0.28)(react-native@0.86.3(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.3))(react@19.2.3)(typescript@6.0.3))(expo@57.0.28)(react-native@0.86.3(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.3))(react@19.2.3)
       expo-build-properties:
         specifier: ~57.0.22
         version: 57.0.22(expo@57.0.28)
@@ -221,6 +227,9 @@ importers:
       expo-sharing:
         specifier: ~57.0.23
         version: 57.0.23(expo@57.0.28)(react-native@0.86.3(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.3))(react@19.2.3)(typescript@6.0.3)
+      expo-speech:
+        specifier: ~57.0.3
+        version: 57.0.3(expo@57.0.28)
       expo-splash-screen:
         specifier: ~57.0.0
         version: 57.0.10(expo@57.0.28)(typescript@6.0.3)
@@ -414,6 +423,9 @@ importers:
       '@repo/clinical-reference':
         specifier: workspace:*
         version: link:../../packages/clinical-reference
+      '@repo/clinical-speech':
+        specifier: workspace:*
+        version: link:../../packages/clinical-speech
       '@repo/clinical-tools':
         specifier: workspace:*
         version: link:../../packages/clinical-tools
@@ -486,6 +498,9 @@ importers:
       '@repo/report-engine':
         specifier: workspace:*
         version: link:../../packages/report-engine
+      '@repo/report-generator':
+        specifier: workspace:*
+        version: link:../../packages/report-generator
       '@repo/thyroid-tirads':
         specifier: workspace:*
         version: link:../../packages/thyroid-tirads
@@ -885,6 +900,21 @@ importers:
         specifier: ^5.9.2
         version: 5.9.3
 
+  packages/clinical-speech:
+    devDependencies:
+      '@types/react':
+        specifier: ^19.2.0
+        version: 19.2.14
+      react:
+        specifier: 19.2.3
+        version: 19.2.3
+      tsx:
+        specifier: ^4.19.4
+        version: 4.21.0
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.3
+
   packages/clinical-tools:
     dependencies:
       '@repo/book-nosology-registry':
@@ -974,6 +1004,10 @@ importers:
         version: 5.9.3
 
   packages/fmf:
+    dependencies:
+      '@repo/medical-calculations':
+        specifier: workspace:*
+        version: link:../medical-calculations
     devDependencies:
       '@types/node':
         specifier: ^20
@@ -1208,6 +1242,46 @@ importers:
       '@repo/orads-us':
         specifier: workspace:*
         version: link:../orads-us
+      '@repo/tirads-acr':
+        specifier: workspace:*
+        version: link:../tirads-acr
+      '@repo/types':
+        specifier: workspace:*
+        version: link:../types
+    devDependencies:
+      '@types/node':
+        specifier: ^20
+        version: 20.19.40
+      tsx:
+        specifier: ^4.19.4
+        version: 4.21.0
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.3
+
+  packages/report-generator:
+    dependencies:
+      '@repo/adnex-education':
+        specifier: workspace:*
+        version: link:../adnex-education
+      '@repo/birads-us':
+        specifier: workspace:*
+        version: link:../birads-us
+      '@repo/clinical-3d':
+        specifier: workspace:*
+        version: link:../clinical-3d
+      '@repo/iota-models':
+        specifier: workspace:*
+        version: link:../iota-models
+      '@repo/medical-calculations':
+        specifier: workspace:*
+        version: link:../medical-calculations
+      '@repo/orads-us':
+        specifier: workspace:*
+        version: link:../orads-us
+      '@repo/report-engine':
+        specifier: workspace:*
+        version: link:../report-engine
       '@repo/tirads-acr':
         specifier: workspace:*
         version: link:../tirads-acr
@@ -7282,6 +7356,14 @@ packages:
       react: 19.2.3
       react-native: '*'
 
+  expo-audio@57.0.5:
+    resolution: {integrity: sha512-39fX5JC5zDvELB4/eDJPj2XAYRN0W9+K2DfDWm5N3aC5WZ7HRrhupWtT6hbH09NlfYpsRSqYOwEZnocFM42ynQ==}
+    peerDependencies:
+      expo: '*'
+      expo-asset: '*'
+      react: 19.2.3
+      react-native: '*'
+
   expo-build-properties@57.0.22:
     resolution: {integrity: sha512-A5oRf2I02XDRu2NnqKo7Au5kUu244unvyoRMUsB+xvg/BOlsR+G/oyDFGkjbda1cJbeKm9eqposIXbA2ri5UrQ==}
     peerDependencies:
@@ -7432,6 +7514,11 @@ packages:
       expo: '*'
       react: 19.2.3
       react-native: '*'
+
+  expo-speech@57.0.3:
+    resolution: {integrity: sha512-rcO8izKziksrV4X3qQ5g+prFNTZmLYDEGEVnTvuvpOZDwjzP9nsdoaFymhY+qj9AJfMcpvR7Wshm+zpislyJBg==}
+    peerDependencies:
+      expo: '*'
 
   expo-splash-screen@57.0.10:
     resolution: {integrity: sha512-W7++tMiyVMviWPTvaTXKpcOwwu5SbriwA2n0ewEhC+ic1LFaUNTUXiIXr95MVMSHaLRgtIG9dGyCTCb+NkekkA==}
@@ -18722,6 +18809,13 @@ snapshots:
       - supports-color
       - typescript
 
+  expo-audio@57.0.5(expo-asset@57.0.19(expo@57.0.28)(react-native@0.86.3(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.3))(react@19.2.3)(typescript@6.0.3))(expo@57.0.28)(react-native@0.86.3(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.3))(react@19.2.3):
+    dependencies:
+      expo: 57.0.28(@babel/core@7.29.0)(@expo/dom-webview@57.0.1)(react-dom@19.2.3(react@19.2.3))(react-native-web@0.21.2(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-native@0.86.3(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.3))(react@19.2.3)(typescript@6.0.3)
+      expo-asset: 57.0.19(expo@57.0.28)(react-native@0.86.3(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.3))(react@19.2.3)(typescript@6.0.3)
+      react: 19.2.3
+      react-native: 0.86.3(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.3)
+
   expo-build-properties@57.0.22(expo@57.0.28):
     dependencies:
       '@expo/schema-utils': 57.0.2
@@ -18887,6 +18981,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
       - typescript
+
+  expo-speech@57.0.3(expo@57.0.28):
+    dependencies:
+      expo: 57.0.28(@babel/core@7.29.0)(@expo/dom-webview@57.0.1)(react-dom@19.2.3(react@19.2.3))(react-native-web@0.21.2(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-native@0.86.3(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.3))(react@19.2.3)(typescript@6.0.3)
 
   expo-splash-screen@57.0.10(expo@57.0.28)(typescript@6.0.3):
     dependencies:

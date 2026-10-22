@@ -39,6 +39,9 @@ npm run db:verify-hardening   # SERVICE_ROLE staging only
 - [ ] `cd apps/web && npm run test:staging-emr-idor` (см. `.env.staging-idor.example` — создайте `.env.staging-idor` локально, не в git).
 - [ ] User A: создать patient → User B: `GET /api/patients/{id}` → **404**.
 - [ ] Teaching: `npm run test:staging-teaching-phi` (PHI create/publish → **400**, patients list → **401**).
+- [ ] Trust/reputation: `cd apps/web && npm run test:smoke-staging-trust` (alias `test:staging-trust`) — выводит **API URL** и **Dashboard** проекта; схема + HTTP `/api/verify/status` при `IDOR_USER_A_*`.
+- [ ] Если smoke падает по схеме: `npm run db:migrate:trust` (или SQL Editor → `supabase/BUNDLE_TRUST_ONLY.sql`), затем `node scripts/backfill-reputation.mjs`.
+- [ ] Ref sanity: `npm run db:project`.
 - [ ] Supabase branch (Pro): см. `docs/operations/staging-supabase-branch.md` — пока **blocked**, localhost smoke OK.
 
 ## 6. App smoke

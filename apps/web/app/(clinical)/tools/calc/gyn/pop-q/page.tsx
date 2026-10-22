@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic";
 
+import { calculatorPageMetadata } from "@/lib/seo/calculator-seo-registry";
 const PopQFlow = dynamic(
   () => import("@/components/calculators/popq/PopQFlow").then((m) => ({ default: m.PopQFlow })),
   {
@@ -11,11 +12,7 @@ const PopQFlow = dynamic(
   },
 );
 
-export const metadata = {
-  title: "POP-Q · стадирование пролапса · SonoGyn",
-  description:
-    "Калькулятор POP-Q: макет точек, расчёт стадии, протокол для врача, лист для пациентки, экспорт PDF, Word, печать и отправка на почту.",
-};
+export const metadata = calculatorPageMetadata("/tools/calc/gyn/pop-q");
 
 export default function PopQPage() {
   return <PopQFlow />;

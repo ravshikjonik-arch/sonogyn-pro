@@ -1,3 +1,4 @@
+import { sanitizeVisionForRuleEngine } from "@/lib/ai/imaging-cds/sanitize-vision-result";
 import { inferUsStudyDomain } from "@/lib/ai/us-vision/infer-domain";
 import type { PreparedVisionFrame, UsVisionAnalysisResult } from "@/lib/ai/us-vision/types";
 import { UsVisionAnalysisResultSchema } from "@/lib/ai/us-vision/types";
@@ -100,5 +101,5 @@ export async function analyzeFramesWithWorker(params: {
   if (!parsed.success) {
     return { error: "Worker вернул невалидный JSON" };
   }
-  return parsed.data;
+  return sanitizeVisionForRuleEngine(parsed.data);
 }

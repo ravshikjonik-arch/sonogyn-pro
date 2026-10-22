@@ -10,6 +10,15 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
+import {
+  formatProPriceLabelRub,
+  MOBILE_STORE_LINE_RU,
+  OPEN_ACCESS_DEMO_FOOTNOTE_RU,
+  OPEN_ACCESS_DEMO_OFFER_RU,
+  PAYMENT_PROVIDER_PUBLIC_NAME_RU,
+  proSubscriptionPeriodLabelRu,
+} from "@/lib/config/platform";
+
 export type LandingFeature = {
   icon: LucideIcon;
   title: string;
@@ -71,7 +80,7 @@ export const LANDING_HOW_IT_WORKS: LandingStep[] = [
   {
     step: "3",
     title: "PRO при необходимости",
-    body: "Расширенные лимиты и оплата через ЮKassa — когда готовы масштабировать практику.",
+    body: `Расширенные лимиты и оплата через ${PAYMENT_PROVIDER_PUBLIC_NAME_RU} — когда готовы масштабировать практику.`,
   },
 ];
 
@@ -90,13 +99,12 @@ export const LANDING_FAQ: LandingFaqItem[] = [
   },
   {
     question: "Что доступно без регистрации?",
-    answer:
-      "Гостевой режим: главная страница, тарифы и открытые демо-материалы (например, калькулятор эластографии). Кабинет, кейсы и большинство инструментов — после входа.",
+    answer: `${OPEN_ACCESS_DEMO_OFFER_RU} ${OPEN_ACCESS_DEMO_FOOTNOTE_RU}`,
   },
   {
     question: "Как оформить PRO?",
     answer:
-      "Войдите в аккаунт и откройте раздел оплаты (/paywall). Подписка PRO оформляется через ЮKassa (карты РФ). Бесплатный тариф остаётся для знакомства с платформой.",
+      `Войдите в аккаунт и откройте раздел оплаты (/paywall). Подписка PRO оформляется через ${PAYMENT_PROVIDER_PUBLIC_NAME_RU} (карты РФ). Бесплатный тариф остаётся для знакомства с платформой.`,
   },
   {
     question: "Можно ли пользоваться с телефона?",
@@ -118,7 +126,7 @@ export const GUEST_ACCESS_TIERS: GuestAccessTier[] = [
     items: [
       { label: "Клин. нормы УЗИ", href: "/tools/refs/norms" },
       { label: "Калькулятор эластографии", href: "/tools/calc/gyn/elastography" },
-      { label: "Клинический кабинет", href: "/app", note: "без регистрации" },
+      { label: "Клинический кабинет", href: "/app", note: "демо-режим" },
     ],
   },
   {
@@ -138,7 +146,7 @@ export const GUEST_ACCESS_TIERS: GuestAccessTier[] = [
     items: [
       { label: "Оформить PRO", href: "/login?redirectedFrom=/profile/pro" },
       { label: "Безлимит AI", href: "/login?redirectedFrom=/profile/pro", locked: true },
-      { label: "ЮKassa · 30 дней", href: "/landing#pricing" },
+      { label: `${PAYMENT_PROVIDER_PUBLIC_NAME_RU} · ${proSubscriptionPeriodLabelRu()}`, href: "/landing#pricing" },
     ],
   },
 ];
@@ -152,7 +160,7 @@ export const LANDING_PILLARS = [
   {
     icon: Sparkles,
     title: "PWA + мобильное",
-    body: "Сайт на рабочий стол; Android/iOS — тот же аккаунт (часть функций в разработке).",
+    body: MOBILE_STORE_LINE_RU,
   },
   {
     icon: ShieldCheck,
@@ -176,9 +184,9 @@ export const PRICING_PLANS = [
   {
     id: "pro",
     title: "PRO",
-    price: "от 990 ₽",
-    period: "30 дней",
-    description: "Подписка с оплатой через ЮKassa. Полный доступ к квотам платформы.",
+    price: formatProPriceLabelRub(),
+    period: proSubscriptionPeriodLabelRu(),
+    description: `Подписка с оплатой через ${PAYMENT_PROVIDER_PUBLIC_NAME_RU}. Полный доступ к квотам платформы.`,
     features: [
       "Расширенные лимиты кейсов",
       "Очередь AI-анализа",

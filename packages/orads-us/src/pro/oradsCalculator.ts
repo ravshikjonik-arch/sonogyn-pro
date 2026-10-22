@@ -198,8 +198,13 @@ export function calculateORADS(input: OradsInput): OradsResult {
     }
 
     if (norm.solidType === "papillary" && norm.solidComponent) {
-      category = Math.max(category, 4) as 4 | 5;
-      rationale = "Папиллярные разрастания ≥3 мм.";
+      if (norm.papillaryProjectionCount === "4plus") {
+        category = 5;
+        rationale = "Однокамерная киста с ≥4 папиллярными проекциями ≥3 мм (O-RADS US v2022).";
+      } else {
+        category = Math.max(category, 4) as 4 | 5;
+        rationale = "Папиллярные разрастания ≥3 мм (1–3 проекции — минимум O-RADS 4).";
+      }
     }
   }
 

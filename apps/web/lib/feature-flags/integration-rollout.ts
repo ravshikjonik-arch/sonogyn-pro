@@ -3,6 +3,11 @@
  * Default: off — enable per-module on staging, then prod.
  */
 
+import {
+  isImagingCdsStrictQcEnabled,
+  isImagingCdsV2Enabled,
+} from "@/lib/ai/imaging-cds/flags";
+
 function envTruthy(value: string | undefined): boolean {
   const v = value?.trim().toLowerCase();
   return v === "1" || v === "true" || v === "yes";
@@ -41,6 +46,8 @@ export type IntegrationRolloutFlags = {
   aiSdk: boolean;
   sentry: boolean;
   realtimePollingFallback: boolean;
+  imagingCdsV2: boolean;
+  imagingCdsStrictQc: boolean;
 };
 
 /** Server-side snapshot for health/debug (no secrets). */
@@ -58,5 +65,7 @@ export function integrationRolloutSnapshot(): IntegrationRolloutFlags {
     aiSdk,
     sentry,
     realtimePollingFallback: isRealtimePollingFallbackEnabled(),
+    imagingCdsV2: isImagingCdsV2Enabled(),
+    imagingCdsStrictQc: isImagingCdsStrictQcEnabled(),
   };
 }

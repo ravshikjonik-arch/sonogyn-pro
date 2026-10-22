@@ -1,195 +1,15 @@
 @import "tailwindcss";
+@import "../styles/tokens.css";
+@import "../styles/workspace-polish.css";
 
 /* Синхронизация Tailwind dark: с переключателем темы (data-theme + класс .dark) */
 @custom-variant dark (&:where(.dark, .dark *));
-
-:root {
-  /* Единая сине-бирюзовая рабочая зона (ocean workspace) */
-  --clinical-canvas: #dceef7;
-  --clinical-card: rgba(255, 255, 255, 0.92);
-  --clinical-card-shadow: 0 22px 55px rgba(8, 70, 94, 0.12);
-  --clinical-header: rgba(255, 255, 255, 0.88);
-  --clinical-sidebar: rgba(236, 254, 255, 0.94);
-  --clinical-border: rgba(14, 116, 144, 0.22);
-  --clinical-muted: rgba(224, 242, 254, 0.85);
-  --clinical-foreground: #0c3347;
-  --clinical-foreground-muted: #47657a;
-  --clinical-primary: #0e7490;
-  --clinical-primary-hover: #0c6b84;
-  --clinical-primary-muted: rgba(14, 165, 233, 0.22);
-  --clinical-primary-deep: #0c4a6e;
-  --clinical-ring: rgba(14, 165, 233, 0.4);
-  --clinical-accent-teal: #14b8a6;
-  --clinical-bg: var(--clinical-canvas);
-  --mesh-1: rgba(14, 165, 233, 0.24);
-  --mesh-2: rgba(20, 184, 166, 0.2);
-  --mesh-3: rgba(6, 182, 212, 0.16);
-  --mesh-base-start: #e8f6fc;
-  --mesh-base-end: #d9f5ef;
-  --background: var(--clinical-canvas);
-  --foreground: var(--clinical-foreground);
-
-  /* Premium AI accent system (Linear/Vercel/Notion-style) — общий для обеих тем */
-  --ai-blue: #3b82f6;
-  --ai-indigo: #6366f1;
-  --ai-violet: #8b5cf6;
-  --ai-success: #10b981;
-  --ai-danger: #ef4444;
-  --ai-gradient: linear-gradient(135deg, #3b82f6 0%, #6366f1 50%, #8b5cf6 100%);
-  --ai-gradient-soft: linear-gradient(135deg, rgba(59, 130, 246, 0.16), rgba(139, 92, 246, 0.16));
-  --ai-glow: 0 0 0 1px rgba(99, 102, 241, 0.22), 0 18px 50px rgba(99, 102, 241, 0.22);
-  --premium-shadow: 0 10px 40px rgba(15, 23, 42, 0.14);
-  --premium-shadow-strong: 0 24px 70px rgba(15, 23, 42, 0.26);
-
-  /* SonoGyn Spatial Design System */
-  --sg-surface-canvas: color-mix(in srgb, var(--clinical-canvas) 92%, white);
-  --sg-surface-base: color-mix(in srgb, var(--clinical-card) 88%, white);
-  --sg-surface-raised: rgba(255, 255, 255, 0.78);
-  --sg-surface-glass: rgba(255, 255, 255, 0.64);
-  --sg-surface-control: rgba(255, 255, 255, 0.92);
-  --sg-depth-1: 0 1px 2px rgba(8, 70, 94, 0.08), 0 8px 24px rgba(8, 70, 94, 0.08);
-  --sg-depth-2: 0 10px 34px rgba(8, 70, 94, 0.12);
-  --sg-depth-3: 0 22px 60px rgba(8, 70, 94, 0.16);
-  --sg-depth-modal: 0 28px 80px rgba(2, 20, 34, 0.28);
-  --sg-glow-primary: 0 0 0 1px rgba(14, 165, 233, 0.2), 0 18px 48px rgba(14, 165, 233, 0.16);
-  --sg-glow-ai: 0 0 0 1px rgba(99, 102, 241, 0.24), 0 18px 52px rgba(99, 102, 241, 0.18);
-  --sg-radius-xs: 0.5rem;
-  --sg-radius-sm: 0.75rem;
-  --sg-radius-md: 1rem;
-  --sg-radius-lg: 1.25rem;
-  --sg-radius-xl: 1.5rem;
-  --sg-blur-card: 16px;
-  --sg-blur-modal: 22px;
-  --sg-motion-fast: 140ms;
-  --sg-motion-base: 220ms;
-  --sg-motion-slow: 420ms;
-  --sg-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --sg-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
-  --sg-effect-level: 1;
-}
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme-forced="light"]) {
-    --clinical-canvas: #0b0f19;
-    --clinical-card: rgba(17, 24, 39, 0.72);
-    --clinical-card-shadow: 0 24px 60px rgba(2, 6, 23, 0.6);
-    --clinical-header: rgba(11, 15, 25, 0.82);
-    --clinical-sidebar: rgba(9, 12, 22, 0.94);
-    --clinical-border: rgba(148, 163, 184, 0.14);
-    --clinical-muted: rgba(30, 41, 59, 0.55);
-    --clinical-foreground: #f1f5f9;
-    --clinical-foreground-muted: #94a3b8;
-    --clinical-primary: #3b82f6;
-    --clinical-primary-hover: #2563eb;
-    --clinical-primary-muted: rgba(59, 130, 246, 0.16);
-    --clinical-primary-deep: #bfdbfe;
-    --clinical-ring: rgba(99, 102, 241, 0.5);
-    --clinical-accent-teal: #22d3ee;
-    --clinical-bg: var(--clinical-canvas);
-    --mesh-1: rgba(59, 130, 246, 0.16);
-    --mesh-2: rgba(139, 92, 246, 0.14);
-    --mesh-3: rgba(99, 102, 241, 0.12);
-    --mesh-base-start: #0b0f19;
-    --mesh-base-end: #0f172a;
-    --background: var(--clinical-canvas);
-    --foreground: var(--clinical-foreground);
-    --sg-surface-canvas: #0b0f19;
-    --sg-surface-base: rgba(17, 24, 39, 0.72);
-    --sg-surface-raised: rgba(15, 23, 42, 0.82);
-    --sg-surface-glass: rgba(15, 23, 42, 0.62);
-    --sg-surface-control: rgba(15, 23, 42, 0.92);
-    --sg-depth-1: 0 1px 2px rgba(2, 6, 23, 0.28), 0 8px 24px rgba(2, 6, 23, 0.22);
-    --sg-depth-2: 0 14px 40px rgba(2, 6, 23, 0.34);
-    --sg-depth-3: 0 28px 70px rgba(2, 6, 23, 0.44);
-    --sg-depth-modal: 0 32px 90px rgba(2, 6, 23, 0.72);
-    --sg-glow-primary: 0 0 0 1px rgba(59, 130, 246, 0.22), 0 18px 48px rgba(59, 130, 246, 0.12);
-    --sg-glow-ai: 0 0 0 1px rgba(139, 92, 246, 0.24), 0 18px 52px rgba(99, 102, 241, 0.14);
-  }
-}
-
-html[data-theme="dark"],
-html[data-theme-forced="dark"] {
-  --clinical-canvas: #0b0f19;
-  --clinical-card: rgba(17, 24, 39, 0.72);
-  --clinical-card-shadow: 0 24px 60px rgba(2, 6, 23, 0.6);
-  --clinical-header: rgba(11, 15, 25, 0.82);
-  --clinical-sidebar: rgba(9, 12, 22, 0.94);
-  --clinical-border: rgba(148, 163, 184, 0.14);
-  --clinical-muted: rgba(30, 41, 59, 0.55);
-  --clinical-foreground: #f1f5f9;
-  --clinical-foreground-muted: #94a3b8;
-  --clinical-primary: #3b82f6;
-  --clinical-primary-hover: #2563eb;
-  --clinical-primary-muted: rgba(59, 130, 246, 0.16);
-  --clinical-primary-deep: #bfdbfe;
-  --clinical-ring: rgba(99, 102, 241, 0.5);
-  --clinical-accent-teal: #22d3ee;
-  --clinical-bg: var(--clinical-canvas);
-  color-scheme: dark;
-  --mesh-1: rgba(59, 130, 246, 0.16);
-  --mesh-2: rgba(139, 92, 246, 0.14);
-  --mesh-3: rgba(99, 102, 241, 0.12);
-  --mesh-base-start: #0b0f19;
-  --mesh-base-end: #0f172a;
-  --background: var(--clinical-canvas);
-  --foreground: var(--clinical-foreground);
-  --sg-surface-canvas: #0b0f19;
-  --sg-surface-base: rgba(17, 24, 39, 0.72);
-  --sg-surface-raised: rgba(15, 23, 42, 0.82);
-  --sg-surface-glass: rgba(15, 23, 42, 0.62);
-  --sg-surface-control: rgba(15, 23, 42, 0.92);
-  --sg-depth-1: 0 1px 2px rgba(2, 6, 23, 0.28), 0 8px 24px rgba(2, 6, 23, 0.22);
-  --sg-depth-2: 0 14px 40px rgba(2, 6, 23, 0.34);
-  --sg-depth-3: 0 28px 70px rgba(2, 6, 23, 0.44);
-  --sg-depth-modal: 0 32px 90px rgba(2, 6, 23, 0.72);
-  --sg-glow-primary: 0 0 0 1px rgba(59, 130, 246, 0.22), 0 18px 48px rgba(59, 130, 246, 0.12);
-  --sg-glow-ai: 0 0 0 1px rgba(139, 92, 246, 0.24), 0 18px 52px rgba(99, 102, 241, 0.14);
-}
-
-html[data-theme="light"],
-html[data-theme-forced="light"] {
-  --clinical-canvas: #dceef7;
-  --clinical-card: rgba(255, 255, 255, 0.92);
-  --clinical-card-shadow: 0 22px 55px rgba(8, 70, 94, 0.12);
-  --clinical-header: rgba(255, 255, 255, 0.88);
-  --clinical-sidebar: rgba(236, 254, 255, 0.94);
-  --clinical-border: rgba(14, 116, 144, 0.22);
-  --clinical-muted: rgba(224, 242, 254, 0.85);
-  --clinical-foreground: #0c3347;
-  --clinical-foreground-muted: #47657a;
-  --clinical-primary: #0e7490;
-  --clinical-primary-hover: #0c6b84;
-  --clinical-primary-muted: rgba(14, 165, 233, 0.22);
-  --clinical-primary-deep: #0c4a6e;
-  --clinical-ring: rgba(14, 165, 233, 0.4);
-  --clinical-accent-teal: #14b8a6;
-  --clinical-bg: var(--clinical-canvas);
-  color-scheme: light;
-  --mesh-1: rgba(14, 165, 233, 0.24);
-  --mesh-2: rgba(20, 184, 166, 0.2);
-  --mesh-3: rgba(6, 182, 212, 0.16);
-  --mesh-base-start: #e8f6fc;
-  --mesh-base-end: #d9f5ef;
-  --background: var(--clinical-canvas);
-  --foreground: var(--clinical-foreground);
-  --sg-surface-canvas: color-mix(in srgb, var(--clinical-canvas) 92%, white);
-  --sg-surface-base: color-mix(in srgb, var(--clinical-card) 88%, white);
-  --sg-surface-raised: rgba(255, 255, 255, 0.78);
-  --sg-surface-glass: rgba(255, 255, 255, 0.64);
-  --sg-surface-control: rgba(255, 255, 255, 0.92);
-  --sg-depth-1: 0 1px 2px rgba(8, 70, 94, 0.08), 0 8px 24px rgba(8, 70, 94, 0.08);
-  --sg-depth-2: 0 10px 34px rgba(8, 70, 94, 0.12);
-  --sg-depth-3: 0 22px 60px rgba(8, 70, 94, 0.16);
-  --sg-depth-modal: 0 28px 80px rgba(2, 20, 34, 0.28);
-  --sg-glow-primary: 0 0 0 1px rgba(14, 165, 233, 0.2), 0 18px 48px rgba(14, 165, 233, 0.16);
-  --sg-glow-ai: 0 0 0 1px rgba(99, 102, 241, 0.24), 0 18px 52px rgba(99, 102, 241, 0.18);
 }
 
 body {
@@ -211,6 +31,16 @@ html[data-theme-forced="dark"] mark {
 }
 
 /* ─── SonoGyn Pro design layer ─────────────────────────────────────────── */
+/* Маркетинг: локальные токены, если html временно в light при переходе */
+[data-marketing-shell="true"] {
+  color-scheme: dark;
+  --clinical-foreground: #f1f5f9;
+  --clinical-foreground-muted: #94a3b8;
+  --clinical-primary-deep: #bfdbfe;
+  --clinical-primary: #3b82f6;
+  --clinical-border: rgba(148, 163, 184, 0.14);
+}
+
 .sonogyn-mesh-bg {
   background-color: var(--clinical-canvas);
   background-image:
@@ -419,13 +249,13 @@ html.dark .sonogyn-clinical-app input:-webkit-autofill:focus {
 /* Карточки калькуляторов и протоколов — всегда на клиническом фоне */
 .clinical-surface {
   border: 1px solid var(--clinical-border);
-  background: var(--clinical-card);
+  background: var(--clinical-surface, var(--clinical-card));
   color: var(--clinical-foreground);
 }
 
 .clinical-surface-muted {
   border: 1px solid var(--clinical-border);
-  background: var(--clinical-muted);
+  background: var(--clinical-surface-muted, var(--clinical-muted));
   color: var(--clinical-foreground);
 }
 

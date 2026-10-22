@@ -5,6 +5,7 @@ import { searchAiRoutes, type AiRouteHit } from "./search-ai-routes";
 import { searchGuidelinesLocal, type GuidelineLocalHit } from "./search-guidelines-local";
 import { searchNosologyLocal, type NosologyLocalHit } from "./search-nosology-local";
 import { searchQuizLocal, type QuizSearchHit } from "./search-quiz-local";
+import { searchCalculatorSeo } from "./search-calculator-seo";
 
 export type CaseSearchHit = {
   id: string;
@@ -67,9 +68,35 @@ async function fetchCasesFromApi(opts: {
   }));
 }
 
+function mergeModuleAndCalculatorTools(query: string, limit = 10) {
+  const modules = searchModules(query, limit);
+  const calculators = searchCalculatorSeo(query, limit);
+  const byHref = new Map<string, (typeof modules)[number]>();
+
+  for (const hit of modules) {
+    byHref.set(hit.href, hit);
+  }
+  for (const calc of calculators) {
+    const prev = byHref.get(calc.href);
+    if (prev && prev.score >= calc.score) continue;
+    byHref.set(calc.href, {
+      id: prev?.id ?? ("calculator.hub" as (typeof modules)[number]["id"]),
+      title: calc.title,
+      description: calc.description,
+      href: calc.href,
+      domain: prev?.domain ?? "education",
+      score: Math.max(prev?.score ?? 0, calc.score),
+    });
+  }
+
+  return Array.from(byHref.values())
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit);
+}
+
 export function searchGlobalLocal(query: string): Omit<GlobalSearchResult, "cases"> {
   return {
-    tools: searchModules(query, 8),
+    tools: mergeModuleAndCalculatorTools(query, 10),
     ai: searchAiRoutes(query, 6),
     classifications: searchClassifications(query, 6),
     guidelines: searchGuidelinesLocal(query, 6),

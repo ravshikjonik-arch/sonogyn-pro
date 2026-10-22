@@ -36,6 +36,8 @@ export const ListTeachingCasesQuerySchema = z.object({
   ),
   limit: z.coerce.number().int().min(1).max(60).optional(),
   cursor: z.string().trim().max(64).optional(),
+  /** date = newest first; rating = case.rating desc */
+  sort: z.enum(["date", "rating"]).optional(),
 });
 
 export type ListTeachingCasesQuery = z.infer<typeof ListTeachingCasesQuerySchema>;
@@ -56,6 +58,9 @@ export const TeachingCaseListItemSchema = z.object({
   tags: z.array(z.string()),
   lifecycle_status: CaseLifecycleStatusSchema.nullable().optional(),
   knowledge_base_at: z.string().nullable().optional(),
+  vote_up_count: z.number().int().nonnegative().optional(),
+  vote_down_count: z.number().int().nonnegative().optional(),
+  rating: z.number().int().optional(),
 });
 
 export type TeachingCaseListItem = z.infer<typeof TeachingCaseListItemSchema>;

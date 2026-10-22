@@ -1,9 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { toast } from "sonner";
 
+import { CalculatorFavoriteButton } from "@/components/calculators/CalculatorFavoriteButton";
+import { CalculatorReportPanel } from "@/components/calculators/CalculatorReportPanel";
+import { CalculatorSourcesPanel } from "@/components/calculators/CalculatorSourcesPanel";
 import { CalcChip, CalcStepCard } from "@/components/calculators/shared/calc-ui";
+import { parseShareBool, readShareParamsFromUrl } from "@/lib/calculators/apply-url-params";
+import { useCalculatorWorkspace } from "@/lib/hooks/use-calculator-workspace";
+import { buildCalculatorGeneratedReport } from "@/lib/reports/calculator-report-bridge";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils/cn";
@@ -46,13 +53,83 @@ const DEFAULT_LABOR: VbacInLaborInput = {
   noHyperstimulation: true,
 };
 
+const CALC_ID = "vbac";
+const SHARE_PATH = "/tools/calc/ob/vbac";
+
+function vbacShareParams(tab: Tab, pre: VbacPreInput, labor: VbacInLaborInput) {
+  const params: Record<string, string | number | boolean | null> = { tab };
+  for (const key of Object.keys(DEFAULT_PRE) as (keyof VbacPreInput)[]) {
+    params[`pre_${key}`] = pre[key];
+  }
+  for (const key of Object.keys(DEFAULT_LABOR) as (keyof VbacInLaborInput)[]) {
+    params[`labor_${key}`] = labor[key] ?? false;
+  }
+  return params;
+}
+
 export function VbacCalculator() {
   const [tab, setTab] = useState<Tab>("pre");
   const [pre, setPre] = useState<VbacPreInput>(DEFAULT_PRE);
   const [labor, setLabor] = useState<VbacInLaborInput>(DEFAULT_LABOR);
+  const { recordRun } = useCalculatorWorkspace(CALC_ID);
+
+  useEffect(() => {
+    const p = readShareParamsFromUrl();
+    if (!p) return;
+    if (p.tab === "pre" || p.tab === "labor") setTab(p.tab);
+    setPre((prev) => {
+      const next = { ...prev };
+      for (const key of Object.keys(DEFAULT_PRE) as (keyof VbacPreInput)[]) {
+        const v = parseShareBool(p[`pre_${key}`]);
+        if (v !== undefined) next[key] = v;
+      }
+      return next;
+    });
+    setLabor((prev) => {
+      const next = { ...prev };
+      for (const key of Object.keys(DEFAULT_LABOR) as (keyof VbacInLaborInput)[]) {
+        const v = parseShareBool(p[`labor_${key}`]);
+        if (v !== undefined) next[key] = v;
+      }
+      return next;
+    });
+  }, []);
 
   const preResult = useMemo(() => assessVbacPreLabor(pre), [pre]);
   const laborResult = useMemo(() => assessVbacInLabor(labor), [labor]);
+
+  const shareParams = useMemo(() => vbacShareParams(tab, pre, labor), [tab, pre, labor]);
+
+  const generatedReport = useMemo(
+    () =>
+      buildCalculatorGeneratedReport(
+        CALC_ID,
+        shareParams as Record<string, unknown>,
+        (tab === "pre" ? preResult : laborResult) as unknown as Record<string, unknown>,
+        tab === "pre" ? preResult.category : laborResult.continueTolac ? "tolac-continue" : "tolac-review",
+      ),
+    [tab, preResult, laborResult, shareParams],
+  );
+  const reportText = generatedReport?.plainText ?? "";
+
+  const summary = useMemo(() => {
+    if (tab === "pre") return `${preResult.score}/${preResult.maxScore} · ${preResult.category}`;
+    return laborResult.continueTolac ? "TOLAC продолжается" : "Пересмотр TOLAC";
+  }, [tab, preResult, laborResult]);
+
+  useEffect(() => {
+    recordRun({
+      path: SHARE_PATH,
+      title: "VBAC / TOLAC",
+      summary,
+      params: shareParams,
+    });
+  }, [recordRun, shareParams, summary]);
+
+  const onSaveToHistory = useCallback(() => {
+    recordRun({ path: SHARE_PATH, title: "VBAC / TOLAC", summary, params: shareParams });
+    toast.success("Добавлено в локальную историю");
+  }, [recordRun, shareParams, summary]);
 
   const setPreBool = (key: keyof VbacPreInput) => (v: boolean) => setPre((p) => ({ ...p, [key]: v }));
   const setLaborBool = (key: keyof VbacInLaborInput) => (v: boolean) => setLabor((p) => ({ ...p, [key]: v }));
@@ -62,9 +139,12 @@ export function VbacCalculator() {
       <Button variant="ghost" size="sm" asChild>
         <Link href="/tools/calc/appointment">← Для приёма</Link>
       </Button>
-      <header className="mx-auto max-w-3xl space-y-2">
-        <Badge variant="outline">TOLAC / VBAC</Badge>
-        <h1 className="text-3xl font-black tracking-tight">Роды после кесарева сечения</h1>
+      <header className="mx-auto flex max-w-3xl flex-wrap items-start justify-between gap-3">
+        <div className="space-y-2">
+          <Badge variant="outline">TOLAC / VBAC</Badge>
+          <h1 className="text-3xl font-black tracking-tight">Роды после кесарева сечения</h1>
+        </div>
+        <CalculatorFavoriteButton calculatorId={CALC_ID} />
       </header>
       <div className="mx-auto max-w-3xl">
         <div className="mb-4 flex gap-1 rounded-lg bg-[var(--clinical-muted)] p-1">
@@ -128,6 +208,16 @@ export function VbacCalculator() {
             />
           </div>
         )}
+        <CalculatorReportPanel
+          title="VBAC / TOLAC — черновик"
+          reportText={reportText}
+          filenameBase="vbac-tolac"
+          sharePath={SHARE_PATH}
+          shareParams={shareParams}
+          repeatHref={SHARE_PATH}
+          onSaveToHistory={onSaveToHistory}
+        />
+        <CalculatorSourcesPanel calculatorId={CALC_ID} />
         <p className="mt-6 text-center text-xs text-[var(--clinical-foreground-muted)]">{VBAC_DISCLAIMER}</p>
       </div>
     </div>

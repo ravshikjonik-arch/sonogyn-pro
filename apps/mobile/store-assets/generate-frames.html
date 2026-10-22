@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <title>SonoGyn Pro · App Store frames 1290×2796</title>
+  <style>
+    :root {
+      --primary: #005cb9;
+      --bg: #f5f7fa;
+      --text: #0f172a;
+      --muted: #475569;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+      background: #1e293b;
+      color: var(--text);
+      padding: 24px;
+    }
+    h1 { color: #fff; font-size: 1.25rem; font-weight: 600; }
+    p.hint { color: #94a3b8; font-size: 0.875rem; max-width: 720px; line-height: 1.5; }
+    .grid { display: flex; flex-wrap: wrap; gap: 32px; margin-top: 24px; }
+    /* App Store 6.7" — масштаб 0.35 для превью на экране */
+    .frame {
+      width: 1290px;
+      height: 2796px;
+      transform: scale(0.35);
+      transform-origin: top left;
+      margin-right: -838px;
+      margin-bottom: -1817px;
+      background: linear-gradient(165deg, #003d7a 0%, var(--primary) 45%, #1e40af 100%);
+      border-radius: 0;
+      padding: 120px 72px 96px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .frame-label {
+      color: #e2e8f0;
+      font-size: 28px;
+      margin-bottom: 48px;
+      opacity: 0.85;
+    }
+    .headline {
+      color: #fff;
+      font-size: 88px;
+      font-weight: 700;
+      text-align: center;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      max-width: 1100px;
+    }
+    .subline {
+      color: #bfdbfe;
+      font-size: 48px;
+      font-weight: 500;
+      text-align: center;
+      margin-top: 32px;
+      max-width: 1000px;
+      line-height: 1.25;
+    }
+    .device {
+      margin-top: 72px;
+      width: 920px;
+      border-radius: 48px;
+      overflow: hidden;
+      box-shadow: 0 40px 120px rgba(0, 0, 0, 0.45);
+      border: 6px solid rgba(255, 255, 255, 0.12);
+      background: #000;
+      flex-shrink: 0;
+    }
+    .device img {
+      display: block;
+      width: 100%;
+      height: auto;
+      min-height: 400px;
+      object-fit: cover;
+      background: var(--bg);
+    }
+    .disclaimer {
+      margin-top: auto;
+      padding-top: 48px;
+      color: rgba(255, 255, 255, 0.55);
+      font-size: 26px;
+      text-align: center;
+      max-width: 900px;
+      line-height: 1.35;
+    }
+    .slot-hint {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 1600px;
+      color: var(--muted);
+      font-size: 36px;
+      text-align: center;
+      padding: 48px;
+      background: repeating-linear-gradient(
+        -45deg,
+        #e2e8f0,
+        #e2e8f0 12px,
+        #f8fafc 12px,
+        #f8fafc 24px
+      );
+    }
+  </style>
+</head>
+<body>
+  <h1>SonoGyn Pro · кадры для App Store (1290 × 2796)</h1>
+  <p class="hint">
+    Замените <code>src</code> у &lt;img&gt; на PNG из симулятора (920×1990 approx crop).
+    Экспорт: увеличьте масштаб страницы или снимите каждый .frame в 100% (см. APP-STORE-IOS-ASSETS-RU.md).
+    Тексты соответствуют app-store-copy-ru.json — без цен и без обещаний диагноза.
+  </p>
+  <div class="grid" id="frames"></div>
+  <script>
+    const slides = [
+      { id: "01-home", headline: "Калькуляторы под рукой", subline: "O-RADS, IOTA и клинические инструменты", img: "captures/raw/01-home.png" },
+      { id: "02-orads", headline: "O-RADS Pro", subline: "Структурируйте признаки придатков", img: "captures/raw/02-orads.png" },
+      { id: "03-iota", headline: "IOTA и риск", subline: "Подсказки по признакам образования", img: "captures/raw/03-iota.png" },
+      { id: "04-breast", headline: "Молочная железа", subline: "BI-RADS и смежные модули", img: "captures/raw/04-breast.png" },
+      { id: "05-evidence", headline: "Evidence-поиск", subline: "Гайдлайны и учебный контент", img: "captures/raw/05-evidence.png" },
+      { id: "06-auth", headline: "Быстрый вход", subline: "Регистрация для врачей пилота", img: "captures/raw/06-auth.png" },
+    ];
+    const root = document.getElementById("frames");
+    for (const s of slides) {
+      const el = document.createElement("section");
+      el.className = "frame";
+      el.innerHTML = `
+        <div class="frame-label">${s.id}</div>
+        <div class="headline">${s.headline}</div>
+        <div class="subline">${s.subline}</div>
+        <div class="device">
+          <img src="${s.img}" alt="" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'slot-hint',textContent:'Положите PNG: store-assets/${s.img}'}))" />
+        </div>
+        <p class="disclaimer">Справочный инструмент. Не является медицинским диагнозом.</p>
+      `;
+      root.appendChild(el);
+    }
+  </script>
+</body>
+</html>

@@ -1,11 +1,8 @@
 import { FetometryNormsCalculatorHub } from "@/components/calculators/ob/FetometryNormsCalculatorHub";
 import { MEDVEDEV_ARCHIVE_PUBLIC_BASE, medvedevArchiveBookStats } from "@repo/medvedev-reference";
 
-export const metadata = {
-  title: "Калькулятор норм фетометрии · SonoGyn",
-  description:
-    "96 таблиц Медведева: перцентили по JSON и скан страницы для сверки. Срок, измерение, флаг нормы.",
-};
+import { calculatorPageMetadata } from "@/lib/seo/calculator-seo-registry";
+export const metadata = calculatorPageMetadata("/tools/calc/ob/fetometry-norms");
 
 type Props = { searchParams: Promise<{ table?: string }> };
 

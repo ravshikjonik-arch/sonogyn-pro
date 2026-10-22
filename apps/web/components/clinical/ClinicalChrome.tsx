@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import dynamic from "next/dynamic";
 
 import { CabinetBootScreen } from "@/components/clinical/CabinetBootScreen";
+import { NetworkProvider } from "@/components/network/NetworkProvider";
 
 /** CI Playwright: skip heavy dynamic cabinet shell (dev chunk load can hang on boot screen). */
 const e2eFixtures = process.env.NEXT_PUBLIC_E2E_FIXTURES === "true";
@@ -38,6 +39,11 @@ const UpgradeModal = dynamic(
   () => import("@/components/pro/UpgradeModal").then((mod) => mod.UpgradeModal),
   { ssr: false },
 );
+const FirstRunOnboardingGate = dynamic(
+  () =>
+    import("@/components/onboarding/FirstRunOnboardingGate").then((mod) => mod.FirstRunOnboardingGate),
+  { ssr: false },
+);
 
 export function ClinicalChrome({
   children,
@@ -56,11 +62,12 @@ export function ClinicalChrome({
   }
 
   return (
-    <>
+    <NetworkProvider>
       <ClinicalShell devProfile={devProfile}>{children}</ClinicalShell>
       <AchievementToastListener />
       <SonogynCopilot />
       <UpgradeModal />
-    </>
+      <FirstRunOnboardingGate />
+    </NetworkProvider>
   );
 }

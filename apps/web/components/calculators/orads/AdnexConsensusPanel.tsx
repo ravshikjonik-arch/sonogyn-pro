@@ -45,7 +45,7 @@ export function AdnexConsensusPanel({ triangulation: tri, disabled }: Props) {
   return (
     <section
       className={cn(
-        "overflow-hidden rounded-2xl border-2 border-sky-200 bg-gradient-to-br from-sky-50/80 via-white to-slate-50/50 shadow-sm",
+        "clinical-surface overflow-hidden rounded-[var(--radius-card)] border-2 border-[var(--clinical-border)] shadow-sm",
         disabled && "opacity-60",
       )}
     >

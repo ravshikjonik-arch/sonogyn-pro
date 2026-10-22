@@ -2,11 +2,13 @@
   "name": "@repo/clinical-3d",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "exports": {
     ".": "./src/index.ts",
     "./organs/ovary": "./src/organs/ovary/index.ts",
+    "./organs/uterus/figo": "./src/organs/uterus/figoClassification.ts",
     "./shared/locale": "./src/shared/locale.ts",
     "./organs/*": "./src/organs/*/index.ts",
     "./shared/*": "./src/shared/*"

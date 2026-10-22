@@ -53,6 +53,7 @@ import {
 } from "@/lib/ai/sonogyn-chat/structured-response";
 import { FREE_AI_LIMIT, getAiUsage, incrementAiUsage } from "@/lib/pro/ai-usage";
 import { openUpgrade } from "@/lib/pro/upgrade-bus";
+import { requireOnlineForNetworkAction } from "@/lib/network/require-online-action";
 import { cn } from "@/lib/utils/cn";
 
 type Suggestion = { label: string; href: string };
@@ -157,6 +158,12 @@ export function SonogynCopilot() {
     async (raw: string, opts?: { retry?: boolean }) => {
       const prompt = raw.trim();
       if (!prompt && pendingImages.length === 0) return;
+      const offline = requireOnlineForNetworkAction();
+      if (offline) {
+        toast.error(offline);
+        setChatStatus("idle");
+        return;
+      }
       setTab("chat");
       setChatStatus("connecting");
 

@@ -1,9 +1,7 @@
 import { IotaCalculatorPageClient } from "@/components/calculators/iota/IotaCalculatorPageClient";
+import { calculatorPageMetadata } from "@/lib/seo/calculator-seo-registry";
 
-export const metadata = {
-  title: "IOTA · ADNEX / LR2 / Simple Rules · SonoGyn",
-  description: "Вероятностные модели IOTA с сопоставлением O-RADS US",
-};
+export const metadata = calculatorPageMetadata("/tools/calc/rads/iota");
 
 export default function IotaCalculatorPage() {
   return <IotaCalculatorPageClient />;

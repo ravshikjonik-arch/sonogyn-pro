@@ -30,7 +30,7 @@ export function CalculatorsCatalogPage() {
 
         <ObCalcQuickWidget />
 
-        <Card className="overflow-hidden border-[var(--clinical-primary)]/30 bg-gradient-to-br from-[var(--clinical-primary-muted)]/40 to-[var(--clinical-card)]">
+        <Card className="overflow-hidden border-[var(--clinical-primary)]/30 bg-[var(--accent-soft)]">
           <div className="h-1 bg-[var(--clinical-primary)]" />
           <CardHeader>
             <div className="flex items-start gap-3">

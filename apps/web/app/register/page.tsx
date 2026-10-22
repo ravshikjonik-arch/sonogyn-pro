@@ -51,6 +51,7 @@ import {
 } from "@/lib/auth/translate-auth-error";
 import { readAppLocale, saveAppLocale, type AppLocale } from "@/lib/i18n/locale";
 import { safeInternalPath } from "@/lib/nav/safe-redirect";
+import { beginFirstRunOnboarding } from "@/lib/onboarding/first-run-storage";
 import { markSessionAnchorNow } from "@/lib/security/session-anchor";
 
 function RegisterForm() {
@@ -207,6 +208,7 @@ function RegisterForm() {
       saveAppLocale(locale);
       setFailedAttempts(0);
       if (!result.needsEmailConfirmation || result.autoConfirmed) {
+        beginFirstRunOnboarding();
         markSessionAnchorNow();
         await refresh();
         router.push(afterAuthPath);
@@ -326,6 +328,7 @@ function RegisterForm() {
         return;
       }
       saveAppLocale(locale);
+      beginFirstRunOnboarding();
       markSessionAnchorNow();
       window.location.assign(afterAuthPath);
     } finally {
@@ -460,6 +463,7 @@ function RegisterForm() {
         return;
       }
       saveAppLocale(locale);
+      beginFirstRunOnboarding();
       markSessionAnchorNow();
       window.location.assign(afterAuthPath);
       return;

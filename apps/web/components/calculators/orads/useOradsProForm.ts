@@ -1,13 +1,15 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { parseMeasurementMm } from "@repo/medical-calculations";
 
-import { buildAdnexTriangulationReport, evaluateAdnexTriangulation } from "@repo/adnex-education";
+import { evaluateAdnexTriangulation } from "@repo/adnex-education";
+
+import { readShareParamsFromUrl } from "@/lib/calculators/apply-url-params";
+import { buildCalculatorGeneratedReport } from "@/lib/reports/calculator-report-bridge";
 
 import {
   buildIotaConsensusReportText,
-  buildReportText,
   calculateORADS,
   evaluateIotaConsensus2026,
   type BloodFlow,
@@ -20,6 +22,7 @@ import {
   type Menopause,
   type NormalOvaryPattern,
   type OradsInput,
+  type OvarySide,
   type PapillaryProjectionCount,
   type PapillaryProjectionSurface,
   type PhysiologicalType,
@@ -48,8 +51,9 @@ function deriveIotaLesionType(
   return undefined;
 }
 
-export function useOradsProForm() {
+export function useOradsProFormState() {
   const [localization, setLocalization] = useState<Localization | undefined>("ovarian");
+  const [ovarySide, setOvarySide] = useState<OvarySide | undefined>();
   const [ageYears, setAgeYears] = useState("");
   const [cycleDay, setCycleDay] = useState("");
   const [menopause, setMenopause] = useState<Menopause | undefined>();
@@ -80,10 +84,29 @@ export function useOradsProForm() {
   const [iotaCenterType, setIotaCenterType] = useState<IotaCenterType | undefined>();
   const [incompleteSeptum, setIncompleteSeptum] = useState(false);
 
+  useEffect(() => {
+    const p = readShareParamsFromUrl();
+    if (!p) return;
+    if (p.localization === "ovarian" || p.localization === "extraovarian") {
+      setLocalization(p.localization);
+    }
+    if (p.ovarySide === "left" || p.ovarySide === "right" || p.ovarySide === "bilateral") {
+      setOvarySide(p.ovarySide);
+    }
+    if (p.menopause === "pre" || p.menopause === "post") setMenopause(p.menopause);
+    if (p.lesionKind === "physiological" || p.lesionKind === "nonphysiological" || p.lesionKind === "normal_ovary") {
+      setLesionKind(p.lesionKind);
+    }
+    if (p.structure === "unilocular" || p.structure === "multilocular" || p.structure === "solid") {
+      setStructure(p.structure);
+    }
+  }, []);
+
   const input = useMemo<OradsInput>(() => {
     const derivedLesionType = deriveIotaLesionType(structure, solidComponent);
     return {
       localization,
+      ovarySide: localization === "ovarian" ? ovarySide : undefined,
       ageYears: Number(ageYears) > 0 ? Number(ageYears) : undefined,
       cycleDay:
         menopause === "pre" && Number(cycleDay) > 0 && Number(cycleDay) <= 35 ? Number(cycleDay) : undefined,
@@ -117,6 +140,7 @@ export function useOradsProForm() {
     };
   }, [
       localization,
+      ovarySide,
       ageYears,
       cycleDay,
       menopause,
@@ -156,15 +180,20 @@ export function useOradsProForm() {
     [input, result.category],
   );
   const reportText = useMemo(() => {
-    return [
-      buildReportText(input, result),
-      buildAdnexTriangulationReport(triangulation),
-      buildIotaConsensusReportText(iotaConsensus),
-    ].join("\n\n");
-  }, [input, result, triangulation, iotaConsensus]);
+    const generated = buildCalculatorGeneratedReport(
+      "o-rads-us",
+      input as unknown as Record<string, unknown>,
+      { result, category: result.category },
+      result.category,
+    );
+    const iotaBlock = buildIotaConsensusReportText(iotaConsensus);
+    const base = generated?.plainText ?? "";
+    return iotaBlock ? `${base}\n\n---\nIOTA consensus (assistive):\n${iotaBlock}` : base;
+  }, [input, result, iotaConsensus]);
 
   function reset() {
     setLocalization("ovarian");
+    setOvarySide(undefined);
     setAgeYears("");
     setCycleDay("");
     setMenopause(undefined);
@@ -210,6 +239,8 @@ export function useOradsProForm() {
     reset,
     localization,
     setLocalization,
+    ovarySide,
+    setOvarySide,
     ageYears,
     setAgeYears,
     cycleDay,
@@ -271,4 +302,4 @@ export function useOradsProForm() {
   };
 }
 
-export type OradsProForm = ReturnType<typeof useOradsProForm>;
+export type OradsProForm = ReturnType<typeof useOradsProFormState>;

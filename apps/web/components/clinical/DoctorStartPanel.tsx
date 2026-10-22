@@ -54,18 +54,36 @@ const roleRoutes = [
     href: "/tools/calc/rads/o-rads",
     icon: ScanLine,
     steps: ["O-RADS / BI-RADS / TI-RADS", "Атласы и эхограммы", "Структурированный протокол"],
+    quickLinks: [
+      { label: "O-RADS US", href: "/tools/calc/rads/o-rads" },
+      { label: "IOTA ADNEX", href: "/tools/calc/rads/iota" },
+      { label: "BI-RADS", href: "/tools/calc/rads/bi-rads" },
+      { label: "TI-RADS", href: "/tools/calc/rads/ti-rads" },
+    ],
   },
   {
     title: "Я акушер",
     href: "/tools/obstetrics",
     icon: Baby,
     steps: ["FMF и скрининги", "Фетометрия и допплер", "КР и маршрутизация"],
+    quickLinks: [
+      { label: "FMF", href: "/ai/consultants/fmf" },
+      { label: "Bishop", href: "/tools/calc/ob/bishop" },
+      { label: "VBAC", href: "/tools/calc/ob/vbac" },
+      { label: "EFW", href: "/tools/calc/ob/fetal-weight" },
+    ],
   },
   {
     title: "Я гинеколог",
     href: "/tools/gynecology",
     icon: HeartPulse,
-    steps: ["Нозология", "УЗИ-критерии", "Тактика и пациентке"],
+    steps: ["FIGO / миомы", "O-RADS и эндометрий", "Эластография и шейка"],
+    quickLinks: [
+      { label: "FIGO · матка", href: "/tools/mapping/uterus" },
+      { label: "Миома", href: "/tools/refs/nosologies/uterine-myoma" },
+      { label: "Эластография", href: "/tools/calc/gyn/elastography" },
+      { label: "O-RADS", href: "/tools/calc/rads/o-rads" },
+    ],
   },
 ] as const;
 
@@ -147,6 +165,13 @@ export function DoctorStartPanel() {
                     </li>
                   ))}
                 </ul>
+                <div className="flex flex-wrap gap-1.5">
+                  {route.quickLinks.map((link) => (
+                    <Button key={link.href} variant="outline" size="sm" className="h-8 text-xs" asChild>
+                      <Link href={link.href}>{link.label}</Link>
+                    </Button>
+                  ))}
+                </div>
                 <Button variant="secondary" size="sm" className="w-full" asChild>
                   <Link href={route.href}>
                     Открыть маршрут

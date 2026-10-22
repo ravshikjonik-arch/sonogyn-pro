@@ -60,6 +60,18 @@ export function CaseEditorialPanel({ caseId, isRare, rareSlot, editorialPriority
     router.refresh();
   }
 
+  async function awardFeatured() {
+    setBusy(true);
+    const response = await fetch(`/api/cases/${caseId}/featured`, { method: "POST" });
+    setBusy(false);
+    if (!response.ok) {
+      const payload = (await response.json().catch(() => null)) as { error?: string } | null;
+      toast.error(payload?.error ?? "Не удалось начислить бонус");
+      return;
+    }
+    toast.success("Автору начислено +25 к репутации (один раз на кейс)");
+  }
+
   return (
     <Card className="border-amber-200/80 bg-amber-50/30">
       <CardHeader className="pb-2">
@@ -103,6 +115,15 @@ export function CaseEditorialPanel({ caseId, isRare, rareSlot, editorialPriority
         </div>
         <Button type="button" size="sm" disabled={busy} onClick={() => void save()}>
           {busy ? "Сохранение…" : "Сохранить editorial"}
+        </Button>
+        <Button
+          type="button"
+          size="sm"
+          variant="secondary"
+          disabled={busy}
+          onClick={() => void awardFeatured()}
+        >
+          Избранный кейс (+25 репутации автору)
         </Button>
       </CardContent>
     </Card>

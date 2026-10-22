@@ -1,9 +1,7 @@
 import { CpiDashboard } from "@/components/calculators/colposcopy/CpiDashboard";
 
-export const metadata = {
-  title: "Cervical Pathology Intelligence · SonoGyn",
-  description: "CPI: IFCPC + HPV + Bethesda + Swede + Risk + CDS + Reports — ASCCP/WHO/ESGO.",
-};
+import { calculatorPageMetadata } from "@/lib/seo/calculator-seo-registry";
+export const metadata = calculatorPageMetadata("/tools/calc/gyn/cervical-intelligence");
 
 type Props = {
   searchParams: Promise<{ patientId?: string; studyId?: string }>;

@@ -24,7 +24,7 @@ export function TiradsProFlow() {
   return (
     <TiradsFlowProvider setMode={setMode}>
       <div className="relative min-h-screen pb-36">
-        <div className="border-b border-[var(--clinical-border)] bg-gradient-to-r from-sky-950 to-cyan-600 px-4 py-2.5 text-white lg:px-10">
+        <div className="clinical-calc-toolbar px-4 py-2.5 lg:px-10">
           <div className="mx-auto flex max-w-4xl flex-wrap items-center gap-2">
             <Button variant="secondary" size="sm" asChild className="h-8 rounded-full text-xs">
               <Link href="/tools/calc">← Калькуляторы</Link>

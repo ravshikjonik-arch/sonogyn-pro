@@ -7,6 +7,8 @@ import { useAuth, useSupabase } from "@/app/providers";
 import { ChatMessageBubble, type ChatBubbleMessage } from "@/components/chat/ChatMessageBubble";
 import { ChatMessageComposer } from "@/components/chat/ChatMessageComposer";
 import { resolveAuthorNames } from "@/lib/chat/resolve-author-names";
+import { resolveAuthorTrust, type AuthorTrustMap } from "@/lib/trust/resolve-author-trust";
+import { requireOnlineForNetworkAction } from "@/lib/network/require-online-action";
 
 type RawMessage = {
   id: string;
@@ -31,6 +33,7 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
   const scrollRef = useRef<HTMLDivElement>(null);
   const [messages, setMessages] = useState<ChatBubbleMessage[]>([]);
   const [authorNames, setAuthorNames] = useState<Record<string, string>>({});
+  const [authorTrust, setAuthorTrust] = useState<AuthorTrustMap>({});
   const [userId, setUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
@@ -95,7 +98,13 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
 
     const rows = payload.messages;
     setMessages(enrich(rows));
-    setAuthorNames(await resolveAuthorNames(supabase, rows.map((r) => r.author_id)));
+    const ids = rows.map((r) => r.author_id);
+    const [names, trust] = await Promise.all([
+      resolveAuthorNames(supabase, ids),
+      resolveAuthorTrust(supabase, ids),
+    ]);
+    setAuthorNames(names);
+    setAuthorTrust(trust);
     if (!silent) setLoading(false);
   }, [channelId, enrich, ready, supabase, user]);
 
@@ -196,6 +205,11 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
       toast.message("Нужна авторизация");
       return false;
     }
+    const offline = requireOnlineForNetworkAction();
+    if (offline) {
+      toast.error(offline);
+      return false;
+    }
     setSending(true);
     try {
       let media_storage_path: string | null = null;
@@ -241,8 +255,12 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
       }
       const [bubble] = enrich([payload.message]);
       setMessages((prev) => [...prev.filter((m) => m.id !== bubble.id), bubble]);
-      const names = await resolveAuthorNames(supabase, [payload.message.author_id]);
+      const [names, trust] = await Promise.all([
+        resolveAuthorNames(supabase, [payload.message.author_id]),
+        resolveAuthorTrust(supabase, [payload.message.author_id]),
+      ]);
       setAuthorNames((prev) => ({ ...prev, ...names }));
+      setAuthorTrust((prev) => ({ ...prev, ...trust }));
       if (payload.autoSubscribed) {
         setPushSubscribed(true);
         toast.success("Отправлено · push на ответы канала включён");
@@ -305,6 +323,7 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
               key={msg.id}
               message={msg}
               authorName={authorNames[msg.author_id] ?? "Коллега"}
+              authorVerified={authorTrust[msg.author_id]?.isVerified ?? false}
               isMine={mine.has(msg.author_id)}
             />
           ))

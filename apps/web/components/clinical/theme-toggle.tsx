@@ -5,23 +5,27 @@ import { Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/lib/theme/theme-provider";
 
+/** Только кабинет; лендинг игнорирует toggle (см. theme-paths resolveClinicalTheme). */
 export function ThemeToggle() {
-  const { resolved, toggle } = useTheme();
+  const { mode, resolved, toggle } = useTheme();
+  const systemHint = mode === "system" ? " · системная тема" : "";
 
   return (
     <Button
       type="button"
       variant="ghost"
-      size="sm"
+      size="icon"
       onClick={toggle}
-      className="gap-2 text-[var(--clinical-foreground-muted)]"
-      title={resolved === "dark" ? "Светлая тема" : "Тёмная тема"}
-      aria-label="Переключить тему"
+      className="shrink-0 text-[var(--clinical-foreground-muted)]"
+      title={
+        resolved === "dark"
+          ? `Включить светлую тему${systemHint}`
+          : `Включить тёмную тему${systemHint}`
+      }
+      aria-label="Переключить тему кабинета"
+      aria-pressed={resolved === "dark"}
     >
       {resolved === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-      <span className="hidden text-xs font-semibold sm:inline">
-        {resolved === "dark" ? "Светлая" : "Тёмная"}
-      </span>
     </Button>
   );
 }

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useCallback, useState } from "react";
 
+import { OradsProFormProvider } from "@/components/calculators/orads/OradsProFormContext";
 import { OradsCategoryAtlas } from "@/components/calculators/orads/OradsCategoryAtlas";
 import { OradsDualGrid } from "@/components/calculators/orads/grids/OradsDualGrid";
 import { OradsProCalculator } from "@/components/calculators/orads/OradsProCalculator";
@@ -43,7 +44,7 @@ export function OradsProFlow() {
 
   return (
     <div className="relative min-h-screen pb-36">
-      <div className="border-b border-[var(--clinical-border)] bg-gradient-to-r from-[#0c4a6e] to-[#14b8a6] px-4 py-2.5 text-white lg:px-10">
+      <div className="clinical-calc-toolbar px-4 py-2.5 lg:px-10">
         <div className="mx-auto flex max-w-3xl flex-wrap items-center gap-2">
           <Button variant="secondary" size="sm" asChild className="h-8 rounded-full text-xs">
             <Link href="/app">Рабочий кабинет</Link>
@@ -90,6 +91,7 @@ export function OradsProFlow() {
         </div>
       </div>
 
+      <OradsProFormProvider>
       <ClinicalWorkspace
         className={cn((mode === "wizard" || mode === "grids") && "xl:grid-cols-[minmax(0,1fr)_300px]")}
         side={
@@ -136,6 +138,7 @@ export function OradsProFlow() {
           </div>
         )}
       </ClinicalWorkspace>
+      </OradsProFormProvider>
 
       <SpatialModal
         open={panel !== null}

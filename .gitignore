@@ -7,6 +7,9 @@ node_modules*/
 dist/
 web-build/
 
+# Local scratch (tokens, deploy notes — never commit)
+.tmp/
+
 # env & secrets
 .env
 .env.local
@@ -31,7 +34,8 @@ apps/web/public/books/umarov-2021/
 
 # PWA build artifacts (не коммитить дубликаты)
 apps/web/public/workbox-*.js
-apps/web/public/sw *.js
+apps/web/public/sw.js
+apps/web/public/sw.js.map
 
 # Локальные сэмплы OCR/аудита (реген через scripts/import-*)
 scripts/ozerskaya-samples/

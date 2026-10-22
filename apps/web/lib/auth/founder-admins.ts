@@ -29,7 +29,7 @@ export async function ensureFounderAdminAccess(userId: string): Promise<boolean>
     const admin = createServiceRoleClient();
     const { data: profile, error } = await admin
       .from("profiles")
-      .select("id, role, full_name, medical_access_status")
+      .select("id, role, full_name, medical_access_status, is_verified")
       .eq("id", userId)
       .maybeSingle();
 
@@ -38,13 +38,16 @@ export async function ensureFounderAdminAccess(userId: string): Promise<boolean>
 
     const needsRole = profile.role !== "admin";
     const needsAccess = profile.medical_access_status !== "verified_doctor";
-    if (!needsRole && !needsAccess) return true;
+    const needsVerified = !profile.is_verified;
+
+    if (!needsRole && !needsAccess && !needsVerified) return true;
 
     const { error: updateError } = await admin
       .from("profiles")
       .update({
         role: "admin",
         medical_access_status: "verified_doctor",
+        is_verified: true,
         medical_verified_at: new Date().toISOString(),
         medical_verification_note: "Founder admin — permanent grant",
         updated_at: new Date().toISOString(),

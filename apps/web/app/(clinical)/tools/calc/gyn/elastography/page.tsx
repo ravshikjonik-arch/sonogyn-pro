@@ -1,12 +1,8 @@
-import type { Metadata } from "next";
-
 import { ElastographyCalculator } from "@/components/calculators/elastography/ElastographyCalculator";
 import { CalculatorLiteraturePanel } from "@/components/pubmed/CalculatorLiteraturePanel";
+import { calculatorPageMetadata } from "@/lib/seo/calculator-seo-registry";
 
-export const metadata: Metadata = {
-  title: "Эластография — калькулятор",
-  description: "Strain / SWE: шейка, миометрий, яичники, молочная железа.",
-};
+export const metadata = calculatorPageMetadata("/tools/calc/gyn/elastography");
 
 export default function ElastographyCalculatorPage() {
   return (

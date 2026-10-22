@@ -47,6 +47,8 @@ export type BookNosologyRegistry = {
   generatedAt: string;
   entryCount: number;
   clinicalCount: number;
+  /** Пренатальные пороки/находки (отдельные строки в generated registry). */
+  prenatalFindingCount?: number;
   entries: BookNosologyEntry[];
 };
 

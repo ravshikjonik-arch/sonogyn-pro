@@ -1,6 +1,7 @@
 import { CinFollowUpCalculator } from "@/components/calculators/gynecologic/CinFollowUpCalculator";
 
-export const metadata = { title: "Наблюдение после CIN · SonoGyn" };
+import { calculatorPageMetadata } from "@/lib/seo/calculator-seo-registry";
+export const metadata = calculatorPageMetadata("/tools/calc/gyn/cin-follow-up");
 
 export default function CinFollowUpPage() {
   return <CinFollowUpCalculator />;

@@ -50,7 +50,13 @@ export default async function AdminDashboardPage() {
 
       <div className="flex flex-wrap gap-3">
         <Button asChild>
-          <Link href="/admin/medical-access">Проверка врачей</Link>
+          <Link href="/admin/medical-access">Медицинский допуск</Link>
+        </Button>
+        <Button asChild variant="secondary">
+          <Link href="/admin/verifications">Заявки на ✓ врача</Link>
+        </Button>
+        <Button asChild variant="secondary">
+          <Link href="/admin/reputation">Репутация · штрафы</Link>
         </Button>
         <Button asChild>
           <Link href="/admin/nosologies">Нозологии (редактор)</Link>

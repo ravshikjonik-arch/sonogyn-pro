@@ -1,9 +1,8 @@
 import { OradsProFlow } from "@/components/calculators/orads/OradsProFlow";
 import { ModuleProgressWidget } from "@/components/achievements/ModuleProgressWidget";
+import { calculatorPageMetadata } from "@/lib/seo/calculator-seo-registry";
 
-export const metadata = {
-  title: "O-RADS US · SonoGyn",
-};
+export const metadata = calculatorPageMetadata("/tools/calc/rads/o-rads");
 
 export default function OradsProPage() {
   return (

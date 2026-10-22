@@ -177,15 +177,6 @@ export function LandingMarketingHero({ isAuthenticated }: Props) {
 
           {/* Auth over join zone */}
           <div className="order-1 flex flex-col justify-center gap-3 lg:order-3 lg:col-span-4 xl:col-span-4">
-            <div className="lg:hidden">
-              <h2 className="text-2xl font-black uppercase leading-tight tracking-tight">
-                Ваша вселенная женского здоровья
-              </h2>
-              <p className="mt-2 text-sm text-violet-100/80">
-                Всё, что нужно врачу — в одной платформе с ИИ
-              </p>
-            </div>
-
             {isAuthenticated ? (
               <div className="rounded-3xl border border-white/15 bg-black/45 p-5 text-white shadow-xl backdrop-blur-md">
                 <p className="text-[10px] font-black uppercase tracking-[0.22em] text-violet-200/80">Сессия активна</p>

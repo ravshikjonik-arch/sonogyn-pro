@@ -5,6 +5,8 @@ import {
   type OradsAssistPipelineResult,
 } from "@repo/orads-us/assist/runOradsAssistPipeline";
 
+import type { LexiconFeature } from "@/lib/ai/imaging-cds/lexicon-schemas";
+import type { OradsApplicabilityResult } from "@/lib/ai/imaging-cds/orads-applicability";
 import type { UsVisionAnalysisResult } from "@/lib/ai/us-vision/types";
 import { analyzeFramesWithWorker, readUsAiWorkerConfig } from "@/lib/ai/us-vision/worker-client";
 
@@ -27,9 +29,27 @@ export type GynAiAssistResult = OradsAssistPipelineResult & {
   workerRecommendations?: string[];
   workerScorecard?: string | null;
   workerFindings?: string[];
+  lexiconFeatures?: LexiconFeature[];
+  applicability?: OradsApplicabilityResult;
   mergedText: string;
   visionDescription: string;
 };
+
+function collectLexiconFeatures(vision: UsVisionAnalysisResult): LexiconFeature[] {
+  const out: LexiconFeature[] = [];
+  for (const frame of vision.frames) {
+    for (const feat of frame.lexiconFeatures ?? []) {
+      out.push({
+        id: feat.id,
+        labelRu: feat.labelRu,
+        value: feat.value,
+        confidence: feat.confidence,
+        notAssessableOnFrame: feat.notAssessableOnFrame,
+      });
+    }
+  }
+  return out;
+}
 
 function visionToFreeText(vision: UsVisionAnalysisResult): string {
   const parts: string[] = [];
@@ -39,7 +59,10 @@ function visionToFreeText(vision: UsVisionAnalysisResult): string {
   for (const frame of vision.frames) {
     if (frame.planeGuess) parts.push(frame.planeGuess);
     parts.push(...frame.findings);
-    if (frame.orads) parts.push(`O-RADS ${frame.orads}`);
+    for (const feat of frame.lexiconFeatures ?? []) {
+      parts.push(`${feat.labelRu}: ${String(feat.value)}`);
+    }
+    // Category numbers from vision are intentionally omitted — rule engine only after physician confirmation.
   }
   return parts.join(". ");
 }
@@ -52,6 +75,7 @@ export async function analyzeGynUltrasoundAssist(input: GynAiAssistInput): Promi
   let workerRecommendations: string[] | undefined;
   let workerScorecard: string | null | undefined;
   let workerFindings: string[] = [];
+  let lexiconFeatures: LexiconFeature[] = [];
   let visionText = "";
 
   const frames = input.frames ?? [];
@@ -79,6 +103,7 @@ export async function analyzeGynUltrasoundAssist(input: GynAiAssistInput): Promi
       workerRecommendations = workerResult.recommendations;
       workerScorecard = workerResult.scorecard ?? null;
       workerFindings = workerResult.frames.flatMap((f) => f.findings);
+      lexiconFeatures = collectLexiconFeatures(workerResult);
       visionText = visionToFreeText(workerResult);
     }
   }
@@ -101,7 +126,42 @@ export async function analyzeGynUltrasoundAssist(input: GynAiAssistInput): Promi
     workerRecommendations,
     workerScorecard,
     workerFindings,
+    lexiconFeatures,
     mergedText: assistText,
     visionDescription: visionText,
+  };
+}
+
+export function buildGynAssistBlockedResult(
+  applicability: OradsApplicabilityResult,
+): GynAiAssistResult {
+  return {
+    extracted: { sourceText: "" },
+    hints: [],
+    completePath: null,
+    unresolvedNodes: [],
+    ascitesModifierSuggested: false,
+    categoryNumber: null,
+    context: {
+      menopause: "pre",
+      menopauseSource: "ui",
+      postMenopauseHint: false,
+    },
+    clinicalReasoning: {
+      summary: applicability.messageRu,
+      workingCategory: applicability.suggestedOradsZero === "inadequate" ? "O-RADS 0" : "O-RADS: не применимо",
+      reasoningSteps: [],
+      missingQuestions: [],
+      memoryInsights: [],
+      safetyFlags: [applicability.code],
+      nextActions: ["Уточните клинический контекст или выберите другой инструмент."],
+      physicianGuardrail: "Авто-анализ O-RADS не выполнен — решение только за врачом.",
+    },
+    protocolDraft: "",
+    protocolDraftSource: "local",
+    pipeline: "applicability-gate",
+    applicability,
+    mergedText: "",
+    visionDescription: "",
   };
 }

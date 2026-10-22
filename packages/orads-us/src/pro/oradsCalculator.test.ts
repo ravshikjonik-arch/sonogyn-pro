@@ -114,6 +114,30 @@ function run() {
     throw new Error(`FUNCTIONAL_CYST_PATTERN: expected pattern label, got ${String(r8.patternLabel)}`);
   }
 
+  const rPp4 = calculateORADS({
+    localization: "ovarian",
+    menopause: "pre",
+    lesionKind: "nonphysiological",
+    structure: "unilocular",
+    unilocularSubtype: "simple_cyst",
+    solidComponent: true,
+    solidType: "papillary",
+    papillaryProjectionCount: "2",
+  });
+  expectEq("PAPILLARY_1_3", rPp4.category, 4);
+
+  const rPp5 = calculateORADS({
+    localization: "ovarian",
+    menopause: "pre",
+    lesionKind: "nonphysiological",
+    structure: "unilocular",
+    unilocularSubtype: "simple_cyst",
+    solidComponent: true,
+    solidType: "papillary",
+    papillaryProjectionCount: "4plus",
+  });
+  expectEq("PAPILLARY_GE4", rPp5.category, 5);
+
   const r9 = calculateORADS({
     localization: "ovarian",
     menopause: "pre",

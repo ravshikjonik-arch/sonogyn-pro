@@ -53,6 +53,10 @@
     "check:migration-drift": "node scripts/check-migration-drift.mjs",
     "test:iota": "pnpm --filter @repo/iota-models test",
     "test:orads-us": "pnpm --filter @repo/orads-us test",
+    "verify:orads-tree-snapshot": "node --import tsx packages/orads-us/scripts/verify-decision-tree-snapshot.mjs",
+    "verify:birads-rules-snapshot": "node packages/birads-us/scripts/verify-rules-snapshot.mjs",
+    "test:imaging-cds": "pnpm --filter @repo/web test:imaging-cds",
+    "eval:imaging-cds": "node --import tsx scripts/imaging-cds-eval.mjs --manifest docs/clinical-imaging-cds/golden-set/manifest.synthetic-ci.json",
     "test:e2e:iota": "pnpm --filter @repo/web test:e2e:iota"
   },
   "devDependencies": {

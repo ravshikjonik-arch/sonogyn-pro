@@ -4,6 +4,8 @@ import { Camera, ImageIcon, Sparkles } from "lucide-react";
 import { useCallback, useState } from "react";
 import { toast } from "sonner";
 
+import { LexiconFeaturesList } from "@/components/calculators/orads/LexiconFeaturesList";
+import { LexiconImageOverlay } from "@/components/calculators/orads/LexiconImageOverlay";
 import { OradsAssistFeedback } from "@/components/calculators/orads/wizard/OradsAssistFeedback";
 import { Button } from "@/components/ui/button";
 import type { GynAiAssistResult } from "@/lib/ai/gyn-ultrasound-assist";
@@ -159,7 +161,12 @@ export function OradsPhotoPanel({ nav, profileAgeYears }: Props) {
       {previewUrl ? (
         <div className="relative mx-auto max-h-52 overflow-hidden rounded-xl border border-teal-200/80 bg-black/5">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={previewUrl} alt="Снимок для O-RADS" className="mx-auto max-h-52 object-contain" />
+          <LexiconImageOverlay
+            imageUrl={previewUrl}
+            imageAlt="Снимок для O-RADS"
+            features={result?.lexiconFeatures ?? []}
+            className="max-h-52"
+          />
         </div>
       ) : null}
 
@@ -173,6 +180,16 @@ export function OradsPhotoPanel({ nav, profileAgeYears }: Props) {
               Результат по снимку · {result.pipeline.includes("us-ai-worker") ? "US AI Worker" : "локально"}
             </p>
           </div>
+
+          {result.applicability && !result.applicability.applicable ? (
+            <p className="rounded-lg border border-amber-300 bg-amber-50 px-2 py-2 text-xs font-medium text-amber-950 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-100">
+              {result.applicability.messageRu}
+            </p>
+          ) : null}
+
+          {result.lexiconFeatures?.length ? (
+            <LexiconFeaturesList features={result.lexiconFeatures} />
+          ) : null}
 
           {result.workerSummary ? (
             <p className="text-xs leading-relaxed text-slate-700 dark:text-slate-200">{result.workerSummary}</p>
@@ -204,12 +221,16 @@ export function OradsPhotoPanel({ nav, profileAgeYears }: Props) {
           </p>
 
           <div className="flex flex-wrap gap-2">
-            <Button type="button" size="sm" variant="secondary" onClick={() => onApplyHints(true)}>
-              Заполнить wizard (high)
-            </Button>
-            <Button type="button" size="sm" onClick={() => onApplyHints(false)}>
-              Все подсказки в wizard
-            </Button>
+            {result.applicability?.blockAnalysis ? null : (
+              <>
+                <Button type="button" size="sm" variant="secondary" onClick={() => onApplyHints(true)}>
+                  Заполнить wizard (high)
+                </Button>
+                <Button type="button" size="sm" onClick={() => onApplyHints(false)}>
+                  Все подсказки в wizard
+                </Button>
+              </>
+            )}
             <Button
               type="button"
               size="sm"

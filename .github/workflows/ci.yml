@@ -53,6 +53,18 @@ jobs:
       - name: O-RADS US package tests
         run: pnpm test:orads-us
 
+      - name: O-RADS decision tree snapshot (drift guard)
+        run: pnpm verify:orads-tree-snapshot
+
+      - name: Imaging CDS unit tests
+        run: pnpm test:imaging-cds
+
+      - name: BI-RADS rules snapshot (drift guard)
+        run: pnpm verify:birads-rules-snapshot
+
+      - name: Imaging CDS golden-set regression (34 synthetic cases)
+        run: node --import tsx scripts/imaging-cds-eval.mjs --manifest docs/clinical-imaging-cds/golden-set/manifest.synthetic-ci.json
+
       - name: Security schema tests
         run: pnpm exec npm run test:security --prefix apps/web
 

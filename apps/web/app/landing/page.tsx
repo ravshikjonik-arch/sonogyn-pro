@@ -20,7 +20,11 @@ export default async function LandingPage() {
   const career = isAuthenticated ? await loadCareerProgressForSession() : null;
 
   return (
-    <div className="min-h-screen bg-[#05030a] text-[var(--clinical-foreground)]">
+    <div
+      data-marketing-shell="true"
+      className="min-h-screen bg-[#05030a] text-slate-100"
+      aria-label="Маркетинговая страница (фиксированная тёмная тема)"
+    >
       <LandingHeader isAuthenticated={isAuthenticated} variant="marketing" />
       <LandingMarketingHero isAuthenticated={isAuthenticated} />
       <main className="sonogyn-mesh-bg mx-auto max-w-6xl space-y-28 px-4 py-20 sm:py-24">

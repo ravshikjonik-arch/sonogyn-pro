@@ -11,12 +11,14 @@ import { AdnexConsensusPanel } from "@/components/calculators/orads/AdnexConsens
 import { IotaConsensusWebPanel } from "@/components/calculators/orads/IotaConsensusWebPanel";
 import { OradsNosologyPreview } from "@/components/calculators/orads/OradsNosologyPreview";
 import { OradsVisualSubtypePicker } from "@/components/calculators/orads/OradsVisualSubtypePicker";
+import { OradsOvarySideField } from "@/components/calculators/orads/OradsOvarySideField";
 import { OradsSizeTripletInput } from "@/components/calculators/orads/OradsSizeTripletInput";
-import { useOradsProForm } from "@/components/calculators/orads/useOradsProForm";
+import { useOradsProForm } from "@/components/calculators/orads/OradsProFormContext";
 import { useIotaInterpretationAchievement } from "@/lib/achievements/use-calculator-achievements";
 import { CalcChip, CalcStepCard, CalcSubLabel } from "@/components/calculators/shared/calc-ui";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { CalculatorReportPanel } from "@/components/calculators/CalculatorReportPanel";
 import { DocumentExportToolbar } from "@/components/reporting/DocumentExportToolbar";
 import {
   ORADS_ZERO_OPTIONS,
@@ -56,7 +58,7 @@ function OradsHero() {
           </p>
         </div>
       </div>
-      <div className="flex flex-wrap items-center gap-2 border-t border-[var(--clinical-border)] bg-white/60 px-4 py-3 text-xs text-[var(--clinical-foreground-muted)]">
+      <div className="flex flex-wrap items-center gap-2 border-t border-[var(--clinical-border)] bg-[var(--bg-primary)] px-4 py-3 text-xs text-[var(--clinical-foreground-muted)]">
         <span className="font-bold text-[var(--clinical-foreground)]">Подсказка:</span>
         начните с менопаузы и типа образования, затем структуру, солидный компонент, размер и ЦДК.
       </div>
@@ -282,6 +284,11 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
                   Возраст ≥50: при сомнении учитывайте как постменопаузу (O-RADS US v2022).
                 </p>
               ) : null}
+              <OradsOvarySideField
+                localization={f.localization}
+                value={f.ovarySide}
+                onChange={f.setOvarySide}
+              />
             </CalcStepCard>
 
             <CalcStepCard title="2. Что видите?" required={!f.lesionKind}>
@@ -584,9 +591,6 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
             ) : null}
 
             <div className="flex flex-wrap gap-2 pt-2">
-              <Button type="button" variant="secondary" disabled={pending} onClick={onSave}>
-                Сохранить
-              </Button>
               <Button type="button" variant="default" disabled={pending || !showTriangulation} onClick={openStructuredReport}>
                 Структурированный протокол
               </Button>
@@ -603,15 +607,27 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
               </Button>
             </div>
 
-            <details className="text-sm">
-              <summary className="cursor-pointer font-semibold text-[var(--clinical-foreground-muted)]">Полный текст и PDF</summary>
-              <div className="mt-2 space-y-2">
-                <Button type="button" variant="outline" size="sm" onClick={() => void navigator.clipboard.writeText(f.reportText)}>
-                  Копировать заключение
-                </Button>
-                <DocumentExportToolbar spec={exportSpec} compact />
-              </div>
-            </details>
+            {showTriangulation && f.reportText.trim() ? (
+              <CalculatorReportPanel
+                title={`O-RADS ${f.result.category} · черновик`}
+                reportText={f.reportText}
+                filenameBase={`orads-${f.result.category}`}
+                sharePath="/tools/calc/rads/o-rads"
+                shareParams={{
+                  category: f.result.category,
+                  localization: f.input.localization ?? null,
+                  ovarySide: f.input.ovarySide ?? null,
+                  menopause: f.input.menopause ?? null,
+                  lesionKind: f.input.lesionKind ?? null,
+                  structure: f.input.structure ?? null,
+                }}
+                repeatHref="/tools/calc/rads/o-rads"
+                onSaveToHistory={onSave}
+                saveHistoryLabel="Сохранить в облаке"
+                aiRefine={{ toolId: "o-rads-us", category: f.result.category }}
+              />
+            ) : null}
+            <DocumentExportToolbar spec={exportSpec} compact />
           </>
         ) : null}
       </div>

@@ -1,19 +1,37 @@
 {
-  "name": "Medical Ultrasound Platform",
-  "short_name": "Ultrasound",
-  "description": "Medical ultrasound clinical platform with Supabase auth and protected workspace.",
-  "start_url": "/landing",
+  "name": "SonoGyn Pro",
+  "short_name": "SonoGyn",
+  "description": "Клиническая платформа УЗИ и акушерства-гинекологии: калькуляторы по гайдлайнам, кабинет врача и обучение.",
+  "start_url": "/home",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#f8fafc",
-  "theme_color": "#1d6fd8",
-  "orientation": "portrait",
+  "orientation": "any",
+  "background_color": "#0d0f14",
+  "theme_color": "#7c6df5",
+  "lang": "ru",
+  "categories": [
+    "medical",
+    "education",
+    "productivity"
+  ],
   "icons": [
     {
-      "src": "/icon.png",
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }

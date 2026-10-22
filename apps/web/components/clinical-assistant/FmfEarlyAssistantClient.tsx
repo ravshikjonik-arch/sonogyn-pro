@@ -40,6 +40,7 @@ import {
   type DopplerInput,
   type ScarInput,
 } from "@/lib/clinical-assistant/fmf-protocol";
+import { FmfPreeclampsiaReportPanel } from "@/components/clinical-assistant/FmfPreeclampsiaReportPanel";
 import { FmfProtocolTemplatePicker } from "@/components/clinical-assistant/FmfProtocolTemplatePicker";
 import { useSecondThirdProtocolTemplate } from "@/lib/clinical-assistant/fmf-protocol-template-prefs";
 import { nosologyAssistContextForFmf } from "@/lib/clinical-assistant/nosology-assist-context";
@@ -949,6 +950,16 @@ function FirstForm({
           />
         </FieldBlock>
       </div>
+
+      <FmfPreeclampsiaReportPanel
+        first={first}
+        screening={liveFmfScreening}
+        gaWeeks={
+          first.crlMm
+            ? Math.floor((gaDaysByCrl(first.crlMm) ?? 0) / 7) || undefined
+            : undefined
+        }
+      />
     </>
   );
 }

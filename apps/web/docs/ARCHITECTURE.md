@@ -80,8 +80,12 @@ packages/clinical-uterus/        # @clinical/uterus — shared ProceduralUterus 
 
 ## PWA
 
-- `public/manifest.json`, `metadata.manifest` & Apple web app keys in `app/layout.tsx`.
-- Service worker stub under `public/sw.js` — replace with Workbox strategy when offline caching requirements clear compliance review.
+- SSOT manifest: `lib/pwa/site-manifest.ts`; SW: `@ducanh2912/next-pwa` (production build only, `next build --webpack`).
+- Config: `lib/pwa/build-plugin-options.cjs`; custom worker: `worker/index.ts`; offline UI: `/offline`.
+- Dev: SW off; `DISABLE_PWA=1` disables plugin on production build.
+- Offline UX (step 3): `NetworkProvider`, бейдж «Офлайн» в шапке кабинета, `ClinicalRouteOfflineGate` на `/cases`, `/feed`, `/profile/patients`, `/ai`, `/workspace`, Evidence AI; блок POST в copilot и doctor-chat без сети.
+- Verification (step 4): `pnpm test:pwa` (never-cache + precache budget), `pnpm pwa:precache-report`, после сборки `pnpm pwa:audit` (`PWA_AUDIT_STRICT=1` в CI); опционально `pnpm build && pnpm test:e2e:pwa` (O-RADS offline + no Supabase in Cache Storage).
+- Install (step 5): `PwaInstallHost` + `beforeinstallprompt`, авто-баннер (cadence 7 дней в `localStorage`), пункт «На экран «Домой»» в меню профиля, iOS — инструкция Share → Add to Home Screen (`PwaInstallDialog`).
 
 ## Deployment (Vercel + Supabase)
 

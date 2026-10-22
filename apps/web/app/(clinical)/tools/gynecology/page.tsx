@@ -1,5 +1,8 @@
 import { ClinicalDomainHub } from "@/components/clinical/ClinicalDomainHub";
 import { GYNECOLOGY_HUB } from "@/lib/nav/domain-hubs";
+import { calculatorPageMetadata } from "@/lib/seo/calculator-seo-registry";
+
+export const metadata = calculatorPageMetadata("/tools/gynecology");
 
 export default function GynecologyHubPage() {
   return (

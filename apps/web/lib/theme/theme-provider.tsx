@@ -11,14 +11,15 @@ import {
   type ReactNode,
 } from "react";
 
-export type ThemeMode = "light" | "dark" | "system";
+import {
+  CLINICAL_THEME_STORAGE_KEY,
+  SONOGYN_THEME_STORAGE_KEY,
+  getSystemTheme,
+  resolveClinicalTheme,
+  type ThemeMode,
+} from "@/lib/theme/theme-paths";
 
-/** Публичные страницы следуют системной теме; кабинет по умолчанию тёмный. */
-function isPublicPath(pathname: string | null): boolean {
-  if (!pathname) return false;
-  if (pathname === "/") return true;
-  return /^\/(landing|login|register|verify-phone|pricing|auth)(\/|$)/.test(pathname);
-}
+export type { ThemeMode };
 
 type ThemeContextValue = {
   mode: ThemeMode;
@@ -27,13 +28,16 @@ type ThemeContextValue = {
   toggle: () => void;
 };
 
-const STORAGE_KEY = "clinical-theme-mode";
-
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
-function getSystemTheme(): "light" | "dark" {
-  if (typeof window === "undefined") return "light";
-  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+function applyResolvedTheme(resolved: "light" | "dark", mode: ThemeMode) {
+  document.documentElement.setAttribute("data-theme", resolved);
+  document.documentElement.classList.toggle("dark", resolved === "dark");
+  if (mode === "system") {
+    document.documentElement.removeAttribute("data-theme-forced");
+  } else {
+    document.documentElement.setAttribute("data-theme-forced", mode);
+  }
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
@@ -42,33 +46,26 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [resolved, setResolved] = useState<"light" | "dark">("light");
 
   useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY) as ThemeMode | null;
+    const stored = (localStorage.getItem(SONOGYN_THEME_STORAGE_KEY) ||
+      localStorage.getItem(CLINICAL_THEME_STORAGE_KEY)) as ThemeMode | null;
     if (stored === "light" || stored === "dark" || stored === "system") {
       setModeState(stored);
     }
   }, []);
 
   useEffect(() => {
-    const systemDefault = isPublicPath(pathname) ? getSystemTheme() : "dark";
-    const next = mode === "system" ? systemDefault : mode;
+    const next = resolveClinicalTheme(mode, pathname);
     setResolved(next);
-    document.documentElement.setAttribute("data-theme", next);
-    document.documentElement.classList.toggle("dark", next === "dark");
-    if (mode === "system") {
-      document.documentElement.removeAttribute("data-theme-forced");
-    } else {
-      document.documentElement.setAttribute("data-theme-forced", mode);
-    }
+    applyResolvedTheme(next, mode);
   }, [mode, pathname]);
 
   useEffect(() => {
     if (mode !== "system") return;
     const mq = window.matchMedia("(prefers-color-scheme: dark)");
     const handler = () => {
-      const next = isPublicPath(pathname) ? getSystemTheme() : "dark";
+      const next = resolveClinicalTheme("system", pathname);
       setResolved(next);
-      document.documentElement.setAttribute("data-theme", next);
-      document.documentElement.classList.toggle("dark", next === "dark");
+      applyResolvedTheme(next, mode);
     };
     mq.addEventListener("change", handler);
     return () => mq.removeEventListener("change", handler);
@@ -76,12 +73,15 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   const setMode = useCallback((next: ThemeMode) => {
     setModeState(next);
-    localStorage.setItem(STORAGE_KEY, next);
+    localStorage.setItem(CLINICAL_THEME_STORAGE_KEY, next);
+    localStorage.setItem(SONOGYN_THEME_STORAGE_KEY, next);
   }, []);
 
   const toggle = useCallback(() => {
+    const onMarketing = pathname === "/landing" || pathname.startsWith("/lp/");
+    if (onMarketing) return;
     setMode(resolved === "dark" ? "light" : "dark");
-  }, [resolved, setMode]);
+  }, [pathname, resolved, setMode]);
 
   const value = useMemo(
     () => ({ mode, resolved, setMode, toggle }),
@@ -96,3 +96,5 @@ export function useTheme() {
   if (!ctx) throw new Error("useTheme must be used within ThemeProvider");
   return ctx;
 }
+
+export { getSystemTheme };

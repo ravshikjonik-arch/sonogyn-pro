@@ -1,10 +1,7 @@
 import { ColposcopyFlow } from "@/components/calculators/colposcopy/ColposcopyFlow";
 
-export const metadata = {
-  title: "Кольпоскопия · Swede Score · SonoGyn",
-  description:
-    "Протокол кольпоскопии по стандартному бланку, калькулятор Swede Score, схема шейки, шаблоны заключений, PDF и почта.",
-};
+import { calculatorPageMetadata } from "@/lib/seo/calculator-seo-registry";
+export const metadata = calculatorPageMetadata("/tools/calc/gyn/colposcopy");
 
 export default function ColposcopyPage() {
   return <ColposcopyFlow />;

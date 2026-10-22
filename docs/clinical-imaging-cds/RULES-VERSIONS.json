@@ -1,0 +1,37 @@
+{
+  "updatedAt": "2026-10-22",
+  "systems": [
+    {
+      "id": "o-rads-us",
+      "version": "v2022",
+      "source": "ACR O-RADS Ultrasound v2022 (Nov 2022)",
+      "codePackages": ["@repo/orads-us"],
+      "categoryEngine": "calculateOradsResult + calculateORADS (Pro)",
+      "notes": "Wizard tree + Pro calculator; photo assist maps text/hints only."
+    },
+    {
+      "id": "iota-simple-rules",
+      "version": "consensus-2026-assist",
+      "source": "IOTA updated consensus (DOI 10.1002/uog.70191) — assistive triangulation in web",
+      "codePackages": ["@repo/adnex-education", "@repo/orads-us"],
+      "categoryEngine": "evaluateIotaConsensus2026 / ADNEX calculators",
+      "notes": "Not a substitute for full ADNEX model in all flows."
+    },
+    {
+      "id": "bi-rads-us",
+      "version": "2025-assist",
+      "source": "ACR BI-RADS Ultrasound (SonoGyn brochure 2025 module)",
+      "codePackages": ["@repo/birads-us"],
+      "categoryEngine": "biradsBrochure2025 + NLP assistFromFreeText",
+      "notes": "Mammography/MRI 4A–4C not in US photo pipeline."
+    },
+    {
+      "id": "figo-myoma",
+      "version": "figo-2018",
+      "source": "FIGO leiomyoma classification",
+      "codePackages": ["@repo/clinical-3d", "@repo/report-generator"],
+      "categoryEngine": "deterministic FIGO classifier",
+      "notes": "Cancer staging by photo explicitly out of scope."
+    }
+  ]
+}

@@ -3,10 +3,13 @@ import { isProlapseTeachingCase } from "@repo/medical-calculations/popq";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 const DEFAULT_LIMIT = 40;
-const SELECT_COLS_WITH_LIFECYCLE =
-  "id,title,description,anatomy,pathology,difficulty,status,is_public,created_at,user_id,orads_category,tags,channel_id,lifecycle_status,confirmed_diagnosis,knowledge_base_at";
-const SELECT_COLS_LEGACY =
+const SELECT_BASE =
   "id,title,description,anatomy,pathology,difficulty,status,is_public,created_at,user_id,orads_category,tags,channel_id";
+const SELECT_VOTES = "vote_up_count,vote_down_count,rating";
+const SELECT_LIFECYCLE = "lifecycle_status,confirmed_diagnosis,knowledge_base_at";
+const SELECT_COLS_WITH_LIFECYCLE = `${SELECT_BASE},${SELECT_LIFECYCLE},${SELECT_VOTES}`;
+const SELECT_COLS_LEGACY = `${SELECT_BASE},${SELECT_VOTES}`;
+const SELECT_COLS_LEGACY_NO_VOTES = SELECT_BASE;
 
 export type TeachingCaseRow = {
   id: string;
@@ -25,6 +28,9 @@ export type TeachingCaseRow = {
   lifecycle_status: string | null;
   confirmed_diagnosis?: string | null;
   knowledge_base_at?: string | null;
+  vote_up_count?: number;
+  vote_down_count?: number;
+  rating?: number;
 };
 
 export async function listTeachingCases(
@@ -65,6 +71,19 @@ export async function listTeachingCases(
     });
   }
 
+  if (
+    result.error?.message?.includes("vote_up_count") ||
+    result.error?.message?.includes("rating")
+  ) {
+    result = await runCasesListQuery(supabase, SELECT_COLS_LEGACY_NO_VOTES, {
+      userId,
+      query,
+      limit,
+      tags,
+      feedMode,
+    });
+  }
+
   if (result.error) {
     throw Object.assign(new Error(result.error.message), { status: 400, code: result.error.code });
   }
@@ -90,6 +109,9 @@ function normalizeTeachingCaseRow(row: TeachingCaseRow): TeachingCaseRow {
     ...row,
     tags: Array.isArray(row.tags) ? row.tags : [],
     lifecycle_status: row.lifecycle_status ?? null,
+    vote_up_count: row.vote_up_count ?? 0,
+    vote_down_count: row.vote_down_count ?? 0,
+    rating: row.rating ?? 0,
   };
 }
 
@@ -105,13 +127,16 @@ async function runCasesListQuery(
   },
 ) {
   const { userId, query, limit, tags, feedMode } = ctx;
-  let dbQuery = supabase
-    .from("cases")
-    .select(selectCols)
-    .order("created_at", { ascending: false })
-    .limit(limit + 1);
+  const sort = query.sort ?? "date";
 
-  if (query.cursor) dbQuery = dbQuery.lt("created_at", query.cursor);
+  let dbQuery = supabase.from("cases").select(selectCols).limit(limit + 1);
+
+  if (sort === "rating") {
+    dbQuery = dbQuery.order("rating", { ascending: false }).order("created_at", { ascending: false });
+  } else {
+    dbQuery = dbQuery.order("created_at", { ascending: false });
+    if (query.cursor) dbQuery = dbQuery.lt("created_at", query.cursor);
+  }
   if (query.channelId) dbQuery = dbQuery.eq("channel_id", query.channelId);
   else if (feedMode === "library") dbQuery = dbQuery.is("channel_id", null);
   else if (feedMode === "discussions") dbQuery = dbQuery.not("channel_id", "is", null);

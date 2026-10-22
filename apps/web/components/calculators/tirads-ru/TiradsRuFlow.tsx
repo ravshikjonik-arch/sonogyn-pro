@@ -162,7 +162,7 @@ export function TiradsRuFlow({ embedded = false }: { embedded?: boolean } = {}) 
   return (
     <div className="space-y-4 px-4 py-4 lg:px-10">
       {!embedded ? (
-        <div className="border-b border-[var(--clinical-border)] bg-gradient-to-r from-sky-900 to-cyan-700 px-2 py-2.5 text-white lg:px-4">
+        <div className="clinical-calc-toolbar px-2 py-2.5 lg:px-4">
           <div className="mx-auto flex max-w-3xl flex-wrap items-center gap-2">
             <span className="text-sm font-bold">ЩЖ · TI-RADS (РФ, 2023)</span>
             <span className="text-xs opacity-80">Катрич · Фисенко · Ветшева</span>

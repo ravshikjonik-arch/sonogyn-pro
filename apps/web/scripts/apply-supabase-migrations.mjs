@@ -31,6 +31,13 @@ const COMMUNITY_ONLY = [
 
 const SECURITY_ONLY = ["20260608120000_security_hardening.sql"];
 
+const TRUST_ONLY = [
+  "20261022_verification_reputation.sql",
+  "20261022160000_case_reputation_votes.sql",
+  "20261022170000_reputation_hardening.sql",
+  "20261022180000_comment_upvote_dedupe.sql",
+];
+
 function loadEnv(filePath) {
   if (!fs.existsSync(filePath)) return {};
   const out = {};
@@ -115,26 +122,31 @@ async function applyWithPg(dbUrl, files) {
 
 const bundleOnly = process.argv.includes("--bundle-only");
 const securityOnly = process.argv.includes("--security-only");
+const trustOnly = process.argv.includes("--trust-only");
 const files = listMigrations();
 const bundle = buildBundle(files);
 fs.writeFileSync(bundlePath, bundle, "utf8");
 const communityFiles = files.filter((f) => COMMUNITY_ONLY.includes(f));
 fs.writeFileSync(communityBundlePath, buildBundle(communityFiles), "utf8");
 const securityBundlePath = path.join(webRoot, "supabase", "BUNDLE_SECURITY_ONLY.sql");
+const trustBundlePath = path.join(webRoot, "supabase", "BUNDLE_TRUST_ONLY.sql");
 fs.writeFileSync(securityBundlePath, buildBundle(files.filter((f) => SECURITY_ONLY.includes(f))), "utf8");
+fs.writeFileSync(trustBundlePath, buildBundle(files.filter((f) => TRUST_ONLY.includes(f))), "utf8");
 console.log(`📄 Полный bundle: ${bundlePath} (${files.length} файлов)`);
 console.log(`📄 Только чат: ${communityBundlePath} (${communityFiles.length} файлов)`);
 console.log(`📄 Только security: ${securityBundlePath} (${SECURITY_ONLY.length} файлов)`);
+console.log(`📄 Только trust/reputation: ${trustBundlePath} (${TRUST_ONLY.length} файлов)`);
 
 if (bundleOnly) {
   console.log("\nSQL Editor → Run:");
   console.log("  • BUNDLE_SECURITY_ONLY.sql — только security fix (рекомендуется сейчас)");
+  console.log("  • BUNDLE_TRUST_ONLY.sql — verify + reputation (staging smoke trust)");
   console.log("  • BUNDLE_COMMUNITY_CHAT_ONLY.sql — если база уже была");
   console.log("  • BUNDLE_FOR_SQL_EDITOR.sql — полная установка");
   process.exit(0);
 }
 
-const migrateFiles = securityOnly ? SECURITY_ONLY : files;
+const migrateFiles = securityOnly ? SECURITY_ONLY : trustOnly ? TRUST_ONLY : files;
 
 const env = loadEnv(envPath);
 const dbUrl = env.SUPABASE_DB_URL || env.DATABASE_URL;

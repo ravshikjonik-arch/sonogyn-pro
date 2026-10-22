@@ -4,6 +4,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
+import { PAYMENT_PROVIDER_PUBLIC_NAME_RU } from "@/lib/config/platform";
+
 import { PRICING_PLANS } from "./data";
 
 type LandingPricingProps = {
@@ -19,7 +21,8 @@ export function LandingPricing({ isAuthenticated }: LandingPricingProps) {
           Free и PRO
         </h2>
         <p className="mt-3 text-sm leading-relaxed text-[var(--clinical-foreground-muted)] sm:text-base">
-          Сначала — бесплатное знакомство. PRO оформляется после входа через ЮKassa.
+          Сначала — бесплатное знакомство и демо-кабинет. PRO оформляется после входа через{" "}
+          {PAYMENT_PROVIDER_PUBLIC_NAME_RU}.
         </p>
       </div>
       <div className="grid gap-8 md:grid-cols-2">

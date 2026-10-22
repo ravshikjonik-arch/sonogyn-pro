@@ -19,7 +19,7 @@ export function ClinicalBottomNav({ className }: Props) {
       aria-label="Основная навигация"
       data-testid="clinical-bottom-nav"
       className={cn(
-        "fixed inset-x-0 bottom-0 z-30 border-t border-[var(--clinical-border)] bg-[var(--clinical-header)]/95 backdrop-blur-md",
+        "clinical-workspace-dock fixed inset-x-0 bottom-0 z-30 border-t border-[var(--clinical-border)] bg-[var(--clinical-header)] backdrop-blur-md",
         "pb-[max(0.5rem,env(safe-area-inset-bottom))]",
         className,
       )}

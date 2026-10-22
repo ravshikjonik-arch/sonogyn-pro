@@ -11,6 +11,7 @@ import {
 import { formatAgeYearsRu } from "@repo/types";
 import type { UseOradsNavigatorReturn } from "@repo/orads-us";
 
+import { MobileDictationBar } from "../speech/MobileDictationBar";
 import OradsAssistFeedback from "./OradsAssistFeedback";
 import { useOradsAssist } from "./useOradsAssist";
 
@@ -67,6 +68,8 @@ export default function OradsAssistPanel({
       {profileAgeYears !== undefined ? (
         <Text style={styles.profileAge}>Возраст из профиля: {formatAgeYearsRu(profileAgeYears)}</Text>
       ) : null}
+
+      <MobileDictationBar value={text} onChange={setText} style={{ marginBottom: 8 }} />
 
       <TextInput
         style={styles.input}

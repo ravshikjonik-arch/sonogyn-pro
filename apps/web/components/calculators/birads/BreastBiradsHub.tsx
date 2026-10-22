@@ -47,7 +47,7 @@ export function BreastBiradsHub() {
 
   return (
     <div className="relative min-h-screen pb-24">
-      <div className="border-b border-[var(--clinical-border)] bg-gradient-to-r from-[#4c0519] to-[#be123c] px-4 py-3 text-white lg:px-10">
+      <div className="clinical-calc-toolbar px-4 py-3 lg:px-10">
         <div className="mx-auto flex max-w-4xl flex-col gap-3">
           <div className="flex flex-wrap items-center gap-2">
             <Button variant="secondary" size="sm" asChild className="h-8 rounded-full text-xs">

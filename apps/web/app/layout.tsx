@@ -1,9 +1,12 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
+import { PwaInstallProvider } from "@/components/pwa/PwaInstallProvider";
+import { PwaRuntime } from "@/components/pwa/PwaRuntime";
 import { AppToaster } from "@/components/providers/app-toaster";
 import { CookieConsentBanner } from "@/components/privacy/CookieConsentBanner";
 import { ThemeProvider } from "@/lib/theme/theme-provider";
+import { THEME_BOOT_SCRIPT } from "@/lib/theme/theme-paths";
 import { SessionProvider } from "./providers";
 import "./globals.css";
 
@@ -35,13 +38,19 @@ export const metadata: Metadata = {
     telephone: false,
   },
   icons: {
-    icon: "/icon.png",
-    apple: "/icon.png",
+    icon: [
+      { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icons/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: "/icons/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: [{ media: "(prefers-color-scheme: dark)", color: "#0b1120" }, { color: "#1d6fd8" }],
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#0d0f14" },
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+  ],
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -61,28 +70,26 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{if("serviceWorker"in navigator){navigator.serviceWorker.getRegistrations().then(function(rs){rs.forEach(function(r){r.unregister();});});}if(typeof caches!=="undefined"&&caches.keys){caches.keys().then(function(keys){keys.forEach(function(k){caches.delete(k);});});}}catch(e){}})();`,
-          }}
-        />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){try{var m=localStorage.getItem("clinical-theme-mode");var p=location.pathname;var pub=p==="/"||/^\\/(landing|lp|login|register|verify-phone|pricing|auth|privacy)(\\/|$)/.test(p);var sys=window.matchMedia("(prefers-color-scheme: dark)").matches;var d;if(m==="dark")d=true;else if(m==="light")d=false;else d=pub?sys:true;document.documentElement.setAttribute("data-theme",d?"dark":"light");document.documentElement.classList.toggle("dark",d);if(m==="light"||m==="dark")document.documentElement.setAttribute("data-theme-forced",m);}catch(e){}})();`,
+            __html: THEME_BOOT_SCRIPT,
           }}
         />
         <style
           dangerouslySetInnerHTML={{
             __html:
-              "html,body{min-height:100%;margin:0}html[data-theme=dark],html.dark{background:#0b0f19;color:#f1f5f9}html[data-theme=light]{background:#dceef7;color:#0c3347}",
+              "html,body{min-height:100%;margin:0}html[data-theme=dark],html.dark{background:#0d0f14;color:#edeff3}html[data-theme=light]{background:#ffffff;color:#1a1d24}",
           }}
         />
       </head>
           <body className="min-h-full flex flex-col">
         <ThemeProvider>
-          <SessionProvider>
-            {children}
-            <AppToaster />
-            <CookieConsentBanner />
-          </SessionProvider>
+          <PwaInstallProvider>
+            <SessionProvider>
+              {children}
+              <AppToaster />
+              <PwaRuntime />
+              <CookieConsentBanner />
+            </SessionProvider>
+          </PwaInstallProvider>
         </ThemeProvider>
       </body>
     </html>

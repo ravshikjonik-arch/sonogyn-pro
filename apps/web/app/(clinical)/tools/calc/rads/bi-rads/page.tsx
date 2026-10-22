@@ -2,11 +2,8 @@ import { Suspense } from "react";
 
 import { BreastBiradsHub } from "@/components/calculators/birads/BreastBiradsHub";
 
-export const metadata = {
-  title: "МЖ · BI-RADS УЗИ и ММГ · SonoGyn",
-  description:
-    "Молочные железы для врачей: отдельные блоки УЗИ (BI-RADS US) и маммографии (BI-RADS Mammography) + комбинированное заключение.",
-};
+import { calculatorPageMetadata } from "@/lib/seo/calculator-seo-registry";
+export const metadata = calculatorPageMetadata("/tools/calc/rads/bi-rads");
 
 export default function BreastBiradsPage() {
   return (

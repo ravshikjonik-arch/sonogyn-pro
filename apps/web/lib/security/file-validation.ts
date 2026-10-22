@@ -7,6 +7,7 @@ export const MAX_CHAT_MEDIA_BYTES = 20 * 1024 * 1024;
 export const MAX_ULTRASOUND_IMAGE_BYTES = 50 * 1024 * 1024;
 export const MAX_CASE_MEDIA_BYTES = 100 * 1024 * 1024;
 export const MAX_AVATAR_BYTES = 5 * 1024 * 1024;
+export const MAX_VERIFICATION_DIPLOMA_BYTES = 10 * 1024 * 1024;
 
 export type FileValidationResult = { ok: true } | { ok: false; error: string };
 
@@ -34,7 +35,12 @@ function isDicom(head: Uint8Array): boolean {
   return bytesMatch(head, [0x44, 0x49, 0x43, 0x4d], 128);
 }
 
-function detectKind(head: Uint8Array): "png" | "jpeg" | "webp" | "gif" | "dicom" | "mp4" | "webm" | null {
+function isPdf(head: Uint8Array): boolean {
+  return bytesMatch(head, [0x25, 0x50, 0x44, 0x46]);
+}
+
+function detectKind(head: Uint8Array): "png" | "jpeg" | "webp" | "gif" | "dicom" | "mp4" | "webm" | "pdf" | null {
+  if (isPdf(head)) return "pdf";
   if (bytesMatch(head, [0x89, 0x50, 0x4e, 0x47])) return "png";
   if (bytesMatch(head, [0xff, 0xd8, 0xff])) return "jpeg";
   if (bytesMatch(head, [0x47, 0x49, 0x46])) return "gif";
@@ -144,6 +150,32 @@ export async function validateCaseMediaUpload(file: File): Promise<FileValidatio
   }
   if (type.includes("dicom") && kind !== "dicom") {
     return { ok: false, error: "Сигнатура файла не совпадает с DICOM content-type" };
+  }
+
+  return { ok: true };
+}
+
+export async function validateVerificationDiplomaUpload(file: File): Promise<FileValidationResult> {
+  if (file.size <= 0) return { ok: false, error: "Пустой файл" };
+  if (file.size > MAX_VERIFICATION_DIPLOMA_BYTES) {
+    return { ok: false, error: "Диплом: максимум 10 МБ" };
+  }
+
+  const type = (file.type || "").toLowerCase();
+  if (!["image/jpeg", "image/png", "application/pdf"].includes(type)) {
+    return { ok: false, error: "Допустимы JPG, PNG или PDF" };
+  }
+
+  const head = await readHead(file, 16);
+  const kind = detectKind(head);
+  if (!kind || !["jpeg", "png", "pdf"].includes(kind)) {
+    return { ok: false, error: "Сигнатура файла не совпадает с JPG/PNG/PDF" };
+  }
+  if (type === "application/pdf" && kind !== "pdf") {
+    return { ok: false, error: "Файл не похож на PDF" };
+  }
+  if (type.startsWith("image/") && !["jpeg", "png"].includes(kind)) {
+    return { ok: false, error: "Файл не похож на изображение" };
   }
 
   return { ok: true };
