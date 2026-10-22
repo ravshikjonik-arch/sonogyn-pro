@@ -13,8 +13,9 @@ import { rejectIfPhiInTextFields } from "@/lib/security/reject-phi-payload";
 import { requireSupabaseUserFromRequest } from "@/lib/security/require-user";
 import type { CaseMediaRow } from "@/lib/supabase/case-media-storage";
 import { hasProEntitlement } from "@/lib/subscription/access";
-import { createClient } from "@/utils/supabase/server";
 import { createServiceRoleClient } from "@/utils/supabase/admin";
+import { createClient } from "@/utils/supabase/server";
+import { resolveDataSupabaseClient } from "@/utils/supabase/user-scoped";
 
 export const runtime = "nodejs";
 /** Vision + worker round-trip may exceed default serverless budget. */
@@ -38,9 +39,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
   }
 
-  const supabase = await createClient();
-  const auth = await requireSupabaseUserFromRequest(request, supabase);
+  const cookieClient = await createClient();
+  const auth = await requireSupabaseUserFromRequest(request, cookieClient);
   if (!auth.ok) return auth.response;
+
+  const supabase = resolveDataSupabaseClient(request, cookieClient);
 
   const rl = await consumeRateLimit(
     `ai-analyze:${auth.userId}`,

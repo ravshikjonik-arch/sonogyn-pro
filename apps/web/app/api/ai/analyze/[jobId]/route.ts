@@ -5,6 +5,7 @@ import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { requireSupabaseUserFromRequest } from "@/lib/security/require-user";
 import { createClient } from "@/utils/supabase/server";
+import { resolveDataSupabaseClient } from "@/utils/supabase/user-scoped";
 
 export const runtime = "nodejs";
 
@@ -19,9 +20,11 @@ export async function GET(request: Request, context: { params: Promise<{ jobId: 
     return NextResponse.json({ error: params.error.flatten() }, { status: 400 });
   }
 
-  const supabase = await createClient();
-  const auth = await requireSupabaseUserFromRequest(request, supabase);
+  const cookieClient = await createClient();
+  const auth = await requireSupabaseUserFromRequest(request, cookieClient);
   if (!auth.ok) return auth.response;
+
+  const supabase = resolveDataSupabaseClient(request, cookieClient);
 
   const pollRl = await consumeRateLimit(
     `ai-analyze-poll:${auth.userId}`,
