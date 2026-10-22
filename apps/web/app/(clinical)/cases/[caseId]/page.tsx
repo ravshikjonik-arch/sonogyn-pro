@@ -24,7 +24,7 @@ export default async function CaseDetailPage(props: {
   }
 
   let selectCols =
-    "id,title,description,description_html,anatomy,pathology,difficulty,status,is_public,created_at,user_id,flag_reason,channel_id,lifecycle_status,confirmed_diagnosis,knowledge_base_at,is_rare,rare_slot,editorial_priority";
+    "id,title,description,description_html,anatomy,pathology,difficulty,status,is_public,created_at,user_id,flag_reason,channel_id,lifecycle_status,confirmed_diagnosis,knowledge_base_at,is_rare,rare_slot,editorial_priority,vote_up_count,rating";
 
   let { data: row, error } = await supabase.from("cases").select(selectCols).eq("id", caseId).maybeSingle();
 

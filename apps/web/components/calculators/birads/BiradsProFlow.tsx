@@ -52,14 +52,7 @@ export function BiradsProFlow({ embeddedInHub = false, onCategoryHint }: Props) 
     <BiradsFlowProvider setMode={setMode}>
       <div className={cn("relative pb-36", embeddedInHub ? "" : "min-h-screen")}>
         <UsCategoryReporter onCategoryHint={onCategoryHint} />
-        <div
-          className={cn(
-            "border-b border-[var(--clinical-border)] px-4 py-2.5 text-white lg:px-10",
-            embeddedInHub
-              ? "bg-gradient-to-r from-[#881337]/90 to-[#fb7185]/90"
-              : "bg-gradient-to-r from-[#881337] to-[#fb7185]",
-          )}
-        >
+        <div className={cn("clinical-calc-toolbar px-4 py-2.5 lg:px-10")}>
           <div className="mx-auto flex max-w-4xl flex-wrap items-center gap-2">
             {embeddedInHub ? null : (
               <Button variant="secondary" size="sm" asChild className="h-8 rounded-full text-xs">

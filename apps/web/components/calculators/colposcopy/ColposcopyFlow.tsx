@@ -160,7 +160,7 @@ export function ColposcopyFlow() {
 
   return (
     <div className="space-y-4 px-4 py-4 pb-44 lg:px-10">
-      <div className="border-b border-[var(--clinical-border)] bg-gradient-to-r from-violet-900 to-fuchsia-700 px-2 py-3 text-white lg:px-4">
+      <div className="clinical-calc-toolbar px-2 py-3 lg:px-4">
         <div className="mx-auto flex max-w-5xl flex-wrap items-center gap-2">
           <div>
             <p className="text-base font-bold">Кольпоскопия · Swede Score</p>

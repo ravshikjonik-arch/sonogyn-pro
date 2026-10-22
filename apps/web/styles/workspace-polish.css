@@ -1,0 +1,120 @@
+/**
+ * Рабочая зона врача — light-first polish (шаги 4–5).
+ * Лендинг [data-marketing-shell] не затрагивается.
+ */
+
+/* Плоская шапка калькуляторов / инструментов */
+.clinical-calc-toolbar {
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+html[data-theme="light"] .sonogyn-clinical-app .clinical-workspace-header,
+html[data-theme-forced="light"] .sonogyn-clinical-app .clinical-workspace-header {
+  backdrop-filter: none;
+  background: var(--clinical-header);
+}
+
+html[data-theme="light"] .sonogyn-clinical-app .clinical-workspace-dock,
+html[data-theme-forced="light"] .sonogyn-clinical-app .clinical-workspace-dock {
+  backdrop-filter: none;
+  background: var(--clinical-header);
+}
+
+html[data-theme="light"] .sonogyn-clinical-app .sonogyn-cta-glow,
+html[data-theme-forced="light"] .sonogyn-clinical-app .sonogyn-cta-glow {
+  box-shadow: var(--sg-depth-1);
+}
+
+html[data-theme="light"] .sonogyn-clinical-app .premium-card,
+html[data-theme-forced="light"] .sonogyn-clinical-app .premium-card,
+html[data-theme="light"] .sonogyn-clinical-app .sonogyn-glass-card,
+html[data-theme-forced="light"] .sonogyn-clinical-app .sonogyn-glass-card {
+  backdrop-filter: none;
+  box-shadow: var(--sg-depth-1);
+}
+
+html[data-theme="light"] .sonogyn-clinical-app .sonogyn-nav-active,
+html[data-theme-forced="light"] .sonogyn-clinical-app .sonogyn-nav-active {
+  border-left-color: var(--accent);
+  background: var(--accent-soft);
+  background-image: none;
+}
+
+html[data-theme="light"] .sonogyn-clinical-app .ai-glow,
+html[data-theme-forced="light"] .sonogyn-clinical-app .ai-glow {
+  box-shadow: var(--sg-depth-1);
+}
+
+/* O-RADS risk surfaces — текст + цвет, обе темы */
+.orads-risk {
+  border-width: 2px;
+  border-style: solid;
+}
+
+.orads-risk-slate {
+  border-color: var(--orads-slate-border);
+  background: var(--orads-slate-bg);
+  color: var(--orads-slate-text);
+}
+
+.orads-risk-sky {
+  border-color: var(--orads-sky-border);
+  background: var(--orads-sky-bg);
+  color: var(--orads-sky-text);
+}
+
+.orads-risk-emerald {
+  border-color: var(--orads-emerald-border);
+  background: var(--orads-emerald-bg);
+  color: var(--orads-emerald-text);
+}
+
+.orads-risk-amber {
+  border-color: var(--orads-amber-border);
+  background: var(--orads-amber-bg);
+  color: var(--orads-amber-text);
+}
+
+.orads-risk-orange {
+  border-color: var(--orads-orange-border);
+  background: var(--orads-orange-bg);
+  color: var(--orads-orange-text);
+}
+
+.orads-risk-red {
+  border-color: var(--orads-red-border);
+  background: var(--orads-red-bg);
+  color: var(--orads-red-text);
+}
+
+.orads-risk-text-slate {
+  color: var(--orads-slate-text);
+}
+.orads-risk-text-sky {
+  color: var(--orads-sky-text);
+}
+.orads-risk-text-emerald {
+  color: var(--orads-emerald-text);
+}
+.orads-risk-text-amber {
+  color: var(--orads-amber-text);
+}
+.orads-risk-text-orange {
+  color: var(--orads-orange-text);
+}
+.orads-risk-text-red {
+  color: var(--orads-red-text);
+}
+
+/* Focus — 2px accent outline */
+.sonogyn-clinical-app :focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.sonogyn-clinical-app button:focus:not(:focus-visible),
+.sonogyn-clinical-app a:focus:not(:focus-visible) {
+  outline: none;
+}

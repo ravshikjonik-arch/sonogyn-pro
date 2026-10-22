@@ -466,7 +466,7 @@ export function BiradsUsCalculator({ embedded }: { embedded?: boolean } = {}) {
           </Button>
         </div>
 
-        <section className="rounded-2xl border border-[var(--clinical-border)] bg-gradient-to-br from-white to-rose-50 p-5">
+        <section className="clinical-surface-muted rounded-[var(--radius-card)] p-5">
           <div className="flex flex-wrap items-center gap-3">
             <p className="text-2xl font-black text-rose-950">{result.category}</p>
             <span className={cn("rounded-xl border px-3 py-1 text-xs font-bold", RESULT_BADGE[result.category] ?? "bg-slate-100")}>

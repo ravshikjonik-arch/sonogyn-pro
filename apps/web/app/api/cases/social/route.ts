@@ -37,12 +37,17 @@ export async function GET(request: Request) {
   if (userRl) return userRl;
 
   try {
-    const [{ data: commentRows, error: commentsError }, { data: likes, error: likesError }, { data: marks, error: marksError }] =
-      await Promise.all([
-        supabase.from("teaching_case_comments").select("case_id").in("case_id", ids),
-        supabase.from("teaching_case_likes").select("case_id").eq("user_id", auth.userId).in("case_id", ids),
-        supabase.from("teaching_case_bookmarks").select("case_id").eq("user_id", auth.userId).in("case_id", ids),
-      ]);
+    const [
+      { data: commentRows, error: commentsError },
+      { data: likes, error: likesError },
+      { data: marks, error: marksError },
+      { data: votes, error: votesError },
+    ] = await Promise.all([
+      supabase.from("teaching_case_comments").select("case_id").in("case_id", ids),
+      supabase.from("teaching_case_likes").select("case_id").eq("user_id", auth.userId).in("case_id", ids),
+      supabase.from("teaching_case_bookmarks").select("case_id").eq("user_id", auth.userId).in("case_id", ids),
+      supabase.from("case_votes").select("case_id,vote").eq("voter_id", auth.userId).in("case_id", ids),
+    ]);
 
     if (commentsError || likesError || marksError) {
       safeLog("cases social load error", {
@@ -51,6 +56,10 @@ export async function GET(request: Request) {
         marksCode: marksError?.code,
       });
       return NextResponse.json({ error: "Не удалось загрузить реакции" }, { status: 500 });
+    }
+
+    if (votesError && !/case_votes/i.test(votesError.message)) {
+      safeLog("cases social votes error", { code: votesError.code, message: votesError.message });
     }
 
     const commentCounts: Record<string, number> = {};
@@ -68,7 +77,14 @@ export async function GET(request: Request) {
       bookmarked[row.case_id] = true;
     });
 
-    return NextResponse.json({ liked, bookmarked, commentCounts });
+    const userVotes: Record<string, 1 | -1> = {};
+    if (!votesError) {
+      votes?.forEach((row: { case_id: string; vote: number }) => {
+        if (row.vote === 1 || row.vote === -1) userVotes[row.case_id] = row.vote;
+      });
+    }
+
+    return NextResponse.json({ liked, bookmarked, commentCounts, userVotes });
   } catch (error) {
     safeLog("cases social load error", { message: error instanceof Error ? error.message : "unknown" });
     return NextResponse.json({ error: "Не удалось загрузить реакции" }, { status: 500 });

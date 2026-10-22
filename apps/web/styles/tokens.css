@@ -1,0 +1,416 @@
+/**
+ * SonoGyn Pro — semantic design tokens (рабочая зона врача).
+ * Legacy aliases: --clinical-* → те же значения (обратная совместимость).
+ * Лендинг: data-marketing-shell — тёмный, токены не переопределяют маркетинг (см. globals.css).
+ */
+
+:root {
+  /* Typography scale */
+  --text-dense: 0.8125rem; /* 13px — таблицы */
+  --text-body: 0.875rem; /* 14px — основной */
+  --text-card-title: 1rem; /* 16px */
+  --text-h2: 1.25rem; /* 20px */
+  --text-h1: 1.5rem; /* 24px */
+
+  /* Radius scale */
+  --radius-control: 8px;
+  --radius-card: 12px;
+  --radius-modal: 16px;
+
+  /* Motion (unchanged) */
+  --sg-motion-fast: 140ms;
+  --sg-motion-base: 220ms;
+  --sg-motion-slow: 420ms;
+  --sg-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --sg-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --sg-effect-level: 1;
+  --sg-blur-card: 0px;
+  --sg-blur-modal: 0px;
+}
+
+/* ─── Light workspace (default кабинет) ─────────────────────────────────── */
+:root,
+html[data-theme="light"],
+html[data-theme-forced="light"] {
+  color-scheme: light;
+
+  --bg-primary: #ffffff;
+  --bg-secondary: #f7f8fa;
+  --bg-tertiary: #eef1f5;
+  --text-primary: #1a1d24;
+  --text-secondary: #5a6270;
+  --text-muted: #8a93a3;
+  --border: #e2e6ec;
+  --accent: #6d3df5;
+  --accent-hover: #5a2ee0;
+  --accent-soft: #f0ebff;
+  --success: #1f9d63;
+  --warning: #c77700;
+  --danger: #d33f49;
+  --info: #2f6fed;
+
+  /* Risk / chart — различимы при дальтонизме (Okabe–Ito inspired) */
+  --chart-1: #0072b2;
+  --chart-2: #e69f00;
+  --chart-3: #009e73;
+  --chart-4: #d55e00;
+  --chart-5: #cc79a7;
+  --chart-6: #56b4e9;
+  --chart-7: #882255;
+  --chart-8: #332288;
+
+  /* O-RADS US risk chips (light) */
+  --orads-slate-bg: #f3f4f6;
+  --orads-slate-border: #9ca3af;
+  --orads-slate-text: #374151;
+  --orads-sky-bg: #e0f2fe;
+  --orads-sky-border: #38bdf8;
+  --orads-sky-text: #0c4a6e;
+  --orads-emerald-bg: #d1fae5;
+  --orads-emerald-border: #34d399;
+  --orads-emerald-text: #065f46;
+  --orads-amber-bg: #fef3c7;
+  --orads-amber-border: #f59e0b;
+  --orads-amber-text: #92400e;
+  --orads-orange-bg: #ffedd5;
+  --orads-orange-border: #f97316;
+  --orads-orange-text: #9a3412;
+  --orads-red-bg: #fee2e2;
+  --orads-red-border: #ef4444;
+  --orads-red-text: #991b1b;
+
+  /* Legacy clinical aliases */
+  --clinical-canvas: var(--bg-primary);
+  --clinical-card: var(--bg-secondary);
+  --clinical-surface: var(--bg-secondary);
+  --clinical-surface-muted: var(--bg-tertiary);
+  --clinical-header: var(--bg-primary);
+  --clinical-sidebar: var(--bg-secondary);
+  --clinical-muted: var(--bg-tertiary);
+  --clinical-border: var(--border);
+  --clinical-foreground: var(--text-primary);
+  --clinical-foreground-muted: var(--text-secondary);
+  --clinical-primary: var(--accent);
+  --clinical-primary-hover: var(--accent-hover);
+  --clinical-primary-muted: var(--accent-soft);
+  --clinical-primary-deep: #4527a8;
+  --clinical-ring: color-mix(in srgb, var(--accent) 45%, transparent);
+  --clinical-accent-teal: var(--info);
+  --clinical-bg: var(--bg-primary);
+  --clinical-card-shadow: 0 1px 2px rgba(26, 29, 36, 0.06), 0 4px 12px rgba(26, 29, 36, 0.06);
+
+  --background: var(--bg-primary);
+  --foreground: var(--text-primary);
+
+  /* Workspace light: flat canvas, без mesh-неона */
+  --mesh-1: transparent;
+  --mesh-2: transparent;
+  --mesh-3: transparent;
+  --mesh-base-start: var(--bg-primary);
+  --mesh-base-end: var(--bg-primary);
+
+  --sg-surface-canvas: var(--bg-primary);
+  --sg-surface-base: var(--bg-secondary);
+  --sg-surface-raised: var(--bg-secondary);
+  --sg-surface-glass: var(--bg-secondary);
+  --sg-surface-control: var(--bg-primary);
+  --sg-depth-1: 0 1px 2px rgba(26, 29, 36, 0.06);
+  --sg-depth-2: 0 4px 12px rgba(26, 29, 36, 0.08);
+  --sg-depth-3: 0 8px 24px rgba(26, 29, 36, 0.1);
+  --sg-depth-modal: 0 12px 32px rgba(26, 29, 36, 0.14);
+  --sg-glow-primary: 0 0 0 1px var(--border);
+  --sg-glow-ai: 0 0 0 1px var(--border);
+
+  --sg-radius-xs: var(--radius-control);
+  --sg-radius-sm: var(--radius-control);
+  --sg-radius-md: var(--radius-card);
+  --sg-radius-lg: var(--radius-card);
+  --sg-radius-xl: var(--radius-modal);
+
+  /* Assistive AI accents — приглушены в светлой рабочей зоне */
+  --ai-blue: var(--info);
+  --ai-indigo: #4338ca;
+  --ai-violet: var(--accent);
+  --ai-success: var(--success);
+  --ai-danger: var(--danger);
+  --ai-gradient: linear-gradient(135deg, var(--info) 0%, var(--accent) 100%);
+  --ai-gradient-soft: linear-gradient(135deg, color-mix(in srgb, var(--accent-soft) 80%, white), white);
+  --ai-glow: 0 0 0 1px var(--border);
+  --premium-shadow: var(--sg-depth-2);
+  --premium-shadow-strong: var(--sg-depth-3);
+}
+
+/* ─── Dark workspace (сохраняем текущий вид через те же семантические имена) ─ */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme-forced="light"]):not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg-primary: #0d0f14;
+    --bg-secondary: #151923;
+    --bg-tertiary: #1d2230;
+    --text-primary: #edeff3;
+    --text-secondary: #a8b0c0;
+    --text-muted: #6b7385;
+    --border: rgba(148, 163, 184, 0.18);
+    --accent: #7c6df5;
+    --accent-hover: #6d3df5;
+    --accent-soft: rgba(109, 61, 245, 0.18);
+    --success: #34d399;
+    --warning: #fbbf24;
+    --danger: #f87171;
+    --info: #60a5fa;
+
+    --chart-1: #56b4e9;
+    --chart-2: #e69f00;
+    --chart-3: #009e73;
+    --chart-4: #d55e00;
+    --chart-5: #cc79a7;
+    --chart-6: #0072b2;
+    --chart-7: #882255;
+    --chart-8: #aeb8c8;
+
+    --orads-slate-bg: rgba(148, 163, 184, 0.15);
+    --orads-slate-border: #94a3b8;
+    --orads-slate-text: #e2e8f0;
+    --orads-sky-bg: rgba(56, 189, 248, 0.12);
+    --orads-sky-border: #38bdf8;
+    --orads-sky-text: #bae6fd;
+    --orads-emerald-bg: rgba(52, 211, 153, 0.12);
+    --orads-emerald-border: #34d399;
+    --orads-emerald-text: #a7f3d0;
+    --orads-amber-bg: rgba(251, 191, 36, 0.14);
+    --orads-amber-border: #fbbf24;
+    --orads-amber-text: #fde68a;
+    --orads-orange-bg: rgba(249, 115, 22, 0.14);
+    --orads-orange-border: #f97316;
+    --orads-orange-text: #fed7aa;
+    --orads-red-bg: rgba(239, 68, 68, 0.14);
+    --orads-red-border: #f87171;
+    --orads-red-text: #fecaca;
+
+    --clinical-canvas: var(--bg-primary);
+    --clinical-card: color-mix(in srgb, var(--bg-secondary) 88%, transparent);
+    --clinical-surface: var(--bg-secondary);
+    --clinical-surface-muted: var(--bg-tertiary);
+    --clinical-header: color-mix(in srgb, var(--bg-primary) 92%, transparent);
+    --clinical-sidebar: color-mix(in srgb, var(--bg-secondary) 96%, transparent);
+    --clinical-muted: color-mix(in srgb, var(--bg-tertiary) 70%, transparent);
+    --clinical-border: var(--border);
+    --clinical-foreground: var(--text-primary);
+    --clinical-foreground-muted: var(--text-secondary);
+    --clinical-primary: var(--accent);
+    --clinical-primary-hover: var(--accent-hover);
+    --clinical-primary-muted: var(--accent-soft);
+    --clinical-primary-deep: #c4b5fd;
+    --clinical-ring: color-mix(in srgb, var(--accent) 55%, transparent);
+    --clinical-accent-teal: #22d3ee;
+    --clinical-bg: var(--bg-primary);
+    --clinical-card-shadow: 0 24px 60px rgba(2, 6, 23, 0.55);
+
+    --background: var(--bg-primary);
+    --foreground: var(--text-primary);
+
+    --mesh-1: rgba(59, 130, 246, 0.12);
+    --mesh-2: rgba(109, 61, 245, 0.1);
+    --mesh-3: rgba(99, 102, 241, 0.08);
+    --mesh-base-start: var(--bg-primary);
+    --mesh-base-end: #0f172a;
+
+    --sg-surface-canvas: var(--bg-primary);
+    --sg-surface-base: color-mix(in srgb, var(--bg-secondary) 88%, transparent);
+    --sg-surface-raised: color-mix(in srgb, var(--bg-tertiary) 85%, transparent);
+    --sg-surface-glass: color-mix(in srgb, var(--bg-tertiary) 62%, transparent);
+    --sg-surface-control: color-mix(in srgb, var(--bg-tertiary) 92%, transparent);
+    --sg-depth-1: 0 1px 2px rgba(2, 6, 23, 0.28), 0 8px 24px rgba(2, 6, 23, 0.22);
+    --sg-depth-2: 0 14px 40px rgba(2, 6, 23, 0.34);
+    --sg-depth-3: 0 28px 70px rgba(2, 6, 23, 0.44);
+    --sg-depth-modal: 0 32px 90px rgba(2, 6, 23, 0.72);
+    --sg-glow-primary: 0 0 0 1px rgba(124, 109, 245, 0.22), 0 18px 48px rgba(59, 130, 246, 0.12);
+    --sg-glow-ai: 0 0 0 1px rgba(139, 92, 246, 0.24), 0 18px 52px rgba(99, 102, 241, 0.14);
+    --sg-blur-card: 16px;
+    --sg-blur-modal: 22px;
+
+    --ai-blue: #3b82f6;
+    --ai-indigo: #6366f1;
+    --ai-violet: #8b5cf6;
+    --ai-gradient: linear-gradient(135deg, #3b82f6 0%, #6366f1 50%, #8b5cf6 100%);
+    --ai-gradient-soft: linear-gradient(135deg, rgba(59, 130, 246, 0.16), rgba(139, 92, 246, 0.16));
+    --ai-glow: 0 0 0 1px rgba(99, 102, 241, 0.22), 0 18px 50px rgba(99, 102, 241, 0.22);
+    --premium-shadow: 0 10px 40px rgba(15, 23, 42, 0.14);
+    --premium-shadow-strong: 0 24px 70px rgba(15, 23, 42, 0.26);
+  }
+}
+
+html[data-theme="dark"],
+html[data-theme-forced="dark"] {
+  color-scheme: dark;
+  --bg-primary: #0d0f14;
+  --bg-secondary: #151923;
+  --bg-tertiary: #1d2230;
+  --text-primary: #edeff3;
+  --text-secondary: #a8b0c0;
+  --text-muted: #6b7385;
+  --border: rgba(148, 163, 184, 0.18);
+  --accent: #7c6df5;
+  --accent-hover: #6d3df5;
+  --accent-soft: rgba(109, 61, 245, 0.18);
+  --success: #34d399;
+  --warning: #fbbf24;
+  --danger: #f87171;
+  --info: #60a5fa;
+
+  --chart-1: #56b4e9;
+  --chart-2: #e69f00;
+  --chart-3: #009e73;
+  --chart-4: #d55e00;
+  --chart-5: #cc79a7;
+  --chart-6: #0072b2;
+  --chart-7: #882255;
+  --chart-8: #aeb8c8;
+
+  --orads-slate-bg: rgba(148, 163, 184, 0.15);
+  --orads-slate-border: #94a3b8;
+  --orads-slate-text: #e2e8f0;
+  --orads-sky-bg: rgba(56, 189, 248, 0.12);
+  --orads-sky-border: #38bdf8;
+  --orads-sky-text: #bae6fd;
+  --orads-emerald-bg: rgba(52, 211, 153, 0.12);
+  --orads-emerald-border: #34d399;
+  --orads-emerald-text: #a7f3d0;
+  --orads-amber-bg: rgba(251, 191, 36, 0.14);
+  --orads-amber-border: #fbbf24;
+  --orads-amber-text: #fde68a;
+  --orads-orange-bg: rgba(249, 115, 22, 0.14);
+  --orads-orange-border: #f97316;
+  --orads-orange-text: #fed7aa;
+  --orads-red-bg: rgba(239, 68, 68, 0.14);
+  --orads-red-border: #f87171;
+  --orads-red-text: #fecaca;
+
+  --clinical-canvas: var(--bg-primary);
+  --clinical-card: color-mix(in srgb, var(--bg-secondary) 88%, transparent);
+  --clinical-surface: var(--bg-secondary);
+  --clinical-surface-muted: var(--bg-tertiary);
+  --clinical-header: color-mix(in srgb, var(--bg-primary) 92%, transparent);
+  --clinical-sidebar: color-mix(in srgb, var(--bg-secondary) 96%, transparent);
+  --clinical-muted: color-mix(in srgb, var(--bg-tertiary) 70%, transparent);
+  --clinical-border: var(--border);
+  --clinical-foreground: var(--text-primary);
+  --clinical-foreground-muted: var(--text-secondary);
+  --clinical-primary: var(--accent);
+  --clinical-primary-hover: var(--accent-hover);
+  --clinical-primary-muted: var(--accent-soft);
+  --clinical-primary-deep: #c4b5fd;
+  --clinical-ring: color-mix(in srgb, var(--accent) 55%, transparent);
+  --clinical-accent-teal: #22d3ee;
+  --clinical-bg: var(--bg-primary);
+  --clinical-card-shadow: 0 24px 60px rgba(2, 6, 23, 0.55);
+
+  --background: var(--bg-primary);
+  --foreground: var(--text-primary);
+
+  --mesh-1: rgba(59, 130, 246, 0.12);
+  --mesh-2: rgba(109, 61, 245, 0.1);
+  --mesh-3: rgba(99, 102, 241, 0.08);
+  --mesh-base-start: var(--bg-primary);
+  --mesh-base-end: #0f172a;
+
+  --sg-surface-canvas: var(--bg-primary);
+  --sg-surface-base: color-mix(in srgb, var(--bg-secondary) 88%, transparent);
+  --sg-surface-raised: color-mix(in srgb, var(--bg-tertiary) 85%, transparent);
+  --sg-surface-glass: color-mix(in srgb, var(--bg-tertiary) 62%, transparent);
+  --sg-surface-control: color-mix(in srgb, var(--bg-tertiary) 92%, transparent);
+  --sg-depth-1: 0 1px 2px rgba(2, 6, 23, 0.28), 0 8px 24px rgba(2, 6, 23, 0.22);
+  --sg-depth-2: 0 14px 40px rgba(2, 6, 23, 0.34);
+  --sg-depth-3: 0 28px 70px rgba(2, 6, 23, 0.44);
+  --sg-depth-modal: 0 32px 90px rgba(2, 6, 23, 0.72);
+  --sg-glow-primary: 0 0 0 1px rgba(124, 109, 245, 0.22), 0 18px 48px rgba(59, 130, 246, 0.12);
+  --sg-glow-ai: 0 0 0 1px rgba(139, 92, 246, 0.24), 0 18px 52px rgba(99, 102, 241, 0.14);
+  --sg-blur-card: 16px;
+  --sg-blur-modal: 22px;
+
+  --ai-blue: #3b82f6;
+  --ai-indigo: #6366f1;
+  --ai-violet: #8b5cf6;
+  --ai-gradient: linear-gradient(135deg, #3b82f6 0%, #6366f1 50%, #8b5cf6 100%);
+  --ai-gradient-soft: linear-gradient(135deg, rgba(59, 130, 246, 0.16), rgba(139, 92, 246, 0.16));
+  --ai-glow: 0 0 0 1px rgba(99, 102, 241, 0.22), 0 18px 50px rgba(99, 102, 241, 0.22);
+  --premium-shadow: 0 10px 40px rgba(15, 23, 42, 0.14);
+  --premium-shadow-strong: 0 24px 70px rgba(15, 23, 42, 0.26);
+}
+
+html[data-theme="light"],
+html[data-theme-forced="light"] {
+  color-scheme: light;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f7f8fa;
+  --bg-tertiary: #eef1f5;
+  --text-primary: #1a1d24;
+  --text-secondary: #5a6270;
+  --text-muted: #8a93a3;
+  --border: #e2e6ec;
+  --accent: #6d3df5;
+  --accent-hover: #5a2ee0;
+  --accent-soft: #f0ebff;
+  --success: #1f9d63;
+  --warning: #c77700;
+  --danger: #d33f49;
+  --info: #2f6fed;
+
+  --clinical-canvas: var(--bg-primary);
+  --clinical-card: var(--bg-secondary);
+  --clinical-surface: var(--bg-secondary);
+  --clinical-surface-muted: var(--bg-tertiary);
+  --clinical-header: var(--bg-primary);
+  --clinical-sidebar: var(--bg-secondary);
+  --clinical-muted: var(--bg-tertiary);
+  --clinical-border: var(--border);
+  --clinical-foreground: var(--text-primary);
+  --clinical-foreground-muted: var(--text-secondary);
+  --clinical-primary: var(--accent);
+  --clinical-primary-hover: var(--accent-hover);
+  --clinical-primary-muted: var(--accent-soft);
+  --clinical-primary-deep: #4527a8;
+  --clinical-ring: color-mix(in srgb, var(--accent) 45%, transparent);
+  --clinical-accent-teal: var(--info);
+  --clinical-bg: var(--bg-primary);
+  --clinical-card-shadow: 0 1px 2px rgba(26, 29, 36, 0.06), 0 4px 12px rgba(26, 29, 36, 0.06);
+
+  --background: var(--bg-primary);
+  --foreground: var(--text-primary);
+
+  --mesh-1: transparent;
+  --mesh-2: transparent;
+  --mesh-3: transparent;
+  --mesh-base-start: var(--bg-primary);
+  --mesh-base-end: var(--bg-primary);
+
+  --sg-surface-canvas: var(--bg-primary);
+  --sg-surface-base: var(--bg-secondary);
+  --sg-surface-raised: var(--bg-secondary);
+  --sg-surface-glass: var(--bg-secondary);
+  --sg-surface-control: var(--bg-primary);
+  --sg-depth-1: 0 1px 2px rgba(26, 29, 36, 0.06);
+  --sg-depth-2: 0 4px 12px rgba(26, 29, 36, 0.08);
+  --sg-depth-3: 0 8px 24px rgba(26, 29, 36, 0.1);
+  --sg-depth-modal: 0 12px 32px rgba(26, 29, 36, 0.14);
+  --sg-glow-primary: 0 0 0 1px var(--border);
+  --sg-glow-ai: 0 0 0 1px var(--border);
+  --sg-blur-card: 0px;
+  --sg-blur-modal: 0px;
+
+  --ai-blue: var(--info);
+  --ai-indigo: #4338ca;
+  --ai-violet: var(--accent);
+  --ai-gradient: linear-gradient(135deg, var(--info) 0%, var(--accent) 100%);
+  --ai-gradient-soft: linear-gradient(135deg, color-mix(in srgb, var(--accent-soft) 80%, white), white);
+  --ai-glow: 0 0 0 1px var(--border);
+  --premium-shadow: var(--sg-depth-2);
+  --premium-shadow-strong: var(--sg-depth-3);
+}
+
+/* Рабочая зона: плоский фон в light (mesh отключён) */
+html[data-theme="light"] .sonogyn-clinical-app.sonogyn-mesh-bg,
+html[data-theme-forced="light"] .sonogyn-clinical-app.sonogyn-mesh-bg {
+  background-color: var(--bg-primary);
+  background-image: none;
+}

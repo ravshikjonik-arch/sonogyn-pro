@@ -70,7 +70,7 @@ export function GestationalAgeSummary({ lmpIso, referenceIso, className, compact
   return (
     <div
       className={cn(
-        "rounded-2xl border border-[var(--clinical-primary)]/30 bg-gradient-to-br from-[var(--clinical-primary-muted)] to-[var(--clinical-card)] p-4",
+        "rounded-[var(--radius-card)] border border-[var(--clinical-border)] bg-[var(--accent-soft)] p-4",
         className,
       )}
     >

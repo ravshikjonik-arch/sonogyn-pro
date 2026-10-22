@@ -53,7 +53,31 @@ export async function POST(request: Request, { params }: Params) {
       safeLog("case reaction upsert error", { code: error.code });
       return NextResponse.json({ error: "Не удалось добавить реакцию" }, { status: 400 });
     }
+    if (parsed.data.emoji === "👍") {
+      const { error: repErr } = await supabase.rpc("apply_comment_thumb_reputation", {
+        p_comment_id: routeParams.data.commentId,
+        p_active: true,
+      });
+      if (repErr) {
+        safeLog("comment thumb reputation", { code: repErr.code, message: repErr.message });
+        if (repErr.message.includes("verified")) {
+          return NextResponse.json(
+            { error: "Репутация за 👍 начисляется только от подтверждённых врачей." },
+            { status: 403 },
+          );
+        }
+      }
+    }
   } else {
+    if (parsed.data.emoji === "👍") {
+      const { error: repErr } = await supabase.rpc("apply_comment_thumb_reputation", {
+        p_comment_id: routeParams.data.commentId,
+        p_active: false,
+      });
+      if (repErr) {
+        safeLog("comment thumb reputation retract", { code: repErr.code, message: repErr.message });
+      }
+    }
     await supabase
       .from("teaching_case_comment_reactions")
       .delete()

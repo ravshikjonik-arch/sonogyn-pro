@@ -44,6 +44,7 @@ import { GlobalSearchTrigger } from "@/components/clinical/GlobalSearchDialog";
 import { TelegramChannelLink } from "@/components/clinical/TelegramChannelLink";
 import { ThemeToggle } from "@/components/clinical/theme-toggle";
 import { ProBadge } from "@/components/pro/ProBadge";
+import { DoctorVerifiedBadge } from "@/components/trust/DoctorVerifiedBadge";
 import { ClinicalVoiceDock } from "@/components/voice/ClinicalVoiceDock";
 import {
   VoiceReaderProvider,
@@ -148,6 +149,7 @@ export function ClinicalShell({
   const [mobileOpen, setMobileOpen] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
   const [showAuthor, setShowAuthor] = useState(false);
+  const [isVerifiedDoctor, setIsVerifiedDoctor] = useState(false);
   const [cabinetLabel, setCabinetLabel] = useState<DoctorCabinetLabel>(() =>
     buildDoctorCabinetLabel(devProfile?.full_name ?? null),
   );
@@ -170,12 +172,13 @@ export function ClinicalShell({
 
     let cancelled = false;
     void Promise.all([
-      supabase.from("profiles").select("full_name, role").eq("id", uid).maybeSingle(),
+      supabase.from("profiles").select("full_name, role, is_verified").eq("id", uid).maybeSingle(),
       supabase.from("users").select("full_name").eq("id", uid).maybeSingle(),
     ]).then(([{ data: profile }, { data: doctor }]) => {
       if (cancelled) return;
       if (profile?.role === "admin") setShowAdmin(true);
       if (profile?.role === "author" || profile?.role === "admin") setShowAuthor(true);
+      setIsVerifiedDoctor(Boolean(profile?.is_verified));
       const fullName = resolveDoctorFullName({
         profileFullName: doctor?.full_name ?? profile?.full_name,
         userMetadataFullName: metaFullName,
@@ -235,7 +238,7 @@ export function ClinicalShell({
         </div>
         <button
           type="button"
-          className="ml-auto rounded-lg p-2 text-[var(--clinical-foreground-muted)] hover:bg-black/[0.04] lg:hidden"
+          className="ml-auto rounded-lg p-2 text-[var(--clinical-foreground-muted)] hover:bg-[var(--bg-tertiary)] lg:hidden"
           onClick={() => setMobileOpen(false)}
           aria-label="Закрыть меню"
         >
@@ -277,7 +280,7 @@ export function ClinicalShell({
                     "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200",
                     active
                       ? "sonogyn-nav-active text-[var(--clinical-primary-deep)]"
-                      : "text-[var(--clinical-foreground-muted)] hover:bg-black/[0.04] hover:text-[var(--clinical-foreground)]",
+                      : "text-[var(--clinical-foreground-muted)] hover:bg-[var(--bg-tertiary)] hover:text-[var(--clinical-foreground)]",
                   )}
                   title={needsLogin ? "Чтобы открыть — войдите в аккаунт" : undefined}
                 >
@@ -304,7 +307,7 @@ export function ClinicalShell({
               "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
               pathname.startsWith("/author")
                 ? "bg-[var(--clinical-primary-muted)] text-[var(--clinical-primary-deep)]"
-                : "text-[var(--clinical-foreground-muted)] hover:bg-black/[0.04] hover:text-[var(--clinical-foreground)]",
+                : "text-[var(--clinical-foreground-muted)] hover:bg-[var(--bg-tertiary)] hover:text-[var(--clinical-foreground)]",
             )}
           >
             <BookOpen className="h-4 w-4 shrink-0 opacity-80" />
@@ -321,7 +324,7 @@ export function ClinicalShell({
               "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
               pathname.startsWith("/admin")
                 ? "bg-[var(--clinical-primary-muted)] text-[var(--clinical-primary-deep)]"
-                : "text-[var(--clinical-foreground-muted)] hover:bg-black/[0.04] hover:text-[var(--clinical-foreground)]",
+                : "text-[var(--clinical-foreground-muted)] hover:bg-[var(--bg-tertiary)] hover:text-[var(--clinical-foreground)]",
             )}
           >
             <Shield className="h-4 w-4 shrink-0 opacity-80" />
@@ -346,7 +349,10 @@ export function ClinicalShell({
   return (
     <VoiceReaderProvider>
       <VoiceReaderRouteSync pathname={pathname} />
-      <div className="sonogyn-clinical-app flex min-h-screen sonogyn-mesh-bg">
+      <div
+        className="sonogyn-clinical-app flex min-h-screen sonogyn-mesh-bg"
+        data-e2e-clinical-shell
+      >
       <div
         className={cn(
           "fixed inset-0 z-30 bg-black/40 lg:hidden",
@@ -358,7 +364,7 @@ export function ClinicalShell({
       {Sidebar}
       <div className="flex min-h-screen flex-1 flex-col lg:min-w-0">
         <header
-          className="sticky top-0 z-20 flex h-14 items-center gap-3 border-b border-[var(--clinical-border)] bg-[var(--clinical-header)]/95 px-4 backdrop-blur-md"
+          className="clinical-workspace-header sticky top-0 z-20 flex h-14 items-center gap-3 border-b border-[var(--clinical-border)] bg-[var(--clinical-header)] px-4 backdrop-blur-md"
           data-voice-ignore
         >
           <Button
@@ -391,6 +397,7 @@ export function ClinicalShell({
                   <span className="hidden max-w-[180px] truncate text-left text-xs font-semibold sm:inline">
                     {headerDisplayName}
                   </span>
+                  {isVerifiedDoctor ? <DoctorVerifiedBadge compact className="hidden sm:inline-flex" /> : null}
                   <UserRound className="h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
@@ -398,6 +405,11 @@ export function ClinicalShell({
                 <DropdownMenuItem asChild>
                   <Link href="/profile">Профиль и доступ</Link>
                 </DropdownMenuItem>
+                {!isVerifiedDoctor ? (
+                  <DropdownMenuItem asChild>
+                    <Link href="/verify">Подтвердить статус врача</Link>
+                  </DropdownMenuItem>
+                ) : null}
                 {email ? (
                   <>
                     <DropdownMenuSeparator />

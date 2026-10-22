@@ -134,7 +134,7 @@ export function CalculatorReportPanel({
   }
 
   return (
-    <section className="space-y-3 rounded-2xl border border-[var(--clinical-border)] bg-[var(--clinical-muted)]/25 p-4">
+    <section className="space-y-3 rounded-[var(--radius-card)] border border-[var(--clinical-border)] bg-[var(--bg-secondary)] p-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h2 className="text-sm font-bold text-[var(--clinical-foreground)]">Черновик для протокола</h2>
         {refinedText ? (

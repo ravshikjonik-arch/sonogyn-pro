@@ -7,6 +7,8 @@ import { ProfileMessageNotificationsToggle } from "@/components/clinical/Profile
 import { ProfileSettingsForm } from "@/components/clinical/profile-settings-form";
 import { BirthDateDisplay } from "@/components/ui/BirthDateField";
 import { Badge } from "@/components/ui/badge";
+import { DoctorVerifiedBadge } from "@/components/trust/DoctorVerifiedBadge";
+import { ProfileReputationCard } from "@/components/trust/ProfileReputationCard";
 import { Button } from "@/components/ui/button";
 import { ensureFounderAdminAccess } from "@/lib/auth/founder-admins";
 import { getOpenAccessProfile } from "@/lib/auth/dev-account";
@@ -26,6 +28,9 @@ type ProfileCard = {
   birth_year: number | null;
   role: string | null;
   subscription_tier: string | null;
+  is_verified?: boolean | null;
+  reputation?: number | null;
+  cases_count?: number | null;
   clinical_preferences?: unknown;
 };
 
@@ -89,7 +94,7 @@ export default async function ProfilePage() {
   const full = await supabase
     .from("profiles")
     .select(
-      "id, full_name, institution, specialization, birth_year, role, subscription_tier, clinical_preferences",
+      "id, full_name, institution, specialization, birth_year, role, subscription_tier, is_verified, reputation, cases_count, clinical_preferences",
     )
     .eq("id", user.id)
     .maybeSingle();
@@ -165,7 +170,18 @@ export default async function ProfilePage() {
           )}
 
           <div>
-            <h1 className="text-3xl font-bold tracking-tight text-slate-950 dark:text-white">{displayName}</h1>
+            <div className="flex flex-wrap items-center gap-2">
+              <h1 className="text-3xl font-bold tracking-tight text-slate-950 dark:text-white">{displayName}</h1>
+              {profile?.is_verified ? <DoctorVerifiedBadge /> : null}
+            </div>
+            {!profile?.is_verified ? (
+              <p className="mt-2 text-sm text-[var(--clinical-foreground-muted)]">
+                <Link href="/verify" className="font-semibold text-[var(--clinical-primary-deep)] hover:underline">
+                  Подтвердить статус врача
+                </Link>{" "}
+                — займёт около 2 минут.
+              </p>
+            ) : null}
             <p className="mt-2 text-base leading-7 text-[var(--clinical-foreground-muted)]">
               Email: <span className="font-bold text-slate-950 dark:text-white">{user.email}</span>
             </p>
@@ -191,6 +207,13 @@ export default async function ProfilePage() {
               <BirthDateDisplay iso={birthDateIso} birthYear={birthYear} />
             </div>
           ) : null}
+          <div className="sm:col-span-2">
+            <ProfileReputationCard
+              reputation={profile?.reputation ?? 0}
+              casesCount={profile?.cases_count ?? 0}
+              isVerified={Boolean(profile?.is_verified)}
+            />
+          </div>
         </div>
 
         {!profile && profileError ? (

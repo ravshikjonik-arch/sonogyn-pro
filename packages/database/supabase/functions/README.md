@@ -17,13 +17,23 @@ supabase link --project-ref <PROJECT_REF>
 supabase functions deploy notify-new-comment --project-ref <PROJECT_REF>
 supabase functions deploy notify-new-case-question --project-ref <PROJECT_REF>
 supabase functions deploy notify-new-chat-message --project-ref <PROJECT_REF>
+supabase functions deploy recalculate-reputation --project-ref <PROJECT_REF>
 ```
+
+Для `recalculate-reputation` задайте секрет Edge:
+
+```bash
+supabase secrets set REPUTATION_WEBHOOK_SECRET=$(openssl rand -hex 32) --project-ref <PROJECT_REF>
+```
+
+Вызов (ops / cron): `POST …/functions/v1/recalculate-reputation` с заголовком `x-reputation-secret` и телом `{ "user_id": "<uuid>" }`.
 
 URL после деплоя:
 
 - `https://<PROJECT_REF>.supabase.co/functions/v1/notify-new-comment`
 - `https://<PROJECT_REF>.supabase.co/functions/v1/notify-new-case-question`
 - `https://<PROJECT_REF>.supabase.co/functions/v1/notify-new-chat-message`
+- `https://<PROJECT_REF>.supabase.co/functions/v1/recalculate-reputation`
 
 ---
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { DoctorVerificationMark } from "@/components/trust/DoctorVerificationMark";
 import { cn } from "@/lib/utils/cn";
 
 export type ChatBubbleMessage = {
@@ -19,6 +20,7 @@ export type ChatBubbleMessage = {
 type Props = {
   message: ChatBubbleMessage;
   authorName: string;
+  authorVerified?: boolean;
   isMine: boolean;
   /** Case author may mark this reply as best answer. */
   canMarkBest?: boolean;
@@ -38,6 +40,7 @@ type Props = {
 export function ChatMessageBubble({
   message,
   authorName,
+  authorVerified = false,
   isMine,
   canMarkBest,
   onMarkBest,
@@ -54,6 +57,17 @@ export function ChatMessageBubble({
 }: Props) {
   return (
     <div className={cn("flex flex-col gap-1", isMine ? "items-end" : "items-start", nested && "ml-6 sm:ml-10")}>
+      {!isMine ? (
+        <div className="flex items-center gap-1.5 px-1">
+          <span
+            className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--clinical-muted)] text-[10px] font-bold text-[var(--clinical-primary-deep)]"
+            aria-hidden
+          >
+            {authorName.slice(0, 1).toUpperCase()}
+          </span>
+          <DoctorVerificationMark isVerified={authorVerified} size="md" />
+        </div>
+      ) : null}
       <div
         className={cn(
           "max-w-[min(92%,520px)] rounded-2xl px-4 py-3 text-sm leading-relaxed shadow-sm",
@@ -99,7 +113,12 @@ export function ChatMessageBubble({
           isMine ? "text-white/75" : "text-[var(--clinical-foreground-muted)]",
         )}
       >
-        {authorName} · {new Date(message.created_at).toLocaleString()}
+        <span className="inline-flex items-center gap-1">
+          {isMine ? (
+            <DoctorVerificationMark isVerified={authorVerified} />
+          ) : null}
+          {authorName} · {new Date(message.created_at).toLocaleString()}
+        </span>
       </p>
       </div>
       <div className="flex flex-wrap items-center gap-2 px-1">

@@ -1,6 +1,6 @@
 "use client";
 
-import { BookOpen, MessageCircle, Search, ShieldCheck } from "lucide-react";
+import { ArrowBigDown, ArrowBigUp, BookOpen, MessageCircle, Search, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
@@ -15,6 +15,10 @@ import { formatLifecycleLabel, resolveCaseLifecycle } from "@/lib/cases/lifecycl
 import { CasePlaylistsBar } from "@/components/cases/CasePlaylistsBar";
 import { playlistToFeedFilters, type CasePlaylist } from "@/lib/cases/playlists";
 import { PILOT_CASE_DISCUSSION_CHANNELS } from "@/lib/chat/pilot-channels";
+import { resolveAuthorNames } from "@/lib/chat/resolve-author-names";
+import { resolveAuthorTrust } from "@/lib/trust/resolve-author-trust";
+import { DoctorVerificationMark } from "@/components/trust/DoctorVerificationMark";
+import { ReputationLevelBadge } from "@/components/trust/ReputationLevelBadge";
 
 /** Row from GET /api/cases (public.cases + orads/tags). */
 export type TeachingGalleryCaseRow = {
@@ -34,6 +38,9 @@ export type TeachingGalleryCaseRow = {
   lifecycle_status?: string | null;
   knowledge_base_at?: string | null;
   confirmed_diagnosis?: string | null;
+  vote_up_count?: number;
+  vote_down_count?: number;
+  rating?: number;
 };
 
 type FeedMode = "library" | "discussions";
@@ -61,6 +68,7 @@ type FeedFilters = {
   channelId: string | null;
   lifecycle: string | null;
   knowledgeBase: boolean;
+  sort: "date" | "rating";
 };
 
 const ORADS_OPTIONS = ["", "0", "1", "2", "3", "4", "5"] as const;
@@ -83,6 +91,11 @@ export function CaseFeed({
   const [liked, setLiked] = useState<Record<string, boolean>>({});
   const [bookmarked, setBookmarked] = useState<Record<string, boolean>>({});
   const [commentCounts, setCommentCounts] = useState<Record<string, number>>({});
+  const [authorMeta, setAuthorMeta] = useState<
+    Record<string, { name: string; verified: boolean; reputation: number }>
+  >({});
+  const [userVotes, setUserVotes] = useState<Record<string, 1 | -1 | undefined>>({});
+  const [selfVerified, setSelfVerified] = useState(false);
   const [loading, setLoading] = useState(true);
   const [draftFilters, setDraftFilters] = useState<{ q: string; orads: string; tags: string }>({
     q: "",
@@ -98,6 +111,7 @@ export function CaseFeed({
     channelId: initialChannelId,
     lifecycle: initialLifecycle,
     knowledgeBase: initialKnowledgeBase,
+    sort: "date",
   });
 
   const refresh = useCallback(async () => {
@@ -109,13 +123,15 @@ export function CaseFeed({
     if (uid) {
       const { data: profile } = await supabase
         .from("profiles")
-        .select("role")
+        .select("role,is_verified")
         .eq("id", uid)
         .maybeSingle();
       const role = profile?.role as string | undefined;
       setIsModerator(role === "moderator" || role === "admin");
+      setSelfVerified(Boolean(profile?.is_verified));
     } else {
       setIsModerator(false);
+      setSelfVerified(false);
     }
 
     const params = new URLSearchParams();
@@ -131,6 +147,7 @@ export function CaseFeed({
       params.set("feedMode", "discussions");
       if (appliedFilters.channelId) params.set("channelId", appliedFilters.channelId);
     }
+    if (appliedFilters.sort === "rating") params.set("sort", "rating");
 
     const res = await fetch(`/api/cases?${params.toString()}`);
     const payload = (await res.json().catch(() => null)) as
@@ -148,6 +165,20 @@ export function CaseFeed({
     setCases(list);
 
     if (list.length) {
+      const authorIds = [...new Set(list.map((r) => r.user_id))];
+      const [names, trust] = await Promise.all([
+        resolveAuthorNames(supabase, authorIds),
+        resolveAuthorTrust(supabase, authorIds),
+      ]);
+      const meta: Record<string, { name: string; verified: boolean; reputation: number }> = {};
+      for (const id of authorIds) {
+        meta[id] = {
+          name: names[id] ?? "Коллега",
+          verified: trust[id]?.isVerified ?? false,
+          reputation: trust[id]?.reputation ?? 0,
+        };
+      }
+      setAuthorMeta(meta);
       const ids = list.map((r) => r.id);
       const socialRes = uid
         ? await fetch(`/api/cases/social?ids=${encodeURIComponent(ids.join(","))}`, { cache: "no-store" })
@@ -158,16 +189,19 @@ export function CaseFeed({
                 liked?: Record<string, boolean>;
                 bookmarked?: Record<string, boolean>;
                 commentCounts?: Record<string, number>;
+                userVotes?: Record<string, 1 | -1>;
               }
             | null)
         : null;
       setCommentCounts(social?.commentCounts ?? {});
       setLiked(social?.liked ?? {});
       setBookmarked(social?.bookmarked ?? {});
+      setUserVotes(social?.userVotes ?? {});
     } else {
       setCommentCounts({});
       setLiked({});
       setBookmarked({});
+      setAuthorMeta({});
     }
 
     setLoading(false);
@@ -275,23 +309,36 @@ export function CaseFeed({
     setAppliedFilters((prev) => ({ ...prev, queue }));
   }
 
-  async function toggleLike(caseId: string) {
+  async function castVote(caseId: string, next: 1 | -1 | 0) {
     if (!userId) {
       toast.message("Нужна авторизация");
       return;
     }
-    const active = liked[caseId];
-    setLiked((prev) => ({ ...prev, [caseId]: !active }));
-    const res = await fetch(`/api/cases/${caseId}/like`, {
+    if (!selfVerified) {
+      toast.message("Голосовать могут врачи с подтверждённым статусом", {
+        description: "Пройдите верификацию на /verify",
+      });
+      return;
+    }
+    const prev = userVotes[caseId];
+    setUserVotes((v) => {
+      const copy = { ...v };
+      if (next === 0) delete copy[caseId];
+      else copy[caseId] = next;
+      return copy;
+    });
+    const res = await fetch(`/api/cases/${caseId}/vote`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ active: !active }),
+      body: JSON.stringify({ vote: next }),
     });
     if (!res.ok) {
-      setLiked((prev) => ({ ...prev, [caseId]: active }));
+      setUserVotes((v) => ({ ...v, [caseId]: prev }));
       const data = (await res.json().catch(() => null)) as { error?: string } | null;
-      toast.error(data?.error ?? "Не удалось сохранить лайк");
+      toast.error(data?.error ?? "Не удалось сохранить голос");
+      return;
     }
+    void refresh();
   }
 
   async function toggleBookmark(caseId: string) {
@@ -313,10 +360,14 @@ export function CaseFeed({
     }
   }
 
-  function handleExpertReviewStub(caseId: string) {
-    toast.message("Очередь эксперта — скоро", {
-      description: `Кейс ${caseId.slice(0, 8)}… будет доступен для рецензии в Phase 2.`,
-    });
+  async function awardFeaturedCase(caseId: string) {
+    const res = await fetch(`/api/cases/${caseId}/featured`, { method: "POST" });
+    if (!res.ok) {
+      const body = (await res.json().catch(() => null)) as { error?: string } | null;
+      toast.error(body?.error ?? "Не удалось отметить избранным");
+      return;
+    }
+    toast.success("Автору начислено +25 к репутации");
   }
 
   async function seedProlapseDemoCase() {
@@ -469,6 +520,22 @@ export function CaseFeed({
             </Button>
             <Button
               size="sm"
+              variant={appliedFilters.sort === "date" ? "default" : "secondary"}
+              type="button"
+              onClick={() => setAppliedFilters((prev) => ({ ...prev, sort: "date" }))}
+            >
+              По дате
+            </Button>
+            <Button
+              size="sm"
+              variant={appliedFilters.sort === "rating" ? "default" : "secondary"}
+              type="button"
+              onClick={() => setAppliedFilters((prev) => ({ ...prev, sort: "rating" }))}
+            >
+              По рейтингу
+            </Button>
+            <Button
+              size="sm"
               variant={appliedFilters.knowledgeBase ? "default" : "secondary"}
               type="button"
               className="gap-1"
@@ -605,6 +672,16 @@ export function CaseFeed({
             <Card key={c.id} className="border-slate-200">
               <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                 <div>
+                  <p className="mb-1 flex flex-wrap items-center gap-1.5 text-xs font-medium text-[var(--clinical-foreground-muted)]">
+                    <DoctorVerificationMark
+                      isVerified={authorMeta[c.user_id]?.verified ?? false}
+                      size="md"
+                    />
+                    <span>{authorMeta[c.user_id]?.name ?? "Автор кейса"}</span>
+                    {(authorMeta[c.user_id]?.reputation ?? 0) > 0 ? (
+                      <ReputationLevelBadge reputation={authorMeta[c.user_id]?.reputation ?? 0} compact />
+                    ) : null}
+                  </p>
                   <CardTitle className="text-lg">
                     <Link href={`/cases/${c.id}`} className="hover:underline">
                       {c.title}
@@ -657,26 +734,48 @@ export function CaseFeed({
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {appliedFilters.queue === "review" && isModerator ? (
+                  {isModerator ? (
                     <Button
                       size="sm"
                       variant="outline"
                       type="button"
-                      className={cn("gap-1")}
-                      onClick={() => handleExpertReviewStub(c.id)}
+                      className="gap-1"
+                      onClick={() => void awardFeaturedCase(c.id)}
                     >
                       <ShieldCheck className="h-3.5 w-3.5" />
-                      Рецензия
+                      Избранное +25
                     </Button>
                   ) : null}
-                  <Button
-                    size="sm"
-                    variant={liked[c.id] ? "default" : "secondary"}
-                    type="button"
-                    onClick={() => void toggleLike(c.id)}
-                  >
-                    Лайк
-                  </Button>
+                  <div className="flex items-center gap-1 rounded-lg border border-[var(--clinical-border)] bg-[var(--clinical-muted)] px-1 py-0.5">
+                    <Button
+                      size="sm"
+                      variant={userVotes[c.id] === 1 ? "default" : "ghost"}
+                      type="button"
+                      className="h-8 gap-0.5 px-2"
+                      aria-label="Голос за кейс"
+                      onClick={() =>
+                        void castVote(c.id, userVotes[c.id] === 1 ? 0 : 1)
+                      }
+                    >
+                      <ArrowBigUp className="h-4 w-4" />
+                      {c.vote_up_count ?? 0}
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant={userVotes[c.id] === -1 ? "default" : "ghost"}
+                      type="button"
+                      className="h-8 px-2"
+                      aria-label="Голос против"
+                      onClick={() =>
+                        void castVote(c.id, userVotes[c.id] === -1 ? 0 : -1)
+                      }
+                    >
+                      <ArrowBigDown className="h-4 w-4" />
+                    </Button>
+                    <span className="px-1 text-xs font-semibold text-[var(--clinical-foreground-muted)]">
+                      {c.rating ?? 0}
+                    </span>
+                  </div>
                   <Button
                     size="sm"
                     variant={bookmarked[c.id] ? "default" : "secondary"}

@@ -5,7 +5,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils/cn";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--clinical-ring)] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[var(--radius-control)] text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
@@ -13,7 +13,7 @@ const buttonVariants = cva(
         secondary:
           "border border-[var(--clinical-border)] bg-[var(--clinical-card)] text-[var(--clinical-foreground)] hover:bg-[var(--clinical-muted)]",
         ghost: "text-[var(--clinical-foreground-muted)] hover:bg-[var(--clinical-muted)] hover:text-[var(--clinical-foreground)]",
-        destructive: "bg-red-600 text-white hover:bg-red-700",
+        destructive: "bg-[var(--danger)] text-white hover:opacity-90",
         outline: "border border-[var(--clinical-border)] bg-transparent hover:bg-[var(--clinical-muted)]",
         link: "text-[var(--clinical-primary)] underline-offset-4 hover:underline",
       },

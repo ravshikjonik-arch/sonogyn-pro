@@ -20,6 +20,7 @@ export default async function LandingPage() {
   const career = isAuthenticated ? await loadCareerProgressForSession() : null;
 
   return (
+    {/* Маркетинг: фиксированная тёмная тема; ThemeToggle кабинета здесь не применяется. */}
     <div
       data-marketing-shell="true"
       className="min-h-screen bg-[#05030a] text-slate-100"

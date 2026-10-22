@@ -58,7 +58,7 @@ function OradsHero() {
           </p>
         </div>
       </div>
-      <div className="flex flex-wrap items-center gap-2 border-t border-[var(--clinical-border)] bg-white/60 px-4 py-3 text-xs text-[var(--clinical-foreground-muted)]">
+      <div className="flex flex-wrap items-center gap-2 border-t border-[var(--clinical-border)] bg-[var(--bg-primary)] px-4 py-3 text-xs text-[var(--clinical-foreground-muted)]">
         <span className="font-bold text-[var(--clinical-foreground)]">Подсказка:</span>
         начните с менопаузы и типа образования, затем структуру, солидный компонент, размер и ЦДК.
       </div>

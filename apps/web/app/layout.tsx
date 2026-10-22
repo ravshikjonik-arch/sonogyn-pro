@@ -42,7 +42,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [{ media: "(prefers-color-scheme: dark)", color: "#0b1120" }, { color: "#1d6fd8" }],
+  themeColor: [{ media: "(prefers-color-scheme: dark)", color: "#0d0f14" }, { color: "#ffffff" }],
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -73,7 +73,7 @@ export default function RootLayout({
         <style
           dangerouslySetInnerHTML={{
             __html:
-              "html,body{min-height:100%;margin:0}html[data-theme=dark],html.dark{background:#0b0f19;color:#f1f5f9}html[data-theme=light]{background:#dceef7;color:#0c3347}",
+              "html,body{min-height:100%;margin:0}html[data-theme=dark],html.dark{background:#0d0f14;color:#edeff3}html[data-theme=light]{background:#ffffff;color:#1a1d24}",
           }}
         />
       </head>

@@ -13,6 +13,7 @@ import {
 
 import {
   CLINICAL_THEME_STORAGE_KEY,
+  SONOGYN_THEME_STORAGE_KEY,
   getSystemTheme,
   resolveClinicalTheme,
   type ThemeMode,
@@ -45,7 +46,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [resolved, setResolved] = useState<"light" | "dark">("light");
 
   useEffect(() => {
-    const stored = localStorage.getItem(CLINICAL_THEME_STORAGE_KEY) as ThemeMode | null;
+    const stored = (localStorage.getItem(SONOGYN_THEME_STORAGE_KEY) ||
+      localStorage.getItem(CLINICAL_THEME_STORAGE_KEY)) as ThemeMode | null;
     if (stored === "light" || stored === "dark" || stored === "system") {
       setModeState(stored);
     }
@@ -72,6 +74,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const setMode = useCallback((next: ThemeMode) => {
     setModeState(next);
     localStorage.setItem(CLINICAL_THEME_STORAGE_KEY, next);
+    localStorage.setItem(SONOGYN_THEME_STORAGE_KEY, next);
   }, []);
 
   const toggle = useCallback(() => {

@@ -68,6 +68,7 @@ export async function GET(request: Request) {
     knowledgeBase: searchParams.get("knowledgeBase") ?? undefined,
     limit: searchParams.get("limit") ?? undefined,
     cursor: searchParams.get("cursor") ?? undefined,
+    sort: searchParams.get("sort") ?? undefined,
   });
 
   if (!parsed.success) {

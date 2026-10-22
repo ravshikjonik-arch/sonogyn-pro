@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import { CaseAiAnalysisPanel } from "@/components/cases/CaseAiAnalysisPanel";
 import { StructuredCaseEditor } from "@/components/structured-editor/StructuredCaseEditor";
+import { CaseDetailTrustBar } from "@/components/cases/CaseDetailTrustBar";
 import { CaseEditorialPanel } from "@/components/cases/CaseEditorialPanel";
 import { CaseLifecyclePanel } from "@/components/cases/CaseLifecyclePanel";
 import { CaseMediaGallery } from "@/components/cases/CaseMediaGallery";
@@ -39,6 +40,8 @@ export type CaseDetailData = {
   is_rare?: boolean;
   rare_slot?: string | null;
   editorial_priority?: number | null;
+  vote_up_count?: number;
+  rating?: number;
 };
 
 type Props = {
@@ -200,6 +203,13 @@ export function CaseDetailClient({
               Флаг модерации: {teachingCase.flag_reason}
             </p>
           ) : null}
+          <CaseDetailTrustBar
+            caseId={teachingCase.id}
+            authorId={teachingCase.user_id}
+            voteUpCount={teachingCase.vote_up_count ?? 0}
+            rating={teachingCase.rating ?? 0}
+            userId={user?.id ?? null}
+          />
         </article>
 
         {teachingCase.knowledge_base_at ? (

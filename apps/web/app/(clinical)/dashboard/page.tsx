@@ -12,6 +12,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { AchievementsDashboard } from "@/components/achievements/AchievementsDashboard";
+import { VerifyDoctorReminderBanner } from "@/components/trust/VerifyDoctorReminderBanner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -60,7 +61,7 @@ export default async function MedicalDashboardPage() {
     ? await Promise.all([
         supabase
           .from("profiles")
-          .select("full_name, specialization, institution, subscription_tier, trial_ends_at, role")
+          .select("full_name, specialization, institution, subscription_tier, trial_ends_at, role, is_verified")
           .eq("id", user.id)
           .maybeSingle(),
         supabase.from("users").select("full_name, specialization, institution").eq("id", user.id).maybeSingle(),
@@ -86,8 +87,11 @@ export default async function MedicalDashboardPage() {
       })
     : null;
 
+  const showVerifyBanner = Boolean(user && profile && !profile.is_verified);
+
   return (
     <div className="px-4 py-10 lg:px-10">
+      {showVerifyBanner ? <VerifyDoctorReminderBanner show /> : null}
       <div className="mx-auto max-w-6xl space-y-10">
         <header className="relative overflow-hidden rounded-3xl border border-[var(--clinical-border)] bg-gradient-to-br from-white via-white to-[var(--clinical-primary-muted)] p-8 shadow-sm md:p-10 dark:from-slate-950 dark:via-slate-950 dark:to-slate-900">
           <div className="relative z-[1] flex flex-col gap-6 md:flex-row md:items-end md:justify-between">

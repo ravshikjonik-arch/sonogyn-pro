@@ -21,16 +21,16 @@ function NavigationModuleCard({ item, index }: { item: NavigationItem; index: nu
   const url = getNavigationItemUrl(item);
   const isExternal = Boolean(item.externalHref);
   const badgeLabel = item.badge ?? (item.isPro ? "PRO" : null);
-  const accentBar = item.accentBar ?? "bg-gradient-to-r from-slate-400 to-slate-500";
+  const accentBar = item.accentBar ?? "bg-[var(--text-muted)]";
 
   return (
     <Card
-      className={`sonogyn-tile-hover sonogyn-enter ${delayClassForIndex(index)} group flex flex-col overflow-hidden border-slate-200/90 bg-white dark:bg-[var(--clinical-card)]`}
+      className={`sonogyn-tile-hover sonogyn-enter ${delayClassForIndex(index)} group flex flex-col overflow-hidden`}
     >
       <div className={`h-1 ${accentBar}`} />
       <CardHeader className="space-y-3">
         <div className="flex items-start justify-between gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[var(--clinical-primary-muted)] to-white text-[var(--clinical-primary-deep)] shadow-sm transition group-hover:scale-105">
+          <div className="flex h-12 w-12 items-center justify-center rounded-[var(--radius-card)] bg-[var(--accent-soft)] text-[var(--clinical-primary-deep)] shadow-[var(--sg-depth-1)] transition group-hover:scale-[1.02]">
             <NavigationIcon icon={item.icon} moduleId={item.id} className="h-5 w-5" />
           </div>
           {badgeLabel ? <Badge variant="default">{badgeLabel}</Badge> : null}
