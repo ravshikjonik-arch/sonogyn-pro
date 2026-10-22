@@ -37,7 +37,13 @@ jobs:
             exit 0
           fi
           APP="${FLY_APP_NAME:-sonogyn-us-ai}"
-          flyctl apps create "$APP" 2>/dev/null || true
+          if ! flyctl apps list | grep -qw "$APP"; then
+            echo "Creating Fly app $APP..."
+            if ! flyctl apps create "$APP"; then
+              echo "::error::Не удалось создать app. Добавьте карту: https://fly.io/dashboard/personal/billing"
+              exit 1
+            fi
+          fi
           if [ -n "${US_AI_WORKER_SECRET:-}" ] && [ -n "${OPENROUTER_API_KEY:-}" ]; then
             flyctl secrets set \
               US_AI_WORKER_SECRET="$US_AI_WORKER_SECRET" \
@@ -45,7 +51,7 @@ jobs:
               US_VISION_MODEL="openai/gpt-4o-mini" \
               US_VISION_BACKEND="openrouter" \
               US_AI_WORKER_REFERER="https://sonogyn-pro.ru" \
-              --app "$APP" --stage
+              --app "$APP"
           else
             echo "::warning::US_AI_WORKER_SECRET or OPENROUTER_API_KEY missing in GitHub secrets"
           fi
