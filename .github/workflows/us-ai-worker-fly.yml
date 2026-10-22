@@ -1,0 +1,37 @@
+name: US AI Worker (Fly)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "services/us-ai-worker/**"
+      - ".github/workflows/us-ai-worker-fly.yml"
+
+concurrency:
+  group: us-ai-worker-fly
+  cancel-in-progress: true
+
+jobs:
+  deploy-fly:
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: services/us-ai-worker
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Deploy to Fly (optional)
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          FLY_APP_NAME: ${{ secrets.FLY_APP_NAME }}
+        run: |
+          if [ -z "${FLY_API_TOKEN:-}" ]; then
+            echo "Fly deploy skipped. Set GitHub secret FLY_API_TOKEN (and optional FLY_APP_NAME=sonogyn-us-ai)."
+            exit 0
+          fi
+          APP="${FLY_APP_NAME:-sonogyn-us-ai}"
+          flyctl deploy --app "$APP" --remote-only

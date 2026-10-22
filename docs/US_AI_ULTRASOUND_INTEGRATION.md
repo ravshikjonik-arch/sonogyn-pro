@@ -9,7 +9,8 @@
 | Streamlit PRO UI | `services/us-ai-worker/streamlit_app.py` | Загрузка снимков, отчёт RU |
 | Next.js API | `apps/web/app/api/ai/analyze/` | PRO gate для веб-приложения |
 | Анализ репозиториев | `services/us-ai-worker/docs/REPO_ANALYSIS.md` | Echo-Alpha, USTri, FetUSAgents, AzaRKazar |
-| Деплой | `services/us-ai-worker/docs/DEPLOYMENT.md` | Vercel + Railway |
+| Деплой | `services/us-ai-worker/docs/DEPLOYMENT.md` | Vercel + Railway / Fly |
+| Масштаб 100–1000 | `docs/architecture/US-AI-SCALE-100-1000.md` | Phase 0 сейчас, queue позже |
 
 ## Монетизация (PRO-only)
 

@@ -50,6 +50,7 @@ export function CaseAiAnalysisPanel({ caseId, canAnalyze }: Props) {
   const [polling, setPolling] = useState(false);
   const [result, setResult] = useState<UsVisionAnalysisResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [workerAvailable, setWorkerAvailable] = useState<boolean | null>(null);
 
   const refreshMedia = useCallback(async () => {
     setLoadingMedia(true);
@@ -72,6 +73,27 @@ export function CaseAiAnalysisPanel({ caseId, canAnalyze }: Props) {
   useEffect(() => {
     queueMicrotask(() => void refreshMedia());
   }, [refreshMedia]);
+
+  useEffect(() => {
+    let cancelled = false;
+    void (async () => {
+      try {
+        const res = await fetch("/api/ai/worker-status", { cache: "no-store" });
+        const body = (await res.json()) as { available?: boolean };
+        if (!cancelled) setWorkerAvailable(Boolean(body.available));
+      } catch {
+        if (!cancelled) setWorkerAvailable(null);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const selectedHasDicom = useMemo(
+    () => media.some((m) => selected.has(m.id) && m.media_type === "dicom"),
+    [media, selected],
+  );
 
   const allSelected = useMemo(
     () => media.length > 0 && media.every((m) => selected.has(m.id)),
@@ -207,6 +229,22 @@ export function CaseAiAnalysisPanel({ caseId, canAnalyze }: Props) {
         <p className="text-xs text-[var(--clinical-foreground-muted)]">
           Черновик ассистента: плоскости, BI-RADS/O-RADS, качество кадра. Не диагноз.
         </p>
+
+        {workerAvailable === false && selectedHasDicom ? (
+          <p
+            className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-950 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-100"
+            role="status"
+          >
+            US AI Worker сейчас недоступен. DICOM и SonoNet не разберутся — загрузите JPEG/PNG или
+            восстановите worker в облаке (Railway или Fly.io).
+          </p>
+        ) : null}
+
+        {workerAvailable === false && !selectedHasDicom ? (
+          <p className="text-xs text-[var(--clinical-foreground-muted)]" role="status">
+            Worker offline — анализ JPEG/PNG идёт через OpenRouter на Vercel.
+          </p>
+        ) : null}
 
         {loadingMedia ? (
           <p className="flex items-center gap-2 text-[var(--clinical-foreground-muted)]">

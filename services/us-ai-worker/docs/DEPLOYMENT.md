@@ -4,10 +4,12 @@
 
 ```
 Пользователь PRO
-    → Vercel (Next.js) — auth, PRO gate, /api/ai/analyze
-    → Railway (us-ai-worker) — DICOM, SonoNet, OpenRouter vision
+    → Vercel (Next.js) — auth, PRO gate, /api/ai/analyze (202 + job poll)
+    → Railway / Fly (us-ai-worker) — DICOM, SonoNet, OpenRouter vision
     → Supabase — case_media, ai_analyses
 ```
+
+**Масштаб 100–1000 врачей:** минимум сейчас — 1–2 replica worker + rate limits; рост — очередь и worker pool. См. [docs/architecture/US-AI-SCALE-100-1000.md](../../../docs/architecture/US-AI-SCALE-100-1000.md). Plan B PaaS: [fly.toml.example](../fly.toml.example).
 
 ---
 

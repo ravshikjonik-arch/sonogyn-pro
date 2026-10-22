@@ -22,6 +22,8 @@ export const maxDuration = 300;
 
 /**
  * Queues an asynchronous US vision job (HTTP 202). Completion runs via service role after response flush.
+ * Scale path (100–1000 doctors): move execution off `after()` to worker queue — same API contract.
+ * @see docs/architecture/US-AI-SCALE-100-1000.md
  */
 export async function POST(request: Request) {
   let json: unknown;

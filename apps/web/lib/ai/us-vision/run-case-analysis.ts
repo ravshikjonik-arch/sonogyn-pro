@@ -57,6 +57,7 @@ export async function runCaseUsVisionAnalysis(
   }
 
   const workerCfg = readUsAiWorkerConfig();
+  let workerSkipNote: string | null = null;
 
   if (workerCfg) {
     const workerResult = await analyzeFramesWithWorker({
@@ -65,6 +66,7 @@ export async function runCaseUsVisionAnalysis(
       mediaIds: input.mediaIds,
     });
     if (!("error" in workerResult)) return workerResult;
+    workerSkipNote = workerResult.error;
   }
 
   const visionResult = await analyzeFramesWithOpenRouter({
@@ -75,13 +77,28 @@ export async function runCaseUsVisionAnalysis(
 
   if (!("error" in visionResult)) {
     const hasDicom = frames.some((f) => f.mediaType === "dicom");
-    if (hasDicom && !workerCfg) {
+    const workerDown = Boolean(workerSkipNote);
+    if (hasDicom && (!workerCfg || workerDown)) {
+      const workerHint = workerDown
+        ? `Worker временно недоступен (${workerSkipNote}). DICOM не разобран; использован облачный vision только для растровых кадров.`
+        : "DICOM пропущен без worker. SonoNet недоступен на Vercel.";
       return {
         ...visionResult,
-        studySummary: `${visionResult.studySummary}\n\nDICOM пропущен без worker. SonoNet недоступен на Vercel — запустите services/us-ai-worker.`,
+        studySummary: `${visionResult.studySummary}\n\n${workerHint}`,
         recommendations: [
           ...visionResult.recommendations,
-          "Для DICOM + SonoNet: US_AI_WORKER_URL → docker compose up в services/us-ai-worker.",
+          workerDown
+            ? "Поднимите US AI Worker (Railway/Fly) или задайте US_AI_WORKER_ENABLED=false на Vercel, пока worker в ремонте."
+            : "Для DICOM + SonoNet: US_AI_WORKER_URL → services/us-ai-worker (см. docs/FLY-DEPLOY-RU.md).",
+        ],
+      };
+    }
+    if (workerDown && !hasDicom) {
+      return {
+        ...visionResult,
+        recommendations: [
+          ...visionResult.recommendations,
+          `Разбор через OpenRouter (worker: ${workerSkipNote}).`,
         ],
       };
     }
