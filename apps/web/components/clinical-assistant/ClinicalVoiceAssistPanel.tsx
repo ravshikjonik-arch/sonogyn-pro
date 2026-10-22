@@ -1,13 +1,10 @@
 "use client";
 
-import { AlertTriangle, Copy, Mic, MicOff, Trash2 } from "lucide-react";
-import { useCallback, useEffect } from "react";
-import { toast } from "sonner";
+import { AlertTriangle, Mic } from "lucide-react";
+import { useCallback } from "react";
 
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useClinicalSpeechRecognition } from "@/hooks/useClinicalSpeechRecognition";
+import { DictationField } from "@/components/voice/DictationField";
 import type { NosologyAssistContext } from "@/lib/clinical-assistant/nosology-assist-context";
 import { parseVoiceProtocol } from "../../../mobile/src/features/fmf/logic/voiceNlp";
 
@@ -24,37 +21,16 @@ export function ClinicalVoiceAssistPanel({
   onTranscriptChange,
   placeholder = "Диктуйте находки УЗИ или жалобы…",
 }: Props) {
-  const dictation = useClinicalSpeechRecognition({ continuous: true });
-  const phrase = useClinicalSpeechRecognition({ continuous: false });
-
-  useEffect(() => {
-    if (dictation.transcript) onTranscriptChange(dictation.transcript);
-  }, [dictation.transcript, onTranscriptChange]);
-
-  useEffect(() => {
-    if (phrase.transcript) {
-      onTranscriptChange(
-        transcript ? `${transcript} ${phrase.transcript}`.trim() : phrase.transcript,
-      );
-    }
-  }, [phrase.transcript]); // eslint-disable-line react-hooks/exhaustive-deps
+  const draftKey = `clinical-voice-${context.code ?? context.title.slice(0, 32)}`;
 
   const fmfParsed =
     context.voiceProfile === "fmf" && transcript.trim().length > 8
       ? parseVoiceProtocol(transcript)
       : null;
 
-  const copyTranscript = useCallback(async () => {
-    if (!transcript.trim()) return;
-    try {
-      await navigator.clipboard.writeText(transcript);
-      toast.success("Текст скопирован");
-    } catch {
-      toast.error("Не удалось скопировать");
-    }
-  }, [transcript]);
-
-  const error = dictation.error ?? phrase.error;
+  const onClear = useCallback(() => {
+    onTranscriptChange("");
+  }, [onTranscriptChange]);
 
   return (
     <div className="space-y-3 rounded-2xl border border-sky-200/70 bg-sky-50/40 p-4 dark:border-sky-900/50 dark:bg-sky-950/25">
@@ -69,58 +45,14 @@ export function ClinicalVoiceAssistPanel({
         Диктуйте протокол или ключевые измерения. Текст попадёт в ИИ-подсказку по снимку.
       </p>
 
-      <div className="flex flex-wrap gap-2">
-        <Button
-          type="button"
-          size="sm"
-          variant={dictation.listening ? "default" : "outline"}
-          className="gap-1.5"
-          disabled={!dictation.supported}
-          onClick={() => (dictation.listening ? dictation.stop() : dictation.start())}
-        >
-          {dictation.listening ? <MicOff className="h-3.5 w-3.5" /> : <Mic className="h-3.5 w-3.5" />}
-          {dictation.listening ? "Стоп · диктовка" : "Диктовка"}
-        </Button>
-        <Button
-          type="button"
-          size="sm"
-          variant={phrase.listening ? "default" : "outline"}
-          className="gap-1.5"
-          disabled={!phrase.supported || dictation.listening}
-          onClick={() => (phrase.listening ? phrase.stop() : phrase.start())}
-        >
-          {phrase.listening ? "Слушаю…" : "Фраза"}
-        </Button>
-        <Button type="button" size="sm" variant="ghost" className="gap-1.5" onClick={() => void copyTranscript()}>
-          <Copy className="h-3.5 w-3.5" />
-          Копировать
-        </Button>
-        <Button
-          type="button"
-          size="sm"
-          variant="ghost"
-          className="gap-1.5"
-          onClick={() => {
-            dictation.reset();
-            phrase.reset();
-            onTranscriptChange("");
-          }}
-        >
-          <Trash2 className="h-3.5 w-3.5" />
-          Очистить
-        </Button>
-      </div>
-
-      {error ? <p className="text-xs text-amber-700 dark:text-amber-300">{error}</p> : null}
-      {dictation.interim ? (
-        <p className="text-xs italic text-[var(--clinical-foreground-muted)]">{dictation.interim}</p>
-      ) : null}
-
-      <Input
+      <DictationField
         value={transcript}
-        onChange={(e) => onTranscriptChange(e.target.value)}
+        onChange={onTranscriptChange}
+        onClear={onClear}
+        draftKey={draftKey}
         placeholder={placeholder}
-        aria-label="Текст голосовой диктовки"
+        enablePhrase
+        showCommandHint
       />
 
       {fmfParsed && fmfParsed.alerts.length > 0 ? (

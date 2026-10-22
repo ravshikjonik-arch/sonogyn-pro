@@ -1,12 +1,12 @@
 "use client";
 
-import { Brain, Database, Mic, MicOff, ShieldAlert, Sparkles, Trash2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Brain, Database, ShieldAlert, Sparkles, Trash2 } from "lucide-react";
+import { useState } from "react";
 import { toast } from "sonner";
 
 import { OradsAssistFeedback } from "@/components/calculators/orads/wizard/OradsAssistFeedback";
 import { Button } from "@/components/ui/button";
-import { useClinicalSpeechRecognition } from "@/hooks/useClinicalSpeechRecognition";
+import { DictationField } from "@/components/voice/DictationField";
 import { useOradsAssist } from "@/hooks/useOradsAssist";
 import {
   createClinicalMemory,
@@ -44,14 +44,10 @@ export function OradsAssistPanel({ nav, profileAgeYears, patientId, studyId }: P
   const [savedMemory, setSavedMemory] = useState<ClinicalMemoryRow | null>(null);
   const [memoryBusy, setMemoryBusy] = useState(false);
   const { analyze, result, loading, error, reset, eventId } = useOradsAssist("web");
-  const speech = useClinicalSpeechRecognition({ continuous: true });
+  const draftKey = `orads-assist-${patientId ?? studyId ?? "local"}`;
 
   const manualCategory =
     nav.view.kind === "result" ? nav.view.result.categoryNumber : null;
-
-  useEffect(() => {
-    if (speech.transcript) setText(speech.transcript);
-  }, [speech.transcript]);
 
   async function onAnalyze(fetchRemoteDraft = false) {
     setSavedMemory(null);
@@ -133,26 +129,18 @@ export function OradsAssistPanel({ nav, profileAgeYears, patientId, studyId }: P
         </p>
       ) : null}
 
-      <textarea
-        className="min-h-[120px] w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-200 dark:border-slate-700 dark:bg-slate-950 dark:text-white"
+      <DictationField
         value={text}
-        onChange={(e) => setText(e.target.value)}
+        onChange={setText}
+        draftKey={draftKey}
+        multiline
+        showCommandHint
         placeholder="Например: киста левого яичника 40 мм, гладкие контуры, без перегородок…"
+        ariaLabel="Описание для разбора O-RADS"
+        inputClassName="rounded-xl border-slate-200 bg-white text-slate-900 focus:border-violet-400 focus:ring-violet-200 dark:border-slate-700 dark:bg-slate-950 dark:text-white"
       />
 
       <div className="flex flex-wrap items-center gap-3">
-        <Button
-          type="button"
-          size="sm"
-          variant={speech.listening ? "default" : "outline"}
-          className="gap-1.5"
-          disabled={!speech.supported}
-          onClick={() => (speech.listening ? speech.stop() : speech.start())}
-        >
-          {speech.listening ? <MicOff className="h-3.5 w-3.5" /> : <Mic className="h-3.5 w-3.5" />}
-          {speech.listening ? "Стоп" : "Диктовка"}
-        </Button>
-
         <label className="flex items-center gap-2 text-xs font-medium text-slate-600 dark:text-slate-300">
           Менопауза
           <select
@@ -179,8 +167,17 @@ export function OradsAssistPanel({ nav, profileAgeYears, patientId, studyId }: P
         >
           Черновик protocol-ai
         </Button>
-        <Button type="button" size="sm" variant="ghost" onClick={() => { reset(); setText(""); setSavedMemory(null); speech.reset(); }}>
-          Очистить
+        <Button
+          type="button"
+          size="sm"
+          variant="ghost"
+          onClick={() => {
+            reset();
+            setText("");
+            setSavedMemory(null);
+          }}
+        >
+          Очистить разбор
         </Button>
       </div>
 

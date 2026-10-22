@@ -6,6 +6,16 @@ test.describe("Security smoke — API boundaries", () => {
     expect(res.status()).toBe(401);
   });
 
+  test("GET /api/ai/speech/transcribe без сессии → 401", async ({ request }) => {
+    const res = await request.get("/api/ai/speech/transcribe");
+    expect(res.status()).toBe(401);
+  });
+
+  test("POST /api/ai/speech/transcribe без сессии → 401", async ({ request }) => {
+    const res = await request.post("/api/ai/speech/transcribe");
+    expect(res.status()).toBe(401);
+  });
+
   test("POST /api/auth/sign-in — пустое тело → 400 (Zod)", async ({ request }) => {
     const res = await request.post("/api/auth/sign-in", {
       data: {},
