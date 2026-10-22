@@ -22,7 +22,8 @@
 
 5. **Авто-smoke с Mac:**
    ```bash
-   node apps/web/scripts/check-production-smoke.mjs
+   node apps/web/scripts/us-ai-worker-prod-smoke.mjs   # Fly auth + Vercel worker-status
+   node apps/web/scripts/check-production-smoke.mjs    # health, worker, evidence, fetometry
    ```
 
 ## Не ротировать без необходимости

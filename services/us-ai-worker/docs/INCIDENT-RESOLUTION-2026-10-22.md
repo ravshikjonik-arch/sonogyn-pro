@@ -43,7 +43,7 @@
 
 | Задача | Кто | Статус |
 |--------|-----|--------|
-| Авто-smoke prod (`check-production-smoke.mjs` + worker-status) | CI / Mac | ✅ в скрипте |
+| Авто-smoke prod (`test:us-ai-worker-smoke`, `test:prod-smoke`) | Mac | ✅ прогнано |
 | OpenRouter: revoke старых ключей после утечки Railway | Вы, ~2 мин | ⏳ |
 | PRO UI: JPEG + DICOM анализ на sonogyn-pro.ru | Вы, ~5 мин | ⏳ |
 | Railway billing / `RAILWAY_TOKEN` | Только если вернётесь на Railway | опционально |

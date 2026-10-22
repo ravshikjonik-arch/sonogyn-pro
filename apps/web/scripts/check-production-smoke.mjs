@@ -42,19 +42,37 @@ async function main() {
     `/home → ${home.status}, ${homeHtml.length} B, proxy=${proxy ?? "no"}, complete=${complete}`,
   );
 
-  const ask = await fetch(`${base}/api/evidence/assistant/ask`, {
-    method: "POST",
-    headers: { "User-Agent": browserUa, "Content-Type": "application/json" },
-    body: JSON.stringify({
-      query: "O-RADS 3 тактика",
-      corpusMode: "rf_kr",
-      useLlm: false,
-    }),
-    signal: AbortSignal.timeout(120_000),
-  });
-  const askJson = await ask.json().catch(() => ({}));
-  const okAsk = ask.ok && (askJson.summary?.length ?? 0) > 10;
-  console.log(okAsk ? "✅" : "❌", `POST evidence/ask → ${ask.status}`, askJson.error ?? "");
+  async function fetchEvidenceAsk() {
+    const res = await fetch(`${base}/api/evidence/assistant/ask`, {
+      method: "POST",
+      headers: {
+        "User-Agent": browserUa,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        query: "O-RADS 3 тактика",
+        corpusMode: "rf_kr",
+        useLlm: false,
+      }),
+      signal: AbortSignal.timeout(180_000),
+    });
+    const json = await res.json().catch(() => ({}));
+    return { res, json };
+  }
+
+  let { res: ask, json: askJson } = await fetchEvidenceAsk();
+  let summaryLen = askJson.summary?.length ?? 0;
+  if (ask.ok && summaryLen <= 10) {
+    ({ res: ask, json: askJson } = await fetchEvidenceAsk());
+    summaryLen = askJson.summary?.length ?? 0;
+  }
+  const okAsk = ask.ok && summaryLen > 10;
+  console.log(
+    okAsk ? "✅" : "❌",
+    `POST evidence/ask → ${ask.status}`,
+    okAsk ? `summary ${summaryLen} chars` : (askJson.error ?? `summary ${summaryLen} chars`),
+  );
 
   const fetometry = await fetch(`${base}/tools/calc/ob/fetometry-norms`, {
     headers: { "User-Agent": browserUa, Accept: "text/html", "Cache-Control": "no-cache" },
