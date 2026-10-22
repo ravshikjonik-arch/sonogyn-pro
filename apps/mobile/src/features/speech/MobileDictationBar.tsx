@@ -17,6 +17,7 @@ import {
 } from "react-native";
 
 import { appendDictationText } from "../../lib/speech/appendDictation";
+import { speakDictationRu } from "../../lib/speech/speakDictationRu";
 import { grantMobileCloudSttConsent, hasMobileCloudSttConsent } from "../../lib/speech/cloudSttConsent";
 import { fetchSpeechTranscribeMeta, transcribeAudioFile } from "../../lib/speech/transcribeSpeechApi";
 
@@ -55,7 +56,9 @@ export function MobileDictationBar({ value, onChange, style }: Props) {
         return;
       }
       const raw = await transcribeAudioFile({ uri });
-      onChange(appendDictationText(value, raw));
+      const { text, sideEffect } = appendDictationText(value, raw);
+      onChange(text);
+      if (sideEffect === "read") speakDictationRu(text);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Не удалось распознать речь.");
     } finally {

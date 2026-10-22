@@ -42,7 +42,12 @@ pnpm --filter @repo/web test:e2e -- tests/e2e/clinical-speech-smoke.spec.ts
 
 Rollout: [CLINICAL-SPEECH-ROLLOUT.md](./CLINICAL-SPEECH-ROLLOUT.md)
 
-## Дальше
+## FMF NLP (shared)
 
-- Playwright с fake `getUserMedia` (opt-in).
-- O-RADS mobile wizard, expo-speech для «прочитать».
+- `parseVoiceProtocol` → `@repo/fmf/voice-protocol` (web + mobile).
+
+## E2E fake mic (opt-in)
+
+```bash
+PLAYWRIGHT_FAKE_MIC=1 pnpm --filter @repo/web test:e2e:speech:fake-mic
+```

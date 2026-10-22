@@ -1,10 +1,16 @@
-import { postProcessDictation } from "@repo/clinical-speech";
+import { postProcessDictation, type VoiceCommandSideEffect } from "@repo/clinical-speech";
+
+export type AppendDictationResult = {
+  text: string;
+  sideEffect: VoiceCommandSideEffect;
+};
 
 /** Склеить распознанный фрагмент с полем протокола (общая постобработка web/mobile). */
-export function appendDictationText(previous: string, rawChunk: string): string {
+export function appendDictationText(previous: string, rawChunk: string): AppendDictationResult {
   const { text, sideEffect } = postProcessDictation(rawChunk);
-  if (sideEffect === "clear") return "";
+  if (sideEffect === "clear") return { text: "", sideEffect: "clear" };
   const chunk = text.trim();
-  if (!chunk) return previous;
-  return previous.trim() ? `${previous.trim()} ${chunk}` : chunk;
+  if (!chunk) return { text: previous, sideEffect };
+  const merged = previous.trim() ? `${previous.trim()} ${chunk}` : chunk;
+  return { text: merged, sideEffect };
 }

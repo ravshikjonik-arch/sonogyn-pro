@@ -65,6 +65,7 @@
     "test:e2e:visual": "VISUAL_REGRESSION=true playwright test tests/e2e/visual-smoke.spec.ts --project=chromium-no-auth",
     "test:e2e:security": "PLAYWRIGHT_SECURITY_E2E=true E2E_DEV_SKIP_AUTH=false playwright test tests/e2e/security-smoke.spec.ts --project=chromium-no-auth",
     "test:e2e:speech": "playwright test clinical-speech-smoke.spec.ts --project=chromium-no-auth",
+    "test:e2e:speech:fake-mic": "PLAYWRIGHT_FAKE_MIC=1 playwright test clinical-speech-fake-mic.spec.ts --project=chromium-no-auth",
     "test:e2e:emr-idor": "PLAYWRIGHT_SECURITY_E2E=true E2E_DEV_SKIP_AUTH=false playwright test tests/e2e/emr-idor-smoke.spec.ts --project=chromium-no-auth",
     "setup:staging-idor": "node scripts/setup-staging-idor-users.mjs",
     "test:staging-emr-idor": "node scripts/staging-idor-preflight.mjs && node scripts/staging-emr-idor-smoke.mjs",

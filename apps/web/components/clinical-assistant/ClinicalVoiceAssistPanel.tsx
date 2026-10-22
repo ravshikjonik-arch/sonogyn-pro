@@ -6,7 +6,7 @@ import { useCallback } from "react";
 import { Badge } from "@/components/ui/badge";
 import { DictationField } from "@/components/voice/DictationField";
 import type { NosologyAssistContext } from "@/lib/clinical-assistant/nosology-assist-context";
-import { parseVoiceProtocol } from "../../../mobile/src/features/fmf/logic/voiceNlp";
+import { parseVoiceProtocol } from "@repo/fmf/voice-protocol";
 
 type Props = {
   context: NosologyAssistContext;

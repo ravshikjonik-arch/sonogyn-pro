@@ -43,11 +43,13 @@ Rate limits (опционально): `RATE_LIMIT_AI_SPEECH_STT`, `RATE_LIMIT_AI
 cd apps/mobile && npx eas-cli build --platform all --profile preview
 ```
 
-## 5. Дальше (следующие PR)
+## 5. Шаг 5 (в ветке после mobile MVP)
 
-- Playwright fake `getUserMedia` (opt-in)
-- Orads mobile wizard dictation
-- `expo-speech` для команды «прочитать» на mobile
-- Refactor web FMF import path (не тянуть `apps/mobile` из web)
+- [x] `@repo/fmf/voice-protocol` — общий FMF NLP (web больше не импортирует `apps/mobile`)
+- [x] O-RADS mobile wizard — `MobileDictationBar` в `OradsAssistPanel`
+- [x] `expo-speech` — команда «прочитать» после server STT
+- [x] Playwright fake Web Speech: `PLAYWRIGHT_FAKE_MIC=1 pnpm --filter @repo/web test:e2e:speech:fake-mic`
+
+**Vercel env** — отложено до вашего большого изменения; после merge напомнить чеклист §3.
 
 См. также: [clinical-speech.md](./clinical-speech.md)
