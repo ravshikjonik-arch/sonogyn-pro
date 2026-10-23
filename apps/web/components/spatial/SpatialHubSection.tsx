@@ -5,7 +5,7 @@ import { Suspense } from "react";
 import { SpatialHubExplorer } from "@/components/spatial/SpatialHubExplorer";
 
 type SpatialHubSectionProps = {
-  basePath: "/home" | "/profile/dashboard";
+  basePath: "/home" | "/profile/dashboard" | "/tools/calc";
   title?: string;
   subtitle?: string;
 };

@@ -98,7 +98,7 @@ function ToolStrip({ deckId }: { deckId: SpatialHubDeckId }) {
 }
 
 type SpatialHubExplorerProps = {
-  basePath?: "/home" | "/profile/dashboard";
+  basePath?: "/home" | "/profile/dashboard" | "/tools/calc";
 };
 
 export function SpatialHubExplorer({ basePath = "/home" }: SpatialHubExplorerProps) {

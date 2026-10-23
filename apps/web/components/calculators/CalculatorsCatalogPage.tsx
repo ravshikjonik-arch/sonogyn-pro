@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { CalculatorsCatalogSpatial } from "@/components/calculators/CalculatorsCatalogSpatial";
 import { ObCalcQuickWidget } from "@/components/calculators/ob/ObCalcQuickWidget";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -13,20 +14,22 @@ const quickCalcSlugs = ["ob-calc", "o-rads", "bi-rads", "ln-rads", "pop-q", "end
 export function CalculatorsCatalogPage() {
   const quick = CALCULATORS.filter((c) => quickCalcSlugs.includes(c.slug as (typeof quickCalcSlugs)[number]));
   return (
-    <div className="px-4 py-10 lg:px-10">
+    <div className="sonogyn-cosmos-bg sg-spatial-vignette min-h-[100dvh] px-4 py-10 lg:px-10">
       <div className="mx-auto max-w-6xl space-y-8">
         <header className="space-y-2">
           <Badge variant="outline">Клиническая поддержка решений</Badge>
-          <h1 className="text-3xl font-semibold tracking-tight text-slate-950 dark:text-white">Калькуляторы</h1>
+          <h1 className="text-3xl font-semibold tracking-tight text-[var(--clinical-foreground)]">Калькуляторы</h1>
           <p className="max-w-3xl text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
-            FIGO, O-RADS, BI-RADS и др. — по гайдлайнам. Записи сохраняются в{" "}
-            <code className="font-mono text-xs">calculator_entries</code> (при входе). FIGO и интерактив — в{" "}
+            FIGO, O-RADS, BI-RADS и другие — по гайдлайнам и клиническим рекомендациям. При входе история расчётов
+            сохраняется в аккаунте. FIGO и интерактив — в{" "}
             <Link href="/tools/mapping/uterus" className="font-semibold text-[var(--clinical-primary-deep)] hover:underline">
-              3D матке
+              3D-модели матки
             </Link>
             .
           </p>
         </header>
+
+        <CalculatorsCatalogSpatial />
 
         <ObCalcQuickWidget />
 
@@ -66,29 +69,34 @@ export function CalculatorsCatalogPage() {
           </div>
         </section>
 
-        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {CALCULATORS.map((calc) => (
-            <Card key={calc.slug} className="flex flex-col border-[var(--clinical-border)] bg-[var(--clinical-card)]">
-              <CardHeader className="flex flex-row items-start justify-between gap-3 space-y-0">
-                <div>
-                  <CardTitle className="text-lg font-semibold">{calc.title}</CardTitle>
-                  <CardDescription>{calc.subtitle}</CardDescription>
-                </div>
-                <Badge variant="outline">{calc.code}</Badge>
-              </CardHeader>
-              <CardContent className="mt-auto space-y-4">
-                <p className="text-sm text-[var(--clinical-foreground-muted)]">
-                  {calc.fields.length === 0
-                    ? "Интерактивный калькулятор · сохранение в историю"
-                    : `${calc.fields.length} structured fields · saves to your account`}
-                </p>
-                <Button variant="secondary" className="w-full" asChild>
-                  <Link href={resolveCalculatorHref(calc)}>Открыть</Link>
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+        <details className="sonogyn-glass-card rounded-2xl p-5">
+          <summary className="cursor-pointer text-sm font-bold text-[var(--clinical-foreground)]">
+            Полный список калькуляторов (классический вид)
+          </summary>
+          <div className="mt-4 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+            {CALCULATORS.map((calc) => (
+              <Card key={calc.slug} className="flex flex-col border-[var(--clinical-border)] bg-[var(--clinical-card)]">
+                <CardHeader className="flex flex-row items-start justify-between gap-3 space-y-0">
+                  <div>
+                    <CardTitle className="text-lg font-semibold">{calc.title}</CardTitle>
+                    <CardDescription>{calc.subtitle}</CardDescription>
+                  </div>
+                  <Badge variant="outline">{calc.code}</Badge>
+                </CardHeader>
+                <CardContent className="mt-auto space-y-4">
+                  <p className="text-sm text-[var(--clinical-foreground-muted)]">
+                    {calc.fields.length === 0
+                      ? "Интерактивный калькулятор · история при входе"
+                      : `${calc.fields.length} полей · сохранение в аккаунте`}
+                  </p>
+                  <Button variant="secondary" className="w-full" asChild>
+                    <Link href={resolveCalculatorHref(calc)}>Открыть</Link>
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </details>
       </div>
     </div>
   );
