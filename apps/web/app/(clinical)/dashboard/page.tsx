@@ -1,50 +1,15 @@
-import {
-  Activity,
-  ArrowRight,
-  Brain,
-  Calculator,
-  Layers,
-  Shield,
-  Sparkles,
-  Stethoscope,
-} from "lucide-react";
+import { ArrowRight, Shield, Sparkles, Stethoscope } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { AchievementsDashboard } from "@/components/achievements/AchievementsDashboard";
+import { DashboardSpatialHub } from "@/components/clinical/DashboardSpatialHub";
 import { VerifyDoctorReminderBanner } from "@/components/trust/VerifyDoctorReminderBanner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { getOpenAccessProfile } from "@/lib/auth/dev-account";
 import { createClient } from "@/utils/supabase/server";
-
-const quickLinks = [
-  {
-    title: "Калькуляторы",
-    description: "O-RADS, BI-RADS, TI-RADS, акушерские и гинекологические расчёты.",
-    href: "/tools/calc",
-    icon: Calculator,
-  },
-  {
-    title: "AI-зона УЗИ",
-    description: "Разбор описания и изображений без персональных данных пациентки.",
-    href: "/workspace",
-    icon: Brain,
-  },
-  {
-    title: "Чат врачей",
-    description: "Общий чат, фото/видео УЗИ, кейсы и обсуждения.",
-    href: "/cases",
-    icon: Activity,
-  },
-  {
-    title: "КР и справочник",
-    description: "Нозологии, протоколы, нормы и практические алгоритмы.",
-    href: "/tools/refs",
-    icon: Layers,
-  },
-];
 
 export default async function MedicalDashboardPage() {
   const supabase = await createClient();
@@ -90,7 +55,7 @@ export default async function MedicalDashboardPage() {
   const showVerifyBanner = Boolean(user && profile && !profile.is_verified);
 
   return (
-    <div className="px-4 py-10 lg:px-10">
+    <div className="sonogyn-cosmos-bg sg-spatial-vignette min-h-[100dvh] px-4 py-10 lg:px-10">
       {showVerifyBanner ? <VerifyDoctorReminderBanner show /> : null}
       <div className="mx-auto max-w-6xl space-y-10">
         <header className="relative overflow-hidden rounded-3xl border border-[var(--clinical-border)] bg-gradient-to-br from-white via-white to-[var(--clinical-primary-muted)] p-8 shadow-sm md:p-10 dark:from-slate-950 dark:via-slate-950 dark:to-slate-900">
@@ -203,41 +168,15 @@ export default async function MedicalDashboardPage() {
           <AchievementsDashboard />
         </section>
 
-        <section className="space-y-4">
-          <div className="flex items-center justify-between gap-4">
-            <h2 className="text-lg font-semibold text-slate-950 dark:text-white">Быстрый доступ</h2>
-            <Button variant="ghost" size="sm" className="text-[var(--clinical-primary-deep)]" asChild>
-              <Link href="/tools/mapping/uterus">
-                <Stethoscope className="mr-2 h-4 w-4" />
-                3D матка
-              </Link>
-            </Button>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            {quickLinks.map((item) => {
-              const Icon = item.icon;
-              return (
-                <Card
-                  key={item.href}
-                  className="group flex flex-col border-[var(--clinical-border)] bg-white transition hover:border-[var(--clinical-primary)] hover:shadow-md dark:bg-slate-950"
-                >
-                  <CardHeader className="space-y-2">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--clinical-primary-muted)] text-[var(--clinical-primary-deep)] transition group-hover:bg-[var(--clinical-primary)] group-hover:text-white">
-                      <Icon className="h-5 w-5" />
-                    </div>
-                    <CardTitle className="text-base">{item.title}</CardTitle>
-                    <CardDescription className="text-xs leading-snug">{item.description}</CardDescription>
-                  </CardHeader>
-                  <CardContent className="mt-auto pt-0">
-                    <Button variant="secondary" size="sm" className="w-full rounded-xl" asChild>
-                      <Link href={item.href}>Открыть</Link>
-                    </Button>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
-        </section>
+        <div className="flex items-center justify-end gap-2">
+          <Button variant="ghost" size="sm" className="text-[var(--clinical-primary-deep)]" asChild>
+            <Link href="/tools/mapping/uterus">
+              <Stethoscope className="mr-2 h-4 w-4" />
+              3D-модель матки
+            </Link>
+          </Button>
+        </div>
+        <DashboardSpatialHub />
       </div>
     </div>
   );

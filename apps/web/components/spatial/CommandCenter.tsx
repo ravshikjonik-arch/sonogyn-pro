@@ -1,6 +1,5 @@
 "use client";
 
-import { Suspense } from "react";
 import {
   ArrowRight,
   Brain,
@@ -28,7 +27,8 @@ import {
 import { DoctorStartPanel } from "@/components/clinical/DoctorStartPanel";
 import { ThemeToggle } from "@/components/clinical/theme-toggle";
 import { RecentCalculationsPanel } from "@/components/clinical/RecentCalculationsPanel";
-import { SpatialHubExplorer } from "@/components/spatial/SpatialHubExplorer";
+import { SpatialCanvas } from "@/components/spatial/SpatialCanvas";
+import { SpatialHubSection } from "@/components/spatial/SpatialHubSection";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
@@ -68,13 +68,15 @@ const routeSteps = [
 
 export function CommandCenter() {
   return (
-    <div className="sonogyn-cosmos-bg min-h-[100dvh] px-4 py-6 sm:px-6 lg:px-10 lg:py-8">
+    <SpatialCanvas className="px-4 py-6 sm:px-6 lg:px-10 lg:py-8">
       <div className="mx-auto max-w-7xl space-y-6">
         <DoctorStartPanel />
 
-        <Suspense fallback={null}>
-          <SpatialHubExplorer />
-        </Suspense>
+        <SpatialHubSection
+          basePath="/home"
+          title="Навигация по инструментам"
+          subtitle="Горизонтальная колода разделов — без длинной прокрутки. Дальше откроется лист карточек."
+        />
 
         <RecentCalculationsPanel />
 
@@ -192,6 +194,6 @@ export function CommandCenter() {
           </span>
         </ContinuationDock>
       </div>
-    </div>
+    </SpatialCanvas>
   );
 }

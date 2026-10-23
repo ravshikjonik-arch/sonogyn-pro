@@ -2,7 +2,8 @@
 
 ## Scope
 
-- Главная `/home`: горизонтальная **колода разделов** + **sheet** с инструментами (`?hub=rads|…`).
+- Главная `/home` и кабинет `/profile/dashboard`: горизонтальная **колода разделов** + **sheet** (`?hub=rads|…`).
+- `SpatialCanvas` + бирюзовый mesh (dark/light), vignette, bottom sheet на mobile.
 - Источник инструментов: `@repo/clinical-tools` (без дублирования медицинских формул).
 - Тёмная тема: бирюзовый космический mesh (`sonogyn-cosmos-bg`, токены `--mesh-*`).
 - Светлая тема: без mesh-неона (как раньше).

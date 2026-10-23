@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { SpatialCard } from "@/components/spatial/SpatialCard";
 import { SpatialDeck } from "@/components/spatial/SpatialDeck";
@@ -63,7 +63,7 @@ function HubDeckCard({
           {description}
         </span>
         <span className="mt-4 inline-flex items-center gap-1 text-xs font-bold text-[var(--clinical-primary-deep)]">
-          Свайп или нажмите
+          Листайте или нажмите
           <ChevronRight className="h-4 w-4" aria-hidden />
         </span>
       </button>
@@ -97,11 +97,19 @@ function ToolStrip({ deckId }: { deckId: SpatialHubDeckId }) {
   );
 }
 
-export function SpatialHubExplorer() {
+type SpatialHubExplorerProps = {
+  basePath?: "/home" | "/profile/dashboard";
+};
+
+export function SpatialHubExplorer({ basePath = "/home" }: SpatialHubExplorerProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const hubFromUrl = parseSpatialHubDeck(searchParams.get("hub"));
   const [openDeck, setOpenDeck] = useState<SpatialHubDeckId | null>(hubFromUrl);
+
+  useEffect(() => {
+    setOpenDeck(hubFromUrl);
+  }, [hubFromUrl]);
 
   const syncUrl = useCallback(
     (deckId: SpatialHubDeckId | null) => {
@@ -109,9 +117,9 @@ export function SpatialHubExplorer() {
       if (deckId) params.set("hub", deckId);
       else params.delete("hub");
       const q = params.toString();
-      router.replace(q ? `/home?${q}` : "/home", { scroll: false });
+      router.replace(q ? `${basePath}?${q}` : basePath, { scroll: false });
     },
-    [router, searchParams],
+    [basePath, router, searchParams],
   );
 
   const open = (deckId: SpatialHubDeckId) => {

@@ -32,7 +32,9 @@ export function SpatialModal({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className={cn(
-          "max-h-[min(86vh,760px)] overflow-y-auto rounded-[var(--sg-radius-xl)] border-[var(--clinical-border)] bg-[var(--sg-surface-raised)] p-0 shadow-[var(--sg-depth-modal)] backdrop-blur-[var(--sg-blur-modal)]",
+          "sg-spatial-sheet max-h-[min(86vh,760px)] overflow-y-auto border-[var(--clinical-border)] bg-[var(--sg-surface-raised)] p-0 shadow-[var(--sg-depth-modal)] backdrop-blur-[var(--sg-blur-modal)]",
+          "max-md:!top-auto max-md:!bottom-0 max-md:!left-0 max-md:!max-h-[min(88vh,820px)] max-md:!w-full max-md:!max-w-none max-md:!-translate-x-0 max-md:!translate-y-0 max-md:rounded-b-none max-md:rounded-t-[var(--sg-radius-xl)] max-md:data-[state=open]:slide-in-from-bottom max-md:data-[state=closed]:slide-out-to-bottom",
+          "md:rounded-[var(--sg-radius-xl)] md:max-h-[min(86vh,760px)]",
           className,
         )}
       >

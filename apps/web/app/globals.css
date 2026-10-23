@@ -467,6 +467,43 @@ html.dark .sonogyn-clinical-app input:-webkit-autofill:focus {
   background-attachment: fixed;
 }
 
+.sg-spatial-vignette::before {
+  content: "";
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(ellipse 85% 70% at 50% 45%, transparent 40%, rgba(2, 8, 12, 0.35) 100%);
+  opacity: 0.35;
+}
+
+html[data-theme="light"] .sg-spatial-vignette::before,
+html[data-theme-forced="light"] .sg-spatial-vignette::before {
+  background: radial-gradient(ellipse 90% 75% at 50% 40%, transparent 55%, rgba(15, 23, 42, 0.06) 100%);
+  opacity: 1;
+}
+
+.sg-spatial-vignette > * {
+  position: relative;
+  z-index: 1;
+}
+
+.sg-spatial-sheet::before {
+  content: "";
+  display: block;
+  width: 2.5rem;
+  height: 0.25rem;
+  margin: 0.65rem auto 0;
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--clinical-foreground-muted) 45%, transparent);
+}
+
+@media (min-width: 768px) {
+  .sg-spatial-sheet::before {
+    display: none;
+  }
+}
+
 .sg-focus-ring:focus-visible {
   outline: 2px solid var(--clinical-ring);
   outline-offset: 3px;

@@ -10,3 +10,5 @@ export { SpatialCard } from "./SpatialCard";
 export { SpatialModal } from "./SpatialModal";
 export { SpatialDeck } from "./SpatialDeck";
 export { SpatialHubExplorer } from "./SpatialHubExplorer";
+export { SpatialHubSection } from "./SpatialHubSection";
+export { SpatialCanvas } from "./SpatialCanvas";
