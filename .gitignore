@@ -53,6 +53,12 @@ scripts/atlas-obstetrics-audit.json
 # Local transcode / temp
 apps/web/.tmp-ffmpeg/
 apps/web/supabase/.temp/
+apps/web/supabase/.vapid-*
+apps/web/supabase/.mcp-*
+apps/web/supabase/.apply-*
+apps/web/supabase/.payload-*
+apps/web/supabase/.edge-deploy-*
+apps/web/supabase/.chat-v2-*
 
 # Large local media (seed from disk, not git)
 docs/books/

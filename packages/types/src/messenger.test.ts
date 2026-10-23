@@ -1,4 +1,5 @@
-import { describe, expect, it } from "vitest";
+import assert from "node:assert/strict";
+import { describe, it } from "node:test";
 
 import { MessengerSendBodySchema } from "./messenger";
 
@@ -8,7 +9,7 @@ describe("MessengerSendBodySchema", () => {
       chatId: "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
       clientUuid: "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
     });
-    expect(r.success).toBe(false);
+    assert.equal(r.success, false);
   });
 
   it("accepts text with client uuid", () => {
@@ -17,6 +18,6 @@ describe("MessengerSendBodySchema", () => {
       clientUuid: "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
       body: "Привет, коллеги",
     });
-    expect(r.success).toBe(true);
+    assert.equal(r.success, true);
   });
 });

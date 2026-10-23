@@ -49,13 +49,6 @@ create table if not exists public.messenger_messages (
   deleted_at timestamptz,
   legacy_doctor_message_id uuid,
   created_at timestamptz not null default now(),
-  constraint messenger_messages_body_check check (
-    deleted_at is not null
-    or (body is not null and length(trim(body)) > 0)
-    or exists (
-      select 1 from public.messenger_message_attachments a where a.message_id = id
-    )
-  ),
   unique (chat_id, seq),
   unique (chat_id, client_uuid)
 );
@@ -173,7 +166,6 @@ begin
 
   insert into public.messenger_chats (chat_type, title, legacy_doctor_channel_id)
   values ('channel', v_title, p_legacy_channel_id)
-  on conflict (legacy_doctor_channel_id) do update set title = excluded.title
   returning id into v_id;
 
   insert into public.messenger_chat_counters (chat_id, next_seq) values (v_id, 1)
@@ -308,14 +300,18 @@ begin
 
   for ch in select id, title from public.doctor_chat_channels order by sort_order
   loop
-    insert into public.messenger_chats (chat_type, title, legacy_doctor_channel_id)
-    values ('channel', ch.title, ch.id)
-    on conflict (legacy_doctor_channel_id) do update
-      set title = excluded.title, updated_at = now()
-    returning id into v_chat_id;
+    select c.id into v_chat_id
+    from public.messenger_chats c
+    where c.legacy_doctor_channel_id = ch.id;
 
     if v_chat_id is null then
-      select c.id into v_chat_id from public.messenger_chats c where c.legacy_doctor_channel_id = ch.id;
+      insert into public.messenger_chats (chat_type, title, legacy_doctor_channel_id)
+      values ('channel', ch.title, ch.id)
+      returning id into v_chat_id;
+    else
+      update public.messenger_chats
+      set title = ch.title, updated_at = now()
+      where id = v_chat_id;
     end if;
 
     insert into public.messenger_chat_counters (chat_id, next_seq) values (v_chat_id, 1)
