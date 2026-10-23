@@ -38,6 +38,7 @@ export type MobileToolAction =
   | "cin_risk"
   | "cervical_intelligence"
   | "fmf"
+  | "fetometry_nomograms"
   | "ln_rads"
   | "gyn_assistant_gyn"
   | "gyn_assistant_obs"

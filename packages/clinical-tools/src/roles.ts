@@ -30,6 +30,7 @@ export const DEFAULT_PINNED_TOOL_IDS: Record<DoctorRole, string[]> = {
     "assistant-obs",
     "ob-calc",
     "fmf",
+    "fetometry-norms",
     "cervical-length",
     "ga-lmp",
     "ga-crl",

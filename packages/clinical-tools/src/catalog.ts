@@ -287,6 +287,17 @@ export const CLINICAL_TOOLS: ClinicalTool[] = [
     mobileAction: "fmf",
   },
   {
+    id: "fetometry-norms",
+    title: "Нормы фетометрии",
+    subtitle: "45 номограмм · мастер · 96 таблиц архива",
+    category: "pregnancy",
+    roles: ["obstetrician", "ultrasound"],
+    synonyms: ["номограмма", "фетометрия", "перцентили", "бпр", "ктр", "medvedev archive"],
+    keywords: ["nomogram", "fetometry", "percentile"],
+    webHref: "/tools/calc/ob/fetometry-norms",
+    mobileAction: "fetometry_nomograms",
+  },
+  {
     id: "ga-lmp",
     title: "Срок по ПМП",
     subtitle: "ПДР, срок сегодня",

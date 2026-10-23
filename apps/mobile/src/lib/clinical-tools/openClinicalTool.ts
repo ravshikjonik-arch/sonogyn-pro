@@ -115,6 +115,9 @@ export function openClinicalToolAction(navigation: ClinicalToolNav, action: Mobi
     case "fmf":
       navigation.navigate("FMFAssistant");
       return;
+    case "fetometry_nomograms":
+      navigation.navigate("FetometryNomograms");
+      return;
     case "ln_rads":
       navigation.navigate("GynecologyCalc", { initialPage: "gyn_lnrads" });
       return;

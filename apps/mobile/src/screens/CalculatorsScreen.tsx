@@ -129,6 +129,13 @@ export default function CalculatorsScreen({ navigation }: CalculatorsTabScreenPr
         onPress: () => navigation.navigate("FMFAssistant"),
       },
       {
+        id: "fetometry-norms",
+        title: "Нормы фетометрии",
+        subtitle: "Номограммы · архив таблиц",
+        art: "prenatal",
+        onPress: () => navigation.navigate("FetometryNomograms"),
+      },
+      {
         id: "pr",
         title: "Пролапс таза",
         subtitle: "POP-Q",
