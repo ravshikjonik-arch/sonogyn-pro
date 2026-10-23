@@ -53,6 +53,9 @@ jobs:
       - name: O-RADS US package tests
         run: pnpm test:orads-us
 
+      - name: Fetal nomograms (dataset + decision tree)
+        run: pnpm test:fetal-nomograms
+
       - name: O-RADS decision tree snapshot (drift guard)
         run: pnpm verify:orads-tree-snapshot
 

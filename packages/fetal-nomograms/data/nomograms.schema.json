@@ -1,0 +1,240 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Sonogyn Pro — Nomogram Dataset",
+  "type": "object",
+  "required": [
+    "meta",
+    "nomograms"
+  ],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "properties": {
+        "project": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "sources_authors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "nomograms": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/nomogram"
+      }
+    },
+    "scoring_systems": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/scoring"
+      }
+    },
+    "clinical_definitions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "term",
+          "definition"
+        ],
+        "properties": {
+          "term": {
+            "type": "string"
+          },
+          "definition": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "nomogram": {
+      "type": "object",
+      "required": [
+        "id",
+        "key",
+        "title",
+        "category",
+        "unit",
+        "x_axis",
+        "rows"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "unique snake_case id, e.g. bpd_16_40"
+        },
+        "key": {
+          "type": "string",
+          "description": "stable uppercase code, e.g. BPD"
+        },
+        "title": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "first_trimester",
+            "second_third_trimester",
+            "doppler",
+            "fluid",
+            "neurosonography",
+            "fetal_echo"
+          ]
+        },
+        "unit": {
+          "type": "string"
+        },
+        "percentiles": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "optional non-percentile row fields (e.g. min/mean_low/mean_high/max, median/mom_1_5)"
+        },
+        "x_axis": {
+          "type": "object",
+          "required": [
+            "type",
+            "label"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "ga_days",
+                "ga_weeks",
+                "crl_range_mm"
+              ]
+            },
+            "label": {
+              "type": "string"
+            }
+          }
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ga": {
+                "type": "string",
+                "pattern": "^\\d{1,2}\\+\\d$"
+              },
+              "ga_weeks": {
+                "type": "integer",
+                "minimum": 5,
+                "maximum": 42
+              },
+              "crl_min": {
+                "type": "number"
+              },
+              "crl_max": {
+                "type": "number"
+              },
+              "p5": {
+                "type": "number"
+              },
+              "p50": {
+                "type": "number"
+              },
+              "p95": {
+                "type": "number"
+              },
+              "p2_5": {
+                "type": "number"
+              },
+              "p97_5": {
+                "type": "number"
+              },
+              "min": {
+                "type": "number"
+              },
+              "max": {
+                "type": "number"
+              },
+              "mean_low": {
+                "type": "number"
+              },
+              "mean_high": {
+                "type": "number"
+              },
+              "median": {
+                "type": "number"
+              },
+              "mom_1_5": {
+                "type": "number"
+              }
+            },
+            "minProperties": 2
+          }
+        }
+      }
+    },
+    "scoring": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "items"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "threshold": {
+          "type": "object",
+          "properties": {
+            "min_score_for_karyotyping": {
+              "type": "integer"
+            }
+          }
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "sign",
+              "score"
+            ],
+            "properties": {
+              "sign": {
+                "type": "string"
+              },
+              "score": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "name": "@repo/fetal-nomograms",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Номограммы фетометрии (SSOT JSON) — оценка перцентилей и мастер дерева решений",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "sideEffects": false,
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test src/*.test.ts",
+    "validate": "node --import tsx scripts/validate-dataset.mjs"
+  },
+  "dependencies": {
+    "zod": "^3.24.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "tsx": "^4.19.4",
+    "typescript": "^5.9.2"
+  }
+}

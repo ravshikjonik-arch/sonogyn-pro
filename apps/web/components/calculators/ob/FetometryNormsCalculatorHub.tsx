@@ -21,6 +21,7 @@ function FieldLabel({ htmlFor, children }: { htmlFor?: string; children: ReactNo
     </label>
   );
 }
+import { NomogramDecisionWizard } from "@/components/calculators/ob/NomogramDecisionWizard";
 import {
   ARCHIVE_CALCULATOR_DISCLAIMER,
   evaluateArchiveNorm,
@@ -30,6 +31,7 @@ import {
   medvedevArchiveBookStats,
   type ArchiveCalculatorCard,
 } from "@repo/medvedev-reference";
+import { NOMOGRAM_DATASET } from "@repo/fetal-nomograms";
 
 const BLOCK_LABELS: Record<string, string> = {
   early_dating: "Малый срок",
@@ -75,7 +77,10 @@ type Props = {
   initialTableId?: string;
 };
 
+type HubMode = "archive" | "nomogram_wizard";
+
 export function FetometryNormsCalculatorHub({ initialTableId }: Props) {
+  const [mode, setMode] = useState<HubMode>("nomogram_wizard");
   const bookStats = useMemo(() => medvedevArchiveBookStats(), []);
   const cards = useMemo(() => listArchiveCalculatorCards(), []);
   const [query, setQuery] = useState("");
@@ -147,8 +152,33 @@ export function FetometryNormsCalculatorHub({ initialTableId }: Props) {
           сверки с книгой. Перцентили и атрибуция источника в результате.
         </p>
         <p className="text-muted-foreground text-xs">{ARCHIVE_CALCULATOR_DISCLAIMER}</p>
+        <div className="flex flex-wrap gap-2 pt-2" role="tablist" aria-label="Режим калькулятора">
+          <Button
+            type="button"
+            size="sm"
+            variant={mode === "nomogram_wizard" ? "default" : "outline"}
+            role="tab"
+            aria-selected={mode === "nomogram_wizard"}
+            onClick={() => setMode("nomogram_wizard")}
+          >
+            Мастер номограмм ({NOMOGRAM_DATASET.nomograms.length})
+          </Button>
+          <Button
+            type="button"
+            size="sm"
+            variant={mode === "archive" ? "default" : "outline"}
+            role="tab"
+            aria-selected={mode === "archive"}
+            onClick={() => setMode("archive")}
+          >
+            Каталог книги ({bookStats.totalCards})
+          </Button>
+        </div>
       </div>
 
+      {mode === "nomogram_wizard" ? <NomogramDecisionWizard /> : null}
+
+      {mode === "archive" ? (
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
         <Card>
           <CardHeader className="pb-3">
@@ -374,6 +404,7 @@ export function FetometryNormsCalculatorHub({ initialTableId }: Props) {
           </div>
         </div>
       </div>
+      ) : null}
     </div>
   );
 }

@@ -28,7 +28,7 @@ pnpm upload:clinical-atlas-supabase  # prenatal-echo-ru + neishtadt-ovary → St
 | Пренатал | `/tools/refs/prenatal-echography-atlas` |
 | Otto | `/tools/refs/clinical-echocardiography-atlas` |
 | BI-RADS | `/tools/calc/rads/bi-rads` |
-| Фетометрия Медведев | `/tools/calc/ob/fetometry-norms` |
+| Фетометрия Медведев + мастер номограмм (45) | `/tools/calc/ob/fetometry-norms` · SSOT `packages/fetal-nomograms` |
 
 ## Связи seed ↔ книги
 

@@ -147,6 +147,7 @@
     "@repo/ln-rads-us": "workspace:*",
     "@repo/medical-calculations": "workspace:*",
     "@repo/medical-knowledge": "workspace:*",
+    "@repo/fetal-nomograms": "workspace:*",
     "@repo/medvedev-reference": "workspace:*",
     "@repo/gynecology-imaging-atlas": "workspace:*",
     "@repo/obstetrics-imaging-atlas": "workspace:*",

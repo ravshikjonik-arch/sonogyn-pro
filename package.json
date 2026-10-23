@@ -53,6 +53,7 @@
     "check:migration-drift": "node scripts/check-migration-drift.mjs",
     "test:iota": "pnpm --filter @repo/iota-models test",
     "test:orads-us": "pnpm --filter @repo/orads-us test",
+    "test:fetal-nomograms": "pnpm --filter @repo/fetal-nomograms test",
     "verify:orads-tree-snapshot": "node --import tsx packages/orads-us/scripts/verify-decision-tree-snapshot.mjs",
     "verify:birads-rules-snapshot": "node packages/birads-us/scripts/verify-rules-snapshot.mjs",
     "test:imaging-cds": "pnpm --filter @repo/web test:imaging-cds",
