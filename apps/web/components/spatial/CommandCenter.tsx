@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import {
   ArrowRight,
   Brain,
@@ -25,7 +26,9 @@ import {
   SpatialCard,
 } from "@/components/spatial";
 import { DoctorStartPanel } from "@/components/clinical/DoctorStartPanel";
+import { ThemeToggle } from "@/components/clinical/theme-toggle";
 import { RecentCalculationsPanel } from "@/components/clinical/RecentCalculationsPanel";
+import { SpatialHubExplorer } from "@/components/spatial/SpatialHubExplorer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
@@ -39,7 +42,7 @@ const primaryActions = [
   {
     title: "AI-зона снимков",
     description: "Загрузить УЗИ, собрать контекст и перейти к разбору.",
-    href: "/ai/workspace",
+    href: "/workspace",
     icon: Upload,
   },
   {
@@ -65,25 +68,33 @@ const routeSteps = [
 
 export function CommandCenter() {
   return (
-    <div className="px-4 py-6 sm:px-6 lg:px-10 lg:py-8">
+    <div className="sonogyn-cosmos-bg min-h-[100dvh] px-4 py-6 sm:px-6 lg:px-10 lg:py-8">
       <div className="mx-auto max-w-7xl space-y-6">
         <DoctorStartPanel />
+
+        <Suspense fallback={null}>
+          <SpatialHubExplorer />
+        </Suspense>
+
         <RecentCalculationsPanel />
 
         <header className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_360px]">
           <SpatialCard depth={3} className="overflow-hidden p-5 sm:p-7">
             <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
               <div className="max-w-3xl space-y-4">
-                <div className="flex items-center gap-3">
-                  <SonoOrb label="SG" size="lg" />
-                  <div>
-                    <Badge variant="outline" className="border-[var(--clinical-border)]">
-                      Command Center
-                    </Badge>
-                    <h1 className="mt-2 text-2xl font-black tracking-tight text-[var(--clinical-foreground)] sm:text-4xl">
-                      SonoGyn Pro
-                    </h1>
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <SonoOrb label="SG" size="lg" />
+                    <div>
+                      <Badge variant="outline" className="border-[var(--clinical-border)]">
+                        Рабочий центр
+                      </Badge>
+                      <h1 className="mt-2 text-2xl font-black tracking-tight text-[var(--clinical-foreground)] sm:text-4xl">
+                        SonoGyn Pro
+                      </h1>
+                    </div>
                   </div>
+                  <ThemeToggle />
                 </div>
                 <p className="max-w-2xl text-sm leading-relaxed text-[var(--clinical-foreground-muted)] sm:text-base">
                   Главная рабочая зона врача: от клинической задачи к калькулятору, AI-подсказке,
@@ -147,7 +158,7 @@ export function CommandCenter() {
               </div>
             </ClinicalSheet>
 
-            <ClinicalSheet title="O-RADS pilot flow" eyebrow="Main → AI → Cases → Draft">
+            <ClinicalSheet title="Маршрут O-RADS (пилот)" eyebrow="Ввод → AI → Кейсы → Черновик">
               <KnowledgeConstellation
                 nodes={routeSteps.map((step) => {
                   const Icon = step.icon;
@@ -165,7 +176,7 @@ export function CommandCenter() {
         <ContinuationDock>
           <Button asChild size="sm" className="gap-2">
             <Link href="/tools/calc/rads/o-rads">
-              O-RADS wizard
+              Мастер O-RADS
               <ScanLine className="h-4 w-4" />
             </Link>
           </Button>
@@ -177,7 +188,7 @@ export function CommandCenter() {
           </Button>
           <span className="ml-auto hidden items-center gap-1.5 text-xs font-semibold text-[var(--clinical-foreground-muted)] sm:flex">
             <ShieldCheck className="h-4 w-4" />
-            PHI-aware workspace
+            Без персональных данных в AI
           </span>
         </ContinuationDock>
       </div>

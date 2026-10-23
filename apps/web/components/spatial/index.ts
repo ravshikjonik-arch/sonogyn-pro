@@ -8,3 +8,5 @@ export { KnowledgeConstellation } from "./KnowledgeConstellation";
 export { SonoOrb } from "./SonoOrb";
 export { SpatialCard } from "./SpatialCard";
 export { SpatialModal } from "./SpatialModal";
+export { SpatialDeck } from "./SpatialDeck";
+export { SpatialHubExplorer } from "./SpatialHubExplorer";

@@ -209,11 +209,11 @@ html[data-theme-forced="light"] {
     --background: var(--bg-primary);
     --foreground: var(--text-primary);
 
-    --mesh-1: rgba(59, 130, 246, 0.12);
-    --mesh-2: rgba(109, 61, 245, 0.1);
-    --mesh-3: rgba(99, 102, 241, 0.08);
-    --mesh-base-start: var(--bg-primary);
-    --mesh-base-end: #0f172a;
+    --mesh-1: rgba(45, 212, 191, 0.14);
+    --mesh-2: rgba(20, 184, 166, 0.1);
+    --mesh-3: rgba(56, 189, 248, 0.07);
+    --mesh-base-start: #070b10;
+    --mesh-base-end: #0c1519;
 
     --sg-surface-canvas: var(--bg-primary);
     --sg-surface-base: color-mix(in srgb, var(--bg-secondary) 88%, transparent);
@@ -308,11 +308,11 @@ html[data-theme-forced="dark"] {
   --background: var(--bg-primary);
   --foreground: var(--text-primary);
 
-  --mesh-1: rgba(59, 130, 246, 0.12);
-  --mesh-2: rgba(109, 61, 245, 0.1);
-  --mesh-3: rgba(99, 102, 241, 0.08);
-  --mesh-base-start: var(--bg-primary);
-  --mesh-base-end: #0f172a;
+  --mesh-1: rgba(45, 212, 191, 0.14);
+  --mesh-2: rgba(20, 184, 166, 0.1);
+  --mesh-3: rgba(56, 189, 248, 0.07);
+  --mesh-base-start: #070b10;
+  --mesh-base-end: #0c1519;
 
   --sg-surface-canvas: var(--bg-primary);
   --sg-surface-base: color-mix(in srgb, var(--bg-secondary) 88%, transparent);
