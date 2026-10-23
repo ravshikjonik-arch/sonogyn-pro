@@ -68,8 +68,8 @@ test.describe("IOTA calculator UI", () => {
     await expect(
       page.getByText(new RegExp(`Суммарный риск злокачественности:\\s*${GOLDEN.expectedMalignancy}`)),
     ).toBeVisible();
-    await expect(page.getByText(/Simple Rules Risk:/)).toBeVisible();
-    await expect(page.getByText(/LR2:/)).toBeVisible();
+    await expect(page.locator("p.text-sm", { hasText: /^Simple Rules Risk:/ })).toBeVisible();
+    await expect(page.locator("p.text-sm", { hasText: /^LR2:/ })).toBeVisible();
   });
 
   test("O-RADS compare appears when category is entered", async ({ page }) => {
