@@ -118,6 +118,9 @@ export function openClinicalToolAction(navigation: ClinicalToolNav, action: Mobi
     case "fetometry_nomograms":
       navigation.navigate("FetometryNomograms");
       return;
+    case "hofer_basic_course":
+      navigation.navigate("HoferBasicCourse");
+      return;
     case "ln_rads":
       navigation.navigate("GynecologyCalc", { initialPage: "gyn_lnrads" });
       return;

@@ -137,6 +137,9 @@ importers:
       '@repo/fmf':
         specifier: workspace:*
         version: link:../../packages/fmf
+      '@repo/hofer-basic-course':
+        specifier: workspace:*
+        version: link:../../packages/hofer-basic-course
       '@repo/iota-models':
         specifier: workspace:*
         version: link:../../packages/iota-models
@@ -456,6 +459,9 @@ importers:
       '@repo/gynecology-imaging-atlas':
         specifier: workspace:*
         version: link:../../packages/gynecology-imaging-atlas
+      '@repo/hofer-basic-course':
+        specifier: workspace:*
+        version: link:../../packages/hofer-basic-course
       '@repo/ifcpc-expert':
         specifier: workspace:*
         version: link:../../packages/ifcpc-expert
@@ -1046,6 +1052,22 @@ importers:
       '@types/node':
         specifier: ^20
         version: 20.19.40
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.3
+
+  packages/hofer-basic-course:
+    dependencies:
+      zod:
+        specifier: ^3.24.4
+        version: 3.25.76
+    devDependencies:
+      '@types/node':
+        specifier: ^20
+        version: 20.19.40
+      tsx:
+        specifier: ^4.19.4
+        version: 4.21.0
       typescript:
         specifier: ^5.9.2
         version: 5.9.3

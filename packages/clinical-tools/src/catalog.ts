@@ -298,6 +298,17 @@ export const CLINICAL_TOOLS: ClinicalTool[] = [
     mobileAction: "fetometry_nomograms",
   },
   {
+    id: "hofer-basic-course",
+    title: "Базовый курс УЗД · датчик",
+    subtitle: "Хофер: куда ставить, давление, аорта — для ординаторов",
+    category: "pregnancy",
+    roles: ["obstetrician", "ultrasound", "allied"],
+    synonyms: ["хофер", "ординатор", "датчик", "базовый курс узи", "живот", "сагитталь"],
+    keywords: ["hofer", "probe", "beginner"],
+    webHref: "/tools/refs/hofer-basic-course?tab=probe",
+    mobileAction: "hofer_basic_course",
+  },
+  {
     id: "ga-lmp",
     title: "Срок по ПМП",
     subtitle: "ПДР, срок сегодня",

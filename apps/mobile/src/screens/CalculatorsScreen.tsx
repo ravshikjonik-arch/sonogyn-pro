@@ -136,6 +136,13 @@ export default function CalculatorsScreen({ navigation }: CalculatorsTabScreenPr
         onPress: () => navigation.navigate("FetometryNomograms"),
       },
       {
+        id: "hofer-probe",
+        title: "Датчик · базовый курс",
+        subtitle: "Хофер · куда ставить · ординатор",
+        art: "prenatal",
+        onPress: () => navigation.navigate("HoferBasicCourse"),
+      },
+      {
         id: "pr",
         title: "Пролапс таза",
         subtitle: "POP-Q",

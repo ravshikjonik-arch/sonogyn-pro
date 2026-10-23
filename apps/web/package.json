@@ -148,6 +148,7 @@
     "@repo/medical-calculations": "workspace:*",
     "@repo/medical-knowledge": "workspace:*",
     "@repo/fetal-nomograms": "workspace:*",
+    "@repo/hofer-basic-course": "workspace:*",
     "@repo/medvedev-reference": "workspace:*",
     "@repo/gynecology-imaging-atlas": "workspace:*",
     "@repo/obstetrics-imaging-atlas": "workspace:*",

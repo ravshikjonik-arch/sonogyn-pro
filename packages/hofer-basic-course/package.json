@@ -1,0 +1,25 @@
+{
+  "name": "@repo/hofer-basic-course",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Базовый курс УЗД (Хофер 2021) — конспекты, датчик, quiz",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "sideEffects": false,
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "validate": "node --import tsx scripts/validate.mjs"
+  },
+  "dependencies": {
+    "zod": "^3.24.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "tsx": "^4.19.4",
+    "typescript": "^5.9.2"
+  }
+}
