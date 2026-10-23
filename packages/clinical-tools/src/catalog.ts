@@ -26,7 +26,7 @@ export const CLINICAL_TOOLS: ClinicalTool[] = [
   {
     id: "orads-hub",
     title: "O-RADS US",
-    subtitle: "Калькулятор, картинки, расчет по тексту, таблицы, IOTA",
+    subtitle: "Калькулятор, картинки, расчёт по тексту, таблицы, IOTA",
     category: "ovary",
     roles: ["ultrasound", "gynecologist", "allied"],
     synonyms: ["эхограммы o-rads", "озерская", "orads карточки", "iota atlas", "орадс"],

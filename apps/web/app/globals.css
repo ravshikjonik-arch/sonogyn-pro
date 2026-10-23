@@ -427,6 +427,83 @@ html.dark .sonogyn-clinical-app input:-webkit-autofill:focus {
   box-shadow: var(--sg-depth-2);
 }
 
+.sg-spatial-deck-scroller {
+  scroll-padding-inline: 1rem;
+  touch-action: pan-x;
+}
+
+.sg-spatial-deck-slide {
+  transition:
+    transform var(--sg-motion-base) var(--sg-ease-out),
+    opacity var(--sg-motion-base) var(--sg-ease-out),
+    filter var(--sg-motion-base) var(--sg-ease-out);
+  transform: scale(0.94) translateZ(0);
+  opacity: 0.82;
+  filter: saturate(0.92);
+}
+
+.sg-spatial-deck-slide[data-active="true"] {
+  transform: scale(1) translateZ(0);
+  opacity: 1;
+  filter: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sg-spatial-deck-slide {
+    transition: none;
+    transform: none;
+    opacity: 1;
+    filter: none;
+  }
+}
+
+.sonogyn-cosmos-bg {
+  background-color: var(--clinical-canvas);
+  background-image:
+    radial-gradient(ellipse 120% 80% at 50% -20%, var(--mesh-1), transparent 55%),
+    radial-gradient(ellipse 90% 60% at 100% 40%, var(--mesh-2), transparent 50%),
+    radial-gradient(ellipse 70% 50% at 0% 80%, var(--mesh-3), transparent 45%),
+    linear-gradient(180deg, var(--mesh-base-start) 0%, var(--mesh-base-end) 100%);
+  background-attachment: fixed;
+}
+
+.sg-spatial-vignette::before {
+  content: "";
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(ellipse 85% 70% at 50% 45%, transparent 40%, rgba(2, 8, 12, 0.35) 100%);
+  opacity: 0.35;
+}
+
+html[data-theme="light"] .sg-spatial-vignette::before,
+html[data-theme-forced="light"] .sg-spatial-vignette::before {
+  background: radial-gradient(ellipse 90% 75% at 50% 40%, transparent 55%, rgba(15, 23, 42, 0.06) 100%);
+  opacity: 1;
+}
+
+.sg-spatial-vignette > * {
+  position: relative;
+  z-index: 1;
+}
+
+.sg-spatial-sheet::before {
+  content: "";
+  display: block;
+  width: 2.5rem;
+  height: 0.25rem;
+  margin: 0.65rem auto 0;
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--clinical-foreground-muted) 45%, transparent);
+}
+
+@media (min-width: 768px) {
+  .sg-spatial-sheet::before {
+    display: none;
+  }
+}
+
 .sg-focus-ring:focus-visible {
   outline: 2px solid var(--clinical-ring);
   outline-offset: 3px;
