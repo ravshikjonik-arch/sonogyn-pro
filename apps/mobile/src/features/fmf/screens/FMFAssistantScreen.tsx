@@ -235,6 +235,14 @@ export default function FMFAssistantScreen({ navigation }: Props) {
 
         <Card title={`Раздел: ${pregnancyUltrasoundModule.title}`}>
           <Text style={styles.subtitle}>Помощник врача и учитель: перцентили фетометрии + подсказки «как мерить».</Text>
+          <Pressable
+            style={styles.nomogramLink}
+            onPress={() => navigation.navigate("FetometryNomograms")}
+            accessibilityRole="button"
+            accessibilityLabel="Открыть мастер номограмм и архив таблиц"
+          >
+            <Text style={styles.nomogramLinkText}>Номограммы и табличные нормы (45 + 96) →</Text>
+          </Pressable>
           <View style={styles.rowWrap}>
             <SelectChip label="Стр. перцентили" selected={calcMode === "strict"} onPress={() => setCalcMode("strict")} />
             <SelectChip label="Быстрая оценка" selected={calcMode === "quick"} onPress={() => setCalcMode("quick")} />
@@ -687,6 +695,17 @@ const styles = StyleSheet.create({
   rowWrap: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
   next: { color: "#334155", fontSize: 14, fontWeight: "700" },
   subtitle: { color: "#0f172a", fontSize: 14, fontWeight: "800", marginTop: 4 },
+  nomogramLink: {
+    marginTop: 8,
+    marginBottom: 4,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    borderRadius: 10,
+    backgroundColor: "#ecfdf5",
+    borderWidth: 1,
+    borderColor: "#99f6e4",
+  },
+  nomogramLinkText: { color: "#0d9488", fontWeight: "800", fontSize: 13 },
   alert: { color: "#b91c1c", fontWeight: "700", fontSize: 13 },
   missing: { color: "#0369a1", fontWeight: "700", fontSize: 13 },
   item: { color: "#334155", fontSize: 13 },

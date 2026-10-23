@@ -25,6 +25,8 @@ import OradsGuideScreen from "../features/oradsGuide/OradsGuideScreen";
 import ORADSHistoryScreen from "../features/oradsPro/screens/ORADSHistoryScreen";
 import ORADSHistoryDetailsScreen from "../features/oradsPro/screens/ORADSHistoryDetailsScreen";
 import FMFAssistantScreen from "../features/fmf/screens/FMFAssistantScreen";
+import FetometryNomogramsScreen from "../features/fetometryNomograms/FetometryNomogramsScreen";
+import HoferBasicCourseScreen from "../features/hoferBasicCourse/HoferBasicCourseScreen";
 import GynecologyCalcScreen from "../screens/GynecologyCalcScreen";
 import BiRadsAssistantScreen from "../screens/BiRadsAssistantScreen";
 import Breast3DScreen from "../screens/Breast3DScreen";
@@ -174,6 +176,8 @@ const linking: LinkingOptions<RootStackParamList> = {
       ORADSHistory: "orads/history",
       ORADSHistoryDetails: "orads/history/:caseId",
       FMFAssistant: "fmf",
+      FetometryNomograms: "fetometry-norms",
+      HoferBasicCourse: "education/hofer-basic-course",
       Prolapse: "prolapse",
       GynecologyCalc: {
         path: "gynecology/:initialPage?",
@@ -355,6 +359,8 @@ export default function AppStack() {
           <Stack.Screen name="ORADSHistory" component={GuardedORADSHistory} />
           <Stack.Screen name="ORADSHistoryDetails" component={GuardedORADSHistoryDetails} />
           <Stack.Screen name="FMFAssistant" component={FMFAssistantScreen} />
+          <Stack.Screen name="FetometryNomograms" component={FetometryNomogramsScreen} />
+          <Stack.Screen name="HoferBasicCourse" component={HoferBasicCourseScreen} />
           <Stack.Screen name="Prolapse" component={ProlapseScreen} />
           <Stack.Screen name="GynecologyCalc" component={GynecologyCalcScreen} />
           <Stack.Screen name="BiRadsAssistant" component={BiRadsAssistantScreen} />

@@ -1,6 +1,6 @@
 -- SonoGyn Pro · все миграции (порядок по имени файла)
 -- Supabase Dashboard → SQL Editor → вставить и Run
--- Сгенерировано: 2026-10-22T17:23:47.997Z
+-- Сгенерировано: 2026-10-23T08:24:03.537Z
 
 -- ========== 20261022160000_case_reputation_votes.sql ==========
 -- Case votes (verified doctors only), case rating cache, reputation recalc (STEP 3).

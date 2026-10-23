@@ -66,6 +66,8 @@ export type RootStackParamList = {
   ORADSHistory: undefined;
   ORADSHistoryDetails: { caseId: string };
   FMFAssistant: undefined;
+  FetometryNomograms: undefined;
+  HoferBasicCourse: undefined;
   Prolapse: undefined;
   GynecologyCalc: { initialPage?: import("../navigationTypes").PageType } | undefined;
   BiRadsAssistant: undefined;

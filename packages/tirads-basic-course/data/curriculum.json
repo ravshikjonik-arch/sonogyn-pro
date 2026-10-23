@@ -1,0 +1,106 @@
+{
+  "meta": {
+    "project": "sonogyn-pro",
+    "type": "specialized_course",
+    "title": "Применение классификации TI-RADS при ультразвуковой мультипараметрической оценке узлов щитовидной железы",
+    "based_on": "А.Н. Катрич, Е.П. Фисенко, Н.Н. Ветшева. М.: ООО «Фирма СТРОМ», 2023, 80 с. ISBN 978-5-900094-69-4",
+    "audience": "врачи УЗД, эндокринологи, хирурги; клинические ординаторы",
+    "language": "ru",
+    "version": "1.0.0",
+    "note": "Модули t00–t04 оцифрованы из предоставленного PDF (с. 7–33). Модули t05–t10 — каркас по оглавлению."
+  },
+  "sections": [
+    {
+      "id": "s1",
+      "title": "Раздел 1. Эпидемиология",
+      "modules": [
+        "t00"
+      ],
+      "status": "complete",
+      "book_pages": "11"
+    },
+    {
+      "id": "s2",
+      "title": "Раздел 2. Анатомия и физиология ЩЖ",
+      "modules": [
+        "t00"
+      ],
+      "status": "complete",
+      "book_pages": "11–13"
+    },
+    {
+      "id": "s3",
+      "title": "Раздел 3. Диагностика заболеваний ЩЖ",
+      "modules": [
+        "t01"
+      ],
+      "status": "complete",
+      "book_pages": "14–16"
+    },
+    {
+      "id": "s4",
+      "title": "Раздел 4. Единая терминологическая платформа описания узлов",
+      "modules": [
+        "t02",
+        "t03",
+        "t04"
+      ],
+      "status": "complete",
+      "book_pages": "17–33"
+    },
+    {
+      "id": "s5",
+      "title": "Раздел 5. УЗ-критерии оценки узлов",
+      "modules": [
+        "t05_uz_criteria"
+      ],
+      "status": "outline_only",
+      "book_pages": "37–38"
+    },
+    {
+      "id": "s6",
+      "title": "Раздел 6. Классификация TI-RADS",
+      "modules": [
+        "t06_tirads"
+      ],
+      "status": "outline_only",
+      "book_pages": "38–47"
+    },
+    {
+      "id": "s7",
+      "title": "Раздел 7. ТАПБ образований ЩЖ",
+      "modules": [
+        "t07_fna"
+      ],
+      "status": "outline_only",
+      "book_pages": "47–50"
+    },
+    {
+      "id": "s8",
+      "title": "Раздел 8. УЗ-оценка регионарных зон лимфооттока",
+      "modules": [
+        "t08_lymph_nodes"
+      ],
+      "status": "outline_only",
+      "book_pages": "50–56"
+    },
+    {
+      "id": "s9",
+      "title": "Раздел 9. Варианты итогового заключения",
+      "modules": [
+        "t09_conclusion"
+      ],
+      "status": "outline_only",
+      "book_pages": "56–58"
+    },
+    {
+      "id": "sapp",
+      "title": "Приложения 1–6",
+      "modules": [
+        "t10_appendices"
+      ],
+      "status": "outline_only",
+      "book_pages": "67–73"
+    }
+  ]
+}

@@ -76,6 +76,8 @@
     "@repo/clinical-speech": "workspace:*",
     "@repo/clinical-tools": "workspace:*",
     "@repo/education-quiz": "workspace:*",
+    "@repo/fetal-nomograms": "workspace:*",
+    "@repo/hofer-basic-course": "workspace:*",
     "@repo/fmf": "workspace:*",
     "@repo/medical-calculations": "workspace:*",
     "@repo/medvedev-reference": "workspace:*",

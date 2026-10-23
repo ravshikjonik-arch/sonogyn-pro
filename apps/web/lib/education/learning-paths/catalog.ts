@@ -250,6 +250,78 @@ export const LEARNING_PATHS: LearningPath[] = [
       },
     ],
   },
+  {
+    id: "hofer-probe-basics",
+    titleRu: "Начинающий УЗДист · датчик и живот",
+    description: "Хофер: выбор датчика → постановка → дыхание → аорта → тест.",
+    badge: "Ординатор",
+    steps: [
+      {
+        id: "hf-1",
+        type: "guideline",
+        title: "Датчик: куда и как",
+        description: "9 пошаговых карточек (конвекс, давление, сагитталь, аорта).",
+        href: "/tools/refs/hofer-basic-course?tab=probe",
+        estimatedMinutes: 25,
+      },
+      {
+        id: "hf-2",
+        type: "guideline",
+        title: "Модули 0–1 (физика + забрюшинное)",
+        description: "Конспекты m00–m13.",
+        href: "/tools/refs/hofer-basic-course?tab=program",
+        estimatedMinutes: 40,
+      },
+      {
+        id: "hf-3",
+        type: "quiz",
+        title: "Тест · 10 вопросов",
+        href: "/tools/refs/hofer-basic-course?tab=quiz",
+        description: "Самопроверка по оцифрованным главам.",
+        estimatedMinutes: 10,
+      },
+      {
+        id: "hf-4",
+        type: "calculator",
+        title: "Номограммы / фетометрия",
+        description: "Связь с гл. 7 (акушерство) — когда дойдёте до малого таза.",
+        href: "/tools/calc/ob/fetometry-norms",
+        estimatedMinutes: 10,
+      },
+    ],
+  },
+  {
+    id: "tirads-multiparametric",
+    titleRu: "Узел ЩЖ · TI-RADS и терминология",
+    description: "СТРОМ 2023: B-режим → ЦДК/эластография → критерии TI-RADS → калькулятор.",
+    badge: "ЩЖ",
+    steps: [
+      {
+        id: "tr-1",
+        type: "guideline",
+        title: "Модули t00–t04",
+        description: "Эпидемиология, терминология, ЦДК, эластография.",
+        href: "/tools/refs/tirads-basic-course?tab=program",
+        estimatedMinutes: 35,
+      },
+      {
+        id: "tr-2",
+        type: "quiz",
+        title: "Тест · 8 вопросов",
+        href: "/tools/refs/tirads-basic-course?tab=quiz",
+        description: "Самопроверка по оцифрованным разделам.",
+        estimatedMinutes: 10,
+      },
+      {
+        id: "tr-3",
+        type: "calculator",
+        title: "TI-RADS на платформе",
+        description: "Применить классификацию к описанию узла.",
+        href: "/tools/calc/rads/ti-rads",
+        estimatedMinutes: 10,
+      },
+    ],
+  },
 ];
 
 export const LEARNING_PATH_PROGRESS_KEY = "sonogyn:learning-paths:progress";
