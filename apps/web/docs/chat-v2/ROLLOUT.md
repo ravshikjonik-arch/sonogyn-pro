@@ -23,6 +23,15 @@ WEB_PUSH_VAPID_SUBJECT=mailto:support@sonogyn-pro.ru
 
 Redeploy Edge Function `notify-new-chat-message` after pull (v1 + v2 + Web Push).
 
+**Automated sync (Vercel public + Supabase Edge secrets):**
+
+```bash
+# Account → Access Tokens → SUPABASE_ACCESS_TOKEN in apps/web/.env.local
+pnpm --filter @repo/web setup:web-push-vapid -- --apply
+```
+
+Generates or reuses `.vapid-setup.local.json` (gitignored). Rotating keys requires PWA re-subscribe.
+
 ## Verify
 
 | Step | Command / action |

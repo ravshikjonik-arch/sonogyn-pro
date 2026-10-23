@@ -45,7 +45,8 @@ const baseUrl = (
 ).replace(/\/$/, "");
 const email = env.IDOR_USER_A_EMAIL;
 const password = env.IDOR_USER_A_PASSWORD;
-const v2Enabled =
+/** Prefer live rollout from /api/health; fall back to local env for localhost. */
+let v2Enabled =
   env.DOCTOR_CHAT_V2_ENABLED === "true" || env.DOCTOR_CHAT_V2_ENABLED === "1";
 
 async function signIn() {
@@ -69,6 +70,7 @@ async function main() {
     fail("GET /api/health missing rollout.doctorChatV2");
   }
   console.log(`✅ GET /api/health rollout.doctorChatV2=${healthJson.rollout.doctorChatV2}`);
+  v2Enabled = healthJson.rollout.doctorChatV2 === true || v2Enabled;
 
   const casesPage = await fetch(`${baseUrl}/cases?tab=chat`, { redirect: "manual" });
   if (casesPage.status >= 500) fail(`GET /cases?tab=chat → HTTP ${casesPage.status}`);

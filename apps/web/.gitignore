@@ -10,6 +10,9 @@
 !.yarn/releases
 !.yarn/versions
 
+# local VAPID rollout (never commit)
+.vapid-setup.local.json
+
 # testing
 /coverage
 /test-results/
