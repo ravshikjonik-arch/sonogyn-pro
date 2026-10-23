@@ -5,7 +5,8 @@
   "description": "Базовый курс УЗД (Хофер 2021) — конспекты, датчик, quiz",
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./server": "./src/server.ts"
   },
   "main": "./src/index.ts",
   "types": "./src/index.ts",

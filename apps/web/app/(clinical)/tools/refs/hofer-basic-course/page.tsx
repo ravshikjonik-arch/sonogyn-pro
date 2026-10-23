@@ -5,10 +5,9 @@ import {
   HOFER_PROBE_GUIDES,
   HOFER_QUIZ,
   isModuleOutlineOnly,
-  listModuleIds,
   moduleTitleFromMarkdown,
-  readModuleMarkdown,
 } from "@repo/hofer-basic-course";
+import { listModuleIds, readModuleMarkdown } from "@repo/hofer-basic-course/server";
 
 type Props = {
   searchParams: Promise<{ tab?: string; module?: string }>;
