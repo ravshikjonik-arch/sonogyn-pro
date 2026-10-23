@@ -181,6 +181,10 @@ if (accessToken) {
   console.log("⏭️  Skip Supabase secrets (no token)");
 }
 
-upsertVercelPublicKey(publicKey);
+if (process.argv.includes("--skip-vercel-cli")) {
+  console.log("⏭️  Skip Vercel CLI (--skip-vercel-cli). Set NEXT_PUBLIC_WEB_PUSH_VAPID_PUBLIC_KEY in dashboard or MCP.");
+} else {
+  upsertVercelPublicKey(publicKey);
+}
 console.log("\n✅ Done. Redeploy Vercel production to pick up public key if changed.");
 console.log("   PWA clients must re-subscribe after public key rotation.\n");
