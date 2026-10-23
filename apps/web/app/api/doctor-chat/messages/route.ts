@@ -9,6 +9,7 @@ import {
   chatMediaPathBelongsToScope,
   getChatMediaSignedUrl,
 } from "@/lib/supabase/chat-media-storage";
+import { rejectIfPhiInTextFields } from "@/lib/security/reject-phi-payload";
 import { createClient } from "@/utils/supabase/server";
 
 const DoctorChatMessageBodySchema = z.object({
@@ -27,8 +28,12 @@ export async function GET(request: Request) {
   const parsed = z
     .object({
       channelId: z.string().uuid(),
+      messageId: z.string().uuid().optional(),
     })
-    .safeParse({ channelId: searchParams.get("channelId") });
+    .safeParse({
+      channelId: searchParams.get("channelId"),
+      messageId: searchParams.get("messageId") ?? undefined,
+    });
   if (!parsed.success) {
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
   }
@@ -41,12 +46,18 @@ export async function GET(request: Request) {
   if (userRl) return userRl;
 
   try {
-    const { data, error } = await supabase
+    let query = supabase
       .from("doctor_chat_messages")
       .select("id,channel_id,author_id,body,media_storage_path,media_type,created_at")
-      .eq("channel_id", parsed.data.channelId)
-      .order("created_at", { ascending: true })
-      .limit(200);
+      .eq("channel_id", parsed.data.channelId);
+
+    if (parsed.data.messageId) {
+      query = query.eq("id", parsed.data.messageId);
+    } else {
+      query = query.order("created_at", { ascending: true }).limit(200);
+    }
+
+    const { data, error } = await query;
 
     if (error) {
       safeLog("doctor chat load error", { message: error.message });
@@ -90,6 +101,10 @@ export async function POST(request: Request) {
 
   const body = parsed.data.body?.trim() || null;
   const mediaStoragePath = parsed.data.media_storage_path?.trim() || null;
+
+  const phiBlocked = rejectIfPhiInTextFields([body]);
+  if (phiBlocked) return phiBlocked;
+
   if (!body && !mediaStoragePath) {
     return NextResponse.json({ error: "Сообщение пустое." }, { status: 400 });
   }

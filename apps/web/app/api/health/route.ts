@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import { integrationRolloutSnapshot } from "@/lib/feature-flags/integration-rollout";
 import {
   isSentryEnabled,
   resolveSentryEnvironment,
@@ -40,6 +41,7 @@ export function GET() {
         release: resolveSentryRelease()?.slice(0, 12) ?? null,
         replayBlockedRoutes: "clinical-denylist",
       },
+      rollout: integrationRolloutSnapshot(),
     },
     {
       status: ok ? 200 : 503,

@@ -15,6 +15,8 @@ export type ChatBubbleMessage = {
   parent_comment_id?: string | null;
   reactions?: Record<string, number>;
   is_case_author?: boolean;
+  client_uuid?: string;
+  send_status?: "pending" | "sending" | "sent" | "delivered" | "failed";
 };
 
 type Props = {
@@ -35,6 +37,9 @@ type Props = {
   canPinExpert?: boolean;
   onPinExpert?: () => void;
   nested?: boolean;
+  /** Hide avatar row when grouped with previous bubble (messenger timeline). */
+  compact?: boolean;
+  onRetrySend?: () => void;
 };
 
 export function ChatMessageBubble({
@@ -54,10 +59,12 @@ export function ChatMessageBubble({
   canPinExpert,
   onPinExpert,
   nested,
+  compact = false,
+  onRetrySend,
 }: Props) {
   return (
     <div className={cn("flex flex-col gap-1", isMine ? "items-end" : "items-start", nested && "ml-6 sm:ml-10")}>
-      {!isMine ? (
+      {!isMine && !compact ? (
         <div className="flex items-center gap-1.5 px-1">
           <span
             className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--clinical-muted)] text-[10px] font-bold text-[var(--clinical-primary-deep)]"
@@ -118,10 +125,31 @@ export function ChatMessageBubble({
             <DoctorVerificationMark isVerified={authorVerified} />
           ) : null}
           {authorName} · {new Date(message.created_at).toLocaleString()}
+          {isMine && message.send_status ? (
+            <span className="ml-1 normal-case tracking-normal">
+              ·{" "}
+              {message.send_status === "pending" || message.send_status === "sending"
+                ? "…"
+                : message.send_status === "failed"
+                  ? "ошибка"
+                  : message.send_status === "delivered"
+                    ? "✓✓"
+                    : "✓"}
+            </span>
+          ) : null}
         </span>
       </p>
       </div>
       <div className="flex flex-wrap items-center gap-2 px-1">
+        {isMine && message.send_status === "failed" && onRetrySend ? (
+          <button
+            type="button"
+            onClick={onRetrySend}
+            className="text-xs font-semibold text-amber-700 hover:underline dark:text-amber-300"
+          >
+            Повторить
+          </button>
+        ) : null}
         {canMarkBest && !message.is_best_answer && onMarkBest ? (
           <button
             type="button"

@@ -5,11 +5,8 @@ import { rejectIfRateLimitedForUser, rejectIfRateLimitedPreset } from "@/lib/sec
 import { RL } from "@/lib/security/rate-limit-config";
 import { requireSupabaseUserFromRequest } from "@/lib/security/require-user";
 import { safeLog } from "@/lib/security/safeLog";
-import {
-  chatMediaObjectPath,
-  chatMediaTypeFromFile,
-  DOCTOR_CHAT_MEDIA_BUCKET,
-} from "@/lib/supabase/chat-media-storage";
+import { chatMediaObjectPath, DOCTOR_CHAT_MEDIA_BUCKET } from "@/lib/supabase/chat-media-storage";
+import { prepareChatMediaUpload } from "@/lib/chat/prepare-chat-media-upload";
 import { validateChatMediaUpload } from "@/lib/security/file-validation";
 import { createClient } from "@/utils/supabase/server";
 
@@ -43,21 +40,21 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Файл не найден" }, { status: 400 });
   }
 
-  const mediaType = chatMediaTypeFromFile(file);
-  if (!mediaType) {
-    return NextResponse.json({ error: "Нужен файл изображения или видео" }, { status: 400 });
-  }
-
   const validation = await validateChatMediaUpload(file);
   if (!validation.ok) {
     return NextResponse.json({ error: validation.error }, { status: 400 });
   }
 
+  const prepared = await prepareChatMediaUpload(file);
+  if (!prepared.ok) {
+    return NextResponse.json({ error: prepared.error }, { status: 400 });
+  }
+
   const storagePath = chatMediaObjectPath(auth.userId, parsed.data.scope, parsed.data.scopeId, file.name);
   const { error } = await supabase.storage
     .from(DOCTOR_CHAT_MEDIA_BUCKET)
-    .upload(storagePath, file, {
-      contentType: file.type || "application/octet-stream",
+    .upload(storagePath, prepared.buffer, {
+      contentType: prepared.contentType,
       upsert: false,
     });
 
@@ -66,8 +63,12 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Не удалось загрузить файл" }, { status: 500 });
   }
 
-  return NextResponse.json({
-    storagePath,
-    mediaType,
-  }, { status: 201 });
+  return NextResponse.json(
+    {
+      storagePath,
+      mediaType: prepared.mediaType,
+      metadataStripped: prepared.metadataStripped,
+    },
+    { status: 201 },
+  );
 }

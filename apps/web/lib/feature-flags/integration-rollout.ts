@@ -7,6 +7,11 @@ import {
   isImagingCdsStrictQcEnabled,
   isImagingCdsV2Enabled,
 } from "@/lib/ai/imaging-cds/flags";
+import {
+  isDoctorChatAiMentionEnabled,
+  isDoctorChatV2Enabled,
+  isDoctorChatWebPushEnabled,
+} from "@/lib/chat/flags";
 
 function envTruthy(value: string | undefined): boolean {
   const v = value?.trim().toLowerCase();
@@ -48,6 +53,9 @@ export type IntegrationRolloutFlags = {
   realtimePollingFallback: boolean;
   imagingCdsV2: boolean;
   imagingCdsStrictQc: boolean;
+  doctorChatV2: boolean;
+  doctorChatWebPush: boolean;
+  doctorChatAiMention: boolean;
 };
 
 /** Server-side snapshot for health/debug (no secrets). */
@@ -67,5 +75,8 @@ export function integrationRolloutSnapshot(): IntegrationRolloutFlags {
     realtimePollingFallback: isRealtimePollingFallbackEnabled(),
     imagingCdsV2: isImagingCdsV2Enabled(),
     imagingCdsStrictQc: isImagingCdsStrictQcEnabled(),
+    doctorChatV2: isDoctorChatV2Enabled(),
+    doctorChatWebPush: isDoctorChatWebPushEnabled(),
+    doctorChatAiMention: isDoctorChatAiMentionEnabled(),
   };
 }

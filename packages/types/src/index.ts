@@ -648,6 +648,39 @@ export {
 } from "./knowledge-graph";
 
 export {
+  MessengerAttachmentMediaTypeSchema,
+  MessengerAttachmentRowSchema,
+  MessengerChatTypeSchema,
+  MessengerMemberRoleSchema,
+  MessengerMessageRowSchema,
+  MessengerMessageTypeSchema,
+  MessengerMessagesQuerySchema,
+  MessengerReceiptStatusSchema,
+  MessengerResolveChannelQuerySchema,
+  MessengerAiSuggestBodySchema,
+  MessengerCaseCardQuerySchema,
+  MessengerReportBodySchema,
+  MessengerSendBodySchema,
+  MessengerSendResponseSchema,
+  type MessengerAttachmentMediaType,
+  type MessengerAttachmentRow,
+  type MessengerChatType,
+  type MessengerMemberRole,
+  type MessengerMessageRow,
+  type MessengerMessageType,
+  type MessengerMessagesQuery,
+  type MessengerReceiptStatus,
+  type MessengerResolveChannelQuery,
+  type MessengerAiSuggestBody,
+  type MessengerCaseCardQuery,
+  type MessengerReportBody,
+  type MessengerSendBody,
+  type MessengerSendResponse,
+} from "./messenger";
+
+export { WebPushSubscriptionBodySchema, type WebPushSubscriptionBody } from "./web-push";
+
+export {
   CASE_CONFIRMATION_METHOD_LABELS,
   CASE_LIFECYCLE_TRANSITIONS,
   CaseCommentReactionEmojiSchema,

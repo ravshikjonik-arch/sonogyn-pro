@@ -6,8 +6,21 @@ import { toast } from "sonner";
 import { useAuth, useSupabase } from "@/app/providers";
 import { ChatMessageBubble, type ChatBubbleMessage } from "@/components/chat/ChatMessageBubble";
 import { ChatMessageComposer } from "@/components/chat/ChatMessageComposer";
+import { DoctorChatLoadPanel } from "@/components/chat/DoctorChatLoadPanel";
+import { isDoctorChatV2EnabledClient } from "@/lib/chat/flags";
+import {
+  markDoctorChatOpenStart,
+  measureDoctorChatOpenEnd,
+} from "@/lib/chat/perf-baseline";
+import {
+  resolveDoctorChatLoadState,
+  type DoctorChatLoadState,
+} from "@/lib/chat/resolve-doctor-chat-load-state";
 import { resolveAuthorNames } from "@/lib/chat/resolve-author-names";
 import { resolveAuthorTrust, type AuthorTrustMap } from "@/lib/trust/resolve-author-trust";
+import { fetchDoctorChatMessage } from "@/lib/chat/doctor-chat-client";
+import { isRealtimePollingFallbackEnabledClient } from "@/lib/feature-flags/integration-rollout";
+import { parseDoctorChatRealtimeRow } from "@/lib/messenger/realtime/parse-message-row";
 import { requireOnlineForNetworkAction } from "@/lib/network/require-online-action";
 
 type RawMessage = {
@@ -36,7 +49,8 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
   const [authorTrust, setAuthorTrust] = useState<AuthorTrustMap>({});
   const [userId, setUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [loadError, setLoadError] = useState<string | null>(null);
+  const [loadState, setLoadState] = useState<DoctorChatLoadState | null>(null);
+  const chatV2Preview = isDoctorChatV2EnabledClient();
   const [sending, setSending] = useState(false);
   const [pushSubscribed, setPushSubscribed] = useState(false);
   const [pushBusy, setPushBusy] = useState(false);
@@ -62,12 +76,17 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
       return;
     }
 
-    if (!silent) setLoading(true);
+    if (!silent) {
+      setLoading(true);
+      markDoctorChatOpenStart();
+    }
     setUserId(user?.id ?? null);
 
     if (!user) {
       setMessages([]);
-      setLoadError("Войдите в аккаунт врача, чтобы открыть чат коллег.");
+      setLoadState(
+        resolveDoctorChatLoadState({ hasUser: false, httpStatus: null, errorMessage: null }),
+      );
       if (!silent) setLoading(false);
       return;
     }
@@ -79,25 +98,30 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
 
     if (!response.ok || !payload?.messages) {
       const message =
-        response.status === 401
-          ? "Войдите в аккаунт врача, чтобы открыть чат коллег."
-          : typeof payload?.error === "string"
-            ? payload.error
+        typeof payload?.error === "string"
+          ? payload.error
+          : typeof payload?.error === "object" && payload?.error !== null
+            ? JSON.stringify(payload.error)
             : "Не удалось загрузить чат";
-      const hint =
-        message.includes("doctor_chat")
-          ? "Примените BUNDLE_COMMUNITY_CHAT_ONLY.sql в Supabase SQL Editor."
-          : message;
-      setLoadError(hint);
-      if (!silent && response.status !== 401) toast.error("Чат: нужна миграция Supabase");
+      const panel = resolveDoctorChatLoadState({
+        hasUser: true,
+        httpStatus: response.status,
+        errorMessage: message,
+      });
+      setLoadState(panel);
       setMessages([]);
+      if (!silent) {
+        if (panel?.kind === "migration") toast.error("Чат: примените миграции Supabase");
+        else if (panel?.kind === "community_access") toast.message("Нужен статус врача или ординатора");
+      }
       if (!silent) setLoading(false);
       return;
     }
-    setLoadError(null);
+    setLoadState(null);
 
     const rows = payload.messages;
     setMessages(enrich(rows));
+    if (!silent) measureDoctorChatOpenEnd(rows.length);
     const ids = rows.map((r) => r.author_id);
     const [names, trust] = await Promise.all([
       resolveAuthorNames(supabase, ids),
@@ -132,12 +156,37 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
     };
   }, [channelId, supabase, user?.id]);
 
+  const pollingFallback = isRealtimePollingFallbackEnabledClient();
+
   useEffect(() => {
+    if (!pollingFallback) return;
     const id = window.setInterval(() => {
       void load(true);
     }, 10000);
     return () => window.clearInterval(id);
-  }, [load]);
+  }, [load, pollingFallback]);
+
+  const ingestDoctorRow = useCallback(
+    async (messageId: string) => {
+      const row = await fetchDoctorChatMessage(channelId, messageId);
+      if (!row) {
+        await load(true);
+        return;
+      }
+      const [bubble] = enrich([row]);
+      setMessages((prev) => {
+        if (prev.some((m) => m.id === bubble.id)) return prev;
+        return [...prev, bubble].sort((a, b) => a.created_at.localeCompare(b.created_at));
+      });
+      const [names, trust] = await Promise.all([
+        resolveAuthorNames(supabase, [row.author_id]),
+        resolveAuthorTrust(supabase, [row.author_id]),
+      ]);
+      setAuthorNames((prev) => ({ ...prev, ...names }));
+      setAuthorTrust((prev) => ({ ...prev, ...trust }));
+    },
+    [channelId, enrich, load, supabase],
+  );
 
   async function togglePushSubscription() {
     if (!userId) {
@@ -183,8 +232,10 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
           table: "doctor_chat_messages",
           filter: `channel_id=eq.${channelId}`,
         },
-        async () => {
-          await load(true);
+        async (payload) => {
+          const row = parseDoctorChatRealtimeRow(payload.new);
+          if (row) await ingestDoctorRow(row.id);
+          else if (pollingFallback) await load(true);
         },
       )
       .subscribe();
@@ -192,7 +243,7 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
     return () => {
       void supabase.removeChannel(channel);
     };
-  }, [channelId, load, ready, supabase, user]);
+  }, [channelId, ingestDoctorRow, pollingFallback, load, ready, supabase, user]);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
@@ -278,7 +329,14 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
       <div className="border-b border-[var(--clinical-border)] px-5 py-4">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div className="min-w-0 flex-1">
-            <p className="text-sm font-black text-[var(--clinical-foreground)]">{channelTitle}</p>
+            <p className="text-sm font-black text-[var(--clinical-foreground)]">
+              {channelTitle}
+              {chatV2Preview ? (
+                <span className="ml-2 rounded-md bg-[var(--clinical-primary-muted)] px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-[var(--clinical-primary-deep)]">
+                  Chat v2 · preview
+                </span>
+              ) : null}
+            </p>
             {channelDescription ? (
               <p className="mt-1 text-xs text-[var(--clinical-foreground-muted)]">{channelDescription}</p>
             ) : null}
@@ -303,14 +361,8 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
         ref={scrollRef}
         className="doctor-chat-messages flex-1 space-y-3 overflow-y-auto p-4"
       >
-        {loadError ? (
-          <div className="rounded-xl border border-amber-300/70 bg-amber-50/90 p-4 text-sm text-amber-950 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-100">
-            <p className="font-bold">Чат пока не подключён к базе</p>
-            <p className="mt-2 text-xs leading-relaxed">{loadError}</p>
-            <p className="mt-2 text-xs">
-              Файл: <code className="rounded bg-black/10 px-1">apps/web/supabase/BUNDLE_COMMUNITY_CHAT_ONLY.sql</code>
-            </p>
-          </div>
+        {loadState ? (
+          <DoctorChatLoadPanel state={loadState} />
         ) : loading ? (
           <p className="text-sm text-[var(--clinical-foreground-muted)]">Загрузка сообщений…</p>
         ) : messages.length === 0 ? (
@@ -330,7 +382,7 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
         )}
       </div>
 
-      {!loadError && userId ? (
+      {!loadState && userId ? (
         <div className="doctor-chat-composer border-t border-[var(--clinical-border)] p-4">
           <ChatMessageComposer busy={sending} onSend={handleSend} />
         </div>

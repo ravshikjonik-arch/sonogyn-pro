@@ -7,6 +7,9 @@ import { Suspense, useState } from "react";
 
 import { CaseFeed } from "@/components/cases/case-feed";
 import { DoctorChannelChat } from "@/components/chat/DoctorChannelChat";
+import { DoctorChannelChatV2Lazy } from "@/components/chat/DoctorChannelChatV2Lazy";
+import { MessengerCommunityChatShell } from "@/components/chat/messenger/MessengerCommunityChatShell";
+import { isDoctorChatV2EnabledClient } from "@/lib/chat/flags";
 import { DoctorPresenceProvider } from "@/components/chat/DoctorPresenceContext";
 import { DoctorPresencePanel } from "@/components/chat/DoctorPresencePanel";
 import { Badge } from "@/components/ui/badge";
@@ -43,8 +46,10 @@ function HubInner() {
     channelFromId ??
     "general";
   const [activeChannel, setActiveChannel] = useState<DoctorChatChannelSlug>(initialChannel);
+  const [mobileChatOpen, setMobileChatOpen] = useState(Boolean(initialChannelId || channelFromSlug));
 
   const channel = DOCTOR_CHAT_CHANNELS.find((c) => c.slug === activeChannel) ?? DOCTOR_CHAT_CHANNELS[0]!;
+  const chatV2 = isDoctorChatV2EnabledClient();
 
   return (
     <Tabs defaultValue={initialTab} className="space-y-6">
@@ -60,28 +65,55 @@ function HubInner() {
       </TabsList>
 
       <TabsContent value="chat" className="space-y-4">
-        <div className="flex flex-wrap gap-2">
-          {DOCTOR_CHAT_CHANNELS.map((ch) => (
-            <button
-              key={ch.slug}
-              type="button"
-              onClick={() => setActiveChannel(ch.slug)}
-              className={cn(
-                "rounded-xl border px-4 py-2 text-left text-sm transition text-[var(--clinical-foreground)]",
-                activeChannel === ch.slug
-                  ? "border-[var(--clinical-primary)] bg-[var(--clinical-primary-muted)] font-bold text-[var(--clinical-primary-deep)]"
-                  : "border-[var(--clinical-border)] bg-[var(--clinical-card)] hover:bg-[var(--clinical-muted)]",
-              )}
-            >
-              {ch.title}
-            </button>
-          ))}
-        </div>
-        <DoctorChannelChat
-          channelId={channel.id}
-          channelTitle={channel.title}
-          channelDescription={channel.description}
-        />
+        {chatV2 ? (
+          <MessengerCommunityChatShell
+            channels={DOCTOR_CHAT_CHANNELS.map((ch) => ({
+              slug: ch.slug,
+              id: ch.id,
+              title: ch.title,
+              description: ch.description,
+            }))}
+            activeSlug={activeChannel}
+            onSelectChannel={setActiveChannel}
+            mobileChatOpen={mobileChatOpen}
+            onMobileOpenChat={() => setMobileChatOpen(true)}
+            onMobileBack={() => setMobileChatOpen(false)}
+            chat={
+              <DoctorChannelChatV2Lazy
+                key={channel.id}
+                channelId={channel.id}
+                channelTitle={channel.title}
+                channelDescription={channel.description}
+                embedded
+              />
+            }
+          />
+        ) : (
+          <>
+            <div className="flex flex-wrap gap-2">
+              {DOCTOR_CHAT_CHANNELS.map((ch) => (
+                <button
+                  key={ch.slug}
+                  type="button"
+                  onClick={() => setActiveChannel(ch.slug)}
+                  className={cn(
+                    "rounded-xl border px-4 py-2 text-left text-sm transition text-[var(--clinical-foreground)]",
+                    activeChannel === ch.slug
+                      ? "border-[var(--clinical-primary)] bg-[var(--clinical-primary-muted)] font-bold text-[var(--clinical-primary-deep)]"
+                      : "border-[var(--clinical-border)] bg-[var(--clinical-card)] hover:bg-[var(--clinical-muted)]",
+                  )}
+                >
+                  {ch.title}
+                </button>
+              ))}
+            </div>
+            <DoctorChannelChat
+              channelId={channel.id}
+              channelTitle={channel.title}
+              channelDescription={channel.description}
+            />
+          </>
+        )}
       </TabsContent>
 
       <TabsContent value="cases" className="space-y-4">

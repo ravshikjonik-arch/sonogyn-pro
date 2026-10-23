@@ -1,7 +1,7 @@
 "use client";
 
 import { ImageIcon, Loader2, Send, Video, X } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,6 +11,11 @@ type Props = {
   placeholder?: string;
   busy?: boolean;
   onSend: (payload: { text: string; file: File | null }) => Promise<boolean | void>;
+  /** Called when user types (debounce/throttle in parent). */
+  onTyping?: () => void;
+  /** When set, replaces composer text once (e.g. AI suggest insert). */
+  insertDraft?: string | null;
+  onInsertDraftApplied?: () => void;
   className?: string;
 };
 
@@ -18,6 +23,9 @@ export function ChatMessageComposer({
   placeholder = "Сообщение коллегам…",
   busy = false,
   onSend,
+  onTyping,
+  insertDraft,
+  onInsertDraftApplied,
   className,
 }: Props) {
   const [text, setText] = useState("");
@@ -25,6 +33,12 @@ export function ChatMessageComposer({
   const [preview, setPreview] = useState<string | null>(null);
   const imageRef = useRef<HTMLInputElement>(null);
   const videoRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (insertDraft == null || insertDraft === "") return;
+    setText(insertDraft);
+    onInsertDraftApplied?.();
+  }, [insertDraft, onInsertDraftApplied]);
 
   function pickFile(next: File | null) {
     if (preview) URL.revokeObjectURL(preview);
@@ -105,7 +119,10 @@ export function ChatMessageComposer({
         <Input
           className="doctor-chat-input flex-1"
           value={text}
-          onChange={(e) => setText(e.target.value)}
+          onChange={(e) => {
+            setText(e.target.value);
+            if (e.target.value.trim()) onTyping?.();
+          }}
           placeholder={placeholder}
           disabled={busy}
         />
