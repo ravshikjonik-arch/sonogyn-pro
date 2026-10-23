@@ -142,6 +142,21 @@ const nextConfig: NextConfig = {
     webpackMemoryOptimizations: true,
     webpackBuildWorker: true,
   },
+  /** Course RSC reads markdown from package data/ — must ship in serverless trace (Vercel). */
+  outputFileTracingIncludes: {
+    "/tools/refs/hofer-basic-course": [
+      "../../packages/hofer-basic-course/data/**/*",
+    ],
+    "/tools/refs/hofer-basic-course/**": [
+      "../../packages/hofer-basic-course/data/**/*",
+    ],
+    "/tools/refs/tirads-basic-course": [
+      "../../packages/tirads-basic-course/data/**/*",
+    ],
+    "/tools/refs/tirads-basic-course/**": [
+      "../../packages/tirads-basic-course/data/**/*",
+    ],
+  },
   webpack: (config, { dev }) => {
     if (config.cache && !dev) {
       config.cache = Object.freeze({ type: "memory" });
