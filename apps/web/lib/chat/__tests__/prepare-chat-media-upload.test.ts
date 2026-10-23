@@ -11,7 +11,7 @@ async function jpegFileWithExif(): Promise<File> {
     .jpeg()
     .withMetadata({ exif: { IFD0: { Copyright: "PHI-should-not-leak" } } })
     .toBuffer();
-  const blob = new Blob([buffer], { type: "image/jpeg" });
+  const blob = new Blob([new Uint8Array(buffer)], { type: "image/jpeg" });
   return new File([blob], "us.jpg", { type: "image/jpeg" });
 }
 

@@ -1,4 +1,5 @@
-import { describe, expect, it } from "vitest";
+import assert from "node:assert/strict";
+import { describe, it } from "node:test";
 
 import { detectSeqGap, parseMessengerRealtimeRow } from "./parse-message-row";
 
@@ -14,13 +15,13 @@ describe("parseMessengerRealtimeRow", () => {
       body: "hi",
       created_at: "2026-01-01T00:00:00Z",
     });
-    expect(row?.seq).toBe(3);
+    assert.equal(row?.seq, 3);
   });
 });
 
 describe("detectSeqGap", () => {
   it("detects missing seq", () => {
-    expect(detectSeqGap(3, 5)).toBe(true);
-    expect(detectSeqGap(3, 4)).toBe(false);
+    assert.equal(detectSeqGap(3, 5), true);
+    assert.equal(detectSeqGap(3, 4), false);
   });
 });

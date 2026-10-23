@@ -1,4 +1,5 @@
-import { describe, expect, it } from "vitest";
+import assert from "node:assert/strict";
+import { describe, it } from "node:test";
 
 import type { MessengerOutboxEntry } from "@/lib/messenger/outbox/types";
 
@@ -36,9 +37,9 @@ describe("mergeMessengerMessages", () => {
       ],
       USER,
     );
-    expect(merged).toHaveLength(2);
-    expect(merged[0]!.seq).toBe(1);
-    expect(merged[1]!.send_status).toBe("pending");
+    assert.equal(merged.length, 2);
+    assert.equal(merged[0]!.seq, 1);
+    assert.equal(merged[1]!.send_status, "pending");
   });
 
   it("dedupes outbox when server has same client_uuid", () => {
@@ -71,14 +72,14 @@ describe("mergeMessengerMessages", () => {
       ],
       USER,
     );
-    expect(merged).toHaveLength(1);
-    expect(merged[0]!.id).toBe("srv");
+    assert.equal(merged.length, 1);
+    assert.equal(merged[0]!.id, "srv");
   });
 });
 
 describe("maxSeqFromMerged", () => {
   it("returns highest seq", () => {
-    expect(
+    assert.equal(
       maxSeqFromMerged([
         {
           id: "1",
@@ -101,6 +102,7 @@ describe("maxSeqFromMerged", () => {
           send_status: "pending",
         },
       ]),
-    ).toBe(3);
+      3,
+    );
   });
 });

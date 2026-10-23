@@ -1,4 +1,5 @@
-import { describe, expect, it } from "vitest";
+import assert from "node:assert/strict";
+import { describe, it } from "node:test";
 
 import { resolveDoctorChatLoadState } from "./resolve-doctor-chat-load-state";
 
@@ -9,9 +10,9 @@ describe("resolveDoctorChatLoadState", () => {
       httpStatus: null,
       errorMessage: null,
     });
-    expect(state?.kind).toBe("auth_required");
-    expect(state?.showLoginCta).toBe(true);
-    expect(state?.showMigrationHint).toBe(false);
+    assert.equal(state?.kind, "auth_required");
+    assert.equal(state?.showLoginCta, true);
+    assert.equal(state?.showMigrationHint, false);
   });
 
   it("403 → community access, not migration", () => {
@@ -20,8 +21,8 @@ describe("resolveDoctorChatLoadState", () => {
       httpStatus: 403,
       errorMessage: "Forbidden",
     });
-    expect(state?.kind).toBe("community_access");
-    expect(state?.showMigrationHint).toBe(false);
+    assert.equal(state?.kind, "community_access");
+    assert.equal(state?.showMigrationHint, false);
   });
 
   it("doctor_chat in message → migration hint", () => {
@@ -30,8 +31,8 @@ describe("resolveDoctorChatLoadState", () => {
       httpStatus: 500,
       errorMessage: 'relation "doctor_chat_messages" does not exist',
     });
-    expect(state?.kind).toBe("migration");
-    expect(state?.showMigrationHint).toBe(true);
+    assert.equal(state?.kind, "migration");
+    assert.equal(state?.showMigrationHint, true);
   });
 
   it("ok load → null", () => {
@@ -40,6 +41,6 @@ describe("resolveDoctorChatLoadState", () => {
       httpStatus: 200,
       errorMessage: null,
     });
-    expect(state).toBeNull();
+    assert.equal(state, null);
   });
 });
