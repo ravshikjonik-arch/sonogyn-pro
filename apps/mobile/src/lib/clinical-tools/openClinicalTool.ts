@@ -121,6 +121,9 @@ export function openClinicalToolAction(navigation: ClinicalToolNav, action: Mobi
     case "hofer_basic_course":
       navigation.navigate("HoferBasicCourse");
       return;
+    case "tirads_basic_course":
+      void WebBrowser.openBrowserAsync(webAppUrl("/tools/refs/tirads-basic-course"));
+      return;
     case "ln_rads":
       navigation.navigate("GynecologyCalc", { initialPage: "gyn_lnrads" });
       return;

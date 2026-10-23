@@ -8,7 +8,7 @@ const modulesDir = join(packageRoot, "data/modules");
 /** Server / build-time only — reads markdown from disk (Next.js RSC). */
 export function listModuleIds(): string[] {
   return readdirSync(modulesDir)
-    .filter((f: string) => f.endsWith(".md"))
+    .filter((f: string) => f.endsWith(".md") && /^m/i.test(f))
     .map((f: string) => f.replace(/\.md$/, ""))
     .sort();
 }

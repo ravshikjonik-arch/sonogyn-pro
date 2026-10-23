@@ -9,9 +9,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { renderSimpleMarkdown } from "@/lib/education/simple-markdown";
 import { cn } from "@/lib/utils/cn";
-import type { HoferCurriculum, HoferQuiz, ProbeGuideStep } from "@repo/hofer-basic-course";
-
-const PROGRESS_KEY = "sonogyn:hofer-course:modules";
+import type { ProbeGuideStep } from "@repo/hofer-basic-course";
+import { resolveCourseModuleId } from "@/lib/education/resolve-course-module";
 
 export type HoferModulePayload = {
   id: string;
@@ -20,37 +19,73 @@ export type HoferModulePayload = {
   outlineOnly: boolean;
 };
 
+export type CourseProgramBlock = {
+  id: string;
+  title: string;
+  book_pages?: string;
+  modules: string[];
+  status?: "complete" | "outline_only" | "partial";
+};
+
+export type CourseQuizPayload = {
+  meta: { title?: string; total?: number };
+  questions: Array<{
+    id: number;
+    module: string;
+    q: string;
+    options: string[];
+    answer: number;
+    explain: string;
+  }>;
+};
+
 type Props = {
-  curriculum: HoferCurriculum;
-  quiz: HoferQuiz;
-  probeGuides: ProbeGuideStep[];
+  courseBasePath: string;
+  progressStorageKey: string;
+  headerKicker: string;
+  meta: { title: string; based_on?: string; audience?: string };
+  programBlocks: CourseProgramBlock[];
+  quiz: CourseQuizPayload;
+  probeGuides?: ProbeGuideStep[];
+  probeTabDescription?: string;
   modules: HoferModulePayload[];
   disclaimer: string;
   initialTab?: "probe" | "program" | "module" | "quiz";
   initialModuleId?: string;
+  headerActions?: Array<{ label: string; href: string }>;
 };
 
-function loadModuleProgress(): Record<string, boolean> {
+function loadModuleProgress(storageKey: string): Record<string, boolean> {
   if (typeof window === "undefined") return {};
   try {
-    return JSON.parse(localStorage.getItem(PROGRESS_KEY) ?? "{}") as Record<string, boolean>;
+    return JSON.parse(localStorage.getItem(storageKey) ?? "{}") as Record<string, boolean>;
   } catch {
     return {};
   }
 }
 
 export function HoferBasicCourseClient({
-  curriculum,
+  courseBasePath,
+  progressStorageKey,
+  headerKicker,
+  meta,
+  programBlocks,
   quiz,
-  probeGuides,
+  probeGuides = [],
+  probeTabDescription,
   modules,
   disclaimer,
-  initialTab = "probe",
+  initialTab,
   initialModuleId,
+  headerActions,
 }: Props) {
-  const [tab, setTab] = useState(initialTab);
-  const [activeModuleId, setActiveModuleId] = useState(
-    initialModuleId ?? modules.find((m) => !m.outlineOnly)?.id ?? modules[0]?.id ?? "",
+  const showProbeTab = probeGuides.length > 0;
+  const defaultTab = showProbeTab ? "probe" : "program";
+  const [tab, setTab] = useState(initialTab ?? defaultTab);
+  const [activeModuleId, setActiveModuleId] = useState(() =>
+    initialModuleId
+      ? resolveCourseModuleId(modules, initialModuleId)
+      : (modules.find((m) => !m.outlineOnly)?.id ?? modules[0]?.id ?? ""),
   );
   const [moduleDone, setModuleDone] = useState<Record<string, boolean>>({});
   const [expandedProbe, setExpandedProbe] = useState<string | null>(probeGuides[0]?.id ?? null);
@@ -58,8 +93,8 @@ export function HoferBasicCourseClient({
   const [quizSubmitted, setQuizSubmitted] = useState(false);
 
   useEffect(() => {
-    setModuleDone(loadModuleProgress());
-  }, []);
+    setModuleDone(loadModuleProgress(progressStorageKey));
+  }, [progressStorageKey]);
 
   const activeModule = modules.find((m) => m.id === activeModuleId) ?? modules[0];
 
@@ -67,7 +102,7 @@ export function HoferBasicCourseClient({
     (id: string) => {
       setModuleDone((prev) => {
         const next = { ...prev, [id]: !prev[id] };
-        localStorage.setItem(PROGRESS_KEY, JSON.stringify(next));
+        localStorage.setItem(progressStorageKey, JSON.stringify(next));
         return next;
       });
     },
@@ -86,29 +121,39 @@ export function HoferBasicCourseClient({
   return (
     <div className="mx-auto flex max-w-5xl flex-col gap-6 px-4 py-8">
       <header className="space-y-2">
-        <p className="text-muted-foreground text-sm">Обучение · начинающие врачи УЗД</p>
-        <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">{curriculum.meta.title}</h1>
+        <p className="text-muted-foreground text-sm">{headerKicker}</p>
+        <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">{meta.title}</h1>
         <p className="text-muted-foreground max-w-3xl text-sm leading-relaxed">
-          {curriculum.meta.based_on}. {curriculum.meta.audience}.
+          {meta.based_on}. {meta.audience}.
         </p>
         <p className="text-muted-foreground text-xs">{disclaimer}</p>
+        {headerActions?.length ? (
+          <div className="flex flex-wrap gap-2 pt-2">
+            {headerActions.map((action) => (
+              <Button key={action.href} type="button" size="sm" variant="secondary" asChild>
+                <Link href={action.href}>{action.label}</Link>
+              </Button>
+            ))}
+          </div>
+        ) : null}
       </header>
 
       <Tabs value={tab} onValueChange={(v) => setTab(v as typeof tab)}>
         <TabsList className="flex h-auto flex-wrap gap-1">
-          <TabsTrigger value="probe">Датчик: куда и как</TabsTrigger>
+          {showProbeTab ? <TabsTrigger value="probe">Датчик: куда и как</TabsTrigger> : null}
           <TabsTrigger value="program">Программа</TabsTrigger>
           <TabsTrigger value="module">Модуль</TabsTrigger>
           <TabsTrigger value="quiz">Тест</TabsTrigger>
         </TabsList>
 
+        {showProbeTab ? (
         <TabsContent value="probe" className="mt-4 space-y-4">
           <Card>
             <CardHeader>
               <CardTitle className="text-lg">Пример для ординаторов</CardTitle>
               <CardDescription>
-                Пошагово: какой датчик, куда приложить, давление, дыхание, типичные ошибки. По конспектам глав 0–1
-                (Хофер).
+                {probeTabDescription ??
+                  "Пошагово: какой датчик, куда приложить, давление, дыхание, типичные ошибки."}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
@@ -163,7 +208,7 @@ export function HoferBasicCourseClient({
                         <div className="flex flex-wrap gap-2 pt-1">
                           <Button type="button" size="sm" variant="outline" asChild>
                             <Link
-                              href={`/tools/refs/hofer-basic-course?tab=module&module=${encodeURIComponent(g.moduleId)}`}
+                              href={`${courseBasePath}?tab=module&module=${encodeURIComponent(g.moduleId)}`}
                             >
                               Полный модуль
                             </Link>
@@ -182,15 +227,16 @@ export function HoferBasicCourseClient({
             </CardContent>
           </Card>
         </TabsContent>
+        ) : null}
 
         <TabsContent value="program" className="mt-4 space-y-3">
-          {curriculum.chapters.map((ch) => (
+          {programBlocks.map((ch) => (
             <Card key={ch.id}>
               <CardHeader className="pb-2">
                 <div className="flex flex-wrap items-center gap-2">
                   <CardTitle className="text-base">{ch.title}</CardTitle>
                   <Badge variant={ch.status === "complete" ? "secondary" : "outline"}>
-                    {ch.status === "complete" ? "готово" : "каркас"}
+                    {ch.status === "complete" ? "готово" : ch.status === "partial" ? "частично" : "каркас"}
                   </Badge>
                   {ch.book_pages ? <Badge variant="outline">стр. {ch.book_pages}</Badge> : null}
                 </div>
@@ -198,20 +244,21 @@ export function HoferBasicCourseClient({
               <CardContent>
                 <ul className="flex flex-wrap gap-2">
                   {ch.modules.map((mid) => {
-                    const mod = modules.find((m) => m.id === mid);
+                    const resolvedId = resolveCourseModuleId(modules, mid);
+                    const mod = modules.find((m) => m.id === resolvedId);
                     return (
-                      <li key={mid}>
+                      <li key={`${ch.id}-${mid}`}>
                         <Button
                           type="button"
                           size="sm"
                           variant="outline"
                           onClick={() => {
-                            setActiveModuleId(mid);
+                            setActiveModuleId(resolvedId);
                             setTab("module");
                           }}
                         >
                           {mod?.title ?? mid}
-                          {moduleDone[mid] ? " ✓" : ""}
+                          {moduleDone[resolvedId] ? " ✓" : ""}
                         </Button>
                       </li>
                     );

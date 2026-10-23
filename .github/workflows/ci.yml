@@ -59,6 +59,9 @@ jobs:
       - name: Hofer basic course (curriculum + quiz schema)
         run: pnpm validate:hofer-course
 
+      - name: TI-RADS basic course (curriculum + quiz schema)
+        run: pnpm validate:tirads-course
+
       - name: O-RADS decision tree snapshot (drift guard)
         run: pnpm verify:orads-tree-snapshot
 

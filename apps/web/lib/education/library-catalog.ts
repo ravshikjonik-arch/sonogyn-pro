@@ -57,6 +57,17 @@ const EDUCATION_LIBRARY_ITEMS_RAW: EducationLibraryItem[] = [
     badge: "NEW",
   },
   {
+    id: "tirads-basic-course",
+    shelf: "courses",
+    title: "TI-RADS · мультипараметрическая оценка узлов ЩЖ",
+    description:
+      "Конспект СТРОМ 2023: эпидемиология, B-режим, ЦДК, эластография, критерии TI-RADS — модули t00–t04 и тест.",
+    href: "/tools/refs/tirads-basic-course",
+    tags: ["TI-RADS", "щитовидка", "узел", "эластография", "ординатор", "СТРОМ"],
+    primary: true,
+    badge: "NEW",
+  },
+  {
     id: "isuog-basic",
     shelf: "courses",
     title: "ISUOG — базовый курс",

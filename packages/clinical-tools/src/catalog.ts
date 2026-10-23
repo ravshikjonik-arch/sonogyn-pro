@@ -309,6 +309,17 @@ export const CLINICAL_TOOLS: ClinicalTool[] = [
     mobileAction: "hofer_basic_course",
   },
   {
+    id: "tirads-basic-course",
+    title: "TI-RADS · учебный курс",
+    subtitle: "Узлы ЩЖ: терминология, эластография, классификация (СТРОМ 2023)",
+    category: "thyroid",
+    roles: ["ultrasound", "allied"],
+    synonyms: ["ти радс", "щитовидка", "узел", "эластография", "катрич", "стром"],
+    keywords: ["tirads", "thyroid", "course"],
+    webHref: "/tools/refs/tirads-basic-course",
+    mobileAction: "tirads_basic_course",
+  },
+  {
     id: "ga-lmp",
     title: "Срок по ПМП",
     subtitle: "ПДР, срок сегодня",

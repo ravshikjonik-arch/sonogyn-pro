@@ -38,11 +38,24 @@ export default async function HoferBasicCoursePage({ searchParams }: Props) {
   const initialTab =
     tab === "program" || tab === "module" || tab === "quiz" || tab === "probe" ? tab : "probe";
 
+  const programBlocks = HOFER_COURSE_META.chapters.map((ch) => ({
+    id: ch.id,
+    title: ch.title,
+    book_pages: ch.book_pages,
+    modules: ch.modules,
+    status: ch.status,
+  }));
+
   return (
     <HoferBasicCourseClient
-      curriculum={HOFER_COURSE_META}
+      courseBasePath="/tools/refs/hofer-basic-course"
+      progressStorageKey="sonogyn:hofer-course:modules"
+      headerKicker="Обучение · начинающие врачи УЗД"
+      meta={HOFER_COURSE_META.meta}
+      programBlocks={programBlocks}
       quiz={HOFER_QUIZ}
       probeGuides={HOFER_PROBE_GUIDES}
+      probeTabDescription="Пошагово: датчик, давление, дыхание, типичные ошибки. По конспектам глав 0–1 (Хофер)."
       modules={modules}
       disclaimer={HOFER_COURSE_DISCLAIMER}
       initialTab={initialTab}

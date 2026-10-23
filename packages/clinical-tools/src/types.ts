@@ -40,6 +40,7 @@ export type MobileToolAction =
   | "fmf"
   | "fetometry_nomograms"
   | "hofer_basic_course"
+  | "tirads_basic_course"
   | "ln_rads"
   | "gyn_assistant_gyn"
   | "gyn_assistant_obs"
