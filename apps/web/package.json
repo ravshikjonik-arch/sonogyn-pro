@@ -82,6 +82,7 @@
     "test:staging-teaching-phi": "node scripts/staging-teaching-phi-smoke.mjs",
     "test:messenger-v2-smoke": "node scripts/messenger-chat-v2-smoke.mjs",
     "setup:web-push-vapid": "node scripts/setup-web-push-vapid.mjs",
+    "finish:web-push-rollout": "node scripts/finish-web-push-rollout.mjs",
     "test:e2e:doctor-chat-v2": "playwright test tests/e2e/doctor-chat-v2-smoke.spec.ts --project=chromium-no-auth",
     "test:k6:messenger-chat-v2": "k6 run scripts/k6/messenger-chat-v2-smoke.js",
     "test:staging-trust": "node scripts/staging-trust-preflight.mjs && node scripts/staging-trust-reputation-smoke.mjs",

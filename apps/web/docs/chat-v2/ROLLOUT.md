@@ -32,6 +32,8 @@ pnpm --filter @repo/web setup:web-push-vapid -- --apply
 
 Generates or reuses `.vapid-setup.local.json` (gitignored). Rotating keys requires PWA re-subscribe.
 
+**Owner checklist (Edge private key):** [`TOMORROW-WEB-PUSH.md`](./TOMORROW-WEB-PUSH.md) · `pnpm --filter @repo/web finish:web-push-rollout`
+
 ## Verify
 
 | Step | Command / action |
