@@ -38,7 +38,6 @@ import {
 } from "@/lib/messenger/outbox/outbox-store";
 import type { MessengerOutboxEntry } from "@/lib/messenger/outbox/types";
 import {
-  maxSeqFromMerged,
   mergeMessengerMessages,
   type MergedMessengerMessage,
 } from "@/lib/messenger/sync/merge-messages";
@@ -102,7 +101,7 @@ export function useMessengerChannel({ legacyChannelId }: Params) {
       outbox,
       user.id,
     );
-  }, [outbox, serverRows, user?.id]);
+  }, [outbox, serverRows, user]);
 
   const messages = useMemo(() => merged.map(toBubble), [merged]);
 
@@ -431,7 +430,7 @@ export function useMessengerChannel({ legacyChannelId }: Params) {
   const notifyTyping = useCallback(() => {
     if (!chatId || !user?.id) return;
     sendMessengerTypingBroadcast(realtimeChannelRef.current, chatId, user.id);
-  }, [chatId, user?.id]);
+  }, [chatId, user]);
 
   const loadOlderHistory = useCallback(async () => {
     if (!chatId || loadingOlder || !hasMoreHistory) return 0;

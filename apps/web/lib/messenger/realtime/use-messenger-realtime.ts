@@ -33,7 +33,9 @@ export function useMessengerRealtime(
   channelRef?: MutableRefObject<RealtimeChannel | null>,
 ) {
   const handlersRef = useRef(handlers);
-  handlersRef.current = handlers;
+  useEffect(() => {
+    handlersRef.current = handlers;
+  });
 
   useEffect(() => {
     if (!enabled || !chatId) return;

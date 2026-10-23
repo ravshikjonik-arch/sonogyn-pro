@@ -1,6 +1,7 @@
 /**
  * PWA plugin options for next.config (CommonJS — loaded via createRequire from next.config.ts).
  */
+/* eslint-disable @typescript-eslint/no-require-imports */
 const fs = require("fs");
 const path = require("path");
 
