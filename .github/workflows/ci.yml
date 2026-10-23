@@ -56,6 +56,9 @@ jobs:
       - name: Fetal nomograms (dataset + decision tree)
         run: pnpm test:fetal-nomograms
 
+      - name: Hofer basic course (curriculum + quiz schema)
+        run: pnpm validate:hofer-course
+
       - name: O-RADS decision tree snapshot (drift guard)
         run: pnpm verify:orads-tree-snapshot
 
