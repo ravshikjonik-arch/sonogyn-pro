@@ -17,14 +17,14 @@ export const REGISTRATION_METHOD_HINTS: Record<AuthRegistrationMethod, string> =
   email: "Email и пароль: после регистрации подтвердите почту по ссылке из письма (от Sonogyn-pro@mail.ru).",
 };
 
-/** Порядок вкладок на экране входа/регистрации: OAuth первым, email — запасной путь. */
-export const AUTH_TAB_ORDER: AuthRegistrationMethod[] = ["social", "phone", "telegram", "email"];
+/** Порядок вкладок: почта первой, Telegram — явный альтернативный способ. */
+export const AUTH_TAB_ORDER: AuthRegistrationMethod[] = ["email", "telegram", "social", "phone"];
 
 export function parseRegistrationMethod(raw: string | null): AuthRegistrationMethod {
   if (isAuthEmailOnly()) return "email";
   if (raw === "google") return "social";
   if (raw === "email" || raw === "phone" || raw === "telegram" || raw === "social") return raw;
-  return "social";
+  return "email";
 }
 
 /** Имя бота для подсказок в UI (client-safe). */

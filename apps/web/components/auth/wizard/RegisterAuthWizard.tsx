@@ -406,6 +406,15 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
           Войти
         </Link>
       </p>
+      <p className="mt-3 text-center text-xs text-[var(--clinical-foreground-muted)]">
+        <Link href="/register?wizard=0&method=telegram" className="hover:underline">
+          Регистрация через Telegram
+        </Link>
+        {" · "}
+        <Link href="/register?wizard=0&method=email" className="hover:underline">
+          Классическая форма
+        </Link>
+      </p>
     </AuthWizardLayout>
   );
 }
