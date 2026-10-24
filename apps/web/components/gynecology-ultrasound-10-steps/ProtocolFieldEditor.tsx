@@ -18,13 +18,14 @@ type Props = {
   state: StepState;
   onChange: (next: StepState) => void;
   depth?: number;
+  disabled?: boolean;
 };
 
 function newRepeatableId(): string {
   return `item_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 7)}`;
 }
 
-export function ProtocolFieldEditor({ field, state, onChange, depth = 0 }: Props) {
+export function ProtocolFieldEditor({ field, state, onChange, depth = 0, disabled = false }: Props) {
   const id = String(field.id ?? "");
   const type = String(field.type ?? "");
   const label = String(field.label ?? id);
@@ -45,6 +46,7 @@ export function ProtocolFieldEditor({ field, state, onChange, depth = 0 }: Props
         <input
           type="checkbox"
           checked={value === true}
+          disabled={disabled}
           onChange={(e) => patch(e.target.checked)}
           className="h-4 w-4 rounded border-[var(--clinical-border)]"
         />
@@ -58,7 +60,7 @@ export function ProtocolFieldEditor({ field, state, onChange, depth = 0 }: Props
     return (
       <label className="block py-1">
         <span className="text-xs font-medium text-[var(--clinical-foreground-muted)]">{label}</span>
-        <select className={inputClass} value={typeof value === "string" ? value : ""} onChange={(e) => patch(e.target.value || undefined)}>
+        <select className={inputClass} disabled={disabled} value={typeof value === "string" ? value : ""} onChange={(e) => patch(e.target.value || undefined)}>
           <option value="">—</option>
           {options.map((opt) => (
             <option key={opt} value={opt}>
@@ -82,6 +84,7 @@ export function ProtocolFieldEditor({ field, state, onChange, depth = 0 }: Props
           className={inputClass}
           type="number"
           inputMode="decimal"
+          disabled={disabled}
           value={value === undefined || value === null ? "" : String(value)}
           onChange={(e) => patch(e.target.value === "" ? undefined : Number(e.target.value))}
         />
@@ -96,6 +99,7 @@ export function ProtocolFieldEditor({ field, state, onChange, depth = 0 }: Props
         <input
           className={inputClass}
           type="text"
+          disabled={disabled}
           value={typeof value === "string" ? value : ""}
           onChange={(e) => patch(e.target.value || undefined)}
         />
@@ -116,6 +120,7 @@ export function ProtocolFieldEditor({ field, state, onChange, depth = 0 }: Props
             state={group}
             onChange={(next) => patch(next)}
             depth={depth + 1}
+            disabled={disabled}
           />
         ))}
       </fieldset>
@@ -154,6 +159,7 @@ export function ProtocolFieldEditor({ field, state, onChange, depth = 0 }: Props
             <select
               className={inputClass}
               value={String(groupState._variant ?? "")}
+              disabled={disabled}
               onChange={(e) => patch({ ...groupState, _variant: e.target.value || undefined })}
             >
               <option value="">—</option>
@@ -172,6 +178,7 @@ export function ProtocolFieldEditor({ field, state, onChange, depth = 0 }: Props
             state={groupState}
             onChange={(next) => patch(next)}
             depth={depth + 1}
+            disabled={disabled}
           />
         ))}
       </fieldset>
@@ -189,6 +196,7 @@ export function ProtocolFieldEditor({ field, state, onChange, depth = 0 }: Props
             type="button"
             size="sm"
             variant="outline"
+            disabled={disabled}
             onClick={() => patch([...items, { id: newRepeatableId(), values: {} }])}
           >
             Добавить
@@ -215,6 +223,7 @@ export function ProtocolFieldEditor({ field, state, onChange, depth = 0 }: Props
                   patch(items.map((x) => (x.id === item.id ? { ...x, values: next } : x)));
                 }}
                 depth={depth + 1}
+                disabled={disabled}
               />
             ))}
             {String(field.id) === "formations" ? (
@@ -249,6 +258,7 @@ export function ProtocolFieldEditor({ field, state, onChange, depth = 0 }: Props
           <input
             type="checkbox"
             checked={tplState.enabled === true}
+            disabled={disabled}
             onChange={(e) => patch({ ...tplState, enabled: e.target.checked })}
           />
           {label}
@@ -262,6 +272,7 @@ export function ProtocolFieldEditor({ field, state, onChange, depth = 0 }: Props
                 state={(tplState.inputs as StepState) ?? {}}
                 onChange={(next) => patch({ ...tplState, inputs: next })}
                 depth={depth + 1}
+                disabled={disabled}
               />
             ))}
             {measurements.map((m) => (
@@ -271,6 +282,7 @@ export function ProtocolFieldEditor({ field, state, onChange, depth = 0 }: Props
                 state={(tplState.measurements as StepState) ?? {}}
                 onChange={(next) => patch({ ...tplState, measurements: next })}
                 depth={depth + 1}
+                disabled={disabled}
               />
             ))}
           </div>
@@ -286,6 +298,7 @@ export function ProtocolFieldEditor({ field, state, onChange, depth = 0 }: Props
         <input
           className={inputClass}
           type="text"
+          disabled={disabled}
           placeholder="Вставьте результат из модуля O-RADS / IOTA"
           value={typeof value === "string" ? value : ""}
           onChange={(e) => patch(e.target.value || undefined)}

@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ClipboardCopy } from "lucide-react";
 import { toast } from "sonner";
 
+import { useAuth } from "@/app/providers";
 import {
   GYN_US_10_STORAGE_KEY,
   GYNECOLOGY_ULTRASOUND_10_STEPS_MODULE,
@@ -34,11 +35,18 @@ function loadDraft(): ProtocolDraftState {
   return createEmptyDraftState();
 }
 
+type CloudSyncState = "idle" | "local-only" | "loading" | "syncing" | "synced" | "error";
+
 export function GynecologyUltrasound10StepsClient() {
   const steps = useMemo(() => getOrderedSteps(), []);
+  const { user, ready: authReady } = useAuth();
   const [draft, setDraft] = useState<ProtocolDraftState>(() => createEmptyDraftState());
   const [activeStepId, setActiveStepId] = useState(steps[0]?.id ?? "uterus_general");
   const [hydrated, setHydrated] = useState(false);
+  const [cloudSync, setCloudSync] = useState<CloudSyncState>("idle");
+  const [lifecycleStatus, setLifecycleStatus] = useState<"draft" | "finalized" | "archived">("draft");
+  const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const readOnly = lifecycleStatus === "finalized";
 
   useEffect(() => {
     setDraft(loadDraft());
@@ -46,10 +54,81 @@ export function GynecologyUltrasound10StepsClient() {
   }, []);
 
   useEffect(() => {
+    if (!authReady) return;
+    if (!user) {
+      setCloudSync("local-only");
+      return;
+    }
+
+    let cancelled = false;
+    setCloudSync("loading");
+    void (async () => {
+      try {
+        const res = await fetch("/api/tools/gynecology-ultrasound-10-steps/draft", { credentials: "same-origin" });
+        if (!res.ok) {
+          if (!cancelled) setCloudSync("error");
+          return;
+        }
+        const body = (await res.json()) as {
+          draft?: ProtocolDraftState | null;
+          updatedAt?: string;
+          lifecycleStatus?: "draft" | "finalized" | "archived";
+        };
+        if (cancelled) return;
+
+        if (body.lifecycleStatus) setLifecycleStatus(body.lifecycleStatus);
+
+        const local = loadDraft();
+        const localHasData = Object.keys(local.steps).length > 0;
+        if (body.draft && body.updatedAt) {
+          const cloudTime = Date.parse(body.updatedAt);
+          const localTime = Date.parse(local.updatedAt);
+          if (!localHasData || (Number.isFinite(cloudTime) && cloudTime >= localTime)) {
+            setDraft(body.draft);
+            localStorage.setItem(GYN_US_10_STORAGE_KEY, JSON.stringify(body.draft));
+          }
+        }
+        setCloudSync("synced");
+      } catch {
+        if (!cancelled) setCloudSync("error");
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [authReady, user]);
+
+  useEffect(() => {
     if (!hydrated) return;
     const next = { ...draft, updatedAt: new Date().toISOString() };
     localStorage.setItem(GYN_US_10_STORAGE_KEY, JSON.stringify(next));
-  }, [draft, hydrated]);
+
+    if (!user || readOnly) return;
+
+    if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
+    saveTimerRef.current = setTimeout(() => {
+      setCloudSync("syncing");
+      void fetch("/api/tools/gynecology-ultrasound-10-steps/draft", {
+        method: "PUT",
+        credentials: "same-origin",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          state: next,
+          previewText: renderProtocolText(next),
+          lifecycleStatus: "draft",
+        }),
+      })
+        .then((res) => {
+          setCloudSync(res.ok ? "synced" : "error");
+        })
+        .catch(() => setCloudSync("error"));
+    }, 900);
+
+    return () => {
+      if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
+    };
+  }, [draft, hydrated, user, readOnly]);
 
   useEffect(() => {
     const onBeforeUnload = (e: BeforeUnloadEvent) => {
@@ -80,10 +159,56 @@ export function GynecologyUltrasound10StepsClient() {
 
   const resetDraft = () => {
     if (!window.confirm("Очистить черновик на этом устройстве?")) return;
-    setDraft(createEmptyDraftState());
-    localStorage.removeItem(GYN_US_10_STORAGE_KEY);
+    const empty = createEmptyDraftState();
+    setDraft(empty);
+    setLifecycleStatus("draft");
+    localStorage.setItem(GYN_US_10_STORAGE_KEY, JSON.stringify(empty));
+    if (user) {
+      void fetch("/api/tools/gynecology-ultrasound-10-steps/draft", {
+        method: "PUT",
+        credentials: "same-origin",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ state: empty, previewText: "", lifecycleStatus: "draft" }),
+      });
+    }
     toast.message("Черновик очищен");
   };
+
+  const finalizeDraft = async () => {
+    if (!user) {
+      toast.message("Войдите, чтобы зафиксировать черновик в аккаунте врача.");
+      return;
+    }
+    if (!window.confirm("Завершить исследование? Редактирование будет заблокировано (можно архивировать позже).")) {
+      return;
+    }
+    const next = { ...draft, updatedAt: new Date().toISOString() };
+    const res = await fetch("/api/tools/gynecology-ultrasound-10-steps/draft", {
+      method: "PUT",
+      credentials: "same-origin",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        state: next,
+        previewText: renderProtocolText(next),
+        lifecycleStatus: "finalized",
+      }),
+    });
+    if (!res.ok) {
+      toast.error("Не удалось финализировать");
+      return;
+    }
+    setLifecycleStatus("finalized");
+    toast.success("Черновик финализирован");
+  };
+
+  const syncLabel = (() => {
+    if (!user) return "Только на этом устройстве — войдите, чтобы сохранить в аккаунте врача (без пациентов).";
+    if (cloudSync === "loading") return "Загрузка из аккаунта…";
+    if (cloudSync === "syncing") return "Сохранение в аккаунт врача…";
+    if (cloudSync === "error") return "Облако недоступно — данные на устройстве.";
+    if (lifecycleStatus === "finalized") return "Финализировано · привязка к вашему аккаунту, не к пациенту.";
+    return "Черновик синхронизируется с аккаунтом врача (не с EMR / пациентами).";
+  })();
 
   return (
     <div className="mx-auto max-w-5xl space-y-6 px-4 py-8">
@@ -94,6 +219,17 @@ export function GynecologyUltrasound10StepsClient() {
           Структура и формулировки — из приложенного руководства (10 шагов). Числовые пороги и единицы матки требуют
           клинического подтверждения (
           {SOURCE_CLINICAL_VALIDATION_REQUIRED ? "sourceClinicalValidationRequired" : "—"}).
+        </p>
+        <p className="rounded-xl border border-[var(--clinical-border)] bg-[var(--clinical-muted)] px-3 py-2 text-xs text-[var(--clinical-foreground-muted)]">
+          {syncLabel}{" "}
+          {!user ? (
+            <Link
+              href="/login?redirectedFrom=/tools/calc/gyn/ultrasound-10-steps"
+              className="font-semibold text-[var(--clinical-primary-deep)] underline"
+            >
+              Войти
+            </Link>
+          ) : null}
         </p>
         <p className="text-xs text-[var(--clinical-foreground-muted)]">
           Источник в репозитории:{" "}
@@ -156,6 +292,7 @@ export function GynecologyUltrasound10StepsClient() {
                       key={String(field.id)}
                       field={field}
                       state={sideState}
+                      disabled={readOnly}
                       onChange={(next) => {
                         const ovaries = { ...(draft.steps.ovaries ?? {}), [inst.id]: next };
                         setStepState("ovaries", ovaries);
@@ -173,6 +310,7 @@ export function GynecologyUltrasound10StepsClient() {
                 key={String(field.id)}
                 field={field}
                 state={draft.steps[activeStep.id] ?? {}}
+                disabled={readOnly}
                 onChange={(next) => setStepState(activeStep.id, next)}
               />
             ))}
@@ -202,8 +340,11 @@ export function GynecologyUltrasound10StepsClient() {
               <ClipboardCopy className="mr-1 h-4 w-4" />
               Копировать
             </Button>
-            <Button type="button" size="sm" variant="ghost" onClick={resetDraft}>
+            <Button type="button" size="sm" variant="ghost" onClick={resetDraft} disabled={readOnly}>
               Очистить черновик
+            </Button>
+            <Button type="button" size="sm" variant="default" onClick={() => void finalizeDraft()} disabled={readOnly}>
+              Завершить (финализировать)
             </Button>
           </div>
         </div>

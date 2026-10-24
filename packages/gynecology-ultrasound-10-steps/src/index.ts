@@ -8,6 +8,12 @@ export {
 export { evaluateVolumeFormula, formatNumber } from "./compute";
 export { renderProtocolText, stepCompletionHint } from "./render-protocol-text";
 export {
+  GYN_US_10_TOOL_ID,
+  ProtocolDraftStateSchema,
+  UpsertGynUs10DraftBodySchema,
+  type UpsertGynUs10DraftBody,
+} from "./schemas";
+export {
   GYN_US_10_SCHEMA_VERSION,
   GYN_US_10_STORAGE_KEY,
   SOURCE_CLINICAL_VALIDATION_REQUIRED,
