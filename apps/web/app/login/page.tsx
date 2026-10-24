@@ -34,6 +34,7 @@ import {
   translateAuthError,
 } from "@/lib/auth/translate-auth-error";
 import { telegramAuthErrorMessage } from "@/lib/auth/telegram-widget";
+import { defaultPostAuthPath } from "@/lib/nav/post-auth-landing";
 import { safeInternalPath } from "@/lib/nav/safe-redirect";
 
 function LoginForm() {
@@ -72,7 +73,7 @@ function LoginForm() {
 
   const nextPath = safeInternalPath(
     searchParams.get("next") ?? searchParams.get("redirectedFrom"),
-    "/home",
+    defaultPostAuthPath(),
   );
   const authCallbackError = searchParams.get("error") === "auth_callback";
   const telegramBotName = readTelegramBotDisplayName();

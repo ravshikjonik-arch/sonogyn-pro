@@ -1,6 +1,7 @@
 import type { EmailOtpType, SupabaseClient } from "@supabase/supabase-js";
 
 import { toSafeAuthErrorMessage } from "@/lib/auth/safe-auth-messages";
+import { defaultPostAuthPath } from "@/lib/nav/post-auth-landing";
 import { safeInternalPath } from "@/lib/nav/safe-redirect";
 
 const OTP_TYPES = new Set<string>([
@@ -22,7 +23,7 @@ export type AuthCallbackParams = {
   next: string;
 };
 
-export function parseAuthCallbackParams(url: URL, defaultNext = "/home"): AuthCallbackParams {
+export function parseAuthCallbackParams(url: URL, defaultNext = defaultPostAuthPath()): AuthCallbackParams {
   const rawType = url.searchParams.get("type")?.trim() ?? null;
   const type = rawType && OTP_TYPES.has(rawType) ? (rawType as EmailOtpType) : null;
   const defaultForType = type === "recovery" ? recoveryResetPath() : defaultNext;

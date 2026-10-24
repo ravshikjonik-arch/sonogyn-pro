@@ -50,6 +50,7 @@ import {
   SIGN_UP_GENERIC_MSG,
 } from "@/lib/auth/translate-auth-error";
 import { readAppLocale, saveAppLocale, type AppLocale } from "@/lib/i18n/locale";
+import { defaultPostAuthPath } from "@/lib/nav/post-auth-landing";
 import { safeInternalPath } from "@/lib/nav/safe-redirect";
 import { beginFirstRunOnboarding } from "@/lib/onboarding/first-run-storage";
 import { markSessionAnchorNow } from "@/lib/security/session-anchor";
@@ -89,7 +90,7 @@ function RegisterForm() {
 
   const afterAuthPath = safeInternalPath(
     searchParams.get("next") ?? searchParams.get("redirectedFrom"),
-    "/home",
+    defaultPostAuthPath(),
   );
 
   useEffect(() => {

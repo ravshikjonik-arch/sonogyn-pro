@@ -1,3 +1,6 @@
+import { Suspense } from "react";
+
+import { CabinetBootScreen } from "@/components/clinical/CabinetBootScreen";
 import { OpenAccessHomeClient } from "@/components/clinical/OpenAccessHomeClient";
 
 /**
@@ -12,7 +15,9 @@ export const preferredRegion = "fra1";
 export default function OpenAccessHomePage() {
   return (
     <div data-testid="app-home">
-      <OpenAccessHomeClient />
+      <Suspense fallback={<CabinetBootScreen />}>
+        <OpenAccessHomeClient />
+      </Suspense>
     </div>
   );
 }

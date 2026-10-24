@@ -1,8 +1,8 @@
 import type { SupabaseClient, User } from "@supabase/supabase-js";
 
+import { AUTHENTICATED_HOME_PATH } from "@/lib/nav/post-auth-landing";
 import { safeInternalPath } from "@/lib/nav/safe-redirect";
 
-const APP_HOME = "/app";
 const PROFILE_PATH = "/profile";
 
 /** Имя из user_metadata Яндекс / других IdP. */
@@ -77,9 +77,9 @@ export async function finalizeOAuthLogin(
     return PROFILE_PATH;
   }
 
-  const next = safeInternalPath(requestedNext, APP_HOME);
+  const next = safeInternalPath(requestedNext, AUTHENTICATED_HOME_PATH);
   if (next === "/login" || next === "/register" || next.startsWith("/login?") || next.startsWith("/register?")) {
-    return APP_HOME;
+    return AUTHENTICATED_HOME_PATH;
   }
   return next;
 }

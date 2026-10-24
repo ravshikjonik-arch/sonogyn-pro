@@ -8,6 +8,7 @@ import {
 } from "@/lib/auth/auth-callback";
 import { finalizeOAuthLogin } from "@/lib/auth/oauth-post-login";
 import { autoGrantPilotMedicalAccess } from "@/lib/auth/pilot-medical-access";
+import { defaultPostAuthPath } from "@/lib/nav/post-auth-landing";
 import { supabaseCookieOptions, withSecureCookieOptions } from "@/utils/supabase/cookie-options";
 
 function authErrorRedirect(
@@ -34,7 +35,7 @@ function authErrorRedirect(
 
 export async function GET(request: NextRequest) {
   const url = new URL(request.url);
-  const params = parseAuthCallbackParams(url, "/app");
+  const params = parseAuthCallbackParams(url, defaultPostAuthPath());
 
   const hasAuthPayload = Boolean(params.code || params.tokenHash);
   if (!hasAuthPayload && !params.error && !params.errorCode) {
