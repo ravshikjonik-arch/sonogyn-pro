@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { readStoredOnboardingCharacter } from "@/lib/auth/auth-wizard-config";
 import { postForgotPassword, postMfaVerifyLogin, postSignIn } from "@/lib/auth/client-auth-api";
 import { PASSWORD_RESET_GENERIC_MSG, requireOnlineForAuth } from "@/lib/auth/translate-auth-error";
+import { isFullOpenAccessEnabledClient } from "@/lib/auth/guest-demo-account";
 import { markSessionAnchorNow } from "@/lib/security/session-anchor";
 import { cn } from "@/lib/utils/cn";
 
@@ -208,6 +209,7 @@ export function LoginAuthWizard({ nextPath }: Props) {
               onChange={(e) => setEmail(e.target.value)}
               required
               autoComplete="email"
+              data-testid="email-input"
             />
           </label>
           <label className="block">
@@ -219,10 +221,11 @@ export function LoginAuthWizard({ nextPath }: Props) {
               onChange={(e) => setPassword(e.target.value)}
               required
               autoComplete="current-password"
+              data-testid="password-input"
             />
           </label>
           <AuthMessage message={message} />
-          <Button type="submit" className="w-full" disabled={loading}>
+          <Button type="submit" className="w-full" disabled={loading} data-testid="login-button" aria-label="Войти">
             Войти
           </Button>
           <button
@@ -237,6 +240,15 @@ export function LoginAuthWizard({ nextPath }: Props) {
       )}
 
       <p className="mt-6 text-center text-sm text-[var(--clinical-foreground-muted)]">
+        {isFullOpenAccessEnabledClient() ? (
+          <>
+            Вход не обязателен —{" "}
+            <Link href="/home" className="font-bold text-[var(--clinical-primary-deep)] hover:underline">
+              открыть кабинет
+            </Link>
+            {" · "}
+          </>
+        ) : null}
         Нет аккаунта?{" "}
         <Link href="/register" className="font-bold text-[var(--clinical-primary-deep)] hover:underline">
           Регистрация

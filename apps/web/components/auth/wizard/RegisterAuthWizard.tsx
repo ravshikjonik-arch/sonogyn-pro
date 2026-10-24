@@ -1,14 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { FormEvent, useCallback, useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 
 import type { OnboardingCharacterId } from "@repo/types";
 import { DOCTOR_SPECIALIZATION_OPTIONS } from "@repo/clinical-tools";
 
 import { useAuth } from "@/app/providers";
+import {
+  birthDateErrorMessage,
+  validateDoctorBirthDateIso,
+} from "@/components/auth/DoctorRegistrationFields";
 import { AuthMessage, authInputClass } from "@/components/auth/AuthScreenShell";
+import { TelegramSimpleAuth } from "@/components/auth/TelegramSimpleAuth";
 import { AuthGenderPicker } from "@/components/auth/wizard/AuthGenderPicker";
 import { AuthWizardLayout } from "@/components/auth/wizard/AuthWizardLayout";
 import { OtpDigitRow } from "@/components/auth/wizard/OtpDigitRow";
@@ -33,11 +38,14 @@ import {
   RESEND_CONFIRMATION_MSG,
   SIGN_UP_GENERIC_MSG,
 } from "@/lib/auth/translate-auth-error";
-import { readAppLocale } from "@/lib/i18n/locale";
+import { isFullOpenAccessEnabledClient } from "@/lib/auth/guest-demo-account";
+import { readAppLocale, saveAppLocale } from "@/lib/i18n/locale";
+import { cn } from "@/lib/utils/cn";
 import { beginFirstRunOnboarding } from "@/lib/onboarding/first-run-storage";
 import { markSessionAnchorNow } from "@/lib/security/session-anchor";
 
 type Step = "register" | "verify" | "character";
+type RegisterMethod = "email" | "telegram";
 
 type Props = {
   afterAuthPath: string;
@@ -45,8 +53,14 @@ type Props = {
 
 export function RegisterAuthWizard({ afterAuthPath }: Props) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { refresh, user, ready } = useAuth();
 
+  const initialMethod = useMemo<RegisterMethod>(() => {
+    return searchParams.get("method") === "telegram" ? "telegram" : "email";
+  }, [searchParams]);
+
+  const [method, setMethod] = useState<RegisterMethod>(initialMethod);
   const [step, setStep] = useState<Step>("register");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -62,6 +76,11 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
   const [loading, setLoading] = useState(false);
   const [sendCooldownSec, setSendCooldownSec] = useState(0);
   const [pendingEmail, setPendingEmail] = useState(false);
+  const [birthDateIso, setBirthDateIso] = useState("");
+
+  useEffect(() => {
+    setMethod(initialMethod);
+  }, [initialMethod]);
 
   useEffect(() => {
     if (sendCooldownSec <= 0) return;
@@ -95,6 +114,62 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
       await refresh();
       router.replace(afterAuthPath);
       router.refresh();
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function buildFullName(): string | null {
+    const fn = firstName.trim();
+    const ln = lastName.trim();
+    if (!fn || !ln) {
+      setMessage("Укажите имя и фамилию.");
+      return null;
+    }
+    return normalizeRussianFio(`${ln} ${fn}`) ?? `${ln} ${fn}`;
+  }
+
+  async function onRegisterViaTelegram() {
+    setMessage("");
+    if (!guardOnline()) return;
+
+    const full_name = buildFullName();
+    if (!full_name) return;
+
+    const parsedBirth = validateDoctorBirthDateIso(birthDateIso);
+    if (!parsedBirth) {
+      setMessage(birthDateErrorMessage(birthDateIso));
+      return;
+    }
+
+    if (!specialization.trim()) {
+      setMessage("Выберите специализацию.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const locale = readAppLocale();
+      const res = await fetch("/api/auth/pilot/register-intent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify({
+          full_name,
+          specialization: specialization.trim(),
+          preferred_locale: locale,
+          birth_year: parsedBirth.year,
+          birth_date: parsedBirth.iso,
+          next: afterAuthPath,
+        }),
+      });
+      const body = (await res.json().catch(() => ({}))) as { ok?: boolean; redirectUrl?: string; error?: string };
+      if (!res.ok || !body.redirectUrl) {
+        setMessage(body.error ?? "Не удалось начать регистрацию через Telegram.");
+        return;
+      }
+      saveAppLocale(locale);
+      window.location.assign(body.redirectUrl);
     } finally {
       setLoading(false);
     }
@@ -326,31 +401,117 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
     );
   }
 
+  const methodSwitcher = (
+    <div
+      className="mb-5 grid grid-cols-2 gap-2 rounded-2xl border border-[var(--clinical-border)] bg-[var(--clinical-muted)] p-1"
+      role="tablist"
+      aria-label="Способ регистрации"
+    >
+      {(
+        [
+          { id: "email" as const, label: "Почта" },
+          { id: "telegram" as const, label: "Telegram" },
+        ] as const
+      ).map((opt) => (
+        <button
+          key={opt.id}
+          type="button"
+          role="tab"
+          aria-selected={method === opt.id}
+          onClick={() => {
+            setMethod(opt.id);
+            setMessage("");
+          }}
+          className={cn(
+            "rounded-xl py-2.5 text-sm font-bold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--clinical-primary)]",
+            method === opt.id
+              ? "bg-[var(--clinical-card)] text-[var(--clinical-primary-deep)] shadow-sm"
+              : "text-[var(--clinical-foreground-muted)] hover:text-[var(--clinical-foreground)]",
+          )}
+        >
+          {opt.label}
+        </button>
+      ))}
+    </div>
+  );
+
+  const nameFields = (
+    <div className="grid grid-cols-2 gap-3">
+      <label className="block">
+        <span className="text-xs font-medium text-[var(--clinical-foreground-muted)]">Имя</span>
+        <input
+          className={authInputClass}
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+          required={method === "email"}
+          autoComplete="given-name"
+        />
+      </label>
+      <label className="block">
+        <span className="text-xs font-medium text-[var(--clinical-foreground-muted)]">Фамилия</span>
+        <input
+          className={authInputClass}
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+          required={method === "email"}
+          autoComplete="family-name"
+        />
+      </label>
+    </div>
+  );
+
   return (
-    <AuthWizardLayout title="Регистрация" subtitle="Клиническая платформа для врачей УЗИ и АГ.">
-      <form className="space-y-3" onSubmit={(e) => void onRegisterSubmit(e)}>
-        <div className="grid grid-cols-2 gap-3">
+    <AuthWizardLayout
+      title="Регистрация"
+      subtitle={
+        method === "email"
+          ? "Email и пароль — основной способ. Подтвердите почту по ссылке из письма."
+          : "Telegram — без пароля. Укажите ФИО и дату рождения, затем подтвердите в боте."
+      }
+    >
+      {methodSwitcher}
+
+      <label className="mb-3 block">
+        <span className="text-xs font-medium text-[var(--clinical-foreground-muted)]">Специализация</span>
+        <select
+          className={authInputClass}
+          value={specialization}
+          onChange={(e) => setSpecialization(e.target.value)}
+          aria-label="Специализация"
+        >
+          {DOCTOR_SPECIALIZATION_OPTIONS.map((opt) => (
+            <option key={opt} value={opt}>
+              {opt}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      {method === "telegram" ? (
+        <div className="space-y-3">
+          {nameFields}
           <label className="block">
-            <span className="text-xs font-medium text-[var(--clinical-foreground-muted)]">Имя</span>
+            <span className="text-xs font-medium text-[var(--clinical-foreground-muted)]">Дата рождения</span>
             <input
               className={authInputClass}
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
+              type="date"
+              value={birthDateIso}
+              onChange={(e) => setBirthDateIso(e.target.value)}
               required
-              autoComplete="given-name"
+              autoComplete="bday"
             />
           </label>
-          <label className="block">
-            <span className="text-xs font-medium text-[var(--clinical-foreground-muted)]">Фамилия</span>
-            <input
-              className={authInputClass}
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              required
-              autoComplete="family-name"
-            />
-          </label>
+          <AuthMessage message={message} />
+          <TelegramSimpleAuth
+            mode="register"
+            nextPath={afterAuthPath}
+            onRegisterClick={() => void onRegisterViaTelegram()}
+            registerLoading={loading}
+          />
         </div>
+      ) : (
+      <form className="space-y-3" onSubmit={(e) => void onRegisterSubmit(e)}>
+        {nameFields}
         <label className="block">
           <span className="text-xs font-medium text-[var(--clinical-foreground-muted)]">E-mail</span>
           <input
@@ -400,19 +561,26 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
           Зарегистрироваться
         </Button>
       </form>
+      )}
+
       <p className="mt-6 text-center text-sm text-[var(--clinical-foreground-muted)]">
+        {isFullOpenAccessEnabledClient() ? (
+          <>
+            Регистрация не обязательна —{" "}
+            <Link href="/home" className="font-bold text-[var(--clinical-primary-deep)] hover:underline">
+              открыть кабинет
+            </Link>
+            {" · "}
+          </>
+        ) : null}
         Уже есть аккаунт?{" "}
         <Link href="/login" className="font-bold text-[var(--clinical-primary-deep)] hover:underline">
           Войти
         </Link>
       </p>
       <p className="mt-3 text-center text-xs text-[var(--clinical-foreground-muted)]">
-        <Link href="/register?wizard=0&method=telegram" className="hover:underline">
-          Регистрация через Telegram
-        </Link>
-        {" · "}
-        <Link href="/register?wizard=0&method=email" className="hover:underline">
-          Классическая форма
+        <Link href="/register?wizard=0" className="hover:underline">
+          SMS и Яндекс ID
         </Link>
       </p>
     </AuthWizardLayout>

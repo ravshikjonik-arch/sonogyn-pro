@@ -41,7 +41,7 @@ export function AuthScreenShell({
   phoneTab,
   socialTab,
   footer,
-  defaultTab = "phone",
+  defaultTab = "email",
   onTabChange,
   showMethodHints = false,
 }: AuthScreenShellProps) {

@@ -2,6 +2,7 @@ import { type NextRequest, NextResponse } from "next/server";
 import { updateSession } from "@/utils/supabase/middleware";
 import { isDevSkipAuthEnabled, isFullOpenAccessEnabled } from "@/lib/auth/dev-account";
 import { needsPhoneVerification } from "@/lib/auth/phone-verified";
+import { defaultPostAuthPath } from "@/lib/nav/post-auth-landing";
 import { safeInternalPath } from "@/lib/nav/safe-redirect";
 import { resolveCorsHeaders } from "@/lib/security/cors";
 import { smsSendEdgeRateLimit } from "@/lib/security/edge-sms-rate-limit";
@@ -272,10 +273,7 @@ export default async function middleware(request: NextRequest) {
   }
 
   if (pathname === "/login" || pathname === "/register") {
-    // Open cabinet: no password wall. Keep /login only for local e2e (DEV_SKIP_AUTH).
-    if (isFullOpenAccessEnabled() && !isDevSkipAuthEnabled()) {
-      return redirectWithSessionCookies(request, response, "/home");
-    }
+    // Open cabinet: калькуляторы без входа, но /login и /register всегда доступны (email / Telegram).
     if (!isDevSkipAuthEnabled()) {
       const {
         data: { user },
@@ -293,7 +291,7 @@ export default async function middleware(request: NextRequest) {
             verifySearch.toString(),
           );
         }
-        const dest = safeInternalPath(redirectedFrom, "/cases");
+        const dest = safeInternalPath(redirectedFrom, defaultPostAuthPath());
         return redirectWithSessionCookies(request, response, dest);
       }
     }

@@ -244,6 +244,9 @@ export async function loginAsDoctor(page: Page, email: string, password: string)
     return;
   }
 
+  await page.addInitScript(() => {
+    localStorage.setItem("sonogyn:onboarding-character:v1", "boy");
+  });
   await page.goto("/login?method=email");
   const emailInput = page.getByTestId("email-input");
   await emailInput.waitFor({ state: "visible", timeout: 15_000 });
@@ -259,6 +262,9 @@ export async function attemptDoctorLogin(page: Page, email: string, password: st
     });
   }
 
+  await page.addInitScript(() => {
+    localStorage.setItem("sonogyn:onboarding-character:v1", "boy");
+  });
   await page.goto("/login?method=email");
   const emailInput = page.getByTestId("email-input");
   await emailInput.waitFor({ state: "visible", timeout: 15_000 });
