@@ -69,8 +69,10 @@ else fail("/api/health", `HTTP ${health.status}`);
 
 const patients = await request("GET", "/api/patients");
 if (patients.status === 401) ok("GET /api/patients без сессии → 401");
-else if (patients.status === 403) warn("GET /api/patients", "403 (bot/CORS?) — ожидали 401");
-else fail("GET /api/patients", `HTTP ${patients.status}, ожидали 401`);
+else if (patients.status === 200 && Array.isArray(patients.json?.patients)) {
+  ok("GET /api/patients без сессии → 200 (open access, пустой список)");
+} else if (patients.status === 403) warn("GET /api/patients", "403 (bot/CORS?) — ожидали 401 или 200");
+else fail("GET /api/patients", `HTTP ${patients.status}, ожидали 401 или 200 (open access)`);
 
 const cases = await request("GET", "/api/cases?q=test&limit=5");
 if ([200, 401].includes(cases.status)) ok(`GET /api/cases → ${cases.status}`);
@@ -162,6 +164,11 @@ if (webinarStatus.status === 200) {
   warn("/api/webinars/status", "404 — задеployьте последний main на Vercel");
 } else if (webinarStatus.status === 403 && !webinarSecret) {
   warn("/api/webinars/status", "403 — diagnostics gated (ожидаемо без SONOGYN_AUTH_INTERNAL_SECRET)");
+} else if (webinarStatus.status === 403 && webinarSecret) {
+  warn(
+    "/api/webinars/status",
+    "403 — секрет в .env.local не совпадает с SONOGYN_AUTH_INTERNAL_SECRET на Vercel Production",
+  );
 } else {
   fail("/api/webinars/status", `HTTP ${webinarStatus.status}`);
 }

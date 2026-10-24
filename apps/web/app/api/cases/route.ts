@@ -3,8 +3,6 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 
 import { listTeachingCases } from "@/lib/cases/teaching-cases-service";
-import { htmlToPlainText } from "@/lib/clinical-editor/html-to-plain";
-import { sanitizeClinicalHtml } from "@/lib/clinical-editor/sanitize-clinical-html";
 import { isE2eCiStubMode } from "@/lib/e2e/ci-stub";
 import { rejectIfRateLimitedForUser, rejectIfRateLimitedPreset } from "@/lib/security/api-rate-limit";
 import { getClinicalRole, roleMeetsMinimum } from "@/lib/security/require-clinical-role";
@@ -144,6 +142,9 @@ export async function POST(request: Request) {
   }
 
   try {
+    const { sanitizeClinicalHtml } = await import("@/lib/clinical-editor/sanitize-clinical-html");
+    const { htmlToPlainText } = await import("@/lib/clinical-editor/html-to-plain");
+
     const descriptionHtml = parsed.data.description_html?.trim()
       ? sanitizeClinicalHtml(parsed.data.description_html)
       : null;
