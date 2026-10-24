@@ -15,8 +15,11 @@ import {
 } from "@/lib/auth/doctor-display";
 import { BirthDateField } from "@/components/ui/BirthDateField";
 import { birthDateErrorMessageForValue, parseBirthDateInput } from "@/lib/auth/birth-date";
+import { AuthGenderPicker } from "@/components/auth/wizard/AuthGenderPicker";
+import { writeStoredOnboardingCharacter } from "@/lib/auth/auth-wizard-config";
 import { uploadClinicalAvatar } from "@/lib/supabase/medical-storage";
 import { wipeWebClinicalLocalData } from "@/lib/security/wipe-clinical-local";
+import type { OnboardingCharacterId } from "@repo/types";
 
 type Props = {
   initial: {
@@ -25,6 +28,7 @@ type Props = {
     specialization: string | null;
     birth_year: number | null;
     birth_date_iso: string | null;
+    onboarding_character?: OnboardingCharacterId | null;
   };
 };
 
@@ -41,6 +45,9 @@ export function ProfileSettingsForm({ initial }: Props) {
   const [revoking, setRevoking] = useState(false);
   const [exporting, setExporting] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [onboardingCharacter, setOnboardingCharacter] = useState<OnboardingCharacterId | null>(
+    initial.onboarding_character ?? null,
+  );
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -63,6 +70,9 @@ export function ProfileSettingsForm({ initial }: Props) {
           specialization: specialization.trim() || undefined,
           birth_year: parsedBirth?.year,
           birth_date: parsedBirth?.iso,
+          ...(onboardingCharacter
+            ? { clinical_preferences: { onboardingCharacter } }
+            : {}),
         }),
       });
       const payload = (await res.json().catch(() => null)) as {
@@ -85,6 +95,9 @@ export function ProfileSettingsForm({ initial }: Props) {
               : `HTTP ${res.status}`;
         setMessage(err);
         return;
+      }
+      if (onboardingCharacter) {
+        writeStoredOnboardingCharacter(onboardingCharacter);
       }
       setMessage("Профиль сохранён.");
       if (payload?.pilotChatUnlocked) {
@@ -229,7 +242,7 @@ export function ProfileSettingsForm({ initial }: Props) {
         setMessage(payload?.error ?? `HTTP ${res.status}`);
         return;
       }
-      setMessage("Avatar updated. Refresh the page to see the new preview.");
+      setMessage("Фото профиля обновлено.");
       router.refresh();
     } finally {
       setLoading(false);
@@ -291,11 +304,17 @@ export function ProfileSettingsForm({ initial }: Props) {
         </label>
       </div>
 
-      <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50/80 p-5 dark:border-slate-700 dark:bg-slate-900/40">
-        <p className="text-sm font-medium text-slate-800 dark:text-slate-100">Фото профиля (Supabase Storage)</p>
+      <div className="rounded-2xl border border-[var(--clinical-border)] bg-[var(--clinical-muted)] p-5 sm:col-span-2">
+        <p className="text-sm font-medium text-[var(--clinical-foreground)]">Для персонализации интерфейса</p>
+        <div className="mt-3">
+          <AuthGenderPicker value={onboardingCharacter} onChange={setOnboardingCharacter} />
+        </div>
+      </div>
+
+      <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50/80 p-5 sm:col-span-2 dark:border-slate-700 dark:bg-slate-900/40">
+        <p className="text-sm font-medium text-slate-800 dark:text-slate-100">Ваше фото</p>
         <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">
-          Загружается в приватный bucket <code className="rounded bg-white px-1 dark:bg-slate-950">clinical-avatars</code>{" "}
-          по политикам RLS.
+          Загрузите портрет для шапки кабинета и чата. Хранится защищённо, только для вашего аккаунта.
         </p>
         <input
           type="file"

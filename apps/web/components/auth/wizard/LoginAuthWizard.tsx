@@ -9,8 +9,6 @@ import { AuthMessage, authInputClass } from "@/components/auth/AuthScreenShell";
 import { AuthPersonaGate } from "@/components/auth/wizard/AuthPersonaGate";
 import { AuthWizardLayout } from "@/components/auth/wizard/AuthWizardLayout";
 import { Button } from "@/components/ui/button";
-import type { OnboardingCharacterId } from "@repo/types";
-
 import { readStoredOnboardingCharacter } from "@/lib/auth/auth-wizard-config";
 import { postMfaVerifyLogin, postSignIn } from "@/lib/auth/client-auth-api";
 import { requireOnlineForAuth } from "@/lib/auth/translate-auth-error";
@@ -30,15 +28,10 @@ export function LoginAuthWizard({ nextPath }: Props) {
   const [mfaRequired, setMfaRequired] = useState(false);
   const [mfaFactorId, setMfaFactorId] = useState<string | null>(null);
   const [mfaCode, setMfaCode] = useState("");
-  const [character, setCharacter] = useState<OnboardingCharacterId | "duo">(
-    () => readStoredOnboardingCharacter() ?? "duo",
-  );
   const [personaDone, setPersonaDone] = useState(() => Boolean(readStoredOnboardingCharacter()));
 
   useEffect(() => {
-    const stored = readStoredOnboardingCharacter();
-    setCharacter(stored ?? "duo");
-    setPersonaDone(Boolean(stored));
+    setPersonaDone(Boolean(readStoredOnboardingCharacter()));
   }, []);
 
   useEffect(() => {
@@ -103,12 +96,7 @@ export function LoginAuthWizard({ nextPath }: Props) {
 
   if (!personaDone) {
     return (
-      <AuthPersonaGate
-        onContinue={(id) => {
-          setCharacter(id);
-          setPersonaDone(true);
-        }}
-      />
+      <AuthPersonaGate onContinue={() => setPersonaDone(true)} />
     );
   }
 
@@ -116,7 +104,6 @@ export function LoginAuthWizard({ nextPath }: Props) {
     <AuthWizardLayout
       title={mfaRequired ? "Код двухфакторной защиты" : "Вход"}
       subtitle={mfaRequired ? "Введите код из приложения-аутентификатора." : "Email и пароль врача SonoGyn Pro."}
-      character={character}
     >
       {mfaRequired ? (
         <form className="space-y-4" onSubmit={(e) => void onMfaSubmit(e)}>

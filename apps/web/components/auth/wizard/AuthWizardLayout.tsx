@@ -2,29 +2,24 @@
 
 import type { ReactNode } from "react";
 
-import type { OnboardingCharacterId } from "@repo/types";
-
-import { AuthCharacterHero } from "@/components/auth/wizard/AuthCharacterHero";
 import { cn } from "@/lib/utils/cn";
 
 type Props = {
   children: ReactNode;
   title: string;
   subtitle?: string;
-  character?: OnboardingCharacterId | "duo" | null;
   className?: string;
 };
 
-export function AuthWizardLayout({ children, title, subtitle, character = "duo", className }: Props) {
+export function AuthWizardLayout({ children, title, subtitle, className }: Props) {
   return (
     <div
       className={cn(
-        "mx-auto flex min-h-[100dvh] w-full max-w-lg flex-col bg-[var(--clinical-canvas)] sm:max-w-md",
+        "mx-auto flex min-h-[100dvh] w-full max-w-lg flex-col justify-center px-4 py-8 sm:max-w-md",
         className,
       )}
     >
-      <AuthCharacterHero character={character} />
-      <div className="relative z-10 -mt-6 flex flex-1 flex-col rounded-t-[28px] border border-[var(--clinical-border)] bg-[var(--clinical-card)] px-6 pb-8 pt-7 shadow-xl">
+      <div className="flex flex-col rounded-[28px] border border-[var(--clinical-border)] bg-[var(--clinical-card)] px-6 pb-8 pt-7 shadow-xl">
         <p className="text-center text-[10px] font-bold uppercase tracking-[0.22em] text-[var(--clinical-primary-deep)]">
           SonoGyn Pro
         </p>
@@ -36,7 +31,7 @@ export function AuthWizardLayout({ children, title, subtitle, character = "duo",
             {subtitle}
           </p>
         ) : null}
-        <div className="mt-6 flex flex-1 flex-col">{children}</div>
+        <div className="mt-6 flex flex-col">{children}</div>
       </div>
     </div>
   );

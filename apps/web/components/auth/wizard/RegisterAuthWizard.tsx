@@ -9,7 +9,7 @@ import { DOCTOR_SPECIALIZATION_OPTIONS } from "@repo/clinical-tools";
 
 import { useAuth } from "@/app/providers";
 import { AuthMessage, authInputClass } from "@/components/auth/AuthScreenShell";
-import { AuthCharacterPicker } from "@/components/auth/wizard/AuthCharacterPicker";
+import { AuthGenderPicker } from "@/components/auth/wizard/AuthGenderPicker";
 import { AuthWizardLayout } from "@/components/auth/wizard/AuthWizardLayout";
 import { OtpDigitRow } from "@/components/auth/wizard/OtpDigitRow";
 import { Button } from "@/components/ui/button";
@@ -74,9 +74,6 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
     if (step === "character") return;
     router.replace(afterAuthPath);
   }, [ready, user, step, router, afterAuthPath]);
-
-  const heroCharacter =
-    step === "character" && character ? character : step === "verify" ? "duo" : "duo";
 
   const guardOnline = useCallback(() => {
     const offline = requireOnlineForAuth();
@@ -231,11 +228,7 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
 
   if (step === "character") {
     return (
-      <AuthWizardLayout
-        title="Расскажите о себе"
-        subtitle="Я мужчина / я женщина — для оформления входа. Затем укажите специализацию."
-        character={character ?? "duo"}
-      >
+      <AuthWizardLayout title="Расскажите о себе" subtitle="Мужчина или женщина — для интерфейса. Затем специализация.">
         <label className="mb-4 block">
           <span className="text-sm font-medium text-[var(--clinical-foreground)]">Специализация</span>
           <select
@@ -252,12 +245,13 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
           </select>
         </label>
 
-        <AuthCharacterPicker
+        <AuthGenderPicker
           value={character}
           onChange={(id) => {
             setCharacter(id);
             writeStoredOnboardingCharacter(id);
           }}
+          hint="Своё фото — в профиле после входа."
         />
 
         <AuthMessage message={message} />
@@ -276,7 +270,7 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
           disabled={loading}
           onClick={() => void finishRegistration(character ?? "boy")}
         >
-          Пропустить персонажа
+          Пропустить (по умолчанию — мужчина)
         </button>
       </AuthWizardLayout>
     );
@@ -291,7 +285,6 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
             ? `Код отправлен на ${phone.trim()}`
             : `Проверьте ${email.trim()}`
         }
-        character="duo"
       >
         {verifyMode === "phone" ? (
           <>
@@ -334,7 +327,7 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
   }
 
   return (
-    <AuthWizardLayout title="Регистрация" subtitle="Клиническая платформа для врачей УЗИ и АГ." character="duo">
+    <AuthWizardLayout title="Регистрация" subtitle="Клиническая платформа для врачей УЗИ и АГ.">
       <form className="space-y-3" onSubmit={(e) => void onRegisterSubmit(e)}>
         <div className="grid grid-cols-2 gap-3">
           <label className="block">
