@@ -30,8 +30,8 @@ export const EXAM_PROTOCOLS: ExamProtocol[] = [
     subtitle: "AIUM Practice Parameter · Female Pelvis (2024)",
     source: "AIUM · Female Pelvis",
     sourceUrl: "https://www.aium.org/resources/practice-parameters",
-    relatedHref: "/calculators/endometrium",
-    relatedLabel: "Калькулятор эндометрия",
+    relatedHref: "/tools/calc/gyn/ultrasound-10-steps",
+    relatedLabel: "Протокол УЗИ — 10 шагов",
     items: [
       { id: "gp-ta-uterus", category: "visualize", label: "TA: матка — размер, форма, положение, версия", required: true },
       { id: "gp-ta-myometrium", category: "visualize", label: "TA: миометрий — однородность, узлы, контуры", required: true },

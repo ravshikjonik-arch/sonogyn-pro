@@ -154,6 +154,7 @@
     "@repo/tirads-basic-course": "workspace:*",
     "@repo/medvedev-reference": "workspace:*",
     "@repo/gynecology-imaging-atlas": "workspace:*",
+    "@repo/gynecology-ultrasound-10-steps": "workspace:*",
     "@repo/obstetrics-imaging-atlas": "workspace:*",
     "@repo/musa-framework": "workspace:*",
     "@repo/nosology": "workspace:*",

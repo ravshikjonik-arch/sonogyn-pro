@@ -1,0 +1,431 @@
+{
+  "moduleId": "gynecology_ultrasound_10_steps",
+  "version": "1.0.0-source-extraction",
+  "locale": "ru-RU",
+  "title": "Протокол УЗИ в гинекологии — 10 шагов",
+  "source": {
+    "document": "гайд 10 шагов.pdf",
+    "pages": 17,
+    "author": "Нагорнева Станислава Владимировна",
+    "brand": "Dr. Nagorneva",
+    "transcription": "01_GUIDE_EXTRACTED.md",
+    "independentlyClinicallyValidated": false
+  },
+  "implementationRules": [
+    "Использовать содержимое как структуру протокола и библиотеку формулировок, а не как правила автоматической постановки диагноза.",
+    "Не выдумывать отсутствующие критерии, пороги, единицы, заключения и рекомендации.",
+    "Сохранить все числовые значения источника до отдельной клинической проверки владельца продукта.",
+    "Каждое патологическое описание включается в заключение только после явного выбора пользователя.",
+    "O-RADS и IOTA ADNEX MODEL подключать к существующим проверенным модулям платформы; не recreate по одному названию из PDF.",
+    "Все поля измерений должны поддерживать пустое состояние: не подставлять нули в автоматически сформированный текст.",
+    "Текст протокола формируется детерминированными шаблонами, без генеративной медицинской интерпретации."
+  ],
+  "steps": [
+    {
+      "id": "uterus_general",
+      "order": 1,
+      "title": "Общие характеристики оценки матки",
+      "shortTitle": "Матка",
+      "sourcePages": [3],
+      "fields": [
+        {
+          "id": "position",
+          "label": "Расположение",
+          "type": "singleSelect",
+          "options": ["ANTEFLEXIO", "RETROFLEXIO", "INTERPOSITIO"]
+        },
+        {
+          "id": "dimensions",
+          "label": "Размеры матки",
+          "type": "measurementGroup",
+          "measurements": [
+            {"id": "length", "label": "Длина", "type": "number", "min": 0, "unit": null},
+            {"id": "thickness", "label": "Толщина", "type": "number", "min": 0, "unit": null},
+            {"id": "width", "label": "Ширина", "type": "number", "min": 0, "unit": null}
+          ],
+          "sourceNote": "Единицы размеров матки в PDF не указаны; использовать существующую конвенцию платформы и не выполнять скрытые пересчёты."
+        },
+        {
+          "id": "volume",
+          "label": "Объём матки",
+          "type": "computed",
+          "formula": "length * thickness * width * 0.52",
+          "dependsOn": ["dimensions.length", "dimensions.thickness", "dimensions.width"],
+          "unit": null,
+          "sourceNote": "Формула источника: Д × Т × Ш × 0,52. Единица объёма не указана."
+        },
+        {
+          "id": "shape",
+          "label": "Форма",
+          "type": "singleSelect",
+          "options": ["Правильная, грушевидная", "Шаровидная", "Седловидная", "Двурогая", "Однорогая", "Полное удвоение матки"]
+        },
+        {
+          "id": "contour",
+          "label": "Контур",
+          "type": "singleSelect",
+          "options": ["Правильный", "Дольчатый за счёт миоматозных узлов", "Неровный, деформирован за счёт рубцов после оперативного лечения"]
+        },
+        {
+          "id": "mobility",
+          "label": "Подвижность",
+          "type": "singleSelect",
+          "options": ["Сохранена", "Снижена", "Ограничена (значимо ограничена)", "Тело матки не визуализируется"]
+        }
+      ]
+    },
+    {
+      "id": "myometrium",
+      "order": 2,
+      "title": "Миометрий",
+      "shortTitle": "Миометрий",
+      "sourcePages": [4, 5],
+      "fields": [
+        {
+          "id": "normal",
+          "label": "Норма",
+          "type": "boolean",
+          "reportText": "Однородной эхоструктуры."
+        },
+        {
+          "id": "adenomyosis_direct",
+          "label": "Аденомиоз — прямые признаки",
+          "type": "group",
+          "fields": [
+            {
+              "id": "islands",
+              "label": "Островки",
+              "type": "measurementTemplate",
+              "measurements": [{"id": "size_mm", "label": "Размер", "unit": "mm", "type": "number", "min": 0}],
+              "template": "Определяются гиперэхогенные включения неправильной формы размерами {{size_mm}} мм в толще миометрия."
+            },
+            {
+              "id": "lines",
+              "label": "Линии",
+              "type": "boolean",
+              "reportText": "Определяются гиперэхогенные линии, расположенные в субэндометриальном слое, перпендикулярно эндометрию."
+            },
+            {
+              "id": "cysts",
+              "label": "Кисты",
+              "type": "measurementTemplate",
+              "measurements": [
+                {"id": "size_mm", "label": "Размер", "unit": "mm", "type": "number", "min": 0},
+                {"id": "wall", "label": "Стенка", "type": "text"}
+              ],
+              "options": [{"id": "connected_to_cavity", "label": "Соединяющиеся с полостью матки", "type": "boolean"}],
+              "template": "Определяются анэхогенные включения неправильной формы размерами {{size_mm}} мм, расположенные в миометрии {{wall}} стенки{{connected_clause}}."
+            }
+          ]
+        },
+        {
+          "id": "adenomyosis_indirect",
+          "label": "Аденомиоз — косвенные признаки",
+          "type": "group",
+          "fields": [
+            {
+              "id": "shadows",
+              "label": "Тени",
+              "type": "textTemplate",
+              "inputs": [{"id": "wall", "label": "Стенка", "type": "text"}],
+              "template": "Определяются веерообразные тени от миометрия {{wall}} стенки матки."
+            },
+            {
+              "id": "wall_asymmetry",
+              "label": "Асимметрия стенок",
+              "type": "measurementTemplate",
+              "measurements": [
+                {"id": "anterior_mm", "label": "Передняя стенка", "unit": "mm", "type": "number", "min": 0},
+                {"id": "posterior_mm", "label": "Задняя стенка", "unit": "mm", "type": "number", "min": 0},
+                {"id": "diff_percent", "label": "Diff", "unit": "%", "type": "number", "min": 0}
+              ],
+              "template": "Определяется асимметрия стенок матки (толщина передней / задней стенки = {{anterior_mm}} / {{posterior_mm}} мм; diff {{diff_percent}} %)."
+            },
+            {"id": "globular_shape", "label": "Шаровидная форма", "type": "boolean"},
+            {
+              "id": "nodes",
+              "label": "Узлы",
+              "type": "measurementTemplate",
+              "measurements": [
+                {"id": "size_1_mm", "label": "Размер 1", "unit": "mm", "type": "number", "min": 0},
+                {"id": "size_2_mm", "label": "Размер 2", "unit": "mm", "type": "number", "min": 0}
+              ],
+              "template": "Определяется гипоэхогенное образование без чётких границ размерами {{size_1_mm}} × {{size_2_mm}} мм, васкуляризация образования хаотичная."
+            },
+            {"id": "chaotic_blood_flow", "label": "Хаотичный кровоток", "type": "boolean"}
+          ]
+        },
+        {
+          "id": "fibroids",
+          "label": "Миома матки",
+          "type": "repeatableGroup",
+          "itemLabel": "Миоматозный узел",
+          "sourceNote": "Каждый узел описывается отдельно.",
+          "fields": [
+            {"id": "echogenicity", "label": "Эхогенность", "type": "singleSelect", "options": ["Гипоэхогенное", "Гиперэхогенное"]},
+            {"id": "concentric_structure", "label": "Концентрическое строение", "type": "boolean"},
+            {"id": "clear_margins", "label": "Чёткие границы", "type": "boolean"},
+            {"id": "size_1_mm", "label": "Размер 1", "unit": "mm", "type": "number", "min": 0},
+            {"id": "size_2_mm", "label": "Размер 2", "unit": "mm", "type": "number", "min": 0},
+            {"id": "size_3_mm", "label": "Размер 3", "unit": "mm", "type": "number", "min": 0},
+            {"id": "volume", "label": "Объём крупного узла", "type": "computed", "formula": "size_1_mm * size_2_mm * size_3_mm * 0.52", "unit": null},
+            {"id": "wall", "label": "Стенка / дно", "type": "singleSelect", "options": ["Передняя стенка", "Задняя стенка", "Боковая стенка", "Дно матки"]},
+            {"id": "segment", "label": "Отдел", "type": "singleSelect", "options": ["Нижние", "Верхние", "Средние"]},
+            {"id": "location", "label": "Расположение", "type": "singleSelect", "options": ["Интрамурально", "Субсерозно", "Субмукозно"]},
+            {"id": "figo_type", "label": "Тип FIGO, 2018", "type": "singleSelect", "options": ["0", "1", "2", "3", "4", "5", "6", "7"]},
+            {"id": "nutrition_impairment", "label": "Нарушение питания", "type": "boolean"},
+            {"id": "nutrition_cavity_count", "label": "Число анэхогенных образований", "type": "integer", "min": 1},
+            {"id": "nutrition_size_1_mm", "label": "Размер образования 1", "unit": "mm", "type": "number", "min": 0},
+            {"id": "nutrition_size_2_mm", "label": "Размер образования 2", "unit": "mm", "type": "number", "min": 0}
+          ],
+          "sourceTemplate": "Определяется округлое гипоэхогенное (гиперэхогенное) образование неоднородной эхоструктуры с концентрическим строением и чёткими границами размерами … × … × … мм. Расположено по стенке / в дне и отделу, интрамурально / субсерозно / субмукозно. Соответствует типу 0–7 (FIGO, 2018). При нарушении питания: в центре узла определяется анэхогенное образование (несколько) неправильной формы размерами … × … мм."
+        }
+      ]
+    },
+    {
+      "id": "junctional_zone",
+      "order": 3,
+      "title": "Переходная зона",
+      "shortTitle": "Переходная зона",
+      "sourcePages": [6],
+      "fields": [
+        {"id": "visualization", "label": "Визуализация", "type": "singleSelect", "options": ["Не визуализируется", "Визуализируется только в 3D", "Визуализируется"]},
+        {"id": "structure", "label": "Характер", "type": "singleSelect", "options": ["Равномерная", "Неравномерная", "Прерывистая"]}
+      ]
+    },
+    {
+      "id": "cervix",
+      "order": 4,
+      "title": "Шейка матки",
+      "shortTitle": "Шейка матки",
+      "sourcePages": [6],
+      "fields": [
+        {"id": "not_visualized", "label": "Не определяется", "type": "boolean"},
+        {"id": "unchanged", "label": "Не изменена", "type": "boolean"},
+        {"id": "thin_endocervix", "label": "Эндоцервикс тонкий, без особенностей", "type": "boolean"},
+        {
+          "id": "cysts",
+          "label": "Кисточки",
+          "type": "repeatableGroup",
+          "fields": [
+            {"id": "location", "label": "Расположение", "type": "singleSelect", "options": ["Ближе к наружному зеву", "В передней губе", "Ближе к внутреннему зеву"]},
+            {"id": "diameter_mm", "label": "Диаметр", "unit": "mm", "type": "number", "min": 0}
+          ],
+          "sourceTemplate": "По ходу цервикального канала определяются округлые анэхогенные образования с чётким контуром диаметром от 3 до 10 мм."
+        },
+        {
+          "id": "polyps",
+          "label": "Полип цервикального канала",
+          "type": "repeatableGroup",
+          "fields": [
+            {"id": "size_1_mm", "label": "Размер 1", "unit": "mm", "type": "number", "min": 0},
+            {"id": "size_2_mm", "label": "Размер 2", "unit": "mm", "type": "number", "min": 0},
+            {"id": "central_vascularization", "label": "Васкуляризация в центре", "type": "boolean"},
+            {"id": "feeding_vessel", "label": "Подходящий сосуд", "type": "boolean"}
+          ],
+          "sourceTemplate": "В средних отделах цервикального канала определяется гиперэхогенное образование вытянутой (веретенообразной) формы размерами … × … мм, с васкуляризацией в центре (с подходящим к нему сосудом)."
+        }
+      ]
+    },
+    {
+      "id": "endometrium",
+      "order": 5,
+      "title": "Эндометрий",
+      "shortTitle": "Эндометрий",
+      "sourcePages": [7, 8],
+      "fields": [
+        {"id": "echogenicity", "label": "Эхогенность", "type": "singleSelect", "options": ["Гипоэхогенный", "Гиперэхогенный", "Трёхслойный"]},
+        {"id": "echostructure", "label": "Эхоструктура", "type": "singleSelect", "options": ["Однородной эхоструктуры", "Неоднородной эхоструктуры"]},
+        {"id": "midline", "label": "Срединная линия", "type": "singleSelect", "options": ["Визуализируется", "Не определяется", "Волнообразная"]},
+        {"id": "myometrial_boundary", "label": "Граница с миометрием", "type": "singleSelect", "options": ["Чётко визуализируется", "Визуализируется нечётко", "Прослеживается не на всём протяжении"]},
+        {"id": "vascularization_score", "label": "Васкуляризация, баллы", "type": "integer", "min": 1, "max": 4, "sourceNote": "Источник указывает 1–4 балла и текстовые характеристики: отсутствует, умеренная, выраженная. Не выдумывать недостающее соответствие."},
+        {"id": "vascularization_distribution", "label": "Распределение васкуляризации", "type": "singleSelect", "options": ["Диффузная", "Локальная"]},
+        {"id": "vessel_branching", "label": "Сосуды", "type": "singleSelect", "options": ["Без ветвления", "С разветвлением сосудов на конце"]},
+        {
+          "id": "hyperplasia",
+          "label": "Гиперплазия эндометрия",
+          "type": "group",
+          "sourceNote": "Осмотр на 5–7 ДМЦ.",
+          "variants": [
+            "Гиперэхогенной эхоструктуры, утолщен, без срединной линии, со множеством анэхогенных включений, умеренной васкуляризацией (2–3 балла).",
+            "Гиперэхогенной эхоструктуры, утолщен более 14 мм (в 1 фазу цикла).",
+            "Гипоэхогенный, тонкий, с мелкими анэхогенными включениями без срединной линии, со скудной васкуляризацией."
+          ]
+        },
+        {
+          "id": "focal_hyperplasia",
+          "label": "Локальная гиперплазия эндометрия",
+          "type": "measurementTemplate",
+          "inputs": [{"id": "segment", "label": "Отдел", "type": "singleSelect", "options": ["Верхние", "Нижние"]}],
+          "measurements": [
+            {"id": "thickness_mm", "label": "Толщина", "unit": "mm", "type": "number", "min": 0},
+            {"id": "inclusion_1_mm", "label": "Включение 1", "unit": "mm", "type": "number", "min": 0},
+            {"id": "inclusion_2_mm", "label": "Включение 2", "unit": "mm", "type": "number", "min": 0}
+          ],
+          "template": "В {{segment}} отделах определяется участок утолщения эндометрия до {{thickness_mm}} мм повышенной эхогенности, неоднородной эхоструктуры, с анэхогенными включениями размером {{inclusion_1_mm}} × {{inclusion_2_mm}} мм."
+        },
+        {
+          "id": "polyp",
+          "label": "Полип эндометрия",
+          "type": "measurementTemplate",
+          "sourceNote": "Осмотр на 3–5 ДМЦ.",
+          "inputs": [
+            {"id": "segment", "label": "Отдел", "type": "singleSelect", "options": ["Средняя треть", "Верхняя", "Нижняя"]},
+            {"id": "wall", "label": "Предполагаемая стенка", "type": "text"}
+          ],
+          "measurements": [
+            {"id": "size_1_mm", "label": "Размер 1", "unit": "mm", "type": "number", "min": 0},
+            {"id": "size_2_mm", "label": "Размер 2", "unit": "mm", "type": "number", "min": 0}
+          ],
+          "template": "В {{segment}} определяется гиперэхогенное образование с чёткими границами размерами {{size_1_mm}} × {{size_2_mm}} мм, исходящее предположительно из {{wall}} стенки матки, с единичным подходящим сосудом без ветвления."
+        },
+        {"id": "chronic_endometritis", "label": "Хронический эндометрит", "type": "boolean", "reportText": "Гипоэхогенный, без фазовой трансформации, тонкий, без срединной линии, без чётких границ с миометрием и без кровотока."},
+        {"id": "adenocarcinoma_description", "label": "Аденокарцинома — вариант описания", "type": "boolean", "reportText": "Эндометрий утолщен, неоднородной эхоструктуры повышенной эхогенности (пониженной), без чёткой границы с миометрием и срединной линии, с выраженным хаотичным кровотоком (с множественными сосудами с разветвлением на концах).", "sourceNote": "Не использовать как автоматический диагноз; только явно выбранная пользователем формулировка."}
+      ]
+    },
+    {
+      "id": "uterine_cavity",
+      "order": 6,
+      "title": "Полость матки",
+      "shortTitle": "Полость матки",
+      "sourcePages": [9],
+      "fields": [
+        {"id": "synechiae", "label": "Синехии полости матки", "type": "group", "sourceNote": "Лучше видны во 2 фазе цикла.", "inputs": [{"id": "location", "label": "Локализация", "type": "text"}], "template": "Определяются линейные гиперэхогенные включения, пересекающие полость матки от передней к задней стенке, {{location}}."},
+        {"id": "serosometra", "label": "Серозометра", "type": "boolean", "reportText": "Полость матки шириной до 3 мм, заполнена анэхогенным содержимым."},
+        {"id": "early_pregnancy", "label": "Беременность раннего срока", "type": "measurementTemplate", "measurements": [{"id": "mean_diameter_mm", "label": "Средний диаметр", "unit": "mm", "type": "number", "min": 0}], "template": "В полости матки определяется анэхогенное образование средним диаметром {{mean_diameter_mm}} мм с гиперэхогенным контуром — плодное яйцо.", "sourceNote": "В источнике указано 3 мм и более."},
+        {
+          "id": "iud",
+          "label": "ВМС",
+          "type": "group",
+          "variants": [
+            {"id": "normal", "label": "Норма", "measurements": [{"id": "distance_to_fundus_mm", "label": "Расстояние до дна", "unit": "mm", "type": "number", "min": 0}], "template": "В полости матки определяется ВМС, расположена правильно, расстояние до дна {{distance_to_fundus_mm}} мм."},
+            {"id": "expulsion", "label": "Экспульсия", "measurements": [{"id": "below_internal_os_mm", "label": "Ниже внутреннего зева", "unit": "mm", "type": "number", "min": 0}, {"id": "short_of_fundus_mm", "label": "Не доходит до дна", "unit": "mm", "type": "number", "min": 0}], "template": "В полости матки определяется ВМС, нижний край расположен ниже внутреннего зева на {{below_internal_os_mm}} мм, не доходит до дна {{short_of_fundus_mm}} мм."}
+          ]
+        },
+        {"id": "postpartum_hematometra", "label": "Гематометра после родов", "type": "measurementTemplate", "measurements": [{"id": "width_mm", "label": "Ширина", "unit": "mm", "type": "number", "min": 0}, {"id": "postpartum_day", "label": "День после родов", "unit": "day", "type": "integer", "min": 0}], "template": "Шириной до {{width_mm}} мм, заполнена гипоэхогенным содержимым с неоднородными гиперэхогенными включениями (жидкая кровь со сгустками) без кровотока.", "sourceNote": "В источнике указано 10–20 мм и более, в зависимости от дня после родов."},
+        {"id": "postpartum_retained_tissue", "label": "Остатки после родов", "type": "measurementTemplate", "inputs": [{"id": "vessel_wall", "label": "Стенка исходящего сосуда", "type": "singleSelect", "options": ["Передняя", "Задняя"]}], "measurements": [{"id": "width_mm", "label": "Ширина полости", "unit": "mm", "type": "number", "min": 0}, {"id": "size_1_mm", "label": "Размер 1", "unit": "mm", "type": "number", "min": 0}, {"id": "size_2_mm", "label": "Размер 2", "unit": "mm", "type": "number", "min": 0}], "template": "Шириной до {{width_mm}} мм, в области дна определяется гиперэхогенное образование округлой формы размерами {{size_1_mm}} × {{size_2_mm}} мм с выраженным кровотоком (с единичным сосудом, исходящим из {{vessel_wall}} стенки)."}
+      ]
+    },
+    {
+      "id": "ovaries",
+      "order": 7,
+      "title": "Яичники",
+      "shortTitle": "Яичники",
+      "sourcePages": [10, 11],
+      "type": "fixedRepeatableGroup",
+      "instances": [
+        {"id": "right", "label": "Правый яичник"},
+        {"id": "left", "label": "Левый яичник"}
+      ],
+      "sourceNote": "Каждый яичник описывается отдельно. При выявлении образования производится расчёт O-RADS и / или по IOTA ADNEX MODEL.",
+      "fields": [
+        {"id": "not_visualized", "label": "Не определяется", "type": "boolean"},
+        {"id": "mobility", "label": "Подвижность", "type": "singleSelect", "options": ["Подвижный", "Фиксирован за маткой", "Фиксирован у дна", "Фиксирован у ребра матки"]},
+        {"id": "follicular_apparatus_not_expressed", "label": "Фолликулярный аппарат не выражен", "type": "boolean"},
+        {"id": "follicle_groups", "label": "Фолликулы", "type": "repeatableGroup", "fields": [{"id": "count", "label": "Количество", "type": "integer", "min": 0}, {"id": "diameter_mm", "label": "Диаметр", "unit": "mm", "type": "number", "min": 0}]},
+        {"id": "dominant_follicle_mm", "label": "Доминантный фолликул, средний размер", "unit": "mm", "type": "number", "min": 0},
+        {"id": "stroma", "label": "Строма", "type": "singleSelect", "options": ["Обычной эхогенности", "Гиперэхогенная в избыточном объёме", "Преобладает"]},
+        {"id": "pcos_follicles", "label": "Более 20 фолликулов диаметром 2–9 мм, преимущественно по периферии", "type": "boolean"},
+        {"id": "volume_cm3", "label": "Объём яичника", "unit": "cm3", "type": "number", "min": 0, "sourceNote": "В источнике для УЗ-признаков ПКЯ указан объём более 10 см³."},
+        {
+          "id": "formations",
+          "label": "Образования",
+          "type": "repeatableGroup",
+          "integrations": ["existing_o_rads_module", "existing_iota_adnex_model_module"],
+          "fields": [
+            {"id": "type", "label": "Вариант описания", "type": "singleSelect", "options": ["Образование без детализации в источнике", "Простая киста", "Эндометриоидная киста", "Дермоидная киста", "Паровариальная киста", "Гидросальпинкс", "Тубовариальное образование"]},
+            {"id": "size_1_mm", "label": "Размер 1", "unit": "mm", "type": "number", "min": 0},
+            {"id": "size_2_mm", "label": "Размер 2", "unit": "mm", "type": "number", "min": 0},
+            {"id": "capsule", "label": "Капсула простой кисты", "type": "singleSelect", "options": ["Гладкая тонкая", "Гладкая толстая"]},
+            {"id": "blood_flow", "label": "Кровоток", "type": "singleSelect", "options": ["Отсутствует", "Минимальный", "Есть"]},
+            {"id": "o_rads_result", "label": "Результат существующего модуля O-RADS", "type": "externalModuleResult"},
+            {"id": "iota_result", "label": "Результат существующего модуля IOTA ADNEX MODEL", "type": "externalModuleResult"}
+          ],
+          "templates": {
+            "simple_cyst": "Анэхогенное образование с гладкой тонкой / толстой капсулой без кровотока размерами {{size_1_mm}} × {{size_2_mm}} мм.",
+            "endometrioid_cyst": "Гипоэхогенное образование со взвешенным содержимым по типу «матовое стекло», плотной капсулой, без кровотока (минимальным кровотоком), размерами {{size_1_mm}} × {{size_2_mm}} мм.",
+            "dermoid_cyst": "Гиперэхогенное образование неоднородной структуры размерами {{size_1_mm}} × {{size_2_mm}} мм, дающее акустическую тень.",
+            "paraovarian_cyst": "Рядом с яичником определяется округлое анэхогенное образование с гладкими плотными стенками размерами {{size_1_mm}} × {{size_2_mm}} мм.",
+            "hydrosalpinx": "Между яичником и маткой определяется гипоэхогенное образование вытянутой формы размерами {{size_1_mm}} × {{size_2_mm}} мм с неполными поперечными перегородками.",
+            "tubo_ovarian_formation": "Рядом с яичником определяется гипоэхогенное образование с неполными поперечными перегородками, тесно связанное и неотделяемое от яичника, общим размером {{size_1_mm}} × {{size_2_mm}} мм."
+          },
+          "sourceNote": "Подробная методичка по яичникам и сами правила O-RADS / IOTA в PDF отсутствуют."
+        }
+      ]
+    },
+    {
+      "id": "pelvic_fluid",
+      "order": 8,
+      "title": "Жидкость в малом тазу",
+      "shortTitle": "Жидкость",
+      "sourcePages": [12],
+      "fields": [
+        {"id": "status", "label": "Состояние", "type": "singleSelect", "options": ["Не определяется", "Незначительное количество", "Асцит"]},
+        {"id": "small_amount_pocket_cm", "label": "Карман при незначительном количестве", "unit": "cm", "type": "number", "min": 0},
+        {
+          "id": "ascites",
+          "label": "Асцит",
+          "type": "measurementGroup",
+          "measurements": [
+            {"id": "behind_uterus_mm", "label": "За маткой", "unit": "mm", "type": "number", "min": 0},
+            {"id": "above_uterus_mm", "label": "Над маткой", "unit": "mm", "type": "number", "min": 0},
+            {"id": "right_iliac_mm", "label": "Правая подвздошная область", "unit": "mm", "type": "number", "min": 0},
+            {"id": "left_iliac_mm", "label": "Левая подвздошная область", "unit": "mm", "type": "number", "min": 0},
+            {"id": "subhepatic_mm", "label": "Под печенью", "unit": "mm", "type": "number", "min": 0}
+          ],
+          "template": "Определяется в значительном количестве в дугласовом пространстве и в брюшной полости: за маткой карман {{behind_uterus_mm}} мм, над маткой карман {{above_uterus_mm}} мм, в правой подвздошной области карман {{right_iliac_mm}} мм, в левой подвздошной области карман {{left_iliac_mm}} мм, под печенью карман {{subhepatic_mm}} мм."
+        }
+      ]
+    },
+    {
+      "id": "deep_infiltrating_endometriosis",
+      "order": 9,
+      "title": "Признаки глубокого инфильтративного эндометриоза",
+      "shortTitle": "ГИЭ",
+      "sourcePages": [13],
+      "fields": [
+        {
+          "id": "infiltrates",
+          "label": "Инфильтраты",
+          "type": "repeatableGroup",
+          "fields": [
+            {"id": "size_1_mm", "label": "Размер 1", "unit": "mm", "type": "number", "min": 0},
+            {"id": "size_2_mm", "label": "Размер 2", "unit": "mm", "type": "number", "min": 0},
+            {"id": "location", "label": "Локализация", "type": "singleSelect", "options": ["Между маткой и яичником", "Ретроцервикально", "В заднем своде влагалища", "Между задней стенкой матки и передней стенкой сигмовидной кишки", "В проекции правой крестцово-маточной связки", "В проекции левой крестцово-маточной связки", "В переднем компартменте между маткой и задней стенкой мочевого пузыря", "Другое"]},
+            {"id": "location_custom", "label": "Другая локализация", "type": "text"}
+          ],
+          "template": "Определяется гипоэхогенное образование неправильной вытянутой формы без чётких границ и кровотока, размерами {{size_1_mm}} × {{size_2_mm}} мм. Локализация: {{location}}."
+        },
+        {"id": "indian_headdress_sign", "label": "Симптом «головного убора индейца»", "type": "boolean"},
+        {"id": "posterior_fornix_obliteration", "label": "Задний свод облитерирован", "type": "boolean"}
+      ]
+    },
+    {
+      "id": "pelvic_veins",
+      "order": 10,
+      "title": "Вены малого таза",
+      "shortTitle": "Вены",
+      "sourcePages": [14],
+      "fields": [
+        {"id": "arcuate_uterine_veins_mm", "label": "Расширение аркуатных вен матки до", "unit": "mm", "type": "number", "min": 0, "template": "Определяется расширение аркуатных вен матки до {{arcuate_uterine_veins_mm}} мм."},
+        {"id": "parametrial_veins_left_mm", "label": "Вены параметрия слева до", "unit": "mm", "type": "number", "min": 0},
+        {"id": "parametrial_veins_right_mm", "label": "Вены параметрия справа до", "unit": "mm", "type": "number", "min": 0},
+        {"id": "ovarian_plexus_left_mm", "label": "Яичниковое сплетение слева до", "unit": "mm", "type": "number", "min": 0},
+        {"id": "ovarian_plexus_right_mm", "label": "Яичниковое сплетение справа до", "unit": "mm", "type": "number", "min": 0}
+      ],
+      "templates": {
+        "parametrial": "Определяется расширение вен параметрия до {{parametrial_veins_left_mm}} мм слева и {{parametrial_veins_right_mm}} мм справа.",
+        "ovarian": "Определяется расширение яичниковых сплетений до {{ovarian_plexus_left_mm}} мм слева и {{ovarian_plexus_right_mm}} мм справа."
+      }
+    }
+  ],
+  "missingFromSource": [
+    "Подробная методичка по яичникам",
+    "Правила расчёта O-RADS",
+    "Переменные и формулы IOTA ADNEX MODEL",
+    "Правила автоматической постановки диагноза",
+    "Единицы размеров и объёма матки",
+    "Полное соответствие баллов 1–4 текстовым характеристикам васкуляризации эндометрия",
+    "Структура заключения и рекомендаций"
+  ]
+}

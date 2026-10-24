@@ -80,6 +80,7 @@ export type ModuleId =
   | "calculator.figo"
   | "report.adnex-orads"
   | "calculator.endometrium"
+  | "protocol.gynecology-ultrasound-10-steps"
   | "calculator.pop-q"
   | "calculator.colposcopy"
   | "calculator.cin-risk"
@@ -479,6 +480,15 @@ export const MODULES: ModuleEntry[] = [
     ref: { catalog: "registry", slug: "endometrium" },
     surfaces: { clinicalSearch: true },
     legacy: { clinicalTools: ["endometrium"] },
+  },
+  {
+    id: "protocol.gynecology-ultrasound-10-steps",
+    domain: "gynecology",
+    kind: "calculator",
+    title: "Протокол УЗИ в гинекологии — 10 шагов",
+    description: "10 шагов малого таза по приложенному руководству; O-RADS/IOTA — через модули платформы.",
+    href: "/tools/calc/gyn/ultrasound-10-steps",
+    surfaces: { clinicalSearch: true, sidebar: true, sidebarGroup: "appointment" },
   },
   {
     id: "calculator.pop-q",
