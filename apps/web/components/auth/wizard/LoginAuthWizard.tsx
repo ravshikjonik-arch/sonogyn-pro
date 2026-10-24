@@ -6,6 +6,7 @@ import { FormEvent, useCallback, useEffect, useState } from "react";
 
 import { useAuth } from "@/app/providers";
 import { AuthMessage, authInputClass } from "@/components/auth/AuthScreenShell";
+import { AuthPersonaGate } from "@/components/auth/wizard/AuthPersonaGate";
 import { AuthWizardLayout } from "@/components/auth/wizard/AuthWizardLayout";
 import { Button } from "@/components/ui/button";
 import type { OnboardingCharacterId } from "@repo/types";
@@ -32,9 +33,12 @@ export function LoginAuthWizard({ nextPath }: Props) {
   const [character, setCharacter] = useState<OnboardingCharacterId | "duo">(
     () => readStoredOnboardingCharacter() ?? "duo",
   );
+  const [personaDone, setPersonaDone] = useState(() => Boolean(readStoredOnboardingCharacter()));
 
   useEffect(() => {
-    setCharacter(readStoredOnboardingCharacter() ?? "duo");
+    const stored = readStoredOnboardingCharacter();
+    setCharacter(stored ?? "duo");
+    setPersonaDone(Boolean(stored));
   }, []);
 
   useEffect(() => {
@@ -95,6 +99,17 @@ export function LoginAuthWizard({ nextPath }: Props) {
     } finally {
       setLoading(false);
     }
+  }
+
+  if (!personaDone) {
+    return (
+      <AuthPersonaGate
+        onContinue={(id) => {
+          setCharacter(id);
+          setPersonaDone(true);
+        }}
+      />
+    );
   }
 
   return (

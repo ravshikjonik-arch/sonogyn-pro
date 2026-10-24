@@ -15,10 +15,10 @@
 
 ## Ассеты
 
-- `public/auth/characters/boy.svg`
-- `public/auth/characters/girl.svg`
-
-Замените на свои PNG/WebP, сохранив имена или обновите пути в `AuthCharacterHero.tsx`.
+- `man-hero.png` / `woman-hero.png` — шапка login/register
+- `man-picker.png` / `woman-picker.png` — карточки выбора
+- `duo-banner.png` — общий баннер до выбора
+- Пути: `lib/auth/character-assets.ts`
 
 ## Профиль
 

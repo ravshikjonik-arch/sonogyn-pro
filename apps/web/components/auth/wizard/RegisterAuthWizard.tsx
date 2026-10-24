@@ -233,7 +233,7 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
     return (
       <AuthWizardLayout
         title="Расскажите о себе"
-        subtitle="Выберите персонажа на экране входа и специализацию."
+        subtitle="Я мужчина / я женщина — для оформления входа. Затем укажите специализацию."
         character={character ?? "duo"}
       >
         <label className="mb-4 block">
