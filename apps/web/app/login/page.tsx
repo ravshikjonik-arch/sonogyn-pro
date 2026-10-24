@@ -35,12 +35,24 @@ import {
 } from "@/lib/auth/translate-auth-error";
 import { telegramAuthErrorMessage } from "@/lib/auth/telegram-widget";
 import { defaultPostAuthPath } from "@/lib/nav/post-auth-landing";
+import { isAuthWizardV2Enabled } from "@/lib/auth/auth-wizard-config";
 import { safeInternalPath } from "@/lib/nav/safe-redirect";
+import { LoginAuthWizard } from "@/components/auth/wizard/LoginAuthWizard";
 
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { refresh, user, ready } = useAuth();
+
+  const nextPathEarly = safeInternalPath(
+    searchParams.get("next") ?? searchParams.get("redirectedFrom"),
+    defaultPostAuthPath(),
+  );
+  const wizardLegacy = searchParams.get("wizard") === "0";
+
+  if (isAuthWizardV2Enabled() && !wizardLegacy && !isPilotTelegramPrimary() && !isPilotClosedAccessClient()) {
+    return <LoginAuthWizard nextPath={nextPathEarly} />;
+  }
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

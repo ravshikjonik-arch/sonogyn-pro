@@ -27,11 +27,13 @@ export {
   ClinicalPreferencesSchema,
   DEFAULT_SECOND_THIRD_PROTOCOL_TEMPLATE,
   NotificationPreferencesSchema,
+  OnboardingCharacterIdSchema,
   SecondThirdProtocolTemplateIdSchema,
   isMessageNotificationsEnabled,
   parseClinicalPreferences,
   type ClinicalPreferences,
   type NotificationPreferences,
+  type OnboardingCharacterId,
   type SecondThirdProtocolTemplateId,
 } from "./clinical-preferences";
 

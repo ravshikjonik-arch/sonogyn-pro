@@ -12,10 +12,15 @@ export const NotificationPreferencesSchema = z.object({
 });
 export type NotificationPreferences = z.infer<typeof NotificationPreferencesSchema>;
 
+/** Декоративный персонаж на экранах входа (не клиническое поле). */
+export const OnboardingCharacterIdSchema = z.enum(["boy", "girl"]);
+export type OnboardingCharacterId = z.infer<typeof OnboardingCharacterIdSchema>;
+
 /** Настройки врача, синхронизируются через `profiles.clinical_preferences`. */
 export const ClinicalPreferencesSchema = z.object({
   fmfSecondThirdProtocolTemplate: SecondThirdProtocolTemplateIdSchema.optional(),
   notifications: NotificationPreferencesSchema.optional(),
+  onboardingCharacter: OnboardingCharacterIdSchema.optional(),
 });
 export type ClinicalPreferences = z.infer<typeof ClinicalPreferencesSchema>;
 

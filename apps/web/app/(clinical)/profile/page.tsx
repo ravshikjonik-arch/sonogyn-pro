@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { MfaSettingsPanel } from "@/components/clinical/MfaSettingsPanel";
 import { ProfileClinicalPreferencesSection } from "@/components/clinical/ProfileClinicalPreferencesSection";
 import { ProfileMessageNotificationsToggle } from "@/components/clinical/ProfileMessageNotificationsToggle";
+import { OnboardingCharacterProfileSection } from "@/components/auth/wizard/OnboardingCharacterProfileSection";
 import { ProfileSettingsForm } from "@/components/clinical/profile-settings-form";
 import { BirthDateDisplay } from "@/components/ui/BirthDateField";
 import { Badge } from "@/components/ui/badge";
@@ -240,6 +241,10 @@ export default async function ProfilePage() {
             birth_date_iso: birthDateIso,
           }}
         />
+
+        {user ? (
+          <OnboardingCharacterProfileSection initialPreferences={clinicalPrefs} />
+        ) : null}
 
         <ProfileMessageNotificationsToggle
           initialEnabled={isMessageNotificationsEnabled(clinicalPrefs)}

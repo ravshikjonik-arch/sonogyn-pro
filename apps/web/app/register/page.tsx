@@ -52,13 +52,25 @@ import {
 import { readAppLocale, saveAppLocale, type AppLocale } from "@/lib/i18n/locale";
 import { defaultPostAuthPath } from "@/lib/nav/post-auth-landing";
 import { safeInternalPath } from "@/lib/nav/safe-redirect";
+import { isAuthWizardV2Enabled } from "@/lib/auth/auth-wizard-config";
 import { beginFirstRunOnboarding } from "@/lib/onboarding/first-run-storage";
 import { markSessionAnchorNow } from "@/lib/security/session-anchor";
+import { RegisterAuthWizard } from "@/components/auth/wizard/RegisterAuthWizard";
 
 function RegisterForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { refresh } = useAuth();
+
+  const afterAuthPathEarly = safeInternalPath(
+    searchParams.get("next") ?? searchParams.get("redirectedFrom"),
+    defaultPostAuthPath(),
+  );
+  const wizardLegacy = searchParams.get("wizard") === "0";
+
+  if (isAuthWizardV2Enabled() && !wizardLegacy && !isPilotTelegramPrimary() && !isPilotClosedAccessClient()) {
+    return <RegisterAuthWizard afterAuthPath={afterAuthPathEarly} />;
+  }
 
   const defaultTab = useMemo(
     () => parseRegistrationMethod(searchParams.get("method")),
