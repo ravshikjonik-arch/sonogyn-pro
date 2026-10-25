@@ -60,7 +60,11 @@ const cases: Array<[string, Partial<OradsUs2022Input>, number | null]> = [
   ["Дермоид 9 см", { morphology: "classic", classicType: "dermoid", sizeCm: 9 }, 2],
   ["Дермоид 10 см", { morphology: "classic", classicType: "dermoid", sizeCm: 10 }, 3],
   ["Параовариальная киста любого размера", { morphology: "classic", classicType: "paraovarian" }, 2],
-  ["Асцит при аднексальном образовании", { morphology: "unilocular", sizeCm: 4, extraSigns: "ascites" }, 5],
+  [
+    "Асцит повышает O-RADS 3 до 5",
+    { morphology: "unilocular", sizeCm: 4, innerContour: "irregular", extraSigns: "ascites" },
+    5,
+  ],
 ];
 
 for (const [name, input, expected] of cases) {
@@ -76,6 +80,41 @@ test("Геморрагическая киста в поздней постмен
   });
   assert.equal(result.category, null);
   assert.match(result.title, /переклассификация/i);
+});
+
+test("Асцит при простой кисте O-RADS 2 не повышает категорию", () => {
+  const result = calc({
+    morphology: "unilocular",
+    sizeCm: 4,
+    menopause: "pre",
+    cystContent: "simple",
+    extraSigns: "ascites",
+  });
+  assert.equal(result.category, 2);
+  assert.match(result.warning ?? "", /не повышает/);
+});
+
+test("Простая киста: тактика зависит от размера и менопаузы", () => {
+  const preSmall = calc({ morphology: "unilocular", sizeCm: 4, menopause: "pre", cystContent: "simple" });
+  const postSmall = calc({ morphology: "unilocular", sizeCm: 4, menopause: "postEarly", cystContent: "simple" });
+  const preLarge = calc({ morphology: "unilocular", sizeCm: 6, menopause: "pre", cystContent: "simple" });
+  assert.equal(preSmall.category, 2);
+  assert.match(preSmall.management, /не требуется/);
+  assert.match(postSmall.management, /12 месяц/);
+  assert.match(preLarge.management, /12 месяц/);
+});
+
+test("Непростая и двухкамерная гладкие кисты: контроль 6 месяцев", () => {
+  const nonSimple = calc({
+    morphology: "unilocular",
+    sizeCm: 6,
+    cystContent: "nonSimple",
+    menopause: "pre",
+  });
+  const bilocular = calc({ morphology: "bilocular", sizeCm: 2 });
+  assert.match(nonSimple.management, /6 месяц/);
+  assert.equal(bilocular.category, 2);
+  assert.match(bilocular.management, /6 месяц/);
 });
 
 test("Геморрагическая киста в ранней постменопаузе — O-RADS 2", () => {

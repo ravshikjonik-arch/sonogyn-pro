@@ -30,7 +30,7 @@ export const TIRADS_FLASHCARDS: TiradsFlashcard[] = [
     id: "fc-spongiform",
     descriptor: "Composition",
     questionRu: "Spongiform узел — сколько баллов composition?",
-    answerRu: "0 баллов → типично TR2.",
+    answerRu: "0 баллов. Spongiform → TR1, другие признаки не прибавляют.",
     points: 0,
   },
   {
@@ -59,7 +59,7 @@ export const TIRADS_QUIZ = [
     id: "q2",
     stem: "Spongiform узел с comet-tail. TI-RADS?",
     options: ["TR1", "TR2", "TR4", "TR5"],
-    correctIndex: 1,
-    explanation: "0 points → TR2.",
+    correctIndex: 0,
+    explanation: "Spongiform → TR1, баллы других признаков не прибавляют.",
   },
 ];

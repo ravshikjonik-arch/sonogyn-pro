@@ -33,44 +33,181 @@ const answer = (
   warning,
 });
 
+const STAR =
+  "Интервал можно сократить по клинике. Уменьшение ≥10–15% среднего линейного размера — наблюдение прекращают. Стабильно — УЗИ через 24 месяца от первого исследования. Рост ≥10–15% — УЗИ через 12 и 24 месяца, затем гинеколог. Смена морфологии — заново по лексикону.";
+const STAR_STAR =
+  "Мало данных об интервале. Стабильно — контроль через 12 и 24 месяца от первого исследования, далее по клинике. Смена морфологии — заново по лексикону.";
+const MRI_NOTE =
+  "МРТ с контрастом точнее для солидных образований и кист с солидным компонентом.";
+const CLASSIC_FOLLOW =
+  "Если стабильно — можно УЗИ через 24 месяца от первого исследования, далее по клинике. У эндометриомы риск выше после менопаузы и если она существует больше 10 лет.";
+const GYN = "Клиника: гинеколог по показаниям.";
+
+function bullets(lines: string[]): string {
+  return lines.filter(Boolean).join("\n");
+}
+
+function isPost(input: OradsUs2022Input): boolean {
+  return input.menopause === "postEarly" || input.menopause === "postLate";
+}
+
+/** Тактика строки Assessment Categories / Classic Benign, O-RADS US v2022. */
 function managementFor(category: number, input: OradsUs2022Input): string {
-  if (category === 0) return "Повторное УЗИ или МРТ для полной характеристики образования.";
-  if (category === 1) return "Стандартное наблюдение; специфического ведения образования не требуется.";
-  if (category === 2) {
-    if (input.morphology === "classic" && input.classicType === "hemorrhagic") {
-      if (input.menopause === "pre") {
-        return input.sizeCm !== null && input.sizeCm > 5
-          ? "Контроль УЗИ через 2–3 месяца."
-          : "Специфического наблюдения не требуется.";
-      }
-      if (input.menopause === "postEarly") return "Повторное УЗИ через 2–3 месяца или МРТ.";
-    }
-    if (
-      input.morphology === "unilocular" &&
-      !input.solidComponent &&
-      input.innerContour === "smooth" &&
-      input.cystContent === "simple" &&
-      input.sizeCm !== null
-    ) {
-      if (input.menopause === "pre" && input.sizeCm > 5) return "Контроль УЗИ через 12 месяцев.";
-      if ((input.menopause === "postEarly" || input.menopause === "postLate") && input.sizeCm > 3) {
-        return "Контроль УЗИ через 12 месяцев.";
-      }
-      return "Специфического наблюдения не требуется.";
-    }
-    return "Ведение гинекологом; наблюдение зависит от типа и размера образования по O-RADS US v2022.";
-  }
-  if (category === 3) {
-    return "Ведение гинекологом. Если операция не проводится — контроль УЗИ в течение 6 месяцев; для солидного образования рассмотреть экспертное УЗИ или O-RADS МРТ.";
+  if (category === 0) return "Повторить УЗИ или МРТ.";
+  if (category === 1) return "Наблюдение не требуется.";
+  if (category === 5) {
+    return bullets([
+      "Визуализация: по протоколу онкогинеколога.",
+      "Клиника: онкогинеколог.",
+    ]);
   }
   if (category === 4) {
-    return "Ведение гинекологом с консультацией гинеколога-онколога или направление к нему. Рассмотреть МРТ для дальнейшей оценки.";
+    return bullets([
+      "Визуализация, один из вариантов:",
+      "• УЗИ-эксперт, если доступен",
+      "• МРТ со шкалой O-RADS MRI",
+      "• протокол онкогинеколога",
+      MRI_NOTE,
+      "Клиника: гинеколог с консультацией онкогинеколога или только онкогинеколог.",
+    ]);
   }
-  return "Направление к гинекологу-онкологу. Рекомендованы МРТ и/или КТ для уточнения характеристик и стадирования.";
+  if (category === 3) {
+    return bullets([
+      "Визуализация:",
+      "• Если не удаляют — рассмотреть УЗИ в пределах 6 месяцев.",
+      "• Если образование солидное — можно УЗИ-эксперта или МРТ со шкалой O-RADS MRI.",
+      STAR_STAR,
+      MRI_NOTE,
+      "Клиника: гинеколог.",
+    ]);
+  }
+
+  if (input.morphology === "classic") {
+    return classicManagement(input);
+  }
+
+  if (input.morphology === "bilocular") {
+    return bullets(["Контроль УЗИ через 6 месяцев.", STAR]);
+  }
+
+  if (
+    input.morphology === "unilocular" &&
+    !input.solidComponent &&
+    input.innerContour === "smooth" &&
+    input.sizeCm !== null
+  ) {
+    const size = input.sizeCm;
+    if (input.cystContent === "simple") {
+      if (size <= 3) {
+        return input.menopause === "pre"
+          ? "См. фолликул: наблюдение не требуется."
+          : "Наблюдение не требуется.";
+      }
+      if (size <= 5) {
+        return input.menopause === "pre"
+          ? "Наблюдение не требуется."
+          : bullets(["Контроль УЗИ через 12 месяцев.", STAR]);
+      }
+      return bullets(["Контроль УЗИ через 12 месяцев.", STAR]);
+    }
+    if (size <= 3) {
+      return input.menopause === "pre"
+        ? "Наблюдение не требуется."
+        : bullets(["Контроль УЗИ через 12 месяцев.", STAR]);
+    }
+    return bullets(["Контроль УЗИ через 6 месяцев.", STAR]);
+  }
+
+  return "Ведение гинекологом по строке O-RADS US v2022 для этого дескриптора.";
+}
+
+function classicManagement(input: OradsUs2022Input): string {
+  const size = input.sizeCm;
+  if (input.classicType === "paraovarian" || input.classicType === "peritoneal" || input.classicType === "hydrosalpinx") {
+    return bullets(["Визуализация: не требуется.", GYN]);
+  }
+  if (input.classicType === "hemorrhagic") {
+    if (input.menopause === "pre") {
+      if (size !== null && size > 5) {
+        return bullets(["Контроль УЗИ через 2–3 месяца.", GYN]);
+      }
+      return bullets(["Наблюдение не требуется.", GYN]);
+    }
+    if (input.menopause === "postEarly") {
+      return bullets([
+        "Варианты подтверждения, образование <10 см:",
+        "• УЗИ через 2–3 месяца",
+        "• УЗИ-эксперт, если доступен",
+        "• МРТ со шкалой O-RADS MRI",
+        GYN,
+      ]);
+    }
+  }
+  if (input.classicType === "dermoid") {
+    if (size !== null && size <= 3) {
+      return bullets(["Можно рассмотреть контроль УЗИ через 12 месяцев.", CLASSIC_FOLLOW, GYN]);
+    }
+    return bullets(["Если не удаляют — контроль УЗИ через 12 месяцев.", CLASSIC_FOLLOW, GYN]);
+  }
+  if (input.classicType === "endometrioma") {
+    if (input.menopause === "pre") {
+      return bullets(["Если не удаляют — контроль УЗИ через 12 месяцев.", CLASSIC_FOLLOW, GYN]);
+    }
+    if (isPost(input)) {
+      return bullets([
+        "На первом осмотре, <10 см, варианты подтверждения:",
+        "• УЗИ через 2–3 месяца",
+        "• УЗИ-эксперт, если доступен",
+        "• МРТ со шкалой O-RADS MRI",
+        "Затем, если не удаляют — контроль УЗИ через 12 месяцев.",
+        CLASSIC_FOLLOW,
+        GYN,
+      ]);
+    }
+  }
+  return bullets(["См. таблицу Classic Benign Lesions.", GYN]);
+}
+
+const CLASSIC_CAVEAT =
+  "Classic benign — только если дескрипторы совпали полностью. Если вид лишь похож, контроль УЗИ в пределах 3 месяцев и пересчёт по другим признакам лексикона.";
+
+function joinWarning(current: string | undefined, next: string): string {
+  return current ? `${current} ${next}` : next;
+}
+
+/** Асцит и узлы брюшины повышают только O-RADS 3 и 4. В 1–2 ищут другую причину. */
+function applyExtraSigns(base: OradsUs2022Result, input: OradsUs2022Input): OradsUs2022Result {
+  if (input.extraSigns === "none" || base.category === null || base.category === 0) return base;
+  const sign = input.extraSigns === "ascites" ? "Асцит" : "Узелки на брюшине";
+  if (base.category === 3 || base.category === 4) {
+    return answer(
+      5,
+      `${sign} без другой явной причины повышает O-RADS ${base.category} до 5.`,
+      managementFor(5, input),
+      "Сначала исключите иные причины асцита и узлов брюшины.",
+    );
+  }
+  if (base.category <= 2) {
+    return {
+      ...base,
+      warning: joinWarning(
+        base.warning,
+        `${sign}: в O-RADS 1–2 этот признак сам по себе не повышает категорию до 5. Ищите другую причину.`,
+      ),
+    };
+  }
+  return {
+    ...base,
+    rationale: `${base.rationale} Дополнительно: ${sign.toLowerCase()}.`,
+  };
 }
 
 /** ACR O-RADS US v2022 assessment categories (deterministic). */
 export function evaluateOradsUs2022(input: OradsUs2022Input): OradsUs2022Result {
+  return applyExtraSigns(evaluateBase(input), input);
+}
+
+function evaluateBase(input: OradsUs2022Input): OradsUs2022Result {
   if (input.incomplete) {
     return answer(
       0,
@@ -87,17 +224,7 @@ export function evaluateOradsUs2022(input: OradsUs2022Input): OradsUs2022Result 
     );
   }
 
-  const isClassic = input.morphology === "classic";
-  if (!isClassic && input.extraSigns !== "none") {
-    const sign = input.extraSigns === "ascites" ? "Асцит" : "Узелки на брюшине";
-    return answer(
-      5,
-      `${sign} при аднексальном образовании — критерий высокой категории риска.`,
-      managementFor(5, input),
-    );
-  }
-
-  if (isClassic) {
+  if (input.morphology === "classic") {
     if (!input.classicType) return need(["Выберите типичное доброкачественное образование"]);
     const extraovarian = ["paraovarian", "peritoneal", "hydrosalpinx"].includes(input.classicType);
     if (!extraovarian && input.sizeCm === null) return need(["Укажите максимальный размер"]);
@@ -114,6 +241,9 @@ export function evaluateOradsUs2022(input: OradsUs2022Input): OradsUs2022Result 
           warning: "Не присваивайте O-RADS 2 автоматически в поздней постменопаузе.",
         };
       }
+    }
+    if (input.classicType === "endometrioma" && !input.menopause) {
+      return need(["Укажите менопаузальный статус"]);
     }
     const category = !extraovarian && input.sizeCm !== null && input.sizeCm >= 10 ? 3 : 2;
     const names: Record<Exclude<ClassicTypeUs2022, "">, string> = {
@@ -134,6 +264,7 @@ export function evaluateOradsUs2022(input: OradsUs2022Input): OradsUs2022Result 
       category,
       `${names[input.classicType]}; ${sizeRule}.`,
       managementFor(category, input),
+      CLASSIC_CAVEAT,
     );
   }
 
@@ -200,7 +331,9 @@ export function evaluateOradsUs2022(input: OradsUs2022Input): OradsUs2022Result 
   }
 
   if (input.morphology === "unilocular") {
-    if (input.cystContent === "simple" && !input.menopause) return need(["Укажите менопаузальный статус"]);
+    if (!input.menopause && (input.cystContent === "simple" || input.sizeCm <= 3)) {
+      return need(["Укажите менопаузальный статус"]);
+    }
     let category: 1 | 2 | 3 = input.sizeCm >= 10 ? 3 : 2;
     if (input.cystContent === "simple" && input.menopause === "pre" && input.sizeCm <= 3) category = 1;
     const content = input.cystContent === "simple" ? "Простая" : "Непростая";

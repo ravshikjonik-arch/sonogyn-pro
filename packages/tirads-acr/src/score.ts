@@ -18,8 +18,8 @@ import type {
 import { decideFnaAndFollowUp } from "./fna";
 import { lymphNodeNote } from "./lymph-node";
 
-/** ACR 2017 bands + multi-foci + cystic/spongiform TR1 shortcut. */
-export const ACR_TIRADS_ENGINE_VERSION = "acr-2017-v2";
+/** ACR 2017 bands + summed echogenic foci + spongiform TR1 shortcut. */
+export const ACR_TIRADS_ENGINE_VERSION = "acr-2017-v3";
 
 export const defaultTiradsAcrInput: TiradsAcrInput = {
   composition: "solid",
@@ -67,8 +67,9 @@ export function primaryEchogenicFocus(foci: TiradsEchogenicFoci[]): TiradsEchoge
   return best;
 }
 
+/** Spongiform and no nodule stop the score. Cystic composition is 0 points; other features still add. */
 function isBenignCompositionShortcut(composition: TiradsAcrInput["composition"]): boolean {
-  return composition === "no_nodule" || composition === "cystic" || composition === "spongiform";
+  return composition === "no_nodule" || composition === "spongiform";
 }
 
 export function computeScoreBreakdown(input: TiradsAcrInput): TiradsScoreBreakdown {
@@ -91,14 +92,16 @@ export function computeScoreBreakdown(input: TiradsAcrInput): TiradsScoreBreakdo
 }
 
 /**
- * ACR TI-RADS levels:
- * TR1 = 0; TR2 = 1–2; TR3 = 3–4; TR4 = 5–6; TR5 ≥ 7.
+ * ACR TI-RADS 2017 (Tessler et al., JACR):
+ * 0 → TR1; 2 → TR2; 3 → TR3; 4–6 → TR4; ≥7 → TR5.
+ * One point is not a separate row in the white paper (mixed cystic-solid alone). It is TR2.
+ * Spongiform and no nodule are TR1 even if other features were selected.
  */
 export function categoryFromPoints(input: TiradsAcrInput, total: number): TiradsAcrCategory {
   if (isBenignCompositionShortcut(input.composition)) return "TR1";
   if (total <= 0) return "TR1";
   if (total <= 2) return "TR2";
-  if (total <= 4) return "TR3";
+  if (total === 3) return "TR3";
   if (total <= 6) return "TR4";
   return "TR5";
 }
@@ -124,8 +127,8 @@ export function evaluateAcrTirads(input: TiradsAcrInput): TiradsAcrResult {
     `Total: ${scoreBreakdown.total} → ${category}`,
   ];
 
-  if (isBenignCompositionShortcut(normalized.composition) && normalized.composition !== "no_nodule") {
-    rationale.push("ACR: cystic/spongiform → TR1 (остальные признаки не добавляют баллы).");
+  if (normalized.composition === "spongiform") {
+    rationale.push("ACR: spongiform → TR1 (остальные признаки не добавляют баллы).");
   }
 
   if (normalized.largestDiameterMm !== undefined) {
@@ -135,9 +138,9 @@ export function evaluateAcrTirads(input: TiradsAcrInput): TiradsAcrResult {
 
   let fnaRecommended = fna.fnaRecommended;
   let fnaRationale = fna.fnaRationale;
-  if (normalized.lymphNodes === "suspicious" && category !== "TR1" && category !== "TR2") {
+  if (normalized.lymphNodes === "suspicious") {
     fnaRecommended = true;
-    fnaRationale = `${fnaRationale} Подозрительные регионарные ЛУ — усилить тактику FNA.`;
+    fnaRationale = `${fnaRationale} Подозрительные шейные лимфоузлы — FNA узла и/или лимфоузла независимо от категории и размера.`;
   }
 
   return {

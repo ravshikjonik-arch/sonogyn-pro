@@ -71,7 +71,7 @@ function run() {
     lengthMm: 55,
     ascites: true,
   });
-  expectEq("OVERRIDE_ASCITES", r6.category, 5);
+  expectEq("ASCITES_DOES_NOT_UPGRADE_ORADS_2", r6.category, 2);
 
   const r7a = calculateORADS({
     localization: "ovarian",

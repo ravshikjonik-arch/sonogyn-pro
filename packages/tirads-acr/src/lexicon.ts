@@ -13,7 +13,7 @@ export type LexiconOption<T extends string> = { value: T; labelRu: string; point
 export const COMPOSITION_OPTIONS: LexiconOption<TiradsComposition>[] = [
   { value: "no_nodule", labelRu: "Нет узла / норма", points: 0, definitionRu: "TR1 — без очаговых образований." },
   { value: "cystic", labelRu: "Кистозный / почти полностью кистозный", points: 0, definitionRu: "Жидкостное содержимое >90%." },
-  { value: "spongiform", labelRu: "Spongiform / губчатый", points: 0, definitionRu: "Множественные микрокисты >50% объёма." },
+  { value: "spongiform", labelRu: "Spongiform / губчатый", points: 0, definitionRu: "Микрокисты >50% объёма. Другие признаки не прибавляют баллы: TR1." },
   { value: "mixed", labelRu: "Смешанный кистозно-солидный", points: 1, definitionRu: "Жидкий и твёрдый компоненты." },
   { value: "solid", labelRu: "Солидный / почти солидный", points: 2, definitionRu: "Солидная ткань >80%." },
 ];

@@ -61,7 +61,11 @@ export function OradsCategoryAtlas({ initialTab }: { initialTab?: OradsCategoryI
                 <li key={f}>{f}</li>
               ))}
             </ul>
-            {lesion.riskNote ? <p className="mt-2 text-xs font-semibold text-amber-800">{lesion.riskNote}</p> : null}
+            {lesion.riskNote ? (
+              <p className="mt-2 whitespace-pre-line text-xs font-semibold text-amber-800 dark:text-amber-200">
+                {lesion.riskNote}
+              </p>
+            ) : null}
           </article>
         ))}
       </div>

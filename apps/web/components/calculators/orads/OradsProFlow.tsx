@@ -3,19 +3,12 @@
 import Link from "next/link";
 import { useState } from "react";
 
-import { OradsUnifiedCalculator } from "@/components/calculators/orads/OradsUnifiedCalculator";
+import { OradsAcrWizardExperience } from "@/components/calculators/orads/wizard/OradsAcrWizardExperience";
 import { OradsCategoryAtlas } from "@/components/calculators/orads/OradsCategoryAtlas";
 import { OradsCategoryGrid } from "@/components/calculators/orads/grids/OradsCategoryGrid";
 import { OradsRussianCriteriaPanel } from "@/components/calculators/orads/OradsRussianCriteriaPanel";
 import { CalculatorLiteraturePanel } from "@/components/pubmed/CalculatorLiteraturePanel";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { SpatialModal } from "@/components/spatial";
 import {
   ORADS_ECHOGRAMS_LIBRARY_PATH,
@@ -23,59 +16,31 @@ import {
   ORADS_US_PRIMARY_SOURCES,
 } from "@repo/adnex-education";
 
-import { ORADS_GOVERNING_BULLETS, ORADS_VERSION_LABEL } from "@/lib/orads-pro";
+import {
+  ORADS_GOVERNING_BULLETS,
+  ORADS_LEXICON_DOTS,
+  ORADS_MRI_ROWS,
+  ORADS_VERSION_LABEL,
+} from "@/lib/orads-pro";
 
 type SidePanel = "tables" | "resources" | "category-atlas" | null;
 
-/** Единая точка O-RADS US на платформе (калькулятор + справка). */
+/** O-RADS US — ACR-style wizard + таблицы/справка. */
 export function OradsProFlow() {
   const [panel, setPanel] = useState<SidePanel>(null);
 
   return (
-    <div className="relative min-h-screen pb-36">
-      <div className="clinical-calc-toolbar px-4 py-2.5 lg:px-10">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-2">
-          <Button variant="secondary" size="sm" asChild className="h-8 rounded-full text-xs">
-            <Link href="/app">Рабочий кабинет</Link>
-          </Button>
-          <Button variant="secondary" size="sm" asChild className="h-8 rounded-full text-xs">
-            <Link href="/tools/calc">Калькуляторы</Link>
-          </Button>
-          <span className="text-sm font-bold">O-RADS US · единый калькулятор</span>
-          <div className="ml-auto">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  className="h-8 rounded-full text-xs text-white hover:bg-white/20"
-                  aria-label="Справка O-RADS"
-                >
-                  Справка
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="min-w-52">
-                <DropdownMenuItem onSelect={() => setPanel("tables")}>Таблицы 0–5</DropdownMenuItem>
-                <DropdownMenuItem onSelect={() => setPanel("category-atlas")}>Сетка категорий (учебная)</DropdownMenuItem>
-                <DropdownMenuItem onSelect={() => setPanel("resources")}>Источники ACR</DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link href={ORADS_ECHOGRAMS_LIBRARY_PATH}>Эхограммы O-RADS</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/tools/refs/orads-guide">Руководство v2022</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/tools/calc/rads/iota">Калькулятор IOTA</Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        </div>
+    <div className="relative min-h-screen bg-[var(--clinical-canvas)]">
+      <div className="absolute left-4 top-3 z-30 hidden sm:block">
+        <Button variant="secondary" size="sm" asChild className="h-8 rounded-full text-xs shadow-sm">
+          <Link href="/tools/calc">← Калькуляторы</Link>
+        </Button>
       </div>
 
-      <OradsUnifiedCalculator />
+      <OradsAcrWizardExperience
+        onOpenTables={() => setPanel("tables")}
+        onOpenResources={() => setPanel("resources")}
+      />
 
       <SpatialModal
         open={panel !== null}
@@ -87,7 +52,7 @@ export function OradsProFlow() {
             ? "Таблицы O-RADS 0–5"
             : panel === "category-atlas"
               ? "Учебная сетка категорий"
-              : "Справка"
+              : "Справка O-RADS US"
         }
         description={panel === "tables" ? "Критерии ACR O-RADS US v2022." : ORADS_VERSION_LABEL}
       >
@@ -95,6 +60,37 @@ export function OradsProFlow() {
           <div className="space-y-6">
             <OradsRussianCriteriaPanel />
             <OradsCategoryAtlas />
+            <section className="space-y-2">
+              <h3 className="text-sm font-black text-[var(--clinical-foreground)]">Лексикон, до каждой точки</h3>
+              <ul className="list-inside list-disc space-y-1 text-xs leading-relaxed text-[var(--clinical-foreground)]">
+                {ORADS_LEXICON_DOTS.map((dot) => (
+                  <li key={dot}>{dot}</li>
+                ))}
+              </ul>
+            </section>
+            <section className="space-y-2">
+              <h3 className="text-sm font-black text-[var(--clinical-foreground)]">O-RADS MRI</h3>
+              <p className="text-xs text-[var(--clinical-foreground-muted)]">
+                Шкала ACR. PPV ориентировочные, для категории целиком, включая пограничные опухоли. Это справочник, не автоматический калькулятор.
+              </p>
+              <div className="space-y-2">
+                {ORADS_MRI_ROWS.map((row) => (
+                  <article key={row.score} className="rounded-xl border border-[var(--clinical-border)] p-3">
+                    <p className="text-sm font-black">
+                      MRI {row.score} · {row.risk} · PPV {row.ppv}
+                    </p>
+                    <ul className="mt-1 list-inside list-disc text-xs leading-relaxed">
+                      {row.points.map((point) => (
+                        <li key={point}>{point}</li>
+                      ))}
+                    </ul>
+                  </article>
+                ))}
+              </div>
+            </section>
+            <Button type="button" variant="outline" size="sm" onClick={() => setPanel("category-atlas")}>
+              Учебная сетка категорий
+            </Button>
           </div>
         ) : panel === "category-atlas" ? (
           <OradsCategoryGrid />
@@ -112,6 +108,12 @@ export function OradsProFlow() {
                 <li key={b}>{b}</li>
               ))}
             </ul>
+            <Button type="button" variant="link" className="h-auto p-0 text-xs" asChild>
+              <Link href={ORADS_ECHOGRAMS_LIBRARY_PATH}>Эхограммы O-RADS</Link>
+            </Button>
+            <Button type="button" variant="link" className="h-auto p-0 text-xs" asChild>
+              <Link href="/tools/refs/orads-guide">Руководство v2022</Link>
+            </Button>
             <p className="text-xs text-[var(--clinical-foreground-muted)]">
               Не является диагнозом. Интерпретация — лечащий специалист.
             </p>

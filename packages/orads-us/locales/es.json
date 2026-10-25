@@ -83,7 +83,8 @@
           "pre_ge10": "Premenopause: ≥ 10 cm",
           "post_le3": "Postmenopause: ≤ 3 cm",
           "post_gt3_le5": "Postmenopause: >3–≤5 cm",
-          "post_gt5": "Postmenopause: > 5 cm"
+          "post_gt5_lt10": "Postmenopause: >5–<10 cm",
+          "post_ge10": "Postmenopause: ≥ 10 cm"
         }
       },
       "simple_size_pre_le3": {
@@ -127,7 +128,10 @@
         "question": "Non-simple unilocular size",
         "option": {
           "lt10": "< 10 cm",
-          "ge10": "≥ 10 cm"
+          "ge10": "≥ 10 cm",
+          "le3_pre": "≤3 cm, premenopause",
+          "le3_post": "≤3 cm, postmenopause",
+          "gt3_lt10": ">3 and <10 cm"
         }
       },
       "bilocular_wall": {
@@ -270,18 +274,24 @@
       "2_bilocular": "O-RADS 2 — smooth bilocular cyst; size-based follow-up.",
       "2_classic": "O-RADS 2 — typical classic benign; surveillance per institutional protocol.",
       "2_extraovarian": "O-RADS 2 — typical extraovarian benign; clinical correlation.",
-      "3_solid": "O-RADS 3 — solid with low Doppler score; consider MRI or expert US."
+      "3_solid": "O-RADS 3 — solid with low Doppler score; consider MRI or expert US.",
+      "2_simple_none": "No follow-up ultrasound.",
+      "2_simple_fu12": "Follow-up ultrasound in 12 months.",
+      "2_bilocular_fu6": "Follow-up ultrasound in 6 months.",
+      "2_nonsimple_none": "No follow-up ultrasound.",
+      "2_nonsimple_fu12": "Follow-up ultrasound in 12 months.",
+      "2_nonsimple_fu6": "Follow-up ultrasound in 6 months."
     },
     "rationale": {
       "0_inadequate": "Technically inadequate evaluation — O-RADS 0.",
       "1_normal": "Normal ovary without lesion.",
       "1_physiologic": "Physiologic follicle / corpus luteum ≤3 cm.",
       "2_simple_pre": "Typical simple cyst — almost certainly benign.",
-      "2_simple_post_small": "Simple cyst postmenopause ≤5 cm.",
+      "2_simple_post_small": "Simple cyst, postmenopause, ≤3 cm.",
       "2_bilocular_smooth": "Smooth bilocular cyst without suspicious features.",
       "2_classic_benign": "Classic benign lesion <10 cm.",
       "2_extraovarian_typical": "Typical benign extraovarian lesion.",
-      "3_simple_post_large": "Simple cyst >5 cm postmenopause.",
+      "3_simple_post_large": "Simple cyst ≥10 cm in postmenopause.",
       "3_unilocular_irregular": "Unilocular cyst with irregular wall — any size.",
       "3_multilocular_smooth_lt10": "Smooth multilocular <10 cm, CS <4, no solid.",
       "3_large_smooth_cyst": "Smooth-walled lesion ≥10 cm.",
@@ -298,7 +308,10 @@
       "5_unilocular_ge4pp": "Unilocular cyst ≥4 pp — high risk.",
       "5_cystic_solid_cs34": "Cystic with solid, CS 3–4.",
       "5_solid_irregular": "Solid with irregular contour.",
-      "5_ascites_peritoneal": "Ascites and/or peritoneal nodules."
+      "5_ascites_peritoneal": "Ascites and/or peritoneal nodules.",
+      "2_simple_post_3to5": "Simple cyst, postmenopause, >3 to 5 cm.",
+      "2_simple_post_mid": "Simple cyst, postmenopause, >5 and <10 cm.",
+      "2_nonsimple_smooth": "Smooth non-simple unilocular cyst, no solid component."
     }
   }
 }

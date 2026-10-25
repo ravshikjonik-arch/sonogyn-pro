@@ -75,7 +75,7 @@ export function OradsUnifiedProtocolPreview({ input, result, className }: Props)
             {result.risk}
           </p>
           <p className="mt-3 text-sm leading-relaxed">{result.rationale}</p>
-          <p className="mt-2 text-sm font-medium">{result.management}</p>
+          <p className="mt-2 whitespace-pre-line text-sm font-medium">{result.management}</p>
           {result.warning ? (
             <p
               className="mt-2 rounded-md border border-amber-500/35 bg-amber-50/90 px-3 py-2 text-sm text-[var(--clinical-foreground)] dark:bg-amber-950/40"

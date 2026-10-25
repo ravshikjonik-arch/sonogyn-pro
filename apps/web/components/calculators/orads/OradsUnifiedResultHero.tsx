@@ -68,7 +68,7 @@ export function OradsUnifiedResultHero({ result, className }: Props) {
 
       <div className="mt-4 space-y-2 border-t border-[var(--clinical-border)]/60 pt-4 text-sm leading-relaxed text-[var(--clinical-foreground)]">
         <p>{result.rationale}</p>
-        <p className="font-medium">{result.management}</p>
+        <p className="whitespace-pre-line font-medium">{result.management}</p>
       </div>
 
       {result.missing.length ? (

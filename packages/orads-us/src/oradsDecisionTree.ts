@@ -174,12 +174,12 @@ export const ORADS_DECISION_TREE: Record<string, OradsDecisionNode> = {
       {
         id: "pre_gt3_le5",
         labelKey: "orads.step3.simple_size.option.pre_gt3_le5",
-        result: R(2, "orads.management.2_simple", "orads.rationale.2_simple_pre"),
+        result: R(2, "orads.management.2_simple_none", "orads.rationale.2_simple_pre"),
       },
       {
         id: "pre_gt5_lt10",
         labelKey: "orads.step3.simple_size.option.pre_gt5_lt10",
-        result: R(2, "orads.management.2_simple", "orads.rationale.2_simple_pre"),
+        result: R(2, "orads.management.2_simple_fu12", "orads.rationale.2_simple_pre"),
       },
       {
         id: "pre_ge10",
@@ -189,16 +189,21 @@ export const ORADS_DECISION_TREE: Record<string, OradsDecisionNode> = {
       {
         id: "post_le3",
         labelKey: "orads.step3.simple_size.option.post_le3",
-        result: R(2, "orads.management.2_simple", "orads.rationale.2_simple_post_small"),
+        result: R(2, "orads.management.2_simple_none", "orads.rationale.2_simple_post_small"),
       },
       {
         id: "post_gt3_le5",
         labelKey: "orads.step3.simple_size.option.post_gt3_le5",
-        result: R(2, "orads.management.2_simple", "orads.rationale.2_simple_post_small"),
+        result: R(2, "orads.management.2_simple_fu12", "orads.rationale.2_simple_post_3to5"),
       },
       {
-        id: "post_gt5",
-        labelKey: "orads.step3.simple_size.option.post_gt5",
+        id: "post_gt5_lt10",
+        labelKey: "orads.step3.simple_size.option.post_gt5_lt10",
+        result: R(2, "orads.management.2_simple_fu12", "orads.rationale.2_simple_post_mid"),
+      },
+      {
+        id: "post_ge10",
+        labelKey: "orads.step3.simple_size.option.post_ge10",
         result: R(3, "orads.management.3", "orads.rationale.3_simple_post_large"),
       },
     ],
@@ -211,7 +216,7 @@ export const ORADS_DECISION_TREE: Record<string, OradsDecisionNode> = {
       {
         id: "cyst",
         labelKey: "orads.step3.simple_size_pre_le3.option.cyst",
-        result: R(2, "orads.management.2_simple", "orads.rationale.2_simple_pre"),
+        result: R(1, "orads.management.1", "orads.rationale.1_physiologic"),
       },
       {
         id: "follicle",
@@ -313,17 +318,17 @@ export const ORADS_DECISION_TREE: Record<string, OradsDecisionNode> = {
       {
         id: "le3",
         labelKey: "orads.step3.bilocular_size.option.le3",
-        result: R(2, "orads.management.2_bilocular", "orads.rationale.2_bilocular_smooth"),
+        result: R(2, "orads.management.2_bilocular_fu6", "orads.rationale.2_bilocular_smooth"),
       },
       {
         id: "gt3_lt10",
         labelKey: "orads.step3.bilocular_size.option.gt3_lt10",
-        result: R(3, "orads.management.3", "orads.rationale.3_multilocular_smooth_lt10"),
+        result: R(2, "orads.management.2_bilocular_fu6", "orads.rationale.2_bilocular_smooth"),
       },
       {
         id: "ge10",
         labelKey: "orads.step3.bilocular_size.option.ge10",
-        result: R(4, "orads.management.4", "orads.rationale.4_multilocular_smooth_ge10"),
+        result: R(3, "orads.management.3", "orads.rationale.3_large_smooth_cyst"),
       },
     ],
   },
@@ -454,9 +459,19 @@ export const ORADS_DECISION_TREE: Record<string, OradsDecisionNode> = {
     questionKey: "orads.step3.unilocular_nonsimple_size.question",
     options: [
       {
-        id: "lt10",
-        labelKey: "orads.step3.unilocular_nonsimple_size.option.lt10",
-        result: R(2, "orads.management.2_classic", "orads.rationale.2_classic_benign"),
+        id: "le3_pre",
+        labelKey: "orads.step3.unilocular_nonsimple_size.option.le3_pre",
+        result: R(2, "orads.management.2_nonsimple_none", "orads.rationale.2_nonsimple_smooth"),
+      },
+      {
+        id: "le3_post",
+        labelKey: "orads.step3.unilocular_nonsimple_size.option.le3_post",
+        result: R(2, "orads.management.2_nonsimple_fu12", "orads.rationale.2_nonsimple_smooth"),
+      },
+      {
+        id: "gt3_lt10",
+        labelKey: "orads.step3.unilocular_nonsimple_size.option.gt3_lt10",
+        result: R(2, "orads.management.2_nonsimple_fu6", "orads.rationale.2_nonsimple_smooth"),
       },
       {
         id: "ge10",

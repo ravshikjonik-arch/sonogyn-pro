@@ -21,8 +21,20 @@ test("colloid / spongiform pattern → TR1 (ACR benign composition)", () => {
   assert.equal(r.totalPoints, 0);
 });
 
-test("cystic → TR1 shortcut (ignore other features)", () => {
-  const r = evaluateAcrTirads({
+test("pure cyst is TR1; other features on a cystic label still score", () => {
+  const pure = evaluateAcrTirads({
+    composition: "cystic",
+    echogenicity: "anechoic",
+    shape: "wider_than_tall",
+    margin: "smooth",
+    echogenicFoci: ["none_or_comet_tail"],
+    largestDiameterMm: 30,
+  });
+  assert.equal(pure.category, "TR1");
+  assert.equal(pure.totalPoints, 0);
+  assert.equal(pure.fnaRecommended, false);
+
+  const markedCysticButSuspicious = evaluateAcrTirads({
     composition: "cystic",
     echogenicity: "very_hypoechoic",
     shape: "taller_than_wide",
@@ -30,9 +42,9 @@ test("cystic → TR1 shortcut (ignore other features)", () => {
     echogenicFoci: ["punctate"],
     largestDiameterMm: 30,
   });
-  assert.equal(r.category, "TR1");
-  assert.equal(r.totalPoints, 0);
-  assert.equal(r.fnaRecommended, false);
+  assert.equal(markedCysticButSuspicious.totalPoints, 12);
+  assert.equal(markedCysticButSuspicious.category, "TR5");
+  assert.equal(markedCysticButSuspicious.fnaRecommended, true);
 });
 
 test("spongiform → TR1", () => {
@@ -46,7 +58,7 @@ test("spongiform → TR1", () => {
   assert.equal(r.category, "TR1");
 });
 
-test("0 points → TR1; 3–4 → TR3; 5–6 → TR4; ≥7 → TR5", () => {
+test("0 → TR1; 1–2 → TR2; 3 → TR3; 4–6 → TR4; ≥7 → TR5", () => {
   const base: TiradsAcrInput = {
     composition: "mixed", // 1
     echogenicity: "anechoic", // 0
@@ -66,14 +78,14 @@ test("0 points → TR1; 3–4 → TR3; 5–6 → TR4; ≥7 → TR5", () => {
     "TR3",
   );
 
-  // solid(2)+hypo(2)=4 → TR3
+  // solid(2)+hypo(2)=4 → TR4
   assert.equal(
     evaluateAcrTirads({
       ...base,
       composition: "solid",
       echogenicity: "hypoechoic",
     }).category,
-    "TR3",
+    "TR4",
   );
 
   // solid(2)+hypo(2)+macro(1)=5 → TR4
@@ -106,11 +118,11 @@ test("multi-foci points are summed", () => {
     echogenicity: "anechoic",
     shape: "wider_than_tall",
     margin: "smooth",
-    echogenicFoci: ["macrocalcifications", "peripheral_rim"], // 1+2=3 → total 4 → TR3
+    echogenicFoci: ["macrocalcifications", "peripheral_rim"], // 1+2=3 → total 4 → TR4
   });
   assert.equal(r.scoreBreakdown.echogenicFoci, 3);
   assert.equal(r.totalPoints, 4);
-  assert.equal(r.category, "TR3");
+  assert.equal(r.category, "TR4");
 });
 
 test("FNA thresholds TR3≥25 TR4≥15 TR5≥10", () => {

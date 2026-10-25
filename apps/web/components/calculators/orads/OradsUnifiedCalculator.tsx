@@ -86,9 +86,9 @@ export function OradsUnifiedCalculator() {
   const needsMenopause =
     (input.morphology === "unilocular" &&
       !input.solidComponent &&
-      input.innerContour === "smooth" &&
-      input.cystContent === "simple") ||
-    input.classicType === "hemorrhagic";
+      input.innerContour === "smooth") ||
+    input.classicType === "hemorrhagic" ||
+    input.classicType === "endometrioma";
   const needsColor =
     input.morphology === "solid" ||
     (input.morphology === "multilocular" && !input.solidComponent && input.innerContour === "smooth") ||

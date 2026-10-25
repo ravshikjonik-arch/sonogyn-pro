@@ -90,6 +90,18 @@ export const CALCULATOR_SEO_REGISTRY: CalculatorSeoEntry[] = [
     keywords: ["беременность", "лекарства", "фармакология", "акушерство"],
   },
   {
+    path: "/tools/repos",
+    title: "Репозитории платформы",
+    description: "Каталоги Awesome и исследовательские репозитории УЗИ, подключённые к SonoGyn Pro.",
+    keywords: ["репозитории", "awesome", "УЗИ"],
+  },
+  {
+    path: "/tools/pharmacy",
+    title: "Аптека врача",
+    description: "Выбор препарата и ориентир по категории безопасности в беременности. Не заменяет формуляр и назначение.",
+    keywords: ["аптека", "препараты", "беременность", "фармакология"],
+  },
+  {
     path: "/tools/calc/gyn/endometrium",
     title: "Калькулятор эндометрия онлайн",
     description: "M-эхо, пороги для пре- и постменопаузы, очаговые изменения; ISUOG и КР РФ.",

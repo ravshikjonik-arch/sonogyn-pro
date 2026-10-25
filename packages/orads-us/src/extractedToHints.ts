@@ -72,7 +72,8 @@ function pickSimpleSizeOption(input: OradsExtractedInput): { optionId: string; c
   if (meno === "post") {
     if (d <= 3) return { optionId: "post_le3", confidence: input.menopause ? "high" : "medium" };
     if (d <= 5) return { optionId: "post_gt3_le5", confidence: input.menopause ? "high" : "medium" };
-    return { optionId: "post_gt5", confidence: input.menopause ? "high" : "medium" };
+    if (d < 10) return { optionId: "post_gt5_lt10", confidence: input.menopause ? "high" : "medium" };
+    return { optionId: "post_ge10", confidence: input.menopause ? "high" : "medium" };
   }
 
   if (d <= 3) return { optionId: "pre_le3", confidence: input.menopause ? "high" : "medium" };

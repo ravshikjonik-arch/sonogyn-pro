@@ -24,13 +24,25 @@ describe("O-RADS US v2022 decision tree", () => {
     if (out.ok) assert.equal(out.result.categoryNumber, 1);
   });
 
-  it("simple cyst postmenopause >5 cm → O-RADS 3", () => {
+  it("simple cyst postmenopause >5 and <10 cm → O-RADS 2", () => {
     const out = walkOradsDecisionTree([
       { nodeId: "step1_localization", optionId: "ovarian" },
       { nodeId: "step2_menopause", optionId: "post" },
       { nodeId: "step2_lesion_class", optionId: "simple" },
       { nodeId: "step3_simple_wall", optionId: "typical" },
-      { nodeId: "step3_simple_size", optionId: "post_gt5" },
+      { nodeId: "step3_simple_size", optionId: "post_gt5_lt10" },
+    ]);
+    assert.equal(out.ok, true);
+    if (out.ok) assert.equal(out.result.categoryNumber, 2);
+  });
+
+  it("simple cyst postmenopause ≥10 cm → O-RADS 3", () => {
+    const out = walkOradsDecisionTree([
+      { nodeId: "step1_localization", optionId: "ovarian" },
+      { nodeId: "step2_menopause", optionId: "post" },
+      { nodeId: "step2_lesion_class", optionId: "simple" },
+      { nodeId: "step3_simple_wall", optionId: "typical" },
+      { nodeId: "step3_simple_size", optionId: "post_ge10" },
     ]);
     assert.equal(out.ok, true);
     if (out.ok) assert.equal(out.result.categoryNumber, 3);

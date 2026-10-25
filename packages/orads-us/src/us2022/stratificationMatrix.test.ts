@@ -21,7 +21,11 @@ test("стратификация: все категории 0–5 достижи
     { label: "3 solid CS1", patch: { morphology: "solid", sizeCm: 4, colorScore: 1, outerContour: "smooth" }, category: 3 },
     { label: "4 uni solid", patch: { morphology: "unilocular", sizeCm: 5, solidComponent: true, papillae: "1-3" }, category: 4 },
     { label: "4 multiloc CS2+solid", patch: { morphology: "multilocular", sizeCm: 5, solidComponent: true, colorScore: 2 }, category: 4 },
-    { label: "5 ascites", patch: { morphology: "unilocular", sizeCm: 4, extraSigns: "ascites" }, category: 5 },
+    {
+      label: "5 ascites upgrades 3",
+      patch: { morphology: "unilocular", sizeCm: 4, innerContour: "irregular", extraSigns: "ascites" },
+      category: 5,
+    },
     { label: "5 pap 4+", patch: { morphology: "unilocular", sizeCm: 5, solidComponent: true, papillae: "4+" }, category: 5 },
     { label: "5 solid irregular", patch: { morphology: "solid", sizeCm: 3, outerContour: "irregular" }, category: 5 },
   ];
