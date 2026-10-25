@@ -102,6 +102,12 @@ export const CALCULATOR_SEO_REGISTRY: CalculatorSeoEntry[] = [
     keywords: ["аптека", "препараты", "беременность", "фармакология"],
   },
   {
+    path: "/tools/calc/gyn",
+    title: "Калькуляторы гинекологии",
+    description: "Эндометрий, POP-Q, кольпоскопия, CIN, эластография и риски. Срок беременности — в ObCalc.",
+    keywords: ["гинекология", "калькулятор", "эндометрий", "POP-Q", "кольпоскопия"],
+  },
+  {
     path: "/tools/calc/gyn/endometrium",
     title: "Калькулятор эндометрия онлайн",
     description: "M-эхо, пороги для пре- и постменопаузы, очаговые изменения; ISUOG и КР РФ.",
