@@ -44,6 +44,7 @@ export {
   ORADS_ZERO_OPTIONS,
   chapterToneClasses,
   type OradsCategoryChapter,
+  type OradsMriRow,
   type OradsCategoryId,
   type OradsReferenceLesion,
 } from "../../../mobile/src/features/oradsPro/oradsReference";

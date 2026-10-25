@@ -21,6 +21,7 @@ import {
   ORADS_LEXICON_DOTS,
   ORADS_MRI_ROWS,
   ORADS_VERSION_LABEL,
+  type OradsMriRow,
 } from "@/lib/orads-pro";
 
 type SidePanel = "tables" | "resources" | "category-atlas" | null;
@@ -63,7 +64,7 @@ export function OradsProFlow() {
             <section className="space-y-2">
               <h3 className="text-sm font-black text-[var(--clinical-foreground)]">Лексикон, до каждой точки</h3>
               <ul className="list-inside list-disc space-y-1 text-xs leading-relaxed text-[var(--clinical-foreground)]">
-                {ORADS_LEXICON_DOTS.map((dot) => (
+                {ORADS_LEXICON_DOTS.map((dot: string) => (
                   <li key={dot}>{dot}</li>
                 ))}
               </ul>
@@ -74,13 +75,13 @@ export function OradsProFlow() {
                 Шкала ACR. PPV ориентировочные, для категории целиком, включая пограничные опухоли. Это справочник, не автоматический калькулятор.
               </p>
               <div className="space-y-2">
-                {ORADS_MRI_ROWS.map((row) => (
+                {ORADS_MRI_ROWS.map((row: OradsMriRow) => (
                   <article key={row.score} className="rounded-xl border border-[var(--clinical-border)] p-3">
                     <p className="text-sm font-black">
                       MRI {row.score} · {row.risk} · PPV {row.ppv}
                     </p>
                     <ul className="mt-1 list-inside list-disc text-xs leading-relaxed">
-                      {row.points.map((point) => (
+                      {row.points.map((point: string) => (
                         <li key={point}>{point}</li>
                       ))}
                     </ul>
