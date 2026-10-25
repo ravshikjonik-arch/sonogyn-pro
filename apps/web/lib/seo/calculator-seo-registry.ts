@@ -85,7 +85,7 @@ export const CALCULATOR_SEO_REGISTRY: CalculatorSeoEntry[] = [
   },
   {
     path: "/tools/calc/ob/pregnancy-medications",
-    title: "Лекарства при беременности · справочник",
+    title: "Аптека врача",
     description: "Категории безопасности препаратов в беременности для клинического контекста приёма.",
     keywords: ["беременность", "лекарства", "фармакология", "акушерство"],
   },
@@ -104,7 +104,7 @@ export const CALCULATOR_SEO_REGISTRY: CalculatorSeoEntry[] = [
   {
     path: "/tools/calc/gyn",
     title: "Калькуляторы гинекологии",
-    description: "Эндометрий, POP-Q, кольпоскопия, CIN, эластография и риски. Срок беременности — в ObCalc.",
+    description: "Эндометрий, POP-Q, кольпоскопия, CIN, эластография и риски. Срок беременности — в акушерском калькуляторе.",
     keywords: ["гинекология", "калькулятор", "эндометрий", "POP-Q", "кольпоскопия"],
   },
   {

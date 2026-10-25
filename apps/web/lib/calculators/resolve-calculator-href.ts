@@ -10,7 +10,7 @@ const SLUG_TO_CANONICAL: Record<string, string> = {
   "fetal-weight": "/tools/calc/ob/fetal-weight",
   bishop: "/tools/calc/ob/bishop",
   vbac: "/tools/calc/ob/vbac",
-  "pregnancy-medications": "/tools/calc/ob/pregnancy-medications",
+  "pregnancy-medications": "/tools/pharmacy",
   "cervical-length": "/tools/calc/ob/cervical-length",
   endometrium: "/tools/calc/gyn/endometrium",
   "pop-q": "/tools/calc/gyn/pop-q",

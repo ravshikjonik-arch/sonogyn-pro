@@ -7,10 +7,9 @@ export const metadata = calculatorPageMetadata("/tools/calc/gyn");
 const CARDS: DomainHubCard[] = [
   {
     href: "/tools/calc/ob",
-    title: "ObCalc · срок и ПДР",
+    title: "Акушерский калькулятор",
     description: "ПМП, УЗИ, КТР, СВД, ЭКО, фетометрия, декрет, шевеления, явка в ЖК",
     primary: true,
-    badge: "ObCalc",
   },
   {
     href: "/tools/calc/gyn/endometrium",
@@ -85,7 +84,7 @@ export default function GynCalculatorsPage() {
     <ClinicalDomainHub
       kicker="Гинекология"
       title="Калькуляторы гинекологии"
-      description="Калькуляторы срока, массы, Бишопа и рисков из ObCalc стоят списком в пункте «Акушерский калькулятор»."
+      description="Калькуляторы срока, массы, Бишопа и рисков стоят списком в пункте «Акушерский калькулятор»."
       cards={CARDS}
       backHref="/tools/calc"
       backLabel="← Все калькуляторы"

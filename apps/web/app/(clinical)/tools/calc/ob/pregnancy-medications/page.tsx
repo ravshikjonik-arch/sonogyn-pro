@@ -1,8 +1,5 @@
-import { PregnancyMedicationsReference } from "@/components/calculators/reference/PregnancyMedicationsReference";
-
-import { calculatorPageMetadata } from "@/lib/seo/calculator-seo-registry";
-export const metadata = calculatorPageMetadata("/tools/calc/ob/pregnancy-medications");
+import { redirect } from "next/navigation";
 
 export default function PregnancyMedicationsPage() {
-  return <PregnancyMedicationsReference />;
+  redirect("/tools/pharmacy");
 }

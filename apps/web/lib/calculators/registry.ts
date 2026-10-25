@@ -165,9 +165,9 @@ export const CALCULATORS: CalculatorDefinition[] = [
   {
     slug: "pregnancy-medications",
     code: "PREG_MEDS",
-    title: "Лекарства при беременности",
-    subtitle: "Справочник категорий FDA (ориентир)",
-    externalHref: "/tools/calc/ob/pregnancy-medications",
+    title: "Аптека врача",
+    subtitle: "Препараты при беременности, ориентир по категории",
+    externalHref: "/tools/pharmacy",
     fields: [],
   },
   {

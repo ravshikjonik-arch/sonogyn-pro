@@ -7,7 +7,6 @@ import {
   Droplets,
   Egg,
   Flower2,
-  Pill,
   Ruler,
   ScanLine,
   Stethoscope,
@@ -91,12 +90,6 @@ const SECTIONS: Section[] = [
       { href: "/tools/calc/gyn/ovarian-cancer-risk", title: "Риск рака яичников", icon: Flower2, tone: "bg-rose-500" },
     ],
   },
-  {
-    title: "Справочники",
-    rows: [
-      { href: "/tools/calc/ob/pregnancy-medications", title: "Лекарства при беременности", icon: Pill, tone: "bg-blue-500" },
-    ],
-  },
 ];
 
 export function ObCalcMenu() {
@@ -105,7 +98,7 @@ export function ObCalcMenu() {
       <header className="space-y-1">
         <h1 className="text-2xl font-black tracking-tight">Акушерский калькулятор</h1>
         <p className="text-sm text-[var(--clinical-foreground-muted)]">
-          Тот же набор, что в ObCalc: срок, масса, Бишоп, роды после кесарева, гинекологические риски и лекарства.
+          Срок, масса, Бишоп, роды после кесарева и гинекологические риски. Лекарства — в «Аптеке врача».
         </p>
       </header>
       {SECTIONS.map((section) => (
