@@ -56,7 +56,13 @@ export type RootStackParamList = {
     obstetricInput?: import("@repo/types").ObstetricStructuredReportInput;
   };
   ORADSGuide: { sectionId?: string; caseId?: string } | undefined;
-  ORADSPro: { prefill?: import("../features/oradsPro/types").OradsInput } | undefined;
+  ORADSPro:
+    | {
+        prefill?:
+          | import("../features/oradsPro/types").OradsInput
+          | import("@repo/orads-us/pro").OradsUs2022Input;
+      }
+    | undefined;
   IotaCalculator:
     | {
         prefill?: Partial<import("@repo/iota-models").AdnexInput>;

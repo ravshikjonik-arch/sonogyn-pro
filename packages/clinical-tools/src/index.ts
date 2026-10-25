@@ -11,3 +11,4 @@ export * from "./modules-catalog-audit";
 export * from "./primary-nav";
 export * from "./module-search";
 export * from "./knowledge-links";
+export * from "./cdss-disclaimer";

@@ -1,5 +1,9 @@
-import type { BloodFlow, OradsInput, OradsResult } from "./types";
+import type { OradsInput, OradsResult } from "./types";
 import { calcOvaryEllipsoidVolumeMl, formatMeasurementDecimal } from "@repo/medical-calculations";
+
+import { evaluateOradsUs2022 } from "../us2022/evaluateOradsUs2022";
+import { mapProInputToUs2022 } from "../us2022/mapProInputToUs2022";
+import type { OradsUs2022Result } from "../us2022/types";
 
 function toCm(mm?: number): number | null {
   if (typeof mm !== "number" || !Number.isFinite(mm) || mm <= 0) return null;
@@ -10,15 +14,68 @@ function calcVolumeMl(lengthMm?: number, widthMm?: number, heightMm?: number): n
   return calcOvaryEllipsoidVolumeMl(lengthMm, widthMm, heightMm);
 }
 
-function bloodAtLeast(flow: BloodFlow | undefined, threshold: BloodFlow): boolean {
-  const rank: Record<BloodFlow, number> = { none: 0, minimal: 1, moderate: 2, marked: 3 };
-  if (!flow) return false;
-  return rank[flow] >= rank[threshold];
-}
+const riskTextByCategory: Record<OradsResult["category"], string> = {
+  1: "Норма / физиология",
+  2: "Риск ЗНО <1%",
+  3: "Риск ЗНО 1–10%",
+  4: "Риск ЗНО 10–50%",
+  5: "Риск ЗНО ≥50%",
+};
 
-function bumpRisk(category: number): 1 | 2 | 3 | 4 | 5 {
-  if (category >= 4) return 4;
-  return (category + 1) as 2 | 3 | 4;
+function us2022ResultToPro(
+  _input: OradsInput,
+  norm: OradsInput,
+  grid: OradsUs2022Result,
+  volumeMl: number | null,
+  extras?: { extraovarianNote?: string; structureReclassified?: boolean },
+): OradsResult {
+  const reclassNote =
+    "O-RADS US v2022: неполная перегородка во 2-й плоскости — пересчёт как однокамерное.";
+  const patientWarning = buildPatientWarnings(norm);
+  const patternLabel = derivePatternLabel(norm);
+
+  if (grid.category === null) {
+    const blocked = Boolean(grid.warning);
+    const warnings = [
+      extras?.structureReclassified ? reclassNote : undefined,
+      patientWarning,
+      grid.warning,
+      grid.missing.length ? `Не хватает данных: ${grid.missing.join("; ")}` : undefined,
+      extras?.extraovarianNote,
+    ].filter(Boolean);
+    return {
+      category: blocked ? 4 : 3,
+      riskText: blocked ? "Требуется переклассификация" : "Нужны данные для расчёта",
+      patternLabel,
+      recommendation: grid.management,
+      rationale: grid.rationale,
+      volumeMl,
+      structureReclassified: extras?.structureReclassified || undefined,
+      warning: warnings.length ? warnings.join(" ") : undefined,
+    };
+  }
+
+  const category = grid.category === 0 ? 3 : grid.category;
+  const riskText =
+    grid.category === 0 ? "O-RADS 0 (технически неполно)" : grid.risk.replace("< 1%", "<1%") || riskTextByCategory[category];
+
+  const warnings = [
+    extras?.structureReclassified ? reclassNote : undefined,
+    patientWarning,
+    grid.warning,
+    extras?.extraovarianNote,
+  ].filter(Boolean);
+
+  return {
+    category,
+    riskText: category in riskTextByCategory ? riskTextByCategory[category as OradsResult["category"]] : riskText,
+    patternLabel,
+    recommendation: grid.management,
+    rationale: extras?.structureReclassified ? `${reclassNote} ${grid.rationale}` : grid.rationale,
+    volumeMl,
+    structureReclassified: extras?.structureReclassified || undefined,
+    warning: warnings.length ? warnings.join(" ") : undefined,
+  };
 }
 
 function buildPatientWarnings(input: OradsInput): string | undefined {
@@ -90,14 +147,14 @@ export function calculateORADS(input: OradsInput): OradsResult {
   const volumeMl = calcVolumeMl(norm.lengthMm, norm.widthMm, norm.heightMm);
 
   if (norm.localization === "extraovarian") {
-    return {
-      category: 2,
-      riskText: "Низкий риск",
-      recommendation: "Этот калькулятор валиден для яичников/придатков. Нужна отдельная оценка.",
-      rationale: "Выбрана экстраовариальная локализация.",
-      volumeMl,
-      warning: "Калькулятор O-RADS предназначен только для овариальных/аднексальных образований.",
-    };
+    const gridInput = mapProInputToUs2022(norm);
+    if (gridInput) {
+      const grid = evaluateOradsUs2022(gridInput);
+      return us2022ResultToPro(input, norm, grid, volumeMl, {
+        extraovarianNote:
+          "Экстраовариальная локализация — проверьте типичный classic benign vs atypical по O-RADS US v2022.",
+      });
+    }
   }
 
   // O-RADS 1: нормальное / мультифолликулярное яичник без focal образования
@@ -141,121 +198,22 @@ export function calculateORADS(input: OradsInput): OradsResult {
     };
   }
 
-  let category: 1 | 2 | 3 | 4 | 5 = 3;
-  let rationale = "Промежуточный паттерн, требуется клинико-инструментальная корреляция.";
-
   if (norm.lesionKind === "nonphysiological") {
-    if (norm.structure === "unilocular") {
-      if (norm.unilocularSubtype === "simple_cyst") {
-        if (norm.menopause === "post" && maxCm > 5) {
-          category = 3;
-          rationale = "Однокамерная простая киста >5 см в постменопаузе.";
-        } else {
-          category = 2;
-          rationale = "Типичная однокамерная простая киста.";
-        }
-      } else if (
-        norm.unilocularSubtype === "hemorrhagic" ||
-        norm.unilocularSubtype === "dermoid" ||
-        norm.unilocularSubtype === "endometrioma"
-      ) {
-        if (norm.solidComponent || bloodAtLeast(norm.bloodFlow, "moderate")) {
-          category = 3;
-          rationale = "Геморрагическая/дермоидная/эндометриома с атипичными признаками.";
-        } else {
-          category = 2;
-          rationale = "Типичный доброкачественный паттерн (геморрагическая/дермоидная/эндометриома).";
-        }
-      } else {
-        category = 3;
-        rationale = "Нетипичный/другой однокамерный паттерн.";
-      }
-    }
-
-    if (norm.structure === "multilocular") {
-      if (!norm.solidComponent && norm.septaThickness === "thin") {
-        if (maxCm >= 10) {
-          category = 3;
-          rationale = "Многокамерная киста без солидного компонента, тонкие перегородки, размер ≥10 см.";
-        } else {
-          category = 2;
-          rationale = "Многокамерная киста без солидного компонента, тонкие перегородки, размер <10 см.";
-        }
-      } else if (norm.solidComponent && (norm.solidType === "irregular" || bloodAtLeast(norm.bloodFlow, "moderate"))) {
-        category = 4;
-        rationale = "Многокамерная киста с солидным компонентом и подозрительными признаками.";
-      }
-    }
-
-    if (norm.structure === "solid") {
-      if (norm.solidType === "irregular" && bloodAtLeast(norm.bloodFlow, "marked")) {
-        category = 5;
-        rationale = "Солидное образование с неровным контуром и выраженным кровотоком.";
-      } else {
-        category = 4;
-        rationale = "Солидное образование с подозрительным паттерном.";
-      }
-    }
-
-    if (norm.solidType === "papillary" && norm.solidComponent) {
-      if (norm.papillaryProjectionCount === "4plus") {
-        category = 5;
-        rationale = "Однокамерная киста с ≥4 папиллярными проекциями ≥3 мм (O-RADS US v2022).";
-      } else {
-        category = Math.max(category, 4) as 4 | 5;
-        rationale = "Папиллярные разрастания ≥3 мм (1–3 проекции — минимум O-RADS 4).";
-      }
+    const gridInput = mapProInputToUs2022(norm);
+    if (gridInput) {
+      const grid = evaluateOradsUs2022(gridInput);
+      return us2022ResultToPro(input, norm, grid, volumeMl, { structureReclassified });
     }
   }
-
-  // Override rules
-  if (norm.ascites) {
-    category = Math.max(category, 4) as 4 | 5;
-    rationale = "Асцит повышает категорию минимум до O-RADS 4.";
-  }
-  if (norm.peritonealNodules && norm.ascites) {
-    category = 5;
-    rationale = "Асцит + перитонеальные высыпания при подозрительном компоненте.";
-  }
-  if (norm.solidComponent && bloodAtLeast(norm.bloodFlow, "minimal")) {
-    category = Math.max(category, 3) as 3 | 4 | 5;
-  }
-  if (norm.menopause === "post" && maxCm > 10) {
-    category = bumpRisk(category);
-    rationale = `${rationale} Размер >10 см в постменопаузе повышает риск на 1 ступень (до O-RADS 4).`;
-  }
-
-  const riskTextByCategory: Record<OradsResult["category"], string> = {
-    1: "Норма / физиология",
-    2: "Риск ЗНО <1%",
-    3: "Риск ЗНО 1–10%",
-    4: "Риск ЗНО 10–50%",
-    5: "Риск ЗНО ≥50%",
-  };
-
-  const recommendationByCategory: Record<OradsResult["category"], string> = {
-    1: "Наблюдение не требуется.",
-    2: "Наблюдение по размеру и менопаузе.",
-    3: "УЗИ-эксперт / МРТ; консультация гинеколога.",
-    4: "Онкогинеколог по протоколу центра.",
-    5: "Срочно онкогинеколог, стадирование.",
-  };
-
-  const reclassNote =
-    "O-RADS US v2022: неполная перегородка во 2-й плоскости — пересчёт как однокамерное.";
-  const patientWarning = buildPatientWarnings(norm);
-  const patternLabel = derivePatternLabel(norm);
-  const warnings = [structureReclassified ? reclassNote : undefined, patientWarning].filter(Boolean);
 
   return {
-    category,
-    riskText: riskTextByCategory[category],
-    patternLabel,
-    recommendation: recommendationByCategory[category],
-    rationale: structureReclassified ? `${reclassNote} ${rationale}` : rationale,
+    category: 3,
+    riskText: riskTextByCategory[3],
+    patternLabel: derivePatternLabel(norm),
+    recommendation: "Уточните морфологию и размер образования для расчёта по O-RADS US v2022.",
+    rationale: "Недостаточно структурированных признаков для автоматической категории.",
     volumeMl,
-    structureReclassified: structureReclassified || undefined,
-    warning: warnings.length ? warnings.join(" ") : undefined,
+    warning: buildPatientWarnings(norm),
   };
 }
 

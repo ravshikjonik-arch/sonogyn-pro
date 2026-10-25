@@ -4,6 +4,13 @@ import { Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from "rea
 import type { RootStackParamList } from "../../../navigation/AppStack";
 import { buildReportText } from "@repo/orads-us/pro";
 import { useOradsCaseHistory } from "./useOradsCaseHistory";
+import {
+  buildUnifiedReportPlain,
+  isUs2022StoredCase,
+  storedCaseCategory,
+  storedCaseRecommendation,
+  storedCaseRiskLabel,
+} from "../storedCaseHelpers";
 
 type Props = NativeStackScreenProps<RootStackParamList, "ORADSHistoryDetails">;
 
@@ -38,17 +45,24 @@ export default function ORADSHistoryDetailsScreen({ route, navigation }: Props) 
       </View>
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.card}>
-          <Text style={styles.cat}>O-RADS {item.result.category}</Text>
+          <Text style={styles.cat}>O-RADS {storedCaseCategory(item)}</Text>
           <Text style={styles.time}>{new Date(item.at).toLocaleString()}</Text>
-          <Text style={styles.line}>Риск: {item.result.riskText}</Text>
+          <Text style={styles.line}>Риск: {storedCaseRiskLabel(item)}</Text>
           <Text style={styles.line}>Обоснование: {item.result.rationale}</Text>
-          <Text style={styles.line}>Рекомендация: {item.result.recommendation}</Text>
+          <Text style={styles.line}>Рекомендация: {storedCaseRecommendation(item)}</Text>
         </View>
         <View style={styles.card}>
-          <Text style={styles.report}>{buildReportText(item.input, item.result)}</Text>
+          <Text style={styles.report}>
+            {isUs2022StoredCase(item)
+              ? buildUnifiedReportPlain(item.input, item.result)
+              : buildReportText(item.input, item.result)}
+          </Text>
         </View>
         <View style={styles.actions}>
-          <Pressable style={styles.btnGhost} onPress={() => navigation.navigate("ORADSPro", { prefill: item.input })}>
+          <Pressable
+            style={styles.btnGhost}
+            onPress={() => navigation.navigate("ORADSPro", { prefill: item.input })}
+          >
             <Text style={styles.btnGhostText}>Использовать как шаблон</Text>
           </Pressable>
           <Pressable style={styles.btnPrimary} onPress={() => navigation.navigate("ORADSPro", { prefill: item.input })}>

@@ -6,18 +6,18 @@
 - Device 2: Android (real or emulator)
 - Network modes: online + airplane mode
 
-## A. O-RADS Pro (10 scenarios)
+## A. O-RADS unified (v2022 UI, 8 scenarios)
 
-1. Open O-RADS Pro from feed and verify single-screen layout.
-2. `pre + physiological + follicle <=3 cm` -> expect O-RADS 1.
-3. `post + unilocular simple + >5 cm` -> expect O-RADS 3.
-4. `multilocular + solid component + moderate flow` -> expect O-RADS >=4.
-5. `solid irregular + marked flow` -> expect O-RADS 5.
-6. Add ascites to moderate case -> category not below O-RADS 4.
-7. Add peritoneal nodules + ascites -> expect O-RADS 5.
-8. Export report button copies formatted text to clipboard.
-9. Reset clears all fields and TTFR current-session metric.
-10. History route opens and latest case appears.
+1. Open O-RADS from калькуляторы → verify `testID=orads-unified-mobile` / single scroll layout.
+2. Морфология «Однокамерная» + пре + диаметр 3 см + простое → O-RADS 1.
+3. «Двухкамерная» + 5 см → O-RADS 2.
+4. «Однокамерная» + асцит (доп. признак) → O-RADS 5.
+5. Checkbox «неполное исследование» → O-RADS 0.
+6. «В протокол» копирует текст в буфер.
+7. Сброс очищает форму.
+8. История → последний кейс с `version: us2022`.
+
+Автоматически: `pnpm --filter @repo/mobile test:orads-unified-smoke`.
 
 ## B. O-RADS Offline + AI Queue (6 scenarios)
 

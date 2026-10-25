@@ -23,7 +23,7 @@ export type OradsCategoryChapter = {
   lesions: OradsReferenceLesion[];
 };
 
-export const ORADS_VERSION_LABEL = "O-RADS US v2022";
+export const ORADS_VERSION_LABEL = "O-RADS US v2022 · единый движок стратификации";
 
 export const ORADS_GOVERNING_BULLETS = [
   "O-RADS US — яичники, трубы, параовариальные кисты; не для ВЗОМ, внематочной, перекрута.",

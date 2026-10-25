@@ -6,6 +6,7 @@ import {
   migrateFromAsyncStorage,
 } from "../../../lib/security/encryptedStore";
 import { supabaseMobile } from "../../../lib/supabase/mobileClient";
+import type { OradsUs2022Input, OradsUs2022Result } from "@repo/orads-us/pro";
 import type { AIQueueItem, OradsInput, OradsResult } from "../types";
 
 const CASES_BASE_KEY = "orads_case_history_v1";
@@ -19,12 +20,23 @@ const LEGACY_UX_METRIC_KEY = "orads_ux_metric_v1";
 
 const MAX_CASES = 120;
 
-export type StoredCase = {
+export type StoredCasePro = {
   id: string;
   at: number;
+  version?: "pro";
   input: OradsInput;
   result: OradsResult;
 };
+
+export type StoredCaseUs2022 = {
+  id: string;
+  at: number;
+  version: "us2022";
+  input: OradsUs2022Input;
+  result: OradsUs2022Result;
+};
+
+export type StoredCase = StoredCasePro | StoredCaseUs2022;
 
 export type UXMetric = {
   samples: number;
@@ -125,7 +137,25 @@ export async function appendCaseToHistory(input: OradsInput, result: OradsResult
   const userId = await resolveUserId();
   await ensureMigrated(userId);
   const prev = await loadCaseHistory();
-  const next: StoredCase = { id: `${Date.now()}`, at: Date.now(), input, result };
+  const next: StoredCasePro = { id: `${Date.now()}`, at: Date.now(), version: "pro", input, result };
+  const out = [next, ...prev].slice(0, MAX_CASES);
+  await writeJson(casesKey(userId), out);
+}
+
+export async function appendUnifiedCaseToHistory(
+  input: OradsUs2022Input,
+  result: OradsUs2022Result,
+): Promise<void> {
+  const userId = await resolveUserId();
+  await ensureMigrated(userId);
+  const prev = await loadCaseHistory();
+  const next: StoredCaseUs2022 = {
+    id: `${Date.now()}`,
+    at: Date.now(),
+    version: "us2022",
+    input,
+    result,
+  };
   const out = [next, ...prev].slice(0, MAX_CASES);
   await writeJson(casesKey(userId), out);
 }

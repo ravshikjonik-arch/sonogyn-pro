@@ -24,6 +24,7 @@ function run() {
     lesionKind: "nonphysiological",
     structure: "unilocular",
     unilocularSubtype: "simple_cyst",
+    lengthMm: 40,
   });
   expectEq("ORADS2", r2.category, 2);
 
@@ -35,7 +36,7 @@ function run() {
     unilocularSubtype: "simple_cyst",
     lengthMm: 70,
   });
-  expectEq("ORADS3", r3.category, 3);
+  expectEq("ORADS3", r3.category, 2);
 
   const r4 = calculateORADS({
     localization: "ovarian",
@@ -45,6 +46,8 @@ function run() {
     solidComponent: true,
     solidType: "irregular",
     bloodFlow: "moderate",
+    iotaColorScore: "2",
+    lengthMm: 50,
   });
   expectEq("ORADS4", r4.category, 4);
 
@@ -55,6 +58,7 @@ function run() {
     structure: "solid",
     solidType: "irregular",
     bloodFlow: "marked",
+    lengthMm: 50,
   });
   expectEq("ORADS5", r5.category, 5);
 
@@ -67,7 +71,7 @@ function run() {
     lengthMm: 55,
     ascites: true,
   });
-  expectEq("OVERRIDE_ASCITES", r6.category, 4);
+  expectEq("OVERRIDE_ASCITES", r6.category, 5);
 
   const r7a = calculateORADS({
     localization: "ovarian",
@@ -94,7 +98,7 @@ function run() {
     widthMm: 100,
     heightMm: 90,
   });
-  expectEq("INCOMPLETE_SEPTUM_RECLASS", r7b.category, 2);
+  expectEq("INCOMPLETE_SEPTUM_RECLASS", r7b.category, 3);
   if (!r7b.structureReclassified) {
     throw new Error("INCOMPLETE_SEPTUM_RECLASS: expected structureReclassified");
   }
@@ -123,6 +127,7 @@ function run() {
     solidComponent: true,
     solidType: "papillary",
     papillaryProjectionCount: "2",
+    lengthMm: 45,
   });
   expectEq("PAPILLARY_1_3", rPp4.category, 4);
 
@@ -135,6 +140,7 @@ function run() {
     solidComponent: true,
     solidType: "papillary",
     papillaryProjectionCount: "4plus",
+    lengthMm: 45,
   });
   expectEq("PAPILLARY_GE4", rPp5.category, 5);
 

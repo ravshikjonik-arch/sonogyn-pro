@@ -4,6 +4,12 @@ import type { RootStackParamList } from "../../../navigation/AppStack";
 import { useMemo, useState } from "react";
 import SelectChip from "../components/SelectChip";
 import { useOradsCaseHistory } from "./useOradsCaseHistory";
+import {
+  storedCaseCategory,
+  storedCaseIsCritical,
+  storedCaseRecommendation,
+  storedCaseRiskLabel,
+} from "../storedCaseHelpers";
 
 type Props = NativeStackScreenProps<RootStackParamList, "ORADSHistory">;
 
@@ -17,18 +23,17 @@ export default function ORADSHistoryScreen({ navigation }: Props) {
   const visible = useMemo(() => {
     const now = Date.now();
     const filtered = rows.filter((r) => {
-      if (filterCat !== 0 && r.result.category !== filterCat) return false;
-      if (highRiskOnly && r.result.category < 4) return false;
-      if (criticalOnly) {
-        const critical =
-          r.result.category === 5 || (!!r.input.ascites && !!r.input.peritonealNodules) || (!!r.input.ascites && r.result.category >= 4);
-        if (!critical) return false;
-      }
+      const cat = storedCaseCategory(r);
+      if (filterCat !== 0 && cat !== filterCat) return false;
+      if (highRiskOnly && cat < 4) return false;
+      if (criticalOnly && !storedCaseIsCritical(r)) return false;
       if (last7d && now - r.at > 7 * 24 * 60 * 60 * 1000) return false;
       return true;
     });
     if (sortBy === "risk") {
-      return [...filtered].sort((a, b) => b.result.category - a.result.category || b.at - a.at);
+      return [...filtered].sort(
+        (a, b) => storedCaseCategory(b) - storedCaseCategory(a) || b.at - a.at,
+      );
     }
     return [...filtered].sort((a, b) => b.at - a.at);
   }, [rows, filterCat, last7d, highRiskOnly, criticalOnly, sortBy]);
@@ -75,11 +80,11 @@ export default function ORADSHistoryScreen({ navigation }: Props) {
         ) : (
           visible.map((r) => (
             <Pressable key={r.id} style={styles.card} onPress={() => navigation.navigate("ORADSHistoryDetails", { caseId: r.id })}>
-              <Text style={styles.cat}>O-RADS {r.result.category}</Text>
+              <Text style={styles.cat}>O-RADS {storedCaseCategory(r)}</Text>
               <Text style={styles.time}>{new Date(r.at).toLocaleString()}</Text>
-              <Text style={styles.line}>Риск: {r.result.riskText}</Text>
+              <Text style={styles.line}>Риск: {storedCaseRiskLabel(r)}</Text>
               <Text style={styles.line}>Обоснование: {r.result.rationale}</Text>
-              <Text style={styles.line}>Рекомендация: {r.result.recommendation}</Text>
+              <Text style={styles.line}>Рекомендация: {storedCaseRecommendation(r)}</Text>
             </Pressable>
           ))
         )}

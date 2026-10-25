@@ -2,7 +2,12 @@ export {
   buildReportText,
   buildProtocolOneLiner,
   calculateORADS,
+  evaluateOradsUs2022,
+  initialOradsUs2022Input,
+  mapProInputToUs2022,
+  ORADS_US2022_META,
 } from "@repo/orads-us/pro";
+export type { OradsUs2022Input, OradsUs2022Result } from "@repo/orads-us/pro";
 export {
   buildIotaConsensusReportText,
   evaluateIotaConsensus2026,
