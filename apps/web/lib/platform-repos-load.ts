@@ -12,7 +12,7 @@ export async function loadPlatformRepoText(repo: PlatformRepo): Promise<{ text: 
     // Папки нет на сервере деплоя — берём тот же файл с GitHub.
   }
 
-  const response = await fetch(repo.rawUrl, { next: { revalidate: 3600 } });
+  const response = await fetch(repo.rawUrl, { cache: "no-store" });
   if (!response.ok) {
     throw new Error(`Не удалось прочитать ${repo.title}`);
   }
