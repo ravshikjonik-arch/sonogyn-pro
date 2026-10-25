@@ -91,6 +91,18 @@ function supabaseConnectOriginExtra(): string {
 const nextConfig: NextConfig = {
   /** Playwright / LAN dev hits 127.0.0.1 — without this, client chunks may not load in Next 16 dev. */
   allowedDevOrigins: ["127.0.0.1", "localhost"],
+  // Dynamic fs reads of these clones made one serverless trace include their .git packs and killed the 8 GB Vercel builder.
+  outputFileTracingExcludes: {
+    "*": [
+      "../../Echo-Alpha/**",
+      "../../FetalAgents/**",
+      "../../Medical-Imaging-Diagnosis-Agent/**",
+      "../../USTri/**",
+      "../../awesome/**",
+      "../../awesome-selfhosted/**",
+      "app/api/ustri_inference/USTri/**",
+    ],
+  },
   assetPrefix: productionAssetPrefix(),
   transpilePackages: [
     "three",

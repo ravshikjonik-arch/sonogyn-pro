@@ -1,17 +1,6 @@
-import { readFile } from "node:fs/promises";
-import path from "node:path";
-
 import { getPlatformRepo, type PlatformRepo } from "@/lib/platform-repos";
 
-export async function loadPlatformRepoText(repo: PlatformRepo): Promise<{ text: string; source: "project" | "github" }> {
-  const localPath = path.join(process.cwd(), "..", "..", repo.dir, repo.readme);
-  try {
-    const text = await readFile(localPath, "utf8");
-    if (text.trim()) return { text, source: "project" };
-  } catch {
-    // Папки нет на сервере деплоя — берём тот же файл с GitHub.
-  }
-
+export async function loadPlatformRepoText(repo: PlatformRepo): Promise<{ text: string; source: "github" }> {
   const response = await fetch(repo.rawUrl, { cache: "no-store" });
   if (!response.ok) {
     throw new Error(`Не удалось прочитать ${repo.title}`);
