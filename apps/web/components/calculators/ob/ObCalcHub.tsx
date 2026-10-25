@@ -256,7 +256,7 @@ export function ObCalcHub({ initialTab = "lmp" }: { initialTab?: TabId }) {
     <div className="mx-auto max-w-3xl space-y-6 px-4 py-8 lg:px-8">
       <div className="flex flex-wrap items-start gap-3">
         <Button variant="ghost" size="sm" asChild>
-          <Link href="/tools/calc">← Калькуляторы</Link>
+          <Link href="/tools/calc/ob">← Акушерский калькулятор</Link>
         </Button>
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">

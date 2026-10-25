@@ -28,8 +28,10 @@ type Tab = "hadlock" | "rudakov" | "maternal";
 const CALC_ID = "fetal-weight";
 const SHARE_PATH = "/tools/calc/ob/fetal-weight";
 
-export function FetalWeightCalculator() {
-  const [tab, setTab] = useState<Tab>("hadlock");
+export function FetalWeightCalculator({ initialTab }: { initialTab?: string }) {
+  const [tab, setTab] = useState<Tab>(
+    initialTab === "rudakov" || initialTab === "maternal" || initialTab === "hadlock" ? initialTab : "hadlock",
+  );
   const { recordRun } = useCalculatorWorkspace(CALC_ID);
   const [bpd, setBpd] = useState("");
   const [hc, setHc] = useState("");

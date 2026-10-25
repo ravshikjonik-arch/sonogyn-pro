@@ -67,8 +67,8 @@ function vbacShareParams(tab: Tab, pre: VbacPreInput, labor: VbacInLaborInput) {
   return params;
 }
 
-export function VbacCalculator() {
-  const [tab, setTab] = useState<Tab>("pre");
+export function VbacCalculator({ initialTab }: { initialTab?: string }) {
+  const [tab, setTab] = useState<Tab>(initialTab === "labor" || initialTab === "pre" ? initialTab : "pre");
   const [pre, setPre] = useState<VbacPreInput>(DEFAULT_PRE);
   const [labor, setLabor] = useState<VbacInLaborInput>(DEFAULT_LABOR);
   const { recordRun } = useCalculatorWorkspace(CALC_ID);

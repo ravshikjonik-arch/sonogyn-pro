@@ -3,6 +3,9 @@ import { VbacCalculator } from "@/components/calculators/obstetric/VbacCalculato
 import { calculatorPageMetadata } from "@/lib/seo/calculator-seo-registry";
 export const metadata = calculatorPageMetadata("/tools/calc/ob/vbac");
 
-export default function VbacPage() {
-  return <VbacCalculator />;
+type Props = { searchParams: Promise<{ tab?: string }> };
+
+export default async function VbacPage({ searchParams }: Props) {
+  const { tab } = await searchParams;
+  return <VbacCalculator initialTab={tab} />;
 }

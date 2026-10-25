@@ -85,7 +85,7 @@ export default function GynCalculatorsPage() {
     <ClinicalDomainHub
       kicker="Гинекология"
       title="Калькуляторы гинекологии"
-      description="Калькуляторы срока беременности из ObCalc лежат отдельно: откройте первую карточку или пункт «Кальк. беременности»."
+      description="Калькуляторы срока, массы, Бишопа и рисков из ObCalc стоят списком в пункте «Акушерский калькулятор»."
       cards={CARDS}
       backHref="/tools/calc"
       backLabel="← Все калькуляторы"

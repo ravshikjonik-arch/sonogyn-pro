@@ -75,7 +75,7 @@ const navGroups: { title: string; items: { href: string; label: string; icon: ty
       { href: "/tools/obstetrics", label: "Хаб акушерства", icon: Baby },
       { href: "/ai/consultants/obstetrics", label: "Помощник акушера", icon: HandHeart },
       { href: "/ai/consultants/fmf", label: "FMF · скрининг", icon: Baby },
-      { href: "/tools/calc/ob", label: "Кальк. беременности", icon: Calculator },
+      { href: "/tools/calc/ob", label: "Акушерский калькулятор", icon: Calculator },
     ],
   },
   {
