@@ -4,15 +4,13 @@ import { describe, it } from "node:test";
 import { resolveDoctorChatLoadState } from "./resolve-doctor-chat-load-state";
 
 describe("resolveDoctorChatLoadState", () => {
-  it("guest → auth_required with login CTA", () => {
+  it("guest can open the chat without a login wall", () => {
     const state = resolveDoctorChatLoadState({
       hasUser: false,
       httpStatus: null,
       errorMessage: null,
     });
-    assert.equal(state?.kind, "auth_required");
-    assert.equal(state?.showLoginCta, true);
-    assert.equal(state?.showMigrationHint, false);
+    assert.equal(state, null);
   });
 
   it("403 → community access, not migration", () => {

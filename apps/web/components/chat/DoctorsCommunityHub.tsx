@@ -9,6 +9,7 @@ import { CaseFeed } from "@/components/cases/case-feed";
 import { DoctorChannelChat } from "@/components/chat/DoctorChannelChat";
 import { DoctorChannelChatV2Lazy } from "@/components/chat/DoctorChannelChatV2Lazy";
 import { MessengerCommunityChatShell } from "@/components/chat/messenger/MessengerCommunityChatShell";
+import { useAuth } from "@/app/providers";
 import { isDoctorChatV2EnabledClient } from "@/lib/chat/flags";
 import { DoctorPresenceProvider } from "@/components/chat/DoctorPresenceContext";
 import { DoctorPresencePanel } from "@/components/chat/DoctorPresencePanel";
@@ -49,7 +50,8 @@ function HubInner() {
   const [mobileChatOpen, setMobileChatOpen] = useState(Boolean(initialChannelId || channelFromSlug));
 
   const channel = DOCTOR_CHAT_CHANNELS.find((c) => c.slug === activeChannel) ?? DOCTOR_CHAT_CHANNELS[0]!;
-  const chatV2 = isDoctorChatV2EnabledClient();
+  const { user } = useAuth();
+  const chatV2 = isDoctorChatV2EnabledClient() && Boolean(user);
 
   return (
     <Tabs defaultValue={initialTab} className="space-y-6">

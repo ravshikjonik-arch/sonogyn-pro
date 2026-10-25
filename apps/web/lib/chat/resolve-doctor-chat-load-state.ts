@@ -29,14 +29,7 @@ export function resolveDoctorChatLoadState(params: {
   errorMessage: string | null;
 }): DoctorChatLoadState | null {
   if (!params.hasUser) {
-    return {
-      kind: "auth_required",
-      title: "Войдите, чтобы читать чат коллег",
-      detail:
-        "Сообщество врачей доступно после входа и проверки статуса (ординатор / врач). Калькуляторы и справочники открыты без регистрации.",
-      showMigrationHint: false,
-      showLoginCta: true,
-    };
+    return null;
   }
 
   if (params.httpStatus === 401) {

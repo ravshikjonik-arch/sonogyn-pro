@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { z } from "zod";
 
+import { resolveGuestChatAuthorId } from "@/lib/chat/guest-chat-author";
+import { resolveAuthorNames } from "@/lib/chat/resolve-author-names";
 import { rejectIfRateLimitedForUser, rejectIfRateLimitedPreset } from "@/lib/security/api-rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { requireSupabaseUserFromRequest } from "@/lib/security/require-user";
@@ -10,7 +13,35 @@ import {
   getChatMediaSignedUrl,
 } from "@/lib/supabase/chat-media-storage";
 import { rejectIfPhiInTextFields } from "@/lib/security/reject-phi-payload";
+import { createServiceRoleClient } from "@/utils/supabase/admin";
 import { createClient } from "@/utils/supabase/server";
+
+async function openDoctorChatDb(request: Request): Promise<
+  | { ok: true; db: SupabaseClient; authorId: string; guest: boolean }
+  | { ok: false; response: NextResponse }
+> {
+  const supabase = await createClient();
+  const auth = await requireSupabaseUserFromRequest(request, supabase);
+  if (auth.ok) {
+    return { ok: true, db: supabase, authorId: auth.userId, guest: false };
+  }
+
+  try {
+    const authorId = await resolveGuestChatAuthorId();
+    return { ok: true, db: createServiceRoleClient(), authorId, guest: true };
+  } catch (error) {
+    safeLog("doctor chat guest", {
+      message: error instanceof Error ? error.message : "guest",
+    });
+    return {
+      ok: false,
+      response: NextResponse.json(
+        { error: "Чат сейчас не открылся. Попробуйте ещё раз." },
+        { status: 503 },
+      ),
+    };
+  }
+}
 
 const DoctorChatMessageBodySchema = z.object({
   channelId: z.string().uuid(),
@@ -38,15 +69,17 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
   }
 
-  const supabase = await createClient();
-  const auth = await requireSupabaseUserFromRequest(request, supabase);
-  if (!auth.ok) return auth.response;
+  const opened = await openDoctorChatDb(request);
+  if (!opened.ok) return opened.response;
+  const { db, authorId, guest } = opened;
 
-  const userRl = await rejectIfRateLimitedForUser(auth.userId, "doctor-chat-load", RL.casesListUser);
-  if (userRl) return userRl;
+  if (!guest) {
+    const userRl = await rejectIfRateLimitedForUser(authorId, "doctor-chat-load", RL.casesListUser);
+    if (userRl) return userRl;
+  }
 
   try {
-    let query = supabase
+    let query = db
       .from("doctor_chat_messages")
       .select("id,channel_id,author_id,body,media_storage_path,media_type,created_at")
       .eq("channel_id", parsed.data.channelId);
@@ -68,12 +101,16 @@ export async function GET(request: Request) {
       (data ?? []).map(async (row) => ({
         ...row,
         media_url: row.media_storage_path
-          ? await getChatMediaSignedUrl(supabase, row.media_storage_path)
+          ? await getChatMediaSignedUrl(db, row.media_storage_path)
           : null,
       })),
     );
+    const authorNames = await resolveAuthorNames(
+      db,
+      messages.map((row) => row.author_id),
+    );
 
-    return NextResponse.json({ messages });
+    return NextResponse.json({ messages, authorNames });
   } catch (err) {
     safeLog("doctor chat load error", { message: err instanceof Error ? err.message : "unknown" });
     const message = err instanceof Error ? err.message : "Load failed";
@@ -86,12 +123,14 @@ export async function POST(request: Request) {
   const limited = await rejectIfRateLimitedPreset(request, "doctor-chat-send", RL.syncBurst);
   if (limited) return limited;
 
-  const supabase = await createClient();
-  const auth = await requireSupabaseUserFromRequest(request, supabase);
-  if (!auth.ok) return auth.response;
+  const opened = await openDoctorChatDb(request);
+  if (!opened.ok) return opened.response;
+  const { db, authorId, guest } = opened;
 
-  const userRl = await rejectIfRateLimitedForUser(auth.userId, "doctor-chat-send", RL.syncBurst);
-  if (userRl) return userRl;
+  if (!guest) {
+    const userRl = await rejectIfRateLimitedForUser(authorId, "doctor-chat-send", RL.syncBurst);
+    if (userRl) return userRl;
+  }
 
   const json = await request.json().catch(() => null);
   const parsed = DoctorChatMessageBodySchema.safeParse(json);
@@ -111,7 +150,7 @@ export async function POST(request: Request) {
   if (
     mediaStoragePath &&
     !chatMediaPathBelongsToScope(mediaStoragePath, {
-      userId: auth.userId,
+      userId: authorId,
       scope: "channel",
       scopeId: parsed.data.channelId,
     })
@@ -120,11 +159,11 @@ export async function POST(request: Request) {
   }
 
   try {
-    const { data, error } = await supabase
+    const { data, error } = await db
       .from("doctor_chat_messages")
       .insert({
         channel_id: parsed.data.channelId,
-        author_id: auth.userId,
+        author_id: authorId,
         body,
         media_storage_path: mediaStoragePath,
         media_type: parsed.data.media_type ?? null,
@@ -137,24 +176,25 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: error?.message ?? "Send failed" }, { status: 500 });
     }
 
-    // Auto-subscribe author so they get push for later messages from colleagues.
-    const { data: existingSub } = await supabase
-      .from("channel_subscriptions")
-      .select("user_id")
-      .eq("user_id", auth.userId)
-      .eq("channel_id", parsed.data.channelId)
-      .maybeSingle();
-
     let autoSubscribed = false;
-    if (!existingSub) {
-      const { error: subError } = await supabase.from("channel_subscriptions").insert({
-        user_id: auth.userId,
-        channel_id: parsed.data.channelId,
-      });
-      if (subError) {
-        safeLog("doctor chat auto-subscribe error", { message: subError.message });
-      } else {
-        autoSubscribed = true;
+    if (!guest) {
+      const { data: existingSub } = await db
+        .from("channel_subscriptions")
+        .select("user_id")
+        .eq("user_id", authorId)
+        .eq("channel_id", parsed.data.channelId)
+        .maybeSingle();
+
+      if (!existingSub) {
+        const { error: subError } = await db.from("channel_subscriptions").insert({
+          user_id: authorId,
+          channel_id: parsed.data.channelId,
+        });
+        if (subError) {
+          safeLog("doctor chat auto-subscribe error", { message: subError.message });
+        } else {
+          autoSubscribed = true;
+        }
       }
     }
 
@@ -163,7 +203,7 @@ export async function POST(request: Request) {
         message: {
           ...data,
           media_url: data.media_storage_path
-            ? await getChatMediaSignedUrl(supabase, data.media_storage_path)
+            ? await getChatMediaSignedUrl(db, data.media_storage_path)
             : null,
         },
         autoSubscribed,

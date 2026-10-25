@@ -82,18 +82,9 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
     }
     setUserId(user?.id ?? null);
 
-    if (!user) {
-      setMessages([]);
-      setLoadState(
-        resolveDoctorChatLoadState({ hasUser: false, httpStatus: null, errorMessage: null }),
-      );
-      if (!silent) setLoading(false);
-      return;
-    }
-
     const response = await fetch(`/api/doctor-chat/messages?channelId=${encodeURIComponent(channelId)}`);
     const payload = (await response.json().catch(() => null)) as
-      | { messages?: RawMessage[]; error?: unknown }
+      | { messages?: RawMessage[]; authorNames?: Record<string, string>; error?: unknown }
       | null;
 
     if (!response.ok || !payload?.messages) {
@@ -103,8 +94,14 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
           : typeof payload?.error === "object" && payload?.error !== null
             ? JSON.stringify(payload.error)
             : "Не удалось загрузить чат";
+      if (!user) {
+        setLoadState(null);
+        if (!silent) toast.error(message);
+        if (!silent) setLoading(false);
+        return;
+      }
       const panel = resolveDoctorChatLoadState({
-        hasUser: true,
+        hasUser: Boolean(user),
         httpStatus: response.status,
         errorMessage: message,
       });
@@ -122,13 +119,14 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
     const rows = payload.messages;
     setMessages(enrich(rows));
     if (!silent) measureDoctorChatOpenEnd(rows.length);
+    if (payload.authorNames) setAuthorNames(payload.authorNames);
     const ids = rows.map((r) => r.author_id);
-    const [names, trust] = await Promise.all([
-      resolveAuthorNames(supabase, ids),
-      resolveAuthorTrust(supabase, ids),
-    ]);
-    setAuthorNames(names);
-    setAuthorTrust(trust);
+    if (user) {
+      const trust = await resolveAuthorTrust(supabase, ids);
+      setAuthorTrust(trust);
+    } else {
+      setAuthorTrust({});
+    }
     if (!silent) setLoading(false);
   }, [channelId, enrich, ready, supabase, user]);
 
@@ -159,12 +157,12 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
   const pollingFallback = isRealtimePollingFallbackEnabledClient();
 
   useEffect(() => {
-    if (!pollingFallback) return;
+    if (!pollingFallback && user) return;
     const id = window.setInterval(() => {
       void load(true);
     }, 10000);
     return () => window.clearInterval(id);
-  }, [load, pollingFallback]);
+  }, [load, pollingFallback, user]);
 
   const ingestDoctorRow = useCallback(
     async (messageId: string) => {
@@ -252,9 +250,11 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
   const mine = useMemo(() => new Set(userId ? [userId] : []), [userId]);
 
   async function handleSend({ text, file }: { text: string; file: File | null }) {
-    if (!userId) {
-      toast.message("Нужна авторизация");
-      return false;
+    let attachment = file;
+    if (!userId && attachment) {
+      toast.message("Фото и видео можно прикрепить после входа. Текст отправляется сразу.");
+      attachment = null;
+      if (!text.trim()) return false;
     }
     const offline = requireOnlineForNetworkAction();
     if (offline) {
@@ -266,11 +266,11 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
       let media_storage_path: string | null = null;
       let media_type: "image" | "video" | null = null;
 
-      if (file) {
+      if (attachment) {
         const form = new FormData();
         form.append("scope", "channel");
         form.append("scopeId", channelId);
-        form.append("file", file);
+        form.append("file", attachment);
         const uploadResponse = await fetch("/api/doctor-chat/media", {
           method: "POST",
           body: form,
@@ -382,7 +382,7 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
         )}
       </div>
 
-      {!loadState && userId ? (
+      {!loadState ? (
         <div className="doctor-chat-composer border-t border-[var(--clinical-border)] p-4">
           <ChatMessageComposer busy={sending} onSend={handleSend} />
         </div>
