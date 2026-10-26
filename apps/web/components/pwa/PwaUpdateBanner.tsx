@@ -17,7 +17,11 @@ export function PwaUpdateBanner() {
     const wb = window.workbox;
     if (!wb) return;
 
-    const onWaiting = () => setWaiting(true);
+    const onWaiting = () => {
+      wb.addEventListener("controlling", () => window.location.reload());
+      wb.messageSkipWaiting();
+      setWaiting(true);
+    };
     wb.addEventListener("waiting", onWaiting);
 
     return () => {

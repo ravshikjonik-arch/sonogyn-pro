@@ -105,7 +105,7 @@ function buildPwaPluginOptions() {
     publicExcludes: ["!clinical-atlas/**/*", "!clinical/**/*", "!**/*.pdf", "!noprecache/**/*"],
     extendDefaultRuntimeCaching: true,
     workboxOptions: {
-      skipWaiting: false,
+      skipWaiting: true,
       clientsClaim: true,
       cleanupOutdatedCaches: true,
       navigateFallback: null,
