@@ -1,16 +1,13 @@
 import { expect, test } from "@playwright/test";
 
-test.describe("Spatial home hub", () => {
-  test("home shows horizontal hub deck and RADS section", async ({ page }) => {
+test.describe("Home welcome and nosology groups", () => {
+  test("opening the site shows the welcome, then the nosology lists", async ({ page }) => {
     await page.goto("/home", { waitUntil: "domcontentloaded" });
-    await expect(page.getByRole("heading", { name: /SonoGyn Pro/i }).first()).toBeVisible({ timeout: 30_000 });
-    await expect(page.getByText("RADS и риск")).toBeVisible({ timeout: 15_000 });
-    await expect(page.getByLabel("Главные разделы платформы")).toBeVisible();
-  });
-
-  test("?hub=rads opens modal with O-RADS link", async ({ page }) => {
-    await page.goto("/home?hub=rads", { waitUntil: "domcontentloaded" });
-    await expect(page.getByRole("dialog")).toBeVisible({ timeout: 20_000 });
-    await expect(page.getByRole("link", { name: /O-RADS/i }).first()).toBeVisible();
+    await expect(page.getByRole("button", { name: "Начать" })).toBeVisible({ timeout: 30_000 });
+    await page.getByRole("button", { name: "Начать" }).click();
+    await expect(page.getByRole("heading", { name: "Акушерство" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Гинекология" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Маммология" })).toBeVisible();
+    await expect(page.getByRole("link", { name: /O-RADS/ }).first()).toBeVisible();
   });
 });
