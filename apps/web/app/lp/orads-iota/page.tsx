@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, BookOpenCheck, Calculator, CheckCircle2, MessageCircle, ShieldCheck, Stethoscope } from "lucide-react";
 
+import { BrandMark } from "@/components/brand/BrandMark";
 import { Button } from "@/components/ui/button";
 import { TELEGRAM_CHANNEL } from "@/lib/brand/telegram";
 
@@ -60,7 +61,7 @@ export default function OradsIotaLandingPage() {
       <header className="border-b border-[var(--clinical-border)]/70 bg-[var(--clinical-header)]/85 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4">
           <Link href="/landing" className="flex items-center gap-2 font-bold tracking-tight" aria-label="SonoGyn Pro">
-            <span className="sonogyn-brand-mark h-8 w-8 text-[10px]">SG</span>
+            <BrandMark className="h-8 w-8 rounded-lg" />
             <span>SonoGyn Pro</span>
           </Link>
           <nav className="flex items-center gap-2" aria-label="Навигация">

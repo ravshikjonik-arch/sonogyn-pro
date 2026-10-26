@@ -1,6 +1,6 @@
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useEffect, useMemo, useState } from "react";
-import { Platform, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from "react-native";
+import { Image, Platform, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { openTelegramChannel } from "../config/community";
 import { TELEGRAM_CHANNEL } from "../config/telegram";
@@ -100,7 +100,10 @@ export default function LandingScreen({ navigation }: Props) {
     <SafeAreaView style={styles.safe} edges={["top", "left", "right", "bottom"]}>
       <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
         <View style={styles.nav}>
-          <Text style={styles.logo}>{PRODUCT_NAME}</Text>
+          <View style={styles.brandRow}>
+            <Image source={require("../../assets/icon.png")} style={styles.brandMark} accessibilityLabel="SonoGyn Pro" />
+            <Text style={styles.logo}>{PRODUCT_NAME}</Text>
+          </View>
           <View style={styles.navLinks}>
             <Text style={styles.navLink}>Features</Text>
             <Text style={styles.navLink}>Community</Text>
@@ -266,6 +269,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 10,
   },
+  brandRow: { flexDirection: "row", alignItems: "center", gap: 8 },
+  brandMark: { width: 36, height: 36, borderRadius: 8 },
   logo: { color: "#0F172A", fontSize: 16, fontWeight: "900" },
   navLinks: { flexDirection: "row", gap: 18 },
   navLink: { color: "#64748B", fontSize: 13, fontWeight: "800" },

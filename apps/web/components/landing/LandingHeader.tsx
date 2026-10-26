@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { BrandMark } from "@/components/brand/BrandMark";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils/cn";
 
@@ -29,16 +30,7 @@ export function LandingHeader({ isAuthenticated, variant = "clinical" }: Landing
           )}
           aria-label="SonoGyn Pro — на главную"
         >
-          <span
-            className={cn(
-              "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-[10px] font-black tracking-tight text-white",
-              marketing
-                ? "bg-gradient-to-br from-violet-500 to-fuchsia-600 shadow-[0_0_16px_rgba(168,85,247,0.45)]"
-                : "bg-[var(--clinical-primary)]",
-            )}
-          >
-            SG
-          </span>
+          <BrandMark className="h-8 w-8 rounded-lg" />
           <span className="truncate text-sm font-bold tracking-tight sm:text-[15px]">SonoGyn Pro</span>
         </Link>
         <nav className="flex shrink-0 items-center justify-end gap-1 sm:gap-2" aria-label="Навигация лендинга">

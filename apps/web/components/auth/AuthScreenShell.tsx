@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+
+import { BrandMark } from "@/components/brand/BrandMark";
 import { useEffect, useState, type ReactNode } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -65,6 +67,7 @@ export function AuthScreenShell({
   return (
     <section className="sonogyn-glass-card relative w-full max-w-md rounded-3xl border border-white/20 p-8 shadow-2xl dark:border-white/10">
       <div className="mb-6 text-center">
+        <BrandMark className="mx-auto mb-3 h-16 w-16 rounded-2xl" />
         <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--clinical-primary-deep)]">
           SonoGyn Pro
         </p>

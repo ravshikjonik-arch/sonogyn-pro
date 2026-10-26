@@ -86,7 +86,7 @@ export function CommandCenter() {
               <div className="max-w-3xl space-y-4">
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-center gap-3">
-                    <SonoOrb label="SG" size="lg" />
+                    <SonoOrb label="SonoGyn Pro" size="lg" />
                     <div>
                       <Badge variant="outline" className="border-[var(--clinical-border)]">
                         Рабочий центр

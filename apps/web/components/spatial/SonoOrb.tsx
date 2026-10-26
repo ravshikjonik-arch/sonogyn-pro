@@ -13,7 +13,7 @@ const sizeClass = {
   lg: "h-16 w-16 text-base",
 };
 
-export function SonoOrb({ label = "SG", size = "md", className, ...props }: SonoOrbProps) {
+export function SonoOrb({ label = "SonoGyn Pro", size = "md", className, ...props }: SonoOrbProps) {
   return (
     <div
       className={cn(
@@ -23,7 +23,8 @@ export function SonoOrb({ label = "SG", size = "md", className, ...props }: Sono
       )}
       {...props}
     >
-      {label}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/brand/sonogyn-avatar.png" alt={label} className="h-full w-full object-cover" />
     </div>
   );
 }

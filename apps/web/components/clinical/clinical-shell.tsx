@@ -29,6 +29,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { useAuth, useSupabase } from "@/app/providers";
+import { BrandMark } from "@/components/brand/BrandMark";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils/cn";
 import {
@@ -223,12 +224,7 @@ export function ClinicalShell({
       )}
     >
       <div className="flex items-center gap-3 px-5 py-5">
-        <div
-          className="sonogyn-brand-mark sonogyn-brand-pulse text-[10px]"
-          title={cabinetLabel.doctorLine ?? "SonoGyn Pro"}
-        >
-          {cabinetLabel.doctorLine ? cabinetLabel.initials : "SG"}
-        </div>
+        <BrandMark className="sonogyn-brand-pulse" />
         <div className="min-w-0">
           <p className="truncate text-[10px] font-bold uppercase tracking-[0.28em] text-[var(--clinical-foreground-muted)]">
             SonoGyn Pro

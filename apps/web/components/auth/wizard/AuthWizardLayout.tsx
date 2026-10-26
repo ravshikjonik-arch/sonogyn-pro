@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 
+import { BrandMark } from "@/components/brand/BrandMark";
 import { cn } from "@/lib/utils/cn";
 
 type Props = {
@@ -20,6 +21,7 @@ export function AuthWizardLayout({ children, title, subtitle, className }: Props
       )}
     >
       <div className="flex flex-col rounded-[28px] border border-[var(--clinical-border)] bg-[var(--clinical-card)] px-6 pb-8 pt-7 shadow-xl">
+        <BrandMark className="mx-auto mb-3 h-16 w-16 rounded-2xl" />
         <p className="text-center text-[10px] font-bold uppercase tracking-[0.22em] text-[var(--clinical-primary-deep)]">
           SonoGyn Pro
         </p>
