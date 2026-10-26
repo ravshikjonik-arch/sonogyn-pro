@@ -10,6 +10,7 @@ import {
   Stethoscope,
 } from "lucide-react";
 
+import { BrandMark } from "@/components/brand/BrandMark";
 import { OpenAccessEntryCard } from "@/components/landing/OpenAccessEntryCard";
 import { Button } from "@/components/ui/button";
 
@@ -113,9 +114,7 @@ export function LandingMarketingHero({ isAuthenticated }: Props) {
         {/* Top brand strip */}
         <div className="mb-6 flex flex-col gap-4 lg:mb-8 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex items-start gap-3">
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-600 text-base font-black shadow-[0_0_28px_rgba(168,85,247,0.6)] ring-1 ring-white/20">
-              S
-            </span>
+            <BrandMark className="h-11 w-11 rounded-xl shadow-[0_0_28px_rgba(168,85,247,0.45)] ring-1 ring-white/20" />
             <div>
               <p className="text-base font-black tracking-tight">SonoGyn Pro</p>
               <p className="mt-0.5 max-w-md text-[10px] font-bold uppercase leading-snug tracking-[0.06em] text-violet-200/75 sm:text-[11px]">
