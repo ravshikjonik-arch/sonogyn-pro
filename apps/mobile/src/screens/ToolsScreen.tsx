@@ -154,6 +154,10 @@ export default function ToolsScreen({ navigation, route }: ToolsTabScreenProps) 
     }));
   }, [role]);
 
+  const backToSections = () => {
+    navigation.setParams({ panel: undefined, referenceSection: undefined });
+  };
+
   const setPanel = (next: ToolsPanel) => {
     navigation.setParams({
       panel: next,
@@ -164,11 +168,8 @@ export default function ToolsScreen({ navigation, route }: ToolsTabScreenProps) 
   if (panel === "reference" && referenceSection === "guidelines") {
     return (
       <View style={{ flex: 1 }}>
-        <Pressable
-          style={styles.backBar}
-          onPress={() => navigation.setParams({ panel: "reference", referenceSection: undefined })}
-        >
-          <Text style={styles.backBarText}>← Справочник</Text>
+        <Pressable style={styles.backBar} onPress={backToSections}>
+          <Text style={styles.backBarText}>← Разделы</Text>
         </Pressable>
         <GuidelinesTabScreen navigation={navigation} route={route as never} />
       </View>
@@ -179,6 +180,9 @@ export default function ToolsScreen({ navigation, route }: ToolsTabScreenProps) 
     return (
       <SafeAreaView style={styles.safe} edges={["top", "left", "right"]}>
         <View style={styles.header}>
+          <Pressable onPress={backToSections}>
+            <Text style={styles.backBarText}>← Разделы</Text>
+          </Pressable>
           <Text style={styles.kicker}>Инструменты</Text>
           <Text style={styles.title}>Справочник</Text>
           <ToolsPanelSwitch panel={panel} onChange={setPanel} />
@@ -190,9 +194,12 @@ export default function ToolsScreen({ navigation, route }: ToolsTabScreenProps) 
 
   return (
     <SafeAreaView style={styles.safe} edges={["top", "left", "right"]}>
-      <View style={styles.header}>
-        <Text style={styles.kicker}>Приём · УЗИ</Text>
-        <Text style={styles.title}>Инструменты</Text>
+        <View style={styles.header}>
+          <Pressable onPress={backToSections}>
+            <Text style={styles.backBarText}>← Разделы</Text>
+          </Pressable>
+          <Text style={styles.kicker}>Приём · УЗИ</Text>
+          <Text style={styles.title}>Инструменты</Text>
         <Text style={styles.sub}>Калькуляторы · O-RADS · поиск по синонимам</Text>
         <ToolsPanelSwitch panel={panel} onChange={setPanel} />
       </View>
@@ -200,6 +207,9 @@ export default function ToolsScreen({ navigation, route }: ToolsTabScreenProps) 
         <View style={styles.domainRow}>
           <Pressable style={styles.domainChip} onPress={() => openClinicalToolAction(navigation, "orads_hub")}>
             <Text style={styles.domainChipText}>O-RADS</Text>
+          </Pressable>
+          <Pressable style={styles.domainChip} onPress={() => void openWebPath("/tools/pharmacy")}>
+            <Text style={styles.domainChipText}>Аптека</Text>
           </Pressable>
           <Pressable style={styles.domainChip} onPress={() => void openWebPath("/tools/calc/ob")}>
             <Text style={styles.domainChipText}>Кальк. Б</Text>

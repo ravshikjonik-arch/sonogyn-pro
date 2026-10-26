@@ -2,7 +2,6 @@ import { NavigationContainer, useNavigationContainerRef, type LinkingOptions } f
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import type { Session } from "@supabase/supabase-js";
 import { useCallback, useEffect, useState, type ComponentType } from "react";
-import { Platform } from "react-native";
 import CaseScreen from "../screens/CaseScreen";
 import LandingScreen from "../screens/LandingScreen";
 import PaywallScreen from "../screens/PaywallScreen";
@@ -333,7 +332,7 @@ export default function AppStack() {
       <NavigationContainer ref={navigationRef} linking={linking}>
         <Stack.Navigator
           screenOptions={{ headerShown: false }}
-          initialRouteName={Platform.OS === "web" ? "Landing" : "Splash"}
+          initialRouteName="Splash"
         >
           <Stack.Screen name="Landing" component={LandingScreen} />
           <Stack.Screen name="Splash" component={SplashScreen} />

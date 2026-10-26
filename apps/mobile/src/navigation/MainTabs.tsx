@@ -4,14 +4,13 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useMemo } from "react";
 import { Platform } from "react-native";
 import { ClinicalPhiGate } from "../components/ClinicalPhiGate";
-import { canAccessClinicalPhi } from "../lib/security/clinicalAccessGuard";
 import { useCases } from "../hooks/useCases";
 import CasesScreen, { type CasesTabScreenProps } from "../screens/CasesScreen";
-import ToolsScreen from "../screens/ToolsScreen";
+import NosologyHomeScreen from "../screens/NosologyHomeScreen";
+import ToolsScreen, { type ToolsTabScreenProps } from "../screens/ToolsScreen";
 import AssistantHubScreen from "../screens/AssistantHubScreen";
 import HomeScreen from "../screens/HomeScreen";
 import ProfileScreen from "../screens/ProfileScreen";
-import { DoctorRoleOnboarding } from "../components/clinical/DoctorRoleOnboarding";
 import type { MainTabParamList } from "./paramLists";
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
@@ -30,6 +29,11 @@ const icons: Record<
 /** Tab order from SSOT — same sequence as web bottom nav. */
 const TAB_ORDER = CLINICAL_PRIMARY_NAV.map((e) => e.mobileTab);
 
+function ToolsEntry(props: ToolsTabScreenProps) {
+  if (props.route.params?.panel) return <ToolsScreen {...props} />;
+  return <NosologyHomeScreen {...props} />;
+}
+
 function GuardedCasesScreen(props: CasesTabScreenProps) {
   return (
     <ClinicalPhiGate>
@@ -39,12 +43,7 @@ function GuardedCasesScreen(props: CasesTabScreenProps) {
 }
 
 export default function MainTabs() {
-  return (
-    <>
-      <DoctorRoleOnboarding />
-      <MainTabsInner />
-    </>
-  );
+  return <MainTabsInner />;
 }
 
 function MainTabsInner() {
@@ -55,7 +54,7 @@ function MainTabsInner() {
     return n > 99 ? "99+" : String(n);
   }, [cases]);
 
-  const initialRouteName: keyof MainTabParamList = canAccessClinicalPhi() ? "FeedTab" : "ToolsTab";
+  const initialRouteName: keyof MainTabParamList = "ToolsTab";
 
   return (
     <Tab.Navigator
@@ -107,7 +106,7 @@ function MainTabsInner() {
           return <Tab.Screen key={name} name="AiTab" component={AssistantHubScreen} />;
         }
         if (name === "ToolsTab") {
-          return <Tab.Screen key={name} name="ToolsTab" component={ToolsScreen} />;
+          return <Tab.Screen key={name} name="ToolsTab" component={ToolsEntry} />;
         }
         return <Tab.Screen key={name} name="ProfileTab" component={ProfileScreen} />;
       })}
