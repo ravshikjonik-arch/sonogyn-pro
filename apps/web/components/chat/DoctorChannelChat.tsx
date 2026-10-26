@@ -64,6 +64,7 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
   const [uploadProgress, setUploadProgress] = useState<number | null>(null);
   const [galleryUrl, setGalleryUrl] = useState<string | null>(null);
   const [ownIds, setOwnIds] = useState<string[]>([]);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const searchRef = useRef("");
   const uploadAbortRef = useRef<AbortController | null>(null);
 
@@ -114,6 +115,7 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
             ? JSON.stringify(payload.error)
             : "Не удалось загрузить чат";
       if (!user) {
+        setLoadError(message);
         setLoadState(null);
         if (!silent) toast.error(message);
         if (!silent) setLoading(false);
@@ -136,6 +138,7 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
       return;
     }
     setLoadState(null);
+    setLoadError(null);
     setHasMore(Boolean(payload.hasMore));
 
     const rows = payload.messages;
@@ -497,6 +500,8 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
           <DoctorChatLoadPanel state={loadState} />
         ) : loading ? (
           <p className="text-sm text-[var(--clinical-foreground-muted)]">Загрузка сообщений…</p>
+        ) : loadError && messages.length === 0 ? (
+          <p className="text-sm text-[var(--clinical-foreground-muted)]">{loadError}</p>
         ) : messages.length === 0 ? (
           <p className="text-sm text-[var(--clinical-foreground-muted)]">
             Напишите первым — фото, видео или голос, без регистрации.

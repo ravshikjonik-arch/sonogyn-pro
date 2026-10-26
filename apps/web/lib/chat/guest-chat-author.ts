@@ -1,6 +1,5 @@
 import { createHash } from "node:crypto";
 
-import { ensureDevUserExists } from "@/lib/auth/dev-account";
 import { createServiceRoleClient } from "@/utils/supabase/admin";
 
 const GUEST_CHAT_EMAIL = "chat-guest@sonogyn.pro";
@@ -12,34 +11,32 @@ export async function resolveGuestChatAuthorId(): Promise<string> {
   if (cachedGuestAuthorId) return cachedGuestAuthorId;
 
   const admin = createServiceRoleClient();
-  const lookup = await admin.from("users").select("id").eq("email", GUEST_CHAT_EMAIL).maybeSingle();
-  if (!lookup.error && lookup.data?.id) {
-    cachedGuestAuthorId = lookup.data.id;
-    return lookup.data.id;
-  }
-
   const password = createHash("sha256")
     .update(`sonogyn-chat-guest:${process.env.SUPABASE_SERVICE_ROLE_KEY ?? ""}`)
     .digest("hex")
     .slice(0, 40);
 
-  const ensured = await ensureDevUserExists({
+  const existing = await admin.auth.admin.generateLink({
+    type: "magiclink",
+    email: GUEST_CHAT_EMAIL,
+  });
+  const existingId = existing.data.user?.id;
+  if (existingId) {
+    cachedGuestAuthorId = existingId;
+    return existingId;
+  }
+
+  const created = await admin.auth.admin.createUser({
     email: GUEST_CHAT_EMAIL,
     password,
-    full_name: "Гость",
-    specialization: "Без регистрации",
-    institution: "SonoGyn",
-    birth_year: 1990,
+    email_confirm: true,
+    user_metadata: { full_name: "Гость" },
   });
-  if (!ensured.ok) {
-    throw new Error(ensured.message);
+  const createdId = created.data.user?.id;
+  if (!createdId) {
+    throw new Error(created.error?.message ?? existing.error?.message ?? "Не удалось открыть чат без регистрации");
   }
 
-  const created = await admin.from("users").select("id").eq("email", GUEST_CHAT_EMAIL).maybeSingle();
-  if (!created.data?.id) {
-    throw new Error("Не удалось открыть чат без регистрации");
-  }
-
-  cachedGuestAuthorId = created.data.id;
-  return created.data.id;
+  cachedGuestAuthorId = createdId;
+  return createdId;
 }
