@@ -311,6 +311,10 @@ html.dark .sonogyn-clinical-app input:-webkit-autofill:focus {
   animation: sonogyn-rise 0.55s ease-out both;
 }
 
+.sonogyn-chat-pop {
+  animation: sonogyn-rise 0.22s ease-out both;
+}
+
 .sonogyn-enter-delay-1 { animation-delay: 0.08s; }
 .sonogyn-enter-delay-2 { animation-delay: 0.16s; }
 .sonogyn-enter-delay-3 { animation-delay: 0.24s; }
@@ -580,6 +584,7 @@ html[data-theme-forced="light"] .sg-spatial-vignette::before {
   }
 
   .sonogyn-enter,
+  .sonogyn-chat-pop,
   .ai-breathe,
   .skeleton-shimmer::after,
   .sonogyn-shimmer-bar,

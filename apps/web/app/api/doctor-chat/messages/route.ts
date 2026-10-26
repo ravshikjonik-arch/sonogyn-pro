@@ -1,46 +1,22 @@
 import { NextResponse } from "next/server";
-import type { SupabaseClient } from "@supabase/supabase-js";
 import { z } from "zod";
 
-import { resolveGuestChatAuthorId } from "@/lib/chat/guest-chat-author";
+import { openDoctorChatDb } from "@/lib/chat/open-doctor-chat-db";
 import { resolveAuthorNames } from "@/lib/chat/resolve-author-names";
 import { rejectIfRateLimitedForUser, rejectIfRateLimitedPreset } from "@/lib/security/api-rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
-import { requireSupabaseUserFromRequest } from "@/lib/security/require-user";
 import { safeLog } from "@/lib/security/safeLog";
 import {
   chatMediaPathBelongsToScope,
   getChatMediaSignedUrl,
 } from "@/lib/supabase/chat-media-storage";
 import { rejectIfPhiInTextFields } from "@/lib/security/reject-phi-payload";
-import { createServiceRoleClient } from "@/utils/supabase/admin";
-import { createClient } from "@/utils/supabase/server";
 
-async function openDoctorChatDb(request: Request): Promise<
-  | { ok: true; db: SupabaseClient; authorId: string; guest: boolean }
-  | { ok: false; response: NextResponse }
-> {
-  const supabase = await createClient();
-  const auth = await requireSupabaseUserFromRequest(request, supabase);
-  if (auth.ok) {
-    return { ok: true, db: supabase, authorId: auth.userId, guest: false };
-  }
+const PAGE_SIZE = 40;
 
-  try {
-    const authorId = await resolveGuestChatAuthorId();
-    return { ok: true, db: createServiceRoleClient(), authorId, guest: true };
-  } catch (error) {
-    safeLog("doctor chat guest", {
-      message: error instanceof Error ? error.message : "guest",
-    });
-    return {
-      ok: false,
-      response: NextResponse.json(
-        { error: "Чат сейчас не открылся. Попробуйте ещё раз." },
-        { status: 503 },
-      ),
-    };
-  }
+function searchPattern(query: string): string {
+  const clean = query.replace(/[%_\\]/g, " ").trim();
+  return `%${clean}%`;
 }
 
 const DoctorChatMessageBodySchema = z.object({
@@ -60,10 +36,14 @@ export async function GET(request: Request) {
     .object({
       channelId: z.string().uuid(),
       messageId: z.string().uuid().optional(),
+      before: z.string().min(10).max(40).optional(),
+      q: z.string().trim().max(80).optional(),
     })
     .safeParse({
       channelId: searchParams.get("channelId"),
       messageId: searchParams.get("messageId") ?? undefined,
+      before: searchParams.get("before") ?? undefined,
+      q: searchParams.get("q") ?? undefined,
     });
   if (!parsed.success) {
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
@@ -84,10 +64,13 @@ export async function GET(request: Request) {
       .select("id,channel_id,author_id,body,media_storage_path,media_type,created_at")
       .eq("channel_id", parsed.data.channelId);
 
+    let hasMore = false;
     if (parsed.data.messageId) {
       query = query.eq("id", parsed.data.messageId);
     } else {
-      query = query.order("created_at", { ascending: true }).limit(200);
+      query = query.order("created_at", { ascending: false }).limit(PAGE_SIZE + 1);
+      if (parsed.data.before) query = query.lt("created_at", parsed.data.before);
+      if (parsed.data.q) query = query.ilike("body", searchPattern(parsed.data.q));
     }
 
     const { data, error } = await query;
@@ -97,8 +80,12 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
+    const page = parsed.data.messageId ? (data ?? []) : (data ?? []).slice(0, PAGE_SIZE);
+    hasMore = !parsed.data.messageId && (data ?? []).length > PAGE_SIZE;
+    const ordered = parsed.data.messageId ? page : [...page].reverse();
+
     const messages = await Promise.all(
-      (data ?? []).map(async (row) => ({
+      ordered.map(async (row) => ({
         ...row,
         media_url: row.media_storage_path
           ? await getChatMediaSignedUrl(db, row.media_storage_path)
@@ -110,7 +97,12 @@ export async function GET(request: Request) {
       messages.map((row) => row.author_id),
     );
 
-    return NextResponse.json({ messages, authorNames });
+    return NextResponse.json({
+      messages,
+      authorNames,
+      hasMore,
+      nextBefore: ordered[0]?.created_at ?? null,
+    });
   } catch (err) {
     safeLog("doctor chat load error", { message: err instanceof Error ? err.message : "unknown" });
     const message = err instanceof Error ? err.message : "Load failed";

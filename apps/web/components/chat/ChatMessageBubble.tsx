@@ -1,6 +1,7 @@
 "use client";
 
 import { DoctorVerificationMark } from "@/components/trust/DoctorVerificationMark";
+import { parseReplyQuote } from "@/lib/chat/reply-quote";
 import { cn } from "@/lib/utils/cn";
 
 export type ChatBubbleMessage = {
@@ -10,6 +11,7 @@ export type ChatBubbleMessage = {
   created_at: string;
   media_type?: "image" | "video" | null;
   media_url?: string | null;
+  voice?: boolean;
   is_best_answer?: boolean;
   is_pinned_expert?: boolean;
   parent_comment_id?: string | null;
@@ -40,6 +42,8 @@ type Props = {
   /** Hide avatar row when grouped with previous bubble (messenger timeline). */
   compact?: boolean;
   onRetrySend?: () => void;
+  onOpenImage?: (url: string) => void;
+  fresh?: boolean;
 };
 
 export function ChatMessageBubble({
@@ -61,9 +65,12 @@ export function ChatMessageBubble({
   nested,
   compact = false,
   onRetrySend,
+  onOpenImage,
+  fresh = false,
 }: Props) {
+  const quote = parseReplyQuote(message.body);
   return (
-    <div className={cn("flex flex-col gap-1", isMine ? "items-end" : "items-start", nested && "ml-6 sm:ml-10")}>
+    <div className={cn("flex flex-col gap-1", fresh && "sonogyn-chat-pop", isMine ? "items-end" : "items-start", nested && "ml-6 sm:ml-10")}>
       {!isMine && !compact ? (
         <div className="flex items-center gap-1.5 px-1">
           <span
@@ -85,20 +92,32 @@ export function ChatMessageBubble({
             : "border border-[var(--clinical-border)] bg-[var(--clinical-card)] text-[var(--clinical-foreground)]",
         )}
       >
-      {message.media_url && message.media_type === "image" ? (
-        <a href={message.media_url} target="_blank" rel="noreferrer" className="mb-2 block">
+      {message.media_url && message.voice ? (
+        <audio src={message.media_url} controls className="mb-2 w-64 max-w-full" />
+      ) : null}
+      {message.media_url && !message.voice && message.media_type === "image" ? (
+        <button
+          type="button"
+          className="mb-2 block"
+          onClick={() => onOpenImage?.(message.media_url!)}
+        >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={message.media_url}
             alt="Снимок в сообщении"
             className="max-h-64 rounded-xl object-contain"
           />
-        </a>
+        </button>
       ) : null}
-      {message.media_url && message.media_type === "video" ? (
+      {message.media_url && !message.voice && message.media_type === "video" ? (
         <video src={message.media_url} controls className="mb-2 max-h-64 w-full rounded-xl" />
       ) : null}
-      {message.body ? <p className="whitespace-pre-wrap">{message.body}</p> : null}
+      {quote.excerpt ? (
+        <p className={cn("mb-2 border-l-2 pl-2 text-xs", isMine ? "border-white/70 text-white/85" : "border-[var(--clinical-primary)] text-[var(--clinical-foreground-muted)]")}>
+          {quote.excerpt}
+        </p>
+      ) : null}
+      {quote.text ? <p className="whitespace-pre-wrap">{quote.text}</p> : null}
       {message.is_best_answer ? (
         <p className={cn("mt-2 text-xs font-bold", isMine ? "text-amber-100" : "text-amber-700")}>
           ★ Лучший ответ

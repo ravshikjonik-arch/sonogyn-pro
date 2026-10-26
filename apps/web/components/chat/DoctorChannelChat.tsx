@@ -19,6 +19,9 @@ import {
 import { resolveAuthorNames } from "@/lib/chat/resolve-author-names";
 import { resolveAuthorTrust, type AuthorTrustMap } from "@/lib/trust/resolve-author-trust";
 import { fetchDoctorChatMessage } from "@/lib/chat/doctor-chat-client";
+import { prepareOutgoingImage } from "@/lib/chat/prepare-outgoing-image";
+import { encodeReplyQuote, parseReplyQuote } from "@/lib/chat/reply-quote";
+import { uploadChatMedia } from "@/lib/chat/upload-chat-media";
 import { isRealtimePollingFallbackEnabledClient } from "@/lib/feature-flags/integration-rollout";
 import { parseDoctorChatRealtimeRow } from "@/lib/messenger/realtime/parse-message-row";
 import { requireOnlineForNetworkAction } from "@/lib/network/require-online-action";
@@ -54,6 +57,15 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
   const [sending, setSending] = useState(false);
   const [pushSubscribed, setPushSubscribed] = useState(false);
   const [pushBusy, setPushBusy] = useState(false);
+  const [hasMore, setHasMore] = useState(false);
+  const [loadingOlder, setLoadingOlder] = useState(false);
+  const [search, setSearch] = useState("");
+  const [reply, setReply] = useState<{ excerpt: string } | null>(null);
+  const [uploadProgress, setUploadProgress] = useState<number | null>(null);
+  const [galleryUrl, setGalleryUrl] = useState<string | null>(null);
+  const [ownIds, setOwnIds] = useState<string[]>([]);
+  const searchRef = useRef("");
+  const uploadAbortRef = useRef<AbortController | null>(null);
 
   const enrich = useCallback(
     (rows: RawMessage[]) => {
@@ -64,27 +76,34 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
           created_at: row.created_at,
           media_type: row.media_type,
           media_url: row.media_url ?? null,
+          voice: (row.media_storage_path ?? "").includes("/voice-"),
+          send_status: "delivered",
         }));
       return enriched;
     },
     [],
   );
 
-  const load = useCallback(async (silent = false) => {
+  const load = useCallback(async (silent = false, before?: string) => {
     if (!ready) {
       if (!silent) setLoading(true);
       return;
     }
 
-    if (!silent) {
+    if (before) setLoadingOlder(true);
+    else if (!silent) {
       setLoading(true);
       markDoctorChatOpenStart();
     }
     setUserId(user?.id ?? null);
 
-    const response = await fetch(`/api/doctor-chat/messages?channelId=${encodeURIComponent(channelId)}`);
+    const params = new URLSearchParams({ channelId });
+    if (before) params.set("before", before);
+    const q = searchRef.current.trim();
+    if (q) params.set("q", q);
+    const response = await fetch(`/api/doctor-chat/messages?${params.toString()}`);
     const payload = (await response.json().catch(() => null)) as
-      | { messages?: RawMessage[]; authorNames?: Record<string, string>; error?: unknown }
+      | { messages?: RawMessage[]; authorNames?: Record<string, string>; hasMore?: boolean; error?: unknown }
       | null;
 
     if (!response.ok || !payload?.messages) {
@@ -98,6 +117,7 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
         setLoadState(null);
         if (!silent) toast.error(message);
         if (!silent) setLoading(false);
+        setLoadingOlder(false);
         return;
       }
       const panel = resolveDoctorChatLoadState({
@@ -112,14 +132,28 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
         else if (panel?.kind === "community_access") toast.message("Нужен статус врача или ординатора");
       }
       if (!silent) setLoading(false);
+      setLoadingOlder(false);
       return;
     }
     setLoadState(null);
+    setHasMore(Boolean(payload.hasMore));
 
     const rows = payload.messages;
-    setMessages(enrich(rows));
-    if (!silent) measureDoctorChatOpenEnd(rows.length);
-    if (payload.authorNames) setAuthorNames(payload.authorNames);
+    const server = enrich(rows);
+    setMessages((prev) => {
+      if (before) {
+        const known = new Set(prev.map((item) => item.id));
+        return [...server.filter((item) => !known.has(item.id)), ...prev];
+      }
+      const pending = prev.filter(
+        (item) => item.id.startsWith("local-") && !server.some((row) => row.id === item.id),
+      );
+      return [...server, ...pending];
+    });
+    if (!silent && !before) measureDoctorChatOpenEnd(rows.length);
+    if (payload.authorNames) {
+      setAuthorNames((prev) => ({ ...prev, ...payload.authorNames }));
+    }
     const ids = rows.map((r) => r.author_id);
     if (user) {
       const trust = await resolveAuthorTrust(supabase, ids);
@@ -128,6 +162,7 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
       setAuthorTrust({});
     }
     if (!silent) setLoading(false);
+    setLoadingOlder(false);
   }, [channelId, enrich, ready, supabase, user]);
 
   useEffect(() => {
@@ -248,81 +283,152 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
   }, [messages.length]);
 
   const mine = useMemo(() => new Set(userId ? [userId] : []), [userId]);
+  const ownIdSet = useMemo(() => new Set(ownIds), [ownIds]);
+
+  function rememberOwn(id: string) {
+    setOwnIds((prev) => (prev.includes(id) ? prev : [...prev, id].slice(-200)));
+    try {
+      const key = `sonogyn-chat-own:${channelId}`;
+      const stored = JSON.parse(sessionStorage.getItem(key) || "[]") as string[];
+      sessionStorage.setItem(key, JSON.stringify([...stored, id].slice(-200)));
+    } catch {
+      /* private mode */
+    }
+  }
+
+  useEffect(() => {
+    try {
+      const stored = JSON.parse(sessionStorage.getItem(`sonogyn-chat-own:${channelId}`) || "[]") as string[];
+      setOwnIds(stored);
+    } catch {
+      setOwnIds([]);
+    }
+  }, [channelId]);
+
+  async function postMessage(body: string, mediaPath: string | null, mediaType: "image" | "video" | null, localId: string) {
+    const response = await fetch("/api/doctor-chat/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        channelId,
+        body: body || null,
+        media_storage_path: mediaPath,
+        media_type: mediaType,
+      }),
+    });
+    const payload = (await response.json().catch(() => null)) as
+      | { message?: RawMessage; autoSubscribed?: boolean; error?: unknown }
+      | null;
+    if (!response.ok || !payload?.message) {
+      throw new Error(typeof payload?.error === "string" ? payload.error : "Не удалось отправить сообщение");
+    }
+    const [bubble] = enrich([payload.message]);
+    setMessages((prev) => prev.filter((item) => item.id !== localId).concat(bubble));
+    rememberOwn(bubble.id);
+    setAuthorNames((prev) => ({
+      ...prev,
+      [payload.message!.author_id]: prev[payload.message!.author_id] ?? "Гость",
+    }));
+    if (payload.autoSubscribed) setPushSubscribed(true);
+  }
 
   async function handleSend({ text, file }: { text: string; file: File | null }) {
-    let attachment = file;
-    if (!userId && attachment) {
-      toast.message("Фото и видео можно прикрепить после входа. Текст отправляется сразу.");
-      attachment = null;
-      if (!text.trim()) return false;
+    const body = reply ? encodeReplyQuote(reply.excerpt, text) : text;
+    if (!body.trim() && !file) return false;
+    const localId = `local-${crypto.randomUUID()}`;
+    const previewUrl = file ? URL.createObjectURL(file) : null;
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: localId,
+        body: body || null,
+        author_id: userId ?? "local",
+        created_at: new Date().toISOString(),
+        media_type: file?.type.startsWith("image/") ? "image" : file ? "video" : null,
+        media_url: previewUrl,
+        voice: file?.name.startsWith("voice-") ?? false,
+        send_status: navigator.onLine ? "sending" : "pending",
+      },
+    ]);
+    rememberOwn(localId);
+
+    if (!navigator.onLine) {
+      if (file) {
+        toast.error("Фото и видео уйдут, когда появится сеть");
+        setMessages((prev) => prev.map((item) => (item.id === localId ? { ...item, send_status: "failed" } : item)));
+        return false;
+      }
+      const queued = JSON.parse(localStorage.getItem("sonogyn-doctor-chat-outbox") || "[]") as Array<{
+        id: string;
+        channelId: string;
+        body: string;
+      }>;
+      localStorage.setItem(
+        "sonogyn-doctor-chat-outbox",
+        JSON.stringify([...queued, { id: localId, channelId, body }]),
+      );
+      setReply(null);
+      return true;
     }
+
     const offline = requireOnlineForNetworkAction();
     if (offline) {
       toast.error(offline);
       return false;
     }
+
     setSending(true);
     try {
-      let media_storage_path: string | null = null;
-      let media_type: "image" | "video" | null = null;
-
-      if (attachment) {
-        const form = new FormData();
-        form.append("scope", "channel");
-        form.append("scopeId", channelId);
-        form.append("file", attachment);
-        const uploadResponse = await fetch("/api/doctor-chat/media", {
-          method: "POST",
-          body: form,
-        });
-        const uploaded = (await uploadResponse.json().catch(() => null)) as
-          | { storagePath?: string; mediaType?: "image" | "video"; error?: string }
-          | null;
-        if (!uploadResponse.ok || !uploaded?.storagePath || !uploaded.mediaType) {
-          toast.error(uploaded?.error ?? "Не удалось загрузить файл");
-          return false;
-        }
-        media_storage_path = uploaded.storagePath;
-        media_type = uploaded.mediaType;
+      let mediaPath: string | null = null;
+      let mediaType: "image" | "video" | null = null;
+      if (file) {
+        const prepared = file.type.startsWith("image/") ? await prepareOutgoingImage(file) : file;
+        const controller = new AbortController();
+        uploadAbortRef.current = controller;
+        setUploadProgress(0);
+        const uploaded = await uploadChatMedia(prepared, channelId, setUploadProgress, controller.signal);
+        mediaPath = uploaded.storagePath;
+        mediaType = uploaded.mediaType;
       }
-
-      const response = await fetch("/api/doctor-chat/messages", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          channelId,
-          body: text || null,
-          media_storage_path,
-          media_type,
-        }),
-      });
-      const payload = (await response.json().catch(() => null)) as
-        | { message?: RawMessage; autoSubscribed?: boolean; error?: unknown }
-        | null;
-
-      if (!response.ok || !payload?.message) {
-        toast.error(typeof payload?.error === "string" ? payload.error : "Не удалось отправить сообщение");
-        return false;
-      }
-      const [bubble] = enrich([payload.message]);
-      setMessages((prev) => [...prev.filter((m) => m.id !== bubble.id), bubble]);
-      const [names, trust] = await Promise.all([
-        resolveAuthorNames(supabase, [payload.message.author_id]),
-        resolveAuthorTrust(supabase, [payload.message.author_id]),
-      ]);
-      setAuthorNames((prev) => ({ ...prev, ...names }));
-      setAuthorTrust((prev) => ({ ...prev, ...trust }));
-      if (payload.autoSubscribed) {
-        setPushSubscribed(true);
-        toast.success("Отправлено · push на ответы канала включён");
-      } else {
-        toast.success("Сообщение отправлено");
-      }
+      await postMessage(body, mediaPath, mediaType, localId);
+      setReply(null);
       return true;
+    } catch (error) {
+      setMessages((prev) => prev.map((item) => (item.id === localId ? { ...item, send_status: "failed" } : item)));
+      toast.error(error instanceof Error ? error.message : "Не удалось отправить сообщение");
+      return false;
     } finally {
       setSending(false);
+      setUploadProgress(null);
+      uploadAbortRef.current = null;
     }
   }
+
+  const postMessageRef = useRef(postMessage);
+  useEffect(() => {
+    postMessageRef.current = postMessage;
+  });
+
+  useEffect(() => {
+    function flush() {
+      const queued = JSON.parse(localStorage.getItem("sonogyn-doctor-chat-outbox") || "[]") as Array<{
+        id: string;
+        channelId: string;
+        body: string;
+      }>;
+      const mineQueued = queued.filter((item) => item.channelId === channelId);
+      const rest = queued.filter((item) => item.channelId !== channelId);
+      if (mineQueued.length === 0) return;
+      localStorage.setItem("sonogyn-doctor-chat-outbox", JSON.stringify(rest));
+      for (const item of mineQueued) {
+        void postMessageRef.current(item.body, null, null, item.id).catch(() => {
+          setMessages((prev) => prev.map((row) => (row.id === item.id ? { ...row, send_status: "failed" } : row)));
+        });
+      }
+    }
+    window.addEventListener("online", flush);
+    return () => window.removeEventListener("online", flush);
+  }, [channelId]);
 
   return (
     <div className="doctor-chat-panel flex min-h-[520px] flex-col rounded-2xl border border-[var(--clinical-border)] shadow-sm">
@@ -341,8 +447,21 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
               <p className="mt-1 text-xs text-[var(--clinical-foreground-muted)]">{channelDescription}</p>
             ) : null}
             <p className="mt-1 text-[11px] text-[var(--clinical-foreground-muted)]">
-              Push приходит на телефон (Expo), если подписаны. В браузере — только открытый чат.
+              Текст, фото, видео и голос. Снимок сжимается, полоса с именем пациента размывается.
             </p>
+            <input
+              value={search}
+              onChange={(event) => {
+                const next = event.target.value;
+                setSearch(next);
+                searchRef.current = next;
+                window.setTimeout(() => {
+                  if (searchRef.current === next) void load(true);
+                }, 300);
+              }}
+              placeholder="Поиск по чату"
+              className="mt-3 w-full rounded-lg border border-[var(--clinical-border)] bg-[var(--clinical-card)] px-3 py-2 text-sm"
+            />
           </div>
           {userId ? (
             <button
@@ -361,31 +480,77 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
         ref={scrollRef}
         className="doctor-chat-messages flex-1 space-y-3 overflow-y-auto p-4"
       >
+        {hasMore ? (
+          <button
+            type="button"
+            className="text-xs font-semibold text-[var(--clinical-primary-deep)]"
+            disabled={loadingOlder}
+            onClick={() => {
+              const oldest = messages.find((item) => !item.id.startsWith("local-"));
+              if (oldest) void load(true, oldest.created_at);
+            }}
+          >
+            {loadingOlder ? "Загрузка…" : "Раньше"}
+          </button>
+        ) : null}
         {loadState ? (
           <DoctorChatLoadPanel state={loadState} />
         ) : loading ? (
           <p className="text-sm text-[var(--clinical-foreground-muted)]">Загрузка сообщений…</p>
         ) : messages.length === 0 ? (
           <p className="text-sm text-[var(--clinical-foreground-muted)]">
-            Напишите первым — можно прикрепить фото или видео УЗИ (без PHI).
+            Напишите первым — фото, видео или голос, без регистрации.
           </p>
         ) : (
           messages.map((msg) => (
             <ChatMessageBubble
               key={msg.id}
               message={msg}
-              authorName={authorNames[msg.author_id] ?? "Коллега"}
+              authorName={authorNames[msg.author_id] ?? (msg.author_id === "local" ? "Вы" : "Коллега")}
               authorVerified={authorTrust[msg.author_id]?.isVerified ?? false}
-              isMine={mine.has(msg.author_id)}
+              isMine={mine.has(msg.author_id) || ownIdSet.has(msg.id) || msg.author_id === "local"}
+              canReply
+              onReply={() => {
+                const parsed = parseReplyQuote(msg.body);
+                setReply({ excerpt: parsed.text || parsed.excerpt || "сообщение" });
+              }}
+              onOpenImage={setGalleryUrl}
+              fresh={msg.id.startsWith("local-")}
             />
           ))
         )}
       </div>
 
+      {uploadProgress != null ? (
+        <div className="flex items-center gap-3 border-t border-[var(--clinical-border)] px-4 py-2 text-xs">
+          <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-[var(--clinical-muted)]">
+            <div className="h-full bg-[var(--clinical-primary)]" style={{ width: `${Math.round(uploadProgress * 100)}%` }} />
+          </div>
+          <button type="button" onClick={() => uploadAbortRef.current?.abort()}>
+            Отмена
+          </button>
+        </div>
+      ) : null}
       {!loadState ? (
         <div className="doctor-chat-composer border-t border-[var(--clinical-border)] p-4">
-          <ChatMessageComposer busy={sending} onSend={handleSend} />
+          <ChatMessageComposer
+            busy={sending}
+            onSend={handleSend}
+            replyLabel={reply?.excerpt ?? null}
+            onCancelReply={() => setReply(null)}
+          />
         </div>
+      ) : null}
+      {galleryUrl ? (
+        <button
+          type="button"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-6"
+          onClick={() => setGalleryUrl(null)}
+          aria-label="Закрыть снимок"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={galleryUrl} alt="Снимок" className="max-h-full max-w-full object-contain" />
+        </button>
       ) : null}
     </div>
   );

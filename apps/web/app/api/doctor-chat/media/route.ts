@@ -3,12 +3,11 @@ import { z } from "zod";
 
 import { rejectIfRateLimitedForUser, rejectIfRateLimitedPreset } from "@/lib/security/api-rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
-import { requireSupabaseUserFromRequest } from "@/lib/security/require-user";
 import { safeLog } from "@/lib/security/safeLog";
+import { openDoctorChatDb } from "@/lib/chat/open-doctor-chat-db";
 import { chatMediaObjectPath, DOCTOR_CHAT_MEDIA_BUCKET } from "@/lib/supabase/chat-media-storage";
 import { prepareChatMediaUpload } from "@/lib/chat/prepare-chat-media-upload";
 import { validateChatMediaUpload } from "@/lib/security/file-validation";
-import { createClient } from "@/utils/supabase/server";
 
 const BodySchema = z.object({
   scope: z.enum(["channel", "case-comment"]),
@@ -19,12 +18,14 @@ export async function POST(request: Request) {
   const limited = await rejectIfRateLimitedPreset(request, "doctor-chat-media-upload", RL.syncBurst);
   if (limited) return limited;
 
-  const supabase = await createClient();
-  const auth = await requireSupabaseUserFromRequest(request, supabase);
-  if (!auth.ok) return auth.response;
+  const opened = await openDoctorChatDb(request);
+  if (!opened.ok) return opened.response;
+  const { db, authorId, guest } = opened;
 
-  const userRl = await rejectIfRateLimitedForUser(auth.userId, "doctor-chat-media-upload", RL.syncBurst);
-  if (userRl) return userRl;
+  if (!guest) {
+    const userRl = await rejectIfRateLimitedForUser(authorId, "doctor-chat-media-upload", RL.syncBurst);
+    if (userRl) return userRl;
+  }
 
   const form = await request.formData().catch(() => null);
   const parsed = BodySchema.safeParse({
@@ -50,8 +51,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: prepared.error }, { status: 400 });
   }
 
-  const storagePath = chatMediaObjectPath(auth.userId, parsed.data.scope, parsed.data.scopeId, file.name);
-  const { error } = await supabase.storage
+  const storagePath = chatMediaObjectPath(authorId, parsed.data.scope, parsed.data.scopeId, file.name);
+  const { error } = await db.storage
     .from(DOCTOR_CHAT_MEDIA_BUCKET)
     .upload(storagePath, prepared.buffer, {
       contentType: prepared.contentType,
