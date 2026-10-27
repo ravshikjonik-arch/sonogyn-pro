@@ -1,103 +1,77 @@
-import Link from "next/link";
-
-import { CalculatorsCatalogSpatial } from "@/components/calculators/CalculatorsCatalogSpatial";
-import { ObCalcQuickWidget } from "@/components/calculators/ob/ObCalcQuickWidget";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { ClinicalDomainHub } from "@/components/clinical/ClinicalDomainHub";
 import { CALCULATORS } from "@/lib/calculators/registry";
 import { resolveCalculatorHref } from "@/lib/calculators/resolve-calculator-href";
-import { Stethoscope } from "lucide-react";
+import type { DomainHubCard, DomainHubGroup } from "@/lib/nav/domain-hubs";
 
-const quickCalcSlugs = ["ob-calc", "o-rads", "bi-rads", "ln-rads", "pop-q", "endometrium", "cervical-length", "colposcopy", "cin-risk", "cervical-intelligence", "figo", "ti-rads", "elastography"] as const;
+const GROUP_SLUGS: { title: string; slugs: string[] }[] = [
+  {
+    title: "Акушерство",
+    slugs: ["ob-calc", "fmf", "cervical-length", "fetometry-norms", "fetal-weight", "bishop", "vbac"],
+  },
+  {
+    title: "Гинекология",
+    slugs: ["endometrium", "pop-q", "figo", "colposcopy", "cin-risk", "cervical-intelligence", "elastography"],
+  },
+  {
+    title: "RADS",
+    slugs: ["o-rads", "iota", "bi-rads", "ti-rads", "ln-rads"],
+  },
+  {
+    title: "Аптека",
+    slugs: ["pregnancy-medications"],
+  },
+];
+
+const RU: Record<string, { title: string; description: string }> = {
+  "ob-calc": { title: "Акушерский калькулятор", description: "Срок, фетометрия, декрет, явка в консультацию" },
+  figo: { title: "FIGO · миома", description: "Тип узла на схеме матки" },
+  "cervical-intelligence": { title: "Шейка · разбор", description: "Цитология и следующий шаг" },
+  "cin-risk": { title: "Риск CIN", description: "HPV, Bethesda, зона трансформации" },
+  colposcopy: { title: "Кольпоскопия", description: "Протокол и признаки" },
+  "ln-rads": { title: "LN-RADS", description: "Лимфоузлы" },
+};
+
+function cardFor(slug: string): DomainHubCard | null {
+  const calc = CALCULATORS.find((item) => item.slug === slug);
+  if (!calc) return null;
+  const ru = RU[slug];
+  return {
+    href: resolveCalculatorHref(calc),
+    title: ru?.title ?? calc.title,
+    description: ru?.description ?? calc.subtitle,
+  };
+}
 
 export function CalculatorsCatalogPage() {
-  const quick = CALCULATORS.filter((c) => quickCalcSlugs.includes(c.slug as (typeof quickCalcSlugs)[number]));
+  const used = new Set(GROUP_SLUGS.flatMap((group) => group.slugs));
+  const groups: DomainHubGroup[] = GROUP_SLUGS.map((group) => ({
+    title: group.title,
+    cards: group.slugs.map(cardFor).filter((card): card is DomainHubCard => card !== null),
+  }));
+  const rest = CALCULATORS.filter((calc) => !used.has(calc.slug)).map((calc) => ({
+    href: resolveCalculatorHref(calc),
+    title: calc.title,
+    description: calc.subtitle,
+  }));
+  if (rest.length > 0) groups.push({ title: "Ещё", cards: rest });
+  groups.push({
+    title: "Приём",
+    cards: [
+      {
+        href: "/tools/calc/appointment",
+        title: "Быстрый доступ на приёме",
+        description: "Срок, ПДР, масса, Bishop и VBAC на одном экране",
+      },
+    ],
+  });
+
   return (
-    <div className="sonogyn-cosmos-bg sg-spatial-vignette min-h-[100dvh] px-4 py-10 lg:px-10">
-      <div className="mx-auto max-w-6xl space-y-8">
-        <header className="space-y-2">
-          <Badge variant="outline">Клиническая поддержка решений</Badge>
-          <h1 className="text-3xl font-semibold tracking-tight text-[var(--clinical-foreground)]">Калькуляторы</h1>
-          <p className="max-w-3xl text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
-            FIGO, O-RADS, BI-RADS и другие — по гайдлайнам и клиническим рекомендациям. При входе история расчётов
-            сохраняется в аккаунте. FIGO и интерактив — в{" "}
-            <Link href="/tools/mapping/uterus" className="font-semibold text-[var(--clinical-primary-deep)] hover:underline">
-              3D-модели матки
-            </Link>
-            .
-          </p>
-        </header>
-
-        <CalculatorsCatalogSpatial />
-
-        <ObCalcQuickWidget />
-
-        <Card className="overflow-hidden border-[var(--clinical-primary)]/30 bg-[var(--accent-soft)]">
-          <div className="h-1 bg-[var(--clinical-primary)]" />
-          <CardHeader>
-            <div className="flex items-start gap-3">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[var(--clinical-primary)] text-white">
-                <Stethoscope className="h-5 w-5" />
-              </div>
-              <div>
-                <CardTitle className="text-lg">Для приёма врача</CardTitle>
-                <CardDescription className="text-xs leading-relaxed">
-                  Избранное · часто на приёме · поиск · срок, ПДР, масса, Bishop, VBAC — одним экраном
-                </CardDescription>
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <Button className="w-full sm:w-auto" asChild>
-              <Link href="/tools/calc/appointment">Открыть быстрый доступ</Link>
-            </Button>
-          </CardContent>
-        </Card>
-
-        <section className="sonogyn-glass-card space-y-3 rounded-2xl p-5">
-          <p className="text-sm font-bold text-[var(--clinical-foreground)]">Быстрые калькуляторы</p>
-          <div className="flex flex-wrap gap-2">
-            {quick.map((calc) => (
-              <Button key={calc.slug} variant="outline" size="sm" className="rounded-full" asChild>
-                <Link href={resolveCalculatorHref(calc)}>{calc.title}</Link>
-              </Button>
-            ))}
-            <Button variant="outline" size="sm" className="rounded-full" asChild>
-              <Link href="/ai/consultants">Помощник врача</Link>
-            </Button>
-          </div>
-        </section>
-
-        <details className="sonogyn-glass-card rounded-2xl p-5">
-          <summary className="cursor-pointer text-sm font-bold text-[var(--clinical-foreground)]">
-            Полный список калькуляторов (классический вид)
-          </summary>
-          <div className="mt-4 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-            {CALCULATORS.map((calc) => (
-              <Card key={calc.slug} className="flex flex-col border-[var(--clinical-border)] bg-[var(--clinical-card)]">
-                <CardHeader className="flex flex-row items-start justify-between gap-3 space-y-0">
-                  <div>
-                    <CardTitle className="text-lg font-semibold">{calc.title}</CardTitle>
-                    <CardDescription>{calc.subtitle}</CardDescription>
-                  </div>
-                  <Badge variant="outline">{calc.code}</Badge>
-                </CardHeader>
-                <CardContent className="mt-auto space-y-4">
-                  <p className="text-sm text-[var(--clinical-foreground-muted)]">
-                    {calc.fields.length === 0
-                      ? "Интерактивный калькулятор · история при входе"
-                      : `${calc.fields.length} полей · сохранение в аккаунте`}
-                  </p>
-                  <Button variant="secondary" className="w-full" asChild>
-                    <Link href={resolveCalculatorHref(calc)}>Открыть</Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </details>
-      </div>
-    </div>
+    <ClinicalDomainHub
+      title="Калькуляторы"
+      description="Акушерство, гинекология, RADS и аптека. Справочная поддержка, не диагноз."
+      groups={groups}
+      backHref="/home"
+      backLabel="← Разделы"
+    />
   );
 }

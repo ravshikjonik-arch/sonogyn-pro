@@ -1,14 +1,13 @@
 "use client";
 
 import { NOSOLOGY_ZONE_LABELS, getFavoriteNosologyIds, getRecentNosologyIds, type Nosology, type NosologyZone } from "@repo/nosology";
-import { HeartPulse, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 
+import { IosRowList, type IosRow } from "@/components/clinical/IosRowList";
 import { BookNosologyListSection } from "@/components/nosology/BookNosologyListSection";
 
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useNosologyList } from "@/hooks/useNosologies";
 import { cn } from "@/lib/utils/cn";
@@ -24,24 +23,14 @@ const ZONE_ORDER: NosologyZone[] = [
   "other",
 ];
 
-function NosologyCard({ n, studyId }: { n: Nosology; studyId?: string | null }) {
+function toRow(n: Nosology, studyId?: string | null): IosRow {
   const href = studyId ? `/nosologies/${n.id}?studyId=${studyId}` : `/nosologies/${n.id}`;
-  return (
-    <Link href={href} prefetch className="block h-full rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--clinical-primary)]">
-      <Card className="h-full cursor-pointer border-[var(--clinical-border)] bg-[var(--clinical-card)] transition-shadow hover:shadow-md active:scale-[0.99]">
-        <CardHeader className="pb-2">
-          <div className="flex items-start justify-between gap-2">
-            <CardTitle className="text-base leading-snug">{n.title}</CardTitle>
-            <HeartPulse className="h-4 w-4 shrink-0 text-[var(--clinical-primary)] opacity-60" />
-          </div>
-          {n.icd10 ? <Badge variant="outline" className="w-fit text-[10px]">{n.icd10}</Badge> : null}
-        </CardHeader>
-        <CardContent>
-          <CardDescription className="line-clamp-3 text-sm">{n.description}</CardDescription>
-        </CardContent>
-      </Card>
-    </Link>
-  );
+  return {
+    href,
+    title: n.title,
+    detail: n.description,
+    badge: n.icd10 ?? undefined,
+  };
 }
 
 type Props = { studyId?: string | null };
@@ -85,13 +74,14 @@ export function NosologyListClient({ studyId }: Props) {
   const favorites = items.filter((n) => getFavoriteNosologyIds().includes(n.id));
 
   return (
-    <div className="mx-auto max-w-6xl space-y-8 px-4 py-8 lg:px-8">
+    <div className="mx-auto max-w-lg space-y-6 px-4 py-6 pb-28 sm:max-w-xl">
       <header className="space-y-2">
-        <Badge variant="outline">Справочник</Badge>
-        <h1 className="text-3xl font-bold tracking-tight">Нозологии</h1>
-        <p className="max-w-2xl text-sm text-[var(--clinical-foreground-muted)]">
-          Клинические алгоритмы и учебные атласы (цервикс, маммология, пренатал, эхокардиография) — по зонам и
-          нозологиям. Офлайн после первой загрузки карточек.
+        <Link href="/home" className="text-sm font-medium text-[var(--clinical-foreground-muted)]">
+          ← Разделы
+        </Link>
+        <h1 className="text-2xl font-semibold tracking-tight">Нозологии</h1>
+        <p className="text-sm text-[var(--clinical-foreground-muted)]">
+          Алгоритмы по зонам: матка, эндометрий, яичники, шейка, акушерство, молочная железа.
         </p>
         {studyId ? (
           <p className="text-sm">
@@ -114,9 +104,9 @@ export function NosologyListClient({ studyId }: Props) {
       </div>
 
       {loading ? (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {[1, 2, 3, 4, 5, 6].map((i) => (
-            <div key={i} className="h-36 animate-pulse rounded-xl bg-[var(--clinical-muted)]" />
+        <div className="space-y-2">
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i} className="h-14 animate-pulse rounded-2xl bg-[var(--clinical-muted)]" />
           ))}
         </div>
       ) : null}
@@ -128,28 +118,16 @@ export function NosologyListClient({ studyId }: Props) {
       ) : null}
 
       {!loading && !error && recent.length > 0 && !query.trim() ? (
-        <section>
-          <h2 className="mb-3 text-sm font-bold uppercase tracking-wider text-[var(--clinical-foreground-muted)]">
-            Недавние
-          </h2>
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {recent.map((n) => (
-              <NosologyCard key={n.id} n={n} studyId={studyId} />
-            ))}
-          </div>
+        <section className="space-y-2">
+          <h2 className="px-1 text-sm font-semibold text-[var(--clinical-foreground-muted)]">Недавние</h2>
+          <IosRowList rows={recent.map((n) => toRow(n, studyId))} />
         </section>
       ) : null}
 
       {!loading && !error && favorites.length > 0 && !query.trim() ? (
-        <section>
-          <h2 className="mb-3 text-sm font-bold uppercase tracking-wider text-[var(--clinical-foreground-muted)]">
-            Избранное
-          </h2>
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {favorites.map((n) => (
-              <NosologyCard key={n.id} n={n} studyId={studyId} />
-            ))}
-          </div>
+        <section className="space-y-2">
+          <h2 className="px-1 text-sm font-semibold text-[var(--clinical-foreground-muted)]">Избранное</h2>
+          <IosRowList rows={favorites.map((n) => toRow(n, studyId))} />
         </section>
       ) : null}
 
@@ -163,24 +141,20 @@ export function NosologyListClient({ studyId }: Props) {
         </p>
       ) : null}
 
+      {!loading && !error && query.trim() && displayItems.length > 0 ? (
+        <IosRowList rows={displayItems.map((n) => toRow(n, studyId))} />
+      ) : null}
+
       {!loading && !error && !query.trim()
         ? ZONE_ORDER.map((zone) => {
             const list = grouped.get(zone) ?? [];
             if (list.length === 0) return null;
             return (
-              <section key={zone}>
-                <h2
-                  className={cn(
-                    "mb-3 text-sm font-bold uppercase tracking-wider text-[var(--clinical-foreground-muted)]",
-                  )}
-                >
+              <section key={zone} className="space-y-2">
+                <h2 className="px-1 text-sm font-semibold text-[var(--clinical-foreground-muted)]">
                   {NOSOLOGY_ZONE_LABELS[zone]}
                 </h2>
-                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                  {list.map((n) => (
-                    <NosologyCard key={n.id} n={n} studyId={studyId} />
-                  ))}
-                </div>
+                <IosRowList rows={list.map((n) => toRow(n, studyId))} />
               </section>
             );
           })
