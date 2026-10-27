@@ -360,7 +360,7 @@ export function UterusSliceAtlas({
 
       <p className="text-center text-[11px] leading-snug text-slate-500 dark:text-slate-400">
         {tool === "place"
-          ? `Кликните по срезу — ${PATHOLOGY_LABELS_RU[placeMode].toLowerCase()} · FIGO для миомы автоматически`
+          ? `Кликните по срезу — ${PATHOLOGY_LABELS_RU[placeMode].toLowerCase()} · FIGO по схеме, долю подтверждает врач`
           : tool === "draw"
             ? `Обведите ${PATHOLOGY_LABELS_RU[placeMode].toLowerCase()} пальцем или мышью`
             : hoverHit ?? "Перетащите схему · pinch/колёсико — приближение · дно слева, шейка справа"}

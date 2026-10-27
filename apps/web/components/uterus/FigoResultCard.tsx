@@ -31,7 +31,7 @@ export function FigoResultCard({
       <CardHeader className="pb-2">
         <div className="flex flex-wrap items-center gap-2">
           <Badge style={{ backgroundColor: getFigoColor(String(figoType) as "0") }}>{entry.title}</Badge>
-          {figoVariant ? <Badge variant="outline">подтип {figoVariant}</Badge> : null}
+          {figoVariant ? <Badge variant="outline">гибрид {figoVariant.replace("-", "–")}</Badge> : null}
           <Badge variant="outline">{mode === "clinical" ? "Рабочий режим" : "Учебный режим"}</Badge>
         </div>
         <CardTitle className="text-base">{entry.localization}</CardTitle>

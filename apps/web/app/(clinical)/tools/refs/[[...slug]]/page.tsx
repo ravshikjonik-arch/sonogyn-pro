@@ -35,6 +35,11 @@ const reclinInspiredShelves = [
     description: "Базовый курс, вебинары, чеклисты и учебные кейсы.",
     href: "/tools/refs/courses",
   },
+  {
+    title: "Обучение · миома матки",
+    description: "Шесть модулей, атлас, тест и расчёты описания.",
+    href: "/tools/refs/myoma-education",
+  },
 ] as const;
 
 const clinicalShortcuts = [

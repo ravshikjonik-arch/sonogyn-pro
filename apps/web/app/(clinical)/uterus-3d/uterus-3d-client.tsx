@@ -3,19 +3,17 @@
 import Link from "next/link";
 import { useState } from "react";
 
-import { Uterus3DInteractive } from "@/components/three/uterus-3d-interactive";
 import { ClinicalUterusWorkspace } from "@/components/three/clinical-uterus-workspace";
 import { FigoUsAtlasGallery } from "@/components/uterus/FigoUsAtlasGallery";
 import { UterusCoronalAtlas } from "@/components/uterus/UterusCoronalAtlas";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
-type Tab = "coronal" | "sagittal" | "model3d" | "atlas";
+type Tab = "coronal" | "sagittal" | "atlas";
 
 const TABS: { id: Tab; label: string; hint: string }[] = [
   { id: "coronal", label: "Коронарный макет", hint: "Курсор → миома / аденомиоз · FIGO" },
   { id: "sagittal", label: "Сагиттальный срез", hint: "Курсор → миома, аденомиоз, полип · авто-FIGO" },
-  { id: "model3d", label: "3D модель", hint: "Клик на стенку → FIGO" },
   { id: "atlas", label: "Атлас УЗИ", hint: "11 типов FIGO · учебный" },
 ];
 
@@ -30,9 +28,9 @@ export function Uterus3DClientBody() {
           Матка — миома · классификация FIGO
         </h1>
         <p className="max-w-3xl text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
-          Отметьте локализацию на коронарном макете, сагиттальном срезе или 3D-модели — SonoGyn Pro определит тип FIGO
-          (0–8, включая трансмуральные 2–5 и 3–5) и сформирует текст для протокола. Атлас УЗИ — для обучения и
-          сопоставления с реальным исследованием.
+          Макет показывает топографию узла по месту, которое указал врач. Тип FIGO считается тем же правилом, что и
+          учебный калькулятор: доля интрамурального компонента от среднего диаметра. Ровно 50% — субмукозный тип 2
+          или субсерозный тип 5. В гибридной записи первым идёт отношение к эндометрию, например FIGO 2–5.
         </p>
         <div className="flex flex-wrap items-center gap-2">
           {TABS.map((t) => (
@@ -52,7 +50,6 @@ export function Uterus3DClientBody() {
       <div className="mx-auto max-w-6xl">
         {tab === "coronal" ? <UterusCoronalAtlas /> : null}
         {tab === "sagittal" ? <ClinicalUterusWorkspace /> : null}
-        {tab === "model3d" ? <Uterus3DInteractive /> : null}
         {tab === "atlas" ? <FigoUsAtlasGallery /> : null}
       </div>
 

@@ -76,6 +76,17 @@ export const QUIZ_HUB_ENTRIES: QuizHubEntry[] = [
     topics: ["cervix", "cytology", "screening"],
   },
   {
+    id: "myoma-education-quiz",
+    title: "Миома матки · итоговый тест",
+    subtitle: "FIGO, протокол, допплер · 8 вопросов",
+    href: "/tools/refs/myoma-education/quiz",
+    personas: ["doctor", "intern", "student"],
+    difficulty: "doctor",
+    questionCount: 8,
+    topics: ["миома", "FIGO", "матка", "допплер"],
+    sourceLabel: "Лекция · учебный комплект",
+  },
+  {
     id: "case-library",
     title: "Teaching case library",
     subtitle: "Обезличенные кейсы + обсуждения",

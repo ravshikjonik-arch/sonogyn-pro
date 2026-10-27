@@ -55,6 +55,7 @@ const groups: Group[] = [
       { title: "Калькуляторы", detail: "Эндометрий, POP-Q, шейка", href: "/tools/calc/gyn" },
       { title: "Нозологии", detail: "Миома, эндометрий, яичник", href: "/tools/refs/nosologies" },
       { title: "FIGO · миома", detail: "Тип узла на схеме матки", href: "/tools/mapping/uterus" },
+      { title: "Миома · обучение", detail: "Модули, атлас, тест и расчёты", href: "/tools/refs/myoma-education" },
     ],
   },
   {

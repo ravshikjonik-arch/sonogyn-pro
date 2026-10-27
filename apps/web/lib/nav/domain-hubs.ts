@@ -182,6 +182,11 @@ export const GYNECOLOGY_GROUPS: DomainHubGroup[] = [
         description: "Тип узла и аденомиоз",
       },
       {
+        href: "/tools/refs/myoma-education",
+        title: "Миома · обучение",
+        description: "Модули, атлас, тест и расчёты описания",
+      },
+      {
         href: "/tools/mapping/endometriosis",
         title: "Глубокий эндометриоз",
         description: "Карта IDEA",

@@ -1,0 +1,83 @@
+{
+  "id": "myoma-final-quiz",
+  "title": "Итоговый тест: УЗ-диагностика миомы матки",
+  "passScorePercent": 75,
+  "questions": [
+    {
+      "id": "q1",
+      "prompt": "Классификация FIGO описывает прежде всего размер узла.",
+      "type": "boolean",
+      "correct": false,
+      "explanation": "FIGO описывает топографию и отношение узла к эндометрию, миометрию и серозной оболочке.",
+      "moduleId": "figo"
+    },
+    {
+      "id": "q2",
+      "prompt": "В гибридной записи первым указывают отношение узла к эндометрию.",
+      "type": "boolean",
+      "correct": true,
+      "explanation": "Например, FIGO 2–5: сначала субмукозный компонент, затем субсерозный.",
+      "moduleId": "figo"
+    },
+    {
+      "id": "q3",
+      "prompt": "Субмукозный узел с интрамуральным компонентом ровно 50% относится к типу FIGO 2.",
+      "type": "boolean",
+      "correct": true,
+      "explanation": "Принятая граница для типа 2 — ≥50%.",
+      "moduleId": "figo"
+    },
+    {
+      "id": "q4",
+      "prompt": "Какие скорости необходимы для расчёта PI?",
+      "type": "single",
+      "options": [
+        { "id": "a", "text": "Только PSV" },
+        { "id": "b", "text": "PSV и EDV" },
+        { "id": "c", "text": "PSV, EDV и TAMV" },
+        { "id": "d", "text": "Только TAMV" }
+      ],
+      "correct": "c",
+      "explanation": "PI = (PSV − EDV) / TAMV.",
+      "moduleId": "doppler-degeneration"
+    },
+    {
+      "id": "q5",
+      "prompt": "Рост узла в постменопаузе сам по себе доказывает саркому.",
+      "type": "boolean",
+      "correct": false,
+      "explanation": "Это настораживающий признак для клинической оценки, но не самостоятельное доказательство злокачественности.",
+      "moduleId": "special-forms"
+    },
+    {
+      "id": "q6",
+      "prompt": "Для сопоставления динамики желательно измерять один узел в сопоставимых плоскостях.",
+      "type": "boolean",
+      "correct": true,
+      "explanation": "Разные плоскости и изменение формы могут создавать ложную динамику.",
+      "moduleId": "protocol"
+    },
+    {
+      "id": "q7",
+      "prompt": "Какой тип FIGO соответствует субсерозному узлу на ножке?",
+      "type": "single",
+      "options": [
+        { "id": "a", "text": "FIGO 3" },
+        { "id": "b", "text": "FIGO 5" },
+        { "id": "c", "text": "FIGO 6" },
+        { "id": "d", "text": "FIGO 7" }
+      ],
+      "correct": "d",
+      "explanation": "FIGO 7 — субсерозный узел на ножке.",
+      "moduleId": "figo"
+    },
+    {
+      "id": "q8",
+      "prompt": "После эмболизации маточных артерий достаточно описать только кровоток узла.",
+      "type": "boolean",
+      "correct": false,
+      "explanation": "Сопоставляют также размеры, объём, структуру, симптомы и новые находки.",
+      "moduleId": "pregnancy-followup"
+    }
+  ]
+}

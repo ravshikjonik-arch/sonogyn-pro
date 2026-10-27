@@ -1,0 +1,11 @@
+{
+  "name": "@repo/myoma-education",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./server": "./src/server.ts",
+    "./calc": "./src/calc.ts"
+  }
+}

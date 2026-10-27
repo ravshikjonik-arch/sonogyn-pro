@@ -30,7 +30,16 @@ function isTableSeparator(line: string): boolean {
   return /^\|[\s\-:|]+\|$/.test(line.trim());
 }
 
-export function renderSimpleMarkdown(markdown: string): string {
+function imageSizeAttr(src: string, imageSize?: (src: string) => { width: number; height: number } | undefined): string {
+  const size = imageSize?.(src);
+  if (!size) return "";
+  return ` width="${size.width}" height="${size.height}"`;
+}
+
+export function renderSimpleMarkdown(
+  markdown: string,
+  options?: { imageSize?: (src: string) => { width: number; height: number } | undefined },
+): string {
   const lines = markdown.replace(/\r\n/g, "\n").split("\n");
   const html: string[] = [];
   let i = 0;
@@ -40,6 +49,20 @@ export function renderSimpleMarkdown(markdown: string): string {
     const trimmed = line.trim();
 
     if (!trimmed) {
+      i += 1;
+      continue;
+    }
+
+    const image = trimmed.match(/^!\[([^\]]*)\]\(([^)\s]+)\)$/);
+    if (image) {
+      const alt = image[1] ?? "";
+      const src = image[2] ?? "";
+      const safe = src.startsWith("/education/") || src.startsWith("https://");
+      if (safe) {
+        html.push(
+          `<figure class="my-4"><img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async" class="h-auto max-w-full rounded-2xl"${imageSizeAttr(src, options?.imageSize)} /></figure>`,
+        );
+      }
       i += 1;
       continue;
     }
@@ -79,7 +102,7 @@ export function renderSimpleMarkdown(markdown: string): string {
       const rows = tableLines.filter((row) => !isTableSeparator(row)).map(parseTableRow);
       if (rows.length) {
         const [head, ...body] = rows;
-        html.push("<table><thead><tr>");
+        html.push('<div class="my-3 max-w-full overflow-x-auto"><table><thead><tr>');
         for (const cell of head) html.push(`<th>${inlineMarkdown(cell)}</th>`);
         html.push("</tr></thead><tbody>");
         for (const row of body) {
@@ -87,7 +110,7 @@ export function renderSimpleMarkdown(markdown: string): string {
           for (const cell of row) html.push(`<td>${inlineMarkdown(cell)}</td>`);
           html.push("</tr>");
         }
-        html.push("</tbody></table>");
+        html.push("</tbody></table></div>");
       }
       continue;
     }
@@ -120,7 +143,7 @@ export function renderSimpleMarkdown(markdown: string): string {
     i += 1;
     while (i < lines.length) {
       const next = lines[i]?.trim() ?? "";
-      if (!next || next.startsWith("#") || next.startsWith(">") || next.startsWith("- ") || next.startsWith("* ") || isTableRow(next)) break;
+      if (!next || next.startsWith("#") || next.startsWith(">") || next.startsWith("- ") || next.startsWith("* ") || next.startsWith("![") || isTableRow(next)) break;
       paraLines.push(next);
       i += 1;
     }

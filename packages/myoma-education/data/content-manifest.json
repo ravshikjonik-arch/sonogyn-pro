@@ -1,0 +1,62 @@
+{
+  "id": "sonogyn-pro-myoma-education",
+  "version": "1.0.0",
+  "locale": "ru",
+  "title": "Ультразвуковая диагностика миомы матки",
+  "source": {
+    "document": "буланов.docx",
+    "lecturer": "Буланов Михаил Николаевич"
+  },
+  "audience": [
+    "sonographer",
+    "obgyn",
+    "resident"
+  ],
+  "modules": [
+    {
+      "id": "figo",
+      "order": 1,
+      "title": "Классификация миомы матки FIGO",
+      "durationMinutes": 25,
+      "path": "content/01-figo-classification.md"
+    },
+    {
+      "id": "protocol",
+      "order": 2,
+      "title": "УЗ-семиотика и протокол описания",
+      "durationMinutes": 20,
+      "path": "content/02-ultrasound-protocol.md"
+    },
+    {
+      "id": "doppler-degeneration",
+      "order": 3,
+      "title": "Допплерография и вторичные изменения",
+      "durationMinutes": 25,
+      "path": "content/03-doppler-degeneration.md"
+    },
+    {
+      "id": "special-forms",
+      "order": 4,
+      "title": "Особые формы и дифференциальная диагностика",
+      "durationMinutes": 25,
+      "path": "content/04-special-forms.md"
+    },
+    {
+      "id": "pregnancy-followup",
+      "order": 5,
+      "title": "Беременность и наблюдение после лечения",
+      "durationMinutes": 20,
+      "path": "content/05-pregnancy-followup.md"
+    },
+    {
+      "id": "cases-quiz",
+      "order": 6,
+      "title": "Клинические разборы и самопроверка",
+      "durationMinutes": 20,
+      "path": "content/06-cases-quiz.md"
+    }
+  ],
+  "atlas": "data/atlas.json",
+  "calculators": "calculators/definitions.json",
+  "editorialReview": "data/editorial-review.json"
+}

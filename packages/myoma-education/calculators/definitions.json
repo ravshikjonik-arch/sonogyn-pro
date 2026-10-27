@@ -1,0 +1,78 @@
+{
+  "version": "1.0.0",
+  "locale": "ru-RU",
+  "disclaimer": "Расчёты предназначены для поддержки описания и обучения. Они не ставят диагноз и не определяют тактику лечения.",
+  "calculators": [
+    {
+      "id": "myoma-volume",
+      "title": "Объём узла / матки",
+      "function": "ellipsoidVolume",
+      "inputs": [
+        { "name": "d1", "label": "Диаметр 1", "unit": "мм", "type": "number", "min": 0.1, "step": 0.1, "required": true },
+        { "name": "d2", "label": "Диаметр 2", "unit": "мм", "type": "number", "min": 0.1, "step": 0.1, "required": true },
+        { "name": "d3", "label": "Диаметр 3", "unit": "мм", "type": "number", "min": 0.1, "step": 0.1, "required": true }
+      ],
+      "outputs": [
+        { "name": "meanDiameterMm", "label": "Средний диаметр", "unit": "мм", "precision": 1 },
+        { "name": "volumeCm3", "label": "Объём", "unit": "см³", "precision": 2 }
+      ],
+      "formula": "V = π/6 × D1 × D2 × D3"
+    },
+    {
+      "id": "intramural-component",
+      "title": "Доля интрамурального компонента",
+      "function": "intramuralComponent",
+      "inputs": [
+        { "name": "meanDiameterMm", "label": "Средний диаметр узла", "unit": "мм", "type": "number", "min": 0.1, "required": true },
+        { "name": "intramuralComponentMm", "label": "Интрамуральный компонент", "unit": "мм", "type": "number", "min": 0, "required": true }
+      ],
+      "outputs": [{ "name": "percent", "label": "Интрамуральная доля", "unit": "%", "precision": 1 }],
+      "formula": "Доля = интрамуральный компонент / средний диаметр × 100"
+    },
+    {
+      "id": "figo-classification",
+      "title": "Топография FIGO",
+      "function": "classifyFigo",
+      "inputs": [
+        { "name": "location", "label": "Основная топография", "type": "select", "options": ["intracavitary", "submucosal", "intramural", "subserosal", "other"], "required": true },
+        { "name": "pedunculated", "label": "Узел на ножке", "type": "boolean", "default": false },
+        { "name": "contactsEndometrium", "label": "Контакт с эндометрием", "type": "boolean", "default": false },
+        { "name": "intramuralPercent", "label": "Интрамуральная доля", "unit": "%", "type": "number", "min": 0, "max": 100, "conditional": "submucosal или subserosal без ножки" }
+      ],
+      "outputs": [{ "name": "figo", "label": "Тип FIGO", "type": "string" }],
+      "note": "Граница 50% относится к типам 2 и 5. Гибридная запись: отношение к эндометрию — первым."
+    },
+    {
+      "id": "growth-dynamics",
+      "title": "Динамика узла",
+      "function": "growthDynamics",
+      "inputs": [
+        { "name": "previousDiametersMm", "label": "Прежние три диаметра", "unit": "мм", "type": "numberTuple", "length": 3, "required": true },
+        { "name": "currentDiametersMm", "label": "Текущие три диаметра", "unit": "мм", "type": "numberTuple", "length": 3, "required": true },
+        { "name": "intervalDays", "label": "Интервал", "unit": "дни", "type": "integer", "min": 1, "required": true }
+      ],
+      "outputs": [
+        { "name": "meanDiameterDeltaMm", "label": "Изменение среднего диаметра", "unit": "мм", "precision": 1 },
+        { "name": "volumeDeltaCm3", "label": "Изменение объёма", "unit": "см³", "precision": 2 },
+        { "name": "volumeChangePercent", "label": "Изменение объёма", "unit": "%", "precision": 1 },
+        { "name": "annualizedLinearChangePercent", "label": "Линейная экстраполяция за 365 дней", "unit": "%", "precision": 1 }
+      ],
+      "warning": "Сравнивать один узел в сопоставимых плоскостях. Годовой темп не является прогнозом."
+    },
+    {
+      "id": "doppler-indices",
+      "title": "Допплеровские индексы",
+      "function": "dopplerIndices",
+      "inputs": [
+        { "name": "psv", "label": "PSV", "unit": "см/с", "type": "number", "min": 0.01, "required": true },
+        { "name": "edv", "label": "EDV", "unit": "см/с", "type": "number", "required": true },
+        { "name": "tamv", "label": "TAMV", "unit": "см/с", "type": "number", "min": 0.01, "required": true }
+      ],
+      "outputs": [
+        { "name": "ri", "label": "Индекс резистентности RI", "precision": 2, "formula": "(PSV − EDV) / PSV" },
+        { "name": "pi", "label": "Индекс пульсации PI", "precision": 2, "formula": "(PSV − EDV) / TAMV" }
+      ],
+      "warning": "Не отображать неподтверждённые нормы и не делать вывод о доброкачественности по индексам."
+    }
+  ]
+}

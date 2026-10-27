@@ -76,12 +76,12 @@ export function describeFibroidLocalization(local: Vector3): { ru: string; en: s
 
 const FIGO_SHORT_RU: Record<number, string> = {
   0: "FIGO 0 (субмукозная на ножке)",
-  1: "FIGO 1 (субмукозная <50% интрамурально)",
-  2: "FIGO 2 (субмукозная ≥50% интрамурально)",
+  1: "FIGO 1 (субмукозная, <50% среднего диаметра)",
+  2: "FIGO 2 (субмукозная, ≥50% среднего диаметра)",
   3: "FIGO 3 (контакт с эндометрием, интрамуральная)",
   4: "FIGO 4 (интрамуральная)",
-  5: "FIGO 5 (субсерозная ≥50% интрамурально)",
-  6: "FIGO 6 (субсерозная <50% интрамурально)",
+  5: "FIGO 5 (субсерозная, ≥50% среднего диаметра)",
+  6: "FIGO 6 (субсерозная, <50% среднего диаметра)",
   7: "FIGO 7 (субсерозная на ножке)",
   8: "FIGO 8 (иная, в т.ч. шейка)",
 };
@@ -98,7 +98,7 @@ export function computeFibroidClinicalMetrics(
   const pct = depthToComponentPercents(depth01);
   const loc = describeFibroidLocalization(biased);
   const figoLineRu = FIGO_SHORT_RU[hit.figoType] ?? `FIGO ${hit.figoType}`;
-  const pctRu = `субмукозный ~${pct.submucosalPct}%, интрамуральный ~${pct.intramuralPct}%, субсерозный ~${pct.subserosalPct}%`;
+  const pctRu = `схема слоёв: к полости ~${pct.submucosalPct}%, в стенке ~${pct.intramuralPct}%, к серозе ~${pct.subserosalPct}%. Долю FIGO считают от среднего диаметра, это не объём`;
 
   return {
     figoType: hit.figoType,

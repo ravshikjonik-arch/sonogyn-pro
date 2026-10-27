@@ -124,6 +124,7 @@ const nextConfig: NextConfig = {
     "@repo/orads-us",
     "@repo/birads-us",
     "@repo/birads-mmg",
+    "@repo/myoma-education",
   ],
   env: {
     // Mail-first: hide SMS/Telegram unless AUTH_ALLOW_PHONE=true.

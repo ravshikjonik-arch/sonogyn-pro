@@ -1,0 +1,696 @@
+{
+  "version": "1.0.0",
+  "locale": "ru",
+  "items": [
+    {
+      "id": "mioma-01",
+      "title": "Классификация локализации миоматозных узлов",
+      "image": "assets/images/mioma-01.jpg",
+      "alt": "Классификация локализации миоматозных узлов",
+      "module": "figo",
+      "sourceImage": "word/media/image1.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-02",
+      "title": "Схема классификации FIGO",
+      "image": "assets/images/mioma-02.jpg",
+      "alt": "Схема классификации FIGO",
+      "module": "figo",
+      "sourceImage": "word/media/image2.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-03",
+      "title": "Иллюстрации топографии миомы матки",
+      "image": "assets/images/mioma-03.jpg",
+      "alt": "Иллюстрации топографии миомы матки",
+      "module": "figo",
+      "sourceImage": "word/media/image3.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-04",
+      "title": "Миома FIGO 0 в полости матки на ножке; осмотр на фоне кровотечения",
+      "image": "assets/images/mioma-04.jpg",
+      "alt": "Миома FIGO 0 в полости матки на ножке; осмотр на фоне кровотечения",
+      "module": "figo",
+      "sourceImage": "word/media/image4.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-05",
+      "title": "Небольшой субмукозный узел FIGO 0 на основании",
+      "image": "assets/images/mioma-05.jpg",
+      "alt": "Небольшой субмукозный узел FIGO 0 на основании",
+      "module": "figo",
+      "sourceImage": "word/media/image5.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-06",
+      "title": "Рождающаяся миома FIGO 0",
+      "image": "assets/images/mioma-06.jpg",
+      "alt": "Рождающаяся миома FIGO 0",
+      "module": "figo",
+      "sourceImage": "word/media/image6.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-07",
+      "title": "Рождающаяся в цервикальный канал миома FIGO 0; цветовое допплеровское картирование",
+      "image": "assets/images/mioma-07.jpg",
+      "alt": "Рождающаяся в цервикальный канал миома FIGO 0; цветовое допплеровское картирование",
+      "module": "figo",
+      "sourceImage": "word/media/image7.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-08",
+      "title": "Рождающийся узел с кистозной дегенерацией и особенностями кровотока",
+      "image": "assets/images/mioma-08.jpg",
+      "alt": "Рождающийся узел с кистозной дегенерацией и особенностями кровотока",
+      "module": "figo",
+      "sourceImage": "word/media/image8.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-09",
+      "title": "Схема субмукозной миомы FIGO 1",
+      "image": "assets/images/mioma-09.jpg",
+      "alt": "Схема субмукозной миомы FIGO 1",
+      "module": "figo",
+      "sourceImage": "word/media/image9.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-10",
+      "title": "Субмукозная миома FIGO 1 с интрамуральным компонентом менее 50%",
+      "image": "assets/images/mioma-10.jpg",
+      "alt": "Субмукозная миома FIGO 1 с интрамуральным компонентом менее 50%",
+      "module": "figo",
+      "sourceImage": "word/media/image10.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-11",
+      "title": "Схема субмукозной миомы FIGO 2",
+      "image": "assets/images/mioma-11.jpg",
+      "alt": "Схема субмукозной миомы FIGO 2",
+      "module": "figo",
+      "sourceImage": "word/media/image11.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-12",
+      "title": "Субмукозная миома FIGO 2: субмукозный и интрамуральный компоненты",
+      "image": "assets/images/mioma-12.jpg",
+      "alt": "Субмукозная миома FIGO 2: субмукозный и интрамуральный компоненты",
+      "module": "figo",
+      "sourceImage": "word/media/image12.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-13",
+      "title": "Субмукозная миома FIGO 2; объёмное изображение",
+      "image": "assets/images/mioma-13.jpg",
+      "alt": "Субмукозная миома FIGO 2; объёмное изображение",
+      "module": "figo",
+      "sourceImage": "word/media/image13.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-14",
+      "title": "Схема миомы FIGO 3",
+      "image": "assets/images/mioma-14.jpg",
+      "alt": "Схема миомы FIGO 3",
+      "module": "figo",
+      "sourceImage": "word/media/image14.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-15",
+      "title": "Миома FIGO 3: полностью интрамуральная, контактирует с эндометрием",
+      "image": "assets/images/mioma-15.jpg",
+      "alt": "Миома FIGO 3: полностью интрамуральная, контактирует с эндометрием",
+      "module": "figo",
+      "sourceImage": "word/media/image15.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-16",
+      "title": "Схема интрамуральной миомы FIGO 4",
+      "image": "assets/images/mioma-16.jpg",
+      "alt": "Схема интрамуральной миомы FIGO 4",
+      "module": "figo",
+      "sourceImage": "word/media/image16.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-17",
+      "title": "Интрамуральная миома с центрипетальным ростом и деформацией полости",
+      "image": "assets/images/mioma-17.jpg",
+      "alt": "Интрамуральная миома с центрипетальным ростом и деформацией полости",
+      "module": "figo",
+      "sourceImage": "word/media/image17.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-18",
+      "title": "Схема субсерозной миомы FIGO 5",
+      "image": "assets/images/mioma-18.jpg",
+      "alt": "Схема субсерозной миомы FIGO 5",
+      "module": "figo",
+      "sourceImage": "word/media/image18.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-19",
+      "title": "Схема гибридной субмукозно-субсерозной миомы FIGO 2–5",
+      "image": "assets/images/mioma-19.jpg",
+      "alt": "Схема гибридной субмукозно-субсерозной миомы FIGO 2–5",
+      "module": "figo",
+      "sourceImage": "word/media/image19.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-20",
+      "title": "Гибридная субмукозно-субсерозная миома FIGO 2–5",
+      "image": "assets/images/mioma-20.jpg",
+      "alt": "Гибридная субмукозно-субсерозная миома FIGO 2–5",
+      "module": "figo",
+      "sourceImage": "word/media/image20.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-21",
+      "title": "Схема субсерозной миомы FIGO 6",
+      "image": "assets/images/mioma-21.jpg",
+      "alt": "Схема субсерозной миомы FIGO 6",
+      "module": "figo",
+      "sourceImage": "word/media/image21.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-22",
+      "title": "Небольшая субсерозная миома на основании: диагностическая ловушка",
+      "image": "assets/images/mioma-22.jpg",
+      "alt": "Небольшая субсерозная миома на основании: диагностическая ловушка",
+      "module": "figo",
+      "sourceImage": "word/media/image22.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-23",
+      "title": "Схема субсерозной миомы FIGO 7 на ножке",
+      "image": "assets/images/mioma-23.jpg",
+      "alt": "Схема субсерозной миомы FIGO 7 на ножке",
+      "module": "figo",
+      "sourceImage": "word/media/image23.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-24",
+      "title": "Субсерозный узел на ножке: сосуды ножки, рядом яичник",
+      "image": "assets/images/mioma-24.jpg",
+      "alt": "Субсерозный узел на ножке: сосуды ножки, рядом яичник",
+      "module": "figo",
+      "sourceImage": "word/media/image24.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-25",
+      "title": "Субсерозная миома слева на широкой ножке",
+      "image": "assets/images/mioma-25.jpg",
+      "alt": "Субсерозная миома слева на широкой ножке",
+      "module": "figo",
+      "sourceImage": "word/media/image25.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-26",
+      "title": "Узел на широкой ножке с частичным перекрутом, дегенерацией и кальцинатами",
+      "image": "assets/images/mioma-26.jpg",
+      "alt": "Узел на широкой ножке с частичным перекрутом, дегенерацией и кальцинатами",
+      "module": "figo",
+      "sourceImage": "word/media/image26.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-27",
+      "title": "Схема миомы FIGO 8: межсвязочная и паразитирующая локализация",
+      "image": "assets/images/mioma-27.jpg",
+      "alt": "Схема миомы FIGO 8: межсвязочная и паразитирующая локализация",
+      "module": "figo",
+      "sourceImage": "word/media/image27.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-28",
+      "title": "Межсвязочная миома FIGO 8; узел медиальнее яичника",
+      "image": "assets/images/mioma-28.jpg",
+      "alt": "Межсвязочная миома FIGO 8; узел медиальнее яичника",
+      "module": "figo",
+      "sourceImage": "word/media/image28.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-29",
+      "title": "Отдалённая от матки миома у стенки малого таза; узел латеральнее яичника",
+      "image": "assets/images/mioma-29.jpg",
+      "alt": "Отдалённая от матки миома у стенки малого таза; узел латеральнее яичника",
+      "module": "figo",
+      "sourceImage": "word/media/image29.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-30",
+      "title": "Схема перешеечной и шеечной локализации миомы",
+      "image": "assets/images/mioma-30.jpg",
+      "alt": "Схема перешеечной и шеечной локализации миомы",
+      "module": "figo",
+      "sourceImage": "word/media/image30.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-31",
+      "title": "Перешеечная миома с деформацией цервикального канала",
+      "image": "assets/images/mioma-31.jpg",
+      "alt": "Перешеечная миома с деформацией цервикального канала",
+      "module": "figo",
+      "sourceImage": "word/media/image31.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-32",
+      "title": "Шеечная миома с увеличением и деформацией шейки",
+      "image": "assets/images/mioma-32.jpg",
+      "alt": "Шеечная миома с увеличением и деформацией шейки",
+      "module": "figo",
+      "sourceImage": "word/media/image32.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-33",
+      "title": "Огромная шеечная миома",
+      "image": "assets/images/mioma-33.jpg",
+      "alt": "Огромная шеечная миома",
+      "module": "figo",
+      "sourceImage": "word/media/image33.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-34",
+      "title": "Схема топографии миомы тела, перешейка и шейки матки",
+      "image": "assets/images/mioma-34.jpg",
+      "alt": "Схема топографии миомы тела, перешейка и шейки матки",
+      "module": "figo",
+      "sourceImage": "word/media/image34.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-35",
+      "title": "Гигантская многоузловая миома матки",
+      "image": "assets/images/mioma-35.jpg",
+      "alt": "Гигантская многоузловая миома матки",
+      "module": "figo",
+      "sourceImage": "word/media/image35.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-36",
+      "title": "Большая миома в режиме панорамного сканирования",
+      "image": "assets/images/mioma-36.jpg",
+      "alt": "Большая миома в режиме панорамного сканирования",
+      "module": "figo",
+      "sourceImage": "word/media/image36.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-37",
+      "title": "Качественная и количественная допплерография миомы",
+      "image": "assets/images/mioma-37.jpg",
+      "alt": "Качественная и количественная допплерография миомы",
+      "module": "doppler-degeneration",
+      "sourceImage": "word/media/image37.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-38",
+      "title": "Миома матки: допплерография",
+      "image": "assets/images/mioma-38.jpg",
+      "alt": "Миома матки: допплерография",
+      "module": "doppler-degeneration",
+      "sourceImage": "word/media/image38.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-39",
+      "title": "Вторичные изменения в миоме: учебная подборка",
+      "image": "assets/images/mioma-39.jpg",
+      "alt": "Вторичные изменения в миоме: учебная подборка",
+      "module": "doppler-degeneration",
+      "sourceImage": "word/media/image39.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-40",
+      "title": "Дегенеративные изменения в миоме: учебная подборка",
+      "image": "assets/images/mioma-40.jpg",
+      "alt": "Дегенеративные изменения в миоме: учебная подборка",
+      "module": "doppler-degeneration",
+      "sourceImage": "word/media/image40.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-41",
+      "title": "Гиалиноз и вторичные изменения миомы: гистологическая иллюстрация",
+      "image": "assets/images/mioma-41.jpg",
+      "alt": "Гиалиноз и вторичные изменения миомы: гистологическая иллюстрация",
+      "module": "doppler-degeneration",
+      "sourceImage": "word/media/image41.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-42",
+      "title": "Красная дегенерация миомы матки",
+      "image": "assets/images/mioma-42.jpg",
+      "alt": "Красная дегенерация миомы матки",
+      "module": "doppler-degeneration",
+      "sourceImage": "word/media/image42.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-43",
+      "title": "Отёк узла как признак нарушения питания",
+      "image": "assets/images/mioma-43.jpg",
+      "alt": "Отёк узла как признак нарушения питания",
+      "module": "doppler-degeneration",
+      "sourceImage": "word/media/image43.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-44",
+      "title": "Дегенеративные изменения в миоме",
+      "image": "assets/images/mioma-44.jpg",
+      "alt": "Дегенеративные изменения в миоме",
+      "module": "doppler-degeneration",
+      "sourceImage": "word/media/image44.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-45",
+      "title": "Гигантская миома с кистозной дегенерацией",
+      "image": "assets/images/mioma-45.jpg",
+      "alt": "Гигантская миома с кистозной дегенерацией",
+      "module": "doppler-degeneration",
+      "sourceImage": "word/media/image45.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-46",
+      "title": "Большая миома с кистозной дегенерацией; сопутствующий гидронефроз",
+      "image": "assets/images/mioma-46.jpg",
+      "alt": "Большая миома с кистозной дегенерацией; сопутствующий гидронефроз",
+      "module": "doppler-degeneration",
+      "sourceImage": "word/media/image46.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-47",
+      "title": "Гиалиноз, кистозная и миксоидная дегенерация миомы",
+      "image": "assets/images/mioma-47.jpg",
+      "alt": "Гиалиноз, кистозная и миксоидная дегенерация миомы",
+      "module": "doppler-degeneration",
+      "sourceImage": "word/media/image47.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-48",
+      "title": "Обызвествление миомы",
+      "image": "assets/images/mioma-48.jpg",
+      "alt": "Обызвествление миомы",
+      "module": "doppler-degeneration",
+      "sourceImage": "word/media/image48.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-49",
+      "title": "Липоматозная дегенерация миомы",
+      "image": "assets/images/mioma-49.jpg",
+      "alt": "Липоматозная дегенерация миомы",
+      "module": "doppler-degeneration",
+      "sourceImage": "word/media/image49.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-50",
+      "title": "Гиалиноз, некробиоз и обызвествление миомы",
+      "image": "assets/images/mioma-50.jpg",
+      "alt": "Гиалиноз, некробиоз и обызвествление миомы",
+      "module": "doppler-degeneration",
+      "sourceImage": "word/media/image50.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-51",
+      "title": "Субсерозный узел с дегенеративными изменениями",
+      "image": "assets/images/mioma-51.jpg",
+      "alt": "Субсерозный узел с дегенеративными изменениями",
+      "module": "doppler-degeneration",
+      "sourceImage": "word/media/image51.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-52",
+      "title": "Диффузный миоматоз: наблюдение в динамике",
+      "image": "assets/images/mioma-52.jpg",
+      "alt": "Диффузный миоматоз: наблюдение в динамике",
+      "module": "special-forms",
+      "sourceImage": "word/media/image52.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-53",
+      "title": "Липома тела и шейки матки",
+      "image": "assets/images/mioma-53.jpg",
+      "alt": "Липома тела и шейки матки",
+      "module": "special-forms",
+      "sourceImage": "word/media/image53.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-54",
+      "title": "Небольшая липома матки; визуализация нижней полой вены",
+      "image": "assets/images/mioma-54.jpg",
+      "alt": "Небольшая липома матки; визуализация нижней полой вены",
+      "module": "special-forms",
+      "sourceImage": "word/media/image54.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-55",
+      "title": "Гигантская липома",
+      "image": "assets/images/mioma-55.jpg",
+      "alt": "Гигантская липома",
+      "module": "special-forms",
+      "sourceImage": "word/media/image55.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-56",
+      "title": "Пролиферирующая миома: учебное наблюдение",
+      "image": "assets/images/mioma-56.jpg",
+      "alt": "Пролиферирующая миома: учебное наблюдение",
+      "module": "special-forms",
+      "sourceImage": "word/media/image56.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-57",
+      "title": "Пролиферирующая шеечная миома у пациентки 20 лет",
+      "image": "assets/images/mioma-57.jpg",
+      "alt": "Пролиферирующая шеечная миома у пациентки 20 лет",
+      "module": "special-forms",
+      "sourceImage": "word/media/image57.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-58",
+      "title": "Пролиферирующая миома: наблюдение без роста за три месяца",
+      "image": "assets/images/mioma-58.jpg",
+      "alt": "Пролиферирующая миома: наблюдение без роста за три месяца",
+      "module": "special-forms",
+      "sourceImage": "word/media/image58.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-59",
+      "title": "Пролиферирующая миома: допплерография",
+      "image": "assets/images/mioma-59.jpg",
+      "alt": "Пролиферирующая миома: допплерография",
+      "module": "special-forms",
+      "sourceImage": "word/media/image59.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-60",
+      "title": "Лейомиома с участками некроза, подрастающая к мочевому пузырю",
+      "image": "assets/images/mioma-60.jpg",
+      "alt": "Лейомиома с участками некроза, подрастающая к мочевому пузырю",
+      "module": "special-forms",
+      "sourceImage": "word/media/image60.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-61",
+      "title": "Лейомиома у пациентки 74 лет",
+      "image": "assets/images/mioma-61.jpg",
+      "alt": "Лейомиома у пациентки 74 лет",
+      "module": "special-forms",
+      "sourceImage": "word/media/image61.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-62",
+      "title": "Лейомиома у пациентки 39 лет",
+      "image": "assets/images/mioma-62.jpg",
+      "alt": "Лейомиома у пациентки 39 лет",
+      "module": "special-forms",
+      "sourceImage": "word/media/image62.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-63",
+      "title": "Интравенозный лейомиоматоз",
+      "image": "assets/images/mioma-63.jpg",
+      "alt": "Интравенозный лейомиоматоз",
+      "module": "special-forms",
+      "sourceImage": "word/media/image63.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-64",
+      "title": "Десмоидный фиброматоз брюшной полости",
+      "image": "assets/images/mioma-64.jpg",
+      "alt": "Десмоидный фиброматоз брюшной полости",
+      "module": "special-forms",
+      "sourceImage": "word/media/image64.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-65",
+      "title": "Миома и беременность: вариабельность динамики",
+      "image": "assets/images/mioma-65.jpg",
+      "alt": "Миома и беременность: вариабельность динамики",
+      "module": "pregnancy-followup",
+      "sourceImage": "word/media/image65.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-66",
+      "title": "Миома и беременность: клинический разбор",
+      "image": "assets/images/mioma-66.jpg",
+      "alt": "Миома и беременность: клинический разбор",
+      "module": "pregnancy-followup",
+      "sourceImage": "word/media/image66.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-67",
+      "title": "Состояние после надвлагалищной ампутации матки",
+      "image": "assets/images/mioma-67.jpg",
+      "alt": "Состояние после надвлагалищной ампутации матки",
+      "module": "pregnancy-followup",
+      "sourceImage": "word/media/image67.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-68",
+      "title": "Состояние после эмболизации маточных артерий",
+      "image": "assets/images/mioma-68.jpg",
+      "alt": "Состояние после эмболизации маточных артерий",
+      "module": "pregnancy-followup",
+      "sourceImage": "word/media/image68.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    },
+    {
+      "id": "mioma-69",
+      "title": "Морцеллома после морцелляции миомы",
+      "image": "assets/images/mioma-69.jpg",
+      "alt": "Морцеллома после морцелляции миомы",
+      "module": "pregnancy-followup",
+      "sourceImage": "word/media/image69.jpeg",
+      "sourceDocument": "буланов.docx",
+      "educationalUseOnly": true
+    }
+  ]
+}

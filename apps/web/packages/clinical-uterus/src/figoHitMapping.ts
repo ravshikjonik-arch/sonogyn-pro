@@ -1,4 +1,5 @@
 import type { Vector3 } from "three";
+import { classifyFigo } from "@repo/myoma-education/calc";
 import { CERVIX_Y_MAX, cylindricalR, radialDepth01 } from "./profile";
 
 export type AnatomyLayerId = "endometrium" | "junctional_zone" | "myometrium" | "subserosa" | "serosa" | "cervix";
@@ -32,26 +33,59 @@ function layerFromDepth(depth01: number, y: number): { id: AnatomyLayerId; ru: s
   return { id: "serosa", ru: ANATOMY_LAYER_LABEL_RU.serosa };
 }
 
-function figoFromDepth(depth01: number, y: number, pedunculated: boolean): number {
-  if (y < CERVIX_Y_MAX) return 8;
+const SUBMUCOSAL_BAND = 0.12;
+const ENDOMETRIAL_CONTACT_BAND = 0.28;
+const INTRAMURAL_BAND = 0.58;
+/** На этой глубине схемы субсерозный узел имеет ровно 50% интрамурального компонента. */
+const SUBSEROSAL_FIFTY_DEPTH = 0.82;
 
-  if (depth01 < 0.12) {
-    if (pedunculated) return 0;
-    return depth01 < 0.055 ? 1 : 2;
+/** Схематическая доля интрамурального компонента от среднего диаметра, не измерение. */
+export function schematicIntramuralPercent(depth01: number): number {
+  if (depth01 < SUBMUCOSAL_BAND) return (depth01 / SUBMUCOSAL_BAND) * 100;
+  if (depth01 < INTRAMURAL_BAND) return 100;
+  if (depth01 <= SUBSEROSAL_FIFTY_DEPTH) {
+    const t = (depth01 - INTRAMURAL_BAND) / (SUBSEROSAL_FIFTY_DEPTH - INTRAMURAL_BAND);
+    return 100 - t * 50;
   }
-  if (depth01 < 0.28) return 3;
-  if (depth01 < 0.58) return 4;
-  if (depth01 < 0.82) return 5;
-
-  if (pedunculated && depth01 > 0.88) return 7;
-  return 6;
+  const t = (depth01 - SUBSEROSAL_FIFTY_DEPTH) / (1 - SUBSEROSAL_FIFTY_DEPTH);
+  return Math.max(0, 50 * (1 - t));
 }
 
-/** Образовательная группировка по ТЗ: 0–2 субмукозные, 3–5 интрамуральные, 6–7 субсерозные. */
+function figoFromDepth(depth01: number, y: number, pedunculated: boolean): number {
+  if (y < CERVIX_Y_MAX) return Number(classifyFigo({ location: "other" }).figo);
+  if (depth01 < SUBMUCOSAL_BAND) {
+    if (pedunculated && depth01 < 0.04) {
+      return Number(classifyFigo({ location: "intracavitary", pedunculated: true }).figo);
+    }
+    return Number(
+      classifyFigo({
+        location: "submucosal",
+        intramuralPercent: Math.round(schematicIntramuralPercent(depth01) * 10) / 10,
+      }).figo,
+    );
+  }
+  if (depth01 < ENDOMETRIAL_CONTACT_BAND) {
+    return Number(classifyFigo({ location: "intramural", contactsEndometrium: true }).figo);
+  }
+  if (depth01 < INTRAMURAL_BAND) {
+    return Number(classifyFigo({ location: "intramural", contactsEndometrium: false }).figo);
+  }
+  if (pedunculated && depth01 > 0.88) {
+    return Number(classifyFigo({ location: "subserosal", pedunculated: true }).figo);
+  }
+  return Number(
+    classifyFigo({
+      location: "subserosal",
+      intramuralPercent: Math.round(schematicIntramuralPercent(depth01) * 10) / 10,
+    }).figo,
+  );
+}
+
+/** 0–2 субмукозные, 3–4 интрамуральные, 5–7 субсерозные. Тип 5 не интрамуральный. */
 export function figoEducationalBucket(figo: number): UterusHitResult["bucketRu"] {
   if (figo === 8) return "Иная";
   if (figo <= 2) return "Субмукозная";
-  if (figo <= 5) return "Интрамуральная";
+  if (figo <= 4) return "Интрамуральная";
   return "Субсерозная";
 }
 
@@ -69,12 +103,12 @@ const FIGO_LABEL_EN: Record<number, string> = {
 
 const FIGO_LABEL_RU: Record<number, string> = {
   0: "FIGO 0 — субмукозный на ножке (интракавитарно)",
-  1: "FIGO 1 — субмукозный, <50% интрамурально",
-  2: "FIGO 2 — субмукозный, ≥50% интрамурально",
-  3: "FIGO 3 — контакт с эндометрием, 100% интрамурально",
-  4: "FIGO 4 — интрамуральный без контакта с эндометрием и серозой",
-  5: "FIGO 5 — субсерозный, ≥50% интрамурально",
-  6: "FIGO 6 — субсерозный, <50% интрамурально",
+  1: "FIGO 1 — субмукозный, интрамуральный компонент <50% среднего диаметра",
+  2: "FIGO 2 — субмукозный, интрамуральный компонент ≥50% среднего диаметра",
+  3: "FIGO 3 — интрамуральный, контакт с эндометрием, без выступания в полость",
+  4: "FIGO 4 — интрамуральный, окружён миометрием",
+  5: "FIGO 5 — субсерозный, интрамуральный компонент ≥50% среднего диаметра",
+  6: "FIGO 6 — субсерозный, интрамуральный компонент <50% среднего диаметра",
   7: "FIGO 7 — субсерозный на ножке",
   8: "FIGO 8 — иная локализация (включая шеечную)",
 };
@@ -96,7 +130,7 @@ export function buildUterusHitFromParts(input: {
     layerLabelRu,
     depth01,
     tooltipEn: `${figoEn} · ${layerLabelRu}${noteSeg} · depth≈${(depth01 * 100).toFixed(0)}%`,
-    tooltipRu: `${figoRu} · ${layerLabelRu}${noteSeg} · глубина≈${(depth01 * 100).toFixed(0)}%`,
+    tooltipRu: `${figoRu} · ${layerLabelRu}${noteSeg}. Схема расположения, не измерение.`,
     bucketRu: figoEducationalBucket(figoType),
   };
 }
