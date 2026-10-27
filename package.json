@@ -64,7 +64,7 @@
   },
   "devDependencies": {
     "@babel/traverse--for-generate-function-map": "npm:@babel/traverse@^7.25.3",
-    "turbo": "^2.5.4",
+    "turbo": "^2.11.10",
     "typescript": "^5.9.2"
   },
   "pnpm": {
