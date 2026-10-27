@@ -1,93 +1,112 @@
 import { ClinicalDomainHub } from "@/components/clinical/ClinicalDomainHub";
-import type { DomainHubCard } from "@/lib/nav/domain-hubs";
+import type { DomainHubGroup } from "@/lib/nav/domain-hubs";
 import { calculatorPageMetadata } from "@/lib/seo/calculator-seo-registry";
 
 export const metadata = calculatorPageMetadata("/tools/calc/gyn");
 
-const CARDS: DomainHubCard[] = [
+const GROUPS: DomainHubGroup[] = [
   {
-    href: "/tools/calc/ob",
-    title: "Акушерский калькулятор",
-    description: "ПМП, УЗИ, КТР, СВД, ЭКО, фетометрия, декрет, шевеления, явка в ЖК",
-    primary: true,
+    title: "Срок и риски",
+    cards: [
+      {
+        href: "/tools/calc/ob",
+        title: "Акушерский калькулятор",
+        description: "Срок, фетометрия и гинекологические риски",
+        primary: true,
+      },
+    ],
   },
   {
-    href: "/tools/calc/gyn/endometrium",
-    title: "Эндометрий",
-    description: "M-эхо, пороги, очаг, тамоксифен",
-    primary: true,
+    title: "Матка",
+    cards: [
+      {
+        href: "/tools/calc/gyn/endometrium",
+        title: "Эндометрий",
+        description: "M-эхо, пороги, очаг",
+        primary: true,
+      },
+      {
+        href: "/tools/calc/gyn/pop-q",
+        title: "POP-Q",
+        description: "Стадия пролапса",
+      },
+      {
+        href: "/tools/mapping/uterus",
+        title: "FIGO · миома",
+        description: "Тип узла на схеме матки",
+      },
+    ],
   },
   {
-    href: "/tools/calc/gyn/pop-q",
-    title: "POP-Q",
-    description: "Стадия пролапса по точкам Aa, Ba, C, D, Ap, Bp, TVL",
+    title: "Шейка матки",
+    cards: [
+      {
+        href: "/tools/calc/gyn/colposcopy",
+        title: "Кольпоскопия",
+        description: "Протокол и признаки",
+      },
+      {
+        href: "/tools/calc/gyn/cin-risk",
+        title: "Риск CIN",
+        description: "HPV, Bethesda, зона трансформации",
+      },
+      {
+        href: "/tools/calc/gyn/cin-follow-up",
+        title: "Наблюдение после CIN",
+        description: "Контроль после лечения",
+      },
+      {
+        href: "/tools/calc/gyn/cervical-intelligence",
+        title: "Шейка · разбор",
+        description: "Цитология и следующий шаг",
+      },
+      {
+        href: "/tools/calc/gyn/cervical-cancer-risk",
+        title: "Риск рака шейки матки",
+        description: "Ориентир, не диагноз",
+      },
+    ],
   },
   {
-    href: "/tools/calc/gyn/colposcopy",
-    title: "Кольпоскопия · Swede",
-    description: "Протокол и 5 признаков IFCPC",
-  },
-  {
-    href: "/tools/calc/gyn/cin-risk",
-    title: "CIN Risk",
-    description: "HPV, Bethesda, зона трансформации",
-  },
-  {
-    href: "/tools/calc/gyn/cin-follow-up",
-    title: "Наблюдение после CIN",
-    description: "Контроль после лечения шейки",
-  },
-  {
-    href: "/tools/calc/gyn/cervical-intelligence",
-    title: "Шейка · CDS",
-    description: "IFCPC, HPV, Bethesda, действия",
-  },
-  {
-    href: "/tools/calc/gyn/elastography",
-    title: "Эластография",
-    description: "Strain и SWE: шейка, миометрий, яичники, молочная железа",
-  },
-  {
-    href: "/tools/calc/gyn/breast-risk",
-    title: "Риск рака молочной железы",
-    description: "Ориентир риска, не диагноз",
-  },
-  {
-    href: "/tools/calc/gyn/cervical-cancer-risk",
-    title: "Риск рака шейки матки",
-    description: "Ориентир риска, не диагноз",
-  },
-  {
-    href: "/tools/calc/gyn/ovarian-cancer-risk",
-    title: "Риск рака яичников",
-    description: "Ориентир риска, не диагноз",
-  },
-  {
-    href: "/tools/calc/gyn/ultrasound-10-steps",
-    title: "УЗИ малого таза · 10 шагов",
-    description: "Пошаговый протокол осмотра",
-  },
-  {
-    href: "/tools/calc/rads/o-rads",
-    title: "O-RADS US",
-    description: "Стратификация образований придатков",
-  },
-  {
-    href: "/tools/mapping/uterus",
-    title: "FIGO · миома",
-    description: "Тип миомы на макете матки",
+    title: "Яичники и молочная железа",
+    cards: [
+      {
+        href: "/tools/calc/rads/o-rads",
+        title: "O-RADS",
+        description: "Образования придатков",
+      },
+      {
+        href: "/tools/calc/gyn/ovarian-cancer-risk",
+        title: "Риск рака яичников",
+        description: "Ориентир, не диагноз",
+      },
+      {
+        href: "/tools/calc/gyn/breast-risk",
+        title: "Риск рака молочной железы",
+        description: "Ориентир, не диагноз",
+      },
+      {
+        href: "/tools/calc/gyn/elastography",
+        title: "Эластография",
+        description: "Шейка, миометрий, яичники, молочная железа",
+      },
+      {
+        href: "/tools/calc/gyn/ultrasound-10-steps",
+        title: "УЗИ малого таза · 10 шагов",
+        description: "Пошаговый осмотр",
+      },
+    ],
   },
 ];
 
 export default function GynCalculatorsPage() {
   return (
     <ClinicalDomainHub
-      kicker="Гинекология"
-      title="Калькуляторы гинекологии"
-      description="Калькуляторы срока, массы, Бишопа и рисков стоят списком в пункте «Акушерский калькулятор»."
-      cards={CARDS}
-      backHref="/tools/calc"
-      backLabel="← Все калькуляторы"
+      title="Гинекология"
+      description="Калькуляторы по нозологиям. Срок и гинекологические риски — в акушерском калькуляторе."
+      groups={GROUPS}
+      backHref="/home"
+      backLabel="← Разделы"
     />
   );
 }

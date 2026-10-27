@@ -1,5 +1,5 @@
 import { ClinicalDomainHub } from "@/components/clinical/ClinicalDomainHub";
-import { OBSTETRICS_HUB } from "@/lib/nav/domain-hubs";
+import { OBSTETRICS_GROUPS } from "@/lib/nav/domain-hubs";
 import { calculatorPageMetadata } from "@/lib/seo/calculator-seo-registry";
 
 export const metadata = calculatorPageMetadata("/tools/obstetrics");
@@ -7,10 +7,9 @@ export const metadata = calculatorPageMetadata("/tools/obstetrics");
 export default function ObstetricsHubPage() {
   return (
     <ClinicalDomainHub
-      kicker="Акушерство"
-      title="Всё для акушера — в одном разделе"
-      description="Помощник, FMF, калькуляторы сроков, атласы и протоколы. Калькуляторы не смешиваются с гинекологией."
-      cards={OBSTETRICS_HUB}
+      title="Акушерство"
+      description="Приём, расчёты, срезы, атласы и протокол. Гинекологические риски остаются в акушерском калькуляторе."
+      groups={OBSTETRICS_GROUPS}
     />
   );
 }

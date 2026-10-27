@@ -1,65 +1,72 @@
+import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import type { DomainHubCard } from "@/lib/nav/domain-hubs";
+import type { DomainHubCard, DomainHubGroup } from "@/lib/nav/domain-hubs";
 
 export function ClinicalDomainHub({
-  kicker,
   title,
   description,
   cards,
-  backHref = "/tools",
-  backLabel = "← Все инструменты",
+  groups,
+  backHref = "/home",
+  backLabel = "← Разделы",
 }: {
-  kicker: string;
+  kicker?: string;
   title: string;
   description: string;
-  cards: DomainHubCard[];
+  cards?: DomainHubCard[];
+  groups?: DomainHubGroup[];
   backHref?: string;
   backLabel?: string;
 }) {
+  const sections: DomainHubGroup[] = groups?.length
+    ? groups
+    : [{ title: "Открыть", cards: cards ?? [] }];
+
   return (
-    <div className="mx-auto max-w-4xl space-y-8 px-4 py-8 pb-24 lg:px-6">
-      <header className="space-y-3">
-        <Button variant="ghost" size="sm" className="-ml-2 h-8 px-2 text-xs" asChild>
-          <Link href={backHref}>{backLabel}</Link>
-        </Button>
-        <p className="text-xs font-bold uppercase tracking-[0.3em] text-[var(--clinical-foreground-muted)]">
-          {kicker}
-        </p>
-        <h1 className="text-2xl font-black tracking-tight sm:text-3xl">{title}</h1>
-        <p className="max-w-2xl text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
-          {description}
-        </p>
+    <div className="mx-auto min-h-[100dvh] max-w-lg space-y-6 px-4 py-6 pb-28 sm:max-w-xl">
+      <header className="space-y-2">
+        <Link href={backHref} className="text-sm font-medium text-[var(--clinical-foreground-muted)]">
+          {backLabel}
+        </Link>
+        <h1 className="text-2xl font-semibold tracking-tight text-[var(--clinical-foreground)]">{title}</h1>
+        <p className="text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">{description}</p>
       </header>
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        {cards.map((card) => (
-          <Card
-            key={card.href}
-            className={
-              card.primary
-                ? "border-[var(--clinical-primary)]/30 bg-[var(--clinical-primary-muted)]/20"
-                : undefined
-            }
-          >
-            <CardHeader className="pb-2">
-              <div className="flex items-start justify-between gap-2">
-                <CardTitle className="text-base leading-snug">{card.title}</CardTitle>
-                {card.badge ? <Badge variant="secondary">{card.badge}</Badge> : null}
-              </div>
-              <CardDescription className="leading-relaxed">{card.description}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button asChild size="sm" variant={card.primary ? "default" : "secondary"}>
-                <Link href={card.href}>Открыть →</Link>
-              </Button>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      {sections.map((group) => (
+        <section key={group.title} className="space-y-2">
+          <h2 className="px-1 text-sm font-semibold text-[var(--clinical-foreground-muted)]">{group.title}</h2>
+          <ul className="overflow-hidden rounded-2xl border border-[var(--clinical-border)] bg-[var(--clinical-card)]">
+            {group.cards.map((card, index) => (
+              <li key={card.href} className={index > 0 ? "border-t border-[var(--clinical-border)]" : undefined}>
+                <Link
+                  href={card.href}
+                  className="flex items-center gap-3 px-4 py-3 active:bg-[var(--clinical-muted)]"
+                >
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-[15px] font-semibold text-[var(--clinical-foreground)]">
+                      {card.title}
+                    </span>
+                    <span className="mt-0.5 block text-xs text-[var(--clinical-foreground-muted)]">
+                      {card.description}
+                    </span>
+                  </span>
+                  {card.badge ? (
+                    <span className="shrink-0 rounded-full bg-[var(--clinical-muted)] px-2 py-0.5 text-[10px] font-semibold text-[var(--clinical-foreground)]">
+                      {card.badge}
+                    </span>
+                  ) : null}
+                  <ChevronRight className="h-4 w-4 shrink-0 text-[var(--clinical-foreground-muted)]" aria-hidden />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+
+      <p className="px-1 text-xs text-[var(--clinical-foreground-muted)]">
+        Справочная поддержка. Не ставит диагноз.
+      </p>
     </div>
   );
 }

@@ -8,6 +8,11 @@ export type DomainHubCard = {
   primary?: boolean;
 };
 
+export type DomainHubGroup = {
+  title: string;
+  cards: DomainHubCard[];
+};
+
 export const TOOLS_HOME_DOMAINS = [
   {
     href: "/tools/obstetrics",
@@ -47,139 +52,190 @@ export const TOOLS_HOME_DOMAINS = [
   },
 ] as const;
 
-export const OBSTETRICS_HUB: DomainHubCard[] = [
+export const OBSTETRICS_GROUPS: DomainHubGroup[] = [
   {
-    href: "/ai/consultants/obstetrics",
-    title: "Помощник акушера",
-    description: "Ранняя Б, потери, ГСД, маршрутизация по МКБ",
-    primary: true,
-    badge: "AI",
+    title: "Приём",
+    cards: [
+      {
+        href: "/ai/consultants/obstetrics",
+        title: "Помощник акушера",
+        description: "Ранняя беременность, потери, ГСД",
+        primary: true,
+        badge: "AI",
+      },
+      {
+        href: "/ai/consultants/fmf",
+        title: "FMF · I скрининг",
+        description: "Малый срок, КТР, ТВП, допплер",
+        badge: "FMF",
+      },
+    ],
   },
   {
-    href: "/ai/consultants/fmf",
-    title: "FMF · I скрининг",
-    description: "Малый срок, CRL, NT, допплер, red flags",
-    badge: "FMF",
+    title: "Расчёты",
+    cards: [
+      {
+        href: "/tools/calc/ob",
+        title: "Акушерский калькулятор",
+        description: "Срок, КТР, Bishop, VBAC, длина шейки, гинекологические риски",
+        primary: true,
+      },
+      {
+        href: "/tools/calc/ob/fetometry-norms",
+        title: "Нормы фетометрии",
+        description: "Перцентиль по сроку, без PDF",
+        badge: "Таблицы",
+      },
+    ],
   },
   {
-    href: "/tools/calc/ob",
-    title: "Калькуляторы беременности",
-    description: "Срок Б, КТР, Bishop, VBAC, длина шейки, препараты",
-    primary: true,
+    title: "Срезы",
+    cards: [
+      {
+        href: "/tools/refs/fetal-anatomy-22-views",
+        title: "22 проекции фетальной анатомии",
+        description: "Чеклист срезов I триместра",
+      },
+      {
+        href: "/tools/refs/fetal-doppler-first-trimester",
+        title: "Допплер I триместра",
+        description: "Венозный проток, маточные артерии",
+      },
+      {
+        href: "/tools/refs/fetal-spine",
+        title: "Фетальный позвоночник",
+        description: "Срезы и нормы",
+      },
+    ],
   },
   {
-    href: "/tools/calc/ob/fetometry-norms",
-    title: "Нормы фетометрии (таблицы)",
-    description: "96 табличных калькуляторов: перцентиль по СБ, без PDF",
-    badge: "MVP",
+    title: "Атласы",
+    cards: [
+      {
+        href: "/tools/refs/obstetric-atlas",
+        title: "Акушерский атлас",
+        description: "Срезы и протоколы",
+      },
+      {
+        href: "/tools/refs/obstetrics-imaging-atlas",
+        title: "Атлас акушерской визуализации",
+        description: "УЗИ плода и I триместра",
+      },
+      {
+        href: "/tools/refs/prenatal-echography-atlas",
+        title: "Пренатальная эхография",
+        description: "Фетометрия, допплер, пороки",
+      },
+      {
+        href: "/tools/refs/clinical-echocardiography-atlas",
+        title: "Эхокардиография",
+        description: "Клапаны, стресс, врождённые пороки",
+      },
+    ],
   },
   {
-    href: "/tools/refs/fetal-anatomy-22-views",
-    title: "22 проекции фетальной анатомии",
-    description: "ISUOG · чеклист срезов I триместра",
-  },
-  {
-    href: "/tools/refs/fetal-doppler-first-trimester",
-    title: "Допплер I триместра",
-    description: "DV, UtA PI, образовательный режим",
-  },
-  {
-    href: "/tools/refs/fetal-spine",
-    title: "Фетальный позвоночник",
-    description: "Срезы и нормы",
-  },
-  {
-    href: "/tools/refs/obstetric-atlas",
-    title: "Акушерский атлас",
-    description: "Срезы и протоколы",
-  },
-  {
-    href: "/tools/refs/obstetrics-imaging-atlas",
-    title: "Атлас акушерской визуализации",
-    description: "Woodward · 313 глав, УЗИ плода и I триместра",
-    badge: "RU",
-  },
-  {
-    href: "/tools/refs/prenatal-echography-atlas",
-    title: "Пренатальная эхография (RU)",
-    description: "725 УЗИ · фетометрия, допpler, пороки",
-  },
-  {
-    href: "/tools/refs/clinical-echocardiography-atlas",
-    title: "Эхокардиография Otto (RU)",
-    description: "44 глав · клапаны, стресс, ВПС, глоссарий",
-    badge: "RU",
-  },
-  {
-    href: "/reports/obstetric",
-    title: "SRE · акушерский протокол",
-    description: "Структурированный отчёт с EBM-цитатами",
+    title: "Протокол",
+    cards: [
+      {
+        href: "/reports/obstetric",
+        title: "Акушерский протокол",
+        description: "Структурированный отчёт",
+      },
+    ],
   },
 ];
 
-export const GYNECOLOGY_HUB: DomainHubCard[] = [
+export const OBSTETRICS_HUB: DomainHubCard[] = OBSTETRICS_GROUPS.flatMap((group) => group.cards);
+
+export const GYNECOLOGY_GROUPS: DomainHubGroup[] = [
   {
-    href: "/ai/consultants/gynecology",
-    title: "Помощник гинеколога",
-    description: "Нозология → анализы → УЗИ → лечение",
-    primary: true,
-    badge: "AI",
+    title: "Приём",
+    cards: [
+      {
+        href: "/ai/consultants/gynecology",
+        title: "Помощник гинеколога",
+        description: "Нозология, анализы, УЗИ",
+        primary: true,
+        badge: "AI",
+      },
+    ],
   },
   {
-    href: "/tools/calc/rads/o-rads",
-    title: "O-RADS US",
-    description: "Калькулятор, картинки, расчет по тексту, таблицы, IOTA",
-    primary: true,
-    badge: "O-RADS",
+    title: "Придатки и матка",
+    cards: [
+      {
+        href: "/tools/calc/rads/o-rads",
+        title: "O-RADS",
+        description: "Образования придатков",
+        primary: true,
+        badge: "O-RADS",
+      },
+      {
+        href: "/tools/calc/gyn",
+        title: "Калькуляторы",
+        description: "Эндометрий, POP-Q, шейка, эластография",
+        primary: true,
+      },
+      {
+        href: "/tools/mapping/uterus",
+        title: "FIGO · миома",
+        description: "Тип узла и аденомиоз",
+      },
+      {
+        href: "/tools/mapping/endometriosis",
+        title: "Глубокий эндометриоз",
+        description: "Карта IDEA",
+      },
+    ],
   },
   {
-    href: "/tools/calc/gyn",
-    title: "Калькуляторы гинекологии",
-    description: "Эндометрий, POP-Q, кольпоскопия, CIN, эластография",
-    primary: true,
+    title: "Шейка матки",
+    cards: [
+      {
+        href: "/tools/refs/cervix-pathology?tab=cytology",
+        title: "Патология шейки",
+        description: "Цитология, Bethesda, скрининг",
+      },
+      {
+        href: "/tools/refs/cervix-morphology-atlas",
+        title: "Морфология шейки",
+        description: "CIN, карциномы, препараты",
+      },
+    ],
   },
   {
-    href: "/tools/mapping/uterus",
-    title: "FIGO · матка 3D",
-    description: "Миома, MUSA · аденомиоз",
+    title: "Атласы",
+    cards: [
+      {
+        href: "/tools/refs/gynecology-imaging-atlas",
+        title: "Атлас гинекологической визуализации",
+        description: "УЗИ и МРТ малого таза",
+      },
+      {
+        href: "/tools/refs/ovarian-tumor-morphology-atlas",
+        title: "Опухоли яичника",
+        description: "Гистология, учебные препараты",
+      },
+    ],
   },
   {
-    href: "/tools/mapping/endometriosis",
-    title: "IDEA · глубокий эндометриоз",
-    description: "ENZIAN mapping",
-  },
-  {
-    href: "/tools/refs/cervix-pathology?tab=cytology",
-    title: "Патология шейки",
-    description: "8 глав + цитология, Bethesda, скрининг, кейсы",
-  },
-  {
-    href: "/tools/refs/gynecology-imaging-atlas",
-    title: "Атлас гинекологической визуализации",
-    description: "Shaaban · УЗИ/МРТ малого таза, O-RADS контекст",
-  },
-  {
-    href: "/tools/refs/cervix-morphology-atlas",
-    title: "Морфология шейки (гистология)",
-    description: "CIN, AIS, карциномы · атлас препаратов",
-  },
-  {
-    href: "/tools/refs/ovarian-tumor-morphology-atlas",
-    title: "Опухоли яичника (гистология)",
-    description: "Нейштадт 2017 · 337 препаратов, OCR",
-    badge: "RU",
-  },
-  {
-    href: "/tools/refs/nosologies",
     title: "Нозологии",
-    description: "Заболевания: обследование, УЗИ, лечение",
-  },
-  {
-    href: "/reports/adnex",
-    title: "SRE · протокол придатков",
-    description: "O-RADS + live EBM citations",
+    cards: [
+      {
+        href: "/tools/refs/nosologies",
+        title: "Нозологии",
+        description: "Обследование, УЗИ, лечение",
+      },
+      {
+        href: "/reports/adnex",
+        title: "Протокол придатков",
+        description: "Описание и заключение",
+      },
+    ],
   },
 ];
+
+export const GYNECOLOGY_HUB: DomainHubCard[] = GYNECOLOGY_GROUPS.flatMap((group) => group.cards);
 
 export const ORADS_HUB: DomainHubCard[] = [
   {
