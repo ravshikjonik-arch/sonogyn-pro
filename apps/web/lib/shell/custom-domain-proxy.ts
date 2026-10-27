@@ -51,28 +51,27 @@ function shouldProxyCustomDomainRequest(request: NextRequest): boolean {
   return false;
 }
 
-const FORWARD_REQUEST_HEADERS = [
-  "accept",
-  "accept-language",
-  "accept-encoding",
-  "cookie",
-  "rsc",
-  "next-router-state-tree",
-  "next-router-prefetch",
-  "next-url",
-  "x-forwarded-for",
-] as const;
+/**
+ * Короткая страница на своём домене. Cloudflare обрезает тело около 16 КБ и не закрывает
+ * соединение, поэтому полный HTML сюда отдавать нельзя. Скрипт читает документ с *.vercel.app.
+ */
+export function customDomainBootstrapDocument(origin: string): string {
+  const upstream = JSON.stringify(origin);
+  return `<!DOCTYPE html><html lang="ru"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>SonoGyn Pro</title></head><body><p style="font-family:sans-serif;padding:24px">Загрузка кабинета…</p><script>(function(){var upstream=${upstream};var orig=window.fetch.bind(window);function hdr(h,n){if(!h)return"";try{if(typeof h.get==="function")return h.get(n)||"";}catch(e){}var want=n.toLowerCase();for(var key in h){if(String(key).toLowerCase()===want)return String(h[key]||"");}return"";}function dataRequest(h){var accept=hdr(h,"accept");return hdr(h,"rsc")==="1"||hdr(h,"next-url")!==""||accept.indexOf("text/x-component")>=0;}window.fetch=function(input,init){try{var url=typeof input==="string"?input:(input&&input.url)||"";var headers=(init&&init.headers)||(typeof input!=="string"&&input&&input.headers);if(dataRequest(headers)){var abs=new URL(url,location.origin);if(abs.origin===location.origin){return orig(upstream+abs.pathname+abs.search,Object.assign({},init||{},{credentials:"omit"}));}}}catch(e){}return orig(input,init);};var path=location.pathname+location.search;var timer=setTimeout(function(){location.replace(upstream+path);},8000);orig(upstream+path,{headers:{accept:"text/html"},credentials:"omit"}).then(function(r){if(!r.ok)throw new Error("boot");return r.text();}).then(function(html){clearTimeout(timer);document.open();document.write(html);document.close();}).catch(function(){location.replace(upstream+path);});})();</script></body></html>`;
+}
 
-const STRIP_RESPONSE_HEADERS = new Set([
-  "connection",
-  "content-encoding",
-  "content-length",
-  "transfer-encoding",
-]);
+function bootstrapResponse(request: NextRequest, origin: string): NextResponse {
+  const html = customDomainBootstrapDocument(origin);
+  const headers = new Headers();
+  headers.set("content-type", "text/html; charset=utf-8");
+  headers.set("cache-control", "private, no-store, no-transform");
+  headers.set("x-sonogyn-cd-proxy", "bootstrap");
+  return new NextResponse(request.method === "HEAD" ? null : html, { status: 200, headers });
+}
 
 /**
  * Custom domain (часто Cloudflare proxy) обрезает тело ~16–20KB.
- * Проксируем HTML/RSC на *.vercel.app того же деплоя — браузер остаётся на sonogyn-pro.ru.
+ * HTML здесь только короткий загрузчик. RSC уходит на *.vercel.app того же деплоя.
  */
 export async function proxyCustomDomainDocument(request: NextRequest): Promise<NextResponse | null> {
   if (!shouldProxyCustomDomainRequest(request)) return null;
@@ -80,36 +79,14 @@ export async function proxyCustomDomainDocument(request: NextRequest): Promise<N
   const origin = resolveDeploymentOrigin();
   if (!origin) return null;
 
-  const upstreamUrl = new URL(`${request.nextUrl.pathname}${request.nextUrl.search}`, origin);
-  const headers = new Headers();
-  for (const name of FORWARD_REQUEST_HEADERS) {
-    const value = request.headers.get(name);
-    if (value) headers.set(name, value);
-  }
-  headers.set("x-forwarded-host", request.headers.get("host") ?? "sonogyn-pro.ru");
-  headers.set("x-middleware-subrequest", "1");
-
-  let upstream: Response;
-  try {
-    upstream = await fetch(upstreamUrl, {
-      method: request.method,
-      headers,
-      redirect: "manual",
-      cache: "no-store",
-    });
-  } catch {
-    return null;
+  const isRsc =
+    request.headers.get("RSC") === "1" ||
+    request.headers.get("next-router-state-tree") != null ||
+    (request.headers.get("accept") ?? "").includes("text/x-component");
+  if (isRsc) {
+    const upstreamUrl = new URL(`${request.nextUrl.pathname}${request.nextUrl.search}`, origin);
+    return NextResponse.redirect(upstreamUrl, 307);
   }
 
-  const outHeaders = new Headers();
-  upstream.headers.forEach((value, key) => {
-    if (!STRIP_RESPONSE_HEADERS.has(key.toLowerCase())) outHeaders.set(key, value);
-  });
-  outHeaders.set("x-sonogyn-cd-proxy", "1");
-  outHeaders.set("Cache-Control", "private, no-store, no-transform");
-
-  return new NextResponse(request.method === "HEAD" ? null : upstream.body, {
-    status: upstream.status,
-    headers: outHeaders,
-  });
+  return bootstrapResponse(request, origin);
 }

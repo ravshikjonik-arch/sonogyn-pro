@@ -146,8 +146,37 @@ function applyCorsHeaders(response: NextResponse, corsHeaders: Record<string, st
   for (const [k, v] of Object.entries(corsHeaders)) response.headers.set(k, v);
 }
 
+/** Страница на *.vercel.app читается загрузчиком с sonogyn-pro.ru. */
+function allowCrossOriginDocumentRead(response: NextResponse): void {
+  if (!response.headers.has("Access-Control-Allow-Origin")) {
+    response.headers.set("Access-Control-Allow-Origin", "*");
+  }
+  response.headers.set(
+    "Access-Control-Expose-Headers",
+    "RSC, Next-Router-State-Tree, Next-Url, Content-Type, Vary",
+  );
+}
+
 export default async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
+
+  if (
+    request.method === "OPTIONS" &&
+    !pathname.startsWith("/api/") &&
+    request.headers.get("access-control-request-method")
+  ) {
+    const preflight = new NextResponse(null, { status: 204 });
+    preflight.headers.set("Access-Control-Allow-Origin", "*");
+    preflight.headers.set("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS");
+    preflight.headers.set(
+      "Access-Control-Allow-Headers",
+      request.headers.get("access-control-request-headers") ??
+        "RSC, Next-Router-Prefetch, Next-Router-State-Tree, Next-Url, Accept",
+    );
+    preflight.headers.set("Access-Control-Max-Age", "86400");
+    applySecurityHeaders(preflight);
+    return preflight;
+  }
 
   const proxied = await proxyCustomDomainDocument(request);
   if (proxied) {
@@ -232,6 +261,7 @@ export default async function middleware(request: NextRequest) {
   if (skipAuthRoundTrip) {
     const response = NextResponse.next({ request });
     applySecurityHeaders(response);
+    allowCrossOriginDocumentRead(response);
     if (
       process.env.VERCEL === "1" &&
       isSonogynCustomDomainHost(request.headers.get("host")) &&
