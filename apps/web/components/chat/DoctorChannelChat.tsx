@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import { toast } from "sonner";
 
 import { useAuth, useSupabase } from "@/app/providers";
@@ -330,12 +331,16 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
     rememberOwn(bubble.id);
     setAuthorNames((prev) => ({
       ...prev,
-      [payload.message!.author_id]: prev[payload.message!.author_id] ?? "Гость",
+      [payload.message!.author_id]: prev[payload.message!.author_id] ?? "Вы",
     }));
     if (payload.autoSubscribed) setPushSubscribed(true);
   }
 
   async function handleSend({ text, file }: { text: string; file: File | null }) {
+    if (!userId) {
+      toast.message("Чтобы написать, войдите");
+      return false;
+    }
     const body = reply ? encodeReplyQuote(reply.excerpt, text) : text;
     if (!body.trim() && !file) return false;
     const localId = `local-${crypto.randomUUID()}`;
@@ -504,7 +509,7 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
           <p className="text-sm text-[var(--clinical-foreground-muted)]">{loadError}</p>
         ) : messages.length === 0 ? (
           <p className="text-sm text-[var(--clinical-foreground-muted)]">
-            Напишите первым — фото, видео или голос, без регистрации.
+            Сообщений пока нет. Читать можно без входа, писать — после входа.
           </p>
         ) : (
           messages.map((msg) => (
@@ -536,7 +541,7 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
           </button>
         </div>
       ) : null}
-      {!loadState ? (
+      {!loadState && userId ? (
         <div className="doctor-chat-composer border-t border-[var(--clinical-border)] p-4">
           <ChatMessageComposer
             busy={sending}
@@ -544,6 +549,15 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
             replyLabel={reply?.excerpt ?? null}
             onCancelReply={() => setReply(null)}
           />
+        </div>
+      ) : null}
+      {!loadState && !userId ? (
+        <div className="border-t border-[var(--clinical-border)] p-4 text-sm text-[var(--clinical-foreground-muted)]">
+          Читать можно без входа.{" "}
+          <Link href="/login?redirectedFrom=%2Fcases%3Ftab%3Dchat" className="font-semibold text-[var(--clinical-primary-deep)]">
+            Войдите
+          </Link>
+          , чтобы написать коллегам.
         </div>
       ) : null}
       {galleryUrl ? (

@@ -22,10 +22,15 @@ export async function POST(request: Request) {
   if (!opened.ok) return opened.response;
   const { db, authorId, guest } = opened;
 
-  if (!guest) {
-    const userRl = await rejectIfRateLimitedForUser(authorId, "doctor-chat-media-upload", RL.syncBurst);
-    if (userRl) return userRl;
+  if (guest) {
+    return NextResponse.json(
+      { error: "Чтобы отправить файл, войдите. Читать чат можно без входа." },
+      { status: 401 },
+    );
   }
+
+  const userRl = await rejectIfRateLimitedForUser(authorId, "doctor-chat-media-upload", RL.syncBurst);
+  if (userRl) return userRl;
 
   const form = await request.formData().catch(() => null);
   const parsed = BodySchema.safeParse({

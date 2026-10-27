@@ -119,10 +119,15 @@ export async function POST(request: Request) {
   if (!opened.ok) return opened.response;
   const { db, authorId, guest } = opened;
 
-  if (!guest) {
-    const userRl = await rejectIfRateLimitedForUser(authorId, "doctor-chat-send", RL.syncBurst);
-    if (userRl) return userRl;
+  if (guest) {
+    return NextResponse.json(
+      { error: "Чтобы написать коллегам, войдите. Читать чат можно без входа." },
+      { status: 401 },
+    );
   }
+
+  const userRl = await rejectIfRateLimitedForUser(authorId, "doctor-chat-send", RL.syncBurst);
+  if (userRl) return userRl;
 
   const json = await request.json().catch(() => null);
   const parsed = DoctorChatMessageBodySchema.safeParse(json);

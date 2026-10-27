@@ -386,7 +386,7 @@ function LoginForm() {
               : isPilotTelegramPrimary()
                 ? PILOT_AUTH_SUBTITLE
                 : RU_IDP_SUBTITLE
-            : "Сайт открыт без регистрации. Вход — для профиля, PRO и облачного сохранения настроек."
+            : "Калькуляторы и чтение чата открыты без входа. Писать коллегам, профиль и PRO — после входа."
       }
       defaultTab={defaultTab}
       onTabChange={onTabChange}

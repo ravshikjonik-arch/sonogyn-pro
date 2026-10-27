@@ -131,7 +131,7 @@ const nextConfig: NextConfig = {
     // OAuth UI: default on; set NEXT_PUBLIC_AUTH_SOCIAL_ENABLED=false only for incident rollback.
     NEXT_PUBLIC_AUTH_ALLOW_PHONE: process.env.AUTH_ALLOW_PHONE === "true" ? "true" : "false",
     NEXT_PUBLIC_AUTH_EMAIL_ONLY: process.env.AUTH_ALLOW_PHONE === "true" ? "false" : "true",
-    NEXT_PUBLIC_AUTH_PILOT_CLOSED: process.env.AUTH_PILOT_TELEGRAM_ALLOWLIST?.trim() ? "true" : "false",
+    NEXT_PUBLIC_AUTH_PILOT_CLOSED: "false",
     // Mail-first pilot: OAuth UI off unless explicitly enabled (Yandex optional later).
     NEXT_PUBLIC_AUTH_SOCIAL_ENABLED:
       process.env.NEXT_PUBLIC_AUTH_SOCIAL_ENABLED === "true"
