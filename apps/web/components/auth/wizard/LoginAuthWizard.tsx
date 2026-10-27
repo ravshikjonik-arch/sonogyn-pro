@@ -7,10 +7,8 @@ import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { useAuth } from "@/app/providers";
 import { AuthMessage, authInputClass } from "@/components/auth/AuthScreenShell";
 import { TelegramSimpleAuth } from "@/components/auth/TelegramSimpleAuth";
-import { AuthPersonaGate } from "@/components/auth/wizard/AuthPersonaGate";
 import { AuthWizardLayout } from "@/components/auth/wizard/AuthWizardLayout";
 import { Button } from "@/components/ui/button";
-import { readStoredOnboardingCharacter } from "@/lib/auth/auth-wizard-config";
 import { postForgotPassword, postMfaVerifyLogin, postSignIn } from "@/lib/auth/client-auth-api";
 import { PASSWORD_RESET_GENERIC_MSG, requireOnlineForAuth } from "@/lib/auth/translate-auth-error";
 import { isFullOpenAccessEnabledClient } from "@/lib/auth/guest-demo-account";
@@ -40,15 +38,10 @@ export function LoginAuthWizard({ nextPath }: Props) {
   const [mfaRequired, setMfaRequired] = useState(false);
   const [mfaFactorId, setMfaFactorId] = useState<string | null>(null);
   const [mfaCode, setMfaCode] = useState("");
-  const [personaDone, setPersonaDone] = useState(() => Boolean(readStoredOnboardingCharacter()));
 
   useEffect(() => {
     setMethod(initialMethod);
   }, [initialMethod]);
-
-  useEffect(() => {
-    setPersonaDone(Boolean(readStoredOnboardingCharacter()));
-  }, []);
 
   useEffect(() => {
     if (!ready || !user) return;
@@ -126,10 +119,6 @@ export function LoginAuthWizard({ nextPath }: Props) {
     }
   }
 
-  if (!personaDone) {
-    return <AuthPersonaGate onContinue={() => setPersonaDone(true)} />;
-  }
-
   const methodSwitcher = (
     <div
       className="mb-5 grid grid-cols-2 gap-2 rounded-2xl border border-[var(--clinical-border)] bg-[var(--clinical-muted)] p-1"
@@ -176,6 +165,12 @@ export function LoginAuthWizard({ nextPath }: Props) {
             : "Вход через Telegram-бота."
       }
     >
+      {!mfaRequired && isFullOpenAccessEnabledClient() ? (
+        <Button asChild variant="outline" className="mb-4 w-full">
+          <Link href="/home">В кабинет без входа</Link>
+        </Button>
+      ) : null}
+
       {!mfaRequired ? methodSwitcher : null}
 
       {mfaRequired ? (
