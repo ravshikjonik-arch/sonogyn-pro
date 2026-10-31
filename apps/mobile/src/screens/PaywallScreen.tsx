@@ -147,7 +147,7 @@ export default function PaywallScreen({ navigation }: Props) {
 
   async function onPurchase() {
     if (isWeb) {
-      Alert.alert("Web access", "Подписка через RevenueCat доступна в iOS/Android сборках. Для web используйте корпоративный доступ или preview build.");
+      Alert.alert("Web access", "Подписка доступна в установленном приложении. Для web используйте корпоративный доступ.");
       return;
     }
     const pkg = packages.find((p) => p.identifier === selectedId) ?? packages[0];
@@ -177,7 +177,7 @@ export default function PaywallScreen({ navigation }: Props) {
 
   async function onRestore() {
     if (isWeb) {
-      Alert.alert("Web access", "Восстановление покупок доступно в iOS/Android приложении.");
+      Alert.alert("Web access", "Восстановление покупок доступно в установленном приложении.");
       return;
     }
     try {

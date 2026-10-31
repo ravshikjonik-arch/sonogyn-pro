@@ -3,14 +3,14 @@
     "name": "SonoGyn Pro",
     "slug": "us-risk-calc",
     "scheme": "com.yakrav7700.usriskcalc",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.yakrav7700.usriskcalc",
-      "buildNumber": "15",
+      "buildNumber": "16",
       "infoPlist": {
         "NSCameraUsageDescription": "Камера: съёмка снимков для разделов AI и чата врачей.",
         "NSPhotoLibraryUsageDescription": "Галерея: выбор изображений для AI и чата.",

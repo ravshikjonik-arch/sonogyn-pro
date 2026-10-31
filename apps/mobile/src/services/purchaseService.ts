@@ -16,7 +16,7 @@ function getApiKey(): string {
 
 async function getPurchasesModule() {
   if (Platform.OS === "web") {
-    throw new Error("Subscriptions are available in the iOS/Android app builds.");
+    throw new Error("Subscriptions are available in the installed app build.");
   }
   return import("react-native-purchases");
 }

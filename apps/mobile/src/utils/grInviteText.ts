@@ -24,7 +24,7 @@ export function buildGrTeamInviteMessage(): string {
   return [
     "Команда GR — пилот O-RADS / ovarian-calc",
     "",
-    "1) Установите «Expo Go» (App Store / Google Play).",
+    "1) Установите «Expo Go» из App Store (iPhone) или магазина приложений на устройстве.",
     "",
     "2) Ведущий в папке проекта запускает туннель (удобно без общей Wi‑Fi):",
     "   npm run start:share",

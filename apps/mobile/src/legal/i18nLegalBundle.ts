@@ -1,6 +1,26 @@
 import type { I18n } from "i18n-js";
+import { Platform } from "react-native";
 
 /** Legal & compliance copy (RU / EN / ES). Template-level text — obtain counsel before production reliance. */
+
+/** App Store Guideline 2.3.10: iOS binary must not advertise Google Play / Android. */
+function forStorePlatform(text: string): string {
+  if (Platform.OS !== "ios") return text;
+  return text
+    .replaceAll("Apple App Store / Google Play", "Apple App Store")
+    .replaceAll("App Store / Google Play", "App Store")
+    .replaceAll("Apple ID (Подписки) или Google Play (Платежи и подписки)", "Apple ID (Подписки)")
+    .replaceAll("Apple ID Subscriptions or Google Play subscriptions", "Apple ID Subscriptions")
+    .replaceAll("Suscripciones de Apple ID o Google Play", "Suscripciones de Apple ID")
+    .replaceAll("Apple/Google", "Apple")
+    .replaceAll("Apple / Google", "Apple")
+    .replaceAll("через Apple / Google", "через Apple")
+    .replaceAll("Apple/Google/payment providers", "Apple and payment providers")
+    .replaceAll("Apple/Google/proveedores de pago", "Apple y proveedores de pago")
+    .replaceAll("via Apple/Google/payment providers", "via Apple and payment providers")
+    .replaceAll("vía Apple/Google/proveedores de pago", "vía Apple y proveedores de pago")
+    .replaceAll("Google Play", "App Store");
+}
 const LEGAL: Record<"ru" | "en" | "es", Record<string, string>> = {
   ru: {
     legal_consent_before_use_title: "Перед использованием приложения",
@@ -265,6 +285,10 @@ La información es de carácter educativo y de referencia. Para diagnóstico, tr
 export function attachLegalTranslations(i18n: I18n) {
   (["ru", "en", "es"] as const).forEach((loc) => {
     const base = (i18n.translations[loc] ?? {}) as Record<string, string>;
-    i18n.translations[loc] = { ...base, ...LEGAL[loc] };
+    const legal: Record<string, string> = {};
+    for (const [key, value] of Object.entries(LEGAL[loc])) {
+      legal[key] = forStorePlatform(value);
+    }
+    i18n.translations[loc] = { ...base, ...legal };
   });
 }
