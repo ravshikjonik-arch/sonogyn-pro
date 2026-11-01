@@ -10,6 +10,7 @@ import { resolveAppOrigin } from "@/lib/auth/app-origin";
 import { SUPABASE_DEV_AUTH_CHECKLIST, SUPABASE_PRODUCTION_AUTH_CHECKLIST } from "@/lib/auth/supabase-dashboard-checklist";
 import { isTurnstileConfigured } from "@/lib/auth/verify-turnstile";
 import { isCustomSmsAuthEnabled, resolveSmsProvider } from "@/lib/auth/sms-providers";
+import { fetchSmsRuDailyLimit } from "@/lib/auth/sms-providers/smsru";
 import { isAuthEmailOnly } from "@/lib/auth/auth-methods-config";
 import { isSmtpConfigured } from "@/lib/mail/smtp-config";
 import { supabaseOAuthCallbackUrl } from "@/lib/auth/social-auth-domains";
@@ -80,6 +81,17 @@ export async function GET(req: Request) {
     );
   }
 
+  const smsRuLimit = customSms && smsProvider === "smsru" ? await fetchSmsRuDailyLimit() : null;
+  if (smsRuLimit && smsRuLimit.remaining <= 0) {
+    issues.push(
+      `SMS.ru: дневной лимит исчерпан (${smsRuLimit.used}/${smsRuLimit.total}). Поднимите лимит в кабинете sms.ru.`,
+    );
+  } else if (smsRuLimit && smsRuLimit.total <= 20) {
+    notes.push(
+      `SMS.ru: низкий дневной лимит ${smsRuLimit.used}/${smsRuLimit.total}. Для продакшена поднимите до 100–500 в настройках кабинета.`,
+    );
+  }
+
   if (!full) {
     return NextResponse.json({
       ok: issues.length === 0,
@@ -90,6 +102,9 @@ export async function GET(req: Request) {
         emailAutoConfirm: shouldAutoConfirmEmail(),
         smtpConfigured: isSmtpConfigured(),
         smsReady: customSms && Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY?.trim()),
+        smsDailyLimit: smsRuLimit?.total ?? null,
+        smsDailyUsed: smsRuLimit?.used ?? null,
+        smsDailyRemaining: smsRuLimit?.remaining ?? null,
         yookassaConfigured: isYooKassaConfigured(),
       },
     });
@@ -127,6 +142,9 @@ export async function GET(req: Request) {
       smsProvider: smsProvider,
       customSmsAuth: customSms,
       smsReady: customSms && Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY?.trim()),
+      smsDailyLimit: smsRuLimit?.total ?? null,
+      smsDailyUsed: smsRuLimit?.used ?? null,
+      smsDailyRemaining: smsRuLimit?.remaining ?? null,
       yookassaConfigured: isYooKassaConfigured(),
       yookassaProPriceRub: readYooKassaProPriceRub(),
       telegramNotifyConfigured: TelegramService.isConfigured(),

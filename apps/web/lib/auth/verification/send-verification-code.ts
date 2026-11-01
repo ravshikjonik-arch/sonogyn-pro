@@ -101,7 +101,8 @@ async function dispatchOnce(params: SendVerificationCodeParams): Promise<SendVer
       return {
         ok: true,
         deliveredVia: "sms",
-        message: "Если номер подходит, код отправлен по SMS.",
+        message:
+          "Код отправлен по SMS на +7. Обычно 10–60 сек, иногда до 2–3 мин. Если пусто — проверьте «Спам»/блокировку SMS и запросите повтор.",
       };
     }
 
