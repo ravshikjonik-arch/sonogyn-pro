@@ -21,6 +21,13 @@ const GROUPS: DomainHubGroup[] = [
         description: "Малый срок, триместры, допплер",
       },
       {
+        href: "/ai/consultants/us-prep",
+        title: "Брифинг УЗИ по жалобам",
+        description: "Вопросы к ответу на исследовании · только врач",
+        primary: true,
+        badge: "Врач",
+      },
+      {
         href: "/ai/consultants/vascular",
         title: "Сосудистое УЗД",
         description: "БЦА, артерии и вены, аорта",

@@ -158,6 +158,12 @@ export const GYNECOLOGY_GROUPS: DomainHubGroup[] = [
         primary: true,
         badge: "AI",
       },
+      {
+        href: "/ai/consultants/us-prep",
+        title: "Брифинг УЗИ по жалобам",
+        description: "Вопросы на исследовании · только врач",
+        badge: "Врач",
+      },
     ],
   },
   {
@@ -322,6 +328,13 @@ export const ASSISTANT_HUB: DomainHubCard[] = [
     href: "/ai/consultants/gynecology",
     title: "Помощник гинеколога",
     description: "МКБ → приём → УЗИ → протокол",
+    primary: true,
+  },
+  {
+    href: "/ai/consultants/us-prep",
+    title: "Брифинг УЗИ по жалобам",
+    description: "Вопросы к ответу на УЗИ · только врач",
+    badge: "Врач",
     primary: true,
   },
   {
