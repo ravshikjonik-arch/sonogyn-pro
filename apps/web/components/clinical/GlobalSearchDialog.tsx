@@ -208,6 +208,13 @@ export function GlobalSearchDialog({ open, onOpenChange }: Props) {
                   onPick={onPick}
                 />
                 <HitLink
+                  href="/ai/consultants/us-prep"
+                  title="Live приём · голосовой брифинг УЗИ"
+                  subtitle="Микрофон → жалобы → чеклист под роль врача"
+                  badge="Live"
+                  onPick={onPick}
+                />
+                <HitLink
                   href="/ai/consultants"
                   title="Помощник врача"
                   subtitle="Акушерство, гинекология, FMF и сосудистое УЗД"

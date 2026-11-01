@@ -225,6 +225,18 @@ const RAW_NAVIGATION_CONFIG: NavigationItem[] = [
     order: 200,
   },
   {
+    id: "assistant.us-prep",
+    slug: "us-prep-briefing",
+    domain: "ai-assistant",
+    category: "clinical-routes",
+    title: "Live приём · голосовой брифинг УЗИ",
+    description: "Микрофон на приёме: жалобы → короткий чеклист под роль врача.",
+    icon: "Mic",
+    badge: "Live",
+    isPro: false,
+    order: 201,
+  },
+  {
     id: "ai-assistant.create-conclusion",
     slug: "create-conclusion",
     domain: "ai-assistant",
@@ -1130,6 +1142,7 @@ export function getNavigationByCategory(domain: NavigationDomain, category: stri
 /** Home-tile order (legacy /app tiles) — ids only, presentation in web layer. */
 export const HOME_TILE_NAVIGATION_ORDER = [
   "community.chat",
+  "assistant.us-prep",
   "assistant.hub",
   "calculator.ob-hub",
   "calculator.hub",

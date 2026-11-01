@@ -12,6 +12,7 @@ export const NAVIGATION_LINK_OVERRIDES: Record<string, NavigationLinkOverride> =
   "community.new-case": { href: "/cases/new" },
   "community.telegram": { externalHref: "https://t.me/UltraGynAnalytics" },
   "assistant.hub": { href: "/assistant" },
+  "assistant.us-prep": { href: "/ai/consultants/us-prep" },
   "ai-assistant.create-conclusion": { href: "/assistant" },
   "ai-assistant.analyze-ultrasound": { href: "/workspace" },
   "ai-assistant.consultation": { href: "/assistant" },
@@ -91,6 +92,7 @@ export const NAVIGATION_LINK_OVERRIDES: Record<string, NavigationLinkOverride> =
 /** Legacy home-tile gradient accents (overrides domain default). */
 export const NAVIGATION_ACCENT_OVERRIDES: Record<string, string> = {
   "community.chat": "bg-gradient-to-r from-emerald-500 to-teal-500",
+  "assistant.us-prep": "bg-gradient-to-r from-emerald-600 to-teal-500",
   "assistant.hub": "bg-gradient-to-r from-rose-600 to-pink-500",
   "calculator.ob-hub": "bg-gradient-to-r from-teal-600 to-cyan-500",
   "calculator.hub": "bg-gradient-to-r from-blue-500 to-cyan-400",

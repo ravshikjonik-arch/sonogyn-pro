@@ -18,7 +18,9 @@ describe("primary-nav", () => {
 
   it("maps web paths without overlap (ai vs profile)", () => {
     assert.equal(matchClinicalPrimaryTab("/ai/consultants"), "ai");
+    assert.equal(matchClinicalPrimaryTab("/ai/consultants/us-prep"), "ai");
     assert.equal(matchClinicalPrimaryTab("/ai/workspace"), "ai");
+    assert.equal(CLINICAL_PRIMARY_NAV.find((e) => e.id === "ai")?.webHref, "/ai/consultants/us-prep");
     assert.equal(matchClinicalPrimaryTab("/profile"), "profile");
     assert.equal(matchClinicalPrimaryTab("/tools/refs/guidelines"), "tools");
     assert.equal(matchClinicalPrimaryTab("/feed"), "feed");

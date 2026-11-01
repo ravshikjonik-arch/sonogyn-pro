@@ -1,11 +1,11 @@
 import {
   ArrowRight,
   Baby,
-  BookOpenCheck,
   Calculator,
   FileText,
   HeartPulse,
   MessageCircle,
+  Mic,
   ScanLine,
   Search,
   Sparkles,
@@ -19,6 +19,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 
 const primaryTasks = [
   {
+    title: "Live приём · голосовой брифинг",
+    description: "Включите микрофон: жалобы → короткий чеклист УЗИ под вашу роль.",
+    href: "/ai/consultants/us-prep",
+    icon: Mic,
+    accent: "border-emerald-400/80",
+  },
+  {
     title: "Разобрать УЗИ-кейс",
     description: "Создать кейс, обсудить с коллегами или открыть обучающие случаи.",
     href: "/cases",
@@ -31,13 +38,6 @@ const primaryTasks = [
     href: "/ai/consultants",
     icon: Stethoscope,
     accent: "border-emerald-300/70",
-  },
-  {
-    title: "Найти КР или алгоритм",
-    description: "Короткие карточки, нозологии, нормы, источники и Evidence AI.",
-    href: "/tools/refs",
-    icon: BookOpenCheck,
-    accent: "border-amber-300/70",
   },
   {
     title: "Посчитать и вставить в протокол",
@@ -55,6 +55,7 @@ const roleRoutes = [
     icon: ScanLine,
     steps: ["O-RADS / BI-RADS / TI-RADS", "Атласы и эхограммы", "Структурированный протокол"],
     quickLinks: [
+      { label: "Live приём", href: "/ai/consultants/us-prep" },
       { label: "O-RADS US", href: "/tools/calc/rads/o-rads" },
       { label: "IOTA ADNEX", href: "/tools/calc/rads/iota" },
       { label: "BI-RADS", href: "/tools/calc/rads/bi-rads" },
@@ -67,6 +68,7 @@ const roleRoutes = [
     icon: Baby,
     steps: ["FMF и скрининги", "Фетометрия и допплер", "КР и маршрутизация"],
     quickLinks: [
+      { label: "Live приём", href: "/ai/consultants/us-prep" },
       { label: "FMF", href: "/ai/consultants/fmf" },
       { label: "Bishop", href: "/tools/calc/ob/bishop" },
       { label: "VBAC", href: "/tools/calc/ob/vbac" },
@@ -79,6 +81,7 @@ const roleRoutes = [
     icon: HeartPulse,
     steps: ["FIGO / миомы", "O-RADS и эндометрий", "Эластография и шейка"],
     quickLinks: [
+      { label: "Live приём", href: "/ai/consultants/us-prep" },
       { label: "FIGO · матка", href: "/tools/mapping/uterus" },
       { label: "Миома", href: "/tools/refs/nosologies/uterine-myoma" },
       { label: "Эластография", href: "/tools/calc/gyn/elastography" },
@@ -88,6 +91,7 @@ const roleRoutes = [
 ] as const;
 
 const quickSearchHints = [
+  { label: "Live приём", href: "/ai/consultants/us-prep" },
   { label: "O-RADS", href: "/tools/calc/rads/o-rads" },
   { label: "Миома", href: "/tools/refs/nosologies/uterine-myoma" },
   { label: "Короткая шейка", href: "/tools/calc/ob/cervical-length" },
@@ -101,14 +105,14 @@ export function DoctorStartPanel() {
         <CardHeader className="pb-4">
           <div className="flex flex-wrap gap-2">
             <Badge variant="default">Старт врача</Badge>
-            <Badge variant="secondary">кейс · КР · калькулятор · протокол</Badge>
+            <Badge variant="secondary">live · кейс · калькулятор · протокол</Badge>
           </div>
           <CardTitle className="text-2xl font-black tracking-tight sm:text-3xl">
             Что нужно сделать сейчас?
           </CardTitle>
           <CardDescription className="max-w-3xl leading-relaxed">
-            Выберите клиническую задачу. SonoGyn ведёт от вопроса врача к нужному модулю: помощнику, КР,
-            калькулятору, кейсам или шаблону заключения.
+            На приёме начните с голосового брифинга УЗИ. Дальше — помощник, КР, калькулятор, кейсы или
+            шаблон заключения.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-5">

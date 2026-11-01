@@ -22,6 +22,7 @@ import {
   Sparkles,
   UserRound,
   HandHeart,
+  Mic,
   X,
 } from "lucide-react";
 import Link from "next/link";
@@ -74,6 +75,7 @@ const navGroups: { title: string; items: { href: string; label: string; icon: ty
     title: "Акушерство",
     items: [
       { href: "/tools/obstetrics", label: "Хаб акушерства", icon: Baby },
+      { href: "/ai/consultants/us-prep", label: "Live приём · УЗИ", icon: Mic },
       { href: "/ai/consultants/obstetrics", label: "Помощник акушера", icon: HandHeart },
       { href: "/ai/consultants/fmf", label: "FMF · скрининг", icon: Baby },
       { href: "/tools/calc/ob", label: "Акушерский калькулятор", icon: Calculator },
@@ -83,6 +85,7 @@ const navGroups: { title: string; items: { href: string; label: string; icon: ty
     title: "Гинекология",
     items: [
       { href: "/tools/gynecology", label: "Хаб гинекологии", icon: HeartPulse },
+      { href: "/ai/consultants/us-prep", label: "Live приём · УЗИ", icon: Mic },
       { href: "/tools/calc/rads/o-rads", label: "O-RADS US", icon: ScanLine },
       { href: "/ai/consultants/gynecology", label: "Помощник гинеколога", icon: HandHeart },
       { href: "/tools/calc/gyn", label: "Кальк. гинекологии", icon: Calculator },
@@ -101,6 +104,7 @@ const navGroups: { title: string; items: { href: string; label: string; icon: ty
   {
     title: "Помощник · EBM",
     items: [
+      { href: "/ai/consultants/us-prep", label: "Live приём · УЗИ", icon: Mic },
       { href: "/ai/consultants", label: "Помощник врача", icon: HandHeart },
       { href: "/tools/refs/evidence-assistant", label: "Evidence AI", icon: Sparkles },
       { href: "/ai/workspace", label: "AI-зона · снимки", icon: Brain },

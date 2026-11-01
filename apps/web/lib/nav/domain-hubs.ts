@@ -39,10 +39,16 @@ export const TOOLS_HOME_DOMAINS = [
     accent: "from-slate-600 to-slate-500",
   },
   {
+    href: "/ai/consultants/us-prep",
+    title: "Live приём · УЗИ",
+    description: "Голосовой брифинг: жалобы → чеклист под роль врача",
+    accent: "from-emerald-600 to-teal-500",
+  },
+  {
     href: "/ai/consultants",
     title: "Помощник врача",
     description: "МКБ → УЗИ → протокол · гинеколог · акушер · FMF",
-    accent: "from-emerald-600 to-teal-500",
+    accent: "from-teal-600 to-cyan-500",
   },
   {
     href: "/tools/refs/evidence-assistant",
@@ -57,10 +63,16 @@ export const OBSTETRICS_GROUPS: DomainHubGroup[] = [
     title: "Приём",
     cards: [
       {
+        href: "/ai/consultants/us-prep",
+        title: "Live приём · голосовой брифинг",
+        description: "Жалобы → чеклист УЗИ под роль врача",
+        primary: true,
+        badge: "Live",
+      },
+      {
         href: "/ai/consultants/obstetrics",
         title: "Помощник акушера",
         description: "Ранняя беременность, потери, ГСД",
-        primary: true,
         badge: "AI",
       },
       {
@@ -152,17 +164,17 @@ export const GYNECOLOGY_GROUPS: DomainHubGroup[] = [
     title: "Приём",
     cards: [
       {
+        href: "/ai/consultants/us-prep",
+        title: "Live приём · голосовой брифинг",
+        description: "Жалобы → чеклист УЗИ под роль врача",
+        primary: true,
+        badge: "Live",
+      },
+      {
         href: "/ai/consultants/gynecology",
         title: "Помощник гинеколога",
         description: "Нозология, анализы, УЗИ",
-        primary: true,
         badge: "AI",
-      },
-      {
-        href: "/ai/consultants/us-prep",
-        title: "Брифинг УЗИ по жалобам",
-        description: "Вопросы на исследовании · только врач",
-        badge: "Врач",
       },
     ],
   },
@@ -325,16 +337,16 @@ export const CALCULATORS_HUB: DomainHubCard[] = [
 
 export const ASSISTANT_HUB: DomainHubCard[] = [
   {
-    href: "/ai/consultants/gynecology",
-    title: "Помощник гинеколога",
-    description: "МКБ → приём → УЗИ → протокол",
+    href: "/ai/consultants/us-prep",
+    title: "Live приём · голосовой брифинг",
+    description: "Микрофон → жалобы → чеклист под роль врача",
+    badge: "Live",
     primary: true,
   },
   {
-    href: "/ai/consultants/us-prep",
-    title: "Брифинг УЗИ по жалобам",
-    description: "Вопросы к ответу на УЗИ · только врач",
-    badge: "Врач",
+    href: "/ai/consultants/gynecology",
+    title: "Помощник гинеколога",
+    description: "МКБ → приём → УЗИ → протокол",
     primary: true,
   },
   {

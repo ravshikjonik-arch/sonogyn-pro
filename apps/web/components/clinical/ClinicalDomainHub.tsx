@@ -41,7 +41,11 @@ export function ClinicalDomainHub({
               <li key={card.href} className={index > 0 ? "border-t border-[var(--clinical-border)]" : undefined}>
                 <Link
                   href={card.href}
-                  className="flex items-center gap-3 px-4 py-3 active:bg-[var(--clinical-muted)]"
+                  className={
+                    card.primary
+                      ? "flex items-center gap-3 bg-[var(--clinical-primary-muted)]/45 px-4 py-3.5 active:bg-[var(--clinical-muted)]"
+                      : "flex items-center gap-3 px-4 py-3 active:bg-[var(--clinical-muted)]"
+                  }
                 >
                   <span className="min-w-0 flex-1">
                     <span className="block text-[15px] font-semibold text-[var(--clinical-foreground)]">
@@ -52,7 +56,13 @@ export function ClinicalDomainHub({
                     </span>
                   </span>
                   {card.badge ? (
-                    <span className="shrink-0 rounded-full bg-[var(--clinical-muted)] px-2 py-0.5 text-[10px] font-semibold text-[var(--clinical-foreground)]">
+                    <span
+                      className={
+                        card.primary
+                          ? "shrink-0 rounded-full bg-[var(--clinical-primary)] px-2 py-0.5 text-[10px] font-semibold text-white"
+                          : "shrink-0 rounded-full bg-[var(--clinical-muted)] px-2 py-0.5 text-[10px] font-semibold text-[var(--clinical-foreground)]"
+                      }
+                    >
                       {card.badge}
                     </span>
                   ) : null}

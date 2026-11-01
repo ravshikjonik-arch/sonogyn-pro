@@ -3,8 +3,15 @@ import type { DomainHubGroup } from "@/lib/nav/domain-hubs";
 
 const GROUPS: DomainHubGroup[] = [
   {
-    title: "Приём",
+    title: "Поддержка на приёме",
     cards: [
+      {
+        href: "/ai/consultants/us-prep",
+        title: "Live приём · голосовой брифинг УЗИ",
+        description: "Микрофон → жалобы → короткий чеклист под роль врача",
+        primary: true,
+        badge: "Live",
+      },
       {
         href: "/ai/consultants/gynecology",
         title: "Помощник гинеколога",
@@ -19,13 +26,6 @@ const GROUPS: DomainHubGroup[] = [
         href: "/ai/consultants/fmf",
         title: "FMF · скрининг",
         description: "Малый срок, триместры, допплер",
-      },
-      {
-        href: "/ai/consultants/us-prep",
-        title: "Брифинг УЗИ по жалобам",
-        description: "Вопросы к ответу на исследовании · только врач",
-        primary: true,
-        badge: "Врач",
       },
       {
         href: "/ai/consultants/vascular",
@@ -70,7 +70,7 @@ export function ConsultantsHubPage() {
   return (
     <ClinicalDomainHub
       title="AI-помощник"
-      description="Разбор без персональных данных. Решение остаётся за врачом."
+      description="Сначала live-брифинг на приёме. Дальше — разбор без персональных данных. Решение остаётся за врачом."
       groups={GROUPS}
       backHref="/home"
       backLabel="← Разделы"

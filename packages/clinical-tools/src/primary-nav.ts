@@ -25,7 +25,7 @@ export type ClinicalPrimaryNavEntry = {
 export const CLINICAL_PRIMARY_NAV: ClinicalPrimaryNavEntry[] = [
   { id: "feed", labelRu: "Лента", webHref: "/feed", mobileTab: "FeedTab" },
   { id: "cases", labelRu: "Кейсы", webHref: "/cases", mobileTab: "CasesTab" },
-  { id: "ai", labelRu: "AI", webHref: "/ai/consultants", mobileTab: "AiTab" },
+  { id: "ai", labelRu: "AI", webHref: "/ai/consultants/us-prep", mobileTab: "AiTab" },
   { id: "tools", labelRu: "Инструменты", webHref: "/tools/calc", mobileTab: "ToolsTab" },
   { id: "profile", labelRu: "Профиль", webHref: "/profile", mobileTab: "ProfileTab" },
 ];

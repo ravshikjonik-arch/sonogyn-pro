@@ -8,6 +8,11 @@ export type PlatformQuickLink = {
 
 export const PLATFORM_QUICK_LINKS: PlatformQuickLink[] = [
   {
+    href: "/ai/consultants/us-prep",
+    title: "Live приём · голосовой брифинг УЗИ",
+    subtitle: "Микрофон на приёме → короткий чеклист под роль врача",
+  },
+  {
     href: "/home",
     title: "Рабочий стол",
     subtitle: "Command Center · избранные калькуляторы и недавние расчёты",
