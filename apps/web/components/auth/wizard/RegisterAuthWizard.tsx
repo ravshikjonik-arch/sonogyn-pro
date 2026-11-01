@@ -13,6 +13,7 @@ import {
   validateDoctorBirthDateIso,
 } from "@/components/auth/DoctorRegistrationFields";
 import { AuthMessage, authInputClass } from "@/components/auth/AuthScreenShell";
+import { PhoneInput } from "@/components/auth/PhoneInput";
 import { TelegramSimpleAuth } from "@/components/auth/TelegramSimpleAuth";
 import { AuthGenderPicker } from "@/components/auth/wizard/AuthGenderPicker";
 import { AuthWizardLayout } from "@/components/auth/wizard/AuthWizardLayout";
@@ -41,7 +42,6 @@ import {
   SIGN_UP_GENERIC_MSG,
 } from "@/lib/auth/translate-auth-error";
 import { isFullOpenAccessEnabledClient } from "@/lib/auth/guest-demo-account";
-import { isAuthEmailOnlyClient } from "@/lib/auth/auth-methods-config";
 import { readAppLocale, saveAppLocale } from "@/lib/i18n/locale";
 import { cn } from "@/lib/utils/cn";
 import { beginFirstRunOnboarding } from "@/lib/onboarding/first-run-storage";
@@ -82,7 +82,9 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
   const [pendingEmail, setPendingEmail] = useState(false);
   const [emailOtpSent, setEmailOtpSent] = useState(false);
   const [birthDateIso, setBirthDateIso] = useState("");
-  const phoneRequired = !isAuthEmailOnlyClient();
+  /** Телефон опционален: SMS.ru только РФ (+79). +993 и др. — email/Telegram. */
+  const phoneOptional = true;
+  const phoneRequired = false;
 
   useEffect(() => {
     setMethod(initialMethod);
@@ -444,7 +446,7 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
         title={verifyMode === "phone" ? "Код из SMS" : "Код из письма"}
         subtitle={
           verifyMode === "phone"
-            ? `SMS на ${phone.trim()} · Telegram открывать не нужно`
+            ? `SMS на ${phone.trim()} (только +7 РФ). Можно пропустить.`
             : `Письмо на ${email.trim()} от Sonogyn-pro@mail.ru`
         }
       >
@@ -463,6 +465,14 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
               {sendCooldownSec > 0
                 ? `SMS снова через 0:${String(sendCooldownSec).padStart(2, "0")}`
                 : "Отправить SMS снова"}
+            </button>
+            <button
+              type="button"
+              className="mt-3 w-full text-sm text-[var(--clinical-foreground-muted)] hover:underline"
+              disabled={loading}
+              onClick={() => setStep("character")}
+            >
+              Пропустить подтверждение телефона
             </button>
           </>
         ) : (
@@ -575,8 +585,8 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
       title="Регистрация"
       subtitle={
         method === "email"
-          ? "Email + пароль, затем код на почту и SMS на +7. Telegram для кода не нужен."
-          : "Telegram Login без пароля. Телефон потом подтверждается по SMS."
+          ? "Email + пароль и код на почту. Телефон +7 — по желанию (SMS). Для +993 — без SMS, через почту или Telegram."
+          : "Telegram Login без пароля. Телефон потом можно подтвердить по SMS (+7)."
       }
     >
       {methodSwitcher}
@@ -635,17 +645,17 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
         </label>
         <label className="block">
           <span className="text-xs font-medium text-[var(--clinical-foreground-muted)]">
-            Телефон {phoneRequired ? "(SMS-код)" : "(необязательно)"}
+            Телефон {phoneOptional ? "(необязательно, только +7 РФ)" : "(SMS-код)"}
           </span>
-          <input
-            className={authInputClass}
-            type="tel"
+          <PhoneInput
+            id="register-wizard-phone"
             value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            placeholder="+7 999 000-00-00"
-            autoComplete="tel"
-            required={phoneRequired}
+            onChange={setPhone}
+            disabled={loading}
           />
+          <p className="mt-1 text-xs text-[var(--clinical-foreground-muted)]">
+            Номера не РФ (+993 и др.) не указывайте здесь — регистрация по email без SMS.
+          </p>
         </label>
         <label className="block">
           <span className="text-xs font-medium text-[var(--clinical-foreground-muted)]">Пароль</span>
