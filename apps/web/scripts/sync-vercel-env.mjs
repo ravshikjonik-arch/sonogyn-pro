@@ -72,6 +72,7 @@ const FROM_LOCAL = [
   "LIVEKIT_API_KEY",
   "LIVEKIT_API_SECRET",
   "AUTH_AUTO_CONFIRM_EMAIL",
+  "AUTH_ALLOW_PHONE",
   "AUTH_EMAIL_ONLY",
   "NEXT_PUBLIC_AUTH_EMAIL_ONLY",
   "SMTP_HOST",
@@ -168,8 +169,15 @@ for (const key of FROM_LOCAL) {
   upsertEnv(key, value, targets);
 }
 
-// Auth methods: из .env.local или false (SMS + Google включены)
-const authEmailOnly = local.AUTH_EMAIL_ONLY?.trim() || "false";
+// Auth methods: SMS включён при AUTH_ALLOW_PHONE=true или SMSRU в .env.local
+const authAllowPhone =
+  local.AUTH_ALLOW_PHONE?.trim() ||
+  (local.SMSRU_API_ID?.trim() || local.TWILIO_ACCOUNT_SID?.trim() ? "true" : "false");
+upsertEnv("AUTH_ALLOW_PHONE", authAllowPhone, targets);
+upsertEnv("NEXT_PUBLIC_AUTH_ALLOW_PHONE", authAllowPhone, targets);
+
+const authEmailOnly =
+  local.AUTH_EMAIL_ONLY?.trim() || (authAllowPhone === "true" ? "false" : "true");
 upsertEnv("AUTH_EMAIL_ONLY", authEmailOnly, targets);
 upsertEnv(
   "NEXT_PUBLIC_AUTH_EMAIL_ONLY",

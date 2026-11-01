@@ -127,25 +127,25 @@ const nextConfig: NextConfig = {
     "@repo/myoma-education",
   ],
   env: {
-    // Phone/SMS: AUTH_ALLOW_PHONE=true OR SMSRU/Twilio present (unless AUTH_ALLOW_PHONE=false).
+    // Phone/SMS: SMSRU/Twilio credentials enable phone; else AUTH_ALLOW_PHONE=true.
     // OAuth UI: default on when phone allowed; set NEXT_PUBLIC_AUTH_SOCIAL_ENABLED=false for rollback.
     NEXT_PUBLIC_AUTH_ALLOW_PHONE: (() => {
+      const smsReady = Boolean(
+        process.env.SMSRU_API_ID?.trim() || process.env.TWILIO_ACCOUNT_SID?.trim(),
+      );
+      if (smsReady) return "true";
       const raw = (process.env.AUTH_ALLOW_PHONE ?? "").trim().toLowerCase();
       if (raw === "true" || raw === "1" || raw === "yes") return "true";
-      if (raw === "false" || raw === "0" || raw === "no") return "false";
-      const smsReady = Boolean(
-        process.env.SMSRU_API_ID?.trim() || process.env.TWILIO_ACCOUNT_SID?.trim(),
-      );
-      return smsReady ? "true" : "false";
+      return "false";
     })(),
     NEXT_PUBLIC_AUTH_EMAIL_ONLY: (() => {
-      const raw = (process.env.AUTH_ALLOW_PHONE ?? "").trim().toLowerCase();
-      if (raw === "true" || raw === "1" || raw === "yes") return "false";
-      if (raw === "false" || raw === "0" || raw === "no") return "true";
       const smsReady = Boolean(
         process.env.SMSRU_API_ID?.trim() || process.env.TWILIO_ACCOUNT_SID?.trim(),
       );
-      return smsReady ? "false" : "true";
+      if (smsReady) return "false";
+      const raw = (process.env.AUTH_ALLOW_PHONE ?? "").trim().toLowerCase();
+      if (raw === "true" || raw === "1" || raw === "yes") return "false";
+      return "true";
     })(),
     NEXT_PUBLIC_AUTH_PILOT_CLOSED: "false",
     NEXT_PUBLIC_AUTH_SOCIAL_ENABLED:
@@ -153,9 +153,7 @@ const nextConfig: NextConfig = {
         ? "true"
         : process.env.NEXT_PUBLIC_AUTH_SOCIAL_ENABLED === "false"
           ? "false"
-          : process.env.AUTH_ALLOW_PHONE === "false"
-            ? "false"
-            : "true",
+          : "true",
     // Google Sign-In disabled (199-FZ / product policy).
     NEXT_PUBLIC_AUTH_GOOGLE_OAUTH_ENABLED: "false",
     NEXT_PUBLIC_SUPABASE_REDIRECT_URL:

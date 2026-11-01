@@ -17,18 +17,17 @@ export function hasSmsProviderCredentials(): boolean {
 
 /**
  * Email + password всегда основной канал.
- * SMS выключен только если явно AUTH_ALLOW_PHONE=false.
- * Иначе: AUTH_ALLOW_PHONE=true ИЛИ есть SMSRU/Twilio → телефон разрешён.
- *
- * Важно: не доверяем запечённому NEXT_PUBLIC_AUTH_ALLOW_PHONE=false сильнее,
- * чем runtime SMSRU_API_ID — иначе прод с smsReady=true молча режет OTP.
+ * Если настроен SMS.ru/Twilio — телефон разрешён (иначе прод с smsReady=true
+ * молча отдаёт 503 на /api/auth/phone/send-otp).
+ * Без SMS-провайдера: AUTH_ALLOW_PHONE=true включает UI/API, иначе mail-only.
  */
 export function isAuthEmailOnly(): boolean {
+  // Runtime credentials win over stale AUTH_ALLOW_PHONE / NEXT_PUBLIC_* flags.
+  if (hasSmsProviderCredentials()) return false;
+
   const allow = envFlag(process.env.AUTH_ALLOW_PHONE);
   if (allow === "true") return false;
   if (allow === "false") return true;
-
-  if (hasSmsProviderCredentials()) return false;
 
   const publicAllow = envFlag(process.env.NEXT_PUBLIC_AUTH_ALLOW_PHONE);
   if (publicAllow === "true") return false;
