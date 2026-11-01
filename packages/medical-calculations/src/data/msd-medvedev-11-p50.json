@@ -1,5 +1,6 @@
 {
-  "source": "Medvedev table 1.1 (Grisolia 1993), gaP50 inverse",
+  "source": "Medvedev table 1.1 (fetometry_trimester1.json svd_gestational_age p50)",
+  "sourceVersion": "2026-11-01-sonogyn-pro-data",
   "minMsd": 6,
   "maxMsd": 50,
   "points": [

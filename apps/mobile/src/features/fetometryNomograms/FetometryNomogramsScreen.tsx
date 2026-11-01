@@ -7,14 +7,16 @@ import { medvedevArchiveBookStats } from "@repo/medvedev-reference";
 
 import type { RootStackParamList } from "../../navigation/paramLists";
 import { ArchiveNormsPanel } from "./ArchiveNormsPanel";
+import { FetometryBookPanel } from "./FetometryBookPanel";
 import { NomogramWizardPanel } from "./NomogramWizardPanel";
 
 type Props = NativeStackScreenProps<RootStackParamList, "FetometryNomograms">;
 
-type Mode = "wizard" | "archive";
+type Mode = "book" | "wizard" | "archive";
 
-export default function FetometryNomogramsScreen({ navigation }: Props) {
-  const [mode, setMode] = useState<Mode>("wizard");
+export default function FetometryNomogramsScreen({ navigation, route }: Props) {
+  const initial = route.params?.mode ?? "book";
+  const [mode, setMode] = useState<Mode>(initial);
   const nomoCount = NOMOGRAM_DATASET.nomograms.length;
   const archiveCount = medvedevArchiveBookStats().totalCards;
 
@@ -25,9 +27,17 @@ export default function FetometryNomogramsScreen({ navigation }: Props) {
           <Text style={styles.back}>← Назад</Text>
         </Pressable>
         <Text style={styles.kicker}>Акушерство</Text>
-        <Text style={styles.title}>Нормы фетометрии</Text>
-        <Text style={styles.sub}>Номограммы и табличный архив — как на web</Text>
+        <Text style={styles.title}>Фетометрия</Text>
+        <Text style={styles.sub}>Калькулятор Медведева · номограммы · архив</Text>
         <View style={styles.tabs}>
+          <Pressable
+            style={[styles.tab, mode === "book" && styles.tabActive]}
+            onPress={() => setMode("book")}
+            accessibilityRole="tab"
+            accessibilityState={{ selected: mode === "book" }}
+          >
+            <Text style={[styles.tabText, mode === "book" && styles.tabTextActive]}>Калькулятор</Text>
+          </Pressable>
           <Pressable
             style={[styles.tab, mode === "wizard" && styles.tabActive]}
             onPress={() => setMode("wizard")}
@@ -51,7 +61,13 @@ export default function FetometryNomogramsScreen({ navigation }: Props) {
         </View>
       </View>
       <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
-        {mode === "wizard" ? <NomogramWizardPanel /> : <ArchiveNormsPanel />}
+        {mode === "book" ? (
+          <FetometryBookPanel />
+        ) : mode === "wizard" ? (
+          <NomogramWizardPanel />
+        ) : (
+          <ArchiveNormsPanel />
+        )}
       </ScrollView>
     </SafeAreaView>
   );
@@ -81,7 +97,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   tabActive: { borderColor: "#0F2744", backgroundColor: "#0F2744" },
-  tabText: { fontSize: 12, fontWeight: "700", color: "#334155" },
+  tabText: { fontSize: 11, fontWeight: "700", color: "#334155", textAlign: "center" },
   tabTextActive: { color: "#fff" },
   scroll: { padding: 16, paddingBottom: 32, gap: 12 },
 });

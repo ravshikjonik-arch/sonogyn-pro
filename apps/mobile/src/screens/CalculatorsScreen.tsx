@@ -129,11 +129,18 @@ export default function CalculatorsScreen({ navigation }: CalculatorsTabScreenPr
         onPress: () => navigation.navigate("FMFAssistant"),
       },
       {
+        id: "fetometry-panel",
+        title: "Калькулятор фетометрии",
+        subtitle: "Медведев · I–III · популяции",
+        art: "prenatal",
+        onPress: () => navigation.navigate("FetometryNomograms", { mode: "book" }),
+      },
+      {
         id: "fetometry-norms",
         title: "Нормы фетометрии",
         subtitle: "Номограммы · архив таблиц",
         art: "prenatal",
-        onPress: () => navigation.navigate("FetometryNomograms"),
+        onPress: () => navigation.navigate("FetometryNomograms", { mode: "wizard" }),
       },
       {
         id: "hofer-probe",

@@ -139,6 +139,14 @@ export const CALCULATORS: CalculatorDefinition[] = [
     fields: [],
   },
   {
+    slug: "fetometry",
+    code: "FETOMETRY_PANEL",
+    title: "Калькулятор фетометрии",
+    subtitle: "I–III триместр · Медведев · популяции СНГ",
+    externalHref: "/tools/calc/ob/fetometry",
+    fields: [],
+  },
+  {
     slug: "fetometry-norms",
     code: "FETOMETRY_NORMS",
     title: "Нормы фетометрии (таблицы)",

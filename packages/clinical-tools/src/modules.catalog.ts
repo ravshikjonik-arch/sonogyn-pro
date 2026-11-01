@@ -67,6 +67,7 @@ export type ModuleId =
   | "calculator.appointment.ga-edd"
   | "calculator.appointment.ga-crl"
   | "calculator.appointment.ga-feto"
+  | "calculator.fetometry-panel"
   | "calculator.fetal-weight"
   | "calculator.bishop"
   | "calculator.vbac"
@@ -350,6 +351,16 @@ export const MODULES: ModuleEntry[] = [
     ref: { catalog: "appointment", id: "ga-feto" },
     surfaces: { clinicalSearch: true, appointmentHub: true },
     legacy: { clinicalTools: ["ga-feto"] },
+  },
+  {
+    id: "calculator.fetometry-panel",
+    domain: "obstetrics",
+    kind: "calculator",
+    title: "Калькулятор фетометрии",
+    description: "Панель измерений по таблицам Медведева I–III триместр",
+    href: "/tools/calc/ob/fetometry",
+    surfaces: { clinicalSearch: true, appointmentHub: true },
+    legacy: { clinicalTools: ["fetometry-panel"] },
   },
   {
     id: "calculator.fetal-weight",

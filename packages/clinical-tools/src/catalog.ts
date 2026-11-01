@@ -298,6 +298,17 @@ export const CLINICAL_TOOLS: ClinicalTool[] = [
     mobileAction: "fetometry_nomograms",
   },
   {
+    id: "fetometry-panel",
+    title: "Калькулятор фетометрии",
+    subtitle: "I–III триместр · Медведев · популяции СНГ",
+    category: "pregnancy",
+    roles: ["obstetrician", "ultrasound"],
+    synonyms: ["фетометрия", "калькулятор", "твп", "ктр", "бпр", "медведев", "процентили"],
+    keywords: ["fetometry", "panel", "medvedev"],
+    webHref: "/tools/calc/ob/fetometry",
+    mobileAction: "fetometry_panel",
+  },
+  {
     id: "hofer-basic-course",
     title: "Базовый курс УЗД · датчик",
     subtitle: "Хофер: куда ставить, давление, аорта — для ординаторов",

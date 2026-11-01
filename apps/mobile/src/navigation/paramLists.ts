@@ -58,6 +58,9 @@ export type RootStackParamList = {
   ORADSGuide: { sectionId?: string; caseId?: string } | undefined;
   ORADSPro:
     | {
+        mode?: "stratify";
+        patientId?: string;
+        patientBirthDateIso?: string;
         prefill?:
           | import("../features/oradsPro/types").OradsInput
           | import("@repo/orads-us/pro").OradsUs2022Input;
@@ -72,7 +75,7 @@ export type RootStackParamList = {
   ORADSHistory: undefined;
   ORADSHistoryDetails: { caseId: string };
   FMFAssistant: undefined;
-  FetometryNomograms: undefined;
+  FetometryNomograms: { mode?: "wizard" | "archive" | "book" } | undefined;
   HoferBasicCourse: undefined;
   Prolapse: undefined;
   GynecologyCalc: { initialPage?: import("../navigationTypes").PageType } | undefined;

@@ -6,7 +6,7 @@ import type { DomainHubCard, DomainHubGroup } from "@/lib/nav/domain-hubs";
 const GROUP_SLUGS: { title: string; slugs: string[] }[] = [
   {
     title: "Акушерство",
-    slugs: ["ob-calc", "fmf", "cervical-length", "fetometry-norms", "fetal-weight", "bishop", "vbac"],
+    slugs: ["ob-calc", "fmf", "cervical-length", "fetometry", "fetometry-norms", "fetal-weight", "bishop", "vbac"],
   },
   {
     title: "Гинекология",

@@ -268,7 +268,9 @@ export function ObCalcHub({ initialTab = "lmp" }: { initialTab?: TabId }) {
             <strong>ПМП</strong>, <strong>датировка</strong>.
           </p>
           <Button variant="link" size="sm" className="mt-1 h-auto px-0" asChild>
-            <Link href="/tools/calc/ob/fetometry-norms">Нормы фетометрии · перцентили по таблицам →</Link>
+            <Link href="/tools/calc/ob/fetometry">Калькулятор фетометрии Медведева →</Link>
+            {" · "}
+            <Link href="/tools/calc/ob/fetometry-norms">номограммы / архив →</Link>
           </Button>
         </div>
       </div>

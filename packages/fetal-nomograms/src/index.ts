@@ -33,3 +33,42 @@ export type {
   EvaluateNomogramInput,
   EvaluateNomogramResult,
 } from "./types";
+
+export {
+  listMedvedevBookTables,
+  getMedvedevBookTable,
+  listTablesBySection,
+  lookupRow,
+  classifyValue,
+  evaluateMeasurement,
+  evaluateFetometryPanel,
+  estimateGaFromSvd,
+  resolveBaseBiometryTableId,
+  T1_PANEL_FIELDS,
+  T2_BASE_FIELDS,
+  EXTENDED_FIELDS,
+  HEART_FIELDS,
+  DOPPLER_FIELDS,
+  POPULATION_OPTIONS,
+  fieldsForSection,
+  remapMeasurementIdsForPopulation,
+  MEDVEDEV_BOOK_WARNINGS,
+  MEDVEDEV_BOOK_DISCLAIMER,
+  MEDVEDEV_BOOK_SOURCE_VERSION,
+  parseGaSlashToDays,
+  parseGaSlashParts,
+  formatGaDays,
+  parseInclusiveRange,
+} from "./medvedevBook";
+
+export type {
+  FetometryTable,
+  FetometryRow,
+  FetometrySection,
+  FetometryPopulation,
+  EvaluateContext,
+  MeasurementResult,
+  PanelResult,
+  ZoneFlag,
+  PanelField,
+} from "./medvedevBook";

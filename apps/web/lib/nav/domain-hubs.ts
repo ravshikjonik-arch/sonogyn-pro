@@ -93,9 +93,9 @@ export const OBSTETRICS_GROUPS: DomainHubGroup[] = [
         primary: true,
       },
       {
-        href: "/tools/calc/ob/fetometry-norms",
-        title: "Нормы фетометрии",
-        description: "Перцентиль по сроку, без PDF",
+        href: "/tools/calc/ob/fetometry",
+        title: "Калькулятор фетометрии",
+        description: "I–III триместр, Медведев, популяции СНГ",
         badge: "Таблицы",
       },
     ],

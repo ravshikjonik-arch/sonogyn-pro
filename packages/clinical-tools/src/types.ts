@@ -39,6 +39,7 @@ export type MobileToolAction =
   | "cervical_intelligence"
   | "fmf"
   | "fetometry_nomograms"
+  | "fetometry_panel"
   | "hofer_basic_course"
   | "tirads_basic_course"
   | "ln_rads"

@@ -1,5 +1,6 @@
 {
-  "source": "Medvedev table 1.2 (Altynnik 2001), p50 inverse",
+  "source": "Medvedev table 1.2 (fetometry_trimester1.json crl_by_ga p50 inverse)",
+  "sourceVersion": "2026-11-01-sonogyn-pro-data",
   "minCrl": 8,
   "maxCrl": 78,
   "points": [

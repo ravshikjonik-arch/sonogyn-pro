@@ -33,6 +33,9 @@ import {
 } from "@repo/medvedev-reference";
 import { NOMOGRAM_DATASET } from "@repo/fetal-nomograms";
 
+/** Deep-link to multi-param Medvedev book panel */
+const BOOK_PANEL_HREF = "/tools/calc/ob/fetometry";
+
 const BLOCK_LABELS: Record<string, string> = {
   early_dating: "Малый срок",
   screening_i: "I скрининг",
@@ -152,6 +155,11 @@ export function FetometryNormsCalculatorHub({ initialTableId }: Props) {
           сверки с книгой. Перцентили и атрибуция источника в результате.
         </p>
         <p className="text-muted-foreground text-xs">{ARCHIVE_CALCULATOR_DISCLAIMER}</p>
+        <p className="text-sm">
+          <Link href={BOOK_PANEL_HREF} className="font-semibold text-[var(--clinical-primary)] underline">
+            Калькулятор фетометрии (панель измерений Медведева) →
+          </Link>
+        </p>
         <div className="flex flex-wrap gap-2 pt-2" role="tablist" aria-label="Режим калькулятора">
           <Button
             type="button"
