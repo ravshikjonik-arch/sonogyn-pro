@@ -1,18 +1,39 @@
 import { NextResponse } from "next/server";
 
 const TRUE = new Set(["true", "1", "yes"]);
+const FALSE = new Set(["false", "0", "no"]);
+
+function envFlag(raw: string | undefined): "true" | "false" | "unset" {
+  const v = (raw ?? "").trim().toLowerCase();
+  if (TRUE.has(v)) return "true";
+  if (FALSE.has(v)) return "false";
+  return "unset";
+}
+
+/** SMS.ru / Twilio credentials present → phone OTP can work. */
+export function hasSmsProviderCredentials(): boolean {
+  return Boolean(process.env.SMSRU_API_ID?.trim() || process.env.TWILIO_ACCOUNT_SID?.trim());
+}
 
 /**
- * Mail-first product: registration/login via email + password.
- * SMS / Telegram stay off unless AUTH_ALLOW_PHONE=true.
- * Yandex ID is shown even in mail-first (see login/register socialTab).
- * (Ignores stale AUTH_EMAIL_ONLY=false on older Vercel deploys.)
+ * Email + password всегда основной канал.
+ * SMS выключен только если явно AUTH_ALLOW_PHONE=false.
+ * Иначе: AUTH_ALLOW_PHONE=true ИЛИ есть SMSRU/Twilio → телефон разрешён.
+ *
+ * Важно: не доверяем запечённому NEXT_PUBLIC_AUTH_ALLOW_PHONE=false сильнее,
+ * чем runtime SMSRU_API_ID — иначе прод с smsReady=true молча режет OTP.
  */
 export function isAuthEmailOnly(): boolean {
-  const allowPhone =
-    TRUE.has((process.env.AUTH_ALLOW_PHONE ?? "").trim().toLowerCase()) ||
-    TRUE.has((process.env.NEXT_PUBLIC_AUTH_ALLOW_PHONE ?? "").trim().toLowerCase());
-  return !allowPhone;
+  const allow = envFlag(process.env.AUTH_ALLOW_PHONE);
+  if (allow === "true") return false;
+  if (allow === "false") return true;
+
+  if (hasSmsProviderCredentials()) return false;
+
+  const publicAllow = envFlag(process.env.NEXT_PUBLIC_AUTH_ALLOW_PHONE);
+  if (publicAllow === "true") return false;
+
+  return true;
 }
 
 export const AUTH_METHOD_DISABLED_MSG =
@@ -27,6 +48,8 @@ export function disabledAuthMethodResponse(method: "phone" | "google" | "sms" | 
 
 /** Client-safe (NEXT_PUBLIC_* via next.config env). */
 export function isAuthEmailOnlyClient(): boolean {
-  const allowPhone = TRUE.has((process.env.NEXT_PUBLIC_AUTH_ALLOW_PHONE ?? "").trim().toLowerCase());
-  return !allowPhone;
+  const allow = envFlag(process.env.NEXT_PUBLIC_AUTH_ALLOW_PHONE);
+  if (allow === "true") return false;
+  if (allow === "false") return true;
+  return true;
 }
