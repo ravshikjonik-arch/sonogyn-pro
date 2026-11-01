@@ -108,6 +108,32 @@ export async function runVerificationFallbackChain(
       }
     }
 
+    /**
+     * SMS.ru без буквенного отправителя/договора часто отвечает OK, но не доставляет
+     * на чужие номера. Дублируем тот же код на email, если он передан.
+     */
+    if (params.primaryMethod === "sms" && fallbackEmail) {
+      await storeVerificationCode({
+        purpose: params.purpose,
+        contact: fallbackEmail,
+        method: "email",
+        code,
+      });
+      const emailDup = await sendVerificationCode({
+        method: "email",
+        contact: fallbackEmail,
+        code,
+        purpose: params.purpose,
+      });
+      if (emailDup.ok) {
+        out.fallbackUsed = true;
+        out.deliveredVia = "sms";
+        out.message =
+          "Код отправлен по SMS на +7 и дублем на email (если SMS задержится — смотрите почту).";
+        logVerificationEvent("sms_email_duplicate_ok", { purpose: params.purpose });
+      }
+    }
+
     if (shouldExposeDevSmsOtp() && params.primaryMethod === "sms") {
       out.devOtp = code;
     }

@@ -6,16 +6,31 @@ import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 
 import { useAuth } from "@/app/providers";
 import { AuthMessage, authInputClass } from "@/components/auth/AuthScreenShell";
+import { PhoneInput } from "@/components/auth/PhoneInput";
 import { TelegramSimpleAuth } from "@/components/auth/TelegramSimpleAuth";
 import { AuthWizardLayout } from "@/components/auth/wizard/AuthWizardLayout";
 import { Button } from "@/components/ui/button";
-import { postForgotPassword, postMfaVerifyLogin, postSignIn } from "@/lib/auth/client-auth-api";
-import { PASSWORD_RESET_GENERIC_MSG, requireOnlineForAuth } from "@/lib/auth/translate-auth-error";
+import {
+  postForgotPassword,
+  postMfaVerifyLogin,
+  postPhoneSendOtp,
+  postPhoneVerifyOtp,
+  postSignIn,
+} from "@/lib/auth/client-auth-api";
+import { isAuthEmailOnlyClient } from "@/lib/auth/auth-methods-config";
 import { isFullOpenAccessEnabledClient } from "@/lib/auth/guest-demo-account";
+import { normalizePhone } from "@/lib/auth/oauth-providers";
+import { isRuPhoneMaskComplete } from "@/lib/auth/ru-phone-mask";
+import {
+  PASSWORD_RESET_GENERIC_MSG,
+  PHONE_OTP_DELAY_HINT,
+  PHONE_OTP_SENT_MSG,
+  requireOnlineForAuth,
+} from "@/lib/auth/translate-auth-error";
 import { markSessionAnchorNow } from "@/lib/security/session-anchor";
 import { cn } from "@/lib/utils/cn";
 
-type LoginMethod = "email" | "telegram";
+type LoginMethod = "email" | "phone" | "telegram";
 
 type Props = {
   nextPath: string;
@@ -25,14 +40,23 @@ export function LoginAuthWizard({ nextPath }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { refresh, user, ready } = useAuth();
+  const phoneAllowed = !isAuthEmailOnlyClient();
 
   const initialMethod = useMemo<LoginMethod>(() => {
-    return searchParams.get("method") === "telegram" ? "telegram" : "email";
-  }, [searchParams]);
+    const m = searchParams.get("method");
+    if (m === "telegram") return "telegram";
+    if (m === "phone" && phoneAllowed) return "phone";
+    return "email";
+  }, [searchParams, phoneAllowed]);
 
   const [method, setMethod] = useState<LoginMethod>(initialMethod);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
+  const [fallbackEmail, setFallbackEmail] = useState("");
+  const [otp, setOtp] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
+  const [sendCooldownSec, setSendCooldownSec] = useState(0);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [mfaRequired, setMfaRequired] = useState(false);
@@ -48,6 +72,12 @@ export function LoginAuthWizard({ nextPath }: Props) {
     router.replace(nextPath);
     router.refresh();
   }, [ready, user, router, nextPath]);
+
+  useEffect(() => {
+    if (sendCooldownSec <= 0) return;
+    const t = window.setTimeout(() => setSendCooldownSec((s) => Math.max(0, s - 1)), 1000);
+    return () => window.clearTimeout(t);
+  }, [sendCooldownSec]);
 
   const guardOnline = useCallback(() => {
     const offline = requireOnlineForAuth();
@@ -119,18 +149,88 @@ export function LoginAuthWizard({ nextPath }: Props) {
     }
   }
 
+  async function onSendPhoneOtp() {
+    setMessage("");
+    if (!guardOnline()) return;
+    if (sendCooldownSec > 0) return;
+    if (!isRuPhoneMaskComplete(phone)) {
+      setMessage("Укажите полный номер РФ: +7 и 10 цифр.");
+      return;
+    }
+    const emailForDup = fallbackEmail.trim() || email.trim();
+    if (!emailForDup) {
+      setMessage("Укажите email — код продублируем на почту, если SMS задержится.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const result = await postPhoneSendOtp({
+        phone: normalizePhone(phone),
+        createUser: false,
+        fallbackEmail: emailForDup,
+        idempotencyKey: crypto.randomUUID(),
+      });
+      if (!result.ok) {
+        setMessage(result.error);
+        return;
+      }
+      setOtpSent(true);
+      setSendCooldownSec(30);
+      setOtp("");
+      setMessage(result.message ?? PHONE_OTP_SENT_MSG);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function onVerifyPhoneOtp(e: FormEvent) {
+    e.preventDefault();
+    setMessage("");
+    if (!guardOnline()) return;
+    if (!otp.trim()) {
+      setMessage("Введите код из SMS или письма.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const result = await postPhoneVerifyOtp({
+        phone: normalizePhone(phone),
+        token: otp.trim(),
+        createUser: false,
+      });
+      if (!result.ok) {
+        setMessage(result.error);
+        return;
+      }
+      markSessionAnchorNow();
+      await refresh();
+      router.replace(nextPath);
+      router.refresh();
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const tabs = (
+    [
+      { id: "email" as const, label: "Почта" },
+      ...(phoneAllowed ? [{ id: "phone" as const, label: "SMS" }] : []),
+      { id: "telegram" as const, label: "Telegram" },
+    ] as const
+  );
+
   const methodSwitcher = (
     <div
-      className="mb-5 grid grid-cols-2 gap-2 rounded-2xl border border-[var(--clinical-border)] bg-[var(--clinical-muted)] p-1"
+      className={cn(
+        "mb-5 grid gap-2 rounded-2xl border border-[var(--clinical-border)] bg-[var(--clinical-muted)] p-1",
+        tabs.length === 3 ? "grid-cols-3" : "grid-cols-2",
+      )}
       role="tablist"
       aria-label="Способ входа"
     >
-      {(
-        [
-          { id: "email" as const, label: "Почта" },
-          { id: "telegram" as const, label: "Telegram" },
-        ] as const
-      ).map((opt) => (
+      {tabs.map((opt) => (
         <button
           key={opt.id}
           type="button"
@@ -140,6 +240,8 @@ export function LoginAuthWizard({ nextPath }: Props) {
             setMethod(opt.id);
             setMessage("");
             setMfaRequired(false);
+            setOtpSent(false);
+            setOtp("");
           }}
           className={cn(
             "rounded-xl py-2.5 text-sm font-bold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--clinical-primary)]",
@@ -154,17 +256,16 @@ export function LoginAuthWizard({ nextPath }: Props) {
     </div>
   );
 
+  const subtitle = mfaRequired
+    ? "Введите код из приложения-аутентификатора."
+    : method === "email"
+      ? "Email и пароль — основной способ входа."
+      : method === "phone"
+        ? "Код по SMS на +7; дубль на email, если SMS задержится."
+        : "Вход через Telegram-бота.";
+
   return (
-    <AuthWizardLayout
-      title={mfaRequired ? "Код двухфакторной защиты" : "Вход"}
-      subtitle={
-        mfaRequired
-          ? "Введите код из приложения-аутентификатора."
-          : method === "email"
-            ? "Email и пароль — основной способ входа."
-            : "Вход через Telegram-бота."
-      }
-    >
+    <AuthWizardLayout title={mfaRequired ? "Код двухфакторной защиты" : "Вход"} subtitle={subtitle}>
       {!mfaRequired && isFullOpenAccessEnabledClient() ? (
         <Button asChild variant="outline" className="mb-4 w-full">
           <Link href="/home">В кабинет без входа</Link>
@@ -193,6 +294,79 @@ export function LoginAuthWizard({ nextPath }: Props) {
         </form>
       ) : method === "telegram" ? (
         <TelegramSimpleAuth mode="login" nextPath={nextPath} message={message || undefined} />
+      ) : method === "phone" ? (
+        <form className="space-y-3" onSubmit={(e) => void onVerifyPhoneOtp(e)}>
+          <PhoneInput id="login-wizard-phone" value={phone} onChange={setPhone} disabled={loading} />
+          <p className="-mt-1 text-xs text-[var(--clinical-foreground-muted)]">{PHONE_OTP_DELAY_HINT}</p>
+          <label className="block">
+            <span className="text-xs font-medium text-[var(--clinical-foreground-muted)]">
+              Email для дубля кода
+            </span>
+            <input
+              className={authInputClass}
+              type="email"
+              value={fallbackEmail}
+              onChange={(e) => setFallbackEmail(e.target.value)}
+              placeholder="doctor@example.com"
+              autoComplete="email"
+              required
+            />
+            <p className="mt-1 text-xs text-[var(--clinical-foreground-muted)]">
+              Обязательно: sms.ru может задержать SMS — тот же код уйдёт на почту.
+            </p>
+          </label>
+          {!otpSent ? (
+            <Button
+              type="button"
+              className="w-full"
+              disabled={loading || sendCooldownSec > 0}
+              onClick={() => void onSendPhoneOtp()}
+            >
+              {loading
+                ? "Отправляем…"
+                : sendCooldownSec > 0
+                  ? `Повтор через ${sendCooldownSec} с`
+                  : "Получить SMS-код"}
+            </Button>
+          ) : (
+            <>
+              <label className="block">
+                <span className="text-xs font-medium text-[var(--clinical-foreground-muted)]">
+                  Код из SMS или письма
+                </span>
+                <input
+                  className={authInputClass}
+                  inputMode="numeric"
+                  autoComplete="one-time-code"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                  placeholder="123456"
+                  required
+                />
+              </label>
+              <Button type="submit" className="w-full" disabled={loading}>
+                {loading ? "Проверяем…" : "Войти"}
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full"
+                disabled={loading || sendCooldownSec > 0}
+                onClick={() => void onSendPhoneOtp()}
+              >
+                {sendCooldownSec > 0 ? `Повтор через ${sendCooldownSec} с` : "Отправить код повторно"}
+              </Button>
+            </>
+          )}
+          <AuthMessage
+            message={message}
+            tone={
+              message.includes("отправлен") || message.includes("SMS") || message.includes("дубл")
+                ? "success"
+                : "error"
+            }
+          />
+        </form>
       ) : (
         <form className="space-y-3" onSubmit={(e) => void onSubmit(e)}>
           <label className="block">
@@ -247,11 +421,6 @@ export function LoginAuthWizard({ nextPath }: Props) {
         Нет аккаунта?{" "}
         <Link href="/register" className="font-bold text-[var(--clinical-primary-deep)] hover:underline">
           Регистрация
-        </Link>
-      </p>
-      <p className="mt-3 text-center text-xs text-[var(--clinical-foreground-muted)]">
-        <Link href="/login?wizard=0" className="hover:underline">
-          SMS и Яндекс ID
         </Link>
       </p>
     </AuthWizardLayout>
