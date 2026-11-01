@@ -93,6 +93,7 @@ export const NAVIGATION_LINK_OVERRIDES: Record<string, NavigationLinkOverride> =
 export const NAVIGATION_ACCENT_OVERRIDES: Record<string, string> = {
   "community.chat": "bg-gradient-to-r from-emerald-500 to-teal-500",
   "assistant.us-prep": "bg-gradient-to-r from-emerald-600 to-teal-500",
+  "assistant.us-prep": "bg-gradient-to-r from-emerald-600 to-teal-500",
   "assistant.hub": "bg-gradient-to-r from-rose-600 to-pink-500",
   "calculator.ob-hub": "bg-gradient-to-r from-teal-600 to-cyan-500",
   "calculator.hub": "bg-gradient-to-r from-blue-500 to-cyan-400",
