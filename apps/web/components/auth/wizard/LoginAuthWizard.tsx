@@ -298,7 +298,7 @@ export function LoginAuthWizard({ nextPath }: Props) {
         <form className="space-y-3" onSubmit={(e) => void onVerifyPhoneOtp(e)}>
           <PhoneInput id="login-wizard-phone" value={phone} onChange={setPhone} disabled={loading} />
           <p className="-mt-1 text-xs text-[var(--clinical-foreground-muted)]">
-            {PHONE_OTP_DELAY_HINT} Номера вроде +993 — вкладка Telegram или вход по email.
+            {PHONE_OTP_DELAY_HINT} Нет номера РФ — вкладка Telegram или почта.
           </p>
           <label className="block">
             <span className="text-xs font-medium text-[var(--clinical-foreground-muted)]">

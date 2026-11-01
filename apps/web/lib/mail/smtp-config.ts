@@ -13,8 +13,12 @@ export function getSmtpConfig(): SmtpConfig | null {
   const connectHost = process.env.SMTP_CONNECT_HOST?.trim();
   const portRaw = process.env.SMTP_PORT?.trim();
   const user = process.env.SMTP_USER?.trim();
-  const password =
-    process.env.SMTP_PASSWORD?.trim() || process.env.SMTP_PASS?.trim();
+  // Mail.ru app passwords often shown as "xxxx xxxx xxxx xxxx" — spaces must be removed.
+  const password = (
+    process.env.SMTP_PASSWORD?.trim() ||
+    process.env.SMTP_PASS?.trim() ||
+    ""
+  ).replace(/\s+/g, "");
   const from =
     process.env.SMTP_FROM?.trim() ||
     (user ? `SonoGyn Pro <${user}>` : undefined);

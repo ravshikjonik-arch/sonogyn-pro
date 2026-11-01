@@ -585,7 +585,7 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
       title="Регистрация"
       subtitle={
         method === "email"
-          ? "Email + пароль и код на почту. Телефон +7 — по желанию (SMS). Для +993 — без SMS, через почту или Telegram."
+          ? "Email + пароль и код на почту. Телефон РФ (+79…) — по желанию."
           : "Telegram Login без пароля. Телефон потом можно подтвердить по SMS (+7)."
       }
     >
@@ -654,7 +654,7 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
             disabled={loading}
           />
           <p className="mt-1 text-xs text-[var(--clinical-foreground-muted)]">
-            Номера не РФ (+993 и др.) не указывайте здесь — регистрация по email без SMS.
+            SMS только на +79… . Нет российского номера — оставьте пустым.
           </p>
         </label>
         <label className="block">

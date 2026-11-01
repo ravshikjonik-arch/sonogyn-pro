@@ -163,7 +163,7 @@ export async function POST(req: Request) {
   const fallbackEmail =
     typeof body.fallbackEmail === "string" ? parseEmailContact(body.fallbackEmail) : null;
 
-  // +993 и др.: SMS.ru не шлёт. Без Twilio — сразу email или 400 (не critical alert).
+  // Не РФ (+79…): SMS.ru не шлёт. Без Twilio — сразу email или 400 (не critical alert).
   if (
     isCustomSmsAuthEnabled() &&
     !isRuMobileForSmsRu(phone) &&
