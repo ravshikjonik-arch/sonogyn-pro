@@ -98,7 +98,7 @@ export function UsPrepBriefingClient() {
     lang: "ru-RU",
     continuous: true,
     interimResults: true,
-    engineMode: "browser",
+    engineMode: "device",
     enableMicLevel: true,
     draftKey: "sonogyn:us-prep-live",
   });
