@@ -59,15 +59,25 @@ async function finishSignUpResponse(params: {
 }
 
 /** Письмо с 6-значным кодом через SMTP Mail.ru — надёжнее одной ссылки Supabase. */
-async function sendSignupEmailOtp(email: string, clientIp?: string): Promise<boolean> {
-  if (!isSmtpConfigured()) return false;
+async function sendSignupEmailOtp(
+  email: string,
+  clientIp?: string,
+): Promise<{ ok: boolean; errorCode?: string; message?: string }> {
+  if (!isSmtpConfigured()) {
+    return { ok: false, errorCode: "email_not_configured", message: "SMTP не настроен." };
+  }
   const result = await runVerificationFallbackChain({
     primaryMethod: "email",
     contact: email,
     purpose: "register",
     clientIp,
   });
-  return result.ok;
+  if (result.ok) return { ok: true };
+  return {
+    ok: false,
+    errorCode: result.errorCode,
+    message: result.message,
+  };
 }
 
 export async function POST(req: Request) {
@@ -230,14 +240,16 @@ export async function POST(req: Request) {
       }
 
       await resendSignupConfirmation(supabase, email, emailRedirectTo);
-      const emailOtpSent = await sendSignupEmailOtp(email, clientIpFromRequest(req));
+      const otp = await sendSignupEmailOtp(email, clientIpFromRequest(req));
       return finishSignUpResponse({
         wantsMobileSession,
         needsEmailConfirmation: true,
-        emailOtpSent,
-        message: emailOtpSent
+        emailOtpSent: otp.ok,
+        message: otp.ok
           ? "Мы отправили код на почту (проверьте «Входящие» и «Спам»). Введите код ниже."
-          : RESEND_CONFIRMATION_MSG,
+          : otp.errorCode === "smtp_app_password_required"
+            ? "Аккаунт создан, но письмо с кодом не ушло: в SMTP_PASSWORD нужен пароль приложения Mail.ru (не обычный пароль). Пока откройте ссылку из письма Supabase или войдите через Telegram."
+            : RESEND_CONFIRMATION_MSG,
         cookiesToSet,
       });
     }
@@ -272,8 +284,11 @@ export async function POST(req: Request) {
     }
 
     let emailOtpSent = false;
+    let otpErrorCode: string | undefined;
     if (needsEmailConfirmation) {
-      emailOtpSent = await sendSignupEmailOtp(email, clientIpFromRequest(req));
+      const otp = await sendSignupEmailOtp(email, clientIpFromRequest(req));
+      emailOtpSent = otp.ok;
+      otpErrorCode = otp.errorCode;
       // Если SMTP (Mail.ru) недоступен — не бросать врача: auto-confirm при флаге/dev.
       if (!emailOtpSent && data.user?.id && shouldAutoConfirmEmail()) {
         const autoOk = await tryAutoConfirmRegistration({
@@ -292,7 +307,7 @@ export async function POST(req: Request) {
             autoConfirmed: true,
             emailOtpSent: false,
             message:
-              "Регистрация завершена (почта подтверждена автоматически: SMTP временно недоступен). Далее — SMS на телефон.",
+              "Регистрация завершена (почта подтверждена автоматически: SMTP временно недоступен).",
             cookiesToSet,
             session: sessionData.session
               ? {
@@ -325,7 +340,9 @@ export async function POST(req: Request) {
         message: needsEmailConfirmation
           ? emailOtpSent
             ? "Мы отправили код на почту от Sonogyn-pro@mail.ru. Введите код ниже (и проверьте «Спам»)."
-            : SIGN_UP_GENERIC_MSG
+            : otpErrorCode === "smtp_app_password_required"
+              ? "Аккаунт создан. Письмо с кодом не ушло: обновите SMTP_PASSWORD — пароль приложения Mail.ru. Пока используйте Telegram или ссылку из письма Supabase."
+              : SIGN_UP_GENERIC_MSG
           : undefined,
       },
       cookiesToSet,
