@@ -1,9 +1,10 @@
 import type { SmsProviderId, SmsSendResult } from "./types";
-import { readSmsRuConfig, sendSmsRu } from "./smsru";
+import { isRuMobileForSmsRu, readSmsRuConfig, sendSmsRu } from "./smsru";
 import { translateSmsRuErrorCode } from "./smsru-errors";
 
 export type { SmsSendResult, SmsProviderId } from "./types";
 export { translateSmsRuErrorCode } from "./smsru-errors";
+export { isRuMobileForSmsRu } from "./smsru";
 
 function readTwilioConfig() {
   const accountSid = process.env.TWILIO_ACCOUNT_SID?.trim();
@@ -59,13 +60,32 @@ async function sendTwilio(params: { toE164: string; code: string }): Promise<Sms
   return { ok: false, errorCode: "sms_provider_error" };
 }
 
-/** Отправка OTP-SMS (SMS.ru для РФ или Twilio). */
+/** Отправка OTP-SMS: РФ → SMS.ru; остальные страны → Twilio (если настроен). */
 export async function dispatchSmsOtp(params: {
   toE164: string;
   code: string;
   clientIp?: string;
 }): Promise<SmsSendResult> {
   const provider = resolveSmsProvider();
+  const ruMobile = isRuMobileForSmsRu(params.toE164);
+  const twilioReady = Boolean(readTwilioConfig());
+
+  // Не РФ: SMS.ru бесполезен — сразу Twilio или явный non_ru.
+  if (!ruMobile) {
+    if (twilioReady) return sendTwilio(params);
+    if (provider === "mock") {
+      const masked = params.toE164.replace(/\d(?=\d{4})/g, "*");
+      console.info(
+        `\n========== SMS DEV international (на телефон НЕ приходит) ==========\n` +
+          `Код OTP: ${params.code}\n` +
+          `Номер: ${masked}\n` +
+          `=====================================================\n`,
+      );
+      return { ok: true, providerMessageId: "mock-sms-intl", provider: "mock" };
+    }
+    return { ok: false, errorCode: "smsru_non_ru_number" };
+  }
+
   if (provider === "smsru") return sendSmsRu(params);
   if (provider === "twilio") return sendTwilio(params);
   if (provider === "mock") {

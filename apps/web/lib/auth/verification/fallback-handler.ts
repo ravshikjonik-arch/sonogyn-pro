@@ -211,12 +211,15 @@ export async function runVerificationFallbackChain(
     });
 
     if (emailResult.ok) {
+      const nonRu = primary.errorCode === "smsru_non_ru_number";
       return {
         ok: true,
         deliveredVia: "email",
         fallbackUsed: true,
         codeStored: true,
-        message: "SMS не дошло вовремя. Код также отправлен на email.",
+        message: nonRu
+          ? "SMS на международные номера недоступен. Код отправлен на email — введите его для входа."
+          : "SMS не дошло вовремя. Код также отправлен на email.",
       };
     }
   }

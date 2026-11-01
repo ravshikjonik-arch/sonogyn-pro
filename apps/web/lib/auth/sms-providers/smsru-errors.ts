@@ -24,7 +24,7 @@ export function translateSmsRuErrorCode(errorCode: string | undefined): string {
     return "Нет связи с sms.ru. Проверьте интернет или повторите позже.";
   }
   if (errorCode === "smsru_non_ru_number") {
-    return "SMS.ru надёжно доставляет только на номера РФ (+7). Для +993 и других стран используйте вход через Telegram или email.";
+    return "SMS на этот номер недоступен (нужен мобильный РФ +79…). Для +993 и других стран войдите через Telegram или email.";
   }
   if (errorCode === "smsru_send_failed") {
     return "sms.ru принял запрос без id сообщения. Проверьте историю в кабинете sms.ru и дневной лимит.";

@@ -82,7 +82,15 @@ async function dispatchOnce(params: SendVerificationCodeParams): Promise<SendVer
       });
       if (!result.ok) {
         logVerificationError("send_failed", result.errorCode, "sms");
-        if (process.env.NODE_ENV === "production") {
+        // Не спамим админов ожидаемыми отказами (не РФ / стоп-лист / лимит на номер).
+        const expected =
+          result.errorCode === "smsru_non_ru_number" ||
+          result.errorCode === "smsru_209" ||
+          result.errorCode === "smsru_230" ||
+          result.errorCode === "smsru_231" ||
+          result.errorCode === "smsru_232" ||
+          result.errorCode === "smsru_233";
+        if (process.env.NODE_ENV === "production" && !expected) {
           TelegramService.notifyAdminsSafe("sms.error", {
             contact: params.contact.replace(/\d(?=\d{4})/g, "*"),
             errorCode: result.errorCode,

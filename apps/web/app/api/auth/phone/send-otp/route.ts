@@ -27,7 +27,12 @@ import { logVerificationEvent } from "@/lib/auth/verification/safe-verification-
 import { checkRateLimit } from "@/lib/auth/verification/verification-rate-limit";
 import { isAuthEmailOnly, disabledAuthMethodResponse } from "@/lib/auth/auth-methods-config";
 import { shouldExposeDevSmsOtp } from "@/lib/auth/dev-sms";
-import { isCustomSmsAuthEnabled, resolveSmsProvider } from "@/lib/auth/sms-providers";
+import {
+  isCustomSmsAuthEnabled,
+  isRuMobileForSmsRu,
+  resolveSmsProvider,
+  translateSmsRuErrorCode,
+} from "@/lib/auth/sms-providers";
 import {
   parseJsonBody,
   PhoneSendOtpBodySchema,
@@ -155,11 +160,52 @@ export async function POST(req: Request) {
 
   const isRegistration = body.createUser === true;
   const userData = registrationMetadataToUserData(registrationMeta);
+  const fallbackEmail =
+    typeof body.fallbackEmail === "string" ? parseEmailContact(body.fallbackEmail) : null;
+
+  // +993 и др.: SMS.ru не шлёт. Без Twilio — сразу email или 400 (не critical alert).
+  if (
+    isCustomSmsAuthEnabled() &&
+    !isRuMobileForSmsRu(phone) &&
+    resolveSmsProvider() === "smsru" &&
+    !process.env.TWILIO_ACCOUNT_SID?.trim()
+  ) {
+    if (fallbackEmail) {
+      const fb = await runVerificationFallbackChain({
+        primaryMethod: "sms",
+        contact: phone,
+        purpose: isRegistration ? "register" : "login",
+        fallbackEmail,
+        idempotencyKey: req.headers.get("Idempotency-Key"),
+        clientIp: clientIpFromRequest(req),
+      });
+      if (fb.ok) {
+        await clearAuthFailures(failKey);
+        return NextResponse.json({
+          ok: true,
+          message:
+            fb.message ??
+            "SMS на международные номера недоступен. Код отправлен на email.",
+          fallbackUsed: true,
+          deliveredVia: fb.deliveredVia ?? "email",
+          customSms: true,
+          suggestAlternateMethod: "email",
+          ...(shouldExposeDevSmsOtp() && fb.devOtp ? { devOtp: fb.devOtp } : {}),
+        });
+      }
+    }
+    return NextResponse.json(
+      {
+        error: translateSmsRuErrorCode("smsru_non_ru_number"),
+        suggestAlternateMethod: "telegram",
+        nonRuNumber: true,
+      },
+      { status: 400 },
+    );
+  }
 
   // SMS.ru / Twilio через наш pipeline (без Supabase Phone + Twilio).
   if (isCustomSmsAuthEnabled()) {
-    const fallbackEmail =
-      typeof body.fallbackEmail === "string" ? parseEmailContact(body.fallbackEmail) : null;
     const fb = await runVerificationFallbackChain({
       primaryMethod: "sms",
       contact: phone,
@@ -184,17 +230,27 @@ export async function POST(req: Request) {
       });
     }
     await recordAuthFailure(failKey);
-    logError("phone/send-otp: SMS-провайдер не доставил код", fb.message, {
-      channel: "sms",
-      context: { errorCode: fb.errorCode, provider: resolveSmsProvider() ?? undefined },
-    });
+    const expectedClientIssue =
+      fb.errorCode === "smsru_non_ru_number" ||
+      fb.errorCode === "invalid_phone" ||
+      fb.errorCode === "invalid_contact";
+    if (!expectedClientIssue) {
+      logError("phone/send-otp: SMS-провайдер не доставил код", fb.message, {
+        channel: "sms",
+        critical: true,
+        context: { errorCode: fb.errorCode, provider: resolveSmsProvider() ?? undefined },
+      });
+    }
     return NextResponse.json(
       {
         error: fb.message ?? "Не удалось отправить SMS.",
         smsNotConfigured: fb.errorCode === "sms_not_configured",
+        suggestAlternateMethod:
+          fb.errorCode === "smsru_non_ru_number" ? "telegram" : fb.suggestAlternateMethod,
+        nonRuNumber: fb.errorCode === "smsru_non_ru_number" || undefined,
         requiresCaptcha: await isCaptchaRequired(failKey),
       },
-      { status: 502 },
+      { status: expectedClientIssue ? 400 : 502 },
     );
   }
 
