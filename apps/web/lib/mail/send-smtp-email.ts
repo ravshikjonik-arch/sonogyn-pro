@@ -45,11 +45,21 @@ function mapSmtpError(err: unknown): SmtpSendResult {
     };
   }
 
+  if (lower.includes("application password is required") || lower.includes("parol prilozheniya")) {
+    return {
+      ok: false,
+      errorCode: "smtp_app_password_required",
+      message:
+        "Mail.ru требует пароль приложения (не обычный пароль ящика). https://help.mail.ru/mail/security/protection/external",
+    };
+  }
+
   if (lower.includes("authentication") || lower.includes("535")) {
     return {
       ok: false,
       errorCode: "smtp_auth_failed",
-      message: "SMTP: неверный логин или пароль (SMTP_USER / SMTP_PASSWORD).",
+      message:
+        "SMTP: неверный логин или пароль. Для Mail.ru нужен пароль приложения в SMTP_PASSWORD.",
     };
   }
 

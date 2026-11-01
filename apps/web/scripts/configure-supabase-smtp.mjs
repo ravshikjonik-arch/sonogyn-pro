@@ -77,7 +77,8 @@ const payload = {
     ? smtpFrom.replace(/<[^>]+>/, "").trim()
     : "SonoGyn Pro",
   smtp_host: smtpHost,
-  smtp_port: smtpPort,
+  // Management API expects port as string
+  smtp_port: String(Number.isFinite(smtpPort) && smtpPort > 0 ? smtpPort : 587),
   smtp_user: smtpUser,
   smtp_pass: smtpPass,
   external_email_enabled: true,

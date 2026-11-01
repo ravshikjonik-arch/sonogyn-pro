@@ -85,7 +85,12 @@ export async function postSignUp(params: {
   preferred_locale?: string;
   turnstileToken?: string;
   mobile?: boolean;
-}): Promise<AuthApiResult & { session?: { access_token: string; refresh_token: string } }> {
+}): Promise<
+  AuthApiResult & {
+    session?: { access_token: string; refresh_token: string };
+    emailOtpSent?: boolean;
+  }
+> {
   const res = await fetch("/api/auth/sign-up", {
     method: "POST",
     headers: {
@@ -100,6 +105,7 @@ export async function postSignUp(params: {
     error?: string;
     requiresCaptcha?: boolean;
     needsEmailConfirmation?: boolean;
+    emailOtpSent?: boolean;
     message?: string;
     autoConfirmed?: boolean;
     session?: { access_token: string; refresh_token: string };
@@ -115,10 +121,44 @@ export async function postSignUp(params: {
   return {
     ok: true,
     needsEmailConfirmation: payload.needsEmailConfirmation,
+    emailOtpSent: payload.emailOtpSent,
     message: payload.message,
     autoConfirmed: payload.autoConfirmed,
     session: payload.session,
   };
+}
+
+/** Подтверждение регистрации кодом из письма (SMTP) → сессия. */
+export async function postConfirmSignupOtp(params: {
+  email: string;
+  password: string;
+  code: string;
+  mobile?: boolean;
+}): Promise<AuthApiResult & { session?: { access_token: string; refresh_token: string } }> {
+  const res = await fetch("/api/auth/confirm-signup-otp", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...(params.mobile ? { "x-sonogyn-client": "mobile" } : {}),
+    },
+    credentials: "same-origin",
+    body: JSON.stringify({
+      email: params.email,
+      password: params.password,
+      code: params.code,
+    }),
+  });
+  const payload = (await res.json().catch(() => null)) as {
+    ok?: boolean;
+    error?: string;
+    message?: string;
+    session?: { access_token: string; refresh_token: string };
+  } | null;
+
+  if (!res.ok || !payload?.ok) {
+    return { ok: false, error: payload?.error ?? "Неверный или просроченный код." };
+  }
+  return { ok: true, message: payload.message, session: payload.session };
 }
 
 export async function postResendConfirmation(params: {

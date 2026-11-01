@@ -19,7 +19,7 @@ export type FallbackChainParams = {
   fallbackEmail?: string;
   idempotencyKey?: string | null;
   clientIp?: string;
-  /** Пилот: тот же код по SMS на +7 после успешной отправки в Telegram. */
+  /** Тестовый период: тот же код по SMS на +7 после успешной отправки в Telegram. */
   backupPhone?: string;
 };
 
@@ -35,7 +35,7 @@ function resolveContact(method: VerificationMethod, raw: string): string | null 
 }
 
 const IDEMPOTENCY_DUP_MSG =
-  "Код уже отправлен. Проверьте Telegram или SMS (+7) — повтор через 30 сек.";
+  "Код уже отправлен. Проверьте SMS (+7) или почту — повтор через 30 сек.";
 
 /**
  * Fallback chain:

@@ -11,10 +11,11 @@ export const REGISTRATION_METHOD_LABELS: Record<AuthRegistrationMethod, string> 
 
 export const REGISTRATION_METHOD_HINTS: Record<AuthRegistrationMethod, string> = {
   phone: "SMS на номера РФ (+7) через SMS.ru — дополнительный быстрый вход.",
-  social: "Яндекс ID — вход в один клик без ожидания письма. Это основной быстрый сценарий для пилота.",
+  social: "Яндекс ID — вход в один клик без ожидания письма. Основной быстрый сценарий в тестовый период.",
   telegram:
     "Дополнительный канал: бот и код. Удобно, если врач не хочет ждать SMS.",
-  email: "Email и пароль: после регистрации подтвердите почту по ссылке из письма (от Sonogyn-pro@mail.ru).",
+  email:
+    "Email и пароль: код на почту от Sonogyn-pro@mail.ru, затем SMS на +7. Telegram для кода не нужен.",
 };
 
 /** Порядок вкладок: почта первой, Telegram — явный альтернативный способ. */

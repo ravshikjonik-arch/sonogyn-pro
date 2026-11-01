@@ -105,11 +105,7 @@ function RegisterForm() {
     defaultPostAuthPath(),
   );
 
-  useEffect(() => {
-    if (isFullOpenAccessEnabledClient()) {
-      router.replace("/home");
-    }
-  }, [router]);
+  // Open access: кабинет без входа, но /register остаётся для создания аккаунта.
 
   const simpleTelegramRegister = isPilotTelegramPrimary() || isPilotClosedAccessClient();
   const telegramBotName = readTelegramBotDisplayName();

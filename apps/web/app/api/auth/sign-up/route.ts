@@ -26,19 +26,21 @@ import {
 } from "@/lib/security/api-body-schemas";
 import { consumeAuthRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
-import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
+import { clientIpFromRequest, rateLimitKeyFromRequest } from "@/lib/security/request-client";
 import { safeLog } from "@/lib/security/safeLog";
 import {
   createSupabaseRouteHandlerClient,
   nextJsonWithAuthCookies,
 } from "@/lib/route-handler-supabase";
-import { isFullOpenAccessEnabled } from "@/lib/auth/dev-account";
+import { isSmtpConfigured } from "@/lib/mail/smtp-config";
+import { runVerificationFallbackChain } from "@/lib/auth/verification/fallback-handler";
 import { writeSecurityAuditLog } from "@/lib/security/security-audit-log";
 
 async function finishSignUpResponse(params: {
   wantsMobileSession: boolean;
   needsEmailConfirmation: boolean;
   autoConfirmed?: boolean;
+  emailOtpSent?: boolean;
   message?: string;
   cookiesToSet: Parameters<typeof nextJsonWithAuthCookies>[1];
   session?: { access_token: string; refresh_token: string };
@@ -47,6 +49,7 @@ async function finishSignUpResponse(params: {
     ok: true as const,
     needsEmailConfirmation: params.needsEmailConfirmation,
     autoConfirmed: params.autoConfirmed,
+    emailOtpSent: params.emailOtpSent,
     message: params.message,
     ...(params.session ? { session: params.session } : {}),
   };
@@ -55,17 +58,19 @@ async function finishSignUpResponse(params: {
   return nextJsonWithAuthCookies(payload, params.cookiesToSet);
 }
 
-export async function POST(req: Request) {
-  if (isFullOpenAccessEnabled()) {
-    return NextResponse.json(
-      {
-        error:
-          "Регистрация отключена. Калькуляторы и кабинет доступны без аккаунта — откройте sonogyn-pro.ru/home.",
-      },
-      { status: 403 },
-    );
-  }
+/** Письмо с 6-значным кодом через SMTP Mail.ru — надёжнее одной ссылки Supabase. */
+async function sendSignupEmailOtp(email: string, clientIp?: string): Promise<boolean> {
+  if (!isSmtpConfigured()) return false;
+  const result = await runVerificationFallbackChain({
+    primaryMethod: "email",
+    contact: email,
+    purpose: "register",
+    clientIp,
+  });
+  return result.ok;
+}
 
+export async function POST(req: Request) {
   const failKey = rateLimitKeyFromRequest(req, "auth-fail-signup");
 
   const raw = await parseJsonBody(req);
@@ -172,11 +177,12 @@ export async function POST(req: Request) {
     if (error) {
       const failCount = await recordAuthFailure(failKey);
       const net = isLikelySupabaseNetworkError(error.message);
+      safeLog("auth:sign-up-supabase-error", { message: error.message, net });
       await writeSecurityAuditLog({
         category: "auth",
         action: "sign-up.supabase_error",
         success: false,
-        metadata: { net },
+        metadata: { net, message: error.message.slice(0, 160) },
       });
       return NextResponse.json(
         {
@@ -224,10 +230,14 @@ export async function POST(req: Request) {
       }
 
       await resendSignupConfirmation(supabase, email, emailRedirectTo);
+      const emailOtpSent = await sendSignupEmailOtp(email, clientIpFromRequest(req));
       return finishSignUpResponse({
         wantsMobileSession,
         needsEmailConfirmation: true,
-        message: RESEND_CONFIRMATION_MSG,
+        emailOtpSent,
+        message: emailOtpSent
+          ? "Мы отправили код на почту (проверьте «Входящие» и «Спам»). Введите код ниже."
+          : RESEND_CONFIRMATION_MSG,
         cookiesToSet,
       });
     }
@@ -261,10 +271,45 @@ export async function POST(req: Request) {
       }
     }
 
+    let emailOtpSent = false;
+    if (needsEmailConfirmation) {
+      emailOtpSent = await sendSignupEmailOtp(email, clientIpFromRequest(req));
+      // Если SMTP (Mail.ru) недоступен — не бросать врача: auto-confirm при флаге/dev.
+      if (!emailOtpSent && data.user?.id && shouldAutoConfirmEmail()) {
+        const autoOk = await tryAutoConfirmRegistration({
+          supabase,
+          userId: data.user.id,
+          email,
+          password,
+        });
+        if (autoOk) {
+          needsEmailConfirmation = false;
+          await autoGrantPilotMedicalAccess(data.user.id);
+          const { data: sessionData } = await supabase.auth.getSession();
+          return finishSignUpResponse({
+            wantsMobileSession,
+            needsEmailConfirmation: false,
+            autoConfirmed: true,
+            emailOtpSent: false,
+            message:
+              "Регистрация завершена (почта подтверждена автоматически: SMTP временно недоступен). Далее — SMS на телефон.",
+            cookiesToSet,
+            session: sessionData.session
+              ? {
+                  access_token: sessionData.session.access_token,
+                  refresh_token: sessionData.session.refresh_token,
+                }
+              : undefined,
+          });
+        }
+      }
+    }
+
     if (wantsMobileSession && data.session) {
       return NextResponse.json({
         ok: true,
         needsEmailConfirmation,
+        emailOtpSent,
         session: {
           access_token: data.session.access_token,
           refresh_token: data.session.refresh_token,
@@ -276,7 +321,12 @@ export async function POST(req: Request) {
       {
         ok: true,
         needsEmailConfirmation,
-        message: needsEmailConfirmation ? SIGN_UP_GENERIC_MSG : undefined,
+        emailOtpSent,
+        message: needsEmailConfirmation
+          ? emailOtpSent
+            ? "Мы отправили код на почту от Sonogyn-pro@mail.ru. Введите код ниже (и проверьте «Спам»)."
+            : SIGN_UP_GENERIC_MSG
+          : undefined,
       },
       cookiesToSet,
     );

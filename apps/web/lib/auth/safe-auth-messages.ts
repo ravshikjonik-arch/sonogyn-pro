@@ -13,7 +13,7 @@ export const OTP_INVALID_MSG = "Неверный или просроченный
 export const PHONE_OTP_SENT_MSG =
   "Код отправлен по SMS. На +7 обычно приходит за 10–30 секунд.";
 export const PHONE_OTP_DELAY_HINT =
-  "Только номера РФ (+7). Если SMS не пришло за 1–2 мин — проверьте Telegram (основной способ) или email-fallback.";
+  "Только номера РФ (+7). Если SMS не пришло за 1–2 мин — запросите код снова или проверьте email-fallback.";
 export const PHONE_NOT_REGISTERED_MSG =
   "Аккаунт с этим номером не найден. Сначала зарегистрируйтесь через вкладку «Телефон».";
 export const PHONE_SMS_NOT_CONFIGURED_MSG =

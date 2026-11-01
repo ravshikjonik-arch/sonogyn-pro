@@ -24,9 +24,11 @@ import {
 } from "@/lib/auth/auth-wizard-config";
 import {
   fetchAuthSession,
+  postConfirmSignupOtp,
   postPhoneSendOtp,
   postPhoneVerifyOtp,
   postResendConfirmation,
+  postSendCode,
   postSignUp,
 } from "@/lib/auth/client-auth-api";
 import { normalizeRussianFio } from "@/lib/auth/doctor-display";
@@ -39,6 +41,7 @@ import {
   SIGN_UP_GENERIC_MSG,
 } from "@/lib/auth/translate-auth-error";
 import { isFullOpenAccessEnabledClient } from "@/lib/auth/guest-demo-account";
+import { isAuthEmailOnlyClient } from "@/lib/auth/auth-methods-config";
 import { readAppLocale, saveAppLocale } from "@/lib/i18n/locale";
 import { cn } from "@/lib/utils/cn";
 import { beginFirstRunOnboarding } from "@/lib/onboarding/first-run-storage";
@@ -46,6 +49,7 @@ import { markSessionAnchorNow } from "@/lib/security/session-anchor";
 
 type Step = "register" | "verify" | "character";
 type RegisterMethod = "email" | "telegram";
+type VerifyMode = "email" | "phone";
 
 type Props = {
   afterAuthPath: string;
@@ -71,12 +75,14 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
   const [specialization, setSpecialization] = useState("Акушер-гинеколог");
   const [character, setCharacter] = useState<OnboardingCharacterId | null>(() => readStoredOnboardingCharacter());
   const [otp, setOtp] = useState("");
-  const [verifyMode, setVerifyMode] = useState<"phone" | "email">("email");
+  const [verifyMode, setVerifyMode] = useState<VerifyMode>("email");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [sendCooldownSec, setSendCooldownSec] = useState(0);
   const [pendingEmail, setPendingEmail] = useState(false);
+  const [emailOtpSent, setEmailOtpSent] = useState(false);
   const [birthDateIso, setBirthDateIso] = useState("");
+  const phoneRequired = !isAuthEmailOnlyClient();
 
   useEffect(() => {
     setMethod(initialMethod);
@@ -175,6 +181,37 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
     }
   }
 
+  async function startPhoneVerifyStep(full_name: string) {
+    if (!isRuPhoneMaskComplete(phone)) {
+      if (phoneRequired) {
+        setMessage("Укажите мобильный +7 — код подтверждения придёт по SMS.");
+        return false;
+      }
+      setStep("character");
+      return true;
+    }
+
+    setOtp("");
+    setVerifyMode("phone");
+    setStep("verify");
+
+    const sent = await postPhoneSendOtp({
+      phone,
+      createUser: false,
+      full_name,
+      specialization: specialization.trim(),
+      fallbackEmail: email.trim() || undefined,
+    });
+    if (!sent.ok) {
+      setMessage(sent.error || "Не удалось отправить SMS. Проверьте номер +7 и нажмите «Отправить SMS снова».");
+      return false;
+    }
+    setMessage(sent.message || PHONE_OTP_SENT_MSG);
+    setSendCooldownSec(60);
+    if (sent.devOtp) setOtp(sent.devOtp);
+    return true;
+  }
+
   async function onRegisterSubmit(e: FormEvent) {
     e.preventDefault();
     setMessage("");
@@ -195,6 +232,10 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
       setMessage("Пароли не совпадают.");
       return;
     }
+    if (phoneRequired && !isRuPhoneMaskComplete(phone)) {
+      setMessage("Укажите мобильный телефон +7 — код придёт по SMS (Telegram для кода не нужен).");
+      return;
+    }
 
     setLoading(true);
     try {
@@ -212,38 +253,52 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
         return;
       }
 
-      if (result.session) {
-        await refresh();
-        setStep("character");
-        return;
-      }
-
       if (result.needsEmailConfirmation) {
         setPendingEmail(true);
+        setEmailOtpSent(Boolean(result.emailOtpSent));
         setVerifyMode("email");
         setStep("verify");
-        setMessage("Мы отправили ссылку и код на почту. Подтвердите email, затем введите код из письма (если есть).");
+        setOtp("");
+        setMessage(
+          result.message ||
+            "Код отправлен на почту от Sonogyn-pro@mail.ru. Введите его ниже (проверьте «Спам»).",
+        );
+        setSendCooldownSec(60);
         return;
       }
 
-      const phoneReady = isRuPhoneMaskComplete(phone);
-      if (phoneReady) {
-        const sent = await postPhoneSendOtp({
-          phone,
-          createUser: false,
-          full_name,
-          specialization: specialization.trim(),
-        });
-        if (sent.ok) {
-          setVerifyMode("phone");
-          setStep("verify");
-          setMessage(PHONE_OTP_SENT_MSG);
-          setSendCooldownSec(60);
-          return;
-        }
-      }
+      // Сессия может быть только в cookies (без session в JSON) — всегда refresh.
+      await refresh();
+      await startPhoneVerifyStep(full_name);
+    } finally {
+      setLoading(false);
+    }
+  }
 
-      setStep("character");
+  async function onVerifyEmailOtp() {
+    setMessage("");
+    if (!guardOnline()) return;
+    const code = otp.replace(/\D/g, "");
+    if (code.length < 4) {
+      setMessage("Введите код из письма.");
+      return;
+    }
+    setLoading(true);
+    try {
+      const result = await postConfirmSignupOtp({
+        email: email.trim(),
+        password,
+        code,
+      });
+      if (!result.ok) {
+        setMessage(result.error);
+        return;
+      }
+      await refresh();
+      const full_name =
+        normalizeRussianFio(`${lastName.trim()} ${firstName.trim()}`) ??
+        `${lastName.trim()} ${firstName.trim()}`;
+      await startPhoneVerifyStep(full_name);
     } finally {
       setLoading(false);
     }
@@ -274,17 +329,20 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
     }
   }
 
-  async function onEmailConfirmedContinue() {
+  async function onEmailLinkContinue() {
     setMessage("");
     setLoading(true);
     try {
       await refresh();
       const { user: sessionUser } = await fetchAuthSession();
       if (sessionUser?.id) {
-        setStep("character");
+        const full_name =
+          normalizeRussianFio(`${lastName.trim()} ${firstName.trim()}`) ??
+          `${lastName.trim()} ${firstName.trim()}`;
+        await startPhoneVerifyStep(full_name);
         return;
       }
-      setMessage("Почта ещё не подтверждена. Откройте письмо или запросите повторно.");
+      setMessage("Почта ещё не подтверждена. Введите код из письма или откройте ссылку и нажмите снова.");
     } finally {
       setLoading(false);
     }
@@ -292,12 +350,41 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
 
   async function onResendEmail() {
     if (sendCooldownSec > 0) return;
-    const res = await postResendConfirmation({ email: email.trim() });
-    if (res.ok) {
-      setMessage(RESEND_CONFIRMATION_MSG);
-      setSendCooldownSec(60);
-    } else {
-      setMessage(res.error);
+    setLoading(true);
+    try {
+      const otpRes = await postSendCode({
+        method: "email",
+        contact: email.trim(),
+        purpose: "register",
+      });
+      if (otpRes.ok) {
+        setEmailOtpSent(true);
+        setMessage("Новый код отправлен на почту. Проверьте «Входящие» и «Спам».");
+        setSendCooldownSec(60);
+        return;
+      }
+      const linkRes = await postResendConfirmation({ email: email.trim() });
+      if (linkRes.ok) {
+        setMessage(linkRes.message || RESEND_CONFIRMATION_MSG);
+        setSendCooldownSec(60);
+      } else {
+        setMessage(otpRes.error || linkRes.error);
+      }
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function onResendSms() {
+    if (sendCooldownSec > 0) return;
+    const full_name =
+      normalizeRussianFio(`${lastName.trim()} ${firstName.trim()}`) ??
+      `${lastName.trim()} ${firstName.trim()}`;
+    setLoading(true);
+    try {
+      await startPhoneVerifyStep(full_name);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -354,37 +441,60 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
   if (step === "verify") {
     return (
       <AuthWizardLayout
-        title={verifyMode === "phone" ? "Код из SMS" : "Подтверждение почты"}
+        title={verifyMode === "phone" ? "Код из SMS" : "Код из письма"}
         subtitle={
           verifyMode === "phone"
-            ? `Код отправлен на ${phone.trim()}`
-            : `Проверьте ${email.trim()}`
+            ? `SMS на ${phone.trim()} · Telegram открывать не нужно`
+            : `Письмо на ${email.trim()} от Sonogyn-pro@mail.ru`
         }
       >
         {verifyMode === "phone" ? (
           <>
             <OtpDigitRow value={otp} onChange={setOtp} disabled={loading} />
             <Button type="button" className="mt-6 w-full" disabled={loading} onClick={() => void onVerifyPhone()}>
-              Подтвердить
+              Подтвердить телефон
             </Button>
+            <button
+              type="button"
+              className="mt-3 w-full text-sm text-[var(--clinical-primary-deep)] hover:underline disabled:opacity-50"
+              disabled={sendCooldownSec > 0 || loading}
+              onClick={() => void onResendSms()}
+            >
+              {sendCooldownSec > 0
+                ? `SMS снова через 0:${String(sendCooldownSec).padStart(2, "0")}`
+                : "Отправить SMS снова"}
+            </button>
           </>
         ) : (
           <>
             <p className="text-center text-sm text-[var(--clinical-foreground-muted)]">
-              После перехода по ссылке в письме нажмите «Я подтвердил почту».
+              {emailOtpSent
+                ? "Введите 6-значный код из письма. Ссылку из письма тоже можно открыть."
+                : "Откройте письмо со ссылкой или запросите код повторно."}
             </p>
-            <OtpDigitRow value={otp} onChange={setOtp} disabled={loading} label="Код из письма, если указан" />
-            <Button type="button" className="mt-6 w-full" disabled={loading} onClick={() => void onEmailConfirmedContinue()}>
-              Я подтвердил почту
+            <OtpDigitRow value={otp} onChange={setOtp} disabled={loading} label="Код из письма" />
+            <Button type="button" className="mt-6 w-full" disabled={loading} onClick={() => void onVerifyEmailOtp()}>
+              Подтвердить почту кодом
+            </Button>
+            <Button
+              type="button"
+              variant="secondary"
+              className="mt-3 w-full"
+              disabled={loading}
+              onClick={() => void onEmailLinkContinue()}
+            >
+              Уже перешёл по ссылке в письме
             </Button>
             {pendingEmail ? (
               <button
                 type="button"
                 className="mt-3 w-full text-sm text-[var(--clinical-primary-deep)] hover:underline disabled:opacity-50"
-                disabled={sendCooldownSec > 0}
+                disabled={sendCooldownSec > 0 || loading}
                 onClick={() => void onResendEmail()}
               >
-                {sendCooldownSec > 0 ? `Отправить повторно через 0:${String(sendCooldownSec).padStart(2, "0")}` : "Отправить письмо снова"}
+                {sendCooldownSec > 0
+                  ? `Отправить код снова через 0:${String(sendCooldownSec).padStart(2, "0")}`
+                  : "Отправить код на почту снова"}
               </button>
             ) : null}
           </>
@@ -465,8 +575,8 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
       title="Регистрация"
       subtitle={
         method === "email"
-          ? "Email и пароль — основной способ. Подтвердите почту по ссылке из письма."
-          : "Telegram — без пароля. Укажите ФИО и дату рождения, затем подтвердите в боте."
+          ? "Email + пароль, затем код на почту и SMS на +7. Telegram для кода не нужен."
+          : "Telegram Login без пароля. Телефон потом подтверждается по SMS."
       }
     >
       {methodSwitcher}
@@ -524,7 +634,9 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
           />
         </label>
         <label className="block">
-          <span className="text-xs font-medium text-[var(--clinical-foreground-muted)]">Телефон (необязательно)</span>
+          <span className="text-xs font-medium text-[var(--clinical-foreground-muted)]">
+            Телефон {phoneRequired ? "(SMS-код)" : "(необязательно)"}
+          </span>
           <input
             className={authInputClass}
             type="tel"
@@ -532,6 +644,7 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
             onChange={(e) => setPhone(e.target.value)}
             placeholder="+7 999 000-00-00"
             autoComplete="tel"
+            required={phoneRequired}
           />
         </label>
         <label className="block">

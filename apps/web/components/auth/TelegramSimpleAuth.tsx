@@ -28,23 +28,21 @@ export function TelegramSimpleAuth({
     <div className="space-y-5">
       <div className="rounded-2xl border border-emerald-200 bg-emerald-50/80 p-4 text-sm text-emerald-950 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-100">
         <p className="font-semibold">
-          {mode === "login" ? "Вход в 2 шага" : "Регистрация в 3 шага"}
+          {mode === "login" ? "Вход через Telegram" : "Регистрация через Telegram"}
         </p>
         <ol className="mt-2 list-decimal space-y-1 pl-4 text-emerald-900 dark:text-emerald-200">
-          <li>
-            Откройте {botName} в Telegram и нажмите <strong>Start</strong>
-          </li>
           {mode === "register" ? (
-            <li>Заполните данные врача ниже и нажмите «Подтвердить через Telegram»</li>
+            <li>Заполните ФИО и дату рождения ниже</li>
           ) : null}
           <li>
             {mode === "login"
-              ? "Нажмите кнопку ниже — Telegram подтвердит вход"
-              : "Telegram откроется — подтвердите аккаунт"}
+              ? "Нажмите кнопку — Telegram подтвердит вход (пароль не нужен)"
+              : "Нажмите «Подтвердить через Telegram» — откроется авторизация"}
           </li>
+          <li>Телефон для уведомлений подтверждается по SMS (+7), не через бота</li>
         </ol>
         <p className="mt-2 text-xs text-emerald-800 dark:text-emerald-300">
-          ID и @ник вводить не нужно — Telegram подставит их сам.
+          Бот {botName}: ID и @ник вводить не нужно. Коды подтверждения телефона приходят по SMS.
         </p>
       </div>
 
@@ -76,7 +74,7 @@ export function TelegramSimpleAuth({
                 href="/register?method=telegram"
                 className="font-semibold text-[var(--clinical-primary-deep)] underline"
               >
-                Регистрация для участников пилота
+                Регистрация в тестовый период
               </Link>
             </>
           ) : (

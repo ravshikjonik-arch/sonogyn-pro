@@ -16,6 +16,20 @@ function normalizeOrigin(raw: string | undefined | null): string | null {
 
 /** Production/staging app origin for auth redirects (email confirm, OAuth). */
 export function resolveAppOrigin(request: Request): string {
+  // Local/dev: always use the actual request host (port 3002 и т.п.),
+  // даже если NEXT_PUBLIC_APP_URL указывает на прод.
+  try {
+    const requestOrigin = new URL(request.url).origin;
+    if (
+      process.env.NODE_ENV !== "production" &&
+      (requestOrigin.includes("localhost") || requestOrigin.includes("127.0.0.1"))
+    ) {
+      return requestOrigin;
+    }
+  } catch {
+    /* fall through */
+  }
+
   const configured = normalizeOrigin(process.env.NEXT_PUBLIC_APP_URL);
   if (configured) {
     // On Vercel production never trust localhost from a stale env value.

@@ -218,7 +218,7 @@ export const SendCodeBodySchema = z.object({
   method: VerificationMethodSchema,
   contact: z.string().trim().min(3).max(320),
   fallbackEmail: z.union([z.string().trim().email().max(320), z.literal("")]).optional(),
-  /** Пилот: дублировать тот же код по SMS на +7 (при входе через Telegram). */
+  /** Тестовый период: дублировать тот же код по SMS на +7 (при входе через Telegram). */
   backupPhone: z.string().trim().max(24).optional(),
   purpose: VerificationPurposeSchema.optional(),
   turnstileToken: z.string().max(4096).optional(),
@@ -231,6 +231,15 @@ export const VerifyCodeBodySchema = z.object({
   code: z.string().trim().min(4).max(12),
   purpose: VerificationPurposeSchema.optional(),
 });
+
+/** POST /api/auth/confirm-signup-otp — код из письма (SMTP Mail.ru) → confirm + session */
+export const ConfirmSignupOtpBodySchema = z.object({
+  email: z.string().trim().email({ message: "Некорректный email." }).max(320),
+  password: z.string().min(1, "Укажите пароль.").max(128),
+  code: z.string().trim().min(4).max(12),
+});
+
+export type ConfirmSignupOtpBody = z.infer<typeof ConfirmSignupOtpBodySchema>;
 
 /** POST /api/auth/resend-confirmation */
 export const ResendConfirmationBodySchema = z.object({
@@ -305,6 +314,21 @@ export const NosologyAssistBodySchema = z.object({
 });
 
 export type NosologyAssistBody = z.infer<typeof NosologyAssistBodySchema>;
+
+/** POST /api/ai/us-prep-briefing — брифинг врача УЗИ по жалобам (не для пациентки). */
+export const UsPrepBriefingBodySchema = z.object({
+  complaints: z
+    .string()
+    .trim()
+    .min(3, "Укажите жалобы или повод обращения (минимум 3 символа).")
+    .max(4000),
+  domain: z.enum(["gynecology", "obstetrics", "both"]).optional(),
+  /** Роль на приёме: АГ / УЗИ / АГ с правом УЗИ */
+  role: z.enum(["obgyn", "us", "obgyn_us"]).optional(),
+  visitContext: z.string().trim().max(2000).optional(),
+});
+
+export type UsPrepBriefingBody = z.infer<typeof UsPrepBriefingBodySchema>;
 
 const ovaryMarkerKindSchema = z.enum([
   "follicle",
