@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
+import { isSharedChatEmail } from "@/lib/chat/doctor-chat-identity";
 import { openDoctorChatDb } from "@/lib/chat/open-doctor-chat-db";
 import { resolveAuthorNames } from "@/lib/chat/resolve-author-names";
 import { rejectIfRateLimitedForUser, rejectIfRateLimitedPreset } from "@/lib/security/api-rate-limit";
@@ -126,8 +127,35 @@ export async function POST(request: Request) {
     );
   }
 
+  if (isSharedChatEmail(opened.email)) {
+    return NextResponse.json(
+      {
+        error:
+          "Общий демо-вход не пишет в чат от своего имени. Войдите или зарегистрируйтесь — тогда сообщения пойдут под вашим ФИО / № врача.",
+      },
+      { status: 403 },
+    );
+  }
+
   const userRl = await rejectIfRateLimitedForUser(authorId, "doctor-chat-send", RL.syncBurst);
   if (userRl) return userRl;
+
+  const { data: senderProfile } = await db
+    .from("profiles")
+    .select("full_name")
+    .eq("id", authorId)
+    .maybeSingle();
+  const hasName = Boolean(senderProfile?.full_name?.trim());
+  if (!hasName) {
+    return NextResponse.json(
+      {
+        error: "Укажите ФИО в профиле — иначе коллеги увидят только общий номер, а не ваше имя.",
+        code: "profile_name_required",
+        profileHref: "/profile",
+      },
+      { status: 403 },
+    );
+  }
 
   const json = await request.json().catch(() => null);
   const parsed = DoctorChatMessageBodySchema.safeParse(json);

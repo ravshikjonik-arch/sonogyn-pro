@@ -4,6 +4,7 @@ import { z } from "zod";
 import { rejectIfRateLimitedForUser, rejectIfRateLimitedPreset } from "@/lib/security/api-rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { safeLog } from "@/lib/security/safeLog";
+import { isSharedChatEmail } from "@/lib/chat/doctor-chat-identity";
 import { openDoctorChatDb } from "@/lib/chat/open-doctor-chat-db";
 import { chatMediaObjectPath, DOCTOR_CHAT_MEDIA_BUCKET } from "@/lib/supabase/chat-media-storage";
 import { prepareChatMediaUpload } from "@/lib/chat/prepare-chat-media-upload";
@@ -20,11 +21,11 @@ export async function POST(request: Request) {
 
   const opened = await openDoctorChatDb(request);
   if (!opened.ok) return opened.response;
-  const { db, authorId, guest } = opened;
+  const { db, authorId, guest, email } = opened;
 
-  if (guest) {
+  if (guest || isSharedChatEmail(email)) {
     return NextResponse.json(
-      { error: "Чтобы отправить файл, войдите. Читать чат можно без входа." },
+      { error: "Чтобы отправить файл, войдите под своим аккаунтом. Читать чат можно без входа." },
       { status: 401 },
     );
   }

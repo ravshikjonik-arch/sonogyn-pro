@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 
 import { createServiceRoleClient } from "@/utils/supabase/admin";
 
-const GUEST_CHAT_EMAIL = "chat-guest@sonogyn.pro";
+import { CHAT_GUEST_EMAIL } from "@/lib/chat/doctor-chat-identity";
 
 let cachedGuestAuthorId: string | null = null;
 
@@ -18,7 +18,7 @@ export async function resolveGuestChatAuthorId(): Promise<string> {
 
   const existing = await admin.auth.admin.generateLink({
     type: "magiclink",
-    email: GUEST_CHAT_EMAIL,
+    email: CHAT_GUEST_EMAIL,
   });
   const existingId = existing.data.user?.id;
   if (existingId) {
@@ -27,7 +27,7 @@ export async function resolveGuestChatAuthorId(): Promise<string> {
   }
 
   const created = await admin.auth.admin.createUser({
-    email: GUEST_CHAT_EMAIL,
+    email: CHAT_GUEST_EMAIL,
     password,
     email_confirm: true,
     user_metadata: { full_name: "Гость" },

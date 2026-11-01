@@ -447,7 +447,7 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
               {channelTitle}
               {chatV2Preview ? (
                 <span className="ml-2 rounded-md bg-[var(--clinical-primary-muted)] px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-[var(--clinical-primary-deep)]">
-                  Chat v2 · preview
+                  Chat v2 · тест
                 </span>
               ) : null}
             </p>

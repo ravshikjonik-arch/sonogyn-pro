@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
+import { formatDoctorChatDisplayName } from "@/lib/chat/doctor-chat-identity";
 import { rejectIfRateLimitedForUser, rejectIfRateLimitedPreset } from "@/lib/security/api-rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { requireSupabaseUserFromRequest } from "@/lib/security/require-user";
@@ -54,15 +55,16 @@ export async function PATCH(request: Request) {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("full_name,email")
+    .select("full_name,specialization")
     .eq("id", auth.userId)
     .maybeSingle();
 
-  const displayName =
-    (typeof profile?.full_name === "string" && profile.full_name.trim()) ||
-    (typeof profile?.email === "string" && profile.email.split("@")[0]) ||
-    auth.email?.split("@")[0] ||
-    "Врач";
+  const displayName = formatDoctorChatDisplayName({
+    userId: auth.userId,
+    fullName: profile?.full_name,
+    specialization: profile?.specialization,
+    email: auth.email,
+  });
 
   const now = new Date().toISOString();
   const { error } = await supabase.from("doctor_presence").upsert(

@@ -3,6 +3,7 @@ import { z } from "zod";
 
 import { MessengerMessagesQuerySchema, MessengerSendBodySchema } from "@repo/types";
 
+import { isSharedChatEmail } from "@/lib/chat/doctor-chat-identity";
 import { rejectUnlessDoctorChatV2Enabled } from "@/lib/messenger/guard-v2";
 import { rejectIfPhiInTextFields } from "@/lib/security/reject-phi-payload";
 import { enrichMessengerMessages } from "@/lib/messenger/enrich-messages";
@@ -156,8 +157,34 @@ export async function POST(request: Request) {
   const auth = await requireSupabaseUserFromRequest(request, supabase);
   if (!auth.ok) return auth.response;
 
+  if (isSharedChatEmail(auth.email)) {
+    return NextResponse.json(
+      {
+        error:
+          "Общий демо-вход не пишет в чат от своего имени. Войдите или зарегистрируйтесь — тогда сообщения пойдут под вашим ФИО / № врача.",
+      },
+      { status: 403 },
+    );
+  }
+
   const userRl = await rejectIfRateLimitedForUser(auth.userId, "messenger-messages-send", RL.syncBurst);
   if (userRl) return userRl;
+
+  const { data: senderProfile } = await supabase
+    .from("profiles")
+    .select("full_name")
+    .eq("id", auth.userId)
+    .maybeSingle();
+  if (!senderProfile?.full_name?.trim()) {
+    return NextResponse.json(
+      {
+        error: "Укажите ФИО в профиле — иначе коллеги увидят только общий номер, а не ваше имя.",
+        code: "profile_name_required",
+        profileHref: "/profile",
+      },
+      { status: 403 },
+    );
+  }
 
   const json = await request.json().catch(() => null);
   const parsed = MessengerSendBodySchema.safeParse(json);
