@@ -23,6 +23,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { parseOradsText } from "@/lib/orads-pro/text-parser";
 import { cn } from "@/lib/utils/cn";
+import { OradsBookTumorCardsPanel } from "@/components/calculators/orads/OradsBookTumorCardsPanel";
 import { OradsReferoSection } from "@/components/calculators/orads/OradsReferoSection";
 import { OradsUnifiedProtocolPreview } from "@/components/calculators/orads/OradsUnifiedProtocolPreview";
 
@@ -461,6 +462,10 @@ export function OradsUnifiedCalculator() {
           </div>
               </OradsReferoSection>
             ) : null}
+
+            <OradsReferoSection title="Дифф. диагноз · карточки опухолей" defaultOpen={false}>
+              <OradsBookTumorCardsPanel />
+            </OradsReferoSection>
 
             <div className="flex flex-wrap gap-2 pt-1 lg:hidden">
               <ActionBar pending={pending} onReset={reset} onSave={onSave} reportPlain={reportPlain} />

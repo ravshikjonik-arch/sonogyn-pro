@@ -25,6 +25,7 @@ import {
 
 import type { RootStackParamList } from "../../../navigation/AppStack";
 import { applyProtocolTextToUs2022 } from "../applyProtocolTextToUs2022";
+import OradsBookTumorCardsSection from "../components/OradsBookTumorCardsSection";
 import SelectChip from "../components/SelectChip";
 import OradsUnifiedResultPanel from "../components/OradsUnifiedResultPanel";
 import { appendUnifiedCaseToHistory, loadUXMetric, pushTimeToResult } from "../storage/oradsStorage";
@@ -87,9 +88,9 @@ export default function OradsUnifiedScreen({ navigation, route }: Props) {
   const needsMenopause =
     (input.morphology === "unilocular" &&
       !input.solidComponent &&
-      input.innerContour === "smooth" &&
-      input.cystContent === "simple") ||
-    input.classicType === "hemorrhagic";
+      input.innerContour === "smooth") ||
+    input.classicType === "hemorrhagic" ||
+    input.classicType === "endometrioma";
   const needsColor =
     input.morphology === "solid" ||
     (input.morphology === "multilocular" && !input.solidComponent && input.innerContour === "smooth") ||
@@ -157,8 +158,13 @@ export default function OradsUnifiedScreen({ navigation, route }: Props) {
   return (
     <SafeAreaView style={styles.safe}>
       <View style={styles.header}>
-        <Pressable onPress={() => navigation.goBack()} accessibilityRole="button">
-          <Text style={styles.back}>Назад</Text>
+        <Pressable
+          onPress={() =>
+            route.params?.mode === "stratify" ? navigation.navigate("ORADSPro") : navigation.goBack()
+          }
+          accessibilityRole="button"
+        >
+          <Text style={styles.back}>{route.params?.mode === "stratify" ? "← ACR" : "Назад"}</Text>
         </Pressable>
         <Text style={styles.headerTitle} accessibilityRole="header">
           O-RADS US
@@ -483,6 +489,8 @@ export default function OradsUnifiedScreen({ navigation, route }: Props) {
               <Text style={styles.btnGhostText}>Справка O-RADS</Text>
             </Pressable>
           </View>
+
+          <OradsBookTumorCardsSection />
         </View>
       </ScrollView>
     </SafeAreaView>

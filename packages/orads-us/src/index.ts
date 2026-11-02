@@ -120,5 +120,45 @@ export {
   type OradsClinicalReasoningStep,
 } from "./assist/clinicalReasoning";
 
+export {
+  ORADS_BOOK_CATEGORIES,
+  ORADS_BOOK_DISCLAIMER_RU,
+  ORADS_BOOK_LEXICON,
+  ORADS_BOOK_PHOTOCARDS,
+  ORADS_BOOK_TUMOR_CARDS,
+  getOradsBookAdnexMapping,
+  getOradsBookCategory,
+  getOradsBookColorScoreScale,
+  getOradsBookFootnotes,
+  getOradsBookTumorCard,
+  getPhotocardsForTumor,
+  listOradsBook2022Principles,
+  listOradsBookCategories,
+  listOradsBookLexiconGroups,
+  listOradsBookLexiconTerms,
+  listOradsBookTypicalBenign,
+  listOradsBookTumorCards,
+  listOradsBookTumorGroups,
+  resolveOradsBookPhotocardSrc,
+  searchOradsBookLexicon,
+  searchOradsBookTumorCards,
+} from "./bookOvary";
+export type {
+  OradsBookAdnexModel,
+  OradsBookCategoriesDocument,
+  OradsBookCategory,
+  OradsBookCategoryRule,
+  OradsBookColorScoreScale,
+  OradsBookLexiconDocument,
+  OradsBookLexiconGroup,
+  OradsBookLexiconItem,
+  OradsBookManagement,
+  OradsBookPhotocard,
+  OradsBookPhotocardsManifest,
+  OradsBookTumorCard,
+  OradsBookTumorCardsDocument,
+  OradsBookTypicalBenign,
+} from "./bookOvary";
+
 /** Supported locale bundle file names (Phase 2 UI loads JSON by code). */
 export const ORADS_LOCALE_CODES = ["ru", "en", "es", "fr", "ar"] as const;
