@@ -11,9 +11,9 @@ import {
 
 describe("nosologyAtlas", () => {
   it("maps ready atlas entries with unique ids", () => {
-    assert.equal(ORADS_NOSOLOGY_ATLAS.length, 8);
+    assert.equal(ORADS_NOSOLOGY_ATLAS.length, 9);
     const ids = new Set(ORADS_NOSOLOGY_ATLAS.map((e) => e.id));
-    assert.equal(ids.size, 8);
+    assert.equal(ids.size, 9);
   });
 
   it("resolves functional cyst by subtype", () => {
@@ -39,7 +39,15 @@ describe("nosologyAtlas", () => {
     assert.match(freeFluid.imageSrc, /free-fluid-pelvis\.jpg$/);
   });
 
+  it("resolves peritoneal inclusion from book photocard", () => {
+    const entry = getOradsNosologyBySubtype("peritoneal_inclusion");
+    assert.ok(entry);
+    assert.match(entry.imageSrc, /orads-book\/photocards\/book4_p07_card1\.jpg$/);
+    assert.equal(isOradsNosologyPending("peritoneal_inclusion"), false);
+  });
+
   it("flags pending subtypes without atlas entries", () => {
+    assert.equal(ORADS_NOSOLOGY_PENDING_SUBTYPES.length, 0);
     for (const subtype of ORADS_NOSOLOGY_PENDING_SUBTYPES) {
       assert.equal(getOradsNosologyBySubtype(subtype), undefined);
       assert.equal(isOradsNosologyPending(subtype), true);

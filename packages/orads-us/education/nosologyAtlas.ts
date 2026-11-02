@@ -49,7 +49,7 @@ const EDUCATIONAL_DISCLAIMER_RU =
   "Обучающий пример. Не заменяет заключение специалиста и не является диагнозом.";
 
 /** Подтипы без эхограммы — добавить в ORADS_NOSOLOGY_ATLAS, когда будут материалы. */
-export const ORADS_NOSOLOGY_PENDING_SUBTYPES: OradsNosologySubtype[] = ["peritoneal_inclusion"];
+export const ORADS_NOSOLOGY_PENDING_SUBTYPES: OradsNosologySubtype[] = [];
 /** Учебные эхограммы + готовые формулировки для протокола (O-RADS 2, типичные кисты). */
 export const ORADS_NOSOLOGY_ATLAS: OradsNosologyAtlasEntry[] = [
   {
@@ -137,6 +137,23 @@ export const ORADS_NOSOLOGY_ATLAS: OradsNosologyAtlasEntry[] = [
       "Гидросальпинкс (расширенная маточная труба). Визуализируется трубчатое образование овальной/извитой формы с анэхогенным однородным содержимым, тонкими стенками и эффектом «бусин» от неполных перегородок. Экстраовариальная локализация — O-RADS 2 при типичном паттерне.",
     imageSrc: `${ORADS_NOSOLOGY_PUBLIC_IMAGE_BASE}/hydrosalpinx.jpg`,
     imageAlt: "УЗИ: гидросальпинкс с анэхогенным содержимым и эффектом бусин",
+  },
+  {
+    id: "peritoneal_inclusion_cyst",
+    subtype: "peritoneal_inclusion",
+    titleRu: "Перитонеальная инклюзионная киста",
+    oradsHint: "O-RADS 2 · типичная экстраовариальная · любого размера",
+    keySignsRu: [
+      "Не отдельное «шаровидное» образование",
+      "Яичник по краю или внутри кисты",
+      "± перегородки (спайки)",
+      "Наблюдение УЗИ не требуется; ведение гинекологом",
+    ],
+    protocolText:
+      "Типичная перитонеальная инклюзионная киста. Кистозное поражение, не являющееся отдельным образованием, с яичником, расположенным по краю либо внутри кисты; возможны перегородки (спайки). При типичном паттерне — O-RADS 2; ультразвуковое наблюдение не требуется, ведение гинекологом.",
+    imageSrc: "/clinical/orads-book/photocards/book4_p07_card1.jpg",
+    imageAlt: "Учебный кадр: экстраовариальные находки, перитонеальная инклюзионная киста",
+    disclaimerRu: EDUCATIONAL_DISCLAIMER_RU,
   },
   {
     id: "free_fluid_pelvis",

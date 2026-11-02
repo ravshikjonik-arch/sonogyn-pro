@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 
 import { OradsAcrWizardExperience } from "@/components/calculators/orads/wizard/OradsAcrWizardExperience";
+import { OradsBookTumorCardsPanel } from "@/components/calculators/orads/OradsBookTumorCardsPanel";
 import { OradsCategoryAtlas } from "@/components/calculators/orads/OradsCategoryAtlas";
 import { OradsCategoryGrid } from "@/components/calculators/orads/grids/OradsCategoryGrid";
 import { OradsRussianCriteriaPanel } from "@/components/calculators/orads/OradsRussianCriteriaPanel";
@@ -24,9 +25,9 @@ import {
   type OradsMriRow,
 } from "@/lib/orads-pro";
 
-type SidePanel = "tables" | "resources" | "category-atlas" | null;
+type SidePanel = "tables" | "resources" | "category-atlas" | "tumors" | null;
 
-/** O-RADS US — ACR-style wizard + таблицы/справка. */
+/** O-RADS US — ACR-style wizard + таблицы/справка/дифф. диагноз. */
 export function OradsProFlow() {
   const [panel, setPanel] = useState<SidePanel>(null);
 
@@ -41,6 +42,7 @@ export function OradsProFlow() {
       <OradsAcrWizardExperience
         onOpenTables={() => setPanel("tables")}
         onOpenResources={() => setPanel("resources")}
+        onOpenTumorCards={() => setPanel("tumors")}
       />
 
       <SpatialModal
@@ -53,9 +55,17 @@ export function OradsProFlow() {
             ? "Таблицы O-RADS 0–5"
             : panel === "category-atlas"
               ? "Учебная сетка категорий"
-              : "Справка O-RADS US"
+              : panel === "tumors"
+                ? "Дифф. диагноз · карточки опухолей"
+                : "Справка O-RADS US"
         }
-        description={panel === "tables" ? "Критерии ACR O-RADS US v2022." : ORADS_VERSION_LABEL}
+        description={
+          panel === "tables"
+            ? "Критерии ACR O-RADS US v2022."
+            : panel === "tumors"
+              ? "Справочник гистологических типов — не меняет категорию O-RADS."
+              : ORADS_VERSION_LABEL
+        }
       >
         {panel === "tables" ? (
           <div className="space-y-6">
@@ -95,6 +105,8 @@ export function OradsProFlow() {
           </div>
         ) : panel === "category-atlas" ? (
           <OradsCategoryGrid />
+        ) : panel === "tumors" ? (
+          <OradsBookTumorCardsPanel />
         ) : (
           <div className="space-y-4 text-sm">
             <p className="font-bold">{ORADS_VERSION_LABEL}</p>
@@ -109,6 +121,9 @@ export function OradsProFlow() {
                 <li key={b}>{b}</li>
               ))}
             </ul>
+            <Button type="button" variant="outline" size="sm" onClick={() => setPanel("tumors")}>
+              Дифф. диагноз · 32 типа
+            </Button>
             <Button type="button" variant="link" className="h-auto p-0 text-xs" asChild>
               <Link href={ORADS_ECHOGRAMS_LIBRARY_PATH}>Эхограммы O-RADS</Link>
             </Button>

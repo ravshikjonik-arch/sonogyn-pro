@@ -29,11 +29,17 @@ import { cn } from "@/lib/utils/cn";
 type Props = {
   onOpenTables: () => void;
   onOpenResources: () => void;
+  onOpenTumorCards?: () => void;
   className?: string;
 };
 
 /** O-RADS US — пошаговый UI как в ACR App (дерево v2022). */
-export function OradsAcrWizardExperience({ onOpenTables, onOpenResources, className }: Props) {
+export function OradsAcrWizardExperience({
+  onOpenTables,
+  onOpenResources,
+  onOpenTumorCards,
+  className,
+}: Props) {
   const locale = useOradsLocaleWeb("ru");
   const router = useRouter();
   const [showStratifyForm, setShowStratifyForm] = useState(false);
@@ -128,6 +134,9 @@ export function OradsAcrWizardExperience({ onOpenTables, onOpenResources, classN
               <DropdownMenuItem onSelect={() => nav.restart()}>{locale.t("orads.wizard.restart")}</DropdownMenuItem>
               <DropdownMenuItem onSelect={() => setAssistOpen(true)}>Из описания протокола</DropdownMenuItem>
               <DropdownMenuItem onSelect={() => setShowStratifyForm(true)}>Стратификация (форма v2022)</DropdownMenuItem>
+              {onOpenTumorCards ? (
+                <DropdownMenuItem onSelect={() => onOpenTumorCards()}>Дифф. диагноз · 32 типа</DropdownMenuItem>
+              ) : null}
               <DropdownMenuItem asChild>
                 <Link href="/tools/refs/orads-guide">Руководство O-RADS</Link>
               </DropdownMenuItem>
@@ -210,20 +219,46 @@ export function OradsAcrWizardExperience({ onOpenTables, onOpenResources, classN
       </main>
 
       <footer className="fixed inset-x-0 bottom-0 z-20 border-t border-[var(--clinical-border)] bg-[var(--clinical-canvas)]/95 p-3 backdrop-blur-sm">
-        <div className="mx-auto grid max-w-lg grid-cols-2 gap-3">
+        <div
+          className={cn(
+            "mx-auto grid max-w-lg gap-2",
+            onOpenTumorCards ? "grid-cols-3" : "grid-cols-2",
+          )}
+        >
           <Button
             type="button"
-            className="rounded-full bg-[var(--clinical-primary)] py-6 text-base font-semibold text-[var(--clinical-primary-foreground)] hover:opacity-95"
+            className="rounded-full bg-[var(--clinical-primary)] py-5 text-sm font-semibold text-[var(--clinical-primary-foreground)] hover:opacity-95 sm:text-base"
             onClick={onOpenTables}
           >
             Таблицы
           </Button>
           <Button
             type="button"
-            className="rounded-full bg-[var(--clinical-primary)] py-6 text-base font-semibold text-[var(--clinical-primary-foreground)] hover:opacity-95"
+            className="rounded-full bg-[var(--clinical-primary)] py-5 text-sm font-semibold text-[var(--clinical-primary-foreground)] hover:opacity-95 sm:text-base"
             onClick={onOpenResources}
           >
             Справка
+          </Button>
+          {onOpenTumorCards ? (
+            <Button
+              type="button"
+              className="rounded-full bg-[var(--clinical-primary)] py-5 text-sm font-semibold text-[var(--clinical-primary-foreground)] hover:opacity-95 sm:text-base"
+              onClick={onOpenTumorCards}
+              data-e2e-orads-open-tumors
+            >
+              Дифф. диагноз
+            </Button>
+          ) : null}
+        </div>
+        <div className="mx-auto mt-2 flex max-w-lg justify-center">
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            className="h-8 text-xs text-[var(--clinical-foreground-muted)]"
+            onClick={() => setShowStratifyForm(true)}
+          >
+            Форма стратификации v2022
           </Button>
         </div>
       </footer>
