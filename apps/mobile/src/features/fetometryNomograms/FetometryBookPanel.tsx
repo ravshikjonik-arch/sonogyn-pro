@@ -10,6 +10,8 @@ import {
   T1_PANEL_FIELDS,
   T2_BASE_FIELDS,
   evaluateFetometryPanel,
+  getMeasurementGuide,
+  groupFields,
   remapMeasurementIdsForPopulation,
   type FetometryPopulation,
   type FetometrySection,
@@ -42,8 +44,10 @@ export function FetometryBookPanel() {
   const [bpdMm, setBpdMm] = useState("");
   const [population, setPopulation] = useState<FetometryPopulation>("moscow");
   const [values, setValues] = useState<Record<string, string>>({});
+  const [openGuideId, setOpenGuideId] = useState<string | null>(null);
 
   const fields = FIELDS[tab];
+  const groups = useMemo(() => groupFields(fields), [fields]);
 
   const panel = useMemo(() => {
     const weeks = Number(gaWeeks);
@@ -81,11 +85,17 @@ export function FetometryBookPanel() {
 
   return (
     <View style={styles.wrap}>
+      <Text style={styles.title}>Расчёт плода</Text>
+      <Text style={styles.sub}>Срок → измерения → норма. У параметра — срез и калиперы.</Text>
+
       <View style={styles.tabs}>
         {TABS.map((t) => (
           <Pressable
             key={t.id}
-            onPress={() => setTab(t.id)}
+            onPress={() => {
+              setTab(t.id);
+              setOpenGuideId(null);
+            }}
             style={[styles.tab, tab === t.id && styles.tabActive]}
             accessibilityRole="tab"
             accessibilityState={{ selected: tab === t.id }}
@@ -97,38 +107,13 @@ export function FetometryBookPanel() {
 
       <Text style={styles.label}>Срок (нед + дни)</Text>
       <View style={styles.row}>
-        <TextInput
-          style={styles.input}
-          keyboardType="number-pad"
-          value={gaWeeks}
-          onChangeText={setGaWeeks}
-          accessibilityLabel="Срок недели"
-        />
-        <TextInput
-          style={styles.input}
-          keyboardType="number-pad"
-          value={gaDays}
-          onChangeText={setGaDays}
-          accessibilityLabel="Срок дни"
-        />
+        <TextInput style={styles.input} keyboardType="number-pad" value={gaWeeks} onChangeText={setGaWeeks} accessibilityLabel="Срок недели" />
+        <TextInput style={styles.input} keyboardType="number-pad" value={gaDays} onChangeText={setGaDays} accessibilityLabel="Срок дни" />
       </View>
       <Text style={styles.label}>КТР / БПР (мм)</Text>
       <View style={styles.row}>
-        <TextInput
-          style={styles.input}
-          keyboardType="decimal-pad"
-          value={crlMm}
-          onChangeText={setCrlMm}
-          accessibilityLabel="КТР"
-        />
-        <TextInput
-          style={styles.input}
-          keyboardType="decimal-pad"
-          value={bpdMm}
-          onChangeText={setBpdMm}
-          placeholder="БПР"
-          accessibilityLabel="БПР"
-        />
+        <TextInput style={styles.input} keyboardType="decimal-pad" value={crlMm} onChangeText={setCrlMm} accessibilityLabel="КТР" />
+        <TextInput style={styles.input} keyboardType="decimal-pad" value={bpdMm} onChangeText={setBpdMm} placeholder="БПР" accessibilityLabel="БПР" />
       </View>
 
       {tab === "t2_base" ? (
@@ -145,18 +130,52 @@ export function FetometryBookPanel() {
         </View>
       ) : null}
 
-      {fields.map((f) => (
-        <View key={f.id} style={styles.field}>
-          <Text style={styles.label}>
-            {f.labelRu} ({f.unit})
-          </Text>
-          <TextInput
-            style={styles.inputWide}
-            keyboardType="decimal-pad"
-            value={values[f.id] ?? ""}
-            onChangeText={(v) => setValues((prev) => ({ ...prev, [f.id]: v }))}
-            accessibilityLabel={f.labelRu}
-          />
+      {groups.map((g) => (
+        <View key={g.groupRu} style={styles.group}>
+          <Text style={styles.groupTitle}>{g.groupRu}</Text>
+          {g.fields.map((f) => {
+            const guide = f.guide ?? getMeasurementGuide(f.id);
+            const open = openGuideId === f.id;
+            return (
+              <View key={f.id} style={styles.field}>
+                <Text style={styles.label}>
+                  {f.labelRu} ({f.unit})
+                </Text>
+                <TextInput
+                  style={styles.inputWide}
+                  keyboardType="decimal-pad"
+                  value={values[f.id] ?? ""}
+                  onChangeText={(v) => setValues((prev) => ({ ...prev, [f.id]: v }))}
+                  accessibilityLabel={f.labelRu}
+                />
+                {guide ? (
+                  <>
+                    <Pressable onPress={() => setOpenGuideId(open ? null : f.id)} accessibilityRole="button">
+                      <Text style={styles.guideToggle}>{open ? "Скрыть измерение" : "Как измерить · калиперы"}</Text>
+                    </Pressable>
+                    {open ? (
+                      <View style={styles.guideBox}>
+                        <Text style={styles.guideLine}>
+                          <Text style={styles.guideBold}>Срез: </Text>
+                          {guide.planeRu}
+                        </Text>
+                        <Text style={styles.guideLine}>
+                          <Text style={styles.guideBold}>Калиперы: </Text>
+                          {guide.calipersRu}
+                        </Text>
+                        {guide.tipsRu ? (
+                          <Text style={styles.guideLine}>
+                            <Text style={styles.guideBold}>Важно: </Text>
+                            {guide.tipsRu}
+                          </Text>
+                        ) : null}
+                      </View>
+                    ) : null}
+                  </>
+                ) : null}
+              </View>
+            );
+          })}
         </View>
       ))}
 
@@ -172,7 +191,6 @@ export function FetometryBookPanel() {
                 {r.titleRu}: {String(r.value)} {r.unit}
               </Text>
               <Text style={styles.resultZone}>{r.zoneLabelRu}</Text>
-              {r.nearestPercentileHint ? <Text style={styles.hint}>{r.nearestPercentileHint}</Text> : null}
             </View>
           ))}
           <Text style={styles.disclaimer}>{MEDVEDEV_BOOK_DISCLAIMER}</Text>
@@ -186,6 +204,8 @@ export function FetometryBookPanel() {
 
 const styles = StyleSheet.create({
   wrap: { gap: 10 },
+  title: { fontSize: 20, fontWeight: "800", color: "#0F2744" },
+  sub: { fontSize: 13, color: "#64748b", marginBottom: 4 },
   tabs: { flexDirection: "row", flexWrap: "wrap", gap: 6 },
   tab: {
     borderWidth: 1,
@@ -219,7 +239,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     fontSize: 16,
   },
-  field: { gap: 4 },
+  field: { gap: 4, marginBottom: 8 },
+  group: { gap: 6, marginTop: 8 },
+  groupTitle: { fontSize: 14, fontWeight: "800", color: "#0F2744", marginTop: 4 },
+  guideToggle: { fontSize: 12, fontWeight: "700", color: "#0d9488", marginTop: 4 },
+  guideBox: { backgroundColor: "#f1f5f9", borderRadius: 10, padding: 10, gap: 6 },
+  guideLine: { fontSize: 12, color: "#334155", lineHeight: 17 },
+  guideBold: { fontWeight: "700" },
   popRow: { flexDirection: "row", flexWrap: "wrap", gap: 6 },
   popChip: {
     borderWidth: 1,

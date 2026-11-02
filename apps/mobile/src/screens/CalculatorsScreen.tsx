@@ -130,8 +130,8 @@ export default function CalculatorsScreen({ navigation }: CalculatorsTabScreenPr
       },
       {
         id: "fetometry-panel",
-        title: "Калькулятор фетометрии",
-        subtitle: "Медведев · I–III · популяции",
+        title: "Расчёт плода",
+        subtitle: "Биометрия · калиперы · нормы",
         art: "prenatal",
         onPress: () => navigation.navigate("FetometryNomograms", { mode: "book" }),
       },

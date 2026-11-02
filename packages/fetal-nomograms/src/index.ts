@@ -51,7 +51,11 @@ export {
   DOPPLER_FIELDS,
   POPULATION_OPTIONS,
   fieldsForSection,
+  fieldsWithGuidesForSection,
+  groupFields,
   remapMeasurementIdsForPopulation,
+  MEASUREMENT_GUIDES,
+  getMeasurementGuide,
   MEDVEDEV_BOOK_WARNINGS,
   MEDVEDEV_BOOK_DISCLAIMER,
   MEDVEDEV_BOOK_SOURCE_VERSION,
@@ -71,4 +75,6 @@ export type {
   PanelResult,
   ZoneFlag,
   PanelField,
+  PanelFieldWithGuide,
+  MeasurementGuide,
 } from "./medvedevBook";

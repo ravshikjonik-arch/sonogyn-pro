@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useMemo, useState } from "react";
 
 import { CalcStepCard } from "@/components/calculators/shared/calc-ui";
@@ -15,11 +14,11 @@ import {
   EXTENDED_FIELDS,
   HEART_FIELDS,
   MEDVEDEV_BOOK_DISCLAIMER,
-  MEDVEDEV_BOOK_SOURCE_VERSION,
   POPULATION_OPTIONS,
   T1_PANEL_FIELDS,
   T2_BASE_FIELDS,
   evaluateFetometryPanel,
+  groupFields,
   remapMeasurementIdsForPopulation,
   type FetometryPopulation,
   type FetometrySection,
@@ -31,7 +30,7 @@ type TabId = "t1" | "t2_base" | "extended" | "heart" | "doppler";
 
 const TABS: { id: TabId; label: string }[] = [
   { id: "t1", label: "I триместр" },
-  { id: "t2_base", label: "II–III база" },
+  { id: "t2_base", label: "II–III" },
   { id: "extended", label: "Расширенная" },
   { id: "heart", label: "Сердце / грудь" },
   { id: "doppler", label: "Допплер / плацента" },
@@ -75,10 +74,72 @@ function ResultCard({ r }: { r: MeasurementResult }) {
           {r.mom1_5 != null
             ? `медиана ${r.median ?? "—"} · порог 1,5 MoM ${r.mom1_5}`
             : `норма ${r.pLow ?? "—"} – ${r.pHigh ?? "—"} (p50 ${r.p50 ?? "—"})`}
-          {r.matchedLabel ? ` · строка ${r.matchedLabel}` : ""}
         </p>
       )}
       {r.nearestPercentileHint ? <p className="mt-1 text-xs opacity-80">{r.nearestPercentileHint}</p> : null}
+    </div>
+  );
+}
+
+function FieldBlock({
+  field,
+  value,
+  onChange,
+  openGuideId,
+  setOpenGuideId,
+}: {
+  field: ReturnType<typeof groupFields>[number]["fields"][number];
+  value: string;
+  onChange: (v: string) => void;
+  openGuideId: string | null;
+  setOpenGuideId: (id: string | null) => void;
+}) {
+  const open = openGuideId === field.id;
+  const guide = field.guide;
+  return (
+    <div className="rounded-xl border border-[var(--clinical-border)] bg-[var(--clinical-card)] p-3">
+      <label className="block text-sm font-semibold text-[var(--clinical-foreground)]">
+        {field.labelRu}
+        <span className="ml-1 font-normal text-[var(--clinical-foreground-muted)]">({field.unit})</span>
+        <Input
+          inputMode="decimal"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          data-e2e-fetometry-field={field.id}
+          className="mt-1.5"
+          placeholder={field.hintRu ?? ""}
+        />
+      </label>
+      {guide ? (
+        <div className="mt-2">
+          <button
+            type="button"
+            className="text-xs font-bold text-[var(--clinical-primary)] underline-offset-2 hover:underline"
+            aria-expanded={open}
+            onClick={() => setOpenGuideId(open ? null : field.id)}
+          >
+            {open ? "Скрыть: как измерить" : "Как измерить · калиперы"}
+          </button>
+          {open ? (
+            <div className="mt-2 space-y-1.5 rounded-lg bg-[var(--clinical-muted)] p-2.5 text-xs leading-relaxed text-[var(--clinical-foreground)]">
+              <p>
+                <span className="font-bold">Срез: </span>
+                {guide.planeRu}
+              </p>
+              <p>
+                <span className="font-bold">Калиперы: </span>
+                {guide.calipersRu}
+              </p>
+              {guide.tipsRu ? (
+                <p>
+                  <span className="font-bold">Важно: </span>
+                  {guide.tipsRu}
+                </p>
+              ) : null}
+            </div>
+          ) : null}
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -91,8 +152,10 @@ export function FetometryBookPanel() {
   const [bpdMm, setBpdMm] = useState("");
   const [population, setPopulation] = useState<FetometryPopulation>("moscow");
   const [values, setValues] = useState<Record<string, string>>({});
+  const [openGuideId, setOpenGuideId] = useState<string | null>(null);
 
   const fields = FIELDS[tab];
+  const groups = useMemo(() => groupFields(fields), [fields]);
 
   const panel = useMemo(() => {
     const weeks = Number(gaWeeks);
@@ -112,9 +175,7 @@ export function FetometryBookPanel() {
     if (!Object.keys(measurements).length) return null;
 
     const remapped =
-      tab === "t2_base"
-        ? remapMeasurementIdsForPopulation(measurements, population)
-        : measurements;
+      tab === "t2_base" ? remapMeasurementIdsForPopulation(measurements, population) : measurements;
 
     return evaluateFetometryPanel({
       ctx: {
@@ -132,22 +193,14 @@ export function FetometryBookPanel() {
 
   return (
     <div className="mx-auto max-w-5xl space-y-4 p-4 md:p-6" data-e2e-fetometry-book>
-      <header className="space-y-2">
-        <p className="text-xs font-bold uppercase tracking-wide text-[var(--clinical-foreground-muted)]">
-          Акушерство · фетометрия
-        </p>
-        <h1 className="text-2xl font-black text-[var(--clinical-foreground)]">Калькулятор фетометрии</h1>
+      <header className="space-y-1">
+        <h1 className="text-2xl font-black text-[var(--clinical-foreground)]">Расчёт плода</h1>
         <p className="text-sm text-[var(--clinical-foreground-muted)]">
-          Таблицы Медведева (оцифровка {MEDVEDEV_BOOK_SOURCE_VERSION}). Срок → измерения → зона нормы.
-        </p>
-        <p className="text-sm">
-          <Link className="text-[var(--clinical-primary)] underline" href="/tools/calc/ob/fetometry-norms">
-            Номограммы / архив
-          </Link>
+          Срок и измерения → сравнение с нормой. У каждого параметра — срез и постановка калиперов.
         </p>
       </header>
 
-      <div className="flex flex-wrap gap-2" role="tablist" aria-label="Разделы фетометрии">
+      <div className="flex flex-wrap gap-2" role="tablist" aria-label="Разделы расчёта плода">
         {TABS.map((t) => (
           <button
             key={t.id}
@@ -155,7 +208,10 @@ export function FetometryBookPanel() {
             role="tab"
             aria-selected={tab === t.id}
             data-e2e-fetometry-tab={t.id}
-            onClick={() => setTab(t.id)}
+            onClick={() => {
+              setTab(t.id);
+              setOpenGuideId(null);
+            }}
             className={cn(
               "rounded-full border px-3 py-2 text-xs font-bold",
               tab === t.id
@@ -168,7 +224,7 @@ export function FetometryBookPanel() {
         ))}
       </div>
 
-      <CalcStepCard title="Контекст">
+      <CalcStepCard title="Контекст исследования">
         <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-4">
           <label className="text-sm">
             Срок, недели
@@ -214,7 +270,7 @@ export function FetometryBookPanel() {
         </div>
         {tab === "t2_base" ? (
           <label className="mt-3 block text-sm">
-            Референсная популяция (базовая биометрия)
+            Референс популяции (базовая биометрия)
             <select
               className="mt-1 flex h-10 w-full rounded-md border border-[var(--clinical-border)] bg-[var(--clinical-background)] px-3 text-sm"
               value={population}
@@ -231,39 +287,33 @@ export function FetometryBookPanel() {
         ) : null}
       </CalcStepCard>
 
-      <CalcStepCard title="Измерения">
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {fields.map((f) => (
-            <label key={f.id} className="text-sm">
-              {f.labelRu}
-              <span className="ml-1 text-xs text-[var(--clinical-foreground-muted)]">({f.unit})</span>
-              <Input
-                inputMode="decimal"
+      {groups.map((g) => (
+        <CalcStepCard key={g.groupRu} title={g.groupRu}>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {g.fields.map((f) => (
+              <FieldBlock
+                key={f.id}
+                field={f}
                 value={values[f.id] ?? ""}
-                onChange={(e) => setValues((prev) => ({ ...prev, [f.id]: e.target.value }))}
-                data-e2e-fetometry-field={f.id}
-                className="mt-1"
-                placeholder={f.hintRu ?? ""}
+                onChange={(v) => setValues((prev) => ({ ...prev, [f.id]: v }))}
+                openGuideId={openGuideId}
+                setOpenGuideId={setOpenGuideId}
               />
-            </label>
-          ))}
-        </div>
-        <div className="mt-3 flex flex-wrap gap-2">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => setValues({})}
-            aria-label="Очистить измерения"
-          >
-            Очистить поля
-          </Button>
-        </div>
-      </CalcStepCard>
+            ))}
+          </div>
+        </CalcStepCard>
+      ))}
+
+      <div className="flex flex-wrap gap-2">
+        <Button type="button" variant="outline" onClick={() => setValues({})} aria-label="Очистить измерения">
+          Очистить поля
+        </Button>
+      </div>
 
       <Card>
         <CardHeader>
           <CardTitle>Результат</CardTitle>
-          <CardDescription>Сравнение с табличными процентилями без интерполяции</CardDescription>
+          <CardDescription>Зона нормы по табличным процентилям (без интерполяции)</CardDescription>
         </CardHeader>
         <CardContent className="space-y-3" aria-live="polite">
           {!panel ? (

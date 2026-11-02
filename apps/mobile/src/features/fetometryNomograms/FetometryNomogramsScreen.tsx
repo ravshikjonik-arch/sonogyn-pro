@@ -27,8 +27,8 @@ export default function FetometryNomogramsScreen({ navigation, route }: Props) {
           <Text style={styles.back}>← Назад</Text>
         </Pressable>
         <Text style={styles.kicker}>Акушерство</Text>
-        <Text style={styles.title}>Фетометрия</Text>
-        <Text style={styles.sub}>Калькулятор Медведева · номограммы · архив</Text>
+        <Text style={styles.title}>Расчёт плода</Text>
+        <Text style={styles.sub}>Измерения · калиперы · номограммы</Text>
         <View style={styles.tabs}>
           <Pressable
             style={[styles.tab, mode === "book" && styles.tabActive]}
@@ -36,7 +36,7 @@ export default function FetometryNomogramsScreen({ navigation, route }: Props) {
             accessibilityRole="tab"
             accessibilityState={{ selected: mode === "book" }}
           >
-            <Text style={[styles.tabText, mode === "book" && styles.tabTextActive]}>Калькулятор</Text>
+            <Text style={[styles.tabText, mode === "book" && styles.tabTextActive]}>Расчёт</Text>
           </Pressable>
           <Pressable
             style={[styles.tab, mode === "wizard" && styles.tabActive]}

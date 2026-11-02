@@ -94,8 +94,8 @@ export const OBSTETRICS_GROUPS: DomainHubGroup[] = [
       },
       {
         href: "/tools/calc/ob/fetometry",
-        title: "Калькулятор фетометрии",
-        description: "I–III триместр, Медведев, популяции СНГ",
+        title: "Расчёт плода",
+        description: "Биометрия, калиперы, нормы I–III триместра",
         badge: "Таблицы",
       },
     ],

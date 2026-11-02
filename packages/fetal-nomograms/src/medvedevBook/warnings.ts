@@ -25,6 +25,6 @@ export const MEDVEDEV_BOOK_WARNINGS = [
 ] as const;
 
 export const MEDVEDEV_BOOK_DISCLAIMER =
-  "Справочная оценка по таблицам «Ультразвуковая фетометрия» (оцифровка). Не является диагнозом. Интерпретацию выполняет лечащий специалист.";
+  "Справочная оценка по нормативным таблицам фетометрии. Не является диагнозом. Интерпретацию выполняет лечащий специалист.";
 
-export const MEDVEDEV_BOOK_SOURCE_VERSION = "2026-11-01-sonogyn-pro-data";
+export const MEDVEDEV_BOOK_SOURCE_VERSION = "2026-11-01-fetometry-tables";

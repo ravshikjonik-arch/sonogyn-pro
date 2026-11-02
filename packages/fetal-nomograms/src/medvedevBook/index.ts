@@ -21,9 +21,18 @@ export {
   DOPPLER_FIELDS,
   POPULATION_OPTIONS,
   fieldsForSection,
+  fieldsWithGuidesForSection,
+  groupFields,
   remapMeasurementIdsForPopulation,
   type PanelField,
+  type PanelFieldWithGuide,
 } from "./panelFields";
+
+export {
+  MEASUREMENT_GUIDES,
+  getMeasurementGuide,
+  type MeasurementGuide,
+} from "./measurementGuides";
 
 export {
   MEDVEDEV_BOOK_WARNINGS,

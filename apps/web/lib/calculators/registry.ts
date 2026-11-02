@@ -141,8 +141,8 @@ export const CALCULATORS: CalculatorDefinition[] = [
   {
     slug: "fetometry",
     code: "FETOMETRY_PANEL",
-    title: "Калькулятор фетометрии",
-    subtitle: "I–III триместр · Медведев · популяции СНГ",
+    title: "Расчёт плода",
+    subtitle: "Биометрия · как измерить · нормы I–III",
     externalHref: "/tools/calc/ob/fetometry",
     fields: [],
   },
