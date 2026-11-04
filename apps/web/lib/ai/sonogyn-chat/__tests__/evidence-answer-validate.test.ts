@@ -1,12 +1,28 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
-import type { AssistantAnswer } from "@repo/evidence-retrieval";
+import type { AssistantAnswer, EvidenceRecord } from "@repo/evidence-retrieval";
 
 import {
   formatEvidenceSourcedChatReply,
   postValidateEvidenceAnswer,
 } from "../evidence-answer-validate";
+
+function sampleCitation(over: Partial<EvidenceRecord> = {}): EvidenceRecord {
+  return {
+    id: "c1",
+    provider: "static_corpus",
+    sourceId: "orads-us-2022",
+    recordType: "guideline",
+    title: "ACR O-RADS US",
+    url: "https://example.org/orads",
+    year: 2022,
+    abstract: "Reporting system",
+    retrievedAt: new Date().toISOString(),
+    relevanceScore: 1,
+    ...over,
+  };
+}
 
 function baseAnswer(over: Partial<AssistantAnswer> = {}): AssistantAnswer {
   return {
@@ -17,16 +33,7 @@ function baseAnswer(over: Partial<AssistantAnswer> = {}): AssistantAnswer {
     recommendations: ["Следовать ACR O-RADS US v2022"],
     contraindications: [],
     alternatives: [],
-    citations: [
-      {
-        id: "c1",
-        title: "ACR O-RADS US",
-        url: "https://example.org/orads",
-        provider: "guideline",
-        year: 2022,
-        abstract: "Reporting system",
-      } as AssistantAnswer["citations"][0],
-    ],
+    citations: [sampleCitation()],
     guidelines: [{ title: "ACR O-RADS", url: "https://example.org/orads", org: "ACR" }],
     disclaimers: ["CDS, не диагноз"],
     sourcesUsed: {},

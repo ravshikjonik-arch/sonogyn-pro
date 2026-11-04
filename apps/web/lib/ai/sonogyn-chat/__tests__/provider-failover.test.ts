@@ -273,7 +273,7 @@ describe("runSequentialProviderAttempts (mock providers)", () => {
 });
 
 describe("Evidence integrity across provider switch", () => {
-  const sampleAnswer = {
+  const sampleAnswer: AssistantAnswer = {
     query: "O-RADS",
     summary: "Summary from retrieval",
     evidenceStrength: "moderate",
@@ -284,11 +284,15 @@ describe("Evidence integrity across provider switch", () => {
     citations: [
       {
         id: "c1",
+        provider: "static_corpus",
+        sourceId: "orads-us-2022",
+        recordType: "guideline",
         title: "ACR O-RADS US",
         url: "https://example.org/orads",
-        provider: "guideline",
         year: 2022,
         abstract: "Ovarian-Adnexal Reporting",
+        retrievedAt: new Date().toISOString(),
+        relevanceScore: 1,
       },
     ],
     guidelines: [{ title: "ACR O-RADS", url: "https://example.org/orads", org: "ACR" }],
@@ -296,7 +300,7 @@ describe("Evidence integrity across provider switch", () => {
     sourcesUsed: {},
     searchedAt: new Date().toISOString(),
     synthesisMode: "rules",
-  } as AssistantAnswer;
+  };
 
   it("11. Evidence context preserved (same prompt for any provider)", () => {
     const ctx = formatEvidenceContextForPrompt(sampleAnswer);
