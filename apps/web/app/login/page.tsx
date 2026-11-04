@@ -20,6 +20,7 @@ import { CAPTCHA_FAILURE_THRESHOLD } from "@/lib/auth/auth-attempts";
 import { markSessionAnchorNow } from "@/lib/security/session-anchor";
 import { parseRegistrationMethod, readTelegramBotDisplayName, type AuthRegistrationMethod } from "@/lib/auth/registration-methods";
 import { isAuthEmailOnlyClient } from "@/lib/auth/auth-methods-config";
+import { AUTH_OTP_DIGITS, normalizeOtpInput } from "@/lib/auth/otp-digits";
 import { isPilotClosedAccessClient, isPilotTelegramPrimary, PILOT_AUTH_SUBTITLE } from "@/lib/auth/auth-pilot-config";
 import { isFullOpenAccessEnabledClient } from "@/lib/auth/guest-demo-account";
 import { isAuthSocialEnabledClient } from "@/lib/auth/open-access";
@@ -478,7 +479,8 @@ function LoginForm() {
                         inputMode="numeric"
                         autoComplete="one-time-code"
                         value={otp}
-                        onChange={(e) => setOtp(e.target.value)}
+                        onChange={(e) => setOtp(normalizeOtpInput(e.target.value))}
+                        maxLength={AUTH_OTP_DIGITS}
                         placeholder="123456"
                         required
                         aria-label="Код из Telegram"
@@ -565,7 +567,8 @@ function LoginForm() {
                   inputMode="numeric"
                   autoComplete="one-time-code"
                   value={otp}
-                  onChange={(e) => setOtp(e.target.value)}
+                  onChange={(e) => setOtp(normalizeOtpInput(e.target.value))}
+                  maxLength={AUTH_OTP_DIGITS}
                   placeholder="123456"
                   required
                   aria-label="Код из Telegram"
@@ -746,7 +749,8 @@ function LoginForm() {
                   inputMode="numeric"
                   autoComplete="one-time-code"
                   value={otp}
-                  onChange={(e) => setOtp(e.target.value)}
+                  onChange={(e) => setOtp(normalizeOtpInput(e.target.value))}
+                  maxLength={AUTH_OTP_DIGITS}
                   placeholder="123456"
                   required
                   aria-label="Код из SMS"

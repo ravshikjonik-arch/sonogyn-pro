@@ -33,6 +33,10 @@ import {
   postSignUp,
 } from "@/lib/auth/client-auth-api";
 import { normalizeRussianFio } from "@/lib/auth/doctor-display";
+import {
+  AUTH_PASSWORD_MIN_LENGTH,
+  AUTH_PASSWORD_TOO_SHORT_MSG,
+} from "@/lib/auth/password-policy";
 import { isRuPhoneMaskComplete } from "@/lib/auth/ru-phone-mask";
 import { saveOnboardingCharacter } from "@/lib/auth/save-onboarding-character";
 import {
@@ -226,8 +230,8 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
       return;
     }
     const full_name = normalizeRussianFio(`${ln} ${fn}`) ?? `${ln} ${fn}`;
-    if (password.length < 8) {
-      setMessage("Пароль — не короче 8 символов.");
+    if (password.length < AUTH_PASSWORD_MIN_LENGTH) {
+      setMessage(AUTH_PASSWORD_TOO_SHORT_MSG);
       return;
     }
     if (password !== passwordRepeat) {

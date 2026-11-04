@@ -39,6 +39,11 @@ import { looksLikePhoneInput, USE_PHONE_TAB_MSG } from "@/lib/auth/auth-error-te
 import { normalizePhone } from "@/lib/auth/oauth-providers";
 import { parseRegistrationMethod, readTelegramBotDisplayName, type AuthRegistrationMethod } from "@/lib/auth/registration-methods";
 import { isAuthEmailOnlyClient } from "@/lib/auth/auth-methods-config";
+import { AUTH_OTP_DIGITS, normalizeOtpInput } from "@/lib/auth/otp-digits";
+import {
+  AUTH_PASSWORD_MIN_LENGTH,
+  AUTH_PASSWORD_TOO_SHORT_MSG,
+} from "@/lib/auth/password-policy";
 import { isPilotClosedAccessClient, isPilotTelegramPrimary, PILOT_AUTH_SUBTITLE, PILOT_REGISTER_SUBTITLE } from "@/lib/auth/auth-pilot-config";
 import { RU_IDP_REGISTER_SUBTITLE } from "@/lib/auth/russian-idp";
 import { isRuPhoneMaskComplete } from "@/lib/auth/ru-phone-mask";
@@ -192,6 +197,11 @@ function RegisterForm() {
 
     if (looksLikePhoneInput(email)) {
       setMessage(USE_PHONE_TAB_MSG);
+      return;
+    }
+
+    if (password.length < AUTH_PASSWORD_MIN_LENGTH) {
+      setMessage(AUTH_PASSWORD_TOO_SHORT_MSG);
       return;
     }
 
@@ -625,7 +635,8 @@ function RegisterForm() {
                   inputMode="numeric"
                   autoComplete="one-time-code"
                   value={otp}
-                  onChange={(e) => setOtp(e.target.value)}
+                  onChange={(e) => setOtp(normalizeOtpInput(e.target.value))}
+                  maxLength={AUTH_OTP_DIGITS}
                   placeholder="123456"
                   required
                   aria-label="Код из Telegram"
@@ -696,7 +707,7 @@ function RegisterForm() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
               required
-              minLength={6}
+              minLength={AUTH_PASSWORD_MIN_LENGTH}
               autoComplete="new-password"
               aria-label="Пароль"
             />
@@ -787,7 +798,8 @@ function RegisterForm() {
                   inputMode="numeric"
                   autoComplete="one-time-code"
                   value={otp}
-                  onChange={(e) => setOtp(e.target.value)}
+                  onChange={(e) => setOtp(normalizeOtpInput(e.target.value))}
+                  maxLength={AUTH_OTP_DIGITS}
                   placeholder="123456"
                   required
                   aria-label="Код из SMS"

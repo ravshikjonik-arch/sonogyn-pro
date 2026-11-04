@@ -107,13 +107,7 @@ function matchesPrefix(pathname: string, prefix: string): boolean {
 }
 
 function isAuthRequiredPath(pathname: string): boolean {
-  if (
-    isFullOpenAccessEnabled() &&
-    !matchesPrefix(pathname, "/admin") &&
-    !matchesPrefix(pathname, "/author")
-  ) {
-    return false;
-  }
+  // Hybrid open-access: калькуляторы/кабинет без логина, но PHI/профиль/биллинг — всегда с сессией.
   return AUTH_REQUIRED_PREFIXES.some((prefix) => matchesPrefix(pathname, prefix));
 }
 
@@ -357,12 +351,8 @@ export default async function middleware(request: NextRequest) {
     return response;
   }
 
-  if (
-    isDevSkipAuthEnabled() ||
-    (isFullOpenAccessEnabled() &&
-      !matchesPrefix(pathname, "/admin") &&
-      !matchesPrefix(pathname, "/author"))
-  ) {
+  // Open-access: публичные клинические маршруты без логина; AUTH_REQUIRED_* всё равно требуют сессию.
+  if (isDevSkipAuthEnabled() || (isFullOpenAccessEnabled() && !isAuthRequiredPath(pathname))) {
     return response;
   }
 

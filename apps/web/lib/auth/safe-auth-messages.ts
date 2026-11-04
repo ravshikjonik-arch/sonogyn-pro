@@ -1,5 +1,7 @@
 /** Сообщения без утечки enumeration (email существует / не существует). */
 
+import { AUTH_PASSWORD_TOO_SHORT_MSG } from "@/lib/auth/password-policy";
+
 export const INVALID_CREDENTIALS_MSG = "Неверные учётные данные.";
 export const SIGN_UP_GENERIC_MSG =
   "На указанный email отправлено письмо с подтверждением. Проверьте «Входящие» и «Спам», затем перейдите по ссылке.";
@@ -35,7 +37,7 @@ export function toSafeAuthErrorMessage(message: string, context: "sign-in" | "si
     return OTP_INVALID_MSG;
   }
   if (/password should be at least/i.test(message)) {
-    return "Пароль слишком короткий. Минимум 6 символов.";
+    return AUTH_PASSWORD_TOO_SHORT_MSG;
   }
   if (/email not confirmed/i.test(message)) {
     return EMAIL_NOT_CONFIRMED_MSG;

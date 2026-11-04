@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
+import {
+  AUTH_PASSWORD_MAX_LENGTH,
+  AUTH_PASSWORD_MIN_LENGTH,
+} from "@/lib/auth/password-policy";
 import { MAX_ULTRASOUND_IMAGE_BYTES } from "@/lib/security/file-validation";
 import { ALLOWED_VIDEO_MIME, MAX_LESSON_VIDEO_BYTES } from "@/lib/storage/config";
 
@@ -11,13 +15,16 @@ export const ForgotPasswordBodySchema = z.object({
 
 /** POST /api/auth/update-password */
 export const UpdatePasswordBodySchema = z.object({
-  password: z.string().min(8, "Пароль не короче 8 символов.").max(128),
+  password: z
+    .string()
+    .min(AUTH_PASSWORD_MIN_LENGTH, `Пароль не короче ${AUTH_PASSWORD_MIN_LENGTH} символов.`)
+    .max(AUTH_PASSWORD_MAX_LENGTH),
 });
 
-/** POST /api/auth/sign-in */
+/** POST /api/auth/sign-in — min 1 so legacy short passwords can still attempt login. */
 export const SignInBodySchema = z.object({
   email: z.string().trim().email({ message: "Некорректный email." }).max(320),
-  password: z.string().min(1, "Укажите пароль.").max(128),
+  password: z.string().min(1, "Укажите пароль.").max(AUTH_PASSWORD_MAX_LENGTH),
   turnstileToken: z.string().max(4096).optional(),
 });
 
@@ -26,7 +33,10 @@ export type SignInBody = z.infer<typeof SignInBodySchema>;
 /** POST /api/auth/sign-up */
 export const SignUpBodySchema = z.object({
   email: z.string().trim().email({ message: "Некорректный email." }).max(320),
-  password: z.string().min(1, "Укажите пароль.").max(128),
+  password: z
+    .string()
+    .min(AUTH_PASSWORD_MIN_LENGTH, `Пароль не короче ${AUTH_PASSWORD_MIN_LENGTH} символов.`)
+    .max(AUTH_PASSWORD_MAX_LENGTH),
   full_name: z.string().trim().min(1, "Укажите имя и фамилию.").max(200),
   specialization: z.string().trim().min(1, "Выберите специализацию.").max(120),
   institution: z.string().trim().max(200).optional(),
@@ -126,8 +136,15 @@ export const TelegramVerifyOtpBodySchema = RegistrationMetadataFieldsSchema.exte
   if (!data.chatId?.trim() && !data.telegramId?.trim()) {
     ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Укажите Telegram ID.", path: ["chatId"] });
   }
-  if (!data.token?.trim() && !data.code?.trim()) {
+  const otp = (data.token ?? data.code ?? "").trim();
+  if (!otp) {
     ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Укажите код.", path: ["code"] });
+  } else if (otp.length < 6) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Код не короче 6 цифр.",
+      path: ["code"],
+    });
   }
 });
 
@@ -172,8 +189,15 @@ export const PhoneVerifyOtpBodySchema = RegistrationMetadataFieldsSchema.extend(
   code: z.string().trim().max(12).optional(),
   createUser: z.boolean().optional(),
 }).superRefine((data, ctx) => {
-  if (!data.token?.trim() && !data.code?.trim()) {
+  const otp = (data.token ?? data.code ?? "").trim();
+  if (!otp) {
     ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Укажите код.", path: ["code"] });
+  } else if (otp.length < 6) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Код не короче 6 цифр.",
+      path: ["code"],
+    });
   }
 });
 
@@ -235,7 +259,7 @@ export const VerifyCodeBodySchema = z.object({
 /** POST /api/auth/confirm-signup-otp — код из письма (SMTP Mail.ru) → confirm + session */
 export const ConfirmSignupOtpBodySchema = z.object({
   email: z.string().trim().email({ message: "Некорректный email." }).max(320),
-  password: z.string().min(1, "Укажите пароль.").max(128),
+  password: z.string().min(1, "Укажите пароль.").max(AUTH_PASSWORD_MAX_LENGTH),
   code: z.string().trim().min(6).max(12),
 });
 
