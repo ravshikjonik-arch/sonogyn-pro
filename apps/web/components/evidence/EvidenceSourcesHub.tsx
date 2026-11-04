@@ -81,7 +81,11 @@ export function EvidenceSourcesHub() {
         records?: DrugHit[];
       } | null;
       if (!res.ok) {
-        setDrugError(payload?.error || "Не удалось найти препараты.");
+        setDrugError(
+          res.status === 401
+            ? "Нужен вход в кабинет для этого запроса. Обновите страницу или войдите."
+            : payload?.error || "Не удалось найти препараты.",
+        );
         setDrugHits([]);
         return;
       }

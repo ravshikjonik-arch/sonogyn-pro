@@ -17,6 +17,7 @@ import { logEvidenceQuery, sourcesFromAssistantAnswer } from "@/lib/evidence/log
 import { synthesizeWithLlm } from "@/lib/evidence/synthesize-llm";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
+import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
 import { requireSupabaseUserOrOpenAccess } from "@/lib/security/require-user";
 import { createClient } from "@/utils/supabase/server";
 
@@ -37,14 +38,13 @@ const BodySchema = z.object({
 
 export async function POST(request: Request) {
   const supabase = await createClient();
+  // Публичное чтение EBM-карточек без входа; AI-квота только для залогиненных.
   const auth = await requireSupabaseUserOrOpenAccess(request, supabase);
-  if (!auth.ok) return auth.response;
+  const rlKey = auth.ok
+    ? `evidence-assistant:${auth.userId}`
+    : rateLimitKeyFromRequest(request, "evidence-assistant");
 
-  const rl = await consumeRateLimit(
-    `evidence-assistant:${auth.userId}`,
-    RL.evidenceAssistant.limit,
-    RL.evidenceAssistant.windowMs,
-  );
+  const rl = await consumeRateLimit(rlKey, RL.evidenceAssistant.limit, RL.evidenceAssistant.windowMs);
   if (!rl.ok) {
     return NextResponse.json(
       { error: "Слишком много запросов к Evidence Assistant." },
@@ -52,7 +52,7 @@ export async function POST(request: Request) {
     );
   }
 
-  if (!auth.openAccess) {
+  if (auth.ok && !auth.openAccess) {
     const quota = await assertAiGatewayQuota(auth.userId);
     if (!quota.ok) {
       const message =
@@ -99,7 +99,7 @@ export async function POST(request: Request) {
       })
     : synthesizeEvidenceAnswer(parsed.data.query, searchResult, { corpusMode });
 
-  if (!auth.openAccess) {
+  if (auth.ok && !auth.openAccess) {
     try {
       await logEvidenceQuery(supabase, {
         userId: auth.userId,
@@ -119,8 +119,8 @@ export async function POST(request: Request) {
     if (v) providerStatuses[k] = v;
   }
   traceEvidenceAsk({
-    userId: auth.userId,
-    openAccess: Boolean(auth.openAccess),
+    userId: auth.ok ? auth.userId : "anon",
+    openAccess: !auth.ok || Boolean(auth.openAccess),
     query: parsed.data.query,
     corpusMode,
     synthesisMode: answer.synthesisMode,

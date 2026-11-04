@@ -14,6 +14,7 @@ import { buildRetrievalConfigAsync } from "@/lib/evidence/retrieval-config";
 import { logEvidenceQuery, sourcesFromProviderResults } from "@/lib/evidence/log-evidence-query";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
+import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
 import { requireSupabaseUserOrOpenAccess } from "@/lib/security/require-user";
 import { createClient } from "@/utils/supabase/server";
 
@@ -64,14 +65,13 @@ const QuerySchema = z.object({
 
 export async function GET(request: Request) {
   const supabase = await createClient();
+  // Hub «Доказательства» — публичное чтение (карточки + ссылки); запись/закладки остаются под auth.
   const auth = await requireSupabaseUserOrOpenAccess(request, supabase);
-  if (!auth.ok) return auth.response;
+  const rlKey = auth.ok
+    ? `evidence-search:${auth.userId}`
+    : rateLimitKeyFromRequest(request, "evidence-search");
 
-  const rl = await consumeRateLimit(
-    `evidence-search:${auth.userId}`,
-    RL.evidenceSearch.limit,
-    RL.evidenceSearch.windowMs,
-  );
+  const rl = await consumeRateLimit(rlKey, RL.evidenceSearch.limit, RL.evidenceSearch.windowMs);
   if (!rl.ok) {
     return NextResponse.json(
       { error: "Слишком много запросов." },
@@ -103,7 +103,7 @@ export async function GET(request: Request) {
     { config: await buildRetrievalConfigAsync(), cache: createEvidenceCacheStore() },
   );
 
-  if (!auth.openAccess) {
+  if (auth.ok && !auth.openAccess) {
     void logEvidenceQuery(supabase, {
       userId: auth.userId,
       query: parsed.data.q,
