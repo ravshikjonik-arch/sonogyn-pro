@@ -100,43 +100,55 @@ export async function postSignUp(params: {
     emailOtpSent?: boolean;
   }
 > {
-  const res = await fetch("/api/auth/sign-up", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      ...(params.mobile ? { "x-sonogyn-client": "mobile" } : {}),
-    },
-    credentials: "same-origin",
-    body: JSON.stringify(params),
-  });
-  const payload = (await res.json().catch(() => null)) as {
-    ok?: boolean;
-    error?: string;
-    requiresCaptcha?: boolean;
-    needsEmailConfirmation?: boolean;
-    emailOtpSent?: boolean;
-    message?: string;
-    autoConfirmed?: boolean;
-    alreadyRegistered?: boolean;
-    session?: { access_token: string; refresh_token: string };
-  } | null;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 25_000);
+  try {
+    const res = await fetch("/api/auth/sign-up", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(params.mobile ? { "x-sonogyn-client": "mobile" } : {}),
+      },
+      credentials: "same-origin",
+      body: JSON.stringify(params),
+      signal: controller.signal,
+    });
+    const payload = (await res.json().catch(() => null)) as {
+      ok?: boolean;
+      error?: string;
+      requiresCaptcha?: boolean;
+      needsEmailConfirmation?: boolean;
+      emailOtpSent?: boolean;
+      message?: string;
+      autoConfirmed?: boolean;
+      alreadyRegistered?: boolean;
+      session?: { access_token: string; refresh_token: string };
+    } | null;
 
-  if (!res.ok || !payload?.ok) {
+    if (!res.ok || !payload?.ok) {
+      return {
+        ok: false,
+        error: payload?.error ?? "Не удалось завершить регистрацию.",
+        requiresCaptcha: payload?.requiresCaptcha,
+        alreadyRegistered: Boolean(payload?.alreadyRegistered) || res.status === 409,
+      };
+    }
+    return {
+      ok: true,
+      needsEmailConfirmation: payload.needsEmailConfirmation,
+      emailOtpSent: payload.emailOtpSent,
+      message: payload.message,
+      autoConfirmed: payload.autoConfirmed,
+      session: payload.session,
+    };
+  } catch {
     return {
       ok: false,
-      error: payload?.error ?? "Не удалось завершить регистрацию.",
-      requiresCaptcha: payload?.requiresCaptcha,
-      alreadyRegistered: Boolean(payload?.alreadyRegistered) || res.status === 409,
+      error: "Регистрация отвечает слишком долго. Обновите страницу или войдите / сбросьте пароль.",
     };
+  } finally {
+    clearTimeout(timer);
   }
-  return {
-    ok: true,
-    needsEmailConfirmation: payload.needsEmailConfirmation,
-    emailOtpSent: payload.emailOtpSent,
-    message: payload.message,
-    autoConfirmed: payload.autoConfirmed,
-    session: payload.session,
-  };
 }
 
 /** Подтверждение регистрации кодом из письма (SMTP) → сессия. */
@@ -409,22 +421,34 @@ export async function postPhoneVerifyOtp(params: {
 }
 
 export async function postForgotPassword(email: string): Promise<{ ok: true; message: string } | { ok: false; error: string }> {
-  const res = await fetch("/api/auth/forgot-password", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    credentials: "same-origin",
-    body: JSON.stringify({ email }),
-  });
-  const payload = (await res.json().catch(() => null)) as {
-    ok?: boolean;
-    message?: string;
-    error?: string;
-  } | null;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 20_000);
+  try {
+    const res = await fetch("/api/auth/forgot-password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "same-origin",
+      body: JSON.stringify({ email }),
+      signal: controller.signal,
+    });
+    const payload = (await res.json().catch(() => null)) as {
+      ok?: boolean;
+      message?: string;
+      error?: string;
+    } | null;
 
-  if (!res.ok || !payload?.ok) {
-    return { ok: false, error: payload?.error ?? "Не удалось отправить письмо." };
+    if (!res.ok || !payload?.ok) {
+      return { ok: false, error: payload?.error ?? "Не удалось отправить письмо." };
+    }
+    return { ok: true, message: payload.message ?? "Если email зарегистрирован, мы отправили ссылку." };
+  } catch {
+    return {
+      ok: false,
+      error: "Сервер долго отвечает. Подождите минуту и нажмите «Забыли пароль?» снова.",
+    };
+  } finally {
+    clearTimeout(timer);
   }
-  return { ok: true, message: payload.message ?? "Если email зарегистрирован, мы отправили ссылку." };
 }
 
 export async function postUpdatePassword(password: string): Promise<{ ok: true } | { ok: false; error: string }> {
@@ -442,14 +466,27 @@ export async function postUpdatePassword(password: string): Promise<{ ok: true }
   return { ok: true };
 }
 
-export async function fetchAuthSession(): Promise<{
+export async function fetchAuthSession(options?: { timeoutMs?: number }): Promise<{
   user: Record<string, unknown> | null;
   rateLimited?: boolean;
 }> {
-  const res = await fetch("/api/auth/session", { credentials: "same-origin", cache: "no-store" });
-  if (res.status === 429) {
-    return { user: null, rateLimited: true };
+  const timeoutMs = options?.timeoutMs ?? 10_000;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const res = await fetch("/api/auth/session", {
+      credentials: "same-origin",
+      cache: "no-store",
+      signal: controller.signal,
+    });
+    if (res.status === 429) {
+      return { user: null, rateLimited: true };
+    }
+    const payload = (await res.json().catch(() => null)) as { user?: Record<string, unknown> | null } | null;
+    return { user: payload?.user ?? null };
+  } catch {
+    return { user: null };
+  } finally {
+    clearTimeout(timer);
   }
-  const payload = (await res.json().catch(() => null)) as { user?: Record<string, unknown> | null } | null;
-  return { user: payload?.user ?? null };
 }

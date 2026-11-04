@@ -87,8 +87,9 @@ export async function sendSmtpEmail(params: SmtpSendParams): Promise<SmtpSendRes
     },
     tls: config.connectHost ? { servername: config.host } : undefined,
     requireTLS: config.port === 587,
-    connectionTimeout: 15_000,
-    greetingTimeout: 15_000,
+    connectionTimeout: 8_000,
+    greetingTimeout: 8_000,
+    socketTimeout: 12_000,
   };
 
   const transport = nodemailer.createTransport(transportOptions);

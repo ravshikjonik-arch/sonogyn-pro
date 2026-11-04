@@ -246,13 +246,24 @@ export async function POST(req: Request) {
         }
       }
 
-      // Уже подтверждённый email → не гоняем в OTP с «чужим» паролем; сразу вход / сброс.
-      if (existingId && (await isUserEmailConfirmed(existingId))) {
+      // Duplicate: быстрый ответ «аккаунт есть», без долгого SMTP (раньше UI висел на отправке письма).
+      // OTP только если точно знаем, что email ещё не подтверждён.
+      let emailConfirmed = !existingId;
+      if (existingId) {
+        emailConfirmed = await Promise.race([
+          isUserEmailConfirmed(existingId),
+          new Promise<boolean>((resolve) => {
+            setTimeout(() => resolve(true), 2500);
+          }),
+        ]);
+      }
+
+      if (emailConfirmed) {
         await writeSecurityAuditLog({
           category: "auth",
           action: "sign-up.already_registered",
           success: false,
-          metadata: { userId: existingId },
+          metadata: { userId: existingId ?? null },
         });
         return NextResponse.json(
           {
@@ -265,7 +276,20 @@ export async function POST(req: Request) {
       }
 
       await resendSignupConfirmation(supabase, email, emailRedirectTo);
-      const otp = await sendSignupEmailOtp(email, clientIpFromRequest(req));
+      const otp = await Promise.race([
+        sendSignupEmailOtp(email, clientIpFromRequest(req)),
+        new Promise<{ ok: false; errorCode: string; message: string }>((resolve) => {
+          setTimeout(
+            () =>
+              resolve({
+                ok: false,
+                errorCode: "smtp_timeout",
+                message: "Письмо отправляется дольше обычного. Войдите или сбросьте пароль — либо запросите код снова через минуту.",
+              }),
+            12_000,
+          );
+        }),
+      ]);
       return finishSignUpResponse({
         wantsMobileSession,
         needsEmailConfirmation: true,
@@ -274,7 +298,7 @@ export async function POST(req: Request) {
           ? "Мы отправили код на почту (проверьте «Входящие» и «Спам»). Введите код ниже."
           : otp.errorCode === "smtp_app_password_required"
             ? "Аккаунт создан, но письмо с кодом не ушло: в SMTP_PASSWORD нужен пароль приложения Mail.ru (не обычный пароль). Пока откройте ссылку из письма Supabase или войдите через Telegram."
-            : RESEND_CONFIRMATION_MSG,
+            : otp.message || RESEND_CONFIRMATION_MSG,
         cookiesToSet,
       });
     }
