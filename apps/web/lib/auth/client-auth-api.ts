@@ -426,7 +426,10 @@ export async function postForgotPassword(email: string): Promise<{ ok: true; mes
   try {
     const res = await fetch("/api/auth/forgot-password", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Idempotency-Key": crypto.randomUUID(),
+      },
       credentials: "same-origin",
       body: JSON.stringify({ email }),
       signal: controller.signal,
@@ -438,13 +441,57 @@ export async function postForgotPassword(email: string): Promise<{ ok: true; mes
     } | null;
 
     if (!res.ok || !payload?.ok) {
-      return { ok: false, error: payload?.error ?? "Не удалось отправить письмо." };
+      return { ok: false, error: payload?.error ?? "Не удалось отправить код." };
     }
-    return { ok: true, message: payload.message ?? "Если email зарегистрирован, мы отправили ссылку." };
+    return {
+      ok: true,
+      message:
+        payload.message ??
+        "Если email указан верно — код отправлен. Проверьте «Входящие» и «Спам».",
+    };
   } catch {
     return {
       ok: false,
       error: "Сервер долго отвечает. Подождите минуту и нажмите «Забыли пароль?» снова.",
+    };
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+export async function postConfirmPasswordReset(params: {
+  email: string;
+  code: string;
+  password: string;
+}): Promise<{ ok: true; message?: string } | { ok: false; error: string }> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 20_000);
+  try {
+    const res = await fetch("/api/auth/confirm-password-reset", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "same-origin",
+      body: JSON.stringify({
+        email: params.email,
+        code: params.code,
+        password: params.password,
+      }),
+      signal: controller.signal,
+    });
+    const payload = (await res.json().catch(() => null)) as {
+      ok?: boolean;
+      message?: string;
+      error?: string;
+    } | null;
+
+    if (!res.ok || !payload?.ok) {
+      return { ok: false, error: payload?.error ?? "Неверный или просроченный код." };
+    }
+    return { ok: true, message: payload.message };
+  } catch {
+    return {
+      ok: false,
+      error: "Сервер долго отвечает. Попробуйте ещё раз через минуту.",
     };
   } finally {
     clearTimeout(timer);

@@ -265,6 +265,18 @@ export const ConfirmSignupOtpBodySchema = z.object({
 
 export type ConfirmSignupOtpBody = z.infer<typeof ConfirmSignupOtpBodySchema>;
 
+/** POST /api/auth/confirm-password-reset — код из письма + новый пароль */
+export const ConfirmPasswordResetBodySchema = z.object({
+  email: z.string().trim().email({ message: "Некорректный email." }).max(320),
+  code: z.string().trim().min(6).max(12),
+  password: z
+    .string()
+    .min(AUTH_PASSWORD_MIN_LENGTH, `Пароль не короче ${AUTH_PASSWORD_MIN_LENGTH} символов.`)
+    .max(AUTH_PASSWORD_MAX_LENGTH),
+});
+
+export type ConfirmPasswordResetBody = z.infer<typeof ConfirmPasswordResetBodySchema>;
+
 /** POST /api/auth/resend-confirmation */
 export const ResendConfirmationBodySchema = z.object({
   email: z.string().trim().email({ message: "Некорректный email." }).max(320),

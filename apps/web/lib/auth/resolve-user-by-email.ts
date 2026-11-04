@@ -96,6 +96,30 @@ export async function resolveUserIdByEmail(
   return null;
 }
 
+/**
+ * Находит Auth user id по email: сначала быстрый путь (profiles),
+ * затем Admin listUsers (нужно для сброса пароля, когда профиля ещё нет).
+ */
+export async function resolveAuthUserIdByEmail(email: string): Promise<string | null> {
+  const normalized = email.trim().toLowerCase();
+  const quick = await resolveUserIdByEmail(normalized);
+  if (quick) return quick;
+
+  try {
+    const admin = createServiceRoleClient();
+    for (let page = 1; page <= 5; page++) {
+      const { data, error } = await admin.auth.admin.listUsers({ page, perPage: 200 });
+      if (error) break;
+      const found = data.users.find((u) => (u.email ?? "").trim().toLowerCase() === normalized);
+      if (found?.id) return found.id;
+      if (!data.users.length || data.users.length < 200) break;
+    }
+  } catch {
+    /* ignore */
+  }
+  return null;
+}
+
 /** Инвалидация кеша после подтверждения email (опционально). */
 export async function invalidateUserEmailCache(email: string): Promise<void> {
   const normalized = email.trim().toLowerCase();

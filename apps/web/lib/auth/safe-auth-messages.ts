@@ -10,7 +10,7 @@ export const RESEND_CONFIRMATION_MSG =
 export const EMAIL_NOT_CONFIRMED_MSG =
   "Email ещё не подтверждён. Откройте ссылку из письма или запросите повторную отправку на странице регистрации.";
 export const PASSWORD_RESET_GENERIC_MSG =
-  "Если аккаунт с таким email существует, на него отправлено письмо для сброса пароля.";
+  "Если аккаунт с таким email есть — отправили 6-значный код на почту. Проверьте «Входящие» и «Спам» (от Sonogyn-pro@mail.ru).";
 export const OTP_INVALID_MSG = "Неверный или просроченный код.";
 /** Повторная регистрация на уже подтверждённый email. */
 export const EMAIL_ALREADY_REGISTERED_MSG =

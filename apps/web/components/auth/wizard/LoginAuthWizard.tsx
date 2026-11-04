@@ -9,8 +9,10 @@ import { AuthMessage, authInputClass } from "@/components/auth/AuthScreenShell";
 import { PhoneInput } from "@/components/auth/PhoneInput";
 import { TelegramSimpleAuth } from "@/components/auth/TelegramSimpleAuth";
 import { AuthWizardLayout } from "@/components/auth/wizard/AuthWizardLayout";
+import { OtpDigitRow } from "@/components/auth/wizard/OtpDigitRow";
 import { Button } from "@/components/ui/button";
 import {
+  postConfirmPasswordReset,
   postForgotPassword,
   postMfaVerifyLogin,
   postPhoneSendOtp,
@@ -20,6 +22,10 @@ import {
 import { isAuthEmailOnlyClient } from "@/lib/auth/auth-methods-config";
 import { isFullOpenAccessEnabledClient } from "@/lib/auth/guest-demo-account";
 import { normalizePhone } from "@/lib/auth/oauth-providers";
+import {
+  AUTH_PASSWORD_MIN_LENGTH,
+  AUTH_PASSWORD_TOO_SHORT_MSG,
+} from "@/lib/auth/password-policy";
 import { isRuPhoneMaskComplete } from "@/lib/auth/ru-phone-mask";
 import {
   PASSWORD_RESET_GENERIC_MSG,
@@ -31,6 +37,7 @@ import { markSessionAnchorNow } from "@/lib/security/session-anchor";
 import { cn } from "@/lib/utils/cn";
 
 type LoginMethod = "email" | "phone" | "telegram";
+type EmailStep = "login" | "reset";
 
 type Props = {
   nextPath: string;
@@ -50,15 +57,17 @@ export function LoginAuthWizard({ nextPath }: Props) {
   }, [searchParams, phoneAllowed]);
 
   const [method, setMethod] = useState<LoginMethod>(initialMethod);
+  const [emailStep, setEmailStep] = useState<EmailStep>("login");
   const [email, setEmail] = useState(() => searchParams.get("email")?.trim() ?? "");
   const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [newPasswordRepeat, setNewPasswordRepeat] = useState("");
   const [phone, setPhone] = useState("");
   const [fallbackEmail, setFallbackEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [sendCooldownSec, setSendCooldownSec] = useState(0);
   const [message, setMessage] = useState("");
-  const [forgotHint, setForgotHint] = useState(false);
   const [loading, setLoading] = useState(false);
   const [mfaRequired, setMfaRequired] = useState(false);
   const [mfaFactorId, setMfaFactorId] = useState<string | null>(null);
@@ -72,10 +81,11 @@ export function LoginAuthWizard({ nextPath }: Props) {
     const qEmail = searchParams.get("email")?.trim();
     if (qEmail) setEmail(qEmail);
     if (searchParams.get("forgot") === "1") {
-      setForgotHint(true);
-      setMessage("Укажите email (если ещё не указан) и нажмите «Забыли пароль?» — придёт ссылка для сброса.");
+      setEmailStep("reset");
+      setMessage("Укажите email и нажмите «Получить код» — придёт 6 цифр на почту.");
     }
     if (searchParams.get("message") === "password_updated") {
+      setEmailStep("login");
       setMessage("Пароль обновлён. Войдите новым паролем.");
     }
   }, [searchParams]);
@@ -146,23 +156,68 @@ export function LoginAuthWizard({ nextPath }: Props) {
     }
   }
 
-  async function onResetPassword() {
+  async function onSendResetCode() {
     setMessage("");
     if (!guardOnline()) return;
     if (!email.trim()) {
       setMessage("Укажите email для восстановления пароля.");
-      setForgotHint(true);
+      setEmailStep("reset");
       return;
     }
+    if (sendCooldownSec > 0) return;
+
     setLoading(true);
     try {
       const result = await postForgotPassword(email.trim());
-      setForgotHint(true);
+      setEmailStep("reset");
+      setOtp("");
+      setSendCooldownSec(30);
       setMessage(
         result.ok
-          ? `${result.message} Откройте письмо от Sonogyn-pro@mail.ru (и «Спам»), перейдите по ссылке и задайте новый пароль (≥8 символов).`
+          ? `${result.message} Введите код и новый пароль (≥${AUTH_PASSWORD_MIN_LENGTH} символов).`
           : PASSWORD_RESET_GENERIC_MSG,
       );
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function onConfirmReset(e: FormEvent) {
+    e.preventDefault();
+    setMessage("");
+    if (!guardOnline()) return;
+
+    const code = otp.replace(/\D/g, "");
+    if (code.length !== 6) {
+      setMessage("Введите 6-значный код из письма.");
+      return;
+    }
+    if (newPassword.length < AUTH_PASSWORD_MIN_LENGTH) {
+      setMessage(AUTH_PASSWORD_TOO_SHORT_MSG);
+      return;
+    }
+    if (newPassword !== newPasswordRepeat) {
+      setMessage("Пароли не совпадают.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const result = await postConfirmPasswordReset({
+        email: email.trim(),
+        code,
+        password: newPassword,
+      });
+      if (!result.ok) {
+        setMessage(result.error);
+        return;
+      }
+      setEmailStep("login");
+      setPassword(newPassword);
+      setNewPassword("");
+      setNewPasswordRepeat("");
+      setOtp("");
+      setMessage(result.message ?? "Пароль обновлён. Войдите новым паролем.");
     } finally {
       setLoading(false);
     }
@@ -262,6 +317,7 @@ export function LoginAuthWizard({ nextPath }: Props) {
             setMfaRequired(false);
             setOtpSent(false);
             setOtp("");
+            setEmailStep("login");
           }}
           className={cn(
             "rounded-xl py-2.5 text-sm font-bold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--clinical-primary)]",
@@ -278,21 +334,32 @@ export function LoginAuthWizard({ nextPath }: Props) {
 
   const subtitle = mfaRequired
     ? "Введите код из приложения-аутентификатора."
-    : method === "email"
-      ? "Email и пароль — основной способ входа."
-      : method === "phone"
-        ? "Код по SMS на +7; дубль на email, если SMS задержится."
-        : "Вход через Telegram-бота.";
+    : emailStep === "reset"
+      ? "Код из письма + новый пароль."
+      : method === "email"
+        ? "Email и пароль — основной способ входа."
+        : method === "phone"
+          ? "Код по SMS на +7; дубль на email, если SMS задержится."
+          : "Вход через Telegram-бота.";
 
   return (
-    <AuthWizardLayout title={mfaRequired ? "Код двухфакторной защиты" : "Вход"} subtitle={subtitle}>
-      {!mfaRequired && isFullOpenAccessEnabledClient() ? (
+    <AuthWizardLayout
+      title={
+        mfaRequired
+          ? "Код двухфакторной защиты"
+          : emailStep === "reset"
+            ? "Сброс пароля"
+            : "Вход"
+      }
+      subtitle={subtitle}
+    >
+      {!mfaRequired && emailStep === "login" && isFullOpenAccessEnabledClient() ? (
         <Button asChild variant="outline" className="mb-4 w-full">
           <Link href="/home">В кабинет без входа</Link>
         </Button>
       ) : null}
 
-      {!mfaRequired ? methodSwitcher : null}
+      {!mfaRequired && emailStep === "login" ? methodSwitcher : null}
 
       {mfaRequired ? (
         <form className="space-y-4" onSubmit={(e) => void onMfaSubmit(e)}>
@@ -311,6 +378,83 @@ export function LoginAuthWizard({ nextPath }: Props) {
           <Button type="submit" className="w-full" disabled={loading}>
             Подтвердить
           </Button>
+        </form>
+      ) : emailStep === "reset" ? (
+        <form className="space-y-3" onSubmit={(e) => void onConfirmReset(e)}>
+          <label className="block">
+            <span className="text-xs font-medium text-[var(--clinical-foreground-muted)]">E-mail</span>
+            <input
+              className={authInputClass}
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              autoComplete="email"
+            />
+          </label>
+          <OtpDigitRow value={otp} onChange={setOtp} disabled={loading} label="Код из письма" />
+          <label className="block">
+            <span className="text-xs font-medium text-[var(--clinical-foreground-muted)]">
+              Новый пароль (≥{AUTH_PASSWORD_MIN_LENGTH})
+            </span>
+            <input
+              className={authInputClass}
+              type="password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              required
+              minLength={AUTH_PASSWORD_MIN_LENGTH}
+              autoComplete="new-password"
+            />
+          </label>
+          <label className="block">
+            <span className="text-xs font-medium text-[var(--clinical-foreground-muted)]">
+              Повтор нового пароля
+            </span>
+            <input
+              className={authInputClass}
+              type="password"
+              value={newPasswordRepeat}
+              onChange={(e) => setNewPasswordRepeat(e.target.value)}
+              required
+              minLength={AUTH_PASSWORD_MIN_LENGTH}
+              autoComplete="new-password"
+            />
+          </label>
+          <AuthMessage
+            message={message}
+            tone={
+              message.includes("код") || message.includes("Спам") || message.includes("отправлен")
+                ? "success"
+                : "error"
+            }
+          />
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading ? "Сохраняем…" : "Сохранить новый пароль"}
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full"
+            disabled={loading || sendCooldownSec > 0}
+            onClick={() => void onSendResetCode()}
+          >
+            {sendCooldownSec > 0 ? `Повтор кода через ${sendCooldownSec} с` : "Отправить код снова"}
+          </Button>
+          <button
+            type="button"
+            className="w-full text-center text-sm text-[var(--clinical-primary-deep)] hover:underline"
+            disabled={loading}
+            onClick={() => {
+              setEmailStep("login");
+              setOtp("");
+              setNewPassword("");
+              setNewPasswordRepeat("");
+              setMessage("");
+            }}
+          >
+            Назад ко входу
+          </button>
         </form>
       ) : method === "telegram" ? (
         <TelegramSimpleAuth mode="login" nextPath={nextPath} message={message || undefined} />
@@ -417,16 +561,6 @@ export function LoginAuthWizard({ nextPath }: Props) {
             />
           </label>
           <AuthMessage message={message} />
-          {forgotHint ? (
-            <Button
-              type="button"
-              className="w-full"
-              disabled={loading}
-              onClick={() => void onResetPassword()}
-            >
-              Отправить ссылку сброса пароля
-            </Button>
-          ) : null}
           <Button type="submit" className="w-full" disabled={loading} data-testid="login-button" aria-label="Войти">
             Войти
           </Button>
@@ -434,7 +568,7 @@ export function LoginAuthWizard({ nextPath }: Props) {
             type="button"
             className="w-full text-center text-sm text-[var(--clinical-primary-deep)] hover:underline"
             disabled={loading}
-            onClick={() => void onResetPassword()}
+            onClick={() => void onSendResetCode()}
           >
             Забыли пароль?
           </button>
