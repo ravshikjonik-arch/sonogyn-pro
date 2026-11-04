@@ -8,12 +8,26 @@ export type EvidenceProviderId =
   | "clinical_trials"
   | "kr_mz_rf"
   | "static_corpus"
+  | "medical_vault"
   | "openfda"
   | "dailymed"
   | "who"
   | "nice"
   | "ema"
   | "rf_regulation";
+
+/** Hit from pgvector vault RPC (citation-safe snippet only). */
+export type MedicalVaultSearchHit = {
+  chunkId: string;
+  sourceId: string;
+  title: string;
+  organization?: string;
+  year?: number;
+  section?: string;
+  quote: string;
+  url: string;
+  score: number;
+};
 
 export type EvidenceRecordType =
   | "systematic_review"
@@ -151,6 +165,14 @@ export type RetrievalConfig = {
   enabledProviders?: EvidenceProviderId[];
   /** WHO/NICE/EMA rows from DB ingest or seed file. */
   externalGuidelines?: ExternalGuidelineRecord[];
+  /**
+   * Optional vault semantic search (implemented in apps/web via embed + RPC).
+   * When absent, medical_vault adapter skips.
+   */
+  medicalVaultSearch?: (args: {
+    query: string;
+    limit: number;
+  }) => Promise<MedicalVaultSearchHit[]>;
 };
 
 export type ExternalGuidelineRecord = {
@@ -163,6 +185,7 @@ export type ExternalGuidelineRecord = {
 };
 
 export type CacheStore = {
-  get<T>(key: string): T | undefined;
-  set<T>(key: string, value: T, ttlMs: number): void;
+  /** Sync or async — adapters use `await Promise.resolve(cache.get(...))`. */
+  get<T>(key: string): T | undefined | Promise<T | undefined>;
+  set<T>(key: string, value: T, ttlMs: number): void | Promise<void>;
 };
