@@ -200,7 +200,7 @@ const EDUCATION_LIBRARY_ITEMS_RAW: EducationLibraryItem[] = [
     title: "Evidence Assistant · AI",
     description:
       "Live-поиск PubMed, Cochrane, Europe PMC, Semantic Scholar, КР МЗ РФ + AI-резюме с цитатами.",
-    href: "/tools/refs/evidence-assistant",
+    href: "/tools/refs/evidence-sources",
     tags: ["EBM", "PubMed", "Cochrane", "AI", "доказательная медицина"],
     primary: true,
     badge: "EBM",

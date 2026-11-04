@@ -102,7 +102,7 @@ const quickSearchHints = [
   { label: "Live приём", href: "/ai/consultants/us-prep" },
   { label: "O-RADS", href: "/tools/calc/rads/o-rads" },
   { label: "Миома", href: "/tools/refs/nosologies/uterine-myoma" },
-  { label: "Evidence AI", href: "/tools/refs/evidence-assistant" },
+  { label: "Доказательства", href: "/tools/refs/evidence-sources" },
 ] as const;
 
 export function DoctorStartPanel() {

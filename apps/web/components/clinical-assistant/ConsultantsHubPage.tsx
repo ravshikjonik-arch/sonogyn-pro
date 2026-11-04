@@ -38,7 +38,7 @@ const GROUPS: DomainHubGroup[] = [
     title: "Рядом",
     cards: [
       {
-        href: "/tools/refs/evidence-assistant",
+        href: "/tools/refs/evidence-sources",
         title: "Evidence AI",
         description: "Публикации и клинические рекомендации",
       },

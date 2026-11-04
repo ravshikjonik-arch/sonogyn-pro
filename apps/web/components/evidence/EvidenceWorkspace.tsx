@@ -291,7 +291,7 @@ export function EvidenceWorkspace({ initialShelf }: { initialShelf?: EvidenceShe
         </p>
         <p className="text-[11px] text-[var(--clinical-foreground-muted)]">{EVIDENCE_DISCLAIMER}</p>
         <Link
-          href="/tools/refs/evidence-assistant"
+          href="/tools/refs/evidence-sources?tab=ask"
           className="inline-flex items-center gap-1 text-xs font-medium text-[var(--clinical-primary)] underline"
         >
           <Sparkles className="h-3 w-3" />

@@ -14,16 +14,16 @@ export async function runEvidenceRetrievalAgent(
   if (query.length < 2) {
     const bundle = wrapClinicalSupportBundle({
       summary:
-        `SonoEvidence + Evidence Assistant: задайте clinical question или откройте /tools/refs/evidence-assistant.`,
+        `SonoEvidence + слой «Доказательства и источники»: задайте clinical question или откройте /tools/refs/evidence-sources.`,
       findings: [],
       followUpSuggestions: [
-        "Evidence Assistant (/tools/refs/evidence-assistant) — PubMed, Cochrane, КР МЗ РФ.",
-        "SonoEvidence (/evidence) — курируемая база 236 тем.",
+        "Доказательства и источники (/tools/refs/evidence-sources) — КР, PubMed, ГРЛС, Новое.",
+        "SonoEvidence (/tools/refs/evidence) — курируемая база.",
       ],
       additionalTestsSuggestions: [],
       citations: [
         { label: `Corpus ${EVIDENCE_CORPUS_VERSION}`, href: "/tools/refs/evidence" },
-        { label: "Evidence Assistant", href: "/tools/refs/evidence-assistant" },
+        { label: "Доказательства и источники", href: "/tools/refs/evidence-sources" },
       ],
     });
     return { agent: "evidence_retrieval", bundle, hypotheses: [], warnings: [] };

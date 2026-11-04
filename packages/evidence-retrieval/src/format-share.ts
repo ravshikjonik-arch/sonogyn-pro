@@ -36,7 +36,7 @@ export function formatEvidenceAnswerForClipboard(answer: AssistantAnswer): strin
   lines.push(
     "",
     "Справочная информация (CDS). Не диагноз; интерпретация — специалист.",
-    "https://sonogyn-pro.ru/tools/refs/evidence-assistant",
+    "https://sonogyn-pro.ru/tools/refs/evidence-sources?tab=ask",
   );
 
   return lines.join("\n");

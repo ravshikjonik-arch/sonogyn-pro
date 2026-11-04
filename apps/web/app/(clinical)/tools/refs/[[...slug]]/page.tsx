@@ -47,7 +47,7 @@ const clinicalShortcuts = [
   { label: "Акушерство", href: "/tools/obstetrics" },
   { label: "Нозологии", href: "/tools/refs/nosologies" },
   { label: "Клин. нормы", href: "/tools/refs/norms" },
-  { label: "Evidence AI", href: "/tools/refs/evidence-assistant" },
+  { label: "Доказательства и источники", href: "/tools/refs/evidence-sources" },
   { label: "Пациентские памятки", href: "/tools/refs/patient-information" },
 ] as const;
 

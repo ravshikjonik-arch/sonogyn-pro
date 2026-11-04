@@ -9,6 +9,11 @@ import {
   dailyMedAdapter,
   openFdaAdapter,
 } from "./adapters/regulatory.adapter.js";
+import { grlsAdapter } from "./adapters/grls.adapter.js";
+import { openAlexAdapter } from "./adapters/openalex.adapter.js";
+import { doajAdapter } from "./adapters/doaj.adapter.js";
+import { epistemonikosAdapter } from "./adapters/epistemonikos.adapter.js";
+import { roszdravnadzorAdapter } from "./adapters/roszdravnadzor.adapter.js";
 import { emaAdapter, niceAdapter, rfRegulationAdapter, whoAdapter } from "./adapters/external-guidelines.adapter.js";
 import { enrichRecordsWithCrossref } from "./adapters/crossref.adapter.js";
 import type { EvidenceAdapter } from "./adapters/types.js";
@@ -35,10 +40,15 @@ export const ALL_ADAPTERS: EvidenceAdapter[] = [
   pubmedAdapter,
   europePmcAdapter,
   cochraneAdapter,
+  openAlexAdapter,
+  doajAdapter,
   semanticScholarAdapter,
   clinicalTrialsAdapter,
+  epistemonikosAdapter,
+  grlsAdapter,
   openFdaAdapter,
   dailyMedAdapter,
+  roszdravnadzorAdapter,
   emaAdapter,
   whoAdapter,
   niceAdapter,
@@ -55,8 +65,13 @@ export const DEFAULT_ENABLED_PROVIDERS: EvidenceProviderId[] = [
   "pubmed",
   "europe_pmc",
   "cochrane",
+  "openalex",
+  "doaj",
   "semantic_scholar",
   "clinical_trials",
+  "epistemonikos",
+  "grls",
+  "roszdravnadzor",
 ];
 
 function resolveAdapters(

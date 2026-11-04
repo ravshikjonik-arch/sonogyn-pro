@@ -13,7 +13,7 @@ export function formatInsufficientEvidenceChatReply(answer: AssistantAnswer): st
     "",
     "### Что можно сделать",
     "- Уточнить запрос: нозология, классификация (O-RADS US v2022, IOTA 2026, BI-RADS, TI-RADS), контекст.",
-    "- Каталог КР: /tools/refs/guidelines · Evidence Assistant: /tools/refs/evidence-assistant (корпус «Все источники»).",
+    "- Каталог КР: /tools/refs/guidelines · Доказательства: /tools/refs/evidence-sources (вкладка «Спросить»).",
     "- УЗИ-классификации: /tools/calc/rads/o-rads · /tools/refs/iota-terms-2026",
     "",
     "_Подтверждённые данные отсутствуют — клиническая тактика не формулируется._",

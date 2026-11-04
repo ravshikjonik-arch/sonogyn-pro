@@ -53,9 +53,9 @@ export const TOOLS_HOME_DOMAINS = [
     accent: "from-teal-600 to-cyan-500",
   },
   {
-    href: "/tools/refs/evidence-assistant",
-    title: "Evidence AI",
-    description: "PubMed · Cochrane · КР · AI с цитатами",
+    href: "/tools/refs/evidence-sources",
+    title: "Доказательства и источники",
+    description: "КР · PubMed · ГРЛС · Новое · ссылки вовне",
     accent: "from-amber-500 to-orange-400",
   },
 ] as const;
@@ -140,6 +140,12 @@ export const OBSTETRICS_GROUPS: DomainHubGroup[] = [
         href: "/tools/refs/guidelines",
         title: "КР и приказы",
         description: "Клинические рекомендации в кабинете",
+      },
+      {
+        href: "/tools/refs/evidence-sources",
+        title: "Доказательства и источники",
+        description: "КР · Evidence · ГРЛС · Новое — одна крыша",
+        primary: true,
       },
     ],
   },
@@ -361,9 +367,9 @@ export const ASSISTANT_HUB: DomainHubCard[] = [
     description: "I/II/III триместр, допплер",
   },
   {
-    href: "/tools/refs/evidence-assistant",
-    title: "Evidence AI",
-    description: "PubMed · Cochrane · КР · закладки",
+    href: "/tools/refs/evidence-sources",
+    title: "Доказательства и источники",
+    description: "КР · PubMed · ГРЛС · Новое",
     primary: true,
     badge: "EBM",
   },

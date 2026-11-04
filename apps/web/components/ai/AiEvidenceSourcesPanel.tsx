@@ -55,7 +55,7 @@ export function AiEvidenceSourcesPanel({ evidence, onNavigate, className }: Prop
           </Link>
           {" · "}
           <Link
-            href="/tools/refs/evidence-assistant"
+            href="/tools/refs/evidence-sources?tab=ask"
             className="font-semibold text-[var(--clinical-primary-deep)] underline"
             onClick={pick}
           >
@@ -133,7 +133,7 @@ export function AiEvidenceSourcesPanel({ evidence, onNavigate, className }: Prop
 
       {evidence.citations.length > 4 ? (
         <Link
-          href="/tools/refs/evidence-assistant"
+          href="/tools/refs/evidence-sources?tab=ask"
           onClick={pick}
           className="inline-flex items-center gap-1 text-[10px] text-[var(--clinical-primary-deep)] underline"
         >

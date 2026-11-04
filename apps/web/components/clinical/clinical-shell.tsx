@@ -107,7 +107,7 @@ const navGroups: { title: string; items: { href: string; label: string; icon: ty
     items: [
       { href: "/ai/consultants/us-prep", label: "Live приём · УЗИ", icon: Mic },
       { href: "/ai/consultants", label: "Помощник врача", icon: HandHeart },
-      { href: "/tools/refs/evidence-assistant", label: "Evidence AI", icon: Sparkles },
+      { href: "/tools/refs/evidence-sources", label: "Доказательства", icon: Sparkles },
       { href: "/ai/workspace", label: "AI-зона · снимки", icon: Brain },
     ],
   },

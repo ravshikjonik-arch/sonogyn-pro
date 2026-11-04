@@ -41,9 +41,15 @@ export function ReferenceHubPanel({ navigation, embedded }: Props) {
     },
     {
       id: "evidence-assistant",
-      title: "Evidence Assistant",
-      sub: "PubMed · Cochrane · КР · AI-резюме · native",
+      title: "Доказательства · native",
+      sub: "PubMed · Cochrane · КР · AI-резюме",
       onPress: () => navigation.navigate("EvidenceAssistant"),
+    },
+    {
+      id: "evidence-sources-hub",
+      title: "Доказательства и источники",
+      sub: "КР · ГРЛС · Новое · ссылки вовне (web)",
+      onPress: () => void openWebPath("/tools/refs/evidence-sources"),
     },
     {
       id: "evidence-base",
