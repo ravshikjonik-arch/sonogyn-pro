@@ -188,8 +188,9 @@ export function LoginAuthWizard({ nextPath }: Props) {
     e.preventDefault();
     setMessage("");
     if (!guardOnline()) return;
-    if (!otp.trim()) {
-      setMessage("Введите код из SMS или письма.");
+    const code = otp.replace(/\D/g, "");
+    if (code.length !== 6) {
+      setMessage("Введите 6-значный код из SMS или письма.");
       return;
     }
 
@@ -197,7 +198,7 @@ export function LoginAuthWizard({ nextPath }: Props) {
     try {
       const result = await postPhoneVerifyOtp({
         phone: normalizePhone(phone),
-        token: otp.trim(),
+        token: code,
         createUser: false,
       });
       if (!result.ok) {
@@ -334,14 +335,15 @@ export function LoginAuthWizard({ nextPath }: Props) {
             <>
               <label className="block">
                 <span className="text-xs font-medium text-[var(--clinical-foreground-muted)]">
-                  Код из SMS или письма
+                  6-значный код из SMS или письма
                 </span>
                 <input
                   className={authInputClass}
                   inputMode="numeric"
                   autoComplete="one-time-code"
+                  maxLength={6}
                   value={otp}
-                  onChange={(e) => setOtp(e.target.value)}
+                  onChange={(e) => setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
                   placeholder="123456"
                   required
                 />

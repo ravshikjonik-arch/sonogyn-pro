@@ -281,8 +281,8 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
     setMessage("");
     if (!guardOnline()) return;
     const code = otp.replace(/\D/g, "");
-    if (code.length < 4) {
-      setMessage("Введите код из письма.");
+    if (code.length !== 6) {
+      setMessage("Введите 6-значный код из письма.");
       return;
     }
     setLoading(true);
@@ -309,8 +309,8 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
   async function onVerifyPhone() {
     setMessage("");
     if (!guardOnline()) return;
-    if (otp.replace(/\D/g, "").length < 4) {
-      setMessage("Введите код из SMS.");
+    if (otp.replace(/\D/g, "").length !== 6) {
+      setMessage("Введите 6-значный код из SMS.");
       return;
     }
     setLoading(true);
@@ -452,7 +452,16 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
       >
         {verifyMode === "phone" ? (
           <>
-            <OtpDigitRow value={otp} onChange={setOtp} disabled={loading} />
+            <p className="text-center text-sm text-[var(--clinical-foreground-muted)]">
+              Введите 6-значный код из SMS (как в письме на почту).
+            </p>
+            <OtpDigitRow
+              length={6}
+              value={otp}
+              onChange={setOtp}
+              disabled={loading}
+              label="Код из SMS"
+            />
             <Button type="button" className="mt-6 w-full" disabled={loading} onClick={() => void onVerifyPhone()}>
               Подтвердить телефон
             </Button>
@@ -482,7 +491,13 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
                 ? "Введите 6-значный код из письма. Ссылку из письма тоже можно открыть."
                 : "Откройте письмо со ссылкой или запросите код повторно."}
             </p>
-            <OtpDigitRow value={otp} onChange={setOtp} disabled={loading} label="Код из письма" />
+            <OtpDigitRow
+              length={6}
+              value={otp}
+              onChange={setOtp}
+              disabled={loading}
+              label="Код из письма"
+            />
             <Button type="button" className="mt-6 w-full" disabled={loading} onClick={() => void onVerifyEmailOtp()}>
               Подтвердить почту кодом
             </Button>

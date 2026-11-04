@@ -228,7 +228,7 @@ export const SendCodeBodySchema = z.object({
 export const VerifyCodeBodySchema = z.object({
   method: VerificationMethodSchema,
   contact: z.string().trim().min(3).max(320),
-  code: z.string().trim().min(4).max(12),
+  code: z.string().trim().min(6).max(12),
   purpose: VerificationPurposeSchema.optional(),
 });
 
@@ -236,7 +236,7 @@ export const VerifyCodeBodySchema = z.object({
 export const ConfirmSignupOtpBodySchema = z.object({
   email: z.string().trim().email({ message: "Некорректный email." }).max(320),
   password: z.string().min(1, "Укажите пароль.").max(128),
-  code: z.string().trim().min(4).max(12),
+  code: z.string().trim().min(6).max(12),
 });
 
 export type ConfirmSignupOtpBody = z.infer<typeof ConfirmSignupOtpBodySchema>;
