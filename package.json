@@ -60,6 +60,11 @@
     "verify:birads-rules-snapshot": "node packages/birads-us/scripts/verify-rules-snapshot.mjs",
     "test:imaging-cds": "pnpm --filter @repo/web test:imaging-cds",
     "eval:imaging-cds": "node --import tsx scripts/imaging-cds-eval.mjs --manifest docs/clinical-imaging-cds/golden-set/manifest.synthetic-ci.json",
+    "test:evidence-retrieval": "pnpm --filter @repo/evidence-retrieval test && pnpm --filter @repo/evidence-retrieval test:golden && pnpm --filter @repo/evidence-retrieval eval:hybrid-ab:soft",
+    "eval:evidence-ragas:soft": "python3 services/evidence-eval/run_ragas_sample.py",
+    "spike:docling:soft": "python3 services/docling-ingest/spike_markdown_chunker.py --input services/docling-ingest/fixtures/sample_guideline.md --out /tmp/sonogyn-docling-chunks.json",
+    "embed:medical-vault": "node apps/web/scripts/embed-medical-vault-chunks.mjs",
+    "embed:medical-vault:dry": "DRY_RUN=1 EMBED_LIMIT=5 node apps/web/scripts/embed-medical-vault-chunks.mjs",
     "test:e2e:iota": "pnpm --filter @repo/web test:e2e:iota"
   },
   "devDependencies": {
