@@ -102,6 +102,18 @@ export type UnifiedSearchResult = {
 
 export type AssistantEvidenceStrength = "high" | "moderate" | "low" | "insufficient";
 
+/**
+ * Wave-1 Evidence MVP: distinguish sourced facts from model inference.
+ * `citationIndexes` are 0-based indexes into `AssistantAnswer.citations`.
+ */
+export type EvidenceClaimKind = "sourced" | "inference";
+
+export type EvidenceClaim = {
+  text: string;
+  kind: EvidenceClaimKind;
+  citationIndexes: number[];
+};
+
 export type AssistantAnswer = {
   query: string;
   summary: string;
@@ -118,6 +130,15 @@ export type AssistantAnswer = {
   synthesisMode: "llm" | "rules";
   /** Echo of request corpus mode (for UI empty-state copy). */
   corpusMode?: EvidenceCorpusMode;
+  /**
+   * Structured claims for UI/eval. Empty when `insufficient === true`.
+   * Sourced claims must reference real citationIndexes; inference = model/rules without hard cite.
+   */
+  claims?: EvidenceClaim[];
+  /** True when no citable sources — do not treat recommendations as clinical facts. */
+  insufficient?: boolean;
+  /** Optional RU translations of international citation titles (LLM or fallback). */
+  sourceTranslations?: { id: string; titleRu: string; keyPointRu: string }[];
 };
 
 export type RetrievalConfig = {

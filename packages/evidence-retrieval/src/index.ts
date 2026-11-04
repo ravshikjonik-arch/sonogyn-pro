@@ -1,4 +1,5 @@
 export * from "./types.js";
+export * from "./claims.js";
 export * from "./normalizer.js";
 export * from "./dedup.js";
 export * from "./ranker.js";
