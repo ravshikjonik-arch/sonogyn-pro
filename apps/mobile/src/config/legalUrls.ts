@@ -10,8 +10,8 @@ const LEGAL_BASE = "https://sonogyn-pro.ru";
 
 export const LEGAL_PUBLIC_URLS = {
   privacyPolicy: `${LEGAL_BASE}/privacy`,
-  /** Dedicated /terms on web — TBD; privacy page covers 152-FZ for pilot builds. */
-  termsOfUse: `${LEGAL_BASE}/privacy`,
+  termsOfUse: `${LEGAL_BASE}/terms`,
+  supportEmail: "Sonogyn-pro@mail.ru",
 } as const;
 
 export function legalPublicUrlsAreConfigured(): boolean {

@@ -8,14 +8,15 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": false,
       "bundleIdentifier": "com.yakrav7700.usriskcalc",
-      "buildNumber": "17",
+      "buildNumber": "19",
       "infoPlist": {
-        "NSCameraUsageDescription": "Камера: съёмка снимков для разделов AI и чата врачей.",
-        "NSPhotoLibraryUsageDescription": "Галерея: выбор изображений для AI и чата.",
-        "NSMicrophoneUsageDescription": "Микрофон: диктовка протокола УЗИ (серверная расшифровка Whisper).",
-        "ITSAppUsesNonExemptEncryption": false
+        "NSCameraUsageDescription": "Камера: съёмка обезличенных учебных снимков УЗИ для кейсов и ассистивных инструментов.",
+        "NSPhotoLibraryUsageDescription": "Галерея: выбор обезличенных изображений УЗИ для кейсов и ассистивных инструментов.",
+        "NSMicrophoneUsageDescription": "Микрофон: диктовка протокола УЗИ; аудио отправляется на сервер для расшифровки Whisper.",
+        "ITSAppUsesNonExemptEncryption": false,
+        "RCTNewArchEnabled": false
       }
     },
     "android": {
@@ -96,7 +97,7 @@
       }
     },
     "owner": "yakrav7700",
-    "runtimeVersion": "1.0.1",
+    "runtimeVersion": "1.0.3",
     "updates": {
       "url": "https://u.expo.dev/7a563271-84bd-4439-9b8b-e911adce3a44"
     }

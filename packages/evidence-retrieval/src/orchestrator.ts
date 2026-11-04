@@ -3,6 +3,7 @@ import { pubmedAdapter } from "./adapters/pubmed.adapter.js";
 import { semanticScholarAdapter } from "./adapters/semantic-scholar.adapter.js";
 import { krMzRfAdapter } from "./adapters/kr-mz-rf.adapter.js";
 import { staticCorpusAdapter } from "./adapters/static-corpus.adapter.js";
+import { medicalVaultAdapter } from "./adapters/medical-vault.adapter.js";
 import { clinicalTrialsAdapter } from "./adapters/clinical-trials.adapter.js";
 import {
   dailyMedAdapter,
@@ -14,6 +15,7 @@ import type { EvidenceAdapter } from "./adapters/types.js";
 import { emptyCorpusMessage, providersForCorpusMode } from "./corpus-mode.js";
 import { dedupeEvidenceRecords } from "./dedup.js";
 import { createMemoryCacheStore } from "./infra/cache.js";
+import { buildRulesClaims, withClaims } from "./claims.js";
 import { rankEvidenceRecords, evidenceStrengthFromRecords } from "./ranker.js";
 import type {
   AssistantAnswer,
@@ -28,6 +30,7 @@ import type {
 
 export const ALL_ADAPTERS: EvidenceAdapter[] = [
   staticCorpusAdapter,
+  medicalVaultAdapter,
   krMzRfAdapter,
   pubmedAdapter,
   europePmcAdapter,
@@ -44,6 +47,7 @@ export const ALL_ADAPTERS: EvidenceAdapter[] = [
 
 export const DEFAULT_ENABLED_PROVIDERS: EvidenceProviderId[] = [
   "static_corpus",
+  "medical_vault",
   "kr_mz_rf",
   "who",
   "nice",
@@ -215,7 +219,7 @@ export function synthesizeEvidenceAnswer(
     sourcesUsed[p.provider] = p.status;
   }
 
-  return {
+  const base: AssistantAnswer = {
     query,
     summary,
     evidenceStrength: strength,
@@ -231,6 +235,8 @@ export function synthesizeEvidenceAnswer(
     synthesisMode: "rules",
     corpusMode: resolvedMode,
   };
+
+  return withClaims(base, buildRulesClaims(citations, recommendations));
 }
 
 export async function askEvidenceAssistant(

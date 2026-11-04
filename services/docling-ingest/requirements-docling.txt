@@ -1,0 +1,2 @@
+# Opt-in only. Do not install into apps/web.
+docling>=2.0.0

@@ -9,6 +9,7 @@ import {
   type EvidenceProviderId,
 } from "@repo/evidence-retrieval";
 
+import { createEvidenceCacheStore } from "@/lib/evidence/redis-cache-store";
 import { buildRetrievalConfigAsync } from "@/lib/evidence/retrieval-config";
 import { logEvidenceQuery, sourcesFromProviderResults } from "@/lib/evidence/log-evidence-query";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
@@ -26,11 +27,13 @@ const PROVIDER_IDS = [
   "clinical_trials",
   "kr_mz_rf",
   "static_corpus",
+  "medical_vault",
   "openfda",
   "dailymed",
   "who",
   "nice",
   "ema",
+  "rf_regulation",
 ] as const satisfies readonly EvidenceProviderId[];
 
 const CorpusModeSchema = z.enum(
@@ -92,7 +95,7 @@ export async function GET(request: Request) {
       preferHighEvidence: true,
       maxAgeYears: 12,
     },
-    { config: await buildRetrievalConfigAsync() },
+    { config: await buildRetrievalConfigAsync(), cache: createEvidenceCacheStore() },
   );
 
   if (!auth.openAccess) {

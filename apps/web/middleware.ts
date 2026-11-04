@@ -1,6 +1,11 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { updateSession } from "@/utils/supabase/middleware";
 import { isDevSkipAuthEnabled, isFullOpenAccessEnabled } from "@/lib/auth/dev-account";
+import {
+  COPYRIGHT_SAFE_LANDING,
+  isCopyrightLockedAsset,
+  isCopyrightLockedRoute,
+} from "@/lib/copyright/book-content-gate";
 import { needsPhoneVerification } from "@/lib/auth/phone-verified";
 import { defaultPostAuthPath } from "@/lib/nav/post-auth-landing";
 import { safeInternalPath } from "@/lib/nav/safe-redirect";
@@ -159,6 +164,21 @@ function allowCrossOriginDocumentRead(response: NextResponse): void {
 
 export default async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
+
+  // Book scans / PDF / atlas galleries — not for end users (engines stay internal).
+  if (isCopyrightLockedAsset(pathname)) {
+    const blocked = new NextResponse("Not Found", { status: 404 });
+    applySecurityHeaders(blocked);
+    return blocked;
+  }
+  if (isCopyrightLockedRoute(pathname)) {
+    const url = request.nextUrl.clone();
+    url.pathname = COPYRIGHT_SAFE_LANDING;
+    url.search = "";
+    const redirect = NextResponse.redirect(url);
+    applySecurityHeaders(redirect);
+    return redirect;
+  }
 
   if (
     request.method === "OPTIONS" &&
@@ -458,6 +478,15 @@ export const config = {
     "/landing/:path*",
     "/lp/:path*",
     "/privacy",
+    "/terms",
     "/auth/:path*",
+    "/clinical-atlas",
+    "/clinical-atlas/:path*",
+    "/clinical",
+    "/clinical/:path*",
+    "/education",
+    "/education/:path*",
+    "/books",
+    "/books/:path*",
   ],
 };

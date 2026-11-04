@@ -9,6 +9,10 @@ import { LexiconImageOverlay } from "@/components/calculators/orads/LexiconImage
 import { OradsAssistFeedback } from "@/components/calculators/orads/wizard/OradsAssistFeedback";
 import { Button } from "@/components/ui/button";
 import type { GynAiAssistResult } from "@/lib/ai/gyn-ultrasound-assist";
+import {
+  assistHttpErrorMessage,
+  prepareClientImagingFrame,
+} from "@/lib/ai/imaging-cds/prepare-client-frame";
 import { createOradsEvent } from "@/lib/orads/oradsEventsApi";
 import type { UseOradsNavigatorReturn } from "@repo/orads-us";
 
@@ -16,14 +20,6 @@ type Props = {
   nav: UseOradsNavigatorReturn;
   profileAgeYears?: number;
 };
-
-async function fileToBase64(file: File): Promise<string> {
-  const buf = await file.arrayBuffer();
-  let binary = "";
-  const bytes = new Uint8Array(buf);
-  for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]!);
-  return btoa(binary);
-}
 
 /** O-RADS: загрузка снимка УЗИ → US AI Worker (gyn) → подсказки в wizard. */
 export function OradsPhotoPanel({ nav, profileAgeYears }: Props) {
@@ -40,19 +36,15 @@ export function OradsPhotoPanel({ nav, profileAgeYears }: Props) {
   const onFile = useCallback(
     async (file: File | null) => {
       if (!file) return;
-      if (!file.type.startsWith("image/")) {
-        toast.error("Нужен файл изображения (PNG/JPEG/WebP)");
-        return;
-      }
       if (previewUrl) URL.revokeObjectURL(previewUrl);
-      setPreviewUrl(URL.createObjectURL(file));
       setError(null);
       setResult(null);
       setEventId(null);
       setBusy(true);
 
       try {
-        const base64 = await fileToBase64(file);
+        const frame = await prepareClientImagingFrame(file);
+        setPreviewUrl(frame.previewUrl);
         const res = await fetch("/api/ai/gyn-assist", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -62,13 +54,15 @@ export function OradsPhotoPanel({ nav, profileAgeYears }: Props) {
             clinicalContext: "Трансвагинальное УЗИ придатков, O-RADS US v2022",
             menopause,
             profileAgeYears,
-            frames: [{ fileName: file.name, mimeType: file.type, base64 }],
+            frames: [{ fileName: frame.fileName, mimeType: frame.mimeType, base64: frame.base64 }],
           }),
         });
 
         if (!res.ok) {
           const err = (await res.json().catch(() => ({}))) as { error?: string };
-          throw new Error(typeof err.error === "string" ? err.error : `HTTP ${res.status}`);
+          throw new Error(
+            assistHttpErrorMessage(res.status, typeof err.error === "string" ? err.error : undefined),
+          );
         }
 
         const json = (await res.json()) as { result: GynAiAssistResult };

@@ -1,6 +1,7 @@
 import type { RetrievalConfig } from "@repo/evidence-retrieval";
 
 import { loadExternalGuidelines } from "@/lib/evidence/load-external-guidelines";
+import { isMedicalVaultEnabled, searchMedicalVault } from "@/lib/evidence/medical-vault-search";
 
 export function buildRetrievalConfig(): RetrievalConfig {
   return {
@@ -10,6 +11,7 @@ export function buildRetrievalConfig(): RetrievalConfig {
     crossrefMailto: process.env.CROSSREF_MAILTO?.trim() || "support@sonogyn.pro",
     adapterTimeoutMs: Number.parseInt(process.env.EVIDENCE_ADAPTER_TIMEOUT_MS ?? "8000", 10) || 8000,
     maxRecordsPerProvider: Number.parseInt(process.env.EVIDENCE_MAX_PER_PROVIDER ?? "12", 10) || 12,
+    ...(isMedicalVaultEnabled() ? { medicalVaultSearch: searchMedicalVault } : {}),
   };
 }
 

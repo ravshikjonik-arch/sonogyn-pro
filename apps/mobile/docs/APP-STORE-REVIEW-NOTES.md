@@ -51,3 +51,15 @@ SonoGyn Pro
 ## Metadata 2.3.10 checklist
 
 User-visible iOS strings must not mention Google Play, Android, or APK. Code comments and `Platform.OS === "android"` branches are fine.
+
+## Legal URLs (Connect)
+
+- Privacy: `https://sonogyn-pro.ru/privacy`
+- Terms: `https://sonogyn-pro.ru/terms`
+- Support email: `Sonogyn-pro@mail.ru`
+
+## What is NOT in this pilot build
+
+- In-app purchases / subscriptions (Paywall explains «недоступно»)
+- Expo Go invite / admin trial code generator
+- Fake AI confidence scores on cases (educational rule hints only)

@@ -1,5 +1,7 @@
 /** Domain hub cards — single source for /tools, sidebar, and domain landing pages. */
 
+import { isCopyrightLockedHref } from "@/lib/copyright/book-content-gate";
+
 export type DomainHubCard = {
   href: string;
   title: string;
@@ -17,7 +19,7 @@ export const TOOLS_HOME_DOMAINS = [
   {
     href: "/tools/obstetrics",
     title: "Акушерство",
-    description: "Беременность, FMF, фетометрия, допплер, акушерский атлас",
+    description: "Беременность, FMF, фетометрия, допплер, калькуляторы",
     accent: "from-teal-600 to-cyan-500",
   },
   {
@@ -62,6 +64,12 @@ export const OBSTETRICS_GROUPS: DomainHubGroup[] = [
   {
     title: "Приём",
     cards: [
+      {
+        href: "/tools/refs/ambulatory-intake",
+        title: "ЧЕК-ЛИСТ АМБУЛАТОРИИ",
+        description: "Быстрый чек-лист приёма АГ · нормы · итог",
+        primary: true,
+      },
       {
         href: "/ai/consultants/us-prep",
         title: "Live приём · голосовой брифинг",
@@ -121,27 +129,17 @@ export const OBSTETRICS_GROUPS: DomainHubGroup[] = [
     ],
   },
   {
-    title: "Атласы",
+    title: "Источники",
     cards: [
       {
-        href: "/tools/refs/obstetric-atlas",
-        title: "Акушерский атлас",
-        description: "Срезы и протоколы",
+        href: "/tools/refs/sources",
+        title: "Официальные гайдлайны",
+        description: "ACR · FIGO · ISUOG · КР (без книжных атласов)",
       },
       {
-        href: "/tools/refs/obstetrics-imaging-atlas",
-        title: "Атлас акушерской визуализации",
-        description: "УЗИ плода и I триместра",
-      },
-      {
-        href: "/tools/refs/prenatal-echography-atlas",
-        title: "Пренатальная эхография",
-        description: "Фетометрия, допплер, пороки",
-      },
-      {
-        href: "/tools/refs/clinical-echocardiography-atlas",
-        title: "Эхокардиография",
-        description: "Клапаны, стресс, врождённые пороки",
+        href: "/tools/refs/guidelines",
+        title: "КР и приказы",
+        description: "Клинические рекомендации в кабинете",
       },
     ],
   },
@@ -157,12 +155,20 @@ export const OBSTETRICS_GROUPS: DomainHubGroup[] = [
   },
 ];
 
-export const OBSTETRICS_HUB: DomainHubCard[] = OBSTETRICS_GROUPS.flatMap((group) => group.cards);
+export const OBSTETRICS_HUB: DomainHubCard[] = OBSTETRICS_GROUPS.flatMap((group) => group.cards).filter(
+  (card) => !isCopyrightLockedHref(card.href),
+);
 
 export const GYNECOLOGY_GROUPS: DomainHubGroup[] = [
   {
     title: "Приём",
     cards: [
+      {
+        href: "/tools/refs/ambulatory-intake",
+        title: "ЧЕК-ЛИСТ АМБУЛАТОРИИ",
+        description: "Быстрый чек-лист приёма АГ · нормы · итог",
+        primary: true,
+      },
       {
         href: "/ai/consultants/us-prep",
         title: "Live приём · голосовой брифинг",
@@ -200,11 +206,6 @@ export const GYNECOLOGY_GROUPS: DomainHubGroup[] = [
         description: "Тип узла и аденомиоз",
       },
       {
-        href: "/tools/refs/myoma-education",
-        title: "Миома · обучение",
-        description: "Модули, атлас, тест и расчёты описания",
-      },
-      {
         href: "/tools/mapping/endometriosis",
         title: "Глубокий эндометриоз",
         description: "Карта IDEA",
@@ -219,25 +220,15 @@ export const GYNECOLOGY_GROUPS: DomainHubGroup[] = [
         title: "Патология шейки",
         description: "Цитология, Bethesda, скрининг",
       },
-      {
-        href: "/tools/refs/cervix-morphology-atlas",
-        title: "Морфология шейки",
-        description: "CIN, карциномы, препараты",
-      },
     ],
   },
   {
-    title: "Атласы",
+    title: "Источники",
     cards: [
       {
-        href: "/tools/refs/gynecology-imaging-atlas",
-        title: "Атлас гинекологической визуализации",
-        description: "УЗИ и МРТ малого таза",
-      },
-      {
-        href: "/tools/refs/ovarian-tumor-morphology-atlas",
-        title: "Опухоли яичника",
-        description: "Гистология, учебные препараты",
+        href: "/tools/refs/sources",
+        title: "Официальные гайдлайны",
+        description: "ACR · FIGO · ISUOG · КР",
       },
     ],
   },
@@ -258,7 +249,9 @@ export const GYNECOLOGY_GROUPS: DomainHubGroup[] = [
   },
 ];
 
-export const GYNECOLOGY_HUB: DomainHubCard[] = GYNECOLOGY_GROUPS.flatMap((group) => group.cards);
+export const GYNECOLOGY_HUB: DomainHubCard[] = GYNECOLOGY_GROUPS.flatMap((group) => group.cards).filter(
+  (card) => !isCopyrightLockedHref(card.href),
+);
 
 export const ORADS_HUB: DomainHubCard[] = [
   {
@@ -318,9 +311,10 @@ export const CALCULATORS_HUB: DomainHubCard[] = [
     primary: true,
   },
   {
-    href: "/tools/refs/mammology-national-atlas",
-    title: "Маммология · нац. руководство",
-    description: "Каприн · УЗИ МЖ, BI-RADS, развороты OCR",
+    href: "/tools/calc/rads/bi-rads",
+    title: "BI-RADS · молочная железа",
+    description: "Стратификация ACR (калькулятор)",
+    primary: true,
   },
   {
     href: "/tools/calc/rads/ti-rads",
@@ -332,6 +326,12 @@ export const CALCULATORS_HUB: DomainHubCard[] = [
     href: "/tools/calc/appointment",
     title: "Приём · быстрые расчёты",
     description: "Калькуляторы на одном экране приёма",
+  },
+  {
+    href: "/tools/refs/ambulatory-intake",
+    title: "ЧЕК-ЛИСТ АМБУЛАТОРИИ",
+    description: "Быстрый чек-лист приёма АГ · нормы · итог",
+    primary: true,
   },
 ];
 

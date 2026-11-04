@@ -204,8 +204,6 @@ function CardGrid({
           key={card.id}
           title={card.titleRu}
           hint={card.acrLabelEn}
-          imageSrc={card.imageSrc}
-          imageAlt={card.imageAlt}
           badge={badge ?? `O-RADS ${card.category}`}
           onClick={() => onOpen(card)}
         />

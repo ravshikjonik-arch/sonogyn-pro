@@ -99,6 +99,7 @@ const navGroups: { title: string; items: { href: string; label: string; icon: ty
       { href: "/tools/calc/rads/bi-rads", label: "BI-RADS", icon: ScanLine },
       { href: "/tools/calc/rads/ti-rads", label: "TI-RADS ЩЖ", icon: ScanLine },
       { href: "/tools/calc/appointment", label: "Приём · быстрые", icon: ClipboardList },
+      { href: "/tools/refs/ambulatory-intake", label: "ЧЕК-ЛИСТ АМБУЛАТОРИИ", icon: ClipboardList },
     ],
   },
   {

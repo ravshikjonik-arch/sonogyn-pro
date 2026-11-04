@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Alert, Platform, ToastAndroid } from "react-native";
 import { collection, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import type { CommentRecord } from "../features/case/types";
+import { listBlockedAuthorIds } from "../services/blockedAuthors";
 import { ensureAnonymousAuth } from "../services/firebase/authService";
 import { addComment } from "../services/firebase/commentsService";
 import { requireFirestore } from "../services/firebase/firebase";
@@ -46,13 +47,19 @@ export function useComments(caseId?: string) {
           (snap) => {
             if (!active) return;
             setError(null);
-            setComments(
-              snap.docs.map((doc) => {
-                const data = doc.data() as Omit<CommentRecord, "id">;
-                return { id: doc.id, ...data };
-              })
-            );
-            setLoading(false);
+            void listBlockedAuthorIds().then((blocked) => {
+              if (!active) return;
+              const blockSet = new Set(blocked);
+              setComments(
+                snap.docs
+                  .map((doc) => {
+                    const data = doc.data() as Omit<CommentRecord, "id">;
+                    return { id: doc.id, ...data };
+                  })
+                  .filter((c) => !c.userId || !blockSet.has(c.userId)),
+              );
+              setLoading(false);
+            });
           },
           (e) => {
             if (!active) return;

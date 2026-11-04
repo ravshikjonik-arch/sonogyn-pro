@@ -87,10 +87,6 @@ export default function OradsWizardScreen({ navigation, route }: Props) {
     navigation.navigate("ORADSGuide", { sectionId });
   }
 
-  function shareToColleaguesTodo() {
-    console.warn("[O-RADS] shareToColleagues — Phase 3 ChatService");
-  }
-
   function openStructuredReport() {
     if (view.kind !== "result") return;
     navigation.navigate("StructuredReportPreview", {
@@ -194,7 +190,7 @@ export default function OradsWizardScreen({ navigation, route }: Props) {
                       pathSummary={nav.pathSummary}
                       onRestart={nav.restart}
                       onBack={goBack}
-                      onShare={shareToColleaguesTodo}
+                      onShare={undefined}
                       onBuildReport={openStructuredReport}
                       onOpenGuide={() => navigation.navigate("ORADSGuide", { sectionId: "categories" })}
                       onAskAscites={nav.startAscitesModifier}

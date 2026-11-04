@@ -1,3 +1,5 @@
+import { isCopyrightLockedHref } from "@/lib/copyright/book-content-gate";
+
 export type EducationShelf = "courses" | "assistant" | "reference" | "atlases" | "calculators";
 
 export type EducationLibraryItem = {
@@ -443,10 +445,30 @@ const EDUCATION_LIBRARY_ITEMS_RAW: EducationLibraryItem[] = [
   },
 ];
 
-/** Курсы и лекции скрыты из публичного каталога (ссылки на учёбу / Яндекс.Диск убраны). */
+/** Курсы + книжные атласы скрыты; официальные КР/гайды и калькуляторы остаются. */
 export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = EDUCATION_LIBRARY_ITEMS_RAW.filter(
-  (item) => item.shelf !== "courses",
-);
+  (item) => item.shelf !== "courses" && !isCopyrightLockedHref(item.href),
+).concat([
+  {
+    id: "official-sources",
+    shelf: "reference",
+    title: "Источники и авторские права",
+    description: "Официальные ACR / FIGO / ISUOG / IOTA и КР МЗ РФ. Книжные атласы не публикуются.",
+    href: "/tools/refs/sources",
+    tags: ["источники", "гайдлайны", "ACR", "FIGO", "КР"],
+    primary: true,
+    badge: "OFFICIAL",
+  },
+  {
+    id: "ambulatory-intake",
+    shelf: "reference",
+    title: "ЧЕК-ЛИСТ АМБУЛАТОРИИ",
+    description: "Быстрый чек-лист приёма АГ: жалобы → план → нормы → запись (для врача).",
+    href: "/tools/refs/ambulatory-intake",
+    tags: ["приём", "чек-лист", "амбулатория", "АГ", "запись"],
+    primary: true,
+  },
+]);
 
 export function groupEducationByShelf(items: EducationLibraryItem[]): Map<EducationShelf, EducationLibraryItem[]> {
   const map = new Map<EducationShelf, EducationLibraryItem[]>();

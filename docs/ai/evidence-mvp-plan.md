@@ -1,6 +1,7 @@
-# Evidence AI MVP — plan (Block B, not implemented)
+# Evidence AI MVP — plan (Block B)
 
-**Phase A · design only · 2026-10-17**
+**Phase A · design · 2026-10-17**  
+**Wave 1 GO · implemented · 2026-11-04** — see `docs/ai/evidence-wave1-go.md`
 
 ## Goal
 

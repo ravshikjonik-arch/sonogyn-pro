@@ -55,7 +55,7 @@ const groups: Group[] = [
       { title: "Калькуляторы", detail: "Эндометрий, POP-Q, шейка", href: "/tools/calc/gyn" },
       { title: "Нозологии", detail: "Миома, эндометрий, яичник", href: "/tools/refs/nosologies" },
       { title: "FIGO · миома", detail: "Тип узла на схеме матки", href: "/tools/mapping/uterus" },
-      { title: "Миома · обучение", detail: "Модули, атлас, тест и расчёты", href: "/tools/refs/myoma-education" },
+      { title: "FIGO · миома", detail: "Карта матки и типы узлов", href: "/tools/mapping/uterus" },
     ],
   },
   {
@@ -64,7 +64,7 @@ const groups: Group[] = [
     rows: [
       { title: "BI-RADS", detail: "Категория и протокол", href: "/tools/calc/rads/bi-rads" },
       { title: "Оценка риска", detail: "Ориентир, не диагноз", href: "/tools/calc/gyn/breast-risk" },
-      { title: "Атлас", detail: "Учебные изображения", href: "/tools/refs/mammology-national-atlas" },
+      { title: "BI-RADS", detail: "Калькулятор стратификации", href: "/tools/calc/rads/bi-rads" },
     ],
   },
   {

@@ -33,7 +33,7 @@
       </dict>
     </array>
     <key>CFBundleVersion</key>
-    <string>17</string>
+    <string>19</string>
     <key>ITSAppUsesNonExemptEncryption</key>
     <false/>
     <key>LSMinimumSystemVersion</key>
@@ -48,15 +48,15 @@
       <true/>
     </dict>
     <key>NSCameraUsageDescription</key>
-    <string>Доступ к камере для съёмки изображений.</string>
+    <string>Камера: съёмка обезличенных учебных снимков УЗИ для кейсов и ассистивных инструментов.</string>
     <key>NSMicrophoneUsageDescription</key>
-    <string>Allow $(PRODUCT_NAME) to access your microphone</string>
+    <string>Микрофон: диктовка протокола УЗИ; аудио отправляется на сервер для расшифровки Whisper.</string>
     <key>NSPhotoLibraryUsageDescription</key>
-    <string>Доступ к фото для загрузки изображений в приложение.</string>
+    <string>Галерея: выбор обезличенных изображений УЗИ для кейсов и ассистивных инструментов.</string>
     <key>RCTMetroPort</key>
     <string>$(RCT_METRO_PORT)</string>
     <key>RCTNewArchEnabled</key>
-    <true/>
+    <false/>
     <key>UILaunchStoryboardName</key>
     <string>SplashScreen</string>
     <key>UIRequiredDeviceCapabilities</key>

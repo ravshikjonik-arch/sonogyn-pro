@@ -9,7 +9,10 @@ import {
   type EvidenceCorpusMode,
 } from "@repo/evidence-retrieval";
 
+import { assertAiGatewayQuota } from "@/lib/ai/gateway";
+import { createEvidenceCacheStore } from "@/lib/evidence/redis-cache-store";
 import { buildRetrievalConfigAsync } from "@/lib/evidence/retrieval-config";
+import { traceEvidenceAsk } from "@/lib/evidence/evidence-trace";
 import { logEvidenceQuery, sourcesFromAssistantAnswer } from "@/lib/evidence/log-evidence-query";
 import { synthesizeWithLlm } from "@/lib/evidence/synthesize-llm";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
@@ -49,6 +52,19 @@ export async function POST(request: Request) {
     );
   }
 
+  if (!auth.openAccess) {
+    const quota = await assertAiGatewayQuota(auth.userId);
+    if (!quota.ok) {
+      const message =
+        quota.reason === "monthly_chat"
+          ? `Лимит AI на месяц исчерпан (${quota.monthlyUsed}/${quota.monthlyLimit}).`
+          : quota.reason === "daily_usd"
+            ? `Дневной лимит стоимости AI исчерпан (~$${quota.usedUsd}/$${quota.usdLimit}).`
+            : `Дневной лимит запросов AI исчерпан (${quota.usedRequests}/${quota.requestLimit}).`;
+      return NextResponse.json({ error: message, quota }, { status: 429 });
+    }
+  }
+
   let json: unknown;
   try {
     json = await request.json();
@@ -61,6 +77,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Укажите вопрос (3–800 символов)." }, { status: 400 });
   }
 
+  const started = Date.now();
   const config = await buildRetrievalConfigAsync();
   const corpusMode = parsed.data.corpusMode;
   const searchResult = await searchEvidenceUnified(
@@ -71,7 +88,7 @@ export async function POST(request: Request) {
       maxAgeYears: 10,
       corpusMode,
     },
-    { config },
+    { config, cache: createEvidenceCacheStore() },
   );
 
   const useLlm = parsed.data.useLlm !== false && searchResult.records.length > 0;
@@ -96,6 +113,24 @@ export async function POST(request: Request) {
       /* non-fatal */
     }
   }
+
+  const providerStatuses: Record<string, string> = {};
+  for (const [k, v] of Object.entries(answer.sourcesUsed ?? {})) {
+    if (v) providerStatuses[k] = v;
+  }
+  traceEvidenceAsk({
+    userId: auth.userId,
+    openAccess: Boolean(auth.openAccess),
+    query: parsed.data.query,
+    corpusMode,
+    synthesisMode: answer.synthesisMode,
+    evidenceStrength: answer.evidenceStrength,
+    citationCount: answer.citations.length,
+    claimCount: answer.claims?.length ?? 0,
+    insufficient: Boolean(answer.insufficient),
+    latencyMs: Date.now() - started,
+    providerStatuses,
+  });
 
   return NextResponse.json(answer);
 }

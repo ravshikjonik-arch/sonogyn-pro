@@ -23,7 +23,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { parseOradsText } from "@/lib/orads-pro/text-parser";
 import { cn } from "@/lib/utils/cn";
-import { OradsBookTumorCardsPanel } from "@/components/calculators/orads/OradsBookTumorCardsPanel";
 import { OradsReferoSection } from "@/components/calculators/orads/OradsReferoSection";
 import { OradsUnifiedProtocolPreview } from "@/components/calculators/orads/OradsUnifiedProtocolPreview";
 
@@ -464,7 +463,13 @@ export function OradsUnifiedCalculator() {
             ) : null}
 
             <OradsReferoSection title="Дифф. диагноз · карточки опухолей" defaultOpen={false}>
-              <OradsBookTumorCardsPanel />
+              <p className="rounded-xl border border-dashed border-[var(--clinical-border)] bg-[var(--clinical-surface)] p-3 text-[11px] leading-relaxed text-[var(--clinical-foreground-muted)]">
+                Учебные фотокарточки из пособий скрыты. Используйте пошаговый O-RADS и{" "}
+                <a className="underline underline-offset-2" href="/tools/refs/sources">
+                  официальные источники
+                </a>
+                .
+              </p>
             </OradsReferoSection>
 
             <div className="flex flex-wrap gap-2 pt-1 lg:hidden">

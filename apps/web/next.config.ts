@@ -167,6 +167,10 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ["lucide-react", "@react-three/drei"],
     webpackMemoryOptimizations: true,
     webpackBuildWorker: true,
+    /** Server Actions only; AI assist Route Handlers rely on client JPEG compress. */
+    serverActions: {
+      bodySizeLimit: "8mb",
+    },
   },
   webpack: (config, { dev }) => {
     if (config.cache && !dev) {
@@ -213,19 +217,7 @@ const nextConfig: NextConfig = {
     return config;
   },
   async rewrites() {
-    const supa = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim().replace(/\/$/, "");
-    if (process.env.VERCEL === "1" && supa) {
-      return [
-        {
-          source: "/clinical-atlas/prenatal-echo-ru/:path*",
-          destination: `${supa}/storage/v1/object/public/clinical-atlas/prenatal-echo-ru/:path*`,
-        },
-        {
-          source: "/clinical-atlas/neishtadt-ovary/:path*",
-          destination: `${supa}/storage/v1/object/public/clinical-atlas/neishtadt-ovary/:path*`,
-        },
-      ];
-    }
+    // Copyright B+: do not proxy book atlas images from Supabase public buckets.
     return [];
   },
   async redirects() {

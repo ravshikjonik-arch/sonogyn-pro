@@ -122,10 +122,13 @@ export function openClinicalToolAction(navigation: ClinicalToolNav, action: Mobi
       navigation.navigate("FetometryNomograms", { mode: "book" });
       return;
     case "hofer_basic_course":
-      navigation.navigate("HoferBasicCourse");
+      navigation.navigate("ORADSPro");
       return;
     case "tirads_basic_course":
       void WebBrowser.openBrowserAsync(webAppUrl("/tools/refs/tirads-basic-course"));
+      return;
+    case "ambulatory_intake":
+      void WebBrowser.openBrowserAsync(webAppUrl("/tools/refs/ambulatory-intake"));
       return;
     case "ln_rads":
       navigation.navigate("GynecologyCalc", { initialPage: "gyn_lnrads" });

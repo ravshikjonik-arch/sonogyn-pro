@@ -1,3 +1,5 @@
+import { isCopyrightLockedHref } from "@/lib/copyright/book-content-gate";
+
 export type LearningPathStepType = "guideline" | "calculator" | "quiz" | "case" | "checklist" | "leaflet";
 
 export type LearningPathStep = {
@@ -17,7 +19,7 @@ export type LearningPath = {
   steps: LearningPathStep[];
 };
 
-export const LEARNING_PATHS: LearningPath[] = [
+const LEARNING_PATHS_RAW: LearningPath[] = [
   {
     id: "first-trimester-screening",
     titleRu: "Скрининг I триместра (11–13+6)",
@@ -323,6 +325,11 @@ export const LEARNING_PATHS: LearningPath[] = [
     ],
   },
 ];
+
+/** Drop paths that deep-link into locked book courses/atlases. */
+export const LEARNING_PATHS: LearningPath[] = LEARNING_PATHS_RAW.filter(
+  (path) => !path.steps.some((step) => isCopyrightLockedHref(step.href)),
+);
 
 export const LEARNING_PATH_PROGRESS_KEY = "sonogyn:learning-paths:progress";
 

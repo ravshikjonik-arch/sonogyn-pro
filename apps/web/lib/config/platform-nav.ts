@@ -28,6 +28,11 @@ export const PLATFORM_QUICK_LINKS: PlatformQuickLink[] = [
     subtitle: "Bishop, VBAC, EFW и другие расчёты для амбулаторного приёма",
   },
   {
+    href: "/tools/refs/ambulatory-intake",
+    title: "ЧЕК-ЛИСТ АМБУЛАТОРИИ",
+    subtitle: "Быстрый чек-лист приёма АГ · нормы · итог для врача",
+  },
+  {
     href: "/tools/calc/rads/o-rads",
     title: "O-RADS US",
     subtitle: "Wizard, IOTA и таблицы ACR для аднексальных образований",

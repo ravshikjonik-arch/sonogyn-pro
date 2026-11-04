@@ -68,6 +68,15 @@ jobs:
       - name: Imaging CDS unit tests
         run: pnpm test:imaging-cds
 
+      - name: Evidence retrieval + golden structural (Wave 1 soft)
+        run: pnpm test:evidence-retrieval
+
+      - name: Evidence Ragas schema soft (no LLM)
+        run: pnpm eval:evidence-ragas:soft
+
+      - name: Docling contract spike soft (markdown chunker, no Docling install)
+        run: pnpm spike:docling:soft
+
       - name: BI-RADS rules snapshot (drift guard)
         run: pnpm verify:birads-rules-snapshot
 

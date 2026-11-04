@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useState, useTransition, type ReactNode } from "react";
 import { toast } from "sonner";
 import {
-  getReferatImagePath,
   ORADS_NOSOLOGY_ATLAS,
   type OradsNosologySubtype,
 } from "@repo/orads-us";
@@ -216,7 +215,6 @@ export function OradsFeatureGrid({ initialSubtype }: Props) {
               <OradsGridPickCard
                 title="Норма / нет образования"
                 hint="O-RADS 1"
-                imageSrc={getReferatImagePath("atlas/physiologic")}
                 selected={f.lesionKind === "normal_ovary"}
                 onClick={() => {
                   f.setLesionKind("normal_ovary");
@@ -228,7 +226,6 @@ export function OradsFeatureGrid({ initialSubtype }: Props) {
               <OradsGridPickCard
                 title="Физиологическое"
                 hint="Фолликул или жёлтое тело"
-                imageSrc={getReferatImagePath("atlas/physiologic")}
                 selected={f.lesionKind === "physiological"}
                 onClick={() => {
                   f.setLesionKind("physiological");
@@ -238,7 +235,6 @@ export function OradsFeatureGrid({ initialSubtype }: Props) {
               <OradsGridPickCard
                 title="Кистозное / солидное"
                 hint="Считать как образование придатков"
-                imageSrc={getReferatImagePath("atlas/simple_cyst")}
                 selected={f.lesionKind === "nonphysiological"}
                 onClick={() => f.setLesionKind("nonphysiological")}
               />
@@ -268,8 +264,6 @@ export function OradsFeatureGrid({ initialSubtype }: Props) {
                       key={entry.id}
                       title={entry.titleRu}
                       hint={entry.oradsHint}
-                      imageSrc={entry.realExampleImage ?? entry.imageSrc}
-                      imageAlt={entry.imageAlt}
                       selected={f.unilocularSubtype === entry.subtype}
                       onClick={() => pickContent(entry.subtype as UnilocularSubtype)}
                     />
@@ -277,7 +271,6 @@ export function OradsFeatureGrid({ initialSubtype }: Props) {
                   <OradsGridPickCard
                     title="Многокамерное"
                     hint="Перегородки во 2-й плоскости"
-                    imageSrc={getReferatImagePath("atlas/irregular_wall")}
                     selected={f.structure === "multilocular"}
                     onClick={() => {
                       f.setStructure("multilocular");
@@ -288,7 +281,6 @@ export function OradsFeatureGrid({ initialSubtype }: Props) {
                   <OradsGridPickCard
                     title="Солидное ≥80%"
                     hint="Преобладает ткань"
-                    imageSrc={getReferatImagePath("atlas/solid_dominant")}
                     selected={f.structure === "solid"}
                     onClick={() => {
                       f.setStructure("solid");
@@ -315,7 +307,6 @@ export function OradsFeatureGrid({ initialSubtype }: Props) {
                   <OradsGridPickCard
                     title="Папилляры 1–3"
                     hint="Вырост ≥3 мм"
-                    imageSrc={getReferatImagePath("atlas/papillary_4plus")}
                     selected={f.solidComponent === true && f.papillaryProjectionCount !== "4plus"}
                     onClick={() => {
                       f.setSolidComponent(true);
@@ -326,7 +317,6 @@ export function OradsFeatureGrid({ initialSubtype }: Props) {
                   <OradsGridPickCard
                     title="Папилляры ≥4"
                     hint="O-RADS 5 при типичном паттерне"
-                    imageSrc={getReferatImagePath("atlas/papillary_4plus")}
                     selected={f.papillaryProjectionCount === "4plus"}
                     onClick={() => {
                       f.setSolidComponent(true);
@@ -337,7 +327,6 @@ export function OradsFeatureGrid({ initialSubtype }: Props) {
                   <OradsGridPickCard
                     title="Неровная стенка / контур"
                     hint="Irregular"
-                    imageSrc={getReferatImagePath("atlas/irregular_wall")}
                     selected={f.solidType === "irregular"}
                     onClick={() => {
                       f.setSolidComponent(true);
@@ -405,7 +394,6 @@ export function OradsFeatureGrid({ initialSubtype }: Props) {
                 <OradsGridPickCard
                   title="Асцит есть"
                   hint="Может повысить категорию"
-                  imageSrc="/clinical/orads-nosology/free-fluid-pelvis.jpg"
                   selected={f.ascites}
                   onClick={() => f.setAscites(true)}
                 />

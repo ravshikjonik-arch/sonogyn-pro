@@ -4,10 +4,21 @@ import { requireFirestore } from "./firebase";
 export type ReportTargetType = "case" | "comment";
 export type ReportReason = "spam" | "abuse" | "other";
 
-export const bannedWords = ["мат1", "мат2", "оскорбление"];
+/** Lightweight client filter — not a substitute for human moderation. */
+export const bannedWords = [
+  "мат1",
+  "мат2",
+  "оскорбление",
+  "убить",
+  "убью",
+  "suicide",
+  "kill yourself",
+  "nazi",
+  "нацист",
+];
 
 export function containsBadWords(text: string): boolean {
-  const normalized = text.toLowerCase();
+  const normalized = text.toLowerCase().replace(/\s+/g, " ");
   return bannedWords.some((w) => normalized.includes(w.toLowerCase()));
 }
 

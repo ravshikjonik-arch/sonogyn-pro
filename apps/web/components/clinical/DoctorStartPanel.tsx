@@ -46,6 +46,13 @@ const primaryTasks = [
     icon: Calculator,
     accent: "border-violet-300/70",
   },
+  {
+    title: "ЧЕК-ЛИСТ АМБУЛАТОРИИ",
+    description: "Быстрый чек-лист приёма АГ: жалобы → план → запись.",
+    href: "/tools/refs/ambulatory-intake",
+    icon: FileText,
+    accent: "border-teal-300/70",
+  },
 ] as const;
 
 const roleRoutes = [
@@ -81,20 +88,20 @@ const roleRoutes = [
     icon: HeartPulse,
     steps: ["FIGO / миомы", "O-RADS и эндометрий", "Эластография и шейка"],
     quickLinks: [
+      { label: "ЧЕК-ЛИСТ АМБУЛАТОРИИ", href: "/tools/refs/ambulatory-intake" },
       { label: "Live приём", href: "/ai/consultants/us-prep" },
       { label: "FIGO · матка", href: "/tools/mapping/uterus" },
       { label: "Миома", href: "/tools/refs/nosologies/uterine-myoma" },
-      { label: "Эластография", href: "/tools/calc/gyn/elastography" },
       { label: "O-RADS", href: "/tools/calc/rads/o-rads" },
     ],
   },
 ] as const;
 
 const quickSearchHints = [
+  { label: "ЧЕК-ЛИСТ АМБУЛАТОРИИ", href: "/tools/refs/ambulatory-intake" },
   { label: "Live приём", href: "/ai/consultants/us-prep" },
   { label: "O-RADS", href: "/tools/calc/rads/o-rads" },
   { label: "Миома", href: "/tools/refs/nosologies/uterine-myoma" },
-  { label: "Короткая шейка", href: "/tools/calc/ob/cervical-length" },
   { label: "Evidence AI", href: "/tools/refs/evidence-assistant" },
 ] as const;
 
