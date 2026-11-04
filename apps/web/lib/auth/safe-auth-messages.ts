@@ -12,6 +12,11 @@ export const EMAIL_NOT_CONFIRMED_MSG =
 export const PASSWORD_RESET_GENERIC_MSG =
   "Если аккаунт с таким email существует, на него отправлено письмо для сброса пароля.";
 export const OTP_INVALID_MSG = "Неверный или просроченный код.";
+/** Повторная регистрация на уже подтверждённый email. */
+export const EMAIL_ALREADY_REGISTERED_MSG =
+  "Этот email уже зарегистрирован. Войдите или нажмите «Забыли пароль?» на странице входа.";
+export const EMAIL_CONFIRMED_USE_LOGIN_MSG =
+  "Почта подтверждена. Войдите своим паролем или сбросьте его через «Забыли пароль?».";
 export const PHONE_OTP_SENT_MSG =
   "Код отправлен по SMS. На +7 обычно приходит за 10–30 секунд.";
 export const PHONE_OTP_DELAY_HINT =

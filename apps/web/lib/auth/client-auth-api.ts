@@ -1,6 +1,15 @@
 export type AuthApiResult =
   | { ok: true; needsEmailConfirmation?: boolean; needsMfa?: boolean; factorId?: string; message?: string; autoConfirmed?: boolean }
-  | { ok: false; error: string; requiresCaptcha?: boolean; needsEmailConfirmation?: boolean; needsRegistration?: boolean; smsNotConfigured?: boolean };
+  | {
+      ok: false;
+      error: string;
+      requiresCaptcha?: boolean;
+      needsEmailConfirmation?: boolean;
+      needsRegistration?: boolean;
+      smsNotConfigured?: boolean;
+      alreadyRegistered?: boolean;
+      emailConfirmed?: boolean;
+    };
 
 export async function postSignIn(params: {
   email: string;
@@ -108,6 +117,7 @@ export async function postSignUp(params: {
     emailOtpSent?: boolean;
     message?: string;
     autoConfirmed?: boolean;
+    alreadyRegistered?: boolean;
     session?: { access_token: string; refresh_token: string };
   } | null;
 
@@ -116,6 +126,7 @@ export async function postSignUp(params: {
       ok: false,
       error: payload?.error ?? "Не удалось завершить регистрацию.",
       requiresCaptcha: payload?.requiresCaptcha,
+      alreadyRegistered: Boolean(payload?.alreadyRegistered) || res.status === 409,
     };
   }
   return {
@@ -152,11 +163,18 @@ export async function postConfirmSignupOtp(params: {
     ok?: boolean;
     error?: string;
     message?: string;
+    emailConfirmed?: boolean;
+    alreadyRegistered?: boolean;
     session?: { access_token: string; refresh_token: string };
   } | null;
 
   if (!res.ok || !payload?.ok) {
-    return { ok: false, error: payload?.error ?? "Неверный или просроченный код." };
+    return {
+      ok: false,
+      error: payload?.error ?? "Неверный или просроченный код.",
+      emailConfirmed: payload?.emailConfirmed,
+      alreadyRegistered: payload?.alreadyRegistered,
+    };
   }
   return { ok: true, message: payload.message, session: payload.session };
 }

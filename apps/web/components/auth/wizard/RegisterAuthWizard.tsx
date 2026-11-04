@@ -51,7 +51,7 @@ import { cn } from "@/lib/utils/cn";
 import { beginFirstRunOnboarding } from "@/lib/onboarding/first-run-storage";
 import { markSessionAnchorNow } from "@/lib/security/session-anchor";
 
-type Step = "register" | "verify" | "character";
+type Step = "register" | "verify" | "character" | "exists";
 type RegisterMethod = "email" | "telegram";
 type VerifyMode = "email" | "phone";
 
@@ -255,6 +255,11 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
       });
 
       if (!result.ok) {
+        if (result.alreadyRegistered) {
+          setMessage(result.error || SIGN_UP_GENERIC_MSG);
+          setStep("exists");
+          return;
+        }
         setMessage(result.error || SIGN_UP_GENERIC_MSG);
         return;
       }
@@ -297,6 +302,11 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
         code,
       });
       if (!result.ok) {
+        if (result.alreadyRegistered || result.emailConfirmed) {
+          setMessage(result.error);
+          setStep("exists");
+          return;
+        }
         setMessage(result.error);
         return;
       }
@@ -439,6 +449,38 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
           onClick={() => void finishRegistration(character ?? "boy")}
         >
           Пропустить (по умолчанию — мужчина)
+        </button>
+      </AuthWizardLayout>
+    );
+  }
+
+  if (step === "exists") {
+    const loginHref = `/login?email=${encodeURIComponent(email.trim())}`;
+    const forgotHref = `/login?email=${encodeURIComponent(email.trim())}&forgot=1`;
+    return (
+      <AuthWizardLayout
+        title="Аккаунт уже есть"
+        subtitle={email.trim() || "Этот email уже зарегистрирован"}
+      >
+        <p className="text-center text-sm text-[var(--clinical-foreground-muted)]">
+          {message ||
+            "Войдите своим паролем или сбросьте его — письмо со ссылкой придёт на почту."}
+        </p>
+        <Button asChild className="mt-6 w-full">
+          <Link href={loginHref}>Войти</Link>
+        </Button>
+        <Button asChild variant="secondary" className="mt-3 w-full">
+          <Link href={forgotHref}>Забыли пароль? Сбросить</Link>
+        </Button>
+        <button
+          type="button"
+          className="mt-4 w-full text-sm text-[var(--clinical-foreground-muted)] hover:underline"
+          onClick={() => {
+            setStep("register");
+            setMessage("");
+          }}
+        >
+          Вернуться к регистрации
         </button>
       </AuthWizardLayout>
     );

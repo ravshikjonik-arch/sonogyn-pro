@@ -1,9 +1,15 @@
 import { NextResponse } from "next/server";
 
-import { confirmUserEmail } from "@/lib/auth/auto-confirm-email";
+import {
+  confirmUserEmail,
+  setUserPasswordAfterEmailProof,
+} from "@/lib/auth/auto-confirm-email";
 import { autoGrantPilotMedicalAccess } from "@/lib/auth/pilot-medical-access";
 import { resolveUserIdByEmail } from "@/lib/auth/resolve-user-by-email";
-import { OTP_INVALID_MSG } from "@/lib/auth/safe-auth-messages";
+import {
+  EMAIL_CONFIRMED_USE_LOGIN_MSG,
+  OTP_INVALID_MSG,
+} from "@/lib/auth/safe-auth-messages";
 import { translateAuthError } from "@/lib/auth/translate-auth-error";
 import { verifyStoredCode } from "@/lib/auth/verification/code-store";
 import { parseEmailContact } from "@/lib/auth/verification/validate-contact";
@@ -87,10 +93,27 @@ export async function POST(req: Request) {
     );
   }
 
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password: parsed.data.password,
-  });
+  const password = parsed.data.password;
+  let { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+  // OTP = доказательство владения почтой. Если пароль из формы не совпал со старым —
+  // выставляем пароль из формы (интуитивно: «зарегистрировался снова» / завершил OTP).
+  if (error || !data.session) {
+    const passwordUpdated = await setUserPasswordAfterEmailProof(userId, password);
+    if (passwordUpdated) {
+      const retry = await supabase.auth.signInWithPassword({ email, password });
+      data = retry.data;
+      error = retry.error;
+      if (data.session) {
+        await writeSecurityAuditLog({
+          category: "auth",
+          action: "confirm_signup_otp.password_synced",
+          success: true,
+          metadata: { userId },
+        });
+      }
+    }
+  }
 
   if (error || !data.session) {
     await writeSecurityAuditLog({
@@ -99,7 +122,12 @@ export async function POST(req: Request) {
       success: false,
     });
     return NextResponse.json(
-      { error: translateAuthError(error?.message ?? "sign_in_failed", "sign-in") },
+      {
+        error: EMAIL_CONFIRMED_USE_LOGIN_MSG,
+        emailConfirmed: true,
+        alreadyRegistered: true,
+        detail: translateAuthError(error?.message ?? "sign_in_failed", "sign-in"),
+      },
       { status: 400 },
     );
   }

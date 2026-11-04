@@ -8,6 +8,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { fetchAuthSession, postUpdatePassword } from "@/lib/auth/client-auth-api";
 import { recoveryResetPath } from "@/lib/auth/auth-callback";
+import {
+  AUTH_PASSWORD_MIN_LENGTH,
+  AUTH_PASSWORD_TOO_SHORT_MSG,
+} from "@/lib/auth/password-policy";
 
 function ResetPasswordForm() {
   const router = useRouter();
@@ -58,8 +62,8 @@ function ResetPasswordForm() {
     e.preventDefault();
     setMessage("");
 
-    if (password.length < 8) {
-      setMessage("Пароль не короче 8 символов.");
+    if (password.length < AUTH_PASSWORD_MIN_LENGTH) {
+      setMessage(AUTH_PASSWORD_TOO_SHORT_MSG);
       return;
     }
     if (password !== confirm) {

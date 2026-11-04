@@ -50,7 +50,7 @@ export function LoginAuthWizard({ nextPath }: Props) {
   }, [searchParams, phoneAllowed]);
 
   const [method, setMethod] = useState<LoginMethod>(initialMethod);
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(() => searchParams.get("email")?.trim() ?? "");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [fallbackEmail, setFallbackEmail] = useState("");
@@ -58,6 +58,7 @@ export function LoginAuthWizard({ nextPath }: Props) {
   const [otpSent, setOtpSent] = useState(false);
   const [sendCooldownSec, setSendCooldownSec] = useState(0);
   const [message, setMessage] = useState("");
+  const [forgotHint, setForgotHint] = useState(false);
   const [loading, setLoading] = useState(false);
   const [mfaRequired, setMfaRequired] = useState(false);
   const [mfaFactorId, setMfaFactorId] = useState<string | null>(null);
@@ -66,6 +67,18 @@ export function LoginAuthWizard({ nextPath }: Props) {
   useEffect(() => {
     setMethod(initialMethod);
   }, [initialMethod]);
+
+  useEffect(() => {
+    const qEmail = searchParams.get("email")?.trim();
+    if (qEmail) setEmail(qEmail);
+    if (searchParams.get("forgot") === "1") {
+      setForgotHint(true);
+      setMessage("Укажите email (если ещё не указан) и нажмите «Забыли пароль?» — придёт ссылка для сброса.");
+    }
+    if (searchParams.get("message") === "password_updated") {
+      setMessage("Пароль обновлён. Войдите новым паролем.");
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     if (!ready || !user) return;
@@ -138,12 +151,18 @@ export function LoginAuthWizard({ nextPath }: Props) {
     if (!guardOnline()) return;
     if (!email.trim()) {
       setMessage("Укажите email для восстановления пароля.");
+      setForgotHint(true);
       return;
     }
     setLoading(true);
     try {
       const result = await postForgotPassword(email.trim());
-      setMessage(result.ok ? result.message : PASSWORD_RESET_GENERIC_MSG);
+      setForgotHint(true);
+      setMessage(
+        result.ok
+          ? `${result.message} Откройте письмо от Sonogyn-pro@mail.ru (и «Спам»), перейдите по ссылке и задайте новый пароль (≥8 символов).`
+          : PASSWORD_RESET_GENERIC_MSG,
+      );
     } finally {
       setLoading(false);
     }
@@ -398,6 +417,16 @@ export function LoginAuthWizard({ nextPath }: Props) {
             />
           </label>
           <AuthMessage message={message} />
+          {forgotHint ? (
+            <Button
+              type="button"
+              className="w-full"
+              disabled={loading}
+              onClick={() => void onResetPassword()}
+            >
+              Отправить ссылку сброса пароля
+            </Button>
+          ) : null}
           <Button type="submit" className="w-full" disabled={loading} data-testid="login-button" aria-label="Войти">
             Войти
           </Button>

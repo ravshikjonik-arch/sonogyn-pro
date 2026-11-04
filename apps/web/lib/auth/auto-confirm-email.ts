@@ -35,6 +35,45 @@ export async function confirmUserEmail(userId: string): Promise<boolean> {
   }
 }
 
+/** Email уже подтверждён в Auth (повторная регистрация → вход / сброс пароля). */
+export async function isUserEmailConfirmed(userId: string): Promise<boolean> {
+  try {
+    const admin = createServiceRoleClient();
+    const { data, error } = await admin.auth.admin.getUserById(userId);
+    if (error || !data.user) return false;
+    return Boolean(data.user.email_confirmed_at);
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * После OTP владение почтой доказано — выставляем пароль из формы регистрации
+ * (повторная регистрация / смена пароля через код).
+ */
+export async function setUserPasswordAfterEmailProof(
+  userId: string,
+  password: string,
+): Promise<boolean> {
+  try {
+    const admin = createServiceRoleClient();
+    const { error } = await admin.auth.admin.updateUserById(userId, {
+      password,
+      email_confirm: true,
+    });
+    if (error) {
+      safeLog("auth:set-password-after-otp-failed", { message: error.message });
+      return false;
+    }
+    return true;
+  } catch (e) {
+    safeLog("auth:set-password-after-otp-failed", {
+      message: e instanceof Error ? e.message : String(e),
+    });
+    return false;
+  }
+}
+
 /** После auto-confirm — вход по паролю и сессия в cookies route handler. */
 export async function signInAfterAutoConfirm(
   supabase: SupabaseClient,

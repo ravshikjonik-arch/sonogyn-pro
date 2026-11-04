@@ -13,10 +13,19 @@ import {
   resolveEmailConfirmRedirect,
 } from "@/lib/auth/email-confirmation";
 import { TelegramService } from "@/services/telegram";
-import { tryAutoConfirmRegistration, shouldAutoConfirmEmail } from "@/lib/auth/auto-confirm-email";
+import {
+  isUserEmailConfirmed,
+  shouldAutoConfirmEmail,
+  tryAutoConfirmRegistration,
+} from "@/lib/auth/auto-confirm-email";
 import { autoGrantPilotMedicalAccess } from "@/lib/auth/pilot-medical-access";
 import { resolveUserIdByEmail } from "@/lib/auth/resolve-user-by-email";
-import { SIGN_UP_GENERIC_MSG, CAPTCHA_REQUIRED_MSG, RESEND_CONFIRMATION_MSG } from "@/lib/auth/safe-auth-messages";
+import {
+  CAPTCHA_REQUIRED_MSG,
+  EMAIL_ALREADY_REGISTERED_MSG,
+  RESEND_CONFIRMATION_MSG,
+  SIGN_UP_GENERIC_MSG,
+} from "@/lib/auth/safe-auth-messages";
 import { translateAuthError } from "@/lib/auth/translate-auth-error";
 import { verifyTurnstileIfConfigured } from "@/lib/auth/verify-turnstile";
 import {
@@ -216,12 +225,10 @@ export async function POST(req: Request) {
 
     const duplicate = isDuplicateEmailSignUp(data.user);
     if (duplicate) {
-      if (shouldAutoConfirmEmail()) {
-        const existingId = await resolveUserIdByEmail(email, sessionUser);
-        if (
-          existingId &&
-          (await tryAutoConfirmRegistration({ supabase, userId: existingId, email, password }))
-        ) {
+      const existingId = await resolveUserIdByEmail(email, sessionUser);
+
+      if (shouldAutoConfirmEmail() && existingId) {
+        if (await tryAutoConfirmRegistration({ supabase, userId: existingId, email, password })) {
           const { data: sessionData } = await supabase.auth.getSession();
           return finishSignUpResponse({
             wantsMobileSession,
@@ -237,6 +244,24 @@ export async function POST(req: Request) {
               : undefined,
           });
         }
+      }
+
+      // Уже подтверждённый email → не гоняем в OTP с «чужим» паролем; сразу вход / сброс.
+      if (existingId && (await isUserEmailConfirmed(existingId))) {
+        await writeSecurityAuditLog({
+          category: "auth",
+          action: "sign-up.already_registered",
+          success: false,
+          metadata: { userId: existingId },
+        });
+        return NextResponse.json(
+          {
+            ok: false,
+            alreadyRegistered: true,
+            error: EMAIL_ALREADY_REGISTERED_MSG,
+          },
+          { status: 409 },
+        );
       }
 
       await resendSignupConfirmation(supabase, email, emailRedirectTo);
