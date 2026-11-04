@@ -8,10 +8,21 @@ import {
   createChatSession,
   touchChatSession,
 } from "@/lib/ai/sonogyn-chat/chat-sessions";
-import { assertAiChatQuota, estimateTokenCostUsd } from "@/lib/ai/sonogyn-chat/cost-control";
+import {
+  assertAiGatewayQuota,
+  estimateGatewayCostUsd,
+  hasAnyLlmConfigured,
+  resolveLlmProvider,
+  resolveProviderChain,
+  type GatewayProviderId,
+} from "@/lib/ai/gateway";
 import { logAiChatEvent } from "@/lib/ai/sonogyn-chat/log-event";
-import { buildModelFallbackChain, isRetryableProviderError } from "@/lib/ai/sonogyn-chat/model-fallback";
-import { resolveLlmProvider } from "@/lib/ai/llm-provider";
+import {
+  buildGatewayAttemptChain,
+  CLOUD_PROVIDER_ATTEMPT_TIMEOUT_MS,
+  LOCAL_PROVIDER_ATTEMPT_TIMEOUT_MS,
+  shouldFailoverToNextProvider,
+} from "@/lib/ai/sonogyn-chat/model-fallback";
 import { isAiSdkEnabled } from "@/lib/ai/sdk/flags";
 import { aiSdkTextStreamResponse, runAiSdkStreamText } from "@/lib/ai/sdk/stream-chat";
 import { callOpenRouterChat, type OpenRouterMessage } from "@/lib/ai/sonogyn-chat/openrouter-client";
@@ -23,6 +34,12 @@ import {
   formatInsufficientEvidenceChatReply,
   isInsufficientEvidence,
 } from "@/lib/ai/sonogyn-chat/evidence-insufficient";
+import {
+  formatEvidenceSourcedChatReply,
+  isEvidenceChatSinglePassEnabled,
+  postValidateEvidenceAnswer,
+} from "@/lib/ai/sonogyn-chat/evidence-answer-validate";
+import { evidenceCostModelLabel } from "@/lib/ai/sonogyn-chat/evidence-cost";
 import {
   createStaticEvidenceChatStream,
   wrapOpenRouterStreamWithEvidence,
@@ -162,14 +179,21 @@ export async function POST(request: Request) {
   }
 
   if (persistChat) {
-    const quota = await assertAiChatQuota(auth.userId);
+    const quota = await assertAiGatewayQuota(auth.userId);
     if (!quota.ok) {
+      const error =
+        quota.reason === "monthly_chat"
+          ? "Достигнут лимит бесплатных AI-запросов. Перейдите на PRO."
+          : quota.reason === "daily_usd"
+            ? `Дневной лимит стоимости AI (~$${quota.usedUsd}/$${quota.usdLimit}).`
+            : `Дневной лимит запросов AI (${quota.usedRequests}/${quota.requestLimit}).`;
       return NextResponse.json(
         {
-          error: "Достигнут лимит бесплатных AI-запросов. Перейдите на PRO.",
+          error,
           code: "quota_exceeded",
-          used: quota.used,
-          limit: quota.limit,
+          used: quota.monthlyUsed ?? quota.usedRequests,
+          limit: quota.monthlyLimit ?? quota.requestLimit,
+          quota,
         },
         { status: 402 },
       );
@@ -233,8 +257,10 @@ export async function POST(request: Request) {
   }
 
   const llmPurpose = hasImages ? "vision" : mode === "evidence" ? "evidence" : "text";
-  const llm = resolveLlmProvider(llmPurpose);
-  if (!llm && mode !== "evidence") {
+  const providerChain = resolveProviderChain(llmPurpose);
+  const llm = providerChain[0] ?? resolveLlmProvider(llmPurpose);
+  const gatewayConfigured = hasAnyLlmConfigured() || providerChain.length > 0;
+  if (!gatewayConfigured && mode !== "evidence") {
     if (persistChat) {
       await logAiChatEvent({
         userId: auth.userId,
@@ -250,20 +276,26 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         error:
-          "AI не настроен: задайте PERPLEXITY_API_KEY (текст) и/или OPENROUTER_API_KEY (vision) на Vercel.",
+          "AI не настроен: Colibri (локально) и/или PERPLEXITY_API_KEY / OPENROUTER_API_KEY. См. /api/ai/gateway/status",
         code: "config",
       },
       { status: 503 },
     );
   }
-  if (llm && hasImages && llm.provider !== "openrouter") {
-    return NextResponse.json(
-      {
-        error: "Анализ изображений требует OPENROUTER_API_KEY (vision). Текст может идти через Perplexity.",
-        code: "config",
-      },
-      { status: 503 },
+  if (hasImages) {
+    const visionOk = providerChain.some(
+      (p) => p.provider === "openrouter" || (p.provider === "colibri" && Boolean(process.env.COLIBRI_VISION_MODEL?.trim())),
     );
+    if (!visionOk) {
+      return NextResponse.json(
+        {
+          error:
+            "Анализ изображений: нужен OPENROUTER_API_KEY или COLIBRI_VISION_MODEL. Текст — через Colibri/Perplexity.",
+          code: "config",
+        },
+        { status: 503 },
+      );
+    }
   }
 
   let evidenceAnswer: Awaited<ReturnType<typeof synthesizeWithLlm>> | null = null;
@@ -372,7 +404,7 @@ export async function POST(request: Request) {
         domain,
         success: true,
         durationMs: Date.now() - started,
-        model: "evidence:insufficient",
+        model: "evidence:insufficient:llmCalls=0",
         hasImages: false,
         promptVersion,
         sessionId: activeSessionId,
@@ -387,6 +419,7 @@ export async function POST(request: Request) {
           Connection: "keep-alive",
           "X-Sonogyn-Prompt-Version": promptVersion,
           "X-Sonogyn-Session-Id": activeSessionId ?? "",
+          "X-Sonogyn-Evidence-Llm-Calls": "0",
         },
       });
     }
@@ -398,11 +431,91 @@ export async function POST(request: Request) {
       sessionId: activeSessionId,
       promptVersion,
       isAiDraft: true,
+      evidenceMeta: { llmCalls: 0, singlePass: true },
+    });
+  }
+
+  // P1+P2: Evidence single-pass — structured answer + citation validation, no second narrative LLM.
+  if (
+    mode === "evidence" &&
+    evidenceAnswer &&
+    isEvidenceChatSinglePassEnabled() &&
+    !isInsufficientEvidence(evidenceAnswer)
+  ) {
+    const drafted = formatEvidenceSourcedChatReply(evidenceAnswer);
+    const validated = postValidateEvidenceAnswer(drafted, evidenceAnswer);
+    const assistantText = validated.text;
+    promptVersion = validated.replaced
+      ? "evidence-single-pass-validated-fallback-v1"
+      : "evidence-single-pass-v1";
+    // synthesisMode llm ⇒ 1 call in synthesizeWithLlm; rules ⇒ 0
+    const llmCalls = evidenceAnswer.synthesisMode === "llm" ? 1 : 0;
+
+    if (persistChat && activeSessionId) {
+      await appendChatMessage(supabase, {
+        sessionId: activeSessionId,
+        userId: auth.userId,
+        role: "assistant",
+        content: assistantText,
+        evidence: evidenceAnswer,
+        isAiDraft: true,
+        modelId: `evidence:single-pass:${evidenceAnswer.synthesisMode}`,
+        promptVersion,
+      });
+    }
+
+    if (persistChat) {
+      await logAiChatEvent({
+        userId: auth.userId,
+        domain,
+        success: true,
+        durationMs: Date.now() - started,
+        model: evidenceCostModelLabel({
+          llmCalls,
+          singlePass: true,
+          synthesisMode: evidenceAnswer.synthesisMode,
+        }),
+        hasImages: false,
+        promptVersion,
+        sessionId: activeSessionId,
+      });
+    }
+
+    if (useStream) {
+      return new NextResponse(createStaticEvidenceChatStream(assistantText, evidenceAnswer), {
+        headers: {
+          "Content-Type": "text/event-stream",
+          "Cache-Control": "no-cache, no-transform",
+          Connection: "keep-alive",
+          "X-Sonogyn-Prompt-Version": promptVersion,
+          "X-Sonogyn-Session-Id": activeSessionId ?? "",
+          "X-Sonogyn-Evidence-Llm-Calls": String(llmCalls),
+          "X-Sonogyn-Evidence-Validated": validated.ok ? "1" : "0",
+        },
+      });
+    }
+
+    return NextResponse.json({
+      choices: [{ message: { role: "assistant", content: assistantText } }],
+      evidence: evidenceAnswer,
+      mode: "evidence",
+      sessionId: activeSessionId,
+      promptVersion,
+      isAiDraft: true,
+      evidenceMeta: {
+        llmCalls,
+        singlePass: true,
+        validated: validated.ok,
+        replaced: validated.replaced,
+        reasons: validated.reasons,
+      },
     });
   }
 
   if (mode === "evidence" && evidenceAnswer && !llm) {
-    const assistantText = evidenceAnswer.summary;
+    const drafted = formatEvidenceSourcedChatReply(evidenceAnswer);
+    const validated = postValidateEvidenceAnswer(drafted, evidenceAnswer);
+    const assistantText = validated.text;
     promptVersion = "evidence-retrieval-v1";
 
     if (useStream) {
@@ -413,6 +526,7 @@ export async function POST(request: Request) {
           Connection: "keep-alive",
           "X-Sonogyn-Prompt-Version": promptVersion,
           "X-Sonogyn-Session-Id": "",
+          "X-Sonogyn-Evidence-Llm-Calls": "0",
         },
       });
     }
@@ -424,6 +538,7 @@ export async function POST(request: Request) {
       sessionId: null,
       promptVersion,
       isAiDraft: true,
+      evidenceMeta: { llmCalls: 0, singlePass: true },
     });
   }
 
@@ -431,14 +546,14 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         error:
-          "AI не настроен: задайте PERPLEXITY_API_KEY или OPENROUTER_API_KEY для режима Evidence.",
+          "AI не настроен: Colibri / PERPLEXITY_API_KEY / OPENROUTER_API_KEY для режима Evidence.",
         code: "config",
       },
       { status: 503 },
     );
   }
 
-  const modelChain = buildModelFallbackChain(hasImages, model);
+  const modelChain = buildGatewayAttemptChain(llmPurpose, model);
   const selectedModel = modelChain[0]?.modelId ?? model ?? llm.model;
   const appUrl = process.env.NEXT_PUBLIC_APP_URL?.trim();
   const enableTools = mode === "clinical" && !hasImages;
@@ -448,8 +563,10 @@ export async function POST(request: Request) {
     promptTokens?: number | null;
     completionTokens?: number | null;
     usedFallback?: boolean;
+    provider?: GatewayProviderId | string;
   }) => {
     if (!persistChat) return;
+    const provider = (opts.provider ?? llm.provider) as GatewayProviderId;
     await logAiChatEvent({
       userId: auth.userId,
       domain,
@@ -458,7 +575,7 @@ export async function POST(request: Request) {
       model: opts.usedFallback ? `${opts.modelLabel}:fallback` : opts.modelLabel,
       hasImages,
       promptVersion,
-      estimatedCostUsd: estimateTokenCostUsd(opts.promptTokens, opts.completionTokens),
+      estimatedCostUsd: estimateGatewayCostUsd(provider, opts.promptTokens, opts.completionTokens),
       sessionId: activeSessionId,
     });
     if (activeSessionId) {
@@ -473,9 +590,18 @@ export async function POST(request: Request) {
     let lastError: unknown;
     for (let i = 0; i < modelChain.length; i++) {
       const attempt = modelChain[i]!;
+      if (!attempt.apiKey || !attempt.url) continue;
+      // AI SDK path today is OpenRouter/Perplexity-shaped; skip pure local if SDK not wired for Colibri
+      const attemptLlm = {
+        provider: attempt.provider as GatewayProviderId,
+        apiKey: attempt.apiKey,
+        url: attempt.url,
+        model: attempt.modelId,
+        isLocal: attempt.isLocal,
+      };
       try {
         const { result, collectedTools } = runAiSdkStreamText({
-          llm,
+          llm: attemptLlm,
           modelId: attempt.modelId,
           systemPrompt,
           history: messages,
@@ -486,10 +612,11 @@ export async function POST(request: Request) {
         void Promise.resolve(result.usage)
           .then((usage) =>
             logSuccess({
-              modelLabel: `${llm.provider}:${attempt.modelId}:ai-sdk`,
+              modelLabel: `${attempt.provider}:${attempt.modelId}:ai-sdk`,
               promptTokens: usage.inputTokens,
               completionTokens: usage.outputTokens,
               usedFallback: i > 0,
+              provider: attempt.provider,
             }),
           )
           .catch(() => undefined);
@@ -552,18 +679,27 @@ export async function POST(request: Request) {
 
   let providerResult: Awaited<ReturnType<typeof callOpenRouterChat>> | null = null;
   let usedFallback = false;
+  let activeAttempt = modelChain[0] ?? {
+    modelId: llm.model,
+    provider: llm.provider,
+    apiKey: llm.apiKey,
+    url: llm.url,
+    isLocal: llm.isLocal,
+  };
 
   for (let i = 0; i < modelChain.length; i++) {
     const attempt = modelChain[i]!;
+    if (!attempt.apiKey || !attempt.url) continue;
     const providerMessages = buildProviderMessages({
       history: messages,
       images,
       systemPrompt,
     });
 
+    // Failover only before any bytes are sent to the client (stream starts after this loop).
     const result = await callOpenRouterChat({
-      apiKey: llm.apiKey,
-      url: llm.url,
+      apiKey: attempt.apiKey,
+      url: attempt.url,
       appUrl,
       body: {
         model: attempt.modelId,
@@ -571,20 +707,37 @@ export async function POST(request: Request) {
         stream: useStream,
         max_tokens: 4096,
       },
+      timeoutMs: attempt.isLocal
+        ? LOCAL_PROVIDER_ATTEMPT_TIMEOUT_MS
+        : CLOUD_PROVIDER_ATTEMPT_TIMEOUT_MS,
+      maxAttempts: attempt.isLocal ? 1 : 2,
     });
 
     if (result.ok) {
       providerResult = result;
       usedFallback = i > 0;
+      activeAttempt = attempt;
       break;
     }
 
-    if (isRetryableProviderError(result.status) && i < modelChain.length - 1) {
+    const hasNext = modelChain.slice(i + 1).some((a) => a.apiKey && a.url);
+    if (
+      shouldFailoverToNextProvider({
+        status: result.status,
+        code: result.code,
+        bodyText: result.bodyText,
+        hasNextProvider: hasNext,
+        streamCommitted: false,
+      })
+    ) {
       safeLog("ai chat provider fallback", {
         userId: auth.userId,
         status: result.status,
-        from: attempt.modelId,
-        to: modelChain[i + 1]?.modelId,
+        code: result.code,
+        from: `${attempt.provider}:${attempt.modelId}`,
+        to: modelChain[i + 1]
+          ? `${modelChain[i + 1]!.provider}:${modelChain[i + 1]!.modelId}`
+          : undefined,
       });
       continue;
     }
@@ -592,7 +745,7 @@ export async function POST(request: Request) {
     safeLog("ai chat provider error", redactForAiLog({
       status: result.status,
       code: result.code,
-      provider: llm.provider,
+      provider: attempt.provider,
       userId: auth.userId,
     }) as Record<string, unknown>);
 
@@ -602,7 +755,7 @@ export async function POST(request: Request) {
         domain,
         success: false,
         durationMs: Date.now() - started,
-        model: `${llm.provider}:${attempt.modelId}`,
+        model: `${attempt.provider}:${attempt.modelId}`,
         errorCode: result.code,
         hasImages,
         promptVersion,
@@ -623,8 +776,9 @@ export async function POST(request: Request) {
   }
 
   await logSuccess({
-    modelLabel: `${llm.provider}:${modelChain.find((_, idx) => idx === 0)?.modelId ?? selectedModel}`,
+    modelLabel: `${activeAttempt.provider}:${activeAttempt.modelId}`,
     usedFallback,
+    provider: activeAttempt.provider,
   });
 
   if (useStream) {
@@ -643,6 +797,7 @@ export async function POST(request: Request) {
         Connection: "keep-alive",
         "X-Sonogyn-Prompt-Version": promptVersion,
         "X-Sonogyn-Session-Id": activeSessionId ?? "",
+        "X-Sonogyn-Gateway-Provider": String(activeAttempt.provider),
         ...(usedFallback ? { "X-Sonogyn-Model-Fallback": "1" } : {}),
       },
     });
@@ -650,11 +805,24 @@ export async function POST(request: Request) {
 
   try {
     const data = await providerResult.response.json();
-    const assistantText =
+    let assistantText =
       typeof data === "object" && data && "choices" in data
         ? ((data as { choices?: { message?: { content?: string } }[] }).choices?.[0]?.message
             ?.content ?? "")
         : "";
+
+    let evidenceValidation: ReturnType<typeof postValidateEvidenceAnswer> | null = null;
+    if (mode === "evidence" && evidenceAnswer && assistantText) {
+      evidenceValidation = postValidateEvidenceAnswer(assistantText, evidenceAnswer);
+      if (evidenceValidation.replaced) {
+        assistantText = evidenceValidation.text;
+        promptVersion = "evidence-dual-llm-validated-fallback-v1";
+        if (data && typeof data === "object" && "choices" in data) {
+          const choices = (data as { choices?: { message?: { content?: string } }[] }).choices;
+          if (choices?.[0]?.message) choices[0].message.content = assistantText;
+        }
+      }
+    }
 
     if (activeSessionId && assistantText) {
       const { displayText, tools } = extractToolsFromAssistantText(assistantText);
@@ -666,7 +834,7 @@ export async function POST(request: Request) {
         toolResults: tools,
         evidence: evidenceAnswer ?? undefined,
         isAiDraft: true,
-        modelId: selectedModel,
+        modelId: activeAttempt.modelId,
         promptVersion,
       });
     }
@@ -679,6 +847,15 @@ export async function POST(request: Request) {
         sessionId: activeSessionId,
         promptVersion,
         isAiDraft: true,
+        evidenceMeta: {
+          llmCalls: 2,
+          singlePass: false,
+          validated: evidenceValidation?.ok ?? false,
+          replaced: evidenceValidation?.replaced ?? false,
+          reasons: evidenceValidation?.reasons ?? [],
+          provider: activeAttempt.provider,
+          usedFallback,
+        },
       });
     }
     return NextResponse.json({

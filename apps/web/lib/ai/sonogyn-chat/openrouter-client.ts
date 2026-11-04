@@ -73,12 +73,23 @@ export async function callOpenRouterChat(params: {
       if (err instanceof Error && err.name === "AbortError") {
         return { ok: false, status: 504, bodyText: "timeout", code: "timeout" };
       }
+      const errText = err instanceof Error ? err.message : String(err);
+      const network =
+        /ECONNREFUSED|ETIMEDOUT|ECONNRESET|ENOTFOUND|EAI_AGAIN|getaddrinfo|fetch failed|network|socket/i.test(
+          errText,
+        );
       if (attempt < maxAttempts - 1) {
         await sleep(500 * 2 ** attempt);
         continue;
       }
-      lastBody = err instanceof Error ? err.message : String(err);
-      return { ok: false, status: 500, bodyText: lastBody, code: "unknown" };
+      lastBody = errText;
+      // 503 + provider → chat failover treats as retryable (Colibri down → cloud).
+      return {
+        ok: false,
+        status: network ? 503 : 500,
+        bodyText: lastBody,
+        code: network ? "provider" : "unknown",
+      };
     }
   }
 

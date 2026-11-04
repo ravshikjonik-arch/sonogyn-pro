@@ -4,9 +4,14 @@ import type {
   EvidenceRecord,
   UnifiedSearchResult,
 } from "@repo/evidence-retrieval";
-import { synthesizeEvidenceAnswer } from "@repo/evidence-retrieval";
+import {
+  buildRulesClaims,
+  normalizeClaims,
+  synthesizeEvidenceAnswer,
+  withClaims,
+} from "@repo/evidence-retrieval";
 
-import { llmSupportsJsonObjectMode, resolveLlmProvider } from "@/lib/ai/llm-provider";
+import { gatewayChatCompletion, hasAnyLlmConfigured } from "@/lib/ai/gateway";
 
 function citationsForPrompt(records: EvidenceRecord[]): string {
   return records
@@ -121,6 +126,7 @@ type LlmPayload = {
   contraindications: string[];
   alternatives: { name: string; rationale: string }[];
   sourceTranslations?: { id: string; titleRu: string; keyPointRu: string }[];
+  claims?: { text: string; kind: "sourced" | "inference"; citationIndexes: number[] }[];
 };
 
 export async function synthesizeWithLlm(
@@ -131,9 +137,8 @@ export async function synthesizeWithLlm(
   const fallback = synthesizeEvidenceAnswer(query, searchResult, {
     corpusMode: options.corpusMode,
   });
-  const llm = resolveLlmProvider("evidence");
   const translateToRussian = options.translateToRussian !== false;
-  if (!llm || searchResult.records.length === 0) {
+  if (!hasAnyLlmConfigured() || searchResult.records.length === 0) {
     return withFallbackTranslations(fallback, searchResult, translateToRussian);
   }
 
@@ -146,10 +151,15 @@ Use ONLY the provided citations. Return strict JSON only (no markdown fences):
   "recommendations": ["..."],
   "contraindications": ["..."],
   "alternatives": [{"name":"...","rationale":"..."}],
+  "claims": [{"text":"atomic clinical statement in Russian","kind":"sourced|inference","citationIndexes":[0]}],
   "sourceTranslations": [{"id":"citation id exactly as provided","titleRu":"Russian title translation","keyPointRu":"1-2 concise Russian sentences with the clinically relevant point from title/abstract/quote"}]
 }
-Never invent PMIDs, sections, or guidelines not in citations. If a citation has Section/Quote — use them. CDS disclaimer implied.
-If translation is requested, translate the clinical meaning into Russian, but keep drug names, guideline acronyms, classifications, and study names recognizable.`;
+Rules for claims:
+- kind "sourced" MUST include citationIndexes (0-based into the Citations list below).
+- kind "inference" = cautious synthesis without a hard quote; citationIndexes may be empty.
+- Never invent PMIDs, O-RADS/FIGO criteria, or guideline sections not present in citations.
+- If evidence is weak, prefer evidenceStrength "insufficient" and empty recommendations.
+CDS disclaimer implied. Keep drug names, guideline acronyms, classifications recognizable.`;
 
   const user = `Clinical question: ${query}
 
@@ -160,35 +170,19 @@ Citations:
 ${citationsForPrompt(searchResult.records)}`;
 
   try {
-    const body: Record<string, unknown> = {
-      model: llm.model,
+    const gw = await gatewayChatCompletion({
+      purpose: "evidence",
       temperature: 0.2,
+      jsonObject: true,
       messages: [
         { role: "system", content: system },
         { role: "user", content: user },
       ],
-    };
-    if (llmSupportsJsonObjectMode(llm.provider)) {
-      body.response_format = { type: "json_object" };
-    }
-
-    const res = await fetch(llm.url, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${llm.apiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
     });
 
-    if (!res.ok) return withFallbackTranslations(fallback, searchResult, translateToRussian);
+    if (!gw.ok) return withFallbackTranslations(fallback, searchResult, translateToRussian);
 
-    const json = (await res.json()) as {
-      choices?: { message?: { content?: string } }[];
-    };
-    const content = json.choices?.[0]?.message?.content;
-    if (!content) return withFallbackTranslations(fallback, searchResult, translateToRussian);
-
+    const content = gw.content;
     const jsonText = content.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/i, "").trim();
     const parsed = JSON.parse(jsonText) as LlmPayload;
     const citationIds = new Set(searchResult.records.slice(0, 12).map((c) => c.id));
@@ -214,7 +208,17 @@ ${citationsForPrompt(searchResult.records)}`;
       sourcesUsed[p.provider] = p.status;
     }
 
-    return {
+    const citations = searchResult.records.slice(0, 12);
+    const llmClaims = normalizeClaims(parsed.claims, citations.length);
+    const claims =
+      llmClaims.length > 0
+        ? llmClaims
+        : buildRulesClaims(
+            citations,
+            parsed.recommendations?.length ? parsed.recommendations : fallback.recommendations,
+          );
+
+    const base: AssistantAnswer = {
       query,
       summary: parsed.summary || fallback.summary,
       evidenceStrength: parsed.evidenceStrength || fallback.evidenceStrength,
@@ -222,7 +226,7 @@ ${citationsForPrompt(searchResult.records)}`;
       recommendations: parsed.recommendations?.length ? parsed.recommendations : fallback.recommendations,
       contraindications: parsed.contraindications ?? fallback.contraindications,
       alternatives: parsed.alternatives ?? fallback.alternatives,
-      citations: searchResult.records.slice(0, 12),
+      citations,
       guidelines,
       disclaimers: fallback.disclaimers,
       sourcesUsed,
@@ -233,6 +237,8 @@ ${citationsForPrompt(searchResult.records)}`;
         ? { sourceTranslations }
         : {}),
     };
+
+    return withClaims(base, claims);
   } catch {
     return withFallbackTranslations(fallback, searchResult, translateToRussian);
   }

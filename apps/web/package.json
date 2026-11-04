@@ -90,7 +90,9 @@
     "db:verify-trust": "node scripts/staging-trust-preflight.mjs && node scripts/staging-trust-reputation-smoke.mjs",
     "test:lighthouse": "node scripts/lighthouse-smoke.mjs",
     "atlas:thyroid-png": "python3 scripts/generate-thyroid-atlas-png.py",
-    "atlas:fetal-anatomy-png": "python3 scripts/generate-fetal-anatomy-atlas-png.py"
+    "atlas:fetal-anatomy-png": "python3 scripts/generate-fetal-anatomy-atlas-png.py",
+    "test:evidence-p3": "node --import tsx scripts/evidence-p3-structural-eval.ts",
+    "test:evidence-integrity": "node --import tsx --test lib/ai/sonogyn-chat/__tests__/evidence-answer-validate.test.ts lib/ai/sonogyn-chat/__tests__/evidence-cost.test.ts"
   },
   "dependencies": {
     "@ai-sdk/openai": "^4.0.52",

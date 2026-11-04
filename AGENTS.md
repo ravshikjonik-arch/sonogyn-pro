@@ -72,3 +72,10 @@ A11y soft by default; strict: `A11Y_STRICT=true`. Lighthouse soft by default; st
 - Композиции: `apps/video/src/compositions/`
 - Регистрация: `apps/video/src/Root.tsx`
 - Рендер: `pnpm --filter @repo/video render SonoGynTip out/file.mp4`
+
+## Colibri (локальный LLM sidecar)
+
+- Не в git monorepo: `~/colibri` (`COLIBRI_HOME`)
+- Команды: `pnpm colibri:wire` · `colibri:setup` · `colibri:start` · `colibri:check`
+- Доки: `integrations/colibri/README.md`, `docs/integrations/colibri.md`
+- Prod Vercel не использует localhost Colibri

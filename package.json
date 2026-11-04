@@ -65,6 +65,12 @@
     "spike:docling:soft": "python3 services/docling-ingest/spike_markdown_chunker.py --input services/docling-ingest/fixtures/sample_guideline.md --out /tmp/sonogyn-docling-chunks.json",
     "embed:medical-vault": "node apps/web/scripts/embed-medical-vault-chunks.mjs",
     "embed:medical-vault:dry": "DRY_RUN=1 EMBED_LIMIT=5 node apps/web/scripts/embed-medical-vault-chunks.mjs",
+    "colibri:status": "bash scripts/colibri/status.sh",
+    "colibri:setup": "bash scripts/colibri/setup.sh",
+    "colibri:start": "bash scripts/colibri/start.sh",
+    "colibri:stop": "bash scripts/colibri/stop.sh",
+    "colibri:wire": "node scripts/colibri/wire-env.mjs",
+    "colibri:check": "node scripts/colibri/check.mjs",
     "test:e2e:iota": "pnpm --filter @repo/web test:e2e:iota"
   },
   "devDependencies": {
