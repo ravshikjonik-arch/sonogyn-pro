@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from "react";
 
-import { sourceTypeLabel } from "@repo/medical-knowledge";
+import { sourceTypeLabel } from "@repo/medical-knowledge/labels";
 
 type SourceRow = {
   id: string;
