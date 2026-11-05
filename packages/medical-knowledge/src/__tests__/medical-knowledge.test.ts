@@ -79,3 +79,12 @@ describe("prompt injection wrapping", () => {
     assert.ok(wrapped.includes(chunk));
   });
 });
+
+describe("sourceTypeLabel", () => {
+  it("maps guideline to clinician RU label", async () => {
+    const { sourceTypeLabel } = await import("../source-type-labels");
+    assert.equal(sourceTypeLabel("guideline"), "Клинические рекомендации (КР)");
+    assert.ok(sourceTypeLabel("book", "en").toLowerCase().includes("book"));
+    assert.equal(sourceTypeLabel("unknown_xyz"), "Источник");
+  });
+});

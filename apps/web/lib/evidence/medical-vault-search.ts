@@ -59,12 +59,69 @@ export async function embedQueryText(text: string): Promise<number[] | null> {
   return vector;
 }
 
+function mapVaultRows(data: unknown[]): MedicalVaultSearchHit[] {
+  return data.map((row) => {
+    const r = row as Record<string, unknown>;
+    return {
+      chunkId: String(r.chunk_id),
+      sourceId: String(r.source_id),
+      title: String(r.title ?? "Vault source"),
+      organization: r.organization ? String(r.organization) : undefined,
+      year: typeof r.year === "number" ? r.year : undefined,
+      section: r.section_title ? String(r.section_title) : undefined,
+      quote: String(r.quote ?? "").slice(0, 480),
+      url: r.external_url ? String(r.external_url) : "#",
+      score: typeof r.similarity === "number" ? r.similarity : 0,
+    };
+  });
+}
+
+/** Merge semantic + FTS by chunkId; keep max score. */
+export function mergeVaultHits(
+  a: MedicalVaultSearchHit[],
+  b: MedicalVaultSearchHit[],
+  limit: number,
+): MedicalVaultSearchHit[] {
+  const map = new Map<string, MedicalVaultSearchHit>();
+  for (const hit of [...a, ...b]) {
+    const prev = map.get(hit.chunkId);
+    if (!prev || hit.score > prev.score) map.set(hit.chunkId, hit);
+  }
+  return Array.from(map.values())
+    .sort((x, y) => y.score - x.score)
+    .slice(0, limit);
+}
+
+function isVaultFtsEnabled(): boolean {
+  return Boolean(process.env.EVIDENCE_MEDICAL_VAULT_FTS?.trim().match(/^(1|true|on)$/i));
+}
+
+async function searchMedicalVaultFts(args: {
+  query: string;
+  limit: number;
+}): Promise<MedicalVaultSearchHit[]> {
+  if (!isVaultFtsEnabled()) return [];
+  let supabase;
+  try {
+    supabase = createServiceRoleClient();
+  } catch {
+    return [];
+  }
+  const { data, error } = await supabase.rpc("match_medical_vault_chunks_fts", {
+    query_text: args.query.slice(0, 200),
+    match_count: Math.min(Math.max(args.limit, 1), 12),
+  });
+  if (error || !Array.isArray(data)) return [];
+  return mapVaultRows(data);
+}
+
 /**
- * Server-side vault semantic search. Requires:
+ * Server-side vault semantic (+ optional FTS) search. Requires:
  * - OPENROUTER_API_KEY or OPENAI_API_KEY
  * - SUPABASE_SERVICE_ROLE_KEY
  * - migration match_medical_vault_chunks applied
  * - EVIDENCE_MEDICAL_VAULT=1 (feature flag)
+ * - EVIDENCE_MEDICAL_VAULT_FTS=1 after FTS migration GO (optional)
  */
 export async function searchMedicalVault(args: {
   query: string;
@@ -74,35 +131,33 @@ export async function searchMedicalVault(args: {
     return [];
   }
 
+  const limit = Math.min(Math.max(args.limit, 1), 12);
   const embedding = await embedQueryText(args.query);
-  if (!embedding) return [];
 
-  let supabase;
-  try {
-    supabase = createServiceRoleClient();
-  } catch {
-    return [];
+  let semantic: MedicalVaultSearchHit[] = [];
+  if (embedding) {
+    let supabase;
+    try {
+      supabase = createServiceRoleClient();
+    } catch {
+      supabase = null;
+    }
+    if (supabase) {
+      const { data, error } = await supabase.rpc("match_medical_vault_chunks", {
+        query_embedding: embedding,
+        match_count: limit,
+        match_threshold:
+          Number.parseFloat(process.env.EVIDENCE_VAULT_MATCH_THRESHOLD ?? "0.72") || 0.72,
+      });
+      if (!error && Array.isArray(data)) semantic = mapVaultRows(data);
+    }
   }
 
-  const { data, error } = await supabase.rpc("match_medical_vault_chunks", {
-    query_embedding: embedding,
-    match_count: Math.min(Math.max(args.limit, 1), 12),
-    match_threshold: Number.parseFloat(process.env.EVIDENCE_VAULT_MATCH_THRESHOLD ?? "0.72") || 0.72,
-  });
-
-  if (error || !Array.isArray(data)) return [];
-
-  return data.map((row: Record<string, unknown>) => ({
-    chunkId: String(row.chunk_id),
-    sourceId: String(row.source_id),
-    title: String(row.title ?? "Vault source"),
-    organization: row.organization ? String(row.organization) : undefined,
-    year: typeof row.year === "number" ? row.year : undefined,
-    section: row.section_title ? String(row.section_title) : undefined,
-    quote: String(row.quote ?? "").slice(0, 480),
-    url: row.external_url ? String(row.external_url) : "#",
-    score: typeof row.similarity === "number" ? row.similarity : 0,
-  }));
+  const fts = await searchMedicalVaultFts({ query: args.query, limit });
+  if (semantic.length === 0 && fts.length === 0) return [];
+  if (fts.length === 0) return semantic.slice(0, limit);
+  if (semantic.length === 0) return fts.slice(0, limit);
+  return mergeVaultHits(semantic, fts, limit);
 }
 
 export type MedicalVaultStatusReason =
@@ -116,20 +171,26 @@ export type MedicalVaultStatus = {
   enabled: boolean;
   flag: boolean;
   hasEmbedApi: boolean;
+  ftsFlag: boolean;
   reason: MedicalVaultStatusReason;
   detail: string;
+  runbook: string;
 };
 
 export function getMedicalVaultStatus(): MedicalVaultStatus {
   const flag = Boolean(process.env.EVIDENCE_MEDICAL_VAULT?.trim().match(/^(1|true|on)$/i));
+  const ftsFlag = isVaultFtsEnabled();
   const hasEmbedApi = Boolean(embeddingApi());
+  const runbook = "docs/ops/MEDICAL_VAULT_EMBED_RUNBOOK.md";
   if (!flag) {
     return {
       enabled: false,
       flag: false,
       hasEmbedApi,
+      ftsFlag,
       reason: "disabled",
       detail: "EVIDENCE_MEDICAL_VAULT unset/off — semantic vault не в цепочке Evidence",
+      runbook,
     };
   }
   if (!hasEmbedApi) {
@@ -137,16 +198,22 @@ export function getMedicalVaultStatus(): MedicalVaultStatus {
       enabled: false,
       flag: true,
       hasEmbedApi: false,
+      ftsFlag,
       reason: "no_embed_key",
       detail: "Флаг включён, но нет OPENROUTER_API_KEY / OPENAI_API_KEY для embeddings",
+      runbook,
     };
   }
   return {
     enabled: true,
     flag: true,
     hasEmbedApi: true,
+    ftsFlag,
     reason: "ready",
-    detail: "Vault search wired (нужны applied migration + embedded published chunks)",
+    detail: ftsFlag
+      ? "Vault semantic+FTS wired (нужны applied migrations + embedded published chunks)"
+      : "Vault search wired (нужны applied migration + embedded published chunks); FTS off",
+    runbook,
   };
 }
 

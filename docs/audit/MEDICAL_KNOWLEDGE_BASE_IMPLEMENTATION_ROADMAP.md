@@ -2,8 +2,8 @@
 
 **Дата:** 2026-11-05  
 **Основание:** `docs/audit/MEDICAL_KNOWLEDGE_BASE_AUDIT.md`  
-**Статус:** план только. Реализация — после отдельного разрешения.  
-**Не делать без GO:** migrations apply, re-embed all, production deploy, удаление документов.
+**Статус:** код P0–P1(+P2 scaffold) в ветке; **prod migrate / EVIDENCE_MEDICAL_VAULT / re-embed — только по GO**.  
+**Не делать без GO:** migrations apply, re-embed all, prod vault flag, удаление документов.
 
 ---
 
@@ -94,20 +94,24 @@ Week 8+:   P1-5 flag, P2-1 golden 100, then reassess C
 | ID | Статус |
 |----|--------|
 | P0-1 Source Studio honest UI | **done** |
-| P0-3 Vault status on assistant GET | **done** (`medicalVault` in `/api/evidence/assistant/ask`) |
-| P1-3 Admin hub → Source Studio | **done** |
-| P0-2 Legacy ask integrity fields + UI | **done** (`insufficient` / `evidenceStrength`) |
-| P1 ingest / migrations / deploy | **not started** (нужен отдельный GO) |
+| P0-2 Legacy ask integrity | **done** |
+| P0-3 Vault status on assistant GET | **done** (+ `ftsFlag`, `runbook`) |
+| P0-4 Chat evidence LLM + postValidate | **done** (`evidenceRetrieval.ts`) |
+| P1-1 Text ingest API | **done** (`/api/admin/medical-knowledge/ingest`) — PDF/OCR later |
+| P1-2 Source Studio review UI MVP | **done** (ingest + chunks + publish/reject) |
+| P1-3 Admin hub link | **done** |
+| P1-4 FTS migration file | **done** (`20261105120000_medical_vault_fts.sql`) — **not applied** |
+| P1-5 Soft rerank | **deferred** |
+| P1-6 Embed runbook | **done** (`docs/ops/MEDICAL_VAULT_EMBED_RUNBOOK.md`) |
+| P1-7 Dual UX cleanup | **deferred** (partial honesty copy) |
+| P2-1 Golden ≥100 | **done** scaffold (`eval/golden-prompts.json`) |
+| P2-2 Source type labels | **done** (`sourceTypeLabel`) |
+| Prod migrate / `EVIDENCE_MEDICAL_VAULT` | **blocked** — нужен GO |
 
 ## Критерии старта реализации
 
 - [x] Владелец одобрил фазу A (минимальную очередь).  
+- [x] Владелец: «делай дальше до конца» (код P0–P1 без prod migrate).  
 - [ ] Юр. OK на конкретные источники для vault.  
-- [ ] Staging Supabase: vault + pgvector migrations verified.  
+- [ ] Staging Supabase: vault + pgvector + FTS migrations verified.  
 - [ ] Явный запрет на prod migrate/reindex без отдельного GO.
-
----
-
-## Подтверждение
-
-Этот файл — план. Код и инфраструктура при его написании **не менялись**.

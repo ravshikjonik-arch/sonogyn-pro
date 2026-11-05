@@ -147,6 +147,8 @@ export async function GET() {
       detail: medicalVault.detail,
       flag: medicalVault.flag,
       hasEmbedApi: medicalVault.hasEmbedApi,
+      ftsFlag: medicalVault.ftsFlag,
+      runbook: medicalVault.runbook,
     },
     disclaimer:
       "Evidence Assistant — CDS. Использует PubMed, Europe PMC, Cochrane (via EPMC), Semantic Scholar, ClinicalTrials.gov, КР МЗ РФ, SonoEvidence, OpenFDA, DailyMed. Не диагноз; интерпретация — специалист.",

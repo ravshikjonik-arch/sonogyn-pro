@@ -1,0 +1,14 @@
+{
+  "version": "2026.11.05",
+  "description": "Mirror of @repo/medical-knowledge sourceTypeLabel RU/EN for eval harness / docs (P2-2).",
+  "labels": {
+    "book": { "ru": "Книга / монография", "en": "Book / monograph" },
+    "guideline": { "ru": "Клинические рекомендации (КР)", "en": "Clinical guideline" },
+    "consensus": { "ru": "Консенсус / position statement", "en": "Consensus / position statement" },
+    "article": { "ru": "Статья / обзор", "en": "Article / review" },
+    "manual": { "ru": "Методичка / внутренний протокол", "en": "Manual / internal protocol" },
+    "protocol": { "ru": "Клинический протокол", "en": "Clinical protocol" },
+    "lecture": { "ru": "Лекция / учебный материал", "en": "Lecture / education" },
+    "other": { "ru": "Другой источник", "en": "Other source" }
+  }
+}

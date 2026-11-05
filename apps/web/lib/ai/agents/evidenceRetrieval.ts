@@ -1,9 +1,12 @@
 import { wrapClinicalSupportBundle } from "@/lib/ai/safety";
 import type { AgentArtifact, OrchestratorContext } from "@/lib/ai/types";
-import { buildRetrievalConfigAsync } from "@/lib/evidence/retrieval-config";
 import {
-  EVIDENCE_CORPUS_VERSION,
-} from "@repo/evidence-corpus";
+  formatEvidenceSourcedChatReply,
+  postValidateEvidenceAnswer,
+} from "@/lib/ai/sonogyn-chat/evidence-answer-validate";
+import { buildRetrievalConfigAsync } from "@/lib/evidence/retrieval-config";
+import { synthesizeWithLlm } from "@/lib/evidence/synthesize-llm";
+import { EVIDENCE_CORPUS_VERSION } from "@repo/evidence-corpus";
 import { searchEvidenceUnified, synthesizeEvidenceAnswer } from "@repo/evidence-retrieval";
 
 export async function runEvidenceRetrievalAgent(
@@ -13,8 +16,7 @@ export async function runEvidenceRetrievalAgent(
 
   if (query.length < 2) {
     const bundle = wrapClinicalSupportBundle({
-      summary:
-        `SonoEvidence + слой «Доказательства и источники»: задайте clinical question или откройте /tools/refs/evidence-sources.`,
+      summary: `SonoEvidence + слой «Доказательства и источники»: задайте clinical question или откройте /tools/refs/evidence-sources.`,
       findings: [],
       followUpSuggestions: [
         "Доказательства и источники (/tools/refs/evidence-sources) — КР, PubMed, ГРЛС, Новое.",
@@ -34,10 +36,19 @@ export async function runEvidenceRetrievalAgent(
     { query, limit: 8, preferHighEvidence: true, maxAgeYears: 10 },
     { config },
   );
-  const answer = synthesizeEvidenceAnswer(query, searchResult);
+
+  // P0-4: prefer LLM synthesis when retrieval has hits; always post-validate.
+  const answer =
+    searchResult.records.length > 0
+      ? await synthesizeWithLlm(query, searchResult, { translateToRussian: true })
+      : synthesizeEvidenceAnswer(query, searchResult);
+
+  const drafted = formatEvidenceSourcedChatReply(answer);
+  const validated = postValidateEvidenceAnswer(drafted, answer);
+  const summary = validated.text;
 
   const bundle = wrapClinicalSupportBundle({
-    summary: answer.summary,
+    summary,
     findings: answer.citations.slice(0, 5).map((c) => ({
       title: c.title,
       detail: c.abstract?.slice(0, 240) || c.journal || c.provider,
@@ -65,6 +76,10 @@ export async function runEvidenceRetrievalAgent(
       confidence: c.relevanceScore,
       rationale: `${c.provider}${c.year ? ` · ${c.year}` : ""}`,
     })),
-    warnings: answer.contraindications.slice(0, 2),
+    warnings: [
+      ...answer.contraindications.slice(0, 2),
+      ...(validated.replaced ? ["Ответ скорректирован post-validate (цитаты/источники)."] : []),
+      ...(answer.insufficient ? ["Недостаточно данных в retrieval."] : []),
+    ],
   };
 }
