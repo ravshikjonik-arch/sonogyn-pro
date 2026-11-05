@@ -106,7 +106,7 @@ const navGroups: { title: string; items: { href: string; label: string; icon: ty
     title: "Помощник · EBM",
     items: [
       { href: "/ai/consultants/us-prep", label: "Live приём · УЗИ", icon: Mic },
-      { href: "/ai/consultants", label: "Помощник врача", icon: HandHeart },
+      { href: "/ai/consultants", label: "Исслед. AI", icon: HandHeart },
       { href: "/tools/refs/evidence-sources", label: "Доказательства", icon: Sparkles },
       { href: "/ai/workspace", label: "AI-зона · снимки", icon: Brain },
     ],
@@ -115,7 +115,6 @@ const navGroups: { title: string; items: { href: string; label: string; icon: ty
     title: "Справочник",
     items: [
       { href: "/tools/pharmacy", label: "Аптека врача", icon: Pill },
-      { href: "/tools/repos", label: "Исслед. AI", icon: Library },
       { href: "/tools/refs", label: "Практика", icon: BookMarked },
       { href: "/tools/refs/guidelines", label: "КР и приказы", icon: FileText },
       { href: "/tools/refs/norms", label: "Клин. нормы", icon: BookOpen },

@@ -98,10 +98,11 @@ export const CALCULATOR_SEO_REGISTRY: CalculatorSeoEntry[] = [
   },
   {
     path: "/tools/repos",
-    title: "Исследования AI / УЗИ",
-    description: "Карточки внешних open-source проектов УЗИ для справки — не калькуляторы приёма.",
-    keywords: ["исследования", "УЗИ", "AI", "open source"],
+    title: "Исслед. AI · помощник врача",
+    description: "Вход в клинического AI-помощника (гин / акуш / FMF / УЗИ). Не витрина кода.",
+    keywords: ["помощник врача", "AI", "УЗИ", "клинический ассистент"],
   },
+
   {
     path: "/tools/pharmacy",
     title: "Аптека врача",

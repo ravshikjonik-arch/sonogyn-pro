@@ -15,7 +15,7 @@ const AI_ROUTES: Omit<AiRouteHit, "score">[] = [
   },
   {
     id: "ai.consultants",
-    title: "Помощник врача",
+    title: "Исслед. AI · помощник врача",
     subtitle: "Нозология → УЗИ → протокол",
     href: "/ai/consultants",
   },

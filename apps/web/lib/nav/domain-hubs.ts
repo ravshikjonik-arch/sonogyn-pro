@@ -48,7 +48,7 @@ export const TOOLS_HOME_DOMAINS = [
   },
   {
     href: "/ai/consultants",
-    title: "Помощник врача",
+    title: "Исслед. AI · помощник врача",
     description: "МКБ → УЗИ → протокол · гинеколог · акушер · FMF",
     accent: "from-teal-600 to-cyan-500",
   },
