@@ -140,7 +140,12 @@ export const OBSTETRICS_GROUPS: DomainHubGroup[] = [
       {
         href: "/tools/refs/sources",
         title: "Официальные гайдлайны",
-        description: "ACR · FIGO · ISUOG · КР (без книжных атласов)",
+        description: "ACR · FIGO · ISUOG · RCOG · КР (без книжных атласов)",
+      },
+      {
+        href: "/tools/refs/rcog-green-top",
+        title: "RCOG · Green-top",
+        description: "UK Green-top для УЗИ/АГ + переход в FMF",
       },
       {
         href: "/tools/refs/guidelines",

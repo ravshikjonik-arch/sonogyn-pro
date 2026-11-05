@@ -140,6 +140,17 @@ const EDUCATION_LIBRARY_ITEMS_RAW: EducationLibraryItem[] = [
     badge: "2025",
   },
   {
+    id: "rcog-green-top",
+    shelf: "reference",
+    title: "RCOG · Green-top Guidelines",
+    description:
+      "UK Green-top для УЗИ/АГ: SGA/FGR, плацента, эктопия, цервикометрия, яичники — с переходом в FMF и O-RADS.",
+    href: "/tools/refs/rcog-green-top",
+    tags: ["RCOG", "Green-top", "гайдлайн", "FGR", "ectopic"],
+    badge: "NEW",
+    primary: true,
+  },
+  {
     id: "cme-tracker",
     shelf: "courses",
     title: "CME · часы обучения",
