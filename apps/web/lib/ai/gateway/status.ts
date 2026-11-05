@@ -1,4 +1,9 @@
-import { colibriChatUrl, listConfiguredProviderIds, resolveProviderChain } from "./resolve";
+import {
+  colibriChatUrl,
+  isColibriEnabled,
+  listConfiguredProviderIds,
+  resolveProviderChain,
+} from "./resolve";
 import type { GatewayProviderId, GatewayProviderStatus, LlmPurpose } from "./types";
 
 async function pingOpenAiCompatible(url: string, apiKey: string): Promise<{ ok: boolean; detail: string }> {
@@ -37,13 +42,18 @@ export async function getGatewayStatus(purpose: LlmPurpose = "text"): Promise<{
 
   const providers: GatewayProviderStatus[] = [];
 
-  // Colibri
+  // Colibri — ping only when explicitly enabled (never blocks chat hot path).
   {
     const model = process.env.COLIBRI_MODEL?.trim() || null;
+    const enabled = isColibriEnabled();
     const configuredColibri = configured.includes("colibri");
     let healthy: boolean | null = null;
-    let detail = configuredColibri ? "configured" : "not configured";
-    if (configuredColibri) {
+    let detail = enabled
+      ? configuredColibri
+        ? "enabled"
+        : "enabled but incomplete config"
+      : "disabled (COLIBRI_ENABLED off / unset)";
+    if (enabled && configuredColibri) {
       const ping = await pingOpenAiCompatible(
         colibriChatUrl(),
         process.env.COLIBRI_API_KEY?.trim() || "colibri-local",
@@ -55,7 +65,7 @@ export async function getGatewayStatus(purpose: LlmPurpose = "text"): Promise<{
       id: "colibri",
       configured: configuredColibri,
       healthy,
-      model,
+      model: enabled ? model : null,
       detail,
     });
   }

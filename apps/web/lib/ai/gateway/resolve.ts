@@ -22,12 +22,22 @@ export function colibriChatUrl(baseOverride?: string): string {
   return `${base}/chat/completions`;
 }
 
-function resolveColibri(purpose: LlmPurpose): ResolvedLlm | null {
+/**
+ * Colibri is optional and **off by default**.
+ * Enable only with COLIBRI_ENABLED=true|1|on, or LLM_PROVIDER=colibri.
+ * Setting COLIBRI_MODEL alone must NOT put Colibri in the chain (prod-safe).
+ */
+export function isColibriEnabled(): boolean {
   const forced = (process.env.LLM_PROVIDER?.trim().toLowerCase() || "auto") as string;
-  const enabledFlag = process.env.COLIBRI_ENABLED?.trim().toLowerCase();
-  const explicitlyOff = enabledFlag === "0" || enabledFlag === "false" || enabledFlag === "off";
-  if (explicitlyOff) return null;
+  if (forced === "colibri") return true;
+  const flag = process.env.COLIBRI_ENABLED?.trim().toLowerCase();
+  return flag === "1" || flag === "true" || flag === "on";
+}
 
+function resolveColibri(purpose: LlmPurpose): ResolvedLlm | null {
+  if (!isColibriEnabled()) return null;
+
+  const forced = (process.env.LLM_PROVIDER?.trim().toLowerCase() || "auto") as string;
   const model =
     (purpose === "evidence" ? process.env.COLIBRI_EVIDENCE_MODEL?.trim() : undefined) ||
     (purpose === "vision" ? process.env.COLIBRI_VISION_MODEL?.trim() : undefined) ||
@@ -36,16 +46,9 @@ function resolveColibri(purpose: LlmPurpose): ResolvedLlm | null {
   // Vision needs explicit model — Colibri language engines may not multimodal.
   if (purpose === "vision" && !process.env.COLIBRI_VISION_MODEL?.trim()) return null;
 
-  const wantColibri =
-    forced === "colibri" ||
-    enabledFlag === "1" ||
-    enabledFlag === "true" ||
-    enabledFlag === "on" ||
-    (forced === "auto" && Boolean(model));
-
-  if (!wantColibri || !model) {
-    // Still allow forced=colibri with default model id from status endpoint later
-    if (forced === "colibri" && !model) {
+  if (!model) {
+    // Forced provider without model id — still allow (server may list /models).
+    if (forced === "colibri") {
       return {
         provider: "colibri",
         apiKey: process.env.COLIBRI_API_KEY?.trim() || "colibri-local",
@@ -106,6 +109,7 @@ function resolveOpenRouter(purpose: LlmPurpose): ResolvedLlm | null {
  * Env:
  *   LLM_PROVIDER=auto|colibri|perplexity|openrouter
  *   LLM_FALLBACK_ORDER=colibri,openrouter,perplexity  (optional override for auto)
+ *   COLIBRI_ENABLED=true required for Colibri slot (unless LLM_PROVIDER=colibri)
  */
 export function resolveProviderChain(purpose: LlmPurpose = "text"): ResolvedLlm[] {
   const forced = (process.env.LLM_PROVIDER?.trim().toLowerCase() || "auto") as
@@ -138,7 +142,6 @@ export function resolveProviderChain(purpose: LlmPurpose = "text"): ResolvedLlm[
   // auto (+ optional LLM_FALLBACK_ORDER)
   const orderRaw = process.env.LLM_FALLBACK_ORDER?.trim();
   // Cloud-first: production/serverless must not depend on localhost Colibri.
-  // Colibri stays optional — enable via LLM_FALLBACK_ORDER or doctor-box env.
   const defaultOrder: GatewayProviderId[] =
     purpose === "vision"
       ? ["openrouter", "colibri"]
@@ -185,19 +188,13 @@ export function hasAnyLlmConfigured(): boolean {
   return Boolean(
     process.env.PERPLEXITY_API_KEY?.trim() ||
       process.env.OPENROUTER_API_KEY?.trim() ||
-      process.env.COLIBRI_MODEL?.trim() ||
-      process.env.LLM_PROVIDER?.trim().toLowerCase() === "colibri" ||
-      process.env.COLIBRI_ENABLED?.trim().match(/^(1|true|on)$/i),
+      isColibriEnabled(),
   );
 }
 
 export function listConfiguredProviderIds(): GatewayProviderId[] {
   const ids: GatewayProviderId[] = [];
-  if (
-    process.env.COLIBRI_MODEL?.trim() ||
-    process.env.LLM_PROVIDER?.trim().toLowerCase() === "colibri" ||
-    process.env.COLIBRI_ENABLED?.trim().match(/^(1|true|on)$/i)
-  ) {
+  if (isColibriEnabled()) {
     ids.push("colibri");
   }
   if (process.env.PERPLEXITY_API_KEY?.trim()) ids.push("perplexity");
