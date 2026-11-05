@@ -35,6 +35,9 @@ SonoGyn Pro — не приложение калькуляторов, а кли�
 | Документ | Содержание |
 |----------|------------|
 | [cursor-kit-integration.md](./cursor-kit-integration.md) | Мягкая интеграция cursor-kit: safety + docs/prompts (углубление без ломки) |
+| [../BACKUP.md](../BACKUP.md) | Бэкап / восстановление Supabase + откат Vercel |
+| [../RELEASE_CHECKLIST.md](../RELEASE_CHECKLIST.md) | Чеклист выкладки web на production |
+| [../LICENSES.md](../LICENSES.md) | Реестр лицензий и 3D/OSS источников |
 | [platform_first_architecture.md](./platform_first_architecture.md) | Новая стратегия: чат врачей + AI-помощник как ядро платформы |
 | [medical_access_model.md](./medical_access_model.md) | Модель допуска: студент, ординатор, врач, подтвержденный врач |
 | [orads_guidance_like_calculator.md](./orads_guidance_like_calculator.md) | Направление O-RADS: guided-калькулятор + расчет по тексту + AI-помощник |

@@ -15,12 +15,12 @@
 | Этап | Файл | Фокус сейчас | Уже есть (не ломать) |
 |------|------|--------------|----------------------|
 | 0 | `00-audit.md` | Сводка в `docs/architecture/` | `master_architecture.md`, ADR, security audit |
-| 1 | `01-safety-net.md` | Дыры CI/health/backup | Vercel, Playwright, hardening |
-| 2 | `02-copyright.md` | Дочистка контента | ветка `copyright-cleanup` |
+| 1 | `01-safety-net.md` | CI/health/**backup** | `/api/health`, CI, **`docs/BACKUP.md`** |
+| 2 | `02-copyright.md` | Дочистка контента | ветка `copyright-cleanup`, gate |
 | 3 | `03-chat.md` | Стабильность чата | `/cases`, DoctorChannelChat |
-| 4 | `04-ai-evidence.md` | Углубить evidence + помощник | `/ai/consultants`, Evidence, «Исслед. AI» |
-| 5 | `05-3d-ultrasound.md` | 3D за флагом | новый модуль рядом |
-| 6 | `06-release.md` | Релиз-чеклист на **Vercel+Supabase** | не Docker-first |
-| 7 | `07-mobile.md` | PWA + parity с Expo | `apps/mobile` |
+| 4 | `04-ai-evidence.md` | Evidence + помощник | `/ai/consultants`, Evidence, «Исслед. AI» |
+| 5 | `05-3d-ultrasound.md` | Таз за флагом | **`NEXT_PUBLIC_PELVIS_3D`** → `/tools/mapping/pelvis` (чеклист); 3D-модель — позже |
+| 6 | `06-release.md` | Релиз Vercel+Supabase | **`docs/RELEASE_CHECKLIST.md`**, `LAUNCH_CHECKLIST.md` |
+| 7 | `07-mobile.md` | PWA + parity с Expo | `apps/mobile`, web PWA |
 
 Золотое правило: **углублять существующие модули**, не параллельные «вторые платформы».

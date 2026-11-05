@@ -12,6 +12,7 @@ import {
   isDoctorChatV2Enabled,
   isDoctorChatWebPushEnabled,
 } from "@/lib/chat/flags";
+import { isPelvis3dEnabled } from "@/lib/feature-flags/pelvis-3d";
 
 function envTruthy(value: string | undefined): boolean {
   const v = value?.trim().toLowerCase();
@@ -56,6 +57,7 @@ export type IntegrationRolloutFlags = {
   doctorChatV2: boolean;
   doctorChatWebPush: boolean;
   doctorChatAiMention: boolean;
+  pelvis3d: boolean;
 };
 
 /** Server-side snapshot for health/debug (no secrets). */
@@ -78,5 +80,6 @@ export function integrationRolloutSnapshot(): IntegrationRolloutFlags {
     doctorChatV2: isDoctorChatV2Enabled(),
     doctorChatWebPush: isDoctorChatWebPushEnabled(),
     doctorChatAiMention: isDoctorChatAiMentionEnabled(),
+    pelvis3d: isPelvis3dEnabled(),
   };
 }
