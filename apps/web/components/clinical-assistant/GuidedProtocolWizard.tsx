@@ -17,6 +17,7 @@ import { useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { DictationField } from "@/components/voice/DictationField";
 import { cn } from "@/lib/utils/cn";
 
 const ANATOMY_KEYS = new Set([
@@ -383,14 +384,17 @@ export function GuidedProtocolWizard() {
             }
             if (key === "conclusion" || key === "recommendations") {
               return (
-                <label key={key} className="text-sm sm:col-span-2">
-                  {label}
-                  <textarea
-                    className="mt-1 min-h-[80px] w-full rounded-xl border border-[var(--clinical-border)] bg-[var(--clinical-card)] px-3 py-2"
+                <div key={key} className="space-y-1 text-sm sm:col-span-2">
+                  <span>{label}</span>
+                  <DictationField
                     value={typeof val === "string" ? val : ""}
-                    onChange={(e) => setField(key, e.target.value)}
+                    onChange={(next) => setField(key, next)}
+                    draftKey={`guided-${key}`}
+                    ariaLabel={label}
+                    multiline
+                    placeholder="Текст или диктовка с микрофона"
                   />
-                </label>
+                </div>
               );
             }
             return (

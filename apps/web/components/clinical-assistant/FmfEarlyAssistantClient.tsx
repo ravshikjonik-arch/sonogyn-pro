@@ -91,11 +91,11 @@ export type FmfAssistantSection = "early" | "first" | "second" | "third" | "dopp
 
 const SECTIONS: { id: FmfAssistantSection; label: string; hint: string }[] = [
   { id: "early", label: "Малый срок", hint: "до 11 нед." },
-  { id: "first", label: "I скрининг", hint: "11+0 — 13+6" },
-  { id: "second", label: "II скрининг", hint: "18–22 нед." },
-  { id: "third", label: "III скрининг", hint: "34–36 нед." },
-  { id: "doppler", label: "Допплер", hint: "UtA · UA · MCA" },
-  { id: "cervix", label: "Шейка", hint: "CL · funneling" },
+  { id: "first", label: "I скрининговый срок", hint: "11+0 — 13+6" },
+  { id: "second", label: "II скрининговый срок", hint: "18–22 нед." },
+  { id: "third", label: "III скрининговый срок", hint: "34–36 нед." },
+  { id: "cervix", label: "Цервикометрия", hint: "CL · funneling" },
+  { id: "doppler", label: "Допплерометрия", hint: "UtA · UA · MCA" },
   { id: "scar", label: "Рубец", hint: "КС · миометрий" },
 ];
 
@@ -108,23 +108,23 @@ const SECTION_META: Record<
     formDescription: "ДПМ, СДП, ЖМ (YSD), КТР — перцентили P3–P97 по референсным кривым малого срока.",
   },
   first: {
-    formTitle: "I скрининг — входные данные",
+    formTitle: "I скрининговый срок — входные данные",
     formDescription: "КТР, NT, DV, UtA, MAP — FMF Percentile Engine (z-score, MoM, P3–P97) + перцентили I скрининга.",
   },
   second: {
-    formTitle: "II скрининг — входные данные",
+    formTitle: "II скрининговый срок — входные данные",
     formDescription: "Фетометрия, анатомия, плацента — перцентили (16–40 нед).",
   },
   third: {
-    formTitle: "III скрининг — входные данные",
+    formTitle: "III скрининговый срок — входные данные",
     formDescription: "Рост, AFI, допплер — перцентили фетометрии. Окно 34–36 нед.",
   },
   doppler: {
-    formTitle: "Допплер — входные данные",
+    formTitle: "Допплерометрия — входные данные",
     formDescription: "UtA, DV, АП, СМА — перцентили UtA/DV.",
   },
   cervix: {
-    formTitle: "Шейка матки — входные данные",
+    formTitle: "Цервикометрия — входные данные",
     formDescription: "Трансвагинально: длина шейки (CL), funneling. Риск ПР при CL <25 мм.",
   },
   scar: {

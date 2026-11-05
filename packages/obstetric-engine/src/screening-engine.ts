@@ -9,7 +9,7 @@ import { gaWeeksDecimal } from "./measure";
 import type { SecondThirdScreeningInput, SecondThirdScreeningOutput } from "./types";
 
 export const OBSTETRIC_ENGINE_DISCLAIMER =
-  "Референсы Medvedev 2016 / ISUOG — не идентичны Astraia. PDF Uzicenter 30–34 н. — OCR pending. Не диагноз; интерпретация — специалист.";
+  "Референсы Medvedev 2016 / ISUOG — не идентичны Astraia. III скрининг SonoGyn: 34–36 н. Не диагноз; интерпретация — специалист.";
 
 /** Полный расчёт II/III скрининга (этап 1: фетометрия + мозг + индексы + CDS). */
 export function assessSecondThirdScreening(

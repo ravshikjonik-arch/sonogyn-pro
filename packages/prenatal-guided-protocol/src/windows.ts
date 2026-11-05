@@ -28,11 +28,11 @@ export const GUIDED_WINDOWS: GuidedWindowMeta[] = [
   },
   {
     id: "t3_growth",
-    labelRu: "III триместр · рост / допплер",
-    gaLabelRu: "≥28+0",
-    gaDaysMin: 196,
-    gaDaysMax: null,
-    sourceNoteRu: "ISUOG third trimester / FGR Doppler по показаниям",
+    labelRu: "III скрининговый срок · рост / допплер",
+    gaLabelRu: "34+0–36+6",
+    gaDaysMin: 238,
+    gaDaysMax: 258,
+    sourceNoteRu: "III скрининг 34–36 нед. (SonoGyn); ISUOG growth/Doppler по показаниям",
   },
 ];
 

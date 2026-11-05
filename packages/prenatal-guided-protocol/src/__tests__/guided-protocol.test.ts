@@ -20,9 +20,15 @@ describe("resolveGuidedWindow", () => {
     assert.equal(r.windowId, "t2_anomaly");
   });
 
-  it("maps 30+0 to t3_growth", () => {
-    const r = resolveGuidedWindow(gaDaysFromWeeksDays(30, 0));
+  it("maps 34+0 to t3_growth", () => {
+    const r = resolveGuidedWindow(gaDaysFromWeeksDays(34, 0));
     assert.equal(r.windowId, "t3_growth");
+  });
+
+  it("maps 30+0 outside primary III window", () => {
+    const r = resolveGuidedWindow(gaDaysFromWeeksDays(30, 0));
+    assert.equal(r.windowId, "between_windows");
+    assert.equal(r.outsidePrimaryWindow, true);
   });
 
   it("flags between_windows for 16+0", () => {
