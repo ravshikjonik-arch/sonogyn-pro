@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { afterEach, describe, it } from "node:test";
 
-import { llmSupportsJsonObjectMode, resolveProviderChain } from "../resolve";
+import { isColibriEnabled, llmSupportsJsonObjectMode, resolveProviderChain } from "../resolve";
 
 const KEYS = [
   "LLM_PROVIDER",
@@ -36,7 +36,7 @@ afterEach(() => {
 });
 
 describe("AI Gateway resolveProviderChain", () => {
-  it("defaults cloud-first; Colibri remains optional last", () => {
+  it("defaults cloud-first; Colibri remains optional last when enabled", () => {
     clearEnv();
     process.env.COLIBRI_MODEL = "glm-local";
     process.env.COLIBRI_ENABLED = "true";
@@ -49,8 +49,30 @@ describe("AI Gateway resolveProviderChain", () => {
     assert.equal(chain[chain.length - 1]?.isLocal, true);
   });
 
-  it("respects colibri-first when LLM_FALLBACK_ORDER set (doctor-box)", () => {
+  it("does not include Colibri when only COLIBRI_MODEL is set (prod-safe default off)", () => {
     clearEnv();
+    process.env.COLIBRI_MODEL = "qwen36-35b";
+    process.env.OPENROUTER_API_KEY = "or-key";
+    assert.equal(isColibriEnabled(), false);
+    const chain = resolveProviderChain("text");
+    assert.ok(!chain.some((c) => c.provider === "colibri"));
+    assert.equal(chain[0]?.provider, "openrouter");
+  });
+
+  it("does not include Colibri when COLIBRI_ENABLED=false", () => {
+    clearEnv();
+    process.env.COLIBRI_ENABLED = "false";
+    process.env.COLIBRI_MODEL = "glm-local";
+    process.env.LLM_FALLBACK_ORDER = "colibri,openrouter";
+    process.env.OPENROUTER_API_KEY = "or-key";
+    const chain = resolveProviderChain("text");
+    assert.ok(!chain.some((c) => c.provider === "colibri"));
+    assert.equal(chain[0]?.provider, "openrouter");
+  });
+
+  it("respects colibri-first when enabled + LLM_FALLBACK_ORDER (doctor-box)", () => {
+    clearEnv();
+    process.env.COLIBRI_ENABLED = "true";
     process.env.LLM_FALLBACK_ORDER = "colibri,openrouter,perplexity";
     process.env.COLIBRI_MODEL = "glm-local";
     process.env.OPENROUTER_API_KEY = "or-key";
@@ -72,13 +94,24 @@ describe("AI Gateway resolveProviderChain", () => {
     );
   });
 
-  it("skips Colibri for vision without COLIBRI_VISION_MODEL", () => {
+  it("skips Colibri for vision without COLIBRI_VISION_MODEL even when enabled", () => {
     clearEnv();
+    process.env.COLIBRI_ENABLED = "true";
     process.env.COLIBRI_MODEL = "glm-local";
     process.env.OPENROUTER_API_KEY = "or-key";
     const chain = resolveProviderChain("vision");
     assert.ok(!chain.some((c) => c.provider === "colibri"));
     assert.equal(chain[0]?.provider, "openrouter");
+  });
+
+  it("LLM_PROVIDER=colibri enables slot without COLIBRI_ENABLED", () => {
+    clearEnv();
+    process.env.LLM_PROVIDER = "colibri";
+    process.env.COLIBRI_MODEL = "glm-local";
+    process.env.OPENROUTER_API_KEY = "or-key";
+    assert.equal(isColibriEnabled(), true);
+    const chain = resolveProviderChain("text");
+    assert.equal(chain[0]?.provider, "colibri");
   });
 
   it("json object mode for openrouter and colibri only", () => {

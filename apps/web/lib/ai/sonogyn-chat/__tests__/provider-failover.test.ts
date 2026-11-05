@@ -246,6 +246,20 @@ describe("runSequentialProviderAttempts (mock providers)", () => {
     );
   });
 
+  it("10b. single cloud provider when Colibri omitted from list (disabled)", async () => {
+    const calls: string[] = [];
+    const res = await runSequentialProviderAttempts({
+      providers: ["openrouter"],
+      call: async (p) => {
+        calls.push(p);
+        return { ok: true, value: "cloud-only" };
+      },
+    });
+    assert.equal(res.ok, true);
+    if (res.ok) assert.equal(res.provider, "openrouter");
+    assert.deepEqual(calls, ["openrouter"]);
+  });
+
   it("10. streaming after first byte → no full retry", async () => {
     const calls: string[] = [];
     // Simulate: first provider "succeeds" and commits stream; later failure must not re-call.

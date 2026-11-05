@@ -11,6 +11,7 @@ export {
   hasAnyLlmConfigured,
   listConfiguredProviderIds,
   llmSupportsJsonObjectMode,
+  isColibriEnabled,
   resolveLlmProvider,
   resolveProviderChain,
 } from "./resolve";

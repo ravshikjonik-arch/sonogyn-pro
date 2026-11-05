@@ -37,6 +37,7 @@ pnpm colibri:check
 ## Env (`apps/web/.env.local`)
 
 ```bash
+# Без COLIBRI_ENABLED=true слот не попадает в chain (даже если задан MODEL) — prod-safe.
 COLIBRI_ENABLED=true
 COLIBRI_BASE_URL=http://127.0.0.1:8000/v1
 COLIBRI_MODEL=qwen36-35b
@@ -44,6 +45,9 @@ COLIBRI_API_KEY=colibri-local
 LLM_PROVIDER=auto
 LLM_FALLBACK_ORDER=openrouter,perplexity,colibri
 ```
+
+Production (Vercel): `COLIBRI_ENABLED=false` или unset; не указывать `127.0.0.1`.  
+Архитектура: `docs/architecture/AI_PROVIDER_ARCHITECTURE.md`.
 
 Опционально: `COLIBRI_EVIDENCE_MODEL`, `COLIBRI_VISION_MODEL` (vision иначе → OpenRouter).
 
