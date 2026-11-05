@@ -1,0 +1,58 @@
+import type { GuidedStep } from "../types";
+
+export const EARLY_STEPS: GuidedStep[] = [
+  {
+    id: "early-header",
+    order: 1,
+    kind: "measure",
+    titleRu: "Шапка исследования",
+    hintRu: "Дата, ЛПУ, сканер, датчик, качество визуализации.",
+    fieldKeys: ["examDate", "facility", "scanner", "probe", "visualization"],
+    required: true,
+  },
+  {
+    id: "early-iug",
+    order: 2,
+    kind: "look",
+    titleRu: "Локализация плодного яйца",
+    hintRu: "Внутриматочно? Исключить эктопию / CSSP / интерстициальную.",
+    fieldKeys: [],
+    required: true,
+  },
+  {
+    id: "early-viability",
+    order: 3,
+    kind: "look",
+    titleRu: "Жизнеспособность",
+    hintRu: "Желточный мешок, эмбрион, ЧСС. Критерии неудачи беременности — по гайдлайну.",
+    fieldKeys: ["fhrBpm", "crlMm"],
+    required: true,
+  },
+  {
+    id: "early-crl",
+    order: 4,
+    kind: "measure",
+    titleRu: "КТР и срок",
+    hintRu: "КТР в мм; срок и ПДР по УЗИ.",
+    fieldKeys: ["crlMm", "gaByCrlWeeks", "gaByCrlDays", "eddByUs"],
+    required: true,
+  },
+  {
+    id: "early-red",
+    order: 5,
+    kind: "red_flag",
+    titleRu: "Не пропустить",
+    hintRu: "Эктопия, гематома с клиникой, критерии неудачи, многоплодие.",
+    fieldKeys: [],
+    required: true,
+  },
+  {
+    id: "early-conclusion",
+    order: 6,
+    kind: "measure",
+    titleRu: "Заключение",
+    hintRu: "Краткий вывод и рекомендации (следующий визит / I скрининг).",
+    fieldKeys: ["conclusion", "recommendations"],
+    required: false,
+  },
+];

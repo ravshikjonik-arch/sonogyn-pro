@@ -28,6 +28,13 @@ const GROUPS: DomainHubGroup[] = [
         description: "Малый срок, триместры, допплер",
       },
       {
+        href: "/ai/consultants/fmf/guided",
+        title: "Протокол по сроку",
+        description: "Пошагово: что смотреть на УЗИ по GA",
+        badge: "Guided",
+        primary: true,
+      },
+      {
         href: "/ai/consultants/vascular",
         title: "Сосудистое УЗД",
         description: "БЦА, артерии и вены, аорта",

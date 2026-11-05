@@ -165,6 +165,7 @@
     "@repo/obstetric-atlas": "workspace:*",
     "@repo/obstetric-engine": "workspace:*",
     "@repo/orads-us": "workspace:*",
+    "@repo/prenatal-guided-protocol": "workspace:*",
     "@repo/report-engine": "workspace:*",
     "@repo/report-generator": "workspace:*",
     "@repo/thyroid-tirads": "workspace:*",

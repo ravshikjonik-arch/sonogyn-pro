@@ -23,8 +23,6 @@ export type UseSpeechDictationOptions = {
   onSideEffect?: (effect: VoiceCommandSideEffect) => void;
 };
 
-const engineRef = { current: null as SpeechRecognitionEngine | null };
-
 export function useSpeechDictation(options: UseSpeechDictationOptions = {}) {
   const {
     lang = "ru-RU",
@@ -48,6 +46,8 @@ export function useSpeechDictation(options: UseSpeechDictationOptions = {}) {
 
   const micRef = useRef<MicMonitor | null>(null);
   const transcriptRef = useRef("");
+  /** Per-hook instance — never share across DictationField dual hooks / pages. */
+  const engineRef = useRef<SpeechRecognitionEngine | null>(null);
 
   const supported = createSpeechEngine(engineMode, {
     transcribeUrl,
@@ -111,6 +111,12 @@ export function useSpeechDictation(options: UseSpeechDictationOptions = {}) {
 
   const start = useCallback(async () => {
     setError(null);
+    // Stop any prior session on this hook before starting a new one
+    engineRef.current?.stop();
+    engineRef.current = null;
+    micRef.current?.stop();
+    micRef.current = null;
+
     const engine = createSpeechEngine(engineMode, {
       transcribeUrl,
       serverTranscribeAvailable,
@@ -119,7 +125,7 @@ export function useSpeechDictation(options: UseSpeechDictationOptions = {}) {
       setError(
         engineMode === "server"
           ? "Серверная диктовка недоступна (микрофон или STT на сервере)."
-          : "Голос не поддерживается. Chrome/Edge, Safari с входом в аккаунт или HTTPS.",
+          : "Голос не поддерживается. Откройте Chrome/Edge (или HTTPS). На Safari без Web Speech включите серверный STT.",
       );
       setStatus("error");
       return;
@@ -132,7 +138,10 @@ export function useSpeechDictation(options: UseSpeechDictationOptions = {}) {
         setInterim(t);
         setStatus("listening");
       },
-      onFinal: (t) => appendFinal(t),
+      onFinal: (t) => {
+        appendFinal(t);
+        setStatus("listening");
+      },
       onError: (msg) => {
         setError(msg);
         setStatus("error");
@@ -142,17 +151,32 @@ export function useSpeechDictation(options: UseSpeechDictationOptions = {}) {
         if (engineRef.current === engine) {
           setStatus("idle");
           setActiveEngineId(null);
+          engineRef.current = null;
+          micRef.current?.stop();
+          micRef.current = null;
+          setLevel(0);
         }
       },
     });
 
     if (enableMicLevel) {
-      micRef.current?.stop();
-      micRef.current = await startMicLevelMonitor(setLevel);
+      try {
+        micRef.current = await startMicLevelMonitor(setLevel);
+      } catch {
+        micRef.current = null;
+      }
     }
 
     setStatus("listening");
-    engine.start({ lang, continuous, interimResults });
+    try {
+      engine.start({ lang, continuous, interimResults });
+    } catch {
+      setError("Не удалось запустить микрофон. Нажмите ещё раз и разрешите доступ.");
+      setStatus("error");
+      engineRef.current = null;
+      micRef.current?.stop();
+      micRef.current = null;
+    }
   }, [
     appendFinal,
     continuous,

@@ -89,6 +89,12 @@ export const OBSTETRICS_GROUPS: DomainHubGroup[] = [
         description: "Малый срок, КТР, ТВП, допплер",
         badge: "FMF",
       },
+      {
+        href: "/ai/consultants/fmf/guided",
+        title: "Протокол по сроку",
+        description: "Guided: смотреть → измерить → не пропустить",
+        badge: "Guided",
+      },
     ],
   },
   {

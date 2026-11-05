@@ -322,6 +322,9 @@ export function FmfAssistantClient({ initialSection = "early" }: Props) {
           <Button variant="secondary" size="sm" asChild className="h-8 bg-white/15 text-white hover:bg-white/25">
             <Link href="/tools/refs/consensus">Таблица норм</Link>
           </Button>
+          <Button variant="secondary" size="sm" asChild className="h-8 bg-white/15 text-white hover:bg-white/25">
+            <Link href="/ai/consultants/fmf/guided">Протокол по сроку →</Link>
+          </Button>
         </div>
       </div>
 

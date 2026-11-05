@@ -26,6 +26,12 @@ const AI_ROUTES: Omit<AiRouteHit, "score">[] = [
     href: "/ai/consultants/fmf",
   },
   {
+    id: "ai.fmf.guided",
+    title: "Протокол по сроку",
+    subtitle: "Guided: смотреть → измерить по GA",
+    href: "/ai/consultants/fmf/guided",
+  },
+  {
     id: "ai.workspace",
     title: "AI-рабочая зона",
     subtitle: "Загрузка снимков, orchestrator",
