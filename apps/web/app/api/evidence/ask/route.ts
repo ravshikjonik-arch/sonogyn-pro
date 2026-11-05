@@ -22,6 +22,10 @@ const BodySchema = z.object({
   limit: z.number().int().min(1).max(10).optional(),
 });
 
+/**
+ * Legacy SonoEvidence shelf ask — same corpus engine, with explicit integrity fields
+ * (insufficient / evidenceStrength) so empty hits are not mistaken for a clinical answer.
+ */
 export async function POST(request: Request) {
   const supabase = await createClient();
   const auth = await requireSupabaseUserFromRequest(request, supabase);
@@ -69,7 +73,29 @@ export async function POST(request: Request) {
     corpusVersion: EVIDENCE_CORPUS_VERSION,
   });
 
-  return NextResponse.json(result);
+  const insufficient = result.citations.length === 0;
+  const evidenceStrength = insufficient
+    ? ("insufficient" as const)
+    : result.citations.some((c) => c.tier === 1)
+      ? ("high" as const)
+      : result.citations.some((c) => c.tier === 2)
+        ? ("moderate" as const)
+        : ("low" as const);
+
+  return NextResponse.json({
+    ...result,
+    insufficient,
+    evidenceStrength,
+    gradeLabel: insufficient
+      ? "Недостаточно данных в SonoEvidence"
+      : evidenceStrength === "high"
+        ? "Сильные источники корпуса"
+        : evidenceStrength === "moderate"
+          ? "Умеренные источники корпуса"
+          : "Ограниченные источники корпуса",
+    integrityModel: "corpus-shelf-v1",
+    assistantHint: "/api/evidence/assistant/ask",
+  });
 }
 
 /** Справочник полок и версия корпуса (без rate limit — лёгкий GET). */
@@ -79,5 +105,6 @@ export async function GET() {
     shelves: EVIDENCE_SHELVES,
     entryCount: EVIDENCE_ENTRIES.length,
     disclaimer: EVIDENCE_DISCLAIMER,
+    integrityModel: "corpus-shelf-v1",
   });
 }

@@ -29,6 +29,9 @@ type AskResponse = {
   citations: EvidenceCitation[];
   disclaimer: string;
   corpusVersion: string;
+  insufficient?: boolean;
+  evidenceStrength?: "high" | "moderate" | "low" | "insufficient";
+  gradeLabel?: string;
 };
 
 const ACTIVE_SHELVES = EVIDENCE_SHELVES.filter((s: EvidenceShelfMeta) => s.status === "active");
@@ -376,6 +379,21 @@ export function EvidenceWorkspace({ initialShelf }: { initialShelf?: EvidenceShe
 
       {result ? (
         <section className="space-y-4">
+          {result.insufficient ? (
+            <p
+              className="rounded-xl border border-amber-500/40 bg-amber-500/10 px-4 py-3 text-sm text-amber-950 dark:text-amber-100"
+              role="status"
+            >
+              Недостаточно данных в полке SonoEvidence
+              {result.gradeLabel ? ` (${result.gradeLabel})` : ""}. Это не клинический вывод. Для live
+              PubMed / КР откройте Evidence Assistant.
+            </p>
+          ) : result.gradeLabel ? (
+            <Badge variant="outline" className="text-xs">
+              {result.gradeLabel}
+              {result.evidenceStrength ? ` · ${result.evidenceStrength}` : ""}
+            </Badge>
+          ) : null}
           <Card className="border-[var(--clinical-primary)]/30 bg-[var(--clinical-primary-muted)]/20">
             <CardHeader className="pb-2">
               <CardTitle className="flex items-center gap-2 text-base">

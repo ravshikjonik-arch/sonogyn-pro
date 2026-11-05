@@ -11,6 +11,7 @@ import {
 
 import { assertAiGatewayQuota } from "@/lib/ai/gateway";
 import { createEvidenceCacheStore } from "@/lib/evidence/redis-cache-store";
+import { getMedicalVaultStatus } from "@/lib/evidence/medical-vault-search";
 import { buildRetrievalConfigAsync } from "@/lib/evidence/retrieval-config";
 import { traceEvidenceAsk } from "@/lib/evidence/evidence-trace";
 import { logEvidenceQuery, sourcesFromAssistantAnswer } from "@/lib/evidence/log-evidence-query";
@@ -136,9 +137,17 @@ export async function POST(request: Request) {
 }
 
 export async function GET() {
+  const medicalVault = getMedicalVaultStatus();
   return NextResponse.json({
     catalog: getAdapterCatalog(),
     corpusModes: EVIDENCE_CORPUS_MODES,
+    medicalVault: {
+      enabled: medicalVault.enabled,
+      reason: medicalVault.reason,
+      detail: medicalVault.detail,
+      flag: medicalVault.flag,
+      hasEmbedApi: medicalVault.hasEmbedApi,
+    },
     disclaimer:
       "Evidence Assistant — CDS. Использует PubMed, Europe PMC, Cochrane (via EPMC), Semantic Scholar, ClinicalTrials.gov, КР МЗ РФ, SonoEvidence, OpenFDA, DailyMed. Не диагноз; интерпретация — специалист.",
     rateLimit: {

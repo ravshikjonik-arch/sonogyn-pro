@@ -105,8 +105,51 @@ export async function searchMedicalVault(args: {
   }));
 }
 
+export type MedicalVaultStatusReason =
+  | "disabled"
+  | "no_embed_key"
+  | "ready";
+
+/** Ops/UI: why vault semantic channel is on or off (no secrets). */
+export type MedicalVaultStatus = {
+  /** Wired into Evidence retrieval config */
+  enabled: boolean;
+  flag: boolean;
+  hasEmbedApi: boolean;
+  reason: MedicalVaultStatusReason;
+  detail: string;
+};
+
+export function getMedicalVaultStatus(): MedicalVaultStatus {
+  const flag = Boolean(process.env.EVIDENCE_MEDICAL_VAULT?.trim().match(/^(1|true|on)$/i));
+  const hasEmbedApi = Boolean(embeddingApi());
+  if (!flag) {
+    return {
+      enabled: false,
+      flag: false,
+      hasEmbedApi,
+      reason: "disabled",
+      detail: "EVIDENCE_MEDICAL_VAULT unset/off — semantic vault не в цепочке Evidence",
+    };
+  }
+  if (!hasEmbedApi) {
+    return {
+      enabled: false,
+      flag: true,
+      hasEmbedApi: false,
+      reason: "no_embed_key",
+      detail: "Флаг включён, но нет OPENROUTER_API_KEY / OPENAI_API_KEY для embeddings",
+    };
+  }
+  return {
+    enabled: true,
+    flag: true,
+    hasEmbedApi: true,
+    reason: "ready",
+    detail: "Vault search wired (нужны applied migration + embedded published chunks)",
+  };
+}
+
 export function isMedicalVaultEnabled(): boolean {
-  return Boolean(
-    process.env.EVIDENCE_MEDICAL_VAULT?.trim().match(/^(1|true|on)$/i) && embeddingApi(),
-  );
+  return getMedicalVaultStatus().enabled;
 }
