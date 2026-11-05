@@ -98,9 +98,9 @@ export const CALCULATOR_SEO_REGISTRY: CalculatorSeoEntry[] = [
   },
   {
     path: "/tools/repos",
-    title: "Репозитории платформы",
-    description: "Каталоги Awesome и исследовательские репозитории УЗИ, подключённые к SonoGyn Pro.",
-    keywords: ["репозитории", "awesome", "УЗИ"],
+    title: "Исследования AI / УЗИ",
+    description: "Карточки внешних open-source проектов УЗИ для справки — не калькуляторы приёма.",
+    keywords: ["исследования", "УЗИ", "AI", "open source"],
   },
   {
     path: "/tools/pharmacy",

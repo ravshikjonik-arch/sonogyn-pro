@@ -115,7 +115,7 @@ const navGroups: { title: string; items: { href: string; label: string; icon: ty
     title: "Справочник",
     items: [
       { href: "/tools/pharmacy", label: "Аптека врача", icon: Pill },
-      { href: "/tools/repos", label: "Репозитории", icon: Library },
+      { href: "/tools/repos", label: "Исслед. AI", icon: Library },
       { href: "/tools/refs", label: "Практика", icon: BookMarked },
       { href: "/tools/refs/guidelines", label: "КР и приказы", icon: FileText },
       { href: "/tools/refs/norms", label: "Клин. нормы", icon: BookOpen },
