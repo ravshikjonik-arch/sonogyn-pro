@@ -1,5 +1,8 @@
 import type { ProtocolChecklist, ProtocolWindow } from "./types";
 
+/** Re-export for obstetric-expert thin shim (typecheck needs value/type exports). */
+export type { ProtocolChecklist, ProtocolWindow };
+
 /**
  * Coarse trimester checklists (legacy obstetric-expert API).
  * Finding-token addons stay in services/obstetric-expert (domain-specific).
