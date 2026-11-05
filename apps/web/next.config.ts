@@ -89,6 +89,8 @@ function supabaseConnectOriginExtra(): string {
 }
 
 const nextConfig: NextConfig = {
+  // SECURITY: do not advertise Next.js in response headers
+  poweredByHeader: false,
   /** Playwright / LAN dev hits 127.0.0.1 — without this, client chunks may not load in Next 16 dev. */
   allowedDevOrigins: ["127.0.0.1", "localhost"],
   // Dynamic fs reads of these clones made one serverless trace include their .git packs and killed the 8 GB Vercel builder.

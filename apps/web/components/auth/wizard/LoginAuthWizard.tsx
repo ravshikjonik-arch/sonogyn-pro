@@ -8,6 +8,7 @@ import { useAuth } from "@/app/providers";
 import { AuthMessage, authInputClass } from "@/components/auth/AuthScreenShell";
 import { PhoneInput } from "@/components/auth/PhoneInput";
 import { TelegramSimpleAuth } from "@/components/auth/TelegramSimpleAuth";
+import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
 import { AuthWizardLayout } from "@/components/auth/wizard/AuthWizardLayout";
 import { OtpDigitRow } from "@/components/auth/wizard/OtpDigitRow";
 import { Button } from "@/components/ui/button";
@@ -72,6 +73,8 @@ export function LoginAuthWizard({ nextPath }: Props) {
   const [mfaRequired, setMfaRequired] = useState(false);
   const [mfaFactorId, setMfaFactorId] = useState<string | null>(null);
   const [mfaCode, setMfaCode] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState<string | undefined>();
+  const turnstileEnabled = Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim());
 
   useEffect(() => {
     setMethod(initialMethod);
@@ -118,9 +121,10 @@ export function LoginAuthWizard({ nextPath }: Props) {
 
     setLoading(true);
     try {
-      const result = await postSignIn({ email: email.trim(), password });
+      const result = await postSignIn({ email: email.trim(), password, turnstileToken });
       if (!result.ok) {
         setMessage(result.error);
+        setTurnstileToken(undefined);
         return;
       }
       if (result.needsMfa && result.factorId) {
@@ -168,14 +172,15 @@ export function LoginAuthWizard({ nextPath }: Props) {
 
     setLoading(true);
     try {
-      const result = await postForgotPassword(email.trim());
+      const result = await postForgotPassword(email.trim(), turnstileToken);
       setEmailStep("reset");
       setOtp("");
       setSendCooldownSec(30);
+      setTurnstileToken(undefined);
       setMessage(
         result.ok
           ? `${result.message} Введите код и новый пароль (≥${AUTH_PASSWORD_MIN_LENGTH} символов).`
-          : PASSWORD_RESET_GENERIC_MSG,
+          : result.error || PASSWORD_RESET_GENERIC_MSG,
       );
     } finally {
       setLoading(false);
@@ -244,6 +249,7 @@ export function LoginAuthWizard({ nextPath }: Props) {
         createUser: false,
         fallbackEmail: emailForDup,
         idempotencyKey: crypto.randomUUID(),
+        turnstileToken,
       });
       if (!result.ok) {
         setMessage(result.error);
@@ -392,6 +398,21 @@ export function LoginAuthWizard({ nextPath }: Props) {
               autoComplete="email"
             />
           </label>
+          {turnstileEnabled ? (
+            <TurnstileWidget
+              onToken={(t) => setTurnstileToken(t)}
+              onExpire={() => setTurnstileToken(undefined)}
+            />
+          ) : null}
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full"
+            disabled={loading || sendCooldownSec > 0}
+            onClick={() => void onSendResetCode()}
+          >
+            {sendCooldownSec > 0 ? `Повтор кода через ${sendCooldownSec} с` : "Получить код на email"}
+          </Button>
           <OtpDigitRow value={otp} onChange={setOtp} disabled={loading} label="Код из письма" />
           <label className="block">
             <span className="text-xs font-medium text-[var(--clinical-foreground-muted)]">
@@ -431,15 +452,6 @@ export function LoginAuthWizard({ nextPath }: Props) {
           />
           <Button type="submit" className="w-full" disabled={loading}>
             {loading ? "Сохраняем…" : "Сохранить новый пароль"}
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            className="w-full"
-            disabled={loading || sendCooldownSec > 0}
-            onClick={() => void onSendResetCode()}
-          >
-            {sendCooldownSec > 0 ? `Повтор кода через ${sendCooldownSec} с` : "Отправить код снова"}
           </Button>
           <button
             type="button"
@@ -561,6 +573,12 @@ export function LoginAuthWizard({ nextPath }: Props) {
             />
           </label>
           <AuthMessage message={message} />
+          {turnstileEnabled ? (
+            <TurnstileWidget
+              onToken={(t) => setTurnstileToken(t)}
+              onExpire={() => setTurnstileToken(undefined)}
+            />
+          ) : null}
           <Button type="submit" className="w-full" disabled={loading} data-testid="login-button" aria-label="Войти">
             Войти
           </Button>

@@ -1,7 +1,8 @@
 import { createClient } from "@supabase/supabase-js";
 
 /**
- * Supabase admin client (service role). **Never** import from Client Components or expose to the browser.
+ * Supabase admin client (service role).
+ * SECURITY: never import from Client Components / "use client" (no service_role in browser).
  */
 export function createServiceRoleClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;

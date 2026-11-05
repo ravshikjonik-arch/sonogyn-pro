@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
 import { findUserIdByStripeCustomer, syncStripeSubscriptionToSupabase } from "@/lib/stripe/sync-subscription";
+import { claimStripeWebhookEvent } from "@/lib/stripe/webhook-idempotency";
 import { getStripe } from "@/lib/stripe/server";
 import { createServiceRoleClient } from "@/utils/supabase/admin";
 
@@ -15,7 +16,8 @@ export const maxDuration = 60;
 export async function POST(request: Request) {
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
   if (!webhookSecret) {
-    return NextResponse.json({ error: "Missing STRIPE_WEBHOOK_SECRET" }, { status: 500 });
+    // SECURITY: generic message — do not name missing env vars to clients
+    return NextResponse.json({ error: "Webhook not configured" }, { status: 503 });
   }
 
   const signature = request.headers.get("stripe-signature");
@@ -28,13 +30,20 @@ export async function POST(request: Request) {
 
   let event: Stripe.Event;
   try {
+    // SECURITY: verify signature on raw body before any side effects
     event = stripe.webhooks.constructEvent(rawBody, signature, webhookSecret);
-  } catch (err) {
-    const message = err instanceof Error ? err.message : "Invalid payload";
-    return NextResponse.json({ error: message }, { status: 400 });
+  } catch {
+    // SECURITY: do not leak constructEvent internals to clients
+    return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
 
   const admin = createServiceRoleClient();
+
+  // SECURITY: idempotent — Stripe retries must not double-apply entitlements
+  const claim = await claimStripeWebhookEvent(admin, event.id);
+  if (claim === "duplicate") {
+    return NextResponse.json({ received: true, duplicate: true });
+  }
 
   try {
     switch (event.type) {

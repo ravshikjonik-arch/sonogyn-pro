@@ -11,6 +11,8 @@ import { ALLOWED_VIDEO_MIME, MAX_LESSON_VIDEO_BYTES } from "@/lib/storage/config
 /** POST /api/auth/forgot-password */
 export const ForgotPasswordBodySchema = z.object({
   email: z.string().trim().email({ message: "Некорректный email." }).max(320),
+  // SECURITY: Cloudflare Turnstile when keys are configured
+  turnstileToken: z.string().max(4096).optional(),
 });
 
 /** POST /api/auth/update-password */

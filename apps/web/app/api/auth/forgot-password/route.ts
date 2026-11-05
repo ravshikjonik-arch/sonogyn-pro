@@ -4,6 +4,7 @@ import { resolveAuthUserIdByEmail } from "@/lib/auth/resolve-user-by-email";
 import { PASSWORD_RESET_GENERIC_MSG } from "@/lib/auth/safe-auth-messages";
 import { runVerificationFallbackChain } from "@/lib/auth/verification/fallback-handler";
 import { parseEmailContact } from "@/lib/auth/verification/validate-contact";
+import { verifyTurnstileIfConfigured } from "@/lib/auth/verify-turnstile";
 import { ForgotPasswordBodySchema, parseJsonBody, zodErrorResponse } from "@/lib/security/api-body-schemas";
 import { consumeAuthRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
@@ -42,6 +43,12 @@ export async function POST(request: Request) {
 
   const parsed = ForgotPasswordBodySchema.safeParse(raw.data);
   if (!parsed.success) return zodErrorResponse(parsed.error);
+
+  // SECURITY: CAPTCHA when Turnstile env is set (same gate as sign-in)
+  const captchaOk = await verifyTurnstileIfConfigured(parsed.data.turnstileToken);
+  if (!captchaOk) {
+    return NextResponse.json({ error: "Подтвердите, что вы не робот." }, { status: 400 });
+  }
 
   const email = parseEmailContact(parsed.data.email);
   if (!email) {

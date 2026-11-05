@@ -420,7 +420,10 @@ export async function postPhoneVerifyOtp(params: {
   return { ok: true, session: payload.session };
 }
 
-export async function postForgotPassword(email: string): Promise<{ ok: true; message: string } | { ok: false; error: string }> {
+export async function postForgotPassword(
+  email: string,
+  turnstileToken?: string,
+): Promise<{ ok: true; message: string } | { ok: false; error: string }> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 20_000);
   try {
@@ -431,7 +434,7 @@ export async function postForgotPassword(email: string): Promise<{ ok: true; mes
         "Idempotency-Key": crypto.randomUUID(),
       },
       credentials: "same-origin",
-      body: JSON.stringify({ email }),
+      body: JSON.stringify({ email, turnstileToken }),
       signal: controller.signal,
     });
     const payload = (await res.json().catch(() => null)) as {

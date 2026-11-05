@@ -14,7 +14,14 @@ web-build/
 .env
 .env.local
 .env*.local
-!/.env.example
+.env.production
+.env.staging
+!.env.example
+!**/.env.example
+!**/.env*.example
+# SECURITY: never commit Vercel/Supabase env dumps
+.env.vercel*
+*.env.pulled
 
 # OS / IDE
 .DS_Store

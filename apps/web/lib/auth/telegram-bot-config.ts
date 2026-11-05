@@ -1,13 +1,17 @@
-/** Имя бота для Login Widget (server-side). */
+/** Server-oriented Telegram bot config (token, OAuth). */
 import { fetchWithRetry } from "@/lib/http/fetch-with-retry";
+import { readTelegramBotUsername as readPublicTelegramBotUsername } from "@/lib/auth/telegram-bot-public";
 
+/** Username: public env first, then server-only TELEGRAM_BOT_USERNAME. */
 export function readTelegramBotUsername(): string {
-  const fromPublic = process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME?.trim();
+  const fromPublic = readPublicTelegramBotUsername();
+  if (fromPublic) return fromPublic;
   const fromServer = process.env.TELEGRAM_BOT_USERNAME?.trim();
-  return (fromPublic ?? fromServer ?? "").replace(/^@/, "");
+  return (fromServer ?? "").replace(/^@/, "");
 }
 
 export function readTelegramBotToken(): string | null {
+  // SECURITY: never call from Client Components / "use client"
   const token = process.env.TELEGRAM_BOT_TOKEN?.trim();
   return token || null;
 }
