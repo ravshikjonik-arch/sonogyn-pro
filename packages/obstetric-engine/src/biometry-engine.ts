@@ -1,3 +1,5 @@
+import { percentileFromZ } from "@repo/fmf";
+
 import { BIOMETRY_CURVES, getBiometryCurve, type BiometryCurveId } from "./curves";
 import { assessCurveMeasurement, gaWeeksDecimal } from "./measure";
 import type { EfwAssessment, ObstetricMeasurementResult, SecondThirdScreeningInput } from "./types";
@@ -117,7 +119,7 @@ export function assessEfwHadlockIv(
 
   const sd = (p95 - p5) / 3.29;
   const z = (grams - p50) / sd;
-  const percentile = Math.max(0.1, Math.min(99.9, Math.round((50 + z * 34) * 10) / 10));
+  const percentile = percentileFromZ(z);
   const mom = Math.round((grams / p50) * 1000) / 1000;
 
   let growthCategory: "sga" | "aga" | "lga" | "unknown" = "aga";
