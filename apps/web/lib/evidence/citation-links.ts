@@ -47,11 +47,31 @@ export type CitationLink = {
   label: string;
 };
 
-export function resolveCitationLink(citation: Pick<EvidenceRecord, "id" | "title" | "url">): CitationLink {
+export function resolveCitationLink(
+  citation: Pick<EvidenceRecord, "id" | "title" | "url" | "provider" | "sourceId">,
+): CitationLink {
+  if (citation.provider === "rcog" || citation.sourceId?.startsWith("rcog-")) {
+    const bySource = citation.sourceId
+      ? CLINICAL_GUIDELINES.find((g) => g.id === citation.sourceId)
+      : undefined;
+    if (bySource) {
+      return {
+        href: `/tools/refs/guidelines/${bySource.id}`,
+        external: false,
+        label: "Карточка Green-top",
+      };
+    }
+    return {
+      href: "/tools/refs/rcog-green-top",
+      external: false,
+      label: "Хаб RCOG",
+    };
+  }
+
   const internal = resolveInternalGuidelineHref({
     title: citation.title,
     url: citation.url,
-    recordId: citation.id,
+    recordId: citation.sourceId || citation.id.replace(/^[^:]+:/, ""),
   });
   if (internal) {
     return { href: internal, external: false, label: "КР в SonoGyn Pro" };

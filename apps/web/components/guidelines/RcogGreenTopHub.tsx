@@ -79,6 +79,11 @@ export function RcogGreenTopHub() {
             <Button variant="outline" asChild>
               <Link href="/ai/consultants/fmf">FMF · скрининг</Link>
             </Button>
+            <Button variant="outline" asChild>
+              <Link href="/tools/refs/evidence-sources?tab=ask&corpus=rcog&q=SGA%20FGR">
+                Evidence · RCOG
+              </Link>
+            </Button>
           </div>
         </header>
 
@@ -220,6 +225,9 @@ export function RcogGreenTopHub() {
             </Button>
             <Button variant="outline" asChild>
               <Link href="/tools/refs/exam-checklists">Чек-листы</Link>
+            </Button>
+            <Button variant="outline" asChild>
+              <Link href="/tools/refs/evidence-sources?tab=ask&source=rcog">Evidence · source=rcog</Link>
             </Button>
           </div>
         </section>

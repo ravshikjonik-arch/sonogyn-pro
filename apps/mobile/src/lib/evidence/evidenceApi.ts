@@ -1,7 +1,7 @@
 import { getWebApiBase } from "../../api/chatBackend";
 import { supabaseMobile } from "../supabase/mobileClient";
 
-export type MobileEvidenceCorpusMode = "all" | "rf_kr" | "rf_npa" | "rf_all";
+export type MobileEvidenceCorpusMode = "all" | "rf_kr" | "rf_npa" | "rf_all" | "rcog";
 
 export type MobileEvidenceRecord = {
   id: string;
@@ -67,6 +67,8 @@ const PROVIDER_LABEL: Record<string, string> = {
   who: "WHO",
   nice: "NICE",
   ema: "EMA",
+  rcog: "RCOG",
+  rf_regulation: "НПА РФ",
 };
 
 export const CORPUS_MODE_LABELS: Record<MobileEvidenceCorpusMode, string> = {
@@ -74,9 +76,10 @@ export const CORPUS_MODE_LABELS: Record<MobileEvidenceCorpusMode, string> = {
   rf_kr: "КР МЗ РФ",
   rf_npa: "НПА / приказы",
   rf_all: "КР + НПА РФ",
+  rcog: "RCOG Green-top",
 };
 
-export const CORPUS_MODES: MobileEvidenceCorpusMode[] = ["all", "rf_kr", "rf_npa", "rf_all"];
+export const CORPUS_MODES: MobileEvidenceCorpusMode[] = ["all", "rf_kr", "rf_npa", "rf_all", "rcog"];
 
 export function providerLabel(provider: string): string {
   return PROVIDER_LABEL[provider] ?? provider;

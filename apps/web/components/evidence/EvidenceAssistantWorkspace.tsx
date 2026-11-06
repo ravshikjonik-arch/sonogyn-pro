@@ -51,6 +51,7 @@ const PROVIDER_LABEL: Record<string, string> = {
   nice: "NICE",
   ema: "EMA",
   rf_regulation: "НПА РФ",
+  rcog: "RCOG",
 };
 
 type BookmarkRow = {
@@ -82,6 +83,9 @@ const SUGGESTED = [
   "Амоксициллин при беременности — доказательства",
   "Преэклампсия профилактика аспирин",
   "Скрининг I триместра ISUOG 2023",
+  "SGA FGR doppler",
+  "placenta accreta previa",
+  "ectopic pregnancy ultrasound",
 ];
 
 function formatEvidenceFetchError(status: number, message: string): string {
@@ -98,10 +102,11 @@ function formatEvidenceFetchError(status: number, message: string): string {
 }
 
 const CORPUS_HINT: Record<EvidenceCorpusMode, string> = {
-  all: "PubMed, Cochrane, КР МЗ РФ, WHO/NICE и др.",
+  all: "PubMed, Cochrane, КР МЗ РФ, WHO/NICE, RCOG и др.",
   rf_kr: "Только клинические рекомендации МЗ РФ — со ссылкой на раздел.",
   rf_npa: "Приказы ДЗМ / МЗ РФ (НПА).",
   rf_all: "КР + приказы + протоколы РФ (без PubMed).",
+  rcog: "Только карточки RCOG Green-top (UK). Не заменяет КР РФ — сверяйте локальный протокол.",
 };
 
 function RecordRow({
@@ -401,9 +406,19 @@ export function EvidenceAssistantWorkspace() {
     });
     const q = searchParams.get("q");
     if (q?.trim()) setQuery(q.trim());
-    const corpus = searchParams.get("corpus");
-    if (corpus === "all" || corpus === "rf_kr" || corpus === "rf_npa" || corpus === "rf_all") {
+    const corpus =
+      searchParams.get("corpus") ||
+      searchParams.get("corpusMode") ||
+      searchParams.get("source");
+    if (
+      corpus === "all" ||
+      corpus === "rf_kr" ||
+      corpus === "rf_npa" ||
+      corpus === "rf_all" ||
+      corpus === "rcog"
+    ) {
       setCorpusMode(corpus);
+      if (corpus === "rcog") setMode("search");
     }
   }, [searchParams]);
 

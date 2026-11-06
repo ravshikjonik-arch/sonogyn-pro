@@ -15,6 +15,7 @@ import { doajAdapter } from "./adapters/doaj.adapter.js";
 import { epistemonikosAdapter } from "./adapters/epistemonikos.adapter.js";
 import { roszdravnadzorAdapter } from "./adapters/roszdravnadzor.adapter.js";
 import { emaAdapter, niceAdapter, rfRegulationAdapter, whoAdapter } from "./adapters/external-guidelines.adapter.js";
+import { rcogAdapter } from "./adapters/rcog.adapter.js";
 import { enrichRecordsWithCrossref } from "./adapters/crossref.adapter.js";
 import type { EvidenceAdapter } from "./adapters/types.js";
 import { emptyCorpusMessage, providersForCorpusMode } from "./corpus-mode.js";
@@ -53,12 +54,14 @@ export const ALL_ADAPTERS: EvidenceAdapter[] = [
   whoAdapter,
   niceAdapter,
   rfRegulationAdapter,
+  rcogAdapter,
 ];
 
 export const DEFAULT_ENABLED_PROVIDERS: EvidenceProviderId[] = [
   "static_corpus",
   "medical_vault",
   "kr_mz_rf",
+  "rcog",
   "who",
   "nice",
   "ema",

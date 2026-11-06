@@ -9,6 +9,7 @@ export function citationOrg(record: EvidenceRecord): string {
   if (record.provider === "who") return "WHO";
   if (record.provider === "nice") return "NICE";
   if (record.provider === "ema") return "EMA";
+  if (record.provider === "rcog") return "RCOG";
   if (record.journal?.trim()) return record.journal.trim();
   return record.provider;
 }
@@ -16,6 +17,7 @@ export function citationOrg(record: EvidenceRecord): string {
 export function citationLocale(record: EvidenceRecord): string {
   if (record.language?.trim()) return record.language.trim();
   if (record.provider === "kr_mz_rf" || record.provider === "rf_regulation") return "ru";
+  if (record.provider === "rcog") return "en";
   return "en";
 }
 

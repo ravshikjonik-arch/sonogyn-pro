@@ -19,7 +19,8 @@ export type EvidenceProviderId =
   | "who"
   | "nice"
   | "ema"
-  | "rf_regulation";
+  | "rf_regulation"
+  | "rcog";
 
 /** Hit from pgvector vault RPC (citation-safe snippet only). */
 export type MedicalVaultSearchHit = {
@@ -49,13 +50,14 @@ export type EvidenceRecordType =
 export type EvidenceLevel = "I" | "II" | "III" | "IV" | "V";
 
 /**
- * Corpus mode for IQDOC-like RF navigation.
+ * Corpus mode for IQDOC-like RF navigation + international shelves.
  * - all: default multi-provider search
  * - rf_kr: clinical recommendations МЗ РФ only
  * - rf_npa: orders / НПА (ДЗМ, МЗ РФ)
  * - rf_all: КР + НПА + protocols (RF shelf group)
+ * - rcog: RCOG Green-top cards (UK orient; not КР РФ)
  */
-export type EvidenceCorpusMode = "all" | "rf_kr" | "rf_npa" | "rf_all";
+export type EvidenceCorpusMode = "all" | "rf_kr" | "rf_npa" | "rf_all" | "rcog";
 
 /** Unified normalized record from any provider. */
 export type EvidenceRecord = {
