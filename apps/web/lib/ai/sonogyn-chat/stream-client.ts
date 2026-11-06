@@ -76,6 +76,46 @@ export function createStaticEvidenceChatStream(
   });
 }
 
+/**
+ * Passes an OpenRouter SSE stream through unchanged and hands the assembled answer to `onComplete` when it ends.
+ * `onComplete` runs before the stream closes so a serverless invocation stays alive until it finishes;
+ * a stream cancelled by the client never calls it.
+ */
+export function captureOpenRouterStreamText(
+  upstream: ReadableStream<Uint8Array>,
+  onComplete: (text: string) => Promise<void>,
+): ReadableStream<Uint8Array> {
+  const decoder = new TextDecoder();
+  let buffer = "";
+  let text = "";
+  const take = (line: string) => {
+    const delta = parseSseDataLine(line);
+    if (delta) text += delta;
+  };
+
+  return upstream.pipeThrough(
+    new TransformStream<Uint8Array, Uint8Array>({
+      transform(chunk, controller) {
+        controller.enqueue(chunk);
+        buffer += decoder.decode(chunk, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop() ?? "";
+        for (const line of lines) take(line);
+      },
+      async flush() {
+        buffer += decoder.decode();
+        if (buffer) take(buffer);
+        if (!text) return;
+        try {
+          await onComplete(text);
+        } catch {
+          /* the answer has already reached the client; a failed save must not turn it into a stream error */
+        }
+      },
+    }),
+  );
+}
+
 export function wrapOpenRouterStreamWithEvidence(
   upstream: ReadableStream<Uint8Array>,
   evidence: AssistantAnswer,
