@@ -64,7 +64,8 @@ function productionAssetPrefix(): string | undefined {
   if (process.env.VERCEL !== "1") return undefined;
   const forced =
     process.env.SONOGYN_ASSET_PREFIX?.trim() || process.env.NEXT_PUBLIC_SONOGYN_ASSET_PREFIX?.trim();
-  if (forced) return forced.replace(/\/$/, "");
+  // A fixed asset host serves one deployment only; previews must load their own assets.
+  if (forced && process.env.VERCEL_ENV === "production") return forced.replace(/\/$/, "");
 
   const raw = process.env.VERCEL_URL?.trim();
   if (!raw) return undefined;
