@@ -59,9 +59,11 @@ function resolveMorphology(input: OradsInput): MorphologyUs2022 {
   if (input.structure === "solid") return "solid";
 
   if (input.structure === "multilocular") {
+    // O-RADS US v2022: bilocular = exactly 2 locules (1 complete septation). "1-3" does not
+    // establish a single septation, so it is scored as multilocular (GC8: higher-risk descriptor).
     if (
       !input.solidComponent &&
-      input.septaCount === "1-3" &&
+      input.septaCount === "1" &&
       input.septaThickness !== "thick"
     ) {
       return "bilocular";

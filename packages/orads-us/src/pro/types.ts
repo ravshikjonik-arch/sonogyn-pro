@@ -6,7 +6,8 @@ export type LesionKind = "physiological" | "nonphysiological" | "normal_ovary";
 export type PhysiologicalType = "follicle" | "corpus_luteum";
 export type NormalOvaryPattern = "multifollicular" | "typical";
 export type Structure = "unilocular" | "multilocular" | "solid";
-export type SeptaCount = "0" | "1-3" | ">3";
+/** "1" = exactly one complete septation (bilocular, O-RADS US v2022); "1-3" = count not exact (kept for compatibility). */
+export type SeptaCount = "0" | "1" | "1-3" | ">3";
 export type SeptaThickness = "thin" | "thick";
 export type SolidType = "smooth" | "irregular" | "papillary";
 export type Echogenicity = "anechoic" | "hypo" | "iso" | "hyper";
