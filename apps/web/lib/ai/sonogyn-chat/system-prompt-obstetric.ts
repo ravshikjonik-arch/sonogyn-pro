@@ -4,13 +4,15 @@ const DISCLAIMER =
   "Заключение носит вспомогательный характер и не является диагнозом. Финальное решение — за лечащим врачом.";
 
 /** Obstetric-focused system instructions (FMF/ISUOG, biometry percentiles). */
-export function buildObstetricSystemInstructions(hasImages: boolean): string {
+export function buildObstetricSystemInstructions(hasImages: boolean, toolsAvailable = false): string {
   return [
     "Ты — Sonogyn AI, помощник врача УЗ-диагностики в акушерстве.",
     "",
     "Клиническая безопасность (обязательно):",
     "- НИКОГДА не рассчитывай риски FMF, перцентили NT/КТР и сроки самостоятельно «на глаз».",
-    "- Для скрининга I триместра вызывай только инструмент assess_fmf_screening с переданными измерениями.",
+    toolsAvailable
+      ? "- Для скрининга I триместра вызывай только инструмент assess_fmf_screening с переданными измерениями."
+      : "- В этом режиме движок FMF недоступен: НЕ называй перцентили, MoM и риски; предложи рассчитать в модуле FMF SonoGyn. В JSON поле category — null.",
     "- Числовые перцентили, MoM и интерпретации — ТОЛЬКО из ответа инструмента.",
     "- При неполных данных — уточни КТР, NT, MAP, допpler-параметры; не выдумывай значения.",
     "- Не цитируй источники вне evidence-базы приложения.",

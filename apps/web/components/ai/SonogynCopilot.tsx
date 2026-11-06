@@ -42,7 +42,7 @@ import {
   type PreparedChatImage,
 } from "@/lib/ai/sonogyn-chat/prepare-image";
 import { suggestModuleLinks } from "@/lib/ai/sonogyn-chat/suggest-links";
-import { SonogynStructuredCard } from "@/components/ai/SonogynStructuredCard";
+import { ClinicalTextSafetyBanner, SonogynStructuredCard } from "@/components/ai/SonogynStructuredCard";
 import {
   extractToolsFromAssistantText,
 } from "@/lib/ai/sonogyn-chat/tool-results";
@@ -590,8 +590,11 @@ export function SonogynCopilot() {
                               AI-черновик · подтверждает врач
                             </span>
                           ) : null}
+                          {m.role === "assistant" && !m.stream ? (
+                            <ClinicalTextSafetyBanner text={m.text} tools={m.tools} />
+                          ) : null}
                           {m.tools?.length ? <AiToolResultList tools={m.tools} /> : null}
-                          {m.structured ? <SonogynStructuredCard data={m.structured} /> : null}
+                          {m.structured ? <SonogynStructuredCard data={m.structured} tools={m.tools} /> : null}
                           {m.evidence ? (
                             <AiEvidenceSourcesPanel
                               evidence={m.evidence}
@@ -801,14 +804,21 @@ export function SonogynCopilot() {
                                 }>;
                               };
                               setMessages(
-                                (data.messages ?? []).map((row) => ({
-                                  id: row.id,
-                                  dbMessageId: row.id,
-                                  role: row.role,
-                                  text: row.content,
-                                  tools: row.tool_results ?? undefined,
-                                  isAiDraft: row.is_ai_draft,
-                                })),
+                                (data.messages ?? []).map((row) => {
+                                  const parsed =
+                                    row.role === "assistant"
+                                      ? extractStructuredFromAssistantText(row.content)
+                                      : { displayText: row.content, structured: null };
+                                  return {
+                                    id: row.id,
+                                    dbMessageId: row.id,
+                                    role: row.role,
+                                    text: parsed.displayText,
+                                    structured: parsed.structured,
+                                    tools: row.tool_results ?? undefined,
+                                    isAiDraft: row.is_ai_draft,
+                                  };
+                                }),
                               );
                             } catch {
                               toast.error("Не удалось загрузить чат");
