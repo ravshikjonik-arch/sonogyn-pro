@@ -154,6 +154,14 @@ const LEARNING_PATHS_RAW: LearningPath[] = [
         href: "/tools/refs/exam-checklists",
         estimatedMinutes: 10,
       },
+      {
+        id: "rcog-sga-5",
+        type: "quiz",
+        title: "Quiz · Green-top маршруты",
+        description: "12 вопросов: ЗВУР, плацента, эктопия, шейка.",
+        href: "/tools/refs/rcog-green-top/quiz",
+        estimatedMinutes: 12,
+      },
     ],
   },
   {

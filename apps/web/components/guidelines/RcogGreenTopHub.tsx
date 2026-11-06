@@ -209,7 +209,10 @@ export function RcogGreenTopHub() {
             в приложение не копируем.
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
-            <Button variant="secondary" asChild>
+            <Button variant="secondary" asChild className="bg-emerald-700 text-white hover:bg-emerald-600">
+              <Link href="/tools/refs/rcog-green-top/quiz">Самопроверка · 12 Q</Link>
+            </Button>
+            <Button variant="outline" asChild>
               <Link href="/tools/refs/learning-paths">Learning paths</Link>
             </Button>
             <Button variant="outline" asChild>
