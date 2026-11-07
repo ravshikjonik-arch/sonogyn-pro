@@ -16,6 +16,7 @@ import { assertProductionSecretsConfigured } from "@/lib/security/production-sec
 import { getClinicalRole, roleMeetsMinimum } from "@/lib/security/require-clinical-role";
 import { isSonogynCustomDomainHost } from "@/lib/shell/custom-domain";
 import { proxyCustomDomainDocument } from "@/lib/shell/custom-domain-proxy";
+import { customDomainHandoffGate, isDomainHandoffEnabled } from "@/lib/shell/custom-domain-handoff";
 
 assertProductionSecretsConfigured();
 
@@ -190,6 +191,24 @@ export default async function middleware(request: NextRequest) {
     preflight.headers.set("Access-Control-Max-Age", "86400");
     applySecurityHeaders(preflight);
     return preflight;
+  }
+
+  const handoff = customDomainHandoffGate({
+    enabled: isDomainHandoffEnabled(),
+    method: request.method,
+    pathname,
+    search: request.nextUrl.search,
+    headers: request.headers,
+    authRequired: isAuthRequiredPath(pathname),
+  });
+  if (handoff) {
+    const res =
+      handoff.kind === "start"
+        ? NextResponse.redirect(new URL(handoff.location, request.nextUrl.origin))
+        : new NextResponse(null, { status: 204 });
+    res.headers.set("Cache-Control", "no-store, max-age=0");
+    applySecurityHeaders(res);
+    return res;
   }
 
   const proxied = await proxyCustomDomainDocument(request);
