@@ -227,6 +227,8 @@ export async function POST(request: Request) {
   const domain = mode === "evidence" ? "general" : resolveDomain(modality, lastUserText);
   const hasImages = Boolean(images?.length);
   const useStream = stream && !hasImages;
+  /** Clinical engines are attached only on the AI SDK streaming path; the prompt must say so. */
+  const toolsAvailable = useStream && isAiSdkEnabled() && mode === "clinical" && !hasImages;
 
   if (mode === "evidence") {
     const rl = await consumeRateLimit(
@@ -309,6 +311,7 @@ export async function POST(request: Request) {
           domain,
           userText: lastUserText,
           hasImages,
+          toolsAvailable,
         }).prompt;
 
   if (mode === "clinical") {
@@ -316,6 +319,7 @@ export async function POST(request: Request) {
       domain,
       userText: lastUserText,
       hasImages,
+      toolsAvailable,
     }).promptVersion;
   }
 
