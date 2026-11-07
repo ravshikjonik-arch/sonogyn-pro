@@ -1,5 +1,20 @@
 import { z } from "zod";
 
+const CLASSIFICATION_SYSTEMS = ["BI-RADS", "O-RADS US", "ADNEX", "IOTA", "TI-RADS", "FMF", "none"] as const;
+
+/** Model spellings of the system name ("BI-RADS US", "ACR TI-RADS", "IOTA LR2", …) → canonical value. */
+function normalizeClassificationSystem(value: unknown): unknown {
+  if (typeof value !== "string") return value;
+  const v = value.trim().toUpperCase();
+  if (/O-?RADS/.test(v)) return "O-RADS US";
+  if (/BI-?RADS/.test(v)) return "BI-RADS";
+  if (/TI-?RADS/.test(v)) return "TI-RADS";
+  if (/ADNEX/.test(v)) return "ADNEX";
+  if (/IOTA|LR2|SIMPLE RULES/.test(v)) return "IOTA";
+  if (/FMF/.test(v)) return "FMF";
+  return (CLASSIFICATION_SYSTEMS as readonly string[]).includes(value) ? value : "none";
+}
+
 /** Схема структурированного ответа — расширяйте под новые органы/классификации */
 export const SonogynStructuredResponseSchema = z.object({
   modality: z
@@ -7,8 +22,9 @@ export const SonogynStructuredResponseSchema = z.object({
     .optional(),
   organ: z.string().optional(),
   findings_summary_ru: z.string().optional(),
-  classification_system: z.enum(["BI-RADS", "O-RADS US", "ADNEX", "IOTA", "TI-RADS", "FMF", "none"]).optional(),
-  category: z.string().optional(),
+  classification_system: z.preprocess(normalizeClassificationSystem, z.enum(CLASSIFICATION_SYSTEMS)).optional(),
+  /** Model-written; the UI shows the engine result instead (see clinical-safety.ts). */
+  category: z.string().nullable().optional(),
   criteria_met_ru: z.array(z.string()).optional(),
   differential_diagnosis_ru: z
     .array(z.object({ name_ru: z.string(), distinguishing_features_ru: z.string() }))
@@ -25,13 +41,14 @@ export const STRUCTURED_RESPONSE_JSON_HINT = `\`\`\`sonogyn-json
   "organ": "яичник",
   "findings_summary_ru": "...",
   "classification_system": "O-RADS US",
-  "category": "O-RADS 4",
+  "category": null,
   "criteria_met_ru": ["..."],
   "differential_diagnosis_ru": [{"name_ru": "...", "distinguishing_features_ru": "..."}],
   "recommendation_ru": "...",
   "confidence_caveat_ru": "..."
 }
-\`\`\``;
+\`\`\`
+Поле "category" — только значение из результата клинического инструмента; если инструмент не вызывался или результат не завершён — null.`;
 
 const JSON_BLOCK_RE = /```(?:sonogyn-json|json)\s*([\s\S]*?)```/i;
 
