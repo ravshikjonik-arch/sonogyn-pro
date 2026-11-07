@@ -23,7 +23,11 @@ const REPORT_EVIDENCE_PROVIDERS = [
 
 function buildAdnexEvidenceQuery(input: AdnexStructuredReportInput): string {
   const orads = resolveOradsCategory(input);
-  const parts = [`O-RADS ${orads}`, "ovarian adnexal mass", "ultrasound management"];
+  const parts = [
+    orads != null ? `O-RADS ${orads}` : "O-RADS",
+    "ovarian adnexal mass",
+    "ultrasound management",
+  ];
   if (input.classification.iotaVerdict === "malignant") {
     parts.push("malignancy risk");
   } else if (input.classification.iotaVerdict === "benign") {
