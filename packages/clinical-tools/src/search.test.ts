@@ -14,9 +14,10 @@ describe("searchClinicalTools", () => {
     assert.ok(r.some((x) => x.id === "endometrium"));
   });
 
-  it("prioritizes role ultrasound for orads", () => {
+  it("prioritizes role ultrasound for O-RADS room", () => {
     const r = searchClinicalTools("яичник", { role: "ultrasound" });
-    assert.equal(r[0]?.id, "orads");
+    assert.equal(r[0]?.id, "orads-hub");
+    assert.equal(r[0]?.webHref, "/tools/o-rads");
   });
 
   it("finds pregnancy dating calculator by oblcalc alias", () => {

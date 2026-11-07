@@ -42,7 +42,7 @@ export default function NosologyHomeScreen({ navigation }: Props) {
     {
       title: "Гинекология",
       rows: [
-        { title: "O-RADS", detail: "Образования придатков", onPress: () => openClinicalToolAction(navigation, "orads") },
+        { title: "O-RADS US", detail: "Комната придатков", onPress: () => openClinicalToolAction(navigation, "orads_hub") },
         { title: "IOTA", detail: "Простые правила и ADNEX", onPress: () => openClinicalToolAction(navigation, "iota") },
         { title: "Калькуляторы", detail: "Эндометрий, POP-Q, шейка", onPress: () => openClinicalToolAction(navigation, "gyn_hub") },
         { title: "Нозологии", detail: "Миома, эндометрий, яичник", onPress: () => openClinicalToolAction(navigation, "nosology") },

@@ -86,7 +86,7 @@ const navGroups: { title: string; items: { href: string; label: string; icon: ty
     items: [
       { href: "/tools/gynecology", label: "Хаб гинекологии", icon: HeartPulse },
       { href: "/ai/consultants/us-prep", label: "Live приём · УЗИ", icon: Mic },
-      { href: "/tools/calc/rads/o-rads", label: "O-RADS US", icon: ScanLine },
+      { href: "/tools/o-rads", label: "O-RADS US", icon: ScanLine },
       { href: "/ai/consultants/gynecology", label: "Помощник гинеколога", icon: HandHeart },
       { href: "/tools/calc/gyn", label: "Кальк. гинекологии", icon: Calculator },
     ],
@@ -95,7 +95,6 @@ const navGroups: { title: string; items: { href: string; label: string; icon: ty
     title: "Калькуляторы",
     items: [
       { href: "/tools/calc", label: "Все калькуляторы", icon: Calculator },
-      { href: "/tools/calc/rads/o-rads", label: "O-RADS US", icon: ScanLine },
       { href: "/tools/calc/rads/bi-rads", label: "BI-RADS", icon: ScanLine },
       { href: "/tools/calc/rads/ti-rads", label: "TI-RADS ЩЖ", icon: ScanLine },
       { href: "/tools/calc/appointment", label: "Приём · быстрые", icon: ClipboardList },

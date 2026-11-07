@@ -50,12 +50,11 @@ const groups: Group[] = [
     title: "Гинекология",
     icon: Flower2,
     rows: [
-      { title: "O-RADS", detail: "Образования придатков", href: "/tools/calc/rads/o-rads" },
+      { title: "O-RADS US", detail: "Комната придатков", href: "/tools/o-rads" },
       { title: "IOTA", detail: "Простые правила и ADNEX", href: "/tools/calc/rads/iota" },
       { title: "Калькуляторы", detail: "Эндометрий, POP-Q, шейка", href: "/tools/calc/gyn" },
       { title: "Нозологии", detail: "Миома, эндометрий, яичник", href: "/tools/refs/nosologies" },
       { title: "FIGO · миома", detail: "Тип узла на схеме матки", href: "/tools/mapping/uterus" },
-      { title: "FIGO · миома", detail: "Карта матки и типы узлов", href: "/tools/mapping/uterus" },
     ],
   },
   {
@@ -64,7 +63,6 @@ const groups: Group[] = [
     rows: [
       { title: "BI-RADS", detail: "Категория и протокол", href: "/tools/calc/rads/bi-rads" },
       { title: "Оценка риска", detail: "Ориентир, не диагноз", href: "/tools/calc/gyn/breast-risk" },
-      { title: "BI-RADS", detail: "Калькулятор стратификации", href: "/tools/calc/rads/bi-rads" },
     ],
   },
   {

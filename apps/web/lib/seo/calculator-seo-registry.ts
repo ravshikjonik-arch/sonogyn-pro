@@ -207,6 +207,13 @@ export const CALCULATOR_SEO_REGISTRY: CalculatorSeoEntry[] = [
     keywords: ["гинекология", "O-RADS", "эндометрий", "УЗИ"],
   },
   {
+    path: "/tools/o-rads",
+    title: "O-RADS US · комната · SonoGyn Pro",
+    description:
+      "Одна комната ACR O-RADS US v2022: калькулятор, IOTA, эхограммы, реферат и структурированный протокол.",
+    keywords: ["O-RADS US", "IOTA", "придатки", "калькулятор", "УЗИ"],
+  },
+  {
     path: "/tools/calc",
     title: "Клинические калькуляторы · каталог",
     description: "O-RADS, BI-RADS, TI-RADS, IOTA, акушерские и гинекологические расчёты по гайдлайнам.",
