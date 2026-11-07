@@ -93,9 +93,9 @@ export function runReferenceAudit(): AuditSection {
 export function detectDuplicates(): DuplicateEntry[] {
   return [
     {
-      title: "O-RADS US",
-      ids: ["orads-guide", "orads-wizard", "orads"],
-      note: "Три записи в CLINICAL_TOOLS с одним webHref /tools/calc/rads/o-rads",
+      title: "O-RADS US (закрыто: комната orads-hub)",
+      ids: ["orads-hub"],
+      note: "Калькулятор / эхограммы / реферат — дети комнаты /tools/o-rads; дубли orads + orads-wizard сняты",
     },
     {
       title: "Срок по фетометрии / УЗИ (mobile)",

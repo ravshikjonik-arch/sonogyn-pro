@@ -269,13 +269,13 @@ const EDUCATION_LIBRARY_ITEMS_RAW: EducationLibraryItem[] = [
   {
     id: "orads-hub",
     shelf: "courses",
-    title: "O-RADS · всё в одном месте",
+    title: "O-RADS US",
     description:
-      "Калькулятор, учебные эхограммы придатков, реферат ACR v2022, IOTA 2026 — не нужно искать по библиотеке.",
-    href: "/tools/calc/rads/o-rads",
-    tags: ["O-RADS", "эхограммы", "IOTA", "калькулятор", "хаб"],
+      "Комната: калькулятор ACR v2022, IOTA, эхограммы, реферат и протокол — один вход.",
+    href: "/tools/o-rads",
+    tags: ["O-RADS", "эхограммы", "IOTA", "калькулятор", "комната"],
     primary: true,
-    badge: "Хаб",
+    badge: "Комната",
   },
   {
     id: "orads-guide",

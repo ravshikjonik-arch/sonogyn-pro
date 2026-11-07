@@ -73,8 +73,8 @@ export default function HomeScreen({ navigation }: HomeTabScreenProps) {
       },
       {
         key: "orads",
-        title: "O-RADS + IOTA 2026",
-        sub: "Общий калькулятор яичника по O-RADS и новому consensus IOTA",
+        title: "O-RADS US",
+        sub: "Калькулятор ACR v2022 · IOTA — быстрый вход на приём",
         glyph: "○",
         onPress: () => navigation.navigate("ORADSPro"),
       },

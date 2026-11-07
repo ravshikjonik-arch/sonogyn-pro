@@ -58,12 +58,12 @@ const primaryTasks = [
 const roleRoutes = [
   {
     title: "Я врач УЗИ",
-    href: "/tools/calc/rads/o-rads",
+    href: "/tools/o-rads",
     icon: ScanLine,
     steps: ["O-RADS / BI-RADS / TI-RADS", "Атласы и эхограммы", "Структурированный протокол"],
     quickLinks: [
       { label: "Live приём", href: "/ai/consultants/us-prep" },
-      { label: "O-RADS US", href: "/tools/calc/rads/o-rads" },
+      { label: "O-RADS US", href: "/tools/o-rads" },
       { label: "IOTA ADNEX", href: "/tools/calc/rads/iota" },
       { label: "BI-RADS", href: "/tools/calc/rads/bi-rads" },
       { label: "TI-RADS", href: "/tools/calc/rads/ti-rads" },
@@ -92,7 +92,7 @@ const roleRoutes = [
       { label: "Live приём", href: "/ai/consultants/us-prep" },
       { label: "FIGO · матка", href: "/tools/mapping/uterus" },
       { label: "Миома", href: "/tools/refs/nosologies/uterine-myoma" },
-      { label: "O-RADS", href: "/tools/calc/rads/o-rads" },
+      { label: "O-RADS US", href: "/tools/o-rads" },
     ],
   },
 ] as const;
@@ -100,7 +100,7 @@ const roleRoutes = [
 const quickSearchHints = [
   { label: "ЧЕК-ЛИСТ АМБУЛАТОРИИ", href: "/tools/refs/ambulatory-intake" },
   { label: "Live приём", href: "/ai/consultants/us-prep" },
-  { label: "O-RADS", href: "/tools/calc/rads/o-rads" },
+  { label: "O-RADS US", href: "/tools/o-rads" },
   { label: "Миома", href: "/tools/refs/nosologies/uterine-myoma" },
   { label: "Доказательства", href: "/tools/refs/evidence-sources" },
 ] as const;

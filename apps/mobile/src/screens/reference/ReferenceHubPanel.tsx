@@ -23,8 +23,8 @@ export function ReferenceHubPanel({ navigation, embedded }: Props) {
     },
     {
       id: "orads-hub",
-      title: "O-RADS · эхограммы и calc",
-      sub: "Калькулятор + учебные карточки + реферат — один хаб",
+      title: "O-RADS US",
+      sub: "Комната: калькулятор · IOTA · эхограммы · реферат",
       onPress: () => void openWebPath("/tools/o-rads"),
     },
     {

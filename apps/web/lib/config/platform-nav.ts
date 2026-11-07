@@ -33,9 +33,9 @@ export const PLATFORM_QUICK_LINKS: PlatformQuickLink[] = [
     subtitle: "Быстрый чек-лист приёма АГ · нормы · итог для врача",
   },
   {
-    href: "/tools/calc/rads/o-rads",
+    href: "/tools/o-rads",
     title: "O-RADS US",
-    subtitle: "Wizard, IOTA и таблицы ACR для аднексальных образований",
+    subtitle: "Комната: калькулятор · IOTA · эхограммы · протокол",
   },
   {
     href: "/tools/calc/ob/bishop",

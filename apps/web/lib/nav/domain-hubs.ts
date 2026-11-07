@@ -1,5 +1,7 @@
 /** Domain hub cards — single source for /tools, sidebar, and domain landing pages. */
 
+import { ORADS_US_ROOM } from "@repo/clinical-tools";
+
 import { isCopyrightLockedHref } from "@/lib/copyright/book-content-gate";
 
 export type DomainHubCard = {
@@ -29,9 +31,9 @@ export const TOOLS_HOME_DOMAINS = [
     accent: "from-rose-500 to-pink-400",
   },
   {
-    href: "/tools/calc/rads/o-rads",
-    title: "O-RADS · всё в одном месте",
-    description: "Калькулятор, картинки, расчет по тексту, таблицы, IOTA 2026",
+    href: "/tools/o-rads",
+    title: "O-RADS US",
+    description: "Комната: калькулятор · IOTA · эхограммы · реферат · протокол",
     accent: "from-violet-600 to-indigo-500",
   },
   {
@@ -205,9 +207,9 @@ export const GYNECOLOGY_GROUPS: DomainHubGroup[] = [
     title: "Придатки и матка",
     cards: [
       {
-        href: "/tools/calc/rads/o-rads",
-        title: "O-RADS",
-        description: "Образования придатков",
+        href: "/tools/o-rads",
+        title: "O-RADS US",
+        description: "Комната придатков: calc · IOTA · учёба · протокол",
         primary: true,
         badge: "O-RADS",
       },
@@ -270,41 +272,31 @@ export const GYNECOLOGY_HUB: DomainHubCard[] = GYNECOLOGY_GROUPS.flatMap((group)
   (card) => !isCopyrightLockedHref(card.href),
 );
 
-export const ORADS_HUB: DomainHubCard[] = [
+function roomChildToCard(child: (typeof ORADS_US_ROOM.children)[number]): DomainHubCard {
+  return {
+    href: child.href,
+    title: child.title,
+    description: child.description,
+    primary: child.primary,
+    badge: child.badge,
+  };
+}
+
+/** Derived from SSOT room — keep in sync via @repo/clinical-tools ORADS_US_ROOM. */
+export const ORADS_HUB: DomainHubCard[] = ORADS_US_ROOM.children.map(roomChildToCard);
+
+export const ORADS_HUB_GROUPS: DomainHubGroup[] = [
   {
-    href: "/tools/calc/rads/o-rads",
-    title: "O-RADS Pro · калькулятор",
-    description: "ACR O-RADS US v2022 + IOTA Simple Rules",
-    primary: true,
-    badge: "Calc",
+    title: "На приёме",
+    cards: ORADS_US_ROOM.children
+      .filter((child) => child.kind === "calculator" || child.kind === "protocol")
+      .map(roomChildToCard),
   },
   {
-    href: "/tools/refs/orads-echograms",
-    title: "Учебные эхограммы и случаи придатков",
-    description: "Учебные карточки по нозологиям — то, что вы искали",
-    primary: true,
-    badge: "Карточки",
-  },
-  {
-    href: "/tools/refs/orads-guide",
-    title: "Реферат O-RADS US",
-    description: "Алгоритм ACR v2022 + 10 клинических случаев",
-    badge: "v2022",
-  },
-  {
-    href: "/tools/refs/iota-terms-2026",
-    title: "IOTA 2026 · термины",
-    description: "Консенсус IOTA Group: определения и самопроверка",
-  },
-  {
-    href: "/tools/mapping/ovary",
-    title: "IOTA triangulation · mapping",
-    description: "Ввод находок в протокол",
-  },
-  {
-    href: "/reports/adnex",
-    title: "SRE · структурированный протокол",
-    description: "Описание + заключение + EBM citations",
+    title: "Справка и обучение",
+    cards: ORADS_US_ROOM.children
+      .filter((child) => child.kind === "reference" || child.kind === "education" || child.kind === "mapping")
+      .map(roomChildToCard),
   },
 ];
 
