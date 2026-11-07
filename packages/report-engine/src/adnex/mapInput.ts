@@ -25,10 +25,13 @@ export function mapAdnexStructuredInputToCalcInput(input: AdnexStructuredReportI
   };
 }
 
-export function resolveOradsCategory(input: AdnexStructuredReportInput): 1 | 2 | 3 | 4 | 5 {
+/** Returns declared O-RADS US 1–5, or undefined — never invents a category. */
+export function resolveOradsCategory(
+  input: AdnexStructuredReportInput,
+): 1 | 2 | 3 | 4 | 5 | undefined {
   const cat = input.classification.oradsCategory;
-  if (cat != null) return cat;
-  return 3;
+  if (cat != null && cat >= 1 && cat <= 5) return cat;
+  return undefined;
 }
 
 export function maxMeasurementMm(input: AdnexStructuredReportInput): number {
