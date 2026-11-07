@@ -3,18 +3,30 @@ import { NextResponse } from "next/server";
 
 import { isSonogynCustomDomainHost } from "@/lib/shell/custom-domain";
 
-const SKIP_PREFIXES = ["/api/", "/_next/static/", "/_next/image", "/favicon", "/icon", "/manifest.json", "/robots.txt", "/sitemap"];
+const SKIP_PREFIXES = [
+  "/api/",
+  "/auth/handoff/",
+  "/_next/static/",
+  "/_next/image",
+  "/favicon",
+  "/icon",
+  "/manifest.json",
+  "/robots.txt",
+  "/sitemap",
+];
 
 /** Auth pages: middleware redirects (open access → /home); proxy breaks edge redirect chain. */
 const SKIP_EXACT_PATHS = new Set(["/login", "/register", "/verify-phone"]);
 
 /** Vercel deployment host (*.vercel.app) — полные ответы без обрезки ~20KB на custom domain. */
 export function resolveDeploymentOrigin(): string | null {
-  const forced =
-    process.env.SONOGYN_DEPLOYMENT_ORIGIN?.trim() ||
-    process.env.SONOGYN_ASSET_PREFIX?.trim() ||
-    process.env.NEXT_PUBLIC_SONOGYN_ASSET_PREFIX?.trim();
-  if (forced) return forced.replace(/\/$/, "");
+  const explicit = process.env.SONOGYN_DEPLOYMENT_ORIGIN?.trim();
+  if (explicit) return explicit.replace(/\/$/, "");
+
+  // The shared asset host serves the production deployment only; previews must use their own host.
+  const assetHost =
+    process.env.SONOGYN_ASSET_PREFIX?.trim() || process.env.NEXT_PUBLIC_SONOGYN_ASSET_PREFIX?.trim();
+  if (assetHost && process.env.VERCEL_ENV === "production") return assetHost.replace(/\/$/, "");
 
   const raw = process.env.VERCEL_URL?.trim();
   if (raw) {
