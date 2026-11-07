@@ -41,6 +41,7 @@ import {
 } from "@/lib/ai/sonogyn-chat/evidence-answer-validate";
 import { evidenceCostModelLabel } from "@/lib/ai/sonogyn-chat/evidence-cost";
 import {
+  captureOpenRouterStreamText,
   createStaticEvidenceChatStream,
   wrapOpenRouterStreamWithEvidence,
 } from "@/lib/ai/sonogyn-chat/stream-client";
@@ -791,8 +792,25 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Empty stream" }, { status: 502 });
     }
 
+    const answerBody = activeSessionId
+      ? captureOpenRouterStreamText(body, async (fullText) => {
+          const { displayText, tools } = extractToolsFromAssistantText(fullText);
+          await appendChatMessage(supabase, {
+            sessionId: activeSessionId,
+            userId: auth.userId,
+            role: "assistant",
+            content: displayText || fullText,
+            toolResults: tools,
+            evidence: evidenceAnswer ?? undefined,
+            isAiDraft: true,
+            modelId: activeAttempt.modelId,
+            promptVersion,
+          });
+        })
+      : body;
+
     const streamBody =
-      evidenceAnswer != null ? wrapOpenRouterStreamWithEvidence(body, evidenceAnswer) : body;
+      evidenceAnswer != null ? wrapOpenRouterStreamWithEvidence(answerBody, evidenceAnswer) : answerBody;
 
     return new NextResponse(streamBody, {
       headers: {
