@@ -7,7 +7,7 @@ import {
 } from "@repo/orads-us";
 import { StyleSheet, Text, View } from "react-native";
 
-import { getWebApiBase } from "../../api/chatBackend";
+import { getWebAssetBase } from "../../api/chatBackend";
 import OradsNosologyPreview from "../oradsPro/components/OradsNosologyPreview";
 
 type Props = {
@@ -20,7 +20,7 @@ export default function OradsResultExamples({ path, result }: Props) {
   const examples = getOradsResultExamples(path, result);
   if (!examples.length) return null;
 
-  const base = getWebApiBase();
+  const base = getWebAssetBase();
 
   return (
     <View style={styles.wrap}>

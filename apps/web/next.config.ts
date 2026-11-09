@@ -107,6 +107,8 @@ const nextConfig: NextConfig = {
     ],
   },
   assetPrefix: productionAssetPrefix(),
+  /** Custom domain also breaks optimized images (proxy bootstrap HTML + truncation); optimize on the asset host. */
+  images: productionAssetPrefix() ? { path: `${productionAssetPrefix()}/_next/image` } : {},
   transpilePackages: [
     "three",
     "@clinical/uterus",

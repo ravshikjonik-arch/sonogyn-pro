@@ -253,6 +253,12 @@ export function getWebApiBase(): string {
   return "";
 }
 
+/** Static files (echograms, images): sonogyn-pro.ru proxy truncates large bodies, so load them from the deployment host. */
+export function getWebAssetBase(): string {
+  const base = getWebApiBase();
+  return /^https?:\/\/(www\.)?sonogyn-pro\.ru$/i.test(base) ? PRODUCTION_WEB_API : base;
+}
+
 export async function apiTelegramSupabaseSession(nonce: string): Promise<{
   access_token: string;
   refresh_token: string;
