@@ -9,7 +9,20 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: "*",
-        allow: ["/", "/landing", "/home", "/pricing", "/privacy", "/lp/", "/tools/", "/ai/consultants/fmf"],
+        allow: [
+          "/",
+          "/landing",
+          "/home",
+          "/pricing",
+          "/privacy",
+          "/terms",
+          "/lp/",
+          "/tools/",
+          "/ai/",
+          "/cases",
+          "/feed",
+          "/reports/",
+        ],
         disallow: [
           "/api/",
           "/login",
@@ -23,6 +36,10 @@ export default function robots(): MetadataRoute.Robots {
           "/admin",
           "/author",
           "/workspace/",
+          "/ai/workspace",
+          "/ai/consultants/us-prep",
+          "/tools/refs/ambulatory-intake",
+          "/offline",
         ],
       },
     ],
