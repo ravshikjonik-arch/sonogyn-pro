@@ -1,5 +1,8 @@
-/** Public web path prefix (apps/web/public/clinical/orads-nosology). */
+/** Public web path prefix (apps/web/public/clinical/orads-nosology). Copyright-locked on web: authorship not verified. */
 export const ORADS_NOSOLOGY_PUBLIC_IMAGE_BASE = "/clinical/orads-nosology";
+
+/** Own practice echograms (de-identified, rights confirmed by the author). Only this base is published. */
+export const ORADS_OWN_CASES_IMAGE_BASE = "/clinical/own-cases/orads";
 
 export type OradsNosologySubtype =
   | "simple_cyst"
@@ -62,9 +65,9 @@ export const ORADS_NOSOLOGY_ATLAS: OradsNosologyAtlasEntry[] = [
       "Функциональная киста. В проекции яичника визуализируется анэхогенное округлое образование с анэхогенным внутренним содержимым без включений размерами 30×30 мм при ЦДК 0. Корковый слой яичника не прослеживается, фолликулы не визуализируются.",
     imageSrc: `${ORADS_NOSOLOGY_PUBLIC_IMAGE_BASE}/functional-cyst.jpg`,
     imageAlt: "УЗИ: простая функциональная киста яичника",
-    realExampleImage: `${ORADS_NOSOLOGY_PUBLIC_IMAGE_BASE}/functional-cyst-real.jpg`,
+    realExampleImage: `${ORADS_OWN_CASES_IMAGE_BASE}/functional-cyst-real.jpg`,
     realExampleCaption: "Реальная эхограмма: функциональная киста — анэхогенное образование с чётким гиперэхогенным ободком. O-RADS 2.",
-    realExampleImage2: `${ORADS_NOSOLOGY_PUBLIC_IMAGE_BASE}/functional-cyst-real-2.jpg`,
+    realExampleImage2: `${ORADS_OWN_CASES_IMAGE_BASE}/functional-cyst-real-2.jpg`,
     realExampleCaption2: "Реальная эхограмма (второй ракурс): функциональная киста яичника. O-RADS 2.",
   },
   {
@@ -86,7 +89,7 @@ export const ORADS_NOSOLOGY_ATLAS: OradsNosologyAtlasEntry[] = [
     aiAssistantNoteRu:
       "Похоже на геморрагическую кисту: сетчатость/нити в кисте. При типичном ретикулярном/гнилевом типе без выпячиваний O-RADS обычно 2.",
     disclaimerRu: EDUCATIONAL_DISCLAIMER_RU,
-    realExampleImage: `${ORADS_NOSOLOGY_PUBLIC_IMAGE_BASE}/hemorrhagic-cyst-real.jpg`,
+    realExampleImage: `${ORADS_OWN_CASES_IMAGE_BASE}/hemorrhagic-cyst-real.jpg`,
     realExampleCaption:
       "Реальная эхограмма: геморрагическая киста — ретикулярный внутренний рисунок без солидных зон.",
   },
@@ -100,7 +103,7 @@ export const ORADS_NOSOLOGY_ATLAS: OradsNosologyAtlasEntry[] = [
       "Эндометриоидная киста. В проекции яичника локализуется округлое образование с густым неоднородным внутренним содержимым — мелкодисперсная взвесь, «симптом матового стекла», размерами 37×31 мм; при ЦДК — слабый фрагментарный сигнал. Корковый слой яичника не прослеживается, фолликулы не визуализируются.",
     imageSrc: `${ORADS_NOSOLOGY_PUBLIC_IMAGE_BASE}/endometrioid-cyst.jpg`,
     imageAlt: "УЗИ: эндометриоидная киста яичника",
-    realExampleImage: `${ORADS_NOSOLOGY_PUBLIC_IMAGE_BASE}/endometrioid-cyst-real.jpg`,
+    realExampleImage: `${ORADS_OWN_CASES_IMAGE_BASE}/endometrioid-cyst-real.jpg`,
     realExampleCaption: "Реальная эхограмма: эндометриоидные кисты обеих яичников — двустороннее поражение, типичный мелкодисперсный паттерн. O-RADS 2.",
   },
   {
@@ -124,7 +127,7 @@ export const ORADS_NOSOLOGY_ATLAS: OradsNosologyAtlasEntry[] = [
       "Дермоидная киста яичника (зрелая кистозная тератома). В проекции яичника визуализируется кистозное образование с эхогенным пристеночным узелком (Rokitansky nodule) и дермоидной сеткой внутри анэхогенного компонента. Типичный доброкачественный паттерн — O-RADS 2.",
     imageSrc: `${ORADS_NOSOLOGY_PUBLIC_IMAGE_BASE}/dermoid-cyst.jpg`,
     imageAlt: "УЗИ: дермоидная киста яичника с узелком Rokitansky и дермоидной сеткой",
-    realExampleImage: `${ORADS_NOSOLOGY_PUBLIC_IMAGE_BASE}/dermoid-cyst-real.jpg`,
+    realExampleImage: `${ORADS_OWN_CASES_IMAGE_BASE}/dermoid-cyst-real.jpg`,
     realExampleCaption: "Реальная эхограмма: дермоидная киста (зрелая кистозная тератома) — эхогенные структуры, акустическая тень. O-RADS 2.",
   },
   {
@@ -180,14 +183,14 @@ export const ORADS_NOSOLOGY_ATLAS: OradsNosologyAtlasEntry[] = [
     ],
     protocolText:
       "Подозрение на опухоль яичника. В проекции яичника визуализируется крупное солидно-кистозное образование с полипозными/сосочковыми выпячиваниями стенки и утолщёнными перегородками, включающимися при ЦДК; в малом тазу определяется свободная жидкость. Паттерн соответствует высокой вероятности злокачественности — O-RADS 5. Интерпретация — специалистом; не диагноз.",
-    imageSrc: `${ORADS_NOSOLOGY_PUBLIC_IMAGE_BASE}/orads5-ovarian-cancer-1.jpg`,
+    imageSrc: `${ORADS_OWN_CASES_IMAGE_BASE}/orads5-ovarian-cancer-1.jpg`,
     imageAlt: "УЗИ: подозрение на рак яичника, пример 1",
     realExampleImages: [
-      `${ORADS_NOSOLOGY_PUBLIC_IMAGE_BASE}/orads5-ovarian-cancer-1.jpg`,
-      `${ORADS_NOSOLOGY_PUBLIC_IMAGE_BASE}/orads5-ovarian-cancer-2.jpg`,
-      `${ORADS_NOSOLOGY_PUBLIC_IMAGE_BASE}/orads5-ovarian-cancer-3.jpg`,
-      `${ORADS_NOSOLOGY_PUBLIC_IMAGE_BASE}/orads5-ovarian-cancer-4.jpg`,
-      `${ORADS_NOSOLOGY_PUBLIC_IMAGE_BASE}/orads5-ovarian-cancer-5.jpg`,
+      `${ORADS_OWN_CASES_IMAGE_BASE}/orads5-ovarian-cancer-1.jpg`,
+      `${ORADS_OWN_CASES_IMAGE_BASE}/orads5-ovarian-cancer-2.jpg`,
+      `${ORADS_OWN_CASES_IMAGE_BASE}/orads5-ovarian-cancer-3.jpg`,
+      `${ORADS_OWN_CASES_IMAGE_BASE}/orads5-ovarian-cancer-4.jpg`,
+      `${ORADS_OWN_CASES_IMAGE_BASE}/orads5-ovarian-cancer-5.jpg`,
     ],
     realExampleCaptions: [
       "Реальная эхограмма: папиллярные/сосочковые элементы. O-RADS 5.",
@@ -213,6 +216,26 @@ export function getOradsNosologyById(id: string): OradsNosologyAtlasEntry | unde
 export function isOradsNosologyPending(subtype: string | undefined): boolean {
   if (!subtype) return false;
   return ORADS_NOSOLOGY_PENDING_SUBTYPES.includes(subtype as OradsNosologySubtype);
+}
+
+export function isOradsOwnCaseImage(src: string | undefined): src is string {
+  return Boolean(src?.startsWith(`${ORADS_OWN_CASES_IMAGE_BASE}/`));
+}
+
+/** Published practice echograms of an entry (own cases only), in display order, without duplicates. */
+export function getOradsNosologyPracticeImages(entry: OradsNosologyAtlasEntry): string[] {
+  const candidates = [
+    entry.imageSrc,
+    entry.realExampleImage,
+    entry.realExampleImage2,
+    ...(entry.realExampleImages ?? []),
+  ];
+  return [...new Set(candidates.filter(isOradsOwnCaseImage))];
+}
+
+/** First published echogram for thumbnails / mobile preview; null when the entry has none yet. */
+export function getOradsNosologyPreviewImage(entry: OradsNosologyAtlasEntry): string | null {
+  return getOradsNosologyPracticeImages(entry)[0] ?? null;
 }
 
 export function resolveOradsNosologyImageUri(imageSrc: string, webApiBase: string): string {

@@ -12,23 +12,16 @@ import {
   Text,
   View,
 } from "react-native";
-import {
-  getOradsReferat,
-  getReferatCaseIdForImageRef,
-  getReferatSectionIdForWizardNode,
-  useOradsNavigator,
-} from "@repo/orads-us";
+import { getOradsReferat, getReferatSectionIdForWizardNode, useOradsNavigator } from "@repo/orads-us";
 
 import type { RootStackParamList } from "../../navigation/paramLists";
-import { getWebApiBase } from "../../api/chatBackend";
 import OradsAssistPanel from "./OradsAssistPanel";
-import OradsAtlasImage from "./OradsAtlasImage";
 import OradsOptionCard from "./OradsOptionCard";
 import { mapOradsWizardToAdnexInput } from "../iota/mapOradsWizardToAdnexInput";
+import OradsResultExamples from "./OradsResultExamples";
 import OradsWizardIotaPanel from "./OradsWizardIotaPanel";
 import OradsWizardProgress from "./OradsWizardProgress";
 import OradsWizardResultPanel from "./OradsWizardResultPanel";
-import { resolveOradsAtlasPreview } from "./resolveOradsAtlas";
 import { useOradsLocaleStrings } from "./useOradsLocale";
 
 type Props = NativeStackScreenProps<RootStackParamList, "ORADSWizard">;
@@ -54,11 +47,6 @@ export default function OradsWizardScreen({ navigation, route }: Props) {
     return evaluateWizardTriangulation(nav.state.path, view.result.categoryNumber);
   }, [view, nav.state.path]);
 
-  const atlasPreview = useMemo(() => {
-    if (view.kind !== "question") return null;
-    return resolveOradsAtlasPreview(view.node.imageRef);
-  }, [view]);
-
   const rtl = locale.rtl || I18nManager.isRTL;
   const rowDirection = rtl ? "row-reverse" : "row";
 
@@ -72,12 +60,6 @@ export default function OradsWizardScreen({ navigation, route }: Props) {
       return;
     }
     nav.back();
-  }
-
-  function openAtlasWeb() {
-    const base = getWebApiBase();
-    if (!base) return;
-    navigation.navigate("ORADSGuide");
   }
 
   function openReferatHelp() {
@@ -184,17 +166,20 @@ export default function OradsWizardScreen({ navigation, route }: Props) {
                       onOpenAdnex={openIotaAdnex}
                     />
                   ) : (
-                    <OradsWizardResultPanel
-                      result={view.result}
-                      locale={locale}
-                      pathSummary={nav.pathSummary}
-                      onRestart={nav.restart}
-                      onBack={goBack}
-                      onShare={undefined}
-                      onBuildReport={openStructuredReport}
-                      onOpenGuide={() => navigation.navigate("ORADSGuide", { sectionId: "categories" })}
-                      onAskAscites={nav.startAscitesModifier}
-                    />
+                    <>
+                      <OradsWizardResultPanel
+                        result={view.result}
+                        locale={locale}
+                        pathSummary={nav.pathSummary}
+                        onRestart={nav.restart}
+                        onBack={goBack}
+                        onShare={undefined}
+                        onBuildReport={openStructuredReport}
+                        onOpenGuide={() => navigation.navigate("ORADSGuide", { sectionId: "categories" })}
+                        onAskAscites={nav.startAscitesModifier}
+                      />
+                      <OradsResultExamples path={nav.state.path} result={view.result} />
+                    </>
                   )}
                 </>
               ) : (
@@ -211,27 +196,11 @@ export default function OradsWizardScreen({ navigation, route }: Props) {
                     <Text style={[styles.help, rtl && styles.textRtl]}>{locale.t(view.node.helpKey)}</Text>
                   ) : null}
 
-                  <OradsAtlasImage preview={atlasPreview} onOpenWeb={openAtlasWeb} />
-
                   {view.node.options.map((opt) => (
                     <OradsOptionCard
                       key={opt.id}
                       label={locale.t(opt.labelKey)}
                       rtl={rtl}
-                      imageSlot={
-                        opt.imageRef ? (
-                          <OradsAtlasImage
-                            preview={resolveOradsAtlasPreview(opt.imageRef)}
-                            onOpenWeb={() => {
-                              const referat = getOradsReferat(locale.locale);
-                              navigation.navigate("ORADSGuide", {
-                                caseId: opt.imageRef ? getReferatCaseIdForImageRef(opt.imageRef) : undefined,
-                                sectionId: getReferatSectionIdForWizardNode(view.node.id, referat),
-                              });
-                            }}
-                          />
-                        ) : undefined
-                      }
                       onPress={() => nav.pick(view.node.id, opt.id)}
                     />
                   ))}

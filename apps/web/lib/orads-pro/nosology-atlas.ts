@@ -1,7 +1,10 @@
 export {
   getOradsNosologyById,
   getOradsNosologyBySubtype,
+  getOradsNosologyPracticeImages,
+  getOradsNosologyPreviewImage,
   isOradsNosologyPending,
+  isOradsOwnCaseImage,
   ORADS_NOSOLOGY_ATLAS,
   ORADS_NOSOLOGY_PENDING_SUBTYPES,
   ORADS_NOSOLOGY_PUBLIC_IMAGE_BASE,

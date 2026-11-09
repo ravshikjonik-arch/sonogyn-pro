@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { ORADS_NOSOLOGY_ATLAS } from "@repo/orads-us";
+import { getOradsNosologyPreviewImage, ORADS_NOSOLOGY_ATLAS } from "@repo/orads-us";
 
 import { openClinicalToolAction, webAppUrl } from "../lib/clinical-tools/openClinicalTool";
 import type { RootStackParamList } from "../navigation/paramLists";
@@ -29,9 +29,10 @@ function RouteCardView({ item }: { item: RouteCard }) {
 }
 
 export default function UltrasoundAssistantScreen({ navigation }: Props) {
-  const oradsAtlas = ORADS_NOSOLOGY_ATLAS.filter((item) =>
-    ["dermoid_cyst", "hydrosalpinx", "free_fluid_pelvis"].includes(item.id),
-  );
+  const oradsAtlas = ORADS_NOSOLOGY_ATLAS.flatMap((item) => {
+    const imageSrc = getOradsNosologyPreviewImage(item);
+    return imageSrc ? [{ ...item, imageSrc }] : [];
+  });
 
   const routes: RouteCard[] = [
     {

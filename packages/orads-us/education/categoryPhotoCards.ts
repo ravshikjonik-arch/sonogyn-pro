@@ -1,6 +1,7 @@
 import { getReferatImagePath } from "./referatImageMap";
 import {
   ORADS_NOSOLOGY_PUBLIC_IMAGE_BASE,
+  ORADS_OWN_CASES_IMAGE_BASE,
   type OradsNosologySubtype,
 } from "./nosologyAtlas";
 
@@ -104,6 +105,10 @@ function nosology(file: string): string {
   return `${ORADS_NOSOLOGY_PUBLIC_IMAGE_BASE}/${file}`;
 }
 
+function ownCase(file: string): string {
+  return `${ORADS_OWN_CASES_IMAGE_BASE}/${file}`;
+}
+
 function card(partial: Omit<OradsCategoryPhotoCard, "disclaimerRu">): OradsCategoryPhotoCard {
   return { ...partial, disclaimerRu: ORADS_PHOTO_CARD_DISCLAIMER_RU };
 }
@@ -168,7 +173,7 @@ const ACR_CARDS: Record<OradsPhotoCategoryId, OradsCategoryPhotoCard[]> = {
       category: 2,
       titleRu: "Простая киста",
       acrLabelEn: "Simple cyst",
-      imageSrc: nosology("functional-cyst-real.jpg"),
+      imageSrc: ownCase("functional-cyst-real.jpg"),
       imageAlt: "Простая однокамерная анэхогенная киста",
       keySignsRu: ["Однокамерная", "Анэхогенная", "Гладкая стенка", "Без солидного компонента"],
       sizeNoteRu: "≤3 см в пременопаузе — фолликул (O-RADS 1). >3 до 5 см: пре — без контроля, пост — УЗИ через 12 мес. >5 и <10 см — УЗИ через 12 мес.",
@@ -205,7 +210,7 @@ const ACR_CARDS: Record<OradsPhotoCategoryId, OradsCategoryPhotoCard[]> = {
       category: 2,
       titleRu: "Типичная геморрагическая киста",
       acrLabelEn: "Typical hemorrhagic cyst",
-      imageSrc: nosology("hemorrhagic-cyst-real.jpg"),
+      imageSrc: ownCase("hemorrhagic-cyst-real.jpg"),
       imageAlt: "Типичная геморрагическая киста",
       keySignsRu: [
         "Однокамерная, без внутреннего кровотока",
@@ -221,7 +226,7 @@ const ACR_CARDS: Record<OradsPhotoCategoryId, OradsCategoryPhotoCard[]> = {
       category: 2,
       titleRu: "Типичный дермоид",
       acrLabelEn: "Typical dermoid cyst",
-      imageSrc: nosology("dermoid-cyst-real.jpg"),
+      imageSrc: ownCase("dermoid-cyst-real.jpg"),
       imageAlt: "Типичная зрелая кистозная тератома",
       keySignsRu: [
         "≤3 камеры, без внутреннего кровотока",
@@ -237,7 +242,7 @@ const ACR_CARDS: Record<OradsPhotoCategoryId, OradsCategoryPhotoCard[]> = {
       category: 2,
       titleRu: "Типичная эндометриома",
       acrLabelEn: "Typical endometrioma",
-      imageSrc: nosology("endometrioid-cyst-real.jpg"),
+      imageSrc: ownCase("endometrioid-cyst-real.jpg"),
       imageAlt: "Типичная эндометриома, ground glass",
       keySignsRu: [
         "≤3 камеры, без внутреннего кровотока",
@@ -429,7 +434,7 @@ const ACR_CARDS: Record<OradsPhotoCategoryId, OradsCategoryPhotoCard[]> = {
       category: 5,
       titleRu: "Двух-/многокамерная с солидным, CS 3–4",
       acrLabelEn: "Bi- or multilocular cyst with solid component(s), CS 3–4",
-      imageSrc: nosology("orads5-ovarian-cancer-1.jpg"),
+      imageSrc: ownCase("orads5-ovarian-cancer-1.jpg"),
       imageAlt: "Сложное кистозно-солидное образование с выраженным кровотоком",
       keySignsRu: ["Солидный компонент", "CS 3 или 4", "Любой размер"],
       managementRu: "По протоколу онкогинеколога.",
@@ -440,7 +445,7 @@ const ACR_CARDS: Record<OradsPhotoCategoryId, OradsCategoryPhotoCard[]> = {
       category: 5,
       titleRu: "Солидное: CS 4 или неровный контур",
       acrLabelEn: "Solid smooth CS 4, or solid irregular any CS",
-      imageSrc: nosology("orads5-ovarian-cancer-2.jpg"),
+      imageSrc: ownCase("orads5-ovarian-cancer-2.jpg"),
       imageAlt: "Солидное образование высокого риска",
       keySignsRu: ["Гладкое + CS 4 или irregular любой CS", "± тень не снижает категорию при irregular"],
       managementRu: "По протоколу онкогинеколога.",
