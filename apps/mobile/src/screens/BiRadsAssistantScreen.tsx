@@ -14,6 +14,7 @@ import {
 import Svg, { Circle, Ellipse, Line, Path, Text as SvgText } from "react-native-svg";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { BiRadsMmgMobilePanel } from "../components/birads/BiRadsMmgMobilePanel";
+import { BreastUsMobilePanel } from "../components/birads/BreastUsMobilePanel";
 import { branding } from "../config/branding";
 import {
   BI_RADS_VERSION,
@@ -35,7 +36,7 @@ import { theme } from "../theme";
 type Props = NativeStackScreenProps<RootStackParamList, "BiRadsAssistant">;
 type BreastSide = "right" | "left";
 type BreastPoint = { x: number; y: number };
-type Modality = "us" | "mmg" | "combo";
+type Modality = "us2025" | "us" | "mmg" | "combo";
 
 const FIELD_ORDER: (keyof BiradsInput)[] = [
   "findingType",
@@ -241,7 +242,8 @@ function BreastLocator({
 
 export default function BiRadsAssistantScreen({ navigation }: Props) {
   const { width } = useWindowDimensions();
-  const [modality, setModality] = useState<Modality>("us");
+  const [modality, setModality] = useState<Modality>("us2025");
+  const [us2025Category, setUs2025Category] = useState<string | null>(null);
   const [input, setInput] = useState<BiradsInput>({ ...defaultInput });
   const [breastSide, setBreastSide] = useState<BreastSide>("right");
   const [breastPoint, setBreastPoint] = useState<BreastPoint>({ x: 0.34, y: 0.34 });
@@ -250,8 +252,8 @@ export default function BiRadsAssistantScreen({ navigation }: Props) {
   const localizationText = useMemo(() => formatBreastLocation(breastPoint, breastSide), [breastPoint, breastSide]);
   const locatorSize = Math.min(width - theme.spacing.md * 2 - 34, 340);
   const combined = useMemo(
-    () => combineBiradsCategories({ usCategory: result.category, mmgCategory: comboMmg }),
-    [result.category, comboMmg],
+    () => combineBiradsCategories({ usCategory: us2025Category ?? result.category, mmgCategory: comboMmg }),
+    [us2025Category, result.category, comboMmg],
   );
 
   function setField<K extends keyof BiradsInput>(key: K, value: BiradsInput[K]) {
@@ -293,7 +295,8 @@ export default function BiRadsAssistantScreen({ navigation }: Props) {
       <View style={styles.modalityRow}>
         {(
           [
-            ["us", "УЗИ"],
+            ["us2025", "УЗИ · ACR v2025"],
+            ["us", "УЗИ (прежний)"],
             ["mmg", "ММГ"],
             ["combo", "Комбо"],
           ] as const
@@ -310,9 +313,17 @@ export default function BiRadsAssistantScreen({ navigation }: Props) {
 
       {modality === "mmg" ? <BiRadsMmgMobilePanel /> : null}
 
+      <ScrollView
+        style={{ display: modality === "us2025" ? "flex" : "none" }}
+        contentContainerStyle={styles.scroll}
+        keyboardShouldPersistTaps="handled"
+      >
+        <BreastUsMobilePanel onCategoryHint={setUs2025Category} />
+      </ScrollView>
+
       {modality === "combo" ? (
         <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
-          <Text style={styles.blockTitle}>УЗИ: {result.category}</Text>
+          <Text style={styles.blockTitle}>УЗИ: {us2025Category ?? result.category}</Text>
           <Text style={styles.helpText}>Категория из блока УЗИ (переключитесь и заполните дескрипторы).</Text>
           <Text style={styles.blockTitle}>ММГ (введите категорию)</Text>
           <View style={styles.chips}>
