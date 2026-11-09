@@ -42,6 +42,7 @@ export function CalcChip({
     <button
       type="button"
       onClick={onClick}
+      aria-pressed={selected}
       className={cn(
         "rounded-full border px-3 py-2 text-left text-xs font-bold transition",
         selected
