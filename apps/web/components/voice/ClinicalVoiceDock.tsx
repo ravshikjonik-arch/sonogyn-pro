@@ -35,7 +35,7 @@ export function ClinicalVoiceDock({ placement = "floating" }: Props) {
             "w-[min(100vw-2rem,22rem)] rounded-2xl border border-[var(--clinical-border)]",
             "bg-[var(--clinical-card)] p-4 shadow-[var(--clinical-card-shadow)]",
             "sonogyn-enter",
-            inHeader && "absolute right-0 top-full z-50 mt-2",
+            inHeader && "fixed inset-x-3 top-16 z-50 w-auto",
           )}
           role="region"
           aria-label="Озвучивание текста"
