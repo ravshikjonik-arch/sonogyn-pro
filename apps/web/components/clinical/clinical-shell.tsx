@@ -391,6 +391,7 @@ export function ClinicalShell({
           <ClinicalOfflineBadge className="shrink-0" />
           <GlobalSearchTrigger />
           {!isGuest ? <ProBadge className="hidden sm:inline-flex" /> : null}
+          <ClinicalVoiceDock placement="header" />
           <ThemeToggle />
           {isGuest ? (
             <Button asChild size="sm" variant="ghost" className="ml-auto" data-testid="guest-login-cta">

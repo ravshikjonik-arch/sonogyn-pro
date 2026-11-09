@@ -474,7 +474,7 @@ export function SonogynCopilot() {
             animate={{ opacity: 1, scale: 1 }}
             exit={reduce ? undefined : { opacity: 0, scale: 0.8 }}
             whileHover={reduce ? undefined : { y: -2 }}
-            className="ai-gradient-bg fixed bottom-6 right-6 z-40 flex items-center gap-2 rounded-full py-3 pl-3 pr-4 text-sm font-semibold text-white shadow-[0_12px_40px_rgba(99,102,241,0.45)]"
+            className="ai-gradient-bg fixed bottom-6 right-6 z-40 hidden items-center gap-2 rounded-full py-3 pl-3 pr-4 text-sm font-semibold text-white shadow-[0_12px_40px_rgba(99,102,241,0.45)] lg:flex"
             aria-label="Открыть Sonogyn AI"
           >
             <span className="ai-breathe flex h-7 w-7 items-center justify-center rounded-full bg-white/20">
