@@ -94,7 +94,10 @@ export function OradsAcrWizardExperience({
 
   return (
     <div
-      className={cn("relative mx-auto flex min-h-[calc(100dvh-4rem)] max-w-lg flex-col pb-28", className)}
+      className={cn(
+        "relative mx-auto flex min-h-[calc(100dvh-4rem)] max-w-lg flex-col pb-[calc(13rem+env(safe-area-inset-bottom))] lg:pb-28",
+        className,
+      )}
       data-e2e-orads-acr-wizard
     >
       <header className="bg-[var(--clinical-primary)] text-[var(--clinical-primary-foreground)] shadow-sm">
@@ -206,7 +209,7 @@ export function OradsAcrWizardExperience({
         )}
       </main>
 
-      <footer className="fixed inset-x-0 bottom-0 z-20 border-t border-[var(--clinical-border)] bg-[var(--clinical-canvas)]/95 p-3 backdrop-blur-sm">
+      <footer className="fixed inset-x-0 bottom-[calc(4.75rem+env(safe-area-inset-bottom))] z-20 border-t lg:bottom-0 border-[var(--clinical-border)] bg-[var(--clinical-canvas)]/95 p-3 backdrop-blur-sm">
         <div
           className={cn(
             "mx-auto grid max-w-lg gap-2",
