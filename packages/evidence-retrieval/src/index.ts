@@ -8,6 +8,7 @@ export * from "./format-share.js";
 export * from "./outbound-links.js";
 export * from "./whats-new.js";
 export * from "./vault-merge.js";
+export * from "./vault-abbreviations.js";
 export * from "./orchestrator.js";
 export * from "./infra/cache.js";
 export * from "./infra/retry.js";

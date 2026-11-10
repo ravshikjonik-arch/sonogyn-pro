@@ -1,4 +1,9 @@
-import { mergeVaultHitsRrf, type MedicalVaultSearchHit } from "@repo/evidence-retrieval";
+import {
+  expandVaultQueryForEmbedding,
+  expandVaultQueryVariants,
+  mergeVaultHitsRrf,
+  type MedicalVaultSearchHit,
+} from "@repo/evidence-retrieval";
 
 import { createServiceRoleClient } from "@/utils/supabase/admin";
 
@@ -102,16 +107,26 @@ async function searchMedicalVaultFts(args: {
   } catch {
     return [];
   }
-  const params = {
-    query_text: args.query.slice(0, 200),
-    match_count: Math.min(Math.max(args.limit, 1), 12),
-  };
-  const ru = await supabase.rpc("match_medical_vault_chunks_fts_ru", params);
-  if (!ru.error && Array.isArray(ru.data)) return mapVaultRows(ru.data);
+  const matchCount = Math.min(Math.max(args.limit, 1), 12);
+  const variants = expandVaultQueryVariants(args.query);
+  const lists: MedicalVaultSearchHit[][] = [];
 
-  const legacy = await supabase.rpc("match_medical_vault_chunks_fts", params);
-  if (legacy.error || !Array.isArray(legacy.data)) return [];
-  return mapVaultRows(legacy.data);
+  for (const queryText of variants) {
+    const params = { query_text: queryText, match_count: matchCount };
+    const ru = await supabase.rpc("match_medical_vault_chunks_fts_ru", params);
+    if (!ru.error && Array.isArray(ru.data)) {
+      lists.push(mapVaultRows(ru.data));
+      continue;
+    }
+    const legacy = await supabase.rpc("match_medical_vault_chunks_fts", params);
+    if (!legacy.error && Array.isArray(legacy.data)) {
+      lists.push(mapVaultRows(legacy.data));
+    }
+  }
+
+  if (lists.length === 0) return [];
+  if (lists.length === 1) return lists[0]!.slice(0, matchCount);
+  return lists.reduce((acc, list) => mergeVaultHitsRrf(acc, list, matchCount), [] as MedicalVaultSearchHit[]);
 }
 
 /**
@@ -131,7 +146,7 @@ export async function searchMedicalVault(args: {
   }
 
   const limit = Math.min(Math.max(args.limit, 1), 12);
-  const embedding = await embedQueryText(args.query);
+  const embedding = await embedQueryText(expandVaultQueryForEmbedding(args.query));
 
   let semantic: MedicalVaultSearchHit[] = [];
   if (embedding) {
