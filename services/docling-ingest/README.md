@@ -33,6 +33,23 @@ python run_docling_spike.py --input path/to/open.pdf --out /tmp/chunks.json
 
 Требует Python ≥3.10, диск под модели OCR. **Не** ставьте в `apps/web` dependencies.
 
+## Open guidelines → vault (review_required)
+
+После Docling POC (`/tmp/sonogyn-poc/out/docling/*.json`):
+
+```bash
+cd services/docling-ingest
+# dry-run (без БД)
+python3 seed_open_guidelines.py --dry-run
+# запись в Supabase (service role из apps/web/.env.local)
+python3 seed_open_guidelines.py --apply
+```
+
+Кладёт 4 открытых источника (РАЭ, ВОЗ NC, ETA CC BY, приказ 557н текст) со статусом `review_required`, `rag_allowed=false`.  
+Скан 557н **не** загружается (ошибки OCR).  
+Публикация — только через Source Studio (`/admin/source-studio`) после ревью врача.  
+ВОЗ CC BY-NC-SA: не включать в коммерческий RAG без юридической проверки.
+
 ## Следующий шаг после spike
 
 ADR-VEC: embed → `source_chunks.embedding` (pgvector) и bake-off vs Qdrant — отдельный GO.

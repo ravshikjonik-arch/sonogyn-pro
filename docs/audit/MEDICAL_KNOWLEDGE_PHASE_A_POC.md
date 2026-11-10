@@ -176,4 +176,4 @@ alter table public.source_chunks drop column if exists content_tsv;
 1. ~~RAGFlow~~ — отложено до масштабирования (AD-6 ✅).
 2. ~~FTS-ru на prod~~ — применено 2026-11-10 (AD-2 ✅). Старая `simple`-миграция не нужна.
 3. ~~AD-4 аббревиатуры~~ — в коде (✅).
-4. **Phase B (когда будете готовы):** наполнение vault открытыми КР/приказами через Docling + ревью врача; включение `EVIDENCE_MEDICAL_VAULT` / `EVIDENCE_MEDICAL_VAULT_FTS` после появления ключа эмбеддингов и опубликованных чанков; ingest-воркер рядом с `services/docling-ingest`.
+4. **Phase B (начато 2026-11-10):** в production vault загружены 4 открытых источника через Docling → `review_required` / `rag_allowed=false` (222 чанка с page_start). Скрипт: `services/docling-ingest/seed_open_guidelines.py`. Скан 557н не загружен. ВОЗ — CC BY-NC-SA (не публиковать в коммерческий RAG без юр. проверки). Дальше: ревью врача в `/admin/source-studio` → Publish → затем флаги vault/FTS + embeddings.
