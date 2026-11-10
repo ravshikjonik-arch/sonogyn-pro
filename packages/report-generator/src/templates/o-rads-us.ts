@@ -1,5 +1,11 @@
 import { evaluateAdnexTriangulation, type AdnexCalcInput } from "@repo/adnex-education";
-import { calculateORADS, type OradsInput, type OradsResult } from "@repo/orads-us/pro";
+import {
+  calculateORADS,
+  oradsCategoryLabel,
+  oradsFinalCategory,
+  type OradsInput,
+  type OradsResult,
+} from "@repo/orads-us/pro";
 import { renderAdnexStructuredReport } from "@repo/report-engine";
 
 import { mapOradsToAdnexSreInput } from "../adapters/map-orads-to-sre-input";
@@ -25,13 +31,13 @@ function parseOradsInput(raw: Record<string, unknown>): OradsInput {
   return raw as OradsInput;
 }
 
+function isOradsResult(value: unknown): value is OradsResult {
+  return Boolean(value) && typeof value === "object" && "category" in (value as object) && "riskText" in (value as object);
+}
+
 function parseOradsResult(outputs: Record<string, unknown>, input: OradsInput): OradsResult {
-  if (typeof outputs.category === "number") {
-    return outputs as unknown as OradsResult;
-  }
-  if (outputs.result && typeof (outputs.result as OradsResult).category === "number") {
-    return outputs.result as OradsResult;
-  }
+  if (isOradsResult(outputs.result)) return outputs.result;
+  if (isOradsResult(outputs)) return outputs;
   return calculateORADS(input);
 }
 
@@ -40,7 +46,11 @@ export function renderOradsUsReport(payload: CalculatorReportPayload): Generated
   const result = parseOradsResult(payload.outputs, input);
   const missingFields: string[] = [];
 
-  const tri = evaluateAdnexTriangulation(input as AdnexCalcInput, result.category);
+  const finalCategory = oradsFinalCategory(result);
+  const tri = finalCategory != null ? evaluateAdnexTriangulation(input as AdnexCalcInput, finalCategory) : null;
+  const categoryLabel = oradsCategoryLabel(result);
+  const categoryValue = categoryLabel.replace(/^O-RADS:?\s*/, "");
+  const missingData = result.missing?.length ? `Не хватает данных: ${result.missing.join("; ")}.` : "";
   const sreInput = mapOradsToAdnexSreInput(input, result, undefined, tri);
   const sre = renderAdnexStructuredReport(sreInput, { locale: "ru" });
 
@@ -77,7 +87,8 @@ export function renderOradsUsReport(payload: CalculatorReportPayload): Generated
       missingFields,
     ),
     "",
-    `КАТЕГОРИЯ O-RADS US: ${result.category} — ${result.riskText}`,
+    `КАТЕГОРИЯ O-RADS US: ${categoryValue} — ${result.riskText}`,
+    missingData,
     result.patternLabel ? `Паттерн: ${result.patternLabel}.` : "",
     (() => {
       const adnexLine = sre.impression
@@ -87,8 +98,8 @@ export function renderOradsUsReport(payload: CalculatorReportPayload): Generated
     })(),
     "",
     "ЗАКЛЮЧЕНИЕ:",
-    `Категория O-RADS US ${result.category}. ${result.recommendation}`,
-    tri.managementRu ? `Тактика (assistive): ${tri.managementRu}` : "",
+    `Категория O-RADS US ${categoryValue}. ${missingData ? `${missingData} ` : ""}${result.recommendation}`,
+    tri?.managementRu ? `Тактика (assistive): ${tri.managementRu}` : "",
     "",
     "ДИСКЛЕЙМЕР:",
     REPORT_GENERATOR_DISCLAIMER_RU,
@@ -104,7 +115,7 @@ export function renderOradsUsReport(payload: CalculatorReportPayload): Generated
       {
         id: "category",
         title: "КАТЕГОРИЯ O-RADS US",
-        body: `O-RADS ${result.category} — ${result.riskText}`,
+        body: `${categoryLabel} — ${result.riskText}`,
       },
       {
         id: "conclusion",

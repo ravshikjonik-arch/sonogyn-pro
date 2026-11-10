@@ -7,7 +7,7 @@ import { useOradsCaseHistory } from "./useOradsCaseHistory";
 import {
   buildUnifiedReportPlain,
   isUs2022StoredCase,
-  storedCaseCategory,
+  storedCaseCategoryLabel,
   storedCaseRecommendation,
   storedCaseRiskLabel,
 } from "../storedCaseHelpers";
@@ -45,7 +45,7 @@ export default function ORADSHistoryDetailsScreen({ route, navigation }: Props) 
       </View>
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.card}>
-          <Text style={styles.cat}>O-RADS {storedCaseCategory(item)}</Text>
+          <Text style={styles.cat}>{storedCaseCategoryLabel(item)}</Text>
           <Text style={styles.time}>{new Date(item.at).toLocaleString()}</Text>
           <Text style={styles.line}>Риск: {storedCaseRiskLabel(item)}</Text>
           <Text style={styles.line}>Обоснование: {item.result.rationale}</Text>

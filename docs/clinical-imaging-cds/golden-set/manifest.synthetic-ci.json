@@ -27,7 +27,8 @@
         "structure": "unilocular",
         "unilocularSubtype": "simple_cyst"
       },
-      "expectedCategory": 2
+      "expectedCategory": null,
+      "expectedNote": "Без трёх размеров (Д×Ш×В) категория O-RADS не выставляется; прежний эталон без размеров — 2."
     },
     {
       "id": "gyn-003",
@@ -38,9 +39,12 @@
         "lesionKind": "nonphysiological",
         "structure": "unilocular",
         "unilocularSubtype": "simple_cyst",
-        "lengthMm": 70
+        "lengthMm": 70,
+        "widthMm": 56,
+        "heightMm": 49
       },
-      "expectedCategory": 3
+      "expectedCategory": 2,
+      "expectedNote": "Сверено врачом 10.11.2026 по O-RADS US v2022; прежний эталон — 3."
     },
     {
       "id": "gyn-004",
@@ -54,7 +58,8 @@
         "solidType": "irregular",
         "bloodFlow": "moderate"
       },
-      "expectedCategory": 4
+      "expectedCategory": null,
+      "expectedNote": "Без трёх размеров (Д×Ш×В) категория O-RADS не выставляется; прежний эталон без размеров — 4."
     },
     {
       "id": "gyn-005",
@@ -67,7 +72,8 @@
         "solidType": "irregular",
         "bloodFlow": "marked"
       },
-      "expectedCategory": 5
+      "expectedCategory": null,
+      "expectedNote": "Без трёх размеров (Д×Ш×В) категория O-RADS не выставляется; прежний эталон без размеров — 5."
     },
     {
       "id": "gyn-006",
@@ -79,9 +85,12 @@
         "structure": "unilocular",
         "unilocularSubtype": "simple_cyst",
         "lengthMm": 55,
+        "widthMm": 44,
+        "heightMm": 38.5,
         "ascites": true
       },
-      "expectedCategory": 4
+      "expectedCategory": 2,
+      "expectedNote": "Сверено врачом 10.11.2026 по O-RADS US v2022; прежний эталон — 4."
     },
     {
       "id": "gyn-007",
@@ -97,7 +106,8 @@
         "widthMm": 100,
         "heightMm": 90
       },
-      "expectedCategory": 3
+      "expectedCategory": null,
+      "expectedNote": "Не указаны ни цветовая шкала, ни кровоток — категория O-RADS не выставляется; прежний эталон — 3."
     },
     {
       "id": "gyn-008",
@@ -114,7 +124,8 @@
         "widthMm": 100,
         "heightMm": 90
       },
-      "expectedCategory": 2
+      "expectedCategory": 3,
+      "expectedNote": "Сверено врачом 10.11.2026 по O-RADS US v2022; прежний эталон — 2."
     },
     {
       "id": "gyn-009",
@@ -127,7 +138,9 @@
         "lesionKind": "nonphysiological",
         "structure": "unilocular",
         "unilocularSubtype": "simple_cyst",
-        "lengthMm": 45
+        "lengthMm": 45,
+        "widthMm": 36,
+        "heightMm": 31.5
       },
       "expectedCategory": 2
     },
@@ -144,7 +157,8 @@
         "solidType": "papillary",
         "papillaryProjectionCount": "2"
       },
-      "expectedCategory": 4
+      "expectedCategory": null,
+      "expectedNote": "Без трёх размеров (Д×Ш×В) категория O-RADS не выставляется; прежний эталон без размеров — 4."
     },
     {
       "id": "gyn-011",
@@ -159,7 +173,8 @@
         "solidType": "papillary",
         "papillaryProjectionCount": "4plus"
       },
-      "expectedCategory": 5
+      "expectedCategory": null,
+      "expectedNote": "Без трёх размеров (Д×Ш×В) категория O-RADS не выставляется; прежний эталон без размеров — 5."
     },
     {
       "id": "gyn-012",
@@ -184,7 +199,9 @@
         "lesionKind": "nonphysiological",
         "structure": "unilocular",
         "unilocularSubtype": "simple_cyst",
-        "lengthMm": 30
+        "lengthMm": 30,
+        "widthMm": 24,
+        "heightMm": 21
       },
       "expectedCategory": 2
     },
@@ -197,9 +214,12 @@
         "lesionKind": "nonphysiological",
         "structure": "unilocular",
         "unilocularSubtype": "classic_benign",
-        "lengthMm": 40
+        "lengthMm": 40,
+        "widthMm": 32,
+        "heightMm": 28
       },
-      "expectedCategory": 3
+      "expectedCategory": 2,
+      "expectedNote": "Сверено врачом 10.11.2026 по O-RADS US v2022; прежний эталон — 3."
     },
     {
       "id": "gyn-015",
@@ -211,9 +231,12 @@
         "structure": "multilocular",
         "septaThickness": "thick",
         "solidComponent": false,
-        "lengthMm": 45
+        "lengthMm": 45,
+        "widthMm": 36,
+        "heightMm": 31.5
       },
-      "expectedCategory": 3
+      "expectedCategory": null,
+      "expectedNote": "Не указаны ни цветовая шкала, ни кровоток — категория O-RADS не выставляется; прежний эталон — 3."
     },
     {
       "id": "gyn-016",
@@ -225,7 +248,9 @@
         "structure": "solid",
         "solidType": "smooth",
         "bloodFlow": "minimal",
-        "lengthMm": 25
+        "lengthMm": 25,
+        "widthMm": 20,
+        "heightMm": 17.5
       },
       "expectedCategory": 4
     },
@@ -239,9 +264,12 @@
         "structure": "solid",
         "solidType": "irregular",
         "bloodFlow": "moderate",
-        "lengthMm": 35
+        "lengthMm": 35,
+        "widthMm": 28,
+        "heightMm": 24.5
       },
-      "expectedCategory": 4
+      "expectedCategory": 5,
+      "expectedNote": "Сверено врачом 10.11.2026 по O-RADS US v2022; прежний эталон — 4."
     },
     {
       "id": "gyn-018",
@@ -251,7 +279,9 @@
         "menopause": "pre",
         "lesionKind": "physiological",
         "physiologicalType": "corpus_luteum",
-        "lengthMm": 28
+        "lengthMm": 28,
+        "widthMm": 22.4,
+        "heightMm": 19.6
       },
       "expectedCategory": 1
     },
@@ -268,7 +298,8 @@
         "solidType": "smooth",
         "solidComponentMm": 5
       },
-      "expectedCategory": 3
+      "expectedCategory": null,
+      "expectedNote": "Без трёх размеров (Д×Ш×В) категория O-RADS не выставляется; прежний эталон без размеров — 3."
     },
     {
       "id": "gyn-020",
@@ -282,7 +313,8 @@
         "solidType": "papillary",
         "papillaryProjectionCount": "3"
       },
-      "expectedCategory": 4
+      "expectedCategory": null,
+      "expectedNote": "Без трёх размеров (Д×Ш×В) категория O-RADS не выставляется; прежний эталон без размеров — 4."
     },
     {
       "id": "gyn-021",
@@ -297,7 +329,8 @@
         "bloodFlow": "marked",
         "ascites": true
       },
-      "expectedCategory": 4
+      "expectedCategory": null,
+      "expectedNote": "Без трёх размеров (Д×Ш×В) категория O-RADS не выставляется; прежний эталон без размеров — 4."
     },
     {
       "id": "gyn-022",

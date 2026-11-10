@@ -71,8 +71,17 @@ export type OradsInput = {
   incompleteSeptum?: boolean;
 };
 
+/** final — category set by the engine; otherwise category is never a guessed number. */
+export type OradsProStatus = "final" | "needs_data" | "reclassify" | "technically_incomplete";
+
+export type OradsProFinalCategory = 1 | 2 | 3 | 4 | 5;
+
 export type OradsProResult = {
-  category: 1 | 2 | 3 | 4 | 5;
+  status: OradsProStatus;
+  /** 1–5 only when status is "final"; 0 for "technically_incomplete"; null otherwise. */
+  category: OradsProFinalCategory | 0 | null;
+  /** What the doctor still has to fill in (status "needs_data"). */
+  missing: string[];
   riskText: string;
   /** Вероятный паттерн для протокола (функциональная киста, фолликул и т.д.). */
   patternLabel?: string;

@@ -1,4 +1,4 @@
-import type { OradsInput, OradsResult } from "./types";
+import type { OradsInput, OradsProFinalCategory, OradsResult } from "./types";
 import { calcOvaryEllipsoidVolumeMl, formatMeasurementDecimal } from "@repo/medical-calculations";
 
 import { evaluateOradsUs2022 } from "../us2022/evaluateOradsUs2022";
@@ -14,7 +14,7 @@ function calcVolumeMl(lengthMm?: number, widthMm?: number, heightMm?: number): n
   return calcOvaryEllipsoidVolumeMl(lengthMm, widthMm, heightMm);
 }
 
-const riskTextByCategory: Record<OradsResult["category"], string> = {
+const riskTextByCategory: Record<OradsProFinalCategory, string> = {
   1: "Норма / физиология",
   2: "Риск ЗНО <1%",
   3: "Риск ЗНО 1–10%",
@@ -44,7 +44,9 @@ function us2022ResultToPro(
       extras?.extraovarianNote,
     ].filter(Boolean);
     return {
-      category: blocked ? 4 : 3,
+      status: blocked ? "reclassify" : "needs_data",
+      category: null,
+      missing: grid.missing,
       riskText: blocked ? "Требуется переклассификация" : "Нужны данные для расчёта",
       patternLabel,
       recommendation: grid.management,
@@ -55,10 +57,6 @@ function us2022ResultToPro(
     };
   }
 
-  const category = grid.category === 0 ? 3 : grid.category;
-  const riskText =
-    grid.category === 0 ? "O-RADS 0 (технически неполно)" : grid.risk.replace("< 1%", "<1%") || riskTextByCategory[category];
-
   const warnings = [
     extras?.structureReclassified ? reclassNote : undefined,
     patientWarning,
@@ -66,9 +64,26 @@ function us2022ResultToPro(
     extras?.extraovarianNote,
   ].filter(Boolean);
 
+  if (grid.category === 0) {
+    return {
+      status: "technically_incomplete",
+      category: 0,
+      missing: [],
+      riskText: "Технически неполное исследование",
+      patternLabel,
+      recommendation: grid.management,
+      rationale: grid.rationale,
+      volumeMl,
+      structureReclassified: extras?.structureReclassified || undefined,
+      warning: warnings.length ? warnings.join(" ") : undefined,
+    };
+  }
+
   return {
-    category,
-    riskText: category in riskTextByCategory ? riskTextByCategory[category as OradsResult["category"]] : riskText,
+    status: "final",
+    category: grid.category,
+    missing: [],
+    riskText: riskTextByCategory[grid.category],
     patternLabel,
     recommendation: grid.management,
     rationale: extras?.structureReclassified ? `${reclassNote} ${grid.rationale}` : grid.rationale,
@@ -141,7 +156,46 @@ function applyOradsUsStructure(input: OradsInput): { input: OradsInput; structur
   };
 }
 
+const DIMENSION_NAMES_RU = [
+  ["lengthMm", "длина"],
+  ["widthMm", "ширина"],
+  ["heightMm", "высота"],
+] as const;
+
+/** Engine asks for the max diameter; the three-dimension rule below replaces that request. */
+const ENGINE_SIZE_REQUEST = /размер/i;
+
+function missingDimensionsRu(input: OradsInput): string[] {
+  return DIMENSION_NAMES_RU.filter(([key]) => {
+    const v = input[key];
+    return !(typeof v === "number" && Number.isFinite(v) && v > 0);
+  }).map(([, name]) => name);
+}
+
+/**
+ * Product rule (SonoGyn Pro): every O-RADS calculation needs all three dimensions
+ * (length × width × height, mm, 0.1 mm); without them no category is shown.
+ */
 export function calculateORADS(input: OradsInput): OradsResult {
+  const result = calculateOradsFromFeatures(input);
+  const absent = missingDimensionsRu(input);
+  if (absent.length === 0) return result;
+
+  const sizeRequest = `Укажите три размера образования (длина × ширина × высота, мм) — нет: ${absent.join(", ")}`;
+  const otherMissing = result.missing.filter((m) => !ENGINE_SIZE_REQUEST.test(m));
+  return {
+    ...result,
+    status: result.status === "reclassify" ? "reclassify" : "needs_data",
+    category: null,
+    missing: [sizeRequest, ...otherMissing],
+    riskText: result.status === "reclassify" ? result.riskText : "Нужны данные для расчёта",
+    patternLabel: result.status === "final" ? undefined : result.patternLabel,
+    recommendation: "Категория будет рассчитана после ввода трёх размеров и остальных признаков.",
+    rationale: result.status === "final" ? "Без трёх размеров категория O-RADS не выставляется." : result.rationale,
+  };
+}
+
+function calculateOradsFromFeatures(input: OradsInput): OradsResult {
   const { input: norm, structureReclassified } = applyOradsUsStructure(input);
   const maxCm = Math.max(toCm(norm.lengthMm) ?? 0, toCm(norm.widthMm) ?? 0, toCm(norm.heightMm) ?? 0);
   const volumeMl = calcVolumeMl(norm.lengthMm, norm.widthMm, norm.heightMm);
@@ -172,7 +226,9 @@ export function calculateORADS(input: OradsInput): OradsResult {
       }
     }
     return {
+      status: "final",
       category: 1,
+      missing: [],
       riskText: "Норма / физиология",
       recommendation: "Рутинное наблюдение; при СПКЯ — клиническая корреляция (AFC, аменорея, андрогены).",
       rationale,
@@ -190,7 +246,9 @@ export function calculateORADS(input: OradsInput): OradsResult {
     maxCm <= 3
   ) {
     return {
+      status: "final",
       category: 1,
+      missing: [],
       riskText: "Физиологическое",
       recommendation: "Рутинное наблюдение по клинической необходимости.",
       rationale: "Пременопауза + физиологическое образование ≤3 см.",
@@ -207,8 +265,10 @@ export function calculateORADS(input: OradsInput): OradsResult {
   }
 
   return {
-    category: 3,
-    riskText: riskTextByCategory[3],
+    status: "needs_data",
+    category: null,
+    missing: ["Уточните тип образования и его морфологию"],
+    riskText: "Нужны данные для расчёта",
     patternLabel: derivePatternLabel(norm),
     recommendation: "Уточните морфологию и размер образования для расчёта по O-RADS US v2022.",
     rationale: "Недостаточно структурированных признаков для автоматической категории.",
@@ -217,9 +277,43 @@ export function calculateORADS(input: OradsInput): OradsResult {
   };
 }
 
+/** Results saved before `status` existed (history, cases) carry only a 1–5 category and stay final. */
+export function isOradsFinal(
+  result: OradsResult,
+): result is OradsResult & { status: "final"; category: OradsProFinalCategory } {
+  const status = (result as Partial<OradsResult>).status;
+  return (
+    (status === "final" || status === undefined) &&
+    typeof result.category === "number" &&
+    result.category >= 1 &&
+    result.category <= 5
+  );
+}
+
+/** Engine category 1–5, or null when the engine did not assign one. */
+export function oradsFinalCategory(result: OradsResult): OradsProFinalCategory | null {
+  return isOradsFinal(result) ? result.category : null;
+}
+
+/** Heading for screens and reports; never shows a number the engine did not assign. */
+export function oradsCategoryLabel(result: OradsResult): string {
+  if (isOradsFinal(result)) return `O-RADS ${result.category}`;
+  if (result.status === "technically_incomplete") return "O-RADS 0";
+  return "O-RADS: категория не определена";
+}
+
+function missingOf(result: OradsResult): string[] {
+  return (result as Partial<OradsResult>).missing ?? [];
+}
+
+function missingLine(result: OradsResult): string {
+  const missing = missingOf(result);
+  return missing.length ? ` Не хватает: ${missing.join("; ")}.` : "";
+}
+
 export function buildProtocolOneLiner(result: OradsResult): string {
   const pattern = result.patternLabel ? `${result.patternLabel}. ` : "";
-  return `O-RADS ${result.category}. ${pattern}${result.riskText} ${result.recommendation}`;
+  return `${oradsCategoryLabel(result)}. ${pattern}${result.riskText}.${missingLine(result)} ${result.recommendation}`;
 }
 
 export function buildReportText(input: OradsInput, result: OradsResult): string {
@@ -240,7 +334,8 @@ export function buildReportText(input: OradsInput, result: OradsResult): string 
       : "не указан";
 
   return [
-    `O-RADS: ${result.category} (${result.riskText})`,
+    `${oradsCategoryLabel(result)} (${result.riskText})`,
+    missingOf(result).length ? `Не хватает данных: ${missingOf(result).join("; ")}` : null,
     result.patternLabel ? `Паттерн: ${result.patternLabel}` : null,
     `Пациентка: ${ageLine}, ${menopauseLine}${input.menopause === "pre" ? `, ${cycleLine}` : ""}`,
     `Локализация: ${input.localization === "extraovarian" ? "Экстраовариальная" : "Овариальная/аднексальная"}`,

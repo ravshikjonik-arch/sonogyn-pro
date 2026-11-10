@@ -24,6 +24,8 @@ import {
   ORADS_ZERO_OPTIONS,
   ORADS_VERSION_LABEL,
   buildProtocolOneLiner,
+  oradsCategoryLabel,
+  oradsFinalCategory,
   type BloodFlow,
   type IotaColorScore,
   getOradsNosologyBySubtype,
@@ -88,20 +90,22 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [oradsZero, setOradsZero] = useState<OradsZeroId | null>(null);
+  const categoryLabel = oradsCategoryLabel(f.result);
+  const finalCategory = oradsFinalCategory(f.result);
 
   const exportSpec = useMemo(
     () =>
       plainTextToDocumentSpec({
-        filenameBase: `orads-${f.result.category}`,
-        title: `O-RADS ${f.result.category} · ACR / IOTA`,
+        filenameBase: `orads-${finalCategory ?? "draft"}`,
+        title: `${categoryLabel} · ACR / IOTA`,
         text: f.reportText,
         sectionHeading: "Заключение",
       }),
-    [f.reportText, f.result.category],
+    [f.reportText, finalCategory, categoryLabel],
   );
 
   const zeroMeta = ORADS_ZERO_OPTIONS.find((z) => z.id === oradsZero);
-  const showTriangulation = Boolean(f.menopause && f.lesionKind && !oradsZero);
+  const showTriangulation = Boolean(f.menopause && f.lesionKind && !oradsZero && f.triangulation);
   const nosologyPreview = getOradsNosologyBySubtype(f.unilocularSubtype);
 
   const protocolLine = useMemo(() => {
@@ -122,7 +126,7 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
         slug: "o-rads",
         calculatorCode: "O_RADS",
         payload: { input: f.input, result: f.result, triangulation: f.triangulation },
-        summary: `O-RADS ${f.result.category} · ${f.result.riskText}`,
+        summary: `${categoryLabel} · ${f.result.riskText}`,
       }).then((res) => {
         if (res.ok) toast.success("Сохранено в истории калькуляторов");
         else toast.error(res.message);
@@ -135,11 +139,11 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
   }
 
   function copyShareCard() {
-    const categoryLabel = oradsZero && zeroMeta ? zeroMeta.label : `O-RADS ${f.result.category}`;
+    const shownLabel = oradsZero && zeroMeta ? zeroMeta.label : categoryLabel;
     const riskText = oradsZero && zeroMeta ? "O-RADS 0" : f.result.riskText;
     const recommendation = oradsZero && zeroMeta ? zeroMeta.recommendation : f.result.recommendation;
     const text = formatOradsShareCard({
-      categoryLabel,
+      categoryLabel: shownLabel,
       riskText,
       recommendation,
       protocolLine,
@@ -154,7 +158,7 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
   function openIotaAdnexCalculator() {
     saveIotaBridgePayload({
       adnex: mapOradsProToAdnexInput(f.input),
-      oradsCategory: oradsZero ? null : f.result.category,
+      oradsCategory: oradsZero ? null : finalCategory,
     });
     router.push("/tools/calc/rads/iota");
   }
@@ -164,13 +168,13 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
       toast.error("Заполните менопаузу и тип образования для протокола");
       return;
     }
-    const categoryLabel = oradsZero && zeroMeta ? zeroMeta.label : `O-RADS ${f.result.category}`;
+    const shownLabel = oradsZero && zeroMeta ? zeroMeta.label : categoryLabel;
     const riskText = oradsZero && zeroMeta ? "O-RADS 0" : f.result.riskText;
     const recommendation = oradsZero && zeroMeta ? zeroMeta.recommendation : f.result.recommendation;
-    saveOradsBridgePayload({ input: f.input, result: f.result, triangulation: f.triangulation });
+    saveOradsBridgePayload({ input: f.input, result: f.result, triangulation: f.triangulation ?? undefined });
     saveStructuredCalcPending({
       system: "O-RADS",
-      category: categoryLabel,
+      category: shownLabel,
       summary: [riskText, recommendation].filter(Boolean).join(" · "),
     });
     router.push("/reports/adnex");
@@ -583,7 +587,7 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
               </CalcStepCard>
             ) : null}
 
-            {showTriangulation ? (
+            {showTriangulation && f.triangulation ? (
               <>
                 <AdnexConsensusPanel triangulation={f.triangulation} />
                 <IotaConsensusWebPanel consensus={f.iotaConsensus} />
@@ -609,12 +613,12 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
 
             {showTriangulation && f.reportText.trim() ? (
               <CalculatorReportPanel
-                title={`O-RADS ${f.result.category} · черновик`}
+                title={`${categoryLabel} · черновик`}
                 reportText={f.reportText}
-                filenameBase={`orads-${f.result.category}`}
+                filenameBase={`orads-${finalCategory ?? "draft"}`}
                 sharePath="/tools/calc/rads/o-rads"
                 shareParams={{
-                  category: f.result.category,
+                  category: finalCategory,
                   localization: f.input.localization ?? null,
                   ovarySide: f.input.ovarySide ?? null,
                   menopause: f.input.menopause ?? null,
@@ -624,7 +628,7 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
                 repeatHref="/tools/calc/rads/o-rads"
                 onSaveToHistory={onSave}
                 saveHistoryLabel="Сохранить в облаке"
-                aiRefine={{ toolId: "o-rads-us", category: f.result.category }}
+                aiRefine={{ toolId: "o-rads-us", category: finalCategory }}
               />
             ) : null}
             <DocumentExportToolbar spec={exportSpec} compact />
@@ -635,7 +639,11 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
       <div
         className={cn(
           "fixed inset-x-0 bottom-0 z-30 border-t-2 p-3 shadow-2xl lg:left-64",
-          oradsZero ? "border-slate-400 bg-slate-100" : categoryColors(f.result.category),
+          oradsZero
+            ? "border-slate-400 bg-slate-100"
+            : finalCategory != null
+              ? categoryColors(finalCategory)
+              : "border-[var(--clinical-border)] bg-[var(--clinical-surface)]",
         )}
       >
         <div className="mx-auto flex max-w-3xl flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
@@ -647,8 +655,11 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
               </>
             ) : (
               <>
-                <p className="text-2xl font-black leading-tight sm:text-3xl">O-RADS {f.result.category}</p>
+                <p className="text-2xl font-black leading-tight sm:text-3xl">{categoryLabel}</p>
                 <p className="font-bold">{f.result.riskText}</p>
+                {f.result.missing.length ? (
+                  <p className="text-sm font-semibold">Не хватает: {f.result.missing.join("; ")}</p>
+                ) : null}
                 {f.result.patternLabel ? (
                   <p className="text-sm font-semibold text-[var(--clinical-primary-deep)]">{f.result.patternLabel}</p>
                 ) : null}

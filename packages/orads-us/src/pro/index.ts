@@ -2,6 +2,9 @@ export {
   buildProtocolOneLiner,
   buildReportText,
   calculateORADS,
+  isOradsFinal,
+  oradsCategoryLabel,
+  oradsFinalCategory,
 } from "./oradsCalculator";
 export { evaluateOradsUs2022, ORADS_US2022_META } from "../us2022/evaluateOradsUs2022";
 export { mapProInputToUs2022 } from "../us2022/mapProInputToUs2022";
@@ -27,7 +30,9 @@ export type {
   NormalOvaryPattern,
   OvarySide,
   OradsInput,
+  OradsProFinalCategory,
   OradsProResult,
+  OradsProStatus,
   OradsResult,
   PapillaryProjectionCount,
   PapillaryProjectionSurface,

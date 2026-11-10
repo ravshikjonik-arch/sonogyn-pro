@@ -1,5 +1,6 @@
 import type { IotaColorScore, IotaLesionType, OradsInput, OradsResult, UnilocularSubtype } from "../types";
 import { formatMeasurementDecimal, formatMm } from "@repo/medical-calculations";
+import { oradsCategoryLabel, oradsFinalCategory } from "@repo/orads-us/pro";
 
 export const IOTA_CONSENSUS_2026 = {
   title:
@@ -200,7 +201,7 @@ export function evaluateIotaConsensus2026(input: OradsInput, orads: OradsResult)
   const missingFields = getMissingFields(input);
   const benignDescriptor = evaluateModifiedBenignDescriptor(input);
   const lesionType = deriveLesionType(input);
-  const highRiskFlag = !!input.ascites || !!input.peritonealNodules || orads.category >= 4;
+  const highRiskFlag = !!input.ascites || !!input.peritonealNodules || (oradsFinalCategory(orads) ?? 0) >= 4;
   const markedVascularity = input.iotaColorScore === "4" || input.bloodFlow === "marked";
   const papillaryHighCount = input.papillaryProjectionCount === "4plus";
   const solidComponentMeetsIota = (input.largestSolidDiameterMm ?? 0) >= 3 || !!input.solidComponent;
@@ -265,7 +266,7 @@ export function evaluateIotaConsensus2026(input: OradsInput, orads: OradsResult)
       step2: "Шаг 2: если образование не является очевидно доброкачественным, использовать структурированные переменные IOTA/ADNEX и экспертный маршрут.",
       route,
     },
-    harmonizedCategory: `O-RADS ${orads.category} + IOTA: ${descriptorStatusRu(benignDescriptor.status)}`,
+    harmonizedCategory: `${oradsCategoryLabel(orads)} + IOTA: ${descriptorStatusRu(benignDescriptor.status)}`,
     clinicalNote:
       "Приложение хранит структурированную реализацию консенсуса. Оно не воспроизводит полный текст Wiley и должно быть сверено с официальным документом перед клиническим запуском.",
     sourceUrl: IOTA_CONSENSUS_2026.sourceUrl,

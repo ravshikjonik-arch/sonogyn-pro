@@ -36,7 +36,8 @@ function run() {
     cystContent: "simple",
     menopause: "pre",
   });
-  expectEq("unilocular-ascites", r3.category, 5);
+  // Асцит сам по себе не повышает O-RADS 1–2 (v2022, сверено врачом 10.11.2026).
+  expectEq("unilocular-ascites", r3.category, 2);
 
   const r0 = evaluateOradsUs2022({
     ...initialOradsUs2022Input,

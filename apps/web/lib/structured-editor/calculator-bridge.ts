@@ -1,5 +1,6 @@
 import type { CalculatorSystem, StructuredCalculatorBlock } from "@repo/types";
 
+import { oradsCategoryLabel } from "@/lib/orads-pro";
 import { createCalculatorBlock } from "@/lib/structured-editor/document-sanitize";
 import {
   loadOradsBridgePayload,
@@ -40,7 +41,7 @@ export function clearStructuredCalcPending(): void {
 }
 
 export function oradsBridgeToStructuredBlock(payload: SreOradsBridgePayload): StructuredCalculatorBlock {
-  const category = `O-RADS ${payload.result.category}`;
+  const category = oradsCategoryLabel(payload.result);
   const summary = [
     payload.result.patternLabel,
     payload.result.riskText,
