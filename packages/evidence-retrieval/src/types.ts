@@ -33,6 +33,8 @@ export type MedicalVaultSearchHit = {
   quote: string;
   url: string;
   score: number;
+  pageStart?: number;
+  pageEnd?: number;
 };
 
 export type EvidenceRecordType =

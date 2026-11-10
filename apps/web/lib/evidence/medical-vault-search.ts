@@ -1,4 +1,4 @@
-import type { MedicalVaultSearchHit } from "@repo/evidence-retrieval";
+import { mergeVaultHitsRrf, type MedicalVaultSearchHit } from "@repo/evidence-retrieval";
 
 import { createServiceRoleClient } from "@/utils/supabase/admin";
 
@@ -72,24 +72,19 @@ function mapVaultRows(data: unknown[]): MedicalVaultSearchHit[] {
       quote: String(r.quote ?? "").slice(0, 480),
       url: r.external_url ? String(r.external_url) : "#",
       score: typeof r.similarity === "number" ? r.similarity : 0,
+      pageStart: typeof r.page_start === "number" ? r.page_start : undefined,
+      pageEnd: typeof r.page_end === "number" ? r.page_end : undefined,
     };
   });
 }
 
-/** Merge semantic + FTS by chunkId; keep max score. */
+/** Merge semantic + FTS by Reciprocal Rank Fusion (raw scores are not comparable). */
 export function mergeVaultHits(
   a: MedicalVaultSearchHit[],
   b: MedicalVaultSearchHit[],
   limit: number,
 ): MedicalVaultSearchHit[] {
-  const map = new Map<string, MedicalVaultSearchHit>();
-  for (const hit of [...a, ...b]) {
-    const prev = map.get(hit.chunkId);
-    if (!prev || hit.score > prev.score) map.set(hit.chunkId, hit);
-  }
-  return Array.from(map.values())
-    .sort((x, y) => y.score - x.score)
-    .slice(0, limit);
+  return mergeVaultHitsRrf(a, b, limit);
 }
 
 function isVaultFtsEnabled(): boolean {
@@ -107,12 +102,16 @@ async function searchMedicalVaultFts(args: {
   } catch {
     return [];
   }
-  const { data, error } = await supabase.rpc("match_medical_vault_chunks_fts", {
+  const params = {
     query_text: args.query.slice(0, 200),
     match_count: Math.min(Math.max(args.limit, 1), 12),
-  });
-  if (error || !Array.isArray(data)) return [];
-  return mapVaultRows(data);
+  };
+  const ru = await supabase.rpc("match_medical_vault_chunks_fts_ru", params);
+  if (!ru.error && Array.isArray(ru.data)) return mapVaultRows(ru.data);
+
+  const legacy = await supabase.rpc("match_medical_vault_chunks_fts", params);
+  if (legacy.error || !Array.isArray(legacy.data)) return [];
+  return mapVaultRows(legacy.data);
 }
 
 /**

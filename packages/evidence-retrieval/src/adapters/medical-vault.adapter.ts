@@ -1,5 +1,6 @@
 import { buildEvidenceRecord } from "../normalizer.js";
 import type { EvidenceSearchQuery } from "../types.js";
+import { formatVaultPages } from "../vault-merge.js";
 import { adapterResult, limitRecords, type AdapterContext, type EvidenceAdapter } from "./types.js";
 
 /**
@@ -32,7 +33,7 @@ export const medicalVaultAdapter: EvidenceAdapter = {
           journal: hit.organization,
           recordType: "guideline",
           relevanceScore: Math.min(1, Math.max(0.15, hit.score) - index * 0.02),
-          section: hit.section,
+          section: [hit.section, formatVaultPages(hit)].filter(Boolean).join(" · ") || undefined,
           quote: hit.quote.slice(0, 280),
         }),
       );
