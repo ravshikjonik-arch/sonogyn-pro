@@ -1,5 +1,5 @@
 import type { OradsInput, OradsProFinalCategory, OradsResult } from "./types";
-import { calcOvaryEllipsoidVolumeMl, formatMeasurementDecimal } from "@repo/medical-calculations";
+import { calcOvaryEllipsoidVolumeMl, formatDimensionsMmRu, formatMeasurementRu } from "@repo/medical-calculations";
 
 import { evaluateOradsUs2022 } from "../us2022/evaluateOradsUs2022";
 import { mapProInputToUs2022 } from "../us2022/mapProInputToUs2022";
@@ -219,10 +219,10 @@ function calculateOradsFromFeatures(input: OradsInput): OradsResult {
       : "Нормальное яичник без focal образования — O-RADS 1.";
     if (volumeMl != null) {
       if (norm.menopause === "pre" && volumeMl > 10) {
-        rationale += ` Объём ${volumeMl} мл (>10 мл) — поликистозная морфология по объёму.`;
+        rationale += ` Объём ${formatMeasurementRu(volumeMl)} мл (>10 мл) — поликистозная морфология по объёму.`;
       }
       if (norm.menopause === "post" && volumeMl > 5) {
-        rationale += ` Объём ${volumeMl} мл (>5 мл) в постменопаузе — проверьте менопаузальный статус.`;
+        rationale += ` Объём ${formatMeasurementRu(volumeMl)} мл (>5 мл) в постменопаузе — проверьте менопаузальный статус.`;
       }
     }
     return {
@@ -317,9 +317,10 @@ export function buildProtocolOneLiner(result: OradsResult): string {
 }
 
 export function buildReportText(input: OradsInput, result: OradsResult): string {
-  const dims = [input.lengthMm, input.widthMm, input.heightMm].every((v) => typeof v === "number" && v > 0)
-    ? `${formatMeasurementDecimal(input.lengthMm!)}×${formatMeasurementDecimal(input.widthMm!)}×${formatMeasurementDecimal(input.heightMm!)} мм`
-    : "не указаны";
+  const absent = missingDimensionsRu(input);
+  const dims =
+    formatDimensionsMmRu(input.lengthMm, input.widthMm, input.heightMm) ??
+    (absent.length === 3 ? "не указаны" : `не указаны полностью (нет: ${absent.join(", ")})`);
 
   const menopauseLine =
     input.menopause === "pre"
@@ -340,7 +341,7 @@ export function buildReportText(input: OradsInput, result: OradsResult): string 
     `Пациентка: ${ageLine}, ${menopauseLine}${input.menopause === "pre" ? `, ${cycleLine}` : ""}`,
     `Локализация: ${input.localization === "extraovarian" ? "Экстраовариальная" : "Овариальная/аднексальная"}`,
     `Размеры: ${dims}`,
-    `Объем: ${result.volumeMl == null ? "не рассчитан" : `${result.volumeMl} мл`}`,
+    `Объем: ${result.volumeMl == null ? "не рассчитан" : `${formatMeasurementRu(result.volumeMl)} мл`}`,
     `Асцит: ${input.ascites ? "да" : "нет"}`,
     `Кровоток: ${input.bloodFlow ?? "не указан"}`,
     `Обоснование: ${result.rationale}`,

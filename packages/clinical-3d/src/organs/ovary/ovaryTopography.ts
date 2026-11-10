@@ -72,7 +72,7 @@ export function ovaryClockSector(point: OvaryNormPoint): { hour: number; zone: "
   return { hour, zone: dist > 0.28 ? "peripheral" : "central" };
 }
 
-import { formatMeasurementDecimal } from "@repo/medical-calculations";
+import { formatMeasurementRu } from "@repo/medical-calculations";
 
 export function formatOvaryMarkerRu(marker: OvaryTopographyMarker): string {
   const side = marker.side === "right" ? "Правый яичник" : "Левый яичник";
@@ -81,7 +81,7 @@ export function formatOvaryMarkerRu(marker: OvaryTopographyMarker): string {
   const zoneRu = zone === "peripheral" ? "периферия (кортикальная зона)" : "центральная строма";
   const size =
     marker.sizeMm != null && marker.sizeMm > 0
-      ? `, ${formatMeasurementDecimal(marker.sizeMm)} мм`
+      ? `, ${formatMeasurementRu(marker.sizeMm)} мм`
       : "";
   return `${side}: ${kind}${size} — сектор ~${hour} ч, ${zoneRu}.`;
 }

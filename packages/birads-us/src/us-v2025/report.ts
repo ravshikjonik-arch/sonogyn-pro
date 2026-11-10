@@ -13,6 +13,7 @@ import {
   BIRADS_VASCULARITY_OPTIONS,
   type BiradsOption,
 } from "./lexicon";
+import { formatBreastMm, formatLesionDimensionsRu, missingLesionDimensionsRu } from "./study";
 import type { BreastLesion, BreastLymphStation, BreastSide, BreastStudyEvaluation, BreastStudyInput } from "./study";
 
 export type BreastReport = {
@@ -38,7 +39,6 @@ const STATION_RU: Record<BreastLymphStation, string> = {
 };
 const LN_ASSESSMENT_RU = { normal: "без особенностей", indeterminate: "неопределённые признаки", suspicious: "подозрительные признаки" } as const;
 
-const num = (v: number) => String(Math.round(v * 10) / 10).replace(".", ",");
 
 function label<T extends string>(options: BiradsOption<T>[], value: T | undefined): string | null {
   if (value === undefined) return null;
@@ -53,23 +53,16 @@ function line(name: string, value: string | null): string {
 function locationText(l: BreastLesion): string {
   const parts = [
     l.clock !== undefined ? `на ${l.clock} ч` : null,
-    l.distanceFromNippleMm !== undefined ? `${num(l.distanceFromNippleMm)} мм от соска` : null,
+    l.distanceFromNippleMm !== undefined ? `${formatBreastMm(l.distanceFromNippleMm)} мм от соска` : null,
     l.depth ? DEPTH_RU[l.depth] : null,
   ].filter(Boolean);
   return parts.length ? parts.join(", ") : "локализация не указана";
 }
 
 function dimsText(l: BreastLesion): string {
-  const d = l.dimensionsMm ?? {};
-  if (d.width !== undefined && d.anteroposterior !== undefined && d.length !== undefined) {
-    return `размерами ${num(d.width)} × ${num(d.anteroposterior)} × ${num(d.length)} мм (ширина × переднезадний × длина)`;
-  }
-  const parts = [
-    d.width !== undefined ? `ширина ${num(d.width)} мм` : null,
-    d.anteroposterior !== undefined ? `переднезадний ${num(d.anteroposterior)} мм` : null,
-    d.length !== undefined ? `длина ${num(d.length)} мм` : null,
-  ].filter(Boolean);
-  return parts.length ? `размеры: ${parts.join(", ")}` : "размеры не указаны";
+  const full = formatLesionDimensionsRu(l);
+  if (full) return `размерами ${full} (ширина × переднезадний × длина)`;
+  return `размеры не указаны полностью (нет: ${missingLesionDimensionsRu(l).join(", ")})`;
 }
 
 function findingLines(l: BreastLesion): string[] {

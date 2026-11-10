@@ -12,7 +12,7 @@ test("assistFromFreeText: fibroadenoma pattern → BI-RADS 3", () => {
   assert.equal(result.parsedInput.shape, "oval");
   assert.equal(result.parsedInput.echoPattern, "hypoechoic");
   assert.equal(result.parsedInput.margin, "circumscribed");
-  assert.match(result.parsedInput.localizationText ?? "", /12×8/);
+  assert.match(result.parsedInput.localizationText ?? "", /12,0×8,0 мм/);
 });
 
 test("AI assist never states a diagnosis", () => {

@@ -2,6 +2,7 @@ import type { BiradsInput } from "../birads-core";
 import { defaultBiradsBrochureInput, type BiradsBrochureInput } from "../biradsBrochure2025";
 import { mergeParsedBiradsInput } from "./merge-input";
 import { generateStructuredReport } from "./structured-report";
+import { formatBreastMm } from "../us-v2025/study";
 
 export type NlpAssistResult = {
   parsedInput: BiradsBrochureInput;
@@ -89,8 +90,9 @@ export function parseBiradsFreeText(text: string): { parsed: Partial<BiradsBroch
 
   const sizeMatch = text.match(/(\d+(?:[.,]\d+)?)\s*[×x*]\s*(\d+(?:[.,]\d+)?)\s*мм/i);
   if (sizeMatch) {
-    keywords.push(`размер ${sizeMatch[1]}×${sizeMatch[2]} мм`);
-    parsed.localizationText = `Образование ${sizeMatch[1]}×${sizeMatch[2]} мм`;
+    const ru = (raw: string) => formatBreastMm(Number(raw.replace(",", ".")));
+    keywords.push(`размер ${ru(sizeMatch[1])}×${ru(sizeMatch[2])} мм`);
+    parsed.localizationText = `Образование ${ru(sizeMatch[1])}×${ru(sizeMatch[2])} мм`;
   }
 
   return { parsed, keywords };

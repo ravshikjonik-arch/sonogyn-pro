@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { evaluateThyroidStudy, generateThyroidReport, maxNoduleDiameterMm, type ThyroidNodule, type ThyroidStudyInput } from "./index";
+import { evaluateThyroidStudy, generateThyroidReport, maxNoduleDiameterMm, missingNoduleDimensionsRu, type ThyroidNodule, type ThyroidStudyInput } from "./index";
 
 const euIso = { composition: "solid", echogenicity: "isoechoic", shape: "oval", margins: "smooth", microcalcifications: "absent" } as const;
 const euMild = { ...euIso, echogenicity: "mildly_hypoechoic" } as const;
@@ -29,8 +29,18 @@ const study = (nodules: ThyroidNodule[], extra: Partial<ThyroidStudyInput> = {})
 
 test("largest diameter comes from the entered dimensions", () => {
   assert.equal(maxNoduleDiameterMm(nodule("a", {})), 18);
-  assert.equal(maxNoduleDiameterMm(nodule("a", { dimensionsMm: { transverse: 9 } })), 9);
   assert.equal(maxNoduleDiameterMm(nodule("a", { dimensionsMm: undefined })), undefined);
+});
+
+test("size-based tactics need all three dimensions", () => {
+  const partial = nodule("a", { dimensionsMm: { longitudinal: 18, transverse: 9 } });
+  assert.equal(maxNoduleDiameterMm(partial), undefined);
+  assert.deepEqual(missingNoduleDimensionsRu(partial), ["переднезадний"]);
+  assert.equal(maxNoduleDiameterMm(nodule("a", { dimensionsMm: { longitudinal: 8.4, anteroposterior: 9.6, transverse: 7.1 } })), 9.6);
+  const input = study([nodule("n1", { eu: euMild, dimensionsMm: { longitudinal: 18 } })]);
+  const rep = generateThyroidReport(input, evaluateThyroidStudy(input), "eu");
+  assert.match(rep.descriptionRu, /размеры не указаны полностью \(нет: переднезадний, поперечный\)/);
+  assert.doesNotMatch(rep.tacticsRu, /ТАБ показана/);
 });
 
 test("multi-nodule: each nodule evaluated separately; highest category picked per system", () => {
@@ -50,8 +60,8 @@ test("multi-nodule: each nodule evaluated separately; highest category picked pe
 test("ties are broken by the larger nodule", () => {
   const r = evaluateThyroidStudy(
     study([
-      nodule("small", { eu: euMild, dimensionsMm: { longitudinal: 8 } }),
-      nodule("big", { eu: euMild, dimensionsMm: { longitudinal: 22 } }),
+      nodule("small", { eu: euMild, dimensionsMm: { longitudinal: 8, anteroposterior: 6, transverse: 5 } }),
+      nodule("big", { eu: euMild, dimensionsMm: { longitudinal: 22, anteroposterior: 17, transverse: 15 } }),
     ]),
   );
   assert.equal(r.highestEu, "big");
@@ -59,7 +69,7 @@ test("ties are broken by the larger nodule", () => {
 
 test("comparison flags FNA disagreement without merging the systems", () => {
   const r = evaluateThyroidStudy(
-    study([nodule("n1", { eu: euMild, acr: acrTr4, dimensionsMm: { longitudinal: 16 } })], { euProfile: "ETA_2023" }),
+    study([nodule("n1", { eu: euMild, acr: acrTr4, dimensionsMm: { longitudinal: 16, anteroposterior: 12, transverse: 10 } })], { euProfile: "ETA_2023" }),
   );
   const row = r.comparison[0];
   assert.equal(row.euCategory, 4);
@@ -68,7 +78,7 @@ test("comparison flags FNA disagreement without merging the systems", () => {
   assert.equal(row.acrFna, "indicated"); // TR4 ≥15
   assert.equal(row.fnaAgreement, true);
 
-  const r2 = evaluateThyroidStudy(study([nodule("n1", { eu: euMild, acr: acrTr4, dimensionsMm: { longitudinal: 15 } })]));
+  const r2 = evaluateThyroidStudy(study([nodule("n1", { eu: euMild, acr: acrTr4, dimensionsMm: { longitudinal: 15, anteroposterior: 11, transverse: 9 } })]));
   assert.equal(r2.comparison[0].euFna, "not_indicated"); // 15 is not >15
   assert.equal(r2.comparison[0].acrFna, "indicated"); // 15 ≥15
   assert.equal(r2.comparison[0].fnaAgreement, false);
@@ -93,7 +103,7 @@ test("invalid study data produces errors", () => {
 test("report is generated from actual input; missing findings are marked, not invented", () => {
   const input = study([nodule("n1", { eu: { composition: "solid", echogenicity: "mildly_hypoechoic" } })]);
   const rep = generateThyroidReport(input, evaluateThyroidStudy(input), "eu");
-  assert.match(rep.descriptionRu, /В правой доле определяется узловое образование, размерами 18 × 14 × 12 мм/);
+  assert.match(rep.descriptionRu, /В правой доле определяется узловое образование, размерами 18,0×14,0×12,0 мм/);
   assert.match(rep.descriptionRu, /Эхогенность: умеренно гипоэхогенный/);
   assert.match(rep.descriptionRu, /Форма: не оценено/);
   assert.match(rep.descriptionRu, /Контуры: не оценено/);

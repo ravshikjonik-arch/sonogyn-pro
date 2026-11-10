@@ -1,5 +1,5 @@
 /** Russian prose templates for SRE (Phase 1 · adnex). */
-import { formatMeasurementDecimal } from "@repo/medical-calculations";
+import { formatMeasurementRu } from "@repo/medical-calculations";
 
 export const ru = {
   report: {
@@ -27,7 +27,7 @@ export const ru = {
     solidType: { smooth: "ровный солидный компонент", irregular: "неровный солидный компонент", papillary: "папиллярные разрастания" },
     bloodFlow: { none: "васкуляризация не определяется", minimal: "минимальный кровоток", moderate: "умеренный кровоток", marked: "выраженный кровоток" },
     measurements: (maxMm: number, vol?: number) => {
-      const parts = [`наибольший размер ${formatMeasurementDecimal(maxMm)} мм`];
+      const parts = [`наибольший размер ${formatMeasurementRu(maxMm)} мм`];
       if (vol != null && vol > 0) parts.push(`объём ~${Math.round(vol * 10) / 10} мл`);
       return parts.join(", ");
     },
@@ -52,7 +52,7 @@ export const ru = {
     section_impression: "Заключение",
     volume: (ml?: number) => (ml != null ? `Объём ЩЖ ${ml} мл.` : "Объём ЩЖ не указан."),
     nodule_size: (mm?: number) =>
-      mm != null ? `Наибольший диаметр узла ${formatMeasurementDecimal(mm)} мм.` : "Размер узла не указан.",
+      mm != null ? `Наибольший диаметр узла ${formatMeasurementRu(mm)} мм.` : "Размер узла не указан.",
     tirads_line: (label: string, points: number, risk: string) =>
       `ACR TI-RADS: ${label} · ${points} баллов · риск ${risk}.`,
     fna_yes: (rationale: string) => `ТАБ рекомендована. ${rationale}`,
@@ -68,7 +68,7 @@ export const ru = {
       return `Срок по УЗ-биометрии ${weeks}+${d} нед.`;
     },
     biometry_line: (label: string, mm?: number) =>
-      mm != null ? `${label}: ${formatMeasurementDecimal(mm)} мм.` : `${label}: не измерено.`,
+      mm != null ? `${label}: ${formatMeasurementRu(mm)} мм.` : `${label}: не измерено.`,
     efw: (grams?: number) => (grams != null ? `Расчётная масса плода ~${grams} г.` : ""),
     placenta: (loc?: string) => (loc ? `Плацента: ${loc}.` : ""),
     fluid: (desc?: string) => (desc ? `Околоплодные воды: ${desc}.` : ""),

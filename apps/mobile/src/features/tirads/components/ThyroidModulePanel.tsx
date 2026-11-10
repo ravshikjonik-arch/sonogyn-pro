@@ -1,8 +1,10 @@
 import * as Clipboard from "expo-clipboard";
 import { useMemo, useState } from "react";
 import { Alert, Pressable, StyleSheet, Switch, Text, TextInput, View } from "react-native";
+import { formatDimensionsMmRu, formatMeasurementRu, parseMeasurementMm } from "@repo/medical-calculations";
 import {
   ACR_TIRADS_SOURCE,
+  missingNoduleDimensionsRu,
   COMPOSITION_OPTIONS,
   ECHOGENIC_FOCI_OPTIONS,
   ECHOGENICITY_OPTIONS,
@@ -314,16 +316,24 @@ export default function ThyroidModulePanel({ tab }: { tab: ThyroidModuleTab }) {
                 style={styles.input}
                 keyboardType="decimal-pad"
                 accessibilityLabel={`${labelRu} размер, мм`}
-                value={dimText[active.id]?.[key] ?? (active.dimensionsMm?.[key] !== undefined ? String(active.dimensionsMm[key]) : "")}
+                placeholder="0,0"
+                value={
+                  dimText[active.id]?.[key] ??
+                  (active.dimensionsMm?.[key] !== undefined ? formatMeasurementRu(active.dimensionsMm[key]!) : "")
+                }
                 onChangeText={(t) => {
                   setDimText((d) => ({ ...d, [active.id]: { ...d[active.id], [key]: t } }));
-                  const n = Number(t.replace(",", "."));
-                  update({ ...active, dimensionsMm: { ...active.dimensionsMm, [key]: t.trim() && Number.isFinite(n) ? n : undefined } });
+                  update({ ...active, dimensionsMm: { ...active.dimensionsMm, [key]: t.trim() ? parseMeasurementMm(t) : undefined } });
                 }}
               />
             </View>
           ))}
         </View>
+        <Text style={styles.dimLabel} accessibilityLiveRegion="polite">
+          {formatDimensionsMmRu(active.dimensionsMm?.longitudinal, active.dimensionsMm?.anteroposterior, active.dimensionsMm?.transverse)
+            ? `Размеры: ${formatDimensionsMmRu(active.dimensionsMm?.longitudinal, active.dimensionsMm?.anteroposterior, active.dimensionsMm?.transverse)}`
+            : `Для тактики (ТАБ / наблюдение) нужны все три размера — нет: ${missingNoduleDimensionsRu(active).join(", ")}.`}
+        </Text>
       </View>
 
       {tab !== "acr" ? (

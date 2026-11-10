@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState, useTransition } from "react";
-import { formatOvaryDimensionsMm } from "@repo/medical-calculations";
+import { formatDimensionsMmRu, formatMeasurementRu } from "@repo/medical-calculations";
 import { toast } from "sonner";
 
 import { saveCalculatorEntry } from "@/app/actions/calculator-actions";
@@ -114,9 +114,9 @@ export function OradsProCalculator({ onCrumb }: { onCrumb?: (label: string) => v
   }, [oradsZero, zeroMeta, f.result]);
 
   const sizeSummary = useMemo(() => {
-    const dims = formatOvaryDimensionsMm(f.input.lengthMm, f.input.widthMm, f.input.heightMm);
+    const dims = formatDimensionsMmRu(f.input.lengthMm, f.input.widthMm, f.input.heightMm);
     if (!dims && f.result.volumeMl == null) return null;
-    const vol = f.result.volumeMl != null ? `${f.result.volumeMl} мл` : null;
+    const vol = f.result.volumeMl != null ? `${formatMeasurementRu(f.result.volumeMl)} мл` : null;
     return [dims, vol].filter(Boolean).join(" · ");
   }, [f.input.lengthMm, f.input.widthMm, f.input.heightMm, f.result.volumeMl]);
 

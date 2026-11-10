@@ -37,3 +37,29 @@ export function parseMeasurementMm(raw: string): number | undefined {
   if (!Number.isFinite(n)) return undefined;
   return roundMeasurementMm(n);
 }
+
+/** Display only: «44,2» (decimal comma, always 0.1 mm). Input fields keep formatMeasurementDecimal. */
+export function formatMeasurementRu(mm: number): string {
+  if (!Number.isFinite(mm)) return "—";
+  return roundMeasurementMm(mm).toFixed(1).replace(".", ",");
+}
+
+/** Display only: «44,2 мм». */
+export function formatMmRu(mm: number): string {
+  return `${formatMeasurementRu(mm)} мм`;
+}
+
+function isMeasured(v: number | undefined): v is number {
+  return typeof v === "number" && Number.isFinite(v) && v > 0;
+}
+
+/** True only when all three dimensions are positive numbers. */
+export function hasThreeDimensions(a?: number, b?: number, c?: number): boolean {
+  return isMeasured(a) && isMeasured(b) && isMeasured(c);
+}
+
+/** Display only: «44,2×39,4×42,9 мм»; null unless all three dimensions are measured. */
+export function formatDimensionsMmRu(a?: number, b?: number, c?: number): string | null {
+  if (!hasThreeDimensions(a, b, c)) return null;
+  return `${formatMeasurementRu(a!)}×${formatMeasurementRu(b!)}×${formatMeasurementRu(c!)} мм`;
+}

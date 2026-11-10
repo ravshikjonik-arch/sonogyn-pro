@@ -26,7 +26,7 @@ test("O-RADS 5 solid irregular 45mm color score 3 protocol draft", () => {
   });
 
   assert.match(report.plainText, /O-RADS US:\s*5/i);
-  assert.match(report.plainText, /45\s*мм/);
+  assert.match(report.plainText, /45,0×40,0×38,0 мм/);
   assert.match(report.plainText, /color score 3/i);
   assert.match(report.plainText, /солидн/i);
   assert.ok(!/диагноз/i.test(report.plainText));

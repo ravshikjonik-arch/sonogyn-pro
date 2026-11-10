@@ -6,6 +6,7 @@ import {
   type OradsInput,
   type OradsResult,
 } from "@repo/orads-us/pro";
+import { formatMmRu } from "@repo/medical-calculations";
 import { renderAdnexStructuredReport } from "@repo/report-engine";
 
 import { mapOradsToAdnexSreInput } from "../adapters/map-orads-to-sre-input";
@@ -65,8 +66,8 @@ export function renderOradsUsReport(payload: CalculatorReportPayload): Generated
     "",
     formatField("Локализация", formatLocalization(input), missingFields),
     formatField(
-      "Максимальный диаметр образования",
-      sizeMm != null ? `${sizeMm} мм` : formatDimensions(input),
+      "Размеры образования (Д×Ш×В)",
+      formatDimensions(input) ?? (sizeMm != null ? formatMmRu(sizeMm) : undefined),
       missingFields,
     ),
     formatField("Структура", formatStructure(input), missingFields),

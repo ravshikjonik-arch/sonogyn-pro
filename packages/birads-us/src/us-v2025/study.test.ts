@@ -2,7 +2,14 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import { generateBreastReport } from "./report";
-import { evaluateBreastStudy, type BreastLesion, type BreastStudyInput } from "./study";
+import {
+  evaluateBreastStudy,
+  formatBreastMm,
+  formatLesionDimensionsRu,
+  missingLesionDimensionsRu,
+  type BreastLesion,
+  type BreastStudyInput,
+} from "./study";
 import type { BiradsUsLesionInput } from "./types";
 
 const benign3: BiradsUsLesionInput = {
@@ -88,7 +95,7 @@ test("report is built from entered findings; missing ones are marked, nothing in
   });
   const rep = generateBreastReport(input, evaluateBreastStudy(input));
   assert.match(rep.descriptionRu, /Правая молочная железа:/);
-  assert.match(rep.descriptionRu, /Образование 1: на 10 ч, 30 мм от соска, размеры не указаны/);
+  assert.match(rep.descriptionRu, /Образование 1: на 10 ч, 30,0 мм от соска, размеры не указаны полностью \(нет: ширина, переднезадний, длина\)/);
   assert.match(rep.descriptionRu, /Форма: овальная/);
   assert.match(rep.descriptionRu, /Контур: не описано/);
   assert.match(rep.conclusionRu, /категория не определена/);
@@ -98,7 +105,7 @@ test("report is built from entered findings; missing ones are marked, nothing in
 test("report: category 3 example with likelihood, management, sources and disclaimer", () => {
   const input = study([lesion("a", {})], { sidesExamined: ["right", "left"] });
   const rep = generateBreastReport(input, evaluateBreastStudy(input));
-  assert.match(rep.descriptionRu, /размерами 12 × 8 × 10 мм/);
+  assert.match(rep.descriptionRu, /размерами 12,0×8,0×10,0 мм/);
   assert.match(rep.conclusionRu, /Правая молочная железа: BI-RADS 3 · вероятно доброкачественное \(по образованию 1\)/);
   assert.match(rep.conclusionRu, /Левая молочная железа: BI-RADS 1/);
   assert.match(rep.recommendationsRu, /6 месяцев/);
@@ -115,4 +122,14 @@ test("report never states a cancer diagnosis", () => {
   assert.doesNotMatch(all, /\bрак\b|карцином|онкомаршрут/i);
   assert.match(rep.conclusionRu, /BI-RADS 5/);
   assert.match(rep.descriptionRu, /Лимфоузел подмышечный, уровень II: подозрительные признаки/);
+});
+
+test("lesion dimensions: 44,2×39,4×42,9 мм only when all three are measured", () => {
+  assert.equal(
+    formatLesionDimensionsRu({ dimensionsMm: { width: 44.2, anteroposterior: 39.4, length: 42.9 } }),
+    "44,2×39,4×42,9 мм",
+  );
+  assert.equal(formatLesionDimensionsRu({ dimensionsMm: { width: 12, anteroposterior: 8 } }), null);
+  assert.deepEqual(missingLesionDimensionsRu({ dimensionsMm: { width: 12, anteroposterior: 8 } }), ["длина"]);
+  assert.equal(formatBreastMm(12), "12,0");
 });

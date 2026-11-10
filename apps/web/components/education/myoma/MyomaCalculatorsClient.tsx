@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { formatDimensionsMmRu } from "@repo/medical-calculations";
 
 import { MyomaChrome } from "@/components/education/myoma/MyomaChrome";
 import {
@@ -120,7 +121,10 @@ function VolumeCard() {
 
   async function copyProtocol() {
     if (!result) return;
-    const text = `Узел ${d1} × ${d2} × ${d3} мм; средний диаметр ${formatRu(result.meanDiameterMm, 1)} мм; расчётный объём ${formatRu(result.volumeCm3, 2)} см³ (формула эллипсоида).`;
+    const dims =
+      formatDimensionsMmRu(parseNumber(d1) ?? undefined, parseNumber(d2) ?? undefined, parseNumber(d3) ?? undefined) ??
+      `${d1} × ${d2} × ${d3} мм`;
+    const text = `Узел ${dims}; средний диаметр ${formatRu(result.meanDiameterMm, 1)} мм; расчётный объём ${formatRu(result.volumeCm3, 2)} см³ (формула эллипсоида).`;
     await navigator.clipboard.writeText(text);
     setCopied(true);
   }

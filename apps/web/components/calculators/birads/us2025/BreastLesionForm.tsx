@@ -1,6 +1,7 @@
 "use client";
 
-import { parseMeasurementMm } from "@repo/medical-calculations";
+import { useState } from "react";
+import { formatMeasurementRu, parseMeasurementMm } from "@repo/medical-calculations";
 import {
   BIRADS_ASSOCIATED_OPTIONS,
   BIRADS_CALC_OPTIONS,
@@ -14,6 +15,8 @@ import {
   BIRADS_SHAPE_OPTIONS,
   BIRADS_SPECIAL_CASE_OPTIONS,
   BIRADS_VASCULARITY_OPTIONS,
+  formatLesionDimensionsRu,
+  missingLesionDimensionsRu,
   type BiradsAssociatedFeature,
   type BiradsUsLesionInput,
   type BreastDepth,
@@ -46,19 +49,23 @@ function Chips<T extends string>({ options, value, onChange }: { options: Opt<T>
 }
 
 function NumberField({ label, value, onChange, unit = "мм" }: { label: string; value: number | undefined; onChange: (v: number | undefined) => void; unit?: string }) {
+  const [draft, setDraft] = useState<string | null>(null);
+  const shown = draft ?? (value === undefined ? "" : unit === "мм" ? formatMeasurementRu(value) : String(value));
   return (
     <label className="space-y-1 text-xs font-semibold text-[var(--clinical-foreground-muted)]">
       <span>{label}</span>
       <input
         inputMode="decimal"
         className="h-10 w-full rounded-lg border border-[var(--clinical-border)] bg-[var(--clinical-card)] px-2 text-sm text-[var(--clinical-foreground)]"
-        value={value ?? ""}
-        placeholder="—"
+        value={shown}
+        placeholder={unit === "мм" ? "0,0" : "—"}
         aria-label={`${label}${unit ? `, ${unit}` : ""}`}
         onChange={(e) => {
-          const raw = e.target.value.trim();
-          onChange(raw === "" ? undefined : parseMeasurementMm(raw));
+          const raw = e.target.value;
+          setDraft(raw);
+          onChange(raw.trim() === "" ? undefined : parseMeasurementMm(raw));
         }}
+        onBlur={() => setDraft(null)}
       />
     </label>
   );
@@ -92,6 +99,11 @@ export function BreastLesionForm({ lesion, onChange }: { lesion: BreastLesion; o
           <NumberField label="Переднезадний" value={dims.anteroposterior} onChange={(anteroposterior) => onChange({ ...lesion, dimensionsMm: { ...dims, anteroposterior } })} />
           <NumberField label="Длина" value={dims.length} onChange={(length) => onChange({ ...lesion, dimensionsMm: { ...dims, length } })} />
         </div>
+        <p className="text-xs font-semibold text-[var(--clinical-foreground-muted)]" aria-live="polite">
+          {formatLesionDimensionsRu(lesion)
+            ? `Размеры: ${formatLesionDimensionsRu(lesion)}`
+            : `Укажите все три размера — нет: ${missingLesionDimensionsRu(lesion).join(", ")}.`}
+        </p>
       </CalcStepCard>
 
       <CalcStepCard title="Находка · лексикон ACR BI-RADS v2025" required={!f.kind}>

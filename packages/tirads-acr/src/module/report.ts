@@ -1,3 +1,5 @@
+import { formatDimensionsMmRu } from "@repo/medical-calculations";
+
 import {
   COMPOSITION_OPTIONS,
   ECHOGENIC_FOCI_OPTIONS,
@@ -15,6 +17,7 @@ import {
   EU_SHAPE_OPTIONS,
   type EuOption,
 } from "../eu";
+import { missingNoduleDimensionsRu } from "./study";
 import type {
   ThyroidNodule,
   ThyroidNoduleEvaluation,
@@ -52,10 +55,6 @@ const FNA_RU = {
   undetermined: "показания к ТАБ не определены",
 } as const;
 
-function num(v: number): string {
-  return String(Math.round(v * 10) / 10).replace(".", ",");
-}
-
 function label<T extends string>(options: (EuOption<T> | LexiconOption<T>)[], value: T | undefined): string | null {
   if (value === undefined) return null;
   const raw = options.find((o) => o.value === value)?.labelRu;
@@ -79,16 +78,9 @@ function pointsRu(n: number): string {
 
 function dimensionsText(n: ThyroidNodule): string {
   const d = n.dimensionsMm ?? {};
-  const { longitudinal: l, anteroposterior: ap, transverse: t } = d;
-  if (l !== undefined && ap !== undefined && t !== undefined) {
-    return `размерами ${num(l)} × ${num(ap)} × ${num(t)} мм (продольный × переднезадний × поперечный)`;
-  }
-  const parts = [
-    l !== undefined ? `продольный ${num(l)} мм` : null,
-    ap !== undefined ? `переднезадний ${num(ap)} мм` : null,
-    t !== undefined ? `поперечный ${num(t)} мм` : null,
-  ].filter(Boolean);
-  return parts.length ? `размеры: ${parts.join(", ")}` : "размеры не указаны";
+  const full = formatDimensionsMmRu(d.longitudinal, d.anteroposterior, d.transverse);
+  if (full) return `размерами ${full} (продольный × переднезадний × поперечный)`;
+  return `размеры не указаны полностью (нет: ${missingNoduleDimensionsRu(n).join(", ")})`;
 }
 
 function line(name: string, value: string | null, required: boolean): string | null {

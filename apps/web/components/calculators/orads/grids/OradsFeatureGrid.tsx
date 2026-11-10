@@ -6,7 +6,7 @@ import {
   ORADS_NOSOLOGY_ATLAS,
   type OradsNosologySubtype,
 } from "@repo/orads-us";
-import { formatOvaryDimensionsMm } from "@repo/medical-calculations";
+import { formatDimensionsMmRu } from "@repo/medical-calculations";
 
 import { saveCalculatorEntry } from "@/app/actions/calculator-actions";
 import { CalculatorReportPanel } from "@/components/calculators/CalculatorReportPanel";
@@ -113,7 +113,7 @@ export function OradsFeatureGrid({ initialSubtype }: Props) {
 
   const zeroMeta = ORADS_ZERO_OPTIONS.find((item) => item.id === oradsZero);
   const sizeSummary = useMemo(() => {
-    return formatOvaryDimensionsMm(f.input.lengthMm, f.input.widthMm, f.input.heightMm);
+    return formatDimensionsMmRu(f.input.lengthMm, f.input.widthMm, f.input.heightMm);
   }, [f.input.lengthMm, f.input.widthMm, f.input.heightMm]);
 
   const finalCategory = oradsFinalCategory(f.result);

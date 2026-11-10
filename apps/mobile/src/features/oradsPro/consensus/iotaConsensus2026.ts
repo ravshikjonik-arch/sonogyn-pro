@@ -1,5 +1,5 @@
 import type { IotaColorScore, IotaLesionType, OradsInput, OradsResult, UnilocularSubtype } from "../types";
-import { formatMeasurementDecimal, formatMm } from "@repo/medical-calculations";
+import { formatDimensionsMmRu, formatMmRu } from "@repo/medical-calculations";
 import { oradsCategoryLabel, oradsFinalCategory } from "@repo/orads-us/pro";
 
 export const IOTA_CONSENSUS_2026 = {
@@ -79,15 +79,11 @@ function fmtBool(value?: boolean) {
 }
 
 function fmtSize(input: OradsInput) {
-  const values = [input.lengthMm, input.widthMm, input.heightMm].filter(
-    (v): v is number => typeof v === "number" && Number.isFinite(v) && v > 0
-  );
-  if (values.length === 0) return "не заполнено";
-  return `${values.map((v) => formatMeasurementDecimal(v)).join(" × ")} мм`;
+  return formatDimensionsMmRu(input.lengthMm, input.widthMm, input.heightMm) ?? "не заполнено полностью (нужны Д×Ш×В)";
 }
 
 function fmtMm(value?: number) {
-  return typeof value === "number" && Number.isFinite(value) && value > 0 ? formatMm(value) : "не заполнено";
+  return typeof value === "number" && Number.isFinite(value) && value > 0 ? formatMmRu(value) : "не заполнено";
 }
 
 function deriveLesionType(input: OradsInput): IotaLesionType | undefined {

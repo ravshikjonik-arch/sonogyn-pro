@@ -22,7 +22,7 @@ describe("renderAdnexStructuredReport", () => {
     });
 
     assert.match(output.description, /УЗ-придатки/);
-    assert.match(output.description, /42(?:\.0)? мм/);
+    assert.match(output.description, /42,0 мм/);
     assert.match(output.impression, /O-RADS US: 2/);
     assert.match(output.recommendations, /O-RADS 2/);
     assert.ok(output.citations.length >= 3);

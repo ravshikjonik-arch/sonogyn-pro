@@ -11,14 +11,26 @@ import {
 
 const LOCATIONS = ["right_lobe", "left_lobe", "isthmus"] as const;
 
-/** Largest measured diameter; undefined when no valid measurement was entered. */
+const DIMENSION_NAMES_RU = [
+  ["longitudinal", "продольный"],
+  ["anteroposterior", "переднезадний"],
+  ["transverse", "поперечный"],
+] as const;
+
+/** Dimensions still to enter; size-based tactics need all three (SonoGyn Pro rule). */
+export function missingNoduleDimensionsRu(nodule: ThyroidNodule): string[] {
+  const d = nodule.dimensionsMm ?? {};
+  return DIMENSION_NAMES_RU.filter(([key]) => {
+    const v = d[key];
+    return !(typeof v === "number" && Number.isFinite(v) && v > 0);
+  }).map(([, name]) => name);
+}
+
+/** Largest diameter, only when all three dimensions are measured; otherwise size-based tactics stay undetermined. */
 export function maxNoduleDiameterMm(nodule: ThyroidNodule): number | undefined {
-  const d = nodule.dimensionsMm;
-  if (!d) return undefined;
-  const values = [d.longitudinal, d.anteroposterior, d.transverse].filter(
-    (v): v is number => typeof v === "number" && Number.isFinite(v),
-  );
-  return values.length ? Math.max(...values) : undefined;
+  if (missingNoduleDimensionsRu(nodule).length) return undefined;
+  const d = nodule.dimensionsMm!;
+  return Math.max(d.longitudinal!, d.anteroposterior!, d.transverse!);
 }
 
 function validateNodule(nodule: ThyroidNodule): string[] {

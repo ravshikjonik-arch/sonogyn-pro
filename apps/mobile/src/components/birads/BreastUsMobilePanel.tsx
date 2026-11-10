@@ -1,6 +1,7 @@
 import * as Clipboard from "expo-clipboard";
 import { useEffect, useMemo, useState } from "react";
 import { Alert, Pressable, StyleSheet, Switch, Text, TextInput, View } from "react-native";
+import { formatMeasurementRu, parseMeasurementMm } from "@repo/medical-calculations";
 import {
   BIRADS_ASSOCIATED_OPTIONS,
   BIRADS_CALC_OPTIONS,
@@ -26,6 +27,8 @@ import {
   type BreastLymphStation,
   type BreastSide,
   type BreastStudyInput,
+  formatLesionDimensionsRu,
+  missingLesionDimensionsRu,
 } from "@repo/birads-us";
 
 import { branding } from "../../config/branding";
@@ -71,8 +74,8 @@ function Chips<T extends string>({ title, options, value, onChange }: { title?: 
   );
 }
 
-function NumberInput({ label, value, onChange }: { label: string; value: number | undefined; onChange: (v: number | undefined) => void }) {
-  const [text, setText] = useState(value !== undefined ? String(value) : "");
+function NumberInput({ label, value, onChange, mm = true }: { label: string; value: number | undefined; onChange: (v: number | undefined) => void; mm?: boolean }) {
+  const [text, setText] = useState(value === undefined ? "" : mm ? formatMeasurementRu(value) : String(value));
   return (
     <View style={styles.numCell}>
       <Text style={styles.numLabel}>{label}</Text>
@@ -81,10 +84,10 @@ function NumberInput({ label, value, onChange }: { label: string; value: number 
         keyboardType="decimal-pad"
         accessibilityLabel={label}
         value={text}
+        placeholder={mm ? "0,0" : undefined}
         onChangeText={(t) => {
           setText(t);
-          const n = Number(t.replace(",", "."));
-          onChange(t.trim() && Number.isFinite(n) ? n : undefined);
+          onChange(t.trim() ? parseMeasurementMm(t) : undefined);
         }}
       />
     </View>
@@ -179,7 +182,7 @@ export function BreastUsMobilePanel({ onCategoryHint }: { onCategoryHint?: (cate
         <>
           <Chips title="Сторона" options={SIDES} value={active.side} onChange={(side) => update({ ...active, side })} />
           <View style={styles.numRow} key={`loc-${active.id}`}>
-            <NumberInput label="Циферблат, ч" value={active.clock} onChange={(clock) => update({ ...active, clock })} />
+            <NumberInput label="Циферблат, ч" mm={false} value={active.clock} onChange={(clock) => update({ ...active, clock })} />
             <NumberInput label="От соска, мм" value={active.distanceFromNippleMm} onChange={(distanceFromNippleMm) => update({ ...active, distanceFromNippleMm })} />
           </View>
           <View style={styles.numRow} key={`dims-${active.id}`}>
@@ -187,6 +190,11 @@ export function BreastUsMobilePanel({ onCategoryHint }: { onCategoryHint?: (cate
             <NumberInput label="ПЗ" value={active.dimensionsMm?.anteroposterior} onChange={(anteroposterior) => update({ ...active, dimensionsMm: { ...active.dimensionsMm, anteroposterior } })} />
             <NumberInput label="Длина" value={active.dimensionsMm?.length} onChange={(length) => update({ ...active, dimensionsMm: { ...active.dimensionsMm, length } })} />
           </View>
+          <Text style={styles.numLabel} accessibilityLiveRegion="polite">
+            {formatLesionDimensionsRu(active)
+              ? `Размеры: ${formatLesionDimensionsRu(active)}`
+              : `Укажите все три размера — нет: ${missingLesionDimensionsRu(active).join(", ")}.`}
+          </Text>
 
           <Chips title="Тип находки" options={BIRADS_KIND_OPTIONS} value={f.kind} onChange={(kind) => setF({ kind })} />
           {f.kind === "special_case" ? <Chips title="Особый случай" options={BIRADS_SPECIAL_CASE_OPTIONS} value={f.specialCase} onChange={(specialCase) => setF({ specialCase })} /> : null}

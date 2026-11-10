@@ -25,6 +25,33 @@ export type BreastLesion = {
   findings: BiradsUsLesionInput;
 };
 
+const LESION_DIMENSION_NAMES_RU = [
+  ["width", "ширина"],
+  ["anteroposterior", "переднезадний"],
+  ["length", "длина"],
+] as const;
+
+/** Dimensions still to enter (SonoGyn Pro: all three, mm with 0.1). Category does not depend on size. */
+export function missingLesionDimensionsRu(lesion: Pick<BreastLesion, "dimensionsMm">): string[] {
+  const d = lesion.dimensionsMm ?? {};
+  return LESION_DIMENSION_NAMES_RU.filter(([key]) => {
+    const v = d[key];
+    return !(typeof v === "number" && Number.isFinite(v) && v > 0);
+  }).map(([, name]) => name);
+}
+
+/** «44,2» — same display format as @repo/medical-calculations formatMeasurementRu (no extra dependency here). */
+export function formatBreastMm(v: number): string {
+  return (Math.round(v * 10) / 10).toFixed(1).replace(".", ",");
+}
+
+/** «44,2×39,4×42,9 мм» (ширина × переднезадний × длина); null unless all three are measured. */
+export function formatLesionDimensionsRu(lesion: Pick<BreastLesion, "dimensionsMm">): string | null {
+  if (missingLesionDimensionsRu(lesion).length) return null;
+  const d = lesion.dimensionsMm!;
+  return `${formatBreastMm(d.width!)}×${formatBreastMm(d.anteroposterior!)}×${formatBreastMm(d.length!)} мм`;
+}
+
 export type BreastLymphNodeFinding = { side: BreastSide; station: BreastLymphStation; assessment: BreastLymphAssessment };
 
 export type BreastStudyInput = {

@@ -1,6 +1,7 @@
 "use client";
 
-import { parseMeasurementMm } from "@repo/medical-calculations";
+import { useState } from "react";
+import { formatDimensionsMmRu, formatMeasurementRu, parseMeasurementMm } from "@repo/medical-calculations";
 import {
   COMPOSITION_OPTIONS,
   ECHOGENIC_FOCI_OPTIONS,
@@ -13,6 +14,7 @@ import {
   EU_SHAPE_OPTIONS,
   MARGIN_OPTIONS,
   SHAPE_OPTIONS,
+  missingNoduleDimensionsRu,
   type ThyroidNodule,
   type ThyroidNoduleDimensionsMm,
   type ThyroidNoduleLocation,
@@ -67,6 +69,13 @@ type Props = {
 
 export function ThyroidNoduleBasics({ nodule, onChange }: Props) {
   const dims = nodule.dimensionsMm ?? {};
+  const [draft, setDraft] = useState<{ id: string; text: Partial<Record<keyof ThyroidNoduleDimensionsMm, string>> }>({
+    id: nodule.id,
+    text: {},
+  });
+  const text = draft.id === nodule.id ? draft.text : {};
+  const missing = missingNoduleDimensionsRu(nodule);
+  const formatted = formatDimensionsMmRu(dims.longitudinal, dims.anteroposterior, dims.transverse);
   return (
     <CalcStepCard title="Локализация и размеры узла">
       <CalcSubLabel>Локализация</CalcSubLabel>
@@ -79,11 +88,12 @@ export function ThyroidNoduleBasics({ nodule, onChange }: Props) {
             <input
               inputMode="decimal"
               className="h-10 w-full rounded-lg border border-[var(--clinical-border)] bg-[var(--clinical-card)] px-2 text-sm text-[var(--clinical-foreground)]"
-              value={dims[key] ?? ""}
-              placeholder="—"
+              value={text[key] ?? (dims[key] !== undefined ? formatMeasurementRu(dims[key]!) : "")}
+              placeholder="0,0"
               onChange={(e) => {
-                const raw = e.target.value.trim();
-                const parsed = raw === "" ? undefined : parseMeasurementMm(raw);
+                const raw = e.target.value;
+                setDraft({ id: nodule.id, text: { ...text, [key]: raw } });
+                const parsed = raw.trim() === "" ? undefined : parseMeasurementMm(raw);
                 onChange({ ...nodule, dimensionsMm: { ...dims, [key]: parsed } });
               }}
               aria-label={`${labelRu} размер, мм`}
@@ -91,6 +101,11 @@ export function ThyroidNoduleBasics({ nodule, onChange }: Props) {
           </label>
         ))}
       </div>
+      <p className="text-xs font-semibold text-[var(--clinical-foreground-muted)]" aria-live="polite">
+        {formatted
+          ? `Размеры: ${formatted}`
+          : `Для тактики (ТАБ / наблюдение) нужны все три размера — нет: ${missing.join(", ")}.`}
+      </p>
     </CalcStepCard>
   );
 }

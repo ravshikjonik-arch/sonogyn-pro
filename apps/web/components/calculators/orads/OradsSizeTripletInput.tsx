@@ -3,8 +3,8 @@
 import {
   calcOvaryEllipsoidVolumeMl,
   countOvaryDimensionsFilled,
-  formatMeasurementDecimal,
-  formatOvaryDimensionsMm,
+  formatDimensionsMmRu,
+  formatMeasurementRu,
   parseMeasurementMm,
 } from "@repo/medical-calculations";
 
@@ -49,7 +49,7 @@ export function OradsSizeTripletInput({
   const h = parseMeasurementMm(heightMm);
   const filled = countOvaryDimensionsFilled(l, w, h);
   const volumeMl = calcOvaryEllipsoidVolumeMl(l, w, h);
-  const dimsLabel = formatOvaryDimensionsMm(l, w, h);
+  const dimsLabel = formatDimensionsMmRu(l, w, h);
 
   const volumeHigh =
     volumeMl != null &&
@@ -111,7 +111,7 @@ export function OradsSizeTripletInput({
           <div className="space-y-1">
             <p className="text-sm font-bold text-[var(--clinical-foreground)]">{dimsLabel}</p>
             <p className="text-lg font-black tabular-nums text-[var(--clinical-primary-deep)]">
-              Объём: {formatMeasurementDecimal(volumeMl)} мл
+              Объём: {formatMeasurementRu(volumeMl)} мл
             </p>
             <p className="text-[11px] text-[var(--clinical-foreground-muted)]">эллипсоид ×0,523 · пересчёт при каждом вводе</p>
             {volumeHigh ? (
