@@ -465,9 +465,9 @@ export function OradsUnifiedCalculator() {
             <OradsReferoSection title="Дифф. диагноз · карточки опухолей" defaultOpen={false}>
               <p className="rounded-xl border border-dashed border-[var(--clinical-border)] bg-[var(--clinical-surface)] p-3 text-[11px] leading-relaxed text-[var(--clinical-foreground-muted)]">
                 Учебные фотокарточки из пособий скрыты. Используйте пошаговый O-RADS и{" "}
-                <a className="underline underline-offset-2" href="/tools/refs/sources">
+                <Link className="underline underline-offset-2" href="/tools/refs/sources">
                   официальные источники
-                </a>
+                </Link>
                 .
               </p>
             </OradsReferoSection>

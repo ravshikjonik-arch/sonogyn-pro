@@ -41,9 +41,7 @@ import { safeInternalPath } from "@/lib/nav/safe-redirect";
 import { LoginAuthWizard } from "@/components/auth/wizard/LoginAuthWizard";
 
 function LoginForm() {
-  const router = useRouter();
   const searchParams = useSearchParams();
-  const { refresh, user, ready } = useAuth();
 
   const nextPathEarly = safeInternalPath(
     searchParams.get("next") ?? searchParams.get("redirectedFrom"),
@@ -54,6 +52,14 @@ function LoginForm() {
   if (isAuthWizardV2Enabled() && !wizardLegacy && !isPilotTelegramPrimary() && !isPilotClosedAccessClient()) {
     return <LoginAuthWizard nextPath={nextPathEarly} />;
   }
+
+  return <LegacyLoginForm />;
+}
+
+function LegacyLoginForm() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const { refresh, user, ready } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

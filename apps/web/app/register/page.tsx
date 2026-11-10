@@ -63,9 +63,7 @@ import { markSessionAnchorNow } from "@/lib/security/session-anchor";
 import { RegisterAuthWizard } from "@/components/auth/wizard/RegisterAuthWizard";
 
 function RegisterForm() {
-  const router = useRouter();
   const searchParams = useSearchParams();
-  const { refresh } = useAuth();
 
   const afterAuthPathEarly = safeInternalPath(
     searchParams.get("next") ?? searchParams.get("redirectedFrom"),
@@ -76,6 +74,14 @@ function RegisterForm() {
   if (isAuthWizardV2Enabled() && !wizardLegacy && !isPilotTelegramPrimary() && !isPilotClosedAccessClient()) {
     return <RegisterAuthWizard afterAuthPath={afterAuthPathEarly} />;
   }
+
+  return <LegacyRegisterForm />;
+}
+
+function LegacyRegisterForm() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const { refresh } = useAuth();
 
   const defaultTab = useMemo(
     () => parseRegistrationMethod(searchParams.get("method")),

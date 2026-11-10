@@ -150,9 +150,9 @@ export function NosologyListClient({ studyId }: Props) {
       {!loading && !error ? (
         <p className="rounded-xl border border-dashed border-[var(--clinical-border)] px-3 py-2 text-xs text-[var(--clinical-foreground-muted)]">
           Учебные атласы по книгам скрыты. См.{" "}
-          <a className="underline underline-offset-2" href="/tools/refs/sources">
+          <Link className="underline underline-offset-2" href="/tools/refs/sources">
             официальные источники
-          </a>
+          </Link>
           .
         </p>
       ) : null}
