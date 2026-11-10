@@ -53,6 +53,11 @@ jobs:
       - name: O-RADS US package tests
         run: pnpm test:orads-us
 
+      - name: Clinical engine package tests (calculations, TI-RADS, BI-RADS, catalog, reports, obstetric)
+        run: >-
+          pnpm --filter @repo/medical-calculations --filter @repo/tirads-acr --filter @repo/birads-us
+          --filter @repo/clinical-tools --filter @repo/report-engine --filter @repo/obstetric-engine test
+
       - name: Fetal nomograms (dataset + decision tree)
         run: pnpm test:fetal-nomograms
 
