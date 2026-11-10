@@ -10,7 +10,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.yakrav7700.usriskcalc",
-      "buildNumber": "20",
+      "buildNumber": "21",
       "infoPlist": {
         "NSCameraUsageDescription": "Камера: съёмка обезличенных учебных снимков УЗИ для кейсов и ассистивных инструментов.",
         "NSPhotoLibraryUsageDescription": "Галерея: выбор обезличенных изображений УЗИ для кейсов и ассистивных инструментов.",
