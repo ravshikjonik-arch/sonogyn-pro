@@ -177,9 +177,10 @@ export const CALCULATOR_SEO_REGISTRY: CalculatorSeoEntry[] = [
   },
   {
     path: "/tools/calc/appointment",
-    title: "Калькуляторы приёма · хаб",
-    description: "Быстрые расчёты для амбулаторного приёма акушера-гинеколога и врача УЗД.",
-    keywords: ["приём", "калькулятор", "акушерство", "гинекология"],
+    title: "Стол приёма · калькуляторы и Evidence",
+    description:
+      "Рабочий стол приёма: пациенты, чек-лист амбулатории, калькуляторы и быстрый поиск по КР.",
+    keywords: ["стол приёма", "калькулятор", "Evidence", "акушерство", "гинекология"],
   },
   {
     path: "/ai/consultants/fmf",

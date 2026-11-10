@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { ClipboardList, Search, SlidersHorizontal, Stethoscope } from "lucide-react";
+import { Search, SlidersHorizontal, Stethoscope } from "lucide-react";
 
 import { AppointmentCalcCard } from "@/components/calculators/appointment/AppointmentCalcCard";
+import { ReceptionDeskStrip } from "@/components/calculators/appointment/ReceptionDeskStrip";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -142,25 +143,16 @@ export function AppointmentQuickAccessHub() {
               <Stethoscope className="h-5 w-5" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold tracking-tight">Для приёма врача</h1>
-              <p className="text-sm text-[var(--clinical-foreground-muted)]">Быстрый доступ к калькуляторам · один тап</p>
+              <h1 className="text-2xl font-bold tracking-tight">Стол приёма</h1>
+              <p className="text-sm text-[var(--clinical-foreground-muted)]">
+                Пациенты · чек-лист · калькуляторы · Evidence — в одном месте
+              </p>
             </div>
           </div>
         </div>
       </div>
 
-      <Link
-        href="/tools/refs/ambulatory-intake"
-        className="flex items-start gap-3 rounded-xl border border-[var(--clinical-border)] bg-[var(--clinical-surface)] px-4 py-3 transition hover:border-[var(--clinical-primary)]"
-      >
-        <ClipboardList className="mt-0.5 h-5 w-5 shrink-0 text-[var(--clinical-primary)]" aria-hidden />
-        <div className="min-w-0">
-          <p className="font-semibold text-[var(--clinical-foreground)]">ЧЕК-ЛИСТ АМБУЛАТОРИИ</p>
-          <p className="text-xs text-[var(--clinical-foreground-muted)]">
-            Быстрый приём АГ · сценарии · нормы · копирование записи
-          </p>
-        </div>
-      </Link>
+      <ReceptionDeskStrip />
 
       <div className="space-y-3">
         <div className="relative">
