@@ -34,15 +34,16 @@ export default async function SourceStudioPage() {
         </p>
         <h1 className="mt-2 text-3xl font-bold">Закрытая библиотека источников</h1>
         <p className="mt-2 max-w-2xl text-sm text-[var(--clinical-foreground-muted)]">
-          Text ingest → sanitize → chunks → review → publish. PDF/OCR — отдельный этап. Врачи не видят
-          PDF, только RAG/карточки после publish.
+          Импорт по ссылке или текст → sanitize → chunks → review → publish. Врачи не видят PDF, только
+          RAG/карточки после publish.
         </p>
       </header>
 
       <section className="rounded-2xl border border-amber-500/40 bg-amber-500/10 p-5 text-sm" role="status">
         <p>
-          <strong>Сейчас:</strong> текстовый ingest и publish в UI.{" "}
-          <strong>Нет:</strong> загрузка PDF/сканов и авто-OCR. Книги без license_notes — не загружать.
+          <strong>Сейчас:</strong> импорт по https-ссылке (белый список) + текстовый ingest + Publish.{" "}
+          <strong>Нет:</strong> OCR сканов и произвольный интернет. Книги без license_notes — не загружать.
+          ВОЗ (NC) — не публиковать в RAG без юр. проверки.
         </p>
       </section>
 

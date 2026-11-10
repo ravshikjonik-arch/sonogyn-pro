@@ -17,6 +17,8 @@ export function SourceStudioClient({ initialSources }: { initialSources: SourceR
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const [licenseNotes, setLicenseNotes] = useState("");
+  const [importUrl, setImportUrl] = useState("");
+  const [urlTitle, setUrlTitle] = useState("");
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -72,6 +74,49 @@ export function SourceStudioClient({ initialSources }: { initialSources: SourceR
     }
   }
 
+  async function onIngestUrl(e: React.FormEvent) {
+    e.preventDefault();
+    setBusy(true);
+    setMessage(null);
+    try {
+      const res = await fetch("/api/admin/medical-knowledge/ingest-url", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          url: importUrl.trim(),
+          title: urlTitle.trim() || undefined,
+          sourceType: "guideline",
+        }),
+      });
+      const json = (await res.json()) as {
+        ok?: boolean;
+        error?: string;
+        sourceId?: string;
+        chunkCount?: number;
+        contentKind?: string;
+        nonCommercial?: boolean;
+        next?: string;
+      };
+      if (!res.ok) {
+        setMessage(json.error ?? "Ошибка импорта по ссылке");
+        return;
+      }
+      setMessage(
+        `Импорт ${json.contentKind ?? "url"}: ${json.sourceId} · чанков ${json.chunkCount}${
+          json.nonCommercial ? " · NC — не публиковать в RAG без юр. проверки" : ""
+        }${json.next ? ` · ${json.next}` : ""}`,
+      );
+      setImportUrl("");
+      setUrlTitle("");
+      await refresh();
+      if (json.sourceId) void loadChunks(json.sourceId);
+    } catch {
+      setMessage("Сеть / сервер недоступны");
+    } finally {
+      setBusy(false);
+    }
+  }
+
   async function loadChunks(id: string) {
     setSelectedId(id);
     const res = await fetch(`/api/admin/medical-knowledge/sources/${id}`);
@@ -109,6 +154,42 @@ export function SourceStudioClient({ initialSources }: { initialSources: SourceR
 
   return (
     <div className="space-y-8">
+      <form onSubmit={onIngestUrl} className="space-y-3 rounded-2xl border border-[var(--clinical-border)] p-5">
+        <h2 className="text-lg font-semibold">Импорт по ссылке (B1)</h2>
+        <p className="text-xs text-[var(--clinical-foreground-muted)]">
+          Только белый список доменов (МЗ / pravo.gov / РАЭ / ВОЗ / ETA…). Скачивает PDF с текстовым слоем
+          или HTML → чанки со статусом «на проверке». Сканы без текста — не подойдут. Автопубликации нет.
+        </p>
+        <label className="block text-sm">
+          URL (https)
+          <input
+            className="mt-1 w-full rounded-xl border border-[var(--clinical-border)] bg-[var(--clinical-card)] px-3 py-2"
+            value={importUrl}
+            onChange={(e) => setImportUrl(e.target.value)}
+            type="url"
+            required
+            placeholder="https://…/guideline.pdf"
+          />
+        </label>
+        <label className="block text-sm">
+          Название (необязательно)
+          <input
+            className="mt-1 w-full rounded-xl border border-[var(--clinical-border)] bg-[var(--clinical-card)] px-3 py-2"
+            value={urlTitle}
+            onChange={(e) => setUrlTitle(e.target.value)}
+            minLength={3}
+            placeholder="Если пусто — возьмём из файла/страницы"
+          />
+        </label>
+        <button
+          type="submit"
+          disabled={busy}
+          className="rounded-xl bg-[var(--clinical-primary)] px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
+        >
+          {busy ? "…" : "Скачать и создать source"}
+        </button>
+      </form>
+
       <form onSubmit={onIngest} className="space-y-3 rounded-2xl border border-[var(--clinical-border)] p-5">
         <h2 className="text-lg font-semibold">Ingest текста (не PDF)</h2>
         <p className="text-xs text-[var(--clinical-foreground-muted)]">

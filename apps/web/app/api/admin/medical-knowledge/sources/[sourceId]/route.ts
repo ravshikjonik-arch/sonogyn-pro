@@ -76,7 +76,7 @@ export async function PATCH(request: Request, ctx: Ctx) {
 
   const { data: source } = await supabase
     .from("sources")
-    .select("id,version,review_status")
+    .select("id,version,review_status,copyright_status,license_notes")
     .eq("id", sourceId)
     .maybeSingle();
   if (!source) return NextResponse.json({ error: "Not found" }, { status: 404 });
@@ -104,6 +104,22 @@ export async function PATCH(request: Request, ctx: Ctx) {
   }
 
   // approve_and_publish — trigger requires approved medical_reviews for version
+  const copyright = String(source.copyright_status ?? "");
+  const license = String(source.license_notes ?? "");
+  const nonCommercial =
+    copyright.includes("nc") ||
+    copyright.includes("NC") ||
+    /NON_COMMERCIAL|BY-NC|nonCommercial/i.test(license);
+  if (nonCommercial) {
+    return NextResponse.json(
+      {
+        error:
+          "Источник с пометкой non-commercial (например ВОЗ CC BY-NC). Publish в RAG заблокирован до юр. решения.",
+      },
+      { status: 403 },
+    );
+  }
+
   const { error: reviewErr } = await supabase.from("medical_reviews").insert({
     entity_type: "source",
     entity_id: sourceId,
