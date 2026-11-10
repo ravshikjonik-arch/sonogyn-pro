@@ -14,7 +14,11 @@ import { smsSendEdgeRateLimit } from "@/lib/security/edge-sms-rate-limit";
 import { shouldBlockSuspiciousApiBot } from "@/lib/security/bot-detection";
 import { assertProductionSecretsConfigured } from "@/lib/security/production-secrets";
 import { getClinicalRole, roleMeetsMinimum } from "@/lib/security/require-clinical-role";
-import { isSonogynCustomDomainHost } from "@/lib/shell/custom-domain";
+import {
+  CUSTOM_DOMAIN_CANONICAL_ORIGIN,
+  customDomainCorsOrigin,
+  isSonogynCustomDomainHost,
+} from "@/lib/shell/custom-domain";
 import { proxyCustomDomainDocument } from "@/lib/shell/custom-domain-proxy";
 
 assertProductionSecretsConfigured();
@@ -145,10 +149,13 @@ function applyCorsHeaders(response: NextResponse, corsHeaders: Record<string, st
   for (const [k, v] of Object.entries(corsHeaders)) response.headers.set(k, v);
 }
 
-/** Страница на *.vercel.app читается загрузчиком с sonogyn-pro.ru. */
+/**
+ * Страница на *.vercel.app читается загрузчиком с sonogyn-pro.ru — только им, не любым сайтом.
+ * Фиксированное значение, а не отражение Origin: ответ кэшируется на CDN, а Next перезаписывает Vary.
+ */
 function allowCrossOriginDocumentRead(response: NextResponse): void {
   if (!response.headers.has("Access-Control-Allow-Origin")) {
-    response.headers.set("Access-Control-Allow-Origin", "*");
+    response.headers.set("Access-Control-Allow-Origin", CUSTOM_DOMAIN_CANONICAL_ORIGIN);
   }
   response.headers.set(
     "Access-Control-Expose-Headers",
@@ -179,8 +186,14 @@ export default async function middleware(request: NextRequest) {
     !pathname.startsWith("/api/") &&
     request.headers.get("access-control-request-method")
   ) {
-    const preflight = new NextResponse(null, { status: 204 });
-    preflight.headers.set("Access-Control-Allow-Origin", "*");
+    const origin = customDomainCorsOrigin(request.headers.get("origin"));
+    const preflight = new NextResponse(null, { status: origin ? 204 : 403 });
+    preflight.headers.set("Vary", "Origin");
+    if (!origin) {
+      applySecurityHeaders(preflight);
+      return preflight;
+    }
+    preflight.headers.set("Access-Control-Allow-Origin", origin);
     preflight.headers.set("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS");
     preflight.headers.set(
       "Access-Control-Allow-Headers",

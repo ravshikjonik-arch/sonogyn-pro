@@ -6,17 +6,28 @@ import {
   resolveSentryEnvironment,
   resolveSentryRelease,
 } from "@/lib/sentry/flags";
+import { timingSafeEqual } from "@/lib/security/timing-safe";
 import { isUpstashRestConfigured } from "@/lib/security/upstash-env";
 import { createServiceRoleClient } from "@/utils/supabase/admin";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+const NO_STORE = { "Cache-Control": "no-store, max-age=0" };
+
+/** Infrastructure details only for callers holding HEALTH_DETAILS_TOKEN (header x-health-token). */
+function canSeeDetails(request: Request): boolean {
+  const expected = process.env.HEALTH_DETAILS_TOKEN?.trim();
+  const provided = request.headers.get("x-health-token")?.trim();
+  if (!expected || !provided) return false;
+  return timingSafeEqual(expected, provided);
+}
+
 /**
  * Health-check для аптайм-мониторинга и Vercel.
- * Не раскрывает секреты. Опционально — latency Supabase (service role).
+ * Публично — только status/time; конфигурация, флаги и release — по x-health-token.
  */
-export async function GET() {
+export async function GET(request: Request) {
   const checks = {
     supabaseUrl: Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL),
     supabaseAnonKey: Boolean(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY),
@@ -54,6 +65,13 @@ export async function GET() {
 
   const ok = checks.supabaseUrl && checks.supabaseAnonKey && (db.detail === "skipped" || db.ok);
 
+  if (!canSeeDetails(request)) {
+    return NextResponse.json(
+      { status: ok ? "ok" : "degraded", time: new Date().toISOString() },
+      { status: ok ? 200 : 503, headers: NO_STORE },
+    );
+  }
+
   return NextResponse.json(
     {
       status: ok ? "ok" : "degraded",
@@ -78,7 +96,7 @@ export async function GET() {
     },
     {
       status: ok ? 200 : 503,
-      headers: { "Cache-Control": "no-store, max-age=0" },
+      headers: NO_STORE,
     },
   );
 }

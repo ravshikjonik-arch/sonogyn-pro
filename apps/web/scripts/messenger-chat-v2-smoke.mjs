@@ -63,14 +63,21 @@ async function signIn() {
 async function main() {
   console.log(`\n🔍 Messenger chat v2 smoke · ${baseUrl}\n`);
 
-  const healthRes = await fetch(`${baseUrl}/api/health`);
+  const healthToken = env.HEALTH_DETAILS_TOKEN?.trim();
+  const healthRes = await fetch(`${baseUrl}/api/health`, {
+    headers: healthToken ? { "x-health-token": healthToken } : {},
+  });
   if (!healthRes.ok) fail(`GET /api/health → HTTP ${healthRes.status}`);
   const healthJson = await healthRes.json().catch(() => ({}));
-  if (typeof healthJson.rollout?.doctorChatV2 !== "boolean") {
-    fail("GET /api/health missing rollout.doctorChatV2");
+  if (!healthToken) {
+    console.log("⏭️  HEALTH_DETAILS_TOKEN не задан — rollout из env (DOCTOR_CHAT_V2_ENABLED)");
+  } else {
+    if (typeof healthJson.rollout?.doctorChatV2 !== "boolean") {
+      fail("GET /api/health missing rollout.doctorChatV2 (проверьте HEALTH_DETAILS_TOKEN)");
+    }
+    console.log(`✅ GET /api/health rollout.doctorChatV2=${healthJson.rollout.doctorChatV2}`);
+    v2Enabled = healthJson.rollout.doctorChatV2 === true || v2Enabled;
   }
-  console.log(`✅ GET /api/health rollout.doctorChatV2=${healthJson.rollout.doctorChatV2}`);
-  v2Enabled = healthJson.rollout.doctorChatV2 === true || v2Enabled;
 
   const casesPage = await fetch(`${baseUrl}/cases?tab=chat`, { redirect: "manual" });
   if (casesPage.status >= 500) fail(`GET /cases?tab=chat → HTTP ${casesPage.status}`);

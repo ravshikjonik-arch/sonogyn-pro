@@ -2,9 +2,31 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
 import { customDomainBootstrapDocument, resolveDeploymentOrigin } from "../custom-domain-proxy";
-import { CUSTOM_DOMAIN_HTML_BYTE_BUDGET, isSonogynCustomDomainHost } from "../custom-domain";
+import {
+  CUSTOM_DOMAIN_HTML_BYTE_BUDGET,
+  customDomainCorsOrigin,
+  isSonogynCustomDomainHost,
+} from "../custom-domain";
 
 describe("custom domain shell", () => {
+  it("lets only the sonogyn-pro.ru loader read vercel.app documents", () => {
+    assert.equal(customDomainCorsOrigin("https://sonogyn-pro.ru"), "https://sonogyn-pro.ru");
+    assert.equal(customDomainCorsOrigin("https://www.sonogyn-pro.ru"), "https://www.sonogyn-pro.ru");
+    for (const bad of [
+      null,
+      "",
+      "null",
+      "*",
+      "http://sonogyn-pro.ru",
+      "https://sonogyn-pro.ru:8443",
+      "https://evil-sonogyn-pro.ru",
+      "https://sonogyn-pro.ru.evil.com",
+      "https://evil.com",
+    ]) {
+      assert.equal(customDomainCorsOrigin(bad), null, String(bad));
+    }
+  });
+
   it("detects sonogyn hosts", () => {
     assert.equal(isSonogynCustomDomainHost("sonogyn-pro.ru"), true);
     assert.equal(isSonogynCustomDomainHost("www.sonogyn-pro.ru"), true);
