@@ -61,6 +61,30 @@ const CATALOG = [
     license_notes: "Публичная КР РАЭ. B2 seed.",
     localText: "rae_tireotoksikoz_2021.txt",
   },
+  {
+    title: "КР РАЭ: рак щитовидной железы (КР410)",
+    organization: "РАЭ / endocrincentr.ru",
+    year: 2018,
+    source_type: "guideline",
+    language: "ru",
+    external_url:
+      "https://www.endocrincentr.ru/sites/default/files/specialists/science/clinic-recomendations/kr410.pdf",
+    copyright_status: "public_guideline_site",
+    license_notes: "Публичная КР РАЭ. B2+/OCR-wave seed.",
+    localText: "rae_kr410_thyroid_cancer.txt",
+  },
+  {
+    title: "КР: гестационный сахарный диабет",
+    organization: "РАЭ / НМИЦ эндокринологии",
+    year: 2020,
+    source_type: "guideline",
+    language: "ru",
+    external_url:
+      "https://www.endocrincentr.ru/sites/default/files/all/proektnyj_ofis_po_obespecheniyu_pacientov_s_saharnym_diabetom/klinicheskie_rekomendacii_gestacionnyj_saharnyy_diabet.pdf",
+    copyright_status: "public_guideline_site",
+    license_notes: "Публичная КР (ГСД). B2+/OCR-wave seed.",
+    localText: "rae_gestational_diabetes.txt",
+  },
 ];
 
 function hash(s) {

@@ -29,9 +29,13 @@ cd services/docling-ingest
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements-docling.txt
 python run_docling_spike.py --input path/to/open.pdf --out /tmp/chunks.json
+# сканы без текстового слоя:
+python run_docling_spike.py --ocr --input path/to/scan.pdf --out /tmp/chunks-ocr.json
+python ocr_quality_gate.py --json /tmp/chunks-ocr.json --strict
 ```
 
-Требует Python ≥3.10, диск под модели OCR. **Не** ставьте в `apps/web` dependencies.
+Требует Python ≥3.10, диск под модели OCR. **Не** ставьте в `apps/web` dependencies.  
+OCR → только `review_required`; при fail quality gate (мало кириллицы / латиница-подмена) — **не** publish в RAG.
 
 ## Open guidelines → vault (review_required)
 

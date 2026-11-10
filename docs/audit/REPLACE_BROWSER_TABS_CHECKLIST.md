@@ -7,7 +7,7 @@
 | Вкладка раньше | Задача | В SonoGyn | Где | Статус |
 |---|---|---|---|---|
 | PubMed / Scholar | Найти статью / цитату | Evidence Assistant | `/tools/refs/evidence-assistant` | **Закрыто** (адаптеры + vault) |
-| Рубрикатор КР / сайт МЗ / РАЭ | Открыть рекомендацию | Vault + Source Studio + Evidence | `/admin/source-studio`, Evidence | **Частично** — РАЭ (зобы/гипотиреоз/тиреотоксикоз), ETA, 557н; ВОЗ NC не в RAG |
+| Рубрикатор КР / сайт МЗ / РАЭ | Открыть рекомендацию | Vault + Source Studio + Evidence | `/admin/source-studio`, Evidence | **Частично** — РАЭ (+КР410, ГСД), ETA, 557н; ВОЗ NC не в RAG; OCR — локальный Docling+gate |
 | Калькуляторы O-/TI-/BI-RADS, IOTA… | Посчитать категорию | Комнаты калькуляторов | `/tools/calc/*`, `/tools/o-rads` | **Закрыто** |
 | Word / шаблон протокола | Написать заключение | Structured reports / протоколы | clinical tools + protocols | **Закрыто** (улучшения UX — отдельно) |
 | МИС / Excel пациентов | Карточка, история | Patients | `/profile/patients` | **Частично** — не заменяет полноценную МИС |
