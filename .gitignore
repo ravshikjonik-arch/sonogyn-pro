@@ -70,6 +70,7 @@ apps/web/supabase/.chat-v2-*
 # Large local media (seed from disk, not git)
 docs/books/
 docs/fetometry-source/medvedev-archive/
+services/docling-ingest/open-text/*.txt
 
 # External experiments (track separately)
 USTri/
