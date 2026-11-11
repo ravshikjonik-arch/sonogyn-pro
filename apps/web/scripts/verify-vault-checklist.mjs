@@ -1,0 +1,262 @@
+#!/usr/bin/env node
+/**
+ * Independent vault verify against docs/audit/VAULT_VERIFY_CHECKLIST.md
+ * Usage: node --env-file=apps/web/.env.local apps/web/scripts/verify-vault-checklist.mjs
+ * Prints status only (no secrets / PHI).
+ */
+import { createClient } from "@supabase/supabase-js";
+
+const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
+const key = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
+const vaultOn = Boolean(process.env.EVIDENCE_MEDICAL_VAULT?.trim().match(/^(1|true|on)$/i));
+const ftsOn = Boolean(process.env.EVIDENCE_MEDICAL_VAULT_FTS?.trim().match(/^(1|true|on)$/i));
+
+const QUERIES = [
+  { n: 1, q: "EU-TIRADS 5", expect: /ETA|TIRADS|узлов/i },
+  { n: 2, q: "миома матки УЗИ трансвагинальное", expect: /257|миома/i },
+  { n: 3, q: "эндометриоз УЗИ малого таза", expect: /259|эндометриоз/i },
+  { n: 4, q: "внематочная беременность β-ХГЧ", expect: /642|внематочн|эктопическ/i },
+  { n: 5, q: "угрожающий выкидыш КТР", expect: /670|выкидыш|аборт/i },
+  { n: 6, q: "задержка роста плода процентиль ОЖ", expect: /722|задержка роста|ЗРП/i },
+  { n: 7, q: "предлежание плаценты 20 мм", expect: /767|предлежание|плацент/i },
+  { n: 8, q: "цервикометрия преждевременные роды", expect: /331|преждевременн|цервикометр/i },
+  { n: 9, q: "гестационный диабет глюкоза 5.1", expect: /841|гестационн|ГСД|диабет/i },
+  { n: 10, q: "правила УЗИ приказ 557н", expect: /557/i },
+  { n: 11, q: "истмико-цервикальная недостаточность серкляж", expect: /671|истмико|ИЦН|серкляж/i },
+  { n: 12, q: "многоплодная беременность хориальность УЗИ", expect: /638|многоплод|хориальн/i },
+  { n: 13, q: "образование яичника O-RADS IOTA", expect: /984|яичник|O-RADS|IOTA/i },
+  { n: 14, q: "неэпителиальная опухоль яичника", expect: /541|неэпителиальн/i },
+  { n: 15, q: "показания к кесареву сечению категории неотложности", expect: /639|кесарев/i },
+  { n: 16, q: "индукция родов шкала Бишоп мифепристон", expect: /640|родовозбужден|Бишоп|мифепристон/i },
+  { n: 17, q: "женское бесплодие 12 месяцев диагностика", expect: /641|бесплод/i },
+  { n: 18, q: "послеродовое кровотечение 500 мл окситоцин", expect: /119|послеродов.*кровотеч|окситоцин/i },
+  { n: 19, q: "резус-изоиммунизация MCA-PSV профилактика анти-D", expect: /596|резус|изоиммун|анти-D|MCA/i },
+  { n: 20, q: "нормальные роды затылочное предлежание III период", expect: /636|нормальн.*род|затылочн/i },
+  { n: 21, q: "менопауза 12 месяцев аменореи МГТ", expect: /117|менопауз|климактер/i },
+  { n: 22, q: "железодефицитная анемия беременность гемоглобин 110", expect: /669|железодефицит|анеми/i },
+  { n: 23, q: "пролапс тазовых органов цистоцеле", expect: /647|пролапс|выпадение|цистоцеле/i },
+  { n: 24, q: "CIN II-III ВПЧ кольпоскопия", expect: /597|CIN|неоплази|эктропион|шейк/i },
+  { n: 25, q: "мастопатия BI-RADS УЗИ молочных желез", expect: /598|мастопат|дисплази.*молоч|BI-RADS/i },
+  { n: 26, q: "привычный выкидыш 2 потери до 22 недель", expect: /721|привычн.*выкидыш|невынаш/i },
+  { n: 27, q: "тазовое предлежание наружный поворот", expect: /626|тазов.*предлеж/i },
+  { n: 28, q: "дистоция плечиков McRoberts", expect: /595|дистоци|плечик/i },
+  { n: 29, q: "гестационный сахарный диабет глюкоза 5.1 ПГТТ", expect: /841|гестационн.*диабет|ГСД/i },
+  { n: 30, q: "хориоамнионит лихорадка 38 тахикардия плода", expect: /776|хориоамнионит/i },
+  { n: 31, q: "преждевременная отслойка плаценты кровотечение", expect: /800|отслойк/i },
+  { n: 32, q: "инфекция мочевых путей беременность бессимптомная бактериурия", expect: /719|мочев|бактериури/i },
+  { n: 33, q: "послеродовой эндометрит лихорадка", expect: /791|послеродов.*инфек|эндометрит/i },
+  { n: 34, q: "аменорея вторичная обследование", expect: /644|аменоре/i },
+  { n: 35, q: "маловодие ИАЖ 5 см МВК 2 см", expect: /820|амниотическ|маловоди|ИАЖ|МВК/i },
+  { n: 36, q: "тромбопрофилактика НМГ беременность", expect: /723|тромбо|ВТЭО|НМГ/i },
+  { n: 37, q: "первичная дисменорея НПВС", expect: /833|дисменоре/i },
+  { n: 38, q: "чрезмерная рвота беременных потеря веса 5%", expect: /802|рвота беремен|гиперэмезис/i },
+];
+
+function embApi() {
+  const openrouter = process.env.OPENROUTER_API_KEY?.trim();
+  if (openrouter) {
+    const base = (process.env.OPENROUTER_API_URL?.trim() || "https://openrouter.ai/api/v1")
+      .replace(/\/chat\/completions$/, "")
+      .replace(/\/$/, "");
+    return {
+      url: `${base}/embeddings`,
+      key: openrouter,
+      model: process.env.OPENROUTER_EMBEDDING_MODEL?.trim() || "openai/text-embedding-3-small",
+      openrouter: true,
+    };
+  }
+  const openai = process.env.OPENAI_API_KEY?.trim();
+  if (!openai) return null;
+  return {
+    url: "https://api.openai.com/v1/embeddings",
+    key: openai,
+    model: "text-embedding-3-small",
+    openrouter: false,
+  };
+}
+
+async function embed(api, text) {
+  const res = await fetch(api.url, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${api.key}`,
+      "Content-Type": "application/json",
+      ...(api.openrouter
+        ? {
+            "HTTP-Referer": process.env.NEXT_PUBLIC_APP_URL || "https://sonogyn.pro",
+            "X-Title": "SonoGyn vault verify",
+          }
+        : {}),
+    },
+    body: JSON.stringify({ model: api.model, input: text.slice(0, 8000) }),
+  });
+  if (!res.ok) throw new Error(`embed HTTP ${res.status}`);
+  const json = await res.json();
+  const v = json?.data?.[0]?.embedding;
+  if (!Array.isArray(v) || v.length !== 1536) throw new Error("bad embedding dims");
+  return v;
+}
+
+function hitBlob(h) {
+  return [h.title, h.source_title, h.organization, h.section_title, h.quote, h.external_url]
+    .filter(Boolean)
+    .join(" | ");
+}
+
+async function withRetry(label, fn, tries = 5) {
+  let last;
+  for (let i = 0; i < tries; i++) {
+    try {
+      return await fn();
+    } catch (e) {
+      last = e;
+      console.log(`retry ${label} ${i + 1}/${tries}: ${e?.message || e}`);
+      await new Promise((r) => setTimeout(r, 2000 * (i + 1)));
+    }
+  }
+  throw last;
+}
+
+async function main() {
+  console.log("=== VAULT VERIFY (checklist) ===");
+  console.log("EVIDENCE_MEDICAL_VAULT:", vaultOn ? "on" : "OFF");
+  console.log("EVIDENCE_MEDICAL_VAULT_FTS:", ftsOn ? "on" : "OFF");
+  console.log("NEXT_PUBLIC_SUPABASE_URL:", url ? "найдено" : "отсутствует");
+  console.log("SUPABASE_SERVICE_ROLE_KEY:", key ? "найдено" : "отсутствует");
+  console.log("OPENROUTER_API_KEY:", process.env.OPENROUTER_API_KEY?.trim() ? "найдено" : "отсутствует");
+  if (!url || !key) process.exit(1);
+
+  const supabase = createClient(url, key, { auth: { persistSession: false } });
+
+  const sources = await withRetry("list sources", async () => {
+    const { data, error } = await supabase
+      .from("sources")
+      .select("id,title,review_status,rag_allowed,external_url,organization")
+      .eq("review_status", "published")
+      .eq("rag_allowed", true);
+    if (error) throw new Error(error.message);
+    return data;
+  });
+
+  const whoInRag = (sources || []).filter(
+    (s) => /WHO|ВОЗ|non.?communicable/i.test(`${s.title} ${s.organization || ""}`) && /NC|non.?communicable/i.test(`${s.title}`),
+  );
+  console.log("\n— Inventory");
+  console.log("published+rag sources:", (sources || []).length);
+  console.log("WHO/NC in RAG:", whoInRag.length === 0 ? "нет (ok)" : `FAIL ${whoInRag.length}`);
+
+  const chunkTotal = await withRetry("count chunks", async () => {
+    const { count, error } = await supabase
+      .from("source_chunks")
+      .select("id, sources!inner(rag_allowed,review_status)", { count: "exact", head: true })
+      .eq("sources.rag_allowed", true)
+      .eq("sources.review_status", "published")
+      .in("review_status", ["published", "reviewed", "extracted"]);
+    if (error) throw new Error(error.message);
+    return count;
+  });
+  const chunkEmb = await withRetry("count emb", async () => {
+    const { count, error } = await supabase
+      .from("source_chunks")
+      .select("id, sources!inner(rag_allowed,review_status)", { count: "exact", head: true })
+      .eq("sources.rag_allowed", true)
+      .eq("sources.review_status", "published")
+      .in("review_status", ["published", "reviewed", "extracted"])
+      .not("embedding", "is", null);
+    if (error) throw new Error(error.message);
+    return count;
+  });
+  const chunkNull = await withRetry("count null emb", async () => {
+    const { count, error } = await supabase
+      .from("source_chunks")
+      .select("id, sources!inner(rag_allowed,review_status)", { count: "exact", head: true })
+      .eq("sources.rag_allowed", true)
+      .eq("sources.review_status", "published")
+      .in("review_status", ["published", "reviewed", "extracted"])
+      .is("embedding", null);
+    if (error) throw new Error(error.message);
+    return count;
+  });
+  console.log("chunks published:", chunkTotal, "| with embedding:", chunkEmb, "| null embedding:", chunkNull);
+
+  const api = embApi();
+  console.log("\n— Query smoke (FTS" + (api ? "+semantic" : "") + ")");
+  let pass = 0;
+  let fail = 0;
+  let empty = 0;
+  const fails = [];
+
+  for (const item of QUERIES) {
+    let ftsHits = [];
+    let semHits = [];
+    try {
+      ftsHits = await withRetry(`fts #${item.n}`, async () => {
+        const { data: fts, error: fErr } = await supabase.rpc("match_medical_vault_chunks_fts_ru", {
+          query_text: item.q,
+          match_count: 8,
+        });
+        if (fErr) throw new Error(fErr.message);
+        return fts || [];
+      }, 3);
+    } catch (e) {
+      fails.push({ n: item.n, reason: `FTS error: ${e.message || e}` });
+      fail += 1;
+      console.log(`#${item.n} FAIL fts-error`);
+      continue;
+    }
+
+    if (api) {
+      try {
+        const vector = await embed(api, item.q);
+        semHits = await withRetry(`sem #${item.n}`, async () => {
+          const { data: sem, error: semErr } = await supabase.rpc("match_medical_vault_chunks", {
+            query_embedding: vector,
+            match_threshold: 0.2,
+            match_count: 8,
+          });
+          if (semErr) throw new Error(semErr.message);
+          return sem || [];
+        }, 2);
+      } catch {
+        semHits = [];
+      }
+    }
+
+    const combined = [...ftsHits, ...semHits];
+    if (combined.length === 0) {
+      empty += 1;
+      fail += 1;
+      fails.push({ n: item.n, reason: "empty" });
+      console.log(`#${item.n} FAIL empty | ${item.q}`);
+      continue;
+    }
+
+    const blob = combined.map(hitBlob).join("\n");
+    const ok = item.expect.test(blob);
+    const top = combined[0];
+    const topTitle = (top.title || top.source_title || "").slice(0, 70);
+    if (ok) {
+      pass += 1;
+      console.log(`#${item.n} PASS | top: ${topTitle}`);
+    } else {
+      fail += 1;
+      fails.push({ n: item.n, reason: `expect miss; top=${topTitle}` });
+      console.log(`#${item.n} FAIL expect | top: ${topTitle}`);
+    }
+  }
+
+  console.log("\n— Summary");
+  console.log(`pass=${pass} fail=${fail} empty=${empty} total=${QUERIES.length}`);
+  if (fails.length) {
+    console.log("failures:");
+    for (const f of fails) console.log(`  #${f.n}: ${f.reason}`);
+  }
+  const exitOk = vaultOn && ftsOn && whoInRag.length === 0 && pass >= Math.floor(QUERIES.length * 0.7);
+  console.log(exitOk ? "\nVERDICT: OK (≥70% queries + flags + no WHO in RAG)" : "\nVERDICT: NEEDS ATTENTION");
+  process.exit(exitOk ? 0 : 2);
+}
+
+main().catch((e) => {
+  console.error("FATAL", e?.message || e);
+  process.exit(1);
+});
