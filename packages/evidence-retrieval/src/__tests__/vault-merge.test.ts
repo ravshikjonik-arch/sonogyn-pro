@@ -4,7 +4,7 @@ import { describe, it } from "node:test";
 import { medicalVaultAdapter } from "../adapters/medical-vault.adapter.js";
 import { createMemoryCacheStore } from "../infra/cache.js";
 import type { MedicalVaultSearchHit } from "../types.js";
-import { formatVaultPages, mergeVaultHitsRrf } from "../vault-merge.js";
+import { formatVaultPages, mergeVaultHitsRrf, rerankVaultHitsByQueryOverlap } from "../vault-merge.js";
 
 function hit(chunkId: string, score: number, extra: Partial<MedicalVaultSearchHit> = {}): MedicalVaultSearchHit {
   return {
@@ -46,6 +46,32 @@ describe("mergeVaultHitsRrf", () => {
 
   it("returns empty for limit 0", () => {
     assert.deepEqual(mergeVaultHitsRrf([hit("a", 1)], [], 0), []);
+  });
+});
+
+describe("rerankVaultHitsByQueryOverlap", () => {
+  it("prefers cesarean title over abruption for category-of-urgency query", () => {
+    const ranked = rerankVaultHitsByQueryOverlap(
+      [
+        hit("a", 0.9, { title: "КР МЗ РФ: преждевременная отслойка плаценты (ID 800)" }),
+        hit("b", 0.8, { title: "КР МЗ РФ: роды одноплодные, кесарево сечение (ID 639)" }),
+      ],
+      "показания к кесареву сечению категории неотложности",
+      2,
+    );
+    assert.equal(ranked[0]?.chunkId, "b");
+  });
+
+  it("prefers GSD title over adult DM2", () => {
+    const ranked = rerankVaultHitsByQueryOverlap(
+      [
+        hit("dm2", 0.9, { title: "КР РАЭ: сахарный диабет 2 типа у взрослых" }),
+        hit("gsd", 0.8, { title: "КР МЗ РФ: гестационный сахарный диабет (ID 841)" }),
+      ],
+      "гестационный сахарный диабет глюкоза 5.1 ПГТТ",
+      2,
+    );
+    assert.equal(ranked[0]?.chunkId, "gsd");
   });
 });
 

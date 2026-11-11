@@ -1,8 +1,12 @@
 #!/usr/bin/env node
 /**
  * Independent vault verify against docs/audit/VAULT_VERIFY_CHECKLIST.md
- * Usage: node --env-file=apps/web/.env.local apps/web/scripts/verify-vault-checklist.mjs
+ * Usage:
+ *   node --env-file=apps/web/.env.local apps/web/scripts/verify-vault-checklist.mjs
  * Prints status only (no secrets / PHI).
+ *
+ * Note: product path also applies phrase hints + title re-rank in
+ * @repo/evidence-retrieval (searchMedicalVault). This script smoke-tests RPC + flags.
  */
 import { createClient } from "@supabase/supabase-js";
 

@@ -21,9 +21,19 @@ export const VAULT_ABBREVIATIONS: readonly VaultAbbreviation[] = [
   { abbr: "УЗИ", full: "ультразвуковое исследование", aliases: ["УЗД", "ультразвуковой диагностики"] },
   { abbr: "УЗД", full: "ультразвуковая диагностика", aliases: ["УЗИ"] },
   { abbr: "ЗРП", full: "задержка роста плода" },
-  { abbr: "ГСД", full: "гестационный сахарный диабет" },
+  {
+    abbr: "ГСД",
+    full: "гестационный сахарный диабет",
+    aliases: ["гестационный диабет", "ПГТТ", "оральный глюкозотолерантный тест"],
+  },
+  { abbr: "ПГТТ", full: "гестационный сахарный диабет", aliases: ["оральный глюкозотолерантный тест"] },
   { abbr: "ПОНРП", full: "преждевременная отслойка нормально расположенной плаценты" },
   { abbr: "ИЦН", full: "истмико-цервикальная недостаточность" },
+  {
+    abbr: "цервикометрия",
+    full: "длина шейки матки",
+    aliases: ["измерение длины шейки матки"],
+  },
   { abbr: "СПКЯ", full: "синдром поликистозных яичников", aliases: ["PCOS"] },
   { abbr: "НМГ", full: "низкомолекулярный гепарин" },
   { abbr: "КТГ", full: "кардиотокография" },
@@ -55,6 +65,25 @@ export const VAULT_AMBIGUOUS_ABBREVIATIONS = [
   { abbr: "РА", senses: ["ревматоидный артрит", "регионарная анестезия"] },
   { abbr: "АГ", senses: ["артериальная гипертензия", "акушерство и гинекология"] },
 ] as const;
+
+/**
+ * Extra FTS query variants for clinical phrases that abbreviations alone don't fix
+ * (soft ranking misses from vault verify checklist).
+ */
+export const VAULT_QUERY_PHRASE_HINTS: readonly { test: RegExp; variants: readonly string[] }[] = [
+  {
+    test: /цервикометр/i,
+    variants: ["преждевременные роды длина шейки матки", "преждевременные роды цервикометрия"],
+  },
+  {
+    test: /гестационн\w*\s+диабет|ПГТТ|глюкоза\s*5[.,]1/i,
+    variants: ["гестационный сахарный диабет", "ГСД критерии диагностики"],
+  },
+  {
+    test: /кесарев|категори\w+\s+неотложности/i,
+    variants: ["роды одноплодные кесарево сечение", "кесарево сечение показания"],
+  },
+];
 
 function escapeRegExp(s: string): string {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -88,22 +117,33 @@ function replaceInsensitive(text: string, from: string, to: string): string | nu
  * Query variants for FTS: original + one rewrite per matched abbreviation pair.
  * Cap keeps RPC fan-out bounded.
  */
-export function expandVaultQueryVariants(query: string, maxVariants = 4): string[] {
+export function expandVaultQueryVariants(query: string, maxVariants = 6): string[] {
   const q = query.trim().slice(0, 200);
   if (q.length < 2) return [];
 
   const out: string[] = [q];
   const seen = new Set([q.toLowerCase()]);
 
+  const push = (next: string) => {
+    if (out.length >= maxVariants) return;
+    const key = next.toLowerCase();
+    if (seen.has(key)) return;
+    seen.add(key);
+    out.push(next);
+  };
+
   for (const { from, to } of PAIRS) {
     if (out.length >= maxVariants) break;
     const next = replaceInsensitive(q, from, to);
-    if (!next) continue;
-    const key = next.toLowerCase();
-    if (seen.has(key)) continue;
-    seen.add(key);
-    out.push(next);
+    if (next) push(next);
   }
+
+  for (const hint of VAULT_QUERY_PHRASE_HINTS) {
+    if (out.length >= maxVariants) break;
+    if (!hint.test.test(q)) continue;
+    for (const v of hint.variants) push(v);
+  }
+
   return out;
 }
 

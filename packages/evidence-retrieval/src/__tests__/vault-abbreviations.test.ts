@@ -32,6 +32,15 @@ describe("expandVaultQueryVariants", () => {
   it("returns empty for blank input", () => {
     assert.deepEqual(expandVaultQueryVariants(" "), []);
   });
+
+  it("adds GSD / cervical length phrase hints for weak checklist queries", () => {
+    const gsd = expandVaultQueryVariants("гестационный диабет глюкоза 5.1");
+    assert.ok(gsd.some((v) => /сахарный диабет|ГСД/i.test(v)));
+    const cerv = expandVaultQueryVariants("цервикометрия преждевременные роды");
+    assert.ok(cerv.some((v) => /длина шейки|преждевременные роды длина/i.test(v)));
+    const cs = expandVaultQueryVariants("показания к кесареву сечению категории неотложности");
+    assert.ok(cs.some((v) => /роды одноплодные кесарево|кесарево сечение показания/i.test(v)));
+  });
 });
 
 describe("expandVaultQueryForEmbedding", () => {

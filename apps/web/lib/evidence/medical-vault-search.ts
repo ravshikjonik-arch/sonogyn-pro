@@ -2,6 +2,7 @@ import {
   expandVaultQueryForEmbedding,
   expandVaultQueryVariants,
   mergeVaultHitsRrf,
+  rerankVaultHitsByQueryOverlap,
   type MedicalVaultSearchHit,
 } from "@repo/evidence-retrieval";
 
@@ -169,9 +170,11 @@ export async function searchMedicalVault(args: {
 
   const fts = await searchMedicalVaultFts({ query: args.query, limit });
   if (semantic.length === 0 && fts.length === 0) return [];
-  if (fts.length === 0) return semantic.slice(0, limit);
-  if (semantic.length === 0) return fts.slice(0, limit);
-  return mergeVaultHits(semantic, fts, limit);
+  let merged: MedicalVaultSearchHit[];
+  if (fts.length === 0) merged = semantic.slice(0, limit);
+  else if (semantic.length === 0) merged = fts.slice(0, limit);
+  else merged = mergeVaultHits(semantic, fts, limit);
+  return rerankVaultHitsByQueryOverlap(merged, args.query, limit);
 }
 
 export type MedicalVaultStatusReason =
