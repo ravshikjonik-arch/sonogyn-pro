@@ -85,10 +85,60 @@ const CATALOG = [
     license_notes: "Публичная КР (ГСД). B2+/OCR-wave seed.",
     localText: "rae_gestational_diabetes.txt",
   },
+  {
+    title: "КР РАЭ: первичная надпочечниковая недостаточность (КР524)",
+    organization: "РАЭ / endocrincentr.ru",
+    year: 2021,
+    source_type: "guideline",
+    language: "ru",
+    external_url:
+      "https://www.endocrincentr.ru/sites/default/files/specialists/science/clinic-recomendations/kr524_pervichnaya_nadpochechnikovaya_nedostatochnost.pdf",
+    copyright_status: "public_guideline_site",
+    license_notes: "Публичная КР РАЭ. Library fill wave.",
+    localText: "rae_kr524_adrenal.txt",
+  },
+  {
+    title: "КР РАЭ: остеопороз",
+    organization: "РАЭ / endocrincentr.ru",
+    year: 2021,
+    source_type: "guideline",
+    language: "ru",
+    external_url:
+      "https://www.endocrincentr.ru/sites/default/files/specialists/science/clinic-recomendations/osteoporoz.pdf",
+    copyright_status: "public_guideline_site",
+    license_notes: "Публичная КР РАЭ. Library fill wave (text truncated to 200k if huge).",
+    localText: "rae_osteoporoz.txt",
+  },
+  {
+    title: "КР РАЭ: сахарный диабет 2 типа у взрослых",
+    organization: "РАЭ / endocrincentr.ru",
+    year: 2019,
+    source_type: "guideline",
+    language: "ru",
+    external_url:
+      "https://www.endocrincentr.ru/sites/default/files/specialists/science/clinic-recomendations/saharnyy_diabet_2_tipa_u_vzroslyh.pdf",
+    copyright_status: "public_guideline_site",
+    license_notes: "Публичная КР РАЭ. Library fill wave (text truncated to 200k if huge).",
+    localText: "rae_dm2_adults.txt",
+  },
 ];
 
 function hash(s) {
   return createHash("sha256").update(s).digest("hex");
+}
+
+function splitOversized(content, section) {
+  const parts = [];
+  let rest = content.trim();
+  while (rest.length > MAX_CHUNK) {
+    let cut = rest.lastIndexOf("\n", MAX_CHUNK);
+    if (cut < MAX_CHUNK * 0.4) cut = rest.lastIndexOf(" ", MAX_CHUNK);
+    if (cut < MAX_CHUNK * 0.4) cut = MAX_CHUNK;
+    parts.push({ sectionTitle: section, content: rest.slice(0, cut).trim() });
+    rest = rest.slice(cut).trim();
+  }
+  if (rest) parts.push({ sectionTitle: section, content: rest });
+  return parts;
 }
 
 function chunkPlainText(raw) {
@@ -101,7 +151,9 @@ function chunkPlainText(raw) {
   const flush = () => {
     const content = buf.trim();
     if (!content) return;
-    out.push({ chunkIndex: out.length, sectionTitle: section, content });
+    for (const piece of splitOversized(content, section)) {
+      out.push({ chunkIndex: out.length, sectionTitle: piece.sectionTitle, content: piece.content });
+    }
     buf = "";
   };
   for (const block of blocks) {
