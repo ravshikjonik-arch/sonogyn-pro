@@ -27,6 +27,7 @@ export const URL_INGEST_ALLOWLIST: readonly UrlIngestHostPolicy[] = [
   { host: "etj.bioscientifica.com", note: "European Thyroid Journal — проверить CC BY" },
   { host: "www.bioscientifica.com", note: "Bioscientifica — проверить CC BY" },
   { host: "cr.minzdrav.gov.ru", note: "Рубрикатор КР МЗ РФ" },
+  { host: "apicr.minzdrav.gov.ru", note: "API рубрикатора КР МЗ РФ (GetClinrecPdf)" },
   { host: "minzdrav.gov.ru", note: "МЗ РФ — публичные материалы" },
   { host: "www.minzdrav.gov.ru", note: "МЗ РФ — публичные материалы" },
   { host: "static-0.minzdrav.gov.ru", note: "Статика МЗ РФ (PDF КР)" },
