@@ -41,7 +41,7 @@ EMBED_URL = (
 )
 API_KEY = OPENROUTER or OPENAI
 
-SOURCE_IDS = [
+_DEFAULT_SOURCE_IDS = [
     "f231a51c-4fcd-4d8c-b9b9-6063034621c8",
     "553bd61b-1750-455b-aa16-eb7336525eb9",
     "4197b80c-9da2-4e46-94bd-763d9864960f",
@@ -51,6 +51,7 @@ SOURCE_IDS = [
     "f752e36d-0d81-4ca3-a35c-b9c3a8f1a989",
     "b02802b2-d4f1-47ef-8963-31b2215c0205",
 ]
+SOURCE_IDS = [x.strip() for x in (os.environ.get("SOURCE_IDS") or "").split(",") if x.strip()] or _DEFAULT_SOURCE_IDS
 
 
 def sb(path: str, method: str = "GET", body=None, prefer: str = "return=representation"):
