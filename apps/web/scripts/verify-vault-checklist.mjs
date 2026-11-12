@@ -5,10 +5,19 @@
  *   node --env-file=apps/web/.env.local apps/web/scripts/verify-vault-checklist.mjs
  * Prints status only (no secrets / PHI).
  *
- * Note: product path also applies phrase hints + title re-rank in
- * @repo/evidence-retrieval (searchMedicalVault). This script smoke-tests RPC + flags.
+ * Aligns with product path: phrase hints + RRF merge + title re-rank
+ * (@repo/evidence-retrieval), then smoke-tests RPC + flags.
  */
 import { createClient } from "@supabase/supabase-js";
+import { pathToFileURL } from "node:url";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const evidenceSrc = join(dirname(fileURLToPath(import.meta.url)), "../../../packages/evidence-retrieval/src");
+const { expandVaultQueryVariants } = await import(pathToFileURL(join(evidenceSrc, "vault-abbreviations.ts")).href);
+const { mergeVaultHitsRrf, rerankVaultHitsByQueryOverlap } = await import(
+  pathToFileURL(join(evidenceSrc, "vault-merge.ts")).href
+);
 
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
 const key = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
@@ -200,6 +209,20 @@ function hitBlob(h) {
     .join(" | ");
 }
 
+function mapRpcHit(r) {
+  return {
+    chunkId: String(r.chunk_id ?? r.id ?? ""),
+    sourceId: String(r.source_id ?? ""),
+    title: String(r.title ?? r.source_title ?? "Vault source"),
+    organization: r.organization ? String(r.organization) : undefined,
+    year: typeof r.year === "number" ? r.year : undefined,
+    section: r.section_title ? String(r.section_title) : undefined,
+    quote: String(r.quote ?? "").slice(0, 480),
+    url: r.external_url ? String(r.external_url) : "#",
+    score: typeof r.similarity === "number" ? r.similarity : typeof r.rank === "number" ? r.rank : 0,
+  };
+}
+
 async function withRetry(label, fn, tries = 5) {
   let last;
   for (let i = 0; i < tries; i++) {
@@ -284,17 +307,26 @@ async function main() {
   const fails = [];
 
   for (const item of QUERIES) {
-    let ftsHits = [];
-    let semHits = [];
+    let ftsMapped = [];
+    let semMapped = [];
     try {
-      ftsHits = await withRetry(`fts #${item.n}`, async () => {
-        const { data: fts, error: fErr } = await supabase.rpc("match_medical_vault_chunks_fts_ru", {
-          query_text: item.q,
-          match_count: 8,
-        });
-        if (fErr) throw new Error(fErr.message);
-        return fts || [];
-      }, 3);
+      const variants = expandVaultQueryVariants(item.q);
+      const ftsLists = [];
+      for (const queryText of variants) {
+        const rows = await withRetry(`fts #${item.n}`, async () => {
+          const { data: fts, error: fErr } = await supabase.rpc("match_medical_vault_chunks_fts_ru", {
+            query_text: queryText,
+            match_count: 8,
+          });
+          if (fErr) throw new Error(fErr.message);
+          return fts || [];
+        }, 3);
+        ftsLists.push(rows.map(mapRpcHit));
+      }
+      ftsMapped =
+        ftsLists.length <= 1
+          ? ftsLists[0] || []
+          : ftsLists.reduce((acc, list) => mergeVaultHitsRrf(acc, list, 8), []);
     } catch (e) {
       fails.push({ n: item.n, reason: `FTS error: ${e.message || e}` });
       fail += 1;
@@ -305,7 +337,7 @@ async function main() {
     if (api) {
       try {
         const vector = await embed(api, item.q);
-        semHits = await withRetry(`sem #${item.n}`, async () => {
+        const rows = await withRetry(`sem #${item.n}`, async () => {
           const { data: sem, error: semErr } = await supabase.rpc("match_medical_vault_chunks", {
             query_embedding: vector,
             match_threshold: 0.2,
@@ -314,24 +346,28 @@ async function main() {
           if (semErr) throw new Error(semErr.message);
           return sem || [];
         }, 2);
+        semMapped = rows.map(mapRpcHit);
       } catch {
-        semHits = [];
+        semMapped = [];
       }
     }
 
-    const combined = [...ftsHits, ...semHits];
-    if (combined.length === 0) {
+    let combined = [];
+    if (ftsMapped.length === 0 && semMapped.length === 0) {
       empty += 1;
       fail += 1;
       fails.push({ n: item.n, reason: "empty" });
       console.log(`#${item.n} FAIL empty | ${item.q}`);
       continue;
-    }
+    } else if (ftsMapped.length === 0) combined = semMapped.slice(0, 8);
+    else if (semMapped.length === 0) combined = ftsMapped.slice(0, 8);
+    else combined = mergeVaultHitsRrf(semMapped, ftsMapped, 8);
+    combined = rerankVaultHitsByQueryOverlap(combined, item.q, 8);
 
     const blob = combined.map(hitBlob).join("\n");
     const ok = item.expect.test(blob);
     const top = combined[0];
-    const topTitle = (top.title || top.source_title || "").slice(0, 70);
+    const topTitle = (top?.title || "").slice(0, 70);
     if (ok) {
       pass += 1;
       console.log(`#${item.n} PASS | top: ${topTitle}`);

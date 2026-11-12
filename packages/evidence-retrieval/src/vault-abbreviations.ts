@@ -51,6 +51,16 @@ export const VAULT_ABBREVIATIONS: readonly VaultAbbreviation[] = [
   { abbr: "LN-RADS", full: "Lymph Node Reporting and Data System" },
   { abbr: "IOTA", full: "International Ovarian Tumor Analysis" },
   { abbr: "FIGO", full: "International Federation of Gynecology and Obstetrics" },
+  {
+    abbr: "СКВ",
+    full: "системная красная волчанка",
+    aliases: ["волчанка", "SLE"],
+  },
+  {
+    abbr: "АФС",
+    full: "антифосфолипидный синдром",
+    aliases: ["APS"],
+  },
 ] as const;
 
 /**
@@ -82,6 +92,18 @@ export const VAULT_QUERY_PHRASE_HINTS: readonly { test: RegExp; variants: readon
   {
     test: /кесарев|категори\w+\s+неотложности/i,
     variants: ["роды одноплодные кесарево сечение", "кесарево сечение показания"],
+  },
+  {
+    test: /аномал\w*\s+родов|слабость\s+(схваток|родовой)|окситоцин/i,
+    variants: ["аномалии родовой деятельности", "слабость родовой деятельности окситоцин"],
+  },
+  {
+    test: /ректоцеле|дефекограф|кольпоперинеорраф/i,
+    variants: ["ректоцеле", "ректоцеле дефекография"],
+  },
+  {
+    test: /(?<![\p{L}\p{N}])СКВ(?![\p{L}\p{N}])|волчанк|гидроксихлорохин|(?<![\p{L}\p{N}])АФС(?![\p{L}\p{N}])/iu,
+    variants: ["системная красная волчанка", "системная красная волчанка беременность"],
   },
 ];
 
@@ -132,16 +154,17 @@ export function expandVaultQueryVariants(query: string, maxVariants = 6): string
     out.push(next);
   };
 
-  for (const { from, to } of PAIRS) {
-    if (out.length >= maxVariants) break;
-    const next = replaceInsensitive(q, from, to);
-    if (next) push(next);
-  }
-
+  // Phrase hints first — they fix soft ranking misses; abbreviation fan-out is secondary.
   for (const hint of VAULT_QUERY_PHRASE_HINTS) {
     if (out.length >= maxVariants) break;
     if (!hint.test.test(q)) continue;
     for (const v of hint.variants) push(v);
+  }
+
+  for (const { from, to } of PAIRS) {
+    if (out.length >= maxVariants) break;
+    const next = replaceInsensitive(q, from, to);
+    if (next) push(next);
   }
 
   return out;

@@ -72,4 +72,78 @@ describe("vault soft ranking (checklist #8/#9/#15/#29)", () => {
     );
     assert.equal(gsd[0]?.chunkId, "gsd");
   });
+
+  it("title re-rank prefers labor anomalies / rectocele / SLE", () => {
+    const labor = rerankVaultHitsByQueryOverlap(
+      [
+        {
+          chunkId: "osteo",
+          sourceId: "s",
+          title: "КР МЗ РФ: остеопороз (ID 87)",
+          quote: "",
+          url: "#",
+          score: 0.9,
+        },
+        {
+          chunkId: "labor",
+          sourceId: "s",
+          title: "КР МЗ РФ: аномалии родовой деятельности (ID 822)",
+          quote: "",
+          url: "#",
+          score: 0.8,
+        },
+      ],
+      "аномалии родовой деятельности слабость схваток окситоцин",
+      2,
+    );
+    assert.equal(labor[0]?.chunkId, "labor");
+
+    const rect = rerankVaultHitsByQueryOverlap(
+      [
+        {
+          chunkId: "cush",
+          sourceId: "s",
+          title: "КР МЗ РФ / РАЭ: болезнь Иценко–Кушинга (ID 84)",
+          quote: "",
+          url: "#",
+          score: 0.9,
+        },
+        {
+          chunkId: "rect",
+          sourceId: "s",
+          title: "КР МЗ РФ: ректоцеле (ID 188)",
+          quote: "",
+          url: "#",
+          score: 0.8,
+        },
+      ],
+      "ректоцеле дефекография кольпоперинеоррафия",
+      2,
+    );
+    assert.equal(rect[0]?.chunkId, "rect");
+
+    const sle = rerankVaultHitsByQueryOverlap(
+      [
+        {
+          chunkId: "nb",
+          sourceId: "s",
+          title: "КР МЗ РФ: нормальная беременность (ID 288)",
+          quote: "",
+          url: "#",
+          score: 0.9,
+        },
+        {
+          chunkId: "sle",
+          sourceId: "s",
+          title: "КР МЗ РФ: системная красная волчанка (ID 484)",
+          quote: "",
+          url: "#",
+          score: 0.8,
+        },
+      ],
+      "СКВ беременность гидроксихлорохин АФС",
+      2,
+    );
+    assert.equal(sle[0]?.chunkId, "sle");
+  });
 });

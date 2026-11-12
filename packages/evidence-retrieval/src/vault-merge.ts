@@ -77,6 +77,23 @@ export function rerankVaultHitsByQueryOverlap(
       bonus -= 2;
     }
     if (/категори\w+\s+неотложности/i.test(q) && /отслойк/i.test(title)) bonus -= 2;
+    if (/аномал\w*\s+родов|слабость\s+(схваток|родовой)|окситоцин/i.test(q) && /аномал\w*\s+родов|родовой деятельност/i.test(title)) {
+      bonus += 4;
+    }
+    if (/аномал\w*\s+родов|слабость\s+(схваток|родовой)|окситоцин/i.test(q) && /остеопороз/i.test(title)) {
+      bonus -= 3;
+    }
+    if (/ректоцеле|дефекограф|кольпоперинеорраф/i.test(q) && /ректоцеле/i.test(title)) bonus += 4;
+    if (/ректоцеле|дефекограф|кольпоперинеорраф/i.test(q) && /кушинг|иценко/i.test(title)) bonus -= 3;
+    // Avoid JS `\b` — it does not treat Cyrillic letters as word chars.
+    if (/(?<![\p{L}\p{N}])скв(?![\p{L}\p{N}])|волчанк|гидроксихлорохин|(?<![\p{L}\p{N}])афс(?![\p{L}\p{N}])/iu.test(q) &&
+      /волчанк|(?<![\p{L}\p{N}])скв(?![\p{L}\p{N}])|системн\w*\s+красн/iu.test(title)) {
+      bonus += 4;
+    }
+    if (/(?<![\p{L}\p{N}])скв(?![\p{L}\p{N}])|волчанк|гидроксихлорохин|(?<![\p{L}\p{N}])афс(?![\p{L}\p{N}])/iu.test(q) &&
+      /нормальн\w*\s+беременност/i.test(title)) {
+      bonus -= 3;
+    }
     return { hit, index, bonus };
   });
 
