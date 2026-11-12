@@ -1067,6 +1067,28 @@ const CATALOG = [
     license_notes: "Официальная КР рубрикатора МЗ РФ. AG library fill.",
     localText: "mz_adrenal_cancer_341.txt",
   },
+  {
+    title: "КР МЗ РФ: легочная гипертензия, в т.ч. ХТЭЛГ (ID 159)",
+    organization: "РКО / АССХ / МЗ РФ",
+    year: 2024,
+    source_type: "guideline",
+    language: "ru",
+    external_url: "https://apicr.minzdrav.gov.ru/api.ashx?id=159_2&op=GetClinrecPdf",
+    copyright_status: "official_kr_mz_rf",
+    license_notes: "Официальная КР рубрикатора МЗ РФ. AG library fill.",
+    localText: "mz_pah_159.txt",
+  },
+  {
+    title: "КР МЗ РФ: холецистит (ID 819; supersedes 324)",
+    organization: "РОХ / РГА / МЗ РФ",
+    year: 2024,
+    source_type: "guideline",
+    language: "ru",
+    external_url: "https://apicr.minzdrav.gov.ru/api.ashx?id=819_1&op=GetClinrecPdf",
+    copyright_status: "official_kr_mz_rf",
+    license_notes: "Официальная КР рубрикатора МЗ РФ. AG library fill (актуальная вместо 324).",
+    localText: "mz_cholecystitis_819.txt",
+  },
 ];
 
 function hash(s) {
