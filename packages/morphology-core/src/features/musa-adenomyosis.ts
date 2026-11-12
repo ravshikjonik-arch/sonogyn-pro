@@ -1,0 +1,121 @@
+import type { ClassificationContextId, MorphologyFeatureDefinition, SourceReference } from "../types";
+import { DEFINITION_VERSION_V1 as V, v } from "./helpers";
+
+const MUSA: SourceReference = {
+  label: "MUSA consensus (Van den Bosch et al., Ultrasound Obstet Gynecol 2015; revised 2022)",
+  year: 2022,
+};
+
+const CTX: ClassificationContextId[] = ["musa_adenomyosis"];
+
+const bool = (featureId: string, displayName: string, definition?: string): MorphologyFeatureDefinition => ({
+  featureId,
+  displayName,
+  anatomy: "uterus",
+  valueType: "boolean",
+  applicableClassifications: CTX,
+  definitionVersion: V,
+  sourceReference: MUSA,
+  ...(definition ? { definition } : {}),
+});
+
+export const MUSA_ADENOMYOSIS_FEATURES: MorphologyFeatureDefinition[] = [
+  bool("uterus.myometrial_cysts", "Кисты миометрия"),
+  bool("uterus.hyperechogenic_islands", "Гиперэхогенные островки"),
+  bool("uterus.subendometrial_lines_buds", "Субэндометриальные линии и почки (striations)"),
+  bool(
+    "uterus.heterogeneous_myometrium",
+    "Неоднородность миометрия (engine flag)",
+    "Флаг движка Sonogyn Score; MUSA рекомендует описывать конкретные признаки вместо общего термина.",
+  ),
+  bool("uterus.wall_asymmetry", "Асимметрия стенок"),
+  bool("uterus.globular_shape", "Шаровидная матка"),
+  bool("uterus.fan_shaped_shadowing", "Веерообразная тень"),
+  {
+    featureId: "uterus.jz_thickness_max",
+    displayName: "Максимальная толщина переходной зоны (JZ)",
+    anatomy: "uterus",
+    valueType: "quantity",
+    unit: "mm",
+    applicableClassifications: CTX,
+    definitionVersion: V,
+    sourceReference: MUSA,
+  },
+  {
+    featureId: "uterus.adenomyosis_localization",
+    displayName: "Локализация аденомиоза",
+    anatomy: "uterus",
+    valueType: "enum_set",
+    allowedValues: [
+      v("AW", "Передняя стенка"),
+      v("PW", "Задняя стенка"),
+      v("FU", "Дно"),
+      v("RL", "Правая боковая"),
+      v("LL", "Левая боковая"),
+      v("CX", "Шейка"),
+    ],
+    applicableClassifications: CTX,
+    definitionVersion: V,
+    sourceReference: MUSA,
+  },
+  {
+    featureId: "uterus.adenomyosis_depth",
+    displayName: "Глубина поражения",
+    anatomy: "uterus",
+    valueType: "enum",
+    allowedValues: [v("A0", "A0"), v("A1", "A1"), v("A2", "A2"), v("A3", "A3"), v("A4", "A4")],
+    applicableClassifications: CTX,
+    definitionVersion: V,
+    sourceReference: MUSA,
+  },
+  {
+    featureId: "uterus.adenomyosis_morphotype",
+    displayName: "Морфотип",
+    anatomy: "uterus",
+    valueType: "enum",
+    allowedValues: [v("D", "Диффузный"), v("F", "Фокальный"), v("AM", "Аденомиома"), v("C", "Кистозный")],
+    applicableClassifications: CTX,
+    definitionVersion: V,
+    sourceReference: MUSA,
+  },
+  {
+    featureId: "uterus.jz_irregularity",
+    displayName: "Неровность JZ",
+    anatomy: "uterus",
+    valueType: "enum",
+    allowedValues: [v("JZ-I", "JZ-I"), v("JZ-II", "JZ-II"), v("JZ-III", "JZ-III")],
+    applicableClassifications: CTX,
+    definitionVersion: V,
+    sourceReference: MUSA,
+  },
+  {
+    featureId: "uterus.serosal_contour",
+    displayName: "Контур матки",
+    anatomy: "uterus",
+    valueType: "enum",
+    allowedValues: [v("U0", "U0"), v("U1", "U1"), v("U2", "U2"), v("U3", "U3")],
+    applicableClassifications: CTX,
+    definitionVersion: V,
+    sourceReference: MUSA,
+  },
+  {
+    featureId: "uterus.anterior_wall_thickness",
+    displayName: "Толщина передней стенки",
+    anatomy: "uterus",
+    valueType: "quantity",
+    unit: "mm",
+    applicableClassifications: CTX,
+    definitionVersion: V,
+    sourceReference: MUSA,
+  },
+  {
+    featureId: "uterus.posterior_wall_thickness",
+    displayName: "Толщина задней стенки",
+    anatomy: "uterus",
+    valueType: "quantity",
+    unit: "mm",
+    applicableClassifications: CTX,
+    definitionVersion: V,
+    sourceReference: MUSA,
+  },
+];

@@ -127,6 +127,8 @@ const nextConfig: NextConfig = {
     "@repo/adnex-education",
     "@repo/types",
     "@repo/orads-us",
+    "@repo/morphology-core",
+    "@repo/medical-intelligence",
     "@repo/birads-us",
     "@repo/birads-mmg",
     "@repo/myoma-education",

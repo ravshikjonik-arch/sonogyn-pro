@@ -282,9 +282,9 @@ export function SonogynCopilot() {
         if (useStream && res.ok) {
           const transport = res.headers.get("x-sonogyn-ai-transport");
           const contentType = res.headers.get("content-type") ?? "";
+          // The server header decides the transport, so a client flag that lags the server flag cannot break parsing.
           const aiSdkStream =
-            isAiSdkEnabledClient() &&
-            (transport === "ai-sdk" || contentType.includes("text/plain"));
+            transport === "ai-sdk" || (isAiSdkEnabledClient() && contentType.includes("text/plain"));
 
           if (aiSdkStream) {
             let fullText = "";

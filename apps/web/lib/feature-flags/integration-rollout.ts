@@ -50,6 +50,8 @@ export type IntegrationRolloutFlags = {
   dicomViewer: boolean;
   dicomDeidRequired: boolean;
   aiSdk: boolean;
+  /** AI_SDK_ENABLED and NEXT_PUBLIC_AI_SDK_ENABLED agree (both on or both off). */
+  aiSdkFlagsConsistent: boolean;
   sentry: boolean;
   realtimePollingFallback: boolean;
   imagingCdsV2: boolean;
@@ -73,6 +75,8 @@ export function integrationRolloutSnapshot(): IntegrationRolloutFlags {
     dicomViewer: isDicomViewerEnabled(),
     dicomDeidRequired: isDicomDeidRequired(),
     aiSdk,
+    aiSdkFlagsConsistent:
+      envTruthy(process.env.AI_SDK_ENABLED) === envTruthy(process.env.NEXT_PUBLIC_AI_SDK_ENABLED),
     sentry,
     realtimePollingFallback: isRealtimePollingFallbackEnabled(),
     imagingCdsV2: isImagingCdsV2Enabled(),

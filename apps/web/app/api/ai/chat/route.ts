@@ -23,7 +23,8 @@ import {
   LOCAL_PROVIDER_ATTEMPT_TIMEOUT_MS,
   shouldFailoverToNextProvider,
 } from "@/lib/ai/sonogyn-chat/model-fallback";
-import { isAiSdkEnabled } from "@/lib/ai/sdk/flags";
+import { aiSdkFlagState } from "@/lib/ai/sdk/flags";
+import { persistedAssistantMessage } from "@/lib/ai/sdk/persisted-answer";
 import { aiSdkTextStreamResponse, runAiSdkStreamText } from "@/lib/ai/sdk/stream-chat";
 import { callOpenRouterChat, type OpenRouterMessage } from "@/lib/ai/sonogyn-chat/openrouter-client";
 import { inferClinicalDomain, type SonogynClinicalDomain } from "@/lib/ai/sonogyn-chat/rag-context";
@@ -41,7 +42,6 @@ import {
 } from "@/lib/ai/sonogyn-chat/evidence-answer-validate";
 import { evidenceCostModelLabel } from "@/lib/ai/sonogyn-chat/evidence-cost";
 import {
-  captureOpenRouterStreamText,
   createStaticEvidenceChatStream,
   wrapOpenRouterStreamWithEvidence,
 } from "@/lib/ai/sonogyn-chat/stream-client";
@@ -227,8 +227,13 @@ export async function POST(request: Request) {
   const domain = mode === "evidence" ? "general" : resolveDomain(modality, lastUserText);
   const hasImages = Boolean(images?.length);
   const useStream = stream && !hasImages;
-  /** Clinical engines are attached only on the AI SDK streaming path; the prompt must say so. */
-  const toolsAvailable = useStream && isAiSdkEnabled() && mode === "clinical" && !hasImages;
+  const aiSdkFlags = aiSdkFlagState();
+  if (!aiSdkFlags.consistent) {
+    safeLog("ai sdk flags mismatch", { server: aiSdkFlags.server, client: aiSdkFlags.client });
+  }
+  const aiSdkPath = useStream && aiSdkFlags.server && mode !== "evidence";
+  /** Clinical engines are attached only on the AI SDK path; the prompt must say so. */
+  const toolsAvailable = aiSdkPath && mode === "clinical" && !hasImages;
 
   if (mode === "evidence") {
     const rl = await consumeRateLimit(
@@ -561,7 +566,7 @@ export async function POST(request: Request) {
   const modelChain = buildGatewayAttemptChain(llmPurpose, model);
   const selectedModel = modelChain[0]?.modelId ?? model ?? llm.model;
   const appUrl = process.env.NEXT_PUBLIC_APP_URL?.trim();
-  const enableTools = mode === "clinical" && !hasImages;
+  const enableTools = toolsAvailable;
 
   const logSuccess = async (opts: {
     modelLabel: string;
@@ -591,7 +596,7 @@ export async function POST(request: Request) {
     }
   };
 
-  if (useStream && isAiSdkEnabled() && mode !== "evidence") {
+  if (aiSdkPath) {
     let lastError: unknown;
     for (let i = 0; i < modelChain.length; i++) {
       const attempt = modelChain[i]!;
@@ -626,30 +631,26 @@ export async function POST(request: Request) {
           )
           .catch(() => undefined);
 
-        void Promise.resolve(result.text)
-          .then(async (fullText) => {
-            if (!activeSessionId) return;
-            const { displayText, tools } = extractToolsFromAssistantText(fullText);
-            const mergedTools = tools.length ? tools : collectedTools;
-            await appendChatMessage(supabase, {
-              sessionId: activeSessionId,
+        const sessionForAnswer = activeSessionId;
+        return aiSdkTextStreamResponse(
+          result,
+          collectedTools,
+          {
+            "X-Sonogyn-Ai-Transport": "ai-sdk",
+            "X-Sonogyn-Prompt-Version": promptVersion,
+            "X-Sonogyn-Session-Id": activeSessionId ?? "",
+            ...(i > 0 ? { "X-Sonogyn-Model-Fallback": "1" } : {}),
+          },
+          async (answer) => {
+            if (!sessionForAnswer) return;
+            await appendChatMessage(supabase, persistedAssistantMessage(answer, {
+              sessionId: sessionForAnswer,
               userId: auth.userId,
-              role: "assistant",
-              content: displayText || fullText,
-              toolResults: mergedTools,
-              isAiDraft: true,
               modelId: attempt.modelId,
               promptVersion,
-            });
-          })
-          .catch(() => undefined);
-
-        return aiSdkTextStreamResponse(result, collectedTools, {
-          "X-Sonogyn-Ai-Transport": "ai-sdk",
-          "X-Sonogyn-Prompt-Version": promptVersion,
-          "X-Sonogyn-Session-Id": activeSessionId ?? "",
-          ...(i > 0 ? { "X-Sonogyn-Model-Fallback": "1" } : {}),
-        });
+            }));
+          },
+        );
       } catch (error) {
         lastError = error;
         safeLog("ai chat ai-sdk stream error", redactForAiLog({
@@ -792,25 +793,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Empty stream" }, { status: 502 });
     }
 
-    const answerBody = activeSessionId
-      ? captureOpenRouterStreamText(body, async (fullText) => {
-          const { displayText, tools } = extractToolsFromAssistantText(fullText);
-          await appendChatMessage(supabase, {
-            sessionId: activeSessionId,
-            userId: auth.userId,
-            role: "assistant",
-            content: displayText || fullText,
-            toolResults: tools,
-            evidence: evidenceAnswer ?? undefined,
-            isAiDraft: true,
-            modelId: activeAttempt.modelId,
-            promptVersion,
-          });
-        })
-      : body;
-
     const streamBody =
-      evidenceAnswer != null ? wrapOpenRouterStreamWithEvidence(answerBody, evidenceAnswer) : answerBody;
+      evidenceAnswer != null ? wrapOpenRouterStreamWithEvidence(body, evidenceAnswer) : body;
 
     return new NextResponse(streamBody, {
       headers: {
