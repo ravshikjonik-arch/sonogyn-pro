@@ -980,15 +980,15 @@ const CATALOG = [
     localText: "mz_osteoporosis_87.txt",
   },
   {
-    title: "КР МЗ РФ: сахарный диабет 2 типа у взрослых (ID 290)",
+    title: "КР МЗ РФ: сахарный диабет 2 типа у взрослых, 2022 (ID 290_2)",
     organization: "РАЭ / МЗ РФ",
     year: 2022,
     source_type: "guideline",
     language: "ru",
-    external_url: "https://apicr.minzdrav.gov.ru/api.ashx?id=290_1&op=GetClinrecPdf",
+    external_url: "https://apicr.minzdrav.gov.ru/api.ashx?id=290_2&op=GetClinrecPdf",
     copyright_status: "official_kr_mz_rf",
     license_notes: "Официальная КР рубрикатора МЗ РФ. AG library fill.",
-    localText: "mz_dm2_290.txt",
+    localText: "mz_dm2_290_v2.txt",
   },
   {
     title: "КР МЗ РФ: артериальная гипертензия у взрослых (ID 62)",
