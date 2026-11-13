@@ -92,3 +92,24 @@ CMS/CRM в анкете счётчика — **не заполнять** (у н�
 2. `NEXT_PUBLIC_GA_ID` (опционально GA4 `G-…`).
 3. Подтверждение, что Sentry DSN уже в Vercel (для 5xx / hydration).
 4. В кабинете Метрики: создать JS-цели из таблицы выше (UI иногда под техработами).
+
+### Статус целей (ручной)
+
+Уже созданы (проверено в кабинете): `landing_view` (и, вероятно, `cta_click` — «Использовано 2 из 200»).
+
+Осталось добавить (тип **Целевое событие**, имя = идентификатор):
+
+1. `cta_click` — если ещё нет в списке  
+2. `signup_start`  
+3. `signup_complete`  
+4. `calculator_open`  
+5. `calculator_calc`  
+6. `case_save`  
+7. `ai_request`  
+8. `paywall_view`  
+9. `checkout_start`  
+10. `checkout_success`  
+11. `install_prompt_shown`  
+12. `install_accepted`  
+
+Кабинет: https://metrika.yandex.ru/stat/conversion_rate?id=114234431&goalsConversionViewKind=List
