@@ -2,27 +2,20 @@
 
 Контент: `apps/web/lib/seo/blog-posts.ts`. Sitemap — `listBlogPosts()`.
 
-## Готово: 33 статьи + хаб `/blog`
+## Готово: 43 статьи + хаб `/blog`
 
-Партии: #82 (3) → #83 (10) → #84 (10) → batch4 (10).
+Партии: #82 (3) → #83 (10) → #84 (10) → #85 (10) → batch5 (10).
 
-Ревьюер: Якубов Р.В. Cut-off в текстах не публикуются.
+Cut-off в текстах не публикуются — отсылка к калькулятору и первоисточнику.
+
+> **Ревью:** на всех статьях стоит «Проверил: Якубов Р.В.» (`CLINICAL_CONTENT_REVIEWER`), но тексты писал агент. До фактической вычитки врачом подпись не соответствует действительности — вычитать или временно заменить статус.
 
 ### Клинические / калькуляторы
-O-RADS 2 мин · IOTA vs O-RADS · эндометрий · Bishop · VBAC · EFW · TI-RADS · BI-RADS · POP-Q · CL · FIGO · чек-лист ОМТ · O-RADS 0 · FMF · эластография · кольпоскопия · LN-RADS · лекарства при беременности · поля ADNEX · Vascular US · Evidence vs гайдлайн · Appointment hub
+O-RADS 2 мин · IOTA vs O-RADS · эндометрий · Bishop · VBAC · EFW · TI-RADS · BI-RADS · POP-Q · CL · FIGO · чек-лист ОМТ · O-RADS 0 · FMF · эластография · кольпоскопия · LN-RADS · лекарства при беременности · поля ADNEX · Vascular US · Evidence vs гайдлайн · Appointment hub · IDEA · MUSA · эхограммы O-RADS · нозологии · допплер I триместра
 
 ### Продукт / доверие
-Open access · PWA offline · Quiz дисклеймер · Career ladder · Telegram vs продукт · Dark/light a11y · Cookie/analytics · Оферта за 1 мин · Contacts/SLA · Staging vs production · Mobile Expo parity
+Open access · PWA offline · Quiz · Career ladder · Telegram vs продукт · Dark/light · Cookie/analytics · Оферта · Contacts/SLA · Staging vs production · Mobile parity · Звёзды и XP · Обезличивание кейса · AI-чат без ПДн · Оплата PRO · «Слишком много запросов»
 
-## Следующая очередь (опционально)
+## Не для публичного блога
 
-1. Achievements / геймификация обучения  
-2. Cases feed — анонимизация  
-3. Protocols / EMR без PHI в чате  
-4. Stripe vs ЮKassa на paywall  
-5. Rate limits — что видит врач  
-6. Dev skip-auth — только local  
-7. Custom domain checklist  
-8. Lighthouse / perf для клиники  
-9. A11y e2e soft vs strict  
-10. Remotion / короткие ролики для врачей  
+Внутренние инженерные темы (dev skip-auth, custom domain, Lighthouse, a11y e2e, Remotion) — в `docs/`, а не в `/blog`: врачу не нужны, а часть раскрывает детали безопасности.
