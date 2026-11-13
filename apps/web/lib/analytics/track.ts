@@ -63,3 +63,25 @@ export function track(event: FunnelEvent): void {
     /* ignore */
   }
 }
+
+/** Id для воронки: `/tools/calc/rads/o-rads` → `rads_o-rads`. */
+export function calculatorAnalyticsIdFromPath(path: string): string {
+  const trimmed = path.trim();
+  if (!trimmed) return "";
+  return (
+    trimmed.replace(/^\/tools\/calc\//, "").replace(/\//g, "_") || trimmed
+  );
+}
+
+const calculatorCalcFired = new Set<string>();
+
+/**
+ * Первый расчёт за вкладку (только id, без полей формы).
+ * Повторные вызовы с тем же id игнорируются — без спама live-форм.
+ */
+export function trackCalculatorCalc(id: string): void {
+  const key = id.trim();
+  if (!key || calculatorCalcFired.has(key)) return;
+  calculatorCalcFired.add(key);
+  track({ name: "calculator_calc", params: { id: key } });
+}

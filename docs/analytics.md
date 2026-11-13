@@ -30,7 +30,7 @@
 | `cta_click` | `cta`, `placement` | header / hero / footer |
 | `signup_start` / `signup_complete` | `method` | RegisterAuthWizard |
 | `calculator_open` | `id` | CalculatorLandingShell |
-| `calculator_calc` | `id` | API готова; wire по калькуляторам инкрементально |
+| `calculator_calc` | `id` | ReportPanel / recordRun / O-RADS / POP-Q / endometrium (1× за вкладку, без полей) |
 | `case_save` | — | NewCaseWizard |
 | `ai_request` | `mode` | SonogynCopilot |
 | `paywall_view` / `checkout_start` / `checkout_success` | `plan` | `/paywall` |

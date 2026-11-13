@@ -7,6 +7,7 @@ import { toast } from "sonner";
 
 import { saveCalculatorEntry } from "@/app/actions/calculator-actions";
 import { createTeachingCaseFromCalculator } from "@/app/actions/teaching-case-actions";
+import { trackCalculatorCalc } from "@/lib/analytics/track";
 import { PopQAnatomyMockup } from "@/components/calculators/popq/PopQAnatomyMockup";
 import { PopQDiagram } from "@/components/calculators/popq/PopQDiagram";
 import { PopQGrid } from "@/components/calculators/popq/PopQGrid";
@@ -173,6 +174,7 @@ export function PopQFlow() {
     setCalculatedInput(input);
     setStageResult(out.result);
     setErrors([]);
+    trackCalculatorCalc("gyn_pop-q");
     toast.success(stageLabel(out.result.stageKey));
   }
 

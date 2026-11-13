@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useTransition, type ReactNode } from "react";
+import { useEffect, useMemo, useState, useTransition, type ReactNode } from "react";
 import Link from "next/link";
 import { Clipboard, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
@@ -19,6 +19,7 @@ import {
 } from "@repo/orads-us/pro";
 
 import { saveCalculatorEntry } from "@/app/actions/calculator-actions";
+import { trackCalculatorCalc } from "@/lib/analytics/track";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { parseOradsText } from "@/lib/orads-pro/text-parser";
@@ -76,6 +77,11 @@ export function OradsUnifiedCalculator() {
   const [mobilePane, setMobilePane] = useState<"edit" | "preview">("edit");
 
   const result = useMemo(() => evaluateOradsUs2022(input), [input]);
+
+  useEffect(() => {
+    if (result.category === null) return;
+    trackCalculatorCalc("rads_o-rads");
+  }, [result.category]);
 
   const isCyst = ["unilocular", "bilocular", "multilocular"].includes(input.morphology);
   const needsSize =
