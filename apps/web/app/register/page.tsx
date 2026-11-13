@@ -21,7 +21,9 @@ import {
 } from "@/components/auth/DoctorRegistrationFields";
 import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
 import { TelegramSimpleAuth } from "@/components/auth/TelegramSimpleAuth";
+import { LegalConsentCheckbox } from "@/components/legal/LegalConsentCheckbox";
 import { Button } from "@/components/ui/button";
+import { LEGAL_DOCS_VERSION } from "@/lib/config/legal";
 import { CAPTCHA_FAILURE_THRESHOLD } from "@/lib/auth/auth-attempts";
 import {
   postPhoneSendOtp,
@@ -110,6 +112,7 @@ function LegacyRegisterForm() {
   const [pendingEmailConfirmation, setPendingEmailConfirmation] = useState(false);
   const [smsNotConfigured, setSmsNotConfigured] = useState(false);
   const [sendCooldownSec, setSendCooldownSec] = useState(0);
+  const [acceptLegal, setAcceptLegal] = useState(false);
 
   const afterAuthPath = safeInternalPath(
     searchParams.get("next") ?? searchParams.get("redirectedFrom"),
@@ -210,6 +213,10 @@ function LegacyRegisterForm() {
       setMessage(AUTH_PASSWORD_TOO_SHORT_MSG);
       return;
     }
+    if (!acceptLegal) {
+      setMessage("Отметьте согласие с Политикой и Офертой.");
+      return;
+    }
 
     setLoading(true);
     try {
@@ -222,6 +229,8 @@ function LegacyRegisterForm() {
         specialization: specialization.trim(),
         preferred_locale: locale,
         turnstileToken,
+        accept_legal: true,
+        legal_docs_version: LEGAL_DOCS_VERSION,
       });
       if (!result.ok) {
         setFailedAttempts((n) => n + 1);
@@ -742,7 +751,13 @@ function LegacyRegisterForm() {
           {showCaptcha && activeTab === "email" ? (
             <TurnstileWidget onToken={(t) => setTurnstileToken(t)} onExpire={() => setTurnstileToken(undefined)} />
           ) : null}
-          <Button className="w-full rounded-2xl py-6" type="submit" disabled={loading} aria-label="Зарегистрироваться">
+          <LegalConsentCheckbox checked={acceptLegal} onChange={setAcceptLegal} id="legal-consent-register-page" />
+          <Button
+            className="w-full rounded-2xl py-6"
+            type="submit"
+            disabled={loading || !acceptLegal}
+            aria-label="Зарегистрироваться"
+          >
             {loading ? "Создаём…" : "Зарегистрироваться по email"}
           </Button>
         </form>

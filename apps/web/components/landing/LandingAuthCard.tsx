@@ -6,8 +6,10 @@ import { FormEvent, useState } from "react";
 
 import { useAuth } from "@/app/providers";
 import { AuthMessage } from "@/components/auth/AuthScreenShell";
+import { LegalConsentCheckbox } from "@/components/legal/LegalConsentCheckbox";
 import { BirthDateField } from "@/components/ui/BirthDateField";
 import { Button } from "@/components/ui/button";
+import { LEGAL_DOCS_VERSION } from "@/lib/config/legal";
 import { postResendConfirmation, postSignIn, postSignUp } from "@/lib/auth/client-auth-api";
 import { parseBirthDateInput, validateBirthDateIso } from "@/lib/auth/birth-date";
 import { birthDateErrorMessage } from "@repo/types";
@@ -42,6 +44,7 @@ export function LandingAuthCard({ className }: Props) {
   const [message, setMessage] = useState("");
   const [tone, setTone] = useState<"error" | "success">("error");
   const [loading, setLoading] = useState(false);
+  const [acceptLegal, setAcceptLegal] = useState(false);
 
   if (ready && user) {
     return (
@@ -152,6 +155,11 @@ export function LandingAuthCard({ className }: Props) {
         birthIso = birth.iso;
       }
 
+      if (!acceptLegal) {
+        setTone("error");
+        setMessage("Отметьте согласие с Политикой и Офертой.");
+        return;
+      }
       const res = await postSignUp({
         email: email.trim(),
         password,
@@ -160,6 +168,8 @@ export function LandingAuthCard({ className }: Props) {
         birth_date: birthIso,
         specialization: "Акушер-гинеколог",
         preferred_locale: "ru",
+        accept_legal: true,
+        legal_docs_version: LEGAL_DOCS_VERSION,
       });
       if (!res.ok) {
         setTone("error");
@@ -292,6 +302,15 @@ export function LandingAuthCard({ className }: Props) {
           </label>
         ) : null}
 
+        {mode === "register" ? (
+          <LegalConsentCheckbox
+            checked={acceptLegal}
+            onChange={setAcceptLegal}
+            id="legal-consent-landing"
+            className="border-white/15 bg-black/30 text-violet-50"
+          />
+        ) : null}
+
         {message ? <AuthMessage message={message} tone={tone} /> : null}
 
         {mode === "pending" ? (
@@ -313,7 +332,11 @@ export function LandingAuthCard({ className }: Props) {
             </Button>
           </div>
         ) : (
-          <Button type="submit" className="w-full font-bold" disabled={loading || !ready}>
+          <Button
+            type="submit"
+            className="w-full font-bold"
+            disabled={loading || !ready || (mode === "register" && !acceptLegal)}
+          >
             {loading ? "…" : mode === "login" ? "Войти" : "Создать аккаунт"}
           </Button>
         )}

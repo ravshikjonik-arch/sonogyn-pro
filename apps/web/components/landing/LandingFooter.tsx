@@ -2,6 +2,12 @@ import Link from "next/link";
 
 import { TelegramChannelLink } from "@/components/clinical/TelegramChannelLink";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  formatLegalCopyrightLine,
+  MEDICAL_DEVICE_DISCLAIMER_RU,
+  readLegalPublicProfile,
+} from "@/lib/config/legal";
+import { CDS_DISCLAIMER_RU } from "@/lib/config/platform";
 
 import { LANDING_PILLARS } from "./data";
 
@@ -10,6 +16,8 @@ type LandingFooterProps = {
 };
 
 export function LandingFooter({ isAuthenticated }: LandingFooterProps) {
+  const legal = readLegalPublicProfile();
+
   return (
     <>
       <section className="grid gap-6 md:grid-cols-3">
@@ -67,7 +75,13 @@ export function LandingFooter({ isAuthenticated }: LandingFooterProps) {
             Страница тарифов
           </Link>
           <Link href="/privacy" className="hover:text-[var(--clinical-primary-deep)]">
-            Конфиденциальность
+            Политика
+          </Link>
+          <Link href="/offer" className="hover:text-[var(--clinical-primary-deep)]">
+            Оферта
+          </Link>
+          <Link href="/contacts" className="hover:text-[var(--clinical-primary-deep)]">
+            Контакты
           </Link>
           <Link href="/app" className="hover:text-[var(--clinical-primary-deep)]">
             Кабинет
@@ -77,16 +91,18 @@ export function LandingFooter({ isAuthenticated }: LandingFooterProps) {
               Войти
             </Link>
           ) : null}
-          <a href="mailto:support@sonogyn-pro.ru" className="hover:text-[var(--clinical-primary-deep)]">
-            support@sonogyn-pro.ru
+          <a
+            href={`mailto:${legal.supportEmail}`}
+            className="hover:text-[var(--clinical-primary-deep)]"
+          >
+            {legal.supportEmail}
           </a>
         </div>
-        <p className="mt-4">
-          SonoGyn Pro · Yakrav7700 · не является медицинским изделием без регистрации
+        <p className="mt-4">{formatLegalCopyrightLine(legal)}</p>
+        <p className="mt-2 text-[10px] text-[var(--clinical-foreground-muted)]">
+          {MEDICAL_DEVICE_DISCLAIMER_RU}
         </p>
-        <p className="mt-2 text-[10px] text-slate-500">
-          Информация на сайте не является медицинским диагнозом; интерпретация — за специалистом.
-        </p>
+        <p className="mt-2 text-[10px] text-[var(--clinical-foreground-muted)]">{CDS_DISCLAIMER_RU}</p>
       </footer>
     </>
   );

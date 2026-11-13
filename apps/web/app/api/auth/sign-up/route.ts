@@ -155,6 +155,7 @@ export async function POST(req: Request) {
     institution = "",
     preferred_locale = "",
     birth_date: birthDateRaw = "",
+    legal_docs_version,
   } = body;
   const birth_year = parseBirthYearFromBody(body as Record<string, unknown>);
   const parsedBirth = birthDateRaw ? parseBirthDateInput(birthDateRaw) : null;
@@ -185,6 +186,8 @@ export async function POST(req: Request) {
         data: {
           full_name,
           specialization,
+          legal_consent_at: new Date().toISOString(),
+          legal_docs_version,
           ...(birth_year ? { birth_year } : {}),
           ...(birth_date ? { birth_date } : {}),
           ...(institution ? { institution } : {}),
