@@ -43,20 +43,22 @@ export default function PricingPage() {
           <Link href="/" className="text-sm font-semibold">
             ← На главную
           </Link>
-          <div className="flex gap-2">
+          <nav className="flex gap-2" aria-label="Вход и регистрация">
             <Button variant="ghost" size="sm" asChild>
               <Link href="/login">Войти</Link>
             </Button>
             <Button size="sm" asChild>
               <Link href="/register">Регистрация</Link>
             </Button>
-          </div>
+          </nav>
         </div>
       </header>
 
-      <main className="mx-auto max-w-5xl px-4 py-16">
+      <main id="main-content" className="mx-auto max-w-5xl px-4 py-16">
         <div className="mb-12 text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">Тарифы</h1>
+          <h1 className="text-3xl font-bold tracking-tight text-[var(--clinical-foreground)] sm:text-4xl">
+            Тарифы
+          </h1>
           <p className="mx-auto mt-3 max-w-2xl text-sm text-[var(--clinical-foreground-muted)]">
             Веб-кабинет и PWA — основной рабочий контур. {MOBILE_STORE_LINE_RU}{" "}
             {paymentsLive
@@ -69,7 +71,7 @@ export default function PricingPage() {
         </div>
 
         <div className="grid gap-8 md:grid-cols-2">
-          <Card className="border-slate-200">
+          <Card className="border-[var(--clinical-border)]">
             <CardHeader>
               <CardTitle>Free</CardTitle>
               <CardDescription>Демо-режим: калькуляторы и открытые материалы без регистрации.</CardDescription>
@@ -123,7 +125,9 @@ export default function PricingPage() {
                   <Button className="w-full" asChild>
                     <Link href="/login?redirectedFrom=/paywall">{checkout.ctaLabel}</Link>
                   </Button>
-                  <p className="text-center text-xs text-slate-500">{checkout.footnote}</p>
+                  <p className="text-center text-xs text-[var(--clinical-foreground-muted)]">
+                    {checkout.footnote}
+                  </p>
                 </>
               ) : (
                 <>
@@ -134,7 +138,7 @@ export default function PricingPage() {
                       Написать о PRO
                     </Link>
                   </Button>
-                  <p className="text-center text-xs text-slate-500">
+                  <p className="text-center text-xs text-[var(--clinical-foreground-muted)]">
                     Без цены и без кнопки оплаты, пока платёжный провайдер не включён. {SUPPORT_EMAIL}
                   </p>
                 </>
@@ -143,7 +147,7 @@ export default function PricingPage() {
           </Card>
         </div>
 
-        <p className="mt-12 text-center text-xs text-slate-500">
+        <p className="mt-12 text-center text-xs text-[var(--clinical-foreground-muted)]">
           Образовательный контент без PHI. Перед клиническим применением — политики организации и аудит доступа.
         </p>
       </main>

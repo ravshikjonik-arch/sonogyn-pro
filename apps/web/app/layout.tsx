@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
+import { SkipToContent } from "@/components/a11y/SkipToContent";
 import { PwaInstallProvider } from "@/components/pwa/PwaInstallProvider";
 import { PwaRuntime } from "@/components/pwa/PwaRuntime";
 import { AppToaster } from "@/components/providers/app-toaster";
@@ -91,10 +92,11 @@ export default function RootLayout({
           }}
         />
       </head>
-          <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col">
         <ThemeProvider>
           <PwaInstallProvider>
             <SessionProvider>
+              <SkipToContent />
               {children}
               <AppToaster />
               <PwaRuntime />

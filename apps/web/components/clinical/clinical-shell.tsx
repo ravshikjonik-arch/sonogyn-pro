@@ -439,7 +439,11 @@ export function ClinicalShell({
             «Войти». Не вводите ПДн пациентов.
           </div>
         ) : null}
-        <main className="flex-1 pb-[calc(4.5rem+env(safe-area-inset-bottom))] sonogyn-enter lg:pb-0" data-voice-content>
+        <main
+          id="main-content"
+          className="flex-1 pb-[calc(4.5rem+env(safe-area-inset-bottom))] sonogyn-enter lg:pb-0"
+          data-voice-content
+        >
           <ClinicalRouteOfflineGate>{children}</ClinicalRouteOfflineGate>
         </main>
         <ClinicalVoiceDock />

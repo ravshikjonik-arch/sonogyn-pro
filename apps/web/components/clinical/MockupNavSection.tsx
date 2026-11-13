@@ -56,9 +56,10 @@ export function MockupNavSection({ onNavigate }: Props) {
           size="icon"
           className="h-7 w-7 shrink-0"
           title="Сдвинуть порядок макетов"
+          aria-label="Сдвинуть порядок макетов"
           onClick={swapOrder}
         >
-          <ArrowDownUp className="h-3.5 w-3.5" />
+          <ArrowDownUp className="h-3.5 w-3.5" aria-hidden />
         </Button>
       </div>
 

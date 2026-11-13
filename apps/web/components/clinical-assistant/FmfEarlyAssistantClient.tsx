@@ -3,7 +3,18 @@
 import { AlertTriangle, ArrowRight, ClipboardList, GraduationCap, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState, type Dispatch, type ReactNode, type SetStateAction } from "react";
+import {
+  cloneElement,
+  isValidElement,
+  useEffect,
+  useId,
+  useMemo,
+  useState,
+  type Dispatch,
+  type ReactElement,
+  type ReactNode,
+  type SetStateAction,
+} from "react";
 import { toast } from "sonner";
 
 import { ClinicalAssistStrip } from "@/components/clinical-assistant/ClinicalAssistStrip";
@@ -1612,10 +1623,22 @@ function MedvedevReferencePanel({
 }
 
 function FieldBlock({ label, children }: { label: string; children: ReactNode }) {
+  const id = useId();
+  const control = isValidElement(children)
+    ? cloneElement(children as ReactElement<{ id?: string; "aria-labelledby"?: string }>, {
+        id,
+      })
+    : children;
+
   return (
     <div className="space-y-2">
-      <label className="text-xs font-bold uppercase tracking-wide text-[var(--clinical-foreground-muted)]">{label}</label>
-      {children}
+      <label
+        htmlFor={id}
+        className="text-xs font-bold uppercase tracking-wide text-[var(--clinical-foreground-muted)]"
+      >
+        {label}
+      </label>
+      {control}
     </div>
   );
 }
