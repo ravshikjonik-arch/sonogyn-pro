@@ -41,7 +41,7 @@ export function BiradsLymphNodesGuide() {
     <div className="mx-auto max-w-4xl space-y-6 px-4 py-6 lg:px-10">
       <header className="space-y-2">
         <div className="flex flex-wrap items-center gap-2">
-          <h1 className="text-2xl font-bold tracking-tight">{k.titleRu}</h1>
+          <h2 className="text-2xl font-bold tracking-tight">{k.titleRu}</h2>
           <Badge>BI-RADS US</Badge>
         </div>
         <p className="text-sm text-[var(--clinical-foreground-muted)]">{k.disclaimer}</p>

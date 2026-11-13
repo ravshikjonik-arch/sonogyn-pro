@@ -159,9 +159,9 @@ export function OradsUnifiedCalculator() {
     <div className="mx-auto max-w-6xl px-4 py-8 pb-32 lg:px-8" data-e2e-orads-unified>
       <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div className="max-w-2xl">
-          <h1 className="text-2xl font-semibold tracking-tight text-[var(--clinical-foreground)]">
+          <h2 className="text-2xl font-semibold tracking-tight text-[var(--clinical-foreground)]">
             Стратификация O-RADS US
-          </h1>
+          </h2>
           <p className="mt-2 text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
             Категории 0–5, ROM и тактика по ACR v2022. При нескольких образованиях — отдельная оценка каждого; ведение
             по наивысшей категории.
