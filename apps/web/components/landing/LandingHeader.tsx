@@ -62,10 +62,10 @@ export function LandingHeader({ isAuthenticated, variant = "clinical" }: Landing
                 className={cn(marketing && "text-violet-100 hover:bg-white/10 hover:text-white")}
                 asChild
               >
-                <Link href="/landing#join">Войти</Link>
+                <Link href="/login">Войти</Link>
               </Button>
               <Button size="sm" className={cn("font-semibold", marketing ? "bg-violet-600 hover:bg-violet-500" : "sonogyn-cta-glow")} asChild>
-                <Link href="/landing#join">Начать</Link>
+                <Link href="/register">Начать</Link>
               </Button>
             </>
           )}

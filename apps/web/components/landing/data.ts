@@ -80,7 +80,7 @@ export const LANDING_HOW_IT_WORKS: LandingStep[] = [
   {
     step: "3",
     title: "PRO при необходимости",
-    body: `Расширенные лимиты и оплата через ${PAYMENT_PROVIDER_PUBLIC_NAME_RU} — когда готовы масштабировать практику.`,
+    body: "Расширенные лимиты и PRO — когда готовы масштабировать практику. Оплата включается после настройки провайдера.",
   },
 ];
 
@@ -104,7 +104,7 @@ export const LANDING_FAQ: LandingFaqItem[] = [
   {
     question: "Как оформить PRO?",
     answer:
-      `Войдите в аккаунт и откройте раздел оплаты (/paywall). Подписка PRO оформляется через ${PAYMENT_PROVIDER_PUBLIC_NAME_RU} (карты РФ). Бесплатный тариф остаётся для знакомства с платформой.`,
+      "Смотрите актуальный статус на /pricing. Когда оплата включена — вход и раздел /paywall. Пока провайдер не настроен, цена и кнопка оплаты скрыты; напишите на support@sonogyn-pro.ru. Free остаётся для знакомства.",
   },
   {
     question: "Можно ли пользоваться с телефона?",
@@ -141,12 +141,12 @@ export const GUEST_ACCESS_TIERS: GuestAccessTier[] = [
   },
   {
     title: "PRO",
-    badge: "Шаг 4 · оплата",
-    description: "Снимите лимиты — когда готовы к потоку кейсов.",
+    badge: "Шаг 4 · расширение",
+    description: "Снимите лимиты — когда готовы к потоку кейсов и оплата будет включена.",
     items: [
-      { label: "Оформить PRO", href: "/login?redirectedFrom=/profile/pro" },
-      { label: "Безлимит AI", href: "/login?redirectedFrom=/profile/pro", locked: true },
-      { label: `${PAYMENT_PROVIDER_PUBLIC_NAME_RU} · ${proSubscriptionPeriodLabelRu()}`, href: "/landing#pricing" },
+      { label: "Узнать о PRO", href: "/pricing" },
+      { label: "Безлимит AI", href: "/pricing", locked: true },
+      { label: "Тарифы и условия", href: "/pricing" },
     ],
   },
 ];
