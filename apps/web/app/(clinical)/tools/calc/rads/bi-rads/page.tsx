@@ -1,14 +1,18 @@
 import { Suspense } from "react";
 
 import { BreastBiradsHub } from "@/components/calculators/birads/BreastBiradsHub";
+import { SeoPageHeading } from "@/components/seo/SeoPageHeading";
 
 import { calculatorPageMetadata } from "@/lib/seo/calculator-seo-registry";
 export const metadata = calculatorPageMetadata("/tools/calc/rads/bi-rads");
 
 export default function BreastBiradsPage() {
   return (
-    <Suspense fallback={<div className="p-6 text-sm text-[var(--clinical-foreground-muted)]">Загрузка…</div>}>
-      <BreastBiradsHub />
-    </Suspense>
+    <>
+      <SeoPageHeading>Калькулятор BI-RADS US онлайн</SeoPageHeading>
+      <Suspense fallback={<div className="p-6 text-sm text-[var(--clinical-foreground-muted)]">Загрузка…</div>}>
+        <BreastBiradsHub />
+      </Suspense>
+    </>
   );
 }

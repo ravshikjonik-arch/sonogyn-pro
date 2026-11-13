@@ -55,7 +55,7 @@ export function BreastBiradsHub() {
             </Button>
             <div>
               <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--clinical-foreground-muted)]">Для врачей</p>
-              <h1 className="text-base font-black sm:text-lg">Молочные железы · BI-RADS</h1>
+              <h2 className="text-base font-black sm:text-lg">Молочные железы · BI-RADS</h2>
             </div>
           </div>
           <div className="flex flex-wrap gap-1">
