@@ -91,25 +91,16 @@ CMS/CRM в анкете счётчика — **не заполнять** (у н�
 1. ~~`NEXT_PUBLIC_YM_ID`~~ — задан (`114234431`).
 2. `NEXT_PUBLIC_GA_ID` (опционально GA4 `G-…`).
 3. Подтверждение, что Sentry DSN уже в Vercel (для 5xx / hydration).
-4. В кабинете Метрики: создать JS-цели из таблицы выше (UI иногда под техработами).
+4. ~~JS-цели в кабинете Метрики~~ — готово (13/13, счётчик `114234431`).
 
-### Статус целей (ручной)
+### Статус целей (счётчик `114234431`)
 
-Уже созданы (проверено в кабинете): `landing_view` (и, вероятно, `cta_click` — «Использовано 2 из 200»).
+Все 13 JS-целей воронки созданы (**Использовано 13 из 200**, тип JavaScript-событие, идентификатор = имя):
 
-Осталось добавить (тип **Целевое событие**, имя = идентификатор):
-
-1. `cta_click` — если ещё нет в списке  
-2. `signup_start`  
-3. `signup_complete`  
-4. `calculator_open`  
-5. `calculator_calc`  
-6. `case_save`  
-7. `ai_request`  
-8. `paywall_view`  
-9. `checkout_start`  
-10. `checkout_success`  
-11. `install_prompt_shown`  
-12. `install_accepted`  
+`landing_view`, `cta_click`, `signup_start`, `signup_complete`, `calculator_open`, `calculator_calc`, `case_save`, `ai_request`, `paywall_view`, `checkout_start`, `checkout_success`, `install_prompt_shown`, `install_accepted`.
 
 Кабинет: https://metrika.yandex.ru/stat/conversion_rate?id=114234431&goalsConversionViewKind=List
+
+Настройки счётчика (сделано): Вебвизор **выкл**, Ecommerce **выкл**, поддомены **вкл**. В коде init тоже `webvisor:false`.
+
+Дубликат счётчика `114234411` — не используем; в Vercel только `114234431`. Удалить дубликат можно вручную в списке счётчиков.
