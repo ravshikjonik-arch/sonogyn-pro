@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 
 import { isCopyrightLockedRoute } from "@/lib/copyright/book-content-gate";
+import { listBlogPosts } from "@/lib/seo/blog-posts";
 import { CALCULATOR_SEO_REGISTRY } from "@/lib/seo/calculator-seo-registry";
 
 type SitemapRow = {
@@ -27,12 +28,14 @@ const MARKETING_ROUTES: SitemapRow[] = [
   { path: "/lp/orads-iota", priority: 0.75, changeFrequency: "monthly" },
 ];
 
-/** Статьи блога (промпт 09) — синхронизировать с `listBlogPosts()`. */
-const BLOG_POST_ROUTES: SitemapRow[] = [
-  { path: "/blog/orads-adnexa-2-minutes", priority: 0.7, changeFrequency: "monthly" },
-  { path: "/blog/iota-adnex-vs-orads", priority: 0.7, changeFrequency: "monthly" },
-  { path: "/blog/endometrium-thickness-phases", priority: 0.7, changeFrequency: "monthly" },
-];
+/** Статьи блога — из `listBlogPosts()` (без ручного дубля slug). */
+function blogPostRows(): SitemapRow[] {
+  return listBlogPosts().map((post) => ({
+    path: `/blog/${post.slug}`,
+    priority: 0.7,
+    changeFrequency: "monthly" as const,
+  }));
+}
 
 /** Хабы продукта (soft-open, indexable). */
 const HUB_ROUTES: SitemapRow[] = [
@@ -177,7 +180,7 @@ export function getIndexableSitemapRows(): SitemapRow[] {
 
   const all = [
     ...MARKETING_ROUTES,
-    ...BLOG_POST_ROUTES,
+    ...blogPostRows(),
     ...HUB_ROUTES,
     ...MAPPING_ROUTES,
     ...AI_CONSULTANT_ROUTES,

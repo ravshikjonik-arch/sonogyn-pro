@@ -91,7 +91,7 @@ export const CALCULATOR_LANDING_CONTENT: CalculatorLandingContent[] = [
       { href: "/tools/calc/rads/iota", label: "IOTA ADNEX / LR2" },
       { href: "/tools/o-rads", label: "Комната O-RADS (калькулятор + атлас)" },
       { href: "/blog/orads-adnexa-2-minutes", label: "O-RADS за 2 минуты" },
-      { href: "/tools/refs/exam-checklists", label: "Чек-лист УЗИ ОМТ" },
+      { href: "/blog/orads-0-incomplete", label: "O-RADS 0 / incomplete" },
       { href: "/tools/calc", label: "Каталог калькуляторов" },
     ],
     updatedAt: "2026-11-13",
@@ -142,9 +142,9 @@ export const CALCULATOR_LANDING_CONTENT: CalculatorLandingContent[] = [
       },
     ],
     related: [
-      { href: "/tools/calc/gyn/breast-risk", label: "Риск рака МЖ" },
+      { href: "/blog/birads-us-vs-mammography", label: "BI-RADS US vs маммография" },
       { href: "/tools/calc/rads/ti-rads", label: "TI-RADS" },
-      { href: "/tools/calc/rads/o-rads", label: "O-RADS US" },
+      { href: "/tools/calc/gyn/breast-risk", label: "Риск рака МЖ" },
       { href: "/tools/calc", label: "Каталог калькуляторов" },
     ],
     updatedAt: "2026-11-13",
@@ -195,6 +195,7 @@ export const CALCULATOR_LANDING_CONTENT: CalculatorLandingContent[] = [
     ],
     related: [
       { href: "/tools/calc/rads/ln-rads", label: "LN-RADS" },
+      { href: "/blog/tirads-lexicon-3-minutes", label: "TI-RADS за 3 минуты" },
       { href: "/tools/calc/rads/bi-rads", label: "BI-RADS US" },
       { href: "/tools/calc", label: "Каталог калькуляторов" },
     ],
@@ -357,9 +358,8 @@ export const CALCULATOR_LANDING_CONTENT: CalculatorLandingContent[] = [
     ],
     related: [
       { href: "/tools/calc/ob/fetometry", label: "Расчёт плода / фетометрия" },
+      { href: "/blog/efw-hadlock-limits", label: "Ограничения EFW" },
       { href: "/tools/calc/ob/fetometry-norms", label: "Нормы фетометрии" },
-      { href: "/tools/calc/ob/bishop", label: "Шкала Bishop" },
-      { href: "/tools/refs/exam-checklists", label: "Чек-листы УЗИ" },
       { href: "/tools/calc", label: "Каталог калькуляторов" },
     ],
     updatedAt: "2026-11-13",
@@ -415,8 +415,8 @@ export const CALCULATOR_LANDING_CONTENT: CalculatorLandingContent[] = [
     ],
     related: [
       { href: "/tools/calc/ob/vbac", label: "VBAC / TOLAC" },
+      { href: "/blog/bishop-when-to-score", label: "Когда считать Bishop" },
       { href: "/tools/calc/ob/cervical-length", label: "Длина шейки (CL)" },
-      { href: "/tools/calc/ob", label: "Хаб акушерских калькуляторов" },
       { href: "/tools/calc", label: "Каталог калькуляторов" },
     ],
     updatedAt: "2026-11-13",
@@ -471,8 +471,8 @@ export const CALCULATOR_LANDING_CONTENT: CalculatorLandingContent[] = [
     ],
     related: [
       { href: "/tools/calc/ob/bishop", label: "Шкала Bishop" },
+      { href: "/blog/vbac-before-you-calculate", label: "VBAC: до расчёта" },
       { href: "/tools/calc/ob", label: "Хаб акушерских калькуляторов" },
-      { href: "/ai/consultants/fmf", label: "FMF · беременность" },
       { href: "/tools/calc", label: "Каталог калькуляторов" },
     ],
     updatedAt: "2026-11-13",
@@ -523,6 +523,7 @@ export const CALCULATOR_LANDING_CONTENT: CalculatorLandingContent[] = [
     ],
     related: [
       { href: "/tools/calc/gyn/endometrium", label: "Эндометрий" },
+      { href: "/blog/popq-measurement-points", label: "POP-Q: точки" },
       { href: "/tools/calc/gyn", label: "Хаб гинекологии" },
       { href: "/tools/calc", label: "Каталог калькуляторов" },
     ],
