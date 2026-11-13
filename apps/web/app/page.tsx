@@ -8,6 +8,7 @@ import { LandingGuestAccess } from "@/components/landing/LandingGuestAccess";
 import { LandingHeader } from "@/components/landing/LandingHeader";
 import { LandingHowItWorks } from "@/components/landing/LandingHowItWorks";
 import { LandingMarketingHero } from "@/components/landing/LandingMarketingHero";
+import { LandingPopularCalculators } from "@/components/landing/LandingPopularCalculators";
 import { LandingPricing } from "@/components/landing/LandingPricing";
 import {
   canDevAutoLoginRedirect,
@@ -93,6 +94,7 @@ export default async function RootPage() {
         <LandingMarketingHero isAuthenticated={isAuthenticated} />
         <div className="sonogyn-mesh-bg mx-auto max-w-6xl space-y-28 px-4 py-20 sm:py-24">
           <LandingCareerPath isAuthenticated={isAuthenticated} progress={career?.progress} />
+          <LandingPopularCalculators />
           <LandingFeatures />
           <LandingHowItWorks />
           <LandingGuestAccess />

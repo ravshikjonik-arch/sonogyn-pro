@@ -66,12 +66,19 @@ export function CalculatorsCatalogPage() {
   });
 
   return (
-    <ClinicalDomainHub
-      title="Калькуляторы"
-      description="Акушерство, гинекология, RADS и аптека. Справочная поддержка, не диагноз."
-      groups={groups}
-      backHref="/home"
-      backLabel="← Разделы"
-    />
+    <div className="space-y-4">
+      <ClinicalDomainHub
+        title="Клинические калькуляторы"
+        description="Каталог инструментов УЗИ и АГ: O-RADS, IOTA, BI-RADS, TI-RADS, фетометрия, Bishop, VBAC, эндометрий, POP-Q и другие. На странице каждого калькулятора — методика, источники и ограничения. Справочная поддержка решений, не диагноз."
+        groups={groups}
+        backHref="/home"
+        backLabel="← Разделы"
+      />
+      <p className="mx-auto max-w-lg px-4 pb-10 text-xs leading-relaxed text-[var(--clinical-foreground-muted)] sm:max-w-xl">
+        Фильтры по разделам ниже: акушерство, гинекология, RADS, аптека. Популярные точки входа с
+        лендинга ведут сюда и на отдельные посадочные страницы с FAQ и ссылками на гайдлайны ACR /
+        ISUOG / IOTA / КР МЗ РФ.
+      </p>
+    </div>
   );
 }
