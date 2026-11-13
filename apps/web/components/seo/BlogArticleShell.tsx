@@ -3,11 +3,10 @@ import Link from "next/link";
 import { ContentErrorReportLink } from "@/components/feedback/ContentErrorReportLink";
 import {
   CLINICAL_CONTENT_DISCLAIMER,
-  CLINICAL_CONTENT_REVIEW_STATUS_RU,
+  formatClinicalReviewLabel,
 } from "@/lib/seo/clinical-reviewer";
 import type { BlogPost } from "@/lib/seo/blog-posts";
 import { renderSimpleMarkdown } from "@/lib/education/simple-markdown";
-
 
 type Props = {
   post: BlogPost;
@@ -57,7 +56,8 @@ export function BlogArticleShell({ post }: Props) {
           {post.description}
         </p>
         <p className="text-xs text-[var(--clinical-foreground-muted)]">
-          Обновлено: {post.updatedAt} · {CLINICAL_CONTENT_REVIEW_STATUS_RU}
+          Обновлено: {post.updatedAt} ·{" "}
+          {formatClinicalReviewLabel(post.reviewStatus, post.reviewedBy)}
         </p>
       </header>
 

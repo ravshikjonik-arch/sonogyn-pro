@@ -1,6 +1,7 @@
 import {
   CLINICAL_CONTENT_DISCLAIMER,
   CLINICAL_CONTENT_REVIEWER,
+  type ClinicalContentReviewStatus,
 } from "@/lib/seo/clinical-reviewer";
 
 export type BlogSource = {
@@ -18,6 +19,11 @@ export type BlogPost = {
   publishedAt: string; // YYYY-MM-DD
   updatedAt: string;
   reviewedBy: typeof CLINICAL_CONTENT_REVIEWER;
+  /**
+   * Вычитка врачом. Omit / `pending` → «На врачебной проверке».
+   * `reviewed` → «Проверил: …» (только после реальной вычитки).
+   */
+  reviewStatus?: ClinicalContentReviewStatus;
   sources: BlogSource[];
   related: { href: string; label: string }[];
   /** Markdown без выдуманных cut-off; пороги — только в калькуляторе / гайдлайне */

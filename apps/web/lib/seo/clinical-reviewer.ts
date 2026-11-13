@@ -10,5 +10,22 @@ export const CLINICAL_CONTENT_REVIEWER = {
 /** Публичная подпись для SEO/блога до фактической вычитки врачом. */
 export const CLINICAL_CONTENT_REVIEW_STATUS_RU = "На врачебной проверке";
 
+/**
+ * Статус вычитки по статье / посадочной.
+ * `pending` (или omit) → «На врачебной проверке».
+ * `reviewed` → «Проверил: …» только после реальной вычитки врачом.
+ */
+export type ClinicalContentReviewStatus = "pending" | "reviewed";
+
+export function formatClinicalReviewLabel(
+  status: ClinicalContentReviewStatus | undefined = "pending",
+  reviewer: typeof CLINICAL_CONTENT_REVIEWER = CLINICAL_CONTENT_REVIEWER,
+): string {
+  if (status === "reviewed") {
+    return `Проверил: ${reviewer.name}`;
+  }
+  return CLINICAL_CONTENT_REVIEW_STATUS_RU;
+}
+
 export const CLINICAL_CONTENT_DISCLAIMER =
   "Справочный CDS-материал для специалистов. Не является диагнозом и не заменяет клиническое решение врача, локальные протоколы МО и актуальные редакции гайдлайнов/КР.";
