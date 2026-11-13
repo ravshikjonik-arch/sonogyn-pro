@@ -60,9 +60,35 @@ curl -s http://localhost:3000/ | grep -c "mc.yandex.ru"   # ожидаем 0 д�
 # после «Разрешить аналитику» + NEXT_PUBLIC_YM_ID — Network: mc.yandex.ru/metrika/tag.js
 ```
 
+## Счётчик (prod)
+
+- ID: `114234431` → env `NEXT_PUBLIC_YM_ID` (Vercel production/preview/development).
+- Init: `webvisor: false` (см. `AnalyticsScripts.tsx`). Код из кабинета Метрики **не** вставляем в HTML.
+
+## Цели JS в кабинете Метрики (ручная настройка)
+
+События уже уходят как `ym(id, 'reachGoal', name)` после согласия. В кабинете:
+[Цели / Конверсии](https://metrika.yandex.ru/stat/conversion_rate?id=114234431) → **Добавить цель** → тип **JavaScript-событие** → идентификатор = имя ниже (один в один):
+
+| Идентификатор | Смысл |
+|---|---|
+| `landing_view` | Главная (1× за вкладку) |
+| `cta_click` | CTA лендинга |
+| `signup_start` / `signup_complete` | Регистрация |
+| `calculator_open` | Открытие посадочной калькулятора |
+| `calculator_calc` | Расчёт (wire инкрементально) |
+| `case_save` | Сохранение кейса |
+| `ai_request` | Запрос AI |
+| `paywall_view` / `checkout_start` / `checkout_success` | Paywall |
+| `install_prompt_shown` / `install_accepted` | PWA install |
+
+CMS/CRM в анкете счётчика — **не заполнять** (у нас Next.js, не WordPress).
+
+Вебвизор в настройках счётчика лучше **выкл** (дубль защиты: в коде уже `webvisor:false`).
+
 ## Нужно от владельца продукта
 
-1. `NEXT_PUBLIC_YM_ID` (счётчик Метрики).
-2. `NEXT_PUBLIC_GA_ID` (опционально GA4).
+1. ~~`NEXT_PUBLIC_YM_ID`~~ — задан (`114234431`).
+2. `NEXT_PUBLIC_GA_ID` (опционально GA4 `G-…`).
 3. Подтверждение, что Sentry DSN уже в Vercel (для 5xx / hydration).
-4. Доступ к кабинету Метрики / GA для воронки выше.
+4. В кабинете Метрики: создать JS-цели из таблицы выше (UI иногда под техработами).
