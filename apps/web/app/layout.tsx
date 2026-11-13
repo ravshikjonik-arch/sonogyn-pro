@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   },
   description:
     "Клиническая платформа УЗИ и акушерства-гинекологии: калькуляторы по гайдлайнам, справочники и рабочий кабинет для врачей.",
-  manifest: "/manifest.json",
+  manifest: "/manifest.webmanifest",
   applicationName: "SonoGyn Pro",
   appleWebApp: {
     capable: true,

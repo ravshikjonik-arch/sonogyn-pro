@@ -120,7 +120,10 @@ const nextConfig: NextConfig = {
   },
   assetPrefix: productionAssetPrefix(),
   /** Custom domain also breaks optimized images (proxy bootstrap HTML + truncation); optimize on the asset host. */
-  images: productionAssetPrefix() ? { path: `${productionAssetPrefix()}/_next/image` } : {},
+  images: {
+    formats: ["image/avif", "image/webp"],
+    ...(productionAssetPrefix() ? { path: `${productionAssetPrefix()}/_next/image` } : {}),
+  },
   transpilePackages: [
     "three",
     "@clinical/uterus",
@@ -271,11 +274,17 @@ const nextConfig: NextConfig = {
       });
     }
 
+    const timingAllowOrigin = [{ key: "Timing-Allow-Origin", value: "*" }];
+
     return [
       {
         source: "/(.*)",
         headers,
       },
+      { source: "/_next/static/:path*", headers: timingAllowOrigin },
+      { source: "/_next/image", headers: timingAllowOrigin },
+      { source: "/icons/:path*", headers: timingAllowOrigin },
+      { source: "/marketing/:path*", headers: timingAllowOrigin },
     ];
   },
 };
