@@ -20,6 +20,8 @@ const MARKETING_ROUTES: SitemapRow[] = [
   // /landing — дубль маркетинга; канон `/` (редирект настраивается отдельно)
   { path: "/pricing", priority: 0.65, changeFrequency: "monthly" },
   { path: "/privacy", priority: 0.4, changeFrequency: "yearly" },
+  { path: "/offer", priority: 0.45, changeFrequency: "yearly" },
+  { path: "/contacts", priority: 0.45, changeFrequency: "yearly" },
   { path: "/terms", priority: 0.4, changeFrequency: "yearly" },
   { path: "/lp/orads-iota", priority: 0.75, changeFrequency: "monthly" },
 ];

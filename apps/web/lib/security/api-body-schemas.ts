@@ -46,6 +46,11 @@ export const SignUpBodySchema = z.object({
   birth_year: z.union([z.number().int(), z.string().max(4)]).optional(),
   birth_date: z.string().trim().max(32).optional(),
   turnstileToken: z.string().max(4096).optional(),
+  /** Согласие с Политикой и Офертой (обязательно). */
+  accept_legal: z.literal(true, {
+    errorMap: () => ({ message: "Нужно согласие с Политикой и Офертой." }),
+  }),
+  legal_docs_version: z.string().trim().min(1).max(32),
 });
 
 export type SignUpBody = z.infer<typeof SignUpBodySchema>;

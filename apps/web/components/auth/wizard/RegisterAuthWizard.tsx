@@ -18,7 +18,9 @@ import { TelegramSimpleAuth } from "@/components/auth/TelegramSimpleAuth";
 import { AuthGenderPicker } from "@/components/auth/wizard/AuthGenderPicker";
 import { AuthWizardLayout } from "@/components/auth/wizard/AuthWizardLayout";
 import { OtpDigitRow } from "@/components/auth/wizard/OtpDigitRow";
+import { LegalConsentCheckbox } from "@/components/legal/LegalConsentCheckbox";
 import { Button } from "@/components/ui/button";
+import { LEGAL_DOCS_VERSION } from "@/lib/config/legal";
 import {
   readStoredOnboardingCharacter,
   writeStoredOnboardingCharacter,
@@ -86,6 +88,7 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
   const [pendingEmail, setPendingEmail] = useState(false);
   const [emailOtpSent, setEmailOtpSent] = useState(false);
   const [birthDateIso, setBirthDateIso] = useState("");
+  const [acceptLegal, setAcceptLegal] = useState(false);
   /** Телефон опционален: SMS.ru только РФ (+79). +993 и др. — email/Telegram. */
   const phoneOptional = true;
   const phoneRequired = false;
@@ -242,6 +245,10 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
       setMessage("Укажите мобильный телефон +7 — код придёт по SMS (Telegram для кода не нужен).");
       return;
     }
+    if (!acceptLegal) {
+      setMessage("Отметьте согласие с Политикой и Офертой.");
+      return;
+    }
 
     setLoading(true);
     try {
@@ -252,6 +259,8 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
         full_name,
         specialization: specialization.trim(),
         preferred_locale: locale,
+        accept_legal: true,
+        legal_docs_version: LEGAL_DOCS_VERSION,
       });
 
       if (!result.ok) {
@@ -682,11 +691,18 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
               autoComplete="bday"
             />
           </label>
+          <LegalConsentCheckbox checked={acceptLegal} onChange={setAcceptLegal} id="legal-consent-tg" />
           <AuthMessage message={message} />
           <TelegramSimpleAuth
             mode="register"
             nextPath={afterAuthPath}
-            onRegisterClick={() => void onRegisterViaTelegram()}
+            onRegisterClick={() => {
+              if (!acceptLegal) {
+                setMessage("Отметьте согласие с Политикой и Офертой.");
+                return;
+              }
+              void onRegisterViaTelegram();
+            }}
             registerLoading={loading}
           />
         </div>
@@ -740,8 +756,9 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
             autoComplete="new-password"
           />
         </label>
+        <LegalConsentCheckbox checked={acceptLegal} onChange={setAcceptLegal} id="legal-consent-email" />
         <AuthMessage message={message} />
-        <Button type="submit" className="w-full" disabled={loading}>
+        <Button type="submit" className="w-full" disabled={loading || !acceptLegal}>
           Зарегистрироваться
         </Button>
       </form>

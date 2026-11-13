@@ -94,6 +94,8 @@ export async function postSignUp(params: {
   preferred_locale?: string;
   turnstileToken?: string;
   mobile?: boolean;
+  accept_legal: true;
+  legal_docs_version: string;
 }): Promise<
   AuthApiResult & {
     session?: { access_token: string; refresh_token: string };
