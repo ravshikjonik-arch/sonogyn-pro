@@ -9,7 +9,7 @@ export const metadata = calculatorPageMetadata("/tools/o-rads");
 export default function OradsUsRoomPage() {
   return (
     <ClinicalDomainHub
-      title={ORADS_US_ROOM.title}
+      title="Калькулятор O-RADS US (ACR v2022)"
       description={ORADS_US_ROOM.description}
       groups={ORADS_HUB_GROUPS}
       backHref="/tools/gynecology"

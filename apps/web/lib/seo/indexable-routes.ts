@@ -13,12 +13,11 @@ type SitemapRow = {
  * Маршруты для sitemap.xml.
  * Только канонические публичные URL (без legacy-редиректов /calculators, /library, /assistant).
  * Исключения: auth/PHI/admin, API, noindex, copyright-locked атласы.
- * Custom domain: HTML проксируется в middleware (`custom-domain-proxy.ts`).
+ * Custom domain: emergency HTML proxy off by default (`SONOGYN_CUSTOM_DOMAIN_PROXY`).
  */
 const MARKETING_ROUTES: SitemapRow[] = [
   { path: "/", priority: 1, changeFrequency: "weekly" },
-  { path: "/landing", priority: 1, changeFrequency: "weekly" },
-  { path: "/home", priority: 0.95, changeFrequency: "weekly" },
+  // /landing — дубль маркетинга; канон `/` (редирект настраивается отдельно)
   { path: "/pricing", priority: 0.65, changeFrequency: "monthly" },
   { path: "/privacy", priority: 0.4, changeFrequency: "yearly" },
   { path: "/terms", priority: 0.4, changeFrequency: "yearly" },
@@ -108,7 +107,7 @@ const EXTRA_CALC_ROUTES: SitemapRow[] = [
 /** Клинические отчёты / прочие публичные поверхности. */
 const OTHER_PUBLIC_ROUTES: SitemapRow[] = [
   { path: "/reports", priority: 0.5, changeFrequency: "monthly" },
-  { path: "/reports/adnex", priority: 0.55, changeFrequency: "monthly" },
+  // /reports/adnex — historically 307; keep out of sitemap until stable 200
   { path: "/reports/obstetric", priority: 0.55, changeFrequency: "monthly" },
   { path: "/reports/thyroid", priority: 0.55, changeFrequency: "monthly" },
   { path: "/breast-us", priority: 0.55, changeFrequency: "monthly" },
@@ -144,6 +143,11 @@ const EXPLICIT_EXCLUDE = new Set([
   "/demo/roles",
   "/voice-reader",
   "/elastography",
+  "/home",
+  "/landing",
+  "/reports/adnex",
+  "/app",
+  "/profile",
 ]);
 
 function isExcluded(path: string): boolean {

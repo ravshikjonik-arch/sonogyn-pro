@@ -240,14 +240,13 @@ const nextConfig: NextConfig = {
     return [];
   },
   async redirects() {
-    // Production: `/` is an edge redirect so the custom domain does not wait
-    // on a Node function that was hanging with 0 bytes. Keep the page handler
-    // for local DEV_SKIP_AUTH / auto-login.
-    const apexHome =
-      process.env.VERCEL === "1" || process.env.NODE_ENV === "production"
-        ? [{ source: "/", destination: "/home", permanent: false as const }]
-        : [];
-    return [...apexHome, ...IA_V2_REDIRECTS];
+    // Marketing canon is `/` (landing). Old bookmarks `/landing` → 301 home marketing.
+    // Dev auto-login still handled in `app/page.tsx` before the landing render.
+    return [
+      { source: "/landing", destination: "/", permanent: true as const },
+      { source: "/landing/:path*", destination: "/", permanent: true as const },
+      ...IA_V2_REDIRECTS,
+    ];
   },
   async headers() {
     const headers = [

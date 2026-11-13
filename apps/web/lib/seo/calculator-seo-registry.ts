@@ -197,22 +197,28 @@ export const CALCULATOR_SEO_REGISTRY: CalculatorSeoEntry[] = [
   },
   {
     path: "/tools/obstetrics",
-    title: "Хаб акушерства · SonoGyn Pro",
+    title: "Хаб акушерства",
     description: "FMF, фетометрия, Bishop, VBAC, атласы и помощник акушера в одном разделе.",
     keywords: ["акушерство", "FMF", "фетометрия", "УЗИ"],
   },
   {
     path: "/tools/gynecology",
-    title: "Хаб гинекологии · SonoGyn Pro",
+    title: "Хаб гинекологии",
     description: "O-RADS, FIGO, эндометрий, шейка матки, эластография и нозологии.",
     keywords: ["гинекология", "O-RADS", "эндометрий", "УЗИ"],
   },
   {
     path: "/tools/o-rads",
-    title: "O-RADS US · комната · SonoGyn Pro",
+    title: "Калькулятор O-RADS US (ACR v2022)",
     description:
       "Одна комната ACR O-RADS US v2022: калькулятор, IOTA, эхограммы, реферат и структурированный протокол.",
     keywords: ["O-RADS US", "IOTA", "придатки", "калькулятор", "УЗИ"],
+  },
+  {
+    path: "/tools",
+    title: "Клинические инструменты",
+    description: "Кабинет врача УЗД и АГ: калькуляторы, справочники, 3D и кейсы в одном меню.",
+    keywords: ["кабинет", "калькуляторы", "УЗИ", "гинекология", "акушерство"],
   },
   {
     path: "/tools/calc",

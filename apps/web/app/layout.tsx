@@ -21,6 +21,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? "https://sonogyn-pro.ru"),
   title: {
     default: "SonoGyn Pro",
     template: "%s | SonoGyn Pro",
@@ -36,6 +37,16 @@ export const metadata: Metadata = {
   },
   formatDetection: {
     telephone: false,
+  },
+  openGraph: {
+    type: "website",
+    locale: "ru_RU",
+    siteName: "SonoGyn Pro",
+    images: [{ url: "/og-default.png", width: 1200, height: 630, alt: "SonoGyn Pro" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["/og-default.png"],
   },
   icons: {
     icon: [

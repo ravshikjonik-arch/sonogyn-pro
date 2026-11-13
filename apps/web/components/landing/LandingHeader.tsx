@@ -23,7 +23,7 @@ export function LandingHeader({ isAuthenticated, variant = "clinical" }: Landing
     >
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-3 px-4 sm:h-16 sm:px-6 lg:px-8">
         <Link
-          href="/landing"
+          href="/"
           className={cn(
             "flex min-w-0 items-center gap-2.5 rounded-lg px-1 py-1 transition-opacity hover:opacity-80",
             marketing ? "text-white" : "text-[var(--clinical-foreground)]",
@@ -40,7 +40,7 @@ export function LandingHeader({ isAuthenticated, variant = "clinical" }: Landing
             className={cn("hidden sm:inline-flex", marketing && "text-violet-100 hover:bg-white/10 hover:text-white")}
             asChild
           >
-            <Link href="/landing#features">Возможности</Link>
+            <Link href="/#features">Возможности</Link>
           </Button>
           <Button
             variant="ghost"
@@ -48,7 +48,7 @@ export function LandingHeader({ isAuthenticated, variant = "clinical" }: Landing
             className={cn(marketing && "text-violet-100 hover:bg-white/10 hover:text-white")}
             asChild
           >
-            <Link href="/landing#pricing">Тарифы</Link>
+            <Link href="/#pricing">Тарифы</Link>
           </Button>
           {isAuthenticated ? (
             <Button size="sm" className="sonogyn-cta-glow font-semibold" asChild>

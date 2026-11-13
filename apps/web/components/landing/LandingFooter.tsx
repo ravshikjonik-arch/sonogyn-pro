@@ -57,10 +57,10 @@ export function LandingFooter({ isAuthenticated }: LandingFooterProps) {
           <TelegramChannelLink />
         </div>
         <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
-          <Link href="/landing#features" className="hover:text-[var(--clinical-primary-deep)]">
+          <Link href="/#features" className="hover:text-[var(--clinical-primary-deep)]">
             Возможности
           </Link>
-          <Link href="/landing#pricing" className="hover:text-[var(--clinical-primary-deep)]">
+          <Link href="/#pricing" className="hover:text-[var(--clinical-primary-deep)]">
             Тарифы
           </Link>
           <Link href="/pricing" className="hover:text-[var(--clinical-primary-deep)]">

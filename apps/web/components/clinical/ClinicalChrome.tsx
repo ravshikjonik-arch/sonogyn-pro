@@ -20,9 +20,10 @@ function E2eClinicalShell({ children }: { children: ReactNode }) {
   );
 }
 
+/** SSR on: public tool pages need real H1/content in HTML (SEO). Shell stays client; children stream. */
 const ClinicalShell = dynamic(
   () => import("@/components/clinical/clinical-shell").then((mod) => mod.ClinicalShell),
-  { ssr: false, loading: () => <CabinetBootScreen /> },
+  { loading: () => <CabinetBootScreen /> },
 );
 const AchievementToastListener = dynamic(
   () =>

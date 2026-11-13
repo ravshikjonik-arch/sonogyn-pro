@@ -16,10 +16,14 @@ import { readDefaultProPriceRub } from "@/lib/payment/config";
 
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
+
+export const metadata: Metadata = buildPublicMetadata({
   title: "Тарифы",
   description: "Бесплатный демо-режим кабинета и подписка PRO для врачей УЗД и АГ.",
-};
+  path: "/pricing",
+  skipCdsDisclaimer: true,
+});
 
 /**
  * Публичная витрина тарифов. Оплата PRO — после входа на `/paywall` (ЮKassa; Stripe — fallback env).
@@ -36,7 +40,7 @@ export default function PricingPage() {
     <div className="min-h-screen bg-[var(--clinical-canvas)] text-[var(--clinical-foreground)]">
       <header className="border-b border-[var(--clinical-border)] bg-[var(--clinical-header)]/90 backdrop-blur-md">
         <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4">
-          <Link href="/landing" className="text-sm font-semibold">
+          <Link href="/" className="text-sm font-semibold">
             ← На главную
           </Link>
           <div className="flex gap-2">
