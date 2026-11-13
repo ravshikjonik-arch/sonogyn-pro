@@ -6,7 +6,7 @@ import { CalculatorFaqJsonLd } from "@/components/seo/CalculatorFaqJsonLd";
 import { ContentErrorReportLink } from "@/components/feedback/ContentErrorReportLink";
 import {
   CLINICAL_CONTENT_DISCLAIMER,
-  CLINICAL_CONTENT_REVIEW_STATUS_RU,
+  formatClinicalReviewLabel,
 } from "@/lib/seo/clinical-reviewer";
 import type { CalculatorLandingContent } from "@/lib/seo/calculator-landing-content";
 
@@ -31,7 +31,8 @@ export function CalculatorLandingShell({ content, children }: Props) {
           {content.lead}
         </p>
         <p className="text-xs text-[var(--clinical-foreground-muted)]">
-          Обновлено: {content.updatedAt} · {CLINICAL_CONTENT_REVIEW_STATUS_RU}
+          Обновлено: {content.updatedAt} ·{" "}
+          {formatClinicalReviewLabel(content.reviewStatus, content.reviewedBy)}
         </p>
       </header>
 

@@ -1,4 +1,7 @@
-import { CLINICAL_CONTENT_REVIEWER } from "@/lib/seo/clinical-reviewer";
+import {
+  CLINICAL_CONTENT_REVIEWER,
+  type ClinicalContentReviewStatus,
+} from "@/lib/seo/clinical-reviewer";
 
 export type CalculatorSource = {
   label: string;
@@ -26,6 +29,11 @@ export type CalculatorLandingContent = {
   related: { href: string; label: string }[];
   updatedAt: string; // ISO date YYYY-MM-DD
   reviewedBy: typeof CLINICAL_CONTENT_REVIEWER;
+  /**
+   * Вычитка врачом. Omit / `pending` → «На врачебной проверке».
+   * `reviewed` → «Проверил: …» (только после реальной вычитки).
+   */
+  reviewStatus?: ClinicalContentReviewStatus;
 };
 
 /**
