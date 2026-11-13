@@ -1105,6 +1105,414 @@ ${CLINICAL_CONTENT_DISCLAIMER}
 ${CLINICAL_CONTENT_DISCLAIMER}
 `.trim(),
   },
+  {
+    slug: "vascular-us-consultant-scope",
+    title: "Vascular US consultant — рамки",
+    description:
+      "Консультант по сосудистому УЗИ в SonoGyn Pro: справочная поддержка для специалиста, не замена ангиолога и не протокол «из чата».",
+    kind: "guideline",
+    publishedAt: "2026-11-13",
+    updatedAt: "2026-11-13",
+    reviewedBy: CLINICAL_CONTENT_REVIEWER,
+    sources: [
+      { label: "Консультант Vascular US", href: "/ai/consultants/vascular" },
+      { label: "AI-консультанты", href: "/ai/consultants" },
+      { label: "Рубрикатор КР МЗ РФ", href: "https://cr.minzdrav.gov.ru/" },
+    ],
+    related: [
+      { href: "/ai/consultants/vascular", label: "Vascular US" },
+      { href: "/ai/consultants", label: "Консультанты" },
+      { href: "/blog/fmf-first-trimester-not-screening", label: "FMF · рамки" },
+      { href: "/tools/calc", label: "Калькуляторы" },
+    ],
+    bodyMarkdown: `
+## Что внутри рамки
+
+[/ai/consultants/vascular](/ai/consultants/vascular) помогает структурировать вопросы по сосудистому УЗИ для **врача**. Это CDS-чат, не направление на операцию и не отчёт страховщику.
+
+## Чего нет
+
+- Не ставит диагноз тромбоза / стеноза «по переписке».
+- Не заменяет полный протокол УЗДГ и клинику.
+- Не публикуем здесь числовые cut-off скоростей — только в гайдлайне / модуле при наличии.
+
+## Практика
+
+1. Сформулируйте вопрос специалиста без лишних ПДн.
+2. Сверьте ответ с КР и локальным протоколом.
+3. В заключение аппарата — только измеренное вами.
+
+## Дисклеймер
+
+${CLINICAL_CONTENT_DISCLAIMER}
+`.trim(),
+  },
+  {
+    slug: "evidence-assistant-vs-guideline",
+    title: "Evidence assistant vs гайдлайн",
+    description:
+      "Чем evidence-ассистент отличается от чтения КР/ISUOG: быстрый обзор цитат vs обязательный первоисточник для решения у пациента.",
+    kind: "guideline",
+    publishedAt: "2026-11-13",
+    updatedAt: "2026-11-13",
+    reviewedBy: CLINICAL_CONTENT_REVIEWER,
+    sources: [
+      { label: "Evidence", href: "/tools/refs/evidence" },
+      { label: "Evidence assistant", href: "/tools/refs/evidence-assistant" },
+      { label: "КР МЗ РФ", href: "https://cr.minzdrav.gov.ru/" },
+      { label: "ISUOG guidelines", href: "https://www.isuog.org/clinical-resources/isuog-guidelines.html" },
+    ],
+    related: [
+      { href: "/tools/refs/evidence", label: "Evidence" },
+      { href: "/tools/refs/evidence-assistant", label: "Evidence assistant" },
+      { href: "/tools/refs/guidelines", label: "Гайдлайны" },
+      { href: "/blog", label: "Блог" },
+    ],
+    bodyMarkdown: `
+## Два инструмента
+
+| | Evidence / assistant | Гайдлайн / КР |
+|---|---|---|
+| Скорость | Быстрый обзор | Медленнее, но авторитетнее |
+| Роль | Подсказка, навигация по источникам | Основа тактики |
+| Риск | Галлюцинации / устаревший сниппет | Нужна актуальная редакция |
+
+## Правило для приёма
+
+1. Ассистент — чтобы **найти**, что читать.
+2. Решение у пациентки — только после сверки с КР / ISUOG / локальным протоколом.
+3. Не копируйте ответ чата в протокол как «заключение по evidence».
+
+Модули: [/tools/refs/evidence](/tools/refs/evidence), [/tools/refs/evidence-assistant](/tools/refs/evidence-assistant).
+
+## Дисклеймер
+
+${CLINICAL_CONTENT_DISCLAIMER}
+`.trim(),
+  },
+  {
+    slug: "appointment-hub-on-shift",
+    title: "Appointment hub на приёме",
+    description:
+      "Один экран для смены: срок, EFW, Bishop, VBAC и соседние калькуляторы — без прыжков по меню.",
+    kind: "how-to",
+    publishedAt: "2026-11-13",
+    updatedAt: "2026-11-13",
+    reviewedBy: CLINICAL_CONTENT_REVIEWER,
+    sources: [
+      { label: "Быстрый доступ на приёме", href: "/tools/calc/appointment" },
+      { label: "Каталог калькуляторов", href: "/tools/calc" },
+    ],
+    related: [
+      { href: "/tools/calc/appointment", label: "Appointment hub" },
+      { href: "/tools/calc/ob/bishop", label: "Bishop" },
+      { href: "/tools/calc/ob/vbac", label: "VBAC" },
+      { href: "/blog/pwa-what-works-offline", label: "PWA offline" },
+    ],
+    bodyMarkdown: `
+## Зачем хаб
+
+На потоке родовспоможения / УЗИ ОМТ удобнее один ярлык, чем десять пунктов меню.
+
+## Что открыть
+
+[/tools/calc/appointment](/tools/calc/appointment) — быстрый доступ к типичным расчётам смены (срок, масса, Bishop, VBAC и др. по составу экрана).
+
+## Совет
+
+1. Поставьте PWA на планшет (см. [статью про offline](/blog/pwa-what-works-offline)).
+2. Закрепите appointment hub в избранном браузера.
+3. Числовые пороги — только в модулях, не «с хаба наизусть».
+
+## Дисклеймер
+
+${CLINICAL_CONTENT_DISCLAIMER}
+`.trim(),
+  },
+  {
+    slug: "telegram-channel-vs-product",
+    title: "Telegram-канал vs продукт",
+    description:
+      "Канал в Telegram — новости и сообщество. Клинические расчёты, кейсы и PRO — только в SonoGyn Pro web/PWA.",
+    kind: "how-to",
+    publishedAt: "2026-11-13",
+    updatedAt: "2026-11-13",
+    reviewedBy: CLINICAL_CONTENT_REVIEWER,
+    sources: [
+      { label: "Лендинг SonoGyn Pro", href: "/" },
+      { label: "Кабинет", href: "/home" },
+      { label: "Политика конфиденциальности", href: "/privacy" },
+    ],
+    related: [
+      { href: "/", label: "Лендинг" },
+      { href: "/home", label: "Кабинет" },
+      { href: "/blog/open-access-vs-register", label: "Open access" },
+      { href: "/contacts", label: "Контакты" },
+    ],
+    bodyMarkdown: `
+## Разделение ролей
+
+| Telegram-канал | Продукт (web / PWA) |
+|---|---|
+| Анонсы, короткие разборы | Калькуляторы, кейсы, AI |
+| Ссылки на статьи блога | Сохранение прогресса / PRO |
+| Обсуждение коллег (если есть чат) | Аудит согласий, кабинет |
+
+Ссылка на канал — в футере лендинга (компонент Telegram). В РФ для Telegram иногда нужен VPN — это ограничение сети, не продукта.
+
+## Нельзя
+
+- Считать O-RADS / Bishop «в комментариях канала».
+- Присылать ПДн пациентов в публичный Telegram.
+
+Рабочий контур: [/home](/home).
+
+## Дисклеймер
+
+${CLINICAL_CONTENT_DISCLAIMER}
+`.trim(),
+  },
+  {
+    slug: "dark-light-a11y-for-doctors",
+    title: "Dark/light a11y для врача",
+    description:
+      "Светлая и тёмная тема в кабинете: контраст, focus, reduced motion. Как не потерять дисклеймеры и статус ошибки на смене.",
+    kind: "how-to",
+    publishedAt: "2026-11-13",
+    updatedAt: "2026-11-13",
+    reviewedBy: CLINICAL_CONTENT_REVIEWER,
+    sources: [
+      { label: "Кабинет", href: "/home" },
+      { label: "Каталог калькуляторов", href: "/tools/calc" },
+    ],
+    related: [
+      { href: "/home", label: "Кабинет" },
+      { href: "/tools/calc", label: "Калькуляторы" },
+      { href: "/blog/appointment-hub-on-shift", label: "Appointment hub" },
+      { href: "/blog", label: "Блог" },
+    ],
+    bodyMarkdown: `
+## Зачем врачу тема
+
+Ночная смена / тёмный кабинет УЗИ — тёмная тема снижает блик. Дневной приём — светлая. Переключатель в шапке кабинета (theme).
+
+## A11y-правила продукта (кратко)
+
+- Статус ошибки/успеха **не только цветом**.
+- Focus с клавиатуры виден.
+- Тяжёлая анимация уважает \`prefers-reduced-motion\`.
+- Медицинские дисклеймеры читаемы в обеих темах.
+
+## Практика на смене
+
+1. Выберите тему до потока пациентов.
+2. Проверьте, что дисклеймер CDS на экране калькулятора читается.
+3. Не полагайтесь на «красный = плохо» без текста.
+
+## Дисклеймер
+
+${CLINICAL_CONTENT_DISCLAIMER}
+`.trim(),
+  },
+  {
+    slug: "cookie-consent-analytics-clinic",
+    title: "Cookie consent / аналитика для клиники",
+    description:
+      "Какие cookies нужны для входа, что такое аналитика после согласия, и чего клиника не должна ждать от Метрики без ID и consent.",
+    kind: "guideline",
+    publishedAt: "2026-11-13",
+    updatedAt: "2026-11-13",
+    reviewedBy: CLINICAL_CONTENT_REVIEWER,
+    sources: [
+      { label: "Политика конфиденциальности", href: "/privacy" },
+      { label: "Документация analytics", href: "/blog" },
+      { label: "Лендинг", href: "/" },
+    ],
+    related: [
+      { href: "/privacy", label: "Политика" },
+      { href: "/offer", label: "Оферта" },
+      { href: "/contacts", label: "Контакты" },
+      { href: "/blog/open-access-vs-register", label: "Регистрация" },
+    ],
+    bodyMarkdown: `
+## Два слоя
+
+| Необходимые | Аналитические |
+|---|---|
+| Сессия входа, безопасность | Яндекс.Метрика / GA / Firebase — **после согласия** |
+| Без баннера «можно жить» | Баннер + «Настройки cookie» в футере |
+
+До согласия сетевых запросов к счётчикам нет. Без \`NEXT_PUBLIC_YM_ID\` / \`GA_ID\` скрипты не грузятся.
+
+## Для главврача / IT клиники
+
+- Воронка «визит → регистрация → расчёт» появляется только после настройки ID и согласия пользователей.
+- В аналитику **не** уходят поля калькуляторов и ПДн пациентов (продуктовое правило).
+- Подробности для команды разработки — \`docs/analytics.md\` в репозитории.
+
+## Дисклеймер
+
+${CLINICAL_CONTENT_DISCLAIMER}
+`.trim(),
+  },
+  {
+    slug: "offer-in-one-minute",
+    title: "Юридические страницы: оферта за 1 минуту",
+    description:
+      "Где читать оферту, политику и контакты оператора. Черновики для публикации — финальную редакцию проверяет юрист.",
+    kind: "how-to",
+    publishedAt: "2026-11-13",
+    updatedAt: "2026-11-13",
+    reviewedBy: CLINICAL_CONTENT_REVIEWER,
+    sources: [
+      { label: "Публичная оферта", href: "/offer" },
+      { label: "Политика конфиденциальности", href: "/privacy" },
+      { label: "Контакты", href: "/contacts" },
+      { label: "Условия", href: "/terms" },
+    ],
+    related: [
+      { href: "/offer", label: "Оферта" },
+      { href: "/privacy", label: "Политика" },
+      { href: "/contacts", label: "Контакты" },
+      { href: "/register", label: "Регистрация" },
+    ],
+    bodyMarkdown: `
+## За 60 секунд
+
+1. [/offer](/offer) — условия сервиса и PRO.
+2. [/privacy](/privacy) — ПДн и cookies.
+3. [/contacts](/contacts) — как связаться с поддержкой / оператором.
+4. На регистрации отметьте согласие с Политикой и Офертой.
+
+## Важно
+
+Тексты могут быть помечены как черновик до юр. ревью. Реквизиты юрлица подставляются из env — если их нет, на странице это видно явно (не выдумываем ИНН в блоге).
+
+## Дисклеймер
+
+${CLINICAL_CONTENT_DISCLAIMER}
+`.trim(),
+  },
+  {
+    slug: "contacts-support-sla",
+    title: "Contacts / support SLA",
+    description:
+      "Куда писать по продукту и пилоту. Ожидания по ответу поддержки без ложных обещаний «24/7 врача на линии».",
+    kind: "how-to",
+    publishedAt: "2026-11-13",
+    updatedAt: "2026-11-13",
+    reviewedBy: CLINICAL_CONTENT_REVIEWER,
+    sources: [
+      { label: "Контакты", href: "/contacts" },
+      { label: "Оферта", href: "/offer" },
+    ],
+    related: [
+      { href: "/contacts", label: "Контакты" },
+      { href: "/offer", label: "Оферта" },
+      { href: "/pricing", label: "Тарифы" },
+      { href: "/blog/telegram-channel-vs-product", label: "Telegram vs продукт" },
+    ],
+    bodyMarkdown: `
+## Куда писать
+
+Актуальный email и форма — на [/contacts](/contacts). Канал Telegram — для новостей, не для срочной клинической консультации по вашей пациентке.
+
+## Чего ждать
+
+- Ответ по доступу / тарифу / багу — в рабочие дни (точные сроки — в оферте / ответе поддержки).
+- **Не** обещаем экстренную клиническую помощь через support.
+- Для пилота клиники заранее согласуйте контакт координатора.
+
+## Дисклеймер
+
+${CLINICAL_CONTENT_DISCLAIMER}
+`.trim(),
+  },
+  {
+    slug: "staging-vs-production-pilot",
+    title: "Staging vs production для пилота",
+    description:
+      "Чем preview/staging отличается от production SonoGyn Pro: данные, оплата, open access. Что проверить перед пилотом отделения.",
+    kind: "guideline",
+    publishedAt: "2026-11-13",
+    updatedAt: "2026-11-13",
+    reviewedBy: CLINICAL_CONTENT_REVIEWER,
+    sources: [
+      { label: "Лендинг production", href: "/" },
+      { label: "Тарифы", href: "/pricing" },
+      { label: "Оферта", href: "/offer" },
+    ],
+    related: [
+      { href: "/pricing", label: "Тарифы" },
+      { href: "/blog/open-access-vs-register", label: "Open access" },
+      { href: "/contacts", label: "Контакты" },
+      { href: "/blog", label: "Блог" },
+    ],
+    bodyMarkdown: `
+## Коротко
+
+| | Staging / preview | Production |
+|---|---|---|
+| URL | \`*.vercel.app\` / ветка | Канонический домен продукта |
+| Данные | Тестовые, могут сбрасываться | Рабочие (с RLS) |
+| Оплата | Часто выключена / test keys | ЮKassa/Stripe по env |
+| Open access | Может быть шире для демо | Политика пилота |
+
+## Чек-лист перед пилотом отделения
+
+1. Открываете **production**-URL, не preview.
+2. Регистрация и согласие с офертой работают.
+3. Нужные калькуляторы открываются под вашим аккаунтом.
+4. Оплата PRO — только если так задумано пилотом ([/pricing](/pricing)).
+5. Не вносите реальных ПДн на staging.
+
+## Дисклеймер
+
+${CLINICAL_CONTENT_DISCLAIMER}
+`.trim(),
+  },
+  {
+    slug: "mobile-expo-parity-calculators",
+    title: "Mobile Expo parity калькуляторов",
+    description:
+      "Web и мобильное приложение SonoGyn Pro делят логику калькуляторов. Где смотреть одинаковый расчёт и чего ждать от parity.",
+    kind: "guideline",
+    publishedAt: "2026-11-13",
+    updatedAt: "2026-11-13",
+    reviewedBy: CLINICAL_CONTENT_REVIEWER,
+    sources: [
+      { label: "Каталог web", href: "/tools/calc" },
+      { label: "O-RADS US web", href: "/tools/calc/rads/o-rads" },
+      { label: "Лендинг", href: "/" },
+    ],
+    related: [
+      { href: "/tools/calc", label: "Каталог" },
+      { href: "/tools/calc/rads/o-rads", label: "O-RADS" },
+      { href: "/blog/pwa-what-works-offline", label: "PWA" },
+      { href: "/blog/open-access-vs-register", label: "Аккаунт" },
+    ],
+    bodyMarkdown: `
+## Принцип monorepo
+
+Клинические формулы живут в \`packages/*\` (например O-RADS). Web (\`apps/web\`) и mobile (\`apps/mobile\`, Expo) — **оболочки**. Значимые калькуляторы должны совпадать по смыслу расчёта.
+
+## Что это значит для врача
+
+- Один аккаунт — те же кейсы и прогресс (где включено).
+- PWA на планшете ≈ web; нативное Expo — отдельная установка из стора/пилота.
+- Если UI на mobile ещё догоняет web — смотрите web/PWA для полного каталога.
+
+## Практика
+
+1. Критичный расчёт на приёме — web/PWA с актуальным деплоем.
+2. Расхождение web vs mobile — пишите в [/contacts](/contacts) с названием калькулятора.
+3. Не сравнивайте со скринами старых сборок.
+
+## Дисклеймер
+
+${CLINICAL_CONTENT_DISCLAIMER}
+`.trim(),
+  },
 ];
 
 const bySlug = new Map(BLOG_POSTS.map((p) => [p.slug, p]));

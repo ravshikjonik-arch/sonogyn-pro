@@ -2,46 +2,27 @@
 
 Контент: `apps/web/lib/seo/blog-posts.ts`. Sitemap — `listBlogPosts()`.
 
-## Готовые страницы (23)
+## Готово: 33 статьи + хаб `/blog`
 
-| URL | Тип |
-|---|---|
-| `/blog` | хаб |
-| `/blog/orads-adnexa-2-minutes` | how-to |
-| `/blog/iota-adnex-vs-orads` | guideline |
-| `/blog/endometrium-thickness-phases` | how-to |
-| `/blog/bishop-when-to-score` | how-to |
-| `/blog/vbac-before-you-calculate` | how-to |
-| `/blog/efw-hadlock-limits` | guideline |
-| `/blog/tirads-lexicon-3-minutes` | how-to |
-| `/blog/birads-us-vs-mammography` | guideline |
-| `/blog/popq-measurement-points` | how-to |
-| `/blog/cervical-length-isuog-context` | guideline |
-| `/blog/figo-myoma-types-map` | how-to |
-| `/blog/omt-ultrasound-checklist` | how-to |
-| `/blog/orads-0-incomplete` | case |
-| `/blog/fmf-first-trimester-not-screening` | guideline |
-| `/blog/elastography-when-to-use` | how-to |
-| `/blog/colposcopy-protocol-fields` | how-to |
-| `/blog/ln-rads-lexicon` | how-to |
-| `/blog/pregnancy-medications-reference-only` | guideline |
-| `/blog/adnex-fields-before-model` | how-to |
-| `/blog/open-access-vs-register` | how-to |
-| `/blog/pwa-what-works-offline` | how-to |
-| `/blog/quiz-self-check-disclaimer` | guideline |
-| `/blog/career-ladder-student-to-doctor` | how-to |
+Партии: #82 (3) → #83 (10) → #84 (10) → batch4 (10).
 
-Ревьюер всех текстов: Якубов Р.В. Cut-off в статьях не публикуются.
+Ревьюер: Якубов Р.В. Cut-off в текстах не публикуются.
 
-## Следующая очередь (если нужно)
+### Клинические / калькуляторы
+O-RADS 2 мин · IOTA vs O-RADS · эндометрий · Bishop · VBAC · EFW · TI-RADS · BI-RADS · POP-Q · CL · FIGO · чек-лист ОМТ · O-RADS 0 · FMF · эластография · кольпоскопия · LN-RADS · лекарства при беременности · поля ADNEX · Vascular US · Evidence vs гайдлайн · Appointment hub
 
-1. Vascular US consultant — рамки  
-2. Evidence assistant vs гайдлайн  
-3. Appointment hub на приёме  
-4. Telegram-канал vs продукт  
-5. Dark/light a11y для врача  
-6. Cookie consent / аналитика для клиники  
-7. Юридические страницы: оферта за 1 минуту  
-8. Contacts / support SLA  
-9. Staging vs production для пилота  
-10. Mobile Expo parity калькуляторов  
+### Продукт / доверие
+Open access · PWA offline · Quiz дисклеймер · Career ladder · Telegram vs продукт · Dark/light a11y · Cookie/analytics · Оферта за 1 мин · Contacts/SLA · Staging vs production · Mobile Expo parity
+
+## Следующая очередь (опционально)
+
+1. Achievements / геймификация обучения  
+2. Cases feed — анонимизация  
+3. Protocols / EMR без PHI в чате  
+4. Stripe vs ЮKassa на paywall  
+5. Rate limits — что видит врач  
+6. Dev skip-auth — только local  
+7. Custom domain checklist  
+8. Lighthouse / perf для клиники  
+9. A11y e2e soft vs strict  
+10. Remotion / короткие ролики для врачей  
