@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 
 import { PaywallCareerBanner } from "@/components/career/PaywallCareerBanner";
 import { Button } from "@/components/ui/button";
+import { track } from "@/lib/analytics/track";
 import { PAYMENT_PROVIDER_PUBLIC_NAME_RU, STRIPE_FALLBACK_PUBLIC_NAME } from "@/lib/config/platform";
 
 type BillingStatus = {
@@ -26,6 +27,13 @@ export default function PaywallPage() {
   const [error, setError] = useState<string | null>(null);
   const [yookassaReady, setYookassaReady] = useState(false);
   const [priceRub, setPriceRub] = useState(990);
+
+  useEffect(() => {
+    track({ name: "paywall_view", params: { plan: "pro" } });
+    if (checkout === "success") {
+      track({ name: "checkout_success", params: { plan: "pro" } });
+    }
+  }, [checkout]);
 
   useEffect(() => {
     void fetch("/api/auth/status", { cache: "no-store" })
@@ -93,6 +101,7 @@ export default function PaywallPage() {
       setError("Открытый доступ включён: PRO временно доступен без оплаты и регистрации.");
       return;
     }
+    track({ name: "checkout_start", params: { plan: "pro" } });
     if (yookassaReady) {
       await startYooKassaCheckout();
       return;

@@ -25,6 +25,7 @@ import { AiEvidenceSourcesPanel } from "@/components/ai/AiEvidenceSourcesPanel";
 import { AiMessageFeedback } from "@/components/ai/AiMessageFeedback";
 import { AiToolResultList } from "@/components/ai/AiToolResultCard";
 import { useProStatus } from "@/components/pro/use-pro-status";
+import { track } from "@/lib/analytics/track";
 import { onCopilotOpen } from "@/lib/ai/copilot-bus";
 import {
   messageFromApiErrorBody,
@@ -232,6 +233,10 @@ export function SonogynCopilot() {
 
       try {
         const useStream = !hasImagesNow;
+        track({
+          name: "ai_request",
+          params: { mode: evidenceMode ? "evidence" : "clinical" },
+        });
         const res = await fetch("/api/ai/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },

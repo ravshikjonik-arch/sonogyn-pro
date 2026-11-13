@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { TrackCtaLink } from "@/components/analytics/TrackCtaLink";
 import { BrandMark } from "@/components/brand/BrandMark";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils/cn";
@@ -52,7 +53,9 @@ export function LandingHeader({ isAuthenticated, variant = "clinical" }: Landing
           </Button>
           {isAuthenticated ? (
             <Button size="sm" className="sonogyn-cta-glow font-semibold" asChild>
-              <Link href="/app">Кабинет</Link>
+              <TrackCtaLink href="/app" cta="cabinet" placement="landing_header">
+                Кабинет
+              </TrackCtaLink>
             </Button>
           ) : (
             <>
@@ -62,7 +65,9 @@ export function LandingHeader({ isAuthenticated, variant = "clinical" }: Landing
                 className={cn(marketing && "text-violet-100 hover:bg-white/10 hover:text-white")}
                 asChild
               >
-                <Link href="/login">Войти</Link>
+                <TrackCtaLink href="/login" cta="login" placement="landing_header">
+                  Войти
+                </TrackCtaLink>
               </Button>
               <Button
                 size="sm"
@@ -74,7 +79,9 @@ export function LandingHeader({ isAuthenticated, variant = "clinical" }: Landing
                 )}
                 asChild
               >
-                <Link href="/register">Начать</Link>
+                <TrackCtaLink href="/register" cta="register" placement="landing_header">
+                  Начать
+                </TrackCtaLink>
               </Button>
             </>
           )}

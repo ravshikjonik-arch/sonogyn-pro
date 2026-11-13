@@ -50,6 +50,7 @@ import {
 import { isFullOpenAccessEnabledClient } from "@/lib/auth/guest-demo-account";
 import { readAppLocale, saveAppLocale } from "@/lib/i18n/locale";
 import { cn } from "@/lib/utils/cn";
+import { track } from "@/lib/analytics/track";
 import { beginFirstRunOnboarding } from "@/lib/onboarding/first-run-storage";
 import { markSessionAnchorNow } from "@/lib/security/session-anchor";
 
@@ -72,6 +73,10 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
 
   const [method, setMethod] = useState<RegisterMethod>(initialMethod);
   const [step, setStep] = useState<Step>("register");
+
+  useEffect(() => {
+    track({ name: "signup_start", params: { method: initialMethod } });
+  }, [initialMethod]);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -348,6 +353,7 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
         return;
       }
       await refresh();
+      track({ name: "signup_complete", params: { method } });
       setStep("character");
     } finally {
       setLoading(false);

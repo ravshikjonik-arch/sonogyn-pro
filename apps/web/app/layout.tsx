@@ -5,6 +5,7 @@ import { SkipToContent } from "@/components/a11y/SkipToContent";
 import { PwaInstallProvider } from "@/components/pwa/PwaInstallProvider";
 import { PwaRuntime } from "@/components/pwa/PwaRuntime";
 import { AppToaster } from "@/components/providers/app-toaster";
+import { AnalyticsScripts } from "@/components/analytics/AnalyticsScripts";
 import { CookieConsentBanner } from "@/components/privacy/CookieConsentBanner";
 import { ThemeProvider } from "@/lib/theme/theme-provider";
 import { THEME_BOOT_SCRIPT } from "@/lib/theme/theme-paths";
@@ -100,6 +101,7 @@ export default function RootLayout({
               {children}
               <AppToaster />
               <PwaRuntime />
+              <AnalyticsScripts />
               <CookieConsentBanner />
             </SessionProvider>
           </PwaInstallProvider>

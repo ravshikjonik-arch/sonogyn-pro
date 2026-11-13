@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { CookieSettingsButton } from "@/components/analytics/CookieSettingsButton";
+import { TrackCtaLink } from "@/components/analytics/TrackCtaLink";
 import { TelegramChannelLink } from "@/components/clinical/TelegramChannelLink";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -45,18 +47,22 @@ export function LandingFooter({ isAuthenticated }: LandingFooterProps) {
           Инструмент ассистивный. Заключение и решение — за лечащим врачом.
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <Link
+          <TrackCtaLink
             href="/app"
+            cta="cabinet"
+            placement="landing_footer_cta"
             className="inline-flex h-11 items-center justify-center rounded-xl bg-white px-6 text-sm font-semibold text-[var(--clinical-primary-deep)] shadow transition hover:bg-white/95"
           >
             {isAuthenticated ? "В личный кабинет" : "Открыть кабинет"}
-          </Link>
-          <Link
+          </TrackCtaLink>
+          <TrackCtaLink
             href={isAuthenticated ? "/profile/pro" : "/login?redirectedFrom=/profile/pro"}
+            cta="pro"
+            placement="landing_footer_cta"
             className="inline-flex h-11 items-center justify-center rounded-xl border border-white/40 bg-transparent px-6 text-sm font-semibold text-white transition hover:bg-white/10"
           >
             {isAuthenticated ? "Тариф PRO" : "Войти для PRO"}
-          </Link>
+          </TrackCtaLink>
         </div>
       </section>
 
@@ -83,6 +89,7 @@ export function LandingFooter({ isAuthenticated }: LandingFooterProps) {
           <Link href="/contacts" className="hover:text-[var(--clinical-primary-deep)]">
             Контакты
           </Link>
+          <CookieSettingsButton />
           <Link href="/app" className="hover:text-[var(--clinical-primary-deep)]">
             Кабинет
           </Link>

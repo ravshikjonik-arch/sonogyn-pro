@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
+import { TrackCtaLink } from "@/components/analytics/TrackCtaLink";
 import { Button } from "@/components/ui/button";
 import {
   OPEN_ACCESS_DEMO_DETAIL_RU,
@@ -26,10 +26,10 @@ export function OpenAccessEntryCard({ className }: Props) {
       <p className="mt-2 text-sm leading-relaxed text-violet-100/80">{OPEN_ACCESS_DEMO_DETAIL_RU}</p>
       <div className="mt-5 flex flex-col gap-2">
         <Button asChild size="lg" className="w-full bg-white font-semibold text-violet-900 hover:bg-white/95">
-          <Link href="/home">
+          <TrackCtaLink href="/home" cta="open_cabinet" placement="landing_hero">
             Открыть кабинет
             <ArrowRight className="ml-2 h-4 w-4" />
-          </Link>
+          </TrackCtaLink>
         </Button>
       </div>
       <p className="mt-3 text-[11px] leading-relaxed text-violet-100/55">{OPEN_ACCESS_DEMO_FOOTNOTE_RU}</p>
