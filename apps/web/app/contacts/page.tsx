@@ -57,9 +57,12 @@ export default function ContactsPage() {
               {legal.pdnEmail}
             </a>
           </li>
-          {legal.phone ? <li>Телефон: {legal.phone}</li> : <li>Телефон: будет указан вместе с реквизитами</li>}
           <li>{legal.responseHoursRu}</li>
         </ul>
+        <p className="pt-2 text-xs text-[var(--clinical-foreground-muted)]">
+          Телефон на сайте не публикуем — пишите в Telegram (@Yakrav7700) или на email. Блок «Нашли
+          ошибку?» ниже открывает Telegram с адресом страницы.
+        </p>
       </section>
 
       <section className="space-y-2">

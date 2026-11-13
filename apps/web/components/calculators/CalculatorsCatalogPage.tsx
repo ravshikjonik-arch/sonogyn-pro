@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { ClinicalDomainHub } from "@/components/clinical/ClinicalDomainHub";
+import { ContentErrorReportLink } from "@/components/feedback/ContentErrorReportLink";
 import { CALCULATORS } from "@/lib/calculators/registry";
 import { resolveCalculatorHref } from "@/lib/calculators/resolve-calculator-href";
 import type { DomainHubCard, DomainHubGroup } from "@/lib/nav/domain-hubs";
@@ -76,15 +77,18 @@ export function CalculatorsCatalogPage() {
         backHref="/home"
         backLabel="← Разделы"
       />
-      <p className="mx-auto max-w-lg px-4 pb-10 text-xs leading-relaxed text-[var(--clinical-foreground-muted)] sm:max-w-xl">
-        Фильтры по разделам ниже: акушерство, гинекология, RADS, аптека. Популярные точки входа с
-        лендинга ведут сюда и на отдельные посадочные страницы с FAQ и ссылками на гайдлайны ACR /
-        ISUOG / IOTA / КР МЗ РФ. Разборы маршрутов — в{" "}
-        <Link href="/blog" className="font-medium text-[var(--clinical-primary-deep)] underline-offset-2 hover:underline">
-          блоге
-        </Link>
-        .
-      </p>
+      <div className="mx-auto max-w-lg space-y-4 px-4 pb-10 sm:max-w-xl">
+        <p className="text-xs leading-relaxed text-[var(--clinical-foreground-muted)]">
+          Фильтры по разделам ниже: акушерство, гинекология, RADS, аптека. Популярные точки входа с
+          лендинга ведут сюда и на отдельные посадочные страницы с FAQ и ссылками на гайдлайны ACR /
+          ISUOG / IOTA / КР МЗ РФ. Разборы маршрутов — в{" "}
+          <Link href="/blog" className="font-medium text-[var(--clinical-primary-deep)] underline-offset-2 hover:underline">
+            блоге
+          </Link>
+          .
+        </p>
+        <ContentErrorReportLink pagePath="/tools/calc" />
+      </div>
     </div>
   );
 }

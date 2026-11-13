@@ -35,7 +35,7 @@ export function readLegalPublicProfile(): LegalPublicProfile {
   const inn = env("NEXT_PUBLIC_LEGAL_INN");
   const ogrn = env("NEXT_PUBLIC_LEGAL_OGRN");
   const address = env("NEXT_PUBLIC_LEGAL_ADDRESS");
-  const phone = env("NEXT_PUBLIC_LEGAL_PHONE");
+  // Телефон намеренно не отдаём в публичный профиль (не показывать на сайте).
   const supportEmail = env("NEXT_PUBLIC_SUPPORT_EMAIL") ?? SUPPORT_EMAIL;
   const pdnEmail = env("NEXT_PUBLIC_PDN_EMAIL") ?? supportEmail;
 
@@ -44,7 +44,7 @@ export function readLegalPublicProfile(): LegalPublicProfile {
     inn,
     ogrn,
     address,
-    phone,
+    phone: null,
     supportEmail,
     pdnEmail,
     responseHoursRu: "Ответ на обращения: обычно в течение 3 рабочих дней",

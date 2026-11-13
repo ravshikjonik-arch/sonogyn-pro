@@ -3,6 +3,7 @@ import Link from "next/link";
 import { CookieSettingsButton } from "@/components/analytics/CookieSettingsButton";
 import { TrackCtaLink } from "@/components/analytics/TrackCtaLink";
 import { TelegramChannelLink } from "@/components/clinical/TelegramChannelLink";
+import { ContentErrorReportLink } from "@/components/feedback/ContentErrorReportLink";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   formatLegalCopyrightLine,
@@ -67,8 +68,9 @@ export function LandingFooter({ isAuthenticated }: LandingFooterProps) {
       </section>
 
       <footer className="border-t border-[var(--clinical-border)] pt-10 text-center text-xs text-[var(--clinical-foreground-muted)]">
-        <div className="mx-auto mb-6 max-w-md">
+        <div className="mx-auto mb-6 max-w-md space-y-3">
           <TelegramChannelLink />
+          <ContentErrorReportLink pagePath="/" className="text-left sm:text-center" />
         </div>
         <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
           <Link href="/#features" className="hover:text-[var(--clinical-primary-deep)]">

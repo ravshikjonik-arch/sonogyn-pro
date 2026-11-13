@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { ContentErrorReportLink } from "@/components/feedback/ContentErrorReportLink";
 import {
   CLINICAL_CONTENT_DISCLAIMER,
   CLINICAL_CONTENT_REVIEW_STATUS_RU,
@@ -111,6 +112,8 @@ export function BlogArticleShell({ post }: Props) {
           ))}
         </ul>
       </section>
+
+      <ContentErrorReportLink pagePath={`/blog/${post.slug}`} />
 
       <p className="text-xs leading-relaxed text-[var(--clinical-foreground-muted)]">
         {CLINICAL_CONTENT_DISCLAIMER}
