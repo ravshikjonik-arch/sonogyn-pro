@@ -90,7 +90,7 @@ export const CALCULATOR_LANDING_CONTENT: CalculatorLandingContent[] = [
     related: [
       { href: "/tools/calc/rads/iota", label: "IOTA ADNEX / LR2" },
       { href: "/tools/o-rads", label: "Комната O-RADS (калькулятор + атлас)" },
-      { href: "/tools/calc/gyn/ovarian-cancer-risk", label: "Риск рака яичников" },
+      { href: "/blog/orads-adnexa-2-minutes", label: "O-RADS за 2 минуты" },
       { href: "/tools/refs/exam-checklists", label: "Чек-лист УЗИ ОМТ" },
       { href: "/tools/calc", label: "Каталог калькуляторов" },
     ],
@@ -248,7 +248,7 @@ export const CALCULATOR_LANDING_CONTENT: CalculatorLandingContent[] = [
     ],
     related: [
       { href: "/tools/calc/rads/o-rads", label: "O-RADS US" },
-      { href: "/tools/o-rads", label: "Комната O-RADS" },
+      { href: "/blog/iota-adnex-vs-orads", label: "IOTA vs O-RADS" },
       { href: "/tools/calc/gyn/ovarian-cancer-risk", label: "Риск рака яичников" },
       { href: "/tools/calc", label: "Каталог калькуляторов" },
     ],
@@ -305,7 +305,7 @@ export const CALCULATOR_LANDING_CONTENT: CalculatorLandingContent[] = [
     ],
     related: [
       { href: "/tools/calc/gyn/pop-q", label: "POP-Q" },
-      { href: "/tools/mapping/uterus", label: "FIGO / MUSA · матка" },
+      { href: "/blog/endometrium-thickness-phases", label: "M-эхо: таблица маршрута" },
       { href: "/tools/refs/exam-checklists", label: "Чек-лист УЗИ ОМТ" },
       { href: "/tools/calc", label: "Каталог калькуляторов" },
     ],

@@ -19,11 +19,19 @@ const MARKETING_ROUTES: SitemapRow[] = [
   { path: "/", priority: 1, changeFrequency: "weekly" },
   // /landing — дубль маркетинга; канон `/` (редирект настраивается отдельно)
   { path: "/pricing", priority: 0.65, changeFrequency: "monthly" },
+  { path: "/blog", priority: 0.72, changeFrequency: "weekly" },
   { path: "/privacy", priority: 0.4, changeFrequency: "yearly" },
   { path: "/offer", priority: 0.45, changeFrequency: "yearly" },
   { path: "/contacts", priority: 0.45, changeFrequency: "yearly" },
   { path: "/terms", priority: 0.4, changeFrequency: "yearly" },
   { path: "/lp/orads-iota", priority: 0.75, changeFrequency: "monthly" },
+];
+
+/** Статьи блога (промпт 09) — синхронизировать с `listBlogPosts()`. */
+const BLOG_POST_ROUTES: SitemapRow[] = [
+  { path: "/blog/orads-adnexa-2-minutes", priority: 0.7, changeFrequency: "monthly" },
+  { path: "/blog/iota-adnex-vs-orads", priority: 0.7, changeFrequency: "monthly" },
+  { path: "/blog/endometrium-thickness-phases", priority: 0.7, changeFrequency: "monthly" },
 ];
 
 /** Хабы продукта (soft-open, indexable). */
@@ -169,6 +177,7 @@ export function getIndexableSitemapRows(): SitemapRow[] {
 
   const all = [
     ...MARKETING_ROUTES,
+    ...BLOG_POST_ROUTES,
     ...HUB_ROUTES,
     ...MAPPING_ROUTES,
     ...AI_CONSULTANT_ROUTES,

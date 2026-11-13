@@ -484,6 +484,8 @@ export const config = {
     "/offer",
     "/contacts",
     "/terms",
+    "/blog",
+    "/blog/:path*",
     "/auth/:path*",
     "/clinical-atlas",
     "/clinical-atlas/:path*",

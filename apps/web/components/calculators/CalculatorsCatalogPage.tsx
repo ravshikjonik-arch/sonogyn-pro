@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { ClinicalDomainHub } from "@/components/clinical/ClinicalDomainHub";
 import { CALCULATORS } from "@/lib/calculators/registry";
 import { resolveCalculatorHref } from "@/lib/calculators/resolve-calculator-href";
@@ -77,7 +79,11 @@ export function CalculatorsCatalogPage() {
       <p className="mx-auto max-w-lg px-4 pb-10 text-xs leading-relaxed text-[var(--clinical-foreground-muted)] sm:max-w-xl">
         Фильтры по разделам ниже: акушерство, гинекология, RADS, аптека. Популярные точки входа с
         лендинга ведут сюда и на отдельные посадочные страницы с FAQ и ссылками на гайдлайны ACR /
-        ISUOG / IOTA / КР МЗ РФ.
+        ISUOG / IOTA / КР МЗ РФ. Разборы маршрутов — в{" "}
+        <Link href="/blog" className="font-medium text-[var(--clinical-primary-deep)] underline-offset-2 hover:underline">
+          блоге
+        </Link>
+        .
       </p>
     </div>
   );
