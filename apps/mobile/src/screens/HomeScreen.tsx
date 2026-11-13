@@ -8,6 +8,8 @@ import CaseCard from "../components/CaseCard";
 import { calcClinicalProgress } from "../components/widgets/case_progress";
 import { branding } from "../config/branding";
 import { openTelegramChannel } from "../config/community";
+import { openContentErrorReport } from "../lib/brand/openContentErrorReport";
+import { CONTENT_ERROR_REPORT } from "../config/contentErrorReport";
 import type { CasePreview } from "../features/case/types";
 import { useCases } from "../hooks/useCases";
 import { useRecentComments } from "../hooks/useRecentComments";
@@ -133,6 +135,13 @@ export default function HomeScreen({ navigation }: HomeTabScreenProps) {
         sub: "Telegram · @UltraGynAnalytics (при блокировке — VPN)",
         glyph: "✦",
         onPress: () => void openTelegramChannel(),
+      },
+      {
+        key: "content_error",
+        title: CONTENT_ERROR_REPORT.labelRu,
+        sub: `${CONTENT_ERROR_REPORT.ctaRu} · ${CONTENT_ERROR_REPORT.handle}`,
+        glyph: "!",
+        onPress: () => void openContentErrorReport({ pageHint: "Home" }),
       },
       {
         key: "orads_flow",
