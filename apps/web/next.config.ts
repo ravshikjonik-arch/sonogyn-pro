@@ -44,8 +44,8 @@ function buildContentSecurityPolicy(): string {
   const vercelAssets = isProd ? vercelAssetCsp() : "";
   // Next inline theme/SW scripts still need 'unsafe-inline'. Drop 'unsafe-eval' in prod.
   const scriptSrc = isProd
-    ? `script-src 'self' 'unsafe-inline' https://js.stripe.com https://challenges.cloudflare.com https://telegram.org https://www.googletagmanager.com https://www.google-analytics.com${vercelAssets}`
-    : "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://challenges.cloudflare.com https://telegram.org https://www.googletagmanager.com https://www.google-analytics.com";
+    ? `script-src 'self' 'unsafe-inline' https://js.stripe.com https://challenges.cloudflare.com https://telegram.org https://www.googletagmanager.com https://www.google-analytics.com https://mc.yandex.ru https://yastatic.net${vercelAssets}`
+    : "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://challenges.cloudflare.com https://telegram.org https://www.googletagmanager.com https://www.google-analytics.com https://mc.yandex.ru https://yastatic.net";
 
   const parts = [
     "default-src 'self'",

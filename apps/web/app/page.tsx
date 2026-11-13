@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 
+import { LandingViewTracker } from "@/components/analytics/LandingViewTracker";
 import { LandingCareerPath } from "@/components/landing/LandingCareerPath";
 import { LandingFaq } from "@/components/landing/LandingFaq";
 import { LandingFeatures } from "@/components/landing/LandingFeatures";
@@ -89,6 +90,7 @@ export default async function RootPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <LandingViewTracker />
       <LandingHeader isAuthenticated={isAuthenticated} variant="marketing" />
       <main id="main-content">
         <LandingMarketingHero isAuthenticated={isAuthenticated} />

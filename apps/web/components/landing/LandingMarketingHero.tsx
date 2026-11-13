@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import {
   BookOpen,
   Calculator,
@@ -10,6 +9,7 @@ import {
   Stethoscope,
 } from "lucide-react";
 
+import { TrackCtaLink } from "@/components/analytics/TrackCtaLink";
 import { BrandMark } from "@/components/brand/BrandMark";
 import { OpenAccessEntryCard } from "@/components/landing/OpenAccessEntryCard";
 import { Button } from "@/components/ui/button";
@@ -181,7 +181,9 @@ export function LandingMarketingHero({ isAuthenticated }: Props) {
                 <p className="text-[10px] font-black uppercase tracking-[0.22em] text-violet-200/80">Сессия активна</p>
                 <h2 className="mt-2 text-xl font-black tracking-tight">С возвращением</h2>
                 <Button asChild size="lg" className="mt-5 w-full bg-white font-semibold text-violet-900 hover:bg-white/95">
-                  <Link href="/app">В личный кабинет</Link>
+                  <TrackCtaLink href="/app" cta="cabinet" placement="landing_hero">
+                    В личный кабинет
+                  </TrackCtaLink>
                 </Button>
               </div>
             ) : (

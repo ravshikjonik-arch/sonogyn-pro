@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
+import { CalculatorOpenTracker } from "@/components/analytics/CalculatorOpenTracker";
 import { CalculatorFaqJsonLd } from "@/components/seo/CalculatorFaqJsonLd";
 import { CLINICAL_CONTENT_DISCLAIMER } from "@/lib/seo/clinical-reviewer";
 import type { CalculatorLandingContent } from "@/lib/seo/calculator-landing-content";
@@ -11,8 +12,11 @@ type Props = {
 };
 
 export function CalculatorLandingShell({ content, children }: Props) {
+  const calcId = content.path.replace(/^\/tools\/calc\//, "").replace(/\//g, "_") || content.path;
+
   return (
     <div className="space-y-8">
+      <CalculatorOpenTracker id={calcId} />
       <CalculatorFaqJsonLd faq={content.faq} />
 
       <header className="mx-auto max-w-4xl space-y-3 px-4 pt-6">

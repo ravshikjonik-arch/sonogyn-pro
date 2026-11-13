@@ -5,6 +5,7 @@ import { X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { usePwaInstall } from "@/hooks/usePwaInstall";
+import { track } from "@/lib/analytics/track";
 import { openPwaInstall } from "@/lib/pwa/install-bus";
 import {
   markInstallPromptDismissed,
@@ -29,7 +30,10 @@ export function PwaInstallBanner() {
     if (!canNativeInstall && !showIosInstructions) return;
     if (!shouldShowAutoInstallPrompt()) return;
 
-    const timer = window.setTimeout(() => setVisible(true), 2500);
+    const timer = window.setTimeout(() => {
+      setVisible(true);
+      track({ name: "install_prompt_shown" });
+    }, 2500);
     return () => window.clearTimeout(timer);
   }, [offerInstall, installed, canNativeInstall, showIosInstructions]);
 
@@ -59,6 +63,7 @@ export function PwaInstallBanner() {
           type="button"
           size="sm"
           onClick={() => {
+            track({ name: "install_accepted" });
             openPwaInstall({ source: "banner" });
             dismiss();
           }}

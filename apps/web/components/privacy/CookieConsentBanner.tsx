@@ -5,28 +5,43 @@ import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
+  ANALYTICS_CONSENT_REOPEN_EVENT,
   hasAnalyticsConsentGranted,
-  isFirebaseAnalyticsConfigured,
+  persistAnalyticsConsentAudit,
   readAnalyticsConsent,
+  shouldOfferAnalyticsConsent,
   writeAnalyticsConsent,
   type AnalyticsConsent,
 } from "@/lib/privacy/analytics-consent";
 
 /**
- * Показывается только если Firebase Analytics сконфигурирован и согласие ещё не выбрано.
+ * Баннер согласий: YM / GA / Firebase только после «Разрешить».
  * Необходимые cookies сессии не требуют баннера.
  */
 export function CookieConsentBanner() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (!isFirebaseAnalyticsConfigured()) return;
-    if (readAnalyticsConsent() != null) return;
-    setVisible(true);
+    function syncOpen() {
+      if (!shouldOfferAnalyticsConsent()) {
+        setVisible(false);
+        return;
+      }
+      setVisible(readAnalyticsConsent() == null);
+    }
+    syncOpen();
+
+    function onReopen() {
+      if (!shouldOfferAnalyticsConsent()) return;
+      setVisible(true);
+    }
+    window.addEventListener(ANALYTICS_CONSENT_REOPEN_EVENT, onReopen);
+    return () => window.removeEventListener(ANALYTICS_CONSENT_REOPEN_EVENT, onReopen);
   }, []);
 
   function choose(value: AnalyticsConsent) {
     writeAnalyticsConsent(value);
+    persistAnalyticsConsentAudit(value);
     setVisible(false);
   }
 
@@ -40,8 +55,8 @@ export function CookieConsentBanner() {
     >
       <div className="mx-auto flex max-w-4xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm leading-6 text-[var(--clinical-foreground)]">
-          Мы используем необходимые cookies для входа. Аналитика (Firebase) — только с вашего
-          согласия. Подробнее в{" "}
+          Мы используем необходимые cookies для входа. Аналитика (Яндекс.Метрика / GA / Firebase) —
+          только с вашего согласия. Подробнее в{" "}
           <Link href="/privacy" className="font-medium underline underline-offset-2">
             политике конфиденциальности
           </Link>
