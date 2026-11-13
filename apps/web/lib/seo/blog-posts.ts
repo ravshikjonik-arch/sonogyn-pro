@@ -1325,8 +1325,8 @@ ${CLINICAL_CONTENT_DISCLAIMER}
     reviewedBy: CLINICAL_CONTENT_REVIEWER,
     sources: [
       { label: "Политика конфиденциальности", href: "/privacy" },
-      { label: "Документация analytics", href: "/blog" },
-      { label: "Лендинг", href: "/" },
+      { label: "Публичная оферта", href: "/offer" },
+      { label: "Лендинг (баннер cookie и «Настройки cookie» в футере)", href: "/" },
     ],
     related: [
       { href: "/privacy", label: "Политика" },
@@ -1507,6 +1507,459 @@ ${CLINICAL_CONTENT_DISCLAIMER}
 1. Критичный расчёт на приёме — web/PWA с актуальным деплоем.
 2. Расхождение web vs mobile — пишите в [/contacts](/contacts) с названием калькулятора.
 3. Не сравнивайте со скринами старых сборок.
+
+## Дисклеймер
+
+${CLINICAL_CONTENT_DISCLAIMER}
+`.trim(),
+  },
+  {
+    slug: "achievements-xp-badges",
+    title: "Звёзды и XP: зачем геймификация в обучении врача",
+    description:
+      "Бейджи, XP и уровни за модули O-RADS, IOTA, FMF в SonoGyn Pro: мотивация для самообучения, а не оценка квалификации.",
+    kind: "how-to",
+    publishedAt: "2026-11-13",
+    updatedAt: "2026-11-13",
+    reviewedBy: CLINICAL_CONTENT_REVIEWER,
+    sources: [
+      { label: "Звёзды и награды", href: "/achievements" },
+      { label: "Quiz-хаб", href: "/tools/refs/quiz-hub" },
+      { label: "Траектории обучения", href: "/tools/refs/learning-paths" },
+    ],
+    related: [
+      { href: "/achievements", label: "Звёзды и награды" },
+      { href: "/tools/refs/quiz-hub", label: "Quiz-хаб" },
+      { href: "/blog/quiz-self-check-disclaimer", label: "Quiz · дисклеймер" },
+      { href: "/blog/career-ladder-student-to-doctor", label: "Career ladder" },
+    ],
+    bodyMarkdown: `
+## Что это
+
+На странице [/achievements](/achievements) собраны бейджи, XP и уровень за прохождение обучающих модулей и кейсов. Под уроком виджет подсказывает, сколько XP даст действие и к какому бейджу оно ведёт.
+
+## Чем это не является
+
+- Не балл НМО и не аккредитация.
+- Не рейтинг врачей для работодателя.
+- Не показатель того, что врач «умеет O-RADS» — только того, что он прошёл модуль.
+
+## Как использовать с пользой
+
+1. Выберите тему с пробелом (например, IOTA или FMF).
+2. Пройдите модуль и квиз в [quiz-хабе](/tools/refs/quiz-hub).
+3. Ошибки разберите по гайдлайну, а не ради следующего бейджа.
+4. Вернитесь к калькулятору темы и пройдите обезличенный сценарий.
+
+Для сохранения прогресса нужен аккаунт; в режиме открытого доступа страница может быть доступна без входа, но прогресс не закрепится за вами.
+
+## Дисклеймер
+
+${CLINICAL_CONTENT_DISCLAIMER}
+`.trim(),
+  },
+  {
+    slug: "case-anonymization-checklist",
+    title: "Кейс в ленту: три проверки обезличивания",
+    description:
+      "Перед публикацией клинического кейса в SonoGyn Pro: что убрать со снимков и почему мастер не пропустит кейс без шага анонимизации.",
+    kind: "case",
+    publishedAt: "2026-11-13",
+    updatedAt: "2026-11-13",
+    reviewedBy: CLINICAL_CONTENT_REVIEWER,
+    sources: [
+      { label: "Новый кейс", href: "/cases/new" },
+      { label: "Лента кейсов", href: "/cases" },
+      { label: "Политика конфиденциальности", href: "/privacy" },
+    ],
+    related: [
+      { href: "/cases", label: "Кейсы" },
+      { href: "/cases/new", label: "Создать кейс" },
+      { href: "/blog/ai-chat-without-patient-data", label: "AI-чат без ПДн" },
+      { href: "/privacy", label: "Политика" },
+    ],
+    bodyMarkdown: `
+## Шаг 4 мастера — не формальность
+
+Мастер [создания кейса](/cases/new) проходит четыре шага: контекст, описание, медиа, анонимизация. Последний шаг — обязательный гейт перед публикацией.
+
+## Три проверки
+
+1. **На снимках нет ФИО, даты рождения, номера карты и ID исследования.**
+2. **Нет меток клиники, врача и аппарата** — включая DICOM overlay и «вшитый» текст (burn-in).
+3. **Кадрирование не позволяет идентифицировать пациентку** — редкая анатомия плюс город плюс дата тоже идентифицируют.
+
+## Типичные ошибки
+
+- Скриншот экрана аппарата целиком, с шапкой.
+- Имя файла с фамилией.
+- Описание «пациентка 34 лет из N-ской ЦРБ, поступила 12 ноября».
+
+## Если сомневаетесь
+
+Не публикуйте. Обрежьте кадр, перепишите описание без дат и мест, вернитесь к шагу 4.
+
+## Дисклеймер
+
+${CLINICAL_CONTENT_DISCLAIMER}
+`.trim(),
+  },
+  {
+    slug: "ai-chat-without-patient-data",
+    title: "AI-чат без ПДн пациента",
+    description:
+      "Как формулировать клинический вопрос AI-ассистенту SonoGyn Pro без персональных данных пациентки и почему ответ — черновик, а не заключение.",
+    kind: "guideline",
+    publishedAt: "2026-11-13",
+    updatedAt: "2026-11-13",
+    reviewedBy: CLINICAL_CONTENT_REVIEWER,
+    sources: [
+      { label: "AI-ассистент", href: "/ai/ask" },
+      { label: "Политика конфиденциальности", href: "/privacy" },
+      { label: "Федеральный закон № 152-ФЗ «О персональных данных»", year: "2006" },
+    ],
+    related: [
+      { href: "/ai/ask", label: "AI-ассистент" },
+      { href: "/blog/evidence-assistant-vs-guideline", label: "Evidence vs гайдлайн" },
+      { href: "/blog/case-anonymization-checklist", label: "Обезличивание кейса" },
+      { href: "/privacy", label: "Политика" },
+    ],
+    bodyMarkdown: `
+## Главное правило
+
+Не вводите в чат то, что идентифицирует пациентку: ФИО, дату рождения, СНИЛС, полис, номер карты, телефон, адрес. Система вычищает такие данные из **служебных логов**, но не обезличивает ваш вопрос автоматически — ответственность за ввод на враче.
+
+## Как спросить правильно
+
+| Вместо | Пишите |
+|---|---|
+| «Иванова А.А., 12.03.1989, киста 45 мм…» | «Пременопауза, однокамерное образование, без солидного компонента…» |
+| Скрин с шапкой аппарата | Обрезанный кадр без меток (см. [чек-лист обезличивания](/blog/case-anonymization-checklist)) |
+| «Что ей назначить?» | «Какие варианты тактики описаны в КР для такой ситуации?» |
+
+## Ответ AI — черновик
+
+- Помечен как AI-черновик; проверяйте по КР и гайдлайнам.
+- Не копируйте ответ в протокол как своё заключение.
+- Для навигации по источникам удобнее [evidence-ассистент](/blog/evidence-assistant-vs-guideline).
+
+## Дисклеймер
+
+${CLINICAL_CONTENT_DISCLAIMER}
+`.trim(),
+  },
+  {
+    slug: "pro-payment-options",
+    title: "Оплата PRO: ЮKassa и запасной канал",
+    description:
+      "Как оформить PRO в SonoGyn Pro: основная оплата через ЮKassa, запасной канал и режим открытого доступа, когда платить не нужно.",
+    kind: "how-to",
+    publishedAt: "2026-11-13",
+    updatedAt: "2026-11-13",
+    reviewedBy: CLINICAL_CONTENT_REVIEWER,
+    sources: [
+      { label: "Тарифы", href: "/pricing" },
+      { label: "Публичная оферта", href: "/offer" },
+    ],
+    related: [
+      { href: "/pricing", label: "Тарифы" },
+      { href: "/offer", label: "Оферта" },
+      { href: "/blog/open-access-vs-register", label: "Open access" },
+      { href: "/blog/contacts-support-sla", label: "Поддержка" },
+    ],
+    bodyMarkdown: `
+## Где смотреть актуальное
+
+Цена и статус оплаты показаны на [/pricing](/pricing). Если оплата на окружении не настроена, кнопка «оплатить» скрыта — продукт не обещает того, что нельзя купить.
+
+## Три состояния
+
+| Состояние | Что видит врач |
+|---|---|
+| Открытый доступ (пилот) | PRO временно доступен без оплаты и регистрации |
+| ЮKassa настроена | Оплата картой РФ, чек на email, доступ на период из тарифа |
+| ЮKassa не настроена | Запасной канал (если подключён) или предложение написать в поддержку |
+
+## Как оформить
+
+1. Войдите в аккаунт.
+2. Откройте раздел PRO из профиля или со страницы тарифов.
+3. Нажмите оплату — откроется страница платёжного провайдера.
+4. После оплаты вернитесь в кабинет; при отмене списания не будет.
+
+Условия — в [оферте](/offer). Вопросы по оплате — в [поддержку](/contacts).
+
+## Дисклеймер
+
+${CLINICAL_CONTENT_DISCLAIMER}
+`.trim(),
+  },
+  {
+    slug: "too-many-requests-what-to-do",
+    title: "«Слишком много запросов»: что делать врачу",
+    description:
+      "Почему SonoGyn Pro иногда просит подождать минуту, чем лимит защищает сервис и когда писать в поддержку.",
+    kind: "how-to",
+    publishedAt: "2026-11-13",
+    updatedAt: "2026-11-13",
+    reviewedBy: CLINICAL_CONTENT_REVIEWER,
+    sources: [
+      { label: "Контакты", href: "/contacts" },
+      { label: "Тарифы", href: "/pricing" },
+    ],
+    related: [
+      { href: "/contacts", label: "Поддержка" },
+      { href: "/pricing", label: "Тарифы" },
+      { href: "/blog/pwa-what-works-offline", label: "PWA и сеть" },
+      { href: "/blog/ai-chat-without-patient-data", label: "AI-чат" },
+    ],
+    bodyMarkdown: `
+## Что произошло
+
+Сообщение «Слишком много запросов. Подождите минуту.» означает, что с вашего устройства или аккаунта за короткое время пришло больше обращений, чем разрешает защитный лимит. Это защита от перебора паролей, ботов и перегрузки AI, а не блокировка аккаунта.
+
+## Что сделать
+
+1. Подождите минуту и повторите действие.
+2. Не нажимайте кнопку многократно — каждый клик тоже считается.
+3. Если сеть нестабильна, проверьте, не отправляет ли браузер повторы.
+
+## Когда писать в поддержку
+
+- Сообщение появляется постоянно при обычной работе.
+- Вся смена работает через один IP (общий NAT больницы) и лимит срабатывает у нескольких врачей сразу.
+
+В письме на [/contacts](/contacts) укажите время, раздел и примерное число коллег за одним IP — без данных пациентов.
+
+## Дисклеймер
+
+${CLINICAL_CONTENT_DISCLAIMER}
+`.trim(),
+  },
+  {
+    slug: "idea-deep-endometriosis-protocol",
+    title: "IDEA: протокол УЗИ при глубоком эндометриозе",
+    description:
+      "Структурированный протокол по консенсусу IDEA в SonoGyn Pro: четыре шага осмотра таза и что фиксировать, без подмены хирургического стадирования.",
+    kind: "guideline",
+    publishedAt: "2026-11-13",
+    updatedAt: "2026-11-13",
+    reviewedBy: CLINICAL_CONTENT_REVIEWER,
+    sources: [
+      {
+        label:
+          "Guerriero S. et al. Systematic approach to sonographic evaluation of the pelvis in women with suspected endometriosis: IDEA group consensus. Ultrasound Obstet Gynecol",
+        year: "2016",
+      },
+      { label: "Протокол IDEA в SonoGyn Pro", href: "/tools/mapping/endometriosis" },
+      { label: "Рубрикатор КР МЗ РФ", href: "https://cr.minzdrav.gov.ru/" },
+    ],
+    related: [
+      { href: "/tools/mapping/endometriosis", label: "IDEA · эндометриоз" },
+      { href: "/tools/mapping/uterus", label: "Карта матки" },
+      { href: "/blog/omt-ultrasound-checklist", label: "Чек-лист УЗИ ОМТ" },
+      { href: "/tools/mapping", label: "Анатомические карты" },
+    ],
+    bodyMarkdown: `
+## Зачем стандарт
+
+Консенсус IDEA (International Deep Endometriosis Analysis) задаёт единый порядок осмотра таза при подозрении на эндометриоз, чтобы протоколы разных врачей можно было сравнивать.
+
+## Четыре шага IDEA
+
+1. Матка и придатки, включая признаки аденомиоза и эндометриомы.
+2. «Мягкие маркеры»: болезненность в точках, подвижность яичников.
+3. Скольжение (sliding sign) для оценки облитерации дугласова пространства.
+4. Узлы глубокого эндометриоза по передним и задним компартментам.
+
+## В SonoGyn Pro
+
+[/tools/mapping/endometriosis](/tools/mapping/endometriosis) ведёт по шагам и собирает структурированный протокол. Размеры и локализацию вносите по факту осмотра.
+
+## Ограничения
+
+- Отрицательное УЗИ не исключает поверхностный эндометриоз.
+- Тактику и хирургическое стадирование определяет гинеколог по КР.
+
+## Дисклеймер
+
+${CLINICAL_CONTENT_DISCLAIMER}
+`.trim(),
+  },
+  {
+    slug: "musa-myometrium-terms",
+    title: "MUSA: язык описания миометрия",
+    description:
+      "Термины консенсуса MUSA для миометрия и образований матки и как они связаны с картой матки и FIGO-типами в SonoGyn Pro.",
+    kind: "guideline",
+    publishedAt: "2026-11-13",
+    updatedAt: "2026-11-13",
+    reviewedBy: CLINICAL_CONTENT_REVIEWER,
+    sources: [
+      {
+        label:
+          "Van den Bosch T. et al. Terms, definitions and measurements to describe sonographic features of myometrium and uterine masses: MUSA group consensus. Ultrasound Obstet Gynecol",
+        year: "2015",
+      },
+      { label: "Карта матки в SonoGyn Pro", href: "/tools/mapping/uterus" },
+    ],
+    related: [
+      { href: "/tools/mapping/uterus", label: "Карта матки" },
+      { href: "/blog/figo-myoma-types-map", label: "FIGO-типы миомы" },
+      { href: "/blog/idea-deep-endometriosis-protocol", label: "IDEA" },
+      { href: "/tools/calc/gyn/endometrium", label: "Эндометрий" },
+    ],
+    bodyMarkdown: `
+## Что даёт MUSA
+
+Консенсус MUSA (Morphological Uterus Sonographic Assessment) — общий словарь для описания миометрия: серозный контур, эхогенность, очаги, васкуляризация, признаки аденомиоза. Цель — чтобы «узел» и «аденомиоз» в протоколе означали одно и то же у разных врачей.
+
+## Связка с FIGO
+
+- **MUSA** — *как* описать ткань и образование.
+- **FIGO** — *где* узел относительно полости и серозы (тип 0–8).
+
+В одном протоколе уместны оба: MUSA-описание плюс FIGO-тип для хирурга. Подробнее о типах — в статье про [FIGO](/blog/figo-myoma-types-map).
+
+## Практика
+
+1. Откройте [карту матки](/tools/mapping/uterus).
+2. Опишите каждое образование терминами MUSA.
+3. Укажите FIGO-тип на схеме.
+4. Не ставьте диагноз саркомы или аденомиоза по одному признаку: это стратификация, а решение принимает клиницист.
+
+## Дисклеймер
+
+${CLINICAL_CONTENT_DISCLAIMER}
+`.trim(),
+  },
+  {
+    slug: "orads-echograms-practice",
+    title: "Эхограммы O-RADS: учиться на обезличенных случаях",
+    description:
+      "Как пользоваться подборкой обезличенных эхограмм придатков по нозологиям O-RADS US вместе с калькулятором — и чего она не заменяет.",
+    kind: "case",
+    publishedAt: "2026-11-13",
+    updatedAt: "2026-11-13",
+    reviewedBy: CLINICAL_CONTENT_REVIEWER,
+    sources: [
+      { label: "O-RADS · эхограммы и случаи", href: "/tools/refs/orads-echograms" },
+      {
+        label: "ACR O-RADS US",
+        year: "2022",
+        href: "https://www.acr.org/Clinical-Resources/Reporting-and-Data-Systems/O-RADS",
+      },
+    ],
+    related: [
+      { href: "/tools/refs/orads-echograms", label: "Эхограммы O-RADS" },
+      { href: "/tools/calc/rads/o-rads", label: "Калькулятор O-RADS" },
+      { href: "/blog/orads-adnexa-2-minutes", label: "O-RADS за 2 минуты" },
+      { href: "/blog/orads-0-incomplete", label: "O-RADS incomplete" },
+    ],
+    bodyMarkdown: `
+## Что в подборке
+
+[/tools/refs/orads-echograms](/tools/refs/orads-echograms) — обезличенные эхограммы придатков из практики, сгруппированные по нозологиям O-RADS US, с формулировками для протокола.
+
+## Как учиться
+
+1. Посмотрите эхограмму и сами назовите lexicon-признаки.
+2. Пройдите [калькулятор O-RADS](/tools/calc/rads/o-rads) по своему описанию.
+3. Сравните категорию с формулировкой в подборке.
+4. Расхождение — повод перечитать ACR lexicon, а не подогнать ответ.
+
+## Ограничения
+
+- Статичный кадр беднее живого осмотра: нет допплера в динамике и нет компрессии.
+- Подборка учебная и не заменяет атлас ACR и разбор с наставником.
+
+## Дисклеймер
+
+${CLINICAL_CONTENT_DISCLAIMER}
+`.trim(),
+  },
+  {
+    slug: "nosologies-reference-how-to",
+    title: "Справочник нозологий: как пользоваться на приёме",
+    description:
+      "Карточки нозологий в SonoGyn Pro: ультразвуковые признаки, связанные калькуляторы и ссылки на КР — как быстрый ориентир, а не учебник.",
+    kind: "how-to",
+    publishedAt: "2026-11-13",
+    updatedAt: "2026-11-13",
+    reviewedBy: CLINICAL_CONTENT_REVIEWER,
+    sources: [
+      { label: "Справочник нозологий", href: "/tools/refs/nosologies" },
+      { label: "Рубрикатор КР МЗ РФ", href: "https://cr.minzdrav.gov.ru/" },
+      { label: "Источники платформы", href: "/tools/refs/sources" },
+    ],
+    related: [
+      { href: "/tools/refs/nosologies", label: "Нозологии" },
+      { href: "/tools/refs/norms", label: "Нормы" },
+      { href: "/tools/refs/sources", label: "Источники" },
+      { href: "/tools/calc", label: "Калькуляторы" },
+    ],
+    bodyMarkdown: `
+## Для чего
+
+[Справочник нозологий](/tools/refs/nosologies) нужен, когда на приёме надо быстро вспомнить типичную УЗ-картину и перейти к нужному калькулятору.
+
+## Как устроена карточка
+
+| Блок | Зачем |
+|---|---|
+| УЗ-признаки | Ориентир, что искать на экране |
+| Связанные калькуляторы | O-RADS, эндометрий, FIGO и т.д. |
+| Источники | КР и гайдлайны, по которым сверяться |
+
+## Правила
+
+1. Карточка — подсказка, а не заключение.
+2. Числа и тактика — по ссылке на КР, а не по памяти.
+3. Если карточка расходится с новой редакцией КР, верна КР; сообщите нам через [/contacts](/contacts).
+
+Список первоисточников платформы — на странице [источников](/tools/refs/sources).
+
+## Дисклеймер
+
+${CLINICAL_CONTENT_DISCLAIMER}
+`.trim(),
+  },
+  {
+    slug: "fetal-doppler-first-trimester-reference",
+    title: "Допплер в I триместре: справочный модуль",
+    description:
+      "Как пользоваться модулем допплерометрии I триместра в SonoGyn Pro: методика и связка со скринингом, без самостоятельного расчёта риска.",
+    kind: "how-to",
+    publishedAt: "2026-11-13",
+    updatedAt: "2026-11-13",
+    reviewedBy: CLINICAL_CONTENT_REVIEWER,
+    sources: [
+      { label: "Допплер в I триместре", href: "/tools/refs/fetal-doppler-first-trimester" },
+      { label: "The Fetal Medicine Foundation", href: "https://fetalmedicine.org/" },
+      { label: "ISUOG guidelines", href: "https://www.isuog.org/clinical-resources/isuog-guidelines.html" },
+    ],
+    related: [
+      { href: "/tools/refs/fetal-doppler-first-trimester", label: "Допплер I триместр" },
+      { href: "/ai/consultants/fmf", label: "FMF · консультант" },
+      { href: "/blog/fmf-first-trimester-not-screening", label: "FMF ≠ скрининг" },
+      { href: "/tools/refs/norms", label: "Нормы" },
+    ],
+    bodyMarkdown: `
+## Что это
+
+[Модуль](/tools/refs/fetal-doppler-first-trimester) — справочник по методике допплерометрии в I триместре: какой срез выбрать, как поставить контрольный объём, какие артефакты встречаются.
+
+## Чего модуль не делает
+
+- Не рассчитывает комбинированный риск: это задача сертифицированного ПО скрининга.
+- Не публикует пороговые значения PI вне контекста: их берут из ПО скрининга и актуальных референсов FMF/ISUOG.
+
+## Практика
+
+1. Сверьте методику с модулем до измерения.
+2. Измеряйте по протоколу вашего центра скрининга.
+3. Значения вносите в ПО скрининга, а не в чат.
+4. Сложные вопросы обсудите с [консультантом FMF](/ai/consultants/fmf) как со справочником.
 
 ## Дисклеймер
 
