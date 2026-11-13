@@ -46,17 +46,22 @@ export function CareerPathWidget({ progress, variant = "full" }: CareerPathWidge
           </div>
 
           {progress.nextStage && progress.lockedPreview.length > 0 ? (
-            <ul className="space-y-1.5 pt-2">
+            <div className="space-y-1.5 pt-2">
               <p className="text-xs font-bold uppercase tracking-wider text-[var(--clinical-primary-deep)]">
                 Откроется дальше
               </p>
-              {progress.lockedPreview.slice(0, 3).map((item) => (
-                <li key={item} className="flex items-center gap-2 text-sm text-[var(--clinical-foreground-muted)]">
-                  <Lock className="h-3.5 w-3.5 shrink-0 text-amber-600" />
-                  {item}
-                </li>
-              ))}
-            </ul>
+              <ul className="space-y-1.5">
+                {progress.lockedPreview.slice(0, 3).map((item) => (
+                  <li
+                    key={item}
+                    className="flex items-center gap-2 text-sm text-[var(--clinical-foreground-muted)]"
+                  >
+                    <Lock className="h-3.5 w-3.5 shrink-0 text-amber-600" aria-hidden />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
           ) : null}
 
           <Button className="sonogyn-cta-glow mt-2 gap-2" asChild>
