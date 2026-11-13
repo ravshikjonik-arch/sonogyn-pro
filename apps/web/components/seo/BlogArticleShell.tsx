@@ -1,8 +1,12 @@
 import Link from "next/link";
 
-import { CLINICAL_CONTENT_DISCLAIMER } from "@/lib/seo/clinical-reviewer";
+import {
+  CLINICAL_CONTENT_DISCLAIMER,
+  CLINICAL_CONTENT_REVIEW_STATUS_RU,
+} from "@/lib/seo/clinical-reviewer";
 import type { BlogPost } from "@/lib/seo/blog-posts";
 import { renderSimpleMarkdown } from "@/lib/education/simple-markdown";
+
 
 type Props = {
   post: BlogPost;
@@ -24,8 +28,8 @@ export function BlogArticleShell({ post }: Props) {
     datePublished: post.publishedAt,
     dateModified: post.updatedAt,
     author: {
-      "@type": "Person",
-      name: post.reviewedBy.name,
+      "@type": "Organization",
+      name: "SonoGyn Pro",
     },
     description: post.description,
   };
@@ -52,7 +56,7 @@ export function BlogArticleShell({ post }: Props) {
           {post.description}
         </p>
         <p className="text-xs text-[var(--clinical-foreground-muted)]">
-          Обновлено: {post.updatedAt} · Проверил: {post.reviewedBy.name}, {post.reviewedBy.specialty}
+          Обновлено: {post.updatedAt} · {CLINICAL_CONTENT_REVIEW_STATUS_RU}
         </p>
       </header>
 
