@@ -3,6 +3,8 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 import { ClinicalToolSearchBar } from "../../components/clinical/ClinicalToolSearch";
 import { openTelegramChannel } from "../../config/community";
+import { CONTENT_ERROR_REPORT } from "../../config/contentErrorReport";
+import { openContentErrorReport } from "../../lib/brand/openContentErrorReport";
 import { TELEGRAM_CHANNEL } from "../../config/telegram";
 import { openClinicalToolAction, openWebPath } from "../../lib/clinical-tools/openClinicalTool";
 import type { ClinicalToolNav } from "../../lib/clinical-tools/openClinicalTool";
@@ -127,6 +129,12 @@ export function ReferenceHubPanel({ navigation, embedded }: Props) {
       title: TELEGRAM_CHANNEL.name,
       sub: "Telegram · @UltraGynAnalytics",
       onPress: () => void openTelegramChannel(),
+    },
+    {
+      id: "content-error",
+      title: CONTENT_ERROR_REPORT.labelRu,
+      sub: `${CONTENT_ERROR_REPORT.ctaRu} · ${CONTENT_ERROR_REPORT.handle}`,
+      onPress: () => void openContentErrorReport({ pageHint: "ReferenceHub" }),
     },
   ];
 

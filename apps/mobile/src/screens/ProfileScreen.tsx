@@ -20,6 +20,8 @@ import ProBadge from "../components/ProBadge";
 import i18n from "../i18n";
 import { TELEGRAM_CHANNEL } from "../config/telegram";
 import { openTelegramChannel } from "../config/community";
+import { CONTENT_ERROR_REPORT } from "../config/contentErrorReport";
+import { openContentErrorReport } from "../lib/brand/openContentErrorReport";
 import { isOpenAccessPilot, STORE_SUPPORT_MAILTO } from "../config/storeRelease";
 import { revokeAllSessions } from "../lib/auth/sessionApi";
 import { wipeMobileClinicalLocalData } from "../lib/security/wipeClinicalLocal";
@@ -212,6 +214,19 @@ export default function ProfileScreen({ navigation }: Props) {
           <Text style={styles.telegramTitle}>{TELEGRAM_CHANNEL.name}</Text>
           <Text style={styles.telegramSub}>
             {TELEGRAM_CHANNEL.handle} · в РФ без VPN может не открыться
+          </Text>
+        </Pressable>
+
+        <Pressable
+          style={styles.telegramRow}
+          onPress={() => void openContentErrorReport({ pageHint: "Profile" })}
+          accessibilityRole="button"
+          accessibilityLabel={`${CONTENT_ERROR_REPORT.labelRu}. ${CONTENT_ERROR_REPORT.ctaRu}`}
+          accessibilityHint="Откроет Telegram @Yakrav7700 без данных пациентов"
+        >
+          <Text style={styles.telegramTitle}>{CONTENT_ERROR_REPORT.labelRu}</Text>
+          <Text style={styles.telegramSub}>
+            {CONTENT_ERROR_REPORT.ctaRu} · {CONTENT_ERROR_REPORT.handle}
           </Text>
         </Pressable>
 
