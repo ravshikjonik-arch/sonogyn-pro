@@ -131,7 +131,7 @@ export default function PricingPage() {
                     </Link>
                   </Button>
                   <p className="text-center text-xs text-slate-500">
-                    Без цены и без кнопки «Оплатить», пока платёжный провайдер не включён. {SUPPORT_EMAIL}
+                    Без цены и без кнопки оплаты, пока платёжный провайдер не включён. {SUPPORT_EMAIL}
                   </p>
                 </>
               )}
