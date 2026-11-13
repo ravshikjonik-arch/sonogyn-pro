@@ -40,7 +40,7 @@ export function resolveProCheckoutPublicState(): ProCheckoutPublicState {
   return {
     yookassaReady: false,
     stripeFallbackReady: false,
-    ctaLabel: "Написать о PRO",
-    footnote: `Подписка PRO в подготовке — без цены и без оплаты на этом окружении. Вопросы: ${SUPPORT_EMAIL}.`,
+    ctaLabel: "Список ожидания PRO",
+    footnote: `Сейчас открыт бесплатный пилот для врачей: калькуляторы и кабинет без оплаты. PRO (расширенные лимиты) включим после ЮKassa — напишите на ${SUPPORT_EMAIL}, добавим в лист ожидания.`,
   };
 }
