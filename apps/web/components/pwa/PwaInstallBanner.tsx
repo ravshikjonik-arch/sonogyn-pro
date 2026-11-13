@@ -8,15 +8,21 @@ import { usePwaInstall } from "@/hooks/usePwaInstall";
 import { openPwaInstall } from "@/lib/pwa/install-bus";
 import {
   markInstallPromptDismissed,
+  registerVisit,
   shouldShowAutoInstallPrompt,
 } from "@/lib/pwa/install-prompt-storage";
 
 /**
- * Авто-предложение установки (production): beforeinstallprompt или iOS Safari, cadence 7 дней.
+ * Авто-предложение установки (production): beforeinstallprompt или iOS Safari.
+ * Не на первом визите (≥2 сессий), не чаще раза в 14 дней после отказа.
  */
 export function PwaInstallBanner() {
   const { offerInstall, installed, canNativeInstall, showIosInstructions } = usePwaInstall();
   const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    registerVisit();
+  }, []);
 
   useEffect(() => {
     if (installed || !offerInstall) return;

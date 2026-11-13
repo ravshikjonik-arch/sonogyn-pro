@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 import { isSonogynCustomDomainHost } from "@/lib/shell/custom-domain";
 
-const SKIP_PREFIXES = ["/api/", "/_next/static/", "/_next/image", "/favicon", "/icon", "/manifest.json", "/robots.txt", "/sitemap"];
+const SKIP_PREFIXES = ["/api/", "/_next/static/", "/_next/image", "/favicon", "/icon", "/manifest.json", "/manifest.webmanifest", "/robots.txt", "/sitemap"];
 
 /** Auth pages: middleware redirects (open access → /home); proxy breaks edge redirect chain. */
 const SKIP_EXACT_PATHS = new Set(["/login", "/register", "/verify-phone"]);
