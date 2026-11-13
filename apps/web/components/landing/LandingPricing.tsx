@@ -20,14 +20,16 @@ export function LandingPricing({ isAuthenticated }: LandingPricingProps) {
   return (
     <section id="pricing" className="scroll-mt-24">
       <div className="mb-12 max-w-2xl">
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--clinical-primary-deep)]">Тарифы</p>
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--clinical-primary-deep)]">
+          Пилот · тарифы
+        </p>
         <h2 className="mt-3 text-2xl font-black tracking-tight text-[var(--clinical-foreground)] sm:text-3xl">
-          Free и PRO
+          Free сейчас · PRO следом
         </h2>
         <p className="mt-3 text-sm leading-relaxed text-[var(--clinical-foreground-muted)] sm:text-base">
           {paymentsLive
             ? `Сначала — бесплатное знакомство и демо-кабинет. PRO оформляется после входа через ${PAYMENT_PROVIDER_PUBLIC_NAME_RU}.`
-            : "Сначала — бесплатное знакомство и демо-кабинет. Подписка PRO скоро откроется — без ложных обещаний оплаты."}
+            : "Сейчас бесплатный пилот для врачей: кабинет и калькуляторы без оплаты. PRO (лимиты и AI) — в листе ожидания, без кнопки «оплатить»."}
         </p>
       </div>
       <div className="grid gap-8 md:grid-cols-2">
@@ -35,7 +37,7 @@ export function LandingPricing({ isAuthenticated }: LandingPricingProps) {
           const isPro = plan.id === "pro";
           const href =
             isPro && !paymentsLive
-              ? `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent("SonoGyn Pro — интерес к PRO")}`
+              ? `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent("SonoGyn Pro — лист ожидания PRO")}`
               : isPro && isAuthenticated
                 ? "/profile/pro"
                 : plan.id === "free" && isAuthenticated
@@ -43,21 +45,21 @@ export function LandingPricing({ isAuthenticated }: LandingPricingProps) {
                   : plan.href;
           const cta =
             isPro && !paymentsLive
-              ? "Написать о PRO"
+              ? "Список ожидания PRO"
               : isPro && isAuthenticated
                 ? "Оформить PRO"
                 : plan.id === "free" && isAuthenticated
                   ? "Открыть кабинет"
                   : plan.cta;
-          const price = isPro && !paymentsLive ? "скоро" : plan.price;
-          const period = isPro && !paymentsLive ? "ожидание" : plan.period;
+          const price = isPro && !paymentsLive ? "пилот" : plan.price;
+          const period = isPro && !paymentsLive ? "лист ожидания" : plan.period;
           const description =
             isPro && !paymentsLive
-              ? "Расширенные лимиты кейсов и AI. Оплата откроется после настройки — оставьте запрос."
+              ? "Расширенные лимиты кейсов и AI. Оплата картой РФ — после ЮKassa; сейчас оставьте email в письме."
               : plan.description;
           const features =
             isPro && !paymentsLive
-              ? ["Расширенные лимиты кейсов", "Очередь AI-анализа", "Уведомим, когда оплата будет доступна"]
+              ? ["Расширенные лимиты кейсов", "Очередь AI-анализа", "Приоритет в листе ожидания"]
               : [...plan.features];
 
           return (

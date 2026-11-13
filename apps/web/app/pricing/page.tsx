@@ -65,7 +65,7 @@ export default function PricingPage() {
               ? checkout.yookassaReady
                 ? `Оплата PRO для РФ — через ${PAYMENT_PROVIDER_PUBLIC_NAME_RU}.`
                 : `${PAYMENT_PROVIDER_PUBLIC_NAME_RU} здесь не настроена — после входа возможен запасной канал на /paywall.`
-              : "Подписка PRO в подготовке: без цены и без кнопки оплаты, пока платёж не включён."}{" "}
+              : "Сейчас — бесплатный пилот для врачей УЗД и АГ: без цены и без кнопки оплаты. PRO откроем после подключения ЮKassa."}{" "}
             {PWA_INSTALL_HINT_RU}
           </p>
         </div>
@@ -73,13 +73,20 @@ export default function PricingPage() {
         <div className="grid gap-8 md:grid-cols-2">
           <Card className="border-[var(--clinical-border)]">
             <CardHeader>
-              <CardTitle>Free</CardTitle>
-              <CardDescription>Демо-режим: калькуляторы и открытые материалы без регистрации.</CardDescription>
+              <CardTitle>Free · пилот</CardTitle>
+              <CardDescription>
+                Рабочий контур для коллег: калькуляторы, открытые материалы, кабинет. Регистрация желательна, но не
+                обязательна для знакомства.
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-3 text-sm text-[var(--clinical-foreground-muted)]">
-              {["Клинический shell", "Базовые калькуляторы", "Лимиты на AI и кейсы без PRO"].map((t) => (
+              {[
+                "Клинические калькуляторы по гайдлайнам",
+                "Кабинет и PWA",
+                "Лимиты на AI и кейсы до включения PRO",
+              ].map((t) => (
                 <div key={t} className="flex gap-2">
-                  <Check className="h-4 w-4 shrink-0 text-emerald-600" />
+                  <Check className="h-4 w-4 shrink-0 text-emerald-600" aria-hidden />
                   <span>{t}</span>
                 </div>
               ))}
@@ -97,7 +104,7 @@ export default function PricingPage() {
               <CardDescription>
                 {paymentsLive
                   ? `Подписка ${proPeriod}${checkout.yookassaReady ? ` · оплата ${PAYMENT_PROVIDER_PUBLIC_NAME_RU}` : ""}. Расширенные квоты платформы.`
-                  : "Расширенные квоты платформы. Оплата откроется после настройки — без обещаний «оплатить сейчас»."}
+                  : "Расширенные лимиты кейсов и AI. Оплата картой РФ — после ЮKassa; сейчас — лист ожидания, без «оплатить сейчас»."}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-3 text-sm text-[var(--clinical-foreground-muted)]">
@@ -110,11 +117,11 @@ export default function PricingPage() {
                 : [
                     "Расширенные лимиты кейсов",
                     "Очередь AI-анализа",
-                    "Уведомим, когда оплата станет доступна",
+                    "Приоритет в листе ожидания после письма",
                   ]
               ).map((t) => (
                 <div key={t} className="flex gap-2">
-                  <Check className="h-4 w-4 shrink-0 text-emerald-600" />
+                  <Check className="h-4 w-4 shrink-0 text-emerald-600" aria-hidden />
                   <span>{t}</span>
                 </div>
               ))}
@@ -133,13 +140,13 @@ export default function PricingPage() {
                 <>
                   <Button className="w-full" asChild>
                     <Link
-                      href={`mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent("SonoGyn Pro — интерес к PRO")}`}
+                      href={`mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent("SonoGyn Pro — лист ожидания PRO")}`}
                     >
-                      Написать о PRO
+                      {checkout.ctaLabel}
                     </Link>
                   </Button>
                   <p className="text-center text-xs text-[var(--clinical-foreground-muted)]">
-                    Без цены и без кнопки оплаты, пока платёжный провайдер не включён. {SUPPORT_EMAIL}
+                    {checkout.footnote}
                   </p>
                 </>
               )}
@@ -148,7 +155,8 @@ export default function PricingPage() {
         </div>
 
         <p className="mt-12 text-center text-xs text-[var(--clinical-foreground-muted)]">
-          Образовательный контент без PHI. Перед клиническим применением — политики организации и аудит доступа.
+          CDS для специалистов, не для пациентов. Не мед. изделие. Образовательный контент без PHI; решение —
+          лечащий врач и политики организации.
         </p>
       </main>
     </div>
