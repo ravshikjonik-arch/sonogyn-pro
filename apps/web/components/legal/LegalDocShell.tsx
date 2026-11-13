@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
+import { ContentErrorReportLink } from "@/components/feedback/ContentErrorReportLink";
 import { formatLegalCopyrightLine, readLegalPublicProfile } from "@/lib/config/legal";
 
 type Props = {
@@ -28,6 +29,10 @@ export function LegalDocShell({ title, subtitle, children }: Props) {
 
         <div className="mt-10 space-y-8 text-sm leading-relaxed text-[var(--clinical-foreground)]">
           {children}
+        </div>
+
+        <div className="mt-10">
+          <ContentErrorReportLink />
         </div>
 
         <nav

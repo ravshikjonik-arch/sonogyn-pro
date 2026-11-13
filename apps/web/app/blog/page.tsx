@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { ContentErrorReportLink } from "@/components/feedback/ContentErrorReportLink";
 import { CLINICAL_CONTENT_DISCLAIMER } from "@/lib/seo/clinical-reviewer";
 import { listBlogPosts } from "@/lib/seo/blog-posts";
 import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
@@ -58,6 +59,8 @@ export default function BlogIndexPage() {
           </li>
         ))}
       </ul>
+
+      <ContentErrorReportLink pagePath="/blog" />
 
       <p className="text-xs leading-relaxed text-[var(--clinical-foreground-muted)]">
         {CLINICAL_CONTENT_DISCLAIMER}

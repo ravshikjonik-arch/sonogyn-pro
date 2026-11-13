@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 
 import { CalculatorOpenTracker } from "@/components/analytics/CalculatorOpenTracker";
 import { CalculatorFaqJsonLd } from "@/components/seo/CalculatorFaqJsonLd";
+import { ContentErrorReportLink } from "@/components/feedback/ContentErrorReportLink";
 import {
   CLINICAL_CONTENT_DISCLAIMER,
   CLINICAL_CONTENT_REVIEW_STATUS_RU,
@@ -129,6 +130,8 @@ export function CalculatorLandingShell({ content, children }: Props) {
             ))}
           </ul>
         </section>
+
+        <ContentErrorReportLink pagePath={content.path} />
 
         <p className="text-xs leading-relaxed text-[var(--clinical-foreground-muted)]">
           {CLINICAL_CONTENT_DISCLAIMER}

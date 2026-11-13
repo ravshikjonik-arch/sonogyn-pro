@@ -48,6 +48,7 @@ import { ClinicalBottomNav } from "@/components/clinical/ClinicalBottomNav";
 import { MockupNavSection } from "@/components/clinical/MockupNavSection";
 import { GlobalSearchTrigger } from "@/components/clinical/GlobalSearchDialog";
 import { TelegramChannelLink } from "@/components/clinical/TelegramChannelLink";
+import { ContentErrorReportLink } from "@/components/feedback/ContentErrorReportLink";
 import { ThemeToggle } from "@/components/clinical/theme-toggle";
 import { ProBadge } from "@/components/pro/ProBadge";
 import { DoctorVerifiedBadge } from "@/components/trust/DoctorVerifiedBadge";
@@ -339,6 +340,7 @@ export function ClinicalShell({
       </nav>
       <div className="space-y-3 border-t border-[var(--clinical-border)] p-4">
         <TelegramChannelLink compact />
+        <ContentErrorReportLink compact className="block text-xs leading-snug" />
         <div className="rounded-xl bg-[var(--clinical-muted)] px-3 py-3">
           <p className="text-[10px] font-bold uppercase tracking-wider text-[var(--clinical-foreground-muted)]">
             Только для врачей
