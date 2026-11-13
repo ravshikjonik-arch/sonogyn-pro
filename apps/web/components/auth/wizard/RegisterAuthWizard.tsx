@@ -18,7 +18,9 @@ import { TelegramSimpleAuth } from "@/components/auth/TelegramSimpleAuth";
 import { AuthGenderPicker } from "@/components/auth/wizard/AuthGenderPicker";
 import { AuthWizardLayout } from "@/components/auth/wizard/AuthWizardLayout";
 import { OtpDigitRow } from "@/components/auth/wizard/OtpDigitRow";
+import { LegalConsentCheckbox } from "@/components/legal/LegalConsentCheckbox";
 import { Button } from "@/components/ui/button";
+import { LEGAL_DOCS_VERSION } from "@/lib/config/legal";
 import {
   readStoredOnboardingCharacter,
   writeStoredOnboardingCharacter,
@@ -33,6 +35,10 @@ import {
   postSignUp,
 } from "@/lib/auth/client-auth-api";
 import { normalizeRussianFio } from "@/lib/auth/doctor-display";
+import {
+  AUTH_PASSWORD_MIN_LENGTH,
+  AUTH_PASSWORD_TOO_SHORT_MSG,
+} from "@/lib/auth/password-policy";
 import { isRuPhoneMaskComplete } from "@/lib/auth/ru-phone-mask";
 import { saveOnboardingCharacter } from "@/lib/auth/save-onboarding-character";
 import {
@@ -44,10 +50,11 @@ import {
 import { isFullOpenAccessEnabledClient } from "@/lib/auth/guest-demo-account";
 import { readAppLocale, saveAppLocale } from "@/lib/i18n/locale";
 import { cn } from "@/lib/utils/cn";
+import { track } from "@/lib/analytics/track";
 import { beginFirstRunOnboarding } from "@/lib/onboarding/first-run-storage";
 import { markSessionAnchorNow } from "@/lib/security/session-anchor";
 
-type Step = "register" | "verify" | "character";
+type Step = "register" | "verify" | "character" | "exists";
 type RegisterMethod = "email" | "telegram";
 type VerifyMode = "email" | "phone";
 
@@ -66,6 +73,10 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
 
   const [method, setMethod] = useState<RegisterMethod>(initialMethod);
   const [step, setStep] = useState<Step>("register");
+
+  useEffect(() => {
+    track({ name: "signup_start", params: { method: initialMethod } });
+  }, [initialMethod]);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -82,6 +93,7 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
   const [pendingEmail, setPendingEmail] = useState(false);
   const [emailOtpSent, setEmailOtpSent] = useState(false);
   const [birthDateIso, setBirthDateIso] = useState("");
+  const [acceptLegal, setAcceptLegal] = useState(false);
   /** Телефон опционален: SMS.ru только РФ (+79). +993 и др. — email/Telegram. */
   const phoneOptional = true;
   const phoneRequired = false;
@@ -226,8 +238,8 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
       return;
     }
     const full_name = normalizeRussianFio(`${ln} ${fn}`) ?? `${ln} ${fn}`;
-    if (password.length < 8) {
-      setMessage("Пароль — не короче 8 символов.");
+    if (password.length < AUTH_PASSWORD_MIN_LENGTH) {
+      setMessage(AUTH_PASSWORD_TOO_SHORT_MSG);
       return;
     }
     if (password !== passwordRepeat) {
@@ -236,6 +248,10 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
     }
     if (phoneRequired && !isRuPhoneMaskComplete(phone)) {
       setMessage("Укажите мобильный телефон +7 — код придёт по SMS (Telegram для кода не нужен).");
+      return;
+    }
+    if (!acceptLegal) {
+      setMessage("Отметьте согласие с Политикой и Офертой.");
       return;
     }
 
@@ -248,9 +264,16 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
         full_name,
         specialization: specialization.trim(),
         preferred_locale: locale,
+        accept_legal: true,
+        legal_docs_version: LEGAL_DOCS_VERSION,
       });
 
       if (!result.ok) {
+        if (result.alreadyRegistered) {
+          setMessage(result.error || SIGN_UP_GENERIC_MSG);
+          setStep("exists");
+          return;
+        }
         setMessage(result.error || SIGN_UP_GENERIC_MSG);
         return;
       }
@@ -281,8 +304,8 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
     setMessage("");
     if (!guardOnline()) return;
     const code = otp.replace(/\D/g, "");
-    if (code.length < 4) {
-      setMessage("Введите код из письма.");
+    if (code.length !== 6) {
+      setMessage("Введите 6-значный код из письма.");
       return;
     }
     setLoading(true);
@@ -293,6 +316,11 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
         code,
       });
       if (!result.ok) {
+        if (result.alreadyRegistered || result.emailConfirmed) {
+          setMessage(result.error);
+          setStep("exists");
+          return;
+        }
         setMessage(result.error);
         return;
       }
@@ -309,8 +337,8 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
   async function onVerifyPhone() {
     setMessage("");
     if (!guardOnline()) return;
-    if (otp.replace(/\D/g, "").length < 4) {
-      setMessage("Введите код из SMS.");
+    if (otp.replace(/\D/g, "").length !== 6) {
+      setMessage("Введите 6-значный код из SMS.");
       return;
     }
     setLoading(true);
@@ -325,6 +353,7 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
         return;
       }
       await refresh();
+      track({ name: "signup_complete", params: { method } });
       setStep("character");
     } finally {
       setLoading(false);
@@ -440,6 +469,38 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
     );
   }
 
+  if (step === "exists") {
+    const loginHref = `/login?email=${encodeURIComponent(email.trim())}`;
+    const forgotHref = `/login?email=${encodeURIComponent(email.trim())}&forgot=1`;
+    return (
+      <AuthWizardLayout
+        title="Аккаунт уже есть"
+        subtitle={email.trim() || "Этот email уже зарегистрирован"}
+      >
+        <p className="text-center text-sm text-[var(--clinical-foreground-muted)]">
+          {message ||
+            "Войдите своим паролем или сбросьте его — письмо со ссылкой придёт на почту."}
+        </p>
+        <Button asChild className="mt-6 w-full">
+          <Link href={loginHref}>Войти</Link>
+        </Button>
+        <Button asChild variant="secondary" className="mt-3 w-full">
+          <Link href={forgotHref}>Забыли пароль? Сбросить</Link>
+        </Button>
+        <button
+          type="button"
+          className="mt-4 w-full text-sm text-[var(--clinical-foreground-muted)] hover:underline"
+          onClick={() => {
+            setStep("register");
+            setMessage("");
+          }}
+        >
+          Вернуться к регистрации
+        </button>
+      </AuthWizardLayout>
+    );
+  }
+
   if (step === "verify") {
     return (
       <AuthWizardLayout
@@ -452,7 +513,16 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
       >
         {verifyMode === "phone" ? (
           <>
-            <OtpDigitRow value={otp} onChange={setOtp} disabled={loading} />
+            <p className="text-center text-sm text-[var(--clinical-foreground-muted)]">
+              Введите 6-значный код из SMS (как в письме на почту).
+            </p>
+            <OtpDigitRow
+              length={6}
+              value={otp}
+              onChange={setOtp}
+              disabled={loading}
+              label="Код из SMS"
+            />
             <Button type="button" className="mt-6 w-full" disabled={loading} onClick={() => void onVerifyPhone()}>
               Подтвердить телефон
             </Button>
@@ -482,7 +552,13 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
                 ? "Введите 6-значный код из письма. Ссылку из письма тоже можно открыть."
                 : "Откройте письмо со ссылкой или запросите код повторно."}
             </p>
-            <OtpDigitRow value={otp} onChange={setOtp} disabled={loading} label="Код из письма" />
+            <OtpDigitRow
+              length={6}
+              value={otp}
+              onChange={setOtp}
+              disabled={loading}
+              label="Код из письма"
+            />
             <Button type="button" className="mt-6 w-full" disabled={loading} onClick={() => void onVerifyEmailOtp()}>
               Подтвердить почту кодом
             </Button>
@@ -621,11 +697,18 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
               autoComplete="bday"
             />
           </label>
+          <LegalConsentCheckbox checked={acceptLegal} onChange={setAcceptLegal} id="legal-consent-tg" />
           <AuthMessage message={message} />
           <TelegramSimpleAuth
             mode="register"
             nextPath={afterAuthPath}
-            onRegisterClick={() => void onRegisterViaTelegram()}
+            onRegisterClick={() => {
+              if (!acceptLegal) {
+                setMessage("Отметьте согласие с Политикой и Офертой.");
+                return;
+              }
+              void onRegisterViaTelegram();
+            }}
             registerLoading={loading}
           />
         </div>
@@ -679,8 +762,9 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
             autoComplete="new-password"
           />
         </label>
+        <LegalConsentCheckbox checked={acceptLegal} onChange={setAcceptLegal} id="legal-consent-email" />
         <AuthMessage message={message} />
-        <Button type="submit" className="w-full" disabled={loading}>
+        <Button type="submit" className="w-full" disabled={loading || !acceptLegal}>
           Зарегистрироваться
         </Button>
       </form>

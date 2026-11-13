@@ -1,20 +1,28 @@
 #!/bin/bash
-# Отправка последнего iOS production-билда в App Store Connect (TestFlight)
+# Отправка iOS production-билда в App Store Connect (TestFlight)
+# Использование:
+#   ./scripts/submit-ios-testflight.command           → --latest
+#   ./scripts/submit-ios-testflight.command <buildId> → конкретный EAS Build ID
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 EAS="$ROOT/../../node_modules/.bin/eas"
-BUILD_ID="${1:-3b670cdb-1382-41c6-9a6d-6f8d9c1c2f89}"
+BUILD_ID="${1:-}"
 
 echo ""
 echo "📤 Submit iOS → App Store Connect (TestFlight)"
-echo "   Build: $BUILD_ID"
-echo "   Если спросят ascAppId — это НЕ email, а номер из Connect:"
-echo "   SonoGyn Pro → App Information → Apple ID (только цифры)."
+echo "   ASC App ID: 6825292354 (eas.json)"
+echo "   Если спросят ascAppId — это НЕ email, а номер из Connect."
 echo "   Подробно: docs/TESTFLIGHT-SUBMIT-RU.md"
 echo ""
 
-"$EAS" submit --platform ios --profile production --id "$BUILD_ID"
+if [[ -n "$BUILD_ID" ]]; then
+  echo "   Build ID: $BUILD_ID"
+  "$EAS" submit --platform ios --profile production --id "$BUILD_ID"
+else
+  echo "   Режим: --latest (последний успешный production iOS build)"
+  "$EAS" submit --platform ios --profile production --latest
+fi
 
 echo ""
 echo "Готово. TestFlight: https://appstoreconnect.apple.com"

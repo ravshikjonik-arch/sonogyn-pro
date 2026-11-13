@@ -37,9 +37,10 @@ async function main() {
   const homeHtml = await home.text();
   const proxy = home.headers.get("x-sonogyn-cd-proxy");
   const complete = homeHtml.includes("</html>");
+  const noBootstrap = !proxy && homeHtml.length > 5_000 && !homeHtml.includes("Загрузка кабинета");
   console.log(
-    home.ok && complete ? "✅" : "❌",
-    `/home → ${home.status}, ${homeHtml.length} B, proxy=${proxy ?? "no"}, complete=${complete}`,
+    home.ok && complete && noBootstrap ? "✅" : "❌",
+    `/home → ${home.status}, ${homeHtml.length} B, proxy=${proxy ?? "no"}, complete=${complete}, ssr=${noBootstrap}`,
   );
 
   async function fetchEvidenceAsk() {

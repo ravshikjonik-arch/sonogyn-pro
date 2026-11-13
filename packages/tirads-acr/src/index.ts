@@ -24,3 +24,6 @@ export { TIRADS_ATLAS_INTRO, THYROID_ATLAS_IMAGES, pathologyImageUrl, atlasImage
 export { TIRADS_FLASHCARDS, TIRADS_QUIZ } from "./knowledge/education";
 export { mergeTiradsInput, generateStructuredThyroidReport } from "./engine/structured-report";
 export { parseTiradsFreeText, assistFromTiradsText, assistFromTiradsTextSafe, type TiradsNlpResult } from "./engine/nlp-assist";
+export * from "./acr-strict";
+export * from "./eu";
+export * from "./module";

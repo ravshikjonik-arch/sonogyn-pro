@@ -25,6 +25,7 @@ import { AiEvidenceSourcesPanel } from "@/components/ai/AiEvidenceSourcesPanel";
 import { AiMessageFeedback } from "@/components/ai/AiMessageFeedback";
 import { AiToolResultList } from "@/components/ai/AiToolResultCard";
 import { useProStatus } from "@/components/pro/use-pro-status";
+import { track } from "@/lib/analytics/track";
 import { onCopilotOpen } from "@/lib/ai/copilot-bus";
 import {
   messageFromApiErrorBody,
@@ -42,7 +43,7 @@ import {
   type PreparedChatImage,
 } from "@/lib/ai/sonogyn-chat/prepare-image";
 import { suggestModuleLinks } from "@/lib/ai/sonogyn-chat/suggest-links";
-import { SonogynStructuredCard } from "@/components/ai/SonogynStructuredCard";
+import { ClinicalTextSafetyBanner, SonogynStructuredCard } from "@/components/ai/SonogynStructuredCard";
 import {
   extractToolsFromAssistantText,
 } from "@/lib/ai/sonogyn-chat/tool-results";
@@ -232,6 +233,10 @@ export function SonogynCopilot() {
 
       try {
         const useStream = !hasImagesNow;
+        track({
+          name: "ai_request",
+          params: { mode: evidenceMode ? "evidence" : "clinical" },
+        });
         const res = await fetch("/api/ai/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -282,9 +287,9 @@ export function SonogynCopilot() {
         if (useStream && res.ok) {
           const transport = res.headers.get("x-sonogyn-ai-transport");
           const contentType = res.headers.get("content-type") ?? "";
+          // The server header decides the transport, so a client flag that lags the server flag cannot break parsing.
           const aiSdkStream =
-            isAiSdkEnabledClient() &&
-            (transport === "ai-sdk" || contentType.includes("text/plain"));
+            transport === "ai-sdk" || (isAiSdkEnabledClient() && contentType.includes("text/plain"));
 
           if (aiSdkStream) {
             let fullText = "";
@@ -474,7 +479,7 @@ export function SonogynCopilot() {
             animate={{ opacity: 1, scale: 1 }}
             exit={reduce ? undefined : { opacity: 0, scale: 0.8 }}
             whileHover={reduce ? undefined : { y: -2 }}
-            className="ai-gradient-bg fixed bottom-6 right-6 z-40 flex items-center gap-2 rounded-full py-3 pl-3 pr-4 text-sm font-semibold text-white shadow-[0_12px_40px_rgba(99,102,241,0.45)]"
+            className="ai-gradient-bg fixed bottom-6 right-6 z-40 hidden items-center gap-2 rounded-full py-3 pl-3 pr-4 text-sm font-semibold text-white shadow-[0_12px_40px_rgba(99,102,241,0.45)] lg:flex"
             aria-label="Открыть Sonogyn AI"
           >
             <span className="ai-breathe flex h-7 w-7 items-center justify-center rounded-full bg-white/20">
@@ -590,8 +595,11 @@ export function SonogynCopilot() {
                               AI-черновик · подтверждает врач
                             </span>
                           ) : null}
+                          {m.role === "assistant" && !m.stream ? (
+                            <ClinicalTextSafetyBanner text={m.text} tools={m.tools} />
+                          ) : null}
                           {m.tools?.length ? <AiToolResultList tools={m.tools} /> : null}
-                          {m.structured ? <SonogynStructuredCard data={m.structured} /> : null}
+                          {m.structured ? <SonogynStructuredCard data={m.structured} tools={m.tools} /> : null}
                           {m.evidence ? (
                             <AiEvidenceSourcesPanel
                               evidence={m.evidence}
@@ -801,14 +809,21 @@ export function SonogynCopilot() {
                                 }>;
                               };
                               setMessages(
-                                (data.messages ?? []).map((row) => ({
-                                  id: row.id,
-                                  dbMessageId: row.id,
-                                  role: row.role,
-                                  text: row.content,
-                                  tools: row.tool_results ?? undefined,
-                                  isAiDraft: row.is_ai_draft,
-                                })),
+                                (data.messages ?? []).map((row) => {
+                                  const parsed =
+                                    row.role === "assistant"
+                                      ? extractStructuredFromAssistantText(row.content)
+                                      : { displayText: row.content, structured: null };
+                                  return {
+                                    id: row.id,
+                                    dbMessageId: row.id,
+                                    role: row.role,
+                                    text: parsed.displayText,
+                                    structured: parsed.structured,
+                                    tools: row.tool_results ?? undefined,
+                                    isAiDraft: row.is_ai_draft,
+                                  };
+                                }),
                               );
                             } catch {
                               toast.error("Не удалось загрузить чат");

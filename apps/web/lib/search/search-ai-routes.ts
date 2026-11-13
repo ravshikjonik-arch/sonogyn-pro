@@ -15,7 +15,7 @@ const AI_ROUTES: Omit<AiRouteHit, "score">[] = [
   },
   {
     id: "ai.consultants",
-    title: "Помощник врача",
+    title: "Исслед. AI · помощник врача",
     subtitle: "Нозология → УЗИ → протокол",
     href: "/ai/consultants",
   },
@@ -24,6 +24,12 @@ const AI_ROUTES: Omit<AiRouteHit, "score">[] = [
     title: "FMF · скрининги",
     subtitle: "I–III скрининг, допплер, шейка",
     href: "/ai/consultants/fmf",
+  },
+  {
+    id: "ai.fmf.guided",
+    title: "Протокол по сроку",
+    subtitle: "Guided: смотреть → измерить по GA",
+    href: "/ai/consultants/fmf/guided",
   },
   {
     id: "ai.workspace",

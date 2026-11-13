@@ -15,14 +15,19 @@ export { getReferatSectionIdForWizardNode, referatGuideHref } from "./wizardSect
 export {
   getOradsNosologyById,
   getOradsNosologyBySubtype,
+  getOradsNosologyPracticeImages,
+  getOradsNosologyPreviewImage,
   isOradsNosologyPending,
+  isOradsOwnCaseImage,
   ORADS_NOSOLOGY_ATLAS,
   ORADS_NOSOLOGY_PENDING_SUBTYPES,
   ORADS_NOSOLOGY_PUBLIC_IMAGE_BASE,
+  ORADS_OWN_CASES_IMAGE_BASE,
   resolveOradsNosologyImageUri,
   type OradsNosologyAtlasEntry,
   type OradsNosologySubtype,
 } from "./nosologyAtlas";
+export { getOradsResultExamples } from "./resultExamples";
 export {
   getOradsCategoryPhotoCards,
   listOradsCategoryPhotoCards,

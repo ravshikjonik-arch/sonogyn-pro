@@ -11,7 +11,7 @@ import { theme } from "../../../theme";
 import TiradsAiPanel from "../components/TiradsAiPanel";
 import TiradsAcrPanel from "../components/TiradsAcrPanel";
 import TiradsPatternPanel from "../components/TiradsPatternPanel";
-import TiradsRuPanel from "../components/TiradsRuPanel";
+import ThyroidModulePanel, { type ThyroidModuleTab } from "../components/ThyroidModulePanel";
 import ThyroidTopographyPanel from "../components/ThyroidTopographyPanel";
 import type { ThyroidAiAssistResult } from "../ai/thyroidAiService";
 import { mapTiradsToSreInput } from "../../../reporting/mapTiradsToSreInput";
@@ -24,11 +24,18 @@ import {
 } from "../logic/tiradsCalculator";
 
 type Props = NativeStackScreenProps<RootStackParamList, "TiRadsAssistant">;
-type System = "ru" | "acr" | "patterns" | "assistant" | "map";
+type System = ThyroidModuleTab | "acr_legacy" | "patterns" | "assistant" | "map";
+
+const MODULE_TABS: [ThyroidModuleTab, string][] = [
+  ["eu", "EU-TIRADS"],
+  ["acr", "ACR TI-RADS"],
+  ["compare", "Сравнение"],
+  ["reference", "Справочник"],
+];
+const isModuleTab = (s: System): s is ThyroidModuleTab => s === "eu" || s === "acr" || s === "compare" || s === "reference";
 
 export default function TiRadsAssistantScreen({ navigation }: Props) {
-  const [system, setSystem] = useState<System>("acr");
-  const [learnMode, setLearnMode] = useState(false);
+  const [system, setSystem] = useState<System>("eu");
   const [acrInput, setAcrInput] = useState<TiradsInput>({ ...defaultTiradsInput });
   const [sizeText, setSizeText] = useState("");
   const [patternSource, setPatternSource] = useState<string | null>(null);
@@ -36,7 +43,7 @@ export default function TiRadsAssistantScreen({ navigation }: Props) {
   function applyPattern(pattern: ThyroidPatternEntry) {
     setAcrInput(applyPatternToMobileInput(pattern.id));
     setPatternSource(pattern.nameRu);
-    setSystem("acr");
+    setSystem("acr_legacy");
   }
 
   function applyFromAi(result: ThyroidAiAssistResult) {
@@ -44,7 +51,7 @@ export default function TiRadsAssistantScreen({ navigation }: Props) {
     setAcrInput(applied.input);
     setSizeText(applied.sizeText);
     setPatternSource(result.suggestedDiagnosis);
-    setSystem("acr");
+    setSystem("acr_legacy");
   }
 
   async function copyReport(text: string) {
@@ -69,41 +76,50 @@ export default function TiRadsAssistantScreen({ navigation }: Props) {
         <View style={styles.headerCenter}>
           <Text style={styles.title}>TI-RADS US</Text>
           <Text style={styles.version} numberOfLines={1}>
-            {system === "ru"
-              ? "РФ 2023 · Катрич и др."
-              : system === "patterns"
-                ? "Pattern Recognition · ACR"
-                : system === "assistant"
-                  ? "AI Assistant · ACR TI-RADS"
-                  : system === "map"
-                    ? "Карта ЩЖ · локализация узла"
-                  : `${TI_RADS_VERSION} · ACR`}
+            {system === "patterns"
+              ? "Pattern Recognition · ACR"
+              : system === "assistant"
+                ? "AI Assistant · ACR TI-RADS"
+                : system === "map"
+                  ? "Карта ЩЖ · локализация узла"
+                  : system === "acr_legacy"
+                    ? `${TI_RADS_VERSION} · прежний мастер`
+                    : "EU-TIRADS · ACR TI-RADS"}
           </Text>
         </View>
         <View style={styles.headerSpacer} />
       </View>
 
       <View style={styles.toggleRow}>
-        <Pressable style={[styles.toggle, system === "acr" && styles.toggleOnAcr]} onPress={() => setSystem("acr")}>
-          <Text style={[styles.toggleText, system === "acr" && styles.toggleTextOnAcr]}>ACR Score</Text>
-        </Pressable>
-        <Pressable style={[styles.toggle, system === "patterns" && styles.toggleOnAcr]} onPress={() => setSystem("patterns")}>
-          <Text style={[styles.toggleText, system === "patterns" && styles.toggleTextOnAcr]}>Patterns</Text>
-        </Pressable>
-        <Pressable style={[styles.toggle, system === "assistant" && styles.toggleOnAcr]} onPress={() => setSystem("assistant")}>
-          <Text style={[styles.toggleText, system === "assistant" && styles.toggleTextOnAcr]}>AI</Text>
-        </Pressable>
-        <Pressable style={[styles.toggle, system === "map" && styles.toggleOnAcr]} onPress={() => setSystem("map")}>
-          <Text style={[styles.toggleText, system === "map" && styles.toggleTextOnAcr]}>Карта</Text>
-        </Pressable>
-        <Pressable style={[styles.toggle, system === "ru" && styles.toggleOn]} onPress={() => setSystem("ru")}>
-          <Text style={[styles.toggleText, system === "ru" && styles.toggleTextOn]}>TI-RADS РФ</Text>
-        </Pressable>
-        {system === "ru" ? (
-          <Pressable style={[styles.toggle, learnMode && styles.toggleOn]} onPress={() => setLearnMode((v) => !v)}>
-            <Text style={[styles.toggleText, learnMode && styles.toggleTextOn]}>Обучение</Text>
+        {MODULE_TABS.map(([id, label]) => (
+          <Pressable
+            key={id}
+            style={[styles.toggle, system === id && styles.toggleOnAcr]}
+            onPress={() => setSystem(id)}
+            accessibilityRole="button"
+            accessibilityState={{ selected: system === id }}
+          >
+            <Text style={[styles.toggleText, system === id && styles.toggleTextOnAcr]}>{label}</Text>
           </Pressable>
-        ) : null}
+        ))}
+        {(
+          [
+            ["patterns", "Паттерны"],
+            ["assistant", "AI"],
+            ["map", "Карта"],
+            ["acr_legacy", "ACR · прежний"],
+          ] as [System, string][]
+        ).map(([id, label]) => (
+          <Pressable
+            key={id}
+            style={[styles.toggle, system === id && styles.toggleOn]}
+            onPress={() => setSystem(id)}
+            accessibilityRole="button"
+            accessibilityState={{ selected: system === id }}
+          >
+            <Text style={[styles.toggleText, system === id && styles.toggleTextOn]}>{label}</Text>
+          </Pressable>
+        ))}
       </View>
 
       {system === "patterns" ? (
@@ -120,8 +136,8 @@ export default function TiRadsAssistantScreen({ navigation }: Props) {
         </ScrollView>
       ) : (
         <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
-          {system === "ru" ? (
-            <TiradsRuPanel learnMode={learnMode} />
+          {isModuleTab(system) ? (
+            <ThyroidModulePanel tab={system} />
           ) : (
             <TiradsAcrPanel
               input={acrInput}

@@ -17,6 +17,11 @@ export const runtime = "nodejs";
  * Creates an idempotent Stripe Checkout Session for PRO subscription with a 7-day trial.
  */
 export async function POST(request: Request) {
+  // SECURITY: auth before body validation — unauthenticated callers must get 401, not Zod field hints
+  const supabase = await createClient();
+  const auth = await requireSupabaseUser(supabase);
+  if (!auth.ok) return auth.response;
+
   let json: unknown;
   try {
     json = await request.json();
@@ -26,12 +31,8 @@ export async function POST(request: Request) {
 
   const parsed = CreateCheckoutBodySchema.safeParse(json);
   if (!parsed.success) {
-    return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
+    return NextResponse.json({ error: "Invalid input" }, { status: 400 });
   }
-
-  const supabase = await createClient();
-  const auth = await requireSupabaseUser(supabase);
-  if (!auth.ok) return auth.response;
 
   const rl = await consumeRateLimit(
     `stripe-checkout:${auth.userId}`,
@@ -64,7 +65,8 @@ export async function POST(request: Request) {
     .maybeSingle();
 
   if (profileErr) {
-    return NextResponse.json({ error: profileErr.message }, { status: 500 });
+    // SECURITY: do not leak PostgREST/SQL details to client
+    return NextResponse.json({ error: "Billing profile unavailable" }, { status: 500 });
   }
 
   const stripe = getStripe();

@@ -8,10 +8,22 @@ function escapeHtml(text: string): string {
     .replace(/"/g, "&quot;");
 }
 
+function safeHref(href: string): string | null {
+  if (href.startsWith("/") && !href.startsWith("//")) return href;
+  if (href.startsWith("https://")) return href;
+  return null;
+}
+
 function inlineMarkdown(text: string): string {
   return escapeHtml(text)
     .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-    .replace(/`([^`]+)`/g, "<code>$1</code>");
+    .replace(/`([^`]+)`/g, "<code>$1</code>")
+    .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_m, label: string, href: string) => {
+      const ok = safeHref(href);
+      if (!ok) return label;
+      const blank = ok.startsWith("https://") ? ' target="_blank" rel="noopener noreferrer"' : "";
+      return `<a href="${ok}"${blank}>${label}</a>`;
+    });
 }
 
 function isTableRow(line: string): boolean {

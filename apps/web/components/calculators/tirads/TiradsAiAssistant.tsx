@@ -20,6 +20,7 @@ export function TiradsAiAssistant() {
   const { applyFromAi } = useTiradsFlow();
   const [text, setText] = useState("");
   const [result, setResult] = useState<ThyroidAiAssistResult | ReturnType<typeof assistFromTiradsText> | null>(null);
+  const incomplete = Boolean(result?.missingFeatures?.length);
   const [pending, startTransition] = useTransition();
 
   function analyzeText() {
@@ -70,22 +71,28 @@ export function TiradsAiAssistant() {
           <div className="rounded-xl border border-sky-300 bg-sky-50 p-4">
             <p className="font-black text-sky-900">{result.suggestedDiagnosis}</p>
             <div className="mt-2 flex flex-wrap gap-2">
-              <Badge>{result.report.result.category}</Badge>
-              <Badge variant="outline">{result.report.result.totalPoints} pts</Badge>
+              {incomplete ? (
+                <Badge variant="outline">Категория — после заполнения всех признаков</Badge>
+              ) : (
+                <>
+                  <Badge>{result.report.result.category}</Badge>
+                  <Badge variant="outline">{result.report.result.totalPoints} pts</Badge>
+                </>
+              )}
               {"pipeline" in result ? (
                 <Badge variant="secondary" className="text-[10px]">
                   {result.pipeline}
                 </Badge>
               ) : null}
             </div>
-            <p className="mt-2 text-sm">{result.report.result.fnaRationale}</p>
+            {incomplete ? null : <p className="mt-2 text-sm">{result.report.result.fnaRationale}</p>}
             {"workerSummary" in result && result.workerSummary ? (
               <p className="mt-2 text-xs text-[var(--clinical-foreground-muted)]">{result.workerSummary}</p>
             ) : null}
           </div>
 
           <div className="flex flex-wrap gap-2">
-            <Button onClick={() => applyFromAi(result)}>Применить к ACR калькulatorу</Button>
+            <Button onClick={() => applyFromAi(result)}>Применить к ACR калькулятору</Button>
             <Button variant="outline" disabled={pending} onClick={onSave}>
               {pending ? "Сохранение…" : "Сохранить в истории"}
             </Button>
@@ -103,9 +110,11 @@ export function TiradsAiAssistant() {
             </CalcStepCard>
           ) : null}
 
-          <CalcStepCard title="Протокол">
-            <pre className="whitespace-pre-wrap text-xs">{result.report.fullProtocol}</pre>
-          </CalcStepCard>
+          {incomplete ? null : (
+            <CalcStepCard title="Протокол">
+              <pre className="whitespace-pre-wrap text-xs">{result.report.fullProtocol}</pre>
+            </CalcStepCard>
+          )}
 
           <p className="text-[10px] text-[var(--clinical-foreground-muted)]">
             Не является диагнозом. Интерпретация — за лечащим специалистом.

@@ -1,4 +1,4 @@
-import { formatMeasurementDecimal } from "@repo/medical-calculations";
+import { formatMeasurementRu } from "@repo/medical-calculations";
 import type { UltrasoundProtocolPayload } from "@repo/types";
 import { isSafeClinicalImageDataUrl } from "@repo/types";
 
@@ -95,7 +95,7 @@ export function buildStudyReportHtml(input: PdfReportInput): string {
 
 function fmtMm(v?: number): string {
   if (v == null || !Number.isFinite(v)) return "—";
-  return `${formatMeasurementDecimal(v)} мм`;
+  return `${formatMeasurementRu(v)} мм`;
 }
 
 function organLabel(key: string): string {

@@ -1,4 +1,5 @@
 import { TelegramLoginButton } from "./TelegramLoginButton";
+// SECURITY: RSC-only import of server config (server-only). Token never passed to client — only username prop.
 import { readTelegramBotUsername } from "@/lib/auth/telegram-bot-config";
 
 type TelegramUser = {

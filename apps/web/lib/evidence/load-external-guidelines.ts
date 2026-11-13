@@ -1,5 +1,10 @@
 import type { ExternalGuidelineRecord } from "@repo/evidence-retrieval";
 
+import {
+  clearGuidelinesRedisCache,
+  readGuidelinesRedisCache,
+  writeGuidelinesRedisCache,
+} from "@/lib/evidence/redis-cache-store";
 import { createServiceRoleClient } from "@/utils/supabase/admin";
 
 let cache: { at: number; rows: ExternalGuidelineRecord[] } | null = null;
@@ -9,6 +14,12 @@ const CACHE_TTL_MS = 5 * 60 * 1000;
 export async function loadExternalGuidelines(): Promise<ExternalGuidelineRecord[]> {
   const now = Date.now();
   if (cache && now - cache.at < CACHE_TTL_MS) return cache.rows;
+
+  const fromRedis = await readGuidelinesRedisCache<ExternalGuidelineRecord[]>();
+  if (fromRedis) {
+    cache = { at: now, rows: fromRedis };
+    return fromRedis;
+  }
 
   try {
     const admin = createServiceRoleClient();
@@ -34,6 +45,7 @@ export async function loadExternalGuidelines(): Promise<ExternalGuidelineRecord[
     }));
 
     cache = { at: now, rows };
+    void writeGuidelinesRedisCache(rows, 900);
     return rows;
   } catch {
     cache = { at: now, rows: [] };
@@ -43,4 +55,5 @@ export async function loadExternalGuidelines(): Promise<ExternalGuidelineRecord[
 
 export function clearExternalGuidelinesCache(): void {
   cache = null;
+  void clearGuidelinesRedisCache();
 }

@@ -3,6 +3,7 @@ import { Platform, ToastAndroid, Alert } from "react-native";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import type { CasePreview } from "../features/case/types";
 import type { OradsSnapshot } from "../features/case/types";
+import { listBlockedAuthorIds } from "../services/blockedAuthors";
 import { createCase, getCommentCountsByCaseIds } from "../services/firebase/casesService";
 import { ensureAnonymousAuth } from "../services/firebase/authService";
 import { isFirebaseConfigured, requireFirestore } from "../services/firebase/firebase";
@@ -83,9 +84,10 @@ export function useCases() {
             });
             const counts = await getCommentCountsByCaseIds(rows.map((r) => r.id));
             const users = await getUsersByIds(rows.map((r) => r.userId));
+            const blocked = new Set(await listBlockedAuthorIds());
             if (!active) return;
             setCases(
-              rows.map((r) => ({
+              rows.filter((r) => !r.userId || !blocked.has(r.userId)).map((r) => ({
                 ...r,
                 commentsCount: counts[r.id] || 0,
                 authorLevel: users[r.userId]?.level ?? 1,

@@ -3,6 +3,7 @@
 import { useRef, type KeyboardEvent } from "react";
 
 import { authInputClass } from "@/components/auth/AuthScreenShell";
+import { AUTH_OTP_DIGITS } from "@/lib/auth/otp-digits";
 import { cn } from "@/lib/utils/cn";
 
 type Props = {
@@ -13,7 +14,13 @@ type Props = {
   label?: string;
 };
 
-export function OtpDigitRow({ length = 4, value, onChange, disabled, label = "Код подтверждения" }: Props) {
+export function OtpDigitRow({
+  length = AUTH_OTP_DIGITS,
+  value,
+  onChange,
+  disabled,
+  label = "Код подтверждения",
+}: Props) {
   const digits = value.padEnd(length, " ").slice(0, length).split("");
   const refs = useRef<(HTMLInputElement | null)[]>([]);
 

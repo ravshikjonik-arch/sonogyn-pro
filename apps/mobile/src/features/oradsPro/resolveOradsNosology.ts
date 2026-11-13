@@ -1,6 +1,11 @@
-import { getOradsNosologyBySubtype, resolveOradsNosologyImageUri, type OradsNosologyAtlasEntry } from "@repo/orads-us";
+import {
+  getOradsNosologyBySubtype,
+  getOradsNosologyPreviewImage,
+  resolveOradsNosologyImageUri,
+  type OradsNosologyAtlasEntry,
+} from "@repo/orads-us";
 
-import { getWebApiBase } from "../../api/chatBackend";
+import { getWebAssetBase } from "../../api/chatBackend";
 import type { UnilocularSubtype } from "./types";
 
 export function resolveOradsNosologyPreview(
@@ -9,7 +14,8 @@ export function resolveOradsNosologyPreview(
   const entry = getOradsNosologyBySubtype(subtype);
   if (!entry) return null;
 
-  const base = getWebApiBase();
-  const imageUri = base ? resolveOradsNosologyImageUri(entry.imageSrc, base) : null;
+  const base = getWebAssetBase();
+  const previewImage = getOradsNosologyPreviewImage(entry);
+  const imageUri = base && previewImage ? resolveOradsNosologyImageUri(previewImage, base) : null;
   return { entry, imageUri };
 }

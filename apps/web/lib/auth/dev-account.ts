@@ -28,7 +28,11 @@ export function isDevSkipAuthEnabled(): boolean {
   return process.env.NODE_ENV === "development" && process.env.DEV_SKIP_AUTH === "true";
 }
 
-/** Product mode: temporarily open the doctor-facing platform without registration. */
+/**
+ * Product mode: open clinical tools without registration (marketing/demo).
+ * Middleware hybrid: `/patients`, `/profile`, `/paywall`, `/dashboard`, `/admin`, `/author`
+ * remain auth-required even when this flag is true.
+ */
 export function isFullOpenAccessEnabled(): boolean {
   const raw = (
     process.env.NEXT_PUBLIC_OPEN_ACCESS_FULL ??

@@ -23,6 +23,10 @@ export async function startMicLevelMonitor(onLevel: (level: number) => void): Pr
   }
 
   const ctx = new AudioContext();
+  // Chrome may start AudioContext suspended even after a click if getUserMedia was awaited.
+  if (ctx.state === "suspended") {
+    void ctx.resume().catch(() => undefined);
+  }
   const source = ctx.createMediaStreamSource(stream);
   const analyser = ctx.createAnalyser();
   analyser.fftSize = 256;

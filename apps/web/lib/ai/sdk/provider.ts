@@ -7,6 +7,7 @@ function openAiCompatibleBaseUrl(llm: ResolvedLlm): string {
   const url = llm.url.trim();
   if (url.includes("openrouter.ai")) return "https://openrouter.ai/api/v1";
   if (url.includes("perplexity.ai")) return "https://api.perplexity.ai";
+  // Colibri and other OpenAI-compatible: …/v1/chat/completions → …/v1
   return url.replace(/\/chat\/completions\/?$/i, "");
 }
 

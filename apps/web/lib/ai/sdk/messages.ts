@@ -1,11 +1,11 @@
 import type { ModelMessage } from "ai";
 
+/** Conversation turns only: AI SDK 7 rejects system messages here (pass them as `instructions`). */
 export function toAiSdkMessages(params: {
   history: { role: string; content: string }[];
-  systemPrompt: string;
   images?: { mediaType: string; data: string }[];
 }): ModelMessage[] {
-  const out: ModelMessage[] = [{ role: "system", content: params.systemPrompt }];
+  const out: ModelMessage[] = [];
 
   for (let i = 0; i < params.history.length; i++) {
     const msg = params.history[i]!;

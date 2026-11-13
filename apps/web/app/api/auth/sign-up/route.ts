@@ -13,10 +13,19 @@ import {
   resolveEmailConfirmRedirect,
 } from "@/lib/auth/email-confirmation";
 import { TelegramService } from "@/services/telegram";
-import { tryAutoConfirmRegistration, shouldAutoConfirmEmail } from "@/lib/auth/auto-confirm-email";
+import {
+  isUserEmailConfirmed,
+  shouldAutoConfirmEmail,
+  tryAutoConfirmRegistration,
+} from "@/lib/auth/auto-confirm-email";
 import { autoGrantPilotMedicalAccess } from "@/lib/auth/pilot-medical-access";
 import { resolveUserIdByEmail } from "@/lib/auth/resolve-user-by-email";
-import { SIGN_UP_GENERIC_MSG, CAPTCHA_REQUIRED_MSG, RESEND_CONFIRMATION_MSG } from "@/lib/auth/safe-auth-messages";
+import {
+  CAPTCHA_REQUIRED_MSG,
+  EMAIL_ALREADY_REGISTERED_MSG,
+  RESEND_CONFIRMATION_MSG,
+  SIGN_UP_GENERIC_MSG,
+} from "@/lib/auth/safe-auth-messages";
 import { translateAuthError } from "@/lib/auth/translate-auth-error";
 import { verifyTurnstileIfConfigured } from "@/lib/auth/verify-turnstile";
 import {
@@ -146,6 +155,7 @@ export async function POST(req: Request) {
     institution = "",
     preferred_locale = "",
     birth_date: birthDateRaw = "",
+    legal_docs_version,
   } = body;
   const birth_year = parseBirthYearFromBody(body as Record<string, unknown>);
   const parsedBirth = birthDateRaw ? parseBirthDateInput(birthDateRaw) : null;
@@ -176,6 +186,8 @@ export async function POST(req: Request) {
         data: {
           full_name,
           specialization,
+          legal_consent_at: new Date().toISOString(),
+          legal_docs_version,
           ...(birth_year ? { birth_year } : {}),
           ...(birth_date ? { birth_date } : {}),
           ...(institution ? { institution } : {}),
@@ -216,12 +228,10 @@ export async function POST(req: Request) {
 
     const duplicate = isDuplicateEmailSignUp(data.user);
     if (duplicate) {
-      if (shouldAutoConfirmEmail()) {
-        const existingId = await resolveUserIdByEmail(email, sessionUser);
-        if (
-          existingId &&
-          (await tryAutoConfirmRegistration({ supabase, userId: existingId, email, password }))
-        ) {
+      const existingId = await resolveUserIdByEmail(email, sessionUser);
+
+      if (shouldAutoConfirmEmail() && existingId) {
+        if (await tryAutoConfirmRegistration({ supabase, userId: existingId, email, password })) {
           const { data: sessionData } = await supabase.auth.getSession();
           return finishSignUpResponse({
             wantsMobileSession,
@@ -239,8 +249,50 @@ export async function POST(req: Request) {
         }
       }
 
+      // Duplicate: быстрый ответ «аккаунт есть», без долгого SMTP (раньше UI висел на отправке письма).
+      // OTP только если точно знаем, что email ещё не подтверждён.
+      let emailConfirmed = !existingId;
+      if (existingId) {
+        emailConfirmed = await Promise.race([
+          isUserEmailConfirmed(existingId),
+          new Promise<boolean>((resolve) => {
+            setTimeout(() => resolve(true), 2500);
+          }),
+        ]);
+      }
+
+      if (emailConfirmed) {
+        await writeSecurityAuditLog({
+          category: "auth",
+          action: "sign-up.already_registered",
+          success: false,
+          metadata: { userId: existingId ?? null },
+        });
+        return NextResponse.json(
+          {
+            ok: false,
+            alreadyRegistered: true,
+            error: EMAIL_ALREADY_REGISTERED_MSG,
+          },
+          { status: 409 },
+        );
+      }
+
       await resendSignupConfirmation(supabase, email, emailRedirectTo);
-      const otp = await sendSignupEmailOtp(email, clientIpFromRequest(req));
+      const otp = await Promise.race([
+        sendSignupEmailOtp(email, clientIpFromRequest(req)),
+        new Promise<{ ok: false; errorCode: string; message: string }>((resolve) => {
+          setTimeout(
+            () =>
+              resolve({
+                ok: false,
+                errorCode: "smtp_timeout",
+                message: "Письмо отправляется дольше обычного. Войдите или сбросьте пароль — либо запросите код снова через минуту.",
+              }),
+            12_000,
+          );
+        }),
+      ]);
       return finishSignUpResponse({
         wantsMobileSession,
         needsEmailConfirmation: true,
@@ -249,7 +301,7 @@ export async function POST(req: Request) {
           ? "Мы отправили код на почту (проверьте «Входящие» и «Спам»). Введите код ниже."
           : otp.errorCode === "smtp_app_password_required"
             ? "Аккаунт создан, но письмо с кодом не ушло: в SMTP_PASSWORD нужен пароль приложения Mail.ru (не обычный пароль). Пока откройте ссылку из письма Supabase или войдите через Telegram."
-            : RESEND_CONFIRMATION_MSG,
+            : otp.message || RESEND_CONFIRMATION_MSG,
         cookiesToSet,
       });
     }

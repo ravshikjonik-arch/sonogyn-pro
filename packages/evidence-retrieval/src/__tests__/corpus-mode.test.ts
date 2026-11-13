@@ -15,8 +15,10 @@ describe("corpus mode", () => {
   it("maps RF modes to kr_mz_rf and rf_regulation providers", () => {
     assert.deepEqual(providersForCorpusMode("rf_kr"), ["kr_mz_rf", "rf_regulation"]);
     assert.deepEqual(providersForCorpusMode("rf_npa"), ["kr_mz_rf", "rf_regulation"]);
+    assert.deepEqual(providersForCorpusMode("rcog"), ["rcog"]);
     assert.equal(providersForCorpusMode("all"), undefined);
     assert.equal(isRfCorpusMode("rf_all"), true);
+    assert.equal(isRfCorpusMode("rcog"), false);
   });
 
   it("maps shelves for RF modes", () => {

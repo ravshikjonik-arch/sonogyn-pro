@@ -1,6 +1,15 @@
 export type AuthApiResult =
   | { ok: true; needsEmailConfirmation?: boolean; needsMfa?: boolean; factorId?: string; message?: string; autoConfirmed?: boolean }
-  | { ok: false; error: string; requiresCaptcha?: boolean; needsEmailConfirmation?: boolean; needsRegistration?: boolean; smsNotConfigured?: boolean };
+  | {
+      ok: false;
+      error: string;
+      requiresCaptcha?: boolean;
+      needsEmailConfirmation?: boolean;
+      needsRegistration?: boolean;
+      smsNotConfigured?: boolean;
+      alreadyRegistered?: boolean;
+      emailConfirmed?: boolean;
+    };
 
 export async function postSignIn(params: {
   email: string;
@@ -85,47 +94,63 @@ export async function postSignUp(params: {
   preferred_locale?: string;
   turnstileToken?: string;
   mobile?: boolean;
+  accept_legal: true;
+  legal_docs_version: string;
 }): Promise<
   AuthApiResult & {
     session?: { access_token: string; refresh_token: string };
     emailOtpSent?: boolean;
   }
 > {
-  const res = await fetch("/api/auth/sign-up", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      ...(params.mobile ? { "x-sonogyn-client": "mobile" } : {}),
-    },
-    credentials: "same-origin",
-    body: JSON.stringify(params),
-  });
-  const payload = (await res.json().catch(() => null)) as {
-    ok?: boolean;
-    error?: string;
-    requiresCaptcha?: boolean;
-    needsEmailConfirmation?: boolean;
-    emailOtpSent?: boolean;
-    message?: string;
-    autoConfirmed?: boolean;
-    session?: { access_token: string; refresh_token: string };
-  } | null;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 25_000);
+  try {
+    const res = await fetch("/api/auth/sign-up", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(params.mobile ? { "x-sonogyn-client": "mobile" } : {}),
+      },
+      credentials: "same-origin",
+      body: JSON.stringify(params),
+      signal: controller.signal,
+    });
+    const payload = (await res.json().catch(() => null)) as {
+      ok?: boolean;
+      error?: string;
+      requiresCaptcha?: boolean;
+      needsEmailConfirmation?: boolean;
+      emailOtpSent?: boolean;
+      message?: string;
+      autoConfirmed?: boolean;
+      alreadyRegistered?: boolean;
+      session?: { access_token: string; refresh_token: string };
+    } | null;
 
-  if (!res.ok || !payload?.ok) {
+    if (!res.ok || !payload?.ok) {
+      return {
+        ok: false,
+        error: payload?.error ?? "Не удалось завершить регистрацию.",
+        requiresCaptcha: payload?.requiresCaptcha,
+        alreadyRegistered: Boolean(payload?.alreadyRegistered) || res.status === 409,
+      };
+    }
+    return {
+      ok: true,
+      needsEmailConfirmation: payload.needsEmailConfirmation,
+      emailOtpSent: payload.emailOtpSent,
+      message: payload.message,
+      autoConfirmed: payload.autoConfirmed,
+      session: payload.session,
+    };
+  } catch {
     return {
       ok: false,
-      error: payload?.error ?? "Не удалось завершить регистрацию.",
-      requiresCaptcha: payload?.requiresCaptcha,
+      error: "Регистрация отвечает слишком долго. Обновите страницу или войдите / сбросьте пароль.",
     };
+  } finally {
+    clearTimeout(timer);
   }
-  return {
-    ok: true,
-    needsEmailConfirmation: payload.needsEmailConfirmation,
-    emailOtpSent: payload.emailOtpSent,
-    message: payload.message,
-    autoConfirmed: payload.autoConfirmed,
-    session: payload.session,
-  };
 }
 
 /** Подтверждение регистрации кодом из письма (SMTP) → сессия. */
@@ -152,11 +177,18 @@ export async function postConfirmSignupOtp(params: {
     ok?: boolean;
     error?: string;
     message?: string;
+    emailConfirmed?: boolean;
+    alreadyRegistered?: boolean;
     session?: { access_token: string; refresh_token: string };
   } | null;
 
   if (!res.ok || !payload?.ok) {
-    return { ok: false, error: payload?.error ?? "Неверный или просроченный код." };
+    return {
+      ok: false,
+      error: payload?.error ?? "Неверный или просроченный код.",
+      emailConfirmed: payload?.emailConfirmed,
+      alreadyRegistered: payload?.alreadyRegistered,
+    };
   }
   return { ok: true, message: payload.message, session: payload.session };
 }
@@ -390,23 +422,85 @@ export async function postPhoneVerifyOtp(params: {
   return { ok: true, session: payload.session };
 }
 
-export async function postForgotPassword(email: string): Promise<{ ok: true; message: string } | { ok: false; error: string }> {
-  const res = await fetch("/api/auth/forgot-password", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    credentials: "same-origin",
-    body: JSON.stringify({ email }),
-  });
-  const payload = (await res.json().catch(() => null)) as {
-    ok?: boolean;
-    message?: string;
-    error?: string;
-  } | null;
+export async function postForgotPassword(
+  email: string,
+  turnstileToken?: string,
+): Promise<{ ok: true; message: string } | { ok: false; error: string }> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 20_000);
+  try {
+    const res = await fetch("/api/auth/forgot-password", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Idempotency-Key": crypto.randomUUID(),
+      },
+      credentials: "same-origin",
+      body: JSON.stringify({ email, turnstileToken }),
+      signal: controller.signal,
+    });
+    const payload = (await res.json().catch(() => null)) as {
+      ok?: boolean;
+      message?: string;
+      error?: string;
+    } | null;
 
-  if (!res.ok || !payload?.ok) {
-    return { ok: false, error: payload?.error ?? "Не удалось отправить письмо." };
+    if (!res.ok || !payload?.ok) {
+      return { ok: false, error: payload?.error ?? "Не удалось отправить код." };
+    }
+    return {
+      ok: true,
+      message:
+        payload.message ??
+        "Если email указан верно — код отправлен. Проверьте «Входящие» и «Спам».",
+    };
+  } catch {
+    return {
+      ok: false,
+      error: "Сервер долго отвечает. Подождите минуту и нажмите «Забыли пароль?» снова.",
+    };
+  } finally {
+    clearTimeout(timer);
   }
-  return { ok: true, message: payload.message ?? "Если email зарегистрирован, мы отправили ссылку." };
+}
+
+export async function postConfirmPasswordReset(params: {
+  email: string;
+  code: string;
+  password: string;
+}): Promise<{ ok: true; message?: string } | { ok: false; error: string }> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 20_000);
+  try {
+    const res = await fetch("/api/auth/confirm-password-reset", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "same-origin",
+      body: JSON.stringify({
+        email: params.email,
+        code: params.code,
+        password: params.password,
+      }),
+      signal: controller.signal,
+    });
+    const payload = (await res.json().catch(() => null)) as {
+      ok?: boolean;
+      message?: string;
+      error?: string;
+    } | null;
+
+    if (!res.ok || !payload?.ok) {
+      return { ok: false, error: payload?.error ?? "Неверный или просроченный код." };
+    }
+    return { ok: true, message: payload.message };
+  } catch {
+    return {
+      ok: false,
+      error: "Сервер долго отвечает. Попробуйте ещё раз через минуту.",
+    };
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 export async function postUpdatePassword(password: string): Promise<{ ok: true } | { ok: false; error: string }> {
@@ -424,14 +518,27 @@ export async function postUpdatePassword(password: string): Promise<{ ok: true }
   return { ok: true };
 }
 
-export async function fetchAuthSession(): Promise<{
+export async function fetchAuthSession(options?: { timeoutMs?: number }): Promise<{
   user: Record<string, unknown> | null;
   rateLimited?: boolean;
 }> {
-  const res = await fetch("/api/auth/session", { credentials: "same-origin", cache: "no-store" });
-  if (res.status === 429) {
-    return { user: null, rateLimited: true };
+  const timeoutMs = options?.timeoutMs ?? 10_000;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const res = await fetch("/api/auth/session", {
+      credentials: "same-origin",
+      cache: "no-store",
+      signal: controller.signal,
+    });
+    if (res.status === 429) {
+      return { user: null, rateLimited: true };
+    }
+    const payload = (await res.json().catch(() => null)) as { user?: Record<string, unknown> | null } | null;
+    return { user: payload?.user ?? null };
+  } catch {
+    return { user: null };
+  } finally {
+    clearTimeout(timer);
   }
-  const payload = (await res.json().catch(() => null)) as { user?: Record<string, unknown> | null } | null;
-  return { user: payload?.user ?? null };
 }

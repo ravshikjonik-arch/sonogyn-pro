@@ -1,6 +1,11 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { updateSession } from "@/utils/supabase/middleware";
 import { isDevSkipAuthEnabled, isFullOpenAccessEnabled } from "@/lib/auth/dev-account";
+import {
+  COPYRIGHT_SAFE_LANDING,
+  isCopyrightLockedAsset,
+  isCopyrightLockedRoute,
+} from "@/lib/copyright/book-content-gate";
 import { needsPhoneVerification } from "@/lib/auth/phone-verified";
 import { defaultPostAuthPath } from "@/lib/nav/post-auth-landing";
 import { safeInternalPath } from "@/lib/nav/safe-redirect";
@@ -9,7 +14,11 @@ import { smsSendEdgeRateLimit } from "@/lib/security/edge-sms-rate-limit";
 import { shouldBlockSuspiciousApiBot } from "@/lib/security/bot-detection";
 import { assertProductionSecretsConfigured } from "@/lib/security/production-secrets";
 import { getClinicalRole, roleMeetsMinimum } from "@/lib/security/require-clinical-role";
-import { isSonogynCustomDomainHost } from "@/lib/shell/custom-domain";
+import {
+  CUSTOM_DOMAIN_CANONICAL_ORIGIN,
+  customDomainCorsOrigin,
+  isSonogynCustomDomainHost,
+} from "@/lib/shell/custom-domain";
 import { proxyCustomDomainDocument } from "@/lib/shell/custom-domain-proxy";
 
 assertProductionSecretsConfigured();
@@ -102,13 +111,7 @@ function matchesPrefix(pathname: string, prefix: string): boolean {
 }
 
 function isAuthRequiredPath(pathname: string): boolean {
-  if (
-    isFullOpenAccessEnabled() &&
-    !matchesPrefix(pathname, "/admin") &&
-    !matchesPrefix(pathname, "/author")
-  ) {
-    return false;
-  }
+  // Hybrid open-access: калькуляторы/кабинет без логина, но PHI/профиль/биллинг — всегда с сессией.
   return AUTH_REQUIRED_PREFIXES.some((prefix) => matchesPrefix(pathname, prefix));
 }
 
@@ -146,10 +149,13 @@ function applyCorsHeaders(response: NextResponse, corsHeaders: Record<string, st
   for (const [k, v] of Object.entries(corsHeaders)) response.headers.set(k, v);
 }
 
-/** Страница на *.vercel.app читается загрузчиком с sonogyn-pro.ru. */
+/**
+ * Страница на *.vercel.app читается загрузчиком с sonogyn-pro.ru — только им, не любым сайтом.
+ * Фиксированное значение, а не отражение Origin: ответ кэшируется на CDN, а Next перезаписывает Vary.
+ */
 function allowCrossOriginDocumentRead(response: NextResponse): void {
   if (!response.headers.has("Access-Control-Allow-Origin")) {
-    response.headers.set("Access-Control-Allow-Origin", "*");
+    response.headers.set("Access-Control-Allow-Origin", CUSTOM_DOMAIN_CANONICAL_ORIGIN);
   }
   response.headers.set(
     "Access-Control-Expose-Headers",
@@ -160,13 +166,34 @@ function allowCrossOriginDocumentRead(response: NextResponse): void {
 export default async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
+  // Book scans / PDF / atlas galleries — not for end users (engines stay internal).
+  if (isCopyrightLockedAsset(pathname)) {
+    const blocked = new NextResponse("Not Found", { status: 404 });
+    applySecurityHeaders(blocked);
+    return blocked;
+  }
+  if (isCopyrightLockedRoute(pathname)) {
+    const url = request.nextUrl.clone();
+    url.pathname = COPYRIGHT_SAFE_LANDING;
+    url.search = "";
+    const redirect = NextResponse.redirect(url);
+    applySecurityHeaders(redirect);
+    return redirect;
+  }
+
   if (
     request.method === "OPTIONS" &&
     !pathname.startsWith("/api/") &&
     request.headers.get("access-control-request-method")
   ) {
-    const preflight = new NextResponse(null, { status: 204 });
-    preflight.headers.set("Access-Control-Allow-Origin", "*");
+    const origin = customDomainCorsOrigin(request.headers.get("origin"));
+    const preflight = new NextResponse(null, { status: origin ? 204 : 403 });
+    preflight.headers.set("Vary", "Origin");
+    if (!origin) {
+      applySecurityHeaders(preflight);
+      return preflight;
+    }
+    preflight.headers.set("Access-Control-Allow-Origin", origin);
     preflight.headers.set("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS");
     preflight.headers.set(
       "Access-Control-Allow-Headers",
@@ -337,12 +364,8 @@ export default async function middleware(request: NextRequest) {
     return response;
   }
 
-  if (
-    isDevSkipAuthEnabled() ||
-    (isFullOpenAccessEnabled() &&
-      !matchesPrefix(pathname, "/admin") &&
-      !matchesPrefix(pathname, "/author"))
-  ) {
+  // Open-access: публичные клинические маршруты без логина; AUTH_REQUIRED_* всё равно требуют сессию.
+  if (isDevSkipAuthEnabled() || (isFullOpenAccessEnabled() && !isAuthRequiredPath(pathname))) {
     return response;
   }
 
@@ -458,6 +481,19 @@ export const config = {
     "/landing/:path*",
     "/lp/:path*",
     "/privacy",
+    "/offer",
+    "/contacts",
+    "/terms",
+    "/blog",
+    "/blog/:path*",
     "/auth/:path*",
+    "/clinical-atlas",
+    "/clinical-atlas/:path*",
+    "/clinical",
+    "/clinical/:path*",
+    "/education",
+    "/education/:path*",
+    "/books",
+    "/books/:path*",
   ],
 };

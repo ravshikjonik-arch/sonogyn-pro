@@ -1,54 +1,16 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
-import {
-  ORADS_US_MANAGEMENT,
-  ORADS_US_VERSION,
-  SUPPLEMENTARY_READING,
-  getAdnexDataset,
-  listAdnexPages,
-  searchAdnexPages,
-  type AdnexPageRecord,
-} from "@repo/adnex-education";
+import { ORADS_US_MANAGEMENT, ORADS_US_VERSION, SUPPLEMENTARY_READING } from "@repo/adnex-education";
 
 import { OradsNosologyPreview } from "@/components/calculators/orads/OradsNosologyPreview";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { ORADS_NOSOLOGY_ATLAS } from "@/lib/orads-pro/nosology-atlas";
 
-const CHAPTER_LABELS: Record<string, string> = {
-  all: "Все",
-  intro: "Введение",
-  iota: "IOTA",
-  morphology: "Морфология",
-  orads: "O-RADS",
-  management: "Тактика",
-};
-
-type Props = {
-  initialChapter?: string;
-  initialPageId?: string;
-};
-
-export function OradsEchogramsWidget({ initialChapter = "all", initialPageId }: Props) {
-  const catalog = getAdnexDataset();
-  const [chapter, setChapter] = useState(initialChapter);
-  const [query, setQuery] = useState("");
-  const [selectedId, setSelectedId] = useState<string | null>(initialPageId ?? null);
+export function OradsEchogramsWidget() {
   const [nosologyId, setNosologyId] = useState<string>(ORADS_NOSOLOGY_ATLAS[0]?.id ?? "");
-
-  const pages = useMemo(() => {
-    if (query.trim()) return searchAdnexPages(query);
-    return listAdnexPages(chapter === "all" ? undefined : { chapter });
-  }, [chapter, query]);
-
-  const selected: AdnexPageRecord | undefined = useMemo(() => {
-    if (!selectedId) return pages[0];
-    return pages.find((p) => p.id === selectedId) ?? pages[0];
-  }, [pages, selectedId]);
 
   const supplementary = SUPPLEMENTARY_READING[0];
   const selectedNosology = ORADS_NOSOLOGY_ATLAS.find((n) => n.id === nosologyId) ?? ORADS_NOSOLOGY_ATLAS[0];
@@ -59,7 +21,7 @@ export function OradsEchogramsWidget({ initialChapter = "all", initialPageId }: 
         <p className="text-xs font-semibold uppercase tracking-wide text-[var(--clinical-primary-deep)]">
           O-RADS US · эхограммы
         </p>
-        <h1 className="text-2xl font-bold md:text-3xl">Библиотека эхограмм придатков матки</h1>
+        <h1 className="text-2xl font-bold md:text-3xl">Эхограммы придатков матки из практики</h1>
         <p className="max-w-3xl text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
           Официальный расчёт категории — по {ORADS_US_VERSION} (ACR) в{" "}
           <Link href="/tools/calc/rads/o-rads" className="font-semibold text-[var(--clinical-primary-deep)] hover:underline">
@@ -69,17 +31,17 @@ export function OradsEchogramsWidget({ initialChapter = "all", initialPageId }: 
           <Link href="/tools/refs/orads-guide" className="font-semibold text-[var(--clinical-primary-deep)] hover:underline">
             руководстве O-RADS US
           </Link>
-          . Здесь — учебные эхограммы по типичным кистам O-RADS 2 и учебный атлас придатков.
+          . Здесь — обезличенные эхограммы из практики по типичным нозологиям и готовые формулировки для протокола.
         </p>
         {supplementary ? (
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-[var(--clinical-foreground-muted)]">
             {supplementary.citation} — {supplementary.note}
           </p>
         ) : null}
       </header>
 
       <section className="space-y-4 rounded-3xl border border-emerald-200/80 bg-[var(--clinical-card)] p-5 dark:border-emerald-900/40">
-        <h2 className="text-lg font-bold">Нозологии O-RADS 2 · эхограмма + протокол</h2>
+        <h2 className="text-lg font-bold">Нозологии O-RADS · эхограмма + протокол</h2>
         <p className="text-xs text-[var(--clinical-foreground-muted)]">
           Выберите образование — эхограмма и готовая формулировка для заключения. То же появляется в{" "}
           <Link href="/tools/calc/rads/o-rads" className="font-semibold text-[var(--clinical-primary-deep)] hover:underline">
@@ -94,6 +56,7 @@ export function OradsEchogramsWidget({ initialChapter = "all", initialPageId }: 
               type="button"
               size="sm"
               variant={nosologyId === n.id ? "default" : "outline"}
+              aria-pressed={nosologyId === n.id}
               onClick={() => setNosologyId(n.id)}
             >
               {n.titleRu}
@@ -109,7 +72,7 @@ export function OradsEchogramsWidget({ initialChapter = "all", initialPageId }: 
           {([1, 2, 3, 4, 5] as const).map((cat) => (
             <div
               key={cat}
-              className="rounded-xl border border-slate-200 bg-slate-50/80 p-3 text-xs dark:border-slate-700 dark:bg-slate-900/40"
+              className="rounded-xl border border-[var(--clinical-border)] bg-[var(--clinical-surface)] p-3 text-xs"
             >
               <p className="font-bold text-[var(--clinical-primary-deep)]">O-RADS {cat}</p>
               <p className="mt-1 text-[var(--clinical-foreground-muted)]">{ORADS_US_MANAGEMENT[cat]}</p>
@@ -118,75 +81,9 @@ export function OradsEchogramsWidget({ initialChapter = "all", initialPageId }: 
         </div>
       </section>
 
-      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-        <div className="flex flex-wrap gap-2">
-          {["all", ...catalog.chapters.map((c) => c.id)].map((id) => (
-            <Button
-              key={id}
-              type="button"
-              size="sm"
-              variant={chapter === id ? "default" : "outline"}
-              onClick={() => setChapter(id)}
-            >
-              {CHAPTER_LABELS[id] ?? id}
-            </Button>
-          ))}
-        </div>
-        <Input
-          placeholder="Поиск по тексту страницы…"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          className="max-w-xs"
-        />
-      </div>
-
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
-        <div className="max-h-[70vh] space-y-2 overflow-y-auto rounded-2xl border border-[var(--clinical-border)] p-2">
-          {pages.map((p) => (
-            <button
-              key={p.id}
-              type="button"
-              onClick={() => setSelectedId(p.id)}
-              className={`flex w-full gap-3 rounded-xl border p-2 text-left text-xs transition ${
-                selected?.id === p.id
-                  ? "border-[var(--clinical-primary)] bg-[var(--clinical-primary)]/5"
-                  : "border-transparent hover:bg-slate-50 dark:hover:bg-slate-900/40"
-              }`}
-            >
-              <div className="relative h-14 w-10 shrink-0 overflow-hidden rounded bg-slate-100">
-                <Image src={p.image_href} alt="" fill className="object-cover" sizes="40px" />
-              </div>
-              <div className="min-w-0">
-                <p className="font-bold">Стр. {p.page_number}</p>
-                <p className="line-clamp-2 text-[var(--clinical-foreground-muted)]">
-                  {p.title ?? p.teaching_hint ?? p.ocr_text.slice(0, 80)}
-                </p>
-              </div>
-            </button>
-          ))}
-        </div>
-
-        {selected ? (
-          <div className="space-y-3">
-            <div className="relative aspect-[3/4] max-h-[70vh] w-full overflow-hidden rounded-2xl border border-[var(--clinical-border)] bg-black/5">
-              <Image
-                src={selected.image_href}
-                alt={selected.title ?? `Стр. ${selected.page_number}`}
-                fill
-                className="object-contain"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
-            </div>
-            <p className="text-sm font-bold">Страница {selected.page_number}</p>
-            {selected.teaching_hint ? (
-              <p className="text-sm text-[var(--clinical-foreground-muted)]">{selected.teaching_hint}</p>
-            ) : null}
-            <Button variant="outline" size="sm" asChild>
-              <Link href="/tools/calc/rads/o-rads">Вернуться в калькулятор O-RADS →</Link>
-            </Button>
-          </div>
-        ) : null}
-      </div>
+      <p className="text-xs text-[var(--clinical-foreground-muted)]">
+        Справочно: категорию и тактику определяет врач. Не диагноз — интерпретация специалиста.
+      </p>
     </div>
   );
 }

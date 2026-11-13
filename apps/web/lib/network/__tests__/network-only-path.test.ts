@@ -11,6 +11,7 @@ test("isNetworkOnlyPath matches network sections", () => {
   assert.equal(isNetworkOnlyPath("/profile/patients/new"), true);
   assert.equal(isNetworkOnlyPath("/ai/workspace"), true);
   assert.equal(isNetworkOnlyPath("/tools/refs/evidence-assistant"), true);
+  assert.equal(isNetworkOnlyPath("/tools/refs/evidence-sources"), true);
 });
 
 test("isNetworkOnlyPath allows offline calculators", () => {

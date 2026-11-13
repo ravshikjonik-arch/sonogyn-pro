@@ -1,6 +1,7 @@
 import { LN_RADS_VERSION } from "../knowledge/categories";
 import { enrichEngineResult } from "./enrich-result";
 import type { LnRadsInput, LnReportLevel, LnReportTemplate } from "../types";
+import { formatLnAxesRu, formatLnRatio } from "../format";
 
 export type StructuredLnReport = {
   template: LnReportTemplate;
@@ -52,11 +53,11 @@ function inferTemplate(category: number): LnReportTemplate {
 
 function buildSections(input: LnRadsInput, engine: ReturnType<typeof enrichEngineResult>, level: LnReportLevel) {
   const { sizeAnalysis, dopplerAnalysis, categoryMeta: meta } = engine;
-  const ls = sizeAnalysis.lsRatio?.toFixed(2) ?? "н/д";
+  const ls = formatLnRatio(sizeAnalysis.lsRatio);
 
   const morphology = [
     `Локализация: ${regionLabel(input.region)}`,
-    `Размеры: ${input.longAxisMm} × ${input.shortAxisMm} mm (L/S = ${ls})`,
+    `Размеры: ${formatLnAxesRu(input.longAxisMm, input.shortAxisMm)} (L/S = ${ls})`,
     `Форма: ${input.shape}; кapsula: ${input.capsule}`,
     `Hilum: ${input.hilum}; кора: ${input.cortex}`,
     `Эхогенность: ${input.echogenicity}; архитектура: ${input.architecture}`,

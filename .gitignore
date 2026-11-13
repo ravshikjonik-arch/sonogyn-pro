@@ -14,7 +14,14 @@ web-build/
 .env
 .env.local
 .env*.local
-!/.env.example
+.env.production
+.env.staging
+!.env.example
+!**/.env.example
+!**/.env*.example
+# SECURITY: never commit Vercel/Supabase env dumps
+.env.vercel*
+*.env.pulled
 
 # OS / IDE
 .DS_Store
@@ -46,9 +53,21 @@ scripts/atlas-obstetrics-audit.json
 .cursor/settings.json
 .cursor/tmp-*
 
-# Finder duplicate copies
-* 2.*
-* 2/
+# Finder duplicate copies (name 2.ext / name 3.ext / …)
+* [0-9].*
+* [0-9]
+* [0-9]/
+
+# Local scratch / caches
+__pycache__/
+*.bak
+*.broken*
+.playwright-mcp/
+
+# Accidental root smoke screenshots (keep intentional assets under apps/docs)
+/fmf-*.png
+/guided-*.png
+/rcog-*.png
 
 # Local transcode / temp
 apps/web/.tmp-ffmpeg/
@@ -63,6 +82,7 @@ apps/web/supabase/.chat-v2-*
 # Large local media (seed from disk, not git)
 docs/books/
 docs/fetometry-source/medvedev-archive/
+services/docling-ingest/open-text/*.txt
 
 # External experiments (track separately)
 USTri/

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
 
+import { isCopyrightLockedAsset } from "@/lib/copyright/book-content-gate";
 import { cn } from "@/lib/utils/cn";
 
 type Props = {
@@ -27,6 +28,7 @@ export function OradsGridPickCard({
   badge,
   children,
 }: Props) {
+  const visibleSrc = imageSrc && !isCopyrightLockedAsset(imageSrc) ? imageSrc : undefined;
   return (
     <button
       type="button"
@@ -41,10 +43,10 @@ export function OradsGridPickCard({
           : "border-[var(--clinical-border)] hover:border-[var(--clinical-primary)]",
       )}
     >
-      {imageSrc ? (
+      {visibleSrc ? (
         <div className="relative h-24 w-full shrink-0 bg-black/85 sm:h-28">
           <Image
-            src={imageSrc}
+            src={visibleSrc}
             alt={imageAlt ?? title}
             fill
             className="object-contain"

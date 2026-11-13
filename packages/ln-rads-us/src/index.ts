@@ -5,6 +5,8 @@ export {
   type LnRadsCategoryMeta,
 } from "./knowledge/categories";
 
+export { formatLnAxesRu, formatLnMm, formatLnRatio } from "./format";
+
 export {
   evaluateLnRads,
   defaultLnRadsInput,

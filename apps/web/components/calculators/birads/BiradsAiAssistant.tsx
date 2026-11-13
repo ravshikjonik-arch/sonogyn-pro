@@ -21,6 +21,7 @@ export function BiradsAiAssistant() {
   const { applyFromAi } = useBiradsFlow();
   const [text, setText] = useState("");
   const [result, setResult] = useState<BreastAiAssistResult | ReturnType<typeof assistFromFreeText> | null>(null);
+  const incomplete = Boolean(result?.missingFeatures?.length);
   const [pending, startTransition] = useTransition();
 
   function analyzeText() {
@@ -76,17 +77,23 @@ export function BiradsAiAssistant() {
       {result ? (
         <div className="space-y-4">
           <div className="rounded-2xl border-2 border-rose-300 bg-gradient-to-br from-rose-50 to-white p-5">
-            <p className="text-lg font-black text-rose-900">{result.suggestedDiagnosis}</p>
+            <p className="text-base font-bold text-rose-900">{result.suggestedDiagnosis}</p>
             <div className="mt-2 flex flex-wrap gap-2">
-              <Badge className="bg-rose-600 text-white">{result.report.engine.category}</Badge>
-              <Badge variant="outline">риск {result.report.engine.malignancyRisk}</Badge>
+              {incomplete ? (
+                <Badge variant="outline">Категория — после заполнения всех признаков</Badge>
+              ) : (
+                <>
+                  <Badge className="bg-rose-600 text-white">{result.report.engine.category}</Badge>
+                  <Badge variant="outline">риск {result.report.engine.malignancyRisk}</Badge>
+                </>
+              )}
               {"pipeline" in result ? (
                 <Badge variant="secondary" className="text-[10px]">
                   {result.pipeline}
                 </Badge>
               ) : null}
             </div>
-            <p className="mt-2 text-sm">{result.report.clinicalRecommendation}</p>
+            {incomplete ? null : <p className="mt-2 text-sm">{result.report.clinicalRecommendation}</p>}
             {"workerSummary" in result && result.workerSummary ? (
               <p className="mt-2 text-xs text-[var(--clinical-foreground-muted)]">{result.workerSummary}</p>
             ) : null}
@@ -116,16 +123,18 @@ export function BiradsAiAssistant() {
             </CalcStepCard>
           ) : null}
 
-          {result.report.engine.matchedPathologies[0] ? (
-            <CalcStepCard title="Дифференциальный диагноз">
+          {!incomplete && result.report.engine.matchedPathologies[0] ? (
+            <CalcStepCard title="Похожий учебный паттерн из атласа (не диагноз)">
               <p className="text-sm font-bold">{result.report.engine.matchedPathologies[0]!.nameRu}</p>
               <p className="mt-1 text-xs">{result.report.engine.matchedPathologies[0]!.educationSummary}</p>
             </CalcStepCard>
           ) : null}
 
-          <CalcStepCard title="Структурированный протокол">
-            <pre className="whitespace-pre-wrap text-xs leading-relaxed">{result.report.fullProtocol}</pre>
-          </CalcStepCard>
+          {incomplete ? null : (
+            <CalcStepCard title="Структурированный протокол">
+              <pre className="whitespace-pre-wrap text-xs leading-relaxed">{result.report.fullProtocol}</pre>
+            </CalcStepCard>
+          )}
 
           <p className="text-[10px] text-[var(--clinical-foreground-muted)]">
             Не является диагнозом. Интерпретация — за лечащим специалистом.

@@ -98,7 +98,8 @@ export function UsPrepBriefingClient() {
     lang: "ru-RU",
     continuous: true,
     interimResults: true,
-    engineMode: "device",
+    // Prefer on-device Web Speech; auto falls back to server STT if Web Speech missing (Safari).
+    engineMode: "auto",
     enableMicLevel: true,
     draftKey: "sonogyn:us-prep-live",
   });
@@ -294,10 +295,18 @@ export function UsPrepBriefingClient() {
           className={cn("h-16 w-full gap-3 text-base", speech.listening && "bg-rose-500 text-white hover:bg-rose-400")}
           onClick={() => void toggleSession()}
           disabled={!speech.supported && !speech.listening}
+          aria-pressed={speech.listening}
         >
           {speech.listening ? <Square className="h-6 w-6" aria-hidden /> : <Mic className="h-6 w-6" aria-hidden />}
           {speech.listening ? "Стоп · обновить чеклист" : "Включить · слушать приём"}
         </Button>
+
+        {!speech.supported ? (
+          <p className="text-sm text-amber-800 dark:text-amber-200" role="status">
+            Голосовой ввод недоступен в этом браузере. Откройте Chrome или Edge по HTTPS (sonogyn-pro.ru) и
+            разрешите микрофон.
+          </p>
+        ) : null}
 
         {speech.listening ? (
           <div className="space-y-2" aria-live="polite">

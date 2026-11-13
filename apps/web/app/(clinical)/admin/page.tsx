@@ -65,6 +65,9 @@ export default async function AdminDashboardPage() {
           <Link href="/admin/regulations">Приказы и КР (review)</Link>
         </Button>
         <Button asChild variant="secondary">
+          <Link href="/admin/source-studio">Source Studio (vault)</Link>
+        </Button>
+        <Button asChild variant="secondary">
           <Link href="/author">Панель автора курсов</Link>
         </Button>
         <Button asChild variant="outline">

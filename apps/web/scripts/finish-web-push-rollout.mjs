@@ -26,7 +26,15 @@ if (setup.status !== 0) {
 console.log(`\n📡 Health · ${baseUrl}/api/health\n`);
 
 try {
-  const res = await fetch(`${baseUrl}/api/health`, { signal: AbortSignal.timeout(25_000) });
+  const healthToken = process.env.HEALTH_DETAILS_TOKEN?.trim();
+  if (!healthToken) {
+    console.warn("⚠️  HEALTH_DETAILS_TOKEN не задан — флаги rollout в /api/health скрыты");
+    process.exit(0);
+  }
+  const res = await fetch(`${baseUrl}/api/health`, {
+    headers: { "x-health-token": healthToken },
+    signal: AbortSignal.timeout(25_000),
+  });
   if (!res.ok) {
     console.warn(`⚠️  HTTP ${res.status} — проверьте вручную позже`);
     process.exit(0);
@@ -43,7 +51,7 @@ try {
   }
 } catch (e) {
   console.warn(`⚠️  Health недоступен с этой машины: ${e.message}`);
-  console.log("   Локально: curl -s https://sonogyn-pro.ru/api/health | jq .rollout\n");
+  console.log('   Локально: curl -s -H "x-health-token: $HEALTH_DETAILS_TOKEN" https://sonogyn-pro.ru/api/health | jq .rollout\n');
 }
 
 console.log("\nДальше: npm run test:messenger-v2-smoke (BASE_URL=https://sonogyn-pro.ru)\n");

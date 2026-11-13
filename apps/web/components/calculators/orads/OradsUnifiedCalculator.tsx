@@ -23,7 +23,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { parseOradsText } from "@/lib/orads-pro/text-parser";
 import { cn } from "@/lib/utils/cn";
-import { OradsBookTumorCardsPanel } from "@/components/calculators/orads/OradsBookTumorCardsPanel";
 import { OradsReferoSection } from "@/components/calculators/orads/OradsReferoSection";
 import { OradsUnifiedProtocolPreview } from "@/components/calculators/orads/OradsUnifiedProtocolPreview";
 
@@ -160,9 +159,9 @@ export function OradsUnifiedCalculator() {
     <div className="mx-auto max-w-6xl px-4 py-8 pb-32 lg:px-8" data-e2e-orads-unified>
       <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div className="max-w-2xl">
-          <h1 className="text-2xl font-semibold tracking-tight text-[var(--clinical-foreground)]">
+          <h2 className="text-2xl font-semibold tracking-tight text-[var(--clinical-foreground)]">
             Стратификация O-RADS US
-          </h1>
+          </h2>
           <p className="mt-2 text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
             Категории 0–5, ROM и тактика по ACR v2022. При нескольких образованиях — отдельная оценка каждого; ведение
             по наивысшей категории.
@@ -464,7 +463,13 @@ export function OradsUnifiedCalculator() {
             ) : null}
 
             <OradsReferoSection title="Дифф. диагноз · карточки опухолей" defaultOpen={false}>
-              <OradsBookTumorCardsPanel />
+              <p className="rounded-xl border border-dashed border-[var(--clinical-border)] bg-[var(--clinical-surface)] p-3 text-[11px] leading-relaxed text-[var(--clinical-foreground-muted)]">
+                Учебные фотокарточки из пособий скрыты. Используйте пошаговый O-RADS и{" "}
+                <Link className="underline underline-offset-2" href="/tools/refs/sources">
+                  официальные источники
+                </Link>
+                .
+              </p>
             </OradsReferoSection>
 
             <div className="flex flex-wrap gap-2 pt-1 lg:hidden">

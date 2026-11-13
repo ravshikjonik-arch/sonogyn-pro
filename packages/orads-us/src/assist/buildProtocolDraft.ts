@@ -1,5 +1,5 @@
 import type { OradsExtractedInput } from "../parseOradsProtocolText";
-import { formatMeasurementDecimal, formatMm } from "@repo/medical-calculations";
+import { formatDimensionsMmRu, formatMmRu } from "@repo/medical-calculations";
 
 export const ORADS_PROTOCOL_DRAFT_DISCLAIMER =
   "Черновик по диктовке — не диагноз. Категория O-RADS только после верификации врачом в калькуляторе.";
@@ -26,12 +26,15 @@ export function buildOradsProtocolDraft(text: string, extracted: OradsExtractedI
             ? "без очаговых образований"
             : "образование";
 
+  const full = formatDimensionsMmRu(extracted.lengthMm, extracted.widthMm, extracted.heightMm);
   const sizeParts: string[] = [];
-  if (extracted.lengthMm) sizeParts.push(`L ${formatMeasurementDecimal(extracted.lengthMm)} мм`);
-  if (extracted.widthMm) sizeParts.push(`W ${formatMeasurementDecimal(extracted.widthMm)} мм`);
-  if (extracted.heightMm) sizeParts.push(`H ${formatMeasurementDecimal(extracted.heightMm)} мм`);
-  if (!sizeParts.length && extracted.diameterMm) sizeParts.push(`макс. ${formatMeasurementDecimal(extracted.diameterMm)} мм`);
-  const sizeLine = sizeParts.length ? sizeParts.join(", ") : "размеры уточнить";
+  if (!full) {
+    if (extracted.lengthMm) sizeParts.push(`длина ${formatMmRu(extracted.lengthMm)}`);
+    if (extracted.widthMm) sizeParts.push(`ширина ${formatMmRu(extracted.widthMm)}`);
+    if (extracted.heightMm) sizeParts.push(`высота ${formatMmRu(extracted.heightMm)}`);
+    if (!sizeParts.length && extracted.diameterMm) sizeParts.push(`макс. ${formatMmRu(extracted.diameterMm)}`);
+  }
+  const sizeLine = full ?? (sizeParts.length ? `${sizeParts.join(", ")} — укажите все три размера` : "укажите три размера (Д×Ш×В, мм)");
 
   const lines = [
     "УЗИ органов малого таза (черновик по диктовке):",
@@ -46,7 +49,7 @@ export function buildOradsProtocolDraft(text: string, extracted: OradsExtractedI
   if (extracted.septations === "thick") lines.push("Утолщённые перегородки.");
   if (extracted.solidComponent) {
     const mm =
-      extracted.solidComponentMm !== undefined ? ` (${formatMm(extracted.solidComponentMm)})` : "";
+      extracted.solidComponentMm !== undefined ? ` (${formatMmRu(extracted.solidComponentMm)})` : "";
     lines.push(`Отмечается солидный компонент${mm} — оценить по O-RADS US v2022.`);
   }
   if (extracted.vascularity === "none") lines.push("Кровоток по ЦДК не определяется.");

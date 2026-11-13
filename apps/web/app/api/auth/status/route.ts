@@ -178,13 +178,12 @@ export async function GET(req: Request) {
         "BotFather → /newbot → Token → Vercel env",
         "chat_id: getUpdates после /start у бота",
         "РФ: уведомления с сервера Vercel — VPN на телефоне не нужен",
-        "Вход пользователей: вкладки Почта / Телефон / Google на /login (без Telegram Widget)",
+        "Вход пользователей: wizard /login — Почта, Телефон (если SMS), Telegram, Яндекс. Google OFF (199-ФЗ).",
       ],
       googleOAuth: [
-        "Google Cloud → Credentials → OAuth 2.0 → Authorized redirect URIs:",
-        supabaseOAuthCallbackUrl(process.env.NEXT_PUBLIC_SUPABASE_URL),
-        "Supabase → Providers → Google → Client ID + Secret",
-        "Supabase Site URL: https://sonogyn-pro.ru (не http)",
+        "Google Sign-In выключен (product policy / 199-ФЗ).",
+        "Не включать Providers → Google на prod без явного решения.",
+        `Supabase callback (не для Google): ${supabaseOAuthCallbackUrl(process.env.NEXT_PUBLIC_SUPABASE_URL)}`,
       ],
       phoneSms: [
         "РФ (production): SMS.ru — SMS_PROVIDER=smsru + SMSRU_API_ID на Vercel",

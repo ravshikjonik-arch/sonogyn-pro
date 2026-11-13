@@ -10,7 +10,9 @@ import path from "node:path";
 const STRICT = process.env.A11Y_STRICT === "true";
 
 const ROUTES = [
+  { path: "/", name: "home-landing" },
   { path: "/landing", name: "landing" },
+  { path: "/pricing", name: "pricing" },
   { path: "/login", name: "login" },
 ] as const;
 

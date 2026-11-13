@@ -23,7 +23,16 @@ export function inferRecordType(hints: {
   if (hints.provider === "kr_mz_rf" || hints.provider === "who" || hints.provider === "nice") {
     return "guideline";
   }
-  if (hints.provider === "openfda" || hints.provider === "dailymed" || hints.provider === "ema") return "drug_label";
+  if (
+    hints.provider === "openfda" ||
+    hints.provider === "dailymed" ||
+    hints.provider === "ema" ||
+    hints.provider === "grls"
+  ) {
+    return "drug_label";
+  }
+  if (hints.provider === "epistemonikos") return "systematic_review";
+  if (hints.provider === "roszdravnadzor") return "other";
   if (hints.provider === "clinical_trials") return "clinical_trial";
   if (blob.includes("meta-analysis") || blob.includes("meta analysis")) return "meta_analysis";
   if (blob.includes("systematic review") || hints.provider === "cochrane") return "systematic_review";
@@ -79,6 +88,7 @@ export function buildEvidenceRecord(input: {
   section?: string;
   quote?: string;
   guidelineShelf?: string;
+  language?: string;
 }): EvidenceRecord {
   const recordType =
     input.recordType ??
@@ -109,6 +119,7 @@ export function buildEvidenceRecord(input: {
     intervention: input.intervention,
     outcome: input.outcome,
     isOpenAccess: input.isOpenAccess,
+    language: input.language?.trim() || undefined,
     retrievedAt: new Date().toISOString(),
     relevanceScore: input.relevanceScore ?? 0.5,
     section: input.section?.trim() || undefined,

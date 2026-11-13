@@ -8,6 +8,7 @@ import { useAuth } from "@/app/providers";
 import { ClinicalRichTextEditor } from "@/components/clinical/ClinicalRichTextEditor";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { track } from "@/lib/analytics/track";
 import { PILOT_CASE_DISCUSSION_CHANNELS } from "@/lib/chat/pilot-channels";
 import { CASE_ANON_CHECKS } from "@/lib/cases/anonymization-gate";
 import { cn } from "@/lib/utils/cn";
@@ -113,6 +114,7 @@ export function NewCaseWizard() {
       return;
     }
 
+    track({ name: "case_save" });
     router.push(`/cases/${payload.id}`);
     setBusy(false);
   }

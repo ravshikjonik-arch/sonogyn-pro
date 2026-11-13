@@ -68,20 +68,26 @@ export class WebSpeechEngine implements SpeechRecognitionEngine {
     rec.onerror = (event) => {
       const code = (event as SpeechRecognitionErrorEvent).error;
       if (code === "aborted") return;
+      // Chrome ends the session after silence even with continuous=true.
+      // Keep the session alive — onend will restart; do not surface as hard error.
+      if (code === "no-speech" && this.continuous && this.shouldRestart) {
+        return;
+      }
       this.shouldRestart = false;
       this.callbacks.onError?.(speechErrorMessageRu(code), code);
     };
 
     rec.onend = () => {
       this.rec = null;
-      this.callbacks.onEnd?.();
       if (this.shouldRestart && this.continuous) {
         try {
           this.start(options);
+          return;
         } catch {
           this.shouldRestart = false;
         }
       }
+      this.callbacks.onEnd?.();
     };
 
     try {

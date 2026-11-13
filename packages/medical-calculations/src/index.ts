@@ -5,8 +5,12 @@
 
 export {
   fromMillimetres,
+  formatDimensionsMmRu,
   formatMeasurementDecimal,
+  formatMeasurementRu,
   formatMm,
+  formatMmRu,
+  hasThreeDimensions,
   parseMeasurementMm,
   roundMeasurementMm,
   toMillimetres,

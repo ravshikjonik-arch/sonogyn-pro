@@ -9,11 +9,16 @@ import {
   type EvidenceCorpusMode,
 } from "@repo/evidence-retrieval";
 
+import { assertAiGatewayQuota } from "@/lib/ai/gateway";
+import { createEvidenceCacheStore } from "@/lib/evidence/redis-cache-store";
+import { getMedicalVaultStatus } from "@/lib/evidence/medical-vault-search";
 import { buildRetrievalConfigAsync } from "@/lib/evidence/retrieval-config";
+import { traceEvidenceAsk } from "@/lib/evidence/evidence-trace";
 import { logEvidenceQuery, sourcesFromAssistantAnswer } from "@/lib/evidence/log-evidence-query";
 import { synthesizeWithLlm } from "@/lib/evidence/synthesize-llm";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
+import { rateLimitKeyFromRequest } from "@/lib/security/request-client";
 import { requireSupabaseUserOrOpenAccess } from "@/lib/security/require-user";
 import { createClient } from "@/utils/supabase/server";
 
@@ -34,19 +39,31 @@ const BodySchema = z.object({
 
 export async function POST(request: Request) {
   const supabase = await createClient();
+  // Публичное чтение EBM-карточек без входа; AI-квота только для залогиненных.
   const auth = await requireSupabaseUserOrOpenAccess(request, supabase);
-  if (!auth.ok) return auth.response;
+  const rlKey = auth.ok
+    ? `evidence-assistant:${auth.userId}`
+    : rateLimitKeyFromRequest(request, "evidence-assistant");
 
-  const rl = await consumeRateLimit(
-    `evidence-assistant:${auth.userId}`,
-    RL.evidenceAssistant.limit,
-    RL.evidenceAssistant.windowMs,
-  );
+  const rl = await consumeRateLimit(rlKey, RL.evidenceAssistant.limit, RL.evidenceAssistant.windowMs);
   if (!rl.ok) {
     return NextResponse.json(
       { error: "Слишком много запросов к Evidence Assistant." },
       { status: 429, headers: { "Retry-After": String(rl.retryAfterSec) } },
     );
+  }
+
+  if (auth.ok && !auth.openAccess) {
+    const quota = await assertAiGatewayQuota(auth.userId);
+    if (!quota.ok) {
+      const message =
+        quota.reason === "monthly_chat"
+          ? `Лимит AI на месяц исчерпан (${quota.monthlyUsed}/${quota.monthlyLimit}).`
+          : quota.reason === "daily_usd"
+            ? `Дневной лимит стоимости AI исчерпан (~$${quota.usedUsd}/$${quota.usdLimit}).`
+            : `Дневной лимит запросов AI исчерпан (${quota.usedRequests}/${quota.requestLimit}).`;
+      return NextResponse.json({ error: message, quota }, { status: 429 });
+    }
   }
 
   let json: unknown;
@@ -61,6 +78,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Укажите вопрос (3–800 символов)." }, { status: 400 });
   }
 
+  const started = Date.now();
   const config = await buildRetrievalConfigAsync();
   const corpusMode = parsed.data.corpusMode;
   const searchResult = await searchEvidenceUnified(
@@ -71,7 +89,7 @@ export async function POST(request: Request) {
       maxAgeYears: 10,
       corpusMode,
     },
-    { config },
+    { config, cache: createEvidenceCacheStore() },
   );
 
   const useLlm = parsed.data.useLlm !== false && searchResult.records.length > 0;
@@ -82,7 +100,7 @@ export async function POST(request: Request) {
       })
     : synthesizeEvidenceAnswer(parsed.data.query, searchResult, { corpusMode });
 
-  if (!auth.openAccess) {
+  if (auth.ok && !auth.openAccess) {
     try {
       await logEvidenceQuery(supabase, {
         userId: auth.userId,
@@ -97,13 +115,41 @@ export async function POST(request: Request) {
     }
   }
 
+  const providerStatuses: Record<string, string> = {};
+  for (const [k, v] of Object.entries(answer.sourcesUsed ?? {})) {
+    if (v) providerStatuses[k] = v;
+  }
+  traceEvidenceAsk({
+    userId: auth.ok ? auth.userId : "anon",
+    openAccess: !auth.ok || Boolean(auth.openAccess),
+    query: parsed.data.query,
+    corpusMode,
+    synthesisMode: answer.synthesisMode,
+    evidenceStrength: answer.evidenceStrength,
+    citationCount: answer.citations.length,
+    claimCount: answer.claims?.length ?? 0,
+    insufficient: Boolean(answer.insufficient),
+    latencyMs: Date.now() - started,
+    providerStatuses,
+  });
+
   return NextResponse.json(answer);
 }
 
 export async function GET() {
+  const medicalVault = getMedicalVaultStatus();
   return NextResponse.json({
     catalog: getAdapterCatalog(),
     corpusModes: EVIDENCE_CORPUS_MODES,
+    medicalVault: {
+      enabled: medicalVault.enabled,
+      reason: medicalVault.reason,
+      detail: medicalVault.detail,
+      flag: medicalVault.flag,
+      hasEmbedApi: medicalVault.hasEmbedApi,
+      ftsFlag: medicalVault.ftsFlag,
+      runbook: medicalVault.runbook,
+    },
     disclaimer:
       "Evidence Assistant — CDS. Использует PubMed, Europe PMC, Cochrane (via EPMC), Semantic Scholar, ClinicalTrials.gov, КР МЗ РФ, SonoEvidence, OpenFDA, DailyMed. Не диагноз; интерпретация — специалист.",
     rateLimit: {

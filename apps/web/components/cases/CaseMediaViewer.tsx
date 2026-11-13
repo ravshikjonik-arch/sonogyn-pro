@@ -89,12 +89,26 @@ export function CaseMediaViewer({ mediaId, url, alt = "Снимок кейса",
             <DialogTitle className="flex items-center justify-between gap-2 pr-8">
               <span>Radiopaedia-style viewer</span>
               <div className="flex items-center gap-1">
-                <Button type="button" size="icon" variant="outline" onClick={() => setScale((s) => Math.max(0.5, s - 0.25))}>
-                  <Minus className="h-4 w-4" />
+                <Button
+                  type="button"
+                  size="icon"
+                  variant="outline"
+                  aria-label="Уменьшить масштаб"
+                  onClick={() => setScale((s) => Math.max(0.5, s - 0.25))}
+                >
+                  <Minus className="h-4 w-4" aria-hidden />
                 </Button>
-                <span className="min-w-[3rem] text-center text-xs">{Math.round(scale * 100)}%</span>
-                <Button type="button" size="icon" variant="outline" onClick={() => setScale((s) => Math.min(4, s + 0.25))}>
-                  <Plus className="h-4 w-4" />
+                <span className="min-w-[3rem] text-center text-xs" aria-live="polite">
+                  {Math.round(scale * 100)}%
+                </span>
+                <Button
+                  type="button"
+                  size="icon"
+                  variant="outline"
+                  aria-label="Увеличить масштаб"
+                  onClick={() => setScale((s) => Math.min(4, s + 0.25))}
+                >
+                  <Plus className="h-4 w-4" aria-hidden />
                 </Button>
                 {canAnnotate ? (
                   <Button

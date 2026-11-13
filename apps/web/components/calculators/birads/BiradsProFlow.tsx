@@ -10,9 +10,10 @@ import { BiradsFlowProvider, useBiradsFlow } from "@/components/calculators/bira
 import { BiradsLymphNodesGuide } from "@/components/calculators/birads/BiradsLymphNodesGuide";
 import { BiradsQuickWizard } from "@/components/calculators/birads/BiradsQuickWizard";
 import { BiradsUsCalculator } from "@/components/calculators/birads/BiradsUsCalculator";
+import { BreastCategoryReference, BreastUsModule } from "@/components/calculators/birads/us2025/BreastUsModule";
 import { CalculatorLiteraturePanel } from "@/components/pubmed/CalculatorLiteraturePanel";
 import { Button } from "@/components/ui/button";
-import { BIRADS_BROCHURE_SOURCE, BIRADS_CATEGORIES, generateStructuredReport } from "@/lib/birads-us";
+import { BIRADS_BROCHURE_SOURCE, generateStructuredReport } from "@/lib/birads-us";
 import { cn } from "@/lib/utils/cn";
 
 function UsCategoryReporter({ onCategoryHint }: { onCategoryHint?: (category: string | null) => void }) {
@@ -25,7 +26,8 @@ function UsCategoryReporter({ onCategoryHint }: { onCategoryHint?: (category: st
   return null;
 }
 
-type BiradsMode = "quick" | "brochure" | "lymph" | "atlas" | "assistant";
+type BiradsMode = "acr2025" | "quick" | "brochure" | "lymph" | "atlas" | "assistant";
+const LEGACY_MODES: BiradsMode[] = ["quick", "brochure"];
 type SidePanel = "categories" | "resources" | null;
 
 type Props = {
@@ -38,12 +40,12 @@ type Props = {
 /** BI-RADS US: быстрый калькулятор + пошаговый протокол + атлас + AI Assistant. */
 export function BiradsProFlow({ embeddedInHub = false, onCategoryHint }: Props) {
   const searchParams = useSearchParams();
-  const [mode, setMode] = useState<BiradsMode>(embeddedInHub ? "assistant" : "quick");
+  const [mode, setMode] = useState<BiradsMode>("acr2025");
   const [panel, setPanel] = useState<SidePanel>(null);
 
   useEffect(() => {
     const tab = searchParams.get("tab");
-    if (tab === "lymph" || tab === "brochure" || tab === "atlas" || tab === "assistant" || tab === "quick") {
+    if (tab === "acr2025" || tab === "lymph" || tab === "brochure" || tab === "atlas" || tab === "assistant" || tab === "quick") {
       setMode(tab);
     }
   }, [searchParams]);
@@ -51,7 +53,7 @@ export function BiradsProFlow({ embeddedInHub = false, onCategoryHint }: Props) 
   return (
     <BiradsFlowProvider setMode={setMode}>
       <div className={cn("relative pb-36", embeddedInHub ? "" : "min-h-screen")}>
-        <UsCategoryReporter onCategoryHint={onCategoryHint} />
+        {LEGACY_MODES.includes(mode) ? <UsCategoryReporter onCategoryHint={onCategoryHint} /> : null}
         <div className={cn("clinical-calc-toolbar px-4 py-2.5 lg:px-10")}>
           <div className="mx-auto flex max-w-4xl flex-wrap items-center gap-2">
             {embeddedInHub ? null : (
@@ -60,13 +62,14 @@ export function BiradsProFlow({ embeddedInHub = false, onCategoryHint }: Props) 
               </Button>
             )}
             <span className="text-sm font-bold">
-              {embeddedInHub ? "УЗИ молочных желёз · BI-RADS US" : "BI-RADS US · ACR Atlas 5th Ed"}
+              {embeddedInHub ? "УЗИ молочных желёз · BI-RADS US" : "BI-RADS US · ACR v2025"}
             </span>
             <div className="ml-auto flex flex-wrap gap-1">
               {(
                 [
-                  ["quick", "Быстрый"],
-                  ["brochure", "Брошюра"],
+                  ["acr2025", "BI-RADS УЗИ · ACR v2025"],
+                  ["quick", "Быстрый (прежний)"],
+                  ["brochure", "Брошюра (прежняя)"],
                   ["lymph", "Лимфоузлы"],
                   ["atlas", "Атлас"],
                   ["assistant", "AI Assistant"],
@@ -75,9 +78,10 @@ export function BiradsProFlow({ embeddedInHub = false, onCategoryHint }: Props) 
                 <Button
                   key={id}
                   type="button"
+                  aria-pressed={mode === id}
                   variant={mode === id ? "secondary" : "ghost"}
                   size="sm"
-                  className={cn("h-8 rounded-full text-xs", mode !== id && "text-white hover:bg-white/20")}
+                  className={cn("h-8 rounded-full text-xs", mode !== id && "text-[var(--clinical-foreground)] hover:bg-[var(--clinical-muted)]")}
                   onClick={() => setMode(id)}
                 >
                   {label}
@@ -87,7 +91,7 @@ export function BiradsProFlow({ embeddedInHub = false, onCategoryHint }: Props) 
                 type="button"
                 variant="ghost"
                 size="sm"
-                className="h-8 rounded-full text-xs text-white hover:bg-white/20"
+                className="h-8 rounded-full text-xs text-[var(--clinical-foreground)] hover:bg-[var(--clinical-muted)]"
                 onClick={() => setPanel("categories")}
               >
                 Категории
@@ -96,7 +100,7 @@ export function BiradsProFlow({ embeddedInHub = false, onCategoryHint }: Props) 
                 type="button"
                 variant="ghost"
                 size="sm"
-                className="h-8 rounded-full text-xs text-white hover:bg-white/20"
+                className="h-8 rounded-full text-xs text-[var(--clinical-foreground)] hover:bg-[var(--clinical-muted)]"
                 onClick={() => setPanel("resources")}
               >
                 Справка
@@ -105,6 +109,7 @@ export function BiradsProFlow({ embeddedInHub = false, onCategoryHint }: Props) 
           </div>
         </div>
 
+        {mode === "acr2025" ? <BreastUsModule onCategoryHint={onCategoryHint} /> : null}
         {mode === "quick" ? <BiradsQuickWizard /> : null}
         {mode === "brochure" ? <BiradsUsCalculator embedded /> : null}
         {mode === "lymph" ? <BiradsLymphNodesGuide /> : null}
@@ -128,16 +133,7 @@ export function BiradsProFlow({ embeddedInHub = false, onCategoryHint }: Props) 
               </div>
               <div className="overflow-y-auto p-4">
                 {panel === "categories" ? (
-                  <div className="space-y-3">
-                    {BIRADS_CATEGORIES.map((c) => (
-                      <div key={c.code} className="rounded-xl border border-[var(--clinical-border)] p-3 text-sm">
-                        <p className="font-black">{c.label}</p>
-                        <p className="mt-1 text-xs">{c.definitionRu}</p>
-                        <p className="mt-1 text-xs font-bold">Риск: {c.malignancyRisk}</p>
-                        <p className="text-xs">{c.managementRu}</p>
-                      </div>
-                    ))}
-                  </div>
+                  <BreastCategoryReference />
                 ) : (
                   <div className="space-y-4 text-sm">
                     <p className="leading-relaxed">{BIRADS_BROCHURE_SOURCE}</p>

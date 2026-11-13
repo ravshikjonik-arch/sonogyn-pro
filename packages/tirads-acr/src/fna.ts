@@ -1,5 +1,5 @@
 import type { TiradsAcrCategory } from "./types";
-import { formatMm } from "@repo/medical-calculations";
+import { formatMmRu } from "@repo/medical-calculations";
 
 const GROWTH =
   "Рост по ACR: ≥20% в двух измерениях и минимум 2 мм, либо объём ≥50%.";
@@ -14,7 +14,7 @@ export function decideFnaAndFollowUp(
   observationRecommendation: string;
 } {
   const sizeText =
-    sizeMm !== undefined && Number.isFinite(sizeMm) ? formatMm(sizeMm) : "размер не указан — укажите наибольший диаметр";
+    sizeMm !== undefined && Number.isFinite(sizeMm) ? formatMmRu(sizeMm) : "размер не указан — укажите наибольший диаметр";
 
   switch (category) {
     case "TR1":

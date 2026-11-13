@@ -3,7 +3,7 @@
  * Учебный CDS; окончательное решение — врач.
  */
 
-import { formatMeasurementDecimal, roundMeasurementMm } from "@repo/medical-calculations";
+import { formatMeasurementRu, roundMeasurementMm } from "@repo/medical-calculations";
 
 export const ENDOMETRIUM_SOURCE =
   "ISUOG Practice Guidelines (Van den Bosch et al.); КР РФ (гиперплазия эндометрия, РЭ тела матки); адаптация M.N. Bulanov.";
@@ -298,7 +298,7 @@ export function buildEndometriumProtocol(input: EndometriumAssessmentInput): str
     "ИЗМЕРЕНИЕ M-ЭХО (ISUOG)",
     ...ISUOG_MEASUREMENT_RULES.map((r) => `• ${r}`),
     "",
-    eff != null ? `Эффективная толщина эндометрия: ${formatMeasurementDecimal(eff)} мм.` : "Толщина: не рассчитана.",
+    eff != null ? `Эффективная толщина эндометрия: ${formatMeasurementRu(eff)} мм.` : "Толщина: не рассчитана.",
   ];
 
   if (input.fluidInCavity !== "none") {
@@ -310,13 +310,13 @@ export function buildEndometriumProtocol(input: EndometriumAssessmentInput): str
           : "геморрагическая";
     lines.push(`Жидкость в полости: ${fluidRu}.`);
     if (input.layer1Mm && input.layer2Mm) {
-      lines.push(`Слои: ${formatMeasurementDecimal(input.layer1Mm!)} + ${formatMeasurementDecimal(input.layer2Mm!)} мм.`);
+      lines.push(`Слои: ${formatMeasurementRu(input.layer1Mm!)} + ${formatMeasurementRu(input.layer2Mm!)} мм.`);
     }
   }
 
   if (input.focalLesionPresent) {
     lines.push(
-      `Внутриматочное образование: да${input.focalLesionDiameterMm ? `, диаметр в сагиттали ${formatMeasurementDecimal(input.focalLesionDiameterMm)} мм` : ""}.`,
+      `Внутриматочное образование: да${input.focalLesionDiameterMm ? `, диаметр в сагиттали ${formatMeasurementRu(input.focalLesionDiameterMm)} мм` : ""}.`,
     );
   }
   if (input.intracavitaryMyomaPresent) {

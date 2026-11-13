@@ -14,7 +14,7 @@ export const openFdaAdapter: EvidenceAdapter = {
     if (!term) return adapterResult("openfda", [], 0, "skipped");
 
     const ck = cacheKey("openfda", term);
-    const cached = ctx.cache.get<ProviderSearchResult>(ck);
+    const cached = await Promise.resolve(ctx.cache.get<ProviderSearchResult>(ck));
     if (cached) return cached;
 
     try {

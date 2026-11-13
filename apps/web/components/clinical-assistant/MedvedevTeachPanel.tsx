@@ -108,7 +108,7 @@ export function MedvedevSliceTeachPanel({
 
 export function MedvedevScreeningWindowsTeach() {
   return (
-    <div className="grid gap-2 sm:grid-cols-3">
+    <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
       {SCREENING_WINDOWS_TEACH.map((w) => (
         <div
           key={w.id}

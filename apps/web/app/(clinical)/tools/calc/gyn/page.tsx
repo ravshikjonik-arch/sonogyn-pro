@@ -71,9 +71,9 @@ const GROUPS: DomainHubGroup[] = [
     title: "Яичники и молочная железа",
     cards: [
       {
-        href: "/tools/calc/rads/o-rads",
-        title: "O-RADS",
-        description: "Образования придатков",
+        href: "/tools/o-rads",
+        title: "O-RADS US",
+        description: "Комната: calc · IOTA · эхограммы · протокол",
       },
       {
         href: "/tools/calc/gyn/ovarian-cancer-risk",

@@ -6,6 +6,7 @@ import { evaluateVolumeFormula, formatNumber } from "@repo/gynecology-ultrasound
 import type { RepeatableItemState, StepState } from "@repo/gynecology-ultrasound-10-steps";
 
 import { Button } from "@/components/ui/button";
+import { DictationField } from "@/components/voice/DictationField";
 import { cn } from "@/lib/utils/cn";
 
 type FieldDef = Record<string, unknown>;
@@ -93,17 +94,24 @@ export function ProtocolFieldEditor({ field, state, onChange, depth = 0, disable
   }
 
   if (type === "text") {
+    const textValue = typeof value === "string" ? value : "";
     return (
-      <label className="block py-1">
+      <div className="block space-y-1 py-1">
         <span className="text-xs font-medium text-[var(--clinical-foreground-muted)]">{label}</span>
-        <input
-          className={inputClass}
-          type="text"
-          disabled={disabled}
-          value={typeof value === "string" ? value : ""}
-          onChange={(e) => patch(e.target.value || undefined)}
-        />
-      </label>
+        {disabled ? (
+          <input className={inputClass} type="text" disabled value={textValue} readOnly />
+        ) : (
+          <DictationField
+            value={textValue}
+            onChange={(next) => patch(next.trim() ? next : undefined)}
+            draftKey={`gyn-us-10-${id}`}
+            ariaLabel={label}
+            placeholder="Текст или диктовка"
+            multiline={false}
+            inputClassName={inputClass}
+          />
+        )}
+      </div>
     );
   }
 

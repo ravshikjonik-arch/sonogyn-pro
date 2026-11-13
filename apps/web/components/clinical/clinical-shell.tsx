@@ -48,6 +48,7 @@ import { ClinicalBottomNav } from "@/components/clinical/ClinicalBottomNav";
 import { MockupNavSection } from "@/components/clinical/MockupNavSection";
 import { GlobalSearchTrigger } from "@/components/clinical/GlobalSearchDialog";
 import { TelegramChannelLink } from "@/components/clinical/TelegramChannelLink";
+import { ContentErrorReportLink } from "@/components/feedback/ContentErrorReportLink";
 import { ThemeToggle } from "@/components/clinical/theme-toggle";
 import { ProBadge } from "@/components/pro/ProBadge";
 import { DoctorVerifiedBadge } from "@/components/trust/DoctorVerifiedBadge";
@@ -86,7 +87,7 @@ const navGroups: { title: string; items: { href: string; label: string; icon: ty
     items: [
       { href: "/tools/gynecology", label: "Хаб гинекологии", icon: HeartPulse },
       { href: "/ai/consultants/us-prep", label: "Live приём · УЗИ", icon: Mic },
-      { href: "/tools/calc/rads/o-rads", label: "O-RADS US", icon: ScanLine },
+      { href: "/tools/o-rads", label: "O-RADS US", icon: ScanLine },
       { href: "/ai/consultants/gynecology", label: "Помощник гинеколога", icon: HandHeart },
       { href: "/tools/calc/gyn", label: "Кальк. гинекологии", icon: Calculator },
     ],
@@ -95,18 +96,18 @@ const navGroups: { title: string; items: { href: string; label: string; icon: ty
     title: "Калькуляторы",
     items: [
       { href: "/tools/calc", label: "Все калькуляторы", icon: Calculator },
-      { href: "/tools/calc/rads/o-rads", label: "O-RADS US", icon: ScanLine },
       { href: "/tools/calc/rads/bi-rads", label: "BI-RADS", icon: ScanLine },
       { href: "/tools/calc/rads/ti-rads", label: "TI-RADS ЩЖ", icon: ScanLine },
-      { href: "/tools/calc/appointment", label: "Приём · быстрые", icon: ClipboardList },
+      { href: "/tools/calc/appointment", label: "Стол приёма", icon: ClipboardList },
+      { href: "/tools/refs/ambulatory-intake", label: "ЧЕК-ЛИСТ АМБУЛАТОРИИ", icon: ClipboardList },
     ],
   },
   {
     title: "Помощник · EBM",
     items: [
       { href: "/ai/consultants/us-prep", label: "Live приём · УЗИ", icon: Mic },
-      { href: "/ai/consultants", label: "Помощник врача", icon: HandHeart },
-      { href: "/tools/refs/evidence-assistant", label: "Evidence AI", icon: Sparkles },
+      { href: "/ai/consultants", label: "Исслед. AI", icon: HandHeart },
+      { href: "/tools/refs/evidence-sources", label: "Доказательства", icon: Sparkles },
       { href: "/ai/workspace", label: "AI-зона · снимки", icon: Brain },
     ],
   },
@@ -114,7 +115,6 @@ const navGroups: { title: string; items: { href: string; label: string; icon: ty
     title: "Справочник",
     items: [
       { href: "/tools/pharmacy", label: "Аптека врача", icon: Pill },
-      { href: "/tools/repos", label: "Репозитории", icon: Library },
       { href: "/tools/refs", label: "Практика", icon: BookMarked },
       { href: "/tools/refs/guidelines", label: "КР и приказы", icon: FileText },
       { href: "/tools/refs/norms", label: "Клин. нормы", icon: BookOpen },
@@ -340,6 +340,7 @@ export function ClinicalShell({
       </nav>
       <div className="space-y-3 border-t border-[var(--clinical-border)] p-4">
         <TelegramChannelLink compact />
+        <ContentErrorReportLink compact className="block text-xs leading-snug" />
         <div className="rounded-xl bg-[var(--clinical-muted)] px-3 py-3">
           <p className="text-[10px] font-bold uppercase tracking-wider text-[var(--clinical-foreground-muted)]">
             Только для врачей
@@ -392,6 +393,7 @@ export function ClinicalShell({
           <ClinicalOfflineBadge className="shrink-0" />
           <GlobalSearchTrigger />
           {!isGuest ? <ProBadge className="hidden sm:inline-flex" /> : null}
+          <ClinicalVoiceDock placement="header" />
           <ThemeToggle />
           {isGuest ? (
             <Button asChild size="sm" variant="ghost" className="ml-auto" data-testid="guest-login-cta">
@@ -439,7 +441,11 @@ export function ClinicalShell({
             «Войти». Не вводите ПДн пациентов.
           </div>
         ) : null}
-        <main className="flex-1 pb-[calc(4.5rem+env(safe-area-inset-bottom))] sonogyn-enter lg:pb-0" data-voice-content>
+        <main
+          id="main-content"
+          className="flex-1 pb-[calc(4.5rem+env(safe-area-inset-bottom))] sonogyn-enter lg:pb-0"
+          data-voice-content
+        >
           <ClinicalRouteOfflineGate>{children}</ClinicalRouteOfflineGate>
         </main>
         <ClinicalVoiceDock />

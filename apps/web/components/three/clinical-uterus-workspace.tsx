@@ -2,6 +2,7 @@
 
 import { useCallback, useMemo, useState } from "react";
 import { toast } from "sonner";
+import { formatDimensionsMmRu } from "@repo/medical-calculations";
 
 import {
   PATHOLOGY_LABELS_RU,
@@ -38,7 +39,9 @@ export function ClinicalUterusWorkspace() {
     const sel = ua.selectedEnriched;
     if (!sel || sel.type !== "myoma") return null;
     const figoType = sel.figoOverride ?? sel.figoType ?? 4;
-    const sizeLine = `${sel.sizeMm.length}×${sel.sizeMm.width}×${sel.sizeMm.depth} mm`;
+    const sizeLine =
+      formatDimensionsMmRu(sel.sizeMm.length, sel.sizeMm.width, sel.sizeMm.depth) ??
+      `${sel.sizeMm.length}×${sel.sizeMm.width}×${sel.sizeMm.depth} мм`;
     const generated = buildCalculatorGeneratedReport(
       "figo-myoma",
       {

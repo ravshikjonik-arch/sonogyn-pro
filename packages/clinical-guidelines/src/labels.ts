@@ -11,7 +11,7 @@ export const SHELF_LABELS: Record<GuidelineShelf, string> = {
   orders_dzm: "Приказы и протоколы ДЗМ",
   orders_mz_rf: "Приказы и приказные документы МЗ РФ",
   protocols_org: "Локальные протоколы учреждений (по необходимости)",
-  international: "Международные гайдлайны (ISUOG, ESHRE, WHO)",
+  international: "Международные гайдлайны (ISUOG, RCOG, ESHRE, WHO)",
 };
 
 export const SHELF_ORDER: GuidelineShelf[] = [
@@ -26,7 +26,7 @@ export const SHELF_DESCRIPTIONS: Record<GuidelineShelf, string> = {
   orders_dzm: "Московские приказы Департамента здравоохранения: маршруты, скрининги, стандарты УЗИ",
   orders_mz_rf: "Приказные документы Минздрава РФ (не КР): порядки оказания помощи, стандарты",
   protocols_org: "Резерв для локальных протоколов клиник (каталог пуст, не отображается в виджете)",
-  international: "ISUOG, ESHRE, FIGO и др. — дополнение к российским документам",
+  international: "ISUOG, RCOG Green-top, ESHRE, FIGO и др. — дополнение к российским документам",
 };
 
 export const ISSUER_LABELS: Record<GuidelineIssuer, string> = {
@@ -37,6 +37,7 @@ export const ISSUER_LABELS: Record<GuidelineIssuer, string> = {
   isuo: "ISUOG",
   eshre: "ESHRE",
   who: "ВОЗ",
+  rcog: "RCOG",
   other: "Другой источник",
 };
 

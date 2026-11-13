@@ -2,6 +2,7 @@ import { categoryMeta, LN_RADS_VERSION } from "./knowledge/categories";
 import { analyzeDoppler, dopplerScoreContribution } from "./engine/doppler";
 import { analyzeSize, sizeScoreContribution } from "./engine/size-analysis";
 import type { LnRadsCategory, LnRadsInput, LnRadsResult } from "./types";
+import { formatLnMm, formatLnRatio } from "./format";
 
 function shapeScore(shape: LnRadsInput["shape"]): number {
   switch (shape) {
@@ -142,7 +143,7 @@ function advancedScore(input: LnRadsInput): { score: number; steps: string[] } {
 
   if (input.cortexThicknessMm !== undefined && input.cortexThicknessMm > 3) {
     score += 1;
-    steps.push(`Кора > 3 мм (${input.cortexThicknessMm}): +1`);
+    steps.push(`Кора > 3 мм (${formatLnMm(input.cortexThicknessMm)} мм): +1`);
   }
 
   return { score, steps };
@@ -224,7 +225,7 @@ export function evaluateLnRads(input: LnRadsInput): LnRadsResult {
 
   const sizeAnalysis = analyzeSize(input);
   const lsScore = sizeScoreContribution(sizeAnalysis.lsRatio);
-  if (lsScore) steps.push(`L/S ${sizeAnalysis.lsRatio?.toFixed(2)}: +${lsScore}`);
+  if (lsScore) steps.push(`L/S ${formatLnRatio(sizeAnalysis.lsRatio)}: +${lsScore}`);
   score += lsScore;
 
   const shapeS = shapeScore(input.shape);
@@ -339,5 +340,41 @@ export const lnRadsOptions = {
     { value: "common_iliac", label: "Common iliac" },
     { value: "paraaortic", label: "Paraaortic" },
     { value: "inguinal", label: "Inguinal" },
+  ],
+  calcifications: [
+    { value: "none", label: "None" },
+    { value: "microcalcifications", label: "Microcalcifications" },
+    { value: "coarse", label: "Coarse" },
+  ],
+  necrosis: [
+    { value: "absent", label: "Necrosis: absent" },
+    { value: "partial", label: "Necrosis: partial" },
+    { value: "extensive", label: "Necrosis: extensive" },
+  ],
+  cysticDegeneration: [
+    { value: "absent", label: "Cystic: absent" },
+    { value: "present", label: "Cystic: present" },
+  ],
+  extracapsularExtension: [
+    { value: "no", label: "ECE: no" },
+    { value: "suspected", label: "ECE: suspected" },
+    { value: "definite", label: "ECE: definite" },
+  ],
+  matting: [
+    { value: "absent", label: "Matting: absent" },
+    { value: "present", label: "Matting: present" },
+  ],
+  elastography: [
+    { value: "not_assessed", label: "N/A" },
+    { value: "soft", label: "Soft" },
+    { value: "intermediate", label: "Intermediate" },
+    { value: "stiff", label: "Stiff" },
+  ],
+  ceus: [
+    { value: "not_assessed", label: "CEUS N/A" },
+    { value: "homogeneous", label: "Homogeneous" },
+    { value: "heterogeneous", label: "Heterogeneous" },
+    { value: "peripheral", label: "Peripheral" },
+    { value: "non_enhancing_necrosis", label: "Non-enhancing necrosis" },
   ],
 } as const;

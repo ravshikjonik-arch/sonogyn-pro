@@ -1,6 +1,7 @@
 "use client";
 
-import { FileText } from "lucide-react";
+import { FileText, Route } from "lucide-react";
+import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -82,6 +83,24 @@ export function FmfProtocolTemplatePicker({
             </button>
           );
         })}
+        <Link
+          href="/ai/consultants/fmf/guided"
+          className="flex w-full items-start gap-2 rounded-xl border border-dashed border-teal-500/60 bg-teal-500/5 px-3 py-2.5 text-left transition hover:border-teal-500 hover:bg-teal-500/10"
+        >
+          <Route className="mt-0.5 h-4 w-4 shrink-0 text-teal-700 dark:text-teal-300" aria-hidden />
+          <span>
+            <span className="flex flex-wrap items-center gap-2">
+              <span className="text-sm font-semibold">SonoGyn · по сроку (guided)</span>
+              <Badge variant="outline" className="text-[10px]">
+                beyond Astraia
+              </Badge>
+            </span>
+            <span className="mt-1 block text-xs leading-relaxed text-[var(--clinical-foreground-muted)]">
+              Пошагово: что смотреть и измерить по окну GA (I / II / III). Не заменяет текстовые шаблоны
+              выше — отдельный сценарий исследования.
+            </span>
+          </span>
+        </Link>
       </CardContent>
     </Card>
   );

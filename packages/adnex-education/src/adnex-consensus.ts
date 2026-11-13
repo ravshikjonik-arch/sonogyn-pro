@@ -1,5 +1,5 @@
 import type { IotaSimpleCode, IotaSimpleVerdict } from "./types";
-import { formatMeasurementDecimal, formatMm } from "@repo/medical-calculations";
+import { formatMmRu } from "@repo/medical-calculations";
 import {
   ORADS_US_SOLID_COMPONENT_MIN_MM,
   ORADS_US_VERSION,
@@ -220,9 +220,9 @@ function buildProtocolSnippet(
   const lines = [
     `УЗ-придатки (${side}):`,
     structure ? `структура — ${structure}` : null,
-    max > 0 ? `наибольший размер ${formatMeasurementDecimal(max)} мм` : null,
+    max > 0 ? `наибольший размер ${formatMmRu(max)}` : null,
     input.solidComponent
-      ? `солидный компонент ${input.largestSolidDiameterMm != null ? formatMm(input.largestSolidDiameterMm) : "—"}`
+      ? `солидный компонент ${input.largestSolidDiameterMm != null ? formatMmRu(input.largestSolidDiameterMm) : "—"}`
       : "без солидного компонента",
     input.ascites ? "асцит +" : null,
     `O-RADS US: ${oradsCategory} (${ORADS_US_VERSION}).`,

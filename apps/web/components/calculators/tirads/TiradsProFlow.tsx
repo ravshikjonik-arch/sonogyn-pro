@@ -6,88 +6,116 @@ import { useState } from "react";
 import { TiradsAcrWizard } from "@/components/calculators/tirads/TiradsAcrWizard";
 import { TiradsAiAssistant } from "@/components/calculators/tirads/TiradsAiAssistant";
 import { TiradsEducationPanel } from "@/components/calculators/tirads/TiradsEducationPanel";
-import { TiradsFlowProvider } from "@/components/calculators/tirads/TiradsFlowContext";
+import { TiradsFlowProvider, type TiradsProMode } from "@/components/calculators/tirads/TiradsFlowContext";
 import { TiradsPatternAtlas } from "@/components/calculators/tirads/TiradsPatternAtlas";
-import { TiradsRuFlow } from "@/components/calculators/tirads-ru/TiradsRuFlow";
+import { ThyroidTiradsModule, type ThyroidModuleTab } from "@/components/calculators/tirads/thyroid/ThyroidTiradsModule";
 import { CalculatorLiteraturePanel } from "@/components/pubmed/CalculatorLiteraturePanel";
 import { Button } from "@/components/ui/button";
-import { TIRADS_CATEGORIES, ACR_TIRADS_VERSION } from "@/lib/tirads-acr";
 import { cn } from "@/lib/utils/cn";
 
-type Mode = "acr" | "patterns" | "assistant" | "education" | "ru";
-type Panel = "categories" | "literature" | null;
+/** Primary tabs = new deterministic module; legacy tools stay reachable ("acr" = previous ACR wizard used by patterns / AI). */
+type Mode = ThyroidModuleTab | Exclude<TiradsProMode, "ru">;
+
+const PRIMARY: [Mode, string][] = [
+  ["eu", "EU-TIRADS"],
+  ["acr", "ACR TI-RADS"],
+  ["compare", "Сравнение"],
+  ["reference", "Справочник"],
+];
+const SECONDARY: [Mode, string][] = [
+  ["patterns", "Паттерны"],
+  ["assistant", "AI"],
+  ["education", "Обучение"],
+];
 
 export function TiradsProFlow() {
-  const [mode, setMode] = useState<Mode>("acr");
-  const [panel, setPanel] = useState<Panel>(null);
+  const [mode, setMode] = useState<Mode>("eu");
+  const [legacyAcr, setLegacyAcr] = useState(false);
+  const [literatureOpen, setLiteratureOpen] = useState(false);
+
+  /** Patterns / AI open the previous ACR wizard with their preset. */
+  const setFlowMode = (m: TiradsProMode) => {
+    if (m === "acr") {
+      setLegacyAcr(true);
+      setMode("acr");
+      return;
+    }
+    if (m !== "ru") setMode(m);
+  };
+
+  const tabButton = ([id, label]: [Mode, string]) => (
+    <Button
+      key={id}
+      type="button"
+      aria-pressed={mode === id}
+      variant={mode === id ? "secondary" : "ghost"}
+      size="sm"
+      className={cn("h-8 rounded-full text-xs", mode !== id && "text-[var(--clinical-foreground)] hover:bg-[var(--clinical-muted)]")}
+      onClick={() => {
+        setMode(id);
+        if (id === "acr") setLegacyAcr(false);
+      }}
+    >
+      {label}
+    </Button>
+  );
+
+  const isModuleTab = mode === "eu" || mode === "compare" || mode === "reference" || (mode === "acr" && !legacyAcr);
 
   return (
-    <TiradsFlowProvider setMode={setMode}>
+    <TiradsFlowProvider setMode={setFlowMode}>
       <div className="relative min-h-screen pb-36">
         <div className="clinical-calc-toolbar px-4 py-2.5 lg:px-10">
-          <div className="mx-auto flex max-w-4xl flex-wrap items-center gap-2">
+          <div className="mx-auto flex max-w-5xl flex-wrap items-center gap-2">
             <Button variant="secondary" size="sm" asChild className="h-8 rounded-full text-xs">
               <Link href="/tools/calc">← Калькуляторы</Link>
             </Button>
-            <Button variant="ghost" size="sm" asChild className="h-8 rounded-full text-xs text-white hover:bg-white/20">
-              <Link href="/tools/calc/rads/o-rads">O-RADS</Link>
-            </Button>
-            <Button variant="ghost" size="sm" asChild className="h-8 rounded-full text-xs text-white hover:bg-white/20">
-              <Link href="/tools/calc/rads/bi-rads">BI-RADS</Link>
-            </Button>
-            <span className="text-sm font-bold">{ACR_TIRADS_VERSION}</span>
-            <div className="ml-auto flex flex-wrap gap-1">
-              {(
-                [
-                  ["acr", "ACR Score"],
-                  ["patterns", "Patterns"],
-                  ["assistant", "AI"],
-                  ["education", "Обучение"],
-                  ["ru", "РФ 2023"],
-                ] as const
-              ).map(([id, label]) => (
-                <Button
-                  key={id}
-                  type="button"
-                  variant={mode === id ? "secondary" : "ghost"}
-                  size="sm"
-                  className={cn("h-8 rounded-full text-xs", mode !== id && "text-white hover:bg-white/20")}
-                  onClick={() => setMode(id)}
-                >
-                  {label}
-                </Button>
-              ))}
-              <Button type="button" variant="ghost" size="sm" className="h-8 rounded-full text-xs text-white hover:bg-white/20" onClick={() => setPanel("categories")}>
-                TR1–5
-              </Button>
-              <Button type="button" variant="ghost" size="sm" className="h-8 rounded-full text-xs text-white hover:bg-white/20" onClick={() => setPanel("literature")}>
-                Справка
-              </Button>
+            <span className="text-sm font-bold">TI-RADS · щитовидная железа</span>
+            <div className="ml-auto flex flex-wrap gap-1" role="group" aria-label="Система TI-RADS">
+              {PRIMARY.map(tabButton)}
             </div>
+          </div>
+          <div className="mx-auto mt-1.5 flex max-w-5xl flex-wrap items-center gap-1">
+            {SECONDARY.map(tabButton)}
+            {mode === "acr" ? (
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="h-8 rounded-full text-xs text-[var(--clinical-foreground)] hover:bg-[var(--clinical-muted)]"
+                onClick={() => setLegacyAcr((v) => !v)}
+              >
+                {legacyAcr ? "← Новый калькулятор ACR" : "Прежний мастер ACR"}
+              </Button>
+            ) : null}
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="h-8 rounded-full text-xs text-[var(--clinical-foreground)] hover:bg-[var(--clinical-muted)]"
+              onClick={() => setLiteratureOpen(true)}
+            >
+              Литература
+            </Button>
           </div>
         </div>
 
-        {mode === "acr" ? <TiradsAcrWizard /> : null}
+        {isModuleTab ? <ThyroidTiradsModule tab={mode as ThyroidModuleTab} /> : null}
+        {mode === "acr" && legacyAcr ? <TiradsAcrWizard /> : null}
         {mode === "patterns" ? <TiradsPatternAtlas /> : null}
         {mode === "assistant" ? <TiradsAiAssistant /> : null}
         {mode === "education" ? <TiradsEducationPanel /> : null}
-        {mode === "ru" ? <TiradsRuFlow embedded /> : null}
 
-        {panel ? (
+        {literatureOpen ? (
           <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/50 p-4 lg:items-center" role="dialog" aria-modal>
             <div className="clinical-surface max-h-[85vh] w-full max-w-2xl overflow-y-auto rounded-2xl p-4 shadow-2xl">
               <div className="mb-3 flex justify-between">
-                <h2 className="font-black">{panel === "categories" ? "ACR TI-RADS TR1–5" : "Литература"}</h2>
-                <Button variant="ghost" size="sm" onClick={() => setPanel(null)}>Закрыть</Button>
+                <h2 className="font-black">Литература</h2>
+                <Button variant="ghost" size="sm" onClick={() => setLiteratureOpen(false)}>
+                  Закрыть
+                </Button>
               </div>
-              {panel === "categories"
-                ? TIRADS_CATEGORIES.map((c) => (
-                    <div key={c.code} className="mb-2 rounded-lg border p-2 text-sm">
-                      <p className="font-bold">{c.label}</p>
-                      <p className="text-xs">{c.definitionRu}</p>
-                    </div>
-                  ))
-                : <CalculatorLiteraturePanel slug="ti-rads" />}
+              <CalculatorLiteraturePanel slug="ti-rads" />
             </div>
           </div>
         ) : null}

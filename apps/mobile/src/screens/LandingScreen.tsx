@@ -3,7 +3,9 @@ import { useEffect, useMemo, useState } from "react";
 import { Image, Platform, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { openTelegramChannel } from "../config/community";
+import { CONTENT_ERROR_REPORT } from "../config/contentErrorReport";
 import { TELEGRAM_CHANNEL } from "../config/telegram";
+import { openContentErrorReport } from "../lib/brand/openContentErrorReport";
 import { PRODUCT } from "../config/product";
 import { isMobileRegistrationRequired } from "../lib/auth/mobileAuthGate";
 import { useAppGate } from "../navigation/AppGateContext";
@@ -18,7 +20,6 @@ type InstallPromptEvent = Event & {
 
 const PRODUCT_NAME = PRODUCT.fullName;
 const PRODUCT_TAGLINE = PRODUCT.taglineRu;
-const CONTACT = "+7 993 300-00-70";
 
 function openTelegramLink() {
   void openTelegramChannel();
@@ -249,7 +250,15 @@ export default function LandingScreen({ navigation }: Props) {
             <Pressable onPress={openTelegramLink}>
               <Text style={styles.footerLink}>Telegram · {TELEGRAM_CHANNEL.handle}</Text>
             </Pressable>
-            <Text style={styles.footerLink}>Telegram / Contact: {CONTACT}</Text>
+            <Pressable
+              onPress={() => void openContentErrorReport({ pageHint: "Landing" })}
+              accessibilityRole="button"
+              accessibilityLabel={`${CONTENT_ERROR_REPORT.labelRu}. ${CONTENT_ERROR_REPORT.handle}`}
+            >
+              <Text style={styles.footerLink}>
+                {CONTENT_ERROR_REPORT.labelRu} · {CONTENT_ERROR_REPORT.handle}
+              </Text>
+            </Pressable>
           </View>
         </View>
       </ScrollView>

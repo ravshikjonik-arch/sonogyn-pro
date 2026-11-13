@@ -3,14 +3,11 @@
 import { NOSOLOGY_ZONE_LABELS, getFavoriteNosologyIds, getRecentNosologyIds, type Nosology, type NosologyZone } from "@repo/nosology";
 import { Search } from "lucide-react";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 
 import { IosRowList, type IosRow } from "@/components/clinical/IosRowList";
-import { BookNosologyListSection } from "@/components/nosology/BookNosologyListSection";
-
 import { Input } from "@/components/ui/input";
 import { useNosologyList } from "@/hooks/useNosologies";
-import { cn } from "@/lib/utils/cn";
 
 const ZONE_ORDER: NosologyZone[] = [
   "obstetrics",
@@ -35,18 +32,8 @@ function toRow(n: Nosology, studyId?: string | null): IosRow {
 
 type Props = { studyId?: string | null };
 
-const BOOK_FILTERS = [
-  { id: "all", label: "Все книги" },
-  { id: "cervix-morpho", label: "Шейка · гистология" },
-  { id: "kaprin-mammology", label: "Маммология" },
-  { id: "prenatal-echo", label: "Пренатал" },
-  { id: "otto-echo", label: "Эхо Otto" },
-  { id: "prenatal-finding", label: "Пороки (снимки)" },
-] as const;
-
 export function NosologyListClient({ studyId }: Props) {
   const { items, loading, error, query, setQuery, hits } = useNosologyList();
-  const [bookFilter, setBookFilter] = useState<string>("all");
 
   const displayItems = useMemo(() => {
     if (query.trim()) {
@@ -161,26 +148,13 @@ export function NosologyListClient({ studyId }: Props) {
         : null}
 
       {!loading && !error ? (
-        <>
-          <div className="flex flex-wrap gap-2">
-            {BOOK_FILTERS.map((f) => (
-              <button
-                key={f.id}
-                type="button"
-                className={cn(
-                  "rounded-full border px-3 py-1 text-xs font-medium transition-colors",
-                  bookFilter === f.id
-                    ? "border-[var(--clinical-primary)] bg-[var(--clinical-primary-muted)] text-[var(--clinical-primary-deep)]"
-                    : "border-[var(--clinical-border)] hover:bg-[var(--clinical-muted)]",
-                )}
-                onClick={() => setBookFilter(f.id)}
-              >
-                {f.label}
-              </button>
-            ))}
-          </div>
-          <BookNosologyListSection query={query} bookFilter={bookFilter} clinicalOnly={!query.trim()} />
-        </>
+        <p className="rounded-xl border border-dashed border-[var(--clinical-border)] px-3 py-2 text-xs text-[var(--clinical-foreground-muted)]">
+          Учебные атласы по книгам скрыты. См.{" "}
+          <Link className="underline underline-offset-2" href="/tools/refs/sources">
+            официальные источники
+          </Link>
+          .
+        </p>
       ) : null}
     </div>
   );

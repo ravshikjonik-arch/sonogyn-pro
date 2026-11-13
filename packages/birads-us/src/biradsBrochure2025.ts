@@ -233,8 +233,9 @@ export function resolveBiradsBrochureCategory(
     if (input.specialCase === "simple_cyst" || input.specialCase === "intramammary_ln") {
       return mapManualCategory("2") ?? auto;
     }
-    if (input.specialCase === "complicated_cyst" || input.specialCase === "abscess") {
-      return mapManualCategory("4A") ?? auto;
+    // ACR: an isolated complicated cyst is probably benign (category 3). Abscess has no fixed category — doctor decides.
+    if (input.specialCase === "complicated_cyst" && !input.biradsCategoryManual) {
+      return mapManualCategory("3") ?? auto;
     }
   }
   if (input.biradsCategoryManual) {

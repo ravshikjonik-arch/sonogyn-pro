@@ -27,7 +27,7 @@ export const semanticScholarAdapter: EvidenceAdapter = {
     if (!q) return adapterResult("semantic_scholar", [], 0, "skipped");
 
     const ck = cacheKey("semantic_scholar", q, String(query.limit ?? 15));
-    const cached = ctx.cache.get<ProviderSearchResult>(ck);
+    const cached = await Promise.resolve(ctx.cache.get<ProviderSearchResult>(ck));
     if (cached) return cached;
 
     try {

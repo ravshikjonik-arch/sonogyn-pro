@@ -3,7 +3,10 @@ import { describe, it } from "node:test";
 
 import {
   getOradsNosologyBySubtype,
+  getOradsNosologyPracticeImages,
+  getOradsNosologyPreviewImage,
   isOradsNosologyPending,
+  isOradsOwnCaseImage,
   ORADS_NOSOLOGY_ATLAS,
   ORADS_NOSOLOGY_PENDING_SUBTYPES,
   resolveOradsNosologyImageUri,
@@ -54,6 +57,31 @@ describe("nosologyAtlas", () => {
     }
     assert.equal(isOradsNosologyPending("dermoid"), false);
     assert.equal(isOradsNosologyPending("hydrosalpinx"), false);
+  });
+
+  it("publishes only own-case echograms", () => {
+    const functional = getOradsNosologyBySubtype("simple_cyst");
+    assert.ok(functional);
+    assert.deepEqual(getOradsNosologyPracticeImages(functional), [
+      "/clinical/own-cases/orads/functional-cyst-real.jpg",
+      "/clinical/own-cases/orads/functional-cyst-real-2.jpg",
+    ]);
+    assert.equal(getOradsNosologyPreviewImage(functional), "/clinical/own-cases/orads/functional-cyst-real.jpg");
+
+    const cancer = getOradsNosologyBySubtype("orads5_ovarian_cancer");
+    assert.ok(cancer);
+    assert.equal(getOradsNosologyPracticeImages(cancer).length, 5);
+
+    const paraovarian = getOradsNosologyBySubtype("paraovarian");
+    assert.ok(paraovarian);
+    assert.equal(getOradsNosologyPreviewImage(paraovarian), null);
+
+    for (const entry of ORADS_NOSOLOGY_ATLAS) {
+      for (const src of getOradsNosologyPracticeImages(entry)) {
+        assert.ok(isOradsOwnCaseImage(src), src);
+        assert.doesNotMatch(src, /orads-nosology|orads-book|clinical-atlas/);
+      }
+    }
   });
 
   it("builds absolute image uri from web base", () => {

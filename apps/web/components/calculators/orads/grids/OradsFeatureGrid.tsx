@@ -3,11 +3,10 @@
 import { useEffect, useMemo, useState, useTransition, type ReactNode } from "react";
 import { toast } from "sonner";
 import {
-  getReferatImagePath,
   ORADS_NOSOLOGY_ATLAS,
   type OradsNosologySubtype,
 } from "@repo/orads-us";
-import { formatOvaryDimensionsMm } from "@repo/medical-calculations";
+import { formatDimensionsMmRu } from "@repo/medical-calculations";
 
 import { saveCalculatorEntry } from "@/app/actions/calculator-actions";
 import { CalculatorReportPanel } from "@/components/calculators/CalculatorReportPanel";
@@ -23,6 +22,8 @@ import {
   ORADS_ZERO_OPTIONS,
   buildProtocolOneLiner,
   chapterToneClasses,
+  oradsCategoryLabel,
+  oradsFinalCategory,
   type BloodFlow,
   type IotaColorScore,
   type UnilocularSubtype,
@@ -79,7 +80,7 @@ export function OradsFeatureGrid({ initialSubtype }: Props) {
         slug: "o-rads",
         calculatorCode: "O_RADS",
         payload: { input: f.input, result: f.result, triangulation: f.triangulation },
-        summary: `O-RADS ${f.result.category} · ${f.result.riskText}`,
+        summary: `${oradsCategoryLabel(f.result)} · ${f.result.riskText}`,
       }).then((res) => {
         if (res.ok) toast.success("Сохранено в истории калькуляторов");
         else toast.error(res.message);
@@ -112,19 +113,23 @@ export function OradsFeatureGrid({ initialSubtype }: Props) {
 
   const zeroMeta = ORADS_ZERO_OPTIONS.find((item) => item.id === oradsZero);
   const sizeSummary = useMemo(() => {
-    return formatOvaryDimensionsMm(f.input.lengthMm, f.input.widthMm, f.input.heightMm);
+    return formatDimensionsMmRu(f.input.lengthMm, f.input.widthMm, f.input.heightMm);
   }, [f.input.lengthMm, f.input.widthMm, f.input.heightMm]);
 
+  const finalCategory = oradsFinalCategory(f.result);
+  const categoryLabel = oradsCategoryLabel(f.result);
   const resultTone =
-    f.result.category === 1
-      ? "sky"
-      : f.result.category === 2
-        ? "emerald"
-        : f.result.category === 3
-          ? "amber"
-          : f.result.category === 4
-            ? "orange"
-            : "red";
+    finalCategory == null
+      ? "slate"
+      : finalCategory === 1
+        ? "sky"
+        : finalCategory === 2
+          ? "emerald"
+          : finalCategory === 3
+            ? "amber"
+            : finalCategory === 4
+              ? "orange"
+              : "red";
 
   function pickContent(subtype: UnilocularSubtype) {
     setOradsZero(null);
@@ -216,7 +221,6 @@ export function OradsFeatureGrid({ initialSubtype }: Props) {
               <OradsGridPickCard
                 title="Норма / нет образования"
                 hint="O-RADS 1"
-                imageSrc={getReferatImagePath("atlas/physiologic")}
                 selected={f.lesionKind === "normal_ovary"}
                 onClick={() => {
                   f.setLesionKind("normal_ovary");
@@ -228,7 +232,6 @@ export function OradsFeatureGrid({ initialSubtype }: Props) {
               <OradsGridPickCard
                 title="Физиологическое"
                 hint="Фолликул или жёлтое тело"
-                imageSrc={getReferatImagePath("atlas/physiologic")}
                 selected={f.lesionKind === "physiological"}
                 onClick={() => {
                   f.setLesionKind("physiological");
@@ -238,7 +241,6 @@ export function OradsFeatureGrid({ initialSubtype }: Props) {
               <OradsGridPickCard
                 title="Кистозное / солидное"
                 hint="Считать как образование придатков"
-                imageSrc={getReferatImagePath("atlas/simple_cyst")}
                 selected={f.lesionKind === "nonphysiological"}
                 onClick={() => f.setLesionKind("nonphysiological")}
               />
@@ -268,8 +270,6 @@ export function OradsFeatureGrid({ initialSubtype }: Props) {
                       key={entry.id}
                       title={entry.titleRu}
                       hint={entry.oradsHint}
-                      imageSrc={entry.realExampleImage ?? entry.imageSrc}
-                      imageAlt={entry.imageAlt}
                       selected={f.unilocularSubtype === entry.subtype}
                       onClick={() => pickContent(entry.subtype as UnilocularSubtype)}
                     />
@@ -277,7 +277,6 @@ export function OradsFeatureGrid({ initialSubtype }: Props) {
                   <OradsGridPickCard
                     title="Многокамерное"
                     hint="Перегородки во 2-й плоскости"
-                    imageSrc={getReferatImagePath("atlas/irregular_wall")}
                     selected={f.structure === "multilocular"}
                     onClick={() => {
                       f.setStructure("multilocular");
@@ -288,7 +287,6 @@ export function OradsFeatureGrid({ initialSubtype }: Props) {
                   <OradsGridPickCard
                     title="Солидное ≥80%"
                     hint="Преобладает ткань"
-                    imageSrc={getReferatImagePath("atlas/solid_dominant")}
                     selected={f.structure === "solid"}
                     onClick={() => {
                       f.setStructure("solid");
@@ -315,7 +313,6 @@ export function OradsFeatureGrid({ initialSubtype }: Props) {
                   <OradsGridPickCard
                     title="Папилляры 1–3"
                     hint="Вырост ≥3 мм"
-                    imageSrc={getReferatImagePath("atlas/papillary_4plus")}
                     selected={f.solidComponent === true && f.papillaryProjectionCount !== "4plus"}
                     onClick={() => {
                       f.setSolidComponent(true);
@@ -326,7 +323,6 @@ export function OradsFeatureGrid({ initialSubtype }: Props) {
                   <OradsGridPickCard
                     title="Папилляры ≥4"
                     hint="O-RADS 5 при типичном паттерне"
-                    imageSrc={getReferatImagePath("atlas/papillary_4plus")}
                     selected={f.papillaryProjectionCount === "4plus"}
                     onClick={() => {
                       f.setSolidComponent(true);
@@ -337,7 +333,6 @@ export function OradsFeatureGrid({ initialSubtype }: Props) {
                   <OradsGridPickCard
                     title="Неровная стенка / контур"
                     hint="Irregular"
-                    imageSrc={getReferatImagePath("atlas/irregular_wall")}
                     selected={f.solidType === "irregular"}
                     onClick={() => {
                       f.setSolidComponent(true);
@@ -405,7 +400,6 @@ export function OradsFeatureGrid({ initialSubtype }: Props) {
                 <OradsGridPickCard
                   title="Асцит есть"
                   hint="Может повысить категорию"
-                  imageSrc="/clinical/orads-nosology/free-fluid-pelvis.jpg"
                   selected={f.ascites}
                   onClick={() => f.setAscites(true)}
                 />
@@ -416,8 +410,11 @@ export function OradsFeatureGrid({ initialSubtype }: Props) {
           {ready ? (
             <div className={cn("rounded-2xl border-2 p-4", chapterToneClasses(resultTone))}>
               <p className="text-xs font-bold uppercase tracking-wide">Итог калькулятора</p>
-              <p className="mt-1 text-3xl font-black">O-RADS {f.result.category}</p>
+              <p className="mt-1 text-3xl font-black">{categoryLabel}</p>
               <p className="mt-1 text-sm font-semibold">{f.result.riskText}</p>
+              {f.result.missing.length ? (
+                <p className="mt-1 text-sm font-semibold">Не хватает: {f.result.missing.join("; ")}</p>
+              ) : null}
               <p className="mt-2 text-sm">{f.result.recommendation}</p>
               <p className="mt-2 text-xs">{f.result.rationale}</p>
               {sizeSummary ? <p className="mt-2 text-xs">Размер: {sizeSummary}</p> : null}
@@ -426,16 +423,16 @@ export function OradsFeatureGrid({ initialSubtype }: Props) {
           ) : null}
           {ready && f.menopause && f.lesionKind ? (
             <div className="space-y-3">
-              <AdnexConsensusPanel triangulation={f.triangulation} />
+              {f.triangulation ? <AdnexConsensusPanel triangulation={f.triangulation} /> : null}
               <IotaConsensusWebPanel consensus={f.iotaConsensus} />
               {f.reportText.trim() ? (
                 <CalculatorReportPanel
-                  title={`O-RADS ${f.result.category} · черновик`}
+                  title={`${categoryLabel} · черновик`}
                   reportText={f.reportText}
-                  filenameBase={`orads-${f.result.category}`}
+                  filenameBase={`orads-${finalCategory ?? "draft"}`}
                   sharePath="/tools/calc/rads/o-rads"
                   shareParams={{
-                    category: f.result.category,
+                    category: finalCategory,
                     localization: f.input.localization ?? null,
                     ovarySide: f.input.ovarySide ?? null,
                     menopause: f.input.menopause ?? null,
@@ -445,7 +442,7 @@ export function OradsFeatureGrid({ initialSubtype }: Props) {
                   repeatHref="/tools/calc/rads/o-rads"
                   onSaveToHistory={onSave}
                   saveHistoryLabel="Сохранить в облаке"
-                  aiRefine={{ toolId: "o-rads-us", category: f.result.category }}
+                  aiRefine={{ toolId: "o-rads-us", category: finalCategory }}
                 />
               ) : null}
             </div>

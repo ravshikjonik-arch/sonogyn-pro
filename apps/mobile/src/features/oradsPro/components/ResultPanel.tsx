@@ -1,4 +1,5 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
+import { oradsCategoryLabel, oradsFinalCategory } from "@repo/orads-us/pro";
 import type { OradsResult } from "../types";
 
 type Props = {
@@ -7,7 +8,8 @@ type Props = {
   onAskAI: () => void;
 };
 
-function colorsForCategory(category: number): { border: string; text: string; bg: string } {
+function colorsForCategory(category: number | null): { border: string; text: string; bg: string } {
+  if (category == null) return { border: "#94A3B8", text: "#334155", bg: "#F8FAFC" };
   if (category <= 2) return { border: "#10B981", text: "#047857", bg: "#ECFDF5" };
   if (category === 3) return { border: "#F59E0B", text: "#B45309", bg: "#FFFBEB" };
   if (category === 4) return { border: "#EA580C", text: "#C2410C", bg: "#FFF7ED" };
@@ -15,11 +17,12 @@ function colorsForCategory(category: number): { border: string; text: string; bg
 }
 
 export default function ResultPanel({ result, aiText, onAskAI }: Props) {
-  const c = colorsForCategory(result.category);
+  const c = colorsForCategory(oradsFinalCategory(result));
   return (
     <View style={[styles.wrap, { backgroundColor: c.bg, borderTopColor: c.border }]}>
-      <Text style={styles.title}>O-RADS {result.category}</Text>
+      <Text style={styles.title}>{oradsCategoryLabel(result)}</Text>
       <Text style={[styles.risk, { color: c.text }]}>{result.riskText}</Text>
+      {result.missing?.length ? <Text style={styles.rec}>Не хватает: {result.missing.join("; ")}</Text> : null}
       {result.patternLabel ? <Text style={styles.pattern}>{result.patternLabel}</Text> : null}
       <Text style={styles.rationale}>• {result.rationale}</Text>
       <Text style={styles.rec}>Рекомендация: {result.recommendation}</Text>

@@ -45,7 +45,11 @@ export function disabledAuthMethodResponse(method: "phone" | "google" | "sms" | 
   );
 }
 
-/** Client-safe (NEXT_PUBLIC_* via next.config env). */
+/**
+ * Client-safe (NEXT_PUBLIC_* via next.config env).
+ * next.config mirrors SMSRU/Twilio / AUTH_ALLOW_PHONE → NEXT_PUBLIC_AUTH_ALLOW_PHONE
+ * so UI and server stay aligned at build time (3C: phone after email in wizard; tab only if allowed).
+ */
 export function isAuthEmailOnlyClient(): boolean {
   const allow = envFlag(process.env.NEXT_PUBLIC_AUTH_ALLOW_PHONE);
   if (allow === "true") return false;

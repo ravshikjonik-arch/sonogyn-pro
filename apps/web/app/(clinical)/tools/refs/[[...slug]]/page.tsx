@@ -7,18 +7,18 @@ import { EducationLibraryCatalog } from "@/components/education/EducationLibrary
 const reclinInspiredShelves = [
   {
     title: "Сокращенные КР и приказы",
-    description: "КР МЗ РФ, приказы, ISUOG и рабочие полки без длинного листания PDF.",
+    description: "КР МЗ РФ, приказы, ISUOG и рабочие полки.",
     href: "/tools/refs/guidelines",
   },
   {
-    title: "Материалы для практики",
-    description: "Нормы, пациентские памятки, безопасность УЗИ и быстрые справочные разделы.",
-    href: "/tools/refs/medical-knowledge",
+    title: "Официальные источники",
+    description: "ACR · FIGO · ISUOG · IOTA. Книжные атласы и PDF не публикуются.",
+    href: "/tools/refs/sources",
   },
   {
-    title: "Гайды и методички",
-    description: "O-RADS, IOTA, шейка матки, анатомия плода и допплер.",
-    href: "/tools/refs/orads-guide",
+    title: "Клинические нормы",
+    description: "Нормы УЗИ и справочные разделы продукта.",
+    href: "/tools/refs/norms",
   },
   {
     title: "Калькуляторы",
@@ -31,14 +31,14 @@ const reclinInspiredShelves = [
     href: "/reports",
   },
   {
-    title: "Курсы и повторение",
-    description: "Базовый курс, вебинары, чеклисты и учебные кейсы.",
-    href: "/tools/refs/courses",
+    title: "Чек-листы AIUM / ISUOG",
+    description: "Интерактивные протоколы обследования.",
+    href: "/tools/refs/exam-checklists",
   },
   {
-    title: "Обучение · миома матки",
-    description: "Шесть модулей, атлас, тест и расчёты описания.",
-    href: "/tools/refs/myoma-education",
+    title: "ЧЕК-ЛИСТ АМБУЛАТОРИИ",
+    description: "Быстрый чек-лист приёма АГ: жалобы → план → запись.",
+    href: "/tools/refs/ambulatory-intake",
   },
 ] as const;
 
@@ -47,7 +47,7 @@ const clinicalShortcuts = [
   { label: "Акушерство", href: "/tools/obstetrics" },
   { label: "Нозологии", href: "/tools/refs/nosologies" },
   { label: "Клин. нормы", href: "/tools/refs/norms" },
-  { label: "Evidence AI", href: "/tools/refs/evidence-assistant" },
+  { label: "Доказательства и источники", href: "/tools/refs/evidence-sources" },
   { label: "Пациентские памятки", href: "/tools/refs/patient-information" },
 ] as const;
 

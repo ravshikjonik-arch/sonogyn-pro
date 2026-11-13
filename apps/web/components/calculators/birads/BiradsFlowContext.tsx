@@ -60,13 +60,13 @@ export function BiradsFlowProvider({
       }
       setInput(merged);
       setApplySource({
-        label: result.suggestedDiagnosis,
+        label: "Признаки из текста (AI) — проверьте",
         mergedText: "mergedText" in result ? result.mergedText : undefined,
       });
       setMode(target);
       if (target === "quick") setQuickStep(5);
       else setBrochureStep(8);
-      toast.success(`Применено: ${result.suggestedDiagnosis} → ${target === "quick" ? "быстрый" : "брошюра"}`);
+      toast.success(`Признаки из текста перенесены → ${target === "quick" ? "быстрый" : "брошюра"}. Проверьте их.`);
     },
     [input, setMode],
   );

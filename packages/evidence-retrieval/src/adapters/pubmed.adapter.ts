@@ -25,7 +25,7 @@ export const pubmedAdapter: EvidenceAdapter = {
     if (!q) return adapterResult("pubmed", [], 0, "skipped");
 
     const ck = cacheKey("pubmed", q, String(query.limit ?? 15));
-    const cached = ctx.cache.get<ProviderSearchResult>(ck);
+    const cached = await Promise.resolve(ctx.cache.get<ProviderSearchResult>(ck));
     if (cached) return cached;
 
     try {

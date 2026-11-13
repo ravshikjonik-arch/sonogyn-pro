@@ -21,7 +21,9 @@ import {
 } from "@/components/auth/DoctorRegistrationFields";
 import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
 import { TelegramSimpleAuth } from "@/components/auth/TelegramSimpleAuth";
+import { LegalConsentCheckbox } from "@/components/legal/LegalConsentCheckbox";
 import { Button } from "@/components/ui/button";
+import { LEGAL_DOCS_VERSION } from "@/lib/config/legal";
 import { CAPTCHA_FAILURE_THRESHOLD } from "@/lib/auth/auth-attempts";
 import {
   postPhoneSendOtp,
@@ -39,6 +41,11 @@ import { looksLikePhoneInput, USE_PHONE_TAB_MSG } from "@/lib/auth/auth-error-te
 import { normalizePhone } from "@/lib/auth/oauth-providers";
 import { parseRegistrationMethod, readTelegramBotDisplayName, type AuthRegistrationMethod } from "@/lib/auth/registration-methods";
 import { isAuthEmailOnlyClient } from "@/lib/auth/auth-methods-config";
+import { AUTH_OTP_DIGITS, normalizeOtpInput } from "@/lib/auth/otp-digits";
+import {
+  AUTH_PASSWORD_MIN_LENGTH,
+  AUTH_PASSWORD_TOO_SHORT_MSG,
+} from "@/lib/auth/password-policy";
 import { isPilotClosedAccessClient, isPilotTelegramPrimary, PILOT_AUTH_SUBTITLE, PILOT_REGISTER_SUBTITLE } from "@/lib/auth/auth-pilot-config";
 import { RU_IDP_REGISTER_SUBTITLE } from "@/lib/auth/russian-idp";
 import { isRuPhoneMaskComplete } from "@/lib/auth/ru-phone-mask";
@@ -58,9 +65,7 @@ import { markSessionAnchorNow } from "@/lib/security/session-anchor";
 import { RegisterAuthWizard } from "@/components/auth/wizard/RegisterAuthWizard";
 
 function RegisterForm() {
-  const router = useRouter();
   const searchParams = useSearchParams();
-  const { refresh } = useAuth();
 
   const afterAuthPathEarly = safeInternalPath(
     searchParams.get("next") ?? searchParams.get("redirectedFrom"),
@@ -71,6 +76,14 @@ function RegisterForm() {
   if (isAuthWizardV2Enabled() && !wizardLegacy && !isPilotTelegramPrimary() && !isPilotClosedAccessClient()) {
     return <RegisterAuthWizard afterAuthPath={afterAuthPathEarly} />;
   }
+
+  return <LegacyRegisterForm />;
+}
+
+function LegacyRegisterForm() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const { refresh } = useAuth();
 
   const defaultTab = useMemo(
     () => parseRegistrationMethod(searchParams.get("method")),
@@ -99,6 +112,7 @@ function RegisterForm() {
   const [pendingEmailConfirmation, setPendingEmailConfirmation] = useState(false);
   const [smsNotConfigured, setSmsNotConfigured] = useState(false);
   const [sendCooldownSec, setSendCooldownSec] = useState(0);
+  const [acceptLegal, setAcceptLegal] = useState(false);
 
   const afterAuthPath = safeInternalPath(
     searchParams.get("next") ?? searchParams.get("redirectedFrom"),
@@ -195,6 +209,15 @@ function RegisterForm() {
       return;
     }
 
+    if (password.length < AUTH_PASSWORD_MIN_LENGTH) {
+      setMessage(AUTH_PASSWORD_TOO_SHORT_MSG);
+      return;
+    }
+    if (!acceptLegal) {
+      setMessage("Отметьте согласие с Политикой и Офертой.");
+      return;
+    }
+
     setLoading(true);
     try {
       const result = await postSignUp({
@@ -206,6 +229,8 @@ function RegisterForm() {
         specialization: specialization.trim(),
         preferred_locale: locale,
         turnstileToken,
+        accept_legal: true,
+        legal_docs_version: LEGAL_DOCS_VERSION,
       });
       if (!result.ok) {
         setFailedAttempts((n) => n + 1);
@@ -625,7 +650,8 @@ function RegisterForm() {
                   inputMode="numeric"
                   autoComplete="one-time-code"
                   value={otp}
-                  onChange={(e) => setOtp(e.target.value)}
+                  onChange={(e) => setOtp(normalizeOtpInput(e.target.value))}
+                  maxLength={AUTH_OTP_DIGITS}
                   placeholder="123456"
                   required
                   aria-label="Код из Telegram"
@@ -696,7 +722,7 @@ function RegisterForm() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
               required
-              minLength={6}
+              minLength={AUTH_PASSWORD_MIN_LENGTH}
               autoComplete="new-password"
               aria-label="Пароль"
             />
@@ -725,7 +751,13 @@ function RegisterForm() {
           {showCaptcha && activeTab === "email" ? (
             <TurnstileWidget onToken={(t) => setTurnstileToken(t)} onExpire={() => setTurnstileToken(undefined)} />
           ) : null}
-          <Button className="w-full rounded-2xl py-6" type="submit" disabled={loading} aria-label="Зарегистрироваться">
+          <LegalConsentCheckbox checked={acceptLegal} onChange={setAcceptLegal} id="legal-consent-register-page" />
+          <Button
+            className="w-full rounded-2xl py-6"
+            type="submit"
+            disabled={loading || !acceptLegal}
+            aria-label="Зарегистрироваться"
+          >
             {loading ? "Создаём…" : "Зарегистрироваться по email"}
           </Button>
         </form>
@@ -787,7 +819,8 @@ function RegisterForm() {
                   inputMode="numeric"
                   autoComplete="one-time-code"
                   value={otp}
-                  onChange={(e) => setOtp(e.target.value)}
+                  onChange={(e) => setOtp(normalizeOtpInput(e.target.value))}
+                  maxLength={AUTH_OTP_DIGITS}
                   placeholder="123456"
                   required
                   aria-label="Код из SMS"

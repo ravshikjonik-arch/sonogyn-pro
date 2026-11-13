@@ -53,6 +53,20 @@ jobs:
       - name: O-RADS US package tests
         run: pnpm test:orads-us
 
+      - name: Clinical engine package tests (calculations, TI-RADS, BI-RADS, catalog, reports, obstetric)
+        run: >-
+          pnpm --filter @repo/medical-calculations --filter @repo/tirads-acr --filter @repo/birads-us
+          --filter @repo/clinical-tools --filter @repo/report-engine --filter @repo/obstetric-engine test
+
+      - name: Morphology core (canonical schema, adapters, extraction golden set)
+        run: pnpm test:morphology-core
+
+      - name: MI text extraction (web gateway runner, security)
+        run: pnpm test:mi-extraction
+
+      - name: MI orchestrator (state machine, review gate, routing, evidence, web binding)
+        run: pnpm test:medical-intelligence
+
       - name: Fetal nomograms (dataset + decision tree)
         run: pnpm test:fetal-nomograms
 
@@ -67,6 +81,15 @@ jobs:
 
       - name: Imaging CDS unit tests
         run: pnpm test:imaging-cds
+
+      - name: Evidence retrieval + golden structural (Wave 1 soft)
+        run: pnpm test:evidence-retrieval
+
+      - name: Evidence Ragas schema soft (no LLM)
+        run: pnpm eval:evidence-ragas:soft
+
+      - name: Docling contract spike soft (markdown chunker, no Docling install)
+        run: pnpm spike:docling:soft
 
       - name: BI-RADS rules snapshot (drift guard)
         run: pnpm verify:birads-rules-snapshot

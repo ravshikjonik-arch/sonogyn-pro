@@ -126,6 +126,7 @@ export const IA_V2_REDIRECTS: Redirect[] = [
   // P1 — refs
   { source: "/evidence", destination: "/tools/refs/evidence", permanent: false },
   { source: "/evidence/:path*", destination: "/tools/refs/evidence/:path*", permanent: false },
+  { source: "/evidence-sources", destination: "/tools/refs/evidence-sources", permanent: false },
 
   // P1 — reports
   { source: "/reports/adnex", destination: "/tools/calc/rads/adnex-report", permanent: false },

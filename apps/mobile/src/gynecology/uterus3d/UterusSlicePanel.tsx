@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import Svg, { Path, Text as SvgText } from "react-native-svg";
 
-import { formatMeasurementDecimal } from "@repo/medical-calculations";
+import { formatMeasurementRu } from "@repo/medical-calculations";
 import {
   boundsFromStroke,
   ellipseStrokeAt,
@@ -68,7 +68,7 @@ function touchDist(t1: { pageX: number; pageY: number }, t2: { pageX: number; pa
 function buildProtocolLine(m: Marker): string {
   const b = boundsFromStroke(m.stroke.points);
   const loc = localizationRu(b.cx, b.cy);
-  const size = `${formatMeasurementDecimal(m.sizeMm.length)}×${formatMeasurementDecimal(m.sizeMm.width)} мм`;
+  const size = `${formatMeasurementRu(m.sizeMm.length)}×${formatMeasurementRu(m.sizeMm.width)} мм`;
   if (m.type === "myoma") {
     const figo = m.figoType != null ? `FIGO ${m.figoType}, ` : "";
     return `Миома тела матки (${figo}${loc}), размеры ${size}${m.pedunculated ? ", на ножке" : ""}.`;

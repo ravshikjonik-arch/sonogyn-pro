@@ -9,6 +9,7 @@ const NETWORK_ONLY_PREFIXES = [
   "/ai",
   "/workspace",
   "/tools/refs/evidence-assistant",
+  "/tools/refs/evidence-sources",
 ] as const;
 
 export function isNetworkOnlyPath(pathname: string | null | undefined): boolean {

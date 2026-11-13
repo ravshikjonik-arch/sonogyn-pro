@@ -144,6 +144,7 @@ export const authInputClass =
   "sonogyn-auth-input mt-2 w-full rounded-2xl border border-[var(--clinical-border)] bg-white px-4 py-3 text-slate-950 placeholder:text-slate-500 outline-none transition focus:border-[var(--clinical-primary)] focus:ring-4 focus:ring-[var(--clinical-ring)] dark:bg-slate-950/80 dark:text-slate-50 dark:placeholder:text-slate-400";
 
 export function AuthMessage({ message, tone = "error" }: { message: string; tone?: "error" | "success" }) {
+  if (!message.trim()) return null;
   const cls =
     tone === "success"
       ? "rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-900 dark:border-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-100"

@@ -1,5 +1,5 @@
 import type { OradsInput } from "@repo/orads-us/pro";
-import { formatMeasurementDecimal } from "@repo/medical-calculations";
+import { formatDimensionsMmRu } from "@repo/medical-calculations";
 
 export function maxDiameterMm(input: OradsInput): number | null {
   const vals = [input.lengthMm, input.widthMm, input.heightMm].filter(
@@ -71,14 +71,10 @@ export function formatBloodFlow(input: OradsInput): string | null {
 }
 
 export function formatDimensions(input: OradsInput): string | null {
-  const l = input.lengthMm;
-  const w = input.widthMm;
-  const h = input.heightMm;
-  if (l && w && h) {
-    return `${formatMeasurementDecimal(l)} × ${formatMeasurementDecimal(w)} × ${formatMeasurementDecimal(h)} мм`;
-  }
-  const max = maxDiameterMm(input);
-  return max != null ? `${formatMeasurementDecimal(max)} мм (наибольший размер)` : null;
+  const full = formatDimensionsMmRu(input.lengthMm, input.widthMm, input.heightMm);
+  if (full) return full;
+  const absent = ([["lengthMm", "длина"], ["widthMm", "ширина"], ["heightMm", "высота"]] as const).filter(([k]) => !(Number(input[k]) > 0)).map(([, n]) => n);
+  return absent.length < 3 ? `не указаны полностью (нет: ${absent.join(", ")})` : null;
 }
 
 export function formatExtraFeatures(input: OradsInput): string[] {

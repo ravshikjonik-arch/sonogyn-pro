@@ -151,7 +151,7 @@ export function BiradsUsCalculator({ embedded }: { embedded?: boolean } = {}) {
           </div>
 
           <header className="mx-auto max-w-4xl space-y-2">
-            <h1 className="text-3xl font-black tracking-tight">Алгоритм УЗИ молочной железы по BI-RADS</h1>
+            <h2 className="text-3xl font-black tracking-tight">Алгоритм УЗИ молочной железы по BI-RADS</h2>
             <p className="text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
               {BIRADS_BROCHURE_SOURCE}
             </p>

@@ -1,11 +1,17 @@
 export * from "./types.js";
+export * from "./claims.js";
 export * from "./normalizer.js";
 export * from "./dedup.js";
 export * from "./ranker.js";
 export * from "./corpus-mode.js";
 export * from "./format-share.js";
+export * from "./outbound-links.js";
+export * from "./whats-new.js";
+export * from "./vault-merge.js";
+export * from "./vault-abbreviations.js";
 export * from "./orchestrator.js";
 export * from "./infra/cache.js";
 export * from "./infra/retry.js";
 export { ALL_ADAPTERS } from "./orchestrator.js";
 export { pickGuidelineCitation } from "./guideline-citation.js";
+export { grlsSearchUrl } from "./adapters/grls.adapter.js";

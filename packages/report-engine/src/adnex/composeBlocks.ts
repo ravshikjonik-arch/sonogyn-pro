@@ -73,14 +73,17 @@ export function composeAdnexImpression(
   t: ReportCatalog,
   oradsVersion: string,
   locale: ReportLocale = "ru",
+  hasDeclaredOrads = input.classification.oradsCategory != null,
 ): string {
-  const lines: string[] = [tri.headline];
+  const lines: string[] = [];
 
-  if (input.classification.oradsCategory == null) {
+  if (hasDeclaredOrads) {
+    lines.push(tri.headline);
+    lines.push(t.adnex.orads_line(tri.oradsCategory, oradsVersion));
+  } else {
     lines.push(t.adnex.missing_orads);
   }
 
-  lines.push(t.adnex.orads_line(tri.oradsCategory, oradsVersion));
   lines.push(
     t.adnex.iota_line(
       tri.iotaVerdict,
@@ -88,7 +91,10 @@ export function composeAdnexImpression(
       tri.iotaMalignant.join(", "),
     ),
   );
-  lines.push(t.adnex.agreement[tri.agreement]);
+
+  if (hasDeclaredOrads) {
+    lines.push(t.adnex.agreement[tri.agreement]);
+  }
 
   const adnexLine = formatAdnexModelLine(input, locale);
   if (adnexLine) lines.push(adnexLine);
@@ -96,7 +102,15 @@ export function composeAdnexImpression(
   return lines.join("\n");
 }
 
-export function composeAdnexRecommendations(tri: AdnexTriangulation): string {
+export function composeAdnexRecommendations(
+  tri: AdnexTriangulation,
+  t: ReportCatalog,
+  hasDeclaredOrads: boolean,
+): string {
+  if (!hasDeclaredOrads) {
+    return t.adnex.recommendations_need_orads;
+  }
+
   const lines: string[] = [tri.managementRu];
 
   for (const p of tri.pitfalls) {

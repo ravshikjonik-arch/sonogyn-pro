@@ -19,10 +19,10 @@ fi
 
 echo "Simulator: $BOOTED"
 echo "Переключайте экраны в приложении и нажимайте Enter для каждого кадра."
-echo "Порядок: 01-home 02-orads 03-iota 04-breast 05-evidence 06-auth"
+echo "Порядок: 01-home 02-orads 03-calc 04-education 05-consent"
 echo ""
 
-NAMES=(01-home 02-orads 03-iota 04-breast 05-evidence 06-auth)
+NAMES=(01-home 02-orads 03-calc 04-education 05-consent)
 for name in "${NAMES[@]}"; do
   read -r -p "Экран «$name» готов — Enter для снимка…" _
   xcrun simctl io booted screenshot "$OUT/$name.png"

@@ -21,7 +21,7 @@ echo ""
 echo "Сейчас EAS спросит Apple ID / сертификаты (нужна подписка Developer)."
 echo ""
 
-"$EAS" build --platform ios --profile production --message "Pilot 1.0.1 iOS store"
+"$EAS" build --platform ios --profile production --message "App Store guest pilot (no IAP)"
 
 echo ""
 read -r -p "Отправить последний билд в App Store Connect? [y/N] " SUB
@@ -29,6 +29,7 @@ SUB_LC="$(printf '%s' "$SUB" | tr '[:upper:]' '[:lower:]')"
 if [[ "$SUB_LC" == "y" || "$SUB_LC" == "yes" || "$SUB_LC" == "д" || "$SUB_LC" == "да" ]]; then
   "$EAS" submit --platform ios --profile production --latest
   echo "Проверьте TestFlight: https://appstoreconnect.apple.com"
+  echo "Review Notes: docs/APP-STORE-REVIEW-NOTES.md"
 fi
 
 echo ""
