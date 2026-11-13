@@ -32,20 +32,39 @@ html[data-theme-forced="dark"] mark {
 
 /* ─── SonoGyn Pro design layer ─────────────────────────────────────────── */
 /*
- * Маркетинг: локальные токены, если html временно в light при переходе.
- * Контраст (WCAG AA): white on --clinical-primary #2563eb ≈ 5.17:1
- * (было #3b82f6 ≈ 3.68:1). Текст #f1f5f9 / muted #94a3b8 на #05030a ≥ 8:1.
+ * Маркетинг: полный тёмный контур (не только текст).
+ * Иначе при html[data-theme=light] карточки остаются светлыми (#f7f8fa),
+ * а foreground #f1f5f9 даёт контраст ~1:1 — axe color-contrast.
+ *
+ * WCAG AA (ориентир): white on --clinical-primary #2563eb ≈ 5.17:1;
+ * #f1f5f9 / #cbd5e1 на #151923 ≥ 4.5:1; #93c5fd на #151923 ≥ 4.5:1.
  */
 [data-marketing-shell="true"] {
   color-scheme: dark;
+  --clinical-canvas: #070b10;
+  --clinical-card: #151923;
+  --clinical-surface: #151923;
+  --clinical-surface-muted: #1d2230;
+  --clinical-header: rgba(7, 11, 16, 0.92);
+  --clinical-sidebar: #0d0f14;
+  --clinical-muted: #1d2230;
+  --clinical-bg: #070b10;
   --clinical-foreground: #f1f5f9;
-  --clinical-foreground-muted: #94a3b8;
-  --clinical-primary-deep: #bfdbfe;
+  --clinical-foreground-muted: #cbd5e1;
+  --clinical-primary-deep: #93c5fd;
   --clinical-primary: #2563eb;
   --clinical-primary-hover: #1d4ed8;
-  --clinical-border: rgba(148, 163, 184, 0.14);
+  --clinical-primary-muted: rgba(37, 99, 235, 0.22);
+  --clinical-border: rgba(148, 163, 184, 0.22);
+  --clinical-card-shadow: 0 24px 60px rgba(2, 6, 23, 0.55);
+  --mesh-1: rgba(37, 99, 235, 0.18);
+  --mesh-2: rgba(20, 184, 166, 0.12);
+  --mesh-3: rgba(109, 40, 217, 0.1);
+  --mesh-base-start: #070b10;
+  --mesh-base-end: #0c1519;
+  --background: #070b10;
+  --foreground: #f1f5f9;
 }
-
 .sonogyn-mesh-bg {
   background-color: var(--clinical-canvas);
   background-image:
