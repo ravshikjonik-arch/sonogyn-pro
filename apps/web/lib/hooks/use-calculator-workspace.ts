@@ -3,6 +3,10 @@
 import { useCallback, useEffect, useState } from "react";
 
 import {
+  calculatorAnalyticsIdFromPath,
+  trackCalculatorCalc,
+} from "@/lib/analytics/track";
+import {
   appendCalculatorHistory,
   isCalculatorFavorite,
   toggleCalculatorFavorite,
@@ -26,6 +30,10 @@ export function useCalculatorWorkspace(calculatorId: string) {
   const recordRun = useCallback(
     (entry: Omit<CalcHistoryEntry, "id" | "at" | "calculatorId">) => {
       appendCalculatorHistory({ ...entry, calculatorId });
+      const analyticsId = entry.path
+        ? calculatorAnalyticsIdFromPath(entry.path)
+        : calculatorId;
+      trackCalculatorCalc(analyticsId);
     },
     [calculatorId],
   );

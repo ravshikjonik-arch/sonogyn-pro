@@ -5,6 +5,7 @@ import { useCallback, useMemo, useState, useTransition } from "react";
 import { toast } from "sonner";
 
 import { saveCalculatorEntry } from "@/app/actions/calculator-actions";
+import { trackCalculatorCalc } from "@/lib/analytics/track";
 import { CalcChip, CalcStepCard, CalcSubLabel } from "@/components/calculators/shared/calc-ui";
 import { DocumentExportToolbar } from "@/components/reporting/DocumentExportToolbar";
 import { Badge } from "@/components/ui/badge";
@@ -84,6 +85,7 @@ export function EndometriumCalculator() {
   );
 
   function onSave() {
+    trackCalculatorCalc("gyn_endometrium");
     startTransition(() => {
       void saveCalculatorEntry({
         slug: "endometrium",

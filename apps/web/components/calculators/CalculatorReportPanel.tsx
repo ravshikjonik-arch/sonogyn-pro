@@ -8,6 +8,10 @@ import { toast } from "sonner";
 import { REPORT_GENERATOR_DISCLAIMER_RU } from "@repo/report-generator";
 
 import { Button } from "@/components/ui/button";
+import {
+  calculatorAnalyticsIdFromPath,
+  trackCalculatorCalc,
+} from "@/lib/analytics/track";
 import { buildCalculatorShareUrl } from "@/lib/calculators/deep-link";
 import {
   downloadClinicalPdf,
@@ -48,6 +52,12 @@ export function CalculatorReportPanel({
   useEffect(() => {
     setRefinedText(null);
   }, [reportText]);
+
+  useEffect(() => {
+    if (!reportText.trim()) return;
+    const id = calculatorAnalyticsIdFromPath(sharePath);
+    if (id) trackCalculatorCalc(id);
+  }, [reportText, sharePath]);
 
   const activeText = refinedText ?? reportText;
 
