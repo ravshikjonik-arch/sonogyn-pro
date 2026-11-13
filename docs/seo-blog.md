@@ -1,39 +1,47 @@
 # Блог SEO (промпт 09)
 
-Каркас `/blog`. Посадочные калькуляторы (10 шт.) и хаб — PR #79. Статьи — `apps/web/lib/seo/blog-posts.ts`.
+Контент: `apps/web/lib/seo/blog-posts.ts`. Sitemap — `listBlogPosts()`.
 
-## Готовые страницы (13)
+## Готовые страницы (23)
 
-| URL | Тип | Источники | Ревью |
-|---|---|---|---|
-| `/blog` | хаб | — | — |
-| `/blog/orads-adnexa-2-minutes` | how-to | ACR O-RADS US | Якубов Р.В. |
-| `/blog/iota-adnex-vs-orads` | guideline | IOTA + ACR | Якубов Р.В. |
-| `/blog/endometrium-thickness-phases` | how-to | ISUOG + КР МЗ РФ | Якубов Р.В. |
-| `/blog/bishop-when-to-score` | how-to | Bishop 1964 + КР | Якубов Р.В. |
-| `/blog/vbac-before-you-calculate` | how-to | КР + ACOG | Якубов Р.В. |
-| `/blog/efw-hadlock-limits` | guideline | ISUOG | Якубов Р.В. |
-| `/blog/tirads-lexicon-3-minutes` | how-to | ACR TI-RADS | Якубов Р.В. |
-| `/blog/birads-us-vs-mammography` | guideline | ACR BI-RADS US | Якубов Р.В. |
-| `/blog/popq-measurement-points` | how-to | ICS/IUGA | Якубов Р.В. |
-| `/blog/cervical-length-isuog-context` | guideline | ISUOG + КР | Якубов Р.В. |
-| `/blog/figo-myoma-types-map` | how-to | FIGO + КР | Якубов Р.В. |
-| `/blog/omt-ultrasound-checklist` | how-to | чек-листы + ISUOG | Якубов Р.В. |
-| `/blog/orads-0-incomplete` | case | ACR O-RADS | Якубов Р.В. |
+| URL | Тип |
+|---|---|
+| `/blog` | хаб |
+| `/blog/orads-adnexa-2-minutes` | how-to |
+| `/blog/iota-adnex-vs-orads` | guideline |
+| `/blog/endometrium-thickness-phases` | how-to |
+| `/blog/bishop-when-to-score` | how-to |
+| `/blog/vbac-before-you-calculate` | how-to |
+| `/blog/efw-hadlock-limits` | guideline |
+| `/blog/tirads-lexicon-3-minutes` | how-to |
+| `/blog/birads-us-vs-mammography` | guideline |
+| `/blog/popq-measurement-points` | how-to |
+| `/blog/cervical-length-isuog-context` | guideline |
+| `/blog/figo-myoma-types-map` | how-to |
+| `/blog/omt-ultrasound-checklist` | how-to |
+| `/blog/orads-0-incomplete` | case |
+| `/blog/fmf-first-trimester-not-screening` | guideline |
+| `/blog/elastography-when-to-use` | how-to |
+| `/blog/colposcopy-protocol-fields` | how-to |
+| `/blog/ln-rads-lexicon` | how-to |
+| `/blog/pregnancy-medications-reference-only` | guideline |
+| `/blog/adnex-fields-before-model` | how-to |
+| `/blog/open-access-vs-register` | how-to |
+| `/blog/pwa-what-works-offline` | how-to |
+| `/blog/quiz-self-check-disclaimer` | guideline |
+| `/blog/career-ladder-student-to-doctor` | how-to |
 
-Числовые cut-off в статьях **не** публикуются — отсылка к калькулятору и гайдлайну.
+Ревьюер всех текстов: Якубов Р.В. Cut-off в статьях не публикуются.
 
-## Следующая очередь (черновик)
+## Следующая очередь (если нужно)
 
-1. FMF / I триместр — что не путать с скринингом  
-2. Elastography: когда модуль уместен  
-3. Colposcopy protocol — поля без диагноза  
-4. LN-RADS: lexicon лимфоузлов  
-5. Pregnancy medications — только справочная рамка  
-6. ADNEX поля: что собрать до модели  
-7. Open access кабинет vs регистрация  
-8. PWA: что доступно offline  
-9. Самопроверка / quiz — дисклеймер экзамена  
-10. Career ladder: студент → врач в продукте  
-
-Sitemap подхватывает slug автоматически через `listBlogPosts()`.
+1. Vascular US consultant — рамки  
+2. Evidence assistant vs гайдлайн  
+3. Appointment hub на приёме  
+4. Telegram-канал vs продукт  
+5. Dark/light a11y для врача  
+6. Cookie consent / аналитика для клиники  
+7. Юридические страницы: оферта за 1 минуту  
+8. Contacts / support SLA  
+9. Staging vs production для пилота  
+10. Mobile Expo parity калькуляторов  

@@ -670,6 +670,441 @@ ${CLINICAL_CONTENT_DISCLAIMER}
 ${CLINICAL_CONTENT_DISCLAIMER}
 `.trim(),
   },
+  {
+    slug: "fmf-first-trimester-not-screening",
+    title: "FMF / I триместр — что не путать со скринингом",
+    description:
+      "Консультант FMF в SonoGyn Pro помогает структурировать вопросы I триместра. Это CDS для врача, не замена сертифицированного скрининга и локального маршрута.",
+    kind: "guideline",
+    publishedAt: "2026-11-13",
+    updatedAt: "2026-11-13",
+    reviewedBy: CLINICAL_CONTENT_REVIEWER,
+    sources: [
+      { label: "The Fetal Medicine Foundation", href: "https://fetalmedicine.org/" },
+      { label: "ISUOG guidelines", href: "https://www.isuog.org/clinical-resources/isuog-guidelines.html" },
+      { label: "Консультант FMF в SonoGyn Pro", href: "/ai/consultants/fmf" },
+      { label: "Рубрикатор КР МЗ РФ", href: "https://cr.minzdrav.gov.ru/" },
+    ],
+    related: [
+      { href: "/ai/consultants/fmf", label: "FMF · консультант" },
+      { href: "/tools/calc/ob/fetometry", label: "Фетометрия" },
+      { href: "/tools/calc/ob/fetal-weight", label: "EFW" },
+      { href: "/blog/efw-hadlock-limits", label: "Ограничения EFW" },
+    ],
+    bodyMarkdown: `
+## Что это не есть
+
+Модуль [/ai/consultants/fmf](/ai/consultants/fmf) — **справочный ассистент** для специалиста. Он **не**:
+
+- не выдаёт сертификат FMF;
+- не заменяет программный скрининг I триместра в аккредитованном центре;
+- не считает риск «вместо лаборатории и ПО скрининга».
+
+## Когда уместен
+
+- Разбор клинического вопроса по беременности / I триместру в кабинете.
+- Связка с фетометрией и чек-листами после УЗИ.
+- Обучение ординаторов: структура рассуждения, не «ответ пациенту».
+
+## Практика
+
+1. Откройте консультанта FMF.
+2. Сформулируйте вопрос врача (без ПДн пациента в чате, если политика центра запрещает).
+3. Сверьте вывод с КР / ISUOG и локальным маршрутом скрининга.
+4. В протокол — только то, что подтверждено исследованием и регламентом.
+
+## Дисклеймер
+
+${CLINICAL_CONTENT_DISCLAIMER}
+`.trim(),
+  },
+  {
+    slug: "elastography-when-to-use",
+    title: "Elastography: когда модуль уместен",
+    description:
+      "Эластография в SonoGyn Pro — структурированный ввод и справочный вывод. Не замена экспертизы и не источник выдуманных kPa из блога.",
+    kind: "how-to",
+    publishedAt: "2026-11-13",
+    updatedAt: "2026-11-13",
+    reviewedBy: CLINICAL_CONTENT_REVIEWER,
+    sources: [
+      { label: "Калькулятор эластографии", href: "/tools/calc/gyn/elastography" },
+      { label: "Рубрикатор КР МЗ РФ", href: "https://cr.minzdrav.gov.ru/" },
+      { label: "ISUOG guidelines", href: "https://www.isuog.org/clinical-resources/isuog-guidelines.html" },
+    ],
+    related: [
+      { href: "/tools/calc/gyn/elastography", label: "Эластография" },
+      { href: "/tools/calc/gyn", label: "Хаб гинекологии" },
+      { href: "/tools/calc/rads/ti-rads", label: "TI-RADS" },
+      { href: "/tools/calc", label: "Каталог" },
+    ],
+    bodyMarkdown: `
+## Когда открывать модуль
+
+- Есть **корректная** запись эластографии с аппарата (метод и единицы — как в протоколе).
+- Нужно структурировать ввод для черновика заключения.
+- Обучение: понять, какие поля обязательны в вашем центре.
+
+## Когда не открывать «для красоты»
+
+- Нет сырых данных с аппарата — не подставляйте числа из памяти/блога.
+- Метод центра не совпадает с полями модуля — зафиксируйте ограничение в протоколе.
+
+## Маршрут
+
+1. [/tools/calc/gyn/elastography](/tools/calc/gyn/elastography)
+2. Внесите параметры **как на аппарате**.
+3. Прочитайте справочный вывод — CDS.
+4. Пороги и тактика — в КР / локальном протоколе и в самом модуле, не в этой статье.
+
+## Дисклеймер
+
+${CLINICAL_CONTENT_DISCLAIMER}
+`.trim(),
+  },
+  {
+    slug: "colposcopy-protocol-fields",
+    title: "Colposcopy protocol — поля без диагноза",
+    description:
+      "Как заполнить протокол кольпоскопии в калькуляторе: признаки и структура отчёта. Диагноз CIN/рака ставит клиницист, не форма.",
+    kind: "how-to",
+    publishedAt: "2026-11-13",
+    updatedAt: "2026-11-13",
+    reviewedBy: CLINICAL_CONTENT_REVIEWER,
+    sources: [
+      { label: "Калькулятор кольпоскопии", href: "/tools/calc/gyn/colposcopy" },
+      { label: "Рубрикатор КР МЗ РФ", href: "https://cr.minzdrav.gov.ru/" },
+    ],
+    related: [
+      { href: "/tools/calc/gyn/colposcopy", label: "Кольпоскопия" },
+      { href: "/tools/calc/gyn/cin-risk", label: "Риск CIN" },
+      { href: "/tools/calc/gyn/cervical-intelligence", label: "Шейка · разбор" },
+      { href: "/tools/calc", label: "Каталог" },
+    ],
+    bodyMarkdown: `
+## Цель модуля
+
+[/tools/calc/gyn/colposcopy](/tools/calc/gyn/colposcopy) помогает **собрать поля протокола** (зона трансформации, признаки, биопсия — по шагам модуля). Это не гистологический диагноз.
+
+## Рабочий порядок
+
+1. Откройте калькулятор до или сразу после осмотра.
+2. Зафиксируйте видимость ЗТ и lexicon-признаки, которые видите.
+3. Не «дорисовывайте» то, чего не было в поле зрения.
+4. Свяжите с цитологией / HPV в соседних модулях при необходимости.
+5. Заключение и маршрут — по КР и решению гинеколога.
+
+## Чего нет в статье
+
+Пороги «обязательной биопсии» и staging — только в КР и клинике.
+
+## Дисклеймер
+
+${CLINICAL_CONTENT_DISCLAIMER}
+`.trim(),
+  },
+  {
+    slug: "ln-rads-lexicon",
+    title: "LN-RADS: lexicon лимфоузлов",
+    description:
+      "Структурированное описание лимфоузлов на УЗИ в логике LN-RADS: признаки в калькуляторе, без смешения с TI-RADS/BI-RADS.",
+    kind: "how-to",
+    publishedAt: "2026-11-13",
+    updatedAt: "2026-11-13",
+    reviewedBy: CLINICAL_CONTENT_REVIEWER,
+    sources: [
+      { label: "Калькулятор LN-RADS", href: "/tools/calc/rads/ln-rads" },
+      {
+        label: "ACR Reporting and Data Systems (семейство RADS)",
+        href: "https://www.acr.org/Clinical-Resources/Reporting-and-Data-Systems",
+      },
+    ],
+    related: [
+      { href: "/tools/calc/rads/ln-rads", label: "LN-RADS" },
+      { href: "/tools/calc/rads/ti-rads", label: "TI-RADS" },
+      { href: "/tools/calc/rads/bi-rads", label: "BI-RADS US" },
+      { href: "/blog/tirads-lexicon-3-minutes", label: "TI-RADS за 3 минуты" },
+    ],
+    bodyMarkdown: `
+## Отдельная рамка
+
+LN-RADS описывает **лимфоузлы**. Не складывайте баллы с TI-RADS или BI-RADS — разные lexicon.
+
+## Маршрут
+
+1. Откройте [/tools/calc/rads/ln-rads](/tools/calc/rads/ln-rads).
+2. Отметьте признаки узла по шагам модуля.
+3. Перенесите формулировки в протокол с явным указанием системы (LN-RADS).
+4. Тактику (FNA, наблюдение) — с клиницистом и локальным алгоритмом.
+
+## Дисклеймер
+
+${CLINICAL_CONTENT_DISCLAIMER}
+`.trim(),
+  },
+  {
+    slug: "pregnancy-medications-reference-only",
+    title: "Pregnancy medications — только справочная рамка",
+    description:
+      "Модуль лекарств при беременности в SonoGyn Pro — CDS-справочник для врача. Не рецепт, не замена инструкции и клинического решения.",
+    kind: "guideline",
+    publishedAt: "2026-11-13",
+    updatedAt: "2026-11-13",
+    reviewedBy: CLINICAL_CONTENT_REVIEWER,
+    sources: [
+      { label: "Аптека беременности в SonoGyn Pro", href: "/tools/calc/ob/pregnancy-medications" },
+      { label: "Рубрикатор КР МЗ РФ", href: "https://cr.minzdrav.gov.ru/" },
+      { label: "Государственный реестр ЛС (ориентир)", href: "https://grls.rosminzdrav.ru/" },
+    ],
+    related: [
+      { href: "/tools/calc/ob/pregnancy-medications", label: "Лекарства при беременности" },
+      { href: "/tools/pharmacy", label: "Хаб аптеки" },
+      { href: "/ai/consultants/fmf", label: "FMF · консультант" },
+      { href: "/tools/calc", label: "Каталог" },
+    ],
+    bodyMarkdown: `
+## Жёсткие границы
+
+[/tools/calc/ob/pregnancy-medications](/tools/calc/ob/pregnancy-medications):
+
+- **не** выписывает рецепт;
+- **не** заменяет инструкцию по применению и консультацию клинического фармаколога;
+- показывает справочный контекст для обсуждения врачом.
+
+## Практика
+
+1. Уточните срок и показание клинически.
+2. Откройте модуль как шпаргалку структуры вопроса.
+3. Сверьте с КР, GRLS и актуальной инструкцией ЛС.
+4. Решение о назначении — только у лечащего врача.
+
+## Дисклеймер
+
+${CLINICAL_CONTENT_DISCLAIMER}
+`.trim(),
+  },
+  {
+    slug: "adnex-fields-before-model",
+    title: "ADNEX: какие поля собрать до модели",
+    description:
+      "Чек-лист предикторов перед IOTA ADNEX в SonoGyn Pro. Без полного набора модель ограничена — не заполняйте пустые поля «на глаз».",
+    kind: "how-to",
+    publishedAt: "2026-11-13",
+    updatedAt: "2026-11-13",
+    reviewedBy: CLINICAL_CONTENT_REVIEWER,
+    sources: [
+      { label: "IOTA Group", href: "https://www.iotagroup.org/" },
+      { label: "Калькулятор IOTA", href: "/tools/calc/rads/iota" },
+      { label: "IOTA vs O-RADS", href: "/blog/iota-adnex-vs-orads" },
+    ],
+    related: [
+      { href: "/tools/calc/rads/iota", label: "IOTA ADNEX / LR2" },
+      { href: "/tools/calc/rads/o-rads", label: "O-RADS US" },
+      { href: "/blog/iota-adnex-vs-orads", label: "Что выбрать" },
+      { href: "/blog/orads-0-incomplete", label: "O-RADS incomplete" },
+    ],
+    bodyMarkdown: `
+## До нажатия «рассчитать»
+
+Соберите то, что требует выбранная модель в [/tools/calc/rads/iota](/tools/calc/rads/iota):
+
+| Блок | Зачем |
+|---|---|
+| Возраст / онкоцентр | Предикторы ADNEX |
+| Максимальный диаметр | УЗИ-измерение |
+| Солидная ткань / папиллярные разрастания | Морфология |
+| Камеры, асцит | Как в протоколе IOTA |
+| CA-125 | Если модель/центр использует |
+
+Точный список полей — **на экране калькулятора**. Статья не дублирует формулы и cut-off.
+
+## Если поля нет
+
+Не выдумывайте. Выберите другую модель (Simple Rules / LR2) или сначала O-RADS lexicon, либо дообследуйте.
+
+## Дисклеймер
+
+${CLINICAL_CONTENT_DISCLAIMER}
+`.trim(),
+  },
+  {
+    slug: "open-access-vs-register",
+    title: "Open access кабинет vs регистрация",
+    description:
+      "Что даёт открытый вход в кабинет SonoGyn Pro и зачем регистрация: кейсы, PRO, сохранение прогресса — без путаницы для врача.",
+    kind: "how-to",
+    publishedAt: "2026-11-13",
+    updatedAt: "2026-11-13",
+    reviewedBy: CLINICAL_CONTENT_REVIEWER,
+    sources: [
+      { label: "Кабинет", href: "/home" },
+      { label: "Регистрация", href: "/register" },
+      { label: "Тарифы", href: "/pricing" },
+      { label: "Политика конфиденциальности", href: "/privacy" },
+    ],
+    related: [
+      { href: "/home", label: "Кабинет" },
+      { href: "/register", label: "Регистрация" },
+      { href: "/pricing", label: "Тарифы" },
+      { href: "/blog", label: "Блог" },
+    ],
+    bodyMarkdown: `
+## Два режима
+
+| | Open access / демо | После регистрации |
+|---|---|---|
+| Калькуляторы и справочники | Обычно доступны | Доступны |
+| Сохранение кейсов, профиль | Ограничено / нет | Да |
+| PRO / квоты AI | По политике пилота | По тарифу |
+| Аудит согласий / ПДн | Минимальный | Полный контур аккаунта |
+
+Точный статус пилота смотрите на [/pricing](/pricing) и экране входа — он может меняться env-флагами.
+
+## Кому хватает кабинета без аккаунта
+
+- Быстрый расчёт на приёме (O-RADS, Bishop, EFW…).
+- Знакомство с продуктом.
+
+## Когда регистрироваться
+
+- Нужны кейсы, прогресс обучения, PRO.
+- Работа в команде / долгий пилот.
+
+Старт: [/home](/home) или [/register](/register).
+
+## Дисклеймер
+
+${CLINICAL_CONTENT_DISCLAIMER}
+`.trim(),
+  },
+  {
+    slug: "pwa-what-works-offline",
+    title: "PWA: что доступно offline",
+    description:
+      "Установка SonoGyn Pro на рабочий стол: какие калькуляторы удобны без сети, а чат и AI — только online.",
+    kind: "how-to",
+    publishedAt: "2026-11-13",
+    updatedAt: "2026-11-13",
+    reviewedBy: CLINICAL_CONTENT_REVIEWER,
+    sources: [
+      { label: "Кабинет / PWA", href: "/home" },
+      { label: "Каталог калькуляторов", href: "/tools/calc" },
+    ],
+    related: [
+      { href: "/home", label: "Кабинет" },
+      { href: "/tools/calc", label: "Калькуляторы" },
+      { href: "/blog/open-access-vs-register", label: "Open access vs регистрация" },
+      { href: "/pricing", label: "Тарифы" },
+    ],
+    bodyMarkdown: `
+## Зачем PWA врачу
+
+Ярлык на планшете / рабочем столе: быстрее открыть калькулятор между пациентами.
+
+## Offline vs online (ориентир)
+
+| Работает удобнее offline / на слабой сети | Только online |
+|---|---|
+| Уже открытые экраны калькуляторов (после кеша) | AI-чат, консультанты |
+| Справочные страницы из кеша | Синхронизация кейсов, оплата |
+| | Новые загрузки атласов / обновления |
+
+Точный список кеша зависит от визитов и версии SW — не обещаем «весь продукт offline».
+
+## Практика
+
+1. Откройте [/home](/home) online хотя бы раз.
+2. Примите предложение «Установить», если браузер показывает.
+3. Для AI и сохранения кейсов нужна сеть.
+
+## Дисклеймер
+
+${CLINICAL_CONTENT_DISCLAIMER}
+`.trim(),
+  },
+  {
+    slug: "quiz-self-check-disclaimer",
+    title: "Самопроверка / quiz — дисклеймер экзамена",
+    description:
+      "Quiz-хаб SonoGyn Pro для самопроверки врача и ординатора. Не официальный экзамен НМО и не допуск к практике.",
+    kind: "guideline",
+    publishedAt: "2026-11-13",
+    updatedAt: "2026-11-13",
+    reviewedBy: CLINICAL_CONTENT_REVIEWER,
+    sources: [
+      { label: "Quiz-хаб", href: "/tools/refs/quiz-hub" },
+      { label: "Образовательная библиотека", href: "/tools/refs" },
+    ],
+    related: [
+      { href: "/tools/refs/quiz-hub", label: "Quiz-хаб" },
+      { href: "/tools/refs", label: "Справочники" },
+      { href: "/blog/career-ladder-student-to-doctor", label: "Career ladder" },
+      { href: "/blog", label: "Блог" },
+    ],
+    bodyMarkdown: `
+## Что это
+
+[/tools/refs/quiz-hub](/tools/refs/quiz-hub) и связанные квизы — **самопроверка** и обучение. Результат:
+
+- не зачёт НМО;
+- не сертификат допуска;
+- не основание для клинического решения у пациента.
+
+## Как пользоваться
+
+1. Выберите банк вопросов по теме.
+2. Разберите ошибки по гайдлайну / КР, не по памяти чата.
+3. Вернитесь к калькулятору темы (O-RADS, миома, RCOG…), если есть пробел в методике.
+
+## Дисклеймер
+
+${CLINICAL_CONTENT_DISCLAIMER}
+`.trim(),
+  },
+  {
+    slug: "career-ladder-student-to-doctor",
+    title: "Career ladder: студент → врач в продукте",
+    description:
+      "Как SonoGyn Pro ведёт от знакомства с калькуляторами к рабочему кабинету и PRO: ступени без подмены реального ординаторского пути.",
+    kind: "how-to",
+    publishedAt: "2026-11-13",
+    updatedAt: "2026-11-13",
+    reviewedBy: CLINICAL_CONTENT_REVIEWER,
+    sources: [
+      { label: "Лендинг / карьера в продукте", href: "/" },
+      { label: "Кабинет", href: "/home" },
+      { label: "Регистрация", href: "/register" },
+      { label: "PRO / тарифы", href: "/pricing" },
+    ],
+    related: [
+      { href: "/", label: "Лендинг" },
+      { href: "/home", label: "Кабинет" },
+      { href: "/blog/quiz-self-check-disclaimer", label: "Quiz · дисклеймер" },
+      { href: "/blog/open-access-vs-register", label: "Open access" },
+    ],
+    bodyMarkdown: `
+## Ступени в продукте (не в дипломе)
+
+| Ступень | Фокус в SonoGyn Pro |
+|---|---|
+| Знакомство | Калькуляторы, блог, open access [/home](/home) |
+| Самопроверка | [/tools/refs/quiz-hub](/tools/refs/quiz-hub), справочники |
+| Рабочий кабинет | Кейсы, протоколы после [/register](/register) |
+| PRO | Расширенные квоты — [/pricing](/pricing) |
+
+Это **продуктовая** лестница. Ординатура, аккредитация и НМО остаются вне приложения.
+
+## Практический совет
+
+Студенту: начните с O-RADS / чек-листов и quiz.  
+Врачу на приёме: ярлык PWA + нужный калькулятор.  
+Клинике: единый аккаунт и понятный тариф.
+
+## Дисклеймер
+
+${CLINICAL_CONTENT_DISCLAIMER}
+`.trim(),
+  },
 ];
 
 const bySlug = new Map(BLOG_POSTS.map((p) => [p.slug, p]));
