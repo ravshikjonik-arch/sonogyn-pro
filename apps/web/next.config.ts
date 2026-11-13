@@ -28,7 +28,14 @@ function liveKitConnectExtra(): string {
   }
 }
 
+/** Emergency CD proxy (SONOGYN_CUSTOM_DOMAIN_PROXY=1) may load assets from *.vercel.app. */
+function isCustomDomainProxyEnvEnabled(): boolean {
+  const v = process.env.SONOGYN_CUSTOM_DOMAIN_PROXY?.trim().toLowerCase();
+  return v === "1" || v === "true";
+}
+
 function vercelAssetCsp(): string {
+  if (!isCustomDomainProxyEnvEnabled()) return "";
   return " https://*.vercel.app";
 }
 
@@ -59,9 +66,14 @@ function buildContentSecurityPolicy(): string {
   return `${parts.join("; ")};`;
 }
 
-/** Custom domain truncates bodies ~16–20KB; static files on *.vercel.app complete. */
+/**
+ * Same-origin assets by default (custom domain SSR).
+ * Only when emergency SONOGYN_CUSTOM_DOMAIN_PROXY=1 — optional prefix to *.vercel.app.
+ */
 function productionAssetPrefix(): string | undefined {
   if (process.env.VERCEL !== "1") return undefined;
+  if (!isCustomDomainProxyEnvEnabled()) return undefined;
+
   const forced =
     process.env.SONOGYN_ASSET_PREFIX?.trim() || process.env.NEXT_PUBLIC_SONOGYN_ASSET_PREFIX?.trim();
   // A fixed asset host serves one deployment only; previews must load their own assets.
