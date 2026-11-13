@@ -1,7 +1,11 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
-import { customDomainBootstrapDocument, resolveDeploymentOrigin } from "../custom-domain-proxy";
+import {
+  customDomainBootstrapDocument,
+  isCustomDomainProxyEnabled,
+  resolveDeploymentOrigin,
+} from "../custom-domain-proxy";
 import {
   CUSTOM_DOMAIN_HTML_BYTE_BUDGET,
   customDomainCorsOrigin,
@@ -33,12 +37,35 @@ describe("custom domain shell", () => {
     assert.equal(isSonogynCustomDomainHost("sonogyn-pro-web.vercel.app"), false);
   });
 
-  it("keeps the custom-domain loader under the Cloudflare cutoff", () => {
+  it("keeps CD proxy off by default", () => {
+    const prev = process.env.SONOGYN_CUSTOM_DOMAIN_PROXY;
+    delete process.env.SONOGYN_CUSTOM_DOMAIN_PROXY;
+    try {
+      assert.equal(isCustomDomainProxyEnabled(), false);
+    } finally {
+      if (prev === undefined) delete process.env.SONOGYN_CUSTOM_DOMAIN_PROXY;
+      else process.env.SONOGYN_CUSTOM_DOMAIN_PROXY = prev;
+    }
+  });
+
+  it("enables CD proxy only with SONOGYN_CUSTOM_DOMAIN_PROXY=1", () => {
+    const prev = process.env.SONOGYN_CUSTOM_DOMAIN_PROXY;
+    process.env.SONOGYN_CUSTOM_DOMAIN_PROXY = "1";
+    try {
+      assert.equal(isCustomDomainProxyEnabled(), true);
+    } finally {
+      if (prev === undefined) delete process.env.SONOGYN_CUSTOM_DOMAIN_PROXY;
+      else process.env.SONOGYN_CUSTOM_DOMAIN_PROXY = prev;
+    }
+  });
+
+  it("keeps the emergency loader under the Cloudflare cutoff and never navigates away", () => {
     const html = customDomainBootstrapDocument("https://sonogyn-pro-web-ravshan-s-projects3.vercel.app");
     assert.ok(html.includes("Загрузка кабинета"));
     assert.ok(html.includes("sonogyn-pro-web-ravshan-s-projects3.vercel.app"));
     assert.ok(new TextEncoder().encode(html).length < CUSTOM_DOMAIN_HTML_BYTE_BUDGET);
     assert.equal(html.includes("<script"), true);
+    assert.equal(html.includes("location.replace"), false);
   });
 
   it("prefers explicit deployment origin env", () => {

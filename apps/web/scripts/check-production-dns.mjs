@@ -118,7 +118,7 @@ console.log("  3. Удалить CNAME apex, если добавляете A (н
 console.log(`  4. Добавить A @ → ${VERCEL_A[0]}`);
 console.log("  5. www → CNAME → cname.vercel-dns.com (без лишних A)");
 console.log("  6. Vercel → Project → Settings → Domains → sonogyn-pro.ru → Valid Configuration");
-console.log("  7. Vercel env (Production): NEXT_PUBLIC_SONOGYN_ASSET_PREFIX=https://<ваш>.vercel.app");
+console.log("  7. Vercel env: leave SONOGYN_CUSTOM_DOMAIN_PROXY unset (SSR on domain). Emergency only: =1 + ASSET_PREFIX");
 console.log("  8. Подождать 15–60 мин, снова: node scripts/check-production-dns.mjs\n");
 
 const exitBad = badApex.length > 0 || hasConflict;
