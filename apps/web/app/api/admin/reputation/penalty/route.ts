@@ -5,6 +5,7 @@ import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { requireModeratorRole } from "@/lib/security/require-clinical-role";
 import { writeSecurityAuditLog } from "@/lib/security/security-audit-log";
 import { isUuid } from "@/lib/security/uuid";
+import { createServiceRoleClient } from "@/utils/supabase/admin";
 import { createClient } from "@/utils/supabase/server";
 
 const BodySchema = z.object({
@@ -46,7 +47,9 @@ export async function POST(request: Request) {
     metadata: { reasonLength: parsed.data.reason.length },
   });
 
-  const { error } = await supabase.rpc("apply_moderation_penalty", {
+  // RPC is service_role-only after Phase A DEFINER revoke (SEC-P1-04).
+  const admin = createServiceRoleClient();
+  const { error } = await admin.rpc("apply_moderation_penalty", {
     p_user_id: parsed.data.userId,
     p_reason: parsed.data.reason,
   });

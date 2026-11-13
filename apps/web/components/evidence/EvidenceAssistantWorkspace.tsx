@@ -39,11 +39,19 @@ const PROVIDER_LABEL: Record<string, string> = {
   clinical_trials: "ClinicalTrials.gov",
   kr_mz_rf: "КР МЗ РФ",
   static_corpus: "SonoEvidence",
+  medical_vault: "Medical Vault",
   openfda: "OpenFDA",
   dailymed: "DailyMed",
+  grls: "ГРЛС",
+  openalex: "OpenAlex",
+  doaj: "DOAJ",
+  epistemonikos: "Epistemonikos",
+  roszdravnadzor: "Росздравнадзор",
   who: "WHO",
   nice: "NICE",
   ema: "EMA",
+  rf_regulation: "НПА РФ",
+  rcog: "RCOG",
 };
 
 type BookmarkRow = {
@@ -75,6 +83,9 @@ const SUGGESTED = [
   "Амоксициллин при беременности — доказательства",
   "Преэклампсия профилактика аспирин",
   "Скрининг I триместра ISUOG 2023",
+  "SGA FGR doppler",
+  "placenta accreta previa",
+  "ectopic pregnancy ultrasound",
 ];
 
 function formatEvidenceFetchError(status: number, message: string): string {
@@ -91,10 +102,11 @@ function formatEvidenceFetchError(status: number, message: string): string {
 }
 
 const CORPUS_HINT: Record<EvidenceCorpusMode, string> = {
-  all: "PubMed, Cochrane, КР МЗ РФ, WHO/NICE и др.",
+  all: "PubMed, Cochrane, КР МЗ РФ, WHO/NICE, RCOG и др.",
   rf_kr: "Только клинические рекомендации МЗ РФ — со ссылкой на раздел.",
   rf_npa: "Приказы ДЗМ / МЗ РФ (НПА).",
   rf_all: "КР + приказы + протоколы РФ (без PubMed).",
+  rcog: "Только карточки RCOG Green-top (UK). Не заменяет КР РФ — сверяйте локальный протокол.",
 };
 
 function RecordRow({
@@ -215,6 +227,8 @@ function applyDemoState(
       searchedAt: new Date().toISOString(),
       synthesisMode: "rules",
       corpusMode: "rf_kr",
+      claims: [],
+      insufficient: true,
     });
     return;
   }
@@ -295,6 +309,19 @@ function applyDemoState(
           guidelineShelf: "kr_mz_rf",
         },
       ],
+      claims: [
+        {
+          text: "O-RADS 3: низкий риск — наблюдение по локальному протоколу; при росте или новых признаках — повторная оценка / эскалация.",
+          kind: "sourced",
+          citationIndexes: [0],
+        },
+        {
+          text: "Ориентируйтесь на действующие КР/НПА (1 найдено) — см. разделы в цитатах.",
+          kind: "inference",
+          citationIndexes: [],
+        },
+      ],
+      insufficient: false,
       guidelines: [
         {
           title: "Ультразвуковая диагностика в гинекологии (обобщающие КР)",
@@ -377,6 +404,22 @@ export function EvidenceAssistantWorkspace() {
       setError,
       setHistory,
     });
+    const q = searchParams.get("q");
+    if (q?.trim()) setQuery(q.trim());
+    const corpus =
+      searchParams.get("corpus") ||
+      searchParams.get("corpusMode") ||
+      searchParams.get("source");
+    if (
+      corpus === "all" ||
+      corpus === "rf_kr" ||
+      corpus === "rf_npa" ||
+      corpus === "rf_all" ||
+      corpus === "rcog"
+    ) {
+      setCorpusMode(corpus);
+      if (corpus === "rcog") setMode("search");
+    }
   }, [searchParams]);
 
   const toggleBookmark = useCallback(
@@ -628,6 +671,43 @@ export function EvidenceAssistantWorkspace() {
           ) : (
             <CardContent className="space-y-4 text-sm whitespace-pre-wrap">{answer.summary}</CardContent>
           )}
+          {answer.claims && answer.claims.length > 0 ? (
+            <CardContent className="border-t pt-4">
+              <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-[var(--clinical-foreground-muted)]">
+                Утверждения (claims)
+              </p>
+              <ul className="space-y-2">
+                {answer.claims.map((claim, idx) => (
+                  <li
+                    key={`${claim.kind}-${idx}`}
+                    className="rounded-lg border border-[var(--clinical-border)] bg-[var(--clinical-muted)]/30 px-3 py-2 text-sm"
+                  >
+                    <div className="mb-1 flex flex-wrap items-center gap-2">
+                      <Badge
+                        variant="outline"
+                        className={
+                          claim.kind === "sourced"
+                            ? "border-emerald-600/40 text-emerald-800 dark:text-emerald-300"
+                            : "border-amber-600/40 text-amber-800 dark:text-amber-300"
+                        }
+                      >
+                        {claim.kind === "sourced" ? "из источника" : "вывод модели"}
+                      </Badge>
+                      {claim.citationIndexes.length > 0 ? (
+                        <span className="text-[10px] text-[var(--clinical-foreground-muted)]">
+                          цит. {claim.citationIndexes.map((i) => i + 1).join(", ")}
+                        </span>
+                      ) : null}
+                    </div>
+                    <p>{claim.text}</p>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-2 text-[11px] text-[var(--clinical-foreground-muted)]">
+                «Из источника» — опирается на цитату; «вывод модели» — синтез без жёсткой привязки. Не диагноз.
+              </p>
+            </CardContent>
+          ) : null}
           {answer.recommendations.length > 0 ? (
             <CardContent className="border-t pt-4">
               <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-[var(--clinical-foreground-muted)]">

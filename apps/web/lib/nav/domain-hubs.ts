@@ -1,5 +1,9 @@
 /** Domain hub cards — single source for /tools, sidebar, and domain landing pages. */
 
+import { ORADS_US_ROOM } from "@repo/clinical-tools";
+
+import { isCopyrightLockedHref } from "@/lib/copyright/book-content-gate";
+
 export type DomainHubCard = {
   href: string;
   title: string;
@@ -17,7 +21,7 @@ export const TOOLS_HOME_DOMAINS = [
   {
     href: "/tools/obstetrics",
     title: "Акушерство",
-    description: "Беременность, FMF, фетометрия, допплер, акушерский атлас",
+    description: "Беременность, FMF, фетометрия, допплер, калькуляторы",
     accent: "from-teal-600 to-cyan-500",
   },
   {
@@ -27,9 +31,9 @@ export const TOOLS_HOME_DOMAINS = [
     accent: "from-rose-500 to-pink-400",
   },
   {
-    href: "/tools/calc/rads/o-rads",
-    title: "O-RADS · всё в одном месте",
-    description: "Калькулятор, картинки, расчет по тексту, таблицы, IOTA 2026",
+    href: "/tools/o-rads",
+    title: "O-RADS US",
+    description: "Комната: калькулятор · IOTA · эхограммы · реферат · протокол",
     accent: "from-violet-600 to-indigo-500",
   },
   {
@@ -46,14 +50,14 @@ export const TOOLS_HOME_DOMAINS = [
   },
   {
     href: "/ai/consultants",
-    title: "Помощник врача",
+    title: "Исслед. AI · помощник врача",
     description: "МКБ → УЗИ → протокол · гинеколог · акушер · FMF",
     accent: "from-teal-600 to-cyan-500",
   },
   {
-    href: "/tools/refs/evidence-assistant",
-    title: "Evidence AI",
-    description: "PubMed · Cochrane · КР · AI с цитатами",
+    href: "/tools/refs/evidence-sources",
+    title: "Доказательства и источники",
+    description: "КР · PubMed · ГРЛС · Новое · ссылки вовне",
     accent: "from-amber-500 to-orange-400",
   },
 ] as const;
@@ -62,6 +66,12 @@ export const OBSTETRICS_GROUPS: DomainHubGroup[] = [
   {
     title: "Приём",
     cards: [
+      {
+        href: "/tools/refs/ambulatory-intake",
+        title: "ЧЕК-ЛИСТ АМБУЛАТОРИИ",
+        description: "Быстрый чек-лист приёма АГ · нормы · итог",
+        primary: true,
+      },
       {
         href: "/ai/consultants/us-prep",
         title: "Live приём · голосовой брифинг",
@@ -80,6 +90,12 @@ export const OBSTETRICS_GROUPS: DomainHubGroup[] = [
         title: "FMF · I скрининг",
         description: "Малый срок, КТР, ТВП, допплер",
         badge: "FMF",
+      },
+      {
+        href: "/ai/consultants/fmf/guided",
+        title: "Протокол по сроку",
+        description: "Guided: смотреть → измерить → не пропустить",
+        badge: "Guided",
       },
     ],
   },
@@ -121,27 +137,28 @@ export const OBSTETRICS_GROUPS: DomainHubGroup[] = [
     ],
   },
   {
-    title: "Атласы",
+    title: "Источники",
     cards: [
       {
-        href: "/tools/refs/obstetric-atlas",
-        title: "Акушерский атлас",
-        description: "Срезы и протоколы",
+        href: "/tools/refs/sources",
+        title: "Официальные гайдлайны",
+        description: "ACR · FIGO · ISUOG · RCOG · КР (без книжных атласов)",
       },
       {
-        href: "/tools/refs/obstetrics-imaging-atlas",
-        title: "Атлас акушерской визуализации",
-        description: "УЗИ плода и I триместра",
+        href: "/tools/refs/rcog-green-top",
+        title: "RCOG · Green-top",
+        description: "UK Green-top для УЗИ/АГ + переход в FMF",
       },
       {
-        href: "/tools/refs/prenatal-echography-atlas",
-        title: "Пренатальная эхография",
-        description: "Фетометрия, допплер, пороки",
+        href: "/tools/refs/guidelines",
+        title: "КР и приказы",
+        description: "Клинические рекомендации в кабинете",
       },
       {
-        href: "/tools/refs/clinical-echocardiography-atlas",
-        title: "Эхокардиография",
-        description: "Клапаны, стресс, врождённые пороки",
+        href: "/tools/refs/evidence-sources",
+        title: "Доказательства и источники",
+        description: "КР · Evidence · ГРЛС · Новое — одна крыша",
+        primary: true,
       },
     ],
   },
@@ -157,12 +174,20 @@ export const OBSTETRICS_GROUPS: DomainHubGroup[] = [
   },
 ];
 
-export const OBSTETRICS_HUB: DomainHubCard[] = OBSTETRICS_GROUPS.flatMap((group) => group.cards);
+export const OBSTETRICS_HUB: DomainHubCard[] = OBSTETRICS_GROUPS.flatMap((group) => group.cards).filter(
+  (card) => !isCopyrightLockedHref(card.href),
+);
 
 export const GYNECOLOGY_GROUPS: DomainHubGroup[] = [
   {
     title: "Приём",
     cards: [
+      {
+        href: "/tools/refs/ambulatory-intake",
+        title: "ЧЕК-ЛИСТ АМБУЛАТОРИИ",
+        description: "Быстрый чек-лист приёма АГ · нормы · итог",
+        primary: true,
+      },
       {
         href: "/ai/consultants/us-prep",
         title: "Live приём · голосовой брифинг",
@@ -182,9 +207,9 @@ export const GYNECOLOGY_GROUPS: DomainHubGroup[] = [
     title: "Придатки и матка",
     cards: [
       {
-        href: "/tools/calc/rads/o-rads",
-        title: "O-RADS",
-        description: "Образования придатков",
+        href: "/tools/o-rads",
+        title: "O-RADS US",
+        description: "Комната придатков: calc · IOTA · учёба · протокол",
         primary: true,
         badge: "O-RADS",
       },
@@ -198,11 +223,6 @@ export const GYNECOLOGY_GROUPS: DomainHubGroup[] = [
         href: "/tools/mapping/uterus",
         title: "FIGO · миома",
         description: "Тип узла и аденомиоз",
-      },
-      {
-        href: "/tools/refs/myoma-education",
-        title: "Миома · обучение",
-        description: "Модули, атлас, тест и расчёты описания",
       },
       {
         href: "/tools/mapping/endometriosis",
@@ -219,25 +239,15 @@ export const GYNECOLOGY_GROUPS: DomainHubGroup[] = [
         title: "Патология шейки",
         description: "Цитология, Bethesda, скрининг",
       },
-      {
-        href: "/tools/refs/cervix-morphology-atlas",
-        title: "Морфология шейки",
-        description: "CIN, карциномы, препараты",
-      },
     ],
   },
   {
-    title: "Атласы",
+    title: "Источники",
     cards: [
       {
-        href: "/tools/refs/gynecology-imaging-atlas",
-        title: "Атлас гинекологической визуализации",
-        description: "УЗИ и МРТ малого таза",
-      },
-      {
-        href: "/tools/refs/ovarian-tumor-morphology-atlas",
-        title: "Опухоли яичника",
-        description: "Гистология, учебные препараты",
+        href: "/tools/refs/sources",
+        title: "Официальные гайдлайны",
+        description: "ACR · FIGO · ISUOG · КР",
       },
     ],
   },
@@ -258,43 +268,35 @@ export const GYNECOLOGY_GROUPS: DomainHubGroup[] = [
   },
 ];
 
-export const GYNECOLOGY_HUB: DomainHubCard[] = GYNECOLOGY_GROUPS.flatMap((group) => group.cards);
+export const GYNECOLOGY_HUB: DomainHubCard[] = GYNECOLOGY_GROUPS.flatMap((group) => group.cards).filter(
+  (card) => !isCopyrightLockedHref(card.href),
+);
 
-export const ORADS_HUB: DomainHubCard[] = [
+function roomChildToCard(child: (typeof ORADS_US_ROOM.children)[number]): DomainHubCard {
+  return {
+    href: child.href,
+    title: child.title,
+    description: child.description,
+    primary: child.primary,
+    badge: child.badge,
+  };
+}
+
+/** Derived from SSOT room — keep in sync via @repo/clinical-tools ORADS_US_ROOM. */
+export const ORADS_HUB: DomainHubCard[] = ORADS_US_ROOM.children.map(roomChildToCard);
+
+export const ORADS_HUB_GROUPS: DomainHubGroup[] = [
   {
-    href: "/tools/calc/rads/o-rads",
-    title: "O-RADS Pro · калькулятор",
-    description: "ACR O-RADS US v2022 + IOTA Simple Rules",
-    primary: true,
-    badge: "Calc",
+    title: "На приёме",
+    cards: ORADS_US_ROOM.children
+      .filter((child) => child.kind === "calculator" || child.kind === "protocol")
+      .map(roomChildToCard),
   },
   {
-    href: "/tools/refs/orads-echograms",
-    title: "Учебные эхограммы и случаи придатков",
-    description: "Учебные карточки по нозологиям — то, что вы искали",
-    primary: true,
-    badge: "Карточки",
-  },
-  {
-    href: "/tools/refs/orads-guide",
-    title: "Реферат O-RADS US",
-    description: "Алгоритм ACR v2022 + 10 клинических случаев",
-    badge: "v2022",
-  },
-  {
-    href: "/tools/refs/iota-terms-2026",
-    title: "IOTA 2026 · термины",
-    description: "Консенсус IOTA Group: определения и самопроверка",
-  },
-  {
-    href: "/tools/mapping/ovary",
-    title: "IOTA triangulation · mapping",
-    description: "Ввод находок в протокол",
-  },
-  {
-    href: "/reports/adnex",
-    title: "SRE · структурированный протокол",
-    description: "Описание + заключение + EBM citations",
+    title: "Справка и обучение",
+    cards: ORADS_US_ROOM.children
+      .filter((child) => child.kind === "reference" || child.kind === "education" || child.kind === "mapping")
+      .map(roomChildToCard),
   },
 ];
 
@@ -318,9 +320,10 @@ export const CALCULATORS_HUB: DomainHubCard[] = [
     primary: true,
   },
   {
-    href: "/tools/refs/mammology-national-atlas",
-    title: "Маммология · нац. руководство",
-    description: "Каприн · УЗИ МЖ, BI-RADS, развороты OCR",
+    href: "/tools/calc/rads/bi-rads",
+    title: "BI-RADS · молочная железа",
+    description: "Стратификация ACR (калькулятор)",
+    primary: true,
   },
   {
     href: "/tools/calc/rads/ti-rads",
@@ -332,6 +335,12 @@ export const CALCULATORS_HUB: DomainHubCard[] = [
     href: "/tools/calc/appointment",
     title: "Приём · быстрые расчёты",
     description: "Калькуляторы на одном экране приёма",
+  },
+  {
+    href: "/tools/refs/ambulatory-intake",
+    title: "ЧЕК-ЛИСТ АМБУЛАТОРИИ",
+    description: "Быстрый чек-лист приёма АГ · нормы · итог",
+    primary: true,
   },
 ];
 
@@ -361,9 +370,9 @@ export const ASSISTANT_HUB: DomainHubCard[] = [
     description: "I/II/III триместр, допплер",
   },
   {
-    href: "/tools/refs/evidence-assistant",
-    title: "Evidence AI",
-    description: "PubMed · Cochrane · КР · закладки",
+    href: "/tools/refs/evidence-sources",
+    title: "Доказательства и источники",
+    description: "КР · PubMed · ГРЛС · Новое",
     primary: true,
     badge: "EBM",
   },

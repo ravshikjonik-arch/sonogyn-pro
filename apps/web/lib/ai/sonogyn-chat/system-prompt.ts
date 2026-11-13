@@ -7,12 +7,15 @@ export function buildSonogynSystemPrompt(params: {
   domain: SonogynClinicalDomain;
   userText: string;
   hasImages: boolean;
+  /** Server clinical tools are attached to this request (AI SDK path). Default: no tools. */
+  toolsAvailable?: boolean;
 }): { prompt: string; promptVersion: string } {
   const bundle = resolvePromptBundle(params.domain);
+  const toolsAvailable = params.toolsAvailable ?? false;
   const base =
     bundle === "obstetric"
-      ? buildObstetricSystemInstructions(params.hasImages)
-      : buildGynecologySystemInstructions(params.hasImages);
+      ? buildObstetricSystemInstructions(params.hasImages, toolsAvailable)
+      : buildGynecologySystemInstructions(params.hasImages, toolsAvailable);
 
   const rag = buildRagContext(params.domain, params.userText);
 

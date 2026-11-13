@@ -24,8 +24,9 @@ export async function assertAiChatQuota(userId: string): Promise<
 > {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
+  // Fail closed: without service role we cannot enforce monthly quota or verify Pro.
   if (!url || !key) {
-    return { ok: true, isPro: true };
+    return { ok: false, used: 0, limit: FREE_AI_LIMIT };
   }
 
   const admin = createClient(url, key, { auth: { persistSession: false } });

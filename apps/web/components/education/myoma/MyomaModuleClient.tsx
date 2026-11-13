@@ -5,6 +5,7 @@ import { useEffect } from "react";
 
 import { MyomaChrome } from "@/components/education/myoma/MyomaChrome";
 import { useMyomaProgress } from "@/components/education/myoma/use-myoma-progress";
+import { sanitizeCourseHtml } from "@/lib/security/sanitize-course-html";
 
 type Neighbor = { id: string; title: string } | null;
 
@@ -40,7 +41,8 @@ export function MyomaModuleClient({
 
   return (
     <MyomaChrome title={title} kicker={`Модуль ${order} · ${durationMinutes} мин`}>
-      <article className={prose} dangerouslySetInnerHTML={{ __html: html }} />
+      {/* SECURITY: sanitize static module HTML before inject */}
+      <article className={prose} dangerouslySetInnerHTML={{ __html: sanitizeCourseHtml(html) }} />
       <div className="flex flex-wrap items-center gap-3">
         <button
           type="button"

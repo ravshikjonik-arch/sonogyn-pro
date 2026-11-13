@@ -1,5 +1,6 @@
 import type {
   ClinicalGuideline,
+  GuidelineIssuer,
   GuidelineSearchHit,
   GuidelineShelf,
   GuidelineShelfFilter,
@@ -52,6 +53,7 @@ export function searchGuidelinesRanked(
   limit = 20,
   options?: {
     shelves?: GuidelineShelf[];
+    issuers?: GuidelineIssuer[];
     activeOnly?: boolean;
   },
 ): GuidelineSearchHit[] {
@@ -59,11 +61,13 @@ export function searchGuidelinesRanked(
   if (!q) return [];
 
   const shelfSet = options?.shelves?.length ? new Set(options.shelves) : null;
+  const issuerSet = options?.issuers?.length ? new Set(options.issuers) : null;
   const activeOnly = options?.activeOnly ?? false;
   const hits: GuidelineSearchHit[] = [];
 
   for (const g of items) {
     if (shelfSet && !shelfSet.has(g.shelf)) continue;
+    if (issuerSet && !issuerSet.has(g.issuer)) continue;
     if (activeOnly && g.status !== "active") continue;
 
     const sectionBlob =

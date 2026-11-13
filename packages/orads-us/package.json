@@ -20,6 +20,7 @@
     "./education/referatImageMap": "./education/referatImageMap.ts",
     "./education/nosologyAtlas": "./education/nosologyAtlas.ts",
     "./pro": "./src/pro/index.ts",
+    "./parse-protocol-text": "./src/parseOradsProtocolText.ts",
     "./book-ovary": "./src/bookOvary/index.ts",
     "./assist/buildProtocolDraft": "./src/assist/buildProtocolDraft.ts",
     "./assist/runOradsAssistPipeline": "./src/assist/runOradsAssistPipeline.ts"

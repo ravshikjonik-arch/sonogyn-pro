@@ -1,6 +1,5 @@
-import { formatMeasurementDecimal, parseMeasurementMm } from "@repo/medical-calculations";
+import { formatMeasurementRu, parseMeasurementMm } from "@repo/medical-calculations";
 import { classifyLymphNodesFromKeywords } from "../lymph-node";
-import { patternById } from "../knowledge/patterns";
 import type { TiradsAcrInput } from "../types";
 import { defaultTiradsAcrInput, evaluateAcrTirads } from "../score";
 import { mergeTiradsInput } from "./structured-report";
@@ -9,9 +8,26 @@ import { generateStructuredThyroidReport } from "./structured-report";
 export type TiradsNlpResult = {
   parsedInput: TiradsAcrInput;
   detectedKeywords: string[];
+  /** Neutral assist note (kept under the old name for callers). Never a diagnosis. */
   suggestedDiagnosis: string;
+  /** Feature groups not found in the text: the calculator shows defaults there until the doctor confirms. */
+  missingFeatures: string[];
   report: ReturnType<typeof generateStructuredThyroidReport>;
 };
+
+const FEATURE_LABEL_RU: Record<"composition" | "echogenicity" | "shape" | "margin" | "echogenicFoci", string> = {
+  composition: "состав",
+  echogenicity: "эхогенность",
+  shape: "форма",
+  margin: "контуры",
+  echogenicFoci: "эхогенные включения",
+};
+
+/** Diagnosis words are noted but never turned into features: the category comes only from described features. */
+const DIAGNOSIS_MENTIONS: { pattern: RegExp; label: string }[] = [
+  { pattern: /папилляр|ptc|papillary/i, label: "в тексте упомянута папиллярная структура / диагноз — на расчёт не влияет" },
+  { pattern: /коллоид/i, label: "в тексте упомянут коллоидный узел — на расчёт не влияет" },
+];
 
 type Rule = { patterns: RegExp[]; field: keyof TiradsAcrInput; value: string; label: string; asFociArray?: boolean };
 
@@ -31,8 +47,6 @@ const RULES: Rule[] = [
   { patterns: [/макрокальц|macro.?calc/i], field: "echogenicFoci", value: "macrocalcifications", label: "макрокальцинаты", asFociArray: true },
   { patterns: [/rim.?calc|периферич.*кальц/i], field: "echogenicFoci", value: "peripheral_rim", label: "rim calcifications", asFociArray: true },
   { patterns: [/comet.?tail/i], field: "echogenicFoci", value: "none_or_comet_tail", label: "comet-tail", asFociArray: true },
-  { patterns: [/папилляр|ptc|papillary/i], field: "patternId", value: "papillary_carcinoma", label: "PTC pattern" },
-  { patterns: [/коллоид/i], field: "patternId", value: "colloid_nodule", label: "colloid" },
 ];
 
 export function parseTiradsFreeText(text: string): { parsed: Partial<TiradsAcrInput>; keywords: string[] } {
@@ -57,30 +71,31 @@ export function parseTiradsFreeText(text: string): { parsed: Partial<TiradsAcrIn
     const sizeMm = parseMeasurementMm(size[1]!);
     if (sizeMm != null) {
       parsed.largestDiameterMm = sizeMm;
-      keywords.push(`размер ${formatMeasurementDecimal(sizeMm)} мм`);
+      keywords.push(`размер ${formatMeasurementRu(sizeMm)} мм`);
     }
   }
   parsed.lymphNodes = classifyLymphNodesFromKeywords(text);
+  for (const m of DIAGNOSIS_MENTIONS) {
+    if (m.pattern.test(text)) keywords.push(m.label);
+  }
   return { parsed, keywords };
+}
+
+function missingFeatureGroups(parsed: Partial<TiradsAcrInput>): string[] {
+  const shortcut = parsed.composition === "spongiform";
+  const groups = shortcut ? (["composition"] as const) : (["composition", "echogenicity", "shape", "margin", "echogenicFoci"] as const);
+  return groups.filter((g) => (g === "echogenicFoci" ? !parsed.echogenicFoci?.length : parsed[g] === undefined)).map((g) => FEATURE_LABEL_RU[g]);
 }
 
 export function assistFromTiradsText(text: string): TiradsNlpResult {
   const { parsed, keywords } = parseTiradsFreeText(text);
-  let input = mergeTiradsInput(parsed);
-  if (parsed.patternId) {
-    const pattern = patternById(parsed.patternId);
-    if (pattern) input = mergeTiradsInput({ ...pattern.preset, patternId: pattern.id }, input);
-  }
+  const input = mergeTiradsInput(parsed);
   const report = generateStructuredThyroidReport(input);
-  let suggestedDiagnosis = "Узловое образование ЩЖ";
-  if (parsed.patternId) {
-    suggestedDiagnosis = `Наиболее вероятно: ${patternById(parsed.patternId)?.nameRu ?? parsed.patternId}`;
-  } else if (/папилляр|ptc/i.test(text)) {
-    suggestedDiagnosis = "Наиболее вероятно: папиллярный рак ЩЖ";
-  } else if (/коллоид|spongiform/i.test(text)) {
-    suggestedDiagnosis = "Наиболее вероятно: коллоидный / spongiform узел";
-  }
-  return { parsedInput: input, detectedKeywords: keywords, suggestedDiagnosis, report };
+  const missingFeatures = missingFeatureGroups(parsed);
+  const suggestedDiagnosis = missingFeatures.length
+    ? `Признаки из текста перенесены в калькулятор. Не распознаны: ${missingFeatures.join(", ")} — укажите их вручную. Категорию определяет калькулятор, не AI.`
+    : "Признаки из текста перенесены в калькулятор — проверьте и подтвердите. Категорию определяет калькулятор, не AI.";
+  return { parsedInput: input, detectedKeywords: keywords, suggestedDiagnosis, missingFeatures, report };
 }
 
 export function assistFromTiradsTextSafe(text: string): TiradsNlpResult {
@@ -89,7 +104,8 @@ export function assistFromTiradsTextSafe(text: string): TiradsNlpResult {
     return {
       parsedInput: input,
       detectedKeywords: [],
-      suggestedDiagnosis: "—",
+      suggestedDiagnosis: "Введите описание узла — признаки будут перенесены в калькулятор.",
+      missingFeatures: Object.values(FEATURE_LABEL_RU),
       report: generateStructuredThyroidReport(input),
     };
   }

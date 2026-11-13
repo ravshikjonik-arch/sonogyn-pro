@@ -6,6 +6,7 @@ import SelectChip from "../components/SelectChip";
 import { useOradsCaseHistory } from "./useOradsCaseHistory";
 import {
   storedCaseCategory,
+  storedCaseCategoryLabel,
   storedCaseIsCritical,
   storedCaseRecommendation,
   storedCaseRiskLabel,
@@ -80,7 +81,7 @@ export default function ORADSHistoryScreen({ navigation }: Props) {
         ) : (
           visible.map((r) => (
             <Pressable key={r.id} style={styles.card} onPress={() => navigation.navigate("ORADSHistoryDetails", { caseId: r.id })}>
-              <Text style={styles.cat}>O-RADS {storedCaseCategory(r)}</Text>
+              <Text style={styles.cat}>{storedCaseCategoryLabel(r)}</Text>
               <Text style={styles.time}>{new Date(r.at).toLocaleString()}</Text>
               <Text style={styles.line}>Риск: {storedCaseRiskLabel(r)}</Text>
               <Text style={styles.line}>Обоснование: {r.result.rationale}</Text>

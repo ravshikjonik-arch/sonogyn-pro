@@ -1,5 +1,10 @@
 import { CDSS_SHORT_DISCLAIMER } from "@repo/clinical-tools";
-import type { OradsUs2022Input, OradsUs2022Result } from "@repo/orads-us/pro";
+import {
+  oradsCategoryLabel,
+  oradsFinalCategory,
+  type OradsUs2022Input,
+  type OradsUs2022Result,
+} from "@repo/orads-us/pro";
 import type { OradsInput, OradsResult } from "./types";
 import type { StoredCase } from "./storage/oradsStorage";
 
@@ -11,9 +16,17 @@ export function isUs2022StoredCase(row: StoredCase): row is StoredCase & {
   return row.version === "us2022";
 }
 
+/** Sort key only: 0 when the engine assigned no category. Use storedCaseCategoryLabel for display. */
 export function storedCaseCategory(row: StoredCase): number {
   if (isUs2022StoredCase(row)) return row.result.category ?? 0;
-  return row.result.category;
+  return oradsFinalCategory(row.result) ?? 0;
+}
+
+export function storedCaseCategoryLabel(row: StoredCase): string {
+  if (isUs2022StoredCase(row)) {
+    return row.result.category === null ? "O-RADS: категория не определена" : `O-RADS ${row.result.category}`;
+  }
+  return oradsCategoryLabel(row.result);
 }
 
 export function storedCaseRiskLabel(row: StoredCase): string {

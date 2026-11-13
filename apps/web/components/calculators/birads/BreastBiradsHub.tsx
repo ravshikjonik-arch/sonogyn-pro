@@ -54,8 +54,8 @@ export function BreastBiradsHub() {
               <Link href="/tools/calc">← Калькуляторы</Link>
             </Button>
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/80">Для врачей</p>
-              <h1 className="text-base font-black sm:text-lg">Молочные железы · BI-RADS</h1>
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--clinical-foreground-muted)]">Для врачей</p>
+              <h2 className="text-base font-black sm:text-lg">Молочные железы · BI-RADS</h2>
             </div>
           </div>
           <div className="flex flex-wrap gap-1">
@@ -69,29 +69,30 @@ export function BreastBiradsHub() {
               <Button
                 key={id}
                 type="button"
+                aria-pressed={modality === id}
                 variant={modality === id ? "secondary" : "ghost"}
                 size="sm"
-                className={cn("h-9 rounded-full text-xs", modality !== id && "text-white hover:bg-white/20")}
+                className={cn("h-9 rounded-full text-xs", modality !== id && "text-[var(--clinical-foreground)] hover:bg-[var(--clinical-muted)]")}
                 onClick={() => selectModality(id)}
               >
                 {label}
               </Button>
             ))}
           </div>
-          <p className="text-[11px] text-white/85">
+          <p className="text-[11px] text-[var(--clinical-foreground-muted)]">
             Два независимых лексикона ACR (US и Mammography) + комбинированное заключение. CDS, не диагноз.
           </p>
         </div>
       </div>
 
-      {modality === "us" ? (
+      <div hidden={modality !== "us"}>
         <BiradsProFlow
           embeddedInHub
           onCategoryHint={(cat) => {
             if (cat) setUsCategory(cat);
           }}
         />
-      ) : null}
+      </div>
       {modality === "mmg" ? <BiradsMmgCalculator onCategoryChange={onMmgCategory} /> : null}
       {modality === "combo" ? (
         <BiradsCombinedPanel

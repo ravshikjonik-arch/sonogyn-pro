@@ -40,7 +40,8 @@
 
 ```env
 # Обязательно для admin-бота
-TELEGRAM_BOT_TOKEN=7123456789:AAH...
+# SECURITY: placeholder only — never commit a real BotFather token
+TELEGRAM_BOT_TOKEN=REPLACE_WITH_BOTFATHER_TOKEN
 TELEGRAM_ADMIN_IDS=123456789,-1001234567890
 
 # Опционально (legacy, один ID)

@@ -6,14 +6,16 @@ import { toast } from "sonner";
 import { saveCalculatorEntry } from "@/app/actions/calculator-actions";
 import { useLnRadsFlow } from "@/components/calculators/lnrads/LnRadsFlowContext";
 import { CalcChip, CalcStepCard, CalcSubLabel } from "@/components/calculators/shared/calc-ui";
+import { DecimalMmInput } from "@/components/calculators/shared/DecimalMmInput";
 import { DocumentExportToolbar } from "@/components/reporting/DocumentExportToolbar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   DOPPLER_OPTIONS,
   LN_RADS_VERSION,
   enrichEngineResult,
+  formatLnAxesRu,
+  formatLnRatio,
   generateStructuredReport,
   lnRadsOptions,
   type LnRadsInput,
@@ -117,32 +119,33 @@ export function LnRadsQuickWizard() {
           />
           <CalcSubLabel>Long axis / Short axis (mm)</CalcSubLabel>
           <div className="flex flex-wrap gap-2">
-            <Input
-              type="number"
+            <DecimalMmInput
               value={input.longAxisMm}
-              onChange={(e) => setField("longAxisMm", parseFloat(e.target.value) || 0)}
+              onChange={(v) => setField("longAxisMm", v ?? 0)}
               className="w-28"
-              placeholder="Long"
+              ariaLabel="Длинная ось, мм"
             />
-            <Input
-              type="number"
+            <DecimalMmInput
               value={input.shortAxisMm}
-              onChange={(e) => setField("shortAxisMm", parseFloat(e.target.value) || 0)}
+              onChange={(v) => setField("shortAxisMm", v ?? 0)}
               className="w-28"
-              placeholder="Short"
+              ariaLabel="Короткая ось, мм"
             />
           </div>
+          <p className="text-xs font-semibold text-[var(--clinical-foreground-muted)]" aria-live="polite">
+            Размеры: {formatLnAxesRu(input.longAxisMm, input.shortAxisMm)}
+          </p>
           {engine.sizeAnalysis.lsRatio !== null ? (
             <p className="text-sm">
-              L/S = <strong>{engine.sizeAnalysis.lsRatio.toFixed(2)}</strong> — {engine.sizeAnalysis.interpretation}
+              L/S = <strong>{formatLnRatio(engine.sizeAnalysis.lsRatio)}</strong> — {engine.sizeAnalysis.interpretation}
             </p>
           ) : null}
           <CalcSubLabel>Cortex thickness (mm, optional)</CalcSubLabel>
-          <Input
-            type="number"
-            value={input.cortexThicknessMm ?? ""}
-            onChange={(e) => setField("cortexThicknessMm", parseFloat(e.target.value) || undefined)}
+          <DecimalMmInput
+            value={input.cortexThicknessMm}
+            onChange={(v) => setField("cortexThicknessMm", v)}
             className="w-28"
+            ariaLabel="Толщина коры, мм"
           />
         </CalcStepCard>
       ) : null}

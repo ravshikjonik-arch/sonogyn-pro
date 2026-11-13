@@ -62,8 +62,10 @@ PNG появятся в `store-assets/captures/raw/`.
 
 ## Чеклист перед «Submit for Review»
 
-- [ ] Privacy Policy URL: `https://sonogyn-pro.ru/legal/privacy` (или актуальный из `legalUrls.ts`)
-- [ ] Support URL и контакт
+- [ ] Privacy Policy URL: `https://sonogyn-pro.ru/privacy`
+- [ ] Terms URL: `https://sonogyn-pro.ru/terms`
+- [ ] Support: `Sonogyn-pro@mail.ru` (или Support URL на сайте)
 - [ ] Export compliance: **ITSAppUsesNonExemptEncryption: false** (уже в `app.json`)
-- [ ] Age rating: медицинский справочник, без пользовательского UGC пациентов на скринах
-- [ ] TestFlight протестирован: регистрация → калькулятор
+- [ ] Age rating: медицинский справочник, без ПДн пациентов на скринах
+- [ ] iPhone only (`supportsTablet: false`) — iPad-скрины не обязательны
+- [ ] TestFlight: consent → «Начать» → калькулятор (guest)

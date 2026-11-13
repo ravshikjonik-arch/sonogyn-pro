@@ -4,7 +4,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
-import { PAYMENT_PROVIDER_PUBLIC_NAME_RU } from "@/lib/config/platform";
+import { PAYMENT_PROVIDER_PUBLIC_NAME_RU, SUPPORT_EMAIL } from "@/lib/config/platform";
+import { resolveProCheckoutPublicState } from "@/lib/payment/pro-checkout-public";
 
 import { PRICING_PLANS } from "./data";
 
@@ -13,6 +14,9 @@ type LandingPricingProps = {
 };
 
 export function LandingPricing({ isAuthenticated }: LandingPricingProps) {
+  const checkout = resolveProCheckoutPublicState();
+  const paymentsLive = checkout.yookassaReady || checkout.stripeFallbackReady;
+
   return (
     <section id="pricing" className="scroll-mt-24">
       <div className="mb-12 max-w-2xl">
@@ -21,24 +25,40 @@ export function LandingPricing({ isAuthenticated }: LandingPricingProps) {
           Free и PRO
         </h2>
         <p className="mt-3 text-sm leading-relaxed text-[var(--clinical-foreground-muted)] sm:text-base">
-          Сначала — бесплатное знакомство и демо-кабинет. PRO оформляется после входа через{" "}
-          {PAYMENT_PROVIDER_PUBLIC_NAME_RU}.
+          {paymentsLive
+            ? `Сначала — бесплатное знакомство и демо-кабинет. PRO оформляется после входа через ${PAYMENT_PROVIDER_PUBLIC_NAME_RU}.`
+            : "Сначала — бесплатное знакомство и демо-кабинет. Подписка PRO скоро откроется — без ложных обещаний оплаты."}
         </p>
       </div>
       <div className="grid gap-8 md:grid-cols-2">
         {PRICING_PLANS.map((plan) => {
+          const isPro = plan.id === "pro";
           const href =
-            plan.id === "pro" && isAuthenticated
-              ? "/profile/pro"
-              : plan.id === "free" && isAuthenticated
-                ? "/app"
-                : plan.href;
+            isPro && !paymentsLive
+              ? `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent("SonoGyn Pro — интерес к PRO")}`
+              : isPro && isAuthenticated
+                ? "/profile/pro"
+                : plan.id === "free" && isAuthenticated
+                  ? "/app"
+                  : plan.href;
           const cta =
-            plan.id === "pro" && isAuthenticated
-              ? "Оформить PRO"
-              : plan.id === "free" && isAuthenticated
-                ? "Открыть кабинет"
-                : plan.cta;
+            isPro && !paymentsLive
+              ? "Написать о PRO"
+              : isPro && isAuthenticated
+                ? "Оформить PRO"
+                : plan.id === "free" && isAuthenticated
+                  ? "Открыть кабинет"
+                  : plan.cta;
+          const price = isPro && !paymentsLive ? "скоро" : plan.price;
+          const period = isPro && !paymentsLive ? "ожидание" : plan.period;
+          const description =
+            isPro && !paymentsLive
+              ? "Расширенные лимиты кейсов и AI. Оплата откроется после настройки — оставьте запрос."
+              : plan.description;
+          const features =
+            isPro && !paymentsLive
+              ? ["Расширенные лимиты кейсов", "Очередь AI-анализа", "Уведомим, когда оплата будет доступна"]
+              : [...plan.features];
 
           return (
             <Card
@@ -53,16 +73,16 @@ export function LandingPricing({ isAuthenticated }: LandingPricingProps) {
                 <CardTitle className={plan.highlighted ? "text-[var(--clinical-primary-deep)]" : undefined}>
                   {plan.title}
                 </CardTitle>
-                <CardDescription>{plan.description}</CardDescription>
-                <p className="pt-2 text-3xl font-black text-slate-950 dark:text-white">
-                  {plan.price}
+                <CardDescription>{description}</CardDescription>
+                <p className="pt-2 text-3xl font-black text-[var(--clinical-foreground)]">
+                  {price}
                   <span className="ml-2 text-sm font-normal text-[var(--clinical-foreground-muted)]">
-                    / {plan.period}
+                    / {period}
                   </span>
                 </p>
               </CardHeader>
               <CardContent className="space-y-3 text-sm text-[var(--clinical-foreground-muted)]">
-                {plan.features.map((feature) => (
+                {features.map((feature) => (
                   <div key={feature} className="flex gap-2">
                     <Check className="h-4 w-4 shrink-0 text-emerald-600" />
                     <span>{feature}</span>

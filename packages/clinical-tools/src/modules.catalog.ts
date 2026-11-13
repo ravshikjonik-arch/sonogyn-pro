@@ -420,7 +420,7 @@ export const MODULES: ModuleEntry[] = [
     href: "/tools/calc/rads/o-rads",
     ref: { catalog: "registry", slug: "o-rads" },
     surfaces: { sidebar: true, sidebarGroup: "appointment", clinicalSearch: true },
-    legacy: { clinicalTools: ["orads-wizard", "orads"] },
+    legacy: { clinicalTools: ["orads-hub"] },
   },
   {
     id: "calculator.iota",

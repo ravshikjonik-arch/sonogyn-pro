@@ -3,8 +3,9 @@ import { redirect } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { isPelvis3dEnabled } from "@/lib/feature-flags/pelvis-3d";
 
-const MAPPING_LINKS = [
+const MAPPING_LINKS_BASE = [
   { href: "/tools/mapping/uterus", label: "Матка · FIGO / MUSA" },
   { href: "/tools/mapping/ovary", label: "Яичник · O-RADS / IOTA" },
   { href: "/tools/mapping/breast", label: "Молочная железа · BI-RADS" },
@@ -14,6 +15,13 @@ const MAPPING_LINKS = [
 type Props = { params: Promise<{ zone?: string[] }> };
 
 function MappingHub() {
+  const links = [
+    ...MAPPING_LINKS_BASE,
+    ...(isPelvis3dEnabled()
+      ? [{ href: "/tools/mapping/pelvis", label: "Малый таз · DIE (PELVIS_3D)" }]
+      : []),
+  ];
+
   return (
     <div className="mx-auto max-w-3xl space-y-6 px-4 py-8 pb-24">
       <header>
@@ -23,7 +31,7 @@ function MappingHub() {
         </p>
       </header>
       <div className="grid gap-3">
-        {MAPPING_LINKS.map((item) => (
+        {links.map((item) => (
           <Card key={item.href}>
             <CardHeader className="pb-2">
               <CardTitle className="text-base">{item.label}</CardTitle>

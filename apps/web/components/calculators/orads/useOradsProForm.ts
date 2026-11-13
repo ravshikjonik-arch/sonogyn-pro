@@ -11,6 +11,7 @@ import { buildCalculatorGeneratedReport } from "@/lib/reports/calculator-report-
 import {
   buildIotaConsensusReportText,
   calculateORADS,
+  oradsFinalCategory,
   evaluateIotaConsensus2026,
   type BloodFlow,
   type Echogenicity,
@@ -175,16 +176,17 @@ export function useOradsProFormState() {
 
   const result = useMemo(() => calculateORADS(input), [input]);
   const iotaConsensus = useMemo(() => evaluateIotaConsensus2026(input, result), [input, result]);
+  const finalCategory = oradsFinalCategory(result);
   const triangulation = useMemo(
-    () => evaluateAdnexTriangulation(input, result.category),
-    [input, result.category],
+    () => (finalCategory != null ? evaluateAdnexTriangulation(input, finalCategory) : null),
+    [input, finalCategory],
   );
   const reportText = useMemo(() => {
     const generated = buildCalculatorGeneratedReport(
       "o-rads-us",
       input as unknown as Record<string, unknown>,
-      { result, category: result.category },
-      result.category,
+      { result, category: finalCategory },
+      finalCategory,
     );
     const iotaBlock = buildIotaConsensusReportText(iotaConsensus);
     const base = generated?.plainText ?? "";

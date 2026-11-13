@@ -1,7 +1,5 @@
 "use client";
 
-import { getReferatImagePath } from "@repo/orads-us";
-
 import { OradsGridPickCard } from "@/components/calculators/orads/grids/OradsGridPickCard";
 
 type GridId = "features" | "category";
@@ -9,9 +7,6 @@ type GridId = "features" | "category";
 type Props = {
   onChoose: (grid: GridId) => void;
 };
-
-const FEATURE_IMG = getReferatImagePath("atlas/simple_cyst") ?? "/clinical/orads-nosology/functional-cyst.jpg";
-const CATEGORY_IMG = "/clinical/orads-nosology/dermoid-cyst.jpg";
 
 export function OradsChoiceScreen({ onChoose }: Props) {
   return (
@@ -22,8 +17,8 @@ export function OradsChoiceScreen({ onChoose }: Props) {
         </p>
         <h2 className="mt-1 text-xl font-black text-[var(--clinical-foreground)]">Как удобнее считать?</h2>
         <p className="mt-2 text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
-          Два рабочих экрана. Категорию считает калькулятор ACR, не картинка. Фото — чтобы сверить монитор с типичным
-          примером.
+          Два рабочих экрана. Категорию считает калькулятор ACR по дескрипторам лексикона — без учебных фото из
+          пособий.
         </p>
       </div>
 
@@ -31,15 +26,11 @@ export function OradsChoiceScreen({ onChoose }: Props) {
         <OradsGridPickCard
           title="1. По признакам"
           hint="Какое образование → содержимое → стенка и папилляры → размер → ЦДК. Быстрый приём."
-          imageSrc={FEATURE_IMG}
-          imageAlt="Учебный пример простой кисты"
           onClick={() => onChoose("features")}
         />
         <OradsGridPickCard
           title="2. По категории"
-          hint="Как в приложении ACR: категории 0–5, ROM и Classic Benign. Сверьте монитор с дескриптором лексикона."
-          imageSrc={CATEGORY_IMG}
-          imageAlt="Учебный пример дермоидной кисты"
+          hint="Как в приложении ACR: категории 0–5, ROM и Classic Benign."
           onClick={() => onChoose("category")}
         />
       </div>

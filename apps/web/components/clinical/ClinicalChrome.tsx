@@ -15,14 +15,17 @@ function E2eClinicalShell({ children }: { children: ReactNode }) {
       className="min-h-dvh bg-[var(--clinical-bg)] text-[var(--clinical-foreground)]"
       data-e2e-clinical-shell
     >
-      <main className="mx-auto w-full max-w-6xl">{children}</main>
+      <main id="main-content" className="mx-auto w-full max-w-6xl">
+        {children}
+      </main>
     </div>
   );
 }
 
+/** SSR on: public tool pages need real H1/content in HTML (SEO). Shell stays client; children stream. */
 const ClinicalShell = dynamic(
   () => import("@/components/clinical/clinical-shell").then((mod) => mod.ClinicalShell),
-  { ssr: false, loading: () => <CabinetBootScreen /> },
+  { loading: () => <CabinetBootScreen /> },
 );
 const AchievementToastListener = dynamic(
   () =>

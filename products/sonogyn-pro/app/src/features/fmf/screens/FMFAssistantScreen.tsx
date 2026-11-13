@@ -214,7 +214,7 @@ export default function FMFAssistantScreen({ navigation }: Props) {
       </View>
 
       <ScrollView contentContainerStyle={styles.content}>
-        <Card title={`Примеры: III скрининг 30–34 н. (Uzicenter)`}>
+        <Card title={`Примеры: III скрининг 34–36 н. (Uzicenter)`}>
           <Text style={styles.exampleNote}>{FMF_SCREENING_3034_SOURCE_NOTE}</Text>
           <View style={styles.rowWrap}>
             {fmfScreening3034Examples.map((ex) => (
@@ -243,12 +243,12 @@ export default function FMFAssistantScreen({ navigation }: Props) {
             <SelectChip label="Учебник: выкл" selected={!teachMode} onPress={() => setTeachMode(false)} />
           </View>
           <View style={styles.rowWrap}>
-            <SelectChip label="До 11 недель" selected={section === "early"} onPress={() => setSection("early")} />
-            <SelectChip label="I скрининг" selected={section === "first"} onPress={() => setSection("first")} />
-            <SelectChip label="II скрининг" selected={section === "second"} onPress={() => setSection("second")} />
-            <SelectChip label="III скрининг" selected={section === "third"} onPress={() => setSection("third")} />
-            <SelectChip label="Допплер" selected={section === "doppler"} onPress={() => setSection("doppler")} />
-            <SelectChip label="Шейка матки" selected={section === "cervix"} onPress={() => setSection("cervix")} />
+            <SelectChip label="Малый срок" selected={section === "early"} onPress={() => setSection("early")} />
+            <SelectChip label="I скрининговый срок" selected={section === "first"} onPress={() => setSection("first")} />
+            <SelectChip label="II скрининговый срок" selected={section === "second"} onPress={() => setSection("second")} />
+            <SelectChip label="III скрининговый срок" selected={section === "third"} onPress={() => setSection("third")} />
+            <SelectChip label="Цервикометрия" selected={section === "cervix"} onPress={() => setSection("cervix")} />
+            <SelectChip label="Допплерометрия" selected={section === "doppler"} onPress={() => setSection("doppler")} />
             <SelectChip label="Рубец на матке" selected={section === "scar"} onPress={() => setSection("scar")} />
           </View>
         </Card>

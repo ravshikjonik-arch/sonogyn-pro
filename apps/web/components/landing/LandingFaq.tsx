@@ -14,7 +14,9 @@ export function LandingFaq() {
     <section id="faq" className="scroll-mt-24">
       <div className="mb-10 text-center">
         <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--clinical-primary-deep)]">FAQ</p>
-        <h2 className="mt-2 text-2xl font-bold text-slate-950 dark:text-white sm:text-3xl">Частые вопросы</h2>
+        <h2 className="mt-2 text-2xl font-bold text-[var(--clinical-foreground)] sm:text-3xl">
+          Частые вопросы
+        </h2>
       </div>
       <div className="mx-auto max-w-3xl divide-y divide-[var(--clinical-border)] rounded-2xl border border-[var(--clinical-border)] bg-white/80 dark:bg-[var(--clinical-card)]">
         {LANDING_FAQ.map((item, index) => {

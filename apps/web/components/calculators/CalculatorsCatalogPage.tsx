@@ -1,4 +1,7 @@
+import Link from "next/link";
+
 import { ClinicalDomainHub } from "@/components/clinical/ClinicalDomainHub";
+import { ContentErrorReportLink } from "@/components/feedback/ContentErrorReportLink";
 import { CALCULATORS } from "@/lib/calculators/registry";
 import { resolveCalculatorHref } from "@/lib/calculators/resolve-calculator-href";
 import type { DomainHubCard, DomainHubGroup } from "@/lib/nav/domain-hubs";
@@ -66,12 +69,26 @@ export function CalculatorsCatalogPage() {
   });
 
   return (
-    <ClinicalDomainHub
-      title="Калькуляторы"
-      description="Акушерство, гинекология, RADS и аптека. Справочная поддержка, не диагноз."
-      groups={groups}
-      backHref="/home"
-      backLabel="← Разделы"
-    />
+    <div className="space-y-4">
+      <ClinicalDomainHub
+        title="Клинические калькуляторы"
+        description="Каталог инструментов УЗИ и АГ: O-RADS, IOTA, BI-RADS, TI-RADS, фетометрия, Bishop, VBAC, эндометрий, POP-Q и другие. На странице каждого калькулятора — методика, источники и ограничения. Справочная поддержка решений, не диагноз."
+        groups={groups}
+        backHref="/home"
+        backLabel="← Разделы"
+      />
+      <div className="mx-auto max-w-lg space-y-4 px-4 pb-10 sm:max-w-xl">
+        <p className="text-xs leading-relaxed text-[var(--clinical-foreground-muted)]">
+          Фильтры по разделам ниже: акушерство, гинекология, RADS, аптека. Популярные точки входа с
+          лендинга ведут сюда и на отдельные посадочные страницы с FAQ и ссылками на гайдлайны ACR /
+          ISUOG / IOTA / КР МЗ РФ. Разборы маршрутов — в{" "}
+          <Link href="/blog" className="font-medium text-[var(--clinical-primary-deep)] underline-offset-2 hover:underline">
+            блоге
+          </Link>
+          .
+        </p>
+        <ContentErrorReportLink pagePath="/tools/calc" />
+      </div>
+    </div>
   );
 }

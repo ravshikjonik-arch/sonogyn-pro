@@ -25,7 +25,6 @@ import {
 
 import type { RootStackParamList } from "../../../navigation/AppStack";
 import { applyProtocolTextToUs2022 } from "../applyProtocolTextToUs2022";
-import OradsBookTumorCardsSection from "../components/OradsBookTumorCardsSection";
 import SelectChip from "../components/SelectChip";
 import OradsUnifiedResultPanel from "../components/OradsUnifiedResultPanel";
 import { appendUnifiedCaseToHistory, loadUXMetric, pushTimeToResult } from "../storage/oradsStorage";
@@ -490,7 +489,10 @@ export default function OradsUnifiedScreen({ navigation, route }: Props) {
             </Pressable>
           </View>
 
-          <OradsBookTumorCardsSection />
+          <Text style={{ fontSize: 12, color: "#64748b", lineHeight: 17, marginVertical: 8 }}>
+            Учебные фотокарточки из пособий скрыты. Используйте пошаговый O-RADS и официальные гайдлайны ACR /
+            ISUOG на сайте sonogyn-pro.ru/tools/refs/sources.
+          </Text>
         </View>
       </ScrollView>
     </SafeAreaView>

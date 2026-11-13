@@ -16,6 +16,9 @@ const TYPE_WEIGHT: Record<EvidenceRecordType, number> = {
 const PROVIDER_BOOST: Partial<Record<EvidenceRecord["provider"], number>> = {
   cochrane: 0.08,
   kr_mz_rf: 0.07,
+  rcog: 0.06,
+  /** Curated vault (pgvector); below KR/Cochrane so hybrid does not crowd out guidelines. */
+  medical_vault: 0.05,
   static_corpus: 0.06,
   pubmed: 0.03,
   europe_pmc: 0.03,

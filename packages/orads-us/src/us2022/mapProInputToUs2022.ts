@@ -16,10 +16,18 @@ function resolveMenopause(input: OradsInput): MenopauseUs2022 {
   return "postEarly";
 }
 
+/** Doctor-approved equivalence when only the flow grade was entered; an explicit colour score wins. */
+const COLOR_SCORE_FROM_BLOOD_FLOW: Record<NonNullable<OradsInput["bloodFlow"]>, ColorScoreUs2022> = {
+  none: 1,
+  minimal: 2,
+  moderate: 3,
+  marked: 4,
+};
+
 function resolveColorScore(input: OradsInput): ColorScoreUs2022 | null {
   const raw = input.iotaColorScore;
   if (raw === "1" || raw === "2" || raw === "3" || raw === "4") return Number(raw) as ColorScoreUs2022;
-  return null;
+  return input.bloodFlow ? (COLOR_SCORE_FROM_BLOOD_FLOW[input.bloodFlow] ?? null) : null;
 }
 
 function resolvePapillae(input: OradsInput): OradsUs2022Input["papillae"] {

@@ -1,5 +1,8 @@
 import { ClinicalDomainHub } from "@/components/clinical/ClinicalDomainHub";
 import { TOOLS_HOME_DOMAINS, type DomainHubGroup } from "@/lib/nav/domain-hubs";
+import { calculatorPageMetadata } from "@/lib/seo/calculator-seo-registry";
+
+export const metadata = calculatorPageMetadata("/tools");
 
 const GROUPS: DomainHubGroup[] = [
   {
@@ -40,7 +43,7 @@ const GROUPS: DomainHubGroup[] = [
 export default function ToolsHubPage() {
   return (
     <ClinicalDomainHub
-      title="Кабинет"
+      title="Клинические инструменты"
       description="Те же разделы, что на главной: по специальностям и нозологиям."
       groups={GROUPS}
       backHref="/home"

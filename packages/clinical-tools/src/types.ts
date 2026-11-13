@@ -56,7 +56,8 @@ export type MobileToolAction =
   | "guidelines"
   | "medvedev"
   | "evidence_assistant"
-  | "cervix_pathology";
+  | "cervix_pathology"
+  | "ambulatory_intake";
 
 export type ClinicalTool = {
   id: string;

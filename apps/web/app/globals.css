@@ -31,13 +31,18 @@ html[data-theme-forced="dark"] mark {
 }
 
 /* ─── SonoGyn Pro design layer ─────────────────────────────────────────── */
-/* Маркетинг: локальные токены, если html временно в light при переходе */
+/*
+ * Маркетинг: локальные токены, если html временно в light при переходе.
+ * Контраст (WCAG AA): white on --clinical-primary #2563eb ≈ 5.17:1
+ * (было #3b82f6 ≈ 3.68:1). Текст #f1f5f9 / muted #94a3b8 на #05030a ≥ 8:1.
+ */
 [data-marketing-shell="true"] {
   color-scheme: dark;
   --clinical-foreground: #f1f5f9;
   --clinical-foreground-muted: #94a3b8;
   --clinical-primary-deep: #bfdbfe;
-  --clinical-primary: #3b82f6;
+  --clinical-primary: #2563eb;
+  --clinical-primary-hover: #1d4ed8;
   --clinical-border: rgba(148, 163, 184, 0.14);
 }
 

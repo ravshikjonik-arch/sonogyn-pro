@@ -6,12 +6,16 @@
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./types": "./src/types.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "lint": "echo \"skip\"",
-    "test": "node --import tsx --test src/__tests__/*.test.ts"
+    "test": "node --import tsx --test src/__tests__/*.test.ts",
+    "test:golden": "node --import tsx eval/run-golden-structural.mjs",
+    "eval:hybrid-ab:soft": "node --import tsx eval/run-hybrid-ab-soft.mjs",
+    "eval:promptfoo:soft": "echo \"Structural golden: pnpm test:golden. Live promptfoo: npx promptfoo@0.118.0 eval (opt-in)\""
   },
   "dependencies": {
     "@repo/clinical-guidelines": "workspace:*",

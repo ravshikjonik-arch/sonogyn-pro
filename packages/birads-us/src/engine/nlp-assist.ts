@@ -2,12 +2,24 @@ import type { BiradsInput } from "../birads-core";
 import { defaultBiradsBrochureInput, type BiradsBrochureInput } from "../biradsBrochure2025";
 import { mergeParsedBiradsInput } from "./merge-input";
 import { generateStructuredReport } from "./structured-report";
+import { formatBreastMm } from "../us-v2025/study";
 
 export type NlpAssistResult = {
   parsedInput: BiradsBrochureInput;
   detectedKeywords: string[];
+  /** Neutral assist note (kept under the old name for callers). Never a diagnosis. */
   suggestedDiagnosis: string;
+  /** Descriptor groups not found in the text: the calculator shows defaults there until the doctor confirms. */
+  missingFeatures: string[];
   report: ReturnType<typeof generateStructuredReport>;
+};
+
+const REQUIRED_FEATURES_RU: Record<"shape" | "orientation" | "margin" | "echoPattern" | "posteriorFeatures", string> = {
+  shape: "форма",
+  orientation: "ориентация",
+  margin: "контур",
+  echoPattern: "эхоструктура",
+  posteriorFeatures: "задние акустические признаки",
 };
 
 type KeywordRule = {
@@ -34,12 +46,10 @@ const KEYWORD_RULES: KeywordRule[] = [
   { patterns: [/изоэхоген/i, /isoechoic/i], field: "echoPattern", value: "isoechoic", label: "изоэхогенное" },
   { patterns: [/гиперэхоген/i, /hyperechoic/i], field: "echoPattern", value: "hyperechoic", label: "гиперэхогенное" },
   { patterns: [/гетероген/i, /heterogen/i, /неоднород/i], field: "echoPattern", value: "heterogeneous", label: "гетерогенное" },
-  { patterns: [/усилен/i, /enhancement/i], field: "posteriorFeatures", value: "enhancement", label: "усиление позади" },
+  { patterns: [/(усилени[ея]|усилен[а-я]*)\s+(сзади|позади|дорсальн)/i, /дорсальн[а-я]*\s+усилени/i, /posterior enhancement/i], field: "posteriorFeatures", value: "enhancement", label: "усиление позади" },
   { patterns: [/тень/i, /shadow/i, /ослаблен/i], field: "posteriorFeatures", value: "shadowing", label: "акустическая тень" },
   { patterns: [/смешан/i, /mixed/i], field: "posteriorFeatures", value: "mixed", label: "смешанные эффекты" },
-  { patterns: [/прост.*кист/i, /simple cyst/i], field: "specialCase", value: "simple_cyst", label: "простая киста" },
-  { patterns: [/кист/i, /cyst/i], field: "specialCase", value: "simple_cyst", label: "киста" },
-  { patterns: [/фиброаденом/i, /fibroadenoma/i], field: "specialCase", value: "none", label: "фиброадenoma" },
+  { patterns: [/прост[а-я]*\s+кист/i, /simple cyst/i], field: "specialCase", value: "simple_cyst", label: "простая киста" },
   { patterns: [/макрокальц/i, /macrocalc/i], field: "calcifications", value: "macro", label: "макрокальцификаты" },
   { patterns: [/микрокальц/i, /microcalc/i], field: "calcifications", value: "micro_in_lesion", label: "микрокальцификаты" },
   { patterns: [/внутрипротоков/i, /intraductal/i], field: "calcifications", value: "intraductal_outside", label: "внутрипротоковые" },
@@ -50,9 +60,9 @@ const KEYWORD_RULES: KeywordRule[] = [
   { patterns: [/умеренн.*gtc|gtc.*50/i], field: "gtcAmount", value: "moderate", label: "GTC умеренная" },
   { patterns: [/выражен.*gtc|gtc.*>75/i], field: "gtcAmount", value: "pronounced", label: "GTC выраженная" },
   { patterns: [/подмышеч/i, /axill/i], field: "lymphNodeSites", value: "axilla_I", label: "подмышечные ЛУ" },
-  { patterns: [/васкуляр/i, /кровоток/i, /doppler/i], field: "vascularity", value: "marked", label: "васкуляризация" },
-  { patterns: [/умерен.*васкул|mild.*flow/i], field: "vascularity", value: "mild", label: "умеренная васкуляризация" },
-  { patterns: [/без.*васкул|avascular/i], field: "vascularity", value: "none", label: "без васкуляризации" },
+  { patterns: [/выражен[а-я]*\s+(васкул|кровоток)|гиперваскуляр|усилен[а-я]*\s+кровоток|marked (flow|vascular)/i], field: "vascularity", value: "marked", label: "выраженная васкуляризация" },
+  { patterns: [/умерен[а-я]*\s+(васкул|кровоток)|mild.*flow/i], field: "vascularity", value: "mild", label: "умеренная васкуляризация" },
+  { patterns: [/без\s+(васкул|кровоток)|аваскуляр|avascular|кровоток\s+не\s+(определя|регистрир|выявля)/i], field: "vascularity", value: "none", label: "без васкуляризации" },
 ];
 
 export function parseBiradsFreeText(text: string): { parsed: Partial<BiradsBrochureInput>; keywords: string[] } {
@@ -80,32 +90,39 @@ export function parseBiradsFreeText(text: string): { parsed: Partial<BiradsBroch
 
   const sizeMatch = text.match(/(\d+(?:[.,]\d+)?)\s*[×x*]\s*(\d+(?:[.,]\d+)?)\s*мм/i);
   if (sizeMatch) {
-    keywords.push(`размер ${sizeMatch[1]}×${sizeMatch[2]} мм`);
-    parsed.localizationText = `Образование ${sizeMatch[1]}×${sizeMatch[2]} мм`;
+    const ru = (raw: string) => formatBreastMm(Number(raw.replace(",", ".")));
+    keywords.push(`размер ${ru(sizeMatch[1])}×${ru(sizeMatch[2])} мм`);
+    parsed.localizationText = `Образование ${ru(sizeMatch[1])}×${ru(sizeMatch[2])} мм`;
   }
 
   return { parsed, keywords };
 }
 
+/** Diagnosis words are noted but never turned into descriptors: the category comes only from described features. */
+const DIAGNOSIS_MENTIONS: { test: (text: string) => boolean; label: string }[] = [
+  { test: (t) => /фиброаденом|fibroadenoma/i.test(t), label: "в тексте упомянута фиброаденома — на расчёт не влияет" },
+  {
+    test: (t) => /кист|cyst/i.test(t) && !/прост[а-я]*\s+кист|simple cyst/i.test(t),
+    label: "в тексте упомянута киста — уточните тип (простая / осложнённая / микрокисты)",
+  },
+  { test: (t) => /(^|[^а-яё])рак([^а-яё]|$)|карцином|carcinoma/i.test(t), label: "в тексте упомянут диагноз — на расчёт не влияет" },
+];
+
+function missingFeatureGroups(parsed: Partial<BiradsBrochureInput>): string[] {
+  if (parsed.specialCase === "simple_cyst") return [];
+  return (Object.keys(REQUIRED_FEATURES_RU) as (keyof typeof REQUIRED_FEATURES_RU)[])
+    .filter((k) => parsed[k] === undefined)
+    .map((k) => REQUIRED_FEATURES_RU[k]);
+}
+
 export function assistFromFreeText(text: string): NlpAssistResult {
   const { parsed, keywords } = parseBiradsFreeText(text);
+  for (const m of DIAGNOSIS_MENTIONS) if (m.test(text)) keywords.push(m.label);
   const input = mergeParsedBiradsInput(parsed);
-
   const report = generateStructuredReport(input);
-  const topPath = report.engine.matchedPathologies[0];
-
-  let suggestedDiagnosis = topPath?.nameRu ?? "Образование МЖ";
-  if (/фиброаденома|fibroadenoma/i.test(text) || (input.shape === "oval" && input.margin === "circumscribed" && input.echoPattern === "hypoechoic")) {
-    suggestedDiagnosis = "Наиболее вероятно фиброаденома";
-  }
-  if (input.echoPattern === "anechoic" && input.margin === "circumscribed") {
-    suggestedDiagnosis = "Наиболее вероятно простая киста";
-  }
-
-  return {
-    parsedInput: input,
-    detectedKeywords: keywords,
-    suggestedDiagnosis,
-    report,
-  };
+  const missingFeatures = missingFeatureGroups(parsed);
+  const suggestedDiagnosis = missingFeatures.length
+    ? `Признаки из текста перенесены в калькулятор. Не распознаны: ${missingFeatures.join(", ")} — укажите их вручную. Категорию определяет врач по лексикону ACR, не AI.`
+    : "Признаки из текста перенесены в калькулятор — проверьте и подтвердите. Категорию определяет врач по лексикону ACR, не AI.";
+  return { parsedInput: input, detectedKeywords: keywords, suggestedDiagnosis, missingFeatures, report };
 }

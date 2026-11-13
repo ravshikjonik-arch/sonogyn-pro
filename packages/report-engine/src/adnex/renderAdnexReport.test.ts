@@ -22,7 +22,7 @@ describe("renderAdnexStructuredReport", () => {
     });
 
     assert.match(output.description, /УЗ-придатки/);
-    assert.match(output.description, /42 мм/);
+    assert.match(output.description, /42,0 мм/);
     assert.match(output.impression, /O-RADS US: 2/);
     assert.match(output.recommendations, /O-RADS 2/);
     assert.ok(output.citations.length >= 3);
@@ -30,7 +30,7 @@ describe("renderAdnexStructuredReport", () => {
     assert.equal(output.templateSlug, "adnex-orads-v1");
   });
 
-  it("defaults to O-RADS 3 when category missing", () => {
+  it("does not invent an O-RADS category when missing", () => {
     const output = renderAdnexStructuredReport({
       domain: "adnex",
       morphology: { localization: "ovarian", menopause: "post", structure: "solid", solidComponent: true },
@@ -38,8 +38,11 @@ describe("renderAdnexStructuredReport", () => {
       classification: {},
     });
 
-    assert.match(output.impression, /O-RADS US: 3/);
-    assert.match(output.impression, /не указана/);
+    assert.match(output.impression, /не рассчитана/);
+    assert.doesNotMatch(output.impression, /O-RADS US: [1-5]/);
+    assert.doesNotMatch(output.impression, /Категория O-RADS US: [1-5]/);
+    assert.match(output.recommendations, /зависят от категории O-RADS/);
+    assert.doesNotMatch(output.recommendations, /O-RADS [1-5]/);
   });
 
   it("wraps GenerateStructuredReportRequest", () => {

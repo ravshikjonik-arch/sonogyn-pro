@@ -5,6 +5,7 @@
 ## Контекст
 
 - Читай `about-me.md` и `ai-style.md` в корне.
+- Поэтапное углубление: `docs/prompts/` + `.cursor/rules/safety.mdc` (см. `docs/architecture/cursor-kit-integration.md`).
 - Web: `apps/web` (Next.js 16, Supabase Auth, Vercel).
 - Mobile: `apps/mobile` (Expo).
 - Видео: `apps/video` (Remotion Studio, вертикальные ролики 1080×1920).
@@ -72,3 +73,10 @@ A11y soft by default; strict: `A11Y_STRICT=true`. Lighthouse soft by default; st
 - Композиции: `apps/video/src/compositions/`
 - Регистрация: `apps/video/src/Root.tsx`
 - Рендер: `pnpm --filter @repo/video render SonoGynTip out/file.mp4`
+
+## Colibri (локальный LLM sidecar)
+
+- Не в git monorepo: `~/colibri` (`COLIBRI_HOME`)
+- Команды: `pnpm colibri:wire` · `colibri:setup` · `colibri:start` · `colibri:check`
+- Доки: `integrations/colibri/README.md`, `docs/integrations/colibri.md`
+- Prod Vercel не использует localhost Colibri

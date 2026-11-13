@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { TrackCtaLink } from "@/components/analytics/TrackCtaLink";
 import { BrandMark } from "@/components/brand/BrandMark";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils/cn";
@@ -23,7 +24,7 @@ export function LandingHeader({ isAuthenticated, variant = "clinical" }: Landing
     >
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-3 px-4 sm:h-16 sm:px-6 lg:px-8">
         <Link
-          href="/landing"
+          href="/"
           className={cn(
             "flex min-w-0 items-center gap-2.5 rounded-lg px-1 py-1 transition-opacity hover:opacity-80",
             marketing ? "text-white" : "text-[var(--clinical-foreground)]",
@@ -40,7 +41,7 @@ export function LandingHeader({ isAuthenticated, variant = "clinical" }: Landing
             className={cn("hidden sm:inline-flex", marketing && "text-violet-100 hover:bg-white/10 hover:text-white")}
             asChild
           >
-            <Link href="/landing#features">Возможности</Link>
+            <Link href="/#features">Возможности</Link>
           </Button>
           <Button
             variant="ghost"
@@ -48,11 +49,13 @@ export function LandingHeader({ isAuthenticated, variant = "clinical" }: Landing
             className={cn(marketing && "text-violet-100 hover:bg-white/10 hover:text-white")}
             asChild
           >
-            <Link href="/landing#pricing">Тарифы</Link>
+            <Link href="/#pricing">Тарифы</Link>
           </Button>
           {isAuthenticated ? (
             <Button size="sm" className="sonogyn-cta-glow font-semibold" asChild>
-              <Link href="/app">Кабинет</Link>
+              <TrackCtaLink href="/app" cta="cabinet" placement="landing_header">
+                Кабинет
+              </TrackCtaLink>
             </Button>
           ) : (
             <>
@@ -62,10 +65,23 @@ export function LandingHeader({ isAuthenticated, variant = "clinical" }: Landing
                 className={cn(marketing && "text-violet-100 hover:bg-white/10 hover:text-white")}
                 asChild
               >
-                <Link href="/landing#join">Войти</Link>
+                <TrackCtaLink href="/login" cta="login" placement="landing_header">
+                  Войти
+                </TrackCtaLink>
               </Button>
-              <Button size="sm" className={cn("font-semibold", marketing ? "bg-violet-600 hover:bg-violet-500" : "sonogyn-cta-glow")} asChild>
-                <Link href="/landing#join">Начать</Link>
+              <Button
+                size="sm"
+                className={cn(
+                  "font-semibold",
+                  marketing
+                    ? "bg-[var(--clinical-primary)] text-white hover:bg-[var(--clinical-primary-hover)]"
+                    : "sonogyn-cta-glow",
+                )}
+                asChild
+              >
+                <TrackCtaLink href="/register" cta="register" placement="landing_header">
+                  Начать
+                </TrackCtaLink>
               </Button>
             </>
           )}

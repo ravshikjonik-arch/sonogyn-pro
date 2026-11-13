@@ -11,7 +11,7 @@ type Props = {
   pathSummary: string[];
   onRestart: () => void;
   onBack: () => void;
-  onShare: () => void;
+  onShare?: () => void;
   onBuildReport?: () => void;
   onOpenGuide?: () => void;
   onAskAscites?: () => void;
@@ -90,10 +90,11 @@ export default function OradsWizardResultPanel({
         </Pressable>
       </View>
 
-      <Pressable style={styles.shareBtn} onPress={onShare}>
-        <Text style={styles.shareText}>{locale.t("orads.wizard.share_colleagues")}</Text>
-        <Text style={styles.shareHint}>{locale.t("orads.wizard.share_todo")}</Text>
-      </Pressable>
+      {onShare ? (
+        <Pressable style={styles.shareBtn} onPress={onShare}>
+          <Text style={styles.shareText}>{locale.t("orads.wizard.share_colleagues")}</Text>
+        </Pressable>
+      ) : null}
 
       {onBuildReport ? (
         <Pressable style={styles.reportBtn} onPress={onBuildReport}>

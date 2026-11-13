@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { parseOradsText } from "@/lib/orads-pro/text-parser";
-import { calculateORADS } from "@/lib/orads-pro";
+import { calculateORADS, oradsCategoryLabel, oradsFinalCategory } from "@/lib/orads-pro";
 import { cn } from "@/lib/utils/cn";
 
 const CONFIDENCE_LABEL: Record<"high" | "medium" | "low", string> = {
@@ -15,7 +15,8 @@ const CONFIDENCE_LABEL: Record<"high" | "medium" | "low", string> = {
   low: "низкая",
 };
 
-function categoryTone(category: number) {
+function categoryTone(category: number | null) {
+  if (category == null) return "border-[var(--clinical-border)] bg-[var(--clinical-surface)] text-[var(--clinical-foreground)]";
   if (category <= 2) return "border-emerald-300 bg-emerald-50 text-emerald-950";
   if (category === 3) return "border-amber-300 bg-amber-50 text-amber-950";
   if (category === 4) return "border-orange-300 bg-orange-50 text-orange-950";
@@ -54,12 +55,15 @@ export function OradsTextCalculator() {
         />
       </section>
 
-      <section className={cn("rounded-2xl border p-4 shadow-sm", categoryTone(result.category))}>
+      <section className={cn("rounded-2xl border p-4 shadow-sm", categoryTone(oradsFinalCategory(result)))}>
         <p className="text-xs font-bold uppercase">Предварительный результат</p>
         <div className="mt-2 flex flex-wrap items-end gap-3">
-          <p className="text-4xl font-black">O-RADS {result.category}</p>
+          <p className="text-4xl font-black">{oradsCategoryLabel(result)}</p>
           <p className="pb-1 text-sm font-bold">{result.riskText}</p>
         </div>
+        {result.missing.length ? (
+          <p className="mt-2 text-sm font-semibold">Не хватает: {result.missing.join("; ")}</p>
+        ) : null}
         <p className="mt-3 text-sm">{result.rationale}</p>
         <p className="mt-2 text-sm font-semibold">{result.recommendation}</p>
         {result.warning ? <p className="mt-2 text-xs">{result.warning}</p> : null}

@@ -1,3 +1,5 @@
+import { isCopyrightLockedHref } from "@/lib/copyright/book-content-gate";
+
 export type LearningPathStepType = "guideline" | "calculator" | "quiz" | "case" | "checklist" | "leaflet";
 
 export type LearningPathStep = {
@@ -17,7 +19,7 @@ export type LearningPath = {
   steps: LearningPathStep[];
 };
 
-export const LEARNING_PATHS: LearningPath[] = [
+const LEARNING_PATHS_RAW: LearningPath[] = [
   {
     id: "first-trimester-screening",
     titleRu: "Скрининг I триместра (11–13+6)",
@@ -111,6 +113,54 @@ export const LEARNING_PATHS: LearningPath[] = [
         href: "/tools/refs/patient-information",
         description: "Объяснение категорий O-RADS.",
         estimatedMinutes: 3,
+      },
+    ],
+  },
+  {
+    id: "rcog-sga-fgr",
+    titleRu: "ЗВУР · RCOG + FMF",
+    description: "Green-top 31 → FMF III / допплер → Guided → чек-лист.",
+    badge: "RCOG",
+    steps: [
+      {
+        id: "rcog-sga-1",
+        type: "guideline",
+        title: "RCOG GTG 31 · SGA / FGR",
+        description: "Карточка Green-top и дисклеймер UK ≠ КР РФ.",
+        href: "/tools/refs/rcog-green-top",
+        estimatedMinutes: 10,
+      },
+      {
+        id: "rcog-sga-2",
+        type: "calculator",
+        title: "FMF · III скрининг + допплер",
+        description: "Фетометрия, AFI, UtA / UA / MCA.",
+        href: "/ai/consultants/fmf?section=third",
+        estimatedMinutes: 12,
+      },
+      {
+        id: "rcog-sga-3",
+        type: "checklist",
+        title: "Guided · протокол по сроку",
+        description: "Пошаговый сценарий III окна.",
+        href: "/ai/consultants/fmf/guided",
+        estimatedMinutes: 8,
+      },
+      {
+        id: "rcog-sga-4",
+        type: "checklist",
+        title: "Чек-листы AIUM / ISUOG",
+        description: "Самопроверка срезов и допплера.",
+        href: "/tools/refs/exam-checklists",
+        estimatedMinutes: 10,
+      },
+      {
+        id: "rcog-sga-5",
+        type: "quiz",
+        title: "Quiz · Green-top маршруты",
+        description: "12 вопросов: ЗВУР, плацента, эктопия, шейка.",
+        href: "/tools/refs/rcog-green-top/quiz",
+        estimatedMinutes: 12,
       },
     ],
   },
@@ -323,6 +373,11 @@ export const LEARNING_PATHS: LearningPath[] = [
     ],
   },
 ];
+
+/** Drop paths that deep-link into locked book courses/atlases. */
+export const LEARNING_PATHS: LearningPath[] = LEARNING_PATHS_RAW.filter(
+  (path) => !path.steps.some((step) => isCopyrightLockedHref(step.href)),
+);
 
 export const LEARNING_PATH_PROGRESS_KEY = "sonogyn:learning-paths:progress";
 

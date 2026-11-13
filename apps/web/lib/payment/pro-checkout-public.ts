@@ -40,7 +40,7 @@ export function resolveProCheckoutPublicState(): ProCheckoutPublicState {
   return {
     yookassaReady: false,
     stripeFallbackReady: false,
-    ctaLabel: "Войти в кабинет",
-    footnote: `Оплата PRO на этом окружении недоступна. Напишите на ${SUPPORT_EMAIL} или дождитесь настройки ${PAYMENT_PROVIDER_PUBLIC_NAME_RU}.`,
+    ctaLabel: "Написать о PRO",
+    footnote: `Подписка PRO в подготовке — без цены и без оплаты на этом окружении. Вопросы: ${SUPPORT_EMAIL}.`,
   };
 }

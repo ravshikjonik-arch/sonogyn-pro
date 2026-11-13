@@ -1,9 +1,10 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { ORADS_NOSOLOGY_ATLAS } from "@repo/orads-us";
+import { getOradsNosologyPreviewImage, ORADS_NOSOLOGY_ATLAS, resolveOradsNosologyImageUri } from "@repo/orads-us";
 
-import { openClinicalToolAction, webAppUrl } from "../lib/clinical-tools/openClinicalTool";
+import { getWebAssetBase } from "../api/chatBackend";
+import { openClinicalToolAction } from "../lib/clinical-tools/openClinicalTool";
 import type { RootStackParamList } from "../navigation/paramLists";
 
 type Props = NativeStackScreenProps<RootStackParamList, "UltrasoundAssistant">;
@@ -29,9 +30,10 @@ function RouteCardView({ item }: { item: RouteCard }) {
 }
 
 export default function UltrasoundAssistantScreen({ navigation }: Props) {
-  const oradsAtlas = ORADS_NOSOLOGY_ATLAS.filter((item) =>
-    ["dermoid_cyst", "hydrosalpinx", "free_fluid_pelvis"].includes(item.id),
-  );
+  const oradsAtlas = ORADS_NOSOLOGY_ATLAS.flatMap((item) => {
+    const imageSrc = getOradsNosologyPreviewImage(item);
+    return imageSrc ? [{ ...item, imageSrc }] : [];
+  });
 
   const routes: RouteCard[] = [
     {
@@ -113,7 +115,11 @@ export default function UltrasoundAssistantScreen({ navigation }: Props) {
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.atlasRow}>
             {oradsAtlas.map((item) => (
               <Pressable key={item.id} style={styles.atlasCard} onPress={() => openClinicalToolAction(navigation, "orads")}>
-                <Image source={{ uri: webAppUrl(item.imageSrc) }} style={styles.atlasImage} resizeMode="cover" />
+                <Image
+                  source={{ uri: resolveOradsNosologyImageUri(item.imageSrc, getWebAssetBase()) }}
+                  style={styles.atlasImage}
+                  resizeMode="cover"
+                />
                 <View style={styles.atlasText}>
                   <Text style={styles.atlasTitle} numberOfLines={1}>
                     {item.titleRu}

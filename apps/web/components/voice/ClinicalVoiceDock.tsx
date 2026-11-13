@@ -10,13 +10,23 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils/cn";
 
-export function ClinicalVoiceDock() {
+type Props = {
+  /** floating — corner button on desktop; header — icon in the mobile top bar (iOS: no floating buttons over the tab bar). */
+  placement?: "floating" | "header";
+};
+
+export function ClinicalVoiceDock({ placement = "floating" }: Props) {
   const [open, setOpen] = useState(false);
   const voice = useVoiceReaderContext();
+  const inHeader = placement === "header";
 
   return (
     <div
-      className="fixed bottom-4 right-4 z-50 flex flex-col items-end gap-2"
+      className={
+        inHeader
+          ? "relative lg:hidden"
+          : "fixed bottom-4 right-4 z-50 hidden flex-col items-end gap-2 lg:flex"
+      }
       data-voice-ignore
     >
       {open ? (
@@ -25,6 +35,7 @@ export function ClinicalVoiceDock() {
             "w-[min(100vw-2rem,22rem)] rounded-2xl border border-[var(--clinical-border)]",
             "bg-[var(--clinical-card)] p-4 shadow-[var(--clinical-card-shadow)]",
             "sonogyn-enter",
+            inHeader && "fixed inset-x-3 top-16 z-50 w-auto",
           )}
           role="region"
           aria-label="Озвучивание текста"
@@ -155,8 +166,9 @@ export function ClinicalVoiceDock() {
       <Button
         type="button"
         size="icon"
+        variant={inHeader ? "ghost" : "default"}
         className={cn(
-          "h-12 w-12 rounded-full shadow-lg",
+          inHeader ? "h-9 w-9" : "h-12 w-12 rounded-full shadow-lg",
           voice.isSpeaking && "ring-2 ring-[var(--clinical-primary)] ring-offset-2",
         )}
         onClick={() => setOpen((v) => !v)}
@@ -166,7 +178,7 @@ export function ClinicalVoiceDock() {
         {voice.isSpeaking ? (
           <VolumeX className="h-5 w-5 animate-pulse" />
         ) : open ? (
-          <ChevronUp className="h-5 w-5" />
+          inHeader ? <ChevronDown className="h-5 w-5" /> : <ChevronUp className="h-5 w-5" />
         ) : (
           <Volume2 className="h-5 w-5" />
         )}

@@ -46,7 +46,7 @@ async function postAuth(body: Record<string, unknown>): Promise<EmailAuthResult>
     const tryDirectSupabase =
       supabaseMobile &&
       email &&
-      password.length >= 6 &&
+      password.length >= 1 &&
       (res.status === 401 ||
         res.status === 403 ||
         res.status === 502 ||
@@ -109,7 +109,7 @@ function mapAuthApiError(message: string, status: number, needsEmailConfirmation
     return `Неверный email или пароль.${pilotLoginHint()}`;
   }
   if (/password should be at least/i.test(message)) {
-    return "Пароль слишком короткий. Минимум 6 символов.";
+    return "Пароль слишком короткий. Минимум 8 символов.";
   }
   if (/too many|rate/i.test(message) || status === 429) {
     return "Слишком много попыток. Подождите и попробуйте снова.";

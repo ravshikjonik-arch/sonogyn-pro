@@ -14,6 +14,7 @@ import {
 import { OradsGridPickCard } from "@/components/calculators/orads/grids/OradsGridPickCard";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { isCopyrightLockedAsset } from "@/lib/copyright/book-content-gate";
 import { chapterToneClasses } from "@/lib/orads-pro";
 import { cn } from "@/lib/utils/cn";
 
@@ -139,7 +140,7 @@ export function OradsCategoryGrid({ onUseInCalculator }: Props) {
                   {openCard.acrLabelEn}. {openCard.disclaimerRu}
                 </DialogDescription>
               </DialogHeader>
-              {openCard.imageSrc ? (
+              {openCard.imageSrc && !isCopyrightLockedAsset(openCard.imageSrc) ? (
                 <div className="relative mx-5 aspect-[4/3] overflow-hidden rounded-xl bg-black">
                   <Image
                     src={openCard.imageSrc}

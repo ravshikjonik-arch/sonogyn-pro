@@ -1,12 +1,23 @@
 import { useMemo, useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
+import { formatMeasurementRu, parseMeasurementMm } from "@repo/medical-calculations";
+import {
+  DOPPLER_OPTIONS,
+  LN_RADS_VERSION,
+  defaultLnRadsInput,
+  enrichEngineResult,
+  formatLnAxesRu,
+  formatLnRatio,
+  generateStructuredReport,
+  lnRadsOptions,
+  type LnRadsInput,
+} from "@repo/ln-rads-us";
 import type { PageType } from "../../navigationTypes";
 import {
   BREAST_RISK_TOOL_VERSION,
   evaluateBreastRiskEducation,
 } from "../breastRiskTool";
 import { GynBackToHub } from "../components/GynBackToHub";
-import { evaluateLnRads, LN_RADS_VERSION } from "../lnrads";
 import { gynRouterStyles as s } from "../gynRouterStyles";
 
 export function ScreenBreastRisk({ setPage }: { setPage: (p: PageType) => void }) {
@@ -53,55 +64,70 @@ export function ScreenBreastRisk({ setPage }: { setPage: (p: PageType) => void }
   );
 }
 
-export function ScreenLnRads({ setPage }: { setPage: (p: PageType) => void }) {
-  const [location, setLocation] = useState<"neck" | "axillary" | "inguinal" | "abdominal">("neck");
-  const [lengthMm, setLengthMm] = useState("18");
-  const [shortAxisMm, setShortAxisMm] = useState("7");
-  const [hilum, setHilum] = useState<"present" | "absent">("present");
-  const [cortexMm, setCortexMm] = useState("2");
-  const [shape, setShape] = useState<"oval" | "round">("oval");
-  const [echogenicity, setEchogenicity] = useState<"normal" | "hypoechoic" | "heterogeneous">("normal");
-  const [vascularity, setVascularity] = useState<"hilar" | "peripheral" | "mixed" | "absent">("hilar");
-  const [borders, setBorders] = useState<"clear" | "irregular">("clear");
-  const [calcifications, setCalcifications] = useState(false);
-  const [necrosis, setNecrosis] = useState(false);
-  const [conglomerate, setConglomerate] = useState(false);
+type LnOption = { readonly value: string; readonly label: string };
 
-  const result = useMemo(() => {
-    const l = parseFloat(lengthMm.replace(",", "."));
-    const sAxis = parseFloat(shortAxisMm.replace(",", "."));
-    const c = parseFloat(cortexMm.replace(",", "."));
-    if (!Number.isFinite(l) || !Number.isFinite(sAxis) || !Number.isFinite(c) || l <= 0 || sAxis <= 0 || c < 0) {
-      return null;
-    }
-    return evaluateLnRads({
-      location,
-      length_mm: l,
-      short_axis_mm: sAxis,
-      hilum,
-      cortex_thickness_mm: c,
-      shape,
-      echogenicity,
-      vascularity,
-      borders,
-      calcifications,
-      necrosis,
-      conglomerate,
-    });
-  }, [
-    borders,
-    calcifications,
-    conglomerate,
-    cortexMm,
-    echogenicity,
-    hilum,
-    lengthMm,
-    location,
-    necrosis,
-    shape,
-    shortAxisMm,
-    vascularity,
-  ]);
+function LnChips<K extends keyof LnRadsInput>({
+  title,
+  field,
+  options,
+  input,
+  setField,
+}: {
+  title: string;
+  field: K;
+  options: readonly LnOption[];
+  input: LnRadsInput;
+  setField: (key: K, value: LnRadsInput[K]) => void;
+}) {
+  return (
+    <>
+      <Text style={s.label}>{title}</Text>
+      <View style={s.rowWrap}>
+        {options.map((o) => {
+          const selected = (input[field] ?? "not_assessed") === o.value;
+          return (
+            <Pressable
+              key={o.value}
+              accessibilityRole="button"
+              accessibilityState={{ selected }}
+              style={[s.backBtn, selected && { backgroundColor: "#ccfbf1" }]}
+              onPress={() => setField(field, o.value as LnRadsInput[K])}
+            >
+              <Text style={s.backBtnText}>{o.label}</Text>
+            </Pressable>
+          );
+        })}
+      </View>
+    </>
+  );
+}
+
+function LnMmInput({ label, value, onChange }: { label: string; value: number | undefined; onChange: (v: number | undefined) => void }) {
+  const [text, setText] = useState(typeof value === "number" && value > 0 ? formatMeasurementRu(value) : "");
+  return (
+    <TextInput
+      value={text}
+      accessibilityLabel={`${label}, мм`}
+      onChangeText={(t) => {
+        setText(t);
+        onChange(t.trim() ? parseMeasurementMm(t) : undefined);
+      }}
+      keyboardType="decimal-pad"
+      placeholder={label}
+      style={[s.input, { width: 140 }]}
+    />
+  );
+}
+
+/** Same engine, options and report as the web LN-RADS wizard (@repo/ln-rads-us). */
+export function ScreenLnRads({ setPage }: { setPage: (p: PageType) => void }) {
+  const [input, setInput] = useState<LnRadsInput>(() => defaultLnRadsInput());
+  const setField = <K extends keyof LnRadsInput>(key: K, value: LnRadsInput[K]) =>
+    setInput((prev) => ({ ...prev, [key]: value }));
+
+  const sizeOk = input.longAxisMm > 0 && input.shortAxisMm > 0;
+  const engine = useMemo(() => (sizeOk ? enrichEngineResult(input) : null), [input, sizeOk]);
+  const report = useMemo(() => (sizeOk ? generateStructuredReport(input, { level: "standard" }) : null), [input, sizeOk]);
 
   return (
     <View style={s.card}>
@@ -109,130 +135,45 @@ export function ScreenLnRads({ setPage }: { setPage: (p: PageType) => void }) {
       <Text style={s.title}>LN-RADS — оценка лимфоузлов</Text>
       <Text style={s.meta}>{LN_RADS_VERSION}</Text>
 
-      <Text style={s.label}>Локализация</Text>
+      <LnChips title="Регион" field="region" options={lnRadsOptions.region} input={input} setField={setField} />
+
+      <Text style={s.label}>Размеры, мм (длинная и короткая ось)</Text>
       <View style={s.rowWrap}>
-        {[
-          ["neck", "Шейные"],
-          ["axillary", "Подмышечные"],
-          ["inguinal", "Паховые"],
-          ["abdominal", "Абдоминальные"],
-        ].map(([v, label]) => (
-          <Pressable
-            key={v}
-            style={[s.backBtn, location === v && { backgroundColor: "#ccfbf1" }]}
-            onPress={() => setLocation(v as "neck" | "axillary" | "inguinal" | "abdominal")}
-          >
-            <Text style={s.backBtnText}>{label}</Text>
-          </Pressable>
-        ))}
+        <LnMmInput label="Длинная ось" value={input.longAxisMm} onChange={(v) => setField("longAxisMm", v ?? 0)} />
+        <LnMmInput label="Короткая ось" value={input.shortAxisMm} onChange={(v) => setField("shortAxisMm", v ?? 0)} />
       </View>
+      <Text style={s.meta}>Размеры: {formatLnAxesRu(input.longAxisMm, input.shortAxisMm)}</Text>
+      <Text style={s.label}>Толщина коры, мм (необязательно)</Text>
+      <LnMmInput label="Кора" value={input.cortexThicknessMm} onChange={(v) => setField("cortexThicknessMm", v)} />
 
-      <Text style={s.label}>Размеры, мм (длина и короткая ось)</Text>
-      <View style={s.rowWrap}>
-        <TextInput value={lengthMm} onChangeText={setLengthMm} keyboardType="decimal-pad" placeholder="Длина" style={[s.input, { width: 110 }]} />
-        <TextInput value={shortAxisMm} onChangeText={setShortAxisMm} keyboardType="decimal-pad" placeholder="Короткая ось" style={[s.input, { width: 140 }]} />
-      </View>
+      <LnChips title="Форма" field="shape" options={lnRadsOptions.shape} input={input} setField={setField} />
+      <LnChips title="Капсула" field="capsule" options={lnRadsOptions.capsule} input={input} setField={setField} />
+      <LnChips title="Ворота (хилус)" field="hilum" options={lnRadsOptions.hilum} input={input} setField={setField} />
+      <LnChips title="Кора" field="cortex" options={lnRadsOptions.cortex} input={input} setField={setField} />
+      <LnChips title="Эхогенность" field="echogenicity" options={lnRadsOptions.echogenicity} input={input} setField={setField} />
+      <LnChips title="Архитектура" field="architecture" options={lnRadsOptions.architecture} input={input} setField={setField} />
+      <LnChips title="Кровоток (ЦДК)" field="vascularity" options={DOPPLER_OPTIONS} input={input} setField={setField} />
+      <LnChips title="Кальцинаты" field="calcifications" options={lnRadsOptions.calcifications} input={input} setField={setField} />
+      <LnChips title="Некроз" field="necrosis" options={lnRadsOptions.necrosis} input={input} setField={setField} />
+      <LnChips title="Кистозная дегенерация" field="cysticDegeneration" options={lnRadsOptions.cysticDegeneration} input={input} setField={setField} />
+      <LnChips title="Экстракапсулярное распространение" field="extracapsularExtension" options={lnRadsOptions.extracapsularExtension} input={input} setField={setField} />
+      <LnChips title="Конгломераты (matting)" field="matting" options={lnRadsOptions.matting} input={input} setField={setField} />
+      <LnChips title="Эластография" field="elastography" options={lnRadsOptions.elastography} input={input} setField={setField} />
+      <LnChips title="CEUS" field="ceus" options={lnRadsOptions.ceus} input={input} setField={setField} />
 
-      <Text style={s.label}>Хилус</Text>
-      <View style={s.rowWrap}>
-        {[
-          ["present", "Сохранён"],
-          ["absent", "Отсутствует"],
-        ].map(([v, label]) => (
-          <Pressable key={v} style={[s.backBtn, hilum === v && { backgroundColor: "#fee2e2" }]} onPress={() => setHilum(v as "present" | "absent")}>
-            <Text style={s.backBtnText}>{label}</Text>
-          </Pressable>
-        ))}
-      </View>
-
-      <Text style={s.label}>Толщина коры, мм</Text>
-      <TextInput value={cortexMm} onChangeText={setCortexMm} keyboardType="decimal-pad" placeholder="2.5" style={s.input} />
-
-      <Text style={s.label}>Форма</Text>
-      <View style={s.rowWrap}>
-        {[
-          ["oval", "Овальная"],
-          ["round", "Округлая"],
-        ].map(([v, label]) => (
-          <Pressable key={v} style={[s.backBtn, shape === v && { backgroundColor: "#fef3c7" }]} onPress={() => setShape(v as "oval" | "round")}>
-            <Text style={s.backBtnText}>{label}</Text>
-          </Pressable>
-        ))}
-      </View>
-
-      <Text style={s.label}>Эхогенность</Text>
-      <View style={s.rowWrap}>
-        {[
-          ["normal", "Нормальная"],
-          ["hypoechoic", "Гипоэхогенная"],
-          ["heterogeneous", "Гетерогенная"],
-        ].map(([v, label]) => (
-          <Pressable
-            key={v}
-            style={[s.backBtn, echogenicity === v && { backgroundColor: "#fce7f3" }]}
-            onPress={() => setEchogenicity(v as "normal" | "hypoechoic" | "heterogeneous")}
-          >
-            <Text style={s.backBtnText}>{label}</Text>
-          </Pressable>
-        ))}
-      </View>
-
-      <Text style={s.label}>Кровоток (ЦДК)</Text>
-      <View style={s.rowWrap}>
-        {[
-          ["hilar", "Hilar"],
-          ["peripheral", "Peripheral"],
-          ["mixed", "Mixed"],
-          ["absent", "Absent"],
-        ].map(([v, label]) => (
-          <Pressable
-            key={v}
-            style={[s.backBtn, vascularity === v && { backgroundColor: "#e0e7ff" }]}
-            onPress={() => setVascularity(v as "hilar" | "peripheral" | "mixed" | "absent")}
-          >
-            <Text style={s.backBtnText}>{label}</Text>
-          </Pressable>
-        ))}
-      </View>
-
-      <Text style={s.label}>Контуры</Text>
-      <View style={s.rowWrap}>
-        {[
-          ["clear", "Чёткие"],
-          ["irregular", "Неровные"],
-        ].map(([v, label]) => (
-          <Pressable key={v} style={[s.backBtn, borders === v && { backgroundColor: "#fed7aa" }]} onPress={() => setBorders(v as "clear" | "irregular")}>
-            <Text style={s.backBtnText}>{label}</Text>
-          </Pressable>
-        ))}
-      </View>
-
-      <Text style={s.label}>Доп. признаки</Text>
-      <View style={s.rowWrap}>
-        {[
-          { label: "Кальцинаты", value: calcifications, setter: setCalcifications },
-          { label: "Некроз", value: necrosis, setter: setNecrosis },
-          { label: "Конгломераты", value: conglomerate, setter: setConglomerate },
-        ].map((item) => (
-          <Pressable key={item.label} style={[s.backBtn, item.value && { backgroundColor: "#fee2e2" }]} onPress={() => item.setter(!item.value)}>
-            <Text style={s.backBtnText}>
-              {item.label}: {item.value ? "да" : "нет"}
-            </Text>
-          </Pressable>
-        ))}
-      </View>
-
-      {!result ? (
-        <Text style={s.result}>Введите корректные размеры (положительные числа).</Text>
+      {!engine || !report ? (
+        <Text style={s.result}>Укажите длинную и короткую ось (мм, с десятыми).</Text>
       ) : (
         <>
           <Text style={s.result}>
-            LN-RADS {result.category} | Балл: {result.score} | Риск: {result.risk}
+            LN-RADS {engine.category} | Балл: {engine.score} | Риск: {engine.malignancyRisk}
           </Text>
-          <Text style={s.result}>Интерпретация: {result.title}</Text>
-          <Text style={s.result}>Соотношение L/S: {result.lOverS?.toFixed(2) ?? "н/д"}</Text>
-          <Text style={s.result}>Путь решения: {result.decisionPath.join(" • ")}</Text>
-          <Text style={s.result}>{result.protocol}</Text>
+          <Text style={s.result}>Интерпретация: {engine.title}</Text>
+          <Text style={s.result}>Соотношение L/S: {formatLnRatio(engine.sizeAnalysis.lsRatio)}</Text>
+          <Text style={s.result}>Тактика: {engine.management}</Text>
+          {engine.redFlags.length ? <Text style={s.result}>Красные флаги: {engine.redFlags.join(" • ")}</Text> : null}
+          <Text style={s.result}>Путь решения: {engine.decisionPath.join(" • ")}</Text>
+          <Text style={s.result}>{report.plainText}</Text>
         </>
       )}
     </View>

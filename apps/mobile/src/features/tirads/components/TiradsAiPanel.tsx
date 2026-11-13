@@ -78,13 +78,15 @@ export default function TiradsAiPanel({ onApply }: Props) {
       source === "camera"
         ? await ImagePicker.launchCameraAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            quality: 0.85,
+            quality: 0.55,
             base64: true,
+            allowsEditing: false,
           })
         : await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            quality: 0.8,
+            quality: 0.5,
             base64: true,
+            allowsEditing: false,
           });
 
     if (picked.canceled || !picked.assets[0]) return;
@@ -168,18 +170,26 @@ export default function TiradsAiPanel({ onApply }: Props) {
         <View style={styles.resultCard}>
           <Text style={styles.diagnosis}>{result.suggestedDiagnosis}</Text>
           <View style={styles.badges}>
-            <Text style={styles.badgeMain}>{result.report.result.category}</Text>
-            <Text style={styles.badgeSub}>{result.report.result.totalPoints} pts</Text>
+            {result.missingFeatures?.length ? (
+              <Text style={styles.badgeSub}>Категория — после заполнения всех признаков</Text>
+            ) : (
+              <>
+                <Text style={styles.badgeMain}>{result.report.result.category}</Text>
+                <Text style={styles.badgeSub}>{result.report.result.totalPoints} pts</Text>
+              </>
+            )}
             <Text style={styles.badgePipe}>{result.pipeline}</Text>
           </View>
-          <Text style={styles.fna}>{result.report.result.fnaRationale}</Text>
+          {result.missingFeatures?.length ? null : <Text style={styles.fna}>{result.report.result.fnaRationale}</Text>}
           {result.workerSummary ? <Text style={styles.worker}>{result.workerSummary}</Text> : null}
           {result.detectedKeywords.length ? (
             <Text style={styles.keywords}>{result.detectedKeywords.join(" · ")}</Text>
           ) : null}
-          <Text style={styles.protocol} numberOfLines={12}>
-            {result.report.fullProtocol}
-          </Text>
+          {result.missingFeatures?.length ? null : (
+            <Text style={styles.protocol} numberOfLines={12}>
+              {result.report.fullProtocol}
+            </Text>
+          )}
           <View style={styles.resultActions}>
             <Pressable style={styles.applyBtn} onPress={() => onApply(result)}>
               <Text style={styles.applyText}>Применить к ACR Score</Text>

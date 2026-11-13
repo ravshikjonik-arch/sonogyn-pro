@@ -193,8 +193,14 @@ export function WebinarChatPanel({ lessonId, sessionId, isHost, disabled }: Prop
               }
             }}
           />
-          <Button type="button" size="icon" disabled={disabled || sending || !draft.trim()} onClick={() => void sendMessage()}>
-            <Send className="h-4 w-4" />
+          <Button
+            type="button"
+            size="icon"
+            disabled={disabled || sending || !draft.trim()}
+            aria-label="Отправить сообщение"
+            onClick={() => void sendMessage()}
+          >
+            <Send className="h-4 w-4" aria-hidden />
           </Button>
         </div>
       </div>

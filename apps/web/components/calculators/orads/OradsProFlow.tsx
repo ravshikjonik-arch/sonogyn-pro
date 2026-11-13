@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useState } from "react";
 
 import { OradsAcrWizardExperience } from "@/components/calculators/orads/wizard/OradsAcrWizardExperience";
-import { OradsBookTumorCardsPanel } from "@/components/calculators/orads/OradsBookTumorCardsPanel";
 import { OradsCategoryAtlas } from "@/components/calculators/orads/OradsCategoryAtlas";
 import { OradsCategoryGrid } from "@/components/calculators/orads/grids/OradsCategoryGrid";
 import { OradsRussianCriteriaPanel } from "@/components/calculators/orads/OradsRussianCriteriaPanel";
@@ -106,7 +105,16 @@ export function OradsProFlow() {
         ) : panel === "category-atlas" ? (
           <OradsCategoryGrid />
         ) : panel === "tumors" ? (
-          <OradsBookTumorCardsPanel />
+          <div className="space-y-3 text-sm">
+            <p className="font-semibold">Дифференциальный диагноз</p>
+            <p className="text-xs leading-relaxed text-[var(--clinical-foreground-muted)]">
+              Фотокарточки из учебных пособий скрыты. Используйте ACR-wizard на этом экране и официальные
+              источники O-RADS.
+            </p>
+            <Button type="button" variant="outline" size="sm" asChild>
+              <Link href="/tools/refs/sources">Источники · ACR / ISUOG / КР</Link>
+            </Button>
+          </div>
         ) : (
           <div className="space-y-4 text-sm">
             <p className="font-bold">{ORADS_VERSION_LABEL}</p>

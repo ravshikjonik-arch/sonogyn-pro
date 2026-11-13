@@ -181,15 +181,15 @@ export default function FMFAssistantScreen({ navigation }: Props) {
         section === "early"
           ? "Малый срок"
           : section === "first"
-            ? "I скрининг"
+            ? "I скрининговый срок"
             : section === "second"
-              ? "II скрининг"
+              ? "II скрининговый срок"
               : section === "third"
-                ? "III скрининг"
+                ? "III скрининговый срок"
                 : section === "doppler"
-                  ? "Допплер"
+                  ? "Допплерометрия"
                   : section === "cervix"
-                    ? "Шейка матки"
+                    ? "Цервикометрия"
                     : "Рубец на матке"
       }`,
       `Режим расчета: ${calcMode === "strict" ? "Стр. перцентили" : "Быстрая оценка"}`,
@@ -250,12 +250,12 @@ export default function FMFAssistantScreen({ navigation }: Props) {
             <SelectChip label="Учебник: выкл" selected={!teachMode} onPress={() => setTeachMode(false)} />
           </View>
           <View style={styles.rowWrap}>
-            <SelectChip label="До 11 недель" selected={section === "early"} onPress={() => setSection("early")} />
-            <SelectChip label="I скрининг" selected={section === "first"} onPress={() => setSection("first")} />
-            <SelectChip label="II скрининг" selected={section === "second"} onPress={() => setSection("second")} />
-            <SelectChip label="III скрининг" selected={section === "third"} onPress={() => setSection("third")} />
-            <SelectChip label="Допплер" selected={section === "doppler"} onPress={() => setSection("doppler")} />
-            <SelectChip label="Шейка матки" selected={section === "cervix"} onPress={() => setSection("cervix")} />
+            <SelectChip label="Малый срок" selected={section === "early"} onPress={() => setSection("early")} />
+            <SelectChip label="I скрининговый срок" selected={section === "first"} onPress={() => setSection("first")} />
+            <SelectChip label="II скрининговый срок" selected={section === "second"} onPress={() => setSection("second")} />
+            <SelectChip label="III скрининговый срок" selected={section === "third"} onPress={() => setSection("third")} />
+            <SelectChip label="Цервикометрия" selected={section === "cervix"} onPress={() => setSection("cervix")} />
+            <SelectChip label="Допплерометрия" selected={section === "doppler"} onPress={() => setSection("doppler")} />
             <SelectChip label="Рубец на матке" selected={section === "scar"} onPress={() => setSection("scar")} />
           </View>
         </Card>
@@ -503,7 +503,7 @@ export default function FMFAssistantScreen({ navigation }: Props) {
         </Card>
 
         {section === "doppler" ? (
-          <Card title="Входные данные: Допплер">
+          <Card title="Входные данные: Допплерометрия">
             <View style={styles.row}>
               <TextInput style={styles.inputFlex} placeholder="Срок, нед" keyboardType="decimal-pad" onChangeText={(v) => setDoppler((p) => ({ ...p, gaWeeks: num(v) }))} />
               <TextInput style={styles.inputFlex} placeholder="Срок, дни" keyboardType="decimal-pad" onChangeText={(v) => setDoppler((p) => ({ ...p, gaDays: num(v) }))} />
@@ -525,7 +525,7 @@ export default function FMFAssistantScreen({ navigation }: Props) {
         ) : null}
 
         {section === "cervix" ? (
-          <Card title="Входные данные: Шейка матки">
+          <Card title="Входные данные: Цервикометрия">
             <TextInput style={styles.input} placeholder="Длина шейки (мм)" keyboardType="decimal-pad" onChangeText={(v) => setCervix((p) => ({ ...p, lengthMm: num(v) }))} />
             <View style={styles.rowWrap}>
               <SelectChip label="Funneling: нет" selected={cervix.funneling === false} onPress={() => setCervix((p) => ({ ...p, funneling: false }))} />

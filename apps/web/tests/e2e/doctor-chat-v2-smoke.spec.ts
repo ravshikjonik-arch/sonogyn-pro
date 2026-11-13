@@ -11,8 +11,20 @@ test.describe("Doctor chat v2 smoke", () => {
     await expect(page.getByRole("tab", { name: /Чат врачей/i })).toBeVisible();
   });
 
-  test("health exposes rollout.doctorChatV2 flag", async ({ request }) => {
+  test("public health hides infrastructure details", async ({ request }) => {
     const res = await request.get("/api/health");
+    expect(res.ok()).toBeTruthy();
+    const body = (await res.json()) as Record<string, unknown>;
+    expect(body.status).toBe("ok");
+    for (const key of ["commit", "checks", "db", "rollout", "observability", "stage3"]) {
+      expect(body).not.toHaveProperty(key);
+    }
+  });
+
+  test("health exposes rollout.doctorChatV2 flag with token", async ({ request }) => {
+    const token = process.env.HEALTH_DETAILS_TOKEN?.trim();
+    test.skip(!token, "HEALTH_DETAILS_TOKEN not set");
+    const res = await request.get("/api/health", { headers: { "x-health-token": token! } });
     expect(res.ok()).toBeTruthy();
     const body = (await res.json()) as {
       rollout?: { doctorChatV2?: boolean };

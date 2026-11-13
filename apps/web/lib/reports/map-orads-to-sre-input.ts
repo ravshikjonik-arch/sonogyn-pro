@@ -1,7 +1,7 @@
 import type { AdnexStructuredReportInput } from "@repo/types";
 
 import type { AdnexTriangulation } from "@repo/adnex-education";
-import type { OradsInput, OradsResult } from "@/lib/orads-pro";
+import { oradsFinalCategory, type OradsInput, type OradsResult } from "@/lib/orads-pro";
 
 import { classificationFromTriangulation } from "@/lib/reports/sre-classification";
 
@@ -12,9 +12,7 @@ export function mapOradsToAdnexSreInput(
   freeText?: string,
   triangulation?: AdnexTriangulation | null,
 ): AdnexStructuredReportInput {
-  const cat = result.category;
-  const oradsCategory =
-    cat >= 1 && cat <= 5 ? (cat as 1 | 2 | 3 | 4 | 5) : undefined;
+  const oradsCategory = oradsFinalCategory(result) ?? undefined;
 
   return {
     domain: "adnex",

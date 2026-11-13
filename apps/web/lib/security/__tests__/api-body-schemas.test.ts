@@ -15,6 +15,7 @@ import {
   NosologyAssistBodySchema,
   OvaryAssistBodySchema,
   PaymentCreateBodySchema,
+  PhoneVerifyOtpBodySchema,
   ResendConfirmationBodySchema,
   SendCodeBodySchema,
   SignInBodySchema,
@@ -111,11 +112,21 @@ describe("SignUpBodySchema", () => {
   it("requires full_name and specialization", () => {
     const r = SignUpBodySchema.safeParse({
       email: "a@b.ru",
-      password: "p",
+      password: "password1",
       full_name: "Иван",
       specialization: "obgyn",
     });
     assert.equal(r.success, true);
+  });
+
+  it("rejects password shorter than 8", () => {
+    const r = SignUpBodySchema.safeParse({
+      email: "a@b.ru",
+      password: "short",
+      full_name: "Иван",
+      specialization: "obgyn",
+    });
+    assert.equal(r.success, false);
   });
 });
 
@@ -128,6 +139,23 @@ describe("TelegramVerifyOtpBodySchema", () => {
   it("rejects missing code", () => {
     const r = TelegramVerifyOtpBodySchema.safeParse({ chatId: "123" });
     assert.equal(r.success, false);
+  });
+
+  it("rejects OTP shorter than 6", () => {
+    const r = TelegramVerifyOtpBodySchema.safeParse({ chatId: "123", code: "12345" });
+    assert.equal(r.success, false);
+  });
+});
+
+describe("PhoneVerifyOtpBodySchema", () => {
+  it("rejects OTP shorter than 6", () => {
+    const r = PhoneVerifyOtpBodySchema.safeParse({ phone: "+79001234567", code: "12345" });
+    assert.equal(r.success, false);
+  });
+
+  it("accepts 6-digit code", () => {
+    const r = PhoneVerifyOtpBodySchema.safeParse({ phone: "+79001234567", code: "123456" });
+    assert.equal(r.success, true);
   });
 });
 

@@ -1,3 +1,5 @@
+import { isCopyrightLockedHref } from "@/lib/copyright/book-content-gate";
+
 export type EducationShelf = "courses" | "assistant" | "reference" | "atlases" | "calculators";
 
 export type EducationLibraryItem = {
@@ -138,6 +140,17 @@ const EDUCATION_LIBRARY_ITEMS_RAW: EducationLibraryItem[] = [
     badge: "2025",
   },
   {
+    id: "rcog-green-top",
+    shelf: "reference",
+    title: "RCOG · Green-top Guidelines",
+    description:
+      "UK Green-top для УЗИ/АГ: SGA/FGR, плацента, эктопия, цервикометрия, яичники — с переходом в FMF и O-RADS.",
+    href: "/tools/refs/rcog-green-top",
+    tags: ["RCOG", "Green-top", "гайдлайн", "FGR", "ectopic"],
+    badge: "NEW",
+    primary: true,
+  },
+  {
     id: "cme-tracker",
     shelf: "courses",
     title: "CME · часы обучения",
@@ -198,7 +211,7 @@ const EDUCATION_LIBRARY_ITEMS_RAW: EducationLibraryItem[] = [
     title: "Evidence Assistant · AI",
     description:
       "Live-поиск PubMed, Cochrane, Europe PMC, Semantic Scholar, КР МЗ РФ + AI-резюме с цитатами.",
-    href: "/tools/refs/evidence-assistant",
+    href: "/tools/refs/evidence-sources",
     tags: ["EBM", "PubMed", "Cochrane", "AI", "доказательная медицина"],
     primary: true,
     badge: "EBM",
@@ -256,13 +269,13 @@ const EDUCATION_LIBRARY_ITEMS_RAW: EducationLibraryItem[] = [
   {
     id: "orads-hub",
     shelf: "courses",
-    title: "O-RADS · всё в одном месте",
+    title: "O-RADS US",
     description:
-      "Калькулятор, учебные эхограммы придатков, реферат ACR v2022, IOTA 2026 — не нужно искать по библиотеке.",
-    href: "/tools/calc/rads/o-rads",
-    tags: ["O-RADS", "эхограммы", "IOTA", "калькулятор", "хаб"],
+      "Комната: калькулятор ACR v2022, IOTA, эхограммы, реферат и протокол — один вход.",
+    href: "/tools/o-rads",
+    tags: ["O-RADS", "эхограммы", "IOTA", "калькулятор", "комната"],
     primary: true,
-    badge: "Хаб",
+    badge: "Комната",
   },
   {
     id: "orads-guide",
@@ -443,10 +456,30 @@ const EDUCATION_LIBRARY_ITEMS_RAW: EducationLibraryItem[] = [
   },
 ];
 
-/** Курсы и лекции скрыты из публичного каталога (ссылки на учёбу / Яндекс.Диск убраны). */
+/** Курсы + книжные атласы скрыты; официальные КР/гайды и калькуляторы остаются. */
 export const EDUCATION_LIBRARY_ITEMS: EducationLibraryItem[] = EDUCATION_LIBRARY_ITEMS_RAW.filter(
-  (item) => item.shelf !== "courses",
-);
+  (item) => item.shelf !== "courses" && !isCopyrightLockedHref(item.href),
+).concat([
+  {
+    id: "official-sources",
+    shelf: "reference",
+    title: "Источники и авторские права",
+    description: "Официальные ACR / FIGO / ISUOG / IOTA и КР МЗ РФ. Книжные атласы не публикуются.",
+    href: "/tools/refs/sources",
+    tags: ["источники", "гайдлайны", "ACR", "FIGO", "КР"],
+    primary: true,
+    badge: "OFFICIAL",
+  },
+  {
+    id: "ambulatory-intake",
+    shelf: "reference",
+    title: "ЧЕК-ЛИСТ АМБУЛАТОРИИ",
+    description: "Быстрый чек-лист приёма АГ: жалобы → план → нормы → запись (для врача).",
+    href: "/tools/refs/ambulatory-intake",
+    tags: ["приём", "чек-лист", "амбулатория", "АГ", "запись"],
+    primary: true,
+  },
+]);
 
 export function groupEducationByShelf(items: EducationLibraryItem[]): Map<EducationShelf, EducationLibraryItem[]> {
   const map = new Map<EducationShelf, EducationLibraryItem[]>();

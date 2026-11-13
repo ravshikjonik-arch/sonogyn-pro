@@ -1,9 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
+import { SkipToContent } from "@/components/a11y/SkipToContent";
 import { PwaInstallProvider } from "@/components/pwa/PwaInstallProvider";
 import { PwaRuntime } from "@/components/pwa/PwaRuntime";
 import { AppToaster } from "@/components/providers/app-toaster";
+import { AnalyticsScripts } from "@/components/analytics/AnalyticsScripts";
 import { CookieConsentBanner } from "@/components/privacy/CookieConsentBanner";
 import { ThemeProvider } from "@/lib/theme/theme-provider";
 import { THEME_BOOT_SCRIPT } from "@/lib/theme/theme-paths";
@@ -21,13 +23,14 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? "https://sonogyn-pro.ru"),
   title: {
     default: "SonoGyn Pro",
     template: "%s | SonoGyn Pro",
   },
   description:
     "Клиническая платформа УЗИ и акушерства-гинекологии: калькуляторы по гайдлайнам, справочники и рабочий кабинет для врачей.",
-  manifest: "/manifest.json",
+  manifest: "/manifest.webmanifest",
   applicationName: "SonoGyn Pro",
   appleWebApp: {
     capable: true,
@@ -36,6 +39,16 @@ export const metadata: Metadata = {
   },
   formatDetection: {
     telephone: false,
+  },
+  openGraph: {
+    type: "website",
+    locale: "ru_RU",
+    siteName: "SonoGyn Pro",
+    images: [{ url: "/og-default.png", width: 1200, height: 630, alt: "SonoGyn Pro" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["/og-default.png"],
   },
   icons: {
     icon: [
@@ -80,13 +93,15 @@ export default function RootLayout({
           }}
         />
       </head>
-          <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col">
         <ThemeProvider>
           <PwaInstallProvider>
             <SessionProvider>
+              <SkipToContent />
               {children}
               <AppToaster />
               <PwaRuntime />
+              <AnalyticsScripts />
               <CookieConsentBanner />
             </SessionProvider>
           </PwaInstallProvider>

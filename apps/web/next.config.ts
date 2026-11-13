@@ -28,7 +28,14 @@ function liveKitConnectExtra(): string {
   }
 }
 
+/** Emergency CD proxy (SONOGYN_CUSTOM_DOMAIN_PROXY=1) may load assets from *.vercel.app. */
+function isCustomDomainProxyEnvEnabled(): boolean {
+  const v = process.env.SONOGYN_CUSTOM_DOMAIN_PROXY?.trim().toLowerCase();
+  return v === "1" || v === "true";
+}
+
 function vercelAssetCsp(): string {
+  if (!isCustomDomainProxyEnvEnabled()) return "";
   return " https://*.vercel.app";
 }
 
@@ -37,8 +44,8 @@ function buildContentSecurityPolicy(): string {
   const vercelAssets = isProd ? vercelAssetCsp() : "";
   // Next inline theme/SW scripts still need 'unsafe-inline'. Drop 'unsafe-eval' in prod.
   const scriptSrc = isProd
-    ? `script-src 'self' 'unsafe-inline' https://js.stripe.com https://challenges.cloudflare.com https://telegram.org https://www.googletagmanager.com https://www.google-analytics.com${vercelAssets}`
-    : "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://challenges.cloudflare.com https://telegram.org https://www.googletagmanager.com https://www.google-analytics.com";
+    ? `script-src 'self' 'unsafe-inline' https://js.stripe.com https://challenges.cloudflare.com https://telegram.org https://www.googletagmanager.com https://www.google-analytics.com https://mc.yandex.ru https://yastatic.net${vercelAssets}`
+    : "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://challenges.cloudflare.com https://telegram.org https://www.googletagmanager.com https://www.google-analytics.com https://mc.yandex.ru https://yastatic.net";
 
   const parts = [
     "default-src 'self'",
@@ -59,12 +66,18 @@ function buildContentSecurityPolicy(): string {
   return `${parts.join("; ")};`;
 }
 
-/** Custom domain truncates bodies ~16–20KB; static files on *.vercel.app complete. */
+/**
+ * Same-origin assets by default (custom domain SSR).
+ * Only when emergency SONOGYN_CUSTOM_DOMAIN_PROXY=1 — optional prefix to *.vercel.app.
+ */
 function productionAssetPrefix(): string | undefined {
   if (process.env.VERCEL !== "1") return undefined;
+  if (!isCustomDomainProxyEnvEnabled()) return undefined;
+
   const forced =
     process.env.SONOGYN_ASSET_PREFIX?.trim() || process.env.NEXT_PUBLIC_SONOGYN_ASSET_PREFIX?.trim();
-  if (forced) return forced.replace(/\/$/, "");
+  // A fixed asset host serves one deployment only; previews must load their own assets.
+  if (forced && process.env.VERCEL_ENV === "production") return forced.replace(/\/$/, "");
 
   const raw = process.env.VERCEL_URL?.trim();
   if (!raw) return undefined;
@@ -89,6 +102,8 @@ function supabaseConnectOriginExtra(): string {
 }
 
 const nextConfig: NextConfig = {
+  // SECURITY: do not advertise Next.js in response headers
+  poweredByHeader: false,
   /** Playwright / LAN dev hits 127.0.0.1 — without this, client chunks may not load in Next 16 dev. */
   allowedDevOrigins: ["127.0.0.1", "localhost"],
   // Dynamic fs reads of these clones made one serverless trace include their .git packs and killed the 8 GB Vercel builder.
@@ -104,6 +119,11 @@ const nextConfig: NextConfig = {
     ],
   },
   assetPrefix: productionAssetPrefix(),
+  /** Custom domain also breaks optimized images (proxy bootstrap HTML + truncation); optimize on the asset host. */
+  images: {
+    formats: ["image/avif", "image/webp"],
+    ...(productionAssetPrefix() ? { path: `${productionAssetPrefix()}/_next/image` } : {}),
+  },
   transpilePackages: [
     "three",
     "@clinical/uterus",
@@ -122,6 +142,8 @@ const nextConfig: NextConfig = {
     "@repo/adnex-education",
     "@repo/types",
     "@repo/orads-us",
+    "@repo/morphology-core",
+    "@repo/medical-intelligence",
     "@repo/birads-us",
     "@repo/birads-mmg",
     "@repo/myoma-education",
@@ -167,6 +189,10 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ["lucide-react", "@react-three/drei"],
     webpackMemoryOptimizations: true,
     webpackBuildWorker: true,
+    /** Server Actions only; AI assist Route Handlers rely on client JPEG compress. */
+    serverActions: {
+      bodySizeLimit: "8mb",
+    },
   },
   webpack: (config, { dev }) => {
     if (config.cache && !dev) {
@@ -213,30 +239,17 @@ const nextConfig: NextConfig = {
     return config;
   },
   async rewrites() {
-    const supa = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim().replace(/\/$/, "");
-    if (process.env.VERCEL === "1" && supa) {
-      return [
-        {
-          source: "/clinical-atlas/prenatal-echo-ru/:path*",
-          destination: `${supa}/storage/v1/object/public/clinical-atlas/prenatal-echo-ru/:path*`,
-        },
-        {
-          source: "/clinical-atlas/neishtadt-ovary/:path*",
-          destination: `${supa}/storage/v1/object/public/clinical-atlas/neishtadt-ovary/:path*`,
-        },
-      ];
-    }
+    // Copyright B+: do not proxy book atlas images from Supabase public buckets.
     return [];
   },
   async redirects() {
-    // Production: `/` is an edge redirect so the custom domain does not wait
-    // on a Node function that was hanging with 0 bytes. Keep the page handler
-    // for local DEV_SKIP_AUTH / auto-login.
-    const apexHome =
-      process.env.VERCEL === "1" || process.env.NODE_ENV === "production"
-        ? [{ source: "/", destination: "/home", permanent: false as const }]
-        : [];
-    return [...apexHome, ...IA_V2_REDIRECTS];
+    // Marketing canon is `/` (landing). Old bookmarks `/landing` → 301 home marketing.
+    // Dev auto-login still handled in `app/page.tsx` before the landing render.
+    return [
+      { source: "/landing", destination: "/", permanent: true as const },
+      { source: "/landing/:path*", destination: "/", permanent: true as const },
+      ...IA_V2_REDIRECTS,
+    ];
   },
   async headers() {
     const headers = [
@@ -261,11 +274,17 @@ const nextConfig: NextConfig = {
       });
     }
 
+    const timingAllowOrigin = [{ key: "Timing-Allow-Origin", value: "*" }];
+
     return [
       {
         source: "/(.*)",
         headers,
       },
+      { source: "/_next/static/:path*", headers: timingAllowOrigin },
+      { source: "/_next/image", headers: timingAllowOrigin },
+      { source: "/icons/:path*", headers: timingAllowOrigin },
+      { source: "/marketing/:path*", headers: timingAllowOrigin },
     ];
   },
 };

@@ -2,17 +2,23 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Alert } from "react-native";
 import type { NavigationProp } from "@react-navigation/native";
 import type { RootStackParamList } from "../navigation/AppStack";
+import { isIapEnabled, isOpenAccessPilot } from "../config/storeRelease";
 import { isProUser } from "../services/purchaseService";
 import { getTrialStatus } from "../services/trialAccess";
 
 export function useProAccess(navigation?: NavigationProp<RootStackParamList>) {
-  const [isPro, setIsPro] = useState(false);
-  const [source, setSource] = useState<"none" | "subscription" | "trial">("none");
+  const [isPro, setIsPro] = useState(isOpenAccessPilot());
+  const [source, setSource] = useState<"none" | "subscription" | "trial" | "open">("none");
   const [loading, setLoading] = useState(true);
 
   const refresh = useCallback(async () => {
     try {
       setLoading(true);
+      if (isOpenAccessPilot()) {
+        setIsPro(true);
+        setSource("open");
+        return true;
+      }
       let pro = false;
       try {
         pro = await isProUser();
@@ -43,6 +49,14 @@ export function useProAccess(navigation?: NavigationProp<RootStackParamList>) {
       try {
         const pro = await refresh();
         if (pro) {
+          onPro();
+          return;
+        }
+        if (!isIapEnabled()) {
+          Alert.alert(
+            "Доступ",
+            "В пилотной версии App Store все клинические инструменты открыты без подписки.",
+          );
           onPro();
           return;
         }

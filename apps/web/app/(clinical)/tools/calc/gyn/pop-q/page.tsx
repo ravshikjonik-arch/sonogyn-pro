@@ -1,6 +1,9 @@
 import dynamic from "next/dynamic";
 
+import { CalculatorLandingShell } from "@/components/seo/CalculatorLandingShell";
+import { getCalculatorLandingContent } from "@/lib/seo/calculator-landing-content";
 import { calculatorPageMetadata } from "@/lib/seo/calculator-seo-registry";
+
 const PopQFlow = dynamic(
   () => import("@/components/calculators/popq/PopQFlow").then((m) => ({ default: m.PopQFlow })),
   {
@@ -14,6 +17,12 @@ const PopQFlow = dynamic(
 
 export const metadata = calculatorPageMetadata("/tools/calc/gyn/pop-q");
 
+const content = getCalculatorLandingContent("/tools/calc/gyn/pop-q")!;
+
 export default function PopQPage() {
-  return <PopQFlow />;
+  return (
+    <CalculatorLandingShell content={content}>
+      <PopQFlow />
+    </CalculatorLandingShell>
+  );
 }

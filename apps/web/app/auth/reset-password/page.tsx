@@ -8,6 +8,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { fetchAuthSession, postUpdatePassword } from "@/lib/auth/client-auth-api";
 import { recoveryResetPath } from "@/lib/auth/auth-callback";
+import {
+  AUTH_PASSWORD_MIN_LENGTH,
+  AUTH_PASSWORD_TOO_SHORT_MSG,
+} from "@/lib/auth/password-policy";
+
+const SESSION_CHECK_MS = 10_000;
 
 function ResetPasswordForm() {
   const router = useRouter();
@@ -22,6 +28,7 @@ function ResetPasswordForm() {
   const [loading, setLoading] = useState(false);
   const [checkingSession, setCheckingSession] = useState(true);
   const [canReset, setCanReset] = useState(false);
+  const [redirecting, setRedirecting] = useState(false);
 
   const finishCheck = useCallback(async () => {
     const url = new URL(window.location.href);
@@ -30,23 +37,45 @@ function ResetPasswordForm() {
     const type = url.searchParams.get("type");
 
     if (code || tokenHash) {
+      setRedirecting(true);
       const callback = new URL("/auth/callback", url.origin);
       if (code) callback.searchParams.set("code", code);
       if (tokenHash) callback.searchParams.set("token_hash", tokenHash);
       if (type) callback.searchParams.set("type", type);
       callback.searchParams.set("next", recoveryResetPath());
+      // Fallback: если callback зависнет — через 12с покажем выход.
+      window.setTimeout(() => {
+        setRedirecting(false);
+        setCheckingSession(false);
+        setCanReset(false);
+        setMessage(
+          "Подтверждение ссылки заняло слишком много времени. Запросите новое письмо «Забыли пароль?» на странице входа.",
+        );
+      }, 12_000);
       window.location.replace(callback.toString());
       return;
     }
 
-    const { user } = await fetchAuthSession();
-    setCanReset(Boolean(user));
-    setCheckingSession(false);
-
-    if (!user && callbackError && callbackMessage) {
-      setMessage(decodeURIComponent(callbackMessage));
-    } else if (!user && recovery) {
-      setMessage("Сессия восстановления не найдена. Откройте свежую ссылку из письма или запросите новую.");
+    try {
+      const { user } = await Promise.race([
+        fetchAuthSession({ timeoutMs: SESSION_CHECK_MS }),
+        new Promise<{ user: null }>((resolve) => {
+          setTimeout(() => resolve({ user: null }), SESSION_CHECK_MS);
+        }),
+      ]);
+      setCanReset(Boolean(user));
+      if (!user && callbackError && callbackMessage) {
+        setMessage(decodeURIComponent(callbackMessage));
+      } else if (!user && recovery) {
+        setMessage(
+          "Сессия восстановления не найдена. Откройте свежую ссылку из письма или запросите новую.",
+        );
+      }
+    } catch {
+      setCanReset(false);
+      setMessage("Не удалось проверить сессию. Обновите страницу или запросите новую ссылку.");
+    } finally {
+      setCheckingSession(false);
     }
   }, [callbackError, callbackMessage, recovery]);
 
@@ -58,8 +87,8 @@ function ResetPasswordForm() {
     e.preventDefault();
     setMessage("");
 
-    if (password.length < 8) {
-      setMessage("Пароль не короче 8 символов.");
+    if (password.length < AUTH_PASSWORD_MIN_LENGTH) {
+      setMessage(AUTH_PASSWORD_TOO_SHORT_MSG);
       return;
     }
     if (password !== confirm) {
@@ -85,10 +114,18 @@ function ResetPasswordForm() {
     }
   }
 
-  if (checkingSession) {
+  if (checkingSession || redirecting) {
     return (
-      <main className="flex min-h-[70vh] items-center justify-center px-4 py-12">
-        <p className="text-sm text-[var(--clinical-foreground-muted)]">Проверяем ссылку из письма…</p>
+      <main className="flex min-h-[70vh] flex-col items-center justify-center gap-3 px-4 py-12">
+        <p className="text-sm text-[var(--clinical-foreground-muted)]">
+          {redirecting ? "Подтверждаем ссылку из письма…" : "Проверяем ссылку из письма…"}
+        </p>
+        <p className="max-w-sm text-center text-xs text-[var(--clinical-foreground-muted)]">
+          Обычно 2–5 секунд. Если дольше 15 сек — закройте вкладку и запросите новое письмо на входе.
+        </p>
+        <Link href="/login?forgot=1" className="text-sm text-[var(--clinical-primary-deep)] underline">
+          К сбросу пароля на входе
+        </Link>
       </main>
     );
   }
@@ -120,7 +157,7 @@ function ResetPasswordForm() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                minLength={8}
+                minLength={AUTH_PASSWORD_MIN_LENGTH}
               />
             </div>
             <div className="space-y-2">
@@ -134,7 +171,7 @@ function ResetPasswordForm() {
                 value={confirm}
                 onChange={(e) => setConfirm(e.target.value)}
                 required
-                minLength={8}
+                minLength={AUTH_PASSWORD_MIN_LENGTH}
               />
             </div>
             {message ? <p className="text-sm text-red-600">{message}</p> : null}
@@ -146,7 +183,7 @@ function ResetPasswordForm() {
           <div className="space-y-4 text-center">
             {message ? <p className="text-sm text-red-600">{message}</p> : null}
             <Button asChild className="w-full">
-              <Link href="/login">Запросить новую ссылку</Link>
+              <Link href="/login?forgot=1">Запросить новую ссылку</Link>
             </Button>
           </div>
         )}

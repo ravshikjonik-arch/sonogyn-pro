@@ -8,20 +8,16 @@ import { LexiconFeaturesList } from "@/components/calculators/orads/LexiconFeatu
 import { LexiconImageOverlay } from "@/components/calculators/orads/LexiconImageOverlay";
 import { Button } from "@/components/ui/button";
 import type { BreastAiAssistResult } from "@/lib/ai/breast-ultrasound-assist";
+import {
+  assistHttpErrorMessage,
+  prepareClientImagingFrame,
+} from "@/lib/ai/imaging-cds/prepare-client-frame";
 
 type Props = {
   freeText?: string;
   onResult: (result: BreastAiAssistResult) => void;
   disabled?: boolean;
 };
-
-async function fileToBase64(file: File): Promise<string> {
-  const buf = await file.arrayBuffer();
-  let binary = "";
-  const bytes = new Uint8Array(buf);
-  for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]!);
-  return btoa(binary);
-}
 
 /** Загрузка снимка УЗИ МЖ → US AI Worker (domain breast) + BI-RADS NLP. */
 export function BiradsImageAssistPanel({ freeText, onResult, disabled }: Props) {
@@ -32,28 +28,24 @@ export function BiradsImageAssistPanel({ freeText, onResult, disabled }: Props) 
   const onFile = useCallback(
     async (file: File | null) => {
       if (!file) return;
-      if (!file.type.startsWith("image/")) {
-        toast.error("Нужен файл изображения (PNG/JPEG/WebP)");
-        return;
-      }
       if (previewUrl) URL.revokeObjectURL(previewUrl);
-      setPreviewUrl(URL.createObjectURL(file));
       setBusy(true);
       setLastResult(null);
       try {
-        const base64 = await fileToBase64(file);
+        const frame = await prepareClientImagingFrame(file);
+        setPreviewUrl(frame.previewUrl);
         const res = await fetch("/api/ai/breast-assist", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             freeText,
             clinicalContext: "УЗИ молочной железы, BI-RADS US",
-            frames: [{ fileName: file.name, mimeType: file.type, base64 }],
+            frames: [{ fileName: frame.fileName, mimeType: frame.mimeType, base64: frame.base64 }],
           }),
         });
         if (!res.ok) {
           const err = (await res.json().catch(() => ({}))) as { error?: string };
-          throw new Error(err.error ?? `HTTP ${res.status}`);
+          throw new Error(assistHttpErrorMessage(res.status, err.error));
         }
         const json = (await res.json()) as { result: BreastAiAssistResult };
         setLastResult(json.result);

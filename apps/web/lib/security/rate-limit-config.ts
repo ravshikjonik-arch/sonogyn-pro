@@ -41,7 +41,8 @@ export const RL = {
     "RATE_LIMIT_AUTH_PHONE_VERIFY_WINDOW_SEC",
     900,
   ),
-  authFailHard: preset("RATE_LIMIT_AUTH_FAIL_MAX", 20, "RATE_LIMIT_AUTH_FAIL_WINDOW_SEC", 3600),
+  // SECURITY: ~10 failed attempts → lock ~15 min (env-tunable)
+  authFailHard: preset("RATE_LIMIT_AUTH_FAIL_MAX", 10, "RATE_LIMIT_AUTH_FAIL_WINDOW_SEC", 900),
   authTelegram: preset("RATE_LIMIT_AUTH_TELEGRAM", 30, "RATE_LIMIT_AUTH_TELEGRAM_WINDOW_SEC", 900),
   authTelegramBot: preset(
     "RATE_LIMIT_AUTH_TELEGRAM_BOT",

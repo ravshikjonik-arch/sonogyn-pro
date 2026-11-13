@@ -5,25 +5,35 @@ import { X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { usePwaInstall } from "@/hooks/usePwaInstall";
+import { track } from "@/lib/analytics/track";
 import { openPwaInstall } from "@/lib/pwa/install-bus";
 import {
   markInstallPromptDismissed,
+  registerVisit,
   shouldShowAutoInstallPrompt,
 } from "@/lib/pwa/install-prompt-storage";
 
 /**
- * Авто-предложение установки (production): beforeinstallprompt или iOS Safari, cadence 7 дней.
+ * Авто-предложение установки (production): beforeinstallprompt или iOS Safari.
+ * Не на первом визите (≥2 сессий), не чаще раза в 14 дней после отказа.
  */
 export function PwaInstallBanner() {
   const { offerInstall, installed, canNativeInstall, showIosInstructions } = usePwaInstall();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    registerVisit();
+  }, []);
+
+  useEffect(() => {
     if (installed || !offerInstall) return;
     if (!canNativeInstall && !showIosInstructions) return;
     if (!shouldShowAutoInstallPrompt()) return;
 
-    const timer = window.setTimeout(() => setVisible(true), 2500);
+    const timer = window.setTimeout(() => {
+      setVisible(true);
+      track({ name: "install_prompt_shown" });
+    }, 2500);
     return () => window.clearTimeout(timer);
   }, [offerInstall, installed, canNativeInstall, showIosInstructions]);
 
@@ -53,6 +63,7 @@ export function PwaInstallBanner() {
           type="button"
           size="sm"
           onClick={() => {
+            track({ name: "install_accepted" });
             openPwaInstall({ source: "banner" });
             dismiss();
           }}

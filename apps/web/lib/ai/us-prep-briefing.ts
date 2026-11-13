@@ -127,7 +127,7 @@ const SCENARIOS: Scenario[] = [
       { href: "/tools/mapping/uterus", label: "FIGO · миома" },
       { href: "/tools/calc/gyn/endometrium", label: "Эндометрий" },
       { href: "/tools/mapping/endometriosis", label: "IDEA · эндометриоз" },
-      { href: "/tools/refs/myoma-education", label: "Миома · обучение" },
+      { href: "/tools/mapping/uterus", label: "FIGO · миома" },
     ],
   },
   {
@@ -410,7 +410,7 @@ const SCENARIOS: Scenario[] = [
     modules: [
       { href: "/tools/calc/rads/o-rads", label: "O-RADS" },
       { href: "/tools/calc/rads/iota", label: "IOTA" },
-      { href: "/tools/refs/ovarian-tumor-morphology-atlas", label: "Атлас опухолей яичника" },
+      { href: "/tools/calc/rads/o-rads", label: "O-RADS калькулятор" },
     ],
   },
   {

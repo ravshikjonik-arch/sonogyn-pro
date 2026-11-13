@@ -46,17 +46,24 @@ const primaryTasks = [
     icon: Calculator,
     accent: "border-violet-300/70",
   },
+  {
+    title: "ЧЕК-ЛИСТ АМБУЛАТОРИИ",
+    description: "Быстрый чек-лист приёма АГ: жалобы → план → запись.",
+    href: "/tools/refs/ambulatory-intake",
+    icon: FileText,
+    accent: "border-teal-300/70",
+  },
 ] as const;
 
 const roleRoutes = [
   {
     title: "Я врач УЗИ",
-    href: "/tools/calc/rads/o-rads",
+    href: "/tools/o-rads",
     icon: ScanLine,
     steps: ["O-RADS / BI-RADS / TI-RADS", "Атласы и эхограммы", "Структурированный протокол"],
     quickLinks: [
       { label: "Live приём", href: "/ai/consultants/us-prep" },
-      { label: "O-RADS US", href: "/tools/calc/rads/o-rads" },
+      { label: "O-RADS US", href: "/tools/o-rads" },
       { label: "IOTA ADNEX", href: "/tools/calc/rads/iota" },
       { label: "BI-RADS", href: "/tools/calc/rads/bi-rads" },
       { label: "TI-RADS", href: "/tools/calc/rads/ti-rads" },
@@ -81,21 +88,21 @@ const roleRoutes = [
     icon: HeartPulse,
     steps: ["FIGO / миомы", "O-RADS и эндометрий", "Эластография и шейка"],
     quickLinks: [
+      { label: "ЧЕК-ЛИСТ АМБУЛАТОРИИ", href: "/tools/refs/ambulatory-intake" },
       { label: "Live приём", href: "/ai/consultants/us-prep" },
       { label: "FIGO · матка", href: "/tools/mapping/uterus" },
       { label: "Миома", href: "/tools/refs/nosologies/uterine-myoma" },
-      { label: "Эластография", href: "/tools/calc/gyn/elastography" },
-      { label: "O-RADS", href: "/tools/calc/rads/o-rads" },
+      { label: "O-RADS US", href: "/tools/o-rads" },
     ],
   },
 ] as const;
 
 const quickSearchHints = [
+  { label: "ЧЕК-ЛИСТ АМБУЛАТОРИИ", href: "/tools/refs/ambulatory-intake" },
   { label: "Live приём", href: "/ai/consultants/us-prep" },
-  { label: "O-RADS", href: "/tools/calc/rads/o-rads" },
+  { label: "O-RADS US", href: "/tools/o-rads" },
   { label: "Миома", href: "/tools/refs/nosologies/uterine-myoma" },
-  { label: "Короткая шейка", href: "/tools/calc/ob/cervical-length" },
-  { label: "Evidence AI", href: "/tools/refs/evidence-assistant" },
+  { label: "Доказательства", href: "/tools/refs/evidence-sources" },
 ] as const;
 
 export function DoctorStartPanel() {

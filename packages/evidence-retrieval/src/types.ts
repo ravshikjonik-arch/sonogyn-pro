@@ -8,12 +8,34 @@ export type EvidenceProviderId =
   | "clinical_trials"
   | "kr_mz_rf"
   | "static_corpus"
+  | "medical_vault"
   | "openfda"
   | "dailymed"
+  | "grls"
+  | "openalex"
+  | "doaj"
+  | "epistemonikos"
+  | "roszdravnadzor"
   | "who"
   | "nice"
   | "ema"
-  | "rf_regulation";
+  | "rf_regulation"
+  | "rcog";
+
+/** Hit from pgvector vault RPC (citation-safe snippet only). */
+export type MedicalVaultSearchHit = {
+  chunkId: string;
+  sourceId: string;
+  title: string;
+  organization?: string;
+  year?: number;
+  section?: string;
+  quote: string;
+  url: string;
+  score: number;
+  pageStart?: number;
+  pageEnd?: number;
+};
 
 export type EvidenceRecordType =
   | "systematic_review"
@@ -30,13 +52,14 @@ export type EvidenceRecordType =
 export type EvidenceLevel = "I" | "II" | "III" | "IV" | "V";
 
 /**
- * Corpus mode for IQDOC-like RF navigation.
+ * Corpus mode for IQDOC-like RF navigation + international shelves.
  * - all: default multi-provider search
  * - rf_kr: clinical recommendations МЗ РФ only
  * - rf_npa: orders / НПА (ДЗМ, МЗ РФ)
  * - rf_all: КР + НПА + protocols (RF shelf group)
+ * - rcog: RCOG Green-top cards (UK orient; not КР РФ)
  */
-export type EvidenceCorpusMode = "all" | "rf_kr" | "rf_npa" | "rf_all";
+export type EvidenceCorpusMode = "all" | "rf_kr" | "rf_npa" | "rf_all" | "rcog";
 
 /** Unified normalized record from any provider. */
 export type EvidenceRecord = {
@@ -102,6 +125,18 @@ export type UnifiedSearchResult = {
 
 export type AssistantEvidenceStrength = "high" | "moderate" | "low" | "insufficient";
 
+/**
+ * Wave-1 Evidence MVP: distinguish sourced facts from model inference.
+ * `citationIndexes` are 0-based indexes into `AssistantAnswer.citations`.
+ */
+export type EvidenceClaimKind = "sourced" | "inference";
+
+export type EvidenceClaim = {
+  text: string;
+  kind: EvidenceClaimKind;
+  citationIndexes: number[];
+};
+
 export type AssistantAnswer = {
   query: string;
   summary: string;
@@ -118,6 +153,15 @@ export type AssistantAnswer = {
   synthesisMode: "llm" | "rules";
   /** Echo of request corpus mode (for UI empty-state copy). */
   corpusMode?: EvidenceCorpusMode;
+  /**
+   * Structured claims for UI/eval. Empty when `insufficient === true`.
+   * Sourced claims must reference real citationIndexes; inference = model/rules without hard cite.
+   */
+  claims?: EvidenceClaim[];
+  /** True when no citable sources — do not treat recommendations as clinical facts. */
+  insufficient?: boolean;
+  /** Optional RU translations of international citation titles (LLM or fallback). */
+  sourceTranslations?: { id: string; titleRu: string; keyPointRu: string }[];
 };
 
 export type RetrievalConfig = {
@@ -130,6 +174,14 @@ export type RetrievalConfig = {
   enabledProviders?: EvidenceProviderId[];
   /** WHO/NICE/EMA rows from DB ingest or seed file. */
   externalGuidelines?: ExternalGuidelineRecord[];
+  /**
+   * Optional vault semantic search (implemented in apps/web via embed + RPC).
+   * When absent, medical_vault adapter skips.
+   */
+  medicalVaultSearch?: (args: {
+    query: string;
+    limit: number;
+  }) => Promise<MedicalVaultSearchHit[]>;
 };
 
 export type ExternalGuidelineRecord = {
@@ -142,6 +194,7 @@ export type ExternalGuidelineRecord = {
 };
 
 export type CacheStore = {
-  get<T>(key: string): T | undefined;
-  set<T>(key: string, value: T, ttlMs: number): void;
+  /** Sync or async — adapters use `await Promise.resolve(cache.get(...))`. */
+  get<T>(key: string): T | undefined | Promise<T | undefined>;
+  set<T>(key: string, value: T, ttlMs: number): void | Promise<void>;
 };

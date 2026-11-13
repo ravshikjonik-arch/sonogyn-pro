@@ -8,7 +8,7 @@ import { useMemo, useState } from "react";
 
 import { OradsAssistPanel } from "@/components/calculators/orads/wizard/OradsAssistPanel";
 import { OradsAcrResultBadge } from "@/components/calculators/orads/wizard/OradsAcrResultBadge";
-import { OradsWizardAtlasImage } from "@/components/calculators/orads/wizard/OradsWizardAtlasImage";
+import { OradsResultExamples } from "@/components/calculators/orads/wizard/OradsResultExamples";
 import { OradsWizardOptionButton } from "@/components/calculators/orads/wizard/OradsWizardOptionButton";
 import { OradsWizardResultTabs } from "@/components/calculators/orads/wizard/OradsWizardResultTabs";
 import { ClinicalCdssDisclaimer } from "@/components/clinical/ClinicalCdssDisclaimer";
@@ -20,7 +20,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { resolveOradsAtlasPreview } from "@/lib/orads-us/resolveOradsAtlasPreview";
 import { useOradsLocaleWeb } from "@/lib/orads-us/useOradsLocaleWeb";
 import type { AdnexTriangulation } from "@repo/adnex-education";
 import { saveOradsWizardBridgePayload } from "@/lib/reports/sre-orads-wizard-bridge";
@@ -56,11 +55,6 @@ export function OradsAcrWizardExperience({
     if (!nav.pathSummary.length) return ["Ovarian/Adnexal"];
     return ["Ovarian/Adnexal", ...nav.pathSummary];
   }, [nav.pathSummary]);
-
-  const stepAtlasPreview = useMemo(() => {
-    if (view.kind !== "question") return null;
-    return resolveOradsAtlasPreview(view.node.imageRef);
-  }, [view]);
 
   function goBack() {
     if (assistOpen) {
@@ -100,7 +94,10 @@ export function OradsAcrWizardExperience({
 
   return (
     <div
-      className={cn("relative mx-auto flex min-h-[calc(100dvh-4rem)] max-w-lg flex-col pb-28", className)}
+      className={cn(
+        "relative mx-auto flex min-h-[calc(100dvh-4rem)] max-w-lg flex-col",
+        className,
+      )}
       data-e2e-orads-acr-wizard
     >
       <header className="bg-[var(--clinical-primary)] text-[var(--clinical-primary-foreground)] shadow-sm">
@@ -164,6 +161,7 @@ export function OradsAcrWizardExperience({
               ) : null}
               <p className="font-medium text-[var(--clinical-foreground)]">{locale.t(view.result.managementKey)}</p>
             </div>
+            <OradsResultExamples path={nav.state.path} result={view.result} />
             <Button type="button" className="w-full rounded-full py-6 text-base" onClick={nav.restart}>
               Новое образование
             </Button>
@@ -197,8 +195,6 @@ export function OradsAcrWizardExperience({
               ) : null}
             </div>
 
-            <OradsWizardAtlasImage preview={stepAtlasPreview} />
-
             <div className="space-y-2.5">
               {view.node.options.map((opt) => (
                 <OradsWizardOptionButton
@@ -206,11 +202,6 @@ export function OradsAcrWizardExperience({
                   label={locale.t(opt.labelKey)}
                   variant="acr"
                   onClick={() => nav.pick(view.node.id, opt.id)}
-                  imageSlot={
-                    opt.imageRef ? (
-                      <OradsWizardAtlasImage preview={resolveOradsAtlasPreview(opt.imageRef)} compact />
-                    ) : undefined
-                  }
                 />
               ))}
             </div>
@@ -218,7 +209,7 @@ export function OradsAcrWizardExperience({
         )}
       </main>
 
-      <footer className="fixed inset-x-0 bottom-0 z-20 border-t border-[var(--clinical-border)] bg-[var(--clinical-canvas)]/95 p-3 backdrop-blur-sm">
+      <footer className="sticky bottom-[calc(4.75rem+env(safe-area-inset-bottom))] z-20 mt-auto border-t border-[var(--clinical-border)] bg-[var(--clinical-canvas)]/95 p-3 backdrop-blur-sm lg:bottom-0">
         <div
           className={cn(
             "mx-auto grid max-w-lg gap-2",

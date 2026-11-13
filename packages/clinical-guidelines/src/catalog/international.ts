@@ -1,4 +1,5 @@
 import type { ClinicalGuideline } from "../types";
+import { RCOG_GREEN_TOP_GUIDELINES } from "./rcog-green-top";
 
 export const INTERNATIONAL_GUIDELINES: ClinicalGuideline[] = [
   {
@@ -130,4 +131,5 @@ export const INTERNATIONAL_GUIDELINES: ClinicalGuideline[] = [
     tags: ["ESHRE", "эндометриоз"],
     relatedNosologyIds: ["pelvic-endometriosis", "endometrioma"],
   },
+  ...RCOG_GREEN_TOP_GUIDELINES,
 ];

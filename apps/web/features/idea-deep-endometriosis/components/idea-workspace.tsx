@@ -36,6 +36,7 @@ import {
   type IdeaStepIndex,
   pickStepValues,
 } from "../lib/schema";
+import { DecimalMmInput } from "@/components/calculators/shared/DecimalMmInput";
 
 const MOCK_PATIENTS = [
   { id: "PX-1001", label: "Амбулаторный список (демо)", age: 32 },
@@ -715,7 +716,9 @@ function Step4({
                   <Controller
                     name={`step4.nodules.${index}.${dim}`}
                     control={control}
-                    render={({ field: f }) => <Input type="number" className="mt-1" {...f} onChange={(e) => f.onChange(Number(e.target.value))} />}
+                    render={({ field: f }) => (
+                      <DecimalMmInput className="mt-1" value={f.value} onChange={(v) => f.onChange(v)} ariaLabel={dimLabel} />
+                    )}
                   />
                 </div>
               ))}

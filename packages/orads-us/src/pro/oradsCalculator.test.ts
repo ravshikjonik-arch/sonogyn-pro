@@ -24,7 +24,7 @@ function run() {
     lesionKind: "nonphysiological",
     structure: "unilocular",
     unilocularSubtype: "simple_cyst",
-    lengthMm: 40,
+    lengthMm: 40, widthMm: 32, heightMm: 28,
   });
   expectEq("ORADS2", r2.category, 2);
 
@@ -34,7 +34,7 @@ function run() {
     lesionKind: "nonphysiological",
     structure: "unilocular",
     unilocularSubtype: "simple_cyst",
-    lengthMm: 70,
+    lengthMm: 70, widthMm: 56, heightMm: 49,
   });
   expectEq("ORADS3", r3.category, 2);
 
@@ -47,7 +47,7 @@ function run() {
     solidType: "irregular",
     bloodFlow: "moderate",
     iotaColorScore: "2",
-    lengthMm: 50,
+    lengthMm: 50, widthMm: 40, heightMm: 35,
   });
   expectEq("ORADS4", r4.category, 4);
 
@@ -58,7 +58,7 @@ function run() {
     structure: "solid",
     solidType: "irregular",
     bloodFlow: "marked",
-    lengthMm: 50,
+    lengthMm: 50, widthMm: 40, heightMm: 35,
   });
   expectEq("ORADS5", r5.category, 5);
 
@@ -68,7 +68,7 @@ function run() {
     lesionKind: "nonphysiological",
     structure: "unilocular",
     unilocularSubtype: "simple_cyst",
-    lengthMm: 55,
+    lengthMm: 55, widthMm: 44, heightMm: 38.5,
     ascites: true,
   });
   expectEq("ASCITES_DOES_NOT_UPGRADE_ORADS_2", r6.category, 2);
@@ -84,7 +84,11 @@ function run() {
     widthMm: 100,
     heightMm: 90,
   });
-  expectEq("MULTILOCULAR_LARGE", r7a.category, 3);
+  expectEq("MULTILOCULAR_LARGE_NO_CS_STATUS", r7a.status, "needs_data");
+  expectEq("MULTILOCULAR_LARGE_NO_CS_CATEGORY", r7a.category, null);
+  if (!r7a.missing.some((m) => /цветов/i.test(m))) {
+    throw new Error("MULTILOCULAR_LARGE_NO_CS: expected colour score in missing");
+  }
 
   const r7b = calculateORADS({
     localization: "ovarian",
@@ -111,7 +115,7 @@ function run() {
     lesionKind: "nonphysiological",
     structure: "unilocular",
     unilocularSubtype: "simple_cyst",
-    lengthMm: 45,
+    lengthMm: 45, widthMm: 36, heightMm: 31.5,
   });
   expectEq("FUNCTIONAL_CYST_PATTERN", r8.category, 2);
   if (r8.patternLabel !== "Вероятна функциональная киста") {
@@ -127,7 +131,7 @@ function run() {
     solidComponent: true,
     solidType: "papillary",
     papillaryProjectionCount: "2",
-    lengthMm: 45,
+    lengthMm: 45, widthMm: 36, heightMm: 31.5,
   });
   expectEq("PAPILLARY_1_3", rPp4.category, 4);
 
@@ -140,7 +144,7 @@ function run() {
     solidComponent: true,
     solidType: "papillary",
     papillaryProjectionCount: "4plus",
-    lengthMm: 45,
+    lengthMm: 45, widthMm: 36, heightMm: 31.5,
   });
   expectEq("PAPILLARY_GE4", rPp5.category, 5);
 

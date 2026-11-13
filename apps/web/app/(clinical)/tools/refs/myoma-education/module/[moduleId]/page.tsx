@@ -9,14 +9,14 @@ import { readModuleMarkdown } from "@repo/myoma-education/server";
 type Props = { params: Promise<{ moduleId: string }> };
 
 export function generateStaticParams() {
-  return myomaModules.map((module) => ({ moduleId: module.id }));
+  return myomaModules.map((mod) => ({ moduleId: mod.id }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { moduleId } = await params;
-  const module = myomaModules.find((item) => item.id === moduleId);
+  const mod = myomaModules.find((item) => item.id === moduleId);
   return {
-    title: module ? `${module.title} | Миома | SonoGyn Pro` : "Модуль | SonoGyn Pro",
+    title: mod ? `${mod.title} | Миома | SonoGyn Pro` : "Модуль | SonoGyn Pro",
     robots: { index: false, follow: false },
   };
 }
@@ -24,9 +24,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function MyomaModulePage({ params }: Props) {
   const { moduleId } = await params;
   const index = myomaModules.findIndex((item) => item.id === moduleId);
-  const module = index >= 0 ? myomaModules[index] : undefined;
-  const markdown = module ? readModuleMarkdown(module.id) : null;
-  if (!module || !markdown) notFound();
+  const mod = index >= 0 ? myomaModules[index] : undefined;
+  const markdown = mod ? readModuleMarkdown(mod.id) : null;
+  if (!mod || !markdown) notFound();
 
   const html = renderSimpleMarkdown(prepareMyomaMarkdown(markdown), {
     imageSize: (src) => {
@@ -39,10 +39,10 @@ export default async function MyomaModulePage({ params }: Props) {
 
   return (
     <MyomaModuleClient
-      moduleId={module.id}
-      order={module.order}
-      title={module.title}
-      durationMinutes={module.durationMinutes}
+      moduleId={mod.id}
+      order={mod.order}
+      title={mod.title}
+      durationMinutes={mod.durationMinutes}
       html={html}
       prev={prev ? { id: prev.id, title: prev.title } : null}
       next={next ? { id: next.id, title: next.title } : null}

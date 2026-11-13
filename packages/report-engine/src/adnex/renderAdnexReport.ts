@@ -40,12 +40,14 @@ export function renderAdnexStructuredReport(
 
   const calcInput = mapAdnexStructuredInputToCalcInput(input);
   const oradsCategory = resolveOradsCategory(input);
-  const tri = evaluateAdnexTriangulation(calcInput, oradsCategory);
+  const hasDeclaredOrads = oradsCategory != null;
+  // Triangulation needs a number for IOTA/pitfalls only; category-dependent prose is gated below.
+  const tri = evaluateAdnexTriangulation(calcInput, oradsCategory ?? 3);
 
   return {
     description: composeAdnexDescription(input, tri, t),
-    impression: composeAdnexImpression(input, tri, t, ORADS_US_VERSION, locale),
-    recommendations: composeAdnexRecommendations(tri),
+    impression: composeAdnexImpression(input, tri, t, ORADS_US_VERSION, locale, hasDeclaredOrads),
+    recommendations: composeAdnexRecommendations(tri, t, hasDeclaredOrads),
     citations: mergeReportCitations(
       buildAdnexReportCitations(),
       options.evidenceRecords

@@ -4,7 +4,10 @@ export {
   calculateORADS,
   evaluateOradsUs2022,
   initialOradsUs2022Input,
+  isOradsFinal,
   mapProInputToUs2022,
+  oradsCategoryLabel,
+  oradsFinalCategory,
   ORADS_US2022_META,
 } from "@repo/orads-us/pro";
 export type { OradsUs2022Input, OradsUs2022Result } from "@repo/orads-us/pro";

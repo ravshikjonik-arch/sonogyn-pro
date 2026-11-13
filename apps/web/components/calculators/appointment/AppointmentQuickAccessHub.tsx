@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import { Search, SlidersHorizontal, Stethoscope } from "lucide-react";
 
 import { AppointmentCalcCard } from "@/components/calculators/appointment/AppointmentCalcCard";
+import { ReceptionDeskStrip } from "@/components/calculators/appointment/ReceptionDeskStrip";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -142,12 +143,16 @@ export function AppointmentQuickAccessHub() {
               <Stethoscope className="h-5 w-5" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold tracking-tight">Для приёма врача</h1>
-              <p className="text-sm text-[var(--clinical-foreground-muted)]">Быстрый доступ к калькуляторам · один тап</p>
+              <h1 className="text-2xl font-bold tracking-tight">Стол приёма</h1>
+              <p className="text-sm text-[var(--clinical-foreground-muted)]">
+                Пациенты · чек-лист · калькуляторы · Evidence — в одном месте
+              </p>
             </div>
           </div>
         </div>
       </div>
+
+      <ReceptionDeskStrip />
 
       <div className="space-y-3">
         <div className="relative">

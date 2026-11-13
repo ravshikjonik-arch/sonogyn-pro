@@ -87,6 +87,17 @@ export const QUIZ_HUB_ENTRIES: QuizHubEntry[] = [
     sourceLabel: "Лекция · учебный комплект",
   },
   {
+    id: "rcog-green-top-quiz",
+    title: "RCOG Green-top · маршруты УЗИ",
+    subtitle: "SGA/FGR, плацента, эктопия, шейка · 12 Q",
+    href: "/tools/refs/rcog-green-top/quiz",
+    personas: ["doctor", "intern", "student"],
+    difficulty: "doctor",
+    questionCount: 12,
+    topics: ["RCOG", "Green-top", "FGR", "ectopic", "cervix"],
+    sourceLabel: "RCOG orient · ISUOG · КР РФ",
+  },
+  {
     id: "case-library",
     title: "Teaching case library",
     subtitle: "Обезличенные кейсы + обсуждения",

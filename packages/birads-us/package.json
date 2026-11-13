@@ -9,12 +9,13 @@
   "exports": {
     ".": "./src/index.ts",
     "./knowledge": "./src/knowledge/atlas.ts",
-    "./engine": "./src/engine/structured-report.ts"
+    "./engine": "./src/engine/structured-report.ts",
+    "./us-v2025": "./src/us-v2025/index.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "lint": "echo \"skip\"",
-    "test": "node --import tsx --test src/**/*.test.ts",
+    "test": "node --import tsx --test \"src/**/*.test.ts\"",
     "verify:rules-snapshot": "node scripts/verify-rules-snapshot.mjs"
   },
   "devDependencies": {

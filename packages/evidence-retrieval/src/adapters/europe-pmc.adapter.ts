@@ -27,7 +27,7 @@ export const europePmcAdapter: EvidenceAdapter = {
     if (!q) return adapterResult("europe_pmc", [], 0, "skipped");
 
     const ck = cacheKey("europe_pmc", q, String(query.limit ?? 15));
-    const cached = ctx.cache.get<ProviderSearchResult>(ck);
+    const cached = await Promise.resolve(ctx.cache.get<ProviderSearchResult>(ck));
     if (cached) return cached;
 
     try {

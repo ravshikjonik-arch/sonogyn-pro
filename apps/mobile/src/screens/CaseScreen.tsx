@@ -5,6 +5,7 @@ import {
   ActivityIndicator,
   Alert,
   Image,
+  Linking,
   Platform,
   Pressable,
   ScrollView,
@@ -16,6 +17,7 @@ import {
   View,
 } from "react-native";
 import type { RootStackParamList } from "../navigation/AppStack";
+import { STORE_SUPPORT_MAILTO } from "../config/storeRelease";
 import { useCases } from "../hooks/useCases";
 import { useComments } from "../hooks/useComments";
 import { useCurrentUser } from "../hooks/useCurrentUser";
@@ -25,6 +27,7 @@ import { isFirebaseConfigured } from "../services/firebase/firebase";
 import type { OrganType, OradsSnapshot } from "../features/case/types";
 import ProBadge from "../components/ProBadge";
 import DescriptionBlock from "../components/DescriptionBlock";
+import { blockAuthor } from "../services/blockedAuthors";
 import { containsBadWords, reportContent, type ReportReason } from "../services/firebase/reportService";
 import {
   explainDescription,
@@ -104,85 +107,31 @@ function evaluateFromAnswers(
     : { category: "LN-RADS 2", level: "low", text: i18n.t("result_lnrads2") };
 }
 
-function getAiStubText(organ: OrganType, answers: Record<string, string>) {
-  if (organ === "ovary") {
-    if (answers.solid === "option_yes" || answers.pap === "option_yes") return i18n.t("ai_ovary_suspicious");
-    return i18n.t("ai_ovary_benign");
-  }
-  if (organ === "breast") {
-    if (answers.margin === "option_spiculated" || answers.flow === "option_marked") return i18n.t("ai_breast_suspicious");
-    return i18n.t("ai_breast_probably_benign");
-  }
-  if (organ === "uterus") return i18n.t("ai_uterus_typical_myoma");
-  return i18n.t("ai_reactive_node");
-}
-
-type AiStubResult = {
-  text: string;
-  confidence: number;
-  reason: string;
-};
-
-function confidenceLevel(value: number): "low" | "medium" | "high" {
-  if (value >= 80) return "high";
-  if (value >= 65) return "medium";
-  return "low";
-}
-
-function getAiStubAnalysis(
-  organ: OrganType,
-  answers: Record<string, string>,
-  description = "",
-): AiStubResult {
+/** Transparent rule-based teaching hint — not ML, no confidence % (Guideline 1.4.1). */
+function getEducationalHint(organ: OrganType, answers: Record<string, string>, description = "") {
   const effectiveOrgan = inferOrganFromText(description) ?? organ;
-
   if (effectiveOrgan === "ovary") {
     if (isHemorrhagicCystText(description)) {
       return {
         text: i18n.t("ai_ovary_hemorrhagic_cyst"),
-        confidence: 78,
         reason: i18n.t("ai_reason_ovary_hemorrhagic_cyst"),
       };
     }
     if (answers.solid === "option_yes" || answers.pap === "option_yes") {
-      return {
-        text: i18n.t("ai_ovary_suspicious"),
-        confidence: 82,
-        reason: i18n.t("ai_reason_ovary_suspicious"),
-      };
+      return { text: i18n.t("ai_ovary_suspicious"), reason: i18n.t("ai_reason_ovary_suspicious") };
     }
-    return {
-      text: i18n.t("ai_ovary_benign"),
-      confidence: 74,
-      reason: i18n.t("ai_reason_ovary_benign"),
-    };
+    return { text: i18n.t("ai_ovary_benign"), reason: i18n.t("ai_reason_ovary_benign") };
   }
   if (effectiveOrgan === "breast") {
     if (answers.margin === "option_spiculated" || answers.flow === "option_marked") {
-      return {
-        text: i18n.t("ai_breast_suspicious"),
-        confidence: 80,
-        reason: i18n.t("ai_reason_breast_suspicious"),
-      };
+      return { text: i18n.t("ai_breast_suspicious"), reason: i18n.t("ai_reason_breast_suspicious") };
     }
-    return {
-      text: i18n.t("ai_breast_probably_benign"),
-      confidence: 72,
-      reason: i18n.t("ai_reason_breast_benign"),
-    };
+    return { text: i18n.t("ai_breast_probably_benign"), reason: i18n.t("ai_reason_breast_benign") };
   }
   if (effectiveOrgan === "uterus") {
-    return {
-      text: i18n.t("ai_uterus_typical_myoma"),
-      confidence: 76,
-      reason: i18n.t("ai_reason_uterus"),
-    };
+    return { text: i18n.t("ai_uterus_typical_myoma"), reason: i18n.t("ai_reason_uterus") };
   }
-  return {
-    text: getAiStubText(effectiveOrgan, answers),
-    confidence: 70,
-    reason: i18n.t("ai_reason_lymph"),
-  };
+  return { text: i18n.t("ai_reactive_node"), reason: i18n.t("ai_reason_lymph") };
 }
 
 export default function CaseScreen({ navigation, route }: Props) {
@@ -197,10 +146,10 @@ export default function CaseScreen({ navigation, route }: Props) {
   const [autoFillOvaryDescription, setAutoFillOvaryDescription] = useState(true);
   const [commentInput, setCommentInput] = useState("");
   const [replyTo, setReplyTo] = useState<string | null>(null);
-  const [aiLoading, setAiLoading] = useState(false);
-  const [aiText, setAiText] = useState("");
-  const [aiConfidence, setAiConfidence] = useState<number | null>(null);
-  const [aiReason, setAiReason] = useState("");
+  const [hintLoading, setHintLoading] = useState(false);
+  const [hintText, setHintText] = useState("");
+  const [hintReason, setHintReason] = useState("");
+  const [caseAuthorId, setCaseAuthorId] = useState<string | null>(null);
   const [loadingCase, setLoadingCase] = useState(false);
   const [loadCaseError, setLoadCaseError] = useState<string | null>(null);
   const [caseReloadKey, setCaseReloadKey] = useState(0);
@@ -262,8 +211,6 @@ export default function CaseScreen({ navigation, route }: Props) {
   const showOfflineBanner =
     (!loadingCase && !!loadCaseError && !description) ||
     (!commentsLoading && !!commentsError && comments.length === 0);
-  const aiConfidenceTone = aiConfidence === null ? null : confidenceLevel(aiConfidence);
-
   useEffect(() => {
     if (initialCaseId) return;
     if (route.params?.startAtImage) setStep(2);
@@ -278,6 +225,7 @@ export default function CaseScreen({ navigation, route }: Props) {
         const row = await getCaseById(initialCaseId);
         if (!row) return;
         setCaseId(row.id);
+        setCaseAuthorId(row.userId || null);
         setOrgan(row.organ);
         setDescription(row.description);
         setImageUri(row.imageUrl);
@@ -437,25 +385,17 @@ export default function CaseScreen({ navigation, route }: Props) {
     }
   }
 
-  async function onAiAnalyze() {
-    setAiLoading(true);
-    setAiText("");
-    setAiReason("");
-    setAiConfidence(null);
-    setTimeout(() => {
-      const analysis = getAiStubAnalysis(organ, answers, description);
-      setAiLoading(false);
-      setAiText(analysis.text);
-      setAiConfidence(analysis.confidence);
-      setAiReason(analysis.reason);
-    }, 1200);
+  function onEducationalHint() {
+    setHintLoading(true);
+    setHintText("");
+    setHintReason("");
+    const hint = getEducationalHint(organ, answers, description);
+    setHintLoading(false);
+    setHintText(hint.text);
+    setHintReason(hint.reason);
   }
 
   function openReportDialog(targetId: string, targetType: "case" | "comment") {
-    if (!user?.id) {
-      Alert.alert(i18n.t("error"), i18n.t("load_error"));
-      return;
-    }
     const reasons: Array<{ value: ReportReason; label: string }> = [
       { value: "spam", label: i18n.t("report_reason_spam") },
       { value: "abuse", label: i18n.t("report_reason_abuse") },
@@ -464,16 +404,64 @@ export default function CaseScreen({ navigation, route }: Props) {
     Alert.alert(i18n.t("report"), i18n.t("report_choose_reason"), [
       ...reasons.map((reason) => ({
         text: reason.label,
-        onPress: async () => {
-          await reportContent({
-            targetId,
-            targetType,
-            reason: reason.value,
-            userId: user.id,
-          });
-          Alert.alert(i18n.t("success"), i18n.t("report_sent"));
+        onPress: () => {
+          void (async () => {
+            try {
+              if (user?.id && isFirebaseConfigured()) {
+                await reportContent({
+                  targetId,
+                  targetType,
+                  reason: reason.value,
+                  userId: user.id,
+                });
+              }
+              await Linking.openURL(
+                `${STORE_SUPPORT_MAILTO}&body=${encodeURIComponent(
+                  `Жалоба (${reason.value}) · ${targetType} ${targetId}`,
+                )}`,
+              );
+              Alert.alert(i18n.t("success"), i18n.t("report_sent"));
+            } catch (e) {
+              Alert.alert(i18n.t("error"), e instanceof Error ? e.message : i18n.t("load_error"));
+            }
+          })();
         },
       })),
+      { text: i18n.t("cancel"), style: "cancel" },
+    ]);
+  }
+
+  function openCaseMenu() {
+    if (!caseId) {
+      Alert.alert(i18n.t("menu"), "Сначала опубликуйте кейс.");
+      return;
+    }
+    Alert.alert(i18n.t("menu"), undefined, [
+      {
+        text: i18n.t("report"),
+        onPress: () => openReportDialog(caseId, "case"),
+      },
+      {
+        text: "Скрыть автора",
+        onPress: () => {
+          void (async () => {
+            if (!caseAuthorId) {
+              Alert.alert(i18n.t("error"), "Автор кейса недоступен.");
+              return;
+            }
+            await blockAuthor(caseAuthorId);
+            Alert.alert(
+              "Готово",
+              "Автор скрыт на этом устройстве. Его новые кейсы не будут показываться в ленте.",
+            );
+            navigation.goBack();
+          })();
+        },
+      },
+      {
+        text: "Поддержка",
+        onPress: () => void Linking.openURL(STORE_SUPPORT_MAILTO),
+      },
       { text: i18n.t("cancel"), style: "cancel" },
     ]);
   }
@@ -487,7 +475,9 @@ export default function CaseScreen({ navigation, route }: Props) {
         <Text style={styles.title}>{i18n.t("case_title")}</Text>
         <Pressable
           style={styles.moreBtn}
-          onPress={() => Alert.alert(i18n.t("menu"), i18n.t("edit_delete_stub"))}
+          onPress={openCaseMenu}
+          accessibilityRole="button"
+          accessibilityLabel={i18n.t("menu")}
         >
           <Text style={styles.moreBtnText}>⋯</Text>
         </Pressable>
@@ -558,45 +548,20 @@ export default function CaseScreen({ navigation, route }: Props) {
 
         {!isCreateMode ? (
           <View style={styles.card}>
-            <Pressable style={styles.primaryBtn} onPress={onAiAnalyze}>
-              <Text style={styles.primaryBtnText}>{i18n.t("get_ai_opinion")}</Text>
+            <Pressable style={styles.primaryBtn} onPress={onEducationalHint}>
+              <Text style={styles.primaryBtnText}>Учебная подсказка по признакам</Text>
             </Pressable>
-            {aiLoading ? <ActivityIndicator color="#0ea5a4" /> : null}
+            {hintLoading ? <ActivityIndicator color="#0ea5a4" /> : null}
             <View style={styles.aiCard}>
-              <Text style={styles.aiIcon}>🤖</Text>
               <View style={{ flex: 1 }}>
                 <View style={styles.aiTopRow}>
-                  <Text style={styles.aiBetaBadge}>{i18n.t("ai_beta_badge")}</Text>
+                  <Text style={styles.aiBetaBadge}>Не ИИ · не диагноз</Text>
                 </View>
-                <Text style={styles.aiText}>{aiText || i18n.t("ai_suggests_placeholder")}</Text>
-                {aiConfidence !== null ? (
-                  <Text
-                    style={[
-                      styles.aiMeta,
-                      aiConfidenceTone === "high" && styles.aiMetaHigh,
-                      aiConfidenceTone === "medium" && styles.aiMetaMedium,
-                      aiConfidenceTone === "low" && styles.aiMetaLow,
-                    ]}
-                  >
-                    {i18n.t("ai_confidence", { value: aiConfidence })}
-                  </Text>
-                ) : null}
-                {aiReason ? <Text style={styles.aiReason}>{aiReason}</Text> : null}
+                <Text style={styles.aiText}>
+                  {hintText || "Правила по выбранным признакам. Для CDS используйте калькуляторы O-RADS / BI-RADS / TI-RADS."}
+                </Text>
+                {hintReason ? <Text style={styles.aiReason}>{hintReason}</Text> : null}
                 <Text style={styles.aiHint}>{i18n.t("ai_assistive_hint")}</Text>
-                {aiText ? (
-                  <Pressable
-                    style={styles.aiUseBtn}
-                    onPress={() =>
-                      setDescription((prev) =>
-                        prev.trim()
-                          ? `${prev.trim()} ${i18n.t("ai_summary_label")}: ${aiText}.`
-                          : `${i18n.t("ai_summary_label")}: ${aiText}.`
-                      )
-                    }
-                  >
-                    <Text style={styles.aiUseBtnText}>{i18n.t("ai_add_to_description")}</Text>
-                  </Pressable>
-                ) : null}
               </View>
             </View>
           </View>
@@ -802,41 +767,15 @@ export default function CaseScreen({ navigation, route }: Props) {
 
         {isCreateMode ? (
           <View style={styles.card}>
-            <Pressable style={styles.secondaryBtn} onPress={onAiAnalyze}>
-              <Text style={styles.secondaryBtnText}>{i18n.t("ai_analysis")}</Text>
+            <Pressable style={styles.secondaryBtn} onPress={onEducationalHint}>
+              <Text style={styles.secondaryBtnText}>Учебная подсказка по признакам</Text>
             </Pressable>
             <View style={styles.aiTopRow}>
-              <Text style={styles.aiBetaBadge}>{i18n.t("ai_beta_badge")}</Text>
+              <Text style={styles.aiBetaBadge}>Не ИИ · не диагноз</Text>
             </View>
-            {aiLoading ? <ActivityIndicator color="#0ea5a4" /> : null}
-            {aiText ? <Text style={styles.aiText}>{aiText}</Text> : null}
-            {aiConfidence !== null ? (
-              <Text
-                style={[
-                  styles.aiMeta,
-                  aiConfidenceTone === "high" && styles.aiMetaHigh,
-                  aiConfidenceTone === "medium" && styles.aiMetaMedium,
-                  aiConfidenceTone === "low" && styles.aiMetaLow,
-                ]}
-              >
-                {i18n.t("ai_confidence", { value: aiConfidence })}
-              </Text>
-            ) : null}
-            {aiReason ? <Text style={styles.aiReason}>{aiReason}</Text> : null}
-            {aiText ? (
-              <Pressable
-                style={styles.secondaryBtn}
-                onPress={() =>
-                  setDescription((prev) =>
-                    prev.trim()
-                      ? `${prev.trim()} ${i18n.t("ai_summary_label")}: ${aiText}.`
-                      : `${i18n.t("ai_summary_label")}: ${aiText}.`
-                  )
-                }
-              >
-                <Text style={styles.secondaryBtnText}>{i18n.t("ai_add_to_description")}</Text>
-              </Pressable>
-            ) : null}
+            {hintLoading ? <ActivityIndicator color="#0ea5a4" /> : null}
+            {hintText ? <Text style={styles.aiText}>{hintText}</Text> : null}
+            {hintReason ? <Text style={styles.aiReason}>{hintReason}</Text> : null}
           </View>
         ) : null}
 
@@ -862,7 +801,7 @@ export default function CaseScreen({ navigation, route }: Props) {
                 </View>
                 <View style={{ flex: 1 }}>
                   <Text style={styles.commentDoctor}>{i18n.t("doctor")}</Text>
-                  <Text style={styles.commentTime}>2h ago</Text>
+                  <Text style={styles.commentTime}>комментарий</Text>
                 </View>
               </View>
               <Text style={styles.commentText}>{comment.text}</Text>
@@ -885,12 +824,28 @@ export default function CaseScreen({ navigation, route }: Props) {
                   <Text style={styles.commentToolText}>❤️ {commentLikes[comment.id] || 0}</Text>
                 </Pressable>
               </View>
-              <Pressable
-                style={styles.commentReportBtn}
-                onPress={() => openReportDialog(comment.id, "comment")}
-              >
-                <Text style={styles.commentReportBtnText}>{i18n.t("report")}</Text>
-              </Pressable>
+              <View style={styles.commentTools}>
+                <Pressable
+                  style={styles.commentReportBtn}
+                  onPress={() => openReportDialog(comment.id, "comment")}
+                >
+                  <Text style={styles.commentReportBtnText}>{i18n.t("report")}</Text>
+                </Pressable>
+                {comment.userId ? (
+                  <Pressable
+                    style={styles.commentReportBtn}
+                    onPress={() => {
+                      void (async () => {
+                        await blockAuthor(comment.userId);
+                        Alert.alert("Готово", "Автор скрыт на этом устройстве.");
+                        void reloadComments();
+                      })();
+                    }}
+                  >
+                    <Text style={styles.commentReportBtnText}>Скрыть автора</Text>
+                  </Pressable>
+                ) : null}
+              </View>
             </View>
           ))}
           {!caseId ? (

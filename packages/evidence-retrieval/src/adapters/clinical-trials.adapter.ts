@@ -39,7 +39,7 @@ export const clinicalTrialsAdapter: EvidenceAdapter = {
     if (!q) return adapterResult("clinical_trials", [], 0, "skipped");
 
     const ck = cacheKey("clinical_trials", q, String(query.limit ?? 10));
-    const cached = ctx.cache.get<ProviderSearchResult>(ck);
+    const cached = await Promise.resolve(ctx.cache.get<ProviderSearchResult>(ck));
     if (cached) return cached;
 
     try {

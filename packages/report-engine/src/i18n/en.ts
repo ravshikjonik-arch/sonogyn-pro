@@ -51,7 +51,10 @@ export const en = {
       conflict: "O-RADS / IOTA discordance — expert ultrasound review recommended.",
     },
     pitfall_prefix: "Protocol note",
-    missing_orads: "O-RADS category not provided — draft uses interim O-RADS 3; please classify.",
+    missing_orads:
+      "O-RADS US category: not calculated. Enter the category from the platform O-RADS calculator — draft does not invent one.",
+    recommendations_need_orads:
+      "Management recommendations depend on the O-RADS category. Calculate O-RADS US in the calculator first; clinical decisions remain with the treating clinician.",
   },
   thyroid: {
     section_description: "Description",

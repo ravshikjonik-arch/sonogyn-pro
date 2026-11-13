@@ -19,6 +19,7 @@ export type GuidelineIssuer =
   | "isuo"
   | "eshre"
   | "who"
+  | "rcog"
   | "other";
 
 /** Специальность / зона практики */

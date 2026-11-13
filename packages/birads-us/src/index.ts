@@ -39,3 +39,4 @@ export { enrichEngineResult, matchDifferential, type BiradsEngineInput, type Bir
 export { generateStructuredReport, type StructuredBiradsReport } from "./engine/structured-report";
 export { assistFromFreeText, parseBiradsFreeText, type NlpAssistResult } from "./engine/nlp-assist";
 export { mergeParsedBiradsInput, presetForPathology, BIRADS_PATHOLOGY_PRESETS } from "./engine/merge-input";
+export * from "./us-v2025";

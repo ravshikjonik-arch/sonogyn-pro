@@ -9,6 +9,7 @@ import {
   CalculatorInsertPanel,
 } from "@/components/structured-editor/CalculatorInsertPanel";
 import { StructuredCaseMediaInsert } from "@/components/structured-editor/StructuredCaseMediaInsert";
+import { DictationField } from "@/components/voice/DictationField";
 import { cn } from "@/lib/utils/cn";
 
 type Props = {
@@ -73,13 +74,33 @@ export function StructuredSectionField({
       ) : null}
 
       {richText && !readOnly ? (
-        <ClinicalRichTextEditor
-          value={section.html ?? ""}
-          onChange={(html) =>
-            onChange({ ...section, html, plain: htmlToPlainText(html) })
-          }
-          minHeightClassName="min-h-[100px] sm:min-h-[120px]"
-        />
+        <div className="space-y-2">
+          <ClinicalRichTextEditor
+            value={section.html ?? ""}
+            onChange={(html) =>
+              onChange({ ...section, html, plain: htmlToPlainText(html) })
+            }
+            minHeightClassName="min-h-[100px] sm:min-h-[120px]"
+          />
+          <DictationField
+            value={section.plain ?? ""}
+            onChange={(plain) => {
+              const safe = plain.trim();
+              const html = safe
+                ? `<p>${safe
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/\n/g, "<br/>")}</p>`
+                : "";
+              onChange({ ...section, plain, html });
+            }}
+            draftKey={`protocol-section-${title.slice(0, 40)}`}
+            ariaLabel={`Диктовка: ${title}`}
+            multiline
+            placeholder="Диктовка в раздел протокола (заменяет текст раздела)"
+          />
+        </div>
       ) : null}
 
       {readOnly && section.plain?.trim() ? (

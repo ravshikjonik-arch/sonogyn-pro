@@ -114,8 +114,9 @@ export default function SupabaseAuthScreen({ navigation }: Props) {
       Alert.alert("Email", "Введите корректный email.");
       return false;
     }
-    if (!password || password.length < 6) {
-      Alert.alert("Пароль", "Введите пароль не короче 6 символов.");
+    // Login: non-empty (legacy short passwords). Sign-up elsewhere enforces ≥8.
+    if (!password || password.length < 1) {
+      Alert.alert("Пароль", "Введите пароль.");
       return false;
     }
     return true;

@@ -7,25 +7,22 @@ import {
   Pressable,
   ScrollView,
   Linking,
-  Share,
   StyleSheet,
   Text,
-  TextInput,
   View,
 } from "react-native";
 import { useEffect, useState } from "react";
-import * as Clipboard from "expo-clipboard";
 import { SafeAreaView } from "react-native-safe-area-context";
 import type { MainTabParamList, RootStackParamList } from "../navigation/paramLists";
 import { useCurrentUser } from "../hooks/useCurrentUser";
 import { useProAccess } from "../hooks/useProAccess";
 import ProBadge from "../components/ProBadge";
 import i18n from "../i18n";
-import { activateTrialCode, clearTrialAccess, getTrialStatus } from "../services/trialAccess";
-import { createOneTimeTrialCodes } from "../services/trialCodeAdmin";
 import { TELEGRAM_CHANNEL } from "../config/telegram";
 import { openTelegramChannel } from "../config/community";
-import { buildGrTeamInviteMessage } from "../utils/grInviteText";
+import { CONTENT_ERROR_REPORT } from "../config/contentErrorReport";
+import { openContentErrorReport } from "../lib/brand/openContentErrorReport";
+import { isOpenAccessPilot, STORE_SUPPORT_MAILTO } from "../config/storeRelease";
 import { revokeAllSessions } from "../lib/auth/sessionApi";
 import { wipeMobileClinicalLocalData } from "../lib/security/wipeClinicalLocal";
 import { supabaseMobile } from "../lib/supabase/mobileClient";
@@ -50,16 +47,12 @@ function nextLevelPoints(level: number) {
 
 export default function ProfileScreen({ navigation }: Props) {
   const { user, loading, stars } = useCurrentUser();
-  const { isPro, source, refresh } = useProAccess();
-  const [trialCode, setTrialCode] = useState("");
-  const [trialInfo, setTrialInfo] = useState<string>("Trial не активирован");
-  const [newCodes, setNewCodes] = useState<string[]>([]);
-  const [codesCount, setCodesCount] = useState("10");
-  const [codesDays, setCodesDays] = useState("14");
+  const { isPro } = useProAccess();
   const [supabaseLoggedIn, setSupabaseLoggedIn] = useState(false);
   const [birthDateIso, setBirthDateIso] = useState<string | null>(null);
   const [birthYear, setBirthYear] = useState<number | null>(null);
   const [revokingSessions, setRevokingSessions] = useState(false);
+  const openPilot = isOpenAccessPilot();
 
   const nextPoints = nextLevelPoints(user?.level ?? 1);
   const progress = nextPoints
@@ -118,56 +111,15 @@ export default function ProfileScreen({ navigation }: Props) {
     );
   }
 
-  useEffect(() => {
-    void getTrialStatus().then((s) => {
-      if (!s.active) {
-        setTrialInfo("Trial не активирован");
-        return;
-      }
-      setTrialInfo(`Trial активен: ${s.daysLeft} дн. (код ${s.code ?? "—"})`);
-    });
-  }, []);
-
-  async function onActivateTrial() {
+  async function onSignOutLocal() {
+    if (!supabaseMobile) return;
     try {
-      const out = await activateTrialCode(trialCode);
-      setTrialInfo(`Trial активен: ${out.daysLeft} дн. (код ${out.code ?? "—"})`);
-      setTrialCode("");
-      await refresh();
-      Alert.alert("Готово", "Пробный доступ активирован.");
+      await wipeMobileClinicalLocalData();
+      await supabaseMobile.auth.signOut();
+      setSupabaseLoggedIn(false);
+      Alert.alert("Готово", "Вы вышли из аккаунта на этом устройстве.");
     } catch (e) {
-      Alert.alert("Trial код", e instanceof Error ? e.message : "Не удалось активировать код.");
-    }
-  }
-
-  async function onCopyGrInvite() {
-    try {
-      await Clipboard.setStringAsync(buildGrTeamInviteMessage());
-      Alert.alert("Готово", "Инструкция для GR скопирована в буфер.");
-    } catch (e) {
-      Alert.alert("Ошибка", e instanceof Error ? e.message : "Не удалось скопировать.");
-    }
-  }
-
-  async function onShareGrInvite() {
-    const message = buildGrTeamInviteMessage();
-    try {
-      await Share.share({ message });
-    } catch {
-      /* user cancelled */
-    }
-  }
-
-  async function onGenerateCodes() {
-    try {
-      const count = Math.max(1, Number(codesCount) || 10);
-      const days = Math.max(1, Number(codesDays) || 14);
-      const codes = await createOneTimeTrialCodes({ count, days, prefix: "DOC" });
-      setNewCodes(codes);
-      await Clipboard.setStringAsync(codes.join("\n"));
-      Alert.alert("Готово", `Сгенерировано ${codes.length} кодов. Скопированы в буфер.`);
-    } catch (e) {
-      Alert.alert("Ошибка", e instanceof Error ? e.message : "Не удалось создать коды.");
+      Alert.alert("Ошибка", e instanceof Error ? e.message : "Не удалось выйти.");
     }
   }
 
@@ -218,18 +170,26 @@ export default function ProfileScreen({ navigation }: Props) {
           <View style={styles.securityBox}>
             <Text style={styles.securityTitle}>Безопасность входа</Text>
             <Text style={styles.securityHint}>
-              Сброс сессий на всех устройствах. Офлайн-телефон выйдет при синхронизации или через 24 ч без сети.
+              Выход на этом устройстве или сброс сессий везде. Удаление аккаунта и данных — на{" "}
+              Sonogyn-pro@mail.ru.
             </Text>
+            <Pressable style={styles.securityBtn} onPress={() => void onSignOutLocal()}>
+              <Text style={styles.securityBtnText}>Выйти</Text>
+            </Pressable>
             <Pressable
-              style={[styles.securityBtn, revokingSessions && styles.securityBtnDisabled]}
+              style={[styles.securityBtn, styles.securityBtnSecondary, revokingSessions && styles.securityBtnDisabled]}
               disabled={revokingSessions}
               onPress={onRevokeAllDevices}
             >
-              <Text style={styles.securityBtnText}>
+              <Text style={styles.securityBtnTextSecondary}>
                 {revokingSessions ? "Выход…" : "Выйти на всех устройствах"}
               </Text>
             </Pressable>
           </View>
+        ) : openPilot ? (
+          <Text style={styles.securityHint}>
+            Пилот App Store: вход не обязателен. Калькуляторы доступны сразу после согласия.
+          </Text>
         ) : null}
 
         <Text style={styles.legalHeader}>{i18n.t("profile_legal_header")}</Text>
@@ -257,81 +217,27 @@ export default function ProfileScreen({ navigation }: Props) {
           </Text>
         </Pressable>
 
-        <View style={styles.trialBox}>
-          <Text style={styles.trialTitle}>Пробная версия для коллег</Text>
-          <Text style={styles.trialHint}>
-            Статус: {isPro ? (source === "trial" ? "TRIAL ACTIVE" : "PRO ACTIVE") : "FREE"}
+        <Pressable
+          style={styles.telegramRow}
+          onPress={() => void openContentErrorReport({ pageHint: "Profile" })}
+          accessibilityRole="button"
+          accessibilityLabel={`${CONTENT_ERROR_REPORT.labelRu}. ${CONTENT_ERROR_REPORT.ctaRu}`}
+          accessibilityHint="Откроет Telegram @Yakrav7700 без данных пациентов"
+        >
+          <Text style={styles.telegramTitle}>{CONTENT_ERROR_REPORT.labelRu}</Text>
+          <Text style={styles.telegramSub}>
+            {CONTENT_ERROR_REPORT.ctaRu} · {CONTENT_ERROR_REPORT.handle}
           </Text>
-          <Text style={styles.trialHint}>{trialInfo}</Text>
-          <TextInput
-            style={styles.trialInput}
-            value={trialCode}
-            onChangeText={setTrialCode}
-            placeholder="Введите trial-код"
-            autoCapitalize="characters"
-          />
-          <View style={styles.trialActions}>
-            <Pressable style={styles.trialBtn} onPress={onActivateTrial}>
-              <Text style={styles.trialBtnText}>Активировать код</Text>
-            </Pressable>
-            <Pressable
-              style={[styles.trialBtn, styles.trialResetBtn]}
-              onPress={async () => {
-                await clearTrialAccess();
-                setTrialInfo("Trial не активирован");
-                await refresh();
-              }}
-            >
-              <Text style={styles.trialResetText}>Сброс trial</Text>
-            </Pressable>
-          </View>
-        </View>
+        </Pressable>
 
-        <View style={styles.trialBox}>
-          <Text style={styles.trialTitle}>Пригласить коллег (GR)</Text>
-          <Text style={styles.trialHint}>
-            Текст с шагами: Expo Go, у вас — npm run start:share (туннель), у коллег — QR или ссылка,
-            затем trial-код из блока выше.
-          </Text>
-          <Pressable style={[styles.trialBtn, styles.inviteBtn]} onPress={onCopyGrInvite}>
-            <Text style={styles.trialBtnText}>Скопировать инструкцию</Text>
-          </Pressable>
-          <Pressable style={[styles.trialBtn, styles.trialResetBtn, styles.inviteBtn]} onPress={onShareGrInvite}>
-            <Text style={styles.trialResetText}>Поделиться…</Text>
-          </Pressable>
-        </View>
-
-        <View style={styles.trialBox}>
-          <Text style={styles.trialTitle}>Админ: генерация кодов для коллег</Text>
-          <View style={styles.trialActions}>
-            <TextInput
-              style={[styles.trialInput, { flex: 1 }]}
-              value={codesCount}
-              onChangeText={setCodesCount}
-              keyboardType="numeric"
-              placeholder="Кол-во"
-            />
-            <TextInput
-              style={[styles.trialInput, { flex: 1 }]}
-              value={codesDays}
-              onChangeText={setCodesDays}
-              keyboardType="numeric"
-              placeholder="Дней"
-            />
-          </View>
-          <Pressable style={styles.trialBtn} onPress={onGenerateCodes}>
-            <Text style={styles.trialBtnText}>Сгенерировать одноразовые коды</Text>
-          </Pressable>
-          {newCodes.length ? (
-            <View style={styles.codesList}>
-              {newCodes.map((c) => (
-                <Text key={c} style={styles.codeRow}>
-                  {c}
-                </Text>
-              ))}
-            </View>
-          ) : null}
-        </View>
+        <Pressable
+          style={styles.trialBtn}
+          onPress={() => void Linking.openURL(STORE_SUPPORT_MAILTO)}
+          accessibilityRole="link"
+          accessibilityLabel="Написать в поддержку"
+        >
+          <Text style={styles.trialBtnText}>Поддержка · Sonogyn-pro@mail.ru</Text>
+        </Pressable>
       </View>
       </ScrollView>
     </SafeAreaView>
@@ -397,7 +303,7 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   securityTitle: { color: "#92400e", fontWeight: "800", fontSize: 13 },
-  securityHint: { color: "#78350f", fontSize: 12, lineHeight: 17 },
+  securityHint: { color: "#78350f", fontSize: 12, lineHeight: 17, marginBottom: 8 },
   securityBtn: {
     marginTop: 4,
     borderRadius: 10,
@@ -408,7 +314,13 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   securityBtnDisabled: { opacity: 0.6 },
+  securityBtnSecondary: {
+    backgroundColor: "#fff",
+    borderWidth: 1,
+    borderColor: "#fcd34d",
+  },
   securityBtnText: { color: "#92400e", fontWeight: "700", fontSize: 13 },
+  securityBtnTextSecondary: { color: "#92400e", fontWeight: "700", fontSize: 13 },
   legalHeader: {
     marginTop: 16,
     fontSize: 11,
