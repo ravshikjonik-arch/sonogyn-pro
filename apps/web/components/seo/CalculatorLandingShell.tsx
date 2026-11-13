@@ -3,7 +3,10 @@ import type { ReactNode } from "react";
 
 import { CalculatorOpenTracker } from "@/components/analytics/CalculatorOpenTracker";
 import { CalculatorFaqJsonLd } from "@/components/seo/CalculatorFaqJsonLd";
-import { CLINICAL_CONTENT_DISCLAIMER } from "@/lib/seo/clinical-reviewer";
+import {
+  CLINICAL_CONTENT_DISCLAIMER,
+  CLINICAL_CONTENT_REVIEW_STATUS_RU,
+} from "@/lib/seo/clinical-reviewer";
 import type { CalculatorLandingContent } from "@/lib/seo/calculator-landing-content";
 
 type Props = {
@@ -27,8 +30,7 @@ export function CalculatorLandingShell({ content, children }: Props) {
           {content.lead}
         </p>
         <p className="text-xs text-[var(--clinical-foreground-muted)]">
-          Обновлено: {content.updatedAt} · Проверил: {content.reviewedBy.name},{" "}
-          {content.reviewedBy.specialty}
+          Обновлено: {content.updatedAt} · {CLINICAL_CONTENT_REVIEW_STATUS_RU}
         </p>
       </header>
 
