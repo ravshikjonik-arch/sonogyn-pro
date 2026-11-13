@@ -402,8 +402,9 @@ export function GlobalSearchTrigger({ className }: { className?: string }) {
         className={className}
         onClick={() => setOpen(true)}
         data-testid="global-search-trigger"
+        aria-label="Поиск по кабинету"
       >
-        <Search className="mr-2 h-4 w-4" />
+        <Search className="mr-2 h-4 w-4" aria-hidden />
         <span className="hidden xs:inline">Поиск</span>
         <kbd className="ml-2 hidden rounded border px-1.5 text-[10px] opacity-60 sm:inline">⌘K</kbd>
       </Button>

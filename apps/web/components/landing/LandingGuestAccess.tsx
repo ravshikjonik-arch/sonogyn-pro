@@ -13,7 +13,7 @@ export function LandingGuestAccess() {
         <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--clinical-primary-deep)]">
           Гостевой визит
         </p>
-        <h2 className="mt-2 text-2xl font-bold text-slate-950 dark:text-white sm:text-3xl">
+        <h2 className="mt-2 text-2xl font-bold text-[var(--clinical-foreground)] sm:text-3xl">
           Что доступно сейчас
         </h2>
         <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">

@@ -89,15 +89,17 @@ export default async function RootPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <LandingHeader isAuthenticated={isAuthenticated} variant="marketing" />
-      <LandingMarketingHero isAuthenticated={isAuthenticated} />
-      <main className="sonogyn-mesh-bg mx-auto max-w-6xl space-y-28 px-4 py-20 sm:py-24">
-        <LandingCareerPath isAuthenticated={isAuthenticated} progress={career?.progress} />
-        <LandingFeatures />
-        <LandingHowItWorks />
-        <LandingGuestAccess />
-        <LandingPricing isAuthenticated={isAuthenticated} />
-        <LandingFaq />
-        <LandingFooter isAuthenticated={isAuthenticated} />
+      <main id="main-content">
+        <LandingMarketingHero isAuthenticated={isAuthenticated} />
+        <div className="sonogyn-mesh-bg mx-auto max-w-6xl space-y-28 px-4 py-20 sm:py-24">
+          <LandingCareerPath isAuthenticated={isAuthenticated} progress={career?.progress} />
+          <LandingFeatures />
+          <LandingHowItWorks />
+          <LandingGuestAccess />
+          <LandingPricing isAuthenticated={isAuthenticated} />
+          <LandingFaq />
+          <LandingFooter isAuthenticated={isAuthenticated} />
+        </div>
       </main>
     </div>
   );

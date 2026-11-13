@@ -179,7 +179,7 @@ export function LandingMarketingHero({ isAuthenticated }: Props) {
             {isAuthenticated ? (
               <div className="rounded-3xl border border-white/15 bg-black/45 p-5 text-white shadow-xl backdrop-blur-md">
                 <p className="text-[10px] font-black uppercase tracking-[0.22em] text-violet-200/80">Сессия активна</p>
-                <h3 className="mt-2 text-xl font-black tracking-tight">С возвращением</h3>
+                <h2 className="mt-2 text-xl font-black tracking-tight">С возвращением</h2>
                 <Button asChild size="lg" className="mt-5 w-full bg-white font-semibold text-violet-900 hover:bg-white/95">
                   <Link href="/app">В личный кабинет</Link>
                 </Button>

@@ -74,7 +74,7 @@ export function LandingPricing({ isAuthenticated }: LandingPricingProps) {
                   {plan.title}
                 </CardTitle>
                 <CardDescription>{description}</CardDescription>
-                <p className="pt-2 text-3xl font-black text-slate-950 dark:text-white">
+                <p className="pt-2 text-3xl font-black text-[var(--clinical-foreground)]">
                   {price}
                   <span className="ml-2 text-sm font-normal text-[var(--clinical-foreground-muted)]">
                     / {period}

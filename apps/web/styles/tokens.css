@@ -154,9 +154,10 @@ html[data-theme-forced="light"] {
     --text-secondary: #a8b0c0;
     --text-muted: #6b7385;
     --border: rgba(148, 163, 184, 0.18);
-    --accent: #7c6df5;
-    --accent-hover: #6d3df5;
-    --accent-soft: rgba(109, 61, 245, 0.18);
+    /* AA: white on #6d28d9 ≈ 7.1:1 (was #7c6df5 ≈ 3.9:1) */
+    --accent: #6d28d9;
+    --accent-hover: #5b21b6;
+    --accent-soft: rgba(109, 40, 217, 0.22);
     --success: #34d399;
     --warning: #fbbf24;
     --danger: #f87171;
@@ -227,7 +228,7 @@ html[data-theme-forced="light"] {
     --sg-depth-2: 0 14px 40px rgba(2, 6, 23, 0.34);
     --sg-depth-3: 0 28px 70px rgba(2, 6, 23, 0.44);
     --sg-depth-modal: 0 32px 90px rgba(2, 6, 23, 0.72);
-    --sg-glow-primary: 0 0 0 1px rgba(124, 109, 245, 0.22), 0 18px 48px rgba(59, 130, 246, 0.12);
+    --sg-glow-primary: 0 0 0 1px rgba(109, 40, 217, 0.28), 0 18px 48px rgba(37, 99, 235, 0.12);
     --sg-glow-ai: 0 0 0 1px rgba(139, 92, 246, 0.24), 0 18px 52px rgba(99, 102, 241, 0.14);
     --sg-blur-card: 16px;
     --sg-blur-modal: 22px;
@@ -253,9 +254,10 @@ html[data-theme-forced="dark"] {
   --text-secondary: #a8b0c0;
   --text-muted: #6b7385;
   --border: rgba(148, 163, 184, 0.18);
-  --accent: #7c6df5;
-  --accent-hover: #6d3df5;
-  --accent-soft: rgba(109, 61, 245, 0.18);
+  /* AA: white on #6d28d9 ≈ 7.1:1 (was #7c6df5 ≈ 3.9:1) */
+  --accent: #6d28d9;
+  --accent-hover: #5b21b6;
+  --accent-soft: rgba(109, 40, 217, 0.22);
   --success: #34d399;
   --warning: #fbbf24;
   --danger: #f87171;
@@ -326,7 +328,7 @@ html[data-theme-forced="dark"] {
   --sg-depth-2: 0 14px 40px rgba(2, 6, 23, 0.34);
   --sg-depth-3: 0 28px 70px rgba(2, 6, 23, 0.44);
   --sg-depth-modal: 0 32px 90px rgba(2, 6, 23, 0.72);
-  --sg-glow-primary: 0 0 0 1px rgba(124, 109, 245, 0.22), 0 18px 48px rgba(59, 130, 246, 0.12);
+  --sg-glow-primary: 0 0 0 1px rgba(109, 40, 217, 0.28), 0 18px 48px rgba(37, 99, 235, 0.12);
   --sg-glow-ai: 0 0 0 1px rgba(139, 92, 246, 0.24), 0 18px 52px rgba(99, 102, 241, 0.14);
   --sg-blur-card: 16px;
   --sg-blur-modal: 22px;

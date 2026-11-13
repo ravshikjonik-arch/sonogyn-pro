@@ -15,7 +15,9 @@ function E2eClinicalShell({ children }: { children: ReactNode }) {
       className="min-h-dvh bg-[var(--clinical-bg)] text-[var(--clinical-foreground)]"
       data-e2e-clinical-shell
     >
-      <main className="mx-auto w-full max-w-6xl">{children}</main>
+      <main id="main-content" className="mx-auto w-full max-w-6xl">
+        {children}
+      </main>
     </div>
   );
 }

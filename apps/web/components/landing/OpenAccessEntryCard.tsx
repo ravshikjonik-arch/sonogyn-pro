@@ -22,7 +22,7 @@ export function OpenAccessEntryCard({ className }: Props) {
       )}
     >
       <p className="text-[10px] font-black uppercase tracking-[0.22em] text-violet-200/80">Без регистрации</p>
-      <h3 className="mt-2 text-xl font-black tracking-tight">Сразу в кабинет</h3>
+      <h2 className="mt-2 text-xl font-black tracking-tight">Сразу в кабинет</h2>
       <p className="mt-2 text-sm leading-relaxed text-violet-100/80">{OPEN_ACCESS_DEMO_DETAIL_RU}</p>
       <div className="mt-5 flex flex-col gap-2">
         <Button asChild size="lg" className="w-full bg-white font-semibold text-violet-900 hover:bg-white/95">

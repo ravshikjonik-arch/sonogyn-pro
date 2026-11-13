@@ -209,7 +209,9 @@ export function LandingAuthCard({ className }: Props) {
             type="button"
             className={cn(
               "rounded-lg py-2 text-xs font-bold transition",
-              mode === "login" ? "bg-violet-600 text-white" : "text-violet-200/70 hover:text-white",
+              mode === "login"
+                ? "bg-[var(--clinical-primary)] text-white"
+                : "text-violet-200/70 hover:text-white",
             )}
             onClick={() => {
               setMode("login");
@@ -222,7 +224,9 @@ export function LandingAuthCard({ className }: Props) {
             type="button"
             className={cn(
               "rounded-lg py-2 text-xs font-bold transition",
-              mode === "register" ? "bg-violet-600 text-white" : "text-violet-200/70 hover:text-white",
+              mode === "register"
+                ? "bg-[var(--clinical-primary)] text-white"
+                : "text-violet-200/70 hover:text-white",
             )}
             onClick={() => {
               setMode("register");
