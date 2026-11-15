@@ -98,6 +98,17 @@ export const QUIZ_HUB_ENTRIES: QuizHubEntry[] = [
     sourceLabel: "RCOG orient · ISUOG · КР РФ",
   },
   {
+    id: "birads-us-quiz",
+    title: "BI-RADS US · самопроверка",
+    subtitle: "Категории ACR, лексикон, мультипараметр · 10 Q",
+    href: "/tools/refs/birads-us/quiz",
+    personas: ["doctor", "intern", "student"],
+    difficulty: "student",
+    questionCount: 10,
+    topics: ["BI-RADS", "breast", "US", "маммология"],
+    sourceLabel: "ACR BI-RADS US · @repo/birads-us",
+  },
+  {
     id: "case-library",
     title: "Teaching case library",
     subtitle: "Обезличенные кейсы + обсуждения",

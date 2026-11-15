@@ -267,6 +267,17 @@ const EDUCATION_LIBRARY_ITEMS_RAW: EducationLibraryItem[] = [
     badge: "BI-RADS",
   },
   {
+    id: "birads-us-quiz",
+    shelf: "reference",
+    title: "BI-RADS US · самопроверка",
+    description:
+      "10 вопросов student/doctor: категории ACR (правильные %), лексикон B-режима, мультипараметр, дисклеймер CDS.",
+    href: "/tools/refs/birads-us/quiz",
+    tags: ["BI-RADS", "quiz", "маммология", "самопроверка", "ACR"],
+    primary: true,
+    badge: "Quiz",
+  },
+  {
     id: "orads-hub",
     shelf: "courses",
     title: "O-RADS US",
