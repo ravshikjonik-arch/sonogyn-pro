@@ -3,14 +3,14 @@
     "name": "SonoGyn Pro",
     "slug": "us-risk-calc",
     "scheme": "com.yakrav7700.usriskcalc",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.yakrav7700.usriskcalc",
-      "buildNumber": "22",
+      "buildNumber": "25",
       "infoPlist": {
         "NSCameraUsageDescription": "Камера: съёмка обезличенных учебных снимков УЗИ для кейсов и ассистивных инструментов.",
         "NSPhotoLibraryUsageDescription": "Галерея: выбор обезличенных изображений УЗИ для кейсов и ассистивных инструментов.",
