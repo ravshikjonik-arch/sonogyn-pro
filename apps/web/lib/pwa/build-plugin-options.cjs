@@ -2,10 +2,6 @@
  * PWA plugin options for next.config (CommonJS — loaded via createRequire from next.config.ts).
  */
 /* eslint-disable @typescript-eslint/no-require-imports */
-const fs = require("fs");
-const path = require("path");
-
-const webRoot = path.join(__dirname, "..", "..");
 
 /** Держать в sync с `lib/pwa/never-cache-url.ts` */
 const NEVER_CACHE_PREFIXES = ["/api/", "/auth/", "/admin", "/patients", "/verify-phone", "/profile/patients"];
@@ -21,19 +17,19 @@ function shouldNeverCacheRequest(url, pathname) {
   return false;
 }
 
+/**
+ * Minimal install-time precache (wave B). Full calculator SEO list was ~30+ navigations
+ * and slowed first visit; runtime NetworkFirst still caches pages on demand.
+ */
 function getPwaOfflinePrecachePaths() {
-  const registryPath = path.join(webRoot, "lib/seo/calculator-seo-registry.ts");
-  const text = fs.readFileSync(registryPath, "utf8");
-  const fromRegistry = [...text.matchAll(/path:\s*"([^"]+)"/g)].map((m) => m[1]);
-  const hubs = ["/", "/home", "/offline", "/app", "/dashboard", "/tools", "/tools/calc", "/tools/calc/rads/o-rads"];
-  const seen = new Set();
-  const out = [];
-  for (const p of [...hubs, ...fromRegistry]) {
-    if (seen.has(p)) continue;
-    seen.add(p);
-    out.push(p);
-  }
-  return out;
+  return [
+    "/",
+    "/home",
+    "/offline",
+    "/tools/calc",
+    "/tools/calc/rads/o-rads",
+    "/tools/calc/rads/bi-rads",
+  ];
 }
 
 function buildRuntimeCaching() {

@@ -1,4 +1,4 @@
-import { TiradsProFlow } from "@/components/calculators/tirads/TiradsProFlow";
+import { TiradsProFlowClient } from "@/components/calculators/rads/RadsFlowClients";
 import { CalculatorLandingShell } from "@/components/seo/CalculatorLandingShell";
 import { getCalculatorLandingContent } from "@/lib/seo/calculator-landing-content";
 import { calculatorPageMetadata } from "@/lib/seo/calculator-seo-registry";
@@ -11,7 +11,7 @@ const content = getCalculatorLandingContent("/tools/calc/rads/ti-rads")!;
 export default function TiradsRadsPage() {
   return (
     <CalculatorLandingShell content={content}>
-      <TiradsProFlow />
+      <TiradsProFlowClient />
     </CalculatorLandingShell>
   );
 }
