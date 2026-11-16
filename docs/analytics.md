@@ -12,6 +12,12 @@
 | `SENTRY_*` / `NEXT_PUBLIC_SENTRY_DSN` | Ошибки (уже с scrub PHI). |
 | `SONOGYN_LOG_SERVER_TIMING=1` | Opt-in серверные timing-логи без ПДн. |
 
+## RUM (Core Web Vitals)
+
+- `@vercel/speed-insights` в `app/layout.tsx` (`<SpeedInsights />`) — first-party CWV на Vercel, без полей калькуляторов и без ПДн.
+- Не заменяет cookie-consent для YM/GA: маркетинговые счётчики по-прежнему только после согласия.
+- Дашборд: Vercel → проект web → Speed Insights.
+
 ## Consent
 
 1. Необходимые cookies сессии — всегда.

@@ -17,7 +17,6 @@ import {
   isDevAutoLoginEnabled,
   isDevSkipAuthEnabled,
 } from "@/lib/auth/dev-account";
-import { loadCareerProgressForSession } from "@/lib/career/load-career-progress";
 import { landingPageMetadata } from "@/lib/seo/landing-metadata";
 import { resolvePublicSiteUrl } from "@/lib/seo/build-public-metadata";
 import { createClient } from "@/utils/supabase/server";
@@ -78,7 +77,6 @@ export default async function RootPage() {
     data: { session },
   } = await supabase.auth.getSession();
   const isAuthenticated = Boolean(session);
-  const career = isAuthenticated ? await loadCareerProgressForSession() : null;
 
   return (
     <div
@@ -95,7 +93,7 @@ export default async function RootPage() {
       <main id="main-content">
         <LandingMarketingHero isAuthenticated={isAuthenticated} />
         <div className="sonogyn-mesh-bg mx-auto max-w-6xl space-y-28 px-4 py-20 sm:py-24">
-          <LandingCareerPath isAuthenticated={isAuthenticated} progress={career?.progress} />
+          <LandingCareerPath isAuthenticated={isAuthenticated} />
           <LandingPopularCalculators />
           <LandingFeatures />
           <LandingHowItWorks />

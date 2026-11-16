@@ -186,7 +186,13 @@ const nextConfig: NextConfig = {
         : "true",
   },
   experimental: {
-    optimizePackageImports: ["lucide-react", "@react-three/drei"],
+    optimizePackageImports: [
+      "lucide-react",
+      "@react-three/drei",
+      "framer-motion",
+      "recharts",
+      "@tiptap/react",
+    ],
     webpackMemoryOptimizations: true,
     webpackBuildWorker: true,
     /** Server Actions only; AI assist Route Handlers rely on client JPEG compress. */
@@ -303,7 +309,18 @@ export default ((): NextConfig => {
           return withPWA(nextConfig);
         })();
 
-  return wrapSentryConfig(base);
+  const withSentry = wrapSentryConfig(base);
+
+  if (process.env.ANALYZE !== "true" && process.env.ANALYZE !== "1") {
+    return withSentry;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const withBundleAnalyzer = requireFromWeb("@next/bundle-analyzer")({
+    enabled: true,
+  }) as (config: NextConfig) => NextConfig;
+
+  return withBundleAnalyzer(withSentry);
 })();
 
 function wrapSentryConfig(config: NextConfig): NextConfig {

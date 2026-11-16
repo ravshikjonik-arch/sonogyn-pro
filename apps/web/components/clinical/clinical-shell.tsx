@@ -26,6 +26,7 @@ import {
   X,
 } from "lucide-react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -46,13 +47,11 @@ import { ClinicalOfflineBadge } from "@/components/network/ClinicalOfflineBadge"
 import { ClinicalRouteOfflineGate } from "@/components/network/ClinicalRouteOfflineGate";
 import { ClinicalBottomNav } from "@/components/clinical/ClinicalBottomNav";
 import { MockupNavSection } from "@/components/clinical/MockupNavSection";
-import { GlobalSearchTrigger } from "@/components/clinical/GlobalSearchDialog";
 import { TelegramChannelLink } from "@/components/clinical/TelegramChannelLink";
 import { ContentErrorReportLink } from "@/components/feedback/ContentErrorReportLink";
 import { ThemeToggle } from "@/components/clinical/theme-toggle";
 import { ProBadge } from "@/components/pro/ProBadge";
 import { DoctorVerifiedBadge } from "@/components/trust/DoctorVerifiedBadge";
-import { ClinicalVoiceDock } from "@/components/voice/ClinicalVoiceDock";
 import {
   VoiceReaderProvider,
   VoiceReaderRouteSync,
@@ -63,6 +62,42 @@ import {
   type DoctorCabinetLabel,
 } from "@/lib/auth/doctor-display";
 import { isFullOpenAccessEnabledClient } from "@/lib/auth/guest-demo-account";
+
+const GlobalSearchTrigger = dynamic(
+  () =>
+    import("@/components/clinical/GlobalSearchDialog").then((mod) => mod.GlobalSearchTrigger),
+  { ssr: false, loading: () => null },
+);
+const ClinicalVoiceDock = dynamic(
+  () => import("@/components/voice/ClinicalVoiceDock").then((mod) => mod.ClinicalVoiceDock),
+  { ssr: false, loading: () => null },
+);
+
+/** Defer search/voice chunks until idle or first gesture (faster calc shell paint). */
+function useDeferredShellExtras() {
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    if (ready) return;
+    let done = false;
+    const arm = () => {
+      if (done) return;
+      done = true;
+      setReady(true);
+    };
+    const onInteract = () => arm();
+    window.addEventListener("pointerdown", onInteract, { once: true, passive: true });
+    window.addEventListener("keydown", onInteract, { once: true });
+    const ric = window.requestIdleCallback?.(arm, { timeout: 3500 });
+    const t = window.setTimeout(arm, 4000);
+    return () => {
+      window.removeEventListener("pointerdown", onInteract);
+      window.removeEventListener("keydown", onInteract);
+      if (ric != null && window.cancelIdleCallback) window.cancelIdleCallback(ric);
+      window.clearTimeout(t);
+    };
+  }, [ready]);
+  return ready;
+}
 
 const navGroups: { title: string; items: { href: string; label: string; icon: typeof MessageCircle }[] }[] = [
   {
@@ -149,6 +184,7 @@ export function ClinicalShell({
   const router = useRouter();
   const supabase = useSupabase();
   const { user } = useAuth();
+  const shellExtrasReady = useDeferredShellExtras();
   const openAccess = isFullOpenAccessEnabledClient();
   const isGuest = !user && !devProfile;
   const showOpenAccessBanner = openAccess || isGuest;
@@ -360,98 +396,98 @@ export function ClinicalShell({
         className="sonogyn-clinical-app flex min-h-screen sonogyn-mesh-bg"
         data-e2e-clinical-shell
       >
-      <div
-        className={cn(
-          "fixed inset-0 z-30 bg-black/40 lg:hidden",
-          mobileOpen ? "block" : "hidden",
-        )}
-        aria-hidden
-        onClick={() => setMobileOpen(false)}
-      />
-      {Sidebar}
-      <div className="flex min-h-screen flex-1 flex-col lg:min-w-0">
-        <header
-          className="clinical-workspace-header sticky top-0 z-20 flex h-14 items-center gap-3 border-b border-[var(--clinical-border)] bg-[var(--clinical-header)] px-4 backdrop-blur-md"
-          data-voice-ignore
-        >
-          <Button
-            variant="ghost"
-            size="icon"
-            className="lg:hidden"
-            type="button"
-            onClick={() => setMobileOpen(true)}
-            aria-label="Открыть меню"
+        <div
+          className={cn(
+            "fixed inset-0 z-30 bg-black/40 lg:hidden",
+            mobileOpen ? "block" : "hidden",
+          )}
+          aria-hidden
+          onClick={() => setMobileOpen(false)}
+        />
+        {Sidebar}
+        <div className="flex min-h-screen flex-1 flex-col lg:min-w-0">
+          <header
+            className="clinical-workspace-header sticky top-0 z-20 flex h-14 items-center gap-3 border-b border-[var(--clinical-border)] bg-[var(--clinical-header)] px-4 backdrop-blur-md"
+            data-voice-ignore
           >
-            <Menu className="h-5 w-5" />
-          </Button>
-          <div className="hidden flex-1 items-center gap-2 md:flex">
-            <Bookmark className="h-4 w-4 text-[var(--clinical-foreground-muted)]" />
-            <span className="text-xs font-medium text-[var(--clinical-foreground-muted)]">
-              Безопасный режим: не вводите персональные данные пациентки
-            </span>
-          </div>
-          <ClinicalOfflineBadge className="shrink-0" />
-          <GlobalSearchTrigger />
-          {!isGuest ? <ProBadge className="hidden sm:inline-flex" /> : null}
-          <ClinicalVoiceDock placement="header" />
-          <ThemeToggle />
-          {isGuest ? (
-            <Button asChild size="sm" variant="ghost" className="ml-auto" data-testid="guest-login-cta">
-              <Link href={loginHref}>Войти</Link>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="lg:hidden"
+              type="button"
+              onClick={() => setMobileOpen(true)}
+              aria-label="Открыть меню"
+            >
+              <Menu className="h-5 w-5" />
             </Button>
-          ) : !isGuest || user ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="secondary" size="sm" className="ml-auto gap-2 font-normal" data-testid="user-menu-trigger">
-                  <span className="hidden max-w-[180px] truncate text-left text-xs font-semibold sm:inline">
-                    {headerDisplayName}
-                  </span>
-                  {isVerifiedDoctor ? <DoctorVerifiedBadge compact className="hidden sm:inline-flex" /> : null}
-                  <UserRound className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-52">
-                <DropdownMenuItem asChild>
-                  <Link href="/profile">Профиль и доступ</Link>
-                </DropdownMenuItem>
-                <PwaInstallProfileMenuItem />
-                {!isVerifiedDoctor ? (
+            <div className="hidden flex-1 items-center gap-2 md:flex">
+              <Bookmark className="h-4 w-4 text-[var(--clinical-foreground-muted)]" />
+              <span className="text-xs font-medium text-[var(--clinical-foreground-muted)]">
+                Безопасный режим: не вводите персональные данные пациентки
+              </span>
+            </div>
+            <ClinicalOfflineBadge className="shrink-0" />
+            {shellExtrasReady ? <GlobalSearchTrigger /> : null}
+            {!isGuest ? <ProBadge className="hidden sm:inline-flex" /> : null}
+            {shellExtrasReady ? <ClinicalVoiceDock placement="header" /> : null}
+            <ThemeToggle />
+            {isGuest ? (
+              <Button asChild size="sm" variant="ghost" className="ml-auto" data-testid="guest-login-cta">
+                <Link href={loginHref}>Войти</Link>
+              </Button>
+            ) : !isGuest || user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="secondary" size="sm" className="ml-auto gap-2 font-normal" data-testid="user-menu-trigger">
+                    <span className="hidden max-w-[180px] truncate text-left text-xs font-semibold sm:inline">
+                      {headerDisplayName}
+                    </span>
+                    {isVerifiedDoctor ? <DoctorVerifiedBadge compact className="hidden sm:inline-flex" /> : null}
+                    <UserRound className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-52">
                   <DropdownMenuItem asChild>
-                    <Link href="/verify">Подтвердить статус врача</Link>
+                    <Link href="/profile">Профиль и доступ</Link>
                   </DropdownMenuItem>
-                ) : null}
-                {email ? (
-                  <>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem disabled>{email}</DropdownMenuItem>
-                  </>
-                ) : null}
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => void signOut()} disabled={busy} data-testid="logout-button">
-                  <LogOut className="mr-2 h-4 w-4" />
-                  Выйти
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                  <PwaInstallProfileMenuItem />
+                  {!isVerifiedDoctor ? (
+                    <DropdownMenuItem asChild>
+                      <Link href="/verify">Подтвердить статус врача</Link>
+                    </DropdownMenuItem>
+                  ) : null}
+                  {email ? (
+                    <>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem disabled>{email}</DropdownMenuItem>
+                    </>
+                  ) : null}
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => void signOut()} disabled={busy} data-testid="logout-button">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Выйти
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : null}
+          </header>
+          {showOpenAccessBanner ? (
+            <div className="border-b border-emerald-200/70 bg-emerald-50/90 px-4 py-2 text-center text-xs text-emerald-950 dark:border-emerald-900/40 dark:bg-emerald-950/30 dark:text-emerald-100">
+              Можно смотреть калькуляторы, ИИ и чат без входа. Чтобы сохранить свои кейсы — нажмите
+              «Войти». Не вводите ПДн пациентов.
+            </div>
           ) : null}
-        </header>
-        {showOpenAccessBanner ? (
-          <div className="border-b border-emerald-200/70 bg-emerald-50/90 px-4 py-2 text-center text-xs text-emerald-950 dark:border-emerald-900/40 dark:bg-emerald-950/30 dark:text-emerald-100">
-            Можно смотреть калькуляторы, ИИ и чат без входа. Чтобы сохранить свои кейсы — нажмите
-            «Войти». Не вводите ПДн пациентов.
-          </div>
-        ) : null}
-        <main
-          id="main-content"
-          className="flex-1 pb-[calc(4.5rem+env(safe-area-inset-bottom))] sonogyn-enter lg:pb-0"
-          data-voice-content
-        >
-          <ClinicalRouteOfflineGate>{children}</ClinicalRouteOfflineGate>
-        </main>
-        <ClinicalVoiceDock />
-        <ClinicalBottomNav className="lg:hidden" />
+          <main
+            id="main-content"
+            className="flex-1 pb-[calc(4.5rem+env(safe-area-inset-bottom))] sonogyn-enter lg:pb-0"
+            data-voice-content
+          >
+            <ClinicalRouteOfflineGate>{children}</ClinicalRouteOfflineGate>
+          </main>
+          {shellExtrasReady ? <ClinicalVoiceDock /> : null}
+          <ClinicalBottomNav className="lg:hidden" />
+        </div>
       </div>
-    </div>
     </VoiceReaderProvider>
   );
 }

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { SkipToContent } from "@/components/a11y/SkipToContent";
 import { PwaInstallProvider } from "@/components/pwa/PwaInstallProvider";
@@ -103,6 +104,7 @@ export default function RootLayout({
               <PwaRuntime />
               <AnalyticsScripts />
               <CookieConsentBanner />
+              <SpeedInsights />
             </SessionProvider>
           </PwaInstallProvider>
         </ThemeProvider>

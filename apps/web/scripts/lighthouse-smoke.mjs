@@ -23,8 +23,9 @@ const baseURL = (process.env.BASE_URL || process.env.PLAYWRIGHT_BASE_URL || "htt
 const STRICT = process.env.LIGHTHOUSE_STRICT === "1" || process.env.LIGHTHOUSE_STRICT === "true";
 
 const ROUTES = [
-  { id: "landing", path: "/landing" },
+  { id: "home", path: "/" },
   { id: "login", path: "/login" },
+  { id: "orads", path: "/tools/calc/rads/o-rads" },
 ];
 
 const MIN = {

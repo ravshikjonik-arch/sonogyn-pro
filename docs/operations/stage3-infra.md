@@ -46,5 +46,5 @@ curl -s -H 'User-Agent: Mozilla/5.0' http://localhost:3000/api/health | jq .db,.
 
 - PDF → chunk → embedding → HNSW
 - Полный вынос US `after()` на очередь (см. `US-AI-SCALE-100-1000.md`)
-- Vercel Analytics / Speed Insights UI
+- Vercel Analytics UI (Speed Insights wired in root layout — Wave C)
 - Автоматический reconcile Supabase performance advisors
