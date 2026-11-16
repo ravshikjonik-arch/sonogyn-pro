@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 
 const TEMPLATES = [
   {
-    href: "/tools/calc/rads/adnex-report",
+    href: "/reports/adnex",
     title: "Придатки · O-RADS US",
     description: "Из O-RADS Pro или пошагового разбора — описание, заключение, рекомендации по ACR O-RADS.",
     badge: "Придатки",

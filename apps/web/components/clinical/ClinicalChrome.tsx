@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import dynamic from "next/dynamic";
 
 import { CabinetBootScreen } from "@/components/clinical/CabinetBootScreen";
@@ -48,6 +48,32 @@ const FirstRunOnboardingGate = dynamic(
   { ssr: false },
 );
 
+/** Defer heavy cabinet widgets until idle or first user gesture (faster first paint). */
+function useDeferredCabinetExtras(enabled: boolean) {
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    if (!enabled || ready) return;
+    let done = false;
+    const arm = () => {
+      if (done) return;
+      done = true;
+      setReady(true);
+    };
+    const onInteract = () => arm();
+    window.addEventListener("pointerdown", onInteract, { once: true, passive: true });
+    window.addEventListener("keydown", onInteract, { once: true });
+    const ric = window.requestIdleCallback?.(arm, { timeout: 3500 });
+    const t = window.setTimeout(arm, 4000);
+    return () => {
+      window.removeEventListener("pointerdown", onInteract);
+      window.removeEventListener("keydown", onInteract);
+      if (ric != null && window.cancelIdleCallback) window.cancelIdleCallback(ric);
+      window.clearTimeout(t);
+    };
+  }, [enabled, ready]);
+  return ready;
+}
+
 export function ClinicalChrome({
   children,
   devProfile = null,
@@ -60,6 +86,8 @@ export function ClinicalChrome({
     institution: string;
   } | null;
 }) {
+  const extrasReady = useDeferredCabinetExtras(!e2eFixtures);
+
   if (e2eFixtures) {
     return <E2eClinicalShell>{children}</E2eClinicalShell>;
   }
@@ -68,9 +96,13 @@ export function ClinicalChrome({
     <NetworkProvider>
       <ClinicalShell devProfile={devProfile}>{children}</ClinicalShell>
       <AchievementToastListener />
-      <SonogynCopilot />
-      <UpgradeModal />
-      <FirstRunOnboardingGate />
+      {extrasReady ? (
+        <>
+          <SonogynCopilot />
+          <UpgradeModal />
+          <FirstRunOnboardingGate />
+        </>
+      ) : null}
     </NetworkProvider>
   );
 }

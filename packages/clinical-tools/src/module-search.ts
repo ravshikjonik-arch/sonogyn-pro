@@ -56,7 +56,7 @@ export function resolveModuleSearchHref(mod: ModuleEntry): string | null {
   }
 
   if (mod.domain === "rads" && mod.kind !== "mockup") {
-    if (id === "report.adnex-orads") return "/tools/calc/rads/adnex-report";
+    if (id === "report.adnex-orads") return "/reports/adnex";
     if (h.startsWith("/calculators/")) return `/tools/calc/rads/${h.replace("/calculators/", "")}`;
   }
 

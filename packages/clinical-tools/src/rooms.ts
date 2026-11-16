@@ -102,7 +102,7 @@ export const ORADS_US_ROOM: ClinicalRoom = {
       id: "sre",
       title: "Структурированный протокол",
       description: "Описание · заключение · EBM citations",
-      href: "/tools/calc/rads/adnex-report",
+      href: "/reports/adnex",
       kind: "protocol",
     },
   ],

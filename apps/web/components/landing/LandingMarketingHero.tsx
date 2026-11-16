@@ -70,7 +70,8 @@ const STATS = [
   { value: "24/7", label: "AI и чат коллег" },
 ] as const;
 
-const HERO_ART = "/marketing/sonogyn-universe-hero.png";
+/** WebP ~54% smaller than PNG; Next/Image serves with modern formats. */
+const HERO_ART = "/marketing/sonogyn-universe-hero.webp";
 
 type Props = {
   isAuthenticated: boolean;

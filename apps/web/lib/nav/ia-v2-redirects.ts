@@ -9,7 +9,7 @@ function legacyCalculatorRedirects(): Redirect[] {
     "pregnancy-medications",
     "cervical-length",
   ];
-  const radsSlugs = ["o-rads", "bi-rads", "ln-rads", "ti-rads"];
+  const radsSlugs = ["o-rads", "bi-rads", "ln-rads", "ti-rads", "iota"];
   const gynSlugs = [
     "endometrium",
     "pop-q",
@@ -128,8 +128,22 @@ export const IA_V2_REDIRECTS: Redirect[] = [
   { source: "/evidence/:path*", destination: "/tools/refs/evidence/:path*", permanent: false },
   { source: "/evidence-sources", destination: "/tools/refs/evidence-sources", permanent: false },
 
-  // P1 — reports
-  { source: "/reports/adnex", destination: "/tools/calc/rads/adnex-report", permanent: false },
+  // P1 — reports (canonical workspace lives at /reports/adnex)
+  {
+    source: "/tools/calc/rads/adnex-report",
+    destination: "/reports/adnex",
+    permanent: false,
+  },
+
+  // Short /tools/calc/* aliases → canonical rooms (avoid catch-all catalog)
+  { source: "/tools/calc/iota", destination: "/tools/calc/rads/iota", permanent: false },
+  { source: "/tools/calc/ti-rads", destination: "/tools/calc/rads/ti-rads", permanent: false },
+  { source: "/tools/calc/o-rads", destination: "/tools/calc/rads/o-rads", permanent: false },
+  { source: "/tools/calc/bi-rads", destination: "/tools/calc/rads/bi-rads", permanent: false },
+  { source: "/tools/calc/ln-rads", destination: "/tools/calc/rads/ln-rads", permanent: false },
+  { source: "/tools/calc/figo", destination: "/tools/mapping/uterus", permanent: false },
+  { source: "/tools/calc/gyn/figo", destination: "/tools/mapping/uterus", permanent: false },
+  { source: "/calculators/figo", destination: "/tools/mapping/uterus", permanent: false },
 
   // P2 — admin under /profile
   { source: "/patients", destination: "/profile/patients", permanent: false },
