@@ -274,7 +274,7 @@ export function MusaAdenomyosisClient() {
           <AutoReportPreview report={report} />
           <div className="flex flex-wrap gap-2 text-sm">
             <Link href="/tools/mapping/uterus" className="text-[var(--clinical-primary)] hover:underline">
-              FIGO / 3D матка →
+              FIGO · матка →
             </Link>
             <Link href="/tools/mapping/endometriosis" className="text-[var(--clinical-primary)] hover:underline">
               IDEA · глубокий эндометриоз →

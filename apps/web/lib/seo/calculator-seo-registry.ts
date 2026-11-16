@@ -191,7 +191,7 @@ export const CALCULATOR_SEO_REGISTRY: CalculatorSeoEntry[] = [
   },
   {
     path: "/tools/mapping/uterus",
-    title: "Матка · FIGO и MUSA · 3D-карта",
+    title: "Матка · FIGO и MUSA · фото-макет",
     description: "Визуализация миом по FIGO, аденомиоз MUSA, рабочие маркеры для протокола УЗИ.",
     keywords: ["FIGO", "миома", "MUSA", "аденомиоз", "матка", "УЗИ"],
   },

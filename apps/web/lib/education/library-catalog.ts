@@ -388,10 +388,10 @@ const EDUCATION_LIBRARY_ITEMS_RAW: EducationLibraryItem[] = [
   {
     id: "uterus-3d",
     shelf: "atlases",
-    title: "Срез матки / FIGO",
-    description: "Сагиттальный и коронарный разрез — маркеры для протокола.",
+    title: "Фото-макет матки / FIGO",
+    description: "Коронарный и сагиттальный фото-макет — клик врача, FIGO, текст протокола.",
     href: "/tools/mapping/uterus",
-    tags: ["FIGO", "матка", "3D"],
+    tags: ["FIGO", "матка", "фото-макет"],
   },
   {
     id: "ovary-atlas",

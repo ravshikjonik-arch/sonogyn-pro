@@ -20,34 +20,45 @@ export function FigoUsAtlasGallery({ highlightCode }: { highlightCode?: FigoDisp
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>Атлас УЗИ · FIGO миома</CardTitle>
+          <CardTitle>Атлас · FIGO миома</CardTitle>
           <CardDescription>
-            Сагиттальный TVUS-стиль (MUSA/FIGO). Без подписей на снимке — для учебного разбора и сопоставления с
-            разметкой на 3D/срезе.
+            Учебная сагиттальная схема (MUSA/FIGO). Не снимок УЗИ — для разбора топографии узла и
+            сопоставления с разметкой на коронарном/сагиттальном макете.
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-6 lg:grid-cols-[280px_1fr]">
-          <div className="flex flex-wrap gap-2 lg:flex-col">
+          <div className="flex flex-wrap gap-2 lg:flex-col" role="listbox" aria-label="Типы FIGO">
             {FIGO_ATLAS_ENTRIES.map((e) => (
               <button
                 key={e.code}
                 type="button"
+                role="option"
+                aria-selected={selected === e.code}
                 onClick={() => setSelected(e.code)}
                 className={cn(
-                  "rounded-xl border px-3 py-2 text-left text-sm transition",
+                  "rounded-xl border px-3 py-2 text-left text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--clinical-primary)]",
                   selected === e.code
-                    ? "border-violet-500 bg-violet-50 font-semibold dark:bg-violet-950/40"
-                    : "border-slate-200 hover:bg-slate-50 dark:border-slate-700",
+                    ? "border-[var(--clinical-primary)] bg-[var(--clinical-muted)] font-semibold"
+                    : "border-slate-200 hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-900/60",
                 )}
               >
                 <span className="font-bold">{e.title}</span>
-                <span className="mt-0.5 block text-xs text-slate-500">{e.localization}</span>
+                <span className="mt-0.5 block text-xs text-slate-500 dark:text-slate-400">
+                  {e.localization}
+                </span>
               </button>
             ))}
           </div>
           <div className="space-y-4">
-            <div className="overflow-hidden rounded-2xl border border-slate-800 bg-black">
-              <FigoUsSchematic code={entry.code} size={480} className="mx-auto w-full max-w-lg" />
+            <div className="relative overflow-hidden rounded-2xl border border-slate-700/80 bg-[#0a0c10] shadow-inner ring-1 ring-white/5">
+              <div className="pointer-events-none absolute left-3 top-3 z-10 rounded-md border border-white/10 bg-black/45 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-slate-300 backdrop-blur-sm">
+                схема · не снимок УЗИ
+              </div>
+              <FigoUsSchematic
+                code={entry.code}
+                size={480}
+                className="mx-auto w-full max-w-lg transition-opacity duration-300"
+              />
             </div>
             <div className="flex flex-wrap gap-2">
               <Badge style={{ backgroundColor: getFigoColor(String(entry.primaryType) as "0") }}>
@@ -61,6 +72,9 @@ export function FigoUsAtlasGallery({ highlightCode }: { highlightCode?: FigoDisp
                 <li key={b}>{b}</li>
               ))}
             </ul>
+            <p className="text-xs text-[var(--clinical-foreground-muted)]">
+              Учебный CDS · PALM-COEIN (FIGO). Не заменяет УЗИ/МРТ. Заключение — за лечащим врачом.
+            </p>
           </div>
         </CardContent>
       </Card>

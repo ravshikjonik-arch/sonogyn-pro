@@ -18,6 +18,7 @@
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
+    "smoke:uterus-figo": "tsx src/organs/uterus/uterusLayerAnatomy.smoke.ts",
     "lint": "echo \"skip\""
   },
   "peerDependencies": {

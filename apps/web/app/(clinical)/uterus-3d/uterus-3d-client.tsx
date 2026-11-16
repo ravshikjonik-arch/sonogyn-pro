@@ -1,36 +1,60 @@
 "use client";
 
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useState } from "react";
 
-import { ClinicalUterusWorkspace } from "@/components/three/clinical-uterus-workspace";
-import { FigoUsAtlasGallery } from "@/components/uterus/FigoUsAtlasGallery";
-import { UterusCoronalAtlas } from "@/components/uterus/UterusCoronalAtlas";
+import type { UterusLesionMarker } from "@repo/clinical-3d";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
 type Tab = "coronal" | "sagittal" | "atlas";
 
 const TABS: { id: Tab; label: string; hint: string }[] = [
-  { id: "coronal", label: "Коронарный макет", hint: "Курсор → миома / аденомиоз · FIGO" },
-  { id: "sagittal", label: "Сагиттальный срез", hint: "Курсор → миома, аденомиоз, полип · авто-FIGO" },
+  { id: "coronal", label: "Коронар · фото", hint: "Наш фото-макет · клик врача → миома / FIGO / протокол" },
+  { id: "sagittal", label: "Сагиттальный · фото", hint: "Наш фото-макет · маркеры синхронны с коронаром" },
   { id: "atlas", label: "Атлас УЗИ", hint: "11 типов FIGO · учебный" },
 ];
 
+const UterusLiveAnatomyPanel = dynamic(
+  () => import("@/components/uterus/UterusLiveAnatomyPanel").then((m) => m.UterusLiveAnatomyPanel),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex min-h-[320px] items-center justify-center rounded-2xl border border-dashed border-slate-300 text-sm text-slate-500 dark:border-slate-700">
+        Загрузка фото-макета матки…
+      </div>
+    ),
+  },
+);
+
+const FigoUsAtlasGallery = dynamic(
+  () => import("@/components/uterus/FigoUsAtlasGallery").then((m) => m.FigoUsAtlasGallery),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex min-h-[320px] items-center justify-center rounded-2xl border border-dashed border-slate-300 text-sm text-slate-500 dark:border-slate-700">
+        Загрузка атласа FIGO…
+      </div>
+    ),
+  },
+);
+
 export function Uterus3DClientBody() {
   const [tab, setTab] = useState<Tab>("coronal");
+  const [markers, setMarkers] = useState<UterusLesionMarker[]>([]);
 
   return (
     <div className="space-y-6 px-4 py-10 lg:px-10">
       <div className="mx-auto max-w-6xl space-y-4">
-        <Badge variant="outline">FIGO · рабочий и учебный режим</Badge>
+        <Badge variant="outline">FIGO · фото-макет · клик врача</Badge>
         <h1 className="sonogyn-gradient-text text-3xl font-black tracking-tight">
           Матка — миома · классификация FIGO
         </h1>
         <p className="max-w-3xl text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
-          Макет показывает топографию узла по месту, которое указал врач. Тип FIGO считается тем же правилом, что и
-          учебный калькулятор: доля интрамурального компонента от среднего диаметра. Ровно 50% — субмукозный тип 2
-          или субсерозный тип 5. В гибридной записи первым идёт отношение к эндометрию, например FIGO 2–5.
+          Реалистичные коронарный и сагиттальный макеты из наших клинических фото. Место узла указываете вы кликом;
+          программа считает FIGO 0–8 и текст для протокола.
         </p>
         <div className="flex flex-wrap items-center gap-2">
           {TABS.map((t) => (
@@ -44,12 +68,17 @@ export function Uterus3DClientBody() {
         </div>
         <p className="text-xs text-[var(--clinical-foreground-muted)]">
           {TABS.find((t) => t.id === tab)?.hint}
+          {markers.length > 0 ? ` · очагов: ${markers.length}` : ""}
         </p>
       </div>
 
       <div className="mx-auto max-w-6xl">
-        {tab === "coronal" ? <UterusCoronalAtlas /> : null}
-        {tab === "sagittal" ? <ClinicalUterusWorkspace /> : null}
+        {tab === "coronal" ? (
+          <UterusLiveAnatomyPanel projection="coronal" markers={markers} onMarkersChange={setMarkers} />
+        ) : null}
+        {tab === "sagittal" ? (
+          <UterusLiveAnatomyPanel projection="sagittal" markers={markers} onMarkersChange={setMarkers} />
+        ) : null}
         {tab === "atlas" ? <FigoUsAtlasGallery /> : null}
       </div>
 

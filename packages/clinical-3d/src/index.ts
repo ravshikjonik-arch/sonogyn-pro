@@ -15,6 +15,26 @@ export {
   type UterusNormPoint,
   type UterusOrganZone,
 } from "./organs/uterus/uterusCoronalTopography";
+export {
+  buildUterusProtocolBlock,
+  centroidOfStroke as uterusLayerCentroidOfStroke,
+  coronalToSagittal,
+  evaluateFigoType,
+  FIGO_SUBTYPE_RU,
+  formatUterusLesionMarkerRu,
+  hitUterusLayer,
+  LAYER_LABEL_RU,
+  markerTo3dAnchor,
+  resolveFigoForMarker,
+  sagittalToCoronal,
+  strokeToSvgPath as uterusLayerStrokeToSvgPath,
+  type FibroidLocation,
+  type Uterus3dAnchor,
+  type UterusLayerHit,
+  type UterusLesionMarker,
+  type UterusProjection,
+  type UterusTissueLayer,
+} from "./organs/uterus/uterusLayerAnatomy";
 export { UterusModel } from "./organs/uterus/UterusModel";
 export type { UterusModelProps } from "./organs/uterus/UterusModel";
 
