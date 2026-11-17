@@ -1,5 +1,3 @@
-import { createHash } from "node:crypto";
-
 export type SanitizationHit = {
   label: string;
   match: string;
@@ -74,8 +72,20 @@ export function sanitizeMedicalSource(rawText: string): SanitizeMedicalSourceRes
   };
 }
 
+/** Изоморфный отпечаток текста (не crypto). Без node:crypto — безопасно для client bundle. */
 export function hashSourceContent(text: string): string {
-  return createHash("sha256").update(text, "utf8").digest("hex");
+  let h = 2166136261;
+  for (let i = 0; i < text.length; i++) {
+    h ^= text.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  // второй проход со смещением — длиннее hex, меньше коллизий на коротких строках
+  let h2 = 0x811c9dc5;
+  for (let i = text.length - 1; i >= 0; i--) {
+    h2 ^= text.charCodeAt(i);
+    h2 = Math.imul(h2, 16777619);
+  }
+  return `${(h >>> 0).toString(16).padStart(8, "0")}${(h2 >>> 0).toString(16).padStart(8, "0")}`;
 }
 
 export function isPromptInjectionLike(text: string): boolean {
