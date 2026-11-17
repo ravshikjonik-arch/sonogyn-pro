@@ -11,6 +11,7 @@ import {
   readLegalPublicProfile,
 } from "@/lib/config/legal";
 import { CDS_DISCLAIMER_RU } from "@/lib/config/platform";
+import { TEST_MODE_FOOTNOTE_RU } from "@/lib/config/test-mode";
 
 import { LANDING_PILLARS } from "./data";
 
@@ -111,6 +112,7 @@ export function LandingFooter({ isAuthenticated }: LandingFooterProps) {
           </a>
         </div>
         <p className="mt-4">{formatLegalCopyrightLine(legal)}</p>
+        <p className="mt-2 font-medium text-amber-800 dark:text-amber-200">{TEST_MODE_FOOTNOTE_RU}</p>
         <p className="mt-2 text-[10px] text-[var(--clinical-foreground-muted)]">
           {MEDICAL_DEVICE_DISCLAIMER_RU}
         </p>

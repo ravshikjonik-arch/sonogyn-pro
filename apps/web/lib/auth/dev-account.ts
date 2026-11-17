@@ -1,5 +1,10 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
+import {
+  isDevAutoLoginEnabled,
+  isDevSkipAuthEnabled,
+  isFullOpenAccessEnabled,
+} from "@/lib/auth/access-flags";
 import { resolveUserIdByEmail } from "@/lib/auth/resolve-user-by-email";
 
 export type DevLoginConfig = {
@@ -11,37 +16,14 @@ export type DevLoginConfig = {
   birth_year: number;
 };
 
+export { isDevAutoLoginEnabled, isDevSkipAuthEnabled, isFullOpenAccessEnabled };
+
 function parseBirthYear(): number | null {
   const raw = process.env.DEV_LOGIN_BIRTH_YEAR?.trim();
   if (!raw || !/^\d{4}$/.test(raw)) return null;
   const year = Number.parseInt(raw, 10);
   if (year < 1900 || year > 2100) return null;
   return year;
-}
-
-export function isDevAutoLoginEnabled(): boolean {
-  return process.env.NODE_ENV === "development" && process.env.DEV_AUTO_LOGIN === "true";
-}
-
-/** Локально открыть кабинет без Supabase-регистрации (только dev). */
-export function isDevSkipAuthEnabled(): boolean {
-  return process.env.NODE_ENV === "development" && process.env.DEV_SKIP_AUTH === "true";
-}
-
-/**
- * Product mode: open clinical tools without registration (marketing/demo).
- * Middleware hybrid: `/patients`, `/profile`, `/paywall`, `/dashboard`, `/admin`, `/author`
- * remain auth-required even when this flag is true.
- */
-export function isFullOpenAccessEnabled(): boolean {
-  const raw = (
-    process.env.NEXT_PUBLIC_OPEN_ACCESS_FULL ??
-    process.env.OPEN_ACCESS_FULL ??
-    "true"
-  )
-    .trim()
-    .toLowerCase();
-  return raw !== "false" && raw !== "0" && raw !== "no";
 }
 
 export function getOpenAccessProfile(): Pick<

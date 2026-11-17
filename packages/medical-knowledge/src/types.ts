@@ -28,6 +28,7 @@ export const KnowledgeSpecialtySchema = z.enum([
   "ultrasound",
   "thyroid",
   "vascular",
+  "emergency",
   "general",
 ]);
 
@@ -45,6 +46,20 @@ export const KnowledgeSectionTypeSchema = z.enum([
   "education",
   "management_reference",
   "warning",
+  /** Неотложка: на что обратить внимание (legacy; предпочтительно symptoms) */
+  "red_flags",
+  /** Неотложка: симптомы / клиника */
+  "symptoms",
+  /** Неотложка: анализы и обследования */
+  "diagnostics",
+  /** Неотложка: действия 1-2-3 */
+  "action_steps",
+  /** Неотложка: препараты (справочно, дозы — по КР) */
+  "medications",
+  /** Неотложка: чего не делать */
+  "do_not",
+  /** Неотложка: когда эскалировать / госпитализация */
+  "escalation",
 ]);
 
 export const SourceCitationPublicSchema = z.object({
@@ -87,6 +102,8 @@ export const CanonicalKnowledgeArticleSchema = z.object({
   topicType: z.string(),
   summary: z.string(),
   version: z.string(),
+  /** Синонимы для поиска движка помощника (инфаркт / ОИМ / ОКС…) */
+  aliases: z.array(z.string()).optional().default([]),
   sections: z.array(CanonicalKnowledgeSectionSchema),
   sources: z.array(SourceCitationPublicSchema),
 });

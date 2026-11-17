@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { OFFLINE_QUICK_LINKS } from "@/lib/pwa/offline-precache-routes";
+import { TEST_MODE_BANNER_RU } from "@/lib/config/test-mode";
 
 export const metadata = {
   title: "Нет подключения",
@@ -12,13 +13,14 @@ export default function OfflinePage() {
     <main className="mx-auto flex min-h-[70vh] max-w-lg flex-col justify-center gap-6 px-4 py-16">
       <div className="space-y-2 text-center">
         <p className="text-sm font-medium uppercase tracking-wide text-[var(--text-secondary,#94a3b8)]">
-          SonoGyn Pro
+          SonoGyn Pro · тестовый режим
         </p>
         <h1 className="text-2xl font-semibold text-[var(--text-primary,#edeff3)]">Нет подключения</h1>
         <p className="text-sm text-[var(--text-secondary,#94a3b8)]">
           Чат, лента кейсов и AI требуют сеть. Доступны калькуляторы, сохранённая история и шаблоны
           заключений на устройстве.
         </p>
+        <p className="text-xs text-amber-200/90">{TEST_MODE_BANNER_RU}</p>
       </div>
 
       <ul className="flex flex-col gap-2">

@@ -208,6 +208,12 @@ export const CALCULATOR_SEO_REGISTRY: CalculatorSeoEntry[] = [
     keywords: ["гинекология", "O-RADS", "эндометрий", "УЗИ"],
   },
   {
+    path: "/tools/emergency",
+    title: "Неотложка · СМП",
+    description: "Единое окно: помощник скорой и неотложки и внутренняя KB — флаги, 1-2-3, эскалация.",
+    keywords: ["неотложка", "СМП", "инфаркт", "инсульт", "ТЭЛА"],
+  },
+  {
     path: "/tools/o-rads",
     title: "Калькулятор O-RADS US (ACR v2022)",
     description:

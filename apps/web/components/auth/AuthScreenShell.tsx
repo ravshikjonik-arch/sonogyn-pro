@@ -73,6 +73,12 @@ export function AuthScreenShell({
         </p>
         <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-950 dark:text-white">{title}</h1>
         <p className="mt-2 text-sm text-[var(--clinical-foreground-muted)]">{subtitle}</p>
+        <p
+          className="mt-2 rounded-lg border border-amber-300/70 bg-amber-50 px-2.5 py-1.5 text-[11px] font-medium text-amber-950 dark:border-amber-800 dark:bg-amber-950/50 dark:text-amber-100"
+          role="status"
+        >
+          Сайт работает в тестовом режиме. Не вводите реальные ПДн пациентов.
+        </p>
       </div>
 
       {showMethodHints && !emailOnly && !closedPilot ? (

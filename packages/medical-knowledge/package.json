@@ -7,7 +7,8 @@
   "types": "./src/index.ts",
   "exports": {
     ".": "./src/index.ts",
-    "./labels": "./src/source-type-labels.ts"
+    "./labels": "./src/source-type-labels.ts",
+    "./server-corpus": "./src/server-corpus.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",

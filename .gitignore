@@ -84,6 +84,10 @@ docs/books/
 docs/fetometry-source/medvedev-archive/
 services/docling-ingest/open-text/*.txt
 
+# Полный текст/PDF справочников неотложки (©) — только локально для движка
+packages/medical-knowledge/data/emergency-corpus/
+tmp-makeev-*.txt
+
 # External experiments (track separately)
 USTri/
 apps/web/app/api/ustri_inference/

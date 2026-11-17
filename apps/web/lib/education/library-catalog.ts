@@ -245,6 +245,16 @@ const EDUCATION_LIBRARY_ITEMS_RAW: EducationLibraryItem[] = [
     tags: ["КР", "ДЗМ", "гайдлайны"],
   },
   {
+    id: "emergency-kb",
+    shelf: "reference",
+    title: "Неотложка · СМП",
+    description: "Хаб, помощник и KB в одном окне: инфаркт, инсульт, ТЭЛА — флаги и 1-2-3.",
+    href: "/tools/emergency",
+    tags: ["неотложка", "KB", "помощник", "СМП"],
+    badge: "СМП",
+    primary: true,
+  },
+  {
     id: "musa-adenomyosis",
     shelf: "courses",
     title: "MUSA · Аденомиоз",

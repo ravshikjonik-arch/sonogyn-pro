@@ -67,4 +67,9 @@ export const PLATFORM_QUICK_LINKS: PlatformQuickLink[] = [
     title: "Хаб гинекологии",
     subtitle: "O-RADS, FIGO, эндометрий, шейка матки, эластография",
   },
+  {
+    href: "/tools/emergency",
+    title: "Неотложка · СМП",
+    subtitle: "Хаб, помощник и KB в одном окне",
+  },
 ];

@@ -24,13 +24,13 @@ export const DEFAULT_PRO_PRICE_RUB = 990;
 export const PAYMENT_PROVIDER_PUBLIC_NAME_RU = "ЮKassa";
 
 export const OPEN_ACCESS_DEMO_OFFER_RU =
-  "Кабинет доступен без регистрации в демо-режиме: калькуляторы, справочники и открытые материалы.";
+  "Кабинет доступен без регистрации в демо-режиме: калькуляторы, справочники и открытые материалы. Сайт в тестовом режиме.";
 
 export const OPEN_ACCESS_DEMO_DETAIL_RU =
   "ИИ-разбор, чат коллег и облачное сохранение — после входа. " + OPEN_ACCESS_DEMO_OFFER_RU;
 
 export const OPEN_ACCESS_DEMO_FOOTNOTE_RU =
-  "Не вводите персональные и медицинские данные пациентов. Личный профиль и PRO — после регистрации.";
+  "Тестовый режим: не вводите персональные и медицинские данные пациентов. Личный профиль и PRO — после регистрации.";
 
 export const MOBILE_ANDROID_STATUS_RU = "Android — скоро в RuStore";
 /** После Submit for Review; после approve заменить на «iOS — в App Store». */
@@ -39,7 +39,7 @@ export const MOBILE_IOS_STATUS_RU = "iOS — на проверке в App Store 
 export const MOBILE_STORE_LINE_RU = `Сайт и PWA на рабочем столе; ${MOBILE_ANDROID_STATUS_RU}; ${MOBILE_IOS_STATUS_RU}.`;
 
 export const CDS_DISCLAIMER_RU =
-  "Справочная информация (CDS). Не является медицинским диагнозом; интерпретация — лечащий специалист.";
+  "Справочная информация (CDS). Не является медицинским диагнозом; интерпретация — лечащий специалист. Сайт работает в тестовом режиме.";
 
 export const SUPPORT_EMAIL = "support@sonogyn-pro.ru";
 

@@ -28,6 +28,9 @@ export function AuthWizardLayout({ children, title, subtitle, className }: Props
         <h1 className="mt-2 text-center text-2xl font-black tracking-tight text-[var(--clinical-foreground)]">
           {title}
         </h1>
+        <p className="mt-2 text-center text-[11px] font-medium text-amber-800 dark:text-amber-200">
+          Сайт работает в тестовом режиме · не вводите ПДн пациентов
+        </p>
         {subtitle ? (
           <p className="mt-2 text-center text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
             {subtitle}

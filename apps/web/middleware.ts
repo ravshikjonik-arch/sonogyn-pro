@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { updateSession } from "@/utils/supabase/middleware";
-import { isDevSkipAuthEnabled, isFullOpenAccessEnabled } from "@/lib/auth/dev-account";
+import { isDevSkipAuthEnabled, isFullOpenAccessEnabled } from "@/lib/auth/access-flags";
 import {
   COPYRIGHT_SAFE_LANDING,
   isCopyrightLockedAsset,

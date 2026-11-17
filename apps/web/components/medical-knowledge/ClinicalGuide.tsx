@@ -20,6 +20,13 @@ const SECTION_LABELS: Record<string, string> = {
   education: "Обучение",
   management_reference: "Тактика",
   warning: "Предупреждение",
+  red_flags: "На что обратить внимание",
+  symptoms: "Симптомы / на что смотреть",
+  diagnostics: "Анализы и обследования",
+  action_steps: "Что делать (1-2-3)",
+  medications: "Препараты (справочно)",
+  do_not: "Чего не делать",
+  escalation: "Эскалация / госпитализация",
 };
 
 type Props = {

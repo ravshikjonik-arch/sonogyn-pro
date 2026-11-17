@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
 import { assessCopyrightRequest, assessVerbatimOverlap } from "../copyright-guard";
+import { createEmergencyKnowledgeRepository, getEmergencyCorpusStats } from "../server-corpus";
 import { createFixtureKnowledgeRepository, retrieveMedicalKnowledge } from "../retrieval";
 import { isPromptInjectionLike, sanitizeMedicalSource, wrapUntrustedSourceContent } from "../sanitize";
 import { CLINICAL_RAG_KNOWLEDGE_STATUSES, CLINICAL_RAG_SOURCE_STATUSES } from "../types";
@@ -55,6 +56,84 @@ describe("retrieveMedicalKnowledge", () => {
     assert.ok(result.sourceMetadata.length >= 1);
     assert.ok(result.sourceMetadata[0]?.title.includes("TEST GUIDELINE"));
     assert.equal("storage_path" in (result.sourceMetadata[0] as object), false);
+  });
+
+  it("resolves emergency guide for инфаркт with symptoms and medications", async () => {
+    const repo = createFixtureKnowledgeRepository();
+    const result = await retrieveMedicalKnowledge(
+      { query: "инфаркт", specialty: "emergency", limit: 3 },
+      repo,
+    );
+    assert.ok(result.canonicalResults.length >= 1);
+    const top = result.canonicalResults[0];
+    assert.equal(top?.specialty, "emergency");
+    assert.ok(top?.sections.some((s) => s.sectionType === "action_steps"));
+    assert.ok(
+      top?.sections.some((s) => s.sectionType === "symptoms" || s.sectionType === "red_flags"),
+    );
+    assert.ok(top?.sections.some((s) => s.sectionType === "medications"));
+    assert.ok(top?.sections.some((s) => s.sectionType === "diagnostics"));
+  });
+
+  it("resolves остановка сердца guide", async () => {
+    const repo = createFixtureKnowledgeRepository();
+    const result = await retrieveMedicalKnowledge(
+      { query: "остановка сердца", specialty: "emergency", limit: 3 },
+      repo,
+    );
+    assert.ok(result.canonicalResults.some((a) => /остановк|слр|реанимац/i.test(a.title)));
+  });
+
+  it("resolves stroke alias инсульт", async () => {
+    const repo = createFixtureKnowledgeRepository();
+    const result = await retrieveMedicalKnowledge({ query: "инсульт", limit: 3 }, repo);
+    assert.ok(
+      result.canonicalResults.some(
+        (a) =>
+          a.slug.includes("stroke") ||
+          a.title.toLowerCase().includes("инсульт") ||
+          (a.aliases ?? []).some((x) => x.toLowerCase().includes("инсульт")),
+      ),
+    );
+  });
+
+  it("loads local emergency corpus when present", () => {
+    const stats = getEmergencyCorpusStats();
+    // корпус gitignored — на CI может отсутствовать; локально после extract — есть
+    if (stats.available) {
+      assert.ok(stats.topicArticles >= 50, `expected many topics, got ${stats.topicArticles}`);
+      assert.ok(stats.pageArticles >= 50, `expected page articles, got ${stats.pageArticles}`);
+    }
+  });
+
+  it("finds corpus topic ТЭЛА when corpus present", async () => {
+    if (!getEmergencyCorpusStats().available) return;
+    const repo = createEmergencyKnowledgeRepository();
+    const result = await retrieveMedicalKnowledge(
+      { query: "тэла", specialty: "emergency", limit: 5 },
+      repo,
+    );
+    assert.ok(result.canonicalResults.length >= 1);
+    assert.ok(
+      result.canonicalResults.some(
+        (a) =>
+          /тэла|тромбоэмбол/i.test(a.title) ||
+          (a.aliases ?? []).some((x) => /тэла/i.test(x)),
+      ),
+    );
+  });
+
+  it("prefers curated guide over OCR for отравление when corpus present", async () => {
+    if (!getEmergencyCorpusStats().available) return;
+    const { pickPreferredEmergencyArticle } = await import("../assistant-format");
+    const repo = createEmergencyKnowledgeRepository();
+    const result = await retrieveMedicalKnowledge(
+      { query: "отравление", specialty: "emergency", limit: 8 },
+      repo,
+    );
+    const pref = pickPreferredEmergencyArticle(result.canonicalResults);
+    assert.equal(pref?.topicType, "emergency_guide");
+    assert.ok(/отравлен/i.test(pref?.title ?? ""));
   });
 
   it("never allows RAW statuses in clinical RAG constants", () => {

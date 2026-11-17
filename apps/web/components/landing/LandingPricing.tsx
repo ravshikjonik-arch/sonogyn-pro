@@ -29,7 +29,7 @@ export function LandingPricing({ isAuthenticated }: LandingPricingProps) {
         <p className="mt-3 text-sm leading-relaxed text-[var(--clinical-foreground-muted)] sm:text-base">
           {paymentsLive
             ? `Сначала — бесплатное знакомство и демо-кабинет. PRO оформляется после входа через ${PAYMENT_PROVIDER_PUBLIC_NAME_RU}.`
-            : "Сейчас бесплатный пилот для врачей: кабинет и калькуляторы без оплаты. PRO (лимиты и AI) — в листе ожидания, без кнопки «оплатить»."}
+            : "Сайт в тестовом режиме. Сейчас бесплатный пилот для врачей: кабинет и калькуляторы без оплаты. PRO (лимиты и AI) — в листе ожидания, без кнопки «оплатить»."}
         </p>
       </div>
       <div className="grid gap-8 md:grid-cols-2">

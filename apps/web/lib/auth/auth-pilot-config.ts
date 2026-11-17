@@ -13,9 +13,9 @@ export function isPilotClosedAccessClient(): boolean {
 }
 
 export const PILOT_AUTH_SUBTITLE =
-  "Вход по email и паролю. SMS, Яндекс ID и Telegram доступны как дополнительные каналы.";
+  "Тестовый режим · вход по email и паролю. SMS, Яндекс ID и Telegram — дополнительные каналы.";
 
 export const PILOT_REGISTER_SUBTITLE =
-  "Заполните данные врача и создайте пароль. После регистрации вы сможете войти по email.";
+  "Тестовый режим · заполните данные врача и создайте пароль. После регистрации вы сможете войти по email.";
 
 export const PILOT_TELEGRAM_TAB_BADGE = isPilotClosedAccessClient() ? "Пилот" : "Рекомендуем";

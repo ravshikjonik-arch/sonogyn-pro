@@ -8,8 +8,8 @@ import {
   type CanonicalKnowledgeArticle,
   type KnowledgeRepository,
   type SourceCitationPublic,
-  createFixtureKnowledgeRepository,
 } from "@repo/medical-knowledge";
+import { createEmergencyKnowledgeRepository } from "@repo/medical-knowledge/server-corpus";
 
 function shouldUseFixtureFallback(error: { code?: string; message?: string } | null): boolean {
   if (!error) return false;
@@ -51,7 +51,7 @@ export function hashRagQuery(query: string): string {
 
 /** Supabase-backed repository; falls back to fixtures if vault tables are unavailable. */
 export function createSupabaseKnowledgeRepository(supabase: SupabaseClient): KnowledgeRepository {
-  const fallback = createFixtureKnowledgeRepository();
+  const fallback = createEmergencyKnowledgeRepository();
 
   return {
     async findPublishedArticles({ query, specialty, limit }) {
@@ -65,13 +65,11 @@ export function createSupabaseKnowledgeRepository(supabase: SupabaseClient): Kno
 
       const { data: articles, error } = await articleQuery;
       if (error) {
-        if (shouldUseFixtureFallback(error)) {
-          return fallback.findPublishedArticles({ query, specialty, limit });
-        }
-        return [];
+        // Каркас KB: seed-fixtures (неотложка + demo) пока vault недоступен
+        return fallback.findPublishedArticles({ query, specialty, limit });
       }
       if (!articles?.length) {
-        return [];
+        return fallback.findPublishedArticles({ query, specialty, limit });
       }
 
       const filtered = articles.filter((a) => {
@@ -79,6 +77,12 @@ export function createSupabaseKnowledgeRepository(supabase: SupabaseClient): Kno
         const q = query.toLowerCase();
         return hay.includes(q) || q.includes("эндометри") || q.includes("endometri");
       });
+
+      // Если в БД нет матча по запросу — отдать seed-каркас (движок помощника)
+      if (!filtered.length) {
+        const seeded = await fallback.findPublishedArticles({ query, specialty, limit });
+        if (seeded.length) return seeded;
+      }
 
       const ids = (filtered.length > 0 ? filtered : articles).map((a) => a.id);
 
@@ -106,6 +110,7 @@ export function createSupabaseKnowledgeRepository(supabase: SupabaseClient): Kno
           topicType: article.topic_type,
           summary: article.summary,
           version: article.version,
+          aliases: [],
           sections: (sections ?? [])
             .filter((s) => s.article_id === article.id)
             .filter((s) => CLINICAL_RAG_KNOWLEDGE_STATUSES.has(s.review_status))

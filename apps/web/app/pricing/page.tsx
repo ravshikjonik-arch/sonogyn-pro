@@ -65,7 +65,7 @@ export default function PricingPage() {
               ? checkout.yookassaReady
                 ? `Оплата PRO для РФ — через ${PAYMENT_PROVIDER_PUBLIC_NAME_RU}.`
                 : `${PAYMENT_PROVIDER_PUBLIC_NAME_RU} здесь не настроена — после входа возможен запасной канал на /paywall.`
-              : "Сейчас — бесплатный пилот для врачей УЗД и АГ: без цены и без кнопки оплаты. PRO откроем после подключения ЮKassa."}{" "}
+              : "Сайт в тестовом режиме. Сейчас — бесплатный пилот для врачей УЗД и АГ: без цены и без кнопки оплаты. PRO откроем после подключения ЮKassa."}{" "}
             {PWA_INSTALL_HINT_RU}
           </p>
         </div>
@@ -73,10 +73,10 @@ export default function PricingPage() {
         <div className="grid gap-8 md:grid-cols-2">
           <Card className="border-[var(--clinical-border)]">
             <CardHeader>
-              <CardTitle>Free · пилот</CardTitle>
+              <CardTitle>Free · пилот · тест</CardTitle>
               <CardDescription>
-                Рабочий контур для коллег: калькуляторы, открытые материалы, кабинет. Регистрация желательна, но не
-                обязательна для знакомства.
+                Тестовый режим. Рабочий контур для коллег: калькуляторы, открытые материалы, кабинет. Регистрация
+                желательна, но не обязательна для знакомства. Не вводите ПДн пациентов.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-3 text-sm text-[var(--clinical-foreground-muted)]">

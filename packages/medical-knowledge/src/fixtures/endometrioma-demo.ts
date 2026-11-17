@@ -27,6 +27,7 @@ export const ENDOMETRIOMA_DEMO_ARTICLE: CanonicalKnowledgeArticle = {
   summary:
     "Каноническая demo-статья: УЗ-признаки, дифференциальная диагностика и связь с O-RADS. Только синтетические данные.",
   version: "1.0.0-test",
+  aliases: ["эндометриома", "эндометриоидная киста", "шоколадная киста"],
   sections: [
     {
       id: "eeeeeeee-eeee-eeee-eeee-eeeeeeee0001",

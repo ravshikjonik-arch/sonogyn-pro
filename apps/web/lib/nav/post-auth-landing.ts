@@ -1,6 +1,6 @@
 import type { User } from "@supabase/supabase-js";
 
-import { GUEST_DEMO_EMAIL } from "@/lib/auth/guest-demo-account";
+import { GUEST_DEMO_EMAIL } from "@/lib/auth/guest-demo-constants";
 
 /** Полный кабинет с ClinicalChrome (меню, чат, калькуляторы). */
 export const AUTHENTICATED_HOME_PATH = "/profile/dashboard";

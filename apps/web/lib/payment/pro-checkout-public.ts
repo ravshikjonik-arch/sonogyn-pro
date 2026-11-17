@@ -41,6 +41,6 @@ export function resolveProCheckoutPublicState(): ProCheckoutPublicState {
     yookassaReady: false,
     stripeFallbackReady: false,
     ctaLabel: "Список ожидания PRO",
-    footnote: `Сейчас открыт бесплатный пилот для врачей: калькуляторы и кабинет без оплаты. PRO (расширенные лимиты) включим после ЮKassa — напишите на ${SUPPORT_EMAIL}, добавим в лист ожидания.`,
+    footnote: `Сайт в тестовом режиме. Сейчас открыт бесплатный пилот для врачей: калькуляторы и кабинет без оплаты. PRO (расширенные лимиты) включим после ЮKassa — напишите на ${SUPPORT_EMAIL}, добавим в лист ожидания.`,
   };
 }

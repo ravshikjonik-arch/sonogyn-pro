@@ -31,6 +31,12 @@ export const TOOLS_HOME_DOMAINS = [
     accent: "from-rose-500 to-pink-400",
   },
   {
+    href: "/tools/emergency",
+    title: "Неотложка · СМП",
+    description: "Хаб, помощник и KB в одном окне: флаги и 1-2-3",
+    accent: "from-red-700 to-rose-500",
+  },
+  {
     href: "/tools/o-rads",
     title: "O-RADS US",
     description: "Комната: калькулятор · IOTA · эхограммы · реферат · протокол",
@@ -344,6 +350,39 @@ export const CALCULATORS_HUB: DomainHubCard[] = [
   },
 ];
 
+/** Единая точка входа — само окно /tools/emergency (помощник + KB). */
+export const EMERGENCY_GROUPS: DomainHubGroup[] = [
+  {
+    title: "Неотложка · СМП",
+    cards: [
+      {
+        href: "/tools/emergency",
+        title: "Неотложка · СМП",
+        description: "Хаб, помощник и KB: запрос → флаги / 1-2-3 / эскалация",
+        primary: true,
+        badge: "СМП",
+      },
+      {
+        href: "/tools/emergency?q=инфаркт",
+        title: "Инфаркт / ОКС",
+        description: "Быстрый вход",
+      },
+      {
+        href: "/tools/emergency?q=инсульт",
+        title: "Инсульт / ОНМК",
+        description: "Быстрый вход",
+      },
+      {
+        href: "/tools/emergency?q=тэла",
+        title: "ТЭЛА",
+        description: "Быстрый вход",
+      },
+    ],
+  },
+];
+
+export const EMERGENCY_HUB: DomainHubCard[] = EMERGENCY_GROUPS.flatMap((g) => g.cards);
+
 export const ASSISTANT_HUB: DomainHubCard[] = [
   {
     href: "/ai/consultants/us-prep",
@@ -351,6 +390,13 @@ export const ASSISTANT_HUB: DomainHubCard[] = [
     description: "Микрофон → жалобы → чеклист под роль врача",
     badge: "Live",
     primary: true,
+  },
+  {
+    href: "/tools/emergency",
+    title: "Неотложка · СМП",
+    description: "Хаб, помощник и KB в одном окне",
+    primary: true,
+    badge: "СМП",
   },
   {
     href: "/ai/consultants/gynecology",

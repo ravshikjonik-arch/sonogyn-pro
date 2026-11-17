@@ -128,6 +128,10 @@ const navGroups: { title: string; items: { href: string; label: string; icon: ty
     ],
   },
   {
+    title: "Неотложка",
+    items: [{ href: "/tools/emergency", label: "Неотложка · СМП", icon: HeartPulse }],
+  },
+  {
     title: "Калькуляторы",
     items: [
       { href: "/tools/calc", label: "Все калькуляторы", icon: Calculator },
@@ -473,8 +477,8 @@ export function ClinicalShell({
           </header>
           {showOpenAccessBanner ? (
             <div className="border-b border-emerald-200/70 bg-emerald-50/90 px-4 py-2 text-center text-xs text-emerald-950 dark:border-emerald-900/40 dark:bg-emerald-950/30 dark:text-emerald-100">
-              Можно смотреть калькуляторы, ИИ и чат без входа. Чтобы сохранить свои кейсы — нажмите
-              «Войти». Не вводите ПДн пациентов.
+              Тестовый режим · можно смотреть калькуляторы, ИИ и чат без входа. Чтобы сохранить свои
+              кейсы — нажмите «Войти». Не вводите ПДн пациентов.
             </div>
           ) : null}
           <main

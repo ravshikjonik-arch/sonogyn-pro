@@ -8,6 +8,7 @@ import { PwaRuntime } from "@/components/pwa/PwaRuntime";
 import { AppToaster } from "@/components/providers/app-toaster";
 import { AnalyticsScripts } from "@/components/analytics/AnalyticsScripts";
 import { CookieConsentBanner } from "@/components/privacy/CookieConsentBanner";
+import { TestModeBanner } from "@/components/trust/TestModeBanner";
 import { ThemeProvider } from "@/lib/theme/theme-provider";
 import { THEME_BOOT_SCRIPT } from "@/lib/theme/theme-paths";
 import { SessionProvider } from "./providers";
@@ -30,7 +31,7 @@ export const metadata: Metadata = {
     template: "%s | SonoGyn Pro",
   },
   description:
-    "Клиническая платформа УЗИ и акушерства-гинекологии: калькуляторы по гайдлайнам, справочники и рабочий кабинет для врачей.",
+    "SonoGyn Pro — тестовый режим. Клиническая платформа УЗИ и АГ: калькуляторы по гайдлайнам, справочники и кабинет для врачей. Не диагноз; не вводите ПДн пациентов.",
   manifest: "/manifest.webmanifest",
   applicationName: "SonoGyn Pro",
   appleWebApp: {
@@ -99,6 +100,7 @@ export default function RootLayout({
           <PwaInstallProvider>
             <SessionProvider>
               <SkipToContent />
+              <TestModeBanner />
               {children}
               <AppToaster />
               <PwaRuntime />

@@ -1,9 +1,10 @@
 import { createHash } from "crypto";
 
+import { isFullOpenAccessEnabled } from "@/lib/auth/access-flags";
+import { GUEST_DEMO_EMAIL } from "@/lib/auth/guest-demo-constants";
 import type { DevLoginConfig } from "@/lib/auth/dev-account";
-import { isFullOpenAccessEnabled } from "@/lib/auth/dev-account";
 
-export const GUEST_DEMO_EMAIL = "open-access@sonogyn.pro";
+export { GUEST_DEMO_EMAIL };
 
 function resolveGuestDemoPassword(): string | null {
   const fromEnv = process.env.GUEST_DEMO_PASSWORD?.trim();

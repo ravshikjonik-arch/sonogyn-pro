@@ -43,6 +43,8 @@ const HUB_ROUTES: SitemapRow[] = [
   { path: "/tools/calc", priority: 0.88, changeFrequency: "weekly" },
   { path: "/tools/obstetrics", priority: 0.8, changeFrequency: "weekly" },
   { path: "/tools/gynecology", priority: 0.8, changeFrequency: "weekly" },
+  { path: "/tools/emergency", priority: 0.8, changeFrequency: "weekly" },
+  { path: "/ai/consultants/emergency", priority: 0.75, changeFrequency: "weekly" },
   { path: "/tools/o-rads", priority: 0.9, changeFrequency: "weekly" },
   { path: "/tools/pharmacy", priority: 0.7, changeFrequency: "monthly" },
   { path: "/tools/repos", priority: 0.7, changeFrequency: "weekly" },

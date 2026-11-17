@@ -34,7 +34,18 @@ export async function updateSession(request: NextRequest) {
     },
   );
 
-  await supabase.auth.getUser();
+  // Dev/offline: never block the whole document on a hung Auth round-trip.
+  const AUTH_TIMEOUT_MS = process.env.NODE_ENV === "development" ? 2500 : 8000;
+  try {
+    await Promise.race([
+      supabase.auth.getUser(),
+      new Promise<never>((_, reject) => {
+        setTimeout(() => reject(new Error("supabase_auth_getUser_timeout")), AUTH_TIMEOUT_MS);
+      }),
+    ]);
+  } catch {
+    // Keep cookies/response; page renders as guest if Auth is slow or unreachable.
+  }
 
   return { supabase, response: supabaseResponse };
 }

@@ -5,6 +5,7 @@ import type {
   SourceCitationPublic,
 } from "./types";
 import { ENDOMETRIOMA_DEMO_ARTICLE } from "./fixtures/endometrioma-demo";
+import { EMERGENCY_ACTION_CARDS } from "./fixtures/emergency-action-cards";
 import { assessCopyrightRequest } from "./copyright-guard";
 
 export type KnowledgeRepository = {
@@ -16,16 +17,83 @@ export type KnowledgeRepository = {
   findPublishedSourceCitations(sourceIds: string[]): Promise<SourceCitationPublic[]>;
 };
 
-function scoreArticle(article: CanonicalKnowledgeArticle, query: string): number {
-  const q = query.toLowerCase();
+function normalize(s: string): string {
+  return s.toLowerCase().replace(/ё/g, "е").trim();
+}
+
+function tokens(query: string): string[] {
+  return normalize(query)
+    .split(/[\s,/.;:!?()]+/)
+    .map((t) => t.trim())
+    .filter((t) => t.length >= 2);
+}
+
+export function scoreArticle(article: CanonicalKnowledgeArticle, query: string): number {
+  const q = normalize(query);
+  const qTokens = tokens(query);
   let score = 0;
-  if (article.title.toLowerCase().includes(q)) score += 8;
-  if (article.slug.includes(q.replace(/\s+/g, "-"))) score += 6;
-  if (article.summary.toLowerCase().includes(q)) score += 4;
-  for (const section of article.sections) {
-    if (section.title.toLowerCase().includes(q)) score += 3;
-    if (section.content.toLowerCase().includes(q)) score += 2;
+
+  if (article.title.toLowerCase().includes(q)) score += 10;
+  if (normalize(article.slug).includes(q.replace(/\s+/g, "-"))) score += 6;
+  if (normalize(article.summary).includes(q)) score += 5;
+
+  for (const alias of article.aliases ?? []) {
+    const a = normalize(alias);
+    if (!a) continue;
+    // точное / запрос содержит алиас — сильный сигнал
+    // «инфаркт» не должен бустить «инфаркт мозга» сильнее «инфаркт миокарда»
+    if (q === a) score += 16;
+    else if (q.includes(a) && a.length >= 3) score += 12;
+    else if (a.startsWith(q) && q.length >= 5) score += 5;
+    for (const t of qTokens) {
+      if (a === t) score += 6;
+      else if (t.length >= 4 && (a.startsWith(t) || t.startsWith(a))) score += 3;
+    }
   }
+
+  for (const section of article.sections) {
+    if (normalize(section.title).includes(q)) score += 3;
+    if (normalize(section.content).includes(q)) score += 2;
+  }
+
+  const hay = normalize(
+    [
+      article.title,
+      article.summary,
+      article.slug,
+      ...(article.aliases ?? []),
+      ...article.sections.map((s) => `${s.title} ${s.content}`),
+    ].join(" "),
+  );
+  for (const t of qTokens) {
+    if (t.length >= 4 && hay.includes(t)) score += 3;
+    // грубая стемминг-подсказка для русского (эндометриоидной → эндометриоидн)
+    if (t.length >= 6) {
+      const stem = t.slice(0, -2);
+      if (hay.includes(stem)) score += 2;
+    }
+  }
+
+  // soft boost for emergency specialty when query looks acute
+  if (
+    article.specialty === "emergency" &&
+    /(инфаркт|инсульт|шок|кома|тэла|криз|астм|анафилак|от[её]к)/i.test(query)
+  ) {
+    score += 2;
+  }
+
+  // curated-гайд неотложки — буст только при «остром» запросе (не ломает гинекологический retrieve)
+  const acute =
+    /(инфаркт|инсульт|шок|кома|тэла|криз|астм|анафилак|от[её]к|остановк|кровотеч|температур|лихорад|апноэ|одышк|слр|аритм|стенокард|пневмоторакс|судорог|менингит|внематочн|эклампс|преэклампс|чмт|отравлени|колик|ожог|непроходим|коллапс|синкоп|обморок)/i.test(
+      query,
+    );
+  if (acute && article.topicType === "emergency_guide") score += 8;
+  if (acute && article.topicType === "emergency_action") score += 3;
+  if (acute && article.version.includes("guide")) score += 4;
+  // сырые страницы / OCR — только запасной слой, не перекрывают curated-гайд
+  if (article.topicType === "emergency_page") score -= 1;
+  if (article.topicType === "emergency_ocr_page") score -= 14;
+
   return score;
 }
 
@@ -51,18 +119,17 @@ export async function retrieveMedicalKnowledge(
   const articles = await repo.findPublishedArticles({
     query: input.query,
     specialty: input.specialty,
-    limit: input.limit,
+    limit: Math.max(input.limit, 20),
   });
 
   const ranked = articles
     .map((article) => ({ article, score: scoreArticle(article, input.query) }))
-    .filter((row) => row.score > 0 || input.query.length < 4)
+    .filter((row) => row.score > 0)
     .sort((a, b) => b.score - a.score)
     .slice(0, input.limit)
     .map((row) => row.article);
 
-  const finalArticles =
-    ranked.length > 0 ? ranked : articles.slice(0, input.limit);
+  const finalArticles = ranked;
 
   const sourceIds = [...new Set(finalArticles.flatMap((a) => a.sources.map((s) => s.id)))];
 
@@ -88,35 +155,35 @@ export async function retrieveMedicalKnowledge(
     confidence,
     conflicts: [],
     draftDisclaimer:
-      "Структурированный справочный ответ SonoGyn Pro на основе проверенных источников. Не заменяет очный приём; интерпретация — врачу.",
+      "Структурированный справочный ответ SonoGyn Pro на основе внутренней KB. Не заменяет очный приём и КР; интерпретация — врачу.",
   };
 }
 
-/** In-memory repository for tests and local dev before migration is applied. */
+function articleMatchesQuery(article: CanonicalKnowledgeArticle, query: string): boolean {
+  return scoreArticle(article, query) > 0;
+}
+
+/**
+ * Клиент-безопасный seed (без node:fs).
+ * Полный корпус: `createEmergencyKnowledgeRepository` из `./server-corpus` (только server).
+ */
 export function createFixtureKnowledgeRepository(): KnowledgeRepository {
-  const articles = [ENDOMETRIOMA_DEMO_ARTICLE];
+  const articles: CanonicalKnowledgeArticle[] = [ENDOMETRIOMA_DEMO_ARTICLE, ...EMERGENCY_ACTION_CARDS];
 
   return {
     async findPublishedArticles({ query, specialty, limit }) {
-      const q = query.toLowerCase();
       return articles
         .filter((a) => (specialty ? a.specialty === specialty : true))
-        .filter(
-          (a) =>
-            a.title.toLowerCase().includes(q) ||
-            a.slug.includes(q.replace(/\s+/g, "-")) ||
-            a.summary.toLowerCase().includes(q) ||
-            a.sections.some((s) => s.content.toLowerCase().includes(q) || s.title.toLowerCase().includes(q)) ||
-            q.includes("эндометри") ||
-            q.includes("endometri"),
-        )
+        .filter((a) => articleMatchesQuery(a, query))
+        .sort((a, b) => scoreArticle(b, query) - scoreArticle(a, query))
         .slice(0, limit);
     },
     async findPublishedSourceCitations(sourceIds) {
-      const all = ENDOMETRIOMA_DEMO_ARTICLE.sources;
-      return all.filter((s) => sourceIds.includes(s.id));
+      const all = articles.flatMap((a) => a.sources);
+      const byId = new Map(all.map((s) => [s.id, s]));
+      return sourceIds.map((id) => byId.get(id)).filter(Boolean) as SourceCitationPublic[];
     },
   };
 }
 
-export { ENDOMETRIOMA_DEMO_ARTICLE };
+export { ENDOMETRIOMA_DEMO_ARTICLE, EMERGENCY_ACTION_CARDS };

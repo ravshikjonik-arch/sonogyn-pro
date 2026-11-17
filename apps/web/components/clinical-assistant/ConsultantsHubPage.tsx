@@ -13,6 +13,13 @@ const GROUPS: DomainHubGroup[] = [
         badge: "Live",
       },
       {
+        href: "/tools/emergency",
+        title: "Неотложка · СМП",
+        description: "Хаб, помощник и KB: флаги / 1-2-3",
+        primary: true,
+        badge: "СМП",
+      },
+      {
         href: "/ai/consultants/gynecology",
         title: "Помощник гинеколога",
         description: "Нозология, УЗИ, красные флаги, протокол",

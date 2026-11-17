@@ -66,7 +66,7 @@ const SCALES = [
 const STATS = [
   { value: "30+", label: "калькуляторов и шкал" },
   { value: "Кейсы", label: "галерея и обсуждения" },
-  { value: "Пилот", label: "доступ для врачей" },
+  { value: "Тест", label: "тестовый режим · пилот" },
   { value: "24/7", label: "AI и чат коллег" },
 ] as const;
 

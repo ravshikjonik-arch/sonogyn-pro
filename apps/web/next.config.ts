@@ -193,12 +193,14 @@ const nextConfig: NextConfig = {
       "recharts",
       "@tiptap/react",
     ],
-    webpackMemoryOptimizations: true,
-    webpackBuildWorker: true,
     /** Server Actions only; AI assist Route Handlers rely on client JPEG compress. */
     serverActions: {
       bodySizeLimit: "8mb",
     },
+    // Prod-only: in `next dev` these workers often stall first compile (0-byte hang).
+    ...(process.env.NODE_ENV === "production"
+      ? { webpackMemoryOptimizations: true, webpackBuildWorker: true }
+      : {}),
   },
   webpack: (config, { dev }) => {
     if (config.cache && !dev) {
