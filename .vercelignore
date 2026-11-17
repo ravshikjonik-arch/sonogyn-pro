@@ -1,7 +1,10 @@
 # Monorepo — exclude from CLI upload (Vercel builds install deps on server)
 node_modules
+**/node_modules
 **/.next
 .git
+.vercel/output
+.vercel/source.tgz*
 USTri
 apps/video
 Medical-Imaging-Diagnosis-Agent
@@ -13,3 +16,16 @@ apps/web/public/clinical-atlas/blinov
 apps/web/public/clinical-atlas/blinov 2
 apps/web/public/images/orads-calculator
 apps/web/public/books
+# Локальный © корпус неотложки / OCR — не на Vercel
+packages/medical-knowledge/data
+**/emergency-corpus
+docs/print
+emergency-guide-infarkt.png
+.cursor
+**/agent-transcripts
+**/terminals
+coverage
+**/.turbo
+**/playwright-report
+**/test-results
+**/.playwright-mcp
