@@ -156,6 +156,8 @@ export async function POST(req: Request) {
     preferred_locale = "",
     birth_date: birthDateRaw = "",
     legal_docs_version,
+    chat_name_mode = "fio",
+    chat_nickname = "",
   } = body;
   const birth_year = parseBirthYearFromBody(body as Record<string, unknown>);
   const parsedBirth = birthDateRaw ? parseBirthDateInput(birthDateRaw) : null;
@@ -188,6 +190,10 @@ export async function POST(req: Request) {
           specialization,
           legal_consent_at: new Date().toISOString(),
           legal_docs_version,
+          chat_name_mode: chat_name_mode === "nick" ? "nick" : "fio",
+          ...(chat_name_mode === "nick" && chat_nickname.trim()
+            ? { chat_nickname: chat_nickname.trim() }
+            : {}),
           ...(birth_year ? { birth_year } : {}),
           ...(birth_date ? { birth_date } : {}),
           ...(institution ? { institution } : {}),

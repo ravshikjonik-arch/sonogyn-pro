@@ -6,6 +6,10 @@ import { toast } from "sonner";
 import { DOCTOR_SPECIALIZATION_OPTIONS } from "@repo/clinical-tools";
 
 import { useAuth, useSupabase } from "@/app/providers";
+import {
+  ChatDisplayNameFields,
+  type ChatNameMode,
+} from "@/components/auth/ChatDisplayNameFields";
 import { Button } from "@/components/ui/button";
 import {
   buildFioAbbreviation,
@@ -29,6 +33,8 @@ type Props = {
     birth_year: number | null;
     birth_date_iso: string | null;
     onboarding_character?: OnboardingCharacterId | null;
+    chat_name_mode?: ChatNameMode | null;
+    chat_nickname?: string | null;
   };
 };
 
@@ -48,6 +54,10 @@ export function ProfileSettingsForm({ initial }: Props) {
   const [onboardingCharacter, setOnboardingCharacter] = useState<OnboardingCharacterId | null>(
     initial.onboarding_character ?? null,
   );
+  const [chatNameMode, setChatNameMode] = useState<ChatNameMode>(
+    initial.chat_name_mode === "nick" ? "nick" : "fio",
+  );
+  const [chatNickname, setChatNickname] = useState(initial.chat_nickname ?? "");
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -57,6 +67,10 @@ export function ProfileSettingsForm({ initial }: Props) {
       const parsedBirth = birthDateIso.trim() ? parseBirthDateInput(birthDateIso) : null;
       if (birthDateIso.trim() && !parsedBirth) {
         setMessage(birthDateErrorMessageForValue(birthDateIso));
+        return;
+      }
+      if (chatNameMode === "nick" && chatNickname.trim().length < 2) {
+        setMessage("Для режима «ник» укажите ник (минимум 2 символа).");
         return;
       }
 
@@ -70,6 +84,8 @@ export function ProfileSettingsForm({ initial }: Props) {
           specialization: specialization.trim() || undefined,
           birth_year: parsedBirth?.year,
           birth_date: parsedBirth?.iso,
+          chat_name_mode: chatNameMode,
+          chat_nickname: chatNameMode === "nick" ? chatNickname.trim() : null,
           ...(onboardingCharacter
             ? { clinical_preferences: { onboardingCharacter } }
             : {}),
@@ -272,6 +288,16 @@ export function ProfileSettingsForm({ initial }: Props) {
             </span>
           </p>
         </label>
+
+        <div className="sm:col-span-2">
+          <ChatDisplayNameFields
+            mode={chatNameMode}
+            nickname={chatNickname}
+            fullNamePreview={full_name}
+            onModeChange={setChatNameMode}
+            onNicknameChange={setChatNickname}
+          />
+        </div>
         <BirthDateField
           value={birthDateIso}
           onChange={setBirthDateIso}

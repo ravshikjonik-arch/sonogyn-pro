@@ -55,7 +55,7 @@ export async function PATCH(request: Request) {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("full_name,specialization")
+    .select("full_name,specialization,chat_nickname,chat_name_mode")
     .eq("id", auth.userId)
     .maybeSingle();
 
@@ -64,6 +64,8 @@ export async function PATCH(request: Request) {
     fullName: profile?.full_name,
     specialization: profile?.specialization,
     email: auth.email,
+    chatNickname: (profile as { chat_nickname?: string | null } | null)?.chat_nickname,
+    chatNameMode: (profile as { chat_name_mode?: string | null } | null)?.chat_name_mode,
   });
 
   const now = new Date().toISOString();

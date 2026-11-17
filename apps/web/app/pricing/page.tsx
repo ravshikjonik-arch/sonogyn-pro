@@ -7,6 +7,7 @@ import {
   formatProPriceRub,
   MOBILE_STORE_LINE_RU,
   PAYMENT_PROVIDER_PUBLIC_NAME_RU,
+  PRO_CHARITY_NOTE_RU,
   PWA_INSTALL_HINT_RU,
   SUPPORT_EMAIL,
   proSubscriptionPeriodLabelRu,
@@ -63,9 +64,9 @@ export default function PricingPage() {
             Веб-кабинет и PWA — основной рабочий контур. {MOBILE_STORE_LINE_RU}{" "}
             {paymentsLive
               ? checkout.yookassaReady
-                ? `Оплата PRO для РФ — через ${PAYMENT_PROVIDER_PUBLIC_NAME_RU}.`
+                ? `Оплата PRO для РФ — через ${PAYMENT_PROVIDER_PUBLIC_NAME_RU}. ${PRO_CHARITY_NOTE_RU}`
                 : `${PAYMENT_PROVIDER_PUBLIC_NAME_RU} здесь не настроена — после входа возможен запасной канал на /paywall.`
-              : "Сайт в тестовом режиме. Сейчас — бесплатный пилот для врачей УЗД и АГ: без цены и без кнопки оплаты. PRO откроем после подключения ЮKassa."}{" "}
+              : "До полного запуска 27.12.2026 — бесплатный пилот для врачей УЗД и АГ. PRO откроем после подключения ЮKassa."}{" "}
             {PWA_INSTALL_HINT_RU}
           </p>
         </div>
@@ -73,10 +74,10 @@ export default function PricingPage() {
         <div className="grid gap-8 md:grid-cols-2">
           <Card className="border-[var(--clinical-border)]">
             <CardHeader>
-              <CardTitle>Free · пилот · тест</CardTitle>
+              <CardTitle>Free · до запуска</CardTitle>
               <CardDescription>
-                Тестовый режим. Рабочий контур для коллег: калькуляторы, открытые материалы, кабинет. Регистрация
-                желательна, но не обязательна для знакомства. Не вводите ПДн пациентов.
+                До 27.12.2026 — знакомство с кабинетом: калькуляторы, открытые материалы. Регистрация
+                желательна, но не обязательна. Не вводите ПДн пациентов.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-3 text-sm text-[var(--clinical-foreground-muted)]">
@@ -113,6 +114,7 @@ export default function PricingPage() {
                     "Расширенные лимиты кейсов",
                     "Очередь AI-анализа",
                     `Оплата картой РФ, чек на email · ${proPriceLabel} / ${proPeriod}`,
+                    PRO_CHARITY_NOTE_RU,
                   ]
                 : [
                     "Расширенные лимиты кейсов",

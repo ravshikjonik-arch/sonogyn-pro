@@ -77,7 +77,7 @@ export function AuthScreenShell({
           className="mt-2 rounded-lg border border-amber-300/70 bg-amber-50 px-2.5 py-1.5 text-[11px] font-medium text-amber-950 dark:border-amber-800 dark:bg-amber-950/50 dark:text-amber-100"
           role="status"
         >
-          Сайт работает в тестовом режиме. Не вводите реальные ПДн пациентов.
+          Полный запуск 27.12.2026. Не вводите реальные ПДн пациентов.
         </p>
       </div>
 

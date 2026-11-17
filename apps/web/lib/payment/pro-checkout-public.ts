@@ -1,6 +1,7 @@
 import {
   PAY_PROVIDER_FALLBACK_ENABLED,
   PAYMENT_PROVIDER_PUBLIC_NAME_RU,
+  PRO_CHARITY_NOTE_RU,
   STRIPE_FALLBACK_PUBLIC_NAME,
   SUPPORT_EMAIL,
 } from "@/lib/config/platform";
@@ -24,7 +25,7 @@ export function resolveProCheckoutPublicState(): ProCheckoutPublicState {
       yookassaReady: true,
       stripeFallbackReady,
       ctaLabel: `Войти и оплатить через ${PAYMENT_PROVIDER_PUBLIC_NAME_RU}`,
-      footnote: `После входа откроется /paywall с оплатой ${PAYMENT_PROVIDER_PUBLIC_NAME_RU} (карта РФ, чек на email).`,
+      footnote: `После входа откроется /paywall с оплатой ${PAYMENT_PROVIDER_PUBLIC_NAME_RU} (карта РФ, чек на email). ${PRO_CHARITY_NOTE_RU}`,
     };
   }
 
@@ -41,6 +42,6 @@ export function resolveProCheckoutPublicState(): ProCheckoutPublicState {
     yookassaReady: false,
     stripeFallbackReady: false,
     ctaLabel: "Список ожидания PRO",
-    footnote: `Сайт в тестовом режиме. Сейчас открыт бесплатный пилот для врачей: калькуляторы и кабинет без оплаты. PRO (расширенные лимиты) включим после ЮKassa — напишите на ${SUPPORT_EMAIL}, добавим в лист ожидания.`,
+    footnote: `До полного запуска 27.12.2026 открыт бесплатный пилот: калькуляторы и кабинет без оплаты. PRO включим после ЮKassa — напишите на ${SUPPORT_EMAIL}, добавим в лист ожидания.`,
   };
 }

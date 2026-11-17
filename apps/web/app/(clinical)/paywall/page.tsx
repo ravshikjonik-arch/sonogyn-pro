@@ -7,7 +7,11 @@ import { useEffect, useState } from "react";
 import { PaywallCareerBanner } from "@/components/career/PaywallCareerBanner";
 import { Button } from "@/components/ui/button";
 import { track } from "@/lib/analytics/track";
-import { PAYMENT_PROVIDER_PUBLIC_NAME_RU, STRIPE_FALLBACK_PUBLIC_NAME } from "@/lib/config/platform";
+import {
+  PAYMENT_PROVIDER_PUBLIC_NAME_RU,
+  PRO_CHARITY_NOTE_RU,
+  STRIPE_FALLBACK_PUBLIC_NAME,
+} from "@/lib/config/platform";
 
 type BillingStatus = {
   features?: {
@@ -130,7 +134,7 @@ export default function PaywallPage() {
           {openAccess
             ? "На время проверки продукта регистрация и оплата сняты как барьер. Пользуйтесь калькуляторами, справочниками и рабочими экранами сразу."
             : yookassaReady
-              ? `PRO снимает потолок AI и кейсов — оплата через ${PAYMENT_PROVIDER_PUBLIC_NAME_RU}, 30 дней доступа.`
+              ? `PRO снимает потолок AI и кейсов — оплата через ${PAYMENT_PROVIDER_PUBLIC_NAME_RU}, 30 дней доступа. ${PRO_CHARITY_NOTE_RU}`
               : `ЮKassa не настроена на этом окружении — доступен запасной канал (${STRIPE_FALLBACK_PUBLIC_NAME}) при наличии Price ID.`}
         </p>
       </header>
@@ -155,6 +159,7 @@ export default function PaywallPage() {
                 ? `Оплата ${PAYMENT_PROVIDER_PUBLIC_NAME_RU}, чек на email`
                 : `Запасной канал: ${STRIPE_FALLBACK_PUBLIC_NAME} (если настроен)`}
             </li>
+            {yookassaReady ? <li>• {PRO_CHARITY_NOTE_RU}</li> : null}
           </ul>
         </div>
         <div className="flex flex-col justify-between gap-4 rounded-xl bg-[var(--clinical-muted)] p-6">

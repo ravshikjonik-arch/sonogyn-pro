@@ -32,6 +32,8 @@ type ProfileCard = {
   reputation?: number | null;
   cases_count?: number | null;
   clinical_preferences?: unknown;
+  chat_nickname?: string | null;
+  chat_name_mode?: "fio" | "nick" | null;
 };
 
 export default async function ProfilePage() {
@@ -94,14 +96,16 @@ export default async function ProfilePage() {
   const full = await supabase
     .from("profiles")
     .select(
-      "id, full_name, institution, specialization, birth_year, role, subscription_tier, is_verified, reputation, cases_count, clinical_preferences",
+      "id, full_name, institution, specialization, birth_year, role, subscription_tier, is_verified, reputation, cases_count, clinical_preferences, chat_nickname, chat_name_mode",
     )
     .eq("id", user.id)
     .maybeSingle();
 
-  // Prod без миграции clinical_preferences — не ломаем кабинет.
+  // Prod без миграции clinical_preferences / chat_* — не ломаем кабинет.
   const base =
-    full.error && /clinical_preferences/i.test(full.error.message)
+    full.error &&
+    (/clinical_preferences/i.test(full.error.message) ||
+      /chat_nickname|chat_name_mode/i.test(full.error.message))
       ? await supabase
           .from("profiles")
           .select("id, full_name, institution, specialization, birth_year, role, subscription_tier")
@@ -239,6 +243,8 @@ export default async function ProfilePage() {
             birth_year: birthYear,
             birth_date_iso: birthDateIso,
             onboarding_character: clinicalPrefs.onboardingCharacter ?? null,
+            chat_name_mode: profile?.chat_name_mode === "nick" ? "nick" : "fio",
+            chat_nickname: profile?.chat_nickname ?? "",
           }}
         />
 

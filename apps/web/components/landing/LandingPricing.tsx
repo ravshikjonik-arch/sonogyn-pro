@@ -4,7 +4,11 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
-import { PAYMENT_PROVIDER_PUBLIC_NAME_RU, SUPPORT_EMAIL } from "@/lib/config/platform";
+import {
+  PAYMENT_PROVIDER_PUBLIC_NAME_RU,
+  PRO_CHARITY_NOTE_RU,
+  SUPPORT_EMAIL,
+} from "@/lib/config/platform";
 import { resolveProCheckoutPublicState } from "@/lib/payment/pro-checkout-public";
 
 import { PRICING_PLANS } from "./data";
@@ -28,8 +32,8 @@ export function LandingPricing({ isAuthenticated }: LandingPricingProps) {
         </h2>
         <p className="mt-3 text-sm leading-relaxed text-[var(--clinical-foreground-muted)] sm:text-base">
           {paymentsLive
-            ? `Сначала — бесплатное знакомство и демо-кабинет. PRO оформляется после входа через ${PAYMENT_PROVIDER_PUBLIC_NAME_RU}.`
-            : "Сайт в тестовом режиме. Сейчас бесплатный пилот для врачей: кабинет и калькуляторы без оплаты. PRO (лимиты и AI) — в листе ожидания, без кнопки «оплатить»."}
+            ? `Сначала — бесплатное знакомство и демо-кабинет. PRO оформляется после входа через ${PAYMENT_PROVIDER_PUBLIC_NAME_RU}. ${PRO_CHARITY_NOTE_RU}`
+            : "До полного запуска 27.12.2026 — бесплатный пилот: кабинет и калькуляторы без оплаты. PRO — в листе ожидания, без кнопки «оплатить»."}
         </p>
       </div>
       <div className="grid gap-8 md:grid-cols-2">

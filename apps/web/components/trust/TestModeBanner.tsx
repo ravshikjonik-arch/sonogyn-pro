@@ -1,4 +1,8 @@
-import { TEST_MODE_BANNER_RU, TEST_MODE_SHORT_RU } from "@/lib/config/test-mode";
+import {
+  PLATFORM_LAUNCH_DATE_RU,
+  TEST_MODE_BANNER_RU,
+  TEST_MODE_SHORT_RU,
+} from "@/lib/config/test-mode";
 
 type Props = {
   /** Компактная строка (shell / узкие экраны). */
@@ -6,7 +10,7 @@ type Props = {
   className?: string;
 };
 
-/** Глобальное напоминание: продукт в тестовом режиме. */
+/** Глобальное напоминание: полный запуск с указанной даты. */
 export function TestModeBanner({ compact = false, className }: Props) {
   return (
     <div
@@ -19,7 +23,9 @@ export function TestModeBanner({ compact = false, className }: Props) {
       }
     >
       <span className="font-semibold">{TEST_MODE_SHORT_RU}.</span>{" "}
-      {compact ? "Не вводите ПДн пациентов." : TEST_MODE_BANNER_RU.replace(`${TEST_MODE_SHORT_RU}. `, "")}
+      {compact
+        ? `Не вводите ПДн пациентов. Старт ${PLATFORM_LAUNCH_DATE_RU}.`
+        : TEST_MODE_BANNER_RU}
     </div>
   );
 }

@@ -38,6 +38,15 @@ export {
 } from "./clinical-preferences";
 
 export {
+  ChatDisplayChoiceSchema,
+  ChatNameModeSchema,
+  ChatNicknameSchema,
+  type ChatDisplayChoice,
+  type ChatNameMode,
+  type ChatNickname,
+} from "./chat-display-name";
+
+export {
   BIRTH_DATE_MIN_AGE,
   BIRTH_DATE_MAX_AGE,
   ageFromBirthDateIso,
@@ -140,8 +149,31 @@ export const UpdateProfileBodySchema = z
     avatar_storage_path: z.string().max(512).optional(),
     /** Частичное обновление клинических настроек (merge в profiles.clinical_preferences). */
     clinical_preferences: ClinicalPreferencesSchema.partial().optional(),
+    /** Chat roster: show abbreviated FIO or nickname. */
+    chat_name_mode: z.enum(["fio", "nick"]).optional(),
+    chat_nickname: z.string().trim().max(32).nullable().optional(),
   })
-  .strict();
+  .strict()
+  .superRefine((val, ctx) => {
+    if (val.chat_name_mode === "nick") {
+      const nick = (val.chat_nickname ?? "").trim();
+      if (nick.length < 2) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Для режима «ник» укажите ник (минимум 2 символа).",
+          path: ["chat_nickname"],
+        });
+        return;
+      }
+      if (!/^[\p{L}\p{N}_.-]+$/u.test(nick)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Ник: только буквы, цифры, _ . - (без пробелов и @).",
+          path: ["chat_nickname"],
+        });
+      }
+    }
+  });
 export type UpdateProfileBody = z.infer<typeof UpdateProfileBodySchema>;
 
 // --- Teaching cases (gallery) ---------------------------------------------------

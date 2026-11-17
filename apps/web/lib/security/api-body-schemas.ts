@@ -33,25 +33,49 @@ export const SignInBodySchema = z.object({
 export type SignInBody = z.infer<typeof SignInBodySchema>;
 
 /** POST /api/auth/sign-up */
-export const SignUpBodySchema = z.object({
-  email: z.string().trim().email({ message: "Некорректный email." }).max(320),
-  password: z
-    .string()
-    .min(AUTH_PASSWORD_MIN_LENGTH, `Пароль не короче ${AUTH_PASSWORD_MIN_LENGTH} символов.`)
-    .max(AUTH_PASSWORD_MAX_LENGTH),
-  full_name: z.string().trim().min(1, "Укажите имя и фамилию.").max(200),
-  specialization: z.string().trim().min(1, "Выберите специализацию.").max(120),
-  institution: z.string().trim().max(200).optional(),
-  preferred_locale: z.string().trim().max(16).optional(),
-  birth_year: z.union([z.number().int(), z.string().max(4)]).optional(),
-  birth_date: z.string().trim().max(32).optional(),
-  turnstileToken: z.string().max(4096).optional(),
-  /** Согласие с Политикой и Офертой (обязательно). */
-  accept_legal: z.literal(true, {
-    errorMap: () => ({ message: "Нужно согласие с Политикой и Офертой." }),
-  }),
-  legal_docs_version: z.string().trim().min(1).max(32),
-});
+export const SignUpBodySchema = z
+  .object({
+    email: z.string().trim().email({ message: "Некорректный email." }).max(320),
+    password: z
+      .string()
+      .min(AUTH_PASSWORD_MIN_LENGTH, `Пароль не короче ${AUTH_PASSWORD_MIN_LENGTH} символов.`)
+      .max(AUTH_PASSWORD_MAX_LENGTH),
+    full_name: z.string().trim().min(1, "Укажите имя и фамилию.").max(200),
+    specialization: z.string().trim().min(1, "Выберите специализацию.").max(120),
+    institution: z.string().trim().max(200).optional(),
+    preferred_locale: z.string().trim().max(16).optional(),
+    birth_year: z.union([z.number().int(), z.string().max(4)]).optional(),
+    birth_date: z.string().trim().max(32).optional(),
+    turnstileToken: z.string().max(4096).optional(),
+    /** Согласие с Политикой и Офертой (обязательно). */
+    accept_legal: z.literal(true, {
+      errorMap: () => ({ message: "Нужно согласие с Политикой и Офертой." }),
+    }),
+    legal_docs_version: z.string().trim().min(1).max(32),
+    /** Как показывать в чате врачей: ФИО (по умолчанию) или ник. */
+    chat_name_mode: z.enum(["fio", "nick"]).optional(),
+    chat_nickname: z.string().trim().max(32).optional(),
+  })
+  .superRefine((val, ctx) => {
+    if (val.chat_name_mode === "nick") {
+      const nick = (val.chat_nickname ?? "").trim();
+      if (nick.length < 2) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Для ника укажите имя от 2 символов.",
+          path: ["chat_nickname"],
+        });
+        return;
+      }
+      if (!/^[\p{L}\p{N}_.-]+$/u.test(nick)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Ник: только буквы, цифры, _ . - (без пробелов и @).",
+          path: ["chat_nickname"],
+        });
+      }
+    }
+  });
 
 export type SignUpBody = z.infer<typeof SignUpBodySchema>;
 

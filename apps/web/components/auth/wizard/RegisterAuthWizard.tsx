@@ -15,6 +15,10 @@ import {
 import { AuthMessage, authInputClass } from "@/components/auth/AuthScreenShell";
 import { PhoneInput } from "@/components/auth/PhoneInput";
 import { TelegramSimpleAuth } from "@/components/auth/TelegramSimpleAuth";
+import {
+  ChatDisplayNameFields,
+  type ChatNameMode,
+} from "@/components/auth/ChatDisplayNameFields";
 import { AuthGenderPicker } from "@/components/auth/wizard/AuthGenderPicker";
 import { AuthWizardLayout } from "@/components/auth/wizard/AuthWizardLayout";
 import { OtpDigitRow } from "@/components/auth/wizard/OtpDigitRow";
@@ -94,6 +98,8 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
   const [emailOtpSent, setEmailOtpSent] = useState(false);
   const [birthDateIso, setBirthDateIso] = useState("");
   const [acceptLegal, setAcceptLegal] = useState(false);
+  const [chatNameMode, setChatNameMode] = useState<ChatNameMode>("fio");
+  const [chatNickname, setChatNickname] = useState("");
   /** Телефон опционален: SMS.ru только РФ (+79). +993 и др. — email/Telegram. */
   const phoneOptional = true;
   const phoneRequired = false;
@@ -127,7 +133,15 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
     writeStoredOnboardingCharacter(characterId);
     setLoading(true);
     try {
-      const saved = await saveOnboardingCharacter(characterId, { specialization: specialization.trim() });
+      if (chatNameMode === "nick" && chatNickname.trim().length < 2) {
+        setMessage("Укажите ник для чата (минимум 2 символа) или выберите ФИО.");
+        return;
+      }
+      const saved = await saveOnboardingCharacter(characterId, {
+        specialization: specialization.trim(),
+        chat_name_mode: chatNameMode,
+        chat_nickname: chatNameMode === "nick" ? chatNickname.trim() : null,
+      });
       if (!saved.ok) setMessage(saved.error);
       beginFirstRunOnboarding();
       markSessionAnchorNow();
@@ -254,6 +268,10 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
       setMessage("Отметьте согласие с Политикой и Офертой.");
       return;
     }
+    if (chatNameMode === "nick" && chatNickname.trim().length < 2) {
+      setMessage("Укажите ник для чата (минимум 2 символа) или выберите показ ФИО.");
+      return;
+    }
 
     setLoading(true);
     try {
@@ -266,6 +284,8 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
         preferred_locale: locale,
         accept_legal: true,
         legal_docs_version: LEGAL_DOCS_VERSION,
+        chat_name_mode: chatNameMode,
+        ...(chatNameMode === "nick" ? { chat_nickname: chatNickname.trim() } : {}),
       });
 
       if (!result.ok) {
@@ -420,8 +440,11 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
   }
 
   if (step === "character") {
+    const previewFio =
+      normalizeRussianFio(`${lastName.trim()} ${firstName.trim()}`) ??
+      `${lastName.trim()} ${firstName.trim()}`;
     return (
-      <AuthWizardLayout title="Расскажите о себе" subtitle="Мужчина или женщина — для интерфейса. Затем специализация.">
+      <AuthWizardLayout title="Расскажите о себе" subtitle="Имя в чате, пол для интерфейса и специализация.">
         <label className="mb-4 block">
           <span className="text-sm font-medium text-[var(--clinical-foreground)]">Специализация</span>
           <select
@@ -437,6 +460,16 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
             ))}
           </select>
         </label>
+
+        <ChatDisplayNameFields
+          className="mb-4"
+          compact
+          mode={chatNameMode}
+          nickname={chatNickname}
+          fullNamePreview={previewFio}
+          onModeChange={setChatNameMode}
+          onNicknameChange={setChatNickname}
+        />
 
         <AuthGenderPicker
           value={character}
@@ -686,6 +719,17 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
       {method === "telegram" ? (
         <div className="space-y-3">
           {nameFields}
+          <ChatDisplayNameFields
+            compact
+            mode={chatNameMode}
+            nickname={chatNickname}
+            fullNamePreview={
+              normalizeRussianFio(`${lastName.trim()} ${firstName.trim()}`) ??
+              `${lastName.trim()} ${firstName.trim()}`
+            }
+            onModeChange={setChatNameMode}
+            onNicknameChange={setChatNickname}
+          />
           <label className="block">
             <span className="text-xs font-medium text-[var(--clinical-foreground-muted)]">Дата рождения</span>
             <input
@@ -715,6 +759,17 @@ export function RegisterAuthWizard({ afterAuthPath }: Props) {
       ) : (
       <form className="space-y-3" onSubmit={(e) => void onRegisterSubmit(e)}>
         {nameFields}
+        <ChatDisplayNameFields
+          compact
+          mode={chatNameMode}
+          nickname={chatNickname}
+          fullNamePreview={
+            normalizeRussianFio(`${lastName.trim()} ${firstName.trim()}`) ??
+            `${lastName.trim()} ${firstName.trim()}`
+          }
+          onModeChange={setChatNameMode}
+          onNicknameChange={setChatNickname}
+        />
         <label className="block">
           <span className="text-xs font-medium text-[var(--clinical-foreground-muted)]">E-mail</span>
           <input

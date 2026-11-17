@@ -26,9 +26,17 @@ export function formatDoctorChatDisplayName(input: {
   fullName?: string | null;
   email?: string | null;
   specialization?: string | null;
+  chatNickname?: string | null;
+  chatNameMode?: string | null;
 }): string {
   if (isSharedChatEmail(input.email)) {
     return "Гость";
+  }
+
+  const mode = (input.chatNameMode ?? "fio").trim().toLowerCase();
+  const nick = input.chatNickname?.trim() ?? "";
+  if (mode === "nick" && nick.length >= 2) {
+    return nick;
   }
 
   const fio = input.fullName?.trim();

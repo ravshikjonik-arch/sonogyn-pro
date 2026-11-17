@@ -4,7 +4,11 @@ import { writeStoredOnboardingCharacter } from "@/lib/auth/auth-wizard-config";
 
 export async function saveOnboardingCharacter(
   character: OnboardingCharacterId,
-  extras?: { specialization?: string },
+  extras?: {
+    specialization?: string;
+    chat_name_mode?: "fio" | "nick";
+    chat_nickname?: string | null;
+  },
 ): Promise<{ ok: true } | { ok: false; error: string }> {
   writeStoredOnboardingCharacter(character);
 
@@ -14,6 +18,8 @@ export async function saveOnboardingCharacter(
     credentials: "same-origin",
     body: JSON.stringify({
       ...(extras?.specialization ? { specialization: extras.specialization } : {}),
+      ...(extras?.chat_name_mode ? { chat_name_mode: extras.chat_name_mode } : {}),
+      ...(extras?.chat_nickname !== undefined ? { chat_nickname: extras.chat_nickname } : {}),
       clinical_preferences: { onboardingCharacter: character },
     }),
   });

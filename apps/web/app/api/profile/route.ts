@@ -24,13 +24,20 @@ function isMissingClinicalPreferencesColumn(message: string | undefined): boolea
   return Boolean(message && /clinical_preferences/i.test(message));
 }
 
+function isMissingChatDisplayColumn(message: string | undefined): boolean {
+  return Boolean(message && /chat_nickname|chat_name_mode/i.test(message));
+}
+
 export const runtime = "nodejs";
 
 const PROFILE_SELECT =
-  "id, role, full_name, institution, specialization, birth_year, clinical_preferences, subscription_tier, subscription_expires_at, trial_ends_at, created_at, updated_at";
+  "id, role, full_name, institution, specialization, birth_year, clinical_preferences, chat_nickname, chat_name_mode, subscription_tier, subscription_expires_at, trial_ends_at, created_at, updated_at";
 /** Без clinical_preferences — fallback, если колонка ещё не на prod. */
 const PROFILE_BASE_SELECT =
   "id, role, full_name, institution, specialization, birth_year, subscription_tier, subscription_expires_at, trial_ends_at, created_at, updated_at";
+/** Fallback до миграции chat_nickname / chat_name_mode. */
+const PROFILE_SELECT_NO_CHAT =
+  "id, role, full_name, institution, specialization, birth_year, clinical_preferences, subscription_tier, subscription_expires_at, trial_ends_at, created_at, updated_at";
 
 type ProfileRow = {
   id: string;
@@ -40,6 +47,8 @@ type ProfileRow = {
   specialization: string | null;
   birth_year: number | null;
   clinical_preferences: Record<string, unknown> | null;
+  chat_nickname: string | null;
+  chat_name_mode: "fio" | "nick";
   subscription_tier: string;
   subscription_expires_at: string | null;
   trial_ends_at: string | null;
@@ -47,15 +56,22 @@ type ProfileRow = {
   updated_at: string;
 };
 
-type ProfileBaseRow = Omit<ProfileRow, "clinical_preferences">;
+type ProfileBaseRow = Omit<
+  ProfileRow,
+  "clinical_preferences" | "chat_nickname" | "chat_name_mode"
+>;
 
 function normalizeProfileRow(
-  row: ProfileBaseRow & Partial<Pick<ProfileRow, "clinical_preferences">>,
+  row: ProfileBaseRow &
+    Partial<Pick<ProfileRow, "clinical_preferences" | "chat_nickname" | "chat_name_mode">>,
 ): ProfileRow {
+  const mode = row.chat_name_mode === "nick" ? "nick" : "fio";
   return {
     ...row,
     birth_year: row.birth_year ?? null,
     clinical_preferences: row.clinical_preferences ?? null,
+    chat_nickname: row.chat_nickname ?? null,
+    chat_name_mode: mode,
   };
 }
 
@@ -75,6 +91,8 @@ export async function GET() {
         specialization: openProfile?.specialization ?? "Врач",
         birth_year: openProfile?.birth_year ?? null,
         clinical_preferences: {},
+        chat_nickname: null,
+        chat_name_mode: "fio",
         subscription_tier: "pro",
         subscription_expires_at: null,
         trial_ends_at: null,
@@ -103,6 +121,23 @@ export async function GET() {
     });
   }
 
+  if (error && isMissingChatDisplayColumn(error.message)) {
+    const retry = await supabase
+      .from("profiles")
+      .select(PROFILE_SELECT_NO_CHAT)
+      .eq("id", auth.userId)
+      .maybeSingle();
+    if (!retry.error && retry.data) {
+      const profile = normalizeProfileRow(retry.data as ProfileBaseRow);
+      return NextResponse.json({
+        profile: {
+          ...profile,
+          clinical_preferences: parseClinicalPreferences(profile.clinical_preferences),
+        },
+      });
+    }
+  }
+
   const { data: baseData, error: baseError } = await supabase
     .from("profiles")
     .select(PROFILE_BASE_SELECT)
@@ -124,6 +159,8 @@ export async function GET() {
         specialization: null,
         birth_year: null,
         clinical_preferences: {},
+        chat_nickname: null,
+        chat_name_mode: "fio",
         subscription_tier: "free",
         subscription_expires_at: null,
         trial_ends_at: null,
@@ -200,6 +237,13 @@ export async function PATCH(request: Request) {
   if (d.birth_date !== undefined) {
     profilePatch.birth_year = Number.parseInt(d.birth_date.slice(0, 4), 10);
   }
+  if (d.chat_name_mode !== undefined) profilePatch.chat_name_mode = d.chat_name_mode;
+  if (d.chat_nickname !== undefined) {
+    profilePatch.chat_nickname =
+      d.chat_nickname === null || d.chat_nickname.trim() === ""
+        ? null
+        : d.chat_nickname.trim();
+  }
 
   if (d.clinical_preferences !== undefined) {
     const { data: currentRow, error: readError } = await supabase
@@ -272,6 +316,29 @@ export async function PATCH(request: Request) {
         .update(profilePatch)
         .eq("id", auth.userId)
         .select(PROFILE_BASE_SELECT)
+        .single();
+      data = retry.data as typeof data;
+      error = retry.error;
+    }
+
+    if (error && isMissingChatDisplayColumn(error.message)) {
+      if (d.chat_name_mode !== undefined || d.chat_nickname !== undefined) {
+        return NextResponse.json(
+          {
+            error:
+              "Поля имени в чате ещё не применены в базе. Нужна миграция chat_nickname / chat_name_mode.",
+            code: "chat_display_pending_migration",
+          },
+          { status: 503 },
+        );
+      }
+      delete profilePatch.chat_nickname;
+      delete profilePatch.chat_name_mode;
+      const retry = await supabase
+        .from("profiles")
+        .update(profilePatch)
+        .eq("id", auth.userId)
+        .select(PROFILE_SELECT_NO_CHAT)
         .single();
       data = retry.data as typeof data;
       error = retry.error;

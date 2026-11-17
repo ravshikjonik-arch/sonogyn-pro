@@ -96,6 +96,8 @@ export async function postSignUp(params: {
   mobile?: boolean;
   accept_legal: true;
   legal_docs_version: string;
+  chat_name_mode?: "fio" | "nick";
+  chat_nickname?: string;
 }): Promise<
   AuthApiResult & {
     session?: { access_token: string; refresh_token: string };

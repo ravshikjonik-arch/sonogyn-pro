@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     template: "%s | SonoGyn Pro",
   },
   description:
-    "SonoGyn Pro — тестовый режим. Клиническая платформа УЗИ и АГ: калькуляторы по гайдлайнам, справочники и кабинет для врачей. Не диагноз; не вводите ПДн пациентов.",
+    "SonoGyn Pro — полный запуск 27.12.2026. Клиническая платформа УЗИ и АГ: калькуляторы по гайдлайнам, справочники и кабинет для врачей. Не диагноз; не вводите ПДн пациентов.",
   manifest: "/manifest.webmanifest",
   applicationName: "SonoGyn Pro",
   appleWebApp: {

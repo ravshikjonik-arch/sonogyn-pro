@@ -39,4 +39,25 @@ describe("doctor-chat-identity", () => {
       "Гость",
     );
   });
+
+  it("uses nickname when chat_name_mode is nick", () => {
+    assert.equal(
+      formatDoctorChatDisplayName({
+        userId: "711573aa-bbbb-cccc-dddd-eeeeeeeeeeee",
+        fullName: "Петров Пётр Иванович",
+        chatNameMode: "nick",
+        chatNickname: "SonoDoc",
+      }),
+      "SonoDoc",
+    );
+    const fallback = formatDoctorChatDisplayName({
+      userId: "711573aa-bbbb-cccc-dddd-eeeeeeeeeeee",
+      fullName: "Петров Пётр Иванович",
+      chatNameMode: "nick",
+      chatNickname: "",
+    });
+    assert.notEqual(fallback, "SonoDoc");
+    assert.ok(fallback.length > 2);
+    assert.ok(!fallback.startsWith("Врач №"));
+  });
 });

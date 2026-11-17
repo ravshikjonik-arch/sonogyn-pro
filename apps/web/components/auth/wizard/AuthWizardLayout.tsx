@@ -29,7 +29,7 @@ export function AuthWizardLayout({ children, title, subtitle, className }: Props
           {title}
         </h1>
         <p className="mt-2 text-center text-[11px] font-medium text-amber-800 dark:text-amber-200">
-          Сайт работает в тестовом режиме · не вводите ПДн пациентов
+          Полный запуск 27.12.2026 · не вводите ПДн пациентов
         </p>
         {subtitle ? (
           <p className="mt-2 text-center text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
