@@ -30,7 +30,7 @@ export default function PaywallPage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [yookassaReady, setYookassaReady] = useState(false);
-  const [priceRub, setPriceRub] = useState(990);
+  const [priceRub, setPriceRub] = useState(500);
 
   useEffect(() => {
     track({ name: "paywall_view", params: { plan: "pro" } });
@@ -58,7 +58,7 @@ export default function PaywallPage() {
       const res = await fetch("/api/payment/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amountRub: priceRub }),
+        body: JSON.stringify({ period: "month" }),
       });
       const body = (await res.json()) as { confirmationUrl?: string; error?: unknown };
       if (!res.ok || !body.confirmationUrl) {
@@ -172,7 +172,7 @@ export default function PaywallPage() {
             </p>
             <p className="text-xs text-[var(--clinical-foreground-muted)]">
               {yookassaReady
-                ? "Настраивается YOOKASSA_PRO_PRICE_RUB на Vercel."
+                ? "Месяц · цена с сервера (YOOKASSA_PRO_PRICE_RUB). Год — скоро."
                 : "Price placeholder — configure Stripe Price IDs."}
             </p>
           </div>

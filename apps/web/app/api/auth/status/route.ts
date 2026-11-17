@@ -198,7 +198,7 @@ export async function GET(req: Request) {
         "Webhook в кабинете ЮKassa: https://sonogyn-pro.ru/api/payment/webhook",
         "Событие: payment.succeeded. Проверка IP ЮKassa + повторный запрос статуса в API.",
         "TELEGRAM_ADMIN_IDS — уведомления: регистрация, оплата, ошибки SMS/платежа",
-        "YOOKASSA_PRO_PRICE_RUB=990 (опционально)",
+        "YOOKASSA_PRO_PRICE_RUB=500 (месяц); YOOKASSA_PRO_YEAR_PRICE_RUB — позже",
         "Миграции: 20260617140000_yookassa_payments.sql, 20260619130000_payments.sql",
       ],
       emailDeliverability:

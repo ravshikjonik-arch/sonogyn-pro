@@ -234,9 +234,15 @@ export const PhoneVerifyOtpBodySchema = RegistrationMetadataFieldsSchema.extend(
 
 /** POST /api/payment/create · /api/yookassa/create */
 export const PaymentCreateBodySchema = z.object({
+  /**
+   * Устарело: сумму PRO задаёт только сервер (`YOOKASSA_PRO_PRICE_RUB`).
+   * Поле принимаем для совместимости клиентов, но handlers его игнорируют.
+   */
   amountRub: z.number().min(1).max(1_000_000).optional(),
   description: z.string().min(3).max(200).optional(),
   returnUrl: z.string().url().max(2048).optional(),
+  /** Пока только month. year — когда появится YOOKASSA_PRO_YEAR_PRICE_RUB. */
+  period: z.enum(["month", "year"]).optional(),
 });
 
 /** POST /api/auth/mobile/exchange */

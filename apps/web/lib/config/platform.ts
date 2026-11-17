@@ -18,8 +18,11 @@ export const PAY_PROVIDER_FALLBACK_ENABLED = true;
 
 export const PRO_SUBSCRIPTION_PERIOD_DAYS = 30;
 
-/** Дефолт витрины, если env недоступен (клиентские компоненты). */
-export const DEFAULT_PRO_PRICE_RUB = 990;
+/** Дефолт витрины / клиента, если server env недоступен. Совпадает с Vercel `YOOKASSA_PRO_PRICE_RUB`. */
+export const DEFAULT_PRO_PRICE_RUB = 500;
+
+/** Год вперёд — цена появится, когда зададите `YOOKASSA_PRO_YEAR_PRICE_RUB` и скажете сумму. */
+export const PRO_YEAR_COMING_SOON_RU = "Год вперёд — скоро (цену сообщим отдельно)";
 
 export const PAYMENT_PROVIDER_PUBLIC_NAME_RU = "ЮKassa";
 

@@ -8,12 +8,13 @@ import {
   MOBILE_STORE_LINE_RU,
   PAYMENT_PROVIDER_PUBLIC_NAME_RU,
   PRO_CHARITY_NOTE_RU,
+  PRO_YEAR_COMING_SOON_RU,
   PWA_INSTALL_HINT_RU,
   SUPPORT_EMAIL,
   proSubscriptionPeriodLabelRu,
 } from "@/lib/config/platform";
 import { resolveProCheckoutPublicState } from "@/lib/payment/pro-checkout-public";
-import { readDefaultProPriceRub } from "@/lib/payment/config";
+import { readDefaultProPriceRub, readProYearPriceRub } from "@/lib/payment/config";
 
 import type { Metadata } from "next";
 
@@ -34,6 +35,10 @@ export default function PricingPage() {
   const proPriceRub = readDefaultProPriceRub();
   const proPriceLabel = formatProPriceRub(proPriceRub);
   const proPeriod = proSubscriptionPeriodLabelRu();
+  const yearPriceRub = readProYearPriceRub();
+  const yearLabel = yearPriceRub
+    ? `${formatProPriceRub(yearPriceRub)} / год`
+    : PRO_YEAR_COMING_SOON_RU;
   const checkout = resolveProCheckoutPublicState();
   const paymentsLive = checkout.yookassaReady || checkout.stripeFallbackReady;
 
@@ -104,7 +109,7 @@ export default function PricingPage() {
               <CardTitle className="text-[var(--clinical-primary-deep)]">PRO</CardTitle>
               <CardDescription>
                 {paymentsLive
-                  ? `Подписка ${proPeriod}${checkout.yookassaReady ? ` · оплата ${PAYMENT_PROVIDER_PUBLIC_NAME_RU}` : ""}. Расширенные квоты платформы.`
+                  ? `Месяц: ${proPriceLabel} / ${proPeriod}${checkout.yookassaReady ? ` · ${PAYMENT_PROVIDER_PUBLIC_NAME_RU}` : ""}. ${yearLabel}. Расширенные квоты.`
                   : "Расширенные лимиты кейсов и AI. Оплата картой РФ — после ЮKassa; сейчас — лист ожидания, без «оплатить сейчас»."}
               </CardDescription>
             </CardHeader>

@@ -62,7 +62,7 @@ export const CAREER_STAGES: CareerStage[] = [
     tagline: "Без потолка",
     description: "Подписка для тех, кто ведёт поток кейсов и хочет AI-очередь без ограничений Free.",
     icon: Sparkles,
-    priceLabel: "от 990 ₽ / 30 дн.",
+    priceLabel: "от 500 ₽ / 30 дн.",
     unlocks: ["Безлимит AI-разборов", "Расширенные квоты кейсов", "ЮKassa · чек на email"],
   },
 ];

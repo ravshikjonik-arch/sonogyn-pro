@@ -9,7 +9,8 @@
 ```
 YOOKASSA_SHOP_ID=...
 YOOKASSA_SECRET_KEY=...
-YOOKASSA_PRO_PRICE_RUB=990
+YOOKASSA_PRO_PRICE_RUB=500
+# позже: YOOKASSA_PRO_YEAR_PRICE_RUB=…
 ```
 
 Webhook URL (после ключей): `https://sonogyn-pro.ru/api/yookassa/webhook` (или актуальный route в репо).

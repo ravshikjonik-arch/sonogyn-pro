@@ -46,7 +46,8 @@ export async function handlePaymentCreate(req: Request) {
   }
 
   const appOrigin = resolveAppOrigin(req);
-  const amountRub = parsed.data.amountRub ?? readDefaultProPriceRub();
+  // Цена PRO только с сервера (Vercel YOOKASSA_PRO_PRICE_RUB). Клиентский amountRub игнорируем.
+  const amountRub = readDefaultProPriceRub();
   const description = parsed.data.description ?? "SonoGyn Pro — подписка на 30 дней";
   const returnUrl = safePaymentReturnUrl(appOrigin, parsed.data.returnUrl);
 

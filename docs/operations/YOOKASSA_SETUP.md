@@ -22,7 +22,7 @@ https://sonogyn-pro.ru/api/payment/webhook
 ## 2. Что прислать в Cursor (одной строкой)
 
 ```
-YOOKASSA: shop=XXXXXX secret=live_xxx_или_test_xxx price=990
+YOOKASSA: shop=XXXXXX secret=live_xxx_или_test_xxx price=500
 ```
 
 Секрет в чат — только если готовы; иначе вставьте сами в Vercel:
@@ -33,7 +33,8 @@ Project → Settings → Environment Variables → production + preview:
 |---|---|
 | `YOOKASSA_SHOP_ID` | shopId |
 | `YOOKASSA_SECRET_KEY` | secret (encrypted) |
-| `YOOKASSA_PRO_PRICE_RUB` | `990` |
+| `YOOKASSA_PRO_PRICE_RUB` | `500` (месяц) |
+| `YOOKASSA_PRO_YEAR_PRICE_RUB` | опционально, когда решите цену за год |
 
 После сохранения — **Redeploy** production.
 
