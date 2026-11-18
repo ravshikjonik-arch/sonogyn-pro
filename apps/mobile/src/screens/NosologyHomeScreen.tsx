@@ -24,6 +24,16 @@ export default function NosologyHomeScreen({ navigation }: Props) {
     {
       title: "Сразу к работе",
       rows: [
+        {
+          title: "Live: жалобы → чек-лист",
+          detail: "Микрофон на приёме: на что смотреть (АГ / УЗИ)",
+          onPress: () => openClinicalToolAction(navigation, "us_prep"),
+        },
+        {
+          title: "Чек-лист амбулатории",
+          detail: "Сценарий приёма АГ в браузере",
+          onPress: () => openClinicalToolAction(navigation, "ambulatory_intake"),
+        },
         { title: "Чат врачей", detail: "Общий канал и специальности", onPress: () => openClinicalToolAction(navigation, "chat_web") },
         { title: "AI-помощник", detail: "Разбор без персональных данных", onPress: () => navigation.navigate("AiTab") },
         { title: "Кейсы и обучение", detail: "Учебные случаи и задачи", onPress: () => void openWebPath("/tools/refs/quiz-hub") },
@@ -87,7 +97,9 @@ export default function NosologyHomeScreen({ navigation }: Props) {
           <Image source={require("../../assets/icon.png")} style={styles.mark} accessibilityLabel="SonoGyn Pro" />
           <View style={styles.headerText}>
             <Text style={styles.title}>SonoGyn Pro</Text>
-            <Text style={styles.subtitle}>Разделы по нозологиям. Решение остаётся за врачом.</Text>
+            <Text style={styles.subtitle}>
+              Жалобы → чек-лист · нозологии. Решение остаётся за врачом.
+            </Text>
           </View>
         </View>
         {groups.map((group) => (

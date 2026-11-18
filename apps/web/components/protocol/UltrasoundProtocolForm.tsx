@@ -43,6 +43,7 @@ import { descriptionToSafeHtml } from "@/lib/clinical-editor/sanitize-clinical-h
 import { studyProtocolToDocumentSpec } from "@/lib/reporting/document-spec-builders";
 import { DocumentExportToolbar } from "@/components/reporting/DocumentExportToolbar";
 import { StructuredProtocolDraftPanel } from "@/components/structured-editor/StructuredProtocolDraftPanel";
+import { DictationField } from "@/components/voice/DictationField";
 import { encryptJson, decryptJson } from "@/lib/security/encryptedStorage";
 import { cn } from "@/lib/utils/cn";
 
@@ -532,8 +533,8 @@ export function UltrasoundProtocolForm({
         <h3 className="mb-2 text-sm font-bold uppercase tracking-wider text-[var(--clinical-foreground-muted)]">
           Диагноз / предварительный диагноз
         </h3>
-        <div className="relative">
-          <div className="mb-2 flex flex-wrap items-center gap-2">
+        <div className="relative space-y-2">
+          <div className="flex flex-wrap items-center gap-2">
             <Button type="button" size="sm" variant="secondary" onClick={() => setNosologyOpen(true)}>
               📋 Нозологии
             </Button>
@@ -541,17 +542,17 @@ export function UltrasoundProtocolForm({
               <a href={`/nosologies?studyId=${studyId}`}>Открыть справочник</a>
             </Button>
           </div>
-          <Input
-            className="w-full"
+          <DictationField
             value={protocol.diagnosis ?? ""}
-            onChange={(e) => {
-              const v = e.target.value;
+            onChange={(v) => {
               setProtocol((p) => ({ ...p, diagnosis: v }));
               const hits = searchNosologies(getSeedNosologies(), v, 6);
               setDiagnosisSuggest(hits.map((h) => h.title));
             }}
-            placeholder="Начните вводить название заболевания…"
-            list="nosology-suggest"
+            draftKey={`sonogyn:protocol-diagnosis:${studyId}`}
+            ariaLabel="Диагноз или предварительный диагноз"
+            placeholder="Начните вводить или диктовать…"
+            inputClassName="w-full"
           />
           {diagnosisSuggest.length > 0 ? (
             <datalist id="nosology-suggest">
@@ -563,10 +564,25 @@ export function UltrasoundProtocolForm({
         </div>
       </section>
 
-      <section>
+      <section className="space-y-2">
         <h3 className="mb-2 text-sm font-bold uppercase tracking-wider text-[var(--clinical-foreground-muted)]">
           Заключение
         </h3>
+        <DictationField
+          value={protocol.conclusion ?? ""}
+          onChange={(plain) =>
+            setProtocol((p) => ({
+              ...p,
+              conclusion: plain,
+              conclusion_html: descriptionToSafeHtml(plain),
+            }))
+          }
+          draftKey={`sonogyn:protocol-conclusion:${studyId}`}
+          multiline
+          ariaLabel="Заключение протокола УЗИ"
+          placeholder="Диктуйте заключение или правьте ниже…"
+          inputClassName="min-h-[96px]"
+        />
         <ClinicalRichTextEditor
           value={conclusionEditorValue(protocol)}
           onChange={(html) => setProtocol((p) => ({ ...p, conclusion_html: html }))}

@@ -55,6 +55,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
 import { toast } from "sonner";
 
+import { DictationField } from "@/components/voice/DictationField";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils/cn";
 
@@ -697,14 +698,47 @@ export function AmbulatoryVisitClient() {
                 <span className="text-xs font-semibold text-[var(--clinical-foreground-muted)]">
                   {CHART_FIELD_LABELS[fieldId as ChartFieldId]}
                 </span>
-                <textarea
-                  rows={2}
-                  className="w-full rounded-xl border border-[var(--clinical-border)] bg-[var(--clinical-card)] px-3 py-2 text-sm"
-                  value={draft.chartFields[fieldId] ?? ""}
-                  onChange={(e) =>
-                    update({ ...draft, chartFields: { ...draft.chartFields, [fieldId]: e.target.value } })
-                  }
-                />
+                {fieldId === "complaints" ? (
+                  <div className="space-y-2">
+                    <DictationField
+                      value={draft.chartFields.complaints ?? ""}
+                      onChange={(value) =>
+                        update({ ...draft, chartFields: { ...draft.chartFields, complaints: value } })
+                      }
+                      draftKey="sonogyn:ambulatory-complaints"
+                      multiline
+                      ariaLabel="Жалобы пациентки"
+                      placeholder="Диктуйте или введите жалобы…"
+                      inputClassName="min-h-[72px]"
+                    />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="rounded-xl"
+                      onClick={() => {
+                        try {
+                          const text = (draft.chartFields.complaints ?? "").trim();
+                          if (text) window.sessionStorage.setItem("sonogyn:us-prep-seed", text);
+                        } catch {
+                          /* ignore */
+                        }
+                        router.push("/ai/consultants/us-prep");
+                      }}
+                    >
+                      Чек-лист по жалобам (Live)
+                    </Button>
+                  </div>
+                ) : (
+                  <textarea
+                    rows={2}
+                    className="w-full rounded-xl border border-[var(--clinical-border)] bg-[var(--clinical-card)] px-3 py-2 text-sm"
+                    value={draft.chartFields[fieldId] ?? ""}
+                    onChange={(e) =>
+                      update({ ...draft, chartFields: { ...draft.chartFields, [fieldId]: e.target.value } })
+                    }
+                  />
+                )}
               </label>
             ))}
           </section>

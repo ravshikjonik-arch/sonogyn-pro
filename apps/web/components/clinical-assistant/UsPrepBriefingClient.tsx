@@ -64,7 +64,12 @@ function Section({
   );
 }
 
-export function UsPrepBriefingClient() {
+export type UsPrepBriefingClientProps = {
+  /** Встройка в стол приёма / home — без полной страничной шапки */
+  embedded?: boolean;
+};
+
+export function UsPrepBriefingClient({ embedded = false }: UsPrepBriefingClientProps) {
   const [visitContext, setVisitContext] = useState("");
   const [domain, setDomain] = useState<UsPrepDomain>("both");
   const [role, setRole] = useState<DoctorVisitRole>("obgyn_us");
@@ -72,6 +77,7 @@ export function UsPrepBriefingClient() {
   const [apiError, setApiError] = useState<string | null>(null);
   const [result, setResult] = useState<UsPrepBriefingResult | null>(null);
   const [copied, setCopied] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
   const lastBriefKeyRef = useRef("");
 
@@ -146,6 +152,21 @@ export function UsPrepBriefingClient() {
     [domain, role, visitContext],
   );
 
+  /** Seed from ambulatory chart (sessionStorage) — one-shot after speech hook ready */
+  useEffect(() => {
+    try {
+      const seed = window.sessionStorage.getItem("sonogyn:us-prep-seed");
+      if (!seed?.trim()) return;
+      window.sessionStorage.removeItem("sonogyn:us-prep-seed");
+      speech.setTranscript(seed.trim());
+      lastBriefKeyRef.current = "";
+      void refreshBriefing(seed.trim());
+    } catch {
+      /* ignore */
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- mount seed only
+  }, []);
+
   useEffect(() => {
     if (!speech.listening && !speech.transcript.trim()) return;
     const source = liveText || speech.transcript;
@@ -216,26 +237,76 @@ export function UsPrepBriefingClient() {
   const micLevelPct = Math.min(100, Math.round((speech.level || 0) * 100));
 
   return (
-    <div className="mx-auto max-w-3xl space-y-5 px-4 py-8 lg:px-8">
-      <div className="flex flex-wrap items-center gap-2">
-        <Button variant="ghost" size="sm" asChild>
-          <Link href="/ai/consultants">← Помощник врача</Link>
-        </Button>
-        <Badge variant="outline" className="gap-1 border-amber-500/50 text-amber-800 dark:text-amber-200">
-          <Shield className="h-3.5 w-3.5" aria-hidden />
-          Только врач · пациентка не видит
-        </Badge>
-      </div>
+    <div
+      className={cn(
+        "space-y-5",
+        embedded ? "rounded-2xl border border-[var(--clinical-border)] bg-[var(--clinical-surface)] p-4" : "mx-auto max-w-3xl px-4 py-8 lg:px-8",
+      )}
+      data-e2e={embedded ? "complaint-briefing-embedded" : "complaint-briefing-page"}
+    >
+      {!embedded ? (
+        <div className="flex flex-wrap items-center gap-2">
+          <Button variant="ghost" size="sm" asChild>
+            <Link href="/ai/consultants">← Помощник врача</Link>
+          </Button>
+          <Badge variant="outline" className="gap-1 border-amber-500/50 text-amber-800 dark:text-amber-200">
+            <Shield className="h-3.5 w-3.5" aria-hidden />
+            Только врач · пациентка не видит
+          </Badge>
+        </div>
+      ) : null}
 
-      <header className="space-y-3 rounded-3xl bg-gradient-to-br from-slate-800 to-slate-950 p-6 text-white shadow-xl sm:p-8">
-        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/60">Live visit · роль врача</p>
-        <h1 className="text-2xl font-black sm:text-3xl">Слушаю жалобы → чеклист под вашу роль</h1>
-        <p className="max-w-2xl text-sm leading-relaxed text-white/85">
-          Платформа общая. Выберите, кто вы на приёме: АГ, врач УЗИ или АГ с правом УЗИ — чеклист будет разный и
-          короткий, по тому что говорит пациентка.
-        </p>
+      <header
+        className={cn(
+          "space-y-3 text-white shadow-xl",
+          embedded
+            ? "rounded-2xl bg-gradient-to-br from-slate-800 to-slate-950 p-4 sm:p-5"
+            : "rounded-3xl bg-gradient-to-br from-slate-800 to-slate-950 p-6 sm:p-8",
+        )}
+      >
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div className="min-w-0 space-y-2">
+            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/60">
+              Live visit · жалобы → чек-лист
+            </p>
+            <h1 className={cn("font-black", embedded ? "text-xl sm:text-2xl" : "text-2xl sm:text-3xl")}>
+              Слушаю жалобы → чеклист под вашу роль
+            </h1>
+            {!embedded || !collapsed ? (
+              <p className="max-w-2xl text-sm leading-relaxed text-white/85">
+                Выберите роль: АГ, врач УЗИ или АГ с правом УЗИ — короткий чеклист по словам пациентки. Не диагноз.
+              </p>
+            ) : null}
+          </div>
+          {embedded ? (
+            <Button
+              type="button"
+              variant="secondary"
+              size="sm"
+              className="shrink-0 rounded-xl"
+              aria-expanded={!collapsed}
+              onClick={() => setCollapsed((v) => !v)}
+            >
+              {collapsed ? "Открыть" : "Свернуть"}
+            </Button>
+          ) : null}
+        </div>
+        {embedded ? (
+          <Badge variant="outline" className="gap-1 border-amber-400/60 bg-white/5 text-amber-100">
+            <Shield className="h-3.5 w-3.5" aria-hidden />
+            Только врач · пациентка не видит
+          </Badge>
+        ) : null}
       </header>
 
+      {embedded && collapsed ? (
+        <p className="text-sm text-[var(--clinical-foreground-muted)]">
+          Нажмите «Открыть», включите микрофон или введите жалобы — появится чек-лист «на что смотреть».
+        </p>
+      ) : null}
+
+      {!(embedded && collapsed) ? (
+      <>
       <div className="space-y-4 rounded-2xl border border-[var(--clinical-border)] bg-[var(--clinical-card)] p-4 sm:p-5">
         <div>
           <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-[var(--clinical-foreground-muted)]">
@@ -422,6 +493,8 @@ export function UsPrepBriefingClient() {
           Выберите роль → включите микрофон → после фраз жалоб появится короткий чеклист под вашу роль.
         </p>
       )}
+      </>
+      ) : null}
     </div>
   );
 }

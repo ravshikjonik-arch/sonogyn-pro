@@ -7,6 +7,7 @@ import {
   BookOpenCheck,
   ClipboardList,
   Library,
+  Mic,
   Search,
   Users,
 } from "lucide-react";
@@ -41,11 +42,17 @@ export function ReceptionDeskStrip() {
           Стол приёма
         </p>
         <p className="mt-1 text-sm text-[var(--clinical-foreground-muted)]">
-          Пациент → чек-лист → калькулятор → цитаты из КР — без прыжков по вкладкам браузера.
+          Жалобы голосом → чек-лист → пациент → калькулятор → Evidence.
         </p>
       </header>
 
       <div className="grid gap-2 sm:grid-cols-2">
+        <DeskLink
+          href="/ai/consultants/us-prep"
+          icon={<Mic className="h-4 w-4" aria-hidden />}
+          title="Live: жалобы → чек-лист"
+          subtitle="Микрофон: на что смотреть (АГ / УЗИ)"
+        />
         <DeskLink
           href="/profile/patients"
           icon={<Users className="h-4 w-4" aria-hidden />}

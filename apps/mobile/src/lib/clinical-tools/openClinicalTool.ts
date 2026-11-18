@@ -130,6 +130,9 @@ export function openClinicalToolAction(navigation: ClinicalToolNav, action: Mobi
     case "ambulatory_intake":
       void WebBrowser.openBrowserAsync(webAppUrl("/tools/refs/ambulatory-intake"));
       return;
+    case "us_prep":
+      navigation.navigate("UsPrepBriefing");
+      return;
     case "ln_rads":
       navigation.navigate("GynecologyCalc", { initialPage: "gyn_lnrads" });
       return;

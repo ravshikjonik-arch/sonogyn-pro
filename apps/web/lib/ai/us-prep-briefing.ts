@@ -684,6 +684,17 @@ export function buildUsPrepBriefing(input: UsPrepBriefingInput): UsPrepBriefingR
       label: "Помощник · нозологии",
     });
   }
+  // Always surface ambulatory + appointment desk next to role-specific tools
+  if (role === "obgyn" || role === "obgyn_us") {
+    moduleMap.set("/tools/refs/ambulatory-intake", {
+      href: "/tools/refs/ambulatory-intake",
+      label: "Чек-лист амбулатории",
+    });
+  }
+  moduleMap.set("/tools/calc/appointment", {
+    href: "/tools/calc/appointment",
+    label: "Стол приёма",
+  });
 
   const guidelineQuery = primary?.guidelineQuery || complaints.slice(0, 120) || "гинекология";
   const relatedGuidelines = searchGuidelinesLocal(guidelineQuery, 4);

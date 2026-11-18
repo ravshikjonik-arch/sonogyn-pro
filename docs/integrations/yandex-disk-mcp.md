@@ -25,11 +25,19 @@ https://oauth.yandex.ru/authorize?response_type=token&client_id=ВАШ_CLIENT_ID
 
 Разрешите доступ → скопируйте `access_token` из адресной строки (после `#access_token=`).
 
-**Не коммитьте токен в git.** Храните только в `~/.cursor/mcp.json` или в env.
+**Не коммитьте токен в git.** Не кладите токен в plaintext JSON.
+
+Хранение (рекомендуется):
+
+```bash
+mkdir -p ~/.cursor/secrets && chmod 700 ~/.cursor/secrets
+printf 'YANDEX_DISK_TOKEN=%s\n' 'ВАШ_ТОКЕН' > ~/.cursor/secrets/yandex-disk.env
+chmod 600 ~/.cursor/secrets/yandex-disk.env
+```
 
 ## 3. Конфиг Cursor
 
-В `~/.cursor/mcp.json` (пользовательский, не репозиторий):
+В `~/.cursor/mcp.json` (пользовательский, не репозиторий) — только `envFile`, без токена в JSON:
 
 ```json
 {
@@ -37,21 +45,13 @@ https://oauth.yandex.ru/authorize?response_type=token&client_id=ВАШ_CLIENT_ID
     "yandex-disk": {
       "command": "npx",
       "args": ["-y", "yandex-disk-mcp"],
-      "env": {
-        "YANDEX_DISK_TOKEN": "ВАШ_ТОКЕН"
-      }
+      "envFile": "/Users/ВАШ_USER/.cursor/secrets/yandex-disk.env"
     }
   }
 }
 ```
 
-Или пришлите в чат одной строкой (после этого перезапустите Cursor / MCP):
-
-```
-YANDEX_DISK_TOKEN=y0_...
-```
-
-Агент пропишет токен в `~/.cursor/mcp.json` и проверит `yandex_disk_info`.
+После смены токена перезапустите MCP в Cursor. Не присылайте токен в чат.
 
 ## 4. Проверка
 

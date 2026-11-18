@@ -109,6 +109,13 @@ export default function HomeScreen({ navigation }: HomeTabScreenProps) {
         onPress: () => navigation.navigate("GynecologyCalc", { initialPage: "gyn_uterus_clinic" }),
       },
       {
+        key: "us_prep",
+        title: "Live: жалобы → чек-лист",
+        sub: "Диктовка на приёме: на что смотреть (АГ / УЗИ). Не диагноз.",
+        glyph: "◎",
+        onPress: () => navigation.navigate("UsPrepBriefing"),
+      },
+      {
         key: "fmf",
         title: "FMF / пренатальный скрининг",
         sub: "Сроки, маркеры, чеклисты",

@@ -75,6 +75,7 @@ export type RootStackParamList = {
   ORADSHistory: undefined;
   ORADSHistoryDetails: { caseId: string };
   FMFAssistant: undefined;
+  UsPrepBriefing: undefined;
   FetometryNomograms: { mode?: "wizard" | "archive" | "book" } | undefined;
   HoferBasicCourse: undefined;
   Prolapse: undefined;

@@ -5,12 +5,15 @@ import {
   ChevronRight,
   Flower2,
   MessageCircle,
+  Mic,
   Pill,
   ScanLine,
+  Stethoscope,
   type LucideIcon,
 } from "lucide-react";
 import Link from "next/link";
 
+import { DoctorStartPanel } from "@/components/clinical/DoctorStartPanel";
 import { RecentCalculationsPanel } from "@/components/clinical/RecentCalculationsPanel";
 
 type Row = {
@@ -30,6 +33,16 @@ const groups: Group[] = [
     title: "Сразу к работе",
     icon: MessageCircle,
     rows: [
+      {
+        title: "Live: жалобы → чек-лист",
+        detail: "Микрофон на приёме: на что смотреть (АГ / УЗИ)",
+        href: "/ai/consultants/us-prep",
+      },
+      {
+        title: "Стол приёма",
+        detail: "Жалобы, чек-лист, калькуляторы, Evidence",
+        href: "/tools/calc/appointment",
+      },
       { title: "Чат врачей", detail: "Общий канал и специальности", href: "/cases" },
       { title: "AI-помощник", detail: "Разбор без персональных данных", href: "/ai/consultants" },
       { title: "Кейсы и обучение", detail: "Учебные случаи и задачи", href: "/tools/refs/quiz-hub" },
@@ -112,22 +125,30 @@ function GroupList({ group }: { group: Group }) {
 
 export function NosologyHome() {
   return (
-    <div className="mx-auto min-h-[100dvh] max-w-lg space-y-6 px-4 py-6 pb-28 sm:max-w-xl">
+    <div className="mx-auto min-h-[100dvh] max-w-lg space-y-6 px-4 py-6 pb-28 sm:max-w-xl lg:max-w-3xl">
       <header className="flex items-center gap-3">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/brand/sonogyn-avatar.png" alt="" className="h-14 w-14 rounded-2xl object-cover" />
         <div>
           <h1 className="text-2xl font-semibold tracking-tight text-[var(--clinical-foreground)]">SonoGyn Pro</h1>
-          <p className="text-sm text-[var(--clinical-foreground-muted)]">Разделы по нозологиям. Решение остаётся за врачом.</p>
+          <p className="text-sm text-[var(--clinical-foreground-muted)]">
+            Кабинет врача. Жалобы → чек-лист · нозологии. Решение остаётся за врачом.
+          </p>
         </div>
       </header>
+      <DoctorStartPanel />
+      <p className="flex items-center gap-2 px-1 text-xs font-semibold uppercase tracking-wide text-[var(--clinical-foreground-muted)]">
+        <Stethoscope className="h-3.5 w-3.5" aria-hidden />
+        Разделы
+      </p>
       {groups.map((group) => (
         <GroupList key={group.title} group={group} />
       ))}
       <RecentCalculationsPanel />
       <p className="flex items-center gap-2 px-1 text-xs text-[var(--clinical-foreground-muted)]">
         <BookOpen className="h-3.5 w-3.5" aria-hidden />
-        Справочная поддержка. Не ставит диагноз.
+        <Mic className="h-3.5 w-3.5" aria-hidden />
+        Справочная поддержка. Не ставит диагноз. Live-чек-лист — только для врача.
       </p>
     </div>
   );

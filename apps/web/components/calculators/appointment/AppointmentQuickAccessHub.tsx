@@ -6,6 +6,7 @@ import { Search, SlidersHorizontal, Stethoscope } from "lucide-react";
 
 import { AppointmentCalcCard } from "@/components/calculators/appointment/AppointmentCalcCard";
 import { ReceptionDeskStrip } from "@/components/calculators/appointment/ReceptionDeskStrip";
+import { UsPrepBriefingClient } from "@/components/clinical-assistant/UsPrepBriefingClient";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -145,7 +146,7 @@ export function AppointmentQuickAccessHub() {
             <div>
               <h1 className="text-2xl font-bold tracking-tight">Стол приёма</h1>
               <p className="text-sm text-[var(--clinical-foreground-muted)]">
-                Пациенты · чек-лист · калькуляторы · Evidence — в одном месте
+                Жалобы → чек-лист · пациенты · калькуляторы · Evidence
               </p>
             </div>
           </div>
@@ -153,6 +154,8 @@ export function AppointmentQuickAccessHub() {
       </div>
 
       <ReceptionDeskStrip />
+
+      <UsPrepBriefingClient embedded />
 
       <div className="space-y-3">
         <div className="relative">

@@ -205,6 +205,9 @@ export default function ToolsScreen({ navigation, route }: ToolsTabScreenProps) 
       </View>
       <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
         <View style={styles.domainRow}>
+          <Pressable style={styles.domainChip} onPress={() => openClinicalToolAction(navigation, "us_prep")}>
+            <Text style={styles.domainChipText}>Жалобы→чек</Text>
+          </Pressable>
           <Pressable style={styles.domainChip} onPress={() => openClinicalToolAction(navigation, "ambulatory_intake")}>
             <Text style={styles.domainChipText}>Чек-лист</Text>
           </Pressable>
