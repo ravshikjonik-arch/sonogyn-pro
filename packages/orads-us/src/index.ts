@@ -167,3 +167,6 @@ export type {
 
 /** Supported locale bundle file names (Phase 2 UI loads JSON by code). */
 export const ORADS_LOCALE_CODES = ["ru", "en", "es", "fr", "ar"] as const;
+
+/* Product copy: import `@repo/orads-us/product-copy` (RSC-safe). Not re-exported from `.` to avoid pulling navigator hooks. */
+

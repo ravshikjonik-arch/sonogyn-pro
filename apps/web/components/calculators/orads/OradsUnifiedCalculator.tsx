@@ -11,12 +11,20 @@ import {
   initialOradsUs2022Input,
   mapProInputToUs2022,
   ORADS_US2022_META,
+  ORADS_US_STRATIFICATION_HEADING_RU,
   type ClassicTypeUs2022,
   type ColorScoreUs2022,
   type MenopauseUs2022,
   type MorphologyUs2022,
   type OradsUs2022Input,
 } from "@repo/orads-us/pro";
+import type { AdnexAssessmentContext, PregnancyObstetricContext } from "@repo/orads-us/pregnancy";
+import {
+  PREGNANCY_ADNEXAL_MODE_TITLE_RU,
+  initialPregnancyObstetricContext,
+  isOradsUsStratificationAllowed,
+  resolveObstetricSummary,
+} from "@repo/orads-us/pregnancy";
 
 import { saveCalculatorEntry } from "@/app/actions/calculator-actions";
 import { trackCalculatorCalc } from "@/lib/analytics/track";
@@ -24,6 +32,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { parseOradsText } from "@/lib/orads-pro/text-parser";
 import { cn } from "@/lib/utils/cn";
+import { OradsAssessmentContextSwitch } from "@/components/calculators/orads/OradsAssessmentContextSwitch";
+import { OradsPregnancyModeBanner } from "@/components/calculators/orads/OradsPregnancyModeBanner";
+import { OradsPregnancyObstetricFields } from "@/components/calculators/orads/OradsPregnancyObstetricFields";
 import { OradsReferoSection } from "@/components/calculators/orads/OradsReferoSection";
 import { OradsUnifiedProtocolPreview } from "@/components/calculators/orads/OradsUnifiedProtocolPreview";
 
@@ -69,19 +80,30 @@ function Chip({
   );
 }
 
-/** Единый калькулятор O-RADS US v2022 (ACR стратификация 0–5). */
+/** Единый калькулятор O-RADS US v2022 (+ Pregnancy Mode: gate A, акушерский контекст B). */
 export function OradsUnifiedCalculator() {
+  const [assessmentContext, setAssessmentContext] =
+    useState<AdnexAssessmentContext>("non_pregnant");
+  const [obstetric, setObstetric] = useState<PregnancyObstetricContext>(
+    initialPregnancyObstetricContext,
+  );
   const [input, setInput] = useState<OradsUs2022Input>(initialOradsUs2022Input);
   const [textDraft, setTextDraft] = useState("");
   const [pending, startTransition] = useTransition();
   const [mobilePane, setMobilePane] = useState<"edit" | "preview">("edit");
 
-  const result = useMemo(() => evaluateOradsUs2022(input), [input]);
+  const oradsAllowed = isOradsUsStratificationAllowed(assessmentContext);
+  const obstetricSummary = useMemo(() => resolveObstetricSummary(obstetric), [obstetric]);
+  /** Hard gate: при беременности движок O-RADS не вызываем. */
+  const result = useMemo(
+    () => (oradsAllowed ? evaluateOradsUs2022(input) : null),
+    [input, oradsAllowed],
+  );
 
   useEffect(() => {
-    if (result.category === null) return;
+    if (!result || result.category === null) return;
     trackCalculatorCalc("rads_o-rads");
-  }, [result.category]);
+  }, [result]);
 
   const isCyst = ["unilocular", "bilocular", "multilocular"].includes(input.morphology);
   const needsSize =
@@ -106,6 +128,15 @@ export function OradsUnifiedCalculator() {
 
   function reset() {
     setInput(initialOradsUs2022Input);
+    setObstetric(initialPregnancyObstetricContext);
+    setTextDraft("");
+  }
+
+  function onAssessmentContextChange(next: AdnexAssessmentContext) {
+    setAssessmentContext(next);
+    // Сброс морфологии при смене сценария — не переносим ошибочный O-RADS-результат.
+    setInput(initialOradsUs2022Input);
+    setObstetric(initialPregnancyObstetricContext);
     setTextDraft("");
   }
 
@@ -121,7 +152,13 @@ export function OradsUnifiedCalculator() {
   }
 
   function onSave() {
-    if (result.category === null) {
+    if (!oradsAllowed) {
+      toast.message(PREGNANCY_ADNEXAL_MODE_TITLE_RU, {
+        description: "Сохранение протокола Pregnancy Mode — на следующих этапах.",
+      });
+      return;
+    }
+    if (!result || result.category === null) {
       toast.error("Категория не определена — заполните обязательные поля");
       return;
     }
@@ -129,7 +166,7 @@ export function OradsUnifiedCalculator() {
       void saveCalculatorEntry({
         slug: "o-rads",
         calculatorCode: "O_RADS",
-        payload: { input, result },
+        payload: { input, result, assessmentContext },
         summary: `O-RADS ${result.category} · ${result.risk}`,
       }).then((res) => {
         if (res.ok) toast.success("Сохранено в истории калькуляторов");
@@ -138,7 +175,7 @@ export function OradsUnifiedCalculator() {
     });
   }
 
-  const displayCategory = result.category;
+  const displayCategory = oradsAllowed && result ? result.category : null;
   const meta = displayCategory !== null ? ORADS_US2022_META[displayCategory] : null;
 
   const cycleLine =
@@ -146,18 +183,30 @@ export function OradsUnifiedCalculator() {
       ? `Цикл: ${input.cycleRegularity === "regular" ? "регулярный" : "нерегулярный"}`
       : null;
 
-  const reportPlain = [
-    `O-RADS US v2022 · SonoGyn Pro`,
-    displayCategory === null
-      ? `Категория: не определена`
-      : `O-RADS ${displayCategory} · ${meta?.title ?? ""} · ROM ${result.risk}`,
-    cycleLine,
-    `Обоснование: ${result.rationale}`,
-    `Тактика: ${result.management}`,
-    result.warning ? `Примечание: ${result.warning}` : null,
-    "",
-    CDSS_SHORT_DISCLAIMER,
-  ]
+  const reportPlain = (
+    oradsAllowed && result
+      ? [
+          `O-RADS US v2022 · SonoGyn Pro`,
+          displayCategory === null
+            ? `Категория: не определена`
+            : `O-RADS ${displayCategory} · ${meta?.title ?? ""} · ROM ${result.risk}`,
+          cycleLine,
+          `Обоснование: ${result.rationale}`,
+          `Тактика: ${result.management}`,
+          result.warning ? `Примечание: ${result.warning}` : null,
+          "",
+          CDSS_SHORT_DISCLAIMER,
+        ]
+      : [
+          `${PREGNANCY_ADNEXAL_MODE_TITLE_RU} · SonoGyn Pro`,
+          obstetricSummary.gaLabel
+            ? `Срок: ${obstetricSummary.gaLabel}${obstetricSummary.trimesterLabel ? ` · ${obstetricSummary.trimesterLabel}` : ""}`
+            : "Срок: не указан",
+          "Категория O-RADS: не применяется",
+          "",
+          CDSS_SHORT_DISCLAIMER,
+        ]
+  )
     .filter(Boolean)
     .join("\n");
 
@@ -166,17 +215,29 @@ export function OradsUnifiedCalculator() {
       <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div className="max-w-2xl">
           <h2 className="text-2xl font-semibold tracking-tight text-[var(--clinical-foreground)]">
-            Стратификация O-RADS US
+            {oradsAllowed ? ORADS_US_STRATIFICATION_HEADING_RU : PREGNANCY_ADNEXAL_MODE_TITLE_RU}
           </h2>
           <p className="mt-2 text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
-            Категории 0–5, ROM и тактика по ACR v2022. При нескольких образованиях — отдельная оценка каждого; ведение
-            по наивысшей категории.
+            {oradsAllowed
+              ? "Пошаговая ультразвуковая стратификация риска злокачественности образований яичников и придатков матки (ACR O-RADS US v2022). При нескольких образованиях — отдельная оценка каждого; ведение по наивысшей категории."
+              : "Отдельный сценарий при беременности: морфология без категорий O-RADS. Полный алгоритм — следующие этапы."}
           </p>
         </div>
         <div className="hidden flex-wrap gap-2 lg:flex">
           <ActionBar pending={pending} onReset={reset} onSave={onSave} reportPlain={reportPlain} />
         </div>
       </header>
+
+      <div className="mt-4 space-y-3">
+        <OradsAssessmentContextSwitch
+          value={assessmentContext}
+          onChange={onAssessmentContextChange}
+        />
+        {!oradsAllowed ? <OradsPregnancyModeBanner /> : null}
+        {!oradsAllowed ? (
+          <OradsPregnancyObstetricFields value={obstetric} onChange={setObstetric} />
+        ) : null}
+      </div>
 
       <div
         className="mt-4 flex gap-1 rounded-lg border border-[var(--clinical-border)] bg-[var(--clinical-muted)]/50 p-1 lg:hidden"
@@ -258,7 +319,9 @@ export function OradsUnifiedCalculator() {
           />
           <span className="text-sm">
             <strong>Технически неполное исследование</strong>
-            <span className="block text-xs text-[var(--clinical-foreground-muted)]">→ O-RADS 0</span>
+            <span className="block text-xs text-[var(--clinical-foreground-muted)]">
+              {oradsAllowed ? "→ O-RADS 0" : "в режиме беременности не ведёт к категории O-RADS"}
+            </span>
           </span>
         </label>
             </OradsReferoSection>
@@ -489,7 +552,12 @@ export function OradsUnifiedCalculator() {
               mobilePane === "edit" && "hidden lg:block",
             )}
           >
-            <OradsUnifiedProtocolPreview input={input} result={result} />
+            <OradsUnifiedProtocolPreview
+              input={input}
+              result={result}
+              assessmentContext={assessmentContext}
+              obstetric={obstetric}
+            />
             <div className="flex flex-wrap gap-2 text-sm">
               <Button type="button" variant="ghost" size="sm" asChild className="h-8 px-2">
                 <Link href="/tools/calc/rads/iota">IOTA</Link>

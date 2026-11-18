@@ -67,7 +67,9 @@ export function OradsEchogramsWidget() {
       </section>
 
       <section className="rounded-3xl border border-[var(--clinical-border)] bg-[var(--clinical-card)] p-5">
-        <h2 className="text-lg font-bold">Тактика по O-RADS US (ACR v2022)</h2>
+        <h2 className="text-lg font-bold">
+          Тактика при образованиях яичников и придатков матки (ACR O-RADS US v2022)
+        </h2>
         <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
           {([1, 2, 3, 4, 5] as const).map((cat) => (
             <div

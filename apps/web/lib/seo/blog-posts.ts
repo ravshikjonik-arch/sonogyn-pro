@@ -51,13 +51,12 @@ export const BLOG_POSTS: BlogPost[] = [
         href: "https://www.acr.org/Clinical-Resources/Reporting-and-Data-Systems/O-RADS",
       },
       {
-        label: "Калькулятор O-RADS US в SonoGyn Pro",
+        label: "Калькулятор O-RADS · яичники и придатки (ACR O-RADS US v2022)",
         href: "/tools/calc/rads/o-rads",
       },
     ],
     related: [
-      { href: "/tools/calc/rads/o-rads", label: "Калькулятор O-RADS US" },
-      { href: "/tools/calc/rads/iota", label: "IOTA ADNEX / LR2" },
+      { href: "/tools/calc/rads/o-rads", label: "Калькулятор O-RADS (ACR O-RADS US v2022)" },      { href: "/tools/calc/rads/iota", label: "IOTA ADNEX / LR2" },
       { href: "/tools/o-rads", label: "Комната O-RADS" },
       { href: "/blog/iota-adnex-vs-orads", label: "IOTA vs O-RADS" },
     ],
@@ -111,8 +110,7 @@ ${CLINICAL_CONTENT_DISCLAIMER}
     ],
     related: [
       { href: "/tools/calc/rads/iota", label: "Калькулятор IOTA" },
-      { href: "/tools/calc/rads/o-rads", label: "Калькулятор O-RADS US" },
-      { href: "/blog/orads-adnexa-2-minutes", label: "O-RADS за 2 минуты" },
+      { href: "/tools/calc/rads/o-rads", label: "Калькулятор O-RADS (ACR O-RADS US v2022)" },      { href: "/blog/orads-adnexa-2-minutes", label: "O-RADS за 2 минуты" },
       { href: "/tools/calc", label: "Каталог калькуляторов" },
     ],
     bodyMarkdown: `
@@ -646,7 +644,7 @@ ${CLINICAL_CONTENT_DISCLAIMER}
         year: "2022",
         href: "https://www.acr.org/Clinical-Resources/Reporting-and-Data-Systems/O-RADS",
       },
-      { label: "Калькулятор O-RADS US", href: "/tools/calc/rads/o-rads" },
+      { label: "Калькулятор O-RADS (ACR O-RADS US v2022)", href: "/tools/calc/rads/o-rads" },
       { label: "O-RADS за 2 минуты", href: "/blog/orads-adnexa-2-minutes" },
     ],
     related: [

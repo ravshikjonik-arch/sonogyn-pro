@@ -1,4 +1,9 @@
 import {
+  ORADS_US_CALCULATOR_LEAD_RU,
+  ORADS_US_CALCULATOR_TITLE_RU,
+} from "@repo/orads-us/product-copy";
+
+import {
   CLINICAL_CONTENT_REVIEWER,
   type ClinicalContentReviewStatus,
 } from "@/lib/seo/clinical-reviewer";
@@ -43,9 +48,8 @@ export type CalculatorLandingContent = {
 export const CALCULATOR_LANDING_CONTENT: CalculatorLandingContent[] = [
   {
     path: "/tools/calc/rads/o-rads",
-    h1: "Калькулятор O-RADS US (ACR v2022)",
-    lead:
-      "Пошаговая стратификация аднексальных образований на УЗИ по ACR O-RADS US v2022 для врачей УЗД и акушеров-гинекологов. Помогает зафиксировать категорию и черновик протокола; заключение всегда за лечащим врачом.",
+    h1: ORADS_US_CALCULATOR_TITLE_RU,
+    lead: ORADS_US_CALCULATOR_LEAD_RU,
     howItWorks: [
       "Укажите клинический контекст (возраст / менопаузальный статус) и доступность полного описания образования.",
       "Отметьте морфологию: кистозное / солидное, камеры, перегородки, солидный компонент, васкуляризация.",

@@ -37,12 +37,12 @@ export type ClinicalRoom = {
   catalogPrimaryId: string;
 };
 
-/** ACR O-RADS US v2022 — adnexal mass room (pilot). */
+/** ACR O-RADS US v2022 — образования яичников и придатков матки. */
 export const ORADS_US_ROOM: ClinicalRoom = {
   id: "orads-us",
   title: "O-RADS US",
   description:
-    "Одна комната: калькулятор ACR v2022, IOTA, эхограммы, реферат и протокол. Без подстановки категории.",
+    "Пошаговая ультразвуковая стратификация риска злокачественности образований яичников и придатков матки (ACR O-RADS US v2022). Комната: калькулятор, IOTA, эхограммы, реферат и протокол.",
   href: "/tools/o-rads",
   primaryHref: "/tools/calc/rads/o-rads",
   domain: "rads",
@@ -50,8 +50,10 @@ export const ORADS_US_ROOM: ClinicalRoom = {
   children: [
     {
       id: "calc",
-      title: "Калькулятор O-RADS US",
-      description: "ACR O-RADS US v2022 · IOTA Simple Rules",
+      title:
+        "Калькулятор ультразвуковой оценки образований яичников и придатков матки по системе O-RADS (ACR O-RADS US v2022)",
+      description:
+        "Пошаговая ультразвуковая стратификация риска злокачественности (ACR O-RADS US v2022)",
       href: "/tools/calc/rads/o-rads",
       kind: "calculator",
       primary: true,

@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
 
+import {
+  ORADS_US_CALCULATOR_LEAD_RU,
+  ORADS_US_CALCULATOR_TITLE_RU,
+} from "@repo/orads-us/product-copy";
+
 import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
 
 export type CalculatorSeoEntry = {
@@ -13,10 +18,17 @@ export type CalculatorSeoEntry = {
 export const CALCULATOR_SEO_REGISTRY: CalculatorSeoEntry[] = [
   {
     path: "/tools/calc/rads/o-rads",
-    title: "Калькулятор O-RADS US онлайн",
-    description:
-      "Пошаговый калькулятор O-RADS US v2022 и IOTA для оценки аднексальных образований на УЗИ. Для врачей УЗД и акушеров-гинекологов.",
-    keywords: ["O-RADS", "IOTA", "калькулятор", "яичник", "аднекс", "УЗИ"],
+    title: ORADS_US_CALCULATOR_TITLE_RU,
+    description: ORADS_US_CALCULATOR_LEAD_RU,
+    keywords: [
+      "O-RADS",
+      "ACR O-RADS US v2022",
+      "калькулятор",
+      "яичник",
+      "придатки матки",
+      "УЗИ",
+      "стратификация риска",
+    ],
   },
   {
     path: "/tools/calc/rads/iota",
@@ -215,10 +227,16 @@ export const CALCULATOR_SEO_REGISTRY: CalculatorSeoEntry[] = [
   },
   {
     path: "/tools/o-rads",
-    title: "Калькулятор O-RADS US (ACR v2022)",
-    description:
-      "Одна комната ACR O-RADS US v2022: калькулятор, IOTA, эхограммы, реферат и структурированный протокол.",
-    keywords: ["O-RADS US", "IOTA", "придатки", "калькулятор", "УЗИ"],
+    title: ORADS_US_CALCULATOR_TITLE_RU,
+    description: ORADS_US_CALCULATOR_LEAD_RU,
+    keywords: [
+      "O-RADS US",
+      "ACR O-RADS US v2022",
+      "яичники",
+      "придатки матки",
+      "калькулятор",
+      "УЗИ",
+    ],
   },
   {
     path: "/tools",

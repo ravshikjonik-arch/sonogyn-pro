@@ -1,10 +1,11 @@
 {
   "orads": {
     "meta": {
-      "title": "Калькулятор O-RADS US",
-      "version": "O-RADS US v2022",
+      "title": "Калькулятор ультразвуковой оценки образований яичников и придатков матки по системе O-RADS (ACR, версия 2022 · ACR O-RADS US v2022)",
+      "version": "ACR O-RADS US v2022",
       "disclaimer": "Инструмент поддержки решения. Не заменяет клиническое суждение специалиста.",
       "source": "ACR O-RADS Ultrasound Risk Stratification and Management System (2022)",
+
       "rtl": "false"
     },
     "step0": {

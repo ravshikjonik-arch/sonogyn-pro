@@ -416,7 +416,7 @@ export const MODULES: ModuleEntry[] = [
     id: "calculator.o-rads",
     domain: "rads",
     kind: "calculator",
-    title: "O-RADS US",
+    title: "O-RADS · яичники и придатки (ACR O-RADS US v2022)",
     href: "/tools/calc/rads/o-rads",
     ref: { catalog: "registry", slug: "o-rads" },
     surfaces: { sidebar: true, sidebarGroup: "appointment", clinicalSearch: true },

@@ -16,12 +16,23 @@ import {
   evaluateOradsUs2022,
   initialOradsUs2022Input,
   mapProInputToUs2022,
+  ORADS_US_STRATIFICATION_HEADING_RU,
   type ClassicTypeUs2022,
   type ColorScoreUs2022,
   type MenopauseUs2022,
   type MorphologyUs2022,
   type OradsUs2022Input,
 } from "@repo/orads-us/pro";
+import type { AdnexAssessmentContext, PregnancyObstetricContext } from "@repo/orads-us/pregnancy";
+import {
+  PREGNANCY_ADNEXAL_MODE_TITLE_RU,
+  PREGNANCY_MODE_SHORT_HINT_RU,
+  PREGNANCY_ORADS_NOT_APPLICABLE_BANNER_RU,
+  initialPregnancyObstetricContext,
+  isOradsUsStratificationAllowed,
+  resolveObstetricSummary,
+} from "@repo/orads-us/pregnancy";
+import { CDSS_SHORT_DISCLAIMER } from "@repo/clinical-tools";
 
 import type { RootStackParamList } from "../../../navigation/AppStack";
 import { applyProtocolTextToUs2022 } from "../applyProtocolTextToUs2022";
@@ -71,12 +82,22 @@ function FieldLabel({ children }: { children: string }) {
 }
 
 export default function OradsUnifiedScreen({ navigation, route }: Props) {
+  const [assessmentContext, setAssessmentContext] =
+    useState<AdnexAssessmentContext>("non_pregnant");
+  const [obstetric, setObstetric] = useState<PregnancyObstetricContext>(
+    initialPregnancyObstetricContext,
+  );
   const [input, setInput] = useState<OradsUs2022Input>(initialOradsUs2022Input);
   const [textDraft, setTextDraft] = useState("");
   const [avgTimeToResult, setAvgTimeToResult] = useState<number | null>(null);
   const firstInteractionAtRef = useRef<number | null>(null);
 
-  const result = useMemo(() => evaluateOradsUs2022(input), [input]);
+  const oradsAllowed = isOradsUsStratificationAllowed(assessmentContext);
+  const obstetricSummary = useMemo(() => resolveObstetricSummary(obstetric), [obstetric]);
+  const result = useMemo(
+    () => (oradsAllowed ? evaluateOradsUs2022(input) : null),
+    [input, oradsAllowed],
+  );
 
   const isCyst = ["unilocular", "bilocular", "multilocular"].includes(input.morphology);
   const needsSize =
@@ -106,8 +127,22 @@ export default function OradsUnifiedScreen({ navigation, route }: Props) {
 
   function reset() {
     setInput(initialOradsUs2022Input);
+    setObstetric(initialPregnancyObstetricContext);
     setTextDraft("");
     firstInteractionAtRef.current = null;
+  }
+
+  function onAssessmentContextChange(next: AdnexAssessmentContext) {
+    setAssessmentContext(next);
+    setInput(initialOradsUs2022Input);
+    setObstetric(initialPregnancyObstetricContext);
+    setTextDraft("");
+    firstInteractionAtRef.current = null;
+  }
+
+  function patchObstetric(partial: Partial<PregnancyObstetricContext>) {
+    markInteraction();
+    setObstetric((prev) => ({ ...prev, ...partial }));
   }
 
   function applyFromText() {
@@ -121,6 +156,22 @@ export default function OradsUnifiedScreen({ navigation, route }: Props) {
   }
 
   async function copyReport() {
+    if (!result) {
+      await Clipboard.setStringAsync(
+        [
+          `${PREGNANCY_ADNEXAL_MODE_TITLE_RU} · SonoGyn Pro`,
+          obstetricSummary.gaLabel
+            ? `Срок: ${obstetricSummary.gaLabel}${obstetricSummary.trimesterLabel ? ` · ${obstetricSummary.trimesterLabel}` : ""}`
+            : "Срок: не указан",
+          "Категория O-RADS: не применяется",
+          PREGNANCY_ORADS_NOT_APPLICABLE_BANNER_RU,
+          "",
+          CDSS_SHORT_DISCLAIMER,
+        ].join("\n"),
+      );
+      Alert.alert("Протокол", "Текст скопирован (без категории O-RADS)");
+      return;
+    }
     await Clipboard.setStringAsync(buildUnifiedReportPlain(input, result));
     Alert.alert("Протокол", "Текст скопирован в буфер обмена");
   }
@@ -137,7 +188,7 @@ export default function OradsUnifiedScreen({ navigation, route }: Props) {
   }, [route.params?.prefill]);
 
   useEffect(() => {
-    if (result.category !== null) {
+    if (result && result.category !== null) {
       void appendUnifiedCaseToHistory(input, result);
     }
   }, [input, result]);
@@ -147,12 +198,12 @@ export default function OradsUnifiedScreen({ navigation, route }: Props) {
   }, []);
 
   useEffect(() => {
-    if (result.category === null || !firstInteractionAtRef.current) return;
+    if (!result || result.category === null || !firstInteractionAtRef.current) return;
     const sec = (Date.now() - firstInteractionAtRef.current) / 1000;
     void pushTimeToResult(sec);
-  }, [result.category]);
+  }, [result]);
 
-  const displayCategory = result.category;
+  const displayCategory = result?.category ?? null;
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -175,19 +226,163 @@ export default function OradsUnifiedScreen({ navigation, route }: Props) {
 
       <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
         <View testID="orads-unified-mobile">
-          <Text style={styles.h1}>Стратификация O-RADS US</Text>
-          <Text style={styles.lead}>
-            Категории 0–5, ROM и тактика по ACR v2022. При нескольких образованиях — отдельная оценка; ведение по
-            наивысшей категории.
+          <Text style={styles.h1}>
+            {oradsAllowed ? ORADS_US_STRATIFICATION_HEADING_RU : PREGNANCY_ADNEXAL_MODE_TITLE_RU}
           </Text>
+          <Text style={styles.lead}>
+            {oradsAllowed
+              ? "Пошаговая ультразвуковая стратификация риска злокачественности образований яичников и придатков матки (ACR O-RADS US v2022)."
+              : "Отдельный сценарий при беременности: морфология без категорий O-RADS."}
+          </Text>
+
+          <View style={styles.contextSwitch} testID="orads-assessment-context">
+            <Text style={styles.contextLegend}>Клинический сценарий</Text>
+            <View style={styles.contextRow}>
+              {(
+                [
+                  { id: "non_pregnant" as const, label: "Не беременна" },
+                  { id: "pregnant" as const, label: "Беременность" },
+                ] as const
+              ).map((opt) => (
+                <Pressable
+                  key={opt.id}
+                  style={[
+                    styles.contextChip,
+                    assessmentContext === opt.id && styles.contextChipActive,
+                  ]}
+                  onPress={() => onAssessmentContextChange(opt.id)}
+                  accessibilityRole="radio"
+                  accessibilityState={{ selected: assessmentContext === opt.id }}
+                  testID={`orads-context-${opt.id}`}
+                >
+                  <Text
+                    style={[
+                      styles.contextChipText,
+                      assessmentContext === opt.id && styles.contextChipTextActive,
+                    ]}
+                  >
+                    {opt.label}
+                  </Text>
+                </Pressable>
+              ))}
+            </View>
+          </View>
+
+          {!oradsAllowed ? (
+            <View
+              style={styles.pregnancyBanner}
+              accessibilityRole="alert"
+              testID="orads-pregnancy-banner"
+            >
+              <Text style={styles.pregnancyBannerTitle}>{PREGNANCY_ADNEXAL_MODE_TITLE_RU}</Text>
+              <Text style={styles.pregnancyBannerBody}>{PREGNANCY_ORADS_NOT_APPLICABLE_BANNER_RU}</Text>
+              <Text style={styles.pregnancyBannerHint}>{PREGNANCY_MODE_SHORT_HINT_RU}</Text>
+            </View>
+          ) : null}
+
+          {!oradsAllowed ? (
+            <View style={styles.obstetricCard} testID="orads-pregnancy-obstetric">
+              <Text style={styles.contextLegend}>Акушерский контекст</Text>
+              <Text style={styles.obstetricHint}>
+                Срок → триместр: I {"<"}14 · II 14–27 · III ≥28 нед.
+              </Text>
+              <View style={styles.obstetricRow}>
+                <View style={styles.obstetricField}>
+                  <FieldLabel>Недели</FieldLabel>
+                  <TextInput
+                    style={styles.input}
+                    keyboardType="number-pad"
+                    value={obstetric.gestationalWeeks == null ? "" : String(obstetric.gestationalWeeks)}
+                    onChangeText={(t) =>
+                      patchObstetric({
+                        gestationalWeeks: t.trim() === "" ? null : Number(t),
+                      })
+                    }
+                    testID="orads-ga-weeks"
+                    accessibilityLabel="Срок беременности в неделях"
+                  />
+                </View>
+                <View style={styles.obstetricField}>
+                  <FieldLabel>Дни</FieldLabel>
+                  <TextInput
+                    style={styles.input}
+                    keyboardType="number-pad"
+                    value={obstetric.gestationalDays == null ? "" : String(obstetric.gestationalDays)}
+                    onChangeText={(t) =>
+                      patchObstetric({
+                        gestationalDays: t.trim() === "" ? null : Number(t),
+                      })
+                    }
+                    testID="orads-ga-days"
+                    accessibilityLabel="Дни сверх недель"
+                  />
+                </View>
+                <View style={styles.trimesterBox}>
+                  <Text style={styles.trimesterCaption}>Триместр</Text>
+                  <Text style={styles.trimesterValue} testID="orads-trimester">
+                    {obstetricSummary.trimesterLabel ?? "—"}
+                  </Text>
+                  {obstetricSummary.gaLabel ? (
+                    <Text style={styles.trimesterGa}>{obstetricSummary.gaLabel}</Text>
+                  ) : null}
+                </View>
+              </View>
+              <View style={styles.fieldBlock}>
+                <FieldLabel>Клинические симптомы</FieldLabel>
+                <View style={styles.rowWrap}>
+                  {(
+                    [
+                      { id: "unknown" as const, label: "Не указано" },
+                      { id: "yes" as const, label: "Да" },
+                      { id: "no" as const, label: "Нет" },
+                    ] as const
+                  ).map((opt) => (
+                    <SelectChip
+                      key={opt.id}
+                      label={opt.label}
+                      selected={obstetric.clinicalSymptoms === opt.id}
+                      onPress={() => patchObstetric({ clinicalSymptoms: opt.id })}
+                    />
+                  ))}
+                </View>
+              </View>
+              <View style={styles.fieldBlock}>
+                <FieldLabel>Подозрение на перекрут</FieldLabel>
+                <View style={styles.rowWrap}>
+                  {(
+                    [
+                      { id: "unknown" as const, label: "Не указано" },
+                      { id: "yes" as const, label: "Да" },
+                      { id: "no" as const, label: "Нет" },
+                    ] as const
+                  ).map((opt) => (
+                    <SelectChip
+                      key={opt.id}
+                      label={opt.label}
+                      selected={obstetric.torsionSuspect === opt.id}
+                      onPress={() => patchObstetric({ torsionSuspect: opt.id })}
+                    />
+                  ))}
+                </View>
+              </View>
+            </View>
+          ) : null}
+
           {avgTimeToResult != null ? (
             <Text style={styles.metric}>Среднее время до результата (сессии): ~{Math.round(avgTimeToResult)} с</Text>
           ) : null}
 
-          <OradsUnifiedResultPanel
-            result={result}
-            testID={displayCategory !== null ? `orads-category-${displayCategory}` : undefined}
-          />
+          {result ? (
+            <OradsUnifiedResultPanel
+              result={result}
+              testID={displayCategory !== null ? `orads-category-${displayCategory}` : undefined}
+            />
+          ) : (
+            <View style={styles.pregnancyResultStub} testID="orads-pregnancy-no-category">
+              <Text style={styles.pregnancyResultTitle}>Категория O-RADS не присваивается</Text>
+              <Text style={styles.pregnancyResultBody}>{PREGNANCY_MODE_SHORT_HINT_RU}</Text>
+            </View>
+          )}
 
           <View style={styles.formShell}>
             <Text style={styles.sectionTitle}>Из текста протокола</Text>
@@ -526,6 +721,78 @@ const styles = StyleSheet.create({
   sectionGap: { marginTop: 12, paddingTop: 12, borderTopWidth: 1, borderTopColor: "#e2e8f0" },
   lead: { fontSize: 14, color: "#64748b", lineHeight: 20, marginTop: 4 },
   metric: { fontSize: 12, color: "#64748b", marginTop: 6 },
+  contextSwitch: {
+    marginTop: 10,
+    borderWidth: 1,
+    borderColor: "#e2e8f0",
+    borderRadius: 12,
+    padding: 12,
+    backgroundColor: "#fff",
+    gap: 8,
+  },
+  contextLegend: { fontSize: 13, fontWeight: "700", color: "#0f172a" },
+  contextRow: { flexDirection: "row", gap: 8 },
+  contextChip: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: "#e2e8f0",
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 8,
+    backgroundColor: "#F8F9FB",
+  },
+  contextChipActive: {
+    borderColor: "#2563EB",
+    backgroundColor: "#eff6ff",
+  },
+  contextChipText: { fontSize: 13, fontWeight: "600", color: "#64748b", textAlign: "center" },
+  contextChipTextActive: { color: "#1d4ed8" },
+  pregnancyBanner: {
+    marginTop: 8,
+    borderWidth: 1,
+    borderColor: "#f59e0b",
+    borderRadius: 12,
+    padding: 12,
+    backgroundColor: "#fffbeb",
+    gap: 6,
+  },
+  pregnancyBannerTitle: { fontSize: 14, fontWeight: "800", color: "#92400e" },
+  pregnancyBannerBody: { fontSize: 12, lineHeight: 17, color: "#78350f", fontWeight: "600" },
+  pregnancyBannerHint: { fontSize: 11, lineHeight: 15, color: "#a16207" },
+  pregnancyResultStub: {
+    marginTop: 8,
+    borderLeftWidth: 4,
+    borderLeftColor: "#f59e0b",
+    borderRadius: 12,
+    padding: 14,
+    backgroundColor: "#fffbeb",
+    gap: 6,
+  },
+  pregnancyResultTitle: { fontSize: 16, fontWeight: "700", color: "#92400e" },
+  pregnancyResultBody: { fontSize: 13, lineHeight: 18, color: "#78350f" },
+  obstetricCard: {
+    marginTop: 8,
+    borderWidth: 1,
+    borderColor: "#e2e8f0",
+    borderRadius: 12,
+    padding: 12,
+    backgroundColor: "#fff",
+    gap: 8,
+  },
+  obstetricHint: { fontSize: 11, color: "#64748b", lineHeight: 15 },
+  obstetricRow: { flexDirection: "row", gap: 8, alignItems: "flex-start" },
+  obstetricField: { flex: 1, gap: 4 },
+  trimesterBox: {
+    flex: 1.1,
+    borderWidth: 1,
+    borderColor: "#e2e8f0",
+    borderRadius: 10,
+    padding: 8,
+    backgroundColor: "#F8F9FB",
+  },
+  trimesterCaption: { fontSize: 11, color: "#64748b" },
+  trimesterValue: { fontSize: 14, fontWeight: "700", color: "#0f172a", marginTop: 2 },
+  trimesterGa: { fontSize: 11, color: "#64748b", marginTop: 2 },
   card: {
     backgroundColor: "#fff",
     borderRadius: 14,

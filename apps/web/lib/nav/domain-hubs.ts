@@ -38,7 +38,7 @@ export const TOOLS_HOME_DOMAINS = [
   },
   {
     href: "/tools/o-rads",
-    title: "O-RADS US",
+    title: "O-RADS · яичники и придатки (ACR O-RADS US v2022)",
     description: "Комната: калькулятор · IOTA · эхограммы · реферат · протокол",
     accent: "from-violet-600 to-indigo-500",
   },
@@ -214,7 +214,7 @@ export const GYNECOLOGY_GROUPS: DomainHubGroup[] = [
     cards: [
       {
         href: "/tools/o-rads",
-        title: "O-RADS US",
+        title: "O-RADS · яичники и придатки (ACR O-RADS US v2022)",
         description: "Комната придатков: calc · IOTA · учёба · протокол",
         primary: true,
         badge: "O-RADS",
