@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import { FeedCaseCard } from "@/components/cases/FeedCaseCard";
@@ -7,8 +8,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { loadFeedCuratedCases } from "@/lib/cases/feed-curation";
 import { createClient } from "@/utils/supabase/server";
 
+export const metadata: Metadata = {
+  title: "Лента кейсов УЗИ | SonoGyn Pro",
+  description:
+    "Подборка подтверждённых и редких кейсов для врачей УЗД. Справочно (CDS) — решение за специалистом.",
+};
+
 /**
- * P0 curated feed — editorial blocks (Case of day · Confirmed · Rare).
+ * Curated feed — кейс дня · подтверждённые · редкие.
  * No user media thumbs (gate R6).
  */
 export default async function FeedPage() {
@@ -21,14 +28,14 @@ export default async function FeedPage() {
         <p className="text-xs font-bold uppercase tracking-[0.3em] text-[var(--clinical-foreground-muted)]">
           Лента
         </p>
-        <h1 className="text-2xl font-black tracking-tight sm:text-3xl">Для врача УЗД</h1>
+        <h1 className="text-2xl font-black tracking-tight sm:text-3xl">Лента кейсов</h1>
         <p className="text-sm text-[var(--clinical-foreground-muted)]">
-          Подборка кейсов, инструментов и материалов. Главный рабочий вход —{" "}
+          Подборка кейсов и быстрый вход в инструменты. Полный раздел —{" "}
           <Link
             href="/cases"
             className="font-semibold text-[var(--clinical-primary-deep)] underline-offset-2 hover:underline"
           >
-            Кейсы
+            Кейсы и чат
           </Link>
           .
         </p>
@@ -124,7 +131,7 @@ export default async function FeedPage() {
         ) : (
           <Card>
             <CardContent className="py-6 text-sm text-[var(--clinical-foreground-muted)]">
-              Редкие патологии (`is_rare`) появятся после editorial-разметки модератором.
+              Редкие случаи появятся после разметки модератором.
             </CardContent>
           </Card>
         )}

@@ -8,7 +8,6 @@ import { useAuth, useSupabase } from "@/app/providers";
 import { ChatMessageBubble, type ChatBubbleMessage } from "@/components/chat/ChatMessageBubble";
 import { ChatMessageComposer } from "@/components/chat/ChatMessageComposer";
 import { DoctorChatLoadPanel } from "@/components/chat/DoctorChatLoadPanel";
-import { isDoctorChatV2EnabledClient } from "@/lib/chat/flags";
 import {
   markDoctorChatOpenStart,
   measureDoctorChatOpenEnd,
@@ -54,7 +53,6 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
   const [userId, setUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [loadState, setLoadState] = useState<DoctorChatLoadState | null>(null);
-  const chatV2Preview = isDoctorChatV2EnabledClient();
   const [sending, setSending] = useState(false);
   const [pushSubscribed, setPushSubscribed] = useState(false);
   const [pushBusy, setPushBusy] = useState(false);
@@ -445,11 +443,6 @@ export function DoctorChannelChat({ channelId, channelTitle, channelDescription 
           <div className="min-w-0 flex-1">
             <p className="text-sm font-black text-[var(--clinical-foreground)]">
               {channelTitle}
-              {chatV2Preview ? (
-                <span className="ml-2 rounded-md bg-[var(--clinical-primary-muted)] px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-[var(--clinical-primary-deep)]">
-                  Chat v2 · тест
-                </span>
-              ) : null}
             </p>
             {channelDescription ? (
               <p className="mt-1 text-xs text-[var(--clinical-foreground-muted)]">{channelDescription}</p>

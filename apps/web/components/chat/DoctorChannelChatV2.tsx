@@ -105,15 +105,12 @@ export function DoctorChannelChatV2({
       <div className={cn("border-b border-[var(--clinical-border)] px-5 py-4", embedded && "hidden lg:block")}>
         <p className="text-sm font-black text-[var(--clinical-foreground)]">
           {channelTitle}
-          <span className="ml-2 rounded-md bg-[var(--clinical-primary-muted)] px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-[var(--clinical-primary-deep)]">
-            Chat v2
-          </span>
         </p>
         {channelDescription ? (
           <p className="mt-1 text-xs text-[var(--clinical-foreground-muted)]">{channelDescription}</p>
         ) : null}
         <p className="mt-1 text-[11px] text-[var(--clinical-foreground-muted)]">
-          Realtime{realtimeReady ? "" : " · подключение…"} · ссылка на кейс · @AI · жалоба
+          {realtimeReady ? "Онлайн" : "Подключение…"} · ссылка на кейс · @AI · жалоба
         </p>
         <MessengerPushControls channelId={channelId} className="mt-2" />
       </div>

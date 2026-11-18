@@ -5,7 +5,6 @@ import {
   Lock,
   MessageSquare,
   ShieldCheck,
-  Sparkles,
   Stethoscope,
 } from "lucide-react";
 
@@ -15,38 +14,37 @@ import { OpenAccessEntryCard } from "@/components/landing/OpenAccessEntryCard";
 import { Button } from "@/components/ui/button";
 
 const TOP_PILLS = [
-  { icon: Sparkles, label: "AI 24/7" },
-  { icon: MessageSquare, label: "Чат врачей" },
   { icon: Calculator, label: "Калькуляторы" },
-  { icon: ShieldCheck, label: "Evidence" },
+  { icon: ShieldCheck, label: "По гайдлайнам" },
+  { icon: MessageSquare, label: "Чат врачей" },
   { icon: BookOpen, label: "Обучение" },
 ] as const;
 
 const FEATURES = [
   {
-    icon: Sparkles,
-    title: "AI-ассистент врача",
-    text: "Умный анализ и поддержка клинических решений",
+    icon: Calculator,
+    title: "Калькуляторы и классификации",
+    text: "O-RADS, BI-RADS, TI-RADS, IOTA, FIGO, FMF — по актуальным гайдлайнам",
+  },
+  {
+    icon: Stethoscope,
+    title: "CDS-ассистент",
+    text: "Структурированные подсказки. Не диагноз — решение за врачом",
   },
   {
     icon: MessageSquare,
-    title: "Чат и сообщество",
-    text: "Обсуждение кейсов с коллегами 24/7",
-  },
-  {
-    icon: Calculator,
-    title: "Калькуляторы и классификации",
-    text: "30+ инструментов: O-RADS, BI-RADS, TI-RADS, IOTA, FMF",
+    title: "Кейсы и чат коллег",
+    text: "Обсуждение снимков и рабочих вопросов между врачами",
   },
   {
     icon: BookOpen,
-    title: "Обучение и гайды",
-    text: "Курсы, 3D-анатомия и клинические рекомендации",
+    title: "Обучение и справочники",
+    text: "Курсы, атласы и клинические рекомендации в одном кабинете",
   },
   {
     icon: Lock,
-    title: "Безопасность и конфиденциальность",
-    text: "Защита данных и доступ для специалистов",
+    title: "Только для специалистов",
+    text: "Доступ для врачей; без ПДн пациентов в чатах и кейсах",
   },
 ] as const;
 
@@ -65,9 +63,9 @@ const SCALES = [
 
 const STATS = [
   { value: "30+", label: "калькуляторов и шкал" },
-  { value: "Кейсы", label: "галерея и обсуждения" },
-  { value: "Тест", label: "тестовый режим · пилот" },
-  { value: "24/7", label: "AI и чат коллег" },
+  { value: "ACR·FIGO", label: "классификации по гайдлайнам" },
+  { value: "КР", label: "каталог рекомендаций МЗ РФ" },
+  { value: "CDS", label: "справочно · решение за врачом" },
 ] as const;
 
 /** WebP ~54% smaller than PNG; Next/Image serves with modern formats. */
@@ -106,7 +104,7 @@ export function LandingMarketingHero({ isAuthenticated }: Props) {
           aria-hidden
         />
         <div
-          className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_40%,rgba(124,58,237,0.22),transparent_55%)]"
+          className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_40%,rgba(124,58,237,0.14),transparent_55%)]"
           aria-hidden
         />
       </div>
@@ -115,11 +113,11 @@ export function LandingMarketingHero({ isAuthenticated }: Props) {
         {/* Top brand strip */}
         <div className="mb-6 flex flex-col gap-4 lg:mb-8 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex items-start gap-3">
-            <BrandMark className="h-11 w-11 rounded-xl shadow-[0_0_28px_rgba(168,85,247,0.45)] ring-1 ring-white/20" />
+            <BrandMark className="h-11 w-11 rounded-xl ring-1 ring-white/20" />
             <div>
               <p className="text-base font-black tracking-tight">SonoGyn Pro</p>
               <p className="mt-0.5 max-w-md text-[10px] font-bold uppercase leading-snug tracking-[0.06em] text-violet-200/75 sm:text-[11px]">
-                Интеллектуальная платформа для акушеров-гинекологов и врачей УЗИ
+                Рабочая платформа для акушеров-гинекологов и врачей УЗИ
               </p>
             </div>
           </div>
@@ -127,7 +125,7 @@ export function LandingMarketingHero({ isAuthenticated }: Props) {
             {TOP_PILLS.map(({ icon: Icon, label }) => (
               <span
                 key={label}
-                className="inline-flex items-center gap-1.5 rounded-full border border-violet-300/25 bg-black/35 px-3 py-1.5 text-[11px] font-bold text-violet-50 shadow-[0_0_20px_rgba(139,92,246,0.2)] backdrop-blur-md"
+                className="inline-flex items-center gap-1.5 rounded-full border border-violet-300/25 bg-black/35 px-3 py-1.5 text-[11px] font-bold text-violet-50 backdrop-blur-md"
               >
                 <Icon className="h-3.5 w-3.5 text-violet-300" aria-hidden />
                 {label}
@@ -139,7 +137,7 @@ export function LandingMarketingHero({ isAuthenticated }: Props) {
         <div className="grid flex-1 items-stretch gap-6 lg:grid-cols-12 lg:gap-5 xl:gap-8">
           {/* Left glass panel */}
           <div className="order-2 flex flex-col justify-center lg:order-1 lg:col-span-4 xl:col-span-3">
-            <div className="rounded-2xl border border-violet-300/20 bg-black/45 p-5 shadow-[0_0_48px_rgba(88,28,135,0.45)] backdrop-blur-xl sm:p-6">
+            <div className="rounded-2xl border border-violet-300/20 bg-black/45 p-5 shadow-xl backdrop-blur-xl sm:p-6">
               <p className="mb-3 inline-flex items-center gap-1.5 text-[11px] font-black uppercase tracking-[0.12em] text-violet-300">
                 <Stethoscope className="h-3.5 w-3.5" aria-hidden />
                 Для врача, не для пациента
@@ -148,16 +146,16 @@ export function LandingMarketingHero({ isAuthenticated }: Props) {
                 id="landing-marketing-heading"
                 className="text-[1.75rem] font-black uppercase leading-[1.08] tracking-tight sm:text-3xl xl:text-[2.05rem]"
               >
-                Ваша вселенная женского здоровья
+                Кабинет УЗИ и АГ по гайдлайнам
               </h1>
               <p className="mt-3 text-sm leading-relaxed text-violet-50/80 sm:text-[15px]">
-                Всё, что нужно врачу — в одной платформе с искусственным интеллектом
+                Калькуляторы, классификации и CDS в одном месте — интерпретация остаётся за вами
               </p>
 
               <ul className="mt-5 space-y-3">
                 {FEATURES.map(({ icon: Icon, title, text }) => (
                   <li key={title} className="flex gap-3">
-                    <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-violet-400/35 bg-violet-500/20 text-violet-100 shadow-[0_0_18px_rgba(139,92,246,0.45)]">
+                    <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-violet-400/35 bg-violet-500/20 text-violet-100">
                       <Icon className="h-4 w-4" aria-hidden />
                     </span>
                     <div>
@@ -188,7 +186,7 @@ export function LandingMarketingHero({ isAuthenticated }: Props) {
                 </Button>
               </div>
             ) : (
-              <OpenAccessEntryCard className="shadow-[0_0_56px_rgba(124,58,237,0.55)]" />
+              <OpenAccessEntryCard className="shadow-xl" />
             )}
           </div>
         </div>
@@ -199,7 +197,7 @@ export function LandingMarketingHero({ isAuthenticated }: Props) {
             {SCALES.map((name) => (
               <span
                 key={name}
-                className="shrink-0 rounded-full border border-violet-300/30 bg-violet-500/15 px-3 py-1 text-[11px] font-bold tracking-wide text-violet-50 shadow-[0_0_14px_rgba(139,92,246,0.25)]"
+                className="shrink-0 rounded-full border border-violet-300/30 bg-violet-500/15 px-3 py-1 text-[11px] font-bold tracking-wide text-violet-50"
               >
                 {name}
               </span>
