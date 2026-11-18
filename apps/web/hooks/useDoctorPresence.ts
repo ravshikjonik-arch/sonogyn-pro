@@ -19,12 +19,26 @@ export function useDoctorPresence() {
   const [error, setError] = useState<string | null>(null);
 
   const load = useCallback(async () => {
+    if (!user) {
+      setRows([]);
+      setError(null);
+      setLoading(false);
+      return;
+    }
+
     const response = await fetch("/api/doctor-presence", { cache: "no-store" });
     const payload = (await response.json().catch(() => null)) as
       | { rows?: DoctorPresenceRow[]; error?: string }
       | null;
 
     if (!response.ok || !payload?.rows) {
+      // Guest / unauthorized: silent empty roster (no console-noise 401 UX).
+      if (response.status === 401 || response.status === 403) {
+        setError(null);
+        setRows([]);
+        setLoading(false);
+        return;
+      }
       const message = payload?.error ?? "Не удалось загрузить presence";
       if (message.includes("doctor_presence")) {
         setError("Примените миграцию doctor_presence в Supabase.");
@@ -39,7 +53,7 @@ export function useDoctorPresence() {
     setError(null);
     setRows(payload.rows);
     setLoading(false);
-  }, []);
+  }, [user]);
 
   const pulse = useCallback(async () => {
     if (!user) return;
@@ -60,10 +74,13 @@ export function useDoctorPresence() {
   }, [user]);
 
   useEffect(() => {
+    if (!ready) return;
     queueMicrotask(() => void load());
-  }, [load]);
+  }, [load, ready]);
 
   useEffect(() => {
+    if (!user || !ready) return;
+
     const channel = supabase
       .channel("doctor_presence_roster")
       .on(
@@ -76,7 +93,7 @@ export function useDoctorPresence() {
     return () => {
       void supabase.removeChannel(channel);
     };
-  }, [load, supabase]);
+  }, [load, supabase, user, ready]);
 
   useEffect(() => {
     if (!user || !ready) return;
@@ -100,7 +117,7 @@ export function useDoctorPresence() {
   const { online, offline } = useMemo(() => splitPresenceRows(rows), [rows]);
 
   return {
-    loading,
+    loading: !ready || (Boolean(user) && loading),
     error,
     online,
     offline,

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import {
   ORADS_US_CALCULATOR_LEAD_RU,
-  ORADS_US_CALCULATOR_TITLE_RU,
+  ORADS_US_DOCUMENT_TITLE_RU,
 } from "@repo/orads-us/product-copy";
 
 import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
@@ -18,7 +18,7 @@ export type CalculatorSeoEntry = {
 export const CALCULATOR_SEO_REGISTRY: CalculatorSeoEntry[] = [
   {
     path: "/tools/calc/rads/o-rads",
-    title: ORADS_US_CALCULATOR_TITLE_RU,
+    title: ORADS_US_DOCUMENT_TITLE_RU,
     description: ORADS_US_CALCULATOR_LEAD_RU,
     keywords: [
       "O-RADS",
@@ -227,7 +227,7 @@ export const CALCULATOR_SEO_REGISTRY: CalculatorSeoEntry[] = [
   },
   {
     path: "/tools/o-rads",
-    title: ORADS_US_CALCULATOR_TITLE_RU,
+    title: ORADS_US_DOCUMENT_TITLE_RU,
     description: ORADS_US_CALCULATOR_LEAD_RU,
     keywords: [
       "O-RADS US",

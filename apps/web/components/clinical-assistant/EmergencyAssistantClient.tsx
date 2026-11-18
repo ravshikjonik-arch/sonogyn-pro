@@ -115,7 +115,7 @@ export function EmergencyAssistantClient({ initialQuery = "" }: Props) {
         </div>
         <h1 className="text-xl font-black tracking-tight sm:text-2xl">Неотложка · СМП</h1>
         <p className="text-sm text-white/90">
-          Тестовый режим · слово → готовый гайд: симптомы, анализы, действия, препараты. Своя KB +
+          Слово → готовый гайд: симптомы, анализы, действия, препараты. Своя KB +
           полка КР. Не диагноз. Не вводите ПДн пациентов.
         </p>
       </header>

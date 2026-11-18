@@ -156,6 +156,13 @@ export const IA_V2_REDIRECTS: Redirect[] = [
   { source: "/orads-calculator", destination: "/tools/calc/rads/o-rads", permanent: false },
   { source: "/orads-echograms", destination: "/tools/refs/orads-echograms", permanent: false },
   { source: "/evidence-assistant", destination: "/tools/refs/evidence-assistant", permanent: false },
+
+  // Short bookmarks from smoke audit (2026-11) — canonical rooms
+  { source: "/ai", destination: "/ai/consultants", permanent: false },
+  { source: "/pro", destination: "/profile/pro", permanent: false },
+  { source: "/chat", destination: "/cases", permanent: false },
+  { source: "/rooms/o-rads", destination: "/tools/o-rads", permanent: false },
+  { source: "/tools/calculators", destination: "/tools/calc", permanent: false },
 ];
 
 /** Bridge via page components only (avoid next.config ↔ legacy redirect loops). */

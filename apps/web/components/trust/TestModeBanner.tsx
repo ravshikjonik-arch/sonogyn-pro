@@ -24,7 +24,7 @@ export function TestModeBanner({ compact = false, className }: Props) {
     >
       <span className="font-semibold">{TEST_MODE_SHORT_RU}.</span>{" "}
       {compact
-        ? `Не вводите ПДн пациентов. Старт ${PLATFORM_LAUNCH_DATE_RU}.`
+        ? `Без ПДн пациентов · вход — чтобы сохранить кейсы · старт ${PLATFORM_LAUNCH_DATE_RU}.`
         : TEST_MODE_BANNER_RU}
     </div>
   );

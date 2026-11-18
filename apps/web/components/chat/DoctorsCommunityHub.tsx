@@ -162,19 +162,21 @@ function DoctorsCommunityHubBody() {
   return (
     <div className="px-4 py-10 lg:px-10">
       <div className="mx-auto max-w-6xl space-y-8">
-        <header className="sonogyn-glass-card space-y-5 rounded-3xl p-6 sm:p-8">
+        <header className="space-y-5 rounded-[var(--radius-modal)] border border-[var(--clinical-border)] bg-[var(--clinical-card)] p-6 text-[var(--clinical-foreground)] shadow-[var(--clinical-card-shadow)] sm:p-8">
           <div className="flex flex-wrap items-center gap-2">
-            <Badge className="gap-1 bg-emerald-600">
+            <Badge className="gap-1 bg-emerald-600 text-white">
               <MessageCircle className="h-3 w-3" />
-              Live · Realtime
+              Онлайн
             </Badge>
-            <Badge variant="outline">Сообщество врачей</Badge>
+            <Badge variant="outline" className="border-[var(--clinical-border)] text-[var(--clinical-foreground)]">
+              Сообщество врачей
+            </Badge>
           </div>
           <h1 className="text-3xl font-black tracking-tight text-[var(--clinical-foreground)]">
             Чат врачей SonoGyn Pro
           </h1>
           <p className="max-w-3xl text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
-            Общайтесь с коллегами, прикрепляйте <strong>фото и видео УЗИ</strong> прямо в сообщениях,
+            Общайтесь с коллегами, прикрепляйте <strong className="text-[var(--clinical-foreground)]">фото и видео УЗИ</strong> прямо в сообщениях,
             разбирайте кейсы. Только анонимизированные учебные материалы — без PHI.
           </p>
           <DoctorPresencePanel compact />
@@ -182,13 +184,13 @@ function DoctorsCommunityHubBody() {
             <Button asChild>
               <Link href="/cases/new">Новый кейс для разбора</Link>
             </Button>
-            <Button variant="outline" asChild>
+            <Button variant="outline" className="border-[var(--clinical-border)] text-[var(--clinical-foreground)]" asChild>
               <Link href="/cases?tab=cases&topic=prolapse">Пролапс · разбор</Link>
             </Button>
-            <Button variant="outline" asChild>
+            <Button variant="outline" className="border-[var(--clinical-border)] text-[var(--clinical-foreground)]" asChild>
               <Link href="/tools/calc/gyn/pop-q">POP-Q калькулятор</Link>
             </Button>
-            <Button variant="outline" asChild>
+            <Button variant="outline" className="border-[var(--clinical-border)] text-[var(--clinical-foreground)]" asChild>
               <Link href="/ai/consultants">ИИ-помощник по снимку →</Link>
             </Button>
           </div>

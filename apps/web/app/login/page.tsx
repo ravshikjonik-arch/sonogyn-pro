@@ -130,7 +130,7 @@ function LegacyLoginForm() {
     if (authCallbackError) {
       setMessage(
         searchParams.get("oauth_message") ||
-          "OAuth вход недоступен. Используйте email и пароль (Sonogyn-pro@mail.ru).",
+          "OAuth вход недоступен. Используйте email и пароль.",
       );
     }
   }, [authCallbackError, searchParams]);
@@ -386,7 +386,7 @@ function LegacyLoginForm() {
       title="Вход"
       subtitle={
         isAuthEmailOnlyClient()
-          ? "Тестовый режим: email и пароль (Sonogyn-pro@mail.ru). Калькуляторы — без входа."
+          ? "Email и пароль. Калькуляторы можно открыть без входа."
           : isAuthSocialEnabledClient()
             ? isPilotClosedAccessClient()
               ? PILOT_AUTH_SUBTITLE

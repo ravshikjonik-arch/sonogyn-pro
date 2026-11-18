@@ -39,7 +39,7 @@ export default async function FeedPage() {
           <div className="space-y-2">
             <div className="flex flex-wrap items-center gap-2">
               <Badge variant="outline" id="feed-case-of-day">
-                Case of the day
+                Кейс дня
               </Badge>
               {caseOfDay.confirmed_at ? (
                 <span className="text-xs text-[var(--clinical-foreground-muted)]">
@@ -53,13 +53,12 @@ export default async function FeedPage() {
           <Card className="border-[var(--clinical-primary)]/20 bg-[var(--clinical-primary-muted)]/30">
             <CardHeader className="pb-2">
               <div className="flex flex-wrap items-center gap-2">
-                <Badge variant="outline">Case of the day</Badge>
-                <span className="text-xs text-[var(--clinical-foreground-muted)]">editorial</span>
+                <Badge variant="outline">Кейс дня</Badge>
               </div>
               <CardTitle className="text-lg">
                 {lifecycleReady
                   ? "Подтверждённых кейсов пока нет — добавьте первый"
-                  : "Кейс дня появится после миграции lifecycle"}
+                  : "Кейс дня появится после обновления базы"}
               </CardTitle>
             </CardHeader>
             <CardContent className="text-sm text-[var(--clinical-foreground-muted)]">

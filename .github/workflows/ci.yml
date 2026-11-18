@@ -31,6 +31,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Guard against "* 2.*" duplicate file artifacts
+        run: node scripts/check-no-duplicate-space2-files.mjs
+
       - name: Migration drift (web SSOT vs database mirror)
         run: pnpm check:migration-drift
 

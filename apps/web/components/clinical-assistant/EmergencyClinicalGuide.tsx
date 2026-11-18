@@ -137,7 +137,7 @@ export function EmergencyClinicalGuide({ article }: Props) {
       })}
 
       <p className="text-xs leading-relaxed text-[var(--clinical-foreground-muted)]">
-        Тестовый режим · справочно. Не диагноз. Дозы и показания сверяйте с актуальными КР МЗ РФ и локальным
+        Справочно. Не диагноз. Дозы и показания сверяйте с актуальными КР МЗ РФ и локальным
         протоколом СМП — решение за врачом. Не вводите ПДн пациентов.
       </p>
     </article>

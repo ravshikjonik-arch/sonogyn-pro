@@ -3,7 +3,6 @@
 import {
   MessageCircle,
   BookMarked,
-  Bookmark,
   BookOpen,
   ClipboardList,
   Brain,
@@ -61,8 +60,6 @@ import {
   resolveDoctorFullName,
   type DoctorCabinetLabel,
 } from "@/lib/auth/doctor-display";
-import { isFullOpenAccessEnabledClient } from "@/lib/auth/guest-demo-account";
-
 const GlobalSearchTrigger = dynamic(
   () =>
     import("@/components/clinical/GlobalSearchDialog").then((mod) => mod.GlobalSearchTrigger),
@@ -111,7 +108,6 @@ const navGroups: { title: string; items: { href: string; label: string; icon: ty
     title: "Акушерство",
     items: [
       { href: "/tools/obstetrics", label: "Хаб акушерства", icon: Baby },
-      { href: "/ai/consultants/us-prep", label: "Live приём · УЗИ", icon: Mic },
       { href: "/ai/consultants/obstetrics", label: "Помощник акушера", icon: HandHeart },
       { href: "/ai/consultants/fmf", label: "FMF · скрининг", icon: Baby },
       { href: "/tools/calc/ob", label: "Акушерский калькулятор", icon: Calculator },
@@ -121,7 +117,6 @@ const navGroups: { title: string; items: { href: string; label: string; icon: ty
     title: "Гинекология",
     items: [
       { href: "/tools/gynecology", label: "Хаб гинекологии", icon: HeartPulse },
-      { href: "/ai/consultants/us-prep", label: "Live приём · УЗИ", icon: Mic },
       { href: "/tools/o-rads", label: "O-RADS US", icon: ScanLine },
       { href: "/ai/consultants/gynecology", label: "Помощник гинеколога", icon: HandHeart },
       { href: "/tools/calc/gyn", label: "Кальк. гинекологии", icon: Calculator },
@@ -189,9 +184,7 @@ export function ClinicalShell({
   const supabase = useSupabase();
   const { user } = useAuth();
   const shellExtrasReady = useDeferredShellExtras();
-  const openAccess = isFullOpenAccessEnabledClient();
   const isGuest = !user && !devProfile;
-  const showOpenAccessBanner = openAccess || isGuest;
   const email = user?.email ?? devProfile?.email ?? "";
   const metaFullName =
     typeof user?.user_metadata?.full_name === "string" ? user.user_metadata.full_name : undefined;
@@ -424,12 +417,7 @@ export function ClinicalShell({
             >
               <Menu className="h-5 w-5" />
             </Button>
-            <div className="hidden flex-1 items-center gap-2 md:flex">
-              <Bookmark className="h-4 w-4 text-[var(--clinical-foreground-muted)]" />
-              <span className="text-xs font-medium text-[var(--clinical-foreground-muted)]">
-                Безопасный режим: не вводите персональные данные пациентки
-              </span>
-            </div>
+            <div className="hidden min-w-0 flex-1 md:block" aria-hidden />
             <ClinicalOfflineBadge className="shrink-0" />
             {shellExtrasReady ? <GlobalSearchTrigger /> : null}
             {!isGuest ? <ProBadge className="hidden sm:inline-flex" /> : null}
@@ -475,12 +463,6 @@ export function ClinicalShell({
               </DropdownMenu>
             ) : null}
           </header>
-          {showOpenAccessBanner ? (
-            <div className="border-b border-emerald-200/70 bg-emerald-50/90 px-4 py-2 text-center text-xs text-emerald-950 dark:border-emerald-900/40 dark:bg-emerald-950/30 dark:text-emerald-100">
-              Тестовый режим · можно смотреть калькуляторы, ИИ и чат без входа. Чтобы сохранить свои
-              кейсы — нажмите «Войти». Не вводите ПДн пациентов.
-            </div>
-          ) : null}
           <main
             id="main-content"
             className="flex-1 pb-[calc(4.5rem+env(safe-area-inset-bottom))] sonogyn-enter lg:pb-0"

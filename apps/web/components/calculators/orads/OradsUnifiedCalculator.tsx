@@ -80,10 +80,17 @@ function Chip({
   );
 }
 
+type OradsUnifiedCalculatorProps = {
+  /** Стартовый сценарий (например, deep-link «беременность» из ACR-wizard). */
+  initialAssessmentContext?: AdnexAssessmentContext;
+};
+
 /** Единый калькулятор O-RADS US v2022 (+ Pregnancy Mode: gate A, акушерский контекст B). */
-export function OradsUnifiedCalculator() {
+export function OradsUnifiedCalculator({
+  initialAssessmentContext = "non_pregnant",
+}: OradsUnifiedCalculatorProps) {
   const [assessmentContext, setAssessmentContext] =
-    useState<AdnexAssessmentContext>("non_pregnant");
+    useState<AdnexAssessmentContext>(initialAssessmentContext);
   const [obstetric, setObstetric] = useState<PregnancyObstetricContext>(
     initialPregnancyObstetricContext,
   );

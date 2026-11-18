@@ -1,6 +1,8 @@
 "use client";
 
 import { useOradsNavigator } from "@repo/orads-us";
+import type { AdnexAssessmentContext } from "@repo/orads-us/pregnancy";
+import { PREGNANCY_ADNEXAL_MODE_TITLE_RU } from "@repo/orads-us/pregnancy";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChevronLeft, MoreHorizontal } from "lucide-react";
@@ -42,7 +44,14 @@ export function OradsAcrWizardExperience({
   const locale = useOradsLocaleWeb("ru");
   const router = useRouter();
   const [showStratifyForm, setShowStratifyForm] = useState(false);
+  const [stratifyContext, setStratifyContext] =
+    useState<AdnexAssessmentContext>("non_pregnant");
   const [assistOpen, setAssistOpen] = useState(false);
+
+  function openStratifyForm(context: AdnexAssessmentContext = "non_pregnant") {
+    setStratifyContext(context);
+    setShowStratifyForm(true);
+  }
 
   const nav = useOradsNavigator({
     estimatedSteps: 6,
@@ -87,7 +96,10 @@ export function OradsAcrWizardExperience({
             ← К пошаговому O-RADS (ACR)
           </Button>
         </div>
-        <OradsUnifiedCalculator />
+        <OradsUnifiedCalculator
+          key={stratifyContext}
+          initialAssessmentContext={stratifyContext}
+        />
       </div>
     );
   }
@@ -130,7 +142,12 @@ export function OradsAcrWizardExperience({
             <DropdownMenuContent align="end">
               <DropdownMenuItem onSelect={() => nav.restart()}>{locale.t("orads.wizard.restart")}</DropdownMenuItem>
               <DropdownMenuItem onSelect={() => setAssistOpen(true)}>Из описания протокола</DropdownMenuItem>
-              <DropdownMenuItem onSelect={() => setShowStratifyForm(true)}>Стратификация (форма v2022)</DropdownMenuItem>
+              <DropdownMenuItem onSelect={() => openStratifyForm("non_pregnant")}>
+                Стратификация (форма v2022)
+              </DropdownMenuItem>
+              <DropdownMenuItem onSelect={() => openStratifyForm("pregnant")}>
+                {PREGNANCY_ADNEXAL_MODE_TITLE_RU}
+              </DropdownMenuItem>
               {onOpenTumorCards ? (
                 <DropdownMenuItem onSelect={() => onOpenTumorCards()}>Дифф. диагноз · 32 типа</DropdownMenuItem>
               ) : null}
@@ -184,6 +201,30 @@ export function OradsAcrWizardExperience({
           </div>
         ) : (
           <div className="space-y-5">
+            {nav.state.path.length === 0 ? (
+              <aside
+                className="rounded-xl border border-[var(--clinical-border)] bg-[var(--clinical-muted)]/40 px-3 py-3"
+                data-e2e-orads-pregnancy-hint
+              >
+                <p className="text-sm font-medium text-[var(--clinical-foreground)]">
+                  Пациентка беременна?
+                </p>
+                <p className="mt-1 text-xs leading-relaxed text-[var(--clinical-foreground-muted)]">
+                  Категории O-RADS 0–5 при беременности не присваиваются. Откройте отдельный
+                  сценарий «{PREGNANCY_ADNEXAL_MODE_TITLE_RU}».
+                </p>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="mt-2 h-8"
+                  onClick={() => openStratifyForm("pregnant")}
+                  data-e2e-orads-open-pregnancy
+                >
+                  Режим беременности
+                </Button>
+              </aside>
+            ) : null}
             <div>
               <h2 className="text-xl font-semibold leading-snug text-[var(--clinical-foreground)]">
                 {locale.t(view.node.questionKey)}
@@ -241,15 +282,25 @@ export function OradsAcrWizardExperience({
             </Button>
           ) : null}
         </div>
-        <div className="mx-auto mt-2 flex max-w-lg justify-center">
+        <div className="mx-auto mt-2 flex max-w-lg flex-wrap items-center justify-center gap-2">
           <Button
             type="button"
             variant="ghost"
             size="sm"
             className="h-8 text-xs text-[var(--clinical-foreground-muted)]"
-            onClick={() => setShowStratifyForm(true)}
+            onClick={() => openStratifyForm("non_pregnant")}
           >
             Форма стратификации v2022
+          </Button>
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            className="h-8 text-xs text-[var(--clinical-foreground-muted)]"
+            onClick={() => openStratifyForm("pregnant")}
+            data-e2e-orads-open-pregnancy-footer
+          >
+            Беременность
           </Button>
         </div>
       </footer>

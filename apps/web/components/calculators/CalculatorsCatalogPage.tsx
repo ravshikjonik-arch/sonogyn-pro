@@ -9,7 +9,17 @@ import type { DomainHubCard, DomainHubGroup } from "@/lib/nav/domain-hubs";
 const GROUP_SLUGS: { title: string; slugs: string[] }[] = [
   {
     title: "Акушерство",
-    slugs: ["ob-calc", "fmf", "cervical-length", "fetometry", "fetometry-norms", "fetal-weight", "bishop", "vbac"],
+    slugs: [
+      "ob-calc",
+      "fmf",
+      "cervical-length",
+      "fetometry",
+      "fetometry-norms",
+      "fetal-weight",
+      "bishop",
+      "vbac",
+      "pregnancy-medications",
+    ],
   },
   {
     title: "Гинекология",
@@ -32,6 +42,17 @@ const RU: Record<string, { title: string; description: string }> = {
   "cin-risk": { title: "Риск CIN", description: "HPV, Bethesda, зона трансформации" },
   colposcopy: { title: "Кольпоскопия", description: "Протокол и признаки" },
   "ln-rads": { title: "LN-RADS", description: "Лимфоузлы" },
+  "pregnancy-medications": {
+    title: "Лекарства при беременности",
+    description: "Категории безопасности препаратов · справочно, не рецепт",
+  },
+  fmf: { title: "FMF · I скрининг", description: "Малый срок, КТР, ТВП, допплер" },
+  "cervical-length": { title: "Длина шейки матки", description: "Цервикометрия и риск преждевременных родов" },
+  fetometry: { title: "Расчёт плода", description: "Биометрия, калиперы, нормы I–III триместра" },
+  "fetometry-norms": { title: "Нормы фетометрии", description: "Таблицы перцентилей по сроку" },
+  "fetal-weight": { title: "Масса плода (EFW)", description: "Hadlock и связанные формулы" },
+  bishop: { title: "Шкала Bishop", description: "Зрелость шейки перед индукцией" },
+  vbac: { title: "VBAC / TOLAC", description: "Вероятность успешного родоразрешения после КС" },
 };
 
 function cardFor(slug: string): DomainHubCard | null {

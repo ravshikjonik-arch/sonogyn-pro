@@ -3,9 +3,16 @@
  * Академически корректно: яичники + придатки; англ. имя системы — в скобках.
  */
 
-/** H1 / SEO title / комната калькулятора */
+/** H1 / комната калькулятора (полный академический заголовок) */
 export const ORADS_US_CALCULATOR_TITLE_RU =
   "Калькулятор ультразвуковой оценки образований яичников и придатков матки по системе O-RADS (ACR, версия 2022 · ACR O-RADS US v2022)";
+
+/**
+ * Document / OG title (≤ ~55 символов до суффикса «| SonoGyn Pro»).
+ * Не использовать длинный H1 — `buildPublicMetadata` обрезает до 60 и ломает фразу.
+ */
+export const ORADS_US_DOCUMENT_TITLE_RU =
+  "Калькулятор O-RADS US · яичники и придатки (ACR v2022)";
 
 /** Lead / meta description посадочной */
 export const ORADS_US_CALCULATOR_LEAD_RU =

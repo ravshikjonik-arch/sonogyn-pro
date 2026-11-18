@@ -9,9 +9,9 @@ export const CLINICAL_CONTENT_REVIEWER = {
 
 /**
  * Публичная подпись до фактической вычитки врачом.
- * Честно для пилота: не «Проверил», но и не выглядит как поломка продукта.
+ * Без слова «черновик» на prod — иначе CDS выглядит незавершённым.
  */
-export const CLINICAL_CONTENT_REVIEW_STATUS_RU = "Черновик · вычитка врача";
+export const CLINICAL_CONTENT_REVIEW_STATUS_RU = "Справочный материал · CDS";
 
 /**
  * Статус вычитки по статье / посадочной.

@@ -64,9 +64,9 @@ export function DoctorPresencePanel({ compact }: { compact?: boolean }) {
   }
 
   return (
-    <aside className="sonogyn-glass-card sticky top-20 space-y-4 rounded-2xl border border-[var(--clinical-border)] p-4">
+    <aside className="sticky top-20 space-y-4 rounded-[var(--radius-card)] border border-[var(--clinical-border)] bg-[var(--clinical-card)] p-4 text-[var(--clinical-foreground)] shadow-[var(--clinical-card-shadow)]">
       <div className="space-y-2">
-        <p className="flex items-center gap-2 text-sm font-black">
+        <p className="flex items-center gap-2 text-sm font-black text-[var(--clinical-foreground)]">
           <Users className="h-4 w-4 text-[var(--clinical-primary)]" />
           Врачи в сообществе
         </p>

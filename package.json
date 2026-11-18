@@ -51,6 +51,7 @@
     "test:e2e": "npx --yes pnpm@10.6.5 --filter @repo/web test:e2e",
     "test:cpi": "npx --yes pnpm@10.6.5 --filter @repo/cervical-pathology test",
     "check:migration-drift": "node scripts/check-migration-drift.mjs",
+    "check:no-dup-space2": "node scripts/check-no-duplicate-space2-files.mjs",
     "test:iota": "pnpm --filter @repo/iota-models test",
     "test:orads-us": "pnpm --filter @repo/orads-us test",
     "test:morphology-core": "pnpm --filter @repo/morphology-core test",

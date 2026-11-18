@@ -45,6 +45,17 @@ describe("buildPublicMetadata", () => {
     assert.ok((meta.description as string).length <= 155);
   });
 
+  it("keeps short O-RADS document title without mid-phrase cut", () => {
+    const title = "Калькулятор O-RADS US · яичники и придатки (ACR v2022)";
+    const meta = buildPublicMetadata({
+      title,
+      description: "Стратификация риска по ACR O-RADS US v2022.",
+      path: "/tools/calc/rads/o-rads",
+    });
+    assert.equal(meta.title, title);
+    assert.ok(String(meta.title).includes("ACR v2022"));
+  });
+
   it("supports noindex", () => {
     const meta = buildPublicMetadata({
       title: "Профиль",
