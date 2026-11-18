@@ -16,11 +16,14 @@ export function isDevSkipAuthEnabled(): boolean {
  * Product mode: open clinical tools without registration (marketing/demo).
  * Middleware hybrid: `/patients`, `/profile`, `/paywall`, `/dashboard`, `/admin`, `/author`
  * remain auth-required even when this flag is true.
+ *
+ * Priority: `OPEN_ACCESS_FULL` (server/API) → `NEXT_PUBLIC_OPEN_ACCESS_FULL` (client build) → default true.
+ * So a false NEXT_PUBLIC cannot accidentally lock API routes while OPEN_ACCESS_FULL=true.
  */
 export function isFullOpenAccessEnabled(): boolean {
   const raw = (
-    process.env.NEXT_PUBLIC_OPEN_ACCESS_FULL ??
     process.env.OPEN_ACCESS_FULL ??
+    process.env.NEXT_PUBLIC_OPEN_ACCESS_FULL ??
     "true"
   )
     .trim()
