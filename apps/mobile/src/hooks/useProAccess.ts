@@ -55,7 +55,7 @@ export function useProAccess(navigation?: NavigationProp<RootStackParamList>) {
         if (!isIapEnabled()) {
           Alert.alert(
             "Доступ",
-            "В пилотной версии App Store все клинические инструменты открыты без подписки.",
+            "Скачивание бесплатно. До 27.12.2026 пилот открыт без подписки. С 27.12.2026 PRO оформляется в App Store.",
           );
           onPro();
           return;

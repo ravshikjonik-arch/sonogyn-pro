@@ -66,12 +66,12 @@ export default function PricingPage() {
             Тарифы
           </h1>
           <p className="mx-auto mt-3 max-w-2xl text-sm text-[var(--clinical-foreground-muted)]">
-            Веб-кабинет и PWA — основной рабочий контур. {MOBILE_STORE_LINE_RU}{" "}
+            Установка бесплатна (web, PWA, iOS). {MOBILE_STORE_LINE_RU}{" "}
             {paymentsLive
               ? checkout.yookassaReady
-                ? `Оплата PRO для РФ — через ${PAYMENT_PROVIDER_PUBLIC_NAME_RU}. ${PRO_CHARITY_NOTE_RU}`
+                ? `С 27.12.2026 подписка PRO — через ${PAYMENT_PROVIDER_PUBLIC_NAME_RU}. ${PRO_CHARITY_NOTE_RU}`
                 : `${PAYMENT_PROVIDER_PUBLIC_NAME_RU} здесь не настроена — после входа возможен запасной канал на /paywall.`
-              : "До полного запуска 27.12.2026 — бесплатный пилот для врачей УЗД и АГ. PRO откроем после подключения ЮKassa."}{" "}
+              : "До 27.12.2026 — открытый пилот без оплаты. С 27.12.2026 — платная подписка PRO."}{" "}
             {PWA_INSTALL_HINT_RU}
           </p>
         </div>
@@ -79,10 +79,10 @@ export default function PricingPage() {
         <div className="grid gap-8 md:grid-cols-2">
           <Card className="border-[var(--clinical-border)]">
             <CardHeader>
-              <CardTitle>Free · до запуска</CardTitle>
+              <CardTitle>Free · установка</CardTitle>
               <CardDescription>
-                До 27.12.2026 — знакомство с кабинетом: калькуляторы, открытые материалы. Регистрация
-                желательна, но не обязательна. Не вводите ПДн пациентов.
+                Скачивание и установка всегда бесплатны. До 27.12.2026 — полный пилот без подписки.
+                Не вводите ПДн пациентов.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-3 text-sm text-[var(--clinical-foreground-muted)]">

@@ -28,12 +28,12 @@ export function LandingPricing({ isAuthenticated }: LandingPricingProps) {
           Пилот · тарифы
         </p>
         <h2 className="mt-3 text-2xl font-black tracking-tight text-[var(--clinical-foreground)] sm:text-3xl">
-          Free сейчас · PRO следом
+          Free установка · PRO с 27.12
         </h2>
         <p className="mt-3 text-sm leading-relaxed text-[var(--clinical-foreground-muted)] sm:text-base">
           {paymentsLive
-            ? `Сначала — бесплатное знакомство и демо-кабинет. PRO оформляется после входа через ${PAYMENT_PROVIDER_PUBLIC_NAME_RU}. ${PRO_CHARITY_NOTE_RU}`
-            : "До полного запуска 27.12.2026 — бесплатный пилот: кабинет и калькуляторы без оплаты. PRO — в листе ожидания, без кнопки «оплатить»."}
+            ? `Установка бесплатна. До 27.12.2026 — открытый пилот. С 27.12.2026 PRO — после входа через ${PAYMENT_PROVIDER_PUBLIC_NAME_RU}. ${PRO_CHARITY_NOTE_RU}`
+            : "Установка бесплатна. До 27.12.2026 — открытый пилот без оплаты. С 27.12.2026 — платная подписка PRO (лист ожидания, пока нет ЮKassa)."}
         </p>
       </div>
       <div className="grid gap-8 md:grid-cols-2">

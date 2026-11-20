@@ -42,6 +42,7 @@ export function resolveProCheckoutPublicState(): ProCheckoutPublicState {
     yookassaReady: false,
     stripeFallbackReady: false,
     ctaLabel: "Список ожидания PRO",
-    footnote: `До полного запуска 27.12.2026 открыт бесплатный пилот: калькуляторы и кабинет без оплаты. PRO включим после ЮKassa — напишите на ${SUPPORT_EMAIL}, добавим в лист ожидания.`,
+    footnote: `Скачивание бесплатно. До 27.12.2026 — открытый пилот без оплаты. С 27.12.2026 PRO станет платным (web — ЮKassa). Напишите на ${SUPPORT_EMAIL}, добавим в лист ожидания.`,
   };
 }
+
