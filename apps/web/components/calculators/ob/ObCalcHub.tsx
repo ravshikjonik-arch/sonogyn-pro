@@ -267,11 +267,23 @@ export function ObCalcHub({ initialTab = "lmp" }: { initialTab?: TabId }) {
             ПМП, УЗИ, КТР, СВД, ЭКО, фетометрия, декрет. В поиске: <strong>срок</strong>, <strong>ПДР</strong>,{" "}
             <strong>ПМП</strong>, <strong>датировка</strong>.
           </p>
-          <Button variant="link" size="sm" className="mt-1 h-auto px-0" asChild>
-            <Link href="/tools/calc/ob/fetometry">Расчёт плода →</Link>
-            {" · "}
-            <Link href="/tools/calc/ob/fetometry-norms">номограммы →</Link>
-          </Button>
+          <p className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">
+            <Link
+              href="/tools/calc/ob/fetometry"
+              className="font-semibold text-[var(--clinical-primary)] underline-offset-4 hover:underline"
+            >
+              Расчёт плода →
+            </Link>
+            <span className="text-[var(--clinical-foreground-muted)]" aria-hidden>
+              ·
+            </span>
+            <Link
+              href="/tools/calc/ob/fetometry-norms"
+              className="font-semibold text-[var(--clinical-primary)] underline-offset-4 hover:underline"
+            >
+              номограммы →
+            </Link>
+          </p>
         </div>
       </div>
 

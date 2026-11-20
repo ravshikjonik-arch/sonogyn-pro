@@ -40,6 +40,8 @@ export const RuDateInput = forwardRef<HTMLInputElement, RuDateInputProps>(
       } else {
         const incomplete = masked.length < 10;
         setInvalid(!incomplete);
+        // Clear ISO while editing — иначе остаются старые расчёты по прошлой дате.
+        onChange?.(undefined);
         onValidityChange?.(incomplete);
       }
     }
