@@ -1,5 +1,8 @@
 import { Platform } from "react-native";
 import type { PurchasesOffering, PurchasesPackage } from "react-native-purchases";
+import { pickProMonthlyPackage } from "./pickProMonthlyPackage";
+
+export { pickProMonthlyPackage } from "./pickProMonthlyPackage";
 
 let initialized = false;
 export const ENTITLEMENTS = {
@@ -38,6 +41,11 @@ export async function getOfferings(): Promise<PurchasesOffering | null> {
   const { default: Purchases } = await getPurchasesModule();
   const offerings = await Purchases.getOfferings();
   return offerings.current ?? null;
+}
+
+export async function getProMonthlyPackage(): Promise<PurchasesPackage | null> {
+  const offering = await getOfferings();
+  return pickProMonthlyPackage(offering) as PurchasesPackage | null;
 }
 
 export async function purchasePackage(pkg: PurchasesPackage) {

@@ -19,7 +19,7 @@ import {
   isIapEnabled,
 } from "../config/storeRelease";
 import {
-  getOfferings,
+  getProMonthlyPackage,
   purchasePackage,
   restorePurchases,
 } from "../services/purchaseService";
@@ -45,19 +45,12 @@ export default function PaywallScreen({ navigation }: Props) {
     try {
       setLoading(true);
       setError(null);
-      const offering = await getOfferings();
-      const monthly =
-        offering?.availablePackages.find(
-          (p) =>
-            p.product.identifier === IOS_PRO_MONTHLY_PRODUCT_ID ||
-            p.packageType === "MONTHLY" ||
-            p.identifier.toLowerCase().includes("month"),
-        ) ??
-        offering?.availablePackages[0] ??
-        null;
+      const monthly = await getProMonthlyPackage();
       setPkg(monthly);
       if (!monthly) {
-        setError("Тариф PRO пока не найден в App Store. Попробуйте позже или напишите в поддержку.");
+        setError(
+          `Тариф PRO (${IOS_PRO_MONTHLY_PRODUCT_ID}) пока не найден в App Store. Попробуйте позже или напишите в поддержку.`,
+        );
       }
     } catch (e) {
       setError(e instanceof Error ? e.message : "Не удалось загрузить тарифы.");

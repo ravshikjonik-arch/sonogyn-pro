@@ -54,10 +54,9 @@ export function useProAccess(navigation?: NavigationProp<RootStackParamList>) {
         }
         if (!isIapEnabled()) {
           Alert.alert(
-            "Доступ",
-            "Скачивание бесплатно. До 27.12.2026 пилот открыт без подписки. С 27.12.2026 PRO оформляется в App Store.",
+            "PRO",
+            "С 27.12.2026 расширенные лимиты — в подписке App Store. Сейчас покупка ещё настраивается; напишите в поддержку: Sonogyn-pro@mail.ru",
           );
-          onPro();
           return;
         }
         navigation?.navigate("Paywall");
