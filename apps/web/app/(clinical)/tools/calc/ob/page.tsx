@@ -2,6 +2,8 @@ import { ObCalcHub } from "@/components/calculators/ob/ObCalcHub";
 import { ObCalcMenu } from "@/components/calculators/ob/ObCalcMenu";
 
 import { calculatorPageMetadata } from "@/lib/seo/calculator-seo-registry";
+
+/** Акушерский калькулятор: меню или вкладка ?tab= (ПМП, УЗИ, декрет…). */
 export const metadata = calculatorPageMetadata("/tools/calc/ob");
 
 const TABS = ["lmp", "us", "crl", "msd", "ivf", "feto", "dekret", "edd", "movement", "antenatal"] as const;
