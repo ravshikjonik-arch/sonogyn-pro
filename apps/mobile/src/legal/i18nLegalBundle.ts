@@ -1,25 +1,10 @@
 import type { I18n } from "i18n-js";
-import { Platform } from "react-native";
 
 /** Legal & compliance copy (RU / EN / ES). Template-level text — obtain counsel before production reliance. */
 
-/** App Store Guideline 2.3.10: iOS binary must not advertise Google Play / Android. */
+/** App Store Guideline 2.3.10: source copy is Apple-only (no Google Play strings in the iOS binary). */
 function forStorePlatform(text: string): string {
-  if (Platform.OS !== "ios") return text;
-  return text
-    .replaceAll("Apple App Store / Google Play", "Apple App Store")
-    .replaceAll("App Store / Google Play", "App Store")
-    .replaceAll("Apple ID (Подписки) или Google Play (Платежи и подписки)", "Apple ID (Подписки)")
-    .replaceAll("Apple ID Subscriptions or Google Play subscriptions", "Apple ID Subscriptions")
-    .replaceAll("Suscripciones de Apple ID o Google Play", "Suscripciones de Apple ID")
-    .replaceAll("Apple/Google", "Apple")
-    .replaceAll("Apple / Google", "Apple")
-    .replaceAll("через Apple / Google", "через Apple")
-    .replaceAll("Apple/Google/payment providers", "Apple and payment providers")
-    .replaceAll("Apple/Google/proveedores de pago", "Apple y proveedores de pago")
-    .replaceAll("via Apple/Google/payment providers", "via Apple and payment providers")
-    .replaceAll("vía Apple/Google/proveedores de pago", "vía Apple y proveedores de pago")
-    .replaceAll("Google Play", "App Store");
+  return text;
 }
 const LEGAL: Record<"ru" | "en" | "es", Record<string, string>> = {
   ru: {
@@ -29,7 +14,7 @@ const LEGAL: Record<"ru" | "en" | "es", Record<string, string>> = {
       "Функции на основе искусственного интеллекта (ИИ) являются вспомогательными и не заменяют клиническое решение, очный осмотр и действующие клинические руководства.\n\n" +
       "Вы обязуетесь соблюдать медицинскую этику и правила профессионального сообщества.\n\n" +
       "Запрещены оскорбления, дискриминация, разжигание ненависти (в том числе на почве расы, религии, национальности, пола, инвалидности или иных признаков), спам и публикация персональных данных пациентов (ФИО, контакты, идентификаторы и т.п.). Используйте только обезличенные материалы.\n\n" +
-      "Продолжая работу, вы соглашаетесь с Пользовательским соглашением, Политикой конфиденциальности и правилами платформы распространения приложений (Apple App Store / Google Play).",
+      "Продолжая работу, вы соглашаетесь с Пользовательским соглашением, Политикой конфиденциальности и правилами платформы распространения приложений (Apple App Store).",
     legal_consent_cb_terms: "Я принимаю Пользовательское соглашение",
     legal_consent_cb_privacy: "Я ознакомлен(а) с Политикой конфиденциальности",
     legal_consent_cb_ai: "Я понимаю, что ИИ является вспомогательным инструментом",
@@ -73,7 +58,7 @@ const LEGAL: Record<"ru" | "en" | "es", Record<string, string>> = {
 Администрация вправе без предварительного уведомления удалять контент, ограничивать функции, приостанавливать или блокировать учётные записи при нарушении правил или по требованию закона.
 
 7. Подписка PRO (автопродление)
-При наличии платной подписки: это автоматически продлеваемая подписка (auto-renewable), если иное не указано в оферте магазина. Управление и отмена подписки выполняются в настройках учётной записи Apple ID (Подписки) или Google Play (Платежи и подписки). Возвраты — по правилам соответствующего магазина.
+При наличии платной подписки: это автоматически продлеваемая подписка (auto-renewable), если иное не указано в оферте магазина. Управление и отмена подписки выполняются в настройках учётной записи Apple ID (Подписки). Возвраты — по правилам соответствующего магазина.
 
 8. Изменения условий
 Разработчик может обновлять настоящее соглашение. Существенные изменения доводятся до сведения через приложение или иные разумные каналы. Продолжение использования после обновления может означать согласие с новой редакцией, если это допускается применимым правом.
@@ -81,13 +66,13 @@ const LEGAL: Record<"ru" | "en" | "es", Record<string, string>> = {
 9. Контакты
 Обращения по вопросам соглашения: через раздел поддержки / контакт, указанный разработчиком в магазине приложений.`,
     legal_privacy_body: `1. Кто обрабатывает данные
-Оператором является разработчик приложения (см. карточку приложения в App Store / Google Play). При использовании облачных функций (например, Firebase) обработка может осуществляться совместно с указанными в настройках SDK поставщиками инфраструктуры.
+Оператором является разработчик приложения (см. карточку приложения в App Store). При использовании облачных функций (например, Firebase) обработка может осуществляться совместно с указанными в настройках SDK поставщиками инфраструктуры.
 
 2. Какие данные могут собираться
 — Технические и диагностические данные устройства и приложения (логи сбоев, версия ОС).
 — Учётные / псевдоанонимные идентификаторы (например, анонимный UID для облачных функций).
 — Контент, который пользователь добровольно размещает (описания кейсов, комментарии, изображения), в объёме, необходимом для работы сервиса.
-— Данные о покупках и статусе подписки через Apple / Google (обрабатываются магазином и/или выбранным провайдером платежей).
+— Данные о покупках и статусе подписки через Apple (обрабатываются магазином и/или выбранным провайдером платежей).
 
 3. Аналитика и коммуникации
 Приложение может использовать инструменты аналитики или обмена данными с бэкендом для улучшения продукта. Мы не продаём персональные данные третьим лицам в рекламных целях. Любая маркетинговая рассылка (если появится) будет опираться на отдельное согласие, где это требуется законом.
@@ -117,7 +102,7 @@ const LEGAL: Record<"ru" | "en" | "es", Record<string, string>> = {
       "Artificial intelligence (AI) features are assistive only. They are not a medical diagnosis and do not replace independent clinical judgment, physical examination, or applicable clinical guidelines.\n\n" +
       "You agree to uphold medical ethics and professional community standards.\n\n" +
       "Harassment, discrimination, hate (including race, religion, nationality, gender, disability, or other protected characteristics), spam, and publication of patient personal data (name, contact details, identifiers, etc.) are prohibited. Use de-identified materials only.\n\n" +
-      "By continuing, you agree to the Terms of Use, Privacy Policy, and the distribution platform rules (Apple App Store / Google Play).",
+      "By continuing, you agree to the Terms of Use, Privacy Policy, and the distribution platform rules (Apple App Store).",
     legal_consent_cb_terms: "I accept the Terms of Use",
     legal_consent_cb_privacy: "I have read the Privacy Policy",
     legal_consent_cb_ai: "I understand that AI is an assistive tool",
@@ -161,7 +146,7 @@ No harassment, spam, hate, discrimination, patient identifiable information, ill
 We may remove content, restrict features, suspend, or block accounts without prior notice where permitted by law or platform policy.
 
 7. PRO subscription (auto-renew)
-Paid plans may be auto-renewable subscriptions as offered by Apple/Google. Manage or cancel in Apple ID Subscriptions or Google Play subscriptions. Refunds follow store rules.
+Paid plans may be auto-renewable subscriptions as offered by Apple. Manage or cancel in Apple ID Subscriptions. Refunds follow store rules.
 
 8. Changes
 We may update these terms. Material changes will be communicated in-app or by other reasonable means. Continued use may constitute acceptance where allowed by law.
@@ -172,7 +157,7 @@ Use the support channel listed on the store listing for legal inquiries.`,
 The developer identified in the store listing acts as the primary controller. Cloud providers (e.g., Firebase) may process data as subprocessors.
 
 2. Data categories
-Device/app diagnostics, pseudonymous identifiers, user-generated clinical educational content you submit, and subscription status via Apple/Google/payment providers.
+Device/app diagnostics, pseudonymous identifiers, user-generated clinical educational content you submit, and subscription status via Apple/payment providers.
 
 3. Analytics & communications
 We may use analytics or backend telemetry to improve the product. We do not sell personal data to data brokers. Marketing communications, if any, will rely on consent where required.
@@ -202,7 +187,7 @@ Information is educational and reference in nature. For diagnosis, treatment, an
       "Las funciones de inteligencia artificial (IA) son auxiliares. No constituyen diagnóstico médico ni sustituyen el juicio clínico independiente, la exploración física ni las guías clínicas aplicables.\n\n" +
       "Usted se compromete a respetar la ética médica y las normas de la comunidad profesional.\n\n" +
       "Están prohibidos el acoso, la discriminación, el odio (incluidos motivos raciales, religiosos, de nacionalidad, de género, discapacidad u otros), el spam y la publicación de datos personales del paciente (nombre, contacto, identificadores, etc.). Utilice solo material desidentificado.\n\n" +
-      "Al continuar, acepta los Términos de uso, la Política de privacidad y las reglas de la plataforma de distribución (Apple App Store / Google Play).",
+      "Al continuar, acepta los Términos de uso, la Política de privacidad y las reglas de la plataforma de distribución (Apple App Store).",
     legal_consent_cb_terms: "Acepto los Términos de uso",
     legal_consent_cb_privacy: "He leído la Política de privacidad",
     legal_consent_cb_ai: "Entiendo que la IA es una herramienta auxiliar",
@@ -246,7 +231,7 @@ Sin acoso, spam, odio, discriminación, datos identificables del paciente, conte
 Podemos eliminar contenido, restringir funciones, suspender o bloquear cuentas sin previo aviso cuando lo permita la ley o la política de la plataforma.
 
 7. Suscripción PRO (renovación automática)
-Los planes de pago pueden ser suscripciones de renovación automática según Apple/Google. Gestione o cancele en Suscripciones de Apple ID o Google Play. Los reembolsos siguen las reglas de la tienda.
+Los planes de pago pueden ser suscripciones de renovación automática según Apple. Gestione o cancele en Suscripciones de Apple ID. Los reembolsos siguen las reglas de la tienda.
 
 8. Cambios
 Podemos actualizar estos términos. Los cambios sustanciales se comunicarán en la app u otros medios razonables. El uso continuado puede implicar aceptación cuando lo permita la ley.
@@ -257,7 +242,7 @@ Utilice el canal de soporte indicado en la ficha de la tienda.`,
 El desarrollador indicado en la tienda actúa como responsable principal. Proveedores en la nube (p. ej., Firebase) pueden tratar datos como encargados.
 
 2. Categorías de datos
-Diagnóstico del dispositivo/app, identificadores seudónimos, contenido generado por el usuario que usted envía, y estado de suscripción vía Apple/Google/proveedores de pago.
+Diagnóstico del dispositivo/app, identificadores seudónimos, contenido generado por el usuario que usted envía, y estado de suscripción vía Apple/proveedores de pago.
 
 3. Análisis y comunicaciones
 Podemos usar analítica o telemetría para mejorar el producto. No vendemos datos personales a intermediarios publicitarios. Comunicaciones comerciales, si las hubiera, se basarán en el consentimiento cuando sea obligatorio.
