@@ -34,7 +34,7 @@
 ## Инкремент 4.2 — в работе
 
 - **Сделано:** legacy JWT/cases REST → `apps/mobile/src/api/legacyChatServerClient.ts` (`@deprecated`).
-- **Осталось:** E2E guest discussions read-only; post требует login (`apps/web/scripts/pilot-discussions-e2e.mjs`).
+- **E2E (24.11):** `pilot-discussions-e2e.mjs` — web↔web thread OK; guest read / post login — в Playwright (след. шаг).
 
 ## Не ломать
 
