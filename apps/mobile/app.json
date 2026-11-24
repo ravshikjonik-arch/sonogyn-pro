@@ -10,7 +10,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.yakrav7700.usriskcalc",
-      "buildNumber": "34",
+      "buildNumber": "35",
       "infoPlist": {
         "NSCameraUsageDescription": "Камера: съёмка обезличенных учебных снимков УЗИ для кейсов и ассистивных инструментов.",
         "NSPhotoLibraryUsageDescription": "Галерея: выбор обезличенных изображений УЗИ для кейсов и ассистивных инструментов.",
@@ -21,7 +21,7 @@
     },
     "android": {
       "package": "com.yakrav7700.usriskcalc",
-      "versionCode": 13,
+      "versionCode": 14,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#07041a"

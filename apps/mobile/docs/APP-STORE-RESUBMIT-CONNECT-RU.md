@@ -1,13 +1,13 @@
 # Повторная отправка iOS — что сделать в Connect (вы сами, 10–15 мин)
 
-Автоматизация **не может** войти в Apple ID за вас. Бинарник **(33)** после EAS — attach + Submit вручную.
+Автоматизация **не может** войти в Apple ID за вас. Бинарник **(35)** после EAS — attach + Submit вручную (в нём O-RADS «Описание / фото» + gyn-assist).
 
 ---
 
 ## A. Перед Submit (обязательно)
 
 1. **Деплой веба** — чтобы на `https://sonogyn-pro.ru/privacy` был раздел **«8. Сторонние сервисы ИИ»** (после merge/deploy).
-2. **Версия 1.0.4** → сборка **(33)** — **не (29)**.
+2. **Версия 1.0.4** → сборка **(35)** — **не (29–34)**.
 3. **App Privacy** — данные собираются (см. `APP-STORE-5-1-1-PRIVACY-FIX-RU.md`).
 
 ---
@@ -21,6 +21,7 @@ Sign-in: NOT required for review. Launch → consent (4 checkboxes including exp
 
 Third-party AI (Guideline 5.1.1(i)/(ii)):
 - Before any cloud AI, user must accept a dedicated checkbox naming SonoGyn API (sonogyn-pro.ru), OpenRouter, and Perplexity, and what text is sent. Privacy: https://sonogyn-pro.ru/privacy section 8.
+- Optional vision assist: Calculators → O-RADS → «Описание / фото» → Галерея/Камера (de-identified US image only) → our API analyzes on sonogyn-pro.ru; covered by the same AI consent. Local O-RADS category still requires clinician confirmation in the stepper.
 - Speech-to-text: separate in-screen checkbox before audio is uploaded to our server.
 - Guest users can use calculators without AI chat if they only use non-AI screens.
 
@@ -31,7 +32,7 @@ IAP: PRO subscription metadata is attached for future; in-app purchases are disa
 
 Account deletion: Profile → sign in → «Удалить аккаунт и данные».
 
-Please review build 1.0.4 (33).
+Please review build 1.0.4 (35).
 ```
 
 ---
