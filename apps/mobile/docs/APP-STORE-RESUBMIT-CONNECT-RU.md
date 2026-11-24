@@ -1,13 +1,13 @@
 # Повторная отправка iOS — что сделать в Connect (вы сами, 10–15 мин)
 
-Автоматизация **не может** войти в Apple ID за вас. Бинарник **(35)** после EAS — attach + Submit вручную (в нём O-RADS «Описание / фото» + gyn-assist).
+Автоматизация **не может** войти в Apple ID за вас. Бинарник **(36)** после EAS — attach + Submit вручную (в нём O-RADS «Описание / фото» + gyn-assist).
 
 ---
 
 ## A. Перед Submit (обязательно)
 
 1. **Деплой веба** — чтобы на `https://sonogyn-pro.ru/privacy` был раздел **«8. Сторонние сервисы ИИ»** (после merge/deploy).
-2. **Версия 1.0.4** → сборка **(35)** — **не (29–34)**.
+2. **Версия 1.0.4** → сборка **(36)** — **не (29–35)**.
 3. **App Privacy** — данные собираются (см. `APP-STORE-5-1-1-PRIVACY-FIX-RU.md`).
 
 ---
@@ -32,7 +32,7 @@ IAP: PRO subscription metadata is attached for future; in-app purchases are disa
 
 Account deletion: Profile → sign in → «Удалить аккаунт и данные».
 
-Please review build 1.0.4 (35).
+Please review build 1.0.4 (36).
 ```
 
 ---
