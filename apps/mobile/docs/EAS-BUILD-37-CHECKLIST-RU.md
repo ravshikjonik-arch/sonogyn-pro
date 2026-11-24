@@ -1,6 +1,6 @@
 # EAS build **37+** — когда собирать
 
-**Актуальный ASC build:** **38** (EAS `ce560658-e054-44f4-93c8-9f8a8f4e39ba`; EAS сам поднял 37→38). Не делать **Submit** в Connect, пока **36** в **In Review**, если Apple **не** попросил новый бинарник (TestFlight — можно).
+**Build 38:** EAS `ce560658-e054-44f4-93c8-9f8a8f4e39ba` → submit `16f6ca3a-b043-4bfb-b1db-065031de5358` (24.11.2026). В **TestFlight** после обработки Apple (~10 мин). **Submit for Review** для версии 1.0.4 — **не** менять, пока **36** **In Review** (38 — только TF/smoke или после Reject).
 
 ## Зачем 37
 
@@ -25,7 +25,7 @@ eas build --platform ios --profile production
 eas submit --platform ios --latest
 ```
 
-## Smoke на TestFlight **37**
+## Smoke на TestFlight **38**
 
 1. Guest: consent → калькуляторы.
 2. Профиль → **Telegram** → бот → возврат в app (deep link `telegram_nonce`).
