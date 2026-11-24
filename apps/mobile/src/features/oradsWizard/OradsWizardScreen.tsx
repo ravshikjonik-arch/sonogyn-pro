@@ -112,7 +112,7 @@ export default function OradsWizardScreen({ navigation, route }: Props) {
           style={[styles.modeBtn, mode === "assist" && styles.modeBtnActive]}
           onPress={() => setMode("assist")}
         >
-          <Text style={[styles.modeBtnText, mode === "assist" && styles.modeBtnTextActive]}>Из описания</Text>
+          <Text style={[styles.modeBtnText, mode === "assist" && styles.modeBtnTextActive]}>Описание / фото</Text>
         </Pressable>
       </View>
 

@@ -13,6 +13,7 @@ import type { UseOradsNavigatorReturn } from "@repo/orads-us";
 
 import { MobileDictationBar } from "../speech/MobileDictationBar";
 import OradsAssistFeedback from "./OradsAssistFeedback";
+import { OradsPhotoAssistSection } from "./OradsPhotoAssistSection";
 import { useOradsAssist } from "./useOradsAssist";
 
 type Props = {
@@ -62,7 +63,8 @@ export default function OradsAssistPanel({
   return (
     <ScrollView contentContainerStyle={styles.wrap} keyboardShouldPersistTaps="handled">
       <Text style={styles.lead}>
-        Вставьте фрагмент протокола. Категорию O-RADS считает калькулятор после вашего подтверждения.
+        Текст протокола или обезличенный снимок УЗИ. Категорию O-RADS считает калькулятор после вашего
+        подтверждения.
       </Text>
 
       {profileAgeYears !== undefined ? (
@@ -70,6 +72,23 @@ export default function OradsAssistPanel({
       ) : null}
 
       <MobileDictationBar value={text} onChange={setText} style={{ marginBottom: 8 }} />
+
+      <OradsPhotoAssistSection
+        menopause={menopause}
+        profileAgeYears={profileAgeYears}
+        freeText={text}
+        onMergedText={(merged) => {
+          setText(merged);
+          void analyze({
+            text: merged,
+            menopause,
+            profileAgeYears,
+            patientId,
+            fetchRemoteDraft: true,
+          });
+        }}
+        style={{ marginBottom: 10 }}
+      />
 
       <TextInput
         style={styles.input}

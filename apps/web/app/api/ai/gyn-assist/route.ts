@@ -5,11 +5,10 @@ import { analyzeGynUltrasoundAssist } from "@/lib/ai/gyn-ultrasound-assist";
 import { evaluateOradsApplicability } from "@/lib/ai/imaging-cds/orads-applicability";
 import { prepareImagingFramesForAnalysis } from "@/lib/ai/imaging-cds/prepare-frames";
 import { buildGynAssistBlockedResult } from "@/lib/ai/gyn-ultrasound-assist";
-import { isDevSkipAuthEnabled, isFullOpenAccessEnabled } from "@/lib/auth/dev-account";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { RL } from "@/lib/security/rate-limit-config";
 import { rejectIfPhiInTextFields } from "@/lib/security/reject-phi-payload";
-import { requireSupabaseUser } from "@/lib/security/require-user";
+import { requireSupabaseUserOrOpenAccess } from "@/lib/security/require-user";
 import { createClient } from "@/utils/supabase/server";
 
 const FrameSchema = z.object({
@@ -29,13 +28,13 @@ const BodySchema = z.object({
 /** POST /api/ai/gyn-assist — снимок придатков → US AI Worker (gyn) + O-RADS assist. */
 export async function POST(request: Request) {
   const supabase = await createClient();
-  const auth = await requireSupabaseUser(supabase);
-  if (!auth.ok && !isDevSkipAuthEnabled() && !isFullOpenAccessEnabled()) {
+  const auth = await requireSupabaseUserOrOpenAccess(request, supabase);
+  if (!auth.ok) {
     return auth.response;
   }
 
   const rl = await consumeRateLimit(
-    `ai-gyn:${auth.ok ? auth.userId : "open-access"}`,
+    `ai-gyn:${auth.userId}`,
     RL.aiOrads.limit,
     RL.aiOrads.windowMs,
   );
