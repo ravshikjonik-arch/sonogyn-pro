@@ -13,6 +13,8 @@ const API_BOT_ALLOWLIST_PREFIXES = [
   "/api/cron/",
   "/api/health",
   "/api/webinars/status",
+  /** Public KR/news metadata (no PHI); rate-limited in route. */
+  "/api/evidence/whats-new",
 ] as const;
 
 /** Native app auth (React Native fetch may omit or vary User-Agent). */

@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   ActivityIndicator,
   Linking,
@@ -32,6 +32,7 @@ import {
   type MobileEvidenceRecord,
   type MobileSearchResult,
 } from "../lib/evidence/evidenceApi";
+import { getBundledWhatsNewFeed } from "../lib/evidence/whatsNewFeed";
 
 type Props = NativeStackScreenProps<RootStackParamList, "EvidenceAssistant">;
 
@@ -108,6 +109,7 @@ export default function EvidenceAssistantScreen({ navigation }: Props) {
   const [history, setHistory] = useState<MobileEvidenceHistoryRow[]>([]);
   const [rateLimitHint, setRateLimitHint] = useState<string | null>(null);
   const [corpusMode, setCorpusMode] = useState<MobileEvidenceCorpusMode>("rf_kr");
+  const whatsNew = useMemo(() => getBundledWhatsNewFeed().slice(0, 8), []);
 
   const refreshMeta = useCallback(() => {
     void listEvidenceBookmarks()
@@ -258,6 +260,28 @@ export default function EvidenceAssistantScreen({ navigation }: Props) {
           CDS / справочная помощь. Не диагноз; решение — за врачом.
           {rateLimitHint ? ` ${rateLimitHint}.` : ""}
         </Text>
+
+        {whatsNew.length > 0 ? (
+          <View style={styles.newsBlock}>
+            <Text style={styles.newsHeading}>Новое · КР и источники</Text>
+            {whatsNew.map((item) => (
+              <Pressable
+                key={item.id}
+                style={styles.newsRow}
+                onPress={() => void Linking.openURL(item.url)}
+                accessibilityRole="link"
+                accessibilityLabel={item.title}
+              >
+                <Text style={styles.newsTitle} numberOfLines={2}>
+                  {item.title}
+                </Text>
+                <Text style={styles.newsSummary} numberOfLines={2}>
+                  {item.summary}
+                </Text>
+              </Pressable>
+            ))}
+          </View>
+        ) : null}
 
         <View style={styles.chips}>
           {SUGGESTED.map((s) => (
@@ -453,6 +477,18 @@ const styles = StyleSheet.create({
   searchBtnDisabled: { opacity: 0.6 },
   searchBtnText: { color: "#fff", fontWeight: "700", fontSize: 13 },
   scroll: { padding: 16, paddingBottom: 32, gap: 12 },
+  newsBlock: {
+    borderWidth: 1,
+    borderColor: "#e9d5ff",
+    borderRadius: 12,
+    backgroundColor: "#faf5ff",
+    padding: 12,
+    gap: 8,
+  },
+  newsHeading: { fontSize: 12, fontWeight: "800", color: "#6d28d9", letterSpacing: 0.3 },
+  newsRow: { paddingVertical: 6, borderTopWidth: 1, borderTopColor: "#ede9fe" },
+  newsTitle: { fontSize: 14, fontWeight: "700", color: "#0f172a" },
+  newsSummary: { fontSize: 12, color: "#64748b", marginTop: 2, lineHeight: 17 },
   chips: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
   chip: {
     borderWidth: 1,
