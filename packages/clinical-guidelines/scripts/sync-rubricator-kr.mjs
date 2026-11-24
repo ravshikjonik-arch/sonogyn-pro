@@ -6,13 +6,14 @@
  * Usage: node scripts/sync-rubricator-kr.mjs
  */
 
-import { writeFileSync, mkdirSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT_JSON = join(__dirname, "../src/catalog/synced-kr-mz-rf.json");
 const OUT_META = join(__dirname, "../src/catalog/synced-kr-mz-rf.meta.json");
+const OUT_CHANGELOG = join(__dirname, "../src/catalog/synced-kr-mz-rf.changelog.json");
 
 const API_BASE = "https://apicr.minzdrav.gov.ru/api.ashx";
 const PREVIEW_BASE = "https://cr.minzdrav.gov.ru/preview-cr";
@@ -167,15 +168,65 @@ async function main() {
     }
   }
 
-  const guidelines = [...all.values()]
+  const withSource = [...all.values()];
+  const guidelines = withSource
     .map(({ _source, ...rest }) => ({
       ...rest,
       tags: [...new Set(rest.tags)],
     }))
     .sort((a, b) => a.title.localeCompare(b.title, "ru"));
 
+  const previous = existsSync(OUT_JSON)
+    ? JSON.parse(readFileSync(OUT_JSON, "utf8"))
+    : [];
+  const prevByCode = new Map();
+  for (const g of previous) {
+    const m = String(g.id || "").match(/^kr-mz-rf-(\d+)-v(\d+)$/);
+    if (!m) continue;
+    const code = Number(m[1]);
+    const version = Number(m[2]);
+    const cur = prevByCode.get(code);
+    if (!cur || version > cur.version) {
+      prevByCode.set(code, { version, id: g.id, title: g.title, officialUrl: g.officialUrl });
+    }
+  }
+
+  const added = [];
+  const updated = [];
+  for (const g of withSource) {
+    const code = g._source?.rubricatorCode;
+    const version = g._source?.version ?? 1;
+    if (typeof code !== "number") continue;
+    const prev = prevByCode.get(code);
+    const entry = {
+      id: g.id,
+      title: g.title,
+      officialUrl: g.officialUrl,
+      specialty: g.specialty,
+      version,
+    };
+    if (!prev) {
+      added.push(entry);
+    } else if (version > prev.version) {
+      updated.push({ ...entry, previousVersion: prev.version, previousId: prev.id });
+    }
+  }
+
   mkdirSync(dirname(OUT_JSON), { recursive: true });
   writeFileSync(OUT_JSON, `${JSON.stringify(guidelines, null, 2)}\n`, "utf8");
+
+  const changelog = {
+    syncedAt: new Date().toISOString(),
+    added,
+    updated,
+    addedCount: added.length,
+    updatedCount: updated.length,
+    total: guidelines.length,
+  };
+  writeFileSync(OUT_CHANGELOG, `${JSON.stringify(changelog, null, 2)}\n`, "utf8");
+  if (added.length || updated.length) {
+    console.log(`Changelog: +${added.length} new, ~${updated.length} version bumps → ${OUT_CHANGELOG}`);
+  }
 
   const meta = {
     syncedAt: new Date().toISOString(),

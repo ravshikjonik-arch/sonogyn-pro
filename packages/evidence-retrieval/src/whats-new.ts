@@ -1,3 +1,5 @@
+import { listKrRubricatorWhatsNewItems } from "@repo/clinical-guidelines";
+
 import type { EvidenceRecord } from "./types.js";
 import { buildEvidenceRecord } from "./normalizer.js";
 import { grlsSearchUrl } from "./adapters/grls.adapter.js";
@@ -12,12 +14,20 @@ export type WhatsNewItem = {
 };
 
 /**
- * Curated «Новое» feed for OB/GYN/US — metadata + links only.
- * Later: diff of KR sync + Roszdravnadzor crawl.
+ * «Новое» for OB/GYN/US — KR rubricator diff (after `pnpm sync:guidelines`) + curated links.
  */
 export function listWhatsNewFeed(now = new Date()): WhatsNewItem[] {
   const iso = now.toISOString().slice(0, 10);
-  return [
+  const krItems: WhatsNewItem[] = listKrRubricatorWhatsNewItems(8).map((item) => ({
+    id: item.id,
+    category: "guideline" as const,
+    title: item.title,
+    summary: item.summary,
+    url: item.url,
+    updatedAt: item.updatedAt,
+  }));
+
+  const curated: WhatsNewItem[] = [
     {
       id: `kr-rubricator-${iso}`,
       category: "guideline",
@@ -60,6 +70,8 @@ export function listWhatsNewFeed(now = new Date()): WhatsNewItem[] {
       updatedAt: iso,
     },
   ];
+
+  return [...krItems, ...curated];
 }
 
 export function whatsNewAsEvidenceRecords(now = new Date()): EvidenceRecord[] {

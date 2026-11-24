@@ -8,6 +8,11 @@ export {
   getGuidelineById,
 } from "./catalog";
 export {
+  KR_RUBRICATOR_CHANGELOG,
+  listKrRubricatorWhatsNewItems,
+  type KrRubricatorChangelog,
+} from "./catalog/kr-rubricator-changelog";
+export {
   RCOG_BROWSE_URL,
   RCOG_CATEGORY_LABELS,
   RCOG_GREEN_TOP_GUIDELINES,

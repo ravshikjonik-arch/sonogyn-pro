@@ -1,0 +1,43 @@
+# Weekly sync КР МЗ РФ (metadata) → catalog JSON + changelog for Evidence «Новое»
+name: Sync KR rubricator
+
+on:
+  schedule:
+    - cron: "0 5 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.6.5
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install deps
+        run: npx --yes pnpm@10.6.5 install --frozen-lockfile
+
+      - name: Sync rubricator (apicr.minzdrav.gov.ru)
+        run: pnpm sync:guidelines
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet packages/clinical-guidelines/src/catalog/; then
+            echo "No KR catalog changes."
+            exit 0
+          fi
+          git add packages/clinical-guidelines/src/catalog/synced-kr-mz-rf*.json
+          git commit -m "chore(guidelines): auto-sync KR rubricator metadata"
+          git push

@@ -1,10 +1,10 @@
 {
-  "syncedAt": "2026-06-03T21:12:33.977Z",
+  "syncedAt": "2026-11-24T07:28:46.802Z",
   "source": "https://cr.minzdrav.gov.ru/",
   "api": "https://apicr.minzdrav.gov.ru/api.ashx",
-  "total": 91,
+  "total": 94,
   "bySpecialty": {
-    "obgyn": 47,
+    "obgyn": 50,
     "obstetrics": 41,
     "mammology": 3
   },

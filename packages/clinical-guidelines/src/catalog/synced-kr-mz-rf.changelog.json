@@ -1,0 +1,37 @@
+{
+  "syncedAt": "2026-11-24T07:28:46.800Z",
+  "added": [
+    {
+      "id": "kr-mz-rf-1066-v1",
+      "title": "Дивертикул мочевого пузыря",
+      "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/1066_1",
+      "specialty": "obgyn",
+      "version": 1
+    },
+    {
+      "id": "kr-mz-rf-1067-v1",
+      "title": "Болезнь Пейрони",
+      "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/1067_1",
+      "specialty": "obgyn",
+      "version": 1
+    },
+    {
+      "id": "kr-mz-rf-1091-v1",
+      "title": "Полипы эндометрия",
+      "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/1091_1",
+      "specialty": "obgyn",
+      "version": 1
+    },
+    {
+      "id": "kr-mz-rf-1094-v1",
+      "title": "Контрацепция. Наблюдение за применением противозачаточных средств.",
+      "officialUrl": "https://cr.minzdrav.gov.ru/preview-cr/1094_1",
+      "specialty": "obgyn",
+      "version": 1
+    }
+  ],
+  "updated": [],
+  "addedCount": 4,
+  "updatedCount": 0,
+  "total": 94
+}
