@@ -21,10 +21,10 @@ Vision O-RADS: /api/ai/gyn-assist (волна 3 mobile parity)
 | # | Название | Результат для врача | Статус |
 |---|----------|---------------------|--------|
 | **0** | LLM РФ-first | ИИ без VPN на типовых сценариях | runbook `colibri-vps-24x7-runbook.md` |
-| **1** | Скорость | Мгновенный старт, CDN, mobile bundle | **в работе** — public whats-new CDN + mobile офлайн лента КР |
+| **1** | Скорость | Мгновенный старт, CDN, mobile bundle | **готово** `bfd130a5` — whats-new CDN + mobile лента КР |
 | **2** | Авто-КР | «Новое» из diff рубрикатора | **старт** — sync + GHA + whats-new |
 | **3** | O-RADS фото mobile | Вау на телефоне | **готово** `a38e752c` — gyn-assist open/Bearer + галерея/камера в O-RADS assist |
-| **4** | Один чат | Supabase only, без legacy server | план |
+| **4** | Один чат | Supabase only, без legacy server | **старт** — `wave-4-unified-chat.md`; discussions уже Supabase |
 
 ## Волна 2 — что сделано в старте
 
