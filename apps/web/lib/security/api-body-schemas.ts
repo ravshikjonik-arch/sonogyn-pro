@@ -193,6 +193,11 @@ export const TelegramWidgetBodySchema = z.object({
   source: z.string().max(32).optional(),
 });
 
+/** POST /api/auth/telegram/mobile/session */
+export const TelegramMobileSessionBodySchema = z.object({
+  nonce: z.string().uuid(),
+});
+
 /** POST /api/auth/telegram/bot — server-to-server */
 export const TelegramBotBodySchema = z.object({
   id: z.union([z.number().int().positive(), z.string().max(32)]),

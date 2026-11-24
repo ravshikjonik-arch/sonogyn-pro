@@ -9,6 +9,7 @@ const API_BOT_ALLOWLIST_PREFIXES = [
   /** Supabase GoTrue (Go-http-client) fetches Yandex profile via this proxy. */
   "/api/auth/yandex/userinfo",
   "/api/telegram/hermes",
+  "/api/telegram/auth-login-webhook",
   "/api/ingest/telegram-example",
   "/api/cron/",
   "/api/health",
@@ -23,6 +24,7 @@ const MOBILE_AUTH_API_PREFIXES = [
   "/api/auth/sign-up",
   "/api/auth/mfa/",
   "/api/auth/mobile/",
+  "/api/auth/telegram/mobile/",
   "/api/auth/revoke-all-sessions",
 ] as const;
 

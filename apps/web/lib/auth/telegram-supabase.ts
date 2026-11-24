@@ -168,6 +168,35 @@ export async function establishTelegramSession(email: string, request: Request) 
   return nextJsonWithAuthCookies({ ok: true, email }, client.cookiesToSet);
 }
 
+/** Supabase session tokens for mobile clients (no cookies / exchange code). */
+export async function establishTelegramSessionTokens(
+  email: string,
+): Promise<{ access_token: string; refresh_token: string } | null> {
+  const admin = createServiceRoleClient();
+  const client = await createSupabaseRouteHandlerClient();
+  if (!client.ok) return null;
+
+  const { data: linkData, error: linkError } = await admin.auth.admin.generateLink({
+    type: "magiclink",
+    email,
+  });
+  if (linkError || !linkData.properties.hashed_token) return null;
+
+  const { error: verifyError } = await client.supabase.auth.verifyOtp({
+    type: "email",
+    token_hash: linkData.properties.hashed_token,
+  });
+  if (verifyError) return null;
+
+  const { data: sessionData } = await client.supabase.auth.getSession();
+  if (!sessionData.session) return null;
+
+  return {
+    access_token: sessionData.session.access_token,
+    refresh_token: sessionData.session.refresh_token,
+  };
+}
+
 export function readInternalAuthSecret(request: Request): boolean {
   if (!isInternalAuthSecretConfigured()) return false;
   const expected = process.env.SONOGYN_AUTH_INTERNAL_SECRET!.trim();

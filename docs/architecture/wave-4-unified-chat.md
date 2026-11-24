@@ -20,11 +20,28 @@
 - Обсуждения: `DoctorChannelChatV2`, messenger hooks.
 - Auth Telegram: `/api/auth/telegram`, `/api/auth/telegram/bot`, `verify-otp`.
 
-## Инкремент 4.1 (следующий PR)
+## Инкремент 4.1 — **сделано в коде** (нужен deploy + миграция)
 
-1. `getChatApiBase()` fallback → `getWebApiBase()` только для `apiTelegramSupabaseSession` **после** web endpoint `POST /api/auth/telegram/mobile-session` (nonce exchange).
-2. Док: prod **не** запускать `pnpm chat-server`.
-3. E2E: guest discussions read-only; post требует login.
+| Компонент | Путь |
+|-----------|------|
+| Таблица nonce | `packages/database/supabase/migrations/20261124130000_telegram_mobile_login_pending.sql` |
+| Mobile API | `POST /api/auth/telegram/mobile/start`, `GET …/poll/[nonce]`, `POST …/session` |
+| Bot webhook | `POST /api/telegram/auth-login-webhook` (настроить в BotFather → webhook URL) |
+| Mobile client | `chatBackend.ts` → `getWebApiBase()` если нет `EXPO_PUBLIC_CHAT_API_URL` |
+
+**Ops после merge:**
+
+1. Применить миграцию на Supabase staging/prod.
+2. Vercel env: `TELEGRAM_LOGIN_WEBHOOK_SECRET` (или `TELEGRAM_WEBHOOK_SECRET`).
+3. Telegram: `setWebhook` → `https://sonogyn-pro.ru/api/telegram/auth-login-webhook` + secret header.
+4. Prod **не** держать `apps/mobile/server` для пилота.
+
+**Build 36 (App Store):** deep-link Telegram заработает на **текущем** бинарнике после deploy+миграции (useAuthDeepLinks уже вызывает `apiTelegramSupabaseSession`).
+
+## Инкремент 4.2 (далее)
+
+- Deprecate неиспользуемые `apiRegister` / cases REST в `chatBackend.ts`.
+- E2E: guest discussions read-only; post требует login.
 
 ## Не ломать
 

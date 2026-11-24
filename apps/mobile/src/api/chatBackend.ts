@@ -220,18 +220,25 @@ export type TelegramAuthPoll =
   | { status: "expired" };
 
 export async function apiTelegramAuthStart(): Promise<TelegramAuthStart> {
-  const base = getChatApiBase();
-  if (!base) throw new Error("Telegram auth API не настроен (EXPO_PUBLIC_CHAT_API_URL).");
-  const res = await fetch(`${base}/auth/telegram/start`, { method: "POST" });
+  const base = getTelegramAuthBase();
+  const path = getChatApiBase() ? "/auth/telegram/start" : "/api/auth/telegram/mobile/start";
+  const res = await fetch(`${base}${path}`, {
+    method: "POST",
+    headers: { "x-sonogyn-client": "mobile" },
+  });
   const data = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(data.error || `Ошибка ${res.status}`);
   return data as TelegramAuthStart;
 }
 
 export async function apiTelegramAuthPoll(nonce: string): Promise<TelegramAuthPoll> {
-  const base = getChatApiBase();
-  if (!base) throw new Error("Telegram auth API не настроен.");
-  const res = await fetch(`${base}/auth/telegram/poll/${encodeURIComponent(nonce)}`);
+  const base = getTelegramAuthBase();
+  const path = getChatApiBase()
+    ? `/auth/telegram/poll/${encodeURIComponent(nonce)}`
+    : `/api/auth/telegram/mobile/poll/${encodeURIComponent(nonce)}`;
+  const res = await fetch(`${base}${path}`, {
+    headers: { "x-sonogyn-client": "mobile" },
+  });
   const data = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(data.error || `Ошибка ${res.status}`);
   return data as TelegramAuthPoll;
@@ -253,6 +260,17 @@ export function getWebApiBase(): string {
   return "";
 }
 
+/** Telegram deep-link auth: prod → sonogyn-pro.ru; dev may use legacy chat-server. */
+function getTelegramAuthBase(): string {
+  const legacy = getChatApiBase();
+  if (legacy) return legacy;
+  const web = getWebApiBase();
+  if (!web) {
+    throw new Error("Настройте EXPO_PUBLIC_API_BASE_URL для Telegram-входа.");
+  }
+  return web;
+}
+
 /** Static files (echograms, images): sonogyn-pro.ru proxy truncates large bodies, so load them from the deployment host. */
 export function getWebAssetBase(): string {
   const base = getWebApiBase();
@@ -264,11 +282,11 @@ export async function apiTelegramSupabaseSession(nonce: string): Promise<{
   refresh_token: string;
   email?: string;
 }> {
-  const base = getChatApiBase();
-  if (!base) throw new Error("EXPO_PUBLIC_CHAT_API_URL не задан (chat-server).");
-  const res = await fetch(`${base}/auth/telegram/session`, {
+  const base = getTelegramAuthBase();
+  const path = getChatApiBase() ? "/auth/telegram/session" : "/api/auth/telegram/mobile/session";
+  const res = await fetch(`${base}${path}`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", "x-sonogyn-client": "mobile" },
     body: JSON.stringify({ nonce }),
   });
   const data = await res.json().catch(() => ({}));

@@ -21,6 +21,7 @@ import {
   SignInBodySchema,
   SignUpBodySchema,
   StructuredReportBodySchema,
+  TelegramMobileSessionBodySchema,
   TelegramVerifyOtpBodySchema,
   VideoTranscodeWebhookBodySchema,
   UpdatePasswordBodySchema,
@@ -127,6 +128,17 @@ describe("SignUpBodySchema", () => {
       specialization: "obgyn",
     });
     assert.equal(r.success, false);
+  });
+});
+
+describe("TelegramMobileSessionBodySchema", () => {
+  it("requires uuid nonce", () => {
+    const ok = TelegramMobileSessionBodySchema.safeParse({
+      nonce: "a3f2c1b0-1234-5678-9abc-def012345678",
+    });
+    assert.equal(ok.success, true);
+    const bad = TelegramMobileSessionBodySchema.safeParse({ nonce: "not-uuid" });
+    assert.equal(bad.success, false);
   });
 });
 
