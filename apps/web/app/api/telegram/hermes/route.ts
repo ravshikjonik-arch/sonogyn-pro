@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import { handleTelegramMobileLoginMessage } from "@/lib/auth/handle-telegram-mobile-login-message";
 import { readTelegramBotToken } from "@/lib/auth/telegram-bot-config";
 import { timingSafeEqual } from "@/lib/security/timing-safe";
 import { isTelegramExampleUserAllowed } from "@/lib/security/telegram-example-ingest-auth";
@@ -204,6 +205,14 @@ export async function POST(request: Request) {
   }
 
   if (message.text?.startsWith("/start")) {
+    const loginHandled = await handleTelegramMobileLoginMessage({
+      chat: message.chat,
+      from: message.from as { id?: number; first_name?: string; last_name?: string; username?: string },
+      text: message.text,
+    });
+    if (loginHandled) {
+      return NextResponse.json({ ok: true });
+    }
     await sendMessage(
       chatId,
       "Hermes SonoGyn Pro снова на связи.\n\nПришлите УЗИ-изображение с подписью. Первая строка станет названием черновика. Можно добавить строки: Анатомия: ... и Патология: ...",
