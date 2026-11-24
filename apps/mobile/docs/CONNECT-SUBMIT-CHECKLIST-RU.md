@@ -37,4 +37,8 @@ ITSAppUsesNonExemptEncryption = **false** → обычно «No» encryption.
 
 ## 4. Сборка
 
-Выбрать IPA из TestFlight (build **19+** guest pilot). Не старые 1.0.1 login-only.
+Выбрать IPA из TestFlight (build **31+**, privacy 5.1.1). Не старые 1.0.1 login-only.
+
+## 5. App Privacy (5.1.1)
+
+Перед Submit: **App Privacy** обновлена (не «Data Not Collected»). См. `docs/APP-STORE-5-1-1-PRIVACY-FIX-RU.md` и `docs/APP-STORE-LAUNCH-FINAL-RU.md`.

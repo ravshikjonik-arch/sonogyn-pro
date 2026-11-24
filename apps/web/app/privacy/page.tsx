@@ -130,7 +130,39 @@ export default function PrivacyPage() {
       </section>
 
       <section className="space-y-2">
-        <h2 className="text-lg font-semibold">8. Cookies</h2>
+        <h2 className="text-lg font-semibold">8. Сторонние сервисы ИИ</h2>
+        <p className="text-[var(--clinical-foreground-muted)]">
+          В мобильном и веб-приложении функции с искусственным интеллектом (чат для врачей, поиск
+          литературы, вспомогательные подсказки) работают только после{" "}
+          <strong>явного согласия</strong> в интерфейсе. В запросах запрещены персональные данные
+          пациентов.
+        </p>
+        <ul className="list-disc space-y-1 pl-5 text-[var(--clinical-foreground-muted)]">
+          <li>
+            <strong>Что передаётся:</strong> введённый вами профессиональный текст запроса; для
+            диктовки — аудиозапись только после отдельного подтверждения в форме диктовки.
+          </li>
+          <li>
+            <strong>Кому:</strong> API SonoGyn Pro на sonogyn-pro.ru; при
+            сбоях или для отдельных функций — подрядчики{" "}
+            <span className="font-medium">OpenRouter</span> (openrouter.ai) и{" "}
+            <span className="font-medium">Perplexity</span> (perplexity.ai), если они включены на
+            сервере.
+          </li>
+          <li>
+            <strong>Зачем:</strong> генерация вспомогательных, справочных ответов; не замена
+            клинического решения.
+          </li>
+          <li>
+            <strong>Защита:</strong> договорённости с провайдерами инфраструктуры; не используем
+            передачу для рекламного профилирования в этих интеграциях. Подробности у подрядчиков в их
+            privacy policies.
+          </li>
+        </ul>
+      </section>
+
+      <section className="space-y-2">
+        <h2 className="text-lg font-semibold">9. Cookies</h2>
         <p className="text-[var(--clinical-foreground-muted)]">
           Необходимые cookies сессии используются всегда. Аналитика — только после согласия в баннере
           (если счётчики подключены).
@@ -138,7 +170,7 @@ export default function PrivacyPage() {
       </section>
 
       <section className="space-y-2">
-        <h2 className="text-lg font-semibold">9. Изменения</h2>
+        <h2 className="text-lg font-semibold">10. Изменения</h2>
         <p className="text-[var(--clinical-foreground-muted)]">
           Актуальная версия — на этой странице (редакция {legal.docsVersion}). См. также{" "}
           <Link href="/offer" className="underline underline-offset-2">

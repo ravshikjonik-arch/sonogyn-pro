@@ -18,6 +18,10 @@ const LEGAL: Record<"ru" | "en" | "es", Record<string, string>> = {
     legal_consent_cb_terms: "Я принимаю Пользовательское соглашение",
     legal_consent_cb_privacy: "Я ознакомлен(а) с Политикой конфиденциальности",
     legal_consent_cb_ai: "Я понимаю, что ИИ является вспомогательным инструментом",
+    legal_consent_cb_third_party_ai:
+      "Я разрешаю передачу введённого мной текста на серверы SonoGyn Pro и сторонние облачные ИИ-сервисы (см. ниже) только для вспомогательных функций",
+    legal_consent_third_party_ai_detail:
+      "Кому: backend SonoGyn Pro (sonogyn-pro.ru), при необходимости — OpenRouter (openrouter.ai) и Perplexity (perplexity.ai) для обработки запросов. Что: текст ваших запросов в ИИ-функциях (чат, поиск литературы, подсказки); отдельно — аудио диктовки на сервер распознавания речи только после отдельной отметки в форме диктовки. Не передавайте и не вводите ФИО, контакты и иные данные пациентов.",
     legal_consent_read_terms: "Открыть текст: Пользовательское соглашение",
     legal_consent_read_privacy: "Открыть текст: Политика конфиденциальности",
     legal_consent_checks_header: "Подтверждения",
@@ -89,7 +93,10 @@ const LEGAL: Record<"ru" | "en" | "es", Record<string, string>> = {
 7. Отсутствие продажи данных
 Мы не продаём ваши персональные данные в смысле «data broker» (торговля базами для рекламы третьих сторон).
 
-8. Международные передачи
+8. Сторонние сервисы искусственного интеллекта
+При вашем явном согласии в приложении текст профессиональных запросов может передаваться на серверы SonoGyn Pro (sonogyn-pro.ru) и, при недоступности основного маршрута, подрядчикам OpenRouter и Perplexity для генерации вспомогательных ответов. Аудио диктовки передаётся на сервер распознавания речи (тот же backend) только после отдельного подтверждения в интерфейсе диктовки. Мы требуем не включать в запросы персональные данные пациентов. Подрядчики обрабатывают данные по своим политикам; мы выбираем провайдеров, не использующих передачу для рекламного профилирования в наших интеграциях.
+
+9. Международные передачи
 При использовании облаков данные могут обрабатываться за пределами вашей страны — с применением стандартных механизмов защиты, предусмотренных поставщиком инфраструктуры и применимым правом.`,
     legal_disclaimer_body: `Приложение не является медицинским изделием и не заменяет клиническое решение врача, очный осмотр, лабораторные и инструментальные исследования, а также действующие клинические рекомендации и стандарты медицинской помощи.
 
@@ -106,6 +113,10 @@ const LEGAL: Record<"ru" | "en" | "es", Record<string, string>> = {
     legal_consent_cb_terms: "I accept the Terms of Use",
     legal_consent_cb_privacy: "I have read the Privacy Policy",
     legal_consent_cb_ai: "I understand that AI is an assistive tool",
+    legal_consent_cb_third_party_ai:
+      "I allow my entered text to be sent to SonoGyn Pro servers and listed third-party AI providers for assistive features only",
+    legal_consent_third_party_ai_detail:
+      "Recipients: SonoGyn API (sonogyn-pro.ru); when needed: OpenRouter (openrouter.ai) and Perplexity (perplexity.ai). Data: your text in AI features (chat, literature search, hints); audio is sent for speech-to-text only after a separate checkbox in dictation. Do not include patient personal data.",
     legal_consent_read_terms: "Open document: Terms of Use",
     legal_consent_read_privacy: "Open document: Privacy Policy",
     legal_consent_checks_header: "Confirmations",
@@ -191,6 +202,10 @@ Information is educational and reference in nature. For diagnosis, treatment, an
     legal_consent_cb_terms: "Acepto los Términos de uso",
     legal_consent_cb_privacy: "He leído la Política de privacidad",
     legal_consent_cb_ai: "Entiendo que la IA es una herramienta auxiliar",
+    legal_consent_cb_third_party_ai:
+      "Autorizo el envío de mi texto a los servidores de SonoGyn Pro y a proveedores de IA de terceros indicados (solo funciones auxiliares)",
+    legal_consent_third_party_ai_detail:
+      "Destinatarios: API SonoGyn (sonogyn-pro.ru); si hace falta: OpenRouter y Perplexity. Datos: texto de sus consultas de IA; el audio solo con casilla aparte en dictado. No incluya datos personales de pacientes.",
     legal_consent_read_terms: "Abrir documento: Términos de uso",
     legal_consent_read_privacy: "Abrir documento: Política de privacidad",
     legal_consent_checks_header: "Confirmaciones",

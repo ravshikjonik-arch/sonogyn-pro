@@ -29,6 +29,12 @@ Optional: Profile → sign in with email is available, but not needed for review
 Previous demo credentials were invalid; please ignore them. Full functionality works as a guest.
 ```
 
+### Guideline 5.1.1 — Privacy (build 31+)
+
+- App Privacy questionnaire in Connect must match collection (see `APP-STORE-5-1-1-PRIVACY-FIX-RU.md`).
+- In-app: Profile → (after optional sign-in) **«Удалить аккаунт и данные»** → server DELETE.
+- Privacy manifest: `ios/SonoGynPro/PrivacyInfo.xcprivacy` lists collected types; tracking = false.
+
 ### Reply to Resolution Center (after new build)
 
 ```
@@ -42,7 +48,12 @@ The previous username/password did not work. Registration is intentionally disab
 2) Guideline 2.3.10 — Android references
 We removed Google Play / Android store references from user-visible copy in the iOS binary (legal consent, terms, privacy, access hints). This build is App Store–only wording.
 
-Please continue the review with this new build.
+3) Guideline 5.1.1 — Privacy
+We updated the App Privacy labels in App Store Connect and the app Privacy Manifest
+(PrivacyInfo.xcprivacy). Privacy Policy: https://sonogyn-pro.ru/privacy
+Account deletion is available in Profile after optional sign-in: «Удалить аккаунт и данные».
+
+Please continue the review with build 1.0.4 (31).
 
 Kind regards,
 SonoGyn Pro

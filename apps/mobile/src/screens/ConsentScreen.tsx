@@ -48,9 +48,10 @@ export default function ConsentScreen({ navigation }: Props) {
   const [terms, setTerms] = useState(false);
   const [privacy, setPrivacy] = useState(false);
   const [ai, setAi] = useState(false);
+  const [thirdPartyAi, setThirdPartyAi] = useState(false);
   const [saving, setSaving] = useState(false);
 
-  const allOk = terms && privacy && ai;
+  const allOk = terms && privacy && ai && thirdPartyAi;
 
   async function onContinue() {
     if (!allOk) return;
@@ -60,6 +61,7 @@ export default function ConsentScreen({ navigation }: Props) {
         acceptedTerms: true,
         acceptedPrivacy: true,
         acceptedAiAuxiliary: true,
+        acceptedThirdPartyAiSharing: true,
         acceptedAt: Date.now(),
       });
       resetAfterOnboarding(navigation, supabaseSession);
@@ -116,6 +118,12 @@ export default function ConsentScreen({ navigation }: Props) {
         <CheckboxRow checked={terms} onToggle={() => setTerms((v) => !v)} label={i18n.t("legal_consent_cb_terms")} />
         <CheckboxRow checked={privacy} onToggle={() => setPrivacy((v) => !v)} label={i18n.t("legal_consent_cb_privacy")} />
         <CheckboxRow checked={ai} onToggle={() => setAi((v) => !v)} label={i18n.t("legal_consent_cb_ai")} />
+        <CheckboxRow
+          checked={thirdPartyAi}
+          onToggle={() => setThirdPartyAi((v) => !v)}
+          label={i18n.t("legal_consent_cb_third_party_ai")}
+        />
+        <Text style={styles.thirdPartyDetail}>{i18n.t("legal_consent_third_party_ai_detail")}</Text>
 
         <Pressable style={[styles.cta, (!allOk || saving) && styles.ctaDisabled]} onPress={onContinue} disabled={!allOk || saving}>
           {saving ? <ActivityIndicator color="#fff" /> : <Text style={styles.ctaText}>{i18n.t("legal_consent_continue")}</Text>}
@@ -187,6 +195,7 @@ const styles = StyleSheet.create({
   checkboxOn: { borderColor: VIOLET, backgroundColor: "#f5f3ff" },
   checkmark: { color: VIOLET, fontWeight: "900", fontSize: 14 },
   checkboxLabel: { flex: 1, fontSize: 15, lineHeight: 22, color: "#0f172a", fontWeight: "600" },
+  thirdPartyDetail: { fontSize: 12, lineHeight: 18, color: "#64748b", marginTop: -4, marginBottom: 8, paddingLeft: 38 },
   hint: { fontSize: 11, color: "#64748b", lineHeight: 17, marginTop: 8, marginBottom: 2 },
   cta: {
     marginTop: 14,

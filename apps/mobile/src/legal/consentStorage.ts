@@ -1,13 +1,15 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { TERMS_ACCEPTED_KEY } from "./legacyTermsKey";
 
-export const LEGAL_CONSENT_VERSION = 1;
+export const LEGAL_CONSENT_VERSION = 2;
 export const LEGAL_CONSENT_STORAGE_KEY = `legal_consent_v${LEGAL_CONSENT_VERSION}`;
 
 export type ConsentRecord = {
   acceptedTerms: boolean;
   acceptedPrivacy: boolean;
   acceptedAiAuxiliary: boolean;
+  /** App Store 5.1.1(i): explicit consent before third-party AI processing */
+  acceptedThirdPartyAiSharing: boolean;
   acceptedAt: number;
   version: number;
 };
@@ -19,8 +21,9 @@ export function isConsentRecord(v: unknown): v is ConsentRecord {
     o.acceptedTerms === true &&
     o.acceptedPrivacy === true &&
     o.acceptedAiAuxiliary === true &&
+    o.acceptedThirdPartyAiSharing === true &&
     typeof o.acceptedAt === "number" &&
-    typeof o.version === "number"
+    o.version === LEGAL_CONSENT_VERSION
   );
 }
 
@@ -54,6 +57,7 @@ export async function migrateLegacyTermsIfNeeded(): Promise<void> {
       acceptedTerms: true,
       acceptedPrivacy: true,
       acceptedAiAuxiliary: true,
+      acceptedThirdPartyAiSharing: true,
       acceptedAt: Date.now(),
     });
   } catch {

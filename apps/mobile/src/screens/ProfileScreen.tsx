@@ -22,7 +22,9 @@ import { TELEGRAM_CHANNEL } from "../config/telegram";
 import { openTelegramChannel } from "../config/community";
 import { CONTENT_ERROR_REPORT } from "../config/contentErrorReport";
 import { openContentErrorReport } from "../lib/brand/openContentErrorReport";
+import { LEGAL_PUBLIC_URLS } from "../config/legalUrls";
 import { isOpenAccessPilot, STORE_SUPPORT_MAILTO } from "../config/storeRelease";
+import { deleteAccount } from "../lib/auth/deleteAccountApi";
 import { revokeAllSessions } from "../lib/auth/sessionApi";
 import { wipeMobileClinicalLocalData } from "../lib/security/wipeClinicalLocal";
 import { supabaseMobile } from "../lib/supabase/mobileClient";
@@ -52,6 +54,7 @@ export default function ProfileScreen({ navigation }: Props) {
   const [birthDateIso, setBirthDateIso] = useState<string | null>(null);
   const [birthYear, setBirthYear] = useState<number | null>(null);
   const [revokingSessions, setRevokingSessions] = useState(false);
+  const [deletingAccount, setDeletingAccount] = useState(false);
   const openPilot = isOpenAccessPilot();
 
   const nextPoints = nextLevelPoints(user?.level ?? 1);
@@ -123,6 +126,45 @@ export default function ProfileScreen({ navigation }: Props) {
     }
   }
 
+  function onDeleteAccount() {
+    Alert.alert(
+      "Удалить аккаунт?",
+      "Безвозвратно удаляются учётная запись и связанные данные на сервере. Это действие нельзя отменить.",
+      [
+        { text: "Отмена", style: "cancel" },
+        {
+          text: "Удалить навсегда",
+          style: "destructive",
+          onPress: () => {
+            void (async () => {
+              if (!supabaseMobile) return;
+              setDeletingAccount(true);
+              try {
+                const { data } = await supabaseMobile.auth.getSession();
+                const token = data.session?.access_token;
+                if (!token) {
+                  Alert.alert("Сессия", "Нет активного входа.");
+                  return;
+                }
+                const result = await deleteAccount(token);
+                if (!result.ok) {
+                  Alert.alert("Ошибка", result.error);
+                  return;
+                }
+                await wipeMobileClinicalLocalData();
+                await supabaseMobile.auth.signOut();
+                setSupabaseLoggedIn(false);
+                Alert.alert("Готово", "Аккаунт и данные удалены.");
+              } finally {
+                setDeletingAccount(false);
+              }
+            })();
+          },
+        },
+      ],
+    );
+  }
+
   return (
     <SafeAreaView style={styles.safe} edges={["top", "left", "right"]}>
       <View style={styles.header}>
@@ -170,8 +212,8 @@ export default function ProfileScreen({ navigation }: Props) {
           <View style={styles.securityBox}>
             <Text style={styles.securityTitle}>Безопасность входа</Text>
             <Text style={styles.securityHint}>
-              Выход на этом устройстве или сброс сессий везде. Удаление аккаунта и данных — на{" "}
-              Sonogyn-pro@mail.ru.
+              Выход на этом устройстве, сброс сессий или удаление аккаунта. По вопросам —{" "}
+              {LEGAL_PUBLIC_URLS.supportEmail}.
             </Text>
             <Pressable style={styles.securityBtn} onPress={() => void onSignOutLocal()}>
               <Text style={styles.securityBtnText}>Выйти</Text>
@@ -183,6 +225,17 @@ export default function ProfileScreen({ navigation }: Props) {
             >
               <Text style={styles.securityBtnTextSecondary}>
                 {revokingSessions ? "Выход…" : "Выйти на всех устройствах"}
+              </Text>
+            </Pressable>
+            <Pressable
+              style={[styles.securityBtn, styles.securityBtnDanger, deletingAccount && styles.securityBtnDisabled]}
+              disabled={deletingAccount}
+              onPress={onDeleteAccount}
+              accessibilityRole="button"
+              accessibilityLabel="Удалить аккаунт и данные"
+            >
+              <Text style={styles.securityBtnTextDanger}>
+                {deletingAccount ? "Удаление…" : "Удалить аккаунт и данные"}
               </Text>
             </Pressable>
           </View>
@@ -321,6 +374,11 @@ const styles = StyleSheet.create({
   },
   securityBtnText: { color: "#92400e", fontWeight: "700", fontSize: 13 },
   securityBtnTextSecondary: { color: "#92400e", fontWeight: "700", fontSize: 13 },
+  securityBtnDanger: {
+    borderColor: "#ef4444",
+    backgroundColor: "#fef2f2",
+  },
+  securityBtnTextDanger: { color: "#b91c1c", fontWeight: "700", fontSize: 13 },
   legalHeader: {
     marginTop: 16,
     fontSize: 11,
