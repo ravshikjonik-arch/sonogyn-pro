@@ -20,28 +20,21 @@
 - Обсуждения: `DoctorChannelChatV2`, messenger hooks.
 - Auth Telegram: `/api/auth/telegram`, `/api/auth/telegram/bot`, `verify-otp`.
 
-## Инкремент 4.1 — **сделано в коде** (нужен deploy + миграция)
+## Инкремент 4.1 — **на prod** (24.11.2026)
 
 | Компонент | Путь |
 |-----------|------|
-| Таблица nonce | `packages/database/supabase/migrations/20261124130000_telegram_mobile_login_pending.sql` |
+| Таблица nonce | `packages/database/supabase/migrations/20261124130000_telegram_mobile_login_pending.sql` (prod OK) |
 | Mobile API | `POST /api/auth/telegram/mobile/start`, `GET …/poll/[nonce]`, `POST …/session` |
-| Bot webhook | `POST /api/telegram/auth-login-webhook` (настроить в BotFather → webhook URL) |
-| Mobile client | `chatBackend.ts` → `getWebApiBase()` если нет `EXPO_PUBLIC_CHAT_API_URL` |
+| Bot | **Сценарий B:** webhook `https://sonogyn-pro.ru/api/telegram/hermes`, `login_` в Hermes (`bc7dbdf8`) |
+| Mobile client | `chatBackend.ts` → web если нет `EXPO_PUBLIC_CHAT_API_URL` |
 
-**Ops после merge:**
+**Build 36:** бинарник **до** merge 4.1 — Telegram deep link на store **только** после **EAS 37** (`apps/mobile/docs/EAS-BUILD-37-CHECKLIST-RU.md`).
 
-1. Применить миграцию на Supabase staging/prod.
-2. Vercel env: `TELEGRAM_LOGIN_WEBHOOK_SECRET` (или `TELEGRAM_WEBHOOK_SECRET`).
-3. Telegram: `setWebhook` → `https://sonogyn-pro.ru/api/telegram/auth-login-webhook` + secret header.
-4. Prod **не** держать `apps/mobile/server` для пилота.
+## Инкремент 4.2 — в работе
 
-**Build 36 (App Store):** deep-link Telegram заработает на **текущем** бинарнике после deploy+миграции (useAuthDeepLinks уже вызывает `apiTelegramSupabaseSession`).
-
-## Инкремент 4.2 (далее)
-
-- Deprecate неиспользуемые `apiRegister` / cases REST в `chatBackend.ts`.
-- E2E: guest discussions read-only; post требует login.
+- **Сделано:** legacy JWT/cases REST → `apps/mobile/src/api/legacyChatServerClient.ts` (`@deprecated`).
+- **Осталось:** E2E guest discussions read-only; post требует login (`apps/web/scripts/pilot-discussions-e2e.mjs`).
 
 ## Не ломать
 

@@ -73,11 +73,12 @@ export function OradsPhotoAssistSection({
             allowsEditing: false,
           });
 
-    if (picked.canceled || !picked.assets[0]?.base64) {
+    const asset = picked.assets[0];
+    const base64 = asset?.base64;
+    if (picked.canceled || !asset || !base64) {
       return;
     }
 
-    const asset = picked.assets[0];
     setPreviewUri(asset.uri);
     setBusy(true);
     setWorkerHint(null);
@@ -90,7 +91,7 @@ export function OradsPhotoAssistSection({
           {
             fileName: fileNameFromUri(asset.uri),
             mimeType: guessMime(asset.uri, asset.mimeType),
-            base64: asset.base64,
+            base64,
           },
         ],
       });

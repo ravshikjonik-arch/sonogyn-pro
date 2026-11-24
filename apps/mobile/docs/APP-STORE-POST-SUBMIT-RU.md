@@ -48,4 +48,4 @@ SonoGyn Pro
 
 - Не удалять build 36 из версии без причины.
 - Не менять bundle id / capabilities.
-- Критический hotfix — только новый build **37** + новый Submit.
+- Критический hotfix — только новый build **37** + новый Submit (чеклист: `EAS-BUILD-37-CHECKLIST-RU.md`).
