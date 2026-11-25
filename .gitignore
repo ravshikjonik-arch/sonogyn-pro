@@ -68,6 +68,10 @@ __pycache__/
 /fmf-*.png
 /guided-*.png
 /rcog-*.png
+# App Store Connect / API key screenshots (never commit)
+/asc-*.png
+/rc-api-keys.png
+/emergency-guide-infarkt.png
 
 # Local transcode / temp
 apps/web/.tmp-ffmpeg/
@@ -91,3 +95,4 @@ tmp-makeev-*.txt
 # External experiments (track separately)
 USTri/
 apps/web/app/api/ustri_inference/
+*.p8

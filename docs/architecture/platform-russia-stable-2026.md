@@ -24,7 +24,7 @@ Vision O-RADS: /api/ai/gyn-assist (волна 3 mobile parity)
 | **1** | Скорость | Мгновенный старт, CDN, mobile bundle | **готово** `bfd130a5` — whats-new CDN + mobile лента КР |
 | **2** | Авто-КР | «Новое» из diff рубрикатора | **старт** — sync + GHA + whats-new |
 | **3** | O-RADS фото mobile | Вау на телефоне | **готово** `a38e752c` — gyn-assist open/Bearer + галерея/камера в O-RADS assist |
-| **4** | Один чат | Supabase only, без legacy server | **4.1 код** — Telegram mobile на web API; deploy+миграция |
+| **4** | Один чат | Supabase only, без legacy server | **4.1 prod** (`bc7dbdf8`); **4.2** legacy split + pilot e2e; Playwright guest smoke |
 
 ## Волна 2 — что сделано в старте
 

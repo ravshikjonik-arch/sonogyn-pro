@@ -7,13 +7,13 @@
 - `CasesScreen` — лента **discussions** / teaching cases (`useDiscussionChannels`, `useTeachingCases`).
 - `channel_subscriptions`, push navigation `discussions/case/<id>`.
 
-## Ещё на legacy chat-server
+## Legacy chat-server (dev only)
 
-| Функция | Файл | Замена |
-|---------|------|--------|
-| Telegram login nonce + poll + session | `chatBackend.ts` → `mobile/server/index.js` | Перенести pending nonce в Supabase KV/таблицу + web routes или вызов `verify-otp` / bot API напрямую |
-| Старые `/cases` REST (JWT chat-server) | `chatBackend.ts` | **Не импортируется** в UI — кандидат на deprecate |
-| `EXPO_PUBLIC_CHAT_API_URL` в EAS | `eas.json` не задаёт (prod) | Telegram deep link **ломается** без proxy — приоритет миграции |
+| Функция | Статус |
+|---------|--------|
+| Telegram mobile login | **Prod:** web API + Hermes `login_` |
+| JWT `/cases` REST | **`legacyChatServerClient.ts`** (`@deprecated`); UI не использует |
+| `EXPO_PUBLIC_CHAT_API_URL` | Только локальный `apps/mobile/server` |
 
 ## Web
 
@@ -31,10 +31,11 @@
 
 **Build 36:** бинарник **до** merge 4.1 — Telegram deep link на store **только** после **EAS 37** (`apps/mobile/docs/EAS-BUILD-37-CHECKLIST-RU.md`).
 
-## Инкремент 4.2 — в работе
+## Инкремент 4.2 — **готово в коде**
 
-- **Сделано:** legacy JWT/cases REST → `apps/mobile/src/api/legacyChatServerClient.ts` (`@deprecated`).
-- **E2E (24.11):** `pilot-discussions-e2e.mjs` — web↔web thread OK; guest read / post login — в Playwright (след. шаг).
+- Legacy JWT/cases REST → `legacyChatServerClient.ts`.
+- `pilot-discussions-e2e.mjs` — web↔web thread OK.
+- Playwright: `tests/e2e/discussions-guest-smoke.spec.ts` (guest hub + POST `/api/cases` gated).
 
 ## Не ломать
 
