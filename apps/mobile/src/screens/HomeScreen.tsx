@@ -7,9 +7,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import CaseCard from "../components/CaseCard";
 import { calcClinicalProgress } from "../components/widgets/case_progress";
 import { branding } from "../config/branding";
+import * as WebBrowser from "expo-web-browser";
 import { openTelegramChannel } from "../config/community";
 import { openContentErrorReport } from "../lib/brand/openContentErrorReport";
 import { CONTENT_ERROR_REPORT } from "../config/contentErrorReport";
+import { webAppUrl } from "../lib/clinical-tools/openClinicalTool";
 import type { CasePreview } from "../features/case/types";
 import { useCases } from "../hooks/useCases";
 import { useRecentComments } from "../hooks/useRecentComments";
@@ -107,6 +109,15 @@ export default function HomeScreen({ navigation }: HomeTabScreenProps) {
         sub: "Интерактив FIGO миомы, sono-консенсус аденомиоза и глубокого эндометриоза, общий протокол",
         glyph: "◉",
         onPress: () => navigation.navigate("GynecologyCalc", { initialPage: "gyn_uterus_clinic" }),
+      },
+      {
+        key: "pelvis_map",
+        title: "Карта таза · аденомиоз / ДИЭ",
+        sub: "Пошаговый осмотр: миометрий, задний компартмент, кишка/мочеточник, фразы протокола",
+        glyph: "◈",
+        onPress: () => {
+          void WebBrowser.openBrowserAsync(webAppUrl("/musa/adenomyosis-pelvis-map"));
+        },
       },
       {
         key: "us_prep",

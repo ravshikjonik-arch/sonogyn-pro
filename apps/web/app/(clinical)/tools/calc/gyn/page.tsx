@@ -35,6 +35,17 @@ const GROUPS: DomainHubGroup[] = [
         title: "FIGO · миома",
         description: "Тип узла на схеме матки",
       },
+      {
+        href: "/musa/adenomyosis",
+        title: "MUSA · аденомиоз",
+        description: "Признаки, JZ, Sonogyn Score",
+      },
+      {
+        href: "/musa/adenomyosis-pelvis-map",
+        title: "Карта таза · аденомиоз / ДИЭ",
+        description: "Пошаговый осмотр и фразы протокола",
+        primary: true,
+      },
     ],
   },
   {

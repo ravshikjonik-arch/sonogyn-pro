@@ -12,7 +12,7 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "lint": "echo \"skip\"",
-    "test": "node --import tsx --test src/modules/adenomyosis/scoring/adenomyosis-score.test.ts"
+    "test": "node --import tsx --test src/modules/adenomyosis/scoring/adenomyosis-score.test.ts src/modules/pelvis-map/content.test.ts"
   },
   "devDependencies": {
     "tsx": "^4.20.3",

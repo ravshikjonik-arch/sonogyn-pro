@@ -95,6 +95,14 @@ export function MusaAdenomyosisClient() {
         <p className="text-sm text-[var(--clinical-foreground-muted)]">
           {MUSA_ADENOMYOSIS_KNOWLEDGE.introduction.definition} · {MUSA_ADENOMYOSIS_KNOWLEDGE.disclaimer.ru}
         </p>
+        <p className="text-sm">
+          <Link
+            href="/musa/adenomyosis-pelvis-map"
+            className="font-semibold text-[var(--clinical-primary)] underline-offset-4 hover:underline"
+          >
+            Карта малого таза · аденомиоз / ДИЭ (пошаговый осмотр и протокол) →
+          </Link>
+        </p>
         <div className="flex flex-wrap gap-2 text-xs">
           {MUSA_FRAMEWORK_MODULES.filter((m) => m.status === "ready").map((m) =>
             m.route ? (

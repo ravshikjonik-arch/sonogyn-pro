@@ -127,6 +127,7 @@ const OTHER_PUBLIC_ROUTES: SitemapRow[] = [
   { path: "/reports/thyroid", priority: 0.55, changeFrequency: "monthly" },
   { path: "/breast-us", priority: 0.55, changeFrequency: "monthly" },
   { path: "/musa/adenomyosis", priority: 0.55, changeFrequency: "monthly" },
+  { path: "/musa/adenomyosis-pelvis-map", priority: 0.55, changeFrequency: "monthly" },
 ];
 
 function calculatorRows(): SitemapRow[] {

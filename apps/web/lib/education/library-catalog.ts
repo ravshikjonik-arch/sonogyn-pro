@@ -266,6 +266,17 @@ const EDUCATION_LIBRARY_ITEMS_RAW: EducationLibraryItem[] = [
     badge: "MUSA",
   },
   {
+    id: "adenomyosis-pelvis-map",
+    shelf: "courses",
+    title: "Карта таза · аденомиоз / ДИЭ",
+    description:
+      "Пошаговый маршрут: миометрий (MUSA), подвижность, задний компартмент, мочеточник/кишка, ENZIAN, сборка протокола.",
+    href: "/musa/adenomyosis-pelvis-map",
+    tags: ["аденомиоз", "ДИЭ", "ENZIAN", "малый таз", "протокол", "обучение", "MUSA"],
+    primary: true,
+    badge: "Маршрут",
+  },
+  {
     id: "birads-lymph-nodes",
     shelf: "courses",
     title: "BI-RADS · лимфатические узлы",

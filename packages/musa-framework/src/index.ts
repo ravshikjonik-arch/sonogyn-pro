@@ -22,3 +22,13 @@ export {
 } from "./modules/adenomyosis/scoring/adenomyosis-score";
 
 export { generateAdenomyosisReport } from "./modules/adenomyosis/reports/adenomyosis-report";
+
+export {
+  PELVIS_MAP_DISCLAIMER,
+  PELVIS_MAP_STEPS,
+  buildProtocolFromPhraseIds,
+  getPelvisMapSteps,
+  type PelvisMapPhrase,
+  type PelvisMapStep,
+  type PelvisMapStepId,
+} from "./modules/pelvis-map/content";
