@@ -75,5 +75,5 @@
 - [ ] Vascular Kulikov mobile parity
 - [ ] Duplicate O-RADS mobile `oradsCalculator` → `@repo/orads-us`
 - [ ] Structured Reporting (SRE) Phase 1
-- [ ] App Store / Google Play release
+- [ ] App Store / Google Play release (iOS: **1.0 build 36** → «Ожидание проверки» 25.11 — `apps/mobile/docs/APP-STORE-POST-SUBMIT-RU.md`)
 - [ ] i18n en/es
