@@ -1,6 +1,13 @@
 /** Domain hub cards — single source for /tools, sidebar, and domain landing pages. */
 
-import { ORADS_US_ROOM } from "@repo/clinical-tools";
+import {
+  ACR_RADS_ROOM,
+  FMF_ROOM,
+  FIGO_UTERUS_ROOM,
+  ORADS_US_ROOM,
+  type ClinicalRoom,
+  type ClinicalRoomChildKind,
+} from "@repo/clinical-tools";
 
 import { isCopyrightLockedHref } from "@/lib/copyright/book-content-gate";
 
@@ -92,9 +99,9 @@ export const OBSTETRICS_GROUPS: DomainHubGroup[] = [
         badge: "AI",
       },
       {
-        href: "/tools/refs/fmf-11-13",
+        href: "/tools/fmf",
         title: "FMF · скрининг 11–13",
-        description: "Техника NT, допплер, учебный риск, assessment-калькуляторы",
+        description: "Комната: техника NT, калькуляторы, консультант, этапы 1–3",
         badge: "FMF",
       },
       {
@@ -238,9 +245,9 @@ export const GYNECOLOGY_GROUPS: DomainHubGroup[] = [
         primary: true,
       },
       {
-        href: "/tools/mapping/uterus",
-        title: "FIGO · миома",
-        description: "Тип узла и аденомиоз",
+        href: "/tools/figo-uterus",
+        title: "FIGO · матка",
+        description: "Комната: миома 0–8, макет, курс, IETA",
       },
       {
         href: "/tools/mapping/endometriosis",
@@ -290,7 +297,7 @@ export const GYNECOLOGY_HUB: DomainHubCard[] = GYNECOLOGY_GROUPS.flatMap((group)
   (card) => !isCopyrightLockedHref(card.href),
 );
 
-function roomChildToCard(child: (typeof ORADS_US_ROOM.children)[number]): DomainHubCard {
+function roomChildToCard(child: ClinicalRoom["children"][number]): DomainHubCard {
   return {
     href: child.href,
     title: child.title,
@@ -300,23 +307,40 @@ function roomChildToCard(child: (typeof ORADS_US_ROOM.children)[number]): Domain
   };
 }
 
+function roomHubGroups(
+  room: ClinicalRoom,
+  sections: { title: string; kinds: ClinicalRoomChildKind[] }[],
+): DomainHubGroup[] {
+  return sections
+    .map((section) => ({
+      title: section.title,
+      cards: room.children.filter((child) => section.kinds.includes(child.kind)).map(roomChildToCard),
+    }))
+    .filter((group) => group.cards.length > 0);
+}
+
 /** Derived from SSOT room — keep in sync via @repo/clinical-tools ORADS_US_ROOM. */
 export const ORADS_HUB: DomainHubCard[] = ORADS_US_ROOM.children.map(roomChildToCard);
 
-export const ORADS_HUB_GROUPS: DomainHubGroup[] = [
-  {
-    title: "На приёме",
-    cards: ORADS_US_ROOM.children
-      .filter((child) => child.kind === "calculator" || child.kind === "protocol")
-      .map(roomChildToCard),
-  },
-  {
-    title: "Справка и обучение",
-    cards: ORADS_US_ROOM.children
-      .filter((child) => child.kind === "reference" || child.kind === "education" || child.kind === "mapping")
-      .map(roomChildToCard),
-  },
-];
+export const ORADS_HUB_GROUPS: DomainHubGroup[] = roomHubGroups(ORADS_US_ROOM, [
+  { title: "На приёме", kinds: ["calculator", "protocol"] },
+  { title: "Справка и обучение", kinds: ["reference", "education", "mapping"] },
+]);
+
+export const FMF_HUB_GROUPS: DomainHubGroup[] = roomHubGroups(FMF_ROOM, [
+  { title: "Скрининг и расчёт", kinds: ["calculator", "reference"] },
+  { title: "Консультант и обучение", kinds: ["education"] },
+]);
+
+export const ACR_RADS_HUB_GROUPS: DomainHubGroup[] = roomHubGroups(ACR_RADS_ROOM, [
+  { title: "Калькуляторы ACR", kinds: ["calculator"] },
+  { title: "Справочно", kinds: ["reference"] },
+]);
+
+export const FIGO_UTERUS_HUB_GROUPS: DomainHubGroup[] = roomHubGroups(FIGO_UTERUS_ROOM, [
+  { title: "FIGO и приём", kinds: ["mapping", "calculator"] },
+  { title: "Учёба", kinds: ["education", "reference"] },
+]);
 
 export const CALCULATORS_HUB: DomainHubCard[] = [
   {
@@ -332,9 +356,9 @@ export const CALCULATORS_HUB: DomainHubCard[] = [
     primary: true,
   },
   {
-    href: "/tools/calc/rads",
-    title: "RADS",
-    description: "O-RADS, BI-RADS, TI-RADS, LN-RADS",
+    href: "/tools/rads",
+    title: "ACR RADS",
+    description: "Комната: O-RADS US, BI-RADS, TI-RADS, LN-RADS",
     primary: true,
   },
   {
