@@ -1,4 +1,4 @@
-import { VbacCalculator } from "@/components/calculators/obstetric/VbacCalculator";
+import { VbacCalculator } from "@/components/tools/calc/obstetric/VbacCalculator";
 import { CalculatorLandingShell } from "@/components/seo/CalculatorLandingShell";
 import { getCalculatorLandingContent } from "@/lib/seo/calculator-landing-content";
 import { calculatorPageMetadata } from "@/lib/seo/calculator-seo-registry";

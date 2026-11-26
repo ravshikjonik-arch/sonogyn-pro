@@ -1,4 +1,4 @@
-import { EndometriumCalculator } from "@/components/calculators/endometrium/EndometriumCalculator";
+import { EndometriumCalculator } from "@/components/tools/calc/gyn/endometrium/EndometriumCalculator";
 import { CalculatorLiteraturePanel } from "@/components/pubmed/CalculatorLiteraturePanel";
 import { CalculatorLandingShell } from "@/components/seo/CalculatorLandingShell";
 import { getCalculatorLandingContent } from "@/lib/seo/calculator-landing-content";

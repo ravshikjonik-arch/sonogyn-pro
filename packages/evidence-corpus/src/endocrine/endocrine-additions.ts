@@ -116,7 +116,7 @@ export const ENDOCRINE_ADDITIONAL_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "NICE / ESHRE menopause guideline", organization: "NICE · ESHRE", year: 2024 },
     tags: ["menopause", "HRT", "климакс", "эстроген", "progestogen"],
-    relatedLinks: [{ label: "Калькулятор эндометрия", href: "/calculators/endometrium" }],
+    relatedLinks: [{ label: "Калькулятор эндометрия", href: "/tools/calc/gyn/endometrium" }],
   },
   {
     id: "endo-thyroid-us-pregnancy",

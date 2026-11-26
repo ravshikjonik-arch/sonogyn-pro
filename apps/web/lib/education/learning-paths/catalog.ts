@@ -190,7 +190,7 @@ const LEARNING_PATHS_RAW: LearningPath[] = [
         id: "fgr-3",
         type: "calculator",
         title: "Масса плода · EFW",
-        href: "/calculators/fetal-weight",
+        href: "/tools/calc/ob/fetal-weight",
         description: "Hadlock / перцентили.",
         estimatedMinutes: 5,
       },
@@ -239,7 +239,7 @@ const LEARNING_PATHS_RAW: LearningPath[] = [
         type: "calculator",
         title: "Кольпоскопия · Swede Score",
         description: "Кольпоскопический осмотр и scoring.",
-        href: "/calculators/colposcopy",
+        href: "/tools/calc/gyn/colposcopy",
         estimatedMinutes: 10,
       },
       {

@@ -19,7 +19,7 @@ export const CERVIX_ADDITIONAL_EVIDENCE: EvidenceEntry[] = [
       year: 2023,
     },
     tags: ["funneling", "U-shape", "CL", "internal os", "преждevременные"],
-    relatedLinks: [{ label: "Калькулятор CL", href: "/calculators/cervical-length" }],
+    relatedLinks: [{ label: "Калькулятор CL", href: "/tools/calc/ob/cervical-length" }],
   },
   {
     id: "cervix-progesterone-short",
@@ -38,7 +38,7 @@ export const CERVIX_ADDITIONAL_EVIDENCE: EvidenceEntry[] = [
       year: 2022,
     },
     tags: ["progesterone", "прогesterone", "короткая шейка", "CL", "профилактика ПР"],
-    relatedLinks: [{ label: "Калькулятор CL", href: "/calculators/cervical-length" }],
+    relatedLinks: [{ label: "Калькулятор CL", href: "/tools/calc/ob/cervical-length" }],
   },
   {
     id: "cervix-cerclage-types",
@@ -57,7 +57,7 @@ export const CERVIX_ADDITIONAL_EVIDENCE: EvidenceEntry[] = [
       year: 2022,
     },
     tags: ["cerclage", "швы", "цervical insufficiency", "история ПР"],
-    relatedLinks: [{ label: "Калькулятор CL", href: "/calculators/cervical-length" }],
+    relatedLinks: [{ label: "Калькулятор CL", href: "/tools/calc/ob/cervical-length" }],
   },
   {
     id: "cervix-polyp",
@@ -150,7 +150,7 @@ export const CERVIX_ADDITIONAL_EVIDENCE: EvidenceEntry[] = [
       year: 2022,
     },
     tags: ["LLETZ", "конизация", "беременность", "CL", "исход"],
-    relatedLinks: [{ label: "Калькулятор CL", href: "/calculators/cervical-length" }],
+    relatedLinks: [{ label: "Калькулятор CL", href: "/tools/calc/ob/cervical-length" }],
   },
   {
     id: "cervix-stenosis",

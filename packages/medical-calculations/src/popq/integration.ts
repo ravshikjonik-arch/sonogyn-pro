@@ -1,6 +1,6 @@
 /** МКБ и маршруты, связанные с пролапсом / POP-Q. */
 
-export const POP_Q_CALCULATOR_HREF = "/calculators/pop-q";
+export const POP_Q_CALCULATOR_HREF = "/tools/calc/gyn/pop-q";
 export const PROLAPSE_CASES_HREF = "/cases?tab=cases&topic=prolapse";
 export const PROLAPSE_ASSISTANT_HREF = "/assistant/gynecology?q=N81";
 

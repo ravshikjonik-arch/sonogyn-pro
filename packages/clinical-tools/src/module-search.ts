@@ -51,7 +51,7 @@ export function resolveModuleSearchHref(mod: ModuleEntry): string | null {
 
   if (mod.domain === "obstetrics") {
     if (id === "calculator.ob-hub") return "/tools/calc/ob";
-    if (h.startsWith("/calculators/ob")) return h.replace("/calculators/ob", "/tools/calc/ob");
+    if (h.startsWith("/tools/calc/ob")) return h.replace("/tools/calc/ob", "/tools/calc/ob");
     if (h.startsWith("/calculators/")) return `/tools/calc/ob/${h.replace("/calculators/", "")}`;
   }
 

@@ -46,15 +46,15 @@ Scope: `apps/web` (Next.js App Router + Supabase Auth + Tailwind).
 - `apps/web/app/(clinical)/breast-3d/page.tsx`
 - `apps/web/app/(clinical)/calculators/page.tsx`
 - `apps/web/app/(clinical)/calculators/[slug]/page.tsx`
-- `apps/web/app/(clinical)/calculators/bi-rads/page.tsx`
-- `apps/web/app/(clinical)/calculators/colposcopy/page.tsx`
-- `apps/web/app/(clinical)/calculators/cervical-length/page.tsx`
-- `apps/web/app/(clinical)/calculators/elastography/page.tsx`
-- `apps/web/app/(clinical)/calculators/endometrium/page.tsx`
-- `apps/web/app/(clinical)/calculators/o-rads/page.tsx`
-- `apps/web/app/(clinical)/calculators/ob/page.tsx`
-- `apps/web/app/(clinical)/calculators/pop-q/page.tsx`
-- `apps/web/app/(clinical)/calculators/ti-rads/page.tsx`
+- `apps/web/app/(clinical)/tools/calc/rads/bi-rads/page.tsx`
+- `apps/web/app/(clinical)/tools/calc/gyn/colposcopy/page.tsx`
+- `apps/web/app/(clinical)/tools/calc/ob/cervical-length/page.tsx`
+- `apps/web/app/(clinical)/tools/calc/gyn/elastography/page.tsx`
+- `apps/web/app/(clinical)/tools/calc/gyn/endometrium/page.tsx`
+- `apps/web/app/(clinical)/tools/calc/rads/o-rads/page.tsx`
+- `apps/web/app/(clinical)/tools/calc/ob/page.tsx`
+- `apps/web/app/(clinical)/tools/calc/gyn/pop-q/page.tsx`
+- `apps/web/app/(clinical)/tools/calc/rads/ti-rads/page.tsx`
 - `apps/web/app/(clinical)/cases/page.tsx`
 - `apps/web/app/(clinical)/cases/new/page.tsx`
 - `apps/web/app/(clinical)/cases/[caseId]/page.tsx`
@@ -225,7 +225,7 @@ Scope: `apps/web` (Next.js App Router + Supabase Auth + Tailwind).
 
 ### Исключения внутри защищённых
 
-- `/calculators/elastography` — разрешён без Supabase-логина (см. `PUBLIC_WITHIN_PROTECTED`)
+- `/tools/calc/gyn/elastography` — разрешён без Supabase-логина (см. `PUBLIC_WITHIN_PROTECTED`)
 
 ### Проверки ролей
 

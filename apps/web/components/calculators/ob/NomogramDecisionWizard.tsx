@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils/cn";
-import { NomogramChart } from "@/components/calculators/ob/NomogramChart";
+import { NomogramChart } from "@/components/tools/calc/ob/NomogramChart";
 import {
   NOMOGRAM_CATEGORY_LABELS,
   NOMOGRAM_DECISION_TREE,

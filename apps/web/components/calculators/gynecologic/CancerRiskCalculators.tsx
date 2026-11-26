@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useMemo, useState, type ReactNode } from "react";
 
+import { CalculatorSourcesPanel } from "@/components/calculators/CalculatorSourcesPanel";
 import { CalcChip, CalcStepCard } from "@/components/calculators/shared/calc-ui";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -38,7 +39,7 @@ export function BreastRiskCalculator() {
   }, [age, menarcheBefore12, firstBirthAfter30, firstDegree, priorBiopsy]);
 
   return (
-    <RiskShell title="Риск рака молочной железы" badge="Образовательный чеклист">
+    <RiskShell title="Риск рака молочной железы" badge="Образовательный чеклист" sourceId="breast-risk">
       <CalcStepCard title="Факторы">
         <label className="block text-sm font-semibold">
           Возраст
@@ -78,7 +79,7 @@ export function CervicalCancerRiskCalculator() {
   }, [age, hpv, hsil, smoking, immuno, overdue]);
 
   return (
-    <RiskShell title="Риск рака шейки матки" badge="Скрининг · стратификация">
+    <RiskShell title="Риск рака шейки матки" badge="Скрининг · стратификация" sourceId="cervical-cancer-risk">
       <CalcStepCard title="Факторы">
         <label className="block text-sm font-semibold">
           Возраст
@@ -119,7 +120,7 @@ export function OvarianCancerRiskCalculator() {
   }, [age, family, brca, postMeno, ca125, usSusp]);
 
   return (
-    <RiskShell title="Риск рака яичников" badge="Эпидемиология + УЗИ">
+    <RiskShell title="Риск рака яичников" badge="Эпидемиология + УЗИ" sourceId="ovarian-cancer-risk">
       <CalcStepCard title="Факторы">
         <label className="block text-sm font-semibold">
           Возраст
@@ -147,7 +148,17 @@ export function OvarianCancerRiskCalculator() {
   );
 }
 
-function RiskShell({ title, badge, children }: { title: string; badge: string; children: ReactNode }) {
+function RiskShell({
+  title,
+  badge,
+  sourceId,
+  children,
+}: {
+  title: string;
+  badge: string;
+  sourceId?: string;
+  children: ReactNode;
+}) {
   return (
     <div className="space-y-6 px-4 py-10 lg:px-10">
       <Button variant="ghost" size="sm" asChild>
@@ -159,6 +170,7 @@ function RiskShell({ title, badge, children }: { title: string; badge: string; c
       </header>
       <div className="mx-auto max-w-3xl space-y-4">
         {children}
+        {sourceId ? <CalculatorSourcesPanel calculatorId={sourceId} /> : null}
         <p className="text-center text-xs text-[var(--clinical-foreground-muted)]">{CANCER_RISK_DISCLAIMER}</p>
       </div>
     </div>

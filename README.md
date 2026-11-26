@@ -154,7 +154,7 @@ cd apps/web/packages/clinical-uterus && pnpm test
 - **PDF** — печать / сохранение через браузер
 - **Беременность** — `/patients/[id]/pregnancy` — график EFW, напоминания о скринингах
 - **Тёмная тема** — переключатель в шапке, сохранение в localStorage
-- **Эластография** — `/calculators/elastography` (раздел «Calculators», общий расчёт с mobile)
+- **Эластография** — `/tools/calc/gyn/elastography` (раздел «Calculators», общий расчёт с mobile)
 
 ## Безопасность
 

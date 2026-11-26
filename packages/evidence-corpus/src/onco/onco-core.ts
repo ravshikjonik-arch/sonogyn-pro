@@ -211,7 +211,7 @@ export const ONCO_CORE_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ESGO/ESHRE endometrial cancer guideline", organization: "ESGO", year: 2022 },
     tags: ["endometrial cancer", "эндометрий", "ET", "postmenopause", "PMPB"],
-    relatedLinks: [{ label: "Калькулятор эндометрия", href: "/calculators/endometrium" }],
+    relatedLinks: [{ label: "Калькулятор эндометрия", href: "/tools/calc/gyn/endometrium" }],
   },
   {
     id: "onco-ca125-use",

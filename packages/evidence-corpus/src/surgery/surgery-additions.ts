@@ -58,7 +58,7 @@ export const SURGERY_ADDITIONAL_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "NICE / ACOG hysterectomy route", organization: "NICE · ACOG", year: 2022 },
     tags: ["vaginal", "lap hysterectomy", "route", "hysterectomy"],
-    relatedLinks: [{ label: "FIGO", href: "/calculators/figo" }],
+    relatedLinks: [{ label: "FIGO", href: "/tools/mapping/uterus" }],
   },
   {
     id: "surg-tubal-infertility",
@@ -115,7 +115,7 @@ export const SURGERY_ADDITIONAL_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "FIGO / ESGO cervical cancer fertility", organization: "FIGO · ESGO", year: 2022 },
     tags: ["trachelectomy", "cervical cancer", "fertility", "cerclage"],
-    relatedLinks: [{ label: "Калькулятор CL", href: "/calculators/cervical-length" }],
+    relatedLinks: [{ label: "Калькулятор CL", href: "/tools/calc/ob/cervical-length" }],
   },
   {
     id: "surg-vault-prolapse",
@@ -130,7 +130,7 @@ export const SURGERY_ADDITIONAL_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ICS prolapse surgery", organization: "ICS", year: 2023 },
     tags: ["vault", "prolapse", "post-hysterectomy", "sacrocolpopexy"],
-    relatedLinks: [{ label: "POP-Q", href: "/calculators/pop-q" }],
+    relatedLinks: [{ label: "POP-Q", href: "/tools/calc/gyn/pop-q" }],
   },
   {
     id: "surg-bladder-injury-risk",
@@ -160,7 +160,7 @@ export const SURGERY_ADDITIONAL_EVIDENCE: EvidenceEntry[] = [
     source: { label: "ISUOG sonohysterography guideline", organization: "ISUOG", year: 2022 },
     tags: ["SIS", "sonohysterography", "submucous", "pre-op"],
     relatedLinks: [
-      { label: "FIGO", href: "/calculators/figo" },
+      { label: "FIGO", href: "/tools/mapping/uterus" },
       { label: "Срез матки 3D", href: "/uterus-3d" },
     ],
   },

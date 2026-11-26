@@ -111,7 +111,7 @@ export const EXAM_PROTOCOLS: ExamProtocol[] = [
     subtitle: "ISUOG Practice Guidelines · Third-trimester obstetric scan",
     source: "ISUOG · III trimester",
     sourceUrl: "https://www.isuog.org/clinical-resources/isuog-guidelines.html",
-    relatedHref: "/calculators/cervical-length",
+    relatedHref: "/tools/calc/ob/cervical-length",
     relatedLabel: "Калькулятор длины шейки",
     items: [
       { id: "tt-presentation", category: "visualize", label: "Предлежание, положение плода", required: true },

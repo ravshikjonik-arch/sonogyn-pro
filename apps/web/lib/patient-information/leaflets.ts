@@ -91,7 +91,7 @@ export const PATIENT_LEAFLETS: PatientLeaflet[] = [
     titleRu: "Задержка роста плода (FGR / МГП)",
     subtitle: "ISUOG · Fetal growth restriction",
     source: "ISUOG Patient Information · FGR",
-    relatedHref: "/calculators/fetal-weight",
+    relatedHref: "/tools/calc/ob/fetal-weight",
     relatedLabel: "Калькулятор массы плода",
     whenToUse: "При EFW <10-го перцентиля или отставании роста на повторных УЗИ.",
     sections: [

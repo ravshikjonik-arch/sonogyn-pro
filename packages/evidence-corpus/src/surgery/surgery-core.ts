@@ -30,7 +30,7 @@ export const SURGERY_CORE_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ESHRE hysteroscopy guideline", organization: "ESHRE", year: 2023 },
     tags: ["hysteroscopy", "гистероскопия", "полип", "submucous", "AUB"],
-    relatedLinks: [{ label: "Калькулятор FIGO", href: "/calculators/figo" }],
+    relatedLinks: [{ label: "Калькулятор FIGO", href: "/tools/mapping/uterus" }],
   },
   {
     id: "surg-myomectomy-vs-hysterectomy",
@@ -46,7 +46,7 @@ export const SURGERY_CORE_EVIDENCE: EvidenceEntry[] = [
     source: { label: "FIGO / NICE fibroid management", organization: "FIGO · NICE", year: 2022 },
     tags: ["myomectomy", "hysterectomy", "миома", "FIGO", "fertility"],
     relatedLinks: [
-      { label: "FIGO", href: "/calculators/figo" },
+      { label: "FIGO", href: "/tools/mapping/uterus" },
       { label: "Срез матки 3D", href: "/uterus-3d" },
     ],
   },
@@ -122,7 +122,7 @@ export const SURGERY_CORE_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ISUOG cerclage guideline", organization: "ISUOG", year: 2022 },
     tags: ["cerclage", "McDonald", "abdominal cerclage", "CL"],
-    relatedLinks: [{ label: "Калькулятор CL", href: "/calculators/cervical-length" }],
+    relatedLinks: [{ label: "Калькулятор CL", href: "/tools/calc/ob/cervical-length" }],
   },
   {
     id: "surg-scar-niche",
@@ -152,7 +152,7 @@ export const SURGERY_CORE_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ICS POP-Q / NICE prolapse", organization: "ICS · NICE", year: 2023 },
     tags: ["POP", "prolapse", "POP-Q", "cystocele", "rectocele"],
-    relatedLinks: [{ label: "Калькулятор POP-Q", href: "/calculators/pop-q" }],
+    relatedLinks: [{ label: "Калькулятор POP-Q", href: "/tools/calc/gyn/pop-q" }],
   },
   {
     id: "surg-hysteroscopic-polypectomy",
@@ -167,7 +167,7 @@ export const SURGERY_CORE_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ESHRE polyp guideline", organization: "ESHRE", year: 2023 },
     tags: ["polyp", "polypectomy", "hysteroscopy", "AUB", "infertility"],
-    relatedLinks: [{ label: "Калькулятор эндометрия", href: "/calculators/endometrium" }],
+    relatedLinks: [{ label: "Калькулятор эндометрия", href: "/tools/calc/gyn/endometrium" }],
   },
   {
     id: "surg-endometrial-ablation",

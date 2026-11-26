@@ -15,7 +15,7 @@ export const MAMMO_ADDITIONAL_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ACR BI-RADS US", organization: "ACR", year: 2025 },
     tags: ["complicated cyst", "debris", "septa", "BI-RADS 3"],
-    relatedLinks: [{ label: "BI-RADS Pro", href: "/calculators/bi-rads" }],
+    relatedLinks: [{ label: "BI-RADS Pro", href: "/tools/calc/rads/bi-rads" }],
   },
   {
     id: "mammo-phyllodes",
@@ -170,7 +170,7 @@ export const MAMMO_ADDITIONAL_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ACR BI-RADS follow-up tables", organization: "ACR", year: 2025 },
     tags: ["follow-up", "6 months", "surveillance", "BI-RADS 3"],
-    relatedLinks: [{ label: "BI-RADS Pro", href: "/calculators/bi-rads" }],
+    relatedLinks: [{ label: "BI-RADS Pro", href: "/tools/calc/rads/bi-rads" }],
   },
   {
     id: "mammo-inflammatory-carcinoma",
@@ -199,7 +199,7 @@ export const MAMMO_ADDITIONAL_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ACR BI-RADS US reporting", organization: "ACR", year: 2025 },
     tags: ["протокол", "reporting", "lexicon", "structured"],
-    relatedLinks: [{ label: "BI-RADS Pro", href: "/calculators/bi-rads" }],
+    relatedLinks: [{ label: "BI-RADS Pro", href: "/tools/calc/rads/bi-rads" }],
   },
   {
     id: "mammo-palpable-lump-pathway",

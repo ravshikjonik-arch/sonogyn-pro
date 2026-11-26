@@ -32,6 +32,10 @@ import {
   screeningHintsRu,
   splitGaDays,
   type BiometryKind,
+  calculateAfi,
+  interpretAfiRu,
+  pulsatilityIndex,
+  resistanceIndex,
 } from "@repo/medical-calculations";
 
 const TABS = [
@@ -45,6 +49,7 @@ const TABS = [
   { id: "edd", label: "По ПДР" },
   { id: "movement", label: "Шевеления" },
   { id: "antenatal", label: "Явка в ЖК" },
+  { id: "afi", label: "AFI / допплер" },
 ] as const;
 
 type TabId = (typeof TABS)[number]["id"];
@@ -86,6 +91,17 @@ export function ObCalcHub({ initialTab = "lmp" }: { initialTab?: TabId }) {
   const [antenatalDateIso, setAntenatalDateIso] = useState<string | undefined>();
   const [antenatalWeeks, setAntenatalWeeks] = useState("12");
   const [antenatalDays, setAntenatalDays] = useState("0");
+  const [afiQ1, setAfiQ1] = useState("");
+  const [afiQ2, setAfiQ2] = useState("");
+  const [afiQ3, setAfiQ3] = useState("");
+  const [afiQ4, setAfiQ4] = useState("");
+  const [dopPsv, setDopPsv] = useState("");
+  const [dopEdv, setDopEdv] = useState("");
+
+  const parseCm = (s: string) => {
+    const v = Number.parseFloat(s.replace(",", "."));
+    return Number.isFinite(v) ? v : null;
+  };
 
   const lmpResult = useMemo(() => {
     if (!lmpIso) return [];
@@ -168,6 +184,22 @@ export function ObCalcHub({ initialTab = "lmp" }: { initialTab?: TabId }) {
       ...screeningHintsRu(gaToday.hintsGaDays),
     ];
   }, [msdDateIso, msdMm]);
+
+  const afiResult = useMemo(() => {
+    const q = [afiQ1, afiQ2, afiQ3, afiQ4].map(parseCm);
+    if (q.some((v) => v == null)) return [];
+    const afi = calculateAfi(q as [number, number, number, number]);
+    if (afi == null) return ["Проверьте глубины четырёх квадрантов (см)"];
+    const lines = [`AFI = ${afi} см`, interpretAfiRu(afi)];
+    const psv = parseCm(dopPsv);
+    const edv = parseCm(dopEdv);
+    if (psv != null && edv != null) {
+      const pi = pulsatilityIndex({ psv, edv });
+      const ri = resistanceIndex({ psv, edv });
+      if (pi != null) lines.push(`PI = ${pi}`, `RI = ${ri ?? "—"}`);
+    }
+    return lines;
+  }, [afiQ1, afiQ2, afiQ3, afiQ4, dopPsv, dopEdv]);
 
   const ivfResult = useMemo(() => {
     if (!ivfDateIso) return [];
@@ -563,6 +595,41 @@ export function ObCalcHub({ initialTab = "lmp" }: { initialTab?: TabId }) {
           </Card>
           </div>
         ) : null}
+
+        {tab === "afi" ? (
+          <div className="mt-4 space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">Околоплодные воды (AFI)</CardTitle>
+                <CardDescription>Сумма 4 квадрантов (см) · Phelan AFI</CardDescription>
+              </CardHeader>
+              <CardContent className="grid gap-3 sm:grid-cols-2">
+                {(
+                  [
+                    ["Квадрант 1", afiQ1, setAfiQ1],
+                    ["Квадрант 2", afiQ2, setAfiQ2],
+                    ["Квадрант 3", afiQ3, setAfiQ3],
+                    ["Квадрант 4", afiQ4, setAfiQ4],
+                  ] as const
+                ).map(([label, val, setVal]) => (
+                  <label key={label} className="block text-sm font-semibold">
+                    {label}, см
+                    <Input className="mt-1" inputMode="decimal" value={val} onChange={(e) => setVal(e.target.value)} />
+                  </label>
+                ))}
+                <label className="block text-sm font-semibold sm:col-span-2">
+                  Допплер ПСВ / КДР (см/с), необязательно
+                  <div className="mt-1 flex gap-2">
+                    <Input inputMode="decimal" placeholder="ПСВ" value={dopPsv} onChange={(e) => setDopPsv(e.target.value)} />
+                    <Input inputMode="decimal" placeholder="КДР" value={dopEdv} onChange={(e) => setDopEdv(e.target.value)} />
+                  </div>
+                </label>
+                <ResultBox lines={afiResult} />
+              </CardContent>
+            </Card>
+            <CalculatorSourcesPanel calculatorId="ob-afi" />
+          </div>
+        ) : null}
       </div>
 
       <Card className="border-teal-200/70 bg-teal-50/30 dark:border-teal-900/40 dark:bg-teal-950/20">
@@ -582,6 +649,7 @@ export function ObCalcHub({ initialTab = "lmp" }: { initialTab?: TabId }) {
         </CardContent>
       </Card>
 
+      <CalculatorSourcesPanel calculatorId="ob-hub" className="mx-auto max-w-3xl" />
       <p className="text-center text-xs text-[var(--clinical-foreground-muted)]">{PREGNANCY_DATING_DISCLAIMER}</p>
     </div>
   );

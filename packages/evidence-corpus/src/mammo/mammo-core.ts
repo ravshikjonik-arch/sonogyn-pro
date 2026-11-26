@@ -21,8 +21,8 @@ export const MAMMO_CORE_EVIDENCE: EvidenceEntry[] = [
     },
     tags: ["BI-RADS", "категория", "US", "молочная железа", "assessment"],
     relatedLinks: [
-      { label: "Калькулятор BI-RADS", href: "/calculators/bi-rads" },
-      { label: "Эластография", href: "/calculators/elastography" },
+      { label: "Калькулятор BI-RADS", href: "/tools/calc/rads/bi-rads" },
+      { label: "Эластография", href: "/tools/calc/gyn/elastography" },
     ],
   },
   {
@@ -38,7 +38,7 @@ export const MAMMO_CORE_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ACR BI-RADS US", organization: "ACR", year: 2025 },
     tags: ["BI-RADS 2", "benign", "киста", "fibroadenoma"],
-    relatedLinks: [{ label: "BI-RADS Pro", href: "/calculators/bi-rads" }],
+    relatedLinks: [{ label: "BI-RADS Pro", href: "/tools/calc/rads/bi-rads" }],
   },
   {
     id: "mammo-birads-3",
@@ -53,7 +53,7 @@ export const MAMMO_CORE_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ACR BI-RADS US management", organization: "ACR", year: 2025 },
     tags: ["BI-RADS 3", "probably benign", "контроль", "6 месяцев"],
-    relatedLinks: [{ label: "BI-RADS Pro", href: "/calculators/bi-rads" }],
+    relatedLinks: [{ label: "BI-RADS Pro", href: "/tools/calc/rads/bi-rads" }],
   },
   {
     id: "mammo-birads-4",
@@ -68,7 +68,7 @@ export const MAMMO_CORE_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ACR BI-RADS US", organization: "ACR", year: 2025 },
     tags: ["BI-RADS 4", "biopsy", "подозрительное", "4A", "4B", "4C"],
-    relatedLinks: [{ label: "BI-RADS Pro", href: "/calculators/bi-rads" }],
+    relatedLinks: [{ label: "BI-RADS Pro", href: "/tools/calc/rads/bi-rads" }],
   },
   {
     id: "mammo-birads-5",
@@ -83,7 +83,7 @@ export const MAMMO_CORE_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ACR BI-RADS US", organization: "ACR", year: 2025 },
     tags: ["BI-RADS 5", "malignancy", "spiculated", "рак МЖ"],
-    relatedLinks: [{ label: "BI-RADS Pro", href: "/calculators/bi-rads" }],
+    relatedLinks: [{ label: "BI-RADS Pro", href: "/tools/calc/rads/bi-rads" }],
   },
   {
     id: "mammo-mass-descriptors",
@@ -98,7 +98,7 @@ export const MAMMO_CORE_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ACR BI-RADS US lexicon", organization: "ACR", year: 2025 },
     tags: ["mass", "margin", "spiculated", "orientation", "lexicon"],
-    relatedLinks: [{ label: "BI-RADS Pro", href: "/calculators/bi-rads" }],
+    relatedLinks: [{ label: "BI-RADS Pro", href: "/tools/calc/rads/bi-rads" }],
   },
   {
     id: "mammo-simple-cyst",
@@ -113,7 +113,7 @@ export const MAMMO_CORE_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ACR BI-RADS US", organization: "ACR", year: 2025 },
     tags: ["киста", "simple cyst", "anechoic", "BI-RADS 2"],
-    relatedLinks: [{ label: "BI-RADS Pro", href: "/calculators/bi-rads" }],
+    relatedLinks: [{ label: "BI-RADS Pro", href: "/tools/calc/rads/bi-rads" }],
   },
   {
     id: "mammo-fibroadenoma",
@@ -129,8 +129,8 @@ export const MAMMO_CORE_EVIDENCE: EvidenceEntry[] = [
     source: { label: "ACR BI-RADS / EFSUMB", organization: "ACR", year: 2025 },
     tags: ["fibroadenoma", "фибroadenoma", "молодая", "oval mass"],
     relatedLinks: [
-      { label: "BI-RADS Pro", href: "/calculators/bi-rads" },
-      { label: "Эластография", href: "/calculators/elastography" },
+      { label: "BI-RADS Pro", href: "/tools/calc/rads/bi-rads" },
+      { label: "Эластография", href: "/tools/calc/gyn/elastography" },
     ],
   },
   {
@@ -188,7 +188,7 @@ export const MAMMO_CORE_EVIDENCE: EvidenceEntry[] = [
     tier: 2,
     source: { label: "EFSUMB breast elastography guidelines", organization: "EFSUMB", year: 2023 },
     tags: ["elastography", "эластография", "SWE", "strain", "adjunct"],
-    relatedLinks: [{ label: "Калькулятор эластографии", href: "/calculators/elastography" }],
+    relatedLinks: [{ label: "Калькулятор эластографии", href: "/tools/calc/gyn/elastography" }],
   },
   {
     id: "mammo-pregnancy-lactation",
@@ -217,7 +217,7 @@ export const MAMMO_CORE_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ACR BI-RADS US", organization: "ACR", year: 2025 },
     tags: ["BI-RADS 0", "incomplete", "дополнительное исследование"],
-    relatedLinks: [{ label: "BI-RADS Pro", href: "/calculators/bi-rads" }],
+    relatedLinks: [{ label: "BI-RADS Pro", href: "/tools/calc/rads/bi-rads" }],
   },
   {
     id: "mammo-screening-kr-rf",

@@ -20,6 +20,9 @@ export function CalculatorSourcesPanel({ calculatorId, className }: Props) {
         <BookOpen className="h-4 w-4 text-[var(--clinical-primary)]" aria-hidden />
         Источники
       </h2>
+      <p className="mt-2 text-xs text-[var(--clinical-foreground-muted)]">
+        Справочно для врача. Решение принимает специалист; не является диагнозом.
+      </p>
       <ul className="mt-3 space-y-2 text-sm">
         {sources.map((item) => (
           <li key={item.href + item.label}>

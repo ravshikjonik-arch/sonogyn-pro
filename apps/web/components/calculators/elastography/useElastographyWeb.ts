@@ -10,8 +10,8 @@ import type {
   OvaryIotaType,
 } from "@repo/medical-calculations/elastography";
 
-import { ORGAN_FIELD_DEFINITIONS, ORGAN_METHODS } from "@/lib/calculators/elastography/fieldDefinitions";
-import { ElastographyInputError, runWebElastography } from "@/lib/calculators/elastography/runCalculation";
+import { ORGAN_FIELD_DEFINITIONS, ORGAN_METHODS } from "@/lib/tools/calc/gyn/elastography/fieldDefinitions";
+import { ElastographyInputError, runWebElastography } from "@/lib/tools/calc/gyn/elastography/runCalculation";
 
 export type ElastographyStep = "organ" | "method" | "input" | "result";
 

@@ -23,7 +23,7 @@ describe("searchClinicalTools", () => {
   it("finds pregnancy dating calculator by oblcalc alias", () => {
     const r = searchClinicalTools("oblcalc");
     assert.ok(r.some((x) => x.id === "ob-calc"));
-    assert.equal(r[0]?.webHref, "/calculators/ob");
+    assert.equal(r[0]?.webHref, "/tools/calc/ob");
   });
 
   it("finds ga-lmp by пдр", () => {

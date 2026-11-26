@@ -1,4 +1,4 @@
-import { FetalWeightCalculator } from "@/components/calculators/obstetric/FetalWeightCalculator";
+import { FetalWeightCalculator } from "@/components/tools/calc/obstetric/FetalWeightCalculator";
 import { CalculatorLandingShell } from "@/components/seo/CalculatorLandingShell";
 import { getCalculatorLandingContent } from "@/lib/seo/calculator-landing-content";
 import { calculatorPageMetadata } from "@/lib/seo/calculator-seo-registry";

@@ -1,4 +1,4 @@
-import { FetometryNormsCalculatorHub } from "@/components/calculators/ob/FetometryNormsCalculatorHub";
+import { FetometryNormsCalculatorHub } from "@/components/tools/calc/ob/FetometryNormsCalculatorHub";
 import { MEDVEDEV_ARCHIVE_PUBLIC_BASE, medvedevArchiveBookStats } from "@repo/medvedev-reference";
 
 import { calculatorPageMetadata } from "@/lib/seo/calculator-seo-registry";

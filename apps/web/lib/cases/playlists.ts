@@ -68,7 +68,7 @@ export const CASE_PLAYLISTS: CasePlaylist[] = [
     filters: { tags: "cervix,cin,colposcopy" },
     educationLinks: [
       { href: "/tools/refs/cervix-pathology", label: "Справочник шейки" },
-      { href: "/calculators/colposcopy", label: "Кольпоскопия" },
+      { href: "/tools/calc/gyn/colposcopy", label: "Кольпоскопия" },
     ],
   },
   {

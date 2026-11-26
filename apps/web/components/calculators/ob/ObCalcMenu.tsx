@@ -54,6 +54,7 @@ const SECTIONS: Section[] = [
     rows: [
       { href: "/tools/calc/ob?tab=crl", title: "Срок беременности по КТР (I триместр)", icon: Ruler, tone: "bg-sky-500" },
       { href: "/tools/calc/ob?tab=feto", title: "Срок беременности по фетометрии (II триместр)", icon: Ruler, tone: "bg-cyan-500" },
+      { href: "/tools/calc/ob?tab=afi", title: "AFI и допплер (PI/RI)", icon: Waves, tone: "bg-teal-500" },
     ],
   },
   {

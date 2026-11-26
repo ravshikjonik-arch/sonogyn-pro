@@ -130,7 +130,7 @@ export function detectUnused(): UnusedEntry[] {
     {
       id: "ln-rads",
       title: "LN-RADS (web)",
-      note: "Страница /calculators/ln-rads — Intelligence Suite (calculator, atlas, anatomy, board). Mobile — упрощённый прототип.",
+      note: "Страница /tools/calc/rads/ln-rads — Intelligence Suite (calculator, atlas, anatomy, board). Mobile — упрощённый прототип.",
     },
     {
       id: "calculators/[slug]",
@@ -182,16 +182,16 @@ export function validateRoutes(
 export function detectOrphanScreens(registeredRoutes: Set<string>, menuLinkedRoutes: Set<string>): OrphanScreen[] {
   const orphans: OrphanScreen[] = [];
   const calculatorRoutes = [
-    "/calculators/elastography",
+    "/tools/calc/gyn/elastography",
     "/tools/calc/rads/o-rads",
-    "/calculators/bi-rads",
-    "/calculators/endometrium",
-    "/calculators/cervical-length",
+    "/tools/calc/rads/bi-rads",
+    "/tools/calc/gyn/endometrium",
+    "/tools/calc/ob/cervical-length",
     "/tools/calc/rads/ti-rads",
-    "/calculators/pop-q",
-    "/calculators/colposcopy",
-    "/calculators/ob",
-    "/calculators/appointment",
+    "/tools/calc/gyn/pop-q",
+    "/tools/calc/gyn/colposcopy",
+    "/tools/calc/ob",
+    "/tools/calc/appointment",
   ];
   for (const route of calculatorRoutes) {
     if (registeredRoutes.has(route) && !menuLinkedRoutes.has(route) && route !== "/calculators/appointment") {

@@ -53,7 +53,7 @@ export const EXAM_SET_PIECE_SCENARIOS: ExamSetPieceScenario[] = [
       "Структурированный отчёт: uterus → myometrium → endometrium → ovaries → fluid.",
       "Не путать с атрофией + артефакт; TV обязателен при доступности.",
     ],
-    relatedHref: "/calculators/endometrium",
+    relatedHref: "/tools/calc/gyn/endometrium",
     relatedLabel: "Калькулятор эндометрия",
   },
   {

@@ -8,6 +8,8 @@ import {
   CLINICAL_CONTENT_DISCLAIMER,
   formatClinicalReviewLabel,
 } from "@/lib/seo/clinical-reviewer";
+import { CalculatorSourcesPanel } from "@/components/calculators/CalculatorSourcesPanel";
+import { calculatorSourceIdFromPath } from "@/lib/calculators/source-id-from-path";
 import type { CalculatorLandingContent } from "@/lib/seo/calculator-landing-content";
 
 type Props = {
@@ -17,6 +19,7 @@ type Props = {
 
 export function CalculatorLandingShell({ content, children }: Props) {
   const calcId = content.path.replace(/^\/tools\/calc\//, "").replace(/\//g, "_") || content.path;
+  const sourceId = calculatorSourceIdFromPath(content.path);
 
   return (
     <div className="space-y-8">
@@ -37,6 +40,12 @@ export function CalculatorLandingShell({ content, children }: Props) {
       </header>
 
       <div>{children}</div>
+
+      {sourceId ? (
+        <div className="mx-auto max-w-4xl px-4">
+          <CalculatorSourcesPanel calculatorId={sourceId} />
+        </div>
+      ) : null}
 
       <article className="mx-auto max-w-4xl space-y-8 px-4 pb-12 text-[var(--clinical-foreground)]">
         <section className="space-y-3" aria-labelledby="how-heading">

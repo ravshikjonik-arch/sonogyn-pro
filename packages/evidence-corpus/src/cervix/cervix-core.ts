@@ -205,7 +205,7 @@ export const CERVIX_CORE_EVIDENCE: EvidenceEntry[] = [
       year: 2020,
     },
     tags: ["AGC", "AGUS", "AIS", "железистая", "endometrial"],
-    relatedLinks: [{ label: "Калькулятор эндометрия", href: "/calculators/endometrium" }],
+    relatedLinks: [{ label: "Калькулятор эндометрия", href: "/tools/calc/gyn/endometrium" }],
   },
   {
     id: "cervix-hpv-vaccination",
@@ -261,7 +261,7 @@ export const CERVIX_CORE_EVIDENCE: EvidenceEntry[] = [
       year: 2022,
     },
     tags: ["CL", "cervical length", "измерение", "ТВ-УЗИ", "техника"],
-    relatedLinks: [{ label: "Калькулятор CL", href: "/calculators/cervical-length" }],
+    relatedLinks: [{ label: "Калькулятор CL", href: "/tools/calc/ob/cervical-length" }],
   },
   {
     id: "cervix-cl-thresholds",
@@ -281,7 +281,7 @@ export const CERVIX_CORE_EVIDENCE: EvidenceEntry[] = [
     },
     tags: ["CL", "25 мм", "короткая шейка", "преждevременные", "порог"],
     relatedLinks: [
-      { label: "Калькулятор CL", href: "/calculators/cervical-length" },
+      { label: "Калькулятор CL", href: "/tools/calc/ob/cervical-length" },
       { label: "FMF · преterm", href: "/assistant/fmf" },
     ],
   },

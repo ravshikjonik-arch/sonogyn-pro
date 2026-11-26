@@ -1,2 +1,2 @@
-/** Headless UI tokens — React dashboard: apps/web/components/calculators/colposcopy/CpiDashboard.tsx */
+/** Headless UI tokens — React dashboard: apps/web/components/tools/calc/gyn/colposcopy/CpiDashboard.tsx */
 export { CPI_ACTION_LABELS, CpiDisclaimer } from "../domain";

@@ -41,7 +41,7 @@ export default function FetalBiometryFormulasPage() {
           </Card>
         ))}
       </div>
-      <Link href="/calculators/fetal-weight" className="text-sm font-medium text-[var(--clinical-primary)] underline">
+      <Link href="/tools/calc/ob/fetal-weight" className="text-sm font-medium text-[var(--clinical-primary)] underline">
         Калькулятор массы плода →
       </Link>
     </div>

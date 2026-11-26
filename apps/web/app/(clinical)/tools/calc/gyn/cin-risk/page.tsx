@@ -1,4 +1,4 @@
-import { CinRiskCalculator } from "@/components/calculators/colposcopy/CinRiskCalculator";
+import { CinRiskCalculator } from "@/components/tools/calc/gyn/colposcopy/CinRiskCalculator";
 
 import { calculatorPageMetadata } from "@/lib/seo/calculator-seo-registry";
 export const metadata = calculatorPageMetadata("/tools/calc/gyn/cin-risk");

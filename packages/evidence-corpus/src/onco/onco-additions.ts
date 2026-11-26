@@ -76,7 +76,7 @@ export const ONCO_ADDITIONAL_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "ESHRE/ESGO endometrial guidelines", organization: "ESHRE", year: 2022 },
     tags: ["hyperplasia", "atypia", "EIN", "endometrial cancer"],
-    relatedLinks: [{ label: "Калькулятор эндометрия", href: "/calculators/endometrium" }],
+    relatedLinks: [{ label: "Калькулятор эндометрия", href: "/tools/calc/gyn/endometrium" }],
   },
   {
     id: "onco-pmpb-pathway",
@@ -91,7 +91,7 @@ export const ONCO_ADDITIONAL_EVIDENCE: EvidenceEntry[] = [
     tier: 1,
     source: { label: "NICE NG12 suspected cancer pathway", organization: "NICE", year: 2023 },
     tags: ["PMPB", "postmenopause", "bleeding", "biopsy", "pathway"],
-    relatedLinks: [{ label: "Калькулятор эндометрия", href: "/calculators/endometrium" }],
+    relatedLinks: [{ label: "Калькулятор эндометрия", href: "/tools/calc/gyn/endometrium" }],
   },
   {
     id: "onco-lynch-endometrial",

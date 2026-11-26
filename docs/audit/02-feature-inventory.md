@@ -28,10 +28,10 @@
 | F-015 | Medical Knowledge | Nosology pages | Y | partial | Y | nosology | — | IMPLEMENTED_UNVERIFIED | `/nosologies/[id]`, admin | P2 | Link to evidence |
 | F-016 | Medical Knowledge | Medical knowledge retrieve API | Y | — | Y | sources | — | IMPLEMENTED_UNVERIFIED | `/api/medical-knowledge/retrieve` | P1 | Trace to AI answers |
 | F-017 | Search | Unified clinical search (PR #52) | Y | — | Y | local indexes | — | IMPLEMENTED_UNVERIFIED | search routes in web lib | P2 | Mobile search MISSING |
-| F-018 | Calculators | O-RADS US wizard | Y | Y | Y | — | **42 pass** | VERIFIED | `@repo/orads-us`, `/calculators/o-rads` | — | Keep tests on changes |
+| F-018 | Calculators | O-RADS US wizard | Y | Y | Y | — | **42 pass** | VERIFIED | `@repo/orads-us`, `/tools/calc/rads/o-rads` | — | Keep tests on changes |
 | F-019 | Calculators | BI-RADS US | Y | Y | partial | — | package tests | IMPLEMENTED_UNVERIFIED | `@repo/birads-us`, calc routes | P2 | Dedupe breast-classification |
 | F-020 | Calculators | TI-RADS | Y | Y | partial | — | — | PARTIAL | dual packages | P2 | Consolidate packages |
-| F-021 | Calculators | FMF / OB calculators | Y | Y | Y | — | root obstetric tests | IMPLEMENTED_UNVERIFIED | `@repo/fmf`, `/calculators/ob` | P2 | Run obstetric test suite in CI |
+| F-021 | Calculators | FMF / OB calculators | Y | Y | Y | — | root obstetric tests | IMPLEMENTED_UNVERIFIED | `@repo/fmf`, `/tools/calc/ob` | P2 | Run obstetric test suite in CI |
 | F-022 | Calculators | CPI / cervical intelligence | Y | Y | Y | — | **cpi e2e** | IMPLEMENTED_UNVERIFIED | `/api/cpi/evaluate`, CPI package | P1 | Clinical validation docs |
 | F-023 | Classifications | IOTA terms / O-RADS guide | Y | partial | — | content | — | IMPLEMENTED_UNVERIFIED | library + tools refs | P3 | — |
 | F-024 | Atlases | Obstetric / fetal spine / adnex | Y | partial | — | content | — | PARTIAL | library routes, fetal-spine-cards app | P3 | Mobile atlas parity |

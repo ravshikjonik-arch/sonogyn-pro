@@ -1,5 +1,5 @@
-import { ObCalcHub } from "@/components/calculators/ob/ObCalcHub";
-import { ObCalcMenu } from "@/components/calculators/ob/ObCalcMenu";
+import { ObCalcHub } from "@/components/tools/calc/ob/ObCalcHub";
+import { ObCalcMenu } from "@/components/tools/calc/ob/ObCalcMenu";
 
 import { calculatorPageMetadata } from "@/lib/seo/calculator-seo-registry";
 

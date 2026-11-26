@@ -10,37 +10,37 @@ account.profile,infra,route,Профиль,/profile,/profile,P0,no,
 billing.paywall,pro,route,PRO,/paywall,/profile/pro,P1,no,
 assistant.hub,ai-assistant,route,Помощник врача,/assistant,/ai/consultants,P0.5,yes,assistant-gyn|assistant-obs
 assistant.fmf,obstetrics,calculator,FMF · скрининги,/assistant/fmf,/ai/consultants/fmf,P0.5,yes,fmf
-calculator.ob-hub,obstetrics,calculator,Калькулятор расчёта срока беременности,/calculators/ob,/tools/calc/ob,P0.5,yes,ob-calc
-calculator.appointment.ga-lmp,obstetrics,calculator-appointment,Срок по менструации,/calculators/ob?tab=lmp,/tools/calc/ob?tab=lmp,P0.5,yes,ga-lmp
-calculator.appointment.ga-us,obstetrics,calculator-appointment,Срок по УЗИ,/calculators/ob?tab=us,/tools/calc/ob?tab=us,P0.5,yes,ga-us
-calculator.appointment.ga-ivf,obstetrics,calculator-appointment,Срок по ЭКО,/calculators/ob?tab=ivf,/tools/calc/ob?tab=ivf,P0.5,yes,ga-ivf
-calculator.appointment.ga-movement,obstetrics,calculator-appointment,Срок по шевелениям,/calculators/ob?tab=movement,/tools/calc/ob?tab=movement,P1,no,
-calculator.appointment.ga-antenatal,obstetrics,calculator-appointment,Срок по явке в ЖК,/calculators/ob?tab=antenatal,/tools/calc/ob?tab=antenatal,P1,no,
-calculator.appointment.maternity-leave,obstetrics,calculator-appointment,Декрет,/calculators/ob?tab=dekret,/tools/calc/ob?tab=dekret,P1,no,
-calculator.appointment.ga-edd,obstetrics,calculator-appointment,Срок по ПДР,/calculators/ob?tab=edd,/tools/calc/ob?tab=edd,P1,no,
-calculator.appointment.ga-crl,obstetrics,calculator-appointment,Срок по КТР,/calculators/ob?tab=crl,/tools/calc/ob?tab=crl,P0.5,yes,ga-crl
-calculator.appointment.ga-feto,obstetrics,calculator-appointment,Срок по фетометрии,/calculators/ob?tab=feto,/tools/calc/ob?tab=feto,P0.5,yes,ga-feto
-calculator.fetal-weight,obstetrics,calculator,Масса плода,/calculators/fetal-weight,/tools/calc/ob/fetal-weight,P0.5,no,
-calculator.bishop,obstetrics,calculator,Шкала Бишопа,/calculators/bishop,/tools/calc/ob/bishop,P0.5,no,
-calculator.vbac,obstetrics,calculator,VBAC / TOLAC,/calculators/vbac,/tools/calc/ob/vbac,P0.5,no,
-calculator.pregnancy-meds,obstetrics,calculator,Лекарства при беременности,/calculators/pregnancy-medications,/tools/calc/ob/pregnancy-medications,P0.5,no,
-calculator.cervical-length,obstetrics,calculator,Длина шейки (CL),/calculators/cervical-length,/tools/calc/ob/cervical-length,P0.5,yes,cervical-length
-calculator.o-rads,rads,calculator,O-RADS US,/calculators/o-rads,/tools/calc/rads/o-rads,P0.5,yes,orads-wizard|orads
-calculator.bi-rads,rads,calculator,BI-RADS US Pro,/calculators/bi-rads,/tools/calc/rads/bi-rads,P0.5,yes,birads
-calculator.ti-rads,rads,calculator,TI-RADS ЩЖ,/calculators/ti-rads,/tools/adjunct/ti-rads,P0.5,yes,tirads
-calculator.ln-rads,rads,calculator,LN-RADS US Pro,/calculators/ln-rads,/tools/calc/rads/ln-rads,P0.5,yes,ln-rads
+calculator.ob-hub,obstetrics,calculator,Калькулятор расчёта срока беременности,/tools/calc/ob,/tools/calc/ob,P0.5,yes,ob-calc
+calculator.appointment.ga-lmp,obstetrics,calculator-appointment,Срок по менструации,/tools/calc/ob?tab=lmp,/tools/calc/ob?tab=lmp,P0.5,yes,ga-lmp
+calculator.appointment.ga-us,obstetrics,calculator-appointment,Срок по УЗИ,/tools/calc/ob?tab=us,/tools/calc/ob?tab=us,P0.5,yes,ga-us
+calculator.appointment.ga-ivf,obstetrics,calculator-appointment,Срок по ЭКО,/tools/calc/ob?tab=ivf,/tools/calc/ob?tab=ivf,P0.5,yes,ga-ivf
+calculator.appointment.ga-movement,obstetrics,calculator-appointment,Срок по шевелениям,/tools/calc/ob?tab=movement,/tools/calc/ob?tab=movement,P1,no,
+calculator.appointment.ga-antenatal,obstetrics,calculator-appointment,Срок по явке в ЖК,/tools/calc/ob?tab=antenatal,/tools/calc/ob?tab=antenatal,P1,no,
+calculator.appointment.maternity-leave,obstetrics,calculator-appointment,Декрет,/tools/calc/ob?tab=dekret,/tools/calc/ob?tab=dekret,P1,no,
+calculator.appointment.ga-edd,obstetrics,calculator-appointment,Срок по ПДР,/tools/calc/ob?tab=edd,/tools/calc/ob?tab=edd,P1,no,
+calculator.appointment.ga-crl,obstetrics,calculator-appointment,Срок по КТР,/tools/calc/ob?tab=crl,/tools/calc/ob?tab=crl,P0.5,yes,ga-crl
+calculator.appointment.ga-feto,obstetrics,calculator-appointment,Срок по фетометрии,/tools/calc/ob?tab=feto,/tools/calc/ob?tab=feto,P0.5,yes,ga-feto
+calculator.fetal-weight,obstetrics,calculator,Масса плода,/tools/calc/ob/fetal-weight,/tools/calc/ob/fetal-weight,P0.5,no,
+calculator.bishop,obstetrics,calculator,Шкала Бишопа,/tools/calc/ob/bishop,/tools/calc/ob/bishop,P0.5,no,
+calculator.vbac,obstetrics,calculator,VBAC / TOLAC,/tools/calc/ob/vbac,/tools/calc/ob/vbac,P0.5,no,
+calculator.pregnancy-meds,obstetrics,calculator,Лекарства при беременности,/tools/pharmacy,/tools/calc/ob/pregnancy-medications,P0.5,no,
+calculator.cervical-length,obstetrics,calculator,Длина шейки (CL),/tools/calc/ob/cervical-length,/tools/calc/ob/cervical-length,P0.5,yes,cervical-length
+calculator.o-rads,rads,calculator,O-RADS US,/tools/calc/rads/o-rads,/tools/calc/rads/o-rads,P0.5,yes,orads-wizard|orads
+calculator.bi-rads,rads,calculator,BI-RADS US Pro,/tools/calc/rads/bi-rads,/tools/calc/rads/bi-rads,P0.5,yes,birads
+calculator.ti-rads,rads,calculator,TI-RADS ЩЖ,/tools/calc/rads/ti-rads,/tools/adjunct/ti-rads,P0.5,yes,tirads
+calculator.ln-rads,rads,calculator,LN-RADS US Pro,/tools/calc/rads/ln-rads,/tools/calc/rads/ln-rads,P0.5,yes,ln-rads
 calculator.figo,rads,calculator,FIGO fibroid typing,/uterus-3d,/tools/mapping/uterus,P0.5,yes,uterus-clinic
 report.adnex-orads,rads,report,Протокол O-RADS,/reports/adnex,/tools/calc/rads/adnex-report,P1,no,
-calculator.endometrium,gynecology,calculator,Эндометрий,/calculators/endometrium,/tools/calc/gyn/endometrium,P0.5,yes,endometrium
-calculator.pop-q,gynecology,calculator,POP-Q,/calculators/pop-q,/tools/calc/gyn/pop-q,P0.5,yes,popq
-calculator.colposcopy,gynecology,calculator,Кольпоскопия,/calculators/colposcopy,/tools/calc/gyn/colposcopy,P0.5,yes,colposcopy
-calculator.cin-risk,gynecology,calculator,CIN Risk,/calculators/cin-risk,/tools/calc/gyn/cin-risk,P0.5,yes,cin-risk
-calculator.cervical-intelligence,gynecology,calculator,Cervical Pathology Intelligence,/calculators/cervical-intelligence,/tools/calc/gyn/cervical-intelligence,P0.5,yes,cervical-intelligence
-calculator.elastography,gynecology,calculator,Эластография,/calculators/elastography,/tools/calc/gyn/elastography,P0.5,yes,elastography
-calculator.risk-breast,gynecology,calculator-appointment,Риск РМЖ,/calculators/breast-risk,/tools/calc/gyn/breast-risk,P1,no,
-calculator.risk-cervical,gynecology,calculator-appointment,Риск рака шейки,/calculators/cervical-cancer-risk,/tools/calc/gyn/cervical-cancer-risk,P1,no,
-calculator.risk-cin,gynecology,calculator-appointment,Наблюдение CIN,/calculators/cin-follow-up,/tools/calc/gyn/cin-follow-up,P1,no,
-calculator.risk-ovarian,gynecology,calculator-appointment,Риск рака яичников,/calculators/ovarian-cancer-risk,/tools/calc/gyn/ovarian-cancer-risk,P1,no,
+calculator.endometrium,gynecology,calculator,Эндометрий,/tools/calc/gyn/endometrium,/tools/calc/gyn/endometrium,P0.5,yes,endometrium
+calculator.pop-q,gynecology,calculator,POP-Q,/tools/calc/gyn/pop-q,/tools/calc/gyn/pop-q,P0.5,yes,popq
+calculator.colposcopy,gynecology,calculator,Кольпоскопия,/tools/calc/gyn/colposcopy,/tools/calc/gyn/colposcopy,P0.5,yes,colposcopy
+calculator.cin-risk,gynecology,calculator,CIN Risk,/tools/calc/gyn/cin-risk,/tools/calc/gyn/cin-risk,P0.5,yes,cin-risk
+calculator.cervical-intelligence,gynecology,calculator,Cervical Pathology Intelligence,/tools/calc/gyn/cervical-intelligence,/tools/calc/gyn/cervical-intelligence,P0.5,yes,cervical-intelligence
+calculator.elastography,gynecology,calculator,Эластография,/tools/calc/gyn/elastography,/tools/calc/gyn/elastography,P0.5,yes,elastography
+calculator.risk-breast,gynecology,calculator-appointment,Риск РМЖ,/tools/calc/gyn/breast-risk,/tools/calc/gyn/breast-risk,P1,no,
+calculator.risk-cervical,gynecology,calculator-appointment,Риск рака шейки,/tools/calc/gyn/cervical-cancer-risk,/tools/calc/gyn/cervical-cancer-risk,P1,no,
+calculator.risk-cin,gynecology,calculator-appointment,Наблюдение CIN,/tools/calc/gyn/cin-follow-up,/tools/calc/gyn/cin-follow-up,P1,no,
+calculator.risk-ovarian,gynecology,calculator-appointment,Риск рака яичников,/tools/calc/gyn/ovarian-cancer-risk,/tools/calc/gyn/ovarian-cancer-risk,P1,no,
 clinical.idea-endometriosis,gynecology,route,IDEA · эндометриоз,/idea-deep-endometriosis,/tools/mapping/endometriosis,P1,no,
 mockup.hub,infra,hub,Макеты УЗИ,/mockups,/tools/mapping,P0.5,no,
 mockup.uterus,gynecology,mockup,Макет матки,/uterus-3d,/tools/mapping/uterus,P1,no,uterus-clinic

@@ -43,7 +43,7 @@ export const OBGYN_CORE_EVIDENCE: EvidenceEntry[] = [
     },
     tags: ["миома", "FIGO", "leiomyoma", "узлы", "матка"],
     relatedLinks: [
-      { label: "Калькулятор FIGO", href: "/calculators/figo" },
+      { label: "Калькулятор FIGO", href: "/tools/mapping/uterus" },
       { label: "Срез матки 3D", href: "/uterus-3d" },
     ],
   },
@@ -105,7 +105,7 @@ export const OBGYN_CORE_EVIDENCE: EvidenceEntry[] = [
       year: 2018,
     },
     tags: ["АМК", "PALM-COEIN", "маточное кровотечение", "AUB"],
-    relatedLinks: [{ label: "Калькулятор эндометрия", href: "/calculators/endometrium" }],
+    relatedLinks: [{ label: "Калькулятор эндометрия", href: "/tools/calc/gyn/endometrium" }],
   },
   {
     id: "obgyn-functional-cyst",
@@ -181,7 +181,7 @@ export const OBGYN_CORE_EVIDENCE: EvidenceEntry[] = [
       year: 2022,
     },
     tags: ["гиперplasia", "эндометрий", "AUB", "atypia", "биопсия"],
-    relatedLinks: [{ label: "Калькулятор эндометрия", href: "/calculators/endometrium" }],
+    relatedLinks: [{ label: "Калькулятор эндометрия", href: "/tools/calc/gyn/endometrium" }],
   },
   {
     id: "obgyn-ectopic-pregnancy",

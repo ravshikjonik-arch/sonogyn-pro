@@ -1,4 +1,4 @@
-import { CpiDashboard } from "@/components/calculators/colposcopy/CpiDashboard";
+import { CpiDashboard } from "@/components/tools/calc/gyn/colposcopy/CpiDashboard";
 
 import { calculatorPageMetadata } from "@/lib/seo/calculator-seo-registry";
 export const metadata = calculatorPageMetadata("/tools/calc/gyn/cervical-intelligence");

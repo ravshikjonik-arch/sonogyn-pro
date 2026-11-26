@@ -15,26 +15,26 @@
 
 ## 1. Уже реализовано
 
-- **Срок беременности по менструации** — `/calculators/ob?tab=lmp` (ga-lmp)
-- **Срок беременности по УЗИ** — `/calculators/ob?tab=us` (ga-us)
-- **Срок беременности по овуляции/ЭКО** — `/calculators/ob?tab=ivf` (ga-ivf)
-- **Срок беременности по шевелениям плода** — `/calculators/ob?tab=movement` (ga-movement)
-- **Срок беременности по явке в женскую консультацию** — `/calculators/ob?tab=antenatal` (ga-antenatal)
-- **Сроки декретного отпуска** — `/calculators/ob?tab=dekret` (maternity-leave)
-- **Срок беременности по предполагаемой дате родов** — `/calculators/ob?tab=edd` (ga-edd)
-- **Срок беременности по КТР (I триместр)** — `/calculators/ob?tab=crl` (ga-crl)
-- **Срок беременности по СВД (I триместр)** — `/calculators/ob?tab=msd` (ga-msd)
-- **Срок беременности по фетометрии (II триместр)** — `/calculators/ob?tab=feto` (ga-feto)
-- **Предполагаемая масса плода по антропометрии матери** — `/calculators/fetal-weight` (efw-maternal)
-- **Метод Рудакова** — `/calculators/fetal-weight` (efw-rudakov)
-- **Шкала Бишопа** — `/calculators/bishop` (bishop)
-- **Вагинальные роды после кесарева сечения (до родов)** — `/calculators/vbac` (vbac-pre)
-- **Вагинальные роды после кесарева сечения (в родах)** — `/calculators/vbac` (vbac-labor)
-- **Риск рака молочной железы** — `/calculators/breast-risk` (breast-risk)
-- **Риск рака шейки матки** — `/calculators/cervical-cancer-risk` (cervical-risk)
-- **Наблюдение после кольпоскопии или лечения CIN** — `/calculators/cin-follow-up` (cin-follow-up)
-- **Риск рака яичников** — `/calculators/ovarian-cancer-risk` (ovarian-risk)
-- **Лекарства при беременности** — `/calculators/pregnancy-medications` (pregnancy-meds)
+- **Срок беременности по менструации** — `/tools/calc/ob?tab=lmp` (ga-lmp)
+- **Срок беременности по УЗИ** — `/tools/calc/ob?tab=us` (ga-us)
+- **Срок беременности по овуляции/ЭКО** — `/tools/calc/ob?tab=ivf` (ga-ivf)
+- **Срок беременности по шевелениям плода** — `/tools/calc/ob?tab=movement` (ga-movement)
+- **Срок беременности по явке в женскую консультацию** — `/tools/calc/ob?tab=antenatal` (ga-antenatal)
+- **Сроки декретного отпуска** — `/tools/calc/ob?tab=dekret` (maternity-leave)
+- **Срок беременности по предполагаемой дате родов** — `/tools/calc/ob?tab=edd` (ga-edd)
+- **Срок беременности по КТР (I триместр)** — `/tools/calc/ob?tab=crl` (ga-crl)
+- **Срок беременности по СВД (I триместр)** — `/tools/calc/ob?tab=msd` (ga-msd)
+- **Срок беременности по фетометрии (II триместр)** — `/tools/calc/ob?tab=feto` (ga-feto)
+- **Предполагаемая масса плода по антропометрии матери** — `/tools/calc/ob/fetal-weight` (efw-maternal)
+- **Метод Рудакова** — `/tools/calc/ob/fetal-weight` (efw-rudakov)
+- **Шкала Бишопа** — `/tools/calc/ob/bishop` (bishop)
+- **Вагинальные роды после кесарева сечения (до родов)** — `/tools/calc/ob/vbac` (vbac-pre)
+- **Вагинальные роды после кесарева сечения (в родах)** — `/tools/calc/ob/vbac` (vbac-labor)
+- **Риск рака молочной железы** — `/tools/calc/gyn/breast-risk` (breast-risk)
+- **Риск рака шейки матки** — `/tools/calc/gyn/cervical-cancer-risk` (cervical-risk)
+- **Наблюдение после кольпоскопии или лечения CIN** — `/tools/calc/gyn/cin-follow-up` (cin-follow-up)
+- **Риск рака яичников** — `/tools/calc/gyn/ovarian-cancer-risk` (ovarian-risk)
+- **Лекарства при беременности** — `/tools/pharmacy` (pregnancy-meds)
 
 ## 2. Реализовано частично
 
@@ -60,19 +60,19 @@ _Нет._
 ## 5. Неиспользуемые калькуляторы / экраны
 
 - **apps/mobile/src/screens/CalculatorsScreen.tsx** — Экран не подключён к навигации; используется GynHub + ToolsScreen
-- **LN-RADS (web registry)** — Есть в CALCULATORS registry, нет страницы /calculators/ln-rads
+- **LN-RADS (web registry)** — Есть в CALCULATORS registry, нет страницы /tools/calc/rads/ln-rads
 - **/calculators/[slug] generic form** — Используется для ln-rads/figo с полями; FIGO перенаправлен на /uterus-3d
 
 ## Дополнительные калькуляторы проекта (вне референса)
 
 - **O-RADS US** (implemented) — `/tools/calc/rads/o-rads`
-- **BI-RADS US** (implemented) — `/calculators/bi-rads`
-- **Кольпоскопия · Swede Score** (implemented) — `/calculators/colposcopy`
-- **Длина шейки матки (CL)** (implemented) — `/calculators/cervical-length`
-- **Эндометрий · ISUOG / КР РФ** (implemented) — `/calculators/endometrium`
-- **POP-Q · русская версия** (implemented) — `/calculators/pop-q`
-- **Эластография** (implemented) — `/calculators/elastography`
-- **TI-RADS ЩЖ** (implemented) — `/calculators/ti-rads`
+- **BI-RADS US** (implemented) — `/tools/calc/rads/bi-rads`
+- **Кольпоскопия · Swede Score** (implemented) — `/tools/calc/gyn/colposcopy`
+- **Длина шейки матки (CL)** (implemented) — `/tools/calc/ob/cervical-length`
+- **Эндометрий · ISUOG / КР РФ** (implemented) — `/tools/calc/gyn/endometrium`
+- **POP-Q · русская версия** (implemented) — `/tools/calc/gyn/pop-q`
+- **Эластография** (implemented) — `/tools/calc/gyn/elastography`
+- **TI-RADS ЩЖ** (implemented) — `/tools/calc/rads/ti-rads`
 - **FMF · скрининг I–III триместра** (implemented) — `/assistant/fmf`
 - **LN-RADS** (partial) — —
 - **FIGO fibroid typing** (implemented) — `/uterus-3d`

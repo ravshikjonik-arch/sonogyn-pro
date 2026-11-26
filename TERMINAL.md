@@ -34,7 +34,7 @@ UI: `/assistant/gynecology` → клик по МКБ → окно маршрут
 | **Mobile** (Expo) | `apps/mobile` | **19001** |
 | Общие формулы (EFW, эластография…) | `packages/medical-calculations` | — |
 | **КР и приказы** | `packages/clinical-guidelines` | `/guidelines` |
-| Эластография **web UI** | `apps/web/components/calculators/elastography` + `lib/calculators/elastography` | `/calculators/elastography` |
+| Эластография **web UI** | `apps/web/components/tools/calc/gyn/elastography` + `lib/tools/calc/gyn/elastography` | `/tools/calc/gyn/elastography` |
 | Эластография **mobile** | `apps/mobile/src/modules/elastography` | экран в приложении |
 
 Новые фичи добавляем **внутрь** этих папок, корень монорепо не раздуваем.
@@ -68,9 +68,9 @@ npm run dev:web
 - http://127.0.0.1:3000/register — регистрация (ФИО: `Якубов Равшан Вахобжонович`)
 - http://127.0.0.1:3000/profile — профиль / ФИО
 - http://127.0.0.1:3000/calculators — каталог
-- http://127.0.0.1:3000/calculators/o-rads — O-RADS
-- http://127.0.0.1:3000/calculators/endometrium — эндометрий
-- http://127.0.0.1:3000/calculators/elastography — эластография **без входа**
+- http://127.0.0.1:3000/tools/calc/rads/o-rads — O-RADS
+- http://127.0.0.1:3000/tools/calc/gyn/endometrium — эндометрий
+- http://127.0.0.1:3000/tools/calc/gyn/elastography — эластография **без входа**
 - http://127.0.0.1:3000/guidelines — КР и приказы
 
 ### 2б. Телефон в той же Wi‑Fi (LAN)
@@ -87,9 +87,9 @@ npm run dev:web:lan
 На телефоне (Safari / Chrome), **та же сеть Wi‑Fi**, не мобильный интернет:
 
 - `http://<IP-из-Network>:3000/app` — кабинет врача
-- `http://<IP-из-Network>:3000/calculators/o-rads`
-- `http://<IP-из-Network>:3000/calculators/endometrium`
-- `http://<IP-из-Network>:3000/calculators/cervical-length`
+- `http://<IP-из-Network>:3000/tools/calc/rads/o-rads`
+- `http://<IP-из-Network>:3000/tools/calc/gyn/endometrium`
+- `http://<IP-из-Network>:3000/tools/calc/ob/cervical-length`
 
 **Не открывайте** `http://0.0.0.0:3000` — только `127.0.0.1` на Mac или LAN IP на телефоне.
 

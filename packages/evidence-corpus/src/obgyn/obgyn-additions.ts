@@ -19,7 +19,7 @@ export const OBGYN_ADDITIONAL_EVIDENCE: EvidenceEntry[] = [
       year: 2022,
     },
     tags: ["преterm", "ПР", "CL", "шейка", "progesterone", "цервикальная недостаточность"],
-    relatedLinks: [{ label: "Калькулятор CL", href: "/calculators/cervical-length" }],
+    relatedLinks: [{ label: "Калькулятор CL", href: "/tools/calc/ob/cervical-length" }],
   },
   {
     id: "obgyn-prom",
@@ -212,7 +212,7 @@ export const OBGYN_ADDITIONAL_EVIDENCE: EvidenceEntry[] = [
       year: 2022,
     },
     tags: ["perimenopause", "postmenopause", "эндометрий", "рак endometrium", "AUB"],
-    relatedLinks: [{ label: "Калькулятор эндометрия", href: "/calculators/endometrium" }],
+    relatedLinks: [{ label: "Калькулятор эндометрия", href: "/tools/calc/gyn/endometrium" }],
   },
   {
     id: "obgyn-cervical-insufficiency",
@@ -231,7 +231,7 @@ export const OBGYN_ADDITIONAL_EVIDENCE: EvidenceEntry[] = [
       year: 2022,
     },
     tags: ["цervical insufficiency", "cerclage", "CL", "шейка", "II триместр"],
-    relatedLinks: [{ label: "Калькулятор CL", href: "/calculators/cervical-length" }],
+    relatedLinks: [{ label: "Калькулятор CL", href: "/tools/calc/ob/cervical-length" }],
   },
   {
     id: "obgyn-chorioamnionitis",
@@ -289,7 +289,7 @@ export const OBGYN_ADDITIONAL_EVIDENCE: EvidenceEntry[] = [
     },
     tags: ["submucous", "фертильность", "миома", "FIGO 0", "FIGO 1", "FIGO 2"],
     relatedLinks: [
-      { label: "Калькулятор FIGO", href: "/calculators/figo" },
+      { label: "Калькулятор FIGO", href: "/tools/mapping/uterus" },
       { label: "Срез матки 3D", href: "/uterus-3d" },
     ],
   },

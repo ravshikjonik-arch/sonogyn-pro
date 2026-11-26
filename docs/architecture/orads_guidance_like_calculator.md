@@ -43,7 +43,7 @@ AI-слой помогает заполнить или уточнить стру
 
 Старые маршруты остаются только как мосты/редиректы:
 
-- `/calculators/o-rads` -> `/tools/calc/rads/o-rads`
+- `/tools/calc/rads/o-rads` -> `/tools/calc/rads/o-rads`
 - `/orads-calculator` -> `/tools/calc/rads/o-rads`
 - `/tools/o-rads` -> `/tools/calc/rads/o-rads`
 - `/library/orads-guide` -> `/tools/refs/orads-guide`

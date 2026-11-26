@@ -21,13 +21,13 @@
 
 | Domain | Package(s) | Web entry (examples) | Mobile | Tests (audit) |
 |--------|------------|----------------------|--------|---------------|
-| O-RADS US | `@repo/orads-us` | `/calculators/o-rads`, `/tools/calc/rads/o-rads` | stack screens | **42/42 pass** |
+| O-RADS US | `@repo/orads-us` | `/tools/calc/rads/o-rads`, `/tools/calc/rads/o-rads` | stack screens | **42/42 pass** |
 | BI-RADS US | `@repo/birads-us`, `@repo/breast-classification` | `/tools/calc/rads/bi-rads`, `/calculators/*` | yes | package-level (not all run) |
-| TI-RADS | `@repo/tirads-acr`, `@repo/thyroid-tirads` | `/calculators/ti-rads`, adjunct tools | yes | **duplication P2** |
+| TI-RADS | `@repo/tirads-acr`, `@repo/thyroid-tirads` | `/tools/calc/rads/ti-rads`, adjunct tools | yes | **duplication P2** |
 | FMF / screening | `@repo/fmf` | `/assistant/fmf`, calc OB | yes | not run in audit |
-| Obstetric engine | `@repo/obstetric-engine` | `/calculators/ob`, `/tools/calc/ob` | partial | root scripts `test:fetal-biometry` etc. |
+| Obstetric engine | `@repo/obstetric-engine` | `/tools/calc/ob`, `/tools/calc/ob` | partial | root scripts `test:fetal-biometry` etc. |
 | CPI | `@repo/cervical-pathology-intelligence` | cervical intelligence routes | CPI stack | CI `pnpm test:cpi` |
-| LN-RADS | `@repo/ln-rads-us` | `/calculators/ln-rads` | — | — |
+| LN-RADS | `@repo/ln-rads-us` | `/tools/calc/rads/ln-rads` | — | — |
 | MUSA adenomyosis | `@repo/musa-framework` | `/musa/adenomyosis` | — | `test:musa-adenomyosis` script |
 | IF CPC | `@repo/ifcpc-expert` | colposcopy calc | — | — |
 | Vascular | `@repo/vascular-kulikov` | library vascular | — | — |
