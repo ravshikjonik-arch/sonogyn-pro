@@ -34,3 +34,4 @@ export * from "./cinFollowUp";
 export * from "./pregnancyMedications";
 export * from "./ovarianVolume";
 export * from "./thyroidVolume";
+export * from "./fmfScreening";

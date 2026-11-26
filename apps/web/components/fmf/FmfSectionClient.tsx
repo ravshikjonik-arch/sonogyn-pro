@@ -3,10 +3,9 @@
 import Link from "next/link";
 import { ArrowLeft, Baby } from "lucide-react";
 
-import { FmfCalculators } from "@/components/fmf/FmfCalculators";
+import { Fmf1113UnifiedClient } from "@/components/fmf/Fmf1113UnifiedClient";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils/cn";
 
 const ANCHORS = [
@@ -16,29 +15,6 @@ const ANCHORS = [
   { id: "calculators", label: "Калькуляторы" },
   { id: "nt-escalation", label: "NT ≥ 3.5" },
 ] as const;
-
-const TEACH = [
-  {
-    id: "overview",
-    title: "Окно 11+0 – 13+6",
-    body: "Скрининг I триместра в коридоре 11+0–13+6. CRL 45–84 мм — валидный диапазон для срока по КТР и NT-модели.",
-  },
-  {
-    id: "nt-tech",
-    title: "Техника NT",
-    body: "Внутренняя граница по median line; widest pocket; gain вниз. ≥2 измерений; при пуповине — среднее. 99-й ц. ≈ 3,5 мм (Wright 2008).",
-  },
-  {
-    id: "doppler",
-    title: "Допплер",
-    body: "DV: sample 0,5–1,0 мм, угол <30°, sweep 2–3 см/с. Трикуспидальная регургитация: ≥½ систолы и >60 см/с без цветного ДП для скорости.",
-  },
-  {
-    id: "nt-escalation",
-    title: "NT ≥ 3,5 мм",
-    body: "CVS + кариотип + микроаррей при показаниях. Детальные сканы 11–13 / +2 нед / 20 нед; эхо 14–16 и 20–22 нед.",
-  },
-];
 
 export function FmfSectionClient() {
   return (
@@ -88,27 +64,7 @@ export function FmfSectionClient() {
           ))}
         </nav>
 
-        <section className="grid gap-4 sm:grid-cols-2">
-          {TEACH.map((card) => (
-            <Card
-              key={card.id}
-              id={card.id}
-              className={cn(
-                "scroll-mt-24 border-[var(--clinical-border)] bg-[var(--clinical-surface)]",
-                card.id === "overview" && "sm:col-span-2",
-              )}
-            >
-              <CardHeader className="pb-2">
-                <CardTitle className="text-base">{card.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">{card.body}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </section>
-
-        <FmfCalculators />
+        <Fmf1113UnifiedClient />
 
         <footer className="space-y-2 border-t border-[var(--clinical-border)] pt-6 text-xs leading-relaxed text-[var(--clinical-foreground-muted)]">
           <p>

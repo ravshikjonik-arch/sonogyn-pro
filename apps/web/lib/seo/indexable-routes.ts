@@ -100,6 +100,7 @@ const REF_STATIC_ROUTES: SitemapRow[] = [
   { path: "/tools/refs/fetal-anatomy-22-views", priority: 0.65, changeFrequency: "monthly" },
   { path: "/tools/refs/fetal-doppler-first-trimester", priority: 0.65, changeFrequency: "monthly" },
   { path: "/tools/refs/fmf-11-13", priority: 0.7, changeFrequency: "monthly" },
+  { path: "/tools/calc/fmf", priority: 0.7, changeFrequency: "monthly" },
   { path: "/tools/refs/fetal-spine", priority: 0.6, changeFrequency: "monthly" },
   { path: "/tools/refs/cervix-pathology", priority: 0.65, changeFrequency: "monthly" },
   { path: "/tools/refs/orads-guide", priority: 0.7, changeFrequency: "monthly" },

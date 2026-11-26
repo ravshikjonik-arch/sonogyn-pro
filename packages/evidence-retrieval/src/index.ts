@@ -15,3 +15,5 @@ export * from "./infra/retry";
 export { ALL_ADAPTERS } from "./orchestrator";
 export { pickGuidelineCitation } from "./guideline-citation";
 export { grlsSearchUrl } from "./adapters/grls.adapter";
+export * from "./registry/registry";
+export * from "./registry/fmfKnowledge";
