@@ -10,7 +10,8 @@
     "./elastography": "./src/elastography/index.ts",
     "./popq": "./src/popq/index.ts",
     "./colposcopy": "./src/colposcopy/index.ts",
-    "./early-pregnancy": "./src/early-pregnancy/index.ts"
+    "./early-pregnancy": "./src/early-pregnancy/index.ts",
+    "./fmf/fmf-core": "./src/fmf/fmf-core.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",

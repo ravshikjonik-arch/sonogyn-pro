@@ -78,7 +78,7 @@ const navGroups: { title: string; items: { href: string; label: string; icon: ty
       { href: "/tools/obstetrics", label: "Хаб акушерства", icon: Baby },
       { href: "/ai/consultants/us-prep", label: "Live приём · УЗИ", icon: Mic },
       { href: "/ai/consultants/obstetrics", label: "Помощник акушера", icon: HandHeart },
-      { href: "/ai/consultants/fmf", label: "FMF · скрининг", icon: Baby },
+      { href: "/tools/refs/fmf-11-13", label: "FMF · скрининг", icon: Baby },
       { href: "/tools/calc/ob", label: "Акушерский калькулятор", icon: Calculator },
     ],
   },
