@@ -86,10 +86,16 @@ export const OBSTETRICS_GROUPS: DomainHubGroup[] = [
         badge: "AI",
       },
       {
-        href: "/ai/consultants/fmf",
-        title: "FMF · I скрининг",
-        description: "Малый срок, КТР, ТВП, допплер",
+        href: "/tools/refs/fmf-11-13",
+        title: "FMF · скрининг 11–13",
+        description: "Техника NT, допплер, учебный риск, assessment-калькуляторы",
         badge: "FMF",
+      },
+      {
+        href: "/ai/consultants/fmf",
+        title: "FMF · консультант I–III",
+        description: "Малый срок, КТР, ТВП, допплер",
+        badge: "AI",
       },
       {
         href: "/ai/consultants/fmf/guided",
@@ -113,6 +119,12 @@ export const OBSTETRICS_GROUPS: DomainHubGroup[] = [
         title: "Расчёт плода",
         description: "Биометрия, калиперы, нормы I–III триместра",
         badge: "Таблицы",
+      },
+      {
+        href: "/tools/calc/fmf",
+        title: "Калькуляторы FMF",
+        description: "Dating, NT, EFW, Doppler PI, UtA PI · fmf-core",
+        badge: "FMF",
       },
     ],
   },
