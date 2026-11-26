@@ -10,10 +10,10 @@ import { cn } from "@/lib/utils/cn";
 
 const ANCHORS = [
   { id: "overview", label: "Обзор" },
-  { id: "nt-tech", label: "Техника NT" },
+  { id: "nt-tech", label: "Техника ТВП" },
   { id: "doppler", label: "Допплер" },
   { id: "calculators", label: "Калькуляторы" },
-  { id: "nt-escalation", label: "NT ≥ 3.5" },
+  { id: "nt-escalation", label: "ТВП ≥ 3,5" },
 ] as const;
 
 export function FmfSectionClient() {
@@ -33,11 +33,12 @@ export function FmfSectionClient() {
           </Badge>
           <h1 className="flex items-center gap-2 text-3xl font-semibold tracking-tight text-[var(--clinical-foreground)]">
             <Baby className="h-8 w-8 text-[var(--clinical-primary)]" aria-hidden />
-            Скрининг 11–13 недель: от NT до cfDNA
+            Скрининг 11–13 недель: от ТВП до неинвазивного ДНК плода
           </h1>
           <p className="max-w-3xl text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
-            Факты: Fetal Medicine Foundation (курс The 11-13 weeks scan, 2025–2026; раздел Calculators). Изложение —
-            SonoGyn Pro. Не диагноз. Модели из рецензируемых публикаций; код FMF не используется.
+            Факты: Фонд фетальной медицины (FMF), курс «Сканирование 11–13 недель» (обновления 2025–2026; раздел
+            калькуляторов). Изложение — SonoGyn Pro. Не диагноз. Модели из рецензируемых публикаций; код FMF не
+            используется.
           </p>
           <p className="text-sm">
             <Link href="/ai/consultants/fmf" className="font-medium text-[var(--clinical-primary)] underline">
@@ -68,11 +69,13 @@ export function FmfSectionClient() {
 
         <footer className="space-y-2 border-t border-[var(--clinical-border)] pt-6 text-xs leading-relaxed text-[var(--clinical-foreground-muted)]">
           <p>
-            Учебный/справочный инструмент · не диагноз · решение принимает лечащий специалист. Факты: The Fetal Medicine
-            Foundation (курс The 11-13 weeks scan 2025–2026, раздел Calculators). Реализация по публикациям Wright
-            2008/2018, Robinson 1975, Snijders 1994, Mari 2000 с атрибуцией.
+            Учебный/справочный инструмент · не диагноз · решение принимает лечащий специалист. Факты: Фонд фетальной
+            медицины (FMF), курс «Сканирование 11–13 недель» 2025–2026 (раздел калькуляторов). Реализация по
+            публикациям Wright 2008/2018, Robinson 1975, Snijders 1994, Mari 2000 с атрибуцией.
           </p>
-          <p>Код и медиа FMF / refractionx не копируются. Риск-модели этапов 2–3 — по публикациям или согласование с FMF.</p>
+          <p>
+            Код и медиа FMF не копируются. Модели риска этапов 2–3 — по публикациям или по согласованию с FMF.
+          </p>
         </footer>
       </div>
     </div>

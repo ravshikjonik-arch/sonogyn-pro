@@ -19,7 +19,7 @@ describe("fmf knowledge chunks", () => {
   it("каждый чанк несёт атрибуцию FMF со статусом документа", () => {
     for (const c of FMF_KNOWLEDGE_CHUNKS) {
       assert.equal(c.organization, "FMF");
-      assert.match(c.document, /The 11-13 weeks scan/);
+      assert.match(c.document, /Сканирование 11–13 недель/);
       assert.equal(c.status, "действующий");
       assert.equal(c.year, 2026);
     }
@@ -27,8 +27,8 @@ describe("fmf knowledge chunks", () => {
 
   it("ключевые пороги присутствуют: NT 3.5, DV, TR >60 см/с, мегацистис 7 мм, CVS ≥11", () => {
     const all = FMF_KNOWLEDGE_CHUNKS.map((c) => c.fact).join(" ");
-    assert.match(all, /3\.5 мм/);
-    assert.match(all, /reversed a-wave|реверс/i);
+    assert.match(all, /3,5 мм/);
+    assert.match(all, /реверс|волны «a»/i);
     assert.match(all, /60 см\/с/);
     assert.match(all, /≥7 мм/);
     assert.match(all, /не раньше 11 нед/);
@@ -44,7 +44,7 @@ describe("fmf knowledge chunks", () => {
   });
 
   it("строка атрибуции для ответов ассистента", () => {
-    assert.match(fmfAttributionLine(), /FMF «The 11-13 weeks scan/);
+    assert.match(fmfAttributionLine(), /FMF «Сканирование 11–13 недель/);
     assert.match(fmfAttributionLine(), /2026, действующий/);
   });
 

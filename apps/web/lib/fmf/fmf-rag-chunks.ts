@@ -45,13 +45,13 @@ export function buildFmfKnowledgeRagSnippet(userText: string, limit = 6): string
 
   const lines = picked.map((c) => {
     const flags = c.flags?.length ? ` [флаги: ${c.flags.join(", ")}]` : "";
-    const tool = c.tool ? ` (tool: ${c.tool})` : "";
+    const tool = c.tool ? ` (инструмент: ${c.tool})` : "";
     return `- ${c.fact}${tool}${flags}`;
   });
 
   return [
-    `FMF 11–13 knowledge chunks (${fmfAttributionLine()}):`,
+    `FMF 11–13 — фрагменты знаний (${fmfAttributionLine()}):`,
   ...lines,
-    "Числа риска/центилей — только движок fmf-core на платформе; не выдумывать.",
+    "Числа риска/центилей — только расчётный модуль fmf на платформе; не выдумывать.",
   ].join("\n");
 }

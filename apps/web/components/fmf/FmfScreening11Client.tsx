@@ -19,14 +19,22 @@ import {
 type Tab = "technique" | "doppler" | "escalation" | "calc";
 
 const TABS: { id: Tab; label: string }[] = [
-  { id: "technique", label: "Техника NT" },
+  { id: "technique", label: "Техника ТВП" },
   { id: "doppler", label: "Допплер и ЧСС" },
   { id: "escalation", label: "Пороги и эскалация" },
   { id: "calc", label: "Учебный калькулятор" },
 ];
 
 const ATTRIBUTION =
-  "Факты: Fetal Medicine Foundation — курс «The 11-13 weeks scan» (обновления 2025–2026). Изложение и расчётный демонстратор — SonoGyn Pro.";
+  "Факты: Фонд фетальной медицины (FMF) — курс «Сканирование 11–13 недель» (обновления 2025–2026). Изложение и расчётный демонстратор — SonoGyn Pro.";
+
+const RED_FLAG_LABELS: Record<string, string> = {
+  NT_SEVERE: "Выраженная ТВП",
+  NT_HIGH: "Повышенная ТВП",
+  DV_REVERSED: "Реверс волны «a» в венозном протоке",
+  TR_POSITIVE: "Трикуспидальная регургитация",
+  PAPPA_LOW: "Низкий АРРП (PAPP-A)",
+};
 
 const DISCLAIMER =
   "Учебный материал и справочный расчёт. Не диагноз, не заменяет сертифицированный софт FMF и клинические рекомендации. Решение остаётся за врачом.";
@@ -48,7 +56,7 @@ function Num({ children }: { children: ReactNode }) {
   return <b className="text-[var(--clinical-foreground)]">{children}</b>;
 }
 
-const NT_THRESHOLD_FIELDS = ["Возраст матери, лет", "Срок, недель (10–14)", "NT, мм (0.5–10)"] as const;
+const NT_THRESHOLD_FIELDS = ["Возраст матери, лет", "Срок, недель (10–14)", "ТВП, мм (0,5–10)"] as const;
 
 const inputCls =
   "rounded-lg border border-[var(--clinical-border)] bg-[var(--clinical-background)] px-3 py-2 text-sm text-[var(--clinical-foreground)] outline-none focus:border-[var(--clinical-primary)]";
@@ -124,43 +132,66 @@ export function FmfScreening11Client() {
             <Li>Окно скрининга: <Num>11+0 — 13+6 недель</Num>, КТР <Num>45–84 мм</Num>.</Li>
             <Li>Мид-сагиттальный срез; голова и верх грудной клетки — на весь экран.</Li>
             <Li>Носовая кость и прямоугольное нёбо видны <Num>раздельно</Num> — срез не косой.</Li>
-            <Li>Положение головы <Num>нейтральное</Num>: гиперэкстензия ложно завышает NT, флексия занижает.</Li>
+            <Li>
+              Положение головы <Num>нейтральное</Num>: гиперэкстензия ложно завышает ТВП, флексия занижает.
+            </Li>
             <Li>Отличать кожу плода от амниона.</Li>
           </Card>
           <Card title="Измерение">
-            <Li>Измерять <Num>самое широкое место</Num> NT.</Li>
+            <Li>Измерять <Num>самое широкое место</Num> ТВП.</Li>
             <Li>Каллипер: <Num>внутренняя граница</Num> перекладины — <Num>по линии</Num> границы, не в жидкости.</Li>
-            <Li>При зуме — <Num>gain вниз</Num>, чтобы не попасть на «размытый» край (занижение).</Li>
+            <Li>При зуме — <Num>усиление снизить</Num>, чтобы не попасть на «размытый» край (занижение).</Li>
             <Li><Num>≥2 измерений</Num>; в базу — максимальное валидное.</Li>
-            <Li>Пуповина на шее (~5%) завышает NT → для расчёта брать <Num>среднее</Num> выше/ниже пуповины.</Li>
-            <Li><Num>99-й центиль ≈ 3.5 мм</Num> — не зависит от КТР.</Li>
+            <Li>
+              Пуповина на шее (~5%) завышает ТВП → для расчёта брать <Num>среднее</Num> выше/ниже пуповины.
+            </Li>
+            <Li>
+              <Num>99-й центиль ≈ 3,5 мм</Num> — не зависит от КТР.
+            </Li>
           </Card>
         </div>
       )}
 
       {tab === "doppler" && (
         <div className="mt-4 grid gap-4 md:grid-cols-2">
-          <Card title="Ductus venosus">
+          <Card title="Венозный проток">
             <Li>Правый вентральный сагиттальный срез туловища; цветной ДП для навигации.</Li>
-            <Li>Sample <Num>0.5–1.0 мм</Num> в зоне алиасинга, угол <Num>&lt;30°</Num>, фильтр <Num>50–70 Гц</Num>, sweep <Num>2–3 см/с</Num>.</Li>
-            <Li><Num>Reversed a-wave</Num>: Т21 65% · Т18/13 по 55% · эуплоиды 3%.</Li>
-            <Li>Reversed a-wave ↑ риск ВПС и гибели плода (особенно при низком PAPP-A) → детальное исследование сердца.</Li>
+            <Li>
+              Объём выборки <Num>0,5–1,0 мм</Num> в зоне алиасинга, угол <Num>&lt;30°</Num>, фильтр <Num>50–70 Гц</Num>,
+              развёртка <Num>2–3 см/с</Num>.
+            </Li>
+            <Li>
+              <Num>Реверсированная волна «a»</Num>: Т21 65% · Т18/13 по 55% · эуплоиды 3%.
+            </Li>
+            <Li>
+              Реверс волны «a» повышает риск ВПС и гибели плода (особенно при низком PAPP-A) → детальное исследование
+              сердца.
+            </Li>
           </Card>
           <Card title="Трикуспидальный поток">
-            <Li>Апикальный 4-камерный срез, <Num>без цветного ДП</Num> (ненадёжен в I триместре).</Li>
-            <Li>Sample <Num>2–3 мм</Num> поперёк клапана, ≥3 позиций, угол <Num>&lt;30°</Num> к межжелудочковой перегородке.</Li>
-            <Li>Патология: регургитация <Num>≥½ систолы</Num> и <Num>Vmax &gt;60 см/с</Num> (не путать с аортальным джетом ≤50 см/с).</Li>
+            <Li>Апикальный 4-камерный срез, <Num>без цветного ДП</Num> (ненадёжен в 1-м триместре).</Li>
+            <Li>
+              Объём выборки <Num>2–3 мм</Num> поперёк клапана, ≥3 позиций, угол <Num>&lt;30°</Num> к межжелудочковой
+              перегородке.
+            </Li>
+            <Li>
+              Патология: регургитация <Num>≥½ систолы</Num> и <Num>Vмакс &gt;60 см/с</Num> (не путать с аортальным
+              джетом ≤50 см/с).
+            </Li>
             <Li>Частота: Т21 55% · эуплоиды 1%.</Li>
           </Card>
           <Card title="Носовая кость">
             <Li>3 линии в мид-сагиттали профиля: кожа, носовая кость (плотнее кожи), кончик носа; лёгкое покачивание датчика.</Li>
             <Li>Отсутствует: Т21 <Num>60%</Num> · Т18 50% · Т13 40% · эуплоиды 1–3%.</Li>
-            <Li>Чаще в 11 нед, при высоком NT.</Li>
+            <Li>Чаще на 11-й неделе, при высокой ТВП.</Li>
           </Card>
           <Card title="ЧСС плода">
             <Li>Пульсовой ДП, <Num>6–10 циклов</Num> в покое.</Li>
             <Li>Норма: 110 (5 нед) → 170 (10 нед) → 150 (14 нед).</Li>
-            <Li>Т21 — умеренно ↑ (&gt;95c ~15%); Т18 — ↓ (&lt;5c ~15%); <Num>Т13 — ↑↑ (&gt;95c в 85%)</Num> — отличает от Т18.</Li>
+            <Li>
+              Т21 — умеренно ↑ (&gt;95-го ц. ~15%); Т18 — ↓ (&lt;5-го ц. ~15%);{" "}
+              <Num>Т13 — ↑↑ (&gt;95-го ц. в 85%)</Num> — отличает от Т18.
+            </Li>
           </Card>
         </div>
       )}
@@ -168,40 +199,59 @@ export function FmfScreening11Client() {
       {tab === "escalation" && (
         <div className="mt-4 space-y-4">
           <div className="rounded-2xl border border-[var(--clinical-border)] bg-[var(--clinical-card)] p-5">
-            <h3 className="text-sm font-bold text-[var(--clinical-primary-deep)]">Маршрут по значению NT</h3>
+            <h3 className="text-sm font-bold text-[var(--clinical-primary-deep)]">Маршрут по значению ТВП</h3>
             <div className="mt-3 space-y-2 text-xs">
               <div className="rounded-xl border-l-4 border-[var(--clinical-success, #16a34a)] bg-[var(--clinical-muted)]/30 px-4 py-3 text-[var(--clinical-foreground-muted)]">
-                <Num>NT &lt; 3.5 мм:</Num> CVS по расчётному риску (возраст + УЗИ + биохимия); детальный скан 11–13 нед → повтор в 20 нед; при норме — заверение (риск не выше популяции).
+                <Num>ТВП &lt; 3,5 мм:</Num> биопсия хориона по расчётному риску (возраст + УЗИ + биохимия); детальный
+                скан 11–13 нед → повтор на 20-й неделе; при норме — заверение (риск не выше популяции).
               </div>
               <div className="rounded-xl border-l-4 border-[var(--clinical-danger, #dc2626)] bg-[var(--clinical-muted)]/30 px-4 py-3 text-[var(--clinical-foreground-muted)]">
-                <Num>NT ≥ 3.5 мм</Num> (~1% беременностей): <Num>CVS + кариотип + микроаррей</Num> — независимо от расчётного риска; детальный скан 11–13 нед → повтор ~через 2 нед → 20 нед; при семейном анамнезе — панель ДНК из того же образца.
+                <Num>ТВП ≥ 3,5 мм</Num> (~1% беременностей):{" "}
+                <Num>биопсия хориона + кариотип + микроаррей</Num> — независимо от расчётного риска; детальный скан
+                11–13 нед → повтор ~через 2 нед → 20-я неделя; при семейном анамнезе — панель ДНК из того же образца.
               </div>
               <div className="rounded-xl border-l-4 border-[var(--clinical-danger, #dc2626)] bg-[var(--clinical-muted)]/30 px-4 py-3 text-[var(--clinical-foreground-muted)]">
-                <Num>NT ≥ 5.5 мм:</Num> риск ВПС у эуплоидов ≈ 12.5% → <Num>эхокардиография 14–16 нед и 20–22 нед</Num> (цветной ДП обязателен).
+                <Num>ТВП ≥ 5,5 мм:</Num> риск ВПС у эуплоидов ≈ 12,5% →{" "}
+                <Num>эхокардиография 14–16 и 20–22 нед</Num> (цветной ДП обязателен).
               </div>
             </div>
           </div>
           <div className="grid gap-4 md:grid-cols-2">
             <Card title="Масштаб проблемы (для консультации)">
-              <Li>Анеуплоидия: 0.2% (NT 5–95c) → <Num>65% при NT ≥6.5 мм</Num>.</Li>
-              <Li>Гибель плода (эуплоиды): 1% → ~20% при NT ≥6.5 мм.</Li>
-              <Li>NT 3.5–4.4 мм в 12 нед: на 100 плодов ~20 с хромосомной патологией; из 80 эуплоидов ~2 гибель, ~8 порок, <Num>~70 — здоровые дети</Num>. В большинстве случаев NT разрешается — это важно сказать.</Li>
+              <Li>
+                Анеуплоидия: 0,2% (ТВП 5–95-й центиль) → <Num>65% при ТВП ≥6,5 мм</Num>.
+              </Li>
+              <Li>Гибель плода (эуплоиды): 1% → ~20% при ТВП ≥6,5 мм.</Li>
+              <Li>
+                ТВП 3,5–4,4 мм на 12-й неделе: на 100 плодов ~20 с хромосомной патологией; из 80 эуплоидов ~2 гибель,
+                ~8 пороков, <Num>~70 — здоровые дети</Num>. В большинстве случаев ТВП нормализуется — это важно
+                сказать.
+              </Li>
             </Card>
-            <Card title="cfDNA: маршрутизация">
-              <Li>Выявление Т21 ~99%, Т18/13 ~98%, SP 0.1–0.2% — но это <Num>скрининг</Num>: high-risk подтверждается инвазивно.</Li>
-              <Li>Т21 → CVS; Т18/13 → детальный скан: дефекты есть → CVS, нет → амниоцентез (риск CPM).</Li>
+            <Card title="НИПТ: маршрутизация">
+              <Li>
+                Выявление Т21 ~99%, Т18/13 ~98%, ложноположительные 0,1–0,2% — но это <Num>скрининг</Num>: группа
+                высокого риска подтверждается инвазивно.
+              </Li>
+              <Li>
+                Т21 → биопсия хориона; Т18/13 → детальный скан: дефекты есть → биопсия хориона, нет → амниоцентез (риск
+                конфликта плацентарных и эмбриональных хромосом).
+              </Li>
               <Li>Отказ теста (1–2%; повтор даёт результат в 80%): при Т18/13 (не Т21) сам по себе признак ↑ риска → вести по детальному скану.</Li>
               <Li>Всем независимо от пути: детальный скан 11–13 нед + скрининг преэклампсии.</Li>
             </Card>
             <Card title="Инвазивная диагностика — сроки">
-              <Li><Num>CVS не раньше 11 нед</Num> (ранее — поперечные редукции конечностей).</Li>
+              <Li><Num>Биопсия хориона не раньше 11 нед</Num> (ранее — поперечные редукции конечностей).</Li>
               <Li><Num>Амниоцентез не раньше 16 нед</Num> (ранее: +2% выкидышей, +1.5% косолапости).</Li>
               <Li>Риск выкидыша ~1%; у опытных операторов — до ~1/1000.</Li>
             </Card>
             <Card title="Мочевой пузырь и передняя брюшная стенка">
               <Li><Num>Мегацистис ≥7 мм</Num> (~1/1500): 7–15 мм — хромосомные ~20% (Т13/18), при нормальном кариотипе разрешение в 90%; &gt;15 мм — хромосомных ~10%, но всегда обструктивная уропатия.</Li>
               <Li><Num>Омфалоцеле</Num>: хромосомные ~60% (Т18); физиологическая грыжа уходит к <Num>11+5</Num>.</Li>
-              <Li>Высокий NT ассоциирован: ВПС, диафрагмальная грыжа, омфалоцеле, мегацистис, body stalk, скелетные дисплазии.</Li>
+              <Li>
+                Высокая ТВП ассоциирована с: ВПС, диафрагмальной грыжей, омфалоцеле, мегацистисом, синдромом
+                «тело плода — оболочка», скелетными дисплазиями.
+              </Li>
             </Card>
           </div>
         </div>
@@ -210,7 +260,7 @@ export function FmfScreening11Client() {
       {tab === "calc" && (
         <div className="mt-4 rounded-2xl border border-[var(--clinical-border)] bg-[var(--clinical-card)] p-5">
           <p className="text-xs font-bold uppercase tracking-wider text-[var(--clinical-foreground-muted)]">
-            Учебный калькулятор · принцип FMF «априорный риск × LR»
+            Учебный калькулятор · принцип FMF «априорный риск × отношение правдоподобия»
           </p>
           <div className="mt-3 grid gap-3 sm:grid-cols-3">
             <label className={labelCls}>
@@ -222,7 +272,7 @@ export function FmfScreening11Client() {
               <input value={weeks} onChange={(e) => setWeeks(e.target.value)} inputMode="decimal" className={inputCls} />
             </label>
             <label className={labelCls}>
-              NT, мм (0.5–10)
+              ТВП, мм (0,5–10)
               <input value={nt} onChange={(e) => setNt(e.target.value)} inputMode="decimal" placeholder="не измерена" className={inputCls} />
             </label>
             <label className={labelCls}>
@@ -238,7 +288,7 @@ export function FmfScreening11Client() {
               </select>
             </label>
             <label className={labelCls}>
-              DV: волна «a»
+              Венозный проток: волна «a»
               <select value={dv} onChange={(e) => setDv(e.target.value as "" | DuctusVenosusAWave)} className={inputCls}>
                 <option value="">не оценён</option>
                 <option value="normal">прямой / отсутствующий</option>
@@ -254,11 +304,11 @@ export function FmfScreening11Client() {
               </select>
             </label>
             <label className={labelCls}>
-              свободный β-hCG, MoM
+              свободная бета-ХГЧ, MoM
               <input value={hcg} onChange={(e) => setHcg(e.target.value)} inputMode="decimal" placeholder="не сдан" className={inputCls} />
             </label>
             <label className={labelCls}>
-              PAPP-A, MoM
+              АРРП (PAPP-A), MoM
               <input value={pappa} onChange={(e) => setPappa(e.target.value)} inputMode="decimal" placeholder="не сдан" className={inputCls} />
             </label>
           </div>
@@ -285,7 +335,9 @@ export function FmfScreening11Client() {
                   <thead>
                     <tr className="text-[10px] uppercase tracking-wider text-[var(--clinical-foreground-muted)]">
                       <th className="py-1 pr-3">Шаг</th>
-                      <th className="py-1 pr-3">LR</th>
+                      <th className="py-1 pr-3" title="Отношение правдоподобия">
+                        ОП
+                      </th>
                       <th className="py-1 pr-3">Значение</th>
                       <th className="py-1">Риск Т21 после шага</th>
                     </tr>
@@ -307,7 +359,7 @@ export function FmfScreening11Client() {
                 <div className="mt-4 space-y-2">
                   {result.redFlags.map((f) => (
                     <div key={f.code} className="rounded-xl border border-[var(--clinical-danger, #dc2626)]/40 bg-[var(--clinical-danger, #dc2626)]/10 px-4 py-2.5 text-xs text-[var(--clinical-foreground)]">
-                      <b>⚠ {f.code.replace(/_/g, " ")}.</b> {f.message}
+                      <b>⚠ {RED_FLAG_LABELS[f.code] ?? f.code}.</b> {f.message}
                     </div>
                   ))}
                 </div>

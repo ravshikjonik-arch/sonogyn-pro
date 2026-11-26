@@ -86,7 +86,7 @@ export interface FmfScreeningResult {
 }
 
 const DISCLAIMER =
-  "Учебный расчёт по принципу FMF «априорный риск × LR» с упрощёнными LR. " +
+  "Учебный расчёт по принципу FMF «априорный риск × отношение правдоподобия» с упрощёнными коэффициентами. " +
   "Не воспроизводит лицензированный алгоритм FMF; не диагноз; решение за врачом.";
 
 function priorT21(age: number): number {
@@ -106,14 +106,14 @@ function gestationalFactor(weeks: number): number {
 }
 
 function lrNt(v: number): [number, string] {
-  if (v < 1.2) return [0.4, "NT < 1.2 мм — ниже медианы"];
-  if (v < 2.0) return [0.6, "NT 1.2–1.9 мм"];
-  if (v < 2.5) return [1.2, "NT 2.0–2.4 мм"];
-  if (v < 3.0) return [2.5, "NT 2.5–2.9 мм — выше 95-го центиля"];
-  if (v < 3.5) return [6, "NT 3.0–3.4 мм"];
-  if (v < 4.5) return [17, "NT 3.5–4.4 мм — ≥99-го центиля"];
-  if (v < 5.5) return [28, "NT 4.5–5.4 мм"];
-  return [40, "NT ≥ 5.5 мм"];
+  if (v < 1.2) return [0.4, "ТВП < 1,2 мм — ниже медианы"];
+  if (v < 2.0) return [0.6, "ТВП 1,2–1,9 мм"];
+  if (v < 2.5) return [1.2, "ТВП 2,0–2,4 мм"];
+  if (v < 3.0) return [2.5, "ТВП 2,5–2,9 мм — выше 95-го центиля"];
+  if (v < 3.5) return [6, "ТВП 3,0–3,4 мм"];
+  if (v < 4.5) return [17, "ТВП 3,5–4,4 мм — ≥99-го центиля"];
+  if (v < 5.5) return [28, "ТВП 4,5–5,4 мм"];
+  return [40, "ТВП ≥ 5,5 мм"];
 }
 
 function lrNasalBone(s?: NasalBone): [number, string] | null {
@@ -123,8 +123,8 @@ function lrNasalBone(s?: NasalBone): [number, string] | null {
 }
 
 function lrDuctusVenosus(s?: DuctusVenosusAWave): [number, string] | null {
-  if (s === "reversed") return [20, "reversed a-wave в ductus venosus"];
-  if (s === "normal") return [0.4, "поток DV без реверса волны «a»"];
+  if (s === "reversed") return [20, "реверсированная волна «a» в венозном протоке"];
+  if (s === "normal") return [0.4, "поток венозного протока без реверса волны «a»"];
   return null;
 }
 
@@ -143,11 +143,11 @@ function lrFhr(bpm?: number): [number, string] | null {
 
 function lrHcg(mom?: number): [number, string] | null {
   if (mom == null) return null;
-  if (mom >= 2.0) return [3, "β-hCG ≥2.0 MoM"];
-  if (mom >= 1.5) return [1.8, "β-hCG 1.5–2.0 MoM"];
-  if (mom >= 1.0) return [1, "β-hCG ~1.0 MoM"];
-  if (mom >= 0.5) return [0.7, "β-hCG 0.5–1.0 MoM"];
-  return [0.6, "β-hCG <0.5 MoM"];
+  if (mom >= 2.0) return [3, "бета-ХГЧ ≥2,0 MoM"];
+  if (mom >= 1.5) return [1.8, "бета-ХГЧ 1,5–2,0 MoM"];
+  if (mom >= 1.0) return [1, "бета-ХГЧ ~1,0 MoM"];
+  if (mom >= 0.5) return [0.7, "бета-ХГЧ 0,5–1,0 MoM"];
+  return [0.6, "бета-ХГЧ <0,5 MoM"];
 }
 
 function lrPappa(mom?: number): [number, string] | null {
@@ -178,18 +178,20 @@ function collectRedFlags(input: FmfScreeningInput): RedFlag[] {
   if (input.ntMm != null && input.ntMm >= 5.5) {
     flags.push({
       code: "NT_SEVERE",
-      message: "NT ≥ 5.5 мм: риск ВПС у эуплоидов ≈ 12.5% — эхокардиография 14–16 нед и 20–22 нед.",
+      message: "ТВП ≥ 5,5 мм: риск ВПС у эуплоидов ≈ 12,5% — эхокардиография 14–16 нед и 20–22 нед.",
     });
   } else if (input.ntMm != null && input.ntMm >= 3.5) {
     flags.push({
       code: "NT_HIGH",
-      message: "NT ≥ 3.5 мм: CVS + кариотип + микроаррей независимо от риска; детальный скан 11–13 нед → повтор ~через 2 нед → 20 нед.",
+      message:
+        "ТВП ≥ 3,5 мм: биопсия хориона + кариотип + микроаррей независимо от риска; детальный скан 11–13 нед → повтор ~через 2 нед → 20 нед.",
     });
   }
   if (input.ductusVenosusAWave === "reversed") {
     flags.push({
       code: "DV_REVERSED",
-      message: "Reversed a-wave DV: ↑ риск ВПС и гибели плода (особенно при низком PAPP-A) — детальное исследование сердца.",
+      message:
+        "Реверс волны «a» в венозном протоке: повышен риск ВПС и гибели плода (особенно при низком PAPP-A) — детальное исследование сердца.",
     });
   }
   if (input.tricuspidRegurgitation === true) {
@@ -201,7 +203,7 @@ function collectRedFlags(input: FmfScreeningInput): RedFlag[] {
   if (input.pappaMom != null && input.pappaMom <= 0.4) {
     flags.push({
       code: "PAPPA_LOW",
-      message: "PAPP-A ≤ 0.4 MoM: скрининг преэклампсии и FGR; профилактика аспирином по локальному протоколу.",
+      message: "PAPP-A ≤ 0,4 MoM: скрининг преэклампсии и ЗРП; профилактика аспирином по локальному протоколу.",
     });
   }
   return flags;
@@ -224,12 +226,12 @@ export function fmfScreening(input: FmfScreeningInput): FmfScreeningResult {
     steps.push({ test, lr, description });
   };
 
-  if (input.ntMm != null) apply("NT", lrNt(input.ntMm));
+  if (input.ntMm != null) apply("ТВП", lrNt(input.ntMm));
   apply("Носовая кость", lrNasalBone(input.nasalBone));
-  apply("DV", lrDuctusVenosus(input.ductusVenosusAWave));
-  apply("Трикуспидид", lrTricuspid(input.tricuspidRegurgitation));
+  apply("Венозный проток", lrDuctusVenosus(input.ductusVenosusAWave));
+  apply("Трикуспидальный клапан", lrTricuspid(input.tricuspidRegurgitation));
   apply("ЧСС", lrFhr(input.fetalHeartRateBpm));
-  apply("β-hCG", lrHcg(input.freeBetaHcgMom));
+  apply("бета-ХГЧ", lrHcg(input.freeBetaHcgMom));
   apply("PAPP-A", lrPappa(input.pappaMom));
 
   const p18 = Math.min((priorP21 / 2.5) * (p21 / priorP21), MAX_PROBABILITY);

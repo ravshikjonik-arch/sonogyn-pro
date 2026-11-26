@@ -53,11 +53,11 @@ export const FMF_TOOLS: Tool[] = [
   {
     id: "dating",
     group: "assess",
-    title: "Pregnancy dating",
-    source: "Robinson & Fleming, BJOG 1975 (CRL) · Snijders & Nicolaides, UOG 1994 (HC)",
+    title: "Датирование беременности",
+    source: "Robinson & Fleming, BJOG 1975 (КТР) · Snijders & Nicolaides, 1994 (ОГ, UOG)",
     inputs: [
-      { key: "crl", label: "CRL", unit: "мм", min: 45, max: 84 },
-      { key: "hc", label: "HC (опц.)", unit: "мм", min: 155, max: 226 },
+      { key: "crl", label: "КТР", unit: "мм", min: 45, max: 84 },
+      { key: "hc", label: "ОГ (необяз.)", unit: "мм", min: 155, max: 226 },
     ],
     compute: (v) => {
       const rows: Row[] = [];
@@ -65,7 +65,7 @@ export const FMF_TOOLS: Tool[] = [
         const ga = gaFromCrl(v.crl);
         if (ga !== null) {
           rows.push({
-            label: "ГА по CRL",
+            label: "ГА по КТР",
             value: formatGa(ga),
             sub: `${f(ga, 1)} дней`,
           });
@@ -75,7 +75,7 @@ export const FMF_TOOLS: Tool[] = [
         const ga = gaFromHc(v.hc);
         if (ga !== null) {
           rows.push({
-            label: "ГА по HC",
+            label: "ГА по ОГ",
             value: formatGa(ga),
             sub: `${f(ga, 1)} дней`,
           });
@@ -87,18 +87,18 @@ export const FMF_TOOLS: Tool[] = [
   {
     id: "nt",
     group: "assess",
-    title: "Nuchal translucency",
-    source: "Wright D, Kagan KO, Molina FS, Gazzoni A, Nicolaides KH. UOG 2008;31:376–83 (mixture model)",
+    title: "Толщина воротникового пространства (ТВП)",
+    source: "Wright D и соавт. UOG 2008 — смесевая модель ТВП",
     inputs: [
-      { key: "crl", label: "CRL", unit: "мм", min: 45, max: 84 },
-      { key: "nt", label: "NT", unit: "мм", min: 0.1, max: 9 },
+      { key: "crl", label: "КТР", unit: "мм", min: 45, max: 84 },
+      { key: "nt", label: "ТВП", unit: "мм", min: 0.1, max: 9 },
     ],
     compute: (v) => {
       if (!v.crl || !v.nt) return null;
       const c = ntCentile(v.nt, v.crl);
       return [
-        { label: "Медиана NT", value: f(ntMedian(v.crl), 2), sub: "мм" },
-        { label: "Delta", value: f(ntDelta(v.nt, v.crl), 2), sub: "мм" },
+        { label: "Медиана ТВП", value: f(ntMedian(v.crl), 2), sub: "мм" },
+        { label: "Дельта", value: f(ntDelta(v.nt, v.crl), 2), sub: "мм" },
         {
           label: "Центиль",
           value: c === null ? "—" : String(c),
@@ -106,17 +106,17 @@ export const FMF_TOOLS: Tool[] = [
         },
       ];
     },
-    note: "99-й центиль ≈ 3.5 мм и не зависит от CRL. NT ≥3.5 мм → CVS + кариотип + микроаррей.",
+    note: "99-й центиль ≈ 3,5 мм и не зависит от КТР. ТВП ≥3,5 мм → биопсия хориона + кариотип + микроаррей.",
   },
   {
     id: "growth",
     group: "assess",
-    title: "Fetal growth (EFW, z/центиль)",
-    source: "Wright D, Syngelaki A, Wright A, Akolekar R. UOG 2018 (FMF weight charts)",
+    title: "Рост плода (ПВМ, z-оценка и центиль)",
+    source: "Wright D и соавт. UOG 2018 — кривые веса FMF",
     inputs: [
       { key: "w", label: "Срок, недель", min: 21.5, max: 42 },
       { key: "d", label: "+ дней", min: 0, max: 6 },
-      { key: "efw", label: "EFW", unit: "г", min: 100, max: 6000 },
+      { key: "efw", label: "ПВМ", unit: "г", min: 100, max: 6000 },
     ],
     compute: (v) => {
       const ga = days(v.w, v.d);
@@ -124,17 +124,17 @@ export const FMF_TOOLS: Tool[] = [
       if (z === null) return null;
       return [
         { label: "Ожидаемый вес", value: f(expectedFw(ga), 0), sub: "г (медиана)" },
-        { label: "z-score", value: f(z, 3) },
+        { label: "z-оценка", value: f(z, 3) },
         { label: "Центиль", value: String(centileFromZ(z)) },
       ];
     },
-    note: "Для центилей использовать также имеющийся Fetometry (Hadlock) — сверка расхождений в карточке.",
+    note: "Для центилей используйте также фетометрию (Hadlock) — сверка расхождений в карточке приёма.",
   },
   {
     id: "bw",
     group: "assess",
-    title: "Birth weight",
-    source: "Wright D, Syngelaki A, Wright A, Akolekar R. UOG 2018",
+    title: "Вес при рождении",
+    source: "Wright D и соавт. UOG 2018",
     inputs: [
       { key: "w", label: "Срок, недель", min: 22, max: 42 },
       { key: "bw", label: "Вес", unit: "г", min: 200, max: 6000 },
@@ -143,7 +143,7 @@ export const FMF_TOOLS: Tool[] = [
       const z = bwZ(v.bw, v.w);
       if (z === null) return null;
       return [
-        { label: "z-score (полиномиальная модель)", value: f(z, 3) },
+        { label: "z-оценка (полиномиальная модель)", value: f(z, 3) },
         { label: "Центиль", value: String(centileFromZ(z)) },
       ];
     },
@@ -151,12 +151,12 @@ export const FMF_TOOLS: Tool[] = [
   {
     id: "doppler",
     group: "assess",
-    title: "Fetal Doppler (UA PI · MCA PI · CPR)",
-    source: "FMF reference ranges (проверено против archive.fetalmedicine.org, 2026-11)",
+    title: "Допплер плода (ПА · СМА · ЦПС)",
+    source: "Референсные диапазоны FMF (сверка с архивом fetalmedicine.org, 11.2026)",
     inputs: [
       { key: "w", label: "Срок, недель", min: 20, max: 42 },
-      { key: "ua", label: "UA PI", min: 0.3, max: 4 },
-      { key: "mca", label: "MCA PI", min: 0.3, max: 4 },
+      { key: "ua", label: "PI пупочной артерии", min: 0.3, max: 4 },
+      { key: "mca", label: "PI средней мозговой", min: 0.3, max: 4 },
     ],
     compute: (v) => {
       const ga = days(v.w);
@@ -167,32 +167,32 @@ export const FMF_TOOLS: Tool[] = [
       if (z1 === null || z2 === null) return null;
       return [
         {
-          label: "UA PI",
+          label: "PI ПА",
           value: `${f(v.ua)} · z ${f(z1)} · ц ${centileFromZ(z1)}`,
           sub: `медиана ${f(expectedUa(ga))}`,
         },
         {
-          label: "MCA PI",
+          label: "PI СМА",
           value: `${f(v.mca)} · z ${f(z2)} · ц ${centileFromZ(z2)}`,
           sub: `медиана ${f(expectedMca(ga))}`,
         },
         {
-          label: "CPR",
+          label: "ЦПС",
           value: cpr && z3 !== null ? `${f(cpr)} · z ${f(z3)} · ц ${centileFromZ(z3)}` : "—",
           sub: `медиана ${f(expectedCpr(ga))}`,
         },
       ];
     },
-    note: "CPR ≤ 10-го центиля после 32 нед — «Low cerebroplacental ratio».",
+    note: "ЦПС ≤ 10-го центиля после 32 нед — низкое цереброплацентарное соотношение.",
   },
   {
     id: "utpi",
     group: "assess",
-    title: "Uterine artery PI",
-    source: "FMF reference ranges (проверено против archive.fetalmedicine.org, 2026-11)",
+    title: "Индекс пульсации маточных артерий",
+    source: "Референсные диапазоны FMF (сверка с архивом fetalmedicine.org, 11.2026)",
     inputs: [
       { key: "w", label: "Срок, недель", min: 20, max: 42 },
-      { key: "pi", label: "UtA PI (mean)", min: 0.2, max: 4 },
+      { key: "pi", label: "PI МА (средний)", min: 0.2, max: 4 },
     ],
     compute: (v) => {
       const ga = days(v.w);
@@ -200,52 +200,52 @@ export const FMF_TOOLS: Tool[] = [
       if (z === null) return null;
       return [
         {
-          label: "UtA PI",
+          label: "PI маточных артерий",
           value: `${f(v.pi)} · z ${f(z)} · ц ${centileFromZ(z)}`,
           sub: `медиана ${f(expectedUtpi(ga))}`,
         },
       ];
     },
-    note: "Mean UtA PI ≥95-го центиля после 35 нед — маркер преэклампсии/ФПН-риска.",
+    note: "Средний PI МА ≥95-го центиля после 35 нед — маркер преэклампсии и риска ЗРП.",
   },
 ];
 
 export const RISK_PLACEHOLDERS = [
   {
     id: "trisomies",
-    title: "Trisomies",
+    title: "Трисомии",
     stage: "ЭТАП 2",
-    desc: "Полные LR-модели Wright/Nicolaides (замена учебных констант демо)",
+    desc: "Полные модели отношения правдоподобия Wright/Nicolaides (замена учебных констант демо)",
   },
   {
     id: "ptb",
-    title: "Preterm birth · history / cervix",
+    title: "Преждевременные роды · анамнез и шейка",
     stage: "ЭТАП 2",
-    desc: "Анамнез; длина шейки (синергия с Cervical length кабинета)",
+    desc: "Анамнез; длина шейки матки (связка с калькулятором длины шейки в кабинете)",
   },
   {
     id: "pe",
-    title: "Preeclampsia",
+    title: "Преэклампсия",
     stage: "ЭТАП 3",
-    desc: "MAP + UtA PI + PlGF (Poon/Wright UOG 2012–13) — нужен лабораторный партнёр",
+    desc: "САД + PI МА + PlGF (Poon/Wright, 2012–2013) — нужен лабораторный партнёр",
   },
   {
     id: "sga",
-    title: "Small for gestational age",
+    title: "Маловесность для срока (ЗРП)",
     stage: "ЭТАП 3",
-    desc: "FMF SGA-модель + growth-центили 2018",
+    desc: "Модель ЗРП FMF + центили роста 2018",
   },
   {
     id: "gdm",
-    title: "Gestational diabetes",
+    title: "Гестационный сахарный диабет",
     stage: "ЭТАП 3",
-    desc: "FMF GDM-модель",
+    desc: "Модель ГСД FMF",
   },
   {
     id: "anemia",
-    title: "Fetal anemia",
+    title: "Анемия плода",
     stage: "ЭТАП 3",
-    desc: "MCA PSV >1.5 MoM (Mari 2000) — функции уже в fmf-core (mcaPsvZ)",
+    desc: "ПСВ СМА >1,5 MoM (Mari 2000) — расчёт уже в модуле платформы",
   },
 ];
 
@@ -281,7 +281,7 @@ export function FmfCalculators() {
       <div>
         <h2 className="text-xl font-semibold text-[var(--clinical-foreground)]">Калькуляторы FMF</h2>
         <p className="mt-1 text-sm text-[var(--clinical-foreground-muted)]">
-          Оценка / менеджмент (этап 1) · предикция риска — в разработке
+          Оценка и тактика (этап 1) · предикция риска — в разработке
         </p>
       </div>
 

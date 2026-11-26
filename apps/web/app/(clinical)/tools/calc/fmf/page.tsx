@@ -5,9 +5,9 @@ import { FmfCalculators } from "@/components/fmf/FmfCalculators";
 import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
-  title: "Калькуляторы FMF · оценка и менеджмент",
+  title: "Калькуляторы FMF · оценка и тактика",
   description:
-    "Калькуляторы FMF assessment: dating, NT, EFW, birth weight, Doppler PI, UtA PI — движок fmf-core с атрибуцией публикаций.",
+    "Калькуляторы FMF: датирование, ТВП, ПВМ, вес при рождении, допплер, PI маточных артерий — расчётный модуль платформы с атрибуцией публикаций.",
 };
 
 export default function FmfCalculatorsPage() {
@@ -18,7 +18,7 @@ export default function FmfCalculatorsPage() {
           FMF · калькуляторы
         </p>
         <h1 className="text-2xl font-semibold text-[var(--clinical-foreground)]">
-          Оценка и менеджмент (assessment)
+          Оценка и клиническая тактика
         </h1>
         <p className="max-w-2xl text-sm text-[var(--clinical-foreground-muted)]">
           Шесть калькуляторов по моделям из публикаций (не софт FMF). Полный учебный раздел 11–13 нед — ниже.
