@@ -2,10 +2,10 @@
   "meta": {
     "name": "SonoGyn Pro — Международный реестр клинических стандартов",
     "version": "1.0",
-    "updated": "2026-11-25",
+    "updated": "2026-11-26",
     "purpose": "Первоисточники для Medical Knowledge Base, Evidence Assistant и ИИ-движка: какая организация, какой документ, какой статус, какая редакция актуальна",
     "copyright_note": "Наличие документа на сайте организации НЕ даёт права копировать текст/таблицы/изображения. В базу кладутся метаданные + собственные формулировки фактов с атрибуцией; проверять лицензию каждого источника перед включением контента.",
-    "schema_version": "sgp-registry/1"
+    "schema_version": "sgp-registry/1.1"
   },
   "categories": [
     {"id": "ob", "title": "Акушерство и перинатология"},
@@ -75,29 +75,30 @@
     {"abbr": "AFOG", "name": "African Federation of Obstetricians and Gynaecologists", "url": "https://afog.org", "focus": "Акушерство и гинекология Африки", "cats": ["ob", "gyn"], "tier": 3, "region": "Африка"}
   ],
   "classifications": [
-    {"key": "o-rads-us", "name": "O-RADS US v2022", "org": "ACR", "domain": "Яичники/придатки — УЗИ", "cats": ["us", "gyn"], "platform_module": "/tools/calc/rads/o-rads", "source": "https://www.acr.org/Clinical-Resources/Clinical-Tools-and-Reference/Reporting-and-Data-Systems/O-RADS", "status": "действующая"},
-    {"key": "o-rads-mri", "name": "O-RADS MRI", "org": "ACR", "domain": "Яичники/придатки — МРТ", "cats": ["us", "gyn"], "platform_module": "перспектива", "status": "действующая"},
-    {"key": "bi-rads", "name": "BI-RADS (УЗИ/ММГ/МРТ)", "org": "ACR", "domain": "Молочные железы", "cats": ["us", "breast"], "platform_module": "/tools/calc/rads/bi-rads", "status": "действующая (УЗИ ACR v2025 в платформе)"},
-    {"key": "ti-rads-acr", "name": "ACR TI-RADS 2017", "org": "ACR", "domain": "Щитовидная железа — УЗИ", "cats": ["us"], "platform_module": "/tools/calc/rads/ti-rads", "status": "действующая"},
-    {"key": "eu-tirads", "name": "EU-TIRADS", "org": "European Thyroid Association", "domain": "Щитовидная железа — УЗИ", "cats": ["us"], "platform_module": "перспектива", "status": "действующая"},
-    {"key": "iota-adnex", "name": "IOTA ADNEX", "org": "IOTA", "domain": "Риск злокачественности образований придатков", "cats": ["us", "gyn"], "platform_module": "коэффициенты сверены с BMJ 2014", "status": "действующая"},
-    {"key": "iota-sr", "name": "IOTA Simple Rules", "org": "IOTA", "domain": "Оценка образований придатков", "cats": ["us", "gyn"], "status": "действующая"},
-    {"key": "ieta", "name": "IETA", "org": "IOTA group", "domain": "Стандартизация оценки эндометрия", "cats": ["us", "gyn"], "status": "действующая"},
-    {"key": "musa", "name": "MUSA", "org": "MUSA group", "domain": "Морфологическая оценка миометрия/аденомиоза", "cats": ["us", "gyn"], "platform_module": "реализована в фото-макете матки", "status": "действующая"},
-    {"key": "idea", "name": "IDEA", "org": "IDEA group", "domain": "УЗИ-картирование глубокого эндометриоза", "cats": ["us", "gyn"], "status": "действующая"},
-    {"key": "gi-rads", "name": "GI-RADS", "org": "Collazos et al.", "domain": "Гинекологические образования", "cats": ["us", "gyn"], "status": "действующая"},
-    {"key": "palm-coein", "name": "FIGO PALM-COEIN", "org": "FIGO", "domain": "Причины АМК", "cats": ["gyn"], "platform_module": "реализована в uterus mapping (учебный CDS)", "status": "действующая"},
-    {"key": "figo-leiomyoma", "name": "FIGO Leiomyoma Classification 0–8", "org": "FIGO", "domain": "Миомы матки", "cats": ["gyn", "us"], "platform_module": "/tools/mapping/uterus", "status": "действующая"},
-    {"key": "enzian", "name": "#Enzian", "org": "ESHRE/Endometriosis groups", "domain": "Эндометриоз — анатомия/хирургия", "cats": ["gyn"], "status": "действующая (rev. 2021)"},
-    {"key": "rasrm", "name": "rASRM", "org": "ASRM", "domain": "Стадирование эндометриоза", "cats": ["gyn", "repro"], "status": "действующая"},
-    {"key": "figo-pph", "name": "FIGO: определения/критерии послеродового кровотечения", "org": "FIGO", "domain": "Акушерство", "cats": ["ob"], "status": "действующая"},
-    {"key": "robson", "name": "Robson Classification", "org": "WHO", "domain": "Группы пациенток для анализа КС", "cats": ["ob"], "status": "действующая"},
-    {"key": "bishop", "name": "Bishop Score", "org": "ACOG/классика", "domain": "Готовность шейки матки", "cats": ["ob"], "platform_module": "packages/medical-calculations/src/bishop.ts", "status": "действующая"},
-    {"key": "hadlock", "name": "Hadlock (биометрия, EFW)", "org": "Hadlock et al.", "domain": "Фетометрия", "cats": ["ob", "us"], "platform_module": "FetalWeightCalculator + fmf-growth (этап 1)", "status": "действующая"},
-    {"key": "intergrowth", "name": "INTERGROWTH-21st", "org": "INTERGROWTH", "domain": "Стандарты роста плода и новорождённого", "cats": ["ob", "us"], "status": "действующая"},
-    {"key": "fmf-risk", "name": "FMF risk assessment", "org": "FMF", "domain": "Риски: хромосомные аномалии, преэклампсия", "cats": ["ob"], "platform_module": "fmf-screening (учебный → этап 2 полные модели)", "status": "действующая"},
-    {"key": "doppler-velocimetry", "name": "Doppler velocimetry (UtA/MCA/CPR/DV)", "org": "ISUOG/FMF", "domain": "Маточно-плацентарный и плодовый кровоток", "cats": ["ob", "us"], "platform_module": "fmf-калькуляторы этапа 1", "status": "действующая"},
-    {"key": "mca-psv-anemia", "name": "MCA PSV >1.5 MoM (Mari 2000)", "org": "Mari et al.", "domain": "Фетальная анемия", "cats": ["ob", "us"], "platform_module": "fmf fetalanemia (этап 3)", "status": "действующая"}
+    {"key": "o-rads-us", "name": "O-RADS US v2022", "org": "ACR", "domain": "Яичники/придатки — УЗИ", "cats": ["us", "gyn"], "platform_module": "/tools/calc/rads/o-rads", "source": "https://www.acr.org/Clinical-Resources/Clinical-Tools-and-Reference/Reporting-and-Data-Systems/O-RADS", "status": "действующая", "implementation": "live", "room_id": "orads-us", "primary_href": "/tools/o-rads"},
+    {"key": "o-rads-mri", "name": "O-RADS MRI", "org": "ACR", "domain": "Яичники/придатки — МРТ", "cats": ["us", "gyn"], "platform_module": "перспектива", "status": "действующая", "implementation": "planned", "room_id": "orads-us"},
+    {"key": "bi-rads", "name": "BI-RADS (УЗИ/ММГ/МРТ)", "org": "ACR", "domain": "Молочные железы", "cats": ["us", "breast"], "platform_module": "/tools/calc/rads/bi-rads", "status": "действующая (УЗИ ACR v2025 в платформе)", "implementation": "live", "room_id": "acr-rads", "primary_href": "/tools/calc/rads/bi-rads"},
+    {"key": "ti-rads-acr", "name": "ACR TI-RADS 2017", "org": "ACR", "domain": "Щитовидная железа — УЗИ", "cats": ["us"], "platform_module": "/tools/calc/rads/ti-rads", "status": "действующая", "implementation": "live", "room_id": "acr-rads", "primary_href": "/tools/calc/rads/ti-rads"},
+    {"key": "ln-rads-us", "name": "LN-RADS US", "org": "ACR", "domain": "Лимфоузлы — УЗИ", "cats": ["us"], "platform_module": "/tools/calc/rads/ln-rads", "status": "действующая", "implementation": "live", "room_id": "acr-rads", "primary_href": "/tools/calc/rads/ln-rads"},
+    {"key": "eu-tirads", "name": "EU-TIRADS", "org": "European Thyroid Association", "domain": "Щитовидная железа — УЗИ", "cats": ["us"], "platform_module": "перспектива", "status": "действующая", "implementation": "planned", "room_id": "acr-rads"},
+    {"key": "iota-adnex", "name": "IOTA ADNEX", "org": "IOTA", "domain": "Риск злокачественности образований придатков", "cats": ["us", "gyn"], "platform_module": "/tools/calc/rads/iota", "status": "действующая", "implementation": "live", "room_id": "orads-us", "primary_href": "/tools/calc/rads/iota"},
+    {"key": "iota-sr", "name": "IOTA Simple Rules", "org": "IOTA", "domain": "Оценка образований придатков", "cats": ["us", "gyn"], "status": "действующая", "implementation": "corpus", "room_id": "orads-us", "primary_href": "/tools/refs/iota-terms-2026"},
+    {"key": "ieta", "name": "IETA", "org": "IOTA group", "domain": "Стандартизация оценки эндометрия", "cats": ["us", "gyn"], "status": "действующая", "implementation": "routed", "room_id": "gyn-us-morphology", "primary_href": "/tools/calc/gyn/endometrium"},
+    {"key": "musa", "name": "MUSA", "org": "MUSA group", "domain": "Морфологическая оценка миометрия/аденомиоза", "cats": ["us", "gyn"], "platform_module": "/tools/mapping/uterus", "status": "действующая", "implementation": "routed", "room_id": "figo-uterus", "primary_href": "/tools/mapping/uterus"},
+    {"key": "idea", "name": "IDEA", "org": "IDEA group", "domain": "УЗИ-картирование глубокого эндометриоза", "cats": ["us", "gyn"], "status": "действующая", "implementation": "corpus", "room_id": "gyn-us-morphology"},
+    {"key": "gi-rads", "name": "GI-RADS", "org": "Collazos et al.", "domain": "Гинекологические образования", "cats": ["us", "gyn"], "status": "действующая", "implementation": "corpus", "room_id": "gyn-us-morphology"},
+    {"key": "palm-coein", "name": "FIGO PALM-COEIN", "org": "FIGO", "domain": "Причины АМК", "cats": ["gyn"], "platform_module": "/tools/mapping/uterus", "status": "действующая", "implementation": "routed", "room_id": "figo-uterus", "primary_href": "/tools/mapping/uterus"},
+    {"key": "figo-leiomyoma", "name": "FIGO Leiomyoma Classification 0–8", "org": "FIGO", "domain": "Миомы матки", "cats": ["gyn", "us"], "platform_module": "/tools/mapping/uterus", "status": "действующая", "implementation": "live", "room_id": "figo-uterus", "primary_href": "/tools/mapping/uterus"},
+    {"key": "enzian", "name": "#Enzian", "org": "ESHRE/Endometriosis groups", "domain": "Эндометриоз — анатомия/хирургия", "cats": ["gyn"], "status": "действующая (rev. 2021)", "implementation": "corpus", "room_id": "gyn-us-morphology"},
+    {"key": "rasrm", "name": "rASRM", "org": "ASRM", "domain": "Стадирование эндометриоза", "cats": ["gyn", "repro"], "status": "действующая", "implementation": "corpus", "room_id": "gyn-us-morphology"},
+    {"key": "figo-pph", "name": "FIGO: определения/критерии послеродового кровотечения", "org": "FIGO", "domain": "Акушерство", "cats": ["ob"], "status": "действующая", "implementation": "corpus", "room_id": "isuog-ob"},
+    {"key": "robson", "name": "Robson Classification", "org": "WHO", "domain": "Группы пациенток для анализа КС", "cats": ["ob"], "status": "действующая", "implementation": "corpus", "room_id": "isuog-ob"},
+    {"key": "bishop", "name": "Bishop Score", "org": "ACOG/классика", "domain": "Готовность шейки матки", "cats": ["ob"], "platform_module": "/tools/calc/ob/bishop", "status": "действующая", "implementation": "live", "room_id": "isuog-ob", "primary_href": "/tools/calc/ob/bishop"},
+    {"key": "hadlock", "name": "Hadlock (биометрия, EFW)", "org": "Hadlock et al.", "domain": "Фетометрия", "cats": ["ob", "us"], "platform_module": "/tools/calc/ob/fetal-weight", "status": "действующая", "implementation": "live", "room_id": "isuog-ob", "primary_href": "/tools/calc/ob/fetal-weight"},
+    {"key": "intergrowth", "name": "INTERGROWTH-21st", "org": "INTERGROWTH", "domain": "Стандарты роста плода и новорождённого", "cats": ["ob", "us"], "status": "действующая", "implementation": "planned", "room_id": "isuog-ob"},
+    {"key": "fmf-risk", "name": "FMF risk assessment", "org": "FMF", "domain": "Риски: хромосомные аномалии, преэклампсия", "cats": ["ob"], "platform_module": "fmf-screening учебный", "status": "действующая", "implementation": "routed", "room_id": "fmf", "primary_href": "/tools/refs/fmf-11-13#fmf-edu-calc"},
+    {"key": "doppler-velocimetry", "name": "Doppler velocimetry (UtA/MCA/CPR/DV)", "org": "ISUOG/FMF", "domain": "Маточно-плацентарный и плодовый кровоток", "cats": ["ob", "us"], "platform_module": "/tools/calc/fmf", "status": "действующая", "implementation": "live", "room_id": "fmf", "primary_href": "/tools/calc/fmf"},
+    {"key": "mca-psv-anemia", "name": "MCA PSV >1.5 MoM (Mari 2000)", "org": "Mari et al.", "domain": "Фетальная анемия", "cats": ["ob", "us"], "platform_module": "/tools/calc/fmf", "status": "действующая", "implementation": "live", "room_id": "fmf", "primary_href": "/tools/calc/fmf"}
   ],
   "evidence_bases": [
     {"name": "PubMed / MEDLINE", "purpose": "Поиск публикаций", "url": "https://pubmed.ncbi.nlm.nih.gov", "api": "E-utilities, бесплатный"},
@@ -130,7 +131,7 @@
       "packages/evidence-retrieval — реестр как конфиг валидных организаций/типов документов",
       "apps/web/components/medical-knowledge/SourceCard.tsx — рендер карточки источника с org/type/status",
       "ИИ Evidence Assistant — фильтр источников по организации, году, статусу, уровню доказательности",
-      "Каталог «Международные стандарты» — новая страница кабинета (фильтры по категориям)"
+      "Каталог «Международные стандарты» — /tools/consensus (волна 0, 2026-11-26)"
     ],
     "ai_usage": "Каждый чанк RAG несёт {organization, document_type, year, status, loe} — ассистент обязан называть организацию и редакцию; устаревшие (status=архивный) не используются для тактики"
   }

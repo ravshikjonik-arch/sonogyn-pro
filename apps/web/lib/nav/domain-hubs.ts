@@ -60,6 +60,12 @@ export const TOOLS_HOME_DOMAINS = [
     description: "КР · PubMed · ГРЛС · Новое · ссылки вовне",
     accent: "from-amber-500 to-orange-400",
   },
+  {
+    href: "/tools/consensus",
+    title: "Международные стандарты",
+    description: "O-RADS · ACR RADS · FMF · FIGO · IOTA · ISUOG — комнаты и каталог",
+    accent: "from-indigo-600 to-violet-500",
+  },
 ] as const;
 
 export const OBSTETRICS_GROUPS: DomainHubGroup[] = [

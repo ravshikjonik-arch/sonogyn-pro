@@ -47,6 +47,7 @@ const HUB_ROUTES: SitemapRow[] = [
   { path: "/tools/pharmacy", priority: 0.7, changeFrequency: "monthly" },
   { path: "/tools/repos", priority: 0.7, changeFrequency: "weekly" },
   { path: "/tools/refs", priority: 0.75, changeFrequency: "weekly" },
+  { path: "/tools/consensus", priority: 0.82, changeFrequency: "weekly" },
   { path: "/tools/mapping", priority: 0.75, changeFrequency: "weekly" },
   { path: "/cases", priority: 0.7, changeFrequency: "daily" },
   { path: "/feed", priority: 0.55, changeFrequency: "daily" },

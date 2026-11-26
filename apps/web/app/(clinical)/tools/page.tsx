@@ -22,6 +22,12 @@ const GROUPS: DomainHubGroup[] = [
         description: "Препараты для практики",
       },
       {
+        href: "/tools/consensus",
+        title: "Международные стандарты",
+        description: "Консенсусы: комнаты, калькуляторы, статусы",
+        primary: true,
+      },
+      {
         href: "/tools/refs",
         title: "Справочник",
         description: "КР, нормы, атласы и курсы",

@@ -55,7 +55,10 @@ export function ClinicalGuidelinesCatalog() {
         </h1>
         <p className="max-w-3xl text-sm leading-relaxed text-[var(--clinical-foreground-muted)]">
           Отдельные полки: КР Минздрава РФ, приказы ДЗМ, приказы МЗ, международные гайдлайны.
-          Каждый документ — отдельная карточка с выдержками и ссылкой на официальный источник.
+          Каждый документ — отдельная карточка с выдержками и ссылкой на официальный источник.{" "}
+          <Link href="/tools/consensus" className="font-medium text-[var(--clinical-primary)] underline underline-offset-2">
+            Каталог международных стандартов (калькуляторы и комнаты) →
+          </Link>
         </p>
         <div className="flex flex-wrap gap-2 text-xs">
           <Link href="/tools/refs/nosologies" className="font-medium text-[var(--clinical-primary)] underline">

@@ -36,8 +36,10 @@ describe("international-standards registry", () => {
       assert.ok(cl, `нет классификации ${key}`);
       assert.ok(cl!.status.length > 0);
     }
-    assert.match(registryClassificationByKey("figo-leiomyoma")!.platform_module!, /mapping\/uterus/);
-    assert.match(registryClassificationByKey("bishop")!.platform_module!, /bishop\.ts/);
+    assert.match(registryClassificationByKey("figo-leiomyoma")!.primary_href!, /mapping\/uterus/);
+    assert.match(registryClassificationByKey("bishop")!.primary_href!, /bishop/);
+    assert.equal(registryClassificationByKey("ln-rads-us")?.implementation, "live");
+    assert.equal(registryClassificationByKey("fmf-risk")?.implementation, "routed");
   });
 
   it("priority fill order starts with ISUOG", () => {

@@ -1,6 +1,7 @@
 export * from "./types";
 export * from "./catalog";
 export * from "./rooms";
+export * from "./consensus-rooms";
 export * from "./roles";
 export * from "./specializations";
 export * from "./search";

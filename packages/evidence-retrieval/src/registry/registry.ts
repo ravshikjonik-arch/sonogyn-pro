@@ -31,6 +31,9 @@ export interface RegistryOrganization {
   region?: string;
 }
 
+/** Статус внедрения в продукте (волна Consensus Platform). */
+export type ImplementationStatus = "live" | "routed" | "corpus" | "planned" | "external";
+
 export interface RegistryClassification {
   key: string;
   name: string;
@@ -41,6 +44,11 @@ export interface RegistryClassification {
   platform_module?: string;
   source?: string;
   status: string;
+  implementation?: ImplementationStatus;
+  /** Комната консенсуса (`packages/clinical-tools` consensus-rooms) */
+  room_id?: string;
+  /** Канонический URL инструмента или комнаты */
+  primary_href?: string;
 }
 
 export interface RegistryEvidenceBase {
