@@ -105,6 +105,14 @@ export const ORADS_US_ROOM: ClinicalRoom = {
       href: "/tools/calc/rads/adnex-report",
       kind: "protocol",
     },
+    {
+      id: "o-rads-mri-route",
+      title: "O-RADS MRI · маршрут",
+      description: "Справочно: МРТ vs US, без отдельного engine",
+      href: "/tools/refs/consensus-route/o-rads-mri",
+      kind: "reference",
+      badge: "Маршрут",
+    },
   ],
 };
 
@@ -167,7 +175,7 @@ export const FMF_ROOM: ClinicalRoom = {
 export const ACR_RADS_ROOM: ClinicalRoom = {
   id: "acr-rads",
   title: "ACR RADS",
-  description: "Семейство ACR: придатки (O-RADS US), молочная железа, щит, лимфоузлы. EU-TIRADS — в плане.",
+  description: "Семейство ACR: придатки (O-RADS US), молочная железа, щит, лимфоузлы. EU-TIRADS — маршрут рядом с TI-RADS.",
   href: "/tools/rads",
   primaryHref: "/tools/o-rads",
   domain: "rads",
@@ -208,9 +216,17 @@ export const ACR_RADS_ROOM: ClinicalRoom = {
       badge: "LN-RADS",
     },
     {
+      id: "eu-tirads-route",
+      title: "EU-TIRADS · маршрут",
+      description: "Профиль ETA в TI-RADS; не смешивать с ACR",
+      href: "/tools/refs/consensus-route/eu-tirads",
+      kind: "reference",
+      badge: "Маршрут",
+    },
+    {
       id: "consensus",
       title: "Каталог стандартов",
-      description: "Статусы внедрения и перспективы (O-RADS MRI, EU-TIRADS)",
+      description: "Статусы внедрения и маршруты перспектив",
       href: "/tools/consensus#room-acr-rads",
       kind: "reference",
     },
@@ -274,7 +290,7 @@ export const ISUOG_OB_ROOM: ClinicalRoom = {
   id: "isuog-ob",
   title: "ISUOG · акушерское УЗИ",
   description:
-    "Комната: гайдлайны ISUOG, фетометрия (Hadlock), Bishop, связь с FMF. INTERGROWTH — в плане (реестр).",
+    "Комната: гайдлайны ISUOG, фетометрия (Hadlock), Bishop, связь с FMF. INTERGROWTH — учебный маршрут.",
   href: "/tools/isuog-ob",
   primaryHref: "/tools/refs/isuog-guidelines",
   domain: "obstetrics",
@@ -335,6 +351,14 @@ export const ISUOG_OB_ROOM: ClinicalRoom = {
       description: "Срок, CL, VBAC и др.",
       href: "/tools/calc/ob",
       kind: "calculator",
+    },
+    {
+      id: "intergrowth-route",
+      title: "INTERGROWTH-21st · маршрут",
+      description: "Перцентили роста — рядом с Hadlock",
+      href: "/tools/refs/consensus-route/intergrowth",
+      kind: "reference",
+      badge: "Маршрут",
     },
     {
       id: "consensus",

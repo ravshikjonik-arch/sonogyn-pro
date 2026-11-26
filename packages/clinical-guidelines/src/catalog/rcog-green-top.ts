@@ -90,7 +90,28 @@ export const RCOG_GUIDELINE_CATEGORY: Record<string, RcogCategory> = {
  * Приоритетный набор для SonoGyn (УЗИ / АГ).
  * Полный каталог — на сайте RCOG; здесь карточки + crosswalk, не PDF.
  */
-export const RCOG_GREEN_TOP_GUIDELINES: ClinicalGuideline[] = [
+const RCOG_CONSENSUS_REGISTRY: Record<
+  string,
+  Pick<ClinicalGuideline, "consensusRoomId" | "registryKeys">
+> = {
+  "rcog-gtg-31-sga": { consensusRoomId: "isuog-ob", registryKeys: ["hadlock", "doppler-velocimetry"] },
+  "rcog-gtg-27a-previa-accreta": { consensusRoomId: "fmf", registryKeys: ["doppler-velocimetry", "fmf-risk"] },
+  "rcog-gtg-27b-vasa": { consensusRoomId: "fmf", registryKeys: ["doppler-velocimetry", "fmf-risk"] },
+  "rcog-gtg-57-rfm": { consensusRoomId: "isuog-ob", registryKeys: ["doppler-velocimetry", "hadlock"] },
+  "rcog-gtg-51-twins": { consensusRoomId: "isuog-ob", registryKeys: ["hadlock", "doppler-velocimetry"] },
+  "rcog-gtg-21-ectopic": { consensusRoomId: "fmf", registryKeys: ["fmf-risk"] },
+  "rcog-gtg-17-recurrent-miscarriage": { consensusRoomId: "fmf", registryKeys: ["fmf-risk"] },
+  "rcog-gtg-75-cerclage": { consensusRoomId: "fmf", registryKeys: ["doppler-velocimetry"] },
+  "rcog-gtg-73-pprom": { consensusRoomId: "fmf", registryKeys: ["doppler-velocimetry", "bishop"] },
+  "rcog-gtg-62-ovarian-premeno": { consensusRoomId: "orads-us", registryKeys: ["o-rads-us", "iota-adnex"] },
+  "rcog-gtg-34-ovarian-postmeno": { consensusRoomId: "orads-us", registryKeys: ["o-rads-us"] },
+  "rcog-gtg-67-endometrial-hyperplasia": {
+    consensusRoomId: "gyn-us-morphology",
+    registryKeys: ["ieta"],
+  },
+};
+
+const RCOG_GREEN_TOP_RAW: ClinicalGuideline[] = [
   {
     id: "rcog-gtg-31-sga",
     title: "RCOG · SGA / FGR — investigation and care (GTG 31)",
@@ -362,3 +383,8 @@ export const RCOG_GREEN_TOP_GUIDELINES: ClinicalGuideline[] = [
     ],
   },
 ];
+
+export const RCOG_GREEN_TOP_GUIDELINES: ClinicalGuideline[] = RCOG_GREEN_TOP_RAW.map((g) => {
+  const link = RCOG_CONSENSUS_REGISTRY[g.id];
+  return link ? { ...g, ...link } : g;
+});

@@ -79,7 +79,7 @@ export function consensusHubOrgLabel(abbr: string): string {
 export const CONSENSUS_HUB_META = {
   title: "Международные стандарты",
   description:
-    "Единый каталог классификаций и консенсусов: 6 комнат, калькулятор, маршрутизация, полка знаний или план. Не копируем тексты организаций.",
+    "Единый каталог классификаций и консенсусов: 6 комнат, калькулятор, маршрут учебно, полка знаний. Не копируем тексты организаций.",
   registryVersion: REGISTRY.meta.version,
   registryUpdated: REGISTRY.meta.updated,
   schemaVersion: REGISTRY.meta.schema_version,

@@ -217,6 +217,9 @@ export default function ToolsScreen({ navigation, route }: ToolsTabScreenProps) 
           <Pressable style={styles.domainChip} onPress={() => openClinicalToolAction(navigation, "acr_rads_hub")}>
             <Text style={styles.domainChipText}>ACR RADS</Text>
           </Pressable>
+          <Pressable style={styles.domainChip} onPress={() => openClinicalToolAction(navigation, "figo_uterus_hub")}>
+            <Text style={styles.domainChipText}>FIGO</Text>
+          </Pressable>
           <Pressable style={styles.domainChip} onPress={() => openClinicalToolAction(navigation, "consensus_hub")}>
             <Text style={styles.domainChipText}>Стандарты</Text>
           </Pressable>

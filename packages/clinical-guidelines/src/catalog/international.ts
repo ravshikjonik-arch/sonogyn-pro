@@ -14,6 +14,8 @@ export const INTERNATIONAL_GUIDELINES: ClinicalGuideline[] = [
     status: "active",
     officialUrl: "https://www.isuog.org/clinical-resources/isuog-guidelines/practice-guidelines-english.html",
     tags: ["ISUOG", "PoCUS", "emergency"],
+    consensusRoomId: "isuog-ob",
+    registryKeys: ["bishop", "hadlock"],
     sections: [
       {
         title: "Ключевые сценарии",
@@ -37,6 +39,8 @@ export const INTERNATIONAL_GUIDELINES: ClinicalGuideline[] = [
     status: "active",
     officialUrl: "https://www.isuog.org/clinical-resources/isuog-guidelines/practice-guidelines-english.html",
     tags: ["ISUOG", "twins", "TTTS"],
+    consensusRoomId: "isuog-ob",
+    registryKeys: ["hadlock", "doppler-velocimetry"],
   },
   {
     id: "int-isuog-endometrium-2024",
@@ -96,6 +100,8 @@ export const INTERNATIONAL_GUIDELINES: ClinicalGuideline[] = [
     status: "active",
     officialUrl: "https://www.isuog.org/clinical-resources/isuog-guidelines.html",
     tags: ["ISUOG", "fetal heart", "4CV"],
+    consensusRoomId: "fmf",
+    registryKeys: ["doppler-velocimetry", "fmf-risk"],
   },
   {
     id: "int-isuog-biometry-growth-2019",

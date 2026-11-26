@@ -23,7 +23,7 @@ export const CONSENSUS_ROOMS: ConsensusRoom[] = [
   {
     id: "acr-rads",
     title: "ACR RADS · маммо и щит",
-    description: "BI-RADS, TI-RADS, LN-RADS — отдельные калькуляторы; EU-TIRADS в плане.",
+    description: "BI-RADS, TI-RADS, LN-RADS — калькуляторы; EU-TIRADS — маршрут.",
     href: "/tools/rads",
     badge: "ACR",
     classificationKeys: ["bi-rads", "ti-rads-acr", "ln-rads-us", "eu-tirads"],
@@ -47,7 +47,7 @@ export const CONSENSUS_ROOMS: ConsensusRoom[] = [
   {
     id: "isuog-ob",
     title: "ISUOG · акушерское УЗИ",
-    description: "Фетометрия, Bishop, гайдлайны ISUOG; INTERGROWTH — в плане.",
+    description: "Фетометрия, Bishop, гайдлайны ISUOG; INTERGROWTH — маршрут.",
     href: "/tools/isuog-ob",
     badge: "ISUOG",
     classificationKeys: ["bishop", "hadlock", "intergrowth", "figo-pph", "robson"],

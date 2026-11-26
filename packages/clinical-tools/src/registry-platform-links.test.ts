@@ -21,4 +21,18 @@ describe("registry-platform-links", () => {
     const orads = links.filter((l) => l.href.includes("o-rads"));
     assert.ok(orads.length >= 1);
   });
+
+  it("resolves routed planned classifications", () => {
+    const links = platformLinksForGuideline({ registryKeys: ["eu-tirads", "intergrowth"] });
+    assert.ok(links.some((l) => l.href === "/tools/refs/consensus-route/eu-tirads"));
+    assert.ok(links.some((l) => l.href === "/tools/refs/consensus-route/intergrowth"));
+  });
+
+  it("RCOG SGA links to ISUOG room", () => {
+    const links = platformLinksForGuideline({
+      consensusRoomId: "isuog-ob",
+      registryKeys: ["hadlock", "doppler-velocimetry"],
+    });
+    assert.ok(links.some((l) => l.href === "/tools/isuog-ob"));
+  });
 });
