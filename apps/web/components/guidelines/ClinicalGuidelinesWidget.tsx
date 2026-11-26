@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils/cn";
+import { platformLinksForGuideline } from "@repo/clinical-tools";
 import {
   CLINICAL_GUIDELINES,
   DOCUMENT_KIND_LABELS,
@@ -187,6 +188,7 @@ function ShelfSection({
 
 export function ClinicalGuidelineDetailView({ guidelineId }: { guidelineId: string }) {
   const g = CLINICAL_GUIDELINES.find((x) => x.id === guidelineId);
+  const platformLinks = g ? platformLinksForGuideline(g) : [];
 
   if (!g) {
     return (
@@ -239,6 +241,35 @@ export function ClinicalGuidelineDetailView({ guidelineId }: { guidelineId: stri
           </CardContent>
         </Card>
       ))}
+
+      {platformLinks.length ? (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">В платформе SonoGyn Pro</CardTitle>
+            <CardDescription className="text-xs">
+              Комнаты и калькуляторы по реестру международных стандартов — не замена официального текста.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-2">
+            {platformLinks.map((link) => (
+              <Link
+                key={`${link.key}-${link.href}`}
+                href={link.href}
+                className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-[var(--clinical-border)] px-3 py-2 text-sm hover:bg-[var(--clinical-muted)]"
+              >
+                <span className="font-medium text-[var(--clinical-foreground)]">{link.name}</span>
+                <Badge variant="outline">{link.badge}</Badge>
+              </Link>
+            ))}
+            <Link
+              href="/tools/consensus"
+              className="text-xs font-medium text-[var(--clinical-primary)] underline underline-offset-2"
+            >
+              Полный каталог стандартов →
+            </Link>
+          </CardContent>
+        </Card>
+      ) : null}
 
       {g.relatedNosologyIds?.length ? (
         <Card>

@@ -51,6 +51,8 @@ export const INTERNATIONAL_GUIDELINES: ClinicalGuideline[] = [
     officialUrl: "https://www.isuog.org/clinical-resources/isuog-guidelines.html",
     tags: ["ISUOG", "endometrium", "consensus"],
     relatedNosologyIds: ["endometrial-hyperplasia"],
+    registryKeys: ["ieta"],
+    consensusRoomId: "gyn-us-morphology",
   },
   {
     id: "int-isuog-11-14-2024",
@@ -64,6 +66,8 @@ export const INTERNATIONAL_GUIDELINES: ClinicalGuideline[] = [
     status: "active",
     officialUrl: "https://www.isuog.org/clinical-resources/isuog-guidelines.html",
     tags: ["ISUOG", "11-14", "NT", "FMF"],
+    registryKeys: ["fmf-risk", "doppler-velocimetry"],
+    consensusRoomId: "fmf",
   },
   {
     id: "int-isuog-third-trimester-2024",
@@ -77,6 +81,8 @@ export const INTERNATIONAL_GUIDELINES: ClinicalGuideline[] = [
     status: "active",
     officialUrl: "https://www.isuog.org/clinical-resources/isuog-guidelines.html",
     tags: ["ISUOG", "III trimester", "FGR", "doppler"],
+    registryKeys: ["doppler-velocimetry", "hadlock"],
+    consensusRoomId: "isuog-ob",
   },
   {
     id: "int-isuog-fetal-cardiac-2024",
@@ -103,6 +109,8 @@ export const INTERNATIONAL_GUIDELINES: ClinicalGuideline[] = [
     status: "active",
     officialUrl: "https://www.isuog.org/clinical-resources/fetal-biometry.html",
     tags: ["ISUOG", "biometry", "EFW", "FGR"],
+    registryKeys: ["hadlock", "intergrowth"],
+    consensusRoomId: "isuog-ob",
   },
   {
     id: "int-isuog-obstetric",
@@ -116,6 +124,8 @@ export const INTERNATIONAL_GUIDELINES: ClinicalGuideline[] = [
     status: "active",
     officialUrl: "https://www.isuog.org/clinical-resources/isuog-guidelines.html",
     tags: ["ISUOG", "акушерство", "УЗИ"],
+    consensusRoomId: "isuog-ob",
+    registryKeys: ["bishop", "hadlock", "doppler-velocimetry"],
   },
   {
     id: "int-eshre-endometriosis",
@@ -130,6 +140,8 @@ export const INTERNATIONAL_GUIDELINES: ClinicalGuideline[] = [
     officialUrl: "https://www.eshre.eu/",
     tags: ["ESHRE", "эндометриоз"],
     relatedNosologyIds: ["pelvic-endometriosis", "endometrioma"],
+    registryKeys: ["enzian", "rasrm", "idea"],
+    consensusRoomId: "gyn-us-morphology",
   },
   ...RCOG_GREEN_TOP_GUIDELINES,
 ];

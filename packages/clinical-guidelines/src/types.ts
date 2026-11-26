@@ -57,6 +57,10 @@ export type ClinicalGuideline = {
   revisedAt?: string;
   /** Связь с `@repo/nosology` */
   relatedNosologyIds?: string[];
+  /** Ключи из `international-standards.json` → инструменты платформы */
+  registryKeys?: string[];
+  /** Комната consensus (`consensus-rooms` / `CLINICAL_ROOMS`) */
+  consensusRoomId?: string;
 };
 
 export type GuidelineSpecialtyFilter = GuidelineSpecialty | "all";
