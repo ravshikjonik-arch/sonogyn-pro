@@ -1,6 +1,9 @@
 import fs from "fs";
 import path from "path";
 
+import { loadFmf1113Digest, shouldAttachFmfDigest } from "@/lib/fmf/load-fmf-digest";
+import { fmfAssistantToolCatalogBlock } from "./prompt-registry";
+
 import {
   IOTA_BENIGN_DESCRIPTORS,
   IOTA_MALIGNANT_DESCRIPTORS,
@@ -92,8 +95,13 @@ export function buildRagContext(domain: SonogynClinicalDomain, userText: string)
       "Матка/эндометрий: используй MUSA/FIGO там, где релевантно; для аденомиоза — диффузные/очаговые признаки, junctional zone, кисты, vascularity.",
     );
   }
-  if (domain === "obstetric") {
+  if (domain === "obstetric" || shouldAttachFmfDigest(userText)) {
     parts.push("FMF/ISUOG: скрининг I/II/III триместр, КТР, ТВП, допплер — по международным протоколам; не заменяй клиническое решение врача.");
+    if (shouldAttachFmfDigest(userText)) {
+      const digest = loadFmf1113Digest();
+      if (digest) parts.push(`FMF 11–13 digest:\n${digest}`);
+      parts.push(fmfAssistantToolCatalogBlock());
+    }
   }
   return parts.join("\n\n---\n\n");
 }
