@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ArrowLeft, Baby } from "lucide-react";
 
+import { CalculatorSourceBadge } from "@/components/calculators/CalculatorSourceBadge";
 import { Fmf1113UnifiedClient } from "@/components/fmf/Fmf1113UnifiedClient";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -66,6 +67,13 @@ export function FmfSectionClient() {
         </nav>
 
         <Fmf1113UnifiedClient />
+
+        <CalculatorSourceBadge
+          title="Курс FMF «Сканирование 11–13 недель» + публикации"
+          reference="Собственное изложение SonoGyn Pro; расчёты — Wright/Nicolaides, Robinson, Snijders. Не лицензированный софт FMF."
+          organization="FMF"
+          verified="Учебный режим · не диагноз"
+        />
 
         <footer className="space-y-2 border-t border-[var(--clinical-border)] pt-6 text-xs leading-relaxed text-[var(--clinical-foreground-muted)]">
           <p>

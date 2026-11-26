@@ -106,7 +106,7 @@ export function FmfScreening11Client() {
   const catLabel = { low: "низкий", intermediate: "промежуточный", high: "высокий" } as const;
 
   return (
-    <div className="mx-auto max-w-4xl">
+    <div id="fmf-edu-calc" className="mx-auto max-w-4xl scroll-mt-24">
       <div className="flex flex-wrap gap-2" role="tablist" aria-label="Разделы FMF-скрининга">
         {TABS.map((t) => (
           <button

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 
+import { CalculatorSourceBadge } from "@/components/calculators/CalculatorSourceBadge";
 import { FmfCalculators } from "@/components/fmf/FmfCalculators";
 import { Button } from "@/components/ui/button";
 
@@ -28,6 +29,12 @@ export default function FmfCalculatorsPage() {
         </Button>
       </header>
       <FmfCalculators />
+      <CalculatorSourceBadge
+        title="Публикации FMF / Wright et al."
+        reference="Robinson 1975 (КТР) · Snijders 1994 (ОГ) · Wright 2008 (ТВП) · Wright 2018 (рост) · референсы допплера FMF"
+        organization="FMF"
+        verified="Сверено 11.2026 · расчётный модуль + юнит-тесты ✓"
+      />
     </div>
   );
 }

@@ -105,8 +105,8 @@ const SECTIONS: { id: FmfAssistantSection; label: string; hint: string }[] = [
   { id: "first", label: "I скрининговый срок", hint: "11+0 — 13+6" },
   { id: "second", label: "II скрининговый срок", hint: "18–22 нед." },
   { id: "third", label: "III скрининговый срок", hint: "34–36 нед." },
-  { id: "cervix", label: "Цервикометрия", hint: "CL · funneling" },
-  { id: "doppler", label: "Допплерометрия", hint: "UtA · UA · MCA" },
+  { id: "cervix", label: "Цервикометрия", hint: "длина шейки · воронка" },
+  { id: "doppler", label: "Допплерометрия", hint: "МА · ПА · СМА" },
   { id: "scar", label: "Рубец", hint: "КС · миометрий" },
 ];
 
@@ -116,11 +116,12 @@ const SECTION_META: Record<
 > = {
   early: {
     formTitle: "Малый срок — входные данные",
-    formDescription: "ДПМ, СДП, ЖМ (YSD), КТР — перцентили P3–P97 по референсным кривым малого срока.",
+    formDescription: "ДПМ, СДП, желточный мешок, КТР — перцентили P3–P97 по референсным кривым малого срока.",
   },
   first: {
     formTitle: "I скрининговый срок — входные данные",
-    formDescription: "КТР, NT, DV, UtA, MAP — FMF Percentile Engine (z-score, MoM, P3–P97) + перцентили I скрининга.",
+    formDescription:
+      "КТР, ТВП, венозный проток, PI маточных артерий, среднее АД — перцентили FMF (z-оценка, MoM, P3–P97).",
   },
   second: {
     formTitle: "II скрининговый срок — входные данные",
@@ -128,15 +129,15 @@ const SECTION_META: Record<
   },
   third: {
     formTitle: "III скрининговый срок — входные данные",
-    formDescription: "Рост, AFI, допплер — перцентили фетометрии. Окно 34–36 нед.",
+    formDescription: "Рост, ИАЖ (амниотический индекс), допплер — перцентили фетометрии. Окно 34–36 нед.",
   },
   doppler: {
     formTitle: "Допплерометрия — входные данные",
-    formDescription: "UtA, DV, АП, СМА — перцентили UtA/DV.",
+    formDescription: "PI маточных артерий, венозный проток, пупочная и средняя мозговая артерии — перцентили FMF.",
   },
   cervix: {
     formTitle: "Цервикометрия — входные данные",
-    formDescription: "Трансвагинально: длина шейки (CL), funneling. Риск ПР при CL <25 мм.",
+    formDescription: "Трансвагинально: длина шейки матки, воронкообразное раскрытие. Риск ПР при длине <25 мм.",
   },
   scar: {
     formTitle: "Рубец на матке — входные данные",
@@ -146,7 +147,7 @@ const SECTION_META: Record<
 
 const FIRST_CHECKLIST = [
   "Срединный сагиттальный срез, нейтральное положение головы",
-  "Плод 70–80% экрана, magnify для ТВП",
+  "Плод 70–80% экрана, увеличение (zoom) для ТВП",
   "ТВП — строго по FMF (максимум, не среднее)",
   "Носовая кость + допплер DV и TR по протоколу",
   "КТР для датировки, затем расчёт комбинированного риска",
@@ -651,7 +652,7 @@ function EarlyForm({
         <Chip label="Нет" selected={early.yolkSacSeen === false} onClick={() => setEarly((p) => ({ ...p, yolkSacSeen: false }))} />
       </FieldGroup>
 
-      <FieldBlock label="YSD (диаметр ЖМ), мм">
+        <FieldBlock label="Диаметр желточного мешка, мм">
         <Input
           inputMode="decimal"
           placeholder="2–6 мм · &lt;2 подозрительно · ≥6 риск НБ"
@@ -815,7 +816,7 @@ function FirstForm({
             onChange={(e) => setFirst((p) => ({ ...p, crlMm: parseNum(e.target.value) }))}
           />
         </FieldBlock>
-        <FieldBlock label="ТВП (NT), мм">
+        <FieldBlock label="ТВП, мм">
           <Input
             inputMode="decimal"
             value={first.ntMm != null ? String(first.ntMm) : ""}
@@ -875,7 +876,7 @@ function FirstForm({
         <Chip label="Не оценён" selected={first.dvFlow === "unknown"} onClick={() => setFirst((p) => ({ ...p, dvFlow: "unknown" }))} />
       </FieldGroup>
 
-      <FieldGroup label="DV a-wave">
+      <FieldGroup label="Волна «a» венозного протока">
         <Chip label="Положительная" selected={first.dvAWave === "positive"} onClick={() => setFirst((p) => ({ ...p, dvAWave: "positive" }))} />
         <Chip label="Отсутствует" selected={first.dvAWave === "absent"} onClick={() => setFirst((p) => ({ ...p, dvAWave: "absent" }))} />
         <Chip label="Ретроградная" selected={first.dvAWave === "reversed"} onClick={() => setFirst((p) => ({ ...p, dvAWave: "reversed" }))} />
@@ -913,7 +914,7 @@ function FirstForm({
       </FieldGroup>
 
       <div className="grid gap-3 sm:grid-cols-2">
-        <FieldBlock label="TR velocity, см/с (опц.)">
+        <FieldBlock label="Скорость трикуспидальной регургитации, см/с (опц.)">
           <Input
             inputMode="decimal"
             placeholder="V max"
@@ -921,7 +922,7 @@ function FirstForm({
             onChange={(e) => setFirst((p) => ({ ...p, tricuspidVelocityCmS: parseNum(e.target.value) }))}
           />
         </FieldBlock>
-        <FieldBlock label="TR duration / systole, 0–1 (опц.)">
+        <FieldBlock label="Доля систолы с регургитацией, 0–1 (опц.)">
           <Input
             inputMode="decimal"
             placeholder="0.35"
@@ -932,14 +933,14 @@ function FirstForm({
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2">
-        <FieldBlock label="САД матери, мм рт.ст. (MAP)">
+        <FieldBlock label="САД матери, мм рт.ст.">
           <Input
             inputMode="numeric"
             value={first.sbpMmHg != null ? String(first.sbpMmHg) : ""}
             onChange={(e) => setFirst((p) => ({ ...p, sbpMmHg: parseNum(e.target.value) }))}
           />
         </FieldBlock>
-        <FieldBlock label="ДАД матери, мм рт.ст. (MAP)">
+        <FieldBlock label="ДАД матери, мм рт.ст.">
           <Input
             inputMode="numeric"
             value={first.dbpMmHg != null ? String(first.dbpMmHg) : ""}
@@ -1121,7 +1122,7 @@ function SecondThirdForm({
         <NumField label="TL, мм" value={secondThird.tlMm} onChange={setNum("tlMm")} />
         <NumField label="Стопа, мм" value={secondThird.footLengthMm} onChange={setNum("footLengthMm")} />
         <NumField label="Длина плода, см" value={secondThird.fetalLengthCm} onChange={setNum("fetalLengthCm")} />
-        <NumField label="ПМП, %tile" value={secondThird.efwPercentile} onChange={setNum("efwPercentile")} />
+        <NumField label="ПМП, центиль" value={secondThird.efwPercentile} onChange={setNum("efwPercentile")} />
         <NumField label="ЧСС" value={secondThird.fhr} onChange={setNum("fhr")} />
         <NumField label="Лат. желудочки, мм" value={secondThird.lateralVentriclesMm} onChange={setNum("lateralVentriclesMm")} />
         <NumField label="Мозжечок, мм" value={secondThird.cerebellumMm} onChange={setNum("cerebellumMm")} />

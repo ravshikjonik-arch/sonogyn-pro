@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
@@ -210,12 +211,21 @@ export const FMF_TOOLS: Tool[] = [
   },
 ];
 
-export const RISK_PLACEHOLDERS = [
+type RiskPlaceholder = {
+  id: string;
+  title: string;
+  stage: string;
+  desc: string;
+  href?: string;
+};
+
+export const RISK_PLACEHOLDERS: RiskPlaceholder[] = [
   {
     id: "trisomies",
     title: "Трисомии",
-    stage: "ЭТАП 2",
-    desc: "Полные модели отношения правдоподобия Wright/Nicolaides (замена учебных констант демо)",
+    stage: "УЧЕБНО",
+    desc: "Калькулятор 11–13 нед: априорный риск × ОП (упрощённые коэффициенты). Полные модели Wright/Nicolaides — этап 2.",
+    href: "/tools/refs/fmf-11-13#fmf-edu-calc",
   },
   {
     id: "ptb",
@@ -384,12 +394,24 @@ export function FmfCalculators() {
           {RISK_PLACEHOLDERS.map((item) => (
             <Card
               key={item.id}
-              className="border-dashed border-[var(--clinical-border)] bg-[var(--clinical-surface)] opacity-90"
+              className={
+                item.href
+                  ? "border-[var(--clinical-primary)]/40 bg-[var(--clinical-surface)]"
+                  : "border-dashed border-[var(--clinical-border)] bg-[var(--clinical-surface)] opacity-90"
+              }
             >
               <CardHeader className="pb-2">
                 <RiskStageBadge stage={item.stage} />
                 <CardTitle className="text-base">{item.title}</CardTitle>
                 <CardDescription>{item.desc}</CardDescription>
+                {item.href ? (
+                  <Link
+                    href={item.href}
+                    className="text-sm font-medium text-[var(--clinical-primary)] underline underline-offset-2"
+                  >
+                    Открыть учебный калькулятор →
+                  </Link>
+                ) : null}
               </CardHeader>
             </Card>
           ))}

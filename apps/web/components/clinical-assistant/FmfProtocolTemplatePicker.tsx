@@ -90,9 +90,9 @@ export function FmfProtocolTemplatePicker({
           <Route className="mt-0.5 h-4 w-4 shrink-0 text-teal-700 dark:text-teal-300" aria-hidden />
           <span>
             <span className="flex flex-wrap items-center gap-2">
-              <span className="text-sm font-semibold">SonoGyn · по сроку (guided)</span>
+              <span className="text-sm font-semibold">SonoGyn · протокол по сроку</span>
               <Badge variant="outline" className="text-[10px]">
-                beyond Astraia
+                пошагово
               </Badge>
             </span>
             <span className="mt-1 block text-xs leading-relaxed text-[var(--clinical-foreground-muted)]">
