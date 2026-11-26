@@ -36,7 +36,7 @@ export function ConsensusHubClient({ cards }: { cards: ConsensusHubCard[] }) {
     <div className="mx-auto max-w-6xl space-y-8 px-4 py-8 lg:px-8">
       <header className="space-y-3">
         <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--clinical-primary-deep)]">
-          Consensus Platform · волна 0
+          Consensus Platform · 6 комнат
         </p>
         <h1 className="text-3xl font-semibold tracking-tight text-[var(--clinical-foreground)]">
           {CONSENSUS_HUB_META.title}
@@ -64,7 +64,8 @@ export function ConsensusHubClient({ cards }: { cards: ConsensusHubCard[] }) {
           Комнаты консенсуса
         </h2>
         <p className="text-sm text-[var(--clinical-foreground-muted)]">
-          Один вход на семейство стандартов (как O-RADS US). Остальные комнаты наполняются в волнах 1–3.
+          Шесть комнат консенсуса: калькулятор, маршрут учебно или полка знаний. Из карточек КР (полка
+          «Международные») — ссылки в инструменты платформы.
         </p>
         <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {CONSENSUS_ROOMS.map((room) => (
