@@ -14,7 +14,7 @@ export const CALCULATOR_GUIDELINE_SOURCES: Record<string, GuidelineSourceLink[]>
     { label: "Калькуляторы акушерства · хаб", href: "/tools/obstetrics" },
   ],
   "fetal-weight": [
-    { label: "Hadlock et al., Radiology 1985 (EFW)", href: "https://pubmed.ncbi.nlm.nih.gov/" },
+    { label: "Hadlock et al., Radiology 1985 (EFW)", href: "https://pubmed.ncbi.nlm.nih.gov/3879946/" },
     { label: "Нормы фетометрии", href: "/tools/calc/ob/fetometry-norms" },
   ],
   "o-rads": [
@@ -37,6 +37,15 @@ export const CALCULATOR_GUIDELINE_SOURCES: Record<string, GuidelineSourceLink[]>
   ],
   elastography: [
     { label: "WFUMB / strain guidelines (обзор)", href: "https://pubmed.ncbi.nlm.nih.gov/" },
+  ],
+  "ob-crl": [
+    { label: "ISUOG — 1st-trimester dating (clinical practice)", href: "https://www.isuog.org/clinical-resources/guidelines" },
+    { label: "Фетометрия I триместра (табл. Медведева в приложении)", href: "/tools/calc/ob?tab=feto" },
+    { label: "Robinson & Fleming, BJOG 1975 (CRL)", href: "https://pubmed.ncbi.nlm.nih.gov/1182090/" },
+  ],
+  "ob-hub": [
+    { label: "Hadlock EFW", href: "/tools/calc/ob/fetal-weight" },
+    { label: "Нормы УЗИ", href: "/tools/refs/norms" },
   ],
 };
 

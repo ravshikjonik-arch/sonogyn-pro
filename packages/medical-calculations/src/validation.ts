@@ -10,7 +10,7 @@ export type ValidationMessage = {
 
 /** Physiological ranges (mm) — orienting; not exhaustive. */
 const BIOMETRY_RANGES: Record<BiometryKind | "CRL", { min: number; max: number; label: string }> = {
-  CRL: { min: 2, max: 84, label: "КТР" },
+  CRL: { min: 5, max: 84, label: "КТР" },
   BPD: { min: 15, max: 120, label: "БПР" },
   HC: { min: 80, max: 380, label: "ОГ" },
   AC: { min: 80, max: 400, label: "ОЖ" },

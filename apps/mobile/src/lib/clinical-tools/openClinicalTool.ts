@@ -104,13 +104,13 @@ export function openClinicalToolAction(navigation: ClinicalToolNav, action: Mobi
       navigation.navigate("Prolapse");
       return;
     case "colposcopy":
-      void WebBrowser.openBrowserAsync(webAppUrl("/calculators/colposcopy"));
+      void WebBrowser.openBrowserAsync(webAppUrl("/tools/calc/gyn/colposcopy"));
       return;
     case "cin_risk":
-      void WebBrowser.openBrowserAsync(webAppUrl("/calculators/cin-risk"));
+      void WebBrowser.openBrowserAsync(webAppUrl("/tools/calc/gyn/cin-risk"));
       return;
     case "cervical_intelligence":
-      void WebBrowser.openBrowserAsync(webAppUrl("/calculators/cervical-intelligence"));
+      void WebBrowser.openBrowserAsync(webAppUrl("/tools/calc/gyn/cervical-intelligence"));
       return;
     case "fmf":
       navigation.navigate("FMFAssistant");

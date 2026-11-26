@@ -21,6 +21,11 @@ describe("gestationalAge", () => {
     assert.equal(gaDaysFromCrlTable(45), 80);
   });
 
+  it("rejects CRL below 5 mm for dating", () => {
+    assert.equal(gaDaysFromCrlTable(4), null);
+    assert.ok(gaDaysFromCrlTable(5) != null);
+  });
+
   it("MSD table (Medvedev 1.1 gaP50) returns 41 days for 10 mm (5+6)", () => {
     assert.equal(gaDaysFromMsdTable(10), 41);
   });

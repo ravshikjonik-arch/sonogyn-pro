@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { RuDateInput } from "@/components/ui/ru-date-input";
 import { cn } from "@/lib/utils/cn";
 import { formatRuDate, parseIsoDate } from "@/lib/utils/ru-date";
+import { CalculatorSourcesPanel } from "@/components/calculators/CalculatorSourcesPanel";
 import {
   datingFromAntenatalVisit,
   datingFromBiometryAndUsDate,
@@ -128,9 +129,16 @@ export function ObCalcHub({ initialTab = "lmp" }: { initialTab?: TabId }) {
     const mm = Number.parseFloat(crlMm.replace(",", "."));
     if (!us) return ["Проверьте дату УЗИ"];
     const dating = datingFromCrlAndUsDate(us, mm);
-    if (!dating) return ["КТР вне диапазона 2–84 мм"];
+    if (!dating) return ["КТР вне диапазона 5–84 мм (датировка I триместра)"];
     const atStudy = splitGaDays(dating.gaAtStudyDays);
     const gaToday = formatGaTodayLabel(dating);
+    const overFirstTrim =
+      dating.gaAtStudyDays > 98
+        ? [
+            "",
+            "Срок на дату УЗИ >14 нед.: датировку по КТР не используйте — перейдите на фетометрию (вкладка «Фетометрия»).",
+          ]
+        : [];
     return [
       `КТР ${mm} мм → срок на дату УЗИ: ${atStudy.weeks} нед. ${atStudy.days} дн.`,
       `ПДР: ${formatRuDate(dating.edd)}`,
@@ -138,6 +146,7 @@ export function ObCalcHub({ initialTab = "lmp" }: { initialTab?: TabId }) {
       gaToday.line,
       "",
       ...screeningHintsRu(gaToday.hintsGaDays),
+      ...overFirstTrim,
     ];
   }, [crlDateIso, crlMm]);
 
@@ -361,7 +370,7 @@ export function ObCalcHub({ initialTab = "lmp" }: { initialTab?: TabId }) {
           <Card>
             <CardHeader>
               <CardTitle className="text-base">Срок по КТР</CardTitle>
-              <CardDescription>I триместр · табличная интерполяция 2–84 мм</CardDescription>
+              <CardDescription>I триместр · табл. Медведева / Robinson, 5–84 мм</CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
               <label className="block text-sm font-semibold">
@@ -375,6 +384,7 @@ export function ObCalcHub({ initialTab = "lmp" }: { initialTab?: TabId }) {
               <ResultBox lines={crlResult} />
             </CardContent>
           </Card>
+          <CalculatorSourcesPanel calculatorId="ob-crl" />
           </div>
         ) : null}
 

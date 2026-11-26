@@ -90,7 +90,7 @@ export const CLINICAL_TOOLS: ClinicalTool[] = [
     roles: ["ultrasound", "gynecologist", "allied"],
     synonyms: ["m-эхо", "полость матки", "кровотечение", "менопауза", "постменопауза", "згт", "смер"],
     keywords: ["endometrium", "lining"],
-    webHref: "/calculators/endometrium",
+    webHref: "/tools/calc/gyn/endometrium",
     mobileAction: "endometrium",
   },
   {
@@ -112,7 +112,7 @@ export const CLINICAL_TOOLS: ClinicalTool[] = [
     roles: ["ultrasound", "obstetrician", "gynecologist"],
     synonyms: ["цервикальная длина", "шейка беременная", "укорочение шейки", "cl мм"],
     keywords: ["cervix", "cervical length"],
-    webHref: "/calculators/cervical-length",
+    webHref: "/tools/calc/ob/cervical-length",
     mobileAction: "cervical_length",
   },
   {
@@ -123,7 +123,7 @@ export const CLINICAL_TOOLS: ClinicalTool[] = [
     roles: ["gynecologist", "ultrasound"],
     synonyms: ["пролапс", "опущение", "выпадение", "тазовое дно", "поп-кью", "pop q", "pop-q"],
     keywords: ["prolapse", "popq"],
-    webHref: "/calculators/pop-q",
+    webHref: "/tools/calc/gyn/pop-q",
     mobileAction: "popq",
   },
   {
@@ -143,7 +143,7 @@ export const CLINICAL_TOOLS: ClinicalTool[] = [
       "шейка матки кольпо",
     ],
     keywords: ["colposcopy", "swede", "cervix"],
-    webHref: "/calculators/colposcopy",
+    webHref: "/tools/calc/gyn/colposcopy",
     mobileAction: "colposcopy",
   },
   {
@@ -154,7 +154,7 @@ export const CLINICAL_TOOLS: ClinicalTool[] = [
     roles: ["gynecologist", "ultrasound"],
     synonyms: ["cin risk", "cin1", "cin2", "cin3", "ais", "дисплазия", "ифцпк"],
     keywords: ["cin", "hpv", "bethesda", "ifcpc"],
-    webHref: "/calculators/cin-risk",
+    webHref: "/tools/calc/gyn/cin-risk",
     mobileAction: "cin_risk",
   },
   {
@@ -165,7 +165,7 @@ export const CLINICAL_TOOLS: ClinicalTool[] = [
     roles: ["gynecologist", "ultrasound"],
     synonyms: ["cpi", "cervical intelligence", "патология шейки", "cds шейка"],
     keywords: ["cervical", "cpi", "cds", "colposcopy"],
-    webHref: "/calculators/cervical-intelligence",
+    webHref: "/tools/calc/gyn/cervical-intelligence",
     mobileAction: "cervical_intelligence",
   },
   {
@@ -230,7 +230,7 @@ export const CLINICAL_TOOLS: ClinicalTool[] = [
     roles: ["ultrasound"],
     synonyms: ["эластография", "swe", "strain", "жёсткость"],
     keywords: ["elastography"],
-    webHref: "/calculators/elastography",
+    webHref: "/tools/calc/gyn/elastography",
     mobileAction: "elastography",
   },
   {
@@ -265,7 +265,7 @@ export const CLINICAL_TOOLS: ClinicalTool[] = [
       "негеле",
     ],
     keywords: ["pregnancy dating", "edd", "ga", "obstetric calculator"],
-    webHref: "/calculators/ob",
+    webHref: "/tools/calc/ob",
     mobileAction: "ga_lmp",
   },
   {
@@ -331,7 +331,7 @@ export const CLINICAL_TOOLS: ClinicalTool[] = [
     roles: ["obstetrician", "gynecologist", "ultrasound"],
     synonyms: ["пмп", "пдр", "менструация", "срок беременности", "oblcalc"],
     keywords: ["lmp", "edd"],
-    webHref: "/calculators/ob?tab=lmp",
+    webHref: "/tools/calc/ob?tab=lmp",
     mobileAction: "ga_lmp",
   },
   {
@@ -342,7 +342,7 @@ export const CLINICAL_TOOLS: ClinicalTool[] = [
     roles: ["obstetrician", "ultrasound"],
     synonyms: ["срок узи", "гестационный возраст"],
     keywords: ["ga ultrasound"],
-    webHref: "/calculators/ob?tab=us",
+    webHref: "/tools/calc/ob?tab=us",
     mobileAction: "ga_us",
   },
   {
@@ -353,7 +353,7 @@ export const CLINICAL_TOOLS: ClinicalTool[] = [
     roles: ["obstetrician", "ultrasound"],
     synonyms: ["ктр", "crl", "копчико-теменной"],
     keywords: ["crown rump"],
-    webHref: "/calculators/ob?tab=crl",
+    webHref: "/tools/calc/ob?tab=crl",
     mobileAction: "ga_crl",
   },
   {
@@ -364,7 +364,7 @@ export const CLINICAL_TOOLS: ClinicalTool[] = [
     roles: ["obstetrician", "ultrasound"],
     synonyms: ["bpd", "фетометрия", "биометрия плода"],
     keywords: ["biometry dating"],
-    webHref: "/calculators/ob?tab=feto",
+    webHref: "/tools/calc/ob?tab=feto",
     mobileAction: "ga_us",
   },
   {
@@ -375,7 +375,7 @@ export const CLINICAL_TOOLS: ClinicalTool[] = [
     roles: ["obstetrician", "gynecologist"],
     synonyms: ["эко", "перенос", "овуляция", "ivf"],
     keywords: ["embryo transfer"],
-    webHref: "/calculators/ob?tab=ivf",
+    webHref: "/tools/calc/ob?tab=ivf",
     mobileAction: "ga_us",
   },
   {

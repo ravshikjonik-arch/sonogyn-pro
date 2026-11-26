@@ -10,7 +10,7 @@
 
 /** CRL (mm) → gestational age in days (Robinson-Fleming approximation). */
 export function gaDaysFromCrlMm(crlMm: number): number | null {
-  if (!Number.isFinite(crlMm) || crlMm < 2 || crlMm > 84) return null;
+  if (!Number.isFinite(crlMm) || crlMm < 5 || crlMm > 84) return null;
   return Math.round(8.052 * Math.sqrt(crlMm) + 23.73);
 }
 
@@ -34,7 +34,7 @@ function interpolateInverseCrlToGa(crlMm: number, table: [number, number][]): nu
 
 /** Tabulated CRL (mm) → GA days — Medvedev 1.2 p50; Robinson fallback at edges. */
 export function gaDaysFromCrlTable(crlMm: number): number | null {
-  if (!Number.isFinite(crlMm) || crlMm < 2 || crlMm > 84) return null;
+  if (!Number.isFinite(crlMm) || crlMm < 5 || crlMm > 84) return null;
   if (crlMm >= crlMedvedev12.minCrl && crlMm <= crlMedvedev12.maxCrl) {
     return interpolateInverseCrlToGa(crlMm, CRL_MEDVEDEV_P50);
   }
