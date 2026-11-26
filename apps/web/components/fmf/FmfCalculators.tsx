@@ -20,6 +20,8 @@ import {
   fwZ,
   gaFromCrl,
   gaFromHc,
+  expectedMcaPsv,
+  mcaPsvZ,
   mcaZ,
   ntCentile,
   ntDelta,
@@ -211,51 +213,62 @@ export const FMF_TOOLS: Tool[] = [
   },
 ];
 
+const FMF_STAGES = [
+  { n: 1, title: "Оценка", status: "6 калькуляторов · fmf-core" },
+  { n: 2, title: "Скрининг риска", status: "трисомии учебно · ПР → CL" },
+  { n: 3, title: "Поздние риски", status: "ПЭ · ЗРП · ГСД · анемия" },
+] as const;
+
 type RiskPlaceholder = {
   id: string;
   title: string;
   stage: string;
   desc: string;
   href?: string;
+  linkLabel?: string;
 };
 
+/** Маршруты этапов 2–3: учебные/ссылочные + встроенный калькулятор анемии ниже. */
 export const RISK_PLACEHOLDERS: RiskPlaceholder[] = [
   {
     id: "trisomies",
     title: "Трисомии",
-    stage: "УЧЕБНО",
-    desc: "Калькулятор 11–13 нед: априорный риск × ОП (упрощённые коэффициенты). Полные модели Wright/Nicolaides — этап 2.",
+    stage: "ЭТАП 2",
+    desc: "Учебная модель: априорный риск × ОП (не лицензированный алгоритм FMF). Полный clinical risk engine — только сертифицированный софт FMF.",
     href: "/tools/refs/fmf-11-13#fmf-edu-calc",
+    linkLabel: "Учебный калькулятор 11–13 →",
   },
   {
     id: "ptb",
     title: "Преждевременные роды · анамнез и шейка",
     stage: "ЭТАП 2",
-    desc: "Анамнез; длина шейки матки (связка с калькулятором длины шейки в кабинете)",
+    desc: "Длина шейки матки и клинический контекст (ISUOG / RCOG).",
+    href: "/tools/calc/ob/cervical-length",
+    linkLabel: "Калькулятор длины шейки →",
   },
   {
     id: "pe",
     title: "Преэклампсия",
     stage: "ЭТАП 3",
-    desc: "САД + PI МА + PlGF (Poon/Wright, 2012–2013) — нужен лабораторный партнёр",
+    desc: "САД, PI маточных артерий, PlGF — модуль FMF I триместра (учебные перцентили).",
+    href: "/ai/consultants/fmf?section=first",
+    linkLabel: "FMF · I скрининговый срок →",
   },
   {
     id: "sga",
     title: "Маловесность для срока (ЗРП)",
     stage: "ЭТАП 3",
-    desc: "Модель ЗРП FMF + центили роста 2018",
+    desc: "ПВМ и центили по кривым FMF 2018 (калькулятор роста, этап 1).",
+    href: "/tools/calc/fmf",
+    linkLabel: "Калькулятор роста плода →",
   },
   {
     id: "gdm",
     title: "Гестационный сахарный диабет",
     stage: "ЭТАП 3",
-    desc: "Модель ГСД FMF",
-  },
-  {
-    id: "anemia",
-    title: "Анемия плода",
-    stage: "ЭТАП 3",
-    desc: "ПСВ СМА >1,5 MoM (Mari 2000) — расчёт уже в модуле платформы",
+    desc: "Справочник тактики и медикаментов беременности; риск-модель FMF — отдельная лицензия.",
+    href: "/tools/calc/ob/pregnancy-medications",
+    linkLabel: "Медикаменты при беременности →",
   },
 ];
 
@@ -276,6 +289,81 @@ function parseInputs(
   return out;
 }
 
+function FmfAnemiaRiskCard() {
+  const [weeks, setWeeks] = useState("24");
+  const [psv, setPsv] = useState("");
+  const [touched, setTouched] = useState(false);
+  const w = Number(weeks.replace(",", "."));
+  const v = Number(psv.replace(",", "."));
+  const z = Number.isFinite(w) && Number.isFinite(v) && v > 0 ? mcaPsvZ(v, w) : null;
+  const median = Number.isFinite(w) ? expectedMcaPsv(w) : null;
+  const mom = median && Number.isFinite(v) && v > 0 ? v / median : null;
+  const flag = mom !== null && mom > 1.5;
+
+  return (
+    <Card className="border-[var(--clinical-primary)]/30 bg-[var(--clinical-surface)]">
+      <CardHeader className="pb-2">
+        <RiskStageBadge stage="ЭТАП 3 · калькулятор" />
+        <CardTitle className="text-base">Анемия плода (ПСВ СМА)</CardTitle>
+        <CardDescription>Mari et al. 2000 · порог MoM &gt;1,5 — справочно, не диагноз.</CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        <div className="grid gap-3 sm:grid-cols-2">
+          <div className="space-y-1.5">
+            <label htmlFor="fmf-anemia-w" className="text-sm font-medium">
+              Срок, недель (18–38)
+            </label>
+            <Input
+              id="fmf-anemia-w"
+              inputMode="decimal"
+              value={weeks}
+              onChange={(e) => setWeeks(e.target.value)}
+            />
+          </div>
+          <div className="space-y-1.5">
+            <label htmlFor="fmf-anemia-psv" className="text-sm font-medium">
+              ПСВ СМА, см/с
+            </label>
+            <Input
+              id="fmf-anemia-psv"
+              inputMode="decimal"
+              value={psv}
+              onChange={(e) => setPsv(e.target.value)}
+            />
+          </div>
+        </div>
+        <Button type="button" size="sm" onClick={() => setTouched(true)}>
+          Рассчитать
+        </Button>
+        {touched && z !== null && mom !== null ? (
+          <ul className="grid gap-2 sm:grid-cols-2">
+            <li className="rounded-lg border border-[var(--clinical-border)] px-3 py-2 text-sm">
+              Медиана ПСВ: {f(median, 1)} см/с
+            </li>
+            <li className="rounded-lg border border-[var(--clinical-border)] px-3 py-2 text-sm">
+              MoM: {f(mom, 2)}
+            </li>
+            <li className="rounded-lg border border-[var(--clinical-border)] px-3 py-2 text-sm">
+              z-оценка: {f(z, 2)}
+            </li>
+            <li
+              className={`rounded-lg border px-3 py-2 text-sm font-semibold ${
+                flag
+                  ? "border-[var(--clinical-danger,#dc2626)]/50 text-[var(--clinical-danger,#dc2626)]"
+                  : "border-[var(--clinical-border)]"
+              }`}
+            >
+              {flag ? "MoM > 1,5 — подозрение на анемию плода" : "MoM ≤ 1,5"}
+            </li>
+          </ul>
+        ) : touched ? (
+          <p className="text-sm text-amber-600 dark:text-amber-400">Проверьте срок и ПСВ.</p>
+        ) : null}
+      </CardContent>
+    </Card>
+  );
+}
+
 export function FmfCalculators() {
   const assess = useMemo(() => FMF_TOOLS.filter((t) => t.group === "assess"), []);
   const [activeId, setActiveId] = useState(assess[0]?.id ?? "dating");
@@ -291,9 +379,22 @@ export function FmfCalculators() {
       <div>
         <h2 className="text-xl font-semibold text-[var(--clinical-foreground)]">Калькуляторы FMF</h2>
         <p className="mt-1 text-sm text-[var(--clinical-foreground-muted)]">
-          Оценка и тактика (этап 1) · предикция риска — в разработке
+          Три этапа платформы: оценка (публикации) → скрининг риска → поздние исходы.
         </p>
+        <ol className="mt-3 flex flex-wrap gap-2">
+          {FMF_STAGES.map((s) => (
+            <li
+              key={s.n}
+              className="rounded-lg border border-[var(--clinical-border)] bg-[var(--clinical-surface-elevated)] px-3 py-2 text-xs"
+            >
+              <span className="font-bold text-[var(--clinical-primary-deep)]">Этап {s.n}.</span> {s.title}
+              <span className="mt-0.5 block text-[var(--clinical-foreground-muted)]">{s.status}</span>
+            </li>
+          ))}
+        </ol>
       </div>
+
+      <p className="text-sm font-semibold text-[var(--clinical-foreground)]">Этап 1 · оценка и тактика</p>
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {assess.map((tool) => (
@@ -387,18 +488,17 @@ export function FmfCalculators() {
       ) : null}
 
       <div>
-        <h3 className="mb-3 text-base font-medium text-[var(--clinical-foreground)]">
-          Предикция риска
+        <h3 className="mb-1 text-base font-medium text-[var(--clinical-foreground)]">
+          Этапы 2–3 · предикция и маршрутизация
         </h3>
+        <p className="mb-3 text-xs text-[var(--clinical-foreground-muted)]">
+          Где нет лицензированного risk engine FMF — учебные модели и ссылки на инструменты платформы.
+        </p>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {RISK_PLACEHOLDERS.map((item) => (
             <Card
               key={item.id}
-              className={
-                item.href
-                  ? "border-[var(--clinical-primary)]/40 bg-[var(--clinical-surface)]"
-                  : "border-dashed border-[var(--clinical-border)] bg-[var(--clinical-surface)] opacity-90"
-              }
+              className="border-[var(--clinical-primary)]/40 bg-[var(--clinical-surface)]"
             >
               <CardHeader className="pb-2">
                 <RiskStageBadge stage={item.stage} />
@@ -409,12 +509,15 @@ export function FmfCalculators() {
                     href={item.href}
                     className="text-sm font-medium text-[var(--clinical-primary)] underline underline-offset-2"
                   >
-                    Открыть учебный калькулятор →
+                    {item.linkLabel ?? "Открыть →"}
                   </Link>
                 ) : null}
               </CardHeader>
             </Card>
           ))}
+        </div>
+        <div className="mt-4">
+          <FmfAnemiaRiskCard />
         </div>
       </div>
     </section>
@@ -427,8 +530,4 @@ function RiskStageBadge({ stage }: { stage: string }) {
       {stage}
     </Badge>
   );
-}
-
-function motionTeachGrid() {
-  return null;
 }
