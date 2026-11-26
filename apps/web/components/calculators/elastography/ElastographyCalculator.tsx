@@ -5,7 +5,7 @@ import { useTransition } from "react";
 import { toast } from "sonner";
 
 import { saveCalculatorEntry } from "@/app/actions/calculator-actions";
-import { useElastographyWeb } from "@/components/tools/calc/gyn/elastography/useElastographyWeb";
+import { useElastographyWeb } from "@/components/calculators/elastography/useElastographyWeb";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -15,7 +15,7 @@ import {
   METHOD_LABELS,
   ORGAN_LABELS,
   ORGAN_METHODS,
-} from "@/lib/tools/calc/gyn/elastography/fieldDefinitions";
+} from "@/lib/calculators/elastography/fieldDefinitions";
 import { RISK_COLORS } from "@repo/medical-calculations/elastography";
 
 const STEP_LABELS = {

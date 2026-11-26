@@ -1,4 +1,4 @@
-import { ElastographyCalculator } from "@/components/tools/calc/gyn/elastography/ElastographyCalculator";
+import { ElastographyCalculator } from "@/components/calculators/elastography/ElastographyCalculator";
 import { CalculatorLiteraturePanel } from "@/components/pubmed/CalculatorLiteraturePanel";
 import { calculatorPageMetadata } from "@/lib/seo/calculator-seo-registry";
 

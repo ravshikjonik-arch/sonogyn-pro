@@ -1,12 +1,12 @@
-import { ObCalcHub } from "@/components/tools/calc/ob/ObCalcHub";
-import { ObCalcMenu } from "@/components/tools/calc/ob/ObCalcMenu";
+import { ObCalcHub } from "@/components/calculators/ob/ObCalcHub";
+import { ObCalcMenu } from "@/components/calculators/ob/ObCalcMenu";
 
 import { calculatorPageMetadata } from "@/lib/seo/calculator-seo-registry";
 
 /** Акушерский калькулятор: меню или вкладка ?tab= (ПМП, УЗИ, декрет…). */
 export const metadata = calculatorPageMetadata("/tools/calc/ob");
 
-const TABS = ["lmp", "us", "crl", "msd", "ivf", "feto", "dekret", "edd", "movement", "antenatal"] as const;
+const TABS = ["lmp", "us", "crl", "msd", "ivf", "feto", "dekret", "edd", "movement", "antenatal", "afi"] as const;
 type TabId = (typeof TABS)[number];
 
 function parseTab(value?: string): TabId {

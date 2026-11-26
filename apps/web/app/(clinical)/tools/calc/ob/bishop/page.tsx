@@ -1,4 +1,4 @@
-import { BishopCalculator } from "@/components/tools/calc/obstetric/BishopCalculator";
+import { BishopCalculator } from "@/components/calculators/obstetric/BishopCalculator";
 import { CalculatorLandingShell } from "@/components/seo/CalculatorLandingShell";
 import { getCalculatorLandingContent } from "@/lib/seo/calculator-landing-content";
 import { calculatorPageMetadata } from "@/lib/seo/calculator-seo-registry";

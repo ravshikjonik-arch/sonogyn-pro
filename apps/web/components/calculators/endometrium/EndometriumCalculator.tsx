@@ -25,7 +25,7 @@ import {
 import {
   ENDOMETRIUM_ATLAS,
 } from "@repo/clinical-reference";
-import { EndometriumAtlasCard } from "@/components/tools/calc/gyn/endometrium/EndometriumAtlasCard";
+import { EndometriumAtlasCard } from "@/components/calculators/endometrium/EndometriumAtlasCard";
 import { plainTextToDocumentSpec } from "@/lib/reporting/document-spec-builders";
 import { cn } from "@/lib/utils/cn";
 

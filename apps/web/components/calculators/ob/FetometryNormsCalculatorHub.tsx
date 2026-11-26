@@ -21,7 +21,7 @@ function FieldLabel({ htmlFor, children }: { htmlFor?: string; children: ReactNo
     </label>
   );
 }
-import { NomogramDecisionWizard } from "@/components/tools/calc/ob/NomogramDecisionWizard";
+import { NomogramDecisionWizard } from "@/components/calculators/ob/NomogramDecisionWizard";
 import {
   ARCHIVE_CALCULATOR_DISCLAIMER,
   evaluateArchiveNorm,

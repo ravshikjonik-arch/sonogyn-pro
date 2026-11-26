@@ -10,16 +10,16 @@ import {
   ColposcopyCervixDiagram,
   type AnnotationColor,
   type CervixAnnotation,
-} from "@/components/tools/calc/gyn/colposcopy/ColposcopyCervixDiagram";
-import { ColposcopyExportPanel } from "@/components/tools/calc/gyn/colposcopy/ColposcopyExportPanel";
+} from "@/components/calculators/colposcopy/ColposcopyCervixDiagram";
+import { ColposcopyExportPanel } from "@/components/calculators/colposcopy/ColposcopyExportPanel";
 import {
   ColposcopyHistoryPanel,
   loadColposcopyHistory,
   saveColposcopyHistory,
-} from "@/components/tools/calc/gyn/colposcopy/ColposcopyHistoryPanel";
-import { ColposcopyProtocolSection } from "@/components/tools/calc/gyn/colposcopy/ColposcopyProtocolSection";
-import { ColposcopyResultPanel } from "@/components/tools/calc/gyn/colposcopy/ColposcopyResultPanel";
-import { SwedeScoreForm } from "@/components/tools/calc/gyn/colposcopy/SwedeScoreForm";
+} from "@/components/calculators/colposcopy/ColposcopyHistoryPanel";
+import { ColposcopyProtocolSection } from "@/components/calculators/colposcopy/ColposcopyProtocolSection";
+import { ColposcopyResultPanel } from "@/components/calculators/colposcopy/ColposcopyResultPanel";
+import { SwedeScoreForm } from "@/components/calculators/colposcopy/SwedeScoreForm";
 import { CalcChip, CalcStepCard } from "@/components/calculators/shared/calc-ui";
 import { Button } from "@/components/ui/button";
 import {
