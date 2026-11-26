@@ -5,7 +5,7 @@ import type {
   EvidenceSearchQuery,
   ProviderSearchResult,
   RetrievalConfig,
-} from "../types.js";
+} from "../types";
 
 export type AdapterContext = {
   config: RetrievalConfig;

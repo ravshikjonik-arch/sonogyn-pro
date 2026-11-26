@@ -1,10 +1,10 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
-import { rcogAdapter } from "../adapters/rcog.adapter.js";
-import { providersForCorpusMode, shelvesForCorpusMode } from "../corpus-mode.js";
-import { createMemoryCacheStore } from "../infra/cache.js";
-import type { RetrievalConfig } from "../types.js";
+import { rcogAdapter } from "../adapters/rcog.adapter";
+import { providersForCorpusMode, shelvesForCorpusMode } from "../corpus-mode";
+import { createMemoryCacheStore } from "../infra/cache";
+import type { RetrievalConfig } from "../types";
 
 describe("rcog adapter + corpus", () => {
   it("maps rcog corpus to rcog provider only", () => {

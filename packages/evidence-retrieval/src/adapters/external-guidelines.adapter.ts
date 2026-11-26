@@ -1,8 +1,8 @@
 import seedData from "../../data/external-guidelines.seed.json";
 
-import { buildEvidenceRecord } from "../normalizer.js";
-import type { EvidenceProviderId, EvidenceSearchQuery, ExternalGuidelineRecord } from "../types.js";
-import { adapterResult, limitRecords, type AdapterContext, type EvidenceAdapter } from "./types.js";
+import { buildEvidenceRecord } from "../normalizer";
+import type { EvidenceProviderId, EvidenceSearchQuery, ExternalGuidelineRecord } from "../types";
+import { adapterResult, limitRecords, type AdapterContext, type EvidenceAdapter } from "./types";
 
 const SEED_ROWS: ExternalGuidelineRecord[] = seedData.map((row) => ({
   source: row.source as ExternalGuidelineRecord["source"],

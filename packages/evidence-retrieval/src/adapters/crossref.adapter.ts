@@ -1,6 +1,6 @@
-import { buildEvidenceRecord } from "../normalizer.js";
-import type { EvidenceRecord } from "../types.js";
-import type { AdapterContext } from "./types.js";
+import { buildEvidenceRecord } from "../normalizer";
+import type { EvidenceRecord } from "../types";
+import type { AdapterContext } from "./types";
 
 /** Enrich records missing DOI via CrossRef (polite pool). */
 export async function enrichRecordsWithCrossref(

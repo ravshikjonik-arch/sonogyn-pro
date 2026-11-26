@@ -1,12 +1,12 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
-import { createMemoryCacheStore } from "../infra/cache.js";
-import { buildOutboundSourceLinks } from "../outbound-links.js";
-import { grlsAdapter } from "../adapters/grls.adapter.js";
-import { epistemonikosAdapter } from "../adapters/epistemonikos.adapter.js";
-import { roszdravnadzorAdapter } from "../adapters/roszdravnadzor.adapter.js";
-import { listWhatsNewFeed } from "../whats-new.js";
+import { createMemoryCacheStore } from "../infra/cache";
+import { buildOutboundSourceLinks } from "../outbound-links";
+import { grlsAdapter } from "../adapters/grls.adapter";
+import { epistemonikosAdapter } from "../adapters/epistemonikos.adapter";
+import { roszdravnadzorAdapter } from "../adapters/roszdravnadzor.adapter";
+import { listWhatsNewFeed } from "../whats-new";
 
 describe("buildOutboundSourceLinks", () => {
   it("builds DOI and title outbound links", () => {

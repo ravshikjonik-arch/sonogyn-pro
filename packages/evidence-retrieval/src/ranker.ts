@@ -1,4 +1,4 @@
-import type { EvidenceRecord, EvidenceRecordType } from "./types.js";
+import type { EvidenceRecord, EvidenceRecordType } from "./types";
 
 const TYPE_WEIGHT: Record<EvidenceRecordType, number> = {
   meta_analysis: 1,

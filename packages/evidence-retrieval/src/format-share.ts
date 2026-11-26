@@ -1,5 +1,5 @@
-import { EVIDENCE_CORPUS_MODE_LABELS } from "./corpus-mode.js";
-import type { AssistantAnswer, EvidenceRecord } from "./types.js";
+import { EVIDENCE_CORPUS_MODE_LABELS } from "./corpus-mode";
+import type { AssistantAnswer, EvidenceRecord } from "./types";
 
 /** Plain-text card for clipboard / Share (IQDOC-style “ready result”). */
 export function formatEvidenceAnswerForClipboard(answer: AssistantAnswer): string {

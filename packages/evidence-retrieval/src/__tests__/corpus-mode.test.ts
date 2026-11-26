@@ -6,10 +6,10 @@ import {
   isRfCorpusMode,
   providersForCorpusMode,
   shelvesForCorpusMode,
-} from "../corpus-mode.js";
-import { formatEvidenceAnswerForClipboard } from "../format-share.js";
-import { pickGuidelineCitation } from "../guideline-citation.js";
-import type { AssistantAnswer } from "../types.js";
+} from "../corpus-mode";
+import { formatEvidenceAnswerForClipboard } from "../format-share";
+import { pickGuidelineCitation } from "../guideline-citation";
+import type { AssistantAnswer } from "../types";
 
 describe("corpus mode", () => {
   it("maps RF modes to kr_mz_rf and rf_regulation providers", () => {
