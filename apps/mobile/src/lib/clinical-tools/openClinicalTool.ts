@@ -175,6 +175,24 @@ export function openClinicalToolAction(navigation: ClinicalToolNav, action: Mobi
     case "cervix_pathology":
       navigation.navigate("CervixCytologyModule");
       return;
+    case "consensus_hub":
+      void WebBrowser.openBrowserAsync(webAppUrl("/tools/consensus"));
+      return;
+    case "fmf_hub":
+      void WebBrowser.openBrowserAsync(webAppUrl("/tools/fmf"));
+      return;
+    case "acr_rads_hub":
+      void WebBrowser.openBrowserAsync(webAppUrl("/tools/rads"));
+      return;
+    case "figo_uterus_hub":
+      void WebBrowser.openBrowserAsync(webAppUrl("/tools/figo-uterus"));
+      return;
+    case "isuog_ob_hub":
+      void WebBrowser.openBrowserAsync(webAppUrl("/tools/isuog-ob"));
+      return;
+    case "gyn_us_morphology_hub":
+      void WebBrowser.openBrowserAsync(webAppUrl("/tools/gyn-us-morphology"));
+      return;
     default:
       return;
   }

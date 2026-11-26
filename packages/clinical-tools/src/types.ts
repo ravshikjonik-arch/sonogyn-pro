@@ -57,7 +57,13 @@ export type MobileToolAction =
   | "medvedev"
   | "evidence_assistant"
   | "cervix_pathology"
-  | "ambulatory_intake";
+  | "ambulatory_intake"
+  | "consensus_hub"
+  | "fmf_hub"
+  | "acr_rads_hub"
+  | "figo_uterus_hub"
+  | "isuog_ob_hub"
+  | "gyn_us_morphology_hub";
 
 export type ClinicalTool = {
   id: string;

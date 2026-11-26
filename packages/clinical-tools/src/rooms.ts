@@ -269,11 +269,161 @@ export const FIGO_UTERUS_ROOM: ClinicalRoom = {
   ],
 };
 
+/** ISUOG · акушерское УЗИ, фетометрия, смежные FIGO/WHO справочно. */
+export const ISUOG_OB_ROOM: ClinicalRoom = {
+  id: "isuog-ob",
+  title: "ISUOG · акушерское УЗИ",
+  description:
+    "Комната: гайдлайны ISUOG, фетометрия (Hadlock), Bishop, связь с FMF. INTERGROWTH — в плане (реестр).",
+  href: "/tools/isuog-ob",
+  primaryHref: "/tools/refs/isuog-guidelines",
+  domain: "obstetrics",
+  catalogPrimaryId: "isuog-ob-hub",
+  children: [
+    {
+      id: "isuog-guidelines",
+      title: "Гайдлайны ISUOG",
+      description: "Полка «Международные» · practice guidelines",
+      href: "/tools/refs/isuog-guidelines",
+      kind: "reference",
+      primary: true,
+      badge: "ISUOG",
+      mobileAction: "isuog_ob_hub",
+    },
+    {
+      id: "fetometry",
+      title: "Фетометрия",
+      description: "Калиперы и нормы I–III триместра",
+      href: "/tools/calc/ob/fetometry",
+      kind: "calculator",
+      badge: "Таблицы",
+      mobileAction: "fetometry_panel",
+    },
+    {
+      id: "fetal-weight",
+      title: "Масса плода (Hadlock)",
+      description: "EFW и альтернативные формулы",
+      href: "/tools/calc/ob/fetal-weight",
+      kind: "calculator",
+    },
+    {
+      id: "bishop",
+      title: "Шкала Bishop",
+      description: "Готовность шейки матки",
+      href: "/tools/calc/ob/bishop",
+      kind: "calculator",
+    },
+    {
+      id: "fmf-link",
+      title: "FMF · комната",
+      description: "Скрининг 11–13, допплер, этапы риска",
+      href: "/tools/fmf",
+      kind: "reference",
+      badge: "FMF",
+      mobileAction: "fmf_hub",
+    },
+    {
+      id: "biometry-formulas",
+      title: "Формулы фетометрии",
+      description: "Справочник расчётов и источников",
+      href: "/tools/refs/fetal-biometry-formulas",
+      kind: "education",
+    },
+    {
+      id: "ob-calc",
+      title: "Акушерский калькулятор",
+      description: "Срок, CL, VBAC и др.",
+      href: "/tools/calc/ob",
+      kind: "calculator",
+    },
+    {
+      id: "consensus",
+      title: "Каталог стандартов",
+      description: "Robson, FIGO PPH, INTERGROWTH — статусы",
+      href: "/tools/consensus#room-isuog-ob",
+      kind: "reference",
+    },
+  ],
+};
+
+/** IOTA/IETA/IDEA · морфология гин УЗИ. */
+export const GYN_US_MORPHOLOGY_ROOM: ClinicalRoom = {
+  id: "gyn-us-morphology",
+  title: "Гин УЗИ · морфология",
+  description:
+    "IETA (эндометрий), IDEA (карта эндометриоза), термины IOTA 2026, эластография. Enzian/rASRM — полка знаний.",
+  href: "/tools/gyn-us-morphology",
+  primaryHref: "/tools/calc/gyn/endometrium",
+  domain: "gynecology",
+  catalogPrimaryId: "gyn-us-morphology-hub",
+  children: [
+    {
+      id: "endometrium",
+      title: "Эндометрий · IETA",
+      description: "ISUOG / КР РФ · калькулятор",
+      href: "/tools/calc/gyn/endometrium",
+      kind: "calculator",
+      primary: true,
+      badge: "IETA",
+      mobileAction: "gyn_us_morphology_hub",
+    },
+    {
+      id: "idea-map",
+      title: "Глубокий эндометриоз · IDEA",
+      description: "Карта по сегментам",
+      href: "/tools/mapping/endometriosis",
+      kind: "mapping",
+      badge: "IDEA",
+    },
+    {
+      id: "iota-terms",
+      title: "IOTA 2026 · термины",
+      description: "Консенсусные определения придатков",
+      href: "/tools/refs/iota-terms-2026",
+      kind: "education",
+      badge: "IOTA",
+    },
+    {
+      id: "ten-steps",
+      title: "10 шагов УЗИ малого таза",
+      description: "Структура осмотра",
+      href: "/tools/calc/gyn/ultrasound-10-steps",
+      kind: "reference",
+    },
+    {
+      id: "elastography",
+      title: "Эластография",
+      description: "Шейка матки · придатки — adjunct",
+      href: "/tools/calc/gyn/elastography",
+      kind: "calculator",
+      mobileAction: "elastography",
+    },
+    {
+      id: "orads-link",
+      title: "O-RADS US · комната",
+      description: "Придатки — ACR v2022",
+      href: "/tools/o-rads",
+      kind: "reference",
+      badge: "O-RADS",
+      mobileAction: "orads_hub",
+    },
+    {
+      id: "consensus",
+      title: "Каталог стандартов",
+      description: "GI-RADS, Enzian, rASRM — corpus / план",
+      href: "/tools/consensus#room-gyn-us-morphology",
+      kind: "reference",
+    },
+  ],
+};
+
 export const CLINICAL_ROOMS: ClinicalRoom[] = [
   ORADS_US_ROOM,
   FMF_ROOM,
   ACR_RADS_ROOM,
   FIGO_UTERUS_ROOM,
+  ISUOG_OB_ROOM,
+  GYN_US_MORPHOLOGY_ROOM,
 ];
 
 export function getClinicalRoom(id: string): ClinicalRoom | undefined {

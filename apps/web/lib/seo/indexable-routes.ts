@@ -51,6 +51,8 @@ const HUB_ROUTES: SitemapRow[] = [
   { path: "/tools/fmf", priority: 0.85, changeFrequency: "weekly" },
   { path: "/tools/rads", priority: 0.85, changeFrequency: "weekly" },
   { path: "/tools/figo-uterus", priority: 0.8, changeFrequency: "weekly" },
+  { path: "/tools/isuog-ob", priority: 0.8, changeFrequency: "weekly" },
+  { path: "/tools/gyn-us-morphology", priority: 0.8, changeFrequency: "weekly" },
   { path: "/tools/mapping", priority: 0.75, changeFrequency: "weekly" },
   { path: "/cases", priority: 0.7, changeFrequency: "daily" },
   { path: "/feed", priority: 0.55, changeFrequency: "daily" },

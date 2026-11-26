@@ -211,6 +211,21 @@ export default function ToolsScreen({ navigation, route }: ToolsTabScreenProps) 
           <Pressable style={styles.domainChip} onPress={() => openClinicalToolAction(navigation, "orads_hub")}>
             <Text style={styles.domainChipText}>O-RADS US</Text>
           </Pressable>
+          <Pressable style={styles.domainChip} onPress={() => openClinicalToolAction(navigation, "fmf_hub")}>
+            <Text style={styles.domainChipText}>FMF</Text>
+          </Pressable>
+          <Pressable style={styles.domainChip} onPress={() => openClinicalToolAction(navigation, "acr_rads_hub")}>
+            <Text style={styles.domainChipText}>ACR RADS</Text>
+          </Pressable>
+          <Pressable style={styles.domainChip} onPress={() => openClinicalToolAction(navigation, "consensus_hub")}>
+            <Text style={styles.domainChipText}>Стандарты</Text>
+          </Pressable>
+          <Pressable style={styles.domainChip} onPress={() => openClinicalToolAction(navigation, "isuog_ob_hub")}>
+            <Text style={styles.domainChipText}>ISUOG</Text>
+          </Pressable>
+          <Pressable style={styles.domainChip} onPress={() => openClinicalToolAction(navigation, "gyn_us_morphology_hub")}>
+            <Text style={styles.domainChipText}>Гин морф.</Text>
+          </Pressable>
           <Pressable style={styles.domainChip} onPress={() => void openWebPath("/tools/pharmacy")}>
             <Text style={styles.domainChipText}>Аптека</Text>
           </Pressable>

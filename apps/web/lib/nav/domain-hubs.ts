@@ -4,6 +4,8 @@ import {
   ACR_RADS_ROOM,
   FMF_ROOM,
   FIGO_UTERUS_ROOM,
+  GYN_US_MORPHOLOGY_ROOM,
+  ISUOG_OB_ROOM,
   ORADS_US_ROOM,
   type ClinicalRoom,
   type ClinicalRoomChildKind,
@@ -122,6 +124,12 @@ export const OBSTETRICS_GROUPS: DomainHubGroup[] = [
     title: "Расчёты",
     cards: [
       {
+        href: "/tools/isuog-ob",
+        title: "ISUOG · акушерское УЗИ",
+        description: "Комната: гайдлайны, фетометрия, Bishop, FMF",
+        badge: "ISUOG",
+      },
+      {
         href: "/tools/calc/ob",
         title: "Акушерский калькулятор",
         description: "Срок, КТР, Bishop, VBAC, длина шейки, гинекологические риски",
@@ -232,6 +240,12 @@ export const GYNECOLOGY_GROUPS: DomainHubGroup[] = [
     title: "Придатки и матка",
     cards: [
       {
+        href: "/tools/gyn-us-morphology",
+        title: "Гин УЗИ · морфология",
+        description: "IETA, IDEA, IOTA 2026, эластография",
+        badge: "IOTA",
+      },
+      {
         href: "/tools/o-rads",
         title: "O-RADS US",
         description: "Комната придатков: calc · IOTA · учёба · протокол",
@@ -340,6 +354,16 @@ export const ACR_RADS_HUB_GROUPS: DomainHubGroup[] = roomHubGroups(ACR_RADS_ROOM
 export const FIGO_UTERUS_HUB_GROUPS: DomainHubGroup[] = roomHubGroups(FIGO_UTERUS_ROOM, [
   { title: "FIGO и приём", kinds: ["mapping", "calculator"] },
   { title: "Учёба", kinds: ["education", "reference"] },
+]);
+
+export const ISUOG_OB_HUB_GROUPS: DomainHubGroup[] = roomHubGroups(ISUOG_OB_ROOM, [
+  { title: "Гайдлайны и фетометрия", kinds: ["reference", "calculator", "education"] },
+  { title: "Связанные комнаты", kinds: ["reference"] },
+]);
+
+export const GYN_US_MORPHOLOGY_HUB_GROUPS: DomainHubGroup[] = roomHubGroups(GYN_US_MORPHOLOGY_ROOM, [
+  { title: "На приёме", kinds: ["calculator", "mapping"] },
+  { title: "Термины и стандарты", kinds: ["education", "reference"] },
 ]);
 
 export const CALCULATORS_HUB: DomainHubCard[] = [
