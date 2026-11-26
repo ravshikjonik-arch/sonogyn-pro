@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
+import { CalculatorSourceBadge } from "@/components/calculators/CalculatorSourceBadge";
 import { CalculatorOpenTracker } from "@/components/analytics/CalculatorOpenTracker";
 import { CalculatorFaqJsonLd } from "@/components/seo/CalculatorFaqJsonLd";
 import { ContentErrorReportLink } from "@/components/feedback/ContentErrorReportLink";
@@ -8,15 +9,19 @@ import {
   CLINICAL_CONTENT_DISCLAIMER,
   formatClinicalReviewLabel,
 } from "@/lib/seo/clinical-reviewer";
+import { calculatorSourceBadgeProps } from "@/lib/seo/calculator-source-badge-props";
 import type { CalculatorLandingContent } from "@/lib/seo/calculator-landing-content";
 
 type Props = {
   content: CalculatorLandingContent;
   children: ReactNode;
+  /** false — если страница рендерит свой CalculatorSourceBadge (редко). */
+  compactSourceBadge?: boolean;
 };
 
-export function CalculatorLandingShell({ content, children }: Props) {
+export function CalculatorLandingShell({ content, children, compactSourceBadge = true }: Props) {
   const calcId = content.path.replace(/^\/tools\/calc\//, "").replace(/\//g, "_") || content.path;
+  const sourceBadge = compactSourceBadge ? calculatorSourceBadgeProps(content) : null;
 
   return (
     <div className="space-y-8">
@@ -37,6 +42,12 @@ export function CalculatorLandingShell({ content, children }: Props) {
       </header>
 
       <div>{children}</div>
+
+      {sourceBadge ? (
+        <div className="mx-auto max-w-4xl px-4">
+          <CalculatorSourceBadge {...sourceBadge} />
+        </div>
+      ) : null}
 
       <article className="mx-auto max-w-4xl space-y-8 px-4 pb-12 text-[var(--clinical-foreground)]">
         <section className="space-y-3" aria-labelledby="how-heading">
