@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 
 import { loadFmf1113Digest, shouldAttachFmfDigest } from "@/lib/fmf/load-fmf-digest";
+import { buildFmfKnowledgeRagSnippet } from "@/lib/fmf/fmf-rag-chunks";
 import { fmfAssistantToolCatalogBlock } from "./prompt-registry";
 
 import {
@@ -98,8 +99,9 @@ export function buildRagContext(domain: SonogynClinicalDomain, userText: string)
   if (domain === "obstetric" || shouldAttachFmfDigest(userText)) {
     parts.push("FMF/ISUOG: скрининг I/II/III триместр, КТР, ТВП, допплер — по международным протоколам; не заменяй клиническое решение врача.");
     if (shouldAttachFmfDigest(userText)) {
+      parts.push(buildFmfKnowledgeRagSnippet(userText));
       const digest = loadFmf1113Digest();
-      if (digest) parts.push(`FMF 11–13 digest:\n${digest}`);
+      if (digest) parts.push(`FMF 11–13 digest (кратко):\n${digest.slice(0, 2500)}`);
       parts.push(fmfAssistantToolCatalogBlock());
     }
   }
