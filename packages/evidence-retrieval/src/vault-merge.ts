@@ -1,4 +1,4 @@
-import type { MedicalVaultSearchHit } from "./types.js";
+import type { MedicalVaultSearchHit } from "./types";
 
 /** Standard RRF constant (Cormack et al., 2009). */
 export const VAULT_RRF_K = 60;

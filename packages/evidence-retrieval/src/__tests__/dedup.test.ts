@@ -1,8 +1,8 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 
-import { dedupeEvidenceRecords } from "../dedup.js";
-import type { EvidenceRecord } from "../types.js";
+import { dedupeEvidenceRecords } from "../dedup";
+import type { EvidenceRecord } from "../types";
 
 function rec(partial: Partial<EvidenceRecord> & Pick<EvidenceRecord, "id" | "provider" | "sourceId" | "title" | "url">): EvidenceRecord {
   return {

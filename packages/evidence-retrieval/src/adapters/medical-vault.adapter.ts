@@ -1,7 +1,7 @@
-import { buildEvidenceRecord } from "../normalizer.js";
-import type { EvidenceSearchQuery } from "../types.js";
-import { formatVaultPages } from "../vault-merge.js";
-import { adapterResult, limitRecords, type AdapterContext, type EvidenceAdapter } from "./types.js";
+import { buildEvidenceRecord } from "../normalizer";
+import type { EvidenceSearchQuery } from "../types";
+import { formatVaultPages } from "../vault-merge";
+import { adapterResult, limitRecords, type AdapterContext, type EvidenceAdapter } from "./types";
 
 /**
  * pgvector medical vault (ADR-VEC). Skips unless RetrievalConfig.medicalVaultSearch is wired.

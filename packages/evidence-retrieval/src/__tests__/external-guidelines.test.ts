@@ -1,8 +1,8 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 
-import { createMemoryCacheStore } from "../infra/cache.js";
-import { whoAdapter } from "../adapters/external-guidelines.adapter.js";
+import { createMemoryCacheStore } from "../infra/cache";
+import { whoAdapter } from "../adapters/external-guidelines.adapter";
 
 describe("external guidelines adapter", () => {
   it("finds WHO pre-eclampsia seed by query", async () => {

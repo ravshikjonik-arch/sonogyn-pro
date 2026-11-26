@@ -4,10 +4,10 @@ import {
   searchGuidelinesRanked,
 } from "@repo/clinical-guidelines";
 
-import { pickGuidelineCitation } from "../guideline-citation.js";
-import { buildEvidenceRecord } from "../normalizer.js";
-import type { EvidenceSearchQuery } from "../types.js";
-import { adapterResult, limitRecords, type AdapterContext, type EvidenceAdapter } from "./types.js";
+import { pickGuidelineCitation } from "../guideline-citation";
+import { buildEvidenceRecord } from "../normalizer";
+import type { EvidenceSearchQuery } from "../types";
+import { adapterResult, limitRecords, type AdapterContext, type EvidenceAdapter } from "./types";
 
 /**
  * RCOG Green-top cards from @repo/clinical-guidelines (issuer=rcog).

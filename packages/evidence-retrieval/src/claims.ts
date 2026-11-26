@@ -1,4 +1,4 @@
-import type { AssistantAnswer, EvidenceClaim, EvidenceRecord } from "./types.js";
+import type { AssistantAnswer, EvidenceClaim, EvidenceRecord } from "./types";
 
 const MAX_CLAIMS = 12;
 

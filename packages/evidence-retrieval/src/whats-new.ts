@@ -1,8 +1,8 @@
 import { listKrRubricatorWhatsNewItems } from "@repo/clinical-guidelines";
 
-import type { EvidenceRecord } from "./types.js";
-import { buildEvidenceRecord } from "./normalizer.js";
-import { grlsSearchUrl } from "./adapters/grls.adapter.js";
+import type { EvidenceRecord } from "./types";
+import { buildEvidenceRecord } from "./normalizer";
+import { grlsSearchUrl } from "./adapters/grls.adapter";
 
 export type WhatsNewItem = {
   id: string;

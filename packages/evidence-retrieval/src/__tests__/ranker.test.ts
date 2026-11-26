@@ -1,8 +1,8 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 
-import { evidenceStrengthFromRecords, rankEvidenceRecords } from "../ranker.js";
-import type { EvidenceRecord } from "../types.js";
+import { evidenceStrengthFromRecords, rankEvidenceRecords } from "../ranker";
+import type { EvidenceRecord } from "../types";
 
 function rec(type: EvidenceRecord["recordType"], year: number, score = 0.5): EvidenceRecord {
   return {

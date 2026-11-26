@@ -1,4 +1,4 @@
-import type { EvidenceCorpusMode, EvidenceProviderId } from "./types.js";
+import type { EvidenceCorpusMode, EvidenceProviderId } from "./types";
 
 /** UI / API labels for corpus modes. */
 export const EVIDENCE_CORPUS_MODE_LABELS: Record<EvidenceCorpusMode, string> = {

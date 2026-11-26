@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
-import { medicalVaultAdapter } from "../adapters/medical-vault.adapter.js";
-import { createMemoryCacheStore } from "../infra/cache.js";
+import { medicalVaultAdapter } from "../adapters/medical-vault.adapter";
+import { createMemoryCacheStore } from "../infra/cache";
 
 describe("medical_vault adapter", () => {
   it("skips when medicalVaultSearch is not configured", async () => {

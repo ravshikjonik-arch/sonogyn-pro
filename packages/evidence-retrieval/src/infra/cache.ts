@@ -1,4 +1,4 @@
-import type { CacheStore } from "../types.js";
+import type { CacheStore } from "../types";
 
 type Entry = { value: unknown; expiresAt: number };
 

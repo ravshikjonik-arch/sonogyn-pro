@@ -1,28 +1,28 @@
-import { cochraneAdapter, europePmcAdapter } from "./adapters/europe-pmc.adapter.js";
-import { pubmedAdapter } from "./adapters/pubmed.adapter.js";
-import { semanticScholarAdapter } from "./adapters/semantic-scholar.adapter.js";
-import { krMzRfAdapter } from "./adapters/kr-mz-rf.adapter.js";
-import { staticCorpusAdapter } from "./adapters/static-corpus.adapter.js";
-import { medicalVaultAdapter } from "./adapters/medical-vault.adapter.js";
-import { clinicalTrialsAdapter } from "./adapters/clinical-trials.adapter.js";
+import { cochraneAdapter, europePmcAdapter } from "./adapters/europe-pmc.adapter";
+import { pubmedAdapter } from "./adapters/pubmed.adapter";
+import { semanticScholarAdapter } from "./adapters/semantic-scholar.adapter";
+import { krMzRfAdapter } from "./adapters/kr-mz-rf.adapter";
+import { staticCorpusAdapter } from "./adapters/static-corpus.adapter";
+import { medicalVaultAdapter } from "./adapters/medical-vault.adapter";
+import { clinicalTrialsAdapter } from "./adapters/clinical-trials.adapter";
 import {
   dailyMedAdapter,
   openFdaAdapter,
-} from "./adapters/regulatory.adapter.js";
-import { grlsAdapter } from "./adapters/grls.adapter.js";
-import { openAlexAdapter } from "./adapters/openalex.adapter.js";
-import { doajAdapter } from "./adapters/doaj.adapter.js";
-import { epistemonikosAdapter } from "./adapters/epistemonikos.adapter.js";
-import { roszdravnadzorAdapter } from "./adapters/roszdravnadzor.adapter.js";
-import { emaAdapter, niceAdapter, rfRegulationAdapter, whoAdapter } from "./adapters/external-guidelines.adapter.js";
-import { rcogAdapter } from "./adapters/rcog.adapter.js";
-import { enrichRecordsWithCrossref } from "./adapters/crossref.adapter.js";
-import type { EvidenceAdapter } from "./adapters/types.js";
-import { emptyCorpusMessage, providersForCorpusMode } from "./corpus-mode.js";
-import { dedupeEvidenceRecords } from "./dedup.js";
-import { createMemoryCacheStore } from "./infra/cache.js";
-import { buildRulesClaims, withClaims } from "./claims.js";
-import { rankEvidenceRecords, evidenceStrengthFromRecords } from "./ranker.js";
+} from "./adapters/regulatory.adapter";
+import { grlsAdapter } from "./adapters/grls.adapter";
+import { openAlexAdapter } from "./adapters/openalex.adapter";
+import { doajAdapter } from "./adapters/doaj.adapter";
+import { epistemonikosAdapter } from "./adapters/epistemonikos.adapter";
+import { roszdravnadzorAdapter } from "./adapters/roszdravnadzor.adapter";
+import { emaAdapter, niceAdapter, rfRegulationAdapter, whoAdapter } from "./adapters/external-guidelines.adapter";
+import { rcogAdapter } from "./adapters/rcog.adapter";
+import { enrichRecordsWithCrossref } from "./adapters/crossref.adapter";
+import type { EvidenceAdapter } from "./adapters/types";
+import { emptyCorpusMessage, providersForCorpusMode } from "./corpus-mode";
+import { dedupeEvidenceRecords } from "./dedup";
+import { createMemoryCacheStore } from "./infra/cache";
+import { buildRulesClaims, withClaims } from "./claims";
+import { rankEvidenceRecords, evidenceStrengthFromRecords } from "./ranker";
 import type {
   AssistantAnswer,
   CacheStore,
@@ -32,7 +32,7 @@ import type {
   ProviderSearchResult,
   RetrievalConfig,
   UnifiedSearchResult,
-} from "./types.js";
+} from "./types";
 
 export const ALL_ADAPTERS: EvidenceAdapter[] = [
   staticCorpusAdapter,

@@ -6,9 +6,9 @@ import {
   buildRulesClaims,
   normalizeClaims,
   withClaims,
-} from "../claims.js";
-import { synthesizeEvidenceAnswer } from "../orchestrator.js";
-import type { AssistantAnswer, EvidenceRecord, UnifiedSearchResult } from "../types.js";
+} from "../claims";
+import { synthesizeEvidenceAnswer } from "../orchestrator";
+import type { AssistantAnswer, EvidenceRecord, UnifiedSearchResult } from "../types";
 
 function record(partial: Partial<EvidenceRecord> & Pick<EvidenceRecord, "id" | "title">): EvidenceRecord {
   return {

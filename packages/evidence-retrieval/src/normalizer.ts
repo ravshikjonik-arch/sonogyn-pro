@@ -1,4 +1,4 @@
-import type { EvidenceProviderId, EvidenceRecord, EvidenceRecordType } from "./types.js";
+import type { EvidenceProviderId, EvidenceRecord, EvidenceRecordType } from "./types";
 
 export function stableRecordId(provider: EvidenceProviderId, sourceId: string): string {
   return `${provider}:${sourceId}`;

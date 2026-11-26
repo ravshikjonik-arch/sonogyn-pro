@@ -5,13 +5,13 @@ import {
   type GuidelineShelf,
 } from "@repo/clinical-guidelines";
 
-import { shelvesForCorpusMode } from "../corpus-mode.js";
-import { pickGuidelineCitation } from "../guideline-citation.js";
-import { buildEvidenceRecord } from "../normalizer.js";
-import type { EvidenceSearchQuery } from "../types.js";
-import { adapterResult, limitRecords, type AdapterContext, type EvidenceAdapter } from "./types.js";
+import { shelvesForCorpusMode } from "../corpus-mode";
+import { pickGuidelineCitation } from "../guideline-citation";
+import { buildEvidenceRecord } from "../normalizer";
+import type { EvidenceSearchQuery } from "../types";
+import { adapterResult, limitRecords, type AdapterContext, type EvidenceAdapter } from "./types";
 
-export { pickGuidelineCitation } from "../guideline-citation.js";
+export { pickGuidelineCitation } from "../guideline-citation";
 
 export const krMzRfAdapter: EvidenceAdapter = {
   id: "kr_mz_rf",

@@ -1,9 +1,9 @@
 import { EVIDENCE_ENTRIES } from "@repo/evidence-corpus";
 import { searchEvidence } from "@repo/evidence-engine";
 
-import { buildEvidenceRecord } from "../normalizer.js";
-import type { EvidenceSearchQuery } from "../types.js";
-import { adapterResult, limitRecords, type AdapterContext, type EvidenceAdapter } from "./types.js";
+import { buildEvidenceRecord } from "../normalizer";
+import type { EvidenceSearchQuery } from "../types";
+import { adapterResult, limitRecords, type AdapterContext, type EvidenceAdapter } from "./types";
 
 export const staticCorpusAdapter: EvidenceAdapter = {
   id: "static_corpus",

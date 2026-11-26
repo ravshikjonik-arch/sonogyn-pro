@@ -1,5 +1,5 @@
-import type { EvidenceRecord } from "./types.js";
-import { normalizeTitle } from "./normalizer.js";
+import type { EvidenceRecord } from "./types";
+import { normalizeTitle } from "./normalizer";
 
 function titleSimilarity(a: string, b: string): number {
   const na = normalizeTitle(a);

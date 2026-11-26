@@ -5,7 +5,7 @@ import {
   expandVaultQueryForEmbedding,
   expandVaultQueryVariants,
   VAULT_AMBIGUOUS_ABBREVIATIONS,
-} from "../vault-abbreviations.js";
+} from "../vault-abbreviations";
 
 describe("expandVaultQueryVariants", () => {
   it("expands ЩЖ to the full thyroid phrase", () => {

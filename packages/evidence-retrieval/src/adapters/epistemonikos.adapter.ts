@@ -1,6 +1,6 @@
-import { buildEvidenceRecord } from "../normalizer.js";
-import type { EvidenceSearchQuery } from "../types.js";
-import { adapterResult, limitRecords, type AdapterContext, type EvidenceAdapter } from "./types.js";
+import { buildEvidenceRecord } from "../normalizer";
+import type { EvidenceSearchQuery } from "../types";
+import { adapterResult, limitRecords, type AdapterContext, type EvidenceAdapter } from "./types";
 
 /**
  * Epistemonikos: partner API often needs a key. Until configured we return

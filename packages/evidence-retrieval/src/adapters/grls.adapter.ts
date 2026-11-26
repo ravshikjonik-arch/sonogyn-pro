@@ -1,8 +1,8 @@
 import seedData from "../../data/grls-seed.json";
 
-import { buildEvidenceRecord } from "../normalizer.js";
-import type { EvidenceSearchQuery } from "../types.js";
-import { adapterResult, limitRecords, type AdapterContext, type EvidenceAdapter } from "./types.js";
+import { buildEvidenceRecord } from "../normalizer";
+import type { EvidenceSearchQuery } from "../types";
+import { adapterResult, limitRecords, type AdapterContext, type EvidenceAdapter } from "./types";
 
 type GrlsSeedRow = {
   inn: string;

@@ -1,10 +1,10 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
-import { medicalVaultAdapter } from "../adapters/medical-vault.adapter.js";
-import { createMemoryCacheStore } from "../infra/cache.js";
-import type { MedicalVaultSearchHit } from "../types.js";
-import { formatVaultPages, mergeVaultHitsRrf, rerankVaultHitsByQueryOverlap } from "../vault-merge.js";
+import { medicalVaultAdapter } from "../adapters/medical-vault.adapter";
+import { createMemoryCacheStore } from "../infra/cache";
+import type { MedicalVaultSearchHit } from "../types";
+import { formatVaultPages, mergeVaultHitsRrf, rerankVaultHitsByQueryOverlap } from "../vault-merge";
 
 function hit(chunkId: string, score: number, extra: Partial<MedicalVaultSearchHit> = {}): MedicalVaultSearchHit {
   return {

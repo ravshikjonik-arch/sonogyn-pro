@@ -1,8 +1,8 @@
-import { CACHE_TTL, cacheKey } from "../infra/cache.js";
-import { fetchWithTimeout } from "../infra/retry.js";
-import { buildEvidenceRecord } from "../normalizer.js";
-import type { EvidenceSearchQuery, ProviderSearchResult } from "../types.js";
-import { adapterResult, limitRecords, type AdapterContext, type EvidenceAdapter } from "./types.js";
+import { CACHE_TTL, cacheKey } from "../infra/cache";
+import { fetchWithTimeout } from "../infra/retry";
+import { buildEvidenceRecord } from "../normalizer";
+import type { EvidenceSearchQuery, ProviderSearchResult } from "../types";
+import { adapterResult, limitRecords, type AdapterContext, type EvidenceAdapter } from "./types";
 
 type S2Paper = {
   paperId?: string;

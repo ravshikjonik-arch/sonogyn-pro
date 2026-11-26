@@ -1,7 +1,7 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 
-import { buildEvidenceRecord, inferRecordType } from "../normalizer.js";
+import { buildEvidenceRecord, inferRecordType } from "../normalizer";
 
 describe("normalizer", () => {
   it("infers systematic review from Cochrane provider", () => {
