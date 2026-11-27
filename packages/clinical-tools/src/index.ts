@@ -3,6 +3,7 @@ export * from "./catalog";
 export * from "./rooms";
 export * from "./consensus-rooms";
 export * from "./consensus-planned-routes";
+export * from "./calculator-guideline-sources";
 export * from "./registry-platform-links";
 export * from "./roles";
 export * from "./specializations";

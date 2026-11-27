@@ -13,6 +13,7 @@ import TiradsAcrPanel from "../components/TiradsAcrPanel";
 import TiradsPatternPanel from "../components/TiradsPatternPanel";
 import ThyroidModulePanel, { type ThyroidModuleTab } from "../components/ThyroidModulePanel";
 import ThyroidTopographyPanel from "../components/ThyroidTopographyPanel";
+import { CalculatorSourcesPanel } from "../../../components/clinical/CalculatorSourcesPanel";
 import type { ThyroidAiAssistResult } from "../ai/thyroidAiService";
 import { mapTiradsToSreInput } from "../../../reporting/mapTiradsToSreInput";
 import {
@@ -154,6 +155,9 @@ export default function TiRadsAssistantScreen({ navigation }: Props) {
           )}
         </ScrollView>
       )}
+      <View style={{ paddingHorizontal: theme.spacing.md, paddingBottom: 12 }}>
+        <CalculatorSourcesPanel calculatorId="ti-rads" />
+      </View>
     </SafeAreaView>
   );
 }

@@ -19,6 +19,7 @@ import {
   View,
 } from "react-native";
 
+import { CalculatorSourcesPanel } from "../../components/clinical/CalculatorSourcesPanel";
 import SelectChip from "../oradsPro/components/SelectChip";
 import StepCard from "../oradsPro/components/StepCard";
 import type { RootStackParamList } from "../../navigation/AppStack";
@@ -198,6 +199,7 @@ export default function IotaCalculatorScreen({ route, navigation }: Props) {
             ) : null}
           </View>
         )}
+        <CalculatorSourcesPanel calculatorId="iota" />
       </ScrollView>
     </SafeAreaView>
   );

@@ -2,6 +2,8 @@ import { StyleSheet, Text, View } from "react-native";
 import type { OradsUs2022Result } from "@repo/orads-us/pro";
 import { cdssOradsCategoryBandLabel, CDSS_SHORT_DISCLAIMER } from "@repo/clinical-tools";
 
+import { CalculatorSourcesPanel } from "../../../components/clinical/CalculatorSourcesPanel";
+
 type Props = {
   result: OradsUs2022Result;
   testID?: string;
@@ -54,6 +56,7 @@ export default function OradsUnifiedResultPanel({ result, testID }: Props) {
         </View>
       ) : null}
       {result.warning ? <Text style={styles.warning}>{result.warning}</Text> : null}
+      <CalculatorSourcesPanel calculatorId="o-rads" />
       <Text style={styles.disclaimer} accessibilityRole="text">
         {CDSS_SHORT_DISCLAIMER}
       </Text>

@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
+import { getCalculatorGuidelineSources } from "./calculator-guideline-sources";
 import { platformLinksForGuideline } from "./registry-platform-links";
 
 describe("registry-platform-links", () => {
@@ -26,6 +27,11 @@ describe("registry-platform-links", () => {
     const links = platformLinksForGuideline({ registryKeys: ["eu-tirads", "intergrowth"] });
     assert.ok(links.some((l) => l.href === "/tools/refs/consensus-route/eu-tirads"));
     assert.ok(links.some((l) => l.href === "/tools/refs/consensus-route/intergrowth"));
+  });
+
+  it("exposes calculator guideline sources for mobile citations", () => {
+    assert.ok(getCalculatorGuidelineSources("o-rads").some((l) => l.href.includes("acr.org")));
+    assert.ok(getCalculatorGuidelineSources("fmf").length >= 2);
   });
 
   it("RCOG SGA links to ISUOG room", () => {

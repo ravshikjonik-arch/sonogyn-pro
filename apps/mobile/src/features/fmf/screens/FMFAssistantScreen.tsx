@@ -13,6 +13,7 @@ import { FmfPercentilePanel } from "../components/FmfPercentilePanel";
 import { pregnancyUltrasoundModule } from "../core/pregnancyModule";
 import { FMF_SCREENING_3034_SOURCE_NOTE, fmfScreening3034Examples } from "../data/fmfScreening3034Examples";
 import { formatMmValue, parseDecimal } from "../numericInput";
+import { CalculatorSourcesPanel } from "../../../components/clinical/CalculatorSourcesPanel";
 
 type Props = NativeStackScreenProps<RootStackParamList, "FMFAssistant">;
 
@@ -647,6 +648,7 @@ export default function FMFAssistantScreen({ navigation }: Props) {
             <Text style={styles.protocol}>{protocolText}</Text>
           </Card>
         ) : null}
+        <CalculatorSourcesPanel calculatorId="fmf" />
       </ScrollView>
     </SafeAreaView>
   );

@@ -58,6 +58,22 @@ User-visible iOS strings must not mention Google Play, Android, or APK. Code com
 - Terms: `https://sonogyn-pro.ru/terms`
 - Support email: `Sonogyn-pro@mail.ru`
 
+## Rejection 2026-11-26 (build 36) — 2.1 + 1.4.1
+
+### App Review Information → Notes (build 39+)
+
+```
+No sign-in required. NO in-app purchases in this build (open-access pilot; Paywall states subscriptions unavailable).
+
+Medical sources: after each calculator result, section «Источники» with tappable links (ACR, ISUOG, FMF, PubMed, sonogyn-pro.ru refs).
+
+Review path: Launch → consent → «Начать» → Tools → O-RADS (scroll to result + Источники), TI-RADS, BI-RADS, FMF, IOTA.
+```
+
+### Resolution Center (2.1)
+
+State that subscription checkout is disabled; no expired-subscription demo exists because IAP products are not sold in this binary.
+
 ## What is NOT in this pilot build
 
 - In-app purchases / subscriptions (Paywall explains «недоступно»)

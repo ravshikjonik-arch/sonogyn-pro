@@ -13,6 +13,7 @@ import {
 } from "../gynecology/endometrium/endometriumAssessment";
 import { exportReportPdf } from "../reporting/exportReportPdf";
 import type { RootStackParamList } from "../navigation/paramLists";
+import { CalculatorSourcesPanel } from "../components/clinical/CalculatorSourcesPanel";
 
 type Props = NativeStackScreenProps<RootStackParamList, "EndometriumCalc">;
 
@@ -105,6 +106,7 @@ export default function EndometriumScreen({ navigation }: Props) {
         >
           <Text style={styles.secondaryText}>PDF</Text>
         </Pressable>
+        <CalculatorSourcesPanel calculatorId="endometrium" />
       </ScrollView>
     </SafeAreaView>
   );

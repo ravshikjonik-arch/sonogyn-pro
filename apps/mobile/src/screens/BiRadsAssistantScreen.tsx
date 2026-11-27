@@ -14,6 +14,7 @@ import {
 import Svg, { Circle, Ellipse, Line, Path, Text as SvgText } from "react-native-svg";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { BiRadsMmgMobilePanel } from "../components/birads/BiRadsMmgMobilePanel";
+import { CalculatorSourcesPanel } from "../components/clinical/CalculatorSourcesPanel";
 import { BreastUsMobilePanel } from "../components/birads/BreastUsMobilePanel";
 import { branding } from "../config/branding";
 import {
@@ -409,6 +410,9 @@ export default function BiRadsAssistantScreen({ navigation }: Props) {
         </View>
       </ScrollView>
       ) : null}
+      <View style={{ paddingHorizontal: 16, paddingBottom: 16 }}>
+        <CalculatorSourcesPanel calculatorId="bi-rads" />
+      </View>
     </SafeAreaView>
   );
 }
