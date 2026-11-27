@@ -22,6 +22,7 @@
     "sync:regulations-catalog": "node --import tsx apps/web/scripts/sync-regulations-to-catalog.ts",
     "run:regulation-pipeline-once": "node --import tsx apps/web/scripts/run-regulation-pipeline-once.ts",
     "import:neishtadt-ovarian-atlas": "python3 scripts/import-neishtadt-ovarian-atlas.py",
+    "import:vetseva-scan-planes-atlas": "python3 scripts/import-vetseva-scan-planes-atlas.py",
     "import:ozerskaya-adnex": "python3 scripts/import-ozerskaya-adnex.py",
     "knowledge:woodward:extract": "python3 scripts/extract-woodward-obstetrics.py",
     "knowledge:woodward:ru": "python3 scripts/localize-woodward-ru.py",

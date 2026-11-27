@@ -43,7 +43,13 @@ export const COPYRIGHT_LOCKED_ROUTE_PREFIXES = [
 ] as const;
 
 /** Official / product destinations still allowed under /tools/refs. */
+/** Owner-approved education atlases (not third-party book OCR). */
+export const COPYRIGHT_ALLOWED_ASSET_PREFIXES = [
+  "/clinical-atlas/vetseva-scan-planes",
+] as const;
+
 export const COPYRIGHT_ALLOWED_REF_PREFIXES = [
+  "/tools/refs/us-scan-planes-atlas",
   "/tools/refs/guidelines",
   "/tools/refs/consensus",
   "/tools/refs/norms",
@@ -69,6 +75,9 @@ function matchesPrefix(pathname: string, prefix: string): boolean {
 
 export function isCopyrightLockedAsset(pathname: string): boolean {
   const path = pathname.split("?")[0] ?? pathname;
+  if (COPYRIGHT_ALLOWED_ASSET_PREFIXES.some((prefix) => matchesPrefix(path, prefix))) {
+    return false;
+  }
   if (path.toLowerCase().endsWith(".pdf")) return true;
   return COPYRIGHT_LOCKED_ASSET_PREFIXES.some((prefix) => matchesPrefix(path, prefix));
 }

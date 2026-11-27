@@ -549,6 +549,9 @@ importers:
       '@repo/upload-validation':
         specifier: workspace:*
         version: link:../../packages/upload-validation
+      '@repo/us-scan-planes-atlas':
+        specifier: workspace:*
+        version: link:../../packages/us-scan-planes-atlas
       '@repo/vascular-kulikov':
         specifier: workspace:*
         version: link:../../packages/vascular-kulikov
@@ -1558,6 +1561,15 @@ importers:
       tsx:
         specifier: ^4.19.4
         version: 4.21.0
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.3
+
+  packages/us-scan-planes-atlas:
+    devDependencies:
+      '@types/node':
+        specifier: ^20
+        version: 20.19.40
       typescript:
         specifier: ^5.9.2
         version: 5.9.3

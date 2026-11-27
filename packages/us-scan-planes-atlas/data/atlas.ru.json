@@ -1,0 +1,3462 @@
+{
+  "meta": {
+    "bookId": "vetseva-us-scan-planes-v1.2",
+    "titleRu": "Атлас ультразвуковых плоскостей сканирования и позиционирования датчика",
+    "sourceEn": "Vetseva N. Atlas of ultrasound scanning planes and probe positioning, v1.2 (2024)",
+    "disclaimerRu": "Учебный материал для отработки плоскостей сканирования и постановки датчика. Не заменяет клиническое заключение. Использование снимков — по согласованию с правообладателем.",
+    "imageBase": "/clinical-atlas/vetseva-scan-planes",
+    "chapterCount": 155,
+    "usImageCount": 155
+  },
+  "sections": [
+    {
+      "id": "infant-head",
+      "titleRu": "Голова младенца"
+    },
+    {
+      "id": "head",
+      "titleRu": "Голова"
+    },
+    {
+      "id": "neck",
+      "titleRu": "Шея"
+    },
+    {
+      "id": "heart",
+      "titleRu": "Сердце"
+    },
+    {
+      "id": "chest",
+      "titleRu": "Грудь"
+    },
+    {
+      "id": "abdomen",
+      "titleRu": "Живот"
+    },
+    {
+      "id": "pelvis",
+      "titleRu": "Таз"
+    },
+    {
+      "id": "upper-limb",
+      "titleRu": "Верхние конечности"
+    },
+    {
+      "id": "lower-limb",
+      "titleRu": "Нижние конечности"
+    }
+  ],
+  "chapters": [
+    {
+      "slug": "p003",
+      "titleRu": "Голова младенца. Верхняя поверхность (передний родничок). Фронтальная плоскость сканирования",
+      "titleEn": "",
+      "section": "infant-head",
+      "sectionRu": "Голова младенца",
+      "printStart": 3,
+      "printEnd": 3,
+      "keyFactsRu": [
+        "На снимке/схеме: Лобные и височные доли полушарий",
+        "Фронтальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p003.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p003.jpg",
+          "captionRu": "Голова младенца. Верхняя поверхность (передний родничок). Фронтальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "3"
+        }
+      ]
+    },
+    {
+      "slug": "p004",
+      "titleRu": "Голова младенца. Верхняя поверхность (передний родничок). Фронтальная плоскость сканирования. Фронтальная плоскость сканирования",
+      "titleEn": "",
+      "section": "infant-head",
+      "sectionRu": "Голова младенца",
+      "printStart": 4,
+      "printEnd": 4,
+      "keyFactsRu": [
+        "Фронтальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p004.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p004.jpg",
+          "captionRu": "Голова младенца. Верхняя поверхность (передний родничок). Фронтальная плоскость сканирования. Фронтальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "4"
+        }
+      ]
+    },
+    {
+      "slug": "p005",
+      "titleRu": "Голова младенца. Верхняя поверхность (передний родничок). Сагиттальная плоскость сканирования",
+      "titleEn": "",
+      "section": "infant-head",
+      "sectionRu": "Голова младенца",
+      "printStart": 5,
+      "printEnd": 5,
+      "keyFactsRu": [
+        "На снимке/схеме: Мозолистое тело, третий желудочек, мозжечок",
+        "Сагиттальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p005.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p005.jpg",
+          "captionRu": "Голова младенца. Верхняя поверхность (передний родничок). Сагиттальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "5"
+        }
+      ]
+    },
+    {
+      "slug": "p006",
+      "titleRu": "Голова младенца. Верхняя поверхность (передний родничок). Парасагиттальная плоскость сканирования. Парасагиттальная плоскость сканирования",
+      "titleEn": "",
+      "section": "infant-head",
+      "sectionRu": "Голова младенца",
+      "printStart": 6,
+      "printEnd": 6,
+      "keyFactsRu": [
+        "На снимке/схеме: Боковой желудочек, лобная, теменная и затылочная доли полушарий",
+        "Парасагиттальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p006.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p006.jpg",
+          "captionRu": "Голова младенца. Верхняя поверхность (передний родничок). Парасагиттальная плоскость сканирования. Парасагиттальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "6"
+        }
+      ]
+    },
+    {
+      "slug": "p007",
+      "titleRu": "Голова младенца. Боковая поверхность (клиновидный родничок). Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "infant-head",
+      "sectionRu": "Голова младенца",
+      "printStart": 7,
+      "printEnd": 7,
+      "keyFactsRu": [
+        "На снимке/схеме: Средний мозг, базальная поверхность полушарий",
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p007.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p007.jpg",
+          "captionRu": "Голова младенца. Боковая поверхность (клиновидный родничок). Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "7"
+        }
+      ]
+    },
+    {
+      "slug": "p008",
+      "titleRu": "Голова младенца. Боковая поверхность (клиновидный родничок). Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "infant-head",
+      "sectionRu": "Голова младенца",
+      "printStart": 8,
+      "printEnd": 8,
+      "keyFactsRu": [
+        "На снимке/схеме: Средний мозг, базальная поверхность полушарий",
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p008.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p008.jpg",
+          "captionRu": "Голова младенца. Боковая поверхность (клиновидный родничок). Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "8"
+        }
+      ]
+    },
+    {
+      "slug": "p009",
+      "titleRu": "Голова младенца. Задняя поверхность (малый родничок). Фронтальная плоскость сканирования",
+      "titleEn": "",
+      "section": "infant-head",
+      "sectionRu": "Голова младенца",
+      "printStart": 9,
+      "printEnd": 9,
+      "keyFactsRu": [
+        "На снимке/схеме: Затылочные доли, задние рога боковых желудочков",
+        "Фронтальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p009.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p009.jpg",
+          "captionRu": "Голова младенца. Задняя поверхность (малый родничок). Фронтальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "9"
+        }
+      ]
+    },
+    {
+      "slug": "p010",
+      "titleRu": "Голова младенца. Боковая поверхность (сосцевидный родничок). Фронтальная плоскость сканирования",
+      "titleEn": "",
+      "section": "infant-head",
+      "sectionRu": "Голова младенца",
+      "printStart": 10,
+      "printEnd": 10,
+      "keyFactsRu": [
+        "На снимке/схеме: Мозжечок, четвертый желудочек",
+        "Фронтальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p010.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p010.jpg",
+          "captionRu": "Голова младенца. Боковая поверхность (сосцевидный родничок). Фронтальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "10"
+        }
+      ]
+    },
+    {
+      "slug": "p011",
+      "titleRu": "Голова младенца. Задняя поверхность (малый родничок). Сагиттальная плоскость сканирования",
+      "titleEn": "",
+      "section": "infant-head",
+      "sectionRu": "Голова младенца",
+      "printStart": 11,
+      "printEnd": 11,
+      "keyFactsRu": [
+        "На снимке/схеме: Лобные и затылочные доли полушарий",
+        "Сагиттальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p011.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p011.jpg",
+          "captionRu": "Голова младенца. Задняя поверхность (малый родничок). Сагиттальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "11"
+        }
+      ]
+    },
+    {
+      "slug": "p012",
+      "titleRu": "Голова младенца. Боковая поверхность (сосцевидный родничок). Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "infant-head",
+      "sectionRu": "Голова младенца",
+      "printStart": 12,
+      "printEnd": 12,
+      "keyFactsRu": [
+        "На снимке/схеме: Мозжечок, четвертый желудочек",
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p012.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p012.jpg",
+          "captionRu": "Голова младенца. Боковая поверхность (сосцевидный родничок). Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "12"
+        }
+      ]
+    },
+    {
+      "slug": "p013",
+      "titleRu": "Голова младенца. Боковая поверхность (сосцевидный родничок). Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "infant-head",
+      "sectionRu": "Голова младенца",
+      "printStart": 13,
+      "printEnd": 13,
+      "keyFactsRu": [
+        "На снимке/схеме: Мозжечок, четвертый желудочек",
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p013.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p013.jpg",
+          "captionRu": "Голова младенца. Боковая поверхность (сосцевидный родничок). Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "13"
+        }
+      ]
+    },
+    {
+      "slug": "p014",
+      "titleRu": "Голова младенца. Боковая поверхность (сосцевидный родничок). Фронтальная плоскость сканирования",
+      "titleEn": "",
+      "section": "infant-head",
+      "sectionRu": "Голова младенца",
+      "printStart": 14,
+      "printEnd": 14,
+      "keyFactsRu": [
+        "На снимке/схеме: Мозжечок, четвертый желудочек",
+        "Фронтальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p014.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p014.jpg",
+          "captionRu": "Голова младенца. Боковая поверхность (сосцевидный родничок). Фронтальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "14"
+        }
+      ]
+    },
+    {
+      "slug": "p015",
+      "titleRu": "Голова младенца. Задняя поверхность. Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "infant-head",
+      "sectionRu": "Голова младенца",
+      "printStart": 15,
+      "printEnd": 15,
+      "keyFactsRu": [
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p015.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p015.jpg",
+          "captionRu": "Голова младенца. Задняя поверхность. Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "15"
+        }
+      ]
+    },
+    {
+      "slug": "p016",
+      "titleRu": "Голова младенца. Задняя поверхность. Сагиттальная плоскость сканирования. Сагиттальная плоскость сканирования",
+      "titleEn": "",
+      "section": "infant-head",
+      "sectionRu": "Голова младенца",
+      "printStart": 16,
+      "printEnd": 16,
+      "keyFactsRu": [
+        "На снимке/схеме: Шейный отдел позвоночника, продолговатый мозг",
+        "Сагиттальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p016.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p016.jpg",
+          "captionRu": "Голова младенца. Задняя поверхность. Сагиттальная плоскость сканирования. Сагиттальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "16"
+        }
+      ]
+    },
+    {
+      "slug": "p017",
+      "titleRu": "Голова. Передняя поверхность. Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "head",
+      "sectionRu": "Голова",
+      "printStart": 17,
+      "printEnd": 17,
+      "keyFactsRu": [
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p017.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p017.jpg",
+          "captionRu": "Голова. Передняя поверхность. Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "17"
+        }
+      ]
+    },
+    {
+      "slug": "p018",
+      "titleRu": "Голова. Передняя поверхность. Сагиттальная плоскость сканирования",
+      "titleEn": "",
+      "section": "head",
+      "sectionRu": "Голова",
+      "printStart": 18,
+      "printEnd": 18,
+      "keyFactsRu": [
+        "Сагиттальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p018.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p018.jpg",
+          "captionRu": "Голова. Передняя поверхность. Сагиттальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "18"
+        }
+      ]
+    },
+    {
+      "slug": "p019",
+      "titleRu": "Голова. Передняя поверхность. Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "head",
+      "sectionRu": "Голова",
+      "printStart": 19,
+      "printEnd": 19,
+      "keyFactsRu": [
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p019.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p019.jpg",
+          "captionRu": "Голова. Передняя поверхность. Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "19"
+        }
+      ]
+    },
+    {
+      "slug": "p020",
+      "titleRu": "Голова. Передняя поверхность. Сагиттальная плоскость сканирования",
+      "titleEn": "",
+      "section": "head",
+      "sectionRu": "Голова",
+      "printStart": 20,
+      "printEnd": 20,
+      "keyFactsRu": [
+        "Сагиттальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p020.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p020.jpg",
+          "captionRu": "Голова. Передняя поверхность. Сагиттальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "20"
+        }
+      ]
+    },
+    {
+      "slug": "p021",
+      "titleRu": "Голова. Боковая поверхность. Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "head",
+      "sectionRu": "Голова",
+      "printStart": 21,
+      "printEnd": 21,
+      "keyFactsRu": [
+        "На снимке/схеме: Интракраниальные артерии справа",
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p021.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p021.jpg",
+          "captionRu": "Голова. Боковая поверхность. Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "21"
+        }
+      ]
+    },
+    {
+      "slug": "p022",
+      "titleRu": "Голова. Боковая поверхность. Фронтальная плоскость сканирования",
+      "titleEn": "",
+      "section": "head",
+      "sectionRu": "Голова",
+      "printStart": 22,
+      "printEnd": 22,
+      "keyFactsRu": [
+        "На снимке/схеме: Околоушная слюнная железа правая",
+        "Фронтальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p022.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p022.jpg",
+          "captionRu": "Голова. Боковая поверхность. Фронтальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "22"
+        }
+      ]
+    },
+    {
+      "slug": "p023",
+      "titleRu": "Голова. Боковая поверхность. Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "head",
+      "sectionRu": "Голова",
+      "printStart": 23,
+      "printEnd": 23,
+      "keyFactsRu": [
+        "На снимке/схеме: Околоушная слюнная железа правая",
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p023.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p023.jpg",
+          "captionRu": "Голова. Боковая поверхность. Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "23"
+        }
+      ]
+    },
+    {
+      "slug": "p024",
+      "titleRu": "Голова. Боковая поверхность. Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "head",
+      "sectionRu": "Голова",
+      "printStart": 24,
+      "printEnd": 24,
+      "keyFactsRu": [
+        "На снимке/схеме: Интракраниальные артерии слева",
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p024.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p024.jpg",
+          "captionRu": "Голова. Боковая поверхность. Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "24"
+        }
+      ]
+    },
+    {
+      "slug": "p025",
+      "titleRu": "Голова. Боковая поверхность. Фронтальная плоскость сканирования",
+      "titleEn": "",
+      "section": "head",
+      "sectionRu": "Голова",
+      "printStart": 25,
+      "printEnd": 25,
+      "keyFactsRu": [
+        "На снимке/схеме: Околоушная слюнная железа левая",
+        "Фронтальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p025.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p025.jpg",
+          "captionRu": "Голова. Боковая поверхность. Фронтальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "25"
+        }
+      ]
+    },
+    {
+      "slug": "p026",
+      "titleRu": "Голова. Боковая поверхность. Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "head",
+      "sectionRu": "Голова",
+      "printStart": 26,
+      "printEnd": 26,
+      "keyFactsRu": [
+        "На снимке/схеме: Околоушная слюнная железа левая",
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p026.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p026.jpg",
+          "captionRu": "Голова. Боковая поверхность. Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "26"
+        }
+      ]
+    },
+    {
+      "slug": "p027",
+      "titleRu": "Голова. Задняя поверхность. Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "head",
+      "sectionRu": "Голова",
+      "printStart": 27,
+      "printEnd": 27,
+      "keyFactsRu": [
+        "На снимке/схеме: Интракраниальные артерии сзади",
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p027.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p027.jpg",
+          "captionRu": "Голова. Задняя поверхность. Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "27"
+        }
+      ]
+    },
+    {
+      "slug": "p028",
+      "titleRu": "Голова. Нижняя поверхность. Фронтальная плоскость сканирования",
+      "titleEn": "",
+      "section": "head",
+      "sectionRu": "Голова",
+      "printStart": 28,
+      "printEnd": 28,
+      "keyFactsRu": [
+        "На снимке/схеме: Подъязычные слюнные железы",
+        "Фронтальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p028.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p028.jpg",
+          "captionRu": "Голова. Нижняя поверхность. Фронтальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "28"
+        }
+      ]
+    },
+    {
+      "slug": "p029",
+      "titleRu": "Голова. Нижняя поверхность. Сагиттальная плоскость сканирования",
+      "titleEn": "",
+      "section": "head",
+      "sectionRu": "Голова",
+      "printStart": 29,
+      "printEnd": 29,
+      "keyFactsRu": [
+        "На снимке/схеме: Мягкие ткани дна полости рта",
+        "Сагиттальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p029.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p029.jpg",
+          "captionRu": "Голова. Нижняя поверхность. Сагиттальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "29"
+        }
+      ]
+    },
+    {
+      "slug": "p030",
+      "titleRu": "Голова. Нижняя поверхность. Косая плоскость сканирования",
+      "titleEn": "",
+      "section": "head",
+      "sectionRu": "Голова",
+      "printStart": 30,
+      "printEnd": 30,
+      "keyFactsRu": [
+        "На снимке/схеме: Мягкие ткани дна полости рта",
+        "Косая плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p030.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p030.jpg",
+          "captionRu": "Голова. Нижняя поверхность. Косая плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "30"
+        }
+      ]
+    },
+    {
+      "slug": "p031",
+      "titleRu": "Голова. Нижняя поверхность. Косая плоскость сканирования",
+      "titleEn": "",
+      "section": "head",
+      "sectionRu": "Голова",
+      "printStart": 31,
+      "printEnd": 31,
+      "keyFactsRu": [
+        "На снимке/схеме: Мягкие ткани дна полости рта",
+        "Косая плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p031.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p031.jpg",
+          "captionRu": "Голова. Нижняя поверхность. Косая плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "31"
+        }
+      ]
+    },
+    {
+      "slug": "p032",
+      "titleRu": "Шея. Передняя поверхность. Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "neck",
+      "sectionRu": "Шея",
+      "printStart": 32,
+      "printEnd": 32,
+      "keyFactsRu": [
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p032.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p032.jpg",
+          "captionRu": "Шея. Передняя поверхность. Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "32"
+        }
+      ]
+    },
+    {
+      "slug": "p033",
+      "titleRu": "Шея. Передняя поверхность. Сагиттальная плоскость сканирования",
+      "titleEn": "",
+      "section": "neck",
+      "sectionRu": "Шея",
+      "printStart": 33,
+      "printEnd": 33,
+      "keyFactsRu": [
+        "На снимке/схеме: Общая сонная артерия правая",
+        "Сагиттальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p033.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p033.jpg",
+          "captionRu": "Шея. Передняя поверхность. Сагиттальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "33"
+        }
+      ]
+    },
+    {
+      "slug": "p034",
+      "titleRu": "Голова. Передняя поверхность. Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "head",
+      "sectionRu": "Голова",
+      "printStart": 34,
+      "printEnd": 34,
+      "keyFactsRu": [
+        "На снимке/схеме: Общая сонная артерия правая",
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p034.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p034.jpg",
+          "captionRu": "Голова. Передняя поверхность. Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "34"
+        }
+      ]
+    },
+    {
+      "slug": "p035",
+      "titleRu": "Шея. Передняя поверхность. Сагиттальная плоскость сканирования",
+      "titleEn": "",
+      "section": "neck",
+      "sectionRu": "Шея",
+      "printStart": 35,
+      "printEnd": 35,
+      "keyFactsRu": [
+        "На снимке/схеме: Правая доля щитовидной железы",
+        "Сагиттальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p035.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p035.jpg",
+          "captionRu": "Шея. Передняя поверхность. Сагиттальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "35"
+        }
+      ]
+    },
+    {
+      "slug": "p036",
+      "titleRu": "Голова. Передняя поверхность. Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "head",
+      "sectionRu": "Голова",
+      "printStart": 36,
+      "printEnd": 36,
+      "keyFactsRu": [
+        "На снимке/схеме: Общая сонная артерия левая",
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p036.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p036.jpg",
+          "captionRu": "Голова. Передняя поверхность. Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "36"
+        }
+      ]
+    },
+    {
+      "slug": "p037",
+      "titleRu": "Шея. Передняя поверхность. Фронтальная плоскость сканирования",
+      "titleEn": "",
+      "section": "neck",
+      "sectionRu": "Шея",
+      "printStart": 37,
+      "printEnd": 37,
+      "keyFactsRu": [
+        "Фронтальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p037.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p037.jpg",
+          "captionRu": "Шея. Передняя поверхность. Фронтальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "37"
+        }
+      ]
+    },
+    {
+      "slug": "p038",
+      "titleRu": "Шея. Передняя поверхность. Фронтальная плоскость сканирования",
+      "titleEn": "",
+      "section": "neck",
+      "sectionRu": "Шея",
+      "printStart": 38,
+      "printEnd": 38,
+      "keyFactsRu": [
+        "На снимке/схеме: Мягкие ткани надключичной области слева",
+        "Фронтальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p038.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p038.jpg",
+          "captionRu": "Шея. Передняя поверхность. Фронтальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "38"
+        }
+      ]
+    },
+    {
+      "slug": "p039",
+      "titleRu": "Шея. Боковая поверхность. Косая плоскость сканирования",
+      "titleEn": "",
+      "section": "neck",
+      "sectionRu": "Шея",
+      "printStart": 39,
+      "printEnd": 39,
+      "keyFactsRu": [
+        "На снимке/схеме: Поднижнечелюстная слюнная железа правая",
+        "Косая плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p039.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p039.jpg",
+          "captionRu": "Шея. Боковая поверхность. Косая плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "39"
+        }
+      ]
+    },
+    {
+      "slug": "p040",
+      "titleRu": "Шея. Боковая поверхность. Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "neck",
+      "sectionRu": "Шея",
+      "printStart": 40,
+      "printEnd": 40,
+      "keyFactsRu": [
+        "На снимке/схеме: Мягкие ткани боковой поверхности шеи справа",
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p040.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p040.jpg",
+          "captionRu": "Шея. Боковая поверхность. Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "40"
+        }
+      ]
+    },
+    {
+      "slug": "p041",
+      "titleRu": "Шея. Боковая поверхность. Косая плоскость сканирования",
+      "titleEn": "",
+      "section": "neck",
+      "sectionRu": "Шея",
+      "printStart": 41,
+      "printEnd": 41,
+      "keyFactsRu": [
+        "На снимке/схеме: Позвоночная артерия правая",
+        "Косая плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p041.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p041.jpg",
+          "captionRu": "Шея. Боковая поверхность. Косая плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "41"
+        }
+      ]
+    },
+    {
+      "slug": "p042",
+      "titleRu": "Шея. Боковая поверхность. Косая плоскость сканирования",
+      "titleEn": "",
+      "section": "neck",
+      "sectionRu": "Шея",
+      "printStart": 42,
+      "printEnd": 42,
+      "keyFactsRu": [
+        "На снимке/схеме: Поднижнечелюстная слюнная железа левая",
+        "Косая плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p042.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p042.jpg",
+          "captionRu": "Шея. Боковая поверхность. Косая плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "42"
+        }
+      ]
+    },
+    {
+      "slug": "p043",
+      "titleRu": "Шея. Боковая поверхность. Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "neck",
+      "sectionRu": "Шея",
+      "printStart": 43,
+      "printEnd": 43,
+      "keyFactsRu": [
+        "На снимке/схеме: Мягкие ткани боковой поверхности шеи слева",
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p043.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p043.jpg",
+          "captionRu": "Шея. Боковая поверхность. Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "43"
+        }
+      ]
+    },
+    {
+      "slug": "p044",
+      "titleRu": "Шея. Боковая поверхность. Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "neck",
+      "sectionRu": "Шея",
+      "printStart": 44,
+      "printEnd": 44,
+      "keyFactsRu": [
+        "На снимке/схеме: Общая сонная артерия левая",
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p044.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p044.jpg",
+          "captionRu": "Шея. Боковая поверхность. Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "44"
+        }
+      ]
+    },
+    {
+      "slug": "p045",
+      "titleRu": "Голова. Боковая поверхность. Фронтальная плоскость сканирования",
+      "titleEn": "",
+      "section": "head",
+      "sectionRu": "Голова",
+      "printStart": 45,
+      "printEnd": 45,
+      "keyFactsRu": [
+        "На снимке/схеме: Общая сонная артерия левая",
+        "Фронтальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p045.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p045.jpg",
+          "captionRu": "Голова. Боковая поверхность. Фронтальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "45"
+        }
+      ]
+    },
+    {
+      "slug": "p046",
+      "titleRu": "Шея. Задняя поверхность. Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "neck",
+      "sectionRu": "Шея",
+      "printStart": 46,
+      "printEnd": 46,
+      "keyFactsRu": [
+        "На снимке/схеме: Мягкие ткани затылочной области",
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p046.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p046.jpg",
+          "captionRu": "Шея. Задняя поверхность. Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "46"
+        }
+      ]
+    },
+    {
+      "slug": "p047",
+      "titleRu": "Шея. Задняя поверхность. Сагиттальная плоскость сканирования",
+      "titleEn": "",
+      "section": "neck",
+      "sectionRu": "Шея",
+      "printStart": 47,
+      "printEnd": 47,
+      "keyFactsRu": [
+        "На снимке/схеме: Мягкие ткани затылочной области",
+        "Сагиттальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p047.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p047.jpg",
+          "captionRu": "Шея. Задняя поверхность. Сагиттальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "47"
+        }
+      ]
+    },
+    {
+      "slug": "p048",
+      "titleRu": "Сердце. Передняя поверхность. Косая плоскость сканирования. Косая плоскость сканирования",
+      "titleEn": "",
+      "section": "heart",
+      "sectionRu": "Сердце",
+      "printStart": 48,
+      "printEnd": 48,
+      "keyFactsRu": [
+        "На снимке/схеме: Парастернальная позиция длинная ось левого желудочка",
+        "Косая плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p048.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p048.jpg",
+          "captionRu": "Сердце. Передняя поверхность. Косая плоскость сканирования. Косая плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "48"
+        }
+      ]
+    },
+    {
+      "slug": "p049",
+      "titleRu": "Сердце. Передняя поверхность. Косая плоскость сканирования. Косая плоскость сканирования",
+      "titleEn": "",
+      "section": "heart",
+      "sectionRu": "Сердце",
+      "printStart": 49,
+      "printEnd": 49,
+      "keyFactsRu": [
+        "На снимке/схеме: Парастернальные позиции короткие оси сердца",
+        "Косая плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p049.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p049.jpg",
+          "captionRu": "Сердце. Передняя поверхность. Косая плоскость сканирования. Косая плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "49"
+        }
+      ]
+    },
+    {
+      "slug": "p050",
+      "titleRu": "Сердце. Боковая поверхность. Косая плоскость сканирования. Апикальный доступ Левее и вниз Правее и вверх Кпереди и вверх Кзади и вниз Изображение на экране прибора Схема постановки датчика Косая плоскость сканирования. Косая плоскость скани",
+      "titleEn": "",
+      "section": "heart",
+      "sectionRu": "Сердце",
+      "printStart": 50,
+      "printEnd": 50,
+      "keyFactsRu": [
+        "Косая плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p050.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p050.jpg",
+          "captionRu": "Сердце. Боковая поверхность. Косая плоскость сканирования. Апикальный доступ Левее и вниз Правее и вверх Кпереди и вверх Кзади и вниз Изображение на экране прибора Схема постановки датчика Косая плоскость сканирования. Косая плоскость скани",
+          "modality": "us+scheme",
+          "printPage": "50"
+        }
+      ]
+    },
+    {
+      "slug": "p051",
+      "titleRu": "Сердце. Передняя поверхность. Косая плоскость сканирования. Субкостальный доступ Кпереди и вниз Кзади и вверх правее и вверх Левее и вниз Изображение на экране прибора Схема постановки датчика Косая плоскость сканирования. Косая плоскость с",
+      "titleEn": "",
+      "section": "heart",
+      "sectionRu": "Сердце",
+      "printStart": 51,
+      "printEnd": 51,
+      "keyFactsRu": [
+        "Косая плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p051.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p051.jpg",
+          "captionRu": "Сердце. Передняя поверхность. Косая плоскость сканирования. Субкостальный доступ Кпереди и вниз Кзади и вверх правее и вверх Левее и вниз Изображение на экране прибора Схема постановки датчика Косая плоскость сканирования. Косая плоскость с",
+          "modality": "us+scheme",
+          "printPage": "51"
+        }
+      ]
+    },
+    {
+      "slug": "p052",
+      "titleRu": "Сердце. Передняя поверхность. Косая плоскость сканирования. Косая плоскость сканирования",
+      "titleEn": "",
+      "section": "heart",
+      "sectionRu": "Сердце",
+      "printStart": 52,
+      "printEnd": 52,
+      "keyFactsRu": [
+        "На снимке/схеме: Супрастернальный доступ к аорте",
+        "Косая плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p052.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p052.jpg",
+          "captionRu": "Сердце. Передняя поверхность. Косая плоскость сканирования. Косая плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "52"
+        }
+      ]
+    },
+    {
+      "slug": "p053",
+      "titleRu": "Грудь. Передняя поверхность. Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "chest",
+      "sectionRu": "Грудь",
+      "printStart": 53,
+      "printEnd": 53,
+      "keyFactsRu": [
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p053.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p053.jpg",
+          "captionRu": "Грудь. Передняя поверхность. Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "53"
+        }
+      ]
+    },
+    {
+      "slug": "p054",
+      "titleRu": "Грудь. Передняя поверхность. Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "chest",
+      "sectionRu": "Грудь",
+      "printStart": 54,
+      "printEnd": 54,
+      "keyFactsRu": [
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p054.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p054.jpg",
+          "captionRu": "Грудь. Передняя поверхность. Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "54"
+        }
+      ]
+    },
+    {
+      "slug": "p055",
+      "titleRu": "Грудь. Передняя поверхность. Сагиттальная плоскость сканирования",
+      "titleEn": "",
+      "section": "chest",
+      "sectionRu": "Грудь",
+      "printStart": 55,
+      "printEnd": 55,
+      "keyFactsRu": [
+        "На снимке/схеме: Мягкие ткани подключичной области слева",
+        "Сагиттальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p055.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p055.jpg",
+          "captionRu": "Грудь. Передняя поверхность. Сагиттальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "55"
+        }
+      ]
+    },
+    {
+      "slug": "p056",
+      "titleRu": "Грудь. Передняя поверхность. Косая плоскость сканирования",
+      "titleEn": "",
+      "section": "chest",
+      "sectionRu": "Грудь",
+      "printStart": 56,
+      "printEnd": 56,
+      "keyFactsRu": [
+        "На снимке/схеме: Верхне-наружный квадрант молочной железы справа",
+        "Косая плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p056.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p056.jpg",
+          "captionRu": "Грудь. Передняя поверхность. Косая плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "56"
+        }
+      ]
+    },
+    {
+      "slug": "p057",
+      "titleRu": "Грудь. Передняя поверхность. Косая плоскость сканирования",
+      "titleEn": "",
+      "section": "chest",
+      "sectionRu": "Грудь",
+      "printStart": 57,
+      "printEnd": 57,
+      "keyFactsRu": [
+        "На снимке/схеме: Верхне-внутренний квадрант молочной железы правой",
+        "Косая плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p057.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p057.jpg",
+          "captionRu": "Грудь. Передняя поверхность. Косая плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "57"
+        }
+      ]
+    },
+    {
+      "slug": "p058",
+      "titleRu": "Грудь. Передняя поверхность. Косая плоскость сканирования",
+      "titleEn": "",
+      "section": "chest",
+      "sectionRu": "Грудь",
+      "printStart": 58,
+      "printEnd": 58,
+      "keyFactsRu": [
+        "На снимке/схеме: Нижне-внутренний квадрант молочной железы правой",
+        "Косая плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p058.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p058.jpg",
+          "captionRu": "Грудь. Передняя поверхность. Косая плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "58"
+        }
+      ]
+    },
+    {
+      "slug": "p059",
+      "titleRu": "Грудь. Передняя поверхность. Косая плоскость сканирования",
+      "titleEn": "",
+      "section": "chest",
+      "sectionRu": "Грудь",
+      "printStart": 59,
+      "printEnd": 59,
+      "keyFactsRu": [
+        "На снимке/схеме: Верхне-внутренний квадрант молочной железы левой",
+        "Косая плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p059.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p059.jpg",
+          "captionRu": "Грудь. Передняя поверхность. Косая плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "59"
+        }
+      ]
+    },
+    {
+      "slug": "p060",
+      "titleRu": "Грудь. Передняя поверхность. Косая плоскость сканирования",
+      "titleEn": "",
+      "section": "chest",
+      "sectionRu": "Грудь",
+      "printStart": 60,
+      "printEnd": 60,
+      "keyFactsRu": [
+        "На снимке/схеме: Верхне-наружный квадрант молочной железы левой",
+        "Косая плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p060.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p060.jpg",
+          "captionRu": "Грудь. Передняя поверхность. Косая плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "60"
+        }
+      ]
+    },
+    {
+      "slug": "p061",
+      "titleRu": "Грудь. Передняя поверхность. Косая плоскость сканирования",
+      "titleEn": "",
+      "section": "chest",
+      "sectionRu": "Грудь",
+      "printStart": 61,
+      "printEnd": 61,
+      "keyFactsRu": [
+        "На снимке/схеме: Нижне-наружный квадрант молочной железы левой",
+        "Косая плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p061.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p061.jpg",
+          "captionRu": "Грудь. Передняя поверхность. Косая плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "61"
+        }
+      ]
+    },
+    {
+      "slug": "p062",
+      "titleRu": "Грудь. Боковая поверхность. Косая плоскость сканирования",
+      "titleEn": "",
+      "section": "chest",
+      "sectionRu": "Грудь",
+      "printStart": 62,
+      "printEnd": 62,
+      "keyFactsRu": [
+        "На снимке/схеме: Нижне-наружный квадрант молочной железы правой",
+        "Косая плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p062.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p062.jpg",
+          "captionRu": "Грудь. Боковая поверхность. Косая плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "62"
+        }
+      ]
+    },
+    {
+      "slug": "p063",
+      "titleRu": "Грудь. Боковая поверхность. Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "chest",
+      "sectionRu": "Грудь",
+      "printStart": 63,
+      "printEnd": 63,
+      "keyFactsRu": [
+        "На снимке/схеме: Плевральная полость справа",
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p063.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p063.jpg",
+          "captionRu": "Грудь. Боковая поверхность. Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "63"
+        }
+      ]
+    },
+    {
+      "slug": "p064",
+      "titleRu": "Грудь. Боковая поверхность. Фронтальная плоскость сканирования",
+      "titleEn": "",
+      "section": "chest",
+      "sectionRu": "Грудь",
+      "printStart": 64,
+      "printEnd": 64,
+      "keyFactsRu": [
+        "На снимке/схеме: Плевральная полость справа",
+        "Фронтальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p064.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p064.jpg",
+          "captionRu": "Грудь. Боковая поверхность. Фронтальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "64"
+        }
+      ]
+    },
+    {
+      "slug": "p065",
+      "titleRu": "Грудь. Боковая поверхность. Косая плоскость сканирования",
+      "titleEn": "",
+      "section": "chest",
+      "sectionRu": "Грудь",
+      "printStart": 65,
+      "printEnd": 65,
+      "keyFactsRu": [
+        "На снимке/схеме: Нижне-наружный квадрант молочной железы левой",
+        "Косая плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p065.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p065.jpg",
+          "captionRu": "Грудь. Боковая поверхность. Косая плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "65"
+        }
+      ]
+    },
+    {
+      "slug": "p066",
+      "titleRu": "Грудь. Боковая поверхность. Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "chest",
+      "sectionRu": "Грудь",
+      "printStart": 66,
+      "printEnd": 66,
+      "keyFactsRu": [
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p066.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p066.jpg",
+          "captionRu": "Грудь. Боковая поверхность. Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "66"
+        }
+      ]
+    },
+    {
+      "slug": "p067",
+      "titleRu": "Грудь. Боковая поверхность. Фронтальная плоскость сканирования",
+      "titleEn": "",
+      "section": "chest",
+      "sectionRu": "Грудь",
+      "printStart": 67,
+      "printEnd": 67,
+      "keyFactsRu": [
+        "Фронтальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p067.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p067.jpg",
+          "captionRu": "Грудь. Боковая поверхность. Фронтальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "67"
+        }
+      ]
+    },
+    {
+      "slug": "p068",
+      "titleRu": "Грудь. Задняя поверхность. Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "chest",
+      "sectionRu": "Грудь",
+      "printStart": 68,
+      "printEnd": 68,
+      "keyFactsRu": [
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p068.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p068.jpg",
+          "captionRu": "Грудь. Задняя поверхность. Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "68"
+        }
+      ]
+    },
+    {
+      "slug": "p069",
+      "titleRu": "Грудь. Задняя поверхность. Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "chest",
+      "sectionRu": "Грудь",
+      "printStart": 69,
+      "printEnd": 69,
+      "keyFactsRu": [
+        "На снимке/схеме: Плевральная полость правая",
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p069.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p069.jpg",
+          "captionRu": "Грудь. Задняя поверхность. Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "69"
+        }
+      ]
+    },
+    {
+      "slug": "p070",
+      "titleRu": "Грудь. Задняя поверхность. Сагиттальная плоскость сканирования",
+      "titleEn": "",
+      "section": "chest",
+      "sectionRu": "Грудь",
+      "printStart": 70,
+      "printEnd": 70,
+      "keyFactsRu": [
+        "Сагиттальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p070.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p070.jpg",
+          "captionRu": "Грудь. Задняя поверхность. Сагиттальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "70"
+        }
+      ]
+    },
+    {
+      "slug": "p071",
+      "titleRu": "Живот. Передняя поверхность. Аксиальная плоскость.",
+      "titleEn": "",
+      "section": "abdomen",
+      "sectionRu": "Живот",
+      "printStart": 71,
+      "printEnd": 71,
+      "keyFactsRu": [],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p071.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p071.jpg",
+          "captionRu": "Живот. Передняя поверхность. Аксиальная плоскость.",
+          "modality": "us+scheme",
+          "printPage": "71"
+        }
+      ]
+    },
+    {
+      "slug": "p072",
+      "titleRu": "Живот. Передняя поверхность.",
+      "titleEn": "",
+      "section": "abdomen",
+      "sectionRu": "Живот",
+      "printStart": 72,
+      "printEnd": 72,
+      "keyFactsRu": [],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p072.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p072.jpg",
+          "captionRu": "Живот. Передняя поверхность.",
+          "modality": "us+scheme",
+          "printPage": "72"
+        }
+      ]
+    },
+    {
+      "slug": "p073",
+      "titleRu": "Живот. Передняя поверхность.",
+      "titleEn": "",
+      "section": "abdomen",
+      "sectionRu": "Живот",
+      "printStart": 73,
+      "printEnd": 73,
+      "keyFactsRu": [],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p073.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p073.jpg",
+          "captionRu": "Живот. Передняя поверхность.",
+          "modality": "us+scheme",
+          "printPage": "73"
+        }
+      ]
+    },
+    {
+      "slug": "p074",
+      "titleRu": "Живот. Боковая поверхность.",
+      "titleEn": "",
+      "section": "abdomen",
+      "sectionRu": "Живот",
+      "printStart": 74,
+      "printEnd": 74,
+      "keyFactsRu": [],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p074.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p074.jpg",
+          "captionRu": "Живот. Боковая поверхность.",
+          "modality": "us+scheme",
+          "printPage": "74"
+        }
+      ]
+    },
+    {
+      "slug": "p075",
+      "titleRu": "Живот. Боковая поверхность.",
+      "titleEn": "",
+      "section": "abdomen",
+      "sectionRu": "Живот",
+      "printStart": 75,
+      "printEnd": 75,
+      "keyFactsRu": [],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p075.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p075.jpg",
+          "captionRu": "Живот. Боковая поверхность.",
+          "modality": "us+scheme",
+          "printPage": "75"
+        }
+      ]
+    },
+    {
+      "slug": "p076",
+      "titleRu": "Живот. Боковая поверхность.",
+      "titleEn": "",
+      "section": "abdomen",
+      "sectionRu": "Живот",
+      "printStart": 76,
+      "printEnd": 76,
+      "keyFactsRu": [],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p076.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p076.jpg",
+          "captionRu": "Живот. Боковая поверхность.",
+          "modality": "us+scheme",
+          "printPage": "76"
+        }
+      ]
+    },
+    {
+      "slug": "p077",
+      "titleRu": "Живот. Боковая поверхность.",
+      "titleEn": "",
+      "section": "abdomen",
+      "sectionRu": "Живот",
+      "printStart": 77,
+      "printEnd": 77,
+      "keyFactsRu": [],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p077.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p077.jpg",
+          "captionRu": "Живот. Боковая поверхность.",
+          "modality": "us+scheme",
+          "printPage": "77"
+        }
+      ]
+    },
+    {
+      "slug": "p078",
+      "titleRu": "Живот. Боковая поверхность.",
+      "titleEn": "",
+      "section": "abdomen",
+      "sectionRu": "Живот",
+      "printStart": 78,
+      "printEnd": 78,
+      "keyFactsRu": [],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p078.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p078.jpg",
+          "captionRu": "Живот. Боковая поверхность.",
+          "modality": "us+scheme",
+          "printPage": "78"
+        }
+      ]
+    },
+    {
+      "slug": "p079",
+      "titleRu": "Живот. Задняя поверхность.",
+      "titleEn": "",
+      "section": "abdomen",
+      "sectionRu": "Живот",
+      "printStart": 79,
+      "printEnd": 79,
+      "keyFactsRu": [],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p079.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p079.jpg",
+          "captionRu": "Живот. Задняя поверхность.",
+          "modality": "us+scheme",
+          "printPage": "79"
+        }
+      ]
+    },
+    {
+      "slug": "p080",
+      "titleRu": "Живот. Задняя поверхность.",
+      "titleEn": "",
+      "section": "abdomen",
+      "sectionRu": "Живот",
+      "printStart": 80,
+      "printEnd": 80,
+      "keyFactsRu": [],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p080.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p080.jpg",
+          "captionRu": "Живот. Задняя поверхность.",
+          "modality": "us+scheme",
+          "printPage": "80"
+        }
+      ]
+    },
+    {
+      "slug": "p081",
+      "titleRu": "Живот. Задняя поверхность.",
+      "titleEn": "",
+      "section": "abdomen",
+      "sectionRu": "Живот",
+      "printStart": 81,
+      "printEnd": 81,
+      "keyFactsRu": [],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p081.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p081.jpg",
+          "captionRu": "Живот. Задняя поверхность.",
+          "modality": "us+scheme",
+          "printPage": "81"
+        }
+      ]
+    },
+    {
+      "slug": "p082",
+      "titleRu": "Таз. Передняя поверхность.",
+      "titleEn": "",
+      "section": "pelvis",
+      "sectionRu": "Таз",
+      "printStart": 82,
+      "printEnd": 82,
+      "keyFactsRu": [],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p082.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p082.jpg",
+          "captionRu": "Таз. Передняя поверхность.",
+          "modality": "us+scheme",
+          "printPage": "82"
+        }
+      ]
+    },
+    {
+      "slug": "p083",
+      "titleRu": "Таз. Передняя поверхность.",
+      "titleEn": "",
+      "section": "pelvis",
+      "sectionRu": "Таз",
+      "printStart": 83,
+      "printEnd": 83,
+      "keyFactsRu": [],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p083.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p083.jpg",
+          "captionRu": "Таз. Передняя поверхность.",
+          "modality": "us+scheme",
+          "printPage": "83"
+        }
+      ]
+    },
+    {
+      "slug": "p084",
+      "titleRu": "Таз. Передняя поверхность.",
+      "titleEn": "",
+      "section": "pelvis",
+      "sectionRu": "Таз",
+      "printStart": 84,
+      "printEnd": 84,
+      "keyFactsRu": [],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p084.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p084.jpg",
+          "captionRu": "Таз. Передняя поверхность.",
+          "modality": "us+scheme",
+          "printPage": "84"
+        }
+      ]
+    },
+    {
+      "slug": "p085",
+      "titleRu": "Таз. Передняя поверхность.",
+      "titleEn": "",
+      "section": "pelvis",
+      "sectionRu": "Таз",
+      "printStart": 85,
+      "printEnd": 85,
+      "keyFactsRu": [],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p085.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p085.jpg",
+          "captionRu": "Таз. Передняя поверхность.",
+          "modality": "us+scheme",
+          "printPage": "85"
+        }
+      ]
+    },
+    {
+      "slug": "p086",
+      "titleRu": "Таз. Нижняя поверхность.",
+      "titleEn": "",
+      "section": "pelvis",
+      "sectionRu": "Таз",
+      "printStart": 86,
+      "printEnd": 86,
+      "keyFactsRu": [
+        "На снимке/схеме: (трансвагинально) Матка в anteflexio"
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p086.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p086.jpg",
+          "captionRu": "Таз. Нижняя поверхность.",
+          "modality": "us+scheme",
+          "printPage": "86"
+        }
+      ]
+    },
+    {
+      "slug": "p087",
+      "titleRu": "Таз. Нижняя поверхность.",
+      "titleEn": "",
+      "section": "pelvis",
+      "sectionRu": "Таз",
+      "printStart": 87,
+      "printEnd": 87,
+      "keyFactsRu": [
+        "На снимке/схеме: (трансвагинально) Тело матки"
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p087.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p087.jpg",
+          "captionRu": "Таз. Нижняя поверхность.",
+          "modality": "us+scheme",
+          "printPage": "87"
+        }
+      ]
+    },
+    {
+      "slug": "p088",
+      "titleRu": "Таз. Нижняя поверхность.",
+      "titleEn": "",
+      "section": "pelvis",
+      "sectionRu": "Таз",
+      "printStart": 88,
+      "printEnd": 88,
+      "keyFactsRu": [
+        "На снимке/схеме: (трансвагинально) Яичник правый"
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p088.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p088.jpg",
+          "captionRu": "Таз. Нижняя поверхность.",
+          "modality": "us+scheme",
+          "printPage": "88"
+        }
+      ]
+    },
+    {
+      "slug": "p089",
+      "titleRu": "Таз. Нижняя поверхность.",
+      "titleEn": "",
+      "section": "pelvis",
+      "sectionRu": "Таз",
+      "printStart": 89,
+      "printEnd": 89,
+      "keyFactsRu": [
+        "На снимке/схеме: (трансвагинально) Яичник левый"
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p089.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p089.jpg",
+          "captionRu": "Таз. Нижняя поверхность.",
+          "modality": "us+scheme",
+          "printPage": "89"
+        }
+      ]
+    },
+    {
+      "slug": "p090",
+      "titleRu": "Таз. Задняя поверхность.",
+      "titleEn": "",
+      "section": "pelvis",
+      "sectionRu": "Таз",
+      "printStart": 90,
+      "printEnd": 90,
+      "keyFactsRu": [
+        "На снимке/схеме: (трансректально) Предстательная железа"
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p090.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p090.jpg",
+          "captionRu": "Таз. Задняя поверхность.",
+          "modality": "us+scheme",
+          "printPage": "90"
+        }
+      ]
+    },
+    {
+      "slug": "p091",
+      "titleRu": "Таз. Задняя поверхность. Сагиттальная плоскость.",
+      "titleEn": "",
+      "section": "pelvis",
+      "sectionRu": "Таз",
+      "printStart": 91,
+      "printEnd": 91,
+      "keyFactsRu": [
+        "На снимке/схеме: (трансректально) Предстательная железа"
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p091.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p091.jpg",
+          "captionRu": "Таз. Задняя поверхность. Сагиттальная плоскость.",
+          "modality": "us+scheme",
+          "printPage": "91"
+        }
+      ]
+    },
+    {
+      "slug": "p092",
+      "titleRu": "Наружные половые органы. Передняя поверхность.",
+      "titleEn": "",
+      "section": "pelvis",
+      "sectionRu": "Таз",
+      "printStart": 92,
+      "printEnd": 92,
+      "keyFactsRu": [],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p092.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p092.jpg",
+          "captionRu": "Наружные половые органы. Передняя поверхность.",
+          "modality": "us+scheme",
+          "printPage": "92"
+        }
+      ]
+    },
+    {
+      "slug": "p093",
+      "titleRu": "Наружные половые органы. Передняя поверхность.",
+      "titleEn": "",
+      "section": "pelvis",
+      "sectionRu": "Таз",
+      "printStart": 93,
+      "printEnd": 93,
+      "keyFactsRu": [],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p093.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p093.jpg",
+          "captionRu": "Наружные половые органы. Передняя поверхность.",
+          "modality": "us+scheme",
+          "printPage": "93"
+        }
+      ]
+    },
+    {
+      "slug": "p094",
+      "titleRu": "Наружные половые органы. Боковая поверхность.",
+      "titleEn": "",
+      "section": "pelvis",
+      "sectionRu": "Таз",
+      "printStart": 94,
+      "printEnd": 94,
+      "keyFactsRu": [],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p094.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p094.jpg",
+          "captionRu": "Наружные половые органы. Боковая поверхность.",
+          "modality": "us+scheme",
+          "printPage": "94"
+        }
+      ]
+    },
+    {
+      "slug": "p095",
+      "titleRu": "Наружные половые органы. Боковая поверхность.",
+      "titleEn": "",
+      "section": "pelvis",
+      "sectionRu": "Таз",
+      "printStart": 95,
+      "printEnd": 95,
+      "keyFactsRu": [],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p095.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p095.jpg",
+          "captionRu": "Наружные половые органы. Боковая поверхность.",
+          "modality": "us+scheme",
+          "printPage": "95"
+        }
+      ]
+    },
+    {
+      "slug": "p096",
+      "titleRu": "Наружные половые органы. Боковая поверхность.",
+      "titleEn": "",
+      "section": "pelvis",
+      "sectionRu": "Таз",
+      "printStart": 96,
+      "printEnd": 96,
+      "keyFactsRu": [],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p096.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p096.jpg",
+          "captionRu": "Наружные половые органы. Боковая поверхность.",
+          "modality": "us+scheme",
+          "printPage": "96"
+        }
+      ]
+    },
+    {
+      "slug": "p097",
+      "titleRu": "Верхняя конечность. Передняя поверхность. Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "upper-limb",
+      "sectionRu": "Верхние конечности",
+      "printStart": 97,
+      "printEnd": 97,
+      "keyFactsRu": [
+        "На снимке/схеме: Подключичная артерия и вена правые",
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p097.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p097.jpg",
+          "captionRu": "Верхняя конечность. Передняя поверхность. Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "97"
+        }
+      ]
+    },
+    {
+      "slug": "p098",
+      "titleRu": "Верхняя конечность. Передняя поверхность. Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "upper-limb",
+      "sectionRu": "Верхние конечности",
+      "printStart": 98,
+      "printEnd": 98,
+      "keyFactsRu": [
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p098.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p098.jpg",
+          "captionRu": "Верхняя конечность. Передняя поверхность. Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "98"
+        }
+      ]
+    },
+    {
+      "slug": "p099",
+      "titleRu": "Верхняя конечность. Передняя поверхность. Сагиттальная плоскость сканирования",
+      "titleEn": "",
+      "section": "upper-limb",
+      "sectionRu": "Верхние конечности",
+      "printStart": 99,
+      "printEnd": 99,
+      "keyFactsRu": [
+        "На снимке/схеме: Подключичная артерия и вена правые",
+        "Сагиттальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p099.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p099.jpg",
+          "captionRu": "Верхняя конечность. Передняя поверхность. Сагиттальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "99"
+        }
+      ]
+    },
+    {
+      "slug": "p100",
+      "titleRu": "Верхняя конечность. Верхняя поверхность. Фронтальная плоскость сканирования",
+      "titleEn": "",
+      "section": "upper-limb",
+      "sectionRu": "Верхние конечности",
+      "printStart": 100,
+      "printEnd": 100,
+      "keyFactsRu": [
+        "Фронтальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p100.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p100.jpg",
+          "captionRu": "Верхняя конечность. Верхняя поверхность. Фронтальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "100"
+        }
+      ]
+    },
+    {
+      "slug": "p101",
+      "titleRu": "Верхняя конечность. Верхняя поверхность. Фронтальная плоскость сканирования",
+      "titleEn": "",
+      "section": "upper-limb",
+      "sectionRu": "Верхние конечности",
+      "printStart": 101,
+      "printEnd": 101,
+      "keyFactsRu": [
+        "Фронтальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p101.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p101.jpg",
+          "captionRu": "Верхняя конечность. Верхняя поверхность. Фронтальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "101"
+        }
+      ]
+    },
+    {
+      "slug": "p102",
+      "titleRu": "Верхняя конечность. Боковая поверхность. Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "upper-limb",
+      "sectionRu": "Верхние конечности",
+      "printStart": 102,
+      "printEnd": 102,
+      "keyFactsRu": [
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p102.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p102.jpg",
+          "captionRu": "Верхняя конечность. Боковая поверхность. Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "102"
+        }
+      ]
+    },
+    {
+      "slug": "p103",
+      "titleRu": "Верхняя конечность. Боковая поверхность. Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "upper-limb",
+      "sectionRu": "Верхние конечности",
+      "printStart": 103,
+      "printEnd": 103,
+      "keyFactsRu": [
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p103.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p103.jpg",
+          "captionRu": "Верхняя конечность. Боковая поверхность. Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "103"
+        }
+      ]
+    },
+    {
+      "slug": "p104",
+      "titleRu": "Верхняя конечность. Боковая поверхность. Сагиттальная плоскость сканирования",
+      "titleEn": "",
+      "section": "upper-limb",
+      "sectionRu": "Верхние конечности",
+      "printStart": 104,
+      "printEnd": 104,
+      "keyFactsRu": [
+        "Сагиттальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p104.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p104.jpg",
+          "captionRu": "Верхняя конечность. Боковая поверхность. Сагиттальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "104"
+        }
+      ]
+    },
+    {
+      "slug": "p105",
+      "titleRu": "Верхняя конечность. Задняя поверхность. Сагиттальная плоскость сканирования",
+      "titleEn": "",
+      "section": "upper-limb",
+      "sectionRu": "Верхние конечности",
+      "printStart": 105,
+      "printEnd": 105,
+      "keyFactsRu": [
+        "Сагиттальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p105.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p105.jpg",
+          "captionRu": "Верхняя конечность. Задняя поверхность. Сагиттальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "105"
+        }
+      ]
+    },
+    {
+      "slug": "p106",
+      "titleRu": "Верхняя конечность. Нижняя поверхность. Фронтальная плоскость сканирования",
+      "titleEn": "",
+      "section": "upper-limb",
+      "sectionRu": "Верхние конечности",
+      "printStart": 106,
+      "printEnd": 106,
+      "keyFactsRu": [
+        "На снимке/схеме: Подмышечная артерия и вена правые",
+        "Фронтальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p106.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p106.jpg",
+          "captionRu": "Верхняя конечность. Нижняя поверхность. Фронтальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "106"
+        }
+      ]
+    },
+    {
+      "slug": "p107",
+      "titleRu": "Верхняя конечность. Передняя поверхность. Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "upper-limb",
+      "sectionRu": "Верхние конечности",
+      "printStart": 107,
+      "printEnd": 107,
+      "keyFactsRu": [
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p107.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p107.jpg",
+          "captionRu": "Верхняя конечность. Передняя поверхность. Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "107"
+        }
+      ]
+    },
+    {
+      "slug": "p108",
+      "titleRu": "Верхняя конечность. Передняя поверхность. Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "upper-limb",
+      "sectionRu": "Верхние конечности",
+      "printStart": 108,
+      "printEnd": 108,
+      "keyFactsRu": [
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p108.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p108.jpg",
+          "captionRu": "Верхняя конечность. Передняя поверхность. Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "108"
+        }
+      ]
+    },
+    {
+      "slug": "p109",
+      "titleRu": "Верхняя конечность. Передняя поверхность. Сагиттальная плоскость сканирования",
+      "titleEn": "",
+      "section": "upper-limb",
+      "sectionRu": "Верхние конечности",
+      "printStart": 109,
+      "printEnd": 109,
+      "keyFactsRu": [
+        "Сагиттальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p109.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p109.jpg",
+          "captionRu": "Верхняя конечность. Передняя поверхность. Сагиттальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "109"
+        }
+      ]
+    },
+    {
+      "slug": "p110",
+      "titleRu": "Верхняя конечность. Задняя поверхность. Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "upper-limb",
+      "sectionRu": "Верхние конечности",
+      "printStart": 110,
+      "printEnd": 110,
+      "keyFactsRu": [
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p110.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p110.jpg",
+          "captionRu": "Верхняя конечность. Задняя поверхность. Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "110"
+        }
+      ]
+    },
+    {
+      "slug": "p111",
+      "titleRu": "Верхняя конечность. Задняя поверхность. Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "upper-limb",
+      "sectionRu": "Верхние конечности",
+      "printStart": 111,
+      "printEnd": 111,
+      "keyFactsRu": [
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p111.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p111.jpg",
+          "captionRu": "Верхняя конечность. Задняя поверхность. Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "111"
+        }
+      ]
+    },
+    {
+      "slug": "p112",
+      "titleRu": "Верхняя конечность. Задняя поверхность. Сагиттальная плоскость сканирования",
+      "titleEn": "",
+      "section": "upper-limb",
+      "sectionRu": "Верхние конечности",
+      "printStart": 112,
+      "printEnd": 112,
+      "keyFactsRu": [
+        "Сагиттальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p112.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p112.jpg",
+          "captionRu": "Верхняя конечность. Задняя поверхность. Сагиттальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "112"
+        }
+      ]
+    },
+    {
+      "slug": "p113",
+      "titleRu": "Верхняя конечность. Передняя поверхность. Сагиттальная плоскость сканирования",
+      "titleEn": "",
+      "section": "upper-limb",
+      "sectionRu": "Верхние конечности",
+      "printStart": 113,
+      "printEnd": 113,
+      "keyFactsRu": [
+        "Сагиттальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p113.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p113.jpg",
+          "captionRu": "Верхняя конечность. Передняя поверхность. Сагиттальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "113"
+        }
+      ]
+    },
+    {
+      "slug": "p114",
+      "titleRu": "Верхняя конечность. Передняя поверхность. Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "upper-limb",
+      "sectionRu": "Верхние конечности",
+      "printStart": 114,
+      "printEnd": 114,
+      "keyFactsRu": [
+        "На снимке/схеме: Лучезапястный сустав правый",
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p114.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p114.jpg",
+          "captionRu": "Верхняя конечность. Передняя поверхность. Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "114"
+        }
+      ]
+    },
+    {
+      "slug": "p115",
+      "titleRu": "Верхняя конечность. Передняя поверхность. Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "upper-limb",
+      "sectionRu": "Верхние конечности",
+      "printStart": 115,
+      "printEnd": 115,
+      "keyFactsRu": [
+        "На снимке/схеме: Лучезапястный сустав левый",
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p115.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p115.jpg",
+          "captionRu": "Верхняя конечность. Передняя поверхность. Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "115"
+        }
+      ]
+    },
+    {
+      "slug": "p116",
+      "titleRu": "Верхняя конечность. Передняя поверхность. Сагиттальная плоскость сканирования",
+      "titleEn": "",
+      "section": "upper-limb",
+      "sectionRu": "Верхние конечности",
+      "printStart": 116,
+      "printEnd": 116,
+      "keyFactsRu": [
+        "На снимке/схеме: Лучезапястный сустав правый",
+        "Сагиттальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p116.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p116.jpg",
+          "captionRu": "Верхняя конечность. Передняя поверхность. Сагиттальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "116"
+        }
+      ]
+    },
+    {
+      "slug": "p117",
+      "titleRu": "Верхняя конечность. Задняя поверхность. Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "upper-limb",
+      "sectionRu": "Верхние конечности",
+      "printStart": 117,
+      "printEnd": 117,
+      "keyFactsRu": [
+        "На снимке/схеме: Лучезапястный сустав правый",
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p117.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p117.jpg",
+          "captionRu": "Верхняя конечность. Задняя поверхность. Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "117"
+        }
+      ]
+    },
+    {
+      "slug": "p118",
+      "titleRu": "Верхняя конечность. Задняя поверхность. Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "upper-limb",
+      "sectionRu": "Верхние конечности",
+      "printStart": 118,
+      "printEnd": 118,
+      "keyFactsRu": [
+        "На снимке/схеме: Лучезапястный сустав левый",
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p118.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p118.jpg",
+          "captionRu": "Верхняя конечность. Задняя поверхность. Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "118"
+        }
+      ]
+    },
+    {
+      "slug": "p119",
+      "titleRu": "Верхняя конечность. Задняя поверхность. Сагиттальная плоскость сканирования",
+      "titleEn": "",
+      "section": "upper-limb",
+      "sectionRu": "Верхние конечности",
+      "printStart": 119,
+      "printEnd": 119,
+      "keyFactsRu": [
+        "На снимке/схеме: Лучезапястный сустав правый",
+        "Сагиттальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p119.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p119.jpg",
+          "captionRu": "Верхняя конечность. Задняя поверхность. Сагиттальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "119"
+        }
+      ]
+    },
+    {
+      "slug": "p120",
+      "titleRu": "Верхняя конечность. Передняя (ладонная) поверхность. Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "upper-limb",
+      "sectionRu": "Верхние конечности",
+      "printStart": 120,
+      "printEnd": 120,
+      "keyFactsRu": [
+        "На снимке/схеме: Суставы пальцев кисти правой",
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p120.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p120.jpg",
+          "captionRu": "Верхняя конечность. Передняя (ладонная) поверхность. Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "120"
+        }
+      ]
+    },
+    {
+      "slug": "p121",
+      "titleRu": "Верхняя конечность. Передняя (ладонная) поверхность. Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "upper-limb",
+      "sectionRu": "Верхние конечности",
+      "printStart": 121,
+      "printEnd": 121,
+      "keyFactsRu": [
+        "На снимке/схеме: Суставы пальцев кисти левой",
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p121.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p121.jpg",
+          "captionRu": "Верхняя конечность. Передняя (ладонная) поверхность. Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "121"
+        }
+      ]
+    },
+    {
+      "slug": "p122",
+      "titleRu": "Верхняя конечность. Передняя (ладонная) поверхность. Сагиттальная плоскость сканирования",
+      "titleEn": "",
+      "section": "upper-limb",
+      "sectionRu": "Верхние конечности",
+      "printStart": 122,
+      "printEnd": 122,
+      "keyFactsRu": [
+        "На снимке/схеме: Суставы пальцев кисти правой",
+        "Сагиттальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p122.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p122.jpg",
+          "captionRu": "Верхняя конечность. Передняя (ладонная) поверхность. Сагиттальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "122"
+        }
+      ]
+    },
+    {
+      "slug": "p123",
+      "titleRu": "Верхняя конечность. Задняя (тыльная) поверхность. Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "upper-limb",
+      "sectionRu": "Верхние конечности",
+      "printStart": 123,
+      "printEnd": 123,
+      "keyFactsRu": [
+        "На снимке/схеме: Суставы пальцев кисти правой",
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p123.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p123.jpg",
+          "captionRu": "Верхняя конечность. Задняя (тыльная) поверхность. Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "123"
+        }
+      ]
+    },
+    {
+      "slug": "p124",
+      "titleRu": "Верхняя конечность. Задняя (тыльная) поверхность. Аксиальная плоскость сканирования",
+      "titleEn": "",
+      "section": "upper-limb",
+      "sectionRu": "Верхние конечности",
+      "printStart": 124,
+      "printEnd": 124,
+      "keyFactsRu": [
+        "На снимке/схеме: Суставы пальцев кисти левой",
+        "Аксиальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p124.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p124.jpg",
+          "captionRu": "Верхняя конечность. Задняя (тыльная) поверхность. Аксиальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "124"
+        }
+      ]
+    },
+    {
+      "slug": "p125",
+      "titleRu": "Верхняя конечность. Задняя (тыльная) поверхность. Сагиттальная плоскость сканирования",
+      "titleEn": "",
+      "section": "upper-limb",
+      "sectionRu": "Верхние конечности",
+      "printStart": 125,
+      "printEnd": 125,
+      "keyFactsRu": [
+        "На снимке/схеме: Суставы пальцев кисти левой",
+        "Сагиттальная плоскость сканирования."
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p125.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p125.jpg",
+          "captionRu": "Верхняя конечность. Задняя (тыльная) поверхность. Сагиттальная плоскость сканирования",
+          "modality": "us+scheme",
+          "printPage": "125"
+        }
+      ]
+    },
+    {
+      "slug": "p126",
+      "titleRu": "Нижняя конечность. Передняя поверхность.",
+      "titleEn": "",
+      "section": "lower-limb",
+      "sectionRu": "Нижние конечности",
+      "printStart": 126,
+      "printEnd": 126,
+      "keyFactsRu": [],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p126.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p126.jpg",
+          "captionRu": "Нижняя конечность. Передняя поверхность.",
+          "modality": "us+scheme",
+          "printPage": "126"
+        }
+      ]
+    },
+    {
+      "slug": "p127",
+      "titleRu": "Нижняя конечность. Передняя поверхность.",
+      "titleEn": "",
+      "section": "lower-limb",
+      "sectionRu": "Нижние конечности",
+      "printStart": 127,
+      "printEnd": 127,
+      "keyFactsRu": [
+        "На снимке/схеме: Наружная подвздошная артерия и вена правые"
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p127.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p127.jpg",
+          "captionRu": "Нижняя конечность. Передняя поверхность.",
+          "modality": "us+scheme",
+          "printPage": "127"
+        }
+      ]
+    },
+    {
+      "slug": "p128",
+      "titleRu": "Нижняя конечность. Передняя поверхность.",
+      "titleEn": "",
+      "section": "lower-limb",
+      "sectionRu": "Нижние конечности",
+      "printStart": 128,
+      "printEnd": 128,
+      "keyFactsRu": [
+        "На снимке/схеме: Тазобедренный сустав левый"
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p128.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p128.jpg",
+          "captionRu": "Нижняя конечность. Передняя поверхность.",
+          "modality": "us+scheme",
+          "printPage": "128"
+        }
+      ]
+    },
+    {
+      "slug": "p129",
+      "titleRu": "Нижняя конечность. Передняя поверхность.",
+      "titleEn": "",
+      "section": "lower-limb",
+      "sectionRu": "Нижние конечности",
+      "printStart": 129,
+      "printEnd": 129,
+      "keyFactsRu": [
+        "На снимке/схеме: Общая, поверхностная и глубокая бедренные артерии правые"
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p129.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p129.jpg",
+          "captionRu": "Нижняя конечность. Передняя поверхность.",
+          "modality": "us+scheme",
+          "printPage": "129"
+        }
+      ]
+    },
+    {
+      "slug": "p130",
+      "titleRu": "Нижняя конечность. Передняя поверхность.",
+      "titleEn": "",
+      "section": "lower-limb",
+      "sectionRu": "Нижние конечности",
+      "printStart": 130,
+      "printEnd": 130,
+      "keyFactsRu": [
+        "На снимке/схеме: Тазобедренный сустав левый"
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p130.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p130.jpg",
+          "captionRu": "Нижняя конечность. Передняя поверхность.",
+          "modality": "us+scheme",
+          "printPage": "130"
+        }
+      ]
+    },
+    {
+      "slug": "p131",
+      "titleRu": "Нижняя конечность. Боковая поверхность.",
+      "titleEn": "",
+      "section": "lower-limb",
+      "sectionRu": "Нижние конечности",
+      "printStart": 131,
+      "printEnd": 131,
+      "keyFactsRu": [
+        "На снимке/схеме: Большой вертел правого бедра"
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p131.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p131.jpg",
+          "captionRu": "Нижняя конечность. Боковая поверхность.",
+          "modality": "us+scheme",
+          "printPage": "131"
+        }
+      ]
+    },
+    {
+      "slug": "p132",
+      "titleRu": "Нижняя конечность. Боковая поверхность.",
+      "titleEn": "",
+      "section": "lower-limb",
+      "sectionRu": "Нижние конечности",
+      "printStart": 132,
+      "printEnd": 132,
+      "keyFactsRu": [
+        "На снимке/схеме: Большой вертел левого бедра"
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p132.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p132.jpg",
+          "captionRu": "Нижняя конечность. Боковая поверхность.",
+          "modality": "us+scheme",
+          "printPage": "132"
+        }
+      ]
+    },
+    {
+      "slug": "p133",
+      "titleRu": "Нижняя конечность. Боковая поверхность.",
+      "titleEn": "",
+      "section": "lower-limb",
+      "sectionRu": "Нижние конечности",
+      "printStart": 133,
+      "printEnd": 133,
+      "keyFactsRu": [
+        "На снимке/схеме: Тазобедренный сустав левый"
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p133.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p133.jpg",
+          "captionRu": "Нижняя конечность. Боковая поверхность.",
+          "modality": "us+scheme",
+          "printPage": "133"
+        }
+      ]
+    },
+    {
+      "slug": "p134",
+      "titleRu": "Нижняя конечность. Задняя поверхность.",
+      "titleEn": "",
+      "section": "lower-limb",
+      "sectionRu": "Нижние конечности",
+      "printStart": 134,
+      "printEnd": 134,
+      "keyFactsRu": [
+        "На снимке/схеме: Тазобедренный сустав левый"
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p134.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p134.jpg",
+          "captionRu": "Нижняя конечность. Задняя поверхность.",
+          "modality": "us+scheme",
+          "printPage": "134"
+        }
+      ]
+    },
+    {
+      "slug": "p135",
+      "titleRu": "Нижняя конечность. Задняя поверхность.",
+      "titleEn": "",
+      "section": "lower-limb",
+      "sectionRu": "Нижние конечности",
+      "printStart": 135,
+      "printEnd": 135,
+      "keyFactsRu": [],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p135.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p135.jpg",
+          "captionRu": "Нижняя конечность. Задняя поверхность.",
+          "modality": "us+scheme",
+          "printPage": "135"
+        }
+      ]
+    },
+    {
+      "slug": "p136",
+      "titleRu": "Нижняя конечность. Задняя поверхность.",
+      "titleEn": "",
+      "section": "lower-limb",
+      "sectionRu": "Нижние конечности",
+      "printStart": 136,
+      "printEnd": 136,
+      "keyFactsRu": [],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p136.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p136.jpg",
+          "captionRu": "Нижняя конечность. Задняя поверхность.",
+          "modality": "us+scheme",
+          "printPage": "136"
+        }
+      ]
+    },
+    {
+      "slug": "p137",
+      "titleRu": "Нижняя конечность. Передняя поверхность.",
+      "titleEn": "",
+      "section": "lower-limb",
+      "sectionRu": "Нижние конечности",
+      "printStart": 137,
+      "printEnd": 137,
+      "keyFactsRu": [
+        "На снимке/схеме: Поверхностная бедренная артерия правая"
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p137.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p137.jpg",
+          "captionRu": "Нижняя конечность. Передняя поверхность.",
+          "modality": "us+scheme",
+          "printPage": "137"
+        }
+      ]
+    },
+    {
+      "slug": "p138",
+      "titleRu": "Нижняя конечность. Передняя поверхность.",
+      "titleEn": "",
+      "section": "lower-limb",
+      "sectionRu": "Нижние конечности",
+      "printStart": 138,
+      "printEnd": 138,
+      "keyFactsRu": [
+        "На снимке/схеме: Бедренная венаБедренная артерия и вена правые"
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p138.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p138.jpg",
+          "captionRu": "Нижняя конечность. Передняя поверхность.",
+          "modality": "us+scheme",
+          "printPage": "138"
+        }
+      ]
+    },
+    {
+      "slug": "p139",
+      "titleRu": "Нижняя конечность. Передняя поверхность.",
+      "titleEn": "",
+      "section": "lower-limb",
+      "sectionRu": "Нижние конечности",
+      "printStart": 139,
+      "printEnd": 139,
+      "keyFactsRu": [],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p139.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p139.jpg",
+          "captionRu": "Нижняя конечность. Передняя поверхность.",
+          "modality": "us+scheme",
+          "printPage": "139"
+        }
+      ]
+    },
+    {
+      "slug": "p140",
+      "titleRu": "Нижняя конечность. Передняя поверхность.",
+      "titleEn": "",
+      "section": "lower-limb",
+      "sectionRu": "Нижние конечности",
+      "printStart": 140,
+      "printEnd": 140,
+      "keyFactsRu": [],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p140.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p140.jpg",
+          "captionRu": "Нижняя конечность. Передняя поверхность.",
+          "modality": "us+scheme",
+          "printPage": "140"
+        }
+      ]
+    },
+    {
+      "slug": "p141",
+      "titleRu": "Нижняя конечность. Передняя поверхность.",
+      "titleEn": "",
+      "section": "lower-limb",
+      "sectionRu": "Нижние конечности",
+      "printStart": 141,
+      "printEnd": 141,
+      "keyFactsRu": [],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p141.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p141.jpg",
+          "captionRu": "Нижняя конечность. Передняя поверхность.",
+          "modality": "us+scheme",
+          "printPage": "141"
+        }
+      ]
+    },
+    {
+      "slug": "p142",
+      "titleRu": "Нижняя конечность. Боковая поверхность.",
+      "titleEn": "",
+      "section": "lower-limb",
+      "sectionRu": "Нижние конечности",
+      "printStart": 142,
+      "printEnd": 142,
+      "keyFactsRu": [],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p142.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p142.jpg",
+          "captionRu": "Нижняя конечность. Боковая поверхность.",
+          "modality": "us+scheme",
+          "printPage": "142"
+        }
+      ]
+    },
+    {
+      "slug": "p143",
+      "titleRu": "Нижняя конечность. Боковая поверхность.",
+      "titleEn": "",
+      "section": "lower-limb",
+      "sectionRu": "Нижние конечности",
+      "printStart": 143,
+      "printEnd": 143,
+      "keyFactsRu": [],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p143.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p143.jpg",
+          "captionRu": "Нижняя конечность. Боковая поверхность.",
+          "modality": "us+scheme",
+          "printPage": "143"
+        }
+      ]
+    },
+    {
+      "slug": "p144",
+      "titleRu": "Нижняя конечность. Боковая поверхность.",
+      "titleEn": "",
+      "section": "lower-limb",
+      "sectionRu": "Нижние конечности",
+      "printStart": 144,
+      "printEnd": 144,
+      "keyFactsRu": [],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p144.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p144.jpg",
+          "captionRu": "Нижняя конечность. Боковая поверхность.",
+          "modality": "us+scheme",
+          "printPage": "144"
+        }
+      ]
+    },
+    {
+      "slug": "p145",
+      "titleRu": "Нижняя конечность. Задняя поверхность.",
+      "titleEn": "",
+      "section": "lower-limb",
+      "sectionRu": "Нижние конечности",
+      "printStart": 145,
+      "printEnd": 145,
+      "keyFactsRu": [],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p145.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p145.jpg",
+          "captionRu": "Нижняя конечность. Задняя поверхность.",
+          "modality": "us+scheme",
+          "printPage": "145"
+        }
+      ]
+    },
+    {
+      "slug": "p146",
+      "titleRu": "Нижняя конечность. Задняя поверхность.",
+      "titleEn": "",
+      "section": "lower-limb",
+      "sectionRu": "Нижние конечности",
+      "printStart": 146,
+      "printEnd": 146,
+      "keyFactsRu": [
+        "На снимке/схеме: Подколенная артерия и вена левые"
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p146.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p146.jpg",
+          "captionRu": "Нижняя конечность. Задняя поверхность.",
+          "modality": "us+scheme",
+          "printPage": "146"
+        }
+      ]
+    },
+    {
+      "slug": "p147",
+      "titleRu": "Нижняя конечность. Передняя поверхность.",
+      "titleEn": "",
+      "section": "lower-limb",
+      "sectionRu": "Нижние конечности",
+      "printStart": 147,
+      "printEnd": 147,
+      "keyFactsRu": [],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p147.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p147.jpg",
+          "captionRu": "Нижняя конечность. Передняя поверхность.",
+          "modality": "us+scheme",
+          "printPage": "147"
+        }
+      ]
+    },
+    {
+      "slug": "p148",
+      "titleRu": "Нижняя конечность. Боковая поверхность.",
+      "titleEn": "",
+      "section": "lower-limb",
+      "sectionRu": "Нижние конечности",
+      "printStart": 148,
+      "printEnd": 148,
+      "keyFactsRu": [
+        "На снимке/схеме: Большая подкожная вена правая"
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p148.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p148.jpg",
+          "captionRu": "Нижняя конечность. Боковая поверхность.",
+          "modality": "us+scheme",
+          "printPage": "148"
+        }
+      ]
+    },
+    {
+      "slug": "p149",
+      "titleRu": "Нижняя конечность. Передняя поверхность.",
+      "titleEn": "",
+      "section": "lower-limb",
+      "sectionRu": "Нижние конечности",
+      "printStart": 149,
+      "printEnd": 149,
+      "keyFactsRu": [
+        "На снимке/схеме: Межберцовый синдесмоз правый"
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p149.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p149.jpg",
+          "captionRu": "Нижняя конечность. Передняя поверхность.",
+          "modality": "us+scheme",
+          "printPage": "149"
+        }
+      ]
+    },
+    {
+      "slug": "p150",
+      "titleRu": "Нижняя конечность. Передняя поверхность.",
+      "titleEn": "",
+      "section": "lower-limb",
+      "sectionRu": "Нижние конечности",
+      "printStart": 150,
+      "printEnd": 150,
+      "keyFactsRu": [
+        "На снимке/схеме: Г оленостопный сустав левый"
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p150.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p150.jpg",
+          "captionRu": "Нижняя конечность. Передняя поверхность.",
+          "modality": "us+scheme",
+          "printPage": "150"
+        }
+      ]
+    },
+    {
+      "slug": "p151",
+      "titleRu": "Нижняя конечность. Передняя поверхность.",
+      "titleEn": "",
+      "section": "lower-limb",
+      "sectionRu": "Нижние конечности",
+      "printStart": 151,
+      "printEnd": 151,
+      "keyFactsRu": [
+        "На снимке/схеме: Г оленостопный сустав правый"
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p151.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p151.jpg",
+          "captionRu": "Нижняя конечность. Передняя поверхность.",
+          "modality": "us+scheme",
+          "printPage": "151"
+        }
+      ]
+    },
+    {
+      "slug": "p152",
+      "titleRu": "Нижняя конечность. Задняя поверхность.",
+      "titleEn": "",
+      "section": "lower-limb",
+      "sectionRu": "Нижние конечности",
+      "printStart": 152,
+      "printEnd": 152,
+      "keyFactsRu": [],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p152.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p152.jpg",
+          "captionRu": "Нижняя конечность. Задняя поверхность.",
+          "modality": "us+scheme",
+          "printPage": "152"
+        }
+      ]
+    },
+    {
+      "slug": "p153",
+      "titleRu": "Нижняя конечность. Задняя поверхность.",
+      "titleEn": "",
+      "section": "lower-limb",
+      "sectionRu": "Нижние конечности",
+      "printStart": 153,
+      "printEnd": 153,
+      "keyFactsRu": [],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p153.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p153.jpg",
+          "captionRu": "Нижняя конечность. Задняя поверхность.",
+          "modality": "us+scheme",
+          "printPage": "153"
+        }
+      ]
+    },
+    {
+      "slug": "p154",
+      "titleRu": "Нижняя конечность. Передняя (тыльная) поверхность.",
+      "titleEn": "",
+      "section": "lower-limb",
+      "sectionRu": "Нижние конечности",
+      "printStart": 154,
+      "printEnd": 154,
+      "keyFactsRu": [
+        "На снимке/схеме: Ткани тыльной поверхности стопы правой"
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p154.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p154.jpg",
+          "captionRu": "Нижняя конечность. Передняя (тыльная) поверхность.",
+          "modality": "us+scheme",
+          "printPage": "154"
+        }
+      ]
+    },
+    {
+      "slug": "p155",
+      "titleRu": "Нижняя конечность. Передняя (тыльная) поверхность.",
+      "titleEn": "",
+      "section": "lower-limb",
+      "sectionRu": "Нижние конечности",
+      "printStart": 155,
+      "printEnd": 155,
+      "keyFactsRu": [
+        "На снимке/схеме: Ткани тыльной поверхности стопы правой"
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p155.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p155.jpg",
+          "captionRu": "Нижняя конечность. Передняя (тыльная) поверхность.",
+          "modality": "us+scheme",
+          "printPage": "155"
+        }
+      ]
+    },
+    {
+      "slug": "p156",
+      "titleRu": "Нижняя конечность. Задняя (подошвенная) поверхность.",
+      "titleEn": "",
+      "section": "lower-limb",
+      "sectionRu": "Нижние конечности",
+      "printStart": 156,
+      "printEnd": 156,
+      "keyFactsRu": [
+        "На снимке/схеме: Ткани подошвенной поверхности стопы левой"
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p156.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p156.jpg",
+          "captionRu": "Нижняя конечность. Задняя (подошвенная) поверхность.",
+          "modality": "us+scheme",
+          "printPage": "156"
+        }
+      ]
+    },
+    {
+      "slug": "p157",
+      "titleRu": "Нижняя конечность. Задняя (подошвенная) поверхность.",
+      "titleEn": "",
+      "section": "lower-limb",
+      "sectionRu": "Нижние конечности",
+      "printStart": 157,
+      "printEnd": 157,
+      "keyFactsRu": [
+        "На снимке/схеме: Ткани подошвенной поверхности стопы левой"
+      ],
+      "differentialRu": [],
+      "images": [
+        {
+          "file": "p157.jpg",
+          "href": "/clinical-atlas/vetseva-scan-planes/p157.jpg",
+          "captionRu": "Нижняя конечность. Задняя (подошвенная) поверхность.",
+          "modality": "us+scheme",
+          "printPage": "157"
+        }
+      ]
+    }
+  ]
+}

@@ -26,6 +26,7 @@ pnpm upload:clinical-atlas-supabase  # prenatal-echo-ru + neishtadt-ovary → St
 | Цервикс гистология | `/tools/refs/cervix-morphology-atlas` |
 | Маммология | `/tools/refs/mammology-national-atlas` |
 | Пренатал | `/tools/refs/prenatal-echography-atlas` |
+| Плоскости УЗ / датчик (Ветшева) | `/tools/refs/us-scan-planes-atlas` |
 | Otto | `/tools/refs/clinical-echocardiography-atlas` |
 | BI-RADS | `/tools/calc/rads/bi-rads` |
 | Фетометрия Медведев + мастер номограмм (45) | `/tools/calc/ob/fetometry-norms` · SSOT `packages/fetal-nomograms` |

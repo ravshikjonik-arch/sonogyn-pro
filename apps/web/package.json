@@ -166,6 +166,7 @@
     "@repo/orads-us": "workspace:*",
     "@repo/ovarian-tumor-morphology-atlas": "workspace:*",
     "@repo/prenatal-echography-atlas": "workspace:*",
+    "@repo/us-scan-planes-atlas": "workspace:*",
     "@repo/prenatal-guided-protocol": "workspace:*",
     "@repo/report-engine": "workspace:*",
     "@repo/report-generator": "workspace:*",

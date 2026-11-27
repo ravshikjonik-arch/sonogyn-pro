@@ -112,6 +112,7 @@ export type ModuleId =
   | "education.fetal-doppler-1t"
   | "education.obstetric-atlas"
   | "education.fetal-spine"
+  | "education.us-scan-planes-atlas"
   | "education.exam-checklists"
   | "education.quiz-hub"
   | "education.case-library"
@@ -792,6 +793,16 @@ export const MODULES: ModuleEntry[] = [
     href: "/library/fetal-spine",
     surfaces: { educationShelf: "courses" },
     legacy: { education: "fetal-spine-atlas" },
+  },
+  {
+    id: "education.us-scan-planes-atlas",
+    domain: "education",
+    kind: "education",
+    title: "Плоскости сканирования и датчик (атлас)",
+    description: "Схема постановки датчика и изображение на экране — голова, живот, таз.",
+    href: "/tools/refs/us-scan-planes-atlas",
+    surfaces: { educationShelf: "atlases", clinicalSearch: true },
+    legacy: { education: "us-scan-planes-atlas" },
   },
   {
     id: "education.exam-checklists",

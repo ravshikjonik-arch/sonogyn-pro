@@ -1,0 +1,23 @@
+{
+  "name": "@repo/us-scan-planes-atlas",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Атлас УЗ-плоскостей и позиционирования датчика (Ветшева, v1.2)",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./data": "./data/atlas.ru.json"
+  },
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "sideEffects": false,
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  }
+}
