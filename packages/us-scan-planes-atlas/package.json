@@ -13,11 +13,10 @@
   "sideEffects": false,
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "node --import tsx --test __tests__/atlas-integrity.test.ts"
   },
   "devDependencies": {
     "@types/node": "^20",
-    "typescript": "^5.9.2",
-    "vitest": "^3.2.4"
+    "typescript": "^5.9.2"
   }
 }
