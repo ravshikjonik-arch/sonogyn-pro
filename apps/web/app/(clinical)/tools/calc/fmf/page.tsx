@@ -1,33 +1,26 @@
-import Link from "next/link";
-import type { Metadata } from "next";
+import { FmfCalculatorsHubClient } from "@/components/education/FmfCalculatorsHubClient";
 
-import { FmfCalculators } from "@/components/fmf/FmfCalculators";
-import { Button } from "@/components/ui/button";
-
-export const metadata: Metadata = {
-  title: "Калькуляторы FMF · оценка и менеджмент",
+export const metadata = {
+  title: "Калькуляторы FMF · оценка и менеджмент | SonoGyn Pro",
   description:
-    "Калькуляторы FMF assessment: dating, NT, EFW, birth weight, Doppler PI, UtA PI — движок fmf-core с атрибуцией публикаций.",
+    "Калькуляторы FMF: dating CRL → срок (Robinson 1975), NT-референсы с центилями (Wright 2008), CPR по допплеру. По опубликованным формулам с атрибуцией.",
 };
 
 export default function FmfCalculatorsPage() {
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8 lg:px-10">
-      <header className="mb-6 space-y-2">
+    <div className="mx-auto max-w-5xl px-4 py-6">
+      <header className="mb-5 text-center">
         <p className="text-[11px] font-bold uppercase tracking-wider text-[var(--clinical-primary-deep)]">
-          FMF · калькуляторы
+          FMF · КАЛЬКУЛЯТОРЫ
         </p>
-        <h1 className="text-2xl font-semibold text-[var(--clinical-foreground)]">
-          Оценка и менеджмент (assessment)
+        <h1 className="mt-1 text-2xl font-black text-[var(--clinical-foreground)]">
+          Калькуляторы FMF: оценка и менеджмент
         </h1>
-        <p className="max-w-2xl text-sm text-[var(--clinical-foreground-muted)]">
-          Шесть калькуляторов по моделям из публикаций (не софт FMF). Полный учебный раздел 11–13 нед — ниже.
+        <p className="mx-auto mt-2 max-w-2xl text-sm text-[var(--clinical-foreground-muted)]">
+          Реализация по опубликованным формулам с атрибуцией первоисточников — как в разделе Calculators Fetal Medicine Foundation.
         </p>
-        <Button variant="outline" size="sm" asChild>
-          <Link href="/tools/refs/fmf-11-13">FMF · скрининг 11–13 (техника, риск учебно) →</Link>
-        </Button>
       </header>
-      <FmfCalculators />
+      <FmfCalculatorsHubClient />
     </div>
   );
 }
