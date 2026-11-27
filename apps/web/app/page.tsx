@@ -32,7 +32,9 @@ const jsonLd = {
     {
       "@type": "Organization",
       name: "SonoGyn Pro",
+      alternateName: ["sonogyn-pro", "sonogyn pro", "СоноГин Про"],
       url: siteUrl,
+      sameAs: [siteUrl, `${siteUrl}/`],
       email: "support@sonogyn-pro.ru",
       description:
         "Клиническая платформа поддержки решений для врачей УЗИ и акушерства-гинекологии.",

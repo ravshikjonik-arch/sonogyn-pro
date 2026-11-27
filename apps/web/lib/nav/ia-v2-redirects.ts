@@ -64,7 +64,7 @@ export const IA_V2_REDIRECTS: Redirect[] = [
   {
     source: "/",
     has: [{ type: "host", value: "www.sonogyn-pro.ru" }],
-    destination: "https://sonogyn-pro.ru/home",
+    destination: "https://sonogyn-pro.ru/",
     permanent: true,
   },
   {

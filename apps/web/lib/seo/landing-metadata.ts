@@ -9,6 +9,10 @@ export const landingPageMetadata: Metadata = buildPublicMetadata({
     "Калькуляторы O-RADS, IOTA, BI-RADS, TI-RADS, FIGO, 3D-визуализация, клинические рекомендации и кейсы для врачей УЗД и АГ. Не для пациентов.",
   path: "/",
   keywords: [
+    "sonogyn-pro",
+    "sonogyn pro",
+    "SonoGyn Pro",
+    "sonogyn-pro.ru",
     "УЗИ",
     "акушерство-гинекология",
     "O-RADS",
@@ -16,7 +20,6 @@ export const landingPageMetadata: Metadata = buildPublicMetadata({
     "BI-RADS",
     "калькулятор",
     "клинические рекомендации",
-    "SonoGyn Pro",
   ],
   skipCdsDisclaimer: true,
 });
