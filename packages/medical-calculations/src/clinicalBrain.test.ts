@@ -97,6 +97,14 @@ describe("clinicalBrain: оркестратор ассистента", () => {
     assert.equal(s3.pedunculatedSubserosal, true);
   });
 
+  it("«КТР 63 миома FIGO» → сначала готовый расчёт КТР, не FIGO-опросник", async () => {
+    const brain = new ClinicalBrain(BUS);
+    const turn = await brain.handle("КТР 63 миома FIGO");
+    assert.equal(turn.intent, "calculate");
+    assert.equal(turn.contract.tool, "obstetrics_dating_crl");
+    assert.ok(turn.contract.result?.days !== undefined);
+  });
+
   it("«КТР 63» → dating, результат с цитатой LOINC и дисклеймером", async () => {
     const brain = new ClinicalBrain(BUS);
     const turn = await brain.handle("КТР 63");

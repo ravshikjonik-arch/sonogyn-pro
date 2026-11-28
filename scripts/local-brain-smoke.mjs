@@ -64,6 +64,25 @@ async function checkBrainApi() {
       return;
     }
     console.log("reply_preview", String(body.reply).replace(/\s+/g, " ").slice(0, 120));
+    if (process.env.SONOGYN_BRAIN_EVIDENCE === "1") {
+      const evRes = await fetch(brainPost, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "User-Agent": "SonoGyn-brain-check" },
+        body: JSON.stringify({ text: "миома интрамуральная FIGO", mode: "local", evidence: true }),
+        signal: AbortSignal.timeout(120_000),
+      });
+      const evBody = await evRes.json().catch(() => ({}));
+      console.log(
+        "brain POST evidence",
+        "HTTP",
+        evRes.status,
+        "tier=",
+        evBody.evidence?.tier,
+        "citations=",
+        evBody.evidence?.citationCount,
+      );
+      if (!evRes.ok) exit = 1;
+    }
   } catch (e) {
     console.log("brain API skip (run pnpm dev:web first?):", e instanceof Error ? e.message : e);
     console.log("\nUI without API: open", `${webBase}/ai/consultants/brain`, "— режим «Локальный мозг»");

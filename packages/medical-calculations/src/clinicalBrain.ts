@@ -202,6 +202,27 @@ function scoreTool(tool: ToolDefinition, text: string, nosology?: string): numbe
   return score;
 }
 
+/** Если из текста уже можно честно посчитать движок — берём его (КТР+миома не уводит в FIGO-опросник). */
+function pickReadyTool(
+  text: string,
+  sessionSlots: Record<string, unknown>,
+  nosology?: string,
+): ToolDefinition | undefined {
+  let best: ToolDefinition | undefined;
+  let bestScore = 0;
+  for (const t of listTools()) {
+    const slots = extractSlots(t, text, sessionSlots);
+    const outcome = runTool(t.id, slots);
+    if (!outcome.ok) continue;
+    const s = scoreTool(t, text, nosology) + Object.keys(slots).length * 0.5;
+    if (s > bestScore) {
+      bestScore = s;
+      best = t;
+    }
+  }
+  return best;
+}
+
 function pickTool(text: string, nosology?: string): ToolDefinition | undefined {
   let bestScore = 0;
   const candidates: ToolDefinition[] = [];
@@ -292,8 +313,8 @@ export class ClinicalBrain {
     }
     // 4) явный запрос тактики/порога — lookup в шине знаний
     if (LOOKUP_RE.test(lower)) return this.handleLookup(text, s0, nosology);
-    // 5) расчёт по ключевым словам
-    const tool = pickTool(text, nosology);
+    // 5) расчёт: сначала инструмент с готовыми слотами, иначе — по ключевым словам
+    const tool = pickReadyTool(text, s0.slots, nosology) ?? pickTool(text, nosology);
     if (tool) return this.handleCalculate(tool, text, s0);
     // 6) иначе — lookup
     return this.handleLookup(text, s0, nosology);

@@ -6,6 +6,7 @@
 |--------|----------------|----------------|
 | **Локальный мозг** | Браузер (`ClinicalBrain` + `knowledge-bus`) | Нет |
 | **+ LLM (Ollama)** | `POST /api/ai/brain` mode `llm` → слоты; числа — движки | Только localhost |
+| **+ Evidence** | `POST /api/ai/brain` `evidence: true` → полный retrieval **или** tier `registry` (стандарты FIGO/O-RADS без PubMed после расчёта) | Частично |
 
 **Не путать с Colibri** (`pnpm colibri:*`) — тот питает общий AI Gateway; clinical brain — отдельный продуктовый ассистент с детерминированными калькуляторами и цитатами FMF/FIGO.
 
@@ -22,6 +23,10 @@ pnpm dev:web
 
 ```bash
 pnpm brain:check
+# с сетью и поднятым dev:web — полный evidence-smoke:
+SONOGYN_BRAIN_EVIDENCE=1 pnpm brain:check
+pnpm brain:verify
+# скорость + intent: локальные расчёты обычно &lt; 50 ms; полный evidence 10–30 с (сеть)
 ```
 
 ## Ollama (опционально, режим LLM)
@@ -43,10 +48,11 @@ OLLAMA_MODEL=qwen3:4b
 
 ## API
 
-- `GET /api/ai/brain` → `{ ollama, models?, model }`
-- `POST /api/ai/brain` → `{ text, session?, mode?: "local" | "llm" }`
+- `GET /api/ai/brain` → `{ ollama, models?, model, evidenceCapable }`
+- `POST /api/ai/brain` → `{ text, session?, mode?, evidence?, useLlmEvidence?, corpusMode? }`
+  - При `evidence: true` после движка подмешиваются цитаты PubMed/Europe PMC/КР/vault и подсказки из `international-standards.json` (rate limit как Evidence Assistant).
 
-Код: `apps/web/lib/edge/brain-server.ts`, `packages/edge-llm`, `packages/medical-calculations` (`clinicalBrain`).
+Код: `apps/web/lib/edge/brain-server.ts`, `apps/web/lib/ai/clinical-copilot/orchestrator.ts`, `packages/edge-llm`, `packages/medical-calculations` (`clinicalBrain`), `packages/evidence-retrieval`.
 
 ## Дисклеймер
 
