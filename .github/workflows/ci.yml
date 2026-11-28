@@ -109,7 +109,8 @@ jobs:
         run: pnpm exec turbo build --filter=@repo/web
 
   e2e:
-    runs-on: ubuntu-latest
+    # Playwright browser deps: ubuntu-24.04 until @playwright/test supports 26.04 runners
+    runs-on: ubuntu-24.04
     needs: ci
     env:
       NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
@@ -154,6 +155,9 @@ jobs:
 
       - name: Evidence Assistant E2E smoke
         run: pnpm --filter @repo/web test:e2e:evidence
+
+      - name: Clinical brain E2E smoke
+        run: pnpm --filter @repo/web test:e2e:brain
 
       - name: Security E2E smoke
         run: pnpm test:e2e:security
