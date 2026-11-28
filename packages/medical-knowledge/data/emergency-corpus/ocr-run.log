@@ -1,0 +1,47 @@
+[skoraya] pages=266 workers=4 dpi=150
+  progress 25/266 ok=22 skip=3 fail=0
+  progress 50/266 ok=47 skip=3 fail=0
+  progress 75/266 ok=72 skip=3 fail=0
+  progress 100/266 ok=97 skip=3 fail=0
+  progress 125/266 ok=122 skip=3 fail=0
+  progress 150/266 ok=147 skip=3 fail=0
+  progress 175/266 ok=172 skip=3 fail=0
+  progress 200/266 ok=197 skip=3 fail=0
+  progress 225/266 ok=222 skip=3 fail=0
+  progress 250/266 ok=247 skip=3 fail=0
+  progress 266/266 ok=263 skip=3 fail=0
+{
+  "book": "skoraya",
+  "pdf": "skoraya-smp.pdf",
+  "pageCount": 266,
+  "ocrOkOrSkip": 266,
+  "ocrFail": 0,
+  "articleCount": 266,
+  "totalChars": 876023,
+  "dpi": 150,
+  "lang": "rus+eng",
+  "note": "Локальный OCR. Не коммитить полный текст / не деплоить публично."
+}
+[neotlozhnaya] pages=203 workers=4 dpi=150
+  progress 25/203 ok=25 skip=0 fail=0
+  progress 50/203 ok=50 skip=0 fail=0
+  progress 75/203 ok=75 skip=0 fail=0
+  progress 100/203 ok=100 skip=0 fail=0
+  progress 125/203 ok=125 skip=0 fail=0
+  progress 150/203 ok=150 skip=0 fail=0
+  progress 175/203 ok=175 skip=0 fail=0
+  progress 200/203 ok=200 skip=0 fail=0
+  progress 203/203 ok=203 skip=0 fail=0
+{
+  "book": "neotlozhnaya",
+  "pdf": "neotlozhnaya-terapiya.pdf",
+  "pageCount": 203,
+  "ocrOkOrSkip": 203,
+  "ocrFail": 0,
+  "articleCount": 201,
+  "totalChars": 568567,
+  "dpi": 150,
+  "lang": "rus+eng",
+  "note": "Локальный OCR. Не коммитить полный текст / не деплоить публично."
+}
+DONE

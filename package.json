@@ -75,6 +75,7 @@
     "colibri:stop": "bash scripts/colibri/stop.sh",
     "colibri:wire": "node scripts/colibri/wire-env.mjs",
     "colibri:check": "node scripts/colibri/check.mjs",
+    "brain:check": "node scripts/local-brain-smoke.mjs",
     "test:e2e:iota": "pnpm --filter @repo/web test:e2e:iota"
   },
   "devDependencies": {

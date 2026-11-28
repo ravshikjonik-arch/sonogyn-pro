@@ -1,15 +1,6 @@
 /** Domain hub cards — single source for /tools, sidebar, and domain landing pages. */
 
-import {
-  ACR_RADS_ROOM,
-  FMF_ROOM,
-  FIGO_UTERUS_ROOM,
-  GYN_US_MORPHOLOGY_ROOM,
-  ISUOG_OB_ROOM,
-  ORADS_US_ROOM,
-  type ClinicalRoom,
-  type ClinicalRoomChildKind,
-} from "@repo/clinical-tools";
+import { ORADS_US_ROOM } from "@repo/clinical-tools";
 
 import { isCopyrightLockedHref } from "@/lib/copyright/book-content-gate";
 
@@ -69,12 +60,6 @@ export const TOOLS_HOME_DOMAINS = [
     description: "КР · PubMed · ГРЛС · Новое · ссылки вовне",
     accent: "from-amber-500 to-orange-400",
   },
-  {
-    href: "/tools/consensus",
-    title: "Международные стандарты",
-    description: "O-RADS · ACR RADS · FMF · FIGO · IOTA · ISUOG — комнаты и каталог",
-    accent: "from-indigo-600 to-violet-500",
-  },
 ] as const;
 
 export const OBSTETRICS_GROUPS: DomainHubGroup[] = [
@@ -86,6 +71,13 @@ export const OBSTETRICS_GROUPS: DomainHubGroup[] = [
         title: "ЧЕК-ЛИСТ АМБУЛАТОРИИ",
         description: "Быстрый чек-лист приёма АГ · нормы · итог",
         primary: true,
+      },
+      {
+        href: "/ai/consultants/brain",
+        title: "Локальный клинический мозг",
+        description: "Движки + база знаний · офлайн · без облака",
+        primary: true,
+        badge: "Local",
       },
       {
         href: "/ai/consultants/us-prep",
@@ -101,16 +93,28 @@ export const OBSTETRICS_GROUPS: DomainHubGroup[] = [
         badge: "AI",
       },
       {
+        href: "/ai/consultants/fmf",
+        title: "FMF · I скрининг",
+        description: "Малый срок, КТР, ТВП, допплер",
+        badge: "FMF",
+      },
+      {
         href: "/tools/fmf",
         title: "FMF · скрининг 11–13",
         description: "Комната: техника NT, калькуляторы, консультант, этапы 1–3",
         badge: "FMF",
       },
       {
-        href: "/ai/consultants/fmf",
-        title: "FMF · консультант I–III",
-        description: "Малый срок, КТР, ТВП, допплер",
-        badge: "AI",
+        href: "/tools/refs/fmf-11-13",
+        title: "FMF · скрининг 11–13 нед",
+        description: "Техника NT, допплер, пороги, учебный расчёт",
+        badge: "Курс",
+      },
+      {
+        href: "/tools/calc/fmf",
+        title: "Калькуляторы FMF",
+        description: "Dating, NT-центили, CPR · этап 1",
+        badge: "FMF",
       },
       {
         href: "/ai/consultants/fmf/guided",
@@ -124,12 +128,6 @@ export const OBSTETRICS_GROUPS: DomainHubGroup[] = [
     title: "Расчёты",
     cards: [
       {
-        href: "/tools/isuog-ob",
-        title: "ISUOG · акушерское УЗИ",
-        description: "Комната: гайдлайны, фетометрия, Bishop, FMF",
-        badge: "ISUOG",
-      },
-      {
         href: "/tools/calc/ob",
         title: "Акушерский калькулятор",
         description: "Срок, КТР, Bishop, VBAC, длина шейки, гинекологические риски",
@@ -140,12 +138,6 @@ export const OBSTETRICS_GROUPS: DomainHubGroup[] = [
         title: "Расчёт плода",
         description: "Биометрия, калиперы, нормы I–III триместра",
         badge: "Таблицы",
-      },
-      {
-        href: "/tools/calc/fmf",
-        title: "Калькуляторы FMF",
-        description: "Dating, NT, EFW, Doppler PI, UtA PI · fmf-core",
-        badge: "FMF",
       },
     ],
   },
@@ -240,12 +232,6 @@ export const GYNECOLOGY_GROUPS: DomainHubGroup[] = [
     title: "Придатки и матка",
     cards: [
       {
-        href: "/tools/gyn-us-morphology",
-        title: "Гин УЗИ · морфология",
-        description: "IETA, IDEA, IOTA 2026, эластография",
-        badge: "IOTA",
-      },
-      {
         href: "/tools/o-rads",
         title: "O-RADS US",
         description: "Комната придатков: calc · IOTA · учёба · протокол",
@@ -259,9 +245,9 @@ export const GYNECOLOGY_GROUPS: DomainHubGroup[] = [
         primary: true,
       },
       {
-        href: "/tools/figo-uterus",
-        title: "FIGO · матка",
-        description: "Комната: миома 0–8, макет, курс, IETA",
+        href: "/tools/mapping/uterus",
+        title: "FIGO · миома",
+        description: "Тип узла и аденомиоз",
       },
       {
         href: "/tools/mapping/endometriosis",
@@ -311,7 +297,7 @@ export const GYNECOLOGY_HUB: DomainHubCard[] = GYNECOLOGY_GROUPS.flatMap((group)
   (card) => !isCopyrightLockedHref(card.href),
 );
 
-function roomChildToCard(child: ClinicalRoom["children"][number]): DomainHubCard {
+function roomChildToCard(child: (typeof ORADS_US_ROOM.children)[number]): DomainHubCard {
   return {
     href: child.href,
     title: child.title,
@@ -321,50 +307,23 @@ function roomChildToCard(child: ClinicalRoom["children"][number]): DomainHubCard
   };
 }
 
-function roomHubGroups(
-  room: ClinicalRoom,
-  sections: { title: string; kinds: ClinicalRoomChildKind[] }[],
-): DomainHubGroup[] {
-  return sections
-    .map((section) => ({
-      title: section.title,
-      cards: room.children.filter((child) => section.kinds.includes(child.kind)).map(roomChildToCard),
-    }))
-    .filter((group) => group.cards.length > 0);
-}
-
 /** Derived from SSOT room — keep in sync via @repo/clinical-tools ORADS_US_ROOM. */
 export const ORADS_HUB: DomainHubCard[] = ORADS_US_ROOM.children.map(roomChildToCard);
 
-export const ORADS_HUB_GROUPS: DomainHubGroup[] = roomHubGroups(ORADS_US_ROOM, [
-  { title: "На приёме", kinds: ["calculator", "protocol"] },
-  { title: "Справка и обучение", kinds: ["reference", "education", "mapping"] },
-]);
-
-export const FMF_HUB_GROUPS: DomainHubGroup[] = roomHubGroups(FMF_ROOM, [
-  { title: "Скрининг и расчёт", kinds: ["calculator", "reference"] },
-  { title: "Консультант и обучение", kinds: ["education"] },
-]);
-
-export const ACR_RADS_HUB_GROUPS: DomainHubGroup[] = roomHubGroups(ACR_RADS_ROOM, [
-  { title: "Калькуляторы ACR", kinds: ["calculator"] },
-  { title: "Справочно", kinds: ["reference"] },
-]);
-
-export const FIGO_UTERUS_HUB_GROUPS: DomainHubGroup[] = roomHubGroups(FIGO_UTERUS_ROOM, [
-  { title: "FIGO и приём", kinds: ["mapping", "calculator"] },
-  { title: "Учёба", kinds: ["education", "reference"] },
-]);
-
-export const ISUOG_OB_HUB_GROUPS: DomainHubGroup[] = roomHubGroups(ISUOG_OB_ROOM, [
-  { title: "Гайдлайны и фетометрия", kinds: ["reference", "calculator", "education"] },
-  { title: "Связанные комнаты", kinds: ["reference"] },
-]);
-
-export const GYN_US_MORPHOLOGY_HUB_GROUPS: DomainHubGroup[] = roomHubGroups(GYN_US_MORPHOLOGY_ROOM, [
-  { title: "На приёме", kinds: ["calculator", "mapping"] },
-  { title: "Термины и стандарты", kinds: ["education", "reference"] },
-]);
+export const ORADS_HUB_GROUPS: DomainHubGroup[] = [
+  {
+    title: "На приёме",
+    cards: ORADS_US_ROOM.children
+      .filter((child) => child.kind === "calculator" || child.kind === "protocol")
+      .map(roomChildToCard),
+  },
+  {
+    title: "Справка и обучение",
+    cards: ORADS_US_ROOM.children
+      .filter((child) => child.kind === "reference" || child.kind === "education" || child.kind === "mapping")
+      .map(roomChildToCard),
+  },
+];
 
 export const CALCULATORS_HUB: DomainHubCard[] = [
   {
@@ -380,9 +339,9 @@ export const CALCULATORS_HUB: DomainHubCard[] = [
     primary: true,
   },
   {
-    href: "/tools/rads",
-    title: "ACR RADS",
-    description: "Комната: O-RADS US, BI-RADS, TI-RADS, LN-RADS",
+    href: "/tools/calc/rads",
+    title: "RADS",
+    description: "O-RADS, BI-RADS, TI-RADS, LN-RADS",
     primary: true,
   },
   {
@@ -411,6 +370,13 @@ export const CALCULATORS_HUB: DomainHubCard[] = [
 ];
 
 export const ASSISTANT_HUB: DomainHubCard[] = [
+  {
+    href: "/ai/consultants/brain",
+    title: "Локальный клинический мозг",
+    description: "FMF, миома, пороги · детерминированные движки · Ollama опционально",
+    badge: "Local",
+    primary: true,
+  },
   {
     href: "/ai/consultants/us-prep",
     title: "Live приём · голосовой брифинг",

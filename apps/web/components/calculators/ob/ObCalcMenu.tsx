@@ -60,6 +60,12 @@ const SECTIONS: Section[] = [
     title: "Масса плода",
     rows: [
       {
+        href: "/tools/calc/ob/fetal-weight?tab=hadlock",
+        title: "Масса плода по Хэдлоку (УЗИ)",
+        icon: Ruler,
+        tone: "bg-blue-500",
+      },
+      {
         href: "/tools/calc/ob/fetal-weight?tab=maternal",
         title: "Предполагаемая масса плода по антропометрии матери",
         icon: UserRound,

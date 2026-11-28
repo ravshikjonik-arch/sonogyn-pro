@@ -1,0 +1,12 @@
+{
+  "book": "skoraya",
+  "pdf": "skoraya-smp.pdf",
+  "pageCount": 266,
+  "ocrOkOrSkip": 266,
+  "ocrFail": 0,
+  "articleCount": 266,
+  "totalChars": 876023,
+  "dpi": 150,
+  "lang": "rus+eng",
+  "note": "Локальный OCR. Не коммитить полный текст / не деплоить публично."
+}

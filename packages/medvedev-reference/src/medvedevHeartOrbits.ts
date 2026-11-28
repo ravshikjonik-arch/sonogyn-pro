@@ -372,7 +372,7 @@ export const MEDVEDEV_HEART_ORBIT_METRIC_OPTIONS: {
   { id: "orbitIntra", label: "Интраорбитальный размер", unit: "мм", group: "orbit", appendix: "13" },
   { id: "orbitDiameter", label: "Диаметр глазницы", unit: "мм", group: "orbit", appendix: "13" },
   { id: "thymusPerimeter", label: "Периметр тимуса", unit: "мм", group: "thymus", appendix: "14" },
-  { id: "thymusTransverse", label: "Поперечный диаметр тимуса", unit: "см", group: "thymus", appendix: "15" },
+  { id: "thymusTransverse", label: "ТТО тимуса (поперечный)", unit: "см", group: "thymus", appendix: "15" },
   { id: "leftAtrium", label: "Левое предсердие", unit: "мм", group: "heart", appendix: "16" },
   { id: "rightAtrium", label: "Правое предсердие", unit: "мм", group: "heart", appendix: "17" },
   { id: "leftVentricle", label: "Левый желудочек", unit: "мм", group: "heart", appendix: "18" },

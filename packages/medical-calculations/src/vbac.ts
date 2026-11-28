@@ -37,7 +37,7 @@ export type VbacPreResult = {
 export function assessVbacPreLabor(input: VbacPreInput): VbacPreResult {
   const checks: { label: string; weight: number; ok: boolean }[] = [
     { label: "Одиночное поперечное КС в анамнезе", weight: 2, ok: input.singleLtcs },
-    { label: "Нерекурrentное показание к прошлому КС", weight: 1, ok: input.nonRecurringIndication },
+    { label: "Нерекуррентное показание к прошлому КС", weight: 1, ok: input.nonRecurringIndication },
     { label: "Ранее вагинальные роды / VBAC", weight: 2, ok: input.priorVaginalBirth },
     { label: "Интервал ≥18 мес от последнего КС", weight: 1, ok: input.interval18Months },
     { label: "Нет подозрения на макросомию (>4000 г)", weight: 1, ok: input.noMacrosomiaSuspected },

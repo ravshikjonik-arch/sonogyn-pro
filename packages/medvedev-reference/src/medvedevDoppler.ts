@@ -379,7 +379,7 @@ export function getUaRiReferenceBand(gaWeeksFraction: number): PercentileBand | 
 export function listUaRiAtWeek(week: number): { marker: "uaRi"; label: string; reference: PercentileBand | null } {
   return {
     marker: "uaRi",
-    label: "ИР артерии пуповины (UA RI)",
+    label: "RI артерии пуповины (UA)",
     reference: getUaRiReferenceBand(week),
   };
 }
@@ -450,7 +450,7 @@ function assessUaRi(
   gaWeeksFraction: number | null | undefined,
 ): MedvedevDopplerAssessment | null {
   const marker = "uaRi" as const;
-  const label = "ИР артерии пуповины (UA RI)";
+  const label = "RI артерии пуповины (UA)";
   if (value === undefined) return null;
 
   if (gaWeeksFraction == null) {

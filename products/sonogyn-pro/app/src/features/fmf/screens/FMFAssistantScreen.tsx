@@ -440,7 +440,7 @@ export default function FMFAssistantScreen({ navigation }: Props) {
               />
               <TextInput
                 style={styles.inputFlex}
-                placeholder="ИР АП (RI) · Прил. 37"
+                placeholder="RI АП · опц."
                 keyboardType="numeric"
                 value={st.uaRi != null ? String(st.uaRi) : ""}
                 onChangeText={(v) => setSt((p) => ({ ...p, uaRi: num(v) }))}
@@ -505,7 +505,7 @@ export default function FMFAssistantScreen({ navigation }: Props) {
               <TextInput style={styles.inputFlex} placeholder="PI маточной слева" keyboardType="numeric" onChangeText={(v) => setDoppler((p) => ({ ...p, piLeft: num(v) }))} />
             </View>
             <View style={styles.row}>
-              <TextInput style={styles.inputFlex} placeholder="ИР АП (RI) · Прил. 37" keyboardType="decimal-pad" onChangeText={(v) => setDoppler((p) => ({ ...p, uaRi: num(v) }))} />
+              <TextInput style={styles.inputFlex} placeholder="RI АП · опц." keyboardType="decimal-pad" onChangeText={(v) => setDoppler((p) => ({ ...p, uaRi: num(v) }))} />
               <TextInput style={styles.inputFlex} placeholder="PI СМА · Прил. 39" keyboardType="decimal-pad" onChangeText={(v) => setDoppler((p) => ({ ...p, piMca: num(v) }))} />
               <TextInput style={styles.inputFlex} placeholder="PSV СМА · Прил. 38" keyboardType="decimal-pad" onChangeText={(v) => setDoppler((p) => ({ ...p, mcaPsv: num(v) }))} />
             </View>

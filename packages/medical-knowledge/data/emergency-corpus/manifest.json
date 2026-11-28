@@ -1,0 +1,62 @@
+{
+  "source": {
+    "id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbb0001",
+    "title": "Полный медицинский справочник фельдшера",
+    "shortTitle": "Справочник фельдшера 2025",
+    "authors": "Макеев А.В. / под ред. Ю.Ю. Елисеева",
+    "organization": null,
+    "publisher": "Эксмо",
+    "edition": "2025",
+    "year": 2025,
+    "isbn": "978-5-04-185712-7",
+    "doi": null,
+    "externalUrl": null,
+    "sourceType": "book",
+    "language": "ru",
+    "reviewStatus": "extracted",
+    "version": "1.0.0-corpus",
+    "chapter": null,
+    "pageStart": null,
+    "pageEnd": null,
+    "verified": false
+  },
+  "pageCount": 482,
+  "tocEntryCount": 490,
+  "emergencyArticleCount": 216,
+  "pageArticleCount": 160,
+  "chunkCount": 478,
+  "pdfs": [
+    "skoraya-smp.pdf",
+    "feldscher-2025.pdf",
+    "neotlozhnaya-terapiya.pdf"
+  ],
+  "totalCorpusChars": 1675215,
+  "note": "Локальный полный корпус + OCR сканов. Не коммитить в git / не деплоить публично.",
+  "ocrBooks": [
+    {
+      "book": "skoraya",
+      "pdf": "skoraya-smp.pdf",
+      "pageCount": 266,
+      "ocrOkOrSkip": 266,
+      "ocrFail": 0,
+      "articleCount": 266,
+      "totalChars": 876023,
+      "dpi": 150,
+      "lang": "rus+eng",
+      "note": "Локальный OCR. Не коммитить полный текст / не деплоить публично."
+    },
+    {
+      "book": "neotlozhnaya",
+      "pdf": "neotlozhnaya-terapiya.pdf",
+      "pageCount": 203,
+      "ocrOkOrSkip": 203,
+      "ocrFail": 0,
+      "articleCount": 201,
+      "totalChars": 568567,
+      "dpi": 150,
+      "lang": "rus+eng",
+      "note": "Локальный OCR. Не коммитить полный текст / не деплоить публично."
+    }
+  ],
+  "ocrArticleCount": 467
+}

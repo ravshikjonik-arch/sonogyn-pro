@@ -190,6 +190,13 @@ export const CALCULATOR_SEO_REGISTRY: CalculatorSeoEntry[] = [
     keywords: ["FMF", "скрининг", "KTР", "ТВП", "акушерство", "УЗИ"],
   },
   {
+    path: "/ai/consultants/brain",
+    title: "Локальный ИИ-ассистент · клинический мозг",
+    description:
+      "Детерминированные движки, пороги FMF и FIGO с цитатами, чеклисты. Данные не покидают устройство. Для врачей УЗД.",
+    keywords: ["локальный ИИ", "FMF", "КТР", "FIGO", "клинический ассистент", "УЗИ"],
+  },
+  {
     path: "/tools/mapping/uterus",
     title: "Матка · FIGO и MUSA · 3D-карта",
     description: "Визуализация миом по FIGO, аденомиоз MUSA, рабочие маркеры для протокола УЗИ.",

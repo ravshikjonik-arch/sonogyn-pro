@@ -6,7 +6,7 @@
   "tableType": "percentile_by_ga",
   "parameter": {
     "id": "uaRi",
-    "labelRu": "ИР пуповины",
+    "labelRu": "RI пуповины",
     "unit": "index"
   },
   "rows": [

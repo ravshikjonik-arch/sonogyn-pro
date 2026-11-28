@@ -6,6 +6,13 @@ const GROUPS: DomainHubGroup[] = [
     title: "Поддержка на приёме",
     cards: [
       {
+        href: "/ai/consultants/brain",
+        title: "Локальный клинический мозг",
+        description: "FMF, FIGO, пороги · движки в браузере · Ollama опционально",
+        primary: true,
+        badge: "Local",
+      },
+      {
         href: "/ai/consultants/us-prep",
         title: "Live приём · голосовой брифинг УЗИ",
         description: "Микрофон → жалобы → короткий чеклист под роль врача",

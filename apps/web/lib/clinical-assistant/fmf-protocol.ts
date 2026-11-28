@@ -317,7 +317,7 @@ export function buildDopplerProtocol(
     `- PI слева: ${formatProtocolField(input.piLeft)}`,
     "",
     "3. ПЛОДОВО-ПЛАЦЕНТАРНЫЙ КРОВОТОК",
-    `- ИР артерии пуповины (RI): ${formatProtocolField(input.uaRi)}`,
+    `- RI артерии пуповины (индекс резистентности): ${formatProtocolField(input.uaRi)}`,
     `- PI артерии пуповины (если введён): ${formatProtocolField(input.piUmb)}`,
     `- PI среднемозговой артерии: ${formatProtocolField(input.piMca)}`,
     `- PSV среднемозговой артерии (Прил. 38): ${formatProtocolField(input.mcaPsv, " см/с")}`,

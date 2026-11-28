@@ -1,4 +1,13 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { estimateCrownHeelLengthCmFromFl } from "@repo/medical-calculations";
+import {
+  DOPPLER_MCA_PI_LABEL,
+  DOPPLER_UA_RI_LABEL,
+  formatPlacentaLocationRu,
+  PHENOTYPIC_GENITALIA_LABELS,
+  PLACENTA_SITE_CHIP_OPTIONS,
+  SEX_DOCUMENTATION_DISCLAIMER,
+} from "@repo/clinical-tools/obstetric-terminology.ru";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import * as Clipboard from "expo-clipboard";
@@ -67,6 +76,22 @@ export default function FMFAssistantScreen({ navigation }: Props) {
   const [calcMode, setCalcMode] = useState<"quick" | "strict">("strict");
   const [teachMode, setTeachMode] = useState(true);
 
+  useEffect(() => {
+    if (st.fetalLengthFromFlAuto === false) return;
+    const est = estimateCrownHeelLengthCmFromFl(st.fl);
+    if (est == null) return;
+    setSt((p) => (p.fetalLengthCm === est ? p : { ...p, fetalLengthCm: est, fetalLengthFromFlAuto: p.fetalLengthFromFlAuto ?? true }));
+  }, [st.fl, st.fetalLengthFromFlAuto]);
+
+  useEffect(() => {
+    const r = st.uterinePiRight;
+    const l = st.uterinePiLeft;
+    if (r == null || l == null) return;
+    const mean = Math.round(((r + l) / 2) * 1000) / 1000;
+    if (st.uterinePiMean === mean) return;
+    setSt((p) => ({ ...p, uterinePiMean: mean }));
+  }, [st.uterinePiRight, st.uterinePiLeft, st.uterinePiMean]);
+
   const out = useMemo(() => {
     if (section === "early") return analyzeEarly(early);
     if (section === "first") return analyzeFirst(first);
@@ -122,8 +147,14 @@ export default function FMFAssistantScreen({ navigation }: Props) {
       `- Срок беременности: ${ga}`,
       "",
       "2. ПОЛОЖЕНИЕ ПЛОДА",
-      `- Один живой плод, положение: ${presentationText(st.fetusPresentation)}, предлежание: ${presentationText(st.fetusPresentation)}.`,
-      "- Подвижность: сохранена.",
+      `- Один живой плод, ${presentationText(st.fetusPresentation)} предлежание.`,
+      `- Изменчивость при манёвре: ${
+        st.presentationMobility === "stable"
+          ? "стабильное"
+          : st.presentationMobility === "unstable"
+            ? "изменчивое"
+            : "не оценено"
+      }.`,
       "",
       "3. ФЕТОМЕТРИЯ",
       `- BPD: ${f(st.bpd, " мм")}`,
@@ -131,6 +162,7 @@ export default function FMFAssistantScreen({ navigation }: Props) {
       `- HC: ${f(st.hc, " мм")}`,
       `- AC: ${f(st.ac, " мм")}`,
       `- FL: ${f(st.fl, " мм")}`,
+      `- Длина плода (оценка CHL): ${f(st.fetalLengthCm, " см")}`,
       "- Размеры плода пропорциональны/непропорциональны (уточнить по перцентилям).",
       "",
       "4. СЕРДЦЕ ПЛОДА",
@@ -149,6 +181,7 @@ export default function FMFAssistantScreen({ navigation }: Props) {
       "- Situs solitus.",
       "",
       "6. ПЛАЦЕНТА И ВОДЫ",
+      `- Локализация: ${formatPlacentaLocationRu(st.placentaLocation, st.placentaPreviaGrade, st.placentaLocationNote)}`,
       `- Расстояние от плаценты до внутреннего зева: ${f(st.placentaDistanceToOsCm, " см")}`,
       "- Структура плаценты: б/о/уточнить.",
       `- Толщина плаценты: ${f(st.placentaThicknessMm, " мм")}`,
@@ -162,10 +195,25 @@ export default function FMFAssistantScreen({ navigation }: Props) {
       `- Маточные артерии PI (среднее): ${f(st.uterinePiMean)}`,
       `- Артерия пуповины RI (Прил. 37): ${f(st.uaRi)}`,
       `- Артерия пуповины PI: ${f(st.uaPi)}`,
-      `- Среднемозговая артерия PI: ${f(st.mcaPi)}`,
+      `- ${DOPPLER_MCA_PI_LABEL}: ${f(st.mcaPi)}`,
       `- Среднемозговая артерия PSV (Прил. 38): ${f(st.mcaPsv, " см/с")}`,
       `- Венозный проток PI: ${f(st.dvPi)}`,
       "- ЦПО: ___",
+      "",
+      "8a. ВНЕШНИЕ ПОЛОВЫЕ ПРИЗНАКИ (ФЕНОТИП ПО УЗИ)",
+      `- ${
+        st.phenotypicGenitalia
+          ? PHENOTYPIC_GENITALIA_LABELS[st.phenotypicGenitalia] ?? st.phenotypicGenitalia
+          : st.fetalSex === "female"
+            ? PHENOTYPIC_GENITALIA_LABELS.female_appearance
+            : st.fetalSex === "male"
+              ? PHENOTYPIC_GENITALIA_LABELS.male_appearance
+              : "не оценено"
+      }`,
+      ...(st.phenotypicKaryotypeDiscordance || st.karyotypeDocumentation === "discordant"
+        ? ["- Отмечено расхождение УЗИ и кариотипа."]
+        : []),
+      SEX_DOCUMENTATION_DISCLAIMER,
       "",
       "9. ЗАКЛЮЧЕНИЕ",
       out.conclusion,
@@ -448,7 +496,7 @@ export default function FMFAssistantScreen({ navigation }: Props) {
               />
               <TextInput
                 style={styles.inputFlex}
-                placeholder="ИР АП (RI) · Прил. 37"
+                placeholder="RI АП · опц."
                 keyboardType="decimal-pad"
                 value={st.uaRi != null ? String(st.uaRi) : ""}
                 onChangeText={(v) => setSt((p) => ({ ...p, uaRi: num(v) }))}
@@ -457,7 +505,7 @@ export default function FMFAssistantScreen({ navigation }: Props) {
             <View style={styles.row}>
               <TextInput
                 style={styles.inputFlex}
-                placeholder="PI СМА"
+                placeholder="PI СМА (среднее)"
                 keyboardType="decimal-pad"
                 value={st.mcaPi != null ? String(st.mcaPi) : ""}
                 onChangeText={(v) => setSt((p) => ({ ...p, mcaPi: num(v) }))}
@@ -479,6 +527,46 @@ export default function FMFAssistantScreen({ navigation }: Props) {
             <View style={styles.rowWrap}>
               <SelectChip label="Мочевой пузырь: да" selected={st.bladderSeen === true} onPress={() => setSt((p) => ({ ...p, bladderSeen: true }))} />
               <SelectChip label="Мочевой пузырь: нет" selected={st.bladderSeen === false} onPress={() => setSt((p) => ({ ...p, bladderSeen: false }))} />
+            </View>
+            <Text style={styles.subtitle}>Локализация плаценты</Text>
+            <View style={styles.rowWrap}>
+              {PLACENTA_SITE_CHIP_OPTIONS.map((opt) => (
+                <SelectChip
+                  key={opt.id}
+                  label={opt.label}
+                  selected={st.placentaLocation === opt.id}
+                  onPress={() => setSt((p) => ({ ...p, placentaLocation: opt.id as SecondThirdInput["placentaLocation"] }))}
+                />
+              ))}
+            </View>
+            <Text style={styles.subtitle}>Фенотип по УЗИ (наружные признаки)</Text>
+            <View style={styles.rowWrap}>
+              <SelectChip
+                label="Женский тип"
+                selected={st.phenotypicGenitalia === "female_appearance"}
+                onPress={() => setSt((p) => ({ ...p, phenotypicGenitalia: "female_appearance", fetalSex: "female" }))}
+              />
+              <SelectChip
+                label="Мужской тип"
+                selected={st.phenotypicGenitalia === "male_appearance"}
+                onPress={() => setSt((p) => ({ ...p, phenotypicGenitalia: "male_appearance", fetalSex: "male" }))}
+              />
+              <SelectChip
+                label="Неоднозначно"
+                selected={st.phenotypicGenitalia === "ambiguous"}
+                onPress={() => setSt((p) => ({ ...p, phenotypicGenitalia: "ambiguous", fetalSex: "uncertain" }))}
+              />
+              <SelectChip
+                label="Расхождение с кариотипом"
+                selected={st.phenotypicKaryotypeDiscordance === true}
+                onPress={() =>
+                  setSt((p) => ({
+                    ...p,
+                    phenotypicKaryotypeDiscordance: true,
+                    karyotypeDocumentation: "discordant",
+                  }))
+                }
+              />
             </View>
           </Card>
         ) : null}
@@ -514,7 +602,7 @@ export default function FMFAssistantScreen({ navigation }: Props) {
               <TextInput style={styles.inputFlex} placeholder="PI маточной слева" keyboardType="decimal-pad" onChangeText={(v) => setDoppler((p) => ({ ...p, piLeft: num(v) }))} />
             </View>
             <View style={styles.row}>
-              <TextInput style={styles.inputFlex} placeholder="ИР АП (RI) · Прил. 37" keyboardType="decimal-pad" onChangeText={(v) => setDoppler((p) => ({ ...p, uaRi: num(v) }))} />
+              <TextInput style={styles.inputFlex} placeholder={DOPPLER_UA_RI_LABEL} keyboardType="decimal-pad" onChangeText={(v) => setDoppler((p) => ({ ...p, uaRi: num(v) }))} />
               <TextInput style={styles.inputFlex} placeholder="PI СМА · Прил. 39" keyboardType="decimal-pad" onChangeText={(v) => setDoppler((p) => ({ ...p, piMca: num(v) }))} />
               <TextInput style={styles.inputFlex} placeholder="PSV СМА · Прил. 38" keyboardType="decimal-pad" onChangeText={(v) => setDoppler((p) => ({ ...p, mcaPsv: num(v) }))} />
             </View>

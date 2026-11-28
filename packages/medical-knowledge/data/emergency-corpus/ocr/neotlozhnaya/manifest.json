@@ -1,0 +1,12 @@
+{
+  "book": "neotlozhnaya",
+  "pdf": "neotlozhnaya-terapiya.pdf",
+  "pageCount": 203,
+  "ocrOkOrSkip": 203,
+  "ocrFail": 0,
+  "articleCount": 201,
+  "totalChars": 568567,
+  "dpi": 150,
+  "lang": "rus+eng",
+  "note": "Локальный OCR. Не коммитить полный текст / не деплоить публично."
+}
