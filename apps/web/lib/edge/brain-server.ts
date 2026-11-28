@@ -59,6 +59,9 @@ function build(): Bundle {
 }
 
 export function getBrainBundle(): Bundle {
+  if (process.env.NODE_ENV === "development") {
+    return build();
+  }
   if (!globalForBrain.__sonogynBrainBundle) {
     globalForBrain.__sonogynBrainBundle = build();
   }

@@ -23,12 +23,24 @@ type Contract = {
   checklist?: { nosology: string; title: string; items: Array<{ id: string; label: string }>; note?: string };
 };
 
+type EvidenceMeta = {
+  tier?: "full" | "registry";
+  citationCount?: number;
+  registryHintCount?: number;
+  evidenceStrength?: string;
+  corpusMode?: string;
+  insufficient?: boolean;
+};
+
 type Message = {
   role: "doctor" | "brain";
   text: string;
   contract?: Contract;
+  evidence?: EvidenceMeta | null;
   pending?: boolean;
 };
+
+type CorpusPick = "auto" | "all" | "rf_kr";
 
 const QUICK_PROMPTS = [
   "КТР 63",
@@ -37,6 +49,12 @@ const QUICK_PROMPTS = [
   "миома интрамуральная",
   "порог NT 3.5 — что делать",
   "опознание образования по фото придатков",
+];
+
+const EVIDENCE_QUICK_PROMPTS = [
+  "порог NT 3.5 тактика скрининг FMF",
+  "клиническая рекомендация МЗ РФ миома",
+  "O-RADS 4 тактика",
 ];
 
 const INTENT_LABEL: Record<string, string> = {
@@ -98,14 +116,20 @@ export function ClinicalBrainClient() {
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const [mode, setMode] = useState<"local" | "llm">("local");
+  const [evidenceMode, setEvidenceMode] = useState(false);
+  const [corpusPick, setCorpusPick] = useState<CorpusPick>("auto");
+  const [vaultOn, setVaultOn] = useState<boolean | null>(null);
   const [ollamaOk, setOllamaOk] = useState<boolean | null>(null);
 
   useEffect(() => {
     let cancelled = false;
     fetch("/api/ai/brain")
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
-      .then((j: { ollama?: boolean }) => {
-        if (!cancelled) setOllamaOk(Boolean(j?.ollama));
+      .then((j: { ollama?: boolean; evidenceVault?: { enabled?: boolean } }) => {
+        if (!cancelled) {
+          setOllamaOk(Boolean(j?.ollama));
+          setVaultOn(Boolean(j?.evidenceVault?.enabled));
+        }
       })
       .catch(() => {
         if (!cancelled) setOllamaOk(false);
@@ -118,9 +142,9 @@ export function ClinicalBrainClient() {
     {
       role: "brain",
       text:
-        "Локальный ассистент платформы: считаю движками, пороги беру из базы знаний с цитатами.\n" +
-        "Примеры: «КТР 63» · «NT 1.8 при КТР 63» · «миома интрамуральная» · «порог NT 3.5».\n" +
-        "Данные не покидают устройство.",
+        "Клинический ассистент: движки + база знаний с цитатами (FMF, FIGO…).\n" +
+        "Локально — PHI не уходит с устройства. «+ Evidence» — PubMed, КР МЗ РФ, реестр стандартов на сервере.\n" +
+        "Полный EBM-кабинет: /tools/refs/evidence-assistant",
     },
   ]);
 
@@ -136,49 +160,71 @@ export function ClinicalBrainClient() {
     ]);
     try {
       let turn: Awaited<ReturnType<typeof brainBundle.handle>> | null = null;
-      if (mode === "llm") {
-        try {
-          const res = await fetch("/api/ai/brain", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ text: trimmed, session: sessionRef.current, mode: "llm" }),
-          });
-          if (res.ok) {
-            const j = (await res.json()) as {
-              reply: string;
-              intent: string;
-              contract: unknown;
-              session: BrainSession;
+      const useServer = evidenceMode || mode === "llm";
+      if (useServer) {
+        const res = await fetch("/api/ai/brain", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            text: trimmed,
+            session: sessionRef.current,
+            mode,
+            evidence: evidenceMode,
+            ...(corpusPick !== "auto" ? { corpusMode: corpusPick } : {}),
+          }),
+        });
+        const j = (await res.json().catch(() => ({}))) as {
+          reply?: string;
+          intent?: string;
+          contract?: unknown;
+          session?: BrainSession;
+          evidence?: EvidenceMeta | null;
+          error?: string;
+          message?: string;
+        };
+        if (res.ok && j.reply) {
+          sessionRef.current = j.session;
+          setMessages((m) => {
+            const copy = [...m];
+            copy[copy.length - 1] = {
+              role: "brain",
+              text: j.reply as string,
+              contract: j.contract as unknown as Contract,
+              evidence: j.evidence ?? null,
             };
-            sessionRef.current = j.session;
-            setMessages((m) => {
-              const copy = [...m];
-              copy[copy.length - 1] = {
-                role: "brain",
-                text: j.reply,
-                contract: j.contract as unknown as Contract,
-              };
-              return copy;
-            });
-            return;
-          }
-        } catch {
-          // Ollama недоступен → тихий откат на локальный детерминированный мозг
+            return copy;
+          });
+          return;
+        }
+        if (evidenceMode) {
+          const msg =
+            res.status === 429
+              ? "Лимит запросов Evidence. Подождите минуту или отключите «+ Evidence»."
+              : j.message || j.error || `Сервер Evidence (${res.status})`;
+          throw new Error(msg);
         }
       }
       turn = await brainBundle.handle(trimmed, sessionRef.current);
       sessionRef.current = turn.session;
       setMessages((m) => {
         const copy = [...m];
-        copy[copy.length - 1] = { role: "brain", text: turn.reply, contract: turn.contract as unknown as Contract };
+        copy[copy.length - 1] = {
+          role: "brain",
+          text: turn.reply,
+          contract: turn.contract as unknown as Contract,
+        };
         return copy;
       });
-    } catch {
+    } catch (err) {
+      const detail = err instanceof Error ? err.message : "";
       setMessages((m) => {
         const copy = [...m];
         copy[copy.length - 1] = {
           role: "brain",
-          text: "Не удалось обработать запрос. Попробуйте переформулировать.",
+          text:
+            detail && detail !== "Error"
+              ? detail
+              : "Не удалось обработать запрос. Попробуйте переформулировать.",
         };
         return copy;
       });
@@ -222,9 +268,55 @@ export function ClinicalBrainClient() {
               whiteSpace: "nowrap",
             }}
           >
-            ЛОКАЛЬНО · PHI НЕ ПОКИДАЕТ УСТРОЙСТВО
+            {evidenceMode ? "СЕРВЕР + EVIDENCE (PubMed, КР)" : "ЛОКАЛЬНО · PHI НЕ ПОКИДАЕТ УСТРОЙСТВО"}
           </span>
-          <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+          <div style={{ display: "flex", gap: 6, alignItems: "center", flexWrap: "wrap", justifyContent: "flex-end" }}>
+            <button
+              type="button"
+              aria-label="Добавлять PubMed, КР МЗ РФ и реестр стандартов через сервер"
+              aria-pressed={evidenceMode}
+              onClick={() => setEvidenceMode((v) => !v)}
+              style={{
+                fontSize: 10.5,
+                fontWeight: 700,
+                padding: "4px 10px",
+                borderRadius: 999,
+                cursor: "pointer",
+                border: `1px solid ${evidenceMode ? "rgba(232,179,75,.65)" : "var(--clinical-border, #262c38)"}`,
+                background: evidenceMode ? "rgba(232,179,75,.14)" : "transparent",
+                color: "var(--clinical-foreground, #e8ecf3)",
+              }}
+            >
+              + Evidence
+            </button>
+            {evidenceMode ? (
+              <label style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 10.5 }}>
+                <span className="sr-only">Корпус evidence</span>
+                <span style={{ color: "var(--clinical-foreground-muted, #8a94a6)" }}>Корпус</span>
+                <select
+                  value={corpusPick}
+                  onChange={(e) => setCorpusPick(e.target.value as CorpusPick)}
+                  aria-label="Корпус доказательной базы"
+                  style={{
+                    fontSize: 10.5,
+                    padding: "3px 6px",
+                    borderRadius: 8,
+                    border: "1px solid var(--clinical-border, #262c38)",
+                    background: "var(--clinical-card, #14171f)",
+                    color: "var(--clinical-foreground, #e8ecf3)",
+                  }}
+                >
+                  <option value="auto">Авто</option>
+                  <option value="all">Международный</option>
+                  <option value="rf_kr">КР МЗ РФ</option>
+                </select>
+                {vaultOn === true ? (
+                  <span title="Medical vault в цепочке" style={{ fontSize: 9, opacity: 0.85 }}>
+                    vault
+                  </span>
+                ) : null}
+              </label>
+            ) : null}
             <button
               type="button"
               aria-label="Режим локального клинического мозга без LLM"
@@ -275,9 +367,18 @@ export function ClinicalBrainClient() {
         </div>
       </div>
 
+      {evidenceMode ? (
+        <p style={{ margin: 0, fontSize: 11, color: "var(--clinical-foreground-muted, #8a94a6)" }}>
+          Evidence: расчёты остаются локальными в движке; PubMed/КР подмешиваются для справочных вопросов.{" "}
+          <a href="/tools/refs/evidence-assistant" style={{ color: "#9fe3d4" }}>
+            Открыть Evidence Assistant
+          </a>
+        </p>
+      ) : null}
+
       {/* быстрые запросы */}
       <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-        {QUICK_PROMPTS.map((p) => (
+        {(evidenceMode ? [...QUICK_PROMPTS.slice(0, 3), ...EVIDENCE_QUICK_PROMPTS] : QUICK_PROMPTS).map((p) => (
           <button
             key={p}
             onClick={() => void send(p)}
@@ -354,21 +455,40 @@ export function ClinicalBrainClient() {
                       {m.contract.tool}
                     </span>
                   ) : null}
-                  {m.contract.notes?.map((n) => (
+                  {m.evidence ? (
                     <span
-                      key={n}
                       style={{
                         fontSize: 10,
                         fontWeight: 700,
                         padding: "2px 8px",
                         borderRadius: 999,
-                        background: "rgba(232,179,75,.12)",
-                        border: "1px solid rgba(232,179,75,.4)",
+                        background: "rgba(47,158,143,.14)",
+                        border: "1px solid rgba(47,158,143,.45)",
                       }}
                     >
-                      ⚠ {n}
+                      {m.evidence.tier === "registry"
+                        ? `стандарты (${m.evidence.registryHintCount ?? 0})`
+                        : `evidence · ${m.evidence.citationCount ?? 0} ист.`}
+                      {m.evidence.insufficient ? " · мало данных" : ""}
                     </span>
-                  ))}
+                  ) : null}
+                  {m.contract.notes
+                    ?.filter((n) => !n.startsWith("evidence:") && !n.startsWith("corpus:") && n !== "evidence:registry_tier")
+                    .map((n) => (
+                      <span
+                        key={n}
+                        style={{
+                          fontSize: 10,
+                          fontWeight: 700,
+                          padding: "2px 8px",
+                          borderRadius: 999,
+                          background: "rgba(232,179,75,.12)",
+                          border: "1px solid rgba(232,179,75,.4)",
+                        }}
+                      >
+                        ⚠ {n}
+                      </span>
+                    ))}
                 </div>
 
                 {m.contract.result && Object.keys(m.contract.result).length > 0 ? (
@@ -472,8 +592,8 @@ export function ClinicalBrainClient() {
       </div>
 
       <p style={{ margin: 0, fontSize: 10.5, color: "var(--clinical-foreground-muted, #8a94a6)", textAlign: "center" }}>
-        Справочная поддержка для врачей. Не является диагнозом — решение за врачом. Внешний поиск PubMed
-        подключается серверной интеграцией; локальный режим работает без сети.
+        Справочная поддержка для врачей. Не является диагнозом — решение за врачом. Режим «+ Evidence» отправляет
+        запрос на сервер (PubMed, Europe PMC, КР, vault); чисто локальный режим — без сети.
       </p>
     </div>
   );

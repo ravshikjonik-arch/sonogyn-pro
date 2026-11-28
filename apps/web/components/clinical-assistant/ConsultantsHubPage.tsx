@@ -7,10 +7,10 @@ const GROUPS: DomainHubGroup[] = [
     cards: [
       {
         href: "/ai/consultants/brain",
-        title: "Локальный клинический мозг",
-        description: "FMF, FIGO, пороги · движки в браузере · Ollama опционально",
+        title: "Клинический мозг + Evidence",
+        description: "Движки, FMF/FIGO · локально; опционально PubMed, КР МЗ РФ, реестр стандартов",
         primary: true,
-        badge: "Local",
+        badge: "Brain",
       },
       {
         href: "/ai/consultants/us-prep",
