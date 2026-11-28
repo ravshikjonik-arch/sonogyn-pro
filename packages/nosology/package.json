@@ -22,7 +22,7 @@
     "idb": "^8.0.3"
   },
   "devDependencies": {
-    "tsx": "^4.19.4",
+    "tsx": "^4.23.15",
     "typescript": "^5.9.2"
   }
 }
