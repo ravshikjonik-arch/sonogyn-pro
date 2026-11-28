@@ -73,6 +73,13 @@ export const OBSTETRICS_GROUPS: DomainHubGroup[] = [
         primary: true,
       },
       {
+        href: "/ai/consultants/brain",
+        title: "Локальный клинический мозг",
+        description: "Движки + база знаний · офлайн · без облака",
+        primary: true,
+        badge: "Local",
+      },
+      {
         href: "/ai/consultants/us-prep",
         title: "Live приём · голосовой брифинг",
         description: "Жалобы → чеклист УЗИ под роль врача",
@@ -357,6 +364,13 @@ export const CALCULATORS_HUB: DomainHubCard[] = [
 ];
 
 export const ASSISTANT_HUB: DomainHubCard[] = [
+  {
+    href: "/ai/consultants/brain",
+    title: "Локальный клинический мозг",
+    description: "FMF, миома, пороги · детерминированные движки · Ollama опционально",
+    badge: "Local",
+    primary: true,
+  },
   {
     href: "/ai/consultants/us-prep",
     title: "Live приём · голосовой брифинг",

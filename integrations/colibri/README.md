@@ -44,4 +44,6 @@ LLM_FALLBACK_ORDER=openrouter,perplexity,colibri
 2. `curl -s http://127.0.0.1:8000/v1/models`  
 3. SonoGyn: `GET http://localhost:3000/api/ai/gateway/status?purpose=evidence`
 
+**Отдельно:** клинический мозг с движками — `/ai/consultants/brain`, `pnpm brain:check`, см. `docs/integrations/local-clinical-brain.md` (Ollama, не Colibri).
+
 CDS: ответ модели ≠ диагноз; Evidence цитирует источники отдельно.

@@ -1,11 +1,7 @@
-import type { Metadata } from "next";
 import { ClinicalBrainClient } from "@/components/clinical-assistant/ClinicalBrainClient";
+import { calculatorPageMetadata } from "@/lib/seo/calculator-seo-registry";
 
-export const metadata: Metadata = {
-  title: "ИИ-ассистент платформы — локальный клинический мозг | SonoGyn Pro",
-  description:
-    "Локальный ассистент врача УЗИ: расчёты детерминированными движками, пороги из базы знаний с атрибуцией (ACR, IOTA, FIGO, FMF), чеклисты по фото, мультиход-диалог. Данные не покидают устройство. Для врачей.",
-};
+export const metadata = calculatorPageMetadata("/ai/consultants/brain");
 
 export default function AiConsultantsBrainPage() {
   return <ClinicalBrainClient />;

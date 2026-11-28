@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ClinicalBrain, type BrainSession } from "@repo/medical-calculations";
 import { createDefaultBus, fmfLikeToPack, visionChecklist, type KnowledgeCitation } from "@repo/knowledge-bus";
 import { FMF_KNOWLEDGE_CHUNKS } from "@repo/evidence-retrieval";
@@ -100,11 +100,19 @@ export function ClinicalBrainClient() {
   const [mode, setMode] = useState<"local" | "llm">("local");
   const [ollamaOk, setOllamaOk] = useState<boolean | null>(null);
 
-  useMemo(() => {
+  useEffect(() => {
+    let cancelled = false;
     fetch("/api/ai/brain")
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
-      .then((j: { ollama?: boolean }) => setOllamaOk(Boolean(j?.ollama)))
-      .catch(() => setOllamaOk(false));
+      .then((j: { ollama?: boolean }) => {
+        if (!cancelled) setOllamaOk(Boolean(j?.ollama));
+      })
+      .catch(() => {
+        if (!cancelled) setOllamaOk(false);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -218,6 +226,9 @@ export function ClinicalBrainClient() {
           </span>
           <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
             <button
+              type="button"
+              aria-label="Режим локального клинического мозга без LLM"
+              aria-pressed={mode === "local"}
               onClick={() => setMode("local")}
               style={{
                 fontSize: 10.5,
@@ -233,6 +244,9 @@ export function ClinicalBrainClient() {
               Локальный мозг
             </button>
             <button
+              type="button"
+              aria-label="Режим с локальной Ollama для разбора слотов"
+              aria-pressed={mode === "llm"}
               onClick={() => setMode("llm")}
               style={{
                 fontSize: 10.5,

@@ -65,6 +65,7 @@ const MAPPING_ROUTES: SitemapRow[] = [
 
 /** AI consultants (публичные; us-prep — noindex, не включаем). */
 const AI_CONSULTANT_ROUTES: SitemapRow[] = [
+  { path: "/ai/consultants/brain", priority: 0.88, changeFrequency: "weekly" },
   { path: "/ai/consultants/fmf", priority: 0.85, changeFrequency: "weekly" },
   { path: "/ai/consultants/fmf/guided", priority: 0.7, changeFrequency: "monthly" },
   { path: "/ai/consultants/gynecology", priority: 0.75, changeFrequency: "weekly" },
