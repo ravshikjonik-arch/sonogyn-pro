@@ -160,7 +160,8 @@ describe("toolRegistry: ядро клинического мозга", () => {
     assert.ok(c.citations.length >= 1);
     assert.equal(c.disclaimer, STANDARD_DISCLAIMER);
     const fail = buildContract(runTool("obstetrics_cpr", {}));
-    assert.ok(fail.notes!.length >= 1);
+    assert.ok(fail.missingSlots && fail.missingSlots.length >= 1);
+    assert.equal(fail.notes, undefined);
     assert.equal(fail.disclaimer, STANDARD_DISCLAIMER);
   });
 

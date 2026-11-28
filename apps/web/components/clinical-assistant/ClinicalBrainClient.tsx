@@ -19,6 +19,7 @@ type Contract = {
   citations: Array<KnowledgeCitation>;
   disclaimer: string;
   missingSlots?: string[];
+  missingSlotPrompts?: string[];
   notes?: string[];
   checklist?: { nosology: string; title: string; items: Array<{ id: string; label: string }>; note?: string };
 };
@@ -397,10 +398,15 @@ export function ClinicalBrainClient() {
                   </div>
                 ) : null}
 
-                {m.contract.missingSlots && m.contract.missingSlots.length > 0 ? (
-                  <p style={{ margin: 0, fontSize: 11.5, color: "var(--clinical-foreground-muted, #8a94a6)" }}>
-                    Ожидаю: {m.contract.missingSlots.join(", ")}
-                  </p>
+                {m.contract.missingSlotPrompts && m.contract.missingSlotPrompts.length > 0 ? (
+                  <div style={{ margin: 0, fontSize: 11.5, color: "var(--clinical-foreground-muted, #8a94a6)" }}>
+                    <p style={{ margin: "0 0 4px", fontWeight: 700 }}>Уточните</p>
+                    <ul style={{ margin: 0, paddingLeft: 18 }}>
+                      {m.contract.missingSlotPrompts.map((line) => (
+                        <li key={line}>{line}</li>
+                      ))}
+                    </ul>
+                  </div>
                 ) : null}
 
                 {m.contract.citations.length > 0 ? (

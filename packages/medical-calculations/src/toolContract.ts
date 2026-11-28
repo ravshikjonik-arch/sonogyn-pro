@@ -90,6 +90,8 @@ export interface CalcContract {
   disclaimer: string;
   /** Слоты, которые нужно запросить у врача (модель переспрашивает). */
   missingSlots?: string[];
+  /** Человекочитаемые подсказки по недостающим слотам (из SlotSpec.description). */
+  missingSlotPrompts?: string[];
   notes?: string[];
   /** Vision V1: чеклист признаков лексикона — врач отмечает, движок считает. */
   checklist?: {
@@ -142,10 +144,20 @@ export function validateSlots(tool: ToolDefinition, slots: Record<string, unknow
     }
   }
   if (missing.length > 0) {
-    return { ok: false, error: "missing_slots", missingSlots: missing, message: "Не хватает обязательных слотов — переспросить врача, не додумывать." };
+    return {
+      ok: false,
+      error: "missing_slots",
+      missingSlots: missing,
+      message: "Нужны дополнительные параметры — уточните в следующем сообщении.",
+    };
   }
   if (wrong.length > 0) {
-    return { ok: false, error: "wrong_slot_type", missingSlots: wrong, message: "Слоты неверного типа/значения — уточнить ввод." };
+    return {
+      ok: false,
+      error: "wrong_slot_type",
+      missingSlots: wrong,
+      message: "Проверьте числа и формулировки — не удалось разобрать часть ввода.",
+    };
   }
   return { ok: true, value };
 }

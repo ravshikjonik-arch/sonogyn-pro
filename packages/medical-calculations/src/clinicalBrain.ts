@@ -305,25 +305,37 @@ export class ClinicalBrain {
 
     if (!outcome.ok) {
       const failure = outcome as ToolFailure;
+      const extractedCount = tool.slots.filter((sl) => slots[sl.name] !== undefined && slots[sl.name] !== "").length;
+      // Сработал только keyword-роутер без ввода — не заваливаем длинным опросником (VBAC/Bishop).
+      if (failure.error === "missing_slots" && extractedCount === 0 && (failure.missingSlots?.length ?? 0) > 4) {
+        return this.handleLookup(text, { ...s0, pendingTool: undefined, slots: {} }, tool.nosology);
+      }
+
       s0.pendingTool = tool.id;
       s0.slots = slots;
-      s0.history.push({ role: "brain", text: failure.message });
       const need = failure.missingSlots ?? [];
-      const hints = need
-        .map((name) => tool.slots.find((sl) => sl.name === name))
-        .filter((sl): sl is NonNullable<ReturnType<typeof getTool>> extends never ? never : (typeof sl extends undefined ? never : NonNullable<typeof sl>) => Boolean(sl))
-        .map((sl) => `• ${sl.description}`);
+      const promptsFor = (names: string[]) =>
+        names
+          .map((name) => tool.slots.find((sl) => sl.name === name))
+          .filter((sl): sl is (typeof tool.slots)[number] => Boolean(sl))
+          .map((sl) => {
+            const unit = sl.unit ? ` (${sl.unit})` : "";
+            return `${sl.description}${unit}`;
+          });
       const missingOptional =
         need.length === 0
           ? tool.slots.filter((sl) => !sl.required && slots[sl.name] === undefined).slice(0, 4)
           : [];
-      const askList =
-        hints.length > 0
-          ? hints
-          : missingOptional.map((sl) => `• ${sl.description}`);
+      const promptTexts = promptsFor(need.length > 0 ? need : missingOptional.map((sl) => sl.name));
+      const askList = promptTexts.map((p) => `• ${p}`);
       const contract = buildContract(failure, { tool: tool.id, slots, intent: "calculate" });
       contract.missingSlots = need.length > 0 ? need : missingOptional.map((sl) => sl.name);
-      const reply = `Для «${tool.title}» нужно уточнить:\n${askList.join("\n") || failure.message}`;
+      contract.missingSlotPrompts = promptTexts;
+      const reply =
+        askList.length > 0
+          ? `Для «${tool.title}» уточните:\n${askList.join("\n")}\n\nМожно одной строкой, например «КТР 63» или «NT 1.8 при КТР 63».`
+          : failure.message;
+      s0.history.push({ role: "brain", text: reply });
       return { reply, intent: "calculate", contract, session: s0 };
     }
 

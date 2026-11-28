@@ -352,6 +352,8 @@ export function buildContract(
       notes: opts.notes,
     };
   }
+  const skipInternalNote =
+    outcome.error === "missing_slots" || outcome.error === "wrong_slot_type";
   return {
     intent: opts.intent ?? "calculate",
     tool: opts.tool,
@@ -359,6 +361,6 @@ export function buildContract(
     citations: [],
     disclaimer: STANDARD_DISCLAIMER,
     missingSlots: outcome.missingSlots,
-    notes: [outcome.message, ...(opts.notes ?? [])],
+    notes: skipInternalNote ? opts.notes : [outcome.message, ...(opts.notes ?? [])],
   };
 }
