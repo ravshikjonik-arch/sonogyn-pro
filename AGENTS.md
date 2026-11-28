@@ -78,6 +78,6 @@ A11y soft by default; strict: `A11Y_STRICT=true`. Lighthouse soft by default; st
 
 - Не в git monorepo: `~/colibri` (`COLIBRI_HOME`)
 - Команды: `pnpm colibri:wire` · `colibri:setup` · `colibri:start` · `colibri:check`
-- Локальный клинический мозг: `pnpm brain:check` · `/ai/consultants/brain` · `docs/integrations/local-clinical-brain.md`
+- Локальный клинический мозг: `pnpm brain:check` · `pnpm test:e2e:brain` · `/ai/consultants/brain` · `docs/integrations/local-clinical-brain.md`
 - Доки: `integrations/colibri/README.md`, `docs/integrations/colibri.md`
 - Prod Vercel не использует localhost Colibri
