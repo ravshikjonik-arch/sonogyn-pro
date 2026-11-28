@@ -34,7 +34,14 @@ import { GestationalAgeSummary } from "@/components/clinical/GestationalAgeSumma
 import { LmpDateField } from "@/components/clinical/LmpDateField";
 import { Input } from "@/components/ui/input";
 import { parseIsoDate } from "@/lib/utils/ru-date";
-import { gaDaysFromLmp, splitGaDays, formatMeasurementDecimal, parseMeasurementMm } from "@repo/medical-calculations";
+import {
+  estimateCrownHeelLengthCmFromFl,
+  gaDaysFromLmp,
+  splitGaDays,
+  formatMeasurementDecimal,
+  parseMeasurementMm,
+} from "@repo/medical-calculations";
+import { SEX_DOCUMENTATION_DISCLAIMER } from "@repo/clinical-tools/obstetric-terminology.ru";
 import { assessEarlyPregnancyGrowth } from "@repo/medical-calculations/early-pregnancy";
 import { assessFirstTrimesterScreening } from "@repo/fmf";
 import { assessSecondThirdScreening } from "@repo/obstetric-engine";
@@ -851,10 +858,10 @@ function FirstForm({
       </FieldGroup>
 
       <div className="grid gap-3 sm:grid-cols-2">
-        <FieldBlock label="Длина носовой кости, мм (опц.)">
+        <FieldBlock label="Длина носовой кости (ДНК), мм · I трим. (опц.)">
           <Input
             inputMode="decimal"
-            placeholder="ДНК для перцентиля"
+            placeholder="для перцентиля FMF"
             value={first.nasalBoneLengthMm != null ? String(first.nasalBoneLengthMm) : ""}
             onChange={(e) => setFirst((p) => ({ ...p, nasalBoneLengthMm: parseNum(e.target.value) }))}
           />
@@ -1022,6 +1029,24 @@ function SecondThirdForm({
     });
   }, [secondThird]);
 
+  useEffect(() => {
+    if (secondThird.fetalLengthFromFlAuto === false) return;
+    const est = estimateCrownHeelLengthCmFromFl(secondThird.fl);
+    if (est == null) return;
+    setSecondThird((p) =>
+      p.fetalLengthCm === est ? p : { ...p, fetalLengthCm: est, fetalLengthFromFlAuto: p.fetalLengthFromFlAuto ?? true },
+    );
+  }, [secondThird.fl, secondThird.fetalLengthFromFlAuto, setSecondThird]);
+
+  useEffect(() => {
+    const r = secondThird.uterinePiRight;
+    const l = secondThird.uterinePiLeft;
+    if (r == null || l == null) return;
+    const mean = Math.round(((r + l) / 2) * 1000) / 1000;
+    if (secondThird.uterinePiMean === mean) return;
+    setSecondThird((p) => ({ ...p, uterinePiMean: mean }));
+  }, [secondThird.uterinePiRight, secondThird.uterinePiLeft, secondThird.uterinePiMean, setSecondThird]);
+
   const gaLabel =
     secondThird.gaWeeksByLmp !== undefined
       ? `${secondThird.gaWeeksByLmp} нед ${secondThird.gaDaysByLmp ?? 0} д`
@@ -1086,16 +1111,21 @@ function SecondThirdForm({
           onClick={() => setSecondThird((p) => ({ ...p, fetusPresentation: "transverse" }))}
         />
       </FieldGroup>
-      <FieldGroup label="Стабильность положения">
-        <Chip
-          label="Неустойчивое"
-          selected={secondThird.fetalPositionStable === false}
-          onClick={() => setSecondThird((p) => ({ ...p, fetalPositionStable: false }))}
-        />
+      <FieldGroup label="Изменчивость предлежания при манёвре">
         <Chip
           label="Стабильное"
-          selected={secondThird.fetalPositionStable === true}
-          onClick={() => setSecondThird((p) => ({ ...p, fetalPositionStable: true }))}
+          selected={secondThird.presentationMobility === "stable"}
+          onClick={() => setSecondThird((p) => ({ ...p, presentationMobility: "stable", fetalPositionStable: true }))}
+        />
+        <Chip
+          label="Изменчивое"
+          selected={secondThird.presentationMobility === "unstable"}
+          onClick={() => setSecondThird((p) => ({ ...p, presentationMobility: "unstable", fetalPositionStable: false }))}
+        />
+        <Chip
+          label="Не оценено"
+          selected={secondThird.presentationMobility === "not_assessed" || secondThird.presentationMobility == null}
+          onClick={() => setSecondThird((p) => ({ ...p, presentationMobility: "not_assessed" }))}
         />
       </FieldGroup>
 
@@ -1120,7 +1150,11 @@ function SecondThirdForm({
         <NumField label="UL, мм" value={secondThird.ulMm} onChange={setNum("ulMm")} />
         <NumField label="TL, мм" value={secondThird.tlMm} onChange={setNum("tlMm")} />
         <NumField label="Стопа, мм" value={secondThird.footLengthMm} onChange={setNum("footLengthMm")} />
-        <NumField label="Длина плода, см" value={secondThird.fetalLengthCm} onChange={setNum("fetalLengthCm")} />
+        <NumField
+          label={`Длина плода (CHL), см${secondThird.fetalLengthFromFlAuto !== false ? " · авто по FL" : ""}`}
+          value={secondThird.fetalLengthCm}
+          onChange={(v) => setSecondThird((p) => ({ ...p, fetalLengthCm: v, fetalLengthFromFlAuto: false }))}
+        />
         <NumField label="ПМП, %tile" value={secondThird.efwPercentile} onChange={setNum("efwPercentile")} />
         <NumField label="ЧСС" value={secondThird.fhr} onChange={setNum("fhr")} />
         <NumField label="Лат. желудочки, мм" value={secondThird.lateralVentriclesMm} onChange={setNum("lateralVentriclesMm")} />
@@ -1136,9 +1170,23 @@ function SecondThirdForm({
       <FieldGroup label="Локализация плаценты">
         <Chip label="Передняя" selected={secondThird.placentaLocation === "anterior"} onClick={() => setSecondThird((p) => ({ ...p, placentaLocation: "anterior" }))} />
         <Chip label="Задняя" selected={secondThird.placentaLocation === "posterior"} onClick={() => setSecondThird((p) => ({ ...p, placentaLocation: "posterior" }))} />
-        <Chip label="Боковая" selected={secondThird.placentaLocation === "lateral"} onClick={() => setSecondThird((p) => ({ ...p, placentaLocation: "lateral" }))} />
+        <Chip label="Правая бок." selected={secondThird.placentaLocation === "right_lateral"} onClick={() => setSecondThird((p) => ({ ...p, placentaLocation: "right_lateral" }))} />
+        <Chip label="Левая бок." selected={secondThird.placentaLocation === "left_lateral"} onClick={() => setSecondThird((p) => ({ ...p, placentaLocation: "left_lateral" }))} />
+        <Chip label="Передне-бок." selected={secondThird.placentaLocation === "anterolateral"} onClick={() => setSecondThird((p) => ({ ...p, placentaLocation: "anterolateral" }))} />
+        <Chip label="Задне-бок." selected={secondThird.placentaLocation === "posterolateral"} onClick={() => setSecondThird((p) => ({ ...p, placentaLocation: "posterolateral" }))} />
+        <Chip label="Полумесяц" selected={secondThird.placentaLocation === "anterior_posterior"} onClick={() => setSecondThird((p) => ({ ...p, placentaLocation: "anterior_posterior" }))} />
         <Chip label="Дно" selected={secondThird.placentaLocation === "fundal"} onClick={() => setSecondThird((p) => ({ ...p, placentaLocation: "fundal" }))} />
+        <Chip label="Низкое прикрепление" selected={secondThird.placentaLocation === "low_lying"} onClick={() => setSecondThird((p) => ({ ...p, placentaLocation: "low_lying" }))} />
+        <Chip label="Предлежание" selected={secondThird.placentaLocation === "previa"} onClick={() => setSecondThird((p) => ({ ...p, placentaLocation: "previa" }))} />
       </FieldGroup>
+      {secondThird.placentaLocation === "previa" || secondThird.placentaLocation === "low_lying" ? (
+        <FieldGroup label="Степень предлежания / низкого прикрепления">
+          <Chip label="Нет" selected={secondThird.placentaPreviaGrade === "none" || !secondThird.placentaPreviaGrade} onClick={() => setSecondThird((p) => ({ ...p, placentaPreviaGrade: "none" }))} />
+          <Chip label="Краевое" selected={secondThird.placentaPreviaGrade === "marginal"} onClick={() => setSecondThird((p) => ({ ...p, placentaPreviaGrade: "marginal" }))} />
+          <Chip label="Частичное" selected={secondThird.placentaPreviaGrade === "partial"} onClick={() => setSecondThird((p) => ({ ...p, placentaPreviaGrade: "partial" }))} />
+          <Chip label="Полное" selected={secondThird.placentaPreviaGrade === "total"} onClick={() => setSecondThird((p) => ({ ...p, placentaPreviaGrade: "total" }))} />
+        </FieldGroup>
+      ) : null}
 
       {showAnatomy ? (
         <>
@@ -1153,7 +1201,6 @@ function SecondThirdForm({
             <NumField label="ПЗР мозжечка, мм" value={secondThird.cerebellumApMm} onChange={setNum("cerebellumApMm")} />
             <NumField label="Сильвиева б., мм" value={secondThird.sylvianDepthMm} onChange={setNum("sylvianDepthMm")} />
             <NumField label="Угол ствол–мозж., °" value={secondThird.cerebellarAngleDeg} onChange={setNum("cerebellarAngleDeg")} />
-            <NumField label="Длина носа, мм" value={secondThird.nasalBoneLengthMm} onChange={setNum("nasalBoneLengthMm")} />
           </div>
           <p className="text-xs font-bold uppercase tracking-wide text-[var(--clinical-foreground-muted)]">
             Орбиты · тимус · сердце (опц., Прил. 13–20)
@@ -1163,7 +1210,7 @@ function SecondThirdForm({
             <NumField label="Интраорбит., мм" value={secondThird.orbitIntraMm} onChange={setNum("orbitIntraMm")} />
             <NumField label="Диам. глазницы, мм" value={secondThird.orbitDiameterMm} onChange={setNum("orbitDiameterMm")} />
             <NumField label="Периметр тимуса, мм" value={secondThird.thymusPerimeterMm} onChange={setNum("thymusPerimeterMm")} />
-            <NumField label="Тимус попер., см" value={secondThird.thymusTransverseCm} onChange={setNum("thymusTransverseCm")} />
+            <NumField label="ТТО тимуса (попер.), см" value={secondThird.thymusTransverseCm} onChange={setNum("thymusTransverseCm")} />
             <NumField label="Лев. предсердие, мм" value={secondThird.leftAtriumMm} onChange={setNum("leftAtriumMm")} />
             <NumField label="Прав. предсердие, мм" value={secondThird.rightAtriumMm} onChange={setNum("rightAtriumMm")} />
             <NumField label="Лев. желудочек, мм" value={secondThird.leftVentricleMm} onChange={setNum("leftVentricleMm")} />
@@ -1178,16 +1225,62 @@ function SecondThirdForm({
         <NumField label="PI мат. сл." value={secondThird.uterinePiLeft} onChange={setNum("uterinePiLeft")} />
         <NumField label="PI мат. (ср.)" value={secondThird.uterinePiMean} onChange={setNum("uterinePiMean")} />
         <NumField label="PI АП" value={secondThird.uaPi} onChange={setNum("uaPi")} />
-        <NumField label="ИР АП (RI) · Прил. 37" value={secondThird.uaRi} onChange={setNum("uaRi")} />
-        <NumField label="PI СМА" value={secondThird.mcaPi} onChange={setNum("mcaPi")} />
+        <NumField label="RI АП (индекс резистентности) · опц." value={secondThird.uaRi} onChange={setNum("uaRi")} />
+        <NumField label="PI СМА (среднее)" value={secondThird.mcaPi} onChange={setNum("mcaPi")} />
         <NumField label="PSV СМА · Прил. 38" value={secondThird.mcaPsv} onChange={setNum("mcaPsv")} />
         <NumField label="PI DV" value={secondThird.dvPi} onChange={setNum("dvPi")} />
       </div>
 
-      <FieldGroup label="Пол плода (наружные органы)">
-        <Chip label="Женский" selected={secondThird.fetalSex === "female"} onClick={() => setSecondThird((p) => ({ ...p, fetalSex: "female" }))} />
-        <Chip label="Мужской" selected={secondThird.fetalSex === "male"} onClick={() => setSecondThird((p) => ({ ...p, fetalSex: "male" }))} />
-        <Chip label="Не оценён" selected={secondThird.fetalSex === "uncertain"} onClick={() => setSecondThird((p) => ({ ...p, fetalSex: "uncertain" }))} />
+      <FieldGroup label="Внешние половые признаки по УЗИ (фенотип)">
+        <Chip
+          label="Женский тип"
+          selected={secondThird.phenotypicGenitalia === "female_appearance" || secondThird.fetalSex === "female"}
+          onClick={() =>
+            setSecondThird((p) => ({
+              ...p,
+              phenotypicGenitalia: "female_appearance",
+              fetalSex: "female",
+            }))
+          }
+        />
+        <Chip
+          label="Мужской тип"
+          selected={secondThird.phenotypicGenitalia === "male_appearance" || secondThird.fetalSex === "male"}
+          onClick={() =>
+            setSecondThird((p) => ({
+              ...p,
+              phenotypicGenitalia: "male_appearance",
+              fetalSex: "male",
+            }))
+          }
+        />
+        <Chip
+          label="Неоднозначно"
+          selected={secondThird.phenotypicGenitalia === "ambiguous"}
+          onClick={() => setSecondThird((p) => ({ ...p, phenotypicGenitalia: "ambiguous", fetalSex: "uncertain" }))}
+        />
+        <Chip
+          label="Не оценено"
+          selected={
+            secondThird.phenotypicGenitalia === "not_assessed" ||
+            (!secondThird.phenotypicGenitalia && secondThird.fetalSex === "uncertain")
+          }
+          onClick={() =>
+            setSecondThird((p) => ({
+              ...p,
+              phenotypicGenitalia: "not_assessed",
+              fetalSex: "uncertain",
+            }))
+          }
+        />
+      </FieldGroup>
+      <p className="text-xs text-[var(--clinical-foreground-muted)]">{SEX_DOCUMENTATION_DISCLAIMER}</p>
+      <FieldGroup label="Кариотип / генетика (если известно)">
+        <Chip label="Не выполнено" selected={!secondThird.karyotypeDocumentation || secondThird.karyotypeDocumentation === "not_done"} onClick={() => setSecondThird((p) => ({ ...p, karyotypeDocumentation: "not_done" }))} />
+        <Chip label="46,XX" selected={secondThird.karyotypeDocumentation === "46XX"} onClick={() => setSecondThird((p) => ({ ...p, karyotypeDocumentation: "46XX" }))} />
+        <Chip label="46,XY" selected={secondThird.karyotypeDocumentation === "46XY"} onClick={() => setSecondThird((p) => ({ ...p, karyotypeDocumentation: "46XY" }))} />
+        <Chip label="Иное" selected={secondThird.karyotypeDocumentation === "other"} onClick={() => setSecondThird((p) => ({ ...p, karyotypeDocumentation: "other" }))} />
+        <Chip label="Расхождение" selected={secondThird.karyotypeDocumentation === "discordant" || secondThird.phenotypicKaryotypeDiscordance} onClick={() => setSecondThird((p) => ({ ...p, karyotypeDocumentation: "discordant", phenotypicKaryotypeDiscordance: true }))} />
       </FieldGroup>
 
       <FieldGroup label="Носовые кости">
@@ -1255,7 +1348,7 @@ function DopplerForm({
       <div className="grid gap-3 sm:grid-cols-2">
         <NumField label="PI маточной справа" value={doppler.piRight} onChange={setNum("piRight")} />
         <NumField label="PI маточной слева" value={doppler.piLeft} onChange={setNum("piLeft")} />
-        <NumField label="ИР АП (RI) · Прил. 37" value={doppler.uaRi} onChange={setNum("uaRi")} />
+        <NumField label="RI АП (индекс резистентности) · опц." value={doppler.uaRi} onChange={setNum("uaRi")} />
         <NumField label="PI СМА · Прил. 39" value={doppler.piMca} onChange={setNum("piMca")} />
         <NumField label="PSV СМА · Прил. 38" value={doppler.mcaPsv} onChange={setNum("mcaPsv")} />
         <NumField label="PI венозного протока" value={doppler.dvPi} onChange={setNum("dvPi")} />

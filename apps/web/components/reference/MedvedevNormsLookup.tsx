@@ -45,7 +45,7 @@ const DOPPLER_OPTIONS = [
   { id: "mcaPi", label: "ПИ СМА", unit: "—", group: "doppler" as const },
   { id: "mcaPsv", label: "ПССК СМА", unit: "см/с", group: "doppler" as const },
   { id: "dvPi", label: "ПИ венозного протока (DV)", unit: "—", group: "doppler" as const },
-  { id: "uaRi", label: "ИР артерии пуповины (UA RI)", unit: "—", group: "doppler" as const },
+  { id: "uaRi", label: "RI артерии пуповины (UA)", unit: "—", group: "doppler" as const },
 ];
 
 const ANATOMY_OPTIONS = [

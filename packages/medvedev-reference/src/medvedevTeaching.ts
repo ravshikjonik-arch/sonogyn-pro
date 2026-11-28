@@ -167,7 +167,7 @@ export const MEDVEDEV_TEACH_BY_MARKER: Record<string, MedvedevTeachCard> = {
     appendix: "Прил. 14",
   },
   uaRi: {
-    title: "ИР артерии пуповины (UA RI)",
+    title: "RI артерии пуповины (UA)",
     howToMeasure: "Free loop пуповины, Doppler gate на всю width сосуда. Справочник SonoGyn — RI АП (не PI).",
     clinicalMeaning: "RI >95-го перц. — плацентарная недостаточность, ЗВУР; сочетать с PI СМА и DV.",
     redFlags: [">95-го перц. RI UA", "reversed end-diastolic flow"],
@@ -176,7 +176,7 @@ export const MEDVEDEV_TEACH_BY_MARKER: Record<string, MedvedevTeachCard> = {
   },
   uaPi: {
     title: "PI артерии пуповины",
-    howToMeasure: "Стандартный PI UA; в справочнике SonoGyn — таблица RI АП, не PI. Используйте поле «ИР АП».",
+    howToMeasure: "Стандартный PI UA; в справочнике SonoGyn — таблица RI АП. Для сравнения с табл. Medvedev вводите RI (индекс резистентности), не путать с PI.",
     clinicalMeaning: "Повышение PI — placental insufficiency (оценка по локальным протоколам / Marsal).",
     appendix: "см. Прил. 37 (RI)",
     referenceTopicId: "doppler-ob",
@@ -327,8 +327,8 @@ export function teachHintForAlert(alert: string): string | null {
   if (a.includes("анеми") || a.includes("1,5 mom") || a.includes("1.5 mom") || a.includes("псск")) {
     return "Анемия плода: PSV >1,5 MoM — переливание, амниоцентез HbF, консультация гематолога/акушера по протоколу.";
   }
-  if (a.includes("допплер") || a.includes("pi") || a.includes("ир ап") || a.includes("пуповин")) {
-    return "Допплер: динамика через 48–72 ч, КТГ, решение с акушером о сроках родов. Справочник SonoGyn — ИР АП (RI), не PI.";
+  if (a.includes("допплер") || a.includes("pi") || a.includes("ri ап") || a.includes("пуповин")) {
+    return "Допплер: динамика через 48–72 ч, КТГ, решение с акушером о сроках родов. Справочник SonoGyn — RI АП (индекс резистентности), не путать с PI.";
   }
   return null;
 }

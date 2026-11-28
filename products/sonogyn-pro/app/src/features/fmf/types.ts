@@ -50,6 +50,27 @@ export type FirstTrimesterInput = {
   nasalBoneCategory?: "present" | "absent" | "hypoplastic" | "uncertain";
 };
 
+export type PlacentaLocationSite =
+  | "anterior"
+  | "posterior"
+  | "right_lateral"
+  | "left_lateral"
+  | "fundal"
+  | "anterolateral"
+  | "posterolateral"
+  | "anterior_posterior"
+  | "low_lying"
+  | "previa"
+  | "lateral";
+
+export type PhenotypicGenitalia =
+  | "female_appearance"
+  | "male_appearance"
+  | "ambiguous"
+  | "not_assessed";
+
+export type KaryotypeDocumentation = "not_done" | "46XX" | "46XY" | "other" | "discordant";
+
 export type SecondThirdInput = {
   /** Шапка протокола (шаблон Якубова) */
   patientName?: string;
@@ -59,6 +80,7 @@ export type SecondThirdInput = {
   gaWeeksByLmp?: number;
   gaDaysByLmp?: number;
   fetalPositionStable?: boolean;
+  presentationMobility?: "stable" | "unstable" | "not_assessed";
   fetusPresentation?: "cephalic" | "breech" | "transverse";
   bpd?: number;
   ofd?: number;
@@ -89,7 +111,9 @@ export type SecondThirdInput = {
   stomachSeen?: boolean;
   bladderSeen?: boolean;
   placentaDistanceToOsCm?: number;
-  placentaLocation?: "anterior" | "posterior" | "lateral" | "fundal";
+  placentaLocation?: PlacentaLocationSite;
+  placentaPreviaGrade?: "none" | "marginal" | "partial" | "total";
+  placentaLocationNote?: string;
   /** Толщина плаценты, мм — Прил. 34. */
   placentaThicknessMm?: number;
   afiCm?: number;
@@ -99,6 +123,11 @@ export type SecondThirdInput = {
   uterinePiRight?: number;
   uterinePiLeft?: number;
   fetalSex?: "female" | "male" | "uncertain";
+  phenotypicGenitalia?: PhenotypicGenitalia;
+  karyotypeDocumentation?: KaryotypeDocumentation;
+  phenotypicKaryotypeDiscordance?: boolean;
+  genitaliaClinicalNote?: string;
+  fetalLengthFromFlAuto?: boolean;
   visualizationQuality?: "satisfactory" | "limited" | "poor";
   uaPi?: number;
   uaRi?: number;

@@ -388,7 +388,7 @@ export function analyzeSecondThird(input: SecondThirdInput, trimester: "second" 
     alerts.push("⚠️ PI СМА снижен (централизация кровотока)");
   }
   if ((input.uaPi ?? 0) > 1.3 && !medvedevDoppler.some((d) => d.marker === "uaRi")) {
-    alerts.push("⚠️ PI артерии пуповины повышен (введите ИР АП (таблица RI))");
+    alerts.push("⚠️ PI артерии пуповины повышен (при необходимости RI АП — таблица Medvedev)");
   }
 
   for (const marker of medvedevBiometry) {
@@ -480,7 +480,7 @@ export function analyzeDoppler(input: {
   if (typeof input.piRight !== "number") missingQuestions.push("Введите PI правой маточной артерии.");
   if (typeof input.piLeft !== "number") missingQuestions.push("Введите PI левой маточной артерии.");
   if (typeof input.uaRi !== "number" && typeof input.piUmb !== "number") {
-    missingQuestions.push("Введите ИР артерии пуповины (RI, Прил. 37) или PI UA.");
+    missingQuestions.push("Введите RI артерии пуповины (Прил. 37) или PI UA.");
   }
   if (typeof input.piMca !== "number") missingQuestions.push("Введите PI среднемозговой артерии.");
   if (input.gaWeeks === undefined) missingQuestions.push("Укажите срок (нед) для перцентилей UtA/DV/UA.");
@@ -529,7 +529,7 @@ export function analyzeDoppler(input: {
   const uaHigh = medvedevDoppler.some((d) => d.marker === "uaRi" && d.flag === "high");
   const mcaLow = medvedevDoppler.some((d) => d.marker === "mcaPi" && d.flag === "low");
   if (uaHigh && mcaLow) {
-    hypotheses.push("Подозрение на гипоксию плода: повышение ИР АП + снижение PI СМА (централизация).");
+    hypotheses.push("Подозрение на гипоксию плода: повышение RI АП + снижение PI СМА (централизация).");
   } else if ((input.piUmb ?? 0) > 1.3 && (input.piMca ?? 99) < 1.2) {
     hypotheses.push("Подозрение на гипоксию плода: повышение PI АП + снижение PI СМА.");
   }

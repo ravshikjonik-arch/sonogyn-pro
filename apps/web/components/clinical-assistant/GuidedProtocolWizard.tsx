@@ -76,7 +76,7 @@ const FIELD_LABELS: Record<string, string> = {
   amnioticFluid: "Околоплодные воды",
   cordVessels: "Пуповина (сосуды)",
   cordInsertion: "Прикрепление пуповины",
-  nasalBone: "Кость носа",
+  nasalBone: "Носовые кости",
   freeBhcgIu: "free β-ХГЧ, МЕ",
   freeBhcgMom: "free β-ХГЧ, MoM",
   pappaIu: "PAPP-A, МЕ",

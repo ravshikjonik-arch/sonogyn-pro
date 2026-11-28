@@ -37,7 +37,7 @@ export function renderT1ProtocolText(fields: GuidedT1Fields, gaLabel?: string): 
     `ЧСС: ${v(fields.fhrBpm)} уд/мин`,
     `КТР: ${v(fields.crlMm)} мм; ТВП: ${v(fields.ntMm)} мм`,
     `БПР: ${v(fields.bpdMm)} мм; ОГ: ${v(fields.hcMm)} мм`,
-    `DV PI: ${v(fields.dvPi)}; Кость носа: ${v(fields.nasalBone)}`,
+    `DV PI: ${v(fields.dvPi)}; Носовые кости: ${v(fields.nasalBone)}`,
     `Хорион: ${v(fields.chorionLocation)}; ОВ: ${v(fields.amnioticFluid)}`,
     `Пуповина: ${v(fields.cordVessels)}; прикрепление: ${v(fields.cordInsertion)}`,
     `ПДР по УЗИ: ${v(fields.eddByUs)}`,

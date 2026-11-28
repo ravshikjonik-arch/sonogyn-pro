@@ -70,7 +70,7 @@ const CONDITIONS: AneuploidyCondition[] = [
 
 const MARKER_LABELS: Record<MarkerId, string> = {
   increased_nt: "ТВП ↑",
-  absent_nasal_bone: "Носовая кость отсутствует",
+  absent_nasal_bone: "Носовые кости не визуализируются",
   tricuspid_regurgitation: "Трикуспидальная регургитация",
   reversed_dv_a_wave: "Патологический поток DV (a-wave)",
   high_dv_pi: "ПИ DV ↑",

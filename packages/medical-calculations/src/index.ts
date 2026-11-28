@@ -36,3 +36,4 @@ export * from "./ovarianVolume";
 export * from "./thyroidVolume";
 export * from "./fmfScreening";
 export * from "./fmfAssessment";
+export * from "./fetalCrownHeelLength";

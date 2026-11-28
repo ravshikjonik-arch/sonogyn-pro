@@ -225,7 +225,7 @@ export function fmfScreening(input: FmfScreeningInput): FmfScreeningResult {
   };
 
   if (input.ntMm != null) apply("NT", lrNt(input.ntMm));
-  apply("Носовая кость", lrNasalBone(input.nasalBone));
+  apply("Носовые кости", lrNasalBone(input.nasalBone));
   apply("DV", lrDuctusVenosus(input.ductusVenosusAWave));
   apply("Трикуспидид", lrTricuspid(input.tricuspidRegurgitation));
   apply("ЧСС", lrFhr(input.fetalHeartRateBpm));

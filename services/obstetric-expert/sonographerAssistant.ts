@@ -272,7 +272,7 @@ export function suggestMeasurements(
   if (tokens.includes("increased_nt")) {
     add({
       parameter: "NB",
-      parameterRu: "Носовая кость",
+      parameterRu: "Носовые кости",
       unit: "mm",
       rationale: "Маркер анеуплоидии I триместра",
       priority: "required",

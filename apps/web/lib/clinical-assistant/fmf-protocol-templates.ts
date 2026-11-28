@@ -8,7 +8,12 @@ import {
   assessMedvedevPlacentaAfi,
   MEDVEDEV_BIOMETRY_SOURCE,
 } from "@repo/medvedev-reference";
-import { formatMm } from "@repo/medical-calculations";
+import { formatMm, estimateCrownHeelLengthCmFromFl } from "@repo/medical-calculations";
+import {
+  PHENOTYPIC_GENITALIA_LABELS,
+  PLACENTA_LOCATION_LABELS,
+  SEX_DOCUMENTATION_DISCLAIMER,
+} from "@repo/clinical-tools/obstetric-terminology.ru";
 
 import { hadlockEfwGrams } from "../../../mobile/src/features/fmf/logic/fmfMath";
 import { formatProtocolField, presentProtocolText } from "./fmf-protocol-format";
@@ -76,16 +81,26 @@ function bo(value: boolean | undefined, negative = "уточнить"): string {
   return "б/о";
 }
 
-function placentaLocationText(value: SecondThirdInput["placentaLocation"]): string {
-  if (value === "anterior") return "по передней стенке";
-  if (value === "posterior") return "по задней стенке";
-  if (value === "lateral") return "по боковой стенке";
-  if (value === "fundal") return "в дне матки";
-  return "по передней / задней / боковой стенке и в дне матки";
+function placentaLocationText(input: SecondThirdInput): string {
+  const value = input.placentaLocation;
+  const base = value ? (PLACENTA_LOCATION_LABELS[value] ?? value) : "не указано";
+  const previa =
+    input.placentaPreviaGrade && input.placentaPreviaGrade !== "none"
+      ? `; степень предлежания: ${input.placentaPreviaGrade}`
+      : "";
+  const note = input.placentaLocationNote?.trim() ? `; ${input.placentaLocationNote.trim()}` : "";
+  return `плацента: ${base}${previa}${note}`;
 }
 
 function fetalPositionLine(input: SecondThirdInput): string {
-  const stability = input.fetalPositionStable === false ? "неустойчивом" : "___";
+  const mobility =
+    input.presentationMobility === "unstable"
+      ? "изменчивом"
+      : input.presentationMobility === "stable"
+        ? "стабильном"
+        : input.fetalPositionStable === false
+          ? "неустойчивом"
+          : "___";
   const pres =
     input.fetusPresentation === "cephalic"
       ? "головном"
@@ -94,13 +109,28 @@ function fetalPositionLine(input: SecondThirdInput): string {
         : input.fetusPresentation === "transverse"
           ? "поперечном"
           : "головном / тазовом";
-  return `Определяется один живой плод в ${stability} положении, ${pres} предлежание.`;
+  return `Определяется один живой плод в ${mobility} положении, ${pres} предлежание.`;
 }
 
-function externalGenitaliaText(value: SecondThirdInput["fetalSex"]): string {
-  if (value === "female") return "по женскому типу";
-  if (value === "male") return "по мужскому типу";
-  return "по женскому / мужскому типу";
+function externalGenitaliaText(input: SecondThirdInput): string {
+  if (input.phenotypicGenitalia) {
+    return PHENOTYPIC_GENITALIA_LABELS[input.phenotypicGenitalia] ?? input.phenotypicGenitalia;
+  }
+  const value = input.fetalSex;
+  if (value === "female") return "признаки по женскому типу (по УЗИ)";
+  if (value === "male") return "признаки по мужскому типу (по УЗИ)";
+  return "не оценено";
+}
+
+function karyotypeLine(input: SecondThirdInput): string | null {
+  if (!input.karyotypeDocumentation || input.karyotypeDocumentation === "not_done") return null;
+  const map: Record<string, string> = {
+    "46XX": "кариотип 46,XX (по данным обследования)",
+    "46XY": "кариотип 46,XY (по данным обследования)",
+    other: "кариотип: иное (см. заключение генетика)",
+    discordant: "расхождение фенотипа и кариотипа",
+  };
+  return map[input.karyotypeDocumentation] ?? null;
 }
 
 function uterinePiLine(side: "правая" | "левая", pi?: number, gaDaysTotal?: number | null): string[] {
@@ -193,7 +223,13 @@ export function buildYakubovSecondThirdProtocol(
     "Размеры плода пропорциональны и соответствуют сроку беременности.",
     `Сердцебиение ${formatProtocolField(input.fhr, " уд/мин")}, ритмичное.`,
     `ПМП (EFW) – ${efwPct}.`,
-    `Длина плода – ${formatProtocolField(input.fetalLengthCm, " см")}.`,
+    `Длина плода (оценка) – ${formatProtocolField(
+      input.fetalLengthCm ??
+        (input.fetalLengthFromFlAuto !== false && input.fl != null
+          ? estimateCrownHeelLengthCmFromFl(input.fl) ?? undefined
+          : undefined),
+      " см",
+    )}.`,
     ...(biometryLines.length
       ? ["", "Перцентили фетометрии:", ...biometryLines, `- Источник: ${MEDVEDEV_BIOMETRY_SOURCE}`]
       : []),
@@ -207,7 +243,9 @@ export function buildYakubovSecondThirdProtocol(
     `Сильвиева борозда – ${bo(undefined)}`,
     `Лицевые структуры: профиль – ${bo(undefined)}`,
     `Носовые кости – ${presentProtocolText(input.nasalBoneSeen)}`,
-    `Длина носовых костей – ${formatProtocolField(input.nasalBoneLengthMm, " мм")}`,
+    ...(input.nasalBoneLengthMm != null
+      ? [`Длина носовой кости (НК), мм – ${formatProtocolField(input.nasalBoneLengthMm, " мм")}`]
+      : []),
     `Толщина преназальной ткани – ${formatProtocolField(input.prenasalThicknessMm, " мм")}`,
     `Соотношение ТПТ/ДНК – ${formatProtocolField(input.tptNbRatio)}`,
     `Носогубный треугольник – ${bo(undefined)}`,
@@ -231,11 +269,17 @@ export function buildYakubovSecondThirdProtocol(
     "Почки – б/о.",
     `Мочевой пузырь – ${bo(input.bladderSeen)}`,
     "Место прикрепления пуповины к передней брюшной стенке – б/о.",
-    `Наружные половые органы сформированы правильно, ${externalGenitaliaText(input.fetalSex)}.`,
+    `Наружные половые органы: ${externalGenitaliaText(input)}.`,
+    ...(karyotypeLine(input) ? [karyotypeLine(input)!] : []),
+    ...(input.phenotypicKaryotypeDiscordance
+      ? ["Отмечено расхождение данных УЗИ и генетического/цитогенетического обследования."]
+      : []),
+    ...(input.genitaliaClinicalNote?.trim() ? [`Комментарий: ${input.genitaliaClinicalNote.trim()}.`] : []),
+    SEX_DOCUMENTATION_DISCLAIMER,
     "Анальный сфинктер – б/о.",
     "",
     "ПЛАЦЕНТА, ПУПОВИНА, ОКОЛОПЛОДНЫЕ ВОДЫ:",
-    `Плацента расположена ${placentaLocationText(input.placentaLocation)}, ${formatProtocolField(input.placentaDistanceToOsCm, "")}см выше внутреннего зева.`,
+    `Плацента: ${placentaLocationText(input)}, ${formatProtocolField(input.placentaDistanceToOsCm, "")}см от внутреннего зева.`,
     `Толщина плаценты: нормальная, до ${formatProtocolField(input.placentaThicknessMm, " мм")}`,
     "Структура плаценты – б/о.",
     `Количество околоплодных вод: нормальное (макс. вертикальный карман ${formatProtocolField(input.maxVerticalPocketCm, " см")}, ИАЖ = ${formatProtocolField(input.afiCm, " см")}).`,
@@ -265,11 +309,11 @@ export function buildYakubovSecondThirdProtocol(
     ...uterinePiLine("левая", utLeft, gaDaysTotal),
     "",
     "2) АРТЕРИЯ ПУПОВИНЫ:",
-    `ИР (RI) = ${formatRuDecimal(input.uaRi)}; PI = ${formatRuDecimal(input.uaPi)}.`,
+    `RI (индекс резистентности) АП = ${formatRuDecimal(input.uaRi)}; PI АП = ${formatRuDecimal(input.uaPi)}.`,
     "Профиль спектра кровотока соответствует гестационному сроку.",
     "",
     "3) СРЕДНЕМОЗГОВАЯ АРТЕРИЯ:",
-    `ПИ (PI) = ${formatRuDecimal(input.mcaPi)}; ПССК (PSV) = ${formatProtocolField(input.mcaPsv, " см/с")}.`,
+    `PI СМА (среднее) = ${formatRuDecimal(input.mcaPi)}; PSV СМА = ${formatProtocolField(input.mcaPsv, " см/с")}.`,
     "Профиль спектра кровотока соответствует гестационному сроку.",
     "",
     "4) ВЕНОЗНЫЙ ПРОТОК:",
