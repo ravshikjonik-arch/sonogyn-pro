@@ -22,7 +22,7 @@ jobs:
       run:
         working-directory: services/us-ai-worker
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Build Docker image
         run: docker build --build-arg INSTALL_USTRI=0 -t sonogyn-us-ai-worker .
@@ -55,7 +55,7 @@ jobs:
       run:
         working-directory: services/us-ai-worker
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Install Railway CLI
         run: npm install -g @railway/cli@4.5.4
