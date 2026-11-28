@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
@@ -7,11 +9,11 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { IOTA_TERMS_2026_LINKS, IOTA_TERMS_2026_META } from "@/lib/education/iota-terms-2026/constants";
 
-export const metadata: Metadata = {
+export const metadata = buildPublicMetadata({
   title: "IOTA 2026 · термины и определения",
-  description:
-    "Обновлённый консенсус IOTA Group 2026: солидный компонент, тип поражения, папиллярные проекции, цветовой балл, ADNEX — инфографика, текст и 12 вопросов.",
-};
+  description: "Обновлённый консенсус IOTA Group 2026: солидный компонент, тип поражения, папиллярные проекции, цветовой балл, ADNEX — инфографика, текст и 12 вопросов.",
+  path: "/tools/refs/iota-terms-2026",
+});
 
 export default function IotaTerms2026Page() {
   return (

@@ -127,7 +127,7 @@ export function BishopCalculator() {
       <header className="mx-auto flex max-w-3xl flex-wrap items-start justify-between gap-3">
         <div className="space-y-2">
           <Badge variant="outline">Индукция · созревание шейки</Badge>
-          <h1 className="text-3xl font-black tracking-tight">Шкала Бишопа</h1>
+          <h2 className="text-3xl font-black tracking-tight">Шкала Бишопа</h2>
           <p className="text-sm text-[var(--clinical-foreground-muted)]">Modified Bishop 0–13 · ≥6 благоприятна для индукции</p>
         </div>
         <CalculatorFavoriteButton calculatorId={CALC_ID} />

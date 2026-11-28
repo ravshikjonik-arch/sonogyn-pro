@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
+
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
 import { Suspense } from "react";
 
 import { MammologyNationalAtlasWidget } from "@/components/education/MammologyNationalAtlasWidget";
 
-export const metadata: Metadata = {
+export const metadata = buildPublicMetadata({
   title: "Маммология: национальное руководство",
-  description:
-    "Учебный атлас Каприн–Рожкова: 26 глав, OCR-текст, развороты скана и подписи рисунков для BI-RADS и УЗИ МЖ.",
-};
+  description: "Учебный атлас Каприн–Рожкова: 26 глав, OCR-текст, развороты скана и подписи рисунков для BI-RADS и УЗИ МЖ.",
+  path: "/tools/refs/mammology-national-atlas",
+});
 
 type Props = { searchParams: Promise<{ section?: string; slug?: string }> };
 

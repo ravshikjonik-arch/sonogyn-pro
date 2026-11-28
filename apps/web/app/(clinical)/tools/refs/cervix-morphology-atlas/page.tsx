@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
+
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
 import { Suspense } from "react";
 
 import { CervixMorphologyAtlasWidget } from "@/components/education/CervixMorphologyAtlasWidget";
 
-export const metadata: Metadata = {
+export const metadata = buildPublicMetadata({
   title: "Морфологический атлас шейки матки",
-  description:
-    "Гистология опухолей шейки матки: CIN, AIS, карциномы, ИГХ и генетика — 17 глав, 114 препаратов.",
-};
+  description: "Гистология опухолей шейки матки: CIN, AIS, карциномы, ИГХ и генетика — 17 глав, 114 препаратов.",
+  path: "/tools/refs/cervix-morphology-atlas",
+});
 
 type Props = { searchParams: Promise<{ section?: string; slug?: string }> };
 

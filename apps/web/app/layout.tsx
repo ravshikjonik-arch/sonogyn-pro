@@ -22,8 +22,19 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const yandexSiteVerification = process.env.NEXT_PUBLIC_YANDEX_SITE_VERIFICATION?.trim();
+const googleSiteVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.trim();
+
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? "https://sonogyn-pro.ru"),
+  ...(yandexSiteVerification || googleSiteVerification
+    ? {
+        verification: {
+          ...(yandexSiteVerification ? { yandex: yandexSiteVerification } : {}),
+          ...(googleSiteVerification ? { google: googleSiteVerification } : {}),
+        },
+      }
+    : {}),
   title: {
     default: "SonoGyn Pro",
     template: "%s | SonoGyn Pro",

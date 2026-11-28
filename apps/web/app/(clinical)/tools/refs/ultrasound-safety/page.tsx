@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
 import { Shield } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -6,10 +7,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ULTRASOUND_SAFETY_DISCLAIMER, ULTRASOUND_SAFETY_STATEMENTS } from "@/lib/education/ultrasound-safety";
 
-export const metadata = {
+export const metadata = buildPublicMetadata({
   title: "Безопасность УЗИ · ISUOG / AIUM",
   description: "ALARA, bioeffects, MI/TI, doppler I trimester, training.",
-};
+  path: "/tools/refs/ultrasound-safety",
+});
 
 export default function UltrasoundSafetyPage() {
   return (

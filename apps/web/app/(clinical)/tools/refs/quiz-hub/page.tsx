@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
 import Link from "next/link";
 import { ArrowLeft, ClipboardList } from "lucide-react";
 
@@ -6,11 +8,11 @@ import { QuizHubClient } from "@/components/education/QuizHubClient";
 import { Button } from "@/components/ui/button";
 import { QUIZ_HUB_ENTRIES } from "@/lib/education/quiz-hub-registry";
 
-export const metadata: Metadata = {
+export const metadata = buildPublicMetadata({
   title: "Клинические задачи · Quiz hub",
-  description:
-    "Самопроверка и exam-style задачи для врача УЗД/АГ: O-RADS, IOTA, акушерство, шейка матки — без дублирования банков.",
-};
+  description: "Самопроверка и exam-style задачи для врача УЗД/АГ: O-RADS, IOTA, акушерство, шейка матки — без дублирования банков.",
+  path: "/tools/refs/quiz-hub",
+});
 
 export default function QuizHubPage() {
   const count = QUIZ_HUB_ENTRIES.filter((e) => e.id !== "quiz-hub-meta").length;

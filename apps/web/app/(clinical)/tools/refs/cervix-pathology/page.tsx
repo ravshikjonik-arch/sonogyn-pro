@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
@@ -9,11 +11,11 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CERVIX_ATLAS } from "@repo/cervix-pathology-reference";
 
-export const metadata: Metadata = {
+export const metadata = buildPublicMetadata({
   title: "Патология шейки матки · справочник, цитология, самопроверка",
-  description:
-    "8 глав справочника + интерактивный модуль «Цитология и скрининг РШМ»: Bethesda, HPV, алгоритмы ASCCP, кейсы, AI и 25 вопросов.",
-};
+  description: "8 глав справочника + интерактивный модуль «Цитология и скрининг РШМ»: Bethesda, HPV, алгоритмы ASCCP, кейсы, AI и 25 вопросов.",
+  path: "/tools/refs/cervix-pathology",
+});
 
 export default function CervixPathologyPage() {
   return (

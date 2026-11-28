@@ -1,10 +1,11 @@
 import { FmfCalculatorsHubClient } from "@/components/education/FmfCalculatorsHubClient";
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
 
-export const metadata = {
-  title: "Калькуляторы FMF · оценка и менеджмент | SonoGyn Pro",
-  description:
-    "Калькуляторы FMF: dating CRL → срок (Robinson 1975), NT-референсы с центилями (Wright 2008), CPR по допплеру. По опубликованным формулам с атрибуцией.",
-};
+export const metadata = buildPublicMetadata({
+  title: "Калькуляторы FMF · оценка и менеджмент",
+  description: "Калькуляторы FMF: dating CRL → срок (Robinson 1975), NT-референсы с центилями (Wright 2008), CPR по допплеру. По опубликованным формулам с атрибуцией.",
+  path: "/tools/calc/fmf",
+});
 
 export default function FmfCalculatorsPage() {
   return (

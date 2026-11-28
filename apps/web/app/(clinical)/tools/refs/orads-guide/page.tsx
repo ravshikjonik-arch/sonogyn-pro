@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
+
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
 import { Suspense } from "react";
 
 import { OradsGuideWidget } from "@/components/education/OradsGuideWidget";
 
-export const metadata: Metadata = {
+export const metadata = buildPublicMetadata({
   title: "O-RADS US · руководство",
-  description:
-    "Учебный реферат по классификации O-RADS US v2022 (ACR): алгоритм, клинические случаи, категории риска 0–5.",
-};
+  description: "Учебный реферат по классификации O-RADS US v2022 (ACR): алгоритм, клинические случаи, категории риска 0–5.",
+  path: "/tools/refs/orads-guide",
+});
 
 type Props = { searchParams: Promise<{ section?: string; lang?: string }> };
 

@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
 import Link from "next/link";
 import { ArrowLeft, FileText } from "lucide-react";
 
@@ -7,11 +9,11 @@ import { PATIENT_INFO_DISCLAIMER, PATIENT_LEAFLETS } from "@/lib/patient-informa
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
-export const metadata: Metadata = {
+export const metadata = buildPublicMetadata({
   title: "Информация для пациенток · ISUOG-style leaflets",
-  description:
-    "Листовки для пациенток: шейка матки, O-RADS, цитология, задержка роста плода, скрининг I триместра. Печать, PDF, email.",
-};
+  description: "Листовки для пациенток: шейка матки, O-RADS, цитология, задержка роста плода, скрининг I триместра. Печать, PDF, email.",
+  path: "/tools/refs/patient-information",
+});
 
 export default function PatientInformationPage() {
   return (

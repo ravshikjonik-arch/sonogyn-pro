@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
+
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
 import { Suspense } from "react";
 
 import { PrenatalEchographyAtlasWidget } from "@/components/education/PrenatalEchographyAtlasWidget";
 
-export const metadata: Metadata = {
+export const metadata = buildPublicMetadata({
   title: "Пренатальная эхография — учебный атлас",
   description: "20 глав, 725 эхограмм: фетометрия, допpler, пороки плода (RU).",
-};
+  path: "/tools/refs/prenatal-echography-atlas",
+});
 
 type Props = { searchParams: Promise<{ section?: string; slug?: string }> };
 

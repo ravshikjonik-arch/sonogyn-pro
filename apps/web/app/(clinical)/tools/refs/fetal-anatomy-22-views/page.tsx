@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
 import Link from "next/link";
 import { ArrowLeft, Scan } from "lucide-react";
 
@@ -17,11 +19,11 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
-export const metadata: Metadata = {
+export const metadata = buildPublicMetadata({
   title: "22 среза · 65 ВПР плода · II триместр",
-  description:
-    "Систематический протокол УЗИ II триместра: 22 views, база 65 аномалий, 15 случаев, 20 Q, атлас (Е.С. Емельяненко).",
-};
+  description: "Систематический протокол УЗИ II триместра: 22 views, база 65 аномалий, 15 случаев, 20 Q, атлас (Е.С. Емельяненко).",
+  path: "/tools/refs/fetal-anatomy-22-views",
+});
 
 export default function FetalAnatomy22ViewsPage() {
   return (

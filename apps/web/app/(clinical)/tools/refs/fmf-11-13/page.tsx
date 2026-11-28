@@ -1,10 +1,11 @@
 import { FmfScreening11Client } from "@/components/education/FmfScreening11Client";
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
 
-export const metadata = {
-  title: "FMF · Скрининг 11–13 недель | SonoGyn Pro",
-  description:
-    "Техника измерения NT, допплер-маркеры (DV, трикуспидид, носовая кость, ЧСС), пороги эскалации и учебный калькулятор риска по принципу FMF «априорный риск × LR». Атрибуция: Fetal Medicine Foundation.",
-};
+export const metadata = buildPublicMetadata({
+  title: "FMF · Скрининг 11–13 недель",
+  description: "Техника измерения NT, допплер-маркеры (DV, трикуспидид, носовая кость, ЧСС), пороги эскалации и учебный калькулятор риска по принципу FMF «априорный риск × LR». Атрибуция: Fetal Medicine Foundation.",
+  path: "/tools/refs/fmf-11-13",
+});
 
 export default function Fmf11To13Page() {
   return (

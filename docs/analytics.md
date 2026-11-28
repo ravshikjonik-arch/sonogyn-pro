@@ -7,6 +7,8 @@
 | Переменная | Назначение |
 |---|---|
 | `NEXT_PUBLIC_YM_ID` | ID счётчика Яндекс.Метрики (цифры). Без ID — скрипт не грузится. |
+| `NEXT_PUBLIC_YANDEX_SITE_VERIFICATION` | Код meta `yandex-verification` для Яндекс Вебмастера (не секрет, но только production). |
+| `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` | Google Search Console `google-site-verification`. |
 | `NEXT_PUBLIC_GA_ID` | GA4 Measurement ID (`G-…`). |
 | Firebase `NEXT_PUBLIC_FIREBASE_*` | Опционально; тоже за consent. |
 | `SENTRY_*` / `NEXT_PUBLIC_SENTRY_DSN` | Ошибки (уже с scrub PHI). |
@@ -54,11 +56,20 @@ SQL (admin): `analytics_events` + экспорт Firebase (если включё
 ## Проверка
 
 ```bash
+# Prod SEO (fetch, не curl — из части сетей curl к .ru таймаутит):
+node scripts/audit-smoke.mjs --base https://sonogyn-pro.ru --limit 30
+
 # без ID / без consent — в HTML нет tag.js
 curl -s http://localhost:3000/ | grep -c "mc.yandex.ru"   # ожидаем 0 до согласия
 
 # после «Разрешить аналитику» + NEXT_PUBLIC_YM_ID — Network: mc.yandex.ru/metrika/tag.js
 ```
+
+## Вебмастер (ручная настройка)
+
+1. [Яндекс Вебмастер](https://webmaster.yandex.ru/) → добавить `https://sonogyn-pro.ru` → meta-тег → код в `NEXT_PUBLIC_YANDEX_SITE_VERIFICATION` (Vercel Production).
+2. Индексирование → Файлы Sitemap → `https://sonogyn-pro.ru/sitemap.xml`.
+3. Аналогично Google Search Console + `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION`.
 
 ## Счётчик (prod)
 

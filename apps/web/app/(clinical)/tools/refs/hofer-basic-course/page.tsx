@@ -1,4 +1,5 @@
 import { HoferBasicCourseClient } from "@/components/education/HoferBasicCourseClient";
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
 import {
   HOFER_COURSE_DISCLAIMER,
   HOFER_COURSE_META,
@@ -13,11 +14,11 @@ type Props = {
   searchParams: Promise<{ tab?: string; module?: string }>;
 };
 
-export const metadata = {
-  title: "Базовый курс УЗД · Хофер | SonoGyn Pro",
-  description:
-    "Обучение для начинающих: куда ставить датчик, техника сканирования, модули и тест по конспекту Хофера (2021).",
-};
+export const metadata = buildPublicMetadata({
+  title: "Базовый курс УЗД · Хофер",
+  description: "Обучение для начинающих: куда ставить датчик, техника сканирования, модули и тест по конспекту Хофера (2021).",
+  path: "/tools/refs/hofer-basic-course",
+});
 
 export default async function HoferBasicCoursePage({ searchParams }: Props) {
   const { tab, module: moduleParam } = await searchParams;

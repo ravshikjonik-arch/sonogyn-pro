@@ -1,23 +1,15 @@
 import type { Metadata } from "next";
+
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
 import Link from "next/link";
 
 const siteUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://sonogyn-pro.ru";
 
-export const metadata: Metadata = {
+export const metadata = buildPublicMetadata({
   title: "Пользовательское соглашение",
-  description:
-    "Условия использования SonoGyn Pro — CDS и обучение для врачей УЗД/АГ. Не медицинский диагноз.",
-  alternates: { canonical: "/terms" },
-  openGraph: {
-    type: "website",
-    locale: "ru_RU",
-    url: `${siteUrl}/terms`,
-    siteName: "SonoGyn Pro",
-    title: "Пользовательское соглашение — SonoGyn Pro",
-    description: "Условия использования профессиональной платформы SonoGyn Pro.",
-  },
-  robots: { index: true, follow: true },
-};
+  description: "Условия использования SonoGyn Pro — CDS и обучение для врачей УЗД/АГ. Не медицинский диагноз.",
+  path: "/terms",
+});
 
 export default function TermsPage() {
   return (

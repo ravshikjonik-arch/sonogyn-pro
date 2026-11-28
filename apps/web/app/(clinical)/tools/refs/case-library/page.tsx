@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
 import Link from "next/link";
 import { ArrowLeft, Library } from "lucide-react";
 
@@ -7,11 +9,11 @@ import { CASE_LIBRARY_BUNDLES, CASE_LIBRARY_TOTAL } from "@/lib/education/case-l
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
-export const metadata: Metadata = {
+export const metadata = buildPublicMetadata({
   title: "Teaching Case Library · Radiopaedia-style",
-  description:
-    "Curated bundles учебных кейсов: fetal anatomy, O-RADS, set-pieces, vascular, cervix, community cases.",
-};
+  description: "Curated bundles учебных кейсов: fetal anatomy, O-RADS, set-pieces, vascular, cervix, community cases.",
+  path: "/tools/refs/case-library",
+});
 
 export default function CaseLibraryPage() {
   return (

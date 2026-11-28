@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
+
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
 import { Suspense } from "react";
 
 import { ClinicalEchocardiographyAtlasWidget } from "@/components/education/ClinicalEchocardiographyAtlasWidget";
 
-export const metadata: Metadata = {
+export const metadata = buildPublicMetadata({
   title: "Клиническая эхокардиография — учебный атлас (Otto 5ed, RU)",
   description: "44+ глав перевода Otto: лаборатория, клапаны, КМП, стресс-ЭхоКГ, ВПС, глоссарий ASE.",
-};
+  path: "/tools/refs/clinical-echocardiography-atlas",
+});
 
 type Props = {
   searchParams: Promise<{ section?: string; slug?: string; view?: string }>;

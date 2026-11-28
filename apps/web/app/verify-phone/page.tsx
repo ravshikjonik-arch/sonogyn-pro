@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
@@ -8,10 +10,12 @@ import { needsPhoneVerification } from "@/lib/auth/phone-verified";
 import { safeInternalPath } from "@/lib/nav/safe-redirect";
 import { createClient } from "@/utils/supabase/server";
 
-export const metadata: Metadata = {
-  title: "Подтверждение телефона · SonoGyn Pro",
+export const metadata = buildPublicMetadata({
+  title: "Подтверждение телефона",
   description: "Подтвердите номер телефона для доступа к клиническому кабинету.",
-};
+  path: "/verify-phone",
+  noindex: true,
+});
 
 type Props = { searchParams: Promise<{ redirectedFrom?: string }> };
 

@@ -192,7 +192,7 @@ export function IotaCalculator({ initial, oradsCategory = null }: Props) {
   return (
     <div className="mx-auto max-w-3xl space-y-6 px-4 py-8" data-iota-calculator-hydrated={hydrated ? "true" : "false"}>
       <header>
-        <h1 className="text-2xl font-black text-[var(--clinical-foreground)]">IOTA · ADNEX / LR2 / Simple Rules</h1>
+        <h2 className="text-2xl font-black text-[var(--clinical-foreground)]">IOTA · ADNEX / LR2 / Simple Rules</h2>
         <p className="mt-2 text-sm text-[var(--clinical-foreground-muted)]">
           Детерминированные модели IOTA (источники: BMJ 2014, JCO 2005, AJOG 2016). Не заменяют клиническое решение.
         </p>

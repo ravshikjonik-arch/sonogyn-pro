@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -27,10 +28,11 @@ const TEMPLATES = [
   },
 ] as const;
 
-export const metadata = {
-  title: "Структурированные протоколы · SonoGyn",
-  description: "Шаблоны структурированных УЗИ-протоколов",
-};
+export const metadata = buildPublicMetadata({
+  title: "Придатки · O-RADS US",
+  description: "Из O-RADS Pro или пошагового разбора — описание, заключение, рекомендации по ACR O-RADS.",
+  path: "/reports",
+});
 
 export default function ReportsHubPage() {
   return (

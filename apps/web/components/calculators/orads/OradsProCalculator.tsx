@@ -54,7 +54,7 @@ function OradsHero() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
         <div className="absolute inset-x-0 bottom-0 p-4 text-white">
           <p className="text-xs font-black uppercase tracking-widest text-sky-200">O-RADS US</p>
-          <h1 className="text-xl font-black sm:text-2xl">Оценка придатков · ACR / IOTA</h1>
+          <h2 className="text-xl font-black sm:text-2xl">Оценка придатков · ACR / IOTA</h2>
           <p className="mt-1 text-xs text-sky-100 sm:text-sm">
             Выберите паттерн, который видите на УЗИ. Итоговая категория O-RADS и проверка IOTA появятся автоматически.
           </p>

@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
+
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
 import { Suspense } from "react";
 
 import { GynecologyImagingAtlasWidget } from "@/components/education/GynecologyImagingAtlasWidget";
 
-export const metadata: Metadata = {
+export const metadata = buildPublicMetadata({
   title: "Атлас гинекологической визуализации",
-  description:
-    "Учебный атлас УЗИ/МРТ/КТ малого таза: 139 глав, ключевые положения и эхограммы на русском языке.",
-};
+  description: "Учебный атлас УЗИ/МРТ/КТ малого таза: 139 глав, ключевые положения и эхограммы на русском языке.",
+  path: "/tools/refs/gynecology-imaging-atlas",
+});
 
 type Props = { searchParams: Promise<{ section?: string; slug?: string }> };
 

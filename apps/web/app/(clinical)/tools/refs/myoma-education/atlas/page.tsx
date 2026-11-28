@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
+
 import { MyomaAtlasClient } from "@/components/education/myoma/MyomaAtlasClient";
 import { myomaAtlas, myomaImageDimensions, myomaImageSrc, myomaModules } from "@repo/myoma-education";
 
-export const metadata: Metadata = {
-  title: "Атлас миомы матки | SonoGyn Pro",
+export const metadata = buildPublicMetadata({
+  title: "Атлас миомы матки",
   description: "Учебные изображения лекции по ультразвуковой диагностике миомы матки.",
-  robots: { index: false, follow: false },
-};
+  path: "/tools/refs/myoma-education/atlas",
+});
 
 export default function MyomaAtlasPage() {
   const items = myomaAtlas.map((item) => {

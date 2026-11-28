@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
 import Link from "next/link";
 import { ArrowLeft, Stethoscope } from "lucide-react";
 
@@ -12,11 +14,11 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
-export const metadata: Metadata = {
+export const metadata = buildPublicMetadata({
   title: "Exam Set-pieces · OBGYN",
-  description:
-    "Radiopaedia-style set-pieces: clinical history → structured report → differential. 4 сценария + 25 exam questions.",
-};
+  description: "Radiopaedia-style set-pieces: clinical history → structured report → differential. 4 сценария + 25 exam questions.",
+  path: "/tools/refs/exam-set-pieces",
+});
 
 export default function ExamSetPiecesPage() {
   return (

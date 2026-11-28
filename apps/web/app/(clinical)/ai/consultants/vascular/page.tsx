@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
 import Link from "next/link";
 import { ArrowLeft, Activity } from "lucide-react";
 
@@ -7,11 +9,11 @@ import { VASCULAR_US_DISCLAIMER, VASCULAR_US_SOURCE } from "@/lib/education/vasc
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
-export const metadata: Metadata = {
+export const metadata = buildPublicMetadata({
   title: "Сосудистое УЗД · клинический модуль",
-  description:
-    "Протоколы дуплексного сканирования, градация стеноза БЦА, AI-интерпретация по методологии Куликова.",
-};
+  description: "Протоколы дуплексного сканирования, градация стеноза БЦА, AI-интерпретация по методологии Куликова.",
+  path: "/ai/consultants/vascular",
+});
 
 export default async function AiConsultantsVascularPage({
   searchParams,
