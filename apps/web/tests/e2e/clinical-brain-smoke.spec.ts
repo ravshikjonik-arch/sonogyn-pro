@@ -48,7 +48,7 @@ test.describe("Clinical brain smoke", () => {
     const json = (await res.json()) as {
       reply?: string;
       engine?: string;
-      evidence?: { citationCount?: number } | null;
+      evidence?: { citationCount?: number; tier?: string } | null;
     };
     expect(json.engine).toMatch(/evidence/);
     expect(json.reply?.length).toBeGreaterThan(20);
