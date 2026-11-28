@@ -42,13 +42,13 @@ export default defineConfig({
       },
       dependencies: ["setup"],
       testIgnore:
-        /auth\.spec\.ts|cpi-evaluate\.spec\.ts|security-smoke\.spec\.ts|a11y-smoke\.spec\.ts|iota-calculator-smoke\.spec\.ts|evidence-assistant-smoke\.spec\.ts|fetometry-norms-smoke\.spec\.ts|visual-smoke\.spec\.ts|clinical-speech-smoke\.spec\.ts|clinical-speech-fake-mic\.spec\.ts/,
+        /auth\.spec\.ts|cpi-evaluate\.spec\.ts|security-smoke\.spec\.ts|a11y-smoke\.spec\.ts|iota-calculator-smoke\.spec\.ts|evidence-assistant-smoke\.spec\.ts|fetometry-norms-smoke\.spec\.ts|visual-smoke\.spec\.ts|clinical-speech-smoke\.spec\.ts|clinical-speech-fake-mic\.spec\.ts|clinical-brain-smoke\.spec\.ts/,
     },
     {
       name: "chromium-no-auth",
       use: { ...devices["Desktop Chrome"] },
       testMatch:
-        /auth\.spec\.ts|cpi-evaluate\.spec\.ts|security-smoke\.spec\.ts|emr-idor-smoke\.spec\.ts|a11y-smoke\.spec\.ts|iota-calculator-smoke\.spec\.ts|evidence-assistant-smoke\.spec\.ts|fetometry-norms-smoke\.spec\.ts|visual-smoke\.spec\.ts|clinical-speech-smoke\.spec\.ts|clinical-speech-fake-mic\.spec\.ts|doctor-chat-v2-smoke\.spec\.ts|spatial-home-hub\.spec\.ts/,
+        /auth\.spec\.ts|cpi-evaluate\.spec\.ts|security-smoke\.spec\.ts|emr-idor-smoke\.spec\.ts|a11y-smoke\.spec\.ts|iota-calculator-smoke\.spec\.ts|evidence-assistant-smoke\.spec\.ts|fetometry-norms-smoke\.spec\.ts|visual-smoke\.spec\.ts|clinical-speech-smoke\.spec\.ts|clinical-speech-fake-mic\.spec\.ts|clinical-brain-smoke\.spec\.ts|doctor-chat-v2-smoke\.spec\.ts|spatial-home-hub\.spec\.ts/,
     },
     ...(pwaE2e
       ? [
