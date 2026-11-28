@@ -1280,7 +1280,13 @@ function SecondThirdForm({
         <Chip label="46,XX" selected={secondThird.karyotypeDocumentation === "46XX"} onClick={() => setSecondThird((p) => ({ ...p, karyotypeDocumentation: "46XX" }))} />
         <Chip label="46,XY" selected={secondThird.karyotypeDocumentation === "46XY"} onClick={() => setSecondThird((p) => ({ ...p, karyotypeDocumentation: "46XY" }))} />
         <Chip label="Иное" selected={secondThird.karyotypeDocumentation === "other"} onClick={() => setSecondThird((p) => ({ ...p, karyotypeDocumentation: "other" }))} />
-        <Chip label="Расхождение" selected={secondThird.karyotypeDocumentation === "discordant" || secondThird.phenotypicKaryotypeDiscordance} onClick={() => setSecondThird((p) => ({ ...p, karyotypeDocumentation: "discordant", phenotypicKaryotypeDiscordance: true }))} />
+        <Chip
+          label="Расхождение"
+          selected={Boolean(
+            secondThird.karyotypeDocumentation === "discordant" || secondThird.phenotypicKaryotypeDiscordance,
+          )}
+          onClick={() => setSecondThird((p) => ({ ...p, karyotypeDocumentation: "discordant", phenotypicKaryotypeDiscordance: true }))}
+        />
       </FieldGroup>
 
       <FieldGroup label="Носовые кости">

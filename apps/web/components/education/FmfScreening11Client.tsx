@@ -152,7 +152,7 @@ export function FmfScreening11Client() {
             <Li>Патология: регургитация <Num>≥½ систолы</Num> и <Num>Vmax &gt;60 см/с</Num> (не путать с аортальным джетом ≤50 см/с).</Li>
             <Li>Частота: Т21 55% · эуплоиды 1%.</Li>
           </Card>
-          <Card title="Носовые кости">
+          <Card title="Носовая кость">
             <Li>3 линии в мид-сагиттали профиля: кожа, носовая кость (плотнее кожи), кончик носа; лёгкое покачивание датчика.</Li>
             <Li>Отсутствует: Т21 <Num>60%</Num> · Т18 50% · Т13 40% · эуплоиды 1–3%.</Li>
             <Li>Чаще в 11 нед, при высоком NT.</Li>
@@ -230,7 +230,7 @@ export function FmfScreening11Client() {
               <input value={fhr} onChange={(e) => setFhr(e.target.value)} inputMode="numeric" placeholder="не оценена" className={inputCls} />
             </label>
             <label className={labelCls}>
-              Носовые кости
+              Носовая кость
               <select value={nb} onChange={(e) => setNb(e.target.value as "" | NasalBone)} className={inputCls}>
                 <option value="">не оценена</option>
                 <option value="present">визуализируется</option>

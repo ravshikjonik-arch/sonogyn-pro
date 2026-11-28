@@ -91,3 +91,4 @@ apps/web/app/api/ustri_inference/
 # Local transfer kit (sonogyn-pro-changes.zip unpack)
 _transfer/
 PROMPT_KURSOR.md
+MASTER_PROMPT.md
