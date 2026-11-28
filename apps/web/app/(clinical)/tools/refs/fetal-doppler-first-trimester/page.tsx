@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
 import Link from "next/link";
 import { ArrowLeft, Stethoscope } from "lucide-react";
 
@@ -7,11 +9,11 @@ import { FETAL_DOPPLER_DISCLAIMER, FETAL_DOPPLER_LINKS } from "@/lib/education/f
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
-export const metadata: Metadata = {
+export const metadata = buildPublicMetadata({
   title: "Допплер I триместра (11–14 нед) · образовательный курс",
-  description:
-    "5 допплер-позиций FMF: сердце, венозный проток, пуповина, пупочное кольцо, маточные артерии. ALARA, случаи, самопроверка 16 Q.",
-};
+  description: "5 допплер-позиций FMF: сердце, венозный проток, пуповина, пупочное кольцо, маточные артерии. ALARA, случаи, самопроверка 16 Q.",
+  path: "/tools/refs/fetal-doppler-first-trimester",
+});
 
 export default function FetalDopplerFirstTrimesterPage() {
   return (

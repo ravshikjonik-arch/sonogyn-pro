@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
+
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
 import { Suspense } from "react";
 
 import { OvarianTumorMorphologyAtlasWidget } from "@/components/education/OvarianTumorMorphologyAtlasWidget";
 
-export const metadata: Metadata = {
+export const metadata = buildPublicMetadata({
   title: "Опухоли яичника — морфологический атлас (Нейштадт, 2017)",
   description: "9 глав, 337 гистопрепаратов: эпителиальные, герминогенные, метастазы (RU, OCR).",
-};
+  path: "/tools/refs/ovarian-tumor-morphology-atlas",
+});
 
 type Props = { searchParams: Promise<{ section?: string; slug?: string }> };
 

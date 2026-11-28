@@ -110,7 +110,7 @@ export function EndometriumCalculator() {
       </div>
 
       <header className="mx-auto max-w-3xl space-y-2">
-        <h1 className="text-3xl font-black tracking-tight">Эндометрий</h1>
+        <h2 className="text-3xl font-black tracking-tight">Эндометрий</h2>
         <p className="text-sm text-[var(--clinical-foreground-muted)]">
           Измерение M-эхо, пороги постменопаузы / ЗГТ, очаговые образования и тамоксифен — по ISUOG и КР РФ.
         </p>

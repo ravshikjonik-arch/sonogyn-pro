@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
+
 import { MyomaCalculatorsClient } from "@/components/education/myoma/MyomaCalculatorsClient";
 import { myomaDefinitions } from "@repo/myoma-education";
 
-export const metadata: Metadata = {
-  title: "Калькуляторы описания миомы | SonoGyn Pro",
+export const metadata = buildPublicMetadata({
+  title: "Калькуляторы описания миомы",
   description: "Объём, интрамуральный компонент, FIGO, динамика и допплеровские индексы.",
-  robots: { index: false, follow: false },
-};
+  path: "/tools/refs/myoma-education/calculators",
+});
 
 export default function MyomaCalculatorsPage() {
   const byId = Object.fromEntries(myomaDefinitions.calculators.map((item) => [item.id, item]));

@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
 import Link from "next/link";
 import { ArrowLeft, ClipboardCheck } from "lucide-react";
 
@@ -14,11 +16,11 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
-export const metadata: Metadata = {
+export const metadata = buildPublicMetadata({
   title: "Чек-листы полного УЗИ · AIUM / ISUOG",
-  description:
-    "Интерактивные чек-листы полного УЗИ-исследования: гинекология TA+TV, стандартное акушерское, I и III триместр. AIUM / ISUOG practice parameters.",
-};
+  description: "Интерактивные чек-листы полного УЗИ-исследования: гинекология TA+TV, стандартное акушерское, I и III триместр. AIUM / ISUOG practice parameters.",
+  path: "/tools/refs/exam-checklists",
+});
 
 export default function ExamChecklistsPage() {
   return (

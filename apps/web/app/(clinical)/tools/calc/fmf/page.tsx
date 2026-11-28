@@ -1,15 +1,16 @@
 import Link from "next/link";
-import type { Metadata } from "next";
 
 import { CalculatorSourceBadge } from "@/components/calculators/CalculatorSourceBadge";
 import { FmfCalculators } from "@/components/fmf/FmfCalculators";
 import { Button } from "@/components/ui/button";
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
 
-export const metadata: Metadata = {
+export const metadata = buildPublicMetadata({
   title: "Калькуляторы FMF · оценка и тактика",
   description:
     "Калькуляторы FMF: датирование, ТВП, ПВМ, вес при рождении, допплер, PI маточных артерий — расчётный модуль платформы с атрибуцией публикаций.",
-};
+  path: "/tools/calc/fmf",
+});
 
 export default function FmfCalculatorsPage() {
   return (

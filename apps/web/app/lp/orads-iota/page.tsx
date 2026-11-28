@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, BookOpenCheck, Calculator, CheckCircle2, MessageCircle, ShieldCheck, Stethoscope } from "lucide-react";
@@ -7,11 +9,11 @@ import { BrandMark } from "@/components/brand/BrandMark";
 import { Button } from "@/components/ui/button";
 import { TELEGRAM_CHANNEL } from "@/lib/brand/telegram";
 
-export const metadata: Metadata = {
+export const metadata = buildPublicMetadata({
   title: "O-RADS и IOTA для врача УЗД",
-  description:
-    "Рабочий вход в SonoGyn Pro: O-RADS калькулятор, IOTA-ориентиры, учебные кейсы и клинические материалы для врачей УЗД и акушеров-гинекологов.",
-};
+  description: "Рабочий вход в SonoGyn Pro: O-RADS калькулятор, IOTA-ориентиры, учебные кейсы и клинические материалы для врачей УЗД и акушеров-гинекологов.",
+  path: "/lp/orads-iota",
+});
 
 const campaign = "launch_orads_iota_2026_08";
 

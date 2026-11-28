@@ -1,14 +1,16 @@
 import Link from "next/link";
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BIOMETRY_DISCLAIMER, FETAL_BIOMETRY_FORMULAS } from "@/lib/education/fetal-biometry-formulas";
 
-export const metadata = {
+export const metadata = buildPublicMetadata({
   title: "Fetal biometry · формулы ISUOG",
   description: "Прозрачность формул: Papageorghiou, Hadlock, Yudkin — источники и диапазоны.",
-};
+  path: "/tools/refs/fetal-biometry-formulas",
+});
 
 export default function FetalBiometryFormulasPage() {
   return (

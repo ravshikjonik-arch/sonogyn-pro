@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
 import Link from "next/link";
 import { ArrowLeft, Building2 } from "lucide-react";
 
@@ -13,11 +15,11 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
-export const metadata: Metadata = {
+export const metadata = buildPublicMetadata({
   title: "Аккредитация кабинета УЗИ · AIUM-style",
-  description:
-    "Интерактивный чек-лист самооценки кабинета УЗД по принципам AIUM Practice Accreditation: персонал, QA, документирование, ALARA.",
-};
+  description: "Интерактивный чек-лист самооценки кабинета УЗД по принципам AIUM Practice Accreditation: персонал, QA, документирование, ALARA.",
+  path: "/tools/refs/clinic-accreditation",
+});
 
 export default function ClinicAccreditationPage() {
   return (

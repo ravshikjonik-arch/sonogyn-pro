@@ -1,13 +1,15 @@
 import Link from "next/link";
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
 import { Award } from "lucide-react";
 
 import { CmeTrackerClient } from "@/components/education/CmeTrackerClient";
 import { Button } from "@/components/ui/button";
 
-export const metadata = {
+export const metadata = buildPublicMetadata({
   title: "CME / часы обучения",
   description: "Локальный трекер часов: курсы, вебинары, quiz (ориентир AIUM/ISUOG CME).",
-};
+  path: "/tools/refs/cme-tracker",
+});
 
 export default function CmeTrackerPage() {
   return (

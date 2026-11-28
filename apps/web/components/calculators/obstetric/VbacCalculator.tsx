@@ -142,7 +142,7 @@ export function VbacCalculator({ initialTab }: { initialTab?: string }) {
       <header className="mx-auto flex max-w-3xl flex-wrap items-start justify-between gap-3">
         <div className="space-y-2">
           <Badge variant="outline">TOLAC / VBAC</Badge>
-          <h1 className="text-3xl font-black tracking-tight">Роды после кесарева сечения</h1>
+          <h2 className="text-3xl font-black tracking-tight">Роды после кесарева сечения</h2>
         </div>
         <CalculatorFavoriteButton calculatorId={CALC_ID} />
       </header>

@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
@@ -7,11 +9,11 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { FETAL_SPINE_LINKS } from "@/lib/education/fetal-spine/constants";
 
-export const metadata: Metadata = {
+export const metadata = buildPublicMetadata({
   title: "УЗИ позвоночника плода · атлас карточек",
-  description:
-    "15 интерактивных карточек: норма, spina bifida, миеломенингоцеле, сколиоз, тератомы, каудальная регрессия — для скрининга II–III триместра.",
-};
+  description: "15 интерактивных карточек: норма, spina bifida, миеломенингоцеле, сколиоз, тератомы, каудальная регрессия — для скрининга II–III триместра.",
+  path: "/tools/refs/fetal-spine",
+});
 
 export default function FetalSpineLibraryPage() {
   return (

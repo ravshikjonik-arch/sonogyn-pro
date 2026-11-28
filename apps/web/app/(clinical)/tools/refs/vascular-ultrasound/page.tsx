@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
 import Link from "next/link";
 import { ArrowLeft, GraduationCap } from "lucide-react";
 
@@ -7,11 +9,11 @@ import { VASCULAR_US_DISCLAIMER, VASCULAR_US_LINKS, VASCULAR_US_SOURCE } from "@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
-export const metadata: Metadata = {
+export const metadata = buildPublicMetadata({
   title: "Сосудистое УЗД · образовательный курс",
-  description:
-    "10 глав по Куликову: гемодинамика, БЦА, TCD, артерии и вены НК, аорта. Случаи, экзамен, режим ординатора.",
-};
+  description: "10 глав по Куликову: гемодинамика, БЦА, TCD, артерии и вены НК, аорта. Случаи, экзамен, режим ординатора.",
+  path: "/tools/refs/vascular-ultrasound",
+});
 
 export default function VascularUltrasoundRefsPage() {
   return (

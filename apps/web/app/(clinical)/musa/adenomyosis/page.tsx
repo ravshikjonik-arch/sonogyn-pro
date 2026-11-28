@@ -1,10 +1,11 @@
 import { MusaAdenomyosisClient } from "@/components/musa/MusaAdenomyosisClient";
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
 
-export const metadata = {
-  title: "MUSA · Аденомиоз | SonoGyn Pro",
-  description:
-    "Образовательный модуль MUSA: прямые и косвенные признаки аденомиоза, JZ, Sonogyn Score, структурированный протокол.",
-};
+export const metadata = buildPublicMetadata({
+  title: "MUSA · Аденомиоз",
+  description: "Образовательный модуль MUSA: прямые и косвенные признаки аденомиоза, JZ, Sonogyn Score, структурированный протокол.",
+  path: "/musa/adenomyosis",
+});
 
 export default function MusaAdenomyosisPage() {
   return (

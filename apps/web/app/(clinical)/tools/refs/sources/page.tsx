@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
+
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
 import Link from "next/link";
 
-export const metadata: Metadata = {
+export const metadata = buildPublicMetadata({
   title: "Источники и авторские права",
-  description:
-    "Официальные международные стратификации, гайдлайны и клинические рекомендации. Книжные атласы в продукте не публикуются.",
-  robots: { index: true, follow: true },
-};
+  description: "Официальные международные стратификации, гайдлайны и клинические рекомендации. Книжные атласы в продукте не публикуются.",
+  path: "/tools/refs/sources",
+});
 
 const OFFICIAL = [
   {

@@ -8,7 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
 
   return getIndexableSitemapRows().map(({ path, priority, changeFrequency }) => ({
-    url: `${base}${path === "/" ? "" : path}`,
+    url: path === "/" ? `${base}/` : `${base}${path}`,
     lastModified,
     changeFrequency,
     priority,

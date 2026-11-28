@@ -1,4 +1,5 @@
 import { HoferBasicCourseClient } from "@/components/education/HoferBasicCourseClient";
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
 import { resolveCourseModuleId } from "@/lib/education/resolve-course-module";
 import {
   TIRADS_COURSE_DISCLAIMER,
@@ -13,11 +14,11 @@ type Props = {
   searchParams: Promise<{ tab?: string; module?: string }>;
 };
 
-export const metadata = {
-  title: "Курс TI-RADS · узлы ЩЖ | SonoGyn Pro",
-  description:
-    "Мультипараметрическая оценка узлов щитовидной железы: терминология B-режима, ЦДК, эластография, TI-RADS (конспект СТРОМ 2023).",
-};
+export const metadata = buildPublicMetadata({
+  title: "Курс TI-RADS · узлы ЩЖ",
+  description: "Мультипараметрическая оценка узлов щитовидной железы: терминология B-режима, ЦДК, эластография, TI-RADS (конспект СТРОМ 2023).",
+  path: "/tools/refs/tirads-basic-course",
+});
 
 export default async function TiradsBasicCoursePage({ searchParams }: Props) {
   const { tab, module: moduleParam } = await searchParams;

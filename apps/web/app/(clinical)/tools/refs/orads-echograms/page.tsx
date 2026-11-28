@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
+
 import { OradsEchogramsWidget } from "@/components/education/OradsEchogramsWidget";
 
-export const metadata: Metadata = {
+export const metadata = buildPublicMetadata({
   title: "O-RADS · эхограммы и случаи",
-  description:
-    "Обезличенные эхограммы придатков матки из практики по нозологиям O-RADS US с готовыми формулировками для протокола.",
-};
+  description: "Обезличенные эхограммы придатков матки из практики по нозологиям O-RADS US с готовыми формулировками для протокола.",
+  path: "/tools/refs/orads-echograms",
+});
 
 export default function OradsEchogramsPage() {
   return (

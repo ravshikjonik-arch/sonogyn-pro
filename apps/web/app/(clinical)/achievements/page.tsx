@@ -1,14 +1,17 @@
 import type { Metadata } from "next";
+
+import { buildPublicMetadata } from "@/lib/seo/build-public-metadata";
 import { redirect } from "next/navigation";
 
 import { AchievementsDashboard } from "@/components/achievements/AchievementsDashboard";
 import { isFullOpenAccessEnabled } from "@/lib/auth/dev-account";
 import { createClient } from "@/utils/supabase/server";
 
-export const metadata: Metadata = {
-  title: "Звёзды и награды · SonoGyn Pro",
+export const metadata = buildPublicMetadata({
+  title: "Звёзды и награды",
   description: "Бейджи, XP и уровни за обучение O-RADS, IOTA, FMF и другие модули",
-};
+  path: "/achievements",
+});
 
 export default async function AchievementsPage() {
   const supabase = await createClient();
