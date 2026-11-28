@@ -115,6 +115,8 @@ describe("SignUpBodySchema", () => {
       password: "password1",
       full_name: "Иван",
       specialization: "obgyn",
+      accept_legal: true,
+      legal_docs_version: "2026-01",
     });
     assert.equal(r.success, true);
   });
@@ -125,6 +127,8 @@ describe("SignUpBodySchema", () => {
       password: "short",
       full_name: "Иван",
       specialization: "obgyn",
+      accept_legal: true,
+      legal_docs_version: "2026-01",
     });
     assert.equal(r.success, false);
   });
